@@ -434,7 +434,7 @@ const A02 = quest(
             label: 'Suggest calling it after Moominmamma.',
             then: [
               MP('Then she will be sure to bring you home.', 'soft'),
-              N('He paints the name on the back, in blue.'),
+              N('He paints MAMMA on the back, in big blue letters.'),
             ],
           },
           {
@@ -889,6 +889,7 @@ const A04 = quest(
       [
         N('The Lonely Mountains are grey stone and grey sky.'),
         N('The path zigzags up. Snufkin goes first, and Sniff goes last.'),
+        N('Snufkin’s legs are long. Sniff’s are short.'),
         SN('My legs are the shortest. So the mountain is taller for me.'),
         SK('Then you will have climbed the most.', 'happy'),
         SN('I had not thought of that.'),
@@ -904,11 +905,11 @@ const A04 = quest(
           [
             opt(
               'Snufkin’s',
-              [N('Yes! Snufkin is taller, so his legs are longer. Sniff’s legs are shorter.')],
+              [N('Yes! Snufkin’s legs are long, so they are longer. Sniff’s are shorter.')],
               true,
             ),
             opt('Sniff’s', [
-              N('Look again! Snufkin is taller. His legs are longer, and Sniff’s are shorter.'),
+              N('Look again! Snufkin’s legs are long. They are longer, and Sniff’s are shorter.'),
             ]),
           ],
           'Compared two lengths with the words longer and shorter.',
@@ -1138,6 +1139,7 @@ const A05 = quest(
         N('Moomintroll reaches in. He pulls out a small gold ring.'),
         MT('What is it for? It is too small for a crown.', 'think'),
         SN('It is mine. I saw it first.'),
+        SN('I saw it. With my feet.'),
         N('Sniff goes to sulk. Then he finds a tiny red stone.'),
         SN('A garnet, probably. Better than a ring.'),
         SN('You hold it. Not keep it. Just hold it.', 'soft'),
@@ -1185,8 +1187,9 @@ const A05 = quest(
         N('In the valley below, someone is shouting for help.'),
         N('A dark bush has wound itself round a small friend.'),
         SM('Do not touch it! It stings!', 'shock'),
-        N('Moomintroll runs straight in. Snufkin pulls the branches.'),
-        N('You use a long stick to hold one branch down.'),
+        N('Moomintroll wants to run in. Snufkin holds him back by the tail.'),
+        N('Snufkin pushes the branches with his stick.'),
+        N('You hold one branch down with a long stick, too.'),
         N('Your Nubbin hides in Sniff’s pocket. Everyone helps.'),
       ],
       [
@@ -1198,7 +1201,10 @@ const A05 = quest(
           [
             opt(
               'Look, and ask a grown-up',
-              [N('Yes! Look with eyes, not hands. Ask a grown-up if it is safe.')],
+              [
+                N('Yes! Look with eyes, not hands. Snufkin used a stick, not his paws.'),
+                N('Then ask a grown-up.'),
+              ],
               true,
             ),
             opt('Pick it up', [
@@ -1327,7 +1333,7 @@ const A06 = quest(
       'a09-06-snork',
       [
         N('Her brother has a very neat camp under a pine.'),
-        N('A sign on the tent says OFFICE.'),
+        N('A sign on the tent says TENT. The Snork calls it his office.'),
         SO('Sister. You are late. I had you down for four.', 'angry'),
         SM('A bush tried to eat me.'),
         SO('That is not on my list!', 'shock'),
@@ -1339,10 +1345,10 @@ const A06 = quest(
           'literacy',
           'letters and first sounds',
           1,
-          [N('The sign says OFFICE. Oh, oh, office. Which letter does it start with?')],
+          [N('The sign says TENT. Tuh, tuh, tent. Which letter does it start with?')],
           [
-            opt('O', [N('Yes, O! A round letter, like an open mouth. Oh-ffice.')], true),
-            opt('S', [N('S is for Snork. Office starts with a round O.')]),
+            opt('T', [N('Yes, T! Tuh, tuh, tent. T stands up tall, like a tent pole.')], true),
+            opt('S', [N('S is for Snork. Tent starts with T. Say it: tuh, tent!')]),
           ],
           'Found the first letter of a word on a sign.',
           'RF.K.2',
@@ -1356,6 +1362,9 @@ const A06 = quest(
         SO('And secretary, because nobody else has a pencil.'),
         SK('I have a pencil.'),
         SO('Then you may be the audience.'),
+        N('Snufkin starts to speak. The Snork talks over him.'),
+        SO('One at a time!'),
+        N('Then the Snork sees that it means him, too.'),
       ],
       [
         note(
@@ -1376,9 +1385,9 @@ const A06 = quest(
       [
         SO('Item one. Is the comet coming? Show of paws.'),
         N('Everybody puts a paw up. Your Nubbin puts up two.'),
-        SO('Carried. Item two. Should we be worried?', 'think'),
+        SO('Agreed. Item two. Should we be worried?', 'think'),
         SN('Both my paws. And my ears.', 'shock'),
-        SO('Carried. Item three. What shall we do? Suggestions?'),
+        SO('Agreed. Item three. What shall we do? Suggestions?'),
         N('Nobody says anything. The comet moves a little.'),
       ],
       [
@@ -1440,7 +1449,7 @@ const A06 = quest(
     sc(
       'a09-06-complete',
       [
-        N('The Snork folds his tent into a tiny square parcel.'),
+        N('The Snork folds his tent four times, into a tiny square parcel.'),
         SO('Meeting closed. We march.'),
         N('The Snork walks at the front. Snufkin walks in front of him.'),
         N('The Snork does not notice.'),
@@ -1707,13 +1716,14 @@ const A08 = quest(
         N('The Hemulen’s stilts are the tallest. Sniff’s are the shortest.'),
         SN('Mine are short.'),
         SK('Short stilts fall over less far.'),
+        N('Sniff falls over on purpose. He wants it over with.'),
         N('Everybody practises, and everybody falls over. Then up again!'),
       ],
       [
         ask(
           'maths',
           'compare heights: tallest and shortest',
-          3,
+          4,
           [N('Whose stilts are the tallest, and whose are the shortest?')],
           [
             opt(
@@ -1803,7 +1813,6 @@ const A08 = quest(
             opt('A bird', [N('Birds live in nests. Shells are homes for small sea animals.')]),
           ],
           'Learned that a shell was an animal’s home.',
-          'K-ESS3-1',
         ),
       ],
     ),
@@ -1819,10 +1828,10 @@ const A08 = quest(
           'literacy',
           'describing words',
           -1,
-          [N('The shell is pink, curly and light. What word tells us how it looks?')],
+          [N('The shell is pink. Which word tells its colour?')],
           [
-            opt('Curly', [N('Yes! Curly. Describing words tell us what things are like.')], true),
-            opt('Loud', [N('A shell is not loud. Pink, curly and light are describing words.')]),
+          opt('Pink', [N('Yes! Pink tells its colour. Describing words tell us what things are like.')], true),
+          opt('Curly', [N('Curly tells its shape. Pink tells its colour.')]),
           ],
           'Picked out a describing word for how something looks.',
           'RL.1.4',
@@ -1907,7 +1916,7 @@ const A09 = quest(
       [
         SK('Moomintroll. Come back on the ridge. Slowly.'),
         N('Snufkin’s voice is low and calm.'),
-        N('A calm voice helps a friend who is in a fix.'),
+        N('A calm voice helps a friend who is stuck.'),
       ],
       [
         note(
@@ -1927,26 +1936,26 @@ const A09 = quest(
       'a09-09-octopus',
       [
         N('A long arm comes out of the pool. Then another.'),
-        N('An octopus lifts its head. It looks at him with one big, sad eye.'),
+        N('An octopus lifts its head. It looks at Moomintroll with one big, sad eye.'),
         N('It has eight arms. One curls round Moomintroll’s stilt.'),
         MT('Help! I cannot pull free!', 'shock'),
         N('Sniff squeaks and hides behind the Hemulen.'),
+        N('The Hemulen holds up his net. It does not help. It is very brave.'),
         N('The Snork Maiden grabs a lantern and runs.'),
         SM('Let him go!', 'angry'),
         N('She swings the lantern. Gold light flares on the rock.'),
       ],
       [
-        doit(
-          'maths',
-          'count eight arms',
-          2,
-          'edu:count:octopus-arms:8',
+        note(
+          'sel',
+          'scared is a feeling, and friends help',
+          -1,
           [
-            N('An octopus has eight arms.'),
-            N('(Count them on your fingers: one, two, three, four, five, six, seven, eight.)'),
+            N('Sniff is scared. The Snork Maiden is scared too.'),
+            N('Scared is a feeling, and it is all right. Friends help each other.'),
           ],
-          'Counted to eight on the arms of an octopus.',
-          'K.CC.A.1',
+          'Named scared as a feeling and talked about how friends help.',
+          'ELOF: Social and Emotional Development',
         ),
       ],
       {
@@ -1978,6 +1987,18 @@ const A09 = quest(
         N('Moomintroll is fine. He just stares at the Snork Maiden.'),
       ],
       [
+        doit(
+          'maths',
+          'count eight arms',
+          0,
+          'edu:count:octopus-arms:8',
+          [
+            N('The octopus has eight arms. All eight slide away.'),
+            N('(Count them on your fingers: one, two, three, four, five, six, seven, eight.)'),
+          ],
+          'Counted to eight on the arms of an octopus.',
+          'K.CC.A.1',
+        ),
         ask(
           'sel',
           'animals can be scared too',
@@ -2071,7 +2092,6 @@ const A10 = quest(
             N('When the wind blows, they dance. Wind is air that moves.'),
           ],
           'Heard that wind is moving air, and that still air leaves leaves hanging.',
-          'K-ESS2-1',
         ),
       ],
     ),
@@ -2104,8 +2124,9 @@ const A10 = quest(
         N('A great wind comes. Dust spins up in a column.'),
         SK('Down behind the wall, everybody!'),
         N('It picks up the other Hemulen, in his dress.'),
-        N('The dress fills up like a sail! He holds on to Moomintroll.'),
-        N('Then everyone holds on to everyone.'),
+        N('The dress fills up like a sail!'),
+        N('The second Hemulen holds on to Moomintroll. Hold on tight! Hold on tight!'),
+        N('Then everyone holds on to everyone. Hold on tight! Hold on tight!'),
         SK('Spread your skirts out wide! Like wings!'),
         N('The Hemulen spreads his dress. You are gliding, all in a chain.'),
       ],
@@ -2145,7 +2166,7 @@ const A10 = quest(
       'a09-10-tornado-done',
       [
         N('The wind sets you all down, gently.'),
-        N('One after another, like washing off a line.'),
+        N('One after another, like socks letting go of their pegs.'),
         H2('My best dress. It has never been so useful.', 'happy'),
         N('(Say it together, like a drum: Hold on tight! Hold on tight!)'),
       ],
@@ -2291,8 +2312,9 @@ const A11 = quest(
         N('Blankets, lamps, a rocking chair, and the kitchen clock.'),
         MM('There you all are. More of you than went!', 'happy'),
         N('Moomintroll runs into her apron and stays.'),
-        MM('There is cake. There is always cake, at the end of the world.', 'soft'),
+        MM('There is cake. There is always cake when we are scared.', 'soft'),
         MU('I brought my hammock. Nobody else thought of it.', 'think'),
+        MP('I brought my book about me. In case.'),
       ],
       [
         ask(
@@ -2428,8 +2450,9 @@ const A11 = quest(
     sc(
       'a09-11-dark-done',
       [
-        N('The kitchen clock says eight forty-two.'),
-        N('The clock has gone on ticking, tick, tick, tick.'),
+        N('The clock says eight forty-two. That is the Professor’s time.'),
+        N('Nobody moves. Nobody speaks. Even Sniff.'),
+        N('The clock goes on ticking, tick, tick, tick.'),
         N('Time goes on, even when we wait.'),
       ],
       [
@@ -2438,11 +2461,10 @@ const A11 = quest(
           'the clock hands move forward as time passes',
           -1,
           [
-            N('Half past seven, then twenty to nine, then eight forty-two.'),
+            N('Twenty to nine, then eight forty-two.'),
             N('The clock’s hands creep round and round as time goes by.'),
           ],
           'Noticed that clock hands move on as time passes, reading three times in the story.',
-          '1.MD.B.3',
         ),
       ],
     ),
@@ -2497,7 +2519,7 @@ const A12 = quest(
       [
         N('The roar goes over. It goes on a long time.'),
         N('Then it is less. Then it is going away.'),
-        MU('It seems to have missed.', 'think'),
+        MU('Missed us. How rude.', 'think'),
         N('The Snork Maiden laughs in the dark. Then everybody laughs.'),
         SN('Has it gone? Tell me exactly.', 'shock'),
         MP('It brushed us with its tail, and went on its way.', 'soft'),
@@ -2560,8 +2582,8 @@ const A12 = quest(
           'the tide: the sea goes out and comes back',
           3,
           [
-            N('Real seas move in and out each day. We call that the tide.'),
-            N('The sea goes out, and it always comes back.'),
+            N('Real seas go out and come in each day. That is the tide.'),
+            N('This sea went out much too far, because of the comet!'),
           ],
           'Heard that the sea moves in and out each day, called the tide.',
         ),
@@ -2597,6 +2619,7 @@ const A12 = quest(
       'a09-12-gate',
       [
         N('Snufkin is at the gate with his tent on his back.'),
+        N('Two friends have a gift for you.'),
         N('You hold out his hat.'),
         SK('Keep it. I will find another.', 'happy'),
         N('He puts it on your head. It comes down over your eyes!'),
@@ -2624,8 +2647,8 @@ const A12 = quest(
       [
         N('Snufkin is at the bend in the road.'),
         N('He plays a few notes without looking back.'),
-        N('You play a few back.'),
-        N('He waves his hand over his head.'),
+        N('You play a few notes back. They sound like a duck in a cupboard.'),
+        N('Snufkin waves his hand over his head. Right note!'),
       ],
       [
         doit(
@@ -2754,9 +2777,9 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       MT('It came back. Everything came back.', 'happy'),
       SK('Things mostly do.', 'soft'),
       N('The raft drifts in on the first wave.'),
-      N('Its name is still on the stern.'),
+      N('MAMMA is still painted on the back.'),
       SN('She came home on her own. That is allowed, isn’t it?', 'happy'),
-      MP('Of course. She is named after someone who always comes home.', 'soft'),
+      MP('Of course. She is named after Mamma. Mamma always comes home.', 'soft'),
     ],
     [
       note(
@@ -2764,8 +2787,8 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
         'the tide: the sea goes out and comes back',
         3,
         [
-          N('Real seas move in and out each day. We call that the tide.'),
-          N('The sea goes out, and it always comes back.'),
+          N('Real seas go out and come in each day. That is the tide.'),
+          N('This sea went out much too far, because of the comet!'),
         ],
         'Heard that the sea moves in and out each day, called the tide.',
       ),
@@ -2781,7 +2804,7 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
       MT('It came back. Everything came back.', 'happy'),
       SK('Things mostly do.', 'soft'),
       N('The raft drifts in on the first wave.'),
-      N('Its name is still on the stern.'),
+      N('THE VALUABLE is still painted on the back. Sniff pats it, twice.'),
       SN('She came home on her own. That is what a valuable does.', 'happy'),
       MP('Of course. She is called The Valuable. We do not lose a valuable.'),
     ],
@@ -2791,8 +2814,8 @@ export const EDU_A09_SPROUT_VARIANTS: EduScene[] = [
         'the tide: the sea goes out and comes back',
         3,
         [
-          N('Real seas move in and out each day. We call that the tide.'),
-          N('The sea goes out, and it always comes back.'),
+          N('Real seas go out and come in each day. That is the tide.'),
+          N('This sea went out much too far, because of the comet!'),
         ],
         'Heard that the sea moves in and out each day, called the tide.',
       ),

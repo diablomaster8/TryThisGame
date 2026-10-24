@@ -284,6 +284,8 @@ _Moana looks at the waterfall, then at Gramma, and steps through. You hear her g
 _You follow, and the water hits your head like a cold hand. Your Nubbin goes through at a run with its eyes shut._  
 _Behind the falls there is a passage in the rock, sloping down, and the sound of the sea somewhere at the bottom of it._  
 **Gramma Tala**: Go on, then. Light the way. I’ll be along. My knees take the long way round.  
+**Moana**: Gramma, that’s a hundred steps.  
+**Gramma Tala**: A hundred and four. I’ve counted them for forty years. They’ve never once been a hundred.  
 
 #### <a id="a10-04-falls-done"></a>Done `a10-04-falls-done`
 
@@ -408,6 +410,7 @@ _In Moana’s house, someone is already packing. It’s her mother, Sina, foldin
 **Sina**: Dried fish. Coconuts, the good ones. Water. More water. You always forget water.  
 **Moana**: Mum. I…  
 **Sina** _(soft)_: I know. I heard. I’m not going to stop you. I’m going to make sure you’ve got enough to eat.  
+**Sina**: Eat the dried fish first. The coconuts keep. The fish doesn’t, and neither does your father’s temper.  
 _She holds Moana for a long time. Then she holds you, briefly, as if you were hers too, and hands you a bundle._  
 _You carry the bundles down the dark path to the cave’s sea mouth, where Moana has dragged out the smallest of the canoes._  
 _It still looks enormous. Moana loads it with her jaw set and her hands shaking._  
@@ -434,7 +437,7 @@ _From under the deck at the bow comes a small, determined cluck, and then a smal
 _You wade in after it, up to your waist, up to your chest. Then the sea lifts you, quite gently, and puts you on the deck._  
 **Moana** _(shock)_: Did the ocean just give me a passenger?  
 _Behind you, on the shore, the lamps are lit in Gramma Tala’s house. As you watch, the brightest of them goes out._  
-_Gramma Tala has died, quietly, in her sleep, with her family round her. Moana sees the light go, and knows._  
+_Gramma Tala has died, quietly, not long after you left, with her family round her. Moana sees the light go, and knows._  
 _Then, under the canoe, something glows. A great manta ray, lit from inside, glides past beneath you and out through the reef._  
 _Moana wipes her eyes, and turns the canoe after it._  
 
@@ -564,6 +567,7 @@ _Your Nubbin looks at the Kakamora, and the Kakamora look at your Nubbin. A long
 
 **Moana** _(think)_: Why are they looking at it like that?  
 **Maui** _(think)_: They think it’s one of theirs. A little one. That has lost its coconut.  
+_On the deck, unwatched, lies the green stone. Heihei looks at it, then at you, and decides it is a pebble._  
 
 ### Step 2: Get Heihei back from the pirates.
 
@@ -637,8 +641,10 @@ _Night falls clear. The sky is so full of stars that it looks crowded._
 _Moana holds out her hand, and you hold out yours. Your Nubbin holds out something, roughly hand-shaped._  
 **Maui**: Stars rise in the same places on the sea’s edge, every night. Learn where each one comes up, and where it goes down.  
 **Maui**: Then you know which way you’re pointing. Your hand tells you how high it’s climbed, and that tells you how far north you are.  
-**Moana** _(think)_: That’s it? That’s the secret?  
-**Maui** _(soft)_: That’s the first night of it. It takes years. Most of a life.  
+**Moana** _(think)_: That’s it? Hold my hand out?  
+**Maui**: And don’t wobble. Most people wobble.  
+_Heihei holds out a wing. The wing wobbles. Heihei wobbles. The canoe, to be polite, wobbles too._  
+**Maui** _(soft)_: …Some people more than most. It takes years. Most of a life.  
 
 #### <a id="a10-08-stars-done"></a>Done `a10-08-stars-done`
 
@@ -679,6 +685,7 @@ Hint: At dusk, keep watch from the bow for a single bird. · check: `watch:a10-b
 _At dusk, Maui sits at the bow beside your Nubbin. The two of them watch the sky with the same squint._  
 **Maui**: In the morning, fishing birds fly out from land. In the evening, they fly home to it. Watch which way they go.  
 _A single white bird crosses the red sky, low and steady, in a hurry to be somewhere._  
+_Heihei watches it fly home. He watches the sea. He does not draw the conclusion._  
 _Your Nubbin points at it with its whole arm. Then its whole body._  
 **Maui**: Good. That way’s land. And see that cloud? Green on its belly. That’s a lagoon under it, shining up.  
 **Moana** _(think)_: Stars. Swells. Birds. Clouds.  
@@ -727,6 +734,9 @@ _The rock opens like a mouth. Below it there is nothing at all, and a long way d
 
 #### <a id="a10-09-pillar-done"></a>Done `a10-09-pillar-done`
 
+**Maui**: The hook will be with whoever hoards things. Shiny things. Big, shiny, vain things.  
+**Moana** _(think)_: You’ve just described yourself.  
+**Maui**: I’m shiny. I don’t hoard.  
 **Maui** _(shock)_: Wait here. This is a monster realm. No place for a… Moana? Moana!  
 _She has already jumped, and so has your Nubbin. You sigh, and jump after them._  
 
@@ -739,7 +749,7 @@ Hint: Follow the glowing plants and keep your Nubbin close. · check: `explore:a
 _You land on something soft that turns out to be a giant flower, which closes up a little, interested._  
 _Lalotai is upside down. The sea is the sky here, a far-off ripple overhead, and everything below glows: purple, green, gold._  
 _Plants swing round to watch you pass. Something with too many eyes blinks at you from a crack, and decides not to bother._  
-**Moana** _(think)_: Maui’s hook. He said it would be with something that collects things. Something that likes shiny things.  
+**Moana** _(think)_: Maui’s hook. He said someone who likes shiny things.  
 _Your Nubbin’s emote ball floats above its head, glowing softly, as it always does._  
 _A lot of eyes in the dark turn towards it at once._  
 
@@ -1050,8 +1060,8 @@ _She dives over the side, down and down into the dark, and comes up a long minut
 _When she climbs back aboard, the stern is empty. Out on the water, the manta turns once, and glides off towards Te Fiti._  
 _Moana mends the sail by starlight while you hold the edges. Your Nubbin holds Heihei, who is trying to eat the thread._  
 **Moana**: She’s not gone, is she? Not really.  
-**You** _(soft)_: I don’t think anybody you love is ever all the way gone.  
-**Moana** _(soft)_: No. I don’t either.  
+_Your Nubbin does Gramma’s step on the deck, one slow, crooked step. Moana watches it, and nods._  
+**Moana** _(soft)_: Not all the way. No.  
 _At dawn she turns the canoe back towards the ring of black islands, and doesn’t hesitate._  
 
 **Rewards**
@@ -1100,7 +1110,8 @@ _Past the ring of black islands, where the great green island should be sleeping
 _Moana looks back at Te Kā. On its chest, among the cracks and the glowing rock, there is a mark: a spiral._  
 _It is the same spiral that is on the stone in her hand. The same spiral on the shell in your pocket._  
 **Moana** _(soft)_: Oh.  
-**Moana** _(soft)_: She’s not guarding the heart. She is the heart’s home. She’s Te Fiti, without it.  
+**Moana** _(soft)_: Te Kā isn’t guarding the heart. She’s looking for it.  
+**Moana** _(soft)_: She’s Te Fiti. She’s the island, and her heart is gone.  
 
 #### <a id="a10-13-spiral-done"></a>Done `a10-13-spiral-done`
 

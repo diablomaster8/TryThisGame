@@ -15,7 +15,7 @@
  *   and the Rissolution are described, never given.
  * - Choice ids and `set` flags are copied from the originals, so a11-gift and a11-mist still work.
  *   Every choice is kept: none leads anywhere cruel. Rabbit’s plan in A11-17 and the swap in
- *   A11-7 are softened to a quiet game and a borrowed Roo, and each carries a
+ *   A11-7 are softened to hiding in the mist (Piglet says plainly it is not kind) and a borrowed Roo, and each carries a
  *   “tell a grown-up / stay where you are” beat.
  * - Hard things: nothing dies on this page. The goodbye stays Milne’s: gentle and unexplained.
  *   Nobody says “school” or “growing up”. Hazel’s margin note says she wrote it long ago.
@@ -824,7 +824,8 @@ const Q04: EduQuest = quest(
         P('Eeyore has lost his tail. How do I find it?'),
         O('There is a Proper Way. First, one Puts Up a Notice.'),
         P('I am only a small bear. Big words make my head go fuzzy.'),
-        O('It means: the thing to do.'),
+        O('A Notice is a sign. One writes on it and pins it up.'),
+        O('Usually I do the writing.'),
         N('Your Nubbin is not listening. It stares at the bell-pull.'),
       ],
       [
@@ -1081,7 +1082,7 @@ const Q05: EduQuest = quest(
               [N('Yes! A jar changes how a voice sounds.')],
               true,
             ),
-            opt('Yes, clear as a bell', [
+            opt('Yes, loud and clear', [
               N('Not quite. In a jar the voice sounds muffled and boomy.'),
             ]),
           ],
@@ -1094,6 +1095,7 @@ const Q05: EduQuest = quest(
       [
         N('At first light, Piglet comes to look.'),
         N('A big round head walks round the pit. Roar!'),
+        N('Pooh says “Mmff” inside the jar. It comes out as a roar.'),
         PG('Help! A Heffalump! It has Pooh’s honey!', 'shock'),
         N('Piglet runs to Christopher Robin.'),
         N('You stay with the lantern. You do not explain.'),
@@ -1102,7 +1104,7 @@ const Q05: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           'shapes: round is a circle',
           'K.G.A.2',
@@ -1189,7 +1191,7 @@ const Q06: EduQuest = quest(
         E('Is it? It would be just like it.'),
         E('It is my birthday. Not that it matters.'),
         P('Your birthday!', 'shock'),
-        E('You can tell by the presents. All none of them.'),
+        E('How many presents? None. That is zero. I counted twice.'),
         N('Pooh looks left and right. No presents.'),
         P('Wait here, Eeyore.'),
       ],
@@ -1199,7 +1201,7 @@ const Q06: EduQuest = quest(
           'maths',
           'zero means none',
           'K.CC.B.5',
-          [N('Eeyore has “all none” of the presents. How many is that?')],
+          [N('Eeyore counted his presents. How many did he have?')],
           [
             opt(
               'Zero. None at all',
@@ -1390,10 +1392,10 @@ const Q07: EduQuest = quest(
     sc(
       'a11-07-plan',
       [
-        N('A Kanga and a baby Roo are new in the Forest.'),
+        N('Someone new is in the Forest. Her name is Kanga.'),
         R('Who said she could come? She keeps her baby in her pocket!', 'angry'),
         P('Where should it ride?'),
-        R('Here is my plan. We borrow Roo for a game of hide.'),
+        R('Here is my plan. We borrow her baby for a game of hide.'),
         R('Piglet hops in the pocket, so Kanga does not notice.'),
         PG('V-very small. Yes.', 'shock'),
         N('Your Nubbin looks at you. You look at Rabbit.'),
@@ -1419,7 +1421,7 @@ const Q07: EduQuest = quest(
         },
         {
           id: 'roo',
-          label: 'Ask what happens to Roo.',
+          label: 'Ask what happens to the baby.',
           then: [R('He stays at mine. Briefly. He will be safe.'), N('You will be there too.')],
         },
         {
@@ -1432,7 +1434,7 @@ const Q07: EduQuest = quest(
     sc(
       'a11-07-plan-done',
       [
-        R('Look after Roo on the way, Keeper.'),
+        R('The baby is called Roo. Look after him on the way, Keeper.'),
         R('Happy Roos stay quiet.'),
         N('(Whisper “Quiet Roo.” Now whisper louder, then quieter.)'),
       ],
@@ -1732,7 +1734,7 @@ const Q08: EduQuest = quest(
           5,
           'literacy',
           'spelling can wobble; sound it out',
-          'RF.K.2',
+          'ELOF: Literacy',
           [
             N('Christopher Robin wrote the sign by listening to the sounds.'),
             N('Pole is spelled P-O-L-E. He might write P-O-L, and that is fine.'),
@@ -1845,7 +1847,7 @@ const Q09: EduQuest = quest(
       [
         N('You follow the bottle along the bank.'),
         N('Bob, bob, bob. It floats all the way to Pooh.'),
-        N('He is sitting on a branch above his own front door.'),
+        N('Pooh is sitting on a branch above his own front door.'),
       ],
       [
         notice(
@@ -2011,11 +2013,11 @@ const Q10: EduQuest = quest(
     sc(
       'a11-10-invites',
       [
-        CR('Owl, tell everyone there is a party. It is for Pooh.'),
-        O('Very good. I shall Announce it.'),
+        CR('A party for Pooh! He saved Piglet.', 'happy'),
+        O('Very good. I shall Announce a Gathering of All Residents.'),
         N('Owl flies off. You go too, to say it in shorter words.'),
         N('At the Gloomy Place, Owl tells Eeyore.'),
-        E('A party. For me. Better late than never.', 'think'),
+        E('A party. For me. Nobody has a party for me. Until now.', 'think'),
         O('No, it is for…'),
         N('But Eeyore has turned away to think.'),
       ],
@@ -2025,15 +2027,15 @@ const Q10: EduQuest = quest(
           'literacy',
           'clear messages use short, simple words',
           'ELOF: Language and Communication',
-          [N('Which is easier to understand? “Party for Pooh!” or a very long, fancy sentence?')],
+          [N('Which is easier: “A party for Pooh!” or “A Gathering of All Residents”?')],
           [
             opt(
-              '“Party for Pooh!”',
+              '“A party for Pooh!”',
               [N('Yes! Short, clear words help everyone hear the news.')],
               true,
             ),
-            opt('The long, fancy one', [
-              N('Long words can get lost. Short ones are easier to hear.'),
+            opt('“A Gathering of All Residents”', [
+              N('That is Owl’s long way. Short words are easier: a party for Pooh!'),
             ]),
           ],
           'Learned that short, clear words make a message easy to understand.',
@@ -2165,7 +2167,7 @@ const Q11: EduQuest = quest(
           1,
           'science',
           'weather words: snow',
-          'K-ESS2-1',
+          'ELOF: Scientific Reasoning',
           [N('What is falling from the sky in this story?')],
           [
             opt('Snow', [N('Yes, snow! Soft, white and cold.')], true),
@@ -2196,12 +2198,13 @@ const Q11: EduQuest = quest(
       'a11-11-snow-done',
       [
         N('The house stands at Pooh Corner. It is a little lopsided.'),
-        N('Snow settles on the roof, which is shaped like a triangle.'),
+        N('The roof is shaped like a triangle.'),
+        N('Snow slides off the sloping roof. Plop! Right onto Pooh.'),
         N('(Draw a triangle in the air: three sides, three corners.)'),
       ],
       [
         notice(
-          2,
+          3,
           'maths',
           'a triangle has three sides and three corners',
           'K.G.A.2',
@@ -2470,17 +2473,18 @@ const Q12: EduQuest = quest(
     sc(
       'a11-12-malt',
       [
-        N('At Kanga’s house, Roo is having his medicine.'),
+        N('At Kanga’s house, Roo is having a spoon of sticky brown malt.'),
         RO('Do I have to? It is brown and sticks to the spoon.'),
         K('Just one spoonful, dear. It makes you big and strong.'),
-        N('Tigger sniffs. He takes the whole spoonful!'),
+        K('Would you like to try, Tigger? One spoon, from me.'),
+        N('Tigger tries it. His tail goes straight up.'),
         T('That is it! That is a Tigger breakfast!', 'happy'),
         RO('He can have mine! Always!', 'happy'),
         K('Then he had better stay. I will fetch another spoon.', 'soft'),
       ],
       [
         notice(
-          6,
+          7,
           'science',
           'different living things eat different food',
           'K-LS1-1',
@@ -2787,7 +2791,7 @@ const Q14: EduQuest = quest(
       'a11-14-tunic',
       [
         N('Christopher Robin holds out his tunic, like a sheet.'),
-        N('Everyone takes a corner.'),
+        N('You, Pooh, Piglet and Christopher Robin take a corner each.'),
         CR('Pull it tight, Keeper. Pooh, yours is sagging.'),
         P('It is not sagging. It is having a little sit-down.'),
         N('Roo jumps, boing! He bounces out, and in again.'),
@@ -2804,7 +2808,7 @@ const Q14: EduQuest = quest(
           'edu:count:corners:4',
           [
             N('The tunic is flat and square. (Point to each corner.)'),
-            N('One, two, three, four corners. Four friends hold four corners.'),
+            N('One, two, three, four corners. Four friends hold one each.'),
           ],
           'Counted the four corners of a square.',
         ),
@@ -2892,7 +2896,7 @@ const Q15: EduQuest = quest(
           4,
           'literacy',
           'sound out a word: back-son',
-          'RF.K.2',
+          'ELOF: Literacy',
           [N('Sound it out slowly: back… son. What does it sound like?')],
           [
             opt('Back soon', [N('Yes! Back soon! Christopher Robin spelled it by sound.')], true),
@@ -3030,7 +3034,7 @@ const Q15: EduQuest = quest(
           1,
           'literacy',
           'wobbly spelling is how we start writing',
-          'RF.K.2',
+          'ELOF: Literacy',
           [
             N('Back soon. We could read it, even with wobbly letters.'),
             N('Everyone starts to write by listening for sounds. Wobbly spelling is a good start.'),
@@ -3070,6 +3074,7 @@ const Q16: EduQuest = quest(
         N('He runs to the other side. The cone comes out from under the bridge!'),
         P('I dropped it on that side. It came out on this one.', 'think'),
         N('He drops two cones at once, a big one and a small one.'),
+        N('Cones all look the same. Pooh picks sticks instead.'),
         N('That is how the stick game begins.'),
       ],
       [
@@ -3099,11 +3104,12 @@ const Q16: EduQuest = quest(
         N('Soon everyone plays: Pooh, Piglet, Rabbit, Roo, you and your Nubbin.'),
         CR('Everybody drop on “now”. Then run to the other side.'),
         N('Your Nubbin drops its stick. Then it drops itself in, too!'),
-        N('It swims beside its stick, nudging it, enjoying the wet.'),
+        N('Your Nubbin swims out to the fast middle. Its stick rides along beside it.'),
         RO('That is not fair! Can I do that?'),
-        CR('No, Roo.'),
+        CR('Not you, Roo. You are too small for the river.'),
         P('I think it is fair. Nothing says you cannot go with your stick.', 'think'),
-        N('Your Nubbin’s stick comes out first. It shakes itself all over Piglet.'),
+        N('Your Nubbin’s stick comes out first, and wins. It shakes itself all over Piglet.'),
+        CR('Does that count? Probably. I think.', 'think'),
         PG('Woozles shake like that. I am nearly sure.', 'shock'),
       ],
       [
@@ -3258,17 +3264,18 @@ const Q17: EduQuest = quest(
         R('Tigger is very bouncy. He bounces on everybody.', 'angry'),
         R('Here is my plan. A game of hide-and-seek, in the mist.'),
         P('Why?'),
-        R('So Tigger has a quiet rest. We hide, and he seeks.'),
-        PG('That is not very kind.'),
+        R('We hide in the mist. Tigger cannot find us.'),
+        R('He is lost for a bit, and we get some peace.'),
+        PG('Lost? On his own? That is not kind.'),
         N('A mist is coming up from the river, white and soft.'),
         T('A walk! Tiggers love walks!', 'happy'),
       ],
       [
         notice(
-          5,
+          6,
           'science',
           'mist is tiny drops of water in the air',
-          'K-ESS2-1',
+          'ELOF: Scientific Reasoning',
           [
             N('Mist is tiny drops of water floating in the air near the ground.'),
             N('It is like a soft, low cloud. It makes things hard to see.'),
@@ -3320,13 +3327,16 @@ const Q17: EduQuest = quest(
         N('They duck behind a bank. Tigger bounces on, with you.'),
         T('Where is everybody? Hello?', 'think'),
         T('They must be lost. Poor things.'),
-        N('At Kanga’s, Pooh and Piglet arrive, damp. Rabbit is not with them.'),
+        N('Tigger bounces you home to Kanga’s.'),
+        N('Pooh and Piglet come in, damp. Rabbit does not come.'),
         T('Tiggers never get lost. I will fetch him!', 'happy'),
+        T('Where would a Rabbit be? Under things. Rabbits like under.', 'think'),
+        N('He looks under a leaf, a stone, and you. No Rabbit!'),
         N('He bounces into the white. You follow, holding your Nubbin close.'),
       ],
       [
         notice(
-          6,
+          9,
           'health',
           'if you are lost, stay still and call out',
           'CASEL: Responsible decision-making',
@@ -3424,7 +3434,7 @@ const Q18: EduQuest = quest(
           0,
           'science',
           'weather words for wind: breeze, blustery, gale',
-          'K-ESS2-1',
+          'ELOF: Scientific Reasoning',
           [
             N('A breeze is a soft wind. A blustery day has big, gusty puffs.'),
             N('A gale is a very strong wind. Today is blustery.'),
@@ -3459,22 +3469,22 @@ const Q18: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'health',
-          'in a strong wind, stay indoors away from trees',
+          'in a strong wind, a strong low house away from tall trees is safest',
           'ELOF: Perceptual, Motor, and Physical Development',
           [N('In a strong, blustery wind, where is the safest place to be?')],
           [
             opt(
-              'Indoors, away from trees',
-              [N('Yes! Trees can drop branches in a strong wind.')],
+              'In a strong, low house, away from tall trees',
+              [N('Yes! Owl’s house was up a tree. That is why it fell over.')],
               true,
             ),
             opt('Under a big tree', [
-              N('Careful! Branches can fall. Stay indoors, away from trees.'),
+              N('Owl lived up a tree. His house fell over! Low houses are safer.'),
             ]),
           ],
-          'Learned to stay indoors and away from trees in strong wind.',
+          'Learned that a strong, low house away from tall trees is safest in a strong wind.',
         ),
       ],
     ),
@@ -3647,13 +3657,13 @@ const Q19: EduQuest = quest(
       ],
       [
         notice(
-          5,
+          8,
           'literacy',
           'poems often rhyme',
-          'RL.2.4',
+          'RF.K.2',
           [
             N('Eeyore’s poem rhymes in places. Rhymes are words that end the same way.'),
-            N('Moon and spoon rhyme. Pot and lot rhyme. What rhymes with cat?'),
+            N('Miss and kiss rhyme. Pooh and you rhyme. What rhymes with Roo?'),
           ],
           'Learned that poems often rhyme and gave rhyming words.',
         ),
@@ -3705,7 +3715,7 @@ const Q19: EduQuest = quest(
       ],
       [
         ask(
-          0,
+          3,
           'literacy',
           'the first letter of a name: T for Tigger',
           'RF.K.2',
@@ -3722,41 +3732,45 @@ const Q19: EduQuest = quest(
       'a11-19-scroll',
       [
         N('Rabbit rolls up the scroll. A blue ribbon is already round it.'),
-        E('I kept it in my pot. It is a Friend ribbon. He will know.', 'soft'),
+        E('I took it off my door. My door can bang for a bit.', 'soft'),
+        E('It is a Friend ribbon. He will know.', 'soft'),
         ...S19_DELIVER,
       ],
       [
         notice(
-          1,
+          9,
           'sel',
-          'keeping a gift safe shows it mattered',
+          'giving away something you use shows someone matters',
           'CASEL: Relationship skills',
           [
-            N('Eeyore kept the ribbon safe in his pot, all this time.'),
-            N('Keeping a gift safe is a way of saying: you matter to me.'),
+            N('Eeyore took the ribbon off his own door, to give to his friend.'),
+            N('Giving away something you use is a way of saying: you matter to me.'),
           ],
-          'Heard that looking after a gift shows the giver they matter.',
+          'Heard that giving away something you use shows a friend they matter.',
         ),
       ],
     ),
     sc(
       'a11-19-scroll-done',
       [
-        N('Then everyone goes quietly, one by one, until only Pooh is left.'),
+        N('Then everyone goes home quietly, one by one.'),
+        N('Rabbit goes. Owl goes. Eeyore goes.'),
+        N('Tigger goes, very quietly, for a Tigger.'),
+        N('Piglet goes last of all. Only Pooh is left.'),
         N('You wait by the gate with your Nubbin.'),
         N('Nobody asked you to. It seems the right place to be.'),
       ],
       [
         notice(
-          0,
+          5,
           'maths',
-          'one by one: counting down to one',
-          'ELOF: Mathematics Development',
+          'one by one: count the friends who went home',
+          'K.CC.B.5',
           [
-            N('One by one means one at a time. (Hold up five fingers.)'),
-            N('Fold them down: five, four, three, two, one. One is left: Pooh.'),
+            N('One by one means one at a time. (Hold up a finger for each.)'),
+            N('Rabbit, Owl, Eeyore, Tigger, Piglet. Five friends went home. Pooh stayed.'),
           ],
-          'Counted down from five to one, one at a time.',
+          'Counted the five friends who went home, one at a time.',
         ),
       ],
     ),
@@ -3769,7 +3783,7 @@ const Q19: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'sel',
           'how to say goodbye kindly',
           'CASEL: Relationship skills',
@@ -3878,7 +3892,7 @@ const Q20: EduQuest = quest(
           'Learned that Brazil is a country in South America.',
         ),
         notice(
-          9,
+          11,
           'sel',
           'a promise is words you keep; remembering is how love stays',
           'CASEL: Relationship skills',
@@ -4087,7 +4101,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
     ],
     [
       notice(
-        2,
+        3,
         'literacy',
         'a new word: grateful',
         'ELOF: Language and Communication',
@@ -4110,7 +4124,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
     ],
     [
       notice(
-        2,
+        9,
         'science',
         'pressing a flower dries it flat so it lasts',
         null,
@@ -4133,7 +4147,7 @@ const A11_VARIANTS_SPROUT: EduScene[] = [
     ],
     [
       notice(
-        4,
+        10,
         'sel',
         'sitting with someone is a gift they remember',
         'CASEL: Relationship skills',

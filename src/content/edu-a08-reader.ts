@@ -179,7 +179,7 @@ const Q1 = quest(
             ),
           ],
           'Learned that Gaul was roughly modern France, that Caesar’s Gallic Wars ran about 58 to 50 BC, and read a map key by colour.',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
         ),
       ],
       [
@@ -313,7 +313,7 @@ const Q1 = quest(
             ]),
           ],
           'Thought about what makes a referee fair, and whether being outside the sides is enough.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -470,7 +470,7 @@ const Q2 = quest(
             ),
           ],
           'Learned that the Olympic Games began in ancient Greece, at Olympia, every four years, and were revived in 1896.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
       [
@@ -717,7 +717,7 @@ const Q3 = quest(
             ),
           ],
           'Heard that Persia was a great empire in the region of modern Iran, and that javelin throwing began as hunting and became a sport.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
       [
@@ -754,12 +754,12 @@ const Q3 = quest(
           1,
           [
             N(
-              'Your paces are longer than your Nubbin’s. Why is a measuring rope, marked in metres, better than counting paces?',
+              'Your paces are longer than your Nubbin’s. Why is a measuring rope, knotted every Roman foot, better than counting paces?',
             ),
           ],
           [
             opt(
-              'Metres are the same for everyone',
+              'A Roman foot is the same for everyone',
               [
                 N(
                   'Yes. A standard unit means everyone gets the same answer, however long their legs are.',
@@ -769,7 +769,7 @@ const Q3 = quest(
             ),
             opt('Paces are always shorter', [
               N(
-                'Not always. The point is that paces change from person to person, and a metre never does.',
+                'Not always. The point is that paces change from person to person, and a Roman foot never does.',
               ),
             ]),
             opt('It makes no difference', [
@@ -801,12 +801,16 @@ const Q3 = quest(
         ),
         VE('Where is it going?', 'shock'),
         A('I could not tell you. I just threw it.'),
+        VE('And what is she called?'),
+        A('Er. Stick.'),
+        N('Dogmatix, who has brought you eleven sticks today, looks up sharply.'),
+        VE('Stick. A modest name. I like her already.', 'happy'),
       ],
       [
         ak(
           'sel',
           'fairness when a result cannot be measured',
-          6,
+          10,
           [
             N(
               'Verses says you cannot measure a throw that has not finished. Is it fair to give Asterix the win without a number? What would you do?',
@@ -830,7 +834,7 @@ const Q3 = quest(
             ]),
           ],
           'Thought about fairness when a result cannot be measured.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -928,7 +932,7 @@ const Q4 = quest(
           6,
           [
             N(
-              'Cilindric has hundreds of rules, mostly about bowing. Which of these is the best kind of rule?',
+              'Cilindric has more than three hundred rules, and forty of them are about bowing. Which of these is the best kind of rule?',
             ),
           ],
           [
@@ -953,7 +957,7 @@ const Q4 = quest(
             ]),
           ],
           'Compared good and bad rules: clear, fair and for a reason.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -1397,7 +1401,7 @@ const Q6 = quest(
         nt(
           'science',
           'how your eyes handle dim light',
-          1,
+          3,
           [
             N(
               'Inside the dark tent, the black circle in the middle of your eye, the pupil, grows bigger. That lets in more light.',
@@ -1432,7 +1436,7 @@ const Q6 = quest(
       'a08-06-stare',
       [
         N(
-          'Asterix sits down opposite Iris. You turn the sand timer over, and keep your eyes firmly on the sand.',
+          'Asterix sits down opposite Iris. You turn the sand timer over: the three-minute kind. You keep your eyes on the sand.',
         ),
         IR('You are growing sleepy. You are a small, soft creature. You are… a dormouse.'),
         A('No, I am not.'),
@@ -1449,31 +1453,6 @@ const Q6 = quest(
         A('Obelix, no. He is a person. He will be a person again by supper.'),
       ],
       [
-        ak(
-          'maths',
-          'time with a sand timer',
-          1,
-          [
-            N(
-              'The sand timer takes 3 minutes to run through. If you turn it over twice, how many minutes have gone by?',
-            ),
-          ],
-          [
-            opt('6 minutes', [N('Yes. 3 minutes twice is 3 times 2, which is 6 minutes.')], true),
-            opt('5 minutes', [
-              N(
-                'That adds 3 and 2. Each turn is 3 minutes, and there are 2 turns, so 3 times 2 is 6.',
-              ),
-            ]),
-            opt('32 minutes', [
-              N(
-                'That writes the numbers side by side. It is 2 lots of 3 minutes, which is 6 minutes.',
-              ),
-            ]),
-          ],
-          'Found a time interval by multiplying: two 3-minute turns make 6 minutes.',
-          '3.MD.A.1',
-        ),
         ak(
           'sel',
           'honesty, tricks and who gets to say who you are',
@@ -1512,14 +1491,42 @@ const Q6 = quest(
           'The last grain of sand falls. Dogmatix is barking at the tent door, and your Nubbin has hidden behind your boots.',
         ),
         N(
+          'The sand ran through once, and that took 3 minutes. Outside, Iris grunts that he wants two more goes.',
+        ),
+        N(
           'When Iris’s eyes were at their brightest, they glowed like embers in a banked-up fire. Now they are just a man’s eyes, soft and a little puzzled.',
         ),
       ],
       [
         ak(
+          'maths',
+          'time with a sand timer',
+          1,
+          [
+            N(
+              'The timer ran once, and that took 3 minutes. Iris, now a boar, wants two more goes. How many minutes is that?',
+            ),
+          ],
+          [
+            opt('6 minutes', [N('Yes. Two more goes of 3 minutes is 3 times 2, which is 6 minutes.')], true),
+            opt('5 minutes', [
+              N(
+                'That adds 3 and 2. Each go is 3 minutes, and there are 2 goes, so 3 times 2 is 6.',
+              ),
+            ]),
+            opt('32 minutes', [
+              N(
+                'That writes the numbers side by side. It is 2 lots of 3 minutes, which is 6 minutes.',
+              ),
+            ]),
+          ],
+          'Found a time interval by multiplying: two more 3-minute goes make 6 minutes.',
+          '3.MD.A.1',
+        ),
+        ak(
           'literacy',
           'similes and metaphors',
-          1,
+          2,
           [
             N(
               'Iris’s eyes “glowed like embers”. That uses “like”, so it is a simile. Which of these is a metaphor instead?',
@@ -1629,7 +1636,7 @@ const Q7 = quest(
             ),
           ],
           'Learned that the Belgae lived in northern Gaul and gave their name to modern Belgium.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
       [
@@ -1795,7 +1802,7 @@ const Q7 = quest(
             P('You can write that as 6/12, which is the same as 1/2. Half the tasks are done.'),
           ],
           'Learned that VI is five plus one, and that six out of twelve is one half.',
-          '3.NF.A.1',
+          '3.NF.A.3',
         ),
       ],
     ),
@@ -1941,7 +1948,7 @@ const Q8 = quest(
         nt(
           'science',
           'animals in the dark use other senses',
-          6,
+          7,
           [
             N(
               'An animal that lives in a dark cave cannot rely on its eyes. Its nose and its ears do much more of the work.',
@@ -1955,11 +1962,11 @@ const Q8 = quest(
         ),
         ak(
           'sel',
-          'why gentleness works, and why the visitors keep it secret',
+          'why gentleness works on a scared animal',
           7,
           [
             N(
-              'The Beast calmed down when you sat quietly. Why does gentleness work on a scared animal? And why would nobody tell the secret?',
+              'The Beast calmed down when you sat quietly. Why does gentleness work on a scared animal?',
             ),
           ],
           [
@@ -1968,18 +1975,18 @@ const Q8 = quest(
                 'A fair answer. Safety has to come before trust. Sitting still and small showed you meant no harm.',
               ),
             ]),
-            opt('They kept the secret to protect the Beast', [
+            opt('Staying quiet shows you mean no harm', [
               N(
-                'A fair answer. If everyone knew, people might come to stare or to hurt it. Some kindness is quiet.',
+                'A fair answer. A big, calm friend who waits is much less frightening than a loud one who rushes in.',
               ),
             ]),
-            opt('It is just more fun to leave it a mystery', [
+            opt('Waiting lets the animal choose to come close', [
               N(
-                'A fair answer. A shared secret can feel like a gift. And in this story, it is also a way of protecting something.',
+                'A fair answer. Being allowed to choose helps a frightened animal feel safe enough to try.',
               ),
             ]),
           ],
-          'Thought about why gentleness helps a frightened creature, and about keeping a kind secret.',
+          'Thought about why gentleness helps a frightened creature.',
           'CASEL: Social awareness',
         ),
       ],
@@ -2026,6 +2033,35 @@ const Q8 = quest(
           ],
           'Read the Roman numeral VII as 5 + 1 + 1 = 7, and found that 5 tasks remain.',
           '2.OA.A.1',
+        ),
+        ak(
+          'sel',
+          'secrets that protect, and fibs',
+          4,
+          [
+            N(
+              'Everyone keeps the Beast a secret. Is that a fib, or is it looking after someone?',
+            ),
+          ],
+          [
+            opt('It is looking after someone', [
+              N(
+                'A fair answer. Keeping a gentle creature safe from stares is different from a fib told to get something.',
+              ),
+            ]),
+            opt('It is a fib, even if it is a kind one', [
+              N(
+                'A fair answer. Not telling the whole truth is a choice, even a kind one. Is the reason a good one?',
+              ),
+            ]),
+            opt('It depends who is asking, and why', [
+              N(
+                'A fair answer. Who is asking, and what they might do, matters when a secret keeps someone safe.',
+              ),
+            ]),
+          ],
+          'Thought about whether keeping a kind secret is a fib or a way of looking after someone.',
+          'CASEL: Social awareness',
         ),
       ],
     ),
@@ -2092,7 +2128,7 @@ const Q9 = quest(
             ),
           ],
           'Learned that a bureaucracy is an organisation of officials and forms, useful when it serves people.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
     ),
@@ -2289,7 +2325,7 @@ const Q9 = quest(
             ]),
           ],
           'Thought about how to tell helpful rules from rules that only serve themselves.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -2419,7 +2455,7 @@ const Q9 = quest(
             ]),
           ],
           'Thought about honesty and fairness when a system seems unfair.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
     ),
@@ -3084,7 +3120,7 @@ const Q12 = quest(
             ),
           ],
           'Learned that a Roman legion was divided into centuries led by centurions, and that those words come from the Latin for “hundred”.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
     ),
@@ -3291,7 +3327,7 @@ const Q13 = quest(
             ),
           ],
           'Learned that the real Circus Maximus was mainly a chariot-racing track that sometimes held animal shows, and that the Colosseum came later.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
         nt(
           'science',
@@ -3436,14 +3472,14 @@ const Q13 = quest(
               'He hardly ever loses, and he knows it',
               [
                 N(
-                  'Yes. It is a joke at his own expense. Caesar is proud, but he can laugh at himself, and that makes him a good sport.',
+                  'Yes. Caesar is proud, but he can laugh at himself, and that makes him a good sport.',
                 ),
               ],
               true,
             ),
             opt('He has lost many times', [
               N(
-                'If he had lost often, it would not be new. The joke is that he almost never loses.',
+                'If he had lost often, it would not be new. The line suggests he almost never loses.',
               ),
             ]),
             opt('He is furious', [
@@ -3550,6 +3586,7 @@ const Q14 = quest(
           'Friends! To honour our heroes, I have written a new song. Forty-two verses, one for each…',
           'happy',
         ),
+        BD('Two minutes a verse. Three if you clap.', 'happy'),
         N(
           'Every head in the village turns, and nobody says anything. Asterix looks at Obelix, and Obelix looks at you.',
         ),
@@ -3680,7 +3717,7 @@ const Q14 = quest(
           3,
           [
             N(
-              'The village ties up the bard, gently, so he cannot sing. Is that teasing, or unkind? How would you want friends to handle an annoying habit of yours?',
+              'The village looks for something to wrap round the bard, so he cannot sing. Is that teasing, or unkind? How would you want friends to handle your habits?',
             ),
           ],
           [
@@ -3712,39 +3749,38 @@ const Q14 = quest(
           'The whole village gathers round to see what you wrote, back in the building of endless counters.',
         ),
         BD('Bound in official papers? I am a bard, not a book!', 'angry'),
+        G('Bound. Tied up, or put in a book. I meant both. I am very pleased with it.', 'happy'),
       ],
       [
         ak(
           'literacy',
           'words with more than one meaning: bound',
-          1,
+          2,
           [
             N(
-              'Getafix said the bard would be “bound in official papers”. Which meaning of “bound” is the joke using?',
+              'The word “bound” can mean tied up, fastened into a book, or a big leap. Which meaning fits “The lion bounds across the grass”?',
             ),
           ],
           [
             opt(
-              'Both: tied up, and made into a book',
+              'A big leap',
               [
                 N(
-                  'Yes. A book’s pages are “bound” inside its cover, and the bard is about to be bound up in a form. Two meanings, one joke.',
+                  'Yes. A lion that bounds is leaping. “Bound” also means tied up, or fastened into a book.',
                 ),
               ],
               true,
             ),
-            opt('Only tied up', [
+            opt('Tied up', [
               N(
-                'That is one meaning. But books are “bound” too, which is why the bard says he is not a book.',
+                'That is one meaning, but a lion crossing grass is not tied up. Here it means a big leap.',
               ),
             ]),
-            opt('Bound, as in a big jump', [
-              N(
-                'A bound can be a big leap, like a lion’s. Here, though, it means tied up, and bound like a book.',
-              ),
+            opt('Fastened into a book', [
+              N('That is one meaning, but lions are not books. Here, “bounds” means leaps.'),
             ]),
           ],
-          'Used context to see a joke that uses two meanings of the word “bound”.',
+          'Used context to choose the right meaning of the word “bound”.',
           'L.3.4',
         ),
       ],
@@ -3768,7 +3804,7 @@ const Q14 = quest(
           'happy',
         ),
         N(
-          'Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following it.',
+          'Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following Stick.',
         ),
         P('Vale, referee! Will you come back? Caesar is already thinking of something.', 'soft'),
         N(
@@ -3903,7 +3939,7 @@ export const EDU_A08_READER_VARIANTS: EduScene[] = [
           ),
         ],
         'Heard that signatures and wax seals were used to show a document could be trusted.',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
       ),
     ],
   ),

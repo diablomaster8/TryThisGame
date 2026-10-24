@@ -20,7 +20,7 @@ _Behind the palms there is a house with no walls, only a roof on posts. A crowd 
 _An old woman is telling them a story with her hands. A painted cloth hangs behind her: an island shaped like a sleeping woman._  
 **Gramma Tala**: Before the palms, before the fish, there was the sea and nothing else. Then the mother island came up out of it.  
 **Gramma Tala**: Her heart could make things grow. She gave that away to every island she could reach. Green, and more green, and more.  
-_She spots you at the edge of the shade, and doesn’t miss a beat. She just shuffles up to make room._  
+_She spots you at the edge of the shade, and doesn’t even stop talking. She just shuffles up to make room._  
 **Gramma Tala**: Sit, sit. Somebody from past the reef. We don’t get many. Your little one can sit on the end.  
 _Your Nubbin sits on the end, beside a toddler with a great deal of hair. The toddler pats it, firmly, like a drum._  
 
@@ -52,7 +52,7 @@ _Your Nubbin sits on the end, beside a toddler with a great deal of hair. The to
 _Most of the children squeal and hide behind each other. The toddler leans forward, delighted._  
 **Gramma Tala**: Maui was struck from the sky, and the heart and his hook fell into the sea. Nobody has found them since.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: knowledge kept by telling  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): oral history: knowledge kept by telling  
 > _Gramma Tala tells this story by heart. For centuries, Pacific peoples kept stories, family histories and star paths by learning them and telling them aloud._  
 > _Each generation had to listen carefully, because the knowledge lived only in people’s memories._  
 > _For grown-ups: Learned that Pacific peoples kept their history by telling it aloud, generation to generation._
@@ -101,7 +101,7 @@ _The toddler pulls a big leaf off a bush and holds it over the turtle like a roo
 - **Send your Nubbin to walk on the other side.**
     - Your Nubbin waddles along the other side of the turtle, holding up its arms. Together they make a very small, very slow parade.
 - **Wave the birds away.**
-    - You flap your arms at the birds, and your Nubbin flaps its tiny wings. The birds decide, on balance, to go and bother someone else.
+    - You flap your arms at the birds, and your Nubbin flaps its tiny wings. The birds think it over, and go and bother someone else.
 
 #### `reader:a10-01-turtle-done` · [main](main.md#a10-01-turtle-done)
 
@@ -196,7 +196,7 @@ _Moana looks past the lagoon, to where the waves break white on the reef. Past t
 
 **Moana**: Then we go out past the reef. The fish must be out there somewhere.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity means choosing  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity means choosing  
 > _When there are fewer fish, the village has to make choices. Which of these is a choice caused by scarcity?_  
 > - ✅ Sharing the few fish fairly, or looking for new fishing grounds → Yes. When something runs short, people must decide how to share it or where to find more.
 > - Choosing what colour to paint a canoe → A paint colour is a choice, but the fish running short does not cause it.
@@ -212,9 +212,10 @@ _Moana opens her mouth, and closes it again. Your Nubbin, sensing a mood, sits o
 
 _The chief walks off. Moana watches the reef for a long time, chewing the inside of her cheek._  
 **Moana**: He didn’t say why. He never says why.  
+_A fisherman goes past, counting the week on his fingers: 48 fish, then 24, then 12, then 6. Today, none._  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a rule that halves each time  
-> _Say the lagoon’s catch fell over four days like this: 48 fish, 24, 12, 6. What is the rule, and what comes next?_  
+> _The catch went 48, 24, 12, 6. What is the rule, and what would come next if the rule kept going?_  
 > - ✅ Halve it each day, so 3 fish next → Yes. 48 ÷ 2 = 24, 24 ÷ 2 = 12, 12 ÷ 2 = 6, so 6 ÷ 2 = 3.
 > - Take away 6 each day, so 0 fish next → Check it: 48 − 6 is 42, not 24. The amount lost shrinks each day, so the rule is halving.
 > - Take away 12 each day → 48 − 12 is 36, not 24. Halving matches every step: the next number is 3.
@@ -240,7 +241,7 @@ _Between you, you get hold of her arm, and then Pua, who is very much not enjoyi
 #### `reader:a10-02-breakers-done` · [main](main.md#a10-02-breakers-done)
 
 _Moana sits on the sand with a cut on her foot and the canoe in two pieces beside her. Pua stands well up the beach, sulking._  
-**Moana**: Fine. Fine. Point taken.  
+**Moana**: Fine. Fine. I won’t go past the reef. Probably.  
 _Your Nubbin comes out of the shallows last. In its mouth is a small white shell with a spiral on it, like a tiny staircase._  
 
 > **Lesson** (literacy, L.4.5, ask): what a simile compares  
@@ -310,7 +311,7 @@ _On her back, from shoulder to shoulder, is a tattoo of a manta ray. It is old, 
 _Your Nubbin has crept down into the foam and is trying to copy her. It mostly falls over, very sincerely._  
 **Gramma Tala**: Oh, now. That one has the makings.  
 
-> **Lesson** (art, D2.His.2.K-2, notice): dance carries stories  
+> **Lesson** (art, D2.His.2.3-5, notice): dance carries stories  
 > _Across the Pacific, dance is more than fun. It is a way of telling stories, remembering people and showing respect for the land and sea._  
 > _Gramma’s dance with the waves is part of that long tradition, in the story’s own invented way._  
 > _For grown-ups: Heard that dance can tell stories and keep memories alive across Pacific cultures._
@@ -374,7 +375,7 @@ _She looks at Moana for a long moment, as if she is weighing something in her ha
 
 **Moana**: Who we are. Where we came from. Why we never leave.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): genealogies: knowing who we come from  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): genealogies: knowing who we come from  
 > _Moana asks who they are and where they came from. Pacific peoples answered with genealogy: a spoken record of ancestors, back to the first._  
 > _Reciting a genealogy told you where you belonged, and who had come before you._  
 > _For grown-ups: Learned that Pacific peoples used spoken genealogies to say who they are and where they come from._
@@ -386,9 +387,10 @@ _She looks at Moana for a long moment, as if she is weighing something in her ha
 _Gramma gets up, which takes three tries and a hand from you. She does not mention the hand._  
 _Your Nubbin walks behind her up the beach, still doing its step, a little crooked, every few paces._  
 **Gramma Tala**: It’ll come. Everything worth having comes slow. Mantas, grandchildren, steps.  
+**Gramma Tala**: Five minutes a day, small one. Twelve days of that, and then we’ll talk.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply to find a total  
-> _Gramma says everything worth having comes slowly. If your Nubbin practises its step for 5 minutes a day for 12 days, how many minutes is that?_  
+> _Gramma wants 5 minutes of practice a day, for 12 days. How many minutes of practice is that?_  
 > - ✅ 60 minutes, which is one hour → Yes: 12 × 5 = 60, and 60 minutes make one hour. Slow practice adds up.
 > - 17 minutes → 17 is 12 + 5. Each of the 12 days has 5 minutes, so multiply: 12 × 5 = 60.
 > - 50 minutes → Close: 10 days would be 50. With 12 days it is 12 × 5 = 60.
@@ -424,12 +426,10 @@ _Behind the falls there is a passage in the rock, sloping down, and the sound of
 
 _The torch makes the wet rock shine. Your Nubbin’s emote ball glows a little too, which is no help but is company._  
 
-> **Lesson** (literacy, RL.3.3, ask): what a narrator’s joke means  
-> _Your Nubbin’s emote ball glows, “which is no help but is company.” What does the narrator mean?_  
-> - ✅ It does not light the way, but it is nice not to be alone → Yes. Light helps you see and company helps you feel brave, but the glow gives only the second.
-> - The ball is broken → The glow is working. It just does not give enough light to see by.
-> - Nubbins are afraid of caves → The line is about comfort, not about fear of caves.
-> _For grown-ups: Understood a narrator’s dry joke about comfort._
+> **Lesson** (science, notice): we see things when light bounces off them into our eyes  
+> _In the cave you can only see the rock the torch lights up. Beyond the torch, the passage is just black._  
+> _We see things when light bounces off them and into our eyes. No light, nothing to see._  
+> _For grown-ups: Learned that we see objects when light bounces off them into our eyes._
 
 
 #### `reader:a10-04-canoes` · [main](main.md#a10-04-canoes)
@@ -438,15 +438,15 @@ _The passage opens into a cavern as big as the meeting house. A dim blue light c
 _Moana lifts the torch, and the shapes in the dark turn into boats._  
 _Not fishing canoes. Great voyaging canoes, twin-hulled, with their sails furled and their steering oars laid along the decks._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): real voyaging canoes  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): real voyaging canoes  
 > _Real Pacific voyaging canoes were often double-hulled, two hulls joined by a deck. In Hawaiian this is a waʻa kaulua._  
 > _Builders lashed them together with cord made from plant fibre, and the canoes carried families, plants and animals across open ocean._  
 > _For grown-ups: Learned that Pacific peoples built double-hulled voyaging canoes lashed with plant-fibre cord._
 
-_There are dozens of them, under dust and cobweb, and every one is finer than anything on the beach._  
+_There are dozens of them, in four long rows of a dozen each. Every one is finer than anything on the beach._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply to find a total  
-> _There are dozens of canoes. Say there are 4 rows with a dozen in each row: how many canoes are there?_  
+> _The canoes stand in 4 rows, with a dozen in each row. How many canoes are there?_  
 > - ✅ 48 → Yes. A dozen is 12, and 4 × 12 = 48.
 > - 16 → 16 is 4 × 4. A dozen is 12, so each row has 12: 4 × 12 = 48.
 > - 412 → That glues the numbers together. Multiply: 4 × 12 = 48.
@@ -482,7 +482,7 @@ _All round you are more canoes, and on them people steering, singing, reading th
 _A woman at a steering oar looks straight at you and grins, the way you’d grin at someone who has nearly worked out a joke._  
 _They find an island, and land, and plant, and build. Then they load the canoes again and sail on to find the next one._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Pacific settlement and canoe plants  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Pacific settlement and canoe plants  
 > _Over more than two thousand years, voyagers settled islands from Tonga and Samoa out to Hawaiʻi, Rapa Nui and Aotearoa New Zealand._  
 > _They carried “canoe plants” like coconut, taro and breadfruit, and animals like pigs and chickens, to start new homes._  
 > _For grown-ups: Learned how Pacific voyagers settled distant islands and carried plants and animals with them._
@@ -492,9 +492,10 @@ _Your Nubbin, on the deck beside you, is doing its step without seeming to know 
 #### `reader:a10-04-drum-done` · [main](main.md#a10-04-drum-done)
 
 _The drum stops ringing. You are in the cave again, with dust on your feet and the sound of the sea at the far end._  
+_Your ears keep the beat for thirty seconds more: two beats every second, slow and steady._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply rate by time  
-> _A steady drum beats twice every second. How many beats are there in 30 seconds?_  
+> _The drum beats twice every second. How many beats are there in 30 seconds?_  
 > - ✅ 60 → Yes. 2 beats × 30 seconds = 60 beats.
 > - 32 → 32 is 30 + 2. Each second has 2 beats, so multiply: 2 × 30 = 60.
 > - 15 → 15 is 30 ÷ 2, which would be one beat every two seconds. This drum beats twice a second, so 60.
@@ -543,7 +544,7 @@ _The meeting house goes very still. Somebody puts down a roof bundle without a s
 **Chief Tui**: I won’t lose you to it. I won’t.  
 _For a moment he isn’t a chief at all, only a man who has been afraid for a very long time._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): is fear a good reason for a rule?  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): is fear a good reason for a rule?  
 > _Tui would burn the boats to keep Moana safe. Is fear a good reason to make a rule?_  
 > - Yes. Fear can protect people → Fear can warn us of real danger. Ask whether the rule still fits the danger today.
 > - No. Fear makes rules that are too big → Often it does. A rule made from grief can keep out safety and joy together.
@@ -571,15 +572,15 @@ _Moana kneels by her head, and you sit at the foot. Your Nubbin sits on the mat,
 **Gramma Tala**: You have to go. Tonight. While your father is busy being frightened of the right thing for the wrong reason.  
 **Moana**: I can’t leave you. Not now.  
 **Gramma Tala**: I’ll be the bit of you that keeps going when you want to stop. That’s not poetry. That’s just how grandmothers work.  
-
-> **Lesson** (sel, CASEL: Self-awareness, notice): grief can come before a death  
-> _When someone we love is very old or ill, we can feel sad before anything has happened. That is normal._  
-> _Spending time with them and saying what is in your heart can help, as Moana is doing._  
-> _For grown-ups: Learned that sadness about a loved one’s illness is normal and that spending time together helps._
-
 _She presses the shell with the heart in it into Moana’s hand and folds her fingers over it._  
 **Gramma Tala**: Find Maui. Take him across the sea. Make him give it back. And mind your guest. Guests are a responsibility.  
 _Then she turns her head to your Nubbin, and smiles, and moves one hand on the mat, in the step she taught it._  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): grief can come before a death  
+> _When someone we love is very old or ill, we can feel sad before anything has happened. That is normal._  
+> _Spending time with them and saying what is in your heart can help. Gramma does both, and even teaches your Nubbin a step._  
+> _For grown-ups: Learned that sadness about a loved one’s illness is normal and that spending time together helps._
+
 
 #### `reader:a10-05-bedside-done` · [main](main.md#a10-05-bedside-done)
 
@@ -601,10 +602,10 @@ _In Moana’s house, someone is already packing. It’s her mother, Sina, foldin
 > _That is why dried and salted food can last for weeks on a long voyage._  
 > _For grown-ups: Learned that drying food stops it spoiling, so it keeps on long voyages._
 
-**Sina**: Dried fish. Coconuts, the good ones. Water. More water. You always forget water.  
+**Sina**: Dried fish. Coconuts, the good ones. Water: three gourds a day, seven days. You always forget water.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply to find a total  
-> _Sina says you always forget water. If Moana needs 3 gourds a day for 7 days, how many gourds must she load?_  
+> _Sina packs 3 gourds of water a day, for 7 days. How many gourds must Moana load?_  
 > - ✅ 21 → Yes. 7 days of 3 gourds each: 7 × 3 = 21.
 > - 10 → 10 is 3 + 7. Each day needs its own 3 gourds, so multiply: 7 × 3 = 21.
 > - 4 → 4 is the difference. Count equal groups instead: seven groups of 3 is 21.
@@ -652,12 +653,6 @@ _Gramma Tala has died, quietly, with her family round her. Moana sees the light 
 > _For grown-ups: Learned what dying means, that grief has many feelings, and what helps._
 
 _Then, under the canoe, something glows. A great manta ray, lit from inside, glides past beneath you and out through the reef._  
-
-> **Lesson** (science, 4-LS1-1, notice): how a manta ray feeds  
-> _A real manta ray can have a wingspan of up to about seven metres. It eats tiny drifting animals called plankton, which it strains from the water as it swims._  
-> _Two flaps on either side of its mouth, called cephalic fins, help funnel the water in._  
-> _For grown-ups: Learned how a manta ray’s body helps it feed on plankton._
-
 _Moana wipes her eyes, and turns the canoe after it._  
 
 ### Glossary
@@ -696,12 +691,10 @@ _A wave the size of the meeting house rolls the canoe over, and everything goes 
 _You wake on a beach with sand in your mouth. The canoe lies tipped on its side nearby, and Moana is shaking water out of her ears._  
 _Your Nubbin is asleep on top of Heihei, who hasn’t noticed._  
 
-> **Lesson** (literacy, RL.3.3, ask): what makes a line funny  
-> _“Your Nubbin is asleep on top of Heihei, who hasn’t noticed.” What makes this line funny?_  
-> - ✅ Heihei is too oblivious to notice, right after a terrifying storm → Yes. The calm, silly detail contrasts with the danger just before it.
-> - Heihei is badly hurt → Nobody is hurt. The humour comes from Heihei being clueless.
-> - Nubbins always sleep on chickens → The joke is about this moment, and about Heihei missing everything.
-> _For grown-ups: Explained how a calm, silly detail after a scary scene creates humour._
+> **Lesson** (health, notice): water safety: stay with a boat that tips over  
+> _The canoe tipped over, and it is still here, on its side. That matters._  
+> _If a boat tips over, stay with it. A boat floats, and it is easier to spot than a swimmer._  
+> _For grown-ups: Learned a water-safety rule: if a boat tips over, stay with the boat._
 
 
 #### `reader:a10-06-maui` · [main](main.md#a10-06-maui)
@@ -709,7 +702,7 @@ _Your Nubbin is asleep on top of Heihei, who hasn’t noticed._
 _A shadow falls across the beach. It belongs to a man the size of a small hill, with hair like a storm cloud and a broad grin._  
 _Every part of his skin that you can see is covered in tattoos. Each one is a picture of a great deed._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): tattoo as a record, with respect  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): tattoo as a record, with respect  
 > _In many Pacific cultures, tattoo (tatau in Samoa, tā moko in Aotearoa, kākau in Hawaiʻi) records a person’s family, rank and deeds._  
 > _Trained experts make them, and they are sacred and personal: not decoration to copy for fun._  
 > _For grown-ups: Learned that traditional Pacific tattoos record family and deeds and deserve respect._
@@ -762,14 +755,14 @@ _Somehow, in the space of three boasts, he has herded you all into a cave and ro
 > - Pretend you are not angry → Hiding it does not help. Naming it and steering it does.
 > _For grown-ups: Talked about turning anger into a plan._
 
-_Inside the cave there is a huge stone figure of Maui, carved by somebody who admired him very much. It is hollow._  
-_Moana starts climbing up inside it. You go after her, with your Nubbin riding on your shoulder._  
+_Inside the cave is a stone figure of Maui, thirty metres tall, carved by somebody who admired him very much. It is hollow._  
+_Moana climbs up inside it, about five metres a minute. You go after her, with your Nubbin riding on your shoulder._  
 _At the top is a hole, and through the hole is the sky, and far below is the sea and a canoe sailing away from the island._  
 **Moana**: Right.  
 _She jumps, and you shut your eyes and jump after her. Your Nubbin shuts its eyes too, which is unnecessary, as it is already falling._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): divide to find how long  
-> _Say the hollow statue is 30 metres tall and Moana climbs 5 metres each minute. How many minutes does she take to reach the top?_  
+> _The statue is 30 metres tall, and Moana climbs 5 metres each minute. How many minutes does she take to reach the top?_  
 > - ✅ 6 minutes → Yes. 30 ÷ 5 = 6.
 > - 25 minutes → 25 is 30 − 5. Ask how many 5s fit into 30: 30 ÷ 5 = 6.
 > - 150 minutes → 150 is 30 × 5. Division fits here: six 5-metre climbs make 30.
@@ -827,11 +820,11 @@ _A fog bank lies across the sea ahead. Out of it comes a sound of drums, and the
 > _Fog is really a cloud sitting on the sea, which is why it is so hard to see far._  
 > _For grown-ups: Learned that fog is a cloud at the surface, formed when warm moist air cools._
 
-_Then another boat, and another, all joined into one great floating raft, crewed by little round people in coconut armour._  
-_Each one has a face painted on the front of its coconut. Some faces are fierce; some are just very proud of their paint._  
+_Then another boat, and another: five in all, joined into one great floating raft, crewed by little round people in coconut armour._  
+_There are eight on each boat, with a face painted on every coconut. Some faces are fierce; some are just very proud of their paint._  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiply to find a total  
-> _Say the raft is made of 5 boats, and each boat has 8 Kakamora. How many Kakamora in all?_  
+> _The raft is made of 5 boats, and each boat has 8 Kakamora. How many Kakamora in all?_  
 > - ✅ 40 → Yes. Five groups of 8: 5 × 8 = 40.
 > - 13 → 13 is 5 + 8. There are 5 groups of 8, so multiply: 5 × 8 = 40.
 > - 58 → That joins the digits. Multiply instead: 5 × 8 = 40.
@@ -921,7 +914,7 @@ _The pirates drift away in the fog, drumming crossly, in two directions at once.
 _Heihei coughs up the green stone onto the deck with no fuss at all. Moana washes it, twice._  
 **Moana**: Now. You’ll help me. You owe me. I saved your boat.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness and claims  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness and claims  
 > _Moana says, “You owe me. I saved your boat.” Maui answers, “My boat.” Does saving something give you a claim on it?_  
 > - Saving it earns thanks, not ownership → A clear view. Gratitude and ownership are different things.
 > - Yes, Maui owes her something for it → Perhaps a favour, even if not the boat. Debts of kindness are real.
@@ -956,14 +949,17 @@ _Your Nubbin still has a fierce face painted on its tummy. It looks down at it, 
 
 _Night falls clear. The sky is so full of stars that it looks crowded._  
 **Maui**: Right. You want to sail, you start with the stars. Hold your hand out. Flat. Little finger on the line of the sea.  
+**Maui**: Then make a fist, arm out straight. One fist is one step up the sky. About ten degrees, the clever people call it.  
+**Moana**: How many steps is the sky?  
+**Maui**: Depends how big your fist is. Mine: not many.  
+_Moana holds out her hand, and you hold out yours. Your Nubbin holds out something, roughly hand-shaped._  
+**Maui**: Stars rise in the same places on the sea’s edge, every night. Learn where each one comes up, and where it goes down.  
 
 > **Lesson** (science, 5-ESS1-2, notice): the star compass: stars rise and set at fixed points  
 > _This skill is called wayfinding. A navigator pictures the horizon as a ring of “houses”, and the Hawaiian star compass has 32 of them._  
 > _Each star rises in its own house and sets in another, in the same places every night. Learn the houses and you can tell direction._  
 > _For grown-ups: Learned that stars rise and set at fixed points on the horizon, which wayfinders use as a compass._
 
-_Moana holds out her hand, and you hold out yours. Your Nubbin holds out something, roughly hand-shaped._  
-**Maui**: Stars rise in the same places on the sea’s edge, every night. Learn where each one comes up, and where it goes down.  
 **Maui**: Then you know which way you’re pointing. Your hand tells you how high it climbs at its highest, and that tells you how far north you are.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiply to estimate an angle  
@@ -1039,9 +1035,10 @@ _Your Nubbin points at it with its whole arm. Then its whole body._
 **Maui**: Good. That way’s land. And see that cloud? Green on its belly. That’s a lagoon under it, shining up.  
 **Moana**: Stars. Swells. Birds. Clouds.  
 **Maui**: The rest is memory. Every turn you’ve made since your own beach, kept in your head in order. Lose that, and the sky can’t help you.  
+**Moana**: Three hours east today, at about six kilometres an hour. Kept.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): distance from speed and time (dead reckoning)  
-> _Maui keeps every stretch of the voyage in his head. If Moana sails east for 3 hours at 6 kilometres an hour, how far east has she come?_  
+> _Moana sailed east for 3 hours, at 6 kilometres an hour. How far east has she come?_  
 > - ✅ 18 kilometres → Yes. 3 × 6 = 18. Keeping count of direction, speed and time like this is called dead reckoning.
 > - 9 kilometres → 9 is 3 + 6. Each of the 3 hours covers 6 kilometres, so 3 × 6 = 18.
 > - 2 kilometres → 2 is 6 ÷ 3. She goes 6 kilometres in every hour, so 3 hours make 18.
@@ -1052,7 +1049,7 @@ _Your Nubbin points at it with its whole arm. Then its whole body._
 
 _Moana takes the steering oar for the first time. Maui lets her, which is the nicest thing he has done so far._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Hōkūleʻa and Mau Piailug  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Hōkūleʻa and Mau Piailug  
 > _In 1976 the double-hulled canoe Hōkūleʻa sailed from Hawaiʻi to Tahiti with no compass and no map._  
 > _Its navigator, Mau Piailug of Satawal in Micronesia, shared his knowledge with Hawaiian sailors, who have carried it on ever since._  
 > _For grown-ups: Learned about the 1976 Hōkūleʻa voyage and the navigator Mau Piailug._
@@ -1060,11 +1057,11 @@ _Moana takes the steering oar for the first time. Maui lets her, which is the ni
 
 #### `reader:a10-08-complete` · [main](main.md#a10-08-complete)
 
-_That night Moana sits up late, weaving with strips of pandanus leaf left over from patching the sail._  
+_That night Moana sits up late with twelve strips of pandanus leaf, weaving over two, under one, over two, under one._  
 _In the morning there is a tiny woven sail tied to your Nubbin’s back, between its wings. It fits perfectly._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): pattern and division  
-> _Moana weaves in a pattern: over two strips, under one, over two, under one. In a row of 12 strips, how many does she pass under?_  
+> _Moana weaves over two strips, under one, across her 12 strips. How many strips does she pass under?_  
 > - ✅ 4 → Yes. Each “over 2, under 1” group has 3 strips, so 12 ÷ 3 = 4 groups and 4 unders.
 > - 6 → 6 would be half of 12. Each group of 3 has only one “under”, so 12 ÷ 3 = 4.
 > - 8 → 8 is the number of overs. The pattern has 2 overs for each under, so unders are 4.
@@ -1132,10 +1129,10 @@ _A lot of eyes in the dark turn towards it at once._
 
 #### `reader:a10-09-depths-done` · [main](main.md#a10-09-depths-done)
 
-_A trail of shining things leads down into a cave: shells, bones, a lost earring, a whole fishing canoe painted gold._  
+_A trail of shining things leads into a cave: seven piles of shells, eight to a pile, then bones, an earring, a gold canoe._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply to count piles  
-> _Say the shiny trail has 7 piles of shells, with 8 shells in each pile. How many shells in all?_  
+> _The trail has 7 piles of shells, with 8 shells in each pile. How many shells in all?_  
 > - ✅ 56 → Yes. 7 × 8 = 56.
 > - 15 → 15 is 7 + 8. Seven piles of 8 means 7 × 8 = 56.
 > - 48 → 48 is 6 × 8. With seven piles, it is 7 × 8 = 56.
@@ -1348,12 +1345,12 @@ _Your Nubbin hides under the deck with Heihei, which is the first sensible thing
 
 #### `reader:a10-11-barrier-done` · [main](main.md#a10-11-barrier-done)
 
-_Te Kā roars. It isn’t a word: it’s the sound of a mountain having a very bad day._  
+_Te Kā roars. It isn’t a word: it’s the sound of a very loud, very cross mountain._  
 
 > **Lesson** (literacy, L.4.5, ask): personification  
-> _Te Kā’s roar is “the sound of a mountain having a very bad day.” What does this phrase tell us about the roar?_  
+> _Te Kā’s roar is “the sound of a very loud, very cross mountain.” What does this phrase tell us about the roar?_  
 > - ✅ It is huge and angry, like a rumbling mountain → Yes. Treating the mountain like a cross person gives the roar size and temper.
-> - It is quiet and gentle → A mountain in a bad mood is rumbling and angry, not gentle.
+> - It is quiet and gentle → A cross mountain is rumbling and angry, not gentle.
 > - The mountain is really speaking words → The narrator says it is not a word. The phrase is a comparison.
 > _For grown-ups: Explained how a funny comparison shows the size and anger of a roar._
 
@@ -1361,18 +1358,15 @@ _Te Kā roars. It isn’t a word: it’s the sound of a mountain having a very b
 #### `reader:a10-11-gap` · [main](main.md#a10-11-gap)
 
 _Moana turns for the gap. Maui flies as the hawk, at Te Kā’s face, to draw it off._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork: taking different jobs  
+> _Maui flies at Te Kā so that Moana can steer for the gap. Two people, two jobs, one plan._  
+> _For grown-ups: Noticed how a team works by splitting the jobs._
+
 _Te Kā swats at him with a hand like a hillside. He swerves, and dives, and comes back again._  
 **Moana**: Nearly. Nearly there!  
 _Te Kā turns from the hawk to the canoe. Its hand comes down._  
 _Maui drops out of the sky in his own shape and blocks it with his hook. There is a crack like lightning._  
-
-> **Lesson** (science, 4-PS3-2, ask): light travels faster than sound  
-> _Maui’s hook meets Te Kā’s hand with “a crack like lightning.” In real storms, why do we see lightning before we hear thunder?_  
-> - ✅ Light travels much faster than sound → Yes. Light arrives almost at once, but sound is slow enough that you can count the gap.
-> - Thunder happens first but hides → Both happen together. Light just reaches you far sooner.
-> - Sound is faster but louder things are slow → Sound is much slower than light, whatever its loudness.
-> _For grown-ups: Learned that light travels faster than sound._
-
 _The wave throws the canoe backwards, out past the ring, far out into the dark sea. You hold on to anything you can._  
 
 **Choices**
@@ -1386,8 +1380,17 @@ _The wave throws the canoe backwards, out past the ring, far out into the dark s
 
 _When the sea is quiet again, the canoe is a long way off, with a torn sail. Te Kā’s glow sinks back down into the ash._  
 
+> **Lesson** (science, 4-PS3-2, ask): light travels faster than sound  
+> _Maui’s hook meets Te Kā’s hand with “a crack like lightning.” In real storms, why do we see lightning before we hear thunder?_  
+> - ✅ Light travels much faster than sound → Yes. Light arrives almost at once, but sound is slow enough that you can count the gap.
+> - Thunder happens first but hides → Both happen together. Light just reaches you far sooner.
+> - Sound is faster but louder things are slow → Sound is much slower than light, whatever its loudness.
+> _For grown-ups: Learned that light travels faster than sound._
+
+**Moana**: Three kilometres out, I think. With this sail, that’s twenty minutes for every kilometre.  
+
 > **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time  
-> _Say the wave carried the canoe 3 kilometres from the barrier, and the canoe sails back at 1 kilometre every 20 minutes. How long does it take to return?_  
+> _The canoe is 3 kilometres out, and sails at 1 kilometre every 20 minutes. How long would it take to get back?_  
 > - ✅ 60 minutes, or 1 hour → Yes. 3 km at 20 minutes per km is 3 × 20 = 60 minutes.
 > - 23 minutes → 23 is 3 + 20. Each kilometre takes 20 minutes, so multiply: 3 × 20 = 60.
 > - 20 minutes → 20 minutes is one kilometre. There are three, so 3 × 20 = 60.
@@ -1402,17 +1405,17 @@ _Maui is holding his hook in both hands. There is a crack running right through 
 **Maui**: One more hit and it’s gone. That hook is the only thing anyone ever wanted from me. Break it, and there’s nothing left to want.  
 **Moana**: That’s not true. You know that’s not true.  
 **Maui**: The sea should have asked somebody who listens.  
+_That lands, and stays. Moana doesn’t answer._  
+**Maui**: I’m sorry. I am. Good luck.  
+_There is a flash. A hawk lifts off the stern, and flies away to the north, and doesn’t look back._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): when someone leaves because they feel useless  
 > _Maui decides to leave because his hook is cracked and he thinks nobody will want him. Was he right to go?_  
 > - Yes, it was honest of him to say he was sorry and step back → He did apologise. But he left Moana alone with the problem.
-> - No. He gave up on her and on himself → A tough view. Notice that he comes back later.
+> - No. He gave up on her and on himself → A tough view. Keep reading, and see whether Maui agrees with you.
 > - He was scared, and fear makes people leave → A kind reading. Fear can look like leaving, even when someone cares.
 > _For grown-ups: Thought about why someone might leave when they feel useless._
 
-_That lands, and stays. Moana doesn’t answer._  
-**Maui**: I’m sorry. I am. Good luck.  
-_There is a flash. A hawk lifts off the stern, and flies away to the north, and doesn’t look back._  
 
 #### `reader:a10-11-crack-done` · [main](main.md#a10-11-crack-done)
 
@@ -1490,7 +1493,7 @@ _Moana goes to her and holds on, and Gramma holds on back. She is a bit see-thro
 _The manta turns in the water and rises, and moves along the side of the canoe with its great wings out wide and level._  
 _It isn’t swimming. It is gliding: leaning, letting the sea carry it sideways, never once flapping._  
 
-> **Lesson** (science, 4-LS1-1, ask): how gliding differs from flapping  
+> **Lesson** (science, ask): how gliding differs from flapping  
 > _The manta “isn’t swimming, it is gliding.” Which of these is gliding?_  
 > - ✅ Moving smoothly without flapping, carried by the water → Yes. Gliding is moving without effort, using the flow around you.
 > - Flapping hard to go faster → Flapping is the opposite. Gliding is smooth and steady.
@@ -1539,12 +1542,6 @@ _Moana laughs, wet-faced. It is the first time she has laughed since the barrier
 **Moana**: I don’t know. I thought I did. I got it all wrong.  
 _Gramma doesn’t answer. She starts to sing instead, very low, an old voyaging song you have never heard._  
 _It has no words you can catch. It has the names of islands in it, and the names of people, one after another, going back and back._  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): songs that carry knowledge  
-> _Pacific navigators sometimes memorised star paths and island names in songs and chants, so the knowledge could be passed on without writing._  
-> _Gramma’s song has names in it, going back and back. The story does not write the song down, so it stays hers._  
-> _For grown-ups: Learned that songs and chants helped Pacific navigators remember and pass on knowledge._
-
 _Overhead, the stars move. They become sails: the great canoes from the cave, crossing the sky, full of people looking down._  
 _Your Nubbin looks up at them with its mouth open. One of the steerers waves._  
 _Moana stands. She is crying and she is standing up straight, both at once._  
@@ -1552,6 +1549,7 @@ _Moana stands. She is crying and she is standing up straight, both at once._
 **Moana**: It doesn’t matter who picked me. I’m picking me. I’ll take it back myself.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): who we are: given and chosen  
+> _Gramma’s song carries names, going back and back. Pacific navigators kept star paths and island names in songs too, without writing._  
 > _Moana says it does not matter who picked her: she is picking herself. Can we choose who we are, or is some of it given to us?_  
 > - We are given family and place, but we choose what we do with them → A strong answer. Moana keeps everything she was taught and chooses her course.
 > - We choose almost everything → Some people feel that way. Consider the things you did not pick, like where you were born.
@@ -1562,6 +1560,7 @@ _Moana stands. She is crying and she is standing up straight, both at once._
 #### `reader:a10-12-song-done` · [main](main.md#a10-12-song-done)
 
 _She dives over the side, down and down into the dark, and comes up a long minute later with the green stone in her fist._  
+_The sea kept it for her. It has had a lot of practice at putting things back._  
 
 > **Lesson** (literacy, RL.2.4, ask): repetition for effect  
 > _The line says she dives “down and down into the dark.” Why does the writer repeat the word “down”?_  
@@ -1700,7 +1699,7 @@ _Te Kā reaches Moana and stoops, enormous, fire running off it like water. Moan
 **Moana**: I see the spiral. I know you. You’ve been waiting a long time for somebody to bring it home.  
 _She touches her forehead to Te Kā’s, gently. The giant goes very still._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): greetings that share breath  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): greetings that share breath  
 > _Moana touches her forehead to Te Kā’s. In many Pacific cultures people greet by touching noses or foreheads: the hongi in Aotearoa, the honi in Hawaiʻi._  
 > _It is a sign of respect, and of sharing breath and life._  
 > _For grown-ups: Learned that touching noses or foreheads is a respectful greeting in some Pacific cultures._
@@ -1805,7 +1804,7 @@ _The whole village goes up the stream and through the waterfall. One by one, the
 _You carry the end of a steering oar and your Nubbin carries Heihei. Pua carries nothing, and supervises._  
 _The sails go up, all of them. Moana stands at the steering oar of the first canoe, holding her hand out flat to the horizon._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): what the name Hōkūleʻa means  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): what the name Hōkūleʻa means  
 > _The canoe Hōkūleʻa is named for the star Arcturus, called “star of gladness” in Hawaiian. Arcturus passes straight overhead in Hawaiʻi._  
 > _Its 1976 voyage to Tahiti showed the world that Pacific peoples could navigate by nature alone._  
 > _For grown-ups: Learned what Hōkūleʻa’s name means and why its 1976 voyage mattered._
@@ -1813,6 +1812,8 @@ _The sails go up, all of them. Moana stands at the steering oar of the first can
 _Out past the reef, a blue light comes up under the hulls. The manta, gliding beside you, wings out wide._  
 _Your Nubbin climbs to the very tip of the bow. Then it spreads its arms, and leans, and does Gramma’s glide, out over the water._  
 _The manta glides with it. The people on the canoes see, and point, and some of them begin to laugh, and some to cry._  
+**Chief Tui**: That’s my mother’s step. She did it on the beach every evening. I thought it was just her.  
+**Moana**: It’s never just one person. That’s the whole point of it.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time  
 > _Hawaiʻi to Tahiti is about 4,000 kilometres. If a canoe could sail 100 kilometres every day, how many days would it take?_  
@@ -1821,8 +1822,6 @@ _The manta glides with it. The people on the canoes see, and point, and some of 
 > - 400 days → 400 would be 10 km a day. At 100 km a day, 4,000 ÷ 100 = 40.
 > _For grown-ups: Divided a voyage distance by a daily distance to find the days taken._
 
-**Chief Tui**: That’s my mother’s step. She did it on the beach every evening. I thought it was just her.  
-**Moana**: It’s never just one person. That’s the whole point of it.  
 
 #### `reader:a10-14-bow-wave` · [main](main.md#a10-14-bow-wave)
 
@@ -1832,7 +1831,7 @@ _The whole village goes up the stream and through the waterfall. One by one, the
 _You carry the end of a steering oar and your Nubbin carries Heihei. Pua carries nothing, and supervises._  
 _The sails go up, all of them. Moana stands at the steering oar of the first canoe, holding her hand out flat to the horizon._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): what the name Hōkūleʻa means  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): what the name Hōkūleʻa means  
 > _The canoe Hōkūleʻa is named for the star Arcturus, called “star of gladness” in Hawaiian. Arcturus passes straight overhead in Hawaiʻi._  
 > _Its 1976 voyage to Tahiti showed the world that Pacific peoples could navigate by nature alone._  
 > _For grown-ups: Learned what Hōkūleʻa’s name means and why its 1976 voyage mattered._
@@ -1840,6 +1839,8 @@ _The sails go up, all of them. Moana stands at the steering oar of the first can
 _Out past the reef, a blue light comes up under the hulls. The manta, rising and sinking with the swell beside you._  
 _Your Nubbin climbs to the very tip of the bow. Then it rises on its toes, and sinks, and rolls its arms: Gramma’s wave step, on the beat._  
 _The manta rolls with it. The people on the canoes see, and point, and some of them begin to laugh, and some to cry._  
+**Chief Tui**: That’s my mother’s step. She did it on the beach every evening. I thought it was just her.  
+**Moana**: It’s never just one person. That’s the whole point of it.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time  
 > _Hawaiʻi to Tahiti is about 4,000 kilometres. If a canoe could sail 100 kilometres every day, how many days would it take?_  
@@ -1848,8 +1849,6 @@ _The manta rolls with it. The people on the canoes see, and point, and some of t
 > - 400 days → 400 would be 10 km a day. At 100 km a day, 4,000 ÷ 100 = 40.
 > _For grown-ups: Divided a voyage distance by a daily distance to find the days taken._
 
-**Chief Tui**: That’s my mother’s step. She did it on the beach every evening. I thought it was just her.  
-**Moana**: It’s never just one person. That’s the whole point of it.  
 
 #### `reader:a10-14-bow-done` · [main](main.md#a10-14-bow-done)
 

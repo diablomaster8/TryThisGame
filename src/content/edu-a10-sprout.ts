@@ -234,7 +234,8 @@ const Q01 = quest(
       [
         G('Long ago there was only sea. Then an island came up out of it.'),
         G('The island had a heart. It made green things grow.'),
-        G('A trickster took the heart. The island began to crumble.', 'sad'),
+        G('A trickster took the heart. His name was Maui.'),
+        G('Maui could turn into a hawk. Then the island began to crumble.', 'sad'),
         N('Some children squeal and hide behind each other. The small girl leans in.'),
         T('Mother, that is enough. The little ones will be scared.'),
         N('Gramma Tala says her son is a good chief. He is also wrong.'),
@@ -244,7 +245,7 @@ const Q01 = quest(
           'sel',
           'naming a scared feeling and what helps',
           'CASEL: Self-awareness',
-          3,
+          4,
           [N('Some children feel scared. What could help them?')],
           [
             opt(
@@ -518,7 +519,7 @@ const Q02 = quest(
       'a10-02-breakers-done',
       [
         N('Moana sits on the sand, by the canoe in two pieces. Pua sulks.'),
-        M('Fine. Point taken.', 'sad'),
+        M('Fine. I will not go past the reef. Probably.', 'sad'),
         N('Your Nubbin comes out of the sea with a spiral shell.'),
       ],
       [
@@ -555,7 +556,7 @@ const Q02 = quest(
           'naming feelings and what helps',
           'ELOF: Social and Emotional Development',
           1,
-          [N('Moana feels let down. What could help her feel better?')],
+          [N('Moana feels sad and cross with herself. What could help?')],
           [
             opt(
               'Talk to Gramma or a friend',
@@ -567,7 +568,7 @@ const Q02 = quest(
               N('Pua did nothing wrong! Talking to a friend helps more.'),
             ]),
           ],
-          'Talked about what helps with a let-down feeling: telling someone you trust.',
+          'Talked about what helps when you feel sad and cross: telling someone you trust.',
         ),
       ],
     ),
@@ -616,7 +617,7 @@ const Q03 = quest(
       'a10-03-point-done',
       [
         N('Your Nubbin tries to copy her. It falls over. Plop!'),
-        G('Oh, that one has the makings!', 'happy'),
+        G('Oh, that one will be a dancer one day!', 'happy'),
       ],
       [
         notice(
@@ -936,7 +937,8 @@ const Q04 = quest(
         G('And we hid the boats and forgot. All but a few of us.', 'soft'),
         N('Gramma takes out the green stone with the spiral on it.'),
         G('This is the heart of Te Fiti, the mother island.', 'soft'),
-        G('Someone must find Maui. He must put it back.'),
+        G('Maui took it. So Maui must put it back.'),
+        M('You take it, you bring it back. That is the rule!', 'happy'),
         M('I have to tell Dad. Right now!', 'happy'),
       ],
       [
@@ -993,8 +995,10 @@ const Q05 = quest(
               [N('Yes. He is sad about his friend, and scared for Moana.')],
               true,
             ),
-            opt('Silly', [N('Not silly. He feels sad and scared, because he loves her.')]),
-            opt('Hungry', [N('Not hungry! He feels sad and scared.')]),
+            opt('Cross', [
+              N('A bit cross, maybe. Mostly he is sad and scared, because he loves her.'),
+            ]),
+            opt('Proud', [N('He is proud of Moana. Today he is mostly scared for her.')]),
           ],
           'Named feelings (sad, scared) behind a worried parent’s rule.',
         ),
@@ -1043,7 +1047,7 @@ const Q05 = quest(
           'sel',
           'sad feelings are allowed, and hugs help',
           'CASEL: Self-awareness',
-          4,
+          7,
           [
             N('Moana feels sad. It is hard when someone you love is very old.'),
             N('Feeling sad is allowed. A hug, a sit-down and a friend all help.'),
@@ -1306,7 +1310,7 @@ const Q06 = quest(
               true,
             ),
             opt('Stamp and shout for hours', [
-              N('Stamping lets off steam, but slow breaths help most.'),
+              N('Stamping is very noisy. Slow breaths help most.'),
             ]),
             opt('Hide away', [N('Hiding does not fix it. A slow breath is a better start.')]),
           ],
@@ -1344,6 +1348,8 @@ const Q06 = quest(
         N('He drops Moana over the side. The sea puts her back.'),
         N('He does it again. The sea puts her back again.'),
         N('He tries your Nubbin. The sea puts it back on his head.'),
+        N('Heihei walks off the edge. Plop. The sea puts him back.'),
+        N('Heihei does not notice. Heihei never notices.'),
         MU('Fine! The ocean is on your side.', 'angry'),
       ],
       [
@@ -1962,7 +1968,7 @@ const Q10 = quest(
     sc(
       'a10-10-practice',
       [
-        MU('Back in business! Hawk!', 'happy'),
+        MU('My hook is back! Hawk!', 'happy'),
         N('Flash! Where Maui was, a fish flaps on the deck.'),
         MU('Hawk!', 'angry'),
         N('Flash! Now a pig. Your Nubbin and Pua would get on.'),
@@ -2171,7 +2177,7 @@ const Q11 = quest(
     ),
     sc(
       'a10-11-barrier-done',
-      [N('Te Kā roars. It is the sound of a mountain having a bad day.')],
+      [N('Te Kā roars. It is the sound of a very loud, very cross mountain.')],
       [
         ask(
           'sel',
@@ -2204,15 +2210,16 @@ const Q11 = quest(
       [
         doit(
           'maths',
-          'count to 5',
+          'count to 4',
           'K.CC.B.5',
           4,
-          'edu:count:crew:5',
+          'edu:count:crew:4',
           [
             N('(Count who is on the canoe.)'),
-            N('Moana, you, Nubbin, Heihei and Pua. Five! Everyone is safe.'),
+            N('Moana, you, Nubbin and Heihei. Four!'),
+            N('Heihei counts, even if he does not know it.'),
           ],
-          'Counted five friends on the canoe.',
+          'Counted four friends on the canoe.',
         ),
       ],
       {
@@ -2263,7 +2270,7 @@ const Q11 = quest(
           'sel',
           'what friends can do after an argument',
           'CASEL: Relationship skills',
-          5,
+          6,
           [N('Maui and Moana argued. What can friends do afterwards?')],
           [
             opt(
@@ -2320,7 +2327,7 @@ const Q11 = quest(
           'sel',
           'sitting beside someone helps',
           'CASEL: Relationship skills',
-          3,
+          5,
           [
             N('You did not fix Moana’s sad feeling. You sat beside her.'),
             N('Sitting beside someone is a kind way to help.'),
@@ -2348,11 +2355,13 @@ const Q12 = quest(
       [
         N('Late at night, a soft blue light comes up under the canoe.'),
         N('It is a manta ray, glowing, circling the hulls.'),
-        N('At the stern sits Gramma Tala, as if she was always there.', 'soft'),
+        N('At the stern sits Gramma Tala, glowing blue like the manta.', 'soft'),
+        N('It is not her body. It is her spirit, come to visit.', 'soft'),
         G('Well. You are a long way past the reef.'),
         M('Gramma?', 'shock'),
         G('I told you I would come back as one of those.', 'happy'),
-        N('Moana hugs her. Gramma is a bit see-through, but her arms feel real.'),
+        N('Moana hugs her. Gramma is see-through, like mist.'),
+        N('The hug feels real anyway.', 'soft'),
       ],
       [
         notice(
@@ -2467,7 +2476,7 @@ const Q12 = quest(
           'social-studies',
           'songs and stories carry memory across generations',
           'D2.His.2.K-2',
-          3,
+          6,
           [
             N('Gramma’s song has names in it. Long ago, songs helped people remember.'),
             N('Songs and stories carry the past, from grown-ups to children.'),
@@ -2478,13 +2487,16 @@ const Q12 = quest(
     ),
     sc(
       'a10-12-song-done',
-      [N('She swims down into the dark, and comes up with the green stone.')],
+      [
+        N('She swims down into the dark. The sea puts the stone in her hand.'),
+        N('The sea is very good at putting things back.', 'happy'),
+      ],
       [
         ask(
           'sel',
           'what helps us feel strong',
           'CASEL: Self-awareness',
-          0,
+          1,
           [N('What helped Moana feel strong?')],
           [
             opt(
@@ -2651,15 +2663,18 @@ const Q13 = quest(
           'CASEL: Social awareness',
           2,
           [
-            N('Te Kā is not bad. She is hurting, and hurting can look scary.'),
-            N('How can you go to someone upset, gently?'),
+            N('Te Kā is hurting, and hurting can look scary.'),
+            N('Walking up to fire giants is a job for heroes in stories.'),
+            N('When a friend is upset, how can you go to them gently?'),
           ],
           [
             opt('Slowly, with open hands', [N('Yes. Slow and open says, “I am a friend.”')], true),
             opt('Shouting back', [N('Shouting adds noise. Slow and open hands is gentler.')]),
-            opt('Running away', [N('Sometimes a grown-up is needed. Slow and open is gentle.')]),
+            opt('Run at them, roaring', [
+              N('That is what Te Kā does! Slow and kind is better.'),
+            ]),
           ],
-          'Talked about a gentle approach to someone upset: slow, with open hands.',
+          'Talked about a gentle way to go to an upset friend: slowly, with open hands.',
         ),
       ],
       {
@@ -2826,13 +2841,16 @@ const Q14 = quest(
         T('Moana!'),
         T('You went past the reef.', 'soft'),
         M('I went past the reef. And I came home. Both.', 'happy'),
+        S('Of course she did. I packed her lunch.', 'happy'),
+        N('Chief Tui looks at Sina. Sina looks at the sea.'),
+        N('Nobody says who knew.'),
       ],
       [
         ask(
           'sel',
           'naming a feeling',
           'CASEL: Social awareness',
-          5,
+          8,
           [N('Tui sees Moana safe at home. How does he feel?')],
           [
             opt('Happy and relieved', [N('Yes! Happy and relieved. A big breath out.')], true),
@@ -3001,7 +3019,7 @@ export const CHECKS: string[] = [
   'edu:count:fingers:5',
   'edu:move:swell',
   'edu:count:treasure:4',
-  'edu:count:crew:5',
+  'edu:count:crew:4',
   'edu:move:glide-step',
   'edu:move:wave-step',
   'edu:count:clues:3',

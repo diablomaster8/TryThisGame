@@ -183,7 +183,7 @@ _By noon there is a raft, and it floats. Moominpappa looks as if he has built a 
 
 - **Suggest calling it after Moominmamma.**
     - **Moominpappa**: Ah. Yes. Then she’ll be sure to bring you home.
-    - He paints the name on the stern in careful blue letters.
+    - He paints MAMMA on the stern in careful blue letters.
 - **Suggest “The Valuable”.**
     - **Sniff**: Oh. Oh, that’s a very good name. That’s the best name.
     - Moominpappa paints it on, and Sniff stands next to it for a long time with his paws behind his back.
@@ -211,7 +211,7 @@ _Your Nubbin, in his pocket, looks at the sack. Then it looks at you._
 **Moominmamma**: Sniff, dear. Things are lovely, but they don’t row.  
 **Sniff**: These ones might. You don’t know. Nobody’s ever asked them.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): what makes something valuable  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): what makes something valuable  
 > _Sniff says his buttons are “valuable”. Is a thing valuable because of what it costs, or because of what it means to someone? Think about it._  
 > - Because of what it costs. → That’s a fair answer. Money is one way people measure value. Sniff’s buttons would not sell for much, though, so he must mean something else too.
 > - Because of what it means to someone. → That’s a fair answer. A single button can be priceless to the person who found it. Value can be a feeling as well as a price.
@@ -256,7 +256,7 @@ _Birds fly low and quiet, all one way. A line of ants crosses a log with their e
 
 _The river forks round a rock. One way is quick and white; the other is slow and dark under the trees._  
 
-> **Lesson** (science, K-ESS3-1, ask): animals move where their needs are met  
+> **Lesson** (science, ask): animals move where their needs are met  
 > _Animals often leave a place when it stops giving them what they need. Which of these is a real reason birds and ants might move away?_  
 > - ✅ Food, water or shelter is running out, or the weather is changing. → Yes. Animals move to places where their needs are met. Many sense changes in weather before we do.
 > - They have finished their holiday. → A funny thought, but animals move for survival. They go where food, water and shelter are.
@@ -361,7 +361,7 @@ _Sniff is looking around the camp with growing alarm._
 **Snufkin**: I look at it. Then I leave it where it is, and it’s still beautiful, and I don’t have to carry it.  
 _Sniff holds his pocket as if Snufkin might suggest leaving your Nubbin where it is._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, notice): needs and wants  
+> **Lesson** (social-studies, D2.Eco.1.3-5, notice): needs and wants  
 > _A need is something you cannot do without, like food, water, warmth and shelter._  
 > _A want is something you would like, like a collection of buttons. People often disagree about which is which._  
 > _For grown-ups: Learned the difference between needs and wants._
@@ -542,11 +542,9 @@ _Nobody says anything. One of the professors writes down that nobody says anythi
 **Moomintroll**: Mamma doesn’t know. She doesn’t know the date.  
 **Snufkin**: Then we’d better take it to her.  
 
-> **Lesson** (literacy, RL.3.3, ask): humour and character  
-> _Why is it funny that a professor writes down that nobody says anything?_  
-> - ✅ He records facts about everything, but misses what people are feeling. → Yes. The professors observe carefully, but they have missed that the news has frightened Moomintroll. That mismatch is the joke.
-> - He wants to remember the silence. → Perhaps, and that may be part of it. But the main joke is that he is writing instead of noticing how everybody else feels.
-> _For grown-ups: Explained the humour of a professor who notes facts but misses feelings._
+> **Lesson** (science, notice): scientists write down what they observe  
+> _Scientists write down what they see, even when it seems small. A written record lets other people check the work and add to it._  
+> _For grown-ups: Learned that scientists record their observations so others can check them._
 
 
 #### `reader:a09-04-step` · [main](main.md#a09-04-step)
@@ -705,7 +703,7 @@ _Moomintroll goes very pink and holds out his paw._
 **The Snork Maiden**: Then thank you both. Thank you very much.  
 _Sniff, who was ready for an argument, has nowhere to put it and goes rather quiet._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): lost property belongs to its owner  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): lost property belongs to its owner  
 > _Sniff says he saw the ring first. Moomintroll found it. But whose ring is it, and what is the right thing to do?_  
 > - ✅ It is the Snork Maiden’s, so it should go back to her. → Yes. Finding something does not make it yours if someone else lost it. Returning it is the honest and kind thing.
 > - It belongs to whoever saw it first. → Seeing first can matter for a race, but not for ownership. The ring had an owner already: the one who lost it.
@@ -727,10 +725,10 @@ _Sniff, who was ready for an argument, has nowhere to put it and goes rather qui
 **The Snork Maiden**: I’m the Snork Maiden. My brother is somewhere about, probably making a list.  
 **The Snork Maiden**: Can we come with you? I don’t want to be anywhere on my own just now.  
 **Moomintroll**: Of course. Mamma always makes enough for everybody.  
-_Moominmamma’s basket still holds twelve buns. With the Snork Maiden, there are five friends and a Nubbin: six in all._  
+_Moominmamma’s basket still holds twelve sandwiches. She packed six. Nobody is surprised. With the Snork Maiden, there are five friends and a Nubbin: six in all._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: sharing equally  
-> _Twelve buns are shared equally among five friends and a Nubbin, six in all. How many does each get?_  
+> _Twelve sandwiches are shared equally among five friends and a Nubbin, six in all. How many does each get?_  
 > - ✅ 2 → Yes. 12 ÷ 6 = 2, because 6 × 2 = 12.
 > - 3 → Check it: 6 × 3 = 18, which is too many. 6 × 2 = 12, so each gets 2.
 > - 6 → That is the number of sharers. Divide 12 by 6 to find each share: 2.
@@ -779,14 +777,14 @@ _He writes it on the list, then crosses it off, because it is over._
 
 #### `reader:a09-06-snork-done` · [main](main.md#a09-06-snork-done)
 
-**The Snork**: Everybody sit in a circle. I shall be the chairman, and also the secretary, as nobody else has a pencil.  
+**The Snork**: Everybody sit in a circle. I shall be the chairman, and I shall keep the minutes, as nobody else has a pencil.  
 **Snufkin**: I have a pencil.  
 **The Snork**: Then you may be the audience.  
 
 > **Lesson** (social-studies, notice): how a meeting works  
-> _In a real meeting the chairman leads, so that one person talks at a time. The secretary writes the minutes, a record of what was decided._  
-> _A list of topics is called an agenda. The Snork’s “items” are an agenda, which is how groups stay on track._  
-> _For grown-ups: Learned the roles in a meeting (chairman, secretary) and the words agenda and minutes._
+> _In a real meeting the chairman leads, so that one person talks at a time._  
+> _The minutes are the written record of what was decided. The Snork has volunteered to keep them._  
+> _For grown-ups: Learned what a chairman does and what minutes are._
 
 
 #### `reader:a09-06-meeting` · [main](main.md#a09-06-meeting)
@@ -806,7 +804,7 @@ _Everybody puts a paw up. There are six of you, one paw each, and your Nubbin pu
 **The Snork**: Carried. Item three: what to do about it. I shall now accept suggestions.  
 _There is a pause, in which nobody suggests anything and the comet moves a little further across the sky._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): voting is a fair way to decide  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): voting is a fair way to decide  
 > _A show of paws is a vote. Each person gets the same say, and the choice with the most votes wins._  
 > _Counting votes carefully, as the Snork does, is part of what makes a vote fair._  
 > _For grown-ups: Learned that voting gives each person an equal say and the most votes wins._
@@ -816,8 +814,10 @@ _There is a pause, in which nobody suggests anything and the comet moves a littl
 
 - **Propose going home at once.**
     - **You**: I propose we go home. Now.
-    - **The Snork**: That is a motion. Does anyone second it?
-    - **The Snork Maiden**: Me! And Moomintroll. And everyone. You’re outvoted before you’ve counted.
+    - **Sniff**: I say we go home. Now.
+    - **Moomintroll**: Me too.
+    - **The Snork**: That is not how motions work.
+    - **Sniff**: It is now.
 - **Propose a subcommittee to decide on the way.**
     - **The Snork**: A subcommittee! Now that is a sensible person.
     - **Snufkin**: The subcommittee will meet while walking. Very fast. Towards the valley.
@@ -855,7 +855,6 @@ _You march. The Snork walks at the front, and Snufkin walks at the front of him,
 
 - **chairman**: The person who leads a meeting.
 - **minutes**: The written record of what was said and decided in a meeting.
-- **agenda**: The list of things a meeting will talk about.
 
 **Notes:** Lessons: an orderly character; a think question on whether meetings are always best; the roles in a meeting; 6 + 2 paws; voting; naming a worry; the area of a 6 cm square.
 
@@ -899,13 +898,13 @@ _He swings, misses, falls into a bush, gets up and swings again, without once lo
 
 _Everyone spreads out across the meadow, walking softly. Even the Snork, who makes it a motion._  
 **The Hemulen**: Softly. Softly. It is the colour of the hour after sunset, and it hates a fuss.  
+**Sniff**: So do I. Nobody ever asks.  
 
 > **Lesson** (science, notice): butterflies are cold-blooded and rest when it cools  
 > _Butterflies are cold-blooded, which means they rely on the air and sunshine to keep warm. They need warmth to fly._  
 > _At dusk, when the air cools, a butterfly settles to rest and keeps still, so it is easier to approach._  
 > _For grown-ups: Learned that butterflies depend on outside warmth, so they rest when it cools at dusk._
 
-**Sniff**: So do I. Nobody ever asks.  
 _Your Nubbin climbs out of Sniff’s pocket and stands very still on a stone._  
 _A butterfly the colour of dusk comes down out of nowhere and lands on your Nubbin’s head._  
 _Your Nubbin does not breathe, and nor do you. Somewhere behind you, the Hemulen draws in a huge breath._  
@@ -1121,22 +1120,28 @@ _Sniff counts his stilts, his pocket, his Nubbin, and you, and seems relieved th
 _The seabed dips into its deepest part. The mud gives way to black rock and pools that go down further than light._  
 _Everything is red under the comet. The puddles shine like spilt jam._  
 **The Snork**: We keep to the ridge. Single file. That is a rule.  
-
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why we keep safety rules even when they cost time  
-> _The Snork’s rule is “keep to the ridge, single file”. It is slower than cutting corners. Why is it still a good rule here?_  
-> - ✅ The ridge is the safe path, and the pools are unknown. → Yes. A rule can save you from dangers you cannot see. Cutting the corner saved seconds and risked much more.
-> - The Snork likes being in charge. → He does, and that is true. But a rule can be bossy and sensible at once, and this one is sensible.
-> _For grown-ups: Reasoned about why a safety rule is worth following even when it is slower._
-
 _Moomintroll is in front, looking ahead to where the valley must be. He is going too fast._  
 **Moomintroll**: Not far now. I can almost smell the house. I can almost smell the jam.  
 _He steps off the ridge to cut a corner. His stilt sinks into the edge of the biggest, darkest pool._  
 _The water in the pool moves, though there is no wind._  
 
+> **Lesson** (science, notice): a ridge is a high, firm path  
+> _A ridge is a long, narrow strip of high ground._  
+> _It is firmer than the wet mud beside it. That is why the Snork wants everyone on it._  
+> _For grown-ups: Learned that a ridge is a long, narrow strip of high ground._
+
+
 #### `reader:a09-09-deep-done` · [main](main.md#a09-09-deep-done)
 
 **Snufkin**: Moomintroll. Come back on the ridge. Slowly.  
 _Snufkin does not shout. His voice is low and even, as if there is all the time in the world._  
+
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why we keep safety rules even when they cost time  
+> _The Snork’s rule is “keep to the ridge, single file”. It is slower than cutting corners. Why is it still a good rule here?_  
+> - ✅ The ridge is the safe path, and the pools are unknown. → Yes. A rule can save you from dangers you cannot see. Cutting the corner saved seconds and risked much more.
+> - The Snork likes being in charge. → He does, and that is true. But a rule can be bossy and sensible at once, and this one is sensible.
+> _For grown-ups: Reasoned about why a safety rule is worth following even when it is slower._
+
 
 > **Lesson** (sel, CASEL: Self-management, ask): a calm voice helps in a frightening moment  
 > _Why does Snufkin speak calmly and slowly instead of shouting?_  
@@ -1150,26 +1155,18 @@ _Snufkin does not shout. His voice is low and even, as if there is all the time 
 _A long arm comes out of the pool, and then another, grey and slow and curious._  
 _An octopus as big as a cart lifts its head out of the water and looks at Moomintroll with one large, sad eye._  
 _An arm curls round his stilt, and another round his middle. He cannot get back on the ridge._  
-
-> **Lesson** (science, 4-LS1-1, notice): how an octopus’s body works  
-> _A real octopus has eight arms, three hearts and no bones, so it can squeeze through any gap bigger than its beak._  
-> _Its soft body would be easy prey, but it makes up for it with clever eyes and brain, and by changing colour to hide._  
-> _Octopuses are curious animals, not hunters of people._  
-> _For grown-ups: Learned facts about octopuses: eight arms, three hearts, no bones, camouflage and curiosity._
-
-
-> **Lesson** (maths, 1.OA.A.1, ask): subtraction: arms holding and arms free  
-> _Two of the octopus’s eight arms are holding Moomintroll. How many arms are not holding anything?_  
-> - ✅ 6 → Yes. 8 − 2 = 6 arms free, curling in the water.
-> - 10 → That adds them. Take the two holding arms away: 8 − 2 = 6.
-> - 2 → Two are holding him. The rest are free: 8 − 2 = 6.
-> _For grown-ups: Subtracted 2 from 8 to find the octopus’s free arms._
-
 **Moomintroll**: Help! It’s got hold! I can’t pull free!  
 _Sniff squeaks and dives behind the Hemulen. The Hemulen holds his net up, which is no use at all, but brave._  
 _The Snork Maiden is already moving. She takes the lantern off the Snork’s pack, lights it and runs at the pool._  
 **The Snork Maiden**: Let him GO!  
 _She swings the lantern up into the octopus’s eye. The light flares on the wet rock, gold in all that red._  
+_Octopuses are curious, not cruel. This one has simply never seen a Moomin._  
+
+> **Lesson** (sel, notice): people react to fear in different ways  
+> _Sniff hides, the Hemulen holds up a net, and the Snork Maiden runs at the pool with a lantern. Each reacts to fear in a different way._  
+> _None of these is wrong. What matters is that nobody leaves Moomintroll alone._  
+> _For grown-ups: Noticed that people respond to fear in different ways, and that helping is what matters._
+
 
 **Choices**
 
@@ -1183,6 +1180,15 @@ _She swings the lantern up into the octopus’s eye. The light flares on the wet
 #### `reader:a09-09-octopus-done` · [main](main.md#a09-09-octopus-done)
 
 _The octopus slides back into its pool without a splash, as if embarrassed. The water closes, and it is gone._  
+_A real octopus has eight arms, three hearts and no bones. It hides by changing colour, which is called camouflage._  
+
+> **Lesson** (maths, 1.OA.A.1, ask): subtraction: arms holding and arms free  
+> _Two of the octopus’s eight arms were holding Moomintroll. How many arms were free?_  
+> - ✅ 6 → Yes. 8 − 2 = 6 arms were free, curling in the water.
+> - 10 → That adds them. Take the two holding arms away: 8 − 2 = 6.
+> - 2 → Two were holding him. The rest were free: 8 − 2 = 6.
+> _For grown-ups: Subtracted 2 from 8 to find the octopus’s free arms._
+
 _Moomintroll is sitting on the ridge in the mud with his stilts crossed, staring at the Snork Maiden._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): fairness to animals  
@@ -1213,7 +1219,7 @@ _Sniff comes out from behind the Hemulen, and your Nubbin out of his pocket. Bot
 
 - **camouflage**: Colours or patterns that help an animal hide by matching its surroundings.
 
-**Notes:** Lessons: why safety rules matter; a calm voice; octopus facts; 8 − 2 free arms; a think question on fairness to animals; “even” as equal.
+**Notes:** Lessons: why safety rules matter; a calm voice; 8 − 2 free arms; octopus facts in the story; a think question on fairness to animals; “even” as equal.
 
 ## A9-10. The Race Home
 
@@ -1225,12 +1231,6 @@ _Sniff comes out from behind the Hemulen, and your Nubbin out of his pocket. Bot
 
 _You climb off the seabed in the morning and leave the stilts in a heap on the shingle._  
 _The sky is red now in the daytime too. The air is hot and still, and the leaves on the trees hang down, tired._  
-
-> **Lesson** (science, notice): tornadoes and warning signs  
-> _In real life, hot, heavy, still air can come before a big storm. A tornado forms under a huge thundercloud, when warm damp air rises quickly and starts to spin._  
-> _Tornadoes are rare, and weather forecasters watch for them. People are told to shelter in a strong building, away from windows._  
-> _For grown-ups: Learned how tornadoes form and what people do to stay safe._
-
 **The Snork Maiden**: What day is it?  
 **The Snork**: The seventh. I have it written down. I wish I didn’t.  
 **Sniff**: It’s today. It’s actually today.  
@@ -1290,17 +1290,17 @@ _The other Hemulen spreads his dress, and the spinning stops, and you are glidin
 
 #### `reader:a09-10-tornado-done` · [main](main.md#a09-10-tornado-done)
 
-_The wind drops you all, gently in the end, in a long meadow, one after the other like washing off a line._  
+_The wind drops you all, gently in the end, in a long meadow, one after the other, like socks letting go of their pegs._  
 
 > **Lesson** (literacy, L.4.5, ask): similes  
-> _“One after the other like washing off a line.” What does this simile help you picture?_  
-> - ✅ Everyone landing softly in a row, one at a time. → Yes. Washing floats down one piece at a time, which makes the landing look gentle and funny.
-> - Everyone crashing down together. → Washing off a line drops softly, not with a crash. The simile shows a gentle, one-by-one landing.
+> _“One after the other, like socks letting go of their pegs.” What does this simile help you picture?_  
+> - ✅ Everyone landing softly in a row, one at a time. → Yes. Socks drop off a line one at a time, which makes the landing look gentle and funny.
+> - Everyone crashing down together. → Socks falling off a line drop softly, not with a crash. The simile shows a gentle, one-by-one landing.
 > _For grown-ups: Explained what a simile makes the reader picture._
 
 **The Other Hemulen**: My best dress. My very best dress. It has never been so useful.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): useful or beautiful?  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): useful or beautiful?  
 > _The Hemulen calls it his “best dress” and says it has “never been so useful”._  
 > _Is something worth more when it is beautiful, or when it is useful? Think about it._  
 > - Beautiful things are worth more, because they bring joy. → That’s a fair answer. Beauty feeds the heart, and a good life needs it.
@@ -1308,14 +1308,15 @@ _The wind drops you all, gently in the end, in a long meadow, one after the othe
 > - Some things, like this dress, can be both. → That’s a fair answer. The dress was lovely first, and now it has earned a second kind of value.
 > _For grown-ups: Thought about whether beauty or usefulness gives something more worth._
 
+_A real tornado forms under a huge thundercloud, when warm damp air rises quickly and starts to spin. Tornadoes are rare, and forecasters watch for them._  
 
 #### `reader:a09-10-run` · [main](main.md#a09-10-run)
 
-_Everyone sits up in the meadow and counts themselves. The Snork counts everyone else, and writes it down._  
+_Everyone sits up in the meadow and counts themselves. The Snork counts all of you, himself last, and writes it down._  
 **The Snork**: Seven, and a Nubbin, and a cousin. Nobody missing. Nobody even bent.  
 
 > **Lesson** (maths, 2.OA.A.1, ask): adding to count a group  
-> _The Snork counts seven friends, plus a Nubbin, plus a cousin. How many is that altogether?_  
+> _The Snork counts seven: Moomintroll, Sniff, Snufkin, the Snork Maiden, the Hemulen, you and himself. Then there are a Nubbin and a cousin. How many is that altogether?_  
 > - ✅ 9 → Yes. 7 + 1 + 1 = 9.
 > - 8 → You have counted one of the extras. There are two extras: the Nubbin and the cousin. 7 + 2 = 9.
 > - 10 → Check it: 7, then 8 for the Nubbin, then 9 for the cousin. That is nine.
@@ -1417,7 +1418,7 @@ _You empty your pockets on to the rock. The harmonica can wait, and Snufkin’s 
 _That leaves three: the shell from the seabed, the garnet Sniff gave you to hold, and your Nubbin._  
 _Your arms are only so big._  
 
-> **Lesson** (sel, D2.Eco.1.K-2, ask): what we choose to carry  
+> **Lesson** (sel, D2.Eco.1.3-5, ask): what we choose to carry  
 > _“Only what you love fits.” If you can carry only one thing, is it the one worth the most, or the one you would miss most? Think about it._  
 > - The one worth the most. → That’s a fair answer. Worth matters, and sensible people think about what could be replaced.
 > - The one I would miss the most. → That’s a fair answer. What we love is not always what costs the most.
@@ -1455,12 +1456,6 @@ _He doesn’t ask you anything this time. You said you didn’t know, and he rem
 _In the dark his paw finds your hand and holds on._  
 _Neither of you says a word. You sit there together and wait, and that is the whole of what you can do._  
 
-> **Lesson** (sel, CASEL: Relationship skills, notice): being with someone can matter more than words  
-> _Sniff does not need an answer this time. Sometimes the most helpful thing is to sit beside someone and stay._  
-> _You cannot take the fear away, but you can be there while they feel it._  
-> _For grown-ups: Noticed that staying with a frightened friend can help even without words._
-
-
 #### `reader:a09-11-dark-home` · [main](main.md#a09-11-dark-home)
 
 _Variant of `a09-11-dark`._
@@ -1481,6 +1476,7 @@ _For a long time he doesn’t say anything. Then, in the dark, very small, he do
 **Sniff**: We’re home by then. You said. We’re home by then.  
 _He has been carrying it since the mountain, like a button in a pocket. Now he gives it back to you to hold._  
 **Sniff**: And we are. We’re home. So that part came true.  
+_You sit there together and wait, and that is the whole of what you can do._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): keeping someone’s words, and saying a worry aloud  
 > _Sniff kept your words “We’ll be home by then” for days, and now says them back._  
@@ -1488,17 +1484,14 @@ _He has been carrying it since the mountain, like a button in a pocket. Now he g
 > _And saying a worry out loud, as Sniff does here, is how it begins to ease._  
 > _For grown-ups: Noticed that kind words stay with a friend, and that saying a worry out loud helps it ease._
 
-_You sit there together and wait, and that is the whole of what you can do._  
 
 #### `reader:a09-11-dark-done` · [main](main.md#a09-11-dark-done)
 
 _The kitchen clock says eight forty-two._  
 
-> **Lesson** (literacy, RL.4.3, ask): suspense: why a single short line?  
-> _This scene is just one short sentence. Why might the writer give the time on a line of its own?_  
-> - ✅ To build suspense, so you feel the moment arrive. → Yes. A short line on its own slows time down and makes you hold your breath.
-> - The writer ran out of ideas. → Quite the opposite. Ending on a single line is a deliberate choice that creates suspense.
-> _For grown-ups: Explained how a very short sentence can create suspense._
+> **Lesson** (sel, CASEL: Self-awareness, notice): waiting feels long, and that is normal  
+> _When we wait for something we are afraid of, a minute can feel very long. That is a normal feeling, and it passes._  
+> _For grown-ups: Noticed that waiting for something frightening can feel long, and that the feeling passes._
 
 
 #### `reader:a09-11-complete` · [main](main.md#a09-11-complete)
@@ -1516,9 +1509,8 @@ _Moominmamma’s voice comes through it, quite calm, saying what she always says
 ### Glossary
 
 - **memoirs**: A book in which someone writes about their own life.
-- **suspense**: The tense, waiting feeling you get when you are keen to know what happens next.
 
-**Notes:** Lessons: an emergency kit; 7:30 to 8:42; a think question on what we choose to carry; twenty to nine is 8:40; staying beside a friend; suspense; comfort.
+**Notes:** Lessons: an emergency kit; 7:30 to 8:42; a think question on what we choose to carry; twenty to nine is 8:40; comfort.
 
 ## A9-12. The Night It Missed
 
@@ -1567,18 +1559,12 @@ _It has been a very long day, and a very long night._
 _In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
 _The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
 _You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
-
-> **Lesson** (literacy, RL.1.4, ask): sensory words  
-> _“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?_  
-> - ✅ Wet → Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.
-> - Never → “Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.
-> _For grown-ups: Picked out words that describe what the senses notice._
-
 _And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
 
 > **Lesson** (science, notice): tides: the sea moves in and out each day  
-> _On a real coast, the sea comes back after low tide, twice a day._  
-> _The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns._  
+> _On a real coast, the sea goes out and comes in twice a day. These are the tides._  
+> _The Moon’s pull makes the water rise and fall in a steady rhythm._  
+> _The sea in the story went much further than any tide._  
 > _For grown-ups: Reviewed the idea that tides rise and fall twice a day, driven by the Moon._
 
 **Moomintroll**: It came back. Everything came back.  
@@ -1600,34 +1586,27 @@ _Variant of `a09-12-dawn`._
 _In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
 _The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
 _You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
-
-> **Lesson** (literacy, RL.1.4, ask): sensory words  
-> _“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?_  
-> - ✅ Wet → Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.
-> - Never → “Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.
-> _For grown-ups: Picked out words that describe what the senses notice._
-
 _And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
 
 > **Lesson** (science, notice): tides: the sea moves in and out each day  
-> _On a real coast, the sea comes back after low tide, twice a day._  
-> _The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns._  
+> _On a real coast, the sea goes out and comes in twice a day. These are the tides._  
+> _The Moon’s pull makes the water rise and fall in a steady rhythm._  
+> _The sea in the story went much further than any tide._  
 > _For grown-ups: Reviewed the idea that tides rise and fall twice a day, driven by the Moon._
 
 **Moomintroll**: It came back. Everything came back.  
 **Snufkin**: Things mostly do. Not always. But mostly.  
-
-> **Lesson** (literacy, RL.3.6, ask): your view and a character’s: honest comfort  
-> _Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it._  
-> - “It will be fine” is better, because it comforts. → That’s a fair answer. Comfort has real value, especially when you are small and scared.
-> - “Mostly” is better, because it is honest. → That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.
-> - Both, with the honest one for when we are ready. → That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.
-> _For grown-ups: Compared their own view with Snufkin’s on comfort and honesty._
-
 _The Hemulen is already in the long grass with his notebook, because there are butterflies._  
-_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
-**Sniff**: She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?  
-**Moominpappa**: Naturally. She was named after someone who always comes home.  
+_Down at the water’s edge, the raft drifts in on the first wave, its name MAMMA still painted on the stern, as if it had only popped out._  
+**Sniff**: She came home on her own, with MAMMA still on the stern. That’s allowed, isn’t it?  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): why a character checks something he already believes  
+> _Sniff asks, “That’s allowed, isn’t it?” The raft is only a raft. Why might he need to check? Think about it._  
+> - He is happy, and wants someone to agree with him. → That’s a fair answer. Happy people often ask, just to hear a kind voice say yes.
+> - He is not sure the rules allow a raft to come home alone. → That’s a fair answer. Sniff likes rules, and this is a new one. Moominpappa’s “Naturally” settles it.
+> _For grown-ups: Thought about why a character says a hopeful thing as a question._
+
+**Moominpappa**: Naturally. She is named after Mamma. Mamma always comes home.  
 
 #### `reader:a09-12-dawn-valuable` · [main](main.md#a09-12-dawn-valuable)
 
@@ -1636,33 +1615,26 @@ _Variant of `a09-12-dawn`._
 _In the morning you wake up with sand in your ear and your Nubbin asleep on your chest._  
 _The light at the cave mouth is not red. It is ordinary, yellow, wonderful morning._  
 _You go out, and the grey has gone off everything. The grass is green, and wet, and has never looked so like grass._  
-
-> **Lesson** (literacy, RL.1.4, ask): sensory words  
-> _“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?_  
-> - ✅ Wet → Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.
-> - Never → “Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.
-> _For grown-ups: Picked out words that describe what the senses notice._
-
 _And the sea is coming back. It comes in over the seabed in long, slow, shining sheets, filling every hollow._  
 
 > **Lesson** (science, notice): tides: the sea moves in and out each day  
-> _On a real coast, the sea comes back after low tide, twice a day._  
-> _The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns._  
+> _On a real coast, the sea goes out and comes in twice a day. These are the tides._  
+> _The Moon’s pull makes the water rise and fall in a steady rhythm._  
+> _The sea in the story went much further than any tide._  
 > _For grown-ups: Reviewed the idea that tides rise and fall twice a day, driven by the Moon._
 
 **Moomintroll**: It came back. Everything came back.  
 **Snufkin**: Things mostly do. Not always. But mostly.  
-
-> **Lesson** (literacy, RL.3.6, ask): your view and a character’s: honest comfort  
-> _Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it._  
-> - “It will be fine” is better, because it comforts. → That’s a fair answer. Comfort has real value, especially when you are small and scared.
-> - “Mostly” is better, because it is honest. → That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.
-> - Both, with the honest one for when we are ready. → That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.
-> _For grown-ups: Compared their own view with Snufkin’s on comfort and honesty._
-
 _The Hemulen is already in the long grass with his notebook, because there are butterflies._  
-_Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out._  
+_Down at the water’s edge, the raft drifts in on the first wave, its name THE VALUABLE still painted on the stern. Sniff pats it, twice._  
 **Sniff**: She came home on her own. That’s what a valuable does.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): why a character checks something he already believes  
+> _Sniff says, “That’s what a valuable does.” Why might he say it so firmly? Think about it._  
+> - He loves the raft, and wants it to be special. → That’s a fair answer. When we love something, we like to say what makes it special.
+> - He is a little afraid it might not have come home. → That’s a fair answer. Saying something firmly can be a way of keeping a worry small.
+> _For grown-ups: Thought about why a character says a hopeful thing as a question._
+
 **Moominpappa**: Naturally. She is called The Valuable. One does not lose a valuable.  
 
 #### `reader:a09-12-dawn-done` · [main](main.md#a09-12-dawn-done)
@@ -1729,13 +1701,13 @@ _She gives you a little blue stove, the same blue as the house, small enough to 
 #### `reader:a09-12-gate-done` · [main](main.md#a09-12-gate-done)
 
 _Snufkin is already at the bend in the road. He plays a few notes without looking back, and you play a few back._  
+_They come out like a duck in a cupboard. He waves his hand over his head, which means: right note, wrong place._  
 
-> **Lesson** (science, K-ESS3-1, notice): migrating birds travel south for winter  
+> **Lesson** (science, notice): migrating birds travel south for winter  
 > _Snufkin goes south for the winter. Many birds of the north migrate that way too._  
 > _Swallows that nest in Finland spend the winter in southern Africa, many thousands of kilometres away._  
 > _For grown-ups: Learned that birds from Finland, such as swallows, migrate thousands of kilometres south for winter._
 
-_They come out like a duck in a cupboard. He waves his hand over his head, which means: right note, wrong place._  
 
 > **Lesson** (music, do): call and response  
 > _Snufkin plays a call and you answer. Try it: hum three notes (a call) and ask someone to echo them back (the response). Then swap._  
@@ -1771,4 +1743,4 @@ _You are back in the Grove, in a too-big hat, with a small blue stove in your ar
 - **irony**: When what is said or happens is the opposite of what you expect, often for humour.
 - **migrate**: To travel a long way each year to find food or a warmer place.
 
-**Notes:** Lessons: orbits and Halley’s Comet; irony; sleep needs; sensory words; tides; relief; a think question on comfort and honesty; migrating birds; theme of a home; call and response; theme of the story; thank you in Finnish and Swedish.
+**Notes:** Lessons: orbits and Halley’s Comet; irony; sleep needs; tides and a sea that went too far; relief; a think question on comfort and honesty; migrating birds; theme of a home; call and response; theme of the story; thank you in Finnish and Swedish.

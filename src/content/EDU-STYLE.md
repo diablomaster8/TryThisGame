@@ -154,6 +154,7 @@ awareness`, `CASEL: Relationship skills`, `CASEL: Responsible decision-making`.
 | 3.OA.D.8 | Two-step word problems |
 | 4.NBT.B.4 | Add and subtract multi-digit whole numbers (and count on to find a gap) |
 | 3.NF.A.1 | Unit fractions (1/2, 1/3, 1/4…) |
+| 3.NF.A.3 | Equivalent fractions (6/12 is the same as 1/2) |
 | 3.MD.A.1 | Time to the minute; time intervals |
 | 3.MD.B.3 | Scaled picture and bar graphs |
 | 3.MD.C.7 | Area of rectangles by multiplying |
@@ -226,6 +227,9 @@ awareness`, `CASEL: Relationship skills`, `CASEL: Responsible decision-making`.
 
 **C3 social studies:** `D2.His.2.K-2` (life in the past and today), `D2.Geo.2.K-2` (maps and
 places), `D2.Civ.8.K-2` (fairness, rules, respect), `D2.Eco.1.K-2` (scarcity means choosing).
+Reader bands use the grades 3–5 codes: `D2.His.2.3-5` (how life changed over time), `D2.Geo.2.3-5`
+(maps of places and regions), `D2.Civ.8.3-5` (democratic principles in everyday life),
+`D2.Eco.1.3-5` (choices have costs and benefits).
 
 ## Output
 

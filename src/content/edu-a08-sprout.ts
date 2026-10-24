@@ -143,6 +143,7 @@ const Q1 = quest(
       [
         N('Nova’s book opens at a big map.'),
         N('The map is red. Red, red, red!'),
+        N('Red is for the Romans. They have nearly everywhere.'),
         N('But one little dot is green. It sits by the sea.'),
         N('You touch the green dot and whoosh! You are in a wood.'),
         N('A small white dog zooms out of the bushes.'),
@@ -153,7 +154,7 @@ const Q1 = quest(
         ak(
           'social-studies',
           'a map shows where places are',
-          2,
+          3,
           [N('(Point.) Where is the village? In the red, or the green dot?')],
           [
             opt(
@@ -260,7 +261,7 @@ const Q1 = quest(
           'Romans wrote numbers with letters; I is one',
           2,
           [
-            P('The Romans wrote one as I. A little stick. Like one finger.'),
+            P('The Romans wrote one as I. A little twig. Like one finger.'),
             P('Hold up one finger. That is I!', 'happy'),
           ],
           'Heard that Romans wrote numbers as letters, and that I means one.',
@@ -435,6 +436,8 @@ const Q2 = quest(
       [
         N('You scratch a mark on the wax tablet.'),
         N('It is the first mark. It looks like this: I.'),
+        N('Dogmatix drops a twig on the tablet.'),
+        P('I! One twig!', 'happy'),
         P('One task done. Eleven to go.'),
         N('Your Nubbin and the dog look proud, as if they won.'),
       ],
@@ -442,7 +445,7 @@ const Q2 = quest(
         dd(
           'maths',
           'I is one',
-          2,
+          4,
           'edu:show:fingers:1',
           [
             N('(Hold up one finger. That is I, for one.)'),
@@ -492,7 +495,7 @@ const Q3 = quest(
             N('Sss! Swift starts with sss, like a snake.'),
           ],
           'Listened for and said the first sound in the name “Swift”.',
-          'RF.K.2',
+          'ELOF: Literacy',
         ),
       ],
       {
@@ -547,12 +550,15 @@ const Q3 = quest(
         N('Then Asterix throws. His javelin flies away, over the hill.'),
         VE('Where is it going?', 'shock'),
         A('I just threw it!'),
+        VE('What is your javelin called?'),
+        A('Er... Stick.'),
+        N('Dogmatix drops a twig at your feet. It is his eleventh today.'),
       ],
       [
         ak(
           'sel',
           'being a good sport',
-          5,
+          8,
           [N('Verses threw so well, and Asterix threw further. What can Verses do?')],
           [
             opt(
@@ -592,18 +598,19 @@ const Q3 = quest(
         N('Verses wraps Swift up in its silk again.'),
         VE('A good throw is a good throw. Whoever throws it.', 'happy'),
         N('You make a mark on the tablet: II.'),
-        N('Two sticks, I and I. Two tasks done!'),
+        N('Dogmatix drops another twig. He wags at both.'),
+        N('Two twigs, I and I. Two tasks done!'),
       ],
       [
         nt(
           'maths',
           'II is two',
-          2,
+          4,
           [
-            P('Two tasks, so two sticks: I, I. The Romans wrote II.'),
+            P('Two tasks, so two twigs: I, I. The Romans wrote II.'),
             P('Hold up two fingers. That is II!', 'happy'),
           ],
-          'Learned that the Roman numeral II is two sticks.',
+          'Learned that the Roman numeral II is two twigs.',
         ),
       ],
     ),
@@ -695,7 +702,7 @@ const Q4 = quest(
         CI('Of course. The hand, here. The foot, here. The turn, so.'),
         N('He turns and tucks, and turns again.'),
         N('Oh! He has tied himself in a knot!', 'shock'),
-        CI('I won, against myself. So I also lost.', 'shock'),
+        CI('I beat myself. The rule book says whoever beats himself loses!', 'shock'),
       ],
       [
         ak(
@@ -737,7 +744,7 @@ const Q4 = quest(
       [
         CI('A tidy result. Please keep the rule book.', 'happy'),
         N('He folds his towel and walks away.'),
-        N('You make a mark: III. Three sticks, I, I, I.'),
+        N('You make a mark: III. Three twigs, I, I, I.'),
         O('He was nice too.'),
       ],
       [
@@ -745,8 +752,8 @@ const Q4 = quest(
           'maths',
           'III is three',
           2,
-          [P('Three tasks, so three sticks: III. Hold up three fingers!')],
-          'Learned that the Roman numeral III is three sticks.',
+          [P('Three tasks, so three twigs: III. Hold up three fingers!')],
+          'Learned that the Roman numeral III is three twigs.',
         ),
       ],
     ),
@@ -891,14 +898,17 @@ const Q5 = quest(
         A('I was going to stay. I really was.', 'shock'),
         O('You were not. There was no boar.'),
         N('You make a mark on the tablet: IV.'),
+        N('Dogmatix drops a fourth twig. Pupus writes IV instead.'),
+        N('Dogmatix looks betrayed.', 'sad'),
         N('Four tasks done. Only eight to go!'),
       ],
       [
         nt(
           'maths',
           'IV is four',
-          4,
-          [P('IV is one before five. So it is four. Hold up four fingers!', 'happy')],
+          6,
+          [P('A twig before V takes one away. Five, take away one, is four!', 'happy'),
+            P('Hold up four fingers!', 'happy')],
           'Heard that the Roman numeral IV means four: one less than five.',
         ),
       ],
@@ -967,7 +977,7 @@ const Q6 = quest(
         A('No, I am not. I am Asterix.'),
         N('Iris looks puzzled. Then he sniffs the cushion.'),
         N('He thinks he is a boar! He trots out, grunting.'),
-        A('He is a person. He will be himself by supper.'),
+        A('Iris is a person. Iris will be himself by supper.'),
       ],
       [
         ak(
@@ -1094,7 +1104,7 @@ const Q7 = quest(
       'a08-07-kitchen-done',
       [
         N('First comes soup. Then comes fish.'),
-        N('Then come pies. Pie, pie, pie!'),
+        N('Then come three pies. Pie, pie, pie!'),
         N('Last come crisp fried potatoes.'),
       ],
       [
@@ -1162,7 +1172,7 @@ const Q7 = quest(
         MK('Take these potatoes for the road.', 'happy'),
         N('Obelix holds the parcel like a baby.'),
         N('You make a mark on the tablet: VI.'),
-        N('V is five, and one more stick makes VI. That is six!'),
+        N('V is five, and one more twig makes VI. That is six!'),
       ],
       [
         nt(
@@ -1544,6 +1554,7 @@ const Q9 = quest(
       [
         A('Good morning. I would like Permit A39, please.'),
         CL('A39? There is no A39!', 'shock'),
+        N('The clerk goes pale. Is it a new rule? Did he miss it?'),
         N('The clerk whispers to the clerk behind him.'),
         N('The whisper runs up the stairs. Clerks run everywhere!'),
         N('You slide your form across. Stamp, and it is passed on!'),
@@ -1553,7 +1564,7 @@ const Q9 = quest(
         dd(
           'health',
           'slow breaths help us calm down',
-          4,
+          5,
           'edu:breathe:slow:3',
           [
             N('(Everyone is rushing! Take three slow breaths: in… and out.)'),
@@ -1655,7 +1666,7 @@ const Q10 = quest(
             opt('Dog', [N('Dog starts with d. Cake starts with c, like crocodile.')]),
           ],
           'Matched the first sound of “crocodile” with “cake”.',
-          'RF.K.2',
+          'ELOF: Literacy',
         ),
       ],
       {
@@ -1738,14 +1749,14 @@ const Q10 = quest(
         A('There was not one.'),
         N('Pupus looks at the empty air for a long time.'),
         P('Fine. Write it down.'),
-        N('You make a mark: IX. It is X, with a stick before it.'),
+        N('You make a mark: IX. It is X, with a twig before it.'),
       ],
       [
         nt(
           'maths',
           'IX is nine',
           4,
-          [P('X is ten. A stick before it takes one away. So IX is nine!', 'happy')],
+          [P('X is ten. A twig before it takes one away. So IX is nine!', 'happy')],
           'Heard that the Roman numeral IX is ten with one taken away, which is nine.',
           'K.OA.A.1',
         ),
@@ -1837,7 +1848,9 @@ const Q11 = quest(
       'a08-11-riddle',
       [
         OM('Here is my riddle. What is white, soft and smells sweet?'),
-        OM('It makes you clean. It costs two coins.'),
+        OM('It makes you clean. One costs two coins.'),
+        OM('Or three for five! What a bargain!'),
+        N('Obelix counts on his fingers. He gets to three, and stops.'),
         N('Behind him are stacks of white cakes, wrapped in leaves.'),
         A('Is it soap?'),
         OM('Yes! My Own Mountain Soap! Gentle on the beard!', 'happy'),
@@ -1847,7 +1860,7 @@ const Q11 = quest(
         ak(
           'maths',
           'add two groups within 10',
-          4,
+          6,
           [N('One soap costs two coins. How many coins for two soaps?')],
           [
             opt('Four', [N('Yes! Two coins and two coins make four.', 'happy')], true),
@@ -1859,7 +1872,7 @@ const Q11 = quest(
         nt(
           'literacy',
           'an advert tries to make you buy something',
-          5,
+          7,
           [
             N('An advert tells you good things about something, so you will buy it.'),
             N('It is good to ask: is that true, or is it an advert?'),
@@ -1872,7 +1885,7 @@ const Q11 = quest(
         choices: [
           {
             id: 'buy',
-            label: 'Buy three for five.',
+            label: 'Buy three soaps for five coins.',
             then: [OM('A wise traveller! A fourth, free, for honest eyes.', 'happy')],
           },
           {
@@ -2066,7 +2079,7 @@ const Q12 = quest(
         N('Dawn comes up pink. The ghosts are gone.'),
         P('One more task. It is in Rome.', 'think'),
         N('You make a mark on the tablet: XI.'),
-        N('X is ten, and one more stick makes XI. That is eleven!'),
+        N('X is ten, and one more twig makes XI. That is eleven!'),
       ],
       [
         nt(
@@ -2262,7 +2275,7 @@ const Q14 = quest(
             label: '“Let him sing one verse.”',
             then: [
               BD('One verse! The first part is the overture, in seven parts…', 'happy'),
-              N('The village looks for something to tie him up with.'),
+              N('The village looks for a very big scarf, to hush him gently.'),
             ],
           },
           {
@@ -2360,7 +2373,7 @@ const Q14 = quest(
         G('For the referee. Use it kindly.', 'soft'),
         N('Getafix gives you a tiny cauldron. The chief gives you a winged helmet.'),
         O('And a menhir! My smallest one. It has a face!', 'happy'),
-        N('Far above, Asterix’s javelin whistles by, still going.'),
+        N('Far away, a javelin is still flying. Verses is still following Stick.'),
         P('Vale, referee! Come back soon.', 'soft'),
         N('The map closes round you. You are home in the Grove.'),
       ],
@@ -2405,7 +2418,7 @@ export const EDU_A08_SPROUT_VARIANTS: EduScene[] = [
           N('A circle goes round and round with no end.'),
         ],
         'Traced a circle, noticing it goes round and round with no end, like the form.',
-        'K.G.A.2',
+        'ELOF: Perceptual, Motor, and Physical Development',
       ),
     ],
   ),

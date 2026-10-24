@@ -37,7 +37,8 @@ _A small girl with lots of hair pats your Nubbin like a drum._
 
 **Gramma Tala**: Long ago there was only sea. Then an island came up out of it.  
 **Gramma Tala**: The island had a heart. It made green things grow.  
-**Gramma Tala**: A trickster took the heart. The island began to crumble.  
+**Gramma Tala**: A trickster took the heart. His name was Maui.  
+**Gramma Tala**: Maui could turn into a hawk. Then the island began to crumble.  
 _Some children squeal and hide behind each other. The small girl leans in._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): naming a scared feeling and what helps  
@@ -202,7 +203,7 @@ _Together you pull Moana and Pua to safety._
 #### `sprout:a10-02-breakers-done` · [main](main.md#a10-02-breakers-done)
 
 _Moana sits on the sand, by the canoe in two pieces. Pua sulks._  
-**Moana**: Fine. Point taken.  
+**Moana**: Fine. I will not go past the reef. Probably.  
 _Your Nubbin comes out of the sea with a spiral shell._  
 
 > **Lesson** (literacy, RF.K.2, ask): hear the first sound of a word  
@@ -219,11 +220,11 @@ _Your Nubbin comes out of the sea with a spiral shell._
 _She looks at the cut on her foot, not at the reef._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): naming feelings and what helps  
-> _Moana feels let down. What could help her feel better?_  
+> _Moana feels sad and cross with herself. What could help?_  
 > - ✅ Talk to Gramma or a friend → Yes. Talking to someone you trust helps.
 > - Keep it all inside → Keeping it inside is heavy. Telling someone helps.
 > - Be cross at the pig → Pua did nothing wrong! Talking to a friend helps more.
-> _For grown-ups: Talked about what helps with a let-down feeling: telling someone you trust._
+> _For grown-ups: Talked about what helps when you feel sad and cross: telling someone you trust._
 
 _Your Nubbin drops the spiral shell in your hand. You keep it safe._  
 **Moana**: That is Gramma, round the point. She dances with the sea.  
@@ -254,7 +255,7 @@ _She moves like the sea: forward, then back. In, then out._
 #### `sprout:a10-03-point-done` · [main](main.md#a10-03-point-done)
 
 _Your Nubbin tries to copy her. It falls over. Plop!_  
-**Gramma Tala**: Oh, that one has the makings!  
+**Gramma Tala**: Oh, that one will be a dancer one day!  
 
 > **Lesson** (sel, CASEL: Self-management, notice): trying again after a wobble is brave  
 > _Your Nubbin fell over and did not mind. It got up to try again._  
@@ -445,7 +446,8 @@ _Gramma takes out the green stone with the spiral on it._
 > - A turtle → The turtle went home to the sea. The sea gave her the stone.
 > _For grown-ups: Remembered an earlier event in the story: the sea gave Moana the stone._
 
-**Gramma Tala**: Someone must find Maui. He must put it back.  
+**Gramma Tala**: Maui took it. So Maui must put it back.  
+**Moana**: You take it, you bring it back. That is the rule!  
 **Moana**: I have to tell Dad. Right now!  
 
 **Notes:** A10-4. The ancestors are shown as real voyagers; the song is never written out.
@@ -469,8 +471,8 @@ _For a moment he is just a man who has been afraid._
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling and why  
 > _Tui’s friend died at sea, so he fears for Moana. How does he feel?_  
 > - ✅ Sad and scared → Yes. He is sad about his friend, and scared for Moana.
-> - Silly → Not silly. He feels sad and scared, because he loves her.
-> - Hungry → Not hungry! He feels sad and scared.
+> - Cross → A bit cross, maybe. Mostly he is sad and scared, because he loves her.
+> - Proud → He is proud of Moana. Today he is mostly scared for her.
 > _For grown-ups: Named feelings (sad, scared) behind a worried parent’s rule._
 
 
@@ -494,15 +496,15 @@ _She is very small now. Her hands are cool._
 **Gramma Tala**: Do not fuss. I am very old, and very poorly.  
 **Gramma Tala**: You must go. Tonight. Find Maui. Make him give it back.  
 **Moana**: I cannot leave you. Not now.  
+**Gramma Tala**: I will be the bit of you that keeps going.  
+_She puts the shell with the heart in it into Moana’s hand._  
+**Gramma Tala**: And look after our guest. Guests are a big job.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): sad feelings are allowed, and hugs help  
 > _Moana feels sad. It is hard when someone you love is very old._  
 > _Feeling sad is allowed. A hug, a sit-down and a friend all help._  
 > _For grown-ups: Heard that sadness is allowed and that hugs and company help._
 
-**Gramma Tala**: I will be the bit of you that keeps going.  
-_She puts the shell with the heart in it into Moana’s hand._  
-**Gramma Tala**: And look after our guest. Guests are a big job.  
 
 #### `sprout:a10-05-bedside-done` · [main](main.md#a10-05-bedside-done)
 
@@ -648,7 +650,7 @@ _Inside the cave is a huge stone Maui. It is hollow._
 > **Lesson** (sel, CASEL: Self-management, ask): calming down when you feel cross  
 > _Moana feels cross. What can help when you feel cross?_  
 > - ✅ Take a slow, deep breath → Yes. Big, slow breaths help the cross feeling get smaller.
-> - Stamp and shout for hours → Stamping lets off steam, but slow breaths help most.
+> - Stamp and shout for hours → Stamping is very noisy. Slow breaths help most.
 > - Hide away → Hiding does not fix it. A slow breath is a better start.
 > _For grown-ups: Talked about calming down when cross: slow, deep breaths._
 
@@ -683,6 +685,8 @@ _He does it again. The sea puts her back again._
 > _For grown-ups: Counted two times, using fingers._
 
 _He tries your Nubbin. The sea puts it back on his head._  
+_Heihei walks off the edge. Plop. The sea puts him back._  
+_Heihei does not notice. Heihei never notices._  
 **Maui**: Fine! The ocean is on your side.  
 
 **Notes:** A10-6. Maui is shown with respect as a hero of many island peoples.
@@ -1037,7 +1041,7 @@ _Your Nubbin’s painted face washes off in the sea._
 
 #### `sprout:a10-10-practice` · [main](main.md#a10-10-practice)
 
-**Maui**: Back in business! Hawk!  
+**Maui**: My hook is back! Hawk!  
 _Flash! Where Maui was, a fish flaps on the deck._  
 
 > **Lesson** (science, K-ESS3-1, ask): where animals live  
@@ -1160,7 +1164,7 @@ _Your Nubbin hides under the deck with Heihei. Very sensible._
 
 #### `sprout:a10-11-barrier-done` · [main](main.md#a10-11-barrier-done)
 
-_Te Kā roars. It is the sound of a mountain having a bad day._  
+_Te Kā roars. It is the sound of a very loud, very cross mountain._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): what to do when something feels too big and scary  
 > _Something loud and scary is near. What can you do?_  
@@ -1178,11 +1182,12 @@ _Te Kā swats at him. He swerves and dives._
 _Te Kā’s hand comes down. Maui blocks it with his hook. Crack!_  
 _The wave throws the canoe far out into the dark sea. Nobody is hurt._  
 
-> **Lesson** (maths, K.CC.B.5, do): count to 5  
+> **Lesson** (maths, K.CC.B.5, do): count to 4  
 > _(Count who is on the canoe.)_  
-> _Moana, you, Nubbin, Heihei and Pua. Five! Everyone is safe._  
-> Check: `edu:count:crew:5`
-> _For grown-ups: Counted five friends on the canoe._
+> _Moana, you, Nubbin and Heihei. Four!_  
+> _Heihei counts, even if he does not know it._  
+> Check: `edu:count:crew:4`
+> _For grown-ups: Counted four friends on the canoe._
 
 
 **Choices**
@@ -1210,6 +1215,7 @@ _Maui holds his hook. A crack runs through it._
 **Maui**: One more hit and it is gone. And then who wants me?  
 **Moana**: That is not true. You know it is not.  
 **Maui**: I am sorry. Good luck.  
+_A hawk lifts off the stern and flies north._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what friends can do after an argument  
 > _Maui and Moana argued. What can friends do afterwards?_  
@@ -1218,7 +1224,6 @@ _Maui holds his hook. A crack runs through it._
 > - Pretend it did not happen → Pretending does not fix hurt. Sorry and listening do.
 > _For grown-ups: Talked about repairing an argument with sorry and listening._
 
-_A hawk lifts off the stern and flies north._  
 
 #### `sprout:a10-11-crack-done` · [main](main.md#a10-11-crack-done)
 
@@ -1238,14 +1243,14 @@ _Moana sits at the bow with the green stone. She does not cry._
 **Moana**: I cannot do this. I am not enough.  
 _She holds the stone out. The sea takes it, gently._  
 _You do not say anything. You sit beside her._  
+_Your Nubbin comes out and sits beside you too._  
+_You all sit like that, for a long time._  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): sitting beside someone helps  
 > _You did not fix Moana’s sad feeling. You sat beside her._  
 > _Sitting beside someone is a kind way to help._  
 > _For grown-ups: Noticed that simply sitting beside a sad friend is kind and helpful._
 
-_Your Nubbin comes out and sits beside you too._  
-_You all sit like that, for a long time._  
 
 **Notes:** A10-11. Te Ka is spooky but nobody is hurt; the hand that comes down is blocked.
 
@@ -1265,11 +1270,13 @@ _It is a manta ray, glowing, circling the hulls._
 > _It is gentle. It glides through the water and eats tiny sea food._  
 > _For grown-ups: Heard that manta rays are huge, gentle, gliding fish._
 
-_At the stern sits Gramma Tala, as if she was always there._  
+_At the stern sits Gramma Tala, glowing blue like the manta._  
+_It is not her body. It is her spirit, come to visit._  
 **Gramma Tala**: Well. You are a long way past the reef.  
 **Moana**: Gramma?  
 **Gramma Tala**: I told you I would come back as one of those.  
-_Moana hugs her. Gramma is a bit see-through, but her arms feel real._  
+_Moana hugs her. Gramma is see-through, like mist._  
+_The hug feels real anyway._  
 
 **Choices**
 
@@ -1343,19 +1350,20 @@ _Moana laughs. It is her first laugh since the dark islands._
 **Moana**: I do not know. I thought I did.  
 _Gramma sings, very low. An old voyaging song._  
 _It has names of islands in it. And names of people, back and back._  
+_The stars become sails. The great canoes cross the sky._  
+_Moana stands up straight. She is crying and she is strong._  
+**Moana**: Everything I was taught, I still have. I will take it back myself.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): songs and stories carry memory across generations  
 > _Gramma’s song has names in it. Long ago, songs helped people remember._  
 > _Songs and stories carry the past, from grown-ups to children._  
 > _For grown-ups: Heard that songs and stories helped people remember the past._
 
-_The stars become sails. The great canoes cross the sky._  
-_Moana stands up straight. She is crying and she is strong._  
-**Moana**: Everything I was taught, I still have. I will take it back myself.  
 
 #### `sprout:a10-12-song-done` · [main](main.md#a10-12-song-done)
 
-_She swims down into the dark, and comes up with the green stone._  
+_She swims down into the dark. The sea puts the stone in her hand._  
+_The sea is very good at putting things back._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what helps us feel strong  
 > _What helped Moana feel strong?_  
@@ -1455,12 +1463,13 @@ _Te Kā sees her and comes roaring down. Moana keeps walking._
 _You step onto the wet sand. Your heart goes like a drum._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): a gentle way to meet someone upset  
-> _Te Kā is not bad. She is hurting, and hurting can look scary._  
-> _How can you go to someone upset, gently?_  
+> _Te Kā is hurting, and hurting can look scary._  
+> _Walking up to fire giants is a job for heroes in stories._  
+> _When a friend is upset, how can you go to them gently?_  
 > - ✅ Slowly, with open hands → Yes. Slow and open says, “I am a friend.”
 > - Shouting back → Shouting adds noise. Slow and open hands is gentler.
-> - Running away → Sometimes a grown-up is needed. Slow and open is gentle.
-> _For grown-ups: Talked about a gentle approach to someone upset: slow, with open hands._
+> - Run at them, roaring → That is what Te Kā does! Slow and kind is better.
+> _For grown-ups: Talked about a gentle way to go to an upset friend: slowly, with open hands._
 
 
 **Choices**
@@ -1556,6 +1565,9 @@ _Moana steers in through the same reef, without a wobble._
 _Her mother runs down the beach. Her father runs too._  
 **Chief Tui**: Moana!  
 **Chief Tui**: You went past the reef.  
+**Moana**: I went past the reef. And I came home. Both.  
+**Sina**: Of course she did. I packed her lunch.  
+_Chief Tui looks at Sina. Sina looks at the sea._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling  
 > _Tui sees Moana safe at home. How does he feel?_  
@@ -1564,7 +1576,7 @@ _Her mother runs down the beach. Her father runs too._
 > - Sleepy → Not sleepy! He is happy and relieved.
 > _For grown-ups: Named feelings (happy, relieved) for a parent seeing a child safe._
 
-**Moana**: I went past the reef. And I came home. Both.  
+_Nobody says who knew._  
 
 #### `sprout:a10-14-home-done` · [main](main.md#a10-14-home-done)
 

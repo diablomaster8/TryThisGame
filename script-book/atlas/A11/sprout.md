@@ -399,7 +399,8 @@ _There are two signs by the door. They are spelled in Owl’s own way._
 > - Pretend he knows → Asking is brave and clever. Owl is happy to explain.
 > _For grown-ups: Saw that asking what a new word means is a good thing to do._
 
-**Owl**: It means: the thing to do.  
+**Owl**: A Notice is a sign. One writes on it and pins it up.  
+**Owl**: Usually I do the writing.  
 _Your Nubbin is not listening. It stares at the bell-pull._  
 
 #### `sprout:a11-04-owl-done` · [main](main.md#a11-04-owl-done)
@@ -535,7 +536,7 @@ _He wanders off in the grey morning, with the jar on his head._
 > **Lesson** (science, 1-PS4-1, ask): sounds are muffled inside a jar  
 > _Pooh talks inside the jar. Do his words sound loud and clear?_  
 > - ✅ No, they sound muffled and boomy → Yes! A jar changes how a voice sounds.
-> - Yes, clear as a bell → Not quite. In a jar the voice sounds muffled and boomy.
+> - Yes, loud and clear → Not quite. In a jar the voice sounds muffled and boomy.
 > _For grown-ups: Noticed that a voice sounds different inside a jar._
 
 **Pooh**: Mmff mmm mmff.  
@@ -544,6 +545,7 @@ _He wanders off in the grey morning, with the jar on his head._
 
 _At first light, Piglet comes to look._  
 _A big round head walks round the pit. Roar!_  
+_Pooh says “Mmff” inside the jar. It comes out as a roar._  
 
 > **Lesson** (maths, K.G.A.2, ask): shapes: round is a circle  
 > _The big head is round. Which shape is round?_  
@@ -596,11 +598,11 @@ _Eeyore stands by the stream. He looks at himself in the water._
 **Eeyore**: Is it? It would be just like it.  
 **Eeyore**: It is my birthday. Not that it matters.  
 **Pooh**: Your birthday!  
-**Eeyore**: You can tell by the presents. All none of them.  
+**Eeyore**: How many presents? None. That is zero. I counted twice.  
 _Pooh looks left and right. No presents._  
 
 > **Lesson** (maths, K.CC.B.5, ask): zero means none  
-> _Eeyore has “all none” of the presents. How many is that?_  
+> _Eeyore counted his presents. How many did he have?_  
 > - ✅ Zero. None at all → Yes! Zero means none. Eeyore has no presents yet.
 > - One → One would be a present. “None” means zero: nothing at all.
 > _For grown-ups: Learned that none means zero._
@@ -706,7 +708,7 @@ _Pooh gives you an empty pot too. Eeyore adds a bit of balloon._
 
 #### `sprout:a11-07-plan` · [main](main.md#a11-07-plan)
 
-_A Kanga and a baby Roo are new in the Forest._  
+_Someone new is in the Forest. Her name is Kanga._  
 **Rabbit**: Who said she could come? She keeps her baby in her pocket!  
 **Pooh**: Where should it ride?  
 
@@ -715,7 +717,7 @@ _A Kanga and a baby Roo are new in the Forest._
 > _A baby kangaroo is called a joey. The pouch keeps it safe and warm._  
 > _For grown-ups: Learned that mother kangaroos carry their babies in a pouch._
 
-**Rabbit**: Here is my plan. We borrow Roo for a game of hide.  
+**Rabbit**: Here is my plan. We borrow her baby for a game of hide.  
 **Rabbit**: Piglet hops in the pocket, so Kanga does not notice.  
 **Piglet**: V-very small. Yes.  
 _Your Nubbin looks at you. You look at Rabbit._  
@@ -725,7 +727,7 @@ _Your Nubbin looks at you. You look at Rabbit._
 - **Say it is a bad plan.**
     - **Rabbit**: It is a good plan. It has Steps.
     - You cannot stop a plan with Steps.
-- **Ask what happens to Roo.**
+- **Ask what happens to the baby.**
     - **Rabbit**: He stays at mine. Briefly. He will be safe.
     - You will be there too.
 - **Say nothing, and go along.**
@@ -733,7 +735,7 @@ _Your Nubbin looks at you. You look at Rabbit._
 
 #### `sprout:a11-07-plan-done` · [main](main.md#a11-07-plan-done)
 
-**Rabbit**: Look after Roo on the way, Keeper.  
+**Rabbit**: The baby is called Roo. Look after him on the way, Keeper.  
 **Rabbit**: Happy Roos stay quiet.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): tell your grown-up before you go anywhere  
@@ -902,7 +904,7 @@ _The stream keeps running, down, down, down._
 _Christopher Robin pushes it into the bank._  
 _He writes a sign on it. The spelling wobbles._  
 
-> **Lesson** (literacy, RF.K.2, notice): spelling can wobble; sound it out  
+> **Lesson** (literacy, ELOF: Literacy, notice): spelling can wobble; sound it out  
 > _Christopher Robin wrote the sign by listening to the sounds._  
 > _Pole is spelled P-O-L-E. He might write P-O-L, and that is fine._  
 > _Sounding out is how we all start._  
@@ -972,7 +974,7 @@ _Bob, bob, bob. It floats all the way to Pooh._
 > _Some things float. Some things sink. A stone sinks._  
 > _For grown-ups: Noticed that a bottle with air inside floats._
 
-_He is sitting on a branch above his own front door._  
+_Pooh is sitting on a branch above his own front door._  
 
 #### `sprout:a11-09-bear` · [main](main.md#a11-09-bear)
 
@@ -1060,18 +1062,18 @@ _Your Nubbin sneezes. It is the driest thing for miles._
 
 #### `sprout:a11-10-invites` · [main](main.md#a11-10-invites)
 
-**Christopher Robin**: Owl, tell everyone there is a party. It is for Pooh.  
-**Owl**: Very good. I shall Announce it.  
+**Christopher Robin**: A party for Pooh! He saved Piglet.  
+**Owl**: Very good. I shall Announce a Gathering of All Residents.  
 _Owl flies off. You go too, to say it in shorter words._  
 _At the Gloomy Place, Owl tells Eeyore._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): clear messages use short, simple words  
-> _Which is easier to understand? “Party for Pooh!” or a very long, fancy sentence?_  
-> - ✅ “Party for Pooh!” → Yes! Short, clear words help everyone hear the news.
-> - The long, fancy one → Long words can get lost. Short ones are easier to hear.
+> _Which is easier: “A party for Pooh!” or “A Gathering of All Residents”?_  
+> - ✅ “A party for Pooh!” → Yes! Short, clear words help everyone hear the news.
+> - “A Gathering of All Residents” → That is Owl’s long way. Short words are easier: a party for Pooh!
 > _For grown-ups: Learned that short, clear words make a message easy to understand._
 
-**Eeyore**: A party. For me. Better late than never.  
+**Eeyore**: A party. For me. Nobody has a party for me. Until now.  
 **Owl**: No, it is for…  
 _But Eeyore has turned away to think._  
 
@@ -1139,7 +1141,7 @@ _Walking home, Pooh and Piglet are quiet. It is a friendly quiet._
 _It is snowing. The Forest is white and soft._  
 _Pooh hums a snow hum. It gets longer as it goes._  
 
-> **Lesson** (science, K-ESS2-1, ask): weather words: snow  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): weather words: snow  
 > _What is falling from the sky in this story?_  
 > - ✅ Snow → Yes, snow! Soft, white and cold.
 > - Rain → Rain is wet drops. This is snow: soft, white flakes.
@@ -1165,7 +1167,8 @@ _You carry sticks. Your Nubbin carries one, the long way round._
 #### `sprout:a11-11-snow-done` · [main](main.md#a11-11-snow-done)
 
 _The house stands at Pooh Corner. It is a little lopsided._  
-_Snow settles on the roof, which is shaped like a triangle._  
+_The roof is shaped like a triangle._  
+_Snow slides off the sloping roof. Plop! Right onto Pooh._  
 _(Draw a triangle in the air: three sides, three corners.)_  
 
 > **Lesson** (maths, K.G.A.2, notice): a triangle has three sides and three corners  
@@ -1353,10 +1356,11 @@ _(Hold up three fingers. One more try!)_
 
 #### `sprout:a11-12-malt` · [main](main.md#a11-12-malt)
 
-_At Kanga’s house, Roo is having his medicine._  
+_At Kanga’s house, Roo is having a spoon of sticky brown malt._  
 **Roo**: Do I have to? It is brown and sticks to the spoon.  
 **Kanga**: Just one spoonful, dear. It makes you big and strong.  
-_Tigger sniffs. He takes the whole spoonful!_  
+**Kanga**: Would you like to try, Tigger? One spoon, from me.  
+_Tigger tries it. His tail goes straight up._  
 **Tigger**: That is it! That is a Tigger breakfast!  
 **Roo**: He can have mine! Always!  
 **Kanga**: Then he had better stay. I will fetch another spoon.  
@@ -1531,11 +1535,11 @@ _(Point up. Point down. Up is high. Down is low.)_
 #### `sprout:a11-14-tunic` · [main](main.md#a11-14-tunic)
 
 _Christopher Robin holds out his tunic, like a sheet._  
-_Everyone takes a corner._  
+_You, Pooh, Piglet and Christopher Robin take a corner each._  
 
 > **Lesson** (maths, K.G.A.2, do): a square has four corners  
 > _The tunic is flat and square. (Point to each corner.)_  
-> _One, two, three, four corners. Four friends hold four corners._  
+> _One, two, three, four corners. Four friends hold one each._  
 > Check: `edu:count:corners:4`
 > _For grown-ups: Counted the four corners of a square._
 
@@ -1587,7 +1591,7 @@ _But Christopher Robin is not at home._
 _A note is pinned to his door. The spelling wobbles._  
 **Rabbit**: Backson? What is a Backson? Gone out with a Backson?  
 
-> **Lesson** (literacy, RF.K.2, ask): sound out a word: back-son  
+> **Lesson** (literacy, ELOF: Literacy, ask): sound out a word: back-son  
 > _Sound it out slowly: back… son. What does it sound like?_  
 > - ✅ Back soon → Yes! Back soon! Christopher Robin spelled it by sound.
 > - A big animal → Say it slowly again: back… son. It sounds like back soon.
@@ -1669,7 +1673,7 @@ _He is proud of his A. He worked hard on it._
 _Christopher Robin comes home at lunchtime, with ink on his fingers._  
 **Christopher Robin**: Hello! Did you see my note? I said I would be back soon.  
 
-> **Lesson** (literacy, RF.K.2, notice): wobbly spelling is how we start writing  
+> **Lesson** (literacy, ELOF: Literacy, notice): wobbly spelling is how we start writing  
 > _Back soon. We could read it, even with wobbly letters._  
 > _Everyone starts to write by listening for sounds. Wobbly spelling is a good start._  
 > _For grown-ups: Heard that wobbly spelling is a good way to start writing._
@@ -1698,6 +1702,7 @@ _He runs to the other side. The cone comes out from under the bridge!_
 > _For grown-ups: Noticed that a stream carries things in the direction it flows._
 
 _He drops two cones at once, a big one and a small one._  
+_Cones all look the same. Pooh picks sticks instead._  
 _That is how the stick game begins._  
 
 #### `sprout:a11-16-game` · [main](main.md#a11-16-game)
@@ -1711,7 +1716,7 @@ _Soon everyone plays: Pooh, Piglet, Rabbit, Roo, you and your Nubbin._
 > _For grown-ups: Heard that starting together is a fair rule in a game._
 
 _Your Nubbin drops its stick. Then it drops itself in, too!_  
-_It swims beside its stick, nudging it, enjoying the wet._  
+_Your Nubbin swims out to the fast middle. Its stick rides along beside it._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, do): the middle of a stream flows fastest  
 > _Near the bank, the stream is slow. In the middle, it is fast._  
@@ -1721,9 +1726,10 @@ _It swims beside its stick, nudging it, enjoying the wet._
 > _For grown-ups: Learned that a stream flows fastest in the middle, so a stick there wins._
 
 **Roo**: That is not fair! Can I do that?  
-**Christopher Robin**: No, Roo.  
+**Christopher Robin**: Not you, Roo. You are too small for the river.  
 **Pooh**: I think it is fair. Nothing says you cannot go with your stick.  
-_Your Nubbin’s stick comes out first. It shakes itself all over Piglet._  
+_Your Nubbin’s stick comes out first, and wins. It shakes itself all over Piglet._  
+**Christopher Robin**: Does that count? Probably. I think.  
 **Piglet**: Woozles shake like that. I am nearly sure.  
 
 **Choices**
@@ -1813,11 +1819,12 @@ _Your Nubbin watches the water go under. Same water, new water._
 **Rabbit**: Tigger is very bouncy. He bounces on everybody.  
 **Rabbit**: Here is my plan. A game of hide-and-seek, in the mist.  
 **Pooh**: Why?  
-**Rabbit**: So Tigger has a quiet rest. We hide, and he seeks.  
-**Piglet**: That is not very kind.  
+**Rabbit**: We hide in the mist. Tigger cannot find us.  
+**Rabbit**: He is lost for a bit, and we get some peace.  
+**Piglet**: Lost? On his own? That is not kind.  
 _A mist is coming up from the river, white and soft._  
 
-> **Lesson** (science, K-ESS2-1, notice): mist is tiny drops of water in the air  
+> **Lesson** (science, ELOF: Scientific Reasoning, notice): mist is tiny drops of water in the air  
 > _Mist is tiny drops of water floating in the air near the ground._  
 > _It is like a soft, low cloud. It makes things hard to see._  
 > _For grown-ups: Learned that mist is tiny drops of water in the air._
@@ -1850,8 +1857,11 @@ _At the top of the Forest, in a hollow, Rabbit whispers, “Now!”_
 _They duck behind a bank. Tigger bounces on, with you._  
 **Tigger**: Where is everybody? Hello?  
 **Tigger**: They must be lost. Poor things.  
-_At Kanga’s, Pooh and Piglet arrive, damp. Rabbit is not with them._  
+_Tigger bounces you home to Kanga’s._  
+_Pooh and Piglet come in, damp. Rabbit does not come._  
 **Tigger**: Tiggers never get lost. I will fetch him!  
+**Tigger**: Where would a Rabbit be? Under things. Rabbits like under.  
+_He looks under a leaf, a stone, and you. No Rabbit!_  
 _He bounces into the white. You follow, holding your Nubbin close._  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): if you are lost, stay still and call out  
@@ -1936,7 +1946,7 @@ _Rabbit says it quietly. He does not quite mean it any more._
 
 _It is a very windy day. Piglet’s ears stream out behind him._  
 
-> **Lesson** (science, K-ESS2-1, notice): weather words for wind: breeze, blustery, gale  
+> **Lesson** (science, ELOF: Scientific Reasoning, notice): weather words for wind: breeze, blustery, gale  
 > _A breeze is a soft wind. A blustery day has big, gusty puffs._  
 > _A gale is a very strong wind. Today is blustery._  
 > _For grown-ups: Learned the weather words breeze, blustery and gale._
@@ -1962,14 +1972,14 @@ _The floor is a wall. The door is in the ceiling._
 
 **Pooh**: The letter-box. Only somebody very small could get through.  
 _Everyone looks at Piglet._  
-
-> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): in a strong wind, stay indoors away from trees  
-> _In a strong, blustery wind, where is the safest place to be?_  
-> - ✅ Indoors, away from trees → Yes! Trees can drop branches in a strong wind.
-> - Under a big tree → Careful! Branches can fall. Stay indoors, away from trees.
-> _For grown-ups: Learned to stay indoors and away from trees in strong wind._
-
 _(Point to the smallest friend.)_  
+
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): in a strong wind, a strong low house away from tall trees is safest  
+> _In a strong, blustery wind, where is the safest place to be?_  
+> - ✅ In a strong, low house, away from tall trees → Yes! Owl’s house was up a tree. That is why it fell over.
+> - Under a big tree → Owl lived up a tree. His house fell over! Low houses are safer.
+> _For grown-ups: Learned that a strong, low house away from tall trees is safest in a strong wind._
+
 
 #### `sprout:a11-18-letterbox` · [main](main.md#a11-18-letterbox)
 
@@ -2059,12 +2069,6 @@ _Everyone feels sad. Sad is allowed._
 **Rabbit**: A Meeting has been called. By me. Eeyore has written a poem.  
 **Eeyore**: A Rissolution. Do not expect much.  
 _Eeyore reads it. It rhymes in places, and it says: we will miss you._  
-
-> **Lesson** (literacy, RL.2.4, notice): poems often rhyme  
-> _Eeyore’s poem rhymes in places. Rhymes are words that end the same way._  
-> _Moon and spoon rhyme. Pot and lot rhyme. What rhymes with cat?_  
-> _For grown-ups: Learned that poems often rhyme and gave rhyming words._
-
 _Nobody laughs. Even Tigger stands still._  
 **Piglet**: It is a very good poem, Eeyore.  
 
@@ -2076,6 +2080,12 @@ _Nobody laughs. Even Tigger stands still._
 > _For grown-ups: Talked about feeling sad and what helps: sharing and making something kind._
 
 **Rabbit**: Now everybody signs their name at the bottom.  
+
+> **Lesson** (literacy, RF.K.2, notice): poems often rhyme  
+> _Eeyore’s poem rhymes in places. Rhymes are words that end the same way._  
+> _Miss and kiss rhyme. Pooh and you rhyme. What rhymes with Roo?_  
+> _For grown-ups: Learned that poems often rhyme and gave rhyming words._
+
 
 **Choices**
 
@@ -2089,6 +2099,9 @@ _Nobody laughs. Even Tigger stands still._
 #### `sprout:a11-19-signed` · [main](main.md#a11-19-signed)
 
 _Tigger signs next to you. His T bounces off the edge._  
+**Tigger**: Is he coming back? He is. Isn’t he?  
+_Nobody answers. Tigger bounces once, very small._  
+_(Grown-up: you can say, “I do not know, but he loves you all.”)_  
 
 > **Lesson** (literacy, RF.K.2, ask): the first letter of a name: T for Tigger  
 > _Tigger signs his name. Which letter does Tigger start with?_  
@@ -2096,9 +2109,6 @@ _Tigger signs next to you. His T bounces off the edge._
 > - P → P is for Pooh and Piglet. Tigger starts with T.
 > _For grown-ups: Matched Tigger’s name to its first letter, T._
 
-**Tigger**: Is he coming back? He is. Isn’t he?  
-_Nobody answers. Tigger bounces once, very small._  
-_(Grown-up: you can say, “I do not know, but he loves you all.”)_  
 
 #### `sprout:a11-19-signed-rabbit` · [main](main.md#a11-19-signed-rabbit)
 
@@ -2107,24 +2117,19 @@ _Variant of `a11-19-signed`._
 _Rabbit signs next to you, very neatly._  
 _He stays there, and clears his throat._  
 **Rabbit**: About the mist. I was grateful for the company. That is all.  
+_He goes back to his list. He does not look up for some time._  
 
 > **Lesson** (literacy, ELOF: Language and Communication, notice): a new word: grateful  
 > _Grateful is a big word. It means thankful: glad that someone helped._  
 > _Rabbit said it stiffly. A stiff thank you still counts._  
 > _For grown-ups: Learned the word grateful, and that a stiff thank you still counts._
 
-_He goes back to his list. He does not look up for some time._  
 
 #### `sprout:a11-19-scroll` · [main](main.md#a11-19-scroll)
 
 _Rabbit rolls up the scroll. A blue ribbon is already round it._  
-**Eeyore**: I kept it in my pot. It is a Friend ribbon. He will know.  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): keeping a gift safe shows it mattered  
-> _Eeyore kept the ribbon safe in his pot, all this time._  
-> _Keeping a gift safe is a way of saying: you matter to me._  
-> _For grown-ups: Heard that looking after a gift shows the giver they matter._
-
+**Eeyore**: I took it off my door. My door can bang for a bit.  
+**Eeyore**: It is a Friend ribbon. He will know.  
 _Everyone walks to Christopher Robin’s door._  
 _Nobody wants to go first._  
 _Eeyore goes first, because it is his poem._  
@@ -2132,6 +2137,12 @@ _Eeyore goes first, because it is his poem._
 **Eeyore**: A Rissolution. From all of us. You read it.  
 _Christopher Robin reads it to the end, and all the names._  
 **Christopher Robin**: Thank you. All of you.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): giving away something you use shows someone matters  
+> _Eeyore took the ribbon off his own door, to give to his friend._  
+> _Giving away something you use is a way of saying: you matter to me._  
+> _For grown-ups: Heard that giving away something you use shows a friend they matter._
+
 
 #### `sprout:a11-19-scroll-thistle` · [main](main.md#a11-19-scroll-thistle)
 
@@ -2140,12 +2151,6 @@ _Variant of `a11-19-scroll`._
 _Rabbit rolls up the scroll. Something falls out._  
 _It is a thistle, pressed flat. Its purple has gone pale._  
 **Eeyore**: I put that in. From my step. It is not much. Well. It is.  
-
-> **Lesson** (science, notice): pressing a flower dries it flat so it lasts  
-> _If you press a flower between pages, it dries out and stays flat._  
-> _That is how Eeyore’s thistle lasted. It is a way of keeping something special._  
-> _For grown-ups: Learned that pressing a plant between pages dries it so it lasts._
-
 _Everyone walks to Christopher Robin’s door._  
 _Nobody wants to go first._  
 _Eeyore goes first, because it is his poem._  
@@ -2153,6 +2158,12 @@ _Eeyore goes first, because it is his poem._
 **Eeyore**: A Rissolution. From all of us. You read it.  
 _Christopher Robin reads it to the end, and all the names._  
 **Christopher Robin**: Thank you. All of you.  
+
+> **Lesson** (science, notice): pressing a flower dries it flat so it lasts  
+> _If you press a flower between pages, it dries out and stays flat._  
+> _That is how Eeyore’s thistle lasted. It is a way of keeping something special._  
+> _For grown-ups: Learned that pressing a plant between pages dries it so it lasts._
+
 
 #### `sprout:a11-19-scroll-sat` · [main](main.md#a11-19-scroll-sat)
 
@@ -2163,12 +2174,6 @@ _He asks for it back, and adds one more line at the bottom._
 **Eeyore**: Somebody sat with me.  
 _He does not explain. He hands it back, and does not look at you._  
 _Everyone walks to Christopher Robin’s door._  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): sitting with someone is a gift they remember  
-> _Eeyore wrote down that you sat with him._  
-> _It cost nothing, and he will remember it. Time together is a gift._  
-> _For grown-ups: Heard that time spent with someone is a gift they remember._
-
 _Nobody wants to go first._  
 _Eeyore goes first, because it is his poem._  
 **Christopher Robin**: What is this?  
@@ -2176,22 +2181,32 @@ _Eeyore goes first, because it is his poem._
 _Christopher Robin reads it to the end, and all the names._  
 **Christopher Robin**: Thank you. All of you.  
 
+> **Lesson** (sel, CASEL: Relationship skills, notice): sitting with someone is a gift they remember  
+> _Eeyore wrote down that you sat with him._  
+> _It cost nothing, and he will remember it. Time together is a gift._  
+> _For grown-ups: Heard that time spent with someone is a gift they remember._
+
+
 #### `sprout:a11-19-scroll-done` · [main](main.md#a11-19-scroll-done)
 
-_Then everyone goes quietly, one by one, until only Pooh is left._  
-
-> **Lesson** (maths, ELOF: Mathematics Development, notice): one by one: counting down to one  
-> _One by one means one at a time. (Hold up five fingers.)_  
-> _Fold them down: five, four, three, two, one. One is left: Pooh._  
-> _For grown-ups: Counted down from five to one, one at a time._
-
+_Then everyone goes home quietly, one by one._  
+_Rabbit goes. Owl goes. Eeyore goes._  
+_Tigger goes, very quietly, for a Tigger._  
+_Piglet goes last of all. Only Pooh is left._  
 _You wait by the gate with your Nubbin._  
 _Nobody asked you to. It seems the right place to be._  
+
+> **Lesson** (maths, K.CC.B.5, notice): one by one: count the friends who went home  
+> _One by one means one at a time. (Hold up a finger for each.)_  
+> _Rabbit, Owl, Eeyore, Tigger, Piglet. Five friends went home. Pooh stayed._  
+> _For grown-ups: Counted the five friends who went home, one at a time._
+
 
 #### `sprout:a11-19-complete` · [main](main.md#a11-19-complete)
 
 _After a while Christopher Robin comes out. Pooh is with him._  
 **Christopher Robin**: We are walking to the top of the Forest. Come some of the way?  
+_Your Nubbin is already on its feet._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): how to say goodbye kindly  
 > _A friend is going somewhere new. What is a kind thing to do?_  
@@ -2199,7 +2214,6 @@ _After a while Christopher Robin comes out. Pooh is with him._
 > - Say nothing at all → Words, a hug or a card can help. Saying you will remember is best.
 > _For grown-ups: Talked about kind ways to say goodbye to a friend._
 
-_Your Nubbin is already on its feet._  
 
 ## A11-20. The Ring of Trees
 
@@ -2251,14 +2265,14 @@ _Christopher Robin touches Pooh’s shoulders with a stick._
 _Then he is quiet for a long time, looking at the trees._  
 **Christopher Robin**: Pooh, will you remember me? Always?  
 **Pooh**: I will. I promise.  
+**Christopher Robin**: If I am not here so much, it is not because of you.  
+**Pooh**: I shall know. Even if I do not know why.  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): a promise is words you keep; remembering is how love stays  
 > _A promise is something you say and then keep._  
 > _Remembering someone is a way of keeping them close, wherever they are._  
 > _For grown-ups: Heard that a promise is kept and that remembering keeps people close._
 
-**Christopher Robin**: If I am not here so much, it is not because of you.  
-**Pooh**: I shall know. Even if I do not know why.  
 
 #### `sprout:a11-20-knight-done` · [main](main.md#a11-20-knight-done)
 

@@ -1016,7 +1016,7 @@ export const ATLAS_A11: Quest[] = [
       },
       {
         id: 'a11-07-s2',
-        goal: 'Make sure Roo has a nice time in Rabbit’s pocket.',
+        goal: 'Make sure Roo has a nice time in Rabbit’s pillowcase.',
         hint: 'Run alongside Rabbit to his burrow and keep Roo company.',
         check: 'escort:a11-roo:rabbit-burrow',
         scene: {
@@ -1340,7 +1340,7 @@ export const ATLAS_A11: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A11-9') },
     requires: ['A11-9'],
-    speakers: [CROBIN, OWL, EEYORE, RABBIT, POOH],
+    speakers: [CROBIN, OWL, EEYORE, RABBIT, POOH, PIGLET],
     steps: [
       {
         id: 'a11-10-s1',
@@ -1398,7 +1398,12 @@ export const ATLAS_A11: Quest[] = [
           id: 'a11-10-table-done',
           lines: [
             CR('Everybody! This party is because of what somebody did, and we all know who.'),
-            N('Eeyore half stands up to make a speech. Then Christopher Robin hands Pooh a present, and Eeyore sits down again.'),
+            N('Piglet sits up very straight, and looks round behind him, in case the party is for somebody there.'),
+            PG('I only threw the bottle. Pooh did everything else.', 'soft'),
+            P('I only sat on a jar.'),
+            N('Eeyore half stands up, clears his throat, and looks at everyone.'),
+            E('I had a speech. It was about not expecting this. It was good. I’ll sit.'),
+            N('Christopher Robin hands Pooh a present.'),
           ],
         },
       },
@@ -1883,7 +1888,7 @@ export const ATLAS_A11: Quest[] = [
             N('Rabbit wakes up feeling important, as if everything depends on him. It is a very Captain-ish sort of morning.'),
             R('I shall go and see Christopher Robin. He’ll want to know what to do today, and I shall tell him.'),
             N('But Christopher Robin isn’t at home. There is a note pinned to his door.'),
-            N('It says he has gone out, and will be back soon, and is busy. It is in Christopher Robin’s spelling, which is generous with its letters.'),
+            N('It says: GON OWT. BACKSON. BIZZY. It is in Christopher Robin’s spelling, which is generous with its letters.'),
             R('“Backson.” What is a Backson? Gone out with a Backson? Is it some sort of animal?', 'think'),
             R('I must ask Owl. Owl can read. Owl can spell.'),
           ],
@@ -2151,8 +2156,11 @@ export const ATLAS_A11: Quest[] = [
             T('Where’s everybody gone? Hallo? Rabbit? Pooh?', 'think'),
             T('They must have got lost. Poor things. Mist is very difficult if you aren’t a Tigger.'),
             N('Tigger isn’t worried at all. He bounces along a short way home that his feet seem to know.'),
-            N('At Kanga’s, Pooh and Piglet arrive soon after, damp, following the smell of honey. Rabbit isn’t with them.'),
+            N('His feet bounce you all the way home to Kanga’s. Pooh and Piglet squelch in soon after, following the smell of honey.'),
+            N('Rabbit does not.'),
             T('Rabbit? Lost? In the mist? Don’t worry. Tiggers never get lost. I’ll fetch him.', 'happy'),
+            T('Where would a Rabbit be? Under things. Rabbits like under.', 'think'),
+            N('He looks under a leaf, under a stone, and under you, and seems surprised that you are not a Rabbit.'),
             N('He bounces off into the white. You go after him, holding your Nubbin close, so the mist can’t have it.'),
           ],
         },
@@ -2369,7 +2377,7 @@ export const ATLAS_A11: Quest[] = [
           id: 'a11-19-scroll',
           lines: [
             N('Rabbit rolls up the scroll. Then he stops, because something is already round it: a blue ribbon, tied in a careful double bow.'),
-            E('I had it in my pot. Seemed right. It’s a Friend ribbon. He’ll know what it says.', 'soft'),
+            E('Took it off my door. Door can bang for a bit. It’s a Friend ribbon. He’ll know what it says.', 'soft'),
             ...A19_DELIVER,
           ],
         },

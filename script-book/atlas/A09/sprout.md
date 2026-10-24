@@ -163,7 +163,7 @@ _By noon there is a raft, and it floats!_
 
 - **Suggest calling it after Moominmamma.**
     - **Moominpappa**: Then she will be sure to bring you home.
-    - He paints the name on the back, in blue.
+    - He paints MAMMA on the back, in big blue letters.
 - **Suggest “The Valuable”.**
     - **Sniff**: Oh! That is the best name!
     - Sniff stands next to it for a long time.
@@ -409,14 +409,15 @@ _Your Nubbin claps. Sniff claps a beat later._
 
 _The Lonely Mountains are grey stone and grey sky._  
 _The path zigzags up. Snufkin goes first, and Sniff goes last._  
-**Sniff**: My legs are the shortest. So the mountain is taller for me.  
+_Snufkin’s legs are long. Sniff’s are short._  
 
 > **Lesson** (maths, K.MD.A.2, ask): compare lengths  
 > _Sniff’s legs are short. Whose legs are longer, Sniff’s or Snufkin’s?_  
-> - ✅ Snufkin’s → Yes! Snufkin is taller, so his legs are longer. Sniff’s legs are shorter.
-> - Sniff’s → Look again! Snufkin is taller. His legs are longer, and Sniff’s are shorter.
+> - ✅ Snufkin’s → Yes! Snufkin’s legs are long, so they are longer. Sniff’s are shorter.
+> - Sniff’s → Look again! Snufkin’s legs are long. They are longer, and Sniff’s are shorter.
 > _For grown-ups: Compared two lengths with the words longer and shorter._
 
+**Sniff**: My legs are the shortest. So the mountain is taller for me.  
 **Snufkin**: Then you will have climbed the most.  
 **Sniff**: I had not thought of that.  
 _A steep slab needs a rope. Snufkin ties it to a rock._  
@@ -549,6 +550,7 @@ _Moomintroll reaches in. He pulls out a small gold ring._
 > _For grown-ups: Listened for the first sound of a word (ring starts with r)._
 
 **Sniff**: It is mine. I saw it first.  
+**Sniff**: I saw it. With my feet.  
 _Sniff goes to sulk. Then he finds a tiny red stone._  
 **Sniff**: A garnet, probably. Better than a ring.  
 **Sniff**: You hold it. Not keep it. Just hold it.  
@@ -571,14 +573,15 @@ _Sniff has shared something. It was hard, and it was good._
 _In the valley below, someone is shouting for help._  
 _A dark bush has wound itself round a small friend._  
 **The Snork Maiden**: Do not touch it! It stings!  
-_Moomintroll runs straight in. Snufkin pulls the branches._  
-_You use a long stick to hold one branch down._  
+_Moomintroll wants to run in. Snufkin holds him back by the tail._  
+_Snufkin pushes the branches with his stick._  
+_You hold one branch down with a long stick, too._  
 _Your Nubbin hides in Sniff’s pocket. Everyone helps._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): do not touch plants you do not know  
 > _You find a strange plant. You do not know what it is._  
 > _What do you do?_  
-> - ✅ Look, and ask a grown-up → Yes! Look with eyes, not hands. Ask a grown-up if it is safe.
+> - ✅ Look, and ask a grown-up → Yes! Look with eyes, not hands. Snufkin used a stick, not his paws. Then ask a grown-up.
 > - Pick it up → Wait! Some plants sting or make us ill. Look first, and ask a grown-up.
 > _For grown-ups: Learned to look and ask a grown-up before touching an unknown plant._
 
@@ -645,12 +648,12 @@ _Moomintroll, Sniff, Snufkin, the Snork Maiden, and you._
 #### `sprout:a09-06-snork` · [main](main.md#a09-06-snork)
 
 _Her brother has a very neat camp under a pine._  
-_A sign on the tent says OFFICE._  
+_A sign on the tent says TENT. The Snork calls it his office._  
 
 > **Lesson** (literacy, RF.K.2, ask): letters and first sounds  
-> _The sign says OFFICE. Oh, oh, office. Which letter does it start with?_  
-> - ✅ O → Yes, O! A round letter, like an open mouth. Oh-ffice.
-> - S → S is for Snork. Office starts with a round O.
+> _The sign says TENT. Tuh, tuh, tent. Which letter does it start with?_  
+> - ✅ T → Yes, T! Tuh, tuh, tent. T stands up tall, like a tent pole.
+> - S → S is for Snork. Tent starts with T. Say it: tuh, tent!
 > _For grown-ups: Found the first letter of a word on a sign._
 
 **The Snork**: Sister. You are late. I had you down for four.  
@@ -665,6 +668,9 @@ _A sign on the tent says OFFICE._
 **The Snork**: And secretary, because nobody else has a pencil.  
 **Snufkin**: I have a pencil.  
 **The Snork**: Then you may be the audience.  
+_Snufkin starts to speak. The Snork talks over him._  
+**The Snork**: One at a time!  
+_Then the Snork sees that it means him, too._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, notice): one voice at a time keeps a meeting fair  
 > _In a meeting, one person talks and the others listen._  
@@ -683,9 +689,9 @@ _Everybody puts a paw up. Your Nubbin puts up two._
 > - Three → Count with me: one paw, two paws. That is two!
 > _For grown-ups: Counted two paws and matched a number to them._
 
-**The Snork**: Carried. Item two. Should we be worried?  
+**The Snork**: Agreed. Item two. Should we be worried?  
 **Sniff**: Both my paws. And my ears.  
-**The Snork**: Carried. Item three. What shall we do? Suggestions?  
+**The Snork**: Agreed. Item three. What shall we do? Suggestions?  
 _Nobody says anything. The comet moves a little._  
 
 **Choices**
@@ -714,7 +720,7 @@ _Under “Any other business” he has written: Sniff is worried._
 
 #### `sprout:a09-06-complete` · [main](main.md#a09-06-complete)
 
-_The Snork folds his tent into a tiny square parcel._  
+_The Snork folds his tent four times, into a tiny square parcel._  
 **The Snork**: Meeting closed. We march.  
 
 > **Lesson** (maths, K.G.A.2, ask): a square has four equal sides  
@@ -857,6 +863,7 @@ _Across is the short way. Around is the long way._
 _You gather driftwood. Snufkin ties on footrests._  
 _The Hemulen’s stilts are the tallest. Sniff’s are the shortest._  
 **Sniff**: Mine are short.  
+**Snufkin**: Short stilts fall over less far.  
 
 > **Lesson** (maths, K.MD.A.2, ask): compare heights: tallest and shortest  
 > _Whose stilts are the tallest, and whose are the shortest?_  
@@ -864,7 +871,7 @@ _The Hemulen’s stilts are the tallest. Sniff’s are the shortest._
 > - Sniff’s tallest → Look again. The Hemulen’s are tallest. Sniff’s are the shortest.
 > _For grown-ups: Compared stilts using tallest and shortest._
 
-**Snufkin**: Short stilts fall over less far.  
+_Sniff falls over on purpose. He wants it over with._  
 _Everybody practises, and everybody falls over. Then up again!_  
 
 **Choices**
@@ -900,7 +907,7 @@ _In a puddle lies a pink shell with a curl._
 _You pick it up. You hold it to your ear._  
 **Moomintroll**: It is waiting. It is listening for the sea, like us.  
 
-> **Lesson** (science, K-ESS3-1, ask): a shell is an animal’s home  
+> **Lesson** (science, ask): a shell is an animal’s home  
 > _The shell is empty. Who lived in the shell, a long time ago?_  
 > - ✅ A small sea animal → Yes! A shell is a sea animal’s home. It grows with them.
 > - A bird → Birds live in nests. Shells are homes for small sea animals.
@@ -914,9 +921,9 @@ _It is pink, and curly, and very light._
 _It seems to want carrying._  
 
 > **Lesson** (literacy, RL.1.4, ask): describing words  
-> _The shell is pink, curly and light. What word tells us how it looks?_  
-> - ✅ Curly → Yes! Curly. Describing words tell us what things are like.
-> - Loud → A shell is not loud. Pink, curly and light are describing words.
+> _The shell is pink. Which word tells its colour?_  
+> - ✅ Pink → Yes! Pink tells its colour. Describing words tell us what things are like.
+> - Curly → Curly tells its shape. Pink tells its colour.
 > _For grown-ups: Picked out a describing word for how something looks._
 
 
@@ -962,7 +969,7 @@ _The water in the pool moves, though there is no wind._
 
 **Snufkin**: Moomintroll. Come back on the ridge. Slowly.  
 _Snufkin’s voice is low and calm._  
-_A calm voice helps a friend who is in a fix._  
+_A calm voice helps a friend who is stuck._  
 
 > **Lesson** (sel, CASEL: Self-management, notice): a calm voice helps a friend feel steady  
 > _When someone is in trouble, a calm voice helps them feel steady._  
@@ -973,20 +980,20 @@ _A calm voice helps a friend who is in a fix._
 #### `sprout:a09-09-octopus` · [main](main.md#a09-09-octopus)
 
 _A long arm comes out of the pool. Then another._  
-_An octopus lifts its head. It looks at him with one big, sad eye._  
+_An octopus lifts its head. It looks at Moomintroll with one big, sad eye._  
 _It has eight arms. One curls round Moomintroll’s stilt._  
-
-> **Lesson** (maths, K.CC.A.1, do): count eight arms  
-> _An octopus has eight arms._  
-> _(Count them on your fingers: one, two, three, four, five, six, seven, eight.)_  
-> Check: `edu:count:octopus-arms:8`
-> _For grown-ups: Counted to eight on the arms of an octopus._
-
 **Moomintroll**: Help! I cannot pull free!  
 _Sniff squeaks and hides behind the Hemulen._  
+_The Hemulen holds up his net. It does not help. It is very brave._  
 _The Snork Maiden grabs a lantern and runs._  
 **The Snork Maiden**: Let him go!  
 _She swings the lantern. Gold light flares on the rock._  
+
+> **Lesson** (sel, ELOF: Social and Emotional Development, notice): scared is a feeling, and friends help  
+> _Sniff is scared. The Snork Maiden is scared too._  
+> _Scared is a feeling, and it is all right. Friends help each other._  
+> _For grown-ups: Named scared as a feeling and talked about how friends help._
+
 
 **Choices**
 
@@ -1000,6 +1007,13 @@ _She swings the lantern. Gold light flares on the rock._
 #### `sprout:a09-09-octopus-done` · [main](main.md#a09-09-octopus-done)
 
 _The octopus slides back into its pool. Not a splash._  
+
+> **Lesson** (maths, K.CC.A.1, do): count eight arms  
+> _The octopus has eight arms. All eight slide away._  
+> _(Count them on your fingers: one, two, three, four, five, six, seven, eight.)_  
+> Check: `edu:count:octopus-arms:8`
+> _For grown-ups: Counted to eight on the arms of an octopus._
+
 _It was only curious, and a bit frightened by the lights._  
 _Moomintroll is fine. He just stares at the Snork Maiden._  
 
@@ -1039,7 +1053,7 @@ _You climb off the seabed in the morning._
 _The sky is red, even in the daytime._  
 _The air is hot and still. The leaves hang down._  
 
-> **Lesson** (science, K-ESS2-1, notice): wind makes leaves move; still air does not  
+> **Lesson** (science, notice): wind makes leaves move; still air does not  
 > _When the air is still, leaves hang down._  
 > _When the wind blows, they dance. Wind is air that moves._  
 > _For grown-ups: Heard that wind is moving air, and that still air leaves leaves hanging._
@@ -1068,8 +1082,9 @@ _He wears a big flowered dress and fans himself._
 _A great wind comes. Dust spins up in a column._  
 **Snufkin**: Down behind the wall, everybody!  
 _It picks up the other Hemulen, in his dress._  
-_The dress fills up like a sail! He holds on to Moomintroll._  
-_Then everyone holds on to everyone._  
+_The dress fills up like a sail!_  
+_The second Hemulen holds on to Moomintroll. Hold on tight! Hold on tight!_  
+_Then everyone holds on to everyone. Hold on tight! Hold on tight!_  
 **Snufkin**: Spread your skirts out wide! Like wings!  
 _The Hemulen spreads his dress. You are gliding, all in a chain._  
 
@@ -1092,7 +1107,7 @@ _The Hemulen spreads his dress. You are gliding, all in a chain._
 #### `sprout:a09-10-tornado-done` · [main](main.md#a09-10-tornado-done)
 
 _The wind sets you all down, gently._  
-_One after another, like washing off a line._  
+_One after another, like socks letting go of their pegs._  
 **The Other Hemulen**: My best dress. It has never been so useful.  
 _(Say it together, like a drum: Hold on tight! Hold on tight!)_  
 
@@ -1172,8 +1187,9 @@ _The cave mouth glows. Inside, there is a room!_
 _Blankets, lamps, a rocking chair, and the kitchen clock._  
 **Moominmamma**: There you all are. More of you than went!  
 _Moomintroll runs into her apron and stays._  
-**Moominmamma**: There is cake. There is always cake, at the end of the world.  
+**Moominmamma**: There is cake. There is always cake when we are scared.  
 **The Muskrat**: I brought my hammock. Nobody else thought of it.  
+**Moominpappa**: I brought my book about me. In case.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what makes a place feel safe  
 > _Mamma made a cave feel safe. What can make a place feel safe?_  
@@ -1262,12 +1278,13 @@ _You wait, together._
 
 #### `sprout:a09-11-dark-done` · [main](main.md#a09-11-dark-done)
 
-_The kitchen clock says eight forty-two._  
-_The clock has gone on ticking, tick, tick, tick._  
+_The clock says eight forty-two. That is the Professor’s time._  
+_Nobody moves. Nobody speaks. Even Sniff._  
+_The clock goes on ticking, tick, tick, tick._  
 _Time goes on, even when we wait._  
 
-> **Lesson** (maths, 1.MD.B.3, notice): the clock hands move forward as time passes  
-> _Half past seven, then twenty to nine, then eight forty-two._  
+> **Lesson** (maths, notice): the clock hands move forward as time passes  
+> _Twenty to nine, then eight forty-two._  
 > _The clock’s hands creep round and round as time goes by._  
 > _For grown-ups: Noticed that clock hands move on as time passes, reading three times in the story._
 
@@ -1298,7 +1315,7 @@ _Everyone is here._
 
 _The roar goes over. It goes on a long time._  
 _Then it is less. Then it is going away._  
-**The Muskrat**: It seems to have missed.  
+**The Muskrat**: Missed us. How rude.  
 _The Snork Maiden laughs in the dark. Then everybody laughs._  
 **Sniff**: Has it gone? Tell me exactly.  
 **Moominpappa**: It brushed us with its tail, and went on its way.  
@@ -1331,8 +1348,8 @@ _The grey has gone off everything. The grass is green._
 _The sea is coming back, in long, slow, shining sheets._  
 
 > **Lesson** (science, notice): the tide: the sea goes out and comes back  
-> _Real seas move in and out each day. We call that the tide._  
-> _The sea goes out, and it always comes back._  
+> _Real seas go out and come in each day. That is the tide._  
+> _This sea went out much too far, because of the comet!_  
 > _For grown-ups: Heard that the sea moves in and out each day, called the tide._
 
 **Moomintroll**: It came back. Everything came back.  
@@ -1348,16 +1365,16 @@ _The grey has gone off everything. The grass is green._
 _The sea is coming back, in long, slow, shining sheets._  
 
 > **Lesson** (science, notice): the tide: the sea goes out and comes back  
-> _Real seas move in and out each day. We call that the tide._  
-> _The sea goes out, and it always comes back._  
+> _Real seas go out and come in each day. That is the tide._  
+> _This sea went out much too far, because of the comet!_  
 > _For grown-ups: Heard that the sea moves in and out each day, called the tide._
 
 **Moomintroll**: It came back. Everything came back.  
 **Snufkin**: Things mostly do.  
 _The raft drifts in on the first wave._  
-_Its name is still on the stern._  
+_MAMMA is still painted on the back._  
 **Sniff**: She came home on her own. That is allowed, isn’t it?  
-**Moominpappa**: Of course. She is named after someone who always comes home.  
+**Moominpappa**: Of course. She is named after Mamma. Mamma always comes home.  
 
 #### `sprout:a09-12-dawn-valuable` · [main](main.md#a09-12-dawn-valuable)
 
@@ -1369,14 +1386,14 @@ _The grey has gone off everything. The grass is green._
 _The sea is coming back, in long, slow, shining sheets._  
 
 > **Lesson** (science, notice): the tide: the sea goes out and comes back  
-> _Real seas move in and out each day. We call that the tide._  
-> _The sea goes out, and it always comes back._  
+> _Real seas go out and come in each day. That is the tide._  
+> _This sea went out much too far, because of the comet!_  
 > _For grown-ups: Heard that the sea moves in and out each day, called the tide._
 
 **Moomintroll**: It came back. Everything came back.  
 **Snufkin**: Things mostly do.  
 _The raft drifts in on the first wave._  
-_Its name is still on the stern._  
+_THE VALUABLE is still painted on the back. Sniff pats it, twice._  
 **Sniff**: She came home on her own. That is what a valuable does.  
 **Moominpappa**: Of course. She is called The Valuable. We do not lose a valuable.  
 
@@ -1428,6 +1445,7 @@ _Then he looks pleased, which surprises him more._
 #### `sprout:a09-12-gate` · [main](main.md#a09-12-gate)
 
 _Snufkin is at the gate with his tent on his back._  
+_Two friends have a gift for you._  
 _You hold out his hat._  
 **Snufkin**: Keep it. I will find another.  
 _He puts it on your head. It comes down over your eyes!_  
@@ -1446,8 +1464,8 @@ _She gives you a little blue stove._
 
 _Snufkin is at the bend in the road._  
 _He plays a few notes without looking back._  
-_You play a few back._  
-_He waves his hand over his head._  
+_You play a few notes back. They sound like a duck in a cupboard._  
+_Snufkin waves his hand over his head. Right note!_  
 
 > **Lesson** (music, ELOF: Language and Communication, do): call and response  
 > _Snufkin plays, and you play back. Let’s do it._  

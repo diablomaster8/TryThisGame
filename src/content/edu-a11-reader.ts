@@ -609,6 +609,7 @@ const SCENES: Record<string, SceneData> = {
   'a11-04-complete': {
     lines: [
       N('Pooh walks home feeling that he has done a Good Deed, which he has.'),
+      N('On the way he passes Owl’s window. Owl’s clock says twenty past ten.'),
       N(
         'He feels so pleased that he is ready for a little something by eleven o’clock. So he has one.',
       ),
@@ -1272,6 +1273,9 @@ const SCENES: Record<string, SceneData> = {
       CR('It was Pooh’s idea. All of it.'),
       P('Was it? It was a very good idea. I must have more of them.', 'happy'),
       N('Your Nubbin, on your head, sneezes once. It is the driest thing for miles.'),
+      N(
+        'Three fit, just. You wonder how many loads ten friends would take, if each time Pooh pulled the boat back empty on a string.',
+      ),
     ],
   },
   'a11-10-invites': {
@@ -1282,7 +1286,7 @@ const SCENES: Record<string, SceneData> = {
       O('A party. Very good. I shall Announce it.'),
       N('Owl flies off to tell everyone, and you go too, to tell everyone again in shorter words.'),
       N('At the Gloomy Place, Owl tells Eeyore. Eeyore nods slowly, and stops listening halfway.'),
-      E('A party. For me. Well. Fancy that. Better late than never, I suppose.', 'think'),
+      E('A party. For me. Well. I didn’t expect that. It’s late, but it’s here, I suppose.', 'think'),
       O('No, it is for…'),
       N(
         'But Eeyore has turned away to think about it, and Owl has a great many more trees to visit.',
@@ -1314,6 +1318,7 @@ const SCENES: Record<string, SceneData> = {
       R(
         'Not there! Owl at the top, because he’s Owl. Then Kanga, then me, then my friends-and-relations, all of them…',
       ),
+      R('Twelve friends-and-relations, four to a bench. Three benches. I’ve done a chart.'),
       N(
         'Rabbit organises the seats until there aren’t any left. There is one chair at the very end, where Rabbit hasn’t looked.',
       ),
@@ -1461,6 +1466,7 @@ const SCENES: Record<string, SceneData> = {
       N(
         'Your Nubbin walks behind them in Pooh’s footprints all the way home, which takes a great deal of jumping.',
       ),
+      N('Pooh’s footprints are 30 cm apart. Your Nubbin rests after every ten hops.'),
     ],
   },
   'a11-12-night': {
@@ -1501,7 +1507,12 @@ const SCENES: Record<string, SceneData> = {
     ],
   },
   'a11-12-night-done': {
-    lines: [N('In the morning Pooh sets out a pot of honey for Tigger. The very best kind.')],
+    lines: [
+      N('In the morning Pooh sets out a pot of honey for Tigger. The very best kind.'),
+      N(
+        'The label says 500 ml. Pooh’s spoon holds 50 ml, which he thinks is a sensible size for a spoon.',
+      ),
+    ],
   },
   'a11-12-breakfast': {
     lines: [
@@ -1532,15 +1543,16 @@ const SCENES: Record<string, SceneData> = {
   'a11-12-malt': {
     lines: [
       N(
-        'At Kanga’s house, Roo is having his medicine. He does not want it; he wants anything else.',
+        'At Kanga’s house, Roo is having a spoon of sticky brown malt. He does not want it; he wants anything else.',
       ),
       RO(
         'Do I have to? It’s Extract of Malt. It’s brown, and it sticks to the spoon, and it goes on and on.',
       ),
       K('Just one spoonful, dear. It makes you big and strong.'),
-      N('Tigger leans over Roo’s shoulder, sniffs, and takes the whole spoonful.'),
+      K('Would you like to try, Tigger? One spoon. Only from me, mind.'),
+      N('Tigger tries it. His tail goes straight up.'),
       N(
-        'Kanga stares, and Roo stares. Your Nubbin, who has been staring at everything since the thistles, stares harder.',
+        'Roo stares. Your Nubbin, who has been staring at everything since the thistles, stares harder.',
       ),
       T('That’s it! That’s the one! That’s a Tigger breakfast!', 'happy'),
       RO('He can have mine! All of it! Always!', 'happy'),
@@ -1725,6 +1737,7 @@ const SCENES: Record<string, SceneData> = {
       N(
         'Christopher Robin puts his tunic back on. It has a Tigger-shaped stretch in the middle now, and he says he likes it better.',
       ),
+      N('Spread flat this morning, it was 2 metres long and 1 metre wide. Now it is a little more.'),
       N(
         'Your Nubbin finds it can’t get down the last bit of its branch either, and has to be lifted.',
       ),
@@ -1784,7 +1797,10 @@ const SCENES: Record<string, SceneData> = {
     ],
   },
   'a11-15-owl-done': {
-    lines: [R('Eeyore. Eeyore might have seen it. He sees most things, and complains about them.')],
+    lines: [
+      N('Rabbit left home at 10:15 by his clock. He walked 20 minutes to Owl’s, and has stayed 15.'),
+      R('Eeyore. Eeyore might have seen it. He sees most things, and complains about them.'),
+    ],
   },
   'a11-15-a': {
     lines: [
@@ -1858,10 +1874,10 @@ const SCENES: Record<string, SceneData> = {
         'Your Nubbin drops its stick. Then, before anyone can stop it, it drops itself in after it.',
       ),
       N(
-        'It swims along beside its stick under the bridge, nudging it with its nose, in no hurry, enjoying the wet.',
+        'Your Nubbin swims out to the fast middle. Its stick rides along beside it, in no hurry, enjoying the wet.',
       ),
       RO('That’s not fair! Is it fair? Can I do that?'),
-      CR('No, Roo.'),
+      CR('No, Roo. The river is too deep for you.'),
       P(
         'I think it’s fair. Nothing in the game says you can’t go with your stick. I should have thought of it.',
         'think',
@@ -1869,6 +1885,7 @@ const SCENES: Record<string, SceneData> = {
       N(
         'Your Nubbin’s stick comes out first, and so does your Nubbin, very pleased and very wet. It shakes itself all over Piglet.',
       ),
+      CR('That counts. Probably.', 'think'),
       PG('Oh! Oh, d-dear. Woozles shake like that. I’m nearly sure.', 'shock'),
     ],
     choices: [
@@ -2199,7 +2216,10 @@ const SCENES: Record<string, SceneData> = {
       N(
         'Rabbit rolls up the scroll. Then he stops, because something is already round it: a blue ribbon, tied in a careful double bow.',
       ),
-      E('I had it in my pot. Seemed right. It’s a Friend ribbon. He’ll know what it says.', 'soft'),
+      E(
+        'Took it off my door. Door can bang for a bit. It’s a Friend ribbon. He’ll know what it says.',
+        'soft',
+      ),
       N(
         'Everyone walks to Christopher Robin’s house together. At the door, nobody wants to go first.',
       ),
@@ -2820,7 +2840,7 @@ const QUEST_DEFS: { of: string; title: string; goals: EduQuest['goals']; scenes:
       },
       'a11-12-s3': {
         goal: 'Take Tigger to Kanga’s for one last try.',
-        hint: 'Kanga’s house is by the Sandy Pit. Roo is having his medicine.',
+        hint: 'Kanga’s house is by the Sandy Pit. Roo is having his malt.',
       },
     },
     scenes: [
@@ -3051,10 +3071,11 @@ const LESSONS: Record<string, LessonIn[]> = {
       'a character’s motive is the reason they act',
       'RL.3.3',
       [
-        CR(
+        N('The page has a quiet pencil voice in its margin. It knows a few things.'),
+        N(
           'A motive is the reason a character does something. Pooh’s motive for going out today is honey.',
         ),
-        CR(
+        N(
           'Knowing a character’s motive helps you guess what they will do next. Try it on the bees.',
         ),
       ],
@@ -3099,10 +3120,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'using context to work out a new word: suspicious',
       'L.2.4',
       [
-        CR(
+        N(
           'Suspicious means not trusting someone, and thinking they may be up to something. The bees are quite right to be.',
         ),
-        CR(
+        N(
           'You can often work out a new word from what is around it. A muddy “cloud” has come for their honey: no wonder they look at it oddly.',
         ),
       ],
@@ -3117,7 +3138,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       'CASEL: Relationship skills',
       [
         N(
-          'Christopher Robin says laughing hurts Pooh’s feelings, then admits he laughed too. What is the best thing to do if you laugh and someone is hurt?',
+          'Christopher Robin says laughing would hurt Pooh’s feelings. What is the best thing to do if you laugh and someone is hurt?',
         ),
       ],
       [
@@ -3179,10 +3200,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'bees carry pollen from flower to flower while making honey',
       '2-LS2-2',
       [
-        CR(
+        N(
           'To make honey, bees drink a sweet juice called nectar from flowers. A single worker makes only about a twelfth of a teaspoon in her whole life.',
         ),
-        CR(
+        N(
           'As she goes from flower to flower, pollen sticks to her. That is how bees help plants make seeds. We say they pollinate.',
         ),
       ],
@@ -3201,11 +3222,11 @@ const LESSONS: Record<string, LessonIn[]> = {
         ),
       ],
       [
-        opt('15 cm', [CR('Yes. 45 − 30 = 15. That is a lot of honey.')], true),
+        opt('15 cm', [N('Yes. 45 − 30 = 15. That is a lot of honey.')], true),
         opt('75 cm', [
-          CR('That is 45 + 30. To find the gap, take the smaller from the bigger: 45 − 30 = 15.'),
+          N('That is 45 + 30. To find the gap, take the smaller from the bigger: 45 − 30 = 15.'),
         ]),
-        opt('5 cm', [CR('Try again: 45 − 30. Take away 3 tens to get 15.')]),
+        opt('5 cm', [N('Try again: 45 − 30. Take away 3 tens to get 15.')]),
       ],
       'Subtracted two measurements to find how much wider Pooh was than the door.',
     ),
@@ -3266,10 +3287,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       null,
       'edu:tally:days-of-week:7',
       [
-        CR(
+        N(
           'A week has seven days. Let us keep a tally: one stroke for each day, four strokes standing up and the fifth across them like a gate.',
         ),
-        CR(
+        N(
           'Make one gate and two more strokes. That is seven, and Pooh is free on the seventh day.',
         ),
       ],
@@ -3319,10 +3340,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'tracks tell us size, speed and direction',
       null,
       [
-        CR(
+        N(
           'Animal trackers read prints like a story. The size shows how big the animal is, and the spacing shows how fast it moved.',
         ),
-        CR(
+        N(
           'A line of prints shows where it went. A circle of prints, though, shows somebody going round in circles.',
         ),
       ],
@@ -3336,14 +3357,14 @@ const LESSONS: Record<string, LessonIn[]> = {
       'a pattern that follows a rule: adding 2 each lap',
       '4.OA.C.5',
       [
-        N('Each lap round the larches, Pooh and Piglet each add one set of prints.'),
+        N('Pooh walks round, and the Nubbin follows, adding small prints of its own.'),
         N('After lap 1 there are 2 sets. After lap 2 there are 4. How many after lap 5?'),
       ],
       [
-        opt('10 sets', [CR('Yes. The rule is add 2 each lap: 2, 4, 6, 8, 10.')], true),
-        opt('8 sets', [CR('That is lap 4. Keep going one more: 2, 4, 6, 8, 10.')]),
+        opt('10 sets', [N('Yes. The rule is add 2 each lap: 2, 4, 6, 8, 10.')], true),
+        opt('8 sets', [N('That is lap 4. Keep going one more: 2, 4, 6, 8, 10.')]),
         opt('5 sets', [
-          CR('That would be adding 1. The rule here is add 2 each lap, so lap 5 gives 10.'),
+          N('That would be adding 1. The rule here is add 2 each lap, so lap 5 gives 10.'),
         ]),
       ],
       'Continued a number pattern by applying the rule add 2.',
@@ -3463,10 +3484,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'thistle prickles protect the plant; donkeys cope',
       '4-LS1-1',
       [
-        CR(
+        N(
           'A thistle is covered in sharp spines. The spines are a structure that helps the plant survive, because most animals do not want a mouthful.',
         ),
-        CR(
+        N(
           'Donkeys really do eat thistles. Their lips and mouths are tough enough for the prickles.',
         ),
       ],
@@ -3487,16 +3508,16 @@ const LESSONS: Record<string, LessonIn[]> = {
       [
         opt(
           'A sign with information on it',
-          [CR('Yes. As a noun, a notice is a sign. A word can change its meaning with its job.')],
+          [N('Yes. As a noun, a notice is a sign. A word can change its meaning with its job.')],
           true,
         ),
         opt('To see something', [
-          CR(
+          N(
             'That is the verb. Owl is using the noun: a notice is a sign you pin up for everyone.',
           ),
         ]),
         opt('To forget something', [
-          CR('Not quite. A notice is a sign that tells people something, like a lost tail poster.'),
+          N('Not quite. A notice is a sign that tells people something, like a lost tail poster.'),
         ]),
       ],
       'Worked out that notice can mean to see or a sign, depending on how it is used.',
@@ -3507,12 +3528,12 @@ const LESSONS: Record<string, LessonIn[]> = {
       2,
       'social-studies',
       'returning what you find',
-      'D2.Civ.8.K-2',
+      'D2.Civ.8.3-5',
       [
-        CR(
+        N(
           'Owl found the tail on a bush and made it his bell-pull. He did not know whose it was, but he never asked around either.',
         ),
-        CR(
+        N(
           'When you find something that might be lost, the fair thing is to ask whose it is, or hand it in. Someone may be missing it.',
         ),
       ],
@@ -3551,28 +3572,28 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-04-complete': [
     ask(
-      3,
+      4,
       'maths',
       'time intervals: 10:20 to 11:00',
       '3.MD.A.1',
       [
         N(
-          'Pooh leaves Eeyore at 10:20, and his little something is at eleven o’clock. How many minutes does he have to wait?',
+          'Owl’s clock says 10:20, and Pooh’s little something is at eleven o’clock. How many minutes does he have to wait?',
         ),
       ],
       [
         opt(
           '40 minutes',
-          [CR('Yes. From 10:20 to 11:00 is 40 minutes: 10:20 to 10:30 is 10, then 30 more.')],
+          [N('Yes. From 10:20 to 11:00 is 40 minutes: 10:20 to 10:30 is 10, then 30 more.')],
           true,
         ),
         opt('30 minutes', [
-          CR(
+          N(
             'Count again: 10:20 to 10:30 is 10 minutes, and 10:30 to 11:00 is another 30. That is 40.',
           ),
         ]),
         opt('20 minutes', [
-          CR('That is the minutes already on the clock. The wait to 11:00 is 40 minutes.'),
+          N('That is the minutes already on the clock. The wait to 11:00 is 40 minutes.'),
         ]),
       ],
       'Worked out a time interval from 10:20 to 11:00.',
@@ -3654,18 +3675,18 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'The jar traps and muffles the sound vibrations',
           [
-            CR(
+            N(
               'Yes. His voice makes vibrations, but the jar round his head keeps most of them in. Only a muffled sound gets out.',
             ),
           ],
           true,
         ),
         opt('The jar makes his voice louder', [
-          CR(
+          N(
             'A jar sometimes echoes, but with it on his head, most of the sound stays inside. So it is quieter.',
           ),
         ]),
-        opt('He is tired', [CR('He may well be! But this one is the jar, not sleepiness.')]),
+        opt('He is tired', [N('He may well be! But this one is the jar, not sleepiness.')]),
       ],
       'Explained why a jar over the head muffles a voice.',
     ),
@@ -3689,8 +3710,8 @@ const LESSONS: Record<string, LessonIn[]> = {
     ask(
       6,
       'science',
-      'shadows and dim light can fool us',
-      '5-ESS1-2',
+      'dim light can fool our eyes',
+      null,
       [
         N(
           'At dawn Piglet sees a huge round-headed shape and shouts “Heffalump!” Why did Pooh with a jar look so strange?',
@@ -3698,20 +3719,20 @@ const LESSONS: Record<string, LessonIn[]> = {
       ],
       [
         opt(
-          'In dim light we see only an outline',
+          'The jar made a big head, and the light was dim',
           [
-            CR(
-              'Yes. With little light, we cannot see colours or details, only a dark shape, and our brain guesses.',
+            N(
+              'Yes. The jar made a huge round head, and in dim light Piglet saw only the outline.',
             ),
           ],
           true,
         ),
         opt('Pooh really grew bigger', [
-          CR(
+          N(
             'He did not! Low morning light makes long shadows and big outlines, which can make small things look huge.',
           ),
         ]),
-        opt('The jar was magic', [CR('It was only a jar. Light and shadow did the rest.')]),
+        opt('The jar was magic', [N('It was only a jar. Light and shadow did the rest.')]),
       ],
       'Learned that in dim light we see only outlines, which can be misread.',
     ),
@@ -3786,17 +3807,17 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'It is squeezed until the rubber cannot stretch more',
           [
-            CR(
+            N(
               'Yes. Air presses outwards on the rubber in every direction. Squash it, and the pressure rises until the rubber tears.',
             ),
           ],
           true,
         ),
         opt('The air disappears', [
-          CR('Air does not vanish. It rushed out through the tear in a hurry: that is the bang.'),
+          N('Air does not vanish. It rushed out through the tear in a hurry: that is the bang.'),
         ]),
         opt('The air gets colder', [
-          CR(
+          N(
             'Not really. It is the pressure that matters: Piglet squeezed it harder than the rubber could take.',
           ),
         ]),
@@ -3826,7 +3847,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       8,
       'social-studies',
       'choosing means giving something up',
-      'D2.Eco.1.K-2',
+      'D2.Eco.1.3-5',
       [
         N(
           'Your Nubbin has three things it could give: the ribbon, the thistle, or its time. It cannot give all three at once.',
@@ -3865,10 +3886,10 @@ const LESSONS: Record<string, LessonIn[]> = {
         ),
       ],
       [
-        opt('1/8', [CR('Yes. One of eight equal parts is one eighth, written 1/8.')], true),
-        opt('1/2', [CR('One half would be 4 of the 8 slices. One slice on its own is 1/8.')]),
+        opt('1/8', [N('Yes. One of eight equal parts is one eighth, written 1/8.')], true),
+        opt('1/2', [N('One half would be 4 of the 8 slices. One slice on its own is 1/8.')]),
         opt('8/1', [
-          CR('Careful: the fraction goes one part over the total number of parts: 1/8.'),
+          N('Careful: the fraction goes one part over the total number of parts: 1/8.'),
         ]),
       ],
       'Named a unit fraction: one equal slice out of eight.',
@@ -3883,10 +3904,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'baby kangaroos grow in the pouch',
       '1-LS1-2',
       [
-        CR(
+        N(
           'Real kangaroos are marsupials. A baby, called a joey, is born tiny and finishes growing in its mother’s pouch.',
         ),
-        CR(
+        N(
           'The pouch keeps it warm and safe, and she can feed it there. Nobody in the Forest has seen that before.',
         ),
       ],
@@ -3896,7 +3917,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       7,
       'social-studies',
       'how to treat newcomers',
-      'D2.Civ.8.K-2',
+      'D2.Civ.8.3-5',
       [
         N(
           'Rabbit wants Kanga and Roo to leave, just because they are new and do things differently. Pooh asks “Where should she keep it?” Whose side is the better one?',
@@ -3930,7 +3951,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       'CASEL: Responsible decision-making',
       [
         N(
-          'In the Forest, Kanga knows all along and it is a game. In real life, a child should never be taken away from their grown-up, even as a game.',
+          'In the Forest it is a game. In real life, taking someone’s child is never a game.',
         ),
         N(
           'If it happens, say no loudly, stay close to other people, and tell a trusted adult straight away.',
@@ -3946,10 +3967,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'tendons store energy for a kangaroo’s hop',
       '4-LS1-1',
       [
-        CR(
+        N(
           'A kangaroo’s back legs have long, stretchy tendons. Each landing stretches them like springs, and they spring back to help with the next hop.',
         ),
-        CR(
+        N(
           'That saves the kangaroo energy, so a big red kangaroo can keep hopping for a long way.',
         ),
       ],
@@ -3964,9 +3985,9 @@ const LESSONS: Record<string, LessonIn[]> = {
       '3.OA.A.3',
       [N('Roo hops off Rabbit’s step 6 times every minute. How many hops in 5 minutes?')],
       [
-        opt('30 hops', [CR('Yes. Five groups of six: 5 × 6 = 30.')], true),
-        opt('11 hops', [CR('That is 6 + 5. Each minute has 6 hops, so multiply: 5 × 6 = 30.')]),
-        opt('36 hops', [CR('Close, but that would be 6 minutes. Five minutes is 5 × 6 = 30.')]),
+        opt('30 hops', [N('Yes. Five groups of six: 5 × 6 = 30.')], true),
+        opt('11 hops', [N('That is 6 + 5. Each minute has 6 hops, so multiply: 5 × 6 = 30.')]),
+        opt('36 hops', [N('Close, but that would be 6 minutes. Five minutes is 5 × 6 = 30.')]),
       ],
       'Used multiplication to count hops over five minutes.',
     ),
@@ -3998,14 +4019,14 @@ const LESSONS: Record<string, LessonIn[]> = {
       [
         opt(
           'Asking, then giving it back',
-          [CR('Yes. Borrowing needs permission and a return. Without them, it is just taking.')],
+          [N('Yes. Borrowing needs permission and a return. Without them, it is just taking.')],
           true,
         ),
         opt('Taking it quietly and returning it later', [
-          CR('The “returning” part is good. But without asking first, the owner has no say.'),
+          N('The “returning” part is good. But without asking first, the owner has no say.'),
         ]),
         opt('Keeping it until someone notices', [
-          CR(
+          N(
             'That is a long way from borrowing. Borrowing has an end, and the owner agrees to it.',
           ),
         ]),
@@ -4081,10 +4102,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'water safety: reach, throw, do not go',
       'CASEL: Responsible decision-making',
       [
-        CR(
+        N(
           'Nubbins do not mind water, but people should. If someone falls in, the safe rule is reach or throw, do not go.',
         ),
-        CR(
+        N(
           'Hold out a pole or a branch from the bank, or throw something that floats, and shout for a grown-up.',
         ),
       ],
@@ -4098,10 +4119,9 @@ const LESSONS: Record<string, LessonIn[]> = {
       'streams run downhill and carry things along',
       null,
       [
-        CR(
+        N(
           'Water always runs downhill, pulled by gravity. A stream can carry leaves, sticks and even a small Roo along with it.',
         ),
-        CR('Remember that: it matters for a game on the bridge later.'),
       ],
       'Learned that streams flow downhill and carry things along.',
     ),
@@ -4144,12 +4164,12 @@ const LESSONS: Record<string, LessonIn[]> = {
       0,
       'social-studies',
       'the real North Pole is a spot on a frozen ocean',
-      'D2.Geo.2.K-2',
+      'D2.Geo.2.3-5',
       [
-        CR(
+        N(
           'The real North Pole is a point at the very top of the Earth. It is not land but floating sea ice on the Arctic Ocean.',
         ),
-        CR(
+        N(
           'An expedition is a journey made for a purpose, like exploring. Pooh’s was a very short one.',
         ),
       ],
@@ -4196,10 +4216,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'the water cycle and floods',
       '3-ESS2-1',
       [
-        CR(
+        N(
           'Rain starts as water vapour rising from seas and lakes. It cools into drops, which fall as rain. Rivers carry it back to the sea.',
         ),
-        CR('A flood happens when rain falls faster than the ground and streams can carry it away.'),
+        N('A flood happens when rain falls faster than the ground and streams can carry it away.'),
       ],
       'Learned that rain is part of the water cycle and that floods happen when too much falls too fast.',
     ),
@@ -4234,10 +4254,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'a corked bottle floats because it is mostly air',
       '2-PS1-1',
       [
-        CR(
+        N(
           'A corked bottle is mostly air, so it is light for its size. We say it is buoyant, and it floats.',
         ),
-        CR(
+        N(
           'A stone is heavy for its size, so it sinks. Weight alone does not decide it: size and shape matter too.',
         ),
       ],
@@ -4259,19 +4279,19 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'Not quite: Piglet starts with P too',
           [
-            CR(
+            N(
               'Yes. A single clue can fit more than one answer. Good readers look for another clue before deciding.',
             ),
           ],
           true,
         ),
         opt('Yes, P is for Pooh', [
-          CR(
+          N(
             'It might be! But P also fits Piglet, and the message is from him. One clue is not always enough.',
           ),
         ]),
         opt('He should not read it at all', [
-          CR(
+          N(
             'Reading as much as you can is good. Just keep an open mind about what the rest might say.',
           ),
         ]),
@@ -4286,10 +4306,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'floods make temporary islands; high ground is safe',
       '2-ESS2-2',
       [
-        CR(
+        N(
           'The hill is an island now: land with water all around it. On a map, an island is land surrounded by blue.',
         ),
-        CR(
+        N(
           'In a real flood, high ground is the safest place. Water fills the lowest places first.',
         ),
       ],
@@ -4332,24 +4352,26 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-09-complete': [
     ask(
-      2,
+      5,
       'maths',
       'two-step problem with a remainder',
       '3.OA.D.8',
       [
         N(
-          'The umbrella boat carries 3 friends at a time. How many trips would it need to carry 10 friends?',
+          'The umbrella boat carries 3 friends at a time. How many loads would it take to carry 10 friends?',
         ),
       ],
       [
         opt(
-          '4 trips',
-          [CR('Yes. Three trips carry 9 friends, and a fourth trip takes the last one.')],
+          '4 loads',
+          [CR('Yes. Three loads carry 9 friends, and a fourth load takes the last one.')],
           true,
         ),
-        opt('3 trips', [CR('Three trips carry only 9. The tenth friend needs a fourth trip.')]),
-        opt('7 trips', [
-          CR('That would be too many. 10 ÷ 3 is 3 with 1 left over, so 3 + 1 = 4 trips.'),
+        opt('3 loads', [CR('Three loads carry only 9. The tenth friend needs a fourth load.')]),
+        opt('7 loads', [
+          CR(
+            'Seven is the crossings: 4 loads over and 3 empty trips back. The loads are 10 ÷ 3, which is 3 with 1 left, so 4.',
+          ),
         ]),
       ],
       'Solved a division problem and handled the remainder.',
@@ -4417,13 +4439,21 @@ const LESSONS: Record<string, LessonIn[]> = {
     ask(
       3,
       'maths',
-      'equal groups: 12 seats in 3 rows',
+      'equal groups: 12 friends on 3 benches',
       '3.OA.A.3',
-      [N('Rabbit seats 12 friends-and-relations in 3 equal rows. How many are in each row?')],
       [
-        opt('4 in each row', [CR('Yes. 12 ÷ 3 = 4, since 3 × 4 = 12.')], true),
-        opt('9 in each row', [CR('That is 12 − 3. Share 12 equally into 3 rows: 12 ÷ 3 = 4.')]),
-        opt('3 in each row', [CR('Three rows of 3 would be only 9. Three rows of 4 make 12.')]),
+        N(
+          'Check Rabbit’s chart. He shares 12 friends-and-relations equally between 3 benches. How many go on each bench?',
+        ),
+      ],
+      [
+        opt('4 on each bench', [N('Yes. 12 ÷ 3 = 4, since 3 × 4 = 12. The chart is right.')], true),
+        opt('9 on each bench', [
+          N('That is 12 − 3. Share 12 equally between 3 benches: 12 ÷ 3 = 4.'),
+        ]),
+        opt('3 on each bench', [
+          N('Three benches of 3 would seat only 9. Three benches of 4 seat 12.'),
+        ]),
       ],
       'Divided 12 into 3 equal groups.',
     ),
@@ -4439,7 +4469,7 @@ const LESSONS: Record<string, LessonIn[]> = {
           'Eeyore “half stands up to make a speech”, then sits down again. The author never says he is shy or doubtful.',
         ),
         N(
-          'We work it out from what he does. That is called showing, not telling, and it is how stories get under your skin.',
+          'We work it out from what he does. That is called showing, not telling, and it is how stories make you care.',
         ),
       ],
       'Learned that actions can show a character’s feelings without saying them.',
@@ -4449,14 +4479,14 @@ const LESSONS: Record<string, LessonIn[]> = {
     notice(
       1,
       'science',
-      'pencil grades: B, HB and H',
+      'pencil grades: B, HB and BB',
       '2-PS1-1',
       [
-        CR(
+        N(
           'Pencil “lead” is really graphite mixed with clay. More clay makes it harder and lighter. More graphite makes it softer and blacker.',
         ),
-        CR(
-          'B means black and soft. H means hard. HB is in the middle, the pencil most of us use at school.',
+        N(
+          'B, HB and BB. B means black and soft, and BB means extra black. HB is in the middle, the pencil most of us use at school.',
         ),
       ],
       'Learned that pencil grades describe how soft or hard the graphite is.',
@@ -4471,8 +4501,8 @@ const LESSONS: Record<string, LessonIn[]> = {
       'snow is frozen water; freezing point',
       '2-ESS2-3',
       [
-        CR('Snow is water that has frozen into tiny crystals. Water freezes at 0 °C (32 °F).'),
-        CR(
+        N('Snow is water that has frozen into tiny crystals. Water freezes at 0 °C (32 °F).'),
+        N(
           'When the air warms above that, snow melts back into water. In spring, it feeds the streams.',
         ),
       ],
@@ -4491,11 +4521,11 @@ const LESSONS: Record<string, LessonIn[]> = {
         ),
       ],
       [
-        opt('10 metres', [CR('Yes. Perimeter is the distance round: 3 + 2 + 3 + 2 = 10.')], true),
+        opt('10 metres', [N('Yes. Perimeter is the distance round: 3 + 2 + 3 + 2 = 10.')], true),
         opt('6 metres', [
-          CR('That is 3 × 2, the area of the floor. Perimeter adds all four sides: 10.'),
+          N('That is 3 × 2, the area of the floor. Perimeter adds all four sides: 10.'),
         ]),
-        opt('5 metres', [CR('That is only two of the sides. Add all four: 3 + 2 + 3 + 2 = 10.')]),
+        opt('5 metres', [N('That is only two of the sides. Add all four: 3 + 2 + 3 + 2 = 10.')]),
       ],
       'Found a perimeter by adding all four sides.',
     ),
@@ -4599,23 +4629,19 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-11-complete': [
     ask(
-      4,
+      5,
       'maths',
-      'distance: 14 hops of 30 cm',
+      'distance: 10 hops of 30 cm',
       '4.MD.A.1',
       [
         N(
-          'Your Nubbin hops from footprint to footprint, each 30 cm apart. It makes 14 hops. How far is that in metres?',
+          'Ten hops, each 30 cm. There are 100 cm in a metre. How far does your Nubbin go between rests, in metres?',
         ),
       ],
       [
-        opt(
-          '4 metres 20 centimetres',
-          [CR('Yes. 14 × 30 = 420 cm, which is 4 m and 20 cm.')],
-          true,
-        ),
-        opt('42 metres', [CR('That is ten times too big. 420 cm is 4.2 m.')]),
-        opt('4 metres', [CR('Nearly: 14 × 30 = 420 cm. That is 4 m and a further 20 cm.')]),
+        opt('3 metres', [N('Yes. 10 × 30 = 300 cm, and 300 cm is 3 m.')], true),
+        opt('30 metres', [N('That is ten times too big. 300 cm is 3 m.')]),
+        opt('300 metres', [N('300 is right in centimetres. In metres, 300 ÷ 100 = 3.')]),
       ],
       'Converted centimetres to metres after multiplying.',
     ),
@@ -4629,29 +4655,29 @@ const LESSONS: Record<string, LessonIn[]> = {
       'a growl is a low pitch: slow vibrations',
       '4-PS3-2',
       [
-        CR(
+        N(
           'A growl is a low-pitched sound: the throat vibrates slowly. A squeak is high-pitched, with very fast vibrations.',
         ),
-        CR('Pitch is how high or low a sound is. Volume is how loud. They are different things.'),
+        N('Pitch is how high or low a sound is. Volume is how loud. They are different things.'),
       ],
       'Learned that pitch depends on how fast something vibrates.',
     ),
   ],
   'a11-12-night-done': [
     ask(
-      0,
+      1,
       'maths',
       'volume in millilitres',
       '4.MD.A.2',
       [
         N(
-          'Pooh puts out a jar with 500 millilitres of honey. If Tigger tries 50 millilitres at a time, how many tries would empty the jar?',
+          'The pot holds 500 millilitres of honey. If Tigger took one 50 millilitre spoonful at a time, how many spoonfuls would empty it?',
         ),
       ],
       [
-        opt('10 tries', [CR('Yes. 500 ÷ 50 = 10.')], true),
-        opt('5 tries', [CR('Five tries would be only 250 millilitres. You need 10.')]),
-        opt('50 tries', [CR('That is far too many. Each try is a tenth of the jar, so 10 tries.')]),
+        opt('10 spoonfuls', [N('Yes. 500 ÷ 50 = 10.')], true),
+        opt('5 spoonfuls', [N('Five spoonfuls would be only 250 millilitres. You need 10.')]),
+        opt('50 spoonfuls', [N('That is far too many. Each spoonful is a tenth of the pot, so 10.')]),
       ],
       'Divided a volume of 500 millilitres into 50 millilitre portions.',
     ),
@@ -4663,10 +4689,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'taste and touch: two senses at work',
       '4-LS1-2',
       [
-        CR(
+        N(
           'Tigger uses touch and taste at once. His tongue feels that honey is sticky and tastes that it is sweet, and nerves send both messages to his brain.',
         ),
-        CR(
+        N(
           'Our senses are our body’s way of gathering information. A thistle is a good lesson in touch.',
         ),
       ],
@@ -4684,7 +4710,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       ],
       [
         opt('Yes, you might find a favourite', [
-          N('Tigger did, in the end. Trying costs a moment and can win you a lifelong favourite.'),
+          N('Tigger keeps trying. Trying costs a moment and can win you a lifelong favourite.'),
         ]),
         opt('No, stick to what you know', [
           N('It is safe. But Tigger would have gone hungry. Safe is not always the same as well.'),
@@ -4708,9 +4734,9 @@ const LESSONS: Record<string, LessonIn[]> = {
         ),
       ],
       [
-        opt('6 Shells', [CR('Yes. 3 + 2 + 1 = 6.')], true),
-        opt('5 Shells', [CR('Check again: 3 + 2 is 5, plus 1 more makes 6.')]),
-        opt('7 Shells', [CR('Close. 3 + 2 + 1 comes to 6.')]),
+        opt('6 Shells', [N('Yes. 3 + 2 + 1 = 6.')], true),
+        opt('5 Shells', [N('Check again: 3 + 2 is 5, plus 1 more makes 6.')]),
+        opt('7 Shells', [N('Close. 3 + 2 + 1 comes to 6.')]),
       ],
       'Added three prices in Shells.',
     ),
@@ -4722,10 +4748,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'how malt extract is made',
       null,
       [
-        CR(
+        N(
           'Extract of malt is made from barley. The grains are soaked until they sprout, then dried: that is malt.',
         ),
-        CR(
+        N(
           'Soak the malt in hot water, boil the sweet liquid down, and you get a thick, sticky syrup: the extract. No wonder it sticks to the spoon.',
         ),
       ],
@@ -4778,9 +4804,9 @@ const LESSONS: Record<string, LessonIn[]> = {
         ),
       ],
       [
-        opt('2', [CR('Yes. 10 ÷ 5 = 2. Two Smalls make one centimetre.')], true),
-        opt('5', [CR('Five Smalls would be 25 millimetres. 10 ÷ 5 = 2.')]),
-        opt('10', [CR('That would be 50 millimetres. Divide: 10 ÷ 5 = 2.')]),
+        opt('2', [N('Yes. 10 ÷ 5 = 2. Two Smalls make one centimetre.')], true),
+        opt('5', [N('Five Smalls would be 25 millimetres. 10 ÷ 5 = 2.')]),
+        opt('10', [N('That would be 50 millimetres. Divide: 10 ÷ 5 = 2.')]),
       ],
       'Converted millimetres to centimetres to compare lengths.',
     ),
@@ -4796,15 +4822,15 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'Gravity',
           [
-            CR(
+            N(
               'Yes. Gravity pulls everything towards the ground, whether it is a bear or a beetle.',
             ),
           ],
           true,
         ),
-        opt('The wind', [CR('The wind can push, but this is gravity: a pull towards the Earth.')]),
+        opt('The wind', [N('The wind can push, but this is gravity: a pull towards the Earth.')]),
         opt('Piglet', [
-          CR('Piglet wishes! The pull comes from the whole Earth. We call it gravity.'),
+          N('Piglet wishes! The pull comes from the whole Earth. We call it gravity.'),
         ]),
       ],
       'Learned that gravity pulls everything towards the ground.',
@@ -4855,17 +4881,17 @@ const LESSONS: Record<string, LessonIn[]> = {
       ],
       [
         opt('Rabbit, he organised it', [
-          CR(
+          N(
             'Organising made the search happen. Without it, nobody would have been looking. That is real work.',
           ),
         ]),
         opt('Pooh, he had Small on him', [
-          CR(
+          N(
             'It was luck, but he was also the one willing to be rescued from a pit. Credit can be funny.',
           ),
         ]),
         opt('Everyone who helped', [
-          CR('That is the most generous answer, and probably the most accurate.'),
+          N('That is the most generous answer, and probably the most accurate.'),
         ]),
       ],
       'Thought about who deserves credit for a team effort.',
@@ -4880,10 +4906,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'cats climb up easily; claws curve one way',
       '4-LS1-1',
       [
-        CR(
+        N(
           'Real cats do the same as Tigger: up a tree in a flash, then stuck. Their claws curve backwards, which is ideal for climbing up.',
         ),
-        CR(
+        N(
           'Going down head-first, the claws point the wrong way. Cats have to learn to back down, or be rescued.',
         ),
       ],
@@ -4953,19 +4979,19 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-14-complete': [
     ask(
-      3,
+      4,
       'maths',
-      'area of a square',
+      'area of a rectangle',
       '3.MD.C.7',
-      [N('Christopher Robin’s tunic is a square, 2 metres on each side. What is its area?')],
+      [N('Before the stretch, the tunic was 2 metres long and 1 metre wide. What was its area?')],
       [
-        opt('4 square metres', [CR('Yes. A square’s area is side × side: 2 × 2 = 4.')], true),
-        opt('8 square metres', [
-          CR('That is the perimeter, going round the edge. Area is 2 × 2 = 4.'),
+        opt('2 square metres', [N('Yes. A rectangle’s area is length × width: 2 × 1 = 2.')], true),
+        opt('6 square metres', [
+          N('Six metres is the perimeter, going round the edge. Area is 2 × 1 = 2.'),
         ]),
-        opt('2 square metres', [CR('Multiply the sides, not just count one: 2 × 2 = 4.')]),
+        opt('3 square metres', [N('That is 2 + 1. Multiply the sides instead: 2 × 1 = 2.')]),
       ],
-      'Found the area of a square by multiplying the side by itself.',
+      'Found the area of a rectangle by multiplying length and width.',
     ),
   ],
 
@@ -4984,16 +5010,16 @@ const LESSONS: Record<string, LessonIn[]> = {
       [
         opt(
           'Back soon',
-          [CR('Yes. He wrote it the way it sounds. Sounding out is how everyone starts spelling.')],
+          [N('Yes. He wrote it the way it sounds. Sounding out is how everyone starts spelling.')],
           true,
         ),
         opt('A big animal called a Backson', [
-          CR(
+          N(
             'Say it slowly again: back-son. Does it sound like another phrase that fits a note on a door?',
           ),
         ]),
         opt('A very bad spelling of “bus”', [
-          CR('Interesting guess! Try sounding it in two parts: back… son.'),
+          N('Interesting guess! Try sounding it in two parts: back… son.'),
         ]),
       ],
       'Sounded out an invented spelling and found it said back soon.',
@@ -5004,12 +5030,12 @@ const LESSONS: Record<string, LessonIn[]> = {
       6,
       'social-studies',
       'weekday names come from old gods',
-      'D2.His.2.K-2',
+      'D2.His.2.3-5',
       [
-        CR(
+        N(
           'Tuesday is named after Tiw, a god of war the early English believed in. Wednesday comes from Woden, and Thursday from Thor.',
         ),
-        CR(
+        N(
           'Many of our weekday names are old, and spelling them has been wobbly for a very long time. Owl is in good company.',
         ),
       ],
@@ -5018,19 +5044,19 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-15-owl-done': [
     ask(
-      0,
+      1,
       'maths',
       'time: finding the end time',
       '3.MD.A.1',
       [
         N(
-          'Rabbit leaves home at 10:15, walks for 20 minutes to Owl’s, and stays 15 minutes. What time is it when he leaves Owl’s?',
+          'Rabbit left home at 10:15, walked for 20 minutes to Owl’s, and stayed 15 minutes. What time is it as he leaves Owl’s?',
         ),
       ],
       [
-        opt('10:50', [CR('Yes. 10:15 + 20 = 10:35, and 10:35 + 15 = 10:50.')], true),
-        opt('10:35', [CR('That is when he arrives. He stays another 15 minutes, so 10:50.')]),
-        opt('11:00', [CR('Close. Add carefully: 10:15 + 20 = 10:35, then + 15 = 10:50.')]),
+        opt('10:50', [N('Yes. 10:15 + 20 = 10:35, and 10:35 + 15 = 10:50.')], true),
+        opt('10:35', [N('That is when he arrives. He stays another 15 minutes, so 10:50.')]),
+        opt('11:00', [N('Close. Add carefully: 10:15 + 20 = 10:35, then + 15 = 10:50.')]),
       ],
       'Added two time intervals to find an end time.',
     ),
@@ -5042,10 +5068,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'the letter A has one line of symmetry',
       '4.G.A.3',
       [
-        CR(
+        N(
           'Look at Eeyore’s A. Fold it down the middle, from the point at the top to the ground, and the two halves match.',
         ),
-        CR('That fold is a line of symmetry. The letter A has exactly one.'),
+        N('That fold is a line of symmetry. The letter A has exactly one.'),
       ],
       'Saw that the letter A has one line of symmetry.',
     ),
@@ -5093,7 +5119,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       1,
       'social-studies',
       'spelling was not always fixed',
-      'D2.His.2.K-2',
+      'D2.His.2.3-5',
       [
         CR(
           '“Back soon” turned into “Backson”: a spelling by ear. English spelling was not fixed until around the 1700s.',
@@ -5112,7 +5138,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       3,
       'social-studies',
       'upstream and downstream',
-      'D2.Geo.2.K-2',
+      'D2.Geo.2.3-5',
       [
         N(
           'Pooh drops the cone on one side of the bridge and sees it come out the other. Which side did he drop it on: upstream or downstream?',
@@ -5122,19 +5148,19 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'Upstream, where the water comes from',
           [
-            CR(
+            N(
               'Yes. Upstream is where the water comes from. Downstream is where it flows to. Pooh drops it upstream.',
             ),
           ],
           true,
         ),
         opt('Downstream, where it goes to', [
-          CR(
+          N(
             'Downstream is where the water goes. He dropped the cone on the other side, upstream.',
           ),
         ]),
         opt('Either, it is a still pond', [
-          CR('A still pond would not carry it. This is a stream, and it flows one way.'),
+          N('A still pond would not carry it. This is a stream, and it flows one way.'),
         ]),
       ],
       'Learned the words upstream and downstream.',
@@ -5145,10 +5171,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'a fair test changes one thing and repeats',
       '3-5-ETS1-2',
       [
-        CR(
+        N(
           'Pooh drops a big and a small cone together. The big one wins. Is that proof? A fair test changes one thing only and repeats it.',
         ),
-        CR(
+        N(
           'Pooh should try it again, and again, and drop them at the very same spot. One go is only a hint.',
         ),
       ],
@@ -5157,7 +5183,7 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-16-game': [
     doIt(
-      7,
+      9,
       'science',
       'the middle of a stream flows fastest',
       null,
@@ -5167,7 +5193,7 @@ const LESSONS: Record<string, LessonIn[]> = {
           'A stream flows fastest in the middle, away from the banks, which rub against the water and slow it.',
         ),
         CR(
-          'Try it: drop one stick near the bank and one in the middle. The middle one wins. That is why the fast side wins.',
+          'Try it: drop one stick near the bank and one in the middle. The middle one wins. Your Nubbin’s stick rode the middle.',
         ),
       ],
       'Learned that a stream flows fastest in the middle, so a stick dropped there wins.',
@@ -5176,7 +5202,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       6,
       'social-studies',
       'does a new player make the game unfair',
-      'D2.Civ.8.K-2',
+      'D2.Civ.8.3-5',
       [
         N(
           'Your Nubbin went into the water with its stick. Pooh says “nothing in the game says you can’t”. Who decides if something is fair?',
@@ -5233,14 +5259,14 @@ const LESSONS: Record<string, LessonIn[]> = {
       [
         opt(
           '“Sorry I bounced you, Eeyore. I’ll be more careful.”',
-          [CR('Yes. A real apology says what you did, owns it, and offers to do better.')],
+          [N('Yes. A real apology says what you did, owns it, and offers to do better.')],
           true,
         ),
         opt('“It was only a cough.”', [
-          CR('That explains, but it does not apologise. Eeyore is still soaked.'),
+          N('That explains, but it does not apologise. Eeyore is still soaked.'),
         ]),
         opt('“You should have moved.”', [
-          CR('That puts the blame on Eeyore. A real apology keeps the blame where it belongs.'),
+          N('That puts the blame on Eeyore. A real apology keeps the blame where it belongs.'),
         ]),
       ],
       'Learned the parts of a real apology.',
@@ -5299,10 +5325,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'mist is a cloud near the ground',
       '3-ESS2-1',
       [
-        CR(
+        N(
           'Mist is made of tiny drops of water floating in the air. It forms when moist air cools, which is how clouds form too.',
         ),
-        CR(
+        N(
           'Mist is basically a low cloud. Fog is the same, only thicker. In thick fog you can barely see your own hand.',
         ),
       ],
@@ -5341,19 +5367,19 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'Stay where you are and call out',
           [
-            CR(
+            N(
               'Yes. Stay put, call out, and wait. People find you faster when you are not moving.',
             ),
           ],
           true,
         ),
         opt('Walk until you find something', [
-          CR(
+          N(
             'It feels natural, but in thick mist you can walk in circles and get further from help.',
           ),
         ]),
         opt('Run, to get out of it faster', [
-          CR('Running makes it easier to fall and harder to be found. Stay put and call.'),
+          N('Running makes it easier to fall and harder to be found. Stay put and call.'),
         ]),
       ],
       'Learned the rule: if lost, stay put and call out.',
@@ -5366,10 +5392,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'we can tell which direction a sound comes from',
       '4-LS1-2',
       [
-        CR(
+        N(
           'In mist you hear before you see. Your two ears are a little apart, so a sound reaches one ear a split second before the other.',
         ),
-        CR(
+        N(
           'Your brain uses that tiny difference to tell which way the sound came from. You can follow a voice you cannot see.',
         ),
       ],
@@ -5402,10 +5428,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'wind words: breeze, blustery, gale',
       '3-ESS2-1',
       [
-        CR(
+        N(
           'Weather people have names for wind. A breeze is gentle. A blustery day has strong, gusty winds that come and go.',
         ),
-        CR(
+        N(
           'A gale blows at roughly 60 to 75 kilometres an hour (about 40 to 45 miles an hour). It can bring down branches, and sometimes chimneys.',
         ),
       ],
@@ -5426,14 +5452,14 @@ const LESSONS: Record<string, LessonIn[]> = {
       [
         opt(
           'Yes, by 7 centimetres',
-          [CR('Yes. 25 − 18 = 7. It is a tight squeeze, but he can do it.')],
+          [N('Yes. 25 − 18 = 7. It is a tight squeeze, but he can do it.')],
           true,
         ),
         opt('No, he is too wide', [
-          CR('Check: 18 is smaller than 25, so he fits, with 7 centimetres to spare.'),
+          N('Check: 18 is smaller than 25, so he fits, with 7 centimetres to spare.'),
         ]),
         opt('Yes, by 43 centimetres', [
-          CR('That is adding. To find the gap, subtract: 25 − 18 = 7.'),
+          N('That is adding. To find the gap, subtract: 25 − 18 = 7.'),
         ]),
       ],
       'Subtracted two measurements to see whether something fits.',
@@ -5486,10 +5512,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'owls nest in tree holes',
       '2-LS4-1',
       [
-        CR(
+        N(
           'Many owls are cavity nesters. They use holes in old trees, and sometimes barns, instead of building a nest.',
         ),
-        CR(
+        N(
           'So Owl in a hole of a beech tree is true to life. Different animals use different habitats: squirrels in dreys, badgers in setts, owls in holes.',
         ),
       ],
@@ -5518,7 +5544,7 @@ const LESSONS: Record<string, LessonIn[]> = {
       1,
       'social-studies',
       'a community looks after its own',
-      'D2.Civ.8.K-2',
+      'D2.Civ.8.3-5',
       [
         N(
           'Piglet gave up a house. Pooh offered a home. One generous act led to another, and nobody in the Forest was left without a roof.',
@@ -5534,22 +5560,22 @@ const LESSONS: Record<string, LessonIn[]> = {
   // ---------------------------------------------------------------- A11-19
   'a11-19-meeting': [
     notice(
-      3,
+      8,
       'literacy',
       'resolution has more than one meaning',
       'L.3.4',
       [
-        CR(
+        N(
           'Eeyore calls his poem a Rissolution. The real word is resolution, which has several meanings.',
         ),
-        CR(
+        N(
           'A resolution can be a firm decision, the end of a story, or how sharp a picture is. Context tells you which. Here it is a decision to remember.',
         ),
       ],
       'Learned that resolution has several meanings and that spelling wobbles are fine.',
     ),
     ask(
-      5,
+      8,
       'sel',
       'saying a hard thing aloud, or in a poem',
       'CASEL: Self-awareness',
@@ -5581,7 +5607,7 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-19-signed': [
     notice(
-      1,
+      2,
       'literacy',
       'what characters do not say',
       'RL.3.3',
@@ -5598,7 +5624,7 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-19-signed-rabbit': [
     notice(
-      1,
+      2,
       'literacy',
       'formal words show discomfort',
       'RL.3.3',
@@ -5607,7 +5633,7 @@ const LESSONS: Record<string, LessonIn[]> = {
           'Rabbit says “It has been noted.” Hardly anybody talks like that unless they are uncomfortable.',
         ),
         N(
-          'Formal words are a way of keeping feelings at arm’s length. Reading between the lines, Rabbit is saying thank you.',
+          'Formal words can be a way of hiding your feelings. Under the stiff words, Rabbit is saying thank you.',
         ),
       ],
       'Noticed that formal words can show someone is uncomfortable with feelings.',
@@ -5615,15 +5641,15 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-19-scroll': [
     notice(
-      1,
+      7,
       'social-studies',
       'scrolls and signatures',
-      'D2.His.2.K-2',
+      'D2.His.2.3-5',
       [
-        CR(
+        N(
           'Before there were bound books, long texts were written on scrolls: rolls of papyrus or parchment. People have signed documents for thousands of years.',
         ),
-        CR(
+        N(
           'A signature says: I was here, and I agree. Every name on the Rissolution says that, in its own handwriting.',
         ),
       ],
@@ -5649,15 +5675,15 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-19-scroll-thistle': [
     notice(
-      1,
+      7,
       'science',
       'how pressing preserves a plant',
       null,
       [
-        CR(
+        N(
           'Eeyore’s thistle is pressed flat and dry. Pressing squeezes out the water, and a dry plant can last for hundreds of years.',
         ),
-        CR(
+        N(
           'Botanists keep pressed plants in a herbarium, a library of dried plants, as a record of what grew where and when.',
         ),
       ],
@@ -5666,7 +5692,7 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-19-scroll-sat': [
     notice(
-      2,
+      8,
       'sel',
       'kindness is remembered',
       'CASEL: Relationship skills',
@@ -5682,22 +5708,15 @@ const LESSONS: Record<string, LessonIn[]> = {
     ),
   ],
   'a11-19-complete': [
-    ask(
-      1,
-      'maths',
-      'halves of a distance',
-      '3.NF.A.1',
+    notice(
+      2,
+      'sel',
+      'an invitation lets a friend choose',
+      'CASEL: Relationship skills',
       [
-        N(
-          'The path to the top of the Forest is 2 kilometres. Christopher Robin asks you to come “some of the way”. If you walk half, how far is that?',
-        ),
+        N('“Some of the way” lets a friend choose how far. It is an invitation, not an order.'),
       ],
-      [
-        opt('1 kilometre', [CR('Yes. Half of 2 is 1. Some of the way, at its simplest.')], true),
-        opt('2 kilometres', [CR('That would be all of the way. Half of 2 is 1.')]),
-        opt('4 kilometres', [CR('That is double. Half means divide by 2: 2 ÷ 2 = 1.')]),
-      ],
-      'Found half of a distance.',
+      'Noticed that an invitation leaves the choice to the friend.',
     ),
   ],
 
@@ -5748,46 +5767,24 @@ const LESSONS: Record<string, LessonIn[]> = {
     ),
   ],
   'a11-20-knight': [
-    ask(
-      2,
-      'maths',
-      'factors of a number',
-      '3.OA.A.3',
-      [
-        N(
-          'Christopher Robin and Pooh talk about a thing called Factors. Factors are numbers that multiply to make another.',
-        ),
-        N('2 and 6 are factors of 12, because 2 × 6 = 12. Which of these is a factor of 12?'),
-      ],
-      [
-        opt('4', [CR('Yes. 4 × 3 = 12, so 4 and 3 are factors of 12.')], true),
-        opt('5', [CR('5 does not divide 12 exactly: 5 × 2 = 10 and 5 × 3 = 15. Try 4.')]),
-        opt('7', [
-          CR('7 × 1 = 7 and 7 × 2 = 14, so 7 misses 12. Factors of 12 are 1, 2, 3, 4, 6 and 12.'),
-        ]),
-      ],
-      'Learned what a factor is and found one of 12.',
-    ),
     notice(
-      5,
+      2,
       'social-studies',
       'knighthood and the accolade',
-      'D2.His.2.K-2',
+      'D2.His.2.3-5',
       [
-        CR('In the Middle Ages, a knight was a trained warrior who served a lord.'),
-        CR(
+        N('In the Middle Ages, a knight was a trained warrior who served a lord.'),
+        N(
           'To make someone a knight, the lord tapped each shoulder with a sword. That tap is called the accolade.',
         ),
-        CR(
-          'Christopher Robin uses a stick, which is the right size for a Bear. The honour is the same.',
-        ),
+        N('A stick is the right size for a Bear. The honour is the same.'),
       ],
       'Learned what a knight was and how knighting worked.',
     ),
   ],
   'a11-20-knight-done': [
     notice(
-      1,
+      3,
       'sel',
       'promises and remembering',
       'CASEL: Relationship skills',
@@ -5804,7 +5801,7 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-20-complete': [
     ask(
-      2,
+      6,
       'maths',
       'why a marker helps when counting a circle',
       null,
@@ -5817,19 +5814,19 @@ const LESSONS: Record<string, LessonIn[]> = {
         opt(
           'It shows where you started',
           [
-            CR(
+            N(
               'Yes. In a circle you can go round again and again, so the ribbon tells you when you are back.',
             ),
           ],
           true,
         ),
         opt('It makes the tree easier to climb', [
-          CR(
+          N(
             'It might! But the real reason is that a marker tells you when the count is finished.',
           ),
         ]),
         opt('It does not help at all', [
-          CR('Try counting without one and you may find yourself counting some trees twice.'),
+          N('Try counting without one and you may find yourself counting some trees twice.'),
         ]),
       ],
       'Understood that a marker shows where counting started.',
@@ -5844,10 +5841,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'plants rest in winter and grow in spring',
       '2-LS2-1',
       [
-        CR(
+        N(
           'Eeyore has planted the thistle by his step in the snow. Many plants rest through winter, and grow again when the ground warms.',
         ),
-        CR(
+        N(
           'A thistle needs water and sunlight to grow, and spring brings both. Give it time, and it will be a plant again.',
         ),
       ],
@@ -5858,17 +5855,17 @@ const LESSONS: Record<string, LessonIn[]> = {
     notice(
       2,
       'literacy',
-      'reading between the lines',
+      'working out what a character means',
       'RL.3.3',
       [
         N(
           'Eeyore says you do not have to sit there. But he has kept a space exactly your size, and a smaller one for your Nubbin.',
         ),
         N(
-          'Reading between the lines, he very much hopes you will. Sitting with a gloomy friend is the sort of kindness that gets remembered.',
+          'His actions say more than his words: he very much hopes you will. Sitting with a gloomy friend is the sort of kindness that gets remembered.',
         ),
       ],
-      'Read between the lines of what a character says and does.',
+      'Worked out what a character means from what he says and does.',
     ),
   ],
   'a11-16-bounced-sat': [
@@ -5895,10 +5892,10 @@ const LESSONS: Record<string, LessonIn[]> = {
       'people walk in circles when they cannot see far',
       null,
       [
-        CR(
+        N(
           'Rabbit passes the same sand-pit twice. Experiments show that people who cannot see landmarks, in thick fog or a dark forest, tend to walk in circles.',
         ),
-        CR(
+        N(
           'With no marker to aim at, tiny differences in each step add up. That is why “stop and call out” beats “keep walking”.',
         ),
       ],
@@ -5922,15 +5919,15 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-20-complete-thistle': [
     notice(
-      1,
+      6,
       'science',
       'thistle seeds travel on fluff',
       '2-LS2-2',
       [
-        CR(
+        N(
           'A thistle’s seeds each have a fluffy parachute, so the wind carries them far. Goldfinches love to eat them, and spill some, which helps them spread.',
         ),
-        CR(
+        N(
           'That is how thistles end up planted in places nobody chose. This one is planted by choice, at the edge of the ring.',
         ),
       ],
@@ -5939,15 +5936,15 @@ const LESSONS: Record<string, LessonIn[]> = {
   ],
   'a11-20-complete-sat': [
     notice(
-      1,
+      6,
       'science',
       'signs animals leave: a hare’s form',
       null,
       [
-        CR(
+        N(
           'A flattened round in the grass is a sign that somebody has rested there. A hare’s resting place is even called a form.',
         ),
-        CR(
+        N(
           'Naturalists read signs like these: flattened grass, feathers, tracks and droppings tell them who has been there, and when.',
         ),
       ],
@@ -6049,11 +6046,6 @@ const GLOSSARY: GlossaryEntry[] = [
     'resolution',
     'A firm decision. It can also mean the way a story’s problem is settled.',
     'a11-19-meeting',
-  ),
-  gloss(
-    'factor',
-    'A number that divides exactly into another number, such as 3 and 4 for 12.',
-    'a11-20-knight',
   ),
   gloss(
     'accolade',

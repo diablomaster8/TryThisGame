@@ -156,17 +156,17 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A07/sprout.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
 | `atlas/A07/reader.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
 | `atlas/A08/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
-| `atlas/A08/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 6 |
-| `atlas/A08/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 8 |
+| `atlas/A08/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A08/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
 | `atlas/A09/main.md` | [review-2026-10-23-4](review-2026-10-23-4.md) | 0 |
-| `atlas/A09/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 10 |
-| `atlas/A09/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 9 |
-| `atlas/A10/main.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 8 |
-| `atlas/A10/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 12 |
-| `atlas/A10/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 10 |
-| `atlas/A11/main.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 5 |
-| `atlas/A11/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 13 |
-| `atlas/A11/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 12 |
+| `atlas/A09/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A09/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A10/main.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A10/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A10/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A11/main.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A11/sprout.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
+| `atlas/A11/reader.md` | [review-2026-10-23-5](review-2026-10-23-5.md) | 0 |
 | `atlas/A12/main.md` | never | 0 |
 | `atlas/A12/sprout.md` | never | 0 |
 | `atlas/A12/reader.md` | never | 0 |
@@ -779,66 +779,66 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261023-525 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md<br>atlas/A07/sprout.md | cross-story | High | follow | Six maths and fact lessons disagree with their own scenes; every number must come from the narration and be worked aloud | fixed | 2026-10-23-4 |
 | SR-20261023-526 | atlas/A06/reader.md<br>atlas/A07/reader.md<br>atlas/A06/sprout.md | cross-story | Medium | pacing | Lessons interrupt grave and peril beats in both bands; a lesson goes after the beat's comfort or relief line | fixed | 2026-10-23-4 |
 | SR-20261023-527 | atlas/A06/sprout.md<br>atlas/A06/reader.md | cross-story | Medium | follow | Three Sinbads in two bands; tag them once and use "the porter" and "the old sailor" in narration | fixed | 2026-10-23-4 |
-| SR-20261023-528 | atlas/A10/sprout.md | a10-01-story | Critical | follow | Sprout never says the trickster is Maui, so "Someone must find Maui" in A10-4 is a name from nowhere | open | 2026-10-23-5 |
-| SR-20261023-529 | atlas/A11/main.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-19-scroll | Critical | continuity | The ribbon route ties the Friend ribbon on Eeyore's door in A11-11, then has it come out of his pot in A11-19 | open | 2026-10-23-5 |
-| SR-20261023-530 | atlas/A10/sprout.md<br>atlas/A10/reader.md | a10-05-bedside | High | pacing | Both bands cut Gramma Tala's last words in half with a lesson | open | 2026-10-23-5 |
-| SR-20261023-531 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-19-meeting | High | pacing | The Rissolution farewell is broken up by a rhyme drill, an early countdown and a half-of-2-km quiz | open | 2026-10-23-5 |
-| SR-20261023-532 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-20-knight | High | pacing | The knighting and Pooh's promise are split by a factors quiz, an accolade lecture and a promise lesson | open | 2026-10-23-5 |
-| SR-20261023-533 | atlas/A10/sprout.md | a10-11-gap | High | continuity | The crew count puts Pua aboard, but Pua stayed home and Maui is in the sky; the answer is four | open | 2026-10-23-5 |
-| SR-20261023-534 | atlas/A10/sprout.md | a10-12-light | High | child-read | Sprout says Gramma's body "will not start again", then shows her sitting up and hugging with no word on what she is now | open | 2026-10-23-5 |
-| SR-20261023-535 | atlas/A11/main.md<br>atlas/A11/sprout.md | a11-17-mist | High | follow | Rabbit's mist plan makes no sense in sprout, and both versions jump to Kanga's without saying how | open | 2026-10-23-5 |
-| SR-20261023-536 | atlas/A10/reader.md | a10-11-crack | High | pacing | The "Was he right to go?" lesson arrives before Maui goes, credits an apology he hasn't made, and spoils his return | open | 2026-10-23-5 |
-| SR-20261023-537 | atlas/A10/reader.md | a10-05-complete | High | pacing | A manta-feeding fact sheet follows Gramma's death, and repeats in A10-12 | open | 2026-10-23-5 |
-| SR-20261023-538 | atlas/A10/sprout.md | a10-13-walk | High | child-read | "Walk up slowly with open hands" to a roaring fire giant contradicts A10-11's "stay safe and tell a grown-up" | open | 2026-10-23-5 |
-| SR-20261023-539 | atlas/A08/sprout.md<br>atlas/A08/reader.md | a08-03-throws | High | continuity | Both bands drop the naming of Stick, the javelin canon says is named in A8-3 | open | 2026-10-23-5 |
-| SR-20261023-540 | atlas/A08/sprout.md | a08-11-riddle | High | follow | The "Buy three for five" choice appears with no offer behind it | open | 2026-10-23-5 |
-| SR-20261023-541 | atlas/A08/reader.md | a08-06-stare | High | continuity | The sand-timer sum uses a 3-minute timer turned twice, neither of which is in the scene, and it lands mid-gag | open | 2026-10-23-5 |
-| SR-20261023-542 | atlas/A09/sprout.md | a09-02-build | High | follow | The raft's name is never spoken, so the dawn variant's "named after someone who always comes home" is a riddle | open | 2026-10-23-5 |
-| SR-20261023-543 | atlas/A09/reader.md | a09-11-dark | High | pacing | The comet's arrival gets three lessons that explain the hand-hold, the silence and the suspense | open | 2026-10-23-5 |
-| SR-20261023-544 | atlas/A09/sprout.md<br>atlas/A09/reader.md | a09-09-octopus | High | pacing | The octopus grabs Moomintroll, then everyone stops to count its arms | open | 2026-10-23-5 |
-| SR-20261023-545 | atlas/A11/sprout.md | a11-18-wind-done | High | child-read | "Stay indoors, away from trees" lands while everyone is indoors in a house a tree just knocked over | open | 2026-10-23-5 |
-| SR-20261023-546 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-12-malt | High | child-read | Tigger grabs Roo's medicine and loves it, five scenes after "never take medicine by yourself" | open | 2026-10-23-5 |
-| SR-20261023-547 | atlas/A09/sprout.md | a09-05-bush | High | child-read | "Don't touch strange plants" is taught right after the heroes grab a stinging bush | open | 2026-10-23-5 |
-| SR-20261023-548 | atlas/A08/reader.md | a08-08-beast | High | follow | The lesson asks why nobody tells the secret before there is a secret | open | 2026-10-23-5 |
-| SR-20261023-549 | atlas/A10/main.md | a10-08-stars | High | humour | Give the wayfinding lesson a straight man and a wobbling chicken | open | 2026-10-23-5 |
-| SR-20261023-550 | atlas/A11/main.md<br>atlas/A11/sprout.md | a11-10-table-done | High | humour | The party for saving Piglet has no Piglet beat, and sprout never says what the party is for | open | 2026-10-23-5 |
-| SR-20261023-551 | atlas/A08/sprout.md | a08-02-complete | High | humour | Turn eleven identical numeral notices into Dogmatix's growing twig pile | open | 2026-10-23-5 |
-| SR-20261023-552 | atlas/A10/main.md | a10-05-complete | Medium | follow | Gramma dies "in her sleep" a minute after she was awake giving orders | open | 2026-10-23-5 |
-| SR-20261023-553 | atlas/A10/main.md | a10-07-fog-done | Medium | follow | "Heihei's swallowed the heart!" has no set-up | open | 2026-10-23-5 |
-| SR-20261023-554 | atlas/A10/main.md | a10-09-depths | Medium | follow | Moana quotes a hook clue Maui never gave | open | 2026-10-23-5 |
-| SR-20261023-555 | atlas/A10/main.md | a10-13-spiral | Medium | child-read | The central reveal packs three ideas into one line | open | 2026-10-23-5 |
-| SR-20261023-556 | atlas/A10/main.md | a10-12-complete | Medium | character | Let the Nubbin answer Moana with Gramma's step instead of a Keeper platitude | open | 2026-10-23-5 |
-| SR-20261023-557 | atlas/A10/main.md | a10-04-falls | Medium | humour | Give Gramma's knees a second joke on the long way round | open | 2026-10-23-5 |
-| SR-20261023-558 | atlas/A11/main.md | a11-15-note | Medium | child-read | Show Christopher Robin's note so the Backson joke can be seen | open | 2026-10-23-5 |
-| SR-20261023-559 | atlas/A10/sprout.md<br>atlas/A10/reader.md | a10-12-song-done | Medium | follow | Moana gave the stone to the sea; now she just comes up with it | open | 2026-10-23-5 |
-| SR-20261023-560 | atlas/A10/sprout.md | a10-05-council | Medium | child-read | Joke distractors ("Silly", "Hungry") right after Tui says his friend died | open | 2026-10-23-5 |
-| SR-20261023-561 | atlas/A10/sprout.md | a10-06-complete | Medium | humour | Restore Heihei walking off the edge and being put back | open | 2026-10-23-5 |
-| SR-20261023-562 | atlas/A10/sprout.md | a10-14-home | Medium | humour | Give Sina back her lunch line at the homecoming | open | 2026-10-23-5 |
-| SR-20261023-563 | atlas/A10/reader.md | a10-08-stars | Medium | follow | Maui says "flat hand"; the lesson measures with fists | open | 2026-10-23-5 |
-| SR-20261023-564 | atlas/A08/sprout.md | a08-06-stare | Medium | child-read | Clarity batch: Iris's pronoun, IV's missing cause, the unexplained rule jokes and the red map | open | 2026-10-23-5 |
-| SR-20261023-565 | atlas/A08/sprout.md<br>atlas/A08/reader.md | a08-14-tie | Medium | child-read | Tying up the bard: too rough for sprout, and reader's lesson asks about it before it happens | open | 2026-10-23-5 |
-| SR-20261023-566 | atlas/A08/reader.md | a08-03-field-done | Medium | continuity | Accuracy batch: metres in 50 BC, "hundreds of rules", and two lessons that land on the scary or funny entrance | open | 2026-10-23-5 |
-| SR-20261023-567 | atlas/A09/sprout.md | a09-11-dark-done | Medium | compelling | 8:42 arrives in sprout with nothing to say it matters | open | 2026-10-23-5 |
-| SR-20261023-568 | atlas/A09/sprout.md<br>atlas/A09/reader.md | a09-12-dawn | Medium | follow | The tide lesson says the sea "always comes back", though this sea left because of a comet | open | 2026-10-23-5 |
-| SR-20261023-569 | atlas/A09/sprout.md | a09-06-snork-done | Medium | child-read | Accuracy batch: fairness not shown, a refrain never set up, and four lessons that don't match their scenes | open | 2026-10-23-5 |
-| SR-20261023-570 | atlas/A09/sprout.md | a09-08-stilts | Medium | humour | Restore the three physical gags the band cut | open | 2026-10-23-5 |
-| SR-20261023-571 | atlas/A09/sprout.md | a09-12-gate-done | Medium | humour | Pay off the duck-in-a-cupboard note, and give the Muskrat and Pappa a line each | open | 2026-10-23-5 |
-| SR-20261023-572 | atlas/A09/reader.md | a09-10-run | Medium | continuity | The Snork counts "everyone else" and gets seven; Mamma's six sandwiches become twelve buns, unremarked | open | 2026-10-23-5 |
-| SR-20261023-573 | atlas/A09/reader.md | a09-10-road | Medium | pacing | Lessons that spoil the next beat, and a washing simile that doesn't float | open | 2026-10-23-5 |
-| SR-20261023-574 | atlas/A11/sprout.md | a11-11-snow-done | Medium | child-read | Two lessons contradict their own scenes: the snow roof and Owl's notice | open | 2026-10-23-5 |
-| SR-20261023-575 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-16-game | Medium | follow | The Poohsticks lesson credits the fast middle, but the Nubbin won by nudging its stick | open | 2026-10-23-5 |
-| SR-20261023-576 | atlas/A11/reader.md | a11-07-plan-done | Medium | continuity | Lessons that spoil the payoff or misstate the scene's cause | open | 2026-10-23-5 |
-| SR-20261023-577 | atlas/A11/reader.md | a11-02-visit | Medium | continuity | Christopher Robin voices lessons in scenes he isn't in, and talks about himself in the third person | open | 2026-10-23-5 |
-| SR-20261023-578 | atlas/A10/main.md | a10-05-pack | Nice | humour | One more Sina joke before the tears | open | 2026-10-23-5 |
-| SR-20261023-579 | atlas/A11/main.md | a11-07-swap | Nice | follow | The goal says "Rabbit's pocket"; the scene uses a pillowcase | open | 2026-10-23-5 |
-| SR-20261023-580 | atlas/A11/sprout.md | a11-09-bear | Nice | follow | Clarity batch: unnamed "he", a mystery "Roar!", three friends holding four corners | open | 2026-10-23-5 |
-| SR-20261023-581 | atlas/A11/reader.md | a11-10-complete | Nice | continuity | Small fixes: the pencil grades and Piglet's ghost footprints | open | 2026-10-23-5 |
-| SR-20261023-582 | atlas/A09/reader.md | a09-06-snork-done | Nice | child-read | Vocabulary load in the meeting scenes | open | 2026-10-23-5 |
-| SR-20261023-583 | atlas/A09/reader.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | High | pacing | House rule for the Atlas bands: no lesson inside a grave or peril beat; it goes after the beat's last line | open | 2026-10-23-5 |
-| SR-20261023-584 | atlas/A08/reader.md<br>atlas/A09/reader.md<br>atlas/A10/reader.md | cross-story | High | humour | Stop lessons explaining the joke or standing between a line and its punchline | open | 2026-10-23-5 |
-| SR-20261023-585 | atlas/A09/sprout.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | child-read | Idiom and irony sweep across the Atlas bands | open | 2026-10-23-5 |
-| SR-20261023-586 | atlas/A08/reader.md<br>atlas/A10/reader.md<br>atlas/A11/reader.md | cross-story | Medium | follow | Maths lessons invent numbers the scene never gives; state every number in the story first | open | 2026-10-23-5 |
-| SR-20261023-587 | atlas/A08/sprout.md<br>atlas/A08/reader.md<br>atlas/A09/sprout.md<br>atlas/A09/reader.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | continuity | Standard-tag pass: reader bands use K-2 codes and tags that don't fit what the lesson asks | open | 2026-10-23-5 |
+| SR-20261023-528 | atlas/A10/sprout.md | a10-01-story | Critical | follow | Sprout never says the trickster is Maui, so "Someone must find Maui" in A10-4 is a name from nowhere | fixed | 2026-10-23-5 |
+| SR-20261023-529 | atlas/A11/main.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-19-scroll | Critical | continuity | The ribbon route ties the Friend ribbon on Eeyore's door in A11-11, then has it come out of his pot in A11-19 | fixed | 2026-10-23-5 |
+| SR-20261023-530 | atlas/A10/sprout.md<br>atlas/A10/reader.md | a10-05-bedside | High | pacing | Both bands cut Gramma Tala's last words in half with a lesson | fixed | 2026-10-23-5 |
+| SR-20261023-531 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-19-meeting | High | pacing | The Rissolution farewell is broken up by a rhyme drill, an early countdown and a half-of-2-km quiz | fixed | 2026-10-23-5 |
+| SR-20261023-532 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-20-knight | High | pacing | The knighting and Pooh's promise are split by a factors quiz, an accolade lecture and a promise lesson | fixed | 2026-10-23-5 |
+| SR-20261023-533 | atlas/A10/sprout.md | a10-11-gap | High | continuity | The crew count puts Pua aboard, but Pua stayed home and Maui is in the sky; the answer is four | fixed | 2026-10-23-5 |
+| SR-20261023-534 | atlas/A10/sprout.md | a10-12-light | High | child-read | Sprout says Gramma's body "will not start again", then shows her sitting up and hugging with no word on what she is now | fixed | 2026-10-23-5 |
+| SR-20261023-535 | atlas/A11/main.md<br>atlas/A11/sprout.md | a11-17-mist | High | follow | Rabbit's mist plan makes no sense in sprout, and both versions jump to Kanga's without saying how | fixed | 2026-10-23-5 |
+| SR-20261023-536 | atlas/A10/reader.md | a10-11-crack | High | pacing | The "Was he right to go?" lesson arrives before Maui goes, credits an apology he hasn't made, and spoils his return | fixed | 2026-10-23-5 |
+| SR-20261023-537 | atlas/A10/reader.md | a10-05-complete | High | pacing | A manta-feeding fact sheet follows Gramma's death, and repeats in A10-12 | fixed | 2026-10-23-5 |
+| SR-20261023-538 | atlas/A10/sprout.md | a10-13-walk | High | child-read | "Walk up slowly with open hands" to a roaring fire giant contradicts A10-11's "stay safe and tell a grown-up" | fixed | 2026-10-23-5 |
+| SR-20261023-539 | atlas/A08/sprout.md<br>atlas/A08/reader.md | a08-03-throws | High | continuity | Both bands drop the naming of Stick, the javelin canon says is named in A8-3 | fixed | 2026-10-23-5 |
+| SR-20261023-540 | atlas/A08/sprout.md | a08-11-riddle | High | follow | The "Buy three for five" choice appears with no offer behind it | fixed | 2026-10-23-5 |
+| SR-20261023-541 | atlas/A08/reader.md | a08-06-stare | High | continuity | The sand-timer sum uses a 3-minute timer turned twice, neither of which is in the scene, and it lands mid-gag | fixed | 2026-10-23-5 |
+| SR-20261023-542 | atlas/A09/sprout.md | a09-02-build | High | follow | The raft's name is never spoken, so the dawn variant's "named after someone who always comes home" is a riddle | fixed | 2026-10-23-5 |
+| SR-20261023-543 | atlas/A09/reader.md | a09-11-dark | High | pacing | The comet's arrival gets three lessons that explain the hand-hold, the silence and the suspense | fixed | 2026-10-23-5 |
+| SR-20261023-544 | atlas/A09/sprout.md<br>atlas/A09/reader.md | a09-09-octopus | High | pacing | The octopus grabs Moomintroll, then everyone stops to count its arms | fixed | 2026-10-23-5 |
+| SR-20261023-545 | atlas/A11/sprout.md | a11-18-wind-done | High | child-read | "Stay indoors, away from trees" lands while everyone is indoors in a house a tree just knocked over | fixed | 2026-10-23-5 |
+| SR-20261023-546 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-12-malt | High | child-read | Tigger grabs Roo's medicine and loves it, five scenes after "never take medicine by yourself" | fixed | 2026-10-23-5 |
+| SR-20261023-547 | atlas/A09/sprout.md | a09-05-bush | High | child-read | "Don't touch strange plants" is taught right after the heroes grab a stinging bush | fixed | 2026-10-23-5 |
+| SR-20261023-548 | atlas/A08/reader.md | a08-08-beast | High | follow | The lesson asks why nobody tells the secret before there is a secret | fixed | 2026-10-23-5 |
+| SR-20261023-549 | atlas/A10/main.md | a10-08-stars | High | humour | Give the wayfinding lesson a straight man and a wobbling chicken | fixed | 2026-10-23-5 |
+| SR-20261023-550 | atlas/A11/main.md<br>atlas/A11/sprout.md | a11-10-table-done | High | humour | The party for saving Piglet has no Piglet beat, and sprout never says what the party is for | fixed | 2026-10-23-5 |
+| SR-20261023-551 | atlas/A08/sprout.md | a08-02-complete | High | humour | Turn eleven identical numeral notices into Dogmatix's growing twig pile | fixed | 2026-10-23-5 |
+| SR-20261023-552 | atlas/A10/main.md | a10-05-complete | Medium | follow | Gramma dies "in her sleep" a minute after she was awake giving orders | fixed | 2026-10-23-5 |
+| SR-20261023-553 | atlas/A10/main.md | a10-07-fog-done | Medium | follow | "Heihei's swallowed the heart!" has no set-up | fixed | 2026-10-23-5 |
+| SR-20261023-554 | atlas/A10/main.md | a10-09-depths | Medium | follow | Moana quotes a hook clue Maui never gave | fixed | 2026-10-23-5 |
+| SR-20261023-555 | atlas/A10/main.md | a10-13-spiral | Medium | child-read | The central reveal packs three ideas into one line | fixed | 2026-10-23-5 |
+| SR-20261023-556 | atlas/A10/main.md | a10-12-complete | Medium | character | Let the Nubbin answer Moana with Gramma's step instead of a Keeper platitude | fixed | 2026-10-23-5 |
+| SR-20261023-557 | atlas/A10/main.md | a10-04-falls | Medium | humour | Give Gramma's knees a second joke on the long way round | fixed | 2026-10-23-5 |
+| SR-20261023-558 | atlas/A11/main.md | a11-15-note | Medium | child-read | Show Christopher Robin's note so the Backson joke can be seen | fixed | 2026-10-23-5 |
+| SR-20261023-559 | atlas/A10/sprout.md<br>atlas/A10/reader.md | a10-12-song-done | Medium | follow | Moana gave the stone to the sea; now she just comes up with it | fixed | 2026-10-23-5 |
+| SR-20261023-560 | atlas/A10/sprout.md | a10-05-council | Medium | child-read | Joke distractors ("Silly", "Hungry") right after Tui says his friend died | fixed | 2026-10-23-5 |
+| SR-20261023-561 | atlas/A10/sprout.md | a10-06-complete | Medium | humour | Restore Heihei walking off the edge and being put back | fixed | 2026-10-23-5 |
+| SR-20261023-562 | atlas/A10/sprout.md | a10-14-home | Medium | humour | Give Sina back her lunch line at the homecoming | fixed | 2026-10-23-5 |
+| SR-20261023-563 | atlas/A10/reader.md | a10-08-stars | Medium | follow | Maui says "flat hand"; the lesson measures with fists | fixed | 2026-10-23-5 |
+| SR-20261023-564 | atlas/A08/sprout.md | a08-06-stare | Medium | child-read | Clarity batch: Iris's pronoun, IV's missing cause, the unexplained rule jokes and the red map | fixed | 2026-10-23-5 |
+| SR-20261023-565 | atlas/A08/sprout.md<br>atlas/A08/reader.md | a08-14-tie | Medium | child-read | Tying up the bard: too rough for sprout, and reader's lesson asks about it before it happens | fixed | 2026-10-23-5 |
+| SR-20261023-566 | atlas/A08/reader.md | a08-03-field-done | Medium | continuity | Accuracy batch: metres in 50 BC, "hundreds of rules", and two lessons that land on the scary or funny entrance | fixed | 2026-10-23-5 |
+| SR-20261023-567 | atlas/A09/sprout.md | a09-11-dark-done | Medium | compelling | 8:42 arrives in sprout with nothing to say it matters | fixed | 2026-10-23-5 |
+| SR-20261023-568 | atlas/A09/sprout.md<br>atlas/A09/reader.md | a09-12-dawn | Medium | follow | The tide lesson says the sea "always comes back", though this sea left because of a comet | fixed | 2026-10-23-5 |
+| SR-20261023-569 | atlas/A09/sprout.md | a09-06-snork-done | Medium | child-read | Accuracy batch: fairness not shown, a refrain never set up, and four lessons that don't match their scenes | fixed | 2026-10-23-5 |
+| SR-20261023-570 | atlas/A09/sprout.md | a09-08-stilts | Medium | humour | Restore the three physical gags the band cut | fixed | 2026-10-23-5 |
+| SR-20261023-571 | atlas/A09/sprout.md | a09-12-gate-done | Medium | humour | Pay off the duck-in-a-cupboard note, and give the Muskrat and Pappa a line each | fixed | 2026-10-23-5 |
+| SR-20261023-572 | atlas/A09/reader.md | a09-10-run | Medium | continuity | The Snork counts "everyone else" and gets seven; Mamma's six sandwiches become twelve buns, unremarked | fixed | 2026-10-23-5 |
+| SR-20261023-573 | atlas/A09/reader.md | a09-10-road | Medium | pacing | Lessons that spoil the next beat, and a washing simile that doesn't float | fixed | 2026-10-23-5 |
+| SR-20261023-574 | atlas/A11/sprout.md | a11-11-snow-done | Medium | child-read | Two lessons contradict their own scenes: the snow roof and Owl's notice | fixed | 2026-10-23-5 |
+| SR-20261023-575 | atlas/A11/sprout.md<br>atlas/A11/reader.md | a11-16-game | Medium | follow | The Poohsticks lesson credits the fast middle, but the Nubbin won by nudging its stick | fixed | 2026-10-23-5 |
+| SR-20261023-576 | atlas/A11/reader.md | a11-07-plan-done | Medium | continuity | Lessons that spoil the payoff or misstate the scene's cause | fixed | 2026-10-23-5 |
+| SR-20261023-577 | atlas/A11/reader.md | a11-02-visit | Medium | continuity | Christopher Robin voices lessons in scenes he isn't in, and talks about himself in the third person | fixed | 2026-10-23-5 |
+| SR-20261023-578 | atlas/A10/main.md | a10-05-pack | Nice | humour | One more Sina joke before the tears | fixed | 2026-10-23-5 |
+| SR-20261023-579 | atlas/A11/main.md | a11-07-swap | Nice | follow | The goal says "Rabbit's pocket"; the scene uses a pillowcase | fixed | 2026-10-23-5 |
+| SR-20261023-580 | atlas/A11/sprout.md | a11-09-bear | Nice | follow | Clarity batch: unnamed "he", a mystery "Roar!", three friends holding four corners | fixed | 2026-10-23-5 |
+| SR-20261023-581 | atlas/A11/reader.md | a11-10-complete | Nice | continuity | Small fixes: the pencil grades and Piglet's ghost footprints | fixed | 2026-10-23-5 |
+| SR-20261023-582 | atlas/A09/reader.md | a09-06-snork-done | Nice | child-read | Vocabulary load in the meeting scenes | fixed | 2026-10-23-5 |
+| SR-20261023-583 | atlas/A09/reader.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | High | pacing | House rule for the Atlas bands: no lesson inside a grave or peril beat; it goes after the beat's last line | fixed | 2026-10-23-5 |
+| SR-20261023-584 | atlas/A08/reader.md<br>atlas/A09/reader.md<br>atlas/A10/reader.md | cross-story | High | humour | Stop lessons explaining the joke or standing between a line and its punchline | fixed | 2026-10-23-5 |
+| SR-20261023-585 | atlas/A09/sprout.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | child-read | Idiom and irony sweep across the Atlas bands | fixed | 2026-10-23-5 |
+| SR-20261023-586 | atlas/A08/reader.md<br>atlas/A10/reader.md<br>atlas/A11/reader.md | cross-story | Medium | follow | Maths lessons invent numbers the scene never gives; state every number in the story first | fixed | 2026-10-23-5 |
+| SR-20261023-587 | atlas/A08/sprout.md<br>atlas/A08/reader.md<br>atlas/A09/sprout.md<br>atlas/A09/reader.md<br>atlas/A10/sprout.md<br>atlas/A10/reader.md<br>atlas/A11/sprout.md<br>atlas/A11/reader.md | cross-story | Medium | continuity | Standard-tag pass: reader bands use K-2 codes and tags that don't fit what the lesson asks | fixed | 2026-10-23-5 |
 
 ## Runs
 
@@ -861,3 +861,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-23 run 9 · [review-2026-10-23-4](review-2026-10-23-4.md) · units: atlas/A04/main.md, atlas/A05/main.md, atlas/A06/main.md, atlas/A06/sprout.md, atlas/A06/reader.md, atlas/A07/main.md, atlas/A07/sprout.md, atlas/A07/reader.md, atlas/A08/main.md, atlas/A09/main.md · 58 recs: Critical 1, High 23, Medium 34, Nice 0 (3 cross-story) · fixed since last run: 59 (all)
 - 2026-10-23 · fix pass on branch `fix/story-review-2026-10-23-5` · run 9's 58 recs: 58 fixed · -497 pays Balla's telling off in eight `a05-14-complete-*` variants (band versions added); -524 adds the `a09-raft` flag and two named dawn returns; -513 tells the sprout horse gag in narration to keep one new name per scene; -525 adds a `maths:` content-check warning (71 lessons to triage); -471 retags the queue lesson 4.NBT.B.4 (new row in EDU-STYLE.md) · canon: item 43 gains A8's javelin, Stick
 - 2026-10-23 run 10 · [review-2026-10-23-5](review-2026-10-23-5.md) · units: atlas/A08/sprout.md, atlas/A08/reader.md, atlas/A09/sprout.md, atlas/A09/reader.md, atlas/A10/main.md, atlas/A10/sprout.md, atlas/A10/reader.md, atlas/A11/main.md, atlas/A11/sprout.md, atlas/A11/reader.md · 60 recs: Critical 2, High 24, Medium 29, Nice 5 (5 cross-story) · fixed since last run: 58 (all)
+- 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24` · run 10's 60 recs: 60 fixed · -529 puts the Friend ribbon on Eeyore's door in all three A11 files ("Took it off my door"); -587 retags reader bands to the grades 3–5 C3 codes and 3.NF.A.3 (both added to EDU-STYLE.md); -543 keeps one gentle notice in a09-11-dark-done because every scene needs a lesson; -566 and -573 fold a notice into narration to stay within two lessons a scene · canon: none

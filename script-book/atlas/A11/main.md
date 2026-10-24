@@ -632,7 +632,7 @@ _Your Nubbin looks at you, and you look at Rabbit. Rabbit is looking at his list
 
 **Rabbit**: You look after Roo on the way, Keeper. Keep him happy. Happy Roos don’t squeak.  
 
-### Step 2: Make sure Roo has a nice time in Rabbit’s pocket.
+### Step 2: Make sure Roo has a nice time in Rabbit’s pillowcase.
 
 Hint: Run alongside Rabbit to his burrow and keep Roo company. · check: `escort:a11-roo:rabbit-burrow`
 
@@ -875,7 +875,7 @@ Sets on completion: `{"a11-09":true}`
 
 *Winnie-the-Pooh (1926), ch. X: Christopher Robin gives a Pooh party* · audience: all · where: Nova’s atlas: the Enchanted Place page (Atlas campaign) · when: Any time after A11-9, from Nova’s atlas. · requires: A11-9
 
-**Cast:** Christopher Robin (Christopher Robin as Milne wrote him (1926 and 1928); original design), Owl (Owl (A. A. Milne, 1926 and 1928); original design), Eeyore (Eeyore, the old grey donkey (A. A. Milne, 1926 and 1928); original design), Rabbit (Rabbit (A. A. Milne, 1926 and 1928); original design), Pooh (Edward Bear, called Winnie-the-Pooh (A. A. Milne, 1926 and 1928); original design)
+**Cast:** Christopher Robin (Christopher Robin as Milne wrote him (1926 and 1928); original design), Owl (Owl (A. A. Milne, 1926 and 1928); original design), Eeyore (Eeyore, the old grey donkey (A. A. Milne, 1926 and 1928); original design), Rabbit (Rabbit (A. A. Milne, 1926 and 1928); original design), Pooh (Edward Bear, called Winnie-the-Pooh (A. A. Milne, 1926 and 1928); original design), Piglet (Piglet (A. A. Milne, 1926 and 1928); original design)
 
 ### Step 1: Help Owl tell everyone about the party.
 
@@ -918,7 +918,12 @@ _Everyone sits. There is a great deal of eating, and Roo talks with his mouth fu
 #### <a id="a11-10-table-done"></a>Done `a11-10-table-done`
 
 **Christopher Robin**: Everybody! This party is because of what somebody did, and we all know who.  
-_Eeyore half stands up to make a speech. Then Christopher Robin hands Pooh a present, and Eeyore sits down again._  
+_Piglet sits up very straight, and looks round behind him, in case the party is for somebody there._  
+**Piglet** _(soft)_: I only threw the bottle. Pooh did everything else.  
+**Pooh**: I only sat on a jar.  
+_Eeyore half stands up, clears his throat, and looks at everyone._  
+**Eeyore**: I had a speech. It was about not expecting this. It was good. I’ll sit.  
+_Christopher Robin hands Pooh a present._  
 
 ### Complete
 
@@ -1305,7 +1310,7 @@ Hint: Rabbit is off to tell Christopher Robin what to do today. · check: `visit
 _Rabbit wakes up feeling important, as if everything depends on him. It is a very Captain-ish sort of morning._  
 **Rabbit**: I shall go and see Christopher Robin. He’ll want to know what to do today, and I shall tell him.  
 _But Christopher Robin isn’t at home. There is a note pinned to his door._  
-_It says he has gone out, and will be back soon, and is busy. It is in Christopher Robin’s spelling, which is generous with its letters._  
+_It says: GON OWT. BACKSON. BIZZY. It is in Christopher Robin’s spelling, which is generous with its letters._  
 **Rabbit** _(think)_: “Backson.” What is a Backson? Gone out with a Backson? Is it some sort of animal?  
 **Rabbit**: I must ask Owl. Owl can read. Owl can spell.  
 
@@ -1516,8 +1521,11 @@ _Tigger bounces on ahead without noticing. You go with him, because you said you
 **Tigger** _(think)_: Where’s everybody gone? Hallo? Rabbit? Pooh?  
 **Tigger**: They must have got lost. Poor things. Mist is very difficult if you aren’t a Tigger.  
 _Tigger isn’t worried at all. He bounces along a short way home that his feet seem to know._  
-_At Kanga’s, Pooh and Piglet arrive soon after, damp, following the smell of honey. Rabbit isn’t with them._  
+_His feet bounce you all the way home to Kanga’s. Pooh and Piglet squelch in soon after, following the smell of honey._  
+_Rabbit does not._  
 **Tigger** _(happy)_: Rabbit? Lost? In the mist? Don’t worry. Tiggers never get lost. I’ll fetch him.  
+**Tigger** _(think)_: Where would a Rabbit be? Under things. Rabbits like under.  
+_He looks under a leaf, under a stone, and under you, and seems surprised that you are not a Rabbit._  
 _He bounces off into the white. You go after him, holding your Nubbin close, so the mist can’t have it._  
 
 #### <a id="a11-17-mist-rabbit"></a>Variant `a11-17-mist-rabbit`
@@ -1710,7 +1718,7 @@ Hint: Walk with everyone to Christopher Robin’s door. · check: `deliver:a11-r
 #### <a id="a11-19-scroll"></a>Scene `a11-19-scroll`
 
 _Rabbit rolls up the scroll. Then he stops, because something is already round it: a blue ribbon, tied in a careful double bow._  
-**Eeyore** _(soft)_: I had it in my pot. Seemed right. It’s a Friend ribbon. He’ll know what it says.  
+**Eeyore** _(soft)_: Took it off my door. Door can bang for a bit. It’s a Friend ribbon. He’ll know what it says.  
 _Everyone walks to Christopher Robin’s house together. At the door, nobody wants to go first._  
 _In the end Eeyore goes first, because it is his poem, and everybody else crowds in behind him._  
 **Christopher Robin**: What’s this?  

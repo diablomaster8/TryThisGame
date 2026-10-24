@@ -43,8 +43,9 @@ _Your Nubbin looks behind itself, in case there is a Heffalump there._
 **Pooh**: Honey always goes better with somebody watching.  
 
 > **Lesson** (literacy, RL.3.3, notice): a character’s motive is the reason they act  
-> **Christopher Robin**: A motive is the reason a character does something. Pooh’s motive for going out today is honey.  
-> **Christopher Robin**: Knowing a character’s motive helps you guess what they will do next. Try it on the bees.  
+> _The page has a quiet pencil voice in its margin. It knows a few things._  
+> _A motive is the reason a character does something. Pooh’s motive for going out today is honey._  
+> _Knowing a character’s motive helps you guess what they will do next. Try it on the bees._  
 > _For grown-ups: Learned that a motive is the reason a character does something._
 
 
@@ -74,8 +75,8 @@ _The string tugs in your hands like a kite that has been told about honey._
 **Pooh**: Christopher Robin? These bees are looking at me in a very suspicious sort of way.  
 
 > **Lesson** (literacy, L.2.4, notice): using context to work out a new word: suspicious  
-> **Christopher Robin**: Suspicious means not trusting someone, and thinking they may be up to something. The bees are quite right to be.  
-> **Christopher Robin**: You can often work out a new word from what is around it. A muddy “cloud” has come for their honey: no wonder they look at it oddly.  
+> _Suspicious means not trusting someone, and thinking they may be up to something. The bees are quite right to be._  
+> _You can often work out a new word from what is around it. A muddy “cloud” has come for their honey: no wonder they look at it oddly._  
 > _For grown-ups: Worked out the word suspicious from context._
 
 
@@ -91,7 +92,7 @@ _Pooh hadn’t thought about that. He holds on, with the face of a bear doing a 
 **Pooh**: You might. Try not to.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what to do when a laugh hurts someone  
-> _Christopher Robin says laughing hurts Pooh’s feelings, then admits he laughed too. What is the best thing to do if you laugh and someone is hurt?_  
+> _Christopher Robin says laughing would hurt Pooh’s feelings. What is the best thing to do if you laugh and someone is hurt?_  
 > - ✅ Say sorry, and mean it → Yes. Funny things can still sting. A real sorry mends it faster than anything.
 > - Pretend you did not laugh → That tends to make it worse. The hurt is still there, and now it is a secret too.
 > - Say it was only a joke → “Only a joke” does not take the sting away. Saying sorry does.
@@ -164,8 +165,8 @@ _Rabbit puts his head out, sighs, and looks at your Nubbin._
 _Rabbit gets out the honey. Pooh has a little, and then a little more, and then the rest, so it won’t feel left out._  
 
 > **Lesson** (science, 2-LS2-2, notice): bees carry pollen from flower to flower while making honey  
-> **Christopher Robin**: To make honey, bees drink a sweet juice called nectar from flowers. A single worker makes only about a twelfth of a teaspoon in her whole life.  
-> **Christopher Robin**: As she goes from flower to flower, pollen sticks to her. That is how bees help plants make seeds. We say they pollinate.  
+> _To make honey, bees drink a sweet juice called nectar from flowers. A single worker makes only about a twelfth of a teaspoon in her whole life._  
+> _As she goes from flower to flower, pollen sticks to her. That is how bees help plants make seeds. We say they pollinate._  
 > _For grown-ups: Learned that bees make honey from nectar and pollinate flowers as they feed._
 
 _Your Nubbin has one crumb. Rabbit watches it eat the crumb as if it might be the start of something._  
@@ -229,8 +230,8 @@ _Your Nubbin brings Pooh an acorn to look at, since he isn’t allowed to eat an
 **Pooh**: What are we reading today?  
 
 > **Lesson** (maths, do): a tally of the days of a week  
-> **Christopher Robin**: A week has seven days. Let us keep a tally: one stroke for each day, four strokes standing up and the fifth across them like a gate.  
-> **Christopher Robin**: Make one gate and two more strokes. That is seven, and Pooh is free on the seventh day.  
+> _A week has seven days. Let us keep a tally: one stroke for each day, four strokes standing up and the fifth across them like a gate._  
+> _Make one gate and two more strokes. That is seven, and Pooh is free on the seventh day._  
 > Check: `edu:tally:days-of-week:7`
 > _For grown-ups: Made a tally of seven, bundling the first five marks into a gate._
 
@@ -293,8 +294,8 @@ _It is a fine winter’s day. Piglet is brushing snow off his front step when Po
 **Pooh**: Look. Paw-marks. Something has been round here, and round, and I have been round after it.  
 
 > **Lesson** (science, notice): tracks tell us size, speed and direction  
-> **Christopher Robin**: Animal trackers read prints like a story. The size shows how big the animal is, and the spacing shows how fast it moved.  
-> **Christopher Robin**: A line of prints shows where it went. A circle of prints, though, shows somebody going round in circles.  
+> _Animal trackers read prints like a story. The size shows how big the animal is, and the spacing shows how fast it moved._  
+> _A line of prints shows where it went. A circle of prints, though, shows somebody going round in circles._  
 > _For grown-ups: Learned that tracks show an animal’s size, speed and direction._
 
 **Piglet**: Could it be… a Woozle?  
@@ -318,7 +319,7 @@ _Your Nubbin trots after Pooh round the spinney of larches, putting its small fe
 _Round they go. Every time they come back to the same place, there are more tracks than before._  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a pattern that follows a rule: adding 2 each lap  
-> _Each lap round the larches, Pooh and Piglet each add one set of prints._  
+> _Pooh walks round, and the Nubbin follows, adding small prints of its own._  
 > _After lap 1 there are 2 sets. After lap 2 there are 4. How many after lap 5?_  
 > - ✅ 10 sets → Yes. The rule is add 2 each lap: 2, 4, 6, 8, 10.
 > - 8 sets → That is lap 4. Keep going one more: 2, 4, 6, 8, 10.
@@ -424,8 +425,8 @@ _Eeyore turns slowly to look, and turns, and turns, and comes back to where he s
 **Eeyore**: Thank you, Pooh. You’re a real friend. Better than most.  
 
 > **Lesson** (science, 4-LS1-1, notice): thistle prickles protect the plant; donkeys cope  
-> **Christopher Robin**: A thistle is covered in sharp spines. The spines are a structure that helps the plant survive, because most animals do not want a mouthful.  
-> **Christopher Robin**: Donkeys really do eat thistles. Their lips and mouths are tough enough for the prickles.  
+> _A thistle is covered in sharp spines. The spines are a structure that helps the plant survive, because most animals do not want a mouthful._  
+> _Donkeys really do eat thistles. Their lips and mouths are tough enough for the prickles._  
 > _For grown-ups: Learned that thistle spines protect the plant and that donkeys can eat thistles._
 
 
@@ -456,9 +457,9 @@ _Your Nubbin isn’t listening. It is looking at the bell-pull, which is grey, a
 **Owl**: Came across it in the Forest, hanging on a bush. I gave it a pull to see who was in. Nobody was. It came away in my wing.  
 **Pooh**: It belongs to Eeyore. He’s been missing it all morning, and the back of him hasn’t known what to do.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): returning what you find  
-> **Christopher Robin**: Owl found the tail on a bush and made it his bell-pull. He did not know whose it was, but he never asked around either.  
-> **Christopher Robin**: When you find something that might be lost, the fair thing is to ask whose it is, or hand it in. Someone may be missing it.  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): returning what you find  
+> _Owl found the tail on a bush and made it his bell-pull. He did not know whose it was, but he never asked around either._  
+> _When you find something that might be lost, the fair thing is to ask whose it is, or hand it in. Someone may be missing it._  
 > _For grown-ups: Thought about the fair thing to do with something you find._
 
 
@@ -492,12 +493,13 @@ _He swishes it again, and frisks about among the thistles. He is happy, though h
 #### `reader:a11-04-complete` · [main](main.md#a11-04-complete)
 
 _Pooh walks home feeling that he has done a Good Deed, which he has._  
+_On the way he passes Owl’s window. Owl’s clock says twenty past ten._  
 _He feels so pleased that he is ready for a little something by eleven o’clock. So he has one._  
 **Pooh**: Owl knows ever such a lot. Long words and everything. But it was your Nubbin who looked at the bell-pull.  
 _Your Nubbin looks proud. Then, to be safe, it looks for every other bell-pull in the Forest, and there aren’t any._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals: 10:20 to 11:00  
-> _Pooh leaves Eeyore at 10:20, and his little something is at eleven o’clock. How many minutes does he have to wait?_  
+> _Owl’s clock says 10:20, and Pooh’s little something is at eleven o’clock. How many minutes does he have to wait?_  
 > - ✅ 40 minutes → Yes. From 10:20 to 11:00 is 40 minutes: 10:20 to 10:30 is 10, then 30 more.
 > - 30 minutes → Count again: 10:20 to 10:30 is 10 minutes, and 10:30 to 11:00 is another 30. That is 40.
 > - 20 minutes → That is the minutes already on the clock. The wait to 11:00 is 40 minutes.
@@ -613,9 +615,9 @@ _He comes back with Christopher Robin. You are still there with your lantern, no
 _The Heffalump bangs its head on a tree root. The jar breaks, and there is Pooh, sticky and very pleased to see everyone._  
 _Christopher Robin begins to laugh, and laughs, and can’t stop._  
 
-> **Lesson** (science, 5-ESS1-2, ask): shadows and dim light can fool us  
+> **Lesson** (science, ask): dim light can fool our eyes  
 > _At dawn Piglet sees a huge round-headed shape and shouts “Heffalump!” Why did Pooh with a jar look so strange?_  
-> - ✅ In dim light we see only an outline → Yes. With little light, we cannot see colours or details, only a dark shape, and our brain guesses.
+> - ✅ The jar made a big head, and the light was dim → Yes. The jar made a huge round head, and in dim light Piglet saw only the outline.
 > - Pooh really grew bigger → He did not! Low morning light makes long shadows and big outlines, which can make small things look huge.
 > - The jar was magic → It was only a jar. Light and shadow did the rest.
 > _For grown-ups: Learned that in dim light we see only outlines, which can be misread._
@@ -722,7 +724,7 @@ _He takes it out, and puts it back in. He takes it out again._
 _Everyone watches Eeyore being happy, which nobody has seen before. Nobody says anything, in case it stops._  
 _Your Nubbin steps forward. It has something to give too, or nothing, which is also a thing._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, notice): choosing means giving something up  
+> **Lesson** (social-studies, D2.Eco.1.3-5, notice): choosing means giving something up  
 > _Your Nubbin has three things it could give: the ribbon, the thistle, or its time. It cannot give all three at once._  
 > _Whenever you pick one thing, you give up the others. People call that a choice, and it is how every shop, family and garden works._  
 > _For grown-ups: Learned that choosing one thing means giving up others._
@@ -783,8 +785,8 @@ _Nobody knows where they came from, but there they are in the Forest: Kanga, and
 **Rabbit**: One morning, nobody. Next morning, a Kanga. Who said she could? And she keeps her child in her pocket!  
 
 > **Lesson** (science, 1-LS1-2, notice): baby kangaroos grow in the pouch  
-> **Christopher Robin**: Real kangaroos are marsupials. A baby, called a joey, is born tiny and finishes growing in its mother’s pouch.  
-> **Christopher Robin**: The pouch keeps it warm and safe, and she can feed it there. Nobody in the Forest has seen that before.  
+> _Real kangaroos are marsupials. A baby, called a joey, is born tiny and finishes growing in its mother’s pouch._  
+> _The pouch keeps it warm and safe, and she can feed it there. Nobody in the Forest has seen that before._  
 > _For grown-ups: Learned that kangaroo joeys grow in their mother’s pouch._
 
 **Pooh**: Where should she keep it?  
@@ -794,7 +796,7 @@ _Nobody knows where they came from, but there they are in the Forest: Kanga, and
 **Piglet**: V-very small. Yes. Small enough to be b-brave about it.  
 _Your Nubbin looks at you, and you look at Rabbit. Rabbit is looking at his list._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): how to treat newcomers  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): how to treat newcomers  
 > _Rabbit wants Kanga and Roo to leave, just because they are new and do things differently. Pooh asks “Where should she keep it?” Whose side is the better one?_  
 > - Rabbit’s: newcomers should fit in → Fitting in matters to Rabbit. But what is the harm in a pocket? That is Pooh’s question.
 > - Pooh’s: there is no harm → Pooh asks it lightly, but it is a good test. If no one is hurt, why would they need to leave?
@@ -818,7 +820,7 @@ _Your Nubbin looks at you, and you look at Rabbit. Rabbit is looking at his list
 **Rabbit**: You look after Roo on the way, Keeper. Keep him happy. Happy Roos don’t squeak.  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): a grown-up must always know where a child is  
-> _In the Forest, Kanga knows all along and it is a game. In real life, a child should never be taken away from their grown-up, even as a game._  
+> _In the Forest it is a game. In real life, taking someone’s child is never a game._  
 > _If it happens, say no loudly, stay close to other people, and tell a trusted adult straight away._  
 > _For grown-ups: Learned that a grown-up should always know where a child is, and who to tell if not._
 
@@ -833,8 +835,8 @@ _Rabbit runs off with Roo in a pillowcase he has made into a pocket for the purp
 **Roo**: Can your Nubbin come in the pocket too?  
 
 > **Lesson** (science, 4-LS1-1, notice): tendons store energy for a kangaroo’s hop  
-> **Christopher Robin**: A kangaroo’s back legs have long, stretchy tendons. Each landing stretches them like springs, and they spring back to help with the next hop.  
-> **Christopher Robin**: That saves the kangaroo energy, so a big red kangaroo can keep hopping for a long way.  
+> _A kangaroo’s back legs have long, stretchy tendons. Each landing stretches them like springs, and they spring back to help with the next hop._  
+> _That saves the kangaroo energy, so a big red kangaroo can keep hopping for a long way._  
 > _For grown-ups: Learned that kangaroo tendons store energy like springs._
 
 
@@ -966,8 +968,8 @@ _Pooh has found a long pole. He holds it across the stream lower down, and you t
 _Roo bumps into the pole, and holds on, and the two of you lift him out, dripping and delighted._  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): water safety: reach, throw, do not go  
-> **Christopher Robin**: Nubbins do not mind water, but people should. If someone falls in, the safe rule is reach or throw, do not go.  
-> **Christopher Robin**: Hold out a pole or a branch from the bank, or throw something that floats, and shout for a grown-up.  
+> _Nubbins do not mind water, but people should. If someone falls in, the safe rule is reach or throw, do not go._  
+> _Hold out a pole or a branch from the bank, or throw something that floats, and shout for a grown-up._  
 > _For grown-ups: Learned the water-safety rule: reach or throw, do not go in._
 
 
@@ -977,8 +979,7 @@ _Roo bumps into the pole, and holds on, and the two of you lift him out, drippin
 **Kanga**: We did, dear. Now come and be dried.  
 
 > **Lesson** (science, notice): streams run downhill and carry things along  
-> **Christopher Robin**: Water always runs downhill, pulled by gravity. A stream can carry leaves, sticks and even a small Roo along with it.  
-> **Christopher Robin**: Remember that: it matters for a game on the bridge later.  
+> _Water always runs downhill, pulled by gravity. A stream can carry leaves, sticks and even a small Roo along with it._  
 > _For grown-ups: Learned that streams flow downhill and carry things along._
 
 
@@ -1005,9 +1006,9 @@ _Christopher Robin pushes the pole into the bank, and writes a notice on it sayi
 
 _Everyone walks home in a long happy line, with Roo asleep on Kanga, and Pooh walking very upright, the way discoverers do._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): the real North Pole is a spot on a frozen ocean  
-> **Christopher Robin**: The real North Pole is a point at the very top of the Earth. It is not land but floating sea ice on the Arctic Ocean.  
-> **Christopher Robin**: An expedition is a journey made for a purpose, like exploring. Pooh’s was a very short one.  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): the real North Pole is a spot on a frozen ocean  
+> _The real North Pole is a point at the very top of the Earth. It is not land but floating sea ice on the Arctic Ocean._  
+> _An expedition is a journey made for a purpose, like exploring. Pooh’s was a very short one._  
 > _For grown-ups: Learned that the real North Pole is on floating sea ice, and what an expedition is._
 
 
@@ -1043,8 +1044,8 @@ _The rain comes down all day, and all night, and all the next day. Then it keeps
 _The stream climbs over its banks and the Forest fills up, until the low places are ponds and the ponds are lakes._  
 
 > **Lesson** (science, 3-ESS2-1, notice): the water cycle and floods  
-> **Christopher Robin**: Rain starts as water vapour rising from seas and lakes. It cools into drops, which fall as rain. Rivers carry it back to the sea.  
-> **Christopher Robin**: A flood happens when rain falls faster than the ground and streams can carry it away.  
+> _Rain starts as water vapour rising from seas and lakes. It cools into drops, which fall as rain. Rivers carry it back to the sea._  
+> _A flood happens when rain falls faster than the ground and streams can carry it away._  
 > _For grown-ups: Learned that rain is part of the water cycle and that floods happen when too much falls too fast._
 
 _Piglet’s house is in the middle of a beech tree, and the beech tree is in the middle of the water._  
@@ -1066,8 +1067,8 @@ _You and your Nubbin, up on the high bank, see the bottle go by._
 _You follow it along the bank. It bobs all the way to where Pooh is sitting on a branch above his own front door, with his honey._  
 
 > **Lesson** (science, 2-PS1-1, notice): a corked bottle floats because it is mostly air  
-> **Christopher Robin**: A corked bottle is mostly air, so it is light for its size. We say it is buoyant, and it floats.  
-> **Christopher Robin**: A stone is heavy for its size, so it sinks. Weight alone does not decide it: size and shape matter too.  
+> _A corked bottle is mostly air, so it is light for its size. We say it is buoyant, and it floats._  
+> _A stone is heavy for its size, so it sinks. Weight alone does not decide it: size and shape matter too._  
 > _For grown-ups: Learned that something light for its size, like a corked bottle, floats._
 
 
@@ -1101,8 +1102,8 @@ _Your Nubbin rides on your head, well out of the wet. It would be happy to swim,
 _You bump into the hill where Christopher Robin lives. It is an island now, with a boy on it._  
 
 > **Lesson** (social-studies, 2-ESS2-2, notice): floods make temporary islands; high ground is safe  
-> **Christopher Robin**: The hill is an island now: land with water all around it. On a map, an island is land surrounded by blue.  
-> **Christopher Robin**: In a real flood, high ground is the safest place. Water fills the lowest places first.  
+> _The hill is an island now: land with water all around it. On a map, an island is land surrounded by blue._  
+> _In a real flood, high ground is the safest place. Water fills the lowest places first._  
 > _For grown-ups: Learned what an island is and that high ground is safest in a flood._
 
 
@@ -1139,16 +1140,17 @@ _Piglet is at his window, very small and very wet. When he sees The Brain of Poo
 _Piglet climbs down into the umbrella, and it holds three, just. The ship turns round twice and heads for home._  
 **Piglet**: I knew somebody would come. I didn’t know it would be a bear on a jar and a boy in an umbrella.  
 **Christopher Robin**: It was Pooh’s idea. All of it.  
-
-> **Lesson** (maths, 3.OA.D.8, ask): two-step problem with a remainder  
-> _The umbrella boat carries 3 friends at a time. How many trips would it need to carry 10 friends?_  
-> - ✅ 4 trips → Yes. Three trips carry 9 friends, and a fourth trip takes the last one.
-> - 3 trips → Three trips carry only 9. The tenth friend needs a fourth trip.
-> - 7 trips → That would be too many. 10 ÷ 3 is 3 with 1 left over, so 3 + 1 = 4 trips.
-> _For grown-ups: Solved a division problem and handled the remainder._
-
 **Pooh**: Was it? It was a very good idea. I must have more of them.  
 _Your Nubbin, on your head, sneezes once. It is the driest thing for miles._  
+_Three fit, just. You wonder how many loads ten friends would take, if each time Pooh pulled the boat back empty on a string._  
+
+> **Lesson** (maths, 3.OA.D.8, ask): two-step problem with a remainder  
+> _The umbrella boat carries 3 friends at a time. How many loads would it take to carry 10 friends?_  
+> - ✅ 4 loads → Yes. Three loads carry 9 friends, and a fourth load takes the last one.
+> - 3 loads → Three loads carry only 9. The tenth friend needs a fourth load.
+> - 7 loads → Seven is the crossings: 4 loads over and 3 empty trips back. The loads are 10 ÷ 3, which is 3 with 1 left, so 4.
+> _For grown-ups: Solved a division problem and handled the remainder._
+
 
 ### Glossary
 
@@ -1174,7 +1176,7 @@ _At the Gloomy Place, Owl tells Eeyore. Eeyore nods slowly, and stops listening 
 > - “Something’s on.” → Short, but he would not know what or why. Clear needs enough detail too.
 > _For grown-ups: Chose words to suit the listener._
 
-**Eeyore**: A party. For me. Well. Fancy that. Better late than never, I suppose.  
+**Eeyore**: A party. For me. Well. I didn’t expect that. It’s late, but it’s here, I suppose.  
 **Owl**: No, it is for…  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): assuming something is about you  
@@ -1200,15 +1202,16 @@ _But Eeyore has turned away to think about it, and Owl has a great many more tre
 _Christopher Robin has made a long table out of some long pieces of wood, out in the open, and everyone helps lay it._  
 _You lay the plates. Your Nubbin puts one leaf on each plate, very exactly, as a napkin._  
 **Rabbit**: Not there! Owl at the top, because he’s Owl. Then Kanga, then me, then my friends-and-relations, all of them…  
-_Rabbit organises the seats until there aren’t any left. There is one chair at the very end, where Rabbit hasn’t looked._  
+**Rabbit**: Twelve friends-and-relations, four to a bench. Three benches. I’ve done a chart.  
 
-> **Lesson** (maths, 3.OA.A.3, ask): equal groups: 12 seats in 3 rows  
-> _Rabbit seats 12 friends-and-relations in 3 equal rows. How many are in each row?_  
-> - ✅ 4 in each row → Yes. 12 ÷ 3 = 4, since 3 × 4 = 12.
-> - 9 in each row → That is 12 − 3. Share 12 equally into 3 rows: 12 ÷ 3 = 4.
-> - 3 in each row → Three rows of 3 would be only 9. Three rows of 4 make 12.
+> **Lesson** (maths, 3.OA.A.3, ask): equal groups: 12 friends on 3 benches  
+> _Check Rabbit’s chart. He shares 12 friends-and-relations equally between 3 benches. How many go on each bench?_  
+> - ✅ 4 on each bench → Yes. 12 ÷ 3 = 4, since 3 × 4 = 12. The chart is right.
+> - 9 on each bench → That is 12 − 3. Share 12 equally between 3 benches: 12 ÷ 3 = 4.
+> - 3 on each bench → Three benches of 3 would seat only 9. Three benches of 4 seat 12.
 > _For grown-ups: Divided 12 into 3 equal groups._
 
+_Rabbit organises the seats until there aren’t any left. There is one chair at the very end, where Rabbit hasn’t looked._  
 _You put a cushion on it, and a card that says EEYORE in your best letters._  
 **Eeyore**: A place. At the end. With my name on. I didn’t ask.  
 **Eeyore**: …The cushion’s a nice touch.  
@@ -1221,7 +1224,7 @@ _Eeyore half stands up to make a speech. Then Christopher Robin hands Pooh a pre
 
 > **Lesson** (literacy, RL.3.3, notice): showing character through action  
 > _Eeyore “half stands up to make a speech”, then sits down again. The author never says he is shy or doubtful._  
-> _We work it out from what he does. That is called showing, not telling, and it is how stories get under your skin._  
+> _We work it out from what he does. That is called showing, not telling, and it is how stories make you care._  
 > _For grown-ups: Learned that actions can show a character’s feelings without saying them._
 
 
@@ -1230,9 +1233,9 @@ _Eeyore half stands up to make a speech. Then Christopher Robin hands Pooh a pre
 _Pooh’s present is a Special Pencil Case. Inside are pencils with letters on them, B and HB and BB, and Pooh is sure every letter is about him._  
 **Pooh**: Oh!  
 
-> **Lesson** (science, 2-PS1-1, notice): pencil grades: B, HB and H  
-> **Christopher Robin**: Pencil “lead” is really graphite mixed with clay. More clay makes it harder and lighter. More graphite makes it softer and blacker.  
-> **Christopher Robin**: B means black and soft. H means hard. HB is in the middle, the pencil most of us use at school.  
+> **Lesson** (science, 2-PS1-1, notice): pencil grades: B, HB and BB  
+> _Pencil “lead” is really graphite mixed with clay. More clay makes it harder and lighter. More graphite makes it softer and blacker._  
+> _B, HB and BB. B means black and soft, and BB means extra black. HB is in the middle, the pencil most of us use at school._  
 > _For grown-ups: Learned that pencil grades describe how soft or hard the graphite is._
 
 _Pooh can’t write, but he looks at every pencil, one at a time, and is very happy._  
@@ -1254,8 +1257,8 @@ _Walking home, Pooh and Piglet don’t say anything for a long time. It is the f
 _It is snowing, and the Forest is white and soft. Pooh is humming a hum about snow, which gets longer as it goes, like snow does._  
 
 > **Lesson** (science, 2-ESS2-3, notice): snow is frozen water; freezing point  
-> **Christopher Robin**: Snow is water that has frozen into tiny crystals. Water freezes at 0 °C (32 °F).  
-> **Christopher Robin**: When the air warms above that, snow melts back into water. In spring, it feeds the streams.  
+> _Snow is water that has frozen into tiny crystals. Water freezes at 0 °C (32 °F)._  
+> _When the air warms above that, snow melts back into water. In spring, it feeds the streams._  
 > _For grown-ups: Learned that snow is frozen water, and that water freezes at 0 °C (32 °F)._
 
 _He goes round to Piglet’s, humming. Piglet is sitting by his fire, warming his toes._  
@@ -1360,8 +1363,8 @@ _Beside the step, its purple top just showing through the snow, is the thistle y
 **Eeyore**: I didn’t eat it. I thought it ought to have somewhere to live. Everybody should, it turns out.  
 
 > **Lesson** (science, 2-LS2-1, notice): plants rest in winter and grow in spring  
-> **Christopher Robin**: Eeyore has planted the thistle by his step in the snow. Many plants rest through winter, and grow again when the ground warms.  
-> **Christopher Robin**: A thistle needs water and sunlight to grow, and spring brings both. Give it time, and it will be a plant again.  
+> _Eeyore has planted the thistle by his step in the snow. Many plants rest through winter, and grow again when the ground warms._  
+> _A thistle needs water and sunlight to grow, and spring brings both. Give it time, and it will be a plant again._  
 > _For grown-ups: Learned that plants rest through winter and need water and light to grow._
 
 
@@ -1373,10 +1376,10 @@ _Eeyore goes in, turns round, comes out again, and sits down on his new step._
 _Then he shuffles to one side. There is a space left exactly the size of you, and a smaller one beside it._  
 **Eeyore**: I kept you a place. In case. Not that you have to. Sit, I mean.  
 
-> **Lesson** (literacy, RL.3.3, notice): reading between the lines  
+> **Lesson** (literacy, RL.3.3, notice): working out what a character means  
 > _Eeyore says you do not have to sit there. But he has kept a space exactly your size, and a smaller one for your Nubbin._  
-> _Reading between the lines, he very much hopes you will. Sitting with a gloomy friend is the sort of kindness that gets remembered._  
-> _For grown-ups: Read between the lines of what a character says and does._
+> _His actions say more than his words: he very much hopes you will. Sitting with a gloomy friend is the sort of kindness that gets remembered._  
+> _For grown-ups: Worked out what a character means from what he says and does._
 
 
 #### `reader:a11-11-complete` · [main](main.md#a11-11-complete)
@@ -1386,12 +1389,13 @@ _Pooh and Piglet walk home in the snow. For a long time neither of them says any
 **Pooh**: We did. And then we gave it back, in a better place. I think that counts.  
 **Piglet**: I think it counts too.  
 _Your Nubbin walks behind them in Pooh’s footprints all the way home, which takes a great deal of jumping._  
+_Pooh’s footprints are 30 cm apart. Your Nubbin rests after every ten hops._  
 
-> **Lesson** (maths, 4.MD.A.1, ask): distance: 14 hops of 30 cm  
-> _Your Nubbin hops from footprint to footprint, each 30 cm apart. It makes 14 hops. How far is that in metres?_  
-> - ✅ 4 metres 20 centimetres → Yes. 14 × 30 = 420 cm, which is 4 m and 20 cm.
-> - 42 metres → That is ten times too big. 420 cm is 4.2 m.
-> - 4 metres → Nearly: 14 × 30 = 420 cm. That is 4 m and a further 20 cm.
+> **Lesson** (maths, 4.MD.A.1, ask): distance: 10 hops of 30 cm  
+> _Ten hops, each 30 cm. There are 100 cm in a metre. How far does your Nubbin go between rests, in metres?_  
+> - ✅ 3 metres → Yes. 10 × 30 = 300 cm, and 300 cm is 3 m.
+> - 30 metres → That is ten times too big. 300 cm is 3 m.
+> - 300 metres → 300 is right in centimetres. In metres, 300 ÷ 100 = 3.
 > _For grown-ups: Converted centimetres to metres after multiplying._
 
 
@@ -1405,7 +1409,7 @@ _Your Nubbin walks behind them in Pooh’s footprints all the way home, which ta
 
 - `a11-12-s1`: Find out what is making that noise at Pooh’s door. · _You are staying the night at Pooh’s. Open the door._
 - `a11-12-s2`: Help Tigger try honey, haycorns and thistles. · _Go from Pooh’s to Piglet’s to Eeyore’s with Tigger._
-- `a11-12-s3`: Take Tigger to Kanga’s for one last try. · _Kanga’s house is by the Sandy Pit. Roo is having his medicine._
+- `a11-12-s3`: Take Tigger to Kanga’s for one last try. · _Kanga’s house is by the Sandy Pit. Roo is having his malt._
 
 #### `reader:a11-12-night` · [main](main.md#a11-12-night)
 
@@ -1413,8 +1417,8 @@ _In the middle of the night, at Pooh’s house, there is a noise. You and your N
 _It is a growly, wobbly sort of noise: the noise of something very pleased about something._  
 
 > **Lesson** (science, 4-PS3-2, notice): a growl is a low pitch: slow vibrations  
-> **Christopher Robin**: A growl is a low-pitched sound: the throat vibrates slowly. A squeak is high-pitched, with very fast vibrations.  
-> **Christopher Robin**: Pitch is how high or low a sound is. Volume is how loud. They are different things.  
+> _A growl is a low-pitched sound: the throat vibrates slowly. A squeak is high-pitched, with very fast vibrations._  
+> _Pitch is how high or low a sound is. Volume is how loud. They are different things._  
 > _For grown-ups: Learned that pitch depends on how fast something vibrates._
 
 **Pooh**: What is it? Is it you?  
@@ -1438,12 +1442,13 @@ _Then he sees your Nubbin, and bounces it over, gently, to say hello. Your Nubbi
 #### `reader:a11-12-night-done` · [main](main.md#a11-12-night-done)
 
 _In the morning Pooh sets out a pot of honey for Tigger. The very best kind._  
+_The label says 500 ml. Pooh’s spoon holds 50 ml, which he thinks is a sensible size for a spoon._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): volume in millilitres  
-> _Pooh puts out a jar with 500 millilitres of honey. If Tigger tries 50 millilitres at a time, how many tries would empty the jar?_  
-> - ✅ 10 tries → Yes. 500 ÷ 50 = 10.
-> - 5 tries → Five tries would be only 250 millilitres. You need 10.
-> - 50 tries → That is far too many. Each try is a tenth of the jar, so 10 tries.
+> _The pot holds 500 millilitres of honey. If Tigger took one 50 millilitre spoonful at a time, how many spoonfuls would empty it?_  
+> - ✅ 10 spoonfuls → Yes. 500 ÷ 50 = 10.
+> - 5 spoonfuls → Five spoonfuls would be only 250 millilitres. You need 10.
+> - 50 spoonfuls → That is far too many. Each spoonful is a tenth of the pot, so 10.
 > _For grown-ups: Divided a volume of 500 millilitres into 50 millilitre portions._
 
 
@@ -1453,8 +1458,8 @@ _Tigger takes a large mouthful of honey. Then he looks up at the ceiling, with h
 **Tigger**: Ugh. Honey is far too sticky for a Tigger.  
 
 > **Lesson** (science, 4-LS1-2, notice): taste and touch: two senses at work  
-> **Christopher Robin**: Tigger uses touch and taste at once. His tongue feels that honey is sticky and tastes that it is sweet, and nerves send both messages to his brain.  
-> **Christopher Robin**: Our senses are our body’s way of gathering information. A thistle is a good lesson in touch.  
+> _Tigger uses touch and taste at once. His tongue feels that honey is sticky and tastes that it is sweet, and nerves send both messages to his brain._  
+> _Our senses are our body’s way of gathering information. A thistle is a good lesson in touch._  
 > _For grown-ups: Learned that senses send information to the brain._
 
 _Pooh tries to sound sorry. He is secretly relieved, and has the rest himself._  
@@ -1467,7 +1472,7 @@ _Tigger takes a large mouthful, and sits down, and puts a paw in his mouth, and 
 
 > **Lesson** (sel, CASEL: Self-management, ask): trying new food, and saying you dislike it  
 > _Tigger tries three foods and likes none of them. Is it worth trying new foods when you might not like them?_  
-> - Yes, you might find a favourite → Tigger did, in the end. Trying costs a moment and can win you a lifelong favourite.
+> - Yes, you might find a favourite → Tigger keeps trying. Trying costs a moment and can win you a lifelong favourite.
 > - No, stick to what you know → It is safe. But Tigger would have gone hungry. Safe is not always the same as well.
 > - Try a little, and it is fine to say no → Many people agree. A small taste, and honesty about it, seems fair to everyone.
 > _For grown-ups: Thought about the balance between trying new food and saying you dislike it._
@@ -1487,17 +1492,18 @@ _Tigger takes a large mouthful, and sits down, and puts a paw in his mouth, and 
 
 #### `reader:a11-12-malt` · [main](main.md#a11-12-malt)
 
-_At Kanga’s house, Roo is having his medicine. He does not want it; he wants anything else._  
+_At Kanga’s house, Roo is having a spoon of sticky brown malt. He does not want it; he wants anything else._  
 **Roo**: Do I have to? It’s Extract of Malt. It’s brown, and it sticks to the spoon, and it goes on and on.  
 
 > **Lesson** (science, notice): how malt extract is made  
-> **Christopher Robin**: Extract of malt is made from barley. The grains are soaked until they sprout, then dried: that is malt.  
-> **Christopher Robin**: Soak the malt in hot water, boil the sweet liquid down, and you get a thick, sticky syrup: the extract. No wonder it sticks to the spoon.  
+> _Extract of malt is made from barley. The grains are soaked until they sprout, then dried: that is malt._  
+> _Soak the malt in hot water, boil the sweet liquid down, and you get a thick, sticky syrup: the extract. No wonder it sticks to the spoon._  
 > _For grown-ups: Learned that malt extract is made from sprouted, dried barley._
 
 **Kanga**: Just one spoonful, dear. It makes you big and strong.  
-_Tigger leans over Roo’s shoulder, sniffs, and takes the whole spoonful._  
-_Kanga stares, and Roo stares. Your Nubbin, who has been staring at everything since the thistles, stares harder._  
+**Kanga**: Would you like to try, Tigger? One spoon. Only from me, mind.  
+_Tigger tries it. His tail goes straight up._  
+_Roo stares. Your Nubbin, who has been staring at everything since the thistles, stares harder._  
 **Tigger**: That’s it! That’s the one! That’s a Tigger breakfast!  
 **Roo**: He can have mine! All of it! Always!  
 **Kanga**: Well. I suppose he’d better stay, then. I’ll fetch another spoon.  
@@ -1643,8 +1649,8 @@ _Then Tigger looks down. He looks down for a long time._
 **Tigger**: Tiggers can climb up. That part’s easy. It’s the coming down. It’s not their best thing.  
 
 > **Lesson** (science, 4-LS1-1, notice): cats climb up easily; claws curve one way  
-> **Christopher Robin**: Real cats do the same as Tigger: up a tree in a flash, then stuck. Their claws curve backwards, which is ideal for climbing up.  
-> **Christopher Robin**: Going down head-first, the claws point the wrong way. Cats have to learn to back down, or be rescued.  
+> _Real cats do the same as Tigger: up a tree in a flash, then stuck. Their claws curve backwards, which is ideal for climbing up._  
+> _Going down head-first, the claws point the wrong way. Cats have to learn to back down, or be rescued._  
 > _For grown-ups: Learned why cats find climbing down harder than climbing up._
 
 **Roo**: We’re stuck! Isn’t it lovely? We’re up a tree!  
@@ -1705,14 +1711,15 @@ _There is a great crash. Everyone falls over in a heap, and somebody at the bott
 **Tigger**: Did you see me? Tiggers can jump out of trees. It’s a thing they do. Easily.  
 **Christopher Robin**: Let’s say it’s a thing they do with help.  
 _Christopher Robin puts his tunic back on. It has a Tigger-shaped stretch in the middle now, and he says he likes it better._  
+_Spread flat this morning, it was 2 metres long and 1 metre wide. Now it is a little more._  
 _Your Nubbin finds it can’t get down the last bit of its branch either, and has to be lifted._  
 
-> **Lesson** (maths, 3.MD.C.7, ask): area of a square  
-> _Christopher Robin’s tunic is a square, 2 metres on each side. What is its area?_  
-> - ✅ 4 square metres → Yes. A square’s area is side × side: 2 × 2 = 4.
-> - 8 square metres → That is the perimeter, going round the edge. Area is 2 × 2 = 4.
-> - 2 square metres → Multiply the sides, not just count one: 2 × 2 = 4.
-> _For grown-ups: Found the area of a square by multiplying the side by itself._
+> **Lesson** (maths, 3.MD.C.7, ask): area of a rectangle  
+> _Before the stretch, the tunic was 2 metres long and 1 metre wide. What was its area?_  
+> - ✅ 2 square metres → Yes. A rectangle’s area is length × width: 2 × 1 = 2.
+> - 6 square metres → Six metres is the perimeter, going round the edge. Area is 2 × 1 = 2.
+> - 3 square metres → That is 2 + 1. Multiply the sides instead: 2 × 1 = 2.
+> _For grown-ups: Found the area of a rectangle by multiplying length and width._
 
 
 ## A11-15. Rabbit’s Busy Day
@@ -1757,19 +1764,20 @@ _Owl reads the note upside down, then the right way up, then holds it very far a
 **Rabbit**: Owl may not know what a Backson is. But anyone who can spell the days of the week deserves a little respect.  
 **Owl**: Tuesday. T, U… There is an S in it. There’s certainly a Y somewhere.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): weekday names come from old gods  
-> **Christopher Robin**: Tuesday is named after Tiw, a god of war the early English believed in. Wednesday comes from Woden, and Thursday from Thor.  
-> **Christopher Robin**: Many of our weekday names are old, and spelling them has been wobbly for a very long time. Owl is in good company.  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): weekday names come from old gods  
+> _Tuesday is named after Tiw, a god of war the early English believed in. Wednesday comes from Woden, and Thursday from Thor._  
+> _Many of our weekday names are old, and spelling them has been wobbly for a very long time. Owl is in good company._  
 > _For grown-ups: Learned that weekday names come from old gods._
 
 _Your Nubbin, who can’t spell anything, looks at Owl with great respect too._  
 
 #### `reader:a11-15-owl-done` · [main](main.md#a11-15-owl-done)
 
+_Rabbit left home at 10:15 by his clock. He walked 20 minutes to Owl’s, and has stayed 15._  
 **Rabbit**: Eeyore. Eeyore might have seen it. He sees most things, and complains about them.  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time: finding the end time  
-> _Rabbit leaves home at 10:15, walks for 20 minutes to Owl’s, and stays 15 minutes. What time is it when he leaves Owl’s?_  
+> _Rabbit left home at 10:15, walked for 20 minutes to Owl’s, and stayed 15 minutes. What time is it as he leaves Owl’s?_  
 > - ✅ 10:50 → Yes. 10:15 + 20 = 10:35, and 10:35 + 15 = 10:50.
 > - 10:35 → That is when he arrives. He stays another 15 minutes, so 10:50.
 > - 11:00 → Close. Add carefully: 10:15 + 20 = 10:35, then + 15 = 10:50.
@@ -1794,8 +1802,8 @@ _Rabbit says it airily, and Eeyore’s ears go down._
 _You crouch down by the sticks with your Nubbin, and look at the A properly, the way it deserves._  
 
 > **Lesson** (maths, 4.G.A.3, notice): the letter A has one line of symmetry  
-> **Christopher Robin**: Look at Eeyore’s A. Fold it down the middle, from the point at the top to the ground, and the two halves match.  
-> **Christopher Robin**: That fold is a line of symmetry. The letter A has exactly one.  
+> _Look at Eeyore’s A. Fold it down the middle, from the point at the top to the ground, and the two halves match._  
+> _That fold is a line of symmetry. The letter A has exactly one._  
 > _For grown-ups: Saw that the letter A has one line of symmetry._
 
 **Eeyore**: Christopher Robin taught me it. He goes out in the mornings now. To learn things. Then he comes and tells me one.  
@@ -1817,7 +1825,7 @@ _Rabbit stands very still. It is the first time today he hasn’t been busy._
 _Christopher Robin comes home at lunchtime with ink on his fingers and a great many new words, some of them spelled right._  
 **Christopher Robin**: Hallo! Did you see my note? I said I’d be back soon. And I am.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): spelling was not always fixed  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): spelling was not always fixed  
 > **Christopher Robin**: “Back soon” turned into “Backson”: a spelling by ear. English spelling was not fixed until around the 1700s.  
 > **Christopher Robin**: Before that, even famous writers spelled the same word several ways. Shakespeare’s own signatures vary. Wobbles are old news.  
 > _For grown-ups: Learned that English spelling was not fixed until about the 1700s._
@@ -1838,7 +1846,7 @@ _Pooh is crossing the bridge with a fir-cone, thinking of a hum. He trips over n
 _He goes to the other side to watch it float away. It comes out from under the bridge, which surprises him._  
 **Pooh**: That’s interesting. I dropped it on that side and it came out on this one. I wonder if it would do it again.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): upstream and downstream  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): upstream and downstream  
 > _Pooh drops the cone on one side of the bridge and sees it come out the other. Which side did he drop it on: upstream or downstream?_  
 > - ✅ Upstream, where the water comes from → Yes. Upstream is where the water comes from. Downstream is where it flows to. Pooh drops it upstream.
 > - Downstream, where it goes to → Downstream is where the water goes. He dropped the cone on the other side, upstream.
@@ -1849,8 +1857,8 @@ _He drops two fir-cones at once, a big one and a small one, and runs across. The
 **Pooh**: The big one won! I wanted the big one to win.  
 
 > **Lesson** (science, 3-5-ETS1-2, notice): a fair test changes one thing and repeats  
-> **Christopher Robin**: Pooh drops a big and a small cone together. The big one wins. Is that proof? A fair test changes one thing only and repeats it.  
-> **Christopher Robin**: Pooh should try it again, and again, and drop them at the very same spot. One go is only a hint.  
+> _Pooh drops a big and a small cone together. The big one wins. Is that proof? A fair test changes one thing only and repeats it._  
+> _Pooh should try it again, and again, and drop them at the very same spot. One go is only a hint._  
 > _For grown-ups: Learned that a fair test changes one thing and is repeated._
 
 _Fir-cones are hard to tell apart, so he goes on with sticks. That is how the game of Poohsticks begins._  
@@ -1860,12 +1868,12 @@ _Fir-cones are hard to tell apart, so he goes on with sticks. That is how the ga
 _Soon everyone is playing: Pooh and Piglet, Rabbit and Roo, you and your Nubbin._  
 **Christopher Robin**: Everybody drop on “now”. Then everybody run to the other side. And no pushing, Roo.  
 _Your Nubbin drops its stick. Then, before anyone can stop it, it drops itself in after it._  
-_It swims along beside its stick under the bridge, nudging it with its nose, in no hurry, enjoying the wet._  
+_Your Nubbin swims out to the fast middle. Its stick rides along beside it, in no hurry, enjoying the wet._  
 **Roo**: That’s not fair! Is it fair? Can I do that?  
-**Christopher Robin**: No, Roo.  
+**Christopher Robin**: No, Roo. The river is too deep for you.  
 **Pooh**: I think it’s fair. Nothing in the game says you can’t go with your stick. I should have thought of it.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): does a new player make the game unfair  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): does a new player make the game unfair  
 > _Your Nubbin went into the water with its stick. Pooh says “nothing in the game says you can’t”. Who decides if something is fair?_  
 > - The people who play, together → That is how Pooh sees it: it is his game, and the players agree the rules.
 > - The inventor, Pooh → Pooh invented it, and he agrees. Though rules usually work best when everyone has a say.
@@ -1873,14 +1881,15 @@ _It swims along beside its stick under the bridge, nudging it with its nose, in 
 > _For grown-ups: Thought about who decides whether a game is fair._
 
 _Your Nubbin’s stick comes out first, and so does your Nubbin, very pleased and very wet. It shakes itself all over Piglet._  
+**Christopher Robin**: That counts. Probably.  
+**Piglet**: Oh! Oh, d-dear. Woozles shake like that. I’m nearly sure.  
 
 > **Lesson** (science, do): the middle of a stream flows fastest  
 > **Christopher Robin**: A stream flows fastest in the middle, away from the banks, which rub against the water and slow it.  
-> **Christopher Robin**: Try it: drop one stick near the bank and one in the middle. The middle one wins. That is why the fast side wins.  
+> **Christopher Robin**: Try it: drop one stick near the bank and one in the middle. The middle one wins. Your Nubbin’s stick rode the middle.  
 > Check: `edu:drop:stick:fast-water`
 > _For grown-ups: Learned that a stream flows fastest in the middle, so a stick dropped there wins._
 
-**Piglet**: Oh! Oh, d-dear. Woozles shake like that. I’m nearly sure.  
 
 **Choices**
 
@@ -1986,8 +1995,8 @@ _Your Nubbin sits on the rail watching the water go under: the same water, and n
 _A mist is coming up from the river, white and thick, and the Forest is going soft round the edges._  
 
 > **Lesson** (science, 3-ESS2-1, notice): mist is a cloud near the ground  
-> **Christopher Robin**: Mist is made of tiny drops of water floating in the air. It forms when moist air cools, which is how clouds form too.  
-> **Christopher Robin**: Mist is basically a low cloud. Fog is the same, only thicker. In thick fog you can barely see your own hand.  
+> _Mist is made of tiny drops of water floating in the air. It forms when moist air cools, which is how clouds form too._  
+> _Mist is basically a low cloud. Fog is the same, only thicker. In thick fog you can barely see your own hand._  
 > _For grown-ups: Learned that mist is tiny water drops that form as moist air cools._
 
 **Tigger**: A walk! Where are we going? Tiggers love walks. Tiggers walk best of anyone.  
@@ -2038,8 +2047,8 @@ _Tigger bounces on without noticing. His bounces get further off, and then there
 _Rabbit leads you all home. After a while you pass a sand-pit, and after a while longer you pass the same sand-pit again._  
 
 > **Lesson** (science, notice): people walk in circles when they cannot see far  
-> **Christopher Robin**: Rabbit passes the same sand-pit twice. Experiments show that people who cannot see landmarks, in thick fog or a dark forest, tend to walk in circles.  
-> **Christopher Robin**: With no marker to aim at, tiny differences in each step add up. That is why “stop and call out” beats “keep walking”.  
+> _Rabbit passes the same sand-pit twice. Experiments show that people who cannot see landmarks, in thick fog or a dark forest, tend to walk in circles._  
+> _With no marker to aim at, tiny differences in each step add up. That is why “stop and call out” beats “keep walking”._  
 > _For grown-ups: Learned that people tend to walk in circles when they cannot see landmarks._
 
 **Pooh**: Every time we try to get away from this pit, we find it. So if we tried to find it, we might get away.  
@@ -2054,8 +2063,8 @@ _So you go after him, with your Nubbin, into the white. You find him in a hollow
 _You hear him before you see him: a small voice in a hollow, saying “Hallo?” to the mist, very bravely._  
 
 > **Lesson** (science, 4-LS1-2, notice): we can tell which direction a sound comes from  
-> **Christopher Robin**: In mist you hear before you see. Your two ears are a little apart, so a sound reaches one ear a split second before the other.  
-> **Christopher Robin**: Your brain uses that tiny difference to tell which way the sound came from. You can follow a voice you cannot see.  
+> _In mist you hear before you see. Your two ears are a little apart, so a sound reaches one ear a split second before the other._  
+> _Your brain uses that tiny difference to tell which way the sound came from. You can follow a voice you cannot see._  
 > _For grown-ups: Learned that two ears let the brain work out the direction of a sound._
 
 **Tigger**: Rabbit! There you are! I’ve come to find you. Tiggers are good at finding.  
@@ -2106,8 +2115,8 @@ _Rabbit says it quietly, the way people say a thing they don’t quite mean any 
 _It is a very windy day. Piglet’s ears stream out behind him like flags, and he has to hold on to Pooh._  
 
 > **Lesson** (science, 3-ESS2-1, notice): wind words: breeze, blustery, gale  
-> **Christopher Robin**: Weather people have names for wind. A breeze is gentle. A blustery day has strong, gusty winds that come and go.  
-> **Christopher Robin**: A gale blows at roughly 60 to 75 kilometres an hour (about 40 to 45 miles an hour). It can bring down branches, and sometimes chimneys.  
+> _Weather people have names for wind. A breeze is gentle. A blustery day has strong, gusty winds that come and go._  
+> _A gale blows at roughly 60 to 75 kilometres an hour (about 40 to 45 miles an hour). It can bring down branches, and sometimes chimneys._  
 > _For grown-ups: Learned the weather words breeze, blustery and gale._
 
 **Piglet**: What if a tree fell, Pooh? While we were under it?  
@@ -2180,8 +2189,8 @@ _Eeyore goes off, and comes back the next day, and leads you all to a beech tree
 _It is Piglet’s house. Everybody knows it is Piglet’s house, except Eeyore._  
 
 > **Lesson** (science, 2-LS4-1, notice): owls nest in tree holes  
-> **Christopher Robin**: Many owls are cavity nesters. They use holes in old trees, and sometimes barns, instead of building a nest.  
-> **Christopher Robin**: So Owl in a hole of a beech tree is true to life. Different animals use different habitats: squirrels in dreys, badgers in setts, owls in holes.  
+> _Many owls are cavity nesters. They use holes in old trees, and sometimes barns, instead of building a nest._  
+> _So Owl in a hole of a beech tree is true to life. Different animals use different habitats: squirrels in dreys, badgers in setts, owls in holes._  
 > _For grown-ups: Learned that many owls nest in holes in trees._
 
 _Piglet looks at his house for a long time. Then he looks at Eeyore, who is happier than anybody has ever seen him._  
@@ -2202,7 +2211,7 @@ _Piglet says it bravely, because he is brave, and then he has to look at the gro
 **Pooh**: Piglet. You could come and live with me. Will you?  
 **Piglet**: Oh, Pooh. Yes. Thank you, Pooh.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): a community looks after its own  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): a community looks after its own  
 > _Piglet gave up a house. Pooh offered a home. One generous act led to another, and nobody in the Forest was left without a roof._  
 > _That is what a community does: it notices who is in need, and the people who can help, do._  
 > _For grown-ups: Heard how generosity spreads and communities look after each other._
@@ -2227,14 +2236,17 @@ _Christopher Robin is going away. Nobody knows how they know it, and nobody says
 _Even Small knows, though he isn’t saying much. He never does._  
 **Rabbit**: A Meeting has been called. By me. To pass a Resolution. Eeyore has written a poem for it.  
 **Eeyore**: A Rissolution. That’s what it is. A poem. Don’t expect much.  
-
-> **Lesson** (literacy, L.3.4, notice): resolution has more than one meaning  
-> **Christopher Robin**: Eeyore calls his poem a Rissolution. The real word is resolution, which has several meanings.  
-> **Christopher Robin**: A resolution can be a firm decision, the end of a story, or how sharp a picture is. Context tells you which. Here it is a decision to remember.  
-> _For grown-ups: Learned that resolution has several meanings and that spelling wobbles are fine._
-
 _Eeyore reads it out. It is long, and it rhymes in places, and it says, more or less, that they will all miss him._  
 _Nobody laughs. Even Tigger stands still until the end._  
+**Piglet**: It’s a very good poem, Eeyore.  
+**Eeyore**: Is it? I hadn’t noticed. Bit long.  
+**Rabbit**: Now everybody signs. Write your names at the bottom. Or something like your names.  
+
+> **Lesson** (literacy, L.3.4, notice): resolution has more than one meaning  
+> _Eeyore calls his poem a Rissolution. The real word is resolution, which has several meanings._  
+> _A resolution can be a firm decision, the end of a story, or how sharp a picture is. Context tells you which. Here it is a decision to remember._  
+> _For grown-ups: Learned that resolution has several meanings and that spelling wobbles are fine._
+
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): saying a hard thing aloud, or in a poem  
 > _Everyone knows Christopher Robin is going somewhere, and nobody says it aloud. Instead, Eeyore writes a poem._  
@@ -2244,9 +2256,6 @@ _Nobody laughs. Even Tigger stands still until the end._
 > - Whichever feels possible → That is wise. People find their own way to say goodbye. What matters is that it gets said.
 > _For grown-ups: Thought about different ways of expressing hard feelings._
 
-**Piglet**: It’s a very good poem, Eeyore.  
-**Eeyore**: Is it? I hadn’t noticed. Bit long.  
-**Rabbit**: Now everybody signs. Write your names at the bottom. Or something like your names.  
 
 **Choices**
 
@@ -2261,13 +2270,13 @@ _Nobody laughs. Even Tigger stands still until the end._
 
 _Tigger signs next to you, with a T that bounces right off the edge of the paper._  
 **Tigger**: Is he coming back? He’s coming back. Isn’t he?  
+_Nobody answers. Tigger bounces once, very small, to show he doesn’t mind._  
 
 > **Lesson** (literacy, RL.3.3, notice): what characters do not say  
 > _Tigger asks if Christopher Robin is coming back, and nobody answers. Sometimes what characters do not say tells you the most._  
 > _If someone asks you a question like Tigger’s, an honest comfort is possible: “I don’t know, but he cares about you very much.”_  
 > _For grown-ups: Noticed what a silence shows, and how to give honest comfort._
 
-_Nobody answers. Tigger bounces once, very small, to show he doesn’t mind._  
 
 #### `reader:a11-19-signed-rabbit` · [main](main.md#a11-19-signed-rabbit)
 
@@ -2275,30 +2284,30 @@ _Variant of `a11-19-signed`._
 
 _Rabbit signs next to you, very neatly, and then stays there, and clears his throat._  
 **Rabbit**: About the mist. In the hollow. I was grateful for the company. That’s all. It has been noted.  
+_He goes back to his list at once, and doesn’t look up for some time._  
 
 > **Lesson** (literacy, RL.3.3, notice): formal words show discomfort  
 > _Rabbit says “It has been noted.” Hardly anybody talks like that unless they are uncomfortable._  
-> _Formal words are a way of keeping feelings at arm’s length. Reading between the lines, Rabbit is saying thank you._  
+> _Formal words can be a way of hiding your feelings. Under the stiff words, Rabbit is saying thank you._  
 > _For grown-ups: Noticed that formal words can show someone is uncomfortable with feelings._
 
-_He goes back to his list at once, and doesn’t look up for some time._  
 
 #### `reader:a11-19-scroll` · [main](main.md#a11-19-scroll)
 
 _Rabbit rolls up the scroll. Then he stops, because something is already round it: a blue ribbon, tied in a careful double bow._  
-**Eeyore**: I had it in my pot. Seemed right. It’s a Friend ribbon. He’ll know what it says.  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): scrolls and signatures  
-> **Christopher Robin**: Before there were bound books, long texts were written on scrolls: rolls of papyrus or parchment. People have signed documents for thousands of years.  
-> **Christopher Robin**: A signature says: I was here, and I agree. Every name on the Rissolution says that, in its own handwriting.  
-> _For grown-ups: Learned that long documents were once written on scrolls and signed._
-
+**Eeyore**: Took it off my door. Door can bang for a bit. It’s a Friend ribbon. He’ll know what it says.  
 _Everyone walks to Christopher Robin’s house together. At the door, nobody wants to go first._  
 _In the end Eeyore goes first, because it is his poem, and everybody else crowds in behind him._  
 **Christopher Robin**: What’s this?  
 **Eeyore**: It’s a Rissolution. From all of us. You read it. We’ll just… we’ll go.  
 _Christopher Robin reads it right to the end, and all the names, and he doesn’t say anything for a moment._  
 **Christopher Robin**: Thank you. All of you. Thank you.  
+
+> **Lesson** (social-studies, D2.His.2.3-5, notice): scrolls and signatures  
+> _Before there were bound books, long texts were written on scrolls: rolls of papyrus or parchment. People have signed documents for thousands of years._  
+> _A signature says: I was here, and I agree. Every name on the Rissolution says that, in its own handwriting._  
+> _For grown-ups: Learned that long documents were once written on scrolls and signed._
+
 
 #### `reader:a11-19-scroll-thistle` · [main](main.md#a11-19-scroll-thistle)
 
@@ -2306,18 +2315,18 @@ _Variant of `a11-19-scroll`._
 
 _Rabbit rolls up the scroll. Something falls out of it: a thistle, pressed flat, its purple top gone pale._  
 **Eeyore**: I put that in. From my step. It’s not much. Well. It is, actually.  
-
-> **Lesson** (science, notice): how pressing preserves a plant  
-> **Christopher Robin**: Eeyore’s thistle is pressed flat and dry. Pressing squeezes out the water, and a dry plant can last for hundreds of years.  
-> **Christopher Robin**: Botanists keep pressed plants in a herbarium, a library of dried plants, as a record of what grew where and when.  
-> _For grown-ups: Learned that pressing a plant dries it so it can be kept as a record._
-
 _Everyone walks to Christopher Robin’s house together. At the door, nobody wants to go first._  
 _In the end Eeyore goes first, because it is his poem, and everybody else crowds in behind him._  
 **Christopher Robin**: What’s this?  
 **Eeyore**: It’s a Rissolution. From all of us. You read it. We’ll just… we’ll go.  
 _Christopher Robin reads it right to the end, and all the names, and he doesn’t say anything for a moment._  
 **Christopher Robin**: Thank you. All of you. Thank you.  
+
+> **Lesson** (science, notice): how pressing preserves a plant  
+> _Eeyore’s thistle is pressed flat and dry. Pressing squeezes out the water, and a dry plant can last for hundreds of years._  
+> _Botanists keep pressed plants in a herbarium, a library of dried plants, as a record of what grew where and when._  
+> _For grown-ups: Learned that pressing a plant dries it so it can be kept as a record._
+
 
 #### `reader:a11-19-scroll-sat` · [main](main.md#a11-19-scroll-sat)
 
@@ -2326,18 +2335,18 @@ _Variant of `a11-19-scroll`._
 _Rabbit rolls up the scroll. Eeyore stops him with a hoof, asks for it back, and adds one more line at the bottom._  
 **Eeyore**: Somebody sat with me.  
 _He doesn’t explain it. He hands it back, and doesn’t look at you, and doesn’t need to._  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): kindness is remembered  
-> _Eeyore writes one line at the bottom: Somebody sat with me. He does not say who, and he does not need to._  
-> _Small kindnesses often matter more than we know. Sitting with someone, with nothing to give, is one of the biggest._  
-> _For grown-ups: Heard that quiet kindness is remembered._
-
 _Everyone walks to Christopher Robin’s house together. At the door, nobody wants to go first._  
 _In the end Eeyore goes first, because it is his poem, and everybody else crowds in behind him._  
 **Christopher Robin**: What’s this?  
 **Eeyore**: It’s a Rissolution. From all of us. You read it. We’ll just… we’ll go.  
 _Christopher Robin reads it right to the end, and all the names, and he doesn’t say anything for a moment._  
 **Christopher Robin**: Thank you. All of you. Thank you.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): kindness is remembered  
+> _Eeyore writes one line at the bottom: Somebody sat with me. He does not say who, and he does not need to._  
+> _Small kindnesses often matter more than we know. Sitting with someone, with nothing to give, is one of the biggest._  
+> _For grown-ups: Heard that quiet kindness is remembered._
+
 
 #### `reader:a11-19-scroll-done` · [main](main.md#a11-19-scroll-done)
 
@@ -2354,15 +2363,12 @@ _You go and wait by the gate with your Nubbin. Nobody asked you to, but it seems
 
 _After a while Christopher Robin comes out. Pooh is with him._  
 **Christopher Robin**: We’re going for a walk. To the top of the Forest. Will you come? Some of the way?  
-
-> **Lesson** (maths, 3.NF.A.1, ask): halves of a distance  
-> _The path to the top of the Forest is 2 kilometres. Christopher Robin asks you to come “some of the way”. If you walk half, how far is that?_  
-> - ✅ 1 kilometre → Yes. Half of 2 is 1. Some of the way, at its simplest.
-> - 2 kilometres → That would be all of the way. Half of 2 is 1.
-> - 4 kilometres → That is double. Half means divide by 2: 2 ÷ 2 = 1.
-> _For grown-ups: Found half of a distance._
-
 _Your Nubbin is already on its feet._  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): an invitation lets a friend choose  
+> _“Some of the way” lets a friend choose how far. It is an invitation, not an order._  
+> _For grown-ups: Noticed that an invitation leaves the choice to the friend._
+
 
 ### Glossary
 
@@ -2415,24 +2421,15 @@ _At the edge of the circle you stop. Your Nubbin stops too, and sits down withou
 _Christopher Robin and Pooh go into the middle, where the grass is soft, and sit, and talk about everything._  
 _Kings and queens, and a thing called Factors, and a place called Brazil. Pooh listens, and doesn’t mind not knowing._  
 
-> **Lesson** (maths, 3.OA.A.3, ask): factors of a number  
-> _Christopher Robin and Pooh talk about a thing called Factors. Factors are numbers that multiply to make another._  
-> _2 and 6 are factors of 12, because 2 × 6 = 12. Which of these is a factor of 12?_  
-> - ✅ 4 → Yes. 4 × 3 = 12, so 4 and 3 are factors of 12.
-> - 5 → 5 does not divide 12 exactly: 5 × 2 = 10 and 5 × 3 = 15. Try 4.
-> - 7 → 7 × 1 = 7 and 7 × 2 = 14, so 7 misses 12. Factors of 12 are 1, 2, 3, 4, 6 and 12.
-> _For grown-ups: Learned what a factor is and found one of 12._
+> **Lesson** (social-studies, D2.His.2.3-5, notice): knighthood and the accolade  
+> _In the Middle Ages, a knight was a trained warrior who served a lord._  
+> _To make someone a knight, the lord tapped each shoulder with a sword. That tap is called the accolade._  
+> _A stick is the right size for a Bear. The honour is the same._  
+> _For grown-ups: Learned what a knight was and how knighting worked._
 
 **Christopher Robin**: Pooh. Stand up.  
 _Christopher Robin takes a stick and touches Pooh on each shoulder with it, very gravely._  
 **Christopher Robin**: Arise, Sir Pooh. Knight of the Forest, and my truest friend.  
-
-> **Lesson** (social-studies, D2.His.2.K-2, notice): knighthood and the accolade  
-> **Christopher Robin**: In the Middle Ages, a knight was a trained warrior who served a lord.  
-> **Christopher Robin**: To make someone a knight, the lord tapped each shoulder with a sword. That tap is called the accolade.  
-> **Christopher Robin**: Christopher Robin uses a stick, which is the right size for a Bear. The honour is the same.  
-> _For grown-ups: Learned what a knight was and how knighting worked._
-
 _Pooh rises, and thinks about being a knight, and decides he likes it, though he isn’t sure what it involves._  
 _Then Christopher Robin is quiet for a long time, looking at the trees._  
 **Christopher Robin**: Pooh. Will you remember me, always? Even when I am grown up and enormous?  
@@ -2446,20 +2443,24 @@ _Then Christopher Robin is quiet for a long time, looking at the trees._
 
 _Christopher Robin laughs, and jumps up, and holds out his hand. Pooh takes it._  
 **Christopher Robin**: Come on, Pooh.  
+**Pooh**: Where?  
+**Christopher Robin**: Anywhere.  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): promises and remembering  
 > _Pooh promised to remember. We are made partly of being remembered: the people who remember us carry us with them._  
 > _A promise like this does not need words every day. It only needs keeping, quietly, for ever._  
 > _For grown-ups: Heard that promises and remembering keep people close._
 
-**Pooh**: Where?  
-**Christopher Robin**: Anywhere.  
 
 #### `reader:a11-20-complete` · [main](main.md#a11-20-complete)
 
 _Christopher Robin and Pooh go off together, out of the far side of the circle. You don’t follow, because this bit is theirs._  
 _On the way up, Christopher Robin gave your Nubbin back its blue ribbon, off the scroll. Now it ties it round the nearest tree._  
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
+_A boy and his Bear are playing in it. Nobody ever stops them._  
+_The page settles under your hand, gently, like a door somebody is careful not to bang._  
+_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
+_Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A bit of blue ribbon is tied to its rail._  
 
 > **Lesson** (maths, ask): why a marker helps when counting a circle  
 > _Your Nubbin ties its ribbon round one tree. Why does a marker help when counting trees in a circle?_  
@@ -2468,10 +2469,6 @@ _Whatever comes next for them, there is a ring of trees at the top of the Forest
 > - It does not help at all → Try counting without one and you may find yourself counting some trees twice.
 > _For grown-ups: Understood that a marker shows where counting started._
 
-_A boy and his Bear are playing in it. Nobody ever stops them._  
-_The page settles under your hand, gently, like a door somebody is careful not to bang._  
-_You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
-_Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A bit of blue ribbon is tied to its rail._  
 
 #### `reader:a11-20-complete-thistle` · [main](main.md#a11-20-complete-thistle)
 
@@ -2479,17 +2476,17 @@ _Variant of `a11-20-complete`._
 
 _Christopher Robin and Pooh go off together, out of the far side of the circle. You don’t follow, because this bit is theirs._  
 _Your Nubbin has carried something up the hill: a thistle head from Eeyore’s step. It plants it at the edge of the circle and pats the earth down._  
-
-> **Lesson** (science, 2-LS2-2, notice): thistle seeds travel on fluff  
-> **Christopher Robin**: A thistle’s seeds each have a fluffy parachute, so the wind carries them far. Goldfinches love to eat them, and spill some, which helps them spread.  
-> **Christopher Robin**: That is how thistles end up planted in places nobody chose. This one is planted by choice, at the edge of the ring.  
-> _For grown-ups: Learned that thistle seeds travel on wind and are spread by birds._
-
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
 _You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. A thistle is coming up at the far end._  
+
+> **Lesson** (science, 2-LS2-2, notice): thistle seeds travel on fluff  
+> _A thistle’s seeds each have a fluffy parachute, so the wind carries them far. Goldfinches love to eat them, and spill some, which helps them spread._  
+> _That is how thistles end up planted in places nobody chose. This one is planted by choice, at the edge of the ring._  
+> _For grown-ups: Learned that thistle seeds travel on wind and are spread by birds._
+
 
 #### `reader:a11-20-complete-sat` · [main](main.md#a11-20-complete-sat)
 
@@ -2497,21 +2494,20 @@ _Variant of `a11-20-complete`._
 
 _Christopher Robin and Pooh go off together, out of the far side of the circle. You don’t follow, because this bit is theirs._  
 _Your Nubbin turns round three times in the grass at the edge of the circle, and sits. It leaves a flattened round, like the one by Eeyore’s step._  
-
-> **Lesson** (science, notice): signs animals leave: a hare’s form  
-> **Christopher Robin**: A flattened round in the grass is a sign that somebody has rested there. A hare’s resting place is even called a form.  
-> **Christopher Robin**: Naturalists read signs like these: flattened grass, feathers, tracks and droppings tell them who has been there, and when.  
-> _For grown-ups: Learned that flattened grass is a sign an animal has rested there._
-
 _Whatever comes next for them, there is a ring of trees at the top of the Forest that nobody can count._  
 _A boy and his Bear are playing in it. Nobody ever stops them._  
 _The page settles under your hand, gently, like a door somebody is careful not to bang._  
 _You are back in the Grove, with Nova’s atlas on your knee. There is a stick in your Nubbin’s mouth, and nobody saw where it came from._  
 _Down by the Grove stream there is a little wooden bridge that wasn’t there this morning. One place on its parapet is worn smooth, just right for sitting._  
 
+> **Lesson** (science, notice): signs animals leave: a hare’s form  
+> _A flattened round in the grass is a sign that somebody has rested there. A hare’s resting place is even called a form._  
+> _Naturalists read signs like these: flattened grass, feathers, tracks and droppings tell them who has been there, and when._  
+> _For grown-ups: Learned that flattened grass is a sign an animal has rested there._
+
+
 ### Glossary
 
-- **factor**: A number that divides exactly into another number, such as 3 and 4 for 12.
 - **accolade**: The ceremony of making someone a knight by touching their shoulders with a sword.
 
 ## Variant scenes

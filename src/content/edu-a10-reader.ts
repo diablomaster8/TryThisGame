@@ -182,7 +182,7 @@ const Q01: EduQuest = quest(
           'happy',
         ),
         N(
-          'She spots you at the edge of the shade, and doesn’t miss a beat. She just shuffles up to make room.',
+          'She spots you at the edge of the shade, and doesn’t even stop talking. She just shuffles up to make room.',
         ),
         G(
           'Sit, sit. Somebody from past the reef. We don’t get many. Your little one can sit on the end.',
@@ -307,7 +307,7 @@ const Q01: EduQuest = quest(
         notice(
           'social-studies',
           'oral history: knowledge kept by telling',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           3,
           [
             N(
@@ -429,7 +429,7 @@ const Q01: EduQuest = quest(
             label: 'Wave the birds away.',
             then: [
               N(
-                'You flap your arms at the birds, and your Nubbin flaps its tiny wings. The birds decide, on balance, to go and bother someone else.',
+                'You flap your arms at the birds, and your Nubbin flaps its tiny wings. The birds think it over, and go and bother someone else.',
               ),
             ],
           },
@@ -694,7 +694,7 @@ const Q02: EduQuest = quest(
         ask(
           'social-studies',
           'scarcity means choosing',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           5,
           [
             N(
@@ -729,16 +729,20 @@ const Q02: EduQuest = quest(
           'The chief walks off. Moana watches the reef for a long time, chewing the inside of her cheek.',
         ),
         M('He didn’t say why. He never says why.', 'angry'),
+        N(
+          'A fisherman goes past, counting the week on his fingers: 48 fish, then 24, then 12, then 6. Today, none.',
+          'sad',
+        ),
       ],
       [
         ask(
           'maths',
           'a rule that halves each time',
           '4.OA.C.5',
-          1,
+          2,
           [
             N(
-              'Say the lagoon’s catch fell over four days like this: 48 fish, 24, 12, 6. What is the rule, and what comes next?',
+              'The catch went 48, 24, 12, 6. What is the rule, and what would come next if the rule kept going?',
             ),
           ],
           [
@@ -805,7 +809,7 @@ const Q02: EduQuest = quest(
         N(
           'Moana sits on the sand with a cut on her foot and the canoe in two pieces beside her. Pua stands well up the beach, sulking.',
         ),
-        M('Fine. Fine. Point taken.', 'sad'),
+        M('Fine. Fine. I won’t go past the reef. Probably.', 'sad'),
         N(
           'Your Nubbin comes out of the shallows last. In its mouth is a small white shell with a spiral on it, like a tiny staircase.',
         ),
@@ -1000,7 +1004,7 @@ const Q03: EduQuest = quest(
         notice(
           'art',
           'dance carries stories',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           1,
           [
             N(
@@ -1170,7 +1174,7 @@ const Q03: EduQuest = quest(
         notice(
           'social-studies',
           'genealogies: knowing who we come from',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           0,
           [
             N(
@@ -1192,16 +1196,17 @@ const Q03: EduQuest = quest(
           'Your Nubbin walks behind her up the beach, still doing its step, a little crooked, every few paces.',
         ),
         G('It’ll come. Everything worth having comes slow. Mantas, grandchildren, steps.', 'soft'),
+        G('Five minutes a day, small one. Twelve days of that, and then we’ll talk.', 'happy'),
       ],
       [
         ask(
           'maths',
           'multiply to find a total',
           '3.OA.A.3',
-          2,
+          3,
           [
             N(
-              'Gramma says everything worth having comes slowly. If your Nubbin practises its step for 5 minutes a day for 12 days, how many minutes is that?',
+              'Gramma wants 5 minutes of practice a day, for 12 days. How many minutes of practice is that?',
             ),
           ],
           [
@@ -1288,34 +1293,20 @@ const Q04: EduQuest = quest(
         ),
       ],
       [
-        ask(
-          'literacy',
-          'what a narrator’s joke means',
-          'RL.3.3',
+        notice(
+          'science',
+          'we see things when light bounces off them into our eyes',
+          null,
           0,
           [
             N(
-              'Your Nubbin’s emote ball glows, “which is no help but is company.” What does the narrator mean?',
+              'In the cave you can only see the rock the torch lights up. Beyond the torch, the passage is just black.',
+            ),
+            N(
+              'We see things when light bounces off them and into our eyes. No light, nothing to see.',
             ),
           ],
-          [
-            opt(
-              'It does not light the way, but it is nice not to be alone',
-              [
-                N(
-                  'Yes. Light helps you see and company helps you feel brave, but the glow gives only the second.',
-                ),
-              ],
-              true,
-            ),
-            opt('The ball is broken', [
-              N('The glow is working. It just does not give enough light to see by.'),
-            ]),
-            opt('Nubbins are afraid of caves', [
-              N('The line is about comfort, not about fear of caves.'),
-            ]),
-          ],
-          'Understood a narrator’s dry joke about comfort.',
+          'Learned that we see objects when light bounces off them into our eyes.',
         ),
       ],
     ),
@@ -1330,7 +1321,7 @@ const Q04: EduQuest = quest(
           'Not fishing canoes. Great voyaging canoes, twin-hulled, with their sails furled and their steering oars laid along the decks.',
         ),
         N(
-          'There are dozens of them, under dust and cobweb, and every one is finer than anything on the beach.',
+          'There are dozens of them, in four long rows of a dozen each. Every one is finer than anything on the beach.',
           'shock',
         ),
         M('Whose are these? Who built them? We don’t build these. Nobody builds these.', 'shock'),
@@ -1343,7 +1334,7 @@ const Q04: EduQuest = quest(
         notice(
           'social-studies',
           'real voyaging canoes',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           2,
           [
             N(
@@ -1362,7 +1353,7 @@ const Q04: EduQuest = quest(
           3,
           [
             N(
-              'There are dozens of canoes. Say there are 4 rows with a dozen in each row: how many canoes are there?',
+              'The canoes stand in 4 rows, with a dozen in each row. How many canoes are there?',
             ),
           ],
           [
@@ -1442,7 +1433,7 @@ const Q04: EduQuest = quest(
         notice(
           'social-studies',
           'Pacific settlement and canoe plants',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           5,
           [
             N(
@@ -1462,14 +1453,15 @@ const Q04: EduQuest = quest(
         N(
           'The drum stops ringing. You are in the cave again, with dust on your feet and the sound of the sea at the far end.',
         ),
+        N('Your ears keep the beat for thirty seconds more: two beats every second, slow and steady.'),
       ],
       [
         ask(
           'maths',
           'multiply rate by time',
           '3.OA.A.3',
-          0,
-          [N('A steady drum beats twice every second. How many beats are there in 30 seconds?')],
+          1,
+          [N('The drum beats twice every second. How many beats are there in 30 seconds?')],
           [
             opt('60', [N('Yes. 2 beats × 30 seconds = 60 beats.')], true),
             opt('32', [N('32 is 30 + 2. Each second has 2 beats, so multiply: 2 × 30 = 60.')]),
@@ -1592,7 +1584,7 @@ const Q05: EduQuest = quest(
         ask(
           'social-studies',
           'is fear a good reason for a rule?',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           8,
           [N('Tui would burn the boats to keep Moana safe. Is fear a good reason to make a rule?')],
           [
@@ -1688,13 +1680,13 @@ const Q05: EduQuest = quest(
           'sel',
           'grief can come before a death',
           'CASEL: Self-awareness',
-          5,
+          8,
           [
             N(
               'When someone we love is very old or ill, we can feel sad before anything has happened. That is normal.',
             ),
             N(
-              'Spending time with them and saying what is in your heart can help, as Moana is doing.',
+              'Spending time with them and saying what is in your heart can help. Gramma does both, and even teaches your Nubbin a step.',
             ),
           ],
           'Learned that sadness about a loved one’s illness is normal and that spending time together helps.',
@@ -1729,7 +1721,7 @@ const Q05: EduQuest = quest(
         N(
           'In Moana’s house, someone is already packing. It’s her mother, Sina, folding food into bundles by the light of one lamp.',
         ),
-        S('Dried fish. Coconuts, the good ones. Water. More water. You always forget water.'),
+        S('Dried fish. Coconuts, the good ones. Water: three gourds a day, seven days. You always forget water.'),
         M('Mum. I…'),
         S(
           'I know. I heard. I’m not going to stop you. I’m going to make sure you’ve got enough to eat.',
@@ -1764,7 +1756,7 @@ const Q05: EduQuest = quest(
           1,
           [
             N(
-              'Sina says you always forget water. If Moana needs 3 gourds a day for 7 days, how many gourds must she load?',
+              'Sina packs 3 gourds of water a day, for 7 days. How many gourds must Moana load?',
             ),
           ],
           [
@@ -1887,21 +1879,6 @@ const Q05: EduQuest = quest(
           ],
           'Learned what dying means, that grief has many feelings, and what helps.',
         ),
-        notice(
-          'science',
-          'how a manta ray feeds',
-          '4-LS1-1',
-          7,
-          [
-            N(
-              'A real manta ray can have a wingspan of up to about seven metres. It eats tiny drifting animals called plankton, which it strains from the water as it swims.',
-            ),
-            N(
-              'Two flaps on either side of its mouth, called cephalic fins, help funnel the water in.',
-            ),
-          ],
-          'Learned how a manta ray’s body helps it feed on plankton.',
-        ),
       ],
     ),
   ],
@@ -1978,30 +1955,18 @@ const Q06: EduQuest = quest(
         N('Your Nubbin is asleep on top of Heihei, who hasn’t noticed.'),
       ],
       [
-        ask(
-          'literacy',
-          'what makes a line funny',
-          'RL.3.3',
+        notice(
+          'health',
+          'water safety: stay with a boat that tips over',
+          null,
           1,
           [
+            N('The canoe tipped over, and it is still here, on its side. That matters.'),
             N(
-              '“Your Nubbin is asleep on top of Heihei, who hasn’t noticed.” What makes this line funny?',
+              'If a boat tips over, stay with it. A boat floats, and it is easier to spot than a swimmer.',
             ),
           ],
-          [
-            opt(
-              'Heihei is too oblivious to notice, right after a terrifying storm',
-              [N('Yes. The calm, silly detail contrasts with the danger just before it.')],
-              true,
-            ),
-            opt('Heihei is badly hurt', [
-              N('Nobody is hurt. The humour comes from Heihei being clueless.'),
-            ]),
-            opt('Nubbins always sleep on chickens', [
-              N('The joke is about this moment, and about Heihei missing everything.'),
-            ]),
-          ],
-          'Explained how a calm, silly detail after a scary scene creates humour.',
+          'Learned a water-safety rule: if a boat tips over, stay with the boat.',
         ),
       ],
     ),
@@ -2036,7 +2001,7 @@ const Q06: EduQuest = quest(
         notice(
           'social-studies',
           'tattoo as a record, with respect',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           1,
           [
             N(
@@ -2132,10 +2097,10 @@ const Q06: EduQuest = quest(
         ),
         M('He’s taking the boat. He is taking my boat!', 'angry'),
         N(
-          'Inside the cave there is a huge stone figure of Maui, carved by somebody who admired him very much. It is hollow.',
+          'Inside the cave is a stone figure of Maui, thirty metres tall, carved by somebody who admired him very much. It is hollow.',
         ),
         N(
-          'Moana starts climbing up inside it. You go after her, with your Nubbin riding on your shoulder.',
+          'Moana climbs up inside it, about five metres a minute. You go after her, with your Nubbin riding on your shoulder.',
         ),
         N(
           'At the top is a hole, and through the hole is the sky, and far below is the sea and a canoe sailing away from the island.',
@@ -2178,7 +2143,7 @@ const Q06: EduQuest = quest(
           6,
           [
             N(
-              'Say the hollow statue is 30 metres tall and Moana climbs 5 metres each minute. How many minutes does she take to reach the top?',
+              'The statue is 30 metres tall, and Moana climbs 5 metres each minute. How many minutes does she take to reach the top?',
             ),
           ],
           [
@@ -2312,10 +2277,10 @@ const Q07: EduQuest = quest(
           'A fog bank lies across the sea ahead. Out of it comes a sound of drums, and then a boat made of driftwood and lashed-together logs.',
         ),
         N(
-          'Then another boat, and another, all joined into one great floating raft, crewed by little round people in coconut armour.',
+          'Then another boat, and another: five in all, joined into one great floating raft, crewed by little round people in coconut armour.',
         ),
         N(
-          'Each one has a face painted on the front of its coconut. Some faces are fierce; some are just very proud of their paint.',
+          'There are eight on each boat, with a face painted on every coconut. Some faces are fierce; some are just very proud of their paint.',
         ),
         MU(
           'Kakamora. Pirates. Everything they see, they take. Including small things. Including you.',
@@ -2346,7 +2311,7 @@ const Q07: EduQuest = quest(
           3,
           [
             N(
-              'Say the raft is made of 5 boats, and each boat has 8 Kakamora. How many Kakamora in all?',
+              'The raft is made of 5 boats, and each boat has 8 Kakamora. How many Kakamora in all?',
             ),
           ],
           [
@@ -2568,7 +2533,7 @@ const Q07: EduQuest = quest(
         ask(
           'social-studies',
           'fairness and claims',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           1,
           [
             N(
@@ -2646,6 +2611,11 @@ const Q08: EduQuest = quest(
         MU(
           'Right. You want to sail, you start with the stars. Hold your hand out. Flat. Little finger on the line of the sea.',
         ),
+        MU(
+          'Then make a fist, arm out straight. One fist is one step up the sky. About ten degrees, the clever people call it.',
+        ),
+        M('How many steps is the sky?'),
+        MU('Depends how big your fist is. Mine: not many.', 'happy'),
         N(
           'Moana holds out her hand, and you hold out yours. Your Nubbin holds out something, roughly hand-shaped.',
         ),
@@ -2663,7 +2633,7 @@ const Q08: EduQuest = quest(
           'science',
           'the star compass: stars rise and set at fixed points',
           '5-ESS1-2',
-          1,
+          6,
           [
             N(
               'This skill is called wayfinding. A navigator pictures the horizon as a ring of “houses”, and the Hawaiian star compass has 32 of them.',
@@ -2678,7 +2648,7 @@ const Q08: EduQuest = quest(
           'maths',
           'multiply to estimate an angle',
           '3.OA.A.1',
-          4,
+          7,
           [
             N(
               'A closed fist held at arm’s length covers about 10 degrees of sky. If a star sits three fists above the horizon, about how high is it?',
@@ -2844,6 +2814,7 @@ const Q08: EduQuest = quest(
           'The rest is memory. Every turn you’ve made since your own beach, kept in your head in order. Lose that, and the sky can’t help you.',
           'soft',
         ),
+        M('Three hours east today, at about six kilometres an hour. Kept.', 'think'),
       ],
       [
         notice(
@@ -2865,10 +2836,10 @@ const Q08: EduQuest = quest(
           'maths',
           'distance from speed and time (dead reckoning)',
           '4.MD.A.2',
-          6,
+          7,
           [
             N(
-              'Maui keeps every stretch of the voyage in his head. If Moana sails east for 3 hours at 6 kilometres an hour, how far east has she come?',
+              'Moana sailed east for 3 hours, at 6 kilometres an hour. How far east has she come?',
             ),
           ],
           [
@@ -2903,7 +2874,7 @@ const Q08: EduQuest = quest(
         notice(
           'social-studies',
           'Hōkūleʻa and Mau Piailug',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           0,
           [
             N(
@@ -2921,7 +2892,7 @@ const Q08: EduQuest = quest(
       'a10-08-complete',
       [
         N(
-          'That night Moana sits up late, weaving with strips of pandanus leaf left over from patching the sail.',
+          'That night Moana sits up late with twelve strips of pandanus leaf, weaving over two, under one, over two, under one.',
         ),
         N(
           'In the morning there is a tiny woven sail tied to your Nubbin’s back, between its wings. It fits perfectly.',
@@ -2939,7 +2910,7 @@ const Q08: EduQuest = quest(
           1,
           [
             N(
-              'Moana weaves in a pattern: over two strips, under one, over two, under one. In a row of 12 strips, how many does she pass under?',
+              'Moana weaves over two strips, under one, across her 12 strips. How many strips does she pass under?',
             ),
           ],
           [
@@ -3123,7 +3094,7 @@ const Q09: EduQuest = quest(
       'a10-09-depths-done',
       [
         N(
-          'A trail of shining things leads down into a cave: shells, bones, a lost earring, a whole fishing canoe painted gold.',
+          'A trail of shining things leads into a cave: seven piles of shells, eight to a pile, then bones, an earring, a gold canoe.',
         ),
       ],
       [
@@ -3134,7 +3105,7 @@ const Q09: EduQuest = quest(
           0,
           [
             N(
-              'Say the shiny trail has 7 piles of shells, with 8 shells in each pile. How many shells in all?',
+              'The trail has 7 piles of shells, with 8 shells in each pile. How many shells in all?',
             ),
           ],
           [
@@ -3665,7 +3636,7 @@ const Q11: EduQuest = quest(
     ),
     sc(
       'a10-11-barrier-done',
-      [N('Te Kā roars. It isn’t a word: it’s the sound of a mountain having a very bad day.')],
+      [N('Te Kā roars. It isn’t a word: it’s the sound of a very loud, very cross mountain.')],
       [
         ask(
           'literacy',
@@ -3674,7 +3645,7 @@ const Q11: EduQuest = quest(
           0,
           [
             N(
-              'Te Kā’s roar is “the sound of a mountain having a very bad day.” What does this phrase tell us about the roar?',
+              'Te Kā’s roar is “the sound of a very loud, very cross mountain.” What does this phrase tell us about the roar?',
             ),
           ],
           [
@@ -3684,7 +3655,7 @@ const Q11: EduQuest = quest(
               true,
             ),
             opt('It is quiet and gentle', [
-              N('A mountain in a bad mood is rumbling and angry, not gentle.'),
+              N('A cross mountain is rumbling and angry, not gentle.'),
             ]),
             opt('The mountain is really speaking words', [
               N('The narrator says it is not a word. The phrase is a comparison.'),
@@ -3712,34 +3683,17 @@ const Q11: EduQuest = quest(
         ),
       ],
       [
-        ask(
-          'science',
-          'light travels faster than sound',
-          '4-PS3-2',
-          4,
+        notice(
+          'sel',
+          'teamwork: taking different jobs',
+          'CASEL: Relationship skills',
+          0,
           [
             N(
-              'Maui’s hook meets Te Kā’s hand with “a crack like lightning.” In real storms, why do we see lightning before we hear thunder?',
+              'Maui flies at Te Kā so that Moana can steer for the gap. Two people, two jobs, one plan.',
             ),
           ],
-          [
-            opt(
-              'Light travels much faster than sound',
-              [
-                N(
-                  'Yes. Light arrives almost at once, but sound is slow enough that you can count the gap.',
-                ),
-              ],
-              true,
-            ),
-            opt('Thunder happens first but hides', [
-              N('Both happen together. Light just reaches you far sooner.'),
-            ]),
-            opt('Sound is faster but louder things are slow', [
-              N('Sound is much slower than light, whatever its loudness.'),
-            ]),
-          ],
-          'Learned that light travels faster than sound.',
+          'Noticed how a team works by splitting the jobs.',
         ),
       ],
       {
@@ -3771,16 +3725,46 @@ const Q11: EduQuest = quest(
         N(
           'When the sea is quiet again, the canoe is a long way off, with a torn sail. Te Kā’s glow sinks back down into the ash.',
         ),
+        M('Three kilometres out, I think. With this sail, that’s twenty minutes for every kilometre.', 'think'),
       ],
       [
+        ask(
+          'science',
+          'light travels faster than sound',
+          '4-PS3-2',
+          0,
+          [
+            N(
+              'Maui’s hook meets Te Kā’s hand with “a crack like lightning.” In real storms, why do we see lightning before we hear thunder?',
+            ),
+          ],
+          [
+            opt(
+              'Light travels much faster than sound',
+              [
+                N(
+                  'Yes. Light arrives almost at once, but sound is slow enough that you can count the gap.',
+                ),
+              ],
+              true,
+            ),
+            opt('Thunder happens first but hides', [
+              N('Both happen together. Light just reaches you far sooner.'),
+            ]),
+            opt('Sound is faster but louder things are slow', [
+              N('Sound is much slower than light, whatever its loudness.'),
+            ]),
+          ],
+          'Learned that light travels faster than sound.',
+        ),
         ask(
           'maths',
           'distance, speed and time',
           '4.MD.A.2',
-          0,
+          1,
           [
             N(
-              'Say the wave carried the canoe 3 kilometres from the barrier, and the canoe sails back at 1 kilometre every 20 minutes. How long does it take to return?',
+              'The canoe is 3 kilometres out, and sails at 1 kilometre every 20 minutes. How long would it take to get back?',
             ),
           ],
           [
@@ -3823,7 +3807,7 @@ const Q11: EduQuest = quest(
           'sel',
           'when someone leaves because they feel useless',
           'CASEL: Relationship skills',
-          5,
+          8,
           [
             N(
               'Maui decides to leave because his hook is cracked and he thinks nobody will want him. Was he right to go?',
@@ -3834,7 +3818,7 @@ const Q11: EduQuest = quest(
               N('He did apologise. But he left Moana alone with the problem.'),
             ]),
             think('No. He gave up on her and on himself', [
-              N('A tough view. Notice that he comes back later.'),
+              N('A tough view. Keep reading, and see whether Maui agrees with you.'),
             ]),
             think('He was scared, and fear makes people leave', [
               N('A kind reading. Fear can look like leaving, even when someone cares.'),
@@ -4029,7 +4013,7 @@ const Q12: EduQuest = quest(
         ask(
           'science',
           'how gliding differs from flapping',
-          '4-LS1-1',
+          null,
           1,
           [N('The manta “isn’t swimming, it is gliding.” Which of these is gliding?')],
           [
@@ -4106,27 +4090,15 @@ const Q12: EduQuest = quest(
         M('It doesn’t matter who picked me. I’m picking me. I’ll take it back myself.', 'happy'),
       ],
       [
-        notice(
-          'social-studies',
-          'songs that carry knowledge',
-          'D2.His.2.K-2',
-          3,
-          [
-            N(
-              'Pacific navigators sometimes memorised star paths and island names in songs and chants, so the knowledge could be passed on without writing.',
-            ),
-            N(
-              'Gramma’s song has names in it, going back and back. The story does not write the song down, so it stays hers.',
-            ),
-          ],
-          'Learned that songs and chants helped Pacific navigators remember and pass on knowledge.',
-        ),
         ask(
           'sel',
           'who we are: given and chosen',
           'CASEL: Self-awareness',
           8,
           [
+            N(
+              'Gramma’s song carries names, going back and back. Pacific navigators kept star paths and island names in songs too, without writing.',
+            ),
             N(
               'Moana says it does not matter who picked her: she is picking herself. Can we choose who we are, or is some of it given to us?',
             ),
@@ -4156,13 +4128,14 @@ const Q12: EduQuest = quest(
         N(
           'She dives over the side, down and down into the dark, and comes up a long minute later with the green stone in her fist.',
         ),
+        N('The sea kept it for her. It has had a lot of practice at putting things back.', 'happy'),
       ],
       [
         ask(
           'literacy',
           'repetition for effect',
           'RL.2.4',
-          0,
+          1,
           [
             N(
               'The line says she dives “down and down into the dark.” Why does the writer repeat the word “down”?',
@@ -4538,7 +4511,7 @@ const Q13: EduQuest = quest(
         notice(
           'social-studies',
           'greetings that share breath',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           2,
           [
             N(
@@ -4803,7 +4776,7 @@ const Q14: EduQuest = quest(
         notice(
           'social-studies',
           'what the name Hōkūleʻa means',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           2,
           [
             N(
@@ -4819,7 +4792,7 @@ const Q14: EduQuest = quest(
           'maths',
           'distance, speed and time',
           '4.MD.A.2',
-          5,
+          7,
           [
             N(
               'Hawaiʻi to Tahiti is about 4,000 kilometres. If a canoe could sail 100 kilometres every day, how many days would it take?',
@@ -4993,7 +4966,7 @@ export const EDU_A10_READER_VARIANTS: EduScene[] = [
       notice(
         'social-studies',
         'what the name Hōkūleʻa means',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         2,
         [
           N(
@@ -5009,7 +4982,7 @@ export const EDU_A10_READER_VARIANTS: EduScene[] = [
         'maths',
         'distance, speed and time',
         '4.MD.A.2',
-        5,
+        7,
         [
           N(
             'Hawaiʻi to Tahiti is about 4,000 kilometres. If a canoe could sail 100 kilometres every day, how many days would it take?',

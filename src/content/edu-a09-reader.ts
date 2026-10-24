@@ -638,7 +638,7 @@ const A02 = quest(
           label: 'Suggest calling it after Moominmamma.',
           then: [
             MP('Ah. Yes. Then she’ll be sure to bring you home.', 'soft'),
-            N('He paints the name on the stern in careful blue letters.'),
+            N('He paints MAMMA on the stern in careful blue letters.'),
           ],
         },
         {
@@ -740,7 +740,7 @@ const A02 = quest(
             ]),
           ],
           'Thought about whether value comes from price or from what a thing means to a person.',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
         ),
       ],
       [
@@ -838,7 +838,6 @@ const A02 = quest(
             ]),
           ],
           'Learned that animals move to places where their needs for food, water and shelter are met.',
-          'K-ESS3-1',
         ),
         note(
           'sel',
@@ -1114,7 +1113,7 @@ const A03 = quest(
             ),
           ],
           'Learned the difference between needs and wants.',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
         ),
         ask(
           'sel',
@@ -1555,29 +1554,16 @@ const A04 = quest(
         SK('Then we’d better take it to her.'),
       ],
       [
-        ask(
-          'literacy',
-          'humour and character',
+        note(
+          'science',
+          'scientists write down what they observe',
           -1,
-          [N('Why is it funny that a professor writes down that nobody says anything?')],
           [
-            opt(
-              'He records facts about everything, but misses what people are feeling.',
-              [
-                N(
-                  'Yes. The professors observe carefully, but they have missed that the news has frightened Moomintroll. That mismatch is the joke.',
-                ),
-              ],
-              true,
+            N(
+              'Scientists write down what they see, even when it seems small. A written record lets other people check the work and add to it.',
             ),
-            opt('He wants to remember the silence.', [
-              N(
-                'Perhaps, and that may be part of it. But the main joke is that he is writing instead of noticing how everybody else feels.',
-              ),
-            ]),
           ],
-          'Explained the humour of a professor who notes facts but misses feelings.',
-          'RL.3.3',
+          'Learned that scientists record their observations so others can check them.',
         ),
       ],
     ),
@@ -2001,7 +1987,7 @@ const A05 = quest(
             ]),
           ],
           'Worked out that a found item should be returned to its owner, whoever saw it first.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -2038,7 +2024,7 @@ const A05 = quest(
         SM('Can we come with you? I don’t want to be anywhere on my own just now.'),
         MT('Of course. Mamma always makes enough for everybody.', 'happy'),
         N(
-          'Moominmamma’s basket still holds twelve buns. With the Snork Maiden, there are five friends and a Nubbin: six in all.',
+          'Moominmamma’s basket still holds twelve sandwiches. She packed six. Nobody is surprised. With the Snork Maiden, there are five friends and a Nubbin: six in all.',
         ),
         N('The garnet is still in your hand. Sniff has not asked for it back.'),
       ],
@@ -2049,7 +2035,7 @@ const A05 = quest(
           3,
           [
             N(
-              'Twelve buns are shared equally among five friends and a Nubbin, six in all. How many does each get?',
+              'Twelve sandwiches are shared equally among five friends and a Nubbin, six in all. How many does each get?',
             ),
           ],
           [
@@ -2168,7 +2154,7 @@ const A06 = quest(
       'a09-06-snork-done',
       [
         SO(
-          'Everybody sit in a circle. I shall be the chairman, and also the secretary, as nobody else has a pencil.',
+          'Everybody sit in a circle. I shall be the chairman, and I shall keep the minutes, as nobody else has a pencil.',
         ),
         SK('I have a pencil.'),
         SO('Then you may be the audience.'),
@@ -2180,13 +2166,13 @@ const A06 = quest(
           -1,
           [
             N(
-              'In a real meeting the chairman leads, so that one person talks at a time. The secretary writes the minutes, a record of what was decided.',
+              'In a real meeting the chairman leads, so that one person talks at a time.',
             ),
             N(
-              'A list of topics is called an agenda. The Snork’s “items” are an agenda, which is how groups stay on track.',
+              'The minutes are the written record of what was decided. The Snork has volunteered to keep them.',
             ),
           ],
-          'Learned the roles in a meeting (chairman, secretary) and the words agenda and minutes.',
+          'Learned what a chairman does and what minutes are.',
         ),
       ],
     ),
@@ -2235,7 +2221,7 @@ const A06 = quest(
             N('Counting votes carefully, as the Snork does, is part of what makes a vote fair.'),
           ],
           'Learned that voting gives each person an equal say and the most votes wins.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -2244,11 +2230,10 @@ const A06 = quest(
           label: 'Propose going home at once.',
           then: [
             Y('I propose we go home. Now.'),
-            SO('That is a motion. Does anyone second it?'),
-            SM(
-              'Me! And Moomintroll. And everyone. You’re outvoted before you’ve counted.',
-              'happy',
-            ),
+            SN('I say we go home. Now.'),
+            MT('Me too.'),
+            SO('That is not how motions work.'),
+            SN('It is now.'),
           ],
         },
         {
@@ -2342,9 +2327,8 @@ const A06 = quest(
     gloss(
       'minutes',
       'The written record of what was said and decided in a meeting.',
-      'a09-06-meeting-done',
+      'a09-06-snork-done',
     ),
-    gloss('agenda', 'The list of things a meeting will talk about.', 'a09-06-snork-done'),
   ],
   'Lessons: an orderly character; a think question on whether meetings are always best; the roles in a meeting; 6 + 2 paws; voting; naming a worry; the area of a 6 cm square.',
 );
@@ -2458,7 +2442,7 @@ const A07 = quest(
         note(
           'science',
           'butterflies are cold-blooded and rest when it cools',
-          1,
+          2,
           [
             N(
               'Butterflies are cold-blooded, which means they rely on the air and sunshine to keep warm. They need warmth to fly.',
@@ -3027,10 +3011,31 @@ const A09 = quest(
         N('The water in the pool moves, though there is no wind.'),
       ],
       [
+        note(
+          'science',
+          'a ridge is a high, firm path',
+          -1,
+          [
+            N('A ridge is a long, narrow strip of high ground.'),
+            N('It is firmer than the wet mud beside it. That is why the Snork wants everyone on it.'),
+          ],
+          'Learned that a ridge is a long, narrow strip of high ground.',
+        ),
+      ],
+    ),
+    scene(
+      'a09-09-deep-done',
+      [
+        SK('Moomintroll. Come back on the ridge. Slowly.'),
+        N(
+          'Snufkin does not shout. His voice is low and even, as if there is all the time in the world.',
+        ),
+      ],
+      [
         ask(
           'social-studies',
           'why we keep safety rules even when they cost time',
-          2,
+          1,
           [
             N(
               'The Snork’s rule is “keep to the ridge, single file”. It is slower than cutting corners. Why is it still a good rule here?',
@@ -3053,19 +3058,8 @@ const A09 = quest(
             ]),
           ],
           'Reasoned about why a safety rule is worth following even when it is slower.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
-      ],
-    ),
-    scene(
-      'a09-09-deep-done',
-      [
-        SK('Moomintroll. Come back on the ridge. Slowly.'),
-        N(
-          'Snufkin does not shout. His voice is low and even, as if there is all the time in the world.',
-        ),
-      ],
-      [
         ask(
           'sel',
           'a calm voice helps in a frightening moment',
@@ -3113,40 +3107,20 @@ const A09 = quest(
         N(
           'She swings the lantern up into the octopus’s eye. The light flares on the wet rock, gold in all that red.',
         ),
+        N('Octopuses are curious, not cruel. This one has simply never seen a Moomin.'),
       ],
       [
         note(
-          'science',
-          'how an octopus’s body works',
-          2,
+          'sel',
+          'people react to fear in different ways',
+          -1,
           [
             N(
-              'A real octopus has eight arms, three hearts and no bones, so it can squeeze through any gap bigger than its beak.',
+              'Sniff hides, the Hemulen holds up a net, and the Snork Maiden runs at the pool with a lantern. Each reacts to fear in a different way.',
             ),
-            N(
-              'Its soft body would be easy prey, but it makes up for it with clever eyes and brain, and by changing colour to hide.',
-            ),
-            N('Octopuses are curious animals, not hunters of people.'),
+            N('None of these is wrong. What matters is that nobody leaves Moomintroll alone.'),
           ],
-          'Learned facts about octopuses: eight arms, three hearts, no bones, camouflage and curiosity.',
-          '4-LS1-1',
-        ),
-        ask(
-          'maths',
-          'subtraction: arms holding and arms free',
-          2,
-          [
-            N(
-              'Two of the octopus’s eight arms are holding Moomintroll. How many arms are not holding anything?',
-            ),
-          ],
-          [
-            opt('6', [N('Yes. 8 − 2 = 6 arms free, curling in the water.')], true),
-            opt('10', [N('That adds them. Take the two holding arms away: 8 − 2 = 6.')]),
-            opt('2', [N('Two are holding him. The rest are free: 8 − 2 = 6.')]),
-          ],
-          'Subtracted 2 from 8 to find the octopus’s free arms.',
-          '1.OA.A.1',
+          'Noticed that people respond to fear in different ways, and that helping is what matters.',
         ),
       ],
       [
@@ -3181,10 +3155,30 @@ const A09 = quest(
           'The octopus slides back into its pool without a splash, as if embarrassed. The water closes, and it is gone.',
         ),
         N(
+          'A real octopus has eight arms, three hearts and no bones. It hides by changing colour, which is called camouflage.',
+        ),
+        N(
           'Moomintroll is sitting on the ridge in the mud with his stilts crossed, staring at the Snork Maiden.',
         ),
       ],
       [
+        ask(
+          'maths',
+          'subtraction: arms holding and arms free',
+          1,
+          [
+            N(
+              'Two of the octopus’s eight arms were holding Moomintroll. How many arms were free?',
+            ),
+          ],
+          [
+            opt('6', [N('Yes. 8 − 2 = 6 arms were free, curling in the water.')], true),
+            opt('10', [N('That adds them. Take the two holding arms away: 8 − 2 = 6.')]),
+            opt('2', [N('Two were holding him. The rest were free: 8 − 2 = 6.')]),
+          ],
+          'Subtracted 2 from 8 to find the octopus’s free arms.',
+          '1.OA.A.1',
+        ),
         ask(
           'sel',
           'fairness to animals',
@@ -3264,10 +3258,10 @@ const A09 = quest(
     gloss(
       'camouflage',
       'Colours or patterns that help an animal hide by matching its surroundings.',
-      'a09-09-octopus',
+      'a09-09-octopus-done',
     ),
   ],
-  'Lessons: why safety rules matter; a calm voice; octopus facts; 8 − 2 free arms; a think question on fairness to animals; “even” as equal.',
+  'Lessons: why safety rules matter; a calm voice; 8 − 2 free arms; octopus facts in the story; a think question on fairness to animals; “even” as equal.',
 );
 
 // ================================================================== A9-10 The Race Home
@@ -3305,20 +3299,6 @@ const A10 = quest(
         N('Sniff looks at you, quickly, and then away, and walks a little faster.'),
       ],
       [
-        note(
-          'science',
-          'tornadoes and warning signs',
-          1,
-          [
-            N(
-              'In real life, hot, heavy, still air can come before a big storm. A tornado forms under a huge thundercloud, when warm damp air rises quickly and starts to spin.',
-            ),
-            N(
-              'Tornadoes are rare, and weather forecasters watch for them. People are told to shelter in a strong building, away from windows.',
-            ),
-          ],
-          'Learned how tornadoes form and what people do to stay safe.',
-        ),
         ask(
           'sel',
           'reading how others feel',
@@ -3464,9 +3444,12 @@ const A10 = quest(
       'a09-10-tornado-done',
       [
         N(
-          'The wind drops you all, gently in the end, in a long meadow, one after the other like washing off a line.',
+          'The wind drops you all, gently in the end, in a long meadow, one after the other, like socks letting go of their pegs.',
         ),
         H2('My best dress. My very best dress. It has never been so useful.', 'happy'),
+        N(
+          'A real tornado forms under a huge thundercloud, when warm damp air rises quickly and starts to spin. Tornadoes are rare, and forecasters watch for them.',
+        ),
       ],
       [
         ask(
@@ -3475,7 +3458,7 @@ const A10 = quest(
           0,
           [
             N(
-              '“One after the other like washing off a line.” What does this simile help you picture?',
+              '“One after the other, like socks letting go of their pegs.” What does this simile help you picture?',
             ),
           ],
           [
@@ -3483,14 +3466,14 @@ const A10 = quest(
               'Everyone landing softly in a row, one at a time.',
               [
                 N(
-                  'Yes. Washing floats down one piece at a time, which makes the landing look gentle and funny.',
+                  'Yes. Socks drop off a line one at a time, which makes the landing look gentle and funny.',
                 ),
               ],
               true,
             ),
             opt('Everyone crashing down together.', [
               N(
-                'Washing off a line drops softly, not with a crash. The simile shows a gentle, one-by-one landing.',
+                'Socks falling off a line drop softly, not with a crash. The simile shows a gentle, one-by-one landing.',
               ),
             ]),
           ],
@@ -3521,7 +3504,7 @@ const A10 = quest(
             ]),
           ],
           'Thought about whether beauty or usefulness gives something more worth.',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
         ),
       ],
     ),
@@ -3529,7 +3512,7 @@ const A10 = quest(
       'a09-10-run',
       [
         N(
-          'Everyone sits up in the meadow and counts themselves. The Snork counts everyone else, and writes it down.',
+          'Everyone sits up in the meadow and counts themselves. The Snork counts all of you, himself last, and writes it down.',
         ),
         SO('Seven, and a Nubbin, and a cousin. Nobody missing. Nobody even bent.', 'happy'),
         N(
@@ -3549,7 +3532,7 @@ const A10 = quest(
           1,
           [
             N(
-              'The Snork counts seven friends, plus a Nubbin, plus a cousin. How many is that altogether?',
+              'The Snork counts seven: Moomintroll, Sniff, Snufkin, the Snork Maiden, the Hemulen, you and himself. Then there are a Nubbin and a cousin. How many is that altogether?',
             ),
           ],
           [
@@ -3833,7 +3816,7 @@ const A11 = quest(
             ]),
           ],
           'Thought about how we choose what to keep when we cannot keep everything.',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
         ),
       ],
       [
@@ -3917,48 +3900,23 @@ const A11 = quest(
           'Read “twenty to nine” as 8:40 and found 2 minutes until 8:42.',
           '3.MD.A.1',
         ),
-        note(
-          'sel',
-          'being with someone can matter more than words',
-          6,
-          [
-            N(
-              'Sniff does not need an answer this time. Sometimes the most helpful thing is to sit beside someone and stay.',
-            ),
-            N('You cannot take the fear away, but you can be there while they feel it.'),
-          ],
-          'Noticed that staying with a frightened friend can help even without words.',
-          'CASEL: Relationship skills',
-        ),
       ],
     ),
     scene(
       'a09-11-dark-done',
       [N('The kitchen clock says eight forty-two.')],
       [
-        ask(
-          'literacy',
-          'suspense: why a single short line?',
+        note(
+          'sel',
+          'waiting feels long, and that is normal',
           -1,
           [
             N(
-              'This scene is just one short sentence. Why might the writer give the time on a line of its own?',
+              'When we wait for something we are afraid of, a minute can feel very long. That is a normal feeling, and it passes.',
             ),
           ],
-          [
-            opt(
-              'To build suspense, so you feel the moment arrive.',
-              [N('Yes. A short line on its own slows time down and makes you hold your breath.')],
-              true,
-            ),
-            opt('The writer ran out of ideas.', [
-              N(
-                'Quite the opposite. Ending on a single line is a deliberate choice that creates suspense.',
-              ),
-            ]),
-          ],
-          'Explained how a very short sentence can create suspense.',
-          'RL.4.3',
+          'Noticed that waiting for something frightening can feel long, and that the feeling passes.',
+          'CASEL: Self-awareness',
         ),
       ],
     ),
@@ -3992,13 +3950,8 @@ const A11 = quest(
   ],
   [
     gloss('memoirs', 'A book in which someone writes about their own life.', 'a09-11-arrive'),
-    gloss(
-      'suspense',
-      'The tense, waiting feeling you get when you are keen to know what happens next.',
-      'a09-11-dark-done',
-    ),
   ],
-  'Lessons: an emergency kit; 7:30 to 8:42; a think question on what we choose to carry; twenty to nine is 8:40; staying beside a friend; suspense; comfort.',
+  'Lessons: an emergency kit; 7:30 to 8:42; a think question on what we choose to carry; twenty to nine is 8:40; comfort.',
 );
 
 // ================================================================== A9-12 The Night It Missed
@@ -4142,43 +4095,14 @@ const A12 = quest(
         ),
       ],
       [
-        ask(
-          'literacy',
-          'sensory words',
-          2,
-          [
-            N(
-              '“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?',
-            ),
-          ],
-          [
-            opt(
-              'Wet',
-              [
-                N(
-                  'Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.',
-                ),
-              ],
-              true,
-            ),
-            opt('Never', [
-              N(
-                '“Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.',
-              ),
-            ]),
-          ],
-          'Picked out words that describe what the senses notice.',
-          'RL.1.4',
-        ),
         note(
           'science',
           'tides: the sea moves in and out each day',
           3,
           [
-            N('On a real coast, the sea comes back after low tide, twice a day.'),
-            N(
-              'The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns.',
-            ),
+            N('On a real coast, the sea goes out and comes in twice a day. These are the tides.'),
+            N('The Moon’s pull makes the water rise and fall in a steady rhythm.'),
+            N('The sea in the story went much further than any tide.'),
           ],
           'Reviewed the idea that tides rise and fall twice a day, driven by the Moon.',
         ),
@@ -4304,7 +4228,7 @@ const A12 = quest(
         note(
           'science',
           'migrating birds travel south for winter',
-          0,
+          1,
           [
             N('Snufkin goes south for the winter. Many birds of the north migrate that way too.'),
             N(
@@ -4312,7 +4236,6 @@ const A12 = quest(
             ),
           ],
           'Learned that birds from Finland, such as swallows, migrate thousands of kilometres south for winter.',
-          'K-ESS3-1',
         ),
         doit(
           'music',
@@ -4408,7 +4331,7 @@ const A12 = quest(
       'a09-12-gate-done',
     ),
   ],
-  'Lessons: orbits and Halley’s Comet; irony; sleep needs; sensory words; tides; relief; a think question on comfort and honesty; migrating birds; theme of a home; call and response; theme of the story; thank you in Finnish and Swedish.',
+  'Lessons: orbits and Halley’s Comet; irony; sleep needs; tides and a sea that went too far; relief; a think question on comfort and honesty; migrating birds; theme of a home; call and response; theme of the story; thank you in Finnish and Swedish.',
 );
 
 // ================================================================== variants
@@ -4466,7 +4389,7 @@ export const EDU_A09_READER_VARIANTS: EduScene[] = [
       note(
         'sel',
         'keeping someone’s words, and saying a worry aloud',
-        7,
+        8,
         [
           N('Sniff kept your words “We’ll be home by then” for days, and now says them back.'),
           N('Kind words can stay with a person a long time.'),
@@ -4563,80 +4486,46 @@ export const EDU_A09_READER_VARIANTS: EduScene[] = [
         'The Hemulen is already in the long grass with his notebook, because there are butterflies.',
       ),
         N(
-          'Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.',
+          'Down at the water’s edge, the raft drifts in on the first wave, its name MAMMA still painted on the stern, as if it had only popped out.',
         ),
-        SN('She came home on her own, with Moominmamma still on the stern. That’s allowed, isn’t it?', 'happy'),
-        MP('Naturally. She was named after someone who always comes home.', 'soft'),
+        SN('She came home on her own, with MAMMA still on the stern. That’s allowed, isn’t it?', 'happy'),
+        MP('Naturally. She is named after Mamma. Mamma always comes home.', 'soft'),
     ],
     [
       ask(
-        'literacy',
-        'sensory words',
-        2,
+        'sel',
+        'why a character checks something he already believes',
+        8,
         [
           N(
-            '“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?',
+            'Sniff asks, “That’s allowed, isn’t it?” The raft is only a raft. Why might he need to check? Think about it.',
           ),
         ],
         [
-          opt(
-            'Wet',
-            [
-              N(
-                'Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.',
-              ),
-            ],
-            true,
-          ),
-          opt('Never', [
+          opt('He is happy, and wants someone to agree with him.', [
             N(
-              '“Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.',
+              'That’s a fair answer. Happy people often ask, just to hear a kind voice say yes.',
+            ),
+          ]),
+          opt('He is not sure the rules allow a raft to come home alone.', [
+            N(
+              'That’s a fair answer. Sniff likes rules, and this is a new one. Moominpappa’s “Naturally” settles it.',
             ),
           ]),
         ],
-        'Picked out words that describe what the senses notice.',
-        'RL.1.4',
+        'Thought about why a character says a hopeful thing as a question.',
+        'CASEL: Social awareness',
       ),
       note(
         'science',
         'tides: the sea moves in and out each day',
         3,
         [
-          N('On a real coast, the sea comes back after low tide, twice a day.'),
-          N(
-            'The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns.',
-          ),
+          N('On a real coast, the sea goes out and comes in twice a day. These are the tides.'),
+          N('The Moon’s pull makes the water rise and fall in a steady rhythm.'),
+          N('The sea in the story went much further than any tide.'),
         ],
         'Reviewed the idea that tides rise and fall twice a day, driven by the Moon.',
-      ),
-      ask(
-        'literacy',
-        'your view and a character’s: honest comfort',
-        5,
-        [
-          N(
-            'Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it.',
-          ),
-        ],
-        [
-          opt('“It will be fine” is better, because it comforts.', [
-            N(
-              'That’s a fair answer. Comfort has real value, especially when you are small and scared.',
-            ),
-          ]),
-          opt('“Mostly” is better, because it is honest.', [
-            N(
-              'That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.',
-            ),
-          ]),
-          opt('Both, with the honest one for when we are ready.', [
-            N(
-              'That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.',
-            ),
-          ]),
-        ],
-        'Compared their own view with Snufkin’s on comfort and honesty.',
-        'RL.3.6',
       ),
     ],
   ),
@@ -4657,80 +4546,46 @@ export const EDU_A09_READER_VARIANTS: EduScene[] = [
         'The Hemulen is already in the long grass with his notebook, because there are butterflies.',
       ),
         N(
-          'Down at the water’s edge, the raft drifts in on the first wave, its name still on the stern, as if it had only popped out.',
+          'Down at the water’s edge, the raft drifts in on the first wave, its name THE VALUABLE still painted on the stern. Sniff pats it, twice.',
         ),
         SN('She came home on her own. That’s what a valuable does.', 'happy'),
         MP('Naturally. She is called The Valuable. One does not lose a valuable.'),
     ],
     [
       ask(
-        'literacy',
-        'sensory words',
-        2,
+        'sel',
+        'why a character checks something he already believes',
+        8,
         [
           N(
-            '“Green, and wet, and has never looked so like grass.” Which word here tells you about how grass feels or looks?',
+            'Sniff says, “That’s what a valuable does.” Why might he say it so firmly? Think about it.',
           ),
         ],
         [
-          opt(
-            'Wet',
-            [
-              N(
-                'Yes. “Wet” is a sense word. It helps you feel the morning, and the green helps you see it.',
-              ),
-            ],
-            true,
-          ),
-          opt('Never', [
+          opt('He loves the raft, and wants it to be special.', [
             N(
-              '“Never” tells us about time, not the senses. “Wet” and “green” tell us how the grass feels and looks.',
+              'That’s a fair answer. When we love something, we like to say what makes it special.',
+            ),
+          ]),
+          opt('He is a little afraid it might not have come home.', [
+            N(
+              'That’s a fair answer. Saying something firmly can be a way of keeping a worry small.',
             ),
           ]),
         ],
-        'Picked out words that describe what the senses notice.',
-        'RL.1.4',
+        'Thought about why a character says a hopeful thing as a question.',
+        'CASEL: Social awareness',
       ),
       note(
         'science',
         'tides: the sea moves in and out each day',
         3,
         [
-          N('On a real coast, the sea comes back after low tide, twice a day.'),
-          N(
-            'The Moon’s pull makes the water rise and fall in a steady rhythm, so the sea always returns.',
-          ),
+          N('On a real coast, the sea goes out and comes in twice a day. These are the tides.'),
+          N('The Moon’s pull makes the water rise and fall in a steady rhythm.'),
+          N('The sea in the story went much further than any tide.'),
         ],
         'Reviewed the idea that tides rise and fall twice a day, driven by the Moon.',
-      ),
-      ask(
-        'literacy',
-        'your view and a character’s: honest comfort',
-        5,
-        [
-          N(
-            'Snufkin says things “mostly” come back, “not always”. Would you rather hear “it will be fine” or “things mostly turn out all right”? Think about it.',
-          ),
-        ],
-        [
-          opt('“It will be fine” is better, because it comforts.', [
-            N(
-              'That’s a fair answer. Comfort has real value, especially when you are small and scared.',
-            ),
-          ]),
-          opt('“Mostly” is better, because it is honest.', [
-            N(
-              'That’s a fair answer, and it is Snufkin’s view. Honesty lets us trust the person who comforts us.',
-            ),
-          ]),
-          opt('Both, with the honest one for when we are ready.', [
-            N(
-              'That’s a fair answer. Comfort first, truth gently after, is a way to be kind and honest.',
-            ),
-          ]),
-        ],
-        'Compared their own view with Snufkin’s on comfort and honesty.',
-        'RL.3.6',
       ),
     ],
   ),

@@ -9,6 +9,7 @@
 
 _Nova’s book opens at a big map._  
 _The map is red. Red, red, red!_  
+_Red is for the Romans. They have nearly everywhere._  
 _But one little dot is green. It sits by the sea._  
 
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): a map shows where places are  
@@ -73,7 +74,7 @@ _Down the side are marks. I, II, III, IV, V…_
 _The Romans wrote numbers with letters. I means one._  
 
 > **Lesson** (maths, notice): Romans wrote numbers with letters; I is one  
-> **Caius Pupus**: The Romans wrote one as I. A little stick. Like one finger.  
+> **Caius Pupus**: The Romans wrote one as I. A little twig. Like one finger.  
 > **Caius Pupus**: Hold up one finger. That is I!  
 > _For grown-ups: Heard that Romans wrote numbers as letters, and that I means one._
 
@@ -169,6 +170,8 @@ _Obelix shades his eyes and watches._
 
 _You scratch a mark on the wax tablet._  
 _It is the first mark. It looks like this: I._  
+_Dogmatix drops a twig on the tablet._  
+**Caius Pupus**: I! One twig!  
 **Caius Pupus**: One task done. Eleven to go.  
 
 > **Lesson** (maths, K.CC.B.4, do): I is one  
@@ -191,7 +194,7 @@ _Task two is a wide field with a white line._
 _He has three long javelins wrapped in silk._  
 **Verses**: This one is Swift. This one is Patient.  
 
-> **Lesson** (literacy, RF.K.2, do): first sound of a name  
+> **Lesson** (literacy, ELOF: Literacy, do): first sound of a name  
 > _(Say it slowly: sss-wift. What sound does Swift start with?)_  
 > _Sss! Swift starts with sss, like a snake._  
 > Check: `edu:say:first-sound:s-swift`
@@ -228,6 +231,9 @@ _You walk the field. One step, two steps, three steps…_
 _Then Asterix throws. His javelin flies away, over the hill._  
 **Verses**: Where is it going?  
 **Asterix**: I just threw it!  
+**Verses**: What is your javelin called?  
+**Asterix**: Er... Stick.  
+_Dogmatix drops a twig at your feet. It is his eleventh today._  
 
 > **Lesson** (sel, CASEL: Self-management, ask): being a good sport  
 > _Verses threw so well, and Asterix threw further. What can Verses do?_  
@@ -249,13 +255,14 @@ _Then Asterix throws. His javelin flies away, over the hill._
 _Verses wraps Swift up in its silk again._  
 **Verses**: A good throw is a good throw. Whoever throws it.  
 _You make a mark on the tablet: II._  
+_Dogmatix drops another twig. He wags at both._  
+_Two twigs, I and I. Two tasks done!_  
 
 > **Lesson** (maths, notice): II is two  
-> **Caius Pupus**: Two tasks, so two sticks: I, I. The Romans wrote II.  
+> **Caius Pupus**: Two tasks, so two twigs: I, I. The Romans wrote II.  
 > **Caius Pupus**: Hold up two fingers. That is II!  
-> _For grown-ups: Learned that the Roman numeral II is two sticks._
+> _For grown-ups: Learned that the Roman numeral II is two twigs._
 
-_Two sticks, I and I. Two tasks done!_  
 
 ## A8-4. Cilindric
 
@@ -305,7 +312,7 @@ _They bow. Cilindric moves like water._
 **Cilindric**: Of course. The hand, here. The foot, here. The turn, so.  
 _He turns and tucks, and turns again._  
 _Oh! He has tied himself in a knot!_  
-**Cilindric**: I won, against myself. So I also lost.  
+**Cilindric**: I beat myself. The rule book says whoever beats himself loses!  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): helping a friend who feels silly  
 > _Cilindric is tied in a knot and feels silly. What helps?_  
@@ -325,11 +332,11 @@ _Oh! He has tied himself in a knot!_
 
 **Cilindric**: A tidy result. Please keep the rule book.  
 _He folds his towel and walks away._  
-_You make a mark: III. Three sticks, I, I, I._  
+_You make a mark: III. Three twigs, I, I, I._  
 
 > **Lesson** (maths, notice): III is three  
-> **Caius Pupus**: Three tasks, so three sticks: III. Hold up three fingers!  
-> _For grown-ups: Learned that the Roman numeral III is three sticks._
+> **Caius Pupus**: Three tasks, so three twigs: III. Hold up three fingers!  
+> _For grown-ups: Learned that the Roman numeral III is three twigs._
 
 **Obelix**: He was nice too.  
 
@@ -411,10 +418,13 @@ _Halfway home, Asterix shakes his head._
 **Asterix**: I was going to stay. I really was.  
 **Obelix**: You were not. There was no boar.  
 _You make a mark on the tablet: IV._  
+_Dogmatix drops a fourth twig. Pupus writes IV instead._  
+_Dogmatix looks betrayed._  
 _Four tasks done. Only eight to go!_  
 
 > **Lesson** (maths, notice): IV is four  
-> **Caius Pupus**: IV is one before five. So it is four. Hold up four fingers!  
+> **Caius Pupus**: A twig before V takes one away. Five, take away one, is four!  
+> **Caius Pupus**: Hold up four fingers!  
 > _For grown-ups: Heard that the Roman numeral IV means four: one less than five._
 
 
@@ -459,7 +469,7 @@ _Asterix sits down. You turn the sand timer over._
 
 _Iris looks puzzled. Then he sniffs the cushion._  
 _He thinks he is a boar! He trots out, grunting._  
-**Asterix**: He is a person. He will be himself by supper.  
+**Asterix**: Iris is a person. Iris will be himself by supper.  
 
 #### `sprout:a08-06-stare-done` · [main](main.md#a08-06-stare-done)
 
@@ -517,7 +527,7 @@ _You carry soup. It is as big as a bath!_
 #### `sprout:a08-07-kitchen-done` · [main](main.md#a08-07-kitchen-done)
 
 _First comes soup. Then comes fish._  
-_Then come pies. Pie, pie, pie!_  
+_Then come three pies. Pie, pie, pie!_  
 _Last come crisp fried potatoes._  
 
 > **Lesson** (maths, K.CC.B.5, ask): count to answer how many  
@@ -554,7 +564,7 @@ _Your Nubbin and the dog look at the clean plates. Hungry!_
 **Mannekenpix**: Take these potatoes for the road.  
 _Obelix holds the parcel like a baby._  
 _You make a mark on the tablet: VI._  
-_V is five, and one more stick makes VI. That is six!_  
+_V is five, and one more twig makes VI. That is six!_  
 
 > **Lesson** (maths, K.OA.A.1, notice): VI is six  
 > **Caius Pupus**: VI is five and one more. Hold up five fingers, then one more.  
@@ -752,6 +762,7 @@ _Asterix straightens his helmet and walks to counter one._
 
 **Asterix**: Good morning. I would like Permit A39, please.  
 **A Clerk**: A39? There is no A39!  
+_The clerk goes pale. Is it a new rule? Did he miss it?_  
 _The clerk whispers to the clerk behind him._  
 _The whisper runs up the stairs. Clerks run everywhere!_  
 _You slide your form across. Stamp, and it is passed on!_  
@@ -805,7 +816,7 @@ _Crocodiles in the river look up. Snap, snap!_
 _You drop a pebble from the post. It falls down, down._  
 _A crocodile catches it. Crunch!_  
 
-> **Lesson** (literacy, RF.K.2, ask): first sounds: c for crocodile  
+> **Lesson** (literacy, ELOF: Literacy, ask): first sounds: c for crocodile  
 > _Crocodile starts with a c sound: c, c, crocodile. Which word starts the same?_  
 > - ✅ Cake → Yes! Cake and crocodile both start with c.
 > - Dog → Dog starts with d. Cake starts with c, like crocodile.
@@ -858,10 +869,10 @@ _A perfect bridge! The crocodiles look cross._
 **Asterix**: There was not one.  
 _Pupus looks at the empty air for a long time._  
 **Caius Pupus**: Fine. Write it down.  
-_You make a mark: IX. It is X, with a stick before it._  
+_You make a mark: IX. It is X, with a twig before it._  
 
 > **Lesson** (maths, K.OA.A.1, notice): IX is nine  
-> **Caius Pupus**: X is ten. A stick before it takes one away. So IX is nine!  
+> **Caius Pupus**: X is ten. A twig before it takes one away. So IX is nine!  
 > _For grown-ups: Heard that the Roman numeral IX is ten with one taken away, which is nine._
 
 
@@ -907,7 +918,9 @@ _Obelix gives your Nubbin a ride on his shoulder._
 #### `sprout:a08-11-riddle` · [main](main.md#a08-11-riddle)
 
 **The Old Man of the Mountain**: Here is my riddle. What is white, soft and smells sweet?  
-**The Old Man of the Mountain**: It makes you clean. It costs two coins.  
+**The Old Man of the Mountain**: It makes you clean. One costs two coins.  
+**The Old Man of the Mountain**: Or three for five! What a bargain!  
+_Obelix counts on his fingers. He gets to three, and stops._  
 _Behind him are stacks of white cakes, wrapped in leaves._  
 **Asterix**: Is it soap?  
 **The Old Man of the Mountain**: Yes! My Own Mountain Soap! Gentle on the beard!  
@@ -928,7 +941,7 @@ _It was not a riddle. It was an advert!_
 
 **Choices**
 
-- **Buy three for five.**
+- **Buy three soaps for five coins.**
     - **The Old Man of the Mountain**: A wise traveller! A fourth, free, for honest eyes.
 - **“That wasn’t a riddle. That was an advert.”**
     - **The Old Man of the Mountain**: The best riddles are. Have a free sample.
@@ -1029,7 +1042,7 @@ _Clank, clank, clank. Then quiet._
 _Dawn comes up pink. The ghosts are gone._  
 **Caius Pupus**: One more task. It is in Rome.  
 _You make a mark on the tablet: XI._  
-_X is ten, and one more stick makes XI. That is eleven!_  
+_X is ten, and one more twig makes XI. That is eleven!_  
 
 > **Lesson** (maths, K.OA.A.1, notice): XI is eleven  
 > **Caius Pupus**: XI is ten and one more. Ten and one make eleven.  
@@ -1133,7 +1146,7 @@ _Everyone goes very quiet._
 
 - **“Let him sing one verse.”**
     - **Cacofonix**: One verse! The first part is the overture, in seven parts…
-    - The village looks for something to tie him up with.
+    - The village looks for a very big scarf, to hush him gently.
 - **Look round for some rope.**
     - There is no rope. Someone used it on a cart.
 
@@ -1184,7 +1197,7 @@ _The feast goes on, late into the starry night._
 **Getafix**: For the referee. Use it kindly.  
 _Getafix gives you a tiny cauldron. The chief gives you a winged helmet._  
 **Obelix**: And a menhir! My smallest one. It has a face!  
-_Far above, Asterix’s javelin whistles by, still going._  
+_Far away, a javelin is still flying. Verses is still following Stick._  
 **Caius Pupus**: Vale, referee! Come back soon.  
 
 > **Lesson** (literacy, ELOF: Language and Communication, ask): Latin words: salve and vale  
@@ -1202,7 +1215,7 @@ _Variant of `a08-14-complete`._
 **Getafix**: This form says: stick a copy of this form here.  
 _Every clerk did! It unrolls to your knees, and keeps going._  
 
-> **Lesson** (maths, K.G.A.2, do): a circle has no end  
+> **Lesson** (maths, ELOF: Perceptual, Motor, and Physical Development, do): a circle has no end  
 > _(Trace a big circle in the air with your finger. Round and round!)_  
 > _A circle goes round and round with no end._  
 > Check: `edu:trace:circle:finger`

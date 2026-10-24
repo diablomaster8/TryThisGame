@@ -11,7 +11,7 @@ _Nova’s atlas falls open at a map of Gaul, around 50 BC. It is painted Roman r
 _Not quite all of it. Up by the sea, one small green dot sits untouched, with the red curving carefully round it._  
 _Four tiny Roman camps ring the dot like cats round a hedgehog, unsure where to start._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): where Gaul was, and when Caesar’s wars happened  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): where Gaul was, and when Caesar’s wars happened  
 > _Gaul was the Roman name for a big region, roughly where France is today, plus parts of Belgium and nearby lands._  
 > _Julius Caesar’s army fought the peoples of Gaul in the Gallic Wars, from about 58 to 50 BC. “BC” counts years backwards to the year 1._  
 > _So on this map, nearly all of Gaul is Roman red. The map’s green dot is the story’s joke._  
@@ -59,7 +59,7 @@ _The village is round, fenced and loud. A chief stands on a shield held up by tw
 **Caius Pupus**: And not a Gaul. You would pass yourselves for sneezing.  
 _Every head slowly turns to the one person who is neither: you, at the back, with a Nubbin and a dog._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: who should referee, and why  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness: who should referee, and why  
 > _The village wants a referee who is neither Roman nor Gaul. Why does that matter? Is a stranger always fair?_  
 > - A referee must not favour either side → That is a good reason. Being on neither side makes it easier to be fair. Whether it is enough is a good thing to keep thinking about.
 > - A stranger might still have a bias → A fair answer. Even a stranger can have hidden favourites. The best referees notice their own bias, and say so.
@@ -120,7 +120,7 @@ _Task one is a race along a straight dirt road, from a stone to a post far off. 
 _At the start, a young man in a short white tunic is stretching. He stretches parts of himself you did not know stretched._  
 **Asbestos**: Asbestos, of Greece. I have won at Olympia, where the Games began. Gods and people came to watch us run.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the Olympic Games began in Greece  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the Olympic Games began in Greece  
 > **Asbestos**: The ancient Games were held at Olympia, in Greece. Tradition says the first was in 776 BC. After that they came every four years.  
 > **Asbestos**: Athletes ran, wrestled and threw. Today’s Olympic Games were started again in Athens in 1896, and they still come every four years.  
 > _For grown-ups: Learned that the Olympic Games began in ancient Greece, at Olympia, every four years, and were revived in 1896._
@@ -216,7 +216,7 @@ _You scratch a mark beside I on the wax tablet. Pupus looks at it, sighs, and in
 _Task two is a wide field of short grass with a white line at one end. A tall man in an embroidered coat waits beside it._  
 **Verses**: Verses, of Persia, at your service. Forgive me if I do not shake hands. These hands are working today.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): ancient Persia, and throwing as an ancient sport  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): ancient Persia, and throwing as an ancient sport  
 > **Verses**: Persia was a great empire, in the lands that today include Iran. It was famous for its long roads, fast messengers and fine gardens.  
 > **Verses**: Javelins began as hunting spears. Throwing them for distance became a sport in the ancient Olympics.  
 > _For grown-ups: Heard that Persia was a great empire in the region of modern Iran, and that javelin throwing began as hunting and became a sport._
@@ -239,9 +239,9 @@ _You lay the javelins on the grass by the line. Your Nubbin sits beside the one 
 _You decide to measure the throws. You could count your paces, but your Nubbin’s paces are very small._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): why we use standard units  
-> _Your paces are longer than your Nubbin’s. Why is a measuring rope, marked in metres, better than counting paces?_  
-> - ✅ Metres are the same for everyone → Yes. A standard unit means everyone gets the same answer, however long their legs are.
-> - Paces are always shorter → Not always. The point is that paces change from person to person, and a metre never does.
+> _Your paces are longer than your Nubbin’s. Why is a measuring rope, knotted every Roman foot, better than counting paces?_  
+> - ✅ A Roman foot is the same for everyone → Yes. A standard unit means everyone gets the same answer, however long their legs are.
+> - Paces are always shorter → Not always. The point is that paces change from person to person, and a Roman foot never does.
 > - It makes no difference → It does. If you measure in paces and your Nubbin measures in paces, you will get different numbers for the same throw.
 > _For grown-ups: Understood why standard units of length matter: paces vary, metres do not._
 
@@ -255,8 +255,12 @@ _Asterix takes a sip from his flask and borrows a plain javelin. He throws it un
 _It goes over Verses’ javelin, over the trees and over the hill. The whistle of it fades away._  
 **Verses**: Where is it going?  
 **Asterix**: I could not tell you. I just threw it.  
+**Verses**: And what is she called?  
+**Asterix**: Er. Stick.  
+_Dogmatix, who has brought you eleven sticks today, looks up sharply._  
+**Verses**: Stick. A modest name. I like her already.  
 
-> **Lesson** (sel, D2.Civ.8.K-2, ask): fairness when a result cannot be measured  
+> **Lesson** (sel, D2.Civ.8.3-5, ask): fairness when a result cannot be measured  
 > _Verses says you cannot measure a throw that has not finished. Is it fair to give Asterix the win without a number? What would you do?_  
 > - Give him the win, because it clearly went further → A fair answer. When the evidence is clear, a number may not be needed. Pupus might want it in writing, though.
 > - Wait until it lands, then measure → A fair answer. Fairness sometimes means being patient and waiting for the facts, even when it takes a week.
@@ -306,8 +310,8 @@ _Rules one to forty are about bowing. Rule forty-one says what to do if the bow 
 **Asterix**: Is there a rule for what happens if the other man does not want to wrestle?  
 **Cilindric**: Rule three hundred and twelve. It is very firm.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what makes a rule a good rule  
-> _Cilindric has hundreds of rules, mostly about bowing. Which of these is the best kind of rule?_  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what makes a rule a good rule  
+> _Cilindric has more than three hundred rules, and forty of them are about bowing. Which of these is the best kind of rule?_  
 > - ✅ A short rule that keeps people safe and is the same for everyone → Yes. Good rules are clear, fair and have a reason. Rules about safety are the first you want.
 > - A rule nobody can remember, but which is very detailed → A rule nobody can remember cannot help anyone. Good rules are simple enough to follow.
 > - A rule that only helps the person who wrote it → That is not fair. A good rule should be fair to everyone it covers, not just its author.
@@ -478,14 +482,14 @@ _You scratch a fourth mark on the tablet: IV. Pupus nods._
 
 _Task five waits at the end of a path lined with painted eyes. They seem to follow you, which is probably the point._  
 _The tent is dark inside and smells of incense. A man in a tall headdress sits very still on a cushion._  
+**Iris**: I am Iris, from Egypt, where we have been looking at things for a very long time. Look into my eyes.  
+_His eyes are enormous and dark, with a faint glow in them, like coals. You find you have already looked._  
 
 > **Lesson** (science, 4-LS1-2, notice): how your eyes handle dim light  
 > _Inside the dark tent, the black circle in the middle of your eye, the pupil, grows bigger. That lets in more light._  
 > _In bright sunshine, the pupil shrinks again. Your eyes adjust all the time, without you thinking about it._  
 > _For grown-ups: Learned that the pupil widens in dim light and shrinks in bright light._
 
-**Iris**: I am Iris, from Egypt, where we have been looking at things for a very long time. Look into my eyes.  
-_His eyes are enormous and dark, with a faint glow in them, like coals. You find you have already looked._  
 **Iris**: Your task is to hold my gaze. Whoever looks away first, loses. And whoever loses will believe whatever I say they are.  
 **Caius Pupus**: He is very good. Last week he convinced a centurion he was a teapot.  
 
@@ -498,16 +502,8 @@ _His eyes are enormous and dark, with a faint glow in them, like coals. You find
 
 #### `reader:a08-06-stare` · [main](main.md#a08-06-stare)
 
-_Asterix sits down opposite Iris. You turn the sand timer over, and keep your eyes firmly on the sand._  
+_Asterix sits down opposite Iris. You turn the sand timer over: the three-minute kind. You keep your eyes on the sand._  
 **Iris**: You are growing sleepy. You are a small, soft creature. You are… a dormouse.  
-
-> **Lesson** (maths, 3.MD.A.1, ask): time with a sand timer  
-> _The sand timer takes 3 minutes to run through. If you turn it over twice, how many minutes have gone by?_  
-> - ✅ 6 minutes → Yes. 3 minutes twice is 3 times 2, which is 6 minutes.
-> - 5 minutes → That adds 3 and 2. Each turn is 3 minutes, and there are 2 turns, so 3 times 2 is 6.
-> - 32 minutes → That writes the numbers side by side. It is 2 lots of 3 minutes, which is 6 minutes.
-> _For grown-ups: Found a time interval by multiplying: two 3-minute turns make 6 minutes._
-
 **Asterix**: No, I am not.  
 _Iris leans closer, and the glow in his eyes brightens. The glow in Asterix’s, after a sip from his flask, brightens further._  
 **Asterix**: Actually, I think you are the one who is sleepy.  
@@ -526,6 +522,15 @@ _He is quite sure, now, that he is a wild boar, and trots out of the tent on all
 #### `reader:a08-06-stare-done` · [main](main.md#a08-06-stare-done)
 
 _The last grain of sand falls. Dogmatix is barking at the tent door, and your Nubbin has hidden behind your boots._  
+_The sand ran through once, and that took 3 minutes. Outside, Iris grunts that he wants two more goes._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time with a sand timer  
+> _The timer ran once, and that took 3 minutes. Iris, now a boar, wants two more goes. How many minutes is that?_  
+> - ✅ 6 minutes → Yes. Two more goes of 3 minutes is 3 times 2, which is 6 minutes.
+> - 5 minutes → That adds 3 and 2. Each go is 3 minutes, and there are 2 goes, so 3 times 2 is 6.
+> - 32 minutes → That writes the numbers side by side. It is 2 lots of 3 minutes, which is 6 minutes.
+> _For grown-ups: Found a time interval by multiplying: two more 3-minute goes make 6 minutes._
+
 _When Iris’s eyes were at their brightest, they glowed like embers in a banked-up fire. Now they are just a man’s eyes, soft and a little puzzled._  
 
 > **Lesson** (literacy, L.4.5, ask): similes and metaphors  
@@ -566,7 +571,7 @@ _Task six is a meal. On a long table in a hall with low beams, a single plate is
 _In the kitchen behind it, a round, red-faced man in an apron is stirring four pots and tasting a fifth._  
 **Mannekenpix**: Mannekenpix, chef, from the north. The Belgae, if you like. Nobody leaves my table hungry.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the Belgae, and where Belgium gets its name  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the Belgae, and where Belgium gets its name  
 > **Mannekenpix**: The Belgae were the peoples of the north of Gaul. Caesar himself wrote that they were the bravest of all the Gauls.  
 > **Mannekenpix**: The country of Belgium takes its name from them. Names can stay on a map for two thousand years.  
 > _For grown-ups: Learned that the Belgae lived in northern Gaul and gave their name to modern Belgium._
@@ -631,7 +636,7 @@ _At last the hatch is empty. Mannekenpix leans in the doorway, floury and astoni
 _He gives Obelix a wrapped parcel of fried potatoes. Obelix holds it like a newborn._  
 _You scratch a sixth mark: VI. Pupus initials it, and looks as though he would like to sit down._  
 
-> **Lesson** (maths, 3.NF.A.1, notice): VI is six, and halfway through twelve  
+> **Lesson** (maths, 3.NF.A.3, notice): VI is six, and halfway through twelve  
 > **Caius Pupus**: V and then I: five and one, so VI is six. Six out of twelve is exactly half.  
 > **Caius Pupus**: You can write that as 6/12, which is the same as 1/2. Half the tasks are done.  
 > _For grown-ups: Learned that VI is five plus one, and that six out of twelve is one half._
@@ -692,20 +697,20 @@ _It is not growling but shaking. Whatever it is, it is very large, and very frig
 _You turn the lantern down low, and sit on the cold floor, and say nothing._  
 _Dogmatix sits beside you, then your Nubbin. Then, very carefully, so the floor will not shake, Obelix._  
 _After a long time, something huge and soft, with very small eyes, puts its nose out and sniffs your Nubbin._  
+_Your Nubbin sniffs back. The rumble stops._  
 
 > **Lesson** (science, 4-LS1-2, notice): animals in the dark use other senses  
 > _An animal that lives in a dark cave cannot rely on its eyes. Its nose and its ears do much more of the work._  
 > _That is why the Beast sniffs first. A smell tells it who you are, long before it could see you._  
 > _For grown-ups: Learned that animals in dark places often rely more on smell and hearing._
 
-_Your Nubbin sniffs back. The rumble stops._  
 
-> **Lesson** (sel, CASEL: Social awareness, ask): why gentleness works, and why the visitors keep it secret  
-> _The Beast calmed down when you sat quietly. Why does gentleness work on a scared animal? And why would nobody tell the secret?_  
+> **Lesson** (sel, CASEL: Social awareness, ask): why gentleness works on a scared animal  
+> _The Beast calmed down when you sat quietly. Why does gentleness work on a scared animal?_  
 > - Scared creatures need to feel safe first → A fair answer. Safety has to come before trust. Sitting still and small showed you meant no harm.
-> - They kept the secret to protect the Beast → A fair answer. If everyone knew, people might come to stare or to hurt it. Some kindness is quiet.
-> - It is just more fun to leave it a mystery → A fair answer. A shared secret can feel like a gift. And in this story, it is also a way of protecting something.
-> _For grown-ups: Thought about why gentleness helps a frightened creature, and about keeping a kind secret._
+> - Staying quiet shows you mean no harm → A fair answer. A big, calm friend who waits is much less frightening than a loud one who rushes in.
+> - Waiting lets the animal choose to come close → A fair answer. Being allowed to choose helps a frightened animal feel safe enough to try.
+> _For grown-ups: Thought about why gentleness helps a frightened creature._
 
 
 **Choices**
@@ -729,6 +734,14 @@ _You scratch a seventh mark: VII. It is V with two strokes after it, five and tw
 
 **Caius Pupus**: You are all the same, you lot. You go in, and you come out kind.  
 
+> **Lesson** (sel, CASEL: Social awareness, ask): secrets that protect, and fibs  
+> _Everyone keeps the Beast a secret. Is that a fib, or is it looking after someone?_  
+> - It is looking after someone → A fair answer. Keeping a gentle creature safe from stares is different from a fib told to get something.
+> - It is a fib, even if it is a kind one → A fair answer. Not telling the whole truth is a choice, even a kind one. Is the reason a good one?
+> - It depends who is asking, and why → A fair answer. Who is asking, and what they might do, matters when a secret keeps someone safe.
+> _For grown-ups: Thought about whether keeping a kind secret is a fib or a way of looking after someone._
+
+
 ### Glossary
 
 - **entrance**: The way in to a place.
@@ -750,7 +763,7 @@ _Task eight is a building: tall, white and humming, with more windows than there
 _The hall is full of counters, and stairs, and people holding papers and looking at the ceiling with a terrible calm._  
 **The Porter**: Good morning. Do you have an appointment? You need counter one, which will send you to counter two.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): what a bureaucracy is  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): what a bureaucracy is  
 > **Caius Pupus**: This is a bureaucracy: an organisation run by officials, with lots of rules, forms and offices. The word comes from “bureau”, meaning a writing desk.  
 > **Caius Pupus**: Rome needed officials and records to collect taxes and count its people. Rules and forms can be useful. Trouble starts when they stop helping people.  
 > _For grown-ups: Learned that a bureaucracy is an organisation of officials and forms, useful when it serves people._
@@ -815,7 +828,7 @@ _You find a fresh page of your tablet. Obelix leans over your shoulder, breathin
 **Obelix**: Make it a good one. Make it the silliest one ever.  
 **Caius Pupus**: The silliest form only wins if it looks completely serious.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules that help people, and rules that only help themselves  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): rules that help people, and rules that only help themselves  
 > _This building has rules that seem only to protect themselves. How do you tell a rule that helps from one that does not? Which would you keep?_  
 > - Keep rules that protect people and are clear → A fair answer. A rule that keeps people safe and treats them equally has a good reason behind it.
 > - Keep rules only if they can be explained → A fair answer. If nobody can say why a rule exists, that is a sign to look at it again.
@@ -858,7 +871,7 @@ _You slide your form across the counter. The clerk stamps it out of habit, and p
 _Within a minute, every clerk in the building is running, and papers are flying._  
 _A bell rings at the top of the building. A door opens on the highest landing, and a man in a purple-edged toga looks down._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): honesty, and tricking an unfair system  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): honesty, and tricking an unfair system  
 > _Asterix invents Permit A39 to get past a building that seems unfair. Is it okay to trick a system that is not fair? Where would you draw the line?_  
 > - Yes, if nobody is hurt and the system is unfair → A fair answer. Many people feel that a harmless trick on an unfair system is different from lying to a friend. You still might think about who else it affects.
 > - No, honesty matters whatever the system is → A fair answer. Some people keep to honesty always, because trust is hard to repair once it is broken.
@@ -1107,7 +1120,7 @@ _The moon climbs and the mist thickens. Very far off, something clanks, like arm
 _The mist parts. Out of it, glowing faintly green, march two lines of ghostly legionaries, chains clanking, moaning on the beat._  
 **Caius Pupus**: A whole legion, with a centurion at the front. Or what is left of them.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how a Roman legion was organised  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how a Roman legion was organised  
 > **Caius Pupus**: Roman armies were very well organised. A legion had thousands of soldiers, split into smaller groups called centuries.  
 > **Caius Pupus**: Despite the name, a century was only about eighty men, and its leader was a centurion. “Century” and “centurion” both come from the Latin for a hundred.  
 > _For grown-ups: Learned that a Roman legion was divided into centuries led by centurions, and that those words come from the Latin for “hundred”._
@@ -1193,7 +1206,7 @@ _The chief is carried on his shield. Getafix walks with his hands behind his bac
 **Vitalstatistix**: No.  
 _Under the huge arena, the village is shown into a stone room with a gate at one end. Through the gate, you hear the crowd._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): history and story: what the real Circus Maximus was  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): history and story: what the real Circus Maximus was  
 > _A note from Nova’s atlas: the real Circus Maximus in Rome was a huge racing track, mostly for chariot races, long and narrow, with seats for a great crowd._  
 > _Wild-animal shows were held there sometimes too. Later the Colosseum, built over a hundred years after Caesar, became the famous place for them._  
 > _For grown-ups: Learned that the real Circus Maximus was mainly a chariot-racing track that sometimes held animal shows, and that the Colosseum came later._
@@ -1238,8 +1251,8 @@ _Up on the balcony, Caesar stands, and the arena goes quiet. He looks down at th
 
 > **Lesson** (literacy, RL.3.3, ask): what a character’s words reveal  
 > _Caesar says being a good loser “will be a new experience”. What does that line tell you about him?_  
-> - ✅ He hardly ever loses, and he knows it → Yes. It is a joke at his own expense. Caesar is proud, but he can laugh at himself, and that makes him a good sport.
-> - He has lost many times → If he had lost often, it would not be new. The joke is that he almost never loses.
+> - ✅ He hardly ever loses, and he knows it → Yes. Caesar is proud, but he can laugh at himself, and that makes him a good sport.
+> - He has lost many times → If he had lost often, it would not be new. The line suggests he almost never loses.
 > - He is furious → He may be cross inside, but his words are dry and polite. He is choosing to lose well.
 > _For grown-ups: Worked out a character’s traits from a line of dialogue, and saw how he chooses to lose well._
 
@@ -1286,6 +1299,7 @@ _Pupus has come too, in a borrowed tunic, looking pleased and out of place. Nobo
 
 _Then, from a hut at the edge of the square, comes the sound of somebody tuning a lyre. It goes on for some time._  
 **Cacofonix**: Friends! To honour our heroes, I have written a new song. Forty-two verses, one for each…  
+**Cacofonix**: Two minutes a verse. Three if you clap.  
 _Every head in the village turns, and nobody says anything. Asterix looks at Obelix, and Obelix looks at you._  
 
 **Choices**
@@ -1323,7 +1337,7 @@ _You take the form out of your satchel, where it has been since the porter hande
 **Getafix**: Hold still, Cacofonix. If it is long enough, it is an honour. You will be bound in official papers.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): teasing, kindness and being heard  
-> _The village ties up the bard, gently, so he cannot sing. Is that teasing, or unkind? How would you want friends to handle an annoying habit of yours?_  
+> _The village looks for something to wrap round the bard, so he cannot sing. Is that teasing, or unkind? How would you want friends to handle your habits?_  
 > - It is gentle teasing, because everyone loves him → A fair answer. Teasing can be a way of showing affection, as long as the person is in on it, and is not hurt.
 > - It is unkind, because nobody listens to him → A fair answer. Feeling unheard hurts. A kinder way might be to listen to one verse, or tell him honestly how long it is.
 > - Telling him honestly would be best → A fair answer. Honest and kind is hard, and it usually works better than tying anybody up.
@@ -1335,13 +1349,14 @@ _Getafix reads the form’s heading by the light of the fire, and his eyebrows g
 
 _The whole village gathers round to see what you wrote, back in the building of endless counters._  
 **Cacofonix**: Bound in official papers? I am a bard, not a book!  
+**Getafix**: Bound. Tied up, or put in a book. I meant both. I am very pleased with it.  
 
 > **Lesson** (literacy, L.3.4, ask): words with more than one meaning: bound  
-> _Getafix said the bard would be “bound in official papers”. Which meaning of “bound” is the joke using?_  
-> - ✅ Both: tied up, and made into a book → Yes. A book’s pages are “bound” inside its cover, and the bard is about to be bound up in a form. Two meanings, one joke.
-> - Only tied up → That is one meaning. But books are “bound” too, which is why the bard says he is not a book.
-> - Bound, as in a big jump → A bound can be a big leap, like a lion’s. Here, though, it means tied up, and bound like a book.
-> _For grown-ups: Used context to see a joke that uses two meanings of the word “bound”._
+> _The word “bound” can mean tied up, fastened into a book, or a big leap. Which meaning fits “The lion bounds across the grass”?_  
+> - ✅ A big leap → Yes. A lion that bounds is leaping. “Bound” also means tied up, or fastened into a book.
+> - Tied up → That is one meaning, but a lion crossing grass is not tied up. Here it means a big leap.
+> - Fastened into a book → That is one meaning, but lions are not books. Here, “bounds” means leaps.
+> _For grown-ups: Used context to choose the right meaning of the word “bound”._
 
 
 #### `reader:a08-14-complete` · [main](main.md#a08-14-complete)
@@ -1351,7 +1366,7 @@ _Then the feast goes on until the stars wheel round. Obelix eats four boars, the
 _Getafix gives you a tiny cauldron, no bigger than a cup, with something glimmering inside._  
 **Vitalstatistix**: And a helmet, with wings! And a menhir! Obelix, give the referee a menhir. A small one.  
 **Obelix**: This is my smallest one. I made it specially. It has a little face on it, look.  
-_Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following it._  
+_Far overhead, Asterix’s javelin whistles past going east, still going. Somewhere, Verses is still following Stick._  
 **Caius Pupus**: Vale, referee! Will you come back? Caesar is already thinking of something.  
 _The map closes round you like a hand. You are in the Grove, with a cauldron, a helmet, a very small menhir, and a dog’s hair on your sleeve._  
 
@@ -1391,7 +1406,7 @@ _Variant of `a08-14-complete`._
 _Obelix goes pink with pride. Every clerk has stamped it, and somebody has added a note: “Boar to be found.”_  
 **Vitalstatistix**: Ha! Our referee made it! The silliest form in Gaul!  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): seals, signatures and trust  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): seals, signatures and trust  
 > **Getafix**: Long ago, people proved a document was real with a signature or a seal. A seal was a mark pressed into soft wax, often with a ring.  
 > **Getafix**: The Romans used seals too. A document was only trusted if the right person had marked it. That is why the form needed the boar’s mark.  
 > _For grown-ups: Heard that signatures and wax seals were used to show a document could be trusted._
