@@ -2,7 +2,7 @@
 
 ## reader:book1
 
-- Chapter 1 (The Letter): Find Gran’s eggs in the long grass. Hatch one, then pet the Nubbin that comes out. · The eggs hum near the fourth lantern post. Hold an egg and give it a gentle shake to hurry it. Tap the Nubbin and choose Pet.
+- Chapter 1 (The Letter): Find Gran’s eggs in the long grass. Hatch one, then pet the Nubbin that comes out. · The eggs hum in the long grass, by the farthest lantern post. Hold an egg and give it a gentle shake to hurry it. Tap the Nubbin and choose Pet.
 - Chapter 2 (Shells and Promises): Pick fruit from the trees and feed a Nubbin from your hand. Do it twice. · Tap a tree to shake it, then tap the fruit to pick it up. Tap a Nubbin and choose Feed. Keep your palm flat!
 - Chapter 3 (The One Who Hides): Earn a little of Sable’s trust. Her trust needs to reach 20. · Sable runs if you rush her. Leave fruit nearby, sit and wait, and pet her only when she lets you. Never throw her.
 - Chapter 4 (Moss Remembers): Pet Moss on the hill. Then light all four lanterns. · Moss sits on the western hill. Tap a lantern post to light it. The fourth post only flickers, but it still counts.
@@ -23,7 +23,7 @@ _You laugh. It comes out the wrong shape._
 > **Lesson** (sel, CASEL: Self-awareness, ask): notice that you can feel two feelings at once  
 > _Gran’s joke makes you laugh. But you miss her, too. That’s why the laugh comes out the wrong shape._  
 > _Can a person feel happy and sad at the very same time?_  
-> - Yes. Both at once. → Lots of people would agree with you. A funny memory of someone you miss can be warm and sore together. Feelings don’t have to take turns. Both are allowed.
+> - Yes. Both at once. → Gran would agree with you, and be smug about it. A funny memory of someone you miss can be warm and sore together. Feelings don’t have to take turns. Both are allowed.
 > - No. One feeling has to win. → That’s a fair way to see it. Sometimes one feeling is so big it squashes the other one flat. Hazel might say the laugh won this time, and the sad waited its turn. Both are allowed.
 > - I’m not sure. → Not being sure is honest. Feelings can be muddly, like a drawer of odd socks. You don’t have to sort them out right now. Both are allowed.
 > _For grown-ups: Your child thought about mixed feelings: how missing someone and laughing at their joke can happen together._
@@ -33,7 +33,7 @@ _Something small and grey watches from the top of the western hill, very still, 
 **You**: Is she…?  
 **Fern**: No. Not up there, not the way people mean. I look at the flowers every week. There isn’t a new one. I’d know.  
 
-> **Lesson** (literacy, ask): use clues in a story to work out what is true  
+> **Lesson** (literacy, RL.3.3, ask): use clues in a story to work out what is true  
 > _Gran’s letter said “up the hill”. That made you worry. But Fern is sure Gran hasn’t died._  
 > _What is Fern’s best clue?_  
 > - ✅ There’s no new flower on the hill. → Exactly. Every flower up there is for someone. I check every week. No new one means no new goodbye.
@@ -297,7 +297,7 @@ _For a long time, nothing. A bee in the thyme. Wind going over the grass. Your N
 **Moss**: …You lift and push.  
 _The voice is small and dry. It comes from somewhere behind your ears rather than in front of them._  
 **Moss**: Every morning. Most people climb over by the third day. You never once did.  
-**Moss**: Eternals can speak a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed one morning. Not bad.  
+**Moss**: The old ones like me can speak a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed one morning. Not bad.  
 **Moss**: I am Moss. She will have told you I am stubborn. She was being kind.  
 
 > **Lesson** (literacy, RL.3.3, ask): understand what a character really means  

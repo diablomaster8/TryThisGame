@@ -12,11 +12,11 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (453) |  |  |
-| The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (529) |  |  |
-| The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1029) |  |  |
-| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (68) |  |  |
-| The campaign: endings | [endings.md](campaign/endings.md) (325) |  |  |
+| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (487) |  |  |
+| The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (552) |  |  |
+| The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1151) |  |  |
+| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (73) |  |  |
+| The campaign: endings | [endings.md](campaign/endings.md) (363) |  |  |
 | Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (199) | [sprout.md](learning/side/S01/sprout.md) (245) | [reader.md](learning/side/S01/reader.md) (333) |
 | Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (205) | [sprout.md](learning/side/S02/sprout.md) (218) | [reader.md](learning/side/S02/reader.md) (317) |
 | Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (170) | [sprout.md](learning/side/S03/sprout.md) (210) | [reader.md](learning/side/S03/reader.md) (274) |
@@ -42,13 +42,13 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S23: Three Visitors · opens in chapter 9 | [S23.md](side/S23.md) (742) |  |  |
 | Side story S24: The Adventure Book · opens post-game | [S24.md](side/S24.md) (813) | [sprout.md](learning/side/S24/sprout.md) (1167) | [reader.md](learning/side/S24/reader.md) (1255) |
 | Side story S25: Real · opens in chapter 3 | [S25.md](side/S25.md) (596) | [sprout.md](learning/side/S25/sprout.md) (897) | [reader.md](learning/side/S25/reader.md) (880) |
-| Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (826) | [reader.md](learning/side/S26/reader.md) (992) |
+| Side story S26: The Walled Garden · opens in chapter 6 | [S26.md](side/S26.md) (622) | [sprout.md](learning/side/S26/sprout.md) (829) | [reader.md](learning/side/S26/reader.md) (992) |
 | Side story S27: Some Nubbin · opens in chapter 5 | [S27.md](side/S27.md) (573) | [sprout.md](learning/side/S27/sprout.md) (757) | [reader.md](learning/side/S27/reader.md) (880) |
 | Side story S28: Please Look After This Nubbin · opens in chapter 8 | [S28.md](side/S28.md) (582) | [sprout.md](learning/side/S28/sprout.md) (794) | [reader.md](learning/side/S28/reader.md) (859) |
 | Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
 | Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (772) | [reader.md](learning/side/S30/reader.md) (892) |
 | Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (851) | [reader.md](learning/side/S31/reader.md) (920) |
-| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2805) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |
+| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2806) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |
 
 ## Fun quests
 
@@ -59,7 +59,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Fun quests: It's Always Sunny (Q31–Q45, adults only) | [sunny.md](fun/sunny.md) (1372) |  |  |
 | Fun quests: Avatar: The Last Airbender (Q46–Q65) | [avatar.md](fun/avatar.md) (1864) | [sprout.md](learning/fun/avatar/sprout.md) (2330) | [reader.md](learning/fun/avatar/reader.md) (3011) |
 | Fun quests: Alice in Wonderland (Q66–Q75) | [alice.md](fun/alice.md) (808) |  |  |
-| Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (857) |  |  |
+| Fun quests: Sherlock Holmes (Q76–Q85) | [holmes.md](fun/holmes.md) (858) |  |  |
 | Fun quests: Nasreddin Hodja (Q86–Q95) | [hodja.md](fun/hodja.md) (756) |  |  |
 
 ## Neopia
@@ -154,7 +154,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Learning Grove line LK: Mouse-Deer (LK1–LK10) | [main.md](lines/LK/main.md) (698) | [sprout.md](lines/LK/sprout.md) (787) | [reader.md](lines/LK/reader.md) (928) |
 | Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (700) | [sprout.md](lines/lang-hebrew/sprout.md) (1046) | [reader.md](lines/lang-hebrew/reader.md) (1262) |
 | Ori's Alef-Bet: word list and script primer | [words.md](lines/lang-hebrew/words.md) (111) |  |  |
-| Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (772) | [sprout.md](lines/lang-japanese/sprout.md) (1007) | [reader.md](lines/lang-japanese/reader.md) (1189) |
+| Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (774) | [sprout.md](lines/lang-japanese/sprout.md) (1007) | [reader.md](lines/lang-japanese/reader.md) (1191) |
 | Hana's Hiragana: word list and script primer | [words.md](lines/lang-japanese/words.md) (110) |  |  |
 
 ## Extras

@@ -4,7 +4,8 @@ Scenes the rules queue by id rather than by chapter.
 
 #### <a id="t-first-shadow"></a>Scene `t-first-shadow`
 
-_Your Nubbin has gone grey. The ball above its head is dark. When you reach for it, it flinches away from your hand._  
+_Your Nubbin has gone grey. The ball above its head is dark._  
+_When you reach for it, it flinches away from your hand._  
 _Your hand stops in the air. You don’t know what to do with it, so you put it down, slowly, on the grass between you._  
 **Fern** _(sad)_: I’m not going to pretend that isn’t on you. Hazel wouldn’t, and she’d never let me hear the end of it.  
 **Fern**: Too many throws, or too many hungry nights. Or both.  
@@ -25,20 +26,24 @@ _It never swings for you. It swung for that._
 
 #### <a id="t-stray-returned"></a>Scene `t-stray-returned`
 
-_Something grey is sitting at the very edge of the Grove, in the long grass, not coming in. Watching the gate. Watching you._  
+_Something grey is sitting at the very edge of the Grove, in the long grass, not coming in._  
+_Watching the gate. Watching you._  
 _You want to run to it. Every part of you wants to run to it._  
 _Rule three, in her leaning hand: when you don’t know what to do, sit down next to them and wait._  
 _So you don’t run. You set a fruit in the grass, and sit down a little way off._  
-_It looks at the fruit. Then at you. It doesn’t leave._  
+_It looks at the fruit._  
+_Then at you. It doesn’t leave._  
 
 > Triggered on strayReturned, any chapter. No NPC: the letter’s rule three, so it works in any chapter.
 
 #### <a id="t-sable-bonded"></a>Scene `t-sable-bonded`
 
-_Sable climbs into your lap. All the way in. She is grey and she is heavy and she is warm, and the ball above her head is a small dark heart._  
+_Sable climbs into your lap. All the way in._  
+_She is grey and she is heavy and she is warm, and the ball above her head is a small dark heart._  
 _She turns round twice, the way they do, and lies down, and lets out a breath she seems to have been holding since winter._  
 **Luna** _(soft)_: There. That’s the thing nobody in a hurry ever gets to see. Grey and loved. Both at once.  
-_You don’t move for a long time. You are sitting down next to her, and waiting. You have been for weeks._  
+_You don’t move for a long time._  
+_You are sitting down next to her, and waiting. You have been for weeks._  
 
 > Triggered when Sable bonds. Luna’s line no longer names the Circuit, so it works if bonding comes before ch5/ch7.
 

@@ -12,10 +12,10 @@ Hint: Tap Hana and choose Greet. Say “konnichiwa”, and bow if you like. · c
 
 #### <a id="lj1-s1"></a>Scene `lj1-s1`
 
-_The gate sticks, as it always does. From the other side, someone lifts and pushes, hard, and it bangs open._  
-_A girl in running shoes skids through first, a sketchbook under one arm. Nova follows at a walk, carrying both bags._  
+_Someone is racing up the lane. The gate sticks, as it always does, so she climbs it._  
+_A girl in running shoes drops down on your side, sketchbook first. Nova follows at a walk, carrying both bags._  
 **Nova** _(happy)_: This is Hana. She’s staying with me for the summer. She raced me from the bridge.  
-**Hana**: I won by eleven seconds. Nova says nine. Nova is wrong.  
+**Hana**: I won by eleven seconds. Nova says she let me win. Nova is a terrible liar.  
 **Hana**: こんにちは (konnichiwa, “hello”)!  
 _She bows: a small, quick dip from the waist, then straight back up._  
 **Hana**: That’s おじぎ (ojigi), bowing. At home we bow to greet, to thank and to say sorry. A deeper bow shows more respect.  
@@ -24,7 +24,7 @@ _She bows: a small, quick dip from the waist, then straight back up._
 **Hana**: Then finish with よろしくおねがいします (yoroshiku onegaishimasu). It means “please treat me kindly”, or “pleased to meet you”.  
 **Nova** _(happy)_: I practised that one all the way here on the train.  
 **Hana**: She said it to the ticket man, a cow and a postbox.  
-**Hana** _(happy)_: Ready? Say はい (hai, “yes”) or いいえ (iie, “no”). Actually, say はい.  
+**Hana** _(happy)_: Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.  
 
 **Choices**
 
@@ -38,7 +38,7 @@ _She bows: a small, quick dip from the waist, then straight back up._
     - **Hana**: You did the whole sandwich!
     - **Hana**: It took Nova three days to get that right.
     - **Nova**: Two days.
-    - **Hana**: いいえ. Three.
+    - **Hana**: No. Three.
 
 #### <a id="lj1-s1-done"></a>Done `lj1-s1-done`
 
@@ -46,7 +46,9 @@ _Hana is already drawing you. She drew Nova, the gate and a passing bee while yo
 **Hana**: Done. Your nose is very good. Your ears are a bit much. That’s my fault, not yours.  
 _Behind the water butt, three wild Nubbins have watched the whole thing. One tries a bow, tips forward and rolls into the herbs._  
 **Hana** _(happy)_: They want to learn! Tomorrow we teach them. Properly.  
-**Hana** _(think)_: Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.  
+**Hana** _(think)_: Also, is that a frog?  
+**Nova**: Are you scared of frogs, Hana?  
+**Hana** _(think)_: いいえ (iie, “no”)! Not even slightly. I’m just saying. In case it comes up.  
 
 ### Step 2: Teach three Nubbins to bow when you say “konnichiwa”.
 
@@ -58,7 +60,7 @@ _Morning. Dew on everything. Hana was up before you, and mentions it twice._
 **Hana** _(happy)_: おはよう (ohayō, “good morning”)! That’s for friends and family.  
 _Fern comes over the fence with a bucket of plums and a slightly crumpled face._  
 **Hana**: おはようございます (ohayō gozaimasu), Fern! That’s the polite one. For grown-ups, teachers and people with buckets.  
-**Fern**: Is it? Well. Good morning. Have a plum. I’ve been up since five keeping the trees alive, badly.  
+**Fern**: Is it? Well. Good morning. Have a plum. I’ve been up since five, apologising to the trees.  
 **Hana**: ありがとうございます (arigatō gozaimasu, “thank you”, the polite way). With friends it’s just ありがとう (arigatō).  
 **Hana**: Right. The plan. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows.  
 _She sprints at the herb bed, misjudges it, and bumps a small round Nubbin clean off its feet._  
@@ -151,7 +153,7 @@ _Three Nubbins bow at the end of every line. Dumpling bows one line late every t
 
 Sets on completion: `{"lj1Done":true}`
 
-**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai, iie; step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai. Step 1: the Greet action offers “konnichiwa” (with or without a bow) and, after the full choice, the whole “Hajimemashite. Watashi wa [player name] desu. Yoroshiku onegaishimasu.” Play the native recordings as the player picks. Step 2: a Nubbin learns after hearing konnichiwa three times; it bows whenever it hears it from then on. Dumpling copies the others badly (late, facing the wrong way). He bows to an object only once in the questline, to the moon in lj1-s3-done; never make it a habit. Step 3 is at dusk. Each oyasumi gets a sleepy bow; Dumpling snores. The Bowing Song is original. Sing it to a simple four-beat tune; the Nubbins bow on the last beat of each line.
+**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai (iie waits for the done scene, so no scene brings more than six); step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai. Step 1: the Greet action offers “konnichiwa” (with or without a bow) and, after the full choice, the whole “Hajimemashite. Watashi wa [player name] desu. Yoroshiku onegaishimasu.” Play the native recordings as the player picks. Step 2: a Nubbin learns after hearing konnichiwa three times; it bows whenever it hears it from then on. Dumpling copies the others badly (late, facing the wrong way). He bows to an object only once in the questline, to the moon in lj1-s3-done; never make it a habit. Step 3 is at dusk. Each oyasumi gets a sleepy bow; Dumpling snores. The Bowing Song is original. Sing it to a simple four-beat tune; the Nubbins bow on the last beat of each line.
 
 ## LJ2. The Hiragana Pond
 
@@ -159,9 +161,9 @@ Sets on completion: `{"lj1Done":true}`
 
 **Cast:** Hana
 
-### Step 1: Find あ い う え お on the stepping stones, in order.
+### Step 1: Find あ い う え お on the stepping stones, in order, and trace each one.
 
-Hint: Look across the pond for painted stones. Some are sideways. Start with あ, nearest the bank. · check: `lang:ja:find:kana:vowels`
+Hint: Look across the pond for painted stones. Start with あ, nearest the bank, and follow its numbered strokes. · check: `lang:ja:find:kana:vowels`
 
 #### <a id="lj2-s1"></a>Scene `lj2-s1`
 
@@ -277,7 +279,7 @@ _Face, red, blue. The Nubbin pulls a face, goes pink in the cheeks, then sits do
 
 Sets on completion: `{"lj2Done":true}`
 
-**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. Kana taught: あ い う え お (step 1), か き く け こ (step 2), は な (step 3); see JAPANESE_COURSE.script. Words: ue, ie, ao (step 1); ike, kao, aka (step 2); hana, 花, the three scripts, ピンク as a katakana example (step 3). Every LJ2 word is spelled only with kana taught in LJ2. Step 1: stones are a find-and-hop puzzle. Wrong stone: Hana’s “sorry, stone” line plays; no penalty. Step 2: a tracing mini-game in the sand. Draw the stroke order for each kana, numbered, then let the child trace. Strokes: く 1, こ 2, か 3, け 3, き 4 (some fonts join two of き’s strokes; follow the school stroke order). Step 3: tracing は and な on the sketchbook page; the choice decides whether the page shows a row or a column. If column, show the reading order right to left. The frog is the same frog in every scene (art: one fat green frog sprite). Hana is never shown actually upset; it’s comic denial.
+**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. Kana taught: あ い う え お (step 1), か き く け こ (step 2), は な (step 3); see JAPANESE_COURSE.script. Words: ue, ie, ao (step 1); ike, kao, aka (step 2); hana, 花, the three scripts, ピンク as a katakana example (step 3). Every LJ2 word is spelled only with kana taught in LJ2. Step 1: stones are a find-and-hop puzzle, and the child traces each vowel in the tracing mini-game (strokes: あ 3, い 2, う 2, え 2, お 3). Wrong stone: Hana’s “sorry, stone” line plays; no penalty. Step 2: a tracing mini-game in the sand. Draw the stroke order for each kana, numbered, then let the child trace. Strokes: く 1, こ 2, か 3, け 3, き 4 (some fonts join two of き’s strokes; follow the school stroke order). Step 3: tracing は and な on the sketchbook page; the choice decides whether the page shows a row or a column. If column, show the reading order right to left. The frog is the same frog in every scene (art: one fat green frog sprite). Hana is never shown actually upset; it’s comic denial.
 
 ## LJ3. Counting Koi
 

@@ -8,13 +8,16 @@ Goal: Go up the valley to Corvin’s garden, and decide what to do. (`corvinChoi
 
 _The road up the valley climbs into frost. It is nearly midwinter, but this frost was here in August too._  
 _Ember walks beside you with her hands in her pockets. She hasn’t said a word since the bridge._  
-_Corvin’s garden is clean, square and silent. Grey Nubbins stand in grey rows. Not one of them is touching another._  
-_The railings are furred white. The grass crunches. Your breath hangs in the air in front of you and does not drift._  
+_Corvin’s garden is clean, square and silent._  
+_Grey Nubbins stand in grey rows. Not one of them is touching another._  
+_The railings are furred white. The grass crunches._  
+_Your breath hangs in the air in front of you and does not drift._  
 **Corvin Vale**: You came. Good. And you brought Ember, who hates me. That’s fair. I’d have brought someone who hated me.  
 **Corvin Vale**: Look at them. Not one has ever thrown a race, bitten a judge, or run off into the night. Yours can’t say that.  
 **Ember** _(angry)_: Ash is in the third row. She won’t look at me. You did that.  
 **Corvin Vale**: I made her a champion, Ember. You made her a pet. One of those lasts.  
-_Ember’s hands are shaking. Corvin’s are not. They are very white, and he keeps the left one pressed flat to his coat._  
+_Ember’s hands are shaking. Corvin’s are not._  
+_They are very white, and he keeps the left one pressed flat to his coat._  
 _Over the breast pocket. Always over the breast pocket._  
 **Corvin Vale** _(think)_: You’ve read her notebook. I can see it on you. She writes everything down.  
 **Corvin Vale**: She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.  
@@ -23,7 +26,8 @@ _Over the breast pocket. Always over the breast pocket._
 _He looks along the rows the way some people look at a bookshelf they have dusted every day for years._  
 **Corvin Vale** _(sad)_: Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.  
 **Corvin Vale**: I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.  
-_Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+_Somewhere in the rows, a grey Nubbin sneezes._  
+_It does not move. None of the others look round._  
 **Ember** _(think)_: Bless you.  
 _She says it without thinking. Nobody in this garden has heard those words in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
@@ -31,7 +35,9 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
 **Choices**
 
 - **Tell him what Hazel wrote. Make him look at them.** — sets `{"corvin":"reconciled"}`
-    - You open the notebook and read it to him. Day 300-something. The brown one let me touch her ear. Took two months. Worth it.
+    - You open the notebook and read it to him.
+    - Day 300-something. The brown one let me touch her ear.
+    - Took two months. Worth it.
     - He listens with his eyes shut.
     - **Corvin Vale**: …She said that to me once. “Took two months. Worth it.” I told her I didn’t have two months.
     - **Corvin Vale**: I was twenty-two. I had nothing but months.
@@ -61,7 +67,8 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
 #### <a id="c9-partner"></a>Scene `c9-partner`
 
 _The night before you go up the valley, a note comes under the door._  
-_The paper is very good. The handwriting is very neat. The envelope is cold, as if it has been kept in a pocket next to something colder._  
+_The paper is very good. The handwriting is very neat._  
+_The envelope is cold, as if it has been kept in a pocket next to something colder._  
 **Corvin Vale**: “Partner. Come up tomorrow. I’d like to show you what your two hundred Shells became.”  
 **Corvin Vale**: “It’s doing well. Quiet. Nothing has hurt it since the day you let it go.”  
 **Corvin Vale**: “You understood something that afternoon that Hazel never did. Come and see. C.V.”  
@@ -73,14 +80,18 @@ _You read it twice. Then you put it in the drawer, under Hazel’s letter, and t
 
 _The road up the valley climbs into frost. It is nearly midwinter, but this frost was here in August too._  
 _Ember walks beside you with her hands in her pockets. She hasn’t said a word since the bridge._  
-_Corvin’s garden is clean, square and silent. Grey Nubbins stand in grey rows. Not one of them is touching another._  
-_The railings are furred white. The grass crunches. Your breath hangs in the air in front of you and does not drift._  
-_In the second row stands one with a number painted on its side in neat white paint. It was yours. It does not look up._  
+_Corvin’s garden is clean, square and silent._  
+_Grey Nubbins stand in grey rows. Not one of them is touching another._  
+_The railings are furred white. The grass crunches._  
+_Your breath hangs in the air in front of you and does not drift._  
+_In the second row stands one with a number painted on its side in neat white paint._  
+_It was yours. It does not look up._  
 **Corvin Vale**: You came. Good. And you brought Ember, who hates me. That’s fair. I’d have brought someone who hated me.  
 **Corvin Vale**: Look at them. Not one has ever thrown a race, bitten a judge, or run off into the night. Yours can’t say that.  
 **Ember** _(angry)_: Ash is in the third row. She won’t look at me. You did that.  
 **Corvin Vale**: I made her a champion, Ember. You made her a pet. One of those lasts.  
-_Ember’s hands are shaking. Corvin’s are not. They are very white, and he keeps the left one pressed flat to his coat._  
+_Ember’s hands are shaking. Corvin’s are not._  
+_They are very white, and he keeps the left one pressed flat to his coat._  
 _Over the breast pocket. Always over the breast pocket._  
 **Corvin Vale** _(think)_: You’ve read her notebook. I can see it on you. She writes everything down.  
 **Corvin Vale**: She’ll have written that I stole from her. I did. She’ll have written that I was cruel. I never was. Not once.  
@@ -89,7 +100,8 @@ _Over the breast pocket. Always over the breast pocket._
 _He looks along the rows the way some people look at a bookshelf they have dusted every day for years._  
 **Corvin Vale** _(sad)_: Hers ran away. Hers got sick. Hers died in her arms, and she cried on the hill, and called it love.  
 **Corvin Vale**: I wanted them safe. I still want it. I have never understood why that makes me the villain of her story.  
-_Somewhere in the rows, a grey Nubbin sneezes. It does not move. None of the others look round._  
+_Somewhere in the rows, a grey Nubbin sneezes._  
+_It does not move. None of the others look round._  
 **Ember** _(think)_: Bless you.  
 _She says it without thinking. Nobody in this garden has heard those words in years._  
 _Every grey eye in the garden is on you, waiting for the next bad thing._  
@@ -97,7 +109,9 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
 **Choices**
 
 - **Tell him what Hazel wrote. Make him look at them.** — sets `{"corvin":"reconciled"}`
-    - You open the notebook and read it to him. Day 300-something. The brown one let me touch her ear. Took two months. Worth it.
+    - You open the notebook and read it to him.
+    - Day 300-something. The brown one let me touch her ear.
+    - Took two months. Worth it.
     - He listens with his eyes shut.
     - **Corvin Vale**: …She said that to me once. “Took two months. Worth it.” I told her I didn’t have two months.
     - **Corvin Vale**: I was twenty-two. I had nothing but months.
@@ -161,8 +175,10 @@ _He wipes his empty hand down his coat, hard, as if something has come off on it
 
 #### <a id="c9-shard-forced"></a>Scene `c9-shard-forced`
 
-_The last grey tail vanishes into the trees. The pens hang open. The ground is churned to frozen mud._  
-_Corvin is on his knees. Somebody knocked him over in the rush. Possibly everybody._  
+_The last grey tail vanishes into the trees._  
+_The pens hang open. The ground is churned to frozen mud._  
+_Corvin is on his knees._  
+_Somebody knocked him over in the rush. Possibly everybody._  
 _Something has fallen from his coat into the frost. And the frost is growing outwards from it, as you watch._  
 _It is a flat tin, the kind throat sweets come in. The paint is worn to bare metal where a thumb has rubbed it._  
 _It is furred with frost. The air round it is so cold it hurts your teeth._  
@@ -173,13 +189,15 @@ _He gets one foot under him and reaches for it. Then he stops with his hand out,
 **Corvin Vale** _(sad)_: …No. Keep it. Keep it, and see how long you last.  
 _Ember takes your arm and walks you to the road. She doesn’t let go until the frost stops crunching under your boots._  
 **Ember** _(angry)_: Whatever that is, don’t let it near Ash. Don’t let it near anyone.  
-_On the road home, something grey is following Ember, three steps behind. Ember doesn’t look round. She doesn’t dare._  
+_On the road home, something grey is following Ember, three steps behind._  
+_Ember doesn’t look round. She doesn’t dare._  
 
 > Plays after c9-open when corvin = forced and NOT (soldNubbin && !boughtBack). He drops it in the stampede; you pick it up off the frozen ground. Last line: Ash following Ember home, three steps behind (she went into the trees with the grey tide; this is how she is at the Long Night).
 
 #### <a id="c9-shard-collector"></a>Scene `c9-shard-collector`
 
-_The last grey tail vanishes into the trees. The pens hang open. Corvin looks at them for a long time._  
+_The last grey tail vanishes into the trees._  
+_The pens hang open. Corvin looks at them for a long time._  
 _Then, of all things, he laughs._  
 **Corvin Vale** _(think)_: Quick. Nobody asked them. Nobody asked me. That’s my method, partner. You’ve just used it on me.  
 _He takes it out of his breast pocket._  
@@ -189,9 +207,12 @@ _It is furred with frost. The air round it is so cold it hurts your teeth._
 **Corvin Vale** _(soft)_: Take it. You’ll want it now. You understand what it’s for. The others never will.  
 _He presses it into your hands and folds your fingers over it. His fingers are colder than the tin._  
 **Corvin Vale**: With this, they’ll never leave you.  
-_It is heavy and humming and so cold it burns. And then, which is worse, it doesn’t. It feels like nothing at all._  
-_When you look up he is smiling, the way he smiled at your gate the first day. He means it as a kindness. That is the worst part._  
-_On the road home, something grey is following Ember, three steps behind. Ember doesn’t look round. She doesn’t dare._  
+_It is heavy and humming and so cold it burns._  
+_And then, which is worse, it doesn’t. It feels like nothing at all._  
+_When you look up he is smiling, the way he smiled at your gate the first day._  
+_He means it as a kindness. That is the worst part._  
+_On the road home, something grey is following Ember, three steps behind._  
+_Ember doesn’t look round. She doesn’t dare._  
 
 > Plays after c9-open-sold INSTEAD of c9-shard-forced on the Collector route (soldNubbin && !boughtBack) when corvin = forced. That is the only Collector case it covers: reconciled plays c9-shard-reconciled, and bargained always sets boughtBack, which leaves the route. Corvin sees his own method in your force (quick; nobody asked) and gives the tin as a gift: “With this, they’ll never leave you.” The tin stops feeling cold in your hands (seed for the temptation in ch10). Ends, like -forced, with Ash following Ember home.
 
@@ -209,19 +230,23 @@ _She doesn’t flinch. She sits down, and looks at the pocket, and then up at yo
 
 **Marina**: Whatever you did up there, the valley’s already talking about it.  
 **Marina** _(think)_: Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.  
-_On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID._  
+_On your step is a pie from Fern, still warm, with a note on top._  
+_RULE ONE, THE SECOND HALF. THE BIT SHE NEVER DID._  
 **Marina** _(think)_: She baked two, you know. Won’t say where the other one went. Went pink when I asked.  
 _Dusk. The tin is in your coat, and the coat is stiff with frost down that side._  
-_Moss is waiting at the foot of the hill. You didn’t see him come down. You can see the grass through him._  
+_Moss is waiting at the foot of the hill._  
+_You didn’t see him come down. You can see the grass through him._  
 **Moss**: …Show me.  
-_You open the tin. Inside, on a bed of grey felt, is a shard of something like ice. Dark at the heart. No longer than your thumb._  
+_You open the tin. Inside, on a bed of grey felt, is a shard of something like ice._  
+_Dark at the heart. No longer than your thumb._  
 _Moss looks at it for a long time._  
 **Moss** _(soft)_: Cinder.  
 **Moss** _(sad)_: She made it to save them. She did save them. That is the trouble with it.  
 **Moss** _(think)_: I promised Hazel I wouldn’t tell you where it had gone. She wanted him to walk it down this lane himself.  
 **Moss**: He couldn’t. You did. I will let her decide how she feels about that.  
 _For the first time in twenty-two years, all four pieces of the Heartstone are in the Grove._  
-_Three are asleep under their lanterns. This one is awake. You can feel it, like a draught from a door left open._  
+_Three are asleep under their lanterns. This one is awake._  
+_You can feel it, like a draught from a door left open._  
 **Moss**: Put it under the long grass for now, where I laid it. It won’t sleep. It has been awake too long, in a coat, next to a heart.  
 _You do. As you kneel, the glass of the dark fourth lantern above you frosts over, white, from the bottom up._  
 **Moss**: There is one place to unmake it. Where it was made. The Wellspring, behind the falls.  
@@ -261,10 +286,13 @@ _Fern, with a lantern and a flask and a blanket she has very obviously borrowed 
 _Then Sparks, with a coil of wire over one shoulder and a lantern under each arm. Then Pixel, with the timing box wrapped in a scarf like a baby._  
 **Sparks** _(happy)_: Nobody touch the wiring. I’ve wired it for cold. I’ve never wired anything for cold. It’s going to be great.  
 **Pixel** _(think)_: It’s going to be fine. I’ve put in a backup. And a backup for the backup.  
-_Clover, with soup. Luna, who has been up since yesterday and says this is her normal. Dusty, with a spade, in case of what they won’t say._  
+_Clover, with soup. Luna, who has been up since yesterday and says this is her normal._  
+_Dusty, with a spade, in case of what they won’t say._  
 _Nova, who walked in over the ridge with snow on her hat and says it’s nothing to the high passes._  
-_Marina, with rope. She doesn’t say what for. She looks up the valley towards the falls, and then at you._  
-_Ember, last, with a lantern. Ash walks a step behind her heel, grey, looking at nobody. But she came._  
+_Marina, with rope. She doesn’t say what for._  
+_She looks up the valley towards the falls, and then at you._  
+_Ember, last, with a lantern._  
+_Ash walks a step behind her heel, grey, looking at nobody. But she came._  
 _And Byte, with a clipboard._  
 **Byte** _(think)_: Statistically, an Eternal that has been petted regularly fades sixty per cent slower. I ran the numbers.  
 **Byte**: I would like it noted that I ran them while believing it was a hoax.  
@@ -286,11 +314,13 @@ _Clover’s grey blanket is over her back. Clover put it there an hour ago and w
 
 #### <a id="c10-vigil"></a>Scene `c10-vigil`
 
-_Four lanterns, lit. Pond, stream, old wall, long grass. And round each post, people, holding lanterns of their own._  
+_Four lanterns, lit. Pond, stream, old wall, long grass._  
+_And round each post, people, holding lanterns of their own._  
 _The fourth burns low and blue. The tin is underneath it, and the frost round the post is a hand’s width thick._  
 _Night comes down, very clear, very still. Past the ridge you can hear the falls, the way you always can._  
 _The first cold comes an hour after dark._  
-_It comes out of the long grass like a breath let out. Frost runs up the posts. Every flame in the Grove lies down flat._  
+_It comes out of the long grass like a breath let out._  
+_Frost runs up the posts. Every flame in the Grove lies down flat._  
 **Sparks** _(shock)_: Hold them! Hands round the glass! Not on the glass, ROUND it!  
 _The stream lantern goes out. Pixel’s timing box clicks, and clicks, and gives a small sad beep._  
 **Pixel** _(shock)_: Backup’s frozen. Backup for the backup’s frozen.  
@@ -306,15 +336,18 @@ _So everyone stands closer than is polite. Nobody minds._
 **Luna** _(soft)_: This is my hour. I’ve sat up a thousand nights. Never one with this many people in it.  
 **Byte** _(think)_: The waves are about forty minutes apart. I’m saying it out loud because saying it out loud helps.  
 **Byte**: It helps me. It may not help you.  
-_The second cold comes. It is worse. It comes from the long grass in a white rush you can see, and the fourth lantern shrinks to a blue bead._  
+_The second cold comes. It is worse._  
+_It comes from the long grass in a white rush you can see, and the fourth lantern shrinks to a blue bead._  
 **Ember** _(angry)_: No. No, you don’t.  
 _Ember takes off her coat and wraps it round the post, round the glass, and puts both arms round all of it._  
 _Ash presses against the backs of her legs, and stays there._  
 _The blue bead holds. Just._  
 **Ember** _(angry)_: Nobody say anything.  
-_Nobody says anything. Clover passes Ember a soup. Then, after a moment, she takes off her own scarf and puts it round Ember’s neck._  
+_Nobody says anything. Clover passes Ember a soup._  
+_Then, after a moment, she takes off her own scarf and puts it round Ember’s neck._  
 _It gets colder. The kind of cold that makes you forget your hands are yours._  
-_Somebody starts to sing. Luna, you think. Quietly, the way you sing to something sleeping._  
+_Somebody starts to sing. Luna, you think._  
+_Quietly, the way you sing to something sleeping._  
 **Luna** _(soft)_: Slow hands, warm hearts, the gate stuck fast —  
 **Everyone** _(soft)_: what’s kept with love is kept to last.  
 _Everyone has it by the second line. Even Byte, who says he doesn’t know the words, and does._  
@@ -344,14 +377,16 @@ _Nobody trusts it. Everybody sits down anyway, on whatever is nearest: a bucket,
 **Dusty**: I don’t mind. I’m warm. I’ve been digging.  
 _Pixel is asleep across the timing box, cheek on the dial. It beeps, very softly, at every out-breath._  
 **Fern** _(happy)_: I brought biscuits. They’ve frozen. You can still suck them.  
-_The biscuits taste of ginger and lantern smoke. Sparks has four. Nobody counts. Byte counts._  
+_The biscuits taste of ginger and lantern smoke. Sparks has four._  
+_Nobody counts. Byte counts._  
 _Pixel opens one eye as Byte steps over her._  
 **Pixel**: Your lace is undone.  
 **Byte**: I’m aware of the lace.  
 **Pixel** _(happy)_: He’s been aware of it since our wedding. All the way down the aisle.  
 **Byte**: It was a short aisle. Statistically, I nearly made it.  
 _She is asleep again before he has finished. He tucks her scarf over the dial so the beeping won’t wake her._  
-_Then Byte sits down next to you on the cold grass. He stopped writing on his clipboard an hour ago. He holds it like a hot-water bottle._  
+_Then Byte sits down next to you on the cold grass._  
+_He stopped writing on his clipboard an hour ago. He holds it like a hot-water bottle._  
 **Byte** _(think)_: Can I ask you something unscientific?  
 **Byte**: If it works. If the cold stops, and the morning comes, and the fourth lantern lights. What will have done it?  
 **Byte**: The lanterns? Or us? I can’t design a test. There’s no control group for a night like this.  
@@ -373,15 +408,18 @@ _Then Byte sits down next to you on the cold grass. He stopped writing on his cl
 #### <a id="c10-falls"></a>Scene `c10-falls`
 
 _And then, somewhere past the ridge, the falls stop._  
-_You have heard them every night since you came here, without ever once hearing them. Now there is nothing. The silence is enormous._  
+_You have heard them every night since you came here, without ever once hearing them._  
+_Now there is nothing. The silence is enormous._  
 **Marina** _(think)_: That’s it. That’s the turn.  
 **Marina**: The falls are frozen. The spring’s open. We’ve got till dawn, and the ledge will be ice.  
-_Moss comes down the hill. It takes him a long time. Nobody hurries him._  
+_Moss comes down the hill._  
+_It takes him a long time. Nobody hurries him._  
 **Moss** _(think)_: The rest of them hold the lanterns. Until the sun’s up. Whatever they hear.  
 **You**: Moss says hold them. Till the sun’s up. Whatever you hear.  
 **Sparks**: What would we hear?  
 _Moss doesn’t answer that. You don’t pass it on._  
-_You kneel at the long-grass post and dig. The tin is frozen into the earth. It comes free with a crack like a knuckle._  
+_You kneel at the long-grass post and dig. The tin is frozen into the earth._  
+_It comes free with a crack like a knuckle._  
 _You open it. The shard lies in its grey felt, and the cold off it makes your eyes stream._  
 
 > After the vigil step, at the turn of the night. Sound: the falls ambience cuts to silence on line 1. Moss speaks only to you; you relay his order to hold the lanterns. You dig the tin out of the Long-Grass post. Then the bearer variant.
@@ -389,13 +427,15 @@ _You open it. The shard lies in its grey felt, and the cold off it makes your ey
 #### <a id="c10-bearer-sable"></a>Scene `c10-bearer-sable`
 
 _Moss bends towards it. Before he can reach it, something grey steps between you._  
-_Sable. She looks at the shard. She looks at Moss. Then she looks at you, for a long moment, the way she looked at your hands the first night._  
+_Sable. She looks at the shard._  
+_She looks at Moss. Then she looks at you, for a long moment, the way she looked at your hands the first night._  
 **Luna** _(sad)_: Oh, sweetheart. No.  
 **Moss** _(soft)_: …Yes.  
 **Moss** _(think)_: Only the grey can carry it close. I am grey with age. She is grey with what was done to her. That kind goes all the way through.  
 **Moss**: It has already done its worst to her. It has nothing new to say. That is the sad thing. Tonight it is also the useful thing.  
 _Sable bends her head and picks up the shard in her mouth, as gently as an egg._  
-_The frost runs up her muzzle and stops. She shivers once, all over. She does not go still._  
+_The frost runs up her muzzle and stops._  
+_She shivers once, all over. She does not go still._  
 _Luna crouches and puts her forehead against Sable’s, just for a second. Then she goes back to her lantern without a word._  
 
 Sets `{"stoneBearer":"sable"}`
@@ -417,16 +457,20 @@ Sets `{"stoneBearer":"moss"}`
 
 #### <a id="c10-ledge"></a>Scene `c10-ledge`
 
-_Marina leads, with her rope and her lantern. You follow. Behind you comes the stone, carried low, glowing blue through grey fur._  
+_Marina leads, with her rope and her lantern. You follow._  
+_Behind you comes the stone, carried low, glowing blue through grey fur._  
 _Behind all of you the four lanterns get smaller, and the singing gets quieter, and then it is only something you remember._  
 _The falls hang frozen over the cliff: a long white pour of glass, stopped mid-fall. The spray stands in the air like breath._  
 **Marina** _(think)_: Hands on the rock. Feet where my feet go. Don’t be brave.  
 **Marina**: Brave people fall off.  
-_The ledge is a hand’s width of ice. Marina ties the rope round your waist, then her own. The one carrying the stone goes untied. There is no knot that small._  
+_The ledge is a hand’s width of ice. Marina ties the rope round your waist, then her own._  
+_The one carrying the stone goes untied. There is no knot that small._  
 **Marina** _(soft)_: Hazel came along here every week, the summer I taught hers to swim. Like a goat. Complained the whole way.  
-_Behind the ice, the cave opens out. The rock glitters. It is warm in here, properly warm, like a kitchen, and it smells of wet moss and spring._  
+_Behind the ice, the cave opens out. The rock glitters._  
+_It is warm in here, properly warm, like a kitchen, and it smells of wet moss and spring._  
 _The Wellspring is open. The frost round its rim has cracked and drawn back, and the water underneath is moving, lit from below by nothing at all._  
-_You have never seen anything so old. Moss told you the first ones came up out of this, each a small light. Now you believe it._  
+_You have never seen anything so old._  
+_Moss told you the first ones came up out of this, each a small light. Now you believe it._  
 **Marina** _(soft)_: I’ll stay at the mouth. Somebody has to hold the rope.  
 
 > After the bearer scene. Location: the frozen falls and the Wellspring cave (warm, glittering, lit from below). Bearer-neutral text. Marina stays at the cave mouth with the rope. Party: you, the bearer, Moss (and, unseen, Wisp if spared).
@@ -434,12 +478,18 @@ _You have never seen anything so old. Moss told you the first ones came up out o
 #### <a id="c10-edge"></a>Scene `c10-edge`
 
 _At the water’s edge, the stone stops humming._  
-_Then it speaks. Not in words. It doesn’t need words._  
-_It shows you the Grove, still. Every Nubbin you have ever loved, sitting quietly in the grass. Never hungry. Never thrown. Never sick._  
-_Nothing fades. Nothing runs into the dark. Nobody ever goes up the hill._  
-_Safe, it says. Safe, safe. Keep me, and nothing will ever hurt them again. And nothing will ever hurt you through them._  
+_Then it speaks. Not in words._  
+_It doesn’t need words._  
+_It shows you the Grove, still._  
+_Every Nubbin you have ever loved, sitting quietly in the grass. Never hungry._  
+_Never thrown. Never sick._  
+_Nothing fades. Nothing runs into the dark._  
+_Nobody ever goes up the hill._  
+_Safe, it says. Safe, safe._  
+_Keep me, and nothing will ever hurt them again. And nothing will ever hurt you through them._  
 _It is the kindest voice you have ever heard. It sounds like someone who loved them very much._  
-_Moss says nothing. He said it all once, by the frozen post, in the dawn. He is trusting you to remember._  
+_Moss says nothing. He said it all once, by the frozen post, in the dawn._  
+_He is trusting you to remember._  
 
 **Choices**
 
@@ -449,7 +499,8 @@ _Moss says nothing. He said it all once, by the frozen post, in the dawn. He is 
 - **Keep it. They’d never be hurt again.** — sets `{"keptStone":true}`
     - You hold out your hand.
     - For a moment nothing happens. Then the stone is given to you, gently, because it has been carried gently all the way here.
-    - It isn’t cold. That is the first thing you notice. It isn’t cold at all.
+    - It isn’t cold. That is the first thing you notice.
+    - It isn’t cold at all.
     - **Moss**: …Ah.
     - That is all he says. He turns and walks back towards the cave mouth, and does not wait for you.
 
@@ -458,14 +509,17 @@ _Moss says nothing. He said it all once, by the frozen post, in the dawn. He is 
 #### <a id="c10-kept"></a>Scene `c10-kept`
 
 _You walk back along the ledge with the stone in your breast pocket. Your feet don’t slip once._  
-_Behind you the falls begin to run again. A rim of frost stays round the spring. You don’t look back._  
-_Dawn comes up grey. In the Grove three lanterns are still burning. The fourth, by the long grass, has gone out._  
+_Behind you the falls begin to run again._  
+_A rim of frost stays round the spring. You don’t look back._  
+_Dawn comes up grey. In the Grove three lanterns are still burning._  
+_The fourth, by the long grass, has gone out._  
 _The Keepers are still at their posts, swaying on their feet, faces raw with cold. They look at you, and wait for you to tell them._  
 **Fern** _(think)_: Well? Is it… is it done?  
 _You find you don’t want to say. You put your hand on your coat instead, over the pocket._  
 **Ember** _(angry)_: …I know that. I know where I’ve seen that.  
 _Moss goes up the hill without stopping, and sits with his back to the Grove._  
-_The frost has gone from the grass. It doesn’t matter now. Your hands are cold. They will be cold from now on._  
+_The frost has gone from the grass. It doesn’t matter now._  
+_Your hands are cold. They will be cold from now on._  
 _When you go to the gate to look down the lane, it swings open before you touch it. It doesn’t make a sound._  
 
 > After c10-edge keep. Walk home with the stone; the Long-Grass lantern goes out at dawn; Ember recognises Corvin’s gesture; the gate opens by itself for you (echo of c2-corvin). No Long-Grass self-lighting, no Moss/Byte exchange. A rim of frost stays round the spring (the water itself never freezes; canon). Then c10-close. Art: from here the Keeper’s hand idles on the breast pocket.
@@ -474,12 +528,15 @@ _When you go to the gate to look down the lane, it swings open before you touch 
 
 _Sable steps down into the warm water, up to her chest. The gold light comes up round her._  
 _She lowers her head to let the stone go. And stops._  
-_She can’t. Her jaw won’t open. She stands in the water with the stone in her mouth, shaking, and the frost creeps back up her face._  
-_You know what it is telling her. That she will never be hungry again. Never cold, never thrown, never waiting in a pen for the next bad thing._  
+_She can’t. Her jaw won’t open._  
+_She stands in the water with the stone in her mouth, shaking, and the frost creeps back up her face._  
+_You know what it is telling her. That she will never be hungry again._  
+_Never cold, never thrown, never waiting in a pen for the next bad thing._  
 _It is telling her the one thing nobody else ever promised her._  
 _Sable looks at you. And for the first and only time in her life, she speaks._  
 **Sable** _(soft)_: …safe.  
-_It is the stone’s word. It is in her voice. You will never know which of them meant it._  
+_It is the stone’s word. It is in her voice._  
+_You will never know which of them meant it._  
 _She does not let go._  
 
 > After c10-edge unmake, if stoneBearer = sable. Sable’s only spoken word in the game: “…safe.” (deliberately ambiguous).
@@ -508,7 +565,8 @@ _For one moment he holds it: the warmest thing he has ever seen. His whole thin 
 _Then his back feet go from under him on the slick stone, and he tumbles into the Wellspring, stone and all._  
 _The water closes over him._  
 _And the light comes up._  
-_Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold. Warm._  
+_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -524,18 +582,21 @@ Sets `{"stoneUnmadeBy":"wisp"}`
 _Moss wades in beside her. He is so faint now that the gold light shines straight through him._  
 **Moss** _(soft)_: Give it here, grey one. You’ve carried enough.  
 _He puts his face very close to hers, the way Luna did. Forehead to forehead._  
-_And Sable’s jaw opens, and the stone drops. Not to the water. To him._  
+_And Sable’s jaw opens, and the stone drops._  
+_Not to the water. To him._  
 _She stumbles back out of the shallows and comes to you, soaking, and leans her whole weight against your shin._  
 **Moss** _(soft)_: There.  
 **Moss** _(think)_: I laid her shard under the long grass. I can take it the rest of the way. That seems fair.  
 **Moss** _(soft)_: Hold the lantern up, would you. I’d like to see where I’m going.  
-_You hold it up. Your arm is shaking. You hold it up anyway._  
+_You hold it up. Your arm is shaking._  
+_You hold it up anyway._  
 **Moss** _(soft)_: I sat down next to Hazel for a whole winter before I said a word to her. She fidgeted. She was very bad at it.  
 **Moss** _(happy)_: You aren’t to fidget.  
 _He walks down into the Wellspring, slowly, the way he walks into everything. The water comes up to his chin._  
 _Then over._  
 _And the light comes up._  
-_Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold. Warm._  
+_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -552,13 +613,15 @@ _Moss stands in the water with Cinder’s voice in his mouth. Then, slowly, he t
 **Moss** _(soft)_: So I won’t. I’ll carry her home instead. That is what you do, with a friend who has stayed out too late.  
 **Moss** _(think)_: I laid her shard under the long grass. I can take it the rest of the way. That seems fair.  
 **Moss** _(soft)_: Hold the lantern up, would you. I’d like to see where I’m going.  
-_You hold it up. Your arm is shaking. You hold it up anyway._  
+_You hold it up. Your arm is shaking._  
+_You hold it up anyway._  
 **Moss** _(soft)_: I sat down next to Hazel for a whole winter before I said a word to her. She fidgeted. She was very bad at it.  
 **Moss** _(happy)_: You aren’t to fidget.  
 _He walks down into the Wellspring, slowly, the way he walks into everything. The water comes up to his chin._  
 _Then over._  
 _And the light comes up._  
-_Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold. Warm._  
+_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -577,11 +640,13 @@ _The light in the water sinks, slowly, and goes out. Nothing comes up._
 _Outside, the falls start to run again: a trickle, then a rush, then the old roar._  
 _Steam rises off the spring again. Grey light comes in at the cave mouth._  
 _And there, on the far side of the pool, curled in a hollow of warm stone, is Wisp._  
-_He is asleep. He is grey, and he will be grey always. His torn ear lies flat against his head._  
+_He is asleep. He is grey, and he will be grey always._  
+_His torn ear lies flat against his head._  
 _And for the first time since you have known him, he is not trembling._  
 **Moss** _(soft)_: …Well.  
 **Moss** _(happy)_: I was wrong about him. I am nearly never wrong. Don’t tell Hazel.  
-_You carry him home. He doesn’t bite you. He doesn’t even wake up._  
+_You carry him home. He doesn’t bite you._  
+_He doesn’t even wake up._  
 
 > After c10-wisp. You wait on the bank (rule three); at dawn Wisp is found asleep on the far bank, grey, not trembling. You carry him home (spawn Wisp in the Grove as a stray if the S2 recruit is available).
 
@@ -591,16 +656,20 @@ _You sit down on the warm rock at the edge of the water. When you don’t know w
 _So you wait. After a while Marina comes in from the cave mouth, coiling her rope, and sits on your other side._  
 **Marina** _(soft)_: Talk about him. Out loud. It helps.  
 **Marina**: That’s all that singing was, back there. People talking about him out loud.  
-_So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace._  
-_The afternoons you sat with him and said nothing at all. There were a lot of those. You find you remember every one._  
-_Marina laughs in the right places. You talk until your voice goes. Then you just remember, which is quieter, and the same._  
+_So you tell her. The first morning on the hill: “…You lift and push.”_  
+_I bruise like fruit. The pale one’s shoelace._  
+_The afternoons you sat with him and said nothing at all._  
+_There were a lot of those. You find you remember every one._  
+_Marina laughs in the right places. You talk until your voice goes._  
+_Then you just remember, which is quieter, and the same._  
 _Outside, the falls start to run again: a trickle, then a rush, then the old roar._  
 _Steam rises off the spring again. Grey light comes in at the cave mouth._  
 _Something breaks the surface. Small, and grey, and very, very thin._  
 _Moss climbs out onto the bank, slowly, the way he climbs everything, and sits, and shakes his ears._  
 **Moss** _(soft)_: You were very loud.  
 **Moss** _(happy)_: All of you. I could hear you from the bottom.  
-_He is thinner. The light goes through him in places it didn’t before. But he is here, and you can see him, and he is wet and cross._  
+_He is thinner. The light goes through him in places it didn’t before._  
+_But he is here, and you can see him, and he is wet and cross._  
 **Moss** _(think)_: Don’t pick me up. I mean it.  
 **Moss** _(soft)_: …No. Go on, then.  
 
@@ -614,8 +683,10 @@ _You sit down on the warm rock at the edge of the water. When you don’t know w
 _So you wait. After a while Marina comes in from the cave mouth, coiling her rope, and sits on your other side._  
 **Marina** _(soft)_: Talk about him. Out loud. It helps.  
 **Marina**: That’s all that singing was, back there. People talking about him out loud.  
-_So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace._  
-_And then you can’t think what else. You didn’t sit with him as often as you meant to. You thought there would be time._  
+_So you tell her. The first morning on the hill: “…You lift and push.”_  
+_I bruise like fruit. The pale one’s shoelace._  
+_And then you can’t think what else._  
+_You didn’t sit with him as often as you meant to. You thought there would be time._  
 _Marina doesn’t say anything. She just stays, which is the same thing._  
 _Outside, the falls start to run again: a trickle, then a rush, then the old roar._  
 _Steam rises off the spring again. Grey light comes in at the cave mouth._  
@@ -633,16 +704,19 @@ Sets `{"mossReturned":false}`
 
 _You come out from behind the falls into the first light. The water is roaring again, white and ordinary._  
 _Below you the whole valley is frosted silver, and in the middle of it, small and gold, the Grove._  
-_Three lanterns, still burning. They held them. All night long, they held them._  
+_Three lanterns, still burning. They held them._  
+_All night long, they held them._  
 _The fourth is dark. Ember has her arms round it anyway._  
 _And as you watch, the sun comes over the ridge, and the fourth lantern, by the long grass, which has only ever flickered…_  
-_…steadies. Brightens. Burns._  
+_…steadies._  
+_Brightens. Burns._  
 _Nobody lit it. For the first time in twenty-two years, it has lit itself._  
 _By the time you get home the frost has gone. There is dew instead, and the whole Grove smells of spring, in the middle of winter._  
 **Sparks** _(shock)_: I didn’t touch it! I want that on the record. I did not touch it.  
 **Pixel** _(happy)_: She didn’t. I was watching her hands. I’m always watching her hands.  
 _Somebody’s soup has frozen solid in its cup overnight. Sparks tips it out, a perfect brown puck, and skims it across the last of the pond ice._  
-_It goes a very long way. Everyone watches it go. Nobody can think of a single reason why it’s the funniest thing they have ever seen._  
+_It goes a very long way. Everyone watches it go._  
+_Nobody can think of a single reason why it’s the funniest thing they have ever seen._  
 _Ember is still holding the long-grass post, coat and all. She doesn’t let go for a while after she needn’t._  
 
 > Unmade routes only (keptStone false), after the bank scene. From above the falls: the Long-Grass lantern lights itself at sunrise for the first time in twenty-two years (renderer: it burns steady from here on). The fourth was dark at first light, with Ember’s arms round it. Frost gone; dew. Sparks’s “I didn’t touch it!” pays off her sleep-talk in c4-out; the frozen-soup puck is a pure release beat.
@@ -655,7 +729,8 @@ _He looks at the Keepers: red-eyed, frozen, grinning, every one of them holding 
 **Moss**: I’ve decided. I’ll stay a while. Someone has to tell the pale one about his shoelaces.  
 **Byte**: They are TIED.  
 **Moss**: Are they.  
-_Byte looks down. Byte looks up. Byte goes very pale, even for Byte._  
+_Byte looks down. Byte looks up._  
+_Byte goes very pale, even for Byte._  
 **Byte** _(shock)_: …I heard that. I heard him. That was him.  
 **Clover** _(happy)_: We sat still long enough. All night. Of course we did.  
 _Byte looks at his shoelace for a long moment. Then he kneels down in the wet grass and ties it, very carefully._  
@@ -665,14 +740,18 @@ _Nobody laughs. And then everybody does, the whole Grove, until Clover has to si
 
 #### <a id="c10-moss-fades"></a>Scene `c10-moss-fades`
 
-_Moss stops at the foot of the hill. In the morning light you can hardly see him. He is mostly a place where the light bends._  
+_Moss stops at the foot of the hill. In the morning light you can hardly see him._  
+_He is mostly a place where the light bends._  
 **Moss** _(soft)_: That’s done, then. All four lit. I wanted to see it once more.  
 **Moss** _(soft)_: I’m going up now, I think. Not because of anything. Because it’s time, and I’m tired, and the view is good.  
-_You kneel down by him. You want to say something. You don’t know what._  
+_You kneel down by him._  
+_You want to say something. You don’t know what._  
 **Moss** _(happy)_: Don’t be dramatic about it. That’s Hazel’s. She won’t mind me borrowing it.  
 **Moss** _(soft)_: Tell the pale one his shoelace is untied.  
-_You tell Byte. Byte looks down. It is. He doesn’t tie it._  
-_Moss goes up the hill path, slowly, the way he climbs everything. He doesn’t look back. He never did like a fuss._  
+_You tell Byte. Byte looks down._  
+_It is. He doesn’t tie it._  
+_Moss goes up the hill path, slowly, the way he climbs everything._  
+_He doesn’t look back. He never did like a fuss._  
 _Halfway, he stops, as if someone coming down has said his name._  
 
 > After c10-dawn in the wisp route when mossFaded is true. Moss goes up the hill at dawn as Hazel comes down (they pass off-screen; Hazel says so in c11-moss-passed). Remove Moss after this scene; place a memorial flower on the hill by the flat stone where he always sat.
@@ -682,7 +761,8 @@ _Halfway, he stops, as if someone coming down has said his name._
 _You come in at the gate: lift and push. Everyone looks at you, and then behind you, and then at you again._  
 _You shake your head._  
 _Nobody says anything. Clover sits down where she is, in the wet grass, with her lantern in her lap._  
-_Byte looks down at his shoelace. It’s untied. He leaves it._  
+_Byte looks down at his shoelace._  
+_It’s untied. He leaves it._  
 **Dusty** _(sad)_: Love them anyway. Love them harder because of it. I said that. I meant it. I just didn’t mean him.  
 _On the hill, by the flat stone where he always sat, there is a flower that wasn’t there yesterday._  
 
@@ -692,7 +772,8 @@ _On the hill, by the flat stone where he always sat, there is a flower that wasn
 
 _Something small and pale comes drifting down on the morning air, slow as a seed._  
 _It settles above Sable’s head, beside her own dark one._  
-_Two little lights now. One dark, one pale. Sable goes cross-eyed trying to look at both._  
+_Two little lights now. One dark, one pale._  
+_Sable goes cross-eyed trying to look at both._  
 **Luna** _(soft)_: Oh. He left you something, sweetheart.  
 
 > After c10-moss-fades or c10-moss-mourned, only if Sable is bonded. The light drifts “down on the morning air”, from no named direction, so it fits both routes (hill or Wellspring). Moss’s pale ball settles beside Sable’s (art: a second, pale ball over Sable for the rest of the game; it is referenced by end-moss-sleeps).
@@ -708,15 +789,18 @@ _Fern puts out one finger and touches the folded ear, very lightly. The thin gre
 
 #### <a id="c10-close"></a>Closing `c10-close`
 
-_The sun is up. The lanterns are burning down. The Keepers stand about in the wet grass, too tired to go home, and not one of them willing to._  
+_The sun is up. The lanterns are burning down._  
+_The Keepers stand about in the wet grass, too tired to go home, and not one of them willing to._  
 _And on the hill path, coming down, there is a lantern you did not light._  
 _It comes slowly. It stops, now and then, the way someone stops who needs to catch their breath and won’t admit it._  
 _Fern sees it first. She puts her hand over her mouth._  
 _Then Luna. Then Clover, who starts to cry before she even knows why._  
-_Nobody runs to meet it. Somehow everybody knows not to. You all just stand there, and let it come._  
+_Nobody runs to meet it. Somehow everybody knows not to._  
+_You all just stand there, and let it come._  
 _The lantern reaches the foot of the hill. The person carrying it is small and wrapped in three coats, and her boots are tied with string._  
 _In the crook of her other arm, something is asleep. A very thin grey Nubbin, no bigger than a fist._  
-_She looks at the Grove. At the four posts. At all of you, holding yours._  
+_She looks at the Grove. At the four posts._  
+_At all of you, holding yours._  
 **Gran Hazel** _(soft)_: Well. Look at you all.  
 _Then she finds you among them, and stops looking for anyone else._  
 _It is her. Of course it is her._  
@@ -813,8 +897,10 @@ _You think of the first night, and of every night since. You nod._
 
 _Hazel takes your hand to stand up. Then she doesn’t stand up._  
 **Gran Hazel** _(think)_: Your hands are cold, love.  
-_You take your hand back and put it on your coat, over the breast pocket. You don’t mean to. It just goes there._  
-_Hazel watches it go. She has seen someone do that before. A long time ago, in this garden._  
+_You take your hand back and put it on your coat, over the breast pocket._  
+_You don’t mean to. It just goes there._  
+_Hazel watches it go. She has seen someone do that before._  
+_A long time ago, in this garden._  
 **Gran Hazel** _(sad)_: …Ah.  
 _She doesn’t say anything else. Her silences were always the loudest thing about her._  
 
@@ -823,7 +909,8 @@ _She doesn’t say anything else. Her silences were always the loudest thing abo
 #### <a id="c11-gate"></a>Scene `c11-gate`
 
 _When you look up from the pond, he is back at the gate._  
-_Corvin. No grey coat. A brown one, too big, either borrowed or very old._  
+_Corvin. No grey coat._  
+_A brown one, too big, either borrowed or very old._  
 _He tries the latch once, for form’s sake, and it sticks. Then he folds his arms on the top bar, like a man settling in._  
 _Beside you, Hazel doesn’t turn round. But she has stopped breathing, just for a moment, to listen._  
 **Gran Hazel** _(soft)_: Don’t look at me, love. I’ve done my part. It’s your gate now.  
@@ -832,15 +919,18 @@ _Beside you, Hazel doesn’t turn round. But she has stopped breathing, just for
 **Choices**
 
 - **Stay where you are.**
-    - You stay where you are. In the dark the gate creaks once more, and then is quiet. But you don’t hear him go.
+    - You stay where you are. In the dark the gate creaks once more, and then is quiet.
+    - But you don’t hear him go.
 - **It’s freezing. Isn’t that cruel?**
     - **Gran Hazel**: It would be, if anyone had asked him to. Nobody did. He chose the hour himself.
     - **Gran Hazel**: Let him have chosen something, love. It’s been a long time.
-    - You stay. In the dark the gate creaks once more, and then is quiet. But you don’t hear him go.
+    - You stay. In the dark the gate creaks once more, and then is quiet.
+    - But you don’t hear him go.
 - **Take him a cup of tea. Leave the gate shut.**
     - **Gran Hazel**: …Oh, you’re worse than me.
     - **Gran Hazel**: Go on, then. The cup by the stove. The one that’s turned upside down.
-    - You carry it down and pass it over the top bar. He takes it in both hands. Neither of you says anything.
+    - You carry it down and pass it over the top bar.
+    - He takes it in both hands. Neither of you says anything.
     - In the morning the cup is on the gatepost, rinsed in the stream, and turned upside down.
 
 > After c11-close, only on the night of s9-ask (the eve of chapter 12): play it if s9-ask has been seen. A return, not a discovery: Corvin’s first arrival is S9’s s9-dusk, and in s9-ask he said he would stand at the gate till first light. He tries the latch once, for form’s sake, and it sticks. Hazel’s stance is the same as in S9 (s9-yours): it is your gate now; she has done her part. Never plays if keptStone (S9 needs the stone unmade). Ends on a question the player answers: leave him (gate-leave), question Hazel (gate-cruel), or take him tea over the shut gate (gate-tea; the upside-down cup from c1-letter ends on the gatepost). No flags, no friendship, and the gate stays shut in every branch, so S9’s dawn gate scene decides corvinGate as before.
@@ -853,9 +943,11 @@ _Days go by like that. Hazel sleeps a lot, and wakes up for the good bits._
 **Ember** _(angry)_: I can hear you.  
 **Gran Hazel** _(happy)_: I know, dear.  
 **Gran Hazel** _(soft)_: Sit with me. Here. By the pond. Don’t say anything.  
-_You sit. The ice on the pond is gone. The water is black and still and has the whole evening sky in it._  
+_You sit. The ice on the pond is gone._  
+_The water is black and still and has the whole evening sky in it._  
 _The thin grey Nubbin wakes, looks at you, and goes back to sleep._  
-_Nobody says anything. The lanterns burn. An owl says something, once, and then thinks better of it._  
+_Nobody says anything. The lanterns burn._  
+_An owl says something, once, and then thinks better of it._  
 **Gran Hazel** _(soft)_: I used to sit here and go over everything I’d got wrong. Forty years. There’s a lot.  
 **Gran Hazel** _(sad)_: The ones I lost. The tablets I left lying about. Him. I taught him everything except the one thing.  
 **Gran Hazel** _(soft)_: Then one evening I stopped going over it and just sat. That was better. That was the whole trick, it turned out.  
@@ -872,16 +964,22 @@ Goal: Decide what the Grove will be. (`finalChoice`) · Hint: The choice is made
 
 #### <a id="c12-open"></a>Opening `c12-open`
 
-_Morning. Cold and very bright. Every Keeper is here, and every Nubbin. Nobody planned it. Everybody just came._  
-_Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the cake. It is still collapsed, but now it lights up._  
+_Morning. Cold and very bright._  
+_Every Keeper is here, and every Nubbin._  
+_Nobody planned it. Everybody just came._  
+_Sparks has brought a cake, which has collapsed on one side._  
+_Pixel has fixed the cake. It is still collapsed, but now it lights up._  
 _Fern has made lantern buns, and for the first time in living memory they have come out. She keeps showing people one, as evidence._  
 _Dusty is digging a new bed by the old wall, for reasons they won’t explain. Nova has brought seeds from somewhere you’ve never heard of._  
 _Clover is crying already, and says it’s the cold. Byte has a clipboard and has not written anything on it._  
 _Pixel and Byte argue about where Hazel would want them to stand. They settle it by standing there together._  
 _Marina sits on the edge of the pond with her feet in the water, which is freezing, and says it’s lovely._  
-_Ember stands by the gate with Ash. At first light Ash ran at the gate, the way she used to. Not full tilt. Half. She bounced off it._  
+_Ember stands by the gate with Ash._  
+_At first light Ash ran at the gate, the way she used to._  
+_Not full tilt, only half. She bounced off it._  
 _Ember has told nobody. Everybody knows._  
-_Hazel walks the Grove. Slowly. She touches each lantern post as she passes, the way you touch the shoulder of someone you are about to leave._  
+_Hazel walks the Grove. Slowly._  
+_She touches each lantern post as she passes, the way you touch the shoulder of someone you are about to leave._  
 _At the fourth post, the long grass, she stands a long time._  
 **Gran Hazel** _(soft)_: And the long grass. Cinder’s.  
 **Gran Hazel** _(sad)_: She loved them too, you know. That was never the trouble.  
@@ -899,7 +997,8 @@ _Then she comes to the pond, and stands in the place where she doesn’t say any
 - **Open. No gate. They stay if they want to.** — sets `{"finalChoice":"free","letThemGo":true}`
     - **Gran Hazel**: …That’s not how I did it.
     - **Gran Hazel**: It might be how it should be done. Go on, then. Let’s see who stays.
-    - You lift the gate off its hinges. It is heavier than you thought. Dusty helps. You lean it against the wall, where the ivy can have it.
+    - You lift the gate off its hinges. It is heavier than you thought.
+    - Dusty helps. You lean it against the wall, where the ivy can have it.
     - For a long moment, nobody goes anywhere. Then a stray wanders out into the lane, sniffs the air, and wanders straight back in.
     - **Gran Hazel**: Ha.
 
@@ -909,17 +1008,20 @@ _Then she comes to the pond, and stands in the place where she doesn’t say any
 
 _When Hazel stands up from the bench, everybody stands up._  
 _They know. You told them, the way she asked, and they have been dreadful about it, the way she said they would be._  
-_They walk with her as far as the foot of the hill. Nobody says anything. Nobody needs to._  
+_They walk with her as far as the foot of the hill._  
+_Nobody says anything. Nobody needs to._  
 _At the bottom of the path she turns and looks at them, one after another, as if she is counting._  
 **Gran Hazel** _(soft)_: That’s far enough.  
 **Gran Hazel** _(soft)_: Go on. Go home. Light something.  
-_They stop. They don’t go home. They stay at the foot of the hill, all of them, holding lanterns in broad daylight, and watch._  
+_They stop. They don’t go home._  
+_They stay at the foot of the hill, all of them, holding lanterns in broad daylight, and watch._  
 
 > After c12-open, only if hazel = told. The Keepers walk her to the foot of the hill and stop.
 
 #### <a id="c12-foot-secret"></a>Scene `c12-foot-secret`
 
-_When Hazel gets up from the bench, nobody notices. Sparks is arguing with Pixel about the cake. Fern has lost a glove._  
+_When Hazel gets up from the bench, nobody notices._  
+_Sparks is arguing with Pixel about the cake. Fern has lost a glove._  
 _Hazel catches your eye across the Grove, and winks._  
 **Gran Hazel** _(soft)_: Not a word. They’d only fuss.  
 _She takes her lantern from the step, and her three coats, and walks to the foot of the hill unhurried, as if she is going to look at a tree._  
@@ -929,15 +1031,19 @@ _She takes her lantern from the step, and her three coats, and walks to the foot
 #### <a id="c12-walk-you"></a>Scene `c12-walk-you`
 
 **Gran Hazel** _(soft)_: Come on, then. Arm.  
-_She takes your arm. She doesn’t lean. She just holds on._  
-_You go up slowly. Past Fossil’s flower. Past Briar’s, the first one, small and yellow by the big stone, open even now, in winter._  
+_She takes your arm._  
+_She doesn’t lean. She just holds on._  
+_You go up slowly. Past Fossil’s flower._  
+_Past Briar’s, the first one, small and yellow by the big stone, open even now, in winter._  
 **Gran Hazel** _(happy)_: I used to come up here and tell them what I’d done that week. Briar mostly. She liked the bad bits best.  
 **Gran Hazel** _(soft)_: Come and tell them about you, sometimes. Not me. You. Let them know how it’s going.  
 _At the top she sits down on the turf, where you can see the whole Grove, and pats the ground beside her._  
-_From here you can see all of it. The pond. The four posts. The gate. Everybody, small and bright, doing things badly and together._  
+_From here you can see all of it: the pond, the four posts, the gate._  
+_Everybody, small and bright, doing things badly and together._  
 **Gran Hazel** _(soft)_: There. That’s mine. That was mine.  
 **Gran Hazel** _(happy)_: It’s a good one. Don’t you dare let anyone tell you otherwise.  
-_You sit with her a while. Neither of you says anything. It is the best part. It was always the best part._  
+_You sit with her a while. Neither of you says anything._  
+_It is the best part. It was always the best part._  
 **Gran Hazel** _(soft)_: Right. Off you go.  
 **Gran Hazel** _(happy)_: Don’t look back on the way down. It turns everything into a scene.  
 _You get up. You go down._  
@@ -948,14 +1054,17 @@ _She isn’t looking. She has one hand up, waving, without turning round, the wa
 
 #### <a id="c12-walk-moss"></a>Scene `c12-walk-moss`
 
-_Moss is sitting on the first stone of the hill path. You don’t know how long he has been there. Longer than you, probably._  
+_Moss is sitting on the first stone of the hill path._  
+_You don’t know how long he has been there. Longer than you, probably._  
 **Moss** _(think)_: I’m coming. Don’t argue.  
 **Gran Hazel** _(soft)_: I wasn’t going to argue.  
 **Moss** _(soft)_: You were. You had the chin out.  
-_He climbs onto her shoulder, slowly, the way he climbs everything. She doesn’t stagger. He weighs about as much as a memory._  
+_He climbs onto her shoulder, slowly, the way he climbs everything._  
+_She doesn’t stagger. He weighs about as much as a memory._  
 **Gran Hazel** _(soft)_: This is as far as you come, love.  
 _So you stop at the foot. You watch them go up together, small and slow, the lantern swinging._  
-_Halfway, she stops for breath. He says something in her ear. She laughs so hard she has to sit down on the path._  
+_Halfway, she stops for breath. He says something in her ear._  
+_She laughs so hard she has to sit down on the path._  
 _At the top they sit: an old woman and an old Nubbin, looking out over the Grove, the way they did when she was young and he’d just decided she was worth it._  
 **Moss** _(soft)_: I’ll decide at the top. Go home. Light something.  
 _You wait at the foot until her lantern is the only light on the hill._  
@@ -965,13 +1074,15 @@ _He doesn’t come down. Not tonight._
 
 #### <a id="c12-walk-sable"></a>Scene `c12-walk-sable`
 
-_Sable is standing in the long grass at the foot of the hill path. She isn’t looking at you. She’s looking at Hazel._  
+_Sable is standing in the long grass at the foot of the hill path._  
+_She isn’t looking at you. She’s looking at Hazel._  
 **Gran Hazel** _(soft)_: Hello, grey one.  
 _Sable walks to Hazel’s boots, and then one step past them, up the path. Then she stops, and looks back._  
 **Gran Hazel** _(soft)_: Oh. She’s taking me.  
 **Gran Hazel** _(happy)_: Well. I’ve been taken places by worse.  
 _You stop at the foot. They go up together: the old woman with the lantern, and the small grey shape ahead of her, waiting at every bend._  
-_Two steps ahead. Never more. She has had a lot of practice at two steps._  
+_Two steps ahead. Never more._  
+_She has had a lot of practice at two steps._  
 _At the top, Sable sits down beside her. You can see them for a long time, the lantern and the dark, side by side._  
 _After dusk, a small grey shape comes down the path alone, very slowly._  
 _She doesn’t go to her place in the long grass. She comes to the cottage step, and sits on it, and waits for you._  
@@ -985,11 +1096,13 @@ _Corvin is standing by the hedge at the foot of the hill, a long way off, the wa
 **Gran Hazel** _(soft)_: Well, don’t stand there like a heron. Come and take the lantern.  
 **Gran Hazel** _(soft)_: You used to carry it for me. When you were twenty-two and knew everything.  
 **Corvin Vale** _(soft)_: …I used to.  
-_He comes. He takes it. His hands are not blue any more. They are only a man’s hands, a little red with cold, and they are steady._  
+_He comes. He takes it._  
+_His hands are not blue any more. They are only a man’s hands, a little red with cold, and they are steady._  
 _You stop at the foot. You watch them go: the old woman on the arm of her old apprentice, stopping when she needs to._  
 _He waits every time. He does not hurry her once._  
 _It is a long while before he comes down. When he does, his hands are empty, and his face is wet, and he doesn’t try to hide it._  
-_He left the lantern with her, burning. He sits down by the pond, a little way off, and says nothing. He is getting better at it._  
+_He left the lantern with her, burning._  
+_He sits down by the pond, a little way off, and says nothing. He is getting better at it._  
 
 > Hazel’s walk when walk = corvin (corvinGate = family). Gate-neutral, so it works after “Open”. As in every walk, her lantern stays burning at the top, so c12-close needs no variant; Corvin fetches it down at first light and hangs it on the hook by the cottage door (end-epi-walk-corvin; S10’s letter finds it there).
 
@@ -997,16 +1110,21 @@ _He left the lantern with her, burning. He sits down by the pond, a little way o
 
 _Later, when the others are busy with the cake, Hazel stands up from the bench and picks up her lantern._  
 **Gran Hazel** _(soft)_: Walk me up, love.  
-_You know what she means. You have known since the letter. Perhaps since the gate._  
-_At the foot of the hill she takes your arm. She doesn’t lean. She just holds on._  
+_You know what she means._  
+_You have known since the letter. Perhaps since the gate._  
+_At the foot of the hill she takes your arm._  
+_She doesn’t lean. She just holds on._  
 _You go up slowly, past Fossil’s flower, and Briar’s, the first one, small and yellow by the big stone._  
 _At the top she sits down on the turf, where you can see the whole Grove, and pats the ground beside her._  
-_From here you can see all of it. The pond. The four posts. The gate. Everybody, small and bright, doing things badly and together._  
+_From here you can see all of it: the pond, the four posts, the gate._  
+_Everybody, small and bright, doing things badly and together._  
 **Gran Hazel** _(soft)_: There. That’s mine. That was mine.  
 **Gran Hazel** _(happy)_: It’s a good one. Don’t you dare let anyone tell you otherwise.  
-_You sit with her a while. Neither of you says anything. It is the best part. It was always the best part._  
+_You sit with her a while. Neither of you says anything._  
+_It is the best part. It was always the best part._  
 **Gran Hazel** _(happy)_: Now it’s yours. Go on down. And don’t look back; it turns everything into a scene.  
-_You go down. You look back once. Of course you do._  
+_You go down. You look back once._  
+_Of course you do._  
 _She has one hand up, waving, without turning round, the way she always did from the gate._  
 
 > Hazel’s walk when S10 was not played (walk unset / no s10Done). You walk her up alone; no hazel told/secret add-on.
@@ -1014,14 +1132,18 @@ _She has one hand up, waving, without turning round, the way she always did from
 #### <a id="c12-close"></a>Closing `c12-close`
 
 _Dusk. You come back into the Grove._  
-_The Keepers are all still here. Nobody has gone home. Somebody has lit the lanterns, all four, without being asked._  
-_Nobody asks you anything. Clover gives you soup. Fern gives you her other glove; she has found the first one._  
+_The Keepers are all still here. Nobody has gone home._  
+_Somebody has lit the lanterns, all four, without being asked._  
+_Nobody asks you anything. Clover gives you soup._  
+_Fern gives you her other glove; she has found the first one._  
 _Somebody has eaten the cake, collapsed side and all. The plate on the bench is still faintly lit from inside._  
 _You stand by the pond, in the place where Hazel didn’t say anything. Everyone else stands somewhere too._  
 _At the top of the hill, small and gold and steady, her lantern is burning._  
-_It burns all night. You know because you watch it. Everybody does, on and off, in turns, without anyone arranging it._  
+_It burns all night. You know because you watch it._  
+_Everybody does, on and off, in turns, without anyone arranging it._  
 _Sparks falls asleep sitting up, holding her lantern. Nobody takes it off her._  
-_Towards morning somebody starts the song, very quietly, and stops after the chorus. That is enough. Everyone knows the rest._  
+_Towards morning somebody starts the song, very quietly, and stops after the chorus._  
+_That is enough. Everyone knows the rest._  
 _…_  
 _In the morning it has gone out._  
 _And on the hill, near Briar’s, there is a new flower: small, brisk, a bit untidy, and turned very firmly towards the Grove._  
