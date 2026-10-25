@@ -78,7 +78,14 @@ export class RacesMenu {
     this.close();
     // Fixed by the world until the race is run, so quitting cannot reroll the field.
     const seed = raceSeedFor(g.world, course.id, tier);
-    const race = createRace(course, tier, runner, seed, mergedLevels(g.world, runner) ?? undefined);
+    const race = createRace(
+      course,
+      tier,
+      runner,
+      seed,
+      mergedLevels(g.world, runner) ?? undefined,
+      g.world.nubbins.map((n) => n.name),
+    );
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;
     const sheets = g.view.sheets;
