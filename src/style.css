@@ -2915,3 +2915,142 @@ select {
 .dialogue.chorus[class*='box-'] .dialogue-box {
   grid-template-columns: minmax(0, 1fr) auto;
 }
+
+/* ---------- r1025 dialogue & guidance (Skip, objective chip, Learning Grove prompt) ---------- */
+
+.dialogue:focus {
+  outline: none;
+}
+
+/* Skip sits on the box's top edge, clear of the text, and never covers a choice. */
+.dialogue-skip {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 76px;
+  min-height: 44px;
+  padding: 6px 12px;
+  font-size: 15px;
+}
+
+.dialogue-skip.small {
+  min-width: 56px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.dialogue.held .dialogue-skip,
+.dialogue.waiting .dialogue-skip {
+  visibility: hidden;
+}
+
+.objective-chip {
+  position: absolute;
+  /* Above the Run button, clear of the toasts at the top and the thumb bar below. */
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 68px);
+  z-index: 12;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: min(360px, calc(100% - 16px));
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.objective-label {
+  flex: none;
+  font-weight: 700;
+  color: #f2d34c;
+}
+
+.objective-words {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.objective-goal {
+  font-weight: 600;
+}
+
+.objective-hint {
+  opacity: 0.8;
+  font-size: 12px;
+}
+
+/* A phone keeps the chip to one line: the goal only, the hint is a tap away in the Journal. */
+@media (max-width: 600px) {
+  .objective-chip {
+    align-items: center;
+    max-width: calc(100% - 24px);
+  }
+  .objective-goal {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .objective-hint {
+    display: none;
+  }
+}
+
+.edu-prompt {
+  position: absolute;
+  inset: 0;
+  z-index: 14;
+  display: grid;
+  place-items: center;
+  background: rgba(13, 10, 26, 0.45);
+  pointer-events: auto;
+}
+
+.edu-prompt-card {
+  display: grid;
+  gap: 14px;
+  width: min(420px, calc(100% - 32px));
+  padding: 18px;
+  text-align: center;
+  background: var(--px-bg);
+  border: 2px solid var(--px-edge);
+  box-shadow:
+    inset 2px 2px 0 var(--px-light),
+    inset -2px -2px 0 var(--px-dark);
+}
+
+.edu-prompt-card h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.edu-prompt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 84px;
+  font-size: 24px;
+}
+
+.edu-prompt-icon {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.edu-prompt-look {
+  justify-self: center;
+  min-height: 44px;
+}
+
+/* ---------- end r1025 dialogue & guidance ---------- */

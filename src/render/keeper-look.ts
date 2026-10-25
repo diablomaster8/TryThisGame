@@ -3,6 +3,7 @@ import { TRAINERS, type TrainerLook } from '../sim/trainers';
 import { EXTRA_LOOKS } from '../sim/npcs';
 import { C } from './sprites/palette';
 import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS } from '../config/npc-looks';
+import { generatedLook } from './portraits';
 
 /**
  * The one Keeper look rule, shared by both renderers: the chosen Keeper's outfit (the
@@ -17,7 +18,7 @@ export function trainerLook(trainerId: string): TrainerLook {
     STORY_NPC_LOOKS[trainerId]?.trainer ??
     STORY_ONLY_LOOKS[trainerId]?.trainer ??
     TRAINERS.find((t) => t.id === trainerId)?.look ??
-    TRAINERS[0]!.look
+    generatedLook(trainerId)
   );
 }
 

@@ -16,6 +16,8 @@ export interface StackPanel {
 export interface PanelStack {
   /** Whether any panel in the stack is open. */
   anyOpen(): boolean;
+  /** Close every open panel that can be closed (a story scene takes the screen). */
+  closeAll(): void;
 }
 
 export function mountPanelStack(
@@ -50,5 +52,10 @@ export function mountPanelStack(
     attributes: true,
     attributeFilter: ['hidden'],
   });
-  return { anyOpen: () => panels.some((p) => p.isOpen()) };
+  return {
+    anyOpen: () => panels.some((p) => p.isOpen()),
+    closeAll: () => {
+      for (const p of panels) if (p.isOpen()) p.close?.();
+    },
+  };
 }
