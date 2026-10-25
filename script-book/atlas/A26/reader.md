@@ -1886,7 +1886,7 @@ _He sent out a dove, and it came back; a swallow, and it came back. Then a raven
 
 #### `reader:a26-17-test` · [main](main.md#a26-17-test)
 
-**Uta-Napishtim**: Stay awake for six days and seven nights. If you cannot beat sleep, how will you beat death?  
+**Uta-Napishtim**: Stay awake for seven days and seven nights. If you cannot beat sleep, how will you beat death?  
 **Gilgamesh**: Easily. I have hardly slept since…  
 _He sits down on the sand with his back against the house. Before he has finished yawning, he is fast asleep._  
 **Uta-Napishtim’s Wife**: Wake him. Let him go home the way he came.  

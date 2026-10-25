@@ -854,7 +854,7 @@ const Q4: EduQuest = quest(
               true,
             ),
             o('The sun is asleep', [
-              N('The sun is still up. The rock is in the way, so it is shady.'),
+              N('The sun is still up. The rock just makes shade.'),
             ]),
           ],
           'Learned that shade happens when something blocks sunlight, and it is cooler.',
@@ -1027,7 +1027,9 @@ const Q5: EduQuest = quest(
         ZA('Come back! This is not a line!'),
         N('You lose the cubs. You find them. You fall in the dust.'),
         N('Simba runs under a giraffe. Nala goes round a big rhino.'),
-        N('Far behind, Zazu flies into a flock of flamingos.'),
+        N('Far behind, Zazu flies into a flock of flamingos. Bump!'),
+        N('The flamingos stand up straight, all in a row.'),
+        ZA('Well! At least somebody can make a line.', 'happy'),
       ],
       [
         notice(
@@ -1347,11 +1349,11 @@ const Q7: EduQuest = quest(
           [
             o(
               'Stars',
-              [N('Yes! The stars were there all day. We can see them when the sky is dark.')],
+              [N('Yes! The stars were there all day. We see them in the dark.')],
               true,
             ),
             o('The sun again', [
-              N('The sun has gone to the other side of the world. Now we see stars.'),
+              N('The sun is shining on the other side of the world. Now: stars!'),
             ]),
           ],
           'Learned that we see stars when the sky is dark at night.',
@@ -1496,7 +1498,7 @@ const Q9: EduQuest = quest(
           2,
           'science',
           'plant parts help the plant survive',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Why do some plants have thorns?')],
           [
             o(
@@ -1709,7 +1711,11 @@ const Q10: EduQuest = quest(
           {
             id: 'thank',
             label: 'Thank them.',
-            then: [TI('Don’t thank us. Thanking is how they get you.')],
+            then: [
+              TI('No thank-yous! Then I have to say “you’re welcome”.'),
+              TI('Then we are friends. I am too busy for friends.'),
+              N('Pumbaa is already his friend. Timon pretends not to see.'),
+            ],
           },
           {
             id: 'guest',
@@ -1828,7 +1834,7 @@ const Q11: EduQuest = quest(
           [
             o(
               'A grown-up lion',
-              [N('Yes! He grows bigger, and a mane grows too. A lion cub grows into a lion.')],
+              [N('Yes! He grows bigger, and he grows a mane.')],
               true,
             ),
             o('A zebra', [N('A lion cub is always a lion. Simba grows into a grown-up lion.')]),
@@ -2006,7 +2012,7 @@ const Q12: EduQuest = quest(
           [
             o(
               'Water',
-              [N('Yes! Plants and animals need water. That is why the dry time was so hard.')],
+              [N('Yes! Plants and animals need water. The dry time was hard.')],
               true,
             ),
             o('Toys', [N('Toys are fun, but living things need water, food and air.')]),
@@ -2092,7 +2098,7 @@ const Q13: EduQuest = quest(
               'It was not your fault',
               [
                 N(
-                  'Yes. Simba was only a cub, and it was not his fault. Hearing that helps.',
+                  'Yes. Simba was only a cub. It was not his fault.',
                   'soft',
                 ),
               ],
@@ -2101,7 +2107,7 @@ const Q13: EduQuest = quest(
             o('It was your fault', [N('No. It was not Simba’s fault. He was only a cub.')]),
             o('Do not be sad', [
               N(
-                'Telling someone not to be sad does not work. Telling them the truth, kindly, does.',
+                '“Do not be sad” does not help much. Kind, true words help more.',
               ),
             ]),
           ],
@@ -2400,8 +2406,8 @@ const Q14: EduQuest = quest(
         SI('Ow!'),
         RA('Does it still sting?'),
         SI('Yes!'),
-        RA('A thing that happened can follow you.'),
-        RA('You can carry it, or it can chase you.'),
+        RA('That bump is over. But it still stings, yes?'),
+        RA('Sad things are like that. You can run away. Or you can learn.'),
         N('Rafiki swings the stick again. This time Simba ducks!'),
         RA('Ha! You learn.'),
         N('Simba looks at the sky. Then he runs for home.'),
@@ -2411,7 +2417,7 @@ const Q14: EduQuest = quest(
           8,
           'literacy',
           'how a character responds to what happens',
-          'RL.2.3',
+          'RL.K.3',
           [N('Rafiki swung the stick a second time. What did Simba do?')],
           [
             o('He ducked', [N('Yes! He learned from the first time. He ducked!')], true),
@@ -2532,12 +2538,12 @@ const Q16: EduQuest = quest(
           [
             o(
               'An echo',
-              [N('Yes! An echo is a sound that bounces back. Try it in a big room!')],
+              [N('Yes! An echo is a sound that bounces back. Hello, hello!')],
               true,
             ),
             o('A shadow', [N('A shadow is made by light. A sound that bounces back is an echo.')]),
             o('A rainbow', [
-              N('A rainbow is made by light and rain. A sound that comes back is an echo.'),
+              N('A rainbow is light and rain. A sound that comes back is an echo.'),
             ]),
           ],
           'Learned that a sound that bounces back is an echo.',
@@ -2627,6 +2633,9 @@ const Q16: EduQuest = quest(
         N('The whole plain kneels.'),
         TI('Hey! Guest! Come and stand with family!'),
         PU('We came all this way together.'),
+        ZA('I will stand at the back. Hornbills are good at the back.'),
+        TI('Zazu! You are at the front!'),
+        N('Zazu looks down. He is! He fluffs up, very proud.'),
         N('You stand with them while the plain kneels.'),
         N('Then the light comes, and the kitchen table.'),
         N('Nova’s atlas lies open at a green plain.'),
@@ -2634,11 +2643,11 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          7,
           'sel',
           'friends make room for you',
           'CASEL: Relationship skills',
-          [N('Pumbaa says you stand with them. What does it show?')],
+          [N('Timon and Pumbaa make room for you. What does it show?')],
           [
             o(
               'They care about you',
@@ -2713,23 +2722,16 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       N('Rafiki thinks Simba is lost for ever. He is very sad.'),
       N('He wipes the painted cub off the wall.'),
       RA('Pole sana, little one. Pole sana.'),
-      N('Pole sana means “I am so sorry” in Swahili.'),
     ],
     [
-      ask(
-        5,
+      notice(
+        4,
         'literacy',
         'a Swahili phrase for sympathy',
         LANG,
-        [N('Rafiki says pole sana. What is he telling the little cub on the wall?')],
         [
-          o(
-            'I am so sorry',
-            [N('Yes. Pole sana is a kind thing to say when someone is sad.')],
-            true,
-          ),
-          o('Hello', [N('Hello is jambo. Pole sana means I am so sorry.')]),
-          o('Thank you', [N('Thank you is asante. Pole sana means I am so sorry.')]),
+          N('Pole sana means “I am so sorry”.'),
+          N('It is what you say to someone who is sad.'),
         ],
         'Learned the Swahili phrase pole sana (I am so sorry).',
       ),
@@ -2760,7 +2762,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
             true,
           ),
           o('Go alone and say nothing', [
-            N('Going alone with a hurt wing is hard. It is wise to ask a friend.'),
+            N('A hurt wing makes going alone hard. Ask a friend to help.'),
           ]),
         ],
         'Thought about asking for help when we are hurt.',
@@ -2828,7 +2830,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
           ),
           o('To play a game', [
             N(
-              'They leave because they are hungry and thirsty. They are looking for grass and water.',
+              'They are hungry and thirsty. They go to find grass and water.',
             ),
           ]),
         ],
@@ -2950,6 +2952,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
       N('Two days out in the desert, the gourds are nearly empty.'),
       N('Then the sand turns to scrub, and the scrub to green.'),
       N('There are waterfalls, ferns and trees full of fruit.'),
+      N('Birds sing. Frogs hop. Butterflies are everywhere.'),
       NA('Warthog.'),
       N('Nala races into the long grass, low and fast.'),
       PU('Aaagh! She is going to eat me!'),
@@ -2958,7 +2961,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        2,
+        3,
         'science',
         'animals live where their needs are met',
         'K-ESS3-1',
@@ -2970,7 +2973,7 @@ export const EDU_A23_SPROUT_VARIANTS: EduScene[] = [
             true,
           ),
           o('There are no animals here', [
-            N('Look! Pumbaa, a meerkat and fruit trees are here. Water and food bring animals.'),
+            N('Look! Birds, frogs and fruit trees are here. Water and food bring animals.'),
           ]),
         ],
         'Learned that animals live where they can find water and food.',

@@ -15,7 +15,7 @@ _“Read his animals with both facts in your pocket. N.”_
 _You put the card back. Warm dusk breathes off the paper, and there is dry grass under your boots._  
 _This is Seoni, in the very middle of India. The hills are low and rocky, and at night the jungle wakes up._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): finding a place on a map: Seoni is in the middle of India  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): finding a place on a map: Seoni is in the middle of India  
 > _Nova’s atlas shows the whole of India, a country shaped a bit like a kite. Where is Seoni on it?_  
 > - ✅ Right in the middle. → Yes. Seoni is in central India, in a state called Madhya Pradesh. Real tigers still live in forests near there, in a park called Pench.
 > - On the far northern edge. → Not quite. The far north is where the great Himalayan mountains are. Seoni is in the middle of the country, with hills and forests around it.
@@ -64,7 +64,7 @@ _A thin shadow slides into the cave mouth on its belly: a jackal, smiling with e
 > **Lesson** (literacy, RL.3.3, ask): flattery: kind-sounding words used to get something  
 > _Tabaqui says lots of lovely things about the cave and the cubs. What does he really want?_  
 > - ✅ A bone, and the news he can sell. → Right. His words are sweet because they are working for him. We call that flattery: praise that is meant to get something, not to be kind.
-> - To be the wolves’ best friend. → He acts like it. But look at what he does next: he crunches the bone and runs off to gossip. A real friend’s kind words don’t come with a hand held out.
+> - To be the wolves’ best friend. → He acts like it. But then he crunches the bone and runs off to gossip. A real friend’s kind words don’t come with a hand held out.
 > - To teach the cubs to hunt. → Ha! No. Tabaqui is the sort who follows hunters and picks up the scraps. His sweet talk is how he gets them.
 > _For grown-ups: Worked out that Tabaqui’s flattery was a way of getting a bone, and that kind words can have a hidden aim._
 
@@ -122,7 +122,7 @@ _Shere Khan backs out of the cave mouth, growling. From the dark he shouts that 
 > _Mother Wolf was brave. Her heart must have been pounding._  
 > _What do you think makes someone brave?_  
 > - Not feeling scared at all. → That is a fair answer. Lots of people think it. But then a brave deed would be easy. Many brave people say they were frightened and did it anyway.
-> - Feeling scared, and doing the right thing anyway. → That is a fair answer too, and it is the one many people give. Courage is not the lack of fear. It is a decision you make with your legs still wobbling.
+> - Feeling scared, and doing the right thing anyway. → Fair answer too. Courage is not the lack of fear. It is a decision you make with your legs still wobbling.
 > - Caring about someone enough to stand up for them. → A fair answer. Mother Wolf said she was only being a mother. Sometimes love gives you a steadier voice than you thought you had.
 > _For grown-ups: Thought about what courage is, and whether being brave means being unafraid._
 
@@ -143,7 +143,7 @@ _Shere Khan backs out of the cave mouth, growling. From the dark he shouts that 
 **Mother Wolf**: Let them look.  
 _Above the cave mouth, a pale moon is hanging, almost round, but not quite._  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Moon goes from full to full in about a month  
+> **Lesson** (science, 5-ESS1-2, ask): the Moon goes from full to full in about a month  
 > _The wolves meet at the full moon. How long is it from one full moon to the next?_  
 > - ✅ About a month. → Yes. The Moon takes about 29 and a half days to go from full to full. It shrinks away to nothing, then grows back to a bright round circle again.
 > - About a day. → The Moon does change a little each night, but not that fast. From one full moon to the next takes about a month.
@@ -184,11 +184,11 @@ _On the flat rock lies a great grey wolf, old and strong, stretched out in the m
 **Father Wolf**: Akela, the Lone Wolf. He leads because he is strong, and cunning, and fair.  
 _Your Nubbin looks at the moon, takes a deep breath, and lets out a howl. It comes out like a kettle._  
 
-> **Lesson** (science, 1-PS4-1, ask): sound is made by vibrations; animals use sound to talk across distance  
+> **Lesson** (science, 4-PS3-2, ask): sound is made by vibrations; animals use sound to talk across distance  
 > **Father Wolf**: Wolves howl to talk across the hills. What is a howl, really, to the air around it?  
 > - ✅ Air wobbling very fast, called vibrating. → Yes. A throat wobbles the air, the air wobbles your ear, and you hear it. Open country carries a wolf’s howl for kilometres.
 > - A sort of light you can hear. → Light and sound are different things. Light can cross empty space, and sound cannot. Sound is air wobbling, called vibrating.
-> - Nothing. It is only inside our heads. → Good that you are thinking about hearing. But sound is real, out in the air. You can feel it: put a hand on your throat and hum. That buzz is the vibration.
+> - Nothing. It is only inside our heads. → Good thinking about hearing. But sound is real, out in the air. Put a hand on your throat and hum: that buzz is the vibration.
 > _For grown-ups: Learned that a howl is a vibration of the air, and that wolves use it to talk over long distances._
 
 **Young Wolf**: What was that?  
@@ -209,7 +209,7 @@ _Mother Wolf pushes Mowgli into the moonlight. He sits there laughing, with a he
 **Mowgli**: Eight white ones and five grey ones. Look.  
 **Mowgli**: I sorted them.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding and comparing: 8 + 5 = 13, and 3 more white than grey  
+> **Lesson** (maths, 3.OA.D.8, ask): adding and comparing: 8 + 5 = 13, and 3 more white than grey  
 > **Mowgli**: How many pebbles do I have altogether? And how many more white ones than grey ones?  
 > - ✅ 13 altogether, and 3 more white ones. → Yes. 8 + 5 = 13, and 8 − 5 = 3. Adding finds the total. Subtracting finds the difference.
 > - 13 altogether, and 5 more white ones. → The total is right: 8 + 5 = 13. Well done. To find how many more, take the smaller from the bigger: 8 − 5 = 3.
@@ -232,12 +232,12 @@ _Then a big brown bear heaves himself up on his hind legs. He has sat so still y
 **Baloo**: I will teach him myself.  
 **Akela**: We need another. Who speaks besides Baloo?  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why a fair rule asks for more than one voice (fairness and rules)  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why a fair rule asks for more than one voice (fairness and rules)  
 > _The Law says two wolves, who are not his parents, must speak for a cub. Why might the Law ask for two?_  
 > _There is no right answer._  
-> - One voice could be wrong, so two is safer. → That is a fair answer. Two people can check each other, and a mistake is harder to make. Many human rules work this way too. Judges often sit in groups for the same reason.
-> - Parents should decide, not anyone else. → That is a fair answer. Parents know the cub best, and they do speak first in the cave. The Law adds others in case the parents are missing, or too scared, or the cub has nobody.
-> - It depends whether the two speakers are honest. → That is a sharp answer. Any rule is only as good as the people who follow it. Baloo and Bagheera are good speakers because they promise something real: a bear’s teaching, a panther’s bull.
+> - One voice could be wrong, so two is safer. → Fair answer. Two people can check each other, and a mistake is harder to make. Judges often sit in groups for the same reason.
+> - Parents should decide, not anyone else. → Fair answer. Parents know the cub best, and they speak first. The Law adds others in case the parents are missing, scared, or the cub has nobody.
+> - It depends whether the two speakers are honest. → Sharp answer. Any rule is only as good as the people who follow it. Baloo and Bagheera each promise something real.
 > _For grown-ups: Thought about why a fair rule might need more than one person to speak up for someone._
 
 _A black shadow drops into the circle: Bagheera the panther, the colour of a moonless night, with a voice like warm milk._  
@@ -276,7 +276,7 @@ _From the edge of the page, faint as pencil, comes a voice you know. Fern, remem
 
 > **Lesson** (literacy, RL.3.3, ask): why a memory arrives at a certain moment: motive and connection  
 > _Fern’s memory comes at just this moment, when Baloo and Bagheera speak up for a cub who is not theirs. Why?_  
-> - ✅ Bramble also took in strays, so the two stories match. → Yes. Fern sees the same kindness in two places: someone taking in a creature who needed a home. Authors link two moments like this to show a pattern, and what it means.
+> - ✅ Bramble also took in strays, so the two stories match. → Yes. Fern sees the same kindness twice: someone taking in a creature who needed a home. Authors link two moments like this to show a pattern.
 > - Fern was only passing by. → Fern is not really passing by. Her voice is a memory coming from the edge of the page. It arrives here because the two stories match.
 > - She wants to interrupt the Council. → She speaks softly, as a memory. She is not interrupting. She is connecting this moment with what Bramble did.
 > _For grown-ups: Worked out why a memory appears at a certain point in a story: two moments of kindness echo each other._
@@ -293,7 +293,7 @@ _Bagheera passes you on the way down, and gives you a long yellow look._
 
 > **Lesson** (sel, CASEL: Self-management, ask): knowing when to listen, and not pretending to know  
 > _Bagheera says staying quiet and not pretending was “rarer than a bull”. Why might that be a strength?_  
-> - ✅ Knowing when to listen is a skill. → Yes. Anyone can talk. Knowing when to listen, and saying only what you know, is harder. Baloo and Bagheera both spoke up, and you were right to stay quiet. Each was the right choice at the time.
+> - ✅ Knowing when to listen is a skill. → Yes. Anyone can talk. Knowing when to listen, and saying only what you know, is harder. Baloo and Bagheera spoke up; you were right to stay quiet.
 > - Speaking up is always wrong. → No. Baloo spoke up, and it saved a life. The skill is knowing when. Today your job was to watch, and you did it.
 > - Because wolves like quiet guests. → Ha. That helps. But it is about more than manners. Not pretending to know things is how other people learn they can trust you.
 > _For grown-ups: Talked about listening when it matters, and being honest about what you know._
@@ -324,10 +324,10 @@ _Baloo sits on a fallen tree in a glade with his eyes half shut, like a schoolma
 **Baloo**: So must a guest.  
 **Baloo**: Which branches will hold you, and which are rotten. How to speak politely to the wild bees.  
 
-> **Lesson** (science, 2-LS2-2, ask): bees carry pollen from flower to flower, so fruit and seeds can grow  
+> **Lesson** (science, ask): bees carry pollen from flower to flower, so fruit and seeds can grow  
 > **Baloo**: Why speak politely to bees? Because they are busy.  
 > **Baloo**: They carry pollen from flower to flower. What grows because of it?  
-> - ✅ Fruit and seeds. → Right. Pollen from one flower reaches another, and then that flower can make fruit and seeds. Without bees, many jungle trees would have much less fruit for the monkeys, the bears and the deer.
+> - ✅ Fruit and seeds. → Right. Pollen from one flower reaches another, and then that flower can make fruit and seeds. Without bees, many trees would have far less fruit.
 > - Rocks. → Ha. Rocks do their growing very slowly, and bees have nothing to do with it. Pollen helps flowers turn into fruit and seeds. That is what bees are for.
 > - Clouds. → Clouds are made of water, far above the flowers. Bees carry pollen, and the flowers use it to make fruit and seeds.
 > _For grown-ups: Learned that bees spread pollen between flowers so that plants can make fruit and seeds._
@@ -352,9 +352,9 @@ _Your Nubbin tries to look at Baloo, the bees and the bat all at once. It has go
 **Baloo**: It asks leave, because you are hungry. The answer gives it, as long as you eat what you catch and never kill for sport.  
 **Mowgli**: Why ask? If I am hungry, I am hungry.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): respecting other people’s land and rules by asking leave  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): respecting other people’s land and rules by asking leave  
 > _Why does the Strangers’ Call ask leave before hunting on another wolf’s ground?_  
-> - ✅ Asking shows respect and stops fights. → Yes. A territory is a place that someone has been looking after. Asking says: I know it is yours. Real animals mark their territories with scent and calls. Many people do something like it with signs, gates and manners.
+> - ✅ Asking shows respect and stops fights. → Yes. A territory is a place that someone looks after. Asking says: I know it is yours. Real animals mark theirs with scent and calls.
 > - So the wolves can hunt everything. → The opposite. The Call comes with a promise: eat what you catch, kill for no sport. Asking leave is for respect, and it keeps the peace.
 > - It is just a funny noise. → It sounds funny to a bear. But the noise has a meaning: please, may I? It is how strangers say they come in peace.
 > _For grown-ups: Understood that asking leave before using someone else’s ground is a way of showing respect and avoiding fights._
@@ -377,7 +377,7 @@ _Your Nubbin looks at the ground it is sitting on, and then at the next patch of
 > **Lesson** (literacy, L.3.4, ask): a word with more than one meaning: master  
 > **Baloo**: I call them the Master Words. “Master” is a word with a few meanings.  
 > **Baloo**: Which one do I mean?  
-> - ✅ The most important, the chief ones. → Yes. Master here means chief, the one that matters most. The jungle is run on them. Master can also mean someone who has got really good at a skill, as in master of a craft.
+> - ✅ The most important, the chief ones. → Yes. Master here means chief, the one that matters most. Master can also mean someone really good at a skill, as in master of a craft.
 > - The owner of a pet. → That is another meaning of master. But the Words do not belong to anyone. Here it means the chief ones, the ones that matter most.
 > - A big key that opens every door. → A master key does open every door. A sharp thought. Here the sense is chief: the most important Words of all.
 > _For grown-ups: Looked at the many meanings of the word “master” and chose the one that fits._
@@ -414,9 +414,9 @@ _Your Nubbin, at the back, has been listening. It puffs itself up and gives a sm
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): thinking about how adults should teach and correct children  
 > _Bagheera says a cuff now is better than a snake’s bite later. Is hurting someone ever the right way to teach them?_  
 > _There is no one right answer._  
-> - No. Teaching should never hurt. → That is a fair answer, and in the Grove it is the rule. Nobody hits here, not even a bear. You can learn the same lesson from a clear word, a pause, or a job done again, and no one has to be afraid.
-> - A little cuff is fine if it keeps you safe. → That is a fair thing to think about. Baloo’s cuff is small, and he is trying to stop Mowgli getting hurt. But Mowgli says it hurt his feelings. What Baloo meant and what Mowgli felt can be different, and both matter.
-> - It depends on whether the person loves you. → That is a fair answer. Love does change how a thing feels. But the hurt can be just as real, so many teachers choose words, not blows. Both Baloo and Mowgli have a point.
+> - No. Teaching should never hurt. → Fair answer, and in the Grove it is the rule. Nobody hits here, not even a bear. A clear word or a pause teaches just as well.
+> - A little cuff is fine if it keeps you safe. → Fair thing to think about. Baloo wants Mowgli safe. But Mowgli says it hurt his feelings. What Baloo meant and what Mowgli felt can differ, and both matter.
+> - It depends on whether the person loves you. → Fair answer. Love does change how a thing feels. But the hurt can be just as real, so many teachers choose words, not blows. Both have a point.
 > _For grown-ups: Reflected on how a person trying to keep us safe should teach, and how a correction can feel to the child._
 
 
@@ -436,7 +436,7 @@ _Your Nubbin hisses at the bear and growls at the bird. Baloo patiently explains
 
 > **Lesson** (maths, 4.OA.C.5, ask): finding the next item in a repeating pattern  
 > **Baloo**: Listen: growl, whistle, hiss, growl, whistle, hiss, growl, whistle… What comes next?  
-> - ✅ Hiss. → Yes. The pattern repeats every three calls, and the third call is the hiss. Spot the part that repeats, then carry on with it. That is how you find the rule.
+> - ✅ Hiss. → Yes. The pattern repeats every three calls, and the third call is the hiss. Spot the part that repeats, then carry on. That is how you find the rule.
 > - Growl. → Growl is how this round started. The pattern goes growl, whistle, hiss, then starts again. We have just heard the whistle, so the next call is the hiss.
 > - Whistle. → We have had a whistle already in this round, right at the end. Growl, whistle, then the third call of the group: the hiss.
 > _For grown-ups: Found the next item in a growl-whistle-hiss pattern by spotting the part that repeats._
@@ -520,7 +520,7 @@ _The monkeys travel the treetops along their own roads, high and fast. Below the
 _Mowgli, swung from hand to hand, sees a kite circling high above. He takes a breath._  
 _From up there, the whole forest must look like a map: a river, a ridge, a clearing, a green sea of trees._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): a map shows a place from above, so you can see the whole route  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): a map shows a place from above, so you can see the whole route  
 > _A map shows a place as if you were looking down from above, like a kite. Why does that help someone searching for Mowgli?_  
 > - ✅ You can see the whole route, and the landmarks, at once. → Yes. From above you can follow the river and the ridge and see where each leads. A map lets you read a whole place in one look.
 > - It makes the forest look smaller and less scary. → It does look smaller. But the real help is the view of the whole route. Seen from above, you can plan where to go.
@@ -542,7 +542,7 @@ _Chil swings away higher and higher, without a flap, riding a thermal, a pillar 
 
 > **Lesson** (science, 4-PS3-2, ask): soaring birds ride rising warm air called thermals  
 > _Chil climbs higher and higher without flapping his wings. What lifts him?_  
-> - ✅ Warm air rising from the ground. → Yes. Sunshine heats the ground, the air above warms and rises, and big birds ride it up. That air column is called a thermal. It lets the kite look out over the forest for hours without getting tired.
+> - ✅ Warm air rising from the ground. → Yes. Sunshine heats the ground, warm air rises, and big birds ride it up. That rising air is called a thermal. The kite can watch the forest for hours.
 > - The wind pushing him from below. → Wind does help birds. But a kite also circles in still weather. The lift comes from warm air rising, called a thermal.
 > - A very strong flap of his wings. → A flap helps at the start. But Chil does not flap at all while he climbs. He rides a thermal, which is warm air rising.
 > _For grown-ups: Learned that kites and other big birds soar by riding thermals, columns of warm air rising from the ground._
@@ -592,7 +592,7 @@ _He is a rock python, and every metre of him is beautifully patterned in brown a
 > **Lesson** (literacy, L.4.5, ask): a metaphor says one thing is another to show what it is like  
 > **Baloo**: The monkeys call Kaa “old rope” and “bootlace”. Is Kaa really a rope?  
 > - ✅ No. It is a metaphor, a joke comparing him to a rope. → Yes. A metaphor says one thing is another, to show what it is like. Here the monkeys mean Kaa is long and floppy. Kaa does not find it funny.
-> - Yes. He is a rope with a head. → He is long, like a rope, and that is the joke. But he is a living python. When something is called another thing to show what it is like, that is a metaphor.
+> - Yes. He is a rope with a head. → He is long, like a rope, and that is the joke. But he is a living python. Calling one thing another, to show what it is like, is a metaphor.
 > - No. The monkeys cannot see properly. → Their eyesight is good. They know what Kaa is, and that is why they are scared. They are using a metaphor: calling him a rope, to mock him.
 > _For grown-ups: Understood that “old rope” and “bootlace” are metaphors that compare Kaa to something else, here to tease him._
 
@@ -619,7 +619,7 @@ _Left on the warm stone is a long, thin, papery ghost of a snake: Kaa’s old sk
 
 > **Lesson** (science, 3-LS1-1, ask): snakes shed their skin as they grow  
 > _Kaa has left his old skin on the ledge. Why do snakes shed their skin?_  
-> - ✅ They grow, and the old skin does not stretch. → Yes. A snake grows all its life, and its outer skin does not grow with it. So it wriggles out of the old skin and shows the new one underneath. Young snakes shed more often than old ones.
+> - ✅ They grow, and the old skin does not stretch. → Yes. A snake grows all its life, but its outer skin does not. So it wriggles out of the old skin and shows the new one underneath.
 > - They are bored with the colour. → The new skin is the same colours as before. Snakes shed because they have grown too big for the old skin.
 > - It protects them from the rain. → The new skin is no more waterproof than the old. A snake sheds because it grows, and the old skin does not stretch.
 > _For grown-ups: Learned that snakes shed their skin because they keep growing and the old skin does not stretch._
@@ -634,9 +634,9 @@ _You run with Baloo and Bagheera all afternoon. Baloo is soon out of breath, and
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): blame and responsibility: when something goes wrong, whose fault is it?  
 > _Baloo blames himself. Bagheera says Baloo’s teaching is what saved Mowgli._  
 > _Who do you think is right? There is no one right answer._  
-> - Baloo, a teacher should keep watching. → That is a fair answer. A grown-up who looks after a child does have a duty to watch. But a teacher cannot see everything, and the monkeys chose to carry Mowgli away.
-> - Bagheera. The Words got Mowgli out. → That is a fair answer. The Master Word brought Chil down, and Chil brought the help. Both things are true: Baloo worried, and his lessons worked.
-> - Neither. The monkeys are to blame. → That is a fair answer. The monkeys did the carrying. Even so, people who care often feel a duty to do better next time, which is how Baloo feels.
+> - Baloo, a teacher should keep watching. → Fair answer. A grown-up who looks after a child does have a duty to watch. But a teacher cannot see everything, and the monkeys chose to carry Mowgli off.
+> - Bagheera. The Words got Mowgli out. → Fair answer. The Master Word brought Chil down, and Chil brought the help. Both things are true: Baloo worried, and his lessons worked.
+> - Neither. The monkeys are to blame. → Fair answer. The monkeys did the carrying. Even so, people who care often feel a duty to do better next time, which is how Baloo feels.
 > _For grown-ups: Thought about who is to blame when something goes wrong, and how caring people can feel responsible even when it is not all their fault._
 
 _Your Nubbin rides on Baloo’s back for the last mile, because its legs are short. Baloo lets it._  
@@ -657,7 +657,7 @@ _Your Nubbin rides on Baloo’s back for the last mile, because its legs are sho
 _The Cold Lairs are a lost city on a hill: ruins of roofless palaces, dry fountains, and trees pushing up through the floors._  
 _Kings built it once. Nobody remembers which ones, least of all the monkeys, who think they built it themselves._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how we learn about people who lived long ago from what they left behind  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how we learn about people who lived long ago from what they left behind  
 > _Nobody remembers who built the Cold Lairs. How could a person today find out about the people who lived in a ruined city?_  
 > - ✅ By studying what they left: walls, tools, pots and written words. → Yes. Experts called archaeologists dig carefully and piece together clues. Stories and songs passed down through families help too.
 > - By asking the monkeys. → The monkeys do not remember. That is the joke. People find out from what was left behind, and from stories and records.
@@ -715,8 +715,7 @@ _A section of old stone falls inward. Through the gap, head first, comes Kaa._
 _Every monkey in the Cold Lairs scatters at once. Half race up the walls, and the other half dive into the trees._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): sharing equally: 100 split into 2 equal groups  
-> _About a hundred monkeys run. Half go up the walls and half go into the trees._  
-> _How many go each way?_  
+> _About a hundred monkeys run, in two groups: half go up the walls and half go into the trees. How many go each way?_  
 > - ✅ 50 each way. → Yes. Half of 100 is 50, because 50 + 50 = 100. Sharing into two equal groups is the same as dividing by 2.
 > - 10 each way. → Ten groups of ten make 100. But here there are just two groups. 100 ÷ 2 = 50, and 50 + 50 = 100.
 > - 25 each way. → 25 + 25 = 50, which is only half of the monkeys. Each group needs 50, since 50 + 50 = 100.
@@ -739,7 +738,7 @@ _He is breathing hard, and his old legs are shaking. He is trying not to let any
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): saying what you need: telling people you are tired is brave and helpful  
 > _Baloo is worn out, but he says only that he is old. What would help most?_  
-> - ✅ Saying plainly, “I need to rest.” → Yes. Telling people what you need lets them help. Baloo’s friends cannot guess that his legs are tired. When he says so, Bagheera can carry the news and Mowgli can fetch water.
+> - ✅ Saying plainly, “I need to rest.” → Yes. Telling people what you need lets them help. Baloo’s friends cannot guess his legs are tired. When he says so, Mowgli can fetch water.
 > - Pretending he is fine. → That is what Baloo is doing, and it is hard on him. Saying “I need a rest” is brave and lets others help.
 > - Walking away so no one sees. → It feels easier at the time. But then nobody knows he needs help. Telling someone you trust is what lets them look after you.
 > _For grown-ups: Talked about saying what we need plainly, and why asking for rest or help is a strength._
@@ -754,7 +753,7 @@ _Kaa has no legs. Muscles ripple along him in waves, and his belly scales grip t
 
 > **Lesson** (science, 4-LS1-1, ask): how snakes move without legs: strong muscles and gripping belly scales  
 > _Kaa has no legs at all. How does a snake like him move?_  
-> - ✅ With muscles that ripple, and scales that grip. → Yes. A snake pushes against the ground with ripples of muscle, and its belly scales catch on the surface. That is how it can climb, swim and slither with no feet.
+> - ✅ With muscles that ripple, and scales that grip. → Yes. A snake pushes against the ground with ripples of muscle, and its belly scales grip the surface. That is how it moves with no feet.
 > - By hopping on its tail. → Some tiny animals hop on a tail, but snakes do not. They move by rippling muscles, with belly scales gripping the ground.
 > - By floating just above the ground. → That would be a wonderful trick. But snakes keep touching the ground. They push along with muscles, with their scales gripping the surface.
 > _For grown-ups: Learned that snakes move with rippling muscles and belly scales that grip the ground._
@@ -799,12 +798,13 @@ _Bagheera gives him a few soft cuffs, the panther way of settling a debt. Mowgli
 **Bagheera**: Now jump on my back, little brother. We are going home.  
 **Bagheera**: It is finished, and the Law forgets what is paid.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): making amends: is saying sorry enough, and should a mistake cost something?  
-> _Mowgli said sorry, and Bagheera also gave him a small cuff to settle the debt. Is saying sorry enough on its own?_  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): making amends: is saying sorry enough, and should a mistake cost something?  
+> _Mowgli said sorry. Bagheera settled the rest the jungle way._  
+> _In the Grove nobody hits; we mend things instead. Is sorry enough on its own?_  
 > _There is no one right answer._  
-> - Yes. Saying sorry and meaning it is enough. → That is a fair answer. A true sorry is the most important part. Even so, many people also want to make things right with an action, like mending or helping.
-> - No. You should also fix or pay for the harm. → That is a fair answer. A sorry is stronger when it comes with putting things right. The size of the fix should match the harm, which is what makes it fair.
-> - It depends on how big the mistake was. → That is a thoughtful answer. A small slip may need only a sorry, and a bigger one more. In the Grove, the point is to make things whole, not to make anyone feel small.
+> - Yes. Saying sorry and meaning it is enough. → Fair answer. A true sorry is the most important part. Even so, many people also want to make things right with an action, like mending or helping.
+> - No. You should also fix or pay for the harm. → Fair answer. A sorry is stronger when it comes with putting things right. The fix should match the harm, which is what makes it fair.
+> - It depends on how big the mistake was. → Thoughtful answer. A small slip may need only a sorry, a bigger one more. In the Grove, the point is to make things whole, not make anyone feel small.
 > _For grown-ups: Thought about whether saying sorry is enough, and how making things right can be fair to everyone._
 
 _Kaa is still coiled on the moonlit terrace when you look back. He nods to you, slowly, and does not follow._  
@@ -830,7 +830,7 @@ _Bagheera lies along a branch over the path. He is black as ink, though in a pat
 
 > **Lesson** (science, 3-LS3-1, ask): a “black panther” is a leopard with a very dark coat; variation in a species  
 > _Bagheera is called a black panther, but you can see spots in the moonlight. What is a black panther, really?_  
-> - ✅ A leopard with a very dark coat. → Yes. Some leopards are born with extra dark colouring, so their spots hide in the black. Animals of the same kind can look different from one another. We call that variation.
+> - ✅ A leopard with a very dark coat. → Yes. Some leopards are born extra dark, so their spots hide in the black. Animals of one kind can look different. We call that variation.
 > - A different animal, a cousin of the bear. → Bears are not close cousins of cats at all. A black panther is a leopard with a dark coat, which is an example of variation.
 > - A tiger painted black. → Tigers have stripes, and leopards have spots. Nobody has to paint anyone. Some leopards are just born very dark.
 > _For grown-ups: Learned that a black panther is a leopard born with a very dark coat, an example of variation within a species._
@@ -863,9 +863,9 @@ _Bagheera lies along a branch over the path. He is black as ink, though in a pat
 **Bagheera**: And they do not smell of wolf.  
 _For a very long time, fire was the most powerful tool people had. Bagheera knows its worth as well as anyone._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how fire changed people’s lives long ago  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how fire changed people’s lives long ago  
 > _People have used fire for a very long time. Why was it so important to families long ago?_  
-> - ✅ It gave warmth, light and cooked food, and kept wild animals back. → Yes. Fire let people stay warm in cold places and cook food so it was safer and tastier. It gave light after dark, and a place to gather and share stories.
+> - ✅ It gave warmth, light and cooked food, and kept wild animals back. → Yes. Fire let people stay warm and cook food so it was safer and tastier. It gave light after dark, and a place to gather and share stories.
 > - It was only good for making smoke signals. → Smoke signals are one use. But fire did much more. Warmth, light, cooking and safety were the big ones.
 > - It was not important. People did fine without it. → Many people in cold places could not have lived without it. Fire gave warmth, light and cooked food, and kept wild animals away.
 > _For grown-ups: Learned how fire gave people warmth, light, cooked food and protection long ago._
@@ -886,9 +886,9 @@ _The woman stares at the empty place on her step. She does not look like a monst
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): taking something you badly need: what do you owe the person you took it from?  
 > _Mowgli took the fire-pot without asking, because he needed it so much. The woman now has a cold breakfast._  
 > _What do you think? There is no one right answer._  
-> - It was wrong to take it without asking. → That is a fair answer. She did not choose to share it, and she is cold and cross now. Mowgli could have asked, even though he did not speak her language.
-> - He needed it, so it was fair enough. → That is an honest answer. He had a very serious reason. But the woman needed it too. Her neighbour shared fire with her, but nobody asked her before taking hers.
-> - It was wrong, but he should make it up to her. → That is a thoughtful answer. Mistakes can be mended. That is why you leave something on the step: a way of saying thank you, and sorry.
+> - It was wrong to take it without asking. → Fair answer. The woman did not choose to share, and she is cold and cross now. Mowgli could have asked, even without her language.
+> - He needed it, so it was fair enough. → Honest answer. He had a very serious reason. But the woman needed it too. In a village, people share fire, but they ask first. Nobody asked this woman.
+> - It was wrong, but he should make it up to her. → Thoughtful answer. Mistakes can be mended. That is why you leave something on the step: a way of saying thank you, and sorry.
 > _For grown-ups: Thought about taking something you badly need without asking, and what we owe the person it belonged to._
 
 
@@ -949,7 +949,7 @@ _A wolf comes past in the afternoon. He sees the pot and goes the long way round
 _By evening the fire-pot is glowing steadily, and Mowgli has a dead branch beside it, ready._  
 _Tabaqui slinks into the clearing, grinning, with his tail low._  
 
-> **Lesson** (literacy, RL.1.4, ask): word choice shows character: slinks, grinning  
+> **Lesson** (literacy, RL.3.3, ask): word choice shows character: slinks, grinning  
 > _The story says Tabaqui “slinks” into the clearing, grinning. What does the word slinks tell us about him?_  
 > - ✅ He moves sneakily, as if he is up to no good. → Yes. Slinking is creeping low and quietly, so as not to be seen. Authors pick words like slinks to show what a character is like, without saying it outright.
 > - He is proud and marches boldly. → Marching would be a proud word. Slinking is the opposite: low and sneaky. The author wants us to feel he is not to be trusted.
@@ -1024,9 +1024,9 @@ _Every wolf on the hill scrambles back from the light, ears flat. They feel the 
 _Mowgli thrusts the dead branch into the fire, and swings it round his head among the cowering wolves._  
 _Sparks fly, the flames flutter and roar, and the tiger’s whiskers crackle in the heat._  
 
-> **Lesson** (literacy, RL.1.4, ask): words that show a sense: crackle is a sound word  
+> **Lesson** (literacy, L.4.5, ask): words that show a sense: crackle is a sound word  
 > _The tiger’s whiskers “crackle” in the heat. Which sense does that word make you imagine?_  
-> - ✅ Hearing: you can almost hear the snap. → Yes. Crackle is a sound word, and it also makes you feel the heat. Authors use words like crackle, flutter and roar to help us hear a scene in our heads.
+> - ✅ Hearing: you can almost hear the snap. → Yes. Crackle is a sound word, and it makes you feel the heat. Authors use words like crackle, flutter and roar to help us hear a scene.
 > - Taste. → Not this time, though burnt sugar might crackle too. Crackle is a sound word: it helps us hear the scene.
 > - Smell. → Singed whiskers do smell, true. But the word crackle is about a sound. It helps us hear the scene.
 > _For grown-ups: Identified “crackle” as a sound word that helps readers hear a scene._
@@ -1090,7 +1090,7 @@ _He goes down to the cave and puts his face in Mother Wolf’s fur. The cubs, wh
 **Mowgli**: Do not forget me.  
 _The Council ended at midnight. Dawn comes at six o’clock, and Mowgli goes down the hill alone towards the smoke of the villages._  
 
-> **Lesson** (maths, 1.MD.B.3, ask): time intervals in hours: midnight to six o’clock is 6 hours  
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals in hours: midnight to six o’clock is 6 hours  
 > _The Council ended at midnight, and dawn comes at six o’clock. How many hours is that?_  
 > - ✅ 6 hours. → Yes. Count the hours on a clock: 1, 2, 3, 4, 5, 6. From 12 o’clock midnight to 6 o’clock in the morning is six hours.
 > - 12 hours. → Twelve is how many hours there are on the clock face, and half a day. Count on from midnight to six: 1, 2, 3, 4, 5, 6.
@@ -1118,7 +1118,7 @@ _Mowgli walks down from the hills to the plain, far from Seoni. He has never see
 _Round the village lie flat fields, and beyond them a river shines. A well stands by the gate, with women queuing at it._  
 _The village dogs bark, and the children run indoors. A crowd gathers at the gate to stare at a boy with twigs in his hair._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): places and land use: villages are near water and farmland  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): places and land use: villages are near water and farmland  
 > _Look at where this village stands. What do people need close to where they live?_  
 > - ✅ Water and farmland for food. → Yes. Many villages grow up beside a river or a well, with fields close by. People settle where their basic needs can be met.
 > - Only a good view. → A nice view is a bonus. But people cannot drink a view. Water and fields come first, which is why this village has a river, a well and fields.
@@ -1153,7 +1153,7 @@ _Messua gives him milk and bread, and looks into his eyes, and he looks back at 
 > **Lesson** (sel, CASEL: Social awareness, ask): being with someone who is sad about losing someone: listen and be gentle  
 > _Messua lost her son a long time ago, and she still misses him._  
 > _What is a kind way to be with someone who is missing a person they love?_  
-> - ✅ Sit with her, listen, and be gentle. → Yes. You do not have to fix a sadness. Being there is the gift. Missing someone is a sign of how much you loved them, and it can stay with a person for a long time.
+> - ✅ Sit with her, listen, and be gentle. → Yes. You do not have to fix a sadness. Being there is the gift. Missing someone shows how much you loved them, and it can last a long time.
 > - Tell her to cheer up. → That usually does not help. Feelings do not switch off when someone tells them to. Listening kindly works better.
 > - Change the subject quickly. → It can feel awkward to stay with a sad feeling, so many of us do this. But if the person wants to talk, listening is kinder.
 > _For grown-ups: Thought about how to be kind to someone who is sad about losing a loved one: listening, being gentle, and staying._
@@ -1197,7 +1197,7 @@ _There are twelve buffalo in the herd, and Mowgli counts them each evening, to b
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication: 12 buffalo with 4 legs each is 48 legs  
 > _Twelve buffalo are standing in the mud, and each one has four legs. How many buffalo legs are in the mud?_  
-> - ✅ 48. → Yes: 12 × 4 = 48. You can do 10 × 4 = 40 and 2 × 4 = 8, then 40 + 8 = 48. Breaking a big sum into easy parts is a handy trick.
+> - ✅ 48. → Yes: 12 × 4 = 48. Split it: 10 × 4 = 40 and 2 × 4 = 8, so 40 + 8 = 48. Easy parts!
 > - 16. → That is 12 + 4. But there are four legs for every buffalo, not four more. Twelve buffalo times four legs is 48.
 > - 24. → Twenty-four is 12 × 2, which would be for animals with two legs. Buffalo have four legs, so it is 12 × 4 = 48.
 > _For grown-ups: Multiplied 12 × 4 = 48 by splitting it into easier parts (40 and 8)._
@@ -1216,8 +1216,8 @@ _Buldeo the hunter tells the best stories. He has an old musket and a voice that
 > **Lesson** (literacy, RL.3.6, ask): checking a reason: does “both limp” prove the tiger is a ghost?  
 > _Buldeo says the old man limped and the tiger limps, so the tiger must be the old man’s ghost. Is that a good reason?_  
 > _There is no one right answer._  
-> - No. Two things can share one feature without being the same. → That is a fair answer. Lots of animals limp, and many people do too. A good reason fits all the facts, and this one skips the plainest one: the tiger was born lame.
-> - Yes. It fits the story he is telling. → That is a fair answer. A reason can fit a story and still not prove it. Ask: what else could explain it? Here, a tiger born lame.
+> - No. Two things can share one feature without being the same. → Fair answer. Lots of animals limp, and many people do too. A good reason fits all the facts, and this one skips the plainest: the tiger was born lame.
+> - Yes. It fits the story he is telling. → Fair answer. A reason can fit a story and still not prove it. Ask: what else could explain it? Here, a tiger born lame.
 > - It is a good story, even if it is a poor reason. → That is a clever answer. Stories can be fun without being proof. The trick is knowing which is which, so that fear does not make up an explanation.
 > _For grown-ups: Tested a character’s reasoning, noticing that sharing one feature does not prove two things are the same._
 
@@ -1242,9 +1242,9 @@ _Buldeo’s face goes hot. But under it, for a moment, you see that he is afraid
 _Buldeo goes home early. Next morning the headman tells Mowgli to graze the buffalo far out on the plain._  
 _In many Indian villages, a village council called a panchayat helps settle problems like this one._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): villages choose people or councils to settle disputes fairly  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): villages choose people or councils to settle disputes fairly  
 > _When two people in a village disagree, who might help to settle it fairly?_  
-> - ✅ A headman, or a village council. → Yes. A leader or a small council hears everyone and decides what is fair. A panchayat is the traditional council in many Indian villages. Today panchayats are elected by the villagers.
+> - ✅ A headman, or a village council. → Yes. A small council hears everyone and decides what is fair. A panchayat is the traditional council in many Indian villages. Today villagers elect it.
 > - The strongest person. → Being strong does not make someone fair. Villages usually ask a trusted leader or a council who listen to everyone.
 > - Whoever shouts loudest. → That would be a very noisy kind of fairness. A fair way is to ask a leader or council to listen to everyone first.
 > _For grown-ups: Learned that villages often have a headman or council to listen to everyone and settle disagreements fairly._
@@ -1287,7 +1287,7 @@ _One morning there is a grey shape on the rock by the river, at the ford, where 
 
 > **Lesson** (science, 4-ESS2-1, ask): rivers flow slower where they are wide and shallow, and faster in narrow places  
 > _The ford is the place where the river spreads wide and runs shallow. Where would the water move fastest?_  
-> - ✅ Through a narrow, steep gap. → Yes. Squeezed into a narrow channel, water speeds up, and it can carve the rock. Where the river spreads wide, it slows down. That is why a ford is a safe place to cross.
+> - ✅ Through a narrow, steep gap. → Yes. Squeezed into a narrow channel, water speeds up. Where the river spreads wide, it slows down. That is why a ford is a safe place to cross.
 > - Across the wide, shallow ford. → Not quite. Wide and shallow slows a river down, which is why people cross there. A narrow gap speeds the water up.
 > - It moves at the same speed everywhere. → Rivers change speed all the time, from still pools to rushing rapids. Narrow, steep places are fast, and wide, flat places are slow.
 > _For grown-ups: Learned that rivers speed up in narrow places and slow down where they spread wide and shallow, as at a ford._
@@ -1316,7 +1316,7 @@ _Akela and Grey Brother run in among the buffalo. In a few minutes the herd is s
 **Mowgli**: Fifteen cows and calves at this end, and nine bulls at that one. Twenty-four in all.  
 **Mowgli**: Count them again, brother.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding and comparing: 15 + 9 = 24, and 6 more cows and calves than bulls  
+> **Lesson** (maths, 3.OA.D.8, ask): adding and comparing: 15 + 9 = 24, and 6 more cows and calves than bulls  
 > _Mowgli has 15 cows and calves and 9 bulls. How many buffalo in all?_  
 > _And how many more cows and calves than bulls?_  
 > - ✅ 24 in all, and 6 more cows and calves. → Yes. 15 + 9 = 24, and 15 − 9 = 6. Add to find the whole herd, and subtract to compare the two groups.
@@ -1338,7 +1338,7 @@ _Your Nubbin buries its face in your side. You put your hands over its ears, and
 
 > **Lesson** (health, CASEL: Responsible decision-making, ask): very loud noise can hurt your ears, so protect them  
 > _You covered your ears when the herd roared by. Why is that a good idea?_  
-> - ✅ Very loud noise can hurt your ears. → Yes. Sounds that are too loud can damage the tiny parts of the ear that let us hear. If a noise is very loud, cover your ears or move away, and tell a grown-up.
+> - ✅ Very loud noise can hurt your ears. → Yes. Very loud sounds can damage the tiny parts of the ear that let us hear. If a noise is that loud, cover your ears or move away.
 > - So you cannot hear anything ever again. → It is the opposite. Covering your ears is how to keep your hearing safe. Cover your ears or move away from very loud noise.
 > - It makes the dust go away. → The dust stays where it is. Covering your ears helps keep them safe from very loud sound.
 > _For grown-ups: Learned that very loud noise can hurt our ears, and that covering them or moving away protects our hearing._
@@ -1375,10 +1375,10 @@ _Buldeo comes running from the village with his musket, red-faced and out of bre
 **Buldeo**: A hunter’s bounty. Mine, by rights.  
 **Buldeo**: Leave it to me, boy.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules that protect wild tigers today  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): rules that protect wild tigers today  
 > _A bounty was a reward for hunting a tiger. Today hunting tigers is against the law in India._  
 > _Why might the law have changed?_  
-> - ✅ Tigers became rare, and the law helps them survive. → Yes. Hunting and loss of forest made wild tigers fewer and fewer. India started Project Tiger in 1973 to protect them, and most of the world’s wild tigers live there today.
+> - ✅ Tigers became rare, and the law helps them survive. → Yes. Hunting and loss of forest made wild tigers fewer and fewer. India started Project Tiger in 1973 to protect them, and most wild tigers live there.
 > - Tigers are no longer dangerous. → A tiger is still a powerful wild animal. The law protects them because there are far fewer wild tigers than there used to be.
 > - Nobody wants the money any more. → Money is not the reason. Tigers became rare, and laws were made to protect those that are left.
 > _For grown-ups: Learned that laws, such as India’s Project Tiger from 1973, now protect wild tigers because they became rare._
@@ -1410,8 +1410,8 @@ _Buldeo threatened Mowgli, and Mowgli still asked Akela to let him up. You turn 
 > **Lesson** (sel, CASEL: Social awareness, ask): being gentle with someone who was unkind because they were scared  
 > _Buldeo shouted at Mowgli, but Mowgli let him go because he was frightened. Should we be gentle with people who are unkind because they are scared?_  
 > _There is no one right answer._  
-> - Yes. Fear can make anyone act badly. → That is a fair answer. Understanding why someone behaves badly does not make it right, but it can make us gentler. Mowgli stopped the fight, and he did not carry on punishing Buldeo.
-> - No. If they were unkind, they should face the result. → That is a fair answer. Actions have results, and it matters that Buldeo hears Mowgli’s no. But Mowgli did not need to frighten him more. Being firm and being gentle can go together.
+> - Yes. Fear can make anyone act badly. → Fair answer. Understanding why someone behaves badly does not make it right, but it can make us gentler. Mowgli stopped the fight and did not punish Buldeo further.
+> - No. If they were unkind, they should face the result. → Fair answer. Actions have results, and Buldeo needs to hear Mowgli’s no. But Mowgli did not need to frighten him more. Firm and gentle can go together.
 > - It depends on whether they say sorry. → That is a thoughtful answer. Saying sorry matters a lot. Buldeo ran off before he could say anything, so we do not know yet.
 > _For grown-ups: Thought about whether to be gentle with someone who acted unkindly because they were frightened._
 
@@ -1425,7 +1425,7 @@ _By evening the hide is rolled and tied, and Mowgli carries it on his shoulder l
 
 > **Lesson** (literacy, RL.4.2, ask): theme: keeping a promise matters  
 > _Mowgli says, “I said it on the Council Rock, so now it has to go there.” What big idea, or theme, is the story showing?_  
-> - ✅ Keeping your promises matters. → Yes. The theme is the big idea under the story. Here it is that your word is worth keeping, even when it is hard. Akela says “not many do”, which shows how rare it is.
+> - ✅ Keeping your promises matters. → Yes. The theme is the big idea under the story. Here it is that your word is worth keeping, even when it is hard. Akela says “not many do”.
 > - Always be the biggest and the loudest. → Mowgli was neither the biggest nor the loudest. He kept his word, and that is the idea the story is showing.
 > - Never ask other people for help. → Mowgli asked Akela and Grey Brother for help, and the plan worked. The idea is about keeping your word.
 > _For grown-ups: Identified the theme that keeping a promise matters, using Mowgli’s words as evidence._
@@ -1485,7 +1485,7 @@ _Then a woman pushes through the crowd, running, with her arms out. It is Messua
 > **Lesson** (literacy, RL.3.3, ask): character: Messua’s love does not depend on whether Mowgli is really Nathoo  
 > _Messua says, “I do not know if you are Nathoo. I loved you anyway.”_  
 > _What does that tell us about her?_  
-> - ✅ Her love does not depend on being proved right. → Yes. She loves Mowgli for who he is, whether or not he is her lost son. A good clue to character is what a person does when they are not sure.
+> - ✅ Her love does not depend on being proved right. → Yes. She loves Mowgli for who he is, whether or not he is her lost son. A good clue to character is what a person does when unsure.
 > - She is confused about who he is. → She may be a little. But look at what she chooses: to love him either way. That tells us she is generous.
 > - She does not care about him very much. → She ran through a crowd with her arms out, crying. She cares a great deal. Her love does not depend on knowing the answer.
 > _For grown-ups: Used what a character says and does to understand her: Messua’s love does not depend on certainty._
@@ -1503,7 +1503,7 @@ _She has lost a son twice now. Once to a tiger, and once to her own neighbours._
 **Mowgli**: You can come.  
 _Your Nubbin looks at Mowgli, then back at Messua, then up at you. It is waiting to see what you do._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): choices have a cost: choosing one thing means not choosing another  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): choices have a cost: choosing one thing means not choosing another  
 > _You cannot be in two places at once. If you choose one road, you give up the other._  
 > _What do we call what you give up when you choose?_  
 > - ✅ The cost of the choice. → Yes. Every choice has a cost: what you give up to get something else. Neither road here is wrong. Each one just costs something different.
@@ -1531,7 +1531,7 @@ _Dusk is deepening. The cicadas stop, a nightjar starts, and from somewhere abov
 > **Lesson** (science, 4-LS1-2, ask): dusk: nocturnal animals wake and daytime animals settle  
 > _The jungle sounds change at dusk. The cicadas stop and an owl starts._  
 > _Why?_  
-> - ✅ Night animals are waking up, and day animals are settling. → Yes. Animals that are active at night are called nocturnal, and owls, bats and leopards are some of them. Their senses suit the dark: big eyes, sharp ears and a keen sense of smell.
+> - ✅ Night animals are waking up, and day animals are settling. → Yes. Animals active at night are called nocturnal; owls, bats and leopards are some. Their senses suit the dark: big eyes, sharp ears and a keen sense of smell.
 > - It is just a coincidence. → It happens every dusk, so it is a pattern, not a coincidence. Night animals wake up as the day animals settle down.
 > - Because the forest is angry. → Forests do not get angry. The change is because night animals are waking up, and day animals are settling.
 > _For grown-ups: Learned that nocturnal animals wake at dusk and that their senses suit the dark._
@@ -1608,9 +1608,9 @@ _Your Nubbin sleeps in her basket by the hearth on the nights you are there. She
 
 _By whichever road you came, you reach the Council Rock as the moon clears the hills._  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Moon rises about 50 minutes later each night  
+> **Lesson** (science, 5-ESS1-2, ask): the Moon rises about 50 minutes later each night  
 > _The moon rises at 7 o’clock tonight. About when will it rise tomorrow night?_  
-> - ✅ A little before 8 o’clock. → Yes. The Moon rises about 50 minutes later each night, because it is slowly circling the Earth. That is why the full moon rises at sunset, and later phases rise late at night.
+> - ✅ A little before 8 o’clock. → Yes. The Moon rises about 50 minutes later each night, because it is slowly circling the Earth. A full moon rises at sunset; later phases rise later still.
 > - At 7 o’clock again, exactly. → That is true for the Sun, nearly. The Moon is different. It rises about 50 minutes later each night.
 > - Much earlier, at about 5 o’clock. → It goes the other way round: later, not earlier. About 50 minutes later each night, so a little before 8 tomorrow.
 > _For grown-ups: Learned that the Moon rises about 50 minutes later each night as it circles the Earth._
@@ -1657,6 +1657,7 @@ _Without a leader the pack has fallen apart: no law, no hunting together, everyb
 _The wolves look at the hide, and then at Mowgli. A long murmur goes round the rock._  
 **Young Wolf**: Lead us again, Akela. We have had enough of being without a law.  
 **Young Wolf**: And you, man’s cub, lead us too.  
+**Young Wolf**: We are sorry we threw you out. We were fat, and foolish.  
 **Young Wolf**: We are sick of the tiger’s ways. We want to be the Free People again.  
 **Bagheera**: Not so fast. You only want him back because you are hungry and lame.  
 **Bagheera**: You threw him out when you were fat.  
@@ -1702,7 +1703,7 @@ _When the pack has gone, the Council Rock is empty again. The flat stone is warm
 **Bagheera**: He and his four brothers make five. Five is odd: pair them up, and one is left over.  
 **Bagheera**: Now add your Nubbin, which seems to have joined, and that is six.  
 
-> **Lesson** (maths, 2.OA.C.3, ask): odd and even numbers: 5 is odd, 6 is even  
+> **Lesson** (maths, ask): odd and even numbers: 5 is odd, 6 is even  
 > _Mowgli and his four wolf brothers make 5. With your Nubbin, that makes 6._  
 > _Which of those numbers is even?_  
 > - ✅ 6. It can be shared into pairs with none left over. → Yes. Even numbers make pairs with none left over: 6 is three pairs. Five makes two pairs and one left over, so it is odd.
@@ -1731,6 +1732,8 @@ _A year comes when the rains do not, and a drought settles on the jungle. It goe
 _The streams dry up one after another. Then even the Waingunga shrinks to a trickle between hot white stones._  
 **Baloo**: All my long life I have lived in these hills, and I have never seen it this bad. Look at me, cub.  
 **Baloo**: I am half the bear I was.  
+_Your Nubbin walks slowly all the way round Baloo, looking for the other half._  
+**Baloo**: It is in there somewhere, small one. Under the ribs.  
 **Mowgli**: You are still bigger than me. Look at my ribs.  
 **Mowgli**: I can count them.  
 **Baloo**: Count them later. Down there, the Peace Rock.  
@@ -1763,7 +1766,7 @@ _Nobody hunts while the Truce holds. Nobody even looks at anybody else that way.
 > **Lesson** (maths, 3.MD.B.3, ask): reading a scaled picture graph: each print stands for 2  
 > _Mowgli drew 4 prints for deer, 3 for wolves and 2 for pigs. Each print stands for 2 animals._  
 > _How many animals is that altogether?_  
-> - ✅ 18. → Yes. 4 + 3 + 2 = 9 prints, and 9 × 2 = 18 animals. A scaled graph is quick to read once you remember what each picture stands for.
+> - ✅ 18. → Yes. 4 + 3 + 2 = 9 prints, and 9 × 2 = 18 animals. A scaled graph is quick to read once you know the scale.
 > - 9. → Nine is the number of prints. But each print stands for two animals. 9 prints × 2 = 18 animals.
 > - 24. → That would be 12 prints. There are only 9. 4 + 3 + 2 = 9 prints, and 9 × 2 = 18.
 > _For grown-ups: Read a scaled picture graph where each symbol stands for 2, and found the total (18)._
@@ -1794,8 +1797,8 @@ _Nobody says anything for a while. A deer drinks, and lifts its head, and drinks
 > **Lesson** (literacy, RL.4.2, ask): old stories explain the world: is a story that is not literally true worth keeping?  
 > _Hathi says a story can be old without being true, and “sometimes a better one”. Is a story that is not true still worth keeping?_  
 > _There is no one right answer._  
-> - Yes. Stories can teach us things that facts cannot. → That is a fair answer. This one is about fear, and what it means to look after each other when things are hard. People in India and everywhere have told old stories like this to explain the world.
-> - No. If it is not true, we should drop it. → That is a fair answer. Facts are very important, especially in science. But stories can still show us something true about people, even when the events did not happen.
+> - Yes. Stories can teach us things that facts cannot. → Fair answer. This one is about fear, and looking after each other when things are hard. People everywhere have told old stories like this to explain the world.
+> - No. If it is not true, we should drop it. → Fair answer. Facts are very important, especially in science. But stories can still show us something true about people, even when the events did not happen.
 > - Keep it, but remember it is a story and not a fact. → That is a thoughtful answer. We can enjoy a story and still ask what really happened. That is what Mowgli is doing when he asks: is it true?
 > _For grown-ups: Thought about the difference between an old story and a true fact, and why people keep stories that explain the world._
 
@@ -1817,7 +1820,7 @@ _Nobody says anything for a while. A deer drinks, and lifts its head, and drinks
 
 > **Lesson** (science, 3-LS4-3, ask): camouflage: stripes help a tiger hide in tall grass  
 > _Hathi’s story says the reeds painted the First Tiger’s stripes. What do stripes really help a tiger do?_  
-> - ✅ Hide in tall grass, which is called camouflage. → Yes. Stripes break up a tiger’s shape in the light and shade of tall grass. Prey animals see poorly in some colours, so the tiger’s orange blends in. Each tiger’s stripes are also different, like a fingerprint.
+> - ✅ Hide in tall grass, which is called camouflage. → Yes. Stripes break up a tiger’s shape in the light and shade of tall grass. Prey animals see poorly in some colours, so the orange blends in.
 > - Look scary to other tigers. → Stripes do not work as a threat sign. They help tigers hide, called camouflage.
 > - Keep them cool in the sun. → Their coat is the same thickness all over, stripes or not. The stripes are for camouflage in tall grass.
 > _For grown-ups: Learned that a tiger’s stripes are camouflage, helping it blend in with tall grass._
@@ -1836,7 +1839,7 @@ _They drink side by side, the fawn and your Nubbin, as if they had done it every
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): sharing something scarce: agreed rules everyone keeps  
 > _Wolves and deer drink side by side, though they are usually enemies. What makes it possible?_  
-> - ✅ An agreement that everyone keeps. → Yes. A promise only works if everyone keeps it, and it keeps working because everyone does. It is the same with taking turns on a swing. The rule is simple, and it works when all of us agree.
+> - ✅ An agreement that everyone keeps. → Yes. A promise only works if everyone keeps it. It is the same with taking turns on a swing. It works when all of us agree.
 > - The wolves are not hungry. → They are hungry, and that is what makes the Truce hard. It works because everyone has agreed to keep it.
 > - The deer are too fast to catch. → Deer are fast, but that is not it. The animals have agreed, and each one keeps the promise.
 > _For grown-ups: Understood that a shared rule works when everyone agrees to keep it, even those who are usually enemies._
@@ -1856,7 +1859,7 @@ _The first drops fall on the hot stones and hiss. Then the rain comes, and the T
 
 > **Lesson** (science, 3-ESS2-1, ask): the water cycle: water evaporates, forms clouds and falls as rain  
 > _The rain that falls tonight began somewhere else. Where does rain come from?_  
-> - ✅ Water that rose from rivers and seas, formed clouds and fell. → Yes. The Sun warms water, which rises as invisible vapour. High up it cools into clouds and falls as rain. It is the water cycle, and the monsoon is one very big turn of it.
+> - ✅ Water that rose from rivers and seas, formed clouds and fell. → Yes. The Sun warms water, which rises as vapour. High up it cools into clouds and falls as rain. The monsoon is one big turn of the water cycle.
 > - The sky makes new water from nothing. → Water is not made from nothing. It travels round and round. Rain is water that rose from rivers and seas, formed clouds and fell.
 > - It comes from the Moon. → The Moon is far, far away, and has no water for us. Rain is the Earth’s own water travelling round.
 > _For grown-ups: Learned that rain is part of the water cycle: water evaporates, forms clouds, and falls again._
@@ -1871,7 +1874,7 @@ _The fawn and its mother are gone into the grass. Your Nubbin looks for them for
 **Hathi**: Good. Now everyone goes back to being afraid of each other.  
 **Hathi**: It is the natural way. But we remember.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity: when there is not enough, people must agree how to share  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity: when there is not enough, people must agree how to share  
 > _The animals needed a truce in the drought, and they do not need one now the river is full. Why?_  
 > - ✅ When there is not enough of something, we must agree how to share it. → Yes. That is called scarcity. When there is plenty, nobody needs rules for sharing. When it is scarce, a fair way of sharing keeps the peace.
 > - The animals are no longer thirsty, so they forgot the Truce. → Partly true. But the real reason is that there is enough water for all of them now. When something is plentiful we do not need a truce to share it.
@@ -1990,7 +1993,7 @@ _She says “and you” as if you had always been in the family._
 _Mowgli leads them through the dark, the long way round the fields. Grey Brother and the others run unseen beside the path._  
 **Mowgli**: There is a town that way, towards the rising sun, a long day’s walk. Nobody there knows you, and the law there will keep you safe.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: the Sun rises in the east  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: the Sun rises in the east  
 > _Mowgli points the way to the town: towards the rising sun. Which direction is that?_  
 > - ✅ East. → Yes. The Sun rises in the east and sets in the west. So Messua and her husband will walk east, with the dawn in front of them.
 > - West. → West is where the Sun goes down in the evening. The rising sun is in the east.
@@ -2023,7 +2026,7 @@ _Variant of `a24-13-road`._
 **Mowgli**: Guest, take them to the road. The road to the town, a long day’s walk.  
 **Mowgli**: Walk towards the sunrise. I have to go and talk to Hathi.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: if you face east, west is behind you  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: if you face east, west is behind you  
 > _Mowgli says to walk towards the sunrise. If you face the sunrise, which direction is behind you?_  
 > - ✅ West. → Yes. You face east towards the sunrise, so west, where the Sun sets, is behind you. North is on your left and south is on your right.
 > - East. → East is in front of you, where the Sun comes up. Behind you is the opposite direction: west.
@@ -2071,7 +2074,7 @@ _The grass is wet with dew, though no rain has fallen, and your boots are soaked
 
 > **Lesson** (science, 3-ESS2-1, ask): dew forms when the night air cools and water vapour turns into drops  
 > _The grass is wet, but it did not rain. Where did the water come from?_  
-> - ✅ Water vapour in the cool night air turned into drops, called dew. → Yes. Air holds invisible water vapour. When the air cools at night, some of it turns into tiny drops on cold surfaces. When the Sun warms the grass, the dew dries and goes back into the air.
+> - ✅ Water vapour in the cool night air turned into drops, called dew. → Yes. Air holds invisible water vapour. At night, cool air turns some into tiny drops on cold surfaces. When the Sun warms the grass, the dew dries away.
 > - The grass sweats. → Plants do not sweat like we do, though a plant can release a little water of its own. Most of the wet comes from water vapour in the night air.
 > - The Moon dripped it. → The Moon has no water to drip. The wet comes from water vapour in the cooling air.
 > _For grown-ups: Learned that dew is water vapour from the air that turns into drops when the night air cools._
@@ -2093,8 +2096,8 @@ _Nobody is hurt, and nobody is killed. The jungle simply comes in, slowly, the w
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): fairness and consequences: was letting in the jungle fair to the villagers?  
 > _Mowgli and Hathi drove the villagers out without hurting anyone. Was that fair?_  
 > _There is no one right answer._  
-> - Yes. They were going to hurt Messua, and nobody was harmed. → That is a fair answer. They stopped a harm, and chose a way that hurt no one’s body. But the villagers lost their homes, and that is a real cost too.
-> - No. The villagers were frightened, not wicked. → That is a fair answer. They were scared of something they did not understand. Mowgli says himself that he does not feel the way he thought he would.
+> - Yes. They were going to hurt Messua, and nobody was harmed. → Fair answer. They stopped a harm, and chose a way that hurt no one’s body. But the villagers lost their homes, and that is a real cost too.
+> - No. The villagers were frightened, not wicked. → Fair answer. They were scared of something they did not understand. Mowgli says himself that he does not feel the way he thought he would.
 > - It was both fair and sad. → That is a thoughtful answer. A thing can be right and still leave sadness behind. Many hard choices are like that, and noticing the sadness is part of choosing well.
 > _For grown-ups: Thought about whether a protective action can be fair while still costing someone dearly._
 
@@ -2112,9 +2115,9 @@ _Nobody is hurt, and nobody is killed. The jungle simply comes in, slowly, the w
 _By the next dry season you can hardly tell a village was ever there. Just humps under the creepers, and one stone platform._  
 _A fig tree grows out of the platform now. The same tree Buldeo told his stories under._  
 
-> **Lesson** (science, 2-LS2-2, ask): animals spread seeds; roots can split stone  
+> **Lesson** (science, ask): animals spread seeds; roots can split stone  
 > _A fig tree is growing on a stone platform. How might its seed have got there?_  
-> - ✅ A bird or another animal dropped it. → Yes. Many animals eat fruit and drop the seeds far away in their droppings. A seed that lands in a crack with a little soil can sprout, and its roots can split stone.
+> - ✅ A bird or another animal dropped it. → Yes. Many animals eat fruit and drop the seeds far away. A seed that lands in a crack with a little soil can sprout, and its roots can split stone.
 > - The stone made it. → Stones do not make seeds. A bird or animal probably dropped it, and it sprouted in a crack.
 > - It grew from nothing, overnight. → Every tree grows from a seed. An animal probably carried it, and it grew slowly over years.
 > _For grown-ups: Learned that animals spread seeds in their droppings, and that a tree’s roots can split stone as they grow._
@@ -2165,7 +2168,7 @@ _Kaa lies along the bank of the Waingunga, very old now, and very wise, and very
 
 > **Lesson** (science, 3-LS2-1, ask): bees defend their colony: a bee colony is a group that protects its home  
 > _Kaa says the bees will not like it when somebody runs through their home. Why do bees attack when their nest is disturbed?_  
-> - ✅ They are defending their colony, their young and their honey. → Yes. A bee colony is a family of thousands, and bees guard it together. Giant rock bees hang their single big comb in the open on a cliff, so they stand guard around it.
+> - ✅ They are defending their colony, their young and their honey. → Yes. A bee colony is a family of thousands, and bees guard it together. Giant rock bees hang one big comb on a cliff, so they stand guard round it.
 > - They are bored. → Bees have very busy lives, and boredom is not in them. They defend their colony, their young and their honey.
 > - They are hunting for food. → Bees eat nectar and pollen from flowers. They sting to defend their home.
 > _For grown-ups: Learned that a bee colony defends its nest, young and honey together, which is why disturbing it is dangerous._
@@ -2188,9 +2191,13 @@ _Kaa lies along the bank of the Waingunga, very old now, and very wise, and very
 **Mowgli**: I will jump into the river at the bottom of the gorge.  
 **Kaa**: And I will be waiting in the water, to pull you out. Do not make me wait long.  
 **Kaa**: I get bored.  
+_Kaa gives your Nubbin the most important job of all: to stay exactly where it is put._  
+_It sits so still that a bee lands on its nose. Its eyes slowly cross._  
+**Kaa**: Excellent. Do not sneeze.  
+_It does not sneeze for a whole minute. It is the bravest thing it has ever done._  
 _Mowgli goes quiet for a moment. This is the dangerous part, and he has picked it for himself._  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to an event: courage and trust  
+> **Lesson** (literacy, RL.3.3, ask): how a character responds to an event: courage and trust  
 > _Mowgli takes the dangerous part of the plan for himself, and trusts Kaa to catch him. What does that show about him?_  
 > - ✅ He is brave, and he trusts his friends. → Yes. He does not ask someone else to take the risk, and he trusts Kaa to do his part. How a character responds to trouble shows what they are like.
 > - He does not understand the danger. → He understands it very well. He chose the fastest runner’s job. He is brave, and he trusts Kaa.
@@ -2208,7 +2215,7 @@ _The dogs come after him into the deep water, howling. The current takes them do
 
 > **Lesson** (science, 3-PS2-1, ask): moving water pushes things along: a force in one direction (unbalanced)  
 > _The river carries the dogs downstream. What is pushing them along?_  
-> - ✅ The force of the moving water. → Yes. Moving water pushes on anything in it. A strong push in one direction is an unbalanced force. A stick in a river drifts the same way, as the water pushes it.
+> - ✅ The force of the moving water. → Yes. Moving water pushes on anything in it. A push in one direction is an unbalanced force. A stick in a river drifts the way the water pushes it.
 > - The wind alone. → Wind can push things on water, but the river is doing most of the work here. The moving water is pushing them.
 > - Nothing. They are swimming for fun. → They are being swept along. Even strong swimmers cannot fight a strong current for long. The force of the moving water is pushing them.
 > _For grown-ups: Learned that moving water pushes things along with a force, and that an unbalanced force makes things move._
@@ -2230,7 +2237,7 @@ _It goes on a long time. Then the noise of the river is only the river again, an
 _Some ran, and some went down with the water. The pack holds the river, and it is morning._  
 **Grey Brother**: Forty of us came down to the bank. Seven are limping, but we are all here.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction in a word problem: 40 − 7 = 33  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction in a word problem: 40 − 7 = 33  
 > _Forty wolves came to the river bank, and seven are limping. How many wolves are not limping?_  
 > - ✅ 33. → Yes: 40 − 7 = 33. Take 10 from 40 to make 30, then add 3 back. Good wolves, all of them.
 > - 47. → That is 40 + 7. We want to take the limping ones away. 40 − 7 = 33.
@@ -2260,7 +2267,7 @@ _Akela has died. His old body has stopped working, and it will not start again._
 > **Lesson** (sel, CASEL: Social awareness, ask): what dying means, said plainly, and that it is all right to be sad  
 > _Akela has died. What does that mean?_  
 > - ✅ His body has stopped working and will not start again. → Yes. That is what dying means. It is final, and it is no one’s fault. It is all right to feel sad. Feeling sad shows how much he mattered.
-> - He is just sleeping, and will wake up soon. → It can look like sleep, but it is not. A sleeping body wakes up. A body that has died does not. Saying so plainly is kinder, so that nobody is afraid of going to sleep.
+> - He is just sleeping, and will wake up soon. → It can look like sleep, but it is not. A sleeping body wakes up. A body that has died does not. Saying it plainly means nobody fears sleep.
 > - He has gone away on a trip. → Akela has not gone on a trip. He has died, and he will not come back. That is a sad thing to understand, and we can feel sad together.
 > _For grown-ups: Learned plainly what it means when someone dies, and that feeling sad is a normal and loving response._
 
@@ -2300,8 +2307,8 @@ _Your Nubbin howls too. For once it does not sound like a kettle; it sounds like
 > **Lesson** (literacy, RL.4.2, ask): theme: being remembered keeps someone with us  
 > _The whole pack howls for Akela, and Mowgli says he led them “for a hundred years”. Is being remembered a way of keeping someone with us?_  
 > _There is no one right answer._  
-> - Yes. People live on in how we remember them. → That is a fair answer. The howl, the stories, and Mowgli’s words all keep Akela close. It is why the Grove grows a flower on the hill for every Nubbin that fades.
-> - No. Remembering is not the same as being here. → That is a fair answer. Nothing can be quite the same as having someone beside you. Remembering is what we have left, and it does comfort many people.
+> - Yes. People live on in how we remember them. → Fair answer. The howl, the stories and Mowgli’s words all keep Akela close. It is why the Grove grows a flower on the hill for every Nubbin that fades.
+> - No. Remembering is not the same as being here. → Fair answer. Nothing can be quite the same as having someone beside you. Remembering is what we have left, and it does comfort many people.
 > - Both: it does not bring them back, but it does help. → That is a thoughtful answer. Both parts are true. Mowgli says “a hundred years”, which is exaggeration, because it felt that long and meant so much.
 > _For grown-ups: Thought about whether being remembered is a way to keep someone with us after they have died._
 
@@ -2357,8 +2364,8 @@ _Low over the northern hills, one star hangs steady while the others turn round 
 
 > **Lesson** (science, 5-ESS1-2, ask): the Pole Star shows north because it hardly moves in the night sky  
 > _Grey Brother says to keep the star that never moves in front of you. Which star shows travellers where north is?_  
-> - ✅ The Pole Star, also called Polaris. → Yes. The Earth spins around an axis that points almost straight at Polaris, so it seems to stand still. All the other stars appear to circle round it during the night.
-> - The brightest star in the sky. → The brightest star is not the Pole Star, and it moves as the night goes on. Polaris is not especially bright. It simply sits almost exactly above the Earth’s North Pole.
+> - ✅ The Pole Star, also called Polaris. → Yes. The Earth spins around an axis that points almost straight at Polaris, so it seems to stand still. The other stars appear to circle round it.
+> - The brightest star in the sky. → The brightest star is not the Pole Star, and it moves as the night goes on. Polaris is not especially bright. It simply sits above the North Pole.
 > - The Moon. → The Moon is not a star, and it rises and sets. The Pole Star is the steady one that shows north.
 > _For grown-ups: Learned that the Pole Star appears to stay still in the night sky and shows travellers where north is._
 
@@ -2462,7 +2469,7 @@ _Grey Brother lies outside the door, and your Nubbin lies down with him. You sit
 - **nesting**: Building a nest, or sitting in one, to lay eggs and raise baby birds.
 - **mending**: Repairing something that is torn or broken, such as clothes.
 
-## A24-16. The Spring Running
+## A24-16. Man Goes to Man
 
 - `a24-16-s1`: Go back with Mowgli to the Council Rock. · _Baloo and Kaa are waiting. They know already._
 - `a24-16-s2`: Wait at the Council Rock for Bagheera. · _He will come. Panthers are always last, and always on purpose._
@@ -2485,7 +2492,7 @@ _Kaa is coiled round the rock, three times, the way he lies when he means to sta
 > _There is no one right answer._  
 > - Yes. Growing up is uncomfortable, then you settle. → That is a fair answer. Kaa is saying the itchy part is real, and it passes. A good metaphor makes a hard feeling easier to talk about.
 > - No. A snake’s skin is nothing like a boy’s life. → That is a fair answer. Comparisons are never perfect. Even so, Kaa chose it to show that a big change can feel odd before it feels right.
-> - It is good, but growing up is more than itching. → That is a thoughtful answer. The metaphor is a small window on a big thing. Mowgli feels sad, excited and confused all at once, and the skin comparison covers only part of that.
+> - It is good, but growing up is more than itching. → Thoughtful answer. The metaphor is a small window on a big thing. Mowgli feels sad, excited and confused all at once, and the skin comparison covers only part.
 > _For grown-ups: Thought about a metaphor, whether it fits, and what a comparison can and cannot show about growing up._
 
 **Kaa**: People belong with people in the end. But the jungle will always be your home too.  
@@ -2511,7 +2518,7 @@ _Far off down the hill, something is moving through the bushes. Then it stops._
 
 > **Lesson** (science, 4-LS1-1, ask): cats walk quietly on soft paw pads  
 > _Leopards and panthers can move without a sound. What helps a cat creep up so quietly?_  
-> - ✅ Soft pads on the bottoms of their paws. → Yes. The pads cushion each step, and the claws fold back so they do not click on the ground. That is why a leopard can walk right by without being heard.
+> - ✅ Soft pads on the bottoms of their paws. → Yes. The pads cushion each step, and the claws fold back so they do not click. That is why a leopard can walk right by without being heard.
 > - Very small feet. → A leopard’s paws are quite big. The quiet comes from the soft pads underneath, with the claws held in.
 > - They float just above the ground. → That would be even quieter. But no cat can float. It is the soft pads that muffle each step.
 > _For grown-ups: Learned that cats move quietly because soft paw pads cushion each step and their claws fold away._
@@ -2545,8 +2552,8 @@ _So you say them, the two of you, standing on the Council Rock in the early sun.
 _Mowgli looks at you for a long time. Then he puts his hand on your Nubbin’s head._  
 **Mowgli**: I was one winter old when Bagheera bought me with a bull. I will be seventeen this summer.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction: 17 − 1 = 16 years  
-> _Mowgli was one year old when Bagheera bought him, and he will be seventeen this summer. How many years have passed?_  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction: 17 − 1 = 16 years  
+> _Mowgli was one year old when Bagheera bought him, and he will be 17 this summer. How many years have passed?_  
 > - ✅ 16 years. → Yes: 17 − 1 = 16. Count on from 1 up to 17, and it is 16 steps. That is a lot of seasons with the pack.
 > - 18 years. → That is 17 + 1. But we want the gap between the two ages. Take 1 away from 17: 16.
 > - 17 years. → He is 17 now, but he was already 1 at the start. So the time between is 17 − 1 = 16 years.
@@ -2562,8 +2569,8 @@ _Variant of `a24-16-bagheera-done`._
 _Mowgli looks at you for a long time. Then he puts his hand on your Nubbin’s head._  
 **Mowgli**: I was one winter old when Bagheera bought me with a bull. I will be seventeen this summer.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction: 17 − 1 = 16 years  
-> _Mowgli was one year old when Bagheera bought him, and he will be seventeen this summer. How many years have passed?_  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction: 17 − 1 = 16 years  
+> _Mowgli was one year old when Bagheera bought him, and he will be 17 this summer. How many years have passed?_  
 > - ✅ 16 years. → Yes: 17 − 1 = 16. Count on from 1 up to 17, and you take 16 steps. That is a lot of seasons with the pack.
 > - 18 years. → That is 17 + 1. But we want the gap between two ages. Take 1 away from 17: 16.
 > - 17 years. → He is 17 now, but he was already 1 at the start. So the time between is 17 − 1 = 16 years.
@@ -2583,7 +2590,7 @@ _Your Nubbin trots in the middle of the four wolves, as if it were going too. It
 **Mowgli**: Here. This is the mile.  
 **Mowgli**: The stone with the moss on.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): landmarks help us give and follow directions  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): landmarks help us give and follow directions  
 > _Mowgli says the first mile ends at “the stone with the moss on”. Why are landmarks like that useful when you are giving directions?_  
 > - ✅ They are things you can see and recognise along the way. → Yes. A landmark tells you where you are, and when you have arrived. Maps use landmarks too: a hill, a river, a bridge, a mossy stone.
 > - They make the road longer. → A landmark does not change the distance. It helps you recognise where you are along the way.
@@ -2607,7 +2614,7 @@ _You walk with Mowgli as far as the fork in the trail, at the foot of the hills.
 **Mowgli**: This way for me, the long way round, to say goodbye to the hills. That way for you: the hut with the lamp.  
 **Mowgli**: You know it.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): a landmark at a fork in the path helps you choose the right way  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): a landmark at a fork in the path helps you choose the right way  
 > _A fork is where a path splits in two. Why does Mowgli point to “the hut with the lamp”?_  
 > - ✅ It is a clear landmark, so you can tell which path is yours. → Yes. At a fork, a landmark you know tells you which way to go. Mowgli names the one thing you will recognise from far away.
 > - To make you walk faster. → He is not hurrying you. He names a landmark so you know which path to take.
@@ -2651,7 +2658,7 @@ _Variant of `a24-16-trail-done`._
 _Inside, the baby is asleep on his mat, fat and brown, with one fist up by his ear._  
 _Babies sleep many hours each day, because their bodies are growing fast._  
 
-> **Lesson** (science, 1-LS1-2, ask): babies sleep a lot because they are growing fast  
+> **Lesson** (science, ask): babies sleep a lot because they are growing fast  
 > _The baby sleeps for many hours each day. Why do babies need so much sleep?_  
 > - ✅ Their bodies and brains are growing very fast and need rest. → Yes. Growing takes a lot of energy, and sleep is when a young body does some of its best growing. That is also why grown-ups look after babies so carefully.
 > - They are lazy. → Babies are not lazy. They are working hard at growing. Sleep helps their bodies and brains grow.
@@ -2665,14 +2672,15 @@ _Your Nubbin creeps over and lies down beside him, carefully, the way it used to
 _The last thing you see is the trail going north in the sun, and four grey shapes and a boy going up it._  
 _Far behind you the Council Rock sits in the morning sun, empty, and it does not mind._  
 _Your Nubbin looks back at it once, the way a wolf does, and then trots on._  
+_The page goes soft at the edges, like a cave mouth at dusk. Then it is your own kitchen, and the atlas open on the table._  
+_Tucked into the back of the page is a plank, carved by somebody with a knife and a lot of patience._  
+_Carved on it: You and I are family, all of us, under the same sky._  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): you can belong in more than one place at once  
 > _Mowgli goes to live among people, and the jungle is still home to him. Both can be true._  
 > _The plank says we all belong together, under the same sky. You can belong in more than one place, and love more than one home._  
 > _For grown-ups: Heard that a person can belong in more than one place and have more than one home._
 
-_The page goes soft at the edges, like a cave mouth at dusk. Then it is your own kitchen, and the atlas open on the table._  
-_Tucked into the back of the page is a plank, carved by somebody with a knife and a lot of patience._  
 
 #### `reader:a24-16-complete-messua` · [main](main.md#a24-16-complete-messua)
 
@@ -2707,9 +2715,9 @@ _These are the Pribilof Islands in the Bering Sea, off Alaska._
 _They are the home of Unangax̂ families, some of whom were brought here long ago to work the seal harvest._  
 _Below you is a beach called Novastoshnah, roaring from end to end with seals: thousands and thousands of them._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): locating the Bering Sea and the Pribilof Islands on a map  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): locating the Bering Sea and the Pribilof Islands on a map  
 > _Nova’s page says the Pribilof Islands are in the Bering Sea. Which two lands does the Bering Sea lie between?_  
-> - ✅ Alaska and Siberia (Russia). → Yes. The Bering Sea is the cold, stormy water between Alaska, in North America, and Siberia, in Russia. It is named after Vitus Bering, an explorer who sailed there in the 1700s.
+> - ✅ Alaska and Siberia (Russia). → Yes. The Bering Sea is the cold, stormy water between Alaska, in North America, and Siberia, in Russia. It is named after the explorer Vitus Bering.
 > - Australia and India. → Those lands are far to the south, in warm seas. The Bering Sea is far north, between Alaska and Siberia.
 > - Spain and Brazil. → Those are across the Atlantic Ocean, far from here. The Bering Sea is in the far north, between Alaska and Siberia.
 > _For grown-ups: Located the Bering Sea between Alaska and Siberia, and learned about the Pribilof Islands as a seal breeding ground and Unangax̂ homeland._
@@ -2783,7 +2791,7 @@ _When they come back the next summer, Kotick is a year older, and still as white
 **Kotick**: Where do they go? I am going to see.  
 _The wind off the sea is sharp and wet, and the salt stings your lips. The beach roars behind you._  
 
-> **Lesson** (literacy, RL.1.4, ask): words that show senses: sharp, wet, stings  
+> **Lesson** (literacy, L.4.5, ask): words that show senses: sharp, wet, stings  
 > _The page says the wind is “sharp and wet” and the salt “stings your lips”. Which senses do those words show?_  
 > - ✅ Touch and taste: how things feel and how salt tastes. → Yes. Sharp, wet and stings make the cold wind feel real to a reader. Good writers use words for the senses so you feel as if you are there.
 > - Only sight. → Some of the words could be seen. But sharp, wet and stings are about feeling. They show touch and taste.
@@ -2802,8 +2810,8 @@ _He turns away. You turn with him, and put your hand over your Nubbin’s eyes, 
 > **Lesson** (sel, CASEL: Self-awareness, ask): facing a hard truth: is it better to know?  
 > _Kotick finds out something very sad. Is it better to know a hard truth, or not to know it?_  
 > _There is no one right answer._  
-> - Better to know. You cannot change what you do not know about. → That is a fair answer. Knowing is the first step to doing something, as Kotick shows. It still hurts. You can feel both.
-> - Better not to know. It only makes you sad. → That is a fair answer. Hard truths hurt, and wishing not to know is a very human wish. But Kotick says he will look for another beach, and he can only do that because he knows.
+> - Better to know. You cannot change what you do not know about. → Fair answer. Knowing is the first step to doing something, as Kotick shows. It still hurts. You can feel both.
+> - Better not to know. It only makes you sad. → Fair answer. Hard truths hurt, and wishing not to know is a very human wish. But Kotick can look for another beach only because he knows.
 > - Better to know, with someone beside you. → That is a wise answer. A hard thing is easier to carry with company. That is why you sit with Kotick on the cold beach.
 > _For grown-ups: Thought about whether it is better to know a hard truth, and how company helps when we learn something sad._
 
@@ -2831,9 +2839,9 @@ _He turns away. You turn with him, and put your hand over your Nubbin’s eyes, 
 _Your Nubbin sits up beside him on the beach and looks out to sea too, as if it means to help._  
 _Northern fur seals were once hunted so much that they nearly vanished. In 1911 several countries signed a treaty to protect them._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why countries make agreements to protect animals that cross borders  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why countries make agreements to protect animals that cross borders  
 > _Fur seals swim across the whole North Pacific. Why would countries need to agree together to protect them?_  
-> - ✅ The seals cross borders, so one country alone cannot protect them. → Yes. Seals do not stop at borders, so many countries must agree on the same rules. Today people on the islands, including Unangax̂ communities, also help look after the seals and their home.
+> - ✅ The seals cross borders, so one country alone cannot protect them. → Yes. Seals do not stop at borders, so many countries must agree on the same rules. Today Unangax̂ communities on the islands also help look after the seals.
 > - So the seals can sign it too. → Ha. Seals cannot sign. People make the agreement on their behalf. It is needed because the seals swim across many countries’ waters.
 > - It does not matter. They can look after themselves. → Seals had a very hard time when hunting went unchecked. Countries agree together because seals cross borders.
 > _For grown-ups: Learned that countries make shared agreements to protect animals, such as fur seals, that travel across borders._
@@ -2904,7 +2912,7 @@ _Sea Vitch the walrus is asleep on a rock, enormous, whiskery, with tusks like t
 > **Lesson** (literacy, L.3.4, ask): compound words: clam-cracker is two words joined to make a new one  
 > _Kotick calls Sea Vitch a “clam-cracker”, and the gulls love it. That is a compound word, two words joined into one._  
 > _What does it mean?_  
-> - ✅ Someone who cracks clams open. → Yes. Clam plus cracker: a walrus really does eat clams from the sea floor, so the name fits. Compound words, like sunshine or notebook, are made by joining two words and combining their meanings.
+> - ✅ Someone who cracks clams open. → Yes. Clam plus cracker: a walrus does eat clams from the sea floor, so the name fits. A compound word, like sunshine, joins two words.
 > - A cracker made out of clams. → That is a funny picture, and you can see how the words might mean that. But here a cracker is someone who cracks things open, so a clam-cracker cracks clams.
 > - A crack in a clam. → Good try: both words are in there. In this name the second word is the one who does the cracking: a walrus cracking clams.
 > _For grown-ups: Worked out the meaning of the compound word clam-cracker from its two parts._
@@ -2933,7 +2941,7 @@ _Kotick grows big and strong, and stays as white as the first day._
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplying: 5 years of 12 months is 60 months  
 > _Kotick searched for 5 years, and every year has 12 months. How many months did he search?_  
-> - ✅ 60 months. → Yes: 5 × 12 = 60. Split it up: 5 × 10 = 50, and 5 × 2 = 10, so 50 + 10 = 60. It is a long time to keep looking for something nobody believes in.
+> - ✅ 60 months. → Yes: 5 × 12 = 60. Split it: 5 × 10 = 50 and 5 × 2 = 10, so 50 + 10 = 60. Sixty months of looking!
 > - 17 months. → That is 5 + 12. But there are 12 months in each of the 5 years. So we multiply: 5 × 12 = 60.
 > - 50 months. → That would be 5 × 10. Each year has 12 months, not 10. 5 × 12 = 60.
 > _For grown-ups: Multiplied 5 × 12 = 60 to turn years into months, splitting 12 into 10 and 2._
@@ -2948,7 +2956,7 @@ _Sea Cows. Bigger than walruses, quieter than fish, with small heads and soft li
 > **Lesson** (science, 3-LS4-4, ask): Steller’s sea cow was hunted until it was gone; its relatives are protected today  
 > _In this story the Sea Cows are alive. In real life, Steller’s sea cow was found in 1741 and gone by 1768._  
 > _What happened?_  
-> - ✅ Hunters took them all, because they were slow and easy to catch. → Yes. They died out in less than thirty years. When the last one died, there were no more, and nobody can bring them back. That is sad. Their cousins, manatees and dugongs, are protected now, and we can look after the animals that are still here.
+> - ✅ Hunters took them all, because they were slow and easy to catch. → Yes. They died out in less than thirty years. Nobody can bring them back. That is sad. We can look after the animals that are still here.
 > - They swam away to a warmer sea. → They did not. They lived only around a few cold islands. People hunted them until none were left.
 > - They are still alive, hidden somewhere. → Scientists have searched for a very long time. Steller’s sea cow is gone for ever. People hunted them until none were left, which is why we protect their cousins now.
 > _For grown-ups: Learned plainly that Steller’s sea cow died out in the 1700s because it was hunted, and that its relatives are protected today._
@@ -2957,6 +2965,8 @@ _Sea Cows. Bigger than walruses, quieter than fish, with small heads and soft li
 **Kotick**: I am looking for a beach. A safe one.  
 **Kotick**: Where men do not come. Please.  
 _The Sea Cows say nothing; they cannot, or they will not. They only chew the kelp, and look at him._  
+_Your Nubbin tries its kettle howl on them, very politely. One Sea Cow lets out a single slow bubble._  
+_It may be an answer._  
 _Then, very slowly, they begin to move north, along the coast. Kotick follows, and you follow Kotick._  
 _At last they dive, and swim into a black opening in the cliff, deep under the water. A tunnel._  
 _You hold your breath and your Nubbin and go in after them. The atlas is a kind page here; your breath lasts._  
@@ -2999,9 +3009,9 @@ _Sea Catch joins in, shoving with his scarred old neck and shouting for joy. Nob
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): persuading or pushing: is making people do what you think is best the same as helping them?  
 > _Kotick shoves the bulls until they follow. Is making people do what you think is best the same as helping them?_  
 > _There is no one right answer._  
-> - No. Helping is when people choose for themselves. → That is a fair answer. Kotick’s way is rough, and the seals do choose to follow in the end. Many people think the best way to change a mind is to listen and explain.
-> - Yes, if it saves them from harm. → That is a fair answer. Kotick is trying to save the seals from the hunt. But he does it by shoving, which makes it hard to tell whether they follow because they agree or because they are pushed.
-> - It depends how much harm is at stake, and whether it is only a shove. → That is a thoughtful answer. A little force to prevent a big harm is different from forcing someone for no good reason. Even then, the best result is when the others choose to go.
+> - No. Helping is when people choose for themselves. → Fair answer. Kotick’s way is rough, and the seals do choose to follow in the end. The best way to change a mind is often to listen and explain.
+> - Yes, if it saves them from harm. → Fair answer. Kotick is trying to save the seals from the hunt. But he shoves, so we cannot tell if they agree or are only pushed.
+> - It depends how much harm is at stake, and whether it is only a shove. → Thoughtful answer. A little force to prevent a big harm is different from forcing someone for no reason. Even then, the best result is when others choose to go.
 > _For grown-ups: Thought about the difference between persuading and forcing, and whether pushing people toward what we think is best is helping._
 
 
@@ -3037,10 +3047,10 @@ _The page goes soft, like sea-fog. You are back at your own kitchen table, with 
 _There is a small white seal sitting by the pond outside, flopping, looking pleased with itself. It seems to know the way._  
 _Kotick took them to the hidden beaches, and the seals live there still, safe, far out in that cold sea._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): protected places and the rules that keep wild animals safe today  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): protected places and the rules that keep wild animals safe today  
 > _Kotick found a safe beach where nobody hunts. Today some places are set aside by law so that wild animals can live safely._  
 > _What are they called?_  
-> - ✅ Nature reserves, or wildlife refuges. → Yes. Rules keep hunters and builders out. Pench Tiger Reserve, near Seoni, is one for tigers, and fur seals are protected by law too. Safe places are how many wild animals survive.
+> - ✅ Nature reserves, or wildlife refuges. → Yes. Rules keep hunters and builders out. Pench Tiger Reserve, near Seoni, is one for tigers, and fur seals are protected by law too. Safe places help animals survive.
 > - Zoos only. → Zoos care for some animals, but most wild animals live outdoors. Nature reserves and refuges protect their real homes.
 > - There are none. Wild animals look after themselves. → Many places are protected, and they matter a great deal. They are called nature reserves or wildlife refuges.
 > _For grown-ups: Learned that nature reserves and wildlife refuges are places protected by rules so that wild animals can live safely._

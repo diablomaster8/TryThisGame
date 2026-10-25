@@ -25,7 +25,7 @@
  * - The stones: frightened villagers shout, and a pebble bumps along the road. Both stones
  *   choices are kind, and both are kept with their `set` flags, so no `defaultChoice` is needed.
  * - The Cold Lairs and the Red Dog fight: no wounds; the red dogs are swept away by the river.
- * - The White Seal: the young seals are taken away and do not come back; Kotick is sad and cross
+ * - The White Seal: men take some young seals away, for their fur; Kotick is sad and cross
  *   and turns away. The Unangax̂ are named as the people of the islands and are never villains.
  * - Steller’s sea cow is said plainly: real sea cows were hunted, and they are all gone for ever,
  *   then the comfort: we can look after the animals that are still here.
@@ -808,7 +808,7 @@ const A3: EduQuest = quest(
           2,
           'literacy',
           'a new word: creeper (a climbing plant)',
-          'L.2.4',
+          'ELOF: Language and Communication',
           [N('A creeper is a plant that climbs up a tree. What does a creeper do?')],
           [
             o('Climbs.', [N('Yes! A creeper climbs and holds on.')], true),
@@ -916,7 +916,7 @@ const A4: EduQuest = quest(
           1,
           'science',
           'birds have wings to fly',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Chil has big wings. What does Chil use to fly?')],
           [
             o('His wings.', [N('Yes! Wings help birds fly high.')], true),
@@ -996,7 +996,7 @@ const A4: EduQuest = quest(
           2,
           'science',
           'snakes shed their skin as they grow',
-          '3-LS1-1',
+          'ELOF: Scientific Reasoning',
           [
             N(
               'Kaa left his old skin on the stone. Why? Because he grew bigger, or because he was bored?',
@@ -1191,7 +1191,7 @@ const A5: EduQuest = quest(
           1,
           'science',
           'snakes slide without legs',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Kaa has no legs. How does Kaa move: does he slide, or does he skip?')],
           [
             o('He slides.', [N('Yes! A snake slides on its tummy.')], true),
@@ -1294,7 +1294,7 @@ const A6: EduQuest = quest(
           1,
           'science',
           'a black panther is a leopard with dark fur',
-          '3-LS3-1',
+          '1-LS3-1',
           [N('Bagheera is a black panther: a leopard with dark fur. What colour is his fur?')],
           [
             o('Black.', [N('Yes! Black as ink. In the sun you can see spots.')], true),
@@ -1896,7 +1896,7 @@ const A9: EduQuest = quest(
           [
             o(
               'Slow.',
-              [N('Yes! Where a river spreads out, it slows down. That is why we cross here.')],
+              [N('Yes! A wide river runs slowly. That is why we cross here.')],
               true,
             ),
             o('Fast.', [
@@ -1975,7 +1975,7 @@ const A9: EduQuest = quest(
       'a24-09-ravine-done',
       [
         AK('It is finished. Shere Khan has died. His body stopped working.', 'think'),
-        AK('He will never bother us again.'),
+        AK('Mowgli is safe now. We will sit with him.', 'soft'),
         N('The buffalo spread out across the plain and eat grass.'),
         N('They graze side by side, shoulder to shoulder.'),
       ],
@@ -2430,6 +2430,8 @@ const A12: EduQuest = quest(
         N('A year comes when the rain does not. Everything goes brown and dry.'),
         N('The streams dry up. Even the big river is a trickle.'),
         BL('I have never seen it this bad. I am half the bear I was.', 'sad'),
+        N('Your Nubbin walks all round Baloo. It is looking for the other half!'),
+        BL('It is still in here, little one.', 'happy'),
         N('A long blue rock stands up in the river. It is the Peace Rock.'),
         N('Hathi the elephant stands beside it. He has called the Water Truce.'),
         N('Elephants can dig for water in a dry river, with their feet and trunks.'),
@@ -2437,7 +2439,7 @@ const A12: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          7,
           'science',
           'plants and animals need water; elephants can dig for it',
           'K-LS1-1',
@@ -2525,7 +2527,7 @@ const A12: EduQuest = quest(
           2,
           'science',
           'stripes help tigers hide in tall grass',
-          '3-LS4-3',
+          'ELOF: Scientific Reasoning',
           [
             N(
               'Stripes help a tiger hide. Where is a tiger hard to see: tall grass, or a white wall?',
@@ -3214,7 +3216,7 @@ const A15: EduQuest = quest(
 // ================================================================== A24-16 Man Goes to Man
 const A16: EduQuest = quest(
   'a24-16',
-  'The Spring Running',
+  'Man Goes to Man',
   {
     'a24-16-s1': {
       goal: 'Go back with Mowgli to the Council Rock.',
@@ -3242,16 +3244,16 @@ const A16: EduQuest = quest(
       ],
       [
         ask(
-          5,
-          'literacy',
-          'rhymes: trail and snail',
-          'RF.K.2',
-          [BL('Trail. Trail. What rhymes with trail: snail, or sun?')],
+          1,
+          'maths',
+          'count the three coils',
+          'K.CC.B.5',
+          [N('Kaa is coiled round the rock. How many times: three, or ten?')],
           [
-            o('Snail.', [BL('Yes! Trail, snail: they rhyme!', 'happy')], true),
-            o('Sun.', [BL('Trail, snail! They end the same.')]),
+            o('Three.', [N('Yes! One, two, three coils.')], true),
+            o('Ten.', [N('Let us count: one, two, three. Three coils.')]),
           ],
-          'Found a word that rhymes with trail.',
+          'Counted three coils, one number for each.',
         ),
       ],
       [
@@ -3275,7 +3277,7 @@ const A16: EduQuest = quest(
           2,
           'science',
           'cats have soft paws and walk quietly',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Bagheera walks very quietly. Are a cat’s paws soft, or hard like rock?')],
           [
             o('Soft.', [N('Yes! Soft paws, no sound. Pad, pad, pad.')], true),
@@ -3364,6 +3366,18 @@ const A16: EduQuest = quest(
           ],
           'Learned that a landmark, such as a stone or a tree, helps us find the way.',
         ),
+        ask(
+          5,
+          'literacy',
+          'rhymes: trail and snail',
+          'RF.K.2',
+          [GB('Trail. Trail. What rhymes with trail: snail, or sun?')],
+          [
+            o('Snail.', [GB('Yes! Trail, snail: they rhyme!', 'happy')], true),
+            o('Sun.', [GB('Trail, snail! They end the same.')]),
+          ],
+          'Found a word that rhymes with trail.',
+        ),
       ],
       [
         ch('hunting', 'Tell him: safe travels.', [
@@ -3386,7 +3400,7 @@ const A16: EduQuest = quest(
           2,
           'science',
           'wolves find a trail with their noses',
-          '4-LS1-2',
+          'ELOF: Scientific Reasoning',
           [
             N(
               'The wolves follow the trail. What do wolves use to follow a trail: their noses, or their toes?',
@@ -3449,11 +3463,12 @@ const A17: EduQuest = quest(
       'a24-17-beach',
       [
         N('The jungle page has a last leaf folded in. The air goes cold.'),
-        N('These are the Pribilof Islands, in the cold north. They are home to Unangax̂ families.'),
+        N('This is a cold island, far in the north. Unangax̂ families live here.'),
         N('Below you is a beach, roaring with thousands of seals!'),
         N('The big bulls shove each other for the best rocks. Nobody is hurt.'),
+        N('A mother seal nuzzles her new pup. Her name is Matkah.'),
         MK('Oh, look! Our baby is white! White as sea-foam!', 'shock'),
-        SC('Nonsense. There has never been a white seal.', 'think'),
+        N('The father seal snorts. “Nonsense. There has never been a white seal.”'),
         MK('There is one now.'),
       ],
       [
@@ -3467,7 +3482,7 @@ const A17: EduQuest = quest(
             o('Cold.', [N('Yes! The northern sea is cold. Seals have thick fur.')], true),
             o('Hot.', [N('It is very cold in the north.')]),
           ],
-          'Learned that the Bering Sea, home to these seals, is far north and cold.',
+          'Learned that the Pribilof Islands, in the Bering Sea, are far north and cold, and are home to these seals and to Unangax̂ families.',
         ),
       ],
       [
@@ -3483,12 +3498,13 @@ const A17: EduQuest = quest(
       'a24-17-beach-done',
       [
         N('They name the pup Kotick.'),
+        N('The father seal is called Sea Catch.'),
         N('He crawls to your Nubbin. They look at each other.'),
         N('Your Nubbin decides it is a seal as well.'),
       ],
       [
         ask(
-          2,
+          3,
           'science',
           'young are like, but not the same as, their parents',
           '1-LS3-1',
@@ -3547,7 +3563,7 @@ const A17: EduQuest = quest(
           2,
           'literacy',
           'a sound word: splash',
-          'RL.2.4',
+          'RF.K.2',
           'edu:say:sound-word:splash',
           [N('The waves go splash! Say it with me. Splash, splash, splash!')],
           'Said the sound word “splash” in a repeated line.',
@@ -3558,10 +3574,10 @@ const A17: EduQuest = quest(
       'a24-17-drove',
       [
         N('Men from the village walk young seals up the beach.'),
-        N('It is hard work they were made to do, for a company far away.'),
-        N('Kotick sees where the young seals go. They do not come back.'),
+        N('Men take some young seals away, for their warm fur.'),
+        N('Kotick watches. He does not like it one bit.'),
         N('He turns away. You turn with him. The page turns too.'),
-        KO('They do not come back. I am so sad. I am cross.', 'shock'),
+        KO('I do not like it. I am so sad. I am cross.', 'shock'),
         MK('It has been so for a long time, Kotick.', 'sad'),
         KO('I will find a beach where nobody takes seals away.', 'angry'),
       ],
@@ -3576,7 +3592,7 @@ const A17: EduQuest = quest(
             o('A friend.', [N('Yes! Telling a friend helps.')], true),
             o('Nobody.', [N('Telling a friend or a grown-up helps.')]),
           ],
-          'Talked about telling a friend when we feel sad.',
+          'Talked about telling a friend when we feel sad. Grown-up note: in the story the village men did this hard work for a company far away, because they were made to.',
         ),
       ],
       [
@@ -3667,11 +3683,14 @@ const A18: EduQuest = quest(
         N('Sea Vitch the walrus is asleep. He has two big tusks.'),
         SV('Go away! I was asleep. Shoo!', 'angry'),
         N('Gulls squawk from the rocks. They never liked Sea Vitch.'),
+        N('The gulls sing: “Clam-crack! Clam-crack! Sea Vitch is a clam-crack!”'),
+        N('Say it with the gulls: clam-crack, clam-crack!'),
+        SV('I LIKE clams.'),
         SV('Ask the Sea Cows, then. If they are still alive.'),
       ],
       [
         ask(
-          6,
+          9,
           'literacy',
           'first sounds: S for sea, seal and sun',
           'RF.K.2',
@@ -3784,20 +3803,22 @@ const A18: EduQuest = quest(
         N('Kotick pushes his chest against the biggest seal.'),
         N('He shoves and roars, all along the beach. Nobody is hurt.'),
         SC('That is my son!', 'happy'),
+        MK('He gets that from you.'),
+        SC('He does!', 'happy'),
         KO('Who is coming with me?', 'angry'),
       ],
       [
         ask(
-          6,
+          8,
           'sel',
-          'use words, not pushing, to help friends listen',
-          'CASEL: Responsible decision-making',
-          [N('Kotick pushed the other seals. What could he do instead of pushing?')],
+          'keeping on with a good idea',
+          'ELOF: Social and Emotional Development',
+          [N('The seals laughed at Kotick. Did he give up?')],
           [
-            o('Ask, and use words.', [N('Yes! Asking and explaining is kinder.')], true),
-            o('Push harder.', [N('Pushing is not kind. Asking with words is better.')]),
+            o('No, he kept going.', [N('Yes! Kotick kept going, and his dad was proud.')], true),
+            o('Yes.', [N('He did not give up! He asked, “Who is coming with me?”')]),
           ],
-          'Thought about using words and asking, rather than pushing, to help others listen.',
+          'Talked about keeping on with a good idea, even when others laugh, as Kotick did.',
         ),
       ],
       [
@@ -3909,7 +3930,7 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
         3,
         'science',
         'owls have soft feathers and fly quietly',
-        '4-LS1-1',
+        'K-LS1-1',
         [N('The owl flew without a sound. Are an owl’s feathers soft, or hard like stones?')],
         [
           o('Soft.', [N('Yes! Soft feathers, no sound. Whoosh, quiet!')], true),
@@ -4064,17 +4085,19 @@ export const EDU_A24_SPROUT_VARIANTS: EduScene[] = [
     'a24-15-lamp-mowgli',
     [
       N('Messua looks at you over Mowgli’s head.'),
-      N('She does not know you. It has been years.'),
+      ME('Were you here before? With… feathers?', 'think'),
+      N('Your Nubbin drops one feather on her floor.'),
+      ME('Never mind. Sit down and eat.', 'soft'),
       ME('Are you hungry too? Come in. You came with my son.', 'soft'),
       N('You sit by the door and eat her bread.'),
     ],
     [
       ask(
-        2,
+        4,
         'literacy',
         'a kind character',
         'RL.K.3',
-        [N('Messua gives you bread, though she does not know you. Is Messua kind, or cross?')],
+        [N('Messua gives you bread, even though she cannot remember you. Is Messua kind, or cross?')],
         [
           o('Kind.', [N('Yes! She is kind to everyone who comes in.')], true),
           o('Cross.', [N('She feeds you! That is kind.')]),

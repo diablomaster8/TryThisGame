@@ -397,7 +397,7 @@ _Baloo lies back with a happy grunt._
 **Baloo**: The Law is like a creeper on a tree. It holds things up.  
 _A creeper is a plant that climbs a tree._  
 
-> **Lesson** (literacy, L.2.4, ask): a new word: creeper (a climbing plant)  
+> **Lesson** (literacy, ELOF: Language and Communication, ask): a new word: creeper (a climbing plant)  
 > _A creeper is a plant that climbs up a tree._  
 > _What does a creeper do?_  
 > - ✅ Climbs. → Yes! A creeper climbs and holds on.
@@ -461,7 +461,7 @@ _Up in the sky, a kite is circling. It sees everything._
 _Mowgli whistles the bird word._  
 _High above, Chil the kite tips his wing and swoops down._  
 
-> **Lesson** (science, 4-LS1-1, ask): birds have wings to fly  
+> **Lesson** (science, K-LS1-1, ask): birds have wings to fly  
 > _Chil has big wings. What does Chil use to fly?_  
 > - ✅ His wings. → Yes! Wings help birds fly high.
 > - His tummy. → Wings are for flying! Chil flaps and glides.
@@ -524,7 +524,7 @@ _Kaa goes very still. Every monkey in the jungle knows that stillness._
 _He slides off the ledge. The grass does not even move._  
 _On the warm stone lies Kaa’s old skin. It is long and papery._  
 
-> **Lesson** (science, 3-LS1-1, ask): snakes shed their skin as they grow  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): snakes shed their skin as they grow  
 > _Kaa left his old skin on the stone. Why?_  
 > _Because he grew bigger, or because he was bored?_  
 > - ✅ He grew bigger. → Yes! Snakes grow, and slip out of the old skin.
@@ -640,7 +640,7 @@ _Baloo sits down very suddenly._
 **Kaa**: Now stay, all of you. I will dance the Hunger Dance.  
 _Kaa has no legs. He slides in slow loops, round and round._  
 
-> **Lesson** (science, 4-LS1-1, ask): snakes slide without legs  
+> **Lesson** (science, K-LS1-1, ask): snakes slide without legs  
 > _Kaa has no legs._  
 > _How does Kaa move: does he slide, or does he skip?_  
 > - ✅ He slides. → Yes! A snake slides on its tummy.
@@ -701,7 +701,7 @@ _Years pass. Mowgli is ten now._
 _He has never lived in a house._  
 _Akela is old. Shere Khan has made friends with the young wolves._  
 
-> **Lesson** (science, 3-LS3-1, ask): a black panther is a leopard with dark fur  
+> **Lesson** (science, 1-LS3-1, ask): a black panther is a leopard with dark fur  
 > _Bagheera is a black panther: a leopard with dark fur._  
 > _What colour is his fur?_  
 > - ✅ Black. → Yes! Black as ink. In the sun you can see spots.
@@ -1080,7 +1080,7 @@ _Here the river is wide and shallow. It flows slow._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): a river slows down where it spreads out wide and shallow  
 > _Here the river spreads out wide and shallow._  
 > _Does it run fast here, or slow?_  
-> - ✅ Slow. → Yes! Where a river spreads out, it slows down. That is why we cross here.
+> - ✅ Slow. → Yes! A wide river runs slowly. That is why we cross here.
 > - Fast. → Squeezed into a narrow gap, it runs fast. Spread out wide, it runs slow.
 > _For grown-ups: Learned that a wide, shallow river flows more slowly._
 
@@ -1140,7 +1140,7 @@ _Then it is quiet. Only dust, settling._
 
 **Akela**: It is finished. Shere Khan has died.  
 **Akela**: His body stopped working.  
-**Akela**: He will never bother us again.  
+**Akela**: Mowgli is safe now. We will sit with him.  
 _The buffalo spread out across the plain and eat grass._  
 _They graze side by side, shoulder to shoulder._  
 
@@ -1300,7 +1300,7 @@ _Your Nubbin leans against Messua’s leg._
 **Messua**: I will make something hot.  
 _An owl flies over the hut. It makes no sound at all._  
 
-> **Lesson** (science, 4-LS1-1, ask): owls have soft feathers and fly quietly  
+> **Lesson** (science, K-LS1-1, ask): owls have soft feathers and fly quietly  
 > _The owl flew without a sound._  
 > _Are an owl’s feathers soft, or hard like stones?_  
 > - ✅ Soft. → Yes! Soft feathers, no sound. Whoosh, quiet!
@@ -1447,6 +1447,8 @@ _Your Nubbin climbs onto the stone and watches the moon._
 _A year comes when the rain does not. Everything goes brown and dry._  
 _The streams dry up. Even the big river is a trickle._  
 **Baloo**: I have never seen it this bad. I am half the bear I was.  
+_Your Nubbin walks all round Baloo. It is looking for the other half!_  
+**Baloo**: It is still in here, little one.  
 _A long blue rock stands up in the river. It is the Peace Rock._  
 _Hathi the elephant stands beside it. He has called the Water Truce._  
 _Elephants can dig for water in a dry river, with their feet and trunks._  
@@ -1512,7 +1514,7 @@ _Deer stand beside wolves. Pigs stand beside a panther._
 **Baloo**: Everything is better when you are thirsty. Except being thirsty.  
 **Bagheera**: Stripes really help a tiger hide in tall grass.  
 
-> **Lesson** (science, 3-LS4-3, ask): stripes help tigers hide in tall grass  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): stripes help tigers hide in tall grass  
 > _Stripes help a tiger hide._  
 > _Where is a tiger hard to see: tall grass, or a white wall?_  
 > - ✅ Tall grass. → Yes! The stripes look like grass. Shh, hide!
@@ -2010,12 +2012,14 @@ _A woman comes to the door with the lamp. It is Messua._
 _Variant of `a24-15-lamp`._
 
 _Messua looks at you over Mowgli’s head._  
-_She does not know you. It has been years._  
+**Messua**: Were you here before? With… feathers?  
+_Your Nubbin drops one feather on her floor._  
+**Messua**: Never mind. Sit down and eat.  
 **Messua**: Are you hungry too? Come in.  
 **Messua**: You came with my son.  
 
 > **Lesson** (literacy, RL.K.3, ask): a kind character  
-> _Messua gives you bread, though she does not know you._  
+> _Messua gives you bread, even though she cannot remember you._  
 > _Is Messua kind, or cross?_  
 > - ✅ Kind. → Yes! She is kind to everyone who comes in.
 > - Cross. → She feeds you! That is kind.
@@ -2067,7 +2071,7 @@ _Grey Brother lies by the door. Your Nubbin lies with him._
 
 _You sit on the step in the sun._  
 
-## A24-16. The Spring Running
+## A24-16. Man Goes to Man
 
 - `a24-16-s1`: Go back with Mowgli to the Council Rock. · _Baloo and Kaa are waiting. They know already._
 - `a24-16-s2`: Wait at the Council Rock for Bagheera. · _He will come. Panthers are always last, on purpose._
@@ -2077,20 +2081,19 @@ _You sit on the step in the sun._
 
 _You come to the Council Rock before dawn. Baloo is there, very old._  
 _Kaa is coiled round the rock, three times._  
+
+> **Lesson** (maths, K.CC.B.5, ask): count the three coils  
+> _Kaa is coiled round the rock. How many times: three, or ten?_  
+> - ✅ Three. → Yes! One, two, three coils.
+> - Ten. → Let us count: one, two, three. Three coils.
+> _For grown-ups: Counted three coils, one number for each._
+
 **Baloo**: Cub, we know. We have known since spring.  
 **Mowgli**: I want to go. But I do not want to go.  
 **Mowgli**: Both.  
 **Kaa**: People belong with people in the end.  
 **Kaa**: But the jungle is always your home too.  
 **Baloo**: Make your own trail, cub. We will still be here.  
-
-> **Lesson** (literacy, RF.K.2, ask): rhymes: trail and snail  
-> **Baloo**: Trail. Trail.  
-> **Baloo**: What rhymes with trail: snail, or sun?  
-> - ✅ Snail. → Yes! Trail, snail: they rhyme!
-> - Sun. → Trail, snail! They end the same.
-> _For grown-ups: Found a word that rhymes with trail._
-
 
 **Choices**
 
@@ -2107,7 +2110,7 @@ _Far down the hill, something moves in the bushes._
 **Baloo**: A panther is silent when he wants to be.  
 **Baloo**: If you hear him, he wants us to.  
 
-> **Lesson** (science, 4-LS1-1, ask): cats have soft paws and walk quietly  
+> **Lesson** (science, K-LS1-1, ask): cats have soft paws and walk quietly  
 > _Bagheera walks very quietly. Are a cat’s paws soft, or hard like rock?_  
 > - ✅ Soft. → Yes! Soft paws, no sound. Pad, pad, pad.
 > - Hard like rock. → Cat paws are soft, so they walk quietly.
@@ -2180,6 +2183,14 @@ _Your Nubbin trots in the middle. It still thinks it is a wolf._
 
 _He does not make a speech. He just looks at you and nods._  
 
+> **Lesson** (literacy, RF.K.2, ask): rhymes: trail and snail  
+> **Grey Brother**: Trail. Trail.  
+> **Grey Brother**: What rhymes with trail: snail, or sun?  
+> - ✅ Snail. → Yes! Trail, snail: they rhyme!
+> - Sun. → Trail, snail! They end the same.
+> _For grown-ups: Found a word that rhymes with trail._
+
+
 **Choices**
 
 - **Tell him: safe travels.**
@@ -2220,7 +2231,7 @@ _He does not look back._
 _That is how you know he will be all right._  
 _Your Nubbin sits on the mossy stone. You sit with it._  
 
-> **Lesson** (science, 4-LS1-2, ask): wolves find a trail with their noses  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): wolves find a trail with their noses  
 > _The wolves follow the trail._  
 > _What do wolves use to follow a trail: their noses, or their toes?_  
 > - ✅ Their noses. → Yes! Wolves have super sniffy noses.
@@ -2284,8 +2295,7 @@ _Tucked in the back is a plank, carved by somebody patient._
 #### `sprout:a24-17-beach` · [main](main.md#a24-17-beach)
 
 _The jungle page has a last leaf folded in. The air goes cold._  
-_These are the Pribilof Islands, in the cold north._  
-_They are home to Unangax̂ families._  
+_This is a cold island, far in the north. Unangax̂ families live here._  
 _Below you is a beach, roaring with thousands of seals!_  
 _The big bulls shove each other for the best rocks. Nobody is hurt._  
 
@@ -2294,11 +2304,13 @@ _The big bulls shove each other for the best rocks. Nobody is hurt._
 > _Is it cold there, or hot?_  
 > - ✅ Cold. → Yes! The northern sea is cold. Seals have thick fur.
 > - Hot. → It is very cold in the north.
-> _For grown-ups: Learned that the Bering Sea, home to these seals, is far north and cold._
+> _For grown-ups: Learned that the Pribilof Islands, in the Bering Sea, are far north and cold, and are home to these seals and to Unangax̂ families._
 
+_A mother seal nuzzles her new pup. Her name is Matkah._  
 **Matkah**: Oh, look! Our baby is white!  
 **Matkah**: White as sea-foam!  
-**Sea Catch**: Nonsense. There has never been a white seal.  
+_The father seal snorts. “Nonsense._  
+_There has never been a white seal.”_  
 **Matkah**: There is one now.  
 
 **Choices**
@@ -2311,6 +2323,7 @@ _The big bulls shove each other for the best rocks. Nobody is hurt._
 #### `sprout:a24-17-beach-done` · [main](main.md#a24-17-beach-done)
 
 _They name the pup Kotick._  
+_The father seal is called Sea Catch._  
 _He crawls to your Nubbin. They look at each other._  
 _Your Nubbin decides it is a seal as well._  
 
@@ -2354,7 +2367,7 @@ _By autumn Kotick swims like a seal born to it._
 _Splash! Splosh!_  
 _The waves go splash on the sand._  
 
-> **Lesson** (literacy, RL.2.4, do): a sound word: splash  
+> **Lesson** (literacy, RF.K.2, do): a sound word: splash  
 > _The waves go splash! Say it with me._  
 > _Splash, splash, splash!_  
 > Check: `edu:say:sound-word:splash`
@@ -2364,11 +2377,11 @@ _The waves go splash on the sand._
 #### `sprout:a24-17-drove` · [main](main.md#a24-17-drove)
 
 _Men from the village walk young seals up the beach._  
-_It is hard work they were made to do, for a company far away._  
-_Kotick sees where the young seals go. They do not come back._  
+_Men take some young seals away, for their warm fur._  
+_Kotick watches. He does not like it one bit._  
 _He turns away. You turn with him._  
 _The page turns too._  
-**Kotick**: They do not come back. I am so sad.  
+**Kotick**: I do not like it. I am so sad.  
 **Kotick**: I am cross.  
 **Matkah**: It has been so for a long time, Kotick.  
 **Kotick**: I will find a beach where nobody takes seals away.  
@@ -2377,7 +2390,7 @@ _The page turns too._
 > _Kotick is sad. Who can we tell when we feel sad?_  
 > - ✅ A friend. → Yes! Telling a friend helps.
 > - Nobody. → Telling a friend or a grown-up helps.
-> _For grown-ups: Talked about telling a friend when we feel sad._
+> _For grown-ups: Talked about telling a friend when we feel sad. Grown-up note: in the story the village men did this hard work for a company far away, because they were made to._
 
 
 **Choices**
@@ -2450,6 +2463,10 @@ _Sea Vitch the walrus is asleep. He has two big tusks._
 **Sea Vitch**: Go away! I was asleep.  
 **Sea Vitch**: Shoo!  
 _Gulls squawk from the rocks. They never liked Sea Vitch._  
+_The gulls sing: “Clam-crack! Clam-crack!_  
+_Sea Vitch is a clam-crack!”_  
+_Say it with the gulls: clam-crack, clam-crack!_  
+**Sea Vitch**: I LIKE clams.  
 **Sea Vitch**: Ask the Sea Cows, then. If they are still alive.  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds: S for sea, seal and sun  
@@ -2530,13 +2547,15 @@ _They laugh at him. A white seal, with stories!_
 _Kotick pushes his chest against the biggest seal._  
 _He shoves and roars, all along the beach. Nobody is hurt._  
 **Sea Catch**: That is my son!  
+**Matkah**: He gets that from you.  
+**Sea Catch**: He does!  
 **Kotick**: Who is coming with me?  
 
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): use words, not pushing, to help friends listen  
-> _Kotick pushed the other seals. What could he do instead of pushing?_  
-> - ✅ Ask, and use words. → Yes! Asking and explaining is kinder.
-> - Push harder. → Pushing is not kind. Asking with words is better.
-> _For grown-ups: Thought about using words and asking, rather than pushing, to help others listen._
+> **Lesson** (sel, ELOF: Social and Emotional Development, ask): keeping on with a good idea  
+> _The seals laughed at Kotick. Did he give up?_  
+> - ✅ No, he kept going. → Yes! Kotick kept going, and his dad was proud.
+> - Yes. → He did not give up! He asked, “Who is coming with me?”
+> _For grown-ups: Talked about keeping on with a good idea, even when others laugh, as Kotick did._
 
 
 **Choices**

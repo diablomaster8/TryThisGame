@@ -36,6 +36,15 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below).
 
+## Story review run 14 fixes (2026-10-25)
+
+- **Works:** all 55 run-14 recs fixed across A23 and A24 with their bands, A25 main and reader, and
+  A26 with its bands. A26's flood tale now counts seven days and seven loaves, with the wife correcting
+  him. Atreyu gets a terrible first rhyme, and Baloo is "half the bear I was". The A24 reader's 66
+  over-long replies are trimmed.
+- **Partial:** none.
+- **Known bugs:** none new. Some reader lessons carry no standard tag where no grades 3–5 code fits.
+
 ## Story review run 13 fixes (2026-10-25)
 
 - **Works:** all 60 run-13 recs fixed across A19, A20 and A22 with their bands, plus A21. A21 shows the

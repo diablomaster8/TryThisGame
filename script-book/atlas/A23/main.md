@@ -126,6 +126,8 @@ Hint: Bring yellow earth from the dry riverbed and ripe fruit from the tree, the
 
 #### <a id="a23-02-paints"></a>Scene `a23-02-paints`
 
+_On the way in, the third branch creaks at you. You find you have said sorry to it._  
+**Rafiki** _(think)_: Good. It likes manners. Last week it threw out a bird.  
 _Inside, the baobab is hollow and cool, and taller than it looks. The walls are painted all the way up._  
 _Lions, mostly: kings and queens and cubs in rust and white and yellow, some so old they have gone the colour of tea._  
 **Rafiki**: My family. Not my family. The family I watch. Which is the same thing, if you watch long enough.  
@@ -976,6 +978,7 @@ _The grass goes yellow, then grey, then nothing. The river at the bottom of the 
 **Rafiki** _(sad)_: A plain is not just grass. It is everyone on it, looking after each other without knowing. When that stops…  
 _You and your Nubbin don’t change at all; the atlas keeps your time for you. Rafiki gets a little greyer round the beard._  
 _Every day you carry water up to the rock in Rafiki’s gourds, for whoever needs it. There is always someone._  
+_Every morning Rafiki sets out two cups, in case. Every evening he drinks both, cold._  
 **Rafiki** _(think)_: Polepole. You walk too fast in this heat. A dropped gourd helps nobody.  
 
 **Choices**
@@ -1127,7 +1130,7 @@ _She pins him. She knows exactly where to put her paws; she pinned him like that
 
 **Nala** _(shock)_: Simba? It is you! But everyone thinks you’re…  
 _Then she sees you, standing in the stream with your Nubbin, and her eyes go wide all over again._  
-**Nala**: Rafiki’s guest? You’ve been with him? All this time?  
+**Nala**: Rafiki’s guest? You’ve been with Simba? All this time, and nobody on the rock knew?  
 
 #### <a id="a23-12-hunt-done-rafiki"></a>Variant `a23-12-hunt-done-rafiki`
 
@@ -1136,6 +1139,9 @@ _Variant of `a23-12-hunt-done`._
 **Simba** _(shock)_: And you. Rafiki’s guest. You haven’t changed at all. How haven’t you changed?  
 **You**: It’s a long story. There’s a book in it.  
 **Nala** _(sad)_: Rafiki sent them with me. Simba, they think you’re… everyone thinks you’re…  
+**Timon** _(shock)_: Hold it. Who’s this? And what is that? A mushroom? A dumpling?  
+**Pumbaa** _(happy)_: Can we keep them too?  
+**Timon**: Pumbaa, we are not collecting… Fine. Fine!  
 
 ### Step 2: Give Simba and Nala some room, and stay within call.
 
@@ -1616,8 +1622,13 @@ _All the animals are gathering below the rock, the way they did on the very firs
 _At the top, Simba stands with his mane dry and full, and Nala beside him with something small between her paws._  
 **Nala** _(happy)_: Gently. Three days old, and already the bossiest one on the rock.  
 _Rafiki shakes his rattle of gourds over the new cub, and the cub sneezes, just as its father did._  
+**Rafiki** _(happy)_: I made tea this morning. For somebody, this time.  
+_He has carried three cups up the rock. The smallest is for your Nubbin, which drinks it in one go and holds the cup out for more._  
 _Your Nubbin climbs your back, then your shoulder, then your head, to see. Some things never change._  
 _Simba looks out over the plain, then up at the sky, as if checking someone is watching. Then he nods._  
+_Zazu lands on a stone in front of you, very important, and looks you up and down._  
+**Zazu**: Name? Business? …Oh, stop it. You’re on the list.  
+**Zazu** _(happy)_: You have been on the list since the first morning. I simply never said.  
 
 ### Complete
 
@@ -1628,6 +1639,9 @@ _Down on the plain, everyone sees at once. The sound comes up the rock like the 
 **Timon** _(happy)_: Hey! Guest! Dumpling! Get over here! You stand with family!  
 _Timon and Pumbaa pull you in between them, to the front of the rock, right beside the lions._  
 **Pumbaa** _(happy)_: We came all this way together. You don’t get to stand at the back.  
+**Zazu**: Hornbills are excellent at standing at the back.  
+**Timon**: Zazu. You’re at the front.  
+_Zazu looks down. He is, somehow, at the very front. He straightens one feather and says nothing, for once._  
 _You stand with them while the plain kneels. Your Nubbin, on your head, kneels too._  
 _Then the light comes, and the paper, and the kitchen table. Nova’s atlas lies open at a red rock over a green plain._  
 _Between the pages there is a bookmark that wasn’t there before, and a smell of rain._  

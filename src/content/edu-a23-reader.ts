@@ -238,7 +238,7 @@ const Q1: EduQuest = quest(
           2,
           'social-studies',
           'what a savanna is, and where real ones are',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'This is savanna: a warm grassland with a few trees standing alone, and a long dry season between the rains.',
@@ -503,7 +503,7 @@ const Q1: EduQuest = quest(
           2,
           'music',
           'sound comes from vibration, and shakers make rhythm',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             RA(
               'A dried gourd with seeds inside is a shaker. The seeds bounce, the gourd shivers, and the shiver reaches your ear as sound.',
@@ -518,7 +518,7 @@ const Q1: EduQuest = quest(
           6,
           'science',
           'young animals are like their parents but not the same',
-          '1-LS3-1',
+          '3-LS3-1',
           [
             N(
               'Lion cubs are born with faint spots that fade as they grow, and a male cub has no mane until he is older. What does that tell us about cubs and adult lions?',
@@ -663,7 +663,7 @@ const Q2: EduQuest = quest(
           3,
           'science',
           'ochre is earth coloured by iron, used as paint for a very long time',
-          '2-PS1-1',
+          undefined,
           [
             RA(
               'Ochre is earth that is yellow, red or brown because of iron minerals in it. Grind it fine and it becomes paint.',
@@ -739,7 +739,7 @@ const Q2: EduQuest = quest(
           2,
           'literacy',
           'learning a new word from its parts',
-          'L.2.4',
+          'L.3.4',
           [N('Asante means thank you, and sana means very. What does “asante sana” mean?')],
           [
             o(
@@ -781,7 +781,7 @@ const Q2: EduQuest = quest(
           4,
           'social-studies',
           'people keep the past alive with paintings, stories and songs',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             RA(
               'Long before anyone wrote things down, people kept their past by painting it on walls, telling it as stories, and singing it.',
@@ -1047,7 +1047,7 @@ const Q3: EduQuest = quest(
           2,
           'social-studies',
           'compass directions and the Sun’s path',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'The Sun rises in the east. If you stand on the rock and face the sunrise, which way are the hills behind you?',
@@ -1126,7 +1126,7 @@ const Q3: EduQuest = quest(
           6,
           'science',
           'food chains: energy passes along, and decomposers return it to the soil',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             MU(
               'Grass makes its own food from sunlight. An antelope eats the grass. A lion eats the antelope. That is a food chain.',
@@ -1689,7 +1689,7 @@ const Q5: EduQuest = quest(
           2,
           'social-studies',
           'the Great Migration is a real journey across two countries',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Real herds like this make one of the biggest journeys on Earth. Every year more than a million wildebeest, with zebra and gazelle, travel a great loop.',
@@ -1760,7 +1760,7 @@ const Q5: EduQuest = quest(
           1,
           'science',
           'steam and condensing: some changes can be reversed',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Real places like this exist. At Hell’s Gate in Kenya, rain soaks down to hot rock deep underground and comes back up as steam. If steam touches something cold, what does it turn back into?',
@@ -1956,7 +1956,7 @@ const Q6: EduQuest = quest(
           9,
           'music',
           'bigger sound makers make deeper sounds',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'Simba squeaks, and then a great deep roar answers. In general, which makes the deeper sound: a big, heavy animal, or a small, light one?',
@@ -2178,7 +2178,7 @@ const Q7: EduQuest = quest(
           1,
           'science',
           'day length near the equator stays close to 12 hours',
-          '1-ESS1-2',
+          '5-ESS1-2',
           [
             N(
               'Dusk comes fast here because this part of Africa lies close to the equator. There, day and night are each about 12 hours long all year round. How does a summer day compare with a winter day there?',
@@ -2326,32 +2326,17 @@ const Q7: EduQuest = quest(
         ),
       ],
       [
-        ask(
-          3,
-          'literacy',
-          'the theme of a story',
-          'RL.4.2',
-          [N('What is the main message about courage in this chapter?')],
+        notice(
+          0,
+          'science',
+          'heat moves from a warm thing into cooler air',
+          '4-PS3-2',
           [
-            o(
-              'Being brave means doing the right thing even when you are afraid',
-              [
-                N(
-                  'Yes. Mufasa shows it in what he says, and Rafiki shows it in how he answers. That repeated idea is the theme.',
-                ),
-              ],
-              true,
+            RA(
+              'Tea does not go cold by itself. Its heat slips out into the cooler night air, a little at a time.',
             ),
-            o('Brave people never feel fear', [
-              N(
-                'The chapter says the opposite: even a king can be frightened. The brave part is what he does next.',
-              ),
-            ]),
-            o('Only kings can be brave', [
-              N('Look at Simba, Nala and even Zazu. Courage in this story is not just for kings.'),
-            ]),
           ],
-          'Identified the theme of a chapter: courage means acting rightly even when afraid.',
+          'Learned that a hot drink cools because its heat moves into the cooler air around it.',
         ),
       ],
     ),
@@ -2644,7 +2629,7 @@ const Q10: EduQuest = quest(
           6,
           'maths',
           'two subtractions in a row',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'The gourd held 6 cups. Simba drank 2 and you drank 1. How many cups are left to give him at noon?',
@@ -2717,16 +2702,18 @@ const Q10: EduQuest = quest(
         ),
         PU('Oh, look, Timon. A little lion. He’s so tiny. And somebody with him. Can we keep him?'),
         TI('Pumbaa, are you out of your mind? …Fine. Fine! But I’m not carrying him.'),
+        TI('And nobody say thank you. You say thank you, then you owe somebody.'),
+        TI('Then you’re friends. Then you’re family. I’ve seen it happen.', 'think'),
       ],
       [
         ask(
-          4,
+          6,
           'sel',
           'thanks and what we owe each other',
           G_REL,
           [
             N(
-              'Timon says thanking someone means that next thing you know, you owe them. Do you think he is right? There is no one right answer.',
+              'Timon says a thank you means you owe somebody, and then you are family. Do you think he is right? There is no one right answer.',
             ),
           ],
           [
@@ -2742,7 +2729,7 @@ const Q10: EduQuest = quest(
             ]),
             o('Yes: it is safer to owe nothing to anyone', [
               N(
-                'That’s a fair answer. Timon has been burned before, and it shows. But notice that he rescues you anyway.',
+                'That’s a fair answer. Timon has been hurt before, and it shows. But notice that he rescues you anyway.',
               ),
             ]),
           ],
@@ -2753,11 +2740,7 @@ const Q10: EduQuest = quest(
         {
           id: 'thank',
           label: 'Thank them.',
-          then: [
-            TI(
-              'Don’t thank us. Thanking is how they get you. Next thing you know, you owe somebody.',
-            ),
-          ],
+          then: [TI('I said don’t! Great. Now we’re practically family.', 'shock')],
         },
         {
           id: 'guest',
@@ -3005,7 +2988,7 @@ const Q11: EduQuest = quest(
           3,
           'maths',
           'adding three numbers',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Timon’s tally says slimy 4, crunchy 6, wriggly 3. How many bugs did Simba eat altogether?',
@@ -3058,7 +3041,7 @@ const Q11: EduQuest = quest(
           3,
           'social-studies',
           'people in different places tell different stories about the stars',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Pumbaa has one story about the stars, and Simba has another. People all over the world have told stories about them.',
@@ -3155,7 +3138,7 @@ const Q12: EduQuest = quest(
         N(
           'Then she sees you, standing in the stream with your Nubbin, and her eyes go wide all over again.',
         ),
-        NA('Rafiki’s guest? You’ve been with him? All this time?'),
+        NA('Rafiki’s guest? You’ve been with Simba? All this time, and nobody on the rock knew?'),
       ],
       [
         ask(
@@ -3290,14 +3273,13 @@ const Q12: EduQuest = quest(
         N('When they come back, Nala will not look at Simba, and Simba will not look at anybody.'),
         NA('Tell him. You were there. Tell him he has to come home.'),
         SI('Leave them out of this.'),
-        N(
-          'It is 7:45 in the evening. He walks off into the dark, alone, with his head down. After a moment, you follow.',
-        ),
+        N('It is 7:45 in the evening. He walks off into the dark, alone, with his head down.'),
         TI('Kid! Where you going? No worries! …A little bit of worries?'),
+        N('After a moment, you follow. It is 9:10 when you catch him up on the ridge.'),
       ],
       [
         ask(
-          3,
+          5,
           'maths',
           'time intervals',
           '3.MD.A.1',
@@ -3566,7 +3548,7 @@ const Q13: EduQuest = quest(
           0,
           'music',
           'pitch: higher notes vibrate faster',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'Rafiki hums badly. Put a hand on your throat and hum a low note, then a high one. When you hum a higher note, how do your vocal cords vibrate?',
@@ -3770,7 +3752,7 @@ const Q14: EduQuest = quest(
           1,
           'science',
           'reflections form on smooth surfaces',
-          '1-PS4-2',
+          '4-PS3-2',
           [N('Still water shows the whole sky, but rippling water breaks the picture up. Why?')],
           [
             o(
@@ -3813,7 +3795,7 @@ const Q14: EduQuest = quest(
             ]),
             o('It is only a comforting thing to say', [
               N(
-                'That’s a fair answer, and an honest doubt. The ache of missing someone is real. Many people find the saying true in small ways, and we can think about it for a long time.',
+                'Fair answer, and an honest doubt. Missing someone really does ache, and you can keep thinking about this one for a long time.',
               ),
             ]),
           ],
@@ -3858,7 +3840,7 @@ const Q14: EduQuest = quest(
           0,
           'science',
           'how clouds form: condensing vapour',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Warm, damp air rises and cools. What does the water vapour in it turn into, to make a cloud?',
@@ -3900,7 +3882,7 @@ const Q14: EduQuest = quest(
           1,
           'social-studies',
           'people everywhere keep those they have lost close by remembering them',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'People everywhere find ways to keep someone close after they have died: stories, photographs, a planted tree or flowers, a special place to visit.',
@@ -4029,7 +4011,7 @@ const Q16: EduQuest = quest(
           4,
           'literacy',
           'why a word is repeated',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Rafiki shouts “Mvua! Mvua!” twice. Mvua is Swahili for rain. Why do you think the writer repeats it?',
@@ -4094,7 +4076,7 @@ const Q16: EduQuest = quest(
           2,
           'maths',
           'adding several numbers',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Rafiki measured 12 mm, 8 mm, 15 mm and 5 mm of rain over four evenings. How many millimetres fell in all?',
@@ -4136,7 +4118,7 @@ const Q16: EduQuest = quest(
           2,
           'music',
           'sound bounces back as an echo',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'Simba’s roar comes back from the hills. What is it that makes a sound come back, and what do we call it? (A lion’s roar can carry for kilometres.)',
@@ -4222,7 +4204,7 @@ const Q16: EduQuest = quest(
           1,
           'science',
           'plants need water to grow, and herds follow the grass',
-          '2-LS2-1',
+          undefined,
           [N('The rains have come and the grass is growing. Why do the herds come back?')],
           [
             o(
@@ -4296,7 +4278,7 @@ const Q16: EduQuest = quest(
           7,
           'science',
           'every living thing on a plain is connected',
-          'K-ESS3-3',
+          '3-LS4-4',
           [
             N(
               'Real savannas are protected in parks like the Serengeti and Hell’s Gate. If one kind of animal, even the beetles, vanished from a plain, what would happen?',
@@ -4336,6 +4318,11 @@ const Q16: EduQuest = quest(
           'Timon and Pumbaa pull you in between them, to the front of the rock, right beside the lions.',
         ),
         PU('We came all this way together. You don’t get to stand at the back.'),
+        ZA('Hornbills are excellent at standing at the back.'),
+        TI('Zazu. You’re at the front.'),
+        N(
+          'Zazu looks down. He is, somehow, at the very front. He straightens one feather and says nothing, for once.',
+        ),
         N('You stand with them while the plain kneels. Your Nubbin, on your head, kneels too.'),
         N(
           'Then the light comes, and the paper, and the kitchen table. Nova’s atlas lies open at a red rock over a green plain.',
@@ -4344,7 +4331,7 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          7,
           'sel',
           'what belonging feels like',
           G_REL,
@@ -4460,36 +4447,17 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
       RA('Pole sana, little one. Pole sana.'),
     ],
     [
-      ask(
+      notice(
         3,
         'literacy',
         'a Swahili phrase of sympathy',
         'L.3.4',
         [
           N(
-            'You know that sana means very. Rafiki says “pole sana”. When do Swahili speakers say it?',
+            'Pole sana means “I am so sorry”. It is what Swahili speakers say to someone who is sad or grieving.',
           ),
         ],
-        [
-          o(
-            'To show sympathy when someone is hurting or has lost something',
-            [
-              N(
-                'Yes. Pole sana means “I am very sorry”. It is what you say when someone is hurt or grieving.',
-              ),
-            ],
-            true,
-          ),
-          o('To say hello', [
-            N(
-              'Hello is a different phrase. Pole sana is said to show sympathy: “I am very sorry”.',
-            ),
-          ]),
-          o('To say thank you', [
-            N('Thank you is asante. Pole sana is said to show sympathy: “I am very sorry”.'),
-          ]),
-        ],
-        'Learned the Swahili phrase pole sana (I am very sorry), said to show sympathy.',
+        'Learned the Swahili phrase pole sana (I am so sorry), said to show sympathy.',
       ),
     ],
   ),
@@ -4625,7 +4593,7 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
         2,
         'science',
         'animals move to where their needs are met',
-        'K-ESS3-1',
+        '3-LS4-4',
         [
           N(
             'When the grass dies and the river turns to mud, the herds leave. How is that like the Great Migration?',
@@ -4775,7 +4743,7 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
         4,
         'social-studies',
         'scarcity means choosing',
-        'D2.Eco.1.K-2',
+        'D2.Eco.1.3-5',
         [
           N(
             'There is very little water, and the rock needs it as much as Nala’s journey does. What does scarcity mean?',
@@ -4828,7 +4796,7 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'different habitats, different life',
-        '2-LS4-1',
+        '3-LS4-3',
         [
           N(
             'Sand, then scrub, then green. What changes as you walk, to make the plants so different?',
@@ -4875,31 +4843,22 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
     [
       SI('And you. Rafiki’s guest. You haven’t changed at all. How haven’t you changed?'),
       Y('It’s a long story. There’s a book in it.'),
+      NA('A book? What sort of book?', 'think'),
+      Y('A thick one. We’re in it.'),
+      SI('Is it good?'),
+      Y('The middle bit is a bit long.'),
       NA('Rafiki sent them with me. Simba, they think you’re… everyone thinks you’re…'),
+      TI('Hold it. Who’s this? And what is that? A mushroom? A dumpling?', 'shock'),
+      PU('Can we keep them too?', 'happy'),
+      TI('Pumbaa, we are not collecting… Fine. Fine!'),
     ],
     [
-      ask(
-        1,
+      notice(
+        5,
         'literacy',
-        'why a character’s answer is funny and true',
+        'a joke can also be true',
         'RL.3.3',
-        [N('You say “It’s a long story. There’s a book in it.” Why is that a clever answer?')],
-        [
-          o(
-            'It is true: the atlas is a book, and it keeps your time',
-            [
-              N(
-                'Yes. It is a joke and an honest answer at once. Nova’s atlas really is the book, and it is why you have not changed.',
-              ),
-            ],
-            true,
-          ),
-          o('It means nothing', [
-            N(
-              'It means a lot! It is both a joke and the exact truth. The atlas is a book, and it is why you have not aged.',
-            ),
-          ]),
-        ],
+        [N('A joke can also be true. The atlas really is a book, and it really does keep your time.')],
         'Noticed that a character’s joke can also be literally true.',
       ),
     ],
@@ -4916,18 +4875,19 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
         'He doesn’t finish. He walks off into the dark, alone, and Timon and Pumbaa look at each other.',
       ),
       N(
-        'You fill your gourds at the stream and turn for home at 6:30 in the morning. It is noon when you reach the thorns.',
+        'You fill your gourds at the stream and turn for home at 6:30 in the morning. At noon you stop in the only shade for a mile.',
       ),
+      N('Your Nubbin finds the shade first, lies down in all of it, and lets you have the edge.'),
     ],
     [
       ask(
-        4,
+        5,
         'maths',
         'time intervals',
         '3.MD.A.1',
         [
           N(
-            'You set off at 6:30 in the morning and reach the thorns at noon (12:00). How long did you walk?',
+            'You set off at 6:30 in the morning and stop for shade at noon (12:00). How long did you walk?',
           ),
         ],
         [
@@ -5076,7 +5036,7 @@ export const EDU_A23_READER_VARIANTS: EduScene[] = [
         5,
         'social-studies',
         'people have painted on walls with ochre for tens of thousands of years',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           N(
             'Rafiki’s way of painting is very old. People have painted on rock and cave walls with ochre for tens of thousands of years, all over the world.',

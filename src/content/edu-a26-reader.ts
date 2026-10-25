@@ -4834,7 +4834,7 @@ const Q17 = quest(
       'a26-17-test',
       [
         UT(
-          'Stay awake for six days and seven nights. If you cannot beat sleep, how will you beat death?',
+          'Stay awake for seven days and seven nights. If you cannot beat sleep, how will you beat death?',
         ),
         GI('Easily. I have hardly slept since…', 'angry'),
         N(

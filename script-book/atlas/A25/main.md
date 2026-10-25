@@ -666,6 +666,8 @@ _He means it, for one second. The door swings quietly open, and your Nubbin fall
 
 _Beyond the last gate there is a palace of silver columns, open to the sky, and no one in it._  
 _There is only a voice, a long way off and very close by, singing, but in a way that is almost talking._  
+**Atreyu**: Engywook wanted a report. Wind: none. Moon: not out. Alphabet: I didn’t check.  
+**Atreyu** _(happy)_: He’ll be furious. He’ll have to start again. He’ll love it.  
 **Atreyu** _(happy)_: The Oracle. We made it.  
 _In the attic, Bastian has pulled the blanket over his head. He isn’t sure he wants to be in a book that knows him._  
 
@@ -698,7 +700,11 @@ _Your Nubbin cocks its head. Then it hums two notes, a high one and a low one th
 
 #### <a id="a25-10-voice-done"></a>Done `a25-10-voice-done`
 
-_Atreyu is not, it turns out, a natural poet. He looks at you hopefully._  
+_Atreyu clears his throat and has a go on his own._  
+**Atreyu**: O Voice, who sings so very high! I have a question. It is: why?  
+_The voice sings on as if nobody had spoken. Your Nubbin covers its face with both hands._  
+**Atreyu** _(think)_: It rhymed. I checked. It just wasn’t any good.  
+_He looks at you hopefully._  
 
 ### Step 2: Help Atreyu ask his question in rhyme.
 
@@ -1087,6 +1093,10 @@ _The Night Forest grows so fast you can hear it creak. Your Nubbin hides inside 
 _Bastian finds a pool of still water among the roots and kneels to look at himself._  
 **Bastian**: I wish I were handsome. Tall and strong and handsome. Like a prince in a book.  
 _And he is: the boy in the pool is slim and straight, with a fine, proud face. He laughs out loud._  
+_Then he sees you in the pool too, over his new shoulder, and your Nubbin in its umbrella flower._  
+**Bastian** _(shock)_: You. You’re in the book. The one behind the bell, with the sneezer.  
+_Your Nubbin sneezes, to confirm._  
+**Bastian** _(happy)_: Come on, then. I want somebody to see this.  
 _Round his neck, on a chain, hangs AURYN. The Empress has left it to him._  
 _He turns it over in his fingers, and you see the back of it for the first time._  
 _Round the back, where the snakes’ tails meet, four words are cut into the gold: « TU WAS DU WILLST »._  
@@ -1120,7 +1130,10 @@ _The lion looks at him, surprised. Then the sun sets, and he turns to cold grey 
 
 #### <a id="a25-15-lion-done"></a>Done `a25-15-lion-done`
 
-_At dawn the lion wakes, warm and gold. He gives Bastian a sword with a plain hilt, rusty in its scabbard._  
+_At dawn the lion wakes, warm and gold, and carries straight on from the middle of his word._  
+**Graógramán**: …ful. Thankful. That was the word. You stayed. Nobody stays.  
+**Bastian**: I said I would.  
+_Graógramán gives Bastian a sword with a plain hilt, rusty in its scabbard._  
 **Graógramán**: Sikanda. It leaps into your hand by itself, when it’s needed. Never draw it of your own will.  
 
 ### Step 3: Answer Bastian’s question.
@@ -1167,10 +1180,10 @@ Sets on completion: `{"a25-15":true}`
 
 **Learning Grove swaps**
 
-- `a25-15-sand#8` → Round the back, where the snakes’ tails meet, there are four words cut into the gold.
-- `a25-15-sand#9` → It says I can choose. I can choose anything at all! Then I will.
+- `a25-15-sand#12` → Round the back, where the snakes’ tails meet, there are four words cut into the gold.
+- `a25-15-sand#13` → It says I can choose. I can choose anything at all! Then I will.
 
-**Notes:** PART TWO starts here. The page is green now even when Bastian is in it: he is in Fantastica. LIFTED TEXT: a25-15-sand#8 is AURYN’s inscription in Ende’s German (« TU WAS DU WILLST », Thienemann 1979), and #9 is our own English in Bastian’s mouth. Show the four words engraved on the amulet’s back in a close-up. NO WISHING MECHANIC: the player never holds AURYN and never wishes; Bastian wishes in dialogue only. SIGNATURE CHOICE (a25-15-mirror): a25-mirror = truth | yourself | notebook. It pays off in A25-16 (a25-16-worry variants), A25-18 (a25-18-attic-truth), A25-19 (a25-19-page-notebook, a25-19-ask-yourself) and A25-20 (the three complete scenes), and in the Attic Nook (notebook: the torn page on the beam). Bastian’s new look: tall and handsome in the Fantastican manner, our own design. Graógramán is a vast lion whose coat cycles through the dune colours; he turns to grey stone at sunset (a slow fade, not a crack).
+**Notes:** PART TWO starts here. The page is green now even when Bastian is in it: he is in Fantastica. LIFTED TEXT: a25-15-sand#12 is AURYN’s inscription in Ende’s German (« TU WAS DU WILLST », Thienemann 1979), and #13 is our own English in Bastian’s mouth. Show the four words engraved on the amulet’s back in a close-up. NO WISHING MECHANIC: the player never holds AURYN and never wishes; Bastian wishes in dialogue only. SIGNATURE CHOICE (a25-15-mirror): a25-mirror = truth | yourself | notebook. It pays off in A25-16 (a25-16-worry variants), A25-18 (a25-18-attic-truth), A25-19 (a25-19-page-notebook, a25-19-ask-yourself) and A25-20 (the three complete scenes), and in the Attic Nook (notebook: the torn page on the beam). Bastian’s new look: tall and handsome in the Fantastican manner, our own design. Graógramán is a vast lion whose coat cycles through the dune colours; he turns to grey stone at sunset (a slow fade, not a crack).
 
 ## A25-16. Amarganth
 
@@ -1330,7 +1343,7 @@ _Bastian’s eyes open, and he grabs Atreyu’s wrist. Everybody wakes up at the
 
 - **Say Atreyu was trying to help.**
     - **Bastian**: Then he should have asked.
-    - **Atreyu**: I did ask. You didn’t hear.
+    - **Atreyu**: I did ask, at Amarganth. You went off to look at Falkor’s scales.
 - **Stay by the fire. This is theirs.**
     - You stay where you are. Your Nubbin climbs into your coat and stays there.
 
@@ -1386,6 +1399,7 @@ Hint: Stay low by the wall. When Falkor comes down, go to him. · check: `watch:
 
 _Atreyu has raised the people against the new Emperor. Not to hurt Bastian: to stop him before he loses himself._  
 _Bastian rides out with his company and Xayide’s empty giants. The noise is enormous, and mostly shouting._  
+_Somewhere in the noise, a knight is telling nobody in particular about a grey horse with a limp._  
 _In the middle of it, Bastian and Atreyu meet. Sikanda leaps into Bastian’s hand, the way it always does._  
 **Atreyu** _(sad)_: Bastian. Stop. Please. It’s me.  
 _The sword moves, and Atreyu falls back, his hand pressed to his side. Bastian stares at the sword as if it were somebody else’s._  
@@ -1639,6 +1653,10 @@ _The next day the bell rings, and Bastian comes in, round and knock-kneed and we
 **Bastian** _(happy)_: My father and I talked last night. All night. He cried, and then he laughed. We haven’t done either for ages.  
 **Mr Coreander**: Hm. What book?  
 **Bastian**: Copper silk. Two snakes on the cover. It was on your chair.  
+_Behind the bell, your Nubbin sneezes. Nobody can see it._  
+**Mr Coreander**: Bless you.  
+**Bastian**: I didn’t sneeze.  
+**Mr Coreander**: No. I know.  
 _Coreander looks at him over his spectacles for a long time. Then he smiles, slowly, as if he had remembered something._  
 **Mr Coreander**: Ah. That. You went in, then. So did I, once, a long time ago. I came back with a story or two.  
 _He leans back in his armchair and fills his pipe. Then he says something in German, the way the book always did._  
@@ -1687,10 +1705,10 @@ Sets on completion: `{"a25-20":true,"a25-done":true}`
 
 **Learning Grove swaps**
 
-- `a25-20-shop#10` → It’s what the book always said, in German, whenever a tale had to wait for another day.
-- `a25-20-shop#11` → Some stories have to wait their turn. That’s all right. They keep.
+- `a25-20-shop#14` → It’s what the book always said, in German, whenever a tale had to wait for another day.
+- `a25-20-shop#15` → Some stories have to wait their turn. That’s all right. They keep.
 
-**Notes:** ASH (reads s6Done, read-only): if s6Done is set, play ATLAS_A25_VARIANTS a25-20-water-ash in place of a25-20-water (same check). Your Nubbin whistles the three notes (low, high, a little one, like a question: S6’s motif, as the whistle emote sound, played very softly); Atreyu looks at it, then says the name. Atreyu still says it; the Nubbin only asks. Without s6Done the base scene plays as the book does. LIFTED TEXT: a25-20-shop#10 is the refrain in Ende’s German (Thienemann 1979), spoken by Coreander; #11 is our own English. Coreander saying he never owned the book is our own wording. THE LAST PAGE (a25-mirror): the complete scene shown, a25-20-complete, is for truth. For yourself play ATLAS_A25_VARIANTS a25-20-complete-yourself; for notebook, a25-20-complete-notebook. REWARDS: the Attic Nook is a Grove feature in the cottage loft: the two-colour lamp (red one side, green the other, as the book is printed), the blanket and the books; reading from the loft shelf makes nearby Nubbins climb up and sit with you (idle behaviour, unlimited, no stat reward). The Notebook Page is given only on notebook, and is pinned to the loft beam. GROVE: if s6Done, play a25-grove-ember the next time you visit Ember after atlasDone('A25'). SIM: the Attic Nook reads atlasDone('A25') and the Atlas flag a25-mirror (read-only, for the page).
+**Notes:** ASH (reads s6Done, read-only): if s6Done is set, play ATLAS_A25_VARIANTS a25-20-water-ash in place of a25-20-water (same check). Your Nubbin whistles the three notes (low, high, a little one, like a question: S6’s motif, as the whistle emote sound, played very softly); Atreyu looks at it, then says the name. Atreyu still says it; the Nubbin only asks. Without s6Done the base scene plays as the book does. LIFTED TEXT: a25-20-shop#14 is the refrain in Ende’s German (Thienemann 1979), spoken by Coreander; #15 is our own English. Coreander saying he never owned the book is our own wording. THE LAST PAGE (a25-mirror): the complete scene shown, a25-20-complete, is for truth. For yourself play ATLAS_A25_VARIANTS a25-20-complete-yourself; for notebook, a25-20-complete-notebook. REWARDS: the Attic Nook is a Grove feature in the cottage loft: the two-colour lamp (red one side, green the other, as the book is printed), the blanket and the books; reading from the loft shelf makes nearby Nubbins climb up and sit with you (idle behaviour, unlimited, no stat reward). The Notebook Page is given only on notebook, and is pinned to the loft beam. GROVE: if s6Done, play a25-grove-ember the next time you visit Ember after atlasDone('A25'). SIM: the Attic Nook reads atlasDone('A25') and the Atlas flag a25-mirror (read-only, for the page).
 
 ## Variant scenes
 

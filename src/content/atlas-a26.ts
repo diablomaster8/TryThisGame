@@ -49,8 +49,8 @@
  *   1. Tablet I, Enkidu: a26-03-herd#3 and #4.
  *   2. Tablet I, the prologue, a fragment: a26-01-tablet#4.
  *   3. Tablet X, Gilgamesh remembering: a26-14-death#9 (brackets dropped, words kept, as the outline says).
- *   4. Tablet X, Siduri: a26-16-siduri#6 and #7 (the bracketed words dropped, as the outline says).
- *   5. Tablet X, Siduri: a26-16-siduri#9.
+ *   4. Tablet X, Siduri: a26-16-siduri#6 (the bracketed words dropped, as the outline says).
+ *   5. Tablet X, Siduri: a26-16-siduri#8.
  *   6. Tablet X, Uta-Napishtim: a26-17-tale#3 (brackets dropped, words kept).
  *   7. Tablet XI, the plant, a fragment: a26-17-plant-done#1.
  *   8. Tablet XI, Gilgamesh to Ur-Shanabi: a26-18-wall#7 and #8.
@@ -525,6 +525,9 @@ export const ATLAS_A26: Quest[] = [
           lines: [
             N('He says it again, louder, as if trying the word for size. Then he laughs, a big surprised human laugh.'),
             SH('There you are. I knew there was someone in there.', 'happy'),
+            N('The bush behind you rustles. A thumb comes up through the leaves.'),
+            TR('Is this the bit where I come out?', 'think'),
+            SH('No.'),
           ],
         },
       },
@@ -1067,7 +1070,11 @@ export const ATLAS_A26: Quest[] = [
             N('Every night it is the same. A mountain, a dream, a cold wake in the dark.'),
             N('Gilgamesh dreams of a wild bull, of thunder, of a sky that rains down fire and ash.'),
             N('And every morning Enkidu says, cheerfully, it’s a good dream, the best dream yet.'),
-            EN('A wild bull? That’s Shamash, looking after you. Thunder? That’s our luck, shouting for us. Fire? Warm hands.', 'happy'),
+            EN('A wild bull? That’s Shamash, looking after you.', 'happy'),
+            EN('Thunder? That’s our luck, shouting for us.', 'happy'),
+            GI('And the fire raining out of the sky?'),
+            EN('Warm hands!', 'happy'),
+            N('Your Nubbin looks at you. You look at the scorch marks on the hillside, and say nothing.'),
             N('On the fifth night, while the king sleeps, Enkidu sits down beside you at the fire.'),
             EN('They were bad dreams. All of them. You know that.', 'sad'),
             EN('But you can’t send a man to a fight with a bad dream on him. So I tell him it was good. That’s what friends are for.'),
@@ -1431,7 +1438,11 @@ export const ATLAS_A26: Quest[] = [
         N('That night the friends ride through the streets of Uruk in a chariot. The people line the way, shouting their names.'),
         GI('Who is the finest of men? Who is the bravest?', 'happy'),
         TW('Gilgamesh! And Enkidu!'),
-        N('Enkidu waves. He catches sight of you in the crowd, and waves harder, until your Nubbin waves back with both arms.'),
+        N('Enkidu holds the chariot rail with both hands and his eyes shut. He waves with one elbow.'),
+        EN('Is it meant to go this fast?'),
+        GI('Hold on to something.'),
+        EN('I am. It’s you.'),
+        N('He sees you in the crowd and lets go to wave, which is a mistake. Your Nubbin waves back with both arms.'),
       ],
     },
     rewards: [],
@@ -1569,7 +1580,7 @@ export const ATLAS_A26: Quest[] = [
             EN('Tell me about where you come from. Is it big, like Uruk?', 'soft'),
             Y('No. It’s small. There’s a garden, and a pond, and a hill.'),
             EN('A hill. Good. I like hills. You can see what’s coming.'),
-            N('Your Nubbin lies on the end of the bed, across his feet, to keep them warm. He says it’s the best blanket he’s ever had.'),
+            N('Your Nubbin lies on the end of the bed, across his feet, to keep them warm. Enkidu says it is the best blanket he has ever had.'),
           ],
           choices: [
             {
@@ -1733,8 +1744,12 @@ export const ATLAS_A26: Quest[] = [
           id: 'a26-15-gate',
           lines: [
             N('The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side.'),
-            SC('Look, wife. He’s two parts god, this one, and one part man. And who is the small one with the water?'),
+            SC('Look, wife. Two parts god, one part man. Terrible combination. Stand behind me.'),
+            N('His wife does not stand behind him. She is already crouching to look at your Nubbin.'),
+            SC('…And who is the small one with the water?', 'think'),
             N('His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones.'),
+            SC('We are not keeping it, wife.'),
+            N('She looks at him. He looks at the gate. It is clearly an old argument.'),
             GI('I’m looking for Uta-Napishtim, who lives for ever. I want to ask him about life, and death.'),
             SC('No one has ever gone this way. Twelve double-hours of dark, with no light at all. Nobody comes out the other side.', 'think'),
             GI('I’ll go anyway. In grief, and in pain, in cold and in heat. Open the gate.'),
@@ -1831,11 +1846,10 @@ export const ATLAS_A26: Quest[] = [
             GI('I’m Gilgamesh. My friend died. I can’t bear it. I’m looking for the man who never dies.', 'sad'),
             N('Siduri looks at him for a long time. Then she climbs down, and opens the door, and gives you each a stool and a cup.'),
             GI('Tell me the way across the sea. Please.'),
-            SI('Gilgamesh, why runnest thou, the life which thou seekest,'),
-            SI('Thou canst not find?'),
+            SI('Gilgamesh, why runnest thou? The life which thou seekest, thou canst not find.'),
             SI('When the gods made people, they kept life for themselves. So eat. Wash your hair. Dance, if you like.', 'soft'),
-            SI('Cherish the little one holding thy hand; be thy spouse in thy bosom'),
-            SI('That’s what people are for. That is the whole of it.'),
+            SI('Cherish the little one holding thy hand. Let thy wife be glad in thy bosom.'),
+            SI('Plainly: hold the hand that holds yours. Ale, a bath, a laugh. That’s what people are for.', 'soft'),
             N('Gilgamesh turns his cup round and round. He isn’t listening, and he doesn’t want to.'),
           ],
           choices: [
@@ -1932,12 +1946,11 @@ export const ATLAS_A26: Quest[] = [
     rewards: [],
     sets: { 'a26-16': true },
     childLines: {
-      'a26-16-siduri#6': 'Gilgamesh, why are you running so far?',
-      'a26-16-siduri#7': 'You won’t find the life you are looking for.',
-      'a26-16-siduri#9': 'Love the little one who holds your hand, and hug the people who love you.',
+      'a26-16-siduri#6': 'Gilgamesh, why are you running so far? You won’t find the life you are looking for.',
+      'a26-16-siduri#8': 'Love the little one who holds your hand, and hug the people who love you.',
     },
     notes:
-      'Lifted lines 4 (two verse lines, the bracketed words dropped as the outline says) and 5 at a26-16-siduri#6, #7 and #9 ' +
+      'Lifted lines 4 (two verse lines, the bracketed words dropped as the outline says) and 5 at a26-16-siduri#6 and #8 (the first two verse lines joined into one speech) ' +
       '(Thompson, Tablet X). Siduri’s advice is from the Old Babylonian Meissner tablet, as Thompson gives it. MOSS: if he comes, ' +
       'play A26_VARIANTS a26-16-siduri-done-moss in place of a26-16-siduri-done; he agrees with her. CARE: the Stone Things are ' +
       'smashed offscreen (two crashes, then the pieces); Gilgamesh hurts nobody. The number of poles is left vague on purpose (the ' +
@@ -1966,14 +1979,18 @@ export const ATLAS_A26: Quest[] = [
             N('On the far shore an old man sits on a bench by his door, watching you come. He doesn’t look like a god; he looks like a grandfather.'),
             UT('Who is this, with his cheeks so hollow, in a lion skin, with a child carrying his water?', 'think'),
             GI('I want what you have. I want not to die. My friend died, and I can’t stop thinking about it.', 'sad'),
-            UT('Shall we for ever build houses, for ever set signet to contract,'),
+            UT('Shall we for ever build houses? For ever set signet to contract?'),
             UT('No. The river rises and goes down. The dragonfly floats on it and sees the sun for a day. Nothing stays.', 'soft'),
             GI('But you stayed. Tell me how.'),
             UT('Then sit. It’s a long story, and it’s mine.'),
             N('He tells how the god Ea whispered through the reed wall of his house: tear it down, and build a boat.'),
             N('How he took on board his family, and craftsmen, and every kind of animal, and the seed of every living thing.'),
+            UW('And me. He always leaves me out of the boat.'),
+            UT('And my wife. Who was there. As she likes to say.'),
             N('The storm came for six days and seven nights. Then it was still, and there was water everywhere, flat as a roof.'),
             N('He sent out a dove, and it came back; a swallow, and it came back. Then a raven, which didn’t, because it had found land.'),
+            UW('The raven was my idea.'),
+            UT('The raven was her idea.', 'think'),
             UT('And the gods, who were sorry, made my wife and me like them. That’s all. It happened once. It won’t happen again.'),
           ],
           choices: [
@@ -2005,7 +2022,7 @@ export const ATLAS_A26: Quest[] = [
         scene: {
           id: 'a26-17-test',
           lines: [
-            UT('Stay awake for six days and seven nights. If you can’t beat sleep, how will you beat death?'),
+            UT('Stay awake for seven days and seven nights. If you can’t beat sleep, how will you beat death?'),
             GI('Easily. I’ve hardly slept since…', 'angry'),
             N('He sits down on the sand with his back against the house. And sleep breathes over him like a mist, at once.'),
             UT('Look at him. The strong man who wants to live for ever.', 'think'),
@@ -2036,7 +2053,8 @@ export const ATLAS_A26: Quest[] = [
           lines: [
             N('On the seventh day Uta-Napishtim touches him, and he wakes. The first loaf by his head is dry as a brick.'),
             GI('I only just shut my eyes.'),
-            N('Then he sees the loaves: hard, leathery, soggy, furry, grey, and one still warm. He puts his face in his hands.'),
+            N('Then he sees the loaves: hard, leathery, soggy, furry, grey, fresh, and one still warm. He puts his face in his hands.'),
+            UW('Seven. I counted. He’d have said one.', 'soft'),
             UT('Ur-Shanabi. Take him to wash. Give him clean clothes. Clothes that will stay clean till he gets home.'),
           ],
         },
@@ -2174,7 +2192,9 @@ export const ATLAS_A26: Quest[] = [
             N('Gilgamesh holds out his arm, the way a host shows a guest the best room in the house.'),
             GI('Do thou, Ur-Shanabi, go up and walk on the ramparts of Uruk,'),
             GI('Look on its base, and take heed of its bricks, if its bricks be not kiln-burnt,'),
-            GI('A square mile of city, a square mile of orchards, a square mile of clay-pits. And the temple. That’s mine. That’s what I made.'),
+            GI('A square mile of city, a square mile of orchards, a square mile of clay-pits. And the temple. That’s mine. That’s what I—'),
+            N('He looks down at a brick by his foot. Somebody’s thumbprint is baked into it. And the next one, and the next.'),
+            GI('That’s what we made. I mostly did the shouting.'),
           ],
           choices: [
             {

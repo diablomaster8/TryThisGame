@@ -302,7 +302,7 @@ _A man with a net comes over the hill. He stops and goes pale._
 _He runs off to the river with his net flapping._  
 _At the water, the wild man fills in another pit._  
 
-> **Lesson** (literacy, RL.2.3, ask): why a character acts as he does  
+> **Lesson** (literacy, RL.K.3, ask): why a character acts as he does  
 > _Why does Enkidu fill in the pits?_  
 > - ✅ He wants his animal friends to be safe → Yes! He cares about them.
 > - He likes to dig → Not quite! He fills them in to keep his friends safe.
@@ -391,7 +391,7 @@ _Enkidu walks to the gazelles, the way he always has._
 _They lift their heads. They sniff._  
 _Then they run away._  
 
-> **Lesson** (science, 4-LS1-2, ask): animals use their noses and eyes to tell who is who  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): animals use their noses and eyes to tell who is who  
 > _How do gazelles know who is who?_  
 > - ✅ They use their noses and eyes → Yes! Animals sniff and look. Enkidu smells like a person now.
 > - They read name tags → Ha! No name tags. They use their noses and eyes.
@@ -450,7 +450,12 @@ _You set down a round loaf and a jug of barley drink._
 **Enkidu**: What is this?  
 **Shamhat**: That is bread. People eat it.  
 **Shamhat**: Go on!  
-_He takes a tiny bite. His eyebrows jump up._  
+_He sniffs the bread. He licks it._  
+_Slurp!_  
+_He takes a tiny bite. Crunch!_  
+_His eyebrows jump up._  
+**Enkidu**: More!  
+_Your Nubbin licks its own bread too, to be polite._  
 _He eats until he is full. Then he sings a song with no words._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): bread comes from a plant that grows grain  
@@ -1169,14 +1174,15 @@ _Enkidu grabs the Bull by the horns. Whoosh!_
 **Enkidu**: Now, brother! Together!  
 _Gilgamesh runs in. A great cloud of dust goes up._  
 _Poof!_  
-_Your Nubbin covers its eyes, then peeks with one._  
+_Achoo! Achoo!_  
+_Everybody sneezes. Even the Bull._  
+_Your Nubbin sneezes the loudest. Then it peeks with one eye._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): sound words  
-> _Whoosh! Poof!_  
-> _Which one is a sound word: whoosh, table or green?_  
-> - ✅ Whoosh → Yes! “Whoosh” sounds like what it is.
-> - Table → A table is a thing. “Whoosh” is the sound word.
-> - Green → Green is a colour. “Whoosh” is the sound word.
+> _Which one is a sound word: achoo, table or green?_  
+> - ✅ Achoo → Yes! “Achoo” sounds like a sneeze.
+> - Table → A table is a thing. “Achoo” is the sound word.
+> - Green → Green is a colour. “Achoo” is the sound word.
 > _For grown-ups: Picked out a sound word._
 
 _When the dust settles, the Bull lies down on the ground. It is stopped._  
@@ -1287,11 +1293,12 @@ _The sun comes up over the wall. It shines straight into the doorway._
 **Shamash**: Enkidu, Shamhat gave you bread and clothes. She gave you a friend.  
 _Enkidu stands still in the warm sunlight. His face softens._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see things when light shines on them  
-> _Why can Enkidu see the door so clearly now?_  
-> - ✅ The sun is shining on it → Yes! We see things when light shines on them.
-> - The door is shouting → Ha! No shouting. We see the door because sunlight shines on it.
-> _For grown-ups: Learned that we see things when light shines on them._
+> **Lesson** (literacy, ELOF: Language and Communication, ask): soft and loud voices  
+> _Enkidu was cross. Then his face went soft._  
+> _Which is soft: a whisper or a shout?_  
+> - ✅ A whisper → Yes! A whisper is soft. A shout is loud.
+> - A shout → A shout is loud. A whisper is the soft one.
+> _For grown-ups: Talked about soft and loud voices after Enkidu was cross._
 
 
 **Choices**
@@ -1304,7 +1311,8 @@ _Enkidu stands still in the warm sunlight. His face softens._
 
 #### `sprout:a26-13-door-done` · [main](main.md#a26-13-door-done)
 
-**Enkidu**: Shamhat, I take it back. I bless you.  
+**Enkidu**: Shamhat, I am sorry. Thank you.  
+**Enkidu**: I take it back. I bless you.  
 **Enkidu**: You found me in the grass and brought me home.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): taking back unkind words  
@@ -1318,16 +1326,15 @@ _Enkidu stands still in the warm sunlight. His face softens._
 
 _By noon he is too tired to stand._  
 _Gilgamesh carries him back to bed, gently._  
-
-> **Lesson** (maths, ELOF: Mathematics Development, ask): what comes next in the day  
-> _Enkidu woke at dawn. Now it is noon._  
-> _What comes after noon: evening or breakfast?_  
-> - ✅ Evening → Yes! Dawn, then noon, then evening.
-> - Breakfast → Breakfast is in the morning. After noon comes evening.
-> _For grown-ups: Put parts of the day in order: dawn, noon, evening._
-
 **Gilgamesh**: Rest now. You always get better.  
 **Enkidu**: Thank you, brother.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): how a friend shows care  
+> _Gilgamesh carried his friend. How does a friend show care?_  
+> - ✅ By helping and staying close → Yes! Helping and staying close shows care.
+> - By going far away → Going away is not care. Helping and staying close is.
+> _For grown-ups: Talked about how a friend shows care._
+
 
 ## A26-14. Twelve Days
 
@@ -1526,11 +1533,11 @@ _At last two tall mountains rise ahead, with a gate between them._
 _By the gate stand two guards. They are people down to the waist._  
 _Below the waist, they are scorpions._  
 
-> **Lesson** (science, 4-LS1-1, ask): a scorpion has eight legs  
-> _Real scorpions have eight legs. Which has eight legs: a scorpion or a dog?_  
-> - ✅ A scorpion → Yes! A scorpion has eight legs. A dog has four.
-> - A dog → A dog has four legs. A scorpion has eight!
-> _For grown-ups: Learned that scorpions have eight legs._
+> **Lesson** (maths, K.CC.B.5, ask): count the two guards  
+> _Count the guards at the gate: one, two. How many guards are there?_  
+> - ✅ Two → Yes! One guard, two guards. There are two.
+> - Five → Not five. Count again: one, two. There are two guards.
+> _For grown-ups: Counted two guards at the gate._
 
 
 #### `sprout:a26-15-gate` · [main](main.md#a26-15-gate)
@@ -1624,7 +1631,7 @@ _Siduri looks at him a long time. Then she opens the door._
 **Siduri**: Sing, and hug the people you love.  
 _She gives you each a stool and a cup._  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character feels about another  
+> **Lesson** (literacy, RL.K.3, ask): how a character feels about another  
 > _Siduri opened her door and gave everyone a stool and a cup._  
 > _How did she feel about them?_  
 > - ✅ Kind → Yes! Opening the door and sharing a cup is kind.
@@ -1751,11 +1758,15 @@ _On the far shore an old man sits by his door._
 _He tells of a great flood, and a boat, and all kinds of animals._  
 _He sent out a dove, then a swallow. Both came back._  
 _Then a raven, which did not._  
+_His wife coughs._  
+**Uta-Napishtim’s Wife**: The raven was my idea.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the flood tablet was read again in 1872  
-> _Nova’s book says this flood story was written on clay, long, long ago._  
-> _In 1872, a man in a London museum read it again._  
-> _For grown-ups: Heard that the flood story, written on clay long ago, was read again in 1872._
+> **Lesson** (literacy, RL.K.3, ask): who did not come back  
+> _The dove came back. The swallow came back._  
+> _Who did not come back?_  
+> - ✅ The raven → Yes! The raven found land, so it stayed away.
+> - The dove → The dove came back. The raven found land and stayed.
+> _For grown-ups: Remembered which bird did not come back in the story._
 
 
 **Choices**
@@ -1779,7 +1790,7 @@ _Then a raven, which did not._
 
 #### `sprout:a26-17-test` · [main](main.md#a26-17-test)
 
-**Uta-Napishtim**: Stay awake for six days. Then we will see.  
+**Uta-Napishtim**: Stay awake for seven days. Then we will see.  
 **Gilgamesh**: Easily. I have hardly slept since...  
 _He sits down on the sand. At once, he is fast asleep._  
 **Uta-Napishtim’s Wife**: Wake him, and let him go home.  
@@ -1808,7 +1819,10 @@ _After seven days, seven loaves sit in a row._
 _On the seventh day Uta-Napishtim touches him, and he wakes._  
 **Gilgamesh**: I only just shut my eyes.  
 _Then he sees the loaves. The first is dry and hard._  
-_The last is still warm._  
+_Gilgamesh knocks on it. Knock, knock!_  
+_It rings like a brick._  
+**Uta-Napishtim’s Wife**: That one was fresh on the first day.  
+_The last loaf is still warm._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): bread gets old over days  
 > _The first loaf was baked days ago. Is it the oldest or the newest?_  

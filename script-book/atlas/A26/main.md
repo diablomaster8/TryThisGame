@@ -303,6 +303,9 @@ _Shamhat goes very still. Then she smiles as if the sun had come up twice._
 
 _He says it again, louder, as if trying the word for size. Then he laughs, a big surprised human laugh._  
 **Shamhat** _(happy)_: There you are. I knew there was someone in there.  
+_The bush behind you rustles. A thumb comes up through the leaves._  
+**Trapper** _(think)_: Is this the bit where I come out?  
+**Shamhat**: No.  
 
 ### Step 3: Coax your Nubbin back from the herd.
 
@@ -700,7 +703,11 @@ Hint: Sit up by the fire while the friends sleep. · check: `wait:a26-watch:moun
 _Every night it is the same. A mountain, a dream, a cold wake in the dark._  
 _Gilgamesh dreams of a wild bull, of thunder, of a sky that rains down fire and ash._  
 _And every morning Enkidu says, cheerfully, it’s a good dream, the best dream yet._  
-**Enkidu** _(happy)_: A wild bull? That’s Shamash, looking after you. Thunder? That’s our luck, shouting for us. Fire? Warm hands.  
+**Enkidu** _(happy)_: A wild bull? That’s Shamash, looking after you.  
+**Enkidu** _(happy)_: Thunder? That’s our luck, shouting for us.  
+**Gilgamesh**: And the fire raining out of the sky?  
+**Enkidu** _(happy)_: Warm hands!  
+_Your Nubbin looks at you. You look at the scorch marks on the hillside, and say nothing._  
 _On the fifth night, while the king sleeps, Enkidu sits down beside you at the fire._  
 **Enkidu** _(sad)_: They were bad dreams. All of them. You know that.  
 **Enkidu**: But you can’t send a man to a fight with a bad dream on him. So I tell him it was good. That’s what friends are for.  
@@ -957,7 +964,11 @@ _Ishtar turns away with her women, and weeps for the Bull. Then she is gone._
 _That night the friends ride through the streets of Uruk in a chariot. The people line the way, shouting their names._  
 **Gilgamesh** _(happy)_: Who is the finest of men? Who is the bravest?  
 **Woman of Uruk**: Gilgamesh! And Enkidu!  
-_Enkidu waves. He catches sight of you in the crowd, and waves harder, until your Nubbin waves back with both arms._  
+_Enkidu holds the chariot rail with both hands and his eyes shut. He waves with one elbow._  
+**Enkidu**: Is it meant to go this fast?  
+**Gilgamesh**: Hold on to something.  
+**Enkidu**: I am. It’s you.  
+_He sees you in the crowd and lets go to wave, which is a mistake. Your Nubbin waves back with both arms._  
 
 **Rewards**
 
@@ -1074,7 +1085,7 @@ _Gilgamesh sits on the other side, and doesn’t sleep. You have never seen him 
 **Enkidu** _(soft)_: Tell me about where you come from. Is it big, like Uruk?  
 **You**: No. It’s small. There’s a garden, and a pond, and a hill.  
 **Enkidu**: A hill. Good. I like hills. You can see what’s coming.  
-_Your Nubbin lies on the end of the bed, across his feet, to keep them warm. He says it’s the best blanket he’s ever had._  
+_Your Nubbin lies on the end of the bed, across his feet, to keep them warm. Enkidu says it is the best blanket he has ever had._  
 
 **Choices**
 
@@ -1218,8 +1229,12 @@ Hint: Stand back behind Gilgamesh, and let him do the talking. · check: `talk:a
 #### <a id="a26-15-gate"></a>Scene `a26-15-gate`
 
 _The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side._  
-**Scorpion-man**: Look, wife. He’s two parts god, this one, and one part man. And who is the small one with the water?  
+**Scorpion-man**: Look, wife. Two parts god, one part man. Terrible combination. Stand behind me.  
+_His wife does not stand behind him. She is already crouching to look at your Nubbin._  
+**Scorpion-man** _(think)_: …And who is the small one with the water?  
 _His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones._  
+**Scorpion-man**: We are not keeping it, wife.  
+_She looks at him. He looks at the gate. It is clearly an old argument._  
 **Gilgamesh**: I’m looking for Uta-Napishtim, who lives for ever. I want to ask him about life, and death.  
 **Scorpion-man** _(think)_: No one has ever gone this way. Twelve double-hours of dark, with no light at all. Nobody comes out the other side.  
 **Gilgamesh**: I’ll go anyway. In grief, and in pain, in cold and in heat. Open the gate.  
@@ -1287,11 +1302,10 @@ _She sees a wild man in lion skins coming up the beach, and bars her door, and c
 **Gilgamesh** _(sad)_: I’m Gilgamesh. My friend died. I can’t bear it. I’m looking for the man who never dies.  
 _Siduri looks at him for a long time. Then she climbs down, and opens the door, and gives you each a stool and a cup._  
 **Gilgamesh**: Tell me the way across the sea. Please.  
-**Siduri**: Gilgamesh, why runnest thou, the life which thou seekest,  
-**Siduri**: Thou canst not find?  
+**Siduri**: Gilgamesh, why runnest thou? The life which thou seekest, thou canst not find.  
 **Siduri** _(soft)_: When the gods made people, they kept life for themselves. So eat. Wash your hair. Dance, if you like.  
-**Siduri**: Cherish the little one holding thy hand; be thy spouse in thy bosom  
-**Siduri**: That’s what people are for. That is the whole of it.  
+**Siduri**: Cherish the little one holding thy hand. Let thy wife be glad in thy bosom.  
+**Siduri** _(soft)_: Plainly: hold the hand that holds yours. Ale, a bath, a laugh. That’s what people are for.  
 _Gilgamesh turns his cup round and round. He isn’t listening, and he doesn’t want to._  
 
 **Choices**
@@ -1375,11 +1389,10 @@ Sets on completion: `{"a26-16":true}`
 
 **Learning Grove swaps**
 
-- `a26-16-siduri#6` → Gilgamesh, why are you running so far?
-- `a26-16-siduri#7` → You won’t find the life you are looking for.
-- `a26-16-siduri#9` → Love the little one who holds your hand, and hug the people who love you.
+- `a26-16-siduri#6` → Gilgamesh, why are you running so far? You won’t find the life you are looking for.
+- `a26-16-siduri#8` → Love the little one who holds your hand, and hug the people who love you.
 
-**Notes:** Lifted lines 4 (two verse lines, the bracketed words dropped as the outline says) and 5 at a26-16-siduri#6, #7 and #9 (Thompson, Tablet X). Siduri’s advice is from the Old Babylonian Meissner tablet, as Thompson gives it. MOSS: if he comes, play A26_VARIANTS a26-16-siduri-done-moss in place of a26-16-siduri-done; he agrees with her. CARE: the Stone Things are smashed offscreen (two crashes, then the pieces); Gilgamesh hurts nobody. The number of poles is left vague on purpose (the versions differ). Nobody touches the Waters of Death; no pole sinks on screen.
+**Notes:** Lifted lines 4 (two verse lines, the bracketed words dropped as the outline says) and 5 at a26-16-siduri#6 and #8 (the first two verse lines joined into one speech) (Thompson, Tablet X). Siduri’s advice is from the Old Babylonian Meissner tablet, as Thompson gives it. MOSS: if he comes, play A26_VARIANTS a26-16-siduri-done-moss in place of a26-16-siduri-done; he agrees with her. CARE: the Stone Things are smashed offscreen (two crashes, then the pieces); Gilgamesh hurts nobody. The number of poles is left vague on purpose (the versions differ). Nobody touches the Waters of Death; no pole sinks on screen.
 
 ## A26-17. Uta-Napishtim
 
@@ -1396,14 +1409,18 @@ Hint: Sit by his door with Gilgamesh and listen. · check: `talk:a26-uta:far-sho
 _On the far shore an old man sits on a bench by his door, watching you come. He doesn’t look like a god; he looks like a grandfather._  
 **Uta-Napishtim** _(think)_: Who is this, with his cheeks so hollow, in a lion skin, with a child carrying his water?  
 **Gilgamesh** _(sad)_: I want what you have. I want not to die. My friend died, and I can’t stop thinking about it.  
-**Uta-Napishtim**: Shall we for ever build houses, for ever set signet to contract,  
+**Uta-Napishtim**: Shall we for ever build houses? For ever set signet to contract?  
 **Uta-Napishtim** _(soft)_: No. The river rises and goes down. The dragonfly floats on it and sees the sun for a day. Nothing stays.  
 **Gilgamesh**: But you stayed. Tell me how.  
 **Uta-Napishtim**: Then sit. It’s a long story, and it’s mine.  
 _He tells how the god Ea whispered through the reed wall of his house: tear it down, and build a boat._  
 _How he took on board his family, and craftsmen, and every kind of animal, and the seed of every living thing._  
+**Uta-Napishtim’s Wife**: And me. He always leaves me out of the boat.  
+**Uta-Napishtim**: And my wife. Who was there. As she likes to say.  
 _The storm came for six days and seven nights. Then it was still, and there was water everywhere, flat as a roof._  
 _He sent out a dove, and it came back; a swallow, and it came back. Then a raven, which didn’t, because it had found land._  
+**Uta-Napishtim’s Wife**: The raven was my idea.  
+**Uta-Napishtim** _(think)_: The raven was her idea.  
 **Uta-Napishtim**: And the gods, who were sorry, made my wife and me like them. That’s all. It happened once. It won’t happen again.  
 
 **Choices**
@@ -1424,7 +1441,7 @@ Hint: Stay by him through the test. Help Uta-Napishtim’s wife with the loaves.
 
 #### <a id="a26-17-test"></a>Scene `a26-17-test`
 
-**Uta-Napishtim**: Stay awake for six days and seven nights. If you can’t beat sleep, how will you beat death?  
+**Uta-Napishtim**: Stay awake for seven days and seven nights. If you can’t beat sleep, how will you beat death?  
 **Gilgamesh** _(angry)_: Easily. I’ve hardly slept since…  
 _He sits down on the sand with his back against the house. And sleep breathes over him like a mist, at once._  
 **Uta-Napishtim** _(think)_: Look at him. The strong man who wants to live for ever.  
@@ -1445,7 +1462,8 @@ _So every day she bakes a loaf, and every day you set it by his head. Your Nubbi
 
 _On the seventh day Uta-Napishtim touches him, and he wakes. The first loaf by his head is dry as a brick._  
 **Gilgamesh**: I only just shut my eyes.  
-_Then he sees the loaves: hard, leathery, soggy, furry, grey, and one still warm. He puts his face in his hands._  
+_Then he sees the loaves: hard, leathery, soggy, furry, grey, fresh, and one still warm. He puts his face in his hands._  
+**Uta-Napishtim’s Wife** _(soft)_: Seven. I counted. He’d have said one.  
 **Uta-Napishtim**: Ur-Shanabi. Take him to wash. Give him clean clothes. Clothes that will stay clean till he gets home.  
 
 ### Step 3: Watch Gilgamesh dive for the plant at the bottom of the sea.
@@ -1554,7 +1572,9 @@ _On top, the wind is warm. The whole city is laid out below, roofs and orchards 
 _Gilgamesh holds out his arm, the way a host shows a guest the best room in the house._  
 **Gilgamesh**: Do thou, Ur-Shanabi, go up and walk on the ramparts of Uruk,  
 **Gilgamesh**: Look on its base, and take heed of its bricks, if its bricks be not kiln-burnt,  
-**Gilgamesh**: A square mile of city, a square mile of orchards, a square mile of clay-pits. And the temple. That’s mine. That’s what I made.  
+**Gilgamesh**: A square mile of city, a square mile of orchards, a square mile of clay-pits. And the temple. That’s mine. That’s what I—  
+_He looks down at a brick by his foot. Somebody’s thumbprint is baked into it. And the next one, and the next._  
+**Gilgamesh**: That’s what we made. I mostly did the shouting.  
 
 **Choices**
 

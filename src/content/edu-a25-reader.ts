@@ -264,7 +264,7 @@ const A1: EduQuest = quest(
             ]),
             o('Keep it a secret.', [
               N(
-                'Lots of people do that, because they feel ashamed. But there is nothing to be ashamed of.',
+                'Keeping it secret is understandable. But there is nothing to be ashamed of.',
               ),
               N('Telling a trusted person is the braver thing, and it lets help find you.'),
             ]),
@@ -303,7 +303,7 @@ const A1: EduQuest = quest(
           1,
           'social-studies',
           'an ancient symbol: the snake that bites its tail (the ouroboros)',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N('A note in Nova’s small writing has appeared in the margin of the page.'),
             N(
@@ -452,9 +452,7 @@ const A1: EduQuest = quest(
               'So readers always know which world they are in.',
               [
                 N('Yes. The colour is a clue: red is the attic, green is the faraway land.'),
-                N(
-                  'It takes care, too. On a simple press, each colour needs its own run through the machine.',
-                ),
+                N('On a simple press, each colour needs its own run through the machine.'),
               ],
               true,
             ),
@@ -499,7 +497,7 @@ const A1: EduQuest = quest(
           1,
           'science',
           'sounds are vibrations: rain on slates and wind in leaves',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N('Listen to the page. Rain pats the slates, and wind rustles the leaves.'),
             N('Both sounds are made the same way: by something shaking, very quickly.'),
@@ -550,11 +548,13 @@ const A2: EduQuest = quest(
           'Then a night-hob arrives riding a bat, and a tiny, no bigger than your thumb, on a snail that has run all the way.',
         ),
         BL('Strangers! Friendly ones? Say friendly. I’m Blubb, and I’m very nervous.', 'shock'),
-        RC('Pyornkrachzark. Sit. Pebble?', 'happy'),
-        HO(
-          'I am Ückück. We are all going the same way, it seems: to the Ivory Tower, with bad news.',
+        N('The rockchewer says, “My name has fourteen letters. You may call me Rockchewer. Sit. Pebble?”'),
+        N(
+          'The night-hob says, “We are all going the same way, it seems: to the Ivory Tower, with bad news.”',
         ),
-        TI('Gluckuk. My snail is the fastest in my whole country. Please don’t step on him.'),
+        N(
+          'The tiny one says, “My snail is the fastest in my whole country. Please don’t step on him.”',
+        ),
         N(
           'Your Nubbin sits down next to the snail, very carefully, and the two of them look at each other for a long time.',
         ),
@@ -564,7 +564,7 @@ const A2: EduQuest = quest(
           4,
           'social-studies',
           'respect for other people’s customs: accepting a gift politely',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N('A rockchewer holds out a pebble. To him, it is a kind and tasty gift.'),
             N('What is the polite thing to do?'),
@@ -594,7 +594,7 @@ const A2: EduQuest = quest(
       ],
       [
         ch('pebble', 'Accept the pebble, politely.', [
-          N('You hold it as if you might eat it later. Pyornkrachzark nods, pleased.'),
+          N('You hold it as if you might eat it later. The rockchewer nods, pleased.'),
           N('Good manners matter, whatever size you are.'),
         ]),
         ch('news', 'Ask what the bad news is.', [
@@ -608,7 +608,7 @@ const A2: EduQuest = quest(
         N(
           'Each came from a different corner of Fantastica to the same fire, carrying the same news.',
         ),
-        N('Pyornkrachzark lays his pebbles on a flat stone, ready to share. There are eighteen.'),
+        N('The rockchewer lays his pebbles on a flat stone, ready to share. There are eighteen.'),
       ],
       [
         ask(
@@ -645,7 +645,7 @@ const A2: EduQuest = quest(
         TI(
           'At home, a lake with a hole in the middle where nothing was. Not water. Not dry. Nothing.',
         ),
-        HO('Come. It’s here too now. I saw it from the air.'),
+        HO('Come. I am Ückück, and I saw it from the air. It’s here too now.'),
         N(
           'At the edge of the wood, the trees just stop. It isn’t a cliff or a clearing: the picture simply isn’t there.',
         ),
@@ -853,7 +853,7 @@ const A3: EduQuest = quest(
           1,
           'science',
           'defining a problem clearly before looking for a solution',
-          'K-2-ETS1-1',
+          '3-5-ETS1-2',
           [
             N(
               'Cairon says the Empress’s illness and the Nothing are one problem. Why does that help?',
@@ -903,7 +903,7 @@ const A3: EduQuest = quest(
           6,
           'social-studies',
           'compass directions: the Sun rises in the east',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N('The Grassy Sea lies far to the east.'),
             N('On a clear morning, which way do you face to look at the Sun rising?'),
@@ -1069,7 +1069,7 @@ const A4: EduQuest = quest(
           0,
           'science',
           'grassland as a habitat, and its different names around the world',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             N('A grassland is a habitat with lots of grass and very few trees.'),
             N(
@@ -1170,7 +1170,7 @@ const A4: EduQuest = quest(
           'Learned that “not yet” means still learning, and thought about a growth mindset.',
         ),
         notice(
-          8,
+          9,
           'literacy',
           'names are words with meanings, and a name can carry a story or a wish',
           'L.3.4',
@@ -1324,7 +1324,7 @@ const A5: EduQuest = quest(
           0,
           'science',
           'a swamp is a wetland habitat, usually full of life',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             N('A real swamp is a wetland: ground soaked with water, with trees growing in it.'),
             N('Real swamps are full of life: frogs, herons, fish and dragonflies.'),
@@ -1411,13 +1411,14 @@ const A5: EduQuest = quest(
         N(
           'The swamp closes over Artax, gently. Artax has died. His body has stopped, and it will not start again.',
         ),
+        N('Atreyu will remember him. That is how Artax stays.'),
         N(
           'Atreyu stands alone for a long time. When he walks on, he doesn’t look back, because Artax asked him not to.',
         ),
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'grief: it is allowed to be sad, and some things help',
           'CASEL: Social awareness',
@@ -1458,7 +1459,7 @@ const A5: EduQuest = quest(
           0,
           'literacy',
           'how readers feel real feelings for characters in a story',
-          'RL.2.3',
+          'RL.3.3',
           [N('Bastian cries for a horse in a book. Why do stories make us feel so much?')],
           [
             o(
@@ -1701,7 +1702,7 @@ const A6: EduQuest = quest(
           1,
           'social-studies',
           'oral history: people who remember long ago can tell us about the past',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N('Morla remembers the Empress from long, long ago.'),
             N(
@@ -1820,7 +1821,7 @@ const A6: EduQuest = quest(
               'He is plain and determined, with no showing off.',
               [
                 N(
-                  'Yes. Tying a bootlace is ordinary and necessary. It is a way of saying “just get on with it”.',
+                  'Yes. Tying a bootlace is ordinary and necessary, with no fuss.',
                 ),
                 N('A comparison like this, using “like” or “as”, is called a simile.'),
               ],
@@ -1972,7 +1973,7 @@ const A7: EduQuest = quest(
           3,
           'social-studies',
           'fairness in a bargain: what each side gives and gets',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Ygramul calls its sting a “gift”. It sends you where you need to go, then leaves you needing a long rest.',
@@ -2021,12 +2022,12 @@ const A7: EduQuest = quest(
           1,
           'science',
           'light is the fastest thing we know; sunlight takes about eight minutes to reach Earth',
-          '4-PS3-2',
+          undefined,
           [
             N(
               'Light is the fastest thing we know. Sunlight takes about eight minutes to cross the huge gap between the Sun and Earth.',
             ),
-            N('Falling through light is much slower than light itself. Luckily for your Nubbin.'),
+            N('Falling through light is much slower than light itself.'),
           ],
           'Learned that light is the fastest thing we know, and that sunlight takes about eight minutes to reach Earth.',
         ),
@@ -2115,7 +2116,7 @@ const A8: EduQuest = quest(
           4,
           'science',
           'describing materials by their properties and the senses we use',
-          '2-PS1-1',
+          undefined,
           [
             N('Urgl describes her herbs by what they look like, taste like and smell like.'),
             N('Which sense found the herb that smells of rain?'),
@@ -2213,13 +2214,16 @@ const A8: EduQuest = quest(
           'angry',
         ),
         EN('It’s to do with the weather. Or the alphabet. Or the moon. Possibly all three.'),
+        EN(
+          'My tally. Windy days: five. Calm days: three. Days Urgl wouldn’t let me out: all the rest.',
+        ),
       ],
       [
         ask(
-          5,
+          6,
           'maths',
           'reading a tally chart and finding a difference',
-          '2.MD.D.10',
+          '3.MD.B.3',
           [
             N('Engywook has been tallying the weather on the days he watched the gate.'),
             N('Windy days: 5. Calm days: 3. How many more windy days were there than calm days?'),
@@ -2335,7 +2339,7 @@ const A9: EduQuest = quest(
           0,
           'social-studies',
           'sphinxes in ancient Egyptian and Greek stories',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N('A note in Nova’s writing appears. “Sphinxes come from real stories.”'),
             N(
@@ -2425,7 +2429,7 @@ const A9: EduQuest = quest(
               'As a real person worth liking: someone who loves stories and cares.',
               [
                 N(
-                  'Yes. Bastian loves stories, and he cried for Artax. He cares a great deal, and that is worth a lot.',
+                  'Yes. Bastian loves stories, and he cried for Artax. He cares a great deal.',
                 ),
                 N('How a person looks never tells you how much they are worth.'),
               ],
@@ -2442,36 +2446,6 @@ const A9: EduQuest = quest(
             ]),
           ],
           'Thought about seeing a person with kindness, as worth liking just as they are.',
-        ),
-        ask(
-          7,
-          'maths',
-          'mirror symmetry: a shape with a line of symmetry matches itself on both sides',
-          '4.G.A.3',
-          [
-            N('A mirror line splits a shape into two halves that match.'),
-            N('Which capital letter has a mirror line straight down the middle: A, F or R?'),
-          ],
-          [
-            o(
-              'A',
-              [
-                N(
-                  'Yes. Fold a capital A down the middle and the two halves match. It has a line of symmetry.',
-                ),
-              ],
-              true,
-            ),
-            o('F', [
-              N('Try folding an F down the middle. Its arms stick out on one side only.'),
-              N('The capital A is the one that matches.'),
-            ]),
-            o('R', [
-              N('An R has its bump on one side only, so the two halves don’t match.'),
-              N('The capital A matches on both sides.'),
-            ]),
-          ],
-          'Found which capital letter has a line of symmetry (A).',
         ),
       ],
     ),
@@ -2644,7 +2618,7 @@ const A10: EduQuest = quest(
           4,
           'science',
           'pitch: fast vibrations make high sounds and slow vibrations make low sounds',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N('Your Nubbin hummed a high note and a low note. What is the difference?'),
             N(
@@ -2660,10 +2634,16 @@ const A10: EduQuest = quest(
     ),
     sc(
       'a25-10-voice-done',
-      [N('Atreyu is not, it turns out, a natural poet. He looks at you hopefully.')],
+      [
+        N('Atreyu clears his throat and has a go on his own.'),
+        AT('O Voice, who sings so very high! I have a question. It is: why?'),
+        N('The voice sings on as if nobody had spoken. Your Nubbin covers its face with both hands.'),
+        AT('It rhymed. I checked. It just wasn’t any good.', 'think'),
+        N('He looks at you hopefully.'),
+      ],
       [
         ask(
-          0,
+          4,
           'sel',
           'asking for help: saying what you need',
           'CASEL: Relationship skills',
@@ -2721,7 +2701,7 @@ const A10: EduQuest = quest(
           1,
           'literacy',
           'rhyme: words that end with the same sound',
-          'RL.2.4',
+          undefined,
           [
             N('Atreyu’s first two lines end in “grey” and “way”.'),
             N('Which of these words also rhymes with “grey”?'),
@@ -2844,7 +2824,7 @@ const A10: EduQuest = quest(
           2,
           'social-studies',
           'a border is a line between two lands; some follow rivers or mountains',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N('A border is an agreed line between two countries or lands.'),
             N('Some borders follow a river or a mountain range. Others are lines drawn on a map.'),
@@ -2931,7 +2911,7 @@ const A11: EduQuest = quest(
           0,
           'social-studies',
           'compass directions: winds are named for where they come from',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'A wind is named for the direction it comes from. A north wind blows from the north.',
@@ -3145,7 +3125,7 @@ const A11: EduQuest = quest(
             ]),
             o('2 hours', [
               N(
-                'That is the difference between 7 and 5 on the clock face. But night runs on past midnight.',
+                'That is the gap between 7 and 5 on the clock face. But night runs past midnight.',
               ),
               N('From 7 in the evening to 5 in the morning is 10 hours.'),
             ]),
@@ -3205,7 +3185,7 @@ const A12: EduQuest = quest(
           3,
           'science',
           'sinking and floating depend on a material’s properties: gold is dense and sinks',
-          '2-PS1-1',
+          undefined,
           [
             N('The amulet is made of gold, and it sank. Gold is very heavy for its size.'),
             N('Which of these would sink in the sea: a cork, a gold ring or a wooden spoon?'),
@@ -3296,13 +3276,12 @@ const A12: EduQuest = quest(
           'You don’t see the wolf. You see Atreyu’s face, as the laughing stops, and the quiet after it.',
         ),
         N('Gmork has died. His body has stopped, and it will not start again.'),
-        N(
-          'Then Atreyu cries out. The chained jaws have closed on his leg, even now, and they won’t open.',
-        ),
+        N('Gmork can’t hurt anyone now. But his teeth still hold Atreyu’s leg, and Atreyu cries out.'),
+        N('Then, far above, something white comes down out of the dark.'),
       ],
       [
         ask(
-          2,
+          3,
           'literacy',
           'working out feelings from clues, even when nobody says them',
           'RL.3.3',
@@ -3505,7 +3484,7 @@ const A13: EduQuest = quest(
           8,
           'social-studies',
           'names often come from a family story, a place or a hope',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N('When the Empress says your Nubbin’s name, it comes out at once.'),
             N(
@@ -3560,7 +3539,7 @@ const A13: EduQuest = quest(
             o('I’m no good at anything.', [
               N('That is a heavy thing to say to yourself, and it isn’t true.'),
               N(
-                'Try talking to yourself the way you would talk to a friend: you tried hard, and that counts.',
+                'Talk to yourself as you would to a friend: you tried hard, and that counts.',
               ),
             ]),
             o('Nothing. I’d just feel bad.', [
@@ -3655,7 +3634,7 @@ const A13: EduQuest = quest(
           1,
           'science',
           'real mountains change very slowly over a very long time',
-          '2-ESS1-1',
+          '4-ESS2-1',
           [
             N('Wandering Mountain wanders, which no real mountain does.'),
             N(
@@ -3714,7 +3693,7 @@ const A13: EduQuest = quest(
                 N(
                   'Yes. The pattern repeats every four. Steps 9 and 10 are the shop, then the attic.',
                 ),
-                N('Another way: 10 is 2 more than 8, and 8 ends a full cycle at the tower.'),
+                N('Or: 10 is 2 after 8, and 8 ends a full cycle.'),
               ],
               true,
             ),
@@ -3863,9 +3842,6 @@ const A14: EduQuest = quest(
               'Moon Child',
               [
                 N('Yes. Moon Child. Mond sounds a bit like “mohnt”, and Kind a bit like “kint”.'),
-                N(
-                  'The German word for the book Bastian is holding is Buch, with a rough “ch” as at the end of “loch”.',
-                ),
               ],
               true,
             ),
@@ -3894,14 +3870,11 @@ const A14: EduQuest = quest(
       [
         notice(
           0,
-          'science',
-          'a flame needs fuel, heat and air',
-          '4-PS3-2',
-          [
-            N('A candle flame needs three things: fuel, heat and air. The fuel is the wax.'),
-            N('When the wax is used up, or the air is cut off, the flame goes out.'),
-          ],
-          'Learned that a flame needs fuel, heat and air, and goes out without them.',
+          'literacy',
+          'a story needs a reader',
+          undefined,
+          [N('A story needs a reader. Bastian read, and then he called out, and the story answered.')],
+          'Noticed that a story needs a reader, and that Bastian’s call is what the story answered.',
         ),
       ],
     ),
@@ -4104,7 +4077,7 @@ export const EDU_A25_READER_VARIANTS: EduScene[] = [
         8,
         'social-studies',
         'a name can be kept for someone and given back; remembering matters',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           N('A name was whistled back to someone, and the Empress heard it from far away.'),
           N(
