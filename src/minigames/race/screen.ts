@@ -15,7 +15,9 @@ import {
   type RaceState,
 } from '../../sim/race';
 import type { GraphicsMode, Nubbin } from '../../sim/types';
-import { button, el } from '../../ui/dom';
+import { button, dialogFocus, el } from '../../ui/dom';
+import { RaceWatch, standingsList } from '../../ui/race-results';
+import { UI_FX_TEXT } from '../../config/strings-ui';
 import { RacePixelView } from './pixel-view';
 import type { RaceView } from './view';
 import { showUpdateNotice } from '../../ui/update-notice';
@@ -55,6 +57,9 @@ export class RaceScreen {
   /** True while the 3D chunk and stage are on their way; the race waits at the line. */
   private loading3d = false;
   private readonly abort = new AbortController();
+  /** Watches the race for the results card's standings and tip. */
+  private watch: RaceWatch | null = null;
+  private readonly resultsFocus: ReturnType<typeof dialogFocus>;
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition race');
@@ -64,13 +69,15 @@ export class RaceScreen {
     this.results = el('div', 'modal');
     this.results.hidden = true;
     const card = el('div', 'modal-card');
-    card.appendChild(el('h2', undefined, UI_TEXT.raceResults));
+    const heading = el('h2', undefined, UI_TEXT.raceResults);
+    card.appendChild(heading);
     this.resultsBody = el('div');
     card.append(
       this.resultsBody,
       button(UI_TEXT.backToGrove, () => this.finish(), 'btn btn-primary'),
     );
     this.results.appendChild(card);
+    this.resultsFocus = dialogFocus(this.results, card, heading);
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.setAttribute('aria-label', UI_TEXT.quitMinigame);
     this.quitBtn.title = UI_TEXT.quitMinigame;
@@ -115,6 +122,7 @@ export class RaceScreen {
     const starts = ++this.starts;
     this.race = race;
     this.onDone = onDone;
+    this.watch = new RaceWatch(race);
     this.outcome = null;
     this.hatRoll = hatRoll;
     this.results.hidden = true;
@@ -176,6 +184,7 @@ export class RaceScreen {
       hat: null,
     };
     cancelAnimationFrame(this.rafId);
+    if (!this.results.hidden) this.resultsFocus.closed();
     this.starts++;
     this.loading3d = false;
     this.root.hidden = true;
@@ -211,6 +220,7 @@ export class RaceScreen {
     this.accMs += dt;
     while (this.accMs >= SIM.stepMs) {
       stepRace(race, SIM.stepMs);
+      this.watch?.observe(SIM.stepMs);
       this.accMs -= SIM.stepMs;
     }
     // The view draws even before it is ready: a 3D stage builds its rigs across frames.
@@ -250,13 +260,18 @@ export class RaceScreen {
     this.outcome = { placement, shells, hat };
     this.resultsBody.innerHTML = '';
     this.resultsBody.appendChild(el('p', 'celebrate-form', UI_TEXT.place(placement)));
-    if (shells > 0) this.resultsBody.appendChild(el('p', undefined, UI_TEXT.resultShells(shells)));
+    // The prize, then every racer's place and time with the player marked, then one tip.
+    this.resultsBody.appendChild(el('p', 'race-prize', UI_FX_TEXT.prize(shells)));
     if (hat) this.resultsBody.appendChild(el('p', undefined, UI_TEXT.wonHat));
     if (placement === 1 && race.tier < 3)
       this.resultsBody.appendChild(el('p', undefined, UI_TEXT.tierUnlocked));
+    this.resultsBody.appendChild(standingsList(race));
+    const tip = this.watch?.tip();
+    if (tip) this.resultsBody.appendChild(el('p', 'race-tip', tip));
     playSound(placement <= 3 ? 'win' : 'sad');
     this.root.appendChild(this.results);
     this.results.hidden = false;
+    this.resultsFocus.opened();
   }
 
   dispose(): void {
