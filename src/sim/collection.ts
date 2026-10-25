@@ -33,7 +33,7 @@ export function allKeys(): readonly string[] {
     }
   }
   for (const band of ['sun', 'moon', 'neutral'] as const) keys.push(`chao:eternal:${band}`);
-  for (const id of Object.keys(SPECIES)) if (id !== 'chao') keys.push(id);
+  for (const s of SPECIES) if (s.id !== 'chao') keys.push(s.id);
   keyCache = keys;
   return keys;
 }
