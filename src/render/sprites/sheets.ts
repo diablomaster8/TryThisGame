@@ -24,7 +24,7 @@ import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
 import { C } from './palette';
-import { buildKeeperSheet } from './keeper';
+import { buildGrandchildSheet, buildKeeperSheet } from './keeper';
 import { npcLookOf, WEATHERED } from '../../config/npc-looks';
 import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
@@ -269,9 +269,9 @@ export class SheetCache {
   }
 
   /**
-   * A Keeper sheet. With a side it is the player's (or the co-op partner's) Keeper: the
-   * chosen trainer's outfit with the Sun or Moon trim (`keeperOutfit`, the rule both
-   * renderers share). Without one it is the plain trainer look, for visitors, NPCs,
+   * A Keeper sheet. With a side it is the player's (or the co-op partner's) avatar: Hazel's
+   * grandchild in the chosen trainer's outfit with the Sun or Moon trim (`keeperOutfit`,
+   * the colour rule both renderers share). Without one it is the plain trainer look, for visitors, NPCs,
    * dialogue portraits and the trainer picker.
    */
   keeper(trainerId: string, side?: KeeperAlignment): SpriteSheet {
@@ -279,8 +279,10 @@ export class SheetCache {
       return this.get(`keeper:${trainerId}`, () =>
         buildKeeperSheet(trainerLook(trainerId), npcLookOf(trainerId)),
       );
-    return this.get(`keeper:${trainerId}:${side}`, () =>
-      buildKeeperSheet(keeperOutfit(trainerId, side)),
+    // The player is Hazel's grandchild, never a copy of the trainer whose role they took:
+    // their own face and hair, in that role's outfit with the side's trim (fix 2026-10-25).
+    return this.get(`keeper:${trainerId}:${side}:grandchild`, () =>
+      buildGrandchildSheet(keeperOutfit(trainerId, side)),
     );
   }
 

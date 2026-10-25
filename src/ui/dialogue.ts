@@ -25,7 +25,7 @@ import { SPEAKER_NOW } from '../render/stage-actors';
 import { LOOK_STATE, npcLookOf, storyId } from '../config/npc-looks';
 import { keeperOutfit, trainerLook } from '../render/keeper-look';
 import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
-import { drawKeeperFrame } from '../render/sprites/keeper';
+import { drawKeeperFrame, grandchildLook } from '../render/sprites/keeper';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -539,9 +539,10 @@ export function portraitFrame(
     const { trainer } = g.world;
     const side = g.world.keeper.alignment;
     if (expr) {
-      const col = keeperOutfit(trainer, side);
-      const sheet = sheets.get(`face:you:${trainer}:${side}`, () =>
-        buildFaceSheet((e) => drawKeeperFrame('front', 'idle', 0, col, undefined, e)),
+      // The grandchild's face, as on the Grove sprite (render/sprites/keeper.ts).
+      const col = grandchildLook(keeperOutfit(trainer, side));
+      const sheet = sheets.get(`face:you:${trainer}:${side}:grandchild`, () =>
+        buildFaceSheet((e) => drawKeeperFrame('front', 'idle', 0, col, undefined, e, true)),
       );
       return { sheet, key: faceKey(expr) };
     }

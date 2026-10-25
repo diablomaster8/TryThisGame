@@ -131,7 +131,7 @@ export const TYPE_HEX: Record<NubbinType, { body: string; shade: string; belly: 
 /**
  * A second evolution's palette, after the 3D recipe (`samples/nubbin-variants-second.ts`):
  * the first type's hue blended 55% toward the second's, through the band's recipe (Neutral
- * wears it, Sun keeps a pale body with the hue in the shade, Moon deepens it into the body),
+ * wears it, Sun keeps a pale body with the hue on shade and tips, Moon deepens it into the body),
  * and a `tell` colour from the second type for its half-strength tells. Each blend skips the
  * first evolution's own colour, so a second evolution never looks unchanged, Normal included.
  */
@@ -156,7 +156,10 @@ export function secondColors(
     out.belly = nearestIndex(hue.belly, [out.body]);
     out.tell = nearestIndex(tellHex, [out.body]);
   } else if (band === 'sun') {
+    // The hue on the shade and, lifted toward white, on the tips (crown, hands and feet).
     out.shade = nearestIndex(hue.body, [first.shade, first.body]);
+    out.tip = nearestIndex(mixHex(hue.body, '#ffffff', 0.25), [first.body]);
+    out.tipShade = out.shade;
     out.tell = nearestIndex(mixHex(tellHex, '#ffffff', 0.1), [first.body]);
   } else {
     out.body = nearestIndex(mixHex(hue.body, '#000000', 0.4), [
@@ -165,6 +168,8 @@ export function secondColors(
       C.ink,
       C.darkPlum,
     ]);
+    out.tip = nearestIndex(mixHex(hue.body, '#000000', 0.15), [out.body, C.ink]);
+    out.tipShade = shadeOf(out.tip);
     out.tell = nearestIndex(mixHex(tellHex, '#000000', 0.25), [out.body, C.ink]);
   }
   return out;
