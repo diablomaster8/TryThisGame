@@ -14,7 +14,7 @@ import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames
 import { playSound } from '../platform/audio';
 import { enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
-import { button, el, modal } from './dom';
+import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
 import { LangPanel, langProgress } from './lang';
@@ -36,6 +36,7 @@ export class EduScreen {
   private tries = 0;
   private starsTotal = 0;
   private rng = Rng.fromSeed(Date.now());
+  private readonly gameFocus: ReturnType<typeof dialogFocus>;
 
   constructor(
     parent: HTMLElement,
@@ -50,6 +51,9 @@ export class EduScreen {
     this.card = el('div', 'edu-card');
     this.root.appendChild(this.card);
     parent.appendChild(this.root);
+    // The game card is a dialog too: named, focused on start, Escape leaves the game.
+    this.card.setAttribute('aria-label', EDU_TEXT.play);
+    this.gameFocus = dialogFocus(this.root, this.card, null, () => this.close());
   }
 
   /** The picker: one big button per switched-on game. */
@@ -86,7 +90,10 @@ export class EduScreen {
 
   close(): void {
     this.picker.hide();
-    this.root.hidden = true;
+    if (!this.root.hidden) {
+      this.root.hidden = true;
+      this.gameFocus.closed();
+    }
     this.round = null;
     this.game = null;
     const g = this.game_();
@@ -107,6 +114,7 @@ export class EduScreen {
     this.rng = Rng.fromSeed(Date.now());
     g.renderPaused = true;
     this.root.hidden = false;
+    this.gameFocus.opened();
     this.nextRound();
   }
 

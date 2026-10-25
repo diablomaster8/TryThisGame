@@ -3,7 +3,7 @@ import type { Game } from '../game';
 import { CLIPS, frameAt, frameKey } from '../render/sprites/animations';
 import { moodOf } from '../sim/needs';
 import type { Nubbin } from '../sim/types';
-import { button, el, meter } from './dom';
+import { button, dialogFocus, el, meter } from './dom';
 import { clipFor } from '../render/world-view';
 
 /**
@@ -81,7 +81,11 @@ export class PocketMode {
     );
     this.root.appendChild(card);
     parent.appendChild(this.root);
+    // A dialog named by the Nubbin's name; Escape closes it (the HUD's Escape does too).
+    this.focus = dialogFocus(this.root, card, this.name, () => this.close());
   }
+
+  private readonly focus: ReturnType<typeof dialogFocus>;
 
   get isOpen(): boolean {
     return !this.root.hidden;
@@ -93,6 +97,7 @@ export class PocketMode {
     const first = g.world.nubbins.find((n) => n.stage !== 'egg') ?? g.world.nubbins[0];
     this.id = (id && g.world.nubbins.some((n) => n.id === id) ? id : first?.id) ?? null;
     this.root.hidden = false;
+    this.focus.opened();
     this.refreshPicks();
     clearInterval(this.timer);
     this.timer = window.setInterval(() => this.refresh(), 150);
@@ -100,8 +105,10 @@ export class PocketMode {
   }
 
   close(): void {
-    this.root.hidden = true;
     clearInterval(this.timer);
+    if (this.root.hidden) return;
+    this.root.hidden = true;
+    this.focus.closed();
   }
 
   private refreshPicks(): void {
