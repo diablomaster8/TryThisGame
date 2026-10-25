@@ -764,7 +764,10 @@ export function mountHud(
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
       if (c) dialogue.dropStale(c.queue);
-      const next = c?.queue[0];
+      // Hazel's Grove never starts a scene underground in the Hollow Below: it waits for the
+      // Grove (review 2026-10-24, item 4). A storyline's own floor scenes still play there.
+      const held = !!c && !c.storyline && g.world.location === 'dungeon';
+      const next = held ? undefined : c?.queue[0];
       // cg5: the Hollow's floor bar and minimap stay off between a floor scene's lines too
       // (the chapter card, the beat before the next scene), not only while a line is up.
       document.documentElement.classList.toggle(
@@ -793,7 +796,12 @@ export function mountHud(
         !karate.screen.isOpen &&
         !gym.screen.isOpen &&
         !tank.isOpen &&
-        !pocket.isOpen
+        !pocket.isOpen &&
+        // The Hollow's party bout, photo mode and the story worlds are play of their own.
+        !partyBout.isOpen() &&
+        !photo.isOpen() &&
+        !atlas.isOpen() &&
+        !cabinet.isOpen()
       ) {
         sheet.close();
         dialogue.play(next);

@@ -1747,6 +1747,64 @@ export const STORY = {
   s6Friendship: 5,
   /** Shells Corvin asks in S27's buy-back, the same as c9-open's bargain. */
   buyBackShells: 200,
+  /**
+   * Pacing (review 2026-10-24, item 4). After any scene ends, the next unrelated one (a
+   * chapter's opening or closing, another story's step, a fun-quest offer) waits this long
+   * on the sim clock, so it scales with the time-scale. A scene's own follow-ups and the
+   * same story's next beat are not held.
+   */
+  breatherMs: 60_000,
+  /** Between two different side stories' or fun quests' scenes: a shorter gap. */
+  sideGapMs: 20_000,
+  /** A chapter's goal phase lasts at least this long before its closing can play. */
+  goalMinMs: 90_000,
+  /** Goals met by a choice inside the opening scene: no minimum, the closing follows. */
+  goalsInOpening: ['corvinChoice', 'finalChoice'] as readonly string[],
+  /** Chapter scenes whose first line names a time of day wait for that part of the day. */
+  sceneTime: {
+    'c2-open': 'morning',
+    'c2-corvin': 'afternoon',
+    'c3-open': 'night',
+    'c4-close': 'night',
+    'c7-open': 'night',
+    'c8-open': 'morning',
+    'c12-open': 'morning',
+  } as Readonly<Record<string, 'morning' | 'afternoon' | 'night'>>,
+  /** The Grove's season in Hazel's Grove, chapter by chapter (index 0 is chapter 1). */
+  chapterSeasons: [
+    'spring',
+    'spring',
+    'summer',
+    'summer',
+    'summer',
+    'summer',
+    'summer',
+    'autumn',
+    'winter',
+    'winter',
+    'winter',
+    'winter',
+  ] as const,
+  /** After the ending: the post-game spring (S27's egg sac, E1–E3). */
+  postGameSeason: 'spring' as const,
+  /**
+   * Scene guests (campaign.ts): speakers never given a body beside the Keeper, because they
+   * are a crowd, a voice, a memory or a feeling rather than someone at the gate.
+   */
+  guestSkip: [
+    'you',
+    'narrator',
+    'chorus',
+    'hazel',
+    'kids',
+    'worry',
+    's29-children',
+  ] as readonly string[],
+  /** How far from the Keeper scene guests stand, and how far apart. */
+  guestReach: 2.2,
+  guestSpread: 0.9,
+  /** At most this many guests stand in for one scene. */
+  guestMax: 4,
 } as const;
 
 import type { StoryPropDef } from '../sim/story-props';
@@ -1756,6 +1814,8 @@ export const FUN = {
   /** One at a time, and never in a chapter's first story day (the campaign speaks first). */
   maxOpen: 1,
   offerAfterMs: 120_000,
+  /** After a fun quest opens, the next one is not offered for this long (no stacking). */
+  offerGapMs: 240_000,
   /** Market days, as JavaScript weekdays (Wednesday and Saturday). */
   marketDays: [3, 6],
   /** "Midday" is this much of a story day either side of noon. */

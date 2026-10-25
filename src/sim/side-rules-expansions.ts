@@ -47,7 +47,7 @@ const E1: StoryRule = {
   sceneDone: (w, _c, scene, events) => {
     if (scene !== 'e1-attendant-corvin') return;
     // Corvin comes back as a reformed recruit: an NPC in the Grove and a name on the square.
-    if (!w.npcs.some((n) => n.trainer === 'corvin')) spawnNpc(w, 'corvin');
+    if (!w.npcs.some((n) => n.trainer === 'corvin' && !n.guest)) spawnNpc(w, 'corvin');
     addRecruit(w, 'Corvin', 'keeper', events);
   },
 };

@@ -121,9 +121,10 @@ export function langQuestIds(): string[] {
 
 /**
  * Nova's postcard: start a course. With nothing else queued (a fresh Learning Grove, where
- * the story has only just begun), the friend's arrival and greeting are queued at once,
- * ahead of Chapter 1's opening, so the child meets Hana or Ori straight away (review
- * 2026-10-21, bug 8). Otherwise the first quest opens on the next sim second as before.
+ * the story has only just begun), the friend's arrival and greeting are queued at once, in
+ * place of Chapter 1's opening, which follows later, so the child meets Hana or Ori
+ * straight away (review 2026-10-21, bug 8). Otherwise the first quest opens on the next
+ * sim second as before.
  */
 export function langStart(world: World, course: LangCourseId): void {
   if (!world.edu) return;
@@ -137,12 +138,19 @@ export function langStart(world: World, course: LangCourseId): void {
   const fresh = c?.seen.length === 0;
   if (!c || !quest || !step || c.fun[quest.id] || (!fresh && c.queue.length > 0)) return;
   if (TRACE_TARGETS[step.check]) return;
+  // The story's opening is taken out of the queue rather than kept behind the friend: the
+  // chapter machine queues it again once the friend's scenes have played, so the postcard
+  // opens with Ori or Hana and never replays Chapter 1 first (review 2026-10-24, item 5).
   const ahead = c.queue;
   c.queue = [];
   const queued = queueScene(c, step.scene.id);
   const done = queued && step.done && queueScene(c, step.done.id) ? step.done.id : null;
-  c.queue.push(...ahead);
-  if (!queued) return;
+  if (!queued) {
+    c.queue = ahead;
+    return;
+  }
+  // Anything else waiting (a trigger scene) keeps its place after the friend.
+  c.queue.push(...ahead.filter((id) => !/^c\d+-/.test(id)));
   c.fun[quest.id] = {
     status: 'open',
     step: 0,

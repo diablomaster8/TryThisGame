@@ -5,9 +5,20 @@
  * whole Multiverse save's (`lineContext`), so E6 can read what E1 to E5 decided. Pure.
  */
 import type { LineFlags } from './atlas';
+import type { World } from './types';
 
 /** A read-only fact the shelf adds: the save holds a reflection of a Grove Eternal (E6). */
 export const REFLECTION_FLAG = 'mv-reflection';
+
+/**
+ * A read-only fact the shelf adds: the Grove owns the plush Nubbin from fun quest Q12
+ * (Just Resting). The Toy Story line's header: without it, skip every line spoken by
+ * `ts-plush` and every line whose text says "plush"; each scene reads cleanly without them.
+ */
+export const PLUSH_FLAG = 'mv-plush-owned';
+
+/** The Grove keepsake that is the plush Nubbin. */
+export const PLUSH_KEEPSAKE = 'plush-nubbin';
 
 /** The scene that opens E6 (the reflection is made as it plays). */
 export const E6_GATE_SCENE = 'mv-e6-gate';
@@ -58,4 +69,19 @@ export function multiverseChoiceLive(sceneId: string, choiceId: string, flags: L
   if (choiceId === 'wish') return flags['mv-wish'] === 'saved';
   if (choiceId === 'eternal') return flags[REFLECTION_FLAG] === true;
   return true;
+}
+
+/** Toy Story's plush lines, spoken only when the Grove owns the plush (TS1–TS12). */
+export function multiverseLineLive(
+  sceneId: string,
+  line: { who: string; text: string },
+  flags: LineFlags,
+): boolean {
+  if (!sceneId.startsWith('mv-ts') || flags[PLUSH_FLAG] === true) return true;
+  return line.who !== 'ts-plush' && !/\bplush\b/i.test(line.text);
+}
+
+/** Whether the Grove holds the plush Nubbin (Q12's keepsake), read-only. */
+export function ownsPlush(world: Pick<World, 'inventory'> | null | undefined): boolean {
+  return world?.inventory.keepsakes.includes(PLUSH_KEEPSAKE) ?? false;
 }

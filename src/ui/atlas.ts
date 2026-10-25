@@ -24,7 +24,13 @@ import {
 import { crossSavesFrom, type CrossSaves } from '../sim/cross-saves';
 import { audienceContext } from '../sim/fun-quests';
 import { speakerNameIn } from '../sim/story-scenes';
-import { E6_CORE_SCENE, E6_GATE_SCENE, REFLECTION_FLAG } from '../sim/multiverse-rules';
+import {
+  E6_CORE_SCENE,
+  E6_GATE_SCENE,
+  ownsPlush,
+  PLUSH_FLAG,
+  REFLECTION_FLAG,
+} from '../sim/multiverse-rules';
 import {
   freshLine,
   parseMultiverse,
@@ -132,8 +138,12 @@ export class StoryShelf {
    * and side-story flags (a frozen copy, so a story world can never write them).
    */
   private context(save: SideData): LineContext {
-    const extra = 'reflection' in save ? { [REFLECTION_FLAG]: save.reflection !== null } : {};
-    const grove = this.game()?.world.campaign?.flags ?? {};
+    const world = this.game()?.world;
+    const extra =
+      'reflection' in save
+        ? { [REFLECTION_FLAG]: save.reflection !== null, [PLUSH_FLAG]: ownsPlush(world) }
+        : {};
+    const grove = world?.campaign?.flags ?? {};
     return lineContext(this.lines ?? [], sideLines(save), extra, grove);
   }
 

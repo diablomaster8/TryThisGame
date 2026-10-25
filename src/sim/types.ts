@@ -545,6 +545,12 @@ export interface Npc {
   target: Vec2 | null;
   waitMs: number;
   home: Vec2;
+  /**
+   * A scene's visiting speaker (side story or fun-quest guest, Corvin at the gate): spawned
+   * beside the Keeper while the scene is queued, removed after it (campaign.ts). `trainer`
+   * is then the speaker id, which may have no trainer look of its own.
+   */
+  guest?: boolean;
 }
 
 export interface CampaignStats {
@@ -592,6 +598,11 @@ export interface CampaignState {
   fun: Record<string, SideStoryState>;
   /** A separate campaign's id (sim/storyline.ts), or null for Hazel's Grove. */
   storyline: string | null;
+  /**
+   * When the last scene ended and whose it was (its id's first part: 'c2', 's9', 'q12'):
+   * the breathing gap before the next unrelated scene (story-state.ts `resting`).
+   */
+  rest?: { atMs: number; owner: string } | null;
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
