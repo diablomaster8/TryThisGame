@@ -1,4 +1,5 @@
 import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
+import { canonicalSpecies, SPECIES_ALIASES } from './species';
 import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
@@ -196,6 +197,12 @@ export function validateWorld(w: World): World {
   w.season ??= 'spring';
   w.placed ??= [];
   w.seen ??= {};
+  // Retired species ids (the grown Aerodactyl stage) count as the species they became.
+  for (const [old, now] of Object.entries(SPECIES_ALIASES)) {
+    if (w.seen[old] === undefined) continue;
+    w.seen[now] ??= w.seen[old];
+    delete w.seen[old];
+  }
   w.visits ??= { lastDay: '', count: 0, gifted: [] };
   w.visits.gifted ??= [];
   w.location ??= 'grove';
@@ -315,8 +322,8 @@ export function validateWorld(w: World): World {
     n.cocoonKind ??= n.stage === 'cocoon' ? 'evolve' : null;
     n.childCare ??= { pets: 0, throws: 0, feeds: 0 };
     n.shiny ??= false;
-    n.species ??= 'chao';
-    n.lineage ??= n.species;
+    n.species = canonicalSpecies(n.species ?? 'chao');
+    n.lineage = canonicalSpecies(n.lineage ?? n.species);
     n.tone ??= null;
     n.personality ??= null;
     n.hat ??= null;

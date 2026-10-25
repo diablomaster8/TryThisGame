@@ -1,3 +1,4 @@
+import { GEN1B_SPECIES } from './species-gen1b';
 import type { AlignmentBand, Nubbin, NubbinType } from './types';
 import { DIGI2_SPECIES } from './species-digi2';
 
@@ -29,6 +30,8 @@ export interface Species {
   /** Natural type: nudges lean at hatch and biases rivals' looks. */
   type: NubbinType;
   evolve: EvolutionRule | null;
+  /** Relative odds in an egg roll (1 when absent); below 1 is rare and never found wild. */
+  eggWeight?: number;
 }
 
 const P = (
@@ -86,8 +89,8 @@ export const SPECIES: readonly Species[] = [
   P('spiralking', 'Omastar', 'final', 'swim'),
   P('domeshell', 'Kabuto', 'baby', 'swim', { kind: 'fixed', to: 'domereaper' }),
   P('domereaper', 'Kabutops', 'final', 'power'),
-  P('skyfang', 'Aerodactyl', 'baby', 'fly', { kind: 'fixed', to: 'skyfang-grown' }),
-  P('skyfang-grown', 'Aerodactyl (grown)', 'final', 'fly'),
+  // Single stage: it keeps its look for life (the old invented 'skyfang-grown' is an alias).
+  P('skyfang', 'Aerodactyl', 'baby', 'fly'),
   P('lilystalk', 'Lileep', 'baby', 'swim', { kind: 'fixed', to: 'lilyking' }),
   P('lilyking', 'Cradily', 'final', 'power'),
   P('clawnymph', 'Anorith', 'baby', 'swim', { kind: 'fixed', to: 'clawknight' }),
@@ -126,6 +129,8 @@ export const SPECIES: readonly Species[] = [
   D('hugbear', 'Monzaemon', 'final', 'normal'),
   // ---- digi: Versions 2 to 5 ----
   ...DIGI2_SPECIES,
+
+  ...GEN1B_SPECIES,
 ];
 
 /**
@@ -140,9 +145,25 @@ export const ETERNAL_REFS: Readonly<Record<AlignmentBand, string>> = {
 
 const BY_ID = new Map(SPECIES.map((s) => [s.id, s]));
 
-export function speciesOf(id: string): Species {
-  return BY_ID.get(id) ?? BY_ID.get('chao')!;
+/** Retired ids that old saves may still hold, and the species each one became. */
+export const SPECIES_ALIASES: Readonly<Record<string, string>> = {
+  'skyfang-grown': 'skyfang',
+};
+
+/** The current id for a possibly retired one. */
+export function canonicalSpecies(id: string): string {
+  return SPECIES_ALIASES[id] ?? id;
 }
+
+export function speciesOf(id: string): Species {
+  return BY_ID.get(canonicalSpecies(id)) ?? BY_ID.get('chao')!;
+}
+
+/** Egg-roll odds of a species: 1 unless it is rare. */
+export const eggWeightOf = (s: Species): number => s.eggWeight ?? 1;
+
+/** Babies that turn up wild, in the Hollow Below and in neighbours' gardens: not the rare ones. */
+export const isCommonSpecies = (s: Species): boolean => eggWeightOf(s) >= 1;
 
 export function speciesByFamily(family: Family, stage?: SpeciesStage): Species[] {
   return SPECIES.filter((s) => s.family === family && (!stage || s.stage === stage));

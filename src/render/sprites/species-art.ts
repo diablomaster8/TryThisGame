@@ -1,6 +1,7 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
 import { DIGI2_ART } from './species-art-digi2';
+import { GEN1B_ART } from './species-art-gen1b';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -288,19 +289,13 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     size: 1.2,
     legs: 'long',
   }),
+  // Single stage, so one look for life: between the old baby and grown sizes.
   skyfang: spec(GREY, {
     wings: 'bat',
     tail: 'long',
     crest: 'twinHorns',
     eyes: 'angry',
-    size: 0.95,
-  }),
-  'skyfang-grown': spec(GREY, {
-    wings: 'bat',
-    tail: 'long',
-    crest: 'twinHorns',
-    eyes: 'angry',
-    size: 1.2,
+    size: 1.05,
     arms: 'claws',
   }),
   lilystalk: spec(pal(C.violet, C.moonPurple, C.lavender, C.blush, C.rose), {
@@ -451,6 +446,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   }),
   // ---- digital line, Versions 2 to 5 ----
   ...DIGI2_ART,
+  ...GEN1B_ART,
 };
 
 export function speciesArt(id: string): CreatureSpec | undefined {

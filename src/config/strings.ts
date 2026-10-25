@@ -1,4 +1,5 @@
 // Every player-facing name and piece of text. All names are working titles.
+import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 
 import { DIGI2_LABELS } from './strings-digi2';
 
@@ -136,7 +137,6 @@ export const SPECIES_LABELS: Record<string, string> = {
   domeshell: 'Domeshell',
   domereaper: 'Domereaper',
   skyfang: 'Skyfang',
-  'skyfang-grown': 'Skyfang',
   lilystalk: 'Lilystalk',
   lilyking: 'Lilyking',
   clawnymph: 'Clawnymph',
@@ -156,6 +156,7 @@ export const SPECIES_LABELS: Record<string, string> = {
   beanbot: 'Beanbot',
   hugbear: 'Hugbear',
   ...DIGI2_LABELS,
+  ...GEN1B_SPECIES_LABELS,
 };
 
 /** The ten playable Keepers. */

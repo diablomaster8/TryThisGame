@@ -4,6 +4,7 @@ import { color } from '../render/sprites/palette';
 import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
+import { applyGen1b3d } from './art-species-gen1b';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -111,7 +112,7 @@ const cone = (
 ): Prim => ({ kind: 'cone', a, b, r, r2, color: c, blend });
 
 /** A box around prims, padded for the blend. */
-function boxOf(prims: Prim[], pad = 0.3): [THREE.Vector3, THREE.Vector3] {
+export function boxOf(prims: Prim[], pad = 0.3): [THREE.Vector3, THREE.Vector3] {
   const min = V(Infinity, Infinity, Infinity);
   const max = V(-Infinity, -Infinity, -Infinity);
   const grow = (p: THREE.Vector3, r: THREE.Vector3) => {
@@ -538,7 +539,7 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const pivotY = Math.min(h.y - h.r.y * 0.55, b.y + b.r.y * 0.9);
   const eyeR = art.eyes === 'big' || art.eyes === 'cute' || art.eyes === 'stalk' ? 0.25 : 0.19;
   const wings = art.wings === 'none' ? null : art.wings;
-  return patchKitSpec(art, L, c, {
+  const spec: SpeciesSpec = patchKitSpec(art, L, c, {
     name,
     scale: 0.78,
     gait: 'biped',
@@ -605,4 +606,5 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
+  return art.gen1b ? applyGen1b3d(spec, art, L, c) : spec;
 }

@@ -1,6 +1,6 @@
 import { VISITS } from '../config/tuning';
 import { Rng } from './rng';
-import { SPECIES } from './species';
+import { isCommonSpecies, SPECIES } from './species';
 import { TRAINERS, trainerOf } from './trainers';
 import type { SimEvent, World } from './types';
 
@@ -46,7 +46,9 @@ export function neighbourGarden(trainer: string): NeighbourNubbin[] {
   const rng = Rng.fromSeed(trainer.split('').reduce((h, c) => h * 31 + c.charCodeAt(0), 7));
   const count = rng.int(3, 5);
   const out: NeighbourNubbin[] = [];
-  const pocket = Object.values(SPECIES).filter((s) => s.family === 'pocket' && s.stage === 'baby');
+  const pocket = Object.values(SPECIES).filter(
+    (s) => s.family === 'pocket' && s.stage === 'baby' && isCommonSpecies(s),
+  );
   const digi = Object.values(SPECIES).filter((s) => s.family === 'digi' && s.stage === 'baby');
   for (let i = 0; i < count; i++) {
     const roll = rng.next() * (t.eggs.chao + t.eggs.pocket + t.eggs.digi);
