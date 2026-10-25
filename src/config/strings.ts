@@ -1,5 +1,7 @@
 // Every player-facing name and piece of text. All names are working titles.
 
+import { GEN1A_LABELS } from './strings-gen1a';
+
 export const NAMES = {
   game: 'Grove',
   creature: 'Nubbin',
@@ -153,6 +155,7 @@ export const SPECIES_LABELS: Record<string, string> = {
   ironsaur: 'Ironsaur',
   beanbot: 'Beanbot',
   hugbear: 'Hugbear',
+  ...GEN1A_LABELS,
 };
 
 /** The ten playable Keepers. */

@@ -1,4 +1,5 @@
 import type { AlignmentBand, Nubbin, NubbinType } from './types';
+import { GEN1A_SPECIES } from './species-gen1a';
 
 /**
  * Species: what hatches from an egg and what it grows into. The Chao line is the
@@ -91,6 +92,7 @@ export const SPECIES: readonly Species[] = [
   P('lilyking', 'Cradily', 'final', 'power'),
   P('clawnymph', 'Anorith', 'baby', 'swim', { kind: 'fixed', to: 'clawknight' }),
   P('clawknight', 'Armaldo', 'final', 'power'),
+  ...GEN1A_SPECIES,
 
   // ---- digi: the original 1997 line ----
   D('fuzzlet', 'Botamon', 'baby', 'normal', { kind: 'fixed', to: 'chompet' }),
