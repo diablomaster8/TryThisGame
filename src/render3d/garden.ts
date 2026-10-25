@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { visibleStoryProps, type StoryPropKind } from '../sim/story-props';
 import type { DecorKind, Plant, TileKind, World } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
-import { KIT_SHARED, kitCabin, kitHouse } from './kit-buildings';
+import { KIT_SHARED, kitCabin, kitHouse, kitMaterials } from './kit-buildings';
 import { buildStoryProp } from './prop-kit';
 
 /**
@@ -62,13 +62,28 @@ export function disposeModel(root: THREE.Object3D): void {
   });
 }
 
+/**
+ * Once the kit's painted textures are in, the plain wood and stone of the decor and the
+ * story props take the kit's painted planks, timber and cobble (the well's and the
+ * cottage's), so a bench or a fence never stands flat-coloured beside them (review
+ * 2026-10-24). Paint, leaves, soil and glow keep their own colours.
+ */
+function surf(m: THREE.Material): THREE.Material {
+  if (!kitTex) return m;
+  const k = kitMaterials(kitTex);
+  if (m === MATS.wood) return k.plank;
+  if (m === MATS.darkWood || m === MATS.bark) return k.timber;
+  if (m === MATS.stone || m === MATS.darkStone) return k.stone;
+  return m;
+}
+
 function box(w: number, h: number, d: number, m: THREE.Material, x = 0, y = 0, z = 0) {
-  const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+  const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), surf(m));
   o.position.set(x, y + h / 2, z);
   return o;
 }
 function ball(r: number, m: THREE.Material, x = 0, y = 0, z = 0, detail = 1) {
-  const o = new THREE.Mesh(new THREE.IcosahedronGeometry(r, detail), m);
+  const o = new THREE.Mesh(new THREE.IcosahedronGeometry(r, detail), surf(m));
   o.position.set(x, y, z);
   return o;
 }
@@ -119,11 +134,11 @@ export function decorModel(kind: DecorKind): THREE.Group {
       g.add(box(0.6, 0.4, 0.6, MATS.darkStone));
       g.add(ball(0.32, MATS.stone, 0, 0.75, 0, 2));
       g.add(ball(0.36, MATS.stone, 0, 1.2, 0, 2));
-      g.add(new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.36, 10), MATS.stone));
+      g.add(new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.36, 10), surf(MATS.stone)));
       g.children[g.children.length - 1]!.position.y = 1.62;
       break;
     case 'pathTile': {
-      const t = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.45, 0.05, 8), MATS.stone);
+      const t = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.45, 0.05, 8), surf(MATS.stone));
       t.position.y = 0.025;
       g.add(t);
       break;
@@ -176,7 +191,7 @@ export function storyPropModel(kind: StoryPropKind): THREE.Group {
   switch (kind) {
     case 'trowel': {
       const handle = box(0.05, 0.05, 0.3, MATS.darkWood, -0.1, 0.03, 0);
-      const blade = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.3, 4), MATS.stone);
+      const blade = new THREE.Mesh(new THREE.ConeGeometry(0.09, 0.3, 4), surf(MATS.stone));
       blade.rotation.x = -Math.PI / 2;
       blade.position.set(-0.1, 0.05, 0.3);
       g.add(handle, blade);
@@ -267,7 +282,7 @@ export function plantModel(p: Plant): THREE.Group {
       const s = [0, 0.35, 0.7, 1.15][p.stage] ?? 1;
       const trunk = new THREE.Mesh(
         new THREE.CylinderGeometry(0.05 * s, 0.09 * s, 1.4 * s, 7),
-        MATS.bark,
+        surf(MATS.bark),
       );
       trunk.position.y = 0.7 * s;
       g.add(trunk);
