@@ -45,9 +45,11 @@ export function addAffection(n: Nubbin, delta: number): void {
 /**
  * Sample happiness for the lifetime average that rebirth checks, weighted by the sim
  * seconds the sample stands for: live play samples each second, catch-up each minute,
- * and an hour away must weigh the same as an hour watched.
+ * and an hour away must weigh the same as an hour watched. A Nubbin frozen at the end of
+ * its life (`awaitingKeeper`) stops sampling, so its outcome cannot drift while it waits.
  */
 export function sampleHappiness(n: Nubbin, seconds = 1): void {
+  if (n.awaitingKeeper) return;
   n.happinessSum += n.needs.happiness * seconds;
   n.happinessSamples += seconds;
 }

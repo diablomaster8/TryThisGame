@@ -154,6 +154,8 @@ export function createRace(
   player: Nubbin,
   seed: number,
   levelsOverride?: Record<StatKey, number>,
+  /** Names the rivals must not take: the player's own Nubbins (the runner's is always left out). */
+  taken: readonly string[] = [],
 ): RaceState {
   const rng = Rng.fromSeed(seed);
   const t = Math.max(0, Math.min(2, tier - 1));
@@ -175,7 +177,9 @@ export function createRace(
     },
   ];
   const count = rng.int(minRivals, maxRivals);
-  const names = [...RIVAL_NAMES];
+  // A rival never shares a name with one of the Keeper's own Nubbins (two racers called Pip).
+  const avoid = new Set([player.name, ...taken].map((s) => s.trim().toLowerCase()));
+  const names = RIVAL_NAMES.filter((s) => !avoid.has(s.toLowerCase()));
   for (let i = 0; i < count; i++) {
     const levels = {} as Record<StatKey, number>;
     const favourite = rng.pick(STAT_KEYS);

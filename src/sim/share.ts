@@ -63,10 +63,23 @@ export function decodeNubbin(code: string): Nubbin | null {
   }
 }
 
+/**
+ * Whether a Nubbin belongs to the story (Moss, Sable): never traded, fused or given away.
+ * The UI uses this to hide the Trade away button.
+ */
+export function isStoryNubbin(world: World, id: string): boolean {
+  return storyNubbin(world, id);
+}
+
 /** Take a shared Nubbin into the Grove with a fresh id and a free name. */
 export function receiveNubbin(world: World, incoming: Nubbin, events: SimEvent[]): boolean {
   // The UI decodes with the same check; this guards any other path into the command.
   if (nubbinProblem(incoming)) return false;
+  // A code of this Grove's own Moss or Sable would make a second copy of a story Nubbin.
+  if (storyNubbin(world, incoming.id)) {
+    events.push({ kind: 'received', name: incoming.name, ok: false });
+    return false;
+  }
   if (!hasRoom(world)) {
     events.push({ kind: 'received', name: incoming.name, ok: false });
     return false;

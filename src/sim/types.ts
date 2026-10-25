@@ -928,6 +928,8 @@ export type SimEvent =
   | { kind: 'karate'; nubbinId: string; won: boolean; belt: number }
   | { kind: 'located'; location: Location }
   | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
+  /** A care walk got stuck and gave up (target: a Nubbin, tree or item id); the UI can toast it. */
+  | { kind: 'cantReach'; targetId: string }
   | { kind: 'called'; count: number }
   | { kind: 'fetching'; nubbinId: string }
   | { kind: 'planted'; id: string; flavor: Flavor; plantKind: 'tree' | 'crop' }
