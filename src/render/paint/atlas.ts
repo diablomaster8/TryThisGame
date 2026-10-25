@@ -41,7 +41,9 @@ export class RasterAtlas {
     const canvas = document.createElement('canvas');
     canvas.width = Math.max(1, width);
     canvas.height = Math.max(1, height);
-    const ctx = canvas.getContext('2d');
+    // Painted sheets are read back (snow crowns, ruins, tap picking): say so up front, or
+    // Chrome warns about repeated getImageData on a GPU canvas.
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
     if (!ctx) throw new Error('2D canvas context unavailable');
     for (const p of placed) ctx.drawImage(p.raster.toCanvas(), p.x, p.y);
     const texture: CanvasTexture = canvasToTexture(canvas);
