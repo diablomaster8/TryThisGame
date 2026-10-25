@@ -41,7 +41,18 @@ describe('clipFor', () => {
 
   it('flutters when a strong flier is thrown', () => {
     expect(clipFor(inState(nubbin('adult', strong), 'thrown'))).toBe('flap');
-    expect(clipFor(inState(nubbin('adult', 0), 'thrown'))).toBe('surprised');
+    expect(clipFor(inState(nubbin('adult', 0), 'thrown'))).toBe('tumble');
+  });
+
+  it('follows the 3D pose table for shelter, courting, performing, fetching and love', () => {
+    expect(clipFor(inState(nubbin('adult'), 'shelter'))).toBe('sleep');
+    for (const s of ['court', 'perform', 'fetch'] as const)
+      expect(clipFor(inState(nubbin('adult'), s))).toBe('happy');
+    const n = inState(nubbin('adult'), 'react');
+    n.behavior.reaction = 'love';
+    expect(clipFor(n)).toBe('love');
+    n.behavior.reaction = 'happy';
+    expect(clipFor(n)).toBe('happy');
   });
 
   it('swims only for a strong swimmer; the rest wade', () => {

@@ -1,3 +1,4 @@
+import type { NubbinType } from '../../sim/types';
 import type { DrawnAngle } from './angles';
 
 /** Body shape tweaks by type: adults differ in silhouette, second evolutions a little. */
@@ -14,6 +15,13 @@ export interface ChaoShape {
   headFins: number;
   /** Hand radius bonus (Power). */
   handBonus: number;
+  /**
+   * A second evolution's type: its half-strength tell (fins, wings, legs, hands, or for
+   * Normal a taller crown) takes the palette's `tell` colour so the pair reads at a glance.
+   */
+  tellType?: NubbinType | null;
+  /** Extra height of the crown point, in px (the Normal second evolution's tell). */
+  crownLift?: number;
 }
 
 export const CHILD_SHAPE: ChaoShape = {
@@ -23,6 +31,8 @@ export const CHILD_SHAPE: ChaoShape = {
   wingScale: 1,
   headFins: 0,
   handBonus: 0,
+  tellType: null,
+  crownLift: 0,
 };
 
 export interface ChaoPoseGeometry {

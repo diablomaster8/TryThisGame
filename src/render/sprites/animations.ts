@@ -1,6 +1,7 @@
 // Animation clips shared by every sprite sheet. Frame keys are `${clip}:${angle}:${index}`.
 
-export type ClipName = 'idle' | 'walk' | 'happy' | 'sad' | 'sleep' | 'eat' | 'swim' | 'flap';
+export type ClipName =
+  'idle' | 'walk' | 'happy' | 'sad' | 'sleep' | 'eat' | 'swim' | 'flap' | 'love' | 'tumble';
 
 export interface Clip {
   frames: number;
@@ -18,6 +19,9 @@ export const CLIPS: Record<ClipName, Clip> = {
   eat: { frames: 3, ms: 170, loop: true },
   swim: { frames: 2, ms: 320, loop: true },
   flap: { frames: 2, ms: 110, loop: true },
+  // Parity with the 3D poses: a bashful sway with blushing cheeks, and a head-over-heels roll.
+  love: { frames: 2, ms: 260, loop: true },
+  tumble: { frames: 4, ms: 90, loop: true },
 };
 
 export const CLIP_NAMES = Object.keys(CLIPS) as ClipName[];

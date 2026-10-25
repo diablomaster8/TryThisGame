@@ -10,6 +10,7 @@ import {
   CHARACTER_LOOKS,
   eternalColors,
   lookOf,
+  secondColors,
   shadowColors,
   variantColors,
   type ChaoColors,
@@ -23,11 +24,12 @@ import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
 import { C } from './palette';
-import { buildKeeperSheet } from './keeper';
+import { buildGrandchildSheet, buildKeeperSheet } from './keeper';
 import { npcLookOf, WEATHERED } from '../../config/npc-looks';
 import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
+import { SHEET_CACHE } from '../../config/tuning-px';
 
 const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
 
@@ -72,8 +74,17 @@ function weatherSheet(src: SpriteSheet): SpriteSheet {
  * same keys through `register`.
  */
 export class SheetCache {
-  private readonly sheets = new Map<string, SpriteSheet>();
+  private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
+
+  /**
+   * @param now  the clock eviction reads (a test hands in its own).
+   * @param limits  how many sheets to keep, and how long a drawn sheet is safe.
+   */
+  constructor(
+    private readonly now: () => number = () => performance.now(),
+    private readonly limits: { maxSheets: number; idleMs: number } = SHEET_CACHE,
+  ) {}
 
   register(key: string, sheet: SpriteSheet): void {
     this.overrides.set(key, sheet);
@@ -82,12 +93,37 @@ export class SheetCache {
   get(key: string, build: () => SpriteSheet): SpriteSheet {
     const o = this.overrides.get(key);
     if (o) return o;
-    let s = this.sheets.get(key);
-    if (!s) {
-      s = build();
-      this.sheets.set(key, s);
+    const now = this.now();
+    const hit = this.sheets.get(key);
+    if (hit) {
+      hit.usedMs = now;
+      return hit.sheet;
     }
-    return s;
+    const sheet = build();
+    this.sheets.set(key, { sheet, usedMs: now });
+    if (this.sheets.size > this.limits.maxSheets) this.evict(now);
+    return sheet;
+  }
+
+  /** How many generated sheets are held (for tests and the debug panel). */
+  get size(): number {
+    return this.sheets.size;
+  }
+
+  /**
+   * Drop the least recently used sheets, disposing their textures, until the cache is back
+   * under its limit (every hat, dye or part change used to leave a sheet behind for good).
+   * Sheets drawn in the last `idleMs` stay, so a frame that needs many cannot thrash; a
+   * dropped sheet is simply rebuilt the next time something asks for it.
+   */
+  private evict(now: number): void {
+    const stale = [...this.sheets].filter(([, e]) => now - e.usedMs >= this.limits.idleMs);
+    stale.sort((a, b) => a[1].usedMs - b[1].usedMs);
+    for (const [key, e] of stale) {
+      if (this.sheets.size <= this.limits.maxSheets) break;
+      this.sheets.delete(key);
+      e.sheet.dispose();
+    }
   }
 
   /**
@@ -187,7 +223,10 @@ export class SheetCache {
         const colors =
           look?.colors ??
           variantColors(
-            adultColors(n.form.band, n.form.type),
+            // A second evolution blends its colours toward the second type, as in 3D.
+            n.form.second
+              ? secondColors(n.form.band, n.form.type, n.form.second)
+              : adultColors(n.form.band, n.form.type),
             n.eggColor,
             n.shiny || n.heirloom,
             n.tone,
@@ -230,9 +269,9 @@ export class SheetCache {
   }
 
   /**
-   * A Keeper sheet. With a side it is the player's (or the co-op partner's) Keeper: the
-   * chosen trainer's outfit with the Sun or Moon trim (`keeperOutfit`, the rule both
-   * renderers share). Without one it is the plain trainer look, for visitors, NPCs,
+   * A Keeper sheet. With a side it is the player's (or the co-op partner's) avatar: Hazel's
+   * grandchild in the chosen trainer's outfit with the Sun or Moon trim (`keeperOutfit`,
+   * the colour rule both renderers share). Without one it is the plain trainer look, for visitors, NPCs,
    * dialogue portraits and the trainer picker.
    */
   keeper(trainerId: string, side?: KeeperAlignment): SpriteSheet {
@@ -240,8 +279,10 @@ export class SheetCache {
       return this.get(`keeper:${trainerId}`, () =>
         buildKeeperSheet(trainerLook(trainerId), npcLookOf(trainerId)),
       );
-    return this.get(`keeper:${trainerId}:${side}`, () =>
-      buildKeeperSheet(keeperOutfit(trainerId, side)),
+    // The player is Hazel's grandchild, never a copy of the trainer whose role they took:
+    // their own face and hair, in that role's outfit with the side's trim (fix 2026-10-25).
+    return this.get(`keeper:${trainerId}:${side}:grandchild`, () =>
+      buildGrandchildSheet(keeperOutfit(trainerId, side)),
     );
   }
 
@@ -275,7 +316,7 @@ export class SheetCache {
   }
 
   dispose(): void {
-    for (const s of this.sheets.values()) s.dispose();
+    for (const e of this.sheets.values()) e.sheet.dispose();
     this.sheets.clear();
   }
 }

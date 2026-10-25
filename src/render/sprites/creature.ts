@@ -722,8 +722,14 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }
+  // The love pose's rosy cheeks, on the face side of the head.
+  if (pose.blush && angle !== 'back' && angle !== 'backQuarter') {
+    const cy = a.headCy + 2;
+    if (angle !== 'side') pc.px(a.headCx - a.headRx + 2, cy, C.rose);
+    pc.px(a.headCx + a.headRx - 2, cy, C.rose);
+  }
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
-  return pc;
+  return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
 /** Every clip at every drawn angle, baked into one sheet, with the same keys as the Chao. */

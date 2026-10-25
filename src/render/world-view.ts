@@ -98,6 +98,12 @@ export class WorldView {
   private keeperDustMs = 0;
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
+  /** Per-frame scratch sets, cleared and reused rather than allocated every frame. */
+  private readonly seenItems = new Set<string>();
+  private readonly seenNubbins = new Set<string>();
+  private readonly liveStrays = new Set<string>();
+  /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
+  private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
   private keeperClipStart = 0;
   private keeperMoving = false;
@@ -688,7 +694,9 @@ export class WorldView {
     }
     // A neighbour's Grove: their pets and the host, read-only.
     if (this.visiting) {
-      for (const nb of neighbourGarden(this.visiting)) {
+      if (this.garden?.trainer !== this.visiting)
+        this.garden = { trainer: this.visiting, list: neighbourGarden(this.visiting) };
+      for (const nb of this.garden.list) {
         const sheet =
           nb.species === 'chao'
             ? this.sheets.rival(nb.band, nb.type)
@@ -735,12 +743,15 @@ export class WorldView {
     if (cave && run) this.drawCave(cave, run, world, nowMs, yaw, alpha, shadow);
 
     // Items.
-    const seenItems = new Set<string>();
-    for (const item of world.items.filter(
-      (i) =>
+    const seenItems = this.seenItems;
+    seenItems.clear();
+    for (const item of world.items) {
+      const shownHere =
         !bare &&
-        (home ? i.kind !== 'notebook' : !this.visiting && !underground && i.kind === 'notebook'),
-    )) {
+        (home
+          ? item.kind !== 'notebook'
+          : !this.visiting && !underground && item.kind === 'notebook');
+      if (!shownHere) continue;
       seenItems.add(item.id);
       let prev = this.items.get(item.id);
       if (!prev) {
@@ -769,7 +780,8 @@ export class WorldView {
     for (const id of this.items.keys()) if (!seenItems.has(id)) this.items.delete(id);
 
     // Nubbins.
-    const seen = new Set<string>();
+    const seen = this.seenNubbins;
+    seen.clear();
     const shown = home
       ? world.nubbins
       : run
@@ -804,9 +816,8 @@ export class WorldView {
             ? t === 'corvin' || t === 'ember'
             : t === 'nova';
     const cast = this.staging?.castIds;
-    for (const npc of world.npcs.filter(
-      (p) => npcHere(p.trainer) && (!(bare || LOOK_STATE.tale) || !!cast?.has(p.trainer)),
-    )) {
+    for (const npc of world.npcs) {
+      if (!npcHere(npc.trainer) || ((bare || LOOK_STATE.tale) && !cast?.has(npc.trainer))) continue;
       const nsheet = this.sheets.keeper(storyId(npc.trainer));
       // In a story scene the cast is drawn on its marks, or brought in beside the Keeper
       // (render/scene-stage.ts); the sim's NPC stays where it is.
@@ -1068,7 +1079,8 @@ export class WorldView {
     }
     // Shadow strays: grey, sad when they stand, walking otherwise.
     const grey = this.sheets.ambientShadow();
-    const liveIds = new Set<string>();
+    const liveIds = this.liveStrays;
+    liveIds.clear();
     run.strays.forEach((s, i) => {
       liveIds.add(s.id);
       let prev = this.strayPrev.get(s.id);
@@ -1433,12 +1445,16 @@ export class WorldView {
               ? 'sad'
               : 'idle';
       }
-      // A look without the flap or swim clip moves with its walk instead.
-      if (
-        !sheet.frames.has(frameKey(clip, view.angle, 0)) &&
-        (clip === 'flap' || clip === 'swim')
-      ) {
-        clip = 'walk';
+      // A look without the flap or swim clip moves with its walk instead; a hand-drawn sheet
+      // without love or tumble falls back to happy or surprised.
+      if (!sheet.frames.has(frameKey(clip, view.angle, 0))) {
+        const stand: Record<string, string> = {
+          flap: 'walk',
+          swim: 'walk',
+          love: 'happy',
+          tumble: 'surprised',
+        };
+        clip = stand[clip] ?? clip;
       }
       if (clip !== v.clip) {
         v.clip = clip;
@@ -1569,7 +1585,9 @@ export function clipFor(n: Nubbin): string {
     case 'swim':
       // Strong swimmers swim a stroke; everyone else wades through the shallows.
       return swimsStroke(n) ? 'swim' : 'walk';
+    // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
+    case 'shelter':
       return 'sleep';
     case 'eat':
       return 'eat';
@@ -1578,16 +1596,20 @@ export function clipFor(n: Nubbin): string {
     case 'greet':
     case 'play':
     case 'pet':
+    case 'court':
+    case 'perform':
+    case 'fetch':
       return 'happy';
     case 'held':
     case 'carried':
       return 'held';
     case 'thrown':
-      // A strong flier catches itself in the air and flutters down.
-      return flaps(n) ? 'flap' : 'surprised';
+      // A strong flier catches itself in the air and flutters down; the rest tumble.
+      return flaps(n) ? 'flap' : 'tumble';
     case 'react':
       switch (n.behavior.reaction) {
         case 'love':
+          return 'love';
         case 'happy':
           return 'happy';
         case 'dizzy':

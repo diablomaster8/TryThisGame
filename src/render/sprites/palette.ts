@@ -230,3 +230,42 @@ export function shadeOf(index: number): number {
 export function outlineOf(index: number): number {
   return shadeOf(shadeOf(index));
 }
+
+/** Mix two `#rrggbb` colours: `t` 0 gives `a`, 1 gives `b`. */
+export function mixHex(a: string, b: string, t: number): string {
+  const ca = parseInt(a.slice(1), 16);
+  const cb = parseInt(b.slice(1), 16);
+  const ch = (shift: number): number => {
+    const x = (ca >> shift) & 255;
+    const y = (cb >> shift) & 255;
+    return Math.round(x + (y - x) * t);
+  };
+  return `#${((ch(16) << 16) | (ch(8) << 8) | ch(0)).toString(16).padStart(6, '0')}`;
+}
+
+/**
+ * The palette colour nearest a `#rrggbb` (a weighted RGB distance, kinder to how the eye
+ * sees greens), skipping any index in `avoid`: for blends that must not land back on the
+ * colour they were mixed from.
+ */
+export function nearestIndex(hex: string, avoid: readonly number[] = []): number {
+  const v = parseInt(hex.slice(1), 16);
+  const r = (v >> 16) & 255;
+  const g = (v >> 8) & 255;
+  const b = v & 255;
+  let best = 0;
+  let bestD = Infinity;
+  PALETTE.forEach((p, i) => {
+    if (avoid.includes(i)) return;
+    const q = parseInt(p.slice(1), 16);
+    const dr = ((q >> 16) & 255) - r;
+    const dg = ((q >> 8) & 255) - g;
+    const db = (q & 255) - b;
+    const d = 2 * dr * dr + 4 * dg * dg + 3 * db * db;
+    if (d < bestD) {
+      bestD = d;
+      best = i;
+    }
+  });
+  return best;
+}

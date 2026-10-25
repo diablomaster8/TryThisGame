@@ -619,6 +619,7 @@ function drawKeeper(
   col: KeeperColors,
   look?: NpcLook,
   expr?: Expression,
+  kid = false,
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
   const sitting = clip === 'sit';
@@ -639,8 +640,9 @@ function drawKeeper(
   const bootLight = lightOf(col.boots);
   const skinShade = shadeOf(col.skin);
 
-  // Legs / boots, with a seam and a lit sole.
-  const legY = feetY - 5 + bob;
+  // Legs / boots, with a seam and a lit sole. Hazel's grandchild is a child: shorter legs,
+  // a shorter body and a bigger head.
+  const legY = feetY - (kid ? 4 : 5) + bob;
   if (low) {
     drawLowLegs(pc, angle, kneeling, legY, col);
   } else if (angle === 'side') {
@@ -662,7 +664,7 @@ function drawKeeper(
   }
 
   // Torso: shirt with a lit side, a shaded side, a collar and a belt.
-  const torsoTop = legY - 7 + breathe;
+  const torsoTop = legY - (kid ? 6 : 7) + breathe;
   const tx = angle === 'side' ? 12 : 11;
   const tw = angle === 'side' ? 8 : 10;
   pc.rect(tx, torsoTop, tw, 7 - breathe, col.shirt);
@@ -677,6 +679,14 @@ function drawKeeper(
   pc.rect(tx, legY - 1, tw, 1, col.boots);
   pc.dot(tx + tw / 2, legY - 0.5, C.sunYellow);
   if (look?.accessory === 'coat') drawCoat(pc, angle, torsoTop, feetY - 4, tx, tw);
+  // The grandchild's neckerchief, in the role's hat colour with the side's trim at the knot.
+  if (kid && angle !== 'back') {
+    const nx = angle === 'side' ? tx + tw - 4 : tx + tw / 2;
+    pc.tri(nx - 3, torsoTop, nx + 3, torsoTop, nx, torsoTop + 3, col.hat);
+    pc.rect(nx - 1, torsoTop, 2, 1, col.hatBand);
+  } else if (kid) {
+    pc.rect(tx + 1, torsoTop, tw - 2, 1, col.hat);
+  }
   const swing = clip === 'walk' ? (phase < 3 ? 1 : -1) : 0;
   const rig: Rig = {
     angle,
@@ -685,7 +695,7 @@ function drawKeeper(
     tx,
     tw,
     headCx: 16,
-    headCy: torsoTop - 4 + headDrop,
+    headCy: torsoTop - (kid ? 5 : 4) + headDrop,
     armY: torsoTop + 1,
     swing,
   };
@@ -720,8 +730,15 @@ function drawKeeper(
   if (look?.accessory === 'shawl') drawShawl(pc, angle, torsoTop, legY, tx, tw);
 
   // Head: face with whites in the eyes, a brow, a mouth, a jaw shadow, hair under the hat.
-  const headCy = torsoTop - 4 + headDrop;
+  const headCy = torsoTop - (kid ? 5 : 4) + headDrop;
   const headCx = 16;
+  if (kid) {
+    drawGrandchildHead(pc, angle, headCx, headCy, col, blink);
+    if (expr && angle === 'front') drawFace(pc, headCx, headCy + 2, col, expr);
+    if (clip === 'itemget') drawHeldItem(pc, angle, armY - 14);
+    pc.finish(col.outline, [col.outline, C.white]);
+    return pc;
+  }
   pc.ellipse(headCx, headCy, 4.5, 4, col.skin);
   pc.ellipse(headCx + 1, headCy + 1.5, 3.5, 2.2, skinShade);
   pc.ellipse(headCx, headCy, 3.8, 3.4, col.skin);
@@ -769,20 +786,112 @@ function drawKeeper(
   return out;
 }
 
-export function buildKeeperSheet(col: KeeperColors, look?: NpcLook): SpriteSheet {
+export function buildKeeperSheet(col: KeeperColors, look?: NpcLook, kid = false): SpriteSheet {
   const atlas = new AtlasBuilder(KEEPER_SIZE, KEEPER_SIZE, 10);
   for (const clip of ['idle', 'walk'] as const) {
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
-        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look));
+        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look, undefined, kid));
       }
     }
   }
   for (const [clip, frames] of Object.entries(KEEPER_STAGE_CLIPS) as Array<[KeeperClip, number]>)
     for (const angle of DRAWN_ANGLES)
       for (let f = 0; f < frames; f++)
-        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look));
+        atlas.add(frameKey(clip, angle, f), drawKeeper(angle, clip, f, col, look, undefined, kid));
   return atlas.build();
+}
+
+/**
+ * Hazel's grandchild, the player's own avatar (fix pass 2026-10-25): a child's round head
+ * with a mop of auburn hair cut in a way no trainer wears (a heavy fringe, a cowlick sprouting at
+ * the crown, tufts over the ears), big bright eyes, freckles and rosy cheeks, and no hat.
+ * Skin and hair are the grandchild's own (`GRANDCHILD`); only the outfit follows the role.
+ */
+function drawGrandchildHead(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  cx: number,
+  cy: number,
+  col: KeeperColors,
+  blink: boolean,
+): void {
+  const skinShade = shadeOf(col.skin);
+  const hairLight = lightOf(col.hair);
+  pc.ellipse(cx, cy, 5.2, 4.8, col.skin);
+  pc.ellipse(cx + 1, cy + 2, 4, 2.6, skinShade);
+  pc.ellipse(cx, cy + 0.5, 4.6, 4.2, col.skin);
+  const back = angle === 'back';
+  const side = angle === 'side';
+  // The mop: a full round cap of hair over the top half of the head.
+  pc.ellipse(cx, cy - 2.4, 5.8, 3.4, col.hair);
+  pc.rect(cx - 6, cy - 2, 2, 4, col.hair);
+  pc.rect(cx + 4, cy - 2, 2, side ? 2 : 4, col.hair);
+  // The cowlick: a curl sprouting from the crown, leaning back.
+  const ck = side ? cx - 2 : cx + 1;
+  pc.px(ck, cy - 7, col.hair);
+  pc.px(ck + (side ? -1 : 1), cy - 8, col.hair);
+  pc.px(ck + (side ? -2 : 2), cy - 8, col.hair);
+  if (back) {
+    pc.ellipse(cx, cy - 0.5, 5.6, 4.4, col.hair);
+    pc.thinLine(cx - 3, cy + 1, cx + 3, cy + 1, shadeOf(col.hair));
+    return;
+  }
+  if (angle === 'backQuarter') {
+    pc.ellipse(cx - 0.5, cy, 5.4, 4.6, col.hair);
+    pc.px(cx + 4, cy + 1, col.skin);
+    return;
+  }
+  // A lit strand across the mop, then the fringe: jagged bangs over the brow.
+  pc.thinLine(cx - 3, cy - 4.5, cx + 1, cy - 5, hairLight);
+  const fx0 = side ? cx - 2 : cx - 5;
+  const fx1 = side ? cx + 5 : cx + 5;
+  for (let x = fx0; x < fx1; x += 2)
+    pc.rect(x, cy - 1.5, 1, 1 + ((x - fx0) % 4 === 0 ? 1 : 0), col.hair);
+  // Big eyes, each with a glint; freckles and rosy cheeks.
+  const eye = (ex: number) => {
+    if (blink) {
+      pc.thinLine(ex - 0.5, cy + 1, ex + 1.5, cy + 1, col.outline);
+      return;
+    }
+    pc.rect(ex - 0.5, cy - 0.5, 2, 2.5, col.outline);
+    pc.dot(ex, cy, C.white);
+  };
+  const cheek = (x: number) => {
+    pc.px(x, cy + 2, C.blush);
+    pc.dot(x + 0.5, cy + 1.5, C.sandDeep);
+  };
+  if (angle === 'front') {
+    eye(cx - 2.5);
+    eye(cx + 1.5);
+    cheek(cx - 4);
+    cheek(cx + 3);
+    pc.thinLine(cx - 1, cy + 3, cx + 1, cy + 3, C.roseDeep);
+  } else if (angle === 'frontQuarter') {
+    eye(cx - 1);
+    eye(cx + 3);
+    cheek(cx + 4);
+    pc.thinLine(cx + 1, cy + 3, cx + 2.5, cy + 3, C.roseDeep);
+  } else {
+    eye(cx + 3);
+    cheek(cx + 3);
+    pc.dot(cx + 5, cy + 2.5, skinShade);
+  }
+}
+
+/**
+ * The grandchild's own skin and hair (a lighter skin and a wine-dark auburn mop, a
+ * pairing none of the ten trainers wears), dressed in the role's outfit with the side's trim.
+ */
+export const GRANDCHILD = { skin: C.sandLight, hair: C.berry } as const;
+
+export function grandchildLook(outfit: KeeperColors): KeeperColors {
+  return { ...outfit, skin: GRANDCHILD.skin, hair: GRANDCHILD.hair, hatStyle: 'none' };
+}
+
+/** The player's avatar sheet: the grandchild in `outfit` (`keeperOutfit`'s colours). */
+export function buildGrandchildSheet(outfit: KeeperColors): SpriteSheet {
+  return buildKeeperSheet(grandchildLook(outfit), undefined, true);
 }
 
 /** The raw drawer, for previews. */
