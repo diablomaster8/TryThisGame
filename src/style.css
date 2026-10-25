@@ -67,7 +67,7 @@ button,
   top: calc(var(--safe-top) + 8px);
   left: calc(var(--safe-left) + 8px);
   padding: 4px 8px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-variant-numeric: tabular-nums;
   background: var(--hud-bg);
   border: 1px solid var(--hud-border);
@@ -85,7 +85,7 @@ button,
   gap: 12px;
   background: var(--bg);
   color: var(--hud-fg);
-  font-size: 15px;
+  font-size: 0.9375rem;
   transition: opacity 0.4s ease;
 }
 
@@ -130,7 +130,7 @@ button,
   min-width: 48px;
   min-height: 48px;
   padding: 0 12px;
-  font-size: 22px;
+  font-size: 1.375rem;
   line-height: 1;
   color: var(--hud-fg);
   background: var(--hud-bg);
@@ -150,7 +150,7 @@ button,
   bottom: calc(var(--hud-bottom) + 16px);
   transform: translateX(-50%);
   padding: 4px 10px;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.8;
   background: var(--hud-bg);
   border-radius: 6px;
@@ -165,6 +165,35 @@ button,
   }
 }
 
+/* The touch hint: only on touch screens, above the Run and camera buttons. */
+.touch-hint {
+  display: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .touch-hint {
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--hud-bottom) + 72px);
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100% - 32px);
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    text-align: center;
+    background: var(--hud-bg);
+    border-radius: 6px;
+    pointer-events: none;
+    display: block;
+  }
+}
+/* Neither hint shows through under a story line. */
+.dialogue-open .hint,
+.dialogue-open .touch-hint,
+.story-queued .touch-hint,
+#hud:has(> .modal:not([hidden])) > .touch-hint {
+  visibility: hidden;
+}
+
 [hidden] {
   display: none !important;
 }
@@ -177,7 +206,7 @@ button,
   min-width: 44px;
   padding: 0 14px;
   font: inherit;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--hud-fg);
   background: var(--hud-bg);
   border: 1px solid var(--hud-border);
@@ -200,11 +229,11 @@ button,
   min-height: 44px;
   min-width: 44px;
   padding: 0 10px;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .btn-icon {
-  font-size: 20px;
+  font-size: 1.25rem;
   padding: 0;
 }
 
@@ -240,14 +269,14 @@ button,
   .topbar .btn-logo {
     min-width: 44px;
     padding: 0 8px;
-    font-size: 17px;
+    font-size: 1.0625rem;
   }
   .topbar .chip {
     padding: 5px 8px;
-    font-size: 13px;
+    font-size: 0.8125rem;
   }
   .topbar .btn-small {
-    font-size: 12px;
+    font-size: 0.75rem;
     padding: 0 8px;
   }
 }
@@ -257,10 +286,17 @@ button,
   display: contents;
 }
 
-/* Phone portrait: a bottom bar, in thumb reach; the bottom HUD moves up above it. */
-@media (orientation: portrait) and (max-width: 600px) {
+/* An action button is an icon over a word; the word shows only where the bar is at the
+   bottom (phones), and wide screens keep the icon alone with its tooltip. */
+.act-label {
+  display: none;
+}
+
+/* Phones, portrait and landscape: a bottom bar, in thumb reach, each icon labelled; the
+   bottom HUD (Run, camera buttons) moves up above it. */
+@media (orientation: portrait) and (max-width: 600px), (max-height: 500px) and (pointer: coarse) {
   :root {
-    --hud-bottom: calc(var(--safe-bottom) + 58px);
+    --hud-bottom: calc(var(--safe-bottom) + 66px);
   }
   .actionbar {
     position: fixed;
@@ -271,16 +307,34 @@ button,
     justify-content: space-around;
     align-items: center;
     gap: 0;
-    padding: 5px calc(var(--safe-right) + 4px) calc(var(--safe-bottom) + 5px)
-      calc(var(--safe-left) + 4px);
+    padding: 4px calc(var(--safe-right) + 2px) calc(var(--safe-bottom) + 4px)
+      calc(var(--safe-left) + 2px);
     background: var(--px-bg);
     border-top: 2px solid var(--px-edge);
     pointer-events: auto;
   }
   .actionbar .btn {
-    flex: 0 1 48px;
+    flex: 1 1 0;
+    max-width: 72px;
     min-width: 44px;
-    padding: 0;
+    min-height: 54px;
+    padding: 2px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+  }
+  .act-glyph {
+    font-size: 1.125rem;
+    line-height: 1.1;
+  }
+  .act-label {
+    display: block;
+    font-size: 0.625rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
   }
 }
 
@@ -291,7 +345,7 @@ button,
 
 .chip {
   padding: 6px 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
   background: var(--hud-bg);
   border: 1px solid var(--hud-border);
@@ -307,7 +361,7 @@ button,
   align-items: center;
   gap: 8px;
   padding: 6px 8px 6px 12px;
-  font-size: 14px;
+  font-size: 0.875rem;
   background: var(--hud-bg);
   border: 1px solid var(--hud-border);
   border-radius: 12px;
@@ -379,7 +433,7 @@ button,
 
 .toast {
   padding: 8px 14px;
-  font-size: 14px;
+  font-size: 0.875rem;
   background: rgba(13, 10, 26, 0.85);
   border: 1px solid var(--hud-border);
   border-radius: 10px;
@@ -397,13 +451,46 @@ button,
   }
 }
 
+/* Race results: every racer's place and time; the player's row has a star and "You" as
+   well as the highlight. */
+.race-standings {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.race-standing {
+  display: grid;
+  grid-template-columns: 3.2em 1fr auto;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.race-standing.is-you {
+  font-weight: 700;
+  background: rgba(242, 211, 76, 0.22);
+  outline: 2px solid #f2d34c;
+}
+.race-prize {
+  font-weight: 700;
+}
+.race-tip {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
 .catching {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 1.125rem;
   background: rgba(13, 10, 26, 0.7);
   pointer-events: auto;
 }
@@ -435,22 +522,22 @@ button,
 
 .btn-name {
   font-weight: 700;
-  font-size: 17px;
+  font-size: 1.0625rem;
   padding: 0 10px;
 }
 
 .sheet-sub {
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.85;
 }
 
 .btn-close {
-  font-size: 15px;
+  font-size: 0.9375rem;
   padding: 0 12px;
 }
 
 .sheet-head .btn-close {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .sheet-needs {
@@ -463,7 +550,7 @@ button,
 .meter-label {
   display: flex;
   gap: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 2px;
 }
 
@@ -485,7 +572,7 @@ button,
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 4px 12px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   margin-bottom: 10px;
 }
 
@@ -517,7 +604,7 @@ button,
 }
 
 .sheet-give-title {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 6px;
 }
@@ -531,7 +618,7 @@ button,
 /* ---------- shop ---------- */
 
 .shop-balance {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -554,12 +641,12 @@ button,
 
 .shop-row small {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
 .shop-note {
-  font-size: 13px;
+  font-size: 0.8125rem;
   opacity: 0.8;
   font-variant-numeric: tabular-nums;
 }
@@ -611,7 +698,7 @@ button,
   top: calc(var(--safe-top) + 72px);
   left: calc(var(--safe-left) + 12px);
   padding: 2px 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #fff6d8;
   text-shadow: 0 1px 2px rgba(13, 10, 26, 0.8);
 }
@@ -633,7 +720,7 @@ button,
   align-items: center;
   white-space: nowrap;
   padding: 6px 10px;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
   background: var(--hud-bg);
   border: 1px solid var(--hud-border);
@@ -648,7 +735,7 @@ button,
   transform: translateX(-50%);
   min-width: 160px;
   min-height: 56px;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   z-index: 1;
 }
@@ -688,7 +775,7 @@ button,
 }
 
 .roster-line {
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.85;
   margin: 2px 0 4px;
 }
@@ -697,7 +784,7 @@ button,
   display: flex;
   flex-wrap: wrap;
   gap: 4px 10px;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 6px;
 }
 
@@ -757,17 +844,17 @@ button,
 
 .celebrate-sparkle {
   color: #f2d34c;
-  font-size: 22px;
+  font-size: 1.375rem;
   letter-spacing: 8px;
 }
 
 .celebrate-card h2 {
   margin: 6px 0;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .celebrate-form {
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: #f2d34c;
   margin: 4px 0 8px;
@@ -775,7 +862,7 @@ button,
 
 .celebrate-lines p {
   margin: 4px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 @keyframes celebrate-in {
@@ -830,11 +917,11 @@ button,
 
 .modal h2 {
   margin: 0 0 8px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .help {
-  font-size: 13px;
+  font-size: 0.8125rem;
   opacity: 0.8;
   margin: 4px 0 10px;
 }
@@ -864,7 +951,7 @@ button,
 .radio-row small,
 .check-row small {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
@@ -894,7 +981,7 @@ button,
 
 .field-error {
   color: #f7a3c2;
-  font-size: 13px;
+  font-size: 0.8125rem;
   margin-top: 4px;
 }
 
@@ -907,7 +994,7 @@ button,
 .away-list {
   margin: 0 0 12px;
   padding-left: 20px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
 }
 
@@ -925,12 +1012,12 @@ button,
   border: 1px solid var(--hud-border);
   border-radius: 12px;
   pointer-events: auto;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .debug h2 {
   margin: 0 0 6px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .debug-row {
@@ -944,7 +1031,7 @@ button,
 .debug-values {
   margin: 8px 0;
   padding: 6px;
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.4;
   white-space: pre-wrap;
   background: rgba(255, 241, 201, 0.06);
@@ -961,7 +1048,7 @@ button,
 }
 
 .gallery h2 {
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 16px 0 6px;
 }
 
@@ -1074,7 +1161,7 @@ button,
 }
 
 .title-logo {
-  font-size: 44px;
+  font-size: 2.75rem;
   font-weight: 700;
   letter-spacing: 2px;
   text-shadow: 3px 3px 0 #1a1530;
@@ -1082,7 +1169,7 @@ button,
 
 .title-sub {
   margin-top: 4px;
-  font-size: 20px;
+  font-size: 1.25rem;
   color: #f2d34c;
 }
 
@@ -1101,7 +1188,7 @@ button,
 .btn-wide {
   width: min(320px, 100%);
   min-height: 48px;
-  font-size: 17px;
+  font-size: 1.0625rem;
 }
 
 .title-keepers {
@@ -1268,6 +1355,23 @@ button,
   cursor: pointer;
 }
 
+/* Tappable words in a line keep their place in the text but get a 44 px touch area: an
+   invisible box centred on the word, at least 44 px each way. */
+.edu-gloss,
+.lang-word {
+  position: relative;
+}
+.edu-gloss::after,
+.lang-word::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(44px, 100%);
+  height: max(44px, 100%);
+  transform: translate(-50%, -50%);
+}
+
 .edu-gloss-pop {
   display: block;
   margin-top: 6px;
@@ -1290,14 +1394,14 @@ button,
 }
 
 .edu-count {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 700;
 }
 
 .edu-notes {
   margin: 4px 0 8px;
   padding-left: 18px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* ---------- journal ---------- */
@@ -1307,7 +1411,7 @@ button,
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   opacity: 0.85;
 }
 
@@ -1354,7 +1458,7 @@ button,
 
 .book-cell {
   text-align: center;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 
 .book-cell canvas {
@@ -1454,7 +1558,7 @@ button,
   border: 1px solid var(--hud-border);
   border-radius: 8px;
   padding: 6px 8px;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.5;
   text-align: center;
 }
@@ -1475,13 +1579,13 @@ button,
 }
 
 .map-grid .btn {
-  font-size: 11px;
+  font-size: 0.6875rem;
   padding: 4px;
   min-height: 44px;
 }
 
 .modal-body h3 {
-  font-size: 14px;
+  font-size: 0.875rem;
   margin: 12px 0 6px;
 }
 
@@ -1511,7 +1615,7 @@ button,
 .title-age {
   width: 64px;
   height: 64px;
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
 }
 
@@ -1548,7 +1652,7 @@ button,
 }
 
 .edu-prompt {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.3;
 }
@@ -1577,7 +1681,7 @@ button,
 .edu-option {
   min-height: 110px;
   padding: 10px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .edu-option.right {
@@ -1614,13 +1718,13 @@ button,
 }
 
 .edu-letter {
-  font-size: 56px;
+  font-size: 3.5rem;
   font-weight: 700;
   line-height: 1;
 }
 
 .edu-opt.large .edu-letter {
-  font-size: 80px;
+  font-size: 5rem;
   color: #f2d34c;
 }
 
@@ -1629,44 +1733,44 @@ button,
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px;
-  font-size: 30px;
+  font-size: 1.875rem;
   max-width: 200px;
 }
 
 .edu-icon {
-  font-size: 48px;
+  font-size: 3rem;
   line-height: 1;
 }
 
 .edu-word {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 /* A word to read, for the reader band: big enough for a 7-year-old, never wider than its card. */
 .edu-read {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   overflow-wrap: anywhere;
 }
 
 .edu-opt.large .edu-read {
-  font-size: 40px;
+  font-size: 2.5rem;
   color: #f2d34c;
 }
 
 .edu-feedback {
   min-height: 28px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .edu-next {
   min-height: 52px;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .edu-big {
-  font-size: 48px;
+  font-size: 3rem;
   text-align: center;
 }
 
@@ -1687,18 +1791,18 @@ button,
 }
 
 .edu-pick-icon {
-  font-size: 36px;
+  font-size: 2.25rem;
 }
 
 .edu-pick small {
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
 .edu-gate-input {
   width: 90px;
   font: inherit;
-  font-size: 20px;
+  font-size: 1.25rem;
   padding: 8px;
   border-radius: 8px;
 }
@@ -1809,7 +1913,7 @@ button,
   border: 1px solid var(--hud-border);
   border-radius: 8px;
   padding: 6px 8px;
-  font-size: 12px;
+  font-size: 0.75rem;
   text-align: left;
 }
 
@@ -1838,7 +1942,8 @@ button,
 .hollow-bar {
   position: absolute;
   left: calc(var(--safe-left) + 12px);
-  top: calc(var(--safe-top) + 48px);
+  /* Under the top bar, measured (hud.ts), so it never covers a wrapped second row. */
+  top: calc(var(--topbar-bottom, calc(var(--safe-top) + 52px)) + 6px);
   display: flex;
   gap: 10px;
   align-items: center;
@@ -1884,6 +1989,31 @@ button,
 .title-slot-main small {
   opacity: 0.8;
   font-weight: 400;
+}
+
+/* A line on what each mode is, under its name. */
+.title-mode-blurb {
+  text-align: left;
+  font-size: 0.8125rem;
+  opacity: 0.8;
+  margin: -2px 0 2px;
+}
+
+/* Erasing a slot sits apart from Continue and New, so a slip of the thumb misses it. */
+.title-slot-erase {
+  margin-left: 10px;
+  border-color: rgba(224, 86, 46, 0.7);
+}
+
+/* The renderer pick sits above the slots, in the first screenful. */
+.title-graphics {
+  justify-content: center;
+  margin: 4px auto 12px;
+  width: min(360px, 100%);
+}
+.title-graphics select {
+  min-height: 44px;
+  margin-left: auto;
 }
 
 /* Language courses (CV3): Hebrew isolated right to left, Japanese words kept whole. */
@@ -1986,7 +2116,7 @@ bdi.lang-he {
 .title-storage {
   margin: -8px 0 16px;
   padding: 8px 10px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.35;
   color: #ffe9a8;
   background: rgba(120, 40, 30, 0.55);
@@ -2001,7 +2131,7 @@ bdi.lang-he {
   min-height: 44px;
   padding: 0 12px;
   font: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: #ffe9a8;
   background: rgba(120, 40, 30, 0.85);
   border: 2px solid #e0a040;
@@ -2011,7 +2141,7 @@ bdi.lang-he {
 
 /* The Keeper picker's one line on what each look hatches (review C, item 23). */
 .title-keeper-blurb {
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.25;
   opacity: 0.8;
   text-align: center;
@@ -2061,13 +2191,27 @@ bdi.lang-he {
   }
 }
 
+/* Phone landscape: the action bar takes height, so the sheet sits just above it (over the
+   Run and camera buttons) and uses the height that is left. */
+@media (max-height: 500px) and (pointer: coarse) {
+  .sheet {
+    top: calc(var(--safe-top) + 64px);
+    bottom: calc(var(--hud-bottom) + 8px);
+    left: auto;
+    right: calc(var(--safe-right) + 12px);
+    transform: none;
+    width: min(360px, 48vw);
+    max-height: none;
+  }
+}
+
 /* ---------- touch and thumb rules (review 2026-10-21, goal 5) ---------- */
 
 /* Native selects reach the same 44 px tap target as every button. */
 select {
   min-height: 44px;
   font: inherit;
-  font-size: 15px;
+  font-size: 0.9375rem;
   padding: 0 8px;
   color: var(--hud-fg);
   background: rgba(20, 15, 38, 0.95);
@@ -2137,7 +2281,7 @@ select {
   transform: translateX(-50%);
   max-width: calc(100% - 32px);
   padding: 10px 16px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   text-align: center;
   background: var(--px-bg);
@@ -2348,7 +2492,7 @@ select {
 .stage-inspector-json {
   max-height: 30vh;
   overflow: auto;
-  font-size: 11px;
+  font-size: 0.6875rem;
   user-select: text;
 }
 
@@ -2401,7 +2545,7 @@ select {
 }
 
 .chapter-offer-text {
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .chapter-offer-row {
@@ -2461,7 +2605,7 @@ select {
 
 .inspect-line {
   margin: 4px 0 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.35;
 }
 
@@ -2715,12 +2859,12 @@ select {
 }
 
 .ending-lock {
-  font-size: 26px;
+  font-size: 1.625rem;
   line-height: 1;
 }
 
 .ending-title {
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .ending-card.locked .ending-title {
@@ -2729,7 +2873,7 @@ select {
 
 .ending-state {
   margin: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* K33: a campaign's own places on the Map, marked with a diamond as well as a colour. */
