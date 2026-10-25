@@ -2,6 +2,42 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 9 fixes (2026-10-23)
+
+All 58 run-9 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** the A04–A09 mains and the A06 and A07 bands. A05's finale has eight Balla variants and A09 has
+  named raft returns (`a09-raft`), all with band versions. A07 sprout's twist now goes to Héctor; the band maths
+  lessons match their scenes. `content-check --warnings` has a new `maths:` check.
+- **Partial:** none. **Known bugs:** the `maths:` check raises 71 warnings, mostly sprout counted-object answers
+  and unit answers; they still need a human pass.
+
+## Story review run 8 fixes (2026-10-23)
+
+All 59 run-8 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** E3, the four storylines (hundred, logged, beetle, dawndusk), the A01–A03 mains and both A05 bands.
+  Logged's and Beetle's last choices now reach every ending: `storyline-rules-logged.ts` and `-beetle.ts` queue an
+  `l-end-*` / `b-end-*` body scene before the title card (staged, tested). E3's `e3-merge-done-strong` is wired.
+  Tam, Hob and Ash Penhallow are now Nell, Grist and Rowan Penhallow; speaker ids are unchanged (canon 43).
+- **Partial:** none. **Known bugs:** none.
+
+## Story review run 7 fixes (2026-10-23)
+
+All 57 run-7 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** Alice, Holmes, Hodja, Dragon Ball, Toy Story, the Multiverse endgames, E1, E2 and both A02 bands.
+  New payoff variants are wired: Q81's `q81-var-children` (`fun-pack-rules.ts`), E1's slow ending and E2's
+  short-answer endings (`side-rules-expansions.ts`, tested). DB19's `mv-db-set2-keeping` value is now `carried`;
+  old saves holding `nubbins` hear the capsule-case lines. Canon 45 gained the run-7 gags.
+- **Partial:** none. **Known bugs:** none.
+
+## Story review run 6 fixes (2026-10-23)
+
+All 57 open or partial recs in `docs/story-review/LOG.md` fixed (run 6's 56 plus run 5's -265); no open recs remain.
+- **Works:** Learning Grove S30, S31 and the Python, Bean and Avatar quests, both bands: s30-wall's Hush speech
+  says plainly that the Nubbins died, with comfort after; Q64 says what Kaito did (canon 46); S31's "never say if"
+  rule is set up; Avatar Q51's rule-maker fixed; spouse beats for Frannie and Reggie (Q8) and Mrs Tibbs (Q61);
+  Pixel and Byte in S30/S31; Granny Brock's quilt and flask in S31.
+- **Partial:** none. **Known bugs:** none.
+
 ## Campaign graphics 3 leftovers (cg5, 2026-10-23)
 
 The known bugs left by K1–K50 (02d0c86; its section is now in `docs/progress-archive.md`), fixed on branch `fix/cg5-leftovers` (worktree
