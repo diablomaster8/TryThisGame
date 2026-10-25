@@ -320,8 +320,8 @@ const LJ2: Quest = {
   steps: [
     {
       id: 'lj2-step1',
-      goal: 'Find あ い う え お on the stepping stones, in order.',
-      hint: 'Look across the pond for painted stones. Some are sideways. Start with あ, nearest the bank.',
+      goal: 'Find あ い う え お on the stepping stones, in order, and trace each one.',
+      hint: 'Look across the pond for painted stones. Start with あ, nearest the bank, and follow its numbered strokes.',
       check: 'lang:ja:find:kana:vowels',
       scene: {
         id: 'lj2-s1',
@@ -484,7 +484,7 @@ const LJ2: Quest = {
   notes: [
     COMMON_NOTES,
     'Kana taught: あ い う え お (step 1), か き く け こ (step 2), は な (step 3); see JAPANESE_COURSE.script. Words: ue, ie, ao (step 1); ike, kao, aka (step 2); hana, 花, the three scripts, ピンク as a katakana example (step 3). Every LJ2 word is spelled only with kana taught in LJ2.',
-    'Step 1: stones are a find-and-hop puzzle. Wrong stone: Hana’s “sorry, stone” line plays; no penalty.',
+    'Step 1: stones are a find-and-hop puzzle, and the child traces each vowel in the tracing mini-game (strokes: あ 3, い 2, う 2, え 2, お 3). Wrong stone: Hana’s “sorry, stone” line plays; no penalty.',
     'Step 2: a tracing mini-game in the sand. Draw the stroke order for each kana, numbered, then let the child trace. Strokes: く 1, こ 2, か 3, け 3, き 4 (some fonts join two of き’s strokes; follow the school stroke order).',
     'Step 3: tracing は and な on the sketchbook page; the choice decides whether the page shows a row or a column. If column, show the reading order right to left.',
     'The frog is the same frog in every scene (art: one fat green frog sprite). Hana is never shown actually upset; it’s comic denial.',

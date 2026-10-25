@@ -52,7 +52,7 @@ const COMMON_NOTES = [
   'Fonts: Noto Sans Hebrew (or similar) for every Hebrew string, with niqqud rendered correctly; test that the dots and lines sit under and inside their letters and do not collide.',
   'Bidi: most lines mix English and Hebrew. Wrap each Hebrew run in an isolate (U+2067 RLI … U+2069 PDI, or <bdi dir="rtl">) so the brackets, commas and question marks after it stay on the correct side. Set every dialogue line’s base direction to LTR explicitly (dir="ltr", never dir="auto"): many lines start with a Hebrew word or letter (“ש is shin…”, “אַחַת (achat, 1)…”, “ט״ו בִּשְׁבָט…”) and would otherwise flip the whole line to right to left. A “?” or “…” that belongs to the Hebrew (מָה שְׁלוֹמְךָ?, קוֹרְאִים לִי…) goes inside the isolate so it lands at the Hebrew’s left end. Lines that are only Hebrew (signs, pebbles, the tent) render right to left.',
   'Audio: every Hebrew word needs a native-speaker recording (VocabItem.audio, he/<slug>), never TTS. Tapping a Hebrew word in any line plays its clip.',
-  'Tracing mini-games: Hebrew letters are written right to left, and words start on the right. The tracing guide starts each stroke from the right side; do not invent a stroke order beyond that.',
+  'Tracing mini-games: Hebrew letters are written right to left, and words start on the right. The tracing guide (src/ui/hebrew-strokes.ts) shows simple numbered block-print strokes, each letter starting on its right side or top.',
   'Nubbins who “learn” a word react to it from then on: wave at shalom (LH1), look up at kochav (LH3), and so on (see HEBREW_COURSE.notes).',
 ].join(' ');
 
@@ -259,8 +259,8 @@ export const LANG_HEBREW: Quest[] = [
     steps: [
       {
         id: 'lh2-step1',
-        goal: 'Find the four letters of שָׁלוֹם (shalom) hidden round the garden.',
-        hint: 'Ori painted them on pebbles: look by the pond, the gate, the orchard and his tent. Line them up starting from the right.',
+        goal: 'Find the four letters of שָׁלוֹם (shalom) hidden round the garden, and trace each one.',
+        hint: 'Ori painted them on pebbles: look by the pond, the gate, the orchard and his tent. Trace them starting from the right.',
         check: 'lang:he:find:letters:shalom',
         scene: {
           id: 'lh2-s1',
@@ -288,7 +288,7 @@ export const LANG_HEBREW: Quest[] = [
       },
       {
         id: 'lh2-step2',
-        goal: 'Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand.',
+        goal: 'Trace alef (א) and bet (ב), the letters the alef-bet is named after, then gimel, dalet and hey.',
         hint: 'Start each letter from the right side. Ori draws the first one; you go over it with a stick.',
         check: 'lang:he:trace:alef-bet',
         scene: {
@@ -320,7 +320,7 @@ export const LANG_HEBREW: Quest[] = [
         done: {
           id: 'lh2-s2-done',
           lines: [
-            N('In the sand: א and ב, a bit wobbly and very proud.'),
+            N('In the sand: א ב ג ד ה, a bit wobbly and very proud.'),
             O('Alef and bet! One letter speaks, one letter stays quiet. And if bet loses its dot, it turns into vet.', 'happy'),
             O('Next is the most important word in the whole alef-bet. My name.'),
           ],

@@ -165,8 +165,10 @@ export interface TraceTarget {
 
 /** The steps whose check is a tracing game, by check string. */
 export const TRACE_TARGETS: Readonly<Record<string, TraceTarget>> = {
-  'lang:he:trace:alef-bet': { lang: 'he', glyphs: ['א', 'ב'] },
+  'lang:he:find:letters:shalom': { lang: 'he', glyphs: ['ש', 'ל', 'ו', 'ם'] },
+  'lang:he:trace:alef-bet': { lang: 'he', glyphs: ['א', 'ב', 'ג', 'ד', 'ה'] },
   'lang:he:write:ori': { lang: 'he', glyphs: ['א', 'ו', 'ר', 'י'], word: 'he-ori' },
+  'lang:ja:find:kana:vowels': { lang: 'ja', glyphs: ['あ', 'い', 'う', 'え', 'お'] },
   'lang:ja:trace:ka-row': { lang: 'ja', glyphs: ['か', 'き', 'く', 'け', 'こ'] },
   'lang:ja:write:hana': { lang: 'ja', glyphs: ['は', 'な'], word: 'ja-hana' },
 };

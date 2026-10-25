@@ -486,7 +486,7 @@ const LH2_SCENES: EduScene[] = [
   scene(
     'lh2-s2-done',
     [
-      N('In the sand: א and ב, a bit wobbly and very proud.'),
+      N('In the sand: א ב ג ד ה, a bit wobbly and very proud.'),
       O('Alef and bet! One letter speaks, one letter stays quiet.', 'happy'),
       O('And if bet loses its dot, it turns into vet.'),
       O('I’ve scratched gimel, dalet and hey in next to them. Now put all five in alef-bet order.'),
@@ -1656,10 +1656,10 @@ export const EDU_LANG_HEBREW_READER: EduQuest[] = [
     title: 'Right to Left',
     goals: {
       'lh2-step1': {
-        goal: 'Find the four letters of שָׁלוֹם (shalom) hidden round the garden.',
-        hint: 'Look by the pond, the gate, the orchard and Ori’s tent. Line the pebbles up from the right: ש ל ו ם.',
+        goal: 'Find the four letters of שָׁלוֹם (shalom) hidden round the garden, and trace each one.',
+        hint: 'Look by the pond, the gate, the orchard and Ori’s tent. Trace them from the right: ש ל ו ם.',
       },
-      'lh2-step2': { goal: 'Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand.', hint: 'Start on the right side and move your stick to the left.' },
+      'lh2-step2': { goal: 'Trace alef (א) and bet (ב), the letters the alef-bet is named after, then gimel, dalet and hey.', hint: 'Start on the right side and move your stick to the left.' },
       'lh2-step3': { goal: 'Write Ori’s name, אוֹרִי, on his tent.', hint: 'Four letters, starting on the right: alef, vav, resh, yod.' },
     },
     scenes: LH2_SCENES,

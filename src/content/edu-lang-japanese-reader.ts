@@ -1902,7 +1902,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
     band: 'reader',
     title: 'The Hiragana Pond',
     goals: {
-      'lj2-step1': { goal: 'Find あ い う え お on the stepping stones, in order.', hint: 'Start with あ, nearest the bank. Some stones are sideways, so look carefully.' },
+      'lj2-step1': { goal: 'Find あ い う え お on the stepping stones, in order, and trace each one.', hint: 'Start with あ, nearest the bank. Follow the numbered strokes on each stone.' },
       'lj2-step2': { goal: 'Trace か き く け こ in the sand.', hint: 'Follow the numbered strokes, in order. Top to bottom, left to right, mostly.' },
       'lj2-step3': { goal: 'Write はな, Hana’s name, on her sketchbook.', hint: 'は first, then な. You can write across or down.' },
     },
