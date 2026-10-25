@@ -1,7 +1,7 @@
 import type { SceneStage } from './story';
 import { CG2_Y } from './tuning-y';
 import { CG4_B4 } from './tuning-b4';
-import { GROVE, LANTERN_POSTS } from './tuning';
+import { GROVE, LANTERN_POSTS, STORY } from './tuning';
 
 /**
  * The campaigns' colour scripts, staged seasons and weather, and which story sets stand
@@ -185,11 +185,9 @@ function mix(a: string, b: string, f: number): string {
 /** Hazel's Grove's season per chapter: late spring, high summer, autumn, midwinter, a cold bright morning. */
 export function hazelSeason(chapter: number): { season: Season; strength: number } | null {
   if (chapter < 1 || chapter > 12) return null;
-  if (chapter <= 4) return { season: 'spring', strength: 1 };
-  if (chapter <= 6) return { season: 'summer', strength: 1 };
-  if (chapter <= 8) return { season: 'autumn', strength: 1 };
-  if (chapter <= 11) return { season: 'winter', strength: 1 };
-  return { season: 'winter', strength: 0.55 };
+  // One map for the sim's season and the drawn one (STORY.chapterSeasons, review 2026-10-24).
+  const season = STORY.chapterSeasons[chapter - 1] ?? 'winter';
+  return { season, strength: chapter === 12 ? 0.55 : 1 };
 }
 
 export interface GroundTint {
