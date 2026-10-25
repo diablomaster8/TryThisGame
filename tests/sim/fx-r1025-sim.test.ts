@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { GROVE, LIFECYCLE, SIM } from '../../src/config/tuning';
+import { DUNGEON, GROVE, LIFECYCLE, SIM } from '../../src/config/tuning';
 import { canFuse } from '../../src/sim/fusion';
 import { freeSpot } from '../../src/sim/keeper';
+import { floorOf, WALL } from '../../src/sim/dungeon';
 import { lifetimeHappiness } from '../../src/sim/needs';
 import { COURSES, createRace } from '../../src/sim/race';
 import { blocked } from '../../src/sim/obstacles';
@@ -210,5 +211,24 @@ describe('race rivals never share a Keeper Nubbin’s name (item 9)', () => {
       }
     }
     expect(w).toBeDefined();
+  });
+});
+
+describe('Hollow floors are big enough (item 8)', () => {
+  const open = (seed: number, depth: number, v: number): number =>
+    floorOf(seed, depth, v).cells.reduce((a, c) => a + (c !== WALL ? 1 : 0), 0);
+
+  it('a new depth-1 floor has at least twice the walkable ground of the old cave, and grows', () => {
+    let v1 = 0;
+    let v2 = 0;
+    let deep = 0;
+    for (let s = 1; s <= 8; s++) {
+      v1 += open(s * 977, 1, 1);
+      v2 += open(s * 977, 1, DUNGEON.genVersion);
+      deep += open(s * 977, 8, DUNGEON.genVersion);
+    }
+    expect(DUNGEON.genVersion).toBeGreaterThanOrEqual(2);
+    expect(v2).toBeGreaterThanOrEqual(2 * v1);
+    expect(deep).toBeGreaterThan(v2 * 1.4);
   });
 });
