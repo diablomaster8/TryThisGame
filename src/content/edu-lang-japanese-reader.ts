@@ -80,7 +80,7 @@ const LJ1_SCENES: EduScene[] = [
       HA('わたしは はな です (watashi wa Hana desu) means “I am Hana”. Your own name goes in the middle, like a sandwich.'),
       HA('Then finish with よろしくおねがいします (yoroshiku onegaishimasu): “please treat me kindly”, or “pleased to meet you”.'),
       NO('I practised that all the way here. On the ticket man, a cow and a postbox.', 'happy'),
-      HA('Ready? Say はい (hai, “yes”) or いいえ (iie, “no”). Actually, just say はい.', 'happy'),
+      HA('Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.', 'happy'),
     ],
     [
       {
@@ -98,7 +98,7 @@ const LJ1_SCENES: EduScene[] = [
           },
           {
             label: 'Goodbye',
-            reply: [HA('いいえ, goodbye is a different word. I only just got here! こんにちは means “hello”, or “good afternoon”.')],
+            reply: [HA('No, goodbye is a different word. I only just got here! こんにちは means “hello”, or “good afternoon”.')],
           },
           {
             label: 'Thank you',
@@ -139,7 +139,7 @@ const LJ1_SCENES: EduScene[] = [
         then: [
           HA('You did the whole sandwich! It took Nova three days to get that right.', 'shock'),
           NO('Two days.'),
-          HA('いいえ. Three.', 'happy'),
+          HA('No. Three.', 'happy'),
         ],
       },
     ],
@@ -152,7 +152,9 @@ const LJ1_SCENES: EduScene[] = [
       N('Behind the water butt, three wild Nubbins have watched everything.'),
       N('One of them tries a bow. It tips forward and rolls into the herbs.'),
       HA('They want to learn! Tomorrow we teach them. Properly.', 'happy'),
-      HA('Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.', 'think'),
+      HA('Also, is that a frog?', 'think'),
+      NO('Are you scared of frogs, Hana?'),
+      HA('いいえ (iie, “no”)! Not even slightly. I’m just saying. In case it comes up.', 'think'),
     ],
     [
       {
@@ -1878,7 +1880,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
       gloss('わたしは ___ です (watashi wa ___ desu)', 'I am ___. Put your name in the gap.', 'lj1-s1'),
       gloss('よろしくおねがいします (yoroshiku onegaishimasu)', 'Please treat me kindly, or pleased to meet you. A polite thing to say after your name.', 'lj1-s1'),
       gloss('はい (hai)', 'Yes.', 'lj1-s1'),
-      gloss('いいえ (iie)', 'No.', 'lj1-s1'),
+      gloss('いいえ (iie)', 'No.', 'lj1-s1-done'),
       gloss('おはよう (ohayō)', 'Good morning, to family and friends.', 'lj1-s2'),
       gloss('おはようございます (ohayō gozaimasu)', 'Good morning, the polite way.', 'lj1-s2'),
       gloss('ありがとう (arigatō)', 'Thank you.', 'lj1-s2'),

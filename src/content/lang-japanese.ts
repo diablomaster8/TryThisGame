@@ -98,7 +98,7 @@ const LJ1: Quest = {
           HA('Then finish with よろしくおねがいします (yoroshiku onegaishimasu). It means “please treat me kindly”, or “pleased to meet you”.'),
           NO('I practised that one all the way here on the train.', 'happy'),
           HA('She said it to the ticket man, a cow and a postbox.'),
-          HA('Ready? Say はい (hai, “yes”) or いいえ (iie, “no”). Actually, say はい.', 'happy'),
+          HA('Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.', 'happy'),
         ],
         choices: [
           {
@@ -124,7 +124,7 @@ const LJ1: Quest = {
               HA('You did the whole sandwich!', 'shock'),
               HA('It took Nova three days to get that right.'),
               NO('Two days.'),
-              HA('いいえ. Three.', 'happy'),
+              HA('No. Three.', 'happy'),
             ],
           },
         ],
@@ -136,7 +136,9 @@ const LJ1: Quest = {
           HA('Done. Your nose is very good. Your ears are a bit much. That’s my fault, not yours.'),
           N('Behind the water butt, three wild Nubbins have watched the whole thing. One tries a bow, tips forward and rolls into the herbs.'),
           HA('They want to learn! Tomorrow we teach them. Properly.', 'happy'),
-          HA('Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.', 'think'),
+          HA('Also, is that a frog?', 'think'),
+          NO('Are you scared of frogs, Hana?'),
+          HA('いいえ (iie, “no”)! Not even slightly. I’m just saying. In case it comes up.', 'think'),
         ],
       },
     },
@@ -294,7 +296,7 @@ const LJ1: Quest = {
   sets: { lj1Done: true },
   notes: [
     COMMON_NOTES,
-    'New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai, iie; step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai.',
+    'New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai (iie waits for the done scene, so no scene brings more than six); step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai.',
     'Step 1: the Greet action offers “konnichiwa” (with or without a bow) and, after the full choice, the whole “Hajimemashite. Watashi wa [player name] desu. Yoroshiku onegaishimasu.” Play the native recordings as the player picks.',
     'Step 2: a Nubbin learns after hearing konnichiwa three times; it bows whenever it hears it from then on. Dumpling copies the others badly (late, facing the wrong way). He bows to an object only once in the questline, to the moon in lj1-s3-done; never make it a habit.',
     'Step 3 is at dusk. Each oyasumi gets a sleepy bow; Dumpling snores.',
