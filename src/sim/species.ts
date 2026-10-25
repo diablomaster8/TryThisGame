@@ -1,6 +1,7 @@
 import { GEN1B_SPECIES } from './species-gen1b';
 import type { AlignmentBand, Nubbin, NubbinType } from './types';
 import { DIGI2_SPECIES } from './species-digi2';
+import { GEN1A_SPECIES } from './species-gen1a';
 
 /**
  * Species: what hatches from an egg and what it grows into. The Chao line is the
@@ -95,6 +96,7 @@ export const SPECIES: readonly Species[] = [
   P('lilyking', 'Cradily', 'final', 'power'),
   P('clawnymph', 'Anorith', 'baby', 'swim', { kind: 'fixed', to: 'clawknight' }),
   P('clawknight', 'Armaldo', 'final', 'power'),
+  ...GEN1A_SPECIES,
 
   // ---- digi: the original 1997 line, Ver.1. Agumon reaches champions 1, 2, 3, 4 and 7
   // (Greymon, Tyrannomon, Devimon, Meramon, Numemon), Betamon 3 to 7; Greymon, Devimon and

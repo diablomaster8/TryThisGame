@@ -12,6 +12,7 @@ import {
 import { drawGen1b, type Gen1bPart } from './creature-gen1b';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
+import { drawExtras, type Extra } from './creature-extras';
 
 /**
  * A generic chibi creature drawer for the non-Chao families. Every species is a body
@@ -71,6 +72,8 @@ export interface CreatureSpec {
   /** 0.8 small baby … 1.25 big final form. */
   size: number;
   colors: CreaturePalette;
+  /** Signature parts the base kit lacks (creature-extras.ts), drawn by both renderers. */
+  addons?: readonly Extra[];
   ears: Ears;
   tail: Tail;
   crest: Crest;
@@ -698,6 +701,7 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
 export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): PixelCanvas {
   const pc = new PixelCanvas(CREATURE_SIZE, CREATURE_SIZE);
   const a = anchors(angle, pose, spec);
+  drawExtras(pc, a, spec, pose, true);
   drawWings(pc, a, spec, pose, true);
   drawTail(pc, a, spec, true);
   drawKitExtras(pc, a, spec, true);
@@ -714,6 +718,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);
   drawGen1b(pc, a, spec, pose, 'front');
+  drawExtras(pc, a, spec, pose, false);
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }

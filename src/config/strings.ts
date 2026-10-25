@@ -3,6 +3,8 @@ import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 
 import { DIGI2_LABELS } from './strings-digi2';
 
+import { GEN1A_LABELS } from './strings-gen1a';
+
 export const NAMES = {
   game: 'Grove',
   creature: 'Nubbin',
@@ -157,6 +159,7 @@ export const SPECIES_LABELS: Record<string, string> = {
   hugbear: 'Hugbear',
   ...DIGI2_LABELS,
   ...GEN1B_SPECIES_LABELS,
+  ...GEN1A_LABELS,
 };
 
 /** The ten playable Keepers. */
