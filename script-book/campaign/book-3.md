@@ -565,8 +565,7 @@ _For one moment he holds it: the warmest thing he has ever seen. His whole thin 
 _Then his back feet go from under him on the slick stone, and he tumbles into the Wellspring, stone and all._  
 _The water closes over him._  
 _And the light comes up._  
-_Not cold. Warm._  
-_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold: warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -595,8 +594,7 @@ _You hold it up anyway._
 _He walks down into the Wellspring, slowly, the way he walks into everything. The water comes up to his chin._  
 _Then over._  
 _And the light comes up._  
-_Not cold. Warm._  
-_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold: warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -620,8 +618,7 @@ _You hold it up anyway._
 _He walks down into the Wellspring, slowly, the way he walks into everything. The water comes up to his chin._  
 _Then over._  
 _And the light comes up._  
-_Not cold. Warm._  
-_Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
+_Not cold: warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey._  
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
@@ -943,8 +940,7 @@ _Days go by like that. Hazel sleeps a lot, and wakes up for the good bits._
 **Ember** _(angry)_: I can hear you.  
 **Gran Hazel** _(happy)_: I know, dear.  
 **Gran Hazel** _(soft)_: Sit with me. Here. By the pond. Don’t say anything.  
-_You sit. The ice on the pond is gone._  
-_The water is black and still and has the whole evening sky in it._  
+_You sit. The ice is gone, and the black, still water has the whole evening sky in it._  
 _The thin grey Nubbin wakes, looks at you, and goes back to sleep._  
 _Nobody says anything. The lanterns burn._  
 _An owl says something, once, and then thinks better of it._  

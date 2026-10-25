@@ -91,8 +91,7 @@ const SHARD_OUT: Line[] = [
 
 const STONE_UNMADE: Line[] = [
   N('And the light comes up.'),
-  N('Not cold. Warm.'),
-  N('Gold, like the inside of a lantern, like a kitchen window seen from a dark road.'),
+  N('Not cold: warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road.'),
   N('It fills the cave and the ledge and the frozen falls, and the ice on the falls goes the colour of honey.'),
   N('Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet.'),
   N('…'),
@@ -951,8 +950,7 @@ export const BOOK3_SCENES: Scene[] = [
     EMBER('I can hear you.', 'angry'),
     HAZEL('I know, dear.', 'happy'),
     HAZEL('Sit with me. Here. By the pond. Don’t say anything.', 'soft'),
-    N('You sit. The ice on the pond is gone.'),
-    N('The water is black and still and has the whole evening sky in it.'),
+    N('You sit. The ice is gone, and the black, still water has the whole evening sky in it.'),
     N('The thin grey Nubbin wakes, looks at you, and goes back to sleep.'),
     N('Nobody says anything. The lanterns burn.'),
     N('An owl says something, once, and then thinks better of it.'),
