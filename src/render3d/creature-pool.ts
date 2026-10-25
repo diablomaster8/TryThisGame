@@ -8,8 +8,8 @@ import {
   type Object3D,
   type Texture,
 } from 'three';
-import { keeperLookKey } from '../render/keeper-look';
 import { GROVE3D } from '../config/tuning';
+import { GRANDCHILD3D } from '../config/tuning-fx3d';
 import { buildSpecies, type Rigged } from '../samples/species';
 import { TOON } from '../samples/creatures';
 import { addOutlines } from './toon-outline';
@@ -92,9 +92,20 @@ export function nubbinLook(n: Nubbin): Look {
     : { key: `nubbin${tints}`, height };
 }
 
-/** A Keeper's look: the chosen trainer's outfit tinted by Sun or Moon (`render/keeper-look.ts`). */
+/**
+ * The player's look: Hazel's grandchild (never the trainer NPC of the same name, who stands
+ * in the Grove too), in the chosen trainer's outfit tinted by Sun or Moon (`keeperOutfit`).
+ */
 export function keeperLook(k: Keeper, trainerId: string): Look {
-  return { key: keeperLookKey(trainerId, k.alignment), height: GROVE3D.keeperHeight };
+  return {
+    key: grandchildLookKey(trainerId, k.alignment),
+    height: GROVE3D.keeperHeight * GRANDCHILD3D.heightShare,
+  };
+}
+
+/** The grandchild's look key (see `looks.ts`); the trainers' own stay `keeper-<side>~npc:`. */
+export function grandchildLookKey(trainerId: string, side: Keeper['alignment']): string {
+  return `grandchild-${side}~outfit:${trainerId}`;
 }
 
 /** Triangles in a mesh's geometry. */
