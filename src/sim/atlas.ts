@@ -31,6 +31,8 @@ export interface StoryLine {
   stepLive?(stepId: string, flags: LineFlags): boolean;
   /** False for a choice not offered under these flags. */
   choiceLive?(sceneId: string, choiceId: string, flags: LineFlags): boolean;
+  /** False for a line not spoken under these flags (the plush Nubbin you never owned). */
+  lineLive?(sceneId: string, line: Scene['lines'][number], flags: LineFlags): boolean;
   /** True once another line's choice has closed this one (Neopia's rival chains). */
   closed?(flags: LineFlags): boolean;
 }
@@ -179,12 +181,24 @@ export function variantFor(
   return chosen;
 }
 
-/** The scene with only the choices its line offers under these flags. */
+/** The scene with only the lines and choices its line offers under these flags. */
 function shown(line: StoryLine, scene: Scene, flags: LineFlags): Scene {
+  let out = scene;
+  const said = line.lineLive;
+  if (said) {
+    const keep = (l: Scene['lines'][number]) => said(scene.id, l, flags);
+    const lines = out.lines.filter(keep);
+    const choices = out.choices?.map((c) => {
+      const then = c.then?.filter(keep);
+      return then && then.length !== c.then?.length ? { ...c, then } : c;
+    });
+    if (lines.length !== out.lines.length || choices?.some((c, i) => c !== out.choices?.[i]))
+      out = { ...out, lines, ...(choices ? { choices } : {}) };
+  }
   const live = line.choiceLive;
-  if (!live || !scene.choices) return scene;
-  const choices = scene.choices.filter((c) => live(scene.id, c.id, flags));
-  return choices.length === scene.choices.length ? scene : { ...scene, choices };
+  if (!live || !out.choices) return out;
+  const choices = out.choices.filter((c) => live(scene.id, c.id, flags));
+  return choices.length === out.choices.length ? out : { ...out, choices };
 }
 
 /**

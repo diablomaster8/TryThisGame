@@ -23,7 +23,7 @@ import {
 } from '../content/mv-moonknight-spawn';
 import { MV_TOYSTORY, MV_TOYSTORY_VARIANTS } from '../content/mv-toystory';
 import type { StoryLine } from './atlas';
-import { multiverseChoiceLive, multiverseStepLive } from './multiverse-rules';
+import { multiverseChoiceLive, multiverseLineLive, multiverseStepLive } from './multiverse-rules';
 
 const mvLine = (
   id: string,
@@ -36,6 +36,7 @@ const mvLine = (
   variants,
   stepLive: multiverseStepLive,
   choiceLive: multiverseChoiceLive,
+  lineLive: multiverseLineLive,
 });
 
 export const MULTIVERSE_LINES: StoryLine[] = [
