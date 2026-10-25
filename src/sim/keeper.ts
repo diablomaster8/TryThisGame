@@ -1,6 +1,7 @@
-import { blocked, resolve } from './obstacles';
+import { blocked, obstacles, resolve } from './obstacles';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
+import { KEEPER_UNSTICK } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
@@ -44,6 +45,102 @@ export function shoreline(p: Vec2): Vec2 {
   if (d >= edge) return p;
   if (d < 1e-6) return { x: pond.x + edge, z: pond.z };
   return { x: pond.x + (dx / d) * edge, z: pond.z + (dz / d) * edge };
+}
+
+/** Whether a point is somewhere the Keeper may stand in the Grove: clear of every solid thing and out of the pond unless wading. */
+function standable(p: Vec2, world: World, wade: boolean): boolean {
+  if (blocked(p, world, KEEPER_UNSTICK.clearance - 0.05)) return false;
+  if (wade) return true;
+  const pond = GROVE.pond;
+  // A hair inside the shoreline ring counts as ashore: shoreline() puts the Keeper exactly on it.
+  return Math.hypot(p.x - pond.x, p.z - pond.z) >= pond.r + 0.5 - 0.05;
+}
+
+/**
+ * The nearest point the Keeper may stand on, searching outward in rings. A Keeper left
+ * inside a blocker or the pond (a teleport, a lost Swim perk, an old save, the crack where
+ * the well's footing meets the shoreline) would otherwise be pushed back and forth for good.
+ */
+export function freeSpot(world: World, p: Vec2, wade = keeperPerks(world).wade): Vec2 {
+  if (standable(p, world, wade)) return p;
+  const h = SIM.worldHalf;
+  for (
+    let r = KEEPER_UNSTICK.searchStep;
+    r <= KEEPER_UNSTICK.searchMax;
+    r += KEEPER_UNSTICK.searchStep
+  ) {
+    const steps = Math.max(12, Math.ceil(r * 8));
+    for (let i = 0; i < steps; i++) {
+      const a = (i / steps) * Math.PI * 2;
+      const q = { x: p.x + Math.cos(a) * r, z: p.z + Math.sin(a) * r };
+      if (Math.abs(q.x) > h || Math.abs(q.z) > h) continue;
+      if (standable(q, world, wade)) return q;
+    }
+  }
+  return { x: GROVE.keeperStart.x, z: GROVE.keeperStart.z };
+}
+
+/** Free a Keeper standing inside a blocker or the pond; true if it moved. */
+export function unstickKeeper(world: World): boolean {
+  if (runFloor(world)) return false;
+  const k = world.keeper;
+  const to = freeSpot(world, k.pos);
+  if (to === k.pos) return false;
+  k.pos = { x: to.x, z: to.z };
+  return true;
+}
+
+/** Progress of the current care walk, per world; transient, so it is not saved. */
+const careWalk = new WeakMap<World, { intent: KeeperIntent; at: Vec2; sinceMs: number }>();
+
+/**
+ * A care walk where the Keeper stops moving (wedged where steering cannot get round)
+ * gives up and says so, instead of leaving the Keeper pressing against a wall in silence.
+ */
+function careWalkStalled(world: World): boolean {
+  const k = world.keeper;
+  const intent = k.intent;
+  if (!intent) {
+    careWalk.delete(world);
+    return false;
+  }
+  const w = careWalk.get(world);
+  if (!w || w.intent !== intent || dist(w.at, k.pos) > KEEPER_UNSTICK.minProgress) {
+    careWalk.set(world, { intent, at: { x: k.pos.x, z: k.pos.z }, sinceMs: world.timeMs });
+    return false;
+  }
+  return world.timeMs - w.sinceMs >= KEEPER_UNSTICK.giveUpMs;
+}
+
+/**
+ * Walk around a solid thing instead of into it: when the straight step would end inside a
+ * hill, tree or building, follow that obstacle's edge on the side nearer the target.
+ */
+function steer(world: World, p: Vec2, to: Vec2, dx: number, dz: number): [number, number] {
+  const look = KEEPER_UNSTICK.clearance + 0.1;
+  const ax = p.x + dx * look;
+  const az = p.z + dz * look;
+  for (const c of obstacles(world)) {
+    const min = c.r + KEEPER_UNSTICK.clearance;
+    if ((ax - c.x) ** 2 + (az - c.z) ** 2 >= min * min) continue;
+    // A target inside the obstacle itself is walked into and dropped, as before.
+    if ((to.x - c.x) ** 2 + (to.z - c.z) ** 2 < min * min) continue;
+    const rx = p.x - c.x;
+    const rz = p.z - c.z;
+    const len = Math.hypot(rx, rz) || 1;
+    // The two tangents; keep the one that still heads toward the target.
+    const tx = -rz / len;
+    const tz = rx / len;
+    return tx * dx + tz * dz >= 0 ? [tx, tz] : [-tx, -tz];
+  }
+  return [dx, dz];
+}
+
+/** The id of what a care walk heads for: a Nubbin, a tree or an item. */
+function intentTargetId(intent: KeeperIntent): string {
+  if (intent.kind === 'shakeTree') return intent.treeId;
+  if (intent.kind === 'collect') return intent.itemId;
+  return intent.nubbinId;
 }
 
 function findNubbin(world: World, id: string): Nubbin | undefined {
@@ -112,13 +209,18 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
           k.intent = null;
         }
         k.moveTarget = null;
+      } else if (k.intent && careWalkStalled(world)) {
+        events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
+        k.intent = null;
+        k.moveTarget = null;
       } else {
         const step = Math.min(
           d,
           KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt,
         );
-        const dx = (target.x - k.pos.x) / d;
-        const dz = (target.z - k.pos.z) / d;
+        let dx = (target.x - k.pos.x) / d;
+        let dz = (target.z - k.pos.z) / d;
+        if (!dungeonFloor) [dx, dz] = steer(world, k.pos, target, dx, dz);
         k.pos.x += dx * step;
         k.pos.z += dz * step;
         k.facing = Math.atan2(dx, dz);
@@ -142,6 +244,9 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
       k.intent = null;
     }
     clampToWorld(k.pos);
+    // Still inside something (two blockers, or a blocker and the shore, pushing in turn):
+    // step out to the nearest free spot so no position can trap the Keeper.
+    unstickKeeper(world);
   }
 
   // A carried Nubbin rides above the Keeper's head.
