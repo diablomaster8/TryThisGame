@@ -2,6 +2,7 @@ import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { poseFor, type ChaoPose } from './chao';
+import { drawGen1b, type Gen1bPart } from './creature-gen1b';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 
@@ -70,11 +71,13 @@ export interface CreatureSpec {
   legs: Legs;
   eyes: Eyes;
   marks: Mark[];
+  /** Extra parts for the later first-generation pocket species (`creature-gen1b.ts`). */
+  gen1b?: Gen1bPart[];
 }
 
 export const CREATURE_SIZE = 32;
 
-interface Anchors {
+export interface Anchors {
   headCx: number;
   headCy: number;
   headRx: number;
@@ -680,15 +683,18 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   const a = anchors(angle, pose, spec);
   drawWings(pc, a, spec, pose, true);
   drawTail(pc, a, spec, true);
+  drawGen1b(pc, a, spec, pose, 'behind');
   if (spec.plan === 'biped' || spec.plan === 'tall' || spec.plan === 'round')
     drawArmsLegs(pc, a, spec, pose);
   drawBody(pc, a, spec, pose);
   drawMarks(pc, a, spec);
+  drawGen1b(pc, a, spec, pose, 'mid');
   drawEars(pc, a, spec);
   drawCrest(pc, a, spec);
   drawFace(pc, a, spec, pose);
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);
+  drawGen1b(pc, a, spec, pose, 'front');
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }
