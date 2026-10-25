@@ -38,9 +38,26 @@ function swBuildId(): Plugin {
   };
 }
 
+/**
+ * Every browser the game supports reads woff2, so the language fonts' woff fallbacks would
+ * only be dead weight on the host (Klee One's alone are 2.6 and 2.7 MB). Dropping them from
+ * the Fontsource stylesheets keeps them out of the build; the fonts still load only when a
+ * Hebrew or Japanese word is shown (`ui/lang-fonts.ts`).
+ */
+function woff2Only(): Plugin {
+  return {
+    name: 'woff2-only',
+    enforce: 'pre',
+    transform(code, id) {
+      if (!/[\\/]@fontsource[\\/].+\.css$/.test(id.split('?')[0]!)) return null;
+      return code.replace(/,\s*url\([^)]+\.woff\)\s*format\(['"]woff['"]\)/g, '');
+    },
+  };
+}
+
 export default defineConfig({
   base,
-  plugins: [swBuildId()],
+  plugins: [swBuildId(), woff2Only()],
   build: {
     target: 'es2022',
     sourcemap: false,
