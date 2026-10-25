@@ -187,15 +187,20 @@ function paintFly(f: TrackFrame, a: number, b: number, x0: number, x1: number): 
     const rim = wallTop + (hash(Math.floor(wx / 3)) % 6);
     ctx.fillStyle = color(C.lilacGrey);
     ctx.fillRect(x, rim, 1, f.bandBottom - rim);
+    // Rock strata on a fixed grid, so the layers run level across the wall.
     ctx.fillStyle = color(C.dusk);
-    for (let y = rim + 3 + (hash(Math.floor(wx / 9)) % 2); y < f.bandBottom - 4; y += 5)
-      ctx.fillRect(x, y, 1, 2);
+    for (let y = wallTop + 5; y < f.bandBottom - 7; y += 6)
+      if (y > rim + 1) ctx.fillRect(x, y, 1, 1);
     ctx.fillStyle = color(C.greyDeep);
     ctx.fillRect(x, f.bandBottom - 7, 1, 3);
-    // The river far below, with glints.
-    ctx.fillStyle = color(hash(x + cam) % 6 === 0 ? C.white : C.deepWater);
+    // The river far below, with the odd glint.
+    ctx.fillStyle = color(C.deepWater);
     ctx.fillRect(x, f.bandBottom - 4, 1, 4);
   }
+  const t = f.still ? 0 : Math.floor(f.nowMs / 300);
+  ctx.fillStyle = color(C.skyLight);
+  for (let x = a; x < b; x++)
+    if (hash(Math.floor((x + cam + t) / 2)) % 13 === 0) ctx.fillRect(x, f.bandBottom - 3, 2, 1);
   // A bank of cloud along the top of the gap: the drop is below the runners.
   for (let x = a; x < b; x++) {
     const h = hash(Math.floor((x + cam) / 5));
