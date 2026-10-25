@@ -8,6 +8,7 @@ import { C, color } from '../../render/sprites/palette';
 import type { Nubbin } from '../../sim/types';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from './art';
+import { skyBands } from '../race/pixel-track';
 import { progressOf, RUNNER_H, type RunState } from './run';
 import type { ExpeditionTheme, ExpeditionView } from './view';
 
@@ -85,17 +86,22 @@ export class ExpeditionPixelView implements ExpeditionView {
     const H = EXPEDITION.viewH;
     ctx.imageSmoothingEnabled = false;
 
-    // Sky bands.
-    const pal =
-      this.theme === 'hollow'
-        ? [C.ink, C.nightBlue, C.deepGreen, C.darkBark, C.ink]
-        : [C.shallows, C.water, C.pale, C.bark, C.darkBark];
-    ctx.fillStyle = color(pal[0]!);
-    ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = color(pal[1]!);
-    ctx.fillRect(0, 0, W, 60);
-    ctx.fillStyle = color(pal[2]!);
-    ctx.fillRect(0, EXPEDITION.groundY - 70, W, 70);
+    // Sky bands, paling toward the horizon. The band above the hills used to be one flat
+    // off-white fill (review 2026-10-24); it is now the lit horizon with a far ridge on it.
+    const hollow = this.theme === 'hollow';
+    const pal = hollow
+      ? [C.ink, C.nightBlue, C.deepGreen, C.darkBark, C.ink]
+      : [C.shallows, C.water, C.skyLight, C.bark, C.darkBark];
+    skyBands(
+      ctx,
+      W,
+      0,
+      EXPEDITION.groundY,
+      hollow
+        ? [C.ink, C.nightBlue, C.nightBlue, C.tealDeep, C.deepGreen]
+        : [C.water, C.water, C.shallows, C.shallows, C.skyLight],
+    );
+    this.drawRidge(run.distance, W, hollow);
 
     // Parallax clouds and hills.
     const cloudShift = (run.distance * 0.2) % (W + 60);
@@ -176,6 +182,39 @@ export class ExpeditionPixelView implements ExpeditionView {
       ctx.fillRect(px - 5, py - 3, 2, 2);
     }
 
+    this.drawTop(run, W);
+  }
+
+  /**
+   * A far ridge on the horizon, behind the hills: a soft blue range in the meadow, dark
+   * stalagmites in the Hollow. Its own slow parallax, from a fixed hash of the column.
+   */
+  private drawRidge(distance: number, W: number, hollow: boolean): void {
+    const ctx = this.ctx;
+    const base = EXPEDITION.groundY - 18;
+    const shift = Math.floor(distance * 0.18);
+    ctx.fillStyle = color(hollow ? C.ink : C.lilacGrey);
+    for (let x = 0; x < W; x++) {
+      const wx = x + shift;
+      const h = hollow
+        ? 6 + ((((wx >> 3) * 2654435761) >>> 0) % 26) * (wx % 8 < 4 ? 1 : 0.5)
+        : 18 + 10 * Math.sin(wx / 23) + 6 * Math.sin(wx / 9 + 1);
+      ctx.fillRect(x, Math.round(base - h), 1, Math.round(h) + 18);
+    }
+    if (hollow) return;
+    // Snow caps catch the light on the high points.
+    ctx.fillStyle = color(C.white);
+    for (let x = 0; x < W; x++) {
+      const wx = x + shift;
+      const h = 18 + 10 * Math.sin(wx / 23) + 6 * Math.sin(wx / 9 + 1);
+      if (h > 29) ctx.fillRect(x, Math.round(base - h), 1, 2);
+    }
+    ctx.fillStyle = color(C.greyLight);
+    ctx.fillRect(0, base + 6, W, 12);
+  }
+
+  private drawTop(run: RunState, W: number): void {
+    const ctx = this.ctx;
     // Progress bar and name, along the very top.
     ctx.setTransform(PX, 0, 0, PX, 0, 0);
     ctx.fillStyle = 'rgba(13,10,26,0.5)';
