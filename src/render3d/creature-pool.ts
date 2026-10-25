@@ -109,6 +109,8 @@ export class CreaturePool {
   /** Marched surfaces by look key, once the workers have them. */
   private readonly ready = new Map<string, BufferGeometry[]>();
   private readonly asked = new Set<string>();
+  /** Looks whose sculpt failed: how often, and not to ask again before `untilMs`. */
+  private readonly failed = new Map<string, { n: number; untilMs: number }>();
   /** When each look key was last asked for or handed back, for eviction by recency. */
   private readonly used = new Map<string, number>();
   private tick = 0;
@@ -333,10 +335,14 @@ export class CreaturePool {
 
   private request(key: string): void {
     if (this.asked.has(key)) return;
+    // A look that failed waits out its backoff (`acquire` asks every frame).
+    const fail = this.failed.get(key);
+    if (fail && performance.now() < fail.untilMs) return;
     this.asked.add(key);
     const t0 = performance.now();
     this.farm.surfaces(key, this.quality).then(
       (geos) => {
+        this.failed.delete(key);
         this.ready.set(key, geos);
         const march = performance.now() - t0;
         this.buildMs.set(key, { march, rig: 0 });
@@ -347,7 +353,10 @@ export class CreaturePool {
       },
       (e: unknown) => {
         this.asked.delete(key);
-        console.warn(`[3d] could not sculpt ${key}`, e);
+        const n = (this.failed.get(key)?.n ?? 0) + 1;
+        this.failed.set(key, { n, untilMs: performance.now() + sculptRetryMs(n) });
+        // One warning per look; the retries back off quietly (the stand-in stays meanwhile).
+        if (n === 1) console.warn(`[3d] could not sculpt ${key}; retrying with backoff`, e);
       },
     );
   }
@@ -380,6 +389,11 @@ function freeRigs(rigs: Rigged[], textures: boolean): void {
   }
   for (const g of geos) g.dispose();
   for (const t of texs) t.dispose();
+}
+
+/** How long to wait before sculpting a look again after its `n`th failure: 1 s doubling to 60 s. */
+export function sculptRetryMs(n: number): number {
+  return Math.min(60_000, 1000 * 2 ** Math.max(0, n - 1));
 }
 
 /**
