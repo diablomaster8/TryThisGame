@@ -76,6 +76,8 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
+import { UI_FX_TEXT } from '../config/strings-ui';
+import { TOASTS } from '../config/tuning-ui';
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -147,6 +149,16 @@ export function mountHud(
     keeperBtn,
     settingsBtn,
   );
+  labelActions([
+    [journalBtn, '📖', UI_FX_TEXT.actionLabels.journal],
+    [rosterBtn, '📋', UI_FX_TEXT.actionLabels.roster],
+    [moreBtn, '⋯', UI_FX_TEXT.actionLabels.more],
+    [expeditionBtn, '🧭', UI_FX_TEXT.actionLabels.expedition],
+    [racesBtn, '🏁', UI_FX_TEXT.actionLabels.races],
+    [shopBtn, '🛒', UI_FX_TEXT.actionLabels.shop],
+    [keeperBtn, '☀', UI_FX_TEXT.actionLabels.keeper],
+    [settingsBtn, '⚙', UI_FX_TEXT.actionLabels.settings],
+  ]);
   top.append(logo, shells, fruit, groveBtn, actions);
   root.appendChild(top);
 
@@ -233,16 +245,19 @@ export function mountHud(
   const toasts = el('div', 'toasts');
   root.appendChild(toasts);
   // The toast row sits under the top bar, which wraps to two rows on a phone.
-  const placeToasts = (): void =>
-    root.style.setProperty('--toast-top', `${Math.ceil(top.getBoundingClientRect().bottom) + 6}px`);
+  const placeToasts = (): void => {
+    const bottom = Math.ceil(top.getBoundingClientRect().bottom);
+    root.style.setProperty('--toast-top', `${bottom + 6}px`);
+    // The Hollow's floor bar sits under the top bar however many rows it wraps to.
+    root.style.setProperty('--topbar-bottom', `${bottom}px`);
+  };
   new ResizeObserver(placeToasts).observe(top);
   window.addEventListener('resize', placeToasts);
   placeToasts();
-  function toast(text: string, ms: number = UI.toastMs): void {
-    const t = el('div', 'toast', text);
-    toasts.appendChild(t);
-    setTimeout(() => t.remove(), ms);
-  }
+  // Read out politely by screen readers; each toast is added as a new node.
+  toasts.setAttribute('role', 'status');
+  toasts.setAttribute('aria-live', 'polite');
+  const toast = makeToaster(toasts);
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -577,7 +592,7 @@ export function mountHud(
     if (g) {
       shells.textContent = `🐚 ${g.world.inventory.shells}`;
       fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
-      keeperBtn.textContent = g.world.keeper.alignment === 'sun' ? '☀' : '☾';
+      setActionGlyph(keeperBtn, g.world.keeper.alignment === 'sun' ? '☀' : '☾');
       joystick ??= new Joystick(root, g.camera, (cmd) => g.send(cmd));
       joystick.setVisible(g.world.settings.joystick);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
@@ -660,7 +675,11 @@ export function mountHud(
       dungeon.refresh(g.world);
       expeditionBtn.title = isEdu ? EDU_TEXT.play : UI_TEXT.expedition;
       expeditionBtn.setAttribute('aria-label', expeditionBtn.title);
-      expeditionBtn.textContent = isEdu ? '🎓' : '🧭';
+      setActionGlyph(expeditionBtn, isEdu ? '🎓' : '🧭');
+      setActionLabel(
+        expeditionBtn,
+        isEdu ? UI_FX_TEXT.actionLabels.play : UI_FX_TEXT.actionLabels.expedition,
+      );
       for (const b of moreList.querySelectorAll<HTMLElement>('.edu-only')) b.hidden = !isEdu;
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
@@ -757,6 +776,7 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       for (const e of events) {
+        if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
@@ -1124,4 +1144,92 @@ export function mountHud(
       if (new URLSearchParams(location.search).has('pocket')) pocket.open();
     },
   };
+}
+
+/**
+ * The action-bar buttons: an icon over a short word. The word shows on phones (style.css,
+ * `.act-label`), where the bar sits at the bottom; wide screens keep the icon alone.
+ */
+function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
+  for (const [b, glyph, label] of list) {
+    b.textContent = '';
+    const g = document.createElement('span');
+    g.className = 'act-glyph';
+    g.setAttribute('aria-hidden', 'true');
+    g.textContent = glyph;
+    const l = document.createElement('span');
+    l.className = 'act-label';
+    l.setAttribute('aria-hidden', 'true');
+    l.textContent = label;
+    b.append(g, l);
+    b.classList.add('act-btn');
+  }
+}
+
+function setActionGlyph(b: HTMLButtonElement, glyph: string): void {
+  const g = b.querySelector('.act-glyph');
+  if (g && g.textContent !== glyph) g.textContent = glyph;
+}
+
+function setActionLabel(b: HTMLButtonElement, label: string): void {
+  const l = b.querySelector('.act-label');
+  if (l && l.textContent !== label) l.textContent = label;
+}
+
+/**
+ * Toasts without the pile-up (review 2026-10-24): the same text again within a short while
+ * is dropped, at most a few show at once, and a burst comes in one at a time.
+ */
+function makeToaster(host: HTMLElement): (text: string, ms?: number) => void {
+  const lastShown = new Map<string, number>();
+  const queue: Array<{ text: string; ms: number }> = [];
+  let visible = 0;
+  let nextAt = 0;
+  let timer = 0;
+  const pump = (): void => {
+    timer = 0;
+    while (queue.length > 0 && visible < TOASTS.maxVisible) {
+      const now = performance.now();
+      if (now < nextAt) {
+        timer = window.setTimeout(pump, nextAt - now);
+        return;
+      }
+      const { text, ms } = queue.shift()!;
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = text;
+      host.appendChild(t);
+      visible++;
+      nextAt = now + TOASTS.staggerMs;
+      window.setTimeout(() => {
+        t.remove();
+        visible--;
+        if (!timer) pump();
+      }, ms);
+    }
+  };
+  return (text: string, ms: number = UI.toastMs): void => {
+    const now = performance.now();
+    const last = lastShown.get(text);
+    if (last !== undefined && now - last < TOASTS.repeatMs) return;
+    lastShown.set(text, now);
+    queue.push({ text, ms });
+    while (queue.length > TOASTS.maxQueued) queue.shift();
+    if (!timer) pump();
+  };
+}
+
+/**
+ * The sim's `cantReach` event (a care walk that stalled), checked by its kind as a string so
+ * this compiles before the sim branch that adds the event type is merged.
+ */
+function cantReachToast(
+  e: { kind: string; targetId?: string },
+  g: Game,
+  toast: (text: string) => void,
+): boolean {
+  if (e.kind !== 'cantReach') return false;
+  const n = e.targetId ? g.world.nubbins.find((x) => x.id === e.targetId) : undefined;
+  toast(UI_FX_TEXT.cantReach(n?.name ?? UI_FX_TEXT.cantReachThere));
+  return true;
 }

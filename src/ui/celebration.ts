@@ -8,7 +8,7 @@ import {
 } from '../config/strings';
 import type { Game } from '../game';
 import type { SimEvent } from '../sim/types';
-import { button, el } from './dom';
+import { button, dialogFocus, el } from './dom';
 
 /**
  * The evolution celebration: a short card with the new form, the grade that went up and
@@ -19,6 +19,7 @@ export class Celebration {
   private readonly title: HTMLHeadingElement;
   private readonly lines: HTMLDivElement;
   private timer = 0;
+  private readonly focus: ReturnType<typeof dialogFocus>;
 
   get isOpen(): boolean {
     return !this.root.hidden;
@@ -40,6 +41,8 @@ export class Celebration {
       button('✓', () => this.hide(), 'btn btn-primary'),
     );
     this.root.appendChild(card);
+    // A dialog for screen readers and keyboards: named by its title, Escape dismisses it.
+    this.focus = dialogFocus(this.root, card, this.title, () => this.hide());
     this.root.addEventListener('click', (e) => {
       if (e.target === this.root) this.hide();
     });
@@ -81,13 +84,16 @@ export class Celebration {
     }
     this.parent.appendChild(this.root);
     this.root.hidden = false;
+    this.focus.opened();
     clearTimeout(this.timer);
     this.timer = window.setTimeout(() => this.hide(), 6000);
   }
 
   hide(): void {
     clearTimeout(this.timer);
+    if (this.root.hidden) return;
     this.root.hidden = true;
+    this.focus.closed();
     this.root.remove();
   }
 }

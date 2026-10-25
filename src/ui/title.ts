@@ -30,6 +30,7 @@ import { askGrownUp } from './grown-up-gate';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import type { EduBand } from '../content/types';
 import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
+import { UI_FX_TEXT } from '../config/strings-ui';
 
 export interface TitleChoice {
   slot: SaveSlot;
@@ -97,8 +98,6 @@ export function showTitle(
     notice.setAttribute('role', 'alert');
     card.appendChild(notice);
   }
-  const menu = el('div', 'title-menu');
-  card.appendChild(menu);
   // The renderer: a device-wide choice, made here because no save is open yet.
   const graphicsRow = el('label', 'field-row title-graphics');
   const graphicsSel = el('select');
@@ -113,6 +112,9 @@ export function showTitle(
   });
   graphicsRow.append(el('strong', undefined, UI_TEXT.graphicsLabel), graphicsSel);
   card.appendChild(graphicsRow);
+  // The slot list comes after the renderer pick, so the pick is in the first screenful.
+  const menu = el('div', 'title-menu');
+  card.appendChild(menu);
   root.appendChild(card);
   parent.appendChild(root);
 
@@ -137,6 +139,9 @@ export function showTitle(
       const section = el('div', 'title-mode');
       const modeName = SLOT_TEXT.modes[mode] ?? mode;
       section.appendChild(el('div', 'title-mode-name', modeName));
+      // One line on what the mode is, so three identical "Empty" rows are not all it says.
+      const blurb = UI_FX_TEXT.modeBlurbs[mode];
+      if (blurb) section.appendChild(el('div', 'title-mode-blurb', blurb));
       for (let index = 1; index <= SLOTS_PER_MODE; index++) {
         const slot: SaveSlot = { mode, index };
         const row = el('div', 'title-slot');
@@ -178,7 +183,7 @@ export function showTitle(
                 mainMenu();
               });
             },
-            'btn btn-small btn-icon',
+            'btn btn-small btn-icon title-slot-erase',
           );
           erase.title = SLOT_TEXT.erase;
           // Each mode has a Slot 1: the mode name tells the three apart (review C, item 25).
