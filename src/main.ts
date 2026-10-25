@@ -313,6 +313,15 @@ function boot(
     navigator.serviceWorker
       .register(`${import.meta.env.BASE_URL}sw.js`)
       .then(applyWaitingWorker, () => undefined);
+    // The chunks this visit already loaded came before the worker existed, so it never saw
+    // them; hand it the list, so a first visit is enough to play offline next time.
+    void navigator.serviceWorker.ready.then((reg) => {
+      const urls = performance
+        .getEntriesByType('resource')
+        .map((e) => e.name)
+        .filter((u) => u.startsWith(location.origin) && u.includes('/assets/'));
+      reg.active?.postMessage({ type: 'cache-urls', urls });
+    });
   }
 
   game.start();
