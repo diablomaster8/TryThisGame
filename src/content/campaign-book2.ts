@@ -78,7 +78,8 @@ const C6_FADING: Line[] = [
   N('A cocoon closes round her, thin as a soap bubble. Rain runs down the outside of it.'),
   DUSTY('She’s done. Not reborn. Done. You can tell by the light. Rebirth glows; this just… thins.'),
   N('It thins the way breath thins on a window. You keep thinking it has finished, and it hasn’t.'),
-  N('Dusty puts one muddy finger against it. Inside, very faintly, something taps back. Twice.'),
+  N('Dusty puts one muddy finger against it.'),
+  N('Inside, very faintly, something taps back. Twice.'),
   DUSTY('Yes. All right. I know.', 'soft', 'nod'),
   N('…'),
   N('And then there is only rain, and where she was, a flower pushing up through the wet grass.'),
@@ -90,14 +91,16 @@ const C6_FADING: Line[] = [
 const C8_GATE: Line[] = [
   N('Fern catches you at the gate with a bag. In it: fruit, a jumper, a whistle, a second jumper, and a note that says SORRY ABOUT THE JUMPERS.'),
   FERN('It’s cold where you’re going. Everyone says so. I don’t know anything else useful, so: jumpers.', 'think', 'shrug'),
-  N('Sable comes with you as far as the gate, and stops there, and sits. This is as far as she goes. She will be here.'),
+  N('Sable comes with you as far as the gate, and stops there, and sits.'),
+  N('This is as far as she goes. She will be here.'),
   N('Marina is waiting at the pool below the falls, sleeves rolled, hair already wet.'),
   MARINA('Nova said you’d be coming this way. Nova never says anything, so I listened.'),
 ];
 
 const C8_LEDGE_REST: Line[] = [
   N('The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits.'),
-  N('Green light. White water. Spray on your face, cold; the rock under your palm, colder.'),
+  N('Green light. White water.'),
+  N('Spray on your face, cold; the rock under your palm, colder.'),
   N('Then, halfway along, warmth. It comes up through the stone into your hand like the side of a teapot.'),
   MARINA('Look. Don’t stop. Just look.', undefined, 'point'),
   N('Through a split in the rock: a cave of glittering stone, and in it a pool, steaming gently, lit from underneath by nothing at all.'),
@@ -112,7 +115,8 @@ const C8_LEDGE_END: Line[] = [
   N('Marina’s hand finds your sleeve and holds on, just for a moment, the way you’d hold a rail.'),
   MARINA('Keep going. The Hollow’s through there. Mind the last step. It’s further than it looks.'),
   N('Past the falls the trees close in, and the path gives up, and there is only moss and dark and a few slow fireflies.'),
-  N('Something grey is sitting in the branches above you. Then another. Then you stop counting.'),
+  N('Something grey is sitting in the branches above you.'),
+  N('Then another. Then you stop counting.'),
   NOVA('Don’t look straight at them. Look a bit to one side. It’s politer.', 'soft'),
 ];
 
@@ -175,12 +179,14 @@ export const BOOK2_SCENES: Scene[] = [
   ),
   S('c5-circuit', [
     N('The road climbs up the valley, and with every mile the trees stand further back from it.'),
-    N('The Circuit is square and clean and silent. White lines, white rails, raked sand. Not one weed.'),
+    N('The Circuit is square and clean and silent.'),
+    N('White lines, white rails, raked sand. Not one weed.'),
     N('It is the hottest day of the summer. The railings are furred with frost.'),
     SPARKS('Feel that. No, go on, put your hand on it. It’s AUGUST.', 'shock'),
     SPARKS('Eleven years I’ve raced here. Rails are always cold. I asked once. He said it was the shade.'),
     N('There is no shade. There is no tree for half a mile.'),
-    N('At the start line, Corvin’s runners wait in a row. Grey, every one. Not touching. Not looking at anything.'),
+    N('At the start line, Corvin’s runners wait in a row. Grey, every one.'),
+    N('Not touching. Not looking at anything.'),
     N('Your Nubbin presses against your leg and stays there.'),
     SPARKS('Mine bounce. Look at them. Mine never stop bouncing. His just… wait.', 'sad', 'down'),
     N('Byte is at the rail with a clipboard and a stopwatch, timing things that are not, strictly, racing.'),
@@ -260,7 +266,8 @@ export const BOOK2_SCENES: Scene[] = [
   ]),
   S('c5-sold', [
     N('In the row of grey runners, third from the end, is one you know.'),
-    N('It was yours. It has grown. It is not looking at you, or at anything.'),
+    N('It was yours. It has grown.'),
+    N('It is not looking at you, or at anything.'),
     N('There is a number on its side in neat white paint, like the label on a jar.'),
     CORVIN('Yours runs well. I did tell you it would eat better with me.'),
     N('It does look well fed. That is all it looks.'),
@@ -316,7 +323,8 @@ export const BOOK2_SCENES: Scene[] = [
       DUSTY('Thank you. Right. I’m going to go and dig something up. That’s what I do when I feel like this. It usually works.', 'soft', 'nod'),
       DUSTY('Yours will go one day. All of them. Love them anyway. Love them harder because of it. That’s the whole trade, and it’s a good one.'),
       N('Dusty goes down the hill. Halfway, they stop, look back at the flower, and lift one muddy hand to it.'),
-      N('When you turn round, Moss is sitting by the flower. You didn’t see him come. The rain runs off him in silver threads.'),
+      N('When you turn round, Moss is sitting by the flower.'),
+      N('You didn’t see him come. The rain runs off him in silver threads.'),
       MOSS('Briar’s was the first flower on this hill. She went up laughing.', 'soft'),
       MOSS('This one went up in somebody’s lap, with the rain on her. I think that is better. Briar would argue.'),
       N('He looks at the flower for a long while. Then he says it, plainly, the way he says everything.'),
@@ -344,7 +352,8 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Keep it. Some things belong to the hill.',
           then: [
             N('You don’t call after them. Dusty lifts and pushes, and is gone.'),
-            N('You stay. Moss stays. The flower, which has never been rained on before, seems to be getting used to it.'),
+            N('You stay. Moss stays.'),
+            N('The flower, which has never been rained on before, seems to be getting used to it.'),
             N('Moss does not move from the flower until it is dark.'),
           ],
         },
@@ -354,12 +363,15 @@ export const BOOK2_SCENES: Scene[] = [
 
   // ---------------------------------------------------------------- chapter 7: What Fear Teaches
   S('c7-open', [
-    N('Sable sleeps near you now. Not next to you. Near. When you move in your sleep she wakes, every time.'),
+    N('Sable sleeps near you now. Not next to you: near.'),
+    N('When you move in your sleep she wakes, every time.'),
     N('You wake before dawn because you are cold.'),
-    N('The Grove is white. Not all of it. The frost lies in a long tongue from the edge of the long grass to the fourth lantern post.'),
+    N('The Grove is white. Not all of it.'),
+    N('The frost lies in a long tongue from the edge of the long grass to the fourth lantern post.'),
     N('It gathers round the post, thick as fur. The other three stand damp and dark and ordinary.'),
     N('Your breath smokes. The frost squeaks under your bare feet, and you go back in for socks, and come out again faster.'),
-    N('Sable is awake. She is looking at the post, and she is not moving at all. Not even her ears.'),
+    N('Sable is awake. She is looking at the post, and she is not moving at all.'),
+    N('Not even her ears.'),
     LUNA('You’re up. Good. I didn’t want to wake you, and I didn’t want to wait.'),
     N('Luna has soil to her elbows and a lantern burnt down to the wick. For her, this is the end of the day.'),
     LUNA('It isn’t cold enough for that. I’ve had my hands in the ground all night. It isn’t cold enough for gloves.', 'think'),
@@ -378,7 +390,8 @@ export const BOOK2_SCENES: Scene[] = [
   S(
     'c7-stillness',
     [
-      N('Moss comes down the hill through the white grass. He leaves no prints at all. He is very light, these days.'),
+      N('Moss comes down the hill through the white grass.'),
+      N('He leaves no prints at all. He is very light, these days.'),
       N('He stops at the fourth post and looks at the frost on it for a long time.'),
       MOSS('Cold goes back to where it was kept. It is looking for its bed.', 'think'),
       MOSS('There is nothing under this post. There has not been for a long time. You knew that, I think, when the lantern went out.'),
@@ -416,7 +429,8 @@ export const BOOK2_SCENES: Scene[] = [
           then: [
             MOSS('Some of it. Hunger did most of the work. But that garden is cold all year round, and the cold helped.'),
             MOSS('I can smell it on her still, the way you smell smoke on a coat long after the fire.'),
-            N('Sable, at the sound of her name, turns one ear towards him. Only one. It is more than she gave anyone at midsummer.'),
+            N('Sable, at the sound of her name, turns one ear towards him.'),
+            N('Only one. It is more than she gave anyone at midsummer.'),
             MOSS('She ran from it, though. Remember that. Something in her kept wanting, all the way down.', 'soft'),
           ],
         },
@@ -648,12 +662,14 @@ export const BOOK2_SCENES: Scene[] = [
     [
       N('You didn’t find her. You found a camp: a cold fire, a dozen bowls, a dozen grey shapes watching from the trees.'),
       N('The bowls are licked clean. The firewood is stacked and tied with string, neatly, as if she meant to be back tomorrow.'),
-      N('There is frost on the string. The ashes still smell faintly of apple wood. Nobody has sat by them for days.'),
+      N('There is frost on the string. The ashes still smell faintly of apple wood.'),
+      N('Nobody has sat by them for days.'),
       N('And on a flat stone, a notebook in her hand.'),
       HAZEL('“Day 300-something. Lost count. Fed nineteen today. The brown one let me touch her ear. Took two months. Worth it.”', 'soft'),
       HAZEL('“The doctor said a year. I decided it would be a good one. I was right. I’m always right; it’s very tiring for everyone.”'),
       HAZEL('“If my grandchild reads this: I’m not sorry. I’m sorry you had to find out this way. Both are true. Lift and push.”', 'soft'),
-      N('There is one more page. The writing is newer, and harder. In two places the pen has gone through the paper.'),
+      N('There is one more page. The writing is newer, and harder.'),
+      N('In two places the pen has gone through the paper.'),
       HAZEL('“The cold comes from up the valley. I know where the fourth one went. I always knew. I hoped he’d bring it back himself.”'),
       N('…'),
       N('You think of a man leaning on a gate, waiting for it to open. You think of his hands, blue at the knuckles.'),
@@ -679,7 +695,8 @@ export const BOOK2_SCENES: Scene[] = [
           label: 'Sit down by the cold fire, and wait.',
           friendship: { nova: 2 },
           then: [
-            N('You sit by the cold fire. Rule three. The notebook is in your lap and the light goes amber, then blue.'),
+            N('You sit by the cold fire. Rule three.'),
+            N('The notebook is in your lap and the light goes amber, then blue.'),
             N('After a long time, one grey shape climbs down to the lowest branch, and stays there, and watches you breathe.'),
             NOVA('That’s further than they’ve ever come for me.', 'soft'),
           ],
@@ -705,7 +722,8 @@ export const BOOK2_SCENES: Scene[] = [
           friendship: { nova: 2 },
           then: [
             NOVA('Good. Tell her, if you get the chance. She’d rather be argued with than forgiven.', 'soft', 'nod'),
-            N('You think of the letter. Don’t be dramatic about it. You think you might be, a bit, when you see her.'),
+            N('You think of the letter. Don’t be dramatic about it.'),
+            N('You think you might be, a bit, when you see her.'),
           ],
         },
         {
@@ -723,7 +741,8 @@ export const BOOK2_SCENES: Scene[] = [
           friendship: { nova: 2 },
           then: [
             NOVA('Both are true, then.', 'soft'),
-            N('It is almost exactly what she wrote. Nova hasn’t read that page. You don’t tell her.'),
+            N('It is almost exactly what she wrote.'),
+            N('Nova hasn’t read that page. You don’t tell her.'),
           ],
         },
       ],
