@@ -9,16 +9,18 @@ import { GROVE3D } from '../config/tuning';
 export const LOAD_SAFETY_MS = GROVE3D.loadSafetyMs;
 
 /**
- * The veil over the 3D Grove while its creatures are sculpted: a label and a bar that
- * follows the scene's `loadState`. It covers the stand-ins until every figure is built,
- * then fades and goes. The time it took is kept on `window.__groveLoadMs` (from page
- * start) for device passes.
+ * The veil from the moment a slot is picked until the Grove is interactive, in both modes:
+ * while the boot's chunks download it creeps along on `step`, then in Full 3D it follows
+ * the scene's `loadState` (covering the stand-ins until every figure is built), and in
+ * Pixel it lifts on the first drawn frame. The time it took is kept on
+ * `window.__groveLoadMs` (from page start) for device passes.
  */
 export class LoadingBar {
   private readonly veil: HTMLDivElement;
   private readonly fill: HTMLSpanElement;
   private finished = false;
-  private readonly startMs = performance.now();
+  private startMs = performance.now();
+  private shown = 0;
 
   constructor(parent: HTMLElement) {
     this.veil = document.createElement('div');
@@ -41,19 +43,42 @@ export class LoadingBar {
     return this.finished;
   }
 
+  /** Boot progress before the scene exists: never backwards, never past `progress`. */
+  step(progress: number): void {
+    if (this.finished || progress <= this.shown) return;
+    this.setFill(progress);
+  }
+
+  /** The scene starts building now: the safety window counts from here, not from the downloads. */
+  restartClock(): void {
+    this.startMs = performance.now();
+  }
+
+  /** The boot failed: take the veil down at once so the error card is not hidden behind it. */
+  remove(): void {
+    this.finished = true;
+    this.veil.remove();
+  }
+
+  private setFill(progress: number): number {
+    const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
+    this.shown = Math.max(this.shown, pct / 100);
+    this.fill.style.width = `${pct}%`;
+    this.veil.setAttribute('aria-valuenow', String(pct));
+    return pct;
+  }
+
   /** Show progress (0..1); `done` lifts the veil. */
   update(progress: number, done: boolean): void {
     if (this.finished) return;
-    const pct = Math.round(Math.min(1, Math.max(0, progress)) * 100);
-    this.fill.style.width = `${pct}%`;
-    this.veil.setAttribute('aria-valuenow', String(pct));
+    this.setFill(Math.max(progress, this.shown));
     if (!done && performance.now() - this.startMs < LOAD_SAFETY_MS) return;
     if (!done)
       console.warn(`[3d] veil lifted by its ${LOAD_SAFETY_MS / 1000} s safety; still building`);
     this.finished = true;
     const ms = Math.round(performance.now());
     (window as unknown as { __groveLoadMs?: number }).__groveLoadMs = ms;
-    console.info(`[3d] Grove ready ${ms} ms after page start`);
+    console.info(`[boot] Grove ready ${ms} ms after page start`);
     this.fill.style.width = '100%';
     this.veil.classList.add('is-done');
     setTimeout(() => this.veil.remove(), 450);

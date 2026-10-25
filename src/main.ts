@@ -15,6 +15,8 @@ import { storyChunksBeforePlay } from './story-chunks';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { showTitle } from './ui/title';
 import { showUpdateNotice } from './ui/update-notice';
+import { showBootError } from './ui/boot-error';
+import { reloadOnceForUpdate } from './platform/boot-reload';
 import {
   hasWebGL2,
   isGraphicsError,
@@ -139,21 +141,37 @@ function startGame(
   eduAge?: NewEdu,
   storyline: string | null = null,
 ): void {
-  // The campaign and side-story scripts are their own chunks; a save with a story in it
-  // cannot load until they are registered, or it would drop a queued story scene. A
-  // Learning Grove save also needs its own band's educational scenes (CV2) before the
-  // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
-  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null);
-  // The 3D scene is a separate chunk, loaded only when the title picked it. A chunk that
-  // fails to load (usually a deploy replaced it) shows the reload notice, not a blank screen.
   const mode = readGraphicsPref();
   if (!hasWebGL2()) {
     showGlFailure('unsupported', mode);
     return;
   }
+  // The veil goes up the moment a slot is picked and stays until the Grove is interactive,
+  // so a cold start on a slow phone never sits on a blank screen while chunks download.
+  const loading = new LoadingBar(hudRoot);
+  loading.step(0.05);
+  // A chunk that will not load ends on a card with "Try again" and "Reload", never a blank
+  // screen; online, a missing chunk (a deploy replaced the build) reloads once by itself.
+  const failed = (err: unknown): void => {
+    loading.remove();
+    if (isChunkLoadError(err) && reloadOnceForUpdate()) return;
+    showBootError(err, () => startGame(newCampaignTrainer, eduAge, storyline));
+  };
+  // The campaign and side-story scripts are their own chunks; a save with a story in it
+  // cannot load until they are registered, or it would drop a queued story scene. A
+  // Learning Grove save also needs its own band's educational scenes (CV2) before the
+  // first scene plays. A Free Grove with no story boots without them (story-chunks.ts).
+  // The loaders forget a failed fetch, so "Try again" fetches afresh.
+  const sideStories = storyChunksBeforePlay(currentSlot(), eduAge?.band ?? null);
+  sideStories.then(
+    () => loading.step(mode === '3d' ? 0.15 : 0.8),
+    () => undefined,
+  );
+  // The 3D scene is a separate chunk, loaded only when the title picked it.
   if (mode === '3d') {
-    void import('./render3d/grove-3d-scene')
+    import('./render3d/grove-3d-scene')
       .then(async (m) => {
+        loading.step(0.1);
         // The saved creatures start sculpting in workers while the scene builds.
         m.prewarmCreatures();
         await sideStories;
@@ -164,17 +182,29 @@ function startGame(
         try {
           scene = new m.Grove3dScene(canvas);
         } catch (err) {
+          loading.remove();
           showGlFailure('failed', '3d', err);
           return;
         }
-        bootOrReport(newCampaignTrainer, eduAge, scene, storyline);
-      }, showUpdateNotice);
+        bootOrReport(newCampaignTrainer, eduAge, scene, storyline, loading);
+      }, failed);
   } else {
-    void sideStories.then(
-      () => bootOrReport(newCampaignTrainer, eduAge, null, storyline),
-      showUpdateNotice,
+    sideStories.then(
+      () => bootOrReport(newCampaignTrainer, eduAge, null, storyline, loading),
+      failed,
     );
   }
+}
+
+/**
+ * Did a lazy chunk fail to download? Chrome, Firefox and Safari word it differently, but
+ * each throws a TypeError naming the module fetch.
+ */
+function isChunkLoadError(err: unknown): boolean {
+  const text = err instanceof Error ? err.message : String(err);
+  return /dynamically imported module|module script failed|importing a module script|failed to fetch/i.test(
+    text,
+  );
 }
 
 /** Boot, or show a card with a way back if it cannot start (never a blank screen). */
@@ -183,10 +213,12 @@ function bootOrReport(
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
   storyline: string | null,
+  loading: LoadingBar,
 ): void {
   try {
-    boot(newCampaignTrainer, eduAge, scene3d, storyline);
+    boot(newCampaignTrainer, eduAge, scene3d, storyline, loading);
   } catch (err) {
+    loading.remove();
     // Only a renderer failure gets the graphics card and its "Switch to Pixel"; a bug
     // anywhere else gets the plain reload card (review D, bug 46).
     if (isGraphicsError(err)) showGlFailure('failed', scene3d ? '3d' : 'pixel', err);
@@ -202,6 +234,7 @@ function boot(
   eduAge: NewEdu | undefined,
   scene3d: Grove3dScene | null,
   storyline: string | null,
+  loading: LoadingBar,
 ): void {
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
@@ -248,14 +281,15 @@ function boot(
 
   // ---------- fps + lifecycle ----------
 
-  // The 3D Grove opens behind a loading bar until its creatures are sculpted.
-  const loading = scene3d ? new LoadingBar(hudRoot) : null;
+  // The 3D Grove stays behind the veil until its creatures are sculpted (the safety window
+  // counts from here, not from the downloads); the Pixel Grove lifts it on its first frame.
+  if (scene3d) loading.restartClock();
 
   function fpsLoop(now: number): void {
     if (!document.hidden) fps.tick(now);
-    if (loading && scene3d && !loading.done) {
+    if (scene3d && !loading.done) {
       const s = scene3d.loadState();
-      loading.update(s.progress, s.done);
+      loading.update(0.2 + 0.8 * s.progress, s.done);
     }
     requestAnimationFrame(fpsLoop);
   }
@@ -276,8 +310,39 @@ function boot(
   // Install-to-home-screen: the service worker only runs on the built site. boot() runs
   // after a slot is picked, long after `load` has fired, so register straight away.
   if (import.meta.env.PROD && 'serviceWorker' in navigator) {
-    navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => undefined);
+    navigator.serviceWorker
+      .register(`${import.meta.env.BASE_URL}sw.js`)
+      .then(applyWaitingWorker, () => undefined);
   }
 
   game.start();
+  if (!scene3d) requestAnimationFrame(() => requestAnimationFrame(() => loading.update(1, true)));
+}
+
+/**
+ * Updates apply on the next load, never mid-play. A deploy installs a new worker, which
+ * waits while open pages run on the old one and its cache. The next load fetches the page
+ * and its chunks network-first, so it already runs the new build; only then is the waiting
+ * worker told to take over (it carries the hashed chunks over and drops the old cache).
+ * Offline, the page may be the cached old shell, so the old worker and cache are kept.
+ */
+function applyWaitingWorker(reg: ServiceWorkerRegistration | undefined): void {
+  // Some hosts and test drivers answer the registration with nothing at all.
+  if (!reg) return;
+  const bootedAt = performance.now();
+  const take = (w: ServiceWorker | null): void => {
+    if (w && navigator.serviceWorker.controller && navigator.onLine !== false) {
+      w.postMessage({ type: 'skip-waiting' });
+    }
+  };
+  take(reg.waiting);
+  // The browser checks for a new worker on this very load, so one may still be installing.
+  // It belongs to the build this page fetched only if it lands soon after boot; one found
+  // later (a deploy during a long session) waits for the next load.
+  reg.addEventListener('updatefound', () => {
+    const w = reg.installing;
+    w?.addEventListener('statechange', () => {
+      if (w.state === 'installed' && performance.now() - bootedAt < 60_000) take(w);
+    });
+  });
 }
