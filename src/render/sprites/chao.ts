@@ -3,7 +3,7 @@ import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
-import { C, lightOf, shadeOf } from './palette';
+import { C, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
 import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
 import { PixelCanvas } from './pixel-canvas';
 
@@ -30,6 +30,8 @@ export interface ChaoColors {
   eye: number;
   glint: number;
   outline: number;
+  /** A second evolution's tell colour (see `ChaoShape.tellType`); unset otherwise. */
+  tell?: number;
 }
 
 export const CHILD_NEUTRAL: ChaoColors = {
@@ -114,6 +116,60 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
   }
 }
 
+/**
+ * The five type hues, the same as the 3D `TYPE_COLORS` (samples/nubbin-variants.ts; a test
+ * keeps the two equal). The pixel palette is mapped from them, nearest colour first.
+ */
+export const TYPE_HEX: Record<NubbinType, { body: string; shade: string; belly: string }> = {
+  normal: { body: '#3ec9d6', shade: '#1a8fa6', belly: '#d2f6ff' },
+  swim: { body: '#86d94a', shade: '#3f9a2a', belly: '#e6ffb8' },
+  fly: { body: '#ff86c2', shade: '#c84d8f', belly: '#ffd9ec' },
+  run: { body: '#3b6cf0', shade: '#1f3db0', belly: '#c0d4ff' },
+  power: { body: '#ff6a2a', shade: '#b8360e', belly: '#ffd2a6' },
+};
+
+/**
+ * A second evolution's palette, after the 3D recipe (`samples/nubbin-variants-second.ts`):
+ * the first type's hue blended 55% toward the second's, through the band's recipe (Neutral
+ * wears it, Sun keeps a pale body with the hue in the shade, Moon deepens it into the body),
+ * and a `tell` colour from the second type for its half-strength tells. Each blend skips the
+ * first evolution's own colour, so a second evolution never looks unchanged, Normal included.
+ */
+export function secondColors(
+  band: 'sun' | 'moon' | 'neutral',
+  type: NubbinType,
+  second: NubbinType,
+): ChaoColors {
+  const first = adultColors(band, type);
+  const a = TYPE_HEX[type];
+  const b = TYPE_HEX[second];
+  const hue = {
+    body: mixHex(a.body, b.body, 0.55),
+    shade: mixHex(a.shade, b.shade, 0.55),
+    belly: mixHex(a.belly, b.belly, 0.55),
+  };
+  const tellHex = mixHex(b.body, a.body, 0.3);
+  const out: ChaoColors = { ...first };
+  if (band === 'neutral') {
+    out.body = nearestIndex(hue.body, [first.body]);
+    out.shade = nearestIndex(hue.shade, [first.shade, out.body]);
+    out.belly = nearestIndex(hue.belly, [out.body]);
+    out.tell = nearestIndex(tellHex, [out.body]);
+  } else if (band === 'sun') {
+    out.shade = nearestIndex(hue.body, [first.shade, first.body]);
+    out.tell = nearestIndex(mixHex(tellHex, '#ffffff', 0.1), [first.body]);
+  } else {
+    out.body = nearestIndex(mixHex(hue.body, '#000000', 0.4), [
+      first.body,
+      first.shade,
+      C.ink,
+      C.darkPlum,
+    ]);
+    out.tell = nearestIndex(mixHex(tellHex, '#000000', 0.25), [out.body, C.ink]);
+  }
+  return out;
+}
+
 /** Body colours by egg colour. The egg's colour is the Nubbin's colour for life. */
 export const VARIANT_COLORS: Record<string, { body: number; shade: number; belly: number }> = {
   sky: { body: C.water, shade: C.deepWater, belly: C.shallows },
@@ -156,20 +212,22 @@ export function variantColors(
   tone: string | null = null,
   band: 'sun' | 'moon' | 'neutral' | null = null,
 ): ChaoColors {
-  // Jewels are the stone through and through: never two-tone or shiny, whatever the band.
+  let out = { ...base };
+  // A jewel keeps its stone in every form (no Sun belly or Moon shade), but two-tone and
+  // shiny still go on top of it, as the 3D look does (`render3d/looks.ts`, `tint`).
   const j = JEWEL_COLORS[eggColor];
   if (j) {
     const { body, shade, belly, tip } = j;
-    return { ...base, body, shade, belly, tip, tipShade: shade, wing: tip, glint: C.white };
+    out = { ...out, body, shade, belly, tip, tipShade: shade, wing: tip, glint: C.white };
   }
-  let out = { ...base };
-  const v = VARIANT_COLORS[eggColor];
+  const v = j ? undefined : VARIANT_COLORS[eggColor];
   if (v) {
     out = { ...out, body: v.body, shade: v.shade, belly: v.belly };
     if (band === 'sun') out.belly = C.white;
     if (band === 'moon') out.shade = C.darkPlum;
   }
-  const t = tone ? VARIANT_COLORS[tone] : undefined;
+  // A two-tone may be a plain colour or a jewel, as in 3D.
+  const t = tone ? (VARIANT_COLORS[tone] ?? JEWEL_COLORS[tone]) : undefined;
   if (t) out = { ...out, belly: t.body, tip: t.body, tipShade: t.shade };
   if (shiny) out = { ...out, outline: C.white, glint: C.cream, wing: C.white };
   return out;
@@ -267,7 +325,13 @@ export function shapeFor(
     }
   };
   apply(type, 1);
-  if (second && second !== type) apply(second, 0.5);
+  if (second) {
+    // Normal has no silhouette tell of its own: a taller crown stands in for it, so an
+    // untrained "–Normal" second evolution still changes shape (review 2026-10-24).
+    if (second !== type) apply(second, 0.5);
+    s.tellType = second;
+    if (second === 'normal') s.crownLift = 2;
+  }
   return s;
 }
 
@@ -290,6 +354,10 @@ export interface ChaoPose {
   waterline: boolean;
   /** Head tilt in px for sad and sleep poses. */
   headDrop: number;
+  /** Rosy cheeks (the love pose). */
+  blush?: boolean;
+  /** Quarter turns clockwise, applied to the finished frame (the tumble roll). */
+  spin?: number;
 }
 
 const BASE: ChaoPose = {
@@ -376,6 +444,21 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         legs: 'tucked',
         arms: 'out',
       };
+    case 'love':
+      // Eyes squeezed happy, hands up to the cheeks, a little rise and settle, pink cheeks.
+      return {
+        ...BASE,
+        eyes: 'happy',
+        mouth: 'smile',
+        arms: 'up',
+        wings: frame as 0 | 1,
+        lift: frame === 0 ? -1 : 0,
+        squash: frame === 0 ? 1.02 : 0.97,
+        blush: true,
+      };
+    case 'tumble':
+      // Thrown: curled up, eyes wide, rolling a quarter turn a frame.
+      return { ...BASE, eyes: 'wide', mouth: 'open', arms: 'out', legs: 'tucked', spin: frame % 4 };
   }
 }
 
@@ -996,12 +1079,21 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   const tail = partStyle(look.parts.tail);
   const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 
+  // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
+  const tellType = look.colors.tell === undefined ? null : (look.shape.tellType ?? null);
+  const tell = look.colors.tell ?? col.tip;
+  const wingLook = tellType === 'fly' ? { ...look, colors: { ...col, wing: tell } } : look;
+  const armLook = tellType === 'power' ? { ...look, colors: { ...col, body: tell } } : look;
+  const lift = look.shape.crownLift ?? 0;
+  const crownL = lift ? { ...L, headCy: L.headCy - lift } : L;
+  const crownCol = tellType === 'normal' ? { ...col, tip: tell } : col;
+
   // Back layer: wings/back part and tail behind the body for front-ish views.
-  drawWings(pc, angle, pose, L, look, false);
+  drawWings(pc, angle, pose, L, wingLook, false);
   if (tail && fromFront) drawTail(pc, angle, L, tail);
 
   // Legs and body.
-  drawLegs(pc, angle, pose, L, col);
+  drawLegs(pc, angle, pose, L, tellType === 'run' ? { ...col, shade: tell } : col);
   if (!pose.waterline) {
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx, L.bodyRy, col.body);
     pc.ellipse(L.bodyCx + 1, L.bodyCy + 1, L.bodyRx - 1, L.bodyRy - 1, col.shade);
@@ -1016,11 +1108,17 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
   }
 
-  if (angle === 'back' || angle === 'backQuarter') drawArms(pc, angle, pose, L, look);
+  if (angle === 'back' || angle === 'backQuarter') drawArms(pc, angle, pose, L, armLook);
 
   // Head.
-  drawCrown(pc, angle, pose, L, col);
-  drawHeadFins(pc, angle, L, col, look.shape.headFins);
+  drawCrown(pc, angle, pose, crownL, crownCol);
+  drawHeadFins(
+    pc,
+    angle,
+    L,
+    tellType === 'swim' ? { ...col, shade: tell } : col,
+    look.shape.headFins,
+  );
   pc.ellipse(L.headCx, L.headCy, L.headRx, L.headRy, col.body);
   pc.ellipse(L.headCx + 1, L.headCy + 2, L.headRx - 1, L.headRy - 1, col.shade);
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
@@ -1081,7 +1179,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.dot(L.headCx + 3, ny + 3.5, shadeOf(sc));
   }
 
-  if (fromFront) drawArms(pc, angle, pose, L, look);
+  if (fromFront) drawArms(pc, angle, pose, L, armLook);
   drawFace(pc, angle, pose, L, col);
   if (look.glasses && angle !== 'back' && angle !== 'backQuarter') {
     const ey = L.headCy + 1;
@@ -1102,7 +1200,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   }
 
   // Front layer: wings over the body for back views, tail in front for back views.
-  drawWings(pc, angle, pose, L, look, true);
+  drawWings(pc, angle, pose, L, wingLook, true);
   if (tail && !fromFront) drawTail(pc, angle, L, tail);
 
   if (pose.waterline) {
@@ -1111,8 +1209,14 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.bodyCx + 8, L.bodyCy, C.white);
   }
 
+  if (pose.blush && angle !== 'back' && angle !== 'backQuarter') {
+    const cy = L.headCy + 2;
+    if (angle !== 'side') pc.px(L.headCx - 5 + (angle === 'frontQuarter' ? 1 : 0), cy, C.rose);
+    pc.px(L.headCx + (angle === 'side' ? 3 : 4), cy, C.rose);
+  }
+
   pc.finish(col.outline, [col.eye, col.glint, C.white]);
-  return pc;
+  return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
 /** Every clip at every drawn angle, baked into one sheet. */

@@ -288,6 +288,47 @@ export class PixelCanvas {
     }
   }
 
+  /**
+   * A copy turned `q` quarter turns clockwise about the middle of what is drawn (so a
+   * rolling sprite stays where it was rather than swinging round the cell's centre).
+   */
+  rotatedQuarter(q: number): PixelCanvas {
+    const turns = ((q % 4) + 4) % 4;
+    if (turns === 0) return this;
+    const w = this.width;
+    const h = this.height;
+    let x0 = w;
+    let y0 = h;
+    let x1 = -1;
+    let y1 = -1;
+    for (let y = 0; y < h; y++)
+      for (let x = 0; x < w; x++) {
+        if ((this.data[y * w + x] ?? 0) === 0) continue;
+        x0 = Math.min(x0, x);
+        x1 = Math.max(x1, x);
+        y0 = Math.min(y0, y);
+        y1 = Math.max(y1, y);
+      }
+    const out = new PixelCanvas(this.logicalWidth, this.logicalHeight);
+    if (x1 < 0) return out;
+    // Twice the centre, so odd and even spans both turn onto whole pixels.
+    const cx2 = x0 + x1;
+    const cy2 = y0 + y1;
+    for (let y = y0; y <= y1; y++)
+      for (let x = x0; x <= x1; x++) {
+        const v = this.data[y * w + x] ?? 0;
+        if (v === 0) continue;
+        const dx = 2 * x - cx2;
+        const dy = 2 * y - cy2;
+        const [rx, ry] = turns === 1 ? [-dy, dx] : turns === 2 ? [-dx, -dy] : [dy, -dx];
+        const tx = Math.round((rx + cx2) / 2);
+        const ty = Math.round((ry + cy2) / 2);
+        if (tx < 0 || ty < 0 || tx >= w || ty >= h) continue;
+        out.data[ty * w + tx] = v;
+      }
+    return out;
+  }
+
   mirrored(): PixelCanvas {
     const out = new PixelCanvas(this.logicalWidth, this.logicalHeight);
     out.blit(this, 0, 0, true);
