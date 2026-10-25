@@ -1,0 +1,229 @@
+import type * as THREE from 'three';
+import type { CreatureSpec } from '../render/sprites/creature';
+import { C, color } from '../render/sprites/palette';
+import { V, type Prim } from '../samples/sculpted';
+import type { PartSpec, SpeciesSpec } from '../samples/species';
+import type { Layout } from './art-species';
+
+/**
+ * The 3D side of the digital-line kit (render/sprites/creature-kit-digi.ts): layouts for
+ * the four-legged and fish plans, and the extras (beak, sunglasses, tusks, mane, pincers,
+ * drill nose, propeller, single eye, extra heads) sculpted onto the recipe's figure.
+ * art-species.ts asks `kitLayout` first and hands its finished spec to `patchKitSpec`.
+ */
+
+export function kitLayout(plan: CreatureSpec['plan']): Layout | null {
+  if (plan === 'quad')
+    return {
+      body: { y: 0.95, r: V(0.6, 0.5, 0.95) },
+      head: { y: 1.8, z: 0.95, r: V(0.58, 0.54, 0.58) },
+      hipY: 0.95,
+      legLen: 0.6,
+    };
+  if (plan === 'fish')
+    return {
+      body: { y: 0.9, r: V(0.85, 0.72, 1.25) },
+      head: { y: 1.15, z: 0.55, r: V(0.74, 0.62, 0.74) },
+      hipY: 0.9,
+      legLen: 0,
+    };
+  return null;
+}
+
+const sphere = (a: THREE.Vector3, r: number, c: string): Prim => ({
+  kind: 'sphere',
+  a,
+  r,
+  color: c,
+});
+const ell = (a: THREE.Vector3, radii: THREE.Vector3, c: string): Prim => ({
+  kind: 'ellipsoid',
+  a,
+  radii,
+  r: 0,
+  color: c,
+});
+const cap = (a: THREE.Vector3, b: THREE.Vector3, r: number, c: string): Prim => ({
+  kind: 'capsule',
+  a,
+  b,
+  r,
+  color: c,
+});
+const cone = (a: THREE.Vector3, b: THREE.Vector3, r: number, r2: number, c: string): Prim => ({
+  kind: 'cone',
+  a,
+  b,
+  r,
+  r2,
+  color: c,
+  blend: 0.06,
+});
+
+function boxOf(prims: Prim[], pad = 0.3): [THREE.Vector3, THREE.Vector3] {
+  const min = V(Infinity, Infinity, Infinity);
+  const max = V(-Infinity, -Infinity, -Infinity);
+  const grow = (p: THREE.Vector3, r: THREE.Vector3) => {
+    min.min(p.clone().sub(r));
+    max.max(p.clone().add(r));
+  };
+  for (const q of prims) {
+    const rr = Math.max(q.r, q.r2 ?? 0);
+    if (q.kind === 'ellipsoid') grow(q.a, q.radii!);
+    else if (q.kind === 'torus') grow(q.a, V(q.r + rr, rr, q.r + rr));
+    else {
+      grow(q.a, V(rr, rr, rr));
+      if (q.b) grow(q.b, V(rr, rr, rr));
+    }
+  }
+  return [min.subScalar(pad), max.addScalar(pad)];
+}
+
+const part = (name: string, pivot: THREE.Vector3, prims: Prim[], res = 48): PartSpec => ({
+  name,
+  pivot,
+  prims,
+  box: boxOf(prims),
+  resolution: res,
+});
+
+/** Add the kit plan's legs or flukes and the recipe's extras to a generated spec. */
+export function patchKitSpec(
+  art: CreatureSpec,
+  L: Layout,
+  c: Record<string, string>,
+  spec: SpeciesSpec,
+): SpeciesSpec {
+  const extras = art.extras ?? [];
+  if (art.plan !== 'quad' && art.plan !== 'fish' && extras.length === 0) return spec;
+  const b = L.body;
+  const h = L.head;
+  const top = h.y + h.r.y;
+  const fz = h.z + h.r.z;
+  const head: Prim[] = [...spec.head.prims];
+  const torso: Prim[] = [...spec.torso.prims];
+  const parts: PartSpec[] = [...spec.parts];
+  let gait = spec.gait;
+  let eyes = spec.eyes;
+  if (art.plan === 'quad') {
+    gait = 'quadruped';
+    const x = b.r.x * 0.6;
+    const zs = b.r.z * 0.55;
+    const legTop = b.y - b.r.y * 0.3;
+    for (const [name, sx, sz] of [
+      ['legFL', -1, 1],
+      ['legFR', 1, 1],
+      ['legBL', -1, -1],
+      ['legBR', 1, -1],
+    ] as const) {
+      const p = V(sx * x, legTop, sz * zs);
+      parts.push(
+        part(name, p, [
+          cap(p, V(sx * x, 0.2, sz * zs + 0.04), 0.17, c.body!),
+          ell(V(sx * x, 0.12, sz * zs + 0.1), V(0.2, 0.12, 0.26), c.shade!),
+        ]),
+      );
+    }
+  }
+  if (art.plan === 'fish') {
+    const root = V(0, b.y + 0.05, -b.r.z * 0.85);
+    parts.push(
+      part('tail', root, [
+        cap(root, V(0, b.y + 0.3, -b.r.z - 0.45), 0.24, c.body!),
+        ell(V(0, b.y + 0.42, -b.r.z - 0.62), V(0.62, 0.08, 0.3), c.shade!),
+      ]),
+    );
+    for (const s of [-1, 1])
+      torso.push(ell(V(s * (b.r.x + 0.05), b.y - 0.35, 0.4), V(0.35, 0.07, 0.22), c.shade!));
+    torso.push(
+      ell(V(0, b.y - b.r.y * 0.35, 0.25), V(b.r.x * 0.82, b.r.y * 0.55, b.r.z * 0.85), c.belly!),
+    );
+  }
+  const cream = color(C.cream);
+  for (const x of extras) {
+    switch (x) {
+      case 'beak':
+        head.push(
+          cone(V(0, h.y - 0.12, fz - 0.15), V(0, h.y - 0.25, fz + 0.38), 0.2, 0.03, c.accent2!),
+        );
+        break;
+      case 'shades':
+        for (const s of [-1, 1])
+          head.push(ell(V(s * h.r.x * 0.4, h.y + 0.04, fz - 0.08), V(0.25, 0.16, 0.12), '#1a1626'));
+        head.push(
+          cap(V(-0.2, h.y + 0.08, fz - 0.04), V(0.2, h.y + 0.08, fz - 0.04), 0.05, '#1a1626'),
+        );
+        break;
+      case 'tusks':
+        for (const s of [-1, 1])
+          head.push(
+            cone(
+              V(s * 0.24, h.y - h.r.y * 0.45, fz - 0.15),
+              V(s * (h.r.x * 0.8), h.y + 0.2, fz + 0.12),
+              0.1,
+              0.02,
+              cream,
+            ),
+          );
+        break;
+      case 'mane':
+        head.push(ell(V(0, h.y, h.z - 0.18), V(h.r.x * 1.45, h.r.y * 1.4, h.r.z * 0.6), c.accent!));
+        break;
+      case 'pincers':
+        for (const s of [-1, 1])
+          head.push(
+            cone(
+              V(s * 0.22, top - 0.12, h.z + 0.1),
+              V(s * 0.75, top + 0.65, h.z + 0.3),
+              0.13,
+              0.03,
+              c.accent!,
+            ),
+            cone(
+              V(s * 0.55, top + 0.3, h.z + 0.22),
+              V(s * 0.3, top + 0.42, h.z + 0.3),
+              0.06,
+              0.02,
+              c.accent!,
+            ),
+          );
+        break;
+      case 'drill':
+        head.push(
+          cone(V(0, h.y - 0.1, fz - 0.2), V(0, h.y - 0.15, fz + 0.55), 0.24, 0.02, c.accent2!),
+        );
+        break;
+      case 'propeller':
+        head.push(
+          cap(V(0, top - 0.08, h.z), V(0, top + 0.32, h.z), 0.05, c.outline!),
+          ell(V(0, top + 0.34, h.z), V(0.75, 0.04, 0.12), c.accent!),
+        );
+        break;
+      case 'sideHeads':
+        for (const s of [-1, 1]) {
+          const at = V(s * (b.r.x + 0.35), b.y + b.r.y * 0.45, 0.2);
+          torso.push(
+            cap(V(s * b.r.x * 0.8, b.y + b.r.y * 0.3, 0.05), at, 0.13, c.body!),
+            sphere(at, 0.3, s < 0 ? c.accent! : c.accent2!),
+            ell(
+              at.clone().add(V(0, -0.06, 0.25)),
+              V(0.18, 0.13, 0.2),
+              s < 0 ? c.accent! : c.accent2!,
+            ),
+          );
+        }
+        break;
+      case 'monoEye':
+        eyes = { ...eyes, x: 0, r: eyes.r * 1.5 };
+        break;
+    }
+  }
+  return {
+    ...spec,
+    gait,
+    eyes,
+    parts,
+    torso: { prims: torso, box: boxOf(torso) },
+    head: { ...spec.head, prims: head, box: boxOf(head) },
+  };
+}

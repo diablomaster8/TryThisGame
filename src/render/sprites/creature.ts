@@ -2,6 +2,13 @@ import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { poseFor, type ChaoPose } from './chao';
+import {
+  drawKitBody,
+  drawKitExtras,
+  kitAnchors,
+  type KitExtra,
+  type KitPlan,
+} from './creature-kit-digi';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 
@@ -11,7 +18,8 @@ import { PixelCanvas } from './pixel-canvas';
  * one drawer and still read as themselves at 32 px: colour, silhouette, ears, tail,
  * crest, wings and markings carry the likeness. Frames are 32×32 with feet on row 30.
  */
-export type BodyPlan = 'round' | 'biped' | 'tall' | 'shell' | 'serpent' | 'slug' | 'stalk';
+export type BodyPlan =
+  'round' | 'biped' | 'tall' | 'shell' | 'serpent' | 'slug' | 'stalk' | KitPlan;
 
 export type Ears =
   'none' | 'tallPointed' | 'round' | 'roundBig' | 'prongs' | 'horns' | 'fins' | 'catTips' | 'stubs';
@@ -70,11 +78,13 @@ export interface CreatureSpec {
   legs: Legs;
   eyes: Eyes;
   marks: Mark[];
+  /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
+  extras?: readonly KitExtra[];
 }
 
 export const CREATURE_SIZE = 32;
 
-interface Anchors {
+export interface Anchors {
   headCx: number;
   headCy: number;
   headRx: number;
@@ -105,6 +115,9 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
   let headCy: number;
   let bodyCy: number;
   switch (spec.plan) {
+    case 'quad':
+    case 'fish':
+      return kitAnchors(spec.plan, spec, pose, { angle, feetY, face, back, dir });
     case 'round':
       headRx = Math.round(9 * s);
       headRy = Math.round(8.5 * s * pose.squash);
@@ -618,6 +631,10 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
     pc.px(cx - Math.round(rx * 0.5), cy - Math.round(ry * 0.5), col.belly);
   };
   switch (spec.plan) {
+    case 'quad':
+    case 'fish':
+      drawKitBody(pc, a, spec, pose);
+      return;
     case 'shell': {
       // Legs or tentacles under a domed shell, face below the rim.
       if (!pose.waterline) {
@@ -680,6 +697,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   const a = anchors(angle, pose, spec);
   drawWings(pc, a, spec, pose, true);
   drawTail(pc, a, spec, true);
+  drawKitExtras(pc, a, spec, true);
   if (spec.plan === 'biped' || spec.plan === 'tall' || spec.plan === 'round')
     drawArmsLegs(pc, a, spec, pose);
   drawBody(pc, a, spec, pose);
@@ -687,6 +705,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawEars(pc, a, spec);
   drawCrest(pc, a, spec);
   drawFace(pc, a, spec, pose);
+  drawKitExtras(pc, a, spec, false);
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);
   if (pose.waterline) {

@@ -3,6 +3,7 @@ import type { CreatureSpec } from '../render/sprites/creature';
 import { color } from '../render/sprites/palette';
 import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
+import { kitLayout, patchKitSpec } from './art-kit-digi';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -13,7 +14,7 @@ import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
  * final forms tall. A hand-made spec can replace any of these later, by look key.
  */
 
-interface Layout {
+export interface Layout {
   body: { y: number; r: THREE.Vector3 };
   head: { y: number; z: number; r: THREE.Vector3 };
   hipY: number;
@@ -22,6 +23,8 @@ interface Layout {
 
 /** Body and head placement per plan, in the format's units (a Nubbin stands about 3.1). */
 function layout(plan: CreatureSpec['plan']): Layout {
+  const kit = kitLayout(plan);
+  if (kit) return kit;
   switch (plan) {
     case 'round':
       return {
@@ -535,7 +538,7 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const pivotY = Math.min(h.y - h.r.y * 0.55, b.y + b.r.y * 0.9);
   const eyeR = art.eyes === 'big' || art.eyes === 'cute' || art.eyes === 'stalk' ? 0.25 : 0.19;
   const wings = art.wings === 'none' ? null : art.wings;
-  return {
+  return patchKitSpec(art, L, c, {
     name,
     scale: 0.78,
     gait: 'biped',
@@ -601,5 +604,5 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
         }
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
-  };
+  });
 }
