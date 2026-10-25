@@ -52,6 +52,16 @@ function afterHatch(): { world: World; events: SimEvent[] } {
 }
 
 describe('pacing (item 1)', () => {
+  it('the hatch scene answers the hatch within seconds, not after the goal minimum', () => {
+    const { world, events } = campaignWorld();
+    playScenes(world, events);
+    c(world).stats.hatched = 1;
+    c(world).stats.pets = 1;
+    const waited = until(world, events, () => c(world).queue[0] === 'c1-close');
+    expect(waited).toBeGreaterThanOrEqual(0);
+    expect(waited * 1000).toBeLessThanOrEqual(STORY.closingSettleMs + 2000);
+  });
+
   it('a breath after the hatch, then chapter 2 opens in the morning its text names', () => {
     const { world, events } = afterHatch();
     const closedAt = world.timeMs;
@@ -66,13 +76,16 @@ describe('pacing (item 1)', () => {
     until(world, events, () => c(world).queue[0] === 'c2-open');
     playScenes(world, events);
     const opened = c(world).openedMs!;
-    // Feed twice at once: the goal is met, but the closing waits.
+    // Feed twice at once: the goal is met. The closing answers it (in its own hour), but
+    // chapter 3 still waits until the goal phase has lasted goalMinMs.
     c(world).stats.feeds = 2;
     expect(untilScene(world, events, 'c2-corvin')).toBeGreaterThan(0);
-    expect(world.timeMs - opened).toBeGreaterThanOrEqual(STORY.goalMinMs);
     const f = dayFrac(world);
     expect(f).toBeGreaterThanOrEqual(STORY.morningEndsAt);
     expect(f).toBeLessThan(STORY.duskAt);
+    playScenes(world, events);
+    until(world, events, () => c(world).chapter === 3);
+    expect(world.timeMs - opened).toBeGreaterThanOrEqual(STORY.goalMinMs);
   });
 
   it('a scene’s own follow-ups still play straight after it', () => {

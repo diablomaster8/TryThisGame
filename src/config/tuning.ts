@@ -1756,9 +1756,14 @@ export const STORY = {
   breatherMs: 60_000,
   /** Between two different side stories' or fun quests' scenes: a shorter gap. */
   sideGapMs: 20_000,
-  /** A chapter's goal phase lasts at least this long before its closing can play. */
+  /**
+   * A chapter lasts at least this long from its opening before the next chapter begins.
+   * The closing itself is not held by it: it answers the player's action (closingSettleMs).
+   */
   goalMinMs: 90_000,
-  /** Goals met by a choice inside the opening scene: no minimum, the closing follows. */
+  /** After the goal is met, the closing waits only this long past the last scene. */
+  closingSettleMs: 4_000,
+  /** Goals met by a choice inside the opening scene: no minimum before the next chapter. */
   goalsInOpening: ['corvinChoice', 'finalChoice'] as readonly string[],
   /** Chapter scenes whose first line names a time of day wait for that part of the day. */
   sceneTime: {

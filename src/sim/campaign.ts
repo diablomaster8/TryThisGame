@@ -433,10 +433,17 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     if (!goalMet(world, c)) return;
     c.goalMetMs ??= world.timeMs;
     if (closingHeld(world, c)) return;
-    // The goal phase is played, not skipped in seconds; then a breath, then its hour.
-    const quick = STORY.goalsInOpening.includes(def.goal);
-    if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + STORY.goalMinMs) return;
-    if (resting(world, c)) return;
+    // The closing answers what the player just did, so it follows the goal after a short
+    // settle; the goal phase's minimum and the breather hold the next opening instead.
+    // A side story that opened in this chapter still gets the whole goal phase to run
+    // (S31's dawn and dusk steps need it before Gourd Night holds the closing).
+    if (c.queue.length > 0) return;
+    const opened = c.openedMs ?? world.timeMs;
+    const sideBusy = Object.values(c.side).some((s) => s.status === 'open' && s.openedMs >= opened);
+    const quickGoal = STORY.goalsInOpening.includes(def.goal);
+    if (sideBusy && !quickGoal && world.timeMs < opened + STORY.goalMinMs) return;
+    if (sideBusy ? resting(world, c) : c.rest && world.timeMs < c.rest.atMs + STORY.closingSettleMs)
+      return;
     if (c.chapter !== 10 && !sceneTimeHolds(world.timeMs, def.closing)) return;
     c.step = 2;
     if (c.chapter === 10) {
@@ -475,6 +482,9 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     return;
   }
   if (nextChapterHeld(world, c)) return;
+  // The goal phase is played, not skipped in seconds: a chapter lasts at least goalMinMs.
+  const quick = STORY.goalsInOpening.includes(def.goal);
+  if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + STORY.goalMinMs) return;
   // A breath after the closing, and the next opening's hour, before the chapter card.
   const next = chapterDef(c.chapter + 1);
   if (resting(world, c) || (next && !sceneTimeHolds(world.timeMs, next.opening))) return;
