@@ -1,4 +1,5 @@
 import type { AlignmentBand, Nubbin, NubbinType } from './types';
+import { DIGI2_SPECIES } from './species-digi2';
 
 /**
  * Species: what hatches from an egg and what it grows into. The Chao line is the
@@ -92,7 +93,9 @@ export const SPECIES: readonly Species[] = [
   P('clawnymph', 'Anorith', 'baby', 'swim', { kind: 'fixed', to: 'clawknight' }),
   P('clawknight', 'Armaldo', 'final', 'power'),
 
-  // ---- digi: the original 1997 line ----
+  // ---- digi: the original 1997 line, Ver.1. Agumon reaches champions 1, 2, 3, 4 and 7
+  // (Greymon, Tyrannomon, Devimon, Meramon, Numemon), Betamon 3 to 7; Greymon, Devimon and
+  // Airdramon become MetalGreymon, the other three Mamemon, Numemon Monzaemon. ----
   D('fuzzlet', 'Botamon', 'baby', 'normal', { kind: 'fixed', to: 'chompet' }),
   D('chompet', 'Koromon', 'baby', 'normal', {
     kind: 'byType',
@@ -107,20 +110,22 @@ export const SPECIES: readonly Species[] = [
   }),
   D('croaklet', 'Betamon', 'grown', 'swim', {
     kind: 'byType',
-    map: { fly: 'skyserpent', swim: 'seaserpent', power: 'blazeman', run: 'seaserpent' },
+    map: { fly: 'skyserpent', swim: 'seaserpent', power: 'blazeman', run: 'shadeling' },
     fallback: 'seaserpent',
     poor: 'slugbert',
   }),
   D('hornsaur', 'Greymon', 'champion', 'power', { kind: 'fixed', to: 'ironsaur' }),
   D('redsaur', 'Tyrannomon', 'champion', 'run', { kind: 'fixed', to: 'beanbot' }),
-  D('shadeling', 'Devimon', 'champion', 'fly', { kind: 'fixed', to: 'beanbot' }),
+  D('shadeling', 'Devimon', 'champion', 'fly', { kind: 'fixed', to: 'ironsaur' }),
   D('blazeman', 'Meramon', 'champion', 'power', { kind: 'fixed', to: 'beanbot' }),
   D('slugbert', 'Numemon', 'champion', 'normal', { kind: 'fixed', to: 'hugbear' }),
-  D('skyserpent', 'Airdramon', 'champion', 'fly', { kind: 'fixed', to: 'beanbot' }),
+  D('skyserpent', 'Airdramon', 'champion', 'fly', { kind: 'fixed', to: 'ironsaur' }),
   D('seaserpent', 'Seadramon', 'champion', 'swim', { kind: 'fixed', to: 'beanbot' }),
   D('ironsaur', 'MetalGreymon', 'final', 'power'),
   D('beanbot', 'Mamemon', 'final', 'normal'),
   D('hugbear', 'Monzaemon', 'final', 'normal'),
+  // ---- digi: Versions 2 to 5 ----
+  ...DIGI2_SPECIES,
 ];
 
 /**

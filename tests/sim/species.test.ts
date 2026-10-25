@@ -48,7 +48,7 @@ describe('species data', () => {
     }
     expect(speciesByFamily('pocket', 'baby')).toHaveLength(15);
     const digi = speciesByFamily('digi');
-    expect(digi).toHaveLength(14);
+    expect(digi).toHaveLength(70);
     expect(new Set(digi.map((s) => s.ref))).toContain('MetalGreymon');
   });
 

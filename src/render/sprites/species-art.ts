@@ -1,5 +1,6 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
+import { DIGI2_ART } from './species-art-digi2';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -448,6 +449,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     marks: ['belly'],
     crest: 'bow',
   }),
+  // ---- digital line, Versions 2 to 5 ----
+  ...DIGI2_ART,
 };
 
 export function speciesArt(id: string): CreatureSpec | undefined {
