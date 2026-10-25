@@ -45,11 +45,12 @@ describe('trainers', () => {
     expect(swimmers).toBeGreaterThan(100);
   });
 
-  it('digital-line eggs always start at the first baby', () => {
+  it('digital-line eggs always start at a first hatchling', () => {
     const rng = Rng.fromSeed(5);
+    const firsts = new Set(['fuzzlet', 'jellop', 'driftlet', 'fluffseed', 'oozlet']);
     for (let i = 0; i < 50; i++) {
       const s = rollEggSpecies(trainerOf('byte'), rng);
-      if (speciesOf(s).family === 'digi') expect(s).toBe('fuzzlet');
+      if (speciesOf(s).family === 'digi') expect(firsts.has(s), s).toBe(true);
     }
   });
 

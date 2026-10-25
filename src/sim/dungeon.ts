@@ -442,6 +442,13 @@ function generateV1(seed: number, depth: number): Floor {
   return floor;
 }
 
+/** The baby species a version-1 floor's wild spots pick from, in their frozen order. */
+const V1_WILD_BABIES = [
+  ...['zapling', 'starbud', 'puffbud', 'shellbit', 'scrapper', 'kissbud', 'plugbud', 'emberbud'],
+  ...['droplet', 'grinlet', 'spiralshell', 'domeshell', 'skyfang', 'lilystalk', 'clawnymph'],
+  ...['fuzzlet', 'chompet'],
+];
+
 /**
  * Loot, strays and wild creatures on dry open floor away from the stairs. Shared by both
  * generators; the order of the rng calls is part of version 1's frozen output.
@@ -498,7 +505,11 @@ export function scatterFinds(
     const cell = pickOpen(7) ?? pickOpen(3);
     if (cell) floor.strayStarts.push(cell);
   }
-  const babies = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby');
+  // Version-1 floors keep the wild pool they were frozen with; later species join version 2.
+  const babies =
+    floor.version <= 1
+      ? V1_WILD_BABIES.map((id) => ({ id }))
+      : SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby');
   const wildCount = DUNGEON.wildPerFloor + Math.floor((depth - 1) / 3);
   for (let i = 0; i < wildCount && babies.length > 0; i++) {
     const cell = pickOpen(6) ?? pickOpen(3);

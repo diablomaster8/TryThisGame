@@ -1,5 +1,6 @@
 import type { Rng } from './rng';
 import { speciesByFamily, type Family } from './species';
+import { DIGI_EGGS } from '../config/tuning-digi';
 import type { KeeperAlignment, NubbinType } from './types';
 
 /**
@@ -251,8 +252,8 @@ export function rollEggSpecies(trainer: Trainer, rng: Rng): string {
   if (trainer.id === 'dusty' && family === 'pocket') {
     babies = babies.filter((s) => FOSSIL_BABIES.has(s.id));
   }
-  // Within the digital line only the first baby hatches from an egg.
-  if (family === 'digi') return 'fuzzlet';
+  // A digital-line egg holds one version's first hatchling, never a later baby.
+  if (family === 'digi') return rng.weighted({ ...DIGI_EGGS });
   const weights: Record<string, number> = {};
   for (const s of babies) weights[s.id] = s.type === trainer.favourite ? 3 : 1;
   return rng.weighted(weights);
