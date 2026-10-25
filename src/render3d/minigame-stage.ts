@@ -64,6 +64,7 @@ export class MiniStage {
     this.sky = new GroveSky(this.renderer, this.scene);
     this.sky.set(hour, daylightAt(hour), 'clear', this.focus);
     this.bursts = new Bursts(this.scene);
+    this.bursts.calm = this.reduceMotion;
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     // Tone mapping, the sRGB encode, the clamp and the grade in one draw (they were three).

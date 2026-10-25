@@ -58,12 +58,23 @@ const LOOK: Record<BurstKind, { shape: QuadShape; size: number; additive: boolea
     heart: { shape: 'heart', size: 0.34, additive: false, spin: 0 },
   };
 
+/** Reduced motion: at most this many glints a burst, drawn this close, for this long. */
+export const CALM = { count: 3, spread: 0.4, lifeMs: 700 };
+/** Under reduced motion a glint neither falls, drifts nor flutters. */
+const STILL = { gravity: 0, drag: 0, flutter: 0, lands: false };
+
 export class Bursts {
   /** Every burst in one quad cloud (art pass 2: shaped, turning, soft-edged). */
   private readonly cloud: QuadCloud;
   private readonly list: Particle[] = [];
   private readonly c = new THREE.Color();
   private seed = 1;
+  /**
+   * Reduced motion (the in-game setting or the system's): a burst becomes a few still
+   * glints where it happened, held briefly and faded, with no flight, flutter, spin,
+   * twinkle or growth. The feedback stays; the movement goes.
+   */
+  calm = false;
 
   constructor(parent: THREE.Object3D) {
     this.cloud = new QuadCloud(parent, MAX);
@@ -87,15 +98,18 @@ export class Bursts {
     o: { spread: number; speed: number; rise: number; lifeMs: number },
     nowMs: number,
   ): void {
-    for (let i = 0; i < count && this.list.length < MAX; i++) {
+    const calm = this.calm;
+    const n = calm ? Math.min(count, CALM.count) : count;
+    for (let i = 0; i < n && this.list.length < MAX; i++) {
       const a = this.rand() * Math.PI * 2;
-      const r = this.rand() * o.spread;
-      const s = o.speed * (0.5 + this.rand() * 0.5);
+      const r = this.rand() * o.spread * (calm ? CALM.spread : 1);
+      const s = calm ? 0 : o.speed * (0.5 + this.rand() * 0.5);
+      const rise = calm ? 0 : o.rise + this.rand() * 0.6;
       this.list.push({
         p: at.clone().add(new THREE.Vector3(Math.cos(a) * r, this.rand() * 0.3, Math.sin(a) * r)),
-        v: new THREE.Vector3(Math.cos(a) * s, o.rise + this.rand() * 0.6, Math.sin(a) * s),
+        v: new THREE.Vector3(Math.cos(a) * s, rise, Math.sin(a) * s),
         born: nowMs,
-        life: o.lifeMs * (0.7 + this.rand() * 0.3),
+        life: Math.min(calm ? CALM.lifeMs : Infinity, o.lifeMs) * (0.7 + this.rand() * 0.3),
         kind,
         phase: this.rand() * 6.28,
       });
@@ -110,7 +124,7 @@ export class Bursts {
         this.list.splice(i, 1);
         continue;
       }
-      const f = MOTION[q.kind];
+      const f = this.calm ? STILL : MOTION[q.kind];
       q.v.y -= f.gravity * dt;
       q.v.multiplyScalar(Math.exp(-f.drag * dt));
       if (f.flutter) q.v.x += Math.sin(nowMs / 300 + q.phase) * dt * f.flutter;
@@ -127,17 +141,20 @@ export class Bursts {
       this.c.set(palette[Math.floor(q.phase * 10) % palette.length]!);
       // Fade over the last fifth of a life (dust also thins as it spreads); sparkles twinkle.
       let fade = Math.min(1, (q.life - age) / (q.life * 0.2));
-      if (q.kind === 'sparkle') fade *= 0.65 + 0.35 * Math.sin(nowMs / 60 + q.phase * 3);
+      if (q.kind === 'sparkle' && !this.calm)
+        fade *= 0.65 + 0.35 * Math.sin(nowMs / 60 + q.phase * 3);
       if (q.kind === 'dust') fade *= 0.75;
-      const grow =
-        q.kind === 'dust'
+      const grow = this.calm
+        ? 1
+        : q.kind === 'dust'
           ? 1 + (age / q.life) * 1.2
           : q.kind === 'heart'
             ? Math.min(1, age / 140)
             : 1;
       // Leaves stop turning once they land.
       const still = f.lands && q.v.lengthSq() === 0;
-      const rot = q.phase + (still ? 0 : (age / 1000) * look.spin * (q.phase > 3.14 ? 1 : -1));
+      const rot =
+        q.phase + (still || this.calm ? 0 : (age / 1000) * look.spin * (q.phase > 3.14 ? 1 : -1));
       this.cloud.set(q.p.x, q.p.y, q.p.z, this.c, fade, look.size * grow, look.shape, {
         rot,
         additive: look.additive,

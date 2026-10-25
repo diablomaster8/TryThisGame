@@ -1251,6 +1251,8 @@ export class Grove3dScene {
       ? world.nubbins.filter((n) => run.party.includes(n.id)).map((n) => n.pos)
       : [];
     this.hollow.lamps.reduceMotion = this.reduceMotion;
+    this.bursts.calm = this.reduceMotion;
+    this.actors.calm = this.reduceMotion;
     this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.
@@ -1337,7 +1339,8 @@ export class Grove3dScene {
     if (this.camPos.y < floor) this.camPos.y = floor;
     // Shake: the same rule as the pixel camera (the Settings switch), in 3D units.
     if (this.pendingShake > 0) {
-      if (world.settings.screenShake)
+      // Reduced motion holds the camera still whatever the shake switch says (as in Pixel).
+      if (world.settings.screenShake && !this.reduceMotion)
         this.shakeAmount = Math.max(this.shakeAmount, this.pendingShake);
       this.pendingShake = 0;
     }

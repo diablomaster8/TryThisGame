@@ -324,12 +324,22 @@ export class Actors {
             : spot;
   }
 
+  /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
+  calm = false;
+
   sparkle(x: number, z: number, y: number, nowMs: number): void {
-    for (let i = 0; i < 8 && this.sparks.length < 96; i++) {
-      const a = (i / 8) * Math.PI * 2;
+    const n = this.calm ? 3 : 8;
+    for (let i = 0; i < n && this.sparks.length < 96; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const r = this.calm ? 0.18 : 0;
+      const k = this.calm ? 0 : 1;
       this.sparks.push({
-        p: new THREE.Vector3(x, this.ground(x, z) + y, z),
-        v: new THREE.Vector3(Math.cos(a) * 0.9, 1.4 + (i % 3) * 0.3, Math.sin(a) * 0.9),
+        p: new THREE.Vector3(x + Math.cos(a) * r, this.ground(x, z) + y, z + Math.sin(a) * r),
+        v: new THREE.Vector3(
+          Math.cos(a) * 0.9 * k,
+          (1.4 + (i % 3) * 0.3) * k,
+          Math.sin(a) * 0.9 * k,
+        ),
         born: nowMs,
       });
     }
@@ -932,11 +942,13 @@ export class Actors {
         this.sparks.splice(i, 1);
         continue;
       }
-      s.v.y -= 3.2 * dt;
-      s.p.addScaledVector(s.v, dt);
+      if (!this.calm) {
+        s.v.y -= 3.2 * dt;
+        s.p.addScaledVector(s.v, dt);
+      }
       const fade = 1 - (nowMs - s.born) / 700;
       this.sparkCloud.set(s.p.x, s.p.y, s.p.z, SPARK, Math.min(1, fade * 1.6), 0.3, 'star', {
-        rot: (nowMs - s.born) / 300 + n++,
+        rot: (this.calm ? 0 : (nowMs - s.born) / 300) + n++,
         additive: true,
       });
     }
