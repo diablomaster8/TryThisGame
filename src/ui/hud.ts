@@ -76,6 +76,7 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
+import { EduPrompt, ObjectiveChip } from './objective';
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -294,6 +295,17 @@ export function mountHud(
   const neighbourhood = new NeighbourhoodPanel(root, game, toast);
   const map = new MapPanel(root, game, toast);
   const edu = new EduScreen(root, game, toast);
+  // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
+  const objective = new ObjectiveChip(
+    root,
+    game,
+    { journal: () => journal.open(), shop: () => shop.open() },
+    toast,
+  );
+  const eduPrompt = new EduPrompt(root, game, {
+    journal: () => journal.open(),
+    play: () => edu.open(),
+  });
   const grownUps = new GrownUpPanel(root, game, toast);
   const breakScreen = new BreakScreen(root, game, () => grownUps.open());
   const gym = new GymMenu(root, game, toast, pickRunner);
@@ -495,6 +507,12 @@ export function mountHud(
   // taps, and the scene picks up where it was once the last one closes (review 2026-10-18).
   // The debug panel is deliberately not one of them: it stays open through time-skips, and
   // a scene under it must keep taking taps (review B, bug 25).
+  // r1025 item 2: a Grove scene takes the screen; the panels and the sheet close first, so
+  // nothing sits over it and no focused sheet button keeps Space and Enter.
+  dialogue.onStart = (external) => {
+    eduPrompt.hide();
+    if (!external) stack.closeAll();
+  };
   dialogue.waitWhile(
     () =>
       stack.anyOpen() ||
@@ -684,6 +702,21 @@ export function mountHud(
       if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
         breakScreen.show();
       placingChip.hidden = !g.placing;
+      {
+        // r1025 items 3 and 4: off during scenes, minigames, panels and notices.
+        const busy =
+          dialogue.isOpen ||
+          !!(c?.queue[0] && dialogue.shouldPlay(c.queue[0])) ||
+          stack.anyOpen() ||
+          away.isOpen ||
+          celebration.isOpen ||
+          edu.isOpen() ||
+          breakScreen.isOpen() ||
+          journal.isTracing() ||
+          g.catchingUp;
+        eduPrompt.refresh(busy);
+        objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
+      }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (
         isEdu &&

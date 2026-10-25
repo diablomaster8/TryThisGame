@@ -22,7 +22,7 @@ import { endingKey, getShots, thumbKey } from './u4-store';
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
  * the chapter's title, goal and hint, and each quest's title and step goals.
  */
-function eduJournal(g: Game) {
+export function eduJournal(g: Game) {
   const band = textBandOf(g.world);
   const m = eduContent();
   if (band === 'main' || !m) return null;
