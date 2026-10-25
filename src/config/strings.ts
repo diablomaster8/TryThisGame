@@ -352,6 +352,13 @@ export const UI_TEXT = {
   exportUnreadable: 'Export the save that could not be opened',
   updateNotice: 'A new version of the Grove is out. Reload to update.',
   updateReload: 'Reload to update',
+  /** The boot card when a part of the game would not download (boot agent, 2026-10-25). */
+  bootFailed: {
+    offline: 'The Grove could not finish loading. Check the connection, then try again.',
+    online: 'Part of the Grove would not load. A reload usually fixes it.',
+    retry: 'Try again',
+    reload: 'Reload',
+  },
   glFailure: {
     unsupported: 'This browser cannot draw the Grove: it needs WebGL2. Try an up-to-date browser.',
     failed: 'The Grove’s graphics would not start on this device.',
