@@ -4,6 +4,7 @@ import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { poseFor, type ChaoPose } from './chao';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
+import { drawExtras, type Extra } from './creature-extras';
 
 /**
  * A generic chibi creature drawer for the non-Chao families. Every species is a body
@@ -62,6 +63,8 @@ export interface CreatureSpec {
   /** 0.8 small baby … 1.25 big final form. */
   size: number;
   colors: CreaturePalette;
+  /** Signature parts the base kit lacks (creature-extras.ts), drawn by both renderers. */
+  addons?: readonly Extra[];
   ears: Ears;
   tail: Tail;
   crest: Crest;
@@ -74,7 +77,7 @@ export interface CreatureSpec {
 
 export const CREATURE_SIZE = 32;
 
-interface Anchors {
+export interface Anchors {
   headCx: number;
   headCy: number;
   headRx: number;
@@ -678,6 +681,7 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
 export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): PixelCanvas {
   const pc = new PixelCanvas(CREATURE_SIZE, CREATURE_SIZE);
   const a = anchors(angle, pose, spec);
+  drawExtras(pc, a, spec, pose, true);
   drawWings(pc, a, spec, pose, true);
   drawTail(pc, a, spec, true);
   if (spec.plan === 'biped' || spec.plan === 'tall' || spec.plan === 'round')
@@ -689,6 +693,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawFace(pc, a, spec, pose);
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);
+  drawExtras(pc, a, spec, pose, false);
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }

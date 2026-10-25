@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
+import { extraPrims } from './art-species-extras';
 import { color } from '../render/sprites/palette';
 import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
@@ -532,6 +533,10 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   else torso.push(sphere(V(0, b.y + b.r.y * 0.85, h.z * 0.5), 0.28, c.body!, 'neck'));
   const feature = headFeatures(art, L, c);
   const headPrims: Prim[] = [ell(V(0, h.y, h.z), h.r, c.body!, 'head'), ...feature.prims];
+  // Signature add-ons (a bulb, a beak, a fan of tails...) from art-species-extras.ts.
+  const extra = extraPrims(art, L);
+  torso.push(...extra.torso);
+  headPrims.push(...extra.head);
   const pivotY = Math.min(h.y - h.r.y * 0.55, b.y + b.r.y * 0.9);
   const eyeR = art.eyes === 'big' || art.eyes === 'cute' || art.eyes === 'stalk' ? 0.25 : 0.19;
   const wings = art.wings === 'none' ? null : art.wings;
