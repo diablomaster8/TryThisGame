@@ -137,14 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
 - **Partial:** none.
 - **Known bugs:** none new. Two A14 reader `maths:` warnings stand (answers come from stated numbers).
 
-## Story review run 10 fixes (2026-10-24)
-
-All 60 run-10 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
-- **Works:** the A08–A11 bands and the A10 and A11 mains. Maui is named before he is needed; Gramma Tala's last
-  words and the A11 farewell and knighting play through without a lesson cutting in; the Friend ribbon comes off
-  Eeyore's door in every version. Reader bands use grades 3–5 social-studies codes, and 3.NF.A.3 is approved.
-- **Partial:** none. **Known bugs:** none.
-
 ## Standing approval (Maor, 2026-10-12)
 
 "When you finish, proceed straight through to the next development. I'm approving it. Keep

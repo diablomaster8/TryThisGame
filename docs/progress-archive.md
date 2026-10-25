@@ -2,6 +2,14 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 10 fixes (2026-10-24)
+
+All 60 run-10 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
+- **Works:** the A08–A11 bands and the A10 and A11 mains. Maui is named before he is needed; Gramma Tala's last
+  words and the A11 farewell and knighting play through without a lesson cutting in; the Friend ribbon comes off
+  Eeyore's door in every version. Reader bands use grades 3–5 social-studies codes, and 3.NF.A.3 is approved.
+- **Partial:** none. **Known bugs:** none.
+
 ## Story review run 9 fixes (2026-10-23)
 
 All 58 run-9 recs in `docs/story-review/LOG.md` fixed; no open recs remain.
