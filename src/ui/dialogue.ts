@@ -26,6 +26,8 @@ import { LOOK_STATE, npcLookOf, storyId } from '../config/npc-looks';
 import { keeperOutfit, trainerLook } from '../render/keeper-look';
 import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
 import { drawKeeperFrame } from '../render/sprites/keeper';
+import { CREATURE_SPEAKERS, creatureLook } from '../render/portraits';
+import { DIALOGUE_TEXT } from '../config/strings-dlg';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -41,6 +43,13 @@ export class Dialogue {
   private readonly endCard: HTMLDivElement;
   private readonly endParent: HTMLElement;
   private readonly endTitle: HTMLDivElement;
+  private readonly skipBtn: HTMLButtonElement;
+  /**
+   * Runs as a scene starts, before its first line: the HUD closes the panels and the sheet
+   * for a Grove scene (r1025 item 2). `external` is true for a side save's scene, whose
+   * shelf steps aside on its own.
+   */
+  onStart: ((external: boolean) => void) | null = null;
   private lines: Line[] = [];
   private index = 0;
   private scene: string | null = null;
@@ -79,9 +88,19 @@ export class Dialogue {
     this.next = el('div', 'dialogue-next', '▼');
     this.choices = el('div', 'dialogue-choices');
     body.append(this.name, this.text, this.choices);
-    box.append(this.portrait, body, this.next);
+    // r1025 item 1: skip to the next real choice (or the scene's end), never past one.
+    this.skipBtn = button(`${DIALOGUE_TEXT.skip} ⏭`, () => this.skip(), 'btn dialogue-skip');
+    this.skipBtn.setAttribute('aria-label', DIALOGUE_TEXT.skipLabel);
+    this.skipBtn.title = DIALOGUE_TEXT.skipLabel;
+    box.append(this.portrait, body, this.next, this.skipBtn);
     this.root.appendChild(box);
+    // The box takes focus when a scene starts, so Space and Enter advance it rather than
+    // pressing whatever sheet button had focus before (r1025 item 2).
+    this.root.tabIndex = -1;
+    // Choices and lesson cards fill this row; Skip steps aside while they are up.
+    new MutationObserver(() => this.syncSkip()).observe(this.choices, { childList: true });
     this.root.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('.dialogue-skip')) return;
       if (this.waiting()) return;
       if (this.held) {
         this.hooks.skip?.();
@@ -92,6 +111,11 @@ export class Dialogue {
       this.advance();
     });
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !this.root.hidden && !this.waiting() && !this.skipBtn.hidden) {
+        e.preventDefault();
+        this.skip();
+        return;
+      }
       if (this.root.hidden || this.choices.childElementCount > 0 || this.waiting()) return;
       // A focused button or field keeps its own Space and Enter.
       if (isControlTarget(e.target)) return;
@@ -230,8 +254,11 @@ export class Dialogue {
         this.finish(null);
       }
     };
+    this.onStart?.(!!this.external);
     this.root.hidden = false;
     this.sync();
+    this.takeFocus();
+    this.syncSkip();
     // A chapter opening holds on its first frame (N1); a side save's scene never does.
     const holding =
       !this.external && (this.hooks.open?.(sceneId, scene, () => this.release()) ?? false);
@@ -244,6 +271,40 @@ export class Dialogue {
       this.showLine();
       this.hooks.shown?.();
     }
+  }
+
+  /** Move focus off any sheet or menu button and onto the box (r1025 item 2). */
+  private takeFocus(): void {
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && active !== document.body && !this.root.contains(active))
+      active.blur();
+    this.root.focus({ preventScroll: true });
+  }
+
+  /**
+   * Skip (r1025 item 1): run the scene's lines through the same steps a tap takes, so every
+   * line counts as played, lessons fire their events and `sceneDone` is sent exactly as by
+   * tapping. It stops at the next real choice or lesson card, or ends the scene.
+   */
+  skip(): void {
+    if (this.root.hidden || this.waiting() || this.skipBtn.hidden) return;
+    if (this.held) {
+      this.hooks.skip?.();
+      this.release();
+    }
+    for (let i = 0; i < 5000; i++) {
+      if (this.root.hidden || this.held || this.choices.childElementCount > 0) break;
+      this.advance();
+    }
+    if (!this.root.hidden) this.takeFocus();
+  }
+
+  /** Skip shows while lines play, never over a choice, and not in the 3–6 band. */
+  private syncSkip(): void {
+    const g = this.game();
+    const sprout = !!g && textBandOf(g.world) === 'sprout';
+    this.skipBtn.hidden = sprout || this.choices.childElementCount > 0;
+    this.skipBtn.classList.toggle('small', !!g?.world.edu);
   }
 
   /** End the postcard hold: the first line appears. */
@@ -341,6 +402,7 @@ export class Dialogue {
     const line = this.lines[this.index];
     const g = this.game();
     if (!line || !g) return;
+    this.syncSkip();
     const who = line.who;
     const chorus = who === 'chorus';
     this.name.textContent = this.names[who] ?? speakerName(who, g, this.scene ?? '');
@@ -477,9 +539,10 @@ export class Dialogue {
     this.portrait.hidden = who === 'narrator';
     if (!ctx || who === 'narrator') return;
     ctx.imageSmoothingEnabled = false;
-    const { sheet, key } = portraitFrame(who, g, mood);
+    const { sheet, key, mark } = portraitFrame(who, g, mood);
     const rect = sheet?.frames.get(key) ?? sheet?.frames.values().next().value;
     if (!sheet || !rect) return;
+    this.portrait.dataset.mood = mood;
     // cg5: a skinned box on a phone frames a full-length figure head and shoulders, so a
     // dark outfit on a dark skin (the Warden on Logged In's terminal) still shows a face.
     const crop =
@@ -501,6 +564,24 @@ export class Dialogue {
       this.portrait.width,
       this.portrait.height,
     );
+    if (mark) {
+      // A small emote ball at the top right, as over a Nubbin's head in the Grove.
+      const r = 13;
+      const x = this.portrait.width - r - 3;
+      const y = r + 3;
+      ctx.fillStyle = '#fff8e6';
+      ctx.strokeStyle = '#2c2433';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#2c2433';
+      ctx.font = 'bold 20px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(mark, x, y + 1);
+    }
   }
 }
 
@@ -527,7 +608,7 @@ export function portraitFrame(
   who: string,
   g: Game,
   mood: Mood,
-): { sheet: SpriteSheet | null; key: string } {
+): { sheet: SpriteSheet | null; key: string; mark?: string } {
   const sheets = g.view.sheets;
   // H6: the world's speaker chevron follows the line on screen.
   if (who !== 'narrator') SPEAKER_NOW.who = who;
@@ -547,16 +628,29 @@ export function portraitFrame(
     }
     return { sheet: sheets.keeper(trainer, side), key: frameKey('idle', 'front', 0) };
   }
+  // Nubbins have no surprised or puzzled face: the emote ball's mark says it (r1025 item 5).
+  const mark = MOOD_MARK[mood];
+  const marked = mark ? { mark } : {};
   if (who === 'moss' || who === 'sable' || who === 'wisp') {
     const c = g.world.campaign;
     const id = who === 'moss' ? c?.mossId : who === 'sable' ? c?.sableId : null;
     const n = id ? g.world.nubbins.find((x) => x.id === id) : undefined;
-    const clip = mood === 'happy' || mood === 'soft' ? 'happy' : mood === 'sad' ? 'sad' : 'idle';
-    if (n) return { sheet: sheets.forNubbin(n), key: frameKey(clip, 'front', 0) };
-    return { sheet: sheets.rival('neutral', 'normal'), key: frameKey(clip, 'front', 0) };
+    const key = frameKey(creatureClip(mood), 'front', 0);
+    if (n) return { sheet: sheets.forNubbin(n), key, ...marked };
+    return { sheet: sheets.rival('neutral', 'normal'), key, ...marked };
+  }
+  // r1025 item 5: a creature speaker (content kind 'nubbin') is drawn as a Nubbin of its own.
+  if (CREATURE_SPEAKERS.has(who)) {
+    const { band, type } = creatureLook(who);
+    return {
+      sheet: sheets.rival(band, type),
+      key: frameKey(creatureClip(mood), 'front', 0),
+      ...marked,
+    };
   }
   // C2: a storyline speaker has a look of their own (`STORY_NPC_LOOKS`), never the player's.
-  // K4, K38: Fern and Hazel go by their story looks (`storyId`).
+  // K4, K38: Fern and Hazel go by their story looks (`storyId`). Anyone with no look is a
+  // person seeded by their id (`generatedLook`, through `trainerLook`), never Fern.
   const id = storyId(who);
   if (expr) {
     const col = trainerLook(id);
@@ -568,3 +662,15 @@ export function portraitFrame(
   }
   return { sheet: sheets.keeper(id), key: frameKey('idle', 'front', 0) };
 }
+
+/** A Nubbin portrait's clip for a line's mood: glad, sad, or its idle face. */
+function creatureClip(mood: Mood): 'happy' | 'sad' | 'idle' {
+  return mood === 'happy' || mood === 'soft'
+    ? 'happy'
+    : mood === 'sad' || mood === 'angry'
+      ? 'sad'
+      : 'idle';
+}
+
+/** Nubbins have no surprised or puzzled face: the emote ball's mark says it instead. */
+const MOOD_MARK: Partial<Record<Mood, string>> = { shock: '!', think: '?' };
