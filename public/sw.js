@@ -5,7 +5,12 @@
    cached shell is only the offline fallback. Hashed build chunks under assets/ never change
    under the same name, so they are served cache-first; other static files are served
    stale-while-revalidate. The shell is precached with cache: 'reload' so the install never
-   stores a stale copy from the HTTP cache. */
+   stores a stale copy from the HTTP cache.
+   Updates apply on the next load, never mid-play: the first worker takes over at once, but
+   a new one waits while open pages run on the old worker and its cache (so their lazy
+   chunks keep loading), and takes over only when a freshly loaded page, already running
+   the new build, posts 'skip-waiting' (main.ts `applyWaitingWorker`). On taking over it
+   carries the hashed chunks over from the old cache, which are the same files by name. */
 const CACHE = 'grove-__GROVE_BUILD_ID__';
 const SHELL = ['./', './index.html', './manifest.webmanifest'];
 /** Vite's content-hashed output, e.g. assets/index-B2x9fQ1a.js. */
@@ -20,8 +25,13 @@ self.addEventListener('install', (event) => {
           .addAll(SHELL.map((url) => new Request(url, { cache: 'reload' })))
           .catch(() => undefined),
       )
-      .then(() => self.skipWaiting()),
+      // Only the very first worker takes over straight away; an update waits (see above).
+      .then(() => (self.registration.active ? undefined : self.skipWaiting())),
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'skip-waiting') self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -29,14 +39,30 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.filter((k) => k.startsWith('grove-') && k !== CACHE).map((k) => caches.delete(k)),
-        ),
-      )
+      .then((keys) => {
+        const old = keys.filter((k) => k.startsWith('grove-') && k !== CACHE);
+        return carryOver(old).then(() => Promise.all(old.map((k) => caches.delete(k))));
+      })
       .then(() => self.clients.claim()),
   );
 });
+
+/** Copy the old caches' hashed chunks (same name, same bytes) so offline play keeps them. */
+async function carryOver(oldNames) {
+  const cache = await caches.open(CACHE);
+  for (const name of oldNames) {
+    try {
+      const old = await caches.open(name);
+      for (const req of await old.keys()) {
+        if (!HASHED.test(new URL(req.url).pathname) || (await cache.match(req))) continue;
+        const res = await old.match(req);
+        if (res) await cache.put(req, res).catch(() => undefined);
+      }
+    } catch {
+      // A cache that cannot be read is simply dropped.
+    }
+  }
+}
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
