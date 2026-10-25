@@ -86,10 +86,10 @@ const LJ1: Quest = {
       scene: {
         id: 'lj1-s1',
         lines: [
-          N('The gate sticks, as it always does. From the other side, someone lifts and pushes, hard, and it bangs open.'),
-          N('A girl in running shoes skids through first, a sketchbook under one arm. Nova follows at a walk, carrying both bags.'),
+          N('Someone is racing up the lane. The gate sticks, as it always does, so she climbs it.'),
+          N('A girl in running shoes drops down on your side, sketchbook first. Nova follows at a walk, carrying both bags.'),
           NO('This is Hana. She’s staying with me for the summer. She raced me from the bridge.', 'happy'),
-          HA('I won by eleven seconds. Nova says nine. Nova is wrong.'),
+          HA('I won by eleven seconds. Nova says she let me win. Nova is a terrible liar.'),
           HA('こんにちは (konnichiwa, “hello”)!'),
           N('She bows: a small, quick dip from the waist, then straight back up.'),
           HA('That’s おじぎ (ojigi), bowing. At home we bow to greet, to thank and to say sorry. A deeper bow shows more respect.'),
@@ -154,7 +154,7 @@ const LJ1: Quest = {
           HA('おはよう (ohayō, “good morning”)! That’s for friends and family.', 'happy'),
           N('Fern comes over the fence with a bucket of plums and a slightly crumpled face.'),
           HA('おはようございます (ohayō gozaimasu), Fern! That’s the polite one. For grown-ups, teachers and people with buckets.'),
-          FE('Is it? Well. Good morning. Have a plum. I’ve been up since five keeping the trees alive, badly.'),
+          FE('Is it? Well. Good morning. Have a plum. I’ve been up since five, apologising to the trees.'),
           HA('ありがとうございます (arigatō gozaimasu, “thank you”, the polite way). With friends it’s just ありがとう (arigatō).'),
           HA('Right. The plan. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows.'),
           N('She sprints at the herb bed, misjudges it, and bumps a small round Nubbin clean off its feet.'),

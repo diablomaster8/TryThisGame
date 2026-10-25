@@ -69,10 +69,10 @@ const LJ1_SCENES: EduScene[] = [
   scene(
     'lj1-s1',
     [
-      N('The gate sticks, like always. Someone on the other side lifts and pushes, hard. It bangs open.'),
-      N('A girl in running shoes skids through first, a sketchbook under her arm. Nova follows, carrying both bags.'),
+      N('Someone is racing up the lane. The gate sticks, like always, so she climbs it.'),
+      N('A girl in running shoes drops down on your side, sketchbook first. Nova follows, carrying both bags.'),
       NO('This is Hana. She’s staying with me for the summer. She raced me from the bridge.', 'happy'),
-      HA('I won by eleven seconds. Nova says nine. Nova is wrong.'),
+      HA('I won by eleven seconds. Nova says she let me win. Nova is a terrible liar.'),
       HA('こんにちは (konnichiwa, “hello”)!'),
       N('She bows: a small, quick dip from the waist, then straight back up.'),
       HA('That’s おじぎ (ojigi), bowing. At home we bow to say hello, thank you and sorry.'),
@@ -176,7 +176,7 @@ const LJ1_SCENES: EduScene[] = [
       HA('おはよう (ohayō, “good morning”)! That’s for friends and family.', 'happy'),
       N('Fern climbs over the fence with a bucket of plums and a sleepy face.'),
       HA('おはようございます (ohayō gozaimasu), Fern! That’s the polite one, for grown-ups and teachers.'),
-      FE('Good morning to you too. I’ve been up since five, keeping the trees alive, badly.'),
+      FE('Good morning to you too. I’ve been up since five, apologising to the trees.'),
       HA('ありがとうございます (arigatō gozaimasu)! That’s a polite thank you. With friends, it’s just ありがとう (arigatō).'),
       HA('Right. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows. That’s the plan.'),
       N('She sprints at the herb bed and bumps a small round Nubbin right off its feet.'),
