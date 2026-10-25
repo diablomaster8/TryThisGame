@@ -344,11 +344,14 @@ const Q01 = quest(
       'a20-01-hall-done',
       [
         N('Your Nubbin is fast asleep in the brightest patch of floor.'),
+        N('It snores a tiny snore. Pff. Pff.'),
+        N('Baldr tiptoes round it, and bumps the table. Bonk!'),
+        BA('Ow. Sorry, table.', 'happy'),
         BA('Stay till it wakes. I would like the company.'),
       ],
       [
         ask(
-          0,
+          3,
           'health',
           PHYS,
           'sleep helps bodies rest and grow',
@@ -473,6 +476,7 @@ const Q02 = quest(
       [
         N('It is late. Fulla holds a jar of lamp oil.'),
         FU('His lamp burns all night. Take this up to him?'),
+        N('Your Nubbin carries the lid. It holds it up like a shield!'),
         N('Baldr sits at his table. His cup has gone cold.'),
         BA('Oh, it is you. I am glad it is you.', 'soft'),
         BA('I keep having a bad dream. I go down a long road.', 'sad'),
@@ -481,7 +485,7 @@ const Q02 = quest(
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           SE,
           'telling someone when you are worried',
@@ -885,6 +889,9 @@ const Q04 = quest(
         TH('Your turn, brother! Stand still!', 'happy'),
         N('Thor’s big stone stops. Then drop! It falls to the ground.'),
         N('Everyone laughs. Baldr laughs the most.'),
+        TH('That was a small one. Fetch me the millstone!'),
+        FU('Thor, the mill is using it.'),
+        N('The millstone rolls up to Baldr. It lies down flat, like a dog wanting a tummy rub.'),
       ],
       [
         ask(
@@ -1077,6 +1084,7 @@ const Q05 = quest(
       'a20-05-water',
       [
         N('You fetch water. You take two pails. Your Nubbin takes a thimble.'),
+        N('It brings back one drop. It carries it like a crown!'),
         N('At the door stands an old woman, wrapped in shawls.'),
         N('You can only see her hands.'),
         FU('A traveller! Bring the water in.'),
@@ -1085,7 +1093,7 @@ const Q05 = quest(
       ],
       [
         ask(
-          0,
+          1,
           'maths',
           'K.MD.A.2',
           'which holds more',
@@ -1233,20 +1241,23 @@ const Q06 = quest(
       ],
       [
         ask(
-          5,
-          'social-studies',
-          'D2.Civ.8.K-2',
-          'fair play: everyone gets a turn',
-          [N('Hödr wants a turn too. Is it fair to leave someone out?')],
+          6,
+          'sel',
+          'CASEL: Responsible decision-making',
+          'check with someone you trust first',
+          [
+            N('The cloaked someone hides its face. It says, “I will guide your arm.”'),
+            N('What should Hödr do?'),
+          ],
           [
             opt(
-              'No, everyone should get a turn',
-              [N('Yes. Fair means everyone gets a turn.')],
+              'Ask someone he trusts first',
+              [N('Yes. When a hidden someone says “do it”, check with a friend first.')],
               true,
             ),
-            opt('Yes, leave him out', [N('That is not fair. Fair means everyone gets a turn.')]),
+            opt('Do it straight away', [N('It is safer to ask someone you trust first.')]),
           ],
-          'Talked about fairness: making sure everyone gets a turn.',
+          'Talked about checking with someone you trust before doing what a stranger says.',
         ),
       ],
     ),
@@ -1420,12 +1431,13 @@ const Q07 = quest(
         N('Odin’s stable is long and warm. It smells of hay.'),
         N('At the end stands a tall grey horse. His name is Sleipnir.'),
         N('Sleipnir has eight legs! Your Nubbin counts them.'),
+        N('Then it counts its own. Two. Hmm!'),
         HE('Good lad. We will go far, you and I.'),
         N('There is room on his back for two.'),
       ],
       [
         doit(
-          2,
+          3,
           'maths',
           'K.CC.B.5',
           'count to 8',
@@ -1686,6 +1698,7 @@ const Q09 = quest(
         Y('Still here.'),
         HE('Good. Keep saying so.'),
         N('You can hear eight hooves, and the wind.'),
+        N('Clip, clop, clip, clop. Your Nubbin counts the hooves, and falls asleep at six.'),
       ],
       [
         doit(
@@ -2338,7 +2351,7 @@ const Q12 = quest(
     sc(
       'a20-margin-hazel',
       [
-        N('Nova’s atlas lies open at the cave in the cliff.'),
+        N('Nova’s atlas lies open at the cave, and the giantess who would not cry.'),
         N('Beside it, in faint pencil, there is a little note. You know the writing.'),
         N('“Don’t be cross with her. Feel sorry for her.”'),
         N('And under it, one letter: H.', 'soft'),
@@ -2413,13 +2426,14 @@ const Q13 = quest(
         N('Kvasir, the wisest god, kneels by the ash and looks.'),
         N('It is the shape of a net. Nobody has made one before.'),
         OD('He will be in the water. So we will make a net too.', 'think'),
-        N('The gods sit down and make a net, knot by knot.'),
+        N('The gods make a net, knot by knot. Your Nubbin gets tied into it.'),
+        N('Only its nose sticks out. Wiggle, wiggle.'),
         TH('Hold still, small one. You are not the fish.', 'happy'),
         N('It is the first smile since the Thing-field.'),
       ],
       [
         doit(
-          3,
+          6,
           'art',
           PHYS,
           'over and under, like weaving a net',
@@ -2815,7 +2829,10 @@ const Q15 = quest(
         N('So you stay in the wood. Every morning you lick dew off the leaves.'),
         N('Every night you sit close, under one blanket and your cloak.'),
         N('Your Nubbin shares itself out: a night by each of you.'),
-        LT('We used to have names for the days. We stopped.'),
+        LI('You licked my leaf!'),
+        LT('There is dew on all of them.'),
+        LI('That one was mine. I was saving it for Tuesday.'),
+        LT('There are no Tuesdays now. We stopped naming the days.', 'soft'),
         LI('Tell us something. Anything that is not snow.'),
       ],
       [
@@ -3209,8 +3226,8 @@ const Q17 = quest(
       'a20-17-old-ground',
       [
         N('Where the gods’ halls stood there is grass, with old stones showing through.'),
-        N('People are gathering: the gods’ grown sons, Vídarr and Váli, Módi and Magni.'),
-        N('Módi and Magni carry their father’s hammer between them, gently.'),
+        N('Some grown sons of the gods are gathering.'),
+        N('Two of them carry their father’s hammer, gently.'),
         VI('Guest. Sit with us. There is time for everything.', 'soft'),
         N('Then two more come up the road from the quiet hall.'),
         N('It is Baldr, and Hödr with him!'),
@@ -3280,7 +3297,10 @@ const Q17 = quest(
           {
             id: 'baldr',
             label: 'Give the first piece to Baldr.',
-            then: [BA('Ha! I always lost with this one.', 'happy')],
+            then: [
+              BA('Ha! I always lost with this one.', 'happy'),
+              HO('He did. He shouted about it every time.', 'happy'),
+            ],
           },
           {
             id: 'hodr',

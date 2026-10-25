@@ -219,7 +219,7 @@ const Q01: EduQuest = quest(
             ),
           ],
           'Learned that Berk is invented but the Vikings were real, and that Norse families settled on cold islands such as Shetland, the Faroes and Iceland.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
         ask(
           'literacy',
@@ -248,7 +248,7 @@ const Q01: EduQuest = quest(
             ]),
           ],
           'Worked out the meaning of “hatchling” from its parts and the story.',
-          'L.2.4',
+          'L.3.4',
         ),
       ],
       [
@@ -378,35 +378,24 @@ const Q01: EduQuest = quest(
             opt('Water', [GB('Water would put the fire out. Bellows give it air.')]),
           ],
           'Learned that a fire needs air to burn, which is why a forge uses bellows, and that burning cannot be undone.',
-          '2-PS1-4',
         ),
         ask(
           'sel',
           'how kindness changes the way we hear a hard truth',
           6,
+          [N('Gobber tells Hiccup to stay inside. Why?')],
           [
-            N(
-              'Gobber told Hiccup a hard truth, and Hiccup said it was fair. Is a hard truth easier to hear when someone says it kindly?',
+            opt(
+              'He wants Hiccup safe',
+              [N('Yes. Under the grumbling, Gobber is looking after him.')],
+              true,
             ),
+            opt('He wants the bellows pumped', [
+              N('That too, but mostly he wants Hiccup out of danger.'),
+            ]),
+            opt('He thinks Hiccup is a dragon', [N('No. That would be a very odd forge.')]),
           ],
-          [
-            opt('Yes, kindness helps us listen', [
-              N(
-                'That’s a fair answer. When we feel safe, we can take in what is true, rather than defending ourselves.',
-              ),
-            ]),
-            opt('No, the truth is the truth, however it is said', [
-              N(
-                'That’s a fair answer. The words matter most, but how they are said can decide whether we are able to hear them.',
-              ),
-            ]),
-            opt('It depends on the person', [
-              N(
-                'That’s a fair answer. People do differ, and a good friend learns how each person likes to be told.',
-              ),
-            ]),
-          ],
-          'Thought about whether a hard truth is easier to hear when it is said kindly.',
+          'Noticed that a grumpy remark can come from caring, and that Gobber keeps Hiccup inside to keep him safe.',
           SOCIAL,
         ),
       ],
@@ -867,7 +856,7 @@ const Q02: EduQuest = quest(
             ),
           ],
           'Learned that scarcity means there is not enough to go round, so people have to choose.',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
         ),
         ask(
           'sel',
@@ -952,7 +941,6 @@ const Q02: EduQuest = quest(
             ),
           ],
           'Learned that careful drawing helps us notice details, and that soft charcoal suits shadows.',
-          '2-PS1-1',
         ),
       ],
     ),
@@ -1035,7 +1023,7 @@ const Q03: EduQuest = quest(
             ]),
           ],
           'Used compass directions: the way back from a journey north is south.',
-          '2-ESS2-2',
+          'D2.Geo.2.3-5',
         ),
       ],
     ),
@@ -1403,7 +1391,6 @@ const Q04: EduQuest = quest(
             ),
           ],
           'Learned the difference between evidence (what you observe) and an inference (what you work out from it).',
-          'K-ESS2-2',
         ),
       ],
     ),
@@ -1784,7 +1771,7 @@ const Q05: EduQuest = quest(
             ),
           ],
           'Learned what real Viking round shields were made of: wooden planks, with an iron boss in the middle.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
         ask(
           'sel',
@@ -2027,7 +2014,7 @@ const Q06: EduQuest = quest(
             ]),
           ],
           'Used clues in the text to work out why a cove is called sheltered.',
-          'L.2.4',
+          'L.3.4',
         ),
       ],
     ),
@@ -2274,7 +2261,7 @@ const Q07: EduQuest = quest(
             ),
           ],
           'Learned that Norse people preserved fish by drying, salting and smoking it, including dried cod called stockfish.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
     ),
@@ -2571,7 +2558,7 @@ const Q08: EduQuest = quest(
             ]),
           ],
           'Talked about learning unwritten rules by watching for signals and trying gently.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -2710,15 +2697,12 @@ const Q08: EduQuest = quest(
           'The book’s got one rule for every dragon: run, or finish it. Every page. Every single one.',
         ),
         H('Nobody ever sat still long enough to find out.', 'soft'),
-        N(
-          'The story has a quiet idea in it: you only find out what something is really like by being patient, and looking.',
-        ),
       ],
       [
         ask(
           'literacy',
           'finding the theme of a story',
-          4,
+          3,
           [N('A theme is a story’s big idea. Which is the best theme for this quest?')],
           [
             opt(
@@ -2922,7 +2906,7 @@ const Q09: EduQuest = quest(
             ]),
           ],
           'Added 4 + 6 + 9 to make 19 seconds.',
-          '2.OA.A.1',
+          '3.OA.D.8',
         ),
       ],
       [
@@ -3352,6 +3336,9 @@ const Q10: EduQuest = quest(
         N(
           'The ships come home on a grey afternoon. Fewer than went out, and every one of them scorched.',
         ),
+        N(
+          'The ships sailed north for twelve days, about sixty kilometres a day, and found nothing but cold water.',
+        ),
         N('Stoick comes up the jetty last. He found no nest; you can see it in the way he walks.'),
         GB(
           'Stoick! You missed it. Your boy. He’s the best in the arena. The best I’ve ever seen.',
@@ -3370,10 +3357,10 @@ const Q10: EduQuest = quest(
         ask(
           'maths',
           'distance, speed and time: 12 × 60',
-          1,
+          7,
           [
             N(
-              'Berk is twelve days’ sail from anywhere, and a longship in light winds might make 60 km a day. How far is that in twelve days?',
+              'The ships sailed twelve days at about 60 km a day. How far did they sail in twelve days?',
             ),
           ],
           [
@@ -3425,7 +3412,7 @@ const Q10: EduQuest = quest(
             ),
           ],
           'Learned that many Viking-age houses had turf roofs over timber, which kept rain out and warmth in.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
         ask(
           'sel',
@@ -3858,7 +3845,6 @@ const Q12: EduQuest = quest(
             ),
           ],
           'Learned that fog is a low cloud made of tiny water droplets, often formed when warm damp air cools over cold water.',
-          '2-ESS2-3',
         ),
       ],
       [
@@ -4011,7 +3997,7 @@ const Q12: EduQuest = quest(
             ]),
           ],
           'Thought about a dilemma in which two people both have a good reason.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -4043,7 +4029,7 @@ const Q12: EduQuest = quest(
       'a19-12-complete',
       [
         N(
-          'Toothless lands you in the cove under the stars, and you all climb down, stiff and cold.',
+          'Toothless lands you in the cove under the stars at a quarter to ten. You left at six, and you all climb down, stiff and cold.',
         ),
         A('All right. We wait. But not for long, Hiccup. Not for long.'),
         H(
@@ -4051,15 +4037,12 @@ const Q12: EduQuest = quest(
           'sad',
         ),
         A('Then you’d better think of something fast.'),
-        N(
-          'They left the cove at six in the evening, and Toothless landed again at a quarter to ten.',
-        ),
       ],
       [
         ask(
           'maths',
           'time intervals to the minute',
-          4,
+          0,
           [N('They left at 6:00 and landed at 9:45. How long were they away?')],
           [
             opt(
@@ -4196,27 +4179,21 @@ const Q13: EduQuest = quest(
         ask(
           'sel',
           'whether laying down your weapons in public is brave or foolish',
-          5,
-          [N('Hiccup drops his weapons in front of the whole village. Is that brave, or foolish?')],
+          8,
+          [N('Hiccup drops his weapons and holds out an empty hand to the Nightmare. What is he showing it?')],
           [
-            opt('Brave, because he risks his name and his safety', [
-              N(
-                'That’s a fair answer. It takes courage to do the right thing while everyone expects the opposite.',
-              ),
+            opt(
+              'That he means no harm',
+              [N('Yes. An empty, open hand says “I am not a threat”, and the fire goes out.')],
+              true,
+            ),
+            opt('That he has run out of ideas', [
+              N('No. Putting weapons down is a plan, and it works on the Nightmare for a while.'),
             ]),
-            opt('Foolish, because he could be hurt', [
-              N(
-                'That’s a fair answer. The danger is real, and people have every reason to fear for him.',
-              ),
-            ]),
-            opt('Both, and he does it anyway', [
-              N(
-                'That’s a fair answer. Some of the bravest things look foolish until we see what they make possible.',
-              ),
-            ]),
+            opt('That he wants a fight', [N('No. Nobody offers an empty hand to start a fight.')]),
           ],
-          'Thought about whether doing the kind thing in front of a crowd is brave, foolish or both.',
-          DECIDE,
+          'Noticed that dropping weapons and offering an empty hand shows a frightened animal you mean no harm.',
+          SOCIAL,
         ),
       ],
     ),
@@ -4499,7 +4476,7 @@ const Q14: EduQuest = quest(
           'Astrid is already running for the village. Hiccup gets up and follows her, and you and your Nubbin follow him.',
         ),
         N(
-          'Hiccup has a problem: Toothless is chained, and the fleet is gone. He is about to ask the right question: what can we try?',
+          'Hiccup has a problem: Toothless is chained, and the fleet is gone.',
         ),
       ],
       [
@@ -4636,7 +4613,6 @@ const Q15: EduQuest = quest(
             ),
           ],
           'Learned that modern animal trainers use rewards and calm rather than force, and that safety and choice build trust.',
-          'K-ESS3-3',
         ),
         ask(
           'social-studies',
@@ -4665,7 +4641,7 @@ const Q15: EduQuest = quest(
             ]),
           ],
           'Thought about why choice matters to animals and how people can respect it.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -4773,7 +4749,7 @@ const Q15: EduQuest = quest(
             opt('8', [N('Close. Add: 2 + 2 is 4, plus 1 is 5, plus 2 is 7.')]),
           ],
           'Added 2 + 2 + 1 + 2 to find 7 people flying.',
-          '2.OA.A.1',
+          '3.OA.D.8',
         ),
       ],
     ),
@@ -4990,7 +4966,7 @@ const Q16: EduQuest = quest(
             ]),
           ],
           'Talked about why leaders often leave last in an emergency: duty to those who depend on them.',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
         ),
       ],
       [
@@ -5090,33 +5066,6 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          'literacy',
-          'how a character changes over a story',
-          6,
-          [N('How has Stoick changed since he turned his back on Hiccup on the jetty?')],
-          [
-            opt(
-              'He has gone from silent and stern to saying plainly that he was wrong',
-              [
-                N(
-                  'Yes, a character’s change shows in what they do and say. Stoick’s short, honest sentence is the biggest change in the story.',
-                ),
-              ],
-              true,
-            ),
-            opt('He has not changed at all', [
-              N(
-                'Compare the jetty with the water’s edge: he went into the sea after Hiccup and said sorry. That is a big change.',
-              ),
-            ]),
-            opt('He is angrier than ever', [
-              N('His voice is soft, and he says he is sorry. That is the opposite of anger.'),
-            ]),
-          ],
-          'Described how a character changes from the beginning of the story to this scene.',
-          'RL.3.3',
-        ),
-        ask(
           'sel',
           'what makes an apology real',
           7,
@@ -5204,13 +5153,14 @@ const Q17: EduQuest = quest(
         N(
           'Everyone on the beach is looking up, and nobody is breathing. Your Nubbin has both paws over its face, and one eye between them.',
         ),
+        N('Toothless climbs about three hundred metres every minute. The cloud is eighteen hundred metres up.'),
         N('Up there, the black speck and the great shadow go into the cloud.'),
       ],
       [
         ask(
           'maths',
           'distance, speed and time: 1,800 ÷ 300',
-          1,
+          7,
           [
             N(
               'Toothless climbs 300 metres every minute, and the cloud is 1,800 metres up. How many minutes does he need to reach it?',
@@ -5263,40 +5213,33 @@ const Q17: EduQuest = quest(
       [
         notice(
           'science',
-          'the Doppler effect: a sound’s pitch changes as its source moves',
-          0,
+          'a sound gets louder as the thing making it comes closer',
+          5,
           [
             N(
-              'The whistle sounds higher while it rushes towards you, and drops as it passes. That is the Doppler effect.',
+              'The whistle got louder and higher as Toothless dived. A sound gets louder as the thing making it comes closer.',
             ),
-            N(
-              'Sound waves bunch up in front of something moving towards you, making a higher note.',
-            ),
-            N('They stretch out behind it, making a lower note. Ambulance sirens do the same.'),
+            N('That is how everyone on the beach knew he was coming, before they could see him.'),
           ],
-          'Learned that the pitch of a moving sound changes as it approaches and moves away (the Doppler effect).',
+          'Learned that a sound gets louder as the thing making it comes closer.',
           '4-PS3-2',
         ),
         ask(
           'sel',
           'what to do when you cannot help yet',
           5,
-          [N('Something terrible may have happened, and you cannot help yet. What can you do?')],
+          [N('Hiccup is somewhere in the smoke, and the fire is too hot to go near. What is the wisest thing to do now?')],
           [
-            opt('Stay safe, stay together, and be ready to help when it is safe', [
-              N(
-                'That’s a fair answer. Rushing in can add another person in danger, so being ready and close to others is the strongest thing you can do.',
-              ),
-            ]),
-            opt('Rush in at once', [
-              N(
-                'That’s a fair answer. The wish to rush is a loving one, though the fire is too hot, and a second person in danger helps nobody.',
-              ),
+            opt(
+              'Stay back, stay together, and be ready to help when it is safe',
+              [N('Yes. Someone who is hurt cannot help anyone, so waiting safely is a way of helping.')],
+              true,
+            ),
+            opt('Run into the fire', [
+              N('No. The fire is too hot, and a second person in danger would help nobody.'),
             ]),
             opt('Look away and pretend it is not happening', [
-              N(
-                'That’s a fair answer. It is hard to watch, but staying present, even in fear, lets you be useful the moment you can.',
-              ),
+              N('Looking away does not help. Staying close means you can act the moment it is safe.'),
             ]),
           ],
           'Talked about what to do when you cannot help yet: stay safe and together, and be ready.',
@@ -5427,13 +5370,7 @@ const Q17: EduQuest = quest(
       ],
     ),
   ],
-  [
-    gloss(
-      'Doppler effect',
-      'The way a sound’s note seems to change when the thing making it moves towards or away from you.',
-      'a19-17-dive',
-    ),
-  ],
+  [],
 );
 
 // ================================================================== A19-18 Twelve Days North
@@ -5591,7 +5528,7 @@ const Q18: EduQuest = quest(
             opt('Tomorrow', [N('“Tomorrow” names a time. It does not sound like what it means.')]),
           ],
           'Identified an onomatopoeic word: one that sounds like what it means.',
-          'RL.2.4',
+          'L.4.5',
         ),
       ],
     ),
@@ -5632,7 +5569,7 @@ const Q18: EduQuest = quest(
             ),
           ],
           'Learned that Viking-age families kept livestock and that Icelandic horses descend from horses the Norse settlers brought.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
     ),
@@ -5701,7 +5638,7 @@ const Q18: EduQuest = quest(
             ),
           ],
           'Learned that Norse craftspeople decorated everyday objects with animal designs and knotwork.',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
         ),
       ],
     ),
@@ -5731,30 +5668,20 @@ const Q18: EduQuest = quest(
       [
         ask(
           'sel',
-          'whether waiting is always the right thing, and what trust is owed',
-          3,
+          'what helps a frightened creature learn to trust',
+          5,
+          [N('Toothless took a long time to trust Hiccup. What helped him feel safe?')],
           [
-            N(
-              'Toothless came to trust only after a long wait. Is waiting always right, and does a creature owe you trust because you were patient?',
+            opt(
+              'Hiccup was patient and gentle, and let Toothless come to him',
+              [N('Yes. Trust grows when nobody grabs or hurries.')],
+              true,
             ),
+            opt('Hiccup gave orders', [N('Orders do not build trust. Patience and gentleness do.')]),
+            opt('Hiccup gave up', [N('He never gave up. He waited, and that is different.')]),
           ],
-          [
-            opt('Patience helps, but trust has to be earned and freely given', [
-              N(
-                'That’s a fair answer. Nobody can be made to trust, however kind we are: it is a gift, and it comes in the other’s own time.',
-              ),
-            ]),
-            opt('Waiting is right when the other one is frightened', [
-              N('That’s a fair answer. Fear needs time, and rushing it usually makes it worse.'),
-            ]),
-            opt('Sometimes you have to act, as Hiccup did later', [
-              N(
-                'That’s a fair answer. Patience is right for some moments and action for others, and wisdom is knowing which is which.',
-              ),
-            ]),
-          ],
-          'Thought about when waiting is right and whether trust is owed to those who are patient.',
-          SELF,
+          'Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying.',
+          RELATE,
         ),
       ],
     ),
@@ -5882,7 +5809,6 @@ export const EDU_A19_READER_VARIANTS: EduScene[] = [
           ),
         ],
         'Learned that grabbing a frightened animal can make it feel trapped, and that a slow, open approach feels safer.',
-        'K-ESS3-3',
       ),
       ask(
         'sel',
@@ -5958,7 +5884,6 @@ export const EDU_A19_READER_VARIANTS: EduScene[] = [
           ]),
         ],
         'Learned that a wary animal needs space and time to approach in its own way.',
-        'K-ESS3-3',
       ),
     ],
   ),
@@ -6076,26 +6001,20 @@ export const EDU_A19_READER_VARIANTS: EduScene[] = [
     [
       ask(
         'sel',
-        'what it means to wait for something twice',
-        6,
+        'what helps a frightened creature learn to trust',
+        8,
+        [N('Toothless took a long time to trust Hiccup. What helped him feel safe?')],
         [
-          N(
-            'You waited for Sable, and then for Toothless. What does it mean to wait for something twice?',
+          opt(
+            'Hiccup was patient and gentle, and let Toothless come to him',
+            [N('Yes. Trust grows when nobody grabs or hurries.')],
+            true,
           ),
+          opt('Hiccup gave orders', [N('Orders do not build trust. Patience and gentleness do.')]),
+          opt('Hiccup gave up', [N('He never gave up. He waited, and that is different.')]),
         ],
-        [
-          opt('You learn patience was never wasted', [
-            N('That’s a fair answer. Each wait teaches you how to do the next one.'),
-          ]),
-          opt('It is harder, because you remember how long it took', [
-            N('That’s a fair answer. Memory can make us tired, and it can make us braver.'),
-          ]),
-          opt('The thing you wait for is worth it both times', [
-            N('That’s a fair answer. Some friendships are worth more than one long wait.'),
-          ]),
-        ],
-        'Thought about what it means to wait patiently more than once.',
-        MANAGE,
+        'Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying.',
+        RELATE,
       ),
     ],
   ),
@@ -6125,30 +6044,20 @@ export const EDU_A19_READER_VARIANTS: EduScene[] = [
     [
       ask(
         'sel',
-        'whether trust is owed to those who are patient',
-        3,
+        'what helps a frightened creature learn to trust',
+        4,
+        [N('Toothless took a long time to trust Hiccup. What helped him feel safe?')],
         [
-          N(
-            'Toothless came to trust only after a long wait. Does a creature owe you trust just because you were patient?',
+          opt(
+            'Hiccup was patient and gentle, and let Toothless come to him',
+            [N('Yes. Trust grows when nobody grabs or hurries.')],
+            true,
           ),
+          opt('Hiccup gave orders', [N('Orders do not build trust. Patience and gentleness do.')]),
+          opt('Hiccup gave up', [N('He never gave up. He waited, and that is different.')]),
         ],
-        [
-          opt('No, trust has to be freely given', [
-            N('That’s a fair answer. Patience can make trust possible, but it can never force it.'),
-          ]),
-          opt('Patience earns a chance, not a promise', [
-            N(
-              'That’s a fair answer. Kindness opens the door, and the other one decides whether to walk through.',
-            ),
-          ]),
-          opt('It depends on how the creature has been treated', [
-            N(
-              'That’s a fair answer. A creature that has been hurt may need much longer to trust anyone.',
-            ),
-          ]),
-        ],
-        'Thought about whether patience means a creature owes you trust.',
-        SELF,
+        'Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying.',
+        RELATE,
       ),
     ],
   ),
@@ -6182,30 +6091,20 @@ export const EDU_A19_READER_VARIANTS: EduScene[] = [
     [
       ask(
         'sel',
-        'waiting without calling or looking',
-        5,
+        'what helps a frightened creature learn to trust',
+        7,
+        [N('Toothless took a long time to trust Hiccup. What helped him feel safe?')],
         [
-          N(
-            'You waited, without calling to Toothless or looking at him. Why might that have helped him come?',
+          opt(
+            'Hiccup was patient and gentle, and let Toothless come to him',
+            [N('Yes. Trust grows when nobody grabs or hurries.')],
+            true,
           ),
+          opt('Hiccup gave orders', [N('Orders do not build trust. Patience and gentleness do.')]),
+          opt('Hiccup gave up', [N('He never gave up. He waited, and that is different.')]),
         ],
-        [
-          opt('Not being watched let him feel free', [
-            N(
-              'That’s a fair answer. Being looked at can feel like pressure, and being left alone lets a shy creature choose.',
-            ),
-          ]),
-          opt('It showed him you would not push', [
-            N('That’s a fair answer. Staying quiet is a way of saying: you are in charge of this.'),
-          ]),
-          opt('He was ready, and you happened to be there', [
-            N(
-              'That’s a fair answer. Timing matters, and patience puts us in the right place for when someone is ready.',
-            ),
-          ]),
-        ],
-        'Thought about why waiting without calling or looking might help a shy creature come closer.',
-        MANAGE,
+        'Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying.',
+        RELATE,
       ),
     ],
   ),

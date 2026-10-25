@@ -187,16 +187,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A18/main.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 0 |
 | `atlas/A18/sprout.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 0 |
 | `atlas/A18/reader.md` | [review-2026-10-24-2](review-2026-10-24-2.md) | 0 |
-| `atlas/A19/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 7 |
-| `atlas/A19/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 7 |
-| `atlas/A19/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 4 |
-| `atlas/A20/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 7 |
-| `atlas/A20/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 6 |
-| `atlas/A20/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 2 |
-| `atlas/A21/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 7 |
-| `atlas/A22/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 8 |
-| `atlas/A22/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 5 |
-| `atlas/A22/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 2 |
+| `atlas/A19/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A19/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A19/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A20/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A20/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A20/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A21/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A22/main.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A22/sprout.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
+| `atlas/A22/reader.md` | [review-2026-10-24-3](review-2026-10-24-3.md) | 0 |
 | `atlas/A23/main.md` | never | 0 |
 | `atlas/A23/sprout.md` | never | 0 |
 | `atlas/A23/reader.md` | never | 0 |
@@ -958,66 +958,66 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261024-704 | atlas/A16/main.md, atlas/A17/main.md, atlas/A18/main.md | cross-story | High | humour | Running gag: the Nubbin's keepsake list from A15 grows on every page, until your pocket gives up | fixed | 2026-10-24-2 |
 | SR-20261024-705 | atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/reader.md, atlas/A18/reader.md | cross-story | High | child-read | 145 reader-band lessons carry K-2 codes; re-tag from the approved list only, or drop the tag | fixed | 2026-10-24-2 |
 | SR-20261024-706 | atlas/A15/sprout.md, atlas/A17/sprout.md, atlas/A15/reader.md, atlas/A16/reader.md, atlas/A17/reader.md, atlas/A18/reader.md | cross-story | Medium | child-read | Lesson replies run long: 26 sprout replies over 14 words and 13 reader replies over 30; trim each to one idea | fixed | 2026-10-24-2 |
-| SR-20261024-707 | atlas/A21/main.md | a21-04-complete | High | follow | Two speakers are both labelled "Fern"; show the Grove neighbour as "Keeper Fern" on this page | open | 2026-10-24-3 |
-| SR-20261024-708 | atlas/A22/main.md | a22-09-job-done | High | humour | The dinner's shared done scene is one flat line; bring back Pepa's cloud and Félix's umbrellas | open | 2026-10-24-3 |
-| SR-20261024-709 | atlas/A21/main.md | a21-16-complete | High | humour | Himmel's ring has no set-up; give it the kneeling story and a mirror-lotus Keeper Fern won't explain | open | 2026-10-24-3 |
-| SR-20261024-710 | atlas/A20/main.md | a20-15-company | High | theme | Let Líf and Lífthrasir bicker over one dewy leaf, so the long winter has a couple in it | open | 2026-10-24-3 |
-| SR-20261024-711 | atlas/A20/main.md | a20-04-field | High | humour | The last laugh before Baldr dies: escalate Thor's throws to the millstone, with Fulla as straight man | open | 2026-10-24-3 |
-| SR-20261024-712 | atlas/A22/main.md | a22-12-room | High | follow | Isabela's "How do you know that?" is never answered; let her own roses give her away | open | 2026-10-24-3 |
-| SR-20261024-713 | atlas/A19/main.md | a19-05-gronckle | High | humour | Give the arena round a laugh before Gobber's warning: the Gronckle's shot makes a window | open | 2026-10-24-3 |
-| SR-20261024-714 | atlas/A19/sprout.md | a19-07-knife | High | continuity | Sprout cut the eel from the knife scene, so A19-10's eel trick comes from nowhere | open | 2026-10-24-3 |
-| SR-20261024-715 | atlas/A20/sprout.md | a20-13-ash | High | humour | Thor's "You are not the fish" has no knotted Nubbin to say it to; put the Nubbin in the net | open | 2026-10-24-3 |
-| SR-20261024-716 | atlas/A22/sprout.md | a22-02-market | High | humour | Restore Pepa's "What cloud?": the page's running gag starts here | open | 2026-10-24-3 |
-| SR-20261024-717 | atlas/A20/sprout.md | a20-06-field | High | theme | The fair-play lesson agrees with the trick that kills Baldr; make it about checking first | open | 2026-10-24-3 |
-| SR-20261024-718 | atlas/A19/reader.md | a19-18-complete | High | child-read | The finale's lesson gets the story wrong and sits between the saddle and the fish | open | 2026-10-24-3 |
-| SR-20261024-719 | atlas/A19/main.md | a19-18-village | High | humour | The dragons-in-Berk finale needs Gobber losing his forge to a Nadder | open | 2026-10-24-3 |
-| SR-20261024-720 | atlas/A19/main.md | a19-03-hall | High | humour | "Gobber stays" is a straight-man gift; let Gobber complain before the fleet sails | open | 2026-10-24-3 |
-| SR-20261024-721 | atlas/A19/sprout.md | a19-01-arrive-done | High | humour | Bring back "mind the ceiling" as a rule-of-three with a Nubbin bonk | open | 2026-10-24-3 |
-| SR-20261024-722 | atlas/A19/reader.md | a19-01-raid | High | child-read | 23 opinion lessons where every answer is "That's a fair answer"; keep one per quest at most | open | 2026-10-24-3 |
-| SR-20261024-723 | atlas/A20/reader.md | a20-11-complete | High | child-read | A negative-number sum tagged as grade 2, with a temperature the scene never gives | open | 2026-10-24-3 |
-| SR-20261024-724 | atlas/A20/sprout.md | a20-17-old-ground | High | child-read | Four new names in one line for 3 to 6s; keep Vídarr and drop the other three | open | 2026-10-24-3 |
-| SR-20261024-725 | atlas/A19/main.md | a19-01-launcher-done | Medium | humour | Hiccup says the launcher "will probably go off on the way"; let it go off at a sheep | open | 2026-10-24-3 |
-| SR-20261024-726 | atlas/A19/main.md | a19-17-complete | Medium | humour | Give Gobber one grumble on the voyage home, and it sets up the dragon on Hiccup's bed | open | 2026-10-24-3 |
-| SR-20261024-727 | atlas/A22/main.md | a22-15-complete | Medium | humour | Show Abuela being bad with a trowel instead of saying it, in all three versions | open | 2026-10-24-3 |
-| SR-20261024-728 | atlas/A21/main.md | a21-13-statues | Medium | humour | Set up the statue pose as a joke before Himmel's grave line turns it | open | 2026-10-24-3 |
-| SR-20261024-729 | atlas/A21/main.md | a21-20-gate | Medium | humour | The mimic gag never says goodbye; let Stark pass it on at the gate | open | 2026-10-24-3 |
-| SR-20261024-730 | atlas/A20/main.md | a20-05-water | Medium | humour | The thimble is set up and dropped in all three versions; give it one drop and a ceremony | open | 2026-10-24-3 |
-| SR-20261024-731 | atlas/A22/main.md | a22-09-eyes | Medium | humour | Señora Guzmán sits under the falling dresser complimenting a soup full of roses | open | 2026-10-24-3 |
-| SR-20261024-732 | atlas/A22/main.md | a22-16-complete | Medium | humour | Close the chairs gag at the goodbye | open | 2026-10-24-3 |
-| SR-20261024-733 | atlas/A22/main.md | a22-02-kitchen | Medium | theme | Julieta and Agustín never bicker; give them the bee | open | 2026-10-24-3 |
-| SR-20261024-734 | atlas/A20/main.md | a20-07-sleipnir | Medium | humour | The Nubbin envies Sleipnir's legs; give Hermódr the dry answer (and sprout the leg count) | open | 2026-10-24-3 |
-| SR-20261024-735 | atlas/A21/main.md | a21-08-qual | Medium | humour | Qual is outraged at being blocked; let the elder admit he dusted him every spring | open | 2026-10-24-3 |
-| SR-20261024-736 | atlas/A19/main.md | a19-16-draw | Medium | character | Stoick and Gobber's forty years are told, never shown; give Gobber one jab on the burning deck | open | 2026-10-24-3 |
-| SR-20261024-737 | atlas/A22/main.md | a22-05-plan | Medium | humour | Show what Mirabel's back-of-the-hand list says | open | 2026-10-24-3 |
-| SR-20261024-738 | atlas/A19/sprout.md | a19-01-raid | Medium | humour | Put main's surprised sheep back into the raid | open | 2026-10-24-3 |
-| SR-20261024-739 | atlas/A20/sprout.md | a20-01-hall-done | Medium | humour | Baldr tiptoes round the sleeping Nubbin (both bands) | open | 2026-10-24-3 |
-| SR-20261024-740 | atlas/A19/sprout.md | a19-13-chain | Medium | child-read | "Says something unkind" is vague; say it plainly and add one small comfort after | open | 2026-10-24-3 |
-| SR-20261024-741 | atlas/A20/main.md | a20-13-house | Medium | follow | Loki is first named as if known, and Kvasir is missing from the cast | open | 2026-10-24-3 |
-| SR-20261024-742 | atlas/A21/main.md | a21-11-ghost | Medium | follow | "The colour Bramble was before the rail" assumes the player knows Bramble and the rail | open | 2026-10-24-3 |
-| SR-20261024-743 | atlas/A21/main.md | a21-14-plan-done | Medium | follow | Linie is named once and never introduced; one tag, and Stark's joke still works | open | 2026-10-24-3 |
-| SR-20261024-744 | atlas/A19/main.md | a19-15-go | Medium | continuity | "Five dragons go up" but only four were matched; both bands already say four | open | 2026-10-24-3 |
-| SR-20261024-745 | atlas/A19/sprout.md | a19-15-go | Medium | follow | "Toothless knows the way" while Toothless is chained on a ship | open | 2026-10-24-3 |
-| SR-20261024-746 | atlas/A19/sprout.md | a19-15-pens | Medium | child-read | "If this is a trick, I am too good-looking to eat" is vanity wrapped in an idiom | open | 2026-10-24-3 |
-| SR-20261024-747 | atlas/A19/sprout.md | a19-05-arena | Medium | child-read | Six names in one scene, and the lesson counts Tuffnut, who never speaks | open | 2026-10-24-3 |
-| SR-20261024-748 | atlas/A20/reader.md | a20-15-plain | Medium | child-read | "The small ones went still in the long grass" needs the White Year and hints at Nubbins dying | open | 2026-10-24-3 |
-| SR-20261024-749 | atlas/A19/reader.md | a19-17-dive | Medium | child-read | Doppler is beyond the band and splits the dive; teach "a coming sound gets louder" after the beat | open | 2026-10-24-3 |
-| SR-20261024-750 | atlas/A22/sprout.md | a22-02-cousins | Medium | child-read | The "what makes you you" lesson asks about Camilo before he appears | open | 2026-10-24-3 |
-| SR-20261024-751 | atlas/A22/sprout.md | a22-01-story | Medium | follow | Say that the little girl is Mirabel, and say out loud that ten years go by | open | 2026-10-24-3 |
-| SR-20261024-752 | atlas/A22/sprout.md | a22-09-ears | Medium | child-read | "And Mariano, and I always…" means nothing to a small child; show the blush, keep the secret | open | 2026-10-24-3 |
-| SR-20261024-753 | atlas/A22/sprout.md | a22-07-door | Medium | child-read | Three read-aloud stumbles: a "she" with no name, a quote inside a quote, and irony | open | 2026-10-24-3 |
-| SR-20261024-754 | atlas/A22/reader.md | a22-03-complete | Medium | continuity | "Ten Madrigals crowd round Antonio" lists Antonio among the ten | open | 2026-10-24-3 |
-| SR-20261024-755 | atlas/A22/reader.md | a22-01-casita | Medium | child-read | Swap the idioms a 7 to 10 reader takes literally, and keep Bruno's "opinions" | open | 2026-10-24-3 |
-| SR-20261024-756 | atlas/A22/main.md | a22-15-village | Nice | humour | Camilo with only his own face is a free joke | open | 2026-10-24-3 |
-| SR-20261024-757 | atlas/A20/main.md | a20-02-oil | Nice | humour | One small smile before Baldr's dreams: the Nubbin and the jar lid | open | 2026-10-24-3 |
-| SR-20261024-758 | atlas/A20/main.md | a20-17-pieces | Nice | humour | Hödr backs up Baldr's losing streak | open | 2026-10-24-3 |
-| SR-20261024-759 | atlas/A20/sprout.md | a20-09-dales | Nice | humour | A sleepy counting gag in the long dark ride | open | 2026-10-24-3 |
-| SR-20261024-760 | atlas/A20/sprout.md | a20-margin-hazel | Nice | follow | "Don't be cross with her" has no "her" on the page | open | 2026-10-24-3 |
-| SR-20261024-761 | atlas/A19/reader.md | a19-08-complete | Nice | child-read | Cut two narrator lines that announce the lesson before it is asked | open | 2026-10-24-3 |
-| SR-20261024-762 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md, atlas/A22/sprout.md | cross-story | High | child-read | About a quarter of reader-band lessons carry K-2 tags; re-tag from the approved 3–5 list | open | 2026-10-24-3 |
-| SR-20261024-763 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md, atlas/A22/sprout.md | cross-story | High | pacing | Fourteen lessons sit inside grave beats; move each to just after the beat lands | open | 2026-10-24-3 |
-| SR-20261024-764 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md | cross-story | High | humour | Lessons that split a punchline or a leap from its payoff | open | 2026-10-24-3 |
-| SR-20261024-765 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A19/sprout.md | cross-story | Medium | child-read | Eleven maths lessons use numbers the scene never says ("Suppose…") | open | 2026-10-24-3 |
-| SR-20261024-766 | atlas/A19/sprout.md, atlas/A20/reader.md, atlas/A22/sprout.md, atlas/A22/reader.md | cross-story | Medium | child-read | Four lesson replies run over the band cap; trim each | open | 2026-10-24-3 |
+| SR-20261024-707 | atlas/A21/main.md | a21-04-complete | High | follow | Two speakers are both labelled "Fern"; show the Grove neighbour as "Keeper Fern" on this page | fixed | 2026-10-24-3 |
+| SR-20261024-708 | atlas/A22/main.md | a22-09-job-done | High | humour | The dinner's shared done scene is one flat line; bring back Pepa's cloud and Félix's umbrellas | fixed | 2026-10-24-3 |
+| SR-20261024-709 | atlas/A21/main.md | a21-16-complete | High | humour | Himmel's ring has no set-up; give it the kneeling story and a mirror-lotus Keeper Fern won't explain | fixed | 2026-10-24-3 |
+| SR-20261024-710 | atlas/A20/main.md | a20-15-company | High | theme | Let Líf and Lífthrasir bicker over one dewy leaf, so the long winter has a couple in it | fixed | 2026-10-24-3 |
+| SR-20261024-711 | atlas/A20/main.md | a20-04-field | High | humour | The last laugh before Baldr dies: escalate Thor's throws to the millstone, with Fulla as straight man | fixed | 2026-10-24-3 |
+| SR-20261024-712 | atlas/A22/main.md | a22-12-room | High | follow | Isabela's "How do you know that?" is never answered; let her own roses give her away | fixed | 2026-10-24-3 |
+| SR-20261024-713 | atlas/A19/main.md | a19-05-gronckle | High | humour | Give the arena round a laugh before Gobber's warning: the Gronckle's shot makes a window | fixed | 2026-10-24-3 |
+| SR-20261024-714 | atlas/A19/sprout.md | a19-07-knife | High | continuity | Sprout cut the eel from the knife scene, so A19-10's eel trick comes from nowhere | fixed | 2026-10-24-3 |
+| SR-20261024-715 | atlas/A20/sprout.md | a20-13-ash | High | humour | Thor's "You are not the fish" has no knotted Nubbin to say it to; put the Nubbin in the net | fixed | 2026-10-24-3 |
+| SR-20261024-716 | atlas/A22/sprout.md | a22-02-market | High | humour | Restore Pepa's "What cloud?": the page's running gag starts here | fixed | 2026-10-24-3 |
+| SR-20261024-717 | atlas/A20/sprout.md | a20-06-field | High | theme | The fair-play lesson agrees with the trick that kills Baldr; make it about checking first | fixed | 2026-10-24-3 |
+| SR-20261024-718 | atlas/A19/reader.md | a19-18-complete | High | child-read | The finale's lesson gets the story wrong and sits between the saddle and the fish | fixed | 2026-10-24-3 |
+| SR-20261024-719 | atlas/A19/main.md | a19-18-village | High | humour | The dragons-in-Berk finale needs Gobber losing his forge to a Nadder | fixed | 2026-10-24-3 |
+| SR-20261024-720 | atlas/A19/main.md | a19-03-hall | High | humour | "Gobber stays" is a straight-man gift; let Gobber complain before the fleet sails | fixed | 2026-10-24-3 |
+| SR-20261024-721 | atlas/A19/sprout.md | a19-01-arrive-done | High | humour | Bring back "mind the ceiling" as a rule-of-three with a Nubbin bonk | fixed | 2026-10-24-3 |
+| SR-20261024-722 | atlas/A19/reader.md | a19-01-raid | High | child-read | 23 opinion lessons where every answer is "That's a fair answer"; keep one per quest at most | fixed | 2026-10-24-3 |
+| SR-20261024-723 | atlas/A20/reader.md | a20-11-complete | High | child-read | A negative-number sum tagged as grade 2, with a temperature the scene never gives | fixed | 2026-10-24-3 |
+| SR-20261024-724 | atlas/A20/sprout.md | a20-17-old-ground | High | child-read | Four new names in one line for 3 to 6s; keep Vídarr and drop the other three | fixed | 2026-10-24-3 |
+| SR-20261024-725 | atlas/A19/main.md | a19-01-launcher-done | Medium | humour | Hiccup says the launcher "will probably go off on the way"; let it go off at a sheep | fixed | 2026-10-24-3 |
+| SR-20261024-726 | atlas/A19/main.md | a19-17-complete | Medium | humour | Give Gobber one grumble on the voyage home, and it sets up the dragon on Hiccup's bed | fixed | 2026-10-24-3 |
+| SR-20261024-727 | atlas/A22/main.md | a22-15-complete | Medium | humour | Show Abuela being bad with a trowel instead of saying it, in all three versions | fixed | 2026-10-24-3 |
+| SR-20261024-728 | atlas/A21/main.md | a21-13-statues | Medium | humour | Set up the statue pose as a joke before Himmel's grave line turns it | fixed | 2026-10-24-3 |
+| SR-20261024-729 | atlas/A21/main.md | a21-20-gate | Medium | humour | The mimic gag never says goodbye; let Stark pass it on at the gate | fixed | 2026-10-24-3 |
+| SR-20261024-730 | atlas/A20/main.md | a20-05-water | Medium | humour | The thimble is set up and dropped in all three versions; give it one drop and a ceremony | fixed | 2026-10-24-3 |
+| SR-20261024-731 | atlas/A22/main.md | a22-09-eyes | Medium | humour | Señora Guzmán sits under the falling dresser complimenting a soup full of roses | fixed | 2026-10-24-3 |
+| SR-20261024-732 | atlas/A22/main.md | a22-16-complete | Medium | humour | Close the chairs gag at the goodbye | fixed | 2026-10-24-3 |
+| SR-20261024-733 | atlas/A22/main.md | a22-02-kitchen | Medium | theme | Julieta and Agustín never bicker; give them the bee | fixed | 2026-10-24-3 |
+| SR-20261024-734 | atlas/A20/main.md | a20-07-sleipnir | Medium | humour | The Nubbin envies Sleipnir's legs; give Hermódr the dry answer (and sprout the leg count) | fixed | 2026-10-24-3 |
+| SR-20261024-735 | atlas/A21/main.md | a21-08-qual | Medium | humour | Qual is outraged at being blocked; let the elder admit he dusted him every spring | fixed | 2026-10-24-3 |
+| SR-20261024-736 | atlas/A19/main.md | a19-16-draw | Medium | character | Stoick and Gobber's forty years are told, never shown; give Gobber one jab on the burning deck | fixed | 2026-10-24-3 |
+| SR-20261024-737 | atlas/A22/main.md | a22-05-plan | Medium | humour | Show what Mirabel's back-of-the-hand list says | fixed | 2026-10-24-3 |
+| SR-20261024-738 | atlas/A19/sprout.md | a19-01-raid | Medium | humour | Put main's surprised sheep back into the raid | fixed | 2026-10-24-3 |
+| SR-20261024-739 | atlas/A20/sprout.md | a20-01-hall-done | Medium | humour | Baldr tiptoes round the sleeping Nubbin (both bands) | fixed | 2026-10-24-3 |
+| SR-20261024-740 | atlas/A19/sprout.md | a19-13-chain | Medium | child-read | "Says something unkind" is vague; say it plainly and add one small comfort after | fixed | 2026-10-24-3 |
+| SR-20261024-741 | atlas/A20/main.md | a20-13-house | Medium | follow | Loki is first named as if known, and Kvasir is missing from the cast | fixed | 2026-10-24-3 |
+| SR-20261024-742 | atlas/A21/main.md | a21-11-ghost | Medium | follow | "The colour Bramble was before the rail" assumes the player knows Bramble and the rail | fixed | 2026-10-24-3 |
+| SR-20261024-743 | atlas/A21/main.md | a21-14-plan-done | Medium | follow | Linie is named once and never introduced; one tag, and Stark's joke still works | fixed | 2026-10-24-3 |
+| SR-20261024-744 | atlas/A19/main.md | a19-15-go | Medium | continuity | "Five dragons go up" but only four were matched; both bands already say four | fixed | 2026-10-24-3 |
+| SR-20261024-745 | atlas/A19/sprout.md | a19-15-go | Medium | follow | "Toothless knows the way" while Toothless is chained on a ship | fixed | 2026-10-24-3 |
+| SR-20261024-746 | atlas/A19/sprout.md | a19-15-pens | Medium | child-read | "If this is a trick, I am too good-looking to eat" is vanity wrapped in an idiom | fixed | 2026-10-24-3 |
+| SR-20261024-747 | atlas/A19/sprout.md | a19-05-arena | Medium | child-read | Six names in one scene, and the lesson counts Tuffnut, who never speaks | fixed | 2026-10-24-3 |
+| SR-20261024-748 | atlas/A20/reader.md | a20-15-plain | Medium | child-read | "The small ones went still in the long grass" needs the White Year and hints at Nubbins dying | fixed | 2026-10-24-3 |
+| SR-20261024-749 | atlas/A19/reader.md | a19-17-dive | Medium | child-read | Doppler is beyond the band and splits the dive; teach "a coming sound gets louder" after the beat | fixed | 2026-10-24-3 |
+| SR-20261024-750 | atlas/A22/sprout.md | a22-02-cousins | Medium | child-read | The "what makes you you" lesson asks about Camilo before he appears | fixed | 2026-10-24-3 |
+| SR-20261024-751 | atlas/A22/sprout.md | a22-01-story | Medium | follow | Say that the little girl is Mirabel, and say out loud that ten years go by | fixed | 2026-10-24-3 |
+| SR-20261024-752 | atlas/A22/sprout.md | a22-09-ears | Medium | child-read | "And Mariano, and I always…" means nothing to a small child; show the blush, keep the secret | fixed | 2026-10-24-3 |
+| SR-20261024-753 | atlas/A22/sprout.md | a22-07-door | Medium | child-read | Three read-aloud stumbles: a "she" with no name, a quote inside a quote, and irony | fixed | 2026-10-24-3 |
+| SR-20261024-754 | atlas/A22/reader.md | a22-03-complete | Medium | continuity | "Ten Madrigals crowd round Antonio" lists Antonio among the ten | fixed | 2026-10-24-3 |
+| SR-20261024-755 | atlas/A22/reader.md | a22-01-casita | Medium | child-read | Swap the idioms a 7 to 10 reader takes literally, and keep Bruno's "opinions" | fixed | 2026-10-24-3 |
+| SR-20261024-756 | atlas/A22/main.md | a22-15-village | Nice | humour | Camilo with only his own face is a free joke | fixed | 2026-10-24-3 |
+| SR-20261024-757 | atlas/A20/main.md | a20-02-oil | Nice | humour | One small smile before Baldr's dreams: the Nubbin and the jar lid | fixed | 2026-10-24-3 |
+| SR-20261024-758 | atlas/A20/main.md | a20-17-pieces | Nice | humour | Hödr backs up Baldr's losing streak | fixed | 2026-10-24-3 |
+| SR-20261024-759 | atlas/A20/sprout.md | a20-09-dales | Nice | humour | A sleepy counting gag in the long dark ride | fixed | 2026-10-24-3 |
+| SR-20261024-760 | atlas/A20/sprout.md | a20-margin-hazel | Nice | follow | "Don't be cross with her" has no "her" on the page | fixed | 2026-10-24-3 |
+| SR-20261024-761 | atlas/A19/reader.md | a19-08-complete | Nice | child-read | Cut two narrator lines that announce the lesson before it is asked | fixed | 2026-10-24-3 |
+| SR-20261024-762 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md, atlas/A22/sprout.md | cross-story | High | child-read | About a quarter of reader-band lessons carry K-2 tags; re-tag from the approved 3–5 list | fixed | 2026-10-24-3 |
+| SR-20261024-763 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md, atlas/A22/sprout.md | cross-story | High | pacing | Fourteen lessons sit inside grave beats; move each to just after the beat lands | fixed | 2026-10-24-3 |
+| SR-20261024-764 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A22/reader.md | cross-story | High | humour | Lessons that split a punchline or a leap from its payoff | fixed | 2026-10-24-3 |
+| SR-20261024-765 | atlas/A19/reader.md, atlas/A20/reader.md, atlas/A19/sprout.md | cross-story | Medium | child-read | Eleven maths lessons use numbers the scene never says ("Suppose…") | fixed | 2026-10-24-3 |
+| SR-20261024-766 | atlas/A19/sprout.md, atlas/A20/reader.md, atlas/A22/sprout.md, atlas/A22/reader.md | cross-story | Medium | child-read | Four lesson replies run over the band cap; trim each | fixed | 2026-10-24-3 |
 
 ## Runs
 
@@ -1046,3 +1046,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-24 run 12 · [review-2026-10-24-2](review-2026-10-24-2.md) · units: atlas/A15/sprout.md, atlas/A15/reader.md, atlas/A16/main.md, atlas/A16/reader.md, atlas/A17/main.md, atlas/A17/sprout.md, atlas/A17/reader.md, atlas/A18/main.md, atlas/A18/sprout.md, atlas/A18/reader.md · 60 recs: Critical 2, High 18, Medium 37, Nice 3 (5 cross-story) · fixed since last run: 59 (all)
 - 2026-10-24 · fix pass on branch `fix/story-review-2026-10-24-3` · run 12's 60 recs: 60 fixed · -648 pays off the merchant's thimble and "who won" ("a draw" / "That is exactly what the winner would say.") in A18's ending and both bands; -704 keepsake gag is order-independent (each page names only its own item; A15 "getting full", A18 "Your coat pocket has stopped trying.") because content can't read which pages are done; -651 the sprout lantern speaks through narrator lines (no lantern speaker exists); -699 the fold line sits in a15-15-courage-done where the symmetry lesson lives; -703 a16-07-drinker's lesson already sat after the grave line · canon: none
 - 2026-10-24 run 13 · [review-2026-10-24-3](review-2026-10-24-3.md) · units: atlas/A19/main.md, atlas/A19/sprout.md, atlas/A19/reader.md, atlas/A20/main.md, atlas/A20/sprout.md, atlas/A20/reader.md, atlas/A21/main.md, atlas/A22/main.md, atlas/A22/sprout.md, atlas/A22/reader.md · 60 recs: Critical 0, High 21, Medium 33, Nice 6 (5 cross-story) · fixed since last run: 60 (all)
+- 2026-10-25 · fix pass on branch `fix/story-review-2026-10-25` · run 13's 60 recs: 60 fixed · -707 gives A21 a page-local `fern` speaker name-plated "Keeper Fern" (the script-book tool no longer lets a page's name-plate for a shared speaker leak into other storylines' renders); -711 Thor's millstone comedy ends before Baldr's death, the death scene untouched; -722 cuts A19 reader's open "fair answer" questions from 24 to 16, at most one per quest; -741 rewrites the Loki line, and Kvasir stays narration only, so he needs no cast entry; -763 moves A22 band lessons out of grave and climax beats · canon: none

@@ -11,7 +11,7 @@
 _Nova’s atlas falls open at a page washed in grey and gold: a bright hall, a hall of mists, and a long white plain._  
 _Across the top, in plain letters: a story from the Prose Edda, written down in Iceland about eight hundred years ago._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): where Iceland is: an island in the North Atlantic  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): where Iceland is: an island in the North Atlantic  
 > _Iceland is an island in the North Atlantic, just south of the Arctic Circle. Imagine sailing there from Scotland._  
 > _Which direction do you sail?_  
 > - ✅ North-west → Yes. Iceland lies north-west of Scotland, across open sea.
@@ -48,13 +48,15 @@ _Your Nubbin holds up both arms, to show it will carry anything at all._
 #### `reader:a20-01-page-done` · [main](main.md#a20-01-page-done)
 
 **Frigg**: Then the first errand is the easiest. Take this cloak up the hill to my son. He gives his away to anyone who looks cold.  
+**Frigg**: I’ve sewn him twelve this winter.  
+**Fulla**: And he gave all twelve away, to four shepherds on the north road. They’re the warmest men in the world.  
 **Fulla**: Breidablik. The hall on the rise. You can’t miss it. Nobody ever has.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: 12 shared between 4  
-> _Baldr gives his cloak to anyone who looks cold. Suppose Frigg sews 12 cloaks for him to share equally between 4 cold travellers._  
-> _How many cloaks does each traveller get?_  
-> - ✅ 3 → Yes. 12 ÷ 4 = 3, so each traveller gets three cloaks.
-> - 4 → 4 is the number of travellers. Sharing 12 equally between 4 is 12 ÷ 4 = 3.
+> _Frigg sewed Baldr 12 cloaks, and he shared them equally between 4 shepherds._  
+> _How many cloaks does each shepherd get?_  
+> - ✅ 3 → Yes. 12 ÷ 4 = 3, so each shepherd gets three cloaks.
+> - 4 → 4 is the number of shepherds. Sharing 12 equally between 4 is 12 ÷ 4 = 3.
 > - 8 → 8 is 12 − 4. Sharing equally is division: 12 ÷ 4 = 3.
 > _For grown-ups: Solved a sharing (division) problem: 12 ÷ 4 = 3._
 
@@ -83,6 +85,7 @@ _Your Nubbin sits down in it, and blinks, and slowly tips over sideways._
 #### `reader:a20-01-hall-done` · [main](main.md#a20-01-hall-done)
 
 _Your Nubbin is asleep on the warm boards, in the brightest part of the floor, with one arm over its face._  
+_Baldr steps over it every time he passes, like a man crossing a stream. Once, he says sorry to it._  
 **Baldr**: Stay till it wakes. I’d like the company.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): being loved and still lonely (a think question)  
@@ -173,6 +176,7 @@ _Your Nubbin is carrying its little lantern, as it does everywhere now. Inside i
 
 _It is late. Fensalir’s fire is down to red, and Fulla is still up, holding a jar of lamp oil._  
 **Fulla**: His lamp’s been burning three nights running. He doesn’t sleep. Take this up to him? Mind the step.  
+_Your Nubbin insists on carrying the lid, and holds it up like a shield all the way. Nothing attacks it._  
 _Breidablik is never dark, but tonight the lamp is lit as well, as if he wanted more light than his own._  
 _Baldr sits at the long table with his hands round a cup that has gone cold._  
 **Baldr**: Oh. It’s you. Come in. I’m glad it’s you, and not somebody who’d ask how I am.  
@@ -235,9 +239,10 @@ _Fulla finds you a stool by the door. Your Nubbin keeps edging along the floor t
 #### `reader:a20-02-telling-done` · [main](main.md#a20-02-telling-done)
 
 _The talk goes on through the morning and into the dark. You fetch, and carry, and listen._  
+_The gods sat down at eight in the morning. At eight at night, the fire is low._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals  
-> _Suppose the gods began their council at 8 in the morning, and the fire was burning low by 8 in the evening._  
+> _The gods sat down at 8 in the morning and were still talking at 8 at night._  
 > _For how many hours did they talk?_  
 > - ✅ 12 hours → Yes. From 8 in the morning to 8 in the evening is 12 hours: 4 to noon, then 8 more.
 > - 8 hours → 8 is the clock number, not the gap. Count on: 4 hours to noon, then 8 more, which makes 12.
@@ -278,18 +283,19 @@ _Frigg has said nothing for a long time. She is turning something over, the way 
 
 _By dawn it is settled. The gods go out of the hall into a cold, clear morning._  
 **Frigg**: Tomorrow we walk. You, and I, and Fulla. We will ask the whole world.  
+**Baldr**: Mother. You don’t have to.  
+**Frigg**: I know.  
+_Your Nubbin falls asleep on the way home, and you carry it. It is facing back up the hill._  
+**Fulla**: Four kilometres an hour, six hours a day, and bread for all of it. I’ll pack tonight.  
 
 > **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time  
-> _Frigg says tomorrow they will walk. Say she walks 4 kilometres each hour (about 2½ miles), for 6 hours._  
-> _How far does she go?_  
+> _Fulla plans for 4 kilometres each hour (about 2½ miles), for 6 hours._  
+> _How far will they walk in one day?_  
 > - ✅ 24 km (about 15 miles) → Yes: 4 km × 6 hours = 24 km. That is a long walk for one day.
 > - 10 km → 10 is 4 + 6. Walking 4 km an hour for 6 hours means 6 groups of 4: 24 km.
 > - 2 km → Not quite. Each hour adds 4 km, so six hours add 6 × 4 = 24 km.
 > _For grown-ups: Solved a distance problem: 4 km an hour for 6 hours is 24 km._
 
-**Baldr**: Mother. You don’t have to.  
-**Frigg**: I know.  
-_Your Nubbin falls asleep on the way home, and you carry it. It is facing back up the hill._  
 
 ### Glossary
 
@@ -322,7 +328,7 @@ _She asks the trees, every kind, a whole wood of them. They bend their tops to h
 **Frigg**: Everything can be asked. It only takes time, and remembering not to leave anything out.  
 _West of Valhall you pass an old oak. On one of its branches is a sprig so small and new it has only two leaves._  
 
-> **Lesson** (science, K-LS1-1, notice): mistletoe grows on another tree  
+> **Lesson** (science, 4-LS1-1, notice): mistletoe grows on another tree  
 > _That little sprig is mistletoe, and it is a real plant. It grows on the branch of another tree, such as an apple or a poplar._  
 > _Its green leaves make food from sunlight, but it sends root-like threads into the host tree to take water. So it is called a partial parasite._  
 > _For grown-ups: Learned that mistletoe is a green plant that grows on another tree’s branches._
@@ -398,7 +404,7 @@ _By evening it is done: fire and water, iron and every metal, stones, earth and 
 **Frigg**: Everything has promised. Everything I could think of.  
 _She has been spinning as she walked, a twist of thread for every promise. Now the spindle is full, and she cuts the thread._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): drop spindles: spinning thread by hand  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): drop spindles: spinning thread by hand  
 > _Frigg’s spindle is a drop spindle, one of the oldest tools for making thread. People used them for thousands of years before spinning wheels or machines._  
 > _You twist wool or flax into thread by letting the spindle hang and turn. Hand-spinners still use them today._  
 > _For grown-ups: Learned that drop spindles are very old tools for making thread, still used today._
@@ -436,8 +442,12 @@ _Nothing hurts him, because everything has promised. The game is a way of honour
 **Baldr**: I’m always standing still! It’s the one thing I’m good at today!  
 _Thor throws a stone the size of a loaf. It stops a hand’s width from Baldr, seems to think about it, and drops._  
 _Everyone laughs, and Baldr laughs most of all, with his head back._  
+**Thor**: Right. That was a small one. Somebody fetch me the millstone.  
+**Fulla**: That’s the mill’s millstone, Thor. They’re using it.  
+**Thor**: They can have it back. It won’t be hurt. That’s the whole point of today.  
+_The millstone rolls up to Baldr, stops at his toes, and lies down flat, like a dog that wants its tummy rubbed._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): the Thing: an assembly where people had a say  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): the Thing: an assembly where people had a say  
 > _The Norse word “Thing” meant an assembly, where free people met to settle quarrels and make laws._  
 > _Iceland’s Althing began in the year 930, and still meets today. It is one of the oldest parliaments in the world._  
 > _For grown-ups: Learned that a Thing was an assembly, and that Iceland’s Althing began in 930._
@@ -507,9 +517,10 @@ _He says it lightly. He has said it to himself a good many times before._
 #### `reader:a20-04-hodr-done` · [main](main.md#a20-04-hodr-done)
 
 **Hödr**: Come and tell me the next good one. You tell it better than they do. They just laugh and expect me to know.  
+**Hödr**: Eight of them have had three throws each, and nobody has told me about a single one.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication: 8 × 3  
-> _Hödr asks you to tell him every good moment. Suppose eight gods each take three throws at Baldr._  
+> _Hödr asks you to tell him every good moment. Eight gods have each had three throws at Baldr._  
 > _How many throws are there to describe?_  
 > - ✅ 24 → Yes: 8 × 3 = 24 throws. Hödr will be there all evening.
 > - 11 → 11 is 8 + 3. Eight gods with three throws each is eight groups of three: 24.
@@ -547,10 +558,11 @@ _Your Nubbin follows them home, walking in Baldr’s light and holding on to Hö
 #### `reader:a20-05-water` · [main](main.md#a20-05-water)
 
 _Fensalir needs water, and the spring is down the slope. You take two pails, and your Nubbin takes a thimble._  
+_It comes back up the path with one drop in it, carried like a crown, and pours it into your eight-litre pail with great ceremony._  
 
 > **Lesson** (maths, 4.MD.A.1, ask): units of volume: litres and millilitres  
 > _You carry two pails, and your Nubbin carries a thimble. There are 1000 millilitres in a litre._  
-> _If a pail holds 8 litres, how many millilitres is that?_  
+> _Your pail holds 8 litres. How many millilitres is that?_  
 > - ✅ 8000 millilitres → Yes: 8 × 1000 = 8000. The thimble, by comparison, holds only a few millilitres.
 > - 800 millilitres → Check the zeros. Each litre is 1000 millilitres, so 8 litres is 8000.
 > - 80 millilitres → That is far too small. 8 litres is 8 × 1000 = 8000 millilitres.
@@ -596,7 +608,7 @@ _The old woman puts her cup down very carefully, as if it had become important n
 _The old woman thanks Frigg, and gets up, and goes out of the door._  
 _You go to the doorway a moment after, and the path runs empty both ways. You didn’t see which way she went._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: opposites  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: opposites  
 > _The path runs north and south past Fensalir’s door, and the old woman could have gone either way._  
 > _If she walked north, which way would she have to walk to come back?_  
 > - ✅ South → Yes. South is the opposite of north. East and west are opposites too.
@@ -612,7 +624,7 @@ _You go to the doorway a moment after, and the path runs empty both ways. You di
 **Frigg**: Whatever for? Nothing can hurt him.  
 _She goes back to her work. Your Nubbin sits by the door all evening, facing west._  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Sun sets in the west  
+> **Lesson** (science, 5-ESS1-2, ask): the Sun sets in the west  
 > _Your Nubbin sits by the door all evening, facing west, towards the little sprout._  
 > _In the evening, which direction is the Sun in?_  
 > - ✅ The west → Yes. The Sun rises in the east and sets in the west, because Earth turns towards the east.
@@ -676,7 +688,7 @@ _You are the one who has to tell him. There is no way of telling it that is righ
 _So you tell him plainly, and he doesn’t move. Then his hand opens, and lets go of nothing._  
 **Hödr**: I only wanted to be in the game.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): who is to blame? (a think question)  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): who is to blame? (a think question)  
 > _Hödr threw the sprig, but he could not see, and someone else guided his arm._  
 > _Is Hödr to blame for what happened? Who is?_  
 > - Hödr is not to blame: he was tricked → A kind and fair view. He did not know what he was throwing, and he trusted a voice he could not see.
@@ -740,7 +752,7 @@ _It is Hermódr the Bold, Baldr’s brother, a quick, plain man who has never sa
 
 **Odin**: Take my horse. Nothing else could make that road.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): horses were how people travelled  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): horses were how people travelled  
 > _Before cars, trains and aeroplanes, a good horse was the fastest way for most people to travel over land._  
 > _A horse at a steady pace could carry a rider about 30 to 40 kilometres (20 to 25 miles) in a day. Odin’s horse is faster than any._  
 > _For grown-ups: Learned that horses were the main way to travel over land before engines._
@@ -749,7 +761,8 @@ _It is Hermódr the Bold, Baldr’s brother, a quick, plain man who has never sa
 #### `reader:a20-07-sleipnir` · [main](main.md#a20-07-sleipnir)
 
 _Odin’s stable is long and warm and smells of hay. At the end of it stands a grey horse, taller than the door._  
-_Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own, and looks thoughtful._  
+_Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own two, and looks at Sleipnir as if he had taken more than his share._  
+**Hermódr**: He was born with them. Don’t take it personally.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication: legs  
 > _Sleipnir has eight legs. An ordinary horse has four._  
@@ -798,7 +811,7 @@ _That night you sleep in Fensalir’s hall. Hermódr doesn’t; you hear him out
 _Your Nubbin creeps out to the step and sits looking up at the pale hall on the rise. There is no light in it._  
 _For the first time since it came here, it doesn’t know which way to face._  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to an event  
+> **Lesson** (literacy, RL.3.3, ask): how a character responds to an event  
 > _For the first time, your Nubbin does not know which way to face._  
 > _Why? What has changed for it?_  
 > - ✅ The light it always turned towards has gone out → Yes. It had learned to face Baldr’s light, and now the hall on the rise is dark.
@@ -866,7 +879,7 @@ _Odin lays a gold ring on the cloth. It is called Draupnir, and it is the best t
 _The ship rocks a little in the shallows, waiting._  
 **Fulla**: Everyone gives something. You don’t have to. But you can.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Viking-age ship burials  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Viking-age ship burials  
 > _Real Viking-age people sometimes buried important people in ships._  
 > _The Oseberg ship, in Norway, held two women about 1,200 years ago, with beds, cloth and tools._  
 > _Giving gifts to the dead was a way of honouring them. We still bring flowers, light candles and tell stories._  
@@ -887,7 +900,7 @@ _The ship rocks a little in the shallows, waiting._
 _Then they light the pyre and push the ship out. You don’t watch the burning; you watch the light go._  
 _Out on the water it is one bright thing, then a small bright thing, then a star sitting low on the sea._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see things when light reaches our eyes  
+> **Lesson** (science, 4-PS3-2, ask): we see things when light reaches our eyes  
 > _The ship becomes one bright thing, then a small bright thing, then a star low on the sea._  
 > _You can see a lit ship far out at night. What must happen for you to see it?_  
 > - ✅ Light from the ship travels to your eyes → Yes. We see something when light from it reaches our eyes. Our eyes receive light. They do not send it out.
@@ -946,7 +959,7 @@ _The river is Gjöll. A woman stands at the near end of the bridge, tall and pla
 **Módgudr**: Yesterday five troops of the dead rode over this bridge, and it hardly made a sound under them.  
 **Módgudr**: Tonight it rings under one horse as if an army were crossing. You aren’t dead. None of you. Not even the small one.  
 
-> **Lesson** (science, 1-PS4-1, ask): vibrations make sound  
+> **Lesson** (science, 4-PS3-2, ask): vibrations make sound  
 > _The bridge hardly rang under the dead, but it rings like a bell under your living horse._  
 > _In real life, what makes any bell, drum or bridge ring?_  
 > - ✅ It vibrates: it shakes back and forth very fast, and that pushes the air → Yes. Sound is vibration. The shaking passes through the air to your ears.
@@ -1057,7 +1070,7 @@ _He takes the ring Draupnir from his arm and puts it in Hermódr’s hand._
 _Nanna comes behind him with a folded linen smock, and a gold ring._  
 **Nanna**: The linen is for Frigg. The ring is for Fulla. Tell her thank you, for all the times she did my hair.  
 
-> **Lesson** (science, 2-PS1-1, ask): linen comes from flax  
+> **Lesson** (science, ask): linen comes from flax  
 > _Nanna gives Frigg a folded linen smock._  
 > _Linen is made from the fibres inside the stem of a plant. Which plant?_  
 > - ✅ Flax → Yes. Flax stems are soaked, beaten and spun into thread. Linen is cool and strong, which is why it was prized.
@@ -1081,18 +1094,18 @@ _Nanna comes behind him with a folded linen smock, and a gold ring._
 
 _Your Nubbin will not leave his light. In the end Baldr picks it up himself and hands it to you at the gate._  
 **Baldr**: Go on. I’ll be here. It isn’t so bad. There’s room, and it’s quiet, and Nanna is with me.  
-_Sleipnir takes you back up the road: nine nights, the dark, the gold bridge, and Módgudr lifting one hand as you pass._  
-
-> **Lesson** (maths, 2.OA.A.1, ask): addition: 9 + 9  
-> _Sleipnir takes you back up the road: nine nights, the dark, the gold bridge._  
-> _Counting the ride down and the ride back, how many nights have you spent on the road?_  
-> - ✅ 18 → Yes. 9 + 9 = 18 nights on the road.
-> - 9 → 9 is just one way. You rode nine nights down and nine nights back.
-> - 81 → 81 is 9 × 9. The two journeys are added: 9 + 9 = 18.
-> _For grown-ups: Added two equal journeys: 9 + 9 = 18 nights._
-
+_Sleipnir takes you back up the road: nine nights, as it was nine nights down, the dark, the gold bridge, and Módgudr lifting one hand._  
 **Hermódr**: Everything has to weep. Everything.  
 **Hermódr**: Then we ask everything. Again.  
+
+> **Lesson** (maths, 3.OA.A.1, ask): equal groups: 2 × 9  
+> _You rode nine nights down the road, and nine nights back._  
+> _How many nights have you spent on the road?_  
+> - ✅ 18 → Yes. Two journeys of nine nights: 2 × 9 = 18 nights on the road.
+> - 9 → 9 is just one way. You rode nine nights down and nine nights back.
+> - 81 → 81 is 9 × 9. There are two journeys of nine: 2 × 9 = 18.
+> _For grown-ups: Used equal groups: two journeys of nine nights is 2 × 9 = 18._
+
 
 ## A20-11. Everything Weeps
 
@@ -1134,10 +1147,10 @@ _In a hollow on the north side there are stones still white with frost. Nobody h
 **A Messenger**: Carry them out, into the sun. You’ll see.  
 _You carry the first one out and set it down where the sun is. The frost on it shines, goes clear, and begins to run._  
 
-> **Lesson** (science, 2-PS1-4, ask): melting versus condensation  
+> **Lesson** (science, 4-PS3-2, ask): melting versus condensation  
 > _Frost on a stone runs with water when it comes into the sun. Is this melting or condensation?_  
 > - ✅ Melting: ice turning to water as it warms above 0°C (32°F) → Yes. Frost is ice, and warmth turns it back into liquid water.
-> - Condensation → Close, but different. Condensation is invisible water vapour in warm air touching something cold and turning into drops, like sweat on a cold glass. The frost here is already ice, so it is melting.
+> - Condensation → Close, but no. Condensation is water vapour turning to drops on something cold, like a cold glass. This frost is ice, so it is melting.
 > - Evaporation → Evaporation turns liquid water into invisible vapour. Here the frost turns into liquid drops, not vapour.
 > _For grown-ups: Told melting from condensation and evaporation._
 
@@ -1188,16 +1201,16 @@ _Somewhere very far down, you think, Baldr’s light might be a little brighter.
 
 #### `reader:a20-11-complete` · [main](main.md#a20-11-complete)
 
+_You started at nine in the morning. By two in the afternoon, the last stone weeps._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals across noon  
+> _How long did the weeping take, from nine o’clock to two o’clock?_  
+> - ✅ 5 hours → Yes. Nine to twelve is 3 hours, and twelve to two is 2 more.
+> - 7 hours → Count again: nine, ten, eleven, twelve, one, two. That’s 5.
+> - 11 hours → That is 9 + 2. We count the hours between, not add the clock numbers.
+> _For grown-ups: Worked out a time interval across noon: nine o’clock to two o’clock is 5 hours._
+
 _By evening every road you walked is wet, and the sun is going down red over a weeping world._  
-
-> **Lesson** (maths, 2.OA.A.1, ask): negative numbers and temperature  
-> _At dawn the hollow was −4°C (about 25°F). By noon the sun has warmed it by 7 degrees._  
-> _What is the temperature at noon? Will the frost still be there?_  
-> - ✅ 3°C (about 37°F), so the frost has melted → Yes. −4 + 7 = 3, which is above 0°C, so the frost melts.
-> - −11°C → That is −4 − 7. The sun warmed it, so we add: −4 + 7 = 3°C.
-> - 11°C → 11 is 4 + 7. Starting below zero, −4 + 7 = 3°C.
-> _For grown-ups: Added a temperature rise to a below-zero start: −4 + 7 = 3°C._
-
 **A Messenger**: That’s ours done. Everything we asked, wept. Time to go home.  
 _Your Nubbin carries one of the frost-stones home in both arms, and won’t put it down._  
 _Whenever the sun touches it, it weeps a little still. It always will._  
@@ -1208,9 +1221,10 @@ _Variant of `a20-11-complete`._
 
 _Your Nubbin holds its little lantern up close to a stone that is slow to weep. The red pebble inside glows._  
 _The frost on that stone runs at once, faster than any of the others, as if it had only been waiting to be asked kindly._  
+_The other stones each took about thirty minutes to weep. This one takes a third of that._  
 
 > **Lesson** (maths, 3.NF.A.1, ask): unit fractions of time  
-> _The other stones took about 30 minutes to run with water. The stone beside the ember took one third of that time._  
+> _The other stones took about 30 minutes. The stone beside the ember took one third (1/3) of that time._  
 > _How many minutes did it take?_  
 > - ✅ 10 minutes → Yes. One third of 30 is 30 ÷ 3 = 10 minutes.
 > - 3 minutes → 3 is one tenth of 30. A third of 30 is 30 ÷ 3 = 10.
@@ -1237,7 +1251,7 @@ _The messengers come home along every road at once, wet to the knees and very qu
 **A Messenger**: He’ll be home by morning. Think of her face.  
 _The road home runs under a cliff. In the cliff there is a cave, and in the mouth of the cave somebody is sitting._  
 
-> **Lesson** (science, 2-ESS1-1, ask): how lava tubes form  
+> **Lesson** (science, ask): how lava tubes form  
 > _The road runs under a cliff with a cave in it. Iceland has many caves, and some are lava tubes._  
 > _A lava tube forms when the outside of a lava flow cools and hardens while hot lava keeps running inside. What is left when the lava drains away?_  
 > - ✅ A hollow tunnel → Yes. The hardened shell stays behind, and the empty space is the cave.
@@ -1285,10 +1299,11 @@ _Your Nubbin looks at you. Its face is still wet from the stones._
 
 **Thökk**: Go home. Tell them Thökk wouldn’t.  
 _Whatever you do, she will not weep. The cave stays dry, and so do her eyes._  
+**A Messenger**: We knocked at a hundred doors on our road. Every one wept but hers.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction: 100 − 1  
-> _The messengers asked the whole world, and only Thökk refused._  
-> _Suppose they had asked 100 beings, and every one but Thökk wept. How many wept?_  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction: 100 − 1  
+> _The messengers asked at 100 doors on their road, and only Thökk refused._  
+> _How many wept?_  
 > - ✅ 99 → Yes: 100 − 1 = 99 wept. And one did not.
 > - 100 → That would count Thökk too. She did not weep, so take one away: 99.
 > - 1 → 1 is how many refused. The rest wept: 100 − 1 = 99.
@@ -1300,15 +1315,15 @@ _Whatever you do, she will not weep. The cave stays dry, and so do her eyes._
 _The messengers go home slowly. Nobody wants to be the one who reaches Fensalir first._  
 _They tell Frigg. She doesn’t weep again; she sits down on the step, and Fulla sits beside her._  
 **Frigg**: One. Out of everything.  
+_Your Nubbin keeps looking back at the cliff the whole way home._  
 _People believe the giantess in the cave was Loki, in another shape. That is how the old book tells it._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): one telling: how old stories change  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): one telling: how old stories change  
 > _Snorri says people believed the giantess was Loki in another shape. He is passing on what others said, not claiming to know._  
 > _Stories like this were told aloud for generations before they were written down, and tellers did not always agree._  
 > _That is why this page is one telling, not the only one._  
 > _For grown-ups: Learned that old stories were passed on by word of mouth, and tellers varied._
 
-_Your Nubbin keeps looking back at the cliff the whole way home._  
 
 #### `reader:a20-12-kept` · [main](main.md#a20-12-kept)
 
@@ -1336,11 +1351,12 @@ _Your hand goes to your pocket. The stone is cold through the cloth, as it alway
 
 #### `reader:a20-13-house` · [main](main.md#a20-13-house)
 
-_The gods know now whose hand was at Hödr’s elbow. It was Loki’s, and he has run._  
+_The gods know now whose hand was at Hödr’s elbow: Loki’s. He is one of them, clever, and able to wear any shape he likes._  
+_Now he has run._  
 _They hunt for him a long time. In the end they find a house high on a mountain, with a door in every wall._  
 **Thor**: Four doors. So he could watch every way at once.  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Sun rises in the east  
+> **Lesson** (science, 5-ESS1-2, ask): the Sun rises in the east  
 > _The house has a door in each of its four walls, so Loki could watch every way at once._  
 > _If the four doors face north, east, south and west, which door faces the rising Sun?_  
 > - ✅ The east door → Yes. The Sun rises in the east, so the east door catches the first light.
@@ -1358,17 +1374,18 @@ _The wisest of the gods, Kvasir, kneels by the hearth and looks at the ash a lon
 _It is the shape of a net, and nobody has ever made a net before. Loki made the first one, and then he burned it._  
 **Odin**: Then he is in the water. He knew we would make one too, sooner or later. So we shall.  
 _The gods sit down and make a net by the shape of the ash. It is slow work, and your Nubbin keeps getting knotted into it._  
+**Thor**: Hold still, small one. You’re not the fish.  
+_It is the first time anyone has smiled since the Thing-field. It doesn’t last, but it happens._  
+_The ash shows a net ten knots across and six knots down, like a grid._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): arrays: knots in a net  
-> _The gods knot a net by the shape of the ash._  
-> _Suppose the net has 10 knots across and 6 knots down, like a grid. How many knots do they tie in all?_  
+> _The net is 10 knots across and 6 knots down._  
+> _How many knots must the gods tie in all?_  
 > - ✅ 60 → Yes: 10 across × 6 down = 60 knots. That is why it was slow work.
 > - 16 → 16 is 10 + 6. A grid has rows of knots, so we multiply: 10 × 6 = 60.
 > - 100 → 100 would be 10 × 10. With 6 rows, it is 10 × 6 = 60.
 > _For grown-ups: Used multiplication for a grid: 10 × 6 = 60._
 
-**Thor**: Hold still, small one. You’re not the fish.  
-_It is the first time anyone has smiled since the Thing-field. It doesn’t last, but it happens._  
 
 **Choices**
 
@@ -1385,6 +1402,8 @@ _The waterfall is Franang’s Falls. In the pool under it, by day, a salmon lies
 _Thor wades into the middle of the river with the net. You take one end on the bank, and the gods take the other._  
 _You drag it down the river. The salmon slips over the top of the net and is away towards the sea._  
 _Again. This time the salmon must choose: the open sea, or a leap back over the net._  
+_It leaps. Thor grabs at it in mid-air, and catches it by the tail._  
+_It slides through his hand, and his hand closes, and holds. That, the old book says, is why the salmon tapers at the tail._  
 
 > **Lesson** (science, 3-LS1-1, ask): the salmon life cycle  
 > _The salmon in Franang’s Falls leaps back over the net instead of swimming out to sea._  
@@ -1394,8 +1413,6 @@ _Again. This time the salmon must choose: the open sea, or a leap back over the 
 > - For fun → Leaping is hard work. They do it to reach the place where they can lay eggs.
 > _For grown-ups: Learned part of the salmon life cycle: they swim upstream to breed._
 
-_It leaps. Thor grabs at it in mid-air, and catches it by the tail._  
-_It slides through his hand, and his hand closes, and holds. That, the old book says, is why the salmon tapers at the tail._  
 
 #### `reader:a20-13-falls-done` · [main](main.md#a20-13-falls-done)
 
@@ -1543,7 +1560,7 @@ _Your Nubbin is holding on to you with both arms._
 _You climb up out of the earth into a grey evening. The wind has changed, and it smells of snow._  
 _The page turns under your hand. On the other side it is white from edge to edge._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Iceland: fire and ice  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Iceland: fire and ice  
 > _Iceland is sometimes called the land of fire and ice. Glaciers and active volcanoes lie close together on the same island._  
 > _The glaciers are there because it is so far north. The volcanoes are there because hot rock rises in the gap between the plates._  
 > _For grown-ups: Learned that Iceland has glaciers and volcanoes side by side._
@@ -1575,17 +1592,8 @@ _Snow drives in from every side. The frost bites hard, the wind cuts, and the su
 > _For grown-ups: Learned that Earth’s tilt makes winter days short in the far north._
 
 _Three winters come one after another, with no summer between them. The seasons simply forget to turn._  
-
-> **Lesson** (maths, 1.OA.A.1, ask): counting missing summers  
-> _Three winters come one after another, with no summer between them._  
-> _In a normal run of three winters, a summer comes between each pair. How many summers does the Fimbulwinter skip?_  
-> - ✅ 2 → Yes. Winter, summer, winter, summer, winter: two summers sit between three winters.
-> - 3 → 3 is the number of winters. The summers sit between them, so there are 2.
-> - 1 → There is a summer between the first and second winter, and another between the second and third: 2.
-> _For grown-ups: Counted the summers that sit between three winters._
-
 _You walk with your head down. Your Nubbin rides inside your cloak, tucked up against your chest._  
-_You think of a valley you know, where a winter once would not end, and the small ones went still in the long grass._  
+_You think of your own valley, and a winter there that would not end. It ended in the end, and so will this one._  
 _Ahead, through the white, there is a dark line of trees._  
 
 #### `reader:a20-15-holt` · [main](main.md#a20-15-holt)
@@ -1611,7 +1619,7 @@ _Your Nubbin climbs out of your cloak and goes straight to them. It sits down be
 
 _So you stay in the holt, through the snow. Every morning the four of you lick the dew off the leaves, and it tastes of nothing._  
 
-> **Lesson** (science, 2-ESS2-3, ask): what dew is  
+> **Lesson** (science, ask): what dew is  
 > _Every morning you lick dew off the leaves. Dew is tiny drops of water on leaves and grass._  
 > _Where does the water in dew come from?_  
 > - ✅ Water vapour in the air turns into drops on cool surfaces → Yes. That is condensation again, outdoors, overnight.
@@ -1621,9 +1629,12 @@ _So you stay in the holt, through the snow. Every morning the four of you lick t
 
 _Every night you sit close, under one blanket and your cloak, and the winter goes on outside the trees._  
 _Your Nubbin shares itself out: a night by Líf, a night by Lífthrasir, a night in your lap._  
-**Lífthrasir**: We used to have names for the days. We stopped. There didn’t seem to be any point.  
+**Líf**: You’ve licked my leaf.  
+**Lífthrasir**: There’s dew on all of them.  
+**Líf**: That one was mine. I was saving it for Tuesday.  
+**Lífthrasir**: There aren’t any Tuesdays now. We stopped naming the days. There didn’t seem any point.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): weekday names from Norse gods  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): weekday names from Norse gods  
 > _Names for the days are older than they seem._  
 > _Four English weekdays are named for gods the early English shared with the Norse._  
 > _Tuesday is for Tiw (Týr), Wednesday for Woden (Odin), Thursday for Thor, and Friday for Frige (Frigg)._  
@@ -1647,10 +1658,11 @@ _Outside, the third winter starts without the second one having ended._
 #### `reader:a20-15-company-done` · [main](main.md#a20-15-company-done)
 
 **Líf**: You stayed. Nobody stays anywhere any more. Everybody’s running somewhere.  
+**Lífthrasir**: Three winters now, and each one six months long. I still count the months. I can’t help it.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiplication: 3 winters × 6 months  
-> _Líf says nobody stays anywhere any more; everybody is running somewhere._  
-> _Suppose each of the three winters lasted six months. How many months of winter is that in all?_  
+> _Lífthrasir counts three winters, each one six months long._  
+> _How many months of winter is that in all?_  
 > - ✅ 18 months → Yes. 3 × 6 = 18 months of winter, a year and a half.
 > - 9 months → 9 is 3 + 6. Three winters of six months each is 3 × 6 = 18.
 > - 12 months → 12 would be two winters of six months. Three winters make 3 × 6 = 18.
@@ -1865,7 +1877,7 @@ _Líf and Lífthrasir walk out from under the trees, slowly, holding on to each 
 **Líf**: Grass. Feel it. It’s grass.  
 **Lífthrasir**: And the sun. Look. It’s warm. It’s warm again.  
 
-> **Lesson** (science, 2-LS2-1, ask): plants need water and light  
+> **Lesson** (science, 4-LS1-1, ask): plants need water and light  
 > _Líf says the sun is warm again. Plants need sunlight and water to grow._  
 > _Which part of a plant mainly catches the sunlight?_  
 > - ✅ The leaves → Yes. Leaves catch sunlight and use it, with water and air, to make food for the plant.
@@ -1880,7 +1892,7 @@ _Your Nubbin runs out into the middle of a field and lies down flat in the sun, 
 
 _Where the gods’ halls stood there is a plain of grass, with old stones showing through it here and there._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): ruins and what they show  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): ruins and what they show  
 > _Where the gods’ halls stood there is a plain of grass, with old stones showing here and there._  
 > _How can archaeologists tell what stood at a place like this long ago?_  
 > - ✅ They dig carefully, study stones and tools, and compare with written records → Yes. Stones, post-holes and tools show where walls and floors were, and records help fill the gaps.
@@ -1916,21 +1928,23 @@ _The brothers sit down on the grass, and the others sit round them, and they tal
 **Hödr**: I remember the guest telling it. Better than you did, as well.  
 _In the long grass by the old stones, your hand closes on something small and cold. You pull it out._  
 _It is a game piece, made of gold. There are more of them in the grass: the pieces the gods played with in the old days._  
+**Vídarr**: They were ours, before. Now they’re anybody’s.  
+_You find eighteen in all, and lay them out on the grass in six neat rows._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: sharing 18 between 6  
-> _There are more golden game pieces in the long grass._  
-> _Suppose you find 18, and share them equally between 6 players. How many pieces does each player get?_  
-> - ✅ 3 → Yes. 18 ÷ 6 = 3, so each player gets three pieces.
-> - 12 → 12 is 18 − 6. Sharing equally between 6 is division: 18 ÷ 6 = 3.
+> _You lay 18 pieces out in 6 equal rows._  
+> _How many pieces are in each row?_  
+> - ✅ 3 → Yes. 18 ÷ 6 = 3, so each row has three pieces.
+> - 12 → 12 is 18 − 6. Sharing equally into 6 rows is division: 18 ÷ 6 = 3.
 > - 24 → 24 is 18 + 6. We are sharing out, so we divide: 18 ÷ 6 = 3.
 > _For grown-ups: Solved a sharing problem: 18 ÷ 6 = 3._
 
-**Vídarr**: They were ours, before. Now they’re anybody’s.  
 
 **Choices**
 
 - **Give the first piece to Baldr.**
     - **Baldr**: Ha. I always lost with this one. Every single time.
+    - **Hödr**: He did. He shouted about it every time.
 - **Give the first piece to Hödr.**
     - Hödr turns it over in his fingers, feeling the shape of it.
     - **Hödr**: A little horse. I know this one. I always wanted to be the horse.

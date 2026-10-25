@@ -137,7 +137,8 @@ const units: Unit[] = [
 // ---------------------------------------------------------------- scene rendering
 const allQuests = units.flatMap((u) => u.quests ?? []);
 const speakerNames = new Map<string, string>();
-for (const q of allQuests) for (const sp of q.speakers) speakerNames.set(sp.id, sp.name);
+// A page may name-plate a campaign speaker for itself (A21's "Keeper Fern"); that stays on its page.
+for (const q of allQuests) for (const sp of q.speakers) if (!SPEAKERS[sp.id] && !C.CAMPAIGN_SPEAKERS[sp.id]) speakerNames.set(sp.id, sp.name);
 const nameIn = (cast: { id: string; name: string }[], who: string) => cast.find((s) => s.id === who)?.name ?? SPEAKERS[who]?.name ?? C.CAMPAIGN_SPEAKERS[who]?.name ?? who;
 const CAMPAIGN_CAST = Object.entries(C.CAMPAIGN_SPEAKERS).map(([id, v]) => ({ id, name: v.name }));
 

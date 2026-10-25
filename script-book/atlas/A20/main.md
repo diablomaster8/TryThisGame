@@ -127,6 +127,7 @@ Hint: Fulla has the oil jar at Fensalir’s door; carry it up the rise. · check
 
 _It is late. Fensalir’s fire is down to red, and Fulla is still up, holding a jar of lamp oil._  
 **Fulla**: His lamp’s been burning three nights running. He doesn’t sleep. Take this up to him? Mind the step.  
+_Your Nubbin insists on carrying the lid, and holds it up like a shield all the way. Nothing attacks it._  
 _Breidablik is never dark, but tonight the lamp is lit as well, as if he wanted more light than his own._  
 _Baldr sits at the long table with his hands round a cup that has gone cold._  
 **Baldr** _(soft)_: Oh. It’s you. Come in. I’m glad it’s you, and not somebody who’d ask how I am.  
@@ -313,6 +314,10 @@ _Nothing hurts him, because everything has promised. The game is a way of honour
 **Baldr** _(happy)_: I’m always standing still! It’s the one thing I’m good at today!  
 _Thor throws a stone the size of a loaf. It stops a hand’s width from Baldr, seems to think about it, and drops._  
 _Everyone laughs, and Baldr laughs most of all, with his head back._  
+**Thor**: Right. That was a small one. Somebody fetch me the millstone.  
+**Fulla**: That’s the mill’s millstone, Thor. They’re using it.  
+**Thor** _(happy)_: They can have it back. It won’t be hurt. That’s the whole point of today.  
+_The millstone rolls up to Baldr, stops at his toes, and lies down flat, like a dog that wants its tummy rubbed._  
 
 #### <a id="a20-04-field-done"></a>Done `a20-04-field-done`
 
@@ -390,6 +395,7 @@ Hint: Take the pails down to the spring and carry them back up. · check: `carry
 #### <a id="a20-05-water"></a>Scene `a20-05-water`
 
 _Fensalir needs water, and the spring is down the slope. You take two pails, and your Nubbin takes a thimble._  
+_It comes back up the path with one drop in it, carried like a crown, and pours it into your pail with great ceremony._  
 _When you come back up the path, there is an old woman at the door, leaning on a stick._  
 _She is wrapped in so many shawls that you can see nothing of her but her hands, which do not look old at all._  
 **Fulla**: A traveller. Frigg never turns one away. Bring the water in. She’ll want to give her a cup.  
@@ -443,7 +449,7 @@ Sets on completion: `{"a20-05":true}`
 
 - `a20-05-talk#5` → There is one little green sprout, growing on an oak to the west. It was so new that I didn’t ask it.
 
-**Notes:** LIFTED TEXT: a20-05-talk#5 is Frigg’s answer, verbatim (Brodeur ch. XLIX). The old woman is Loki in disguise in Snorri, but the page never says so: we hear it, and we don’t see which way she goes (the outline’s beat). Her hands (a20-05-water#2) and the smile (choice look) are the only hints. ART: a bundle of shawls and a stick; never a face. Your Nubbin hides behind you from her, the only time it does so on the page.
+**Notes:** LIFTED TEXT: a20-05-talk#5 is Frigg’s answer, verbatim (Brodeur ch. XLIX). The old woman is Loki in disguise in Snorri, but the page never says so: we hear it, and we don’t see which way she goes (the outline’s beat). Her hands (a20-05-water#3) and the smile (choice look) are the only hints. ART: a bundle of shawls and a stick; never a face. Your Nubbin hides behind you from her, the only time it does so on the page.
 
 ## A20-6. Hödr
 
@@ -557,7 +563,8 @@ Hint: The stable is behind the great hall; the grey horse is the one with too ma
 #### <a id="a20-07-sleipnir"></a>Scene `a20-07-sleipnir`
 
 _Odin’s stable is long and warm and smells of hay. At the end of it stands a grey horse, taller than the door._  
-_Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own, and looks thoughtful._  
+_Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own two, and looks at Sleipnir as if he had taken more than his share._  
+**Hermódr**: He was born with them. Don’t take it personally.  
 _He lets you take the halter without fuss. He has carried Odin over worse roads, and knows a serious errand._  
 _You lead him out. All eight hooves go down on the cobbles in an order you can’t follow._  
 **Hermódr**: Good lad. Good. We’ll go far, you and I.  
@@ -1006,7 +1013,8 @@ Hint: Follow the gods up the mountain path; the house is near the top. · check:
 
 #### <a id="a20-13-house"></a>Scene `a20-13-house`
 
-_The gods know now whose hand was at Hödr’s elbow. It was Loki’s, and he has run._  
+_The gods know now whose hand was at Hödr’s elbow: Loki’s. He is one of them, clever, and able to wear any shape he likes._  
+_Now he has run._  
 _They hunt for him a long time. In the end they find a house high on a mountain, with a door in every wall._  
 **Thor** _(angry)_: Four doors. So he could watch every way at once.  
 _The house is empty, and the fire is still warm. Beside it lies a little heap of grey ash, in a shape like knots._  
@@ -1204,7 +1212,10 @@ Hint: Sit in the hollow with them; there is nowhere else you need to be. · chec
 _So you stay in the holt, through the snow. Every morning the four of you lick the dew off the leaves, and it tastes of nothing._  
 _Every night you sit close, under one blanket and your cloak, and the winter goes on outside the trees._  
 _Your Nubbin shares itself out: a night by Líf, a night by Lífthrasir, a night in your lap._  
-**Lífthrasir**: We used to have names for the days. We stopped. There didn’t seem to be any point.  
+**Líf**: You’ve licked my leaf.  
+**Lífthrasir**: There’s dew on all of them.  
+**Líf**: That one was mine. I was saving it for Tuesday.  
+**Lífthrasir** _(soft)_: There aren’t any Tuesdays now. We stopped naming the days. There didn’t seem any point.  
 _Outside, the third winter starts without the second one having ended._  
 **Líf**: Tell us something. Anything that isn’t snow.  
 
@@ -1405,6 +1416,7 @@ _It is a game piece, made of gold. There are more of them in the grass: the piec
 
 - **Give the first piece to Baldr.**
     - **Baldr**: Ha. I always lost with this one. Every single time.
+    - **Hödr**: He did. He shouted about it every time.
 - **Give the first piece to Hödr.**
     - Hödr turns it over in his fingers, feeling the shape of it.
     - **Hödr**: A little horse. I know this one. I always wanted to be the horse.

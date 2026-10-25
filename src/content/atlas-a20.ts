@@ -369,6 +369,7 @@ export const ATLAS_A20: Quest[] = [
           lines: [
             N('It is late. Fensalir’s fire is down to red, and Fulla is still up, holding a jar of lamp oil.'),
             FU('His lamp’s been burning three nights running. He doesn’t sleep. Take this up to him? Mind the step.'),
+            N('Your Nubbin insists on carrying the lid, and holds it up like a shield all the way. Nothing attacks it.'),
             N('Breidablik is never dark, but tonight the lamp is lit as well, as if he wanted more light than his own.'),
             N('Baldr sits at the long table with his hands round a cup that has gone cold.'),
             BA('Oh. It’s you. Come in. I’m glad it’s you, and not somebody who’d ask how I am.', 'soft'),
@@ -633,6 +634,10 @@ export const ATLAS_A20: Quest[] = [
             BA('I’m always standing still! It’s the one thing I’m good at today!', 'happy'),
             N('Thor throws a stone the size of a loaf. It stops a hand’s width from Baldr, seems to think about it, and drops.'),
             N('Everyone laughs, and Baldr laughs most of all, with his head back.'),
+            TH('Right. That was a small one. Somebody fetch me the millstone.'),
+            FU('That’s the mill’s millstone, Thor. They’re using it.'),
+            TH('They can have it back. It won’t be hurt. That’s the whole point of today.', 'happy'),
+            N('The millstone rolls up to Baldr, stops at his toes, and lies down flat, like a dog that wants its tummy rubbed.'),
           ],
         },
         done: {
@@ -742,6 +747,7 @@ export const ATLAS_A20: Quest[] = [
           id: 'a20-05-water',
           lines: [
             N('Fensalir needs water, and the spring is down the slope. You take two pails, and your Nubbin takes a thimble.'),
+            N('It comes back up the path with one drop in it, carried like a crown, and pours it into your pail with great ceremony.'),
             N('When you come back up the path, there is an old woman at the door, leaning on a stick.'),
             N('She is wrapped in so many shawls that you can see nothing of her but her hands, which do not look old at all.'),
             FU('A traveller. Frigg never turns one away. Bring the water in. She’ll want to give her a cup.'),
@@ -811,7 +817,7 @@ export const ATLAS_A20: Quest[] = [
     notes:
       'LIFTED TEXT: a20-05-talk#5 is Frigg’s answer, verbatim (Brodeur ch. XLIX). The old woman is Loki in disguise in ' +
       'Snorri, but the page never says so: we hear it, and we don’t see which way she goes (the outline’s beat). Her hands ' +
-      '(a20-05-water#2) and the smile (choice look) are the only hints. ART: a bundle of shawls and a stick; never a face. ' +
+      '(a20-05-water#3) and the smile (choice look) are the only hints. ART: a bundle of shawls and a stick; never a face. ' +
       'Your Nubbin hides behind you from her, the only time it does so on the page.',
   },
 
@@ -967,7 +973,8 @@ export const ATLAS_A20: Quest[] = [
           id: 'a20-07-sleipnir',
           lines: [
             N('Odin’s stable is long and warm and smells of hay. At the end of it stands a grey horse, taller than the door.'),
-            N('Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own, and looks thoughtful.'),
+            N('Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own two, and looks at Sleipnir as if he had taken more than his share.'),
+            HE('He was born with them. Don’t take it personally.'),
             N('He lets you take the halter without fuss. He has carried Odin over worse roads, and knows a serious errand.'),
             N('You lead him out. All eight hooves go down on the cobbles in an order you can’t follow.'),
             HE('Good lad. Good. We’ll go far, you and I.'),
@@ -1585,7 +1592,8 @@ export const ATLAS_A20: Quest[] = [
         scene: {
           id: 'a20-13-house',
           lines: [
-            N('The gods know now whose hand was at Hödr’s elbow. It was Loki’s, and he has run.'),
+            N('The gods know now whose hand was at Hödr’s elbow: Loki’s. He is one of them, clever, and able to wear any shape he likes.'),
+            N('Now he has run.'),
             N('They hunt for him a long time. In the end they find a house high on a mountain, with a door in every wall.'),
             TH('Four doors. So he could watch every way at once.', 'angry'),
             N('The house is empty, and the fire is still warm. Beside it lies a little heap of grey ash, in a shape like knots.'),
@@ -1826,7 +1834,10 @@ export const ATLAS_A20: Quest[] = [
             N('So you stay in the holt, through the snow. Every morning the four of you lick the dew off the leaves, and it tastes of nothing.'),
             N('Every night you sit close, under one blanket and your cloak, and the winter goes on outside the trees.'),
             N('Your Nubbin shares itself out: a night by Líf, a night by Lífthrasir, a night in your lap.'),
-            LT('We used to have names for the days. We stopped. There didn’t seem to be any point.'),
+            LI('You’ve licked my leaf.'),
+            LT('There’s dew on all of them.'),
+            LI('That one was mine. I was saving it for Tuesday.'),
+            LT('There aren’t any Tuesdays now. We stopped naming the days. There didn’t seem any point.', 'soft'),
             N('Outside, the third winter starts without the second one having ended.'),
             LI('Tell us something. Anything that isn’t snow.'),
           ],
@@ -2036,7 +2047,10 @@ export const ATLAS_A20: Quest[] = [
             {
               id: 'baldr',
               label: 'Give the first piece to Baldr.',
-              then: [BA('Ha. I always lost with this one. Every single time.', 'happy')],
+              then: [
+                BA('Ha. I always lost with this one. Every single time.', 'happy'),
+                HO('He did. He shouted about it every time.', 'happy'),
+              ],
             },
             {
               id: 'hodr',

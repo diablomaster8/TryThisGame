@@ -122,10 +122,10 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A16: The Fox and the Rose | [main.md](atlas/A16/main.md) (1647) |  | [reader.md](atlas/A16/reader.md) (1860) |
 | Atlas, page A17: The Camphor Tree | [main.md](atlas/A17/main.md) (1647) | [sprout.md](atlas/A17/sprout.md) (1940) | [reader.md](atlas/A17/reader.md) (2607) |
 | Atlas, page A18: The Doll in the Pocket | [main.md](atlas/A18/main.md) (1749) | [sprout.md](atlas/A18/sprout.md) (2326) | [reader.md](atlas/A18/reader.md) (2530) |
-| Atlas, page A19: The Dragon Who Fell | [main.md](atlas/A19/main.md) (1610) | [sprout.md](atlas/A19/sprout.md) (1988) | [reader.md](atlas/A19/reader.md) (2318) |
-| Atlas, page A20: The Weeping | [main.md](atlas/A20/main.md) (1494) | [sprout.md](atlas/A20/sprout.md) (1815) | [reader.md](atlas/A20/reader.md) (2085) |
-| Atlas, page A21: The Flower Field | [main.md](atlas/A21/main.md) (2060) |  |  |
-| Atlas, page A22: The Candle | [main.md](atlas/A22/main.md) (1596) | [sprout.md](atlas/A22/sprout.md) (1997) | [reader.md](atlas/A22/reader.md) (2114) |
+| Atlas, page A19: The Dragon Who Fell | [main.md](atlas/A19/main.md) (1619) | [sprout.md](atlas/A19/sprout.md) (2003) | [reader.md](atlas/A19/reader.md) (2305) |
+| Atlas, page A20: The Weeping | [main.md](atlas/A20/main.md) (1506) | [sprout.md](atlas/A20/sprout.md) (1834) | [reader.md](atlas/A20/reader.md) (2099) |
+| Atlas, page A21: The Flower Field | [main.md](atlas/A21/main.md) (2072) |  |  |
+| Atlas, page A22: The Candle | [main.md](atlas/A22/main.md) (1610) | [sprout.md](atlas/A22/sprout.md) (2016) | [reader.md](atlas/A22/reader.md) (2124) |
 | Atlas, page A23: Remember Who You Are | [main.md](atlas/A23/main.md) (1678) | [sprout.md](atlas/A23/sprout.md) (1756) | [reader.md](atlas/A23/reader.md) (2177) |
 | Atlas, page A24: The Law of the Jungle | [main.md](atlas/A24/main.md) (1933) | [sprout.md](atlas/A24/sprout.md) (2576) | [reader.md](atlas/A24/reader.md) (3052) |
 | Atlas, page A25: The Nothing | [main.md](atlas/A25/main.md) (1711) |  | [reader.md](atlas/A25/reader.md) (1679) |

@@ -9,7 +9,7 @@
 
 _Nova’s atlas falls open at a valley ringed by green mountains: white walls, red roofs, tall palms and a candle in one window._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): finding Colombia: its coasts, its mountains and its coffee country  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): finding Colombia: its coasts, its mountains and its coffee country  
 > _This page is set in a real country: Colombia, in the north-west corner of South America._  
 > _It has a coast on the Caribbean Sea to the north and on the Pacific Ocean to the west._  
 > _The Andes mountains run up through it in three long ranges, and coffee grows on their slopes._  
@@ -63,7 +63,7 @@ _The floor tiles clack in a ripple across the doorway, like a dog thumping its t
 **Mirabel**: That’s Casita. Casita, be nice. Guest.  
 **Mirabel**: Come and meet everyone: my abuela, my tías and tíos, my primos. You’ll lose track.  
 
-> **Lesson** (literacy, L.2.4, ask): Spanish family words: abuela, tía, primo  
+> **Lesson** (literacy, L.3.4, ask): Spanish family words: abuela, tía, primo  
 > _In Spanish, abuela means grandmother and tía means aunt. From the way Mirabel lists her family, what do you think primo means?_  
 > - ✅ Cousin → Yes. A boy cousin is a primo and a girl cousin is a prima. Antonio and Camilo are Mirabel’s primos, and Dolores is her prima.
 > - Uncle → Close, but an uncle is a tío. A cousin is a primo, or a prima for a girl.
@@ -78,7 +78,7 @@ _A shutter swings out and taps you gently on the shoulder._
 - **Say you are the traveller.**
     - **Mirabel**: Great. Perfect. You’re in the blue room. The house likes guests. Mostly.
 - **Point out that your Nubbin is travelling too.**
-    - **Mirabel**: Oh, hello! Look at you. Antonio is going to lose his mind. In a good way.
+    - **Mirabel**: Oh, hello! Look at you. Antonio is going to be so excited he might pop. Not really.
 - **Ask what the list is for.**
     - **Mirabel**: Tonight. Antonio’s gift ceremony. My little cousin. Everything has to be perfect, so it’s a long list.
 
@@ -177,7 +177,7 @@ _Somewhere in the walls there is a small scurry, and then nothing._
 
 _Market morning. The square is full of stalls: oranges, coffee sacks, bolts of bright cloth and somebody’s goat._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): coffee country: how coffee grows in the Andes  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): coffee country: how coffee grows in the Andes  
 > _The coffee sacks are no accident. This valley is in Colombia’s coffee country, high in the Andes, where the cool mountain air suits coffee bushes._  
 > _Coffee beans are really seeds. They grow inside bright red fruits called coffee cherries._  
 > _For grown-ups: Learned that Colombian coffee grows on mountain slopes, and that beans are seeds inside red coffee cherries._
@@ -215,7 +215,7 @@ _Mirabel ticks something off her list and nearly walks into a post._
 > - Seventeen → Seventeen is what she spent. The change is what is left of 20: 20 − 17 = 3.
 > _For grown-ups: Solved a two-step money problem: 3 × 4 = 12, 12 + 5 = 17, 20 − 17 = 3._
 
-**Mirabel**: Next, my cousins. Brace yourself.  
+**Mirabel**: Next, my cousins. Hold on to something.  
 
 #### `reader:a22-02-cousins` · [main](main.md#a22-02-cousins)
 
@@ -251,7 +251,7 @@ _In the kitchen a woman with a kind, tired face is cooking arepas. A boy with a 
 **Julieta**: You must be hungry. Everyone who comes up that hill is hungry. Sit.  
 _The arepa is hot and buttery, with cheese in the middle. The ache in your legs from the long page just stops._  
 
-> **Lesson** (health, K-LS1-1, notice): what corn and cheese give a growing body  
+> **Lesson** (health, notice): what corn and cheese give a growing body  
 > _Arepas are eaten all over Colombia. They are made from ground corn, grilled or fried, often with cheese._  
 > _Corn gives you energy to run about. Cheese gives protein and calcium, which help muscles and bones grow._  
 > _For grown-ups: Learned that corn gives energy, and cheese gives protein and calcium for growing muscles and bones._
@@ -353,7 +353,7 @@ _Then it is now again. Antonio touches his door._
 _It blazes with light, and a picture of him grows on it, with animals all round._  
 _A toucan swoops down and lands on his head. A jaguar pads out of the jungle in his new room, then capybaras, then coatis._  
 
-> **Lesson** (science, 2-LS4-1, ask): animals of Colombia’s forests and wetlands: the capybara is the largest rodent  
+> **Lesson** (science, 3-LS4-3, ask): animals of Colombia’s forests and wetlands: the capybara is the largest rodent  
 > _These animals live in Colombia’s forests and wetlands. Which of them is the biggest rodent in the world?_  
 > - ✅ The capybara → Yes. Rodents have front teeth that never stop growing, and the capybara is the largest rodent alive.
 > - The jaguar → The jaguar is a big cat, not a rodent. The capybara is the largest rodent.
@@ -375,7 +375,7 @@ _The courtyard roars. Mirabel cheers louder than anybody, and goes on cheering a
 _Antonio’s jaguar sniffs your Nubbin from head to foot. Your Nubbin holds very still, then sniffs it back._  
 _Your Nubbin trills at the jaguar. Antonio listens, delighted._  
 
-> **Lesson** (literacy, RL.1.4, ask): sound words that copy the sound they name  
+> **Lesson** (literacy, L.3.4, ask): sound words that copy the sound they name  
 > _Some words sound like the thing they name, such as “sniff”. Which of these words does that?_  
 > - ✅ Sniff → Yes. “Sniff” copies the sound of a nose, and “trill” does too. Words like this are called onomatopoeia.
 > - Garden → “Garden” does not sound like a garden. “Sniff” sounds like what it names.
@@ -387,11 +387,11 @@ _Your Nubbin trills at the jaguar. Antonio listens, delighted._
 #### `reader:a22-03-complete` · [main](main.md#a22-03-complete)
 
 _The family photograph is taken on the stairs. Everyone crowds round Antonio, and the photographer waves Mirabel left, then out._  
-_Ten Madrigals are in the crowd round him: Abuela, Julieta, Agustín, Pepa, Félix, Isabela, Luisa, Dolores, Camilo and Antonio._  
+_Ten Madrigals crowd onto the stairs, with Antonio in the middle: Abuela, Julieta, Agustín, Pepa, Félix, Isabela, Luisa, Dolores, Camilo and Antonio._  
 _Mirabel ends up at the edge of the courtyard holding a vase, smiling at the camera from very far away._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding one to ten  
-> _Ten Madrigals crowd round Antonio, and Mirabel stands at the edge. How many people is that altogether?_  
+> **Lesson** (maths, 3.OA.D.8, ask): adding one to ten  
+> _Ten Madrigals stand on the stairs, and Mirabel stands at the edge. How many people is that altogether?_  
 > - ✅ Eleven → Yes. Ten in the crowd and one at the edge: 10 + 1 = 11.
 > - Ten → Ten is just the crowd. Mirabel makes one more: 10 + 1 = 11.
 > - Twelve → Count again: ten in the crowd, and one more is Mirabel. 10 + 1 = 11.
@@ -410,7 +410,7 @@ _Your Nubbin goes and sits by her feet, so that the vase and the Nubbin are at l
 _The party fills the house. Music, dancing, food on every surface, and Luisa holding up the piano so people can dance under it._  
 _A man in the corner plays a tiple, a small Colombian guitar, and the whole courtyard keeps its beat._  
 
-> **Lesson** (music, 1-PS4-1, do): a steady beat; strings make sound by vibrating  
+> **Lesson** (music, 4-PS3-2, do): a steady beat; strings make sound by vibrating  
 > _The tiple has twelve strings, in four sets of three. A string makes sound by shaking quickly when it is plucked._  
 > _(Clap along with the music: four steady beats, over and over.)_  
 > Check: `edu:clap:beat:party`
@@ -530,7 +530,7 @@ _Variant of `a22-04-lamp`._
 _You look down at the lamp at your belt. Its red-gold flame is warm against your hip, and it didn’t move at all._  
 _Mirabel sees it too. She stares at it, then at the candle, then at it again._  
 
-> **Lesson** (science, 2-PS1-1, ask): metal conducts heat away, so it feels colder than wood  
+> **Lesson** (science, 4-PS3-2, ask): metal conducts heat away, so it feels colder than wood  
 > _Your lamp’s warmth is on your hip. On a cold day, a wooden spoon and a metal spoon left outside are the same temperature._  
 > _Which feels colder to touch?_  
 > - ✅ The metal one, because it carries heat away from your hand faster → Yes. Metal conducts heat well, so it pulls warmth from your skin and feels colder, though both are the same temperature.
@@ -569,20 +569,20 @@ _Late at night you wake to a soft light on the landing. Mirabel is already there
 **Mirabel**: Shh. Abuela.  
 _Abuela Alma is alone at the candle. Beside it hangs a portrait of a young man with a kind face and a hat in his hands._  
 _She speaks to the painting the way you speak to someone across a kitchen table._  
-
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how families keep the past alive: stories, pictures and keepsakes  
-> _Abuela talks to a portrait of Pedro, who died long ago. How do families keep the past alive when someone is gone?_  
-> - By telling stories aloud → A good way. Stories told aloud, passed from person to person, are called oral history, and they carry the past a long way.
-> - By keeping pictures and keepsakes → A good way too. A portrait, a hat or a letter can bring a person back into the room.
-> - ✅ Both: stories, pictures and keepsakes together → Yes. Families use all of them. Stories carry the voice, and pictures and keepsakes carry the face and the things a person touched.
-> _For grown-ups: Talked about how families remember people through oral history, pictures and keepsakes._
-
 **Abuela Alma**: Pedro. Something is wrong. I can feel it, and I can’t see it.  
 **Abuela Alma**: I have kept them safe. I have kept them strong. Every one of them has done their part.  
 **Abuela Alma**: Tell me what I am doing wrong. Tell me what to do, and I will do it.  
 _The candle burns, and does not answer. Abuela touches the frame very lightly, and goes to bed with her back very straight._  
 _Mirabel sits down on the top stair with her arms round her knees._  
 **Mirabel**: She’s scared. I’ve never seen her scared.  
+
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how families keep the past alive: stories, pictures and keepsakes  
+> _Abuela talks to a portrait of Pedro, who died long ago. How do families keep the past alive when someone is gone?_  
+> - By telling stories aloud → A good way. Stories told aloud, passed from person to person, are called oral history, and they carry the past a long way.
+> - By keeping pictures and keepsakes → A good way too. A portrait, a hat or a letter can bring a person back into the room.
+> - ✅ Both: stories, pictures and keepsakes together → Yes. Families use all of them. Stories carry the voice, and pictures and keepsakes carry the face and the things a person touched.
+> _For grown-ups: Talked about how families remember people through oral history, pictures and keepsakes._
+
 
 **Choices**
 
@@ -694,6 +694,11 @@ _Luisa looks down at it. She does not move her foot._
 **Luisa**: Do you ever feel like if you stop, even for a second, everything falls over?  
 **Mirabel**: You can stop, Luisa.  
 **Luisa**: I can’t. If I’m not strong, what am I for?  
+_Nobody answers that, because there isn’t an answer that would help. Your Nubbin snores, very softly, on her boot._  
+**Luisa**: There’s something. Before Tío Bruno left, he had a vision about the house.  
+**Luisa**: He went up his tower and saw something, and then he was gone. Abuela won’t have it talked about.  
+**Mirabel**: Saw what?  
+**Luisa**: Nobody knows. It’s still up there, in his room. Nobody goes in his room.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): a person’s worth and what they can do  
 > _Luisa asks, “If I’m not strong, what am I for?” Is a person only worth what they can do for others?_  
@@ -702,11 +707,6 @@ _Luisa looks down at it. She does not move her foot._
 > - I’m not sure → That is an honest answer. It is a big question, and Luisa is only just starting to ask it.
 > _For grown-ups: Thought about whether a person is worth only what they can do, and how it feels to believe that._
 
-_Nobody answers that, because there isn’t an answer that would help. Your Nubbin snores, very softly, on her boot._  
-**Luisa**: There’s something. Before Tío Bruno left, he had a vision about the house.  
-**Luisa**: He went up his tower and saw something, and then he was gone. Abuela won’t have it talked about.  
-**Mirabel**: Saw what?  
-**Luisa**: Nobody knows. It’s still up there, in his room. Nobody goes in his room.  
 
 **Choices**
 
@@ -813,7 +813,7 @@ _At the top the stairs end at a cave mouth, glittering and green._
 _Inside, the floor is covered in broken glass._  
 _Every piece catches the green light and throws it back, in tiny sparks on the walls._  
 
-> **Lesson** (literacy, RL.1.4, ask): words that use the senses  
+> **Lesson** (literacy, L.3.4, ask): words that use the senses  
 > _The writer calls the cave “glittering”. Which sense is that word using?_  
 > - ✅ Sight → Yes. “Glittering” tells us how the cave looks: full of tiny flashes of light.
 > - Hearing → We cannot hear a glitter. The word tells us about sight.
@@ -945,7 +945,7 @@ _Down in the kitchen Julieta is frying buñuelos, and the smell goes all through
 
 _The bell rings at the gate. The Guzmáns are here._  
 
-> **Lesson** (science, 1-PS4-1, ask): a ringing bell vibrates  
+> **Lesson** (science, 4-PS3-2, ask): a ringing bell vibrates  
 > _A bell makes sound because it vibrates. What would you feel if you touched a ringing bell?_  
 > - ✅ A fast shaking → Yes. The bell’s metal shakes quickly back and forth, and that shaking is the sound.
 > - Nothing at all → You would feel the shaking. It is the vibration that makes the sound.
@@ -960,15 +960,15 @@ _Variant of `a22-08-prep-done`._
 
 _As you pass the stairs, Dolores catches your sleeve. You have sat with her most mornings since the landing, and listened to her listening._  
 **Dolores**: I heard. In the nursery. Tío Agustín, and the glass. I heard all of it.  
+**Dolores**: I hear everything. I can’t not hear it. And I can’t keep things in. They just come out.  
+**Dolores**: Please stay by me tonight. Please.  
+_The bell rings at the gate. The Guzmáns are here._  
 
 > **Lesson** (science, 4-PS3-2, notice): sound is a vibration that travels through air and solids to the ear  
 > _Sound is a vibration that travels through air, and through solid things like walls, though more quietly._  
 > _Your ear catches the vibrations, and a thin skin inside it, the eardrum, shakes in time with them._  
 > _For grown-ups: Learned that sound travels as vibrations through air and solids and shakes the eardrum._
 
-**Dolores**: I hear everything. I can’t not hear it. And I can’t keep things in. They just come out.  
-**Dolores**: Please stay by me tonight. Please.  
-_The bell rings at the gate. The Guzmáns are here._  
 
 #### `reader:a22-08-complete` · [main](main.md#a22-08-complete)
 
@@ -978,7 +978,7 @@ _Dolores, on the stairs, watches him go by with a look you cannot read._
 **Abuela Alma**: Welcome. Sit, sit. Tonight is a night for the family.  
 _From the kitchen comes the smell of buñuelos, crisp golden balls of fried cheese dough._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): welcoming guests with food and a seat; buñuelos  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): welcoming guests with food and a seat; buñuelos  
 > _Welcoming guests with a seat and something to eat is part of many cultures._  
 > _In many Colombian homes, guests are offered food and coffee as soon as they sit down._  
 > _Buñuelos are fried balls of cheese dough, and many families eat them at Christmas._  
@@ -1028,14 +1028,14 @@ _Everything happens at once. You remember your job: you are the eyes._
 _You have mapped the cracks with Mirabel for days, on her drawing of the house. You know where they run._  
 _The crack under the table is running for the east wall, where the big painted dresser stands, full of plates._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: the Sun rises in the east  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: the Sun rises in the east  
 > _The crack is running for the east wall. In which direction does the Sun rise?_  
 > - ✅ East → Yes. The Sun rises in the east and sets in the west. Face the sunrise, and west is behind you.
 > - West → West is where the Sun sets. It rises in the east.
 > - North → North is neither. The Sun rises in the east and sets in the west.
 > _For grown-ups: Learned that the Sun rises in the east, and used compass directions._
 
-_Señora Guzmán is sitting right underneath it._  
+_Señora Guzmán is sitting right underneath it, telling Julieta the soup is lovely. The soup is full of roses._  
 _Mirabel sees where you are looking, follows your eyes, and goes white._  
 **Mirabel**: The wall! The east wall!  
 
@@ -1049,7 +1049,10 @@ _Mirabel sees where you are looking, follows your eyes, and goes white._
 
 #### `reader:a22-09-job-done` · [main](main.md#a22-09-job-done)
 
-_Nobody is hurt. That is the best that can be said for it._  
+_Nobody is hurt. The rain has stopped, except for one small cloud over the soup, which is still going._  
+**Tío Félix**: I said umbrellas. At breakfast. Nobody listens to me about umbrellas.  
+**Tía Pepa**: I am perfectly calm.  
+_The cloud over the soup thunders, very quietly._  
 _Julieta goes from person to person: are you hurt, are you all right? She is not healing anyone now, only caring._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): checking on people after a scare  
@@ -1066,6 +1069,7 @@ _The rain stops, and the cracks stop. The room is soaked, and the Guzmáns are s
 **Mariano**: Thank you for dinner.  
 _Mariano looks at the floor, and Isabela isn’t smiling now. The Guzmáns leave, and nobody stops them._  
 **Abuela Alma**: Mirabel.  
+_That is all she says. Mirabel is gone, out of the room, and the candle in the window is burning lower._  
 
 > **Lesson** (literacy, RL.3.6, ask): telling apart anger and fear in a character’s voice  
 > _Abuela says only one word, “Mirabel.” Is her voice angry, or afraid?_  
@@ -1075,7 +1079,6 @@ _Mariano looks at the floor, and Isabela isn’t smiling now. The Guzmáns leave
 > - Both at once → A thoughtful reading. Fear often hides under anger, and Abuela may feel both, though she shows only the anger.
 > _For grown-ups: Thought about how fear and anger can sound alike, and read a character’s voice._
 
-_That is all she says. Mirabel is gone, out of the room, and the candle in the window is burning lower._  
 
 #### `reader:a22-09-ears` · [main](main.md#a22-09-ears)
 
@@ -1085,6 +1088,8 @@ _Everything happens at once. You remember your job: you are the ears, and Dolore
 _She is standing at the foot of the stairs with both hands over her mouth, and more is still coming out._  
 **Dolores**: And Mariano, and I always, I always...  
 _Whatever she is about to say, it isn’t hers to say in front of the whole table._  
+_Across the table Mariano is looking at Dolores, not at Isabela, and doesn’t seem to know why._  
+_Mirabel sees you get up, and nods once._  
 
 > **Lesson** (health, CASEL: Self-management, ask): calming big feelings  
 > _Dolores’s feelings are too big to hold in. What helps most when feelings feel overwhelming?_  
@@ -1093,8 +1098,6 @@ _Whatever she is about to say, it isn’t hers to say in front of the whole tabl
 > - Shouting them out in front of everyone → That can feel like a relief but may hurt others. Breathing and a calm friend help more.
 > _For grown-ups: Learned that slow breathing and a calm friend help with overwhelming feelings._
 
-_Across the table Mariano is looking at Dolores, not at Isabela, and doesn’t seem to know why._  
-_Mirabel sees you get up, and nods once._  
 
 **Choices**
 
@@ -1114,6 +1117,7 @@ _The crack has gone right under the table, and the table is folding in the middl
 _Luisa has one end of it. Her eye is twitching hard, and her hands are shaking._  
 **Luisa**: I can’t... I can’t hold it...  
 _The other end is dropping, and all of Julieta’s dishes are sliding down it towards Señora Guzmán’s lap._  
+**Mirabel**: Luisa!  
 
 > **Lesson** (maths, 3.OA.A.3, ask): sharing a load equally: 80 ÷ 2  
 > _The table and its dishes weigh 80 kilograms. You and Luisa each hold one end._  
@@ -1123,7 +1127,6 @@ _The other end is dropping, and all of Julieta’s dishes are sliding down it to
 > - One hundred and sixty kilograms → That doubles instead of sharing. Each carries 80 ÷ 2 = 40 kilograms.
 > _For grown-ups: Divided 80 kg between two people to get 40 kg each._
 
-**Mirabel**: Luisa!  
 
 **Choices**
 
@@ -1196,7 +1199,7 @@ _In front of a crack, a thin man in a green hood is kneeling with a trowel, fill
 > _For grown-ups: Worked out the meaning of trowel from context clues._
 
 _A row of rats is sitting in front of him, watching. He is doing all their voices._  
-**Tío Bruno**: And the handsome rat says, “I will not take your cheese, señor,” and the crowd goes wild.  
+**Tío Bruno**: And the handsome rat says, “I will not take your cheese, señor,” and the rats clap their tiny paws.  
 _He sees you, and he sees Mirabel. He drops the trowel._  
 **Tío Bruno**: Oh. Oh, no. Hi.  
 **Mirabel**: Tío Bruno?  
@@ -1248,7 +1251,7 @@ _He looks at Mirabel’s face for a long moment, as if he has been waiting ten y
 **Mirabel**: They make trouble when we don’t look at them. Please.  
 _Bruno looks at you, as if you might get him out of it, and then at the rats. The rats look back, no help at all._  
 
-> **Lesson** (science, 2-PS1-4, ask): wax melts when heated and hardens when cooled  
+> **Lesson** (science, ask): wax melts when heated and hardens when cooled  
 > _Bruno needs candles. As a candle burns, the wax near the flame melts._  
 > _What happens to the melted wax when it cools?_  
 > - ✅ It goes hard again → Yes. Melting and hardening can be reversed with heat and cooling, which is why a candle drip sets into a lump.
@@ -1310,19 +1313,19 @@ _You sit inside the circle with Mirabel. Bruno lights the last candle and kneels
 _The sand begins to lift. It whirls round you in a ring, faster and higher, a wall of moving gold._  
 _Bruno’s eyes go green. All the light in the little room goes green._  
 **Tío Bruno**: I see the house. And the cracks. And you, Mirabel.  
+_In the sand a picture forms, like the glass but moving: Mirabel at a doorway, and someone with flowers all round her._  
+_It is Isabela. Mirabel puts her arms round her sister, and behind them the candle burns bright, with no cracks at all._  
+**Tío Bruno**: That’s it. That’s it. You and Isabela.  
+_The sand drops all at once, and the green goes out of the light._  
+**Mirabel**: I have to hug Isabela. That’s the worst thing you could possibly have told me.  
 
-> **Lesson** (science, 1-PS4-2, ask): we see things because light bounces off them into our eyes  
+> **Lesson** (science, ask): we see things because light bounces off them into our eyes  
 > _The little room was dark until the candles were lit. Why can you see the whirling sand now?_  
 > - ✅ Light bounces off the sand into my eyes → Yes. Light from the candles hits the sand and bounces into your eyes. With no light, there is nothing to see.
 > - My eyes send out light → Eyes take light in; they do not send it out. Light bounces off the sand into them.
 > - Sand glows by itself → Not this sand. The candles light it, and that light bounces into your eyes.
 > _For grown-ups: Learned that we see things when light bounces off them into our eyes._
 
-_In the sand a picture forms, like the glass but moving: Mirabel at a doorway, and someone with flowers all round her._  
-_It is Isabela. Mirabel puts her arms round her sister, and behind them the candle burns bright, with no cracks at all._  
-**Tío Bruno**: That’s it. That’s it. You and Isabela.  
-_The sand drops all at once, and the green goes out of the light._  
-**Mirabel**: I have to hug Isabela. That’s the worst thing you could possibly have told me.  
 
 **Choices**
 
@@ -1362,7 +1365,7 @@ _He goes back to his crack with his trowel. The rats settle down, and he starts 
 
 _Isabela’s room is a garden. Vines on the walls, roses in the ceiling, a swing hung from a flowering tree._  
 
-> **Lesson** (science, 2-LS2-1, ask): plants need light and water  
+> **Lesson** (science, ask): plants need light and water  
 > _Isabela’s room is full of plants. What do green plants need to make their own food?_  
 > - ✅ Light and water → Yes. Plants use sunlight, water and air to make their food, which is why gardens need sun and rain.
 > - Only soil → Soil helps, but plants make food from light, water and air.
@@ -1376,6 +1379,9 @@ _She is sitting on the swing, perfectly still and perfectly dressed, with her pe
 **Mirabel**: You didn’t even want to marry Mariano!  
 _There is a silence like a dropped glass._  
 **Isabela**: How do you know that?  
+**Mirabel**: Because your roses shut every time he talks. Look. They are doing it now, and he is not even here.  
+_Every rose on the wall has closed up tight, like a fist._  
+**Isabela**: ...Traitors.  
 
 **Choices**
 
@@ -1401,6 +1407,11 @@ _There is a silence like a dropped glass._
 **Isabela**: Do you know what it’s like to be perfect? Every day? Every flower, every smile...  
 _She clenches her fist, and something grows out of the floor at her feet. A cactus: spiky, lopsided, and magnificent._  
 **Isabela**: That’s not pretty.  
+**Mirabel**: That’s amazing.  
+_Isabela looks at the cactus, and then she does it again, on purpose: a cactus, a jacaranda, a creeper with sharp little hooks._  
+_She laughs, and it isn’t her perfect laugh. It is loud, and it is her own._  
+_Flowers pour out of the walls: strange ones, wild ones, ones in colours flowers are not usually allowed to be._  
+**Isabela**: I didn’t know I could do that. I never tried.  
 
 > **Lesson** (science, 3-LS4-3, ask): how a cactus survives in dry places  
 > _Isabela’s cactus is spiky, fat and tough. How does a cactus survive where little rain falls?_  
@@ -1409,11 +1420,6 @@ _She clenches her fist, and something grows out of the floor at her feet. A cact
 > - It does not need water → All plants need water. A cactus stores it in its thick stem for dry times.
 > _For grown-ups: Learned that a cactus survives in dry places by storing water in its thick stem._
 
-**Mirabel**: That’s amazing.  
-_Isabela looks at the cactus, and then she does it again, on purpose: a cactus, a jacaranda, a creeper with sharp little hooks._  
-_She laughs, and it isn’t her perfect laugh. It is loud, and it is her own._  
-_Flowers pour out of the walls: strange ones, wild ones, ones in colours flowers are not usually allowed to be._  
-**Isabela**: I didn’t know I could do that. I never tried.  
 _Your Nubbin is buried up to its crown in petals and looks very content about it._  
 
 **Choices**
@@ -1429,6 +1435,9 @@ _The two sisters stand in the middle of the flowers, both out of breath._
 **Isabela**: I’m sorry. I was horrible to you. For years. Because you got to be not perfect.  
 **Mirabel**: I’m sorry too. I was jealous. Because you got to be perfect.  
 _They look at each other, and both start laughing at the same moment._  
+_Mirabel hugs her sister. Isabela hugs back, hard, with flowers coming out of her hair._  
+_Out in the window the candle flares up bright. The cracks in the wall above you close by themselves._  
+**Mirabel**: It’s working. Bruno was right. It’s working!  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what makes an apology a good one  
 > _Which is the better apology: “Sorry you got upset”, or “I’m sorry I was horrible to you, and I’ll try to be kinder”?_  
@@ -1436,9 +1445,6 @@ _They look at each other, and both start laughing at the same moment._
 > - ✅ “I’m sorry I was horrible, and I’ll try to be kinder” → Yes. It says what we did wrong, owns it, and promises to try to change.
 > _For grown-ups: Compared two apologies and learned that a good one owns what we did._
 
-_Mirabel hugs her sister. Isabela hugs back, hard, with flowers coming out of her hair._  
-_Out in the window the candle flares up bright. The cracks in the wall above you close by themselves._  
-**Mirabel**: It’s working. Bruno was right. It’s working!  
 
 #### `reader:a22-12-complete` · [main](main.md#a22-12-complete)
 
@@ -1522,15 +1528,15 @@ _Everybody runs. Mirabel runs the other way: up the cracking stairs, towards the
 
 _You land in the street with the family round you, all of you on your knees._  
 _Eleven Madrigals were in the courtyard when the floor split. Mirabel ran back up the stairs._  
+_Behind you, the walls begin to lean._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction in a story: 11 − 1  
+> **Lesson** (maths, 3.OA.D.8, ask): subtraction in a story: 11 − 1  
 > _Eleven Madrigals were in the courtyard, and Mirabel ran back up. How many reached the street?_  
 > - ✅ Ten → Yes. 11 − 1 = 10, the same ten Madrigals as in the photograph on the stairs.
 > - Eleven → Eleven is everyone, and Mirabel went back. 11 − 1 = 10.
 > - Nine → Only one went back, so take away one: 11 − 1 = 10.
 > _For grown-ups: Solved a subtraction story: 11 − 1 = 10._
 
-_Behind you, the walls begin to lean._  
 
 #### `reader:a22-13-ruins` · [main](main.md#a22-13-ruins)
 
@@ -1561,15 +1567,15 @@ _Your Nubbin climbs into her lap and pushes its head under her chin._
 
 _At your belt, the gold flame Abuela lit for you on your first night goes out at the same moment._  
 _Your lamp is dark again. It is the darkest thing in the valley, and the whole valley is dark._  
+_Then Mirabel is up and running, out of the ruins, and nobody sees which way._  
 
-> **Lesson** (science, 2-PS1-4, ask): melting can be undone, burning cannot  
+> **Lesson** (science, ask): melting can be undone, burning cannot  
 > _Melted wax sets hard again when it cools. But the wax a flame has burnt is gone._  
 > _Can burnt wax ever come back?_  
 > - ✅ No: burning turned it into gases and smoke → Yes. Burning changes wax into new gases and smoke, and that change cannot be undone. Melting can.
 > - Yes: it sets hard again → That is melted wax. Burnt wax has gone into the air as gases and smoke, and cannot come back.
 > _For grown-ups: Learned that melting can be reversed but burning cannot._
 
-_Then Mirabel is up and running, out of the ruins, and nobody sees which way._  
 
 #### `reader:a22-13-lamp-flicker` · [main](main.md#a22-13-lamp-flicker)
 
@@ -1577,13 +1583,13 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, Abuela’s gold flame goes out with the candle. For a moment your lamp is dark._  
 _Then you see it: your own thin blue flicker, from the Long-Grass post, still there at the bottom of the wick. It never quite goes out._  
+_Then Mirabel is up and running, out of the ruins, and nobody sees which way._  
 
 > **Lesson** (science, 4-LS1-2, notice): pupils widen in the dark, so tiny lights look bright  
 > _In the dark, the black centres of your eyes, the pupils, open wide to let in more light._  
 > _That is why a tiny flame looks so bright after dark._  
 > _For grown-ups: Learned that pupils widen in the dark, which makes small lights look bright._
 
-_Then Mirabel is up and running, out of the ruins, and nobody sees which way._  
 
 #### `reader:a22-13-lamp-lit` · [main](main.md#a22-13-lamp-lit)
 
@@ -1591,13 +1597,13 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, your lamp is still burning. Its flame comes from your Long-Grass post, a long way off, and owes this house nothing._  
 _It is the only light in the ruins. The family turn towards it one by one, the way people turn towards a fire._  
+_Mirabel looks at it, and at the dead candle. Then she is up and running, out of the ruins, and nobody sees which way._  
 
 > **Lesson** (science, 4-PS3-2, notice): light travels in straight lines and makes shadows  
 > _Light travels in straight lines, so anything standing in its way makes a shadow on the far side._  
 > _See how each shadow stretches away from your lamp._  
 > _For grown-ups: Learned that light travels in straight lines, which is why objects make shadows._
 
-_Mirabel looks at it, and at the dead candle. Then she is up and running, out of the ruins, and nobody sees which way._  
 
 #### `reader:a22-13-lamp-warm` · [main](main.md#a22-13-lamp-warm)
 
@@ -1605,13 +1611,13 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, your lamp is still burning, a deep red-gold. The night should be cold up here among the mountains, and it isn’t._  
 _The air round the ruins is oddly warm, like a kitchen after the cooking. Antonio’s jaguar lies down against your feet._  
+_Mirabel looks at your lamp, and at the dead candle. Then she is up and running, out of the ruins, and nobody sees which way._  
 
 > **Lesson** (science, 4-PS3-2, notice): a flame gives heat as well as light  
 > _A flame gives off heat as well as light._  
 > _Sit near a fire and your skin soaks up the heat, even when the air around is cool._  
 > _For grown-ups: Learned that flames give off heat as well as light._
 
-_Mirabel looks at your lamp, and at the dead candle. Then she is up and running, out of the ruins, and nobody sees which way._  
 
 #### `reader:a22-13-complete` · [main](main.md#a22-13-complete)
 
@@ -1621,7 +1627,7 @@ _Abuela stands with her back to all of them, looking at the empty place where th
 _Nobody knows. Then Antonio’s toucan comes down out of the dark and says something in his ear._  
 **Antonio**: The river. He says she went to the river.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): rivers run downhill from mountains to the sea; the Magdalena  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): rivers run downhill from mountains to the sea; the Magdalena  
 > _Rivers begin high in the mountains, from rain and springs, and run downhill._  
 > _Colombia’s main river, the Magdalena, runs north between two ranges of the Andes and ends in the Caribbean Sea._  
 > _For grown-ups: Learned that rivers run downhill to the sea, and met Colombia’s Magdalena river._
@@ -1669,22 +1675,25 @@ _Abuela sits down beside her granddaughter, slowly, on the cold rock. She looks 
 _Her hands are shaking in her lap. She doesn’t hide them._  
 **Abuela Alma**: A miracle came to me that night. I was so frightened of losing it that I held on too hard, and squeezed you all.  
 **Abuela Alma**: I made the family carry everything. I made them carry me. I am sorry, Mirabel.  
+_Yellow butterflies are coming up off the water in the first light: dozens of them, then hundreds._  
+**Mirabel**: You kept us together, Abuela. You are the miracle, more than any candle.  
+_Abuela makes a sound that isn’t quite laughing and isn’t quite crying. She pulls Mirabel into her arms._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): why fear makes people hold on too tight  
 > _Abuela says fear made her hold on too tight. Why can fear make people hold on harder?_  
 > _What would you say to her?_  
 > - Because losing something once makes us dread losing it again → A wise answer. After a great loss, people often grip tightly to protect what is left, even when gripping hurts.
-> - I would tell her it is not too late to loosen her grip → A kind answer. Mirabel answers her in her own way, in a moment.
+> - I would tell her it is not too late to loosen her grip → A kind answer. Mirabel answers her with words, and then with a hug.
 > - I would just hug her → A good answer. Sometimes there are no words, and a hug is what is wanted.
 > _For grown-ups: Thought about why fear and grief can make people hold on too tightly, and what could help._
 
-_Yellow butterflies are coming up off the water in the first light: dozens of them, then hundreds._  
-**Mirabel**: You kept us together, Abuela. You are the miracle, more than any candle.  
-_Abuela makes a sound that isn’t quite laughing and isn’t quite crying. She pulls Mirabel into her arms._  
 
 #### `reader:a22-14-pedro-done` · [main](main.md#a22-14-pedro-done)
 
 _The butterflies settle on the rock, on Mirabel’s skirt, on your Nubbin’s crown._  
+_Footsteps again. A thin man in a green hood is standing at the top of the bank, ready to run._  
+**Tío Bruno**: Mamá.  
+_Abuela stands up. She goes to him over the stones, and she holds him, hood and all, for a long time._  
 
 > **Lesson** (science, 3-LS1-1, ask): the butterfly life cycle  
 > _The butterflies were once caterpillars. Which stage comes between caterpillar and butterfly?_  
@@ -1693,9 +1702,6 @@ _The butterflies settle on the rock, on Mirabel’s skirt, on your Nubbin’s cr
 > - An egg again → The egg comes first. After the caterpillar comes the chrysalis.
 > _For grown-ups: Learned the butterfly life cycle: egg, caterpillar, chrysalis, butterfly._
 
-_Footsteps again. A thin man in a green hood is standing at the top of the bank, ready to run._  
-**Tío Bruno**: Mamá.  
-_Abuela stands up. She goes to him over the stones, and she holds him, hood and all, for a long time._  
 
 #### `reader:a22-14-pedro-done-kept` · [main](main.md#a22-14-pedro-done-kept)
 
@@ -1703,20 +1709,22 @@ _Variant of `a22-14-pedro-done`._
 
 _Abuela turns, and sees you. She looks at your hands, at the way you are holding them, and takes them in hers._  
 _Your hands have been cold since the night at the spring. She doesn’t say a word about it; she just keeps them there._  
+_The butterflies settle on the rock and on your Nubbin’s crown. Then footsteps: a thin man in a green hood, at the top of the bank._  
+**Tío Bruno**: Mamá.  
+_Abuela lets go of your hands, gently, and goes to him over the stones, and holds him for a long time._  
 
 > **Lesson** (science, 4-PS3-2, notice): heat moves from warmer things to cooler things  
 > _Heat always moves from something warmer to something cooler._  
 > _When Abuela holds your cold hands, her warmth flows into them until they are nearly the same temperature._  
 > _For grown-ups: Learned that heat flows from warmer things to cooler things._
 
-_The butterflies settle on the rock and on your Nubbin’s crown. Then footsteps: a thin man in a green hood, at the top of the bank._  
-**Tío Bruno**: Mamá.  
-_Abuela lets go of your hands, gently, and goes to him over the stones, and holds him for a long time._  
 
 #### `reader:a22-14-complete` · [main](main.md#a22-14-complete)
 
 _The sun comes over the mountains. You walk back up the valley together, and Bruno stays very close to his mother._  
 **Mirabel**: Everything’s gone. The house. The gifts.  
+**Abuela Alma**: Not everything.  
+_At the top of the road the whole village is waiting by the ruins. Every one of them has brought something._  
 
 > **Lesson** (literacy, L.4.5, ask): exaggeration for feeling  
 > _Mirabel says, “Everything’s gone.” Is that exactly true?_  
@@ -1726,8 +1734,6 @@ _The sun comes over the mountains. You walk back up the valley together, and Bru
 > - Counting what is left → Counting would give a number. She is expressing a feeling instead.
 > _For grown-ups: Recognised exaggeration as a way of showing feeling._
 
-**Abuela Alma**: Not everything.  
-_At the top of the road the whole village is waiting by the ruins. Every one of them has brought something._  
 
 ### Glossary
 
@@ -1744,7 +1750,7 @@ _Shovels, wheelbarrows, ladders, pots of whitewash. A woman with a basket of bre
 **A neighbour**: The Madrigals helped every one of us. Now we help you.  
 _In many parts of Colombia, neighbours working together on a big job have a name for it: a minga._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: should help be repaid, or given freely?  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness: should help be repaid, or given freely?  
 > _The neighbours help the Madrigals for nothing, because the Madrigals once helped them. Should help always be paid back, or given freely?_  
 > _Is there a fair way to share the work?_  
 > - Help should be repaid, to be fair → A fair view. Giving back keeps things even, and these neighbours are doing exactly that.
@@ -1796,7 +1802,7 @@ _Mirabel opens her mouth to explain about visions and houses, and says “We did
 _By evening the walls are up to your shoulders, whitewashed and new. Everyone is talking at once as they work._  
 _The sun has been hot all day, and your lips are dry._  
 
-> **Lesson** (health, K-LS1-1, ask): drink water and rest in the shade after hard work in the heat  
+> **Lesson** (health, ask): drink water and rest in the shade after hard work in the heat  
 > _After hard work in the heat, what should you do?_  
 > - ✅ Drink water and rest in the shade → Yes. Working in the heat makes the body lose water as sweat, so drink and cool down.
 > - Keep working without a drink → That can make you dizzy and ill. Drink water and rest in the shade.
@@ -1810,6 +1816,9 @@ _It takes days. Walls, then roof, then shutters, then the courtyard tiles, one b
 _Bruno puts on a play for the children with his rats._  
 _Pepa has no cloud, so she says how she feels out loud, and finds she can._  
 _Abuela works beside everybody. She is not very good with a trowel, and she doesn’t mind._  
+_She plasters a corner, and the corner slowly slides off._  
+**Abuela Alma**: It is resting.  
+_Nobody argues. Tío Félix holds it up until it dries._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): being comfortable as a beginner  
 > _Abuela is not very good with a trowel, and she doesn’t mind. Why does it help to be happy being a beginner?_  
@@ -1887,19 +1896,19 @@ _The front door is the last thing. It is new and plain, with a hole where the ha
 _The family stands round Mirabel in a half circle, and Antonio is bouncing. Bruno is at the back, holding a rat._  
 **Julieta**: We made you something. All of us.  
 _Julieta puts it in Mirabel’s hand: a doorknob, carved and painted, with a butterfly on it, and her name._  
-
-> **Lesson** (literacy, L.3.4, ask): compound words: doorknob versus butterfly  
-> _“Doorknob” is built from two smaller words. Which is a compound word whose parts both tell you what it is: doorknob, or butterfly?_  
-> - ✅ Doorknob: a knob on a door → Yes. Door plus knob makes a knob on a door. A butterfly is not a kind of fly, and it has nothing to do with butter, so its parts do not tell you what it is.
-> - Butterfly: butter and fly → It is a compound word, but its parts are misleading. A butterfly is neither butter nor a kind of fly.
-> _For grown-ups: Looked at compound words, and noticed that some, like butterfly, do not mean what their parts say._
-
 **Abuela Alma**: We built the house. You are the one who brought us back to it. Put it in.  
 **Mirabel**: Me?  
 **Abuela Alma**: You.  
 _Mirabel looks at the doorknob, at the door, and at you. Then she fits it into the hole, and turns it._  
 _Light runs out of the doorknob, across the door, along the walls and up into the roof. Tiles ripple, and shutters fly open._  
 _Casita wakes. In the window a candle catches, all by itself, and burns._  
+
+> **Lesson** (literacy, L.3.4, ask): compound words: doorknob versus butterfly  
+> _“Doorknob” is built from two smaller words. Which is a compound word whose parts both tell you what it is: doorknob, or butterfly?_  
+> - ✅ Doorknob: a knob on a door → Yes. Door plus knob is a knob on a door. A butterfly is not butter or a fly, so its parts mislead you.
+> - Butterfly: butter and fly → It is a compound word, but its parts are misleading. A butterfly is neither butter nor a kind of fly.
+> _For grown-ups: Looked at compound words, and noticed that some, like butterfly, do not mean what their parts say._
+
 _Luisa lifts a donkey out of habit, and puts it down again, gently. Pepa’s cloud comes back as a rainbow._  
 
 **Choices**
@@ -1974,7 +1983,7 @@ _You hold your lamp up beside it. Your red-gold flame and her new one burn side 
 
 _The photographer from the village sets up his camera in the courtyard, under a black cloth._  
 
-> **Lesson** (science, 1-PS4-2, ask): why an old camera needs a dark cloth  
+> **Lesson** (science, ask): why an old camera needs a dark cloth  
 > _The photographer works under a black cloth. In an old camera, a faint picture shows on a glass screen._  
 > _Why does he hide under the cloth?_  
 > - ✅ So outside light does not wash out the faint picture → Yes. A faint picture is easy to lose in bright light, so the cloth blocks the light and lets him see the screen.
@@ -2004,6 +2013,7 @@ _The whole family crowds onto the stairs, Bruno too, at the front this time, hol
 **Mirabel**: Wait. Wait! You too. Get in!  
 _You end up at the edge, between Mirabel and Dolores. Dolores leans over to whisper._  
 **Dolores**: Mariano’s going to ask me. Next week. I heard him practising in the market.  
+**A neighbour**: Everybody, very still!  
 
 > **Lesson** (literacy, L.4.5, ask): a figure of speech that is not literal  
 > _If you whisper that her secret is safe, Dolores replies, “I heard you think it.” She cannot really hear thoughts._  
@@ -2013,7 +2023,6 @@ _You end up at the edge, between Mirabel and Dolores. Dolores leans over to whis
 > - Telling the literal truth → Her gift lets her hear sounds, not thoughts. She is joking, and the narration tells us so.
 > _For grown-ups: Recognised a joke that is a figure of speech rather than a literal statement._
 
-**A neighbour**: Everybody, very still!  
 
 **Choices**
 
@@ -2050,17 +2059,18 @@ _You end up at the edge, beside Mirabel and Luisa. Luisa is sitting on the botto
 
 _In the morning the page begins to go thin and painted again, at the edges._  
 _The Madrigals walk you to the gate, all of them, and the house too, with its shutters waving._  
-**Abuela Alma**: You are welcome at this table. Always.  
-_Antonio’s jaguar sniffs your Nubbin one last time. Antonio listens, very seriously, to what your Nubbin says back._  
-**Antonio**: It says it will come back. And it says you have to bring it.  
-_Then you are standing in the Grove with a candle stub, a carved doorknob Julieta slipped into your pocket, and a butterfly that came all the way home._  
+_At the gate an old neighbour lifts his hat to you. It is woven in black and white rings._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the Zenú sombrero vueltiao, a Colombian craft  
-> _At the gate an old neighbour lifts his hat to you. It is woven in black and white rings._  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the Zenú sombrero vueltiao, a Colombian craft  
 > _It is a sombrero vueltiao, a symbol of all Colombia, made by the Zenú people of the north._  
 > _Weavers plait strips of a cane called caña flecha into black-and-white patterns, and “vueltiao” means “turned”, from the way the plait winds round and round._  
 > _For grown-ups: Learned about the sombrero vueltiao, a hat woven by the Zenú people of northern Colombia._
 
+**Abuela Alma**: You are welcome at this table. Always.  
+_Somewhere behind them, three Madrigals are still arguing about chairs._  
+_Antonio’s jaguar sniffs your Nubbin one last time. Antonio listens, very seriously, to what your Nubbin says back._  
+**Antonio**: It says it will come back. And it says you have to bring it.  
+_Then you are standing in the Grove with a candle stub, a carved doorknob Julieta slipped into your pocket, and a butterfly that came all the way home._  
 
 ### Glossary
 
@@ -2108,7 +2118,7 @@ _Back in the Grove, you walk out to the fourth post by the long grass and hang t
 _The stub catches from the lantern above it at once, as if it had only been waiting to be introduced._  
 _Two flames by the long grass now, one from here and one from a valley far away. Your Nubbin sits under them, very pleased._  
 
-> **Lesson** (science, 2-PS1-4, notice): a flame burns the vapour of melted wax  
+> **Lesson** (science, notice): a flame burns the vapour of melted wax  
 > _Heat from the lantern melts the stub’s wax, and the wick draws it up as vapour that catches fire._  
 > _A candle flame is really burning wax vapour, not the wick itself._  
 > _For grown-ups: Learned that a candle flame burns the vapour of melted wax drawn up the wick._

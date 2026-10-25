@@ -218,14 +218,16 @@ const Q01: EduQuest = quest(
       [
         GB('You need a job. Come and work at my forge.'),
         N('A forge is where people make things out of iron.'),
-        H('It is warm in there. Come on up!', 'happy'),
+        H('Mind the swords. Mind the axes. Mind the ceiling.', 'happy'),
+        N('Your Nubbin bonks its head on the ceiling. Bonk!'),
+        H('…Told you.'),
         N('Over the forge is a cosy loft. That is your bed.'),
       ],
       [
         doit(
           'literacy',
           'first sounds: h',
-          3,
+          5,
           'edu:say:first-sound:h',
           [
             N('(Say it with me: h-h-hammer, h-h-hook, h-h-Hiccup.)'),
@@ -239,7 +241,8 @@ const Q01: EduQuest = quest(
     sc(
       'a19-01-raid',
       [
-        N('Horns toot in the night. Dragons are stealing sheep!'),
+        N('Horns toot in the night. A dragon lifts a sheep off a wall.'),
+        N('The sheep looks very surprised.'),
         GB('Bellows! Pump, pump, pump! Make the fire hot!'),
         N('You push the bellows. Whoosh, the fire gets bigger!'),
         N('Your Nubbin sits on the anvil. Bang, bang, and it covers its ears!'),
@@ -251,7 +254,7 @@ const Q01: EduQuest = quest(
         doit(
           'science',
           'a fire needs air to burn',
-          2,
+          3,
           'edu:blow:air:hand',
           [
             N('(Puff on your hand. Whoosh, can you feel the air?)'),
@@ -974,10 +977,7 @@ const Q04: EduQuest = quest(
           [
             opt(
               'Keep it',
-              [
-                N('Yes. A kept promise shows you can be trusted.'),
-                N('If a secret ever worries you, tell a grown-up you trust.'),
-              ],
+              [N('Yes! Kept promises build trust. A worrying secret? Tell a grown-up.')],
               true,
             ),
             opt('Forget it', [N('A promise is something to remember. A good friend remembers.')]),
@@ -1056,31 +1056,32 @@ const Q05: EduQuest = quest(
       [
         N('The arena is a stone pit. It has a roof of chains.'),
         GB('Dragon school! Lesson one: be careful.'),
-        N('Five young Vikings stand in the middle.'),
+        N('Young Vikings stand in the middle.'),
         A('I am Astrid. Stay out of my way.'),
         FL('I am Fishlegs! Is that a hatchling?', 'happy'),
-        SN('I am Snotlout. Remember my name.'),
-        RF('I am Ruffnut. He is Tuffnut.'),
         N('Hiccup creeps in last, in a helmet too big for him.'),
       ],
       [
-        doit(
-          'maths',
-          'count to 5, then add one',
-          7,
-          'edu:count:vikings:5',
+        notice(
+          'sel',
+          'saying your name is a friendly way to start',
+          2,
           [
-            N('(Count on your fingers: Astrid, Fishlegs, Snotlout, Ruffnut, Tuffnut.)'),
-            N('Five! Then Hiccup comes in, and five and one more is six.'),
+            N('Astrid and Fishlegs said their names. That is a friendly start.'),
+            N('Then the other person knows what to call you.'),
           ],
-          'Counted five young Vikings, then added one more to make six.',
-          'K.OA.A.1',
+          'Noticed that saying your own name is a friendly way to meet someone new.',
+          'CASEL: Social awareness',
         ),
       ],
     ),
     sc(
       'a19-05-arena-done',
       [
+        N('Three more young Vikings come over.'),
+        SN('I am Snotlout. Remember my name.'),
+        RF('I am Ruffnut.'),
+        TF('I am Tuffnut. She is the other one.'),
         N('Your Nubbin goes to the wall.'),
         N('It does its fiercest face. Grrr!'),
         N('A twin pats it on the head.'),
@@ -1088,9 +1089,21 @@ const Q05: EduQuest = quest(
       ],
       [
         doit(
+          'maths',
+          'count to 5, then add one',
+          3,
+          'edu:count:vikings:5',
+          [
+            N('(Count on your fingers: Astrid, Fishlegs, Snotlout, Ruffnut, Tuffnut.)'),
+            N('Five! Hiccup is here too, and five and one more is six.'),
+          ],
+          'Counted five young Vikings, then added one more to make six.',
+          'K.OA.A.1',
+        ),
+        doit(
           'literacy',
           'clap the parts of a word',
-          3,
+          7,
           'edu:clap:syllables:fishlegs',
           [N('(Clap the parts: Fish-legs. Two claps!)'), N('(Now Hic-cup. Two claps again!)')],
           'Clapped the two parts of names such as Fish-legs and Hic-cup.',
@@ -1412,8 +1425,10 @@ const Q07: EduQuest = quest(
     sc(
       'a19-07-knife',
       [
-        N('Hiccup tips the fish onto the stones.'),
-        N('The dragon comes out low and fast. Then it stops.'),
+        N('Hiccup tips the fish onto the stones. A smoked eel plops out last.'),
+        N('The dragon sniffs it. Yuck! It hisses and jumps back.'),
+        H('No eel. Got it.'),
+        N('Hiccup throws the eel in the lake. Then the dragon sees the knife.'),
         N('It is looking at the knife on Hiccup’s belt.'),
         H('Oh. That.', 'think'),
         N('Hiccup takes out the knife slowly. Plop, it goes in the lake!'),
@@ -1424,7 +1439,7 @@ const Q07: EduQuest = quest(
         ask(
           'sel',
           'showing a friend you mean no harm',
-          4,
+          6,
           [N('Hiccup throws the knife away. What does that tell the dragon?')],
           [
             opt(
@@ -2573,7 +2588,8 @@ const Q13: EduQuest = quest(
         N('He pushes the Nightmare back into its pen.'),
         H('Go, Toothless! Go!', 'shock'),
         N('He stays by Hiccup. The Vikings catch him with ropes.'),
-        N('Hiccup tells his dad about Toothless. Stoick is upset and says something unkind.'),
+        N('Hiccup tells his dad about Toothless.'),
+        N('Stoick is very cross. He says a hurtful thing.'),
         N('Then he turns his back. Hiccup feels very small and very sad.'),
         N('Next day, the ships sail. Toothless is chained on the front one.'),
         N('Hiccup stands on the jetty. His hands are empty.'),
@@ -2582,7 +2598,7 @@ const Q13: EduQuest = quest(
         ask(
           'sel',
           'what helps when someone says something unkind',
-          5,
+          6,
           [N('Hiccup feels hurt by unkind words. What helps?')],
           [
             opt(
@@ -2607,12 +2623,13 @@ const Q13: EduQuest = quest(
         N('Gobber goes with the ships. He has to.'),
         N('He touches Hiccup’s shoulder with his hook, very gently.'),
         N('Now it is only you, your Nubbin and Hiccup.'),
+        N('Your Nubbin sits on Hiccup’s foot, so he is not alone.'),
       ],
       [
         notice(
           'social-studies',
           'families can be cross and still love each other',
-          3,
+          4,
           [
             N('Families and friends can be cross with each other and still care.'),
             N('Mending it takes time. Saying sorry helps.'),
@@ -2804,7 +2821,7 @@ const Q15: EduQuest = quest(
       [
         N('The arena is empty. The dragons sit in their pens.'),
         N('Astrid has brought the others.'),
-        SN('If this is a trick, I am too good-looking to eat.'),
+        SN('Do not eat me! I am too handsome!'),
         RF('Nobody eats you. You are mostly elbows.'),
         TF('And hair.'),
         H('Nobody is getting eaten. I want you to meet them properly.'),
@@ -2912,7 +2929,7 @@ const Q15: EduQuest = quest(
         FL('Ride with me. She is slow, but she does not drop things.'),
         N('You climb on behind Fishlegs. Your Nubbin rides in a sack.'),
         A('Which way did the ships go?'),
-        H('North. To the nest. Toothless knows the way.', 'sad'),
+        H('North. Toothless is on Dad’s ship. He will show them the nest.', 'sad'),
         N('Four dragons go up out of the arena, into the grey morning.'),
       ],
       [
@@ -3084,7 +3101,7 @@ const Q16: EduQuest = quest(
       'a19-16-draw-done',
       [
         N('When the last one is off, you look back.'),
-        N('Everyone is safe on the beach. Who helped?'),
+        N('Everyone is safe. You helped, your Nubbin helped, and Stoick helped too.'),
         N('Hiccup has turned away from the big one.'),
         N('He is flying towards the front ship.'),
       ],

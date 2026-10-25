@@ -269,7 +269,7 @@ const Q1: EduQuest = quest(
           0,
           'social-studies',
           'finding Colombia: its coasts, its mountains and its coffee country',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'This page is set in a real country: Colombia, in the north-west corner of South America.',
@@ -375,7 +375,7 @@ const Q1: EduQuest = quest(
           7,
           'literacy',
           'Spanish family words: abuela, tía, primo',
-          'L.2.4',
+          'L.3.4',
           [
             N(
               'In Spanish, abuela means grandmother and tía means aunt. From the way Mirabel lists her family, what do you think primo means?',
@@ -406,7 +406,7 @@ const Q1: EduQuest = quest(
           MI('Great. Perfect. You’re in the blue room. The house likes guests. Mostly.', 'happy'),
         ]),
         ch('nubbin', 'Point out that your Nubbin is travelling too.', [
-          MI('Oh, hello! Look at you. Antonio is going to lose his mind. In a good way.', 'happy'),
+          MI('Oh, hello! Look at you. Antonio is going to be so excited he might pop. Not really.', 'happy'),
         ]),
         ch('list', 'Ask what the list is for.', [
           MI(
@@ -554,7 +554,7 @@ const Q2: EduQuest = quest(
           0,
           'social-studies',
           'coffee country: how coffee grows in the Andes',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'The coffee sacks are no accident. This valley is in Colombia’s coffee country, high in the Andes, where the cool mountain air suits coffee bushes.',
@@ -591,7 +591,7 @@ const Q2: EduQuest = quest(
         MI(
           'Party shopping done: three bags of oranges at four Shells a bag, and one loaf for five Shells. I paid with a twenty-Shell coin.',
         ),
-        MI('Next, my cousins. Brace yourself.'),
+        MI('Next, my cousins. Hold on to something.'),
       ],
       [
         ask(
@@ -715,7 +715,7 @@ const Q2: EduQuest = quest(
           2,
           'health',
           'what corn and cheese give a growing body',
-          'K-LS1-1',
+          undefined,
           [
             N(
               'Arepas are eaten all over Colombia. They are made from ground corn, grilled or fried, often with cheese.',
@@ -944,7 +944,7 @@ const Q3: EduQuest = quest(
           6,
           'science',
           'animals of Colombia’s forests and wetlands: the capybara is the largest rodent',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             N(
               'These animals live in Colombia’s forests and wetlands. Which of them is the biggest rodent in the world?',
@@ -995,7 +995,7 @@ const Q3: EduQuest = quest(
           1,
           'literacy',
           'sound words that copy the sound they name',
-          'RL.1.4',
+          'L.3.4',
           [
             N(
               'Some words sound like the thing they name, such as “sniff”. Which of these words does that?',
@@ -1029,7 +1029,7 @@ const Q3: EduQuest = quest(
           'The family photograph is taken on the stairs. Everyone crowds round Antonio, and the photographer waves Mirabel left, then out.',
         ),
         N(
-          'Ten Madrigals are in the crowd round him: Abuela, Julieta, Agustín, Pepa, Félix, Isabela, Luisa, Dolores, Camilo and Antonio.',
+          'Ten Madrigals crowd onto the stairs, with Antonio in the middle: Abuela, Julieta, Agustín, Pepa, Félix, Isabela, Luisa, Dolores, Camilo and Antonio.',
         ),
         N(
           'Mirabel ends up at the edge of the courtyard holding a vase, smiling at the camera from very far away.',
@@ -1044,10 +1044,10 @@ const Q3: EduQuest = quest(
           2,
           'maths',
           'adding one to ten',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
-              'Ten Madrigals crowd round Antonio, and Mirabel stands at the edge. How many people is that altogether?',
+              'Ten Madrigals stand on the stairs, and Mirabel stands at the edge. How many people is that altogether?',
             ),
           ],
           [
@@ -1105,7 +1105,7 @@ const Q4: EduQuest = quest(
           1,
           'music',
           'a steady beat; strings make sound by vibrating',
-          '1-PS4-1',
+          '4-PS3-2',
           'edu:clap:beat:party',
           [
             N(
@@ -1338,10 +1338,10 @@ const Q5: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          9,
           'social-studies',
           'how families keep the past alive: stories, pictures and keepsakes',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Abuela talks to a portrait of Pedro, who died long ago. How do families keep the past alive when someone is gone?',
@@ -1624,7 +1624,7 @@ const Q6: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          10,
           'sel',
           'a person’s worth and what they can do',
           'CASEL: Self-awareness',
@@ -1914,7 +1914,7 @@ const Q7: EduQuest = quest(
           2,
           'literacy',
           'words that use the senses',
-          'RL.1.4',
+          'L.3.4',
           [N('The writer calls the cave “glittering”. Which sense is that word using?')],
           [
             o(
@@ -2209,7 +2209,7 @@ const Q8: EduQuest = quest(
           0,
           'science',
           'a ringing bell vibrates',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'A bell makes sound because it vibrates. What would you feel if you touched a ringing bell?',
@@ -2254,7 +2254,7 @@ const Q8: EduQuest = quest(
           4,
           'social-studies',
           'welcoming guests with food and a seat; buñuelos',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N('Welcoming guests with a seat and something to eat is part of many cultures.'),
             N(
@@ -2365,7 +2365,7 @@ const Q9: EduQuest = quest(
         N(
           'The crack under the table is running for the east wall, where the big painted dresser stands, full of plates.',
         ),
-        N('Señora Guzmán is sitting right underneath it.'),
+        N('Señora Guzmán is sitting right underneath it, telling Julieta the soup is lovely. The soup is full of roses.'),
         N('Mirabel sees where you are looking, follows your eyes, and goes white.'),
         MI('The wall! The east wall!', 'shock'),
       ],
@@ -2374,7 +2374,7 @@ const Q9: EduQuest = quest(
           2,
           'social-studies',
           'compass directions: the Sun rises in the east',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [N('The crack is running for the east wall. In which direction does the Sun rise?')],
           [
             o(
@@ -2409,14 +2409,19 @@ const Q9: EduQuest = quest(
     sc(
       'a22-09-job-done',
       [
-        N('Nobody is hurt. That is the best that can be said for it.'),
+        N(
+          'Nobody is hurt. The rain has stopped, except for one small cloud over the soup, which is still going.',
+        ),
+        FE('I said umbrellas. At breakfast. Nobody listens to me about umbrellas.'),
+        PE('I am perfectly calm.', 'sad'),
+        N('The cloud over the soup thunders, very quietly.'),
         N(
           'Julieta goes from person to person: are you hurt, are you all right? She is not healing anyone now, only caring.',
         ),
       ],
       [
         ask(
-          1,
+          4,
           'sel',
           'checking on people after a scare',
           'CASEL: Social awareness',
@@ -2455,7 +2460,7 @@ const Q9: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          4,
           'literacy',
           'telling apart anger and fear in a character’s voice',
           'RL.3.6',
@@ -2607,7 +2612,7 @@ const Q10: EduQuest = quest(
         ),
         N('A row of rats is sitting in front of him, watching. He is doing all their voices.'),
         BR(
-          'And the handsome rat says, “I will not take your cheese, señor,” and the crowd goes wild.',
+          'And the handsome rat says, “I will not take your cheese, señor,” and the rats clap their tiny paws.',
           'happy',
         ),
         N('He sees you, and he sees Mirabel. He drops the trowel.'),
@@ -2746,7 +2751,7 @@ const Q10: EduQuest = quest(
           3,
           'science',
           'wax melts when heated and hardens when cooled',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Bruno needs candles. As a candle burns, the wax near the flame melts. What happens to the melted wax when it cools?',
@@ -2908,10 +2913,10 @@ const Q11: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          8,
           'science',
           'we see things because light bounces off them into our eyes',
-          '1-PS4-2',
+          undefined,
           [
             N(
               'The little room was dark until the candles were lit. Why can you see the whirling sand now?',
@@ -3034,13 +3039,16 @@ const Q12: EduQuest = quest(
         MI('You didn’t even want to marry Mariano!', 'angry'),
         N('There is a silence like a dropped glass.'),
         IS('How do you know that?', 'shock'),
+        MI('Because your roses shut every time he talks. Look. They are doing it now, and he is not even here.'),
+        N('Every rose on the wall has closed up tight, like a fist.'),
+        IS('...Traitors.', 'angry'),
       ],
       [
         ask(
           0,
           'science',
           'plants need light and water',
-          '2-LS2-1',
+          undefined,
           [
             N(
               'Isabela’s room is full of plants. What do green plants need to make their own food?',
@@ -3139,7 +3147,7 @@ const Q12: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          7,
           'science',
           'how a cactus survives in dry places',
           '3-LS4-3',
@@ -3199,7 +3207,7 @@ const Q12: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          6,
           'sel',
           'what makes an apology a good one',
           'CASEL: Relationship skills',
@@ -3439,10 +3447,10 @@ const Q13: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           'subtraction in a story: 11 − 1',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Eleven Madrigals were in the courtyard, and Mirabel ran back up. How many reached the street?',
@@ -3533,10 +3541,10 @@ const Q13: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'science',
           'melting can be undone, burning cannot',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Melted wax sets hard again when it cools. But the wax a flame has burnt is gone. Can burnt wax ever come back?',
@@ -3582,7 +3590,7 @@ const Q13: EduQuest = quest(
           4,
           'social-studies',
           'rivers run downhill from mountains to the sea; the Magdalena',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N('Rivers begin high in the mountains, from rain and springs, and run downhill.'),
             N(
@@ -3693,7 +3701,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          8,
+          11,
           'sel',
           'why fear makes people hold on too tight',
           'CASEL: Social awareness',
@@ -3709,7 +3717,7 @@ const Q14: EduQuest = quest(
               ),
             ]),
             o('I would tell her it is not too late to loosen her grip', [
-              N('A kind answer. Mirabel answers her in her own way, in a moment.'),
+              N('A kind answer. Mirabel answers her with words, and then with a hug.'),
             ]),
             o('I would just hug her', [
               N('A good answer. Sometimes there are no words, and a hug is what is wanted.'),
@@ -3733,7 +3741,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          0,
+          3,
           'science',
           'the butterfly life cycle',
           '3-LS1-1',
@@ -3777,7 +3785,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          3,
           'literacy',
           'exaggeration for feeling',
           'L.4.5',
@@ -3860,7 +3868,7 @@ const Q15: EduQuest = quest(
           2,
           'social-studies',
           'fairness: should help be repaid, or given freely?',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The neighbours help the Madrigals for nothing, because the Madrigals once helped them. Should help always be paid back, or given freely? Is there a fair way to share the work?',
@@ -3963,7 +3971,7 @@ const Q15: EduQuest = quest(
           1,
           'health',
           'drink water and rest in the shade after hard work in the heat',
-          'K-LS1-1',
+          undefined,
           [N('After hard work in the heat, what should you do?')],
           [
             o(
@@ -3998,13 +4006,16 @@ const Q15: EduQuest = quest(
         N(
           'Abuela works beside everybody. She is not very good with a trowel, and she doesn’t mind.',
         ),
+        N('She plasters a corner, and the corner slowly slides off.'),
+        AB('It is resting.'),
+        N('Nobody argues. Tío Félix holds it up until it dries.'),
         N(
           'In the end there is a house: plain, white and new, with a red roof. It isn’t magic, and every hand in the valley built it.',
         ),
       ],
       [
         ask(
-          2,
+          5,
           'sel',
           'being comfortable as a beginner',
           'CASEL: Self-awareness',
@@ -4091,7 +4102,7 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          9,
           'literacy',
           'compound words: doorknob versus butterfly',
           'L.3.4',
@@ -4105,7 +4116,7 @@ const Q16: EduQuest = quest(
               'Doorknob: a knob on a door',
               [
                 N(
-                  'Yes. Door plus knob makes a knob on a door. A butterfly is not a kind of fly, and it has nothing to do with butter, so its parts do not tell you what it is.',
+                  'Yes. Door plus knob is a knob on a door. A butterfly is not butter or a fly, so its parts mislead you.',
                 ),
               ],
               true,
@@ -4196,7 +4207,7 @@ const Q16: EduQuest = quest(
           0,
           'science',
           'why an old camera needs a dark cloth',
-          '1-PS4-2',
+          undefined,
           [
             N(
               'The photographer works under a black cloth. In an old camera, a faint picture shows on a glass screen. Why does he hide under the cloth?',
@@ -4238,7 +4249,11 @@ const Q16: EduQuest = quest(
         N(
           'The Madrigals walk you to the gate, all of them, and the house too, with its shutters waving.',
         ),
+        N(
+          'At the gate an old neighbour lifts his hat to you. It is woven in black and white rings.',
+        ),
         AB('You are welcome at this table. Always.', 'soft'),
+        N('Somewhere behind them, three Madrigals are still arguing about chairs.'),
         N(
           'Antonio’s jaguar sniffs your Nubbin one last time. Antonio listens, very seriously, to what your Nubbin says back.',
         ),
@@ -4249,14 +4264,11 @@ const Q16: EduQuest = quest(
       ],
       [
         notice(
-          5,
+          2,
           'social-studies',
           'the Zenú sombrero vueltiao, a Colombian craft',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
-            N(
-              'At the gate an old neighbour lifts his hat to you. It is woven in black and white rings.',
-            ),
             N(
               'It is a sombrero vueltiao, a symbol of all Colombia, made by the Zenú people of the north.',
             ),
@@ -4483,7 +4495,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'metal conducts heat away, so it feels colder than wood',
-        '2-PS1-1',
+        '4-PS3-2',
         [
           N(
             'Your lamp’s warmth is on your hip. On a cold day, a wooden spoon and a metal spoon left outside are the same temperature. Which feels colder to touch?',
@@ -4532,7 +4544,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        4,
         'science',
         'sound is a vibration that travels through air and solids to the ear',
         '4-PS3-2',
@@ -4568,7 +4580,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        3,
+        5,
         'health',
         'calming big feelings',
         'CASEL: Self-management',
@@ -4630,7 +4642,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        4,
+        5,
         'maths',
         'sharing a load equally: 80 ÷ 2',
         '3.OA.A.3',
@@ -4680,7 +4692,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'science',
         'pupils widen in the dark, so tiny lights look bright',
         '4-LS1-2',
@@ -4708,7 +4720,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'science',
         'light travels in straight lines and makes shadows',
         '4-PS3-2',
@@ -4736,7 +4748,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'science',
         'a flame gives heat as well as light',
         '4-PS3-2',
@@ -4770,7 +4782,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        4,
         'science',
         'heat moves from warmer things to cooler things',
         '4-PS3-2',
@@ -5060,7 +5072,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        4,
+        5,
         'literacy',
         'a figure of speech that is not literal',
         'L.4.5',
@@ -5203,7 +5215,7 @@ export const EDU_A22_READER_VARIANTS: EduScene[] = [
         2,
         'science',
         'a flame burns the vapour of melted wax',
-        '2-PS1-4',
+        undefined,
         [
           N(
             'Heat from the lantern melts the stub’s wax, and the wick draws it up as vapour that catches fire.',

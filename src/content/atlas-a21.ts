@@ -116,6 +116,11 @@ const KANNE = sp('a21-kanne', 'Kanne', `Kanne, examinee (Frieren: Beyond Journey
 const UBEL = sp('a21-ubel', 'Übel', `Übel, examinee (Frieren: Beyond Journey’s End); ${LIC}`);
 const DENKEN = sp('a21-denken', 'Denken', `Denken, examinee (Frieren: Beyond Journey’s End); ${LIC}`);
 const SMITH = sp('a21-smith', 'Smith', 'A night smith on a bridge in Äußerst (our own)');
+/**
+ * Keeper Fern on this page only: the campaign’s `fern` (same portrait), name-plated “Keeper Fern”
+ * so she never reads as the apprentice. The Grove and every other page keep her as “Fern”.
+ */
+const KEEPER_FERN: Speaker = { id: 'fern', name: 'Keeper Fern', kind: 'keeper' };
 const SERIE = sp('a21-serie', 'Serie', `Serie, the great mage, founder of the Mages’ Association (Frieren: Beyond Journey’s End); ${LIC}`);
 
 const N = say('narrator');
@@ -183,12 +188,14 @@ const A11_HOLD = [
 /** A21-16: the ring beat, before and after the line that changes with a21-search. */
 const A16_RING_START: Line[] = [
   N('That evening Frieren goes white. She turns out her pockets, then her bag, then young Fern’s bag.'),
-  FR('The ring. The one Himmel gave me. It’s gone.', 'shock'),
+  FR('The ring. Himmel’s. It’s gone.', 'shock'),
+  FR('He went down on one knee in a market to give it to me. I thought he’d dropped something.', 'think'),
   N('Everybody searches: the inn, the road, the market. Your Nubbin searches inside every boot in the hall.'),
 ];
 const A16_RING_END: Line[] = [
   N('In the end Frieren finds it herself, in the flower bed by the inn door, where she knelt to look at the blue ones.'),
   FR('Of course. I was looking at flowers. He’d laugh at me.', 'happy'),
+  N('There is a little mirror-lotus on the ring. Keeper Fern sees it, opens her mouth, and decides not to tell Frieren either.'),
   N('Before bed, young Fern hands Keeper Fern a folded purple coat: her old travelling one, let out at the seams.'),
   FN('You’ve been cold since the snow. It’s warmer than it looks. Most things are.', 'soft'),
   K('Fern. Thank you. I’ll wear it. Sometimes. When I’m feeling brave.', 'happy'),
@@ -212,7 +219,7 @@ export const ATLAS_A21: Quest[] = [
     source: src('the Era Meteors, fifty years after the Demon King fell'),
     audience: 'main',
     trigger: { where: WHERE, when: 'Any time once Nova’s atlas is in the Grove; the first quest on the page.' },
-    speakers: [HIMMEL, HEITER, EISEN, FRIEREN],
+    speakers: [HIMMEL, HEITER, EISEN, FRIEREN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-01-s1',
@@ -374,7 +381,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-1') },
     requires: ['A21-1'],
-    speakers: [HEITER, EISEN, FRIEREN],
+    speakers: [HEITER, EISEN, FRIEREN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-02-s1',
@@ -490,7 +497,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-2') },
     requires: ['A21-2'],
-    speakers: [HEITER, FRIEREN, FERN],
+    speakers: [HEITER, FRIEREN, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-03-s1',
@@ -610,7 +617,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-3') },
     requires: ['A21-3'],
-    speakers: [FERN, FRIEREN, HEITER],
+    speakers: [FERN, FRIEREN, HEITER, KEEPER_FERN],
     steps: [
       {
         id: 'a21-04-s1',
@@ -704,7 +711,7 @@ export const ATLAS_A21: Quest[] = [
         N('Heiter claps from the porch, slowly, three times, because that is all he has the breath for.'),
         HE('Well done, Fern. Oh, well done.', 'happy'),
         N('Young Fern runs to him. She doesn’t run, usually.'),
-        K('Look. Look, it’s got a new leaf. Today of all days. It was waiting for her.', 'happy'),
+        K('Look. Look, the sapling’s got a new leaf. Today of all days. It was waiting for her.', 'happy'),
         N('The sapling has four leaves. Nobody else notices, so you notice for everyone.'),
         FR('Four years. That was quick.', 'think'),
       ],
@@ -727,7 +734,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-4') },
     requires: ['A21-4'],
-    speakers: [FRIEREN, HEITER, FERN],
+    speakers: [FRIEREN, HEITER, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-05-s1',
@@ -848,7 +855,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-5') },
     requires: ['A21-5'],
-    speakers: [FRIEREN, FERN, OLDWOMAN],
+    speakers: [FRIEREN, FERN, OLDWOMAN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-06-s1',
@@ -969,7 +976,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-6') },
     requires: ['A21-6'],
-    speakers: [FRIEREN, FERN, OLDWOMAN],
+    speakers: [FRIEREN, FERN, OLDWOMAN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-07-s1',
@@ -1120,7 +1127,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-7') },
     requires: ['A21-7'],
-    speakers: [ELDER, FRIEREN, FERN, QUAL],
+    speakers: [ELDER, FRIEREN, FERN, QUAL, KEEPER_FERN],
     steps: [
       {
         id: 'a21-08-s1',
@@ -1176,6 +1183,10 @@ export const ATLAS_A21: Quest[] = [
             N('He lifts a hand, and his killing spell leaps out: a thin bright line that once went through shields like paper.'),
             N('Young Fern raises her staff, and a pane of light opens in front of her. The bright line hits it, and stops.'),
             QU('…That should not be possible.', 'shock'),
+            QU('Eighty years I stood here. Nobody so much as dusted me.', 'angry'),
+            N('A voice pipes up from behind the far stones, beside you. The elder has followed you up the hill, bad hip and all.'),
+            EL('I did! Every spring!', 'happy'),
+            QU('…Thank you. That is somehow worse.'),
             FR('Mages studied your spell while you slept. Now every one of them learns to block it in their first year. It’s ordinary magic.'),
             FN('We did it in the first week. It’s quite easy.'),
             N('Your Nubbin, who did not do it in the first week, climbs inside your coat.'),
@@ -1229,7 +1240,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-8') },
     requires: ['A21-8'],
-    speakers: [FERN, FRIEREN],
+    speakers: [FERN, FRIEREN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-09-s1',
@@ -1339,7 +1350,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-9') },
     requires: ['A21-9'],
-    speakers: [EISEN, FRIEREN, FERN],
+    speakers: [EISEN, FRIEREN, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-10-s1',
@@ -1449,7 +1460,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-10') },
     requires: ['A21-10'],
-    speakers: [VILLAGER, FRIEREN, FERN],
+    speakers: [VILLAGER, FRIEREN, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-11-s1',
@@ -1496,7 +1507,7 @@ export const ATLAS_A21: Quest[] = [
           id: 'a21-11-ghost',
           lines: [
             N('In the mist sits a Nubbin, round and brown, with a faded ribbon on one ear. The ear folds over at the tip.'),
-            N('It is the colour Bramble was before the rail, six years ago. It looks at Keeper Fern and doesn’t blink.'),
+            N('It is Bramble, Keeper Fern’s Nubbin, as she was six years ago, before she went over the cliff rail at a race. It doesn’t blink.'),
             K('Bramble?', 'shock'),
             K('Bramble, love. It’s me. I looked for you. I stood at the bottom till dark.', 'sad'),
             N('She takes one step forward. Your hand is on her sleeve.'),
@@ -1591,7 +1602,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-11') },
     requires: ['A21-11'],
-    speakers: [VILLAGER, STARK, FRIEREN, FERN],
+    speakers: [VILLAGER, STARK, FRIEREN, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-12-s1',
@@ -1741,7 +1752,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-12') },
     requires: ['A21-12'],
-    speakers: [STARK, FRIEREN, FERN, HIMMEL, LUGNER, GRANAT],
+    speakers: [STARK, FRIEREN, FERN, HIMMEL, LUGNER, GRANAT, KEEPER_FERN],
     steps: [
       {
         id: 'a21-13-s1',
@@ -1753,6 +1764,8 @@ export const ATLAS_A21: Quest[] = [
           lines: [
             N('In the next village there are four statues in the square: Himmel, Heiter, Eisen and Frieren, all young and all clean.'),
             ST('That’s you! That’s actually you. You’ve got your hand like that.', 'happy'),
+            FR('He said it made me look approachable.'),
+            FN('It doesn’t.'),
             FR('He made us pose for every one. Every village. Every town that offered.', 'think'),
             FN('Why?'),
             FR('I asked him once. He said…'),
@@ -1893,7 +1906,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-13') },
     requires: ['A21-13'],
-    speakers: [FRIEREN, STARK, FERN, VILLAGER, GRANAT, AURA],
+    speakers: [FRIEREN, STARK, FERN, VILLAGER, GRANAT, AURA, KEEPER_FERN],
     steps: [
       {
         id: 'a21-14-s1',
@@ -1929,7 +1942,7 @@ export const ATLAS_A21: Quest[] = [
         done: {
           id: 'a21-14-plan-done',
           lines: [
-            FR('Fern takes Lügner. Stark takes the other one, Linie. I’ll take Aura.'),
+            FR('Fern takes Lügner. Stark takes Linie, the girl with the pigtail. I’ll take Aura.'),
             ST('Why do I get the one I don’t know anything about?'),
             FR('You don’t know anything about any of them.'),
           ],
@@ -2044,7 +2057,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-14') },
     requires: ['A21-14'],
-    speakers: [STARK, FERN, FRIEREN, KRAFT],
+    speakers: [STARK, FERN, FRIEREN, KRAFT, KEEPER_FERN],
     steps: [
       {
         id: 'a21-15-s1',
@@ -2155,7 +2168,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-15') },
     requires: ['A21-15'],
-    speakers: [VILLAGER, FRIEREN, STARK, FERN],
+    speakers: [VILLAGER, FRIEREN, STARK, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-16-s1',
@@ -2302,7 +2315,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-16') },
     requires: ['A21-16'],
-    speakers: [PROCTOR, LAWINE, KANNE, UBEL, FERN, FRIEREN, STARK, DENKEN],
+    speakers: [PROCTOR, LAWINE, KANNE, UBEL, FERN, FRIEREN, STARK, DENKEN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-17-s1',
@@ -2447,7 +2460,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-17') },
     requires: ['A21-17'],
-    speakers: [PROCTOR, FRIEREN, FERN, LAWINE, SMITH, DENKEN, UBEL],
+    speakers: [PROCTOR, FRIEREN, FERN, LAWINE, SMITH, DENKEN, UBEL, KEEPER_FERN],
     steps: [
       {
         id: 'a21-18-s1',
@@ -2615,7 +2628,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-18') },
     requires: ['A21-18'],
-    speakers: [STARK, DENKEN, PROCTOR, SERIE, FRIEREN, FERN],
+    speakers: [STARK, DENKEN, PROCTOR, SERIE, FRIEREN, FERN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-19-s1',
@@ -2722,7 +2735,7 @@ export const ATLAS_A21: Quest[] = [
     audience: 'main',
     trigger: { where: WHERE, when: after('A21-19') },
     requires: ['A21-19'],
-    speakers: [FERN, STARK, FRIEREN],
+    speakers: [FERN, STARK, FRIEREN, KEEPER_FERN],
     steps: [
       {
         id: 'a21-20-s1',
@@ -2739,6 +2752,8 @@ export const ATLAS_A21: Quest[] = [
             K('I’m going to. Cry, I mean. Sorry. I always do. I cried at a pear tree once.', 'sad'),
             FN('That’s all right. You can do it for both of us. We have the same name, after all.', 'happy'),
             ST('Can I keep the little one? No. I know. I know I can’t. I’m asking anyway.', 'sad'),
+            ST('Little one. If you ever see a chest, bite it first. Ask questions after.'),
+            FR('Or check it with a spell first, then open it anyway. That’s what I do.', 'think'),
             N('Your Nubbin climbs out of Stark’s cloak for the last time, slowly, and stops at the collar to look at him.'),
           ],
           choices: [

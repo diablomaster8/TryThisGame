@@ -374,6 +374,10 @@ export const ATLAS_A22: Quest[] = [
             AG('Welcome! Welcome. Don’t mind the bee. I’m used to the bee.'),
             N('A gentle man in glasses waves from the doorway. A bee is sitting on his nose.'),
             MI('Mamá and Papá. So that’s everyone. Everyone with a gift, I mean, and me.'),
+            JU('He has had that bee since breakfast.'),
+            AG('She’s fond of me.'),
+            JU('She’s a bee, mi amor.'),
+            AG('I never said she had good taste.', 'happy'),
             N('She counts on her fingers, gets to the end of one hand, and stops on a finger as if it were sore.'),
             N('Across the courtyard, at the far end of the house, there is a tower with a dark door. Everybody manages not to look at it, all at once.'),
             N('Félix starts to say a name. Pepa’s cloud cracks with thunder, and Félix turns it into a cough.'),
@@ -701,7 +705,7 @@ export const ATLAS_A22: Quest[] = [
             N('Mirabel waits until her grandmother’s door closes. Then she stands up, and you can see the decision land.'),
             MI('Okay. Nobody else sees it. So I fix it. I save the miracle.', 'think'),
             MI('I don’t have a gift, so I don’t have a gift to lose. I can go where they can’t, and ask what they won’t.'),
-            N('She is already making a list, in the dark, in pen on the back of her hand.'),
+            N('She is already writing a list on the back of her hand: 1. Save the miracle. 2. Don’t tell Abuela. 3. Breakfast.'),
             MI('But I can’t do it alone. Will you help me? What do you want to be?'),
             MI('My eyes, to map every crack? My ears, with Dolores, who hears everything? Or my hands, with Luisa, who carries everything?'),
           ],
@@ -1103,7 +1107,7 @@ export const ATLAS_A22: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A22-8') },
     requires: ['A22-8'],
-    speakers: [GUZMAN, DOLORES, PEPA, MIRABEL, LUISA, MARIANO, ABUELA],
+    speakers: [GUZMAN, DOLORES, PEPA, MIRABEL, LUISA, MARIANO, ABUELA, FELIX],
     steps: [
       {
         id: 'a22-09-s1',
@@ -1149,7 +1153,7 @@ export const ATLAS_A22: Quest[] = [
             N('Everything happens at once. You remember your job: you are the eyes.'),
             N('You have mapped the cracks with Mirabel for days, on her drawing of the house. You know where they run.'),
             N('The crack under the table is running for the east wall, where the big painted dresser stands, full of plates.'),
-            N('Señora Guzmán is sitting right underneath it.'),
+            N('Señora Guzmán is sitting right underneath it, telling Julieta the soup is lovely. The soup is full of roses.'),
             N('Mirabel sees where you are looking, follows your eyes, and goes white.'),
             MI('The wall! The east wall!', 'shock'),
           ],
@@ -1168,7 +1172,12 @@ export const ATLAS_A22: Quest[] = [
         },
         done: {
           id: 'a22-09-job-done',
-          lines: [N('Nobody is hurt. That is the best that can be said for it.')],
+          lines: [
+            N('Nobody is hurt. The rain has stopped, except for one small cloud over the soup, which is still going.'),
+            FE('I said umbrellas. At breakfast. Nobody listens to me about umbrellas.'),
+            PE('I am perfectly calm.', 'sad'),
+            N('The cloud over the soup thunders, very quietly.'),
+          ],
         },
       },
     ],
@@ -1448,6 +1457,9 @@ export const ATLAS_A22: Quest[] = [
             MI('You didn’t even want to marry Mariano!', 'angry'),
             N('There is a silence like a dropped glass.'),
             IS('How do you know that?', 'shock'),
+            MI('Because your roses shut every time he talks. Look. They’re doing it now, and he isn’t even here.'),
+            N('Every rose on the wall has closed up tight, like a fist.'),
+            IS('…Traitors.', 'angry'),
           ],
           choices: [
             {
@@ -1795,7 +1807,7 @@ export const ATLAS_A22: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A22-14') },
     requires: ['A22-14'],
-    speakers: [NEIGHBOUR, LUISA, ABUELA, MIRABEL, DOLORES],
+    speakers: [NEIGHBOUR, LUISA, ABUELA, MIRABEL, DOLORES, CAMILO],
     steps: [
       {
         id: 'a22-15-s1',
@@ -1809,6 +1821,7 @@ export const ATLAS_A22: Quest[] = [
             NB('The Madrigals helped every one of us. Now we help you.'),
             N('Señora Guzmán is there with her sleeves rolled up. Mariano is standing next to Dolores, and they are both a bit pink.'),
             N('There are no gifts now: Pepa has no cloud, and Luisa can’t lift a donkey. Camilo’s face is just his face.'),
+            CA('It’s so… one face. All day. How do you all manage?', 'think'),
             LU('I don’t know what to do with my hands.', 'think'),
             N('Julieta hands round arepas that heal nothing, and everybody eats them anyway, because they are delicious.'),
           ],
@@ -1865,7 +1878,9 @@ export const ATLAS_A22: Quest[] = [
       lines: [
         N('It takes days. Walls, then roof, then shutters, then the courtyard tiles, one by one, in the old pattern.'),
         N('Bruno puts on a play for the children with his rats. Pepa has no cloud, so she says how she feels out loud, and finds she can.'),
-        N('Abuela works beside everybody. She is not very good with a trowel, and she doesn’t mind.'),
+        N('Abuela works beside everybody. She plasters a corner, and the corner slowly slides off.'),
+        AB('It is resting.'),
+        N('Nobody argues. Tío Félix holds it up until it dries.'),
         N('In the end there is a house: plain, white and new, with a red roof. It isn’t magic, and every hand in the valley built it.'),
       ],
     },
@@ -1969,6 +1984,7 @@ export const ATLAS_A22: Quest[] = [
       lines: [
         N('In the morning the page begins to go thin and painted again, at the edges.'),
         N('The Madrigals walk you to the gate, all of them, and the house too, with its shutters waving.'),
+        N('Somewhere behind them, three Madrigals are still arguing about chairs.'),
         AB('You are welcome at this table. Always.', 'soft'),
         N('Antonio’s jaguar sniffs your Nubbin one last time. Antonio listens, very seriously, to what your Nubbin says back.'),
         AN('It says it will come back. And it says you have to bring it.', 'happy'),

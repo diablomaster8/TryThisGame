@@ -37,7 +37,9 @@ _Your Nubbin waves a stubby wing. Gobber waves his hook._
 
 **Gobber**: You need a job. Come and work at my forge.  
 _A forge is where people make things out of iron._  
-**Hiccup**: It is warm in there. Come on up!  
+**Hiccup**: Mind the swords. Mind the axes. Mind the ceiling.  
+_Your Nubbin bonks its head on the ceiling. Bonk!_  
+**Hiccup**: …Told you.  
 _Over the forge is a cosy loft. That is your bed._  
 
 > **Lesson** (literacy, RF.K.2, do): first sounds: h  
@@ -49,7 +51,8 @@ _Over the forge is a cosy loft. That is your bed._
 
 #### `sprout:a19-01-raid` · [main](main.md#a19-01-raid)
 
-_Horns toot in the night. Dragons are stealing sheep!_  
+_Horns toot in the night. A dragon lifts a sheep off a wall._  
+_The sheep looks very surprised._  
 **Gobber**: Bellows! Pump, pump, pump! Make the fire hot!  
 _You push the bellows. Whoosh, the fire gets bigger!_  
 
@@ -448,7 +451,7 @@ _He stops. Your Nubbin looks up at him._
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): a good friend keeps a promise  
 > _Hiccup trusts you. What does a good friend do with a promise?_  
-> - ✅ Keep it → Yes. A kept promise shows you can be trusted. If a secret ever worries you, tell a grown-up you trust.
+> - ✅ Keep it → Yes! Kept promises build trust. A worrying secret? Tell a grown-up.
 > - Forget it → A promise is something to remember. A good friend remembers.
 > - Tell it to everyone → That would not be keeping it. A friend keeps promises safe.
 > _For grown-ups: Talked about keeping a promise to a friend, and telling a trusted grown-up about any secret that worries you._
@@ -488,21 +491,29 @@ _Far away in the woods, branches crash. Then it goes quiet._
 
 _The arena is a stone pit. It has a roof of chains._  
 **Gobber**: Dragon school! Lesson one: be careful.  
-_Five young Vikings stand in the middle._  
+_Young Vikings stand in the middle._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): saying your name is a friendly way to start  
+> _Astrid and Fishlegs said their names. That is a friendly start._  
+> _Then the other person knows what to call you._  
+> _For grown-ups: Noticed that saying your own name is a friendly way to meet someone new._
+
 **Astrid**: I am Astrid. Stay out of my way.  
 **Fishlegs**: I am Fishlegs! Is that a hatchling?  
-**Snotlout**: I am Snotlout. Remember my name.  
-**Ruffnut**: I am Ruffnut. He is Tuffnut.  
 _Hiccup creeps in last, in a helmet too big for him._  
+
+#### `sprout:a19-05-arena-done` · [main](main.md#a19-05-arena-done)
+
+_Three more young Vikings come over._  
+**Snotlout**: I am Snotlout. Remember my name.  
+**Ruffnut**: I am Ruffnut.  
+**Tuffnut**: I am Tuffnut. She is the other one.  
 
 > **Lesson** (maths, K.OA.A.1, do): count to 5, then add one  
 > _(Count on your fingers: Astrid, Fishlegs, Snotlout, Ruffnut, Tuffnut.)_  
-> _Five! Then Hiccup comes in, and five and one more is six._  
+> _Five! Hiccup is here too, and five and one more is six._  
 > Check: `edu:count:vikings:5`
 > _For grown-ups: Counted five young Vikings, then added one more to make six._
-
-
-#### `sprout:a19-05-arena-done` · [main](main.md#a19-05-arena-done)
 
 _Your Nubbin goes to the wall._  
 _It does its fiercest face. Grrr!_  
@@ -683,8 +694,10 @@ _At the cove, Hiccup takes a big breath and climbs down._
 
 #### `sprout:a19-07-knife` · [main](main.md#a19-07-knife)
 
-_Hiccup tips the fish onto the stones._  
-_The dragon comes out low and fast. Then it stops._  
+_Hiccup tips the fish onto the stones. A smoked eel plops out last._  
+_The dragon sniffs it. Yuck! It hisses and jumps back._  
+**Hiccup**: No eel. Got it.  
+_Hiccup throws the eel in the lake. Then the dragon sees the knife._  
 _It is looking at the knife on Hiccup’s belt._  
 **Hiccup**: Oh. That.  
 _Hiccup takes out the knife slowly. Plop, it goes in the lake!_  
@@ -1395,7 +1408,8 @@ _Toothless crashes in through the roof. He stands in front of Hiccup._
 _He pushes the Nightmare back into its pen._  
 **Hiccup**: Go, Toothless! Go!  
 _He stays by Hiccup. The Vikings catch him with ropes._  
-_Hiccup tells his dad about Toothless. Stoick is upset and says something unkind._  
+_Hiccup tells his dad about Toothless._  
+_Stoick is very cross. He says a hurtful thing._  
 _Then he turns his back. Hiccup feels very small and very sad._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what helps when someone says something unkind  
@@ -1414,6 +1428,7 @@ _Hiccup stands on the jetty. His hands are empty._
 _Gobber goes with the ships. He has to._  
 _He touches Hiccup’s shoulder with his hook, very gently._  
 _Now it is only you, your Nubbin and Hiccup._  
+_Your Nubbin sits on Hiccup’s foot, so he is not alone._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, notice): families can be cross and still love each other  
 > _Families and friends can be cross with each other and still care._  
@@ -1510,7 +1525,7 @@ _Astrid runs for the village. Hiccup follows, and so do you._
 
 _The arena is empty. The dragons sit in their pens._  
 _Astrid has brought the others._  
-**Snotlout**: If this is a trick, I am too good-looking to eat.  
+**Snotlout**: Do not eat me! I am too handsome!  
 **Ruffnut**: Nobody eats you. You are mostly elbows.  
 **Tuffnut**: And hair.  
 **Hiccup**: Nobody is getting eaten. I want you to meet them properly.  
@@ -1580,7 +1595,7 @@ _You climb on behind Fishlegs. Your Nubbin rides in a sack._
 > _For grown-ups: Talked about holding on tight and sitting still to stay safe when riding._
 
 **Astrid**: Which way did the ships go?  
-**Hiccup**: North. To the nest. Toothless knows the way.  
+**Hiccup**: North. Toothless is on Dad’s ship. He will show them the nest.  
 _Four dragons go up out of the arena, into the grey morning._  
 
 #### `sprout:a19-15-go-done` · [main](main.md#a19-15-go-done)
@@ -1665,7 +1680,7 @@ _Fishlegs sets you down. Your job is to help people off the ships._
 #### `sprout:a19-16-draw-done` · [main](main.md#a19-16-draw-done)
 
 _When the last one is off, you look back._  
-_Everyone is safe on the beach. Who helped?_  
+_Everyone is safe. You helped, your Nubbin helped, and Stoick helped too._  
 _Hiccup has turned away from the big one._  
 _He is flying towards the front ship._  
 

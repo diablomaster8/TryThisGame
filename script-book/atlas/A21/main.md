@@ -4,7 +4,7 @@
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the Era Meteors, fifty years after the Demon King fell* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time once Nova’s atlas is in the Grove; the first quest on the page.
 
-**Cast:** Himmel (Himmel the Hero, old and in flashback (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Himmel (Himmel the Hero, old and in flashback (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Step into the page with Keeper Fern, under the falling stars.
 
@@ -14,9 +14,9 @@ Hint: Touch the page where the stars fall, then walk in through the city gate. �
 
 _Fern from next door is round for tea. She leans over your shoulder to see what you’re reading._  
 _Nova’s atlas lies open at a page washed in dark blue: a royal city on a hill, and the sky above it full of falling stars._  
-**Fern** _(shock)_: Is it meant to move like that? Pages don’t move. Mine don’t. Mine have jam on them.  
+**Keeper Fern** _(shock)_: Is it meant to move like that? Pages don’t move. Mine don’t. Mine have jam on them.  
 _The stars drip off the paper onto your fingers, cool as rain. Then there are cobbles under your boots, and a crowd, and roast chestnuts._  
-**Fern** _(think)_: We’re in it. We’re in the book. Do I look like I’m in a book?  
+**Keeper Fern** _(think)_: We’re in it. We’re in the book. Do I look like I’m in a book?  
 _By the fountain in the square, four people stand a little apart from the crowd, looking up._  
 _An old man in a blue cloak leans on a stick, beside an old priest with a bottle and a dwarf with a beard to his belt._  
 _And an elf with pale hair in two tails, who looks about fifteen. You will learn she has looked it for a thousand years._  
@@ -36,14 +36,14 @@ _And an elf with pale hair in two tails, who looks about fifteen. You will learn
 #### <a id="a21-01-page-done"></a>Done `a21-01-page-done`
 
 _Keeper Fern glances down at her boots, where nobody is sitting. It’s an old habit, and she catches herself at it._  
-**Fern**: Right. Stars. Lead on.  
+**Keeper Fern**: Right. Stars. Lead on.  
 
 #### <a id="a21-01-page-done-bramble"></a>Variant `a21-01-page-done-bramble`
 
 _Variant of `a21-01-page-done`._
 
 _Bramble sits on Keeper Fern’s boots, grey and solemn, her folded ear twitching at the noise of the crowd._  
-**Fern** _(soft)_: She came down from the Hollow for this. She doesn’t do crowds. Or books. She’s making an exception.  
+**Keeper Fern** _(soft)_: She came down from the Hollow for this. She doesn’t do crowds. Or books. She’s making an exception.  
 **Himmel** _(happy)_: A guardian. Good. Every party needs one who keeps an eye on the exits.  
 
 ### Step 2: Walk up to the hill outside the city with the old party.
@@ -87,7 +87,7 @@ Hint: Sit in the grass with the others and look up. Your Nubbin will try to coun
 
 _Then the sky begins: one streak, then ten, then more than anyone could name, falling slow and silver over the city._  
 _Your Nubbin starts counting them on its feet. It runs out of feet almost at once, and starts again._  
-**Fern**: It’s doing its best. That’s all you can ask of anyone.  
+**Keeper Fern**: It’s doing its best. That’s all you can ask of anyone.  
 **Himmel** _(soft)_: Fifty years since the last ones. It’s nice when a promise turns out to be an easy one.  
 **Frieren** _(think)_: Fifty years. It doesn’t feel like it.  
 **Heiter**: It does to my knees.  
@@ -114,7 +114,7 @@ _The meteors thin out and stop. Down below, the city bells ring midnight._
 **Frieren**: It was only a few stars.  
 _Frieren says it lightly. One day she will think about it for a long time._  
 _The page sighs under you like a book left open in the wind. The grass goes soft, and then it is paper again._  
-**Fern** _(soft)_: I’d have stayed longer. Is that silly? I don’t even know them.  
+**Keeper Fern** _(soft)_: I’d have stayed longer. Is that silly? I don’t even know them.  
 
 **Rewards**
 
@@ -127,7 +127,7 @@ Sets on completion: `{"a21-01":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Himmel’s funeral* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-1, from Nova’s atlas. · requires: A21-1
 
-**Cast:** Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Carry flowers to the hero’s funeral in the capital.
 
@@ -137,7 +137,7 @@ Hint: Take the flowers from the stall in the market and carry them up to the cat
 
 _The page turns itself. When it settles, the same city is hung in black, and every bell in it is quiet._  
 _Only a few years have gone. Hardly any time, for an elf._  
-**Fern** _(sad)_: Oh. Oh, no. It’s him, isn’t it. The old man with the stick.  
+**Keeper Fern** _(sad)_: Oh. Oh, no. It’s him, isn’t it. The old man with the stick.  
 _In the market a flower-seller is giving away everything she has. People carry armfuls up to the cathedral._  
 _She hands you a bundle of white lilies, and Keeper Fern a bundle of something blue, without a word._  
 _Heiter stands at the steps in his priest’s robes, sober for once. Eisen is beside him, very still._  
@@ -187,7 +187,7 @@ _Your Nubbin climbs into your arms and hides its face in your coat._
 #### <a id="a21-02-burial-done"></a>Done `a21-02-burial-done`
 
 _Keeper Fern stands beside you with her blue flowers still in her hands. She has forgotten to put them down._  
-**Fern** _(sad)_: Hazel’s been gone since the snow. I keep thinking of things I never asked her.  
+**Keeper Fern** _(sad)_: Hazel’s been gone since the snow. I keep thinking of things I never asked her.  
 _She lays them on the grass, carefully, right at the back, where nobody will tread on them._  
 
 #### <a id="a21-02-burial-done-home"></a>Variant `a21-02-burial-done-home`
@@ -195,7 +195,7 @@ _She lays them on the grass, carefully, right at the back, where nobody will tre
 _Variant of `a21-02-burial-done`._
 
 _Keeper Fern stands beside you with her blue flowers still in her hands. She has forgotten to put them down._  
-**Fern** _(sad)_: Hazel’s home. She sleeps most of the day. I sit by her and think of things to ask, and then I let her sleep.  
+**Keeper Fern** _(sad)_: Hazel’s home. She sleeps most of the day. I sit by her and think of things to ask, and then I let her sleep.  
 _She lays them on the grass, carefully, right at the back, where nobody will tread on them._  
 
 #### <a id="a21-02-burial-done-after"></a>Variant `a21-02-burial-done-after`
@@ -203,7 +203,7 @@ _She lays them on the grass, carefully, right at the back, where nobody will tre
 _Variant of `a21-02-burial-done`._
 
 _Keeper Fern stands beside you with her blue flowers still in her hands. She has forgotten to put them down._  
-**Fern** _(sad)_: I lived next door to Hazel for years. I knew which biscuits she liked. That’s about it.  
+**Keeper Fern** _(sad)_: I lived next door to Hazel for years. I knew which biscuits she liked. That’s about it.  
 _She lays them on the grass, carefully, right at the back, where nobody will tread on them._  
 
 ### Complete
@@ -228,7 +228,7 @@ Sets on completion: `{"a21-02":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Heiter in Strahl, and the girl he took in* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-2, from Nova’s atlas. · requires: A21-2
 
-**Cast:** Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Travel with Frieren to Heiter’s house in Strahl.
 
@@ -238,12 +238,12 @@ Hint: Follow the road up through the holy city to the house with the overgrown g
 
 _Twenty years go by in the margin, like weather. When the page settles, the road runs up into a city of white towers: Strahl._  
 _Frieren is on the road, not changed at all. Neither, the atlas seems to have decided, have you._  
-**Fern** _(think)_: Twenty years. I didn’t even need a cardigan.  
+**Keeper Fern** _(think)_: Twenty years. I didn’t even need a cardigan.  
 _At the top of the town there is a small house with a garden gone to seed. An old man is asleep on the porch with a cup._  
 **Heiter** _(happy)_: Frieren! You came. I said not fifty years. I’m touched you managed twenty.  
 **Frieren**: You’re very old, Heiter.  
 **Heiter**: I’m dying, actually. Slowly, and comfortably, which is the good way. And you two haven’t aged a day.  
-**Fern**: It’s the book. We’re not from round here. You look very… comfortable.  
+**Keeper Fern**: It’s the book. We’re not from round here. You look very… comfortable.  
 **Heiter**: Frieren, I have a favour to ask. Two, in fact. The first is a grimoire, and I know you can’t say no to a grimoire.  
 **Frieren**: I can say no to anything.  
 **Heiter**: It’s very old. Very rare. Written by a sage nobody has ever managed to read.  
@@ -254,7 +254,7 @@ _At the top of the town there is a small house with a garden gone to seed. An ol
 - **Ask what the second favour is.**
     - **Heiter**: Ah. The second favour is shy. She’s inside, pretending not to listen.
 - **Look at the garden.**
-    - **Fern**: Whoever planted this gave up in the spring. I know the look. I do it myself, most years.
+    - **Keeper Fern**: Whoever planted this gave up in the spring. I know the look. I do it myself, most years.
 
 #### <a id="a21-03-strahl-done"></a>Done `a21-03-strahl-done`
 
@@ -274,7 +274,7 @@ _A girl comes to the door: dark purple hair, a very straight back, and eyes that
 _She bows to Frieren, neatly and deeply, the way somebody bows who has practised in a mirror._  
 **Fern**: My name is Fern. Lord Heiter says you are the greatest mage alive. Please teach me.  
 _Keeper Fern, coming up the path to say hello, trips over the step and lands on her hands at the girl’s feet._  
-**Fern** _(shock)_: Sorry. Sorry! That’s… that’s my name too. Fern. I’m a Fern. Sorry.  
+**Keeper Fern** _(shock)_: Sorry. Sorry! That’s… that’s my name too. Fern. I’m a Fern. Sorry.  
 **Fern**: It’s a common name. You needn’t apologise for it.  
 _She helps Keeper Fern up by the elbow, briskly, like someone who does a lot of helping people up._  
 
@@ -285,14 +285,14 @@ _She helps Keeper Fern up by the elbow, briskly, like someone who does a lot of 
     - **Fern**: So does Lord Heiter. Badly.
 - **Tell her it’s a good name.**
     - **Fern**: Lord Heiter chose it. He said it’s a plant that grows where nothing else wants to.
-    - **Fern**: That’s… actually, that’s exactly right.
+    - **Keeper Fern**: That’s… actually, that’s exactly right.
 - **Let your Nubbin say hello.**
     - Your Nubbin copies her bow. It is too round to bow, and falls forward onto its face.
     - **Fern**: Thank you. That was very formal.
 
 #### <a id="a21-03-step-done"></a>Done `a21-03-step-done`
 
-**Fern** _(happy)_: She’s going to be much better at being Fern than I am. I can tell already.  
+**Keeper Fern** _(happy)_: She’s going to be much better at being Fern than I am. I can tell already.  
 
 ### Complete
 
@@ -304,7 +304,7 @@ _She helps Keeper Fern up by the elbow, briskly, like someone who does a lot of 
 **Heiter**: I’m a priest. I’m allowed a small lie in a good cause. It’s in the small print.  
 _Frieren looks at the girl. The girl looks back without blinking._  
 **Frieren**: Fine. Show me what you can do, Fern. The other Fern can water something.  
-**Fern** _(happy)_: I can do that. Badly, but I can do it.  
+**Keeper Fern** _(happy)_: I can do that. Badly, but I can do it.  
 
 **Rewards**
 
@@ -317,7 +317,7 @@ Sets on completion: `{"a21-03":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Fern’s training in Strahl, and the far rock* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-3, from Nova’s atlas. · requires: A21-3
 
-**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Fetch water for both Ferns: one for the girl, one for the sapling.
 
@@ -330,7 +330,7 @@ _Every morning young Fern walks to the end of the field and aims her staff at a 
 _It is a long way off. Her spells fall short, or go wide, or hit the hill and frighten the goats._  
 **Fern** _(angry)_: Again.  
 _Every morning Keeper Fern kneels in Heiter’s garden by a sapling she planted, and talks to it._  
-**Fern**: Come on. You’re a tree. Trees grow. It’s your one job. I believe in you. A bit.  
+**Keeper Fern**: Come on. You’re a tree. Trees grow. It’s your one job. I believe in you. A bit.  
 _The sapling has three leaves. It had four yesterday._  
 **Frieren**: Fetch some water, would you? One of them will need a drink, and so will the other one.  
 
@@ -340,7 +340,7 @@ _The sapling has three leaves. It had four yesterday._
     - **Fern**: Thank you.
     - She drinks half, pours the other half over her head, and goes straight back to the rock.
 - **The sapling first: it’s smaller.**
-    - **Fern**: Thank you. It won’t say so. It doesn’t say anything. That’s probably the trouble.
+    - **Keeper Fern**: Thank you. It won’t say so. It doesn’t say anything. That’s probably the trouble.
 - **Split it fairly, a bucket each.**
     - **Frieren**: Very fair. I’ve never seen the point of fair. That was very fair, though.
 
@@ -360,7 +360,7 @@ _Young Fern is taller. She stands at the end of the field, very still, the staff
 **Frieren** _(think)_: Don’t aim at the rock. Aim past it. Aim at whatever’s behind it.  
 **Fern**: There’s nothing behind it.  
 **Frieren**: Then aim at nothing. It’s a very big target.  
-**Fern** _(think)_: That’s either very wise or complete rubbish. I honestly can’t tell.  
+**Keeper Fern** _(think)_: That’s either very wise or complete rubbish. I honestly can’t tell.  
 _Your Nubbin covers its eyes with both paws, then uncovers one._  
 _Young Fern breathes in. The air in front of her staff bends, like water over a stone._  
 
@@ -384,7 +384,7 @@ _The goats run. Young Fern stays exactly where she is, staring._
 _Heiter claps from the porch, slowly, three times, because that is all he has the breath for._  
 **Heiter** _(happy)_: Well done, Fern. Oh, well done.  
 _Young Fern runs to him. She doesn’t run, usually._  
-**Fern** _(happy)_: Look. Look, it’s got a new leaf. Today of all days. It was waiting for her.  
+**Keeper Fern** _(happy)_: Look. Look, the sapling’s got a new leaf. Today of all days. It was waiting for her.  
 _The sapling has four leaves. Nobody else notices, so you notice for everyone._  
 **Frieren** _(think)_: Four years. That was quick.  
 
@@ -399,7 +399,7 @@ Sets on completion: `{"a21-04":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the grimoire, and Heiter’s farewell in Strahl* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-4, from Nova’s atlas. · requires: A21-4
 
-**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Heiter (Heiter, the priest of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Help Frieren finish the old grimoire in Heiter’s study.
 
@@ -415,7 +415,7 @@ _The grimoire lies on Heiter’s desk under a lamp. Frieren turns the last page 
 **Heiter**: She’s ready now. Ready to travel. Ready to have someone who isn’t me.  
 **Frieren**: You lied to me for four years.  
 **Heiter** _(happy)_: I’m a priest. I told you. Small print.  
-**Fern**: That’s quite clever, honestly. I’d never think of it. I’d just ask, and then apologise for asking.  
+**Keeper Fern**: That’s quite clever, honestly. I’d never think of it. I’d just ask, and then apologise for asking.  
 
 **Choices**
 
@@ -452,7 +452,7 @@ _Frieren sits very still. Then she wipes her eyes, angrily, the way she did at t
 **Choices**
 
 - **Ask Keeper Fern to plant her sapling by his chair.**
-    - **Fern**: Right where he can see it. It’ll get the sun, and he’ll get the company.
+    - **Keeper Fern**: Right where he can see it. It’ll get the sun, and he’ll get the company.
 - **Promise to look after young Fern.**
     - **Heiter**: She’ll look after you, I expect. But thank you. It’s nice to hear it said out loud.
 - **Just sit with him.**
@@ -474,7 +474,7 @@ _In the morning there is a proper goodbye. Heiter stands at his gate with a stic
 **Heiter**: Write to me. Tell me about the bread.  
 _Young Fern bows once more, very deeply. Then she walks quickly down the hill without looking back, because she has to._  
 _Frieren looks back. Twice._  
-**Fern** _(sad)_: He knows they’ll be coming. The letters. That’s something, isn’t it?  
+**Keeper Fern** _(sad)_: He knows they’ll be coming. The letters. That’s something, isn’t it?  
 _Nobody answers. The road runs out of Strahl, and you go with it._  
 
 **Rewards**
@@ -488,7 +488,7 @@ Sets on completion: `{"a21-05":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: odd jobs in the Turk region, and the hero’s statue* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-5, from Nova’s atlas. · requires: A21-5
 
-**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Old Woman (The old woman who asks Frieren to clean the hero’s statue)
+**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Old Woman (The old woman who asks Frieren to clean the hero’s statue), Keeper Fern
 
 ### Step 1: Help with odd jobs across the Turk region.
 
@@ -502,7 +502,7 @@ _The Turk region is all small towns and long hedges. Frieren reads every notice 
 **Frieren**: This one pays in a spell that keeps tea at exactly the right heat for an hour.  
 **Fern**: We have no tea.  
 **Frieren**: Then we’ll want the spell all the more when we do.  
-**Fern** _(happy)_: Sorry, Fern, I’m on her side. A spell for buttons. I lose so many buttons.  
+**Keeper Fern** _(happy)_: Sorry, Fern, I’m on her side. A spell for buttons. I lose so many buttons.  
 _By the end of the week Frieren has learned seven spells, and young Fern has sold her winter gloves for bread._  
 _The last job is a ruin outside town. In its cellar there is a single wooden chest._  
 **Frieren** _(think)_: A chest. I have a spell that says if it’s a mimic. It’s right ninety-nine times in a hundred.  
@@ -560,7 +560,7 @@ _Frieren stands in the square and looks up at the statue for a long time. Long e
 **Frieren** _(think)_: He looks a bit bare, doesn’t he.  
 **Fern**: He’s a statue.  
 **Frieren**: He liked flowers. One kind especially.  
-**Fern**: Oh, no. I know that face. That’s a garden face. That’s the face I make before a very long afternoon.  
+**Keeper Fern**: Oh, no. I know that face. That’s a garden face. That’s the face I make before a very long afternoon.  
 
 **Rewards**
 
@@ -573,7 +573,7 @@ Sets on completion: `{"a21-06":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the search for the blue moon-weed* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-6, from Nova’s atlas. · requires: A21-6
 
-**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Old Woman (The old woman who asks Frieren to clean the hero’s statue)
+**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Old Woman (The old woman who asks Frieren to clean the hero’s statue), Keeper Fern
 
 ### Step 1: Hear what Frieren means to look for, and decide whether to search with her.
 
@@ -591,7 +591,7 @@ Hint: Talk to the old woman by the statue, then choose: search with Frieren, or 
 **Frieren**: …Six months. Perhaps. It could be more.  
 **Fern**: Then I’ll go ahead to the next town and wait. And find a job that pays in money.  
 _Frieren is already walking out of the square with her head down, as if the flowers might be between the cobbles._  
-**Fern** _(soft)_: Six months for a wreath. That’s mad. That’s… actually, that’s quite lovely.  
+**Keeper Fern** _(soft)_: Six months for a wreath. That’s mad. That’s… actually, that’s quite lovely.  
 
 **Choices**
 
@@ -605,7 +605,7 @@ _Frieren is already walking out of the square with her head down, as if the flow
 
 #### <a id="a21-07-flower-done"></a>Done `a21-07-flower-done`
 
-**Fern**: Whichever way, I’m with you. I’ve been waiting for things to grow my whole life. It’s my main skill.  
+**Keeper Fern**: Whichever way, I’m with you. I’ve been waiting for things to grow my whole life. It’s my main skill.  
 
 ### Step 2: Let the six months go by.
 
@@ -618,7 +618,7 @@ _She stops at every hedge and murmurs. The spell lights nothing, and she walks o
 **Frieren** _(think)_: You’re still here.  
 **You**: You said keep up.  
 **Frieren**: Himmel used to come on errands like this. Never complained once. He complained about everything else.  
-**Fern**: I complain about the weeds every morning. To the weeds. It’s how we get on.  
+**Keeper Fern**: I complain about the weeds every morning. To the weeds. It’s how we get on.  
 _In the autumn, by a ruined tower, your Nubbin spots a fat little rat with its cheeks full of something blue._  
 **Frieren** _(shock)_: A seed rat. They carry seeds up high to store them. All the way up.  
 _The rat whisks into a crack at the foot of the tower. Far above, at the very top, something blue moves in the wind._  
@@ -665,7 +665,7 @@ _From the ground, Himmel wears blue. The old woman cries a little, and says it i
 #### <a id="a21-07-complete"></a>Complete `a21-07-complete`
 
 **Frieren** _(think)_: I should have looked at it properly, that field. When he showed me. I was thinking about spells.  
-**Fern**: You looked properly today. That counts. It has to count, or I’m in real trouble.  
+**Keeper Fern**: You looked properly today. That counts. It has to count, or I’m in real trouble.  
 **Fern**: We should go, Frieren. It’s a long way north.  
 _The wreath is still on the statue as you leave. The blue is the last you see of the town._  
 
@@ -676,7 +676,7 @@ _Variant within A21-7; it has no single parent scene._
 _The next town has an inn with a roof, and a job at the bakery that pays in actual money. Young Fern is delighted._  
 **Fern** _(happy)_: Money. Look. It’s round, and you can spend it.  
 _Six months go by, and young Fern bakes. Keeper Fern weeds the inn’s herb bed, whether or not it wants weeding._  
-**Fern**: It didn’t ask. I could tell it wanted to.  
+**Keeper Fern**: It didn’t ask. I could tell it wanted to.  
 _In the evenings young Fern sits at the window that looks back down the road._  
 **Fern** _(soft)_: She forgets, you know. Time. She doesn’t mean to. It just goes past her.  
 **Fern**: Lord Heiter said to be patient with her. He said she was worth it. He said it a lot. I think he was telling himself.  
@@ -709,7 +709,7 @@ Sets on completion: `{"a21-07":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Qual, sealed eighty years* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-7, from Nova’s atlas. · requires: A21-7
 
-**Cast:** Village Elder (The elder of the village below Qual’s seal, who met Frieren as a boy), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Qual (Qual, the sealed demon (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Village Elder (The elder of the village below Qual’s seal, who met Frieren as a boy), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Qual (Qual, the sealed demon (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Visit the village where Frieren sealed a demon long ago.
 
@@ -727,7 +727,7 @@ _The elder is an old man with a bad hip. When he sees Frieren, he drops his cup.
 **Village Elder**: Every year, till he couldn’t manage the hill any more. Then I went up for him.  
 **Frieren** _(think)_: He never told me.  
 **Village Elder**: He said you’d come back one day and finish it. No hurry, he said. You’d get round to it.  
-**Fern** _(soft)_: He knew her, didn’t he. Properly.  
+**Keeper Fern** _(soft)_: He knew her, didn’t he. Properly.  
 
 **Choices**
 
@@ -754,6 +754,10 @@ _In the middle stands a tall figure in a long coat, with horns, blinking as if h
 _He lifts a hand, and his killing spell leaps out: a thin bright line that once went through shields like paper._  
 _Young Fern raises her staff, and a pane of light opens in front of her. The bright line hits it, and stops._  
 **Qual** _(shock)_: …That should not be possible.  
+**Qual** _(angry)_: Eighty years I stood here. Nobody so much as dusted me.  
+_A voice pipes up from behind the far stones, beside you. The elder has followed you up the hill, bad hip and all._  
+**Village Elder** _(happy)_: I did! Every spring!  
+**Qual**: …Thank you. That is somehow worse.  
 **Frieren**: Mages studied your spell while you slept. Now every one of them learns to block it in their first year. It’s ordinary magic.  
 **Fern**: We did it in the first week. It’s quite easy.  
 _Your Nubbin, who did not do it in the first week, climbs inside your coat._  
@@ -791,7 +795,7 @@ Sets on completion: `{"a21-08":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the New Year sunrise* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-8, from Nova’s atlas. · requires: A21-8
 
-**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Help young Fern get Frieren out of bed before dawn on New Year’s morning.
 
@@ -829,9 +833,9 @@ Hint: Follow the villagers’ lanterns up the hill path and find a place on the 
 
 _The hill path is full of lanterns: families, dogs, grandmothers wrapped like parcels. Frieren climbs it yawning._  
 _At the top, Keeper Fern is already there, on a rock, with a kettle on a little fire._  
-**Fern** _(happy)_: I was up anyway. I’m always up. Tea?  
+**Keeper Fern** _(happy)_: I was up anyway. I’m always up. Tea?  
 **Fern**: How did you get up here first?  
-**Fern**: Gardener. We get up when the light does. It isn’t a virtue. It’s a condition.  
+**Keeper Fern**: Gardener. We get up when the light does. It isn’t a virtue. It’s a condition.  
 _She hands round tea in mismatched cups. Your Nubbin gets the smallest one._  
 _Then the sun comes up over the far mountains, gold and slow, and every lantern on the hill looks suddenly silly._  
 _Frieren stops yawning. She holds her tea and forgets to drink it._  
@@ -845,7 +849,7 @@ _Frieren speaks so quietly that only the people next to her hear. That is everyo
 **Choices**
 
 - **Raise your cup.**
-    - **Fern**: To getting up. Just this once.
+    - **Keeper Fern**: To getting up. Just this once.
 - **Just watch it.**
     - You watch the sun until it’s too bright to look at. Then you watch it on everyone’s faces.
 
@@ -856,7 +860,7 @@ _Frieren speaks so quietly that only the people next to her hear. That is everyo
 **Frieren** _(think)_: We’ll come again next year.  
 **Fern**: You’ll say five more minutes.  
 **Frieren**: Then drag me. That’s what he did.  
-**Fern** _(happy)_: Write that down, Fern. Write it in the front of a book. She’ll deny it.  
+**Keeper Fern** _(happy)_: Write that down, Fern. Write it in the front of a book. She’ll deny it.  
 _On the way down, Frieren holds young Fern’s hand on the icy bits. Neither of them mentions it._  
 
 **Rewards**
@@ -870,7 +874,7 @@ Sets on completion: `{"a21-09":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Eisen’s errand, and Flamme’s true grimoire* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-9, from Nova’s atlas. · requires: A21-9
 
-**Cast:** Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Eisen (Eisen, the dwarf warrior of the hero’s party (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Visit Eisen in his cabin in the pines.
 
@@ -887,7 +891,7 @@ _Eisen lives alone in a cabin in the pines, with a forge that doesn’t get lit 
 **Frieren** _(shock)_: You want me to go to Aureole. And talk to Himmel.  
 **Eisen**: I want you to say what you didn’t. You had ten years. I watched you not say it.  
 **Eisen**: I’m too old to come. My knees have given notice. You’re not too old for anything.  
-**Fern**: He’s quite blunt, isn’t he. I like it. Nobody’s blunt with me. They’re all far too nice about the pear tree.  
+**Keeper Fern**: He’s quite blunt, isn’t he. I like it. Nobody’s blunt with me. They’re all far too nice about the pear tree.  
 
 **Choices**
 
@@ -909,7 +913,7 @@ Hint: Explore the meadow round the ruin. Frieren will know the place when she se
 
 _Flamme’s house is a ruin of grey stones. Round it, as far as you can see, there is a meadow in full flower._  
 _It is the wrong season for flowers. They don’t care._  
-**Fern** _(shock)_: Oh. Oh, look at them. Nobody’s watered these. Nobody’s watered these for a thousand years.  
+**Keeper Fern** _(shock)_: Oh. Oh, look at them. Nobody’s watered these. Nobody’s watered these for a thousand years.  
 **Frieren** _(soft)_: It’s her spell. The one that makes a field of flowers. It’s still holding.  
 **Frieren**: Flamme was my teacher. She found me when my village burned. She was human. She died a long time ago.  
 **Frieren** _(happy)_: She knew a thousand spells, and that was the one she loved best. It’s no use at all.  
@@ -923,7 +927,7 @@ _Your Nubbin rolls in the flowers until one whole side of it is yellow._
 - **Ask Frieren to teach young Fern the spell.**
     - **Frieren**: Later. It isn’t hard. It just has to be meant.
 - **Help Keeper Fern look among the roots.**
-    - **Fern**: Old houses always hide things under the roses. Hazel kept the good jam under hers.
+    - **Keeper Fern**: Old houses always hide things under the roses. Hazel kept the good jam under hers.
 
 #### <a id="a21-10-meadow-done"></a>Done `a21-10-meadow-done`
 
@@ -951,7 +955,7 @@ Sets on completion: `{"a21-10":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the village in the mist, and the monster that wears the faces of the missed* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-10, from Nova’s atlas. · requires: A21-10
 
-**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Walk into the misty village where people vanish.
 
@@ -966,13 +970,13 @@ _A woman at the well tells you about it without being asked._
 **Fern**: What do we do if we see someone?  
 **Frieren**: Don’t follow. Keep hold of something. A hand. A strap. A Nubbin.  
 _Your Nubbin takes hold of the hem of your coat with both paws, as if it had been told personally._  
-**Fern** _(think)_: Right. Don’t follow. Hold on. I can do that. I’m very good at standing still. Ask anyone.  
+**Keeper Fern** _(think)_: Right. Don’t follow. Hold on. I can do that. I’m very good at standing still. Ask anyone.  
 _The mist comes down as thick as wool. You can see your own hand, just._  
 
 **Choices**
 
 - **Hold Keeper Fern’s sleeve.**
-    - **Fern**: Thanks. You hold mine, I’ll hold yours. Then neither of us goes anywhere stupid.
+    - **Keeper Fern**: Thanks. You hold mine, I’ll hold yours. Then neither of us goes anywhere stupid.
 - **Pick up your Nubbin.**
     - You pick it up. It is warm, and real, and heavier than it looks, and that helps.
 
@@ -987,9 +991,9 @@ Hint: Keep hold of Keeper Fern. Don’t let her walk forward. · check: `wait:a2
 #### <a id="a21-11-ghost"></a>Scene `a21-11-ghost`
 
 _In the mist sits a Nubbin, round and brown, with a faded ribbon on one ear. The ear folds over at the tip._  
-_It is the colour Bramble was before the rail, six years ago. It looks at Keeper Fern and doesn’t blink._  
-**Fern** _(shock)_: Bramble?  
-**Fern** _(sad)_: Bramble, love. It’s me. I looked for you. I stood at the bottom till dark.  
+_It is Bramble, Keeper Fern’s Nubbin, as she was six years ago, before she went over the cliff rail at a race. It doesn’t blink._  
+**Keeper Fern** _(shock)_: Bramble?  
+**Keeper Fern** _(sad)_: Bramble, love. It’s me. I looked for you. I stood at the bottom till dark.  
 _She takes one step forward. Your hand is on her sleeve._  
 _The Nubbin in the mist tilts its head, exactly the way Bramble did. It knows all her ways, and that’s the cruelty of it._  
 **Fern** _(think)_: Keeper Fern. Look at me. Not at it.  
@@ -1009,8 +1013,8 @@ _Variant of `a21-11-ghost`._
 
 _Bramble presses hard against Keeper Fern’s boots and growls, low, which she never does._  
 _In the mist stands a woman with her back to you, in Hazel’s coat: the big one she wore to feed the strays, patched at the elbow._  
-**Fern** _(shock)_: …Hazel?  
-**Fern** _(sad)_: Hazel, it’s me. It’s Fern. From next door. I’ve got so much to ask you. I never asked you anything.  
+**Keeper Fern** _(shock)_: …Hazel?  
+**Keeper Fern** _(sad)_: Hazel, it’s me. It’s Fern. From next door. I’ve got so much to ask you. I never asked you anything.  
 _She takes one step forward, with your hand on her sleeve. Bramble sits down on her boots, both of them, and stays._  
 _The figure begins to turn round. It knows all of Hazel’s ways, and that’s the cruelty of it._  
 **Fern** _(think)_: Keeper Fern. Look at me. Not at it.  
@@ -1036,11 +1040,11 @@ Hint: Sit down next to her on the edge of the well. You don’t have to say anyt
 #### <a id="a21-11-sit"></a>Scene `a21-11-sit`
 
 _Keeper Fern sits on the edge of the well with her hands between her knees. She is very quiet, which she never is._  
-**Fern** _(sad)_: It had her ear. The fold at the tip. I used to fold it back up, and it’d flop straight down again.  
-**Fern**: Six years. You’d think a person would stop seeing her. I see her in every hedge.  
+**Keeper Fern** _(sad)_: It had her ear. The fold at the tip. I used to fold it back up, and it’d flop straight down again.  
+**Keeper Fern**: Six years. You’d think a person would stop seeing her. I see her in every hedge.  
 _Young Fern comes and stands a little way off, holding her staff, not sure if she’s allowed._  
 **Fern** _(soft)_: I saw Lord Heiter. It was nothing like him, really. He’d have been asleep.  
-**Fern** _(happy)_: Ha. Yes. Bramble would have been eating something she shouldn’t.  
+**Keeper Fern** _(happy)_: Ha. Yes. Bramble would have been eating something she shouldn’t.  
 _Frieren sits down on Keeper Fern’s other side and says nothing at all. She seems to know that’s the point._  
 
 **Choices**
@@ -1048,7 +1052,7 @@ _Frieren sits down on Keeper Fern’s other side and says nothing at all. She se
 - **Sit down beside her and wait.**
     - You sit down next to her, and wait. After a while she leans on you, very slightly.
 - **Tell her Bramble might still be out there.**
-    - **Fern**: Don’t. Don’t say that unless…
+    - **Keeper Fern**: Don’t. Don’t say that unless…
     - She stops. Then she takes your hand anyway, hard, and doesn’t let go for a long time.
 - **Put your Nubbin in her lap.**
     - She holds it. It lets her, which it doesn’t, usually, for anyone but you.
@@ -1058,11 +1062,11 @@ _Frieren sits down on Keeper Fern’s other side and says nothing at all. She se
 _Variant of `a21-11-sit`._
 
 _Keeper Fern sits on the edge of the well with her hands between her knees. She is very quiet, which she never is._  
-**Fern** _(sad)_: It had her coat. She used to hang it on my gate when she came round, as if it were waiting to be taken home.  
-**Fern** _(sad)_: All those mornings. I never once asked her where she was going in it.  
+**Keeper Fern** _(sad)_: It had her coat. She used to hang it on my gate when she came round, as if it were waiting to be taken home.  
+**Keeper Fern** _(sad)_: All those mornings. I never once asked her where she was going in it.  
 _Young Fern comes and stands a little way off, holding her staff, not sure if she’s allowed._  
 **Fern** _(soft)_: I saw Lord Heiter. It was nothing like him, really. He’d have been asleep.  
-**Fern** _(happy)_: Ha. Yes. Hazel would have told it to wipe its feet.  
+**Keeper Fern** _(happy)_: Ha. Yes. Hazel would have told it to wipe its feet.  
 _Bramble climbs into Keeper Fern’s lap, which is too small for her, and stays there anyway._  
 _Frieren sits down on Keeper Fern’s other side and says nothing at all. She seems to know that’s the point._  
 
@@ -1071,13 +1075,13 @@ _Frieren sits down on Keeper Fern’s other side and says nothing at all. She se
 - **Sit down beside her and wait.**
     - You sit down next to her, and wait. After a while she leans on you, very slightly.
 - **Tell her Hazel knew she cared.**
-    - **Fern**: Did she? I suppose she did. She noticed everything. Even me.
+    - **Keeper Fern**: Did she? I suppose she did. She noticed everything. Even me.
 - **Put your Nubbin in her lap, next to Bramble.**
     - Bramble washes it, ear to ear, as if it were one of hers. Keeper Fern laughs, wetly, and that helps.
 
 #### <a id="a21-11-sit-done"></a>Done `a21-11-sit-done`
 
-**Fern**: Thanks. All of you. You’re very good at this. I’m terrible at it.  
+**Keeper Fern**: Thanks. All of you. You’re very good at this. I’m terrible at it.  
 **Frieren** _(think)_: You sat still. That’s most of it.  
 
 ### Complete
@@ -1101,7 +1105,7 @@ Sets on completion: `{"a21-11":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Stark and the dragon* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-11, from Nova’s atlas. · requires: A21-11
 
-**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Find the young warrior the village is pinning its hopes on.
 
@@ -1140,9 +1144,9 @@ Hint: Sit by Stark’s fire until dawn. Your Nubbin will keep his boots warm. ·
 
 _Stark sits by his fire all night, and his hands shake all night. He holds them out to the fire as if it were the cold._  
 **Stark** _(sad)_: Look at them. Some warrior.  
-**Fern** _(soft)_: My hands shake when I prune. Every time. Twenty years of gardening, and they still shake.  
+**Keeper Fern** _(soft)_: My hands shake when I prune. Every time. Twenty years of gardening, and they still shake.  
 **Stark**: What do you do?  
-**Fern**: Prune. Badly. But I do it.  
+**Keeper Fern**: Prune. Badly. But I do it.  
 _Around midnight Frieren comes out and sits on Stark’s other side, with a grimoire she isn’t reading._  
 **Frieren** _(think)_: Eisen was scared before every fight. Every single one. His hands shook just like that.  
 **Stark** _(shock)_: Eisen? No. He never…  
@@ -1198,7 +1202,7 @@ _Your Nubbin reaches him first. It climbs up his leg and into his cloak, and sta
 **Frieren**: Come with us. North. We could use someone who’s scared properly.  
 **Stark** _(soft)_: Yeah. All right. Yes. If the little one can come. It seems to have decided.  
 _From then on your Nubbin travels in Stark’s cloak: two frightened things, keeping each other brave._  
-**Fern** _(happy)_: That’s two of them now who are good at running. Lucky they’re running the same way.  
+**Keeper Fern** _(happy)_: That’s two of them now who are good at running. Lucky they’re running the same way.  
 
 **Rewards**
 
@@ -1211,7 +1215,7 @@ Sets on completion: `{"a21-12":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the statues of the hero’s party, and the city under Aura* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-12, from Nova’s atlas. · requires: A21-12
 
-**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Himmel (Himmel the Hero, old and in flashback (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Lügner (Lügner, Aura’s envoy (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Graf Granat (Graf Granat, lord of the northern city (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Himmel (Himmel the Hero, old and in flashback (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Lügner (Lügner, Aura’s envoy (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Graf Granat (Graf Granat, lord of the northern city (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Visit the village with the statues of the old party.
 
@@ -1221,6 +1225,8 @@ Hint: Walk into the square and look at all four of them. · check: `visit:a21-st
 
 _In the next village there are four statues in the square: Himmel, Heiter, Eisen and Frieren, all young and all clean._  
 **Stark** _(happy)_: That’s you! That’s actually you. You’ve got your hand like that.  
+**Frieren**: He said it made me look approachable.  
+**Fern**: It doesn’t.  
 **Frieren** _(think)_: He made us pose for every one. Every village. Every town that offered.  
 **Fern**: Why?  
 **Frieren**: I asked him once. He said…  
@@ -1238,7 +1244,7 @@ _The square comes back. Himmel’s statue looks down at you all with its chin up
 - **Look at Himmel’s statue.**
     - Someone has tucked a little blue flower behind its ear. It isn’t moon-weed, but it’s trying.
 - **Look at Keeper Fern.**
-    - **Fern**: He knew. Didn’t he. He knew she’d be on her own.
+    - **Keeper Fern**: He knew. Didn’t he. He knew she’d be on her own.
 
 #### <a id="a21-13-statues-done"></a>Done `a21-13-statues-done`
 
@@ -1292,7 +1298,7 @@ _You find Granat in the dark by the sound of him swearing at his own furniture._
 - **The back stair.**
     - You take his arm. Your Nubbin runs ahead, peering round corners and running back to report.
 - **Keeper Fern knows a way.**
-    - **Fern**: I don’t. I’m going to pretend I do. Follow me confidently.
+    - **Keeper Fern**: I don’t. I’m going to pretend I do. Follow me confidently.
 
 #### <a id="a21-13-strike-done"></a>Done `a21-13-strike-done`
 
@@ -1320,7 +1326,7 @@ Sets on completion: `{"a21-13":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: Aura’s Scales of Obedience* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-13, from Nova’s atlas. · requires: A21-13
 
-**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Villager (Townsfolk along the road north (unnamed in the source)), Graf Granat (Graf Granat, lord of the northern city (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Aura (Aura the Guillotine, demon (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Villager (Townsfolk along the road north (unnamed in the source)), Graf Granat (Graf Granat, lord of the northern city (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Aura (Aura the Guillotine, demon (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Hear Frieren’s plan for Aura’s scales.
 
@@ -1336,7 +1342,7 @@ _Granat’s kitchen at dawn: bread, cheese, and a map of the hills with an army 
 **Frieren**: Flamme taught me to hide mine. All of it, every day, for a thousand years. And I taught Fern.  
 **Fern** _(think)_: I’ve been hiding mine for years. I thought you were just being odd.  
 **Frieren**: I was. But for a reason.  
-**Fern** _(think)_: She hid it for a thousand years. I can’t hide that I’ve had a biscuit.  
+**Keeper Fern** _(think)_: She hid it for a thousand years. I can’t hide that I’ve had a biscuit.  
 
 **Choices**
 
@@ -1348,7 +1354,7 @@ _Granat’s kitchen at dawn: bread, cheese, and a map of the hills with an army 
 
 #### <a id="a21-14-plan-done"></a>Done `a21-14-plan-done`
 
-**Frieren**: Fern takes Lügner. Stark takes the other one, Linie. I’ll take Aura.  
+**Frieren**: Fern takes Lügner. Stark takes Linie, the girl with the pigtail. I’ll take Aura.  
 **Stark**: Why do I get the one I don’t know anything about?  
 **Frieren**: You don’t know anything about any of them.  
 
@@ -1361,7 +1367,7 @@ Hint: Go from door to door along the main street and see everyone safe inside. �
 _On the walls, Lügner faces young Fern. In the square, a demon girl with a pigtail faces Stark._  
 _You go door to door, getting people in: a baker, two old men with a chessboard, a small boy with a wooden sword._  
 **Villager**: I want to watch!  
-**Fern** _(happy)_: So do I. From inside. Under a table. That’s where all the best watching is.  
+**Keeper Fern** _(happy)_: So do I. From inside. Under a table. That’s where all the best watching is.  
 _Through the shutters you see young Fern stand quite still while Lügner throws everything he has. She blocks all of it._  
 _Then she lets her mana show, just a little, and Lügner’s smile slides off his face._  
 _He looked at her and measured her and got it wrong. Everyone always does._  
@@ -1417,7 +1423,7 @@ _A few grey motes go up past the ridge and away._
 **Frieren**: We’d like a meal. And a pass north.  
 **Graf Granat**: You’ll have both. And a statue, if you want one.  
 **Frieren** _(think)_: No. Well. Perhaps a small one.  
-**Fern** _(happy)_: Himmel would be thrilled.  
+**Keeper Fern** _(happy)_: Himmel would be thrilled.  
 
 **Rewards**
 
@@ -1430,7 +1436,7 @@ Sets on completion: `{"a21-14":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the winter with Kraft* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-14, from Nova’s atlas. · requires: A21-14
 
-**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Kraft (Kraft, the elf monk (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Kraft (Kraft, the elf monk (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Get Stark out of the blizzard and into shelter.
 
@@ -1443,7 +1449,7 @@ _North of the city the snow comes sideways, for days. On the third day Stark sto
 **Fern** _(angry)_: He’s chilled right through. Frieren, he needs a fire. Now.  
 **Frieren**: There’s a light. Over there. Someone’s home.  
 _You take one of Stark’s arms, and young Fern takes the other. Keeper Fern carries the axe, badly, upside down._  
-**Fern** _(shock)_: How is this so heavy? Why is it this heavy? He swings this?  
+**Keeper Fern** _(shock)_: How is this so heavy? Why is it this heavy? He swings this?  
 _Your Nubbin rides inside Stark’s cloak and presses against his chest, as if it could warm the whole of him from there._  
 
 **Choices**
@@ -1471,7 +1477,7 @@ _Stark thaws in a week. After that he chops firewood every morning, to have some
 **Kraft** _(soft)_: No. Nobody has. Everyone who saw what I did is gone. Every friend I had. There’s no one left who remembers.  
 **Kraft**: So I believe in the Goddess. Someone ought to remember. She will. It saves me minding so much.  
 _Keeper Fern sits close to the fire with her hands round a cup. She looks at Kraft for a long time._  
-**Fern** _(think)_: Can I ask you something? How many friends have you outlived?  
+**Keeper Fern** _(think)_: Can I ask you something? How many friends have you outlived?  
 **Kraft** _(soft)_: I stopped counting. Not because there were too many. Because counting made them a number.  
 **Kraft**: I remember their hands. How each of them held a cup. That’s what I keep.  
 
@@ -1484,17 +1490,17 @@ _Keeper Fern sits close to the fire with her hands round a cup. She looks at Kra
 
 #### <a id="a21-15-hut-done"></a>Done `a21-15-hut-done`
 
-**Fern** _(sad)_: I lost a Nubbin, once. Bramble. I still see her ear in every hedge. Is it like that? For ever?  
+**Keeper Fern** _(sad)_: I lost a Nubbin, once. Bramble. I still see her ear in every hedge. Is it like that? For ever?  
 **Kraft**: It gets quieter. It doesn’t go. You learn to be glad it doesn’t go.  
-**Fern** _(soft)_: …Yes. I think I might be, already.  
+**Keeper Fern** _(soft)_: …Yes. I think I might be, already.  
 
 #### <a id="a21-15-hut-done-hazel"></a>Variant `a21-15-hut-done-hazel`
 
 _Variant of `a21-15-hut-done`._
 
-**Fern** _(sad)_: I lived next door to a woman for years. Hazel. I don’t know how she held a cup. I never looked.  
+**Keeper Fern** _(sad)_: I lived next door to a woman for years. Hazel. I don’t know how she held a cup. I never looked.  
 **Kraft**: Then look at the next one. That’s all the second chance anyone gets.  
-**Fern** _(happy)_: Right. Yes. I’m going to stare at everyone’s hands now. It’ll be very odd.  
+**Keeper Fern** _(happy)_: Right. Yes. I’m going to stare at everyone’s hands now. It’ll be very odd.  
 
 ### Complete
 
@@ -1518,7 +1524,7 @@ Sets on completion: `{"a21-15":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the sword in the stone, and two birthdays* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-15, from Nova’s atlas. · requires: A21-15
 
-**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Villager (Townsfolk along the road north (unnamed in the source)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Visit the village of the sword in the stone.
 
@@ -1559,7 +1565,7 @@ _That night Frieren takes over the inn kitchen with her sleeves rolled up._
 **Frieren**: In case you turned up, he said.  
 **Stark** _(shock)_: He… what? He told you? He remembered?  
 _Stark goes very red and very quiet. Your Nubbin climbs out of his cloak and onto his head, to make it better._  
-**Fern** _(happy)_: Onions. I can chop onions. Onions don’t die if you’re bad with them.  
+**Keeper Fern** _(happy)_: Onions. I can chop onions. Onions don’t die if you’re bad with them.  
 _The steak, when it comes, is the size of a plate. Frieren sets it down in front of Stark without a word._  
 
 **Choices**
@@ -1583,7 +1589,7 @@ Hint: Go with Stark to the jeweller’s stall in the market and help him choose.
 _Two weeks later it is young Fern’s birthday, and Stark has forgotten. Young Fern has not forgotten that he’s forgotten._  
 **Fern** _(angry)_: It doesn’t matter. It’s nothing. It’s only a day.  
 **Stark** _(shock)_: She says it doesn’t matter. That means it matters, right? It matters a lot?  
-**Fern**: Enormously. I say “it doesn’t matter” about once a week. It always does.  
+**Keeper Fern**: Enormously. I say “it doesn’t matter” about once a week. It always does.  
 _In the market there is a jeweller’s stall. Stark stands in front of it like a man in front of a dragon._  
 **Stark**: What do I get? I don’t know what she likes. She likes being right. Do they sell that?  
 _On the stall there is a little silver bracelet with a mirror-lotus on it, a flower for a love that lasts._  
@@ -1607,28 +1613,32 @@ _Young Fern opens the box and looks at the bracelet for a long time. Then she pu
 #### <a id="a21-16-complete"></a>Complete `a21-16-complete`
 
 _That evening Frieren goes white. She turns out her pockets, then her bag, then young Fern’s bag._  
-**Frieren** _(shock)_: The ring. The one Himmel gave me. It’s gone.  
+**Frieren** _(shock)_: The ring. Himmel’s. It’s gone.  
+**Frieren** _(think)_: He went down on one knee in a market to give it to me. I thought he’d dropped something.  
 _Everybody searches: the inn, the road, the market. Your Nubbin searches inside every boot in the hall._  
 **Frieren** _(soft)_: You looked with me before. For the flowers. You’re good at looking. Help me.  
 _In the end Frieren finds it herself, in the flower bed by the inn door, where she knelt to look at the blue ones._  
 **Frieren** _(happy)_: Of course. I was looking at flowers. He’d laugh at me.  
+_There is a little mirror-lotus on the ring. Keeper Fern sees it, opens her mouth, and decides not to tell Frieren either._  
 _Before bed, young Fern hands Keeper Fern a folded purple coat: her old travelling one, let out at the seams._  
 **Fern** _(soft)_: You’ve been cold since the snow. It’s warmer than it looks. Most things are.  
-**Fern** _(happy)_: Fern. Thank you. I’ll wear it. Sometimes. When I’m feeling brave.  
+**Keeper Fern** _(happy)_: Fern. Thank you. I’ll wear it. Sometimes. When I’m feeling brave.  
 
 #### <a id="a21-16-complete-ahead"></a>Variant `a21-16-complete-ahead`
 
 _Variant of `a21-16-complete`._
 
 _That evening Frieren goes white. She turns out her pockets, then her bag, then young Fern’s bag._  
-**Frieren** _(shock)_: The ring. The one Himmel gave me. It’s gone.  
+**Frieren** _(shock)_: The ring. Himmel’s. It’s gone.  
+**Frieren** _(think)_: He went down on one knee in a market to give it to me. I thought he’d dropped something.  
 _Everybody searches: the inn, the road, the market. Your Nubbin searches inside every boot in the hall._  
 **Frieren** _(sad)_: I’m bad at looking for things. I take too long. Help me. Please.  
 _In the end Frieren finds it herself, in the flower bed by the inn door, where she knelt to look at the blue ones._  
 **Frieren** _(happy)_: Of course. I was looking at flowers. He’d laugh at me.  
+_There is a little mirror-lotus on the ring. Keeper Fern sees it, opens her mouth, and decides not to tell Frieren either._  
 _Before bed, young Fern hands Keeper Fern a folded purple coat: her old travelling one, let out at the seams._  
 **Fern** _(soft)_: You’ve been cold since the snow. It’s warmer than it looks. Most things are.  
-**Fern** _(happy)_: Fern. Thank you. I’ll wear it. Sometimes. When I’m feeling brave.  
+**Keeper Fern** _(happy)_: Fern. Thank you. I’ll wear it. Sometimes. When I’m feeling brave.  
 
 **Rewards**
 
@@ -1642,7 +1652,7 @@ Sets on completion: `{"a21-16":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the First-Class Mage Exam, first test: the Stille* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-16, from Nova’s atlas. · requires: A21-16
 
-**Cast:** Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Lawine (Lawine, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Kanne (Kanne, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Übel (Übel, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Lawine (Lawine, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Kanne (Kanne, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Übel (Übel, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Sign on with the Mages’ Association to carry cages for the exam.
 
@@ -1652,7 +1662,7 @@ Hint: Find the porters’ table in the Association hall at Äußerst and pick up
 
 _Äußerst is a city of tall grey towers, all full of mages. Every few years they hold the First-Class Mage Exam._  
 _The Association is short of porters. Someone hands you a stack of bird cages and a badge before you can say no._  
-**Fern** _(happy)_: We’re porters. We’re porting. I’ve never ported anything in my life.  
+**Keeper Fern** _(happy)_: We’re porters. We’re porting. I’ve never ported anything in my life.  
 **Examiner**: First test. Teams of three. Bring me a Stille, alive, in one of these cages, by sundown on the third day.  
 **Examiner**: A Stille is a bird that flies faster than sound. Nobody catches one on purpose. Good luck.  
 _Frieren is put with two girls who argue: Lawine, who is all sharp ice, and Kanne, who does tricks with water._  
@@ -1734,7 +1744,7 @@ _Then Frieren casts once, plainly, and Denken’s shield breaks like a plate. He
 _Denken’s team passes too. In the last hour they caught a Stille of their own, because Denken would not go home with nothing._  
 **Fern**: Ours was easy. Land is very patient. Übel wanted to cut down a tree.  
 _Your Nubbin climbs straight back into Stark’s cloak, as if it had never been away._  
-**Fern** _(happy)_: I ported! I ported a bird! Put that on a plaque somewhere. A small one.  
+**Keeper Fern** _(happy)_: I ported! I ported a bird! Put that on a plaque somewhere. A small one.  
 
 **Rewards**
 
@@ -1747,7 +1757,7 @@ Sets on completion: `{"a21-17":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the First-Class Mage Exam, second test: the dungeon and Spiegel* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-17, from Nova’s atlas. · requires: A21-17
 
-**Cast:** Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Lawine (Lawine, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Smith (A night smith on a bridge in Äußerst (our own)), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Übel (Übel, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Lawine (Lawine, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Smith (A night smith on a bridge in Äußerst (our own)), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Übel (Übel, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Carry the cages and lamps down into the dungeon behind the examinees.
 
@@ -1758,7 +1768,7 @@ Hint: Follow the party down the stair. Mind the chests. · check: `explore:a21-d
 **Examiner**: Second test. The old dungeon under the hill. Reach the bottom by dawn.  
 **Examiner**: You each get a bottle. Break it, and a spirit carries you out, safe. You’ll fail. But you’ll be alive to sulk about it.  
 _The porters go down behind the examinees, with lamps, cages, and spare bottles packed in straw._  
-**Fern** _(shock)_: A dungeon. Underground. In the dark. Good. Great. I love that. I don’t.  
+**Keeper Fern** _(shock)_: A dungeon. Underground. In the dark. Good. Great. I love that. I don’t.  
 _Halfway down, on a landing, there is a wooden chest. Your Nubbin stops dead and puffs up to twice its size._  
 **Frieren** _(happy)_: A chest. In a dungeon. How exciting.  
 **Fern**: Frieren. No.  
@@ -1818,7 +1828,7 @@ Hint: Take the pieces and the purse from Frieren to the night smith on the bridg
 _Up in the city that night, young Fern sleeps with the two pieces of her staff beside the pillow._  
 _Frieren comes to your door with the pieces in her hands. She must have taken them very gently._  
 **Frieren** _(think)_: There’s a smith on the bridge who works at night. Take it to him. Here’s the money. Don’t tell her it was me.  
-**Fern**: Why not? You’re allowed to be kind. People are kind to people all the time.  
+**Keeper Fern**: Why not? You’re allowed to be kind. People are kind to people all the time.  
 **Frieren** _(soft)_: If she knows, she’ll thank me. She’ll be polite about it for a week. I couldn’t bear it.  
 _The smith on the bridge turns the pieces over, looks at the silver clasp, and whistles._  
 **Smith**: Good old work. A priest’s, by the marks. I’ll have it whole by dawn. You’ll never see the join.  
@@ -1844,7 +1854,7 @@ _By dawn the staff is whole again, pale and straight, with Heiter’s clasp shin
 _Frieren passes, and so does young Fern. Denken passes limping, and Übel passes smiling._  
 **Übel** _(happy)_: Your Nubbin bit a mimic. I saw. I liked that very much.  
 _On your way out, the Association gives you a little wooden chest for your trouble. It looks perfectly ordinary._  
-**Fern**: Don’t open it. Don’t. You’re going to open it, aren’t you.  
+**Keeper Fern**: Don’t open it. Don’t. You’re going to open it, aren’t you.  
 _Your Nubbin glares at the chest all the way back to the inn, and refuses to sit anywhere near it._  
 
 **Rewards**
@@ -1859,7 +1869,7 @@ Sets on completion: `{"a21-18":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the First-Class Mage Exam, third test: Serie’s interview* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-18, from Nova’s atlas. · requires: A21-18
 
-**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Serie (Serie, the great mage, founder of the Mages’ Association (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Denken (Denken, examinee (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Examiner (The Mages’ Association’s exam proctors (Frieren: Beyond Journey’s End)), Serie (Serie, the great mage, founder of the Mages’ Association (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Wait outside the interview hall with Stark and Keeper Fern.
 
@@ -1869,7 +1879,7 @@ Hint: Sit on the bench outside the doors. It takes as long as it takes. · check
 
 _The third test is an interview: one examiner, alone, in a hall at the top of the tallest tower._  
 **Stark** _(think)_: That’s not a test. That’s a chat. How do you fail a chat?  
-**Fern**: I failed a chat once. With a man, about a cow. I still don’t know how.  
+**Keeper Fern**: I failed a chat once. With a man, about a cow. I still don’t know how.  
 _The examiner is Serie, the great mage who founded the Association. She is older than anyone has dared to count._  
 _The examinees go in one by one. Most come out looking as if they’ve been weighed and found wrong._  
 **Denken** _(shock)_: She looked at me. Just looked. Then she said “pass”. I’ve never been so frightened of a word.  
@@ -1928,7 +1938,7 @@ _Young Fern walks out with a new badge and her old staff, and hands the badge st
 **Frieren**: I was banned from the building.  
 **Fern** _(happy)_: You were outside the door. I could feel you. You weren’t hiding your mana very well.  
 **Stark** _(happy)_: Did you pass? You passed! She passed! Little one, she passed!  
-**Fern** _(happy)_: Banned for a thousand years. That’s the most impressive thing I’ve ever seen anybody fail.  
+**Keeper Fern** _(happy)_: Banned for a thousand years. That’s the most impressive thing I’ve ever seen anybody fail.  
 
 **Rewards**
 
@@ -1941,7 +1951,7 @@ Sets on completion: `{"a21-19":true}`
 
 *Frieren: Beyond Journey’s End (Kanehito Yamada and Tsukasa Abe), first anime season and manga: the departure from Äußerst (the flower field farewell is our own scene)* · audience: main · where: Nova’s atlas: the Flower Field page (Atlas campaign) · when: Any time after A21-19, from Nova’s atlas. · requires: A21-19
 
-**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source)
+**Cast:** Fern (Fern, Heiter’s ward and Frieren’s apprentice (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Stark (Stark, Eisen’s student, the warrior (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Frieren (Frieren, the elf mage (Frieren: Beyond Journey’s End); licensed design, exactly as drawn in the source), Keeper Fern
 
 ### Step 1: Walk to the city gate with the party for the goodbye.
 
@@ -1953,9 +1963,11 @@ _The morning after, the party packs to go north, to Aureole. You and Keeper Fern
 _At the north gate young Fern stops, and holds her staff very straight, and doesn’t cry._  
 **Fern** _(soft)_: Lord Himmel hated tearful goodbyes. Frieren told me. He wanted the kind you can laugh about later.  
 **Fern**: So I won’t. I want to laugh about this later.  
-**Fern** _(sad)_: I’m going to. Cry, I mean. Sorry. I always do. I cried at a pear tree once.  
+**Keeper Fern** _(sad)_: I’m going to. Cry, I mean. Sorry. I always do. I cried at a pear tree once.  
 **Fern** _(happy)_: That’s all right. You can do it for both of us. We have the same name, after all.  
 **Stark** _(sad)_: Can I keep the little one? No. I know. I know I can’t. I’m asking anyway.  
+**Stark**: Little one. If you ever see a chest, bite it first. Ask questions after.  
+**Frieren** _(think)_: Or check it with a spell first, then open it anyway. That’s what I do.  
 _Your Nubbin climbs out of Stark’s cloak for the last time, slowly, and stops at the collar to look at him._  
 
 **Choices**
@@ -1982,8 +1994,8 @@ _Outside the gate there is a bare field of winter grass, flattened by carts. Fri
 **Frieren**: This one is for the two Ferns. One who stayed with me, and one who came a long way to visit.  
 _She lifts her staff, and says something too quiet to hear._  
 _Flowers open round your boots. Then round everyone’s, then across the whole field to the road: white and yellow and blue._  
-**Fern** _(shock)_: Oh.  
-**Fern** _(happy)_: Oh, Frieren. Look at them. I couldn’t grow this in a hundred years.  
+**Keeper Fern** _(shock)_: Oh.  
+**Keeper Fern** _(happy)_: Oh, Frieren. Look at them. I couldn’t grow this in a hundred years.  
 **Fern** _(soft)_: You’d try, though. That’s what you’re for. Lord Heiter would have liked you very much.  
 _Your Nubbin runs through the flowers in a circle, then another circle, then lies down in the middle of them._  
 **Frieren** _(think)_: I used to think the time I had with people was short. It is. I’d rather know it now.  
@@ -2006,7 +2018,7 @@ _Frieren kneels in the flowers and puts two things into your hand: a sprig of bl
 **Frieren**: Plant it somewhere you’ll walk past. It takes its time. The good ones do.  
 _The flowers go soft at the edges, then softer, until they are paper and pressed petals and your own kitchen table._  
 _You are back in the Grove with Nova’s atlas open. Between the pages, where the field was, there is a bookmark that wasn’t there before._  
-**Fern** _(soft)_: I’m going to ask people things. Little things, while they’re here. Starting with you. What biscuits do you like?  
+**Keeper Fern** _(soft)_: I’m going to ask people things. Little things, while they’re here. Starting with you. What biscuits do you like?  
 
 #### <a id="a21-20-complete-ahead"></a>Variant `a21-20-complete-ahead`
 
@@ -2017,7 +2029,7 @@ _Frieren kneels in the flowers and puts one thing into your hand: a single blue 
 **Frieren**: Next time, look with me.  
 _The flowers go soft at the edges, then softer, until they are paper and pressed petals and your own kitchen table._  
 _You are back in the Grove with Nova’s atlas open. Between the pages, where the field was, there is a bookmark that wasn’t there before._  
-**Fern** _(soft)_: I’m going to ask people things. Little things, while they’re here. Starting with you. What biscuits do you like?  
+**Keeper Fern** _(soft)_: I’m going to ask people things. Little things, while they’re here. Starting with you. What biscuits do you like?  
 
 **Rewards**
 
@@ -2036,12 +2048,12 @@ Variants with no parent scene in this storyline (Grove-side, campaign-side or sh
 #### <a id="a21-grove-moss"></a>Variant `a21-grove-moss`
 
 _Fern from next door is up on the western hill beside Moss, with a flask of tea and her knees pulled up._  
-**Fern**: How many friends have you outlived, Moss? You don’t have to say. I’m asking everyone things now.  
+**Keeper Fern**: How many friends have you outlived, Moss? You don’t have to say. I’m asking everyone things now.  
 **Moss** _(soft)_: Enough to stop counting. Not enough to stop minding.  
 **Moss** _(think)_: You’ve been reading about elves. We’re not like that. We are worse at birthdays.  
-**Fern**: Have you even got one? A birthday?  
+**Keeper Fern**: Have you even got one? A birthday?  
 **Moss**: I came up out of the water before anyone was counting.  
-**Fern** _(happy)_: Then you can have the first warm day after the thaw. I’ve decided. I’m bringing a cake.  
+**Keeper Fern** _(happy)_: Then you can have the first warm day after the thaw. I’ve decided. I’m bringing a cake.  
 **Moss** _(soft)_: …I suppose I shall have to be here, then.  
 
 #### <a id="a21-grove-moss-faded"></a>Variant `a21-grove-moss-faded`
@@ -2049,10 +2061,10 @@ _Fern from next door is up on the western hill beside Moss, with a flask of tea 
 _Variant of `a21-grove-moss`._
 
 _Fern from next door is up on the hill, sitting by the flat stone where Moss always sat, beside his flower._  
-**Fern** _(sad)_: I’m asking people things now. Little things. I should have asked you more.  
-**Fern**: What it was like, being the first. Whether you minded the rain. Whether you liked it when I talked to the trees.  
+**Keeper Fern** _(sad)_: I’m asking people things now. Little things. I should have asked you more.  
+**Keeper Fern**: What it was like, being the first. Whether you minded the rain. Whether you liked it when I talked to the trees.  
 _The flower moves a little in the wind. Fern nods, as if it had answered._  
-**Fern** _(soft)_: I’ll come back. I’ve got a list.  
+**Keeper Fern** _(soft)_: I’ll come back. I’ve got a list.  
 
 #### <a id="a21-grove-moonweed"></a>Variant `a21-grove-moonweed`
 

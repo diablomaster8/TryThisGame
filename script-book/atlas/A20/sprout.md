@@ -80,6 +80,10 @@ _Blink. Then it tips over, fast asleep._
 #### `sprout:a20-01-hall-done` · [main](main.md#a20-01-hall-done)
 
 _Your Nubbin is fast asleep in the brightest patch of floor._  
+_It snores a tiny snore. Pff._  
+_Pff._  
+_Baldr tiptoes round it, and bumps the table. Bonk!_  
+**Baldr**: Ow. Sorry, table.  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): sleep helps bodies rest and grow  
 > _Little ones need lots of sleep. Why?_  
@@ -160,6 +164,7 @@ _The pebble is warm, but there is no flame._
 
 _It is late. Fulla holds a jar of lamp oil._  
 **Fulla**: His lamp burns all night. Take this up to him?  
+_Your Nubbin carries the lid. It holds it up like a shield!_  
 _Baldr sits at his table. His cup has gone cold._  
 **Baldr**: Oh, it is you. I am glad it is you.  
 **Baldr**: I keep having a bad dream. I go down a long road.  
@@ -391,6 +396,10 @@ _Nothing can hurt him, because everything promised._
 _Thor’s big stone stops. Then drop!_  
 _It falls to the ground._  
 _Everyone laughs. Baldr laughs the most._  
+**Thor**: That was a small one. Fetch me the millstone!  
+**Fulla**: Thor, the mill is using it.  
+_The millstone rolls up to Baldr._  
+_It lies down flat, like a dog wanting a tummy rub._  
 
 #### `sprout:a20-04-field-done` · [main](main.md#a20-04-field-done)
 
@@ -482,6 +491,7 @@ _Your Nubbin follows them home, holding Hödr’s bootlace._
 
 _You fetch water. You take two pails._  
 _Your Nubbin takes a thimble._  
+_It brings back one drop. It carries it like a crown!_  
 
 > **Lesson** (maths, K.MD.A.2, ask): which holds more  
 > _You carry pails, and your Nubbin carries a thimble. Which holds more water?_  
@@ -565,14 +575,15 @@ _A cloaked someone comes up beside him._
 _You see only a hand, holding something green._  
 **A Voice**: Why are you not throwing? Everyone else is.  
 **Hödr**: I cannot see him. I have nothing to throw.  
-
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair play: everyone gets a turn  
-> _Hödr wants a turn too. Is it fair to leave someone out?_  
-> - ✅ No, everyone should get a turn → Yes. Fair means everyone gets a turn.
-> - Yes, leave him out → That is not fair. Fair means everyone gets a turn.
-> _For grown-ups: Talked about fairness: making sure everyone gets a turn._
-
 **A Voice**: Here is a sprig. I will guide your arm.  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): check with someone you trust first  
+> _The cloaked someone hides its face. It says, “I will guide your arm.”_  
+> _What should Hödr do?_  
+> - ✅ Ask someone he trusts first → Yes. When a hidden someone says “do it”, check with a friend first.
+> - Do it straight away → It is safer to ask someone you trust first.
+> _For grown-ups: Talked about checking with someone you trust before doing what a stranger says._
+
 _It is a trick. Your Nubbin knows the sprig, and starts to run._  
 **Hödr**: Thank you. I want to be in the game.  
 
@@ -675,6 +686,8 @@ _His horse is waiting in the stable, and it is hungry._
 _Odin’s stable is long and warm. It smells of hay._  
 _At the end stands a tall grey horse. His name is Sleipnir._  
 _Sleipnir has eight legs! Your Nubbin counts them._  
+_Then it counts its own. Two._  
+_Hmm!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 8  
 > _Let’s count Sleipnir’s legs. (Point as you count: one, two, three, four.)_  
@@ -829,6 +842,7 @@ _You ride for nine nights. It is very dark._
 **You**: Still here.  
 **Hermódr**: Good. Keep saying so.  
 _You can hear eight hooves, and the wind._  
+_Clip, clop, clip, clop. Your Nubbin counts the hooves, and falls asleep at six._  
 
 **Choices**
 
@@ -1212,7 +1226,10 @@ _Below the mountain a waterfall tumbles into a deep pool._
 _Kvasir, the wisest god, kneels by the ash and looks._  
 _It is the shape of a net. Nobody has made one before._  
 **Odin**: He will be in the water. So we will make a net too.  
-_The gods sit down and make a net, knot by knot._  
+_The gods make a net, knot by knot. Your Nubbin gets tied into it._  
+_Only its nose sticks out. Wiggle, wiggle._  
+**Thor**: Hold still, small one. You are not the fish.  
+_It is the first smile since the Thing-field._  
 
 > **Lesson** (art, ELOF: Perceptual, Motor, and Physical Development, do): over and under, like weaving a net  
 > _A net has cords that cross: over, under, over, under._  
@@ -1220,8 +1237,6 @@ _The gods sit down and make a net, knot by knot._
 > Check: `edu:weave:net:over-under`
 > _For grown-ups: Moved their fingers over and under, as in weaving._
 
-**Thor**: Hold still, small one. You are not the fish.  
-_It is the first smile since the Thing-field._  
 
 **Choices**
 
@@ -1441,7 +1456,10 @@ _Your Nubbin shares itself out: a night by each of you._
 > - Two → Two were there, then two more came. Count them: four.
 > _For grown-ups: Added two and two to make four._
 
-**Lífthrasir**: We used to have names for the days. We stopped.  
+**Líf**: You licked my leaf!  
+**Lífthrasir**: There is dew on all of them.  
+**Líf**: That one was mine. I was saving it for Tuesday.  
+**Lífthrasir**: There are no Tuesdays now. We stopped naming the days.  
 **Líf**: Tell us something. Anything that is not snow.  
 
 **Choices**
@@ -1657,8 +1675,8 @@ _Where the gods’ halls stood there is grass, with old stones showing through._
 > _Places change over time. Old things can be remembered._  
 > _For grown-ups: Learned that places change over time, and old things can be remembered._
 
-_People are gathering: the gods’ grown sons, Vídarr and Váli, Módi and Magni._  
-_Módi and Magni carry their father’s hammer between them, gently._  
+_Some grown sons of the gods are gathering._  
+_Two of them carry their father’s hammer, gently._  
 **Vídarr**: Guest. Sit with us. There is time for everything.  
 _Then two more come up the road from the quiet hall._  
 _It is Baldr, and Hödr with him!_  
@@ -1698,6 +1716,7 @@ _It is a gold game piece! There are more in the grass._
 
 - **Give the first piece to Baldr.**
     - **Baldr**: Ha! I always lost with this one.
+    - **Hödr**: He did. He shouted about it every time.
 - **Give the first piece to Hödr.**
     - Hödr feels the shape of it.
     - **Hödr**: A little horse. I always wanted to be the horse.
@@ -1799,7 +1818,7 @@ Versions of the variants with no parent scene in this storyline.
 
 #### `sprout:a20-margin-hazel` · [main](main.md#a20-margin-hazel)
 
-_Nova’s atlas lies open at the cave in the cliff._  
+_Nova’s atlas lies open at the cave, and the giantess who would not cry._  
 _Beside it, in faint pencil, there is a little note. You know the writing._  
 _“Don’t be cross with her. Feel sorry for her.”_  
 _And under it, one letter: H._  

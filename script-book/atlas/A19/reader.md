@@ -14,7 +14,7 @@ _On the jetty, a skinny boy in a fur waistcoat is counting barrels, badly, becau
 **Hiccup**: Welcome to Berk. It’s far to the north, it rains nearly every day, and the wind has never once stopped.  
 **Hiccup**: I’m Hiccup. Yes, it’s a real name in my story. No, I didn’t pick it.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Berk is invented, but the Vikings were real and settled cold islands  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Berk is invented, but the Vikings were real and settled cold islands  
 > _Berk is made up, so you will not find it on a map. But the Vikings were real people._  
 > _They sailed from Scandinavia in long, narrow ships, from the late 700s to the 1060s._  
 > _Real Norse families settled on cold, windy islands like Shetland, the Faroes and Iceland._  
@@ -25,7 +25,7 @@ _A big man stumps down the jetty with a hammer in one hand and a hook where the 
 _Your Nubbin, who has been sick twice over the side, peers up at him._  
 **Gobber**: A hatchling, from the south by the look of it. No, don’t tell me. If I don’t know what it is, I don’t have to do anything about it.  
 
-> **Lesson** (literacy, L.2.4, ask): working out an unknown word from the words round it  
+> **Lesson** (literacy, L.3.4, ask): working out an unknown word from the words round it  
 > _Gobber calls your Nubbin a “hatchling”, and an egg hatches. What do you think a hatchling is?_  
 > - ✅ A young creature that has just come out of an egg → Yes. The word hides a clue: hatch, plus -ling, which means a small young one.
 > - A little door in a roof → A hatch can be a door, but Gobber is talking about your Nubbin. Think of eggs: a hatchling hatches.
@@ -65,7 +65,7 @@ _Out in the lane a roof is burning. Something with wings lifts a sheep off a wal
 **Gobber**: Keeper! Bellows! Every axe on Berk comes back blunt by midnight, and every one of them wants an edge!  
 _You pump, and the fire roars white. Your Nubbin sits on the end of the anvil, flinching at every bang from outside._  
 
-> **Lesson** (science, 2-PS1-4, ask): a fire needs air to burn, and burning cannot be undone  
+> **Lesson** (science, ask): a fire needs air to burn, and burning cannot be undone  
 > _The fire roars white when you pump the bellows. What are the bellows giving the fire?_  
 > - ✅ Air, which a fire needs in order to burn → Yes! Fire eats air as well as wood. Blow more in, and it burns hotter and whiter. And burnt is burnt. Ash never turns back into wood.
 > - More wood → The wood is already in there. The bellows push in air, and that is what the fire is hungry for.
@@ -77,11 +77,11 @@ _You pump, and the fire roars white. Your Nubbin sits on the end of the anvil, f
 **Hiccup**: That’s fair. That’s actually fair.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): how kindness changes the way we hear a hard truth  
-> _Gobber told Hiccup a hard truth, and Hiccup said it was fair. Is a hard truth easier to hear when someone says it kindly?_  
-> - Yes, kindness helps us listen → That’s a fair answer. When we feel safe, we can take in what is true, rather than defending ourselves.
-> - No, the truth is the truth, however it is said → That’s a fair answer. The words matter most, but how they are said can decide whether we are able to hear them.
-> - It depends on the person → That’s a fair answer. People do differ, and a good friend learns how each person likes to be told.
-> _For grown-ups: Thought about whether a hard truth is easier to hear when it is said kindly._
+> _Gobber tells Hiccup to stay inside. Why?_  
+> - ✅ He wants Hiccup safe → Yes. Under the grumbling, Gobber is looking after him.
+> - He wants the bellows pumped → That too, but mostly he wants Hiccup out of danger.
+> - He thinks Hiccup is a dragon → No. That would be a very odd forge.
+> _For grown-ups: Noticed that a grumpy remark can come from caring, and that Gobber keeps Hiccup inside to keep him safe._
 
 _Vikings run in with blunt axes and run out with sharp ones. Nobody looks at Hiccup, except to step round him._  
 
@@ -259,7 +259,7 @@ _Neither of them says anything else, which says quite a lot._
 **Stoick**: Stop. Every time you step outside, something gets broken. Tonight it was a torch post and the fish store.  
 **Stoick**: I’ve a village to feed, and the winter coming, and the dragons have had the sheep.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, notice): scarcity means people must choose how to use limited food and time  
+> **Lesson** (social-studies, D2.Eco.1.3-5, notice): scarcity means people must choose how to use limited food and time  
 > _Stoick has only so much food, so many sheep and so many hours before winter._  
 > _When there is not enough of something to go round, people have to choose. That is what scarcity means._  
 > _For grown-ups: Learned that scarcity means there is not enough to go round, so people have to choose._
@@ -294,7 +294,7 @@ _Gobber walks you both back to the forge, and leaves you at the door with a look
 _He doesn’t finish. He goes up to his corner and draws by candlelight for a long time instead._  
 _From the loft you can hear the charcoal scratching. It sounds like someone trying to remember exactly what he saw._  
 
-> **Lesson** (art, 2-PS1-1, notice): drawing helps us notice details, and soft charcoal suits shadows  
+> **Lesson** (art, notice): drawing helps us notice details, and soft charcoal suits shadows  
 > _Artists draw to see. When you draw something slowly, you notice shapes, shadows and tiny details you missed._  
 > _Each material suits a job. Soft charcoal makes dark, smudgy shadows, and a hard pencil makes fine lines._  
 > _For grown-ups: Learned that careful drawing helps us notice details, and that soft charcoal suits shadows._
@@ -317,7 +317,7 @@ _Charcoal is made by burning wood with very little air, so it comes out black an
 _In the morning the Great Hall smells of smoke and wet wool. Stoick stands at the head of the long table with a map._  
 **Stoick**: The nest. Find it, and the raids stop. I’m taking the ships out one more time, before the ice.  
 
-> **Lesson** (social-studies, 2-ESS2-2, ask): compass directions: the way home is opposite to the way out  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: the way home is opposite to the way out  
 > _The nest is far to the north. If the ships sail north to find it, which way must they sail to come home?_  
 > - ✅ South → Yes. South is the opposite of north, so sailing home means heading back the way you came.
 > - North → If they keep sailing north, they will go further from home. Home is the opposite way: south.
@@ -468,7 +468,7 @@ _He shoves a branch out of the way and it swings back and hits him. Your Nubbin 
 _Then you all stop. Ahead, a pine is snapped clean in half, and beyond it the earth is torn up in a long dark furrow._  
 **Hiccup**: That’s… that’s it. That’s where it came down.  
 
-> **Lesson** (science, K-ESS2-2, notice): evidence is what we see; an inference is what we work out from it  
+> **Lesson** (science, notice): evidence is what we see; an inference is what we work out from it  
 > _A scientist keeps what she sees separate from what she thinks it means._  
 > _Hiccup sees a pine snapped and the earth torn up by something big. That is evidence._  
 > _He works out that something heavy came down here fast. That is an inference: a good guess, built on the evidence._  
@@ -623,7 +623,7 @@ _The door bangs open. Something round and brown and the size of a cart hurtles o
 **Fishlegs**: Gronckle! Heavy, slow to turn, eats stone, spits it back hot! Its wings are too small and nobody knows how it flies!  
 _You run from Viking to Viking with shields under both arms. Astrid takes hers without looking; Snotlout tries to take two._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Viking round shields were made of wooden planks with an iron boss  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Viking round shields were made of wooden planks with an iron boss  
 > _Real Viking shields were round, about 80 centimetres across, and made of wooden planks fixed together._  
 > _In the middle was an iron dome called a boss, which protected the hand holding the grip behind it._  
 > _For grown-ups: Learned what real Viking round shields were made of: wooden planks, with an iron boss in the middle._
@@ -713,7 +713,7 @@ _The trail ends at a crack between two rocks. Hiccup squeezes through, and so do
 _Your Nubbin walks through without touching either side, and looks back at you both as if you were making a fuss._  
 _Beyond is a cove: a deep round hollow in the rock, with a lake in the bottom and steep walls all round._  
 
-> **Lesson** (literacy, L.2.4, ask): using context to understand a word: cove  
+> **Lesson** (literacy, L.3.4, ask): using context to understand a word: cove  
 > _A cove is a small, sheltered place. Which clue in the line tells you this one is sheltered?_  
 > - ✅ Steep walls all round it → Yes, walls on every side keep out wind and waves. That is what makes a cove sheltered.
 > - A lake in the bottom → A lake tells us there is water, but not that it is sheltered. Look for what surrounds it.
@@ -803,7 +803,7 @@ _Hiccup has stopped looking at a monster and started looking at someone._
 
 _Before dawn, Hiccup is at the forge filling a basket with fish: cod, salmon, a smoked eel, and something nobody can name._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Vikings preserved fish by drying, salting and smoking it  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Vikings preserved fish by drying, salting and smoking it  
 > _Before fridges, people kept fish by drying, salting or smoking it, so it would last through the winter._  
 > _Norse fishers dried cod in the cold wind until it was hard as wood. That dried fish is called stockfish, and it kept for a very long time._  
 > _For grown-ups: Learned that Norse people preserved fish by drying, salting and smoking it, including dried cod called stockfish._
@@ -915,7 +915,7 @@ _When he has finished, Hiccup is standing in the middle of a huge scribble, with
 _He steps on one, and Toothless growls. He lifts his foot, and Toothless purrs._  
 _So Hiccup steps carefully over each line, one at a time, all the way out, like a game whose rules nobody has explained._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): learning unwritten rules by watching and trying gently  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): learning unwritten rules by watching and trying gently  
 > _Nobody told Hiccup the rules of the game. How did he learn them?_  
 > - ✅ By watching how Toothless reacted, and trying gently → Yes. When nobody tells us the rules, we watch for signals and test gently, ready to back off.
 > - By guessing at random → He did not guess at random. He noticed the growl and the purr, and let them guide each step.
@@ -993,7 +993,7 @@ _Hiccup lifts his hand, slowly. Toothless pulls back his lips._
 _Hiccup stops. He doesn’t pull his hand back, and he doesn’t push it forward either._  
 _Then he closes his eyes, and turns his face away, and holds his hand out in the air between them, open._  
 
-> **Lesson** (science, K-ESS3-3, notice): a grabbed animal may feel trapped, and trapped animals may bolt or bite  
+> **Lesson** (science, notice): a grabbed animal may feel trapped, and trapped animals may bolt or bite  
 > _A frightened animal that is grabbed can feel trapped. Trapped animals may bolt, or bite in panic._  
 > _A slow hand, or no hand at all, lets the animal keep its own way out, which is why it feels safe enough to stay._  
 > _For grown-ups: Learned that grabbing a frightened animal can make it feel trapped, and that a slow, open approach feels safer._
@@ -1039,7 +1039,7 @@ _Toothless takes one step across the sand. Your Nubbin is behind your legs befor
 _In the woods you scooped it up and ran, and it hasn’t forgotten the running. It is holding your trouser leg in both paws._  
 _Toothless stops, and his ears go flat. He watches your Nubbin for a long moment, then lies down right where he is._  
 
-> **Lesson** (science, K-ESS3-3, ask): giving a wary animal space  
+> **Lesson** (science, ask): giving a wary animal space  
 > _Toothless lies down instead of coming nearer. What is the kind thing to do when an animal keeps its distance?_  
 > - ✅ Give it space and let it come in its own time → Yes, every animal has a distance it needs to feel safe. Letting it choose to come closer keeps it calm.
 > - Move closer to show you are friendly → Moving towards a wary animal can feel like a threat, however friendly we feel. Space works better.
@@ -1054,7 +1054,6 @@ _Toothless stops, and his ears go flat. He watches your Nubbin for a long moment
 _Hiccup sits down hard on the sand, as if his legs have given up for a bit. He is grinning at nothing._  
 **Hiccup**: The book’s got one rule for every dragon: run, or finish it. Every page. Every single one.  
 **Hiccup**: Nobody ever sat still long enough to find out.  
-_The story has a quiet idea in it: you only find out what something is really like by being patient, and looking._  
 
 > **Lesson** (literacy, RL.4.2, ask): finding the theme of a story  
 > _A theme is a story’s big idea. Which is the best theme for this quest?_  
@@ -1123,7 +1122,7 @@ _Hiccup climbs on, and Toothless spreads his wings. You hold your breath, and yo
 _Toothless jumps, flaps once, and they rise, and turn, and fly in a perfect curve straight into the lake._  
 _They come up spitting. Then they try again, and go into the lake again, slightly to the left._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): add three numbers: 4 + 6 + 9  
+> **Lesson** (maths, 3.OA.D.8, ask): add three numbers: 4 + 6 + 9  
 > _On their next three tries, Toothless and Hiccup stay in the air for 4 seconds, 6 seconds and 9 seconds. How long is that altogether?_  
 > - ✅ 19 seconds → Yes! 4 + 6 = 10, and 10 + 9 = 19. Each try is longer than the last.
 > - 18 seconds → Nearly. Add again: 4 + 6 = 10, and 10 + 9 is 19, not 18.
@@ -1290,20 +1289,21 @@ _Astrid has caught you by the elbow behind the arena door. Her grip is strong, a
 #### `reader:a19-10-fleet` · [main](main.md#a19-10-fleet)
 
 _The ships come home on a grey afternoon. Fewer than went out, and every one of them scorched._  
+_The ships sailed north for twelve days, about sixty kilometres a day, and found nothing but cold water._  
 _Stoick comes up the jetty last. He found no nest; you can see it in the way he walks._  
-
-> **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time: 12 × 60  
-> _Berk is twelve days’ sail from anywhere, and a longship in light winds might make 60 km a day. How far is that in twelve days?_  
-> - ✅ 720 km → Yes! 12 × 60 is 10 × 60 = 600, plus 2 × 60 = 120, and 600 + 120 = 720.
-> - 72 km → That is only one tenth of the way. Twelve days is twelve lots of 60 km: 600 + 120 = 720.
-> - 612 km → That is 600 + 12. But each of the twelve days adds 60, not 1: 10 × 60 + 2 × 60 = 720.
-> _For grown-ups: Solved a distance, speed and time problem: 12 days at 60 km a day is 720 km._
-
 **Gobber**: Stoick! You missed it. Your boy. He’s the best in the arena. The best I’ve ever seen.  
 **Stoick**: Hiccup? My Hiccup?  
 _Stoick looks at his son as if he has never seen him before. Then he laughs, a great bark of a laugh, and lifts him off his feet._  
 **Stoick**: I knew it. I always knew it was in you somewhere.  
 _Hiccup hangs in the air, smiling the way you smile when someone you love gives you the wrong present._  
+
+> **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time: 12 × 60  
+> _The ships sailed twelve days at about 60 km a day. How far did they sail in twelve days?_  
+> - ✅ 720 km → Yes! 12 × 60 is 10 × 60 = 600, plus 2 × 60 = 120, and 600 + 120 = 720.
+> - 72 km → That is only one tenth of the way. Twelve days is twelve lots of 60 km: 600 + 120 = 720.
+> - 612 km → That is 600 + 12. But each of the twelve days adds 60, not 1: 10 × 60 + 2 × 60 = 720.
+> _For grown-ups: Solved a distance, speed and time problem: 12 days at 60 km a day is 720 km._
+
 
 #### `reader:a19-10-complete` · [main](main.md#a19-10-complete)
 
@@ -1311,7 +1311,7 @@ _Hiccup hangs in the air, smiling the way you smile when someone you love gives 
 **Hiccup**: For being good at the thing I’m lying about.  
 _Gobber hands you a round shield, faced with shed Nadder scales, blue and gold, overlapping like roof tiles._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Viking-age roofs were often turf over timber  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Viking-age roofs were often turf over timber  
 > _Overlapping scales shed rain the way roof tiles do. In Viking-age Iceland and Norway, many houses had turf roofs instead._  
 > _Strips of earth and grass were laid over a timber frame. Grass roofs kept the rain out and the warmth in._  
 > _For grown-ups: Learned that many Viking-age houses had turf roofs over timber, which kept rain out and warmth in._
@@ -1492,7 +1492,7 @@ _Toothless gives you a long look that says he has not agreed to this. Then he lo
 _You climb on behind Astrid, with your Nubbin buttoned inside your coat and only its head out._  
 _Up you go, over the sea and into cloud. The cloud turns to fog, thick and white and wet._  
 
-> **Lesson** (science, 2-ESS2-3, notice): fog is a cloud at ground level, made of tiny water droplets  
+> **Lesson** (science, notice): fog is a cloud at ground level, made of tiny water droplets  
 > _Fog is a cloud that touches the ground or the sea. It is made of billions of tiny water droplets hanging in the air._  
 > _Sea fog often forms when warm, damp air drifts over cold water and cools. The droplets are why it feels wet on your face._  
 > _For grown-ups: Learned that fog is a low cloud made of tiny water droplets, often formed when warm damp air cools over cold water._
@@ -1548,7 +1548,7 @@ _Nobody speaks for a long time. The fog thins, the stars come out, and Berk is a
 **Hiccup**: They’ll kill him, Astrid. Please. Give me time. I’ll work it out. I’ll think of something.  
 _Astrid looks at the back of his head for a long time. Toothless flies very gently, as if he were listening._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): when two people both have a good reason  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): when two people both have a good reason  
 > _Astrid wants to warn the village, and Hiccup wants time to protect Toothless. Who is right, or can both be?_  
 > - Both: safety and loyalty both matter → That’s a fair answer. The hardest choices are between two things that are both good.
 > - Astrid: the village’s safety comes first → That’s a fair answer. Many lives are at stake, and she is thinking of them.
@@ -1568,11 +1568,7 @@ _Astrid looks at the back of his head for a long time. Toothless flies very gent
 
 #### `reader:a19-12-complete` · [main](main.md#a19-12-complete)
 
-_Toothless lands you in the cove under the stars, and you all climb down, stiff and cold._  
-**Astrid**: All right. We wait. But not for long, Hiccup. Not for long.  
-**Hiccup**: Tomorrow’s the final exam. I’m supposed to kill a dragon in front of the whole village.  
-**Astrid**: Then you’d better think of something fast.  
-_They left the cove at six in the evening, and Toothless landed again at a quarter to ten._  
+_Toothless lands you in the cove under the stars at a quarter to ten. You left at six, and you all climb down, stiff and cold._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals to the minute  
 > _They left at 6:00 and landed at 9:45. How long were they away?_  
@@ -1581,6 +1577,9 @@ _They left the cove at six in the evening, and Toothless landed again at a quart
 > - 4 hours 15 minutes → That is the time from 6:00 to 10:15. A quarter to ten is 9:45, so 3 hours and 45 minutes.
 > _For grown-ups: Found a time interval: from 6:00 to 9:45 is 3 hours 45 minutes._
 
+**Astrid**: All right. We wait. But not for long, Hiccup. Not for long.  
+**Hiccup**: Tomorrow’s the final exam. I’m supposed to kill a dragon in front of the whole village.  
+**Astrid**: Then you’d better think of something fast.  
 
 ### Glossary
 
@@ -1626,17 +1625,17 @@ _Hiccup stands very still. Then he lets his shield fall, and his knife, and take
 _He holds out his hand and turns his face away. The fire goes out along the Nightmare’s back, slowly, like a fire going to sleep._  
 _Up in the stands, nobody makes a sound. You can hear the sea._  
 **Hiccup**: They don’t have to be like this. We don’t have to be like this. We could…  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): whether laying down your weapons in public is brave or foolish  
-> _Hiccup drops his weapons in front of the whole village. Is that brave, or foolish?_  
-> - Brave, because he risks his name and his safety → That’s a fair answer. It takes courage to do the right thing while everyone expects the opposite.
-> - Foolish, because he could be hurt → That’s a fair answer. The danger is real, and people have every reason to fear for him.
-> - Both, and he does it anyway → That’s a fair answer. Some of the bravest things look foolish until we see what they make possible.
-> _For grown-ups: Thought about whether doing the kind thing in front of a crowd is brave, foolish or both._
-
 **Stoick**: Enough! Get him out of there!  
 _Stoick brings his hammer down on the iron bars. The clang goes all round the arena, and the Nightmare goes wild._  
 _It goes for Hiccup. Far off over the sea, you hear a high whistle, coming closer._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): whether laying down your weapons in public is brave or foolish  
+> _Hiccup drops his weapons and holds out an empty hand to the Nightmare. What is he showing it?_  
+> - ✅ That he means no harm → Yes. An empty, open hand says “I am not a threat”, and the fire goes out.
+> - That he has run out of ideas → No. Putting weapons down is a plan, and it works on the Nightmare for a while.
+> - That he wants a fight → No. Nobody offers an empty hand to start a fight.
+> _For grown-ups: Noticed that dropping weapons and offering an empty hand shows a frightened animal you mean no harm._
+
 
 #### `reader:a19-13-chain` · [main](main.md#a19-13-chain)
 
@@ -1748,7 +1747,7 @@ _Hiccup’s plan is beginning to take shape._
 **Astrid**: Good. I was hoping you’d say that.  
 **Hiccup**: There. Now you know why, too. In the woods I didn’t. I do now.  
 _Astrid is already running for the village. Hiccup gets up and follows her, and you and your Nubbin follow him._  
-_Hiccup has a problem: Toothless is chained, and the fleet is gone. He is about to ask the right question: what can we try?_  
+_Hiccup has a problem: Toothless is chained, and the fleet is gone._  
 
 > **Lesson** (science, 3-5-ETS1-2, ask): a sensible first step in solving a problem  
 > _Engineers solve problems in steps. What is a sensible first step for Hiccup?_  
@@ -1792,7 +1791,7 @@ _Astrid has brought the others. Fishlegs, Snotlout and the twins stand in a row,
 _Hiccup opens the Nadder’s pen. It comes out with every spine up, like a hedge with opinions._  
 **Hiccup**: Hand out. Slow. Look away. Don’t grab. Let it come to you. Let it choose.  
 
-> **Lesson** (science, K-ESS3-3, notice): trainers today use rewards and calm, not force, to build trust  
+> **Lesson** (science, notice): trainers today use rewards and calm, not force, to build trust  
 > _Animal trainers today mostly teach with rewards, like food or praise, and not with force._  
 > _Animals learn faster and trust more when they feel safe and get to choose to take part._  
 > _For grown-ups: Learned that modern animal trainers use rewards and calm rather than force, and that safety and choice build trust._
@@ -1803,7 +1802,7 @@ _You walk along the pens with Hiccup, watching each dragon and each Viking, and 
 _The Nightmare likes noise, so it gets Snotlout. The Zippleback has two heads and two tempers, so it gets the twins._  
 _That leaves the Gronckle, and Fishlegs, standing a long way from each other._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): choice and consent for animals  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): choice and consent for animals  
 > _Hiccup lets each dragon choose its rider. Why might choice matter, and should an animal always get a say?_  
 > - Choice builds trust → That’s a fair answer. An animal that chooses to come close is more settled than one that is made to.
 > - Animals cannot say yes or no in words, so people must watch very closely → That’s a fair answer. Looking after an animal means reading its signals, because it cannot ask in words.
@@ -1845,7 +1844,7 @@ _You climb on behind Fishlegs. Your Nubbin rides in a sack strapped to the Gronc
 _Four dragons go up out of the arena one after another, into the grey morning, and turn north after the fleet._  
 _Hiccup rides behind Astrid on the Nadder, you ride behind Fishlegs, Snotlout has the Nightmare, and the twins share the Zippleback._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding four small numbers: 2 + 2 + 1 + 2  
+> **Lesson** (maths, 3.OA.D.8, ask): adding four small numbers: 2 + 2 + 1 + 2  
 > _Count the people: Astrid and Hiccup, Fishlegs and you, Snotlout, and the twins. How many people are flying?_  
 > - ✅ 7 → Yes, 2 + 2 + 1 + 2 = 7! The Nubbin rides in a sack, so we are counting only people.
 > - 6 → Count again: two on the Nadder, two on the Gronckle, one on the Nightmare, two on the Zippleback.
@@ -1928,7 +1927,7 @@ _The young riders come in low out of the smoke. On the beach, the Vikings look u
 _The riders swing round its head like gulls round a ship. It turns, and roars, and snaps at nothing._  
 _Fishlegs sets you down on the beach. Your job is the people still on the ships: one at a time, off the burning decks._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why leaders go last in an emergency  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why leaders go last in an emergency  
 > _Stoick wants everyone else off the ships before him. Why do leaders in an emergency often go last?_  
 > - ✅ Because their job is to look after everyone else first → Yes. A leader’s duty is to the people who depend on them, and ships’ captains still follow this today.
 > - Because they are not important → A leader is very important. That is exactly why leaving last is a sign of duty, not of being unimportant.
@@ -1972,14 +1971,6 @@ _You run down to the water’s edge, but Stoick is already past you, in up to hi
 _A long time passes. Too long._  
 _Stoick comes up with Hiccup over one shoulder. A moment later Toothless bursts out of the sea, the chain snapped, and hauls himself onto the rocks._  
 **Stoick**: Hiccup. I was wrong. I’m sorry, son. I’m so sorry.  
-
-> **Lesson** (literacy, RL.3.3, ask): how a character changes over a story  
-> _How has Stoick changed since he turned his back on Hiccup on the jetty?_  
-> - ✅ He has gone from silent and stern to saying plainly that he was wrong → Yes, a character’s change shows in what they do and say. Stoick’s short, honest sentence is the biggest change in the story.
-> - He has not changed at all → Compare the jetty with the water’s edge: he went into the sea after Hiccup and said sorry. That is a big change.
-> - He is angrier than ever → His voice is soft, and he says he is sorry. That is the opposite of anger.
-> _For grown-ups: Described how a character changes from the beginning of the story to this scene._
-
 **Hiccup**: Me too, Dad.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what makes an apology real  
@@ -2018,6 +2009,12 @@ _On the beach, nobody looks anywhere else._
 
 _From the beach you watch Hiccup and Toothless climb, a black speck against the smoke, then against the cloud._  
 _The great dragon spreads wings nobody knew it had, and heaves itself off the ground._  
+_Slowly, dreadfully, it follows them up._  
+**Gobber**: What’s he doing? What’s the boy doing?  
+**Astrid**: He’s leading it away from us. He’s taking it up where it can’t see.  
+_Everyone on the beach is looking up, and nobody is breathing. Your Nubbin has both paws over its face, and one eye between them._  
+_Toothless climbs about three hundred metres every minute. The cloud is eighteen hundred metres up._  
+_Up there, the black speck and the great shadow go into the cloud._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): distance, speed and time: 1,800 ÷ 300  
 > _Toothless climbs 300 metres every minute, and the cloud is 1,800 metres up. How many minutes does he need to reach it?_  
@@ -2026,33 +2023,27 @@ _The great dragon spreads wings nobody knew it had, and heaves itself off the gr
 > - 60 minutes → That is ten times too long. 1,800 ÷ 300 = 6, because 18 ÷ 3 = 6.
 > _For grown-ups: Divided a distance by a speed to find the time: 1,800 m at 300 m a minute is 6 minutes._
 
-_Slowly, dreadfully, it follows them up._  
-**Gobber**: What’s he doing? What’s the boy doing?  
-**Astrid**: He’s leading it away from us. He’s taking it up where it can’t see.  
-_Everyone on the beach is looking up, and nobody is breathing. Your Nubbin has both paws over its face, and one eye between them._  
-_Up there, the black speck and the great shadow go into the cloud._  
 
 #### `reader:a19-17-dive` · [main](main.md#a19-17-dive)
 
 _For a long moment there is nothing but cloud. Then the whistle comes, very high and very fast, coming down._  
-
-> **Lesson** (science, 4-PS3-2, notice): the Doppler effect: a sound’s pitch changes as its source moves  
-> _The whistle sounds higher while it rushes towards you, and drops as it passes. That is the Doppler effect._  
-> _Sound waves bunch up in front of something moving towards you, making a higher note._  
-> _They stretch out behind it, making a lower note. Ambulance sirens do the same._  
-> _For grown-ups: Learned that the pitch of a moving sound changes as it approaches and moves away (the Doppler effect)._
-
 _Toothless comes out of the cloud head first, falling like a stone thrown from a tower, with the great shape behind him._  
 _Down and down. At the last moment Toothless opens his wings and turns, and the great dragon can’t._  
 _From far along the beach you see it hit the ground, and the fire go up, and the smoke roll out over everything._  
 _Something black is in the fire: a tail fin, burning. Then the smoke closes, and you can’t see anything at all._  
 **Stoick**: Hiccup!  
 
+> **Lesson** (science, 4-PS3-2, notice): a sound gets louder as the thing making it comes closer  
+> _The whistle got louder and higher as Toothless dived. A sound gets louder as the thing making it comes closer._  
+> _That is how everyone on the beach knew he was coming, before they could see him._  
+> _For grown-ups: Learned that a sound gets louder as the thing making it comes closer._
+
+
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): what to do when you cannot help yet  
-> _Something terrible may have happened, and you cannot help yet. What can you do?_  
-> - Stay safe, stay together, and be ready to help when it is safe → That’s a fair answer. Rushing in can add another person in danger, so being ready and close to others is the strongest thing you can do.
-> - Rush in at once → That’s a fair answer. The wish to rush is a loving one, though the fire is too hot, and a second person in danger helps nobody.
-> - Look away and pretend it is not happening → That’s a fair answer. It is hard to watch, but staying present, even in fear, lets you be useful the moment you can.
+> _Hiccup is somewhere in the smoke, and the fire is too hot to go near. What is the wisest thing to do now?_  
+> - ✅ Stay back, stay together, and be ready to help when it is safe → Yes. Someone who is hurt cannot help anyone, so waiting safely is a way of helping.
+> - Run into the fire → No. The fire is too hot, and a second person in danger would help nobody.
+> - Look away and pretend it is not happening → Looking away does not help. Staying close means you can act the moment it is safe.
 > _For grown-ups: Talked about what to do when you cannot help yet: stay safe and together, and be ready._
 
 
@@ -2099,10 +2090,6 @@ _Keeping watch is something anyone can do for someone who is hurt: stay near, st
 > _For grown-ups: Talked about how staying near someone who is hurt shows care._
 
 _Nobody asks Toothless to take a turn. He never stops._  
-
-### Glossary
-
-- **Doppler effect**: The way a sound’s note seems to change when the thing making it moves towards or away from you.
 
 ## A19-18. Twelve Days North
 
@@ -2157,7 +2144,7 @@ _Step and clunk. The two sounds have a rhythm, like a slow drum._
 _Your Nubbin begins to walk in time with it, and then Toothless does too, with his tail._  
 _Words like “clunk” sound like what they mean. They are called onomatopoeic words, and writers love them._  
 
-> **Lesson** (literacy, RL.2.4, ask): onomatopoeia: words that sound like their meaning  
+> **Lesson** (literacy, L.4.5, ask): onomatopoeia: words that sound like their meaning  
 > _Which of these words sounds like what it means?_  
 > - ✅ Clunk → Yes, “clunk” sounds like a heavy, short knock. Splash, buzz and sizzle work the same way.
 > - Table → “Table” is just a name for a thing. It does not sound like anything a table does.
@@ -2172,7 +2159,7 @@ _A Nadder on a roof. A Gronckle asleep in the square, with three children asleep
 _A Zippleback is steering a fishing boat into the harbour, badly, one head arguing with the other._  
 _Nobody is fighting. Somebody is building a long trough for fish, and somebody else a stable with a very tall door._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Viking-age families kept livestock, and Icelandic horses descend from Norse horses  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Viking-age families kept livestock, and Icelandic horses descend from Norse horses  
 > _Viking-age families kept sheep, cows, goats and horses, and built barns, byres and stables for them._  
 > _The Icelandic horse, a small, sturdy breed still found today, descends from horses the Norse settlers brought over the sea._  
 > _For grown-ups: Learned that Viking-age families kept livestock and that Icelandic horses descend from horses the Norse settlers brought._
@@ -2220,7 +2207,7 @@ _The square is full of dragons greeting people, and one dragon keeping a careful
 _Gobber has made Toothless a new tail fin, stiffer than the last, with a Nadder scale stitched to its tip for luck._  
 **Hiccup**: New tail. New foot. Let’s see if they get on.  
 
-> **Lesson** (art, D2.His.2.K-2, notice): Norse craftspeople decorated useful things with animals and knotwork  
+> **Lesson** (art, D2.His.2.3-5, notice): Norse craftspeople decorated useful things with animals and knotwork  
 > _Norse craftspeople decorated tools, ships and jewellery with swirling animals and knotwork patterns._  
 > _A scale stitched on for luck belongs to the same tradition: making a useful thing beautiful, and a little bit lucky._  
 > _For grown-ups: Learned that Norse craftspeople decorated everyday objects with animal designs and knotwork._
@@ -2236,16 +2223,16 @@ _Late in the afternoon, Hiccup and Toothless land on the cliff top, where you ar
 _Hiccup holds out a saddle: a tiny one, of soft leather, with a tail-fin badge stitched on the side. It is exactly your Nubbin’s size._  
 **Hiccup**: Gobber kept asking what the saddle was for, that night at the forge. I thought: why not one for your Nubbin, too.  
 _Some things come back if you wait. Some things you have to wait for twice._  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): whether waiting is always the right thing, and what trust is owed  
-> _Toothless came to trust only after a long wait. Is waiting always right, and does a creature owe you trust because you were patient?_  
-> - Patience helps, but trust has to be earned and freely given → That’s a fair answer. Nobody can be made to trust, however kind we are: it is a gift, and it comes in the other’s own time.
-> - Waiting is right when the other one is frightened → That’s a fair answer. Fear needs time, and rushing it usually makes it worse.
-> - Sometimes you have to act, as Hiccup did later → That’s a fair answer. Patience is right for some moments and action for others, and wisdom is knowing which is which.
-> _For grown-ups: Thought about when waiting is right and whether trust is owed to those who are patient._
-
 _Toothless pads over. He drops a whole fish, a good silver one, at your Nubbin’s feet, and sits back, and waits._  
 _Your Nubbin looks at the fish, and at Toothless, and at you. Then it puts both paws on the fish, very proud, and doesn’t eat it._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): what helps a frightened creature learn to trust  
+> _Toothless took a long time to trust Hiccup. What helped him feel safe?_  
+> - ✅ Hiccup was patient and gentle, and let Toothless come to him → Yes. Trust grows when nobody grabs or hurries.
+> - Hiccup gave orders → Orders do not build trust. Patience and gentleness do.
+> - Hiccup gave up → He never gave up. He waited, and that is different.
+> _For grown-ups: Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying._
+
 _The sea goes still and grey, and smudges under your hand. You are back in the Grove, with a small saddle on your knee and a smell of fish._  
 
 #### `reader:a19-18-complete-ran` · [main](main.md#a19-18-complete-ran)
@@ -2259,16 +2246,16 @@ _Hiccup holds out a saddle: a tiny one, of soft leather, with a tail-fin badge s
 _Hiccup goes down to supper. Toothless stays on the cliff, a long way off, looking at the sea._  
 _You stay where you are, and you don’t call him or look at him. The sun goes down, and nothing happens for a long time._  
 _Some things come back if you wait. Some things you have to wait for twice._  
-
-> **Lesson** (sel, CASEL: Self-management, ask): what it means to wait for something twice  
-> _You waited for Sable, and then for Toothless. What does it mean to wait for something twice?_  
-> - You learn patience was never wasted → That’s a fair answer. Each wait teaches you how to do the next one.
-> - It is harder, because you remember how long it took → That’s a fair answer. Memory can make us tired, and it can make us braver.
-> - The thing you wait for is worth it both times → That’s a fair answer. Some friendships are worth more than one long wait.
-> _For grown-ups: Thought about what it means to wait patiently more than once._
-
 _Then there is a soft thump in the grass beside you. Toothless has come, and sat down close enough to touch._  
 _Your Nubbin leans against his side. He lets it, and you all watch the sea._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): what helps a frightened creature learn to trust  
+> _Toothless took a long time to trust Hiccup. What helped him feel safe?_  
+> - ✅ Hiccup was patient and gentle, and let Toothless come to him → Yes. Trust grows when nobody grabs or hurries.
+> - Hiccup gave orders → Orders do not build trust. Patience and gentleness do.
+> - Hiccup gave up → He never gave up. He waited, and that is different.
+> _For grown-ups: Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying._
+
 _The sea goes still and grey, and smudges under your hand. You are back in the Grove, with a small saddle on your knee and the first stars out._  
 
 #### `reader:a19-18-complete-ran-unset` · [main](main.md#a19-18-complete-ran-unset)
@@ -2281,16 +2268,16 @@ _Hiccup holds out a saddle: a tiny one, of soft leather, with a tail-fin badge s
 **Hiccup**: He’s still not sure about you two. That’s all right. You can have it anyway.  
 _Hiccup goes down to supper. Toothless stays on the cliff, a long way off, looking at the sea._  
 _You stay where you are, and you don’t call him or look at him. The sun goes down, and nothing happens for a long time._  
-
-> **Lesson** (sel, CASEL: Self-management, ask): waiting without calling or looking  
-> _You waited, without calling to Toothless or looking at him. Why might that have helped him come?_  
-> - Not being watched let him feel free → That’s a fair answer. Being looked at can feel like pressure, and being left alone lets a shy creature choose.
-> - It showed him you would not push → That’s a fair answer. Staying quiet is a way of saying: you are in charge of this.
-> - He was ready, and you happened to be there → That’s a fair answer. Timing matters, and patience puts us in the right place for when someone is ready.
-> _For grown-ups: Thought about why waiting without calling or looking might help a shy creature come closer._
-
 _Then there is a soft thump in the grass beside you. Toothless has come, and sat down close enough to touch._  
 _Your Nubbin leans against his side. He lets it, and you all watch the sea._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): what helps a frightened creature learn to trust  
+> _Toothless took a long time to trust Hiccup. What helped him feel safe?_  
+> - ✅ Hiccup was patient and gentle, and let Toothless come to him → Yes. Trust grows when nobody grabs or hurries.
+> - Hiccup gave orders → Orders do not build trust. Patience and gentleness do.
+> - Hiccup gave up → He never gave up. He waited, and that is different.
+> _For grown-ups: Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying._
+
 _The sea goes still and grey, and smudges under your hand. You are back in the Grove, with a small saddle on your knee and the first stars out._  
 
 #### `reader:a19-18-complete-unset` · [main](main.md#a19-18-complete-unset)
@@ -2301,15 +2288,15 @@ _Late in the afternoon, Hiccup and Toothless land on the cliff top, where you ar
 _Hiccup holds out a saddle: a tiny one, of soft leather, with a tail-fin badge stitched on the side. It is exactly your Nubbin’s size._  
 **Hiccup**: Gobber kept asking what the saddle was for, that night at the forge. I thought: why not one for your Nubbin, too.  
 _Toothless pads over. He drops a whole fish, a good silver one, at your Nubbin’s feet, and sits back, and waits._  
-
-> **Lesson** (sel, CASEL: Self-awareness, ask): whether trust is owed to those who are patient  
-> _Toothless came to trust only after a long wait. Does a creature owe you trust just because you were patient?_  
-> - No, trust has to be freely given → That’s a fair answer. Patience can make trust possible, but it can never force it.
-> - Patience earns a chance, not a promise → That’s a fair answer. Kindness opens the door, and the other one decides whether to walk through.
-> - It depends on how the creature has been treated → That’s a fair answer. A creature that has been hurt may need much longer to trust anyone.
-> _For grown-ups: Thought about whether patience means a creature owes you trust._
-
 _Your Nubbin looks at the fish, and at Toothless, and at you. Then it puts both paws on the fish, very proud, and doesn’t eat it._  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): what helps a frightened creature learn to trust  
+> _Toothless took a long time to trust Hiccup. What helped him feel safe?_  
+> - ✅ Hiccup was patient and gentle, and let Toothless come to him → Yes. Trust grows when nobody grabs or hurries.
+> - Hiccup gave orders → Orders do not build trust. Patience and gentleness do.
+> - Hiccup gave up → He never gave up. He waited, and that is different.
+> _For grown-ups: Talked about what helps a frightened creature trust: patience and gentleness, not orders or hurrying._
+
 _The sea goes still and grey, and smudges under your hand. You are back in the Grove, with a small saddle on your knee and a smell of fish._  
 
 ### Glossary

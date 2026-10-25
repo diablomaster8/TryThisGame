@@ -214,6 +214,7 @@ const Q1: EduQuest = quest(
         N('A big book opens. It shows tall green mountains.'),
         N('A candle glows in one window. You step into the picture.'),
         N('It is night, long ago. Abuela sits by a little girl in round glasses.'),
+        N('Her name is Mirabel.'),
         AB('Come in. Listen too. Mirabel loves this story.'),
         AB('Long ago, we had to leave our home. It was not safe.', 'soft'),
         N('Abuela and Pedro walked for days with three babies.'),
@@ -282,7 +283,7 @@ const Q1: EduQuest = quest(
     sc(
       'a22-01-casita',
       [
-        N('The page turns. It is morning, ten years later.'),
+        N('The page turns. Ten years go by. Little Mirabel is grown up now.'),
         N('A market is full of noise. Up the hill is a house.'),
         N('It has white walls and green shutters. The shutters open by themselves!'),
         N('A young woman in round glasses runs down the steps.'),
@@ -400,7 +401,8 @@ const Q2: EduQuest = quest(
         N('Luisa walks by. She carries two donkeys, one on each shoulder!'),
         LU('Hi! Can’t stop. The church is crooked.'),
         N('Tía Pepa has a little grey cloud above her head.'),
-        N('Plip, plip, plip! It rains on her onions.'),
+        PE('What cloud? I have no cloud.'),
+        N('Plip, plip, plip! The cloud rains on her onions.'),
         FE('Don’t worry, my love. We have umbrellas!', 'happy'),
       ],
       [
@@ -468,12 +470,13 @@ const Q2: EduQuest = quest(
         IS('Hello, guest. How nice.'),
         N('A girl in a pale dress whispers to herself. That is Dolores.'),
         DO('You sneezed in the market. Bless you.'),
-        N('A boy turns into Mirabel! Then Félix! Then himself. That is Camilo.'),
+        N('A boy turns into Mirabel! Then Félix! Pop!'),
+        N('Then he is himself. That is Camilo. He changes faces.'),
         CA('I can do your face. Stand still!'),
       ],
       [
         ask(
-          1,
+          7,
           'sel',
           'what makes you you',
           'CASEL: Self-awareness',
@@ -605,7 +608,7 @@ const Q3: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          7,
           'sel',
           'what helps a scared friend',
           'CASEL: Social awareness',
@@ -954,7 +957,7 @@ const Q5: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          7,
           'social-studies',
           'families remember people with pictures and stories',
           'D2.His.2.K-2',
@@ -1160,7 +1163,7 @@ const Q6: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          7,
           'sel',
           'what to say to a tired friend',
           'CASEL: Relationship skills',
@@ -1243,7 +1246,9 @@ const Q7: EduQuest = quest(
         N('Antonio sits nearby, with a toucan and a coati.'),
         AN('You are going in Tío Bruno’s room!', 'shock'),
         MI('Yes. No. Do not tell.'),
-        AN('I will not tell. She will not either. She says your Nubbin is brave.', 'happy'),
+        AN('I will not tell. The coati will not tell.', 'happy'),
+        AN('The coati says your Nubbin is brave.', 'happy'),
+        AN('And a bit silly.', 'happy'),
       ],
       [
         doit(
@@ -1472,7 +1477,8 @@ const Q8: EduQuest = quest(
       {
         choices: [
           ch('agree', 'Agree with him.', [
-            N('You say, “One night.” Agustín says, “One night. Thank you.”'),
+            MI('Say it with me. One night.'),
+            AG('One night. Thank you.'),
           ]),
           ch('disagree', 'Say Abuela should know now.', [
             AG('Maybe you are right. But not with guests at the gate. Please.'),
@@ -1647,7 +1653,7 @@ const Q9: EduQuest = quest(
         N('You are the eyes. You know where the cracks run.'),
         N('The crack runs for the east wall. That is the wall where the sun comes up.'),
         N('A big dresser full of plates stands there.'),
-        N('Señora Guzmán sits right under it!'),
+        N('Señora Guzmán sits right under it, saying the soup is lovely.'),
         MI('The east wall!', 'shock'),
       ],
       [
@@ -1678,12 +1684,15 @@ const Q9: EduQuest = quest(
     sc(
       'a22-09-job-done',
       [
-        N('Nobody is hurt. That is the best part.'),
+        N('Nobody is hurt. One small cloud is left over the soup.'),
+        FE('I said umbrellas. Nobody listens to me.'),
+        PE('I am calm.', 'sad'),
+        N('The cloud over the soup rumbles, very quietly.'),
         N('Everyone checks on everyone else. Are you okay? Yes. Are you okay?'),
       ],
       [
         ask(
-          1,
+          4,
           'sel',
           'check that everyone is safe after a scare',
           'CASEL: Social awareness',
@@ -1708,7 +1717,7 @@ const Q9: EduQuest = quest(
       ],
       [
         ask(
-          3,
+          6,
           'literacy',
           'a character’s voice can hide a different feeling',
           'RL.2.3',
@@ -1987,7 +1996,7 @@ const Q11: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          8,
           'art',
           'yellow and blue make green',
           'ELOF: Approaches to Learning',
@@ -2069,6 +2078,9 @@ const Q12: EduQuest = quest(
         MI('You did not even want to marry him!', 'angry'),
         N('There is a silence, like a dropped glass.'),
         IS('How do you know that?', 'shock'),
+        MI('Your roses shut when he talks. Look!'),
+        N('Every rose on the wall closes tight, like a fist.'),
+        IS('Traitors.', 'angry'),
       ],
       [
         ask(
@@ -2171,7 +2183,7 @@ const Q12: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          6,
           'sel',
           'saying sorry and making up',
           'CASEL: Relationship skills',
@@ -2375,17 +2387,18 @@ const Q13: EduQuest = quest(
     sc(
       'a22-13-lamp',
       [
+        N('A candle flame needs air to burn.'),
         N('At your belt, the gold flame goes out too.'),
         N('Your lamp is dark. The whole valley is dark.'),
         N('Then Mirabel jumps up and runs away.'),
       ],
       [
         ask(
-          1,
+          0,
           'science',
           'a flame goes out without air',
           'ELOF: Scientific Reasoning',
-          [N('A flame needs air. If a grown-up covers it with a jar, what happens?')],
+          [N('If a grown-up covers a flame with a jar, what happens?')],
           [
             o('It goes out', [N('Yes! With no air, a flame goes out.')], true),
             o('It gets bigger', [N('No. Without air, a flame goes out.')]),
@@ -2456,7 +2469,7 @@ const Q14: EduQuest = quest(
           [
             o(
               'A liquid',
-              [N('Yes! Water is a liquid. It flows. When it freezes, it turns to solid ice.')],
+              [N('Yes! Water flows. When it freezes, it turns to ice.')],
               true,
             ),
             o('A solid', [N('Water flows, so it is a liquid. Only ice is solid.')]),
@@ -2489,7 +2502,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          6,
+          9,
           'sel',
           'what helps when we miss someone',
           'CASEL: Self-awareness',
@@ -2518,10 +2531,10 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          0,
+          3,
           'science',
           'a butterfly begins as a caterpillar',
-          '3-LS1-1',
+          'ELOF: Scientific Reasoning',
           [N('A butterfly was once a caterpillar. What did it look like first?')],
           [
             o(
@@ -2545,7 +2558,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'literacy',
           'opposites: everything and nothing',
           'ELOF: Literacy',
@@ -2680,11 +2693,14 @@ const Q15: EduQuest = quest(
         N('Then tiles for the courtyard, one by one, in the old pattern.'),
         N('Bruno puts on a play for the children, with his rats.'),
         N('Abuela works beside everyone. She is not good with a trowel. She does not mind.'),
+        N('Abuela plasters a corner. The corner slides off.'),
+        AB('It is resting.'),
+        N('Tío Félix holds it up until it dries.'),
         N('Now there is a house. It is plain, white and new. Every hand built it.'),
       ],
       [
         ask(
-          4,
+          7,
           'sel',
           'it is fine to be a beginner',
           'CASEL: Self-awareness',
@@ -2824,6 +2840,7 @@ const Q16: EduQuest = quest(
       [
         N('In the morning, the page grows thin and painted at the edges.'),
         N('The family walks you to the gate. The house waves its shutters.'),
+        N('Behind them, three Madrigals still argue about chairs.'),
         AB('You are welcome at this table. Always.', 'soft'),
         N('Antonio’s jaguar sniffs your Nubbin one last time.'),
         AN('It says it will come back. It says you have to bring it.', 'happy'),
@@ -2831,7 +2848,7 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          6,
           'social-studies',
           'Colombia is a country in South America',
           'D2.Geo.2.K-2',
@@ -3006,7 +3023,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        5,
         'science',
         'sound travels to our ears',
         '1-PS4-1',
@@ -3026,12 +3043,13 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
       N('You are the ears, and Dolores is your friend.'),
       N('She stands at the foot of the stairs, hands over her mouth.'),
       DO('And Mariano, and I always, I always...', 'sad'),
+      N('Dolores looks at Mariano. Her cheeks go pink.'),
       N('Her feelings are too big to hold in. They are not for the whole table.'),
       N('Mirabel sees you get up. She nods once.'),
     ],
     [
       ask(
-        3,
+        6,
         'health',
         'slow breaths with a friend help big feelings',
         'CASEL: Self-management',
@@ -3074,7 +3092,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        2,
+        4,
         'maths',
         'two hands and two hands make four',
         'K.OA.A.2',
@@ -3109,7 +3127,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'science',
         'even a tiny light helps us see in the dark',
         '1-PS4-2',
@@ -3127,7 +3145,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'science',
         'light makes shadows',
         '1-PS4-2',
@@ -3146,7 +3164,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        3,
         'science',
         'a fire gives heat',
         'ELOF: Scientific Reasoning',
@@ -3168,7 +3186,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       notice(
-        1,
+        5,
         'science',
         'warm hands share their warmth',
         'ELOF: Scientific Reasoning',
@@ -3370,7 +3388,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        3,
+        5,
         'literacy',
         'first sound: Dolores and door',
         'RF.K.2',
@@ -3389,7 +3407,7 @@ export const EDU_A22_SPROUT_VARIANTS: EduScene[] = [
         ]),
         ch('secret', 'Whisper that her secret is safe.', [
           DO('I know. I heard you think it.', 'happy'),
-          N('She cannot, of course. But the photo catches you both laughing.'),
+          N('Dolores is only joking. The photo catches you both laughing.'),
         ]),
       ],
     },

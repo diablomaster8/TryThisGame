@@ -191,6 +191,10 @@ _The arepa is hot and buttery, with cheese in the middle. The ache in your legs 
 **Agustín**: Welcome! Welcome. Don’t mind the bee. I’m used to the bee.  
 _A gentle man in glasses waves from the doorway. A bee is sitting on his nose._  
 **Mirabel**: Mamá and Papá. So that’s everyone. Everyone with a gift, I mean, and me.  
+**Julieta**: He has had that bee since breakfast.  
+**Agustín**: She’s fond of me.  
+**Julieta**: She’s a bee, mi amor.  
+**Agustín** _(happy)_: I never said she had good taste.  
 _She counts on her fingers, gets to the end of one hand, and stops on a finger as if it were sore._  
 _Across the courtyard, at the far end of the house, there is a tower with a dark door. Everybody manages not to look at it, all at once._  
 _Félix starts to say a name. Pepa’s cloud cracks with thunder, and Félix turns it into a cough._  
@@ -455,7 +459,7 @@ Hint: Choose your job: the eyes, the ears or the hands. · check: `choose:a22-jo
 _Mirabel waits until her grandmother’s door closes. Then she stands up, and you can see the decision land._  
 **Mirabel** _(think)_: Okay. Nobody else sees it. So I fix it. I save the miracle.  
 **Mirabel**: I don’t have a gift, so I don’t have a gift to lose. I can go where they can’t, and ask what they won’t.  
-_She is already making a list, in the dark, in pen on the back of her hand._  
+_She is already writing a list on the back of her hand: 1. Save the miracle. 2. Don’t tell Abuela. 3. Breakfast._  
 **Mirabel**: But I can’t do it alone. Will you help me? What do you want to be?  
 **Mirabel**: My eyes, to map every crack? My ears, with Dolores, who hears everything? Or my hands, with Luisa, who carries everything?  
 
@@ -752,7 +756,7 @@ Sets on completion: `{"a22-08":true}`
 
 *Encanto (Walt Disney Animation Studios, 2021): the dinner with the Guzmáns* · audience: all · where: Nova’s atlas: the Candle page (Atlas campaign) · when: Any time after A22-8, from Nova’s atlas. · requires: A22-8
 
-**Cast:** Señora Guzmán (Mariano’s mother (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Dolores (Dolores Madrigal, the cousin who hears everything (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Tía Pepa (Pepa Madrigal, whose weather is her mood (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mirabel (Mirabel Madrigal, the one without a gift (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Luisa (Luisa Madrigal, the middle sister, strength (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mariano (Mariano Guzmán, Isabela’s would-be suitor (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Abuela Alma (Alma Madrigal, the grandmother who keeps the candle (Encanto (Walt Disney Animation Studios, 2021)); licensed design)
+**Cast:** Señora Guzmán (Mariano’s mother (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Dolores (Dolores Madrigal, the cousin who hears everything (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Tía Pepa (Pepa Madrigal, whose weather is her mood (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mirabel (Mirabel Madrigal, the one without a gift (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Luisa (Luisa Madrigal, the middle sister, strength (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mariano (Mariano Guzmán, Isabela’s would-be suitor (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Abuela Alma (Alma Madrigal, the grandmother who keeps the candle (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Tío Félix (Félix Madrigal, Pepa’s husband (Encanto (Walt Disney Animation Studios, 2021)); licensed design)
 
 ### Step 1: Sit down to dinner with the Madrigals and the Guzmáns.
 
@@ -787,7 +791,7 @@ Hint: Eyes: watch the wall the crack is running for. Ears: get Dolores out. Hand
 _Everything happens at once. You remember your job: you are the eyes._  
 _You have mapped the cracks with Mirabel for days, on her drawing of the house. You know where they run._  
 _The crack under the table is running for the east wall, where the big painted dresser stands, full of plates._  
-_Señora Guzmán is sitting right underneath it._  
+_Señora Guzmán is sitting right underneath it, telling Julieta the soup is lovely. The soup is full of roses._  
 _Mirabel sees where you are looking, follows your eyes, and goes white._  
 **Mirabel** _(shock)_: The wall! The east wall!  
 
@@ -801,7 +805,10 @@ _Mirabel sees where you are looking, follows your eyes, and goes white._
 
 #### <a id="a22-09-job-done"></a>Done `a22-09-job-done`
 
-_Nobody is hurt. That is the best that can be said for it._  
+_Nobody is hurt. The rain has stopped, except for one small cloud over the soup, which is still going._  
+**Tío Félix**: I said umbrellas. At breakfast. Nobody listens to me about umbrellas.  
+**Tía Pepa** _(sad)_: I am perfectly calm.  
+_The cloud over the soup thunders, very quietly._  
 
 ### Complete
 
@@ -1049,6 +1056,9 @@ _She is sitting on the swing, perfectly still and perfectly dressed, with her pe
 **Mirabel** _(angry)_: You didn’t even want to marry Mariano!  
 _There is a silence like a dropped glass._  
 **Isabela** _(shock)_: How do you know that?  
+**Mirabel**: Because your roses shut every time he talks. Look. They’re doing it now, and he isn’t even here.  
+_Every rose on the wall has closed up tight, like a fist._  
+**Isabela** _(angry)_: …Traitors.  
 
 **Choices**
 
@@ -1324,7 +1334,7 @@ Sets on completion: `{"a22-14":true}`
 
 *Encanto (Walt Disney Animation Studios, 2021): the village rebuilds the house* · audience: all · where: Nova’s atlas: the Candle page (Atlas campaign) · when: Any time after A22-14, from Nova’s atlas. · requires: A22-14
 
-**Cast:** A neighbour (A villager of the Encanto (Encanto (Walt Disney Animation Studios, 2021)); drawn in the licensed style), Luisa (Luisa Madrigal, the middle sister, strength (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Abuela Alma (Alma Madrigal, the grandmother who keeps the candle (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mirabel (Mirabel Madrigal, the one without a gift (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Dolores (Dolores Madrigal, the cousin who hears everything (Encanto (Walt Disney Animation Studios, 2021)); licensed design)
+**Cast:** A neighbour (A villager of the Encanto (Encanto (Walt Disney Animation Studios, 2021)); drawn in the licensed style), Luisa (Luisa Madrigal, the middle sister, strength (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Abuela Alma (Alma Madrigal, the grandmother who keeps the candle (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Mirabel (Mirabel Madrigal, the one without a gift (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Dolores (Dolores Madrigal, the cousin who hears everything (Encanto (Walt Disney Animation Studios, 2021)); licensed design), Camilo (Camilo Madrigal, the cousin who changes faces (Encanto (Walt Disney Animation Studios, 2021)); licensed design)
 
 ### Step 1: Join the village at the ruins.
 
@@ -1336,6 +1346,7 @@ _Shovels, wheelbarrows, ladders, pots of whitewash. A woman with a basket of bre
 **A neighbour**: The Madrigals helped every one of us. Now we help you.  
 _Señora Guzmán is there with her sleeves rolled up. Mariano is standing next to Dolores, and they are both a bit pink._  
 _There are no gifts now: Pepa has no cloud, and Luisa can’t lift a donkey. Camilo’s face is just his face._  
+**Camilo** _(think)_: It’s so… one face. All day. How do you all manage?  
 **Luisa** _(think)_: I don’t know what to do with my hands.  
 _Julieta hands round arepas that heal nothing, and everybody eats them anyway, because they are delicious._  
 
@@ -1378,7 +1389,9 @@ _By evening the walls are up to your shoulders, whitewashed and new. Everyone is
 
 _It takes days. Walls, then roof, then shutters, then the courtyard tiles, one by one, in the old pattern._  
 _Bruno puts on a play for the children with his rats. Pepa has no cloud, so she says how she feels out loud, and finds she can._  
-_Abuela works beside everybody. She is not very good with a trowel, and she doesn’t mind._  
+_Abuela works beside everybody. She plasters a corner, and the corner slowly slides off._  
+**Abuela Alma**: It is resting.  
+_Nobody argues. Tío Félix holds it up until it dries._  
 _In the end there is a house: plain, white and new, with a red roof. It isn’t magic, and every hand in the valley built it._  
 
 #### <a id="a22-15-ears"></a>Variant `a22-15-ears`
@@ -1553,6 +1566,7 @@ _You end up at the edge, beside Mirabel and Luisa. Luisa is sitting on the botto
 
 _In the morning the page begins to go thin and painted again, at the edges._  
 _The Madrigals walk you to the gate, all of them, and the house too, with its shutters waving._  
+_Somewhere behind them, three Madrigals are still arguing about chairs._  
 **Abuela Alma** _(soft)_: You are welcome at this table. Always.  
 _Antonio’s jaguar sniffs your Nubbin one last time. Antonio listens, very seriously, to what your Nubbin says back._  
 **Antonio** _(happy)_: It says it will come back. And it says you have to bring it.  

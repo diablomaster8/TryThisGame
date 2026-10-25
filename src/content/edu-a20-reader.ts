@@ -124,7 +124,16 @@ const ask = (
   prompt: Line[],
   options: Opt[],
   parentNote: string,
-): Beat => ({ domain, skill, standard, kind: 'ask', after, prompt, options, parentNote });
+): Beat => ({
+  domain,
+  skill,
+  ...(standard ? { standard } : {}),
+  kind: 'ask',
+  after,
+  prompt,
+  options,
+  parentNote,
+});
 
 const notice = (
   after: number,
@@ -133,7 +142,15 @@ const notice = (
   skill: string,
   lines: Line[],
   parentNote: string,
-): Beat => ({ domain, skill, standard, kind: 'notice', after, lines, parentNote });
+): Beat => ({
+  domain,
+  skill,
+  ...(standard ? { standard } : {}),
+  kind: 'notice',
+  after,
+  lines,
+  parentNote,
+});
 
 /** One reader scene. Lesson ids are `reader:<of>-l<n>`, numbered in play order. */
 const sc = (
@@ -232,7 +249,7 @@ const Q01 = quest(
         ask(
           1,
           'social-studies',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           'where Iceland is: an island in the North Atlantic',
           [
             N(
@@ -307,24 +324,26 @@ const Q01 = quest(
         FR(
           'Then the first errand is the easiest. Take this cloak up the hill to my son. He gives his away to anyone who looks cold.',
         ),
+        FR('I’ve sewn him twelve this winter.', 'think'),
+        FU('And he gave all twelve away, to four shepherds on the north road. They’re the warmest men in the world.'),
         FU('Breidablik. The hall on the rise. You can’t miss it. Nobody ever has.'),
       ],
       [
         ask(
-          1,
+          3,
           'maths',
           '3.OA.A.3',
           'division: 12 shared between 4',
           [
             N(
-              'Baldr gives his cloak to anyone who looks cold. Suppose Frigg sews 12 cloaks for him to share equally between 4 cold travellers.',
+              'Frigg sewed Baldr 12 cloaks, and he shared them equally between 4 shepherds.',
             ),
-            N('How many cloaks does each traveller get?'),
+            N('How many cloaks does each shepherd get?'),
           ],
           [
-            opt('3', [N('Yes. 12 ÷ 4 = 3, so each traveller gets three cloaks.')], true),
+            opt('3', [N('Yes. 12 ÷ 4 = 3, so each shepherd gets three cloaks.')], true),
             opt('4', [
-              N('4 is the number of travellers. Sharing 12 equally between 4 is 12 ÷ 4 = 3.'),
+              N('4 is the number of shepherds. Sharing 12 equally between 4 is 12 ÷ 4 = 3.'),
             ]),
             opt('8', [N('8 is 12 − 4. Sharing equally is division: 12 ÷ 4 = 3.')]),
           ],
@@ -397,11 +416,14 @@ const Q01 = quest(
         N(
           'Your Nubbin is asleep on the warm boards, in the brightest part of the floor, with one arm over its face.',
         ),
+        N(
+          'Baldr steps over it every time he passes, like a man crossing a stream. Once, he says sorry to it.',
+        ),
         BA('Stay till it wakes. I’d like the company.'),
       ],
       [
         ask(
-          1,
+          2,
           'sel',
           'CASEL: Self-awareness',
           'being loved and still lonely (a think question)',
@@ -605,6 +627,9 @@ const Q02 = quest(
           'His lamp’s been burning three nights running. He doesn’t sleep. Take this up to him? Mind the step.',
         ),
         N(
+          'Your Nubbin insists on carrying the lid, and holds it up like a shield all the way. Nothing attacks it.',
+        ),
+        N(
           'Breidablik is never dark, but tonight the lamp is lit as well, as if he wanted more light than his own.',
         ),
         N('Baldr sits at the long table with his hands round a cup that has gone cold.'),
@@ -623,7 +648,7 @@ const Q02 = quest(
       ],
       [
         ask(
-          6,
+          7,
           'sel',
           'CASEL: Self-management',
           'what makes a worry smaller',
@@ -788,17 +813,18 @@ const Q02 = quest(
         N(
           'The talk goes on through the morning and into the dark. You fetch, and carry, and listen.',
         ),
+        N(
+          'The gods sat down at eight in the morning. At eight at night, the fire is low.',
+        ),
       ],
       [
         ask(
-          0,
+          1,
           'maths',
           '3.MD.A.1',
           'time intervals',
           [
-            N(
-              'Suppose the gods began their council at 8 in the morning, and the fire was burning low by 8 in the evening.',
-            ),
+            N('The gods sat down at 8 in the morning and were still talking at 8 at night.'),
             N('For how many hours did they talk?'),
           ],
           [
@@ -917,18 +943,21 @@ const Q02 = quest(
         N(
           'Your Nubbin falls asleep on the way home, and you carry it. It is facing back up the hill.',
         ),
+        FU(
+          'Four kilometres an hour, six hours a day, and bread for all of it. I’ll pack tonight.',
+        ),
       ],
       [
         ask(
-          1,
+          5,
           'maths',
           '4.MD.A.2',
           'distance, speed and time',
           [
             N(
-              'Frigg says tomorrow they will walk. Say she walks 4 kilometres each hour (about 2½ miles), for 6 hours.',
+              'Fulla plans for 4 kilometres each hour (about 2½ miles), for 6 hours.',
             ),
-            N('How far does she go?'),
+            N('How far will they walk in one day?'),
           ],
           [
             opt(
@@ -1033,7 +1062,7 @@ const Q03 = quest(
         notice(
           8,
           'science',
-          'K-LS1-1',
+          '4-LS1-1',
           'mistletoe grows on another tree',
           [
             N(
@@ -1241,7 +1270,7 @@ const Q03 = quest(
         notice(
           2,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'drop spindles: spinning thread by hand',
           [
             N(
@@ -1310,12 +1339,18 @@ const Q04 = quest(
           'Thor throws a stone the size of a loaf. It stops a hand’s width from Baldr, seems to think about it, and drops.',
         ),
         N('Everyone laughs, and Baldr laughs most of all, with his head back.'),
+        TH('Right. That was a small one. Somebody fetch me the millstone.'),
+        FU('That’s the mill’s millstone, Thor. They’re using it.'),
+        TH('They can have it back. It won’t be hurt. That’s the whole point of today.', 'happy'),
+        N(
+          'The millstone rolls up to Baldr, stops at his toes, and lies down flat, like a dog that wants its tummy rubbed.',
+        ),
       ],
       [
         notice(
-          7,
+          11,
           'social-studies',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           'the Thing: an assembly where people had a say',
           [
             N(
@@ -1537,16 +1572,17 @@ const Q04 = quest(
           'Come and tell me the next good one. You tell it better than they do. They just laugh and expect me to know.',
           'happy',
         ),
+        HO('Eight of them have had three throws each, and nobody has told me about a single one.'),
       ],
       [
         ask(
-          0,
+          1,
           'maths',
           '3.OA.A.3',
           'multiplication: 8 × 3',
           [
             N(
-              'Hödr asks you to tell him every good moment. Suppose eight gods each take three throws at Baldr.',
+              'Hödr asks you to tell him every good moment. Eight gods have each had three throws at Baldr.',
             ),
             N('How many throws are there to describe?'),
           ],
@@ -1641,6 +1677,9 @@ const Q05 = quest(
         N(
           'Fensalir needs water, and the spring is down the slope. You take two pails, and your Nubbin takes a thimble.',
         ),
+        N(
+          'It comes back up the path with one drop in it, carried like a crown, and pours it into your eight-litre pail with great ceremony.',
+        ),
         N('When you come back up the path, there is an old woman at the door, leaning on a stick.'),
         N(
           'She is wrapped in so many shawls that you can see nothing of her but her hands, which do not look old at all.',
@@ -1655,7 +1694,7 @@ const Q05 = quest(
       ],
       [
         ask(
-          0,
+          1,
           'maths',
           '4.MD.A.1',
           'units of volume: litres and millilitres',
@@ -1663,7 +1702,7 @@ const Q05 = quest(
             N(
               'You carry two pails, and your Nubbin carries a thimble. There are 1000 millilitres in a litre.',
             ),
-            N('If a pail holds 8 litres, how many millilitres is that?'),
+            N('Your pail holds 8 litres. How many millilitres is that?'),
           ],
           [
             opt(
@@ -1779,7 +1818,7 @@ const Q05 = quest(
         ask(
           1,
           'social-studies',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           'compass directions: opposites',
           [
             N(
@@ -1815,7 +1854,7 @@ const Q05 = quest(
         ask(
           3,
           'science',
-          '1-ESS1-1',
+          '5-ESS1-2',
           'the Sun sets in the west',
           [
             N('Your Nubbin sits by the door all evening, facing west, towards the little sprout.'),
@@ -1974,7 +2013,7 @@ const Q06 = quest(
         ask(
           6,
           'social-studies',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           'who is to blame? (a think question)',
           [
             N('Hödr threw the sprig, but he could not see, and someone else guided his arm.'),
@@ -2146,7 +2185,7 @@ const Q07 = quest(
         notice(
           0,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'horses were how people travelled',
           [
             N(
@@ -2167,8 +2206,9 @@ const Q07 = quest(
           'Odin’s stable is long and warm and smells of hay. At the end of it stands a grey horse, taller than the door.',
         ),
         N(
-          'Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own, and looks thoughtful.',
+          'Sleipnir has eight legs. Your Nubbin counts them twice, then counts its own two, and looks at Sleipnir as if he had taken more than his share.',
         ),
+        HE('He was born with them. Don’t take it personally.'),
         N(
           'He lets you take the halter without fuss. He has carried Odin over worse roads, and knows a serious errand.',
         ),
@@ -2181,7 +2221,7 @@ const Q07 = quest(
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           '3.OA.A.1',
           'multiplication: legs',
@@ -2287,7 +2327,7 @@ const Q07 = quest(
         ask(
           2,
           'literacy',
-          'RL.2.3',
+          'RL.3.3',
           'how a character responds to an event',
           [
             N('For the first time, your Nubbin does not know which way to face.'),
@@ -2458,7 +2498,7 @@ const Q08 = quest(
         notice(
           5,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'Viking-age ship burials',
           [
             N(
@@ -2520,7 +2560,7 @@ const Q08 = quest(
         ask(
           1,
           'science',
-          '1-PS4-2',
+          '4-PS3-2',
           'we see things when light reaches our eyes',
           [
             N(
@@ -2680,7 +2720,7 @@ const Q09 = quest(
         ask(
           5,
           'science',
-          '1-PS4-1',
+          '4-PS3-2',
           'vibrations make sound',
           [
             N(
@@ -2965,7 +3005,7 @@ const Q10 = quest(
         ask(
           4,
           'science',
-          '2-PS1-1',
+          '',
           'linen comes from flax',
           [
             N('Nanna gives Frigg a folded linen smock.'),
@@ -3028,29 +3068,27 @@ const Q10 = quest(
           'soft',
         ),
         N(
-          'Sleipnir takes you back up the road: nine nights, the dark, the gold bridge, and Módgudr lifting one hand as you pass.',
+          'Sleipnir takes you back up the road: nine nights, as it was nine nights down, the dark, the gold bridge, and Módgudr lifting one hand.',
         ),
         HE('Everything has to weep. Everything.', 'think'),
         HE('Then we ask everything. Again.'),
       ],
       [
         ask(
-          2,
+          4,
           'maths',
-          '2.OA.A.1',
-          'addition: 9 + 9',
+          '3.OA.A.1',
+          'equal groups: 2 × 9',
           [
-            N('Sleipnir takes you back up the road: nine nights, the dark, the gold bridge.'),
-            N(
-              'Counting the ride down and the ride back, how many nights have you spent on the road?',
-            ),
+            N('You rode nine nights down the road, and nine nights back.'),
+            N('How many nights have you spent on the road?'),
           ],
           [
-            opt('18', [N('Yes. 9 + 9 = 18 nights on the road.')], true),
+            opt('18', [N('Yes. Two journeys of nine nights: 2 × 9 = 18 nights on the road.')], true),
             opt('9', [N('9 is just one way. You rode nine nights down and nine nights back.')]),
-            opt('81', [N('81 is 9 × 9. The two journeys are added: 9 + 9 = 18.')]),
+            opt('81', [N('81 is 9 × 9. There are two journeys of nine: 2 × 9 = 18.')]),
           ],
-          'Added two equal journeys: 9 + 9 = 18 nights.',
+          'Used equal groups: two journeys of nine nights is 2 × 9 = 18.',
         ),
       ],
     ),
@@ -3168,7 +3206,7 @@ const Q11 = quest(
         ask(
           3,
           'science',
-          '2-PS1-4',
+          '4-PS3-2',
           'melting versus condensation',
           [
             N(
@@ -3183,7 +3221,7 @@ const Q11 = quest(
             ),
             opt('Condensation', [
               N(
-                'Close, but different. Condensation is invisible water vapour in warm air touching something cold and turning into drops, like sweat on a cold glass. The frost here is already ice, so it is melting.',
+                'Close, but no. Condensation is water vapour turning to drops on something cold, like a cold glass. This frost is ice, so it is melting.',
               ),
             ]),
             opt('Evaporation', [
@@ -3312,6 +3350,7 @@ const Q11 = quest(
     sc(
       'a20-11-complete',
       [
+        N('You started at nine in the morning. By two in the afternoon, the last stone weeps.'),
         N(
           'By evening every road you walked is wet, and the sun is going down red over a weeping world.',
         ),
@@ -3323,24 +3362,21 @@ const Q11 = quest(
         ask(
           0,
           'maths',
-          '2.OA.A.1',
-          'negative numbers and temperature',
-          [
-            N(
-              'At dawn the hollow was −4°C (about 25°F). By noon the sun has warmed it by 7 degrees.',
-            ),
-            N('What is the temperature at noon? Will the frost still be there?'),
-          ],
+          '3.MD.A.1',
+          'time intervals across noon',
+          [N('How long did the weeping take, from nine o’clock to two o’clock?')],
           [
             opt(
-              '3°C (about 37°F), so the frost has melted',
-              [N('Yes. −4 + 7 = 3, which is above 0°C, so the frost melts.')],
+              '5 hours',
+              [N('Yes. Nine to twelve is 3 hours, and twelve to two is 2 more.')],
               true,
             ),
-            opt('−11°C', [N('That is −4 − 7. The sun warmed it, so we add: −4 + 7 = 3°C.')]),
-            opt('11°C', [N('11 is 4 + 7. Starting below zero, −4 + 7 = 3°C.')]),
+            opt('7 hours', [N('Count again: nine, ten, eleven, twelve, one, two. That’s 5.')]),
+            opt('11 hours', [
+              N('That is 9 + 2. We count the hours between, not add the clock numbers.'),
+            ]),
           ],
-          'Added a temperature rise to a below-zero start: −4 + 7 = 3°C.',
+          'Worked out a time interval across noon: nine o’clock to two o’clock is 5 hours.',
         ),
       ],
     ),
@@ -3393,7 +3429,7 @@ const Q12 = quest(
         ask(
           3,
           'science',
-          '2-ESS1-1',
+          '',
           'how lava tubes form',
           [
             N(
@@ -3506,16 +3542,17 @@ const Q12 = quest(
       [
         TK('Go home. Tell them Thökk wouldn’t.'),
         N('Whatever you do, she will not weep. The cave stays dry, and so do her eyes.'),
+        MS('We knocked at a hundred doors on our road. Every one wept but hers.', 'sad'),
       ],
       [
         ask(
-          1,
+          2,
           'maths',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           'subtraction: 100 − 1',
           [
-            N('The messengers asked the whole world, and only Thökk refused.'),
-            N('Suppose they had asked 100 beings, and every one but Thökk wept. How many wept?'),
+            N('The messengers asked at 100 doors on their road, and only Thökk refused.'),
+            N('How many wept?'),
           ],
           [
             opt('99', [N('Yes: 100 − 1 = 99 wept. And one did not.')], true),
@@ -3534,16 +3571,16 @@ const Q12 = quest(
           'They tell Frigg. She doesn’t weep again; she sits down on the step, and Fulla sits beside her.',
         ),
         FR('One. Out of everything.', 'sad'),
+        N('Your Nubbin keeps looking back at the cliff the whole way home.'),
         N(
           'People believe the giantess in the cave was Loki, in another shape. That is how the old book tells it.',
         ),
-        N('Your Nubbin keeps looking back at the cliff the whole way home.'),
       ],
       [
         notice(
-          3,
+          4,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'one telling: how old stories change',
           [
             N(
@@ -3583,7 +3620,10 @@ const Q13 = quest(
     sc(
       'a20-13-house',
       [
-        N('The gods know now whose hand was at Hödr’s elbow. It was Loki’s, and he has run.'),
+        N(
+          'The gods know now whose hand was at Hödr’s elbow: Loki’s. He is one of them, clever, and able to wear any shape he likes.',
+        ),
+        N('Now he has run.'),
         N(
           'They hunt for him a long time. In the end they find a house high on a mountain, with a door in every wall.',
         ),
@@ -3598,9 +3638,9 @@ const Q13 = quest(
       ],
       [
         ask(
-          2,
+          3,
           'science',
-          '1-ESS1-1',
+          '5-ESS1-2',
           'the Sun rises in the east',
           [
             N(
@@ -3645,18 +3685,17 @@ const Q13 = quest(
         N(
           'It is the first time anyone has smiled since the Thing-field. It doesn’t last, but it happens.',
         ),
+        N('The ash shows a net ten knots across and six knots down, like a grid.'),
       ],
       [
         ask(
-          3,
+          6,
           'maths',
           '3.OA.A.3',
           'arrays: knots in a net',
           [
-            N('The gods knot a net by the shape of the ash.'),
-            N(
-              'Suppose the net has 10 knots across and 6 knots down, like a grid. How many knots do they tie in all?',
-            ),
+            N('The net is 10 knots across and 6 knots down.'),
+            N('How many knots must the gods tie in all?'),
           ],
           [
             opt(
@@ -3720,7 +3759,7 @@ const Q13 = quest(
       ],
       [
         ask(
-          3,
+          5,
           'science',
           '3-LS1-1',
           'the salmon life cycle',
@@ -4031,7 +4070,7 @@ const Q14 = quest(
         notice(
           1,
           'social-studies',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           'Iceland: fire and ice',
           [
             N(
@@ -4088,7 +4127,7 @@ const Q15 = quest(
           'You walk with your head down. Your Nubbin rides inside your cloak, tucked up against your chest.',
         ),
         N(
-          'You think of a valley you know, where a winter once would not end, and the small ones went still in the long grass.',
+          'You think of your own valley, and a winter there that would not end. It ended in the end, and so will this one.',
         ),
         N('Ahead, through the white, there is a dark line of trees.'),
       ],
@@ -4124,38 +4163,6 @@ const Q15 = quest(
             ]),
           ],
           'Learned that Earth’s tilt makes winter days short in the far north.',
-        ),
-        ask(
-          2,
-          'maths',
-          '1.OA.A.1',
-          'counting missing summers',
-          [
-            N('Three winters come one after another, with no summer between them.'),
-            N(
-              'In a normal run of three winters, a summer comes between each pair. How many summers does the Fimbulwinter skip?',
-            ),
-          ],
-          [
-            opt(
-              '2',
-              [
-                N(
-                  'Yes. Winter, summer, winter, summer, winter: two summers sit between three winters.',
-                ),
-              ],
-              true,
-            ),
-            opt('3', [
-              N('3 is the number of winters. The summers sit between them, so there are 2.'),
-            ]),
-            opt('1', [
-              N(
-                'There is a summer between the first and second winter, and another between the second and third: 2.',
-              ),
-            ]),
-          ],
-          'Counted the summers that sit between three winters.',
         ),
       ],
     ),
@@ -4215,7 +4222,13 @@ const Q15 = quest(
         N(
           'Your Nubbin shares itself out: a night by Líf, a night by Lífthrasir, a night in your lap.',
         ),
-        LT('We used to have names for the days. We stopped. There didn’t seem to be any point.'),
+        LI('You’ve licked my leaf.'),
+        LT('There’s dew on all of them.'),
+        LI('That one was mine. I was saving it for Tuesday.'),
+        LT(
+          'There aren’t any Tuesdays now. We stopped naming the days. There didn’t seem any point.',
+          'soft',
+        ),
         N('Outside, the third winter starts without the second one having ended.'),
         LI('Tell us something. Anything that isn’t snow.'),
       ],
@@ -4223,7 +4236,7 @@ const Q15 = quest(
         ask(
           0,
           'science',
-          '2-ESS2-3',
+          '',
           'what dew is',
           [
             N(
@@ -4247,9 +4260,9 @@ const Q15 = quest(
           'Learned that dew is water vapour from the air condensing on cool surfaces.',
         ),
         notice(
-          3,
+          6,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'weekday names from Norse gods',
           [
             N('Names for the days are older than they seem.'),
@@ -4296,18 +4309,19 @@ const Q15 = quest(
     ),
     sc(
       'a20-15-company-done',
-      [LI('You stayed. Nobody stays anywhere any more. Everybody’s running somewhere.', 'soft')],
+      [
+        LI('You stayed. Nobody stays anywhere any more. Everybody’s running somewhere.', 'soft'),
+        LT('Three winters now, and each one six months long. I still count the months. I can’t help it.'),
+      ],
       [
         ask(
-          0,
+          1,
           'maths',
           '3.OA.A.3',
           'multiplication: 3 winters × 6 months',
           [
-            N('Líf says nobody stays anywhere any more; everybody is running somewhere.'),
-            N(
-              'Suppose each of the three winters lasted six months. How many months of winter is that in all?',
-            ),
+            N('Lífthrasir counts three winters, each one six months long.'),
+            N('How many months of winter is that in all?'),
           ],
           [
             opt('18 months', [N('Yes. 3 × 6 = 18 months of winter, a year and a half.')], true),
@@ -4625,7 +4639,7 @@ const Q17 = quest(
         ask(
           4,
           'science',
-          '2-LS2-1',
+          '4-LS1-1',
           'plants need water and light',
           [
             N('Líf says the sun is warm again. Plants need sunlight and water to grow.'),
@@ -4676,7 +4690,7 @@ const Q17 = quest(
         ask(
           0,
           'social-studies',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           'ruins and what they show',
           [
             N(
@@ -4755,22 +4769,23 @@ const Q17 = quest(
           'It is a game piece, made of gold. There are more of them in the grass: the pieces the gods played with in the old days.',
         ),
         VI('They were ours, before. Now they’re anybody’s.', 'soft'),
+        N(
+          'You find eighteen in all, and lay them out on the grass in six neat rows.',
+        ),
       ],
       [
         ask(
-          4,
+          6,
           'maths',
           '3.OA.A.3',
           'division: sharing 18 between 6',
           [
-            N('There are more golden game pieces in the long grass.'),
-            N(
-              'Suppose you find 18, and share them equally between 6 players. How many pieces does each player get?',
-            ),
+            N('You lay 18 pieces out in 6 equal rows.'),
+            N('How many pieces are in each row?'),
           ],
           [
-            opt('3', [N('Yes. 18 ÷ 6 = 3, so each player gets three pieces.')], true),
-            opt('12', [N('12 is 18 − 6. Sharing equally between 6 is division: 18 ÷ 6 = 3.')]),
+            opt('3', [N('Yes. 18 ÷ 6 = 3, so each row has three pieces.')], true),
+            opt('12', [N('12 is 18 − 6. Sharing equally into 6 rows is division: 18 ÷ 6 = 3.')]),
             opt('24', [N('24 is 18 + 6. We are sharing out, so we divide: 18 ÷ 6 = 3.')]),
           ],
           'Solved a sharing problem: 18 ÷ 6 = 3.',
@@ -4781,7 +4796,10 @@ const Q17 = quest(
           {
             id: 'baldr',
             label: 'Give the first piece to Baldr.',
-            then: [BA('Ha. I always lost with this one. Every single time.', 'happy')],
+            then: [
+              BA('Ha. I always lost with this one. Every single time.', 'happy'),
+              HO('He did. He shouted about it every time.', 'happy'),
+            ],
           },
           {
             id: 'hodr',
@@ -4973,18 +4991,19 @@ export const EDU_A20_READER_VARIANTS: EduScene[] = [
       N(
         'The frost on that stone runs at once, faster than any of the others, as if it had only been waiting to be asked kindly.',
       ),
+      N('The other stones each took about thirty minutes to weep. This one takes a third of that.'),
       MS('What’s that you carry?', 'think'),
       Y('Something warm. From a long way off.'),
     ],
     [
       ask(
-        1,
+        2,
         'maths',
         '3.NF.A.1',
         'unit fractions of time',
         [
           N(
-            'The other stones took about 30 minutes to run with water. The stone beside the ember took one third of that time.',
+            'The other stones took about 30 minutes. The stone beside the ember took one third (1/3) of that time.',
           ),
           N('How many minutes did it take?'),
         ],

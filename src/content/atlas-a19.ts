@@ -298,7 +298,11 @@ export const ATLAS_A19: Quest[] = [
         },
         done: {
           id: 'a19-01-launcher-done',
-          lines: [N('Out into the lane you go, past a burning cart and a Viking chasing his own helmet down the hill.')],
+          lines: [
+            N('Out into the lane you go, past a burning cart and a Viking chasing his own helmet down the hill.'),
+            N('Halfway up, the launcher coughs, and a bola wraps a passing sheep up like a parcel. The sheep goes on chewing.'),
+            H('That’s fine. I brought spares. I always bring spares.'),
+          ],
         },
       },
     ],
@@ -475,6 +479,7 @@ export const ATLAS_A19: Quest[] = [
             ST('The nest. Find it, and the raids stop. I’m taking the ships out one more time, before the ice.'),
             N('Nobody cheers. The last time the ships went out, fewer came back.'),
             ST('I want every ship. Gobber stays. Somebody has to train the young ones.'),
+            GB('Lovely. Left behind with the children and the dragons. My two favourite things that bite.'),
             GB('And Hiccup?'),
             N('Stoick looks down the table at his son, who is trying to be very small behind a jug.'),
             ST('Hiccup trains with the rest. It’s time.', 'think'),
@@ -811,6 +816,8 @@ export const ATLAS_A19: Quest[] = [
             H('I’m trying! It keeps being where I go!'),
             N('His shield goes rolling across the sand. The Gronckle backs him into the wall and opens its mouth.'),
             N('Gobber gets his hook into its jaw just in time. The shot hits the wall a hand’s width over Hiccup’s head.'),
+            N('It punches a neat round hole in the wall. The arena has never had a window before.'),
+            GB('Lovely. That’ll be a draught till spring.'),
             GB('Remember that, all of you. Every dragon you meet in here wants you dead. No exceptions.'),
             N('Hiccup touches the scorch mark over his head. He is thinking of a dragon that had him pinned, and didn’t.'),
           ],
@@ -1904,7 +1911,7 @@ export const ATLAS_A19: Quest[] = [
             N('You climb on behind Fishlegs. Your Nubbin rides in a sack strapped to the Gronckle’s side, like luggage with a view.'),
             A('Which way did the ships go?'),
             H('North, to the nest. Toothless knows the way, so they’ll find it. That’s what I did.', 'sad'),
-            N('Five dragons go up out of the arena one after another, into the grey morning, and turn north after the fleet.'),
+            N('Four dragons go up out of the arena one after another, into the grey morning, and turn north after the fleet.'),
           ],
         },
         done: {
@@ -1979,7 +1986,10 @@ export const ATLAS_A19: Quest[] = [
             {
               id: 'gobber',
               label: 'Help Gobber down first.',
-              then: [GB('Mind the leg! It’s not the one I was born with, but it’s a good one, and I want it back.')],
+              then: [
+                GB('Mind the leg! It’s not the one I was born with, but it’s a good one, and I want it back.'),
+                GB('I told Stoick the nest was a bad idea. I told him with my eyebrows.'),
+              ],
             },
             {
               id: 'nubbin',
@@ -2128,6 +2138,7 @@ export const ATLAS_A19: Quest[] = [
       id: 'a19-17-complete',
       lines: [
         N('They carry Hiccup to the one ship that still floats. Toothless won’t be parted from him, so they carry Toothless too.'),
+        GB('Dragons on ships. Dragons in beds next. You mark my words.'),
         N('All the way home, the dragon lies with his chin on the edge of Hiccup’s blanket.'),
         N('Your Nubbin sits at the other end of the blanket, and keeps watch too.'),
       ],
@@ -2215,6 +2226,8 @@ export const ATLAS_A19: Quest[] = [
             N('Hiccup opens the door. There are dragons everywhere.'),
             N('A Nadder on a roof. A Gronckle asleep in the square, with three children asleep on her.'),
             N('A Zippleback is steering a fishing boat into the harbour, badly, one head arguing with the other.'),
+            N('Gobber is arguing with a Nadder about whose forge it is. The Nadder is sitting on the anvil, which settles it.'),
+            GB('It’s my anvil! I made it! …Fine. Mind the tongs.'),
             N('Nobody is fighting. Somebody is building a long trough for fish, and somebody else a stable with a very tall door.'),
             ST('Well? It’s your doing. All of it. Do you like it?', 'happy'),
             A('He’s up! Everyone, he’s awake!', 'happy'),

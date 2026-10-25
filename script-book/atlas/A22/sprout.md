@@ -18,6 +18,7 @@ _A candle glows in one window. You step into the picture._
 > _For grown-ups: Learned that Colombia is a real country in South America, with tall mountains and sea on two sides._
 
 _It is night, long ago. Abuela sits by a little girl in round glasses._  
+_Her name is Mirabel._  
 **Abuela Alma**: Come in. Listen too. Mirabel loves this story.  
 **Abuela Alma**: Long ago, we had to leave our home. It was not safe.  
 _Abuela and Pedro walked for days with three babies._  
@@ -51,7 +52,8 @@ _Mirabel feels excited and nervous, both at once._
 
 #### `sprout:a22-01-casita` · [main](main.md#a22-01-casita)
 
-_The page turns. It is morning, ten years later._  
+_The page turns. Ten years go by._  
+_Little Mirabel is grown up now._  
 _A market is full of noise. Up the hill is a house._  
 _It has white walls and green shutters. The shutters open by themselves!_  
 _A young woman in round glasses runs down the steps._  
@@ -175,7 +177,8 @@ _It is market morning. There are oranges, bread and sacks of coffee beans._
 _Luisa walks by. She carries two donkeys, one on each shoulder!_  
 **Luisa**: Hi! Can’t stop. The church is crooked.  
 _Tía Pepa has a little grey cloud above her head._  
-_Plip, plip, plip! It rains on her onions._  
+**Tía Pepa**: What cloud? I have no cloud.  
+_Plip, plip, plip! The cloud rains on her onions._  
 **Tío Félix**: Don’t worry, my love. We have umbrellas!  
 
 **Choices**
@@ -206,6 +209,14 @@ _She ticks one more. Then she nearly walks into a post._
 
 _In the courtyard, flowers pop up! Pink, red and yellow._  
 **Mirabel**: My sister Isabela grows flowers. Everyone loves her.  
+**Isabela**: Hello, guest. How nice.  
+_A girl in a pale dress whispers to herself. That is Dolores._  
+**Dolores**: You sneezed in the market. Bless you.  
+_A boy turns into Mirabel! Then Félix!_  
+_Pop!_  
+_Then he is himself. That is Camilo._  
+_He changes faces._  
+**Camilo**: I can do your face. Stand still!  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what makes you you  
 > _Camilo can look like anyone. What makes you you?_  
@@ -213,12 +224,6 @@ _In the courtyard, flowers pop up! Pink, red and yellow._
 > - My hair only → Hair is just one bit. Your smile, laugh and heart are you too.
 > _For grown-ups: Talked about what makes each person themselves._
 
-**Isabela**: Hello, guest. How nice.  
-_A girl in a pale dress whispers to herself. That is Dolores._  
-**Dolores**: You sneezed in the market. Bless you.  
-_A boy turns into Mirabel! Then Félix!_  
-_Then himself. That is Camilo._  
-**Camilo**: I can do your face. Stand still!  
 
 **Choices**
 
@@ -286,6 +291,10 @@ _It is evening. Everyone wears their best clothes and holds a candle._
 **Tía Pepa**: Where is Antonio?  
 _You find him under the bed. He is five, and he is scared._  
 **Antonio**: What if I do not get a gift?  
+_Mirabel lies flat on the floor, so her face is by his._  
+**Mirabel**: Then you get to be you. That is the best thing in this house.  
+**Antonio**: You did not get one.  
+**Mirabel**: No. I did not. And I am still me.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps a scared friend  
 > _Antonio is scared. What helps a scared friend?_  
@@ -294,10 +303,6 @@ _You find him under the bed. He is five, and he is scared._
 > - Leaving him alone → Alone can feel worse. Staying close and listening helps.
 > _For grown-ups: Talked about how to help a scared friend: stay close and listen._
 
-_Mirabel lies flat on the floor, so her face is by his._  
-**Mirabel**: Then you get to be you. That is the best thing in this house.  
-**Antonio**: You did not get one.  
-**Mirabel**: No. I did not. And I am still me.  
 
 **Choices**
 
@@ -542,6 +547,10 @@ _Late at night, a soft light shines on the landing._
 _Mirabel hides behind the banister. You hide too._  
 _Abuela stands by the candle. A painting hangs beside it._  
 _It shows a young man with a kind face. It is Pedro._  
+**Abuela Alma**: Pedro, something is wrong. I can feel it.  
+**Abuela Alma**: Tell me what to do, and I will do it.  
+_The candle does not answer. Abuela goes to bed._  
+**Mirabel**: She is scared. I have never seen her scared.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): families remember people with pictures and stories  
 > _Abuela keeps a painting of Pedro. How do families remember people?_  
@@ -549,10 +558,6 @@ _It shows a young man with a kind face. It is Pedro._
 > - They never talk about them → Talking about people we miss helps. Pictures and stories keep them close.
 > _For grown-ups: Talked about how families remember people with pictures and stories._
 
-**Abuela Alma**: Pedro, something is wrong. I can feel it.  
-**Abuela Alma**: Tell me what to do, and I will do it.  
-_The candle does not answer. Abuela goes to bed._  
-**Mirabel**: She is scared. I have never seen her scared.  
 
 **Choices**
 
@@ -653,6 +658,9 @@ _Luisa does not move her foot._
 **Luisa**: It is heavy. For a little thing.  
 **Luisa**: If I stop, will everything fall over?  
 **Mirabel**: You can stop, Luisa. It is okay to rest.  
+_Your Nubbin snores, very softly._  
+**Luisa**: Before Tío Bruno went away, he saw something about the house.  
+**Luisa**: Nobody talks about it. It is still in his room.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what to say to a tired friend  
 > _Luisa is tired, but she is afraid to stop. What can we say?_  
@@ -661,9 +669,6 @@ _Luisa does not move her foot._
 > - Go away → That would make her feel alone. “Rest, I will stay” is kinder.
 > _For grown-ups: Talked about being kind to a tired friend._
 
-_Your Nubbin snores, very softly._  
-**Luisa**: Before Tío Bruno went away, he saw something about the house.  
-**Luisa**: Nobody talks about it. It is still in his room.  
 
 **Choices**
 
@@ -709,7 +714,9 @@ _A hooded figure is on the door. It glows a faint green._
 _Antonio sits nearby, with a toucan and a coati._  
 **Antonio**: You are going in Tío Bruno’s room!  
 **Mirabel**: Yes. No. Do not tell.  
-**Antonio**: I will not tell. She will not either. She says your Nubbin is brave.  
+**Antonio**: I will not tell. The coati will not tell.  
+**Antonio**: The coati says your Nubbin is brave.  
+**Antonio**: And a bit silly.  
 
 **Choices**
 
@@ -836,8 +843,8 @@ _She shows him a piece of glass. A bee lands on his ear._
 **Choices**
 
 - **Agree with him.**
-    - You say, “One night.” Agustín says, “One night.
-    - Thank you.”
+    - **Mirabel**: Say it with me. One night.
+    - **Agustín**: One night. Thank you.
 - **Say Abuela should know now.**
     - **Agustín**: Maybe you are right. But not with guests at the gate. Please.
 - **Let Mirabel decide.**
@@ -899,16 +906,16 @@ _Variant of `a22-08-prep-done`._
 
 _Dolores catches your sleeve on the stairs._  
 **Dolores**: I heard it all. In the nursery. The glass.  
+**Dolores**: I hear everything. I cannot keep things in.  
+**Dolores**: Please stay by me tonight.  
+_Ding-dong! The bell rings._  
+_The guests are here._  
 
 > **Lesson** (science, 1-PS4-1, notice): sound travels to our ears  
 > _Sounds are shaking in the air. They go into our ears, and we hear._  
 > _Ears are for hearing._  
 > _For grown-ups: Learned that sounds shake the air and go into our ears._
 
-**Dolores**: I hear everything. I cannot keep things in.  
-**Dolores**: Please stay by me tonight.  
-_Ding-dong! The bell rings._  
-_The guests are here._  
 
 #### `sprout:a22-08-complete` · [main](main.md#a22-08-complete)
 
@@ -970,7 +977,7 @@ _That is the wall where the sun comes up._
 > _For grown-ups: Learned that the Sun comes up in the east._
 
 _A big dresser full of plates stands there._  
-_Señora Guzmán sits right under it!_  
+_Señora Guzmán sits right under it, saying the soup is lovely._  
 **Mirabel**: The east wall!  
 
 **Choices**
@@ -983,7 +990,10 @@ _Señora Guzmán sits right under it!_
 
 #### `sprout:a22-09-job-done` · [main](main.md#a22-09-job-done)
 
-_Nobody is hurt. That is the best part._  
+_Nobody is hurt. One small cloud is left over the soup._  
+**Tío Félix**: I said umbrellas. Nobody listens to me.  
+**Tía Pepa**: I am calm.  
+_The cloud over the soup rumbles, very quietly._  
 _Everyone checks on everyone else. Are you okay?_  
 _Yes. Are you okay?_  
 
@@ -1001,6 +1011,8 @@ _The room is soaked._
 **Mariano**: Thank you for dinner.  
 _The guests leave. Isabela is not smiling now._  
 **Abuela Alma**: Mirabel.  
+_That is all she says. Mirabel runs out of the room._  
+_The candle in the window burns lower._  
 
 > **Lesson** (literacy, RL.2.3, ask): a character’s voice can hide a different feeling  
 > _Abuela says only, “Mirabel.” She sounds cross._  
@@ -1009,8 +1021,6 @@ _The guests leave. Isabela is not smiling now._
 > - Silly → Look again. Behind her cross voice, Abuela is scared.
 > _For grown-ups: Noticed that a cross voice can come from a scared feeling._
 
-_That is all she says. Mirabel runs out of the room._  
-_The candle in the window burns lower._  
 
 #### `sprout:a22-09-ears` · [main](main.md#a22-09-ears)
 
@@ -1019,8 +1029,10 @@ _Variant of `a22-09-complete`._
 _You are the ears, and Dolores is your friend._  
 _She stands at the foot of the stairs, hands over her mouth._  
 **Dolores**: And Mariano, and I always, I always...  
+_Dolores looks at Mariano. Her cheeks go pink._  
 _Her feelings are too big to hold in._  
 _They are not for the whole table._  
+_Mirabel sees you get up. She nods once._  
 
 > **Lesson** (health, CASEL: Self-management, ask): slow breaths with a friend help big feelings  
 > _Dolores has big feelings. What helps?_  
@@ -1029,7 +1041,6 @@ _They are not for the whole table._
 > - Hiding → Hiding alone is lonely. Slow breaths with a friend help.
 > _For grown-ups: Talked about how slow breaths and a friend help with big feelings._
 
-_Mirabel sees you get up. She nods once._  
 
 **Choices**
 
@@ -1047,6 +1058,8 @@ _Variant of `a22-09-complete`._
 _You are the hands, and Luisa needs them._  
 _The crack runs under the table. It folds in the middle, like a book._  
 **Luisa**: I cannot hold it!  
+_Dishes slide down towards Señora Guzmán._  
+**Mirabel**: Luisa!  
 
 > **Lesson** (maths, K.OA.A.2, ask): two hands and two hands make four  
 > _Luisa has two hands. You have two hands._  
@@ -1055,8 +1068,6 @@ _The crack runs under the table. It folds in the middle, like a book._
 > - Two → That is only Luisa’s. Two and two more make four.
 > _For grown-ups: Added two and two to make four._
 
-_Dishes slide down towards Señora Guzmán._  
-**Mirabel**: Luisa!  
 
 **Choices**
 
@@ -1228,6 +1239,12 @@ _He makes a circle of sand. He puts four candles round it._
 _You sit in the circle with Mirabel. Bruno lights the last candle._  
 _The sand lifts. It whirls round you, gold and fast._  
 _Bruno’s eyes go green. The whole room goes green._  
+**Tío Bruno**: I see the house. I see the cracks. I see you, Mirabel.  
+_A new picture forms in the sand._  
+_Mirabel hugs Isabela. The candle burns bright._  
+_No cracks!_  
+_The sand falls. The green fades._  
+**Mirabel**: I have to hug Isabela? Oh dear.  
 
 > **Lesson** (art, ELOF: Approaches to Learning, ask): yellow and blue make green  
 > _The room turns green. Which two paints make green?_  
@@ -1236,12 +1253,6 @@ _Bruno’s eyes go green. The whole room goes green._
 > - Red and yellow → Red and yellow make orange. Yellow and blue make green.
 > _For grown-ups: Learned that yellow and blue make green._
 
-**Tío Bruno**: I see the house. I see the cracks. I see you, Mirabel.  
-_A new picture forms in the sand._  
-_Mirabel hugs Isabela. The candle burns bright._  
-_No cracks!_  
-_The sand falls. The green fades._  
-**Mirabel**: I have to hug Isabela? Oh dear.  
 
 **Choices**
 
@@ -1290,6 +1301,9 @@ _She sits on a swing, very still and very neat._
 **Mirabel**: You did not even want to marry him!  
 _There is a silence, like a dropped glass._  
 **Isabela**: How do you know that?  
+**Mirabel**: Your roses shut when he talks. Look!  
+_Every rose on the wall closes tight, like a fist._  
+**Isabela**: Traitors.  
 
 **Choices**
 
@@ -1346,6 +1360,8 @@ _The sisters stand among the flowers. Both are out of breath._
 **Mirabel**: I am sorry too. I was jealous.  
 _They look at each other. They both laugh._  
 _They hug. Flowers pop out of Isabela’s hair._  
+_The candle in the window glows bright. The cracks close._  
+**Mirabel**: It is working!  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): saying sorry and making up  
 > _The sisters said sorry, and then hugged. What did that do?_  
@@ -1353,8 +1369,6 @@ _They hug. Flowers pop out of Isabela’s hair._
 > - It made them cross → Sorry mends hurts. It made them friends again.
 > _For grown-ups: Talked about how saying sorry can mend a friendship._
 
-_The candle in the window glows bright. The cracks close._  
-**Mirabel**: It is working!  
 
 #### `sprout:a22-12-complete` · [main](main.md#a22-12-complete)
 
@@ -1468,15 +1482,16 @@ _Your Nubbin climbs into her lap._
 
 #### `sprout:a22-13-lamp` · [main](main.md#a22-13-lamp)
 
-_At your belt, the gold flame goes out too._  
-_Your lamp is dark. The whole valley is dark._  
+_A candle flame needs air to burn._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): a flame goes out without air  
-> _A flame needs air. If a grown-up covers it with a jar, what happens?_  
+> _If a grown-up covers a flame with a jar, what happens?_  
 > - ✅ It goes out → Yes! With no air, a flame goes out.
 > - It gets bigger → No. Without air, a flame goes out.
 > _For grown-ups: Learned that a flame needs air and goes out without it._
 
+_At your belt, the gold flame goes out too._  
+_Your lamp is dark. The whole valley is dark._  
 _Then Mirabel jumps up and runs away._  
 
 #### `sprout:a22-13-lamp-flicker` · [main](main.md#a22-13-lamp-flicker)
@@ -1485,12 +1500,12 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, the gold flame goes out with the candle._  
 _But your own thin blue flame is still there, low on the wick._  
+_Then Mirabel jumps up and runs away._  
 
 > **Lesson** (science, 1-PS4-2, notice): even a tiny light helps us see in the dark  
 > _Even a tiny flame lights up the dark. Your eyes like it._  
 > _For grown-ups: Learned that even a tiny light helps us see in the dark._
 
-_Then Mirabel jumps up and runs away._  
 
 #### `sprout:a22-13-lamp-lit` · [main](main.md#a22-13-lamp-lit)
 
@@ -1498,12 +1513,12 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, your lamp is still burning._  
 _It is the only light in the ruins. The family turns towards it._  
+_Then Mirabel jumps up and runs away._  
 
 > **Lesson** (science, 1-PS4-2, notice): light makes shadows  
 > _When light shines on something, it makes a shadow behind it._  
 > _For grown-ups: Learned that light makes shadows._
 
-_Then Mirabel jumps up and runs away._  
 
 #### `sprout:a22-13-lamp-warm` · [main](main.md#a22-13-lamp-warm)
 
@@ -1511,13 +1526,13 @@ _Variant of `a22-13-lamp`._
 
 _At your belt, your lamp is still burning, red-gold._  
 _The night should be cold. It is oddly warm._  
+_Antonio’s jaguar lies down against your feet._  
+_Then Mirabel jumps up and runs away._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): a fire gives heat  
 > _A fire gives heat. Heat makes a cold night feel warm._  
 > _For grown-ups: Learned that fire gives heat that warms a cold night._
 
-_Antonio’s jaguar lies down against your feet._  
-_Then Mirabel jumps up and runs away._  
 
 #### `sprout:a22-13-complete` · [main](main.md#a22-13-complete)
 
@@ -1546,7 +1561,7 @@ _The water runs fast over stones. The sky is getting light._
 
 > **Lesson** (science, 2-ESS2-3, ask): water is a liquid that flows  
 > _The river water splashes and flows. Is water a liquid or a solid?_  
-> - ✅ A liquid → Yes! Water is a liquid. It flows. When it freezes, it turns to solid ice.
+> - ✅ A liquid → Yes! Water flows. When it freezes, it turns to ice.
 > - A solid → Water flows, so it is a liquid. Only ice is solid.
 > _For grown-ups: Learned that water is a liquid that flows, and that ice is solid water._
 
@@ -1572,6 +1587,9 @@ _Abuela sits beside Mirabel, slowly, on the cold rock._
 **Abuela Alma**: Pedro died. His body stopped working. I miss him every day.  
 **Abuela Alma**: I was so afraid to lose anyone else. I held on too tight.  
 **Abuela Alma**: I am sorry, Mirabel.  
+_Yellow butterflies rise from the water. Dozens, then hundreds._  
+**Mirabel**: You kept us together. You are the miracle, Abuela.  
+_Abuela hugs her. She laughs and cries at once._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): what helps when we miss someone  
 > _Abuela misses Pedro, and she feels sad. What helps when we miss someone?_  
@@ -1579,23 +1597,20 @@ _Abuela sits beside Mirabel, slowly, on the cold rock._
 > - Pretending it did not happen → Hiding sad feelings makes them heavy. Talking and hugging help.
 > _For grown-ups: Talked about what helps when we miss someone: talking about them and hugging._
 
-_Yellow butterflies rise from the water. Dozens, then hundreds._  
-**Mirabel**: You kept us together. You are the miracle, Abuela.  
-_Abuela hugs her. She laughs and cries at once._  
 
 #### `sprout:a22-14-pedro-done` · [main](main.md#a22-14-pedro-done)
 
 _The butterflies land on the rock, on Mirabel’s skirt, on your Nubbin._  
+_Then footsteps. A thin man in a green hood stands on the bank._  
+**Tío Bruno**: Mamá.  
+_Abuela goes to him. She holds him for a long time._  
 
-> **Lesson** (science, 3-LS1-1, ask): a butterfly begins as a caterpillar  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): a butterfly begins as a caterpillar  
 > _A butterfly was once a caterpillar. What did it look like first?_  
 > - ✅ A caterpillar → Yes! First a caterpillar, then a chrysalis, then a butterfly.
 > - A bird → Not a bird. A butterfly begins as a caterpillar.
 > _For grown-ups: Learned that a butterfly begins as a caterpillar._
 
-_Then footsteps. A thin man in a green hood stands on the bank._  
-**Tío Bruno**: Mamá.  
-_Abuela goes to him. She holds him for a long time._  
 
 #### `sprout:a22-14-pedro-done-kept` · [main](main.md#a22-14-pedro-done-kept)
 
@@ -1603,21 +1618,22 @@ _Variant of `a22-14-pedro-done`._
 
 _Abuela sees your hands. They are cold._  
 _She takes them in hers, and says nothing._  
+_Butterflies land on the rock. Then footsteps._  
+_A thin man in a green hood._  
+**Tío Bruno**: Mamá.  
+_Abuela lets go of your hands, gently. She goes to him, and holds him._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): warm hands share their warmth  
 > _Warm hands can warm cold hands. Warmth moves from warm to cold._  
 > _For grown-ups: Learned that warmth moves from warm hands to cold hands._
 
-_Butterflies land on the rock. Then footsteps._  
-_A thin man in a green hood._  
-**Tío Bruno**: Mamá.  
-_Abuela lets go of your hands, gently. She goes to him, and holds him._  
 
 #### `sprout:a22-14-complete` · [main](main.md#a22-14-complete)
 
 _The sun comes over the mountains. You walk back up the valley._  
 **Mirabel**: Everything is gone. The house. The gifts.  
 **Abuela Alma**: Not everything.  
+_The whole village waits at the ruins. Everyone has brought something._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): opposites: everything and nothing  
 > _Mirabel says, “everything.” What is the opposite of everything?_  
@@ -1625,7 +1641,6 @@ _The sun comes over the mountains. You walk back up the valley._
 > - Something → Something is a little. The opposite of everything is nothing.
 > _For grown-ups: Found the opposite of a word: everything and nothing._
 
-_The whole village waits at the ruins. Everyone has brought something._  
 
 ## A22-15. Building Casita
 
@@ -1699,6 +1714,9 @@ _Then tiles for the courtyard, one by one, in the old pattern._
 _Bruno puts on a play for the children, with his rats._  
 _Abuela works beside everyone. She is not good with a trowel._  
 _She does not mind._  
+_Abuela plasters a corner. The corner slides off._  
+**Abuela Alma**: It is resting.  
+_Tío Félix holds it up until it dries._  
 _Now there is a house. It is plain, white and new._  
 _Every hand built it._  
 
@@ -1893,6 +1911,8 @@ _The photographer sets up his camera under a black cloth._
 _The whole family crowds onto the stairs. Bruno is at the front, holding Antonio._  
 **Mirabel**: Wait! You too. Get in!  
 _You stand at the edge, between Mirabel and Dolores._  
+**Dolores**: Mariano is going to ask me. Next week. I heard him practising.  
+**A neighbour**: Everybody, very still!  
 
 > **Lesson** (literacy, RF.K.2, ask): first sound: Dolores and door  
 > _Dolores starts with “d”. Which word starts the same way?_  
@@ -1900,8 +1920,6 @@ _You stand at the edge, between Mirabel and Dolores._
 > - Candle → Candle starts with c. Door starts with d, like Dolores.
 > _For grown-ups: Matched words that begin with the same first sound._
 
-**Dolores**: Mariano is going to ask me. Next week. I heard him practising.  
-**A neighbour**: Everybody, very still!  
 
 **Choices**
 
@@ -1909,7 +1927,7 @@ _You stand at the edge, between Mirabel and Dolores._
     - You smile. Dolores cannot stop smiling, and the photo catches her.
 - **Whisper that her secret is safe.**
     - **Dolores**: I know. I heard you think it.
-    - She cannot, of course. But the photo catches you both laughing.
+    - Dolores is only joking. The photo catches you both laughing.
 
 #### `sprout:a22-16-photo-hands` · [main](main.md#a22-16-photo-hands)
 
@@ -1941,6 +1959,7 @@ _You stand at the edge, beside Mirabel and Luisa._
 
 _In the morning, the page grows thin and painted at the edges._  
 _The family walks you to the gate. The house waves its shutters._  
+_Behind them, three Madrigals still argue about chairs._  
 **Abuela Alma**: You are welcome at this table. Always.  
 _Antonio’s jaguar sniffs your Nubbin one last time._  
 **Antonio**: It says it will come back. It says you have to bring it.  
