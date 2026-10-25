@@ -590,8 +590,8 @@ _Rumi is alone on the roof, in a hoodie, looking at the line of the Honmoon over
 
 _You hand her the note. She sees the writing, and opens it with her back to you._  
 **Rumi**: Did you read it?  
-_You don’t answer fast enough. She laughs, the first real laugh you have heard from her in days._  
-**Rumi**: Of course you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.  
+_You don’t answer fast enough, and your Nubbin finds its own feet very interesting. She laughs, the first real laugh in days._  
+**Rumi**: Of course. One of you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.  
 _Down in the alley, Derpy rolls onto his back, and Sussie sits on his tummy, and they both look up at the roof._  
 
 **Rewards**
@@ -623,7 +623,8 @@ _Sussie lands beside you on the bottom step, and looks normal too, in her own wa
 **Choices**
 
 - **Look normal.**
-    - You look normal so hard that a passing grandmother asks if you are lost, and gives your Nubbin a sweet.
+    - You look normal so hard that a bus stops for you. You wave it on, and the driver looks hurt.
+    - Then a grandmother asks if you are lost, and gives your Nubbin a sweet. Your Nubbin looks normal back at her.
 - **Edge a few steps up.**
     - You edge up a few steps. Sussie hops up beside you, step for step, as if this was her idea.
 
@@ -683,6 +684,8 @@ Hint: Use the kettle in the studio kitchen; barley tea is in the tin. · check: 
 #### <a id="a29-09-studio"></a>Scene `a29-09-studio`
 
 _The rehearsal studio has egg-box foam on every wall and a keyboard with a coffee ring on it. Mira and Zoey have been here all night._  
+_Taped to the keyboard is a bill from the TV studio. It says FLOWER STAND, underlined twice._  
+_Mira and Zoey both pretend not to see it. It is the last thing they agree on all night._  
 **Zoey**: We’ve got it. The thing that brings them down. A new song, all about them. What they really are.  
 **Mira**: We call them out. In front of everyone. Every fan who loves those boys hears exactly what they are.  
 _Zoey plays it on the keyboard: a hard, bright, stabbing tune, all corners. It is very catchy, and quite cruel._  
@@ -809,7 +812,7 @@ _The shadow snaps back to its right size. Jinu sees you, and the umbrella, and p
 
 **Jinu**: You didn’t hear that.  
 _You don’t say anything. You hand him the umbrella, because he hasn’t got one._  
-_He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain._  
+_He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain under one umbrella, Derpy entirely outside it and perfectly content._  
 _Your Nubbin watches them go, and pulls its hat down, and sneezes._  
 
 **Rewards**
@@ -1190,6 +1193,10 @@ _Mira and Zoey come up the stage steps two at a time. You throw Mira her blade a
 **Zoey** _(happy)_: Room for two more?  
 _Rumi looks at them, and makes room, and the three of them stand together at the front of the stage._  
 _All over the stadium people are waking up, confused, holding their phones. Bobby, in the third row, says “what” very loudly._  
+_Then he sees the open case in your arms._  
+**Bobby** _(shock)_: Who opened the girls’ case? Nobody touches the girls’ case!  
+**Zoey**: Bobby. We’re saving the world.  
+**Bobby**: …Carefully, though?  
 
 **Rewards**
 
@@ -1331,11 +1338,17 @@ _Rumi looks over from the table, and sees the three of them, and laughs._
 
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby** _(happy)_: Runner. Good work. Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby** _(shock)_: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 _Rumi comes over to the wall. She stops in front of you in the sun, and pushes her short sleeve up to the shoulder._  
 _She holds her arm out, the marks bright in the daylight, and turns it this way and that, as if she is seeing it for the first time._  
 **Rumi**: You gave me a jacket once. I don’t need it now. But thanks for knowing when I did.  
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby. Don’t get ideas._  
+**Bobby** _(soft)_: She sent me a pear. Mira. She sent me a pear.  
 _The street goes flat, and bright, and smells of paint. You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 
 #### <a id="a29-16-complete-saw"></a>Variant `a29-16-complete-saw`
@@ -1344,12 +1357,18 @@ _Variant of `a29-16-complete`._
 
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby** _(happy)_: Runner. Good work. Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby** _(shock)_: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 **Zoey** _(happy)_: Group photo! Huntrix and staff! Bobby, hold the phone up higher. Higher. Like a tall person.  
 _You go to step out of the way. Rumi catches you by the sleeve and pulls you into the middle, between her and Mira._  
 **Rumi** _(happy)_: You were the first one to say it was all right. You’re in the photo.  
 _In the photo, her arm is round your shoulders, marks and all. Your Nubbin is a blur in the front, waving._  
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby. Don’t get ideas._  
+**Bobby** _(soft)_: She sent me a pear. Mira. She sent me a pear.  
 _The street goes flat, and bright, and smells of paint. You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 
 #### <a id="a29-16-complete-away"></a>Variant `a29-16-complete-away`
@@ -1358,11 +1377,17 @@ _Variant of `a29-16-complete`._
 
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby** _(happy)_: Runner. Good work. Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby** _(shock)_: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 _You pick up the empty boxes and go across the street to the van. When you turn round, Rumi is looking for you over the crowd._  
 _She lifts her bare arm and waves, once, a big wave, from right across the street._  
 _You wave back, and neither of you comes any closer. That’s enough._  
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby. Don’t get ideas._  
+**Bobby** _(soft)_: She sent me a pear. Mira. She sent me a pear.  
 _The street goes flat, and bright, and smells of paint. You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 
 **Rewards**

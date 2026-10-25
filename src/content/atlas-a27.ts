@@ -41,6 +41,10 @@
  *     A27-9 (a27-09-descent*), A27-14 (a27-14-letter*) and A27-17 (a27-17-fire* and
  *     a27-17-complete*): who puts the feather on the fire, and the last image (Zal with the baby,
  *     Sam with the silk doll, or the Simurgh circling).
+ *   - a27-word = taught-friend | taught-home | taught-sorry (A27-5, a27-05-words): the word you
+ *     teach the youth comes back in A27-9 (a27-09-oath-taught-sorry, a27-09-road-taught-home,
+ *     a27-09-complete-taught-friend). Lifted text 5 also appears in a27-09-oath-taught-sorry, which
+ *     plays instead of a27-09-oath, never beside it.
  *
  * LIFTED TEXT (verbatim from Zimmern 1883, checked against the archive.org scan of the 1883 edition,
  * identifier epickingsstorie00zimmgoog, pp. 33–69; set with the game's curly quotes; each used once,
@@ -252,6 +256,12 @@ const A17_BIRTH: Line[] = [
 
 /** A27-17: the way home (all three feather variants of the complete scene). */
 const A17_HOME: Line[] = [
+  N(
+    'Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely.',
+  ),
+  N(
+    'Your Nubbin goes over and shares its breakfast with it, smallest first. That is why it needs a second breakfast.',
+  ),
   N(
     'One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back.',
   ),
@@ -1029,6 +1039,7 @@ export const ATLAS_A27: Quest[] = [
             {
               id: 'friend',
               label: 'Teach him “friend”.',
+              set: { 'a27-word': 'taught-friend' },
               then: [
                 Y('Friend. Someone who isn’t family, but stays anyway.'),
                 YO('Friend. Then you are my friend. And the small one too.', 'happy'),
@@ -1037,6 +1048,7 @@ export const ATLAS_A27: Quest[] = [
             {
               id: 'home',
               label: 'Teach him “home”.',
+              set: { 'a27-word': 'taught-home' },
               then: [
                 Y('Home. The place you come back to.'),
                 YO(
@@ -1048,6 +1060,7 @@ export const ATLAS_A27: Quest[] = [
             {
               id: 'sorry',
               label: 'Teach him “sorry”.',
+              set: { 'a27-word': 'taught-sorry' },
               then: [
                 Y('Sorry. What you say when you’ve done something wrong, and you wish you hadn’t.'),
                 YO('Nobody has ever said it to me. Is that good?', 'think'),
@@ -1153,7 +1166,9 @@ export const ATLAS_A27: Quest[] = [
     notes:
       'Time passes on the page; you and your Nubbin don’t age (a27-05-words#1 says so in one line). The youth speaks ' +
       'as YOUTH (“The Youth”) until his father names him in A27-9; from then on he is ZAL. He learns speech from the ' +
-      'Simurgh, as in Zimmern. The word choice has no flag. REWARD: the White-Crested Cap, one-time, at ' +
+      'Simurgh, as in Zimmern. The word choice sets a27-word = taught-friend | taught-home | taught-sorry ' +
+      '(Atlas save only; the prefix keeps a Grove flag worth “home” from picking a variant); it pays off in ' +
+      'A27-9. REWARD: the White-Crested Cap, one-time, at ' +
       'a27-05-complete. Zimmern’s “neither good nor evil can be hidden for ever” is told in our own words at ' +
       'a27-05-complete#0.',
   },
@@ -1245,7 +1260,7 @@ export const ATLAS_A27: Quest[] = [
         },
         done: {
           id: 'a27-06-dream-done',
-          lines: [SA('Call the mobeds. All of them. Now, before I lose my nerve.')],
+          lines: [SA('Call the mobeds, the wise priests. All of them. Now, before I lose my nerve.')],
         },
       },
       {
@@ -1658,7 +1673,7 @@ export const ATLAS_A27: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A27-8') },
     requires: ['A27-8'],
-    speakers: [SIMURGH, YOUTH, SAM, ZAL],
+    speakers: [SIMURGH, YOUTH, SAM, ZAL, NURSE],
     steps: [
       {
         id: 'a27-09-s1',
@@ -1795,6 +1810,12 @@ export const ATLAS_A27: Quest[] = [
         ),
         SA('You laugh with your whole self. I’d forgotten people could.', 'soft'),
         ZA('The chicks taught me. They do everything with their whole selves.', 'happy'),
+        N(
+          'On the step, arms folded, stands the nurse, older now. She waits until Sam is close enough to hear.',
+        ),
+        NU('A gift, my lord. I did say.'),
+        SA('You did.', 'soft'),
+        NU('I only mention it. I’m only the nurse.', 'happy'),
         N('Sam takes his son by the arm, and they go in together.'),
       ],
     },
@@ -1802,6 +1823,8 @@ export const ATLAS_A27: Quest[] = [
     sets: { 'a27-09': true },
     childLines: {
       'a27-09-oath#4':
+        'I promise, before the one who made us both: I will never close my heart to you again.',
+      'a27-09-oath-taught-sorry#6':
         'I promise, before the one who made us both: I will never close my heart to you again.',
     },
     notes:
@@ -1811,7 +1834,11 @@ export const ATLAS_A27: Quest[] = [
       'sat play ATLAS_A27_VARIANTS a27-09-descent-sat in its place (he walks down slowly, and his father waits). For ' +
       'night play a27-09-descent-night (Sam has prayed all night and his voice is gone). Everything after step 1 is ' +
       'shared. From a27-09-oath#7 on the speaker is ZAL. The army clapping is our small comedy; Zimmern’s army shouts ' +
-      'for joy.',
+      'for joy. WORD PAYOFF (a27-word, A27-5): taught-sorry plays ATLAS_A27_VARIANTS ' +
+      'a27-09-oath-taught-sorry (Sam says sorry, and the youth hears the word said to him at last); ' +
+      'taught-home plays a27-09-road-taught-home (Sistan is home now); taught-friend plays ' +
+      'a27-09-complete-taught-friend (Zal introduces you to his father as his friend). The nurse on the step ' +
+      'calls back her “gift” from A27-1 and A27-2 on every path.',
   },
 
   // ---------------------------------------------------------------- A27-10
@@ -2202,7 +2229,11 @@ export const ATLAS_A27: Quest[] = [
         },
         done: {
           id: 'a27-12-roses-done',
-          lines: [ZA('Go across and fetch it. And take your time.', 'happy')],
+          lines: [
+            ZA('Go across and fetch it. And take your time.', 'happy'),
+            PG('My lord. Weren’t you raised by a bird?'),
+            ZA('By a much bigger one. This one never did anything for me.', 'think'),
+          ],
         },
       },
       {
@@ -2250,7 +2281,7 @@ export const ATLAS_A27: Quest[] = [
           lines: [
             ZA('Why are you smiling? What did they say? Tell me every word.', 'think'),
             N(
-              'The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll wait.',
+              'The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll keep his secret and carry his messages.',
             ),
           ],
         },
@@ -2293,10 +2324,8 @@ export const ATLAS_A27: Quest[] = [
     complete: {
       id: 'a27-12-complete',
       lines: [
-        RU(
-          'You said he feeds everyone before himself. And now they say he shoots like a king. Which is he?',
-          'think',
-        ),
+        RU('You told me what he is really like. Now my maids say he shoots like a king.', 'think'),
+        RU('Which is he?'),
         Y('Both.'),
         RU('Good. I would hate to have to choose.', 'happy'),
         N(
@@ -2390,6 +2419,8 @@ export const ATLAS_A27: Quest[] = [
             RU('No?', 'shock'),
             N('He looks up at her, in the dusk.'),
             ZA(LIFT_HURT, 'soft'),
+            RU('Does everyone in Sistan talk like that?', 'happy'),
+            ZA('Only the ones raised by birds.'),
             N(
               'He makes a running knot in a rope and throws it up; it catches first time. He goes up it in one bound.',
             ),
@@ -3037,14 +3068,10 @@ export const ATLAS_A27: Quest[] = [
     complete: {
       id: 'a27-16-complete',
       lines: [
+        N('After a month in Kabul, they all go home to Sistan. This time Zal brings a queen.'),
+        RU('And a proper rope. He wouldn’t use the other kind.', 'happy'),
         N(
-          'After a month in Kabul, they all go home to Sistan. Sam goes back to the wars, and leaves the land in Zal’s hands.',
-        ),
-        N(
-          'Zal sits on his father’s throne and rules with patience and fairness, the way he learned it on the peak.',
-        ),
-        N(
-          'Rudaba sits beside him. He sets a crown of gold on her black hair, and she sets her hand on his white head.',
+          'In his father’s hall, Zal sets a crown of gold on her black hair, and she sets her hand on his white head.',
         ),
         N(
           'Your Nubbin has eaten, at a guess, its own weight in wedding cake. It sleeps for two days, smiling.',
@@ -3069,7 +3096,7 @@ export const ATLAS_A27: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A27-16') },
     requires: ['A27-16'],
-    speakers: [ZAL, RUDABA, SIMURGH],
+    speakers: [ZAL, RUDABA, SIMURGH, SERVANT],
     steps: [
       {
         id: 'a27-17-s1',
@@ -3208,7 +3235,13 @@ export const ATLAS_A27: Quest[] = [
           'The Simurgh looks at the baby, and the baby looks at the Simurgh, and neither of them is at all afraid.',
         ),
         N(
-          'The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky.',
+          'The old servant is at the door, as ever. Zal puts the baby into his arms without a word.',
+        ),
+        SV('Last time I carried one of yours, it was up a mountain.', 'soft'),
+        ZA('Only to the kitchen this time.', 'happy'),
+        N('He goes the long way round, past every door in the house, so that everyone can see.'),
+        N(
+          'When the baby comes back, the last thing you see on the page is Zal in the courtyard, laughing, holding him up to the sky.',
         ),
         ...A17_HOME,
       ],
@@ -3254,6 +3287,8 @@ export const ATLAS_A27: Quest[] = [
  *   corvinGate = family (Grove, read-only): a27-07-corvin (insert, A27-7).
  *   a27-feather (A27-8): a27-09-descent-sat | -night, a27-14-letter-sat | -night, a27-17-fire-sat | -night,
  *     a27-17-complete-sat | -night (replacements; the defaults are for told).
+ *   a27-word (A27-5): a27-09-oath-taught-sorry, a27-09-road-taught-home,
+ *     a27-09-complete-taught-friend (replacements).
  *   Sable's trust stage (Grove, read-only): a27-close-sable-bonded | a27-close-sable-wary (after A27-17).
  */
 export const ATLAS_A27_VARIANTS: Scene[] = [
@@ -3334,6 +3369,94 @@ export const ATLAS_A27_VARIANTS: Scene[] = [
       ),
       YO('You stayed. All night, on the stones.'),
       N('Sam can only nod, again and again. It turns out that is all he needs to say.'),
+    ],
+  },
+  // ---------------------------------------------------------------- A27-9, step 2 scene (a27-word = taught-sorry)
+  {
+    id: 'a27-09-oath-taught-sorry',
+    lines: [
+      N(
+        'Sam stands up. He bows, very low, to the great bird at the edge of the cloud, and thanks her with his whole voice.',
+      ),
+      N(
+        'Then he looks at his son properly: tall and strong and handsome, with white hair, and nothing wrong in him at all.',
+      ),
+      SA(
+        'I was wrong. I was a coward, and I was wrong, and there’s nothing I can say that makes it smaller.',
+        'sad',
+      ),
+      SA('Open your heart to me if you can. I won’t ask for more than you can give.'),
+      SA('I’m sorry. I don’t know how to say it any better than that.', 'sad'),
+      YO('So that is what it sounds like. I wondered.', 'soft'),
+      SA(LIFT_HARDEN),
+      SA('And I will give you everything you ever ask of me.'),
+      N(
+        'He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride.',
+      ),
+      ZA('Zal.', 'think'),
+      ZA('I like it. It sounds like a door shutting on the right side.', 'happy'),
+    ],
+    choices: [
+      {
+        id: 'clap',
+        label: 'Clap.',
+        then: [
+          N(
+            'You clap, and your Nubbin claps. After a moment, uncertainly, so does the whole army.',
+          ),
+        ],
+      },
+      {
+        id: 'bow',
+        label: 'Bow to Zal.',
+        then: [ZA('You don’t bow to me. You’re my nestmate. Stand up.', 'happy')],
+      },
+    ],
+  },
+  // ---------------------------------------------------------------- A27-9, step 3 scene (a27-word = taught-home)
+  {
+    id: 'a27-09-road-taught-home',
+    lines: [
+      N(
+        'The army goes home to Sistan with drums and trumpets and cymbals, all the way, so that every village knows.',
+      ),
+      N(
+        'Zal rides at the front beside his father. You ride on the baggage, on a heap of tent poles, with your Nubbin in your lap.',
+      ),
+      ZA('It is very loud. Is the world always this loud?', 'think'),
+      SA('Only when it’s happy.', 'happy'),
+      ZA('Is Sistan where I come back to now? I was told that is what home means.', 'think'),
+      SA('Yes. It’s louder than a nest, but yes.', 'soft'),
+      N(
+        'The old servant walks beside the baggage, holding the bridle of the mule, and is the quietest man in the army.',
+      ),
+      N(
+        'Behind you, high above the cloud, a great bird turns once in the sky, and turns again, and goes home.',
+      ),
+    ],
+  },
+  // ---------------------------------------------------------------- A27-9, complete scene (a27-word = taught-friend)
+  {
+    id: 'a27-09-complete-taught-friend',
+    lines: [
+      N(
+        'At the gate the people throw flowers and blessings, and Zal catches a rose, and doesn’t know what to do with it.',
+      ),
+      N(
+        'Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his father’s arm.',
+      ),
+      SA('You laugh with your whole self. I’d forgotten people could.', 'soft'),
+      ZA('The chicks taught me. They do everything with their whole selves.', 'happy'),
+      N(
+        'On the step, arms folded, stands the nurse, older now. She waits until Sam is close enough to hear.',
+      ),
+      NU('A gift, my lord. I did say.'),
+      SA('You did.', 'soft'),
+      NU('I only mention it. I’m only the nurse.', 'happy'),
+      ZA('Father, this is my friend. Someone who isn’t family, but stays anyway.', 'happy'),
+      SA('Then they’re family now. That’s how it works here.'),
+      ZA('Then I shall need another word.', 'think'),
+      N('Sam takes his son by the arm, and they go in together.'),
     ],
   },
   // ---------------------------------------------------------------- A27-14, step 1 scene (sat)
@@ -3433,6 +3556,12 @@ export const ATLAS_A27_VARIANTS: Scene[] = [
       ),
       N('He doesn’t need to. You sit there together, all three of you, and let the morning come.'),
       N(
+        'The old servant is at the door, as ever. Zal puts the baby into his arms without a word.',
+      ),
+      SV('Last time I carried one of yours, it was up a mountain.', 'soft'),
+      ZA('Only to the kitchen this time.', 'happy'),
+      N('He goes the long way round, past every door in the house, so that everyone can see.'),
+      N(
         'Days later, far away in his camp, Sam opens a parcel and finds a little silk doll with his grandson’s face.',
       ),
       N(
@@ -3452,6 +3581,12 @@ export const ATLAS_A27_VARIANTS: Scene[] = [
       ),
       N('She looks at the baby for a long time. Then she turns her great gold eye on you.'),
       SI('You were right to give him the night.', 'soft'),
+      N(
+        'The old servant is at the door, as ever. Zal puts the baby into his arms without a word.',
+      ),
+      SV('Last time I carried one of yours, it was up a mountain.', 'soft'),
+      ZA('Only to the kitchen this time.', 'happy'),
+      N('He goes the long way round, past every door in the house, so that everyone can see.'),
       N('She spreads her wings, which fill the whole sky over Sistan, and goes up.'),
       N(
         'The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home.',
@@ -3515,6 +3650,7 @@ export const ATLAS_A27_FLAGS: string[] = [
   'a27-17',
   'a27-done', // A27-17: the whole page
   'a27-feather', // told | sat | night (a27-08-feather): A27-9, A27-14 and A27-17
+  'a27-word', // taught-friend | taught-home | taught-sorry (a27-05-words): A27-9
 ];
 
 export const ATLAS_A27_CHECKS: string[] = [

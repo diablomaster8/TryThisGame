@@ -58,6 +58,7 @@ const HU = say('a26-humbaba');
 const IS = say('a26-ishtar');
 const SS = say('a26-shamash');
 const SC = say('a26-scorpion');
+const SW = say('a26-scorpion-wife');
 const SI = say('a26-siduri');
 const UR = say('a26-urshanabi');
 const UT = say('a26-uta');
@@ -2728,7 +2729,9 @@ const Q15 = quest(
       'a26-15-gate',
       [
         N('The scorpion-man is big and scary to look at. His wife stands beside him.'),
-        SC('Wife, this one is two parts god. Who is the small one with the water?'),
+        SC('Look, wife. This one has the body of a god.'),
+        SW('Two parts of him, husband. One part is a man. You forget the man.'),
+        SC('And who is the small one with the water?'),
         N('His wife looks at your Nubbin and tilts her head. She likes small ones.'),
         GI('Please open the gate. I am looking for a very old man.'),
         SC('No one has gone this way. It is dark for a long, long way.', 'think'),
@@ -2737,7 +2740,7 @@ const Q15 = quest(
       ],
       [
         ask(
-          3,
+          5,
           'literacy',
           'polite words for asking',
           LANG,

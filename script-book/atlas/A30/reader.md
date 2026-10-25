@@ -39,7 +39,7 @@ _Your Nubbin holds up both arms, to show that it will fit anywhere at all._
 
 **Dvora**: Avram, bring them in, you’re letting the warm out. Water first, lodger. Then you can be a guest.  
 **Rivka**: I’ll show you the well! I know the well better than anyone.  
-_Inside, your Nubbin is already being a guest at the stove._  
+**Rivka**: That’s Shmuel under the table. He’s five, and he asks questions.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps a newcomer feel welcome  
 > _You are new in a stranger’s house. What do you think helps a newcomer feel welcome?_  
@@ -48,6 +48,9 @@ _Inside, your Nubbin is already being a guest at the stove._
 > - Being asked your name → That’s a fair answer. Being noticed as a person, not just a guest, matters a great deal.
 > _For grown-ups: Thought about what helps a newcomer feel welcome. No single right answer._
 
+**Rivka**: That’s Mirele on the stairs. She’s three, and she answers them.  
+_Shmuel waves from under the table. Mirele waves back with a spoon._  
+_Inside, your Nubbin is already being a guest at the stove._  
 
 #### `reader:a30-01-water` · [main](main.md#a30-01-water)
 
@@ -298,6 +301,9 @@ _The rabbi passes on his way to the study house, and nods to Avram. He looks as 
 > - Very cheerful → He sounds thoughtful, not cheerful. Philosophical means wondering about big questions.
 > _For grown-ups: Used context to work out that philosophical means thinking about big questions._
 
+_Your Nubbin comes out of the house wearing the rabbi’s coat from yesterday. Most of it trails behind._  
+**Dvora**: He leaves coats on pegs the way a hen leaves eggs. That’s the third this month.  
+**Rabbi Loew**: Ah. I wondered where I had got to.  
 
 ### Glossary
 
@@ -597,6 +603,8 @@ _He fills the barrel. Then he fills it again, because nobody has told him to sto
 _Water runs over the rim, across the kitchen, under the door, and out into the lane in a bright sheet._  
 _Yossele goes on fetching, steady as a mill wheel, through his own flood._  
 _You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all, and very sincere._  
+_A hen floats past the door on a cabbage, looking as if she was promised dry land._  
+_Your Nubbin gives up bailing, climbs into the bread trough, and sails._  
 **Dvora**: Oh, no. No, no, no. Yossele! That’s enough! Enough!  
 _He doesn’t stop. She isn’t the one who made him._  
 _Then the rabbi is at the door with his sleeves wet to the elbow, and says, “Stop.” Yossele sets the bucket down._  
@@ -1079,6 +1087,7 @@ _Nobody talks about the lane. Avram blesses the wine, and the bread, and passes 
 
 _Shmuel thinks about this, and nods, and eats his bread._  
 _Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all._  
+_It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does._  
 
 **Choices**
 

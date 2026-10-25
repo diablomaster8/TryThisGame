@@ -111,6 +111,7 @@ const HUMBABA = sp('a26-humbaba', 'Humbaba', `Humbaba, guardian of the Cedar For
 const ISHTAR = sp('a26-ishtar', 'Ishtar', `Ishtar, goddess of Uruk (${EPIC})`);
 const SHAMASH = sp('a26-shamash', 'Shamash', `Shamash, the sun god, heard as a voice out of the sun (${EPIC})`);
 const SCORPION = sp('a26-scorpion', 'Scorpion-man', `The scorpion-man who guards the gate of the mountains of Mashu (${EPIC})`);
+const SCORPIONWIFE = sp('a26-scorpion-wife', 'Scorpion-man’s Wife', `The scorpion-man’s wife, at his side (${EPIC})`);
 const SIDURI = sp('a26-siduri', 'Siduri', `Siduri, the ale-wife by the sea (${EPIC})`);
 const URSHANABI = sp('a26-urshanabi', 'Ur-Shanabi', `Ur-Shanabi, Uta-Napishtim’s boatman (${EPIC})`);
 const UTA = sp('a26-uta', 'Uta-Napishtim', `Uta-Napishtim, the man the gods let live for ever (${EPIC})`);
@@ -132,6 +133,7 @@ const HU = say('a26-humbaba');
 const IS = say('a26-ishtar');
 const SS = say('a26-shamash');
 const SC = say('a26-scorpion');
+const SW = say('a26-scorpion-wife');
 const SI = say('a26-siduri');
 const UR = say('a26-urshanabi');
 const UT = say('a26-uta');
@@ -1700,7 +1702,7 @@ export const ATLAS_A26: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('A26-14') },
     requires: ['A26-14'],
-    speakers: [GILGAMESH, SCORPION],
+    speakers: [GILGAMESH, SCORPION, SCORPIONWIFE],
     steps: [
       {
         id: 'a26-15-s1',
@@ -1744,7 +1746,8 @@ export const ATLAS_A26: Quest[] = [
           id: 'a26-15-gate',
           lines: [
             N('The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side.'),
-            SC('Look, wife. Two parts god, one part man. Terrible combination. Stand behind me.'),
+            SC('Look, wife. The one who comes to us has the body of a god. Stand behind me.'),
+            SW('Two parts of him, husband. One part is a man. You always forget the man.'),
             N('His wife does not stand behind him. She is already crouching to look at your Nubbin.'),
             SC('…And who is the small one with the water?', 'think'),
             N('His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones.'),

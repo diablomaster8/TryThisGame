@@ -172,11 +172,13 @@ Hint: Sit with Ananse on the root at the foot of the thread. · check: `walk:a28
 #### <a id="a28-02-road"></a>Scene `a28-02-road`
 
 _At the foot of the thread Ananse sits down on a root and looks you over properly, for the first time._  
+_He points at your Nubbin, with three legs at once._  
 **Kwaku Ananse** _(think)_: Eight legs, I have. Two arms, you have. And one of those, you have.  
 **Kwaku Ananse**: What does it do?  
 _Your Nubbin, as if it has been asked, sits down in a puddle of sap and sticks._  
 **Kwaku Ananse**: Ah. A specialist.  
 **Kwaku Ananse**: Kwaku, they call me, because I was born on a Wednesday. Everyone has a day. What’s yours?  
+**Kwaku Ananse** _(happy)_: Friday boys are Kofi. Saturday, Kwame. Sunday, Kwesi. Wednesday is best, obviously.  
 
 **Choices**
 
@@ -393,7 +395,9 @@ _Your Nubbin stands on tiptoe beside you, ready to help with whatever this is._
 #### <a id="a28-04-stopper-done"></a>Done `a28-04-stopper-done`
 
 _One last hornet, late for everything, lands on your Nubbin’s nose, thinks about it, and stings._  
-_Your Nubbin looks at you with enormous eyes. Then it looks at the gourd, and its eyes go narrow._  
+_Your Nubbin looks at you with enormous eyes. Ananse plucks the hornet off with two fingers and drops it into a tiny gourd of his own._  
+**Kwaku Ananse** _(happy)_: A spare. A spider always keeps a spare.  
+_Your Nubbin looks at the tiny gourd, and its eyes go narrow._  
 **Kwaku Ananse** _(happy)_: Two!  
 
 ### Complete
@@ -638,6 +642,7 @@ _Ananse lays the price on the cloud, one piece at a time: the python, the gourd 
 **Kwaku Ananse** _(happy)_: And my mother, Ya Nsia, great one.  
 **Ya Nsia** _(happy)_: Good afternoon. These are very good stools.  
 _Nobody says anything for a while. One of the elders is smiling at the floor._  
+_He says, to nobody in particular, that the python has a point about the branch._  
 **Nyame**: Kings came to buy my stories, and great towns. They could not pay.  
 **Nyame**: Kwaku Ananse has paid. From today the stories are his.  
 **Nyame**: From today they will be called by his name. Every story told on the earth will be a spider story.  
@@ -664,6 +669,7 @@ _The python is given a long warm shelf, the leopard a shady corner. The hornets 
 _Mmoatia, you notice, doesn’t stay at court long. Fairies are hard to keep, even for a Sky-god who keeps his word._  
 **Ya Nsia** _(soft)_: Here. For the small one. It got stuck to more of this business than anybody.  
 _She drapes something over your Nubbin: a shawl of spider silk, soft as breath, and only a very little sticky._  
+_By the time you reach the thread, your Nubbin is wearing three leaves, a feather and somebody’s bean. Ya Nsia looks pleased with her work._  
 
 **Rewards**
 
@@ -760,7 +766,9 @@ _Your Nubbin, nose still lumpy, watches this with deep and private satisfaction.
 _Wisp sneezes. Then he reaches into the bag behind him and puts something on the step: Fern’s old left glove._  
 **Wisp** _(soft)_: warm. was warm.  
 **Kwaku Ananse** _(shock)_: A glove! One glove. I have eight hands. This is… thank you.  
-_Ananse puts the glove on one foot. Wisp puts the gourd in your bag next to the stone._  
+_Ananse puts the glove on one foot, and looks for a long moment at the other seven._  
+**Kwaku Ananse** _(think)_: Aso will hear about this.  
+_Wisp puts the gourd in your bag next to the stone._  
 _Each of them is quite sure he has won. You decide not to tell either of them._  
 
 **Choices**
@@ -1113,6 +1121,7 @@ _You are sitting on your mat, as if you never left it. Your Nubbin is beside you
 _She turns on the stool and looks straight at you._  
 **Nana Ama**: You. The one who has been away. Your turn.  
 _Your Nubbin climbs up on to the stool beside her, as if it has been invited too._  
+_It sticks to the stool, and stays stuck for the rest of the night. Nana Ama tells the stories around it._  
 
 #### <a id="a28-12-return-done"></a>Done `a28-12-return-done`
 
@@ -1185,7 +1194,8 @@ _Wisp has come out of your bag. He sits at the edge of the firelight with the eg
 **Nana Ama**: There was a grey thief with a torn ear, who wanted every warm thing in the world.  
 **Nana Ama**: And he kept a stone that had gone cold. He kept it long after it was any use to anyone.  
 **Nana Ama**: He traded with a spider once, and both of them were cheated, and both of them went home pleased.  
-**Nana Ama**: But the spider threw something in for nothing, and never knew. The best thing in the whole bargain.  
+**Nana Ama**: But the spider threw something in for nothing, and never knew. He put the thief in a story.  
+**Nana Ama**: Nobody had ever told a story about the thief before. That was the best thing in the whole bargain.  
 _Wisp’s ears have come up. He has stopped looking at the fire, and is looking at her._  
 **Nana Ama** _(soft)_: A story. Not the one in the gourd. This one. The one about him.  
 _Wisp listens to the very end, without moving. Then he gets up, carefully, the way you get up holding something full._  

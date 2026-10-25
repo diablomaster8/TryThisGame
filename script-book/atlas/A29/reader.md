@@ -11,7 +11,7 @@ _Nova’s atlas falls open at a page so bright it hums: a stage, a city at night
 _Under the paint, older, there is a long ink scroll. Mountains, small villages, and a road between them._  
 _A card from Nova is tucked into the page. It says to find Korea on the big map before you step in._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): finding a place on a map: Korea is a peninsula, with sea on three sides  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): finding a place on a map: Korea is a peninsula, with sea on three sides  
 > _On Nova’s big map, Korea hangs down from the north like a thumb into the sea. How many of its sides have water?_  
 > - ✅ Three sides. → Yes. Land with water on three sides is called a peninsula, and Korea is one. Seoul, the big city in this story, is the capital of South Korea.
 > - Only one side. → Not quite. Look at the map again: sea on the west, the south and the east. Water on three sides makes Korea a peninsula.
@@ -40,7 +40,7 @@ _He is a red smudge, the only colour in the scroll. His name is Gwi-Ma._
 _On a hill above the villages, three small figures climb to the top. They wear long skirts and short jackets, in the painter’s soft colours._  
 _They turn to face the mountains, and take one big breath together._  
 
-> **Lesson** (science, 1-PS4-1, ask): a voice is made by vibrations in the throat  
+> **Lesson** (science, 4-PS3-2, ask): a voice is made by vibrations in the throat  
 > _Try it: put your fingers lightly on your throat and hum. What do you feel under your fingers?_  
 > - ✅ A buzzing, a tiny shaking. → Yes. Your voice is made by tiny vibrations in your throat, and the shaking makes the air shake too. That moving air is what carries a sound to someone’s ear.
 > - Nothing at all. → Try again, a little lower, and press just a bit more firmly. There is a buzzing, a tiny shaking. That is the vibration that makes your voice.
@@ -80,7 +80,7 @@ _The ink goes from black to bright pink, then electric blue: car horns, rain on 
 _You step off the scroll into a city at night._  
 _Behind you, a label at the edge of the scroll says the painter used a brush and black ink, on a thick, soft paper called hanji._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Korean ink painting: brush, ink and hanji paper made from mulberry bark  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Korean ink painting: brush, ink and hanji paper made from mulberry bark  
 > _The label goes on: hanji is made from the bark of the paper mulberry tree, by hand, in Korea, for hundreds of years._  
 > _Painters used it for scrolls like this one. Good hanji can last a very long time._  
 > _For grown-ups: Learned that Korean ink paintings are made on hanji, a paper from mulberry bark, and that people have used it for centuries._
@@ -117,7 +117,7 @@ _“I’d hum.”_
 
 > **Lesson** (literacy, RL.3.3, ask): a short note can show a person’s character: Hazel’s joke  
 > _Hazel’s note is only nine words long. What does it show about her?_  
-> - ✅ She would love to go, and she makes a joke so it doesn’t feel too big. → Yes. “I’d hum” is funny, and it is also a wish to join in, said in a small, brave way. Short words can carry a lot, if you read for the character behind them.
+> - ✅ She would love to go, and she makes a joke so it doesn’t feel too big. → Yes. “I’d hum” is funny, and it is also a wish to join in, said in a small, brave way. Short words can carry a lot.
 > - She dislikes singing. → Then she would not say she would hum. The joke shows she wants to join in.
 > - She has been there many times. → The note says “Never been”. It shows she would love to go.
 > _For grown-ups: Read a short note for what it shows about Hazel’s character: a wish to join in, said as a joke._
@@ -214,7 +214,7 @@ _You remember Rumi saying her thanks twice, and how it made carrying the boxes f
 _The lights go down. The whole arena breathes in at once, thousands of light sticks held up like a field of little moons._  
 _Then Huntrix are on stage, and the sound hits you in the chest. It is loud, and bright, and very good._  
 
-> **Lesson** (science, 1-PS4-1, notice): loud, low sounds are big vibrations you can feel; ear protection helps  
+> **Lesson** (science, 4-PS3-2, notice): loud, low sounds are big vibrations you can feel; ear protection helps  
 > _The deep thump you feel in your chest is the bass. Low, loud sounds make big, slow vibrations that shake the air and you._  
 > _That is why a lot of people wear ear defenders at concerts. Big vibrations can tire out little ears._  
 > _For grown-ups: Learned that loud, low sounds are big vibrations, and why people protect their ears at concerts._
@@ -269,7 +269,7 @@ _Your Nubbin hid first and puffed up second, and nobody minds either part._
 > **Lesson** (sel, CASEL: Self-awareness, ask): fear is normal; courage can come after fear  
 > _Your Nubbin dived into a speaker, and Zoey said “Same, honestly.” Can a person be scared and brave in the same evening?_  
 > - Yes. Being scared is not the opposite of brave. → That is a fair answer. Brave people often feel scared first, and then carry on anyway. Zoey felt it too, and she still stood in the car park.
-> - No. Brave people are never scared. → That is a fair thing to think. A lot of stories make it seem that way. But most brave people say they felt afraid first. The brave part is what they do next.
+> - No. Brave people are never scared. → That is a fair thought. But most brave people say they felt afraid first. The brave part is what they do next.
 > - Only if no one is watching. → Interesting. Some people find it easier to be brave when someone is with them. Others find it easier alone. There is no single right way to be scared.
 > _For grown-ups: Thought about whether a person can be afraid and brave at the same time._
 
@@ -283,9 +283,9 @@ _Bobby comes down the ramp with three bottles of water and the face of a man who
 **Bobby**: Perfect answer. Here, have this, it’s broken and they’re throwing it out.  
 _It is an old stage light, the size of a teapot, with a cracked pink filter. When you tap it, it still glows pink._  
 
-> **Lesson** (science, 1-PS4-2, ask): a coloured filter lets through only light of its own colour  
+> **Lesson** (science, 4-PS3-2, ask): a coloured filter lets through only light of its own colour  
 > _The stage light has a pink filter, and plain white light goes in. Why does pink light come out?_  
-> - ✅ The filter lets pink through and stops the other colours. → Yes. White light has all colours in it, and the pink filter holds back most of the rest. That is how stage crews paint a whole show in colour with one white bulb.
+> - ✅ The filter lets pink through and stops the other colours. → Yes. White light has all colours in it, and the pink filter holds back most of the rest. So one white bulb can paint a whole show.
 > - The bulb itself is pink. → Take the filter off and you would see plain white light. The filter does the colouring by letting only pink pass through.
 > - Pink light is hotter. → A filter doesn’t make light hotter. It only picks which colours get through. The filter picks out the pink and blocks the other colours.
 > _For grown-ups: Learned that a coloured filter lets through only light of its own colour._
@@ -329,7 +329,7 @@ _Huntrix’s flat is high up, with a city view and a tiny kitchen. At two in the
 
 > **Lesson** (maths, 3.OA.D.8, ask): a two-step problem: 3 × 2 + 2  
 > _Mira wants two cups each for the three hunters, and one each for you and your Nubbin. How many cups must you fetch?_  
-> - ✅ 8 cups. → Yes. Three hunters with two cups each is 3 × 2 = 6. Add one for you and one for your Nubbin: 6 + 2 = 8. Eight cups. Try carrying them all in one go.
+> - ✅ 8 cups. → Yes. Three hunters with two cups each is 3 × 2 = 6. Add one for you and one for your Nubbin: 6 + 2 = 8 cups.
 > - 6 cups. → Six is just the hunters: 3 × 2 = 6. You and your Nubbin need one each too, so 6 + 2 = 8.
 > - 5 cups. → Five is how many of you there are, but the hunters want two each. 3 × 2 = 6, and then add 2 more: 8 cups.
 > _For grown-ups: Solved a two-step problem, 3 groups of 2 plus 2 more, to find 8 cups._
@@ -350,7 +350,7 @@ _Huntrix’s flat is high up, with a city view and a tiny kitchen. At two in the
 
 _The shop is bright and humming. Every packet is covered in neat little blocks of writing, all lines, corners and small circles._  
 
-> **Lesson** (literacy, RF.K.2, notice): hangul: made by King Sejong’s scholars so everyone could read; letters stack in syllable blocks  
+> **Lesson** (literacy, notice): hangul: made by King Sejong’s scholars so everyone could read; letters stack in syllable blocks  
 > _The writing is hangul, the Korean alphabet. About 580 years ago King Sejong and his scholars made it, so that everyone could learn to read._  
 > _Before that, most writing used Chinese characters, which take years to learn._  
 > _Hangul letters are stacked in square blocks, one block for each syllable._  
@@ -406,9 +406,9 @@ _In the morning there is a present on the gear case, with a sticky note in Zoey�
 _It is an empty noodle cup, washed, cut down small, with a paper rim and a strap. A hat, exactly your Nubbin’s size._  
 **Zoey**: Every hunter needs a helmet. That one is mostly soup-proof.  
 
-> **Lesson** (science, 2-PS1-1, ask): properties of materials: why a noodle cup makes a good hat  
+> **Lesson** (science, ask): properties of materials: why a noodle cup makes a good hat  
 > _Zoey made the hat from a noodle cup. Which property makes it a good thing to cut into a hat?_  
-> - ✅ It is light, stiff and easy to cut. → Yes. A noodle cup is light enough to wear, stiff enough to hold its shape, and easy to cut with scissors. Choosing a material by its properties is what designers do all day.
+> - ✅ It is light, stiff and easy to cut. → Yes. A noodle cup is light enough to wear, stiff enough to hold its shape, and easy to cut. Designers choose materials by these properties.
 > - It is heavy and very hard. → A heavy, hard hat would hurt a small neck. The cup is light, stiff and easy to cut.
 > - It is soft and runny. → A runny hat would not stay on at all. The cup is light and stiff, so it keeps its shape.
 > _For grown-ups: Chose a material for a job by its properties: light, stiff and easy to cut._
@@ -422,7 +422,7 @@ _Variant of `a29-03-complete`._
 _When you get back, the kitchen has an extra guest. Sable is behind the stack of noodle pans by the cooker, only her ears showing._  
 _Rumi sees her, and doesn’t say anything, and puts a few plain noodles on a saucer by the pans, and leaves them there._  
 
-> **Lesson** (science, K-LS1-1, ask): animals need food that suits them: plain, not spicy  
+> **Lesson** (science, ask): animals need food that suits them: plain, not spicy  
 > _Rumi puts plain noodles on a saucer for Sable, not spicy ones. Why?_  
 > - ✅ Animals need food that suits them, and spicy food can upset a pet’s tummy. → Yes. Animals need the right food to stay well, and what suits people doesn’t always suit pets. Rumi chose plain and left it quietly, a kind and careful thing.
 > - Spicy food is too expensive. → Cost isn’t the reason here. Spicy food can upset a pet’s tummy, so plain is safer.
@@ -474,7 +474,7 @@ _She doesn’t finish. She tugs her sleeve down, though it is already down._
 _Celine’s house is an old hanok round a courtyard, very neat. Rumi takes the pears, and asks you to wait outside the gate._  
 _The tiled roof curls up at the corners, as if the house is quietly smiling._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): a hanok: tiled roof, paper doors and a floor warmed from below  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): a hanok: tiled roof, paper doors and a floor warmed from below  
 > _A hanok is a traditional Korean house, built of wood, clay and tiles._  
 > _Its doors and windows are covered in hanji paper, to let in soft light._  
 > _Many hanok have a floor warmed from underneath. The smoke and heat from the kitchen stove run through channels beneath the rooms._  
@@ -500,7 +500,7 @@ _A pause. A rustle of a sleeve going up._
 > **Lesson** (sel, CASEL: Self-awareness, ask): thinking about whether you have to fix yourself before you deserve love  
 > _Rumi hopes that when her marks go, she will finally be “right”. What do you think about that?_  
 > - Nobody has to be changed before they deserve love. → That is a fair answer, and a kind one. Many people hope to be loved just as they are. Rumi isn’t sure of it yet. Keep watching to see.
-> - People should try to fit in, to be safe. → That is a fair thought. Fitting in can feel safer, and Celine thinks so because she is afraid for Rumi. But hiding a part of yourself can also be tiring. Keep that in mind as the story goes on.
+> - People should try to fit in, to be safe. → That is a fair thought. Celine says it because she is afraid for Rumi. But hiding part of yourself is tiring too.
 > - It depends on who is looking. → That is a thoughtful answer. Some people can see all of us, and some can’t. Finding people who can is a big part of this story.
 > _For grown-ups: Thought about whether a person must be “fixed” to deserve love, and listened to more than one view._
 
@@ -521,7 +521,7 @@ _You heard it all through the doors, because paper is so thin._
 
 > **Lesson** (science, 4-PS3-2, ask): sound passes through thin paper more easily than through thick walls  
 > _You heard Celine and Rumi through the paper doors. Why would a thick stone wall have been quieter?_  
-> - ✅ Thin paper shakes easily, so more sound gets through. → Yes. Sound is vibrating air, and the vibration shakes thin paper easily and carries on. A thick wall takes up much more of the shaking, so less sound comes out the other side.
+> - ✅ Thin paper shakes easily, so more sound gets through. → Yes. Sound is vibrating air, and it shakes thin paper easily and carries on. A thick wall takes up more of the shaking, so less sound gets through.
 > - Paper makes sound louder. → It does not make it louder, but it lets plenty through. Thin paper shakes easily, so the sound passes on.
 > - Stone has no vibrations at all. → Stone can shake a little, but it is heavy and hard to move. That is why a thick wall blocks more sound than a paper door.
 > _For grown-ups: Learned that sound travels through thin paper more easily than through a thick wall._
@@ -587,9 +587,9 @@ _High above the city, where only you seem to look, the line of the Honmoon flick
 **Bobby**: Thirtieth in the chart a few minutes ago! Now they’re eighteenth!  
 **Bobby**: Eighteenth!  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction within 100: 30 take away 18  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction within 100: 30 take away 18  
 > _The Saja Boys were 30th and are now 18th. How many places have they climbed?_  
-> - ✅ 12 places. → Yes. 30 − 18 = 12. You can count up from 18 to 20, which is 2, then from 20 to 30, which is 10. 2 + 10 is 12. At a place a minute, that is only twelve minutes.
+> - ✅ 12 places. → Yes. 30 − 18 = 12. Count up: 18 to 20 is 2, and 20 to 30 is 10. 2 + 10 = 12.
 > - 48 places. → Adding 30 and 18 gives 48. But they are going from 30th down to 18th, so we take away. 30 − 18 = 12 places.
 > - 8 places. → Almost! Count up from 18 to 30 on your fingers: two to reach 20, then ten more. That is 12 places.
 > _For grown-ups: Worked out a subtraction within 100, 30 − 18 = 12 places._
@@ -607,7 +607,7 @@ _Zoey and Mira come through the crowd in caps and masks. Zoey stops by you and l
 **Mira**: Which is a strange costume for a boy band.  
 **Zoey**: Unless they’re wearing it because it scares us. It’s a look that isn’t theirs.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the gat and the jeoseung saja: treating folk stories and crafts with respect  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the gat and the jeoseung saja: treating folk stories and crafts with respect  
 > _A gat is a real Korean hat from the Joseon period, made of fine horsehair and bamboo. A few craftspeople still make them by hand today._  
 > _The jeoseung saja come from old Korean folk stories. They are grave and dutiful, not evil._  
 > _The demons here only borrow their look._  
@@ -671,7 +671,7 @@ _After the music show’s recording, when the studio is empty, the Saja Boys sta
 **Rumi**: All five?  
 **Zoey**: All five. Hats and all.  
 
-> **Lesson** (maths, 1.OA.A.1, ask): comparing two groups: 5 boys and 3 hunters  
+> **Lesson** (maths, 4.NBT.B.4, ask): comparing two groups: 5 boys and 3 hunters  
 > _There are five Saja Boys and three hunters. How many more boys than hunters are there?_  
 > - ✅ 2 more. → Yes. 5 − 3 = 2, or count on from 3: 4, 5. Two more. Huntrix are used to being outnumbered, and they are good at it.
 > - 8 more. → 8 is 5 + 3, all of them put together. To find “how many more”, take away: 5 − 3 = 2.
@@ -693,7 +693,7 @@ _Rumi’s face goes very still. Then she nods, once, and holds out her hand to y
 _The studio lights come on all at once, every colour. Five boys in black coats are standing on the set, as if they have been waiting._  
 _Red, green and blue beams cross over the floor, and where they meet, the light turns white._  
 
-> **Lesson** (science, 1-PS4-2, notice): red, green and blue light together make white light  
+> **Lesson** (science, 4-PS3-2, notice): red, green and blue light together make white light  
 > _Stage lights mix coloured beams. Where red, green and blue light land on the same spot, they add up to white._  
 > _Red and green together make yellow. A lighting crew can paint a stage with only three colours._  
 > _For grown-ups: Learned that red, green and blue light together make white, and that mixing two makes new colours._
@@ -727,7 +727,7 @@ _The other boys go with him, in a gust of cold air and a smell of old smoke._
 
 > **Lesson** (literacy, RL.3.3, ask): using clues in the text to work out a character’s motive  
 > _Rumi doesn’t know why Jinu let her go. What clue did Jinu leave that might help?_  
-> - ✅ He pulled her sleeve down over the marks before he left. → Yes. He hid her marks from the others. That is a kind act from a rival, and a puzzling one. Good readers collect clues like this before they decide what a character wants.
+> - ✅ He pulled her sleeve down over the marks before he left. → Yes. He hid her marks from the others. That is a kind act from a rival, and a puzzling one. Good readers collect such clues first.
 > - He laughed while he fought. → That is a clue about his style, but it doesn’t explain why he let her go. The strongest clue is that he covered her marks.
 > - He had a black coat. → True, but all five boys have those. The clue to look for is what he did for Rumi: he pulled her sleeve down.
 > _For grown-ups: Used a clue in the story to work out why Jinu might have let Rumi go._
@@ -773,7 +773,7 @@ _Mira and Zoey come out with wet hair, still arguing. Rumi laughs at them in exa
 **Rumi**: Maybe he was scared of you.  
 _Mira likes that answer so much that she doesn’t notice it isn’t one._  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to a question she wants to avoid  
+> **Lesson** (literacy, RL.3.3, ask): how a character responds to a question she wants to avoid  
 > _Rumi gives Mira an answer that isn’t really an answer. What is she doing?_  
 > - ✅ Using a joke to keep a secret safe. → Yes. A joke is a quick way to change the subject and keep something private. Notice that Mira laughs, and does not ask again.
 > - Telling Mira exactly what she thinks. → Not quite. Rumi says only what is easy to say. She is protecting her secret with a joke.
@@ -793,9 +793,9 @@ _You go down with a torch._
 _In the alley there is a tiger: a big one, blue as a bruise, with a wide silly grin and crossed eyes._  
 _On the tiger’s head stands a magpie, black and white, with a long tail and a beady, knowing eye. She looks at you sideways._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): the tiger and the magpie in Korean folk painting (minhwa)  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): the tiger and the magpie in Korean folk painting (minhwa)  
 > _A tiger and a magpie together is a famous picture in old Korean folk painting, called minhwa. In those pictures, what does the magpie bring?_  
-> - ✅ Good news. → Yes. In Korean folk belief, a magpie’s call means good news is coming. In minhwa pictures the tiger is often goofy and grinning, which is why Derpy fits right in. Families hung these pictures at New Year, for luck.
+> - ✅ Good news. → Yes. In Korean folk belief, a magpie’s call means good news is coming. The goofy tiger in minhwa pictures is why Derpy fits right in.
 > - A storm. → Not quite. The magpie is a cheerful bird in these stories. She brings good news, and the tiger is often a bit silly.
 > - A warning of danger. → Not here. The tiger in these pictures is more funny than scary. The magpie brings good news.
 > _For grown-ups: Learned that in Korean folk painting the magpie brings good news and the tiger is often a bit silly._
@@ -818,7 +818,7 @@ _The tiger goes cross-eyed trying to see it, and purrs louder._
 
 > **Lesson** (literacy, RL.3.3, ask): showing a character trait through actions: how can you tell Derpy is gentle?  
 > _Nobody says Derpy is gentle. How can you tell?_  
-> - ✅ He lies down carefully and lets a small Nubbin sit on his nose. → Yes. What a character does tells you what a character is like, even if the writer doesn’t say it. A big tiger who moves carefully around something small is being gentle.
+> - ✅ He lies down carefully and lets a small Nubbin sit on his nose. → Yes. What a character does shows what they are like, even if the writer doesn’t say it. A big tiger who moves carefully round something small is gentle.
 > - He is blue. → The colour is fun, but it doesn’t tell you about his nature. Look at what he does: he lies down carefully and lets your Nubbin climb up.
 > - He knocks over bins. → That shows he is clumsy and hungry, which is funny. His gentleness shows in how he treats your Nubbin.
 > _For grown-ups: Worked out a character trait, gentleness, from what a character does._
@@ -864,7 +864,7 @@ _It is folded only once._
 _Rumi is alone on the roof, in a hoodie, looking at the line of the Honmoon over the city. It flickers more than it used to._  
 _Below her, the lights of Seoul go on and on, to every edge of the dark._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Seoul is the capital of South Korea, on the Han River, with more than nine million people  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Seoul is the capital of South Korea, on the Han River, with more than nine million people  
 > _Seoul is the capital of South Korea. It lies on the banks of the Han River, with hills all round._  
 > _More than nine million people live in the city itself, and many more in the towns around it._  
 > _That makes it one of the biggest cities in the world._  
@@ -875,17 +875,18 @@ _Below her, the lights of Seoul go on and on, to every edge of the dark._
 
 _You hand her the note. She sees the writing, and opens it with her back to you._  
 **Rumi**: Did you read it?  
-_You don’t answer fast enough. She laughs, the first real laugh you have heard from her in days._  
+_You don’t answer fast enough, and your Nubbin finds its own feet very interesting. She laughs, the first real laugh in days._  
+**Rumi**: Of course. One of you did.  
+**Rumi**: Don’t tell Mira. Don’t tell Zoey.  
+**Rumi**: Don’t tell the tiger.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): when you have broken someone’s trust, telling the truth and saying sorry helps  
-> _If you have read a note you shouldn’t have, what helps most afterwards?_  
+> _Somebody opened a note that wasn’t theirs. What helps most afterwards?_  
 > - ✅ Tell the truth and say sorry. → Yes. Honesty and an apology can mend a small break in trust. Rumi laughed because she had guessed, and because the break was small.
 > - Pretend you didn’t. → That is tempting. But a hidden mistake can grow, and Rumi can often tell. Telling the truth and saying sorry is better for both of you.
 > - Hope nobody asks. → A lot of people try that. But hoping often feels heavy, and it doesn’t fix anything. Telling the truth and saying sorry is lighter.
 > _For grown-ups: Learned that telling the truth and saying sorry helps mend a small break in trust._
 
-**Rumi**: Of course you did. Don’t tell Mira.  
-**Rumi**: Don’t tell Zoey. Don’t tell the tiger.  
 _Down in the alley, Derpy rolls onto his back, and Sussie sits on his tummy, and they both look up at the roof._  
 
 ### Glossary
@@ -903,7 +904,7 @@ _Down in the alley, Derpy rolls onto his back, and Sussie sits on his tummy, and
 _You look at your Nubbin, in its noodle hat, and at yourself. You say you can try._  
 _The old city wall climbs the hill in big grey stones, with lamps along it, and the whole city below like a spilt jewel box._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the Seoul city wall: more than 600 years old and about 18 kilometres long  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the Seoul city wall: more than 600 years old and about 18 kilometres long  
 > _This is Seoul’s old city wall. It is more than 600 years old, and it runs for about 18 kilometres over four hills._  
 > _It was built to protect the capital. Today people walk along it for the view._  
 > _For grown-ups: Learned that Seoul’s city wall is more than 600 years old and about 18 kilometres long._
@@ -923,7 +924,8 @@ _Sussie lands beside you on the bottom step, and looks normal too, in her own wa
 **Choices**
 
 - **Look normal.**
-    - You look normal so hard that a passing grandmother asks if you are lost, and gives your Nubbin a sweet.
+    - You look normal so hard that a bus stops for you. You wave it on, and the driver looks hurt.
+    - Then a grandmother asks if you are lost, and gives your Nubbin a sweet. Your Nubbin looks normal back at her.
 - **Edge a few steps up.**
     - You edge up a few steps. Sussie hops up beside you, step for step, as if this was her idea.
 
@@ -963,7 +965,7 @@ _From down the wall, you can see Jinu’s face better than she can. When he says
 _Rumi comes down the steps alone. Her voice, when she says “let’s go”, is rough at the edges, but it’s there._  
 _She sips from a bottle of water and clears her throat._  
 
-> **Lesson** (science, 1-PS4-1, ask): a voice is made by vibrating vocal cords; tired cords sound rough, and rest helps  
+> **Lesson** (science, 4-PS3-2, ask): a voice is made by vibrating vocal cords; tired cords sound rough, and rest helps  
 > _Rumi’s voice is rough because she has been singing for days. What will help her voice most?_  
 > - ✅ Rest, and sips of water. → Yes. Her vocal cords are two small folds that vibrate to make sound. When they are tired they sound rough, and they recover with rest. Water helps keep them comfortable.
 > - Shouting louder. → Shouting would make the folds more tired. Rest and water are what a tired voice needs.
@@ -998,11 +1000,12 @@ _The rehearsal studio has thick foam on every wall and a keyboard with a coffee 
 
 > **Lesson** (science, 4-PS3-2, ask): foam soaks up sound so it does not bounce back as an echo  
 > _Why would a music studio cover its walls in foam?_  
-> - ✅ Foam soaks up sound, so it doesn’t bounce back as an echo. → Yes. Hard walls bounce sound back at you, which muddles the music. Soft foam takes the shaking out of the air. That is how a studio can make every note sound clean.
+> - ✅ Foam soaks up sound, so it doesn’t bounce back as an echo. → Yes. Hard walls bounce sound back at you, which muddles the music. Soft foam takes the shaking out of the air. So every note sounds clean.
 > - To keep the room warm. → Foam can keep warmth in, but that is not why studios use it. It soaks up sound, so there is no echo.
 > - To make the room look cosy. → It might do that too. But the real job is for the sound. Foam soaks up echoes, so every note sounds clean.
 > _For grown-ups: Learned that soft foam soaks up sound, so a music studio has no echo._
 
+_Taped to the keyboard is a bill from the TV studio. It says FLOWER STAND, underlined twice._  
 **Zoey**: We’ve got it. The thing that brings them down.  
 **Zoey**: A new song, all about them. What they really are.  
 **Mira**: We call them out in front of everyone. Every fan who loves those boys hears exactly what they are.  
@@ -1068,10 +1071,10 @@ _They drink the tea. They don’t make up, and they don’t fight any more eithe
 **Zoey**: It’s a vote, Rumi, and it’s two against one.  
 **Rumi**: Then it’s two against one.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): a vote decides by majority, but a fair group still listens to the person who is outvoted  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): a vote decides by majority, but a fair group still listens to the person who is outvoted  
 > _Two of the three voted for the song, and Rumi voted against._  
 > _What does a vote like this do, and what should a fair group still do?_  
-> - ✅ Two out of three is the majority, and the group should still listen to Rumi’s reasons. → Yes. A vote is a quick fair way to decide. A fair group also listens to the person who lost the vote. Sometimes that one person is seeing something the others missed.
+> - ✅ Two out of three is the majority, and the group should still listen to Rumi’s reasons. → Yes. A vote is a quick, fair way to decide. A fair group also listens to the one who lost. That person may see what the others missed.
 > - Rumi must be quiet now. → A vote decides what the group does. It doesn’t say the one who lost must be silent. A fair group still listens to her reasons.
 > - The vote doesn’t count unless all three agree. → Some groups choose to work that way. But this group chose to go with the majority. Even then, the one who disagrees deserves to be heard.
 > _For grown-ups: Learned that a majority vote decides, and that a fair group still listens to the person who is outvoted._
@@ -1130,7 +1133,7 @@ _You hear it, and so does she: clear, the way it was on the first night._
 _Jinu hears it too. He looks at her for a long time, and the rain runs off his hair._  
 **Jinu**: All right. A deal.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what makes a bargain fair: both sides give and get, and both agree freely  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what makes a bargain fair: both sides give and get, and both agree freely  
 > _Rumi and Jinu have made a deal. What makes a bargain fair?_  
 > - ✅ Both sides get something, and both agree without being forced. → Yes. A fair bargain gives each side something, and nobody is pushed into it. Here, Jinu helps with the awards, and Rumi helps him stay in the world.
 > - Only the stronger side gets something. → That would be a one-sided deal, and one side would lose. A fair bargain gives both sides something.
@@ -1151,25 +1154,26 @@ _Rumi goes down the steps, lighter than she came up. You go back for the umbrell
 _Jinu is still there. He has a hand pressed flat on the stones, and he is shaking._  
 _Under the lamp his shadow is the wrong size._  
 _It stretches all the way down the hill, and at the end of it there is a red glow._  
-
-> **Lesson** (science, 5-ESS1-2, ask): shadows are longest when the Sun is low in the sky  
-> _Jinu’s shadow stretches far down the hill. In the real world, when are shadows longest?_  
-> - ✅ In the early morning and evening, when the Sun is low. → Yes. When the Sun is low, it shines across the ground, and shadows stretch out long. At noon, the Sun is high, and shadows are short. Jinu’s shadow isn’t natural at all.
-> - At noon, when the Sun is high. → At noon, shadows are at their shortest, because the light comes down from above. They are longest when the Sun is low.
-> - Only at night. → At night there is no Sun, so there are no sunlit shadows. Shadows are longest in the early morning and evening, when the Sun is low.
-> _For grown-ups: Learned that shadows are longest when the Sun is low, in the morning and evening._
-
 **Gwi-Ma**: A deal with a hunter. How sweet.  
 **Gwi-Ma**: Shall I remind you of your mother, and your little sister, who waited for you? You never came.  
 **Jinu**: Don’t.  
 **Gwi-Ma**: Then remember who you belong to, little musician. Bring her to me, and I will quiet the voices in your head.  
 _The shadow snaps back to its right size. Jinu sees you, and the umbrella, and puts a finger to his lips._  
 
+> **Lesson** (literacy, RL.3.3, ask): what a character wants and fears can be read from what he does  
+> _Jinu puts a finger to his lips. What does he want, and what might he be afraid of?_  
+> - He wants a secret kept, and fears what Rumi would think. → That is a fair answer. A finger on the lips asks for silence, and Jinu fears losing Rumi’s trust.
+> - He wants quiet, and fears Gwi-Ma has heard. → That is a fair answer. Jinu has just been threatened, so he may fear the red glow most.
+> - He wants you to hurry, and fears being late. → Not quite. He stays still. The finger on his lips asks for quiet, so he fears being found out.
+> _For grown-ups: Read what a character wants and fears from his actions, with no single right answer._
+
+
 #### `reader:a29-10-complete` · [main](main.md#a29-10-complete)
 
 **Jinu**: You didn’t hear that.  
 _You don’t promise anything. You hand him the umbrella, because he hasn’t got one._  
-_He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain._  
+_He holds it like nobody has handed him anything in four hundred years._  
+_Then he and Derpy walk off into the rain under one umbrella, Derpy entirely outside it and perfectly content._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): a small kindness can matter a lot to someone who is struggling  
 > _You gave Jinu an umbrella and said nothing. What can a small kindness mean to someone who is struggling?_  
@@ -1241,6 +1245,7 @@ _Rumi falters, and looks left and right. The two girls beside her are singing it
 _Then one of them grabs Rumi’s arm, and with one long tear of fabric, rips her sleeve away from wrist to shoulder._  
 _The cameras swing in. The marks are on every screen in the hall, on every phone in the city, violet and silver and huge._  
 _The crowd goes very quiet. Then it starts to mutter, and the mutter has a hard edge._  
+_On the monitor, “Mira” turns to the camera and smiles, with too many teeth. It isn’t Mira, and it never was._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): empathy: what helps a person who has been exposed against their will  
 > _Rumi’s private marks are on every screen, and nobody asked her. What would help her most right now?_  
@@ -1249,15 +1254,14 @@ _The crowd goes very quiet. Then it starts to mutter, and the mutter has a hard 
 > - A little time, away from all the screens. → That is a fair answer. Some people need to step away and catch their breath first. Space and then company can be a good order.
 > _For grown-ups: Thought about what helps someone who has been exposed against their will, with no single right answer._
 
-_On the monitor, “Mira” turns to the camera and smiles, with too many teeth. It isn’t Mira, and it never was._  
 
 #### `reader:a29-11-monitor-done` · [main](main.md#a29-11-monitor-done)
 
 _Above the hall, the Honmoon tears like wet paper. The lights all over the city flicker at once._  
 
-> **Lesson** (science, 2-PS1-1, ask): water weakens paper because paper is made of tangled fibres  
+> **Lesson** (science, ask): water weakens paper because paper is made of tangled fibres  
 > _The Honmoon tears “like wet paper”. Why does wet paper tear so much more easily than dry paper?_  
-> - ✅ Water gets between the paper’s fibres and loosens them. → Yes. Paper is made of tiny plant fibres tangled together. Water gets in between them, so they slide apart. That is why a soggy page falls to bits in your hand.
+> - ✅ Water gets between the paper’s fibres and loosens them. → Yes. Paper is made of tiny plant fibres tangled together. Water gets in between them, so they slide apart. So a soggy page falls to bits.
 > - Wet paper is heavier. → It is a little heavier, but weight isn’t what makes it tear. The water loosens the fibres that hold it together.
 > - Wet paper is colder. → Cold has little to do with it. Water loosens the fibres.
 > _For grown-ups: Learned that water weakens paper by getting between its tangled plant fibres._
@@ -1270,7 +1274,7 @@ _Door after door: mops, cables, chairs. Your Nubbin jumps off the bags and runs 
 _At the last door it stops, and puts both paws on it, and looks back at you._  
 _Inside, in the dark among the folded tables, Mira and Zoey are tied back to back with tape, furious and trying to shout._  
 
-> **Lesson** (literacy, RL.1.4, ask): words that show strong feelings: furious  
+> **Lesson** (literacy, L.3.4, ask): words that show strong feelings: furious  
 > _The writer says Mira and Zoey are “furious”. Which word means almost the same?_  
 > - ✅ Very, very angry. → Yes. Furious is a strong word for anger, a bit like “boiling over”. Writers choose strong feeling words to show you how big a feeling is.
 > - A little bit sleepy. → Sleepy would be a quiet feeling. Furious is loud. It means very, very angry.
@@ -1292,12 +1296,13 @@ _Inside, in the dark among the folded tables, Mira and Zoey are tied back to bac
 
 _Variant of `a29-11-store`._
 
-_Under the folded tables, at the back of the store room, something grey moves. Sable has been in here all along, hiding from the noise._  
+_Under the folded tables, at the back of the store room, something grey moves, and two small eyes catch the light._  
+_Sable has been in here all along, hiding from the noise._  
 _She watches the tape come off Mira’s wrists. When you go, she comes after you, one shadow at a time._  
 
 > **Lesson** (science, 4-LS1-2, ask): many night animals have a reflective layer in the eye, so eyes shine in the dark  
 > _In dark places, Sable’s eyes seem to glint. Why do many animals’ eyes shine in the dark?_  
-> - ✅ A shiny layer at the back of the eye bounces light back. → Yes. Many night animals have a mirror-like layer in the eye, which helps them see in dim light. That layer sends some light back out, so their eyes seem to glow.
+> - ✅ A shiny layer at the back of the eye bounces light back. → Yes. Many night animals have a mirror-like layer in the eye that helps them see in dim light. It sends some light back out, so their eyes glow.
 > - Their eyes make their own light. → Eyes don’t make light. They reflect it. The shiny layer inside bounces light back.
 > - They are wet and cold. → Wetness isn’t why. It is the shiny layer inside the eye. It bounces light back.
 > _For grown-ups: Learned that many animals have a mirror-like layer in the eye that helps them see in the dark._
@@ -1309,7 +1314,7 @@ _The three of you run back to the stage door in time to see the end on the monit
 _The two fakes melt into smoke on stage. Rumi is standing alone in the middle, holding her bare arm, with ten thousand people staring at it._  
 _Mira and Zoey stand very still in front of the monitor. They’re looking at the marks too._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): respect for other people’s private things: ask first  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): respect for other people’s private things: ask first  
 > _Rumi’s private marks were shown to ten thousand people without her say. What is a fair rule for sharing someone else’s private things?_  
 > - ✅ Ask them first. It is their story to share. → Yes. A person’s private thing belongs to them, and asking first is how we show respect. If they say no, that is the end of it.
 > - If it’s true, anyone can share it. → Being true isn’t enough. A true thing can still be private. The fair rule is to ask first.
@@ -1343,7 +1348,7 @@ _Rumi comes off stage with a stagehand’s jacket round her shoulders. Mira and 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): is not telling the same as lying? Honesty and trust  
 > _Rumi says she didn’t lie, she just didn’t say. Zoey says that’s the same._  
 > _What do you think?_  
-> - Leaving something out can still break trust. → That is a fair answer. When someone relies on us to be open, leaving out a big thing can hurt as much as a lie. That is how Mira and Zoey feel.
+> - Leaving something out can still break trust. → That is a fair answer. When someone relies on us to be open, leaving out a big thing can hurt like a lie. Mira and Zoey feel that.
 > - Not saying and lying are different. → That is a fair answer. A lie says something false, and silence doesn’t. But silence can still leave someone feeling shut out, which is what Mira said.
 > - It depends why you didn’t say. → That is a thoughtful answer. Fear and shame are different from trying to trick someone. Rumi was afraid. Her friends were hurt anyway. Both things are true.
 > _For grown-ups: Thought about whether leaving something out is the same as lying, and how silence can affect trust._
@@ -1470,16 +1475,16 @@ _Jinu is on the roof, by the big lit letters of the hall’s sign. Rumi walks st
 **Rumi**: All of it.  
 **Jinu**: I didn’t go to feed them. I went because I wanted the voice.  
 **Jinu**: I wanted to be loved by everyone, more than I wanted to be theirs.  
+**Jinu**: I left my mother and my little sister in a house with no rice, and I never once went back.  
+_Rumi steps back from him. She looks as if he has hurt her, and as if she is sorry for him, both._  
 
 > **Lesson** (literacy, RL.3.3, ask): comparing two versions of a story to find a character’s true motive  
 > _Jinu told two versions of his story. How is this one different from the one on the wall?_  
-> - ✅ Before, he said he left to feed his family. Now he says he left because he wanted the voice. → Yes. The first version made him kinder than he was. The second is the truth, and it is harder to say. Comparing two versions of a story is how readers find what a character really wanted.
+> - ✅ Before, he said he left to feed his family. Now he says he left because he wanted the voice. → Yes. The first version made him kinder than he was. The second is the truth. Comparing two versions shows what a character really wanted.
 > - He told the same story both times. → Look again. The reason he left is different. First it was “to feed them”. Now it is “because I wanted the voice”.
 > - He told two stories about a tiger. → Derpy isn’t part of this story, though he is nearby. Jinu’s two stories are about why he left his family.
 > _For grown-ups: Compared two versions of a character’s story to find his true motive._
 
-**Jinu**: I left my mother and my little sister in a house with no rice, and I never once went back.  
-_Rumi steps back from him. She looks as if he has hurt her, and as if she is sorry for him, both._  
 
 **Choices**
 
@@ -1493,7 +1498,7 @@ _Rumi steps back from him. She looks as if he has hurt her, and as if she is sor
 _Jinu doesn’t try to say anything else. Below you, from the middle of the city, a red light is welling up through the streets._  
 _From up here you can see the Han River, and the tall tower on Namsan, glowing on its hill._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Namsan is a hill in the middle of Seoul, one of four hills of the old city, with a tower on top  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Namsan is a hill in the middle of Seoul, one of four hills of the old city, with a tower on top  
 > _Namsan is a hill right in the middle of Seoul, with a tall tower on top. You can see it from almost everywhere in the city._  
 > _It is one of four hills that once guarded the old capital. The city wall you saw earlier runs over them all._  
 > _For grown-ups: Learned that Namsan is a hill in the middle of Seoul with a tower on top, and one of the four hills of the old city._
@@ -1538,7 +1543,7 @@ _Celine is in the courtyard, wide awake, as if she has been waiting since the br
 
 > **Lesson** (literacy, L.4.5, ask): a metaphor: loving only “half” of someone  
 > _Rumi says Celine loved “only the half of me you could look at”. What does she mean?_  
-> - ✅ Celine accepted the part of Rumi that was easy for her to see, and not the rest. → Yes. Rumi isn’t saying she is cut in half. It is a metaphor for being loved with a part held back. Words used as a picture, not exactly, are called figurative language. They make a feeling clear.
+> - ✅ Celine accepted the part of Rumi that was easy for her to see, and not the rest. → Yes. Rumi isn’t cut in half. It is a metaphor for being loved only in part. A metaphor is a word picture that makes a feeling clear.
 > - Celine only saw half of Rumi’s body. → Not literally. The “half” stands for part of who Rumi is. She means that Celine accepted only the part she found easy to look at.
 > - Celine only came to half of the shows. → Nothing in the story says that. The half is a picture for the part of Rumi that Celine could accept.
 > _For grown-ups: Read a metaphor for its meaning: being loved for only the part of you that others find easy to see._
@@ -1563,7 +1568,7 @@ _You are still on the stone step by the gate, where you sat last time._
 
 _Celine sits down on the edge of the wooden floor that runs along the house, very straight, with her hands on her knees._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): the maru: the wooden-floored hall or porch of a hanok  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): the maru: the wooden-floored hall or porch of a hanok  
 > _The wooden floor Celine sits on is called a maru. It is the open, wooden-floored hall or porch of a hanok._  
 > _It stays cool in summer, while the rooms beside it, warmed by ondol, stay snug in winter._  
 > _The family sits there to talk, eat, or watch the weather._  
@@ -1588,7 +1593,7 @@ _Long enough for the courtyard stones to cool, and for a cat to cross the wall a
 _At last Celine gets up, without a word, and goes inside. You hear a kettle._  
 _Soon it begins to whistle, and a thin cloud of steam drifts out under the door._  
 
-> **Lesson** (science, 2-PS1-4, ask): heating and cooling: water boils at 100 °C (212 °F), and steam turns back to water when it cools  
+> **Lesson** (science, ask): heating and cooling: water boils at 100 °C (212 °F), and steam turns back to water when it cools  
 > _Water boils at 100 °C (212 °F), and the kettle’s steam drifts out into the cool air. What happens to steam when it cools?_  
 > - ✅ It turns back into tiny drops of water. → Yes. Heat changes water into steam, and cooling changes steam back to water. That change can be reversed. A cold spoon held in steam gets wet for the same reason.
 > - It turns into ice at once. → Ice needs much colder air than a courtyard in summer. Steam turns back into water drops as it cools.
@@ -1630,7 +1635,7 @@ _On the stage the Saja Boys are singing, and behind them the great shadow with f
 _You push through the crowd with the gear case, and nobody stops you or sees you. Bobby is in the third row, smiling at nothing._  
 _Two rows behind him is Zoey, and in the aisle is Mira. Both of them blank, both of them shimmering._  
 
-> **Lesson** (maths, 1.OA.A.1, ask): ordinal numbers and adding on: two rows behind row 3  
+> **Lesson** (maths, 4.NBT.B.4, ask): ordinal numbers and adding on: two rows behind row 3  
 > _Bobby is in row 3, and Zoey is two rows behind him. Which row is Zoey in?_  
 > - ✅ Row 5. → Yes. Two rows behind row 3 means counting on two: row 4, then row 5. Behind means further from the stage, so the numbers go up.
 > - Row 1. → Row 1 is in front of row 3. Behind means further back. Count on two from 3: row 4, row 5.
@@ -1681,6 +1686,7 @@ _She walks down the middle aisle through the blank crowd, and up onto the stage,
 _She doesn’t sing the old songs, or the harsh one. She opens her mouth and sings something you have never heard._  
 _It has no words you can catch, and it is her own. It is like hearing someone tell the truth about herself, and be fine._  
 _Under the music the marks glow brighter, not dimmer, and she doesn’t hide them. She holds her arms out so everyone can see._  
+_The shimmer stops drifting towards the stage. Here and there in the crowd, someone blinks._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): the difference between hiding something and choosing to share it  
 > _Rumi stops hiding her marks and sings. What is the difference between hiding something and choosing to share it?_  
@@ -1689,7 +1695,6 @@ _Under the music the marks glow brighter, not dimmer, and she doesn’t hide the
 > - You can do both at different times. → That is a thoughtful answer. Some things we share with some people and not with others. The key part is that you are the one who decides.
 > _For grown-ups: Thought about the difference between hiding something and choosing to share it, with no single right answer._
 
-_The shimmer stops drifting towards the stage. Here and there in the crowd, someone blinks._  
 
 #### `reader:a29-14-song-done` · [main](main.md#a29-14-song-done)
 
@@ -1697,7 +1702,7 @@ _You are standing at the side of the stage holding Rumi’s long coat._
 _She took it off on her way in, and put it in your hands, and kept walking._  
 _You hold it, and don’t put it on her, and don’t put it away._  
 
-> **Lesson** (literacy, RL.2.3, ask): an action can show trust: handing over a coat  
+> **Lesson** (literacy, RL.3.3, ask): an action can show trust: handing over a coat  
 > _Rumi hands you her coat without a word and walks on. What does that action show?_  
 > - ✅ She trusts you with something that mattered to her. → Yes. A coat she had hidden behind is now in your hands. Trust can be shown without a word. Actions can say more than speeches, and good writers use them.
 > - She wanted to get rid of it because it was old. → Not here. Look at what the coat has covered. Handing it to you shows trust.
@@ -1714,7 +1719,7 @@ _Variant of `a29-14-song-done`._
 _Halfway through, with the marks blazing on her arms, Rumi looks round the stadium once, and finds you at the side of the stage._  
 _Only for a moment. Then she looks back out at the crowd, and sings louder._  
 
-> **Lesson** (literacy, RL.2.3, ask): a single look can carry a message  
+> **Lesson** (literacy, RL.3.3, ask): a single look can carry a message  
 > _Rumi looks for you once, only for a moment, and then sings louder. What does that single look tell you?_  
 > - ✅ That she remembers who said it was all right. → Yes. One look can say “thank you” and “I’m ready” at once. Then she looks away, because she doesn’t need to check any more.
 > - That she is lost. → She found you at once, so she isn’t lost. The look says she remembers.
@@ -1731,7 +1736,7 @@ _Variant of `a29-14-song-done`._
 _Rumi doesn’t look for anyone, not Mira, not Zoey, not you. She sings straight out, at all of them._  
 _She doesn’t need to look for anyone. That is the whole point._  
 
-> **Lesson** (literacy, RL.2.3, ask): not looking for anyone shows she no longer needs permission  
+> **Lesson** (literacy, RL.3.3, ask): not looking for anyone shows she no longer needs permission  
 > _Rumi doesn’t look for anyone, and the story says that is “the whole point”. What does it mean?_  
 > - ✅ She no longer needs anyone’s permission to be herself. → Yes. She isn’t checking whether it is safe. She has decided. That is quiet courage, shown by what she doesn’t do.
 > - She is angry at everyone. → There is no anger in how she sings. She doesn’t need to look for permission.
@@ -1757,6 +1762,10 @@ _Rumi looks at them, and makes room, and the three of them stand together at the
 > _For grown-ups: Learned that notes sung together make harmony, because their sound waves add up._
 
 _All over the stadium people are waking up, confused, holding their phones. Bobby, in the third row, says “what” very loudly._  
+_Then he sees the open case in your arms._  
+**Bobby**: Who opened the girls’ case? Nobody touches the girls’ case!  
+**Zoey**: Bobby. We’re saving the world.  
+**Bobby**: …Carefully, though?  
 
 ### Glossary
 
@@ -1807,12 +1816,11 @@ _He puts it into her hands. Then he is gone: not falling, not hurt, only light, 
 _Rumi stands holding the light._  
 _She lifts her head and sings, and Mira and Zoey sing with her, and you have never heard three voices fit so well._  
 _The great shadow comes apart like smoke in a wind, and is gone, and the stage is only a stage._  
-_Above the stadium the torn Honmoon closes over. It isn’t one colour._  
-_It is every colour there is, like a ribbon held up to the sun._  
+_Above the stadium the torn Honmoon closes over. It is every colour at once, like sunlight, which is every colour folded up small._  
 
 > **Lesson** (science, 4-PS3-2, ask): sunlight is all the colours mixed together; a rainbow shows them apart  
 > _The new Honmoon has every colour, like a rainbow. What is sunlight made of?_  
-> - ✅ All the colours mixed together. → Yes. Sunlight looks white, but it is all the colours of the rainbow mixed up. Raindrops can split it apart, and then we see red, orange, yellow, green, blue and violet.
+> - ✅ All the colours mixed together. → Yes. Sunlight looks white, but it is all the colours of the rainbow mixed up. Raindrops can split it apart and show them.
 > - Only yellow. → The Sun looks yellow from far away, but there is more in it. Sunlight is all the colours mixed.
 > - Only white, with nothing inside. → White looks plain, but it has every colour in it. A rainbow is what you get when raindrops split it apart.
 > _For grown-ups: Learned that sunlight is all colours mixed together, and that a rainbow shows them separately._
@@ -1822,7 +1830,7 @@ _It is every colour there is, like a ribbon held up to the sun._
 
 _The crowd is awake, all of it. Somebody starts clapping, not knowing why, and then everybody does._  
 
-> **Lesson** (literacy, RL.2.3, ask): how characters respond to an event they do not fully understand  
+> **Lesson** (literacy, RL.3.3, ask): how characters respond to an event they do not fully understand  
 > _Somebody starts clapping “not knowing why”, and then everybody does. How do the people feel?_  
 > - ✅ Relieved and happy, even though they don’t know what happened. → Yes. They have woken up into something good, and clapping is how they say so. Feelings can spread through a crowd, for good as well as for bad.
 > - Angry. → Clapping doesn’t sound angry. They are relieved and happy.
@@ -1915,7 +1923,7 @@ _The fans in the queue step round her, carefully, the way you step round a cat i
 _Derpy and Sussie are on the wall behind the table. Nobody but you seems to think a blue tiger is odd._  
 _With the tiger grinning and the magpie perched, they look just like a picture from an old folk painting._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): Korean folk paintings show everyday wishes: luck, a long life, a happy home  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): Korean folk paintings show everyday wishes: luck, a long life, a happy home  
 > _Minhwa, Korean folk painting, was made by ordinary people for ordinary homes._  
 > _It often shows wishes everyone shares: good luck, a long life, a happy family._  
 > _That is why the pictures are so cheerful, and why a goofy tiger and a magpie with good news fit so well._  
@@ -1926,7 +1934,7 @@ _With the tiger grinning and the magpie perched, they look just like a picture f
 
 _When the queue thins, you sit on the wall beside Derpy, with your back to the warm stone._  
 
-> **Lesson** (science, K-PS3-1, ask): sunlight warms the ground and stone  
+> **Lesson** (science, 4-PS3-2, ask): sunlight warms the ground and stone  
 > _The wall has been in the sun all day, and it is warm against your back. Why?_  
 > - ✅ Sunlight warms the stone. → Yes. Sunlight carries energy, and when it lands on stone, the stone warms up. Stone holds the warmth for a long time, so it stays cosy even in the shade.
 > - The stone makes its own heat. → Stone has no heat of its own. It warms up when the Sun shines on it. That is why it is warm in the afternoon.
@@ -1951,6 +1959,10 @@ _Rumi looks over from the table, and sees the three of them, and laughs._
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby**: Runner. Good work.  
 **Bobby**: Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby**: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 _Rumi comes over to the wall. She stops in front of you in the sun, and pushes her short sleeve up to the shoulder._  
 _She holds her arm out, the marks bright in the daylight, and turns it this way and that, as if she is seeing it for the first time._  
 **Rumi**: You gave me a jacket once. I don’t need it now.  
@@ -1961,11 +1973,15 @@ _She holds her arm out, the marks bright in the daylight, and turns it this way 
 > _What helps a person stop hiding?_  
 > - Someone who accepts all of them. → That is a fair answer. Being seen and still liked is a very strong medicine. Rumi found that in Mira and Zoey, and in you.
 > - Being brave a little at a time. → That is a fair answer. Rumi took years, then one night, then one sunny street. Small steps count.
-> - Meeting others who share it. → That is a fair answer. When you meet someone else like you, you stop feeling like the only one. Rumi found that with her fans, who asked to look at her arm.
+> - Meeting others who share it. → That is a fair answer. Meeting someone like you means you stop feeling like the only one. Rumi found that with her fans.
 > _For grown-ups: Thought about what helps people stop hiding the things they fear others will judge, with no single right answer._
 
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby._  
+_Don’t get ideas._  
+**Bobby**: She sent me a pear. Mira.  
+**Bobby**: She sent me a pear.  
 _The street goes flat, and bright, and smells of paint._  
 _You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 
@@ -1976,6 +1992,10 @@ _Variant of `a29-16-complete`._
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby**: Runner. Good work.  
 **Bobby**: Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby**: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 **Zoey**: Group photo! Huntrix and staff!  
 **Zoey**: Bobby, hold the phone up higher. Higher.  
 **Zoey**: Like a tall person.  
@@ -1992,6 +2012,10 @@ _In the photo, her arm is round your shoulders, marks and all. Your Nubbin is a 
 
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby._  
+_Don’t get ideas._  
+**Bobby**: She sent me a pear. Mira.  
+**Bobby**: She sent me a pear.  
 _The street goes flat, and bright, and smells of paint._  
 _You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 
@@ -2002,6 +2026,10 @@ _Variant of `a29-16-complete`._
 _The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers._  
 **Bobby**: Runner. Good work.  
 **Bobby**: Strange work, but good. If you ever want a job that’s only a job, call me.  
+_Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving._  
+**Bobby**: Don’t look at me like that. It’s outselling the lightsticks.  
+**Mira**: I did say he’d put it on a mug.  
+_Your Nubbin takes the mug, looks inside for the real one, and climbs in._  
 _You pick up the empty boxes and go across the street to the van. When you turn round, Rumi is looking for you over the crowd._  
 _She lifts her bare arm and waves, once, a big wave, from right across the street._  
 _You wave back, and neither of you comes any closer. That’s enough._  
@@ -2015,6 +2043,10 @@ _You wave back, and neither of you comes any closer. That’s enough._
 
 _Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there._  
 _Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie._  
+_Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby._  
+_Don’t get ideas._  
+**Bobby**: She sent me a pear. Mira.  
+**Bobby**: She sent me a pear.  
 _The street goes flat, and bright, and smells of paint._  
 _You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist._  
 

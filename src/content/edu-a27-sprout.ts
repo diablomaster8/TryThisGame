@@ -3,9 +3,9 @@
  * White-Haired Prince (Zal and the Simurgh, Ferdowsi’s Shahnameh, Iran).
  *
  * Source: atlas-a27.ts (ATLAS_A27 and ATLAS_A27_VARIANTS). One EduScene per original scene, id
- * `sprout:<original id>`, with the same choice ids and `set` flags (`a27-feather` in
- * a27-08-feather). Every step scene, done scene, complete scene and variant has a version, and
- * each has exactly one lesson. Domains never repeat back to back, across scenes, quests and
+ * `sprout:<original id>`, with the same choice ids and `set` flags (`a27-word` in a27-05-words,
+ * `a27-feather` in a27-08-feather). Every step scene, done scene, complete scene and variant has
+ * a version, and each has exactly one lesson. Domains never repeat back to back, across scenes, quests and
  * variant paths, and each variant has the same domain as the scene it replaces (the margin note
  * and the Corvin line are feelings lessons, which differ from the scenes beside them).
  *
@@ -35,7 +35,7 @@
  * Iran and Afghanistan today; Kabul is in Afghanistan, where a form of Persian is spoken; clouds
  * are made of tiny drops of water; feathers trap warm air; camels have humps that store fat;
  * grown-ups’ hair often turns white; parents feed their young; a wild rose has five petals; the
- * four seasons; the moon shines at night; Persian words: dust (friend), salaam (hello), mehman
+ * four seasons; the moon shines at night; Persian words: doost (friend), salaam (hello), mehman
  * (guest); Persian kings had a Royal Road with relay riders; weddings today have a decorated cloth.
  */
 import type { EduDomain, EduQuest, EduScene, Lesson } from './types';
@@ -848,7 +848,7 @@ const A4: EduQuest = quest(
           1,
           'science',
           'feathers trap warm air and keep animals warm',
-          '4-LS1-1',
+          'ELOF: Scientific Reasoning',
           [N('The Simurgh’s wing is warm and fluffy. What keeps you warm at night?')],
           [
             o('A blanket.', [N('Yes! A blanket holds warm air close, just like feathers.')], true),
@@ -983,29 +983,44 @@ const A5: EduQuest = quest(
         notice(
           5,
           'literacy',
-          'a word for friend in Persian: dust',
+          'a word for friend in Persian: doost',
           'ELOF: Language and Communication',
           [
-            N('In Persian, the word for a friend is dust.'),
-            N('It sounds like “doost”. (Say it together: doost!)'),
+            N('In Persian, a friend is a doost.'),
+            N('Say it together: doost!'),
           ],
-          'Heard the Persian word for friend, dust, and said it aloud.',
+          'Heard the Persian word for friend, doost, and said it aloud.',
         ),
       ],
       [
-        ch('friend', 'Teach him “friend”.', [
-          Y('Friend. Someone who stays.'),
-          YO('Friend. Then you are my friend. And the small one too.', 'happy'),
-        ]),
-        ch('home', 'Teach him “home”.', [
-          Y('Home. The place you come back to.'),
-          YO('Then this is home. One day I will go away, and come back.', 'think'),
-        ]),
-        ch('sorry', 'Teach him “sorry”.', [
-          Y('Sorry. What you say when you did a wrong thing, and wish you had not.'),
-          YO('Nobody ever said it to me. Is that good?', 'think'),
-          N('You do not know what to say, so you stay close.'),
-        ]),
+        ch(
+          'friend',
+          'Teach him “friend”.',
+          [
+            Y('Friend. Someone who stays.'),
+            YO('Friend. Then you are my friend. And the small one too.', 'happy'),
+          ],
+          { 'a27-word': 'taught-friend' },
+        ),
+        ch(
+          'home',
+          'Teach him “home”.',
+          [
+            Y('Home. The place you come back to.'),
+            YO('Then this is home. One day I will go away, and come back.', 'think'),
+          ],
+          { 'a27-word': 'taught-home' },
+        ),
+        ch(
+          'sorry',
+          'Teach him “sorry”.',
+          [
+            Y('Sorry. What you say when you did a wrong thing, and wish you had not.'),
+            YO('Nobody ever said it to me. Is that good?', 'think'),
+            N('You do not know what to say, so you stay close.'),
+          ],
+          { 'a27-word': 'taught-sorry' },
+        ),
       ],
     ),
     sc(
@@ -1243,8 +1258,8 @@ const A6: EduQuest = quest(
           ],
           [
             o('Keep them safe and fed.', [N('Yes! Parents keep their young safe and fed.')], true),
-            o('Go away for ever.', [
-              N('Most animal parents stay, and keep their young safe and fed.'),
+            o('Leave them alone.', [
+              N('A mother duck does not leave her ducklings. She keeps them safe and fed.'),
             ]),
           ],
           'Learned that animal parents feed and protect their young.',
@@ -1286,19 +1301,22 @@ const A6: EduQuest = quest(
       [
         N('You stop at the foot of the rocks. You look up into the cloud.'),
         N('The Simurgh comes down.'),
-        SI('Did the story land?'),
+        SI('Did he hear the story?'),
         Y('He is coming. With an army!'),
         SI('Then I had better put the kettle on.', 'think'),
         N('She has no kettle. You think she knows.'),
       ],
       [
         doit(
-          4,
+          5,
           'literacy',
           'clap the syllables in kettle',
           'RF.K.2',
           'edu:clap:syllables:kettle',
-          [N('Clap the word kettle. Ket-tle. Two claps!')],
+          [
+            N('Clap the word kettle. Ket-tle. Two claps!'),
+            N('The Simurgh claps too, with one wing.'),
+          ],
           'Clapped the two syllables in kettle.',
         ),
       ],
@@ -1431,7 +1449,7 @@ const A7: EduQuest = quest(
           0,
           'science',
           'birds fluff their feathers to keep warm',
-          '4-LS1-1',
+          'ELOF: Scientific Reasoning',
           [N('When a bird fluffs up its feathers, what is it doing?')],
           [
             o('Keeping warm.', [N('Yes! Fluffy feathers trap warm air.')], true),
@@ -1589,13 +1607,15 @@ const A8: EduQuest = quest(
       'a27-08-complete',
       [
         N('The young man says goodbye to each chick in turn.'),
+        N('The smallest chick sits on him one last time. Flump!'),
+        N('He laughs and cries at once, and lets it.'),
         N('You say goodbye too.'),
         SI('Take something of the nest home with you.', 'soft'),
         N('She weaves you a great round nest.'),
       ],
       [
         ask(
-          3,
+          5,
           'maths',
           'name the shape: circle',
           'K.G.A.2',
@@ -2677,7 +2697,9 @@ const A14: EduQuest = quest(
         N('Zal gives half his money to people in need.'),
         N('Then he sends you to Rudaba.'),
         N('In the family rooms, the queen has found a gift meant for Zal.'),
-        N('Bad news comes: the Shah is cross, and soldiers may march.', 'shock'),
+        N('Bad news comes. The Shah has heard about Zal and Rudaba.', 'shock'),
+        N('Long ago, a cruel king was in Rudaba’s family.'),
+        N('So the Shah is cross. Soldiers may march.'),
         SK('Do not be afraid. I will talk to Sam myself.', 'soft'),
       ],
       [
@@ -3087,7 +3109,7 @@ const A16: EduQuest = quest(
           0,
           'science',
           'down feathers keep chicks warm',
-          '4-LS1-1',
+          'ELOF: Scientific Reasoning',
           [N('Soft down keeps chicks warm. Is down good for a cold night, or a hot day?')],
           [
             o(
@@ -3095,7 +3117,7 @@ const A16: EduQuest = quest(
               [N('Yes! Down traps warm air, so it is good on a cold night.')],
               true,
             ),
-            o('A hot day.', [N('On a hot day, down is too warm. It is best on a cold night.')]),
+            o('A hot day.', [N('Down is too warm on a hot day. It is for cold nights.')]),
           ],
           'Learned that soft down feathers keep young birds warm.',
         ),
@@ -3136,7 +3158,7 @@ const A17: EduQuest = quest(
       hint: 'Sit with him in the hall.',
     },
     'a27-17-s2': {
-      goal: 'Put the feather on the fire.',
+      goal: 'Watch Zal put the feather on the fire.',
       hint: 'The brazier in the hall is lit.',
     },
     'a27-17-s3': {
@@ -3290,6 +3312,8 @@ const A17: EduQuest = quest(
         N('A rider takes a silk doll of the baby to Sam.'),
         N('Zal holds the baby up to the Simurgh. Neither is afraid.'),
         N('The last thing you see: Zal laughing, with the baby held high.'),
+        N('A small beak peeks over the wall. The smallest chick came too!'),
+        N('It waits at the back. Very politely.'),
         N('A feather drifts down. The Simurgh lets it stay.'),
         N('You are back in the Grove. Nubbin wants second breakfast!'),
       ],
@@ -3422,6 +3446,91 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  // a27-word = taught-sorry (A27-5): replaces a27-09-oath
+  sc(
+    'a27-09-oath-taught-sorry',
+    [
+      N('Sam bows low to the great bird.'),
+      SA('I was wrong. I was afraid, and I was wrong.', 'sad'),
+      SA('I am sorry. I do not know a better way to say it.', 'sad'),
+      YO('So that is how sorry sounds. I wondered.', 'soft'),
+      SA('I promise: I will never be hard to you again.'),
+      N('He gives his son a name: Zal. It means the old one, for the white hair.'),
+      N('Sam says it with pride.'),
+      ZA('Zal. I like it!', 'happy'),
+    ],
+    [
+      ask(
+        7,
+        'literacy',
+        'first sounds: z for Zal and zebra',
+        'RF.K.2',
+        [N('Zal begins with z, z, z. Which starts like Zal: zebra or sun?')],
+        [
+          o('Zebra.', [N('Yes! Zal, zebra: z, z, z!')], true),
+          o('Sun.', [N('Sun begins with s. Zal and zebra both begin with z!')]),
+        ],
+        'Practised hearing the first sound z in Zal and zebra.',
+      ),
+    ],
+    [
+      ch('clap', 'Clap.', [N('You clap. Your Nubbin claps. So does the whole army!')]),
+      ch('bow', 'Bow to Zal.', [ZA('You do not bow to me. You are my nestmate.', 'happy')]),
+    ],
+  ),
+  // a27-word = taught-home (A27-5): replaces a27-09-road
+  sc(
+    'a27-09-road-taught-home',
+    [
+      N('The army goes home with drums and trumpets.'),
+      N('Boom! Toot! Crash!'),
+      N('Zal rides beside his father. You ride on the baggage.'),
+      ZA('It is so loud!'),
+      SA('Only when the world is happy.', 'happy'),
+      ZA('Is Sistan home now? The place I come back to?', 'think'),
+      SA('Yes. It is louder than a nest. But yes.', 'soft'),
+      N('High above, a great bird turns once, and goes home.', 'soft'),
+    ],
+    [
+      doit(
+        1,
+        'music',
+        'sound is made by shaking: vibrations',
+        '1-PS4-1',
+        'edu:feel:throat:hum',
+        [N('Drums shake to make sound. Touch your throat and hum. Feel the shake?')],
+        'Felt a vibration in the throat while humming, and linked it to how sound is made.',
+      ),
+    ],
+  ),
+  // a27-word = taught-friend (A27-5): replaces a27-09-complete
+  sc(
+    'a27-09-complete-taught-friend',
+    [
+      N('People throw flowers at the gate. Zal catches a rose.'),
+      N('Your Nubbin eats it! Zal laughs and laughs.'),
+      SA('You laugh with your whole self.', 'soft'),
+      ZA('The chicks taught me.'),
+      ZA('Father, this is my friend. A friend is someone who stays.', 'happy'),
+      SA('Then your friend is family now.'),
+      ZA('Oh no. Then I need another word!', 'think'),
+    ],
+    [
+      ask(
+        1,
+        'sel',
+        'noticing how happy feels in the body',
+        'CASEL: Self-awareness',
+        [N('Zal laughs with his whole self. How does your body feel when you laugh?')],
+        [
+          o('Wiggly.', [N('Wiggly! Laughing shakes us all over.')]),
+          o('Warm.', [N('Warm and glowing. That is a happy body.')]),
+          o('Tickly.', [N('Tickly! Laughing is full of tickles.')]),
+        ],
+        'Named how laughing feels in the body.',
+      ),
+    ],
+  ),
   // a27-feather = sat
   sc(
     'a27-14-letter-sat',
@@ -3460,12 +3569,13 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       ZA('Father. You left me on a mountain. A bird raised me.'),
       ZA('I do not say it to hurt you. I say it because it is true.'),
       ZA('I have one thing to ask. I love Rudaba. I want to marry her.'),
-      ZA('I made you wait one night. You made me wait many. Let us call it even.', 'happy'),
+      ZA('I made you wait one night. You made me wait many.', 'happy'),
+      ZA('Now we have both waited. That is fair.'),
       N('He gives the letter to you.'),
     ],
     [
       ask(
-        4,
+        5,
         'literacy',
         'a letter has a hello and a goodbye',
         'ELOF: Literacy',
@@ -3489,15 +3599,16 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('Zal goes to the fire in the middle of the hall. He stops.'),
       ZA('She said: burn it on the day of need. This is the day.'),
       N('He holds the feather a long moment. You do not hurry him.'),
-      N('Then he holds it out to you.'),
-      ZA('You put it on. You sat with me. Sit with me now.', 'soft'),
-      N('You lay the feather on the fire. He leans on your shoulder.'),
+      N('Then he holds out his other hand to you.'),
+      ZA('Hold my hand. You sat with me. Sit with me now.', 'soft'),
+      N('Zal lays the feather on the fire. You hold his other hand.'),
+      N('He leans on your shoulder.'),
       N('It burns slowly, like a candle. It smells of sandalwood.'),
       N('Outside, all at once, the light goes strange.'),
     ],
     [
       ask(
-        6,
+        7,
         'science',
         'fire gives heat and light; fire is for grown-ups',
         'ELOF: Scientific Reasoning',
@@ -3548,6 +3659,8 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       N('You sit there together, and let the morning come.'),
       N('Days later, far away, Sam opens a parcel. Inside is a little silk doll.'),
       N('The last thing you see: Sam, holding the doll, crying happy tears.', 'soft'),
+      N('A small beak peeks over the wall. The smallest chick came too!'),
+      N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
     ],
@@ -3579,6 +3692,8 @@ export const EDU_A27_SPROUT_VARIANTS: EduScene[] = [
       SI('You were right to give him the night.', 'soft'),
       N('She spreads her wings and goes up.'),
       N('The last thing you see: the Simurgh circling the house, then turning for home.'),
+      N('A small beak peeks over the wall. The smallest chick came too!'),
+      N('It waits at the back. Very politely.'),
       N('A feather drifts down. The Simurgh lets it stay.'),
       N('You are back in the Grove. Nubbin wants second breakfast!'),
     ],

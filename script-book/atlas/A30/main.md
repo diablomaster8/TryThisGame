@@ -38,6 +38,9 @@ _Your Nubbin holds up both arms, to show that it will fit anywhere at all._
 
 **Dvora**: Avram, bring them in, you’re letting the warm out. Water first, lodger. Then you can be a guest.  
 **Rivka**: I’ll show them the well! I know the well better than anyone.  
+**Rivka**: That’s Shmuel under the table. He’s five, and he asks questions.  
+**Rivka**: That’s Mirele on the stairs. She’s three, and she answers them.  
+_Shmuel waves from under the table. Mirele waves back with a spoon._  
 
 ### Step 2: Carry water from the well, and learn where things are.
 
@@ -227,6 +230,9 @@ _In the morning the men are gone; nothing happened, this time. Hannah’s oven i
 _The rabbi passes on his way to the study house, and nods to Avram. He looks as if he has not slept at all._  
 **Rabbi Loew** _(think)_: Good morning. It is a good morning. They all are, until they aren’t.  
 **Dvora**: He didn’t sleep. You can always tell. He gets philosophical before breakfast.  
+_Your Nubbin comes out of the house wearing the rabbi’s coat from yesterday. Most of it trails behind._  
+**Dvora**: He leaves coats on pegs the way a hen leaves eggs. That’s the third this month.  
+**Rabbi Loew** _(happy)_: Ah. I wondered where I had got to.  
 
 **Rewards**
 
@@ -474,6 +480,8 @@ _He fills the barrel. Then he fills it again, because nobody has told him to sto
 _Water runs over the rim, across the kitchen, under the door, and out into the lane in a bright sheet._  
 _Yossele goes on fetching, steady as a mill wheel, through his own flood._  
 _You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all, and very sincere._  
+_A hen floats past the door on a cabbage, with the face of someone who was promised dry land._  
+_Your Nubbin gives up bailing, climbs into the bread trough, and sails._  
 **Dvora** _(shock)_: Oh, no. No, no, no. Yossele! That’s enough! Enough!  
 _He doesn’t stop. She isn’t the one who made him._  
 _Then the rabbi is at the door with his sleeves wet to the elbow, and says one word. Yossele sets the bucket down._  
@@ -523,7 +531,7 @@ _You go up to the loft in your new apron, still damp at the hem. Your Nubbin is 
 
 Sets on completion: `{"a30-07":true}`
 
-**Notes:** SIGNATURE CHOICE (a30-07-order): a30-order = safe | help | sit, Yossele’s standing order. It pays off in A30-9 (a30-09-order-*), A30-10 (a30-10-grow-*) and A30-13 (a30-13-order-*, the tile and the last image). The rabbi’s word that stops Yossele in a30-07-flood#7 is never given: show only his mouth moving and the bucket going down. COMEDY: the flood is the page’s one big laugh; keep it bright and quick. Nobody is hurt; onions float. REWARD: the apron, one-time, at a30-07-flood-done.
+**Notes:** SIGNATURE CHOICE (a30-07-order): a30-order = safe | help | sit, Yossele’s standing order. It pays off in A30-9 (a30-09-order-*), A30-10 (a30-10-grow-*) and A30-13 (a30-13-order-*, the tile and the last image). The rabbi’s word that stops Yossele in a30-07-flood#9 is never given: show only his mouth moving and the bucket going down. COMEDY: the flood is the page’s one big laugh; keep it bright and quick. Nobody is hurt; onions float. REWARD: the apron, one-time, at a30-07-flood-done.
 
 ## A30-8. The Night Guard
 
@@ -825,6 +833,7 @@ _Nobody talks about the lane. Avram blesses the wine, and the bread, and passes 
 **Dvora** _(soft)_: Tomorrow. We’ll talk about Yossele tomorrow night. Tonight is the Sabbath, and we rest, even from that.  
 _Shmuel thinks about this, and nods, and eats his bread._  
 _Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all._  
+_It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does._  
 
 **Choices**
 
@@ -932,7 +941,7 @@ _A week later. The rabbi sits on the bench outside the study house in the sun, a
 **Rabbi Loew** _(sad)_: But a thing that only obeys has no brakes of its own. All its brakes are in your hands. And hands forget.  
 **Rabbi Loew**: I am not the first, you know. In Chełm, they say, a rabbi made one before me, and it grew, and kept growing.  
 **Rabbi Loew**: He was afraid it would fill the world. So:  
-**Rabbi Loew**: “Finally he extracted the Shem from the forehead of his golem, which returned to dust.”  
+**Rabbi Loew**: In the end he rubbed the word from its forehead, and it went back to dust.  
 **Rabbi Loew**: He had more sense than me. He did it before anyone had to run.  
 
 **Choices**
@@ -1049,11 +1058,7 @@ _You are back in the Grove, the atlas on your knee. Your pocket is heavier by on
 
 Sets on completion: `{"a30-13":true,"a30-done":true}`
 
-**Learning Grove swaps**
-
-- `a30-13-bench#6` → So he rubbed out the word, very gently, and his clay man lay down and went to sleep for good.
-
-**Notes:** LIFTED TEXT: a30-13-bench#6 (Jewish Encyclopedia 1904, “Golem”, of the golem of Chełm), in the rabbi’s mouth as the older story; #4–5 introduce it in our words. ORDER PAYOFF (a30-order): play ATLAS_A30_VARIANTS a30-13-order-safe | a30-13-order-help | a30-13-order-sit after a30-13-bench, before step 2 (what the rabbi says of what you chose). With sit, also play a30-13-tile-paw after a30-13-tile (the pawprint). The complete scene shown, a30-13-complete, is for safe (the barred shutter). For help play a30-13-complete-help (the broom); for sit, a30-13-complete-sit (the clay bird on the sill). KEPTSTONE: play a30-13-kept after the order insert, before step 2 (a choice with no flag). REWARDS (one-time, at a30-13-complete*): the Clay Tile (the Grove keepsake, on the cottage hearth; with sit it has a tiny pawprint beside the letters), the Clay Bird decor and the Price of Power Bookmark. SIM: the Price of Power festival (A1, A4, A8, A15, A20, A30, any two) reads atlasDone('A30') from a30-done. The Grove keepsake scene plays the first time you enter the cottage after a30-done, checked in this order: a30-grove-tile-quiet unless the campaign is past chapter 4 (c4-out seen), mossFaded is false and the ending is not moss-sleeps (so Moss never speaks before he has come down or after he has faded); then a30-grove-tile-cinder if cinder is set; otherwise a30-grove-tile.
+**Notes:** a30-13-bench#6 is the rabbi’s plain-spoken retelling of the Chełm legend in our words (no longer a lift). ORDER PAYOFF (a30-order): play ATLAS_A30_VARIANTS a30-13-order-safe | a30-13-order-help | a30-13-order-sit after a30-13-bench, before step 2 (what the rabbi says of what you chose). With sit, also play a30-13-tile-paw after a30-13-tile (the pawprint). The complete scene shown, a30-13-complete, is for safe (the barred shutter). For help play a30-13-complete-help (the broom); for sit, a30-13-complete-sit (the clay bird on the sill). KEPTSTONE: play a30-13-kept after the order insert, before step 2 (a choice with no flag). REWARDS (one-time, at a30-13-complete*): the Clay Tile (the Grove keepsake, on the cottage hearth; with sit it has a tiny pawprint beside the letters), the Clay Bird decor and the Price of Power Bookmark. SIM: the Price of Power festival (A1, A4, A8, A15, A20, A30, any two) reads atlasDone('A30') from a30-done. The Grove keepsake scene plays the first time you enter the cottage after a30-done, checked in this order: a30-grove-tile-quiet unless the campaign is past chapter 4 (c4-out seen), mossFaded is false and the ending is not moss-sleeps (so Moss never speaks before he has come down or after he has faded); then a30-grove-tile-cinder if cinder is set; otherwise a30-grove-tile.
 
 ## Variant scenes
 

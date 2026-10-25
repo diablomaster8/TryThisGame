@@ -4,7 +4,8 @@
  *
  * Source: atlas-a27.ts (ATLAS_A27 and ATLAS_A27_VARIANTS). One EduScene per original scene (every
  * step scene, every done scene, every complete scene and every variant), id `reader:<original id>`,
- * with every choice kept under its original id and `set` flag (`a27-feather` in a27-08-feather).
+ * with every choice kept under its original id and `set` flag (`a27-word` in a27-05-words,
+ * `a27-feather` in a27-08-feather).
  * Reader keeps all choices, so no `defaultChoice` is needed. See EDU-STYLE.md. British spelling.
  *
  * Learning angles, from the outline: where Iran is and which countries share the Persian language;
@@ -228,7 +229,7 @@ const A1: EduQuest = quest(
           2,
           'social-studies',
           'Persian is spoken in Iran, Afghanistan and Tajikistan',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'The Shahnameh is loved in Iran, Afghanistan and Tajikistan. One language links all three countries. Which one?',
@@ -257,7 +258,7 @@ const A1: EduQuest = quest(
           3,
           'maths',
           'add to find a date: 980 + 30',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'Suppose Ferdowsi began his book in the year 980 and worked for thirty years. In what year did he finish?',
@@ -401,7 +402,7 @@ const A1: EduQuest = quest(
           1,
           'maths',
           'days and weeks: 8 days is 1 week and 1 day',
-          '2.OA.A.1',
+          '4.MD.A.2',
           [
             N(
               'The baby is eight days old. A week has seven days. How many days is that more than a week?',
@@ -520,7 +521,7 @@ const A1: EduQuest = quest(
           1,
           'social-studies',
           'fairness: everyone deserves care whatever they look like',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Sam hesitates to hold his son because of the baby’s hair. Which idea about fairness does that go against?',
@@ -698,7 +699,7 @@ const A2: EduQuest = quest(
           1,
           'science',
           'why clouds and rain gather over mountains',
-          '3-ESS2-1',
+          undefined,
           [
             N(
               'Mountains often bring storms. Wind is pushed up the slope, cools, and its water vapour turns into tiny drops. What forms?',
@@ -739,7 +740,7 @@ const A2: EduQuest = quest(
           0,
           'maths',
           'add distances: 4 + 3 + 2',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'The servants walked 4 km on the road, 3 km on the path and 2 km on the stones. How far did they walk in all?',
@@ -834,7 +835,7 @@ const A2: EduQuest = quest(
           1,
           'literacy',
           'words that show what we sense: sound words',
-          'RL.1.4',
+          'L.3.4',
           [
             N(
               'Writers use sound words so you can hear a storm. Which of these is a sound word: howl, damp or grey?',
@@ -1263,7 +1264,7 @@ const A4: EduQuest = quest(
           0,
           'social-studies',
           'scarcity means choosing',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'There was only one fig, and three ways to use it. When there is not enough, what is the cost of choosing to eat it yourself?',
@@ -1345,10 +1346,13 @@ const A4: EduQuest = quest(
     ),
     sc(
       'a27-04-night-done',
-      [N('In the morning there is frost on the outside of her wings, and none at all underneath.')],
+      [
+        N('In the morning there is frost on the outside of her wings, and none at all underneath.'),
+        N('The chick beside you snores like a kettle that has been left on.'),
+      ],
       [
         ask(
-          0,
+          1,
           'literacy',
           'simile: a heartbeat like a drum heard from the next valley',
           'L.4.5',
@@ -1482,7 +1486,7 @@ const A4: EduQuest = quest(
           2,
           'science',
           'babies learn speech by copying the sounds around them',
-          '3-LS1-1',
+          undefined,
           [N('His first word sounded like a bird call. Why would that be?')],
           [
             o(
@@ -1584,25 +1588,40 @@ const A5: EduQuest = quest(
         ),
       ],
       [
-        ch('friend', 'Teach him “friend”.', [
-          Y('Friend. Someone who isn’t family, but stays anyway.'),
-          YO('Friend. Then you are my friend. And the small one too.', 'happy'),
-          N(
-            'In Persian a friend is called dust, which sounds like “doost”. He would have liked that.',
-          ),
-        ]),
-        ch('home', 'Teach him “home”.', [
-          Y('Home. The place you come back to.'),
-          YO(
-            'Then this is home. I have never gone anywhere to come back from. Perhaps one day.',
-            'think',
-          ),
-        ]),
-        ch('sorry', 'Teach him “sorry”.', [
-          Y('Sorry. What you say when you have done something wrong, and you wish you hadn’t.'),
-          YO('Nobody has ever said it to me. Is that good?', 'think'),
-          N('You don’t know what to say to that, so you say nothing.'),
-        ]),
+        ch(
+          'friend',
+          'Teach him “friend”.',
+          [
+            Y('Friend. Someone who isn’t family, but stays anyway.'),
+            YO('Friend. Then you are my friend. And the small one too.', 'happy'),
+            N(
+              'In Persian a friend is called dust, which sounds like “doost”. He would have liked that.',
+            ),
+          ],
+          { 'a27-word': 'taught-friend' },
+        ),
+        ch(
+          'home',
+          'Teach him “home”.',
+          [
+            Y('Home. The place you come back to.'),
+            YO(
+              'Then this is home. I have never gone anywhere to come back from. Perhaps one day.',
+              'think',
+            ),
+          ],
+          { 'a27-word': 'taught-home' },
+        ),
+        ch(
+          'sorry',
+          'Teach him “sorry”.',
+          [
+            Y('Sorry. What you say when you have done something wrong, and you wish you hadn’t.'),
+            YO('Nobody has ever said it to me. Is that good?', 'think'),
+            N('You don’t know what to say to that, so you say nothing.'),
+          ],
+          { 'a27-word': 'taught-sorry' },
+        ),
       ],
     ),
     sc(
@@ -1656,7 +1675,7 @@ const A5: EduQuest = quest(
           2,
           'social-studies',
           'caravans on trade roads carried goods, news and stories',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Long ago, caravans crossed Iran along trade routes such as the Silk Road. Besides silk and spices, what else did they carry from town to town?',
@@ -1833,7 +1852,7 @@ const A6: EduQuest = quest(
           2,
           'science',
           'hair turns grey or white with age as pigment cells slow down',
-          '3-LS1-1',
+          undefined,
           [
             N(
               'The old servant’s hair is white because he is old, while the baby’s was white from birth. Why does hair turn white as people age?',
@@ -1928,39 +1947,37 @@ const A6: EduQuest = quest(
         ask(
           3,
           'literacy',
-          'a simile compares using as or like',
-          'L.4.5',
+          'what a character’s words tell another character to do',
+          'RL.3.3',
           [
             N(
-              'The rider says Sam’s beard is “as white as a poplar”. What do we call a comparison that uses “as” or “like”?',
+              'The rider tells Sam to look in a mirror. What is the rider really telling Sam he must do?',
             ),
           ],
           [
             o(
-              'A simile.',
+              'Look at himself honestly, and see that he was wrong.',
               [
                 N(
-                  'Yes. A simile compares two things using “as” or “like”. The rider uses it to make Sam look at himself.',
+                  'Yes. Sam’s own beard is white too. The rider wants him to see his mistake and put it right.',
                 ),
               ],
               true,
             ),
-            o('A rhyme.', [
-              N(
-                'A rhyme is words that sound alike. A comparison using “as” or “like” is a simile.',
-              ),
+            o('Comb his beard.', [
+              N('Ha. His beard is fine. The rider wants Sam to look honestly at what he did.'),
             ]),
-            o('A riddle.', [
-              N('A riddle is a puzzle. A comparison using “as” or “like” is a simile.'),
+            o('Buy a better mirror.', [
+              N('The mirror is a way of saying: look at yourself, and see that you were wrong.'),
             ]),
           ],
-          'Named a simile, a comparison using as or like, in the rider’s words to Sam.',
+          'Worked out what the dream rider’s words about a mirror tell Sam he must do.',
         ),
       ],
     ),
     sc(
       'a27-06-dream-done',
-      [SA('Call the mobeds. All of them. Now, before I lose my nerve.')],
+      [SA('Call the mobeds, the wise priests. All of them. Now, before I lose my nerve.')],
       [
         ask(
           0,
@@ -2014,7 +2031,7 @@ const A6: EduQuest = quest(
           3,
           'science',
           'animal parents care for their young: crocodiles carry hatchlings in their mouths',
-          '1-LS1-2',
+          '4-LS1-1',
           [
             N(
               'The mobed says even a crocodile looks after its young. How does a mother crocodile carry her hatchlings to the water?',
@@ -2109,7 +2126,7 @@ const A6: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          5,
           'literacy',
           'idiom: put the kettle on, with a joke',
           'L.4.5',
@@ -2217,7 +2234,7 @@ const A7: EduQuest = quest(
           'CASEL: Self-awareness',
           [
             N(
-              'Zal has met only a handful of living creatures, and now sees an army. How might that feel? There is no one right answer.',
+              'The youth has met only a handful of living creatures, and now sees an army. How might that feel? There is no one right answer.',
             ),
           ],
           [
@@ -2266,7 +2283,7 @@ const A7: EduQuest = quest(
           2,
           'social-studies',
           'Sistan is a region in Iran and Afghanistan',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Sam was the champion of Sistan. Today, Sistan is a region in two countries. Which two?',
@@ -2391,7 +2408,7 @@ const A7: EduQuest = quest(
   [
     gl(
       'humble',
-      'Not proud or boastful about yourself. Zal bows low, as the Simurgh did.',
+      'Not proud or boastful about yourself. The youth bows low, as the Simurgh did.',
       'a27-11-praise',
     ),
     gl('bargain', 'To trade or argue for a deal.', 'a27-07-foot'),
@@ -2513,7 +2530,7 @@ const A8: EduQuest = quest(
           6,
           'social-studies',
           'objects that carry memories',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'A feather from her breast is something to remember her by, a keepsake. Why do people keep objects to remember others? There is no one right answer.',
@@ -2591,7 +2608,7 @@ const A8: EduQuest = quest(
           1,
           'science',
           'fire needs fuel, heat and air; fire safety',
-          '4-PS3-2',
+          undefined,
           [
             N(
               'The feather is for burning on the day of need, so it must stay dry. What three things does a fire need? (Fire is dangerous, so only grown-ups light one.)',
@@ -2642,21 +2659,25 @@ const A8: EduQuest = quest(
         ask(
           3,
           'maths',
-          'subtract: 7 in the nest, three leave',
-          '2.OA.A.1',
+          'two steps: add everyone in the nest, then take away three',
+          '3.OA.D.8',
           [
             N(
-              'There are 4 chicks, Zal, you and your Nubbin in the nest: 7 in all. When Zal, you and your Nubbin go down, how many are left?',
+              'The nest holds 4 chicks, plus the youth, you and your Nubbin. When the three of you go down, how many are left?',
             ),
           ],
           [
-            o('4.', [N('Yes. 7 take away 3 is 4: the four chicks.')], true),
+            o(
+              '4.',
+              [N('Yes. 4 and 3 make 7 in the nest. 7 take away 3 is 4: the four chicks.')],
+              true,
+            ),
             o('6.', [
-              N('That takes away only Zal. You and your Nubbin go too: 7 take away 3 is 4.'),
+              N('That takes away only the youth. 4 and 3 make 7, and 7 take away all 3 is 4.'),
             ]),
-            o('10.', [N('Nobody joins, so the number goes down: 7 take away 3 is 4.')]),
+            o('10.', [N('Nobody joins. 4 and 3 make 7, and 7 take away 3 is 4.')]),
           ],
-          'Subtracted 3 from 7 to find how many are left in the nest.',
+          'Added to find 7 in the nest, then subtracted 3 to find 4 left.',
         ),
       ],
     ),
@@ -2716,7 +2737,7 @@ const A9: EduQuest = quest(
           'CASEL: Relationship skills',
           [
             N(
-              'Zal runs to his father at once. Is it right to forgive quickly, or should someone earn it first? There is no one right answer.',
+              'The youth runs to his father at once. Is it right to forgive quickly, or should someone earn it first? There is no one right answer.',
             ),
           ],
           [
@@ -2792,6 +2813,7 @@ const A9: EduQuest = quest(
         SA(
           'I swear it, before the one who made us both: my heart will never be closed to you again.',
         ),
+        SA('And I will give you anything you ever ask of me.'),
         N(
           'He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride.',
         ),
@@ -2799,7 +2821,7 @@ const A9: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          6,
           'literacy',
           'theme: the same feature can be shame or pride',
           'RL.4.2',
@@ -2845,7 +2867,7 @@ const A9: EduQuest = quest(
           0,
           'maths',
           'measure and subtract lengths in centimetres',
-          '2.MD.A.1',
+          '4.MD.A.1',
           [
             N(
               'The tailor’s belt is 95 centimetres long. A metre is 100 centimetres. How much shorter than a metre is the belt?',
@@ -3043,7 +3065,7 @@ const A10: EduQuest = quest(
           6,
           'social-studies',
           'manners show respect, and differ between cultures',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Zal’s bow is not the court’s bow, yet it is perfect. Why do cultures have rules of manners?',
@@ -3184,27 +3206,29 @@ const A10: EduQuest = quest(
         ask(
           0,
           'literacy',
-          'Persian titles: shah and shahanshah',
+          'word origins: checkmate from the Persian shah mat',
           'L.3.4',
           [
             N(
-              'In Persian, shah means king, and shahanshah means “king of kings”. What word would mean “book of kings”?',
+              '“Checkmate” comes from the Persian shah mat: the king is helpless. Your Nubbin has eaten three dishes of rice. Who is helpless now?',
             ),
           ],
           [
             o(
-              'Shahnameh.',
-              [N('Yes. Shah (king) plus nameh (book): the title of Ferdowsi’s epic.')],
+              'Your Nubbin.',
+              [
+                N(
+                  'Yes. Shah mat means the king can’t move. After three dishes, neither can your Nubbin.',
+                ),
+              ],
               true,
             ),
-            o('Shahanshah.', [N('That one means king of kings. Book of kings is Shahnameh.')]),
-            o('Checkmate.', [
-              N(
-                'Close family: checkmate comes from the Persian shah mat. But book of kings is Shahnameh.',
-              ),
+            o('The rice.', [N('The rice is gone. The one who can’t move is your Nubbin.')]),
+            o('The chessboard.', [
+              N('Nobody is playing chess. Your Nubbin is the one who can’t move.'),
             ]),
           ],
-          'Used Persian word parts shah and nameh to name the Book of Kings.',
+          'Learned that checkmate comes from the Persian shah mat, the king is helpless.',
         ),
       ],
     ),
@@ -3236,7 +3260,7 @@ const A10: EduQuest = quest(
           3,
           'social-studies',
           'a fair judge hears both sides',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [N('Two neighbours disagree about a goat and some washing. What makes a judge fair?')],
           [
             o(
@@ -3312,7 +3336,7 @@ const A10: EduQuest = quest(
           0,
           'science',
           'daylight changes through the year because of Earth’s tilt',
-          '1-ESS1-2',
+          '5-ESS1-2',
           [
             N(
               'As the seasons go round, summer days in Iran are longer than winter days. What causes that?',
@@ -3400,7 +3424,7 @@ const A11: EduQuest = quest(
           1,
           'social-studies',
           'Kabul is the capital of Afghanistan, on the Kabul River',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Kabul is a real city, beside the Kabul River in a valley among mountains. It is the capital of which country today?',
@@ -3528,7 +3552,7 @@ const A11: EduQuest = quest(
           0,
           'social-studies',
           'hosts welcome guests with food; mehman means guest',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'In Persian a guest is a mehman, and hosts often offer food first. Why do hosts offer food to guests?',
@@ -3734,7 +3758,7 @@ const A12: EduQuest = quest(
           1,
           'science',
           'bees carry pollen from flower to flower',
-          '2-LS2-2',
+          '3-LS1-1',
           [
             N(
               'A rose garden hums with bees. When a bee visits one rose and then another, what does it carry between them?',
@@ -3771,7 +3795,7 @@ const A12: EduQuest = quest(
           0,
           'maths',
           'subtract distances: 48 minus 30',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'The river is 30 metres wide, and Zal’s arrow flew 48 metres. How far past the far bank did it land?',
@@ -3848,7 +3872,7 @@ const A12: EduQuest = quest(
       [
         ZA('Why are you smiling? What did they say? Tell me every word.', 'think'),
         N(
-          'The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll wait.',
+          'The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll keep his secret and carry his messages.',
         ),
       ],
       [
@@ -3966,10 +3990,8 @@ const A12: EduQuest = quest(
     sc(
       'a27-12-complete',
       [
-        RU(
-          'You said he feeds everyone before himself. And now they say he shoots like a king. Which is he?',
-          'think',
-        ),
+        RU('You told me what he is really like. Now my maids say he shoots like a king.', 'think'),
+        RU('Which is he?'),
         Y('Both.'),
         RU('Good. I would hate to have to choose.', 'happy'),
         N(
@@ -3979,7 +4001,7 @@ const A12: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'sel',
           'people can be gentle and strong at once',
           'CASEL: Self-awareness',
@@ -4097,7 +4119,7 @@ const A13: EduQuest = quest(
           0,
           'maths',
           'subtract a height from a rope length',
-          '2.OA.A.1',
+          '4.MD.A.2',
           [
             N(
               'The roof is 5 metres up, and Zal’s rope is 8 metres long. How much rope is left over once it reaches the roof?',
@@ -4582,7 +4604,7 @@ const A14: EduQuest = quest(
           '3.MD.A.1',
           [
             N(
-              'Sindokht got the whole story in a quarter of an hour. How many minutes is a quarter of an hour?',
+              'Sindokht got the whole story in a quarter of an hour. An hour has 60 minutes. How many minutes is a quarter of it?',
             ),
           ],
           [
@@ -4658,7 +4680,7 @@ const A14: EduQuest = quest(
           5,
           'social-studies',
           'fairness: judge people by their own choices, not their family history',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Rudaba comes from Zahhak’s family line, but she has done nothing wrong. Should people be judged by their family history?',
@@ -4753,7 +4775,7 @@ const A14: EduQuest = quest(
           2,
           'social-studies',
           'Shab-e Yalda: the longest night of the year is celebrated with pomegranates',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Pomegranates have grown in Iran for thousands of years. On Yalda, the longest night of the year, families gather with pomegranates and poetry. Which night is the longest in the northern hemisphere?',
@@ -4844,7 +4866,7 @@ const A15: EduQuest = quest(
           6,
           'science',
           'the moon’s cycle is about 29 and a half days; mah means moon and month',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [
             N(
               'In Persian, the word mah means both “moon” and “month”. The Moon goes from full to full in about 29 and a half days. Why would one word do both jobs?',
@@ -5083,7 +5105,7 @@ const A15: EduQuest = quest(
           0,
           'maths',
           'subtract to compare: 85 and 70 metres',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'Zal’s arrow flew 85 metres, and the best champion’s flew 70 metres. How much further did Zal’s arrow go?',
@@ -5117,7 +5139,7 @@ const A15: EduQuest = quest(
           0,
           'social-studies',
           'the Persian Royal Road used relay riders to carry messages fast',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Long ago, Persian kings built a Royal Road with stations where riders swapped tired horses for fresh ones. Why did that make letters travel faster?',
@@ -5280,25 +5302,23 @@ const A16: EduQuest = quest(
       ],
       [
         ask(
-          1,
-          'maths',
-          'multiply: 7 days of 40 loaves',
-          '3.OA.A.3',
+          5,
+          'literacy',
+          'multiple-meaning words: pacing yourself',
+          'L.3.4',
+          [N('Your Nubbin is “not pacing itself”. What does pacing yourself mean here?')],
           [
-            N(
-              'The cooks bake 40 loaves every day of the seven-day feast. How many loaves do they bake in all?',
+            o(
+              'Going slowly enough to last to the end.',
+              [N('Yes. The feast lasts seven days, and your Nubbin is eating as if it ends tonight.')],
+              true,
             ),
-          ],
-          [
-            o('280 loaves.', [N('Yes. 7 groups of 40 make 280.')], true),
-            o('47 loaves.', [
-              N('That adds 7 and 40. There are 7 days of 40 loaves, so multiply: 280.'),
+            o('Walking up and down.', [
+              N('That is another meaning of pacing. Here it means going slowly enough to last.'),
             ]),
-            o('2,800 loaves.', [
-              N('Check the place value: 7 times 4 is 28, so 7 times 40 is 280.'),
-            ]),
+            o('Eating nothing.', [N('The opposite. Your Nubbin is eating as fast as it can.')]),
           ],
-          'Multiplied 7 days by 40 loaves to make 280 loaves.',
+          'Worked out the meaning of pacing yourself from the feast scene.',
         ),
       ],
       [
@@ -5331,46 +5351,33 @@ const A16: EduQuest = quest(
       [
         ask(
           0,
-          'science',
-          'down feathers trap air and keep young birds warm',
-          '4-LS1-1',
+          'maths',
+          'unit fractions: three of four equal parts',
+          '3.NF.A.1',
           [
             N(
-              'Zal held a twist of soft chick-down. Down is a layer of tiny, fluffy feathers. Why does down keep a chick warm?',
+              'Sindokht cuts a pomegranate into 4 equal parts for you to share. Your Nubbin eats 3 before you sit down. What fraction did it eat?',
             ),
           ],
           [
             o(
-              'It traps air, which holds in body heat.',
-              [
-                N(
-                  'Yes. Thousands of tiny strands trap air, and trapped air stops heat escaping. That is why people stuff coats with down.',
-                ),
-              ],
+              '3/4',
+              [N('Yes. Three of the four equal parts. You get the last quarter, if you’re quick.')],
               true,
             ),
-            o('It makes its own heat.', [
-              N('Down does not make heat. It traps the air that holds in the chick’s body heat.'),
-            ]),
-            o('It soaks up the Sun.', [
-              N('Not quite. Down traps air, which holds in the chick’s own body heat.'),
-            ]),
+            o('1/4', [N('That is what is left for you. Your Nubbin ate three of the four parts.')]),
           ],
-          'Learned that down keeps young birds warm because it traps air that holds in body heat.',
+          'Named three of four equal parts as the fraction 3/4.',
         ),
       ],
     ),
     sc(
       'a27-16-complete',
       [
+        N('After a month in Kabul, they all go home to Sistan. This time Zal brings a queen.'),
+        RU('And a proper rope. He wouldn’t use the other kind.', 'happy'),
         N(
-          'After a month in Kabul, they all go home to Sistan. Sam goes back to the wars, and leaves the land in Zal’s hands.',
-        ),
-        N(
-          'Zal sits on his father’s throne and rules with patience and fairness, the way he learned it on the peak.',
-        ),
-        N(
-          'Rudaba sits beside him. He sets a crown of gold on her black hair, and she sets her hand on his white head.',
+          'In his father’s hall, Zal sets a crown of gold on her black hair, and she sets her hand on his white head.',
         ),
         N(
           'Your Nubbin has eaten, at a guess, its own weight in wedding cake. It sleeps for two days, smiling.',
@@ -5381,7 +5388,7 @@ const A16: EduQuest = quest(
           2,
           'social-studies',
           'customs are kept alive by families passing them on',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In Iran today, many weddings still have a lovely decorated spread called a sofreh, with flowers, candles and sweets. How do customs like this last for hundreds of years?',
@@ -5545,7 +5552,7 @@ const A17: EduQuest = quest(
           3,
           'science',
           'burning is a change that cannot be reversed; melting can',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?',
@@ -5580,7 +5587,7 @@ const A17: EduQuest = quest(
           0,
           'literacy',
           'onomatopoeia: words that sound like their meaning',
-          'RL.1.4',
+          'L.3.4',
           [N('Shutters rattle in the wind. Which of these words sounds like the noise it names?')],
           [
             o(
@@ -5715,6 +5722,10 @@ const A17: EduQuest = quest(
         N(
           'The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky.',
         ),
+        N(
+          'Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely.',
+        ),
+        N('Your Nubbin shares its breakfast with it, smallest first.'),
         N(
           'One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back.',
         ),
@@ -5963,6 +5974,171 @@ export const EDU_A27_READER_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  // a27-word = taught-sorry (A27-5): replaces a27-09-oath
+  sc(
+    'a27-09-oath-taught-sorry',
+    [
+      N(
+        'Sam stands up. He bows, very low, to the great bird at the edge of the cloud, and thanks her with his whole voice.',
+      ),
+      N(
+        'Then he looks at his son properly: tall and strong and handsome, with white hair, and nothing wrong in him at all.',
+      ),
+      SA(
+        'I was wrong. I was a coward, and I was wrong, and there is nothing I can say that makes it smaller.',
+        'sad',
+      ),
+      SA('Open your heart to me if you can. I won’t ask for more than you can give.'),
+      SA('I’m sorry. I don’t know how to say it any better than that.', 'sad'),
+      YO('So that is what it sounds like. I wondered.', 'soft'),
+      SA(
+        'I swear it, before the one who made us both: my heart will never be closed to you again.',
+      ),
+      SA('And I will give you anything you ever ask of me.'),
+      N(
+        'He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride.',
+      ),
+      ZA('Zal. I like it. It sounds like a door shutting on the right side.', 'happy'),
+    ],
+    [
+      ask(
+        8,
+        'literacy',
+        'theme: the same feature can be shame or pride',
+        'RL.4.2',
+        [
+          N(
+            'At first Sam was ashamed of the white hair. Now he gives the name Zal, “the old one”, with pride. What does this show?',
+          ),
+        ],
+        [
+          o(
+            'The same thing can feel like shame or pride, depending on how people choose to see it.',
+            [N('Yes. Nothing about the hair changed. What changed was how Sam saw it.')],
+            true,
+          ),
+          o('Names do not matter.', [
+            N('In this story the name matters a lot. It turns the shame into pride.'),
+          ]),
+          o('The hair turned black.', [N('It is still white. What changed was how Sam saw it.')]),
+        ],
+        'Explored a theme: how choosing to see something differently can turn shame into pride.',
+      ),
+    ],
+    [
+      ch('clap', 'Clap.', [
+        N(
+          'You clap, and your Nubbin claps. After a moment, uncertainly, so does the whole army.',
+        ),
+      ]),
+      ch('bow', 'Bow to Zal.', [
+        ZA('You don’t bow to me. You are my nestmate. Stand up.', 'happy'),
+      ]),
+    ],
+  ),
+  // a27-word = taught-home (A27-5): replaces a27-09-road
+  sc(
+    'a27-09-road-taught-home',
+    [
+      N(
+        'The army goes home to Sistan with drums and trumpets and cymbals, all the way, so that every village knows.',
+      ),
+      N(
+        'Zal rides at the front beside his father. You ride on the baggage, on a heap of tent poles, with your Nubbin in your lap.',
+      ),
+      ZA('It is very loud. Is the world always this loud?', 'think'),
+      SA('Only when it’s happy.', 'happy'),
+      ZA('Is Sistan where I come back to now? I was told that is what home means.', 'think'),
+      SA('Yes. It’s louder than a nest, but yes.', 'soft'),
+      N(
+        'The old servant walks beside the baggage, holding the bridle of the mule, and is the quietest man in the army.',
+      ),
+      N(
+        'Behind you, high above the cloud, a great bird turns once in the sky, and turns again, and goes home.',
+        'soft',
+      ),
+    ],
+    [
+      ask(
+        5,
+        'music',
+        'sound is made by vibrations, which travel through the air',
+        '4-PS3-2',
+        [N('A drum is loud enough to hear in every village. How does a drum make sound?')],
+        [
+          o(
+            'The drum skin vibrates, and the vibrations travel through the air.',
+            [
+              N(
+                'Yes. Hit the skin and it shakes, and the shaking pushes the air, so the sound travels to your ears.',
+              ),
+            ],
+            true,
+          ),
+          o('The drum glows.', [
+            N(
+              'A drum makes no light. Its skin vibrates, and the vibrations travel through the air as sound.',
+            ),
+          ]),
+          o('The drum talks to the army.', [
+            N(
+              'Ha. In a way, but the real answer is vibration: the skin shakes and the air carries the sound.',
+            ),
+          ]),
+        ],
+        'Learned that sound comes from vibrations, as when a drum skin shakes.',
+      ),
+    ],
+  ),
+  // a27-word = taught-friend (A27-5): replaces a27-09-complete
+  sc(
+    'a27-09-complete-taught-friend',
+    [
+      N(
+        'At the gate the people throw flowers and blessings, and Zal catches a rose, and doesn’t know what to do with it.',
+      ),
+      N(
+        'Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his father’s arm.',
+      ),
+      SA('You laugh with your whole self. I had forgotten people could.', 'soft'),
+      ZA('The chicks taught me. They do everything with their whole selves.', 'happy'),
+      ZA('Father, this is my friend. Someone who isn’t family, but stays anyway.', 'happy'),
+      SA('Then they’re family now. That’s how it works here.'),
+      ZA('Then I shall need another word.', 'think'),
+      N('Sam takes his son by the arm, and they go in together.'),
+    ],
+    [
+      ask(
+        2,
+        'sel',
+        'mixed feelings: joy with sorrow for lost time',
+        'CASEL: Social awareness',
+        [
+          N(
+            'Sam says he had forgotten that people could laugh like that. What feelings might be mixed in his voice?',
+          ),
+        ],
+        [
+          o(
+            'Joy, and sadness for the years he lost.',
+            [
+              N(
+                'Yes. He is delighted now, and sorry about the time he missed. Both feelings can be true together.',
+              ),
+            ],
+            true,
+          ),
+          o('Only anger.', [
+            N('There is no anger here. His voice is soft, and mixed with joy and regret.'),
+          ]),
+          o('Only boredom.', [
+            N('Not boredom. Sam is moved, with joy and regret mixed together.'),
+          ]),
+        ],
+        'Noticed mixed feelings, joy and regret, in a character’s words.',
+      ),
+    ],
+  ),
   // a27-feather = sat
   sc(
     'a27-14-letter-sat',
@@ -6096,7 +6272,7 @@ export const EDU_A27_READER_VARIANTS: EduScene[] = [
         6,
         'science',
         'burning is a change that cannot be reversed; melting can',
-        '2-PS1-4',
+        undefined,
         [
           N(
             'Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?',
@@ -6143,7 +6319,7 @@ export const EDU_A27_READER_VARIANTS: EduScene[] = [
         4,
         'science',
         'burning is a change that cannot be reversed; melting can',
-        '2-PS1-4',
+        undefined,
         [
           N(
             'Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?',
@@ -6193,6 +6369,10 @@ export const EDU_A27_READER_VARIANTS: EduScene[] = [
         'The last thing you see on the page is Sam, the great champion, holding the doll in both hands and weeping for joy.',
         'soft',
       ),
+      N(
+        'Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely.',
+      ),
+      N('Your Nubbin shares its breakfast with it, smallest first.'),
       N(
         'One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back.',
       ),
@@ -6253,6 +6433,10 @@ export const EDU_A27_READER_VARIANTS: EduScene[] = [
       N(
         'The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home.',
       ),
+      N(
+        'Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely.',
+      ),
+      N('Your Nubbin shares its breakfast with it, smallest first.'),
       N(
         'One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back.',
       ),

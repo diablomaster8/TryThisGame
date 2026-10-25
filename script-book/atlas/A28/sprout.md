@@ -198,7 +198,7 @@ _You bow too. Bowing says: I respect you._
 > _(Count the four things on your fingers: python, hornets, leopard, fairy.)_  
 > _Then Ananse adds his mother. How many is that?_  
 > - ✅ Five. → Yes! Four things and one more makes five.
-> - Four. → Four things, and Ya Nsia makes one more. Four and one is five.
+> - Four. → Four things, and Ananse’s mother makes one more. Four and one is five.
 > _For grown-ups: Counted four things and added one more to make five._
 
 _Your Nubbin stares at him. So do you._  
@@ -280,8 +280,8 @@ _Your Nubbin sits in sap and sticks. Nobody is surprised._
     - **Wisp**: Hsss. Deal.
     - He has decided. You can see it in his ears.
 - **Let them shake on it.**
-    - You let it be. A thief and a spider deserve each other.
-    - They both look delighted.
+    - You let them be.
+    - They both look very pleased with themselves.
 
 #### `sprout:a28-02-road-done` · [main](main.md#a28-02-road-done)
 
@@ -398,7 +398,7 @@ _Round and round goes the creeper, nose to tail._
 **Kwaku Ananse**: No. You are very long, though!  
 _Your Nubbin ties its own foot into the knot._  
 
-> **Lesson** (science, 4-LS1-1, ask): a snake has no legs; it moves with its body  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): a snake has no legs; it moves with its body  
 > _A snake has no legs. How does it move?_  
 > - ✅ It slithers. → Yes! A snake slithers, pushing along with its strong body.
 > - It hops. → Snakes do not hop. They slither along the ground.
@@ -455,7 +455,8 @@ _He gives you a second gourd for water._
 **Kwaku Ananse**: The dry one is the house. The wet one is the rain.  
 _He holds a big plantain leaf over his head, like an umbrella._  
 **Kwaku Ananse**: Fill it to the brim!  
-_You fill the gourd at the stream. Your Nubbin brings half of one._  
+_You fill the gourd at the stream. Your Nubbin fills one too._  
+_Half the water makes it back. Half is on its feet._  
 
 > **Lesson** (maths, K.MD.A.2, ask): compare amounts: more and less  
 > _Your gourd is full. Nubbin’s gourd is half full._  
@@ -530,6 +531,8 @@ _A slow breath helps you stay calm._
 #### `sprout:a28-04-stopper-done` · [main](main.md#a28-04-stopper-done)
 
 _One last hornet lands on your Nubbin’s nose. It stings!_  
+_Ananse pops the late hornet into a tiny gourd._  
+**Kwaku Ananse**: A spare!  
 _Your Nubbin’s eyes go wide. Then they go narrow._  
 **Kwaku Ananse**: Two!  
 _Two things are paid: the python and the hornets._  
@@ -738,9 +741,9 @@ _Then her other hand sticks!_
 #### `sprout:a28-06-fairy-done` · [main](main.md#a28-06-fairy-done)
 
 _Then Ananse is gone._  
-_The fairy pulls and pulls. Nothing comes apart._  
-_Both of her hands are stuck. One hand._  
-_Two hands._  
+_Mmoatia pulls. The doll leans._  
+_Nothing comes apart._  
+_One hand is stuck. Now the other hand is stuck!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count two hands  
 > _(Hold up your hands. Count them: one, two.)_  
@@ -884,8 +887,8 @@ _For once, he says nothing._
 
 #### `sprout:a28-07-court-done` · [main](main.md#a28-07-court-done)
 
-**Nyame**: Ya Nsia will stay with us as our guest. She will want for nothing.  
-**Ya Nsia**: I will want for the snacks, if the small one gives them back.  
+**Nyame**: Ya Nsia will stay with us. She will have all she needs.  
+**Ya Nsia**: Except my snacks. The small one has those.  
 _These tales are called Anansesem. That means spider stories._  
 _Spider and story both start with the sound sss._  
 
@@ -910,6 +913,8 @@ _The python gets a long warm shelf. The leopard gets a shady corner._
 _The hornets are let out into a garden in the sky._  
 **Ya Nsia**: For the small one. You got stuck to more of this than anybody.  
 _She puts a shawl of spider silk on your Nubbin._  
+_It sticks. Of course it sticks._  
+_A leaf sticks to it. Then a feather._  
 
 ## A28-8. The Box Opens
 
@@ -1215,10 +1220,10 @@ _Ananse climbs down. Ntikuma waits with the broken pot._
 **Kwaku Ananse**: I would have thought of the back. Eventually.  
 _They walk home together. Ananse keeps a leg on his son’s shoulder._  
 _You keep the broken gourd. It still sparkles._  
-_It broke in two equal halves. Two halves make one whole pot._  
+_It broke in two equal halves. Two halves make one whole gourd._  
 
 > **Lesson** (maths, 1.G.A.3, ask): halves: two equal halves make a whole  
-> _The pot broke into two equal halves. How many halves make a whole pot?_  
+> _The gourd broke into two equal halves. How many halves make a whole gourd?_  
 > - ✅ Two. → Yes! Two equal halves make one whole.
 > - Five. → Two halves make one whole. Count them: one half, two halves.
 > _For grown-ups: Learned that two equal halves make one whole._
@@ -1270,7 +1275,7 @@ _A drum has a skin. When you hit it, the skin shakes._
 > Check: `edu:feel:drum-skin:shake`
 > _For grown-ups: Felt a tapped surface shake, and learned that shaking makes sound._
 
-_By noon, Ananse looks at every pot like a dog at a gate._  
+_By noon, Ananse keeps staring at the pots. His tummy rumbles very loudly._  
 
 #### `sprout:a28-10-beans` · [main](main.md#a28-10-beans)
 
@@ -1319,6 +1324,8 @@ _Children join in, delighted. Your Nubbin dances too._
 
 _Then the hat comes off on its own. The beans fly everywhere!_  
 _Ananse’s head is bare and shiny. Everyone laughs, kindly._  
+_A bean lands on your Nubbin’s head. It eats it._  
+_Nobody tells Ananse._  
 _Hot beans made the hat hot, and the hat made his head hot._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): heat moves from hot things to cooler things  
@@ -1366,7 +1373,8 @@ _Ananse says nothing too._
 #### `sprout:a28-10-complete` · [main](main.md#a28-10-complete)
 
 _Ananse hides in the long grass with his hat in his hand._  
-**Aso**: Serves him right. Mother would have laughed till she cried.  
+**Aso**: Good. Now his head is nice and cool.  
+**Aso**: Mother would have laughed and laughed.  
 _The funeral goes on, warmer than before._  
 _People tell the story of the beans._  
 _That is why the spider is bald, and keeps to the grass._  
@@ -1418,7 +1426,8 @@ _Making room feels kind and warm._
 **Miss Ivy**: Which one have I not told you yet?  
 **A Boy on the Step**: You have told us all of them.  
 **Miss Ivy**: Then I will tell one again. That is what they are for.  
-_She says where Anancy comes from, like saying where a cousin lives._  
+_Anancy is Ananse’s name in Jamaica. Same spider, new home._  
+_Miss Ivy says where he comes from, like saying where a cousin lives._  
 **Miss Ivy**: Long ago, people were taken from Africa by force.  
 **Miss Ivy**: They were made to cross the sea.  
 **Miss Ivy**: That was wrong. They kept their stories, and nobody could take those.  
@@ -1467,7 +1476,7 @@ _In her story, Anancy got caught. In yours, he was the one catching._
     - **Miss Ivy**: Did you now? Where?
     - **You**: A long way off. The spider made the doll, and a fairy got stuck.
     - **Miss Ivy**: Well. That one is right too.
-    - **Miss Ivy**: He gets about, that spider.
+    - **Miss Ivy**: That spider is in lots of stories.
 - **Just listen to the end.**
     - **Miss Ivy**: And how did he get loose? The same way as always.
     - **Miss Ivy**: He talked.
@@ -1526,6 +1535,8 @@ _Moths flutter by the wall._
 **Nana Ama**: Somebody else tells one now. You.  
 **Nana Ama**: Your turn.  
 _Your Nubbin climbs up on the stool beside her._  
+_It sits down. It is stuck._  
+_Nana Ama does not mind one bit._  
 
 #### `sprout:a28-12-return-done` · [main](main.md#a28-12-return-done)
 
@@ -1653,9 +1664,9 @@ _Wisp sits at the edge of the firelight, holding the egg stone._
 > _For grown-ups: Worked out who a character in a story was, from clues like a torn ear._
 
 **Nana Ama**: He kept a stone that had gone cold. He kept it a long time.  
-**Nana Ama**: He traded with a spider, and both were cheated, and both went home pleased.  
-**Nana Ama**: But the spider threw in something for nothing.  
-**Nana Ama**: It was the best thing in the bargain.  
+**Nana Ama**: He swapped with a spider. Each one thought he won.  
+**Nana Ama**: And the spider gave him a story, for free.  
+**Nana Ama**: A story about him. Nobody ever told one before.  
 _Wisp’s ears come up. He is looking at her now, not the fire._  
 _He listens to the very end._  
 _Then he gets up slowly, like someone carrying something full._  
@@ -1668,7 +1679,7 @@ _Variant of `a28-12-last`._
 **Nana Ama**: But I do not know the end. You will help me.  
 **Nana Ama**: There was a grey one who was sent away from a garden.  
 **Nana Ama**: Some evenings he comes down the lane. He looks at the gate.  
-**Nana Ama**: He does not try it.  
+**Nana Ama**: He does not open it. He only looks.  
 
 > **Lesson** (literacy, RL.K.3, ask): recalling who a story is about  
 > _Who comes down the lane to look at the gate?_  

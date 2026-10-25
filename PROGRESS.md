@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 15 fixes (2026-10-25)
+
+- **Works:** all 56 run-15 recs fixed across the A26 reader, A27 and A28 with their bands, A29 main
+  and reader, and A30. The word you teach in A27 ("friend", "home" or "sorry") now comes back at the
+  reunion (flag values `taught-*`, variants in all three files). A29's farewell pays off Bobby's mug
+  and Celine's pears, and the sticky Nubbin finally reaches the shawl and the stool in A28.
+- **Partial:** none.
+- **Known bugs:** none new. Atlas flag values must not collide with Grove flag values such as 'home'.
+
 ## Story review run 14 fixes (2026-10-25)
 
 - **Works:** all 55 run-14 recs fixed across A23 and A24 with their bands, A25 main and reader, and

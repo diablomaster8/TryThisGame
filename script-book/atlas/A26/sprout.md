@@ -1543,8 +1543,10 @@ _Below the waist, they are scorpions._
 #### `sprout:a26-15-gate` · [main](main.md#a26-15-gate)
 
 _The scorpion-man is big and scary to look at. His wife stands beside him._  
-**Scorpion-man**: Wife, this one is two parts god.  
-**Scorpion-man**: Who is the small one with the water?  
+**Scorpion-man**: Look, wife. This one has the body of a god.  
+**Scorpion-man’s Wife**: Two parts of him, husband. One part is a man.  
+**Scorpion-man’s Wife**: You forget the man.  
+**Scorpion-man**: And who is the small one with the water?  
 _His wife looks at your Nubbin and tilts her head. She likes small ones._  
 **Gilgamesh**: Please open the gate. I am looking for a very old man.  
 

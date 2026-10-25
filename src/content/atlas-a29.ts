@@ -135,11 +135,17 @@ const SONG_END: Line[] = [
 const C16_OPEN: Line[] = [
   N('The fans thin out at last. Bobby counts phones, counts girls, and counts you, and seems happy with all the numbers.'),
   B('Runner. Good work. Strange work, but good. If you ever want a job that’s only a job, call me.', 'happy'),
+  N('Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving.'),
+  B('Don’t look at me like that. It’s outselling the lightsticks.', 'shock'),
+  M('I did say he’d put it on a mug.'),
+  N('Your Nubbin takes the mug, looks inside for the real one, and climbs in.'),
 ];
 /** A29-16 complete: the gifts and the way home, shared by every ending. */
 const C16_HOME: Line[] = [
   N('Sussie drops a folded leaf into your hand from the wall, and then hops onto your shoulder and stays there.'),
   N('Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie.', 'soft'),
+  N('Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby. Don’t get ideas.'),
+  B('She sent me a pear. Mira. She sent me a pear.', 'soft'),
   N('The street goes flat, and bright, and smells of paint. You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist.'),
 ];
 
@@ -919,8 +925,8 @@ export const ATLAS_A29: Quest[] = [
       lines: [
         N('You hand her the note. She sees the writing, and opens it with her back to you.'),
         R('Did you read it?'),
-        N('You don’t answer fast enough. She laughs, the first real laugh you have heard from her in days.', 'happy'),
-        R('Of course you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.'),
+        N('You don’t answer fast enough, and your Nubbin finds its own feet very interesting. She laughs, the first real laugh in days.', 'happy'),
+        R('Of course. One of you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.'),
         N('Down in the alley, Derpy rolls onto his back, and Sussie sits on his tummy, and they both look up at the roof.'),
       ],
     },
@@ -962,7 +968,10 @@ export const ATLAS_A29: Quest[] = [
             {
               id: 'normal',
               label: 'Look normal.',
-              then: [N('You look normal so hard that a passing grandmother asks if you are lost, and gives your Nubbin a sweet.')],
+              then: [
+                N('You look normal so hard that a bus stops for you. You wave it on, and the driver looks hurt.'),
+                N('Then a grandmother asks if you are lost, and gives your Nubbin a sweet. Your Nubbin looks normal back at her.'),
+              ],
             },
             {
               id: 'up',
@@ -1046,6 +1055,8 @@ export const ATLAS_A29: Quest[] = [
           id: 'a29-09-studio',
           lines: [
             N('The rehearsal studio has egg-box foam on every wall and a keyboard with a coffee ring on it. Mira and Zoey have been here all night.'),
+            N('Taped to the keyboard is a bill from the TV studio. It says FLOWER STAND, underlined twice.'),
+            N('Mira and Zoey both pretend not to see it. It is the last thing they agree on all night.'),
             Z('We’ve got it. The thing that brings them down. A new song, all about them. What they really are.'),
             M('We call them out. In front of everyone. Every fan who loves those boys hears exactly what they are.'),
             N('Zoey plays it on the keyboard: a hard, bright, stabbing tune, all corners. It is very catchy, and quite cruel.'),
@@ -1220,7 +1231,7 @@ export const ATLAS_A29: Quest[] = [
       lines: [
         J('You didn’t hear that.'),
         N('You don’t say anything. You hand him the umbrella, because he hasn’t got one.'),
-        N('He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain.'),
+        N('He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain under one umbrella, Derpy entirely outside it and perfectly content.'),
         N('Your Nubbin watches them go, and pulls its hat down, and sneezes.'),
       ],
     },
@@ -1634,6 +1645,10 @@ export const ATLAS_A29: Quest[] = [
         Z('Room for two more?', 'happy'),
         N('Rumi looks at them, and makes room, and the three of them stand together at the front of the stage.'),
         N('All over the stadium people are waking up, confused, holding their phones. Bobby, in the third row, says “what” very loudly.'),
+        N('Then he sees the open case in your arms.'),
+        B('Who opened the girls’ case? Nobody touches the girls’ case!', 'shock'),
+        Z('Bobby. We’re saving the world.'),
+        B('…Carefully, though?'),
       ],
     },
     rewards: [],

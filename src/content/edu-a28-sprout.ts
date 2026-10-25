@@ -529,7 +529,7 @@ const A2: EduQuest = quest(
           ],
           [
             o('Five.', [N('Yes! Four things and one more makes five.')], true),
-            o('Four.', [N('Four things, and Ya Nsia makes one more. Four and one is five.')]),
+            o('Four.', [N('Four things, and Ananse’s mother makes one more. Four and one is five.')]),
           ],
           'Counted four things and added one more to make five.',
         ),
@@ -802,7 +802,7 @@ const A3: EduQuest = quest(
           5,
           'science',
           'a snake has no legs; it moves with its body',
-          '4-LS1-1',
+          'ELOF: Scientific Reasoning',
           [N('A snake has no legs. How does it move?')],
           [
             o(
@@ -900,11 +900,12 @@ const A4: EduQuest = quest(
         AN('The dry one is the house. The wet one is the rain.'),
         N('He holds a big plantain leaf over his head, like an umbrella.'),
         AN('Fill it to the brim!'),
-        N('You fill the gourd at the stream. Your Nubbin brings half of one.'),
+        N('You fill the gourd at the stream. Your Nubbin fills one too.'),
+        N('Half the water makes it back. Half is on its feet.'),
       ],
       [
         ask(
-          4,
+          5,
           'maths',
           'compare amounts: more and less',
           'K.MD.A.2',
@@ -1011,13 +1012,15 @@ const A4: EduQuest = quest(
       'a28-04-stopper-done',
       [
         N('One last hornet lands on your Nubbin’s nose. It stings!'),
+        N('Ananse pops the late hornet into a tiny gourd.'),
+        AN('A spare!', 'happy'),
         N('Your Nubbin’s eyes go wide. Then they go narrow.'),
         AN('Two!', 'happy'),
         N('Two things are paid: the python and the hornets.'),
       ],
       [
         ask(
-          3,
+          5,
           'maths',
           'take away: 4 take away 2',
           'K.OA.A.2',
@@ -1364,8 +1367,8 @@ const A6: EduQuest = quest(
       'a28-06-fairy-done',
       [
         N('Then Ananse is gone.'),
-        N('The fairy pulls and pulls. Nothing comes apart.'),
-        N('Both of her hands are stuck. One hand. Two hands.'),
+        N('Mmoatia pulls. The doll leans. Nothing comes apart.'),
+        N('One hand is stuck. Now the other hand is stuck!'),
         N('She stops. She looks straight at your root.'),
       ],
       [
@@ -1605,8 +1608,8 @@ const A7: EduQuest = quest(
     sc(
       'a28-07-court-done',
       [
-        NY('Ya Nsia will stay with us as our guest. She will want for nothing.'),
-        YA('I will want for the snacks, if the small one gives them back.', 'happy'),
+        NY('Ya Nsia will stay with us. She will have all she needs.'),
+        YA('Except my snacks. The small one has those.', 'happy'),
         N('These tales are called Anansesem. That means spider stories.'),
         N('Spider and story both start with the sound sss.'),
       ],
@@ -1633,6 +1636,8 @@ const A7: EduQuest = quest(
         N('The hornets are let out into a garden in the sky.'),
         YA('For the small one. You got stuck to more of this than anybody.', 'soft'),
         N('She puts a shawl of spider silk on your Nubbin.'),
+        N('It sticks. Of course it sticks.'),
+        N('A leaf sticks to it. Then a feather.'),
       ],
       [
         ask(
@@ -2036,7 +2041,7 @@ const A9: EduQuest = quest(
         AN('I would have thought of the back. Eventually.', 'think'),
         N('They walk home together. Ananse keeps a leg on his son’s shoulder.'),
         N('You keep the broken gourd. It still sparkles.'),
-        N('It broke in two equal halves. Two halves make one whole pot.'),
+        N('It broke in two equal halves. Two halves make one whole gourd.'),
       ],
       [
         ask(
@@ -2044,7 +2049,7 @@ const A9: EduQuest = quest(
           'maths',
           'halves: two equal halves make a whole',
           '1.G.A.3',
-          [N('The pot broke into two equal halves. How many halves make a whole pot?')],
+          [N('The gourd broke into two equal halves. How many halves make a whole gourd?')],
           [
             o('Two.', [N('Yes! Two equal halves make one whole.')], true),
             o('Five.', [N('Two halves make one whole. Count them: one half, two halves.')]),
@@ -2122,7 +2127,7 @@ const A10: EduQuest = quest(
       [
         N('The drums beat all morning. Boom, boom, boom!'),
         N('A drum has a skin. When you hit it, the skin shakes.'),
-        N('By noon, Ananse looks at every pot like a dog at a gate.'),
+        N('By noon, Ananse keeps staring at the pots. His tummy rumbles very loudly.'),
       ],
       [
         doit(
@@ -2212,11 +2217,12 @@ const A10: EduQuest = quest(
       [
         N('Then the hat comes off on its own. The beans fly everywhere!'),
         N('Ananse’s head is bare and shiny. Everyone laughs, kindly.'),
+        N('A bean lands on your Nubbin’s head. It eats it. Nobody tells Ananse.'),
         N('Hot beans made the hat hot, and the hat made his head hot.'),
       ],
       [
         ask(
-          2,
+          3,
           'science',
           'heat moves from hot things to cooler things',
           'ELOF: Scientific Reasoning',
@@ -2233,7 +2239,7 @@ const A10: EduQuest = quest(
       'a28-10-complete',
       [
         N('Ananse hides in the long grass with his hat in his hand.'),
-        AS('Serves him right. Mother would have laughed till she cried.', 'happy'),
+        AS('Good. Now his head is nice and cool. Mother would have laughed and laughed.', 'happy'),
         N('The funeral goes on, warmer than before.'),
         N('People tell the story of the beans.'),
         N('That is why the spider is bald, and keeps to the grass.'),
@@ -2332,14 +2338,15 @@ const A11: EduQuest = quest(
         EL('Which one have I not told you yet?', 'think'),
         YC('You have told us all of them.'),
         EL('Then I will tell one again. That is what they are for.', 'happy'),
-        N('She says where Anancy comes from, like saying where a cousin lives.'),
+        N('Anancy is Ananse’s name in Jamaica. Same spider, new home.'),
+        N('Miss Ivy says where he comes from, like saying where a cousin lives.'),
         EL('Long ago, people were taken from Africa by force. They were made to cross the sea.'),
         EL('That was wrong. They kept their stories, and nobody could take those.', 'soft'),
         N('The children nod. They know. This is where the story stands.'),
       ],
       [
         ask(
-          6,
+          7,
           'social-studies',
           'stories can be kept and passed on through hard times',
           'D2.His.2.K-2',
@@ -2412,7 +2419,7 @@ const A11: EduQuest = quest(
         ch('tell', 'Tell her you heard it the other way round.', [
           EL('Did you now? Where?', 'think'),
           Y('A long way off. The spider made the doll, and a fairy got stuck.'),
-          EL('Well. That one is right too. He gets about, that spider.', 'happy'),
+          EL('Well. That one is right too. That spider is in lots of stories.', 'happy'),
         ]),
         ch('listen', 'Just listen to the end.', [
           EL('And how did he get loose? The same way as always. He talked.', 'happy'),
@@ -2503,6 +2510,7 @@ const A12: EduQuest = quest(
         ST('Long ago, they say, there was a spider… no. I have told enough.', 'happy'),
         ST('Somebody else tells one now. You. Your turn.'),
         N('Your Nubbin climbs up on the stool beside her.'),
+        N('It sits down. It is stuck. Nana Ama does not mind one bit.'),
       ],
       [
         ask(
@@ -2741,8 +2749,8 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
         N('He has decided. You can see it in his ears.'),
       ]),
       ch('let', 'Let them shake on it.', [
-        N('You let it be. A thief and a spider deserve each other.'),
-        N('They both look delighted.'),
+        N('You let them be.'),
+        N('They both look very pleased with themselves.'),
       ]),
     ],
   ),
@@ -2953,8 +2961,9 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
       N('Wisp sits at the edge of the firelight, holding the egg stone.'),
       ST('There was a grey thief with a torn ear, who wanted every warm thing.'),
       ST('He kept a stone that had gone cold. He kept it a long time.'),
-      ST('He traded with a spider, and both were cheated, and both went home pleased.'),
-      ST('But the spider threw in something for nothing. It was the best thing in the bargain.'),
+      ST('He swapped with a spider. Each one thought he won.'),
+      ST('And the spider gave him a story, for free.'),
+      ST('A story about him. Nobody ever told one before.'),
       N('Wisp’s ears come up. He is looking at her now, not the fire.'),
       N(
         'He listens to the very end. Then he gets up slowly, like someone carrying something full.',
@@ -2981,7 +2990,7 @@ export const EDU_A28_SPROUT_VARIANTS: EduScene[] = [
     [
       ST('One more. A short one. But I do not know the end. You will help me.', 'think'),
       ST('There was a grey one who was sent away from a garden.'),
-      ST('Some evenings he comes down the lane. He looks at the gate. He does not try it.'),
+      ST('Some evenings he comes down the lane. He looks at the gate. He does not open it. He only looks.'),
       N('The children are very quiet. Your Nubbin looks at you.'),
       ST('How does it end?'),
     ],

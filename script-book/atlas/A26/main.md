@@ -1195,7 +1195,7 @@ Sets on completion: `{"a26-14":true}`
 
 *The Epic of Gilgamesh, Standard Babylonian version: Tablet IX: Gilgamesh in lion skins; the mountains of Mashu; the scorpion-people; the road of the sun; the jewelled garden* · audience: all · where: Nova’s atlas: the Wall of Uruk page (Atlas campaign) · when: Any time after A26-14, from Nova’s atlas. · requires: A26-14
 
-**Cast:** Gilgamesh (Gilgamesh, king of Uruk, two parts god and one part man (The Epic of Gilgamesh, Standard Babylonian version)), Scorpion-man (The scorpion-man who guards the gate of the mountains of Mashu (The Epic of Gilgamesh, Standard Babylonian version))
+**Cast:** Gilgamesh (Gilgamesh, king of Uruk, two parts god and one part man (The Epic of Gilgamesh, Standard Babylonian version)), Scorpion-man (The scorpion-man who guards the gate of the mountains of Mashu (The Epic of Gilgamesh, Standard Babylonian version)), Scorpion-man’s Wife (The scorpion-man’s wife, at his side (The Epic of Gilgamesh, Standard Babylonian version))
 
 ### Step 1: Follow Gilgamesh to the twin mountains of Mashu.
 
@@ -1229,7 +1229,8 @@ Hint: Stand back behind Gilgamesh, and let him do the talking. · check: `talk:a
 #### <a id="a26-15-gate"></a>Scene `a26-15-gate`
 
 _The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side._  
-**Scorpion-man**: Look, wife. Two parts god, one part man. Terrible combination. Stand behind me.  
+**Scorpion-man**: Look, wife. The one who comes to us has the body of a god. Stand behind me.  
+**Scorpion-man’s Wife**: Two parts of him, husband. One part is a man. You always forget the man.  
 _His wife does not stand behind him. She is already crouching to look at your Nubbin._  
 **Scorpion-man** _(think)_: …And who is the small one with the water?  
 _His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones._  

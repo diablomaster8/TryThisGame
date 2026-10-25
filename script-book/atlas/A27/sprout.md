@@ -390,7 +390,7 @@ _Your Nubbin is round as an apple. It still wants more!_
 _The nights on the peak are very cold. The stars are close!_  
 _The baby sleeps between you and your Nubbin, under the big wing._  
 
-> **Lesson** (science, 4-LS1-1, ask): feathers trap warm air and keep animals warm  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): feathers trap warm air and keep animals warm  
 > _The Simurgh’s wing is warm and fluffy. What keeps you warm at night?_  
 > - ✅ A blanket. → Yes! A blanket holds warm air close, just like feathers.
 > - An ice cube. → Brr! A blanket keeps warm air close, just like feathers.
@@ -473,10 +473,10 @@ _He has only ever met you and the birds._
 **You**: Lots of people, buying and calling out.  
 **The Youth**: I think I would like a market.  
 
-> **Lesson** (literacy, ELOF: Language and Communication, notice): a word for friend in Persian: dust  
-> _In Persian, the word for a friend is dust._  
-> _It sounds like “doost”. (Say it together: doost!)_  
-> _For grown-ups: Heard the Persian word for friend, dust, and said it aloud._
+> **Lesson** (literacy, ELOF: Language and Communication, notice): a word for friend in Persian: doost  
+> _In Persian, a friend is a doost._  
+> _Say it together: doost!_  
+> _For grown-ups: Heard the Persian word for friend, doost, and said it aloud._
 
 **The Youth**: Teach me one more word.  
 
@@ -635,7 +635,7 @@ _The wise men come in white robes. Sam tells them his dream._
 > _Animal parents look after their babies. A mother duck keeps ducklings close._  
 > _What else do parents do?_  
 > - ✅ Keep them safe and fed. → Yes! Parents keep their young safe and fed.
-> - Go away for ever. → Most animal parents stay, and keep their young safe and fed.
+> - Leave them alone. → A mother duck does not leave her ducklings. She keeps them safe and fed.
 > _For grown-ups: Learned that animal parents feed and protect their young._
 
 **The Mobed**: You sent your child away. That was wrong.  
@@ -669,17 +669,18 @@ _You and your Nubbin run ahead to the mountain._
 
 _You stop at the foot of the rocks. You look up into the cloud._  
 _The Simurgh comes down._  
-**The Simurgh**: Did the story land?  
+**The Simurgh**: Did he hear the story?  
 **You**: He is coming. With an army!  
 **The Simurgh**: Then I had better put the kettle on.  
+_She has no kettle. You think she knows._  
 
 > **Lesson** (literacy, RF.K.2, do): clap the syllables in kettle  
 > _Clap the word kettle. Ket-tle._  
 > _Two claps!_  
+> _The Simurgh claps too, with one wing._  
 > Check: `edu:clap:syllables:kettle`
 > _For grown-ups: Clapped the two syllables in kettle._
 
-_She has no kettle. You think she knows._  
 
 ## A27-7. The Foot of the Mountain
 
@@ -754,7 +755,7 @@ _Behind you, the nest tilts. The Simurgh looks down._
 
 _The Simurgh looks down for a long time. Her feathers lift and settle._  
 
-> **Lesson** (science, 4-LS1-1, ask): birds fluff their feathers to keep warm  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): birds fluff their feathers to keep warm  
 > _When a bird fluffs up its feathers, what is it doing?_  
 > - ✅ Keeping warm. → Yes! Fluffy feathers trap warm air.
 > - Brushing its teeth. → Birds have no teeth! Fluffing keeps them warm.
@@ -858,6 +859,8 @@ _He holds it, and looks at you._
 #### `sprout:a27-08-complete` · [main](main.md#a27-08-complete)
 
 _The young man says goodbye to each chick in turn._  
+_The smallest chick sits on him one last time. Flump!_  
+_He laughs and cries at once, and lets it._  
 _You say goodbye too._  
 **The Simurgh**: Take something of the nest home with you.  
 _She weaves you a great round nest._  
@@ -972,6 +975,35 @@ _Sam says it with pride._
 - **Bow to Zal.**
     - **Zal**: You do not bow to me. You are my nestmate.
 
+#### `sprout:a27-09-oath-taught-sorry` · [main](main.md#a27-09-oath-taught-sorry)
+
+_Variant of `a27-09-oath`._
+
+_Sam bows low to the great bird._  
+**Sam**: I was wrong. I was afraid, and I was wrong.  
+**Sam**: I am sorry. I do not know a better way to say it.  
+**The Youth**: So that is how sorry sounds. I wondered.  
+**Sam**: I promise: I will never be hard to you again.  
+_He gives his son a name: Zal._  
+_It means the old one, for the white hair._  
+_Sam says it with pride._  
+**Zal**: Zal. I like it!  
+
+> **Lesson** (literacy, RF.K.2, ask): first sounds: z for Zal and zebra  
+> _Zal begins with z, z, z. Which starts like Zal: zebra or sun?_  
+> - ✅ Zebra. → Yes! Zal, zebra: z, z, z!
+> - Sun. → Sun begins with s. Zal and zebra both begin with z!
+> _For grown-ups: Practised hearing the first sound z in Zal and zebra._
+
+
+**Choices**
+
+- **Clap.**
+    - You clap. Your Nubbin claps.
+    - So does the whole army!
+- **Bow to Zal.**
+    - **Zal**: You do not bow to me. You are my nestmate.
+
 #### `sprout:a27-09-oath-done` · [main](main.md#a27-09-oath-done)
 
 _They dress Zal in fine clothes: a shirt, a belt and boots._  
@@ -1000,6 +1032,28 @@ _Zal rides beside his father. You ride on the baggage._
 **Sam**: Only when the world is happy.  
 _High above, a great bird turns once, and goes home._  
 
+#### `sprout:a27-09-road-taught-home` · [main](main.md#a27-09-road-taught-home)
+
+_Variant of `a27-09-road`._
+
+_The army goes home with drums and trumpets._  
+_Boom! Toot!_  
+_Crash!_  
+
+> **Lesson** (music, 1-PS4-1, do): sound is made by shaking: vibrations  
+> _Drums shake to make sound. Touch your throat and hum._  
+> _Feel the shake?_  
+> Check: `edu:feel:throat:hum`
+> _For grown-ups: Felt a vibration in the throat while humming, and linked it to how sound is made._
+
+_Zal rides beside his father. You ride on the baggage._  
+**Zal**: It is so loud!  
+**Sam**: Only when the world is happy.  
+**Zal**: Is Sistan home now? The place I come back to?  
+**Sam**: Yes. It is louder than a nest.  
+**Sam**: But yes.  
+_High above, a great bird turns once, and goes home._  
+
 #### `sprout:a27-09-road-done` · [main](main.md#a27-09-road-done)
 
 _Sistan has heard! The city is hung with cloth and flowers._  
@@ -1025,6 +1079,26 @@ _Your Nubbin eats it! Zal laughs and laughs._
 
 **Sam**: You laugh with your whole self.  
 **Zal**: The chicks taught me.  
+
+#### `sprout:a27-09-complete-taught-friend` · [main](main.md#a27-09-complete-taught-friend)
+
+_Variant of `a27-09-complete`._
+
+_People throw flowers at the gate. Zal catches a rose._  
+_Your Nubbin eats it! Zal laughs and laughs._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): noticing how happy feels in the body  
+> _Zal laughs with his whole self. How does your body feel when you laugh?_  
+> - Wiggly. → Wiggly! Laughing shakes us all over.
+> - Warm. → Warm and glowing. That is a happy body.
+> - Tickly. → Tickly! Laughing is full of tickles.
+> _For grown-ups: Named how laughing feels in the body._
+
+**Sam**: You laugh with your whole self.  
+**Zal**: The chicks taught me.  
+**Zal**: Father, this is my friend. A friend is someone who stays.  
+**Sam**: Then your friend is family now.  
+**Zal**: Oh no. Then I need another word!  
 
 ## A27-10. The Shah’s Court
 
@@ -1539,7 +1613,7 @@ _In the morning, Zal asks a scribe to write a letter._
 **Zal**: I have one thing to ask. I love Rudaba.  
 **Zal**: I want to marry her.  
 **Zal**: I made you wait one night. You made me wait many.  
-**Zal**: Let us call it even.  
+**Zal**: Now we have both waited. That is fair.  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): a letter has a hello and a goodbye  
 > _Zal wrote a letter to say a hard thing, kindly._  
@@ -1602,7 +1676,9 @@ _Zal gives half his money to people in need._
 
 _Then he sends you to Rudaba._  
 _In the family rooms, the queen has found a gift meant for Zal._  
-_Bad news comes: the Shah is cross, and soldiers may march._  
+_Bad news comes. The Shah has heard about Zal and Rudaba._  
+_Long ago, a cruel king was in Rudaba’s family._  
+_So the Shah is cross. Soldiers may march._  
 **Sindokht**: Do not be afraid. I will talk to Sam myself.  
 
 #### `sprout:a27-14-kabul-done` · [main](main.md#a27-14-kabul-done)
@@ -1853,11 +1929,11 @@ _Nubbin is not pacing itself._
 _Sindokht fills your plate. Then Nubbin’s plate._  
 _Then again!_  
 
-> **Lesson** (science, 4-LS1-1, ask): down feathers keep chicks warm  
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): down feathers keep chicks warm  
 > _Soft down keeps chicks warm._  
 > _Is down good for a cold night, or a hot day?_  
 > - ✅ A cold night. → Yes! Down traps warm air, so it is good on a cold night.
-> - A hot day. → On a hot day, down is too warm. It is best on a cold night.
+> - A hot day. → Down is too warm on a hot day. It is for cold nights.
 > _For grown-ups: Learned that soft down feathers keep young birds warm._
 
 
@@ -1877,7 +1953,7 @@ _Nubbin has eaten its weight in wedding cake. It sleeps two days._
 ## A27-17. The Feather in the Fire
 
 - `a27-17-s1`: Stay with Zal while Rudaba rests. · _Sit with him in the hall._
-- `a27-17-s2`: Put the feather on the fire. · _The brazier in the hall is lit._
+- `a27-17-s2`: Watch Zal put the feather on the fire. · _The brazier in the hall is lit._
 - `a27-17-s3`: Go out to the Simurgh. · _Go out into the courtyard with Zal._
 
 #### `sprout:a27-17-labour` · [main](main.md#a27-17-labour)
@@ -1933,10 +2009,11 @@ _Variant of `a27-17-fire`._
 _Zal goes to the fire in the middle of the hall. He stops._  
 **Zal**: She said: burn it on the day of need. This is the day.  
 _He holds the feather a long moment. You do not hurry him._  
-_Then he holds it out to you._  
-**Zal**: You put it on. You sat with me.  
+_Then he holds out his other hand to you._  
+**Zal**: Hold my hand. You sat with me.  
 **Zal**: Sit with me now.  
-_You lay the feather on the fire. He leans on your shoulder._  
+_Zal lays the feather on the fire. You hold his other hand._  
+_He leans on your shoulder._  
 _It burns slowly, like a candle. It smells of sandalwood._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): fire gives heat and light; fire is for grown-ups  
@@ -2028,6 +2105,8 @@ _The baby is big and strong._
 _A rider takes a silk doll of the baby to Sam._  
 _Zal holds the baby up to the Simurgh. Neither is afraid._  
 _The last thing you see: Zal laughing, with the baby held high._  
+_A small beak peeks over the wall. The smallest chick came too!_  
+_It waits at the back. Very politely._  
 _A feather drifts down. The Simurgh lets it stay._  
 _You are back in the Grove. Nubbin wants second breakfast!_  
 
@@ -2051,6 +2130,8 @@ _Zal comes out with his son, and sits beside you on the step._
 _You sit there together, and let the morning come._  
 _Days later, far away, Sam opens a parcel. Inside is a little silk doll._  
 _The last thing you see: Sam, holding the doll, crying happy tears._  
+_A small beak peeks over the wall. The smallest chick came too!_  
+_It waits at the back. Very politely._  
 _A feather drifts down. The Simurgh lets it stay._  
 _You are back in the Grove. Nubbin wants second breakfast!_  
 
@@ -2075,6 +2156,8 @@ _She looks at the baby for a long time. Then she looks at you._
 **The Simurgh**: You were right to give him the night.  
 _She spreads her wings and goes up._  
 _The last thing you see: the Simurgh circling the house, then turning for home._  
+_A small beak peeks over the wall. The smallest chick came too!_  
+_It waits at the back. Very politely._  
 _A feather drifts down. The Simurgh lets it stay._  
 _You are back in the Grove. Nubbin wants second breakfast!_  
 

@@ -52,6 +52,9 @@ _Rivka hops from one foot to the other. She cannot wait._
 > - Cross → Not cross. She is grinning. She is excited!
 > _For grown-ups: Named a feeling (excited) from how someone looks and moves._
 
+**Rivka**: That is Shmuel, my little brother. He is five.  
+**Rivka**: He asks questions.  
+_Shmuel waves from under the table._  
 
 #### `sprout:a30-01-water` · [main](main.md#a30-01-water)
 
@@ -286,6 +289,9 @@ _Hannah’s oven is lit, and the lane smells of bread._
 > - Eating cake → No cake! Thoughtful means thinking hard.
 > _For grown-ups: Learned the word thoughtful from how it is used._
 
+_Your Nubbin comes out wearing the rabbi’s coat. Most of it trails behind._  
+**Dvora**: He leaves his coat on a peg. Every week!  
+**Rabbi Loew**: Ah! I wondered where I had got to.  
 
 ## A30-4. The Answer
 
@@ -564,8 +570,9 @@ _He fills the barrel. Then he fills it again, because nobody said stop._
 _Water runs over the rim, across the kitchen, and out into the lane._  
 _You bail with a pan._  
 _Your Nubbin bails with its cheeks, which does not help at all._  
+_A hen floats past on a cabbage._  
+_Your Nubbin climbs into the bread trough and sails._  
 **Dvora**: Yossele! That is enough!  
-_He does not stop. She is not the one who made him._  
 
 > **Lesson** (maths, K.OA.A.2, ask): taking away  
 > _The barrel holds 3 buckets. Yossele poured 5._  
@@ -575,6 +582,7 @@ _He does not stop. She is not the one who made him._
 > - 5 → Five is how many he poured. Take away the three that fit: two too many.
 > _For grown-ups: Took away 3 from 5 in a story about buckets._
 
+_He does not stop. She is not the one who made him._  
 _Then the rabbi says, “Stop,” and Yossele puts the bucket down._  
 
 #### `sprout:a30-07-flood-done` · [main](main.md#a30-07-flood-done)

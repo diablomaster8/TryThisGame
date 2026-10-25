@@ -58,6 +58,7 @@ const HU = say('a26-humbaba');
 const IS = say('a26-ishtar');
 const SS = say('a26-shamash');
 const SC = say('a26-scorpion');
+const SW = say('a26-scorpion-wife');
 const SI = say('a26-siduri');
 const UR = say('a26-urshanabi');
 const UT = say('a26-uta');
@@ -115,14 +116,14 @@ const ask = (
   after: number,
   domain: EduDomain,
   skill: string,
-  standard: string,
+  standard: string | undefined,
   prompt: Line[],
   options: Opt[],
   parentNote: string,
 ): Beat => ({
   domain,
   skill,
-  standard,
+  ...(standard ? { standard } : {}),
   kind: 'ask',
   after,
   prompt: sp(prompt),
@@ -275,7 +276,7 @@ const Q1 = quest(
           6,
           'social-studies',
           'Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               '(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)',
@@ -623,7 +624,7 @@ const Q2 = quest(
           3,
           'science',
           'clay is soft when wet and hard when dry',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'Aruru shapes wet clay. Why is clay such a useful material for people who want to build and write?',
@@ -713,7 +714,7 @@ const Q2 = quest(
           1,
           'social-studies',
           'what a fair rule about work and rest would look like',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The king never lets his people rest. What would a fair rule about work and rest look like in a city?',
@@ -795,7 +796,7 @@ const Q3 = quest(
           1,
           'maths',
           'add and take away within 100',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Three gazelles are at the water. Four more arrive, and two leave. How many gazelles are at the water hole now?',
@@ -981,7 +982,7 @@ const Q3 = quest(
           0,
           'social-studies',
           'land near rivers was green; land away from them was dry steppe',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               '(Look at Nova’s map.) The land beside the rivers was green and could be farmed, because the rivers brought water.',
@@ -1325,13 +1326,14 @@ const Q5 = quest(
         N(
           'Then he eats until he is full, and his face shines like a lamp. And then, to everyone’s surprise, including his own, he sings.',
         ),
+        SP('More jugs, water-carrier! He drinks like the whole flock.', 'happy'),
       ],
       [
         ask(
-          6,
+          7,
           'science',
           'how grain becomes bread',
-          '2-LS2-1',
+          undefined,
           [
             N(
               'Enkidu has never seen bread made. Which order is right for how a loaf of bread is made?',
@@ -1606,10 +1608,13 @@ const Q6 = quest(
         N(
           'You hold out the tray. He takes a cup without looking, and drinks, and forgets to give it back.',
         ),
+        N(
+          'Your Nubbin counts the cups with one paw: eleven. It counts again, slowly, and gives the king a long look.',
+        ),
       ],
       [
         ask(
-          5,
+          6,
           'maths',
           'multiplication as equal groups',
           '3.OA.A.1',
@@ -1754,7 +1759,7 @@ const Q6 = quest(
           'That night, for the first time since the new moon, the drum in the square stops before midnight.',
         ),
         N(
-          'The moon over Uruk is only a thin silver curve. A few nights ago it was hidden altogether.',
+          'The moon over Uruk is half full now. When the games began, there was no moon at all.',
         ),
       ],
       [
@@ -1762,7 +1767,7 @@ const Q6 = quest(
           4,
           'science',
           'the Moon’s cycle takes about a month',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [
             N(
               'The people say the games began at the new moon. About how many days pass from one new moon to the next?',
@@ -1829,7 +1834,7 @@ const Q7 = quest(
           6,
           'social-studies',
           'why cities grew beside rivers',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'The road runs beside the river, and so does the city. Why did cities like Uruk grow up beside rivers?',
@@ -2213,7 +2218,7 @@ const Q8 = quest(
           2,
           'social-studies',
           'listening to people who have experience',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The elders say Enkidu should lead, because he knows the road. Why is it wise to listen to someone with experience?',
@@ -2268,7 +2273,7 @@ const Q8 = quest(
           1,
           'science',
           'the Sun rises in the east',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [N('Ninsun prays to the rising sun. In which direction does the Sun rise?')],
           [
             o(
@@ -2594,7 +2599,7 @@ const Q9 = quest(
           1,
           'literacy',
           'language that appeals to the senses',
-          'RL.1.4',
+          undefined,
           [N('Which phrase in the last line appeals most to the sense of smell?')],
           [
             o(
@@ -2702,7 +2707,7 @@ const Q10 = quest(
           6,
           'social-studies',
           'cedar forests grow on the mountains of Lebanon today',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Nobody knows exactly where the Cedar Forest was. Many people think of the mountains of Lebanon, where cedar trees still grow today.',
@@ -2882,33 +2887,25 @@ const Q10 = quest(
       ],
       [
         ask(
-          1,
-          'science',
-          'what causes wind',
-          '4-PS3-2',
-          [N('Thirteen winds roar through the cedars. What causes wind in the real world?')],
+          3,
+          'sel',
+          'it is all right to feel uneasy, and to share the feeling',
+          'CASEL: Self-awareness',
+          [N('You feel uneasy, and the forest is quiet. What could help you most right now?')],
           [
             o(
-              'The Sun heats the Earth unevenly, and air moves from cooler places to warmer ones',
-              [
-                N(
-                  'Yes. Warm air rises, cooler air rushes in, and we feel moving air as wind. Heat from the Sun drives it.',
-                ),
-              ],
+              'Staying close to someone you trust, and saying how you feel',
+              [N('Yes. Hard feelings get lighter when someone is near, and when we say them out loud.')],
               true,
             ),
-            o('Trees waving their branches', [
-              N(
-                'It is the other way round. Wind makes trees wave. The Sun’s uneven heating makes the wind.',
-              ),
+            o('Pretending nothing is wrong', [
+              N('That keeps the feeling inside. Sharing it with someone you trust helps more.'),
             ]),
-            o('The Moon pulling on the air', [
-              N(
-                'The Moon pulls on the seas, to make tides. For wind, it is the Sun heating the Earth unevenly.',
-              ),
+            o('Running away from everyone', [
+              N('Being alone makes it heavier. Staying near someone you trust helps more.'),
             ]),
           ],
-          'Learned that wind comes from the Sun heating the Earth unevenly.',
+          'Learned that it is all right to feel uneasy, and that sharing a feeling helps.',
         ),
       ],
     ),
@@ -2959,6 +2956,35 @@ const Q10 = quest(
             ]),
           ],
           'Converted 72 cubits to about 36 metres by halving.',
+        ),
+        ask(
+          4,
+          'science',
+          'what causes wind',
+          '4-PS3-2',
+          [N('Thirteen winds roared through the cedars. What causes wind in the real world?')],
+          [
+            o(
+              'The Sun heats the Earth unevenly, and air moves from cooler places to warmer ones',
+              [
+                N(
+                  'Yes. Warm air rises, cooler air rushes in, and we feel moving air as wind. Heat from the Sun drives it.',
+                ),
+              ],
+              true,
+            ),
+            o('Trees waving their branches', [
+              N(
+                'It is the other way round. Wind makes trees wave. The Sun’s uneven heating makes the wind.',
+              ),
+            ]),
+            o('The Moon pulling on the air', [
+              N(
+                'The Moon pulls on the seas, to make tides. For wind, it is the Sun heating the Earth unevenly.',
+              ),
+            ]),
+          ],
+          'Learned that wind comes from the Sun heating the Earth unevenly.',
         ),
       ],
       [
@@ -3067,7 +3093,7 @@ const Q11 = quest(
           4,
           'science',
           'condensation: some changes can be reversed',
-          '2-PS1-4',
+          undefined,
           [N('Steam rises from the hot water. If the steam touches a cold window, what happens?')],
           [
             o(
@@ -3123,7 +3149,7 @@ const Q11 = quest(
           4,
           'social-studies',
           'weighing what you give up against what you gain',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'Ishtar offers a golden chariot and much more, but it comes with a price. What is wise to do when someone offers you a great gift?',
@@ -3442,7 +3468,7 @@ const Q12 = quest(
           4,
           'social-studies',
           'how we learn about the distant past',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'How do we know about people who lived thousands of years ago, such as the people of Uruk?',
@@ -3495,7 +3521,7 @@ const Q13 = quest(
           'He is sitting on the edge of his bed with the blanket round his shoulders. He is very pale.',
         ),
         EN(
-          'I dreamed. The great gods sat in council: Anu, and Enlil, and Shamash. They were talking about us.',
+          'I dreamed. The great gods sat in council: the sky god, the wind god, and Shamash. They were talking about us.',
           'sad',
         ),
         EN(
@@ -3991,7 +4017,7 @@ const Q14 = quest(
           5,
           'social-studies',
           'whether a memorial is the same as the person',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Gilgamesh says the statue is beautiful, but Enkidu is not in it. Is a memorial the same as the person?',
@@ -4051,10 +4077,13 @@ const Q14 = quest(
         N(
           'You fill six waterskins, two litres each, and your Nubbin climbs on to the pack. Somebody has to carry the water.',
         ),
+        N(
+          'Between Gilgamesh, you and your Nubbin, three litres a day is all the water you can spare.',
+        ),
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'a word problem with distance, volume and time',
           '4.MD.A.2',
@@ -4105,7 +4134,7 @@ const Q15 = quest(
           'Gilgamesh walks the wilderness in his lion skins. His beard grows ragged and his face grows thin.',
         ),
         N(
-          'He does not talk. At night he lies awake and looks at the stars as if they owed him money.',
+          'He does not talk. At night he lies awake and looks at the stars as if they had let him down.',
         ),
         GI(
           'I used to be afraid of nothing. Now I am afraid of everything, and most of all of dying.',
@@ -4213,9 +4242,9 @@ const Q15 = quest(
         N(
           'The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side.',
         ),
-        SC(
-          'Look, wife. He is two parts god, this one, and one part man. And who is the small one with the water?',
-        ),
+        SC('Look, wife. The one who comes to us has the body of a god.'),
+        SW('Two parts of him, husband. One part is a man. You always forget the man.'),
+        SC('And who is the small one with the water?'),
         N(
           'His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones.',
         ),
@@ -4231,7 +4260,7 @@ const Q15 = quest(
       ],
       [
         ask(
-          2,
+          4,
           'literacy',
           'words with older meanings',
           'L.3.4',
@@ -4278,7 +4307,7 @@ const Q15 = quest(
         N(
           'You can feel his belt, though, and the rough lion skin, and your Nubbin’s breath on your neck. You hold on.',
         ),
-        GI('One double-hour. Thick dark. Nothing.'),
+        GI('One double-hour. Two of your hours, water-carrier. Thick dark. Nothing.'),
         GI('Four. Five. Still nothing.', 'sad'),
         N('He counts aloud, so you know he is there. You count with him, so he knows you are.'),
         GI('Nine. I feel the north wind on my face.', 'think'),
@@ -4328,7 +4357,7 @@ const Q15 = quest(
           1,
           'science',
           'we see things when light reaches our eyes',
-          '1-PS4-2',
+          '4-PS3-2',
           [N('Inside the mountain you could not see your own hand. Why not?')],
           [
             o(
@@ -4762,7 +4791,7 @@ const Q17 = quest(
           6,
           'social-studies',
           'how the flood tablet was read again in 1872',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               '(Nova’s atlas adds a note. Uta-Napishtim’s flood story was pressed into clay tablets that lay buried for more than two thousand years.)',
@@ -4853,7 +4882,7 @@ const Q17 = quest(
           5,
           'maths',
           'subtraction in a word problem',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'One loaf is baked each day and set in a row. How many days older is the first loaf than the fifth?',
@@ -4901,16 +4930,19 @@ const Q17 = quest(
         N(
           'Then he sees the row: dry, leathery, soggy, furry with mould, grey, fresh, and one still warm. He puts his face in his hands.',
         ),
+        N(
+          'The warm loaf is missing one corner. Your Nubbin is looking very hard at the sea.',
+        ),
         UT(
           'Ur-Shanabi. Take him to wash. Give him clean clothes. Clothes that will stay clean till he gets home.',
         ),
       ],
       [
         ask(
-          2,
+          3,
           'science',
           'some changes cannot be reversed',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'The loaves change as they age, and the mould is a kind of fungus. Which change cannot be undone?',
@@ -5146,7 +5178,7 @@ const Q17 = quest(
           2,
           'science',
           'properties of materials and why they suit a job',
-          '2-PS1-1',
+          undefined,
           [N('Reeds are light, hollow and bendy. Which job are those properties best for?')],
           [
             o(
@@ -5305,7 +5337,7 @@ const Q18 = quest(
           '3.MD.C.7',
           [
             N(
-              'One square mile is a square one mile long on every side. How many square miles is an orchard that is 2 miles by 3 miles?',
+              'One square mile is a square one mile long on every side. Uruk wants a new orchard, 2 miles long and 3 miles wide. How many square miles is that?',
             ),
           ],
           [
@@ -5407,7 +5439,7 @@ const Q18 = quest(
           1,
           'social-studies',
           'fairness about things that belong to a people',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Many tablets were taken from the places they belonged, and some have come home. What is a fair way to treat a people’s heritage?',
@@ -5481,7 +5513,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         'The Greeks later called it Mesopotamia, which means “between the rivers”. Rivers meant water, crops and boats.',
       ),
       MO(
-        'Some of these bricks are older than anyone’s grandmother. Not anyone’s, I mean. Most people’s.',
+        'Some of these bricks are older than I am. I don’t say that about many things.',
       ),
     ],
     [
@@ -5489,7 +5521,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         8,
         'social-studies',
         'Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq',
-        'D2.Geo.2.K-2',
+        'D2.Geo.2.3-5',
         [
           N(
             '(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)',
@@ -5659,7 +5691,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         3,
         'science',
         'what a seed needs to grow',
-        '2-LS2-1',
+        '3-LS1-1',
         [N('Enkidu gives you a cedar seed to plant. What does a seed need to grow into a tree?')],
         [
           o(
@@ -5695,7 +5727,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         2,
         'social-studies',
         'how stories carry the past',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           N(
             'Enkidu asks you to carry a message to people far away. How do spoken stories carry the past from one person to another?',
@@ -5912,7 +5944,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         2,
         'literacy',
         'language that appeals to the senses',
-        'RL.1.4',
+        undefined,
         [
           N(
             '“The room smells of a forest a very long way off.” Which sense does this sentence appeal to?',
@@ -5963,7 +5995,7 @@ export const EDU_A26_READER_VARIANTS: EduScene[] = [
         3,
         'literacy',
         'language that appeals to the senses',
-        'RL.1.4',
+        undefined,
         [
           N(
             '“The room smells of a forest a very long way off.” Which sense does this sentence appeal to?',

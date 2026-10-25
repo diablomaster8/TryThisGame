@@ -12,9 +12,9 @@ _Nova’s atlas falls open at a page the colour of a warm night: a courtyard, a 
 _You touch the stool. The paper is warm, and then the air is, and you are standing at the edge of the ring._  
 _This is an Asante village in Ghana. Crickets are singing, and somewhere a pot is being scraped._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): finding Ghana on a map of Africa  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): finding Ghana on a map of Africa  
 > _Nova’s atlas says this village is in Ghana. Where is Ghana?_  
-> - ✅ On the west coast of Africa, beside the Gulf of Guinea. → Yes. Ghana lies in West Africa, with a warm coast on the Gulf of Guinea. The Asante, who live here, are part of the Akan, the largest group in southern Ghana.
+> - ✅ On the west coast of Africa, beside the Gulf of Guinea. → Yes. Ghana lies in West Africa, with a warm coast on the Gulf of Guinea. The Asante, who live here, are part of the Akan.
 > - In the far north of Europe. → Not quite. Europe is a different continent, and a long way north. Ghana is in West Africa, on the coast of the Gulf of Guinea.
 > - On an island in the Pacific Ocean. → The Pacific is on the other side of the world. Ghana is a country in West Africa, beside the Atlantic Ocean.
 > _For grown-ups: Located Ghana in West Africa, and met the Asante and the Akan._
@@ -250,8 +250,10 @@ _Your Nubbin, as if it has been asked, sits down in a puddle of sap and sticks._
 **Kwaku Ananse**: Ah. A specialist.  
 **Kwaku Ananse**: Kwaku, they call me, because I was born on a Wednesday. Every Akan child has a day name.  
 **Kwaku Ananse**: What is yours?  
+**Kwaku Ananse**: Friday boys are Kofi. Saturday, Kwame.  
+**Kwaku Ananse**: Sunday, Kwesi. Wednesday is best, obviously.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): Akan day names  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): Akan day names  
 > _Akan families name children for the day they were born. Kwaku is a boy born on a Wednesday._  
 > _What would a boy born on a Saturday be called?_  
 > - ✅ Kwame → Yes. Kwame is for Saturday. A Saturday girl is called Ama. Kofi is a Friday boy, and Kwesi is a Sunday boy.
@@ -287,8 +289,10 @@ _Ananse shakes it with one leg, and keeps three crossed behind his back._
 **Wisp**: deal. …mine still.  
 **Kwaku Ananse**: Of course. Everything in its time.  
 **Kwaku Ananse**: Kwaku is my name, by the way, a Wednesday name. Every Akan child has one.  
+**Kwaku Ananse**: Friday boys are Kofi. Saturday, Kwame.  
+**Kwaku Ananse**: Sunday, Kwesi. Wednesday is best, obviously.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): Akan day names  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): Akan day names  
 > _Kwaku is a Wednesday name. Which day gives a boy the name Kofi?_  
 > - ✅ Friday. → Yes. Kofi is for Friday. Monday boys are Kwadwo, and Sunday boys are Kwesi.
 > - Monday. → Monday boys are Kwadwo. Kofi is for Friday.
@@ -329,7 +333,7 @@ _Ananse agreed to the Sky-god’s price first, and left working out how to pay i
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): making promises: think before you agree  
 > _Ananse said yes first and worked out how afterwards. Is that a good way to make a promise?_  
-> - No. Only promise what you know you can do. → That is a fair answer. A promise is something other people rely on. Ananse would say that is why he promises so carefully, once he is out of earshot.
+> - No. Only promise what you know you can do. → That is a fair answer. A promise is something other people rely on. Ananse promised Nyame his own mother, and never asked her first. She has views on that.
 > - Sometimes. A big promise can push you to find a way. → That is a fair answer. Some great things only get done because someone said yes first. The risk is who gets hurt if you cannot do it.
 > - It depends who gets hurt if you fail. → That is a fair answer. A promise that risks only yourself is different from one that risks others. Notice how many creatures Ananse’s promise puts at risk.
 > _For grown-ups: Thought about when it is wise to make a big promise, and who is affected if it is broken._
@@ -354,7 +358,7 @@ _Ananse agreed to the Sky-god’s price first, and left working out how to pay i
 **Kwaku Ananse**: And creeper, for tying. Plenty of creeper.  
 _You find a fallen palm branch longer than a canoe. Your Nubbin finds the creeper by walking into it._  
 
-> **Lesson** (science, 2-PS1-1, ask): choosing a material for its properties  
+> **Lesson** (science, ask): choosing a material for its properties  
 > _Ananse wants creeper for tying, not a plank. Why is creeper better?_  
 > - ✅ It is flexible and strong, so it bends round things and holds a knot. → Yes. Materials are chosen for their properties. Creeper is bendy and strong. A plank is strong but stiff.
 > - It is heavy, so it holds things down. → Weight is not what matters for tying. Creeper is quite light. It is useful because it is flexible and strong.
@@ -467,7 +471,7 @@ _Onini glares out of the creeper. He is unhurt, but his pride hurts more than he
 > _Does it matter that Onini is proud and boastful?_  
 > - No. A trick is a trick, however proud someone is. → That is a fair answer. Being annoying does not give anyone the right to trick you. Onini might say the same.
 > - Partly. His pride made him easy to fool, but Ananse should still be honest. → That is a fair answer. A weakness can explain a trick without excusing it.
-> - In a story, tricks like this are a kind of game. → That is a fair answer. Tricks in tales are often a game, and the listeners are in on it. The question is whether you would enjoy it if it were you.
+> - In a story, tricks like this are a kind of game. → That is a fair answer. Tricks in tales are often a game. The question is whether you would enjoy it if it were you.
 > _For grown-ups: Thought about whether a trick is fair, and whether someone’s pride makes it more acceptable._
 
 
@@ -480,7 +484,7 @@ _Onini glares out of the creeper. He is unhurt, but his pride hurts more than he
 _Onini goes up the thread to the Sky-god, wrapped like a parcel and loudly offended the whole way._  
 _He will be well looked after up there. It is a court, not a kitchen._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fair rules: hearing both sides  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fair rules: hearing both sides  
 > _In traditional Akan courts, a chief and his elders listen to both sides of a quarrel. Why is hearing both sides a fair rule?_  
 > - ✅ You cannot judge fairly if you have only heard one side. → Yes. Each side knows something the other does not. Hearing everyone is what makes a decision fair.
 > - It makes the quarrel last longer. → It can take longer, but a quick decision can be an unfair one. Hearing both sides is fair because each side knows something the other does not.
@@ -565,15 +569,15 @@ _Ananse holds out a plug of twisted grass. All eight of his legs are jiggling._
 _A hornet’s head pokes out of the gourd’s mouth, looks about, and goes back in to tell the others._  
 **Kwaku Ananse**: Quickly, before one of them has a thought!  
 _Inside the gourd the hornets are beginning to notice that it is not raining in there._  
+_The buzz you can hear is wings, beating very fast and shaking the air._  
 _Your Nubbin stands on tiptoe beside you, ready to help with whatever this is._  
 
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): tricks in stories: a think question  
-> _Ananse tricks the hornets with a pretend storm. Stories are full of clever tricks like this._  
-> _Are they all right in a story, even if they would be wrong in real life?_  
-> - Yes. In a story, nobody is really hurt, and we can enjoy the cleverness. → That is a fair answer. A story is a safe place to try out a trick. Notice, though, that the hornets are still frightened in the tale.
-> - No. A trick is still a trick, wherever it happens. → That is a fair answer. Some people say stories teach us how we feel about tricks. It is fine to enjoy a story and still disagree with Ananse.
-> - It depends on who the trick is played on, and why. → That is a fair answer. A trick on someone dangerous is different from one on a friend. Why do you think Ananse thinks the hornets deserve it?
-> _For grown-ups: Thought about whether tricks in stories are acceptable, and how that differs from real life._
+> **Lesson** (science, ask): why a hornet buzzes: fast wingbeats make sound  
+> _Why does a hornet buzz?_  
+> - ✅ Its wings beat very fast, and that shakes the air. → Yes. Fast wingbeats shake the air, and we hear the shaking as a buzz. A bigger, slower wing makes a lower hum.
+> - It hums with its mouth. → A hornet has no voice like ours. The buzz comes from its wings beating very fast.
+> - Its legs rub together. → Some insects do make sound that way, but not hornets. A hornet’s buzz comes from its wings beating very fast.
+> _For grown-ups: Learned that a hornet’s buzz is the sound of its wings beating very fast._
 
 
 **Choices**
@@ -586,7 +590,9 @@ _Your Nubbin stands on tiptoe beside you, ready to help with whatever this is._
 #### `reader:a28-04-stopper-done` · [main](main.md#a28-04-stopper-done)
 
 _One last hornet, late for everything, lands on your Nubbin’s nose, thinks about it, and stings._  
-_Your Nubbin looks at you with enormous eyes. Then it looks at the gourd, and its eyes go narrow._  
+_Your Nubbin looks at you with enormous eyes. Ananse plucks the hornet off with two fingers and drops it into a tiny gourd of his own._  
+**Kwaku Ananse**: A spare. A spider always keeps a spare.  
+_Your Nubbin looks at the tiny gourd, and its eyes go narrow._  
 **Kwaku Ananse**: Two!  
 _Two of the Sky-god’s four things are paid: the python and the hornets._  
 
@@ -596,6 +602,15 @@ _Two of the Sky-god’s four things are paid: the python and the hornets._
 > - 1/4 → 1/4 would be one thing out of four. Two have been paid. 2/4 is the same as 1/2.
 > - 2/3 → There are four things, not three, so the bottom number is 4. 2/4 is the same as 1/2.
 > _For grown-ups: Wrote two of four equal parts as a fraction and saw that 2/4 is the same as 1/2._
+
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): tricks in stories: a think question  
+> _Ananse tricks the hornets with a pretend storm. Stories are full of clever tricks like this._  
+> _Are they all right in a story, even if they would be wrong in real life?_  
+> - Yes. In a story, nobody is really hurt, and we can enjoy the cleverness. → That is a fair answer. A story is a safe place to try out a trick. Notice, though, that the hornets are still frightened in the tale.
+> - No. A trick is still a trick, wherever it happens. → That is a fair answer. Some people say stories teach us how we feel about tricks. It is fine to enjoy a story and still disagree with Ananse.
+> - It depends on who the trick is played on, and why. → That is a fair answer. A trick on someone dangerous is different from one on a friend. Why do you think Ananse thinks the hornets deserve it?
+> _For grown-ups: Thought about whether tricks in stories are acceptable, and how that differs from real life._
 
 
 #### `reader:a28-04-complete` · [main](main.md#a28-04-complete)
@@ -716,7 +731,9 @@ _The web goes round and round and round. When the tree springs up, Osebo goes wi
 
 _The bundle is very heavy and very cross. You carry the front, and your Nubbin carries the tip of the tail, which keeps twitching._  
 _The thread to the Sky-god is a hundred metres tall, with a knot every twenty-five metres._  
-_Your Nubbin stays stuck until the third knot, where Ananse unpicks it._  
+_Your Nubbin sticks at the first knot. Ananse unpicks it, sighing._  
+_It sticks at the second, and he sighs louder._  
+_At the third knot he unpicks it for good, and it stays free._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): a distance word problem: 100 − 3 × 25  
 > _The thread is 100 metres tall, with a knot every 25 metres. Your Nubbin is unstuck at the third knot._  
@@ -735,7 +752,7 @@ _Osebo goes up to the Sky-god alive and extremely cross, which is the way many t
 **Kwaku Ananse**: Now the hard one. Nobody sees a fairy unless she wants to be seen.  
 _On Nova’s map the forests of Ghana are mostly in the south. The north is drier, with open grassland called savannah._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): Ghana’s forest in the south and savannah in the north  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): Ghana’s forest in the south and savannah in the north  
 > _Ghana’s south is warm and wet with rainforest. Its north is drier savannah._  
 > _Where would you expect the tallest, thickest trees?_  
 > - ✅ In the south. → Yes. More rain means more trees, and bigger ones. Leopards live in both places, wherever they find enough prey and cover.
@@ -834,15 +851,15 @@ _It is nearly dark under the odum tree. Far off, a spider is looking for rope an
 _She is not crying. She has gone very still, the way small wild things go still when they are caught and thinking._  
 **Mmoatia**: He will take me up to the Sky-god. That is what this is.  
 _Her hands are fixed to the doll’s chest, side by side. The gum shines._  
+_Gum is tree sap, which a tree makes to seal its cuts._  
 _Your Nubbin looks at her, and at you, and at its own paw, which has been stuck to things all day._  
 
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): helping, leaving or sitting: a think question  
-> _Mmoatia is caught, and you could help, leave her, or sit with her. Which do you think is kindest?_  
-> _Does helping always change someone’s story for the better?_  
-> - Help her. Kindness should not wait for permission from the story. → That is a fair answer. Many people would feel the same. Notice, though, that her story still holds. Help can be partial.
-> - Leave her. It is not your story to change. → That is a fair answer. Some people think a story belongs to those inside it. You might ask Mmoatia whether she agrees.
-> - Sit with her. You cannot fix it, but you can keep her company. → That is a fair answer. Being there can matter even when you cannot fix a thing. It is a quieter kind of help.
-> _For grown-ups: Thought about what kindness looks like when you cannot change what happens, and weighed three choices._
+> **Lesson** (science, ask): why a tree makes sticky sap: it seals cuts  
+> _The gum on the doll is tree sap. Why does a tree make sticky sap?_  
+> - ✅ To seal a cut in its bark, like a plaster. → Yes. Sticky sap seals a cut, so the tree can heal. A hard crust of sap keeps the cut clean.
+> - To catch passing travellers. → Sap is not a trap. It only sticks to whatever walks into it. A tree makes sap to seal its cuts.
+> - To hold its leaves on. → Leaves hang on by their stalks. A tree makes sap to seal its cuts.
+> _For grown-ups: Learned that a tree makes sticky sap to seal cuts in its bark._
 
 
 **Choices**
@@ -875,6 +892,14 @@ _Each trap used the weakness of the one it caught: the python’s pride, the hor
 > - Her love of rope. → Mmoatia never wanted rope. Rope was Ananse’s idea. Her temper, when the doll did not answer, was her weakness.
 > - Her fear of yam. → She loved the yam, and ate every bit. Her temper, when the doll did not answer, was her weakness.
 > _For grown-ups: Identified how a character’s temper led to the trap, and linked traits to events._
+
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): helping, leaving or sitting: a think question  
+> _You chose how to treat Mmoatia while she was caught. Which help was kindest?_  
+> - Helping her, because kindness should not wait for permission from the story. → That is a fair answer. Many people would feel the same. Notice, though, that her story still holds. Help can be partial.
+> - Leaving her be, because it is not your story to change. → That is a fair answer. Some people think a story belongs to those inside it. You might ask Mmoatia whether she agrees.
+> - Sitting with her. You cannot fix it, but you can keep her company. → That is a fair answer. Being there can matter even when you cannot fix a thing. It is a quieter kind of help.
+> _For grown-ups: Thought about what kindness looks like when you cannot change what happens, and weighed three choices._
 
 
 #### `reader:a28-06-complete` · [main](main.md#a28-06-complete)
@@ -950,7 +975,7 @@ _Ya Nsia climbs four metres every minute. The thread to the court is a hundred m
 _The elders are all there, on their carved stools, and the light at the end of the court is very bright today._  
 _In Akan culture a carved stool is more than a seat. It is a place of honour, and a chief’s stool stands for his people._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): why stools matter in Akan culture  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): why stools matter in Akan culture  
 > _Why is a carved stool so important in Akan culture?_  
 > - ✅ It is a seat of honour, and a chief’s stool stands for his people. → Yes. In Asante, the Golden Stool is the most sacred symbol of the whole nation. A stool is kept with care, and not sat on by just anybody.
 > - It is the cheapest kind of chair. → Stools can be carved beautifully, and some are priceless. They matter because they are a seat of honour for a chief and a symbol of his people.
@@ -1004,6 +1029,7 @@ _Mmoatia, you notice, does not stay at court long. Fairies are hard to keep, eve
 **Ya Nsia**: Here. For the small one.  
 **Ya Nsia**: It got stuck to more of this business than anybody.  
 _She drapes something over your Nubbin: a shawl of spider silk, soft as breath, and only a very little sticky._  
+_By the time you reach the thread, your Nubbin is wearing three leaves, a feather and somebody’s bean. Ya Nsia looks pleased with her work._  
 
 ### Glossary
 
@@ -1082,7 +1108,7 @@ _For a moment your Nubbin has one by the tail, very small and wriggly. It lets g
 **Kwaku Ananse**: Badly, mostly.  
 _Some of the stories cross all of Africa and then the Atlantic Ocean, to the islands of the Caribbean, where Jamaica lies._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): the Atlantic lies between Ghana and the Caribbean  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): the Atlantic lies between Ghana and the Caribbean  
 > _To reach Jamaica from Ghana, the stories have to cross which ocean?_  
 > - ✅ The Atlantic. → Yes. Ghana is on the Atlantic coast of Africa. Jamaica is an island in the Caribbean Sea, which is part of the Atlantic.
 > - The Pacific. → The Pacific is on the other side of the Americas. The Atlantic lies between Africa and the Caribbean.
@@ -1144,7 +1170,9 @@ _Wisp sneezes. Then he reaches into the bag behind him and puts something on the
 **Wisp**: warm. was warm.  
 **Kwaku Ananse**: A glove! One glove.  
 **Kwaku Ananse**: I have eight hands. This is… thank you.  
-_Ananse puts the glove on one foot. Wisp puts the gourd in your bag next to the stone._  
+_Ananse puts the glove on one foot, and looks for a long moment at the other seven._  
+**Kwaku Ananse**: Seven cold feet. Aso will hear about this.  
+_Wisp puts the gourd in your bag next to the stone._  
 _Each of them is quite sure he has won. You decide not to tell either of them._  
 
 **Choices**
@@ -1160,7 +1188,7 @@ _Each of them is quite sure he has won. You decide not to tell either of them._
 _Ananse sits back against his door, looking very pleased with his side of the bargain. So, oddly, does everyone else._  
 _Buttercups grow thick round his step, with five bright yellow petals each. Flowers are bright and scented to attract insects._  
 
-> **Lesson** (science, 2-LS2-2, ask): why flowers are bright: pollination  
+> **Lesson** (science, ask): why flowers are bright: pollination  
 > _Why are flowers like buttercups so brightly coloured?_  
 > - ✅ To attract insects that carry pollen from flower to flower. → Yes. Insects visit for food and carry pollen as they go. That pollen helps flowers make seeds. It is called pollination.
 > - To hide from bees. → It is the opposite. Flowers want to be noticed by bees and other insects. Bright colours attract insects that carry pollen.
@@ -1177,7 +1205,7 @@ _Very far off, through the trees, you hear the courtyard fire, and the old woman
 **Kwaku Ananse**: There. She is telling one.  
 **Kwaku Ananse**: Mine.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): oral tradition  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): oral tradition  
 > _Before most people could read and write, how did stories pass from one generation to the next?_  
 > - ✅ By being told aloud, over and over. → Yes. This is called an oral tradition: stories kept alive by being told. Anansesem has travelled this way for hundreds of years.
 > - By being posted in letters. → Letters need people who can read and write, and paper. Stories were passed on by being told aloud, in an oral tradition.
@@ -1202,7 +1230,7 @@ _The forest flickers, and for a moment you are back in the courtyard: the fire, 
 **Nana Ama**: Long ago, they say, there was a spider called Kwaku Ananse,  
 **Nana Ama**: and one day he swept up all the wisdom in the world, every scrap of it, and put it in a pot.  
 
-> **Lesson** (literacy, RL.2.4, ask): the job of a traditional story opening  
+> **Lesson** (literacy, ask): the job of a traditional story opening  
 > _Storytellers often begin with a set phrase, like “Long ago, they say…”. What does an opening like that do?_  
 > - ✅ It tells listeners a story is starting, and that it has been passed down. → Yes. It is like a doorway into the tale. “They say” reminds us that the story belongs to many tellers, not just one.
 > - It tells listeners that the story is true news. → The opposite. A story opening says, “this is a tale”, not “this is news”. It tells listeners a story is starting, and that it has been passed down.
@@ -1221,7 +1249,7 @@ _Your Nubbin gets swept up with a pile of it. Ananse tips it back out._
 
 **Kwaku Ananse**: Seven handfuls from the stones, nine from the nests, and ten off the sleeping heads. Mine!  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding three numbers within 100  
+> **Lesson** (maths, 3.OA.D.8, ask): adding three numbers within 100  
 > _Ananse swept 7 handfuls from stones, 9 from nests and 10 off sleeping heads. How many in all?_  
 > - ✅ 26 → Yes. 7 + 9 = 16, and 16 + 10 = 26 handfuls. Adding in two steps makes it easier.
 > - 16 → That is 7 + 9, and it leaves out the ten from the sleeping heads. 7 + 9 + 10 = 26.
@@ -1268,11 +1296,11 @@ _He pulls the pot free of its cords and throws it down. Through the leaves comes
 **Nana Ama**: The pot smashed, and the wisdom scattered, pitter-patter, everywhere!  
 _Wisdom bursts across the forest like seed off a dandelion clock. It lands on everybody, some more and some less._  
 
-> **Lesson** (science, 2-LS2-2, ask): how seeds travel  
+> **Lesson** (science, ask): how seeds travel  
 > _Which of these is NOT a way that seeds travel?_  
 > - ✅ Walking on their own legs. → Right. Seeds have no legs. They need help to travel. They ride the wind, like a dandelion’s fluffy parachute, or the water, or animals.
 > - Carried by the wind. → That one is real. Dandelion seeds have a fluffy parachute that catches the breeze. The one that does not happen is walking on their own legs.
-> - Stuck in an animal’s fur, or eaten and dropped. → That one is real too. Burrs hitch a ride on fur, and seeds in fruit are spread in droppings. The one that does not happen is walking on their own legs.
+> - Stuck in an animal’s fur, or eaten and dropped. → That one is real too. Burrs hitch a ride on fur, and eaten seeds are dropped elsewhere. The one that does not happen is walking on their own legs.
 > _For grown-ups: Learned that seeds travel by wind, water and animals, and cannot move by themselves._
 
 **Nana Ama**: And that is why there is a little wisdom everywhere, and nobody has all of it.  
@@ -1357,7 +1385,7 @@ _It still sparkles a little when it tips._
 _Aso’s mother has died, old and well loved, and the whole family has come to see her off._  
 _The yard is full: drums, cooking, cousins, children underfoot, and everybody talking about her at once._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how communities gather to remember someone who has died  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how communities gather to remember someone who has died  
 > _In Ghana, a funeral is often a big gathering of family and friends, with food, music and drumming. Why do communities gather this way?_  
 > - ✅ To honour the person’s life and support the family together. → Yes. Being together helps people grieve. The food, music and stories keep the person remembered, and sad feelings are shared.
 > - Because they have nothing else to do. → People often travel a long way to come. It matters a great deal to them. They gather to honour the person’s life and support the family.
@@ -1384,7 +1412,7 @@ _Aso looks at him, and so does everybody who knows him. The cousin shrugs and ta
 
 _By noon the drums have been going for hours, deep and steady, and you can feel them in your chest._  
 
-> **Lesson** (science, 1-PS4-1, ask): sound is made by vibration  
+> **Lesson** (science, 4-PS3-2, ask): sound is made by vibration  
 > _Why does a drum make a sound when it is hit?_  
 > - ✅ The skin vibrates, and the vibration travels through the air to our ears. → Yes. Hit it harder and the skin shakes more, so the sound is louder. That is why you can feel a big drum in your chest.
 > - The air inside it is hissing. → The air inside helps the sound grow, but the shaking skin starts it. The skin vibrates, and the vibration travels through the air.
@@ -1443,6 +1471,7 @@ _Several small children join in, delighted. You fan him with a plantain leaf, wh
 
 _Then the hat comes off on its own, sailing up into the air, and the beans come down all over the yard._  
 _Every hair on Ananse’s head has been scorched clean away. There is a short silence, and then a very long laugh._  
+_A few hairs are still drifting down, smoking politely._  
 _The hot beans heated his hat, and the hat heated his head._  
 
 > **Lesson** (science, 4-PS3-2, ask): heat moves from hot to cooler  
@@ -1522,7 +1551,7 @@ _The page lifts on its own, as if a wind has got under it, and turns._
 _It is night again, but a different night: warmer, louder with frogs, and the air tastes of the sea._  
 _A yard in Jamaica, with a breadfruit tree and a lamp on a nail. The house door is open, and a radio is talking quietly inside._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): locating Jamaica  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): locating Jamaica  
 > _Nova’s atlas says this yard is in Jamaica. Where is Jamaica?_  
 > - ✅ An island in the Caribbean Sea, south of Cuba. → Yes. Jamaica is an island, and its capital is Kingston. It has warm weather all year, which fits the frogs and the breadfruit tree.
 > - A city in Ghana. → Jamaica is far from Ghana, across the Atlantic Ocean. It is an island in the Caribbean Sea, south of Cuba.
@@ -1555,10 +1584,12 @@ _The step is crowded and warm, and you fit._
 **A Boy on the Step**: You have told us all of them.  
 **Miss Ivy**: Then I will tell one again. That is what they are for.  
 _She puts her cup down. Before she starts, she says where he comes from, the way you would say where a cousin lives._  
-**Miss Ivy**: Anancy came here with people who were enslaved. They were taken by force from the Gold Coast, where Ghana is today, and brought across the sea.  
+**Miss Ivy**: Here we call him Anancy. Same spider.  
+**Miss Ivy**: He came with people who were enslaved.  
+**Miss Ivy**: They were taken by force from the Gold Coast, where Ghana is today, and brought across the sea.  
 **Miss Ivy**: They kept him, because he was small and clever and never stayed caught.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): why stories mattered to people who were enslaved  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): why stories mattered to people who were enslaved  
 > _Storytellers often say that enslaved people held on to Anancy because he was small but outwitted the strong._  
 > _Why might that story matter so much to them?_  
 > - ✅ It gave hope, and it kept their memories and culture alive. → Yes. Stories are one thing nobody can take away. Keeping them alive kept a people’s memory and courage alive too.
@@ -1616,7 +1647,7 @@ _In her story it is the spider who gets caught. In yours, he did the catching._
 _Your Nubbin looks at its paw, which has been stuck to something all the way through this story, and seems comforted._  
 _You count up its sticky moments today: silk three times, sap twice, gum four times, and the web once._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding four numbers within 100  
+> **Lesson** (maths, 3.OA.D.8, ask): adding four numbers within 100  
 > _Silk 3, sap 2, gum 4, web 1. How many sticky moments altogether?_  
 > - ✅ 10 → Yes. 3 + 2 = 5, 5 + 4 = 9, and 9 + 1 = 10.
 > - 9 → That leaves out the web. 3 + 2 + 4 = 9, and 9 + 1 = 10.
@@ -1657,7 +1688,7 @@ _The page lifts again, and you feel it begin to turn back._
 _The page turns back. It is the courtyard again: the fire lower now, the children sleepier, the moths still at the wall._  
 _You are sitting on your mat, as if you never left it. Your Nubbin is beside you, sticky in three places._  
 
-> **Lesson** (science, 2-PS1-4, ask): burning is a change that cannot be undone  
+> **Lesson** (science, ask): burning is a change that cannot be undone  
 > _Most of the logs have burned down to grey ash and glowing embers. Could the ash ever turn back into wood?_  
 > - ✅ No. Burning changes wood into ash, smoke and heat, and it cannot be undone. → Yes. Some changes, like melting ice, can be reversed. Burning cannot. The wood is gone for good, which is why the fire needs new logs.
 > - Yes, if you let the ash cool down. → Cooling the ash leaves cold ash. It does not bring the wood back. Burning is a change that cannot be undone.
@@ -1672,11 +1703,13 @@ _She turns on the stool and looks straight at you._
 **Nana Ama**: You. The one who has been away.  
 **Nana Ama**: Your turn.  
 _Your Nubbin climbs up on to the stool beside her, as if it has been invited too._  
+_It sticks to the stool, and stays stuck for the rest of the night. Nana Ama tells the stories around it._  
 
 #### `reader:a28-12-return-done` · [main](main.md#a28-12-return-done)
 
 _The children turn round on their mats to look at you. There are twenty-four of them, and every one of them is waiting._  
 _Half of them are nearly asleep. The other half are wide awake._  
+_A boy at the front has fallen asleep with one hand still up, as if he knows the answer._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: half of 24  
 > _There are 24 children, and half are nearly asleep. How many are wide awake?_  
@@ -1795,7 +1828,8 @@ _Wisp has come out of your bag. He sits at the edge of the firelight with the eg
 **Nana Ama**: There was a grey thief with a torn ear, who wanted every warm thing in the world.  
 **Nana Ama**: And he kept a stone that had gone cold. He kept it long after it was any use to anyone.  
 **Nana Ama**: He traded with a spider once, and both of them were cheated, and both of them went home pleased.  
-**Nana Ama**: But the spider threw something in for nothing, and never knew. The best thing in the whole bargain.  
+**Nana Ama**: But the spider threw something in for nothing, and never knew. He put the thief in a story.  
+**Nana Ama**: Nobody had ever told a story about the thief before. That was the best thing in the whole bargain.  
 _Wisp’s ears have come up. He has stopped looking at the fire, and is looking at her._  
 **Nana Ama**: A story. Not the one in the gourd.  
 **Nana Ama**: This one. The one about him.  
@@ -1859,7 +1893,7 @@ _The old woman stands up from the stool, slowly, because she can. She says the l
 **Nana Ama**: If you liked it, or if you did not, take a bit of it with you, and bring a bit back to me.  
 **The Children**: Some come back!  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how a living tradition survives  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how a living tradition survives  
 > _Anansesem are still told in Ghana today, and Anancy stories in Jamaica. Why does a tradition like this survive?_  
 > - ✅ Because people keep telling it to each new listener. → Yes. A tradition is a custom handed down from person to person. It lives as long as somebody is willing to tell it and somebody is willing to listen.
 > - Because it is locked in a museum. → A museum can preserve an object, but a story needs voices. It survives because people keep telling it to new listeners.

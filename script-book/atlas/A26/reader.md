@@ -15,7 +15,7 @@ _Below, flat roofs run down to a river. An old woman with clay to her elbows sit
 **Old Brickmaker**: This is Uruk. It stood in the land between two rivers, the Tigris and the Euphrates. Today that land is part of Iraq.  
 **Old Brickmaker**: The Greeks later called it Mesopotamia, which means “between the rivers”. Rivers meant water, crops and boats.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
 > _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)_  
 > _For grown-ups: Learned where Mesopotamia was: between the Tigris and the Euphrates, in what is now Iraq._
 
@@ -39,9 +39,9 @@ _An old woman with clay to her elbows sits on a stack of bricks, eating a date. 
 **Old Brickmaker**: New, are you? Everyone is new once. Walk the wall with me. It is the best way to meet a city.  
 **Old Brickmaker**: This is Uruk. It stood in the land between two rivers, the Tigris and the Euphrates. Today that land is part of Iraq.  
 **Old Brickmaker**: The Greeks later called it Mesopotamia, which means “between the rivers”. Rivers meant water, crops and boats.  
-**Moss**: Some of these bricks are older than anyone’s grandmother. Not anyone’s, I mean. Most people’s.  
+**Moss**: Some of these bricks are older than I am. I don’t say that about many things.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Mesopotamia means “between the rivers”; Uruk stood in what is now Iraq  
 > _(Find the two rivers on Nova’s map. The Tigris and the Euphrates both run south-east through Iraq to the sea.)_  
 > _For grown-ups: Learned where Mesopotamia was: between the Tigris and the Euphrates, in what is now Iraq._
 
@@ -173,7 +173,7 @@ _At dusk the people climb the temple steps with lamps. They do not shout, becaus
 _The lamps flicker, though there is no wind. And for a moment, high over the temple, you see something no one else seems to._  
 _A great woman, made of starlight, washes her hands in the evening sky. She pinches off a little clay and rolls it between her palms._  
 
-> **Lesson** (science, 2-PS1-1, ask): clay is soft when wet and hard when dry  
+> **Lesson** (science, ask): clay is soft when wet and hard when dry  
 > _Aruru shapes wet clay. Why is clay such a useful material for people who want to build and write?_  
 > - ✅ It can be shaped while soft, then it dries hard and keeps its shape → Yes. Soft clay becomes a brick, a pot or a tablet, and when it dries or is baked, it stays that way.
 > - It never changes → It does change! Clay is soft when wet and hard when it dries. That change is why it is so useful.
@@ -208,7 +208,7 @@ _The eyes open slowly, like a door in the morning, and the light comes in._
 _Down in the square, the drum keeps going. Gilgamesh is still awake, still building, still certain nothing can stop him._  
 _Your Nubbin has turned to face the wild, where the clay fell. Its ears are up._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what a fair rule about work and rest would look like  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what a fair rule about work and rest would look like  
 > _The king never lets his people rest. What would a fair rule about work and rest look like in a city?_  
 > - Everyone works, and everyone gets time to rest → That is a fair answer. A rule that gives everyone rest, including the king, is hard to argue with.
 > - The king decides, because he is the king → That is a fair answer to think about. But the people of Uruk cried out: when one person decides alone, people can get hurt.
@@ -226,7 +226,7 @@ _Your Nubbin has turned to face the wild, where the clay fell. Its ears are up._
 _Three days out from the wall, the fields give way to steppe: dry grass, thorn trees, and a sky that goes on for ever._  
 _At the water hole, three gazelles are drinking with their knees bent. Four more come trotting up, and two wander off again._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): add and take away within 100  
+> **Lesson** (maths, 3.OA.D.8, ask): add and take away within 100  
 > _Three gazelles are at the water. Four more arrive, and two leave._  
 > _How many gazelles are at the water hole now?_  
 > - ✅ 5 → Yes. 3 + 4 = 7, and 7 − 2 = 5.
@@ -319,7 +319,7 @@ _He pats the earth flat with both hands, very gently, as if tucking someone in._
 
 _By evening the trapper is far away on the road to his father, and then on the road to Uruk._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): land near rivers was green; land away from them was dry steppe  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): land near rivers was green; land away from them was dry steppe  
 > _(Look at Nova’s map.) The land beside the rivers was green and could be farmed, because the rivers brought water._  
 > _Further out, it turned to dry steppe, where herds roamed._  
 > _For grown-ups: Learned that land beside Mesopotamia’s rivers was fertile, while land further away was dry steppe._
@@ -468,8 +468,9 @@ _You set a round loaf in front of him, and a jug of thick barley drink. Enkidu l
 **Shamhat**: That is bread. People eat it. And that is a drink. People drink it. Go on. It is what we do.  
 _He sniffs the bread, and licks it. He takes a very small bite, and his eyebrows go up into his hair._  
 _Then he eats until he is full, and his face shines like a lamp. And then, to everyone’s surprise, including his own, he sings._  
+**Shepherd**: More jugs, water-carrier! He drinks like the whole flock.  
 
-> **Lesson** (science, 2-LS2-1, ask): how grain becomes bread  
+> **Lesson** (science, ask): how grain becomes bread  
 > _Enkidu has never seen bread made. Which order is right for how a loaf of bread is made?_  
 > - ✅ Barley or wheat grows in a field, the grain is ground into flour, then the dough is mixed and baked → Yes. Plants need water and light to grow grain. People turn the grain into flour, then dough, then bread.
 > - Dough is baked, then ground, then planted → That order cannot work. The plant comes first, then the flour, then the dough, then the baked loaf.
@@ -571,6 +572,7 @@ _Gilgamesh is pacing in front of her, and for once he is not shouting. He looks 
 **Gilgamesh**: Mother, I dreamed again. A star fell out of the sky and landed beside me, like a rock.  
 **Gilgamesh**: I tried to lift it and could not. Me! The city came out to stare. And I loved it. I held it as if it were a person.  
 _You hold out the tray. He takes a cup without looking, and drinks, and forgets to give it back._  
+_Your Nubbin counts the cups with one paw: eleven. It counts again, slowly, and gives the king a long look._  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
 > _The cups are in three rows of four. How many cups were on the tray before Gilgamesh took one?_  
@@ -630,9 +632,9 @@ _Gilgamesh opens his mouth to argue, and shuts it again. He looks out of the win
 **You**: Nobody’s. I am new here.  
 **Gilgamesh**: Well, stay new. Carry my cups. There are not many people who stand still long enough to hear my dreams.  
 _That night, for the first time since the new moon, the drum in the square stops before midnight._  
-_The moon over Uruk is only a thin silver curve. A few nights ago it was hidden altogether._  
+_The moon over Uruk is half full now. When the games began, there was no moon at all._  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Moon’s cycle takes about a month  
+> **Lesson** (science, 5-ESS1-2, ask): the Moon’s cycle takes about a month  
 > _The people say the games began at the new moon. About how many days pass from one new moon to the next?_  
 > - ✅ About 29 or 30 days → Yes. The Moon takes about 29½ days to go through all its phases, from one new moon to the next. That is where we get the idea of a month.
 > - About 7 days → That is about a quarter of the cycle, from new moon to first quarter. The whole cycle takes about 29½ days.
@@ -659,7 +661,7 @@ _Enkidu sees you by the gate. His face breaks into a grin._
 _Your Nubbin, embarrassed, hides behind your leg._  
 **Shamhat**: He wants to meet your king. I have told him what to expect. He does not believe me.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): why cities grew beside rivers  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): why cities grew beside rivers  
 > _The road runs beside the river, and so does the city. Why did cities like Uruk grow up beside rivers?_  
 > - ✅ Rivers gave water to drink and to grow crops, and a way to travel and carry goods → Yes. Water for people and fields, plus boats for trade. A river was a road, a well and a farm all at once.
 > - Rivers kept cities warm in winter → Not the main reason. Cities grew beside rivers for water, crops and travel.
@@ -794,7 +796,7 @@ _The elders of Uruk sit on their benches by the gate. They hear Gilgamesh out, a
 **Elder of Uruk**: You are young, Gilgamesh. Your heart runs ahead of you. You do not know what you are talking about.  
 **Elder of Uruk**: Let Enkidu go first. He knows the road. And come back to us. We have got used to you.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): listening to people who have experience  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): listening to people who have experience  
 > _The elders say Enkidu should lead, because he knows the road. Why is it wise to listen to someone with experience?_  
 > - ✅ They have seen what can go wrong, and can help us avoid it → Yes. Experience is knowledge from having been there. Good leaders listen to it, even when they are bold.
 > - Older people are always right → Not always. But those who have walked the road know things we do not. Listening helps us decide.
@@ -818,7 +820,7 @@ _The sun climbs a little higher, and is very bright. You decide that is a yes._
 **Ninsun**: Enkidu. You are not my son by birth, but I am giving him to you to look after. Bring him home.  
 _The sun is clear of the horizon now, over the east side of the city._  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Sun rises in the east  
+> **Lesson** (science, 5-ESS1-2, ask): the Sun rises in the east  
 > _Ninsun prays to the rising sun. In which direction does the Sun rise?_  
 > - ✅ East → Yes. The Sun rises in the east and sets in the west, because the Earth spins.
 > - West → That is where it sets. The Sun rises in the east.
@@ -948,7 +950,7 @@ _On the fifth night, while the king sleeps, Enkidu sits down beside you at the f
 _He falls asleep sitting up, with his head on his knees. You keep the fire till dawn._  
 _In the morning, on the skyline, there is a dark green line, and a smell on the wind like a sawmill: cut wood, and sweet, sticky resin. The Cedar Forest._  
 
-> **Lesson** (literacy, RL.1.4, ask): language that appeals to the senses  
+> **Lesson** (literacy, ask): language that appeals to the senses  
 > _Which phrase in the last line appeals most to the sense of smell?_  
 > - ✅ “a smell on the wind like a sawmill: cut wood, and sweet, sticky resin” → Yes. It names smells directly. Good writers use senses so we feel we are there.
 > - “a dark green line” → That appeals to sight, because it describes colour and shape.
@@ -992,7 +994,7 @@ _It is everywhere, like weather._
 **Humbaba**: Who has come into my forest? Who has cut my tree?  
 _Then he is there between the trees: huge, and ancient, with a face like a coil of wool._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): cedar forests grow on the mountains of Lebanon today  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): cedar forests grow on the mountains of Lebanon today  
 > _Nobody knows exactly where the Cedar Forest was. Many people think of the mountains of Lebanon, where cedar trees still grow today._  
 > _(Find Lebanon on Nova’s map.)_  
 > _For grown-ups: Learned that cedar forests still grow in the mountains of Lebanon, and found it on a map._
@@ -1053,16 +1055,16 @@ _Gilgamesh turns his head, and looks at you. Of everyone in the forest, it is yo
 
 _Whatever anyone says, Gilgamesh has already decided. He steps forward into the wind, and Enkidu goes with him._  
 _You turn your face away, into your Nubbin’s fur._  
-
-> **Lesson** (science, 4-PS3-2, ask): what causes wind  
-> _Thirteen winds roar through the cedars. What causes wind in the real world?_  
-> - ✅ The Sun heats the Earth unevenly, and air moves from cooler places to warmer ones → Yes. Warm air rises, cooler air rushes in, and we feel moving air as wind. Heat from the Sun drives it.
-> - Trees waving their branches → It is the other way round. Wind makes trees wave. The Sun’s uneven heating makes the wind.
-> - The Moon pulling on the air → The Moon pulls on the seas, to make tides. For wind, it is the Sun heating the Earth unevenly.
-> _For grown-ups: Learned that wind comes from the Sun heating the Earth unevenly._
-
 _The wind drops, all thirteen winds at once. And the Cedar Forest goes quiet, the deep quiet of a held breath let go._  
 _Humbaba has died, and it cannot be undone. Whatever you chose, it is all right to feel uneasy._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): it is all right to feel uneasy, and to share the feeling  
+> _You feel uneasy, and the forest is quiet. What could help you most right now?_  
+> - ✅ Staying close to someone you trust, and saying how you feel → Yes. Hard feelings get lighter when someone is near, and when we say them out loud.
+> - Pretending nothing is wrong → That keeps the feeling inside. Sharing it with someone you trust helps more.
+> - Running away from everyone → Being alone makes it heavier. Staying near someone you trust helps more.
+> _For grown-ups: Learned that it is all right to feel uneasy, and that sharing a feeling helps._
+
 
 #### `reader:a26-10-river` · [main](main.md#a26-10-river)
 
@@ -1080,6 +1082,14 @@ _A cubit is about the length of a forearm, roughly half a metre. You carry ropes
 
 _Your Nubbin carries one twig at a time, very solemnly, to the raft. Gilgamesh says nothing at all, and keeps looking back at the forest._  
 _At last the raft is lashed, and the friends push it out into the Euphrates. It turns once, slowly, and sets off home._  
+
+> **Lesson** (science, 4-PS3-2, ask): what causes wind  
+> _Thirteen winds roared through the cedars. What causes wind in the real world?_  
+> - ✅ The Sun heats the Earth unevenly, and air moves from cooler places to warmer ones → Yes. Warm air rises, cooler air rushes in, and we feel moving air as wind. Heat from the Sun drives it.
+> - Trees waving their branches → It is the other way round. Wind makes trees wave. The Sun’s uneven heating makes the wind.
+> - The Moon pulling on the air → The Moon pulls on the seas, to make tides. For wind, it is the Sun heating the Earth unevenly.
+> _For grown-ups: Learned that wind comes from the Sun heating the Earth unevenly._
+
 
 **Choices**
 
@@ -1119,7 +1129,7 @@ _He washes the forest out of his long hair and shakes it down his back. He puts 
 **Enkidu**: You look like a king who has had a bath. That is a start.  
 _Gilgamesh throws a wet cloth at him. It is the first time either of them has laughed since the forest._  
 
-> **Lesson** (science, 2-PS1-4, ask): condensation: some changes can be reversed  
+> **Lesson** (science, ask): condensation: some changes can be reversed  
 > _Steam rises from the hot water. If the steam touches a cold window, what happens?_  
 > - ✅ It cools and turns back into drops of water → Yes. Heating turns water into steam, and cooling turns steam back into water. That kind of change can be reversed.
 > - It turns into stone → No. Steam cools back into drops of water on cold glass.
@@ -1143,7 +1153,7 @@ _The goddess Ishtar stands in the doorway, bright as the evening star. Her eyes 
 _Gilgamesh looks at her for a long moment. Then he shakes his head._  
 **Gilgamesh**: Everyone you have loved has come to grief. Why would I be different?  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): weighing what you give up against what you gain  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): weighing what you give up against what you gain  
 > _Ishtar offers a golden chariot and much more, but it comes with a price. What is wise to do when someone offers you a great gift?_  
 > - ✅ Think about what you would give up as well as what you would gain → Yes. Every choice has a cost: when you choose one thing, you give up another. Gilgamesh looks at the whole price.
 > - Take it, because gifts are free → Gifts often come with strings. It is wise to ask what it would cost you.
@@ -1262,7 +1272,7 @@ _That night the friends ride through the streets of Uruk in a chariot. The peopl
 _Enkidu waves. He catches sight of you in the crowd, and waves harder, until your Nubbin waves back with both arms._  
 _Scribes in the crowd are already pressing the night into clay, so that people far in the future can read about it._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how we learn about the distant past  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how we learn about the distant past  
 > _How do we know about people who lived thousands of years ago, such as the people of Uruk?_  
 > - ✅ From the writings, buildings and objects they left behind → Yes. Tablets, bricks, pots and walls are clues. Historians put them together like a puzzle.
 > - Because they are still alive → Not so! We learn from what they left behind: tablets, buildings and objects.
@@ -1279,7 +1289,7 @@ _Scribes in the crowd are already pressing the night into clay, so that people f
 
 _Before dawn a servant shakes you awake. Enkidu is asking for you, and for the king._  
 _He is sitting on the edge of his bed with the blanket round his shoulders. He is very pale._  
-**Enkidu**: I dreamed. The great gods sat in council: Anu, and Enlil, and Shamash. They were talking about us.  
+**Enkidu**: I dreamed. The great gods sat in council: the sky god, the wind god, and Shamash. They were talking about us.  
 **Enkidu**: Because we killed Humbaba and the Bull of Heaven, one of us has to die. Enlil said so. And it will not be Gilgamesh. It will be me.  
 **Gilgamesh**: No. No. It was a dream. I will tell you it was a good one, the way you did for me.  
 _Enkidu tries to smile at that. He does not quite manage it._  
@@ -1459,7 +1469,7 @@ _He opens his big hand, and in it is a cedar seed, small and brown, from the for
 **Enkidu**: Plant it. For Humbaba’s forest. One tree back, for all the ones we took. You will know where.  
 **You**: I will.  
 
-> **Lesson** (science, 2-LS2-1, ask): what a seed needs to grow  
+> **Lesson** (science, 3-LS1-1, ask): what a seed needs to grow  
 > _Enkidu gives you a cedar seed to plant. What does a seed need to grow into a tree?_  
 > - ✅ Soil, water and light, and time → Yes. A seed needs water to wake up, soil to hold its roots, light to grow and plenty of time. A cedar can live for hundreds of years.
 > - Only water → Water is vital, but it also needs soil, light and time.
@@ -1475,7 +1485,7 @@ _Variant of `a26-14-sickbed-done`._
 **Enkidu**: Remember me to the shepherds. Tell them their watchman thought of them. Tell them to keep the lamps lit for the sheep.  
 **You**: I will.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how stories carry the past  
 > _Enkidu asks you to carry a message to people far away. How do spoken stories carry the past from one person to another?_  
 > - ✅ Each person who hears them can tell them again, so they travel through time → Yes. Before many people could write, stories lived in memory and travelled by voice. Oral history is still used today.
 > - They do not: only writing keeps the past → Writing helps a great deal, but stories passed on by voice have kept history alive for thousands of years.
@@ -1547,7 +1557,7 @@ _The whole city weeps for him: the elders, the shepherds, the woman from the squ
 _Gilgamesh stands in front of the statue for a long time. Then he looks at his own hands, as if they belonged to someone else._  
 **Gilgamesh**: I am going to die too, like him. One day my body will stop, and that will be the end of me. I cannot bear it.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): whether a memorial is the same as the person  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): whether a memorial is the same as the person  
 > _Gilgamesh says the statue is beautiful, but Enkidu is not in it. Is a memorial the same as the person?_  
 > - No. It helps us remember, but the person has died → That is a fair answer. A memorial points to someone. It is not the same as them.
 > - Partly, because the memory is part of the person → That is a fair answer. Some people think that remembering keeps part of someone alive.
@@ -1567,6 +1577,7 @@ _Gilgamesh stands in front of the statue for a long time. Then he looks at his o
 **Gilgamesh**: There is one man the gods let live for ever. Uta-Napishtim, at the end of the world. I will find him. I will ask him how.  
 _He tears off his fine clothes, and pulls on rough lion skins, and walks out of the city gate without saying goodbye._  
 _You fill six waterskins, two litres each, and your Nubbin climbs on to the pack. Somebody has to carry the water._  
+_Between Gilgamesh, you and your Nubbin, three litres a day is all the water you can spare._  
 
 > **Lesson** (maths, 4.MD.A.2, ask): a word problem with distance, volume and time  
 > _You carry six waterskins of two litres each. If the three of you drink three litres a day in all, how many days does the water last?_  
@@ -1589,7 +1600,7 @@ _You fill six waterskins, two litres each, and your Nubbin climbs on to the pack
 #### `reader:a26-15-road` · [main](main.md#a26-15-road)
 
 _Gilgamesh walks the wilderness in his lion skins. His beard grows ragged and his face grows thin._  
-_He does not talk. At night he lies awake and looks at the stars as if they owed him money._  
+_He does not talk. At night he lies awake and looks at the stars as if they had let him down._  
 **Gilgamesh**: I used to be afraid of nothing. Now I am afraid of everything, and most of all of dying.  
 _You give him water. He drinks it now, at least, a little, which you count as a good day._  
 
@@ -1627,7 +1638,9 @@ _A real scorpion has eight legs, two pincers and a curved tail with a sting. It 
 #### `reader:a26-15-gate` · [main](main.md#a26-15-gate)
 
 _The scorpion-man is terrible to look at, with a glare that could bring down a mountain. His wife stands at his side._  
-**Scorpion-man**: Look, wife. He is two parts god, this one, and one part man. And who is the small one with the water?  
+**Scorpion-man**: Look, wife. The one who comes to us has the body of a god.  
+**Scorpion-man’s Wife**: Two parts of him, husband. One part is a man. You always forget the man.  
+**Scorpion-man**: And who is the small one with the water?  
 _His wife looks at you, and at your Nubbin, and tilts her head. You think, from her face, that she rather likes small ones._  
 
 > **Lesson** (literacy, L.3.4, ask): words with older meanings  
@@ -1653,7 +1666,7 @@ _His wife looks at you, and at your Nubbin, and tilts her head. You think, from 
 
 _The dark inside the mountain is thicker than any night. You cannot see your hand, or Gilgamesh._  
 _You can feel his belt, though, and the rough lion skin, and your Nubbin’s breath on your neck. You hold on._  
-**Gilgamesh**: One double-hour. Thick dark. Nothing.  
+**Gilgamesh**: One double-hour. Two of your hours, water-carrier. Thick dark. Nothing.  
 **Gilgamesh**: Four. Five. Still nothing.  
 _He counts aloud, so you know he is there. You count with him, so he knows you are._  
 **Gilgamesh**: Nine. I feel the north wind on my face.  
@@ -1673,7 +1686,7 @@ _At the twelfth double-hour you step out into the sun, blinking, into a garden w
 _Your Nubbin is shivering, from the cold of the dark. Gilgamesh looks at it for a moment._  
 _Then he cuts a strip off the edge of his lion skin with his knife, and wraps it round the Nubbin’s shoulders like a cloak._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see things when light reaches our eyes  
+> **Lesson** (science, 4-PS3-2, ask): we see things when light reaches our eyes  
 > _Inside the mountain you could not see your own hand. Why not?_  
 > - ✅ There was no light to bounce off things and reach your eyes → Yes. We see when light bounces off objects into our eyes. With no light, there is nothing to see.
 > - Your eyes stopped working → Your eyes were fine. With no light, nothing could be seen.
@@ -1857,7 +1870,7 @@ _He took on board his family, craftsmen, and every kind of animal._
 _The storm lasted six days and seven nights. Then there was only water, flat and grey, as far as anyone could see._  
 _He sent out a dove, and it came back; a swallow, and it came back. Then a raven, which did not._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how the flood tablet was read again in 1872  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how the flood tablet was read again in 1872  
 > _(Nova’s atlas adds a note. Uta-Napishtim’s flood story was pressed into clay tablets that lay buried for more than two thousand years.)_  
 > _(In 1872 a man named George Smith, working on broken tablets at the British Museum in London, read part of it. Nobody had read those words in all that time.)_  
 > _For grown-ups: Learned that the flood tablet lay buried for thousands of years and was read again in 1872._
@@ -1893,7 +1906,7 @@ _He sits down on the sand with his back against the house. Before he has finishe
 **Uta-Napishtim**: He will only say he never slept. Bake him a loaf every day, and put it by his head. Then he will know.  
 _So every day she bakes a loaf, and every day you set it by his head, in a row. Your Nubbin guards them, mostly._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction in a word problem  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction in a word problem  
 > _One loaf is baked each day and set in a row. How many days older is the first loaf than the fifth?_  
 > - ✅ 4 days → Yes. The fifth is baked four days after the first: 5 − 1 = 4.
 > - 5 days → That counts the first loaf’s own day. From loaf 1 to loaf 5 is four steps: 5 − 1 = 4.
@@ -1915,8 +1928,9 @@ _So every day she bakes a loaf, and every day you set it by his head, in a row. 
 _On the seventh day Uta-Napishtim touches him, and he wakes. The first loaf by his head is dry as a brick._  
 **Gilgamesh**: I only just shut my eyes.  
 _Then he sees the row: dry, leathery, soggy, furry with mould, grey, fresh, and one still warm. He puts his face in his hands._  
+_The warm loaf is missing one corner. Your Nubbin is looking very hard at the sea._  
 
-> **Lesson** (science, 2-PS1-4, ask): some changes cannot be reversed  
+> **Lesson** (science, ask): some changes cannot be reversed  
 > _The loaves change as they age, and the mould is a kind of fungus. Which change cannot be undone?_  
 > - ✅ Baking dough into bread → Yes. Heat changes dough for good. You cannot turn a loaf back into dough, just as you cannot un-bake a cake.
 > - Melting butter and letting it set again → That one can be undone: cooling sets melted butter again.
@@ -2028,7 +2042,7 @@ _You walk on, the three of you, with your Nubbin dripping on the pack. It is a q
 _In your pocket you find a little reed boat, plaited tight. Uta-Napishtim’s wife must have made it while the loaves baked._  
 _People in the marshes of southern Iraq still build houses and boats from reeds today. Reeds are light, hollow and bendy, and they float._  
 
-> **Lesson** (science, 2-PS1-1, ask): properties of materials and why they suit a job  
+> **Lesson** (science, ask): properties of materials and why they suit a job  
 > _Reeds are light, hollow and bendy. Which job are those properties best for?_  
 > - ✅ Building a boat that floats and a house that bends with the wind → Yes. Lightness and hollow stems help a boat float, and bendiness helps reed walls move without snapping.
 > - Making a hammer → A hammer needs to be heavy and hard. Reeds are light and bendy.
@@ -2058,7 +2072,8 @@ _On top, the wind is warm. The whole city is laid out below, roofs and orchards 
 **Gilgamesh**: Town, orchards and clay-pits, a square mile of each. And half a square mile for Ishtar’s temple. That is what I made.  
 
 > **Lesson** (maths, 3.MD.C.7, ask): area of a rectangle  
-> _One square mile is a square one mile long on every side. How many square miles is an orchard that is 2 miles by 3 miles?_  
+> _One square mile is a square one mile long on every side. Uruk wants a new orchard, 2 miles long and 3 miles wide._  
+> _How many square miles is that?_  
 > - ✅ 6 square miles → Yes. Area is length times width: 2 × 3 = 6.
 > - 5 square miles → That is 2 + 3, which is half the distance round (the perimeter). Area is 2 × 3 = 6.
 > - 1 square mile → One square mile is a 1 by 1 square. A 2 by 3 orchard is six of them.
@@ -2171,7 +2186,7 @@ _She lays a fresh clay brick in front of you. You press your hand into it, and y
 **Old Brickmaker**: Not every tablet stays put. Plenty were taken from their places, in living memory.  
 **Old Brickmaker**: Some have come home since. Every one that comes home is a little bit of a city put back.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness about things that belong to a people  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness about things that belong to a people  
 > _Many tablets were taken from the places they belonged, and some have come home. What is a fair way to treat a people’s heritage?_  
 > - ✅ Protect it, and return it to where it belongs when we can → Yes. Heritage belongs to the people it comes from, and to the whole world to learn from, but taking it without asking is unfair.
 > - Keep it, because it is safer in a faraway museum → Safety matters, but that does not make taking it fair. Many countries and museums now work to return what was taken.
@@ -2250,7 +2265,7 @@ _You carry the brick up the hill to the flat stone where Moss always sits, and l
 _Your handprint and the pawprint face the sky. Your Nubbin knocks on the brick with one paw, and listens: it rings._  
 _You put the cedar box on the cottage shelf. When you open it, the room smells of a forest a very long way off._  
 
-> **Lesson** (literacy, RL.1.4, ask): language that appeals to the senses  
+> **Lesson** (literacy, ask): language that appeals to the senses  
 > _“The room smells of a forest a very long way off.” Which sense does this sentence appeal to?_  
 > - ✅ Smell → Yes. Writers use senses so that we feel we are in the room. This one gives a smell and a sense of distance.
 > - Hearing → The ringing brick is about hearing, but this sentence is about smell.
@@ -2265,7 +2280,7 @@ _Your handprint and the pawprint face the sky. Your Nubbin knocks on the brick w
 _You sit for a while by the flower and the brick. It seems the right thing to do here._  
 _You put the cedar box on the cottage shelf. When you open it, the room smells of a forest a very long way off._  
 
-> **Lesson** (literacy, RL.1.4, ask): language that appeals to the senses  
+> **Lesson** (literacy, ask): language that appeals to the senses  
 > _“The room smells of a forest a very long way off.” Which sense does this sentence appeal to?_  
 > - ✅ Smell → Yes. Writers use senses so that we feel we are in the room. This one gives a smell and a sense of distance.
 > - Hearing → The ringing brick is about hearing, but this sentence is about smell.

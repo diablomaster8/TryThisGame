@@ -312,6 +312,9 @@ const A1: EduQuest = quest(
           'Avram, bring them in, you’re letting the warm out. Water first, lodger. Then you can be a guest.',
         ),
         RI('I’ll show you the well! I know the well better than anyone.'),
+        RI('That’s Shmuel under the table. He’s five, and he asks questions.'),
+        RI('That’s Mirele on the stairs. She’s three, and she answers them.'),
+        N('Shmuel waves from under the table. Mirele waves back with a spoon.'),
         N('Inside, your Nubbin is already being a guest at the stove.'),
       ],
       [
@@ -905,6 +908,9 @@ const A3: EduQuest = quest(
         ),
         LO('Good morning. It is a good morning. They all are, until they aren’t.', 'think'),
         DV('He didn’t sleep. You can always tell. He gets philosophical before breakfast.'),
+        N('Your Nubbin comes out of the house wearing the rabbi’s coat from yesterday. Most of it trails behind.'),
+        DV('He leaves coats on pegs the way a hen leaves eggs. That’s the third this month.'),
+        LO('Ah. I wondered where I had got to.', 'happy'),
       ],
       [
         ask(
@@ -1679,6 +1685,8 @@ const A7: EduQuest = quest(
         N(
           'You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all, and very sincere.',
         ),
+        N('A hen floats past the door on a cabbage, looking as if she was promised dry land.'),
+        N('Your Nubbin gives up bailing, climbs into the bread trough, and sails.'),
         DV('Oh, no. No, no, no. Yossele! That’s enough! Enough!', 'shock'),
         N('He doesn’t stop. She isn’t the one who made him.'),
         N(
@@ -2595,6 +2603,9 @@ const A11: EduQuest = quest(
         N('Shmuel thinks about this, and nods, and eats his bread.'),
         N(
           'Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all.',
+        ),
+        N(
+          'It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does.',
         ),
       ],
       [

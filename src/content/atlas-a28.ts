@@ -423,11 +423,13 @@ export const ATLAS_A28: Quest[] = [
           id: 'a28-02-road',
           lines: [
             N('At the foot of the thread Ananse sits down on a root and looks you over properly, for the first time.'),
+            N('He points at your Nubbin, with three legs at once.'),
             AN('Eight legs, I have. Two arms, you have. And one of those, you have.', 'think'),
             AN('What does it do?'),
             N('Your Nubbin, as if it has been asked, sits down in a puddle of sap and sticks.'),
             AN('Ah. A specialist.'),
             AN('Kwaku, they call me, because I was born on a Wednesday. Everyone has a day. What’s yours?'),
+            AN('Friday boys are Kofi. Saturday, Kwame. Sunday, Kwesi. Wednesday is best, obviously.', 'happy'),
           ],
           choices: [
             {
@@ -687,7 +689,9 @@ export const ATLAS_A28: Quest[] = [
           id: 'a28-04-stopper-done',
           lines: [
             N('One last hornet, late for everything, lands on your Nubbin’s nose, thinks about it, and stings.'),
-            N('Your Nubbin looks at you with enormous eyes. Then it looks at the gourd, and its eyes go narrow.'),
+            N('Your Nubbin looks at you with enormous eyes. Ananse plucks the hornet off with two fingers and drops it into a tiny gourd of his own.'),
+            AN('A spare. A spider always keeps a spare.', 'happy'),
+            N('Your Nubbin looks at the tiny gourd, and its eyes go narrow.'),
             AN('Two!', 'happy'),
           ],
         },
@@ -1033,6 +1037,7 @@ export const ATLAS_A28: Quest[] = [
             AN('And my mother, Ya Nsia, great one.', 'happy'),
             YA('Good afternoon. These are very good stools.', 'happy'),
             N('Nobody says anything for a while. One of the elders is smiling at the floor.'),
+            N('He says, to nobody in particular, that the python has a point about the branch.'),
             NY('Kings came to buy my stories, and great towns. They could not pay.'),
             NY('Kwaku Ananse has paid. From today the stories are his.'),
             NY('From today they will be called by his name. Every story told on the earth will be a spider story.'),
@@ -1068,6 +1073,7 @@ export const ATLAS_A28: Quest[] = [
         N('Mmoatia, you notice, doesn’t stay at court long. Fairies are hard to keep, even for a Sky-god who keeps his word.'),
         YA('Here. For the small one. It got stuck to more of this business than anybody.', 'soft'),
         N('She drapes something over your Nubbin: a shawl of spider silk, soft as breath, and only a very little sticky.'),
+        N('By the time you reach the thread, your Nubbin is wearing three leaves, a feather and somebody’s bean. Ya Nsia looks pleased with her work.'),
       ],
     },
     rewards: [
@@ -1594,6 +1600,7 @@ export const ATLAS_A28: Quest[] = [
             N('She turns on the stool and looks straight at you.'),
             ST('You. The one who has been away. Your turn.'),
             N('Your Nubbin climbs up on to the stool beside her, as if it has been invited too.'),
+            N('It sticks to the stool, and stays stuck for the rest of the night. Nana Ama tells the stories around it.'),
           ],
         },
         done: {
@@ -1757,7 +1764,9 @@ export const ATLAS_A28_VARIANTS: Scene[] = [
       N('Wisp sneezes. Then he reaches into the bag behind him and puts something on the step: Fern’s old left glove.'),
       W('warm. was warm.', 'soft'),
       AN('A glove! One glove. I have eight hands. This is… thank you.', 'shock'),
-      N('Ananse puts the glove on one foot. Wisp puts the gourd in your bag next to the stone.'),
+      N('Ananse puts the glove on one foot, and looks for a long moment at the other seven.'),
+      AN('Aso will hear about this.', 'think'),
+      N('Wisp puts the gourd in your bag next to the stone.'),
       N('Each of them is quite sure he has won. You decide not to tell either of them.'),
     ],
     choices: [
@@ -1860,7 +1869,8 @@ export const ATLAS_A28_VARIANTS: Scene[] = [
       ST('There was a grey thief with a torn ear, who wanted every warm thing in the world.'),
       ST('And he kept a stone that had gone cold. He kept it long after it was any use to anyone.'),
       ST('He traded with a spider once, and both of them were cheated, and both of them went home pleased.'),
-      ST('But the spider threw something in for nothing, and never knew. The best thing in the whole bargain.'),
+      ST('But the spider threw something in for nothing, and never knew. He put the thief in a story.'),
+      ST('Nobody had ever told a story about the thief before. That was the best thing in the whole bargain.'),
       N('Wisp’s ears have come up. He has stopped looking at the fire, and is looking at her.'),
       ST('A story. Not the one in the gourd. This one. The one about him.', 'soft'),
       N('Wisp listens to the very end, without moving. Then he gets up, carefully, the way you get up holding something full.'),

@@ -224,16 +224,14 @@ const A1: EduQuest = quest(
           2,
           'social-studies',
           'finding Ghana on a map of Africa',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [N('Nova’s atlas says this village is in Ghana. Where is Ghana?')],
           [
             o(
               'On the west coast of Africa, beside the Gulf of Guinea.',
               [
                 N('Yes. Ghana lies in West Africa, with a warm coast on the Gulf of Guinea.'),
-                N(
-                  'The Asante, who live here, are part of the Akan, the largest group in southern Ghana.',
-                ),
+                N('The Asante, who live here, are part of the Akan.'),
               ],
               true,
             ),
@@ -766,13 +764,17 @@ const A2: EduQuest = quest(
         AN(
           'Kwaku, they call me, because I was born on a Wednesday. Every Akan child has a day name. What is yours?',
         ),
+        AN(
+          'Friday boys are Kofi. Saturday, Kwame. Sunday, Kwesi. Wednesday is best, obviously.',
+          'happy',
+        ),
       ],
       [
         ask(
-          4,
+          5,
           'social-studies',
           'Akan day names',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Akan families name children for the day they were born. Kwaku is a boy born on a Wednesday. What would a boy born on a Saturday be called?',
@@ -874,7 +876,7 @@ const A2: EduQuest = quest(
             o('No. Only promise what you know you can do.', [
               N('That is a fair answer. A promise is something other people rely on.'),
               N(
-                'Ananse would say that is why he promises so carefully, once he is out of earshot.',
+                'Ananse promised Nyame his own mother, and never asked her first. She has views on that.',
               ),
             ]),
             o('Sometimes. A big promise can push you to find a way.', [
@@ -956,7 +958,7 @@ const A3: EduQuest = quest(
           1,
           'science',
           'choosing a material for its properties',
-          '2-PS1-1',
+          undefined,
           [N('Ananse wants creeper for tying, not a plank. Why is creeper better?')],
           [
             o(
@@ -1208,9 +1210,7 @@ const A3: EduQuest = quest(
               N('That is a fair answer. A weakness can explain a trick without excusing it.'),
             ]),
             o('In a story, tricks like this are a kind of game.', [
-              N(
-                'That is a fair answer. Tricks in tales are often a game, and the listeners are in on it.',
-              ),
+              N('That is a fair answer. Tricks in tales are often a game.'),
               N('The question is whether you would enjoy it if it were you.'),
             ]),
           ],
@@ -1234,7 +1234,7 @@ const A3: EduQuest = quest(
           3,
           'social-studies',
           'fair rules: hearing both sides',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'In traditional Akan courts, a chief and his elders listen to both sides of a quarrel. Why is hearing both sides a fair rule?',
@@ -1443,9 +1443,91 @@ const A4: EduQuest = quest(
         ),
         AN('Quickly, before one of them has a thought!', 'shock'),
         N('Inside the gourd the hornets are beginning to notice that it is not raining in there.'),
+        N('The buzz you can hear is wings, beating very fast and shaking the air.'),
         N('Your Nubbin stands on tiptoe beside you, ready to help with whatever this is.'),
       ],
       [
+        ask(
+          6,
+          'science',
+          'why a hornet buzzes: fast wingbeats make sound',
+          undefined,
+          [N('Why does a hornet buzz?')],
+          [
+            o(
+              'Its wings beat very fast, and that shakes the air.',
+              [
+                N('Yes. Fast wingbeats shake the air, and we hear the shaking as a buzz.'),
+                N('A bigger, slower wing makes a lower hum.'),
+              ],
+              true,
+            ),
+            o('It hums with its mouth.', [
+              N('A hornet has no voice like ours.'),
+              N('The buzz comes from its wings beating very fast.'),
+            ]),
+            o('Its legs rub together.', [
+              N('Some insects do make sound that way, but not hornets.'),
+              N('A hornet’s buzz comes from its wings beating very fast.'),
+            ]),
+          ],
+          'Learned that a hornet’s buzz is the sound of its wings beating very fast.',
+        ),
+      ],
+      [
+        ch('jam', 'Jam the stopper in.', [
+          N(
+            'It goes in with a squeak. The gourd buzzes in your hands like a pot coming to the boil.',
+          ),
+        ]),
+        ch('sit', 'Let your Nubbin close it.', [
+          N(
+            'Your Nubbin sits on the hole, which is about the right size. You slide the grass in under it, carefully.',
+          ),
+        ]),
+      ],
+    ),
+    sc(
+      'a28-04-stopper-done',
+      [
+        N(
+          'One last hornet, late for everything, lands on your Nubbin’s nose, thinks about it, and stings.',
+        ),
+        N(
+          'Your Nubbin looks at you with enormous eyes. Ananse plucks the hornet off with two fingers and drops it into a tiny gourd of his own.',
+        ),
+        AN('A spare. A spider always keeps a spare.', 'happy'),
+        N('Your Nubbin looks at the tiny gourd, and its eyes go narrow.'),
+        AN('Two!', 'happy'),
+        N('Two of the Sky-god’s four things are paid: the python and the hornets.'),
+      ],
+      [
+        ask(
+          5,
+          'maths',
+          'a fraction of a whole: 2 of 4 equal parts',
+          '3.NF.A.1',
+          [N('Two of the four things are paid. What fraction of the price is paid?')],
+          [
+            o(
+              '1/2',
+              [
+                N('Yes. Two out of four equal parts is 2/4, which is the same as 1/2.'),
+                N('Ananse is halfway.'),
+              ],
+              true,
+            ),
+            o('1/4', [
+              N('1/4 would be one thing out of four. Two have been paid.'),
+              N('2/4 is the same as 1/2.'),
+            ]),
+            o('2/3', [
+              N('There are four things, not three, so the bottom number is 4.'),
+              N('2/4 is the same as 1/2.'),
+            ]),
+          ],
+          'Wrote two of four equal parts as a fraction and saw that 2/4 is the same as 1/2.',
+        ),
         ask(
           5,
           'sel',
@@ -1475,59 +1557,6 @@ const A4: EduQuest = quest(
             ]),
           ],
           'Thought about whether tricks in stories are acceptable, and how that differs from real life.',
-        ),
-      ],
-      [
-        ch('jam', 'Jam the stopper in.', [
-          N(
-            'It goes in with a squeak. The gourd buzzes in your hands like a pot coming to the boil.',
-          ),
-        ]),
-        ch('sit', 'Let your Nubbin close it.', [
-          N(
-            'Your Nubbin sits on the hole, which is about the right size. You slide the grass in under it, carefully.',
-          ),
-        ]),
-      ],
-    ),
-    sc(
-      'a28-04-stopper-done',
-      [
-        N(
-          'One last hornet, late for everything, lands on your Nubbin’s nose, thinks about it, and stings.',
-        ),
-        N(
-          'Your Nubbin looks at you with enormous eyes. Then it looks at the gourd, and its eyes go narrow.',
-        ),
-        AN('Two!', 'happy'),
-        N('Two of the Sky-god’s four things are paid: the python and the hornets.'),
-      ],
-      [
-        ask(
-          3,
-          'maths',
-          'a fraction of a whole: 2 of 4 equal parts',
-          '3.NF.A.1',
-          [N('Two of the four things are paid. What fraction of the price is paid?')],
-          [
-            o(
-              '1/2',
-              [
-                N('Yes. Two out of four equal parts is 2/4, which is the same as 1/2.'),
-                N('Ananse is halfway.'),
-              ],
-              true,
-            ),
-            o('1/4', [
-              N('1/4 would be one thing out of four. Two have been paid.'),
-              N('2/4 is the same as 1/2.'),
-            ]),
-            o('2/3', [
-              N('There are four things, not three, so the bottom number is 4.'),
-              N('2/4 is the same as 1/2.'),
-            ]),
-          ],
-          'Wrote two of four equal parts as a fraction and saw that 2/4 is the same as 1/2.',
         ),
       ],
     ),
@@ -1818,12 +1847,16 @@ const A5: EduQuest = quest(
           'The bundle is very heavy and very cross. You carry the front, and your Nubbin carries the tip of the tail, which keeps twitching.',
         ),
         N(
-          'The thread to the Sky-god is a hundred metres tall, with a knot every twenty-five metres. Your Nubbin stays stuck until the third knot, where Ananse unpicks it.',
+          'The thread to the Sky-god is a hundred metres tall, with a knot every twenty-five metres.',
         ),
+        N(
+          'Your Nubbin sticks at the first knot. Ananse unpicks it, sighing. It sticks at the second, and he sighs louder.',
+        ),
+        N('At the third knot he unpicks it for good, and it stays free.'),
       ],
       [
         ask(
-          1,
+          3,
           'maths',
           'a distance word problem: 100 − 3 × 25',
           '4.MD.A.2',
@@ -1874,7 +1907,7 @@ const A5: EduQuest = quest(
           3,
           'social-studies',
           'Ghana’s forest in the south and savannah in the north',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Ghana’s south is warm and wet with rainforest. Its north is drier savannah. Where would you expect the tallest, thickest trees?',
@@ -2127,36 +2160,37 @@ const A6: EduQuest = quest(
         ),
         MM('He will take me up to the Sky-god. That is what this is.'),
         N('Her hands are fixed to the doll’s chest, side by side. The gum shines.'),
+        N('Gum is tree sap, which a tree makes to seal its cuts.'),
         N(
           'Your Nubbin looks at her, and at you, and at its own paw, which has been stuck to things all day.',
         ),
       ],
       [
         ask(
-          5,
-          'sel',
-          'helping, leaving or sitting: a think question',
-          'CASEL: Responsible decision-making',
+          6,
+          'science',
+          'why a tree makes sticky sap: it seals cuts',
+          undefined,
+          [N('The gum on the doll is tree sap. Why does a tree make sticky sap?')],
           [
-            N(
-              'Mmoatia is caught, and you could help, leave her, or sit with her. Which do you think is kindest? Does helping always change someone’s story for the better?',
+            o(
+              'To seal a cut in its bark, like a plaster.',
+              [
+                N('Yes. Sticky sap seals a cut, so the tree can heal.'),
+                N('A hard crust of sap keeps the cut clean.'),
+              ],
+              true,
             ),
-          ],
-          [
-            o('Help her. Kindness should not wait for permission from the story.', [
-              N('That is a fair answer. Many people would feel the same.'),
-              N('Notice, though, that her story still holds. Help can be partial.'),
+            o('To catch passing travellers.', [
+              N('Sap is not a trap. It only sticks to whatever walks into it.'),
+              N('A tree makes sap to seal its cuts.'),
             ]),
-            o('Leave her. It is not your story to change.', [
-              N('That is a fair answer. Some people think a story belongs to those inside it.'),
-              N('You might ask Mmoatia whether she agrees.'),
-            ]),
-            o('Sit with her. You cannot fix it, but you can keep her company.', [
-              N('That is a fair answer. Being there can matter even when you cannot fix a thing.'),
-              N('It is a quieter kind of help.'),
+            o('To hold its leaves on.', [
+              N('Leaves hang on by their stalks.'),
+              N('A tree makes sap to seal its cuts.'),
             ]),
           ],
-          'Thought about what kindness looks like when you cannot change what happens, and weighed three choices.',
+          'Learned that a tree makes sticky sap to seal cuts in its bark.',
         ),
       ],
       [
@@ -2236,6 +2270,32 @@ const A6: EduQuest = quest(
             ]),
           ],
           'Identified how a character’s temper led to the trap, and linked traits to events.',
+        ),
+        ask(
+          2,
+          'sel',
+          'helping, leaving or sitting: a think question',
+          'CASEL: Responsible decision-making',
+          [
+            N(
+              'You chose how to treat Mmoatia while she was caught. Which help was kindest?',
+            ),
+          ],
+          [
+            o('Helping her, because kindness should not wait for permission from the story.', [
+              N('That is a fair answer. Many people would feel the same.'),
+              N('Notice, though, that her story still holds. Help can be partial.'),
+            ]),
+            o('Leaving her be, because it is not your story to change.', [
+              N('That is a fair answer. Some people think a story belongs to those inside it.'),
+              N('You might ask Mmoatia whether she agrees.'),
+            ]),
+            o('Sitting with her. You cannot fix it, but you can keep her company.', [
+              N('That is a fair answer. Being there can matter even when you cannot fix a thing.'),
+              N('It is a quieter kind of help.'),
+            ]),
+          ],
+          'Thought about what kindness looks like when you cannot change what happens, and weighed three choices.',
         ),
       ],
     ),
@@ -2419,7 +2479,7 @@ const A7: EduQuest = quest(
           1,
           'social-studies',
           'why stools matter in Akan culture',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [N('Why is a carved stool so important in Akan culture?')],
           [
             o(
@@ -2508,6 +2568,9 @@ const A7: EduQuest = quest(
         YA('Here. For the small one. It got stuck to more of this business than anybody.', 'soft'),
         N(
           'She drapes something over your Nubbin: a shawl of spider silk, soft as breath, and only a very little sticky.',
+        ),
+        N(
+          'By the time you reach the thread, your Nubbin is wearing three leaves, a feather and somebody’s bean. Ya Nsia looks pleased with her work.',
         ),
       ],
       [
@@ -2722,7 +2785,7 @@ const A8: EduQuest = quest(
           1,
           'social-studies',
           'the Atlantic lies between Ghana and the Caribbean',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [N('To reach Jamaica from Ghana, the stories have to cross which ocean?')],
           [
             o(
@@ -2822,7 +2885,7 @@ const A8: EduQuest = quest(
           1,
           'science',
           'why flowers are bright: pollination',
-          '2-LS2-2',
+          undefined,
           [N('Why are flowers like buttercups so brightly coloured?')],
           [
             o(
@@ -2866,7 +2929,7 @@ const A8: EduQuest = quest(
           3,
           'social-studies',
           'oral tradition',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Before most people could read and write, how did stories pass from one generation to the next?',
@@ -2952,7 +3015,7 @@ const A9: EduQuest = quest(
           2,
           'literacy',
           'the job of a traditional story opening',
-          'RL.2.4',
+          undefined,
           [
             N(
               'Storytellers often begin with a set phrase, like “Long ago, they say…”. What does an opening like that do?',
@@ -2995,7 +3058,7 @@ const A9: EduQuest = quest(
           0,
           'maths',
           'adding three numbers within 100',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Ananse swept 7 handfuls from stones, 9 from nests and 10 off sleeping heads. How many in all?',
@@ -3099,7 +3162,7 @@ const A9: EduQuest = quest(
           4,
           'science',
           'how seeds travel',
-          '2-LS2-2',
+          undefined,
           [N('Which of these is NOT a way that seeds travel?')],
           [
             o(
@@ -3120,7 +3183,7 @@ const A9: EduQuest = quest(
             ]),
             o('Stuck in an animal’s fur, or eaten and dropped.', [
               N(
-                'That one is real too. Burrs hitch a ride on fur, and seeds in fruit are spread in droppings.',
+                'That one is real too. Burrs hitch a ride on fur, and eaten seeds are dropped elsewhere.',
               ),
               N('The one that does not happen is walking on their own legs.'),
             ]),
@@ -3268,7 +3331,7 @@ const A10: EduQuest = quest(
           1,
           'social-studies',
           'how communities gather to remember someone who has died',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'In Ghana, a funeral is often a big gathering of family and friends, with food, music and drumming. Why do communities gather this way?',
@@ -3321,7 +3384,7 @@ const A10: EduQuest = quest(
           0,
           'science',
           'sound is made by vibration',
-          '1-PS4-1',
+          '4-PS3-2',
           [N('Why does a drum make a sound when it is hit?')],
           [
             o(
@@ -3456,11 +3519,12 @@ const A10: EduQuest = quest(
         N(
           'Every hair on Ananse’s head has been scorched clean away. There is a short silence, and then a very long laugh.',
         ),
+        N('A few hairs are still drifting down, smoking politely.'),
         N('The hot beans heated his hat, and the hat heated his head.'),
       ],
       [
         ask(
-          2,
+          3,
           'science',
           'heat moves from hot to cooler',
           '4-PS3-2',
@@ -3591,7 +3655,7 @@ const A11: EduQuest = quest(
           2,
           'social-studies',
           'locating Jamaica',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [N('Nova’s atlas says this yard is in Jamaica. Where is Jamaica?')],
           [
             o(
@@ -3666,8 +3730,9 @@ const A11: EduQuest = quest(
         N(
           'She puts her cup down. Before she starts, she says where he comes from, the way you would say where a cousin lives.',
         ),
+        EL('Here we call him Anancy. Same spider. He came with people who were enslaved.'),
         EL(
-          'Anancy came here with people who were enslaved. They were taken by force from the Gold Coast, where Ghana is today, and brought across the sea.',
+          'They were taken by force from the Gold Coast, where Ghana is today, and brought across the sea.',
         ),
         EL('They kept him, because he was small and clever and never stayed caught.', 'soft'),
         N(
@@ -3676,10 +3741,10 @@ const A11: EduQuest = quest(
       ],
       [
         ask(
-          6,
+          7,
           'social-studies',
           'why stories mattered to people who were enslaved',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Storytellers often say that enslaved people held on to Anancy because he was small but outwitted the strong. Why might that story matter so much to them?',
@@ -3817,7 +3882,7 @@ const A11: EduQuest = quest(
           1,
           'maths',
           'adding four numbers within 100',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [N('Silk 3, sap 2, gum 4, web 1. How many sticky moments altogether?')],
           [
             o('10', [N('Yes. 3 + 2 = 5, 5 + 4 = 9, and 9 + 1 = 10.')], true),
@@ -3924,13 +3989,16 @@ const A12: EduQuest = quest(
         N('She turns on the stool and looks straight at you.'),
         ST('You. The one who has been away. Your turn.'),
         N('Your Nubbin climbs up on to the stool beside her, as if it has been invited too.'),
+        N(
+          'It sticks to the stool, and stays stuck for the rest of the night. Nana Ama tells the stories around it.',
+        ),
       ],
       [
         ask(
           1,
           'science',
           'burning is a change that cannot be undone',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Most of the logs have burned down to grey ash and glowing embers. Could the ash ever turn back into wood?',
@@ -3965,10 +4033,11 @@ const A12: EduQuest = quest(
           'The children turn round on their mats to look at you. There are twenty-four of them, and every one of them is waiting.',
         ),
         N('Half of them are nearly asleep. The other half are wide awake.'),
+        N('A boy at the front has fallen asleep with one hand still up, as if he knows the answer.'),
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           'division: half of 24',
           '3.OA.A.3',
@@ -4181,7 +4250,7 @@ const A12: EduQuest = quest(
           2,
           'social-studies',
           'how a living tradition survives',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Anansesem are still told in Ghana today, and Anancy stories in Jamaica. Why does a tradition like this survive?',
@@ -4293,14 +4362,15 @@ export const EDU_A28_READER_VARIANTS: EduScene[] = [
         'Of course. Everything in its time. Kwaku is my name, by the way, a Wednesday name. Every Akan child has one.',
         'happy',
       ),
+      AN('Friday boys are Kofi. Saturday, Kwame. Sunday, Kwesi. Wednesday is best, obviously.'),
       N('Your Nubbin, meanwhile, has sat down in a puddle of sap and stuck. Nobody is surprised.'),
     ],
     [
       ask(
-        9,
+        10,
         'social-studies',
         'Akan day names',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [N('Kwaku is a Wednesday name. Which day gives a boy the name Kofi?')],
         [
           o(
@@ -4349,7 +4419,9 @@ export const EDU_A28_READER_VARIANTS: EduScene[] = [
       ),
       W('warm. was warm.', 'soft'),
       AN('A glove! One glove. I have eight hands. This is… thank you.', 'shock'),
-      N('Ananse puts the glove on one foot. Wisp puts the gourd in your bag next to the stone.'),
+      N('Ananse puts the glove on one foot, and looks for a long moment at the other seven.'),
+      AN('Seven cold feet. Aso will hear about this.', 'think'),
+      N('Wisp puts the gourd in your bag next to the stone.'),
       N('Each of them is quite sure he has won. You decide not to tell either of them.'),
     ],
     [
@@ -4683,8 +4755,9 @@ export const EDU_A28_READER_VARIANTS: EduScene[] = [
       ST(
         'He traded with a spider once, and both of them were cheated, and both of them went home pleased.',
       ),
+      ST('But the spider threw something in for nothing, and never knew. He put the thief in a story.'),
       ST(
-        'But the spider threw something in for nothing, and never knew. The best thing in the whole bargain.',
+        'Nobody had ever told a story about the thief before. That was the best thing in the whole bargain.',
       ),
       N('Wisp’s ears have come up. He has stopped looking at the fire, and is looking at her.'),
       ST('A story. Not the one in the gourd. This one. The one about him.', 'soft'),
@@ -4694,7 +4767,7 @@ export const EDU_A28_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        7,
+        8,
         'literacy',
         'how it feels to hear a story about yourself: a think question',
         'RL.3.6',

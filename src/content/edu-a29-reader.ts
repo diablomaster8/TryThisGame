@@ -248,7 +248,7 @@ const Q1: EduQuest = quest(
           2,
           'social-studies',
           'finding a place on a map: Korea is a peninsula, with sea on three sides',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'On Nova’s big map, Korea hangs down from the north like a thumb into the sea. How many of its sides have water?',
@@ -310,7 +310,7 @@ const Q1: EduQuest = quest(
           1,
           'science',
           'a voice is made by vibrations in the throat',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'Try it: put your fingers lightly on your throat and hum. What do you feel under your fingers?',
@@ -425,7 +425,7 @@ const Q1: EduQuest = quest(
           1,
           'social-studies',
           'Korean ink painting: brush, ink and hanji paper made from mulberry bark',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'The label goes on: hanji is made from the bark of the paper mulberry tree, by hand, in Korea, for hundreds of years.',
@@ -642,7 +642,7 @@ const Q2: EduQuest = quest(
           1,
           'science',
           'loud, low sounds are big vibrations you can feel; ear protection helps',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'The deep thump you feel in your chest is the bass. Low, loud sounds make big, slow vibrations that shake the air and you.',
@@ -778,7 +778,7 @@ const Q2: EduQuest = quest(
               N('Zoey felt it too, and she still stood in the car park.'),
             ]),
             o('No. Brave people are never scared.', [
-              N('That is a fair thing to think. A lot of stories make it seem that way.'),
+              N('That is a fair thought.'),
               N(
                 'But most brave people say they felt afraid first. The brave part is what they do next.',
               ),
@@ -811,7 +811,7 @@ const Q2: EduQuest = quest(
           4,
           'science',
           'a coloured filter lets through only light of its own colour',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'The stage light has a pink filter, and plain white light goes in. Why does pink light come out?',
@@ -824,7 +824,7 @@ const Q2: EduQuest = quest(
                 N(
                   'Yes. White light has all colours in it, and the pink filter holds back most of the rest.',
                 ),
-                N('That is how stage crews paint a whole show in colour with one white bulb.'),
+                N('So one white bulb can paint a whole show.'),
               ],
               true,
             ),
@@ -896,9 +896,8 @@ const Q3: EduQuest = quest(
               '8 cups.',
               [
                 N(
-                  'Yes. Three hunters with two cups each is 3 × 2 = 6. Add one for you and one for your Nubbin: 6 + 2 = 8.',
+                  'Yes. Three hunters with two cups each is 3 × 2 = 6. Add one for you and one for your Nubbin: 6 + 2 = 8 cups.',
                 ),
-                N('Eight cups. Try carrying them all in one go.'),
               ],
               true,
             ),
@@ -936,7 +935,7 @@ const Q3: EduQuest = quest(
           0,
           'literacy',
           'hangul: made by King Sejong’s scholars so everyone could read; letters stack in syllable blocks',
-          'RF.K.2',
+          undefined,
           [
             N(
               'The writing is hangul, the Korean alphabet. About 580 years ago King Sejong and his scholars made it, so that everyone could learn to read.',
@@ -1070,7 +1069,7 @@ const Q3: EduQuest = quest(
           2,
           'science',
           'properties of materials: why a noodle cup makes a good hat',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'Zoey made the hat from a noodle cup. Which property makes it a good thing to cut into a hat?',
@@ -1081,9 +1080,8 @@ const Q3: EduQuest = quest(
               'It is light, stiff and easy to cut.',
               [
                 N(
-                  'Yes. A noodle cup is light enough to wear, stiff enough to hold its shape, and easy to cut with scissors.',
+                  'Yes. A noodle cup is light enough to wear, stiff enough to hold its shape, and easy to cut. Designers choose materials by these properties.',
                 ),
-                N('Choosing a material by its properties is what designers do all day.'),
               ],
               true,
             ),
@@ -1203,7 +1201,7 @@ const Q4: EduQuest = quest(
           1,
           'social-studies',
           'a hanok: tiled roof, paper doors and a floor warmed from below',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'A hanok is a traditional Korean house, built of wood, clay and tiles. Its doors and windows are covered in hanji paper, to let in soft light.',
@@ -1255,10 +1253,10 @@ const Q4: EduQuest = quest(
             ]),
             o('People should try to fit in, to be safe.', [
               N(
-                'That is a fair thought. Fitting in can feel safer, and Celine thinks so because she is afraid for Rumi.',
+                'That is a fair thought. Celine says it because she is afraid for Rumi.',
               ),
               N(
-                'But hiding a part of yourself can also be tiring. Keep that in mind as the story goes on.',
+                'But hiding part of yourself is tiring too.',
               ),
             ]),
             o('It depends on who is looking.', [
@@ -1309,10 +1307,10 @@ const Q4: EduQuest = quest(
               'Thin paper shakes easily, so more sound gets through.',
               [
                 N(
-                  'Yes. Sound is vibrating air, and the vibration shakes thin paper easily and carries on.',
+                  'Yes. Sound is vibrating air, and it shakes thin paper easily and carries on.',
                 ),
                 N(
-                  'A thick wall takes up much more of the shaking, so less sound comes out the other side.',
+                  'A thick wall takes up more of the shaking, so less sound gets through.',
                 ),
               ],
               true,
@@ -1488,16 +1486,16 @@ const Q5: EduQuest = quest(
           1,
           'maths',
           'subtraction within 100: 30 take away 18',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [N('The Saja Boys were 30th and are now 18th. How many places have they climbed?')],
           [
             o(
               '12 places.',
               [
                 N(
-                  'Yes. 30 − 18 = 12. You can count up from 18 to 20, which is 2, then from 20 to 30, which is 10.',
+                  'Yes. 30 − 18 = 12. Count up: 18 to 20 is 2, and 20 to 30 is 10.',
                 ),
-                N('2 + 10 is 12. At a place a minute, that is only twelve minutes.'),
+                N('2 + 10 = 12.'),
               ],
               true,
             ),
@@ -1548,7 +1546,7 @@ const Q5: EduQuest = quest(
           7,
           'social-studies',
           'the gat and the jeoseung saja: treating folk stories and crafts with respect',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'A gat is a real Korean hat from the Joseon period, made of fine horsehair and bamboo. A few craftspeople still make them by hand today.',
@@ -1712,7 +1710,7 @@ const Q6: EduQuest = quest(
           3,
           'maths',
           'comparing two groups: 5 boys and 3 hunters',
-          '1.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'There are five Saja Boys and three hunters. How many more boys than hunters are there?',
@@ -1765,7 +1763,7 @@ const Q6: EduQuest = quest(
           1,
           'science',
           'red, green and blue light together make white light',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'Stage lights mix coloured beams. Where red, green and blue light land on the same spot, they add up to white.',
@@ -1861,7 +1859,7 @@ const Q6: EduQuest = quest(
                   'Yes. He hid her marks from the others. That is a kind act from a rival, and a puzzling one.',
                 ),
                 N(
-                  'Good readers collect clues like this before they decide what a character wants.',
+                  'Good readers collect such clues first.',
                 ),
               ],
               true,
@@ -1984,7 +1982,7 @@ const Q6: EduQuest = quest(
           3,
           'literacy',
           'how a character responds to a question she wants to avoid',
-          'RL.2.3',
+          'RL.3.3',
           [N('Rumi gives Mira an answer that isn’t really an answer. What is she doing?')],
           [
             o(
@@ -2052,7 +2050,7 @@ const Q7: EduQuest = quest(
           2,
           'social-studies',
           'the tiger and the magpie in Korean folk painting (minhwa)',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'A tiger and a magpie together is a famous picture in old Korean folk painting, called minhwa. In those pictures, what does the magpie bring?',
@@ -2064,7 +2062,7 @@ const Q7: EduQuest = quest(
               [
                 N('Yes. In Korean folk belief, a magpie’s call means good news is coming.'),
                 N(
-                  'In minhwa pictures the tiger is often goofy and grinning, which is why Derpy fits right in. Families hung these pictures at New Year, for luck.',
+                  'The goofy tiger in minhwa pictures is why Derpy fits right in.',
                 ),
               ],
               true,
@@ -2110,9 +2108,9 @@ const Q7: EduQuest = quest(
               'He lies down carefully and lets a small Nubbin sit on his nose.',
               [
                 N(
-                  'Yes. What a character does tells you what a character is like, even if the writer doesn’t say it.',
+                  'Yes. What a character does shows what they are like, even if the writer doesn’t say it.',
                 ),
-                N('A big tiger who moves carefully around something small is being gentle.'),
+                N('A big tiger who moves carefully round something small is gentle.'),
               ],
               true,
             ),
@@ -2239,7 +2237,7 @@ const Q7: EduQuest = quest(
           1,
           'social-studies',
           'Seoul is the capital of South Korea, on the Han River, with more than nine million people',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Seoul is the capital of South Korea. It lies on the banks of the Han River, with hills all round.',
@@ -2258,21 +2256,21 @@ const Q7: EduQuest = quest(
         N('You hand her the note. She sees the writing, and opens it with her back to you.'),
         R('Did you read it?'),
         N(
-          'You don’t answer fast enough. She laughs, the first real laugh you have heard from her in days.',
+          'You don’t answer fast enough, and your Nubbin finds its own feet very interesting. She laughs, the first real laugh in days.',
           'happy',
         ),
-        R('Of course you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.'),
+        R('Of course. One of you did. Don’t tell Mira. Don’t tell Zoey. Don’t tell the tiger.'),
         N(
           'Down in the alley, Derpy rolls onto his back, and Sussie sits on his tummy, and they both look up at the roof.',
         ),
       ],
       [
         ask(
-          2,
+          3,
           'sel',
           'when you have broken someone’s trust, telling the truth and saying sorry helps',
           'CASEL: Responsible decision-making',
-          [N('If you have read a note you shouldn’t have, what helps most afterwards?')],
+          [N('Somebody opened a note that wasn’t theirs. What helps most afterwards?')],
           [
             o(
               'Tell the truth and say sorry.',
@@ -2339,7 +2337,7 @@ const Q8: EduQuest = quest(
           2,
           'social-studies',
           'the Seoul city wall: more than 600 years old and about 18 kilometres long',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'This is Seoul’s old city wall. It is more than 600 years old, and it runs for about 18 kilometres over four hills.',
@@ -2384,7 +2382,10 @@ const Q8: EduQuest = quest(
       [
         ch('normal', 'Look normal.', [
           N(
-            'You look normal so hard that a passing grandmother asks if you are lost, and gives your Nubbin a sweet.',
+            'You look normal so hard that a bus stops for you. You wave it on, and the driver looks hurt.',
+          ),
+          N(
+            'Then a grandmother asks if you are lost, and gives your Nubbin a sweet. Your Nubbin looks normal back at her.',
           ),
         ]),
         ch('up', 'Edge a few steps up.', [
@@ -2480,7 +2481,7 @@ const Q8: EduQuest = quest(
           1,
           'science',
           'a voice is made by vibrating vocal cords; tired cords sound rough, and rest helps',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             N(
               'Rumi’s voice is rough because she has been singing for days. What will help her voice most?',
@@ -2581,6 +2582,7 @@ const Q9: EduQuest = quest(
         N(
           'The rehearsal studio has thick foam on every wall and a keyboard with a coffee ring on it. Mira and Zoey have been here all night.',
         ),
+        N('Taped to the keyboard is a bill from the TV studio. It says FLOWER STAND, underlined twice.'),
         Z(
           'We’ve got it. The thing that brings them down. A new song, all about them. What they really are.',
         ),
@@ -2610,7 +2612,7 @@ const Q9: EduQuest = quest(
                 N(
                   'Yes. Hard walls bounce sound back at you, which muddles the music. Soft foam takes the shaking out of the air.',
                 ),
-                N('That is how a studio can make every note sound clean.'),
+                N('So every note sounds clean.'),
               ],
               true,
             ),
@@ -2764,7 +2766,7 @@ const Q9: EduQuest = quest(
           2,
           'social-studies',
           'a vote decides by majority, but a fair group still listens to the person who is outvoted',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Two of the three voted for the song, and Rumi voted against. What does a vote like this do, and what should a fair group still do?',
@@ -2775,9 +2777,9 @@ const Q9: EduQuest = quest(
               'Two out of three is the majority, and the group should still listen to Rumi’s reasons.',
               [
                 N(
-                  'Yes. A vote is a quick fair way to decide. A fair group also listens to the person who lost the vote.',
+                  'Yes. A vote is a quick, fair way to decide. A fair group also listens to the one who lost.',
                 ),
-                N('Sometimes that one person is seeing something the others missed.'),
+                N('That person may see what the others missed.'),
               ],
               true,
             ),
@@ -2915,7 +2917,7 @@ const Q10: EduQuest = quest(
           6,
           'social-studies',
           'what makes a bargain fair: both sides give and get, and both agree freely',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [N('Rumi and Jinu have made a deal. What makes a bargain fair?')],
           [
             o(
@@ -2976,38 +2978,23 @@ const Q10: EduQuest = quest(
       ],
       [
         ask(
-          2,
-          'science',
-          'shadows are longest when the Sun is low in the sky',
-          '5-ESS1-2',
+          7,
+          'literacy',
+          'what a character wants and fears can be read from what he does',
+          'RL.3.3',
+          [N('Jinu puts a finger to his lips. What does he want, and what might he be afraid of?')],
           [
-            N(
-              'Jinu’s shadow stretches far down the hill. In the real world, when are shadows longest?',
-            ),
-          ],
-          [
-            o(
-              'In the early morning and evening, when the Sun is low.',
-              [
-                N(
-                  'Yes. When the Sun is low, it shines across the ground, and shadows stretch out long.',
-                ),
-                N(
-                  'At noon, the Sun is high, and shadows are short. Jinu’s shadow isn’t natural at all.',
-                ),
-              ],
-              true,
-            ),
-            o('At noon, when the Sun is high.', [
-              N('At noon, shadows are at their shortest, because the light comes down from above.'),
-              N('They are longest when the Sun is low.'),
+            o('He wants a secret kept, and fears what Rumi would think.', [
+              N('That is a fair answer. A finger on the lips asks for silence, and Jinu fears losing Rumi’s trust.'),
             ]),
-            o('Only at night.', [
-              N('At night there is no Sun, so there are no sunlit shadows.'),
-              N('Shadows are longest in the early morning and evening, when the Sun is low.'),
+            o('He wants quiet, and fears Gwi-Ma has heard.', [
+              N('That is a fair answer. Jinu has just been threatened, so he may fear the red glow most.'),
+            ]),
+            o('He wants you to hurry, and fears being late.', [
+              N('Not quite. He stays still. The finger on his lips asks for quiet, so he fears being found out.'),
             ]),
           ],
-          'Learned that shadows are longest when the Sun is low, in the morning and evening.',
+          'Read what a character wants and fears from his actions, with no single right answer.',
         ),
       ],
     ),
@@ -3017,7 +3004,7 @@ const Q10: EduQuest = quest(
         J('You didn’t hear that.'),
         N('You don’t promise anything. You hand him the umbrella, because he hasn’t got one.'),
         N(
-          'He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain.',
+          'He holds it like nobody has handed him anything in four hundred years. Then he and Derpy walk off into the rain under one umbrella, Derpy entirely outside it and perfectly content.',
         ),
         N('Your Nubbin watches them go, and pulls its hat down, and sneezes.'),
       ],
@@ -3215,7 +3202,7 @@ const Q11: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'empathy: what helps a person who has been exposed against their will',
           'CASEL: Social awareness',
@@ -3260,7 +3247,7 @@ const Q11: EduQuest = quest(
           0,
           'science',
           'water weakens paper because paper is made of tangled fibres',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'The Honmoon tears “like wet paper”. Why does wet paper tear so much more easily than dry paper?',
@@ -3273,7 +3260,7 @@ const Q11: EduQuest = quest(
                 N(
                   'Yes. Paper is made of tiny plant fibres tangled together. Water gets in between them, so they slide apart.',
                 ),
-                N('That is why a soggy page falls to bits in your hand.'),
+                N('So a soggy page falls to bits.'),
               ],
               true,
             ),
@@ -3311,7 +3298,7 @@ const Q11: EduQuest = quest(
           3,
           'literacy',
           'words that show strong feelings: furious',
-          'RL.1.4',
+          'L.3.4',
           [N('The writer says Mira and Zoey are “furious”. Which word means almost the same?')],
           [
             o(
@@ -3363,7 +3350,7 @@ const Q11: EduQuest = quest(
           2,
           'social-studies',
           'respect for other people’s private things: ask first',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Rumi’s private marks were shown to ten thousand people without her say. What is a fair rule for sharing someone else’s private things?',
@@ -3448,9 +3435,9 @@ const Q12: EduQuest = quest(
           [
             o('Leaving something out can still break trust.', [
               N(
-                'That is a fair answer. When someone relies on us to be open, leaving out a big thing can hurt as much as a lie.',
+                'That is a fair answer. When someone relies on us to be open, leaving out a big thing can hurt like a lie.',
               ),
-              N('That is how Mira and Zoey feel.'),
+              N('Mira and Zoey feel that.'),
             ]),
             o('Not saying and lying are different.', [
               N('That is a fair answer. A lie says something false, and silence doesn’t.'),
@@ -3633,7 +3620,7 @@ const Q12: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          6,
           'literacy',
           'comparing two versions of a story to find a character’s true motive',
           'RL.3.3',
@@ -3647,10 +3634,10 @@ const Q12: EduQuest = quest(
               'Before, he said he left to feed his family. Now he says he left because he wanted the voice.',
               [
                 N(
-                  'Yes. The first version made him kinder than he was. The second is the truth, and it is harder to say.',
+                  'Yes. The first version made him kinder than he was. The second is the truth.',
                 ),
                 N(
-                  'Comparing two versions of a story is how readers find what a character really wanted.',
+                  'Comparing two versions shows what a character really wanted.',
                 ),
               ],
               true,
@@ -3694,7 +3681,7 @@ const Q12: EduQuest = quest(
           1,
           'social-studies',
           'Namsan is a hill in the middle of Seoul, one of four hills of the old city, with a tower on top',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Namsan is a hill right in the middle of Seoul, with a tall tower on top. You can see it from almost everywhere in the city.',
@@ -3816,10 +3803,10 @@ const Q13: EduQuest = quest(
               'Celine accepted the part of Rumi that was easy for her to see, and not the rest.',
               [
                 N(
-                  'Yes. Rumi isn’t saying she is cut in half. It is a metaphor for being loved with a part held back.',
+                  'Yes. Rumi isn’t cut in half. It is a metaphor for being loved only in part.',
                 ),
                 N(
-                  'Words used as a picture, not exactly, are called figurative language. They make a feeling clear.',
+                  'A metaphor is a word picture that makes a feeling clear.',
                 ),
               ],
               true,
@@ -3897,7 +3884,7 @@ const Q13: EduQuest = quest(
           0,
           'social-studies',
           'the maru: the wooden-floored hall or porch of a hanok',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'The wooden floor Celine sits on is called a maru. It is the open, wooden-floored hall or porch of a hanok.',
@@ -3931,7 +3918,7 @@ const Q13: EduQuest = quest(
           1,
           'science',
           'heating and cooling: water boils at 100 °C (212 °F), and steam turns back to water when it cools',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Water boils at 100 °C (212 °F), and the kettle’s steam drifts out into the cool air. What happens to steam when it cools?',
@@ -4071,7 +4058,7 @@ const Q14: EduQuest = quest(
           4,
           'maths',
           'ordinal numbers and adding on: two rows behind row 3',
-          '1.OA.A.1',
+          '4.NBT.B.4',
           [N('Bobby is in row 3, and Zoey is two rows behind him. Which row is Zoey in?')],
           [
             o(
@@ -4166,7 +4153,7 @@ const Q14: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          5,
           'sel',
           'the difference between hiding something and choosing to share it',
           'CASEL: Self-awareness',
@@ -4209,7 +4196,7 @@ const Q14: EduQuest = quest(
           1,
           'literacy',
           'an action can show trust: handing over a coat',
-          'RL.2.3',
+          'RL.3.3',
           [N('Rumi hands you her coat without a word and walks on. What does that action show?')],
           [
             o(
@@ -4249,6 +4236,10 @@ const Q14: EduQuest = quest(
         N(
           'All over the stadium people are waking up, confused, holding their phones. Bobby, in the third row, says “what” very loudly.',
         ),
+        N('Then he sees the open case in your arms.'),
+        B('Who opened the girls’ case? Nobody touches the girls’ case!', 'shock'),
+        Z('Bobby. We’re saving the world.'),
+        B('…Carefully, though?'),
       ],
       [
         ask(
@@ -4391,7 +4382,7 @@ const Q15: EduQuest = quest(
           'The great shadow comes apart like smoke in a wind, and is gone, and the stage is only a stage.',
         ),
         N(
-          'Above the stadium the torn Honmoon closes over. It isn’t one colour. It is every colour there is, like a ribbon held up to the sun.',
+          'Above the stadium the torn Honmoon closes over. It is every colour at once, like sunlight, which is every colour folded up small.',
           'soft',
         ),
       ],
@@ -4408,7 +4399,7 @@ const Q15: EduQuest = quest(
               [
                 N('Yes. Sunlight looks white, but it is all the colours of the rainbow mixed up.'),
                 N(
-                  'Raindrops can split it apart, and then we see red, orange, yellow, green, blue and violet.',
+                  'Raindrops can split it apart and show them.',
                 ),
               ],
               true,
@@ -4438,7 +4429,7 @@ const Q15: EduQuest = quest(
           0,
           'literacy',
           'how characters respond to an event they do not fully understand',
-          'RL.2.3',
+          'RL.3.3',
           [
             N(
               'Somebody starts clapping “not knowing why”, and then everybody does. How do the people feel?',
@@ -4527,6 +4518,10 @@ const C16_OPEN: Line[] = [
     'Runner. Good work. Strange work, but good. If you ever want a job that’s only a job, call me.',
     'happy',
   ),
+  N('Bobby holds up a mug. On it, in pink, is your Nubbin in its noodle hat, waving.'),
+  B('Don’t look at me like that. It’s outselling the lightsticks.', 'shock'),
+  M('I did say he’d put it on a mug.'),
+  N('Your Nubbin takes the mug, looks inside for the real one, and climbs in.'),
 ];
 const C16_HOME: Line[] = [
   N(
@@ -4536,6 +4531,10 @@ const C16_HOME: Line[] = [
     'Zoey hands you a flat parcel tied with string. Inside is a small folding screen, from Celine: a silly tiger and a bright magpie.',
     'soft',
   ),
+  N(
+    'Under the screen is one pear in its foam jumper. The label, in Celine’s tidy hand, says: Bobby. Don’t get ideas.',
+  ),
+  B('She sent me a pear. Mira. She sent me a pear.', 'soft'),
   N(
     'The street goes flat, and bright, and smells of paint. You are in the Grove, with a magpie on your shoulder and a thread of light round your wrist.',
   ),
@@ -4633,7 +4632,7 @@ const Q16: EduQuest = quest(
           1,
           'social-studies',
           'Korean folk paintings show everyday wishes: luck, a long life, a happy home',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Minhwa, Korean folk painting, was made by ordinary people for ordinary homes. It often shows wishes everyone shares: good luck, a long life, a happy family.',
@@ -4671,7 +4670,7 @@ const Q16: EduQuest = quest(
           0,
           'science',
           'sunlight warms the ground and stone',
-          'K-PS3-1',
+          '4-PS3-2',
           [N('The wall has been in the sun all day, and it is warm against your back. Why?')],
           [
             o(
@@ -4725,7 +4724,7 @@ const Q16: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          8,
           'sel',
           'everyone has something they think they should hide; what helps people stop hiding',
           'CASEL: Self-awareness',
@@ -4745,9 +4744,9 @@ const Q16: EduQuest = quest(
             ]),
             o('Meeting others who share it.', [
               N(
-                'That is a fair answer. When you meet someone else like you, you stop feeling like the only one.',
+                'That is a fair answer. Meeting someone like you means you stop feeling like the only one.',
               ),
-              N('Rumi found that with her fans, who asked to look at her arm.'),
+              N('Rumi found that with her fans.'),
             ]),
           ],
           'Thought about what helps people stop hiding the things they fear others will judge, with no single right answer.',
@@ -4810,7 +4809,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
               N(
                 'Yes. “I’d hum” is funny, and it is also a wish to join in, said in a small, brave way.',
               ),
-              N('Short words can carry a lot, if you read for the character behind them.'),
+              N('Short words can carry a lot.'),
             ],
             true,
           ),
@@ -4970,7 +4969,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'animals need food that suits them: plain, not spicy',
-        'K-LS1-1',
+        undefined,
         [N('Rumi puts plain noodles on a saucer for Sable, not spicy ones. Why?')],
         [
           o(
@@ -5000,7 +4999,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
     'a29-11-store-hid',
     [
       N(
-        'Under the folded tables, at the back of the store room, something grey moves. Sable has been in here all along, hiding from the noise.',
+        'Under the folded tables, at the back of the store room, something grey moves, and two small eyes catch the light. Sable has been in here all along, hiding from the noise.',
       ),
       N(
         'She watches the tape come off Mira’s wrists. When you go, she comes after you, one shadow at a time.',
@@ -5022,9 +5021,9 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
             'A shiny layer at the back of the eye bounces light back.',
             [
               N(
-                'Yes. Many night animals have a mirror-like layer in the eye, which helps them see in dim light.',
+                'Yes. Many night animals have a mirror-like layer in the eye that helps them see in dim light.',
               ),
-              N('That layer sends some light back out, so their eyes seem to glow.'),
+              N('It sends some light back out, so their eyes glow.'),
             ],
             true,
           ),
@@ -5373,7 +5372,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
         1,
         'literacy',
         'a single look can carry a message',
-        'RL.2.3',
+        'RL.3.3',
         [
           N(
             'Rumi looks for you once, only for a moment, and then sings louder. What does that single look tell you?',
@@ -5416,7 +5415,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
         1,
         'literacy',
         'not looking for anyone shows she no longer needs permission',
-        'RL.2.3',
+        'RL.3.3',
         [
           N(
             'Rumi doesn’t look for anyone, and the story says that is “the whole point”. What does it mean?',
@@ -5464,7 +5463,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        5,
+        9,
         'sel',
         'everyone has something they think they should hide; a friend who says it is all right',
         'CASEL: Self-awareness',
@@ -5507,7 +5506,7 @@ export const EDU_A29_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        4,
+        8,
         'sel',
         'everyone has something they think they should hide; a friendship does not have to be close to be real',
         'CASEL: Self-awareness',

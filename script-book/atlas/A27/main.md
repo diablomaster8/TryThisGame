@@ -377,13 +377,13 @@ _He talks like the Simurgh: grand and slow, with long words for wind and weather
 
 **Choices**
 
-- **Teach him “friend”.**
+- **Teach him “friend”.** — sets `{"a27-word":"taught-friend"}`
     - **You**: Friend. Someone who isn’t family, but stays anyway.
     - **The Youth**: Friend. Then you are my friend. And the small one too.
-- **Teach him “home”.**
+- **Teach him “home”.** — sets `{"a27-word":"taught-home"}`
     - **You**: Home. The place you come back to.
     - **The Youth**: Then this is home. I have never gone anywhere to come back from. Perhaps one day.
-- **Teach him “sorry”.**
+- **Teach him “sorry”.** — sets `{"a27-word":"taught-sorry"}`
     - **You**: Sorry. What you say when you’ve done something wrong, and you wish you hadn’t.
     - **The Youth**: Nobody has ever said it to me. Is that good?
     - You don’t know what to say to that, so you say nothing.
@@ -434,7 +434,7 @@ _Somebody has sewn it a little white-crested cap out of chick-down, to match its
 
 Sets on completion: `{"a27-05":true}`
 
-**Notes:** Time passes on the page; you and your Nubbin don’t age (a27-05-words#1 says so in one line). The youth speaks as YOUTH (“The Youth”) until his father names him in A27-9; from then on he is ZAL. He learns speech from the Simurgh, as in Zimmern. The word choice has no flag. REWARD: the White-Crested Cap, one-time, at a27-05-complete. Zimmern’s “neither good nor evil can be hidden for ever” is told in our own words at a27-05-complete#0.
+**Notes:** Time passes on the page; you and your Nubbin don’t age (a27-05-words#1 says so in one line). The youth speaks as YOUTH (“The Youth”) until his father names him in A27-9; from then on he is ZAL. He learns speech from the Simurgh, as in Zimmern. The word choice sets a27-word = taught-friend | taught-home | taught-sorry (Atlas save only; the prefix keeps a Grove flag worth “home” from picking a variant); it pays off in A27-9. REWARD: the White-Crested Cap, one-time, at a27-05-complete. Zimmern’s “neither good nor evil can be hidden for ever” is told in our own words at a27-05-complete#0.
 
 ## A27-6. Sam’s Dream
 
@@ -482,7 +482,7 @@ _He comes into the hall with a lamp. His beard is grey now, nearly white, though
 
 #### <a id="a27-06-dream-done"></a>Done `a27-06-dream-done`
 
-**Sam**: Call the mobeds. All of them. Now, before I lose my nerve.  
+**Sam**: Call the mobeds, the wise priests. All of them. Now, before I lose my nerve.  
 
 ### Step 3: Listen to the mobeds, and answer Sam’s question.
 
@@ -699,7 +699,7 @@ Sets on completion: `{"a27-08":true}`
 
 *Shahnameh (Ferdowsi, Persia, finished about 1010), as retold by Helen Zimmern, The Epic of Kings (1883): Sam meets his son, names him Zal, and takes him home* · audience: all · where: Nova’s atlas: the White-Haired Prince page (Atlas campaign) · when: Any time after A27-8, from Nova’s atlas. · requires: A27-8
 
-**Cast:** The Simurgh (The Simurgh, the great bird of Mount Alborz (Shahnameh); design from Persian manuscript painting), The Youth (Zal before his father names him (Shahnameh); white-haired, original design), Sam (Sam (Zimmern: Saum), champion of Sistan, Zal’s father (Shahnameh); original design), Zal (Zal, son of Sam (Shahnameh); white-haired, original design)
+**Cast:** The Simurgh (The Simurgh, the great bird of Mount Alborz (Shahnameh); design from Persian manuscript painting), The Youth (Zal before his father names him (Shahnameh); white-haired, original design), Sam (Sam (Zimmern: Saum), champion of Sistan, Zal’s father (Shahnameh); original design), Zal (Zal, son of Sam (Shahnameh); white-haired, original design), The Nurse (The woman, “brave above the rest”, who tells Sam of his son (Shahnameh); original design)
 
 ### Step 1: Go down the mountain with the youth.
 
@@ -768,6 +768,29 @@ _He gives his son a name: Zal, which means the old one, for the white hair. This
 - **Bow to Zal.**
     - **Zal**: You don’t bow to me. You’re my nestmate. Stand up.
 
+#### <a id="a27-09-oath-taught-sorry"></a>Variant `a27-09-oath-taught-sorry`
+
+_Variant of `a27-09-oath`._
+
+_Sam stands up. He bows, very low, to the great bird at the edge of the cloud, and thanks her with his whole voice._  
+_Then he looks at his son properly: tall and strong and handsome, with white hair, and nothing wrong in him at all._  
+**Sam** _(sad)_: I was wrong. I was a coward, and I was wrong, and there’s nothing I can say that makes it smaller.  
+**Sam**: Open your heart to me if you can. I won’t ask for more than you can give.  
+**Sam** _(sad)_: I’m sorry. I don’t know how to say it any better than that.  
+**The Youth** _(soft)_: So that is what it sounds like. I wondered.  
+**Sam**: I swear it, before the one who made us both: never again will I harden my heart towards thee.  
+**Sam**: And I will give you everything you ever ask of me.  
+_He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride._  
+**Zal** _(think)_: Zal.  
+**Zal** _(happy)_: I like it. It sounds like a door shutting on the right side.  
+
+**Choices**
+
+- **Clap.**
+    - You clap, and your Nubbin claps. After a moment, uncertainly, so does the whole army.
+- **Bow to Zal.**
+    - **Zal**: You don’t bow to me. You’re my nestmate. Stand up.
+
 #### <a id="a27-09-oath-done"></a>Done `a27-09-oath-done`
 
 _They dress Zal in fine clothes: silk, a belt with gold on it, boots. He walks in the boots like a heron on ice._  
@@ -785,6 +808,19 @@ _Zal rides at the front beside his father. You ride on the baggage, on a heap of
 _The old servant walks beside the baggage, holding the bridle of the mule, and is the quietest man in the army._  
 _Behind you, high above the cloud, a great bird turns once in the sky, and turns again, and goes home._  
 
+#### <a id="a27-09-road-taught-home"></a>Variant `a27-09-road-taught-home`
+
+_Variant of `a27-09-road`._
+
+_The army goes home to Sistan with drums and trumpets and cymbals, all the way, so that every village knows._  
+_Zal rides at the front beside his father. You ride on the baggage, on a heap of tent poles, with your Nubbin in your lap._  
+**Zal** _(think)_: It is very loud. Is the world always this loud?  
+**Sam** _(happy)_: Only when it’s happy.  
+**Zal** _(think)_: Is Sistan where I come back to now? I was told that is what home means.  
+**Sam** _(soft)_: Yes. It’s louder than a nest, but yes.  
+_The old servant walks beside the baggage, holding the bridle of the mule, and is the quietest man in the army._  
+_Behind you, high above the cloud, a great bird turns once in the sky, and turns again, and goes home._  
+
 #### <a id="a27-09-road-done"></a>Done `a27-09-road-done`
 
 _Sistan has heard. The city is hung with cloth and flowers, and everyone wants to see the white-haired prince._  
@@ -797,6 +833,27 @@ _At the gate the people throw flowers and blessings, and Zal catches a rose, and
 _Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his father’s arm._  
 **Sam** _(soft)_: You laugh with your whole self. I’d forgotten people could.  
 **Zal** _(happy)_: The chicks taught me. They do everything with their whole selves.  
+_On the step, arms folded, stands the nurse, older now. She waits until Sam is close enough to hear._  
+**The Nurse**: A gift, my lord. I did say.  
+**Sam** _(soft)_: You did.  
+**The Nurse** _(happy)_: I only mention it. I’m only the nurse.  
+_Sam takes his son by the arm, and they go in together._  
+
+#### <a id="a27-09-complete-taught-friend"></a>Variant `a27-09-complete-taught-friend`
+
+_Variant of `a27-09-complete`._
+
+_At the gate the people throw flowers and blessings, and Zal catches a rose, and doesn’t know what to do with it._  
+_Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his father’s arm._  
+**Sam** _(soft)_: You laugh with your whole self. I’d forgotten people could.  
+**Zal** _(happy)_: The chicks taught me. They do everything with their whole selves.  
+_On the step, arms folded, stands the nurse, older now. She waits until Sam is close enough to hear._  
+**The Nurse**: A gift, my lord. I did say.  
+**Sam** _(soft)_: You did.  
+**The Nurse** _(happy)_: I only mention it. I’m only the nurse.  
+**Zal** _(happy)_: Father, this is my friend. Someone who isn’t family, but stays anyway.  
+**Sam**: Then they’re family now. That’s how it works here.  
+**Zal** _(think)_: Then I shall need another word.  
 _Sam takes his son by the arm, and they go in together._  
 
 **Rewards**
@@ -807,8 +864,9 @@ Sets on completion: `{"a27-09":true}`
 **Learning Grove swaps**
 
 - `a27-09-oath#4` → I promise, before the one who made us both: I will never close my heart to you again.
+- `a27-09-oath-taught-sorry#6` → I promise, before the one who made us both: I will never close my heart to you again.
 
-**Notes:** LIFTED TEXT: a27-09-oath#4 (Zimmern p. 38, a fragment: “never again will I harden my heart towards thee”). Our own words open Sam’s sentence. Zal’s name means “the aged” (Zimmern) or “white-haired”; say “the old one”. FEATHER PAYOFF (a27-feather): the scene shown for step 1, a27-09-descent, is for told (he runs the last bit). For sat play ATLAS_A27_VARIANTS a27-09-descent-sat in its place (he walks down slowly, and his father waits). For night play a27-09-descent-night (Sam has prayed all night and his voice is gone). Everything after step 1 is shared. From a27-09-oath#7 on the speaker is ZAL. The army clapping is our small comedy; Zimmern’s army shouts for joy.
+**Notes:** LIFTED TEXT: a27-09-oath#4 (Zimmern p. 38, a fragment: “never again will I harden my heart towards thee”). Our own words open Sam’s sentence. Zal’s name means “the aged” (Zimmern) or “white-haired”; say “the old one”. FEATHER PAYOFF (a27-feather): the scene shown for step 1, a27-09-descent, is for told (he runs the last bit). For sat play ATLAS_A27_VARIANTS a27-09-descent-sat in its place (he walks down slowly, and his father waits). For night play a27-09-descent-night (Sam has prayed all night and his voice is gone). Everything after step 1 is shared. From a27-09-oath#7 on the speaker is ZAL. The army clapping is our small comedy; Zimmern’s army shouts for joy. WORD PAYOFF (a27-word, A27-5): taught-sorry plays ATLAS_A27_VARIANTS a27-09-oath-taught-sorry (Sam says sorry, and the youth hears the word said to him at last); taught-home plays a27-09-road-taught-home (Sistan is home now); taught-friend plays a27-09-complete-taught-friend (Zal introduces you to his father as his friend). The nurse on the step calls back her “gift” from A27-1 and A27-2 on every path.
 
 ## A27-10. The Shah’s Court
 
@@ -1005,6 +1063,8 @@ _He shoots it on the wing, cleanly. It falls on the far bank, among the roses._
 #### <a id="a27-12-roses-done"></a>Done `a27-12-roses-done`
 
 **Zal** _(happy)_: Go across and fetch it. And take your time.  
+**Zal’s Page**: My lord. Weren’t you raised by a bird?  
+**Zal** _(think)_: By a much bigger one. This one never did anything for me.  
 
 ### Step 2: Cross with the page and carry messages between the two banks.
 
@@ -1031,7 +1091,7 @@ _This goes on for some time. The page is smiling all the way back across the riv
 #### <a id="a27-12-boasts-done"></a>Done `a27-12-boasts-done`
 
 **Zal** _(think)_: Why are you smiling? What did they say? Tell me every word.  
-_The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll wait._  
+_The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll keep his secret and carry his messages._  
 
 ### Step 3: Bring Rudaba’s maid to Zal, and carry the answer home.
 
@@ -1054,7 +1114,8 @@ _Back in the family’s rooms, the maids tell Rudaba everything. She takes a who
 
 #### <a id="a27-12-complete"></a>Complete `a27-12-complete`
 
-**Rudaba** _(think)_: You said he feeds everyone before himself. And now they say he shoots like a king. Which is he?  
+**Rudaba** _(think)_: You told me what he is really like. Now my maids say he shoots like a king.  
+**Rudaba**: Which is he?  
 **You**: Both.  
 **Rudaba** _(happy)_: Good. I would hate to have to choose.  
 _She gives you a cutting from the rose garden to keep, wrapped in a wet cloth, for carrying all those messages._  
@@ -1104,6 +1165,8 @@ _Zal takes hold of the end of her hair. Then he lifts it to his face, and kisses
 **Rudaba** _(shock)_: No?  
 _He looks up at her, in the dusk._  
 **Zal** _(soft)_: Not so, O fair one, it would beseem me ill to do thee hurt.  
+**Rudaba** _(happy)_: Does everyone in Sistan talk like that?  
+**Zal**: Only the ones raised by birds.  
 _He makes a running knot in a rope and throws it up; it catches first time. He goes up it in one bound._  
 
 #### <a id="a27-13-roof-done"></a>Done `a27-13-roof-done`
@@ -1439,9 +1502,9 @@ _Sindokht leans across and fills your plate, and then your Nubbin’s, and then 
 
 #### <a id="a27-16-complete"></a>Complete `a27-16-complete`
 
-_After a month in Kabul, they all go home to Sistan. Sam goes back to the wars, and leaves the land in Zal’s hands._  
-_Zal sits on his father’s throne and rules with patience and fairness, the way he learned it on the peak._  
-_Rudaba sits beside him. He sets a crown of gold on her black hair, and she sets her hand on his white head._  
+_After a month in Kabul, they all go home to Sistan. This time Zal brings a queen._  
+**Rudaba** _(happy)_: And a proper rope. He wouldn’t use the other kind.  
+_In his father’s hall, Zal sets a crown of gold on her black hair, and she sets her hand on his white head._  
 _Your Nubbin has eaten, at a guess, its own weight in wedding cake. It sleeps for two days, smiling._  
 
 **Rewards**
@@ -1455,7 +1518,7 @@ Sets on completion: `{"a27-16":true}`
 
 *Shahnameh (Ferdowsi, Persia, finished about 1010), as retold by Helen Zimmern, The Epic of Kings (1883): the Simurgh comes again, and Rostam is born (Zimmern, “Rustem”)* · audience: all · where: Nova’s atlas: the White-Haired Prince page (Atlas campaign) · when: Any time after A27-16, from Nova’s atlas. · requires: A27-16
 
-**Cast:** Zal (Zal, son of Sam (Shahnameh); white-haired, original design), Rudaba (Rudaba, princess of Kabul (Zimmern: Rudabeh) (Shahnameh); original design), The Simurgh (The Simurgh, the great bird of Mount Alborz (Shahnameh); design from Persian manuscript painting)
+**Cast:** Zal (Zal, son of Sam (Shahnameh); white-haired, original design), Rudaba (Rudaba, princess of Kabul (Zimmern: Rudabeh) (Shahnameh); original design), The Simurgh (The Simurgh, the great bird of Mount Alborz (Shahnameh); design from Persian manuscript painting), Old Servant (One of the servants Sam sends to the mountain (Shahnameh); named role is our addition)
 
 ### Step 1: Stay with Zal while Rudaba’s labour goes on.
 
@@ -1553,7 +1616,13 @@ _Before noon a rider sets off for Sam with a doll of the baby sewn in silk, so t
 _Zal comes out into the courtyard with his son in his arms, wrapped up tight, and holds him up to the Simurgh._  
 **Zal** _(happy)_: Look. Look what he is. You came the moment I called, and now he’s here.  
 _The Simurgh looks at the baby, and the baby looks at the Simurgh, and neither of them is at all afraid._  
-_The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky._  
+_The old servant is at the door, as ever. Zal puts the baby into his arms without a word._  
+**Old Servant** _(soft)_: Last time I carried one of yours, it was up a mountain.  
+**Zal** _(happy)_: Only to the kitchen this time.  
+_He goes the long way round, past every door in the house, so that everyone can see._  
+_When the baby comes back, the last thing you see on the page is Zal in the courtyard, laughing, holding him up to the sky._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin goes over and shares its breakfast with it, smallest first. That is why it needs a second breakfast._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
@@ -1567,8 +1636,14 @@ _The baby is big and strong, with a fist like a walnut. Rudaba laughs, tired out
 _Before noon a rider sets off for Sam with a doll of the baby sewn in silk, so the grandfather can see his face._  
 _Zal comes out into the courtyard with his son in his arms, and sits down on the step beside you, and doesn’t say anything at all._  
 _He doesn’t need to. You sit there together, all three of you, and let the morning come._  
+_The old servant is at the door, as ever. Zal puts the baby into his arms without a word._  
+**Old Servant** _(soft)_: Last time I carried one of yours, it was up a mountain.  
+**Zal** _(happy)_: Only to the kitchen this time.  
+_He goes the long way round, past every door in the house, so that everyone can see._  
 _Days later, far away in his camp, Sam opens a parcel and finds a little silk doll with his grandson’s face._  
 _The last thing you see on the page is Sam, the great champion, holding the doll in both hands and weeping for joy._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin goes over and shares its breakfast with it, smallest first. That is why it needs a second breakfast._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 
@@ -1583,8 +1658,14 @@ _Before noon a rider sets off for Sam with a doll of the baby sewn in silk, so t
 _Zal comes out into the courtyard with his son in his arms, and holds him up to the Simurgh._  
 _She looks at the baby for a long time. Then she turns her great gold eye on you._  
 **The Simurgh** _(soft)_: You were right to give him the night.  
+_The old servant is at the door, as ever. Zal puts the baby into his arms without a word._  
+**Old Servant** _(soft)_: Last time I carried one of yours, it was up a mountain.  
+**Zal** _(happy)_: Only to the kitchen this time.  
+_He goes the long way round, past every door in the house, so that everyone can see._  
 _She spreads her wings, which fill the whole sky over Sistan, and goes up._  
 _The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin goes over and shares its breakfast with it, smallest first. That is why it needs a second breakfast._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee. The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
 

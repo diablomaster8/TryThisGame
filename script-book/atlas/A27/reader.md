@@ -12,7 +12,7 @@ _Nova’s atlas falls open at a mountain above the clouds, a vast nest, and far 
 _A card says this is a story from the Shahnameh, the Book of Kings, finished by Ferdowsi around the year 1010._  
 _People in Iran, Afghanistan and Tajikistan still recite it, and they name their children from it._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): Persian is spoken in Iran, Afghanistan and Tajikistan  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): Persian is spoken in Iran, Afghanistan and Tajikistan  
 > _The Shahnameh is loved in Iran, Afghanistan and Tajikistan. One language links all three countries._  
 > _Which one?_  
 > - ✅ Persian. → Yes. Persian, in a few forms: it is called Farsi in Iran, Dari in Afghanistan and Tajik in Tajikistan.
@@ -22,7 +22,7 @@ _People in Iran, Afghanistan and Tajikistan still recite it, and they name their
 
 _Ferdowsi spent about thirty years on it. This is one of its stories, retold in our own words._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): add to find a date: 980 + 30  
+> **Lesson** (maths, 4.NBT.B.4, ask): add to find a date: 980 + 30  
 > _Suppose Ferdowsi began his book in the year 980 and worked for thirty years. In what year did he finish?_  
 > - ✅ 1010. → Yes. 980 plus 30 is 1010, which matches “around the year 1010”.
 > - 1000. → Close. Count on: 980 plus 20 makes 1000, then 10 more makes 1010.
@@ -95,7 +95,7 @@ _Your Nubbin climbs up the cradle leg and looks in. The baby opens his eyes and 
 _Your Nubbin reaches in and touches the white hair, very carefully, with one paw._  
 _The baby grabs the paw and holds on. Neither of them seems to mind._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): days and weeks: 8 days is 1 week and 1 day  
+> **Lesson** (maths, 4.MD.A.2, ask): days and weeks: 8 days is 1 week and 1 day  
 > _The baby is eight days old. A week has seven days._  
 > _How many days is that more than a week?_  
 > - ✅ One day. → Yes. Eight take away seven is one. He is one week and one day old.
@@ -141,7 +141,7 @@ _The nurse looks at you, and doesn’t say anything at all._
 _Sam stands over the cradle for a long time. The baby looks up at him with dark, steady eyes._  
 _Sam doesn’t pick him up. That is the first wrong thing._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: everyone deserves care whatever they look like  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness: everyone deserves care whatever they look like  
 > _Sam hesitates to hold his son because of the baby’s hair. Which idea about fairness does that go against?_  
 > - ✅ Everyone deserves love and care, whatever they look like. → Yes. How someone looks is never a fair reason to love them less.
 > - People should be treated by how they look. → No. That is just what is unfair here. A person’s looks are not a reason to treat them worse.
@@ -214,7 +214,7 @@ _Sam goes out. The order stays in the room after him, like smoke._
 _Two servants carry the baby out of the city in a basket. You and your Nubbin follow._  
 _The road becomes a path, and the path becomes stones. Ahead, the Alborz goes up and up into cloud._  
 
-> **Lesson** (science, 3-ESS2-1, ask): why clouds and rain gather over mountains  
+> **Lesson** (science, ask): why clouds and rain gather over mountains  
 > _Mountains often bring storms. Wind is pushed up the slope, cools, and its water vapour turns into tiny drops._  
 > _What forms?_  
 > - ✅ Clouds, and then rain. → Yes. Rising air cools, vapour turns to tiny drops, and clouds form. When the drops grow heavy, they fall as rain.
@@ -231,7 +231,7 @@ _The wind gets up. The first rain comes sideways, hard and cold, out of the nort
 
 _By the time the path runs out, the storm is all round you, and you can’t see the city any more._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): add distances: 4 + 3 + 2  
+> **Lesson** (maths, 3.OA.D.8, ask): add distances: 4 + 3 + 2  
 > _The servants walked 4 km on the road, 3 km on the path and 2 km on the stones. How far did they walk in all?_  
 > - ✅ 9 km. → Yes. 4 plus 3 is 7, and 7 plus 2 is 9.
 > - 7 km. → That is the road and the path. Add the 2 km on the stones as well: 9 km.
@@ -270,7 +270,7 @@ _Your Nubbin climbs into the basket and curls round his feet, the warmest thing 
 _Above the storm, something very large goes over._  
 _For a moment the rain stops falling on you, as if a roof had been put up._  
 
-> **Lesson** (literacy, RL.1.4, ask): words that show what we sense: sound words  
+> **Lesson** (literacy, L.3.4, ask): words that show what we sense: sound words  
 > _Writers use sound words so you can hear a storm. Which of these is a sound word: howl, damp or grey?_  
 > - ✅ Howl. → Yes. “The wind howls” lets you hear it. Damp and grey are words for touch and sight.
 > - Damp. → Damp is a touch word. Howl is the sound word: you can hear a wind howl.
@@ -431,7 +431,7 @@ _When the four chicks have had equal shares, there is one fig left. It is a very
 
 _Your Nubbin is round as an apple and still looking about for more. Living with chicks has given it ideas._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity means choosing  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity means choosing  
 > _There was only one fig, and three ways to use it. When there is not enough, what is the cost of choosing to eat it yourself?_  
 > - ✅ Someone else does not get it. → Yes. That is what scarcity means: when there is not enough, choosing one thing means giving up another.
 > - There is no cost. → There is a cost. If you eat the fig, the chick or your Nubbin goes without it.
@@ -462,6 +462,7 @@ _She settles lower over all of you. Her heartbeat is slow and very loud, like a 
 #### `reader:a27-04-night-done` · [main](main.md#a27-04-night-done)
 
 _In the morning there is frost on the outside of her wings, and none at all underneath._  
+_The chick beside you snores like a kettle that has been left on._  
 
 > **Lesson** (literacy, L.4.5, ask): simile: a heartbeat like a drum heard from the next valley  
 > _Her heartbeat was “like a drum heard from the next valley”. What does that simile tell us about it?_  
@@ -508,7 +509,7 @@ _Weeks go by on the peak, and then months. Nobody comes, and nobody calls him an
 **The Simurgh**: His name is his father’s to give. Until then, he is my chick.  
 _The baby learns to crawl in a nest of ebony and sandalwood. His first word is a sound like a bird calling._  
 
-> **Lesson** (science, 3-LS1-1, ask): babies learn speech by copying the sounds around them  
+> **Lesson** (science, ask): babies learn speech by copying the sounds around them  
 > _His first word sounded like a bird call. Why would that be?_  
 > - ✅ Babies learn sounds by copying what they hear around them. → Yes. A baby who hears birds copies birds. A baby who hears people copies them. That is how everyone learns to speak.
 > - He was really a bird. → He was a human baby, but the only voices he heard were birds. That is why he copied them.
@@ -585,7 +586,7 @@ _The Simurgh sets you down on a ledge above the pass, so you can walk the last o
 **A Merchant**: A traveller, up here? Have you seen him?  
 **A Merchant**: The young man on the peak, with the white hair?  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): caravans on trade roads carried goods, news and stories  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): caravans on trade roads carried goods, news and stories  
 > _Long ago, caravans crossed Iran along trade routes such as the Silk Road. Besides silk and spices, what else did they carry from town to town?_  
 > - ✅ News, stories and ideas. → Yes. Travellers carried stories as well as goods, which is how the tale of the white-haired youth spreads.
 > - Nothing else. → They carried more. News and stories travelled with every caravan, and still do in this story.
@@ -654,7 +655,7 @@ _The champion’s house is the same, only older. So is the old servant at the do
 **Old Servant**: You. You haven’t changed a hair.  
 **Old Servant**: And I have gone white as…  
 
-> **Lesson** (science, 3-LS1-1, ask): hair turns grey or white with age as pigment cells slow down  
+> **Lesson** (science, ask): hair turns grey or white with age as pigment cells slow down  
 > _The old servant’s hair is white because he is old, while the baby’s was white from birth. Why does hair turn white as people age?_  
 > - ✅ The cells that make hair colour slowly make less of it. → Yes. As we age, those cells make less melanin, so hair goes grey and then white. Different cause, same colour.
 > - Worry makes it go white overnight. → A popular story, but no. Hair turns white as the cells that colour it slow down, over years.
@@ -697,12 +698,12 @@ _He comes into the hall with a lamp. His beard is grey now, nearly white, though
 **The Rider**: You threw away your son for his white hair. Look in a mirror, champion.  
 **The Rider**: Your own beard is as white as a poplar.  
 
-> **Lesson** (literacy, L.4.5, ask): a simile compares using as or like  
-> _The rider says Sam’s beard is “as white as a poplar”. What do we call a comparison that uses “as” or “like”?_  
-> - ✅ A simile. → Yes. A simile compares two things using “as” or “like”. The rider uses it to make Sam look at himself.
-> - A rhyme. → A rhyme is words that sound alike. A comparison using “as” or “like” is a simile.
-> - A riddle. → A riddle is a puzzle. A comparison using “as” or “like” is a simile.
-> _For grown-ups: Named a simile, a comparison using as or like, in the rider’s words to Sam._
+> **Lesson** (literacy, RL.3.3, ask): what a character’s words tell another character to do  
+> _The rider tells Sam to look in a mirror. What is the rider really telling Sam he must do?_  
+> - ✅ Look at himself honestly, and see that he was wrong. → Yes. Sam’s own beard is white too. The rider wants him to see his mistake and put it right.
+> - Comb his beard. → Ha. His beard is fine. The rider wants Sam to look honestly at what he did.
+> - Buy a better mirror. → The mirror is a way of saying: look at yourself, and see that you were wrong.
+> _For grown-ups: Worked out what the dream rider’s words about a mirror tell Sam he must do._
 
 **The Rider**: A bird is raising your child. Is that what you call being a father?  
 **Sam**: Then he woke me. Or I woke.  
@@ -710,7 +711,7 @@ _He comes into the hall with a lamp. His beard is grey now, nearly white, though
 
 #### `reader:a27-06-dream-done` · [main](main.md#a27-06-dream-done)
 
-**Sam**: Call the mobeds. All of them.  
+**Sam**: Call the mobeds, the wise priests. All of them.  
 **Sam**: Now, before I lose my nerve.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): it takes courage to say “I was wrong”  
@@ -730,7 +731,7 @@ _The mobeds, the wise men and priests, come in white robes, half asleep and whol
 **The Mobed**: Even the crocodile.  
 **The Mobed**: You turned your own child out because of the white hair his Maker gave him. That was the wrong, not the hair.  
 
-> **Lesson** (science, 1-LS1-2, ask): animal parents care for their young: crocodiles carry hatchlings in their mouths  
+> **Lesson** (science, 4-LS1-1, ask): animal parents care for their young: crocodiles carry hatchlings in their mouths  
 > _The mobed says even a crocodile looks after its young. How does a mother crocodile carry her hatchlings to the water?_  
 > - ✅ Gently, in her mouth. → Yes. Her jaws are enormously strong, yet she carries hatchlings in her mouth without hurting them.
 > - On her back. → Not quite. She carries them in her mouth, very gently.
@@ -779,6 +780,7 @@ _A shadow goes over. The Simurgh comes down, looks at you with one gold eye, and
 **The Simurgh**: You went down to see the story land. Did it?  
 **You**: He’s coming. With an army.  
 **The Simurgh**: Then I had better put the kettle on.  
+_She doesn’t have a kettle. You suspect she knows that._  
 
 > **Lesson** (literacy, L.4.5, ask): idiom: put the kettle on, with a joke  
 > _“Put the kettle on” is an old British saying. What does it mean, and what is the joke?_  
@@ -787,7 +789,6 @@ _A shadow goes over. The Simurgh comes down, looks at you with one gold eye, and
 > - Go away. → The opposite: it means get ready to welcome guests.
 > _For grown-ups: Explained the idiom put the kettle on, and why it is funny coming from the Simurgh._
 
-_She doesn’t have a kettle. You suspect she knows that._  
 
 ### Glossary
 
@@ -823,7 +824,7 @@ _He lies flat at the edge of the nest beside you, chin on his hands, and stares 
 **The Youth**: I didn’t know there were this many. I thought there was you, and then her, and then the chicks.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): big new experiences can bring mixed feelings  
-> _Zal has met only a handful of living creatures, and now sees an army. How might that feel?_  
+> _The youth has met only a handful of living creatures, and now sees an army. How might that feel?_  
 > _There is no one right answer._  
 > - Excited and a bit scared at once. → That is a fair answer. Mixed feelings are very common when something is new and big.
 > - Small, but curious. → That is a fair answer. Feeling small is natural at first, and curiosity helps us look closer.
@@ -837,7 +838,7 @@ _One man comes out in front of the army and starts to climb. He is big, and stro
 _The rocks are sheer. He tries one way, and then another, and then he slides back to the bottom._  
 _He tries again, and the army watches him. Nobody laughs, and that is something._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): Sistan is a region in Iran and Afghanistan  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): Sistan is a region in Iran and Afghanistan  
 > _Sam was the champion of Sistan. Today, Sistan is a region in two countries._  
 > _Which two?_  
 > - ✅ Iran and Afghanistan. → Yes. The Sistan region lies in south-eastern Iran and south-western Afghanistan.
@@ -905,7 +906,7 @@ _For a moment he makes you think of someone else: a man at a stuck gate, lifting
 
 ### Glossary
 
-- **humble**: Not proud or boastful about yourself. Zal bows low, as the Simurgh did.
+- **humble**: Not proud or boastful about yourself. The youth bows low, as the Simurgh did.
 - **bargain**: To trade or argue for a deal.
 
 ## A27-8. The Feather
@@ -957,7 +958,7 @@ _It is grey and gold, as long as his arm._
 **The Simurgh**: Keep this, so that you remember the one who sheltered you, wherever you go.  
 **The Simurgh**: When you are in real need, put it in the fire, and I will come to you at once.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): objects that carry memories  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): objects that carry memories  
 > _A feather from her breast is something to remember her by, a keepsake. Why do people keep objects to remember others?_  
 > _There is no one right answer._  
 > - Because holding it brings the person closer. → That is a fair answer. A keepsake can feel like a small piece of someone.
@@ -994,7 +995,7 @@ _He holds the feather against his chest, and doesn’t move. He looks at you._
 **The Youth**: And the chicks. All of them, even the one who snores.  
 **The Simurgh**: I know you will. Keep the feather dry.  
 
-> **Lesson** (science, 4-PS3-2, ask): fire needs fuel, heat and air; fire safety  
+> **Lesson** (science, ask): fire needs fuel, heat and air; fire safety  
 > _The feather is for burning on the day of need, so it must stay dry. What three things does a fire need?_  
 > _(Fire is dangerous, so only grown-ups light one.)_  
 > - ✅ Fuel, heat and air. → Yes. Take away any one of the three and a fire goes out. A wet feather would be poor fuel, which is why she says to keep it dry.
@@ -1010,13 +1011,12 @@ _You say goodbye too. The nest has been your home for longer than you can count,
 **The Simurgh**: You were a foundling too, little stranger. Take something of the nest home with you.  
 _She weaves you a great round nest out of the branches nobody uses: ebony, sandalwood and aloe, big enough for a family._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract: 7 in the nest, three leave  
-> _There are 4 chicks, Zal, you and your Nubbin in the nest: 7 in all._  
-> _When Zal, you and your Nubbin go down, how many are left?_  
-> - ✅ 4. → Yes. 7 take away 3 is 4: the four chicks.
-> - 6. → That takes away only Zal. You and your Nubbin go too: 7 take away 3 is 4.
-> - 10. → Nobody joins, so the number goes down: 7 take away 3 is 4.
-> _For grown-ups: Subtracted 3 from 7 to find how many are left in the nest._
+> **Lesson** (maths, 3.OA.D.8, ask): two steps: add everyone in the nest, then take away three  
+> _The nest holds 4 chicks, plus the youth, you and your Nubbin. When the three of you go down, how many are left?_  
+> - ✅ 4. → Yes. 4 and 3 make 7 in the nest. 7 take away 3 is 4: the four chicks.
+> - 6. → That takes away only the youth. 4 and 3 make 7, and 7 take away all 3 is 4.
+> - 10. → Nobody joins. 4 and 3 make 7, and 7 take away 3 is 4.
+> _For grown-ups: Added to find 7 in the nest, then subtracted 3 to find 4 left._
 
 _Your Nubbin climbs in to test it, and has to be lifted out again by the scruff._  
 
@@ -1043,7 +1043,7 @@ _He has never stood this close to anyone but you._
 _Sam can’t say anything at all. He just nods, again and again, like someone who has forgotten how to stop._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): forgiving quickly or making someone earn it  
-> _Zal runs to his father at once. Is it right to forgive quickly, or should someone earn it first?_  
+> _The youth runs to his father at once. Is it right to forgive quickly, or should someone earn it first?_  
 > _There is no one right answer._  
 > - Forgive quickly, if they are truly sorry. → That is a fair answer. Forgiveness can lift a weight off both people.
 > - Take time first, so the sorry is real. → That is a fair answer. Time can show whether the sorry will last.
@@ -1115,6 +1115,40 @@ _Then he looks at his son properly: tall and strong and handsome, with white hai
 **Sam**: I was wrong. I was a coward, and I was wrong, and there is nothing I can say that makes it smaller.  
 **Sam**: Open your heart to me if you can. I won’t ask for more than you can give.  
 **Sam**: I swear it, before the one who made us both: my heart will never be closed to you again.  
+**Sam**: And I will give you anything you ever ask of me.  
+_He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride._  
+
+> **Lesson** (literacy, RL.4.2, ask): theme: the same feature can be shame or pride  
+> _At first Sam was ashamed of the white hair. Now he gives the name Zal, “the old one”, with pride._  
+> _What does this show?_  
+> - ✅ The same thing can feel like shame or pride, depending on how people choose to see it. → Yes. Nothing about the hair changed. What changed was how Sam saw it.
+> - Names do not matter. → In this story the name matters a lot. It turns the shame into pride.
+> - The hair turned black. → It is still white. What changed was how Sam saw it.
+> _For grown-ups: Explored a theme: how choosing to see something differently can turn shame into pride._
+
+**Zal**: Zal. I like it.  
+**Zal**: It sounds like a door shutting on the right side.  
+
+**Choices**
+
+- **Clap.**
+    - You clap, and your Nubbin claps. After a moment, uncertainly, so does the whole army.
+- **Bow to Zal.**
+    - **Zal**: You don’t bow to me. You are my nestmate.
+    - **Zal**: Stand up.
+
+#### `reader:a27-09-oath-taught-sorry` · [main](main.md#a27-09-oath-taught-sorry)
+
+_Variant of `a27-09-oath`._
+
+_Sam stands up. He bows, very low, to the great bird at the edge of the cloud, and thanks her with his whole voice._  
+_Then he looks at his son properly: tall and strong and handsome, with white hair, and nothing wrong in him at all._  
+**Sam**: I was wrong. I was a coward, and I was wrong, and there is nothing I can say that makes it smaller.  
+**Sam**: Open your heart to me if you can. I won’t ask for more than you can give.  
+**Sam**: I’m sorry. I don’t know how to say it any better than that.  
+**The Youth**: So that is what it sounds like. I wondered.  
+**Sam**: I swear it, before the one who made us both: my heart will never be closed to you again.  
+**Sam**: And I will give you anything you ever ask of me.  
 _He gives his son a name: Zal, which means the old one, for the white hair. This time, he says it with pride._  
 
 > **Lesson** (literacy, RL.4.2, ask): theme: the same feature can be shame or pride  
@@ -1140,7 +1174,7 @@ _He gives his son a name: Zal, which means the old one, for the white hair. This
 
 _They dress Zal in fine clothes: silk, a belt with gold on it, boots. He walks in the boots like a heron on ice._  
 
-> **Lesson** (maths, 2.MD.A.1, ask): measure and subtract lengths in centimetres  
+> **Lesson** (maths, 4.MD.A.1, ask): measure and subtract lengths in centimetres  
 > _The tailor’s belt is 95 centimetres long. A metre is 100 centimetres._  
 > _How much shorter than a metre is the belt?_  
 > - ✅ 5 cm. → Yes. 100 take away 95 is 5.
@@ -1155,6 +1189,27 @@ _The army goes home to Sistan with drums and trumpets and cymbals, all the way, 
 _Zal rides at the front beside his father. You ride on the baggage, on a heap of tent poles, with your Nubbin in your lap._  
 **Zal**: It is very loud. Is the world always this loud?  
 **Sam**: Only when it’s happy.  
+
+> **Lesson** (music, 4-PS3-2, ask): sound is made by vibrations, which travel through the air  
+> _A drum is loud enough to hear in every village. How does a drum make sound?_  
+> - ✅ The drum skin vibrates, and the vibrations travel through the air. → Yes. Hit the skin and it shakes, and the shaking pushes the air, so the sound travels to your ears.
+> - The drum glows. → A drum makes no light. Its skin vibrates, and the vibrations travel through the air as sound.
+> - The drum talks to the army. → Ha. In a way, but the real answer is vibration: the skin shakes and the air carries the sound.
+> _For grown-ups: Learned that sound comes from vibrations, as when a drum skin shakes._
+
+_The old servant walks beside the baggage, holding the bridle of the mule, and is the quietest man in the army._  
+_Behind you, high above the cloud, a great bird turns once in the sky, and turns again, and goes home._  
+
+#### `reader:a27-09-road-taught-home` · [main](main.md#a27-09-road-taught-home)
+
+_Variant of `a27-09-road`._
+
+_The army goes home to Sistan with drums and trumpets and cymbals, all the way, so that every village knows._  
+_Zal rides at the front beside his father. You ride on the baggage, on a heap of tent poles, with your Nubbin in your lap._  
+**Zal**: It is very loud. Is the world always this loud?  
+**Sam**: Only when it’s happy.  
+**Zal**: Is Sistan where I come back to now? I was told that is what home means.  
+**Sam**: Yes. It’s louder than a nest, but yes.  
 
 > **Lesson** (music, 4-PS3-2, ask): sound is made by vibrations, which travel through the air  
 > _A drum is loud enough to hear in every village. How does a drum make sound?_  
@@ -1194,6 +1249,27 @@ _Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his
 **Zal**: The chicks taught me. They do everything with their whole selves.  
 _Sam takes his son by the arm, and they go in together._  
 
+#### `reader:a27-09-complete-taught-friend` · [main](main.md#a27-09-complete-taught-friend)
+
+_Variant of `a27-09-complete`._
+
+_At the gate the people throw flowers and blessings, and Zal catches a rose, and doesn’t know what to do with it._  
+_Your Nubbin knows: it eats it. Zal laughs so hard that he has to hold on to his father’s arm._  
+**Sam**: You laugh with your whole self. I had forgotten people could.  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): mixed feelings: joy with sorrow for lost time  
+> _Sam says he had forgotten that people could laugh like that. What feelings might be mixed in his voice?_  
+> - ✅ Joy, and sadness for the years he lost. → Yes. He is delighted now, and sorry about the time he missed. Both feelings can be true together.
+> - Only anger. → There is no anger here. His voice is soft, and mixed with joy and regret.
+> - Only boredom. → Not boredom. Sam is moved, with joy and regret mixed together.
+> _For grown-ups: Noticed mixed feelings, joy and regret, in a character’s words._
+
+**Zal**: The chicks taught me. They do everything with their whole selves.  
+**Zal**: Father, this is my friend. Someone who isn’t family, but stays anyway.  
+**Sam**: Then they’re family now. That’s how it works here.  
+**Zal**: Then I shall need another word.  
+_Sam takes his son by the arm, and they go in together._  
+
 ### Glossary
 
 - **oath**: A very serious promise, often made in front of someone you respect.
@@ -1215,7 +1291,7 @@ _Zal comes in, in his silk, with his white hair brushed. The whole court goes st
 **Manuchehr**: And teach him our ways: war, and feasting, and manners. How should someone raised in a nest know any of them?  
 _Zal bows, exactly as low as the Simurgh used to bow her head to him. It is not the court’s bow, and it is perfect._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): manners show respect, and differ between cultures  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): manners show respect, and differ between cultures  
 > _Zal’s bow is not the court’s bow, yet it is perfect. Why do cultures have rules of manners?_  
 > - ✅ They show respect and help people get along. → Yes. Manners differ from place to place, but they all say “I respect you”.
 > - To make life harder. → Manners can feel like that, but they exist to show respect and help people get along.
@@ -1272,12 +1348,13 @@ _Your Nubbin has nest manners of a different kind. It has eaten a whole dish of 
 
 _Your Nubbin falls asleep on a cushion with its stomach in the air, a guest of the King of Kings._  
 
-> **Lesson** (literacy, L.3.4, ask): Persian titles: shah and shahanshah  
-> _In Persian, shah means king, and shahanshah means “king of kings”. What word would mean “book of kings”?_  
-> - ✅ Shahnameh. → Yes. Shah (king) plus nameh (book): the title of Ferdowsi’s epic.
-> - Shahanshah. → That one means king of kings. Book of kings is Shahnameh.
-> - Checkmate. → Close family: checkmate comes from the Persian shah mat. But book of kings is Shahnameh.
-> _For grown-ups: Used Persian word parts shah and nameh to name the Book of Kings._
+> **Lesson** (literacy, L.3.4, ask): word origins: checkmate from the Persian shah mat  
+> _“Checkmate” comes from the Persian shah mat: the king is helpless. Your Nubbin has eaten three dishes of rice._  
+> _Who is helpless now?_  
+> - ✅ Your Nubbin. → Yes. Shah mat means the king can’t move. After three dishes, neither can your Nubbin.
+> - The rice. → The rice is gone. The one who can’t move is your Nubbin.
+> - The chessboard. → Nobody is playing chess. Your Nubbin is the one who can’t move.
+> _For grown-ups: Learned that checkmate comes from the Persian shah mat, the king is helpless._
 
 
 #### `reader:a27-10-petitions` · [main](main.md#a27-10-petitions)
@@ -1287,7 +1364,7 @@ _Every morning the people come to the hall with their petitions: a boundary, a d
 _Zal listens to all of it. He listens the way the Simurgh listened from her peak: patiently, and to everything._  
 **Zal**: She never decided anything in a hurry. You could see her thinking for three days about one fish.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): a fair judge hears both sides  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): a fair judge hears both sides  
 > _Two neighbours disagree about a goat and some washing. What makes a judge fair?_  
 > - ✅ Hearing both sides before deciding. → Yes. A fair judge listens to everyone first, and that is how Zal sorts the goat from the washing.
 > - Siding with the richer one. → That would be unfair. A fair judge hears both sides first.
@@ -1314,7 +1391,7 @@ _The old servant stands at the door every morning, to see the young master hear 
 
 _The seasons go round. Zal grows wiser, and stronger, and his name goes out across the land like a good smell from a kitchen._  
 
-> **Lesson** (science, 1-ESS1-2, ask): daylight changes through the year because of Earth’s tilt  
+> **Lesson** (science, 5-ESS1-2, ask): daylight changes through the year because of Earth’s tilt  
 > _As the seasons go round, summer days in Iran are longer than winter days. What causes that?_  
 > - ✅ Earth’s tilt, as it travels round the Sun. → Yes. Tilted towards the Sun, a place gets longer days. Tilted away, it gets shorter ones.
 > - The Sun gets closer in summer. → A common idea, but no. The cause is Earth’s tilt, not its distance from the Sun.
@@ -1341,7 +1418,7 @@ _Your Nubbin, who has also grown, sideways, agrees that travel is a good idea, i
 _Zal travels with a long train, and pitches his tents outside Kabul, by the river. The king of Kabul comes out to meet him._  
 _Mehrab comes from the line of Zahhak, a cruel old king from long ago. Mehrab himself is wise and fair._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): Kabul is the capital of Afghanistan, on the Kabul River  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): Kabul is the capital of Afghanistan, on the Kabul River  
 > _Kabul is a real city, beside the Kabul River in a valley among mountains. It is the capital of which country today?_  
 > - ✅ Afghanistan. → Yes. Kabul is the capital of Afghanistan, where a form of Persian called Dari is widely spoken.
 > - Iran. → Not Iran. Iran’s capital is Tehran. Kabul is the capital of Afghanistan.
@@ -1394,7 +1471,7 @@ _Mehrab is there with his wife, Queen Sindokht, and their daughter Rudaba. He op
 **Sindokht**: Sit down, messenger. Have something to eat.  
 **Sindokht**: Your little one has already started, I see.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): hosts welcome guests with food; mehman means guest  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): hosts welcome guests with food; mehman means guest  
 > _In Persian a guest is a mehman, and hosts often offer food first. Why do hosts offer food to guests?_  
 > - ✅ To show care and make them welcome. → Yes. Food says “we are glad you came”, and many cultures share that custom.
 > - To make guests leave sooner. → Quite the opposite: it is a way of making them welcome.
@@ -1479,7 +1556,7 @@ _You tell him about Rudaba. He doesn’t sleep at all._
 _In the morning, across the river from Zal’s tents, there is a rose garden. Rudaba’s maids are in it, in their best clothes._  
 _They pick roses and put them in their hair, and throw petals in the river to see which way they float._  
 
-> **Lesson** (science, 2-LS2-2, ask): bees carry pollen from flower to flower  
+> **Lesson** (science, 3-LS1-1, ask): bees carry pollen from flower to flower  
 > _A rose garden hums with bees. When a bee visits one rose and then another, what does it carry between them?_  
 > - ✅ Pollen. → Yes. Pollen carried between flowers helps them make seeds. That is pollination.
 > - Water. → Not water. A bee carries pollen on its body from flower to flower, which helps flowers make seeds.
@@ -1497,7 +1574,7 @@ _He shoots one arrow across the river, and it lands among the roses._
 
 **Zal**: Go across and fetch it. And take your time.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract distances: 48 minus 30  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtract distances: 48 minus 30  
 > _The river is 30 metres wide, and Zal’s arrow flew 48 metres. How far past the far bank did it land?_  
 > - ✅ 18 metres. → Yes. 48 take away 30 is 18.
 > - 78 metres. → That adds the two. We want the difference: 48 take away 30 is 18.
@@ -1539,7 +1616,7 @@ _This goes on for some time. The page is smiling all the way back across the riv
 
 **Zal**: Why are you smiling? What did they say?  
 **Zal**: Tell me every word.  
-_The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll wait._  
+_The page tells him. Zal sends you straight back across with pearls and gold for the maids, so they’ll keep his secret and carry his messages._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): pride in others versus boasting  
 > _The page is proud of Zal, and the maids are proud of Rudaba. When is pride kind, and when does it turn into boasting?_  
@@ -1583,7 +1660,7 @@ _Back in the family’s rooms, the maids tell Rudaba everything. She takes a who
 
 #### `reader:a27-12-complete` · [main](main.md#a27-12-complete)
 
-**Rudaba**: You said he feeds everyone before himself. And now they say he shoots like a king.  
+**Rudaba**: You told me what he is really like. Now my maids say he shoots like a king.  
 **Rudaba**: Which is he?  
 **You**: Both.  
 **Rudaba**: Good. I would hate to have to choose.  
@@ -1632,7 +1709,7 @@ _She is like a cypress with the full moon on it. Zal stops walking._
 
 **Zal**: Heaven bless you for waiting. Only, you are up there, and I am down here.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract a height from a rope length  
+> **Lesson** (maths, 4.MD.A.2, ask): subtract a height from a rope length  
 > _The roof is 5 metres up, and Zal’s rope is 8 metres long. How much rope is left over once it reaches the roof?_  
 > - ✅ 3 metres. → Yes. 8 take away 5 is 3.
 > - 13 metres. → That adds. We want what is left over: 8 take away 5 is 3.
@@ -1871,7 +1948,8 @@ _Then worse news comes on a fast horse: the Shah is angry, and has ordered Sam t
 _Sindokht gets the whole story out of her daughter in a quarter of an hour. Mehrab comes in, hears it, and goes grey._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): a quarter of an hour is 15 minutes  
-> _Sindokht got the whole story in a quarter of an hour. How many minutes is a quarter of an hour?_  
+> _Sindokht got the whole story in a quarter of an hour. An hour has 60 minutes._  
+> _How many minutes is a quarter of it?_  
 > - ✅ 15 minutes. → Yes. An hour is 60 minutes, and a quarter of 60 is 15.
 > - 30 minutes. → That is half an hour. A quarter is half of that: 15 minutes.
 > - 45 minutes. → That is three quarters of an hour. One quarter is 15 minutes.
@@ -1904,7 +1982,7 @@ _She has herself announced to Sam as an envoy from Kabul, and has all of it laid
 _Sam takes her hand and swears. Then she tells him: she is Mehrab’s wife, and Rudaba’s mother, and of Zahhak’s line._  
 **Sindokht**: Punish the wicked if you must. But spare the innocent, or you will turn day into night.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: judge people by their own choices, not their family history  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness: judge people by their own choices, not their family history  
 > _Rudaba comes from Zahhak’s family line, but she has done nothing wrong. Should people be judged by their family history?_  
 > - ✅ No. By their own choices. → Yes. Each person is responsible for their own actions, not for what their ancestors did.
 > - Yes. Families are all alike. → Families are not all alike. Fairness means judging a person by their own choices.
@@ -1942,7 +2020,7 @@ _Sindokht rides home with her face shining, like the moon coming out from behind
 _Sam writes to the Shah: a letter only a sorry man could write. Zal carries it to court himself._  
 _Your Nubbin rides home on an elephant, by its own arrangement, and has to be coaxed down with a pomegranate._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): Shab-e Yalda: the longest night of the year is celebrated with pomegranates  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): Shab-e Yalda: the longest night of the year is celebrated with pomegranates  
 > _Pomegranates have grown in Iran for thousands of years. On Yalda, the longest night of the year, families gather with pomegranates and poetry._  
 > _Which night is the longest in the northern hemisphere?_  
 > - ✅ The winter solstice, around 21 December. → Yes. Yalda marks the winter solstice, when the days begin to grow longer again, so it is a night of hope.
@@ -1975,7 +2053,7 @@ _The mobeds sit in a circle, with Zal in the middle. You and your Nubbin are all
 **The Mobed**: Thirty riders pass the king. Look again: one is missing.  
 **The Mobed**: Look again: all thirty are back.  
 
-> **Lesson** (science, 1-ESS1-1, ask): the moon’s cycle is about 29 and a half days; mah means moon and month  
+> **Lesson** (science, 5-ESS1-2, ask): the moon’s cycle is about 29 and a half days; mah means moon and month  
 > _In Persian, the word mah means both “moon” and “month”. The Moon goes from full to full in about 29 and a half days._  
 > _Why would one word do both jobs?_  
 > - ✅ Months were first counted by the Moon’s cycle. → Yes. Long ago, people counted a month from one new moon to the next, and the old word for moon also named the month.
@@ -2064,7 +2142,7 @@ _The champion he beat comes over, rubbing his shoulder, and asks him to teach hi
 **Manuchehr**: Enough. I’m convinced.  
 **Manuchehr**: The young man has brains and arms both, and he answers riddles faster than my mobeds ask them.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtract to compare: 85 and 70 metres  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtract to compare: 85 and 70 metres  
 > _Zal’s arrow flew 85 metres, and the best champion’s flew 70 metres. How much further did Zal’s arrow go?_  
 > - ✅ 15 metres. → Yes. 85 take away 70 is 15.
 > - 155 metres. → That adds the two. We want the difference: 85 take away 70 is 15.
@@ -2076,7 +2154,7 @@ _The champion he beat comes over, rubbing his shoulder, and asks him to teach hi
 
 _The Shah writes to Sam himself: he has seen the young man, and finds him worthy, and sends him home satisfied._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): the Persian Royal Road used relay riders to carry messages fast  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): the Persian Royal Road used relay riders to carry messages fast  
 > _Long ago, Persian kings built a Royal Road with stations where riders swapped tired horses for fresh ones. Why did that make letters travel faster?_  
 > - ✅ A fresh horse could go faster, so the message kept moving. → Yes. Each rider only rode a short stretch on a fresh horse, and the message never had to stop and rest.
 > - The horses were magic. → No magic: the speed came from the relay system of fresh horses and riders.
@@ -2136,19 +2214,19 @@ _Sam looks at Rudaba for a long time. Then he turns to Zal and shakes his head, 
 
 _Zal and Rudaba sit together on one throne, while Mehrab reads out the list of gifts. The list takes most of an afternoon._  
 _Then the feast. It goes on for seven days, and nobody gets tired of it, except possibly the cooks._  
-
-> **Lesson** (maths, 3.OA.A.3, ask): multiply: 7 days of 40 loaves  
-> _The cooks bake 40 loaves every day of the seven-day feast. How many loaves do they bake in all?_  
-> - ✅ 280 loaves. → Yes. 7 groups of 40 make 280.
-> - 47 loaves. → That adds 7 and 40. There are 7 days of 40 loaves, so multiply: 280.
-> - 2,800 loaves. → Check the place value: 7 times 4 is 28, so 7 times 40 is 280.
-> _For grown-ups: Multiplied 7 days by 40 loaves to make 280 loaves._
-
 _On the first night the maids find you a seat near the front, because the messenger ought to be near the front._  
 **Rudaba**: You carried every word. Without you, half of them would have fallen in the river.  
 **Zal**: My nestmate. My messenger.  
 **Zal**: What did you bring us? You’re allowed to have brought nothing.  
 _Your Nubbin has been told the feast lasts seven days. It is not pacing itself._  
+
+> **Lesson** (literacy, L.3.4, ask): multiple-meaning words: pacing yourself  
+> _Your Nubbin is “not pacing itself”. What does pacing yourself mean here?_  
+> - ✅ Going slowly enough to last to the end. → Yes. The feast lasts seven days, and your Nubbin is eating as if it ends tonight.
+> - Walking up and down. → That is another meaning of pacing. Here it means going slowly enough to last.
+> - Eating nothing. → The opposite. Your Nubbin is eating as fast as it can.
+> _For grown-ups: Worked out the meaning of pacing yourself from the feast scene._
+
 
 **Choices**
 
@@ -2165,22 +2243,21 @@ _Your Nubbin has been told the feast lasts seven days. It is not pacing itself._
 
 _Sindokht leans across and fills your plate, and then your Nubbin’s, and then your Nubbin’s again._  
 
-> **Lesson** (science, 4-LS1-1, ask): down feathers trap air and keep young birds warm  
-> _Zal held a twist of soft chick-down. Down is a layer of tiny, fluffy feathers._  
-> _Why does down keep a chick warm?_  
-> - ✅ It traps air, which holds in body heat. → Yes. Thousands of tiny strands trap air, and trapped air stops heat escaping. That is why people stuff coats with down.
-> - It makes its own heat. → Down does not make heat. It traps the air that holds in the chick’s body heat.
-> - It soaks up the Sun. → Not quite. Down traps air, which holds in the chick’s own body heat.
-> _For grown-ups: Learned that down keeps young birds warm because it traps air that holds in body heat._
+> **Lesson** (maths, 3.NF.A.1, ask): unit fractions: three of four equal parts  
+> _Sindokht cuts a pomegranate into 4 equal parts for you to share. Your Nubbin eats 3 before you sit down._  
+> _What fraction did it eat?_  
+> - ✅ 3/4 → Yes. Three of the four equal parts. You get the last quarter, if you’re quick.
+> - 1/4 → That is what is left for you. Your Nubbin ate three of the four parts.
+> _For grown-ups: Named three of four equal parts as the fraction 3/4._
 
 
 #### `reader:a27-16-complete` · [main](main.md#a27-16-complete)
 
-_After a month in Kabul, they all go home to Sistan. Sam goes back to the wars, and leaves the land in Zal’s hands._  
-_Zal sits on his father’s throne and rules with patience and fairness, the way he learned it on the peak._  
-_Rudaba sits beside him. He sets a crown of gold on her black hair, and she sets her hand on his white head._  
+_After a month in Kabul, they all go home to Sistan. This time Zal brings a queen._  
+**Rudaba**: And a proper rope. He wouldn’t use the other kind.  
+_In his father’s hall, Zal sets a crown of gold on her black hair, and she sets her hand on his white head._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): customs are kept alive by families passing them on  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): customs are kept alive by families passing them on  
 > _In Iran today, many weddings still have a lovely decorated spread called a sofreh, with flowers, candles and sweets._  
 > _How do customs like this last for hundreds of years?_  
 > - ✅ Families pass them on to the next generation. → Yes. Each generation learns the custom from the one before, and adds a little of its own.
@@ -2239,7 +2316,7 @@ _Zal goes straight to the brazier in the middle of the hall. He doesn’t stop t
 _He puts the feather on the fire himself, with a steady hand._  
 _It doesn’t burn like a feather. It burns slowly, like a candle, with a smell of sandalwood._  
 
-> **Lesson** (science, 2-PS1-4, ask): burning is a change that cannot be reversed; melting can  
+> **Lesson** (science, ask): burning is a change that cannot be reversed; melting can  
 > _Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?_  
 > - ✅ Melting ice. → Yes. Melted ice can be frozen again. Burning makes new things, such as ash and smoke, and cannot be undone.
 > - Burning wood. → No. Burnt wood cannot become wood again. Melting ice can be refrozen.
@@ -2262,7 +2339,7 @@ _Then he turns round and holds it out to you._
 _You take the feather and lay it on the fire, and sit down beside him on the step. He leans on your shoulder._  
 _It doesn’t burn like a feather. It burns slowly, like a candle, with a smell of sandalwood._  
 
-> **Lesson** (science, 2-PS1-4, ask): burning is a change that cannot be reversed; melting can  
+> **Lesson** (science, ask): burning is a change that cannot be reversed; melting can  
 > _Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?_  
 > - ✅ Melting ice. → Yes. Melted ice can be frozen again. Burning makes new things, such as ash and smoke, and cannot be undone.
 > - Burning wood. → No. Burnt wood cannot become wood again. Melting ice can be refrozen.
@@ -2281,7 +2358,7 @@ _Zal goes to the brazier in the middle of the hall, and looks at the feather for
 _He lays the feather on the fire. Your Nubbin stands beside him, holding on to his boot._  
 _It doesn’t burn like a feather. It burns slowly, like a candle, with a smell of sandalwood._  
 
-> **Lesson** (science, 2-PS1-4, ask): burning is a change that cannot be reversed; melting can  
+> **Lesson** (science, ask): burning is a change that cannot be reversed; melting can  
 > _Once the feather has burned, it can never be a feather again. Which change can be reversed: melting ice, or burning wood?_  
 > - ✅ Melting ice. → Yes. Melted ice can be frozen again. Burning makes new things, such as ash and smoke, and cannot be undone.
 > - Burning wood. → No. Burnt wood cannot become wood again. Melting ice can be refrozen.
@@ -2294,7 +2371,7 @@ _Outside, all at once, the light goes strange._
 
 _A sound like a great wind fills the air. Every shutter in the house rattles._  
 
-> **Lesson** (literacy, RL.1.4, ask): onomatopoeia: words that sound like their meaning  
+> **Lesson** (literacy, L.3.4, ask): onomatopoeia: words that sound like their meaning  
 > _Shutters rattle in the wind. Which of these words sounds like the noise it names?_  
 > - ✅ Rattle. → Yes. Rattle sounds like what it means. Words like that are called onomatopoeia.
 > - Shutter. → Shutter names the thing, but it does not sound like a noise. Rattle does.
@@ -2366,6 +2443,8 @@ _Zal comes out into the courtyard with his son in his arms, wrapped up tight, an
 **Zal**: You came the moment I called, and now he’s here.  
 _The Simurgh looks at the baby, and the baby looks at the Simurgh, and neither of them is at all afraid._  
 _The last thing you see on the page is Zal in the courtyard, laughing, with the baby held up to the sky._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin shares its breakfast with it, smallest first._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee._  
 _The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
@@ -2391,6 +2470,8 @@ _Zal comes out into the courtyard with his son in his arms, and sits down on the
 _He doesn’t need to. You sit there together, all three of you, and let the morning come._  
 _Days later, far away in his camp, Sam opens a parcel and finds a little silk doll with his grandson’s face._  
 _The last thing you see on the page is Sam, the great champion, holding the doll in both hands and weeping for joy._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin shares its breakfast with it, smallest first._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee._  
 _The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  
@@ -2417,6 +2498,8 @@ _She looks at the baby for a long time. Then she turns her great gold eye on you
 **The Simurgh**: You were right to give him the night.  
 _She spreads her wings, which fill the whole sky over Sistan, and goes up._  
 _The last thing you see on the page is the Simurgh circling over the house, once and again, before she turns for home._  
+_Over the courtyard wall, one small beak appears. The smallest chick has followed her all the way, and waits at the back, politely._  
+_Your Nubbin shares its breakfast with it, smallest first._  
 _One feather has drifted down onto the step: grey and gold, long as your arm. The Simurgh doesn’t take it back._  
 _You are back in the Grove, the atlas on your knee._  
 _The feather has come too, and your Nubbin, fed once already, is asking for second breakfast._  

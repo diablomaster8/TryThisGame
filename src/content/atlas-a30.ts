@@ -56,8 +56,7 @@
  *      older tellings; the rabbi gives the outline's adapted line in his own words at #4.
  *   2. Jewish Encyclopedia 1904, "Golem": "Once the rabbi forgot to extract the Shem, and feared
  *      that the golem would desecrate the Sabbath." Narration, a30-10-psalm#5.
- *   3. Jewish Encyclopedia 1904, "Golem" (of the golem of Chełm): "Finally he extracted the Shem
- *      from the forehead of his golem, which returned to dust." The rabbi, a30-13-bench#6.
+ *   3. (Withdrawn: the Chełm ending is now the rabbi's own plain words, a30-13-bench#6.)
  *   4. Jewish Encyclopedia 1904, "Golem", a fragment: "…its remains are said to be still among the
  *      débris in the attic of the synagogue." Narration, a30-12-stars#8 (leading ellipsis marks
  *      the excerpt).
@@ -145,8 +144,6 @@ const BO = say('a30-boy');
 const LIFT_SHEM = '“The Shem was written on a piece of paper and inserted either in the mouth or in the forehead of the golem.”';
 /** Jewish Encyclopedia, vol. 6 (1904), "Golem". */
 const LIFT_FORGOT = '“Once the rabbi forgot to extract the Shem, and feared that the golem would desecrate the Sabbath.”';
-/** Jewish Encyclopedia, vol. 6 (1904), "Golem": the golem of Chełm. */
-const LIFT_CHELM = '“Finally he extracted the Shem from the forehead of his golem, which returned to dust.”';
 /** Jewish Encyclopedia, vol. 6 (1904), "Golem", a fragment. */
 const LIFT_ATTIC = '“…its remains are said to be still among the débris in the attic of the synagogue.”';
 /** Psalm 139:16, JPS 1917, a fragment. */
@@ -224,6 +221,9 @@ export const ATLAS_A30: Quest[] = [
           lines: [
             DV('Avram, bring them in, you’re letting the warm out. Water first, lodger. Then you can be a guest.'),
             RI('I’ll show them the well! I know the well better than anyone.'),
+            RI('That’s Shmuel under the table. He’s five, and he asks questions.'),
+            RI('That’s Mirele on the stairs. She’s three, and she answers them.'),
+            N('Shmuel waves from under the table. Mirele waves back with a spoon.'),
           ],
         },
       },
@@ -474,6 +474,9 @@ export const ATLAS_A30: Quest[] = [
         N('The rabbi passes on his way to the study house, and nods to Avram. He looks as if he has not slept at all.'),
         LO('Good morning. It is a good morning. They all are, until they aren’t.', 'think'),
         DV('He didn’t sleep. You can always tell. He gets philosophical before breakfast.'),
+        N('Your Nubbin comes out of the house wearing the rabbi’s coat from yesterday. Most of it trails behind.'),
+        DV('He leaves coats on pegs the way a hen leaves eggs. That’s the third this month.'),
+        LO('Ah. I wondered where I had got to.', 'happy'),
       ],
     },
     rewards: [],
@@ -810,6 +813,8 @@ export const ATLAS_A30: Quest[] = [
             N('Water runs over the rim, across the kitchen, under the door, and out into the lane in a bright sheet.'),
             N('Yossele goes on fetching, steady as a mill wheel, through his own flood.'),
             N('You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all, and very sincere.'),
+            N('A hen floats past the door on a cabbage, with the face of someone who was promised dry land.'),
+            N('Your Nubbin gives up bailing, climbs into the bread trough, and sails.'),
             DV('Oh, no. No, no, no. Yossele! That’s enough! Enough!', 'shock'),
             N('He doesn’t stop. She isn’t the one who made him.'),
             N('Then the rabbi is at the door with his sleeves wet to the elbow, and says one word. Yossele sets the bucket down.'),
@@ -891,7 +896,7 @@ export const ATLAS_A30: Quest[] = [
     notes:
       'SIGNATURE CHOICE (a30-07-order): a30-order = safe | help | sit, Yossele’s standing order. It pays off in A30-9 ' +
       '(a30-09-order-*), A30-10 (a30-10-grow-*) and A30-13 (a30-13-order-*, the tile and the last image). The rabbi’s word ' +
-      'that stops Yossele in a30-07-flood#7 is never given: show only his mouth moving and the bucket going down. COMEDY: ' +
+      'that stops Yossele in a30-07-flood#9 is never given: show only his mouth moving and the bucket going down. COMEDY: ' +
       'the flood is the page’s one big laugh; keep it bright and quick. Nobody is hurt; onions float. REWARD: the apron, ' +
       'one-time, at a30-07-flood-done.',
   },
@@ -1216,6 +1221,7 @@ export const ATLAS_A30: Quest[] = [
             DV('Tomorrow. We’ll talk about Yossele tomorrow night. Tonight is the Sabbath, and we rest, even from that.', 'soft'),
             N('Shmuel thinks about this, and nods, and eats his bread.'),
             N('Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all.'),
+            N('It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does.'),
           ],
           choices: [
             {
@@ -1365,7 +1371,7 @@ export const ATLAS_A30: Quest[] = [
             LO('But a thing that only obeys has no brakes of its own. All its brakes are in your hands. And hands forget.', 'sad'),
             LO('I am not the first, you know. In Chełm, they say, a rabbi made one before me, and it grew, and kept growing.'),
             LO('He was afraid it would fill the world. So:'),
-            LO(LIFT_CHELM),
+            LO('In the end he rubbed the word from its forehead, and it went back to dust.'),
             LO('He had more sense than me. He did it before anyone had to run.'),
           ],
           choices: [
@@ -1432,12 +1438,8 @@ export const ATLAS_A30: Quest[] = [
       },
     ],
     sets: { 'a30-13': true, 'a30-done': true },
-    childLines: {
-      'a30-13-bench#6': 'So he rubbed out the word, very gently, and his clay man lay down and went to sleep for good.',
-    },
     notes:
-      'LIFTED TEXT: a30-13-bench#6 (Jewish Encyclopedia 1904, “Golem”, of the golem of Chełm), in the rabbi’s mouth as the ' +
-      'older story; #4–5 introduce it in our words. ' +
+      'a30-13-bench#6 is the rabbi’s plain-spoken retelling of the Chełm legend in our words (no longer a lift). ' +
       'ORDER PAYOFF (a30-order): play ATLAS_A30_VARIANTS a30-13-order-safe | a30-13-order-help | a30-13-order-sit after ' +
       'a30-13-bench, before step 2 (what the rabbi says of what you chose). With sit, also play a30-13-tile-paw after ' +
       'a30-13-tile (the pawprint). The complete scene shown, a30-13-complete, is for safe (the barred shutter). For help ' +

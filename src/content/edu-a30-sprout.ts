@@ -245,6 +245,8 @@ const A1: EduQuest = quest(
         DV('Come in, come in! Water first, and then you can rest.'),
         RI('I will show you the well! I know the well best of all!', 'happy'),
         N('Rivka hops from one foot to the other. She cannot wait.'),
+        RI('That is Shmuel, my little brother. He is five. He asks questions.'),
+        N('Shmuel waves from under the table.'),
       ],
       [
         ask(
@@ -607,6 +609,9 @@ const A3: EduQuest = quest(
         N('Hannah’s oven is lit, and the lane smells of bread.'),
         LO('Good morning. It is a good morning.', 'soft'),
         DV('He did not sleep. He always gets thoughtful before breakfast.'),
+        N('Your Nubbin comes out wearing the rabbi’s coat. Most of it trails behind.'),
+        DV('He leaves his coat on a peg. Every week!'),
+        LO('Ah! I wondered where I had got to.', 'happy'),
       ],
       [
         ask(
@@ -1093,6 +1098,7 @@ const A7: EduQuest = quest(
         N('He fills the barrel. Then he fills it again, because nobody said stop.'),
         N('Water runs over the rim, across the kitchen, and out into the lane.'),
         N('You bail with a pan. Your Nubbin bails with its cheeks, which does not help at all.'),
+        N('A hen floats past on a cabbage. Your Nubbin climbs into the bread trough and sails.'),
         DV('Yossele! That is enough!', 'shock'),
         N('He does not stop. She is not the one who made him.'),
         N('Then the rabbi says, “Stop,” and Yossele puts the bucket down.'),

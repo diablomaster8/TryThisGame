@@ -129,11 +129,11 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A23: Remember Who You Are | [main.md](atlas/A23/main.md) (1692) | [sprout.md](atlas/A23/sprout.md) (1764) | [reader.md](atlas/A23/reader.md) (2185) |
 | Atlas, page A24: The Law of the Jungle | [main.md](atlas/A24/main.md) (1943) | [sprout.md](atlas/A24/sprout.md) (2595) | [reader.md](atlas/A24/reader.md) (3062) |
 | Atlas, page A25: The Nothing | [main.md](atlas/A25/main.md) (1729) |  | [reader.md](atlas/A25/reader.md) (1678) |
-| Atlas, page A26: The Wall of Uruk | [main.md](atlas/A26/main.md) (1723) | [sprout.md](atlas/A26/sprout.md) (2190) | [reader.md](atlas/A26/reader.md) (2273) |
-| Atlas, page A27: The White-Haired Prince | [main.md](atlas/A27/main.md) (1625) | [sprout.md](atlas/A27/sprout.md) (2128) | [reader.md](atlas/A27/reader.md) (2475) |
-| Atlas, page A28: The Box of Stories | [main.md](atlas/A28/main.md) (1248) | [sprout.md](atlas/A28/sprout.md) (1739) | [reader.md](atlas/A28/reader.md) (1893) |
-| Atlas, page A29: The Honmoon | [main.md](atlas/A29/main.md) (1390) |  | [reader.md](atlas/A29/reader.md) (2055) |
-| Atlas, page A30: The Word on the Brow | [main.md](atlas/A30/main.md) (1091) | [sprout.md](atlas/A30/sprout.md) (1402) | [reader.md](atlas/A30/reader.md) (1457) |
+| Atlas, page A26: The Wall of Uruk | [main.md](atlas/A26/main.md) (1724) | [sprout.md](atlas/A26/sprout.md) (2192) | [reader.md](atlas/A26/reader.md) (2288) |
+| Atlas, page A27: The White-Haired Prince | [main.md](atlas/A27/main.md) (1706) | [sprout.md](atlas/A27/sprout.md) (2211) | [reader.md](atlas/A27/reader.md) (2558) |
+| Atlas, page A28: The Box of Stories | [main.md](atlas/A28/main.md) (1258) | [sprout.md](atlas/A28/sprout.md) (1750) | [reader.md](atlas/A28/reader.md) (1927) |
+| Atlas, page A29: The Honmoon | [main.md](atlas/A29/main.md) (1415) |  | [reader.md](atlas/A29/reader.md) (2087) |
+| Atlas, page A30: The Word on the Brow | [main.md](atlas/A30/main.md) (1096) | [sprout.md](atlas/A30/sprout.md) (1410) | [reader.md](atlas/A30/reader.md) (1466) |
 | Atlas, page A31: The Hero Twins | [main.md](atlas/A31/main.md) (1643) | [sprout.md](atlas/A31/sprout.md) (1879) | [reader.md](atlas/A31/reader.md) (1944) |
 
 ## Pixel's Arcade
