@@ -207,16 +207,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A25/reader.md` | [review-2026-10-25](review-2026-10-25.md) | 0 |
 | `atlas/A26/main.md` | [review-2026-10-25](review-2026-10-25.md) | 0 |
 | `atlas/A26/sprout.md` | [review-2026-10-25](review-2026-10-25.md) | 0 |
-| `atlas/A26/reader.md` | never | 0 |
-| `atlas/A27/main.md` | never | 0 |
-| `atlas/A27/sprout.md` | never | 0 |
-| `atlas/A27/reader.md` | never | 0 |
-| `atlas/A28/main.md` | never | 0 |
-| `atlas/A28/sprout.md` | never | 0 |
-| `atlas/A28/reader.md` | never | 0 |
-| `atlas/A29/main.md` | never | 0 |
-| `atlas/A29/reader.md` | never | 0 |
-| `atlas/A30/main.md` | never | 0 |
+| `atlas/A26/reader.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 7 |
+| `atlas/A27/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 5 |
+| `atlas/A27/sprout.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 4 |
+| `atlas/A27/reader.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 4 |
+| `atlas/A28/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 2 |
+| `atlas/A28/sprout.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 4 |
+| `atlas/A28/reader.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 3 |
+| `atlas/A29/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 3 |
+| `atlas/A29/reader.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 0 |
+| `atlas/A30/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 5 |
 | `atlas/A30/sprout.md` | never | 0 |
 | `atlas/A30/reader.md` | never | 0 |
 | `atlas/A31/main.md` | never | 0 |
@@ -1073,6 +1073,62 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261025-819 | atlas/A24/sprout.md, atlas/A25/reader.md | cross-story | High | child-read | Add the comfort line after three deaths, and untangle Gmork's jaws | fixed | 2026-10-25 |
 | SR-20261025-820 | atlas/A23/reader.md, atlas/A24/reader.md, atlas/A25/reader.md, atlas/A23/sprout.md, atlas/A24/sprout.md, atlas/A26/sprout.md | cross-story | Medium | child-read | Retag off-band standards, using only codes from EDU-STYLE's approved list | fixed | 2026-10-25 |
 | SR-20261025-821 | atlas/A23/reader.md, atlas/A23/sprout.md, atlas/A24/reader.md, atlas/A25/reader.md, atlas/A26/sprout.md | cross-story | Medium | continuity | Seven lessons cite lines, names or numbers their scene never says; put each in the scene, with a laugh where it fits | fixed | 2026-10-25 |
+| SR-20261025-822 | atlas/A27/main.md, atlas/A27/reader.md | a27-12-complete | Critical | continuity | Rudaba quotes a praise only one of the three a27-11-praise choices gives; make the callback true for every player | open | 2026-10-25-2 |
+| SR-20261025-823 | atlas/A29/main.md, atlas/A29/reader.md | a29-16-complete (and -saw, -away) | High | humour | Pay off Bobby's two set-ups at the end: the Nubbin mug (A29-2) and Celine who "doesn't like me" (A29-4) | open | 2026-10-25-2 |
+| SR-20261025-824 | atlas/A27/main.md | a27-05-words, a27-09-oath, a27-09-road, a27-09-complete | High | compelling | The word you teach the youth ("friend", "home" or "sorry") changes nothing; let each one come back the day Zal meets his father | open | 2026-10-25-2 |
+| SR-20261025-825 | atlas/A27/main.md, atlas/A27/sprout.md, atlas/A27/reader.md | a27-17-complete (and -sat, -night); sprout a27-08-complete | High | humour | The smallest chick is set up four times (sits down hard, last to the figs, smallest first, stops eating) and never paid off; bring it to the birth | open | 2026-10-25-2 |
+| SR-20261025-826 | atlas/A28/main.md, atlas/A28/sprout.md, atlas/A28/reader.md | a28-07-complete, a28-12-return, reader a28-12-return-done | High | humour | The "Nubbin sticks to everything" gag stops just where it is funniest: on a sticky shawl and on Nana Ama's stool | open | 2026-10-25-2 |
+| SR-20261025-827 | atlas/A30/main.md | a30-07-flood | High | humour | The flood is the page's big laugh but escalates only once; give it two more beats before Dvora shouts | open | 2026-10-25-2 |
+| SR-20261025-828 | atlas/A30/main.md | a30-01-page-done | High | follow | Shmuel and Mirele speak without ever being introduced; let Rivka introduce them with a joke that sets up Shmuel's questions | open | 2026-10-25-2 |
+| SR-20261025-829 | atlas/A28/main.md, atlas/A28/reader.md, atlas/A28/sprout.md | a28-04-stopper-done (pays off in a28-08-debt-wisp) | High | humour | Plant the Wisp variant's "last of the swarm" gourd: Ananse pockets the late hornet as a spare | open | 2026-10-25-2 |
+| SR-20261025-830 | atlas/A29/main.md | a29-14-complete | High | humour | Bobby's opening rule, "Never touch the girls' cases", comes back as he wakes up in the stadium | open | 2026-10-25-2 |
+| SR-20261025-831 | atlas/A27/main.md | a27-09-complete | High | humour | The nurse who called the baby "a gift" gets the last word when he comes home | open | 2026-10-25-2 |
+| SR-20261025-832 | atlas/A26/reader.md | a26-15-gate | High | humour | Give the scorpion-man's silent wife her line from the epic, as a wife correcting her husband | open | 2026-10-25-2 |
+| SR-20261025-833 | atlas/A27/main.md | a27-13-roof | High | humour | Let Rudaba answer Zal's grand old line, so the lifted sentence becomes his character and their first joke as a couple | open | 2026-10-25-2 |
+| SR-20261025-834 | atlas/A28/main.md, atlas/A28/reader.md | a28-08-debt-wisp | High | humour | One glove, eight feet: let Ananse notice the other seven | open | 2026-10-25-2 |
+| SR-20261025-835 | atlas/A26/reader.md | a26-06-cups | High | humour | Gilgamesh "forgets to give it back"; let the Nubbin notice, wordlessly, and do the maths for the lesson | open | 2026-10-25-2 |
+| SR-20261025-836 | atlas/A28/main.md, atlas/A28/sprout.md, atlas/A28/reader.md | a28-12-last-wisp (sprout also a28-12-last-driven) | High | follow | Say what the spider "threw in for nothing": the thief got a story of his own | open | 2026-10-25-2 |
+| SR-20261025-837 | atlas/A26/reader.md | a26-18-wall | High | continuity | The area lesson contradicts its own scene: Gilgamesh says each orchard is a square mile, the lesson says 2 by 3 | open | 2026-10-25-2 |
+| SR-20261025-838 | atlas/A27/reader.md | a27-09-oath (pays off in a27-14-letter, -sat, -night) | High | continuity | Zal's letter cites an oath the reader band cut; put Sam's promise back | open | 2026-10-25-2 |
+| SR-20261025-839 | atlas/A27/main.md | a27-17-complete (and -sat, -night) | High | compelling | The old servant who carried baby Zal up the mountain should carry Zal's son | open | 2026-10-25-2 |
+| SR-20261025-840 | atlas/A27/sprout.md | a27-17-fire-sat (and its step text a27-17-s2) | High | theme | The child is shown laying a feather on the fire, then taught that fire is only for grown-ups | open | 2026-10-25-2 |
+| SR-20261025-841 | atlas/A28/sprout.md, atlas/A28/reader.md | a28-11-step | High | follow | Nothing says Anancy is Ananse, so a child meets "a new spider" in Jamaica | open | 2026-10-25-2 |
+| SR-20261025-842 | atlas/A28/sprout.md, atlas/A27/sprout.md | a28-07-court-done, a28-10-funeral-done, a28-02-road-wisp, a28-10-complete, a28-11-gum; a27-06-complete, a27-14-letter-night | High | child-read | Sprout idioms and puns a 3 to 6 year old takes literally; replace each with a plain joke | open | 2026-10-25-2 |
+| SR-20261025-843 | atlas/A30/main.md | a30-03-complete | High | humour | The rabbi left his coat on the peg in A30-2; bring it back the morning after the frightening night | open | 2026-10-25-2 |
+| SR-20261025-844 | atlas/A29/main.md, atlas/A29/reader.md | a29-09-studio | Medium | humour | "Tell Bobby we said sorry about the studio" and the broken flower stand go nowhere; tape the bill to the keyboard | open | 2026-10-25-2 |
+| SR-20261025-845 | atlas/A29/main.md | a29-08-watch | Medium | humour | "Can you look normal?" is a great set-up with one weak payoff; escalate it | open | 2026-10-25-2 |
+| SR-20261025-846 | atlas/A29/main.md, atlas/A29/reader.md | a29-07-complete | Medium | continuity | "Of course you did" and the reader lesson both assume you read the note; in one branch only the Nubbin did | open | 2026-10-25-2 |
+| SR-20261025-847 | atlas/A27/main.md | a27-12-roses-done | Medium | humour | Zal, raised by a bird, shoots a water-bird and nobody notices | open | 2026-10-25-2 |
+| SR-20261025-848 | atlas/A27/main.md, atlas/A27/reader.md | a27-16-complete | Medium | pacing | A27-16 repeats A27-10's ending ("Sam goes back to the wars… patience and fairness") almost word for word | open | 2026-10-25-2 |
+| SR-20261025-849 | atlas/A27/main.md, atlas/A27/reader.md | a27-12-boasts-done | Medium | follow | Pearls "so they'll wait": wait for what? | open | 2026-10-25-2 |
+| SR-20261025-850 | atlas/A26/reader.md | a26-17-test-done | Medium | humour | "Your Nubbin guards them, mostly" is set up and never paid off | open | 2026-10-25-2 |
+| SR-20261025-851 | atlas/A26/reader.md | a26-05-bread (pays off in a26-07-gate) | Medium | follow | Enkidu greets you as "The water-carrier!" before anyone has called you that | open | 2026-10-25-2 |
+| SR-20261025-852 | atlas/A26/reader.md | a26-06-complete | Medium | continuity | The moon is "a thin silver curve" though Shamhat's days and the shepherds' camp have passed since the new moon | open | 2026-10-25-2 |
+| SR-20261025-853 | atlas/A27/sprout.md | a27-05-words | Medium | child-read | Read aloud, "the word for a friend is dust" sounds like English dust | open | 2026-10-25-2 |
+| SR-20261025-854 | atlas/A27/sprout.md | a27-06-mobeds | Medium | child-read | "Most animal parents stay" is untrue, and "Go away for ever" is bleak beside an abandoned baby | open | 2026-10-25-2 |
+| SR-20261025-855 | atlas/A27/sprout.md | a27-14-kabul | Medium | follow | "The Shah is cross" with no reason given | open | 2026-10-25-2 |
+| SR-20261025-856 | atlas/A27/reader.md | a27-10-banquet-done | Medium | humour | The "book of kings" lesson repeats A27-1; teach checkmate instead, on the Nubbin that ate three dishes | open | 2026-10-25-2 |
+| SR-20261025-857 | atlas/A27/reader.md | a27-16-feast-done | Medium | child-read | Feathers trapping air is taught a third time; the scene (Sindokht refilling the Nubbin's plate) begs for fractions | open | 2026-10-25-2 |
+| SR-20261025-858 | atlas/A28/sprout.md | a28-04-gourd | Medium | humour | "Your Nubbin brings half of one" is a good gag told flatly | open | 2026-10-25-2 |
+| SR-20261025-859 | atlas/A28/sprout.md | a28-10-dance-done | Medium | humour | Beans fly everywhere and the Nubbin is not in the joke | open | 2026-10-25-2 |
+| SR-20261025-860 | atlas/A28/sprout.md | a28-06-fairy-done | Medium | child-read | "Both of her hands are stuck. One hand. / Two hands." reads like a glitch | open | 2026-10-25-2 |
+| SR-20261025-861 | atlas/A28/reader.md | a28-05-web-done | Medium | humour | The Nubbin stuck on the thread is a lesson set-up with no comedy | open | 2026-10-25-2 |
+| SR-20261025-862 | atlas/A28/reader.md | a28-02-complete | Medium | follow | "That is why he promises so carefully, once he is out of earshot" confuses a 7 year old | open | 2026-10-25-2 |
+| SR-20261025-863 | atlas/A28/main.md | a28-02-road | Medium | follow | "And one of those, you have" doesn't say what Ananse means, so "A specialist" lands late | open | 2026-10-25-2 |
+| SR-20261025-864 | atlas/A30/main.md | a30-13-bench | Medium | character | Rabbi Loew recites a sentence from a 1904 encyclopedia, after saying he leaves the Name where it belongs | open | 2026-10-25-2 |
+| SR-20261025-865 | atlas/A30/main.md | a30-11-table | Medium | humour | The Sabbath table after "Is Yossele dead?" has no awkward relief | open | 2026-10-25-2 |
+| SR-20261025-866 | atlas/A28/main.md | a28-07-court | Nice | humour | The python's and leopard's grudges get only an elder "smiling at the floor" | open | 2026-10-25-2 |
+| SR-20261025-867 | atlas/A29/main.md | a29-10-complete | Nice | humour | One umbrella, one tiger | open | 2026-10-25-2 |
+| SR-20261025-868 | atlas/A28/sprout.md | a28-09-complete | Nice | continuity | "You keep the broken gourd" then "Two halves make one whole pot" | open | 2026-10-25-2 |
+| SR-20261025-869 | atlas/A28/reader.md | a28-10-dance-done | Nice | humour | Show the bald head, don't just tell it | open | 2026-10-25-2 |
+| SR-20261025-870 | atlas/A26/reader.md | a26-01-page-moss, a26-15-road | Nice | child-read | Moss's grandmother line muddles a child; one reader idiom | open | 2026-10-25-2 |
+| SR-20261025-871 | atlas/A27/main.md, atlas/A27/reader.md | a27-06-dream-done | Nice | follow | "Call the mobeds" before anyone has said what a mobed is | open | 2026-10-25-2 |
+| SR-20261025-872 | atlas/A27/reader.md | a27-04-night-done, a27-06-dream | Nice | pacing | The first half leans on L.4.5 simile lessons, and a27-04-night-done is one line plus a lesson | open | 2026-10-25-2 |
+| SR-20261025-873 | atlas/A26/reader.md, atlas/A27/reader.md, atlas/A28/reader.md, atlas/A29/reader.md, atlas/A27/sprout.md, atlas/A28/sprout.md | cross-story | High | theme | Retag off-band standards: K-2 codes across all four reader bands, grade-4 codes in two sprout bands, using only approved codes | open | 2026-10-25-2 |
+| SR-20261025-874 | atlas/A26/reader.md, atlas/A27/sprout.md, atlas/A27/reader.md, atlas/A28/reader.md, atlas/A29/reader.md | cross-story | High | pacing | Lessons that interrupt a grave beat or a punchline: move each one after the beat | open | 2026-10-25-2 |
+| SR-20261025-875 | atlas/A26/reader.md, atlas/A28/reader.md, atlas/A29/reader.md | cross-story | High | child-read | Lessons that ask for facts the scene never says: put each fact into the story | open | 2026-10-25-2 |
+| SR-20261025-876 | atlas/A29/reader.md, atlas/A28/reader.md, atlas/A27/sprout.md | cross-story | Medium | child-read | 26 lesson replies run over the band cap (A29 reader 22, A28 reader 3, A27 sprout 1); cut each to one fact and one reason | open | 2026-10-25-2 |
+| SR-20261025-877 | atlas/A27/reader.md, atlas/A28/sprout.md, atlas/A26/reader.md | cross-story | Medium | follow | Names used before the story introduces them | open | 2026-10-25-2 |
 
 ## Runs
 
@@ -1104,3 +1160,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-25 · fix pass on branch `fix/story-review-2026-10-25` · run 13's 60 recs: 60 fixed · -707 gives A21 a page-local `fern` speaker name-plated "Keeper Fern" (the script-book tool no longer lets a page's name-plate for a shared speaker leak into other storylines' renders); -711 Thor's millstone comedy ends before Baldr's death, the death scene untouched; -722 cuts A19 reader's open "fair answer" questions from 24 to 16, at most one per quest; -741 rewrites the Loki line, and Kvasir stays narration only, so he needs no cast entry; -763 moves A22 band lessons out of grave and climax beats · canon: none
 - 2026-10-25 run 14 · [review-2026-10-25](review-2026-10-25.md) · units: atlas/A23/main.md, atlas/A23/sprout.md, atlas/A23/reader.md, atlas/A24/main.md, atlas/A24/sprout.md, atlas/A24/reader.md, atlas/A25/main.md, atlas/A25/reader.md, atlas/A26/main.md, atlas/A26/sprout.md · 55 recs: Critical 2, High 22, Medium 27, Nice 4 (5 cross-story) · fixed since last run: 60 (all)
 - 2026-10-25 · fix pass on branch `fix/story-review-2026-10-25-2` · run 14's 55 recs: 55 fixed · -767 makes days and loaves agree (seven) in A26 main, sprout and reader, with Uta-Napishtim's wife correcting his count (-769); -768 says the Timon line in the A23 reader scene before the question quotes it; -803 swaps the A23 theme quiz for a gentle notice, because every reader scene needs a lesson; -820 drops `standard` on reader lessons where no grades 3–5 code fits (A23, A24); -821 trims 66 A24 reader replies and the over-cap A25 ones to the band cap · canon: none
+- 2026-10-25 run 15 · [review-2026-10-25-2](review-2026-10-25-2.md) · units: atlas/A26/reader.md, atlas/A27/main.md, atlas/A27/sprout.md, atlas/A27/reader.md, atlas/A28/main.md, atlas/A28/sprout.md, atlas/A28/reader.md, atlas/A29/main.md, atlas/A29/reader.md, atlas/A30/main.md · 56 recs: Critical 1, High 24, Medium 24, Nice 7 (5 cross-story) · fixed since last run: 55 (all)
