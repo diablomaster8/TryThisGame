@@ -6,7 +6,7 @@ import { generateV2 } from './dungeon-gen';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
 import { noteScan } from './scans';
-import { SPECIES } from './species';
+import { isCommonSpecies, SPECIES } from './species';
 import { addRecruit } from './town';
 import {
   FLAVORS,
@@ -509,7 +509,7 @@ export function scatterFinds(
   const babies =
     floor.version <= 1
       ? V1_WILD_BABIES.map((id) => ({ id }))
-      : SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby');
+      : SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
   const wildCount = DUNGEON.wildPerFloor + Math.floor((depth - 1) / 3);
   for (let i = 0; i < wildCount && babies.length > 0; i++) {
     const cell = pickOpen(6) ?? pickOpen(3);
@@ -949,7 +949,7 @@ const STRAY_NAMES = ['Sooty', 'Ash', 'Murk', 'Dusk', 'Ember', 'Wisp', 'Cinder', 
 
 function grantEgg(world: World, rng: Rng): Nubbin | null {
   if (!hasRoom(world)) return null;
-  const babies = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby');
+  const babies = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
   const species = rng.chance(0.4) && babies.length > 0 ? rng.pick(babies).id : 'chao';
   const color = rng.pick(EGG_COLORS);
   const egg = createEgg(newId(world, 'nubbin'), { x: 2, z: 0 }, rng, color, species);
