@@ -1,4 +1,5 @@
 // Every player-facing name and piece of text. All names are working titles.
+import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 
 export const NAMES = {
   game: 'Grove',
@@ -134,7 +135,6 @@ export const SPECIES_LABELS: Record<string, string> = {
   domeshell: 'Domeshell',
   domereaper: 'Domereaper',
   skyfang: 'Skyfang',
-  'skyfang-grown': 'Skyfang',
   lilystalk: 'Lilystalk',
   lilyking: 'Lilyking',
   clawnymph: 'Clawnymph',
@@ -153,6 +153,7 @@ export const SPECIES_LABELS: Record<string, string> = {
   ironsaur: 'Ironsaur',
   beanbot: 'Beanbot',
   hugbear: 'Hugbear',
+  ...GEN1B_SPECIES_LABELS,
 };
 
 /** The ten playable Keepers. */

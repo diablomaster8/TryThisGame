@@ -1,5 +1,5 @@
 import type { Rng } from './rng';
-import { speciesByFamily, type Family } from './species';
+import { eggWeightOf, speciesByFamily, type Family } from './species';
 import type { KeeperAlignment, NubbinType } from './types';
 
 /**
@@ -254,6 +254,6 @@ export function rollEggSpecies(trainer: Trainer, rng: Rng): string {
   // Within the digital line only the first baby hatches from an egg.
   if (family === 'digi') return 'fuzzlet';
   const weights: Record<string, number> = {};
-  for (const s of babies) weights[s.id] = s.type === trainer.favourite ? 3 : 1;
+  for (const s of babies) weights[s.id] = (s.type === trainer.favourite ? 3 : 1) * eggWeightOf(s);
   return rng.weighted(weights);
 }

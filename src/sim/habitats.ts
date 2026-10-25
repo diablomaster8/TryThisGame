@@ -3,7 +3,7 @@ import { createEgg } from './nubbin';
 import { hatch } from './lifecycle';
 import { hasRoom } from './roster';
 import { Rng } from './rng';
-import { SPECIES } from './species';
+import { isCommonSpecies, SPECIES } from './species';
 import type { HabitatKind, SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
 
@@ -23,7 +23,7 @@ const PATCH_DECOR: Record<HabitatKind, string> = {
 /** Species that like each patch, by their line's favourite type. */
 function speciesFor(patch: HabitatKind, rng: Rng): string {
   const pool = Object.values(SPECIES).filter((s) => {
-    if (s.family === 'chao' || s.stage !== 'baby') return false;
+    if (s.family === 'chao' || s.stage !== 'baby' || !isCommonSpecies(s)) return false;
     const t = s.type;
     return patch === 'water'
       ? t === 'swim'

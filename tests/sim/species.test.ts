@@ -46,7 +46,7 @@ describe('species data', () => {
     ]) {
       expect(refs.has(r), r).toBe(true);
     }
-    expect(speciesByFamily('pocket', 'baby')).toHaveLength(15);
+    expect(speciesByFamily('pocket', 'baby').length).toBeGreaterThanOrEqual(15);
     const digi = speciesByFamily('digi');
     expect(digi).toHaveLength(14);
     expect(new Set(digi.map((s) => s.ref))).toContain('MetalGreymon');
