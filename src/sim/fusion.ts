@@ -1,4 +1,5 @@
 import { FUSION } from '../config/tuning';
+import { storyNubbin } from './roster';
 import { GRADES, STAT_KEYS, type Nubbin, type SimEvent, type World } from './types';
 
 /**
@@ -13,6 +14,8 @@ export function canFuse(world: World, aId: string, bId: string): string | null {
   const a = world.nubbins.find((n) => n.id === aId);
   const b = world.nubbins.find((n) => n.id === bId);
   if (!a || !b || a === b) return 'two';
+  // The story's own Nubbins (Moss, Sable) never leave the roster.
+  if (storyNubbin(world, bId)) return 'story';
   if (a.stage !== 'adult' || b.stage !== 'adult') return 'adults';
   if (a.eternal || b.eternal) return 'eternal';
   if (a.needs.affection < FUSION.minAffection || b.needs.affection < FUSION.minAffection)
