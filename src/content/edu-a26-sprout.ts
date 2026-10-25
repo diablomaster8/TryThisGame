@@ -683,7 +683,7 @@ const Q3 = quest(
           1,
           'literacy',
           'why a character acts as he does',
-          'RL.2.3',
+          'RL.K.3',
           [N('Why does Enkidu fill in the pits?')],
           [
             o('He wants his animal friends to be safe', [N('Yes! He cares about them.')], true),
@@ -845,7 +845,7 @@ const Q4 = quest(
           1,
           'science',
           'animals use their noses and eyes to tell who is who',
-          '4-LS1-2',
+          SCI,
           [N('How do gazelles know who is who?')],
           [
             o(
@@ -947,12 +947,15 @@ const Q5 = quest(
         N('You set down a round loaf and a jug of barley drink.'),
         EN('What is this?', 'think'),
         SH('That is bread. People eat it. Go on!'),
-        N('He takes a tiny bite. His eyebrows jump up.'),
+        N('He sniffs the bread. He licks it. Slurp!'),
+        N('He takes a tiny bite. Crunch! His eyebrows jump up.'),
+        EN('More!'),
+        N('Your Nubbin licks its own bread too, to be polite.'),
         N('He eats until he is full. Then he sings a song with no words.'),
       ],
       [
         ask(
-          6,
+          9,
           'science',
           'bread comes from a plant that grows grain',
           SCI,
@@ -2205,7 +2208,8 @@ const Q12 = quest(
         N('Enkidu grabs the Bull by the horns. Whoosh!'),
         EN('Now, brother! Together!'),
         N('Gilgamesh runs in. A great cloud of dust goes up. Poof!'),
-        N('Your Nubbin covers its eyes, then peeks with one.'),
+        N('Achoo! Achoo! Everybody sneezes. Even the Bull.'),
+        N('Your Nubbin sneezes the loudest. Then it peeks with one eye.'),
         N('When the dust settles, the Bull lies down on the ground. It is stopped.'),
         N('Ishtar appears on the wall in a golden storm. Enkidu shouts at her.'),
         EN('Go home! Leave our city alone!', 'angry'),
@@ -2213,15 +2217,15 @@ const Q12 = quest(
       ],
       [
         ask(
-          3,
+          4,
           'literacy',
           'sound words',
           LIT,
-          [N('Whoosh! Poof! Which one is a sound word: whoosh, table or green?')],
+          [N('Which one is a sound word: achoo, table or green?')],
           [
-            o('Whoosh', [N('Yes! “Whoosh” sounds like what it is.')], true),
-            o('Table', [N('A table is a thing. “Whoosh” is the sound word.')]),
-            o('Green', [N('Green is a colour. “Whoosh” is the sound word.')]),
+            o('Achoo', [N('Yes! “Achoo” sounds like a sneeze.')], true),
+            o('Table', [N('A table is a thing. “Achoo” is the sound word.')]),
+            o('Green', [N('Green is a colour. “Achoo” is the sound word.')]),
           ],
           'Picked out a sound word.',
         ),
@@ -2354,21 +2358,15 @@ const Q13 = quest(
       [
         ask(
           4,
-          'science',
-          'we see things when light shines on them',
-          '1-PS4-2',
-          [N('Why can Enkidu see the door so clearly now?')],
+          'literacy',
+          'soft and loud voices',
+          LANG,
+          [N('Enkidu was cross. Then his face went soft. Which is soft: a whisper or a shout?')],
           [
-            o(
-              'The sun is shining on it',
-              [N('Yes! We see things when light shines on them.')],
-              true,
-            ),
-            o('The door is shouting', [
-              N('Ha! No shouting. We see the door because sunlight shines on it.'),
-            ]),
+            o('A whisper', [N('Yes! A whisper is soft. A shout is loud.')], true),
+            o('A shout', [N('A shout is loud. A whisper is the soft one.')]),
           ],
-          'Learned that we see things when light shines on them.',
+          'Talked about soft and loud voices after Enkidu was cross.',
         ),
       ],
       {
@@ -2385,7 +2383,7 @@ const Q13 = quest(
     sc(
       'a26-13-door-done',
       [
-        EN('Shamhat, I take it back. I bless you.', 'soft'),
+        EN('Shamhat, I am sorry. Thank you. I take it back. I bless you.', 'soft'),
         EN('You found me in the grass and brought me home.', 'soft'),
       ],
       [
@@ -2417,16 +2415,16 @@ const Q13 = quest(
       ],
       [
         ask(
-          1,
-          'maths',
-          'what comes next in the day',
-          M,
-          [N('Enkidu woke at dawn. Now it is noon. What comes after noon: evening or breakfast?')],
+          3,
+          'sel',
+          'how a friend shows care',
+          'CASEL: Relationship skills',
+          [N('Gilgamesh carried his friend. How does a friend show care?')],
           [
-            o('Evening', [N('Yes! Dawn, then noon, then evening.')], true),
-            o('Breakfast', [N('Breakfast is in the morning. After noon comes evening.')]),
+            o('By helping and staying close', [N('Yes! Helping and staying close shows care.')], true),
+            o('By going far away', [N('Going away is not care. Helping and staying close is.')]),
           ],
-          'Put parts of the day in order: dawn, noon, evening.',
+          'Talked about how a friend shows care.',
         ),
       ],
     ),
@@ -2714,15 +2712,15 @@ const Q15 = quest(
       [
         ask(
           1,
-          'science',
-          'a scorpion has eight legs',
-          '4-LS1-1',
-          [N('Real scorpions have eight legs. Which has eight legs: a scorpion or a dog?')],
+          'maths',
+          'count the two guards',
+          'K.CC.B.5',
+          [N('Count the guards at the gate: one, two. How many guards are there?')],
           [
-            o('A scorpion', [N('Yes! A scorpion has eight legs. A dog has four.')], true),
-            o('A dog', [N('A dog has four legs. A scorpion has eight!')]),
+            o('Two', [N('Yes! One guard, two guards. There are two.')], true),
+            o('Five', [N('Not five. Count again: one, two. There are two guards.')]),
           ],
-          'Learned that scorpions have eight legs.',
+          'Counted two guards at the gate.',
         ),
       ],
     ),
@@ -2893,7 +2891,7 @@ const Q16 = quest(
           6,
           'literacy',
           'how a character feels about another',
-          'RL.2.3',
+          'RL.K.3',
           [
             N(
               'Siduri opened her door and gave everyone a stool and a cup. How did she feel about them?',
@@ -3058,18 +3056,21 @@ const Q17 = quest(
         UT('Sit down. I will tell you my story.'),
         N('He tells of a great flood, and a boat, and all kinds of animals.'),
         N('He sent out a dove, then a swallow. Both came back. Then a raven, which did not.'),
+        N('His wife coughs.'),
+        UW('The raven was my idea.'),
       ],
       [
-        notice(
-          6,
-          'social-studies',
-          'the flood tablet was read again in 1872',
-          'D2.His.2.K-2',
+        ask(
+          8,
+          'literacy',
+          'who did not come back',
+          'RL.K.3',
+          [N('The dove came back. The swallow came back. Who did not come back?')],
           [
-            N('Nova’s book says this flood story was written on clay, long, long ago.'),
-            N('In 1872, a man in a London museum read it again.'),
+            o('The raven', [N('Yes! The raven found land, so it stayed away.')], true),
+            o('The dove', [N('The dove came back. The raven found land and stayed.')]),
           ],
-          'Heard that the flood story, written on clay long ago, was read again in 1872.',
+          'Remembered which bird did not come back in the story.',
         ),
       ],
       {
@@ -3113,7 +3114,7 @@ const Q17 = quest(
     sc(
       'a26-17-test',
       [
-        UT('Stay awake for six days. Then we will see.'),
+        UT('Stay awake for seven days. Then we will see.'),
         GI('Easily. I have hardly slept since...', 'angry'),
         N('He sits down on the sand. At once, he is fast asleep.'),
         UW('Wake him, and let him go home.', 'soft'),
@@ -3148,13 +3149,16 @@ const Q17 = quest(
       [
         N('On the seventh day Uta-Napishtim touches him, and he wakes.'),
         GI('I only just shut my eyes.'),
-        N('Then he sees the loaves. The first is dry and hard. The last is still warm.'),
+        N('Then he sees the loaves. The first is dry and hard.'),
+        N('Gilgamesh knocks on it. Knock, knock! It rings like a brick.'),
+        UW('That one was fresh on the first day.'),
+        N('The last loaf is still warm.'),
         N('He puts his face in his hands.'),
         UT('Take him to wash, and give him clean clothes.'),
       ],
       [
         ask(
-          2,
+          5,
           'science',
           'bread gets old over days',
           SCI,

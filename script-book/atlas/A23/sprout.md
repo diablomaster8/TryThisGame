@@ -373,7 +373,7 @@ _The rock is in the way._
 > **Lesson** (science, K-PS3-1, ask): shade is cooler because something blocks the sun  
 > _The ledge is cool and shady. Why?_  
 > - ✅ The rock blocks the sunlight → Yes. When something blocks the light, we get shade, and shade is cooler.
-> - The sun is asleep → The sun is still up. The rock is in the way, so it is shady.
+> - The sun is asleep → The sun is still up. The rock just makes shade.
 > _For grown-ups: Learned that shade happens when something blocks sunlight, and it is cooler._
 
 
@@ -476,7 +476,9 @@ _Stripes, stripes, stripes everywhere!_
 _You lose the cubs. You find them._  
 _You fall in the dust._  
 _Simba runs under a giraffe. Nala goes round a big rhino._  
-_Far behind, Zazu flies into a flock of flamingos._  
+_Far behind, Zazu flies into a flock of flamingos. Bump!_  
+_The flamingos stand up straight, all in a row._  
+**Zazu**: Well! At least somebody can make a line.  
 
 **Choices**
 
@@ -637,8 +639,8 @@ _The sky goes from orange to dark blue._
 
 > **Lesson** (science, 1-ESS1-1, ask): stars come out at night  
 > _The sun has gone down and the sky is dark. What can we see?_  
-> - ✅ Stars → Yes! The stars were there all day. We can see them when the sky is dark.
-> - The sun again → The sun has gone to the other side of the world. Now we see stars.
+> - ✅ Stars → Yes! The stars were there all day. We see them in the dark.
+> - The sun again → The sun is shining on the other side of the world. Now: stars!
 > _For grown-ups: Learned that we see stars when the sky is dark at night._
 
 
@@ -721,7 +723,7 @@ _The thorns are still shaking where Simba went through._
 _Thorns are sharp points on a plant._  
 _They stop animals from nibbling the leaves._  
 
-> **Lesson** (science, 4-LS1-1, ask): plant parts help the plant survive  
+> **Lesson** (science, K-LS1-1, ask): plant parts help the plant survive  
 > _Why do some plants have thorns?_  
 > - ✅ To stop animals eating them → Yes! Thorns are a plant’s way of saying “please don’t nibble me”.
 > - To look pretty → They do look sharp, not pretty. Thorns help plants stay safe.
@@ -851,13 +853,10 @@ _He stands in front of the painted cub._
 _Rafiki thinks Simba is lost for ever. He is very sad._  
 _He wipes the painted cub off the wall._  
 **Rafiki**: Pole sana, little one. Pole sana.  
-_Pole sana means “I am so sorry” in Swahili._  
 
-> **Lesson** (literacy, ELOF: Language and Communication, ask): a Swahili phrase for sympathy  
-> _Rafiki says pole sana. What is he telling the little cub on the wall?_  
-> - ✅ I am so sorry → Yes. Pole sana is a kind thing to say when someone is sad.
-> - Hello → Hello is jambo. Pole sana means I am so sorry.
-> - Thank you → Thank you is asante. Pole sana means I am so sorry.
+> **Lesson** (literacy, ELOF: Language and Communication, notice): a Swahili phrase for sympathy  
+> _Pole sana means “I am so sorry”._  
+> _It is what you say to someone who is sad._  
 > _For grown-ups: Learned the Swahili phrase pole sana (I am so sorry)._
 
 
@@ -881,7 +880,9 @@ _Pumbaa carries Simba. Timon carries nothing at all._
 **Choices**
 
 - **Thank them.**
-    - **Timon**: Don’t thank us. Thanking is how they get you.
+    - **Timon**: No thank-yous! Then I have to say “you’re welcome”.
+    - **Timon**: Then we are friends. I am too busy for friends.
+    - Pumbaa is already his friend. Timon pretends not to see.
 - **Say you are only a guest here.**
     - **Pumbaa**: That is okay. Everybody is a guest somewhere.
 
@@ -900,7 +901,7 @@ _Up the path come hyenas. Many, many hyenas._
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): asking for help when we are hurt  
 > _Zazu is hurt, but he wants to go back. What could he do?_  
 > - ✅ Ask a friend to help him → Yes. Asking for help is a clever, brave thing to do.
-> - Go alone and say nothing → Going alone with a hurt wing is hard. It is wise to ask a friend.
+> - Go alone and say nothing → A hurt wing makes going alone hard. Ask a friend to help.
 > _For grown-ups: Thought about asking for help when we are hurt._
 
 
@@ -986,7 +987,7 @@ _The grass goes yellow, then grey. The river shrinks to mud._
 > **Lesson** (science, K-ESS3-1, ask): animals move to where their needs are met  
 > _The grass is gone and the river is mud. Why do the herds leave?_  
 > - ✅ To find new grass and water → Yes! Animals go where they can find food and water.
-> - To play a game → They leave because they are hungry and thirsty. They are looking for grass and water.
+> - To play a game → They are hungry and thirsty. They go to find grass and water.
 > _For grown-ups: Learned that animals move to places where they can find food and water._
 
 **Rafiki**: A plain is everyone on it, looking after each other.  
@@ -1007,7 +1008,7 @@ _Simba grows bigger. A thick gold mane grows in._
 
 > **Lesson** (science, 1-LS3-1, ask): young animals grow into adults  
 > _Simba was a tiny cub. What does he grow into?_  
-> - ✅ A grown-up lion → Yes! He grows bigger, and a mane grows too. A lion cub grows into a lion.
+> - ✅ A grown-up lion → Yes! He grows bigger, and he grows a mane.
 > - A zebra → A lion cub is always a lion. Simba grows into a grown-up lion.
 > _For grown-ups: Learned that young animals grow into adults like their parents._
 
@@ -1152,11 +1153,13 @@ _Variant of `a23-12-hunt`._
 _Two days out in the desert, the gourds are nearly empty._  
 _Then the sand turns to scrub, and the scrub to green._  
 _There are waterfalls, ferns and trees full of fruit._  
+_Birds sing. Frogs hop._  
+_Butterflies are everywhere._  
 
 > **Lesson** (science, K-ESS3-1, ask): animals live where their needs are met  
 > _So many animals live by the waterfalls and ferns. Why?_  
 > - ✅ There is water and food here → Yes! Animals live where they find water and food.
-> - There are no animals here → Look! Pumbaa, a meerkat and fruit trees are here. Water and food bring animals.
+> - There are no animals here → Look! Birds, frogs and fruit trees are here. Water and food bring animals.
 > _For grown-ups: Learned that animals live where they can find water and food._
 
 **Nala**: Warthog.  
@@ -1216,7 +1219,7 @@ _Under the waterfall, you hear them talk._
 > **Lesson** (science, K-LS1-1, ask): plants and animals need water to live  
 > _Nala says the river has turned to mud, and everyone is hungry._  
 > _What do plants and animals need to live?_  
-> - ✅ Water → Yes! Plants and animals need water. That is why the dry time was so hard.
+> - ✅ Water → Yes! Plants and animals need water. The dry time was hard.
 > - Toys → Toys are fun, but living things need water, food and air.
 > _For grown-ups: Learned that plants and animals need water to live._
 
@@ -1276,9 +1279,9 @@ _The sky is huge. Every star is out._
 
 > **Lesson** (sel, CASEL: Social awareness, ask): comforting someone who blames themselves  
 > _Simba thinks it was his fault. What can you tell him?_  
-> - ✅ It was not your fault → Yes. Simba was only a cub, and it was not his fault. Hearing that helps.
+> - ✅ It was not your fault → Yes. Simba was only a cub. It was not his fault.
 > - It was your fault → No. It was not Simba’s fault. He was only a cub.
-> - Do not be sad → Telling someone not to be sad does not work. Telling them the truth, kindly, does.
+> - Do not be sad → “Do not be sad” does not help much. Kind, true words help more.
 > _For grown-ups: Practised comforting someone who blames themselves for something that was not their fault._
 
 _He throws himself down on the ridge with a thump._  
@@ -1556,12 +1559,13 @@ _Rafiki raps him on the head with his stick. Not hard._
 **Simba**: Ow!  
 **Rafiki**: Does it still sting?  
 **Simba**: Yes!  
-**Rafiki**: A thing that happened can follow you.  
-**Rafiki**: You can carry it, or it can chase you.  
+**Rafiki**: That bump is over. But it still stings, yes?  
+**Rafiki**: Sad things are like that. You can run away.  
+**Rafiki**: Or you can learn.  
 _Rafiki swings the stick again. This time Simba ducks!_  
 **Rafiki**: Ha! You learn.  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to what happens  
+> **Lesson** (literacy, RL.K.3, ask): how a character responds to what happens  
 > _Rafiki swung the stick a second time. What did Simba do?_  
 > - ✅ He ducked → Yes! He learned from the first time. He ducked!
 > - He said ow again → The first time he said ow. The second time he ducked.
@@ -1626,9 +1630,9 @@ _The roar goes out over the plain. Then it comes back from the hills._
 
 > **Lesson** (science, 1-PS4-1, ask): sound can bounce back as an echo  
 > _The roar bounced off the hills and came back. What is that called?_  
-> - ✅ An echo → Yes! An echo is a sound that bounces back. Try it in a big room!
+> - ✅ An echo → Yes! An echo is a sound that bounces back. Hello, hello!
 > - A shadow → A shadow is made by light. A sound that bounces back is an echo.
-> - A rainbow → A rainbow is made by light and rain. A sound that comes back is an echo.
+> - A rainbow → A rainbow is light and rain. A sound that comes back is an echo.
 > _For grown-ups: Learned that a sound that bounces back is an echo._
 
 _Nala and Sarabi roar back. Then all the lionesses._  
@@ -1685,9 +1689,13 @@ _The whole plain kneels._
 **Timon**: Hey! Guest!  
 **Timon**: Come and stand with family!  
 **Pumbaa**: We came all this way together.  
+**Zazu**: I will stand at the back. Hornbills are good at the back.  
+**Timon**: Zazu! You are at the front!  
+_Zazu looks down. He is!_  
+_He fluffs up, very proud._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): friends make room for you  
-> _Pumbaa says you stand with them. What does it show?_  
+> _Timon and Pumbaa make room for you. What does it show?_  
 > - ✅ They care about you → Yes. Making room for someone shows we care about them.
 > - They are bossy → They were being kind. They made room for a friend.
 > _For grown-ups: Noticed that making room for someone shows we care._

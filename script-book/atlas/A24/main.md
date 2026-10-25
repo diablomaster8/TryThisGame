@@ -609,7 +609,9 @@ _All day you and Mowgli feed the Red Flower with dry twigs and bark, and keep it
 _Your Nubbin brings twigs too, mostly dry ones. One is a beetle, which it thinks better of and puts back._  
 **Mowgli** _(happy)_: It eats like a wolf cub. Always hungry. And if you stop, it goes grey and sulks, like Baloo.  
 _Once the coals go dull and you both blow on them, cheeks puffed, until they glow red again._  
-_A wolf comes past in the afternoon. He sees the pot and goes the long way round, with his fur on end._  
+_Your Nubbin blows too. It makes a small wet noise, and the coals hiss at it._  
+**Mowgli** _(happy)_: Blow, don’t spit. Not on the fire. Not on me.  
+_A wolf comes past in the afternoon, sees three creatures puffing at a pot, and goes the long way round, with his fur on end._  
 **Mowgli** _(think)_: He’s afraid of it. They all are. I’m not. Is that what it means, being a man?  
 
 **Choices**
@@ -914,7 +916,8 @@ _Akela doesn’t bite. He only stands there, very large and very calm, like a he
 
 #### <a id="a24-09-bounty-done"></a>Done `a24-09-bounty-done`
 
-_Buldeo runs back to the village as fast as his legs will go. He will tell a story about this, a very large one._  
+_Buldeo runs back to the village as fast as his legs will go. By the next market the wolf will be ten wolves, all on fire._  
+**Akela**: Let him. Ten wolves on fire will keep the village out of the jungle for a year.  
 **Mowgli** _(think)_: He’ll tell them I’m a sorcerer. Let him. I’ve kept my word to Mother Wolf.  
 
 ### Complete
@@ -1006,6 +1009,7 @@ _Mowgli goes into the trees with Akela and Grey Brother. Your Nubbin watches him
 **Mowgli**: Tonight the hide goes to the Council Rock. I promised. And after that, you hunt with us. A whole season.  
 _So you do, after. You hunt with the four wolves through the turning year, and learn the jungle from inside._  
 _You learn where the deer drink, and which trees hum with bees. You learn how quiet a whole hillside can be at noon._  
+_Grey Brother sets you to guard a rabbit hole. You guard it for an hour, very seriously. The rabbit leaves by its other hole._  
 **Grey Brother** _(happy)_: You’re still terrible at it, guest. But you’re terrible in the right direction.  
 _Your Nubbin catches its first beetle. It brings it to you, very proud, and you let it go again when it isn’t looking._  
 
@@ -1116,6 +1120,8 @@ Hint: Follow the riverbed down. The only water left is at the Peace Rock. · che
 _A year comes when the rains don’t. The jungle goes brown, then grey, then crackles underfoot like paper._  
 _The streams dry up one after another. Then even the Waingunga shrinks to a trickle between hot white stones._  
 **Baloo** _(sad)_: Fifty years I’ve lived in these hills, and I’ve never seen it this bad. Look at me, cub. I’m half the bear I was.  
+_Your Nubbin walks slowly all the way round Baloo, looking for the other half._  
+**Baloo** _(happy)_: It’s in there somewhere, small one. Under the ribs.  
 **Mowgli**: You’re still bigger than me. Look at my ribs. I can count them.  
 **Baloo**: Count them later. Down there, the Peace Rock. There’s still water round it, and while there is, there’s a truce.  
 _In the middle of the river a long blue rock stands up out of the water. You can see it now that the water has dropped._  
@@ -1519,7 +1525,10 @@ _A woman comes to the door holding the lamp, with a little grey in her hair now.
 
 _Variant of `a24-15-lamp`._
 
-_Messua looks at you over Mowgli’s head, polite and puzzled. She doesn’t know you._  
+_Messua looks at you over Mowgli’s head, puzzled. She nearly knows you, the way you nearly know a song._  
+**Messua** _(think)_: Have you been here before? There was somebody… with feathers. Everywhere.  
+_Your Nubbin moults one small feather onto her clean floor, helpfully._  
+**Messua**: No. It’s gone. Sit down anyway.  
 _It has been years. A season with the wolves, then more seasons, and you look like something the jungle raised._  
 **Messua** _(soft)_: And you, friend. Are you hungry too? Sit down. Whoever you are, you came in with my son, and that’s enough.  
 _You sit by the door and eat her bread, and you don’t remind her. It doesn’t seem to matter tonight._  
@@ -1865,6 +1874,7 @@ _At the end of the fifth winter, far to the west, Kotick finds them: huge, slow,
 _Sea Cows. Bigger than walruses, quieter than fish, with small heads and soft lips, moving very slowly._  
 **Kotick** _(think)_: Hello? Excuse me? I’m looking for a beach. A safe one. Where men don’t come. Please.  
 _The Sea Cows say nothing; they can’t, or they won’t. They only chew the kelp, and look at him._  
+_Your Nubbin tries its kettle howl on them, very politely. One Sea Cow lets out a single slow bubble. It may be an answer._  
 _Then, very slowly, they begin to move north, along the coast. Kotick follows, and you follow Kotick._  
 _At last they dive, and swim into a black opening in the cliff, deep under the water. A tunnel._  
 _You hold your breath and your Nubbin and go in after them. The atlas is a kind page here; your breath lasts._  

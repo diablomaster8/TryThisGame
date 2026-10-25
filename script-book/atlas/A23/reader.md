@@ -12,7 +12,7 @@ _Nova’s atlas falls open at a page of red and gold: a great rock standing over
 _The light spills off the paper and over your hands, warm as bathwater._  
 _Then there is dry grass to your knees, a smell of dust and dew, and a tree with a trunk as fat as a cottage._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): what a savanna is, and where real ones are  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): what a savanna is, and where real ones are  
 > _This is savanna: a warm grassland with a few trees standing alone, and a long dry season between the rains._  
 > _Real savannas stretch across Kenya and Tanzania. This page is made up._  
 > _It is a cousin of Hell’s Gate, a park in Kenya with red cliffs, golden grass and steam rising from cracks._  
@@ -131,7 +131,7 @@ _The lioness, Sarabi, moves her paws aside. Between them is a cub the colour of 
 **Sarabi**: Gently. He is three days old, and already he thinks he owns the place.  
 _Rafiki shakes a rattle of gourds over the cub. The cub sneezes, and the king laughs, low, like thunder a long way off._  
 
-> **Lesson** (music, 1-PS4-1, notice): sound comes from vibration, and shakers make rhythm  
+> **Lesson** (music, 4-PS3-2, notice): sound comes from vibration, and shakers make rhythm  
 > **Rafiki**: A dried gourd with seeds inside is a shaker. The seeds bounce, the gourd shivers, and the shiver reaches your ear as sound.  
 > **Rafiki**: People all over the world make shakers. The beat they keep is older than any song I know.  
 > _For grown-ups: Learned that a shaker makes sound by vibrating, and that people everywhere keep rhythm with shakers._
@@ -141,7 +141,7 @@ _Your Nubbin climbs your back, then your shoulder, then your head, to see._
 _Rafiki walks to the very edge of the rock and holds the cub up in both hands, high, over everything._  
 _Down on the plain, every animal sees him at once. Elephants trumpet and zebra stamp, and the birds go up in one great wheel._  
 
-> **Lesson** (science, 1-LS3-1, ask): young animals are like their parents but not the same  
+> **Lesson** (science, 3-LS3-1, ask): young animals are like their parents but not the same  
 > _Lion cubs are born with faint spots that fade as they grow, and a male cub has no mane until he is older._  
 > _What does that tell us about cubs and adult lions?_  
 > - ✅ Young animals can look different from their parents at first → Yes. Cubs are like their parents but not the same: spots, small size, no mane yet. They change as they grow.
@@ -196,7 +196,7 @@ _Lions, mostly: kings and queens and cubs in rust and white and yellow, some so 
 **Rafiki**: Now. The cub must go up on the wall.  
 **Rafiki**: I need ochre, and red. You will mix them, because my knees have retired.  
 
-> **Lesson** (science, 2-PS1-1, notice): ochre is earth coloured by iron, used as paint for a very long time  
+> **Lesson** (science, notice): ochre is earth coloured by iron, used as paint for a very long time  
 > **Rafiki**: Ochre is earth that is yellow, red or brown because of iron minerals in it. Grind it fine and it becomes paint.  
 > **Rafiki**: People have painted with ochre for tens of thousands of years. It is some of the oldest paint there is.  
 > _For grown-ups: Learned that ochre is earth coloured by iron minerals and has been used as paint for tens of thousands of years._
@@ -235,7 +235,7 @@ _The paint comes up thick and warm: a yellow like dry grass at noon, and a red l
 **Rafiki**: Asante sana is thank you very much. Sana means very.  
 **Rafiki**: Try it.  
 
-> **Lesson** (literacy, L.2.4, ask): learning a new word from its parts  
+> **Lesson** (literacy, L.3.4, ask): learning a new word from its parts  
 > _Asante means thank you, and sana means very. What does “asante sana” mean?_  
 > - ✅ Thank you very much → Yes! You added two meanings together. Words in every language are built from small pieces like this.
 > - Good morning → Not quite. Asante is thank you and sana is very, so it is thank you very much.
@@ -251,7 +251,7 @@ _He paints with his fingers, quick and sure: a round body, four fat paws, ears l
 _Last, with one dab of red, he gives the painted cub the line across its brow._  
 **Rafiki**: Now he is on the wall. As long as the wall stands, someone will know he was here.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): people keep the past alive with paintings, stories and songs  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): people keep the past alive with paintings, stories and songs  
 > **Rafiki**: Long before anyone wrote things down, people kept their past by painting it on walls, telling it as stories, and singing it.  
 > **Rafiki**: That is called oral history when it is spoken.  
 > **Rafiki**: A wall like mine, and an old story, both carry the past to people who were not there.  
@@ -355,7 +355,7 @@ _The king walks to the very top of the rock, and Simba scrambles after him. You 
 _Ahead of you, the sun is a thin gold edge on the far side of the plain._  
 _Rafiki’s rock is tall enough to see the whole of it, from the east, where the sun is climbing, to the hills far off in the west._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions and the Sun’s path  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions and the Sun’s path  
 > _The Sun rises in the east. If you stand on the rock and face the sunrise, which way are the hills behind you?_  
 > - ✅ West → Yes. If you face east, west is directly behind you. The Sun rises in the east and sets in the west.
 > - North → North would be on your left as you face east. Directly behind you is west.
@@ -381,7 +381,7 @@ _Far off, past the edge of the light, there is a grey place where nothing seems 
 **Mufasa**: That is beyond our borders. You must never go there.  
 **Mufasa**: Everything here is joined. The grass feeds the antelope, the antelope feed us, and when we lie down at the end, we feed the grass.  
 
-> **Lesson** (science, 2-LS4-1, notice): food chains: energy passes along, and decomposers return it to the soil  
+> **Lesson** (science, 3-LS4-3, notice): food chains: energy passes along, and decomposers return it to the soil  
 > **Mufasa**: Grass makes its own food from sunlight. An antelope eats the grass.  
 > **Mufasa**: A lion eats the antelope. That is a food chain.  
 > **Mufasa**: And when anything dies, beetles, fungi and tiny soil creatures break it down and give it back to the ground, so the grass can grow.  
@@ -616,7 +616,7 @@ _They go straight into the middle of a herd of zebra, and you have no choice but
 **Zazu**: This is not any file!  
 _Stripes everywhere. You lose the cubs, find them, then lose your own feet and land on your back in the dust._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): the Great Migration is a real journey across two countries  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): the Great Migration is a real journey across two countries  
 > _Real herds like this make one of the biggest journeys on Earth._  
 > _Every year more than a million wildebeest, with zebra and gazelle, travel a great loop._  
 > _They walk between the Serengeti in Tanzania and the Maasai Mara in Kenya, following the rains and the fresh grass. It is called the Great Migration._  
@@ -651,7 +651,7 @@ _Far behind you, Zazu flies straight into a flock of flamingos and does not come
 _Ahead of you, the grass stops._  
 _The ground goes grey and cracked, and steam leaks up out of it, hissing._  
 
-> **Lesson** (science, 2-PS1-4, ask): steam and condensing: some changes can be reversed  
+> **Lesson** (science, ask): steam and condensing: some changes can be reversed  
 > _Real places like this exist. At Hell’s Gate in Kenya, rain soaks down to hot rock deep underground and comes back up as steam._  
 > _If steam touches something cold, what does it turn back into?_  
 > - ✅ Drops of liquid water → Yes. Cooling steam condenses back into liquid water. Heating and cooling can change water back and forth.
@@ -743,7 +743,7 @@ _Then the slope of bones gives way, and all three of you slide down in a rattlin
 _Simba steps in front of Nala. He opens his mouth to roar, and what comes out is a squeak._  
 _Shenzi laughs, and Simba tries again. Then a roar comes, a real one, but it is not his._  
 
-> **Lesson** (music, 1-PS4-1, ask): bigger sound makers make deeper sounds  
+> **Lesson** (music, 4-PS3-2, ask): bigger sound makers make deeper sounds  
 > _Simba squeaks, and then a great deep roar answers. In general, which makes the deeper sound: a big, heavy animal, or a small, light one?_  
 > - ✅ The big, heavy one → Yes. Bigger voice boxes vibrate more slowly, which makes a lower note. A lion’s roar can carry for kilometres.
 > - The small, light one → Small voice boxes vibrate faster, which makes a higher note: a squeak. The deep roar comes from something big.
@@ -833,7 +833,7 @@ _You stay well back with your Nubbin. Nobody needs to tell you to._
 _The two of them stop on a low rise under the first stars. You sit down a little way off, with your Nubbin on your knee._  
 _The sky goes from orange to green to a deep blue, and the light is gone almost before you notice._  
 
-> **Lesson** (science, 1-ESS1-2, ask): day length near the equator stays close to 12 hours  
+> **Lesson** (science, 5-ESS1-2, ask): day length near the equator stays close to 12 hours  
 > _Dusk comes fast here because this part of Africa lies close to the equator._  
 > _There, day and night are each about 12 hours long all year round. How does a summer day compare with a winter day there?_  
 > - ✅ They are about the same length → Yes. Near the equator the Sun’s path barely changes through the year, so days stay close to 12 hours.
@@ -883,18 +883,15 @@ _It starts counting the stars on its fingers, gives up, and just looks._
 #### `reader:a23-07-complete` · [main](main.md#a23-07-complete)
 
 _Later, at the baobab, Rafiki is waiting up with a pot of tea that has gone cold._  
+
+> **Lesson** (science, 4-PS3-2, notice): heat moves from a warm thing into cooler air  
+> **Rafiki**: Tea does not go cold by itself. Its heat slips out into the cooler night air, a little at a time.  
+> _For grown-ups: Learned that a hot drink cools because its heat moves into the cooler air around it._
+
 **You**: The king said he was frightened today.  
 **Rafiki**: Then he is a good king. The ones who are never frightened are the ones to be frightened of.  
 **Rafiki**: Drink your tea. Cold tea is still tea.  
 **Rafiki**: It is like most things that way.  
-
-> **Lesson** (literacy, RL.4.2, ask): the theme of a story  
-> _What is the main message about courage in this chapter?_  
-> - ✅ Being brave means doing the right thing even when you are afraid → Yes. Mufasa shows it in what he says, and Rafiki shows it in how he answers. That repeated idea is the theme.
-> - Brave people never feel fear → The chapter says the opposite: even a king can be frightened. The brave part is what he does next.
-> - Only kings can be brave → Look at Simba, Nala and even Zazu. Courage in this story is not just for kings.
-> _For grown-ups: Identified the theme of a chapter: courage means acting rightly even when afraid._
-
 _Out of the window in the tree, far off on the shady side of the rock, a pair of green eyes is looking at nothing in particular._  
 
 ### Glossary
@@ -1021,7 +1018,7 @@ _You keep walking beside him anyway. After a while he stops telling you to go._
 _Your Nubbin walks in Simba’s footprints, the way Simba walked in his father’s, jumping from one to the next._  
 _Your gourd held 6 cups of water at sunrise. Simba drinks 2, you drink 1, and you give him the rest at noon._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): two subtractions in a row  
+> **Lesson** (maths, 3.OA.D.8, ask): two subtractions in a row  
 > _The gourd held 6 cups. Simba drank 2 and you drank 1._  
 > _How many cups are left to give him at noon?_  
 > - ✅ 3 cups → Yes. 6 − 2 = 4, and 4 − 1 = 3. You give him the last 3 cups.
@@ -1090,13 +1087,9 @@ _He believes the cub is lost for good. He stands looking at the painting for a l
 _Then he wipes it out with the flat of his hand._  
 **Rafiki**: Pole sana, little one. Pole sana.  
 
-> **Lesson** (literacy, L.3.4, ask): a Swahili phrase of sympathy  
-> _You know that sana means very. Rafiki says “pole sana”._  
-> _When do Swahili speakers say it?_  
-> - ✅ To show sympathy when someone is hurting or has lost something → Yes. Pole sana means “I am very sorry”. It is what you say when someone is hurt or grieving.
-> - To say hello → Hello is a different phrase. Pole sana is said to show sympathy: “I am very sorry”.
-> - To say thank you → Thank you is asante. Pole sana is said to show sympathy: “I am very sorry”.
-> _For grown-ups: Learned the Swahili phrase pole sana (I am very sorry), said to show sympathy._
+> **Lesson** (literacy, L.3.4, notice): a Swahili phrase of sympathy  
+> _Pole sana means “I am so sorry”. It is what Swahili speakers say to someone who is sad or grieving._  
+> _For grown-ups: Learned the Swahili phrase pole sana (I am so sorry), said to show sympathy._
 
 
 #### `reader:a23-10-help` · [main](main.md#a23-10-help)
@@ -1110,21 +1103,24 @@ _The vultures scatter. The warthog skids to a halt beside you, puffing, and the 
 **Pumbaa**: Can we keep him?  
 **Timon**: Pumbaa, are you out of your mind? …Fine. Fine!  
 **Timon**: But I’m not carrying him.  
+**Timon**: And nobody say thank you. You say thank you, then you owe somebody.  
+**Timon**: Then you’re friends. Then you’re family.  
+**Timon**: I’ve seen it happen.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): thanks and what we owe each other  
-> _Timon says thanking someone means that next thing you know, you owe them. Do you think he is right?_  
+> _Timon says a thank you means you owe somebody, and then you are family. Do you think he is right?_  
 > _There is no one right answer._  
 > - No: thanking someone is just being kind → That’s a fair answer. A thank you is a gift, not a debt. Many people feel that is exactly what it should be.
 > - Partly: helping each other makes us a little connected → That’s a fair answer. When we help each other we do feel connected. The question is whether that is a trap, or the point.
-> - Yes: it is safer to owe nothing to anyone → That’s a fair answer. Timon has been burned before, and it shows. But notice that he rescues you anyway.
+> - Yes: it is safer to owe nothing to anyone → That’s a fair answer. Timon has been hurt before, and it shows. But notice that he rescues you anyway.
 > _For grown-ups: Thought about whether thanking someone creates a debt, with no single right answer._
 
 
 **Choices**
 
 - **Thank them.**
-    - **Timon**: Don’t thank us. Thanking is how they get you.
-    - **Timon**: Next thing you know, you owe somebody.
+    - **Timon**: I said don’t! Great.
+    - **Timon**: Now we’re practically family.
 - **Explain that you’re only a guest here.**
     - **Pumbaa**: That’s okay. Everybody’s a guest somewhere.
 
@@ -1265,7 +1261,7 @@ _The page turns its seasons over, one after another, and each one is drier than 
 _The herds go first. One morning the zebra and wildebeest are there; the next they are a line of dust going away._  
 _The grass goes yellow, then grey, then nothing. The river at the bottom of the plain shrinks to a string of mud._  
 
-> **Lesson** (science, K-ESS3-1, ask): animals move to where their needs are met  
+> **Lesson** (science, 3-LS4-4, ask): animals move to where their needs are met  
 > _When the grass dies and the river turns to mud, the herds leave. How is that like the Great Migration?_  
 > - ✅ Herds travel to find fresh grass and water → Yes. Animals move to where food and water are. The Great Migration is a huge version of this, following the rains.
 > - Herds leave because they are bored → Herds leave because they must eat and drink. They go where the grass and water are.
@@ -1321,7 +1317,7 @@ _Supper is under a log. Pumbaa rolls it over, and underneath is a wriggling crow
 **Simba**: You get used to it. Honestly.  
 _Timon keeps a tally of what Simba ate for breakfast: slimy 4, crunchy 6, wriggly 3._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding three numbers  
+> **Lesson** (maths, 3.OA.D.8, ask): adding three numbers  
 > _Timon’s tally says slimy 4, crunchy 6, wriggly 3. How many bugs did Simba eat altogether?_  
 > - ✅ 13 → Yes. 4 + 6 = 10, and 10 + 3 = 13 bugs.
 > - 10 → That is only slimy and crunchy: 4 + 6 = 10. Add the 3 wriggly ones: 13.
@@ -1376,7 +1372,7 @@ _That night all of you lie on your backs on a log and look up at the stars._
 **Timon**: Kings? In the sky?  
 **Timon**: Who’s been feeding you that?  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): people in different places tell different stories about the stars  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): people in different places tell different stories about the stars  
 > _Pumbaa has one story about the stars, and Simba has another. People all over the world have told stories about them._  
 > _Long before maps and clocks, people used the stars to find their way at night and to know when the seasons were turning._  
 > _For grown-ups: Learned that people everywhere told stories about the stars and used them to find their way._
@@ -1398,7 +1394,7 @@ _That night someone scratches at the baobab. It is Nala, grown, thin as a reed, 
 **Rafiki**: She will need it, and somebody should see what she finds.  
 _You fill every gourd you can carry. Your Nubbin takes its own tiny one, which holds one swallow._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): scarcity means choosing  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): scarcity means choosing  
 > _There is very little water, and the rock needs it as much as Nala’s journey does. What does scarcity mean?_  
 > - ✅ When there is not enough of something for everyone’s needs → Yes. When something is scarce, people have to choose how to use it. Rafiki chooses to share what he has.
 > - When there is far too much of something → That is the opposite: a surplus. Scarcity means there is not enough to go round.
@@ -1452,7 +1448,7 @@ _Variant of `a23-12-hunt`._
 _Two days out in the desert, the gourds are nearly empty. Then the sand turns to scrub, and the scrub to green._  
 _There are waterfalls, ferns and trees heavy with fruit. Nala stops with her nose up, and her whole body goes still._  
 
-> **Lesson** (science, 2-LS4-1, ask): different habitats, different life  
+> **Lesson** (science, 3-LS4-3, ask): different habitats, different life  
 > _Sand, then scrub, then green. What changes as you walk, to make the plants so different?_  
 > - ✅ The amount of water → Yes. Water is what a habitat is built on. Where there is a little, scrub grows; where there is a lot, ferns and fruit trees thrive.
 > - The colour of the sky → The sky stays the same. What changes is the water in the ground, and that decides which plants can grow.
@@ -1485,8 +1481,8 @@ _She pins him. She knows exactly where to put her paws; she pinned him like that
 > _For grown-ups: Noticed that an unfinished sentence can show a character’s shock and lets the reader fill in the gap._
 
 _Then she sees you, standing in the stream with your Nubbin, and her eyes go wide all over again._  
-**Nala**: Rafiki’s guest? You’ve been with him?  
-**Nala**: All this time?  
+**Nala**: Rafiki’s guest? You’ve been with Simba?  
+**Nala**: All this time, and nobody on the rock knew?  
 
 #### `reader:a23-12-hunt-done-rafiki` · [main](main.md#a23-12-hunt-done-rafiki)
 
@@ -1495,15 +1491,21 @@ _Variant of `a23-12-hunt-done`._
 **Simba**: And you. Rafiki’s guest.  
 **Simba**: You haven’t changed at all. How haven’t you changed?  
 **You**: It’s a long story. There’s a book in it.  
+**Nala**: A book? What sort of book?  
+**You**: A thick one. We’re in it.  
+**Simba**: Is it good?  
+**You**: The middle bit is a bit long.  
 
-> **Lesson** (literacy, RL.3.3, ask): why a character’s answer is funny and true  
-> _You say “It’s a long story. There’s a book in it.”_  
-> _Why is that a clever answer?_  
-> - ✅ It is true: the atlas is a book, and it keeps your time → Yes. It is a joke and an honest answer at once. Nova’s atlas really is the book, and it is why you have not changed.
-> - It means nothing → It means a lot! It is both a joke and the exact truth. The atlas is a book, and it is why you have not aged.
+> **Lesson** (literacy, RL.3.3, notice): a joke can also be true  
+> _A joke can also be true. The atlas really is a book, and it really does keep your time._  
 > _For grown-ups: Noticed that a character’s joke can also be literally true._
 
 **Nala**: Rafiki sent them with me. Simba, they think you’re… everyone thinks you’re…  
+**Timon**: Hold it. Who’s this?  
+**Timon**: And what is that? A mushroom?  
+**Timon**: A dumpling?  
+**Pumbaa**: Can we keep them too?  
+**Timon**: Pumbaa, we are not collecting… Fine. Fine!  
 
 #### `reader:a23-12-talk` · [main](main.md#a23-12-talk)
 
@@ -1556,7 +1558,9 @@ _When they come back, Nala will not look at Simba, and Simba will not look at an
 **Nala**: Tell him he has to come home.  
 **Simba**: Leave them out of this.  
 _It is 7:45 in the evening. He walks off into the dark, alone, with his head down._  
-_After a moment, you follow._  
+**Timon**: Kid! Where you going?  
+**Timon**: No worries! …A little bit of worries?  
+_After a moment, you follow. It is 9:10 when you catch him up on the ridge._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals  
 > _Simba walked off at 7:45 pm and you caught up with him on the ridge at 9:10 pm. How long was that?_  
@@ -1565,8 +1569,6 @@ _After a moment, you follow._
 > - 2 hours 25 minutes → That is an hour too many. From 7:45 pm to 8:45 pm is one hour, so the total is 1 hour 25 minutes.
 > _For grown-ups: Found a time interval: from 7:45 to 9:10 is 1 hour 25 minutes._
 
-**Timon**: Kid! Where you going?  
-**Timon**: No worries! …A little bit of worries?  
 
 #### `reader:a23-12-complete-rafiki` · [main](main.md#a23-12-complete-rafiki)
 
@@ -1577,10 +1579,12 @@ _When they come back, Nala will not look at Simba, and Simba will not look at an
 **Nala**: Tell him he won’t come. I’m staying; I’m not giving up on him.  
 **Simba**: Rafiki? He thinks I’m…  
 _He doesn’t finish. He walks off into the dark, alone, and Timon and Pumbaa look at each other._  
-_You fill your gourds at the stream and turn for home at 6:30 in the morning. It is noon when you reach the thorns._  
+_You fill your gourds at the stream and turn for home at 6:30 in the morning._  
+_At noon you stop in the only shade for a mile._  
+_Your Nubbin finds the shade first, lies down in all of it, and lets you have the edge._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals  
-> _You set off at 6:30 in the morning and reach the thorns at noon (12:00). How long did you walk?_  
+> _You set off at 6:30 in the morning and stop for shade at noon (12:00). How long did you walk?_  
 > - ✅ 5 hours 30 minutes → Yes. 6:30 to 12:00 is 5 hours 30 minutes: 5 hours to 11:30, then 30 minutes to noon.
 > - 6 hours 30 minutes → That is an hour too long. From 6:30 to 11:30 is 5 hours, and 30 more minutes reaches noon: 5 hours 30 minutes.
 > - 5 hours → Close, but it misses the last half hour. 6:30 to 11:30 is 5 hours, then 30 minutes to noon: 5 hours 30 minutes.
@@ -1730,7 +1734,7 @@ _Then he laughs, a great cackling whoop, and goes up the inside of the tree like
 **Rafiki**: Polepole. But quickly!  
 _You mix the yellow earth with shaking hands. Rafiki takes the shell and finds the smudge where the cub used to be._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): people have painted on walls with ochre for tens of thousands of years  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): people have painted on walls with ochre for tens of thousands of years  
 > _Rafiki’s way of painting is very old._  
 > _People have painted on rock and cave walls with ochre for tens of thousands of years, all over the world._  
 > _Some of the oldest art ever found is in Africa. Painting a memory on a wall is one of the oldest things people do._  
@@ -1751,7 +1755,7 @@ _He paints the cub back in. Then, round its head, in big round strokes, he paint
 
 _Late in the night, from down in the ferns, comes a noise. Somebody is humming, very badly, and getting closer._  
 
-> **Lesson** (music, 1-PS4-1, ask): pitch: higher notes vibrate faster  
+> **Lesson** (music, 4-PS3-2, ask): pitch: higher notes vibrate faster  
 > _Rafiki hums badly. Put a hand on your throat and hum a low note, then a high one._  
 > _When you hum a higher note, how do your vocal cords vibrate?_  
 > - ✅ Faster → Yes. High notes are fast vibrations, low notes are slow ones. That difference is what we hear as pitch.
@@ -1848,7 +1852,7 @@ _The air turns damp. Ferns, roots and creepers crowd in, and the dry grass of th
 _He leads you through a tangle of roots and creepers, under, over and through, until the trees open on a small round pool._  
 _The water is perfectly still. It holds the whole sky, and the sky is clouding over._  
 
-> **Lesson** (science, 1-PS4-2, ask): reflections form on smooth surfaces  
+> **Lesson** (science, 4-PS3-2, ask): reflections form on smooth surfaces  
 > _Still water shows the whole sky, but rippling water breaks the picture up. Why?_  
 > - ✅ A smooth surface bounces light back in order; ripples scatter it → Yes. Calm water acts like a mirror. Ripples tilt the surface every which way, so the light scatters and the picture breaks.
 > - Ripples make the sky go away → The sky is still there. Ripples tilt the water’s surface in all directions, so the reflected light scatters.
@@ -1870,7 +1874,7 @@ _And as they settle, the face in the water changes: older, broader, a darker man
 > _There is no one right answer._  
 > - We keep their stories, voice and ways inside us → That’s a fair answer. We often hear them in the things we say and do, and that keeps them close.
 > - We carry their love, even if we cannot see them → That’s a fair answer. Being loved does not stop when someone dies: it stays part of who we are.
-> - It is only a comforting thing to say → That’s a fair answer, and an honest doubt. The ache of missing someone is real. Many people find the saying true in small ways, and we can think about it for a long time.
+> - It is only a comforting thing to say → Fair answer, and an honest doubt. Missing someone really does ache, and you can keep thinking about this one for a long time.
 > _For grown-ups: Thought about what it means to carry someone we love after they have died, with no single right answer._
 
 _Your Nubbin leans over the edge and sees only itself, with a red mark on its brow. It looks for a long time anyway._  
@@ -1886,7 +1890,7 @@ _Your Nubbin leans over the edge and sees only itself, with a red mark on its br
 
 _A wind comes. The clouds over the pool pile up and turn, and catch the light from somewhere far above them._  
 
-> **Lesson** (science, 2-PS1-4, ask): how clouds form: condensing vapour  
+> **Lesson** (science, ask): how clouds form: condensing vapour  
 > _Warm, damp air rises and cools. What does the water vapour in it turn into, to make a cloud?_  
 > - ✅ Tiny drops of liquid water → Yes. Cooling makes vapour condense into millions of tiny drops. Together they make a cloud.
 > - Smoke → Clouds are not smoke. They are made of tiny drops of water (or ice crystals, very high up).
@@ -1912,7 +1916,7 @@ _The voice comes once more, faint and very far off. Then the clouds are only clo
 _Simba stands still in the wind, looking at the place where the clouds were. Rafiki doesn’t hurry him._  
 _Your Nubbin looks up at the clouds for a long time. It doesn’t stop until long after the sky is plain again._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): people everywhere keep those they have lost close by remembering them  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): people everywhere keep those they have lost close by remembering them  
 > _People everywhere find ways to keep someone close after they have died: stories, photographs, a planted tree or flowers, a special place to visit._  
 > _Remembering is one of the oldest human habits. The Grove’s memorial flowers are one more way._  
 > _For grown-ups: Learned that people everywhere keep loved ones close by remembering them in different ways._
@@ -1980,7 +1984,7 @@ _Then the sky opens, and it rains as though it had been saving up for years._
 **Rafiki**: Mvua! Mvua!  
 **Rafiki**: Rain!  
 
-> **Lesson** (literacy, RL.2.4, ask): why a word is repeated  
+> **Lesson** (literacy, ask): why a word is repeated  
 > _Rafiki shouts “Mvua! Mvua!” twice._  
 > _Mvua is Swahili for rain. Why do you think the writer repeats it?_  
 > - ✅ It shows his joy and gives the line a rhythm → Yes. Repeating a word can show excitement and make a line feel like a shout or a beat.
@@ -2009,7 +2013,7 @@ _Simba walks up the rock through the rain, to the very top, where his father use
 _Rafiki sets a straight-sided gourd on the rock to catch the rain, and scratches the depth on his stick each evening._  
 **Rafiki**: Four evenings: 12 millimetres, 8, 15 and 5. The plain will want to know.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): adding several numbers  
+> **Lesson** (maths, 3.OA.D.8, ask): adding several numbers  
 > _Rafiki measured 12 mm, 8 mm, 15 mm and 5 mm of rain over four evenings. How many millimetres fell in all?_  
 > - ✅ 40 mm → Yes. 12 + 8 = 20, 20 + 15 = 35, and 35 + 5 = 40 millimetres.
 > - 35 mm → That leaves out the last 5. 12 + 8 + 15 = 35, and 35 + 5 = 40.
@@ -2023,7 +2027,7 @@ _He stands at the edge for a long moment in the rain, looking out over the dark 
 _Rafiki stands beside you with both hands on his stick. He doesn’t say anything; he doesn’t need to._  
 _Simba lifts his head and roars. It goes out over the plain and comes back from the hills, again and again._  
 
-> **Lesson** (music, 1-PS4-1, ask): sound bounces back as an echo  
+> **Lesson** (music, 4-PS3-2, ask): sound bounces back as an echo  
 > _Simba’s roar comes back from the hills. What is it that makes a sound come back, and what do we call it?_  
 > _(A lion’s roar can carry for kilometres.)_  
 > - ✅ Sound bounces off hard surfaces, and the repeat is an echo → Yes. Sound travels in waves, and when they hit a hard surface like a hillside, some bounce back. That is an echo.
@@ -2057,7 +2061,7 @@ _Simba looks down at it from the top of the rock. Then he roars again, gently, j
 _The page turns, slowly, like someone who wants to stay on the last good bit._  
 _Weeks of rain go by. The dust turns to mud, and the mud turns green._  
 
-> **Lesson** (science, 2-LS2-1, ask): plants need water to grow, and herds follow the grass  
+> **Lesson** (science, ask): plants need water to grow, and herds follow the grass  
 > _The rains have come and the grass is growing. Why do the herds come back?_  
 > - ✅ Fresh grass has grown for them to eat → Yes. Plants need water to grow. Plant-eaters follow the green, and the hunters follow them.
 > - They heard the roar → A roar is lovely, but it is the grass they follow. Fresh green growth, after the rain, is what draws the herds back.
@@ -2083,7 +2087,7 @@ _At the top, Simba stands with his mane dry and full, and Nala beside him with s
 _Rafiki shakes his rattle of gourds over the new cub, and the cub sneezes, just as its father did._  
 _Your Nubbin climbs your back, then your shoulder, then your head, to see. Some things never change._  
 
-> **Lesson** (science, K-ESS3-3, ask): every living thing on a plain is connected  
+> **Lesson** (science, 3-LS4-4, ask): every living thing on a plain is connected  
 > _Real savannas are protected in parks like the Serengeti and Hell’s Gate._  
 > _If one kind of animal, even the beetles, vanished from a plain, what would happen?_  
 > - ✅ Others would feel it, because everything on the plain is linked → Yes. Beetles clear the ground and feed the soil, so the grass grows, so the herds eat, so the lions eat. Looking after land protects all of them.
@@ -2100,6 +2104,10 @@ _Down on the plain, everyone sees at once. The sound comes up the rock like the 
 **Timon**: You stand with family!  
 _Timon and Pumbaa pull you in between them, to the front of the rock, right beside the lions._  
 **Pumbaa**: We came all this way together. You don’t get to stand at the back.  
+**Zazu**: Hornbills are excellent at standing at the back.  
+**Timon**: Zazu. You’re at the front.  
+_Zazu looks down. He is, somehow, at the very front._  
+_He straightens one feather and says nothing, for once._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what belonging feels like  
 > _Pumbaa says “You don’t get to stand at the back.” What does it show about how he sees you?_  

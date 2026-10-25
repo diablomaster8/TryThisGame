@@ -126,10 +126,10 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A20: The Weeping | [main.md](atlas/A20/main.md) (1506) | [sprout.md](atlas/A20/sprout.md) (1834) | [reader.md](atlas/A20/reader.md) (2099) |
 | Atlas, page A21: The Flower Field | [main.md](atlas/A21/main.md) (2072) |  |  |
 | Atlas, page A22: The Candle | [main.md](atlas/A22/main.md) (1610) | [sprout.md](atlas/A22/sprout.md) (2016) | [reader.md](atlas/A22/reader.md) (2124) |
-| Atlas, page A23: Remember Who You Are | [main.md](atlas/A23/main.md) (1678) | [sprout.md](atlas/A23/sprout.md) (1756) | [reader.md](atlas/A23/reader.md) (2177) |
-| Atlas, page A24: The Law of the Jungle | [main.md](atlas/A24/main.md) (1933) | [sprout.md](atlas/A24/sprout.md) (2576) | [reader.md](atlas/A24/reader.md) (3052) |
-| Atlas, page A25: The Nothing | [main.md](atlas/A25/main.md) (1711) |  | [reader.md](atlas/A25/reader.md) (1679) |
-| Atlas, page A26: The Wall of Uruk | [main.md](atlas/A26/main.md) (1703) | [sprout.md](atlas/A26/sprout.md) (2176) | [reader.md](atlas/A26/reader.md) (2273) |
+| Atlas, page A23: Remember Who You Are | [main.md](atlas/A23/main.md) (1692) | [sprout.md](atlas/A23/sprout.md) (1764) | [reader.md](atlas/A23/reader.md) (2185) |
+| Atlas, page A24: The Law of the Jungle | [main.md](atlas/A24/main.md) (1943) | [sprout.md](atlas/A24/sprout.md) (2595) | [reader.md](atlas/A24/reader.md) (3062) |
+| Atlas, page A25: The Nothing | [main.md](atlas/A25/main.md) (1729) |  | [reader.md](atlas/A25/reader.md) (1678) |
+| Atlas, page A26: The Wall of Uruk | [main.md](atlas/A26/main.md) (1723) | [sprout.md](atlas/A26/sprout.md) (2190) | [reader.md](atlas/A26/reader.md) (2273) |
 | Atlas, page A27: The White-Haired Prince | [main.md](atlas/A27/main.md) (1625) | [sprout.md](atlas/A27/sprout.md) (2128) | [reader.md](atlas/A27/reader.md) (2475) |
 | Atlas, page A28: The Box of Stories | [main.md](atlas/A28/main.md) (1248) | [sprout.md](atlas/A28/sprout.md) (1739) | [reader.md](atlas/A28/reader.md) (1893) |
 | Atlas, page A29: The Honmoon | [main.md](atlas/A29/main.md) (1390) |  | [reader.md](atlas/A29/reader.md) (2055) |

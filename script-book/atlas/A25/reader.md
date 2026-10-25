@@ -25,7 +25,7 @@ _He is about ten, round, with wet hair in his eyes. He shuts the door and leans 
 > _What is a good thing to do when that happens to you?_  
 > - ✅ Get somewhere safe, and tell a grown-up you trust. → Yes. Being unkind to someone is never their fault. It is never yours, either. A grown-up you trust can help it stop, and you don’t have to carry it alone.
 > - Hit them back. → It’s very hard to feel so cross. But hitting tends to make more trouble. Getting safe and telling a trusted grown-up can really make it stop.
-> - Keep it a secret. → Lots of people do that, because they feel ashamed. But there is nothing to be ashamed of. Telling a trusted person is the braver thing, and it lets help find you.
+> - Keep it a secret. → Keeping it secret is understandable. But there is nothing to be ashamed of. Telling a trusted person is the braver thing, and it lets help find you.
 > _For grown-ups: Thought about what to do when other children are unkind: get safe and tell a trusted adult._
 
 **Mr Coreander**: Hm. What’s your name?  
@@ -47,7 +47,7 @@ _He is about ten, round, with wet hair in his eyes. He shuts the door and leans 
 _A telephone rings in the back room. The old man grumbles his way out and leaves his book on the armchair._  
 _It is bound in copper-coloured silk. On the cover, one light snake and one dark snake bite each other’s tails._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): an ancient symbol: the snake that bites its tail (the ouroboros)  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): an ancient symbol: the snake that bites its tail (the ouroboros)  
 > _A note in Nova’s small writing has appeared in the margin of the page._  
 > _“A snake biting its own tail is one of the oldest signs there is. Artists in ancient Egypt drew it over three thousand years ago.”_  
 > _“Later, the ancient Greeks gave it the name we still use: ouroboros. It stands for something that goes round and round.”_  
@@ -102,7 +102,7 @@ _The words about the attic are rust-red. As he turns the page, words about a for
 
 > **Lesson** (literacy, RL.4.3, ask): how an author can use two colours to show two places (setting)  
 > _In this book, the attic is printed in red and the forest in green. Why would an author do that?_  
-> - ✅ So readers always know which world they are in. → Yes. The colour is a clue: red is the attic, green is the faraway land. It takes care, too. On a simple press, each colour needs its own run through the machine.
+> - ✅ So readers always know which world they are in. → Yes. The colour is a clue: red is the attic, green is the faraway land. On a simple press, each colour needs its own run through the machine.
 > - Those were the only two inks the printer had. → A printer can use any colour. Using two was a choice, and it took extra work. The choice does a job: it shows where we are.
 > - Just to look pretty. → It does look pretty. But it also tells you which world you are reading about.
 > _For grown-ups: Thought about why an author might print two settings in two colours._
@@ -122,7 +122,7 @@ _Bastian doesn’t notice. He has already started reading._
 _The attic is drawn in rust-red ink. As Bastian reads, the edges of the page begin to turn green._  
 _A forest grows in from the corners, and the rain on the slates turns into wind in leaves._  
 
-> **Lesson** (science, 1-PS4-1, notice): sounds are vibrations: rain on slates and wind in leaves  
+> **Lesson** (science, 4-PS3-2, notice): sounds are vibrations: rain on slates and wind in leaves  
 > _Listen to the page. Rain pats the slates, and wind rustles the leaves._  
 > _Both sounds are made the same way: by something shaking, very quickly._  
 > _Raindrops make slates ring, and wind makes leaves flutter. Every sound you have ever heard began with a shake._  
@@ -148,10 +148,10 @@ _A rockchewer comes crunching out of the trees. He is the size of a hill, and he
 _Then a night-hob arrives riding a bat, and a tiny, no bigger than your thumb, on a snail that has run all the way._  
 **Blubb**: Strangers! Friendly ones?  
 **Blubb**: Say friendly. I’m Blubb, and I’m very nervous.  
-**Pyornkrachzark**: Pyornkrachzark. Sit.  
-**Pyornkrachzark**: Pebble?  
+_The rockchewer says, “My name has fourteen letters. You may call me Rockchewer._  
+_Sit. Pebble?”_  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): respect for other people’s customs: accepting a gift politely  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): respect for other people’s customs: accepting a gift politely  
 > _A rockchewer holds out a pebble. To him, it is a kind and tasty gift._  
 > _What is the polite thing to do?_  
 > - ✅ Take it kindly and say thank you. → Yes. People have different customs, and a gift is a gift. You don’t have to eat it. Thanking him is how you show respect.
@@ -159,15 +159,14 @@ _Then a night-hob arrives riding a bat, and a tiny, no bigger than your thumb, o
 > - Walk away. → That might feel safe. But it would also say that his kindness didn’t count. Saying thank you is the respectful way.
 > _For grown-ups: Practised respecting a different custom by accepting a gift politely._
 
-**Ückück**: I am Ückück. We are all going the same way, it seems: to the Ivory Tower, with bad news.  
-**Gluckuk**: Gluckuk. My snail is the fastest in my whole country.  
-**Gluckuk**: Please don’t step on him.  
+_The night-hob says, “We are all going the same way, it seems: to the Ivory Tower, with bad news.”_  
+_The tiny one says, “My snail is the fastest in my whole country. Please don’t step on him.”_  
 _Your Nubbin sits down next to the snail, very carefully, and the two of them look at each other for a long time._  
 
 **Choices**
 
 - **Accept the pebble, politely.**
-    - You hold it as if you might eat it later. Pyornkrachzark nods, pleased.
+    - You hold it as if you might eat it later. The rockchewer nods, pleased.
     - Good manners matter, whatever size you are.
 - **Ask what the bad news is.**
     - **Ückück**: The same as everyone’s, I expect. That is what frightens me.
@@ -175,7 +174,7 @@ _Your Nubbin sits down next to the snail, very carefully, and the two of them lo
 #### `reader:a25-02-fire-done` · [main](main.md#a25-02-fire-done)
 
 _Each came from a different corner of Fantastica to the same fire, carrying the same news._  
-_Pyornkrachzark lays his pebbles on a flat stone, ready to share. There are eighteen._  
+_The rockchewer lays his pebbles on a flat stone, ready to share. There are eighteen._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): sharing equally: 18 ÷ 6 = 3  
 > _There are six of you: four messengers, you, and your Nubbin._  
@@ -194,8 +193,8 @@ _Pyornkrachzark lays his pebbles on a flat stone, ready to share. There are eigh
 **Pyornkrachzark**: Didn’t eat it. Honest.  
 **Gluckuk**: At home, a lake with a hole in the middle where nothing was. Not water.  
 **Gluckuk**: Not dry. Nothing.  
-**Ückück**: Come. It’s here too now.  
-**Ückück**: I saw it from the air.  
+**Ückück**: Come. I am Ückück, and I saw it from the air.  
+**Ückück**: It’s here too now.  
 _At the edge of the wood, the trees just stop. It isn’t a cliff or a clearing: the picture simply isn’t there._  
 _When you look at the gap, your eyes feel as if they have gone blind on that side. The singing birds fall quiet._  
 
@@ -279,7 +278,7 @@ _The room goes silent. Your Nubbin hides behind a pillar, which is the most sens
 _Cairon stamps a hoof. Then he looks very old, and sits down on the floor like a tired horse._  
 **Cairon**: A physician finds the cause first, and then the cure. I have the problem, at least: one illness, in two places.  
 
-> **Lesson** (science, K-2-ETS1-1, ask): defining a problem clearly before looking for a solution  
+> **Lesson** (science, 3-5-ETS1-2, ask): defining a problem clearly before looking for a solution  
 > _Cairon says the Empress’s illness and the Nothing are one problem. Why does that help?_  
 > - ✅ Then one cure might mend both. → Yes. Naming the problem clearly is the first step to solving it.
 > - It doesn’t help. Two problems would be easier. → It can feel that way! But two separate cures would be twice the work. If the problem is really one, one cure might mend both.
@@ -299,7 +298,7 @@ _It is the same sign that you saw on the cover of the book._
 _The maps are huge and out of date. Half of them have gaps now, where the Nothing has been._  
 **Cairon**: You, traveller, with the sharp eyes. Help an old horse.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: the Sun rises in the east  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: the Sun rises in the east  
 > _The Grassy Sea lies far to the east._  
 > _On a clear morning, which way do you face to look at the Sun rising?_  
 > - ✅ East → Yes. The Sun rises in the east and sets in the west. Face the rising Sun, and east is in front of you.
@@ -363,7 +362,7 @@ _In the red attic, Bastian has put an old candle in his pocket for later. It is 
 
 _The Grassy Sea is grass as far as you can see, moving in long waves like water. In places it is purple, where the buffalo graze._  
 
-> **Lesson** (science, 2-LS4-1, notice): grassland as a habitat, and its different names around the world  
+> **Lesson** (science, 3-LS4-3, notice): grassland as a habitat, and its different names around the world  
 > _A grassland is a habitat with lots of grass and very few trees._  
 > _On our Earth, grasslands have different names in different places: prairie, steppe, savanna and pampas._  
 > _Grazing animals live there, and many small creatures hide in the tall grass._  
@@ -412,6 +411,7 @@ _Cairon looks at him for a long time. Then he laughs a short, tired laugh, and t
 **Cairon**: Don’t ask me how. Nobody knows.  
 _Atreyu puts on AURYN. He lays his bow down in the grass, very carefully, and doesn’t look at it again._  
 **Atreyu**: My name means “Son of All”. My mother and father died when I was small, so everyone brought me up.  
+**Atreyu**: So I’m going for everyone.  
 
 > **Lesson** (literacy, L.3.4, notice): names are words with meanings, and a name can carry a story or a wish  
 > _Many names began as ordinary words. In this story, Atreyu’s name means “Son of All”._  
@@ -419,7 +419,6 @@ _Atreyu puts on AURYN. He lays his bow down in the grass, very carefully, and do
 > _A name can carry a wish, a place or a family story. Does yours?_  
 > _For grown-ups: Learned that many names began as words with meanings, using Atreyu’s name as an example._
 
-**Atreyu**: So I’m going for everyone.  
 
 **Choices**
 
@@ -483,7 +482,7 @@ _Up in the attic, Bastian is grinning to himself in the half-dark. He likes Atre
 
 _The swamp is grey and still. Dead trees stand in it, and the air is cold and smells of nothing much._  
 
-> **Lesson** (science, 2-LS4-1, notice): a swamp is a wetland habitat, usually full of life  
+> **Lesson** (science, 3-LS4-3, notice): a swamp is a wetland habitat, usually full of life  
 > _A real swamp is a wetland: ground soaked with water, with trees growing in it._  
 > _Real swamps are full of life: frogs, herons, fish and dragonflies._  
 > _This swamp is different. All its colour and life has been taken out._  
@@ -537,6 +536,7 @@ _Atreyu puts both arms round his neck and holds his head, and talks to him quiet
 **Atreyu**: Not ever.  
 _The swamp closes over Artax, gently. Artax has died._  
 _His body has stopped, and it will not start again._  
+_Atreyu will remember him. That is how Artax stays._  
 _Atreyu stands alone for a long time. When he walks on, he doesn’t look back, because Artax asked him not to._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): grief: it is allowed to be sad, and some things help  
@@ -552,7 +552,7 @@ _Atreyu stands alone for a long time. When he walks on, he doesn’t look back, 
 
 _In the red attic, Bastian is crying, and he doesn’t mind. Nobody can see him, and it was Artax._  
 
-> **Lesson** (literacy, RL.2.3, ask): how readers feel real feelings for characters in a story  
+> **Lesson** (literacy, RL.3.3, ask): how readers feel real feelings for characters in a story  
 > _Bastian cries for a horse in a book. Why do stories make us feel so much?_  
 > - ✅ A good story makes a character feel real, and we care about them. → Yes. Crying at a story is a sign that you care. Bastian cares about Artax.
 > - Because Bastian is being silly. → There is nothing silly about it. Readers have wept at stories for as long as there have been stories. It shows how much we can care.
@@ -640,7 +640,7 @@ _She talks to herself as “we”, and answers herself too. She has had nobody e
 **Morla**: We knew her when she was young. She was young then too.  
 **Morla**: She is always young.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): oral history: people who remember long ago can tell us about the past  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): oral history: people who remember long ago can tell us about the past  
 > _Morla remembers the Empress from long, long ago._  
 > _What can we learn from someone who remembers things from a long time ago? What might be lost if nobody asks?_  
 > - How life used to be, and what has changed. → That’s a fair answer. Older people can tell us things no book has, because they were there.
@@ -695,7 +695,7 @@ _He doesn’t say it like a hero. He says it the way you might tie a bootlace: p
 > **Lesson** (literacy, L.4.5, ask): a simile: what comparing two things tells us about a character  
 > _The story says Atreyu spoke “the way you might tie a bootlace”._  
 > _What does that comparison tell us about him?_  
-> - ✅ He is plain and determined, with no showing off. → Yes. Tying a bootlace is ordinary and necessary. It is a way of saying “just get on with it”. A comparison like this, using “like” or “as”, is called a simile.
+> - ✅ He is plain and determined, with no showing off. → Yes. Tying a bootlace is ordinary and necessary, with no fuss. A comparison like this, using “like” or “as”, is called a simile.
 > - He is talking about boots. → Boots are in the comparison, but the story isn’t really about boots. It shows how he speaks: plainly, without fuss. That kind of comparison is a simile.
 > - He is angry. → He is worried, but he doesn’t sound angry. A bootlace is tied calmly. The simile shows he is calm and ready to start.
 > _For grown-ups: Read a simile closely to learn what it shows about a character’s manner._
@@ -753,7 +753,7 @@ _The swarm shivers. It knows AURYN, and does not like it, and cannot quite say n
 **Ygramul**: We cannot harm the Glory. But we will give you something, small hunter, as a gift.  
 **Ygramul**: You came for the Oracle?  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness in a bargain: what each side gives and gets  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness in a bargain: what each side gives and gets  
 > _Ygramul calls its sting a “gift”. It sends you where you need to go, then leaves you needing a long rest._  
 > _Is that a fair bargain? What would make a bargain fair?_  
 > - Fair means both sides know what they give and get. → That’s a fair answer. A bargain is fairer when nobody is tricked.
@@ -780,9 +780,9 @@ _The swarm shivers. It knows AURYN, and does not like it, and cannot quite say n
 _There is a jolt, like missing a stair in the dark. Then you are falling through light, all of you together, very fast._  
 _It doesn’t hurt. It is more like being sneezed across the world by something very large._  
 
-> **Lesson** (science, 4-PS3-2, notice): light is the fastest thing we know; sunlight takes about eight minutes to reach Earth  
+> **Lesson** (science, notice): light is the fastest thing we know; sunlight takes about eight minutes to reach Earth  
 > _Light is the fastest thing we know. Sunlight takes about eight minutes to cross the huge gap between the Sun and Earth._  
-> _Falling through light is much slower than light itself. Luckily for your Nubbin._  
+> _Falling through light is much slower than light itself._  
 > _For grown-ups: Learned that light is the fastest thing we know, and that sunlight takes about eight minutes to reach Earth._
 
 
@@ -825,7 +825,7 @@ _Two gnomes come out of the round house, both very small and both talking at onc
 **Urgl**: Mostly will have to do. Silver leaf, bitter root, and the one that smells of rain.  
 **Urgl**: Quick.  
 
-> **Lesson** (science, 2-PS1-1, ask): describing materials by their properties and the senses we use  
+> **Lesson** (science, ask): describing materials by their properties and the senses we use  
 > _Urgl describes her herbs by what they look like, taste like and smell like._  
 > _Which sense found the herb that smells of rain?_  
 > - ✅ Smell → Yes. The nose found it. Plants, like all materials, can be told apart by their properties.
@@ -871,8 +871,10 @@ _Urgl brews all night. By morning Atreyu’s arm is warm again, and Falkor is as
 **Engywook**: My theory is nearly finished.  
 **Engywook**: It’s to do with the weather. Or the alphabet.  
 **Engywook**: Or the moon. Possibly all three.  
+**Engywook**: My tally. Windy days: five.  
+**Engywook**: Calm days: three. Days Urgl wouldn’t let me out: all the rest.  
 
-> **Lesson** (maths, 2.MD.D.10, ask): reading a tally chart and finding a difference  
+> **Lesson** (maths, 3.MD.B.3, ask): reading a tally chart and finding a difference  
 > _Engywook has been tallying the weather on the days he watched the gate._  
 > _Windy days: 5. Calm days: 3._  
 > _How many more windy days were there than calm days?_  
@@ -923,7 +925,7 @@ _Urgl packs you bread for the road, and a bottle of cure, in case of more swarms
 
 _Two enormous sphinxes face each other across a gap in the rocks, eyes shut. Between them stand frozen travellers, still as statues._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): sphinxes in ancient Egyptian and Greek stories  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): sphinxes in ancient Egyptian and Greek stories  
 > _A note in Nova’s writing appears. “Sphinxes come from real stories.”_  
 > _“In ancient Egypt, a sphinx was a stone guardian with a lion’s body and a human head.”_  
 > _“The Great Sphinx at Giza is about 4,500 years old.”_  
@@ -967,7 +969,7 @@ _Your Nubbin sees a round boy as well, and waves at him._
 > **Lesson** (sel, CASEL: Social awareness, ask): seeing a person with kindness: worth liking as they are  
 > _The mirror shows Bastian as he is: a round boy in a blanket, reading in the half-dark._  
 > _How would a good friend see that boy?_  
-> - ✅ As a real person worth liking: someone who loves stories and cares. → Yes. Bastian loves stories, and he cried for Artax. He cares a great deal, and that is worth a lot. How a person looks never tells you how much they are worth.
+> - ✅ As a real person worth liking: someone who loves stories and cares. → Yes. Bastian loves stories, and he cried for Artax. He cares a great deal. How a person looks never tells you how much they are worth.
 > - As someone to feel embarrassed about. → There is nothing about him to be embarrassed about. Being round, or in a blanket, or reading, is just who he is. A good friend sees the person.
 > - As nobody special. → Atreyu stopped and stared at him, and so did you. He is somebody.
 > _For grown-ups: Thought about seeing a person with kindness, as worth liking just as they are._
@@ -976,15 +978,6 @@ _Up in the attic, Bastian has stopped reading. He is staring at the page where h
 **Bastian**: That’s me. That’s me in there.  
 **Bastian**: It can’t be.  
 _Atreyu walks into the picture of the boy, as if into water, and comes out the other side._  
-
-> **Lesson** (maths, 4.G.A.3, ask): mirror symmetry: a shape with a line of symmetry matches itself on both sides  
-> _A mirror line splits a shape into two halves that match._  
-> _Which capital letter has a mirror line straight down the middle: A, F or R?_  
-> - ✅ A → Yes. Fold a capital A down the middle and the two halves match. It has a line of symmetry.
-> - F → Try folding an F down the middle. Its arms stick out on one side only. The capital A is the one that matches.
-> - R → An R has its bump on one side only, so the two halves don’t match. The capital A matches on both sides.
-> _For grown-ups: Found which capital letter has a line of symmetry (A)._
-
 
 #### `reader:a25-09-mirror-done` · [main](main.md#a25-09-mirror-done)
 
@@ -1054,7 +1047,7 @@ _Nothing answers. The voice goes on singing, to itself, about the colour of the 
 **Atreyu**: Why won’t she talk to me?  
 _Your Nubbin cocks its head. Then it hums two notes, a high one and a low one that matches it, like a rhyme._  
 
-> **Lesson** (science, 1-PS4-1, notice): pitch: fast vibrations make high sounds and slow vibrations make low sounds  
+> **Lesson** (science, 4-PS3-2, notice): pitch: fast vibrations make high sounds and slow vibrations make low sounds  
 > _Your Nubbin hummed a high note and a low note. What is the difference?_  
 > _Sound is made by vibrations. Fast vibrations make a high sound, and slow ones make a low sound._  
 > _A short, tight guitar string shakes fast and sounds high. A long, loose one shakes slowly and sounds low._  
@@ -1066,7 +1059,13 @@ _Your Nubbin cocks its head. Then it hums two notes, a high one and a low one th
 
 #### `reader:a25-10-voice-done` · [main](main.md#a25-10-voice-done)
 
-_Atreyu is not, it turns out, a natural poet. He looks at you hopefully._  
+_Atreyu clears his throat and has a go on his own._  
+**Atreyu**: O Voice, who sings so very high! I have a question.  
+**Atreyu**: It is: why?  
+_The voice sings on as if nobody had spoken. Your Nubbin covers its face with both hands._  
+**Atreyu**: It rhymed. I checked.  
+**Atreyu**: It just wasn’t any good.  
+_He looks at you hopefully._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking for help: saying what you need  
 > _Atreyu isn’t good at rhyming, and he looks at you for help._  
@@ -1082,7 +1081,7 @@ _Atreyu is not, it turns out, a natural poet. He looks at you hopefully._
 **Atreyu**: The Empress is ill and the land’s going grey. Please tell us the cure, and we’ll be on our way.  
 **Uyulala**: She needs a new name, for the old one wore thin. She fades like a lantern with no flame within.  
 
-> **Lesson** (literacy, RL.2.4, ask): rhyme: words that end with the same sound  
+> **Lesson** (literacy, ask): rhyme: words that end with the same sound  
 > _Atreyu’s first two lines end in “grey” and “way”._  
 > _Which of these words also rhymes with “grey”?_  
 > - ✅ Day → Yes. Grey, way and day all end in the same “ay” sound.
@@ -1143,7 +1142,7 @@ _The singing grows quiet, and then it stops. The columns stand in silence._
 **Atreyu**: Fantastica has no border. Everyone says so.  
 **Atreyu**: Well, I’ll find it anyway.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): a border is a line between two lands; some follow rivers or mountains  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): a border is a line between two lands; some follow rivers or mountains  
 > _A border is an agreed line between two countries or lands._  
 > _Some borders follow a river or a mountain range. Others are lines drawn on a map._  
 > _Most real countries have one. Fantastica is a land with no border at all._  
@@ -1182,7 +1181,7 @@ _Below you the land goes by: forests, and seas, and here and there a blank place
 
 _Then the sky turns dark ahead, and the wind changes, and changes again, from four sides at once._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions: winds are named for where they come from  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions: winds are named for where they come from  
 > _A wind is named for the direction it comes from. A north wind blows from the north._  
 > _Which way does a north wind push you?_  
 > - ✅ South → Yes. A north wind comes from the north, so it pushes you towards the south.
@@ -1261,7 +1260,7 @@ _The sun set at seven in the evening. It will not rise again until five in the m
 > _How many hours of night will Falkor fly?_  
 > - ✅ 10 hours → Yes. From 7 to midnight is 5 hours, and from midnight to 5 is 5 more. That makes 10 hours.
 > - 12 hours → That would be seven in the evening to seven in the morning. We stop at five. 5 hours to midnight plus 5 hours after is 10.
-> - 2 hours → That is the difference between 7 and 5 on the clock face. But night runs on past midnight. From 7 in the evening to 5 in the morning is 10 hours.
+> - 2 hours → That is the gap between 7 and 5 on the clock face. But night runs past midnight. From 7 in the evening to 5 in the morning is 10 hours.
 > _For grown-ups: Worked out a time interval across midnight: 7 in the evening to 5 in the morning is 10 hours._
 
 _Far off, on a dark shore, a boy without an amulet is waking up alone, in a ruined city._  
@@ -1287,7 +1286,7 @@ _At dawn, a long way out, something winks under the water. Gold, the size of a p
 _He folds himself up and dives. The sea goes green and cold all round you for one long breath._  
 _When you come up, Falkor has the amulet in his mouth, very gently, like a dog with an egg._  
 
-> **Lesson** (science, 2-PS1-1, ask): sinking and floating depend on a material’s properties: gold is dense and sinks  
+> **Lesson** (science, ask): sinking and floating depend on a material’s properties: gold is dense and sinks  
 > _The amulet is made of gold, and it sank. Gold is very heavy for its size._  
 > _Which of these would sink in the sea: a cork, a gold ring or a wooden spoon?_  
 > - ✅ A gold ring → Yes. Gold is much heavier than the same amount of water, so it sinks. Cork and wood are lighter than water, so they float.
@@ -1326,7 +1325,8 @@ _The wolf goes very still. Then he begins to laugh, a long, dry laugh that goes 
 
 _You don’t see the wolf. You see Atreyu’s face, as the laughing stops, and the quiet after it._  
 _Gmork has died. His body has stopped, and it will not start again._  
-_Then Atreyu cries out. The chained jaws have closed on his leg, even now, and they won’t open._  
+_Gmork can’t hurt anyone now. But his teeth still hold Atreyu’s leg, and Atreyu cries out._  
+_Then, far above, something white comes down out of the dark._  
 
 > **Lesson** (literacy, RL.3.3, ask): working out feelings from clues, even when nobody says them  
 > _Nobody says how Atreyu feels. We only see his face, the quiet, and his cry._  
@@ -1414,7 +1414,7 @@ _Then she looks past Atreyu, at your Nubbin, who is half-hidden behind your knee
 _She says your Nubbin’s name, very softly. It is the right name, the one you gave it on the first night._  
 _Your Nubbin comes out from behind your knee all at once, as if it had been called across the Grove._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): names often come from a family story, a place or a hope  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): names often come from a family story, a place or a hope  
 > _When the Empress says your Nubbin’s name, it comes out at once._  
 > _Names often carry a family story: a grandparent, a place, a hope. What might a name tell us about the people who chose it?_  
 > - That they were thinking of someone they loved. → That’s a fair answer. Many people are named after someone dear to their family.
@@ -1446,7 +1446,7 @@ _Then she looks past Atreyu, at your Nubbin, who is half-hidden behind your knee
 **The Empress**: I heard it from here. Everyone here hears a name when it is given back.  
 _Your Nubbin comes out from behind your knee and stands up very straight, as if it has been introduced._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): a name can be kept for someone and given back; remembering matters  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): a name can be kept for someone and given back; remembering matters  
 > _A name was whistled back to someone, and the Empress heard it from far away._  
 > _Why might it matter that someone remembers a name for you, until you can have it back?_  
 > - It means you are not forgotten while you are away. → That’s a fair answer. Being remembered is a way of belonging, even when you are far away.
@@ -1470,7 +1470,7 @@ _Your Nubbin comes out from behind your knee and stands up very straight, as if 
 > _Atreyu thinks he failed. The Empress says he has done more than anyone._  
 > _When you think you have failed at something, what could you say to yourself?_  
 > - ✅ I tried my hardest, and that counts. → Yes. Trying hard is never wasted, even when things don’t turn out as you planned. Atreyu’s journey brought Bastian to the story, though he didn’t know it.
-> - I’m no good at anything. → That is a heavy thing to say to yourself, and it isn’t true. Try talking to yourself the way you would talk to a friend: you tried hard, and that counts.
+> - I’m no good at anything. → That is a heavy thing to say to yourself, and it isn’t true. Talk to yourself as you would to a friend: you tried hard, and that counts.
 > - Nothing. I’d just feel bad. → Feeling bad for a while is allowed. Then a kind word to yourself can help. You could say: I tried my hardest, and that counts.
 > _For grown-ups: Thought about speaking kindly to yourself after a setback._
 
@@ -1517,7 +1517,7 @@ _It is the same book, copper silk with two snakes. Your Nubbin knows it at once 
 **The Empress**: Then read it. From the start.  
 **The Empress**: Read it out loud.  
 
-> **Lesson** (science, 2-ESS1-1, notice): real mountains change very slowly over a very long time  
+> **Lesson** (science, 4-ESS2-1, notice): real mountains change very slowly over a very long time  
 > _Wandering Mountain wanders, which no real mountain does._  
 > _Real mountains do change, but very slowly. Wind, rain and ice wear them down over millions of years._  
 > _A landslide or a volcano can change a mountain quickly, but a mountain never walks._  
@@ -1542,7 +1542,7 @@ _It is going round again. It will go round for ever, the boy reading and the old
 > **Lesson** (maths, 4.OA.C.5, ask): a repeating pattern: finding the 10th step in a cycle of four  
 > _The story goes round and round: shop, attic, forest, tower. Then shop, attic, forest, tower again._  
 > _Which place comes at the 10th step?_  
-> - ✅ The attic → Yes. The pattern repeats every four. Steps 9 and 10 are the shop, then the attic. Another way: 10 is 2 more than 8, and 8 ends a full cycle at the tower.
+> - ✅ The attic → Yes. The pattern repeats every four. Steps 9 and 10 are the shop, then the attic. Or: 10 is 2 after 8, and 8 ends a full cycle.
 > - The shop → The shop is step 9. Count on once more: shop is 1, 5 and 9. Step 10 is the attic.
 > - The tower → The tower is step 4 and step 8. Step 12 would be next. Step 10 is the attic.
 > _For grown-ups: Found the 10th item in a repeating pattern of four (the attic)._
@@ -1600,7 +1600,7 @@ _Bastian takes a deep breath. He thought of the name pages ago, and was too shy 
 > **Lesson** (literacy, L.3.4, ask): a few German words (Mond, Kind, Buch) and how German joins words together  
 > _A note in Nova’s writing: “Mond is German for moon, and Kind is German for child. German often joins words into one long word.”_  
 > _Joined, with a little “en” in the middle, they make Mondenkind. What name does that give in English?_  
-> - ✅ Moon Child → Yes. Moon Child. Mond sounds a bit like “mohnt”, and Kind a bit like “kint”. The German word for the book Bastian is holding is Buch, with a rough “ch” as at the end of “loch”.
+> - ✅ Moon Child → Yes. Moon Child. Mond sounds a bit like “mohnt”, and Kind a bit like “kint”.
 > - Child Moon → Close! German puts the describing word first, like English: a moon child is a child of the moon. So Mondenkind means Moon Child.
 > - Moon Kind → “Kind” is a German word. In English, it means “child”. So Mondenkind means Moon Child.
 > _For grown-ups: Learned three German words (Mond, Kind, Buch) and how German joins words into one: Mondenkind, Moon Child._
@@ -1610,10 +1610,9 @@ _Bastian takes a deep breath. He thought of the name pages ago, and was too shy 
 
 _The candle goes out, and the attic, and everything. It goes all at once, very gently, like someone drawing a curtain._  
 
-> **Lesson** (science, 4-PS3-2, notice): a flame needs fuel, heat and air  
-> _A candle flame needs three things: fuel, heat and air. The fuel is the wax._  
-> _When the wax is used up, or the air is cut off, the flame goes out._  
-> _For grown-ups: Learned that a flame needs fuel, heat and air, and goes out without them._
+> **Lesson** (literacy, notice): a story needs a reader  
+> _A story needs a reader. Bastian read, and then he called out, and the story answered._  
+> _For grown-ups: Noticed that a story needs a reader, and that Bastian’s call is what the story answered._
 
 
 #### `reader:a25-14-dark` · [main](main.md#a25-14-dark)

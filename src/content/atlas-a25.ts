@@ -48,10 +48,10 @@
  * LIFTED TEXT (copyrighted: two one-sentence lines, under the limit of three, both in Ende’s German
  * exactly as Part M lists them, each followed by our own English; text of the first edition,
  * Thienemann 1979, as Part M gives it. Set with guillemets and no-break spaces):
- *   1. AURYN’s inscription, « TU WAS DU WILLST ». Ours: “Do what you wish.” a25-15-sand#8 (once).
+ *   1. AURYN’s inscription, « TU WAS DU WILLST ». Ours: “Do what you wish.” a25-15-sand#12 (once).
  *   2. The book’s refrain, « Aber das ist eine andere Geschichte und soll ein andermal erzählt
  *      werden. » Ours: “But that is another story, and shall be told another time.”
- *      a25-16-hynreck#8 (with the English at #9) and a25-20-shop#10 (with the English at #11).
+ *      a25-16-hynreck#8 (with the English at #9) and a25-20-shop#14 (with the English at #15).
  * Every quoted line has a childLines entry, though the Learning Grove version stops at A25-14.
  * The Empress’s new name is “Moon Child” (German Mondenkind). Uyulala’s rhymes, Gmork’s speech, the
  * Water’s questions and every other line are original. No passage of the novel is reproduced.
@@ -1674,6 +1674,10 @@ export const ATLAS_A25: Quest[] = [
         N(
           'There is only a voice, a long way off and very close by, singing, but in a way that is almost talking.',
         ),
+        AT(
+          'Engywook wanted a report. Wind: none. Moon: not out. Alphabet: I didn’t check.',
+        ),
+        AT('He’ll be furious. He’ll have to start again. He’ll love it.', 'happy'),
         AT('The Oracle. We made it.', 'happy'),
         N(
           'In the attic, Bastian has pulled the blanket over his head. He isn’t sure he wants to be in a book that knows him.',
@@ -1727,7 +1731,15 @@ export const ATLAS_A25: Quest[] = [
         },
         done: {
           id: 'a25-10-voice-done',
-          lines: [N('Atreyu is not, it turns out, a natural poet. He looks at you hopefully.')],
+          lines: [
+            N('Atreyu clears his throat and has a go on his own.'),
+            AT('O Voice, who sings so very high! I have a question. It is: why?'),
+            N(
+              'The voice sings on as if nobody had spoken. Your Nubbin covers its face with both hands.',
+            ),
+            AT('It rhymed. I checked. It just wasn’t any good.', 'think'),
+            N('He looks at you hopefully.'),
+          ],
         },
       },
       {
@@ -2448,6 +2460,12 @@ export const ATLAS_A25: Quest[] = [
             N(
               'And he is: the boy in the pool is slim and straight, with a fine, proud face. He laughs out loud.',
             ),
+            N(
+              'Then he sees you in the pool too, over his new shoulder, and your Nubbin in its umbrella flower.',
+            ),
+            BA('You. You’re in the book. The one behind the bell, with the sneezer.', 'shock'),
+            N('Your Nubbin sneezes, to confirm.'),
+            BA('Come on, then. I want somebody to see this.', 'happy'),
             N('Round his neck, on a chain, hangs AURYN. The Empress has left it to him.'),
             N('He turns it over in his fingers, and you see the back of it for the first time.'),
             N(LIFT_AURYN),
@@ -2515,8 +2533,11 @@ export const ATLAS_A25: Quest[] = [
           id: 'a25-15-lion-done',
           lines: [
             N(
-              'At dawn the lion wakes, warm and gold. He gives Bastian a sword with a plain hilt, rusty in its scabbard.',
+              'At dawn the lion wakes, warm and gold, and carries straight on from the middle of his word.',
             ),
+            GR('…ful. Thankful. That was the word. You stayed. Nobody stays.'),
+            BA('I said I would.'),
+            N('Graógramán gives Bastian a sword with a plain hilt, rusty in its scabbard.'),
             GR(
               'Sikanda. It leaps into your hand by itself, when it’s needed. Never draw it of your own will.',
             ),
@@ -2567,14 +2588,14 @@ export const ATLAS_A25: Quest[] = [
     rewards: [],
     sets: { 'a25-15': true },
     childLines: {
-      'a25-15-sand#8':
+      'a25-15-sand#12':
         'Round the back, where the snakes’ tails meet, there are four words cut into the gold.',
-      'a25-15-sand#9': 'It says I can choose. I can choose anything at all! Then I will.',
+      'a25-15-sand#13': 'It says I can choose. I can choose anything at all! Then I will.',
     },
     notes:
       'PART TWO starts here. The page is green now even when Bastian is in it: he is in Fantastica. ' +
-      'LIFTED TEXT: a25-15-sand#8 is AURYN’s inscription in Ende’s German (« TU WAS DU WILLST », Thienemann 1979), and ' +
-      '#9 is our own English in Bastian’s mouth. Show the four words engraved on the amulet’s back in a close-up. ' +
+      'LIFTED TEXT: a25-15-sand#12 is AURYN’s inscription in Ende’s German (« TU WAS DU WILLST », Thienemann 1979), and ' +
+      '#13 is our own English in Bastian’s mouth. Show the four words engraved on the amulet’s back in a close-up. ' +
       'NO WISHING MECHANIC: the player never holds AURYN and never wishes; Bastian wishes in dialogue only. ' +
       'SIGNATURE CHOICE (a25-15-mirror): a25-mirror = truth | yourself | notebook. It pays off in A25-16 (a25-16-worry ' +
       'variants), A25-18 (a25-18-attic-truth), A25-19 (a25-19-page-notebook, a25-19-ask-yourself) and A25-20 (the three ' +
@@ -2847,7 +2868,7 @@ export const ATLAS_A25: Quest[] = [
               label: 'Say Atreyu was trying to help.',
               then: [
                 BA('Then he should have asked.', 'angry'),
-                AT('I did ask. You didn’t hear.', 'sad'),
+                AT('I did ask, at Amarganth. You went off to look at Falkor’s scales.', 'sad'),
               ],
             },
             {
@@ -2950,6 +2971,9 @@ export const ATLAS_A25: Quest[] = [
             ),
             N(
               'Bastian rides out with his company and Xayide’s empty giants. The noise is enormous, and mostly shouting.',
+            ),
+            N(
+              'Somewhere in the noise, a knight is telling nobody in particular about a grey horse with a limp.',
             ),
             N(
               'In the middle of it, Bastian and Atreyu meet. Sikanda leaps into Bastian’s hand, the way it always does.',
@@ -3347,6 +3371,10 @@ export const ATLAS_A25: Quest[] = [
             ),
             CO('Hm. What book?'),
             BA('Copper silk. Two snakes on the cover. It was on your chair.'),
+            N('Behind the bell, your Nubbin sneezes. Nobody can see it.'),
+            CO('Bless you.'),
+            BA('I didn’t sneeze.'),
+            CO('No. I know.'),
             N(
               'Coreander looks at him over his spectacles for a long time. Then he smiles, slowly, as if he had remembered something.',
             ),
@@ -3397,16 +3425,16 @@ export const ATLAS_A25: Quest[] = [
     ],
     sets: { 'a25-20': true, 'a25-done': true },
     childLines: {
-      'a25-20-shop#10':
+      'a25-20-shop#14':
         'It’s what the book always said, in German, whenever a tale had to wait for another day.',
-      'a25-20-shop#11': 'Some stories have to wait their turn. That’s all right. They keep.',
+      'a25-20-shop#15': 'Some stories have to wait their turn. That’s all right. They keep.',
     },
     notes:
       'ASH (reads s6Done, read-only): if s6Done is set, play ATLAS_A25_VARIANTS a25-20-water-ash in place of a25-20-water ' +
       '(same check). Your Nubbin whistles the three notes (low, high, a little one, like a question: S6’s motif, as the ' +
       'whistle emote sound, played very softly); Atreyu looks at it, then says the name. Atreyu still says it; the Nubbin ' +
       'only asks. Without s6Done the base scene plays as the book does. ' +
-      'LIFTED TEXT: a25-20-shop#10 is the refrain in Ende’s German (Thienemann 1979), spoken by Coreander; #11 is our own ' +
+      'LIFTED TEXT: a25-20-shop#14 is the refrain in Ende’s German (Thienemann 1979), spoken by Coreander; #15 is our own ' +
       'English. Coreander saying he never owned the book is our own wording. ' +
       'THE LAST PAGE (a25-mirror): the complete scene shown, a25-20-complete, is for truth. For yourself play ' +
       'ATLAS_A25_VARIANTS a25-20-complete-yourself; for notebook, a25-20-complete-notebook. ' +

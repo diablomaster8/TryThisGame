@@ -1017,7 +1017,9 @@ export const ATLAS_A24: Quest[] = [
             N('Your Nubbin brings twigs too, mostly dry ones. One is a beetle, which it thinks better of and puts back.'),
             MG('It eats like a wolf cub. Always hungry. And if you stop, it goes grey and sulks, like Baloo.', 'happy'),
             N('Once the coals go dull and you both blow on them, cheeks puffed, until they glow red again.'),
-            N('A wolf comes past in the afternoon. He sees the pot and goes the long way round, with his fur on end.'),
+            N('Your Nubbin blows too. It makes a small wet noise, and the coals hiss at it.'),
+            MG('Blow, don’t spit. Not on the fire. Not on me.', 'happy'),
+            N('A wolf comes past in the afternoon, sees three creatures puffing at a pot, and goes the long way round, with his fur on end.'),
             MG('He’s afraid of it. They all are. I’m not. Is that what it means, being a man?', 'think'),
           ],
           choices: [
@@ -1443,7 +1445,8 @@ export const ATLAS_A24: Quest[] = [
         done: {
           id: 'a24-09-bounty-done',
           lines: [
-            N('Buldeo runs back to the village as fast as his legs will go. He will tell a story about this, a very large one.'),
+            N('Buldeo runs back to the village as fast as his legs will go. By the next market the wolf will be ten wolves, all on fire.'),
+            AK('Let him. Ten wolves on fire will keep the village out of the jungle for a year.'),
             MG('He’ll tell them I’m a sorcerer. Let him. I’ve kept my word to Mother Wolf.', 'think'),
           ],
         },
@@ -1562,6 +1565,7 @@ export const ATLAS_A24: Quest[] = [
         MG('Tonight the hide goes to the Council Rock. I promised. And after that, you hunt with us. A whole season.'),
         N('So you do, after. You hunt with the four wolves through the turning year, and learn the jungle from inside.'),
         N('You learn where the deer drink, and which trees hum with bees. You learn how quiet a whole hillside can be at noon.'),
+        N('Grey Brother sets you to guard a rabbit hole. You guard it for an hour, very seriously. The rabbit leaves by its other hole.'),
         GB('You’re still terrible at it, guest. But you’re terrible in the right direction.', 'happy'),
         N('Your Nubbin catches its first beetle. It brings it to you, very proud, and you let it go again when it isn’t looking.'),
       ],
@@ -1710,6 +1714,8 @@ export const ATLAS_A24: Quest[] = [
             N('A year comes when the rains don’t. The jungle goes brown, then grey, then crackles underfoot like paper.'),
             N('The streams dry up one after another. Then even the Waingunga shrinks to a trickle between hot white stones.'),
             BL('Fifty years I’ve lived in these hills, and I’ve never seen it this bad. Look at me, cub. I’m half the bear I was.', 'sad'),
+            N('Your Nubbin walks slowly all the way round Baloo, looking for the other half.'),
+            BL('It’s in there somewhere, small one. Under the ribs.', 'happy'),
             MG('You’re still bigger than me. Look at my ribs. I can count them.'),
             BL('Count them later. Down there, the Peace Rock. There’s still water round it, and while there is, there’s a truce.'),
             N('In the middle of the river a long blue rock stands up out of the water. You can see it now that the water has dropped.'),
@@ -2594,6 +2600,7 @@ export const ATLAS_A24: Quest[] = [
             N('Sea Cows. Bigger than walruses, quieter than fish, with small heads and soft lips, moving very slowly.'),
             KO('Hello? Excuse me? I’m looking for a beach. A safe one. Where men don’t come. Please.', 'think'),
             N('The Sea Cows say nothing; they can’t, or they won’t. They only chew the kelp, and look at him.'),
+            N('Your Nubbin tries its kettle howl on them, very politely. One Sea Cow lets out a single slow bubble. It may be an answer.'),
             N('Then, very slowly, they begin to move north, along the coast. Kotick follows, and you follow Kotick.'),
             N('At last they dive, and swim into a black opening in the cliff, deep under the water. A tunnel.'),
             N('You hold your breath and your Nubbin and go in after them. The atlas is a kind page here; your breath lasts.'),
@@ -2801,7 +2808,10 @@ export const ATLAS_A24_VARIANTS: Scene[] = [
   {
     id: 'a24-15-lamp-mowgli',
     lines: [
-      N('Messua looks at you over Mowgli’s head, polite and puzzled. She doesn’t know you.'),
+      N('Messua looks at you over Mowgli’s head, puzzled. She nearly knows you, the way you nearly know a song.'),
+      ME('Have you been here before? There was somebody… with feathers. Everywhere.', 'think'),
+      N('Your Nubbin moults one small feather onto her clean floor, helpfully.'),
+      ME('No. It’s gone. Sit down anyway.'),
       N('It has been years. A season with the wolves, then more seasons, and you look like something the jungle raised.'),
       ME('And you, friend. Are you hungry too? Sit down. Whoever you are, you came in with my son, and that’s enough.', 'soft'),
       N('You sit by the door and eat her bread, and you don’t remind her. It doesn’t seem to matter tonight.'),

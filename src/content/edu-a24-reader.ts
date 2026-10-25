@@ -264,7 +264,7 @@ const A1: EduQuest = quest(
           5,
           'social-studies',
           'finding a place on a map: Seoni is in the middle of India',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Nova’s atlas shows the whole of India, a country shaped a bit like a kite. Where is Seoni on it?',
@@ -392,7 +392,7 @@ const A1: EduQuest = quest(
             ),
             o('To be the wolves’ best friend.', [
               N(
-                'He acts like it. But look at what he does next: he crunches the bone and runs off to gossip.',
+                'He acts like it. But then he crunches the bone and runs off to gossip.',
               ),
               N('A real friend’s kind words don’t come with a hand held out.'),
             ]),
@@ -518,7 +518,7 @@ const A1: EduQuest = quest(
               ),
             ]),
             o('Feeling scared, and doing the right thing anyway.', [
-              N('That is a fair answer too, and it is the one many people give.'),
+              N('Fair answer too.'),
               MW(
                 'Courage is not the lack of fear. It is a decision you make with your legs still wobbling.',
                 'soft',
@@ -556,7 +556,7 @@ const A1: EduQuest = quest(
           2,
           'science',
           'the Moon goes from full to full in about a month',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [N('The wolves meet at the full moon. How long is it from one full moon to the next?')],
           [
             o(
@@ -663,7 +663,7 @@ const A2: EduQuest = quest(
           5,
           'science',
           'sound is made by vibrations; animals use sound to talk across distance',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             FW(
               'Wolves howl to talk across the hills. What is a howl, really, to the air around it?',
@@ -685,8 +685,8 @@ const A2: EduQuest = quest(
               N('Sound is air wobbling, called vibrating.'),
             ]),
             o('Nothing. It is only inside our heads.', [
-              N('Good that you are thinking about hearing. But sound is real, out in the air.'),
-              N('You can feel it: put a hand on your throat and hum. That buzz is the vibration.'),
+              N('Good thinking about hearing. But sound is real, out in the air.'),
+              N('Put a hand on your throat and hum: that buzz is the vibration.'),
             ]),
           ],
           'Learned that a howl is a vibration of the air, and that wolves use it to talk over long distances.',
@@ -719,7 +719,7 @@ const A2: EduQuest = quest(
           2,
           'maths',
           'adding and comparing: 8 + 5 = 13, and 3 more white than grey',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             MG(
               'How many pebbles do I have altogether? And how many more white ones than grey ones?',
@@ -789,7 +789,7 @@ const A2: EduQuest = quest(
           8,
           'social-studies',
           'why a fair rule asks for more than one voice (fairness and rules)',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The Law says two wolves, who are not his parents, must speak for a cub. Why might the Law ask for two? There is no right answer.',
@@ -798,24 +798,24 @@ const A2: EduQuest = quest(
           [
             o('One voice could be wrong, so two is safer.', [
               N(
-                'That is a fair answer. Two people can check each other, and a mistake is harder to make.',
+                'Fair answer. Two people can check each other, and a mistake is harder to make.',
               ),
               N(
-                'Many human rules work this way too. Judges often sit in groups for the same reason.',
+                'Judges often sit in groups for the same reason.',
               ),
             ]),
             o('Parents should decide, not anyone else.', [
               N(
-                'That is a fair answer. Parents know the cub best, and they do speak first in the cave.',
+                'Fair answer. Parents know the cub best, and they speak first.',
               ),
               N(
-                'The Law adds others in case the parents are missing, or too scared, or the cub has nobody.',
+                'The Law adds others in case the parents are missing, scared, or the cub has nobody.',
               ),
             ]),
             o('It depends whether the two speakers are honest.', [
-              N('That is a sharp answer. Any rule is only as good as the people who follow it.'),
+              N('Sharp answer. Any rule is only as good as the people who follow it.'),
               N(
-                'Baloo and Bagheera are good speakers because they promise something real: a bear’s teaching, a panther’s bull.',
+                'Baloo and Bagheera each promise something real.',
               ),
             ]),
           ],
@@ -903,7 +903,7 @@ const A2: EduQuest = quest(
                   'soft',
                 ),
                 N(
-                  'Baloo and Bagheera both spoke up, and you were right to stay quiet. Each was the right choice at the time.',
+                  'Baloo and Bagheera spoke up; you were right to stay quiet.',
                 ),
               ],
               true,
@@ -982,7 +982,7 @@ const A3: EduQuest = quest(
           5,
           'science',
           'bees carry pollen from flower to flower, so fruit and seeds can grow',
-          '2-LS2-2',
+          undefined,
           [
             BL(
               'Why speak politely to bees? Because they are busy. They carry pollen from flower to flower. What grows because of it?',
@@ -997,7 +997,7 @@ const A3: EduQuest = quest(
                   'happy',
                 ),
                 N(
-                  'Without bees, many jungle trees would have much less fruit for the monkeys, the bears and the deer.',
+                  'Without bees, many trees would have far less fruit.',
                 ),
               ],
               true,
@@ -1047,18 +1047,18 @@ const A3: EduQuest = quest(
           2,
           'social-studies',
           'respecting other people’s land and rules by asking leave',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [N('Why does the Strangers’ Call ask leave before hunting on another wolf’s ground?')],
           [
             o(
               'Asking shows respect and stops fights.',
               [
                 BL(
-                  'Yes. A territory is a place that someone has been looking after. Asking says: I know it is yours.',
+                  'Yes. A territory is a place that someone looks after. Asking says: I know it is yours.',
                   'happy',
                 ),
                 N(
-                  'Real animals mark their territories with scent and calls. Many people do something like it with signs, gates and manners.',
+                  'Real animals mark theirs with scent and calls.',
                 ),
               ],
               true,
@@ -1139,11 +1139,11 @@ const A3: EduQuest = quest(
               'The most important, the chief ones.',
               [
                 BL(
-                  'Yes. Master here means chief, the one that matters most. The jungle is run on them.',
+                  'Yes. Master here means chief, the one that matters most.',
                   'happy',
                 ),
                 N(
-                  'Master can also mean someone who has got really good at a skill, as in master of a craft.',
+                  'Master can also mean someone really good at a skill, as in master of a craft.',
                 ),
               ],
               true,
@@ -1202,24 +1202,24 @@ const A3: EduQuest = quest(
           [
             o('No. Teaching should never hurt.', [
               N(
-                'That is a fair answer, and in the Grove it is the rule. Nobody hits here, not even a bear.',
+                'Fair answer, and in the Grove it is the rule. Nobody hits here, not even a bear.',
               ),
               N(
-                'You can learn the same lesson from a clear word, a pause, or a job done again, and no one has to be afraid.',
+                'A clear word or a pause teaches just as well.',
               ),
             ]),
             o('A little cuff is fine if it keeps you safe.', [
               N(
-                'That is a fair thing to think about. Baloo’s cuff is small, and he is trying to stop Mowgli getting hurt.',
+                'Fair thing to think about. Baloo wants Mowgli safe.',
               ),
               N(
-                'But Mowgli says it hurt his feelings. What Baloo meant and what Mowgli felt can be different, and both matter.',
+                'But Mowgli says it hurt his feelings. What Baloo meant and what Mowgli felt can differ, and both matter.',
               ),
             ]),
             o('It depends on whether the person loves you.', [
-              N('That is a fair answer. Love does change how a thing feels.'),
+              N('Fair answer. Love does change how a thing feels.'),
               N(
-                'But the hurt can be just as real, so many teachers choose words, not blows. Both Baloo and Mowgli have a point.',
+                'But the hurt can be just as real, so many teachers choose words, not blows. Both have a point.',
               ),
             ]),
           ],
@@ -1269,7 +1269,7 @@ const A3: EduQuest = quest(
                   'happy',
                 ),
                 N(
-                  'Spot the part that repeats, then carry on with it. That is how you find the rule.',
+                  'Spot the part that repeats, then carry on. That is how you find the rule.',
                 ),
               ],
               true,
@@ -1491,7 +1491,7 @@ const A4: EduQuest = quest(
           2,
           'social-studies',
           'a map shows a place from above, so you can see the whole route',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'A map shows a place as if you were looking down from above, like a kite. Why does that help someone searching for Mowgli?',
@@ -1557,10 +1557,10 @@ const A4: EduQuest = quest(
               'Warm air rising from the ground.',
               [
                 N(
-                  'Yes. Sunshine heats the ground, the air above warms and rises, and big birds ride it up.',
+                  'Yes. Sunshine heats the ground, warm air rises, and big birds ride it up.',
                 ),
                 N(
-                  'That air column is called a thermal. It lets the kite look out over the forest for hours without getting tired.',
+                  'That rising air is called a thermal. The kite can watch the forest for hours.',
                 ),
               ],
               true,
@@ -1677,7 +1677,7 @@ const A4: EduQuest = quest(
             o('Yes. He is a rope with a head.', [
               N('He is long, like a rope, and that is the joke. But he is a living python.'),
               N(
-                'When something is called another thing to show what it is like, that is a metaphor.',
+                'Calling one thing another, to show what it is like, is a metaphor.',
               ),
             ]),
             o('No. The monkeys cannot see properly.', [
@@ -1725,9 +1725,9 @@ const A4: EduQuest = quest(
             o(
               'They grow, and the old skin does not stretch.',
               [
-                N('Yes. A snake grows all its life, and its outer skin does not grow with it.'),
+                N('Yes. A snake grows all its life, but its outer skin does not.'),
                 N(
-                  'So it wriggles out of the old skin and shows the new one underneath. Young snakes shed more often than old ones.',
+                  'So it wriggles out of the old skin and shows the new one underneath.',
                 ),
               ],
               true,
@@ -1771,18 +1771,18 @@ const A4: EduQuest = quest(
           [
             o('Baloo, a teacher should keep watching.', [
               N(
-                'That is a fair answer. A grown-up who looks after a child does have a duty to watch.',
+                'Fair answer. A grown-up who looks after a child does have a duty to watch.',
               ),
-              N('But a teacher cannot see everything, and the monkeys chose to carry Mowgli away.'),
+              N('But a teacher cannot see everything, and the monkeys chose to carry Mowgli off.'),
             ]),
             o('Bagheera. The Words got Mowgli out.', [
               N(
-                'That is a fair answer. The Master Word brought Chil down, and Chil brought the help.',
+                'Fair answer. The Master Word brought Chil down, and Chil brought the help.',
               ),
               N('Both things are true: Baloo worried, and his lessons worked.'),
             ]),
             o('Neither. The monkeys are to blame.', [
-              N('That is a fair answer. The monkeys did the carrying.'),
+              N('Fair answer. The monkeys did the carrying.'),
               N(
                 'Even so, people who care often feel a duty to do better next time, which is how Baloo feels.',
               ),
@@ -1854,7 +1854,7 @@ const A5: EduQuest = quest(
           1,
           'social-studies',
           'how we learn about people who lived long ago from what they left behind',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Nobody remembers who built the Cold Lairs. How could a person today find out about the people who lived in a ruined city?',
@@ -1969,7 +1969,7 @@ const A5: EduQuest = quest(
           '3.OA.A.3',
           [
             N(
-              'About a hundred monkeys run. Half go up the walls and half go into the trees. How many go each way?',
+              'About a hundred monkeys run, in two groups: half go up the walls and half go into the trees. How many go each way?',
             ),
           ],
           [
@@ -2030,7 +2030,7 @@ const A5: EduQuest = quest(
               [
                 N('Yes. Telling people what you need lets them help.'),
                 N(
-                  'Baloo’s friends cannot guess that his legs are tired. When he says so, Bagheera can carry the news and Mowgli can fetch water.',
+                  'Baloo’s friends cannot guess his legs are tired. When he says so, Mowgli can fetch water.',
                 ),
               ],
               true,
@@ -2088,9 +2088,9 @@ const A5: EduQuest = quest(
               'With muscles that ripple, and scales that grip.',
               [
                 N(
-                  'Yes. A snake pushes against the ground with ripples of muscle, and its belly scales catch on the surface.',
+                  'Yes. A snake pushes against the ground with ripples of muscle, and its belly scales grip the surface.',
                 ),
-                N('That is how it can climb, swim and slither with no feet.'),
+                N('That is how it moves with no feet.'),
               ],
               true,
             ),
@@ -2196,30 +2196,30 @@ const A5: EduQuest = quest(
           3,
           'social-studies',
           'making amends: is saying sorry enough, and should a mistake cost something?',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
-              'Mowgli said sorry, and Bagheera also gave him a small cuff to settle the debt. Is saying sorry enough on its own? There is no one right answer.',
+              'Mowgli said sorry. Bagheera settled the rest the jungle way. In the Grove nobody hits; we mend things instead. Is sorry enough on its own? There is no one right answer.',
             ),
           ],
           [
             o('Yes. Saying sorry and meaning it is enough.', [
-              N('That is a fair answer. A true sorry is the most important part.'),
+              N('Fair answer. A true sorry is the most important part.'),
               N(
                 'Even so, many people also want to make things right with an action, like mending or helping.',
               ),
             ]),
             o('No. You should also fix or pay for the harm.', [
               N(
-                'That is a fair answer. A sorry is stronger when it comes with putting things right.',
+                'Fair answer. A sorry is stronger when it comes with putting things right.',
               ),
-              N('The size of the fix should match the harm, which is what makes it fair.'),
+              N('The fix should match the harm, which is what makes it fair.'),
             ]),
             o('It depends on how big the mistake was.', [
               N(
-                'That is a thoughtful answer. A small slip may need only a sorry, and a bigger one more.',
+                'Thoughtful answer. A small slip may need only a sorry, a bigger one more.',
               ),
-              N('In the Grove, the point is to make things whole, not to make anyone feel small.'),
+              N('In the Grove, the point is to make things whole, not make anyone feel small.'),
             ]),
           ],
           'Thought about whether saying sorry is enough, and how making things right can be fair to everyone.',
@@ -2303,10 +2303,10 @@ const A6: EduQuest = quest(
               'A leopard with a very dark coat.',
               [
                 N(
-                  'Yes. Some leopards are born with extra dark colouring, so their spots hide in the black.',
+                  'Yes. Some leopards are born extra dark, so their spots hide in the black.',
                 ),
                 N(
-                  'Animals of the same kind can look different from one another. We call that variation.',
+                  'Animals of one kind can look different. We call that variation.',
                 ),
               ],
               true,
@@ -2349,7 +2349,7 @@ const A6: EduQuest = quest(
           2,
           'social-studies',
           'how fire changed people’s lives long ago',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'People have used fire for a very long time. Why was it so important to families long ago?',
@@ -2360,7 +2360,7 @@ const A6: EduQuest = quest(
               'It gave warmth, light and cooked food, and kept wild animals back.',
               [
                 N(
-                  'Yes. Fire let people stay warm in cold places and cook food so it was safer and tastier.',
+                  'Yes. Fire let people stay warm and cook food so it was safer and tastier.',
                 ),
                 N('It gave light after dark, and a place to gather and share stories.'),
               ],
@@ -2412,18 +2412,18 @@ const A6: EduQuest = quest(
           [
             o('It was wrong to take it without asking.', [
               N(
-                'That is a fair answer. She did not choose to share it, and she is cold and cross now.',
+                'Fair answer. The woman did not choose to share, and she is cold and cross now.',
               ),
-              N('Mowgli could have asked, even though he did not speak her language.'),
+              N('Mowgli could have asked, even without her language.'),
             ]),
             o('He needed it, so it was fair enough.', [
-              N('That is an honest answer. He had a very serious reason.'),
+              N('Honest answer. He had a very serious reason.'),
               N(
-                'But the woman needed it too. Her neighbour shared fire with her, but nobody asked her before taking hers.',
+                'But the woman needed it too. In a village, people share fire, but they ask first. Nobody asked this woman.',
               ),
             ]),
             o('It was wrong, but he should make it up to her.', [
-              N('That is a thoughtful answer. Mistakes can be mended.'),
+              N('Thoughtful answer. Mistakes can be mended.'),
               N(
                 'That is why you leave something on the step: a way of saying thank you, and sorry.',
               ),
@@ -2576,7 +2576,7 @@ const A6: EduQuest = quest(
           1,
           'literacy',
           'word choice shows character: slinks, grinning',
-          'RL.1.4',
+          'RL.3.3',
           [
             N(
               'The story says Tabaqui “slinks” into the clearing, grinning. What does the word slinks tell us about him?',
@@ -2778,7 +2778,7 @@ const A7: EduQuest = quest(
           1,
           'literacy',
           'words that show a sense: crackle is a sound word',
-          'RL.1.4',
+          'L.4.5',
           [
             N(
               'The tiger’s whiskers “crackle” in the heat. Which sense does that word make you imagine?',
@@ -2788,9 +2788,9 @@ const A7: EduQuest = quest(
             o(
               'Hearing: you can almost hear the snap.',
               [
-                N('Yes. Crackle is a sound word, and it also makes you feel the heat.'),
+                N('Yes. Crackle is a sound word, and it makes you feel the heat.'),
                 N(
-                  'Authors use words like crackle, flutter and roar to help us hear a scene in our heads.',
+                  'Authors use words like crackle, flutter and roar to help us hear a scene.',
                 ),
               ],
               true,
@@ -2947,7 +2947,7 @@ const A7: EduQuest = quest(
           2,
           'maths',
           'time intervals in hours: midnight to six o’clock is 6 hours',
-          '1.MD.B.3',
+          '3.MD.A.1',
           [
             N(
               'The Council ended at midnight, and dawn comes at six o’clock. How many hours is that?',
@@ -3038,7 +3038,7 @@ const A8: EduQuest = quest(
           2,
           'social-studies',
           'places and land use: villages are near water and farmland',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [N('Look at where this village stands. What do people need close to where they live?')],
           [
             o(
@@ -3104,7 +3104,7 @@ const A8: EduQuest = quest(
               [
                 N('Yes. You do not have to fix a sadness. Being there is the gift.'),
                 N(
-                  'Missing someone is a sign of how much you loved them, and it can stay with a person for a long time.',
+                  'Missing someone shows how much you loved them, and it can last a long time.',
                 ),
               ],
               true,
@@ -3216,8 +3216,8 @@ const A8: EduQuest = quest(
             o(
               '48.',
               [
-                N('Yes: 12 × 4 = 48. You can do 10 × 4 = 40 and 2 × 4 = 8, then 40 + 8 = 48.'),
-                N('Breaking a big sum into easy parts is a handy trick.'),
+                N('Yes: 12 × 4 = 48. Split it: 10 × 4 = 40 and 2 × 4 = 8, so 40 + 8 = 48.'),
+                N('Easy parts!'),
               ],
               true,
             ),
@@ -3271,13 +3271,13 @@ const A8: EduQuest = quest(
           ],
           [
             o('No. Two things can share one feature without being the same.', [
-              N('That is a fair answer. Lots of animals limp, and many people do too.'),
+              N('Fair answer. Lots of animals limp, and many people do too.'),
               N(
-                'A good reason fits all the facts, and this one skips the plainest one: the tiger was born lame.',
+                'A good reason fits all the facts, and this one skips the plainest: the tiger was born lame.',
               ),
             ]),
             o('Yes. It fits the story he is telling.', [
-              N('That is a fair answer. A reason can fit a story and still not prove it.'),
+              N('Fair answer. A reason can fit a story and still not prove it.'),
               N('Ask: what else could explain it? Here, a tiger born lame.'),
             ]),
             o('It is a good story, even if it is a poor reason.', [
@@ -3319,15 +3319,15 @@ const A8: EduQuest = quest(
           1,
           'social-studies',
           'villages choose people or councils to settle disputes fairly',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [N('When two people in a village disagree, who might help to settle it fairly?')],
           [
             o(
               'A headman, or a village council.',
               [
-                N('Yes. A leader or a small council hears everyone and decides what is fair.'),
+                N('Yes. A small council hears everyone and decides what is fair.'),
                 N(
-                  'A panchayat is the traditional council in many Indian villages. Today panchayats are elected by the villagers.',
+                  'A panchayat is the traditional council in many Indian villages. Today villagers elect it.',
                 ),
               ],
               true,
@@ -3473,7 +3473,7 @@ const A9: EduQuest = quest(
               'Through a narrow, steep gap.',
               [
                 N(
-                  'Yes. Squeezed into a narrow channel, water speeds up, and it can carve the rock.',
+                  'Yes. Squeezed into a narrow channel, water speeds up.',
                 ),
                 N(
                   'Where the river spreads wide, it slows down. That is why a ford is a safe place to cross.',
@@ -3525,7 +3525,7 @@ const A9: EduQuest = quest(
           1,
           'maths',
           'adding and comparing: 15 + 9 = 24, and 6 more cows and calves than bulls',
-          '2.OA.A.1',
+          '3.OA.D.8',
           [
             N(
               'Mowgli has 15 cows and calves and 9 bulls. How many buffalo in all? And how many more cows and calves than bulls?',
@@ -3586,9 +3586,9 @@ const A9: EduQuest = quest(
               'Very loud noise can hurt your ears.',
               [
                 N(
-                  'Yes. Sounds that are too loud can damage the tiny parts of the ear that let us hear.',
+                  'Yes. Very loud sounds can damage the tiny parts of the ear that let us hear.',
                 ),
-                N('If a noise is very loud, cover your ears or move away, and tell a grown-up.'),
+                N('If a noise is that loud, cover your ears or move away.'),
               ],
               true,
             ),
@@ -3692,7 +3692,7 @@ const A9: EduQuest = quest(
           2,
           'social-studies',
           'rules that protect wild tigers today',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'A bounty was a reward for hunting a tiger. Today hunting tigers is against the law in India. Why might the law have changed?',
@@ -3704,7 +3704,7 @@ const A9: EduQuest = quest(
               [
                 N('Yes. Hunting and loss of forest made wild tigers fewer and fewer.'),
                 N(
-                  'India started Project Tiger in 1973 to protect them, and most of the world’s wild tigers live there today.',
+                  'India started Project Tiger in 1973 to protect them, and most wild tigers live there.',
                 ),
               ],
               true,
@@ -3763,16 +3763,16 @@ const A9: EduQuest = quest(
           [
             o('Yes. Fear can make anyone act badly.', [
               N(
-                'That is a fair answer. Understanding why someone behaves badly does not make it right, but it can make us gentler.',
+                'Fair answer. Understanding why someone behaves badly does not make it right, but it can make us gentler.',
               ),
-              N('Mowgli stopped the fight, and he did not carry on punishing Buldeo.'),
+              N('Mowgli stopped the fight and did not punish Buldeo further.'),
             ]),
             o('No. If they were unkind, they should face the result.', [
               N(
-                'That is a fair answer. Actions have results, and it matters that Buldeo hears Mowgli’s no.',
+                'Fair answer. Actions have results, and Buldeo needs to hear Mowgli’s no.',
               ),
               N(
-                'But Mowgli did not need to frighten him more. Being firm and being gentle can go together.',
+                'But Mowgli did not need to frighten him more. Firm and gentle can go together.',
               ),
             ]),
             o('It depends on whether they say sorry.', [
@@ -3814,7 +3814,7 @@ const A9: EduQuest = quest(
                 N(
                   'Yes. The theme is the big idea under the story. Here it is that your word is worth keeping, even when it is hard.',
                 ),
-                N('Akela says “not many do”, which shows how rare it is.'),
+                N('Akela says “not many do”.'),
               ],
               true,
             ),
@@ -3959,7 +3959,7 @@ const A10: EduQuest = quest(
               'Her love does not depend on being proved right.',
               [
                 N('Yes. She loves Mowgli for who he is, whether or not he is her lost son.'),
-                N('A good clue to character is what a person does when they are not sure.'),
+                N('A good clue to character is what a person does when unsure.'),
               ],
               true,
             ),
@@ -4000,7 +4000,7 @@ const A10: EduQuest = quest(
           4,
           'social-studies',
           'choices have a cost: choosing one thing means not choosing another',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'You cannot be in two places at once. If you choose one road, you give up the other. What do we call what you give up when you choose?',
@@ -4072,7 +4072,7 @@ const A10: EduQuest = quest(
               'Night animals are waking up, and day animals are settling.',
               [
                 N(
-                  'Yes. Animals that are active at night are called nocturnal, and owls, bats and leopards are some of them.',
+                  'Yes. Animals active at night are called nocturnal; owls, bats and leopards are some.',
                 ),
                 N('Their senses suit the dark: big eyes, sharp ears and a keen sense of smell.'),
               ],
@@ -4199,7 +4199,7 @@ const A11: EduQuest = quest(
           0,
           'science',
           'the Moon rises about 50 minutes later each night',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [N('The moon rises at 7 o’clock tonight. About when will it rise tomorrow night?')],
           [
             o(
@@ -4209,7 +4209,7 @@ const A11: EduQuest = quest(
                   'Yes. The Moon rises about 50 minutes later each night, because it is slowly circling the Earth.',
                 ),
                 N(
-                  'That is why the full moon rises at sunset, and later phases rise late at night.',
+                  'A full moon rises at sunset; later phases rise later still.',
                 ),
               ],
               true,
@@ -4297,6 +4297,7 @@ const A11: EduQuest = quest(
           'Lead us again, Akela. We have had enough of being without a law. And you, man’s cub, lead us too.',
           'sad',
         ),
+        YW('We are sorry we threw you out. We were fat, and foolish.', 'sad'),
         YW('We are sick of the tiger’s ways. We want to be the Free People again.'),
         BG(
           'Not so fast. You only want him back because you are hungry and lame. You threw him out when you were fat.',
@@ -4309,7 +4310,7 @@ const A11: EduQuest = quest(
       ],
       [
         ask(
-          6,
+          7,
           'sel',
           'forgiveness: should Mowgli forgive wolves who only want him back because they need him?',
           'CASEL: Relationship skills',
@@ -4420,7 +4421,7 @@ const A11: EduQuest = quest(
           2,
           'maths',
           'odd and even numbers: 5 is odd, 6 is even',
-          '2.OA.C.3',
+          undefined,
           [
             N(
               'Mowgli and his four wolf brothers make 5. With your Nubbin, that makes 6. Which of those numbers is even?',
@@ -4487,6 +4488,8 @@ const A12: EduQuest = quest(
           'All my long life I have lived in these hills, and I have never seen it this bad. Look at me, cub. I am half the bear I was.',
           'sad',
         ),
+        N('Your Nubbin walks slowly all the way round Baloo, looking for the other half.'),
+        BL('It is in there somewhere, small one. Under the ribs.', 'happy'),
         MG('You are still bigger than me. Look at my ribs. I can count them.'),
         BL(
           'Count them later. Down there, the Peace Rock. There is still water round it, and while there is, there is a truce.',
@@ -4503,7 +4506,7 @@ const A12: EduQuest = quest(
       ],
       [
         notice(
-          7,
+          9,
           'science',
           'the monsoon brings India’s yearly rains, and a drought is a long time with too little rain',
           '3-ESS2-1',
@@ -4563,7 +4566,7 @@ const A12: EduQuest = quest(
               [
                 N('Yes. 4 + 3 + 2 = 9 prints, and 9 × 2 = 18 animals.'),
                 N(
-                  'A scaled graph is quick to read once you remember what each picture stands for.',
+                  'A scaled graph is quick to read once you know the scale.',
                 ),
               ],
               true,
@@ -4641,14 +4644,14 @@ const A12: EduQuest = quest(
           [
             o('Yes. Stories can teach us things that facts cannot.', [
               N(
-                'That is a fair answer. This one is about fear, and what it means to look after each other when things are hard.',
+                'Fair answer. This one is about fear, and looking after each other when things are hard.',
               ),
               N(
-                'People in India and everywhere have told old stories like this to explain the world.',
+                'People everywhere have told old stories like this to explain the world.',
               ),
             ]),
             o('No. If it is not true, we should drop it.', [
-              N('That is a fair answer. Facts are very important, especially in science.'),
+              N('Fair answer. Facts are very important, especially in science.'),
               N(
                 'But stories can still show us something true about people, even when the events did not happen.',
               ),
@@ -4705,7 +4708,7 @@ const A12: EduQuest = quest(
               [
                 N('Yes. Stripes break up a tiger’s shape in the light and shade of tall grass.'),
                 N(
-                  'Prey animals see poorly in some colours, so the tiger’s orange blends in. Each tiger’s stripes are also different, like a fingerprint.',
+                  'Prey animals see poorly in some colours, so the orange blends in.',
                 ),
               ],
               true,
@@ -4758,11 +4761,11 @@ const A12: EduQuest = quest(
               'An agreement that everyone keeps.',
               [
                 BL(
-                  'Yes. A promise only works if everyone keeps it, and it keeps working because everyone does.',
+                  'Yes. A promise only works if everyone keeps it.',
                   'happy',
                 ),
                 N(
-                  'It is the same with taking turns on a swing. The rule is simple, and it works when all of us agree.',
+                  'It is the same with taking turns on a swing. It works when all of us agree.',
                 ),
               ],
               true,
@@ -4815,9 +4818,9 @@ const A12: EduQuest = quest(
               'Water that rose from rivers and seas, formed clouds and fell.',
               [
                 N(
-                  'Yes. The Sun warms water, which rises as invisible vapour. High up it cools into clouds and falls as rain.',
+                  'Yes. The Sun warms water, which rises as vapour. High up it cools into clouds and falls as rain.',
                 ),
-                N('It is the water cycle, and the monsoon is one very big turn of it.'),
+                N('The monsoon is one big turn of the water cycle.'),
               ],
               true,
             ),
@@ -4854,7 +4857,7 @@ const A12: EduQuest = quest(
           2,
           'social-studies',
           'scarcity: when there is not enough, people must agree how to share',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [
             N(
               'The animals needed a truce in the drought, and they do not need one now the river is full. Why?',
@@ -5066,7 +5069,7 @@ const A13: EduQuest = quest(
           1,
           'social-studies',
           'compass directions: the Sun rises in the east',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Mowgli points the way to the town: towards the rising sun. Which direction is that?',
@@ -5187,12 +5190,12 @@ const A13: EduQuest = quest(
           [
             o('Yes. They were going to hurt Messua, and nobody was harmed.', [
               N(
-                'That is a fair answer. They stopped a harm, and chose a way that hurt no one’s body.',
+                'Fair answer. They stopped a harm, and chose a way that hurt no one’s body.',
               ),
               N('But the villagers lost their homes, and that is a real cost too.'),
             ]),
             o('No. The villagers were frightened, not wicked.', [
-              N('That is a fair answer. They were scared of something they did not understand.'),
+              N('Fair answer. They were scared of something they did not understand.'),
               N('Mowgli says himself that he does not feel the way he thought he would.'),
             ]),
             o('It was both fair and sad.', [
@@ -5232,13 +5235,13 @@ const A13: EduQuest = quest(
           1,
           'science',
           'animals spread seeds; roots can split stone',
-          '2-LS2-2',
+          undefined,
           [N('A fig tree is growing on a stone platform. How might its seed have got there?')],
           [
             o(
               'A bird or another animal dropped it.',
               [
-                N('Yes. Many animals eat fruit and drop the seeds far away in their droppings.'),
+                N('Yes. Many animals eat fruit and drop the seeds far away.'),
                 N(
                   'A seed that lands in a crack with a little soil can sprout, and its roots can split stone.',
                 ),
@@ -5374,7 +5377,7 @@ const A14: EduQuest = quest(
               [
                 N('Yes. A bee colony is a family of thousands, and bees guard it together.'),
                 N(
-                  'Giant rock bees hang their single big comb in the open on a cliff, so they stand guard around it.',
+                  'Giant rock bees hang one big comb on a cliff, so they stand guard round it.',
                 ),
               ],
               true,
@@ -5414,16 +5417,20 @@ const A14: EduQuest = quest(
         KA(
           'And I will be waiting in the water, to pull you out. Do not make me wait long. I get bored.',
         ),
+        N('Kaa gives your Nubbin the most important job of all: to stay exactly where it is put.'),
+        N('It sits so still that a bee lands on its nose. Its eyes slowly cross.'),
+        KA('Excellent. Do not sneeze.'),
+        N('It does not sneeze for a whole minute. It is the bravest thing it has ever done.'),
         N(
           'Mowgli goes quiet for a moment. This is the dangerous part, and he has picked it for himself.',
         ),
       ],
       [
         ask(
-          2,
+          6,
           'literacy',
           'how a character responds to an event: courage and trust',
-          'RL.2.3',
+          'RL.3.3',
           [
             N(
               'Mowgli takes the dangerous part of the plan for himself, and trusts Kaa to catch him. What does that show about him?',
@@ -5493,9 +5500,9 @@ const A14: EduQuest = quest(
               'The force of the moving water.',
               [
                 N(
-                  'Yes. Moving water pushes on anything in it. A strong push in one direction is an unbalanced force.',
+                  'Yes. Moving water pushes on anything in it. A push in one direction is an unbalanced force.',
                 ),
-                N('A stick in a river drifts the same way, as the water pushes it.'),
+                N('A stick in a river drifts the way the water pushes it.'),
               ],
               true,
             ),
@@ -5540,7 +5547,7 @@ const A14: EduQuest = quest(
           2,
           'maths',
           'subtraction in a word problem: 40 − 7 = 33',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
               'Forty wolves came to the river bank, and seven are limping. How many wolves are not limping?',
@@ -5620,7 +5627,7 @@ const A14: EduQuest = quest(
               N(
                 'It can look like sleep, but it is not. A sleeping body wakes up. A body that has died does not.',
               ),
-              N('Saying so plainly is kinder, so that nobody is afraid of going to sleep.'),
+              N('Saying it plainly means nobody fears sleep.'),
             ]),
             o('He has gone away on a trip.', [
               N('Akela has not gone on a trip. He has died, and he will not come back.'),
@@ -5711,13 +5718,13 @@ const A14: EduQuest = quest(
           [
             o('Yes. People live on in how we remember them.', [
               N(
-                'That is a fair answer. The howl, the stories, and Mowgli’s words all keep Akela close.',
+                'Fair answer. The howl, the stories and Mowgli’s words all keep Akela close.',
               ),
               N('It is why the Grove grows a flower on the hill for every Nubbin that fades.'),
             ]),
             o('No. Remembering is not the same as being here.', [
               N(
-                'That is a fair answer. Nothing can be quite the same as having someone beside you.',
+                'Fair answer. Nothing can be quite the same as having someone beside you.',
               ),
               N('Remembering is what we have left, and it does comfort many people.'),
             ]),
@@ -5856,14 +5863,14 @@ const A15: EduQuest = quest(
                 N(
                   'Yes. The Earth spins around an axis that points almost straight at Polaris, so it seems to stand still.',
                 ),
-                N('All the other stars appear to circle round it during the night.'),
+                N('The other stars appear to circle round it.'),
               ],
               true,
             ),
             o('The brightest star in the sky.', [
               N('The brightest star is not the Pole Star, and it moves as the night goes on.'),
               N(
-                'Polaris is not especially bright. It simply sits almost exactly above the Earth’s North Pole.',
+                'Polaris is not especially bright. It simply sits above the North Pole.',
               ),
             ]),
             o('The Moon.', [
@@ -6033,7 +6040,7 @@ const A15: EduQuest = quest(
 // ================================================================== A24-16 Man Goes to Man
 const A16: EduQuest = quest(
   'a24-16',
-  'The Spring Running',
+  'Man Goes to Man',
   {
     'a24-16-s1': {
       goal: 'Go back with Mowgli to the Council Rock.',
@@ -6096,9 +6103,9 @@ const A16: EduQuest = quest(
               ),
             ]),
             o('It is good, but growing up is more than itching.', [
-              N('That is a thoughtful answer. The metaphor is a small window on a big thing.'),
+              N('Thoughtful answer. The metaphor is a small window on a big thing.'),
               N(
-                'Mowgli feels sad, excited and confused all at once, and the skin comparison covers only part of that.',
+                'Mowgli feels sad, excited and confused all at once, and the skin comparison covers only part.',
               ),
             ]),
           ],
@@ -6142,7 +6149,7 @@ const A16: EduQuest = quest(
               'Soft pads on the bottoms of their paws.',
               [
                 N(
-                  'Yes. The pads cushion each step, and the claws fold back so they do not click on the ground.',
+                  'Yes. The pads cushion each step, and the claws fold back so they do not click.',
                 ),
                 N('That is why a leopard can walk right by without being heard.'),
               ],
@@ -6242,10 +6249,10 @@ const A16: EduQuest = quest(
           1,
           'maths',
           'subtraction: 17 − 1 = 16 years',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [
             N(
-              'Mowgli was one year old when Bagheera bought him, and he will be seventeen this summer. How many years have passed?',
+              'Mowgli was one year old when Bagheera bought him, and he will be 17 this summer. How many years have passed?',
             ),
           ],
           [
@@ -6296,7 +6303,7 @@ const A16: EduQuest = quest(
           4,
           'social-studies',
           'landmarks help us give and follow directions',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Mowgli says the first mile ends at “the stone with the moss on”. Why are landmarks like that useful when you are giving directions?',
@@ -6396,10 +6403,11 @@ const A16: EduQuest = quest(
         N(
           'Tucked into the back of the page is a plank, carved by somebody with a knife and a lot of patience.',
         ),
+        N('Carved on it: You and I are family, all of us, under the same sky.'),
       ],
       [
         notice(
-          2,
+          5,
           'sel',
           'you can belong in more than one place at once',
           'CASEL: Social awareness',
@@ -6479,7 +6487,7 @@ const A17: EduQuest = quest(
           2,
           'social-studies',
           'locating the Bering Sea and the Pribilof Islands on a map',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Nova’s page says the Pribilof Islands are in the Bering Sea. Which two lands does the Bering Sea lie between?',
@@ -6492,7 +6500,7 @@ const A17: EduQuest = quest(
                 N(
                   'Yes. The Bering Sea is the cold, stormy water between Alaska, in North America, and Siberia, in Russia.',
                 ),
-                N('It is named after Vitus Bering, an explorer who sailed there in the 1700s.'),
+                N('It is named after the explorer Vitus Bering.'),
               ],
               true,
             ),
@@ -6659,7 +6667,7 @@ const A17: EduQuest = quest(
           1,
           'literacy',
           'words that show senses: sharp, wet, stings',
-          'RL.1.4',
+          'L.4.5',
           [
             N(
               'The page says the wind is “sharp and wet” and the salt “stings your lips”. Which senses do those words show?',
@@ -6733,16 +6741,16 @@ const A17: EduQuest = quest(
           [
             o('Better to know. You cannot change what you do not know about.', [
               N(
-                'That is a fair answer. Knowing is the first step to doing something, as Kotick shows.',
+                'Fair answer. Knowing is the first step to doing something, as Kotick shows.',
               ),
               N('It still hurts. You can feel both.'),
             ]),
             o('Better not to know. It only makes you sad.', [
               N(
-                'That is a fair answer. Hard truths hurt, and wishing not to know is a very human wish.',
+                'Fair answer. Hard truths hurt, and wishing not to know is a very human wish.',
               ),
               N(
-                'But Kotick says he will look for another beach, and he can only do that because he knows.',
+                'But Kotick can look for another beach only because he knows.',
               ),
             ]),
             o('Better to know, with someone beside you.', [
@@ -6786,7 +6794,7 @@ const A17: EduQuest = quest(
           2,
           'social-studies',
           'why countries make agreements to protect animals that cross borders',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Fur seals swim across the whole North Pacific. Why would countries need to agree together to protect them?',
@@ -6800,7 +6808,7 @@ const A17: EduQuest = quest(
                   'Yes. Seals do not stop at borders, so many countries must agree on the same rules.',
                 ),
                 N(
-                  'Today people on the islands, including Unangax̂ communities, also help look after the seals and their home.',
+                  'Today Unangax̂ communities on the islands also help look after the seals.',
                 ),
               ],
               true,
@@ -6942,10 +6950,10 @@ const A18: EduQuest = quest(
               'Someone who cracks clams open.',
               [
                 N(
-                  'Yes. Clam plus cracker: a walrus really does eat clams from the sea floor, so the name fits.',
+                  'Yes. Clam plus cracker: a walrus does eat clams from the sea floor, so the name fits.',
                 ),
                 N(
-                  'Compound words, like sunshine or notebook, are made by joining two words and combining their meanings.',
+                  'A compound word, like sunshine, joins two words.',
                 ),
               ],
               true,
@@ -7007,8 +7015,8 @@ const A18: EduQuest = quest(
             o(
               '60 months.',
               [
-                N('Yes: 5 × 12 = 60. Split it up: 5 × 10 = 50, and 5 × 2 = 10, so 50 + 10 = 60.'),
-                N('It is a long time to keep looking for something nobody believes in.'),
+                N('Yes: 5 × 12 = 60. Split it: 5 × 10 = 50 and 5 × 2 = 10, so 50 + 10 = 60.'),
+                N('Sixty months of looking!'),
               ],
               true,
             ),
@@ -7042,6 +7050,9 @@ const A18: EduQuest = quest(
           'The Sea Cows say nothing; they cannot, or they will not. They only chew the kelp, and look at him.',
         ),
         N(
+          'Your Nubbin tries its kettle howl on them, very politely. One Sea Cow lets out a single slow bubble. It may be an answer.',
+        ),
+        N(
           'Then, very slowly, they begin to move north, along the coast. Kotick follows, and you follow Kotick.',
         ),
         N(
@@ -7070,10 +7081,10 @@ const A18: EduQuest = quest(
               'Hunters took them all, because they were slow and easy to catch.',
               [
                 N(
-                  'Yes. They died out in less than thirty years. When the last one died, there were no more, and nobody can bring them back.',
+                  'Yes. They died out in less than thirty years. Nobody can bring them back.',
                 ),
                 N(
-                  'That is sad. Their cousins, manatees and dugongs, are protected now, and we can look after the animals that are still here.',
+                  'That is sad. We can look after the animals that are still here.',
                 ),
               ],
               true,
@@ -7194,21 +7205,21 @@ const A18: EduQuest = quest(
           [
             o('No. Helping is when people choose for themselves.', [
               N(
-                'That is a fair answer. Kotick’s way is rough, and the seals do choose to follow in the end.',
+                'Fair answer. Kotick’s way is rough, and the seals do choose to follow in the end.',
               ),
-              N('Many people think the best way to change a mind is to listen and explain.'),
+              N('The best way to change a mind is often to listen and explain.'),
             ]),
             o('Yes, if it saves them from harm.', [
-              N('That is a fair answer. Kotick is trying to save the seals from the hunt.'),
+              N('Fair answer. Kotick is trying to save the seals from the hunt.'),
               N(
-                'But he does it by shoving, which makes it hard to tell whether they follow because they agree or because they are pushed.',
+                'But he shoves, so we cannot tell if they agree or are only pushed.',
               ),
             ]),
             o('It depends how much harm is at stake, and whether it is only a shove.', [
               N(
-                'That is a thoughtful answer. A little force to prevent a big harm is different from forcing someone for no good reason.',
+                'Thoughtful answer. A little force to prevent a big harm is different from forcing someone for no reason.',
               ),
-              N('Even then, the best result is when the others choose to go.'),
+              N('Even then, the best result is when others choose to go.'),
             ]),
           ],
           'Thought about the difference between persuading and forcing, and whether pushing people toward what we think is best is helping.',
@@ -7299,7 +7310,7 @@ const A18: EduQuest = quest(
           5,
           'social-studies',
           'protected places and the rules that keep wild animals safe today',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Kotick found a safe beach where nobody hunts. Today some places are set aside by law so that wild animals can live safely. What are they called?',
@@ -7312,7 +7323,7 @@ const A18: EduQuest = quest(
                 N(
                   'Yes. Rules keep hunters and builders out. Pench Tiger Reserve, near Seoni, is one for tigers, and fur seals are protected by law too.',
                 ),
-                N('Safe places are how many wild animals survive.'),
+                N('Safe places help animals survive.'),
               ],
               true,
             ),
@@ -7378,9 +7389,9 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
             'Bramble also took in strays, so the two stories match.',
             [
               N(
-                'Yes. Fern sees the same kindness in two places: someone taking in a creature who needed a home.',
+                'Yes. Fern sees the same kindness twice: someone taking in a creature who needed a home.',
               ),
-              N('Authors link two moments like this to show a pattern, and what it means.'),
+              N('Authors link two moments like this to show a pattern.'),
             ],
             true,
           ),
@@ -7642,7 +7653,7 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
         0,
         'social-studies',
         'compass directions: if you face east, west is behind you',
-        'D2.Geo.2.K-2',
+        'D2.Geo.2.3-5',
         [
           N(
             'Mowgli says to walk towards the sunrise. If you face the sunrise, which direction is behind you?',
@@ -7704,9 +7715,9 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
             'Water vapour in the cool night air turned into drops, called dew.',
             [
               N(
-                'Yes. Air holds invisible water vapour. When the air cools at night, some of it turns into tiny drops on cold surfaces.',
+                'Yes. Air holds invisible water vapour. At night, cool air turns some into tiny drops on cold surfaces.',
               ),
-              N('When the Sun warms the grass, the dew dries and goes back into the air.'),
+              N('When the Sun warms the grass, the dew dries away.'),
             ],
             true,
           ),
@@ -7841,10 +7852,10 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
         1,
         'maths',
         'subtraction: 17 − 1 = 16 years',
-        '2.OA.A.1',
+        '4.NBT.B.4',
         [
           N(
-            'Mowgli was one year old when Bagheera bought him, and he will be seventeen this summer. How many years have passed?',
+            'Mowgli was one year old when Bagheera bought him, and he will be 17 this summer. How many years have passed?',
           ),
         ],
         [
@@ -7896,7 +7907,7 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
         1,
         'social-studies',
         'a landmark at a fork in the path helps you choose the right way',
-        'D2.Geo.2.K-2',
+        'D2.Geo.2.3-5',
         [
           N(
             'A fork is where a path splits in two. Why does Mowgli point to “the hut with the lamp”?',
@@ -7947,7 +7958,7 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
         1,
         'science',
         'babies sleep a lot because they are growing fast',
-        '1-LS1-2',
+        undefined,
         [N('The baby sleeps for many hours each day. Why do babies need so much sleep?')],
         [
           o(
