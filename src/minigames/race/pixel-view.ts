@@ -22,6 +22,9 @@ const reduceMotion = (): boolean =>
 
 /** Landscape view height in low-res pixels; the width follows the screen. */
 const VIEW_H = 270;
+/** The shortest landscape view, and the widest any view grows. */
+const MIN_VIEW_H = 200;
+const MAX_VIEW_W = 640;
 /** Portrait view width: narrow enough that the runners read at phone size. */
 const PORTRAIT_W = 192;
 /** The tallest a portrait view grows before it letterboxes. */
@@ -87,8 +90,10 @@ export class RacePixelView implements RaceView {
   resize(rect: DOMRect): void {
     const aspect = rect.width / Math.max(1, rect.height);
     if (aspect >= 1) {
-      this.viewH = VIEW_H;
-      this.viewW = Math.round(Math.max(200, Math.min(480, VIEW_H * aspect)));
+      // A short landscape phone gets a shorter, wider view drawn at full scale, rather than
+      // the full height shrunk into a small box in the middle.
+      this.viewH = Math.round(Math.max(MIN_VIEW_H, Math.min(VIEW_H, rect.height)));
+      this.viewW = Math.round(Math.max(200, Math.min(MAX_VIEW_W, this.viewH * aspect)));
     } else {
       // Portrait: a narrower view, as tall as the screen allows, so the field fills it.
       this.viewW = Math.round(Math.max(160, Math.min(PORTRAIT_W, VIEW_H * aspect * 1.6)));
