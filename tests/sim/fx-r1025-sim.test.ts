@@ -3,6 +3,7 @@ import { GROVE, LIFECYCLE, SIM } from '../../src/config/tuning';
 import { canFuse } from '../../src/sim/fusion';
 import { freeSpot } from '../../src/sim/keeper';
 import { lifetimeHappiness } from '../../src/sim/needs';
+import { COURSES, createRace } from '../../src/sim/race';
 import { blocked } from '../../src/sim/obstacles';
 import { catchUp, coarseStep } from '../../src/sim/offline';
 import { deserialize, serialize } from '../../src/sim/save';
@@ -191,5 +192,23 @@ describe('care out of range (item 7)', () => {
       expect(r.reached || r.gaveUp).toBe(true);
       expect(r.w.keeper.intent).toBeNull();
     }
+  });
+});
+
+describe('race rivals never share a Keeper Nubbin’s name (item 9)', () => {
+  it('no rival takes the runner’s or any roster name, over many seeds and tiers', () => {
+    const { w, n } = solo();
+    const roster = ['Pip', 'Mochi', 'clover', 'Bramble', 'Sorrel', 'Nib', 'Tansy'];
+    for (const tier of [1, 2, 3]) {
+      for (let seed = 1; seed <= 60; seed++) {
+        n.name = 'Dot';
+        const race = createRace(COURSES[seed % COURSES.length]!, tier, n, seed, undefined, roster);
+        const taken = new Set([...roster, n.name].map((s) => s.toLowerCase()));
+        const rivals = race.racers.filter((r) => !r.isPlayer).map((r) => r.name);
+        for (const name of rivals) expect(taken.has(name.toLowerCase())).toBe(false);
+        expect(new Set(rivals).size).toBe(rivals.length);
+      }
+    }
+    expect(w).toBeDefined();
   });
 });
