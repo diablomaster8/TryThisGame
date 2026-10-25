@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { EXPEDITION, EXPEDITION3D, RACE3D } from '../../src/config/tuning';
+import { EXPEDITION3D_PORTRAIT } from '../../src/config/tuning-fx3d';
 import {
   chasePosition,
   ease,
   frameCamera,
   hillHeight,
+  portraitChase,
   laneZ,
   racerY,
   ringSlot,
@@ -179,5 +181,33 @@ describe('name tag stacking', () => {
     for (let i = 0; i < placed.length; i++)
       for (let j = i + 1; j < placed.length; j++)
         expect(intersects(placed[i]!, placed[j]!)).toBe(false);
+  });
+});
+
+// Review 2026-10-24: in portrait the 3D runner was tiny at the far left over empty grass.
+describe('3D Expedition portrait framing', () => {
+  const cam = EXPEDITION3D.camera;
+  it('keeps landscape as tuned', () => {
+    expect(portraitChase(16 / 9, 5, 3, cam, EXPEDITION3D_PORTRAIT)).toEqual({
+      lookAhead: cam.lookAhead,
+      lookHeight: cam.lookHeight,
+    });
+  });
+
+  it('brings the runner a third of the way in and the track down the screen', () => {
+    const aspect = 375 / 812;
+    const f = frameCamera(aspect, { ...cam, minSpan: EXPEDITION3D_PORTRAIT.minSpan });
+    const halfV = f.distance * Math.tan((f.fovDeg * Math.PI) / 360);
+    const halfSpan = halfV * aspect;
+    // Narrower than landscape's span, so the runner is drawn larger.
+    expect(halfSpan * 2).toBeCloseTo(EXPEDITION3D_PORTRAIT.minSpan, 5);
+    const look = portraitChase(aspect, halfSpan, halfV, cam, EXPEDITION3D_PORTRAIT);
+    // The runner's share of the screen from the left edge.
+    const fromLeft = 0.5 - look.lookAhead / (2 * halfSpan);
+    expect(fromLeft).toBeGreaterThan(0.3);
+    expect(fromLeft).toBeLessThan(0.4);
+    // The track (y = 0) sits below the middle by `trackAt` of the screen, near enough.
+    const below = (look.lookHeight * Math.cos((cam.pitchDeg * Math.PI) / 180)) / (2 * halfV);
+    expect(0.5 + below).toBeCloseTo(EXPEDITION3D_PORTRAIT.trackAt, 5);
   });
 });
