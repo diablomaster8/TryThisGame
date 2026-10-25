@@ -21,6 +21,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
 import { caveShed } from './cave-shed';
@@ -326,6 +327,11 @@ export class Grove3dScene {
   /** The framed shot's turn off the player's yaw, eased; WASD follows it (`cameraRig`). */
   private yawOffset = 0;
   private readonly subjectMarks = [new THREE.Vector3(), new THREE.Vector3()];
+  /** Per-frame scratch (review 2026-10-24: these were made fresh every frame). */
+  private readonly camWant = new THREE.Vector3();
+  private readonly camTargets: THREE.Vector3[] = [];
+  private readonly stageMarks = [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()];
+  private readonly nearPushers = new NearestPushers(PUSHERS);
   /** The last daylight the game set, to light a story scene's hour over it at once. */
   private dayArgs: [number, Daylight, Location, WeatherKind, Particles] | null = null;
   /** The player's reduced-motion choice as the game resolves it; the minigames read it. */
@@ -1320,7 +1326,7 @@ export class Grove3dScene {
       this.camTarget.x += Math.sin(yaw) * g;
       this.camTarget.z += Math.cos(yaw) * g;
     }
-    const want = new THREE.Vector3(
+    const want = this.camWant.set(
       this.camTarget.x + Math.sin(yaw) * Math.cos(pitch) * dist,
       this.camTarget.y + Math.sin(pitch) * dist,
       this.camTarget.z + Math.cos(yaw) * Math.cos(pitch) * dist,
@@ -1368,7 +1374,9 @@ export class Grove3dScene {
     const kp = orbit.target;
     mid.set(kp.x, ground(kp.x, kp.z) + GROVE3D.lookHeight, kp.z);
     head.copy(mid).setY(mid.y + 0.7);
-    const targets = [mid, head];
+    const targets = this.camTargets;
+    targets.length = 0;
+    targets.push(mid, head);
     const subject = this.focus ? this.actors.nubbinSpot(this.focus.id) : null;
     const [sFeet, sHead] = this.subjectMarks as [THREE.Vector3, THREE.Vector3];
     if (subject) {
@@ -1376,8 +1384,10 @@ export class Grove3dScene {
       sHead.copy(subject.head);
       targets.push(sFeet, sHead);
     } else if (shot.kind === 'stage') {
-      for (const p of shot.points.slice(1, 4))
-        targets.push(new THREE.Vector3(p.x, ground(p.x, p.z) + GROVE3D.lookHeight, p.z));
+      for (let i = 1; i < Math.min(4, shot.points.length); i++) {
+        const p = shot.points[i]!;
+        targets.push(this.stageMarks[i - 1]!.set(p.x, ground(p.x, p.z) + GROVE3D.lookHeight, p.z));
+      }
     }
     // The crowns thin only in a circle round the Keeper on screen (see crowns.ts), and
     // round the focused Nubbin too.
@@ -1403,15 +1413,9 @@ export class Grove3dScene {
     this.bursts.update(nowMs, dt, ground);
 
     // Grass parting under the creatures nearest the camera.
-    for (const p of PUSHERS) p.set(0, 0, 0, 0);
-    const pushers = this.actors
-      .pushers()
-      .sort(
-        (a, b) =>
-          Math.hypot(a.x - this.camPos.x, a.z - this.camPos.z) -
-          Math.hypot(b.x - this.camPos.x, b.z - this.camPos.z),
-      );
-    pushers.slice(0, PUSHERS.length).forEach((p, i) => PUSHERS[i]!.set(p.x, p.z, p.r, 0));
+    this.nearPushers.begin(this.camPos.x, this.camPos.z);
+    this.actors.forEachPusher(this.nearPushers.offer);
+    this.nearPushers.end();
     this.props.blades.rotation.z += dt * 0.6;
     this.water.update(this.time.value, this.sky.sun, this.sky.hemi);
     this.sky.tick(this.time.value);
