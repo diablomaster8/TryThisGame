@@ -1982,6 +1982,15 @@ bdi.lang-he {
   visibility: hidden;
 }
 
+/* A 3D minigame keeps its ✕ and its place or score chip in the top-left corner, so the
+   frame counter moves to the bottom-right while it runs (review 2026-10-24). */
+#hud:has(> .expedition.three:not([hidden])) > .fps {
+  top: auto;
+  left: auto;
+  right: calc(var(--safe-right) + 8px);
+  bottom: calc(var(--safe-bottom) + 8px);
+}
+
 /* Blocked storage, said on the title and kept on screen in the Grove (review C, item 11). */
 .title-storage {
   margin: -8px 0 16px;
