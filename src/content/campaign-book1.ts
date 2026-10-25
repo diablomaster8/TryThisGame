@@ -417,7 +417,7 @@ export const BOOK1_SCENES: Scene[] = [
       text: 'They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.',
       mood: 'soft',
     },
-    { who: 'clover', text: 'Hazel taught me that. She said it to me over a teacup, like it was nothing. I cried in her kitchen for an hour.' },
+    { who: 'clover', text: 'Hazel taught me that over a teacup, like it was nothing. I cried in her kitchen for an hour. She just kept topping up the pot.' },
     {
       who: 'narrator',
       text: 'Sable eats the fruit you left, and this time, when she finishes, she sits down instead of leaving.',

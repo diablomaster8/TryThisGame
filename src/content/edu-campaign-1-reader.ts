@@ -77,7 +77,7 @@ const CH1: EduScene[] = [
           {
             label: 'Yes. Both at once.',
             reply: [
-              { who: 'narrator', text: 'Lots of people would agree with you. A funny memory of someone you miss can be warm and sore together.' },
+              { who: 'narrator', text: 'Gran would agree with you, and be smug about it. A funny memory of someone you miss can be warm and sore together.' },
               { who: 'narrator', text: 'Feelings don’t have to take turns. Both are allowed.' },
             ],
           },
