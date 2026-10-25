@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { CG_A, CG2_Y, GROVE3D } from '../config/tuning';
 import type { Daylight } from '../render/daylight';
 import type { WeatherKind } from '../sim/types';
+import { patchGgx } from './pmrem-ggx';
 
 /**
  * The sky, the sun and the light they give the 3D Grove, driven by the same Daylight
@@ -408,6 +409,7 @@ export class GroveSky {
       this.placeholder.dispose();
       this.placeholder = null;
     } else this.envTarget?.dispose();
+    patchGgx((this.pmrem as unknown as PmremInternals)._ggxMaterial);
     this.envTarget = this.pmrem.fromScene(this.envScene, 0.02);
     this.scene.environment = this.envTarget.texture;
   }
@@ -425,6 +427,8 @@ export class GroveSky {
     const p = this.pmrem as unknown as PmremInternals;
     p._setSize(256); // fromScene's default size
     this.placeholder = p._allocateTargets();
+    // Before its first link: the stock GGX filter logs ANGLE warning X4122 (pmrem-ggx.ts).
+    patchGgx(p._ggxMaterial);
     this.scene.environment = this.placeholder.texture;
     // The same background box fromScene would make on first use.
     p._backgroundBox = new THREE.Mesh(

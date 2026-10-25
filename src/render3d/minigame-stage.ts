@@ -64,6 +64,7 @@ export class MiniStage {
     this.sky = new GroveSky(this.renderer, this.scene);
     this.sky.set(hour, daylightAt(hour), 'clear', this.focus);
     this.bursts = new Bursts(this.scene);
+    this.bursts.calm = this.reduceMotion;
     this.composer = new EffectComposer(this.renderer);
     this.composer.addPass(new RenderPass(this.scene, this.camera));
     // Tone mapping, the sRGB encode, the clamp and the grade in one draw (they were three).
@@ -92,6 +93,18 @@ export class MiniStage {
   get halfSpan(): number {
     return this.frame.distance * Math.tan((this.frame.fovDeg * Math.PI) / 360) * this.camera.aspect;
   }
+
+  /** Half the height of the world the camera frames at its look point. */
+  get halfHeight(): number {
+    return this.frame.distance * Math.tan((this.frame.fovDeg * Math.PI) / 360);
+  }
+
+  /** The canvas's aspect now, width over height (read before `fit`, which sizes to it). */
+  get aspect(): number {
+    const size = this.renderer.getSize(this.sizeScratch);
+    return Math.max(1, size.x) / Math.max(1, size.y);
+  }
+  private readonly sizeScratch = new THREE.Vector2();
 
   /** Aim the chase camera at a point on the track, from the viewer's side. */
   aim(x: number, y: number, z: number, pitchDeg: number, dt: number): void {

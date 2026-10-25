@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { EXPEDITION3D, READ3D } from '../config/tuning';
+import { EXPEDITION3D_PORTRAIT } from '../config/tuning-fx3d';
 import { NAMES } from '../config/strings';
 import type { ExpeditionTheme, ExpeditionView } from '../minigames/expedition/view';
 import { progressOf, type RunState, type ThingKind } from '../minigames/expedition/run';
@@ -11,7 +12,7 @@ import { el } from '../ui/dom';
 import { nubbinLook, type Look } from './creature-pool';
 import { gaitTime } from './gait';
 import type { Grove3dScene } from './grove-3d-scene';
-import { hillHeight, ringSlot, runnerWorld, thingWorld } from './minigame-layout';
+import { hillHeight, portraitChase, ringSlot, runnerWorld, thingWorld } from './minigame-layout';
 import { MiniStage, UV_PERIOD } from './minigame-stage';
 
 /** The burst each pickup and a hit throw up. */
@@ -81,7 +82,7 @@ export class Expedition3dView implements ExpeditionView {
   }
 
   resize(): void {
-    this.stage?.fit(EXPEDITION3D.camera);
+    this.stage?.fit(expeditionLens(this.stage.aspect));
   }
 
   stop(): void {
@@ -108,7 +109,7 @@ export class Expedition3dView implements ExpeditionView {
   draw(run: RunState, nowMs: number): void {
     const stage = this.stage;
     if (!stage || !this.sceneryReady) return;
-    stage.fit(EXPEDITION3D.camera);
+    stage.fit(expeditionLens(stage.aspect));
     const dt = this.lastMs ? Math.min(0.1, (nowMs - this.lastMs) / 1000) : 0;
     this.lastMs = nowMs;
     stage.pool.frame();
@@ -121,7 +122,15 @@ export class Expedition3dView implements ExpeditionView {
     this.events(run, runner);
 
     const cam = EXPEDITION3D.camera;
-    stage.aim(runner.x + cam.lookAhead, cam.lookHeight, 0, cam.pitchDeg, dt);
+    // A tall screen frames the runner larger, a third of the way in, the track lower.
+    const look = portraitChase(
+      stage.aspect,
+      stage.halfSpan,
+      stage.halfHeight,
+      cam,
+      EXPEDITION3D_PORTRAIT,
+    );
+    stage.aim(runner.x + look.lookAhead, look.lookHeight, 0, cam.pitchDeg, dt);
     stage.render(nowMs, () => 0);
     this.progress.style.width = `${(progressOf(run) * 100).toFixed(1)}%`;
   }
@@ -359,4 +368,10 @@ export class Expedition3dView implements ExpeditionView {
     this.grass[0]!.position.x = tile;
     this.grass[1]!.position.x = tile + side * grass.span;
   }
+}
+
+/** The chase lens for a screen aspect: landscape's, with a narrower span on a tall screen. */
+function expeditionLens(aspect: number): { height: number; minSpan: number; fovDeg: number } {
+  const cam = EXPEDITION3D.camera;
+  return aspect < 1 ? { ...cam, minSpan: EXPEDITION3D_PORTRAIT.minSpan } : cam;
 }

@@ -12,6 +12,7 @@ import {
   type KeeperColors,
 } from '../samples/keeper-spec';
 import { NUBBIN_SPEC } from '../samples/species-data';
+import { grandchildSpec } from '../samples/grandchild-spec';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
 import { speciesArt } from '../render/sprites/species-art';
@@ -29,7 +30,8 @@ import { weathered } from './weathered';
  * rebuild the same spec from it (specs hold functions and cannot be posted), and the
  * pool and the geometry cache can file rigs under it.
  *
- * Keys: `keeper-sun`, `keeper-moon`, `nubbin`, `roster:<name>`, `variant:<id>`, `art:<species id>`
+ * Keys: `grandchild-sun` and `grandchild-moon` with `~outfit:<trainer>` (the player's own
+ * avatar, `samples/grandchild-spec.ts`), `keeper-sun`, `keeper-moon`, `nubbin`, `roster:<name>`, `variant:<id>`, `art:<species id>`
  * (the pocket and digital lines, from the pixel recipe), each optionally followed by
  * modifiers joined with `~`, applied in this order whatever order they are written in:
  * - `npc:<trainer>`: on a Keeper, the trainer's outfit by the one Keeper look rule
@@ -235,6 +237,10 @@ export function specForKey(key: string): SpeciesSpec {
     const [baseKey = '', ...mods] = key.split('~');
     const mod = (prefix: string) => mods.find((m) => m.startsWith(prefix))?.slice(prefix.length);
     spec = resolve(baseKey) ?? NUBBIN_SPEC;
+    // The player's avatar: Hazel's grandchild in the picked role's outfit for its side.
+    const kid =
+      baseKey === 'grandchild-moon' ? 'moon' : baseKey === 'grandchild-sun' ? 'sun' : null;
+    if (kid) spec = grandchildSpec(keeperColours(mod('outfit:') ?? TRAINERS[0]!.id, kid));
     const npc = mod('npc:');
     if (npc !== undefined) {
       const side = baseKey === 'keeper-moon' ? 'moon' : baseKey === 'keeper-sun' ? 'sun' : null;

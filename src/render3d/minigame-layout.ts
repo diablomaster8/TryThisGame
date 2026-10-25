@@ -201,3 +201,24 @@ export function chasePosition(
 export function ease(from: number, to: number, rate: number, dt: number): number {
   return from + (to - from) * (1 - Math.exp(-rate * Math.max(0, dt)));
 }
+
+/**
+ * Where the 3D Expedition's chase camera looks on a tall screen: how far ahead of the runner
+ * (a share of the half-width the lens frames) and how high above the track, so the track
+ * sits `trackAt` of the way down the screen. `halfV` is half the height the lens frames at
+ * the look distance. Landscape keeps the tuned numbers.
+ */
+export function portraitChase(
+  aspect: number,
+  halfSpan: number,
+  halfV: number,
+  cam: { lookAhead: number; lookHeight: number; pitchDeg: number },
+  p: { aheadShare: number; trackAt: number },
+): { lookAhead: number; lookHeight: number } {
+  if (aspect >= 1) return { lookAhead: cam.lookAhead, lookHeight: cam.lookHeight };
+  const tilt = Math.cos((cam.pitchDeg * Math.PI) / 180);
+  return {
+    lookAhead: Math.min(cam.lookAhead, halfSpan * p.aheadShare),
+    lookHeight: ((p.trackAt - 0.5) * 2 * halfV) / tilt,
+  };
+}

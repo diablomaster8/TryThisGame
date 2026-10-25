@@ -66,7 +66,9 @@ const SHADER = {
         // The outer ring, then an inner one half as far: two taps' worth of reach.
         vec2 p1 = vUv + o * r;
         vec2 p2 = vUv + o * r * 0.5;
-        sum += texture2D( tDiffuse, p1 ).rgb + texture2D( tDiffuse, p2 ).rgb;
+        // Level 0 by name: an implicit-gradient fetch after the early return above logs
+        // ANGLE warning X3595 (gradient instruction in a loop with varying iteration).
+        sum += textureLod( tDiffuse, p1, 0.0 ).rgb + textureLod( tDiffuse, p2, 0.0 ).rgb;
         wsum += 2.0;
       }
       gl_FragColor = vec4( sum / wsum, c.a );

@@ -8,7 +8,7 @@ import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
-import { Crowd, crowdFor, type CrowdOptions } from './crowd';
+import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
@@ -144,6 +144,8 @@ export class Actors {
   >();
   private readonly memorials = new Map<string, THREE.Group>();
   private keeper: KeeperSlot | null = null;
+  /** The crowd's figure list, refilled every frame. */
+  private readonly figures: Figure[] = [];
   /** The co-op partner's Keeper, while co-op is on, and where it was at the last step. */
   private keeper2: KeeperSlot | null = null;
   private keeper2Prev: Vec2 | null = null;
@@ -324,12 +326,22 @@ export class Actors {
             : spot;
   }
 
+  /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
+  calm = false;
+
   sparkle(x: number, z: number, y: number, nowMs: number): void {
-    for (let i = 0; i < 8 && this.sparks.length < 96; i++) {
-      const a = (i / 8) * Math.PI * 2;
+    const n = this.calm ? 3 : 8;
+    for (let i = 0; i < n && this.sparks.length < 96; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const r = this.calm ? 0.18 : 0;
+      const k = this.calm ? 0 : 1;
       this.sparks.push({
-        p: new THREE.Vector3(x, this.ground(x, z) + y, z),
-        v: new THREE.Vector3(Math.cos(a) * 0.9, 1.4 + (i % 3) * 0.3, Math.sin(a) * 0.9),
+        p: new THREE.Vector3(x + Math.cos(a) * r, this.ground(x, z) + y, z + Math.sin(a) * r),
+        v: new THREE.Vector3(
+          Math.cos(a) * 0.9 * k,
+          (1.4 + (i % 3) * 0.3) * k,
+          Math.sin(a) * 0.9 * k,
+        ),
         born: nowMs,
       });
     }
@@ -716,7 +728,7 @@ export class Actors {
     let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
     this.crowd.update(
-      crowdFor(world, this.location, this.floor, nowMs, this.crowdOptions),
+      crowdFor(world, this.location, this.floor, nowMs, this.crowdOptions, this.figures),
       this.ground,
       t,
       dt,
@@ -932,11 +944,13 @@ export class Actors {
         this.sparks.splice(i, 1);
         continue;
       }
-      s.v.y -= 3.2 * dt;
-      s.p.addScaledVector(s.v, dt);
+      if (!this.calm) {
+        s.v.y -= 3.2 * dt;
+        s.p.addScaledVector(s.v, dt);
+      }
       const fade = 1 - (nowMs - s.born) / 700;
       this.sparkCloud.set(s.p.x, s.p.y, s.p.z, SPARK, Math.min(1, fade * 1.6), 0.3, 'star', {
-        rot: (nowMs - s.born) / 300 + n++,
+        rot: (this.calm ? 0 : (nowMs - s.born) / 300) + n++,
         additive: true,
       });
     }
@@ -945,28 +959,21 @@ export class Actors {
   }
 
   /** Creatures pushing the grass: positions and footprints, nearest to the camera first. */
-  pushers(): Array<{ x: number; z: number; r: number }> {
-    const out: Array<{ x: number; z: number; r: number }> = [];
-    for (const k of [this.keeper, this.keeper2]) {
-      if (!k?.rig) continue;
+  /** Every creature that parts the grass: its ground position and radius, with no allocation. */
+  forEachPusher(fn: (x: number, z: number, r: number) => void): void {
+    const keeper = (k: KeeperSlot | null) => {
+      if (!k?.rig) return;
       const g = k.rig.group;
-      out.push({
-        x: g.position.x,
-        z: g.position.z,
-        r: ((g.userData.footprint as number) ?? 0.4) * g.scale.x * 1.6,
-      });
-    }
-    out.push(...this.crowd.positions());
+      fn(g.position.x, g.position.z, ((g.userData.footprint as number) ?? 0.4) * g.scale.x * 1.6);
+    };
+    keeper(this.keeper);
+    keeper(this.keeper2);
+    this.crowd.forEachPosition(fn);
     for (const a of this.nubbins.values()) {
       if (!a.rig) continue;
       const g = a.rig.group;
-      out.push({
-        x: g.position.x,
-        z: g.position.z,
-        r: ((g.userData.footprint as number) ?? 0.35) * g.scale.x * 1.6,
-      });
+      fn(g.position.x, g.position.z, ((g.userData.footprint as number) ?? 0.35) * g.scale.x * 1.6);
     }
-    return out;
   }
 
   dispose(): void {

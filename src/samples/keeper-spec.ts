@@ -449,9 +449,25 @@ function keeperPivots(rig: RigContext): void {
   if (rig.bones.head) rig.bones.neck = rig.bones.head;
 }
 
+/**
+ * Changes to the stock figure for a figure built on the same body and rig (the player's own
+ * avatar, `grandchild-spec.ts`): its own hair, no goggles, no open vest or wristbands, extra
+ * head prims and marks, and its own eyes. Left out, the Keeper is drawn as it always was.
+ */
+export interface KeeperFigure {
+  hair?: Prim[];
+  goggles?: boolean;
+  vest?: boolean;
+  wristbands?: boolean;
+  head?: Prim[];
+  marks?: Mark[];
+  eyes?: Partial<SpeciesSpec['eyes']>;
+  notes?: string;
+}
+
 /** Build the Keeper in one colour set. */
-export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
-  const hair: Prim[] = [
+export function keeperSpec(c: KeeperColors, name = 'Keeper', fig: KeeperFigure = {}): SpeciesSpec {
+  const stockHair: Prim[] = [
     // A spiky mop: a cap over the skull, big tufts sweeping up and back over the crown,
     // side spikes out over the ears, and a short fringe under the goggle band.
     {
@@ -493,6 +509,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
       'hair',
     ),
   ];
+  const hair = fig.hair ?? stockHair;
   const goggles: Prim[] = [
     // Goggles pushed up on the hair: a band round the head at the hairline and two
     // round lenses at the front. The glass is a crisp mark on each lens.
@@ -530,6 +547,114 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
           // The second disc, in the tee colour, cuts the crescent.
           { kind: 'sphere', a: V(0.065, 1.74, 0.52), r: 0.1, color: c.tee },
         ];
+  const glass: Mark[] = [
+    { kind: 'sphere', a: V(-0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
+    { kind: 'sphere', a: V(0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
+  ];
+  const vest: Mark[] = [
+    // The open vest: two panels down the sides of the tee, meeting at the back, with
+    // a pale trim along their front edges and a collar at the neck.
+    {
+      kind: 'ellipsoid',
+      a: V(-0.52, 1.7, -0.08),
+      radii: V(0.36, 0.5, 0.56),
+      color: c.vest,
+      soft: 0,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.52, 1.7, -0.08),
+      radii: V(0.36, 0.5, 0.56),
+      color: c.vest,
+      soft: 0,
+    },
+    {
+      kind: 'capsule',
+      a: V(-0.28, 2.08, 0.4),
+      b: V(-0.2, 1.3, 0.46),
+      r: 0.045,
+      color: c.trim,
+      soft: 0,
+    },
+    {
+      kind: 'capsule',
+      a: V(0.28, 2.08, 0.4),
+      b: V(0.2, 1.3, 0.46),
+      r: 0.045,
+      color: c.trim,
+      soft: 0,
+    },
+    { kind: 'ellipsoid', a: V(0, 2.15, 0), radii: V(0.42, 0.07, 0.42), color: c.trim, soft: 0 },
+  ];
+  const stripes: Mark[] = [
+    // Shorts: a stripe down each outer thigh.
+    {
+      kind: 'capsule',
+      a: V(-0.5, 1.05, 0.02),
+      b: V(-0.46, 0.62, 0.08),
+      r: 0.035,
+      color: c.stripe,
+      soft: 0,
+    },
+    {
+      kind: 'capsule',
+      a: V(0.5, 1.05, 0.02),
+      b: V(0.46, 0.62, 0.08),
+      r: 0.035,
+      color: c.stripe,
+      soft: 0,
+    },
+  ];
+  const wrists: Mark[] = [
+    // Wristbands, and a sleeve band where the tee sleeve ends.
+    {
+      kind: 'ellipsoid',
+      a: V(-0.96, 1.07, 0.19),
+      radii: V(0.22, 0.065, 0.22),
+      color: c.wristband,
+      soft: 0,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.96, 1.07, 0.19),
+      radii: V(0.22, 0.065, 0.22),
+      color: c.wristband,
+      soft: 0,
+    },
+  ];
+  const sneakers: Mark[] = [
+    // Sneakers: a pale sole and toe cap, a sock band at the ankle.
+    {
+      kind: 'ellipsoid',
+      a: V(-0.28, 0.06, 0.08),
+      radii: V(0.32, 0.07, 0.46),
+      color: c.sole,
+      soft: 0,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.28, 0.06, 0.08),
+      radii: V(0.32, 0.07, 0.46),
+      color: c.sole,
+      soft: 0,
+    },
+    { kind: 'sphere', a: V(-0.28, 0.14, 0.5), r: 0.13, color: c.sole, soft: 0 },
+    { kind: 'sphere', a: V(0.28, 0.14, 0.5), r: 0.13, color: c.sole, soft: 0 },
+    {
+      kind: 'ellipsoid',
+      a: V(-0.27, 0.34, 0.04),
+      radii: V(0.24, 0.05, 0.24),
+      color: c.trim,
+      soft: 0,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.27, 0.34, 0.04),
+      radii: V(0.24, 0.05, 0.24),
+      color: c.trim,
+      soft: 0,
+    },
+  ];
   return {
     name,
     scale: 1,
@@ -588,7 +713,8 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
         { kind: 'sphere', a: V(-0.64, 2.55, -0.02), r: 0.12, color: c.skin, tag: 'ear' },
         { kind: 'sphere', a: V(0.64, 2.55, -0.02), r: 0.12, color: c.skin, tag: 'ear' },
         ...hair,
-        ...goggles,
+        ...(fig.goggles === false ? [] : goggles),
+        ...(fig.head ?? []),
       ],
       box: [V(-1.1, 1.8, -1.1), V(1.1, 3.8, 1.1)],
     },
@@ -611,105 +737,13 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
         soft: 0.1,
       },
       // Goggle glass on the lenses.
-      { kind: 'sphere', a: V(-0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
-      { kind: 'sphere', a: V(0.21, 3.03, 0.66), r: 0.11, color: c.goggleGlass, soft: 0 },
-      // The open vest: two panels down the sides of the tee, meeting at the back, with
-      // a pale trim along their front edges and a collar at the neck.
-      {
-        kind: 'ellipsoid',
-        a: V(-0.52, 1.7, -0.08),
-        radii: V(0.36, 0.5, 0.56),
-        color: c.vest,
-        soft: 0,
-      },
-      {
-        kind: 'ellipsoid',
-        a: V(0.52, 1.7, -0.08),
-        radii: V(0.36, 0.5, 0.56),
-        color: c.vest,
-        soft: 0,
-      },
-      {
-        kind: 'capsule',
-        a: V(-0.28, 2.08, 0.4),
-        b: V(-0.2, 1.3, 0.46),
-        r: 0.045,
-        color: c.trim,
-        soft: 0,
-      },
-      {
-        kind: 'capsule',
-        a: V(0.28, 2.08, 0.4),
-        b: V(0.2, 1.3, 0.46),
-        r: 0.045,
-        color: c.trim,
-        soft: 0,
-      },
-      { kind: 'ellipsoid', a: V(0, 2.15, 0), radii: V(0.42, 0.07, 0.42), color: c.trim, soft: 0 },
+      ...(fig.goggles === false ? [] : glass),
+      ...(fig.vest === false ? [] : vest),
       ...badge.map((b) => ({ ...b, soft: 0 })),
-      // Shorts: a stripe down each outer thigh.
-      {
-        kind: 'capsule',
-        a: V(-0.5, 1.05, 0.02),
-        b: V(-0.46, 0.62, 0.08),
-        r: 0.035,
-        color: c.stripe,
-        soft: 0,
-      },
-      {
-        kind: 'capsule',
-        a: V(0.5, 1.05, 0.02),
-        b: V(0.46, 0.62, 0.08),
-        r: 0.035,
-        color: c.stripe,
-        soft: 0,
-      },
-      // Wristbands, and a sleeve band where the tee sleeve ends.
-      {
-        kind: 'ellipsoid',
-        a: V(-0.96, 1.07, 0.19),
-        radii: V(0.22, 0.065, 0.22),
-        color: c.wristband,
-        soft: 0,
-      },
-      {
-        kind: 'ellipsoid',
-        a: V(0.96, 1.07, 0.19),
-        radii: V(0.22, 0.065, 0.22),
-        color: c.wristband,
-        soft: 0,
-      },
-      // Sneakers: a pale sole and toe cap, a sock band at the ankle.
-      {
-        kind: 'ellipsoid',
-        a: V(-0.28, 0.06, 0.08),
-        radii: V(0.32, 0.07, 0.46),
-        color: c.sole,
-        soft: 0,
-      },
-      {
-        kind: 'ellipsoid',
-        a: V(0.28, 0.06, 0.08),
-        radii: V(0.32, 0.07, 0.46),
-        color: c.sole,
-        soft: 0,
-      },
-      { kind: 'sphere', a: V(-0.28, 0.14, 0.5), r: 0.13, color: c.sole, soft: 0 },
-      { kind: 'sphere', a: V(0.28, 0.14, 0.5), r: 0.13, color: c.sole, soft: 0 },
-      {
-        kind: 'ellipsoid',
-        a: V(-0.27, 0.34, 0.04),
-        radii: V(0.24, 0.05, 0.24),
-        color: c.trim,
-        soft: 0,
-      },
-      {
-        kind: 'ellipsoid',
-        a: V(0.27, 0.34, 0.04),
-        radii: V(0.24, 0.05, 0.24),
-        color: c.trim,
-        soft: 0,
-      },
+      ...stripes,
+      ...(fig.wristbands === false ? [] : wrists),
+      ...sneakers,
+      ...(fig.marks ?? []),
     ],
     eyes: {
       x: 0.26,
@@ -722,6 +756,7 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
       lid: 0.12,
       irisScale: 0.72,
       tall: 1.3,
+      ...fig.eyes,
     },
     mouth: {
       x: 0,
@@ -742,10 +777,11 @@ export function keeperSpec(c: KeeperColors, name = 'Keeper'): SpeciesSpec {
     hearts: false,
     footprint: 0.7,
     notes:
+      fig.notes ??
       'Keeper pass 2026-10-15: proportions from sculptedKeeper (head ~39% of the height); ' +
-      "outfit after Maor's three kid-adventurer references (goggles on spiky hair, tee and " +
-      'vest, shorts, wristbands, sneakers); poses checked on the Keeper stage ' +
-      '(docs/samples/keeper-idle.jpg, keeper-pet.jpg, keeper-45.jpg).',
+        "outfit after Maor's three kid-adventurer references (goggles on spiky hair, tee and " +
+        'vest, shorts, wristbands, sneakers); poses checked on the Keeper stage ' +
+        '(docs/samples/keeper-idle.jpg, keeper-pet.jpg, keeper-45.jpg).',
   };
 }
 

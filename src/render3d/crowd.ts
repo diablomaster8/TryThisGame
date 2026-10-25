@@ -164,6 +164,21 @@ export function keepOff(p: Vec2, posts?: ReadonlyArray<Vec2>): Vec2 {
   return { x, z };
 }
 
+/** A visiting trainer's look, made once per trainer (it was rebuilt every frame). */
+const NPC_LOOKS = new Map<string, Look>();
+function npcFigureLook(t: string): Look {
+  let look = NPC_LOOKS.get(t);
+  if (!look) {
+    const band = TRAINERS.find((tr) => tr.id === t)?.band === 'moon' ? 'moon' : 'sun';
+    look = {
+      key: `keeper-${band}~npc:${storyId(t)}`,
+      height: GROVE3D.keeperHeight * (npcLookOf(storyId(t))?.scale ?? 1),
+    };
+    NPC_LOOKS.set(t, look);
+  }
+  return look;
+}
+
 /** Who stands in the scene besides the Keeper and the Nubbins, for this place and moment. */
 export function crowdFor(
   world: World,
@@ -171,8 +186,10 @@ export function crowdFor(
   floor: Floor | null,
   nowMs: number,
   opts: CrowdOptions = {},
+  /** A list to fill (cleared first), so the per-frame call can reuse one. */
+  out: Figure[] = [],
 ): Figure[] {
-  const out: Figure[] = [];
+  out.length = 0;
   const home = location === 'grove';
   const underground = location === 'dungeon';
   const only = opts.only?.() ?? null;
@@ -192,14 +209,10 @@ export function crowdFor(
     const held = opts.holds?.get(npc.id);
     const at = keepOff(held ?? npc.pos, home ? opts.posts : undefined);
     const k = world.keeper.pos;
-    const band = TRAINERS.find((tr) => tr.id === t)?.band === 'moon' ? 'moon' : 'sun';
     out.push({
       id: npc.id,
       kind: 'npc',
-      look: {
-        key: `keeper-${band}~npc:${storyId(t)}`,
-        height: GROVE3D.keeperHeight * (npcLookOf(storyId(t))?.scale ?? 1),
-      },
+      look: npcFigureLook(t),
       x: at.x,
       z: at.z,
       facing: held ? (opts.faces?.get(npc.id) ?? Math.atan2(k.x - at.x, k.z - at.z)) : npc.facing,
@@ -284,6 +297,8 @@ export class Crowd {
   /** Reduced motion is on (read once per update): the stray rings hold still. */
   private still = false;
   private readonly members = new Map<string, Member>();
+  /** Ids seen this update (kept to save a Set a frame). */
+  private readonly live = new Set<string>();
   private readonly sphere = new THREE.Sphere();
   private readonly hit = new THREE.Vector3();
 
@@ -297,7 +312,8 @@ export class Crowd {
 
   update(figures: Figure[], ground: (x: number, z: number) => number, t: number, dt: number): void {
     this.still = document.documentElement.classList.contains('reduce-motion');
-    const live = new Set<string>();
+    const live = this.live;
+    live.clear();
     for (const f of figures) {
       live.add(f.id);
       let m = this.members.get(f.id);
@@ -408,10 +424,8 @@ export class Crowd {
   }
 
   /** Feet on the grass, for the pushers. */
-  positions(): Array<{ x: number; z: number; r: number }> {
-    return [...this.members.values()]
-      .filter((m) => m.rig)
-      .map((m) => ({ x: m.pos.x, z: m.pos.z, r: m.look.height * 0.35 }));
+  forEachPosition(fn: (x: number, z: number, r: number) => void): void {
+    for (const m of this.members.values()) if (m.rig) fn(m.pos.x, m.pos.z, m.look.height * 0.35);
   }
 
   private drop(id: string): void {
