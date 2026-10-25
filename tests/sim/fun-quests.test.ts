@@ -44,6 +44,9 @@ function settled(chapter: number) {
   tick(r.world, r.events, FUN.offerAfterMs / 1000 + 1);
   drive(r.world, r.events, {}, {}, { until: (w) => c(w).queue.length === 0 });
   st.fun = {};
+  // Side stories now wait out the breather between scenes; park them so the fun quests
+  // under test have the Grove to themselves.
+  for (const s of Object.values(st.side)) if (s.status === 'open') s.status = 'closed';
   return r;
 }
 
@@ -98,6 +101,8 @@ describe('fun quests', () => {
     r.world.weather.kind = 'clear';
     r.world.timeMs = Math.floor(r.world.timeMs / STORY.dayMs) * STORY.dayMs + 1000;
     st.openedMs = r.world.timeMs - FUN.offerAfterMs - 1;
+    // The clock was moved by hand: the last scene's breather is long over.
+    st.rest = null;
     expect(funQuestOpens(r.world, st, sideStory('q21')!)).toBe(true);
     tick(r.world, r.events, 2);
     const open = Object.values(st.fun).filter((s) => s.status === 'open');
@@ -118,6 +123,8 @@ describe('fun quests', () => {
     r.world.weather.kind = 'clear';
     r.world.timeMs = Math.floor(r.world.timeMs / STORY.dayMs) * STORY.dayMs + 1000;
     st.openedMs = r.world.timeMs - FUN.offerAfterMs - 1;
+    // The clock was moved by hand: the last scene's breather is long over.
+    st.rest = null;
     tick(r.world, r.events, 2);
     const id = Object.keys(st.fun)[0]!;
     const quest = sideStory(id)!;

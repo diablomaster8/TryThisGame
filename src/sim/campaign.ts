@@ -17,8 +17,16 @@ import {
 } from './side-stories';
 import { noteSceneWords } from './lang';
 import { sceneById, sceneFor } from './story-scenes';
-import { collectorRoute, queueScene, sableOf, seen } from './story-state';
-import { TRAINERS } from './trainers';
+import { campaignSeason, ensureTrainers, syncSceneGuests } from './scene-cast';
+import {
+  collectorRoute,
+  noteSceneEnded,
+  queueScene,
+  resting,
+  sableOf,
+  sceneTimeHolds,
+  seen,
+} from './story-state';
 import './storyline-rules-index';
 import {
   applyStorylineCommand,
@@ -109,8 +117,10 @@ export function startCampaign(world: World, events: SimEvent[]): void {
   const oldMossId = world.campaign?.mossId ?? null;
   const c = freshState(world.timeMs);
   world.campaign = c;
+  // All ten valley Keepers, the player's pick included: the player is Hazel's grandchild.
   world.npcs = [];
-  for (const t of TRAINERS) if (t.id !== world.trainer) spawnNpc(world, t.id);
+  ensureTrainers(world);
+  world.season = campaignSeason(c);
   // A restart leaves the last campaign's Moss behind; there is only ever one.
   if (oldMossId) world.nubbins = world.nubbins.filter((n) => n.id !== oldMossId);
   // Moss: the old Eternal on the western hill. He stays off the roster until he comes down.
@@ -411,6 +421,8 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     if (c.chapter === 12 && sideOpen(c, 's9')) return;
     if (sideHoldsOpening(world, c)) return;
     if (!seen(c, def.opening)) {
+      // A breath after the last scene, and the time of day the opening names.
+      if (resting(world, c) || !sceneTimeHolds(world.timeMs, def.opening)) return;
       queueOpening(world, c);
       return;
     }
@@ -421,6 +433,11 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     if (!goalMet(world, c)) return;
     c.goalMetMs ??= world.timeMs;
     if (closingHeld(world, c)) return;
+    // The goal phase is played, not skipped in seconds; then a breath, then its hour.
+    const quick = STORY.goalsInOpening.includes(def.goal);
+    if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + STORY.goalMinMs) return;
+    if (resting(world, c)) return;
+    if (c.chapter !== 10 && !sceneTimeHolds(world.timeMs, def.closing)) return;
     c.step = 2;
     if (c.chapter === 10) {
       // The fellowship scene, then the vigil; c10-close comes at the end of the night.
@@ -458,6 +475,9 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     return;
   }
   if (nextChapterHeld(world, c)) return;
+  // A breath after the closing, and the next opening's hour, before the chapter card.
+  const next = chapterDef(c.chapter + 1);
+  if (resting(world, c) || (next && !sceneTimeHolds(world.timeMs, next.opening))) return;
   // The opening queues on the next tick, once any side story due first has had its turn.
   beginChapter(world, c, c.chapter + 1, events);
 }
@@ -506,6 +526,8 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
         break;
     }
   }
+  // Hazel's Grove sets the Grove's season to its chapter's (review 2026-10-24, item 2).
+  world.season = campaignSeason(c);
   // After the ending the chapter machine is done, but the spring stories still run.
   const over = c.chapter > FINAL_CHAPTER;
   if (!over) stepVigil(world, c, dtMs, events);
@@ -516,8 +538,13 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
   if (c.mossId && !c.flags.mossDown && (c.chapter >= 8 || c.seen.includes('c7-stillness'))) {
     if (hasRoom(world)) c.flags.mossDown = true;
   }
+  ensureTrainers(world);
+  syncSceneGuests(world, c);
+  // Nothing new starts underground in the Hollow Below; it waits for the Grove (item 4).
+  if (world.location === 'dungeon') return;
   if (!over && c.queue.length === 0) stepChapter(world, c, events);
   stepSideStories(world, c, events);
+  syncSceneGuests(world, c);
 }
 
 /** Bring the sold Nubbin home from the strays (c9-open's bargain, S27's buy-back). */
@@ -649,6 +676,7 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         c.seen.push(cmd.scene);
         c.seenMs[cmd.scene] = world.timeMs;
       }
+      noteSceneEnded(world, c, cmd.scene);
       if (!scene) return;
       const before = { collector: collectorRoute(c) };
       if (scene.set) Object.assign(c.flags, scene.set);
@@ -706,6 +734,7 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         return;
       }
       c.queue = [];
+      c.rest = null;
       const n = Math.max(1, Math.min(FINAL_CHAPTER, cmd.chapter));
       if (world.location !== 'dungeon') setLocation(world, hazelHome(n), events);
       beginChapter(world, c, n, events);

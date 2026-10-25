@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CHAPTERS, SCENES } from '../../src/config/story';
-import { TRUST } from '../../src/config/tuning';
+import { STORY, TRUST } from '../../src/config/tuning';
 import { endingFor, sceneById } from '../../src/sim/campaign';
 import { hatch } from '../../src/sim/lifecycle';
 import { applyCommand } from '../../src/sim/world';
@@ -20,13 +20,14 @@ describe('story data', () => {
 });
 
 describe('campaign', () => {
-  it('starts with Moss on the hill and the visiting Keepers', () => {
+  it('starts with Moss on the hill and all ten valley Keepers', () => {
     const { world } = campaignWorld('sparks');
     expect(c(world).chapter).toBe(1);
     expect(c(world).queue[0]).toBe('c1-letter');
     expect(moss(world)?.eternal).toBe('neutral');
-    expect(world.npcs.some((n) => n.trainer === 'sparks')).toBe(false);
-    expect(world.npcs.length).toBe(9);
+    // The player is Hazel's grandchild, so Sparks is in the Grove too (shared decision).
+    expect(world.npcs.some((n) => n.trainer === 'sparks')).toBe(true);
+    expect(world.npcs.length).toBe(10);
   });
 
   it('advances chapter by chapter as goals are met', () => {
@@ -41,8 +42,14 @@ describe('campaign', () => {
     applyCommand(world, { kind: 'pet', nubbinId: kid.id }, events);
     tick(world, events, 2);
     expect(c(world).stats.pets).toBeGreaterThanOrEqual(1);
+    // The goal phase is played, not skipped: the closing waits out its minimum.
+    expect(c(world).queue).toEqual([]);
+    tick(world, events, STORY.goalMinMs / 1000);
     expect(c(world).queue[0]).toBe('c1-close');
     playScenes(world, events);
+    // A breath after the hatch, then chapter 2 begins on a morning ("Morning. Mist...").
+    expect(c(world).chapter).toBe(1);
+    tick(world, events, (STORY.breatherMs + STORY.dayMs) / 1000);
     expect(c(world).chapter).toBe(2);
   });
 
@@ -135,6 +142,8 @@ describe('campaign', () => {
           for (const n of w.nubbins) if (n.stage === 'egg') hatch(n, e, 0);
         },
       },
+      // S27's buy-back would bring the Nubbin home: leave its steps alone.
+      { skip: ['s27'] },
     );
     expect(ending).toBe('collector');
     expect(world.inventory.shells).toBeGreaterThanOrEqual(200);

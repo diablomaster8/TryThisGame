@@ -151,16 +151,25 @@ describe('language quests (CV3)', () => {
     applyCommand(world, { kind: 'langStart', course: 'japanese' }, events);
     const first = sideStory('lj1')!.steps[0]!;
     expect(c(world).queue.slice(0, 2)).toEqual([first.scene.id, first.done!.id]);
+    // Chapter 1's opening is out of the way, not behind her: it comes back afterwards
+    // (review 2026-10-24, item 5: "Meet Ori" replayed the whole opening first).
+    expect(c(world).queue).not.toContain('c1-letter');
     // No Journal "Do it": playing the scenes alone carries LJ1 to its end.
-    for (let i = 0; i < 40 && c(world).fun.lj1?.status !== 'done'; i++) {
+    for (let i = 0; i < 200 && c(world).fun.lj1?.status !== 'done'; i++) {
       playScenes(world, events);
       tick(world, events, 2);
     }
     expect(c(world).fun.lj1?.status).toBe('done');
     expect(c(world).seen).toContain(first.scene.id);
     expect(c(world).seen.indexOf(first.scene.id)).toBeLessThan(
-      c(world).seen.indexOf('c1-open') === -1 ? Infinity : c(world).seen.indexOf('c1-open'),
+      c(world).seen.indexOf('c1-letter') === -1 ? Infinity : c(world).seen.indexOf('c1-letter'),
     );
+    // The opening is queued again once she has gone.
+    for (let i = 0; i < 100 && !c(world).seen.includes('c1-letter'); i++) {
+      playScenes(world, events);
+      tick(world, events, 2);
+    }
+    expect(c(world).seen).toContain('c1-letter');
   });
 
   it('a tracing step still waits for the tracing game', () => {

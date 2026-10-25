@@ -31,7 +31,7 @@ function postGame(): { world: World; events: SimEvent[] } {
 }
 
 /** Tick and answer scenes until `done` holds or the guard runs out. */
-function settle(world: World, events: SimEvent[], done: () => boolean, passes = 30): void {
+function settle(world: World, events: SimEvent[], done: () => boolean, passes = 120): void {
   for (let i = 0; i < passes && !done(); i++) {
     tick(world, events, 1.1);
     playScenes(world, events);
@@ -81,7 +81,7 @@ describe('E1 The Square', () => {
     settle(world, events, () => c(world).seen.includes('e1-stall'));
     for (let i = 0; i < 8; i++) addRecruit(world, `R${i}`, 'puffbud', events);
     expect(world.town.prosperity).toBeGreaterThanOrEqual(TOWN.unlocks.festival);
-    settle(world, events, () => c(world).side.e1?.status === 'done', 80);
+    settle(world, events, () => c(world).side.e1?.status === 'done', 320);
     const seen = c(world).seen;
     expect(seen).toContain('e1-attendant-corvin');
     expect(seen).not.toContain('e1-attendant-done');
@@ -95,29 +95,29 @@ describe('E1 The Square', () => {
 
 describe('E2 Nova’s Season', () => {
   function toDayEleven(world: World, events: SimEvent[]): void {
-    settle(world, events, () => c(world).side.e2 !== undefined, 60);
-    settle(world, events, () => c(world).seen.includes('e2-egg'), 60);
+    settle(world, events, () => c(world).side.e2 !== undefined, 240);
+    settle(world, events, () => c(world).seen.includes('e2-egg'), 240);
     const id = c(world).flags['e2-nubbin'];
     expect(typeof id).toBe('string');
     const dandy = world.nubbins.find((n) => n.id === id)!;
     expect(dandy.spanScale).toBe(EXPANSIONS.novaSpanScale);
     expect(lifespanMs(dandy)).toBeGreaterThan(lifespanMs(world.nubbins[0]!) * 2);
     applyCommand(world, { kind: 'debugHatchNow', nubbinId: dandy.id }, events);
-    settle(world, events, () => c(world).seen.includes('e2-egg-done'), 60);
+    settle(world, events, () => c(world).seen.includes('e2-egg-done'), 240);
     expect(c(world).side.e2?.step).toBe(1);
     // Day four waits for the clock.
     settle(world, events, () => c(world).seen.includes('e2-day4'), 5);
     expect(c(world).seen).not.toContain('e2-day4');
     debugE2Day(world, c(world), EXPANSIONS.novaDays[0], events);
-    settle(world, events, () => c(world).seen.includes('e2-day4'), 10);
+    settle(world, events, () => c(world).seen.includes('e2-day4'), 40);
     applyCommand(world, { kind: 'pet', nubbinId: dandy.id }, events);
     debugE2Day(world, c(world), EXPANSIONS.novaDays[1], events);
-    settle(world, events, () => c(world).seen.includes('e2-day8'), 10);
+    settle(world, events, () => c(world).seen.includes('e2-day8'), 40);
     applyCommand(world, { kind: 'feed', nubbinId: dandy.id }, events);
     debugE2Day(world, c(world), EXPANSIONS.novaDays[2], events);
-    settle(world, events, () => c(world).seen.includes('e2-day11'), 10);
+    settle(world, events, () => c(world).seen.includes('e2-day11'), 40);
     tick(world, events, STORY.dayMs / 1000);
-    settle(world, events, () => c(world).side.e2?.step === 4, 10);
+    settle(world, events, () => c(world).side.e2?.step === 4, 40);
     expect(c(world).side.e2?.step).toBe(4);
   }
 
@@ -128,7 +128,7 @@ describe('E2 Nova’s Season', () => {
     const dandy = world.nubbins.find((n) => n.id === id)!;
     world.nubbins = world.nubbins.filter((n) => n.id !== id);
     world.memorials.push({ id: 'm-dandy', name: dandy.name, pos: { x: 0, z: 0 } });
-    settle(world, events, () => c(world).side.e2?.status === 'done', 20);
+    settle(world, events, () => c(world).side.e2?.status === 'done', 80);
     expect(c(world).flags['e2-outcome']).toBe('departed');
     expect(c(world).seen).toContain('e2-complete-departed');
     expect(c(world).seen).not.toContain('e2-complete-reborn');
@@ -142,7 +142,7 @@ describe('E2 Nova’s Season', () => {
     const dandy = world.nubbins.find((n) => n.id === id)!;
     dandy.stage = 'egg';
     dandy.rebirths = 1;
-    settle(world, events, () => c(world).side.e2?.status === 'done', 20);
+    settle(world, events, () => c(world).side.e2?.status === 'done', 80);
     expect(c(world).flags['e2-outcome']).toBe('reborn');
     expect(c(world).seen).toContain('e2-complete-reborn');
   });
@@ -151,11 +151,11 @@ describe('E2 Nova’s Season', () => {
 describe('E3 The Twine', () => {
   it('teaches the merge through a stray and ends with the bracket', () => {
     const { world, events } = postGame();
-    settle(world, events, () => c(world).side.e3 !== undefined, 60);
-    settle(world, events, () => c(world).seen.includes('e3-strays'), 60);
+    settle(world, events, () => c(world).side.e3 !== undefined, 240);
+    settle(world, events, () => c(world).seen.includes('e3-strays'), 240);
     expect(sideActable(world, c(world), 'e3')).toBe(false);
     c(world).flags['n:strayFed'] = 1;
-    settle(world, events, () => c(world).seen.includes('e3-pair'), 20);
+    settle(world, events, () => c(world).seen.includes('e3-pair'), 80);
     const grown = world.nubbins.filter((n) => n.stage !== 'egg').slice(0, 2);
     expect(grown.length).toBe(2);
     for (const n of grown) {
@@ -164,12 +164,12 @@ describe('E3 The Twine', () => {
     }
     applyCommand(world, { kind: 'setPartner', slot: 0, nubbinId: grown[0]!.id }, events);
     applyCommand(world, { kind: 'setPartner', slot: 1, nubbinId: grown[1]!.id }, events);
-    settle(world, events, () => c(world).seen.includes('e3-twine'), 20);
+    settle(world, events, () => c(world).seen.includes('e3-twine'), 80);
     world.inventory.twine = 1;
-    settle(world, events, () => c(world).seen.includes('e3-merge'), 20);
+    settle(world, events, () => c(world).seen.includes('e3-merge'), 80);
     applyCommand(world, { kind: 'merge' }, events);
     expect(world.merge).not.toBeNull();
-    settle(world, events, () => c(world).seen.includes('e3-tournament'), 20);
+    settle(world, events, () => c(world).seen.includes('e3-tournament'), 80);
     expect(typeof c(world).flags['e3-wins-at']).toBe('number');
     // The first merge has run out by now: tie the twine again for the final rounds.
     world.inventory.twine = 1;
@@ -183,7 +183,7 @@ describe('E3 The Twine', () => {
       );
       tick(world, events, 0.2);
     }
-    settle(world, events, () => c(world).side.e3?.status === 'done', 30);
+    settle(world, events, () => c(world).side.e3?.status === 'done', 120);
     expect(c(world).seen).toContain('e3-tournament-done-merged');
     expect(c(world).flags.e3Done).toBe(true);
   });

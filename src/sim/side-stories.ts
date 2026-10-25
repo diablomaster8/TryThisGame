@@ -1,5 +1,5 @@
 import type { Quest } from '../content/types';
-import { audienceAllowed } from './audience';
+import { audienceAllowed, funQuestBlocked } from './audience';
 import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
 import { EARLY_RULES } from './side-rules-early';
@@ -14,7 +14,7 @@ import {
   type StoryRule,
   watchCheck,
 } from './side-rule-kit';
-import { SPEAKERS, STORY_TEXT } from '../config/story';
+import { CHAPTERS, SPEAKERS, STORY_TEXT } from '../config/story';
 import { FUN, STORY } from '../config/tuning';
 import { funQuests, funRule } from './fun-quests';
 import { isLangQuestCode, langQuestIds, langRule } from './lang';
@@ -27,7 +27,10 @@ import {
   nextDawn,
   nextDusk,
   queueScene,
+  resting,
   sableBonded,
+  sceneOwner,
+  sideResting,
   seen,
   seenAt,
   wispSaved,
@@ -317,6 +320,19 @@ export function sideHoldsOpening(world: World, c: CampaignState): boolean {
   return s23.step >= 13 || world.timeMs < s23.sinceMs + 2 * STORY.dayMs;
 }
 
+/**
+ * A chapter has begun and its opening is next: nothing else starts first, unless a story
+ * holds that opening on purpose (S23's nights before c10-open, S9's dawn gate before
+ * chapter 12), when those stories play in the gap as they always have.
+ */
+function openingDue(world: World, c: CampaignState): boolean {
+  if (c.storyline || c.step !== 0 || c.chapter < 1 || c.chapter > 12) return false;
+  const def = CHAPTERS.find((ch) => ch.n === c.chapter);
+  if (!def || seen(c, def.opening)) return false;
+  if (sideHoldsOpening(world, c)) return false;
+  return !(c.chapter === 12 && sideOpen(c, 's9'));
+}
+
 /** A rule file asked the chapter machine to wait (the notes' "hold chapter N" rules). */
 export function sideHolds(world: World, c: CampaignState, what: 'next' | 'close'): boolean {
   return RULES.some((rule) => {
@@ -388,9 +404,13 @@ function stepOne(
   for (let guard = 0; guard < 6; guard++) {
     const step = quest.steps[st.step];
     if (st.stage === 'wait' && step) {
-      if (!free()) return;
+      // A step's scene is something new: it waits out the breather after another story's
+      // scene (review 2026-10-24, item 4); this story's own next beat does not.
+      // Scenes queued before the step for it (another story's letter) count as its own.
+      const pre = rule.before?.(world, c, st.step) ?? [];
+      if (sideResting(world, c, [rule.id, ...pre.map(sceneOwner)]) || openingDue(world, c)) return;
       // Scenes due before the step come first: its gate may wait on one of them.
-      const extra = (rule.before?.(world, c, st.step) ?? []).filter((s) => !seen(c, s));
+      const extra = pre.filter((s) => !seen(c, s));
       if (extra.length > 0) {
         for (const s of extra) queueScene(c, s);
         return;
@@ -450,7 +470,8 @@ function stepOne(
     }
     if (st.stage === 'complete') {
       if (st.pending === null) {
-        if (!(rule.completeGate?.(world, c, st) ?? true) || !free()) return;
+        if (!(rule.completeGate?.(world, c, st) ?? true) || sideResting(world, c, [rule.id]))
+          return;
         const extra = (rule.before?.(world, c, quest.steps.length) ?? []).filter(
           (s) => !seen(c, s),
         );
@@ -487,11 +508,34 @@ function stepPostGame(world: World, c: CampaignState): void {
   queueScene(c, c.flags['s27-carrier'] === 'wisp' ? 's27-spring-wisp' : 's27-spring');
 }
 
+/** The campaign's own stories, which the chapter machine waits on: always first. */
+const SPINE = new Set(['s5', 's27', 's28', 's10', 's9']);
+
+/**
+ * Who gets the next free slot (review 2026-10-24, item 4). With a breather between scenes
+ * only one new step scene starts at a time, so a fixed order would starve the stories at
+ * the end of the list. The campaign's own stories go first (and S23 while the nights before
+ * the Long Night hold c10-open); then stories mid-step, which only finish what they began;
+ * then stories waiting to start a step, longest wait first; then the unopened, in order.
+ */
+function stepOrder(world: World, c: CampaignState): StoryRule[] {
+  const spine = (r: StoryRule) => SPINE.has(r.id) || (r.id === 's23' && sideHoldsOpening(world, c));
+  const key = (r: StoryRule): number => {
+    const st = c.side[r.id];
+    if (spine(r)) return -Infinity;
+    if (!st) return Infinity;
+    return st.stage === 'wait' ? st.sinceMs : -1e15;
+  };
+  return RULES.map((r, i) => ({ r, i, k: key(r) }))
+    .sort((a, b) => a.k - b.k || a.i - b.i)
+    .map((x) => x.r);
+}
+
 /** Once a sim second, after the chapter machine. */
 export function stepSideStories(world: World, c: CampaignState, events: SimEvent[]): void {
   stepPostGame(world, c);
   const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
-  for (const rule of RULES) {
+  for (const rule of stepOrder(world, c)) {
     const quest = sideStory(rule.id);
     // The Mature content setting gates side stories like every other quest: a Learning
     // Grove save sees only 'all' (S23 is 'main'), and a 'teen' or 'adult' story waits for
@@ -507,10 +551,16 @@ export function stepSideStories(world: World, c: CampaignState, events: SimEvent
  */
 function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void {
   let open = 0;
+  let lastOpened = -Infinity;
+  // Chapters 9 to 11 belong to the campaign: no fun quest moves at all, not even a done
+  // scene or a coda of one opened earlier (CLAUDE.md; review 2026-10-24, item 7).
+  const blocked = funQuestBlocked(c.chapter);
   for (const [id, st] of Object.entries(c.fun)) {
     const quest = sideStory(id);
-    if (st.status === 'open' && quest && !isLangQuestCode(quest.code)) open += 1;
-    if (quest) stepOne(world, c, funRuleFor(quest), quest, events, c.fun);
+    const lang = !quest || isLangQuestCode(quest.code);
+    if (!lang) lastOpened = Math.max(lastOpened, st.openedMs);
+    if (st.status === 'open' && !lang) open += 1;
+    if (quest && (lang || !blocked)) stepOne(world, c, funRuleFor(quest), quest, events, c.fun);
   }
   // The language courses (CV3, Learning Grove only) offer their next quest on their own.
   if (world.edu && c.queue.length === 0) {
@@ -521,8 +571,10 @@ function stepFunQuests(world: World, c: CampaignState, events: SimEvent[]): void
       if (rule.opens(world, c)) stepOne(world, c, rule, quest, events, c.fun);
     }
   }
-  if (open >= FUN.maxOpen || c.queue.length > 0) return;
+  if (blocked || open >= FUN.maxOpen || resting(world, c) || openingDue(world, c)) return;
   if (c.openedMs === null || world.timeMs < c.openedMs + FUN.offerAfterMs) return;
+  // Offers never stack: one fun quest opening keeps the next away for a while.
+  if (world.timeMs < lastOpened + FUN.offerGapMs) return;
   for (const quest of funQuests()) {
     if (c.fun[quest.id]) continue;
     const rule = funRuleFor(quest);

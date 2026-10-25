@@ -351,7 +351,12 @@ describe('the Long Night', () => {
   });
 
   it('Moss walks in and comes back when he was loved', () => {
-    const { world } = runCampaign(base, { ...BONDED, 9: (w) => (moss(w)!.needs.affection = 80) });
+    // Wisp is not spared here (S2 left alone), so the stone is Moss's to carry.
+    const { world } = runCampaign(
+      base,
+      { ...BONDED, 9: (w) => (moss(w)!.needs.affection = 80) },
+      { skip: ['s2'] },
+    );
     const seenIds = c(world).seen;
     expect(seenIds).toContain('c10-moss-walks');
     expect(seenIds).toContain('c10-bank-moss-returned');
@@ -361,10 +366,11 @@ describe('the Long Night', () => {
   });
 
   it('Moss does not come back when he had faded', () => {
-    const { world, ending } = runCampaign(base, {
-      ...BONDED,
-      9: (w) => (moss(w)!.needs.affection = 10),
-    });
+    const { world, ending } = runCampaign(
+      base,
+      { ...BONDED, 9: (w) => (moss(w)!.needs.affection = 10) },
+      { skip: ['s2'] },
+    );
     const seenIds = c(world).seen;
     expect(seenIds).toContain('c10-bank-moss-gone');
     expect(seenIds).toContain('c10-moss-mourned');
