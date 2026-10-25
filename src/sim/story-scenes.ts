@@ -26,6 +26,7 @@ import {
 } from '../content/edu-kit';
 import { CHOICE_PAYOFFS } from './choice-payoffs';
 import { registerLangCourses, registerLangQuests } from './lang';
+import { loadOnce } from './load-once';
 import type { CampaignState, World } from './types';
 
 /**
@@ -177,14 +178,14 @@ export function registerStorylines(list: Storyline[]): void {
   }
 }
 
-let loading: Promise<void> | null = null;
-
 /**
  * Load the campaign and side-story chunks once (both fetches start together) and register
- * them, campaign first. The app awaits this before a save loads.
+ * them, campaign first. The app awaits this before a save loads. A failed fetch (offline,
+ * or a deploy removed the chunk) does not stick: the next call tries again (`loadOnce`),
+ * which is what the boot card's "Try again" relies on.
  */
-export function loadStoryScripts(): Promise<void> {
-  loading ??= Promise.all([
+export const loadStoryScripts: () => Promise<void> = loadOnce(() =>
+  Promise.all([
     import('../content/campaign'),
     import('./side-story-content'),
     import('./storyline-content'),
@@ -192,14 +193,8 @@ export function loadStoryScripts(): Promise<void> {
     registerCampaign(campaignContent(campaign));
     registerSideStories(side.SIDE_STORY_CONTENT);
     registerStorylines(lines.STORYLINE_CONTENT);
-  });
-  // A failed fetch (offline, or a deploy removed the chunk) must not stick: the next
-  // call tries again, and the caller shows the reload notice.
-  loading.catch(() => {
-    loading = null;
-  });
-  return loading;
-}
+  }),
+);
 
 /** The Learning Grove's lookups (lines, lessons, glossary, journal text) over what is loaded. */
 export type EduContent = EduApi;
