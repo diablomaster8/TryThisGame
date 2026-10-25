@@ -47,6 +47,7 @@ _Up on the hill, something small and grey watches. Very still._
 - **What do you need?**
     - **Fern**: Oh, lots! A ladder. Someone to hold the ladder.
     - **Fern**: And someone to say the pear tree isn’t my fault.
+    - **Fern**: The pear tree is a tiny bit my fault.
     - Off you go to find the eggs. Listen, they go hum, hum!
 - **Say nothing. Go to the eggs.**
     - **Fern**: Straight to work! Just like your Gran.

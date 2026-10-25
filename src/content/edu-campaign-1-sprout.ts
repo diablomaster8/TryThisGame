@@ -125,6 +125,7 @@ const CH1: EduScene[] = [
         then: [
           FERN('Oh, lots! A ladder. Someone to hold the ladder.', 'think'),
           FERN('And someone to say the pear tree isn’t my fault.'),
+          FERN('The pear tree is a tiny bit my fault.', 'soft'),
           N('Off you go to find the eggs. Listen, they go hum, hum!'),
         ],
       },

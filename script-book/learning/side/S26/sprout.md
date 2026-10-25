@@ -613,7 +613,8 @@ _Linnet wears the key on a string. It bangs when she races!_
 **Dusty**: And this is my digging apron. It’s yours now.  
 _Linnet makes you a crown of snowdrops._  
 **Linnet**: No taking it off until teatime!  
-_The robin lives with you now. The door stays open._  
+_The robin lives with you now. It bosses the Nubbins about._  
+_The door stays open._  
 
 #### `sprout:s26-ramp-1` · [main](../../../side/S26.md#s26-ramp-1)
 
@@ -736,7 +737,8 @@ _The key hangs on the old wall post. Anyone can come in!_
 **Dusty**: And this is my digging apron. It’s yours now.  
 _Linnet makes you a crown of snowdrops._  
 **Linnet**: No taking it off until teatime!  
-_The robin lives with you now. The door stays open._  
+_The robin lives with you now. It bosses the Nubbins about._  
+_The door stays open._  
 
 #### `sprout:s26-complete-door` · [main](../../../side/S26.md#s26-complete-door)
 
@@ -756,7 +758,8 @@ _The key stays in the door. A little snow sits on top._
 **Dusty**: And this is my digging apron. It’s yours now.  
 _Linnet makes you a crown of snowdrops._  
 **Linnet**: No taking it off until teatime!  
-_The robin lives with you now. The door stays open._  
+_The robin lives with you now. It bosses the Nubbins about._  
+_The door stays open._  
 
 **Notes:** One lesson per scene, two in the big ones (s26-linnet, s26-beds). Domains: science (robins, moles, living and dead stems, pruning, what plants need, bulbs, snow, slopes, reuse, rosehips, seeds carried by birds, seasons), maths (above, counting, adding, rectangles, more and fewer, steep and gentle, ordering by size), sel (stillness, feelings, faces, listening, grief, worry), social studies (lamplighters, places for everyone, shared places) and literacy (the first sound of Linnet). Every choice is kept. The ramp and lift preludes, the Thrums door, the cellar bench, the lifted snow scene, the other two complete scenes and the four campaign hooks are in EDU_S26_SPROUT_VARIANTS.
 

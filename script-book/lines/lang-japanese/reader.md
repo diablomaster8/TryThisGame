@@ -8,16 +8,16 @@
 
 #### `reader:lj1-s1` · [main](main.md#lj1-s1)
 
-_The gate sticks, like always. Someone on the other side lifts and pushes, hard. It bangs open._  
-_A girl in running shoes skids through first, a sketchbook under her arm. Nova follows, carrying both bags._  
+_Someone is racing up the lane. The gate sticks, like always, so she climbs it._  
+_A girl in running shoes drops down on your side, sketchbook first. Nova follows, carrying both bags._  
 **Nova**: This is Hana. She’s staying with me for the summer. She raced me from the bridge.  
-**Hana**: I won by eleven seconds. Nova says nine. Nova is wrong.  
+**Hana**: I won by eleven seconds. Nova says she let me win. Nova is a terrible liar.  
 **Hana**: こんにちは (konnichiwa, “hello”)!  
 
 > **Lesson** (literacy, L.3.4, ask): a word with two meanings: こんにちは  
 > _Hana said こんにちは (konnichiwa) as she came through the gate. What do you think it means?_  
 > - ✅ Hello → はい! Hello. It can also mean “good afternoon”. One word, two jobs.
-> - Goodbye → いいえ, goodbye is a different word. I only just got here! こんにちは means “hello”, or “good afternoon”.
+> - Goodbye → No, goodbye is a different word. I only just got here! こんにちは means “hello”, or “good afternoon”.
 > - Thank you → Not that one. Thank you is tomorrow’s word. こんにちは means “hello”, or “good afternoon”.
 > _For grown-ups: Worked out that こんにちは (konnichiwa) means “hello” and also “good afternoon”._
 
@@ -33,7 +33,7 @@ _She bows: a small, quick dip from the waist, then straight back up._
 **Hana**: わたしは はな です (watashi wa Hana desu) means “I am Hana”. Your own name goes in the middle, like a sandwich.  
 **Hana**: Then finish with よろしくおねがいします (yoroshiku onegaishimasu): “please treat me kindly”, or “pleased to meet you”.  
 **Nova**: I practised that all the way here. On the ticket man, a cow and a postbox.  
-**Hana**: Ready? Say はい (hai, “yes”) or いいえ (iie, “no”). Actually, just say はい.  
+**Hana**: Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.  
 
 **Choices**
 
@@ -45,7 +45,7 @@ _She bows: a small, quick dip from the waist, then straight back up._
 - **Try the lot: “Hajimemashite. Watashi wa… desu. Yoroshiku onegaishimasu.”**
     - **Hana**: You did the whole sandwich! It took Nova three days to get that right.
     - **Nova**: Two days.
-    - **Hana**: いいえ. Three.
+    - **Hana**: No. Three.
 
 #### `reader:lj1-s1-done` · [main](main.md#lj1-s1-done)
 
@@ -60,7 +60,9 @@ _One of them tries a bow. It tips forward and rolls into the herbs._
 > _For grown-ups: Greeted a shy Nubbin with こんにちは and a bow, practising a kind, calm hello._
 
 **Hana**: They want to learn! Tomorrow we teach them. Properly.  
-**Hana**: Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.  
+**Hana**: Also, is that a frog?  
+**Nova**: Are you scared of frogs, Hana?  
+**Hana**: いいえ (iie, “no”)! Not even slightly. I’m just saying. In case it comes up.  
 
 #### `reader:lj1-s2` · [main](main.md#lj1-s2)
 
@@ -74,7 +76,7 @@ _Fern climbs over the fence with a bucket of plums and a sleepy face._
 > **Hana**: おはよう is friendly. おはようございます is polite. The polite one is longer. It usually is.  
 > _For grown-ups: Learned the friendly おはよう (ohayō) and the polite おはようございます (ohayō gozaimasu), and when to use each._
 
-**Fern**: Good morning to you too. I’ve been up since five, keeping the trees alive, badly.  
+**Fern**: Good morning to you too. I’ve been up since five, apologising to the trees.  
 **Hana**: ありがとうございます (arigatō gozaimasu)! That’s a polite thank you. With friends, it’s just ありがとう (arigatō).  
 **Hana**: Right. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows. That’s the plan.  
 _She sprints at the herb bed and bumps a small round Nubbin right off its feet._  
@@ -226,7 +228,7 @@ _Three Nubbins bow at the end of every line. Dumpling bows one line late every t
 
 ## LJ2. The Hiragana Pond
 
-- `lj2-step1`: Find あ い う え お on the stepping stones, in order. · _Start with あ, nearest the bank. Some stones are sideways, so look carefully._
+- `lj2-step1`: Find あ い う え お on the stepping stones, in order, and trace each one. · _Start with あ, nearest the bank. Follow the numbered strokes on each stone._
 - `lj2-step2`: Trace か き く け こ in the sand. · _Follow the numbered strokes, in order. Top to bottom, left to right, mostly._
 - `lj2-step3`: Write はな, Hana’s name, on her sketchbook. · _は first, then な. You can write across or down._
 

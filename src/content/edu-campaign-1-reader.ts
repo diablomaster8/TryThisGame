@@ -77,7 +77,7 @@ const CH1: EduScene[] = [
           {
             label: 'Yes. Both at once.',
             reply: [
-              { who: 'narrator', text: 'Lots of people would agree with you. A funny memory of someone you miss can be warm and sore together.' },
+              { who: 'narrator', text: 'Gran would agree with you, and be smug about it. A funny memory of someone you miss can be warm and sore together.' },
               { who: 'narrator', text: 'Feelings don’t have to take turns. Both are allowed.' },
             ],
           },
@@ -102,6 +102,7 @@ const CH1: EduScene[] = [
         id: 'reader:c1-letter-l2',
         domain: 'literacy',
         skill: 'use clues in a story to work out what is true',
+        standard: 'RL.3.3',
         kind: 'ask',
         after: 13,
         prompt: [
@@ -760,7 +761,7 @@ const CH4: EduScene[] = [
       { who: 'moss', text: '…You lift and push.', mood: 'think' },
       { who: 'narrator', text: 'The voice is small and dry. It comes from somewhere behind your ears rather than in front of them.' },
       { who: 'moss', text: 'Every morning. Most people climb over by the third day. You never once did.' },
-      { who: 'moss', text: 'Eternals can speak a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed one morning. Not bad.' },
+      { who: 'moss', text: 'The old ones like me can speak a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed one morning. Not bad.' },
       { who: 'moss', text: 'I am Moss. She will have told you I am stubborn. She was being kind.' },
       { who: 'you', text: 'Where is she?' },
       { who: 'moss', text: 'She didn’t vanish. Hazel doesn’t vanish. Hazel leaves notes.' },
@@ -1722,7 +1723,7 @@ export const EDU_CAMPAIGN_1_READER: EduCampaign = {
     1: {
       title: 'The Letter',
       goalText: 'Find Gran’s eggs in the long grass. Hatch one, then pet the Nubbin that comes out.',
-      hint: 'The eggs hum near the fourth lantern post. Hold an egg and give it a gentle shake to hurry it. Tap the Nubbin and choose Pet.',
+      hint: 'The eggs hum in the long grass, by the farthest lantern post. Hold an egg and give it a gentle shake to hurry it. Tap the Nubbin and choose Pet.',
     },
     2: {
       title: 'Shells and Promises',

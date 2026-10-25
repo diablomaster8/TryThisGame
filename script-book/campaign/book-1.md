@@ -6,14 +6,19 @@ Goal: Hatch your first egg and pet the Nubbin that comes out. (`firstHatch`) · 
 
 #### <a id="c1-letter"></a>Opening `c1-letter`
 
-_Late spring. The road runs out a little before the Grove does. The last of it is grass, and then a gate._  
-_The gate is stuck. It always was. You lift and push, the way she taught you._  
+_Late spring. The road runs out a little before the Grove does._  
+_The last of it is grass, and then a gate._  
+_The gate is stuck. It always was._  
+_You lift and push, the way she taught you._  
 _It gives with the same small groan it gave when you were small enough to need both hands._  
-_The Grove is overgrown and quiet. The pond has gone to reeds at one end. Nobody has cut the grass since she left._  
+_The Grove is overgrown and quiet. The pond has gone to reeds at one end._  
+_Nobody has cut the grass since she left._  
 _On the signpost, under a stone, a letter in your grandmother’s hand._  
 _Your name is on the front. The writing leans more than you remember, as if every word were walking uphill._  
-_You don’t open it. Not yet. You go to the cottage first._  
-_The door is on the latch. The kettle is on the stove, cold. Beside it, one cup, washed and turned upside down._  
+_You don’t open it. Not yet._  
+_You go to the cottage first._  
+_The door is on the latch. The kettle is on the stove, cold._  
+_Beside it, one cup, washed and turned upside down._  
 _She always left one out like that. For whoever came next._  
 _The kitchen smells of apples and cold ashes and, under that, of her: wet wool and peppermint._  
 _Her coat is not on its hook. Her boots are not by the door._  
@@ -40,7 +45,7 @@ _She sees the letter in your hand, and her face changes._
 **Fern**: She’s done it before. Went off a whole winter once. Came back with a limp and a Nubbin nobody else could catch.  
 **Fern**: She told me you’d come. Didn’t say when. I put the stone on the letter so it wouldn’t blow away. That was my job.  
 **Fern** _(happy)_: I’m very proud of the stone, actually.  
-_From the long grass, out by the fourth lantern post, something hums. Low, like a kettle thinking about it._  
+_From the long grass, by the farthest of the Grove’s four lantern posts, something hums. Low, like a kettle thinking about it._  
 **Fern**: Hear that? They’ve been at it for a week. I’ll be around if you need anything. Mostly I need things from you, honestly.  
 
 **Choices**
@@ -61,7 +66,8 @@ _From the long grass, out by the fourth lantern post, something hums. Low, like 
 
 #### <a id="c1-close"></a>Closing `c1-close`
 
-_It is warm. That is the first thing. Small and damp and warmer than anything has a right to be._  
+_It is warm. That is the first thing._  
+_Small and damp and warmer than anything has a right to be._  
 _It smells of rain and warm bread, the way new ones do. Bits of shell are stuck to its head like a hat._  
 _It looks at your hand for a long time before it leans into it. Then it leans into it entirely._  
 _You do not move for a while. Neither does it._  
@@ -75,7 +81,8 @@ _Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose and fizzle
 **Fern**: That isn’t how anything works.  
 _Your Nubbin looks up at you, then at Sparks, then at you again, and leans a little closer to your leg._  
 **Sparks**: Right. Dusk. Watch this. Hazel had me do all four posts last winter, before she went… wherever she went.  
-_One by one, the lanterns come up: the pond, the stream, the old wall. Gold on the water. Gold in the grass._  
+_One by one, the lanterns come up: the pond, the stream, the old wall._  
+_Gold on the water. Gold in the grass._  
 _The fourth, out by the long grass, catches, gutters, and settles into a thin, uncertain flicker._  
 **Sparks** _(angry)_: Ugh. That one. New wick, new glass, new everything. Three times.  
 **Fern**: Has it ever worked?  
@@ -94,7 +101,8 @@ Goal: Collect fruit from the trees and feed a Nubbin by hand, twice. (`feedTwice
 
 #### <a id="c2-open"></a>Opening `c2-open`
 
-_Morning. Mist on the pond. Your Nubbin is asleep on your foot, which is a problem, because you need the foot._  
+_Morning. Mist on the pond._  
+_Your Nubbin is asleep on your foot, which is a problem, because you need the foot._  
 _A woman comes up the lane smelling of salt and weed, with a bucket that slops at every step and rolled sleeves gone stiff with brine._  
 **Marina** _(happy)_: Morning. Marina. I keep the tide pools past the ridge. Hazel used to trade me fruit for swimming lessons. For the Nubbins, not for her.  
 **Marina**: She could swim fine. She said water was for fish and fools, and she was neither.  
@@ -109,7 +117,8 @@ _Your Nubbin looks at the fruit, then your hand, then your face, as if checking 
 **Marina**: Don’t push it at them. Hold still. Let them come the last bit. The last bit is theirs.  
 **Sparks**: That’s the bit I’m bad at. I go “eat it, eat it, EAT IT”.  
 **Marina**: We know.  
-_Your Nubbin comes the last bit. It takes the plum, very politely. Then it takes Sparks’s thumb, very politely, and holds on._  
+_Your Nubbin comes the last bit. It takes the plum, very politely._  
+_Then it takes Sparks’s thumb, very politely, and holds on._  
 **Sparks** _(shock)_: FLAT. I said FLAT. I didn’t do it FLAT.  
 **Marina** _(happy)_: Rule four. Don’t be Sparks.  
 _The plum is warm from the tree and splits in your fingers. Your Nubbin eats your half too, and looks at you as if you offered._  
@@ -124,12 +133,15 @@ _Marina looks up the valley the way you would look at weather coming._
 
 #### <a id="c2-corvin"></a>Closing `c2-corvin`
 
-_Late afternoon. The light has gone long and yellow. Someone is standing at the gate._  
-_A man in a grey coat. He doesn’t lift. He doesn’t push. He rests one hand on the top rail, and waits._  
+_Late afternoon. The light has gone long and yellow._  
+_Someone is standing at the gate._  
+_A man in a grey coat. He doesn’t lift, and he doesn’t push._  
+_He rests one hand on the top rail, and waits._  
 _The gate swings open for him. Smoothly, without a sound, as if it had been expecting him._  
 _It has never once done that for you._  
 **Corvin Vale**: Hazel’s heir. You have her stubborn little chin. Corvin Vale. I run the Circuit, up the valley. The real races.  
-_He offers his hand. You take it. It is cold. Not cool: cold, like a stone lifted out of a winter stream._  
+_He offers his hand. You take it._  
+_It is cold. Not cool: cold, like a stone lifted out of a winter stream._  
 _He smells of clean soap and something under it, sharp and metallic, like a gate on a frosty morning._  
 **Corvin Vale** _(think)_: I knew your grandmother well. I was her student, once. We disagreed about methods. She thought love was a method.  
 _He looks past you, up the hill, to where the flowers are. Only for a moment._  
@@ -149,10 +161,12 @@ _Your Nubbin has gone very still behind your legs._
     - Behind your legs, something small lets out a long breath.
 - **Two hundred? …Fine. Take it.** — sets `{"corvinOffer":"sold","soldNubbin":true}`
     - **Corvin Vale**: Sensible. Hazel never was.
-    - He lifts your Nubbin by the scruff, not roughly, but not gently either. It looks back at you the whole way to the gate. It does not make a sound.
+    - He lifts your Nubbin by the scruff, not roughly, but not gently either.
+    - It looks back at you the whole way to the gate. It does not make a sound.
     - The gate swings shut behind them on its own. On the top rail, a thin grey bloom of frost.
     - Two hundred Shells sit in your hand. They are very heavy for something so small.
-    - Rule two said never throw one. It didn’t say anything about this. It didn’t think it needed to.
+    - Rule two said never throw one.
+    - It didn’t say anything about this. It didn’t think it needed to.
 - **Let me think about it.** — sets `{"corvinOffer":"considered"}`
     - **Corvin Vale**: Think. I like a Keeper who thinks. I’ll be at the Circuit when you’ve finished.
     - The gate swings shut behind him on its own. On the top rail, a thin grey bloom of frost, thinning as you watch.
@@ -169,14 +183,19 @@ Goal: Win a little of Sable’s trust (20). (`sableTrust20`) · Hint: Sable runs
 _Early summer. The evenings are long now, and smell of cut grass and warm stone._  
 _You can’t sleep. You sit out on the step with a cup of tea gone cold, the way she used to._  
 _Moths knock at the window behind you. In the reeds a frog says the same thing over and over, very sure of it._  
-_Night. The lanterns are out. Something is at the far edge of the Grove, half in the long grass._  
-_A Nubbin, grey as ash, the little ball above its head dark and still. One wing is held wrong. When you breathe, it flinches._  
-_It is thin. You can count the ridges along its back from here. It watches your hands. Not your face. Your hands._  
+_Night. The lanterns are out._  
+_Something is at the far edge of the Grove, half in the long grass._  
+_A Nubbin, grey as ash, the little ball above its head dark and still._  
+_One wing is held wrong. When you breathe, it flinches._  
+_It is thin. You can count the ridges along its back from here._  
+_It watches your hands._  
+_Not your face. Your hands._  
 **Luna** _(soft)_: Don’t. Not yet.  
 _You go still. The grey one goes on not moving._  
 _The voice comes low, from over the wall: a woman with soil to the elbows and a lamp turned down to almost nothing._  
 **Luna**: Luna. I garden at night; I see what comes in at night. That one has been here three evenings. It eats what I leave and runs if I so much as stand up.  
-_Over the other wall, Fern’s kitchen light goes on. Then off. Then on again, as if someone is trying very hard not to look._  
+_Over the other wall, Fern’s kitchen light goes on. Then off._  
+_Then on again, as if someone is trying very hard not to look._  
 **Luna** _(think)_: She’s been doing that all week. She thinks it’s subtle.  
 **You**: Whose is it?  
 **Luna** _(sad)_: Nobody’s, now. Somebody’s, once. Look at the wing. Somebody held that too tight.  
@@ -191,11 +210,13 @@ _You think of a letter, and three rules, and of how easy it would be just to rea
 **Choices**
 
 - **Sit down. Put fruit on the ground. Wait.** — sets `{"sableFirst":"slow","sableTrustBonus":6}`
-    - You sit. You put the fruit down. For a long time nothing happens. Then a small grey shape takes one step, and another, and eats, watching you the whole time.
+    - You sit. You put the fruit down.
+    - For a long time nothing happens. Then a small grey shape takes one step, and another, and eats, watching you the whole time.
     - Somewhere around the second plum, your legs go to sleep. You don’t move them.
     - **Luna**: That’s the whole trick. That’s all of it. Hazel would have liked you.
 - **Catch her before she runs again.** — sets `{"sableFirst":"grab","sableTrustBonus":-8}`
-    - You lunge. You get a wing. She screams, a sound you did not know they could make, twists free, and is gone into the dark.
+    - You lunge. You get a wing.
+    - She screams, a sound you did not know they could make, twists free, and is gone into the dark.
     - Your hand is still shut on nothing. It is very cold.
     - **Luna**: …She’ll come back. They do. But you have made the next part much harder, for both of you.
 
@@ -203,20 +224,24 @@ _You think of a letter, and three rules, and of how easy it would be just to rea
 
 #### <a id="c3-close"></a>Closing `c3-close`
 
-_Days of it. Fruit on the ground. Sitting. Not looking straight at her, because looking straight at her is a kind of reaching._  
-_Sable lets you within two steps now. She does not come closer. But she does not run._  
+_Days of it. Fruit on the ground._  
+_Sitting. Not looking straight at her, because looking straight at her is a kind of reaching._  
+_Sable lets you within two steps now._  
+_She does not come closer. But she does not run._  
 **Clover** _(happy)_: Oh, she’s letting you near! I’m Clover. I keep the gentle ones. I’ve been so worried about her. Luna told me not to fuss, so I’ve been fussing quietly.  
 **Clover**: Can I tell you something? A Shadow Nubbin doesn’t turn back. The grey stays. People think that means they’re broken.  
 **Clover** _(soft)_: They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.  
-**Clover**: Hazel taught me that. She said it to me over a teacup, like it was nothing. I cried in her kitchen for an hour.  
+**Clover**: Hazel taught me that over a teacup, like it was nothing. I cried in her kitchen for an hour. She just kept topping up the pot.  
 _Sable eats the fruit you left, and this time, when she finishes, she sits down instead of leaving._  
 _Out on the lane, some child is skipping to a rhyme you almost know. Badly._  
 _Next morning, early, you go to see where she slept. A hollow in the long grass, the size of two cupped hands._  
-_Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew._  
+_Around it, the grass is white with frost._  
+_Only there. Everywhere else, the dew is just dew._  
 **Clover** _(think)_: That’s odd. It’s not cold enough for that. Not for months yet.  
 **Luna** _(think)_: It does that. Every morning, wherever she sleeps.  
 _The frost is gone by the time the sun reaches it. It leaves the grass a little flattened, a little grey._  
-_And the fruit you left out last night is gone. All of it. Six plums._  
+_And the fruit you left out last night is gone._  
+_All of it. Six plums._  
 _Sable is curled up nearby, very small, and does not look like someone who has eaten six plums._  
 **Luna** _(think)_: That wasn’t her. She hasn’t the appetite for six.  
 _On the flat top of the wall, where the sun hits first, six plum stones sit in a heap, licked clean. Whoever ate them likes a warm seat._  
@@ -253,12 +278,14 @@ Goal: Pet Moss on the hill and light all four lanterns. (`lanternsAndMoss`) · H
 _The grey shape has come down from the top of the hill as far as the flat stone halfway, and has sat there all morning._  
 _You climb up. You sit down next to him, because that is the rule, and you wait._  
 _He is old. You can see it in how he sits: carefully, like something that has decided to._  
-_For a long time, nothing. A bee. Wind going over the grass. Your Nubbin falling asleep against your shoe._  
-_The stone is warm from the sun and the thyme round it smells of summer. You could sit here a long while. That seems to be the idea._  
+_For a long time, nothing. A bee._  
+_Wind going over the grass. Your Nubbin falling asleep against your shoe._  
+_The stone is warm from the sun and the thyme round it smells of summer._  
+_You could sit here a long while. That seems to be the idea._  
 **Moss** _(think)_: …You lift and push.  
 _The voice is small and dry and comes from somewhere behind your ears rather than in front of them._  
 **Moss**: Every morning. Most people climb over by the third day. You never once did.  
-**Moss**: Eternals can speak, a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed a morning. Not bad.  
+**Moss**: The old ones like me can speak, a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed a morning. Not bad.  
 **Moss**: I am Moss. She will have told you I am stubborn. She was being kind.  
 **You**: Where is she?  
 _…_  
@@ -299,7 +326,8 @@ _He looks down across the Grove, to the fourth post by the long grass. He looks 
 
 #### <a id="c4-tale"></a>Scene `c4-tale`
 
-_Late. Most of the Keepers have gone home. Sparks is asleep sitting up. Moss sits in the light of the pond lantern._  
+_Late. Most of the Keepers have gone home._  
+_Sparks is asleep sitting up. Moss sits in the light of the pond lantern._  
 **You**: The song. “The old ones broke what the fierce one made.” What did they break?  
 **Moss**: Ah. You were listening. Most people only sing it.  
 **Moss**: Sit, then. It is an old story, and I am in it. That is the trouble with old stories, at my age. You are in all of them.  
@@ -351,7 +379,8 @@ _He is quiet so long that you think he may have finished._
 
 - **Cinder… like the rhyme?**
     - **Moss**: You know it.
-    - You do. Everyone does. You skipped to it in this very lane, and never once thought about the words.
+    - You do. Everyone does.
+    - You skipped to it in this very lane, and never once thought about the words.
     - **You**: Cinder held them close and tight, kept them warm one winter night;
     - **You**: when the morning came to call, they did not move at all.
     - **Moss**: Children remember. They kept the tune and lost her.
@@ -393,7 +422,8 @@ _Moss stops._
     - Moss looks at the fourth lantern. He does not answer.
     - **Moss**: Ask me another night.
 - **Say nothing. Sit with him.**
-    - You sit. After a while he leans, very slightly, against your arm. He is lighter than he looks.
+    - You sit. After a while he leans, very slightly, against your arm.
+    - He is lighter than he looks.
     - **Moss**: Yes. Like that.
 
 > The Tale, part 3 (the Breaking, the four posts, the Long Peace, Moss choosing Hazel). Moss stops before the theft and will not say where the fourth shard went. “Twenty-two, with nothing but months” deliberately foreshadows Corvin’s ch9 line. No flags.
@@ -401,7 +431,8 @@ _Moss stops._
 #### <a id="c4-out"></a>Scene `c4-out`
 
 _Towards morning the wind turns. It comes down from up the valley, and it is cold._  
-_The fourth lantern flickers. Steadies. Flickers._  
+_The fourth lantern flickers._  
+_Steadies. Flickers._  
 _Goes out._  
 _…_  
 **Moss** _(sad)_: Twenty-two years.  
@@ -409,7 +440,8 @@ _…_
 **Moss**: Nothing you need tonight. The other three will see us to morning.  
 _Against the wall, Sparks jerks awake, stares at the dark fourth post, and says, very clearly: “I didn’t touch it.”_  
 _She is asleep again before anyone can tell her nobody thought she had._  
-_Three lanterns burn until dawn. On the glass of the fourth, a faint white bloom grows. Then the sun reaches it, and it is gone._  
+_Three lanterns burn until dawn. On the glass of the fourth, a faint white bloom grows._  
+_Then the sun reaches it, and it is gone._  
 _Nobody comes down the hill._  
 **Moss** _(soft)_: She will. She finishes things. It is the most annoying thing about her.  
 **Moss**: Some evening, when you have time, carry me round the posts. There is more to each of them than one night holds.  
@@ -432,11 +464,13 @@ _Sparks takes one and bites it. It makes a sound like a dropped plate._
 **Pixel** _(happy)_: Pixel. Hi. I did the lantern timing circuit, Sparks did the part that explodes. Is it true you can hear Moss? Byte says it’s a hoax.  
 **Byte**: I said it was unverified.  
 **Moss**: Tell the pale one his shoelace is untied.  
-_You tell Byte his shoelace is untied. Byte looks down. Byte goes very quiet._  
+_You tell Byte his shoelace is untied._  
+_Byte looks down. Byte goes very quiet._  
 **Byte** _(think)_: Anyone could have seen that.  
 **Moss**: Anyone didn’t.  
 **Luna** _(soft)_: Hazel used to stand right there, by the pond, and not say anything. And it was somehow the best part.  
-_Then, without anyone deciding to, Luna starts to sing. Low. One by one, from both sides of the pond, the others join._  
+_Then, without anyone deciding to, Luna starts to sing. Low._  
+_One by one, from both sides of the pond, the others join._  
 **Luna** _(soft)_: Light one for the pond where the first ones woke, light one for the stream and the laughing folk,  
 **Everyone** _(soft)_: light one for the wall where the quiet ones keep, and one for the long grass, and the ones who sleep.  
 **Everyone** _(soft)_: Slow hands, warm hearts, the gate stuck fast — what’s kept with love is kept to last.  

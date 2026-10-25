@@ -195,7 +195,7 @@ _Dumpling bows one line late. Every time! Then he lies down._
 
 ## LJ2. The Hiragana Pond
 
-- `lj2-step1`: Find the painted stones and hop across. Say each sound! · _Start nearest the bank. Say ah, ee, oo, eh, oh as you hop._
+- `lj2-step1`: Find the painted stones. Trace each one, then hop across! · _Follow the numbered lines. Say ah, ee, oo, eh, oh as you go._
 - `lj2-step2`: Trace a shape in the sand by the pond. · _Tap the sand. Follow the numbered lines with your finger. No rush._
 - `lj2-step3`: Help write Hana’s name in her sketchbook. Then draw a flower. · _Open the sketchbook. A grown-up can help you trace the two shapes._
 

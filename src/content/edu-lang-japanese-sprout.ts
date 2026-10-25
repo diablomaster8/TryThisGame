@@ -397,8 +397,8 @@ const LJ2: EduQuest = quest(
   'The Hiragana Pond',
   {
     'lj2-step1': {
-      goal: 'Find the painted stones and hop across. Say each sound!',
-      hint: 'Start nearest the bank. Say ah, ee, oo, eh, oh as you hop.',
+      goal: 'Find the painted stones. Trace each one, then hop across!',
+      hint: 'Follow the numbered lines. Say ah, ee, oo, eh, oh as you go.',
     },
     'lj2-step2': {
       goal: 'Trace a shape in the sand by the pond.',

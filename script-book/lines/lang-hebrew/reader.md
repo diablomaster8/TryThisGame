@@ -223,8 +223,8 @@ _The shalom sign stays on the gate. Nubbins who learned the word wave at it._
 
 ## LH2. Right to Left
 
-- `lh2-step1`: Find the four letters of שָׁלוֹם (shalom) hidden round the garden. · _Look by the pond, the gate, the orchard and Ori’s tent. Line the pebbles up from the right: ש ל ו ם._
-- `lh2-step2`: Trace the two letters the alef-bet is named after, alef (א) and bet (ב), in the sand. · _Start on the right side and move your stick to the left._
+- `lh2-step1`: Find the four letters of שָׁלוֹם (shalom) hidden round the garden, and trace each one. · _Look by the pond, the gate, the orchard and Ori’s tent. Trace them from the right: ש ל ו ם._
+- `lh2-step2`: Trace alef (א) and bet (ב), the letters the alef-bet is named after, then gimel, dalet and hey. · _Start on the right side and move your stick to the left._
 - `lh2-step3`: Write Ori’s name, אוֹרִי, on his tent. · _Four letters, starting on the right: alef, vav, resh, yod._
 
 #### `reader:lh2-s1` · [main](main.md#lh2-s1)
@@ -310,7 +310,7 @@ _The Wobbler, still walking backwards, reverses into the pond with a plop. It cl
 
 #### `reader:lh2-s2-done` · [main](main.md#lh2-s2-done)
 
-_In the sand: א and ב, a bit wobbly and very proud._  
+_In the sand: א ב ג ד ה, a bit wobbly and very proud._  
 **Ori**: Alef and bet! One letter speaks, one letter stays quiet.  
 **Ori**: And if bet loses its dot, it turns into vet.  
 **Ori**: I’ve scratched gimel, dalet and hey in next to them. Now put all five in alef-bet order.  

@@ -2,7 +2,7 @@
  * Stroke guides for the kana the courses trace (CV3), in school stroke order, on a 0-100
  * board (x right, y down). Drawn by hand from the standard order as guides for a finger,
  * not as font outlines: the glyph itself shows underneath in Klee One. Stroke counts:
- * か 3, き 4, く 1, け 3, こ 2, は 3, な 4.
+ * あ 3, い 2, う 2, え 2, お 3, か 3, き 4, く 1, け 3, こ 2, は 3, な 4.
  */
 import type { Pt } from './trace-check';
 
@@ -13,6 +13,23 @@ const P = (...xy: number[]): Pt[] => {
 };
 
 export const KANA_STROKES: Readonly<Record<string, Pt[][]>> = {
+  // The five vowels (LJ2 step 1).
+  あ: [
+    P(20, 30, 44, 29, 70, 26),
+    P(42, 12, 42, 40, 46, 64, 52, 82),
+    P(64, 40, 52, 60, 36, 76, 24, 70, 30, 56, 50, 48, 70, 50, 82, 62, 76, 80, 60, 88),
+  ],
+  い: [P(26, 24, 24, 46, 28, 66, 36, 76, 42, 68), P(68, 32, 74, 44, 78, 58)],
+  う: [P(38, 14, 50, 17, 62, 20), P(28, 44, 48, 36, 66, 40, 70, 56, 62, 72, 42, 90)],
+  え: [
+    P(38, 14, 50, 17, 62, 20),
+    P(26, 40, 46, 38, 66, 38, 50, 58, 30, 82, 42, 70, 54, 70, 62, 82, 84, 86),
+  ],
+  お: [
+    P(16, 32, 36, 31, 58, 30),
+    P(38, 12, 38, 44, 40, 78, 30, 84, 20, 74, 32, 62, 54, 58, 72, 64, 72, 80, 58, 90),
+    P(70, 22, 76, 28, 82, 36),
+  ],
   か: [
     P(18, 40, 40, 37, 62, 34, 66, 46, 62, 66, 56, 80, 48, 74),
     P(44, 16, 40, 40, 33, 56, 25, 70),

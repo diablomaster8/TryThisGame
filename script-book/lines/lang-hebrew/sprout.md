@@ -183,8 +183,8 @@ _The Wobbler waves with both arms. Wobble, wobble… it stays up!_
 
 ## LH2. Right to Left
 
-- `lh2-step1`: Find four painted pebbles round the garden. · _Look by the pond, the gate, the orchard and Ori’s tent. Line them up from the right._
-- `lh2-step2`: Trace a shape in the sand with Ori. · _Ori draws it first. Go over it with a stick. Start on the right side._
+- `lh2-step1`: Find four painted pebbles round the garden. Trace each one. · _Look by the pond, the gate, the orchard and Ori’s tent. Start on the right side._
+- `lh2-step2`: Trace some shapes in the sand with Ori. · _Ori draws it first. Go over it with a stick. Start on the right side._
 - `lh2-step3`: Help Ori paint his name on his tent. · _Tap the paintbrush on the tent. Ori helps. Start on the right side._
 
 #### `sprout:lh2-s1` · [main](main.md#lh2-s1)

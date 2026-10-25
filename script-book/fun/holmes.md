@@ -32,6 +32,7 @@ Hint: Climb the stairs behind him and wait. He will do the talking. · check: `v
 
 #### <a id="q76-reading"></a>Scene `q76-reading`
 
+_Byte follows you up the stairs, hands in his pockets, well away from the jam._  
 **Mr Hollis Holme** _(happy)_: Ah. A new tenant. Mr Holme. I notice you have not taken off your hat for ten minutes, which means it is a good one.  
 **Mr Hollis Holme** _(think)_: You have been in Afghanistan, I perceive.  
 **Dr Weston Warde** _(shock)_: How on earth did you know that?  
@@ -84,7 +85,7 @@ _From now on, in Photo mode, you can zoom in on anything the Grove has to show._
 
 *The Red-Headed League: the copying job and the cellar* · audience: all · where: The seed shop, from the morning after Q76 · when: After the one before it, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q76
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle)), Old Mr Willet (Jabez Wilson, the red-headed pawnbroker (The Red-Headed League))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle)), Old Mr Willet (Jabez Wilson, the red-headed pawnbroker (The Red-Headed League))
 
 ### Step 1: Hear Mr Willet’s story and look at the League’s office door.
 
@@ -165,9 +166,9 @@ _At dusk Holmes sits at the window above the shop with a cold pipe, thinking. It
 
 *The Blue Carbuncle: the hat, the goose and the second chance* · audience: all · where: The lane outside the shop, the week of the Harvest Supper · when: The week of the Harvest Supper (autumn), after Q77, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q77
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Lady Marrowby (The Countess of Morcar (The Blue Carbuncle))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Lady Marrowby (The Countess of Morcar (The Blue Carbuncle))
 
-### Step 1: Bring the battered hat and the cross goose upstairs to Mr Holme.
+### Step 1: Bring the battered hat and the cross goose upstairs to Holmes.
 
 Hint: Pick up the hat from the lane. The goose will walk along behind it, complaining. · check: `carry:item:battered-hat:holmes`
 
@@ -266,9 +267,9 @@ _The goose follows you round for the rest of the day, once. It does not know why
 
 *Silver Blaze: the curious incident* · audience: all · where: Your own gate, the morning before the autumn Cup · when: The night before the autumn Cup at the race track, after Q78, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q78
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Silas Brindle (Silas Brown, the rival trainer (Silver Blaze))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Silas Brindle (Silas Brown, the rival trainer (Silver Blaze))
 
-### Step 1: Walk the hedge with Mr Holme and ask Sparks one question.
+### Step 1: Walk the hedge with Holmes and ask Sparks one question.
 
 Hint: Start at the gate and follow the hedge round. Sparks is by the gate. · check: `walk:hedge:holmes`
 
@@ -348,7 +349,7 @@ _The cap is a little too big, and smells faintly of pipe smoke. Your Nubbin ador
 
 *The Sign of Four: Toby and the tar trail* · audience: all · where: Pixel’s workshop · when: After the one before it, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q79
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle))
 
 ### Step 1: Fetch Toby, the dog with the amazing nose.
 
@@ -429,11 +430,11 @@ _The magpie keeps a nest of shiny things on the Workshop roof from now on, and d
 
 *The Dancing Men: the cipher of little figures* · audience: all · where: The Workshop wall, then the bridge, then Fern’s gate · when: After the one before it, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q80
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Hetty (The correspondents of the dancing figures (The Dancing Men)), Sam (The correspondents of the dancing figures (The Dancing Men))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Hetty (The correspondents of the dancing figures (The Dancing Men)), Sam (The correspondents of the dancing figures (The Dancing Men))
 
 ### Step 1: Copy the chalk figures from the Workshop wall, the bridge and Fern’s gate.
 
-Hint: Use the magnifying glass to read the figures. Copy each one into Mr Holme’s notebook. · check: `collect:chalk-figures:3`
+Hint: Use the magnifying glass to read the figures. Copy each one into Holmes’s notebook. · check: `collect:chalk-figures:3`
 
 #### <a id="q81-intro"></a>Scene `q81-intro`
 
@@ -511,9 +512,9 @@ _Variant within Q81; it has no single parent scene._
 
 *The Musgrave Ritual: the old directions and the shadow* · audience: all · where: The meadow, on a sunny afternoon · when: A sunny afternoon after Q81, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q81
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle))
 
-### Step 1: Help Mr Holme measure the tree’s shadow in the meadow.
+### Step 1: Help Holmes measure the tree’s shadow in the meadow.
 
 Hint: Stand where he points, hold the rod upright, and watch the shadow. · check: `place:rod:meadow:shadow`
 
@@ -576,7 +577,7 @@ _Holmes drives a short stick into the ground and ties a bit of string to it, an 
 
 *A Scandal in Bohemia: the photograph and the smoke-rocket* · audience: all · where: The room above the shop, in the evening · when: After the one before it, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q82
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), The Masked Count (The King of Bohemia, as Count von Kramm (A Scandal in Bohemia))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), The Masked Count (The King of Bohemia, as Count von Kramm (A Scandal in Bohemia))
 
 ### Step 1: Listen to the masked visitor and agree to help get the photograph back.
 
@@ -617,7 +618,7 @@ _The smoke clears, and the lace curtains settle. Holmes comes out, quite satisfi
 
 ### Step 3: Go to the cottage in the morning and look in the cupboard.
 
-Hint: Go back at first light, with Mr Holme and Dr Warde. · check: `inspect:cupboard:irene-cottage`
+Hint: Go back at first light, with Holmes and Dr Warde. · check: `inspect:cupboard:irene-cottage`
 
 #### <a id="q83-morning"></a>Scene `q83-morning`
 
@@ -649,7 +650,7 @@ _Irene’s picture goes in a plain frame on the mantelpiece at 221B, between the
 
 **Learning Grove swaps**
 
-- `q83-complete#1` → Of all Mr Holme’s cases, there is one he thinks about most, and the lady got away with it.
+- `q83-complete#1` → Of all Holmes’s cases, there is one he thinks about most, and the lady got away with it.
 
 **Notes:** A masked visitor who gives a false name; "Count von Kramm" is a mask, not a fact. The smoke-rocket is a harmless puff effect with no fire art; nobody is endangered. Irene is glimpsed only (in the front-room cutaway, and in the framed picture) and never speaks. The line "To Sherlock Holmes she is always THE woman." is lifted: THE is italic in the Gutenberg text, but Line text has no markup, so it is set plain here (use italics on that word if the dialogue box ever supports it). Used once; swapped in childLines. The "photograph" is an ordinary Photo mode picture; the quest does not require the player to take one.
 
@@ -657,7 +658,7 @@ _Irene’s picture goes in a plain frame on the mantelpiece at 221B, between the
 
 *The Hound of the Baskervilles: the paw prints and the glow on the moor* · audience: all · where: The room above the shop, on a misty autumn evening · when: A misty autumn evening after Q83 (Chapter 7 or 8, or any autumn in the Free Grove; never during Chapters 9–11) · requires: Q83
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Mr Stapling (Stapleton the naturalist (The Hound of the Baskervilles)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Mr Stapling (Stapleton the naturalist (The Hound of the Baskervilles)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle))
 
 ### Step 1: Listen to Dusty’s story, then go ahead to the heath with Dr Warde.
 
@@ -759,11 +760,11 @@ _Later, on a stone, Watson empties that boot. Nobody says anything until he has 
 
 *His Last Bow: the retired detective’s bees* · audience: all · where: The sunny bank above the orchard, on a fine morning · when: A fine morning after Q84, in the Free Grove or the campaign (never during Chapters 9–11) · requires: Q84
 
-**Cast:** Mr Hollis Holme (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle))
+**Cast:** Holmes (Sherlock Holmes (Arthur Conan Doyle)), Dr Weston Warde (Dr John Watson (Arthur Conan Doyle)), Jem Rudd (James Ryder, the hotel attendant (The Blue Carbuncle)), Inspector Larch (Inspector Lestrade (Arthur Conan Doyle))
 
-### Step 1: Help Mr Holme build three hives.
+### Step 1: Help Holmes build three hives.
 
-Hint: Bring wood from the Workshop and set the hives where Mr Holme points. · check: `build:decor:beehive:3`
+Hint: Bring wood from the Workshop and set the hives where Holmes points. · check: `build:decor:beehive:3`
 
 #### <a id="q85-intro"></a>Scene `q85-intro`
 

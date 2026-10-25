@@ -43,12 +43,14 @@ _Ember’s hands are in her pockets. You can see the fists through the cloth._
 #### <a id="c5-circuit"></a>Scene `c5-circuit`
 
 _The road climbs up the valley, and with every mile the trees stand further back from it._  
-_The Circuit is square and clean and silent. White lines, white rails, raked sand. Not one weed._  
+_The Circuit is square and clean and silent._  
+_White lines, white rails, raked sand. Not one weed._  
 _It is the hottest day of the summer. The railings are furred with frost._  
 **Sparks** _(shock)_: Feel that. No, go on, put your hand on it. It’s AUGUST.  
 **Sparks**: Eleven years I’ve raced here. Rails are always cold. I asked once. He said it was the shade.  
 _There is no shade. There is no tree for half a mile._  
-_At the start line, Corvin’s runners wait in a row. Grey, every one. Not touching. Not looking at anything._  
+_At the start line, Corvin’s runners wait in a row. Grey, every one._  
+_Not touching. Not looking at anything._  
 _Your Nubbin presses against your leg and stays there._  
 **Sparks** _(sad)_: Mine bounce. Look at them. Mine never stop bouncing. His just… wait.  
 _Byte is at the rail with a clipboard and a stopwatch, timing things that are not, strictly, racing._  
@@ -96,7 +98,8 @@ _Your Nubbin looks up at him, then at you, and then, very carefully, at nothing.
 #### <a id="c5-sold"></a>Scene `c5-sold`
 
 _In the row of grey runners, third from the end, is one you know._  
-_It was yours. It has grown. It is not looking at you, or at anything._  
+_It was yours. It has grown._  
+_It is not looking at you, or at anything._  
 _There is a number on its side in neat white paint, like the label on a jar._  
 **Corvin Vale**: Yours runs well. I did tell you it would eat better with me.  
 _It does look well fed. That is all it looks._  
@@ -151,7 +154,8 @@ _Fossil uncurls, very slowly, and climbs out of Dusty’s lap onto the grass. Sh
 _A cocoon closes round her, thin as a soap bubble. Rain runs down the outside of it._  
 **Dusty**: She’s done. Not reborn. Done. You can tell by the light. Rebirth glows; this just… thins.  
 _It thins the way breath thins on a window. You keep thinking it has finished, and it hasn’t._  
-_Dusty puts one muddy finger against it. Inside, very faintly, something taps back. Twice._  
+_Dusty puts one muddy finger against it._  
+_Inside, very faintly, something taps back. Twice._  
 **Dusty** _(soft)_: Yes. All right. I know.  
 _…_  
 _And then there is only rain, and where she was, a flower pushing up through the wet grass._  
@@ -180,7 +184,8 @@ _Fossil uncurls, very slowly, and climbs out of Dusty’s lap onto the grass. Sh
 _A cocoon closes round her, thin as a soap bubble. Rain runs down the outside of it._  
 **Dusty**: She’s done. Not reborn. Done. You can tell by the light. Rebirth glows; this just… thins.  
 _It thins the way breath thins on a window. You keep thinking it has finished, and it hasn’t._  
-_Dusty puts one muddy finger against it. Inside, very faintly, something taps back. Twice._  
+_Dusty puts one muddy finger against it._  
+_Inside, very faintly, something taps back. Twice._  
 **Dusty** _(soft)_: Yes. All right. I know.  
 _…_  
 _And then there is only rain, and where she was, a flower pushing up through the wet grass._  
@@ -197,7 +202,8 @@ _It rains, and then it rains less, and then it is only the trees dripping. It is
 **Dusty** _(soft)_: Thank you. Right. I’m going to go and dig something up. That’s what I do when I feel like this. It usually works.  
 **Dusty**: Yours will go one day. All of them. Love them anyway. Love them harder because of it. That’s the whole trade, and it’s a good one.  
 _Dusty goes down the hill. Halfway, they stop, look back at the flower, and lift one muddy hand to it._  
-_When you turn round, Moss is sitting by the flower. You didn’t see him come. The rain runs off him in silver threads._  
+_When you turn round, Moss is sitting by the flower._  
+_You didn’t see him come. The rain runs off him in silver threads._  
 **Moss** _(soft)_: Briar’s was the first flower on this hill. She went up laughing.  
 **Moss**: This one went up in somebody’s lap, with the rain on her. I think that is better. Briar would argue.  
 _He looks at the flower for a long while. Then he says it, plainly, the way he says everything._  
@@ -216,7 +222,8 @@ _Down the hill, Dusty has nearly reached the gate._
     - Moss does not move from the flower until it is dark.
 - **Keep it. Some things belong to the hill.**
     - You don’t call after them. Dusty lifts and pushes, and is gone.
-    - You stay. Moss stays. The flower, which has never been rained on before, seems to be getting used to it.
+    - You stay. Moss stays.
+    - The flower, which has never been rained on before, seems to be getting used to it.
     - Moss does not move from the flower until it is dark.
 
 > Chapter 6 closing, after talking to Dusty. Moss: “That is fading done right. Not stilled. Let go.” Grief done right (Fossil) set against grief refused (Corvin, “up the valley”, unnamed). Choice only changes Dusty friendship. Both branches end with Moss sitting by the flower until dark. S7 should open after this chapter.
@@ -227,12 +234,15 @@ Goal: Bring Sable’s trust to 45. (`sableTrust45`) · Hint: Feeding and petting
 
 #### <a id="c7-open"></a>Opening `c7-open`
 
-_Sable sleeps near you now. Not next to you. Near. When you move in your sleep she wakes, every time._  
+_Sable sleeps near you now. Not next to you: near._  
+_When you move in your sleep she wakes, every time._  
 _You wake before dawn because you are cold._  
-_The Grove is white. Not all of it. The frost lies in a long tongue from the edge of the long grass to the fourth lantern post._  
+_The Grove is white. Not all of it._  
+_The frost lies in a long tongue from the edge of the long grass to the fourth lantern post._  
 _It gathers round the post, thick as fur. The other three stand damp and dark and ordinary._  
 _Your breath smokes. The frost squeaks under your bare feet, and you go back in for socks, and come out again faster._  
-_Sable is awake. She is looking at the post, and she is not moving at all. Not even her ears._  
+_Sable is awake. She is looking at the post, and she is not moving at all._  
+_Not even her ears._  
 **Luna**: You’re up. Good. I didn’t want to wake you, and I didn’t want to wait.  
 _Luna has soil to her elbows and a lantern burnt down to the wick. For her, this is the end of the day._  
 **Luna** _(think)_: It isn’t cold enough for that. I’ve had my hands in the ground all night. It isn’t cold enough for gloves.  
@@ -252,7 +262,8 @@ _Sable’s little ball, still dark, bobs once._
 
 #### <a id="c7-stillness"></a>Scene `c7-stillness`
 
-_Moss comes down the hill through the white grass. He leaves no prints at all. He is very light, these days._  
+_Moss comes down the hill through the white grass._  
+_He leaves no prints at all. He is very light, these days._  
 _He stops at the fourth post and looks at the frost on it for a long time._  
 **Moss** _(think)_: Cold goes back to where it was kept. It is looking for its bed.  
 **Moss**: There is nothing under this post. There has not been for a long time. You knew that, I think, when the lantern went out.  
@@ -277,7 +288,8 @@ _You sit on the frozen ground. After a while Sable sits too, two steps off, with
 - **Is that what happened to Sable?**
     - **Moss**: Some of it. Hunger did most of the work. But that garden is cold all year round, and the cold helped.
     - **Moss**: I can smell it on her still, the way you smell smoke on a coat long after the fire.
-    - Sable, at the sound of her name, turns one ear towards him. Only one. It is more than she gave anyone at midsummer.
+    - Sable, at the sound of her name, turns one ear towards him.
+    - Only one. It is more than she gave anyone at midsummer.
     - **Moss**: She ran from it, though. Remember that. Something in her kept wanting, all the way down.
 
 > New. Moss explains the Stillness, part 1 of 3. Queue c7-stillness, c7-stillness-2, c7-stillness-3 in that order straight after c7-open (same sitting, at the Long-Grass post). Each part ends with a question choice; all choices are flavour (no flags, no friendship) and every branch leads to the next part. Moss stands by the post.
@@ -417,7 +429,8 @@ _On the hill, Moss stirs. His voice comes from just behind your ears, dry and qu
 
 _Fern catches you at the gate with a bag. In it: fruit, a jumper, a whistle, a second jumper, and a note that says SORRY ABOUT THE JUMPERS._  
 **Fern** _(think)_: It’s cold where you’re going. Everyone says so. I don’t know anything else useful, so: jumpers.  
-_Sable comes with you as far as the gate, and stops there, and sits. This is as far as she goes. She will be here._  
+_Sable comes with you as far as the gate, and stops there, and sits._  
+_This is as far as she goes. She will be here._  
 _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet._  
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina**: Nobody comes this way but me. Hazel did, with me, more times than I could count. Hand on the rock, eyes on my heels.  
@@ -425,7 +438,8 @@ _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet
 **Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
 **Marina** _(think)_: I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
-_Green light. White water. Spray on your face, cold; the rock under your palm, colder._  
+_Green light. White water._  
+_Spray on your face, cold; the rock under your palm, colder._  
 _Then, halfway along, warmth. It comes up through the stone into your hand like the side of a teapot._  
 **Marina**: Look. Don’t stop. Just look.  
 _Through a split in the rock: a cave of glittering stone, and in it a pool, steaming gently, lit from underneath by nothing at all._  
@@ -439,7 +453,8 @@ _Round the rim of the warm water, where nothing should be cold, runs a thin whit
 _Marina’s hand finds your sleeve and holds on, just for a moment, the way you’d hold a rail._  
 **Marina**: Keep going. The Hollow’s through there. Mind the last step. It’s further than it looks.  
 _Past the falls the trees close in, and the path gives up, and there is only moss and dark and a few slow fireflies._  
-_Something grey is sitting in the branches above you. Then another. Then you stop counting._  
+_Something grey is sitting in the branches above you._  
+_Then another. Then you stop counting._  
 **Nova** _(soft)_: Don’t look straight at them. Look a bit to one side. It’s politer.  
 
 > New. Plays straight after c8-open when s4Done is NOT set. Marina leads along the ledge behind the falls; first glimpse of the warm Wellspring, its rim rimed with frost. Ends at the Hollow’s edge with grey shapes in the trees; then the goal (follow the fireflies to the notebook). Opens at the gate: Fern’s bag of jumpers (comic), Sable stays at the gate. Fern is present only in that opening beat (spawn her by the gate if possible).
@@ -448,14 +463,16 @@ _Something grey is sitting in the branches above you. Then another. Then you sto
 
 _Fern catches you at the gate with a bag. In it: fruit, a jumper, a whistle, a second jumper, and a note that says SORRY ABOUT THE JUMPERS._  
 **Fern** _(think)_: It’s cold where you’re going. Everyone says so. I don’t know anything else useful, so: jumpers.  
-_Sable comes with you as far as the gate, and stops there, and sits. This is as far as she goes. She will be here._  
+_Sable comes with you as far as the gate, and stops there, and sits._  
+_This is as far as she goes. She will be here._  
 _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet._  
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina** _(happy)_: You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.  
 **Marina**: And you still don’t get to be brave. Brave people fall off.  
 **Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
-_Green light. White water. Spray on your face, cold; the rock under your palm, colder._  
+_Green light. White water._  
+_Spray on your face, cold; the rock under your palm, colder._  
 _Then, halfway along, warmth. It comes up through the stone into your hand like the side of a teapot._  
 **Marina**: Look. Don’t stop. Just look.  
 _Through a split in the rock: a cave of glittering stone, and in it a pool, steaming gently, lit from underneath by nothing at all._  
@@ -469,7 +486,8 @@ _Round the rim of the warm water, where nothing should be cold, runs a thin whit
 _Marina’s hand finds your sleeve and holds on, just for a moment, the way you’d hold a rail._  
 **Marina**: Keep going. The Hollow’s through there. Mind the last step. It’s further than it looks.  
 _Past the falls the trees close in, and the path gives up, and there is only moss and dark and a few slow fireflies._  
-_Something grey is sitting in the branches above you. Then another. Then you stop counting._  
+_Something grey is sitting in the branches above you._  
+_Then another. Then you stop counting._  
 **Nova** _(soft)_: Don’t look straight at them. Look a bit to one side. It’s politer.  
 
 > New. Plays INSTEAD of c8-ledge when s4Done IS set (Marina showed you the path in S4). Shares the gate opening (Fern’s jumpers) and the ledge; differs only in Marina’s rules lines and her reaction to the frost (“That wasn’t there when I brought you before”).
@@ -487,13 +505,15 @@ _Fireflies come and go. Somewhere behind you, something grey drops from a branch
 
 - **Yes. I’d have liked the year.**
     - **Nova**: Good. Tell her, if you get the chance. She’d rather be argued with than forgiven.
-    - You think of the letter. Don’t be dramatic about it. You think you might be, a bit, when you see her.
+    - You think of the letter. Don’t be dramatic about it.
+    - You think you might be, a bit, when you see her.
 - **No. They needed her more than I did.**
     - **Nova**: Maybe. I’m not sure need is a queue, though. I’m not sure anyone has to stand at the back of it.
     - You walk on. You think about that for much longer than you expect to.
 - **Both. I mind, and she was right.**
     - **Nova**: Both are true, then.
-    - It is almost exactly what she wrote. Nova hasn’t read that page. You don’t tell her.
+    - It is almost exactly what she wrote.
+    - Nova hasn’t read that page. You don’t tell her.
 
 > New. Plays straight after c8-close, on the walk back from the camp (same location; fireflies). Book Two ends here: advance to chapter 9 only once it is seen. The player’s first chance to answer the notebook’s news: should Hazel have spent her year at home? Choices year-mind | year-right | year-both change Nova friendship only, no flags. “Both are true” echoes Hazel’s notebook page.
 
@@ -501,12 +521,14 @@ _Fireflies come and go. Somewhere behind you, something grey drops from a branch
 
 _You didn’t find her. You found a camp: a cold fire, a dozen bowls, a dozen grey shapes watching from the trees._  
 _The bowls are licked clean. The firewood is stacked and tied with string, neatly, as if she meant to be back tomorrow._  
-_There is frost on the string. The ashes still smell faintly of apple wood. Nobody has sat by them for days._  
+_There is frost on the string. The ashes still smell faintly of apple wood._  
+_Nobody has sat by them for days._  
 _And on a flat stone, a notebook in her hand._  
 **Gran Hazel** _(soft)_: “Day 300-something. Lost count. Fed nineteen today. The brown one let me touch her ear. Took two months. Worth it.”  
 **Gran Hazel**: “The doctor said a year. I decided it would be a good one. I was right. I’m always right; it’s very tiring for everyone.”  
 **Gran Hazel** _(soft)_: “If my grandchild reads this: I’m not sorry. I’m sorry you had to find out this way. Both are true. Lift and push.”  
-_There is one more page. The writing is newer, and harder. In two places the pen has gone through the paper._  
+_There is one more page. The writing is newer, and harder._  
+_In two places the pen has gone through the paper._  
 **Gran Hazel**: “The cold comes from up the valley. I know where the fourth one went. I always knew. I hoped he’d bring it back himself.”  
 _…_  
 _You think of a man leaning on a gate, waiting for it to open. You think of his hands, blue at the knuckles._  
@@ -522,7 +544,8 @@ _Your Nubbin puts its head on your knee and keeps it there until you can stand u
     - When you look back from the edge of the camp, three of them are already empty.
     - **Nova**: That’s how she did it. One bowl at a time. Since the snow.
 - **Sit down by the cold fire, and wait.**
-    - You sit by the cold fire. Rule three. The notebook is in your lap and the light goes amber, then blue.
+    - You sit by the cold fire. Rule three.
+    - The notebook is in your lap and the light goes amber, then blue.
     - After a long time, one grey shape climbs down to the lowest branch, and stays there, and watches you breathe.
     - **Nova**: That’s further than they’ve ever come for me.
 

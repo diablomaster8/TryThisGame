@@ -17,6 +17,7 @@ import { sideActable } from '../../src/sim/side-stories';
 import { registerEduContent, sceneById, sideStory } from '../../src/sim/story-scenes';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
+import { HEBREW_STROKES } from '../../src/ui/hebrew-strokes';
 import { KANA_STROKES } from '../../src/ui/kana-strokes';
 import { withoutScript } from '../../src/ui/lang-dom';
 import { inkCovered, resample, rightStart, strokeMet } from '../../src/ui/trace-check';
@@ -230,9 +231,49 @@ describe('language quests (CV3)', () => {
 
 describe('tracing (CV3)', () => {
   it('every traced kana has its strokes, in school counts', () => {
-    const counts: Record<string, number> = { か: 3, き: 4, く: 1, け: 3, こ: 2, は: 3, な: 4 };
+    const counts: Record<string, number> = {
+      ...{ あ: 3, い: 2, う: 2, え: 2, お: 3 },
+      ...{ か: 3, き: 4, く: 1, け: 3, こ: 2, は: 3, な: 4 },
+    };
     for (const t of Object.values(TRACE_TARGETS).filter((t) => t.lang === 'ja'))
       for (const g of t.glyphs) expect(KANA_STROKES[g]?.length, g).toBe(counts[g]);
+  });
+
+  it('every letter and kana the courses teach is traced in a step, with guides', () => {
+    // Hiragana: every one in the kana primer (the katakana there are examples, not taught).
+    const kana = JAPANESE_COURSE.script.chars
+      .map((ch) => ch.char)
+      .filter((ch) => /[ぁ-ゟ]/.test(ch));
+    // Hebrew: the letters Ori names with their sounds in LH2 (the primer shows all 22).
+    const hebrew = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'י', 'ל', 'ם', 'ר', 'ש'];
+    expect(kana).toHaveLength(12);
+    const traced = new Set(Object.values(TRACE_TARGETS).flatMap((t) => t.glyphs));
+    const steps = new Set(
+      [...JAPANESE_COURSE.quests, ...HEBREW_COURSE.quests].flatMap(
+        (q) => sideStory(q.toLowerCase())?.steps.map((s) => s.check) ?? [],
+      ),
+    );
+    for (const check of Object.keys(TRACE_TARGETS)) expect(steps.has(check), check).toBe(true);
+    for (const g of kana) {
+      expect(traced.has(g), g).toBe(true);
+      expect(KANA_STROKES[g]?.length, g).toBeGreaterThan(0);
+    }
+    for (const g of [...hebrew, 'מ']) expect(HEBREW_STROKES[g]?.length, g).toBeGreaterThan(0);
+    for (const g of hebrew) expect(traced.has(g), g).toBe(true);
+    for (const t of Object.values(TRACE_TARGETS))
+      for (const g of t.glyphs)
+        expect((t.lang === 'ja' ? KANA_STROKES : HEBREW_STROKES)[g], g).toBeDefined();
+  });
+
+  it('Hebrew guides start on the right of the letter and stay on the board', () => {
+    for (const [g, strokes] of Object.entries(HEBREW_STROKES)) {
+      const pts = strokes.flat();
+      const mid = (Math.min(...pts.map((p) => p.x)) + Math.max(...pts.map((p) => p.x))) / 2;
+      const first = strokes[0]![0]!;
+      // The first stroke begins on the right half, or on the top line it then runs along.
+      expect(first.x >= mid || first.y <= 26, g).toBe(true);
+      for (const p of pts) expect(p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100, g).toBe(true);
+    }
   });
 
   it('a stroke counts only in its own direction', () => {

@@ -50,14 +50,19 @@ export const BOOK1_CHAPTERS: Chapter[] = [
 export const BOOK1_SCENES: Scene[] = [
   // ---------------------------------------------------------------- chapter 1: The Letter
   S('c1-letter', [
-    { who: 'narrator', text: 'Late spring. The road runs out a little before the Grove does. The last of it is grass, and then a gate.' },
-    { who: 'narrator', text: 'The gate is stuck. It always was. You lift and push, the way she taught you.' },
+    { who: 'narrator', text: 'Late spring. The road runs out a little before the Grove does.' },
+    { who: 'narrator', text: 'The last of it is grass, and then a gate.' },
+    { who: 'narrator', text: 'The gate is stuck. It always was.' },
+    { who: 'narrator', text: 'You lift and push, the way she taught you.' },
     { who: 'narrator', text: 'It gives with the same small groan it gave when you were small enough to need both hands.' },
-    { who: 'narrator', text: 'The Grove is overgrown and quiet. The pond has gone to reeds at one end. Nobody has cut the grass since she left.' },
+    { who: 'narrator', text: 'The Grove is overgrown and quiet. The pond has gone to reeds at one end.' },
+    { who: 'narrator', text: 'Nobody has cut the grass since she left.' },
     { who: 'narrator', text: 'On the signpost, under a stone, a letter in your grandmother’s hand.' },
     { who: 'narrator', text: 'Your name is on the front. The writing leans more than you remember, as if every word were walking uphill.' },
-    { who: 'narrator', text: 'You don’t open it. Not yet. You go to the cottage first.' },
-    { who: 'narrator', text: 'The door is on the latch. The kettle is on the stove, cold. Beside it, one cup, washed and turned upside down.' },
+    { who: 'narrator', text: 'You don’t open it. Not yet.' },
+    { who: 'narrator', text: 'You go to the cottage first.' },
+    { who: 'narrator', text: 'The door is on the latch. The kettle is on the stove, cold.' },
+    { who: 'narrator', text: 'Beside it, one cup, washed and turned upside down.' },
     { who: 'narrator', text: 'She always left one out like that. For whoever came next.' },
     { who: 'narrator', text: 'The kitchen smells of apples and cold ashes and, under that, of her: wet wool and peppermint.' },
     { who: 'narrator', text: 'Her coat is not on its hook. Her boots are not by the door.' },
@@ -108,7 +113,7 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'fern', text: 'She’s done it before. Went off a whole winter once. Came back with a limp and a Nubbin nobody else could catch.' },
     { who: 'fern', text: 'She told me you’d come. Didn’t say when. I put the stone on the letter so it wouldn’t blow away. That was my job.' },
     { who: 'fern', text: 'I’m very proud of the stone, actually.', mood: 'happy', gesture: 'chest' },
-    { who: 'narrator', text: 'From the long grass, out by the fourth lantern post, something hums. Low, like a kettle thinking about it.' },
+    { who: 'narrator', text: 'From the long grass, by the farthest of the Grove’s four lantern posts, something hums. Low, like a kettle thinking about it.' },
     {
       who: 'fern',
       text: 'Hear that? They’ve been at it for a week. I’ll be around if you need anything. Mostly I need things from you, honestly.',
@@ -146,7 +151,8 @@ export const BOOK1_SCENES: Scene[] = [
     ],
   }),
   S('c1-close', [
-    { who: 'narrator', text: 'It is warm. That is the first thing. Small and damp and warmer than anything has a right to be.' },
+    { who: 'narrator', text: 'It is warm. That is the first thing.' },
+    { who: 'narrator', text: 'Small and damp and warmer than anything has a right to be.' },
     { who: 'narrator', text: 'It smells of rain and warm bread, the way new ones do. Bits of shell are stuck to its head like a hat.' },
     { who: 'narrator', text: 'It looks at your hand for a long time before it leans into it. Then it leans into it entirely.' },
     { who: 'narrator', text: 'You do not move for a while. Neither does it.' },
@@ -171,7 +177,8 @@ export const BOOK1_SCENES: Scene[] = [
       text: 'Your Nubbin looks up at you, then at Sparks, then at you again, and leans a little closer to your leg.',
     },
     { who: 'sparks', text: 'Right. Dusk. Watch this. Hazel had me do all four posts last winter, before she went… wherever she went.', gesture: 'nod' },
-    { who: 'narrator', text: 'One by one, the lanterns come up: the pond, the stream, the old wall. Gold on the water. Gold in the grass.' },
+    { who: 'narrator', text: 'One by one, the lanterns come up: the pond, the stream, the old wall.' },
+    { who: 'narrator', text: 'Gold on the water. Gold in the grass.' },
     { who: 'narrator', text: 'The fourth, out by the long grass, catches, gutters, and settles into a thin, uncertain flicker.' },
     { who: 'sparks', text: 'Ugh. That one. New wick, new glass, new everything. Three times.', mood: 'angry' },
     { who: 'fern', text: 'Has it ever worked?' },
@@ -185,7 +192,8 @@ export const BOOK1_SCENES: Scene[] = [
 
   // ---------------------------------------------------------------- chapter 2: Shells and Promises
   S('c2-open', [
-    { who: 'narrator', text: 'Morning. Mist on the pond. Your Nubbin is asleep on your foot, which is a problem, because you need the foot.' },
+    { who: 'narrator', text: 'Morning. Mist on the pond.' },
+    { who: 'narrator', text: 'Your Nubbin is asleep on your foot, which is a problem, because you need the foot.' },
     { who: 'narrator', text: 'A woman comes up the lane smelling of salt and weed, with a bucket that slops at every step and rolled sleeves gone stiff with brine.' },
     {
       who: 'marina',
@@ -207,7 +215,8 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'marina', text: 'Don’t push it at them. Hold still. Let them come the last bit. The last bit is theirs.' },
     { who: 'sparks', text: 'That’s the bit I’m bad at. I go “eat it, eat it, EAT IT”.' },
     { who: 'marina', text: 'We know.' },
-    { who: 'narrator', text: 'Your Nubbin comes the last bit. It takes the plum, very politely. Then it takes Sparks’s thumb, very politely, and holds on.' },
+    { who: 'narrator', text: 'Your Nubbin comes the last bit. It takes the plum, very politely.' },
+    { who: 'narrator', text: 'Then it takes Sparks’s thumb, very politely, and holds on.' },
     { who: 'sparks', text: 'FLAT. I said FLAT. I didn’t do it FLAT.', mood: 'shock' },
     { who: 'marina', text: 'Rule four. Don’t be Sparks.', mood: 'happy' },
     { who: 'narrator', text: 'The plum is warm from the tree and splits in your fingers. Your Nubbin eats your half too, and looks at you as if you offered.' },
@@ -225,15 +234,18 @@ export const BOOK1_SCENES: Scene[] = [
   S(
     'c2-corvin',
     [
-      { who: 'narrator', text: 'Late afternoon. The light has gone long and yellow. Someone is standing at the gate.' },
-      { who: 'narrator', text: 'A man in a grey coat. He doesn’t lift. He doesn’t push. He rests one hand on the top rail, and waits.' },
+      { who: 'narrator', text: 'Late afternoon. The light has gone long and yellow.' },
+      { who: 'narrator', text: 'Someone is standing at the gate.' },
+      { who: 'narrator', text: 'A man in a grey coat. He doesn’t lift, and he doesn’t push.' },
+      { who: 'narrator', text: 'He rests one hand on the top rail, and waits.' },
       { who: 'narrator', text: 'The gate swings open for him. Smoothly, without a sound, as if it had been expecting him.' },
       { who: 'narrator', text: 'It has never once done that for you.' },
       {
         who: 'corvin',
         text: 'Hazel’s heir. You have her stubborn little chin. Corvin Vale. I run the Circuit, up the valley. The real races.',
       },
-      { who: 'narrator', text: 'He offers his hand. You take it. It is cold. Not cool: cold, like a stone lifted out of a winter stream.' },
+      { who: 'narrator', text: 'He offers his hand. You take it.' },
+      { who: 'narrator', text: 'It is cold. Not cool: cold, like a stone lifted out of a winter stream.' },
       { who: 'narrator', text: 'He smells of clean soap and something under it, sharp and metallic, like a gate on a frosty morning.' },
       {
         who: 'corvin',
@@ -279,16 +291,15 @@ export const BOOK1_SCENES: Scene[] = [
           friendship: { marina: -4, ember: -4, clover: -3 },
           then: [
             { who: 'corvin', text: 'Sensible. Hazel never was.' },
-            {
-              who: 'narrator',
-              text: 'He lifts your Nubbin by the scruff, not roughly, but not gently either. It looks back at you the whole way to the gate. It does not make a sound.',
-            },
+            { who: 'narrator', text: 'He lifts your Nubbin by the scruff, not roughly, but not gently either.' },
+            { who: 'narrator', text: 'It looks back at you the whole way to the gate. It does not make a sound.' },
             { who: 'narrator', text: 'The gate swings shut behind them on its own. On the top rail, a thin grey bloom of frost.' },
             {
               who: 'narrator',
               text: 'Two hundred Shells sit in your hand. They are very heavy for something so small.',
             },
-            { who: 'narrator', text: 'Rule two said never throw one. It didn’t say anything about this. It didn’t think it needed to.' },
+            { who: 'narrator', text: 'Rule two said never throw one.' },
+            { who: 'narrator', text: 'It didn’t say anything about this. It didn’t think it needed to.' },
           ],
         },
         {
@@ -319,15 +330,13 @@ export const BOOK1_SCENES: Scene[] = [
       { who: 'narrator', text: 'Early summer. The evenings are long now, and smell of cut grass and warm stone.' },
       { who: 'narrator', text: 'You can’t sleep. You sit out on the step with a cup of tea gone cold, the way she used to.' },
       { who: 'narrator', text: 'Moths knock at the window behind you. In the reeds a frog says the same thing over and over, very sure of it.' },
-      {
-        who: 'narrator',
-        text: 'Night. The lanterns are out. Something is at the far edge of the Grove, half in the long grass.',
-      },
-      {
-        who: 'narrator',
-        text: 'A Nubbin, grey as ash, the little ball above its head dark and still. One wing is held wrong. When you breathe, it flinches.',
-      },
-      { who: 'narrator', text: 'It is thin. You can count the ridges along its back from here. It watches your hands. Not your face. Your hands.' },
+      { who: 'narrator', text: 'Night. The lanterns are out.' },
+      { who: 'narrator', text: 'Something is at the far edge of the Grove, half in the long grass.' },
+      { who: 'narrator', text: 'A Nubbin, grey as ash, the little ball above its head dark and still.' },
+      { who: 'narrator', text: 'One wing is held wrong. When you breathe, it flinches.' },
+      { who: 'narrator', text: 'It is thin. You can count the ridges along its back from here.' },
+      { who: 'narrator', text: 'It watches your hands.' },
+      { who: 'narrator', text: 'Not your face. Your hands.' },
       { who: 'luna', text: 'Don’t. Not yet.', mood: 'soft' },
       { who: 'narrator', text: 'You go still. The grey one goes on not moving.' },
       { who: 'narrator', text: 'The voice comes low, from over the wall: a woman with soil to the elbows and a lamp turned down to almost nothing.' },
@@ -335,7 +344,8 @@ export const BOOK1_SCENES: Scene[] = [
         who: 'luna',
         text: 'Luna. I garden at night; I see what comes in at night. That one has been here three evenings. It eats what I leave and runs if I so much as stand up.',
       },
-      { who: 'narrator', text: 'Over the other wall, Fern’s kitchen light goes on. Then off. Then on again, as if someone is trying very hard not to look.' },
+      { who: 'narrator', text: 'Over the other wall, Fern’s kitchen light goes on. Then off.' },
+      { who: 'narrator', text: 'Then on again, as if someone is trying very hard not to look.' },
       { who: 'luna', text: 'She’s been doing that all week. She thinks it’s subtle.', mood: 'think' },
       { who: 'you', text: 'Whose is it?' },
       { who: 'luna', text: 'Nobody’s, now. Somebody’s, once. Look at the wing. Somebody held that too tight.', mood: 'sad' },
@@ -359,10 +369,8 @@ export const BOOK1_SCENES: Scene[] = [
           set: { sableFirst: 'slow', sableTrustBonus: 6 },
           friendship: { luna: 4 },
           then: [
-            {
-              who: 'narrator',
-              text: 'You sit. You put the fruit down. For a long time nothing happens. Then a small grey shape takes one step, and another, and eats, watching you the whole time.',
-            },
+            { who: 'narrator', text: 'You sit. You put the fruit down.' },
+            { who: 'narrator', text: 'For a long time nothing happens. Then a small grey shape takes one step, and another, and eats, watching you the whole time.' },
             { who: 'narrator', text: 'Somewhere around the second plum, your legs go to sleep. You don’t move them.' },
             {
               who: 'luna',
@@ -377,10 +385,8 @@ export const BOOK1_SCENES: Scene[] = [
           set: { sableFirst: 'grab', sableTrustBonus: -8 },
           friendship: { luna: -3 },
           then: [
-            {
-              who: 'narrator',
-              text: 'You lunge. You get a wing. She screams, a sound you did not know they could make, twists free, and is gone into the dark.',
-            },
+            { who: 'narrator', text: 'You lunge. You get a wing.' },
+            { who: 'narrator', text: 'She screams, a sound you did not know they could make, twists free, and is gone into the dark.' },
             { who: 'narrator', text: 'Your hand is still shut on nothing. It is very cold.' },
             {
               who: 'luna',
@@ -393,11 +399,10 @@ export const BOOK1_SCENES: Scene[] = [
     },
   ),
   S('c3-close', [
-    { who: 'narrator', text: 'Days of it. Fruit on the ground. Sitting. Not looking straight at her, because looking straight at her is a kind of reaching.' },
-    {
-      who: 'narrator',
-      text: 'Sable lets you within two steps now. She does not come closer. But she does not run.',
-    },
+    { who: 'narrator', text: 'Days of it. Fruit on the ground.' },
+    { who: 'narrator', text: 'Sitting. Not looking straight at her, because looking straight at her is a kind of reaching.' },
+    { who: 'narrator', text: 'Sable lets you within two steps now.' },
+    { who: 'narrator', text: 'She does not come closer. But she does not run.' },
     {
       who: 'clover',
       text: 'Oh, she’s letting you near! I’m Clover. I keep the gentle ones. I’ve been so worried about her. Luna told me not to fuss, so I’ve been fussing quietly.',
@@ -412,18 +417,20 @@ export const BOOK1_SCENES: Scene[] = [
       text: 'They aren’t. They’re just carrying the thing that happened. You can’t take it off them. You can only make it lighter.',
       mood: 'soft',
     },
-    { who: 'clover', text: 'Hazel taught me that. She said it to me over a teacup, like it was nothing. I cried in her kitchen for an hour.' },
+    { who: 'clover', text: 'Hazel taught me that over a teacup, like it was nothing. I cried in her kitchen for an hour. She just kept topping up the pot.' },
     {
       who: 'narrator',
       text: 'Sable eats the fruit you left, and this time, when she finishes, she sits down instead of leaving.',
     },
     { who: 'narrator', text: 'Out on the lane, some child is skipping to a rhyme you almost know. Badly.' },
     { who: 'narrator', text: 'Next morning, early, you go to see where she slept. A hollow in the long grass, the size of two cupped hands.' },
-    { who: 'narrator', text: 'Around it, the grass is white with frost. Only there. Everywhere else, the dew is just dew.' },
+    { who: 'narrator', text: 'Around it, the grass is white with frost.' },
+    { who: 'narrator', text: 'Only there. Everywhere else, the dew is just dew.' },
     { who: 'clover', text: 'That’s odd. It’s not cold enough for that. Not for months yet.', mood: 'think' },
     { who: 'luna', text: 'It does that. Every morning, wherever she sleeps.', mood: 'think' },
     { who: 'narrator', text: 'The frost is gone by the time the sun reaches it. It leaves the grass a little flattened, a little grey.' },
-    { who: 'narrator', text: 'And the fruit you left out last night is gone. All of it. Six plums.' },
+    { who: 'narrator', text: 'And the fruit you left out last night is gone.' },
+    { who: 'narrator', text: 'All of it. Six plums.' },
     { who: 'narrator', text: 'Sable is curled up nearby, very small, and does not look like someone who has eaten six plums.' },
     { who: 'luna', text: 'That wasn’t her. She hasn’t the appetite for six.', mood: 'think' },
     { who: 'narrator', text: 'On the flat top of the wall, where the sun hits first, six plum stones sit in a heap, licked clean. Whoever ate them likes a warm seat.' },
@@ -476,8 +483,10 @@ export const BOOK1_SCENES: Scene[] = [
       who: 'narrator',
       text: 'He is old. You can see it in how he sits: carefully, like something that has decided to.',
     },
-    { who: 'narrator', text: 'For a long time, nothing. A bee. Wind going over the grass. Your Nubbin falling asleep against your shoe.' },
-    { who: 'narrator', text: 'The stone is warm from the sun and the thyme round it smells of summer. You could sit here a long while. That seems to be the idea.' },
+    { who: 'narrator', text: 'For a long time, nothing. A bee.' },
+    { who: 'narrator', text: 'Wind going over the grass. Your Nubbin falling asleep against your shoe.' },
+    { who: 'narrator', text: 'The stone is warm from the sun and the thyme round it smells of summer.' },
+    { who: 'narrator', text: 'You could sit here a long while. That seems to be the idea.' },
     { who: 'moss', text: '…You lift and push.', mood: 'think' },
     {
       who: 'narrator',
@@ -486,7 +495,7 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'moss', text: 'Every morning. Most people climb over by the third day. You never once did.' },
     {
       who: 'moss',
-      text: 'Eternals can speak, a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed a morning. Not bad.',
+      text: 'The old ones like me can speak, a little, to Keepers who sit still long enough. Hazel sat still for forty years. You have managed a morning. Not bad.',
     },
     { who: 'moss', text: 'I am Moss. She will have told you I am stubborn. She was being kind.', gesture: 'chest' },
     { who: 'you', text: 'Where is she?' },
@@ -575,10 +584,8 @@ export const BOOK1_SCENES: Scene[] = [
     },
     { who: 'byte', text: 'I said it was unverified.' },
     { who: 'moss', text: 'Tell the pale one his shoelace is untied.' },
-    {
-      who: 'narrator',
-      text: 'You tell Byte his shoelace is untied. Byte looks down. Byte goes very quiet.',
-    },
+    { who: 'narrator', text: 'You tell Byte his shoelace is untied.' },
+    { who: 'narrator', text: 'Byte looks down. Byte goes very quiet.' },
     { who: 'byte', text: 'Anyone could have seen that.', mood: 'think' },
     { who: 'moss', text: 'Anyone didn’t.' },
     {
@@ -586,7 +593,8 @@ export const BOOK1_SCENES: Scene[] = [
       text: 'Hazel used to stand right there, by the pond, and not say anything. And it was somehow the best part.',
       mood: 'soft',
     },
-    { who: 'narrator', text: 'Then, without anyone deciding to, Luna starts to sing. Low. One by one, from both sides of the pond, the others join.' },
+    { who: 'narrator', text: 'Then, without anyone deciding to, Luna starts to sing. Low.' },
+    { who: 'narrator', text: 'One by one, from both sides of the pond, the others join.' },
     { who: 'luna', text: 'Light one for the pond where the first ones woke, light one for the stream and the laughing folk,', mood: 'soft' },
     { who: 'chorus', text: 'light one for the wall where the quiet ones keep, and one for the long grass, and the ones who sleep.', mood: 'soft' },
     { who: 'chorus', text: 'Slow hands, warm hearts, the gate stuck fast — what’s kept with love is kept to last.', mood: 'soft' },
@@ -603,7 +611,8 @@ export const BOOK1_SCENES: Scene[] = [
   S(
     'c4-tale',
     [
-      { who: 'narrator', text: 'Late. Most of the Keepers have gone home. Sparks is asleep sitting up. Moss sits in the light of the pond lantern.' },
+      { who: 'narrator', text: 'Late. Most of the Keepers have gone home.' },
+      { who: 'narrator', text: 'Sparks is asleep sitting up. Moss sits in the light of the pond lantern.' },
       { who: 'you', text: 'The song. “The old ones broke what the fierce one made.” What did they break?' },
       { who: 'moss', text: 'Ah. You were listening. Most people only sing it.' },
       { who: 'moss', text: 'Sit, then. It is an old story, and I am in it. That is the trouble with old stories, at my age. You are in all of them.' },
@@ -672,7 +681,8 @@ export const BOOK1_SCENES: Scene[] = [
           label: 'Cinder… like the rhyme?',
           then: [
             { who: 'moss', text: 'You know it.' },
-            { who: 'narrator', text: 'You do. Everyone does. You skipped to it in this very lane, and never once thought about the words.' },
+            { who: 'narrator', text: 'You do. Everyone does.' },
+            { who: 'narrator', text: 'You skipped to it in this very lane, and never once thought about the words.' },
             { who: 'you', text: 'Cinder held them close and tight, kept them warm one winter night;' },
             { who: 'you', text: 'when the morning came to call, they did not move at all.' },
             { who: 'moss', text: 'Children remember. They kept the tune and lost her.', mood: 'soft' },
@@ -740,7 +750,8 @@ export const BOOK1_SCENES: Scene[] = [
           id: 'sit',
           label: 'Say nothing. Sit with him.',
           then: [
-            { who: 'narrator', text: 'You sit. After a while he leans, very slightly, against your arm. He is lighter than he looks.' },
+            { who: 'narrator', text: 'You sit. After a while he leans, very slightly, against your arm.' },
+            { who: 'narrator', text: 'He is lighter than he looks.' },
             { who: 'moss', text: 'Yes. Like that.', mood: 'soft', gesture: 'nod' },
           ],
         },
@@ -749,7 +760,8 @@ export const BOOK1_SCENES: Scene[] = [
   ),
   S('c4-out', [
     { who: 'narrator', text: 'Towards morning the wind turns. It comes down from up the valley, and it is cold.' },
-    { who: 'narrator', text: 'The fourth lantern flickers. Steadies. Flickers.' },
+    { who: 'narrator', text: 'The fourth lantern flickers.' },
+    { who: 'narrator', text: 'Steadies. Flickers.' },
     { who: 'narrator', text: 'Goes out.' },
     { who: 'narrator', text: '…' },
     { who: 'moss', text: 'Twenty-two years.', mood: 'sad', gesture: 'down' },
@@ -757,7 +769,8 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'moss', text: 'Nothing you need tonight. The other three will see us to morning.' },
     { who: 'narrator', text: 'Against the wall, Sparks jerks awake, stares at the dark fourth post, and says, very clearly: “I didn’t touch it.”' },
     { who: 'narrator', text: 'She is asleep again before anyone can tell her nobody thought she had.' },
-    { who: 'narrator', text: 'Three lanterns burn until dawn. On the glass of the fourth, a faint white bloom grows. Then the sun reaches it, and it is gone.' },
+    { who: 'narrator', text: 'Three lanterns burn until dawn. On the glass of the fourth, a faint white bloom grows.' },
+    { who: 'narrator', text: 'Then the sun reaches it, and it is gone.' },
     { who: 'narrator', text: 'Nobody comes down the hill.' },
     { who: 'moss', text: 'She will. She finishes things. It is the most annoying thing about her.', mood: 'soft' },
     { who: 'moss', text: 'Some evening, when you have time, carry me round the posts. There is more to each of them than one night holds.' },
@@ -767,10 +780,8 @@ export const BOOK1_SCENES: Scene[] = [
 
   // ---------------------------------------------------------------- triggered scenes (any chapter)
   S('t-first-shadow', [
-    {
-      who: 'narrator',
-      text: 'Your Nubbin has gone grey. The ball above its head is dark. When you reach for it, it flinches away from your hand.',
-    },
+    { who: 'narrator', text: 'Your Nubbin has gone grey. The ball above its head is dark.' },
+    { who: 'narrator', text: 'When you reach for it, it flinches away from your hand.' },
     { who: 'narrator', text: 'Your hand stops in the air. You don’t know what to do with it, so you put it down, slowly, on the grass between you.' },
     { who: 'fern', text: 'I’m not going to pretend that isn’t on you. Hazel wouldn’t, and she’d never let me hear the end of it.', mood: 'sad', gesture: 'chest' },
     { who: 'fern', text: 'Too many throws, or too many hungry nights. Or both.' },
@@ -796,27 +807,25 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'fern', text: 'I still look at the edge, some mornings. Old habit. Don’t ask.', mood: 'soft' },
   ]),
   S('t-stray-returned', [
-    {
-      who: 'narrator',
-      text: 'Something grey is sitting at the very edge of the Grove, in the long grass, not coming in. Watching the gate. Watching you.',
-    },
+    { who: 'narrator', text: 'Something grey is sitting at the very edge of the Grove, in the long grass, not coming in.' },
+    { who: 'narrator', text: 'Watching the gate. Watching you.' },
     { who: 'narrator', text: 'You want to run to it. Every part of you wants to run to it.' },
     { who: 'narrator', text: 'Rule three, in her leaning hand: when you don’t know what to do, sit down next to them and wait.' },
     { who: 'narrator', text: 'So you don’t run. You set a fruit in the grass, and sit down a little way off.' },
-    { who: 'narrator', text: 'It looks at the fruit. Then at you. It doesn’t leave.', mood: 'soft' },
+    { who: 'narrator', text: 'It looks at the fruit.', mood: 'soft' },
+    { who: 'narrator', text: 'Then at you. It doesn’t leave.' },
   ]),
   S('t-sable-bonded', [
-    {
-      who: 'narrator',
-      text: 'Sable climbs into your lap. All the way in. She is grey and she is heavy and she is warm, and the ball above her head is a small dark heart.',
-    },
+    { who: 'narrator', text: 'Sable climbs into your lap. All the way in.' },
+    { who: 'narrator', text: 'She is grey and she is heavy and she is warm, and the ball above her head is a small dark heart.' },
     { who: 'narrator', text: 'She turns round twice, the way they do, and lies down, and lets out a breath she seems to have been holding since winter.' },
     {
       who: 'luna',
       text: 'There. That’s the thing nobody in a hurry ever gets to see. Grey and loved. Both at once.',
       mood: 'soft',
     },
-    { who: 'narrator', text: 'You don’t move for a long time. You are sitting down next to her, and waiting. You have been for weeks.' },
+    { who: 'narrator', text: 'You don’t move for a long time.' },
+    { who: 'narrator', text: 'You are sitting down next to her, and waiting. You have been for weeks.' },
   ]),
   S('t-moss-first-pet', [
     { who: 'narrator', text: 'You put your hand on his head. He is dry and soft, like moss on a warm wall, and lighter than he looks.' },

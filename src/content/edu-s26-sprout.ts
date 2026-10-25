@@ -86,7 +86,8 @@ const COMPLETE_END: Line[] = [
   DU('And this is my digging apron. It’s yours now.', 'soft'),
   N('Linnet makes you a crown of snowdrops.'),
   L('No taking it off until teatime!', 'happy'),
-  N('The robin lives with you now. The door stays open.'),
+  N('The robin lives with you now. It bosses the Nubbins about.'),
+  N('The door stays open.'),
 ];
 
 // ================================================================== the quest

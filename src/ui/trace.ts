@@ -1,8 +1,9 @@
 /**
  * The tracing game (CV3), opened from the journal for a step whose check is a tracing
- * check (`TRACE_TARGETS`). Kana show their numbered strokes and are traced in stroke
- * order over a textbook-style glyph; Hebrew letters come right to left, each traced from
- * its right side until enough of the letter is covered. Finishing sends `langTraced`; the
+ * check (`TRACE_TARGETS`). Kana and the taught Hebrew letters show numbered stroke guides
+ * and are traced in stroke order over the glyph; Hebrew words come right to left, each
+ * letter starting on its right side. A glyph with no guides is traced until enough of its
+ * ink is covered. Finishing sends `langTraced`; the
  * sim meets the step. Stopping early changes nothing. Draws on a canvas; no sim writes.
  */
 import { LANG_TEXT } from '../config/strings';
@@ -10,9 +11,13 @@ import { LANG } from '../config/tuning';
 import type { Game } from '../game';
 import type { TraceTarget } from '../sim/lang';
 import { button, dialogFocus, el } from './dom';
+import { HEBREW_STROKES } from './hebrew-strokes';
 import { KANA_STROKES } from './kana-strokes';
 import { loadLangFonts } from './lang-fonts';
 import { inkCovered, rightStart, strokeMet, type Pt } from './trace-check';
+
+/** Stroke guides by glyph, kana and Hebrew alike. A glyph without guides is judged by ink. */
+const STROKES: Readonly<Record<string, Pt[][]>> = { ...KANA_STROKES, ...HEBREW_STROKES };
 
 const FONT = { he: '"Noto Sans Hebrew", sans-serif', ja: '"Klee One", "Noto Sans JP", sans-serif' };
 
@@ -118,7 +123,7 @@ export class TraceGame {
   private startGlyph(): void {
     this.stroke = 0;
     this.drags = [];
-    this.ink = this.target?.lang === 'he' ? this.measureInk() : [];
+    this.ink = STROKES[this.current()] ? [] : this.measureInk();
     this.renderWord();
     this.draw();
   }
@@ -149,7 +154,7 @@ export class TraceGame {
     // A kana is stretched so its ink fills the box its stroke guides span: the guides are
     // the school shape, and a font's own metrics (or a fallback face) left them off the
     // glyph, worst on き (review 2026-10-21, bug 31).
-    const f = fit && this.target?.lang === 'ja' ? this.fitFor(this.current()) : null;
+    const f = fit ? this.fitFor(this.current()) : null;
     if (f) {
       x.scale(size / 100, size / 100);
       x.translate(f.dx, f.dy);
@@ -167,7 +172,7 @@ export class TraceGame {
   /** Per glyph: the scale and offset that lay its ink over its stroke guides' box. */
   private readonly fits = new Map<string, { sx: number; sy: number; dx: number; dy: number }>();
   private fitFor(glyph: string): { sx: number; sy: number; dx: number; dy: number } | null {
-    const strokes = KANA_STROKES[glyph];
+    const strokes = STROKES[glyph];
     if (!strokes) return null;
     const known = this.fits.get(glyph);
     if (known) return known;
@@ -213,14 +218,14 @@ export class TraceGame {
   private judge(d: Pt[]): void {
     const t = this.target;
     if (!t) return;
-    if (t.lang === 'ja') {
-      const strokes = KANA_STROKES[this.current()] ?? [];
+    const strokes = STROKES[this.current()];
+    if (strokes) {
       const s = strokes[this.stroke];
       if (s && strokeMet(s, d, LANG.traceRadius, LANG.strokeCover)) {
         this.drags.push(d);
         this.stroke += 1;
         if (this.stroke >= strokes.length) return this.nextGlyph();
-        this.help.textContent = LANG_TEXT.traceHelpJa;
+        this.help.textContent = t.lang === 'he' ? LANG_TEXT.traceHelpHe : LANG_TEXT.traceHelpJa;
       } else {
         this.help.textContent = LANG_TEXT.traceAgain;
       }
@@ -268,9 +273,9 @@ export class TraceGame {
       pts.forEach((p, i) => (i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y)));
       x.stroke();
     };
-    if (t.lang === 'ja') {
-      const strokes = KANA_STROKES[this.current()] ?? [];
-      strokes.forEach((s, i) => {
+    const guides = STROKES[this.current()];
+    if (guides) {
+      guides.forEach((s, i) => {
         if (i < this.stroke) return;
         x.setLineDash(i === this.stroke ? [3, 3] : [1, 4]);
         x.strokeStyle = i === this.stroke ? '#d9822b' : 'rgba(217,130,43,0.35)';

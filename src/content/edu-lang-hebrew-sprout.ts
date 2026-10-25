@@ -418,11 +418,11 @@ const LH2: EduQuest = quest(
   'Right to Left',
   {
     'lh2-step1': {
-      goal: 'Find four painted pebbles round the garden.',
-      hint: 'Look by the pond, the gate, the orchard and Ori’s tent. Line them up from the right.',
+      goal: 'Find four painted pebbles round the garden. Trace each one.',
+      hint: 'Look by the pond, the gate, the orchard and Ori’s tent. Start on the right side.',
     },
     'lh2-step2': {
-      goal: 'Trace a shape in the sand with Ori.',
+      goal: 'Trace some shapes in the sand with Ori.',
       hint: 'Ori draws it first. Go over it with a stick. Start on the right side.',
     },
     'lh2-step3': {

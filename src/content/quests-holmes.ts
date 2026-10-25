@@ -40,6 +40,8 @@ const HOLMES: Speaker = {
   kind: 'keeper',
   basedOn: 'Sherlock Holmes (Arthur Conan Doyle)',
 };
+/** From Q77 on he answers to the name he gave himself at the end of Q76. */
+const HOLMES_S: Speaker = { ...HOLMES, name: 'Holmes' };
 const WATSON: Speaker = {
   id: 'watson',
   name: 'Dr Weston Warde',
@@ -210,6 +212,7 @@ export const QUESTS_HOLMES: Quest[] = [
         scene: {
           id: 'q76-reading',
           lines: [
+            N('Byte follows you up the stairs, hands in his pockets, well away from the jam.'),
             HO('Ah. A new tenant. Mr Holme. I notice you have not taken off your hat for ten minutes, which means it is a good one.', 'happy'),
             HO('You have been in Afghanistan, I perceive.', 'think'),
             WA('How on earth did you know that?', 'shock'),
@@ -289,7 +292,7 @@ export const QUESTS_HOLMES: Quest[] = [
     audience: 'all',
     trigger: { where: 'The seed shop, from the morning after Q76', when: AFTER },
     requires: ['Q76'],
-    speakers: [HOLMES, WATSON, LESTRADE, WILSON],
+    speakers: [HOLMES_S, WATSON, LESTRADE, WILSON],
     steps: [
       {
         id: 'q77-s1',
@@ -412,11 +415,11 @@ export const QUESTS_HOLMES: Quest[] = [
       when: 'The week of the Harvest Supper (autumn), after Q77, in the Free Grove or the campaign (never during Chapters 9–11)',
     },
     requires: ['Q77'],
-    speakers: [HOLMES, WATSON, LESTRADE, JEM, COUNTESS],
+    speakers: [HOLMES_S, WATSON, LESTRADE, JEM, COUNTESS],
     steps: [
       {
         id: 'q78-s1',
-        goal: 'Bring the battered hat and the cross goose upstairs to Mr Holme.',
+        goal: 'Bring the battered hat and the cross goose upstairs to Holmes.',
         hint: 'Pick up the hat from the lane. The goose will walk along behind it, complaining.',
         check: 'carry:item:battered-hat:holmes',
         scene: {
@@ -578,11 +581,11 @@ export const QUESTS_HOLMES: Quest[] = [
       when: 'The night before the autumn Cup at the race track, after Q78, in the Free Grove or the campaign (never during Chapters 9–11)',
     },
     requires: ['Q78'],
-    speakers: [HOLMES, WATSON, SILAS],
+    speakers: [HOLMES_S, WATSON, SILAS],
     steps: [
       {
         id: 'q79-s1',
-        goal: 'Walk the hedge with Mr Holme and ask Sparks one question.',
+        goal: 'Walk the hedge with Holmes and ask Sparks one question.',
         hint: 'Start at the gate and follow the hedge round. Sparks is by the gate.',
         check: 'walk:hedge:holmes',
         scene: {
@@ -701,7 +704,7 @@ export const QUESTS_HOLMES: Quest[] = [
     audience: 'all',
     trigger: { where: 'Pixel’s workshop', when: AFTER },
     requires: ['Q79'],
-    speakers: [HOLMES, WATSON],
+    speakers: [HOLMES_S, WATSON],
     steps: [
       {
         id: 'q80-s1',
@@ -815,12 +818,12 @@ export const QUESTS_HOLMES: Quest[] = [
     audience: 'all',
     trigger: { where: 'The Workshop wall, then the bridge, then Fern’s gate', when: AFTER },
     requires: ['Q80'],
-    speakers: [HOLMES, WATSON, HETTY, SAM],
+    speakers: [HOLMES_S, WATSON, HETTY, SAM],
     steps: [
       {
         id: 'q81-s1',
         goal: 'Copy the chalk figures from the Workshop wall, the bridge and Fern’s gate.',
-        hint: 'Use the magnifying glass to read the figures. Copy each one into Mr Holme’s notebook.',
+        hint: 'Use the magnifying glass to read the figures. Copy each one into Holmes’s notebook.',
         check: 'collect:chalk-figures:3',
         scene: {
           id: 'q81-intro',
@@ -933,11 +936,11 @@ export const QUESTS_HOLMES: Quest[] = [
       when: 'A sunny afternoon after Q81, in the Free Grove or the campaign (never during Chapters 9–11)',
     },
     requires: ['Q81'],
-    speakers: [HOLMES, WATSON],
+    speakers: [HOLMES_S, WATSON],
     steps: [
       {
         id: 'q82-s1',
-        goal: 'Help Mr Holme measure the tree’s shadow in the meadow.',
+        goal: 'Help Holmes measure the tree’s shadow in the meadow.',
         hint: 'Stand where he points, hold the rod upright, and watch the shadow.',
         check: 'place:rod:meadow:shadow',
         scene: {
@@ -1030,7 +1033,7 @@ export const QUESTS_HOLMES: Quest[] = [
     audience: 'all',
     trigger: { where: 'The room above the shop, in the evening', when: AFTER },
     requires: ['Q82'],
-    speakers: [HOLMES, WATSON, KRAMM],
+    speakers: [HOLMES_S, WATSON, KRAMM],
     steps: [
       {
         id: 'q83-s1',
@@ -1084,7 +1087,7 @@ export const QUESTS_HOLMES: Quest[] = [
       {
         id: 'q83-s3',
         goal: 'Go to the cottage in the morning and look in the cupboard.',
-        hint: 'Go back at first light, with Mr Holme and Dr Warde.',
+        hint: 'Go back at first light, with Holmes and Dr Warde.',
         check: 'inspect:cupboard:irene-cottage',
         scene: {
           id: 'q83-morning',
@@ -1130,7 +1133,7 @@ export const QUESTS_HOLMES: Quest[] = [
       },
     ],
     childLines: {
-      'q83-complete#1': 'Of all Mr Holme’s cases, there is one he thinks about most, and the lady got away with it.',
+      'q83-complete#1': 'Of all Holmes’s cases, there is one he thinks about most, and the lady got away with it.',
     },
     notes:
       'A masked visitor who gives a false name; "Count von Kramm" is a mask, not a fact. The smoke-rocket is a harmless puff ' +
@@ -1153,7 +1156,7 @@ export const QUESTS_HOLMES: Quest[] = [
       when: 'A misty autumn evening after Q83 (Chapter 7 or 8, or any autumn in the Free Grove; never during Chapters 9–11)',
     },
     requires: ['Q83'],
-    speakers: [HOLMES, WATSON, STAPLETON, JEM, LESTRADE],
+    speakers: [HOLMES_S, WATSON, STAPLETON, JEM, LESTRADE],
     steps: [
       {
         id: 'q84-s1',
@@ -1277,12 +1280,12 @@ export const QUESTS_HOLMES: Quest[] = [
       when: 'A fine morning after Q84, in the Free Grove or the campaign (never during Chapters 9–11)',
     },
     requires: ['Q84'],
-    speakers: [HOLMES, WATSON, JEM, LESTRADE],
+    speakers: [HOLMES_S, WATSON, JEM, LESTRADE],
     steps: [
       {
         id: 'q85-s1',
-        goal: 'Help Mr Holme build three hives.',
-        hint: 'Bring wood from the Workshop and set the hives where Mr Holme points.',
+        goal: 'Help Holmes build three hives.',
+        hint: 'Bring wood from the Workshop and set the hives where Holmes points.',
         check: 'build:decor:beehive:3',
         scene: {
           id: 'q85-intro',

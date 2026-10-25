@@ -86,10 +86,10 @@ const LJ1: Quest = {
       scene: {
         id: 'lj1-s1',
         lines: [
-          N('The gate sticks, as it always does. From the other side, someone lifts and pushes, hard, and it bangs open.'),
-          N('A girl in running shoes skids through first, a sketchbook under one arm. Nova follows at a walk, carrying both bags.'),
+          N('Someone is racing up the lane. The gate sticks, as it always does, so she climbs it.'),
+          N('A girl in running shoes drops down on your side, sketchbook first. Nova follows at a walk, carrying both bags.'),
           NO('This is Hana. She’s staying with me for the summer. She raced me from the bridge.', 'happy'),
-          HA('I won by eleven seconds. Nova says nine. Nova is wrong.'),
+          HA('I won by eleven seconds. Nova says she let me win. Nova is a terrible liar.'),
           HA('こんにちは (konnichiwa, “hello”)!'),
           N('She bows: a small, quick dip from the waist, then straight back up.'),
           HA('That’s おじぎ (ojigi), bowing. At home we bow to greet, to thank and to say sorry. A deeper bow shows more respect.'),
@@ -98,7 +98,7 @@ const LJ1: Quest = {
           HA('Then finish with よろしくおねがいします (yoroshiku onegaishimasu). It means “please treat me kindly”, or “pleased to meet you”.'),
           NO('I practised that one all the way here on the train.', 'happy'),
           HA('She said it to the ticket man, a cow and a postbox.'),
-          HA('Ready? Say はい (hai, “yes”) or いいえ (iie, “no”). Actually, say はい.', 'happy'),
+          HA('Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.', 'happy'),
         ],
         choices: [
           {
@@ -124,7 +124,7 @@ const LJ1: Quest = {
               HA('You did the whole sandwich!', 'shock'),
               HA('It took Nova three days to get that right.'),
               NO('Two days.'),
-              HA('いいえ. Three.', 'happy'),
+              HA('No. Three.', 'happy'),
             ],
           },
         ],
@@ -136,7 +136,9 @@ const LJ1: Quest = {
           HA('Done. Your nose is very good. Your ears are a bit much. That’s my fault, not yours.'),
           N('Behind the water butt, three wild Nubbins have watched the whole thing. One tries a bow, tips forward and rolls into the herbs.'),
           HA('They want to learn! Tomorrow we teach them. Properly.', 'happy'),
-          HA('Also, is that a frog? I’m not scared of frogs. I’m just saying. In case it comes up.', 'think'),
+          HA('Also, is that a frog?', 'think'),
+          NO('Are you scared of frogs, Hana?'),
+          HA('いいえ (iie, “no”)! Not even slightly. I’m just saying. In case it comes up.', 'think'),
         ],
       },
     },
@@ -152,7 +154,7 @@ const LJ1: Quest = {
           HA('おはよう (ohayō, “good morning”)! That’s for friends and family.', 'happy'),
           N('Fern comes over the fence with a bucket of plums and a slightly crumpled face.'),
           HA('おはようございます (ohayō gozaimasu), Fern! That’s the polite one. For grown-ups, teachers and people with buckets.'),
-          FE('Is it? Well. Good morning. Have a plum. I’ve been up since five keeping the trees alive, badly.'),
+          FE('Is it? Well. Good morning. Have a plum. I’ve been up since five, apologising to the trees.'),
           HA('ありがとうございます (arigatō gozaimasu, “thank you”, the polite way). With friends it’s just ありがとう (arigatō).'),
           HA('Right. The plan. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows.'),
           N('She sprints at the herb bed, misjudges it, and bumps a small round Nubbin clean off its feet.'),
@@ -294,7 +296,7 @@ const LJ1: Quest = {
   sets: { lj1Done: true },
   notes: [
     COMMON_NOTES,
-    'New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai, iie; step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai.',
+    'New words: step 1 konnichiwa, ojigi, hajimemashite, watashi wa ___ desu, yoroshiku onegaishimasu, hai (iie waits for the done scene, so no scene brings more than six); step 2 ohayō, ohayō gozaimasu, arigatō, arigatō gozaimasu, gomen nasai, sumimasen; step 3 konbanwa, sayōnara, mata ne, oyasumi, oyasuminasai.',
     'Step 1: the Greet action offers “konnichiwa” (with or without a bow) and, after the full choice, the whole “Hajimemashite. Watashi wa [player name] desu. Yoroshiku onegaishimasu.” Play the native recordings as the player picks.',
     'Step 2: a Nubbin learns after hearing konnichiwa three times; it bows whenever it hears it from then on. Dumpling copies the others badly (late, facing the wrong way). He bows to an object only once in the questline, to the moon in lj1-s3-done; never make it a habit.',
     'Step 3 is at dusk. Each oyasumi gets a sleepy bow; Dumpling snores.',
@@ -318,8 +320,8 @@ const LJ2: Quest = {
   steps: [
     {
       id: 'lj2-step1',
-      goal: 'Find あ い う え お on the stepping stones, in order.',
-      hint: 'Look across the pond for painted stones. Some are sideways. Start with あ, nearest the bank.',
+      goal: 'Find あ い う え お on the stepping stones, in order, and trace each one.',
+      hint: 'Look across the pond for painted stones. Start with あ, nearest the bank, and follow its numbered strokes.',
       check: 'lang:ja:find:kana:vowels',
       scene: {
         id: 'lj2-s1',
@@ -482,7 +484,7 @@ const LJ2: Quest = {
   notes: [
     COMMON_NOTES,
     'Kana taught: あ い う え お (step 1), か き く け こ (step 2), は な (step 3); see JAPANESE_COURSE.script. Words: ue, ie, ao (step 1); ike, kao, aka (step 2); hana, 花, the three scripts, ピンク as a katakana example (step 3). Every LJ2 word is spelled only with kana taught in LJ2.',
-    'Step 1: stones are a find-and-hop puzzle. Wrong stone: Hana’s “sorry, stone” line plays; no penalty.',
+    'Step 1: stones are a find-and-hop puzzle, and the child traces each vowel in the tracing mini-game (strokes: あ 3, い 2, う 2, え 2, お 3). Wrong stone: Hana’s “sorry, stone” line plays; no penalty.',
     'Step 2: a tracing mini-game in the sand. Draw the stroke order for each kana, numbered, then let the child trace. Strokes: く 1, こ 2, か 3, け 3, き 4 (some fonts join two of き’s strokes; follow the school stroke order).',
     'Step 3: tracing は and な on the sketchbook page; the choice decides whether the page shows a row or a column. If column, show the reading order right to left.',
     'The frog is the same frog in every scene (art: one fat green frog sprite). Hana is never shown actually upset; it’s comic denial.',
