@@ -16,8 +16,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `campaign/triggered.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 1 |
 | `campaign/endings.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `side/S01.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/side/S01/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `learning/side/S01/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
+| `learning/side/S01/sprout.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 9 |
+| `learning/side/S01/reader.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 8 |
 | `side/S02.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S02/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S02/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
@@ -30,28 +30,28 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S05.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S05/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S05/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S06.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S06.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 4 |
 | `learning/side/S06/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S06/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S07.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S07.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 5 |
 | `learning/side/S07/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S07/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S08.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S08.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 4 |
 | `learning/side/S08/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S08/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S09.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S09.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 5 |
 | `learning/side/S09/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S09/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S10.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S10.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 5 |
 | `learning/side/S10/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S10/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S11.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S11.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 4 |
 | `learning/side/S11/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S11/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S12.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S12.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 4 |
 | `learning/side/S12/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S12/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S13.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
+| `side/S13.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 5 |
 | `learning/side/S13/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `learning/side/S13/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `side/S14.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
@@ -1335,6 +1335,63 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261026-1081 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | theme | Pixel introduces Byte as her husband in both bands (canon 38), with a bicker | fixed | 2026-10-26-3 |
 | SR-20261026-1082 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | follow | Wisp and Bramble return in chapter 10 months after S2 and S8; give each a one-line reminder | fixed | 2026-10-26-3 |
 | SR-20261026-1083 | learning/campaign/reader-1.md<br>side/S04.md | cross-story | Medium | humour | Marina's numbered rules (canon 39): let Sparks answer rule four, and make rule five stand alone | fixed | 2026-10-26-3 |
+| SR-20261026-1084 | side/S10.md | s10-lanterns | High | follow | Hazel's one question at the long-grass post never names Corvin | open | 2026-10-26-4 |
+| SR-20261026-1085 | learning/side/S01/reader.md | s1-hush | High | follow | Say plainly that Hush died, then comfort straight after | open | 2026-10-26-4 |
+| SR-20261026-1086 | side/S10.md | s10-wish3-s1 | High | continuity | Hazel says she sat in the snow; Moss swore she fell in the pond. Let her dispute it | open | 2026-10-26-4 |
+| SR-20261026-1087 | side/S13.md | s13-level3 | High | follow | "Him and your grandmother" points at Aldous; the secret is about Corvin | open | 2026-10-26-4 |
+| SR-20261026-1088 | side/S07.md | s7-minder | High | follow | Show the red lever to everyone, and reward the player who asked about it | open | 2026-10-26-4 |
+| SR-20261026-1089 | side/S12.md | s12-dark | High | humour | Let Luna, the deadpan gardener, answer "Is that greedy?" with slugs | open | 2026-10-26-4 |
+| SR-20261026-1090 | side/S09.md | s9-word | High | humour | Sparks brings biscuits "for the vote"; there is no vote | open | 2026-10-26-4 |
+| SR-20261026-1091 | side/S08.md | s8-further | High | humour | A firefly lands on your Nubbin's nose and teaches the mini-game | open | 2026-10-26-4 |
+| SR-20261026-1092 | learning/side/S01/sprout.md, learning/side/S01/reader.md | s1-ask | High | follow | Moss refuses a question nobody asked; let the child ask it | open | 2026-10-26-4 |
+| SR-20261026-1093 | learning/side/S01/reader.md | s1-cinder | High | follow | Show Cinder holding on, so "a love that holds too tight" has something to point at | open | 2026-10-26-4 |
+| SR-20261026-1094 | side/S06.md | s6-complete | Medium | humour | The duck comes back for a third beat, and Ash takes Ember's side | open | 2026-10-26-4 |
+| SR-20261026-1095 | side/S11.md | s11-ember | Medium | follow | Name Corvin in Ember's "till he had Ash" | open | 2026-10-26-4 |
+| SR-20261026-1096 | side/S11.md | s11-ember | Medium | follow | Tie "cinder-love" to the skipping rhyme, and say who "her" is | open | 2026-10-26-4 |
+| SR-20261026-1097 | side/S09.md | s9-yours | Medium | follow | Say rule three out loud where it lands hardest | open | 2026-10-26-4 |
+| SR-20261026-1098 | side/S06.md | s6-kitchen | Medium | follow | "She's out" should say who is out of where, and Ember wasn't waiting | open | 2026-10-26-4 |
+| SR-20261026-1099 | side/S12.md | s12-complete | Medium | compelling | Let Solo's choice echo once in the finale | open | 2026-10-26-4 |
+| SR-20261026-1100 | side/S06.md | s6-whistle | Medium | compelling | Ember notices whether you stayed or slipped out | open | 2026-10-26-4 |
+| SR-20261026-1101 | side/S08.md | s8-arrive | Medium | compelling | When you told Fern, she is very busy not hoping | open | 2026-10-26-4 |
+| SR-20261026-1102 | side/S10.md | s10-cheer | Medium | humour | The fast one and the slow one each get their own finish | open | 2026-10-26-4 |
+| SR-20261026-1103 | side/S10.md | s10-night | Medium | humour | One dry Hazel line on the doorstep before the bed's edge | open | 2026-10-26-4 |
+| SR-20261026-1104 | side/S13.md | s13-sluice | Medium | humour | The rats remember whether you bribed them or tiptoed | open | 2026-10-26-4 |
+| SR-20261026-1105 | side/S12.md | s12-swarm-goes | Medium | follow | "The morning she meant" needs a name | open | 2026-10-26-4 |
+| SR-20261026-1106 | side/S08.md | s8-complete | Medium | follow | "Fern found her" reads as the thin one in Hazel's arm | open | 2026-10-26-4 |
+| SR-20261026-1107 | side/S07.md | s7-unverified | Medium | follow | Put Moss on the wall before he speaks | open | 2026-10-26-4 |
+| SR-20261026-1108 | side/S07.md | s7-minder | Medium | humour | Null eats the plum off the clipboard, with no bell at all | open | 2026-10-26-4 |
+| SR-20261026-1109 | side/S09.md | s9-gate | Medium | humour | Hazel's cup has been empty for some time | open | 2026-10-26-4 |
+| SR-20261026-1110 | side/S12.md | s12-follow | Medium | humour | The swarm votes on directions while you follow it | open | 2026-10-26-4 |
+| SR-20261026-1111 | side/S13.md | s13-settled-kept | Medium | humour | The Sock of Uncertain Origin turns up in the tin | open | 2026-10-26-4 |
+| SR-20261026-1112 | side/S11.md | s11-beetle | Medium | follow | "That one's clean" follows a line about ladybirds | open | 2026-10-26-4 |
+| SR-20261026-1113 | side/S06.md | s6-kitchen | Medium | humour | Your Nubbin faces Ash's wall too, to see what's so interesting | open | 2026-10-26-4 |
+| SR-20261026-1114 | side/S08.md | s8-edge | Medium | humour | The stray leaves a leaf where the fruit was, like a receipt | open | 2026-10-26-4 |
+| SR-20261026-1115 | learning/side/S01/sprout.md | s1-cinder | Medium | child-read | Echo the rhyme's "did not move at all" in Cinder's story | open | 2026-10-26-4 |
+| SR-20261026-1116 | learning/side/S01/sprout.md | s1-wait | Medium | follow | Say what the song gets wrong about Cinder | open | 2026-10-26-4 |
+| SR-20261026-1117 | learning/side/S01/sprout.md | s1-cinder | Medium | follow | "All four are home" has nothing to point at in the sprout band | open | 2026-10-26-4 |
+| SR-20261026-1118 | learning/side/S01/sprout.md | s1-boats | Medium | child-read | Make Moss's suspicion of Briar's fold a plain, repeatable joke | open | 2026-10-26-4 |
+| SR-20261026-1119 | learning/side/S01/sprout.md | s1-hazel | Medium | child-read | Say what "You'll do" means | open | 2026-10-26-4 |
+| SR-20261026-1120 | learning/side/S01/sprout.md | s1-hush | Medium | child-read | Make "a kind of keeping" concrete | open | 2026-10-26-4 |
+| SR-20261026-1121 | learning/side/S01/sprout.md | s1-ask | Medium | humour | Your Nubbin zooms ahead, zooms back, and sits on Moss's foot | open | 2026-10-26-4 |
+| SR-20261026-1122 | learning/side/S01/sprout.md | s1-wall-ask | Medium | humour | In the listening game, the loudest sound is Byte's tummy | open | 2026-10-26-4 |
+| SR-20261026-1123 | learning/side/S01/reader.md | s1-briar | Medium | child-read | Explain "Eternal" before it's used to say Briar died | open | 2026-10-26-4 |
+| SR-20261026-1124 | learning/side/S01/reader.md | s1-cinder | Medium | follow | Cut "after you buried the tin"; the reader band never shows a tin | open | 2026-10-26-4 |
+| SR-20261026-1125 | learning/side/S01/reader.md | s1-hush | Medium | pacing | Move the simile lesson out of Hush's memory | open | 2026-10-26-4 |
+| SR-20261026-1126 | learning/side/S01/reader.md | s1-wall-ask | Medium | humour | Name Byte and the shoe, then let the other lace go | open | 2026-10-26-4 |
+| SR-20261026-1127 | learning/side/S01/reader.md | s1-boats | Medium | pacing | Cut the flame lesson that sits between "still lit" and the laugh | open | 2026-10-26-4 |
+| SR-20261026-1128 | side/S07.md | s7-complete | Medium | follow | Make Byte's stopwatch line say why he gives it away | open | 2026-10-26-4 |
+| SR-20261026-1129 | side/S10.md | s10-lanterns | Nice | follow | Gloss Hush at the old wall in half a line | open | 2026-10-26-4 |
+| SR-20261026-1130 | side/S09.md | s9-trowel | Nice | follow | Turn the double "twenty-two" into a point | open | 2026-10-26-4 |
+| SR-20261026-1131 | side/S09.md | s9-gate-family | Nice | humour | Corvin clears his throat twice; Hazel lets him have both | open | 2026-10-26-4 |
+| SR-20261026-1132 | side/S11.md | s11-ember | Nice | humour | Fern's crate says PLUMS | open | 2026-10-26-4 |
+| SR-20261026-1133 | side/S13.md | s13-wheelpit | Nice | humour | Moss warns about the third stair; Tobin takes it personally | open | 2026-10-26-4 |
+| SR-20261026-1134 | side/S13.md | s13-key | Nice | pacing | Trim Tobin's loot list after the heavy truth | open | 2026-10-26-4 |
+| SR-20261026-1135 | learning/side/S01/reader.md | s1-boats | Nice | follow | Say whose sound, and what the tradition is | open | 2026-10-26-4 |
+| SR-20261026-1136 | learning/side/S01/sprout.md | s1-hazel | Nice | humour | Splosh! Only up to her ankles | open | 2026-10-26-4 |
+| SR-20261026-1137 | side/S07.md | s7-lap | Nice | humour | Byte steps over the face-down stopwatch, twice | open | 2026-10-26-4 |
+| SR-20261026-1138 | side/S07.md, side/S09.md | cross-story | High | humour | Byte labels the gate UNVERIFIED | open | 2026-10-26-4 |
+| SR-20261026-1139 | side/S06.md, side/S10.md | cross-story | Medium | humour | The very confident duck takes the back-row seat at Hazel's race | open | 2026-10-26-4 |
+| SR-20261026-1140 | side/S06.md, side/S10.md | cross-story | Medium | humour | Byte has answered "Do not lend this to Byte" on the register cover | open | 2026-10-26-4 |
 
 ## Runs
 
@@ -1376,3 +1433,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-3` · run 18's 43 recs: 43 fixed · -1000 c5-circuit's choices set `c5-race` (want/win/home) and Corvin quotes the answer back in c9-open and c9-open-sold through src/sim/choice-payoffs.ts, all three bands; -1003 LJ3 and LJ4 choices set `lj3-race` and `lj4-bento`, paid off in their done scenes through choice-payoffs.ts (tests in choice-payoffs.test.ts); -996 Nova's owl speech, with Marina cutting it short, plays in both ledge scenes on every route; -999 the sandstone Nubbin stays unnamed at Lantern Night so Fossil is still introduced once; -993 the Japanese reader's snow lesson moves to the lantern-making scene and lj6-s3 keeps a gentle notice before the lanterns are lit; -1033 Hebrew and Japanese reader lessons rebuilt on approved grades 3–5 codes with their numbers stated (lj3-s3 counts ten stars in twos) · canon: none. SR-20261026-939 (LK) stays partial.
 - 2026-10-26 run 19 · [review-2026-10-26-3](review-2026-10-26-3.md) · units: campaign/book-3.md, campaign/triggered.md, campaign/endings.md, campaign/sprout.md, campaign/reader-1.md, side/S01.md, side/S02.md, side/S03.md, side/S04.md, side/S05.md · 48 recs: Critical 0, High 11, Medium 25, Nice 12 (5 cross-story) · fixed since last run: 43 (all)
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-4` · run 19's 48 recs: 47 fixed, 1 partial · new sim payoffs, tested: s2-night reads `s2-early` and `s2-carried` (choice-payoffs.ts); SWAPS for s1-boats (sail), s1-cinder (offered), a gap-seat Hazel line in s3-moot, and c10-dawn, c10-kept, end-hazels-grove(-open) and end-moss-sleeps through a new `Swapper.swapText` (story-scenes.ts); -1037 adapted: the sold Nubbin leaves the garden in c9-open-sold, since c9-shard-reconciled says the garden is empty; -1055 partial: `T_TALK_GENERIC_ROTATION` is written in campaign-book1.ts, but nothing plays t-talk-generic (the talk command only shows a toast), so wiring it needs a trigger or UI decision; both campaign bands moved lessons out of their gravest beats (-1079..1082) · canon: none
+- 2026-10-26 run 20 · [review-2026-10-26-4](review-2026-10-26-4.md) · units: side/S06.md, side/S07.md, side/S08.md, side/S09.md, side/S10.md, side/S11.md, side/S12.md, side/S13.md, S01/sprout.md, S01/reader.md · 57 recs: Critical 0, High 11, Medium 37, Nice 9 (3 cross-story) · fixed since last run: 47 of 48
