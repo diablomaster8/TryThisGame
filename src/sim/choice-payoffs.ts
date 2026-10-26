@@ -15,6 +15,9 @@
  *   s5-carry     (egg | shoulder)           S18, Dusty at the cliff
  *   s5-holder    (yours | marina)           S18, Marina at the rock pools
  *   c4-lamps     (remember | home | together | dunno) c10-dawn, the fourth lantern lights itself
+ *   c5-race      (want | win | home)          c9-open, Corvin in his garden
+ *   lj3-race     (fair | head | sparks)       lj3-s2-done, after the counting race
+ *   lj4-bento    (beans | cucumber | lettuce) lj4-s1-done, when the box is opened
  */
 import type { Line } from '../config/story';
 import type { CampaignState } from './types';
@@ -174,7 +177,110 @@ const C4_LAMPS: Record<string, BandText> = {
   },
 };
 
+/** Chapter 5's "what matters in a race?", quoted back by Corvin in his garden. */
+const C5_RACE: Record<string, BandText> = {
+  want: {
+    main: 'You told me they should want to. Look at them. Not one has wanted anything in years. It’s very restful.',
+    sprout: 'You said they should want to. Mine want nothing. It is very quiet.',
+  },
+  win: {
+    main: 'You told me winning was the point. So we agree. That ought to worry you more than it does.',
+    sprout: 'You said winning matters. So we agree. That should worry you.',
+  },
+  home: {
+    main: '“That they come home afterwards.” I have thought about that answer more than I would like.',
+    sprout: 'You said they should come home. I think about that a lot.',
+  },
+};
+
+const c9Race: Payoff = (c, s) => {
+  const t = by(c.flags['c5-race'], C5_RACE);
+  if (t)
+    s.insertAfter(
+      {
+        main: 'Look at them. Not one has ever thrown a race',
+        sprout: 'You came.',
+        reader: 'Look at them. Not one has ever bitten a judge',
+      },
+      t,
+      'corvin',
+    );
+};
+
+/** The Japanese questline's two choices (lj3's race, lj4's bentō), remembered in the done scenes. */
+const LJ3_RACE: Record<string, { text: BandText; who: string }> = {
+  fair: {
+    who: 'byte',
+    text: {
+      main: 'Zero false starts. Hana: one lean. Logged as a lean.',
+      sprout: 'No false starts. Hana leaned once. I wrote it down.',
+    },
+  },
+  head: {
+    who: 'hana',
+    text: {
+      main: 'The head start was strategic. I’d have won anyway. Strategically.',
+      sprout: 'My head start was a plan. I would have won anyway.',
+    },
+  },
+  sparks: {
+    who: 'sparks',
+    text: {
+      main: 'I CAME SECOND. I’M TELLING EVERYONE I CAME FIRST.',
+      sprout: 'I CAME SECOND. I TELL EVERYONE I CAME FIRST.',
+    },
+  },
+};
+
+const LJ4_BENTO: Record<string, { text: BandText; who: string }> = {
+  beans: {
+    who: 'hana',
+    text: {
+      main: 'We packed twelve beans. There are three. Nobody do the sum.',
+      sprout: 'We packed twelve beans. Now there are three.',
+    },
+  },
+  cucumber: {
+    who: 'fern',
+    text: {
+      main: 'I’d like it noted my cucumber made the box. So did Dumpling. I’d like that noted less.',
+      sprout: 'My cucumber made the box. So did Dumpling.',
+    },
+  },
+  lettuce: {
+    who: 'hana',
+    text: {
+      main: 'The lettuce wall held. Nothing touched anything. Except Dumpling, who touched everything.',
+      sprout: 'The lettuce wall held. Only Dumpling touched everything.',
+    },
+  },
+};
+
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
+  'c9-open': c9Race,
+  'c9-open-sold': c9Race,
+  'lj3-s2-done': (c, s) => {
+    const t = by(c.flags['lj3-race'], LJ3_RACE);
+    if (t)
+      s.insertAfter(
+        { main: 'That was a practice one.', sprout: 'That was a practice one.' },
+        t.text,
+        t.who,
+      );
+  },
+  'lj4-s1-done': (c, s) => {
+    const t = by(c.flags['lj4-bento'], LJ4_BENTO);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'You lift the lid to check one last time. Dumpling is in the box.',
+          sprout: 'You lift the lid to check. Dumpling is in the box',
+          reader: 'Dumpling is in the box.',
+        },
+        t.text,
+        t.who,
+      );
+  },
   'c10-dawn': (c, s) => {
     const t = by(c.flags['c4-lamps'], C4_LAMPS);
     if (t)

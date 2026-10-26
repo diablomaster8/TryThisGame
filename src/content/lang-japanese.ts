@@ -98,7 +98,9 @@ const LJ1: Quest = {
           HA('Then finish with よろしくおねがいします (yoroshiku onegaishimasu). It means “please treat me kindly”, or “pleased to meet you”.'),
           NO('I practised that one all the way here on the train.', 'happy'),
           HA('She said it to the ticket man, a cow and a postbox.'),
-          HA('Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.', 'happy'),
+          HA('Ready? You say hello. I say はい (hai, “yes”). Today はい is my answer to everything.', 'happy'),
+          NO('Everything?'),
+          HA('はい.'),
         ],
         choices: [
           {
@@ -106,7 +108,7 @@ const LJ1: Quest = {
             label: 'Bow and say “konnichiwa”.',
             then: [
               N('You bow. Hana bows back, slightly deeper, which she seems to think means she won.'),
-              HA('はい! Perfect. You meant that one.', 'happy'),
+              HA('はい! That’s “yes, exactly”. You meant that bow.', 'happy'),
             ],
           },
           {
@@ -156,7 +158,8 @@ const LJ1: Quest = {
           HA('おはようございます (ohayō gozaimasu), Fern! That’s the polite one. For grown-ups, teachers and people with buckets.'),
           FE('Is it? Well. Good morning. Have a plum. I’ve been up since five, apologising to the trees.'),
           HA('ありがとうございます (arigatō gozaimasu, “thank you”, the polite way). With friends it’s just ありがとう (arigatō).'),
-          HA('Right. The plan. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows.'),
+          HA('Right. The plan. We teach them こんにちは first, because it works most of the day.'),
+          HA('Not now, strictly. Now is おはよう. But one word at a time. They’re Nubbins.'),
           N('She sprints at the herb bed, misjudges it, and bumps a small round Nubbin clean off its feet.'),
           HA('ごめんなさい (gomen nasai, “I’m sorry”)! Sorry, sorry!', 'shock'),
           N('She bows low to the Nubbin, because she means it. The Nubbin blinks, copies her, and lands on its face.'),
@@ -216,9 +219,9 @@ const LJ1: Quest = {
           N('Luna comes up the path with a trowel and a jar of moths, on her way to the night garden.'),
           HA('こんばんは (konbanwa, “good evening”), Luna!'),
           LU('Konbanwa. Did I say it right? Nova taught me last summer. I’ve been saving it.', 'soft'),
-          HA('Perfect. Fun fact: the last letter of こんばんは and こんにちは looks like “ha” but says “wa”. Japanese keeps you on your toes.'),
+          HA('Perfect. Fun fact: the last letter of こんばんは and こんにちは looks like “ha” but says “wa”. Japanese likes to surprise you.'),
           FE('I’m off to bed. Goodbye, all.'),
-          HA('Not さようなら (sayōnara)! That’s goodbye for a while. You’ll see us in the morning.'),
+          HA('Not さようなら (sayōnara)! That’s goodbye for a long time. You’ll see us in the morning.'),
           HA('Say またね (mata ne, “see you”). Or, at bedtime, おやすみ (oyasumi, “good night”).'),
           FE('Mata ne, then. Oyasumi.', 'happy'),
           HA('For grown-ups you want to be extra nice to, it’s おやすみなさい (oyasuminasai). The polite one is longer. It usually is.'),
@@ -532,6 +535,9 @@ const LJ3: Quest = {
           HA('After ご came ろく (roku), six. なな (nana), seven. はち (hachi), eight.'),
           HA('Then きゅう (kyū), nine, and じゅう (jū), ten. Ten koi! Ten fingers! Nobody fell in!', 'happy'),
           MA('A little dramatic. But correct.'),
+          HA('That’s counting out loud. In a sentence, fish get their own counting word. Japanese has one for nearly everything.'),
+          MA('And for Hanas?'),
+          HA('There’s only one Hana. No word needed.', 'happy'),
           N('Ten koi drift in a slow orange circle. Dumpling sits on the bank, counting them with his head.'),
         ],
       },
@@ -545,6 +551,9 @@ const LJ3: Quest = {
         id: 'lj3-s2',
         lines: [
           N('Sparks arrives at speed, the way Sparks arrives everywhere. Pixel follows with a board on a stick.'),
+          N('Byte sets four stopwatches in a row on the grass.'),
+          PX('He brings four to everything. He brought four to our wedding.'),
+          BY('The vows ran long. I have the figures.', 'think'),
           SP('I HEAR SOMEONE HERE THINKS SHE’S FAST.', 'happy'),
           HA('I don’t think I’m fast. I know I’m fast.'),
           PX('Lap counter. It flips a tile for every lap round the pond. Hana painted the numbers.', 'happy'),
@@ -560,6 +569,7 @@ const LJ3: Quest = {
           {
             id: 'fair',
             label: 'A fair start.',
+            set: { 'lj3-race': 'fair' },
             then: [
               BY('Fair start. Nobody moves until I say. Nobody. Hana.'),
               HA('I wasn’t moving. I was leaning.'),
@@ -568,6 +578,7 @@ const LJ3: Quest = {
           {
             id: 'headstart',
             label: 'Give Hana a head start.',
+            set: { 'lj3-race': 'head' },
             then: [
               HA('I don’t need a head start!', 'angry'),
               HA('…But I’ll take it. Strategically.', 'happy'),
@@ -576,6 +587,7 @@ const LJ3: Quest = {
           {
             id: 'sparks',
             label: 'Let Sparks race too.',
+            set: { 'lj3-race': 'sparks' },
             then: [
               SP('THREE-WAY RACE. Yes. YES.', 'happy'),
               HA('Fine. I’ll beat you both. Count my laps louder than hers.'),
@@ -715,16 +727,19 @@ const LJ4: Quest = {
           {
             id: 'beans',
             label: 'The beans.',
+            set: { 'lj4-bento': 'beans' },
             then: [N('You put the beans in. Dumpling eats one. You put another in. He eats that one too. This goes on for a while.')],
           },
           {
             id: 'cucumber',
             label: 'Cucumber from Fern’s garden.',
+            set: { 'lj4-bento': 'cucumber' },
             then: [FE('Ah. The cucumber. I grew that. Mostly on purpose.', 'happy')],
           },
           {
             id: 'leaf',
             label: 'A big lettuce leaf.',
+            set: { 'lj4-bento': 'lettuce' },
             then: [HA('Good. Green, and also a wall. It keeps the rice away from the tomatoes.', 'happy')],
           },
         ],
@@ -750,6 +765,7 @@ const LJ4: Quest = {
           N('A picnic by the pond. The blue cloth is spread out. The box is open. Dumpling has been removed from it twice.'),
           HA('Before we eat, we say いただきます (itadakimasu). Hands together, a little bow, then eat.'),
           HA('And after, when it’s all gone, ごちそうさま (gochisōsama). Everyone at home says them. Even when they’re starving.'),
+          HA('With grown-ups you add でした: ごちそうさまでした (gochisōsama deshita). Fern gets でした. Dumpling gets nothing. He started early.'),
           SP('So I can’t eat ANYTHING until we say it?', 'shock'),
           HA('Nothing. Not one bean. You have a bean in your mouth right now.'),
           SP('…It got in by itself. すみません.'),
@@ -764,7 +780,8 @@ const LJ4: Quest = {
         id: 'lj4-s2-done',
         lines: [
           N('“Itadakimasu!” Six voices, one bow, one Nubbin already chewing.'),
-          N('Onigiri, beans, tomatoes, egg, a りんご cut in quarters, a みかん peeled in one long curl, cold おちゃ.'),
+          N('Onigiri, beans, tomatoes, egg, a りんご cut into little rabbits with peel for ears, a みかん peeled in one long curl, cold おちゃ.'),
+          N('Dumpling stares at an apple rabbit for a long time, and it stares back. Then he eats it anyway.'),
           HA('Now: ごちそうさま.', 'happy'),
           SP('Gochisōsama! I’m so full I’m too full to run. Don’t tell anyone.', 'happy'),
           HA('I’m telling everyone.'),
@@ -881,13 +898,19 @@ const LJ5: Quest = {
       scene: {
         id: 'lj5-s1',
         lines: [
-          N('Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string.'),
-          HA('Hazel used to write to my grandma, for years and years. Grandma kept a copy of every letter she sent back.'),
+          N('Rain on the cottage roof. Hana takes off her wet shoes at the door and lines them up, toes pointing out.'),
+          N('Dumpling sits down beside them, toes pointing out, and waits to be lined up too.'),
+          HA('At home, shoes stay at the door. Dumpling, you are not a shoe.'),
+          N('Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string.'),
+          HA('Your Hazel and my grandma wrote to each other for years and years.'),
+          HA('Grandma kept a copy of every letter she wrote to Hazel. These are the copies.'),
           HA('In my family I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojiichan).'),
           HA('She gave me these to bring here. They’re in English, but she put Japanese words in for Hazel to learn.'),
           N('The paper is thin and soft from folding. The handwriting is very neat and very small. Hana reads it aloud.'),
           HA('Dear Hazel. ありがとう for the seeds. They came up!', 'happy'),
           HA('Our ねこ (neko, “cat”) sleeps on my letters. The いぬ (inu, “dog”) next door barks at her. The とり (tori, “birds”) ignore them both.'),
+          HA('And in every letter, obāchan asked: “Is Hazel’s gate still stuck?”'),
+          HA('I climbed it, so: yes.'),
           HA('Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).'),
           N('Hana sits back and reads the last line again, to herself.'),
           HA('“Your ともだち.” Not just “from”. “Your friend.”', 'soft'),
@@ -1069,7 +1092,7 @@ const LJ6: Quest = {
         id: 'lj6-s1',
         lines: [
           N('Late summer. The evenings come earlier now. Hana sits by the stream, not drawing, which is how you know something is up.'),
-          HA('At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.'),
+          HA('At home, it’s おぼん (Obon) this week. It’s a time in summer when families remember the people in their family who have died.'),
           HA('At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).'),
           HA('Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.'),
           HA('A river is かわ (kawa). This stream is more of a little かわ. But I think it would work.'),
@@ -1158,6 +1181,9 @@ const LJ6: Quest = {
           FE('It’s not a competition, Hana.'),
           HA('…This one isn’t. You’re right. This one isn’t.', 'soft'),
           N('Pixel floats the test lantern in the bucket of みず. It stays up. Pixel nods once, satisfied.'),
+          HA('At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.'),
+          HA('So this lantern would float on snow too. Once it melted. Pixel, write that down.'),
+          N('Pixel writes it down. Then, next to it, Pixel writes “probably”.'),
         ],
       },
     },
@@ -1171,8 +1197,7 @@ const LJ6: Quest = {
         lines: [
           N('Dusk. Everyone walks down to the stream with Hana, who carries ojiichan’s lantern in both hands. The water is low, slow and gold.'),
           HA('No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.', 'happy'),
-          HA('At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.'),
-          HA('At home, Obon is nearly over. My family will be at the river tonight too.', 'soft'),
+          HA('At home, it’s the last night of Obon. My family will be at the river tonight too.', 'soft'),
           LU('I’ll light them, one at a time. Let them go when you’re ready. No hurry.', 'soft'),
           HA('This one’s for ojiichan.', 'soft'),
           N('Hana sets her lantern on the かわ and doesn’t push it. It is the slowest you have ever seen her do anything.'),
@@ -1205,6 +1230,11 @@ const LJ6: Quest = {
       HA('The world! き, はな, みず, かわ, やま, あめ, ゆき, ほし, つき, ひかり!'),
       NO('And a title for the one who learned all of that.', 'happy'),
       HA('Hiragana Keeper. And this is for you: my drawing of tonight, the ひかり on the かわ. So you remember it too.', 'soft'),
+      HA('A fact I saved for last. かえる also sounds like 帰る (kaeru, “to go home”). People carry little frog charms so they get home safe.', 'soft'),
+      N('The frog from the bank is sitting on your doorstep. It has clearly decided it is a charm.'),
+      HA('So I’m not scared of かえる. I’m taking one with me. That’s different.', 'think'),
+      NO('You’re taking a drawing of one.'),
+      HA('It’s a very good drawing.'),
       HA('I’m not saying さようなら. That’s for a long time. I’m saying またね. See you.', 'soft'),
     ],
   },
@@ -1226,7 +1256,7 @@ const LJ6: Quest = {
   notes: [
     COMMON_NOTES,
     'New words: step 1 Obon, tōrō nagashi, kawa, hikari; step 2 ki (木), yama (山), mizu (水), with 川 shown as a picture-kanji; step 3 ame, yuki. Hana (はな) the flower word is reviewed here.',
-    'Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojiichan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No lantern items, no repeatable floating, no counting the lanterns.',
+    'Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojiichan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No floating-lantern items (LJ1’s gate lantern is a welcome sign, a different thing), no repeatable floating, no counting the lanterns.',
     'Grief is handled plainly: Hana’s ojiichan died; she remembers him and is OK. Hazel is not given a lantern by any character, and nothing here says whether she is alive.',
     'Step 2: a simple fold-and-write craft, not a mini-game (no score, no timer). Hana writes おじいちゃん first. The player may make a lantern too and type any name in any script, or just help Hana; the step completes either way. Nubbins don’t get lanterns.',
     'Step 3: the floating is a quiet story moment, not a game. Luna lights each lantern (children never handle the flame); the player sets theirs on the water with one tap when ready, or simply watches. No music under the first lantern. The frog stays on the bank.',
@@ -1285,8 +1315,8 @@ const VOCAB: VocabItem[] = [
   }),
   v('sumimasen', 'すみません', 'sumimasen', 'excuse me, sorry', 'soo-mee-mah-SEN', 'greetings', 'LJ1', 'both'),
   v('gomen-nasai', 'ごめんなさい', 'gomen nasai', 'I’m sorry', 'go-men nah-SAI', 'greetings', 'LJ1', 'both'),
-  v('sayounara', 'さようなら', 'sayōnara', 'goodbye (for a while)', 'sah-YOH-nah-rah', 'greetings', 'LJ1', 'both', {
-    notes: 'For a goodbye that will last a while, not for “see you tomorrow” (use またね) or bedtime (use おやすみ).',
+  v('sayounara', 'さようなら', 'sayōnara', 'goodbye (for a long time)', 'sah-YOH-nah-rah', 'greetings', 'LJ1', 'both', {
+    notes: 'For a goodbye that will last a long time, not for “see you tomorrow” (use またね) or bedtime (use おやすみ).',
   }),
   v('mata-ne', 'またね', 'mata ne', 'see you', 'mah-tah NEH', 'greetings', 'LJ1', 'both'),
   v('hai', 'はい', 'hai', 'yes', 'HAI', 'greetings', 'LJ1', 'both'),
@@ -1301,7 +1331,9 @@ const VOCAB: VocabItem[] = [
     notes: 'Polite; said after introducing yourself.',
   }),
   v('itadakimasu', 'いただきます', 'itadakimasu', 'said before eating', 'ee-tah-dah-kee-MAS', 'greetings', 'LJ4', 'both'),
-  v('gochisousama', 'ごちそうさま', 'gochisōsama', 'said after eating', 'go-chee-SOH-sah-mah', 'greetings', 'LJ4', 'both'),
+  v('gochisousama', 'ごちそうさま', 'gochisōsama', 'said after eating', 'go-chee-SOH-sah-mah', 'greetings', 'LJ4', 'both', {
+    notes: 'Casual. The polite form is ごちそうさまでした (gochisōsama deshita).',
+  }),
 
   // ------------------------------------------------ kana words (LJ2)
   v('ike', 'いけ', 'ike', 'pond', 'EE-keh', 'letters', 'LJ2', 'both', { notes: 'Spelled い + け. Say-it not in the vetted list: confirm against the recording.' }),
@@ -1351,7 +1383,9 @@ const VOCAB: VocabItem[] = [
   v('tori', 'とり', 'tori', 'bird', 'TOH-ree', 'animals', 'LJ5', 'both', { plain: '鳥' }),
   v('usagi', 'うさぎ', 'usagi', 'rabbit', 'oo-SAH-gee', 'animals', 'LJ5', 'both'),
   v('fukurou', 'ふくろう', 'fukurō', 'owl', 'foo-koo-ROH', 'animals', 'LJ5', 'both'),
-  v('kaeru', 'かえる', 'kaeru', 'frog', 'kah-EH-roo', 'animals', 'LJ5', 'both'),
+  v('kaeru', 'かえる', 'kaeru', 'frog', 'kah-EH-roo', 'animals', 'LJ5', 'both', {
+    notes: 'Sounds the same as 帰る (kaeru, “to go home”). Little frog charms are carried for a safe trip home.',
+  }),
 
   // ------------------------------------------------ family (LJ5)
   v('okaasan', 'おかあさん', 'okāsan', 'mother', 'oh-KAH-sahn', 'family', 'LJ5', 'both'),

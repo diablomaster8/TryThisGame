@@ -14,7 +14,7 @@ const CH1: EduScene[] = [
     of: 'c1-letter',
     band: 'reader',
     lines: [
-      { who: 'narrator', text: 'Late spring. The road runs out, then grass, then a gate. The gate is stuck. You lift and push, the way she taught you.' },
+      { who: 'narrator', text: 'Late spring. The road runs out at a gate. It is stuck. You lift and push, the way she taught you, and it groans like a friend who missed arguing.' },
       { who: 'narrator', text: 'The Grove is overgrown: grass to your knees, reeds across the pond. On the signpost, under a stone, is a letter in Gran’s leaning writing.' },
       { who: 'narrator', text: 'The cottage door is on the latch. One cup sits by the cold kettle, turned upside down, ready for whoever comes next.' },
       { who: 'narrator', text: 'You sit on the step, where she used to sit, and open the letter.' },
@@ -873,6 +873,9 @@ const CH4: EduScene[] = [
       { who: 'narrator', text: 'Then the Keepers come through the gate, lifting and pushing without thinking. They stand in two groups, one each side of the pond.' },
       { who: 'fern', text: 'Lantern buns. Hazel’s recipe. I make them every year, and every year they don’t come out.', mood: 'sad' },
       { who: 'narrator', text: 'Sparks bites one. It makes a sound like a dropped plate. “Crunchy!” she says, delighted.' },
+      { who: 'narrator', text: 'A very old, sandstone-coloured Nubbin on the wall reaches out and taps a bun, twice. It rings like a plate.' },
+      { who: 'sparks', text: 'SEE? Even the old one says crunchy!', mood: 'happy' },
+      { who: 'fern', text: 'Tapping isn’t tasting.' },
       { who: 'pixel', text: 'Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes. Can you really hear Moss? Byte says it’s a hoax.', mood: 'happy' },
       { who: 'byte', text: 'I said it was unverified. Nobody has checked it yet.' },
       { who: 'moss', text: 'Tell the pale one his shoelace is untied.' },
@@ -893,7 +896,7 @@ const CH4: EduScene[] = [
         skill: 'time intervals across midnight',
         standard: '3.MD.A.1',
         kind: 'ask',
-        after: 4,
+        after: 7,
         prompt: [
           { who: 'pixel', text: 'My timer turns the lanterns on at 10 o’clock at night and off at 5 o’clock in the morning. How many hours is that?', mood: 'think' },
         ],
@@ -929,7 +932,7 @@ const CH4: EduScene[] = [
         skill: 'repeated lines in songs and poems: the chorus',
         standard: 'RL.2.4',
         kind: 'ask',
-        after: 14,
+        after: 17,
         prompt: [
           { who: 'narrator', text: 'The verses change, but one part comes back again and again so everyone can join in. That part is the chorus.' },
           { who: 'narrator', text: 'Which line is the chorus of the Lantern Song?' },
@@ -1069,6 +1072,8 @@ const CH4: EduScene[] = [
     of: 'c4-tale-2',
     band: 'reader',
     lines: [
+      { who: 'narrator', text: 'Against the wall, Sparks says “FLAT” in her sleep, and turns over.' },
+      { who: 'moss', text: 'She is still teaching hand-feeding, even asleep. I admire it.' },
       { who: 'moss', text: 'Four of us kept this valley, once. Wardens, the Keepers called us later. We never called ourselves anything.' },
       { who: 'moss', text: 'Briar, who laughed. At rain, at foxes, at me. Mostly at me.' },
       { who: 'moss', text: 'Hush, who was quiet, and kept the griefs nobody else had room for.' },
@@ -1124,7 +1129,7 @@ const CH4: EduScene[] = [
         skill: 'ice floats, so water freezes from the top down',
         standard: '2-ESS2-3',
         kind: 'notice',
-        after: 6,
+        after: 8,
         lines: [
           { who: 'narrator', text: 'Ice floats. So when ponds and rivers freeze, they freeze from the top down. Fish can live all winter in the water underneath.' },
           { who: 'narrator', text: 'For water to freeze right to the bottom, the cold must be fierce and last a very long time. That was the White Year.' },
@@ -1137,7 +1142,7 @@ const CH4: EduScene[] = [
         skill: 'compare your point of view with a character’s',
         standard: 'RL.3.6',
         kind: 'ask',
-        after: 15,
+        after: 17,
         prompt: [
           { who: 'moss', text: 'I have asked myself this for a very long time. Now I will ask you. Was Cinder right to make the Heartstone?', mood: 'think' },
         ],

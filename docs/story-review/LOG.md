@@ -10,8 +10,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 
 | unit | last reviewed (run file) | open recs |
 | --- | --- | --- |
-| `campaign/book-1.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 3 |
-| `campaign/book-2.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 6 |
+| `campaign/book-1.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `campaign/book-2.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
 | `campaign/book-3.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `campaign/triggered.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `campaign/endings.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
@@ -237,14 +237,14 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `lines/LK/reader.md` | [review-2026-10-26](review-2026-10-26.md) | 1 |
 | `lines/lang-hebrew/main.md` | [review-2026-10-26](review-2026-10-26.md) | 0 |
 | `lines/lang-hebrew/sprout.md` | [review-2026-10-26](review-2026-10-26.md) | 0 |
-| `lines/lang-hebrew/reader.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 8 |
+| `lines/lang-hebrew/reader.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
 | `lines/lang-hebrew/words.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
-| `lines/lang-japanese/main.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 12 |
-| `lines/lang-japanese/sprout.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 6 |
-| `lines/lang-japanese/reader.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 10 |
-| `lines/lang-japanese/words.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 2 |
-| `extras/readers.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 6 |
-| `extras/results.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 4 |
+| `lines/lang-japanese/main.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `lines/lang-japanese/sprout.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `lines/lang-japanese/reader.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `lines/lang-japanese/words.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `extras/readers.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
+| `extras/results.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
 
 ## Register
 
@@ -1244,49 +1244,49 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261026-990 | lines/LB/reader.md<br>lines/LK/reader.md | cross-story | Medium | child-read | Reader bands use K-2 standards, including the C3 codes EDU-STYLE forbids there; swap to approved 3-5 codes only | fixed | 2026-10-26 |
 | SR-20261026-991 | arcade/PA4/main.md<br>arcade/PA5/main.md | cross-story | Medium | humour | Pixel's mouse-nest, blow-on-it and "nobody's ever ready" lines repeat across cartridges; give each its own twist | fixed | 2026-10-26 |
 | SR-20261026-992 | lines/LK/main.md<br>lines/LK/sprout.md<br>lines/LK/reader.md<br>lines/lang-hebrew/main.md | cross-story | Medium | theme | Pixel and Byte turn up in LK10 and LH6 without each other; let the married pair bicker (canon 38) | fixed | 2026-10-26 |
-| SR-20261026-993 | lines/lang-japanese/reader.md | lj6-s3 | High | pacing | The snow-and-water quiz fires on the lantern's doorstep; move it to the lantern-making scene | open | 2026-10-26-2 |
-| SR-20261026-994 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | lj6-s1 | High | continuity | Obon is "nearly" here in LJ6-1 and "nearly over" a day later; make it Obon week, and the lantern night its last night | open | 2026-10-26-2 |
-| SR-20261026-995 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | lj1-s1 | High | follow | Hana tells the player to say はい, then offers only "konnichiwa"; make はい Hana's answer to everything instead | open | 2026-10-26-2 |
-| SR-20261026-996 | campaign/book-2.md | c8-ledge | High | humour | Nova promises a speech "with a bit about owls" and never gives it; let Marina stop it on the ledge | open | 2026-10-26-2 |
-| SR-20261026-997 | campaign/book-2.md | c8-close | High | humour | Fern's SORRY ABOUT THE JUMPERS bag never comes back; let a Shadow wear the second jumper as a hat | open | 2026-10-26-2 |
-| SR-20261026-998 | lines/lang-japanese/main.md<br>lines/lang-japanese/sprout.md<br>lines/lang-japanese/reader.md | lj6-complete | High | compelling | Pay off the frog with かえる / 帰る: frog charms bring travellers home safe, just as Hana says またね | open | 2026-10-26-2 |
-| SR-20261026-999 | campaign/book-1.md | c4-close | High | compelling | Seed Dusty, Fossil and Gerald at Lantern Night, so Fossil's fading in chapter 6 isn't a first meeting | open | 2026-10-26-2 |
-| SR-20261026-1000 | campaign/book-2.md | c5-circuit | High | continuity | Corvin asks what matters in a race and never mentions the answer again; let him quote it back in chapter 9 | open | 2026-10-26-2 |
-| SR-20261026-1001 | campaign/book-2.md | c7-close | Medium | theme | Pixel's MAYBE box is the right moment for the married pair to bicker over Byte's shoelace | open | 2026-10-26-2 |
-| SR-20261026-1002 | campaign/book-2.md | c6-close | Medium | humour | Bring Gerald the duck back up the hill to sit with Moss after the flower | open | 2026-10-26-2 |
-| SR-20261026-1003 | lines/lang-japanese/main.md | lj4-s1-done | Medium | humour | The bento and race choices are never mentioned again; give each done scene one line that remembers the pick | open | 2026-10-26-2 |
-| SR-20261026-1004 | lines/lang-hebrew/reader.md | lh3-s1 | Medium | humour | Move the joke off "Hebrew sounds like a sneeze" and onto Fern's tongue and the Wobbler (keep SHTAI-yim) | open | 2026-10-26-2 |
-| SR-20261026-1005 | lines/lang-hebrew/reader.md | lh4-s2 | Medium | humour | Both of Clover's replies end "Look, she's already sniffing it"; give her fussy Nubbin two different verdicts | open | 2026-10-26-2 |
-| SR-20261026-1006 | lines/lang-hebrew/reader.md | lh3-s3 | Medium | humour | Give the Wobbler a counting gag under the stars: achat, achat, achat | open | 2026-10-26-2 |
-| SR-20261026-1007 | extras/readers.md | island-mystic | Medium | humour | The Island Mystic issues bare riddles; give him a deadpan voice and set up his own quiet-monkey callback | open | 2026-10-26-2 |
-| SR-20261026-1008 | extras/readers.md | grumpy-old-king | Medium | humour | Two Grumpy King jokes lack his reaction beat; let him explain them, badly | open | 2026-10-26-2 |
-| SR-20261026-1009 | extras/readers.md | aunt-wen | Medium | humour | Aunt Wen's intro sets up the bone stool and her quarrelling bones; let her readings call them back | open | 2026-10-26-2 |
-| SR-20261026-1010 | lines/lang-japanese/main.md | lj5-s1 | Medium | humour | Open the rainy letter scene with Hana's shoes at the door and Dumpling trying to be a shoe | open | 2026-10-26-2 |
-| SR-20261026-1011 | lines/lang-japanese/main.md<br>lines/lang-japanese/words.md | lj4-s2 | Medium | humour | Teach the polite ごちそうさまでした with a Dumpling joke, and cut the apple into rabbits | open | 2026-10-26-2 |
-| SR-20261026-1012 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md<br>lines/lang-japanese/sprout.md | lj1-s2 | Medium | humour | A dewy-morning scene teaches こんにちは as the bow word; have Hana admit it and make it a joke | open | 2026-10-26-2 |
-| SR-20261026-1013 | campaign/book-2.md | c7-stillness | Medium | pacing | Three scenes of Moss's lecture need one more Nubbin beat, at the start, before "Safe" | open | 2026-10-26-2 |
-| SR-20261026-1014 | campaign/book-1.md | c4-tale-2 | Medium | humour | Sparks, asleep through Moss's tale, says "FLAT" in her sleep: one comic breath from chapter 2 | open | 2026-10-26-2 |
-| SR-20261026-1015 | campaign/book-1.md | c1-letter | Medium | humour | Give the game's first minute a smile: the gate groans as if it missed the argument | open | 2026-10-26-2 |
-| SR-20261026-1016 | extras/results.md | tombola | Medium | humour | Nine freebie "taken" lines open the same way; keep the rule, vary the joke and move "once, ever" to the end | open | 2026-10-26-2 |
-| SR-20261026-1017 | extras/results.md | kindergarten-lesson | Medium | humour | Level 1 kindergarten lines are funny and level 3 is plain praise; give the top grade a grin | open | 2026-10-26-2 |
-| SR-20261026-1018 | extras/readers.md | fortune-teller | Medium | humour | Zinnia's type-and-band grid is warm but earnest; give two readings her fussy barb | open | 2026-10-26-2 |
-| SR-20261026-1019 | lines/lang-japanese/sprout.md | lj6-s2-done | Medium | humour | End the lantern-making scene on Dumpling, not "Pixel nods. Good." | open | 2026-10-26-2 |
-| SR-20261026-1020 | lines/lang-hebrew/reader.md | lh6-s2 | Medium | humour | Ori's watering replies are flat; let him fail to hand the job over | open | 2026-10-26-2 |
-| SR-20261026-1021 | lines/lang-japanese/sprout.md | lj3-s1-done | Medium | child-read | "A little dramatic. But right." has no set-up in sprout; make it loud and right | open | 2026-10-26-2 |
-| SR-20261026-1022 | lines/lang-japanese/reader.md<br>lines/lang-japanese/sprout.md | lj5-s1 | Medium | follow | Who wrote to whom, and whose copies these are, is hard to untangle; say it with names | open | 2026-10-26-2 |
-| SR-20261026-1023 | lines/lang-hebrew/reader.md | lh2-s3 | Medium | follow | "Savta" turns up in LH2 and LH3 before LH5 teaches it; gloss it where it first appears | open | 2026-10-26-2 |
-| SR-20261026-1024 | extras/readers.md | aunt-wen | Medium | follow | Wen's "(The Keeper helped. A bit.)" is an author wink that leans on Q58; keep the callback in her voice | open | 2026-10-26-2 |
-| SR-20261026-1025 | extras/readers.md | wise-old-king | Nice | humour | "Speak softly, and carry a large scroll" is the one swapped-word line with no turn | open | 2026-10-26-2 |
-| SR-20261026-1026 | extras/results.md | photo-caption | Nice | humour | The sad photo caption is the only mood without a smile | open | 2026-10-26-2 |
-| SR-20261026-1027 | extras/results.md | expedition-results | Nice | continuity | The currency is "Shells" elsewhere but "shells" in expedition and freebie lines; and the karate win can be warmer | open | 2026-10-26-2 |
-| SR-20261026-1028 | lines/lang-japanese/main.md<br>lines/lang-japanese/words.md | lj1-s3 | Nice | continuity | さようなら is "goodbye for a while" in LJ1 and "for a long time" in LJ6; pick one | open | 2026-10-26-2 |
-| SR-20261026-1029 | lines/lang-japanese/main.md | lj3-s1-done | Nice | theme | Say once that bare numbers are for counting aloud, with a joke about Japanese counting words | open | 2026-10-26-2 |
-| SR-20261026-1030 | lines/lang-japanese/main.md | lj6-complete | Nice | continuity | LJ6's note bans "lantern items" while LJ1 rewards a paper lantern; say which lanterns | open | 2026-10-26-2 |
-| SR-20261026-1031 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/reader.md | lh1-s1 | Nice | child-read | Three idioms a seven-year-old may take literally: a header, your toes and a thumb | open | 2026-10-26-2 |
-| SR-20261026-1032 | lines/lang-japanese/sprout.md | lj3-s2 | Nice | child-read | Sparks, Pixel and Byte all arrive in one sprout scene; hold Byte back to the done scene | open | 2026-10-26-2 |
-| SR-20261026-1033 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/reader.md | cross-story | Medium | child-read | Both language reader bands carry K-2 standards, including C3 codes EDU-STYLE forbids; swap to approved 3-5 codes only | open | 2026-10-26-2 |
-| SR-20261026-1034 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | humour | Hazel wrote to Savta and to Obāchan for decades; give both letter tins the same P.S. about the stuck gate | open | 2026-10-26-2 |
-| SR-20261026-1035 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | theme | Byte times Hana's race; bring his four stopwatches from chapter 5 and let Pixel, his wife, explain them | open | 2026-10-26-2 |
+| SR-20261026-993 | lines/lang-japanese/reader.md | lj6-s3 | High | pacing | The snow-and-water quiz fires on the lantern's doorstep; move it to the lantern-making scene | fixed | 2026-10-26-2 |
+| SR-20261026-994 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | lj6-s1 | High | continuity | Obon is "nearly" here in LJ6-1 and "nearly over" a day later; make it Obon week, and the lantern night its last night | fixed | 2026-10-26-2 |
+| SR-20261026-995 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | lj1-s1 | High | follow | Hana tells the player to say はい, then offers only "konnichiwa"; make はい Hana's answer to everything instead | fixed | 2026-10-26-2 |
+| SR-20261026-996 | campaign/book-2.md | c8-ledge | High | humour | Nova promises a speech "with a bit about owls" and never gives it; let Marina stop it on the ledge | fixed | 2026-10-26-2 |
+| SR-20261026-997 | campaign/book-2.md | c8-close | High | humour | Fern's SORRY ABOUT THE JUMPERS bag never comes back; let a Shadow wear the second jumper as a hat | fixed | 2026-10-26-2 |
+| SR-20261026-998 | lines/lang-japanese/main.md<br>lines/lang-japanese/sprout.md<br>lines/lang-japanese/reader.md | lj6-complete | High | compelling | Pay off the frog with かえる / 帰る: frog charms bring travellers home safe, just as Hana says またね | fixed | 2026-10-26-2 |
+| SR-20261026-999 | campaign/book-1.md | c4-close | High | compelling | Seed Dusty, Fossil and Gerald at Lantern Night, so Fossil's fading in chapter 6 isn't a first meeting | fixed | 2026-10-26-2 |
+| SR-20261026-1000 | campaign/book-2.md | c5-circuit | High | continuity | Corvin asks what matters in a race and never mentions the answer again; let him quote it back in chapter 9 | fixed | 2026-10-26-2 |
+| SR-20261026-1001 | campaign/book-2.md | c7-close | Medium | theme | Pixel's MAYBE box is the right moment for the married pair to bicker over Byte's shoelace | fixed | 2026-10-26-2 |
+| SR-20261026-1002 | campaign/book-2.md | c6-close | Medium | humour | Bring Gerald the duck back up the hill to sit with Moss after the flower | fixed | 2026-10-26-2 |
+| SR-20261026-1003 | lines/lang-japanese/main.md | lj4-s1-done | Medium | humour | The bento and race choices are never mentioned again; give each done scene one line that remembers the pick | fixed | 2026-10-26-2 |
+| SR-20261026-1004 | lines/lang-hebrew/reader.md | lh3-s1 | Medium | humour | Move the joke off "Hebrew sounds like a sneeze" and onto Fern's tongue and the Wobbler (keep SHTAI-yim) | fixed | 2026-10-26-2 |
+| SR-20261026-1005 | lines/lang-hebrew/reader.md | lh4-s2 | Medium | humour | Both of Clover's replies end "Look, she's already sniffing it"; give her fussy Nubbin two different verdicts | fixed | 2026-10-26-2 |
+| SR-20261026-1006 | lines/lang-hebrew/reader.md | lh3-s3 | Medium | humour | Give the Wobbler a counting gag under the stars: achat, achat, achat | fixed | 2026-10-26-2 |
+| SR-20261026-1007 | extras/readers.md | island-mystic | Medium | humour | The Island Mystic issues bare riddles; give him a deadpan voice and set up his own quiet-monkey callback | fixed | 2026-10-26-2 |
+| SR-20261026-1008 | extras/readers.md | grumpy-old-king | Medium | humour | Two Grumpy King jokes lack his reaction beat; let him explain them, badly | fixed | 2026-10-26-2 |
+| SR-20261026-1009 | extras/readers.md | aunt-wen | Medium | humour | Aunt Wen's intro sets up the bone stool and her quarrelling bones; let her readings call them back | fixed | 2026-10-26-2 |
+| SR-20261026-1010 | lines/lang-japanese/main.md | lj5-s1 | Medium | humour | Open the rainy letter scene with Hana's shoes at the door and Dumpling trying to be a shoe | fixed | 2026-10-26-2 |
+| SR-20261026-1011 | lines/lang-japanese/main.md<br>lines/lang-japanese/words.md | lj4-s2 | Medium | humour | Teach the polite ごちそうさまでした with a Dumpling joke, and cut the apple into rabbits | fixed | 2026-10-26-2 |
+| SR-20261026-1012 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md<br>lines/lang-japanese/sprout.md | lj1-s2 | Medium | humour | A dewy-morning scene teaches こんにちは as the bow word; have Hana admit it and make it a joke | fixed | 2026-10-26-2 |
+| SR-20261026-1013 | campaign/book-2.md | c7-stillness | Medium | pacing | Three scenes of Moss's lecture need one more Nubbin beat, at the start, before "Safe" | fixed | 2026-10-26-2 |
+| SR-20261026-1014 | campaign/book-1.md | c4-tale-2 | Medium | humour | Sparks, asleep through Moss's tale, says "FLAT" in her sleep: one comic breath from chapter 2 | fixed | 2026-10-26-2 |
+| SR-20261026-1015 | campaign/book-1.md | c1-letter | Medium | humour | Give the game's first minute a smile: the gate groans as if it missed the argument | fixed | 2026-10-26-2 |
+| SR-20261026-1016 | extras/results.md | tombola | Medium | humour | Nine freebie "taken" lines open the same way; keep the rule, vary the joke and move "once, ever" to the end | fixed | 2026-10-26-2 |
+| SR-20261026-1017 | extras/results.md | kindergarten-lesson | Medium | humour | Level 1 kindergarten lines are funny and level 3 is plain praise; give the top grade a grin | fixed | 2026-10-26-2 |
+| SR-20261026-1018 | extras/readers.md | fortune-teller | Medium | humour | Zinnia's type-and-band grid is warm but earnest; give two readings her fussy barb | fixed | 2026-10-26-2 |
+| SR-20261026-1019 | lines/lang-japanese/sprout.md | lj6-s2-done | Medium | humour | End the lantern-making scene on Dumpling, not "Pixel nods. Good." | fixed | 2026-10-26-2 |
+| SR-20261026-1020 | lines/lang-hebrew/reader.md | lh6-s2 | Medium | humour | Ori's watering replies are flat; let him fail to hand the job over | fixed | 2026-10-26-2 |
+| SR-20261026-1021 | lines/lang-japanese/sprout.md | lj3-s1-done | Medium | child-read | "A little dramatic. But right." has no set-up in sprout; make it loud and right | fixed | 2026-10-26-2 |
+| SR-20261026-1022 | lines/lang-japanese/reader.md<br>lines/lang-japanese/sprout.md | lj5-s1 | Medium | follow | Who wrote to whom, and whose copies these are, is hard to untangle; say it with names | fixed | 2026-10-26-2 |
+| SR-20261026-1023 | lines/lang-hebrew/reader.md | lh2-s3 | Medium | follow | "Savta" turns up in LH2 and LH3 before LH5 teaches it; gloss it where it first appears | fixed | 2026-10-26-2 |
+| SR-20261026-1024 | extras/readers.md | aunt-wen | Medium | follow | Wen's "(The Keeper helped. A bit.)" is an author wink that leans on Q58; keep the callback in her voice | fixed | 2026-10-26-2 |
+| SR-20261026-1025 | extras/readers.md | wise-old-king | Nice | humour | "Speak softly, and carry a large scroll" is the one swapped-word line with no turn | fixed | 2026-10-26-2 |
+| SR-20261026-1026 | extras/results.md | photo-caption | Nice | humour | The sad photo caption is the only mood without a smile | fixed | 2026-10-26-2 |
+| SR-20261026-1027 | extras/results.md | expedition-results | Nice | continuity | The currency is "Shells" elsewhere but "shells" in expedition and freebie lines; and the karate win can be warmer | fixed | 2026-10-26-2 |
+| SR-20261026-1028 | lines/lang-japanese/main.md<br>lines/lang-japanese/words.md | lj1-s3 | Nice | continuity | さようなら is "goodbye for a while" in LJ1 and "for a long time" in LJ6; pick one | fixed | 2026-10-26-2 |
+| SR-20261026-1029 | lines/lang-japanese/main.md | lj3-s1-done | Nice | theme | Say once that bare numbers are for counting aloud, with a joke about Japanese counting words | fixed | 2026-10-26-2 |
+| SR-20261026-1030 | lines/lang-japanese/main.md | lj6-complete | Nice | continuity | LJ6's note bans "lantern items" while LJ1 rewards a paper lantern; say which lanterns | fixed | 2026-10-26-2 |
+| SR-20261026-1031 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/reader.md | lh1-s1 | Nice | child-read | Three idioms a seven-year-old may take literally: a header, your toes and a thumb | fixed | 2026-10-26-2 |
+| SR-20261026-1032 | lines/lang-japanese/sprout.md | lj3-s2 | Nice | child-read | Sparks, Pixel and Byte all arrive in one sprout scene; hold Byte back to the done scene | fixed | 2026-10-26-2 |
+| SR-20261026-1033 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/reader.md | cross-story | Medium | child-read | Both language reader bands carry K-2 standards, including C3 codes EDU-STYLE forbids; swap to approved 3-5 codes only | fixed | 2026-10-26-2 |
+| SR-20261026-1034 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | humour | Hazel wrote to Savta and to Obāchan for decades; give both letter tins the same P.S. about the stuck gate | fixed | 2026-10-26-2 |
+| SR-20261026-1035 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | theme | Byte times Hana's race; bring his four stopwatches from chapter 5 and let Pixel, his wife, explain them | fixed | 2026-10-26-2 |
 
 ## Runs
 
@@ -1325,3 +1325,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-26 run 17 · [review-2026-10-26](review-2026-10-26.md) · units: arcade/PA4/main.md, arcade/PA5/main.md, lines/LB/main.md, lines/LB/sprout.md, lines/LB/reader.md, lines/LK/main.md, lines/LK/sprout.md, lines/LK/reader.md, lines/lang-hebrew/main.md, lines/lang-hebrew/sprout.md · 58 recs: Critical 3, High 18, Medium 36, Nice 1 (3 cross-story) · fixed since last run: 57 (all)
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-2` · run 17's 58 recs: 57 fixed, 1 partial · -935 PA4's "play after" inserts are now 13 replacing variants; Wisp's Grove answer reaches them through a new `GROVE_VALUE_ALIASES` in src/sim/atlas.ts (spared/sable → wisp-warm, driven → wisp-driven), and the friends' lines play one per friend through PA4's `lineLive` (`ARCADE_PA4_LINE_NEEDS`) in src/sim/arcade-catalogue.ts; -936 PA5's eight memories are `-photohunt` variants, the eighth sets `pa5-hunt`, and the post-credits `look-back` choice carries Pixel's album recap; -937 LK reader keeps ten crocodiles; -939 partial: LK ids and values renamed (lk07-garden-wulan, pit-stuck/pit-ramp), but no sim engine plays LK yet, so its variant test waits for CV4; LB, LK and PA5 flag values renamed so none collides with a Grove value (box-big, oldman-told, ...); tests for the PA4 and PA5 variants · canon: none
 - 2026-10-26 run 18 · [review-2026-10-26-2](review-2026-10-26-2.md) · units: lines/lang-hebrew/reader.md, lines/lang-hebrew/words.md, lines/lang-japanese/main.md, lines/lang-japanese/sprout.md, lines/lang-japanese/reader.md, lines/lang-japanese/words.md, extras/readers.md, extras/results.md, campaign/book-1.md, campaign/book-2.md · 43 recs: Critical 0, High 8, Medium 27, Nice 8 (3 cross-story) · fixed since last run: 57 (1 partial)
+- 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-3` · run 18's 43 recs: 43 fixed · -1000 c5-circuit's choices set `c5-race` (want/win/home) and Corvin quotes the answer back in c9-open and c9-open-sold through src/sim/choice-payoffs.ts, all three bands; -1003 LJ3 and LJ4 choices set `lj3-race` and `lj4-bento`, paid off in their done scenes through choice-payoffs.ts (tests in choice-payoffs.test.ts); -996 Nova's owl speech, with Marina cutting it short, plays in both ledge scenes on every route; -999 the sandstone Nubbin stays unnamed at Lantern Night so Fossil is still introduced once; -993 the Japanese reader's snow lesson moves to the lantern-making scene and lj6-s3 keeps a gentle notice before the lanterns are lit; -1033 Hebrew and Japanese reader lessons rebuilt on approved grades 3–5 codes with their numbers stated (lj3-s3 counts ten stars in twos) · canon: none. SR-20261026-939 (LK) stays partial.

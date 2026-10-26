@@ -9,7 +9,7 @@
 
 #### `reader:c1-letter` · [main](../../campaign/book-1.md#c1-letter)
 
-_Late spring. The road runs out, then grass, then a gate. The gate is stuck. You lift and push, the way she taught you._  
+_Late spring. The road runs out at a gate. It is stuck. You lift and push, the way she taught you, and it groans like a friend who missed arguing._  
 _The Grove is overgrown: grass to your knees, reeds across the pond. On the signpost, under a stone, is a letter in Gran’s leaning writing._  
 _The cottage door is on the latch. One cup sits by the cold kettle, turned upside down, ready for whoever comes next._  
 _You sit on the step, where she used to sit, and open the letter._  
@@ -344,6 +344,9 @@ _Dusk. Pond, stream, old wall: three lanterns catch, soft as someone settling in
 _Then the Keepers come through the gate, lifting and pushing without thinking. They stand in two groups, one each side of the pond._  
 **Fern**: Lantern buns. Hazel’s recipe. I make them every year, and every year they don’t come out.  
 _Sparks bites one. It makes a sound like a dropped plate. “Crunchy!” she says, delighted._  
+_A very old, sandstone-coloured Nubbin on the wall reaches out and taps a bun, twice. It rings like a plate._  
+**Sparks**: SEE? Even the old one says crunchy!  
+**Fern**: Tapping isn’t tasting.  
 **Pixel**: Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes. Can you really hear Moss? Byte says it’s a hoax.  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals across midnight  
@@ -416,6 +419,8 @@ _Out by the long grass, the fourth lantern flickers._
 
 #### `reader:c4-tale-2` · [main](../../campaign/book-1.md#c4-tale-2)
 
+_Against the wall, Sparks says “FLAT” in her sleep, and turns over._  
+**Moss**: She is still teaching hand-feeding, even asleep. I admire it.  
 **Moss**: Four of us kept this valley, once. Wardens, the Keepers called us later. We never called ourselves anything.  
 **Moss**: Briar, who laughed. At rain, at foxes, at me. Mostly at me.  
 **Moss**: Hush, who was quiet, and kept the griefs nobody else had room for.  
@@ -893,7 +898,7 @@ _She doesn’t say anything else. She doesn’t need to._
 #### `reader:c6-open` · [main](../../campaign/book-2.md#c6-open)
 
 _It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with no hat._  
-_In their lap is a small, old Nubbin the colour of sandstone, curled like a shell. Her glow is so pale the rain shows through._  
+_In their lap is the old sandstone-coloured Nubbin from Lantern Night, curled like a shell. Her glow is so pale the rain shows through._  
 **Dusty**: Oh. Hello. Don’t mind me. I’m getting wet on purpose. This is Fossil. Original name, I know.  
 **Dusty**: I dug her egg out of the cliff when I was eleven, with a big spoon. Twenty years and a bit, now. I’ve been counting the bit.  
 
@@ -1048,6 +1053,9 @@ _Luna has soil to her elbows. She’s nocturnal, awake at night like an owl, so 
 
 _Moss comes down the hill through the white grass. He leaves no footprints at all. He is very light, these days._  
 _He stops at the fourth post and looks at the frost on it for a long time._  
+_Your Nubbin finds the frost too, and licks it. It turns to you, shocked, with its tongue still out._  
+_Sable, very slowly, licks it as well. Then she backs away two steps and looks shocked from there._  
+**Moss**: Yes. It is cold. That is rather the point.  
 **Moss**: Cold goes back to where it was kept. It is looking for its bed.  
 
 > **Lesson** (literacy, L.4.5, ask): personification: talking about a thing as if it were alive  
@@ -1205,6 +1213,10 @@ _Pixel comes over the stile with a box. On the front: a dial, a needle, and one 
 **Pixel**: Trust meter. For Sable. I built it last night.  
 **Byte**: What does it measure?  
 **Pixel**: Mostly it says maybe. That’s accurate. Nothing about her is calibrated, set up to measure exactly.  
+**Byte**: Nothing you build is calibrated.  
+**Pixel**: Your shoelace is undone.  
+_Byte looks down. It isn’t._  
+**Pixel**: Calibrated.  
 
 > **Lesson** (maths, 2.OA.A.1, ask): subtraction within 100: how much something has grown  
 > **Pixel**: Under the MAYBE there are numbers. Her trust was 20 when she first let you near. It’s 45 today.  
@@ -1279,6 +1291,12 @@ _Marina is waiting at the pool below the falls, sleeves rolled up, hair already 
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina**: Nobody comes this way but me. Hand on the rock, eyes on my heels. And don’t be brave. Brave people fall off. Be careful instead.  
 **Marina**: Rule four still applies. Sparks would have grabbed the waterfall.  
+_Behind you, Nova unfolds a page, written on both sides._  
+**Nova**: Before we go on, I’d like to say a few words about why we’re here. And about owls.  
+**Marina**: Hand on the rock, Nova.  
+**Nova**: It’s very short. The owls are only the middle bit.  
+**Marina**: Then you can tell me the end when we get to the other end.  
+_Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock._  
 **Marina**: I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.  
 _The ledge is a hand’s width wide, a narrow shelf of rock behind the falling water. The roar fills your head._  
 _Then, halfway along, warmth. It comes up through the stone into your hand, like the side of a teapot._  
@@ -1307,6 +1325,12 @@ _Marina is waiting at the pool below the falls, sleeves rolled up, hair already 
 **Marina**: Nova said you’d be coming this way. Nova never says anything, so I listened.  
 **Marina**: You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.  
 **Marina**: And you still don’t get to be brave. Brave people fall off. Careful people get home.  
+_Behind you, Nova unfolds a page, written on both sides._  
+**Nova**: Before we go on, I’d like to say a few words about why we’re here. And about owls.  
+**Marina**: Hand on the rock, Nova.  
+**Nova**: It’s very short. The owls are only the middle bit.  
+**Marina**: Then you can tell me the end when we get to the other end.  
+_Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock._  
 _The ledge is a hand’s width wide, a narrow shelf of rock behind the falling water. The roar fills your head._  
 
 > **Lesson** (science, 1-PS4-1, notice): sound is made by vibration  
@@ -1372,6 +1396,9 @@ _Your Nubbin puts its head on your knee and keeps it there until you can stand u
 - **Fill the bowls before you go.**
     - You fill all twelve bowls. Nobody comes down from the trees while you are watching.
     - When you look back from the edge of the camp, three of them are already empty.
+    - You leave Fern’s second jumper folded on the lowest branch, mostly so you can stop carrying it.
+    - From further down the path, the branch is bare. Up in the tree, a grey shape is wearing the jumper on its head.
+    - **Nova**: Tell Fern it was the wrong size. Then tell her it worked.
     - **Nova**: That’s how she did it. One bowl at a time, since the snow.
 - **Sit down by the cold fire, and wait.**
     - You sit by the cold fire. Rule three. The notebook is in your lap, and the light goes amber, then blue.

@@ -12,8 +12,8 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (487) |  |  |
-| The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (552) |  |  |
+| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (494) |  |  |
+| The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (580) |  |  |
 | The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1147) |  |  |
 | The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (73) |  |  |
 | The campaign: endings | [endings.md](campaign/endings.md) (363) |  |  |
@@ -48,7 +48,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
 | Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (772) | [reader.md](learning/side/S30/reader.md) (892) |
 | Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (851) | [reader.md](learning/side/S31/reader.md) (920) |
-| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2806) | [reader-1.md](learning/campaign/reader-1.md) (2547), [reader-2.md](learning/campaign/reader-2.md) (1378) |
+| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2823) | [reader-1.md](learning/campaign/reader-1.md) (2574), [reader-2.md](learning/campaign/reader-2.md) (1378) |
 
 ## Fun quests
 
@@ -152,14 +152,14 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | --- | --- | --- | --- |
 | Learning Grove line LB: Play (LB1–LB12) | [main.md](lines/LB/main.md) (1024) | [sprout.md](lines/LB/sprout.md) (1208) | [reader.md](lines/LB/reader.md) (1346) |
 | Learning Grove line LK: Mouse-Deer (LK1–LK10) | [main.md](lines/LK/main.md) (736) | [sprout.md](lines/LK/sprout.md) (818) | [reader.md](lines/LK/reader.md) (975) |
-| Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (710) | [sprout.md](lines/lang-hebrew/sprout.md) (1051) | [reader.md](lines/lang-hebrew/reader.md) (1262) |
+| Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (710) | [sprout.md](lines/lang-hebrew/sprout.md) (1051) | [reader.md](lines/lang-hebrew/reader.md) (1274) |
 | Ori's Alef-Bet: word list and script primer | [words.md](lines/lang-hebrew/words.md) (111) |  |  |
-| Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (774) | [sprout.md](lines/lang-japanese/sprout.md) (1007) | [reader.md](lines/lang-japanese/reader.md) (1191) |
+| Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (798) | [sprout.md](lines/lang-japanese/sprout.md) (1016) | [reader.md](lines/lang-japanese/reader.md) (1215) |
 | Hana's Hiragana: word list and script primer | [words.md](lines/lang-japanese/words.md) (110) |  |  |
 
 ## Extras
 
 | Storyline | Script |
 | --- | --- |
-| Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings | [readers.md](extras/readers.md) (365) |
+| Readers: fortune teller, doctor, Aunt Wen, Island Mystic, the kings | [readers.md](extras/readers.md) (367) |
 | Result lines for every result screen and Neopia freebie | [results.md](extras/results.md) (543) |

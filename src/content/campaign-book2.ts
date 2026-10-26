@@ -208,6 +208,7 @@ export const BOOK2_SCENES: Scene[] = [
     choices: [
       {
         id: 'race-want',
+        set: { 'c5-race': 'want' },
         label: 'That they want to.',
         friendship: { sparks: 2 },
         then: [
@@ -218,6 +219,7 @@ export const BOOK2_SCENES: Scene[] = [
       },
       {
         id: 'race-win',
+        set: { 'c5-race': 'win' },
         label: 'That they win. It’s a race.',
         then: [
           CORVIN('Honest. Good. You’ll do well up here.'),
@@ -228,6 +230,7 @@ export const BOOK2_SCENES: Scene[] = [
       },
       {
         id: 'race-home',
+        set: { 'c5-race': 'home' },
         label: 'That they come home afterwards.',
         friendship: { ember: 2 },
         then: [
@@ -279,9 +282,9 @@ export const BOOK2_SCENES: Scene[] = [
   S('c6-open', [
     N('It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with no hat.'),
     N('The gutters gurgle. The hill path has turned into a small brown stream, and it smells of wet chalk and crushed thyme.'),
-    N('In their lap is a small old Nubbin the colour of sandstone, curled like a shell. Her ball is so pale the rain shows through it.'),
+    N('In their lap is the old sandstone-coloured Nubbin from Lantern Night, curled like a shell. Her ball is so pale the rain shows through it.'),
     DUSTY('Oh. Hello. Don’t mind me. I’m getting wet on purpose.', 'soft'),
-    N('A duck nearby has also decided to get wet on purpose. It is regarding Dusty with respect.'),
+    N('The duck from Lantern Night has also decided to get wet on purpose. It is regarding Dusty with respect.'),
     DUSTY('Ignore Gerald. He thinks I’m onto something.'),
     DUSTY(
       'This is Fossil. Original, I know. I dug her egg out of the cliff face when I was eleven. With a big spoon.',
@@ -344,6 +347,9 @@ export const BOOK2_SCENES: Scene[] = [
             DUSTY('…Tell him thank you.', 'soft'),
             DUSTY('And tell him he’s got grass on his head.'),
             MOSS('I am aware of the grass.', undefined, 'chest'),
+            N('Gerald the duck has come back up the hill. He settles beside Moss and regards him with respect.'),
+            MOSS('There is a duck looking at me.'),
+            MOSS('I believe it thinks I am onto something.', 'think'),
             N('Moss does not move from the flower until it is dark.'),
           ],
         },
@@ -354,6 +360,9 @@ export const BOOK2_SCENES: Scene[] = [
             N('You don’t call after them. Dusty lifts and pushes, and is gone.'),
             N('You stay. Moss stays.'),
             N('The flower, which has never been rained on before, seems to be getting used to it.'),
+            N('Gerald the duck has come back up the hill. He settles beside Moss and regards him with respect.'),
+            MOSS('There is a duck looking at me.'),
+            MOSS('I believe it thinks I am onto something.', 'think'),
             N('Moss does not move from the flower until it is dark.'),
           ],
         },
@@ -393,6 +402,9 @@ export const BOOK2_SCENES: Scene[] = [
       N('Moss comes down the hill through the white grass.'),
       N('He leaves no prints at all. He is very light, these days.'),
       N('He stops at the fourth post and looks at the frost on it for a long time.'),
+      N('Your Nubbin finds the frost too, and licks it. It turns to you, appalled, with its tongue out.'),
+      N('Sable, very slowly, licks it as well. Then she backs off two steps and is appalled from there.'),
+      MOSS('Yes. It is cold. That is rather the point.'),
       MOSS('Cold goes back to where it was kept. It is looking for its bed.', 'think'),
       MOSS('There is nothing under this post. There has not been for a long time. You knew that, I think, when the lantern went out.'),
       N('You think of Lantern Night, and the flicker, and the dark. You think of him saying: twenty-two years.'),
@@ -564,6 +576,10 @@ export const BOOK2_SCENES: Scene[] = [
     PIXEL('Trust meter. For Sable. I built it last night.', 'happy'),
     BYTE('What does it measure?'),
     PIXEL('Mostly it says maybe. That’s accurate. Nothing about her is calibrated.', undefined, 'shrug'),
+    BYTE('Nothing you build is calibrated.'),
+    PIXEL('Your lace is undone.'),
+    N('Byte looks down. It isn’t.'),
+    PIXEL('Calibrated.', 'happy'),
     N('The needle trembles, and stays on MAYBE. Sable looks at the box with deep suspicion and leans harder on your shin.'),
     N('Up on the hill, Moss watches, and then looks away, the way you look away from something private.'),
   ]),
@@ -638,6 +654,12 @@ export const BOOK2_SCENES: Scene[] = [
       'And don’t be brave. Brave people fall off. Be careful instead. It’s less exciting and you get home.',
     ),
     MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'think'),
+    N('Behind you, Nova unfolds a page. Both sides of it.'),
+    NOVA('Before we go on, I’d like to say a few words about why we’re here. And about owls.'),
+    MARINA('Hand on the rock, Nova.'),
+    NOVA('It’s very short. The owls are only the middle bit.'),
+    MARINA('Then you can tell me the end at the other end.'),
+    N('Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock.'),
     MARINA(
       'I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.',
       'think',
@@ -652,6 +674,12 @@ export const BOOK2_SCENES: Scene[] = [
     MARINA('You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.', 'happy'),
     MARINA('And you still don’t get to be brave. Brave people fall off.'),
     MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'think'),
+    N('Behind you, Nova unfolds a page. Both sides of it.'),
+    NOVA('Before we go on, I’d like to say a few words about why we’re here. And about owls.'),
+    MARINA('Hand on the rock, Nova.'),
+    NOVA('It’s very short. The owls are only the middle bit.'),
+    MARINA('Then you can tell me the end at the other end.'),
+    N('Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock.'),
     ...C8_LEDGE_REST,
     MARINA('…That wasn’t there when I brought you before. Not a thread of it.', 'shock'),
     MARINA('Thirty years I’ve walked past it. It’s never had so much as a cold morning on it.'),
@@ -687,6 +715,9 @@ export const BOOK2_SCENES: Scene[] = [
           then: [
             N('You fill all twelve bowls. Nobody comes down from the trees while you are watching.'),
             N('When you look back from the edge of the camp, three of them are already empty.'),
+            N('You leave Fern’s second jumper folded on the lowest branch, mostly so you can stop carrying it.'),
+            N('From further down the path, the branch is bare. Up in the tree, a grey shape is wearing the jumper on its head.'),
+            NOVA('Tell Fern it was the wrong size. Then tell her it worked.', 'soft'),
             NOVA('That’s how she did it. One bowl at a time. Since the snow.', 'soft'),
           ],
         },
@@ -770,7 +801,8 @@ export const BOOK2_NOTES: Record<string, string> = {
     'railings (art: rime on the rail sprites; breath-puff particles near the rail only). Corvin is spawned for ch5 ' +
     'already. Sparks is present as a racer; Byte is at the rail with his stopwatches (spawn him for this scene; it seeds ' +
     'S7’s stopwatch). “She’s safe.” / “That isn’t what I asked.” seeds ch7. Ends on a question the player answers for ' +
-    'Corvin: what matters in a race? (race-want | race-win | race-home). No flags; friendship only (Sparks or Ember); ' +
+    'Corvin: what matters in a race? (race-want | race-win | race-home). Sets c5-race (want | win | home), which Corvin ' +
+    'quotes back in c9-open (choice-payoffs); friendship Sparks or Ember; ' +
     'race-win is not punished. Then c5-considered if corvinOffer = considered, then the race.',
   'c5-considered':
     'NEW. Variant tail: queue straight after c5-circuit (after its choice, before the race) only if corvinOffer = ' +
@@ -827,7 +859,8 @@ export const BOOK2_NOTES: Record<string, string> = {
     'New. Plays straight after c8-open when s4Done is NOT set. Marina leads along the ledge behind the falls; first ' +
     'glimpse of the warm Wellspring, its rim rimed with frost. Ends at the Hollow’s edge with grey shapes in the ' +
     'trees; then the goal (follow the fireflies to the notebook). Opens at the gate: Fern’s bag of jumpers (comic), ' +
-    'Sable stays at the gate. Fern is present only in that opening beat (spawn her by the gate if possible).',
+    'Sable stays at the gate. Fern is present only in that opening beat (spawn her by the gate if possible). ' +
+    'After “Rule four”, Nova tries her owl speech (all routes) and Marina stops it.',
   'c8-ledge-s4':
     'New. Plays INSTEAD of c8-ledge when s4Done IS set (Marina showed you the path in S4). Shares the gate opening ' +
     '(Fern’s jumpers) and the ledge; differs only in Marina’s rules lines and her reaction to the frost (“That wasn’t ' +

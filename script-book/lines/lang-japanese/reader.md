@@ -33,13 +33,15 @@ _She bows: a small, quick dip from the waist, then straight back up._
 **Hana**: わたしは はな です (watashi wa Hana desu) means “I am Hana”. Your own name goes in the middle, like a sandwich.  
 **Hana**: Then finish with よろしくおねがいします (yoroshiku onegaishimasu): “please treat me kindly”, or “pleased to meet you”.  
 **Nova**: I practised that all the way here. On the ticket man, a cow and a postbox.  
-**Hana**: Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.  
+**Hana**: Ready? You say hello. I say はい (hai, “yes”). Today はい is my answer to everything.  
+**Nova**: Everything?  
+**Hana**: はい.  
 
 **Choices**
 
 - **Bow and say “konnichiwa”.**
     - You bow. Hana bows back, a little deeper. She seems to think that means she won.
-    - **Hana**: はい! Perfect. You meant that one.
+    - **Hana**: はい! That’s “yes, exactly”. You meant that bow.
 - **Wave and say “konnichiwa”.**
     - **Hana**: A wave works too. Friends wave all the time. Next time, add a tiny bow. Like this. Easy.
 - **Try the lot: “Hajimemashite. Watashi wa… desu. Yoroshiku onegaishimasu.”**
@@ -78,7 +80,8 @@ _Fern climbs over the fence with a bucket of plums and a sleepy face._
 
 **Fern**: Good morning to you too. I’ve been up since five, apologising to the trees.  
 **Hana**: ありがとうございます (arigatō gozaimasu)! That’s a polite thank you. With friends, it’s just ありがとう (arigatō).  
-**Hana**: Right. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows. That’s the plan.  
+**Hana**: Right. The plan. We teach them こんにちは first, because it works most of the day.  
+**Hana**: Not now, strictly. Now is おはよう. But one word at a time. They’re Nubbins.  
 _She sprints at the herb bed and bumps a small round Nubbin right off its feet._  
 **Hana**: ごめんなさい (gomen nasai, “I’m sorry”)! Sorry, sorry!  
 _She bows low to the Nubbin, because she means it. It copies her, and lands on its face._  
@@ -86,7 +89,7 @@ _She bows low to the Nubbin, because she means it. It copies her, and lands on i
 **Hana**: But that was a good おじぎ. Very sincere.  
 **Hana**: すみません (sumimasen, “excuse me”), everybody! Come a bit closer? That’s how you ask nicely.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why languages have polite forms (think question)  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why languages have polite forms (think question)  
 > _Hana uses short words with friends and longer, polite words with grown-ups._  
 > _Why do you think some languages have different polite forms?_  
 > - To show respect. → That’s a good answer. A polite form is a way of showing respect with words, a bit like a deeper bow.
@@ -136,20 +139,20 @@ _Luna comes up the path with a trowel and a jar of moths, on her way to the nigh
 
 > **Lesson** (literacy, notice): when は is read “wa”  
 > **Hana**: Look at the last letter of こんばんは and こんにちは. It’s は. On its own, は says “ha”.  
-> **Hana**: But at the end of these two greetings, it says “wa”. Japanese likes to keep you on your toes.  
+> **Hana**: But at the end of these two greetings, it says “wa”. Japanese likes to surprise you.  
 > _For grown-ups: Noticed that the last letter of こんにちは and こんばんは is は, read “wa” here, not “ha”._
 
 **Fern**: I’m off to bed. Goodbye, all.  
-**Hana**: Not さようなら (sayōnara)! That’s goodbye for a while. You’ll see us in the morning.  
+**Hana**: Not さようなら (sayōnara)! That’s goodbye for a long time. You’ll see us in the morning.  
 **Hana**: Say またね (mata ne, “see you”). Or at bedtime, おやすみ (oyasumi, “good night”).  
 **Fern**: Mata ne, then. Oyasumi.  
 
-> **Lesson** (literacy, SL.K.1, ask): choosing the right goodbye  
+> **Lesson** (literacy, CASEL: Relationship skills, ask): choosing the right goodbye  
 > _Fern will be back over the fence tomorrow morning. Which goodbye fits best tonight?_  
-> - さようなら (sayōnara) → That one’s for a goodbye that lasts a while. Fern will be back tomorrow, so おやすみ or またね is better.
+> - さようなら (sayōnara) → That one’s for a goodbye that lasts a long time. Fern will be back tomorrow, so おやすみ or またね is better.
 > - ✅ おやすみ (oyasumi) → はい! She’s going to bed, so おやすみ. And またね works too: see you.
 > - こんにちは (konnichiwa) → That’s hello! Fern’s leaving. At bedtime, say おやすみ.
-> _For grown-ups: Chose between さようなら (goodbye for a while), またね (see you) and おやすみ (good night) for the situation._
+> _For grown-ups: Chose between さようなら (goodbye for a long time), またね (see you) and おやすみ (good night) for the situation._
 
 **Hana**: For grown-ups you want to be extra nice to, it’s おやすみなさい (oyasuminasai). The polite one.  
 **Hana**: Now you. Everyone gets an oyasumi before bed. Nubbins, Nova, Dumpling, me. That’s the rule.  
@@ -177,7 +180,7 @@ _The sky over the hill turns dark blue, then darker._
 _Hana is asleep on the bench. Her pencil is still moving, drawing a line off the edge of the page._  
 **Nova**: Right now it’s morning at Hana’s home in Japan. Her family is just waking up.  
 
-> **Lesson** (science, 1-ESS1-1, notice): why it is night here and day somewhere else  
+> **Lesson** (science, 5-ESS1-2, notice): why it is night here and day somewhere else  
 > **Nova**: The Earth spins all the way round every day. When our side turns away from the Sun, it gets dark here.  
 > **Nova**: At the same time, the other side of the world is turning towards the Sun, and it’s morning there.  
 > _For grown-ups: Learned that the spinning Earth makes day and night, so it can be night in one country and morning in another._
@@ -192,10 +195,11 @@ _Next morning a paper lantern hangs on the gate. Nova painted it last night, in 
 **Hana**: ありがとう (arigatō), thanks for the fun! こんばんは (konbanwa), the day is done!  
 **Hana**: おやすみ (oyasumi), down goes the light. Bow, bow, and say good night!  
 
-> **Lesson** (music, RL.2.4, do): a rhyming chant with a repeated action  
-> **Hana**: Your turn! Sing it with me and bow on the last word of each line. Listen for the rhymes: sun, everyone, fun, done.  
+> **Lesson** (music, L.3.4, do): learning the meaning of new words through a chant  
+> **Hana**: Your turn! Sing it and bow on the last word of each line.  
+> **Hana**: おはよう is “good morning”, こんばんは is “good evening”, and おやすみ is “good night”.  
 > Check: `edu:chant:ja:bowing-song`
-> _For grown-ups: Sang an original greeting chant, bowing in time, and spotted the rhyming words at the ends of lines._
+> _For grown-ups: Sang an original greeting chant, bowing in time, and matched each Japanese greeting to its meaning and time of day._
 
 _Three Nubbins bow at the end of every line. Dumpling bows one line late every time, and has to lie down afterwards._  
 **Hana**: はい. You can bow now. Properly. I’m giving you that.  
@@ -219,7 +223,7 @@ _Three Nubbins bow at the end of every line. Dumpling bows one line late every t
 - **すみません (sumimasen)**: Excuse me, or sorry.
 - **polite**: Showing good manners and respect to someone, often with special words.
 - **こんばんは (konbanwa)**: Good evening.
-- **さようなら (sayōnara)**: Goodbye, when you won’t see someone for a while.
+- **さようなら (sayōnara)**: Goodbye, when you won’t see someone for a long time.
 - **またね (mata ne)**: See you.
 - **おやすみ (oyasumi)**: Good night, the friendly way.
 - **おやすみなさい (oyasuminasai)**: Good night, the polite way.
@@ -287,7 +291,7 @@ _Dusty has raked a patch of sand flat by the pond. They lean on the rake like it
 
 > **Lesson** (art, notice): stroke order in handwriting  
 > **Hana**: Stroke order means which line you draw first, and which way it goes.  
-> **Hana**: The rule of thumb is top to bottom, left to right. Doing it the same way every time makes your writing neat and steady.  
+> **Hana**: The usual rule is top to bottom, left to right. Doing it the same way every time makes your writing neat and steady.  
 > _For grown-ups: Learned that each hiragana is written with its strokes in a set order, usually top to bottom and left to right._
 
 _She traces く with one finger: a single stroke, like a bird’s beak. Then こ: two short lines, one above the other._  
@@ -446,10 +450,10 @@ _Marina is at the pond with two big buckets. Something inside flashes orange and
 _A koi slides out of the bucket into the pond. Then another. They don’t wait for anyone to be ready._  
 **Hana**: Quick! いち! に!  
 
-> **Lesson** (maths, K.CC.B.5, do): counting to five in Japanese  
-> **Hana**: Count the first five koi as they swim in: いち, に, さん, よん, ご. One finger for each fish.  
+> **Lesson** (maths, 3.OA.A.1, do): two equal buckets of koi  
+> **Hana**: Count the five koi from this bucket as they swim in: いち, に, さん, よん, ご. The other bucket has five too. Two buckets of five koi make 10 koi.  
 > Check: `edu:count:ja:koi:5`
-> _For grown-ups: Counted five fish in Japanese: いち, に, さん, よん, ご (ichi, ni, san, yon, go)._
+> _For grown-ups: Counted five fish in Japanese (ichi, ni, san, yon, go) and saw that two buckets of five koi make 10._
 
 **Marina**: There are ten. Five in this bucket, five in that one.  
 **Hana**: After ご, I’ll call the next numbers and you copy me. Don’t blink.  
@@ -472,6 +476,9 @@ _Dumpling sits on the bank, counting them with his head._
 #### `reader:lj3-s2` · [main](main.md#lj3-s2)
 
 _Sparks arrives at speed, the way Sparks arrives everywhere. Pixel follows with a board on a stick._  
+_Byte sets four stopwatches in a row on the grass._  
+**Pixel**: He brings four to everything. He brought four to our wedding.  
+**Byte**: The vows ran long. I have the figures.  
 **Sparks**: I HEAR SOMEONE HERE THINKS SHE’S FAST.  
 **Hana**: I don’t think I’m fast. I know I’m fast.  
 **Pixel**: Lap counter. It flips a tile for every lap round the pond. Hana painted the numbers.  
@@ -535,7 +542,7 @@ _One star. Then another near it. Then, as your eyes get used to the dark, lots._
 **Hana**: いち… に… さん… Oh, that one’s a plane. That doesn’t count.  
 **Luna**: And where’s the moon? There should be a moon tonight.  
 
-> **Lesson** (science, 1-ESS1-1, notice): stars and moonlight  
+> **Lesson** (science, 5-ESS1-2, notice): stars and moonlight  
 > **Luna**: Stars make their own light. They’re suns, very, very far away.  
 > **Luna**: The moon doesn’t make its own light. Sunlight bounces off it, and that’s the light we see.  
 > _For grown-ups: Learned that stars make their own light but the moon shines because sunlight bounces off it._
@@ -544,10 +551,10 @@ _One star. Then another near it. Then, as your eyes get used to the dark, lots._
 _Dumpling has followed you up the hill. Every time Hana points at a star, he points his whole body at it._  
 **Hana**: Ten ほし, then the つき. Go.  
 
-> **Lesson** (maths, K.CC.B.5, do): counting to ten in Japanese  
-> **Hana**: Tap a star, say its number. いち, に, さん, よん, ご, ろく, なな, はち, きゅう, じゅう. Planes don’t count!  
+> **Lesson** (maths, 3.OA.A.1, do): counting ten stars in twos: equal groups  
+> **Hana**: Tap ten stars, and say them in twos: に, よん, ろく, はち, じゅう. Five twos make ten stars. Planes don’t count!  
 > Check: `edu:count:ja:hoshi:10`
-> _For grown-ups: Counted ten stars aloud in Japanese, from いち (ichi) to じゅう (jū)._
+> _For grown-ups: Counted ten stars in twos in Japanese (に, よん, ろく, はち, じゅう) and saw that five twos make ten._
 
 
 **Choices**
@@ -583,10 +590,11 @@ _Morning. Pixel bolts the lap counter to a post by the pond. Marina has named on
 **Hana**: ろく, なな (roku, nana), under the reeds!  
 **Hana**: はち, きゅう, じゅう (hachi, kyū, jū), and everyone feeds!  
 
-> **Lesson** (music, RL.2.4, do): clapping a steady beat in a counting chant  
-> **Hana**: Your turn. Clap on every number and say it with me. The rhymes are pond, beyond, reeds, feeds.  
+> **Lesson** (music, 4.OA.C.5, do): clapping a steady beat in a counting chant  
+> **Hana**: Your turn. Clap on every number and say it with me.  
+> **Hana**: The rule is: add one each time. After ご (5) comes ろく (6), then なな (7), はち (8), きゅう (9), じゅう (10).  
 > Check: `edu:chant:ja:koi-chant`
-> _For grown-ups: Chanted 1 to 10 in Japanese, clapping on each number, in an original rhyming chant._
+> _For grown-ups: Chanted 1 to 10 in Japanese, clapping on each number, and followed the rule “add one each time”._
 
 _Ten koi rise to the top at once. It may be the chant. It may be the food. Byte says it’s the food._  
 **Marina**: That one’s yours, by the way. The one with a spot like a smudged thumbprint.  
@@ -809,9 +817,10 @@ _Dumpling sits on the blue card, then lies down on it, finished for the day._
 #### `reader:lj5-s1` · [main](main.md#lj5-s1)
 
 _Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string._  
-**Hana**: Hazel used to write to my grandma, for years and years. Grandma kept a copy of every letter she sent back.  
+**Hana**: Your Hazel and my grandma wrote to each other for years and years.  
+**Hana**: Grandma kept a copy of every letter she wrote to Hazel. These are the copies.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): letters as a way to keep in touch, then and now  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): letters as a way to keep in touch, then and now  
 > **Hana**: Before email and video calls, friends far apart wrote letters. A letter could take days or weeks to arrive.  
 > **Hana**: Some people kept writing to the same friend for their whole lives.  
 > _For grown-ups: Learned how people kept in touch by letter in the past, compared with today._
@@ -829,6 +838,8 @@ _The paper is thin and soft from folding. The writing is very neat and very smal
 > - とり (tori) → とり means birds. Cat is ねこ.
 > _For grown-ups: Read the animal words ねこ (cat), いぬ (dog) and とり (bird) in a letter._
 
+**Hana**: And in every letter, obāchan asked: “Is Hazel’s gate still stuck?”  
+**Hana**: I climbed it, so: yes.  
 **Hana**: Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).  
 _Hana sits back and reads the last line again, to herself._  
 **Hana**: “Your ともだち.” Not just “from”. “Your friend.”  
@@ -909,7 +920,7 @@ _Clover is sitting in the grass among the gentle Nubbins, the way she does most 
 **Hana**: たのしい (tanoshii) is fun. Like this whole summer. ねむい (nemui) is sleepy. That’s Dumpling. Always Dumpling.  
 _Dumpling gives an enormous yawn._  
 
-> **Lesson** (literacy, RL.1.4, ask): feeling words in Japanese  
+> **Lesson** (literacy, L.3.4, ask): feeling words in Japanese  
 > **Hana**: Dumpling just yawned. Which feeling word fits him?  
 > - ✅ ねむい (nemui) → はい! ねむい, sleepy. Always Dumpling.
 > - うれしい (ureshii) → Maybe he’s happy too. But a yawn says ねむい: sleepy.
@@ -1003,7 +1014,7 @@ _Dumpling beams. Then droops. Then yawns enormously. Then hides behind the teapo
 #### `reader:lj6-s1` · [main](main.md#lj6-s1)
 
 _Late summer. The evenings come earlier now. Hana sits by the stream, not drawing. That’s how you know something is up._  
-**Hana**: At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.  
+**Hana**: At home, it’s おぼん (Obon) this week. It’s a time in summer when families remember the people in their family who have died.  
 **Hana**: At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).  
 **Hana**: Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.  
 
@@ -1072,12 +1083,12 @@ _Fern’s kitchen is covered in paper, glue and sticks. Everyone has turned up._
 _Pixel fills a bucket with みず (mizu, “water”) for testing. The first test lantern sinks with great dignity._  
 **Pixel**: Paper sides go soggy. A wooden base floats. Next one gets a wooden base.  
 
-> **Lesson** (science, 2-PS1-1, ask): which materials float  
-> **Pixel**: The paper base sank. Which material would make the best base for a lantern that floats?  
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing two solutions: a paper base and a wooden base  
+> **Pixel**: The paper base went soggy and sank. The wooden base floats. Which base is the better solution for a lantern that floats?  
 > - ✅ Wood → Yes. Wood floats, and it doesn’t go soggy as fast as paper. Wooden base it is.
 > - A flat stone → Stone is too heavy for its size. It sinks straight to the bottom. Wood floats.
 > - More paper → Paper soaks up water, gets heavy and sinks. Wood floats much better.
-> _For grown-ups: Compared materials and chose wood as one that floats._
+> _For grown-ups: Compared a paper base and a wooden base for a floating lantern and chose the one that floats._
 
 **Hana**: Now the name. I’m writing おじいちゃん on mine. Obāchan says you write it slowly, so you think about him.  
 **Hana**: If you make one too, write anyone you like. Someone you remember. Someone you love right now. Any language.  
@@ -1108,12 +1119,6 @@ _Names in hiragana, in English, and in Sparks’s enormous capitals._
 **Fern**: It’s not a competition, Hana.  
 **Hana**: …This one isn’t. You’re right. This one isn’t.  
 _Pixel floats the test lantern in the bucket of みず. It stays up. Pixel nods once, satisfied._  
-
-#### `reader:lj6-s3` · [main](main.md#lj6-s3)
-
-_Dusk. Everyone walks down to the stream with Hana. She carries ojiichan’s lantern in both hands._  
-_The water is low, slow and gold._  
-**Hana**: No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.  
 **Hana**: At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.  
 
 > **Lesson** (science, 2-ESS2-3, ask): snow and water: solid and liquid  
@@ -1123,7 +1128,21 @@ _The water is low, slow and gold._
 > - It stays snow for ever. → Not when it warms up! Snow melts into みず: solid ice turns to liquid water.
 > _For grown-ups: Explained that snow is frozen water that melts back into liquid water when it warms._
 
-**Hana**: At home, Obon is nearly over. My family will be at the river tonight too.  
+**Hana**: So this lantern would float on snow too. Once it melted. Pixel, write that down.  
+_Pixel writes it down. Then, next to it, Pixel writes “probably”._  
+
+#### `reader:lj6-s3` · [main](main.md#lj6-s3)
+
+_Dusk. Everyone walks down to the stream with Hana. She carries ojiichan’s lantern in both hands._  
+_The water is low, slow and gold._  
+**Hana**: No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.  
+**Hana**: At home, it’s the last night of Obon. My family will be at the river tonight too.  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): remembering someone with love  
+> **Nova**: Hana misses her ojiichan. She loves him too. Both can be true at once.  
+> **Nova**: Remembering someone kindly is one way to keep them close.  
+> _For grown-ups: Noticed that missing someone and loving them can happen together, and that remembering kindly keeps them close._
+
 **Luna**: I’ll light them, one at a time. Let them go when you’re ready. No hurry.  
 **Hana**: This one’s for ojiichan.  
 _Hana sets her lantern on the かわ and doesn’t push it. It’s the slowest you have ever seen her do anything._  
@@ -1144,10 +1163,10 @@ _Every Nubbin in the Grove sits in rows._
 **Hana**: Colours! あか, あお, きいろ, みどり, しろ, くろ, ピンク, オレンジ, むらさき!  
 **Hana**: And count the front row!  
 
-> **Lesson** (maths, K.CC.B.5, do): counting a set to ten in Japanese  
-> **Hana**: Count the Nubbins in the front row: いち, に, さん, よん, ご, ろく, なな, はち, きゅう, じゅう!  
+> **Lesson** (maths, 3.OA.A.1, do): two equal rows make ten  
+> **Hana**: The front row has ten Nubbins: two groups of five. Count them: いち, に, さん, よん, ご, ろく, なな, はち, きゅう, じゅう!  
 > Check: `edu:count:ja:nubbins:10`
-> _For grown-ups: Counted ten Nubbins aloud in Japanese at Hana’s review party._
+> _For grown-ups: Counted ten Nubbins aloud in Japanese at Hana’s review party, as two groups of five._
 
 
 #### `reader:lj6-complete` · [main](main.md#lj6-complete)
@@ -1166,10 +1185,15 @@ _Dumpling eats a りんご before Hana has finished saying the word._
 
 **Nova**: And a title for the one who learned all of that.  
 **Hana**: Hiragana Keeper. And this is for you: my drawing of tonight, the ひかり on the かわ. So you remember it too.  
+**Hana**: A fact I saved for last. かえる also sounds like 帰る (kaeru, “to go home”). People carry little frog charms so they get home safe.  
+_The frog from the bank is sitting on your doorstep. It has clearly decided it is a charm._  
+**Hana**: So I’m not scared of かえる. I’m taking one with me. That’s different.  
+**Nova**: You’re taking a drawing of one.  
+**Hana**: It’s a very good drawing.  
 **Hana**: I’m not saying さようなら. That’s for a long time. I’m saying またね. See you.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): choosing words for a goodbye (think question)  
-> _Hana could say さようなら, goodbye for a while. She chose またね, see you. Why do you think she chose that?_  
+> _Hana could say さようなら, goodbye for a long time. She chose またね, see you. Why do you think she chose that?_  
 > - She’s planning to come back. → That’s a good answer. またね sounds like a promise to see you again.
 > - さようなら felt too sad. → That’s a thoughtful answer. The words we pick for a goodbye can make it feel lighter.
 > - Because we’re friends now. → That’s a lovely answer. またね is what friends say. And you are ともだち now.

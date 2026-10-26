@@ -46,7 +46,7 @@ karate result
 | `outcome:win` | {name} bows. {rival} bows. {name} won, so the bow is a little deeper. |  |
 | `outcome:win` | Victory! {name} does a small celebration kick and nearly falls over. |  |
 | `outcome:win` | A clean win. The mat has been informed. |  |
-| `outcome:win` | {rival} taps the mat. {name} offers a paw up. Good sport. |  |
+| `outcome:win` | {rival} taps the mat. {name} offers a paw up, and then half a plum. Good sport. |  |
 | `outcome:win` | Won! {name} would like everyone to know it was mostly technique. |  |
 | `outcome:lose` | {rival} takes this one. {name} bows anyway, which is the important part. |  |
 | `outcome:lose` | A loss. {name} sits on the mat for a moment, thinking very hard about elbows. |  |
@@ -80,12 +80,12 @@ expedition result
 
 | When | Text | Learning Grove |
 | --- | --- | --- |
-| `shells:0` | No shells this time. {name} found a very nice stick, though. |  |
+| `shells:0` | No Shells this time. {name} found a very nice stick, though. |  |
 | `shells:<20` | A small pocketful of shells, mostly chipped ones. {name} insists the chipped ones have more character. |  |
 | `shells:<20` | {name} brings back a few shells and one that might be a pebble. |  |
-| `shells:>50` | A good haul! {name}'s cheeks are full of shells. Please don't ask. |  |
-| `shells:>100` | Over a hundred shells! {name} clinks gently with every step. |  |
-| `shells:>100` | The shell bag has split a seam. {name} is carrying the overflow in its cheeks, its ears and, somehow, its tail. |  |
+| `shells:>50` | A good haul! {name}'s cheeks are full of Shells. Please don't ask. |  |
+| `shells:>100` | Over a hundred Shells! {name} clinks gently with every step. |  |
+| `shells:>100` | The Shell bag has split a seam. {name} is carrying the overflow in its cheeks, its ears and, somehow, its tail. |  |
 | `shells:>200` | Shells everywhere. The Grove's economy is trembling. |  |
 | `hits:0` | Not a single bump. {name} cleared every log and rock like a pro. |  |
 | `hits:0` | A spotless run. {name} took every log as if the course had been built by someone who loved it. |  |
@@ -107,7 +107,7 @@ expedition result
 | `essence:normal` | A plain essence. Plain, but warm, like a good jumper. |  |
 | `left:early` | Back early? Fair enough. Home is good too. |  |
 | `left:early&shells:0` | {name} turned back before the first bend. The view was nice from there. |  |
-| `left:early` | A short trip. {name} brings back a few shells, one leaf and a strong opinion about the weather. |  |
+| `left:early` | A short trip. {name} brings back a few Shells, one leaf and a strong opinion about the weather. |  |
 | `any` | Expedition over. {name} shakes off the sand and flops down happily. |  |
 | `any` | Home again! {name} has a lot to tell you, mostly in squeaks. |  |
 
@@ -119,7 +119,7 @@ lesson toast
 | --- | --- | --- |
 | `lesson:drawing&level:1` | Drawing lesson one. {name} drew a picture of you. You have eleven legs. |  |
 | `lesson:drawing&level:2` | {name}'s drawings now have recognisable trees. Mostly. |  |
-| `lesson:drawing&level:3` | Top of the drawing class! {name}'s pictures go straight on the fridge. |  |
+| `lesson:drawing&level:3` | Top of the drawing class! {name}'s pictures go straight on the fridge. The fridge is now mostly pictures, with a small door. |  |
 | `lesson:drawing` | {name} has paint on both ears and is extremely proud of it. |  |
 | `lesson:singing&level:1` | Singing lesson one. {name} hit a note. Possibly several at once. |  |
 | `lesson:singing&level:2` | {name} can now hum a whole tune without stopping for breath. |  |
@@ -127,11 +127,11 @@ lesson toast
 | `lesson:singing` | {name} now sings while eating. Nobody has asked it to stop. Everybody has thought about it. |  |
 | `lesson:dance&level:1` | First dance lesson. {name} spun once and sat down to recover. |  |
 | `lesson:dance&level:2` | {name} has learned a little shuffle and does it at every opportunity. |  |
-| `lesson:dance&level:3` | Dance mastered! {name} moves so well the grass sways along. |  |
+| `lesson:dance&level:3` | Dance mastered! {name} moves so well the grass sways along, and one hedge has started copying, badly. |  |
 | `lesson:dance` | {name} dances while walking now. It slows things down a bit. |  |
 | `lesson:instrument&level:1` | Instrument lesson one. {name} has found the loud end. |  |
 | `lesson:instrument&level:2` | {name} plays a tune you almost recognise. It's growing on you. |  |
-| `lesson:instrument&level:3` | Virtuoso! {name} plays so sweetly the other Nubbins stop to listen. |  |
+| `lesson:instrument&level:3` | Virtuoso! {name} plays so sweetly the other Nubbins stop to listen, and two birds ask for lessons. |  |
 | `lesson:instrument` | {name} has started practising at bedtime. Sorry, neighbours. |  |
 | `event:graduation` | Graduation day! {name} wears a tiny cap and refuses to take it off. |  |
 | `event:graduation` | {name} has graduated. The teacher sheds a single, proud tear. |  |
@@ -245,7 +245,7 @@ photo mode
 | --- | --- | --- |
 | `mood:happy` | Caught mid-grin. |  |
 | `mood:happy` | {name}, radiating. |  |
-| `mood:sad` | A small, thoughtful moment. |  |
+| `mood:sad` | A small, thoughtful moment. The thought appears to be about fruit. |  |
 | `mood:sad` | Even the clouds look sympathetic. |  |
 | `mood:sleepy` | Five more minutes, please. |  |
 | `mood:sleepy` | Professionally drowsy. |  |
@@ -337,7 +337,7 @@ neopia freebie: Fruit Machine, one-time (outcome: nothing, booby, prize, jackpot
 | `outcome:prize` | Three of a kind! The machine coughs up {item}. |  |
 | `outcome:prize` | Two cherries! A handful of shells clatters into the tray. |  |
 | `outcome:jackpot` | JACKPOT! Bells ring, lights flash, and {name} hides behind you. |  |
-| `outcome:taken` | One spin, ever. The handle has been politely tied down. |  |
+| `outcome:taken` | The handle has been politely tied down with a ribbon, a bow and a small note that says no. One spin, ever. |  |
 
 ## coltzans-shrine
 
@@ -388,7 +388,7 @@ neopia freebie: Wheel of Excitement, one-time (outcome: prize, shells, stat-up, 
 | `outcome:lose-shells` | Oops. A few shells fly out of your pocket and off into the clouds. |  |
 | `outcome:cloud` | The wheel lands on a tiny raincloud. It follows {name} around, drizzling. |  |
 | `outcome:nothing` | It stops on a blank slice. The faeries look embarrassed. |  |
-| `outcome:taken` | One spin, ever. The wheel has gone for a lie-down. |  |
+| `outcome:taken` | The wheel has gone for a lie-down and left a sign: BACK NEVER. One spin, ever. |  |
 
 ## wheel-of-mediocrity
 
@@ -400,7 +400,7 @@ neopia freebie: Wheel of Mediocrity, one-time (outcome: nothing, booby, shells, 
 | `outcome:nothing` | The wheel spins half-heartedly and stops wherever. |  |
 | `outcome:booby` | You win a slightly stale omelette slice. It's mediocre, as promised. |  |
 | `outcome:booby` | Prize: one rock. A perfectly average rock. |  |
-| `outcome:shells` | Some shells. Not many. Not few. Just some. |  |
+| `outcome:shells` | Some Shells. Not many. Not few. Just some. |  |
 | `outcome:prize` | You win {item}. It's... fine. It's fine. |  |
 | `outcome:lose-shells` | The wheel takes a handful of your shells and gives a mediocre shrug. |  |
 | `outcome:stat-up` | {name}'s {stat} goes up a smidge. Barely worth mentioning, so we'll stop. |  |
@@ -472,7 +472,7 @@ neopia freebie: Anchor Management, one-time (outcome: win, rare, booby, miss, no
 | `outcome:miss` | You miss. The anchor splashes. The Krawken waves a tentacle, mockingly. |  |
 | `outcome:miss` | Your swing goes wide and lands in a seagull's lunch. The seagull is unimpressed. |  |
 | `outcome:nothing` | The Krawken is out. You stand holding an anchor for no reason. |  |
-| `outcome:taken` | Once, ever. The Krawken has had quite enough of you. |  |
+| `outcome:taken` | The Krawken has had quite enough of you, and has sent a second, larger Krawken to say so. Once, ever. |  |
 
 ## deserted-tomb
 
@@ -522,7 +522,7 @@ neopia freebie: Soup Kitchen, no limit (outcome: fed, not-poor, not-hungry)
 | `outcome:fed` | A bowl each and a bread roll to share. Nobody fights over the crust. That's the one rule of the Soup Kitchen. |  |
 | `outcome:fed` | The soup is mostly carrot, partly kindness, slightly too hot. |  |
 | `outcome:fed` | Fed and warm. Shells can wait; the kettle never closes. |  |
-| `outcome:not-poor` | You have enough shells to get by. The cook smiles and saves the soup for someone who needs it. |  |
+| `outcome:not-poor` | You have enough Shells to get by. The cook smiles and saves the soup for someone who needs it. |  |
 | `outcome:not-hungry` | Your Nubbins are already full. They wave at the soup pot anyway. |  |
 
 ## lab-ray

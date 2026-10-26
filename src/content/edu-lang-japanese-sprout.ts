@@ -199,6 +199,8 @@ const LJ1: EduQuest = quest(
         HA('ごめんなさい (gomen nasai, “I’m sorry”)!', 'shock'),
         N('(Say it: go-men nah-SAI.)'),
         FE('That’s Dumpling. He copies everything.'),
+        HA('It’s morning, so we say ohayō.'),
+        HA('But Nubbins learn one word at a time. Konnichiwa first!'),
       ],
       [
         {
@@ -700,7 +702,9 @@ const LJ3: EduQuest = quest(
         N('(Say it: ROH-koo, NAH-nah, HAH-chee. Copy Hana!)'),
         HA('きゅう (kyū, “nine”), じゅう (jū, “ten”)! Ten koi!', 'happy'),
         N('(Say it: KYOO, JOO. Show ten fingers!)'),
-        MA('A little dramatic. But right.'),
+        MA('Hana, that was very loud.'),
+        HA('Loud and right!', 'happy'),
+        MA('Loud and right.'),
         N('Dumpling counts the koi with his head. Nod, nod, nod.'),
       ],
       [
@@ -730,7 +734,6 @@ const LJ3: EduQuest = quest(
         HA('Count the laps in Japanese. Out loud!'),
         HA('Loser feeds the さかな (sakana, “fish”).'),
         N('(Say it: sah-KAH-nah. Make a fish face!)'),
-        BY('I will write down the excuses.', 'think'),
       ],
       [
         {
@@ -771,6 +774,8 @@ const LJ3: EduQuest = quest(
       [
         N('Clack! The last tile flips.'),
         N('Everyone flops on the grass. Puff, puff, puff.'),
+        N('Byte comes with a clipboard. Byte counts the laps.'),
+        BY('I will write down Hana’s excuses.', 'think'),
         BY('Laps: counted. Hana’s excuse: coming soon.', 'think'),
         HA('That was a practice one.'),
         BY('There it is.'),
@@ -784,7 +789,7 @@ const LJ3: EduQuest = quest(
           skill: 'losing kindly',
           standard: 'CASEL: Relationship skills',
           kind: 'ask',
-          after: 4,
+          after: 6,
           prompt: [N('Hana didn’t win. What can she say?')],
           options: [
             opt('“Good race!”', [SP('GOOD RACE, HANA! Again tomorrow?', 'happy'), HA('…Good race. Tomorrow I win.', 'happy')], true),
@@ -1184,7 +1189,7 @@ const LJ5: EduQuest = quest(
       [
         N('Rain on the roof. Pitter, patter.'),
         N('Hana opens a tin of letters.'),
-        HA('Hazel used to write letters to my grandma.'),
+        HA('Your Hazel and my grandma sent letters. Lots of letters!'),
         HA('I call my grandma おばあちゃん (obāchan, “grandma”).', 'soft'),
         N('(Say it: oh-BAH-chahn. Long and soft in the middle.)'),
         HA('Obāchan wrote: our ねこ (neko, “cat”) sleeps on my letters!'),
@@ -1576,7 +1581,8 @@ const LJ6: EduQuest = quest(
         FE('It’s not a race, Hana.'),
         HA('…You’re right. This one isn’t.', 'soft'),
         N('Pixel puts the test one in the mizu. It floats!'),
-        N('Pixel nods. Good.'),
+        N('Dumpling sits on the test lantern. It still floats!'),
+        N('Pixel nods. A very good lantern.'),
       ],
       [
         {
@@ -1667,6 +1673,9 @@ const LJ6: EduQuest = quest(
         HA('The world! Ki, hana, mizu, kawa, yama, ame, yuki, hoshi, tsuki, hikari!'),
         N('(Say them: KEE, HAH-nah, MEE-zoo, KAH-wah, YAH-mah, AH-meh, YOO-kee, HOH-shee, TSOO-kee, hee-KAH-ree.)'),
         NO('A Hiragana Keeper! That’s you!', 'happy'),
+        HA('Kaeru means frog. Kaeru also means “go home”!'),
+        HA('Frogs help people get home safe. So I’m not scared. Much.'),
+        N('(Say it: kah-EH-roo. Hop like a frog!)'),
         HA('I go home soon. So: またね (mata ne)!', 'soft'),
       ],
       [
@@ -1694,7 +1703,7 @@ const LJ6: EduQuest = quest(
           skill: 'saying goodbye to a friend',
           standard: 'CASEL: Social awareness',
           kind: 'notice',
-          after: 9,
+          after: 12,
           lines: [
             N('(Say it: mah-tah NEH. It means “see you”. Wave!)'),
             HA('See you means I’ll see you again.', 'soft'),

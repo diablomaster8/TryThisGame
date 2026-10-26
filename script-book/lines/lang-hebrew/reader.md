@@ -13,7 +13,7 @@ _The gate rattles. Someone on the other side is lifting and pushing, and losing.
 _The gate gives. In tumbles a boy in a football shirt, hugging a biscuit tin like a trophy._  
 **Ori**: שָׁלוֹם (shalom, “hello”)! Sorry. I had a fight with your gate. Your gate won.  
 
-> **Lesson** (literacy, SL.K.1, do): greet someone in Hebrew and reply  
+> **Lesson** (literacy, CASEL: Relationship skills, do): greet someone in Hebrew and reply  
 > _Say it back to Ori: sha-LOME. The strong part comes at the end: sha-LOME._  
 > **Ori**: Shalom! Perfect. You sound like you’ve been saying it for years.  
 > Check: `edu:say:he:shalom`
@@ -42,11 +42,11 @@ _Over the wall, a small round wild Nubbin hears “shalom”, waves with both ar
 - **Ask me “ma shlomkha?”**
     - **Ori**: Ma shlomkha?
     - **You**: בְּסֵדֶר (beseder, “fine”). I think?
-    - **Ori**: Beseder! That means “OK, fine”. Short and strong, like a header into the top corner.
+    - **Ori**: Beseder! That means “OK, fine”. Short and strong, like a kick straight into the goal.
 - **Ask me “ma shlomekh?”**
     - **Ori**: Ma shlomekh?
     - **You**: בְּסֵדֶר (beseder, “fine”). I think?
-    - **Ori**: Beseder! That means “OK, fine”. Short and strong, like a header into the top corner.
+    - **Ori**: Beseder! That means “OK, fine”. Short and strong, like a kick straight into the goal.
 - **Either one. Just say shalom!**
     - **Ori**: Shalom, then! If anyone asks how you are, say בְּסֵדֶר (beseder). It means “OK, fine”.
     - **You**: Beseder.
@@ -132,7 +132,7 @@ _The Wobbler waves, falls over, and waves from the ground._
 _The sun slides behind the western hill. The lanterns blink on._  
 _Ori yawns, and pretends he didn’t._  
 
-> **Lesson** (science, 1-ESS1-1, notice): day and night happen because the Earth turns  
+> **Lesson** (science, 5-ESS1-2, notice): day and night happen because the Earth turns  
 > _The sun isn’t really sliding anywhere. The Earth is turning._  
 > _As our side of the Earth turns away from the sun, evening comes, then night._  
 > _For grown-ups: Learned that sunset and night happen because the Earth turns away from the sun._
@@ -179,7 +179,7 @@ _Morning. Somebody has hung a sign on the gate that says שָׁלוֹם._
 **Ori**: בֹּקֶר טוֹב (boker tov)! I made you a sign. Shalom for coming in, shalom for going out.  
 **Ori**: Quick-fire round! I say it in English, you say it in Hebrew.  
 
-> **Lesson** (literacy, SL.K.1, ask): choosing the right greeting for the time of day  
+> **Lesson** (literacy, CASEL: Relationship skills, ask): choosing the right greeting for the time of day  
 > **Ori**: First one. The lanterns are on and it’s bedtime. What do you say?  
 > - ✅ לַיְלָה טוֹב (laila tov) → Laila tov! Good night!
 > - בֹּקֶר טוֹב (boker tov) → Boker tov is for the morning. At bedtime it’s laila tov.
@@ -190,7 +190,7 @@ _Morning. Somebody has hung a sign on the gate that says שָׁלוֹם._
 **Ori**: “Boker tov, the sun is out! Shalom, shalom, wave and shout!”  
 **Ori**: “Erev tov, the lanterns glow, laila tov, and off we go!”  
 
-> **Lesson** (music, RL.2.4, do): rhythm and rhyme in a chant  
+> **Lesson** (music, L.3.4, do): rhythm and rhyme in a chant  
 > _Say the chant with Ori and clap on the strong beats: BO-ker TOVE, the SUN is OUT!_  
 > _Chants use rhythm and rhyme to help words stick. Out and shout rhyme; so do glow and go._  
 > Check: `edu:chant:he:boker-tov`
@@ -340,7 +340,7 @@ _Ori’s tent stands by the cottage. It is green, slightly crooked, and has a fo
 > _For grown-ups: Noticed that the name Ori (“my light”) contains the word or (“light”)._
 
 **Ori**: My parents named me “my light”. No pressure. I’ve looked at stars every night since I was four.  
-**Nova**: His savta told me that once, in a letter I carried for her. A long time ago now.  
+**Nova**: His savta, his grandma, told me that once, in a letter I carried for her. A long time ago now.  
 _The Wobbler watches with enormous attention. It is facing the wrong way._  
 **Ori**: Korim li Ori, and now you can write it too. Start on the right. Alef first.  
 
@@ -440,17 +440,19 @@ _In Fern’s orchard the plum trees are heavy. Fern sits under one with two bask
 > _In Hebrew, “ch” and “kh” stand for this throaty sound, like the end of the Scottish word “loch”._  
 > _For grown-ups: Practised the throaty Hebrew “ch” sound, as in Scottish “loch”._
 
-**Fern**: Achat… shtayim… I keep wanting to sneeze it.  
-**Ori**: Sneezy is close! SHTAI-yim. Say it like you mean it.  
+**Fern**: Achat… shtayim… My tongue has tied itself in a knot.  
+**Ori**: Knots are allowed. Untie it slowly: SHTAI-yim. Say it like you mean it.  
+_The Wobbler tries too. It ties its whole body in a knot, and Fern has to unroll it._  
 **Ori**: Six to ten, I’ll call them and you copy. Tomorrow you do them alone.  
-_The Wobbler sits under the tree, catching every plum that falls. Mostly with its face._  
 
-> **Lesson** (maths, K.CC.B.5, do): counting to ten in Hebrew  
+> **Lesson** (maths, 3.OA.A.1, do): counting to ten in Hebrew  
 > _Count the plums into Fern’s basket: achat, shtayim, shalosh, arba, chamesh…_  
 > _…then copy Ori: שֵׁשׁ (shesh), שֶׁבַע (sheva), שְׁמוֹנֶה (shmone), תֵּשַׁע (tesha), עֶשֶׂר (eser)!_  
+> _Fern has two baskets with ten plums in each. Two equal groups of ten: 10 + 10 = 20 plums._  
 > Check: `edu:count:he:plums:10`
-> _For grown-ups: Counted ten plums in Hebrew, one number for each plum._
+> _For grown-ups: Counted ten plums in Hebrew, one number for each plum, and saw that two baskets of ten make 20._
 
+_The Wobbler sits under the tree, catching every plum that falls. Mostly with its face._  
 
 **Choices**
 
@@ -492,7 +494,7 @@ _He says it’s a world record. It isn’t._
 
 _The Wobbler is in goal. It has decided that being in goal means waving at the ball._  
 **Ori**: Warning. I am a very good footballer and a very bad loser.  
-**Ori**: Ask my savta. She hid all our board games.  
+**Ori**: Ask my savta, my grandma. She hid all our board games. She says it was for our own good.  
 
 > **Lesson** (sel, CASEL: Self-management, ask): handling losing (think question)  
 > _Ori says he’s a very bad loser. What could help someone who hates losing?_  
@@ -515,7 +517,7 @@ _The Wobbler is in goal. It has decided that being in goal means waving at the b
 _Final score: Ori ten, the Wobbler one._  
 _The Wobbler waved, and the ball bounced off its tummy. It rolled the whole length of the grass and into Ori’s goal._  
 
-> **Lesson** (maths, 1.OA.A.1, ask): finding “how many more” by taking away  
+> **Lesson** (maths, 4.NBT.B.4, ask): finding “how many more” by taking away  
 > _Ori scored eser (10), and the Wobbler scored achat (1)._  
 > _How many more goals did Ori score?_  
 > - ✅ 9 → Nine more. Which is fine. Totally fine. I’m fine.
@@ -544,7 +546,7 @@ _Night. Ori drags you up the western hill with a blanket, a torch and the biscui
 **Ori**: And that’s the יָרֵחַ (yareach, “moon”). The yareach isn’t a kochav.  
 **Ori**: It makes no light of its own. The sun lights it up.  
 
-> **Lesson** (science, 1-PS4-2, notice): stars make light; the moon reflects sunlight  
+> **Lesson** (science, 5-ESS1-2, notice): stars make light; the moon reflects sunlight  
 > _Stars make their own light, like our sun does. The moon doesn’t._  
 > _We see the moon because sunlight bounces off it, the way a torch lights up a wall._  
 > _For grown-ups: Learned that stars are distant suns and that we see the moon because it reflects sunlight._
@@ -566,8 +568,14 @@ _The Wobbler lies on its back next to you and waves at the sky._
 
 - **Start with the brightest star.**
     - **Ori**: Good choice. The bright ones go first. Achat!
+    - The Wobbler counts too. It points at a star and holds up one finger, very proudly, then points at the next and holds up one finger again.
+    - **Ori**: Wobbler, that’s achat, achat, achat. You have to keep going. Shtayim is next.
+    - The Wobbler holds up two fingers, and falls over backwards.
 - **Start with the faintest star.**
     - **Ori**: The faint ones are the brave ones. They shine anyway. Achat!
+    - The Wobbler counts too. It points at a star and holds up one finger, very proudly, then points at the next and holds up one finger again.
+    - **Ori**: Wobbler, that’s achat, achat, achat. You have to keep going. Shtayim is next.
+    - The Wobbler holds up two fingers, and falls over backwards.
 
 #### `reader:lh3-s3-done` · [main](main.md#lh3-s3-done)
 
@@ -649,11 +657,11 @@ _Nova drops a crate on the cottage table. It’s full of fruit from the valley m
 **Ori**: It depends on the tapuach.  
 _The Wobbler sits in the middle of the table, hugging a banana. It does not look ready to share._  
 
-> **Lesson** (maths, K.MD.B.3, do): sorting into groups and counting each  
+> **Lesson** (maths, 3.OA.A.1, do): sorting into groups and counting each  
 > _Sort the fruit into three baskets: adom, yarok and tsahov. Then count each basket._  
-> _Which basket has the most? Which has the fewest?_  
+> _Picture three baskets with 4 fruit in each: 3 groups of 4 is 3 × 4 = 12 fruit._  
 > Check: `edu:sort:he:fruit:colour`
-> _For grown-ups: Sorted fruit by colour using Hebrew colour words, then counted and compared the groups._
+> _For grown-ups: Sorted fruit by colour using Hebrew colour words, then counted each group and saw how equal groups multiply._
 
 
 **Choices**
@@ -708,9 +716,9 @@ _A צִפּוֹר (tsipor), a small bird, lands on the crate and pecks at the te
 **Choices**
 
 - **Take the rimon.**
-    - **Clover**: Oh, that’s very adom. Look, she’s already sniffing it.
+    - **Clover**: Oh, that’s very adom. She’s sniffing it. That’s the most interest she’s shown in anything since Tuesday.
 - **Take a red tapuach.**
-    - **Clover**: A red apple. Lovely. Look, she’s already sniffing it.
+    - **Clover**: A red apple. She’s eating it. She’s actually eating it. Nobody move.
 - **Take the anavim.**
     - Clover’s Nubbin sniffs the grapes and turns her back on them, very slowly.
     - **Ori**: Sagol, not adom! …Here, take the rimon instead. I’m not saying I told you. I am, a bit.
@@ -723,7 +731,7 @@ _Then it looks at Clover, as if to say “more”._
 **Ori**: Perfect toda. I’d give you a medal, but I’m out of medals. Have a fig.  
 _Over on the crate, the tsipor is still pecking at the te’ena._  
 
-> **Lesson** (science, 2-LS2-2, notice): birds spread seeds  
+> **Lesson** (science, 4-LS1-1, notice): birds spread seeds  
 > _Birds that eat fruit help plants. They swallow the seeds and drop them somewhere new._  
 > _That’s one way fruit trees spread across a valley._  
 > _For grown-ups: Learned that fruit-eating birds help spread seeds to new places._
@@ -847,7 +855,7 @@ _A rainy afternoon. Ori opens the biscuit tin, and it’s full of letters tied i
 **Ori**: Savta and your Hazel wrote to each other for forty years. Hazel used to write every month.  
 **Nova**: Some of these I carried myself. Over two mountains and past one very rude goose.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how letters carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how letters carry the past  
 > **Nova**: When Hazel and Savta started writing, there were no video calls. A letter could take a week or more to arrive.  
 > _Letters keep the past safe. Years later, you can still read exactly what someone wrote._  
 > _For grown-ups: Learned how people kept in touch by letter before video calls, and how letters keep the past._
@@ -868,6 +876,9 @@ _“Is the כֶּלֶב (kelev, ‘dog’) still stealing socks? Does the חָת
 _In the margin there’s a game of noughts and crosses, in two colours of ink._  
 **Ori**: Wait. They played noughts and crosses in the margins? By post? For forty years?  
 **Ori**: And Savta is LOSING this one. Savta! Concentrate!  
+_At the bottom of the letter, in Hazel’s leaning hand: “P.S. The gate is stuck again. Lift and push.”_  
+**Ori**: Every letter. Forty years. The same P.S.  
+**Nova**: I checked it on the way in. Still stuck.  
 
 #### `reader:lh5-s1-done` · [main](main.md#lh5-s1-done)
 
@@ -875,14 +886,15 @@ _In the margin there’s a game of noughts and crosses, in two colours of ink._
 **Ori**: And savta, obviously. Savta is the star of the tin.  
 **Ori**: Every letter has a game in the margin. I’m keeping score.  
 
-> **Lesson** (maths, 3.OA.A.1, ask): months in a year, and in two years  
-> _Hazel used to write one letter every month._  
-> _How many letters is that in two years?_  
-> - 12 → That’s one year: 12 months. Two years is 12 + 12 = 24.
-> - ✅ 24 → Twenty-four! And that’s just two years. The tin is going to need a bigger tin.
-> - 14 → Count the months: 12 in one year, 12 in the next. 12 + 12 = 24.
-> _For grown-ups: Worked out that one letter a month for two years is 24 letters._
+> **Lesson** (maths, 3.OA.A.3, ask): months in a year, and in two years  
+> _Hazel wrote one letter every month. Two equal bundles hold 24 letters._  
+> _How many letters are in each bundle?_  
+> - ✅ 12 → Twelve! One letter for each month of the year. Two bundles of 12 make 24.
+> - 24 → That’s all the letters. Split 24 into two equal bundles: 12 + 12 = 24.
+> - 48 → That’s too many. Two equal bundles of 12 make 24 altogether.
+> _For grown-ups: Shared 24 letters into two equal bundles of 12, one for each year._
 
+_Ori counts the tin: 24 letters, tied in two equal bundles, one bundle for each year._  
 **Ori**: Savta is behind. I am very upset about it.  
 _The Wobbler climbs onto the letter and sits on it, exactly like a chatul._  
 **Ori**: Off, chatul. I mean, Wobbler.  
@@ -1128,18 +1140,18 @@ _Clover dips the watering can in the pond. A small דָּג (dag), a fish, looks
 **Fern**: I’ll look after it. Badly, but with love.  
 _The Wobbler pats the soil down very carefully, using its whole body._  
 
-> **Lesson** (science, K-LS1-1, do): watering a newly planted tree  
-> _Water the little shaked slowly, so the mayim soaks down to the roots instead of running away._  
+> **Lesson** (science, 4-LS1-1, do): watering a newly planted tree  
+> _The roots are the part of the tree that drinks. Water the little shaked slowly, so the mayim soaks down to the roots instead of running away._  
 > Check: `edu:water:he:shaked`
-> _For grown-ups: Watered a newly planted tree slowly so the water reached its roots._
+> _For grown-ups: Watered a newly planted tree slowly, learning that roots are the part that takes in water._
 
 
 **Choices**
 
 - **I’ll water it first.**
-    - **Ori**: Go on. Slowly. Mayim in, not mayim everywhere. …Tov.
+    - **Ori**: Go on. Slowly. Mayim in, not mayim everywhere. …Tov. Mostly in.
 - **Ori should water it first. It’s his tree.**
-    - **Ori**: Our tree. But toda.
+    - **Ori**: Our tree. But toda. I’ll just hold the handle as well. That’s called supervising.
 - **Let the Wobbler do it.**
     - The Wobbler tips the whole watering can over itself. Some of it reaches the tree.
     - **Ori**: Geshem! The Wobbler made geshem. Ten out of ten. Well, shesh.
@@ -1150,7 +1162,7 @@ _A thin little ets stands in the ground, tied to a stake and dripping._
 _It doesn’t look like much yet._  
 **Ori**: Mayim, shemesh, a bit of geshem, and patience. Then perach. Then shaked.  
 
-> **Lesson** (science, 2-LS2-2, notice): pollination: bees and almond flowers  
+> **Lesson** (science, 4-LS1-1, notice): pollination: bees and almond flowers  
 > _When the almond tree flowers, bees visit the blossoms and carry pollen from flower to flower._  
 > _Pollen is what lets a flower grow into an almond. No visitors, no almonds!_  
 > _For grown-ups: Learned that bees carry pollen between almond flowers so that almonds can grow._
@@ -1224,7 +1236,7 @@ _Morning. Ori’s bag leans against the gate under the shalom sign, with his pan
 **Ori**: “Adom, yarok, the colours bright, kochav, yareach, stars at night,  
 **Ori**: ima, aba, savta too, shalom, shalom, and toda to you!”  
 
-> **Lesson** (music, RL.2.4, do): rhythm and rhyme: the review chant  
+> **Lesson** (music, L.3.4, do): rhythm and rhyme: the review chant  
 > _Say the whole chant, both verses, and clap the beat._  
 > _Listen for the rhymes: out and shout, glow and go, bright and night, too and you._  
 > Check: `edu:chant:he:review`

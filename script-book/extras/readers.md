@@ -15,7 +15,7 @@ Where: Grove kindergarten: the striped fortune tent behind the classroom
 | --- | --- | --- |
 | `band:sun&type:swim` | A bright little halo that loves the water. It will dive for anything that sparkles and bring it all to you. The pond is your treasure chest now. |  |
 | `band:sun&type:fly` | A small sun with a sky inside it! It will glide over the Grove like a blessing with ears. Keep the high branches clear, darling. |  |
-| `band:sun&type:run` | Light feet and a lighter heart. It runs not to get away but to get somewhere, and somewhere is always you. |  |
+| `band:sun&type:run` | Light feet and a lighter heart. It runs not to get away but to get somewhere, and somewhere is always you. Usually you holding fruit. |  |
 | `band:sun&type:power` | Oh, the strong ones with halos are my favourites. It will lift heavy things for small friends and never once mention it. |  |
 | `band:sun&type:normal` | The cards say: kind, and nothing else needed. A round, ordinary little angel. Ordinary is a gift, petal. Ask anyone who isn't. |  |
 | `band:moon&type:swim` | Deep water and a deep mind. It will sit at the bottom of the pond thinking thoughts nobody has thought before. Bring a towel and patience. |  |
@@ -25,7 +25,7 @@ Where: Grove kindergarten: the striped fortune tent behind the classroom
 | `band:moon&type:normal` | A small moon with nothing to prove. It keeps its own counsel, and it will keep your secrets. Rarer than pearls, those. |  |
 | `band:neutral&type:swim` | Neither sun nor moon, all puddle! It will float, and paddle, and float again. A life of very serious floating. |  |
 | `band:neutral&type:fly` | A drifter on the warm air. It goes where the wind is friendliest and always finds its way back to the tallest tree. |  |
-| `band:neutral&type:run` | Balanced and swift. It will lap the garden a hundred times a day, just to check it is all still there. |  |
+| `band:neutral&type:run` | Balanced and swift. It will lap the garden a hundred times a day, just to check it is all still there. It is, darling. Tell it so. |  |
 | `band:neutral&type:power` | Sturdy in the middle and sturdy at the edges. It will push boulders for the joy of it and nap on top of them after. |  |
 | `band:neutral&type:normal` | Ah, the plain little dear. Not sun, not moon, nothing but itself. The cards approve. So do I. |  |
 | `stage:child&band:sun` | The light leans towards this one, petal. Keep being kind and it may grow a halo to match. |  |
@@ -202,7 +202,9 @@ Where: The fortune tent, after Q58: Aunt Wen's stool by the brazier
 | `any` | The clouds are thick and grumpy. Something big is brewing. Probably weather. Weather is always brewing. |  |
 | `any` | Wind from the hills. It will knock over exactly one thing you care about. Move the vase. |  |
 | `any` | Clouds like little sheep, all heading east. Either fine weather is coming, or the sheep know something we don't. |  |
-| `any` | When the mountain grumbles, you listen. I listened once. Whole village thanked me. (The Keeper helped. A bit.) Today it's only snoring. |  |
+| `any` | When the mountain grumbles, you listen. I listened once, and a young Keeper did most of the running. Whole village thanked me. Today it's only snoring. |  |
+| `any` | The bones say you will sit on the bone stool again. They are never wrong about that one. Up you get. |  |
+| `any` | The bones and the clouds disagree today. I am siding with the bones. The clouds have never once paid rent. |  |
 | `any` | Snow in the Grove? The bones say yes. The bones also once said a goat would become mayor. |  |
 | `rebirth:likely` | I see an egg. Then a little face. Then the same face, smaller. It will come back to you. |  |
 | `rebirth:unlikely` | The bones go quiet about the egg. Quiet means: more joy needed. Play with it. Feed it well. Make the bones talk. |  |
@@ -233,13 +235,13 @@ Where: Neopia section: the Mystery Island beach, by the carved mask
 | `any` | Your shadow walks behind you all day and never once complains. Buy it something nice. |  |
 | `any` | Something lost in the sand wishes to be found by you. |  |
 | `any` | The fire mountain sleeps, and so should you. |  |
-| `any` | A friend with fins will show you the way. |  |
+| `any` | A friend with fins will show you the way. Do not ask him twice. He is sensitive about directions. |  |
 | `any` | Three shells, one pearl. Choose the dull one. |  |
-| `any` | Beware the quiet monkey. |  |
+| `any` | Beware the quiet monkey. I have told eleven travellers this. Nine of them now have no sandwich. |  |
 | `any` | The wind knows your name. It says it wrong. Do not correct the wind. |  |
 | `any` | When the moon is round, so are the fish. |  |
 | `any` | A carved mask smiles upon you. Do not ask which one. |  |
-| `any` | Your luck is buried. Bring a spade. |  |
+| `any` | Your luck is buried. I buried it. It seemed wise at the time. Bring a spade. |  |
 | `any` | The palm bends but does not break. Bend more. |  |
 | `any` | Tomorrow tastes of mango. |  |
 | `any` | A wave is coming. Not from the sea. Someone across the beach is going to wave at you. Wave back. That is the whole prophecy. |  |
@@ -287,7 +289,7 @@ Where: Neopia section: the Brightvale throne room, among the scrolls
 | `any` | He who chases two Nubbins at once shall catch only a nap. |  |
 | `any` | The mountain does not hurry, and neither shall I, for I am the king and the mountain is late. |  |
 | `any` | Within every acorn sleeps a mighty oak, and the oak is quite cross about the arrangement. |  |
-| `any` | Speak softly, and carry a large scroll. |  |
+| `any` | Speak softly, and carry a large scroll. If they still argue, unroll it. Nobody argues with forty feet of scroll. |  |
 | `any` | A book unread is a door unopened. A door unopened is a draught prevented. Reflect upon this. |  |
 | `any` | The river reaches the sea not by force but by patience, and by going downhill, which helps enormously. |  |
 | `any` | Know thyself. Then know thy neighbour. Then return thy neighbour's ladder. |  |
@@ -337,7 +339,7 @@ Where: Neopia section: the Meridell throne room
 | `any` | Why did the cocoon get a library card? It was planning a big change and wanted to read up on it. |  |
 | `any` | What did the king say when someone took his throne? 'Well, I suppose I'll have to stand for it.' |  |
 | `any` | Why did the potato join the royal guard? It had more eyes than anybody else. |  |
-| `any` | How does a moat say hello? It gives you a little wave. |  |
+| `any` | How does a moat say hello? It gives you a little wave. ...A WAVE. It's water. Do keep up. |  |
 | `any` | What do you call a dragon with a cold? A sneeze-breather. Stand well back. |  |
 | `any` | Why did the jelly refuse to argue with the king? It knew it would only go wobbly. |  |
 | `any` | Why did the snail join the cavalry? It wanted to be the fastest rider in Meridell. It's still on its way. |  |
@@ -353,7 +355,7 @@ Where: Neopia section: the Meridell throne room
 | `any` | What did the drawbridge say at the end of a long day? 'I really need a lift.' |  |
 | `any` | Why are knights terrible at hide-and-seek? You can hear them clanking from three fields away. |  |
 | `any` | Why did the snowman visit the Grumpy Old King? He wanted to meet someone even frostier. ...Hmph. |  |
-| `any` | What do you call a carrot that tells fortunes? A root-reader. |  |
+| `any` | What do you call a carrot that tells fortunes? A root-reader. Madame Zinnia calls that slander. Madame Zinnia has never once laughed. |  |
 | `any` | Why did the Elephante bring its trunk to my castle? It was staying the week. That was in spring. Send help. |  |
 | `any` | Why are Meridell's turnips so well behaved? A strict root-ine. ROOT-ine! Oh, that's one of my best. |  |
 | `any` | Why did the Chia see the castle doctor? It was feeling a bit seedy. ...You're not laughing. I'm laughing enough for two. |  |

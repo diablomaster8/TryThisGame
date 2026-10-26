@@ -54,7 +54,7 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'narrator', text: 'The last of it is grass, and then a gate.' },
     { who: 'narrator', text: 'The gate is stuck. It always was.' },
     { who: 'narrator', text: 'You lift and push, the way she taught you.' },
-    { who: 'narrator', text: 'It gives with the same small groan it gave when you were small enough to need both hands.' },
+    { who: 'narrator', text: 'It gives with the same small groan as when you needed both hands. It sounds as if it has missed the argument.' },
     { who: 'narrator', text: 'The Grove is overgrown and quiet. The pond has gone to reeds at one end.' },
     { who: 'narrator', text: 'Nobody has cut the grass since she left.' },
     { who: 'narrator', text: 'On the signpost, under a stone, a letter in your grandmother’s hand.' },
@@ -577,6 +577,11 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'narrator', text: 'Sparks takes one and bites it. It makes a sound like a dropped plate.' },
     { who: 'sparks', text: 'Crunchy!', mood: 'happy' },
     { who: 'fern', text: 'They are not meant to be crunchy.' },
+    { who: 'narrator', text: 'On the wall sits Dusty, with a very old, sandstone-coloured Nubbin in their lap and a duck at their feet.' },
+    { who: 'dusty', text: 'That’s Gerald. He’s not with us. He just likes a crowd.' },
+    { who: 'narrator', text: 'The old Nubbin reaches out and taps one of Fern’s buns, twice. It rings like a plate.' },
+    { who: 'sparks', text: 'SEE? Even the old one says crunchy.', mood: 'happy' },
+    { who: 'fern', text: 'Tapping isn’t a review.' },
     {
       who: 'pixel',
       text: 'Pixel. Hi. I did the lantern timing circuit, Sparks did the part that explodes. Is it true you can hear Moss? Byte says it’s a hoax.',
@@ -654,6 +659,8 @@ export const BOOK1_SCENES: Scene[] = [
   S(
     'c4-tale-2',
     [
+      { who: 'narrator', text: 'Against the wall, Sparks says “FLAT” in her sleep, and turns over.' },
+      { who: 'moss', text: 'She is still teaching hand-feeding. Even now. I admire it.' },
       { who: 'moss', text: 'Four of us kept this valley, once. Wardens, the Keepers called us later. We never called ourselves anything.' },
       { who: 'moss', text: 'Briar, who laughed. At rain, at foxes, at me. Mostly at me.' },
       { who: 'moss', text: 'Hush, who was quiet, and kept the griefs nobody else had room for.' },

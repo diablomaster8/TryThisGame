@@ -556,7 +556,7 @@ const CH6: EduScene[] = [
     'c6-open',
     [
       N('It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with no hat.'),
-      N('In their lap is a small, old Nubbin the colour of sandstone, curled like a shell. Her glow is so pale the rain shows through.'),
+      N('In their lap is the old sandstone-coloured Nubbin from Lantern Night, curled like a shell. Her glow is so pale the rain shows through.'),
       DUSTY('Oh. Hello. Don’t mind me. I’m getting wet on purpose. This is Fossil. Original name, I know.', 'soft'),
       DUSTY('I dug her egg out of the cliff when I was eleven, with a big spoon. Twenty years and a bit, now. I’ve been counting the bit.'),
       N('Fossil opens one eye, looks at you, and taps Dusty’s wrist twice with one small hand.'),
@@ -869,6 +869,9 @@ const CH7: EduScene[] = [
     [
       N('Moss comes down the hill through the white grass. He leaves no footprints at all. He is very light, these days.'),
       N('He stops at the fourth post and looks at the frost on it for a long time.'),
+      N('Your Nubbin finds the frost too, and licks it. It turns to you, shocked, with its tongue still out.'),
+      N('Sable, very slowly, licks it as well. Then she backs away two steps and looks shocked from there.'),
+      MOSS('Yes. It is cold. That is rather the point.'),
       MOSS('Cold goes back to where it was kept. It is looking for its bed.', 'think'),
       MOSS('There is nothing under this post. There has not been for a long time. You guessed that, I think, when the lantern went out.'),
       N('You remember Lantern Night: the flicker, then the dark. And Moss saying, “Twenty-two years.”'),
@@ -883,7 +886,7 @@ const CH7: EduScene[] = [
         skill: 'personification: talking about a thing as if it were alive',
         standard: 'L.4.5',
         kind: 'ask',
-        after: 2,
+        after: 5,
         prompt: [N('Cold doesn’t really sleep in a bed. Moss is talking about it as if it were alive. What does he mean?')],
         options: [
           {
@@ -916,7 +919,7 @@ const CH7: EduScene[] = [
         skill: 'heat moves from warmer things to colder things',
         standard: '4-PS3-2',
         kind: 'notice',
-        after: 6,
+        after: 9,
         lines: [
           MOSS('You feel the cold because your warmth is running out of you, into the ground.'),
           MOSS('Heat always moves from the warmer thing to the colder thing. The cold is not creeping into you. Your heat is leaving you.'),
@@ -1192,6 +1195,10 @@ const CH7: EduScene[] = [
     PIXEL('Trust meter. For Sable. I built it last night.', 'happy'),
     BYTE('What does it measure?'),
     PIXEL('Mostly it says maybe. That’s accurate. Nothing about her is calibrated, set up to measure exactly.'),
+    BYTE('Nothing you build is calibrated.'),
+    PIXEL('Your shoelace is undone.'),
+    N('Byte looks down. It isn’t.'),
+    PIXEL('Calibrated.', 'happy'),
     N('Sable glares at the box and leans harder on your shin. Up on the hill, Moss politely looks away.'),
   ], [
     {
@@ -1212,7 +1219,7 @@ const CH7: EduScene[] = [
       skill: 'subtraction within 100: how much something has grown',
       standard: '2.OA.A.1',
       kind: 'ask',
-      after: 14,
+      after: 18,
       prompt: [
         PIXEL('Under the MAYBE there are numbers. Her trust was 20 when she first let you near. It’s 45 today.', 'think'),
         PIXEL('How much has it grown?'),
@@ -1392,6 +1399,12 @@ const CH8: EduScene[] = [
         'Nobody comes this way but me. Hand on the rock, eyes on my heels. And don’t be brave. Brave people fall off. Be careful instead.',
       ),
       MARINA('Rule four still applies. Sparks would have grabbed the waterfall.', 'happy'),
+      N('Behind you, Nova unfolds a page, written on both sides.'),
+      NOVA('Before we go on, I’d like to say a few words about why we’re here. And about owls.'),
+      MARINA('Hand on the rock, Nova.'),
+      NOVA('It’s very short. The owls are only the middle bit.'),
+      MARINA('Then you can tell me the end when we get to the other end.'),
+      N('Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock.'),
       MARINA(
         'I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.',
         'think',
@@ -1414,7 +1427,7 @@ const CH8: EduScene[] = [
         ],
         parentNote: 'Your child sorted objects by a property (keeps you warm or not) and learned that wool traps air, which holds in body heat.',
       },
-      springLesson(5 + 2 + 3 + 1),
+      springLesson(5 + 2 + 6 + 3 + 1),
     ],
   ),
   scene(
@@ -1423,6 +1436,12 @@ const CH8: EduScene[] = [
       ...C8_GATE,
       MARINA('You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.', 'happy'),
       MARINA('And you still don’t get to be brave. Brave people fall off. Careful people get home.'),
+      N('Behind you, Nova unfolds a page, written on both sides.'),
+      NOVA('Before we go on, I’d like to say a few words about why we’re here. And about owls.'),
+      MARINA('Hand on the rock, Nova.'),
+      NOVA('It’s very short. The owls are only the middle bit.'),
+      MARINA('Then you can tell me the end when we get to the other end.'),
+      N('Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock.'),
       ...C8_LEDGE_REST,
       MARINA('…That wasn’t there when I brought you before. Not a thread of it. Thirty years, and never so much as a cold morning.', 'shock'),
       ...C8_LEDGE_END,
@@ -1433,14 +1452,14 @@ const CH8: EduScene[] = [
         skill: 'sound is made by vibration',
         standard: '1-PS4-1',
         kind: 'notice',
-        after: 7,
+        after: 13,
         lines: [
           MARINA('Feel that roar in your chest? That’s sound. The falling water shakes the air, and the shaking travels to you.'),
           MARINA('Sound is vibration, things shaking very fast. Keep your palm on the rock. You can feel it buzzing too.'),
         ],
         parentNote: 'Your child learned that sound is made by vibrations, which can be heard and also felt, as with the roar of a waterfall.',
       },
-      springLesson(5 + 2 + 3),
+      springLesson(5 + 2 + 6 + 3),
     ],
   ),
   scene(
@@ -1552,6 +1571,9 @@ const CH8: EduScene[] = [
         then: [
           N('You fill all twelve bowls. Nobody comes down from the trees while you are watching.'),
           N('When you look back from the edge of the camp, three of them are already empty.'),
+          N('You leave Fern’s second jumper folded on the lowest branch, mostly so you can stop carrying it.'),
+          N('From further down the path, the branch is bare. Up in the tree, a grey shape is wearing the jumper on its head.'),
+          NOVA('Tell Fern it was the wrong size. Then tell her it worked.', 'soft'),
           NOVA('That’s how she did it. One bowl at a time, since the snow.', 'soft'),
         ],
       },

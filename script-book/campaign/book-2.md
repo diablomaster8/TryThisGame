@@ -71,21 +71,21 @@ _Your breath smokes in the August air. Corvin sees it._
 
 **Choices**
 
-- **That they want to.**
+- **That they want to.** — sets `{"c5-race":"want"}`
     - **Corvin Vale**: Hazel’s answer. Word for word. It loses, mostly.
     - **Sparks**: It does NOT lose mostly. It loses SOMETIMES.
     - **Corvin Vale**: We’ll see.
-- **That they win. It’s a race.**
+- **That they win. It’s a race.** — sets `{"c5-race":"win"}`
     - **Corvin Vale**: Honest. Good. You’ll do well up here.
     - Ember says nothing for a moment. Then, quietly, to the frozen rail:
     - **Ember**: That’s what I said. At fifteen.
     - She doesn’t say it unkindly. She says it like someone who would have given a great deal to be argued with.
-- **That they come home afterwards.**
+- **That they come home afterwards.** — sets `{"c5-race":"home"}`
     - **Corvin Vale**: …That isn’t an answer.
     - **Ember**: It’s the only one.
     - Corvin touches his breast pocket, and walks off down the white rail without another word.
 
-> New mid-chapter scene. Plays the first time the player opens Races in chapter 5, before the race starts. If that hook is awkward, queue it straight after c5-open. Staging: the Circuit, hot day, frost on the white railings (art: rime on the rail sprites; breath-puff particles near the rail only). Corvin is spawned for ch5 already. Sparks is present as a racer; Byte is at the rail with his stopwatches (spawn him for this scene; it seeds S7’s stopwatch). “She’s safe.” / “That isn’t what I asked.” seeds ch7. Ends on a question the player answers for Corvin: what matters in a race? (race-want | race-win | race-home). No flags; friendship only (Sparks or Ember); race-win is not punished. Then c5-considered if corvinOffer = considered, then the race.
+> New mid-chapter scene. Plays the first time the player opens Races in chapter 5, before the race starts. If that hook is awkward, queue it straight after c5-open. Staging: the Circuit, hot day, frost on the white railings (art: rime on the rail sprites; breath-puff particles near the rail only). Corvin is spawned for ch5 already. Sparks is present as a racer; Byte is at the rail with his stopwatches (spawn him for this scene; it seeds S7’s stopwatch). “She’s safe.” / “That isn’t what I asked.” seeds ch7. Ends on a question the player answers for Corvin: what matters in a race? (race-want | race-win | race-home). Sets c5-race (want | win | home), which Corvin quotes back in c9-open (choice-payoffs); friendship Sparks or Ember; race-win is not punished. Then c5-considered if corvinOffer = considered, then the race.
 
 #### <a id="c5-considered"></a>Scene `c5-considered`
 
@@ -140,9 +140,9 @@ Goal: Sit with Dusty by the flower. (`talkDusty`) · Hint: Walk up to Dusty and 
 
 _It rains for three days. On the third, Dusty is up on the hill in it, cross-legged in the wet, with no hat._  
 _The gutters gurgle. The hill path has turned into a small brown stream, and it smells of wet chalk and crushed thyme._  
-_In their lap is a small old Nubbin the colour of sandstone, curled like a shell. Her ball is so pale the rain shows through it._  
+_In their lap is the old sandstone-coloured Nubbin from Lantern Night, curled like a shell. Her ball is so pale the rain shows through it._  
 **Dusty** _(soft)_: Oh. Hello. Don’t mind me. I’m getting wet on purpose.  
-_A duck nearby has also decided to get wet on purpose. It is regarding Dusty with respect._  
+_The duck from Lantern Night has also decided to get wet on purpose. It is regarding Dusty with respect._  
 **Dusty**: Ignore Gerald. He thinks I’m onto something.  
 **Dusty**: This is Fossil. Original, I know. I dug her egg out of the cliff face when I was eleven. With a big spoon.  
 **Dusty**: She’s been with me twenty years. Twenty years and a bit. I’ve been counting the bit.  
@@ -219,11 +219,17 @@ _Down the hill, Dusty has nearly reached the gate._
     - **Dusty**: …Tell him thank you.
     - **Dusty**: And tell him he’s got grass on his head.
     - **Moss**: I am aware of the grass.
+    - Gerald the duck has come back up the hill. He settles beside Moss and regards him with respect.
+    - **Moss**: There is a duck looking at me.
+    - **Moss**: I believe it thinks I am onto something.
     - Moss does not move from the flower until it is dark.
 - **Keep it. Some things belong to the hill.**
     - You don’t call after them. Dusty lifts and pushes, and is gone.
     - You stay. Moss stays.
     - The flower, which has never been rained on before, seems to be getting used to it.
+    - Gerald the duck has come back up the hill. He settles beside Moss and regards him with respect.
+    - **Moss**: There is a duck looking at me.
+    - **Moss**: I believe it thinks I am onto something.
     - Moss does not move from the flower until it is dark.
 
 > Chapter 6 closing, after talking to Dusty. Moss: “That is fading done right. Not stilled. Let go.” Grief done right (Fossil) set against grief refused (Corvin, “up the valley”, unnamed). Choice only changes Dusty friendship. Both branches end with Moss sitting by the flower until dark. S7 should open after this chapter.
@@ -265,6 +271,9 @@ _Sable’s little ball, still dark, bobs once._
 _Moss comes down the hill through the white grass._  
 _He leaves no prints at all. He is very light, these days._  
 _He stops at the fourth post and looks at the frost on it for a long time._  
+_Your Nubbin finds the frost too, and licks it. It turns to you, appalled, with its tongue out._  
+_Sable, very slowly, licks it as well. Then she backs off two steps and is appalled from there._  
+**Moss**: Yes. It is cold. That is rather the point.  
 **Moss** _(think)_: Cold goes back to where it was kept. It is looking for its bed.  
 **Moss**: There is nothing under this post. There has not been for a long time. You knew that, I think, when the lantern went out.  
 _You think of Lantern Night, and the flicker, and the dark. You think of him saying: twenty-two years._  
@@ -378,6 +387,10 @@ _Pixel comes over the stile with a box under one arm. On the front is a dial, a 
 **Pixel** _(happy)_: Trust meter. For Sable. I built it last night.  
 **Byte**: What does it measure?  
 **Pixel**: Mostly it says maybe. That’s accurate. Nothing about her is calibrated.  
+**Byte**: Nothing you build is calibrated.  
+**Pixel**: Your lace is undone.  
+_Byte looks down. It isn’t._  
+**Pixel** _(happy)_: Calibrated.  
 _The needle trembles, and stays on MAYBE. Sable looks at the box with deep suspicion and leans harder on your shin._  
 _Up on the hill, Moss watches, and then looks away, the way you look away from something private._  
 
@@ -436,6 +449,12 @@ _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet
 **Marina**: Nobody comes this way but me. Hazel did, with me, more times than I could count. Hand on the rock, eyes on my heels.  
 **Marina**: And don’t be brave. Brave people fall off. Be careful instead. It’s less exciting and you get home.  
 **Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
+_Behind you, Nova unfolds a page. Both sides of it._  
+**Nova**: Before we go on, I’d like to say a few words about why we’re here. And about owls.  
+**Marina**: Hand on the rock, Nova.  
+**Nova**: It’s very short. The owls are only the middle bit.  
+**Marina**: Then you can tell me the end at the other end.  
+_Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock._  
 **Marina** _(think)_: I taught every one of Hazel’s Nubbins to swim, you know. People think that’s all I did for her.  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
 _Green light. White water._  
@@ -457,7 +476,7 @@ _Something grey is sitting in the branches above you._
 _Then another. Then you stop counting._  
 **Nova** _(soft)_: Don’t look straight at them. Look a bit to one side. It’s politer.  
 
-> New. Plays straight after c8-open when s4Done is NOT set. Marina leads along the ledge behind the falls; first glimpse of the warm Wellspring, its rim rimed with frost. Ends at the Hollow’s edge with grey shapes in the trees; then the goal (follow the fireflies to the notebook). Opens at the gate: Fern’s bag of jumpers (comic), Sable stays at the gate. Fern is present only in that opening beat (spawn her by the gate if possible).
+> New. Plays straight after c8-open when s4Done is NOT set. Marina leads along the ledge behind the falls; first glimpse of the warm Wellspring, its rim rimed with frost. Ends at the Hollow’s edge with grey shapes in the trees; then the goal (follow the fireflies to the notebook). Opens at the gate: Fern’s bag of jumpers (comic), Sable stays at the gate. Fern is present only in that opening beat (spawn her by the gate if possible). After “Rule four”, Nova tries her owl speech (all routes) and Marina stops it.
 
 #### <a id="c8-ledge-s4"></a>Scene `c8-ledge-s4`
 
@@ -470,6 +489,12 @@ _Marina is waiting at the pool below the falls, sleeves rolled, hair already wet
 **Marina** _(happy)_: You’ve walked this once already, so you know the rules. Hand on the rock, eyes on my heels.  
 **Marina**: And you still don’t get to be brave. Brave people fall off.  
 **Marina** _(think)_: Rule four still applies. Sparks would have grabbed the waterfall.  
+_Behind you, Nova unfolds a page. Both sides of it._  
+**Nova**: Before we go on, I’d like to say a few words about why we’re here. And about owls.  
+**Marina**: Hand on the rock, Nova.  
+**Nova**: It’s very short. The owls are only the middle bit.  
+**Marina**: Then you can tell me the end at the other end.  
+_Nova folds the speech away. Halfway along, you hear her say “owls” once, quietly, to the rock._  
 _The ledge is a hand’s width wide and runs behind the falling water. The roar fills your head until nothing else fits._  
 _Green light. White water._  
 _Spray on your face, cold; the rock under your palm, colder._  
@@ -542,6 +567,9 @@ _Your Nubbin puts its head on your knee and keeps it there until you can stand u
 - **Fill the bowls before you go.**
     - You fill all twelve bowls. Nobody comes down from the trees while you are watching.
     - When you look back from the edge of the camp, three of them are already empty.
+    - You leave Fern’s second jumper folded on the lowest branch, mostly so you can stop carrying it.
+    - From further down the path, the branch is bare. Up in the tree, a grey shape is wearing the jumper on its head.
+    - **Nova**: Tell Fern it was the wrong size. Then tell her it worked.
     - **Nova**: That’s how she did it. One bowl at a time. Since the snow.
 - **Sit down by the cold fire, and wait.**
     - You sit by the cold fire. Rule three.

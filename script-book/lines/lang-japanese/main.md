@@ -24,13 +24,15 @@ _She bows: a small, quick dip from the waist, then straight back up._
 **Hana**: Then finish with よろしくおねがいします (yoroshiku onegaishimasu). It means “please treat me kindly”, or “pleased to meet you”.  
 **Nova** _(happy)_: I practised that one all the way here on the train.  
 **Hana**: She said it to the ticket man, a cow and a postbox.  
-**Hana** _(happy)_: Ready? Say はい (hai, “yes”). It’s the only answer today, so you can’t get it wrong.  
+**Hana** _(happy)_: Ready? You say hello. I say はい (hai, “yes”). Today はい is my answer to everything.  
+**Nova**: Everything?  
+**Hana**: はい.  
 
 **Choices**
 
 - **Bow and say “konnichiwa”.**
     - You bow. Hana bows back, slightly deeper, which she seems to think means she won.
-    - **Hana**: はい! Perfect. You meant that one.
+    - **Hana**: はい! That’s “yes, exactly”. You meant that bow.
 - **Wave and say “konnichiwa”.**
     - **Hana**: A wave works too. Friends wave all the time.
     - **Hana**: Next time, add a tiny bow. Like this. See? Easy.
@@ -62,7 +64,8 @@ _Fern comes over the fence with a bucket of plums and a slightly crumpled face._
 **Hana**: おはようございます (ohayō gozaimasu), Fern! That’s the polite one. For grown-ups, teachers and people with buckets.  
 **Fern**: Is it? Well. Good morning. Have a plum. I’ve been up since five, apologising to the trees.  
 **Hana**: ありがとうございます (arigatō gozaimasu, “thank you”, the polite way). With friends it’s just ありがとう (arigatō).  
-**Hana**: Right. The plan. When I say こんにちは, the Nubbins bow. Three Nubbins, three bows.  
+**Hana**: Right. The plan. We teach them こんにちは first, because it works most of the day.  
+**Hana**: Not now, strictly. Now is おはよう. But one word at a time. They’re Nubbins.  
 _She sprints at the herb bed, misjudges it, and bumps a small round Nubbin clean off its feet._  
 **Hana** _(shock)_: ごめんなさい (gomen nasai, “I’m sorry”)! Sorry, sorry!  
 _She bows low to the Nubbin, because she means it. The Nubbin blinks, copies her, and lands on its face._  
@@ -102,9 +105,9 @@ _Evening. The light goes gold, then orange, then the colour of weak tea._
 _Luna comes up the path with a trowel and a jar of moths, on her way to the night garden._  
 **Hana**: こんばんは (konbanwa, “good evening”), Luna!  
 **Luna** _(soft)_: Konbanwa. Did I say it right? Nova taught me last summer. I’ve been saving it.  
-**Hana**: Perfect. Fun fact: the last letter of こんばんは and こんにちは looks like “ha” but says “wa”. Japanese keeps you on your toes.  
+**Hana**: Perfect. Fun fact: the last letter of こんばんは and こんにちは looks like “ha” but says “wa”. Japanese likes to surprise you.  
 **Fern**: I’m off to bed. Goodbye, all.  
-**Hana**: Not さようなら (sayōnara)! That’s goodbye for a while. You’ll see us in the morning.  
+**Hana**: Not さようなら (sayōnara)! That’s goodbye for a long time. You’ll see us in the morning.  
 **Hana**: Say またね (mata ne, “see you”). Or, at bedtime, おやすみ (oyasumi, “good night”).  
 **Fern** _(happy)_: Mata ne, then. Oyasumi.  
 **Hana**: For grown-ups you want to be extra nice to, it’s おやすみなさい (oyasuminasai). The polite one is longer. It usually is.  
@@ -310,6 +313,9 @@ _A koi slides out of the bucket and into the pond. Then another. They do not wai
 **Hana**: After ご came ろく (roku), six. なな (nana), seven. はち (hachi), eight.  
 **Hana** _(happy)_: Then きゅう (kyū), nine, and じゅう (jū), ten. Ten koi! Ten fingers! Nobody fell in!  
 **Marina**: A little dramatic. But correct.  
+**Hana**: That’s counting out loud. In a sentence, fish get their own counting word. Japanese has one for nearly everything.  
+**Marina**: And for Hanas?  
+**Hana** _(happy)_: There’s only one Hana. No word needed.  
 _Ten koi drift in a slow orange circle. Dumpling sits on the bank, counting them with his head._  
 
 ### Step 2: Race Hana round the pond, counting the laps in Japanese.
@@ -319,6 +325,9 @@ Hint: Open the race from the lap counter. Say each lap number as you pass the po
 #### <a id="lj3-s2"></a>Scene `lj3-s2`
 
 _Sparks arrives at speed, the way Sparks arrives everywhere. Pixel follows with a board on a stick._  
+_Byte sets four stopwatches in a row on the grass._  
+**Pixel**: He brings four to everything. He brought four to our wedding.  
+**Byte** _(think)_: The vows ran long. I have the figures.  
 **Sparks** _(happy)_: I HEAR SOMEONE HERE THINKS SHE’S FAST.  
 **Hana**: I don’t think I’m fast. I know I’m fast.  
 **Pixel** _(happy)_: Lap counter. It flips a tile for every lap round the pond. Hana painted the numbers.  
@@ -332,13 +341,13 @@ _The first three tiles say 一, 二 and 三. One line, two lines, three lines._
 
 **Choices**
 
-- **A fair start.**
+- **A fair start.** — sets `{"lj3-race":"fair"}`
     - **Byte**: Fair start. Nobody moves until I say. Nobody. Hana.
     - **Hana**: I wasn’t moving. I was leaning.
-- **Give Hana a head start.**
+- **Give Hana a head start.** — sets `{"lj3-race":"head"}`
     - **Hana**: I don’t need a head start!
     - **Hana**: …But I’ll take it. Strategically.
-- **Let Sparks race too.**
+- **Let Sparks race too.** — sets `{"lj3-race":"sparks"}`
     - **Sparks**: THREE-WAY RACE. Yes. YES.
     - **Hana**: Fine. I’ll beat you both. Count my laps louder than hers.
 
@@ -430,11 +439,11 @@ _Dumpling climbs onto the table and sits in the empty green corner of the box._
 
 **Choices**
 
-- **The beans.**
+- **The beans.** — sets `{"lj4-bento":"beans"}`
     - You put the beans in. Dumpling eats one. You put another in. He eats that one too. This goes on for a while.
-- **Cucumber from Fern’s garden.**
+- **Cucumber from Fern’s garden.** — sets `{"lj4-bento":"cucumber"}`
     - **Fern**: Ah. The cucumber. I grew that. Mostly on purpose.
-- **A big lettuce leaf.**
+- **A big lettuce leaf.** — sets `{"lj4-bento":"lettuce"}`
     - **Hana**: Good. Green, and also a wall. It keeps the rice away from the tomatoes.
 
 #### <a id="lj4-s1-done"></a>Done `lj4-s1-done`
@@ -453,6 +462,7 @@ Hint: At the picnic cloth, choose Say before anyone eats, then again when the bo
 _A picnic by the pond. The blue cloth is spread out. The box is open. Dumpling has been removed from it twice._  
 **Hana**: Before we eat, we say いただきます (itadakimasu). Hands together, a little bow, then eat.  
 **Hana**: And after, when it’s all gone, ごちそうさま (gochisōsama). Everyone at home says them. Even when they’re starving.  
+**Hana**: With grown-ups you add でした: ごちそうさまでした (gochisōsama deshita). Fern gets でした. Dumpling gets nothing. He started early.  
 **Sparks** _(shock)_: So I can’t eat ANYTHING until we say it?  
 **Hana**: Nothing. Not one bean. You have a bean in your mouth right now.  
 **Sparks**: …It got in by itself. すみません.  
@@ -465,7 +475,8 @@ _Dumpling copies Hana’s little bow perfectly. Everyone is very impressed. Then
 #### <a id="lj4-s2-done"></a>Done `lj4-s2-done`
 
 _“Itadakimasu!” Six voices, one bow, one Nubbin already chewing._  
-_Onigiri, beans, tomatoes, egg, a りんご cut in quarters, a みかん peeled in one long curl, cold おちゃ._  
+_Onigiri, beans, tomatoes, egg, a りんご cut into little rabbits with peel for ears, a みかん peeled in one long curl, cold おちゃ._  
+_Dumpling stares at an apple rabbit for a long time, and it stares back. Then he eats it anyway._  
 **Hana** _(happy)_: Now: ごちそうさま.  
 **Sparks** _(happy)_: Gochisōsama! I’m so full I’m too full to run. Don’t tell anyone.  
 **Hana**: I’m telling everyone.  
@@ -539,13 +550,19 @@ Hint: Tap the letter on the kitchen table. Tap any underlined Japanese word to h
 
 #### <a id="lj5-s1"></a>Scene `lj5-s1`
 
-_Rain on the cottage roof. Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string._  
-**Hana**: Hazel used to write to my grandma, for years and years. Grandma kept a copy of every letter she sent back.  
+_Rain on the cottage roof. Hana takes off her wet shoes at the door and lines them up, toes pointing out._  
+_Dumpling sits down beside them, toes pointing out, and waits to be lined up too._  
+**Hana**: At home, shoes stay at the door. Dumpling, you are not a shoe.  
+_Hana opens a tin on the kitchen table. Inside is a bundle of letters tied with string._  
+**Hana**: Your Hazel and my grandma wrote to each other for years and years.  
+**Hana**: Grandma kept a copy of every letter she wrote to Hazel. These are the copies.  
 **Hana**: In my family I call my grandma おばあちゃん (obāchan). My grandpa is おじいちゃん (ojiichan).  
 **Hana**: She gave me these to bring here. They’re in English, but she put Japanese words in for Hazel to learn.  
 _The paper is thin and soft from folding. The handwriting is very neat and very small. Hana reads it aloud._  
 **Hana** _(happy)_: Dear Hazel. ありがとう for the seeds. They came up!  
 **Hana**: Our ねこ (neko, “cat”) sleeps on my letters. The いぬ (inu, “dog”) next door barks at her. The とり (tori, “birds”) ignore them both.  
+**Hana**: And in every letter, obāchan asked: “Is Hazel’s gate still stuck?”  
+**Hana**: I climbed it, so: yes.  
 **Hana**: Ojiichan says hello and asks how your Nubbins are. From your ともだち (tomodachi, “friend”).  
 _Hana sits back and reads the last line again, to herself._  
 **Hana** _(soft)_: “Your ともだち.” Not just “from”. “Your friend.”  
@@ -662,7 +679,7 @@ Hint: Hana is sitting by the stream. Tap her and choose Talk. · check: `talk:ha
 #### <a id="lj6-s1"></a>Scene `lj6-s1`
 
 _Late summer. The evenings come earlier now. Hana sits by the stream, not drawing, which is how you know something is up._  
-**Hana**: At home, it’s nearly おぼん (Obon). It’s a time in summer when families remember the people in their family who have died.  
+**Hana**: At home, it’s おぼん (Obon) this week. It’s a time in summer when families remember the people in their family who have died.  
 **Hana**: At Obon, my family floats a paper lantern down the river for ojiichan. It’s called とうろうながし (tōrō nagashi).  
 **Hana**: Lots of places do it, often at the end of Obon. Every place does it a bit differently, and some don’t do it at all.  
 **Hana**: A river is かわ (kawa). This stream is more of a little かわ. But I think it would work.  
@@ -723,6 +740,9 @@ _A row of lanterns dries on the windowsill. Names in hiragana, in English, in Sp
 **Fern**: It’s not a competition, Hana.  
 **Hana** _(soft)_: …This one isn’t. You’re right. This one isn’t.  
 _Pixel floats the test lantern in the bucket of みず. It stays up. Pixel nods once, satisfied._  
+**Hana**: At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.  
+**Hana**: So this lantern would float on snow too. Once it melted. Pixel, write that down.  
+_Pixel writes it down. Then, next to it, Pixel writes “probably”._  
 
 ### Step 3: Float ojiichan’s lantern with Hana at dusk. Later, join her review party.
 
@@ -732,8 +752,7 @@ Hint: At dusk, walk down to the stream with Hana. Luna lights each lantern; set 
 
 _Dusk. Everyone walks down to the stream with Hana, who carries ojiichan’s lantern in both hands. The water is low, slow and gold._  
 **Hana** _(happy)_: No あめ (ame, “rain”) tonight. Good. Rain and paper don’t get on.  
-**Hana**: At obāchan’s, in winter, there’s ゆき (yuki, “snow”) on the やま behind her house. Snow is just frozen みず, really.  
-**Hana** _(soft)_: At home, Obon is nearly over. My family will be at the river tonight too.  
+**Hana** _(soft)_: At home, it’s the last night of Obon. My family will be at the river tonight too.  
 **Luna** _(soft)_: I’ll light them, one at a time. Let them go when you’re ready. No hurry.  
 **Hana** _(soft)_: This one’s for ojiichan.  
 _Hana sets her lantern on the かわ and doesn’t push it. It is the slowest you have ever seen her do anything._  
@@ -762,6 +781,11 @@ _Dumpling eats a りんご before Hana has finished saying the word._
 **Hana**: The world! き, はな, みず, かわ, やま, あめ, ゆき, ほし, つき, ひかり!  
 **Nova** _(happy)_: And a title for the one who learned all of that.  
 **Hana** _(soft)_: Hiragana Keeper. And this is for you: my drawing of tonight, the ひかり on the かわ. So you remember it too.  
+**Hana** _(soft)_: A fact I saved for last. かえる also sounds like 帰る (kaeru, “to go home”). People carry little frog charms so they get home safe.  
+_The frog from the bank is sitting on your doorstep. It has clearly decided it is a charm._  
+**Hana** _(think)_: So I’m not scared of かえる. I’m taking one with me. That’s different.  
+**Nova**: You’re taking a drawing of one.  
+**Hana**: It’s a very good drawing.  
 **Hana** _(soft)_: I’m not saying さようなら. That’s for a long time. I’m saying またね. See you.  
 
 **Rewards**
@@ -771,4 +795,4 @@ _Dumpling eats a りんご before Hana has finished saying the word._
 
 Sets on completion: `{"lj6Done":true}`
 
-**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. New words: step 1 Obon, tōrō nagashi, kawa, hikari; step 2 ki (木), yama (山), mizu (水), with 川 shown as a picture-kanji; step 3 ame, yuki. Hana (はな) the flower word is reviewed here. Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojiichan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No lantern items, no repeatable floating, no counting the lanterns. Grief is handled plainly: Hana’s ojiichan died; she remembers him and is OK. Hazel is not given a lantern by any character, and nothing here says whether she is alive. Step 2: a simple fold-and-write craft, not a mini-game (no score, no timer). Hana writes おじいちゃん first. The player may make a lantern too and type any name in any script, or just help Hana; the step completes either way. Nubbins don’t get lanterns. Step 3: the floating is a quiet story moment, not a game. Luna lights each lantern (children never handle the flame); the player sets theirs on the water with one tap when ready, or simply watches. No music under the first lantern. The frog stays on the bank. Step 3 done + complete: the review party plays afterwards, back at the cottage, never at the stream. It is a quick-fire game across every topic: greetings, numbers, colours, food, family, animals, feelings, nature. Use the lines here as Hana’s calls and play each word’s recording; Nubbins who learned a word react. The numbers count Nubbins, not lanterns. Lantern art: small square paper lanterns on wooden bases, warm light, drifting slowly down the stream at dusk. Reward: Hana’s drawing of that evening (a keepsake), not the lanterns.
+**Notes:** Learning Grove only: never offer this quest in the main game. Fonts: Noto Sans JP (or similar) for every line with kana or kanji; make sure kana and kanji render at the same size as the English around them. Mark Japanese text lang="ja" so kanji such as 雪 get Japanese glyph shapes, not a Chinese fallback font. For tracing and the big painted kana, use a textbook-style (kyōkasho) font such as Klee One, whose strokes match handwriting; sans-serif fonts join some strokes (き). Japanese is written left to right here, so no bidi handling is needed (unlike the Hebrew questline). Never break a line inside a Japanese word: browsers will otherwise break between any two kana, so wrap each Japanese word or phrase in a no-wrap span (or use word-break: keep-all). The spaces in わたしは はな です are deliberate learner spacing; keep them. For the column choice in LJ2 step 3 use writing-mode: vertical-rl (columns read right to left). Kanji always appear beside their kana here; if a kanji is ever shown alone (e.g. VocabItem.plain), add furigana with <ruby>. Audio: every word in JAPANESE_COURSE.vocab needs a native-speaker recording (clip id in VocabItem.audio). Do not use TTS. Tracing mini-games: draw the stroke order for each kana, one stroke at a time, numbered, before the child traces it. Nubbins who “learn” a word react to it: they bow at こんにちは and in later quests at any word they have learned. Dumpling is any round Nubbin in the Grove nicknamed by Fern for these quests; pick one the player has not named, or spawn a visiting one. New words: step 1 Obon, tōrō nagashi, kawa, hikari; step 2 ki (木), yama (山), mizu (水), with 川 shown as a picture-kanji; step 3 ame, yuki. Hana (はな) the flower word is reviewed here. Culture: Obon is a summer time when families remember relatives who have died; tōrō nagashi is floating paper lanterns on rivers, often at the end of Obon. Customs and dates vary by place. Say only that. No religious detail, no spirits. Here it is Hana’s family’s custom for her ojiichan, which she invites the player to share: never a game activity, a mini-game, a score or a reward. No floating-lantern items (LJ1’s gate lantern is a welcome sign, a different thing), no repeatable floating, no counting the lanterns. Grief is handled plainly: Hana’s ojiichan died; she remembers him and is OK. Hazel is not given a lantern by any character, and nothing here says whether she is alive. Step 2: a simple fold-and-write craft, not a mini-game (no score, no timer). Hana writes おじいちゃん first. The player may make a lantern too and type any name in any script, or just help Hana; the step completes either way. Nubbins don’t get lanterns. Step 3: the floating is a quiet story moment, not a game. Luna lights each lantern (children never handle the flame); the player sets theirs on the water with one tap when ready, or simply watches. No music under the first lantern. The frog stays on the bank. Step 3 done + complete: the review party plays afterwards, back at the cottage, never at the stream. It is a quick-fire game across every topic: greetings, numbers, colours, food, family, animals, feelings, nature. Use the lines here as Hana’s calls and play each word’s recording; Nubbins who learned a word react. The numbers count Nubbins, not lanterns. Lantern art: small square paper lanterns on wooden bases, warm light, drifting slowly down the stream at dusk. Reward: Hana’s drawing of that evening (a keepsake), not the lanterns.

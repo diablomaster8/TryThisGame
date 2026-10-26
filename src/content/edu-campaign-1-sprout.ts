@@ -660,6 +660,8 @@ const CH4: EduScene[] = [
       N('Pop, pop, pop! Three lanterns glow. The fourth one flickers.'),
       N('Here come the Keepers, through the gate. Lift and push!'),
       SPARKS('Fern’s lantern buns! Crunch! They’re very crunchy!', 'happy'),
+      N('An old Nubbin taps a bun. Tap, tap! It rings like a bell.'),
+      FERN('Oh dear. Buns are not meant to ring.'),
       MOSS('Psst. Tell Byte his shoelace is undone.'),
       BYTE('…Hm. How did Moss know that?', 'think'),
       N('Then Luna starts to sing. One by one, everyone joins in.', 'soft'),
@@ -675,7 +677,7 @@ const CH4: EduScene[] = [
         skill: 'hearing rhyme (keep, sleep)',
         standard: 'RF.K.2',
         kind: 'ask',
-        after: 8,
+        after: 10,
         prompt: [
           N('(Listen: woke, folk. They rhyme! They sound the same at the end.)'),
           N('The last line rhymes with keep. Which word will it be?'),
@@ -704,7 +706,7 @@ const CH4: EduScene[] = [
         skill: 'joining in with a repeated refrain and keeping the beat',
         standard: 'RL.2.4',
         kind: 'do',
-        after: 9,
+        after: 11,
         check: 'edu:sing:refrain:lantern-song',
         lines: [
           N('(Now the bit everyone knows. Sing it together!)'),

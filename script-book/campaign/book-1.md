@@ -10,7 +10,7 @@ _Late spring. The road runs out a little before the Grove does._
 _The last of it is grass, and then a gate._  
 _The gate is stuck. It always was._  
 _You lift and push, the way she taught you._  
-_It gives with the same small groan it gave when you were small enough to need both hands._  
+_It gives with the same small groan as when you needed both hands. It sounds as if it has missed the argument._  
 _The Grove is overgrown and quiet. The pond has gone to reeds at one end._  
 _Nobody has cut the grass since she left._  
 _On the signpost, under a stone, a letter in your grandmother’s hand._  
@@ -355,6 +355,8 @@ _Out by the long grass, the fourth lantern flickers._
 
 #### <a id="c4-tale-2"></a>Scene `c4-tale-2`
 
+_Against the wall, Sparks says “FLAT” in her sleep, and turns over._  
+**Moss**: She is still teaching hand-feeding. Even now. I admire it.  
 **Moss**: Four of us kept this valley, once. Wardens, the Keepers called us later. We never called ourselves anything.  
 **Moss**: Briar, who laughed. At rain, at foxes, at me. Mostly at me.  
 **Moss**: Hush, who was quiet, and kept the griefs nobody else had room for.  
@@ -461,6 +463,11 @@ _They stand in two loose knots on either side of the pond, the way people do whe
 _Sparks takes one and bites it. It makes a sound like a dropped plate._  
 **Sparks** _(happy)_: Crunchy!  
 **Fern**: They are not meant to be crunchy.  
+_On the wall sits Dusty, with a very old, sandstone-coloured Nubbin in their lap and a duck at their feet._  
+**Dusty**: That’s Gerald. He’s not with us. He just likes a crowd.  
+_The old Nubbin reaches out and taps one of Fern’s buns, twice. It rings like a plate._  
+**Sparks** _(happy)_: SEE? Even the old one says crunchy.  
+**Fern**: Tapping isn’t a review.  
 **Pixel** _(happy)_: Pixel. Hi. I did the lantern timing circuit, Sparks did the part that explodes. Is it true you can hear Moss? Byte says it’s a hoax.  
 **Byte**: I said it was unverified.  
 **Moss**: Tell the pale one his shoelace is untied.  

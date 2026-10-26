@@ -14,7 +14,7 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | ありがとうございます |  | arigatō gozaimasu | thank you (polite) | ah-ree-gah-TOH go-zai-MAS | greetings | LJ1 | reader | Polite form. | `ja/arigatou-gozaimasu` |
 | すみません |  | sumimasen | excuse me, sorry | soo-mee-mah-SEN | greetings | LJ1 | both |  | `ja/sumimasen` |
 | ごめんなさい |  | gomen nasai | I’m sorry | go-men nah-SAI | greetings | LJ1 | both |  | `ja/gomen-nasai` |
-| さようなら |  | sayōnara | goodbye (for a while) | sah-YOH-nah-rah | greetings | LJ1 | both | For a goodbye that will last a while, not for “see you tomorrow” (use またね) or bedtime (use おやすみ). | `ja/sayounara` |
+| さようなら |  | sayōnara | goodbye (for a long time) | sah-YOH-nah-rah | greetings | LJ1 | both | For a goodbye that will last a long time, not for “see you tomorrow” (use またね) or bedtime (use おやすみ). | `ja/sayounara` |
 | またね |  | mata ne | see you | mah-tah NEH | greetings | LJ1 | both |  | `ja/mata-ne` |
 | はい |  | hai | yes | HAI | greetings | LJ1 | both |  | `ja/hai` |
 | いいえ |  | iie | no | EE-eh | greetings | LJ1 | both |  | `ja/iie` |
@@ -22,7 +22,7 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | わたしは ___ です |  | watashi wa ___ desu | I am ___ | wah-TAH-shee wah ___ DES | greetings | LJ1 | both | Put a name in the gap, e.g. わたしは はな です. The は here is read “wa”. | `ja/watashi-wa-desu` |
 | よろしくおねがいします |  | yoroshiku onegaishimasu | please treat me kindly / pleased to meet you | yo-ROSH-koo oh-neh-gai-shee-MAS | greetings | LJ1 | reader | Polite; said after introducing yourself. | `ja/yoroshiku-onegaishimasu` |
 | いただきます |  | itadakimasu | said before eating | ee-tah-dah-kee-MAS | greetings | LJ4 | both |  | `ja/itadakimasu` |
-| ごちそうさま |  | gochisōsama | said after eating | go-chee-SOH-sah-mah | greetings | LJ4 | both |  | `ja/gochisousama` |
+| ごちそうさま |  | gochisōsama | said after eating | go-chee-SOH-sah-mah | greetings | LJ4 | both | Casual. The polite form is ごちそうさまでした (gochisōsama deshita). | `ja/gochisousama` |
 | いけ |  | ike | pond | EE-keh | letters | LJ2 | both | Spelled い + け. Say-it not in the vetted list: confirm against the recording. | `ja/ike` |
 | うえ |  | ue | up, above | OO-eh | letters | LJ2 | both | Spelled う + え. Say-it not in the vetted list: confirm against the recording. | `ja/ue` |
 | いえ |  | ie | house | ee-EH | letters | LJ2 | both | Spelled い + え: two short sounds. Not いいえ (iie, “no”), which holds the “ee” longer. Say-it not in the vetted list: confirm against the recording. | `ja/ie` |
@@ -60,7 +60,7 @@ Japanese uses three scripts: hiragana for Japanese words and grammar (46 basic c
 | とり | 鳥 | tori | bird | TOH-ree | animals | LJ5 | both |  | `ja/tori` |
 | うさぎ |  | usagi | rabbit | oo-SAH-gee | animals | LJ5 | both |  | `ja/usagi` |
 | ふくろう |  | fukurō | owl | foo-koo-ROH | animals | LJ5 | both |  | `ja/fukurou` |
-| かえる |  | kaeru | frog | kah-EH-roo | animals | LJ5 | both |  | `ja/kaeru` |
+| かえる |  | kaeru | frog | kah-EH-roo | animals | LJ5 | both | Sounds the same as 帰る (kaeru, “to go home”). Little frog charms are carried for a safe trip home. | `ja/kaeru` |
 | おかあさん |  | okāsan | mother | oh-KAH-sahn | family | LJ5 | both |  | `ja/okaasan` |
 | おとうさん |  | otōsan | father | oh-TOH-sahn | family | LJ5 | both |  | `ja/otousan` |
 | おばあちゃん |  | obāchan | grandma | oh-BAH-chahn | family | LJ5 | both | Reader note: おばちゃん (obachan, auntie) differs only in the long vowel. Hold the “baa”. | `ja/obaachan` |

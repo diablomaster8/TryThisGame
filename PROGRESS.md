@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 18 fixes (2026-10-26)
+
+- **Works:** all 43 run-18 recs fixed across the Japanese line and its bands, the Hebrew reader, the
+  extras (readers, results) and campaign books 1–2 with their bands. Two new choice payoffs in
+  `choice-payoffs.ts` (tested): Corvin quotes your c5 race answer back in c9, and the LJ3 race and
+  LJ4 bento choices pay off in their done scenes. Nova finally gives the owl speech.
+- **Partial:** none new; SR-20261026-939 (LK) still waits on LK being wired.
+- **Known bugs:** none new.
+
 ## Story review run 17 fixes (2026-10-26)
 
 - **Works:** 57 of run 17's 58 recs fixed across PA4, PA5, LB and LK with their bands, and the
@@ -128,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   and Celine's pears, and the sticky Nubbin finally reaches the shawl and the stool in A28.
 - **Partial:** none.
 - **Known bugs:** none new. Atlas flag values must not collide with Grove flag values such as 'home'.
-
-## Story review run 14 fixes (2026-10-25)
-
-- **Works:** all 55 run-14 recs fixed across A23 and A24 with their bands, A25 main and reader, and
-  A26 with its bands. A26's flood tale now counts seven days and seven loaves, with the wife correcting
-  him. Atreyu gets a terrible first rhyme, and Baloo is "half the bear I was". The A24 reader's 66
-  over-long replies are trimmed.
-- **Partial:** none.
-- **Known bugs:** none new. Some reader lessons carry no standard tag where no grades 3–5 code fits.
 
 ## Standing approval (Maor, 2026-10-12)
 

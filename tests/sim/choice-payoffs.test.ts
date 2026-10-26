@@ -26,6 +26,10 @@ const CASES: Array<[scene: string, flag: string, values: Array<string | true>]> 
   ['s18-fossils', 's5-carry', ['egg', 'shoulder']],
   ['s18-shore', 's5-holder', ['yours', 'marina']],
   ['c10-dawn', 'c4-lamps', ['remember', 'home', 'together', 'dunno']],
+  ['c9-open', 'c5-race', ['want', 'win', 'home']],
+  ['c9-open-sold', 'c5-race', ['want', 'win', 'home']],
+  ['lj3-s2-done', 'lj3-race', ['fair', 'head', 'sparks']],
+  ['lj4-s1-done', 'lj4-bento', ['beans', 'cucumber', 'lettuce']],
 ];
 
 describe('S1–S5 choices pay off later', () => {

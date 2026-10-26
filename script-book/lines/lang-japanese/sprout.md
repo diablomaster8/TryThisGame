@@ -81,6 +81,8 @@ _(Say it: go-men nah-SAI.)_
 > - Pretend it didn’t happen. → Dumpling still feels bumped! Saying sorry helps him feel better.
 > _For grown-ups: Thought about what to do after bumping someone by mistake: say sorry (gomen nasai) and help._
 
+**Hana**: It’s morning, so we say ohayō.  
+**Hana**: But Nubbins learn one word at a time. Konnichiwa first!  
 
 **Choices**
 
@@ -392,7 +394,9 @@ _(Say it: KYOO, JOO. Show ten fingers!)_
 > Check: `edu:trace:ja:i`
 > _For grown-ups: Traced the Japanese shape い (i), the first shape of ichi (“one”)._
 
-**Marina**: A little dramatic. But right.  
+**Marina**: Hana, that was very loud.  
+**Hana**: Loud and right!  
+**Marina**: Loud and right.  
 _Dumpling counts the koi with his head. Nod, nod, nod._  
 
 #### `sprout:lj3-s2` · [main](main.md#lj3-s2)
@@ -412,7 +416,6 @@ _Zoom! Sparks arrives. Pixel brings a lap board._
 
 **Hana**: Loser feeds the さかな (sakana, “fish”).  
 _(Say it: sah-KAH-nah. Make a fish face!)_  
-**Byte**: I will write down the excuses.  
 
 **Choices**
 
@@ -430,6 +433,8 @@ _(Say it: sah-KAH-nah. Make a fish face!)_
 
 _Clack! The last tile flips._  
 _Everyone flops on the grass. Puff, puff, puff._  
+_Byte comes with a clipboard. Byte counts the laps._  
+**Byte**: I will write down Hana’s excuses.  
 **Byte**: Laps: counted. Hana’s excuse: coming soon.  
 **Hana**: That was a practice one.  
 **Byte**: There it is.  
@@ -678,7 +683,7 @@ _Dumpling lies down on blue. All done._
 
 _Rain on the roof. Pitter, patter._  
 _Hana opens a tin of letters._  
-**Hana**: Hazel used to write letters to my grandma.  
+**Hana**: Your Hazel and my grandma sent letters. Lots of letters!  
 **Hana**: I call my grandma おばあちゃん (obāchan, “grandma”).  
 _(Say it: oh-BAH-chahn. Long and soft in the middle.)_  
 **Hana**: Obāchan wrote: our ねこ (neko, “cat”) sleeps on my letters!  
@@ -928,7 +933,8 @@ _Pixel puts the test one in the mizu. It floats!_
 > - A paper one with no base. → That one went glug! The wooden base helps it float.
 > _For grown-ups: Saw that a lantern with a wooden base floats, while soggy paper sinks._
 
-_Pixel nods. Good._  
+_Dumpling sits on the test lantern. It still floats!_  
+_Pixel nods. A very good lantern._  
 
 #### `sprout:lj6-s3` · [main](main.md#lj6-s3)
 
@@ -995,6 +1001,9 @@ _(Say them: KEE, HAH-nah, MEE-zoo, KAH-wah, YAH-mah, AH-meh, YOO-kee, HOH-shee, 
 > _For grown-ups: Played Hana’s review game: colours, animals, feelings and pond words in Japanese, said back and acted out._
 
 **Nova**: A Hiragana Keeper! That’s you!  
+**Hana**: Kaeru means frog. Kaeru also means “go home”!  
+**Hana**: Frogs help people get home safe. So I’m not scared. Much.  
+_(Say it: kah-EH-roo. Hop like a frog!)_  
 **Hana**: I go home soon. So: またね (mata ne)!  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): saying goodbye to a friend  

@@ -276,6 +276,8 @@ _The voice is small and dry. It’s coming from him!_
 _Pop, pop, pop! Three lanterns glow. The fourth one flickers._  
 _Here come the Keepers, through the gate. Lift and push!_  
 **Sparks**: Fern’s lantern buns! Crunch! They’re very crunchy!  
+_An old Nubbin taps a bun. Tap, tap! It rings like a bell._  
+**Fern**: Oh dear. Buns are not meant to ring.  
 **Moss**: Psst. Tell Byte his shoelace is undone.  
 **Byte**: …Hm. How did Moss know that?  
 _Then Luna starts to sing. One by one, everyone joins in._  
@@ -806,6 +808,9 @@ _Sable stares at the post. She is very, very still._
 
 _Moss comes down the hill. His feet leave no prints._  
 _He stops at the frosty post, and looks and looks._  
+_Your Nubbin licks the frost. Brr! Out pops its tongue._  
+_Sable licks it too, very slowly. Now they both look shocked._  
+**Moss**: Yes. It is cold. That is the point.  
 **Moss**: Something was hidden under this post. It isn’t there now.  
 **Moss**: Sit with me. This is a long story.  
 _You sit on the cold grass. Sable sits near you._  
@@ -924,6 +929,10 @@ _She is heavy! You stand very still and let her._
 **Byte**: I’m writing that down as nice.  
 **Clover**: Write it down twice!  
 **Pixel**: I made Sable a trust meter! It says MAYBE.  
+**Byte**: Your machines never measure things right.  
+**Pixel**: Byte, your shoelace is undone.  
+_Byte looks down. It is tied!_  
+**Pixel**: Got you. That one measured you right.  
 
 > **Lesson** (literacy, ELOF: Literacy, do): the letter M and its sound  
 > **Pixel**: MAYBE starts with the letter M. Mmm!  
@@ -1004,6 +1013,10 @@ _Sable sits by the gate. She will wait here._
 > - Because water is boring → Water is great fun! But wet rocks are slippery. Go slowly, with a grown-up.
 > _For grown-ups: Learned to go slowly near water, because wet rocks are slippery, and to stay with a grown-up._
 
+_Nova unfolds a long speech. Both sides of the page!_  
+**Nova**: I would like to say a few words. About owls.  
+**Marina**: Hand on the rock, Nova.  
+_Nova puts the speech away. Later, she whispers “owls” to the rock._  
 _Behind the waterfall it is very loud. Whoosh! Roar!_  
 _Through a gap: a warm pool, with steam rising._  
 **Marina**: That’s the Wellspring. The first Nubbins came from there.  
@@ -1036,6 +1049,10 @@ _Sable sits by the gate. She will wait here._
 > - Go on your own → Never alone near water. Stay close to a grown-up, and go slowly.
 > _For grown-ups: Remembered how to stay safe near water: go slowly, hold on, and stay with a grown-up._
 
+_Nova unfolds a long speech. Both sides of the page!_  
+**Nova**: I would like to say a few words. About owls.  
+**Marina**: Hand on the rock, Nova.  
+_Nova puts the speech away. Later, she whispers “owls” to the rock._  
 _Behind the waterfall it is very loud. Whoosh! Roar!_  
 _Through a gap: a warm pool, with steam rising._  
 **Marina**: That’s the Wellspring. The first Nubbins came from there.  
