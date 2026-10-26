@@ -13,7 +13,7 @@
 _The Keepers wander home with their empty cups. Three lanterns glow. The fourth post, by the long grass, is dark._  
 _Moss hasn’t gone back up the hill. He sits by your boot, staring at the dark post._  
 **Moss**: Twenty-two years, that post has been dark.  
-**You**: That’s a long time.  
+**You**: Why is it dark?  
 **Moss**: Not tonight. Ask me something else. Anything else.  
 **Moss**: I told you the tale. A tale is only the part that fits in a song. The rest doesn’t fit anywhere.  
 **Moss**: At each post I keep one small memory that isn’t in the tale. Four posts. Four small things.  
@@ -53,7 +53,8 @@ _Moss hasn’t gone back up the hill. He sits by your boot, staring at the dark 
 _The stream lantern hisses softly in the damp air. Moss looks at it for a long while before he speaks._  
 **Moss**: Briar. The songs call her Joy. That’s a big word. Mostly, she laughed.  
 **Moss**: She laughed at frogs. At weather. At me, constantly. When she was scared, she laughed loudest of all.  
-**Moss**: Fading is how an Eternal dies. When it was Briar’s time, she walked up the hill laughing.  
+**Moss**: Briar was an Eternal, like me. An Eternal is a Nubbin loved so much it stays a very long time.  
+**Moss**: But in the end, even an Eternal fades. Fading means dying. When it was Briar’s time, she walked up the hill laughing.  
 **Moss**: She said she’d thought of a joke and wanted to tell it to the view.  
 _For a moment the lantern light turns old and gold, and you hear a voice that isn’t his._  
 **Briar**: If I’m not down by supper, eat mine. If I’m not down by spring, plant something nice.  
@@ -113,21 +114,15 @@ _The stream takes the boats as if it has been waiting all year. Moss’s tips ov
 **Moss**: Every year.  
 _Yours wobbles past the stepping stones, spins once at the reed bend, and slides out onto the pond._  
 _The candle is still lit._  
-
-> **Lesson** (science, notice): what a flame needs to keep burning  
-> **Moss**: Briar always said a flame needs three things: something to burn, air, and heat.  
-> **Moss**: Splash it, and the water cools it and shuts out the air. Keep it dry, and it carries on. Like yours.  
-> _For grown-ups: Learned that fire needs fuel, air and heat, and that water puts it out by cooling it and blocking air._
-
 _Your Nubbin, who has run beside it the whole way along the bank, sits down hard in amazement._  
 **Moss**: Well? Rules are rules.  
 _You laugh. It comes out louder than you meant, and it rolls right across the water._  
-**Moss**: …There. That’s the sound. I haven’t heard it at this post in a very long time.  
+**Moss**: …There. That’s Briar’s sound. I haven’t heard it at this post in a very long time.  
 _Behind you, Moss’s boat drifts back to the bank upside down, as if it would quite like another go._  
 **Moss**: I have a theory about Briar’s joke, you know. That my boat never reaches the pond.  
 **Moss**: She folded my first one. I’ve used her fold ever since. I’m beginning to suspect the fold.  
 _He looks at the upside-down boat with deep suspicion._  
-**Moss**: Next Lantern Night. And the one after. Somebody ought to. It’s a tradition now.  
+**Moss**: Next Lantern Night, boats again. And the one after. It’s a tradition now.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): traditions: how a group remembers together  
 > _Something a family or a town does again every year, the same way, is called a tradition._  
@@ -141,8 +136,8 @@ _A few evenings later, Moss is waiting at the gate. He has clearly waited a whil
 **Moss**: The old wall next. Hush’s. Feed them first. I’ll wait. I am, you’ll have noticed, good at it.  
 _Byte is leaning on the wall with a notebook, trying to look casual. It clearly took a lot of planning._  
 **Byte**: Is he talking? Right now? Ask him something only he would know. For proof.  
-**Moss**: Tell the pale one it’s the other shoe this time.  
-_Byte looks down at both shoes. Byte goes very quiet, and leaves._  
+**Moss**: Tell Byte it’s his left shoelace this time.  
+_Byte looks down. His left lace is undone. Byte goes very quiet, ties it, and leaves. The right one comes undone on the way._  
 **Moss**: Hush was the quiet one. People think quiet means resting. Hush wasn’t resting. She was listening.  
 **You**: Listening to what?  
 **Moss**: Whatever you weren’t saying. Come on. North side of the Grove. Mind the step.  
@@ -158,21 +153,20 @@ _Byte looks down at both shoes. Byte goes very quiet, and leaves._
 #### `reader:s1-hush` · [main](../../../side/S01.md#s1-hush)
 
 _The lantern by the old wall burns lower than the others, steady and quiet, like a candle in an empty room._  
+
+> **Lesson** (literacy, L.4.5, notice): similes  
+> _“Like a candle in an empty room” is a simile. A simile compares two things using “like” or “as”._  
+> _It tells you how the lantern looks: small, steady and a little lonely._  
+> _For grown-ups: Spotted a simile and explained what the comparison shows._
+
 **Moss**: After the White Year, some of the stilled ones never moved again. They sat where they were put down.  
 **Moss**: The rest of us were busy. Mending. Hatching. Getting the valley warm. Hush sat with the still ones.  
 **Moss**: Every one. Every day. She didn’t try to wake them. She kept them company, so they weren’t alone.  
 _Moss stops. When he goes on, his voice is smaller._  
 **Moss**: The last of them faded on a winter morning, under this wall. Faded means it died. Hush was beside it.  
 _The memory rises slowly, like breath on cold glass._  
-
-> **Lesson** (literacy, L.4.5, notice): similes  
-> _“Like breath on cold glass” is a simile. A simile compares two things using “like” or “as”._  
-> _It tells you how the memory appears: slowly, softly, and a little bit misty._  
-> _For grown-ups: Spotted a simile and explained what the comparison shows._
-
 **Hush**: That’s the last of them, Moss. Somebody kept them. I think I’d like to be kept now.  
 **Moss**: She called grief a kind of keeping. You hold it, so it doesn’t get dropped all over the valley.  
-**Moss**: She held it a very long time. Then she put it down. I’ve never thought that was weakness.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): think question: what grief is for  
 > **Moss**: Hush called grief a kind of keeping. I’ve wondered about that for a long time. What do you think she meant?  
@@ -181,6 +175,9 @@ _The memory rises slowly, like breath on cold glass._
 > - I’m not sure. Grief just feels heavy. → That’s an honest answer, and honest is always fair. It is heavy. Maybe that’s why she called it keeping. You carry it, and one day you’re allowed to put it down.
 > _For grown-ups: Thought about what grief means; there was no wrong answer._
 
+**Moss**: She held it a very long time. Then she put it down. I’ve never thought that was weakness.  
+**Moss**: Some years later, Hush faded too. Faded means she died. She went quietly, the way she did everything.  
+**Moss**: She was not alone. Somebody kept her company, the way she kept them.  
 
 #### `reader:s1-pond-ask` · [main](../../../side/S01.md#s1-pond-ask)
 
@@ -264,7 +261,7 @@ _“when the morning came to call, / they did not move at all.”_
 
 #### `reader:s1-cinder` · [main](../../../side/S01.md#s1-cinder)
 
-_The evening after you buried the tin. Frost reaches out of the long grass in thin white fingers._  
+_A cold evening, weeks later. Frost reaches out of the long grass in thin white fingers._  
 
 > **Lesson** (literacy, L.4.5, notice): metaphors  
 > _Frost doesn’t really have fingers. “Thin white fingers” is a metaphor: it says one thing is another._  
@@ -272,7 +269,7 @@ _The evening after you buried the tin. Frost reaches out of the long grass in th
 > _For grown-ups: Recognised a metaphor and what feeling it creates._
 
 _Moss is waiting at your door. He is so faint you can see the doorstep through him._  
-**Moss**: All four home. I said I’d tell you. You may carry me. I’m told it’s an honour. Don’t make a face.  
+**Moss**: Today I can tell it. I said I would. You may carry me. I’m told it’s an honour. Don’t make a face.  
 _You carry him to the fourth post. He weighs almost nothing, like a bird’s nest with opinions._  
 **Moss**: Everyone remembers Cinder in the snow. I’m going to tell you about the day before.  
 **Moss**: Hot. The hottest day anyone could remember. The Nubbins lay flat in the long grass like dropped gloves.  
@@ -289,6 +286,7 @@ _The light goes old and gold, then red at the edges. You smell hot grass and hea
 
 **Moss**: She was never gentle. But she was never once tired of them. Not once, in all the years.  
 **Moss**: That night the first snow came. In summer. And it didn’t stop.  
+**Moss**: She gathered them all into her arms to keep them warm. She held on, and held on, and would not let go.  
 _The memory goes white, and is gone. Frost glitters at the foot of the post._  
 **Moss**: Cinder-love, they call it now. A love that holds too tight. It’s fair. It isn’t all of her.  
 

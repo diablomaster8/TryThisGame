@@ -2040,12 +2040,12 @@ const S10_POSTS_START: Line[] = [
   N('At the stream lantern, she laughs at nothing at all. Then she explains that Briar would have.'),
   H('Briar’s. You can’t stand here and be gloomy. People have tried.', 'happy'),
   N('At the old wall, she says nothing. She puts her hand flat on the post, the way you’d touch a sleeping friend.'),
-  H('Hush’s. For keeping. I kept a great deal here, one way and another.', 'soft'),
+  H('Hush’s. She sat with the still ones, long ago. I kept a great deal here too, one way and another.', 'soft'),
 ];
 const S10_POST_ASK: Line[] = [
   N('…'),
   H('Can I ask you something? I’ve never asked anyone. There’s never been anyone to ask.', 'think'),
-  H('Should I have gone after him? That night. Instead of wedging a gate and waiting.', 'soft'),
+  H('Should I have gone after Corvin? That night. Instead of wedging a gate and waiting.', 'soft'),
 ];
 const S10_HOPING = H('I stopped hoping, after a while. I never stopped looking. They’re different things. Remember that.', 'soft');
 
@@ -2311,6 +2311,7 @@ const S10_SCENES: EduScene[] = [
   scene(
     's10-register',
     [
+      N('On the cover, under “Do not lend this to Byte”, someone has added in very neat capitals: NOTED. —B.'),
       N('Hazel reads your pages slowly, a finger under each line, the way she reads seed catalogues.'),
       H('Oh, that’s a terrible name. I love it.', 'happy'),
       H('“Hatched in a hurry”? They all hatch in a hurry, love. Write the weather. You’ll want the weather, later.'),
@@ -2323,7 +2324,7 @@ const S10_SCENES: EduScene[] = [
         domain: 'maths',
         skill: 'fill in a row of a data table',
         kind: 'do',
-        after: 2,
+        after: 3,
         lines: [
           H('A register is a table. Each row is one egg. Each column is one kind of fact.'),
           H('Number, name, first sound, weather. Fill in a row for your newest Nubbin. Every box, mind.'),
@@ -2336,7 +2337,7 @@ const S10_SCENES: EduScene[] = [
         skill: 'written records tell the future about the past',
         standard: 'D2.His.2.K-2',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           H('People have always written things down so they aren’t forgotten. Farm books, letters, diaries.'),
           H('Long after we’re gone, somebody reads them and knows how we lived. Even the weather.', 'soft'),
@@ -2412,6 +2413,9 @@ const S10_SCENES: EduScene[] = [
     [
       N('The usual roar from the stands. Under it, from the back row, one voice carries over all the others.'),
       N('Sparks, beside her, shouted herself hoarse on the first lap and has been cheering in mime ever since.'),
+      N('In the back row, on the seat Sparks fought Ember for, sits a duck. It is a very confident duck.'),
+      H('Leave it. It paid.', 'happy'),
+      N('Your Nubbin crosses the line in its own good time. Hazel cheers it all the way in, with her mouth full of pie.'),
       N('Win or lose, when you come off the course, Hazel is on her feet, holding half a pie, beaming.'),
       SP('Two pies, four Shells each, and I’ve only got a ten-Shell coin. How much change?', 'soft'),
       H('I’ve had two. Worth every Shell.', 'happy'),
@@ -2425,7 +2429,7 @@ const S10_SCENES: EduScene[] = [
         skill: 'a two-step money problem with Shells',
         standard: '3.OA.D.8',
         kind: 'ask',
-        after: 3,
+        after: 6,
         prompt: [N('Sparks paid for Hazel’s two pies with a 10-Shell coin.'), N('How many Shells did she get back?')],
         options: [
           { label: '2', best: true, reply: [N('Yes. Two pies at 4 Shells is 8 Shells. 10 − 8 = 2 Shells change.')] },
@@ -2439,7 +2443,7 @@ const S10_SCENES: EduScene[] = [
         skill: 'recognise a metaphor',
         standard: 'L.4.5',
         kind: 'notice',
-        after: 6,
+        after: 9,
         lines: [
           N('Hazel talks about your Nubbin’s trust as if it were money: something you could spend, and must never spend.'),
           N('Talking about one thing as if it were another is called a metaphor.'),
@@ -2515,6 +2519,7 @@ const S10_SCENES: EduScene[] = [
       H('Tomorrow they’ll all come. You’ll tell them what the Grove is going to be. I want to hear you say it.'),
       H('After that, nobody fuss. I mean it.', 'soft'),
       H('They still think I’m here for the holidays. Let them. It’s been lovely, being ordinary.', 'happy'),
+      H('Now go home. Stand on that step all night and the hens will start roosting on you.', 'happy'),
       N('She goes in. Through the window you see her sit on the edge of the bed for a long time before she lies down.'),
       N('You stand in the dark garden, holding the secret. It is the heaviest thing you have ever carried.'),
     ],
@@ -2524,7 +2529,7 @@ const S10_SCENES: EduScene[] = [
         skill: 'surprises and heavy secrets; telling a trusted grown-up',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           N('Some secrets are happy, like a surprise party. Some are heavy, and make your tummy hurt.'),
           N('If a secret ever feels too heavy, it is always all right to tell a grown-up you trust. That’s asking for help.'),
@@ -2650,14 +2655,15 @@ export const EDU_SIDE_2_READER_VARIANTS: EduScene[] = [
         'Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.',
         'soft',
       ),
-      H('He’ll have told you about the winter. He’ll have left out the fidgeting.', 'happy'),
+      H('He’ll have told you about the winter. He’ll have put in the fidgeting. He always puts in the fidgeting.', 'happy'),
       H(
         'I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.',
       ),
       H(
-        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.',
+        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down.',
         'happy',
       ),
+      H('If Moss told you I fell in the pond, he’s wrong. It was ankle-deep. That isn’t falling in. That’s paddling.', 'think'),
       H(
         'Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.',
         'soft',

@@ -541,7 +541,9 @@ const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
     if (c.flags['s1-pace'] === 'offered')
       s.swap('All four home.', {
         main: 'All four home. You offered once. I said certainly not. I have reconsidered. Don’t make a face.',
-        sprout: 'All four are home. You offered to carry me once. Yes, please, now.',
+        sprout: 'Time for the last post. You offered to carry me once. Yes, please!',
+        reader:
+          'Today I can tell it. You offered once. I said certainly not. I have reconsidered. Don’t make a face.',
       });
   },
   'c10-dawn': (c, s) => {
@@ -766,19 +768,35 @@ class Swapper {
     this.insert(at, [{ who: 'narrator', text: textFor(text, this.band) }]);
   }
 
+  /** Where `anchor` sits: as in spliceScene, a band whose lines don't line up names its own. */
+  private find(anchor: string | BandText): number {
+    const own = typeof anchor === 'string' || this.band === 'main' ? undefined : anchor[this.band];
+    return own
+      ? this.lines.findIndex((l) => l.text.startsWith(own))
+      : this.index(typeof anchor === 'string' ? anchor : anchor.main);
+  }
+
   insertAfter(
     anchor: string | BandText,
     text: BandText,
     who = 'narrator',
     mood?: Line['mood'],
   ): void {
-    // As in spliceScene: a band whose lines don't line up with main's names its own anchor.
-    const own = typeof anchor === 'string' || this.band === 'main' ? undefined : anchor[this.band];
-    const at = own
-      ? this.lines.findIndex((l) => l.text.startsWith(own))
-      : this.index(typeof anchor === 'string' ? anchor : anchor.main);
+    const at = this.find(anchor);
     if (at < 0) return;
     this.insert(at, [{ who, text: textFor(text, this.band), ...(mood ? { mood } : {}) }]);
+  }
+
+  /** As insertAfter, but the new line goes just before the anchor (to open a scene). */
+  insertBefore(
+    anchor: string | BandText,
+    text: BandText,
+    who = 'narrator',
+    mood?: Line['mood'],
+  ): void {
+    const at = this.find(anchor);
+    if (at < 0) return;
+    this.insert(at - 1, [{ who, text: textFor(text, this.band), ...(mood ? { mood } : {}) }]);
   }
 
   /** S24's kept-stone line for this band, found by its opening words (bands rewrite it). */

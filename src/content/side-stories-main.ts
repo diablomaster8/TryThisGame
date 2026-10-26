@@ -87,7 +87,7 @@ const S9_GATE_OPEN: Line[] = [
 ];
 const S9_GATE_CLOSE: Line[] = [
   C('I know who’s sitting by that pond. I know what I took from her. I’m asking anyway.'),
-  N('Behind you, Hazel drinks her tea and does not turn round. She is listening to every word.'),
+  N('Behind you, Hazel drinks her tea and does not turn round. Her cup has been empty for some time.'),
 ];
 const S9_FAMILY_EXTRA: Line[] = [
   C('Things have been reaching me this week. Left on my wall. Never signed.', 'think'),
@@ -104,10 +104,12 @@ const S9_FAMILY: Choice = {
     Y('Lift and push. Both at once. It was never the latch.'),
     N('He looks at you. Then he puts both hands on the bar, lifts the gate a finger’s width, and pushes.'),
     N('It swings open. It sticks again behind him, the way it does for everyone who lives here.'),
+    N('On the gatepost, Byte’s label flutters. Somebody has crossed it out.'),
     C('…Oh.', 'shock'),
     C('That’s all it ever was.', 'soft'),
     N('He walks to the pond and sits down an arm’s length from Hazel. She hands him the cup without looking.'),
-    N('Neither of them says anything. He isn’t very good at it yet. She is.'),
+    N('Neither of them says anything. He clears his throat twice. She lets him have both.'),
+    N('He isn’t very good at it yet. She is.'),
     N('In the long grass, the grey ear is still flat. Not today, then. Perhaps not this year.'),
   ],
 };
@@ -142,13 +144,13 @@ const S10_POSTS_START: Line[] = [
   N('At the stream lantern she laughs at nothing at all, and then explains that Briar would have.'),
   H('Briar’s. You can’t stand here and be gloomy. People have tried.', 'happy'),
   N('At the old wall she says nothing. She puts her hand flat on the post, the way you’d touch a sleeping friend.'),
-  H('Hush’s. For keeping. I kept a great deal here, one way and another.', 'soft'),
+  H('Hush’s. She kept the still ones company, long ago. I kept a great deal here too, one way and another.', 'soft'),
 ];
 
 /* At the long-grass post Hazel asks the one question she has never asked anyone. Both answers are honest. */
 const S10_POST_ASK: Line[] = [
   H('Can I ask you something? I’ve never asked anyone. There’s never been anyone to ask.', 'think'),
-  H('Should I have gone after him? That night. Instead of wedging a gate and waiting.', 'soft'),
+  H('Should I have gone after Corvin? That night. Instead of wedging a gate and waiting.', 'soft'),
 ];
 const s10PostChoices = (last: Line): Choice[] => [
   {
@@ -179,6 +181,7 @@ const S10_NIGHT_SECRET: Line[] = [
   H('Tomorrow they’ll all come. You’ll tell them what the Grove is going to be. I want to hear you say it.'),
   H('After that, nobody fuss. I mean it.', 'soft'),
   H('They still think I’m here for the holidays. Let them. It’s been lovely, being ordinary.', 'happy'),
+  H('Now go home. Stand on that step all night and the hens will start roosting on you.', 'happy'),
   N('She goes in. Through the window you see her sit on the edge of the bed for a long time before she lies down.'),
 ];
 const S10_NIGHT_TOLD: Line[] = [
@@ -632,7 +635,8 @@ export const SIDE_STORIES_MAIN: Quest[] = [
             N('Hazel turns the trowel over in her hands, and runs her thumb along the worn edge.'),
             H('I wondered where that went. I bought another. It was never as good.', 'think'),
             H('You’ll want the story. You’ve been very good about not asking. It’s been unbearable to watch.', 'happy'),
-            H('He came to me at twenty-two, with nothing but months. Clever. Quick. Hungry, in a way I took for keen.'),
+            H('He came to me at twenty-two. He’s been gone twenty-two. Half his life on each side of that gate.'),
+            H('He had nothing but months. Clever. Quick. Hungry, in a way I took for keen.'),
             H('He found the old clay tablets in this cottage. Older than me. Older than the wall. They told him where the fourth one lay.', 'think'),
             H('One winter he tried their method on mine. My Nubbins, in my Grove. Quiet as stones, by morning.', 'sad'),
             H('I stopped him. I said things. He said things. I was right, which as you know is very tiring for everyone.'),
@@ -682,7 +686,8 @@ export const SIDE_STORIES_MAIN: Quest[] = [
             H('I’m not going down there. I’ve done my part. I listened for twenty-two years.', 'soft'),
             H('It’s your gate now. Don’t look at me like that. I only wedged it.', 'happy'),
             Y('What do I say to him?'),
-            H('Nothing, to start with. Rule three works on people too. It works on people worst of all.', 'think'),
+            H('Nothing, to start with. When you don’t know what to do, sit down next to them and wait. Rule three.', 'think'),
+            H('It works on people too. It works on people worst of all.'),
           ],
         },
         done: {
@@ -717,9 +722,13 @@ export const SIDE_STORIES_MAIN: Quest[] = [
             EM('And some of what sleeps in your long grass came out of his rows. They live on your side of that gate too.', 'think'),
             LU('Sable came out of his garden. I keep thinking that. And then I keep thinking: she came out.', 'think'),
             FE('I’d let him in. Then I’d lie awake all night. Both of those are true, so I’m no use to you whatsoever.', 'think'),
+            SP('I brought biscuits. For the vote.', 'happy'),
+            BY('There isn’t a vote.'),
+            N('Sparks eats a biscuit thoughtfully, as if that were a vote. By the time Clover speaks, she has voted eleven times.'),
             CL('The grey stays, you know. On him too, I expect. You can only make it lighter.', 'soft'),
             BY('For the record, I’ve modelled it. Redemption has a terrible base rate.', 'think'),
             BY('I’d still open the gate. I don’t know why. Don’t put that in the record.'),
+            N('On his way out, he ties a luggage label to your gate. In neat capitals: UNVERIFIED.'),
             N('Hazel says nothing at all. On her way out to the pond, she leaves the cottage door on the latch, which she never does.'),
           ],
         },
@@ -865,6 +874,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
         done: {
           id: 's10-register',
           lines: [
+            N('On the cover, under “Do not lend this to Byte”, someone has added in very neat capitals: NOTED. —B.'),
             N('Hazel reads your pages slowly, a finger under each line, the way she reads seed catalogues.'),
             H('Oh, that’s a terrible name. I love it.', 'happy'),
             H('“Hatched in a hurry”? They all hatch in a hurry, love. Write the weather. You’ll want the weather, later.'),
@@ -917,6 +927,9 @@ export const SIDE_STORIES_MAIN: Quest[] = [
           lines: [
             N('The usual roar from the stands, and under it, from the back row, one voice that carries over all the others.'),
             N('Sparks, beside her, shouted herself hoarse on the first lap and has been cheering in mime ever since.'),
+            N('In the back row, on the seat Sparks fought Ember for, sits a duck. It is a very confident duck.'),
+            H('Leave it. It paid.', 'happy'),
+            N('Your Nubbin crosses the line in its own good time. Hazel cheers it all the way in, with her mouth full of pie.'),
             N('Win or lose, when you come off the course Hazel is on her feet, holding half a pie, beaming.'),
             H('That one runs for you. Don’t ever spend that.', 'soft'),
             H('You can spend Shells. You can spend time. You can spend a perfectly good pie, and I have. Never that.', 'happy'),
@@ -1143,14 +1156,15 @@ export const SIDE_STORIES_MAIN_VARIANTS: Scene[] = [
         'Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.',
         'soft',
       ),
-      H('He’ll have told you about the winter. He’ll have left out the fidgeting.', 'happy'),
+      H('He’ll have told you about the winter. He’ll have put in the fidgeting. He always puts in the fidgeting.', 'happy'),
       H(
         'I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.',
       ),
       H(
-        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.',
+        'Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down.',
         'happy',
       ),
+      H('If he told you I fell in the pond, he’s lying. It was ankle-deep. That isn’t falling in. That’s paddling.', 'think'),
       H(
         'Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.',
         'soft',

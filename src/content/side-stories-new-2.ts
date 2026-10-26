@@ -185,6 +185,8 @@ export const SIDE_STORIES_NEW_2: Quest[] = [
             SO('Out here everything is mine. The dark is mine. The cold is mine. This leaf is mine, and I did not ask for it.', 'sad'),
             SO('If I go back, I stop. Not die. Stop being the one who is frightened. I would quite like to stop.'),
             SO('But I would also like to see what happens next. To me. Is that greedy?', 'think'),
+            LU('Greedy is the slugs in my moonflowers. They eat a whole one, then sit there looking pleased.', 'think'),
+            LU('Wanting to see what happens next isn’t greedy. It’s just wanting.', 'soft'),
             LU('I garden at night because nobody else does. I liked being one on my own before I liked anything else.', 'soft'),
             LU('No. That’s not true. It took years. Some nights I still don’t like it. I come out anyway.'),
             LU('That isn’t an answer. I haven’t got one. I’ve just got a garden.', 'think'),
@@ -193,7 +195,7 @@ export const SIDE_STORIES_NEW_2: Quest[] = [
         done: {
           id: 's12-swarm-goes',
           lines: [
-            N('You wake on the bench with dew in your hair. The air is warm and doesn’t move. It is the morning she meant.'),
+            N('You wake on the bench with dew in your hair. The air is warm and doesn’t move. It is the morning the Queen-Mother meant.'),
             N('Across the Grove, the old wall roars.'),
             N('Bronze pours out of every crack at once and turns in the air, glittering, like a handful of pennies thrown at the sun.'),
             TH('Goodbye. Goodbye. We are leaving. Some of us are leaving. We are deciding which.', 'shock'),
@@ -216,6 +218,7 @@ export const SIDE_STORIES_NEW_2: Quest[] = [
             PX('Strike it on your knee. Hold it up. Turn slowly. When the fork and the swarm match, it buzzes in your fingers.'),
             PX('That’s them. Walk that way. Strike it again when it goes quiet. Don’t walk into the stream. People do.'),
             PX('Not me. Other people. Specific other people.', 'think'),
+            TH('Left. No. Some of us say left. We are voting.', 'think'),
           ],
         },
         done: {

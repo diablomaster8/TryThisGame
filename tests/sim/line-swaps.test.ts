@@ -126,8 +126,8 @@ describe('line swaps in every band', () => {
       set: (st) => (st.flags['s1-pace'] = 'offered'),
       want: {
         main: 'All four home. You offered',
-        sprout: 'All four are home. You offered',
-        reader: 'All four home. You offered',
+        sprout: 'Time for the last post. You offered',
+        reader: 'Today I can tell it. You offered',
       },
       added: false,
     },

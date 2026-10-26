@@ -54,6 +54,7 @@ _A seed packet, from her apron pocket. Three lines on the back, in pencil. The t
 
 #### `reader:s10-register` · [main](../../../side/S10.md#s10-register)
 
+_On the cover, under “Do not lend this to Byte”, someone has added in very neat capitals: NOTED. —B._  
 _Hazel reads your pages slowly, a finger under each line, the way she reads seed catalogues._  
 **Gran Hazel**: Oh, that’s a terrible name. I love it.  
 **Gran Hazel**: “Hatched in a hurry”? They all hatch in a hurry, love. Write the weather. You’ll want the weather, later.  
@@ -108,6 +109,9 @@ _Sparks has appeared from nowhere, as she does, holding a flag. Nobody knows whe
 
 _The usual roar from the stands. Under it, from the back row, one voice carries over all the others._  
 _Sparks, beside her, shouted herself hoarse on the first lap and has been cheering in mime ever since._  
+_In the back row, on the seat Sparks fought Ember for, sits a duck. It is a very confident duck._  
+**Gran Hazel**: Leave it. It paid.  
+_Your Nubbin crosses the line in its own good time. Hazel cheers it all the way in, with her mouth full of pie._  
 _Win or lose, when you come off the course, Hazel is on her feet, holding half a pie, beaming._  
 **Sparks**: Two pies, four Shells each, and I’ve only got a ten-Shell coin. How much change?  
 
@@ -167,7 +171,7 @@ _Dusk. The last line on the seed packet has the drawing: four little posts in a 
 **Gran Hazel**: Number three. Walk the four lanterns with me. Once. Slowly. I’ll be slow whether you like it or not.  
 _She takes your arm at the pond lantern. Not leaning. Holding._  
 **Gran Hazel**: Moss’s post. I’ll tell you something about it, and then you’re not to make a fuss.  
-**Gran Hazel**: He’ll have told you about the winter. He’ll have left out the fidgeting.  
+**Gran Hazel**: He’ll have told you about the winter. He’ll have put in the fidgeting. He always puts in the fidgeting.  
 **Gran Hazel**: I counted the hens. I unpicked my mittens. I never once asked him to say a word. It nearly killed me.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): being honest about your own impatience  
@@ -175,7 +179,8 @@ _She takes your arm at the pond lantern. Not leaning. Holding._
 > _Being honest about how hard something feels is the first step to getting better at it._  
 > _For grown-ups: Learned that being honest about how hard waiting feels is a first step to getting better at it._
 
-**Gran Hazel**: Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down in the snow.  
+**Gran Hazel**: Then at the thaw he looked up and said “You’ll do”. I was so startled I sat down.  
+**Gran Hazel**: If Moss told you I fell in the pond, he’s wrong. It was ankle-deep. That isn’t falling in. That’s paddling.  
 **Gran Hazel**: Rule three. I thought I’d made it up. I’d been on the end of it for a whole winter.  
 
 #### `reader:s10-lanterns` · [main](../../../side/S10.md#s10-lanterns)
@@ -183,7 +188,7 @@ _She takes your arm at the pond lantern. Not leaning. Holding._
 _At the stream lantern, she laughs at nothing at all. Then she explains that Briar would have._  
 **Gran Hazel**: Briar’s. You can’t stand here and be gloomy. People have tried.  
 _At the old wall, she says nothing. She puts her hand flat on the post, the way you’d touch a sleeping friend._  
-**Gran Hazel**: Hush’s. For keeping. I kept a great deal here, one way and another.  
+**Gran Hazel**: Hush’s. She sat with the still ones, long ago. I kept a great deal here too, one way and another.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: how stories carry the past  
 > _Each post has a story. Gran learned them from people who learned them from people older still._  
@@ -205,7 +210,7 @@ _Hazel stops. She looks at it for a long time._
 
 _…_  
 **Gran Hazel**: Can I ask you something? I’ve never asked anyone. There’s never been anyone to ask.  
-**Gran Hazel**: Should I have gone after him? That night. Instead of wedging a gate and waiting.  
+**Gran Hazel**: Should I have gone after Corvin? That night. Instead of wedging a gate and waiting.  
 
 **Choices**
 
@@ -226,7 +231,7 @@ _Variant of `s10-lanterns`._
 _At the stream lantern, she laughs at nothing at all. Then she explains that Briar would have._  
 **Gran Hazel**: Briar’s. You can’t stand here and be gloomy. People have tried.  
 _At the old wall, she says nothing. She puts her hand flat on the post, the way you’d touch a sleeping friend._  
-**Gran Hazel**: Hush’s. For keeping. I kept a great deal here, one way and another.  
+**Gran Hazel**: Hush’s. She sat with the still ones, long ago. I kept a great deal here too, one way and another.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: how stories carry the past  
 > _Each post has a story. Gran learned them from people who learned them from people older still._  
@@ -248,7 +253,7 @@ _Hazel stops. She looks at it, and then at you, for a long time._
 
 _…_  
 **Gran Hazel**: Can I ask you something? I’ve never asked anyone. There’s never been anyone to ask.  
-**Gran Hazel**: Should I have gone after him? That night. Instead of wedging a gate and waiting.  
+**Gran Hazel**: Should I have gone after Corvin? That night. Instead of wedging a gate and waiting.  
 
 **Choices**
 
@@ -268,6 +273,7 @@ _You walk her home. At the cottage door she stops, with one hand on the frame._
 **Gran Hazel**: Tomorrow they’ll all come. You’ll tell them what the Grove is going to be. I want to hear you say it.  
 **Gran Hazel**: After that, nobody fuss. I mean it.  
 **Gran Hazel**: They still think I’m here for the holidays. Let them. It’s been lovely, being ordinary.  
+**Gran Hazel**: Now go home. Stand on that step all night and the hens will start roosting on you.  
 _She goes in. Through the window you see her sit on the edge of the bed for a long time before she lies down._  
 _You stand in the dark garden, holding the secret. It is the heaviest thing you have ever carried._  
 

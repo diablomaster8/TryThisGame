@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 16 fixes (2026-10-26)
+
+- **Works:** all 57 run-16 recs fixed across PA1 with its bands, PA2, PA3, the A30 bands and A31
+  with its bands. Little Sprouts' PA1 Critical (pa1-16-friends) now counts four friends aloud.
+  Clank's Arcade cameos never played (they were "play after" scenes the engine has no hook for);
+  they now replace their host scenes, and PA2's Byte-less biscuit run is wired through `GROVE_UNSET`.
+- **Partial:** none.
+- **Known bugs:** none new. The sprout PA1 gate always opens; its locked-gate scenes are exempt.
+
 ## Story review run 15 fixes (2026-10-25)
 
 - **Works:** all 56 run-15 recs fixed across the A26 reader, A27 and A28 with their bands, A29 main

@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 20 fixes (2026-10-26)
+
+- **Works:** all 57 of run 20's recs fixed across S6–S13 and S1's two bands; the S10 and S13 bands
+  were synced with their mains. New tested payoffs: S7's lever and stopwatch, Solo's choice in S12,
+  the S10 racer and S13's rats. S10's third wish now plays its S1 version once S1 is done.
+- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
+- **Known bugs:** S13's levels can play in chapter 11, after Moss may have gone at the Long Night,
+  but s13-arrive, the cellar call-down and s13-wheelpit still show him at the mill.
+
 ## Story review run 19 fixes (2026-10-26)
 
 - **Works:** 47 of run 19's 48 recs fixed across campaign book 3, the endings, the triggered scenes,
@@ -109,7 +118,7 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   s2-night, S1's boat and cinder choices, Hazel taking the gap seat at the S3 moot, and five campaign
   and ending swaps through a new `Swapper.swapText`. Band lessons no longer sit inside grave beats.
 - **Partial:** SR-20261026-1055: t-talk-generic has lines but nothing plays it yet (needs a trigger).
-- **Known bugs:** the C: drive ran out of space during this pass (0 bytes free); see the status block.
+- **Known bugs:** the C: drive ran out of space during this pass; Maor freed space the same day.
 
 ## Story review run 18 fixes (2026-10-26)
 
@@ -128,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   counts ten crocodiles again; "arba" is glossed ar-BAH. Flag values no longer collide with Grove's.
 - **Partial:** SR-20261026-939: LK's renamed variants have no test, because no engine plays LK yet.
 - **Known bugs:** LB and LK are not wired into any sim engine (CV4); their variants wait for it.
-
-## Story review run 16 fixes (2026-10-26)
-
-- **Works:** all 57 run-16 recs fixed across PA1 with its bands, PA2, PA3, the A30 bands and A31
-  with its bands. Little Sprouts' PA1 Critical (pa1-16-friends) now counts four friends aloud.
-  Clank's Arcade cameos never played (they were "play after" scenes the engine has no hook for);
-  they now replace their host scenes, and PA2's Byte-less biscuit run is wired through `GROVE_UNSET`.
-- **Partial:** none.
-- **Known bugs:** none new. The sprout PA1 gate always opens; its locked-gate scenes are exempt.
 
 ## Standing approval (Maor, 2026-10-12)
 

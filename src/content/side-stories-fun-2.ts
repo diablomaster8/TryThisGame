@@ -77,7 +77,8 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
           lines: [
             N('A note under your door at dawn: COME OVER. Then PLEASE, crossed out, and written again.'),
             N('Ember’s house is tidy the way a house gets when someone cleans because they’re angry. It is very tidy.'),
-            E('She’s out. Don’t ask how. I don’t care how, and I’m never going to care how.'),
+            N('Ember opens the door before you knock. She says she happened to be passing it.'),
+            E('Ash is out of Corvin’s garden. Don’t ask how. I don’t care how, and I’m never going to care how.'),
             N('A grey Nubbin sits in the corner of the kitchen, facing the wall. Beside her is a full bowl.'),
             E('Ash.'),
             E('Ash, love. It’s me. Ash.', 'soft'),
@@ -91,7 +92,8 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
               label: 'Sit on the floor near Ash, and wait.',
               friendship: { ember: 1 },
               then: [
-                N('You sit, for a long time. Ash doesn’t look at you, but she stops pressing quite so hard into the wall.'),
+                N('You sit, for a long time. Your Nubbin sits too, facing Ash’s wall, to see what’s so interesting about it.'),
+                N('Ash doesn’t look at you, but she stops pressing quite so hard into the wall.'),
                 E('…Hazel used to do that. Sit on the floor like it was a chair. It drove me mad.', 'soft'),
               ],
             },
@@ -263,9 +265,11 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             {
               id: 'stay',
               label: 'Stay by the door, very quietly.',
+              set: { 's6-stayed': true },
               then: [
                 N('You stay. Ember cries without making any noise at all, which you suspect she has practised.'),
                 N('Ash lets her.'),
+                E('You stayed. You didn’t make a sound. I’ll never forgive you for that, or forget it.', 'soft'),
               ],
             },
             {
@@ -274,6 +278,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
               friendship: { ember: 2 },
               then: [
                 N('You lift the latch slowly so it doesn’t click.'),
+                E('You let yourself out without clicking the latch. Nobody manages that latch. I noticed.', 'soft'),
                 N('Behind you Ember whistles the three notes again, and again, and every time, Ash answers.'),
               ],
             },
@@ -293,6 +298,9 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
         E('And this. Two fingers, like that. Now blow. No. Less spit.'),
         N('It takes four tries. On the fifth your whistle carries across the Grove, and three of your Nubbins come running.'),
         E('Don’t tell anyone I like you. I’ve got a reputation.', 'happy'),
+        N('On your gatepost sits a duck. It has the look of a duck that has heard there might be whistling.'),
+        E('No. We’re done. You were wonderful. Go home.'),
+        N('From behind Ember’s boots, Ash glares at the duck. It is the first thing Ash has glared at in years.'),
       ],
     },
     rewards: [
@@ -372,6 +380,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
           lines: [
             N('After Moss’s talk the Keepers drift home in twos and threes. Byte stays on the wall, writing very small and very fast.'),
             N('Beside him sits a pale blue Nubbin with a flat, tidy ball above its head. It is watching the notebook.'),
+            N('At the far end of the wall sits Moss, eyes shut. He is not asleep. He is listening very hard.'),
             B('This is Null. Adult. Four years and some weeks. I know the weeks. Pixel says saying the weeks is unsettling.'),
             B('Moss says a Nubbin loved enough becomes an Eternal. “Enough.” That isn’t a unit.', 'think'),
             N('He shows you the page. Under everything Moss said tonight, in neat capitals: UNVERIFIED.'),
@@ -419,7 +428,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
         scene: {
           id: 's7-minder',
           lines: [
-            N('Pixel’s workbench: a clock face, three little brass bells, a feeding chute and a very small bed.'),
+            N('Pixel’s workbench: a clock face, three little brass bells, a feeding chute, a very small bed and, on the left, a red lever.'),
             P('Hi. So. It’s my lantern timer, basically. Four lanterns or one Nubbin, same maths, Byte says.', 'happy'),
             P('Bell one, fruit drops. Bell two, bed warms. Bell three, ninety seconds of petting. Byte does the petting.'),
             B('Ninety-one seconds was too many. I tested it.', 'think'),
@@ -427,6 +436,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             N('The clock ticks. The chute fires a plum across the shed and hits Byte squarely in the clipboard.'),
             P('That was calibration.', 'think'),
             B('That was a plum.'),
+            N('Null climbs onto the clipboard and eats the plum. Byte writes down the time. Nobody rang a bell.'),
             P('Twenty years married, and he still argues with my clocks.', 'happy'),
             N('On the next tick a piece of fruit drops into the bowl, exactly on the beat.'),
             P('I built the clock. Clocks don’t care what they count down to. I’m trying to care on its behalf.', 'sad'),
@@ -550,6 +560,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
               id: 'stopwatch',
               label: 'Put the stopwatch down, Byte.',
               friendship: { byte: 2 },
+              set: { 's7-watch-down': true },
               then: [
                 N('Byte looks at it for a long moment. Then he lays it face down in the grass.'),
                 B('It’s still running. I just can’t see it. That’s a start.'),
@@ -576,7 +587,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
         N('Byte sits by the cocoon with his hand on it, and doesn’t count. You can see how hard that is.'),
         N('The cocoon doesn’t thin. It glows warm and gold, and opens on an egg: small, blue, humming.'),
         B('Not Eternal. Reborn. It gets to start again, with someone who remembers it.', 'soft'),
-        B('Here. My stopwatch. Keep it, please. I’ll only look at it.'),
+        B('Here. My stopwatch. You keep it, please. If I keep it, I’ll only look at it.'),
         P('And the timer, with the bells off. It only counts lanterns now.', 'soft'),
         N('On your way home you notice Byte’s shoelace is tied. Nobody had to tell him. It won’t last.'),
       ],
@@ -618,7 +629,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
       'PROPS. The Minder: brass clock face, three little bells, feeding chute, small bed, a lever on the left side. ' +
       'NULL. Pale blue, flat tidy ball. During the bell week its colour is desaturated at the edges (not the Shadow palette). ' +
       'Its end-of-life check in the complete scene is forced to rebirth. Null speaks only small sounds. ' +
-      'Local flags: s7-lever (asked about the lever), s7-stopped. Sets only s7Done. ' +
+      'Local flags: s7-lever (asked about the lever), s7-stopped, s7-watch-down. Sets only s7Done. ' +
       'MINI-GAME (pet:nubbin:null:timer-off): the anti-timer. No clock, no meter, no prompt on screen. Null wanders the ' +
       'garden (moths, the hedge, a leaf). If the player walks to Null or pets it before it comes over on its own, Null ' +
       'freezes and looks round for a bell, and the wait starts again (no fail, no message). If the player sits still near ' +
@@ -658,6 +669,8 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
             N('A firefly lands on the notebook, sits a moment, and lifts off into the dark beyond the camp. Then another.'),
             NO('They go the same way every night. I followed them once, years back. I look in whenever I pass.'),
             NO('I’ve never brought anyone. Bring fruit. Walk slowly. Slower than that.'),
+            N('Your Nubbin takes one step. A firefly lands on its nose, and it goes cross-eyed and perfectly still.'),
+            NO('Good. That one’s got it. Walk when they drift. Stop when they land. Copy the Nubbin.', 'think'),
           ],
           choices: [
             {
@@ -713,7 +726,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
               id: 'sit-off',
               label: 'Put the fruit down, and sit a little way off.',
               then: [
-                N('You sit. After a long time a grey Nubbin creeps out, takes one piece, and carries it to the middle.'),
+                N('You sit. A very long time later a grey Nubbin creeps out, takes one piece, and leaves a leaf in its place, like a receipt.'),
                 NO('Good. Now do that for three nights.'),
               ],
             },
@@ -756,6 +769,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
                 F('Don’t.', 'sad'),
                 F('Don’t say that unless…', 'sad'),
                 Y('Bring fruit. Soft fruit.'),
+                F('I’m not hoping. I’m carrying soft fruit, very fast, for no reason. Hoping is for people with free hands.', 'think'),
                 N('She is through her own gate before you’ve finished, still holding the needle.'),
               ],
             },
@@ -848,7 +862,7 @@ export const SIDE_STORIES_FUN_2: Quest[] = [
         N('Hazel sits on the bench by the pond, the thin grey Nubbin asleep in the crook of her arm.'),
         H('This one? Found her at the edge of a ring of roots, too tired to stand. So I carried her.', 'think'),
         H('Her mother runs the place. Ear folds over at the tip. Opinions. I gather you’ve met.'),
-        Y('Fern found her. Her name’s Bramble.'),
+        Y('The mother is Fern’s, from the cliff. Fern found her. Her name’s Bramble.'),
         H('Did she. Oh, Fern. Did she.', 'soft'),
         ...S8_COMPLETE_TAIL,
       ],

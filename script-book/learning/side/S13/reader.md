@@ -191,7 +191,7 @@ _A tag hangs from it on a bit of string, in the same square hand: STOPPED. LEAVE
 **Old Tobin**: It’s sad, and it’s all right to be sad. I sat down beside him a while, myself.  
 _Past the wheel, a narrow stair goes down to an iron door. It is locked. The lock has been oiled._  
 **Old Tobin**: Not that one. Not yet.  
-**Old Tobin**: There’s a thing you ought to know first, about him and your grandmother. It’s hers to tell, not mine.  
+**Old Tobin**: There’s a thing you ought to know first, about Aldous’s son and your grandmother. It’s hers to tell, not mine.  
 **Old Tobin**: She wrote most things down. When you’ve read it, come back, and I’ll find the key.  
 **Old Tobin**: I know exactly where it is. That’s the trouble.  
 
@@ -213,7 +213,6 @@ _Later, when you have read Hazel’s notebook, you go back to the mill. Tobin is
 _He holds out a small iron key on a bootlace. It is warm from his pocket._  
 **Old Tobin**: I named the last of the stair loot while you were away. Couldn’t help it.  
 **Old Tobin**: A cog: the Cog of Tremendous Patience. Rare.  
-**Old Tobin**: A sieve that sighs when you shake it: the Haunted Flour Sifter of Polite Sighing. Storied, that.  
 **Old Tobin**: My old lamp hook, which I lent Aldous one winter and never got back: the Lamplighter’s Hook of Talking Too Long. Storied.  
 **Old Tobin**: And a little hat cut from a broken grindstone. Somebody meant to hand that down, so it’s an heirloom. The Millstone Hat of Considerable Weight.  
 

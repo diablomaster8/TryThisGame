@@ -17,19 +17,19 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1152) |  |  |
 | The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (75) |  |  |
 | The campaign: endings | [endings.md](campaign/endings.md) (366) |  |  |
-| Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (202) | [sprout.md](learning/side/S01/sprout.md) (249) | [reader.md](learning/side/S01/reader.md) (336) |
+| Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (202) | [sprout.md](learning/side/S01/sprout.md) (257) | [reader.md](learning/side/S01/reader.md) (334) |
 | Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (207) | [sprout.md](learning/side/S02/sprout.md) (220) | [reader.md](learning/side/S02/reader.md) (319) |
 | Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (178) | [sprout.md](learning/side/S03/sprout.md) (219) | [reader.md](learning/side/S03/reader.md) (282) |
 | Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (152) | [sprout.md](learning/side/S04/sprout.md) (194) | [reader.md](learning/side/S04/reader.md) (259) |
 | Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (146) | [sprout.md](learning/side/S05/sprout.md) (186) | [reader.md](learning/side/S05/reader.md) (258) |
-| Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (163) | [sprout.md](learning/side/S06/sprout.md) (193) | [reader.md](learning/side/S06/reader.md) (238) |
-| Side story S7: Unverified · opens in chapter 7 | [S07.md](side/S07.md) (164) | [sprout.md](learning/side/S07/sprout.md) (192) | [reader.md](learning/side/S07/reader.md) (265) |
-| Side story S8: The Warren in the Hollow · opens in chapter 8 | [S08.md](side/S08.md) (178) | [sprout.md](learning/side/S08/sprout.md) (225) | [reader.md](learning/side/S08/reader.md) (302) |
-| Side story S9: The Gate That Sticks · opens in chapter 11 | [S09.md](side/S09.md) (198) | [sprout.md](learning/side/S09/sprout.md) (219) | [reader.md](learning/side/S09/reader.md) (312) |
-| Side story S10: Fourteen Months · opens in chapter 11 | [S10.md](side/S10.md) (387) | [sprout.md](learning/side/S10/sprout.md) (478) | [reader.md](learning/side/S10/reader.md) (563) |
+| Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (170) | [sprout.md](learning/side/S06/sprout.md) (193) | [reader.md](learning/side/S06/reader.md) (238) |
+| Side story S7: Unverified · opens in chapter 7 | [S07.md](side/S07.md) (166) | [sprout.md](learning/side/S07/sprout.md) (192) | [reader.md](learning/side/S07/reader.md) (265) |
+| Side story S8: The Warren in the Hollow · opens in chapter 8 | [S08.md](side/S08.md) (181) | [sprout.md](learning/side/S08/sprout.md) (225) | [reader.md](learning/side/S08/reader.md) (302) |
+| Side story S9: The Gate That Sticks · opens in chapter 11 | [S09.md](side/S09.md) (206) | [sprout.md](learning/side/S09/sprout.md) (219) | [reader.md](learning/side/S09/reader.md) (312) |
+| Side story S10: Fourteen Months · opens in chapter 11 | [S10.md](side/S10.md) (393) | [sprout.md](learning/side/S10/sprout.md) (484) | [reader.md](learning/side/S10/reader.md) (569) |
 | Side story S11: The Blight · opens in chapter 5 | [S11.md](side/S11.md) (168) | [sprout.md](learning/side/S11/sprout.md) (212) | [reader.md](learning/side/S11/reader.md) (305) |
-| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (172) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (297) |
-| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (339) | [sprout.md](learning/side/S13/sprout.md) (361) | [reader.md](learning/side/S13/reader.md) (542) |
+| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (175) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (297) |
+| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (341) | [sprout.md](learning/side/S13/sprout.md) (361) | [reader.md](learning/side/S13/reader.md) (541) |
 | Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (218) | [sprout.md](learning/side/S14/sprout.md) (262) | [reader.md](learning/side/S14/reader.md) (343) |
 | Side story S15: Lucky Eggs · opens in chapter 5 | [S15.md](side/S15.md) (170) | [sprout.md](learning/side/S15/sprout.md) (211) | [reader.md](learning/side/S15/reader.md) (307) |
 | Side story S16: The Workyard · opens in chapter 6 | [S16.md](side/S16.md) (159) | [sprout.md](learning/side/S16/sprout.md) (196) | [reader.md](learning/side/S16/reader.md) (285) |

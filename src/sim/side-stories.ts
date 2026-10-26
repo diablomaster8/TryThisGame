@@ -181,6 +181,8 @@ const S10: StoryRule = {
   completeGate: (_w, c) => seen(c, 'c12-close'),
   variant: (w, c, scene) => {
     const told = c.flags.hazel === 'told';
+    // After S1, Hazel tells the winter herself and the flashback is not replayed.
+    if (scene === 's10-wish3' && c.flags.s1Done) return 's10-wish3-s1';
     if (scene === 's10-lanterns' && c.flags.keptStone) return 's10-lanterns-kept';
     if (scene === 's10-night' && told) return 's10-night-told';
     if (scene === 's10-letter' && told) return 's10-letter-told';
@@ -259,6 +261,12 @@ function variantOf(world: World, c: CampaignState, rule: StoryRule, scene: strin
   const chosen = rule.variant?.(world, c, scene) ?? scene;
   // A variant the scripts have not written yet falls back to the scene as written.
   return sceneById(chosen) ? chosen : scene;
+}
+
+/** The scene that plays for `scene` in runner story `id` right now (for tests). */
+export function sideVariant(world: World, c: CampaignState, id: string, scene: string): string {
+  const rule = RULE_BY_ID.get(id);
+  return rule ? variantOf(world, c, rule, scene) : scene;
 }
 
 /** A story or fun quest by id: its state and rule, whichever store holds it. */

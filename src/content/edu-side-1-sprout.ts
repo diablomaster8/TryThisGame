@@ -109,6 +109,7 @@ const S1: EduQuest = quest(
       [
         N('Night. Three lanterns glow. One post is dark.'),
         N('Moss sits by your boot. He looks at the dark post.'),
+        Y('Why is that one dark?'),
         M('Not tonight. Ask me something else.', 'think'),
         M('Each lantern post keeps a little memory.', 'soft'),
         M('Four posts. Four memories. Shall we walk to them?'),
@@ -135,7 +136,10 @@ const S1: EduQuest = quest(
             id: 'walk',
             label: 'Walk slowly beside him.',
             set: { 's1-pace': 'walk' },
-            then: [N('Step… step… step. Slow and steady.'), M('Good. You didn’t huff. Hazel huffed for years.', 'happy')],
+            then: [
+              N('Step… step… step. Your Nubbin zooms ahead. Zoom!'),
+              N('Your Nubbin zooms back. Plop! It sits on Moss’s foot.'),
+              M('Good. You didn’t huff. Hazel huffed for years.', 'happy')],
           },
           {
             id: 'carry',
@@ -236,8 +240,9 @@ const S1: EduQuest = quest(
         N('Your laugh rings out across the water.'),
         M('There. That’s Briar’s sound. I missed it.', 'soft'),
         N('Moss’s boat floats back to the bank, upside down.'),
-        M('Maybe this was Briar’s joke. My boat never gets there.', 'think'),
-        M('She folded my first boat. I still fold it her way. Hmm.'),
+        M('Briar folded my first boat. I still fold it her way.', 'think'),
+        M('My boat never gets there. Never! Hmm.'),
+        M('Maybe it is the fold.'),
         N('Moss looks at his boat. He does not trust it at all.'),
       ],
       [
@@ -267,6 +272,7 @@ const S1: EduQuest = quest(
         M('Tell Byte his shoelace is undone.'),
         N('Byte looks down. It is! Byte goes very quiet.'),
         M('Hush was the quiet one. Hush was a good listener.', 'think'),
+        N('Shh. Gurgle! That is Byte’s tummy. Byte goes even quieter.'),
         Y('What did Hush listen to?'),
         M('Everything. Come on. Mind the step.'),
       ],
@@ -293,7 +299,7 @@ const S1: EduQuest = quest(
         M('Hush sat with them. Every single day.', 'soft'),
         M('She didn’t try to fix them. She kept them company.'),
         M('So they were never on their own.', 'soft'),
-        M('Hush said that was a kind of keeping.', 'soft'),
+        M('Hush called it keeping. Keeping a friend company.', 'soft'),
       ],
       [
         {
@@ -367,7 +373,9 @@ const S1: EduQuest = quest(
         M('I sat beside her all winter. I said nothing.', 'happy'),
         M('She wriggled and fidgeted. But she never asked me to talk.', 'soft'),
         M('When the ice melted, I looked up and said, “You’ll do.”', 'happy'),
-        M('She laughed so hard, she fell in the pond!'),
+        M('That means: you are just right.', 'soft'),
+        M('She laughed so hard, she fell in the pond. Splosh!'),
+        M('Only up to her ankles. She still blames me.', 'happy'),
         M('Sit next to them and wait. That’s Hazel’s third rule.', 'soft'),
       ],
       [
@@ -393,7 +401,8 @@ const S1: EduQuest = quest(
         N('Down the lane, children skip and sing.'),
         N('“Cinder held them close and tight, / kept them warm one winter night;”'),
         N('“when the morning came to call, / they did not move at all.”'),
-        M('They have the words right. But they have her wrong.', 'soft'),
+        M('The children know the words.', 'soft'),
+        M('But Cinder was kind too. The song forgets that.', 'soft'),
         M('I’ll tell you about Cinder. Another day.'),
         M('Now: feed them, and off to bed.', 'think'),
       ],
@@ -419,7 +428,7 @@ const S1: EduQuest = quest(
       [
         N('Winter now. Frost creeps out of the long grass.'),
         N('Moss is at your door. He looks very faint.'),
-        M('All four are home. You may carry me now. What an honour!', 'soft'),
+        M('It is time for the last post. You may carry me! What an honour!', 'soft'),
         N('You carry him gently. He is light as a leaf.'),
         M('Let me tell you about Cinder’s last warm day.'),
         M('It was so hot! The Nubbins lay flat in the sun.', 'happy'),
@@ -429,6 +438,7 @@ const S1: EduQuest = quest(
         M('Cinder was scared. She hugged her Nubbins close.', 'sad'),
         M('She would not let go. Not even to let them play.', 'sad'),
         M('The Nubbins could not run. They were not happy.', 'sad'),
+        M('They did not move at all. Just like the song.', 'sad'),
         M('Cinder loved them. But her hug was too tight.', 'sad'),
       ],
       [
@@ -449,7 +459,7 @@ const S1: EduQuest = quest(
           skill: 'gentle hugs, and asking first',
           standard: 'CASEL: Relationship skills',
           kind: 'ask',
-          after: 12,
+          after: 13,
           prompt: [M('How should we hug a small friend?', 'think')],
           options: [
             opt('Gently, and only if they want a hug', [M('Yes. Gentle hugs, and we ask first.', 'soft')], true),
@@ -3376,6 +3386,7 @@ const S10: EduQuest = quest(
     sc(
       's10-register',
       [
+        N('On the cover, under “Do not lend this to Byte”: NOTED. B.'),
         N('Gran reads your pages slowly. A finger under each line.'),
         HZ('Oh, what a funny name. I love it!', 'happy'),
         HZ('Write the weather too. You’ll want that, later.'),
@@ -3389,7 +3400,7 @@ const S10: EduQuest = quest(
           skill: 'the first letter of your name',
           standard: 'ELOF: Literacy',
           kind: 'do',
-          after: 4,
+          after: 5,
           check: 'edu:write:letter:first-of-name',
           lines: [N('(What letter does your name start with?)'), N('(Draw it in the air with your finger!)')],
           parentNote: 'Named and drew the first letter of their own name.',
@@ -3445,6 +3456,9 @@ const S10: EduQuest = quest(
       [
         N('The crowd roars! From the back row, one voice is loudest.'),
         N('Sparks has lost her voice. She cheers with no sound!'),
+        N('In the back row sits a duck. A very sure duck.'),
+        HZ('Leave the duck. It paid for its seat!', 'happy'),
+        N('Your Nubbin crosses the line. Gran cheers with her mouth full of pie!'),
         N('Win or lose, Gran stands up, beaming. Half a pie in her hand.'),
         HZ('That one runs for you. That’s love. Never spend that.', 'soft'),
         N('Then Gran sits down, all of a sudden. She is tired.'),
@@ -3456,7 +3470,7 @@ const S10: EduQuest = quest(
           skill: 'waiting kindly with someone who is tired',
           standard: 'CASEL: Social awareness',
           kind: 'notice',
-          after: 5,
+          after: 8,
           lines: [N('When someone is tired, we can wait with them.'), N('Waiting kindly is a way to show love.')],
           parentNote: 'Learned that waiting patiently with someone who is tired is a kind thing to do.',
         },
@@ -3532,6 +3546,7 @@ const S10: EduQuest = quest(
         HZ('Then I’ll go up the hill. No fuss.', 'soft'),
         N('Going up the hill is Gran’s way of saying she will die.'),
         HZ('Being ordinary has been lovely.', 'happy'),
+        HZ('Now go home. Or the hens will sleep on you!', 'happy'),
         N('Inside, Gran sits on her bed for a long time.'),
       ],
       [
@@ -3540,7 +3555,7 @@ const S10: EduQuest = quest(
           skill: 'telling a grown-up when we feel sad',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 5,
+          after: 6,
           lines: [N('If you feel sad, you can tell a grown-up.'), N('A hug and a cuddle can help.')],
           parentNote: 'Heard that when they feel sad they can tell a grown-up and get a hug.',
         },
@@ -3576,7 +3591,8 @@ const S10_VARIANTS: EduScene[] = [
       N('Gran holds your arm at the pond lantern.'),
       HZ('This is Moss’s post. He will have told you about the winter.', 'soft'),
       HZ('I counted the hens. I never asked him to speak. It was hard!', 'happy'),
-      HZ('When the snow melted, he said, “You’ll do.” I sat down in the snow!', 'happy'),
+      HZ('When the snow melted, Moss said, “You’ll do.” I sat right down!', 'happy'),
+      HZ('Moss says I fell in the pond. I did not! I was paddling.', 'think'),
       HZ('Rule three. Moss taught it to me. Just by sitting.', 'soft'),
     ],
     [

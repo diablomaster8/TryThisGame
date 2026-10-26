@@ -20,6 +20,11 @@
  *   c5-race      (want | win | home)          c9-open, Corvin in his garden
  *   lj3-race     (fair | head | sparks)       lj3-s2-done, after the counting race
  *   lj4-bento    (beans | cucumber | lettuce) lj4-s1-done, when the box is opened
+ *   s7-lever     (true)                     s7-week, Pixel has thought about it all week
+ *   s7-watch-down (true)                    s7-lap, Byte steps over the stopwatch, twice
+ *   s12-solo     (hum | alone | gaps)       s12-complete, the hive's dusk tune
+ *   s10-racer    (fast | slow)              s10-cheer, how your runner finishes
+ *   s13-rats     (fed | crept)              s13-sluice, Tobin on the rats' cheese rind
  */
 import type { Line } from '../config/story';
 import type { CampaignState } from './types';
@@ -34,6 +39,7 @@ interface BandText {
 /** The part of the scene's line swapper a payoff uses. */
 export interface PayoffSwaps {
   insertAfter(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
+  insertBefore(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
 }
 
 type Payoff = (c: CampaignState, s: PayoffSwaps) => void;
@@ -274,7 +280,128 @@ const LJ4_BENTO: Record<string, { text: BandText; who: string }> = {
   },
 };
 
+/** SR-20261026-1099: Solo's choice, heard once in the hive's dusk tune. */
+const S12_SOLO: Record<string, { text: BandText; who: string }> = {
+  hum: {
+    who: 'narrator',
+    text: {
+      main: 'One note in the tune is a hair fuller than the rest. You decide it is Solo’s.',
+      sprout: 'One note in the tune is a little fuller. You decide it is Solo’s.',
+    },
+  },
+  alone: {
+    who: 'narrator',
+    text: {
+      main: 'From the gatepost, one flat note joins in. It is a beat late, on purpose.',
+      sprout: 'From the gatepost, one tiny note joins in. A bit late, on purpose.',
+    },
+  },
+  gaps: {
+    who: 'solo',
+    text: {
+      main: 'In for supper. Out for the stars. Is that allowed? I have decided it is.',
+      sprout: 'In for supper. Out for the stars. I decided that’s allowed.',
+    },
+  },
+};
+
+/** SR-20261026-1102: the runner you brought, at the finish. */
+const S10_RACER: Record<string, BandText> = {
+  fast: {
+    main: 'For the fast one, its own good time is very quick indeed. Hazel is hoarse, as threatened, and delighted about it.',
+    sprout: 'The fast one zooms in first! Gran cheers till she squeaks.',
+  },
+  slow: {
+    main: 'The slow one did stop at the last bend, to inspect a daisy. Hazel is on her second pie, as promised, and has no complaints.',
+    sprout: 'The slow one stopped to sniff a daisy. Gran had a second pie!',
+  },
+};
+
+/** SR-20261026-1104: how you got past the rats, as Tobin sees it. */
+const S13_RATS: Record<string, BandText> = {
+  fed: {
+    main: 'You paid them a plum for it. They consider the matter closed.',
+    sprout: 'You gave the rats a plum for it. Fair is fair!',
+    reader: 'You paid them in plums for it. They consider the matter closed.',
+  },
+  crept: {
+    main: 'One of them’s still on your boot. It’s decided it’s guarding you now.',
+    sprout: 'One rat is still on your boot! Now it guards you.',
+  },
+};
+
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
+  's7-week': (c, s) => {
+    // SR-20261026-1088: the player who asked about the lever, before it is pulled.
+    if (c.flags['s7-lever'] === true)
+      s.insertAfter(
+        {
+          main: 'It isn’t something he wanted to be right about.',
+          reader: 'It isn’t something he wanted to be right about.',
+          sprout: 'Moss told me. And I didn’t listen.',
+        },
+        {
+          main: 'You asked about the lever. Nobody asks about the lever. I’ve thought about that all week.',
+          sprout: 'You asked about the lever. Nobody asks! I thought about it all week.',
+        },
+        'pixel',
+        'sad',
+      );
+  },
+  's7-lap': (c, s) => {
+    // SR-20261026-1137: the stopwatch you had him put down, still in the grass.
+    if (c.flags['s7-watch-down'] === true)
+      s.insertBefore(
+        {
+          main: 'Near dark, Null comes back',
+          reader: 'Near dark, at quarter past seven',
+          sprout: 'Near dark, Null climbs',
+        },
+        {
+          main: 'The stopwatch is still face down in the grass. Byte steps over it, then goes back and steps over it again, more carefully.',
+          sprout: 'The stopwatch is still face down in the grass. Byte steps over it. Twice!',
+        },
+      );
+  },
+  's12-complete': (c, s) => {
+    const t = by(c.flags['s12-solo'], S12_SOLO);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'At dusk it hums a tune you know',
+          reader: 'At dusk it hums a tune you know',
+          sprout: 'A little clay hive. It hums a tune you know!',
+        },
+        t.text,
+        t.who,
+        t.who === 'solo' ? 'happy' : undefined,
+      );
+  },
+  's10-cheer': (c, s) => {
+    const t = by(c.flags['s10-racer'], S10_RACER);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Your Nubbin crosses the line in its own good time.',
+          reader: 'Your Nubbin crosses the line in its own good time.',
+          sprout: 'Your Nubbin crosses the line. Gran cheers',
+        },
+        t,
+      );
+  },
+  's13-sluice': (c, s) => {
+    const t = by(c.flags['s13-rats'], S13_RATS);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'And the cheese rind the rats were guarding.',
+          reader: 'And the cheese rind the rats were guarding.',
+          sprout: 'A cheese rind. The Cheese Rind of Being Brave',
+        },
+        t,
+        'tobin',
+      );
+  },
   'c9-open': c9Race,
   'c9-open-sold': c9Race,
   'lj3-s2-done': (c, s) => {

@@ -32,6 +32,11 @@ const CASES: Array<[scene: string, flag: string, values: Array<string | boolean>
   ['c9-open-sold', 'c5-race', ['want', 'win', 'home']],
   ['lj3-s2-done', 'lj3-race', ['fair', 'head', 'sparks']],
   ['lj4-s1-done', 'lj4-bento', ['beans', 'cucumber', 'lettuce']],
+  ['s7-week', 's7-lever', [true]],
+  ['s7-lap', 's7-watch-down', [true]],
+  ['s12-complete', 's12-solo', ['hum', 'alone', 'gaps']],
+  ['s10-cheer', 's10-racer', ['fast', 'slow']],
+  ['s13-sluice', 's13-rats', ['fed', 'crept']],
 ];
 
 describe('S1–S5 choices pay off later', () => {

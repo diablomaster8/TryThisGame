@@ -19,6 +19,7 @@ _Night. Three lanterns glow. One post is dark._
 > _For grown-ups: Counted four lantern posts and saw that three and one more make four._
 
 _Moss sits by your boot. He looks at the dark post._  
+**You**: Why is that one dark?  
 **Moss**: Not tonight. Ask me something else.  
 **Moss**: Each lantern post keeps a little memory.  
 **Moss**: Four posts. Four memories. Shall we walk to them?  
@@ -27,7 +28,8 @@ _Moss sits by your boot. He looks at the dark post._
 **Choices**
 
 - **Walk slowly beside him.**
-    - Step… step… step. Slow and steady.
+    - Step… step… step. Your Nubbin zooms ahead. Zoom!
+    - Your Nubbin zooms back. Plop! It sits on Moss’s foot.
     - **Moss**: Good. You didn’t huff. Hazel huffed for years.
 - **Offer to carry him.**
     - **Moss**: No, thank you. I have legs.
@@ -98,8 +100,9 @@ _(Laugh out loud together. Ha ha ha!)_
 _Your laugh rings out across the water._  
 **Moss**: There. That’s Briar’s sound. I missed it.  
 _Moss’s boat floats back to the bank, upside down._  
-**Moss**: Maybe this was Briar’s joke. My boat never gets there.  
-**Moss**: She folded my first boat. I still fold it her way. Hmm.  
+**Moss**: Briar folded my first boat. I still fold it her way.  
+**Moss**: My boat never gets there. Never! Hmm.  
+**Moss**: Maybe it is the fold.  
 _Moss looks at his boat. He does not trust it at all._  
 
 #### `sprout:s1-wall-ask` · [main](../../../side/S01.md#s1-wall-ask)
@@ -118,6 +121,7 @@ _Byte looks down. It is! Byte goes very quiet._
 > Check: `edu:listen:sounds:quiet`
 > _For grown-ups: Practised sitting still and listening carefully, then named a sound they heard._
 
+_Shh. Gurgle! That is Byte’s tummy. Byte goes even quieter._  
 **You**: What did Hush listen to?  
 **Moss**: Everything. Come on. Mind the step.  
 
@@ -138,7 +142,7 @@ _The lantern by the old wall burns low and quiet._
 > - Tell them to stop being sad → Sad feelings don’t stop when we’re told. Sitting with them helps more.
 > _For grown-ups: Thought about how to help a sad friend: staying close and keeping them company._
 
-**Moss**: Hush said that was a kind of keeping.  
+**Moss**: Hush called it keeping. Keeping a friend company.  
 
 #### `sprout:s1-pond-ask` · [main](../../../side/S01.md#s1-pond-ask)
 
@@ -178,7 +182,9 @@ _A young Hazel sits by the frozen pond. Her coat is too big!_
 **Moss**: I sat beside her all winter. I said nothing.  
 **Moss**: She wriggled and fidgeted. But she never asked me to talk.  
 **Moss**: When the ice melted, I looked up and said, “You’ll do.”  
-**Moss**: She laughed so hard, she fell in the pond!  
+**Moss**: That means: you are just right.  
+**Moss**: She laughed so hard, she fell in the pond. Splosh!  
+**Moss**: Only up to her ankles. She still blames me.  
 **Moss**: Sit next to them and wait. That’s Hazel’s third rule.  
 
 #### `sprout:s1-wait` · [main](../../../side/S01.md#s1-wait)
@@ -197,7 +203,8 @@ _“when the morning came to call, / they did not move at all.”_
 > - snow → Snow rhymes with go. Tight rhymes with night!
 > _For grown-ups: Listened to a skipping rhyme and picked out a rhyming pair (tight, night)._
 
-**Moss**: They have the words right. But they have her wrong.  
+**Moss**: The children know the words.  
+**Moss**: But Cinder was kind too. The song forgets that.  
 **Moss**: I’ll tell you about Cinder. Another day.  
 **Moss**: Now: feed them, and off to bed.  
 
@@ -205,7 +212,7 @@ _“when the morning came to call, / they did not move at all.”_
 
 _Winter now. Frost creeps out of the long grass._  
 _Moss is at your door. He looks very faint._  
-**Moss**: All four are home. You may carry me now. What an honour!  
+**Moss**: It is time for the last post. You may carry me! What an honour!  
 _You carry him gently. He is light as a leaf._  
 **Moss**: Let me tell you about Cinder’s last warm day.  
 **Moss**: It was so hot! The Nubbins lay flat in the sun.  
@@ -221,6 +228,7 @@ _You carry him gently. He is light as a leaf._
 **Moss**: Cinder was scared. She hugged her Nubbins close.  
 **Moss**: She would not let go. Not even to let them play.  
 **Moss**: The Nubbins could not run. They were not happy.  
+**Moss**: They did not move at all. Just like the song.  
 **Moss**: Cinder loved them. But her hug was too tight.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): gentle hugs, and asking first  

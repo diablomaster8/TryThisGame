@@ -45,6 +45,7 @@ _Soon Gran will die. That means her body will stop working._
 
 #### `sprout:s10-register` · [main](../../../side/S10.md#s10-register)
 
+_On the cover, under “Do not lend this to Byte”: NOTED. B._  
 _Gran reads your pages slowly. A finger under each line._  
 **Gran Hazel**: Oh, what a funny name. I love it!  
 **Gran Hazel**: Write the weather too. You’ll want that, later.  
@@ -88,6 +89,9 @@ _“Keeper from this page on.” And then your name._
 
 _The crowd roars! From the back row, one voice is loudest._  
 _Sparks has lost her voice. She cheers with no sound!_  
+_In the back row sits a duck. A very sure duck._  
+**Gran Hazel**: Leave the duck. It paid for its seat!  
+_Your Nubbin crosses the line. Gran cheers with her mouth full of pie!_  
 _Win or lose, Gran stands up, beaming. Half a pie in her hand._  
 **Gran Hazel**: That one runs for you. That’s love. Never spend that.  
 _Then Gran sits down, all of a sudden. She is tired._  
@@ -141,7 +145,8 @@ _Gran holds your arm at the pond lantern._
 > _Saying so is the first step to getting better at it._  
 > _For grown-ups: Heard that waiting is hard, and that saying so is a first step to getting better at it._
 
-**Gran Hazel**: When the snow melted, he said, “You’ll do.” I sat down in the snow!  
+**Gran Hazel**: When the snow melted, Moss said, “You’ll do.” I sat right down!  
+**Gran Hazel**: Moss says I fell in the pond. I did not! I was paddling.  
 **Gran Hazel**: Rule three. Moss taught it to me. Just by sitting.  
 
 #### `sprout:s10-lanterns` · [main](../../../side/S10.md#s10-lanterns)
@@ -208,6 +213,7 @@ _You walk Gran home. She stops at the door._
 **Gran Hazel**: Then I’ll go up the hill. No fuss.  
 _Going up the hill is Gran’s way of saying she will die._  
 **Gran Hazel**: Being ordinary has been lovely.  
+**Gran Hazel**: Now go home. Or the hens will sleep on you!  
 _Inside, Gran sits on her bed for a long time._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): telling a grown-up when we feel sad  

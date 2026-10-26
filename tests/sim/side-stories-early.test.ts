@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { seen } from '../../src/sim/story-state';
 import { spawnNpc } from '../../src/sim/npcs';
 import { applyCommand } from '../../src/sim/world';
-import { c } from './campaign-driver';
+import { sideVariant } from '../../src/sim/side-stories';
+import { c, campaignWorld } from './campaign-driver';
 import { begun, expectStoryDone, runUntil, status } from './side-driver';
 
 /**
@@ -106,6 +107,14 @@ describe('early side stories: full runs', () => {
     expect(c(r.world).seen.indexOf('s1-cinder')).toBeGreaterThan(
       c(r.world).seen.indexOf('c9-close'),
     );
+  });
+
+  it('S10’s third wish skips the winter flashback after S1, and keeps it otherwise', () => {
+    // The driver lets wish three lapse at c11-close, so the rule's variant is checked directly.
+    const { world } = campaignWorld();
+    expect(sideVariant(world, c(world), 's10', 's10-wish3')).toBe('s10-wish3');
+    c(world).flags.s1Done = true;
+    expect(sideVariant(world, c(world), 's10', 's10-wish3')).toBe('s10-wish3-s1');
   });
 
   it('S3 asks one Keeper of each side and holds its Moot in chapter 11', () => {
