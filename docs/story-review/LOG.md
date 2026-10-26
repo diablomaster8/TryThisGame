@@ -227,16 +227,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `arcade/PA1/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
 | `arcade/PA2/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
 | `arcade/PA3/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
-| `arcade/PA4/main.md` | never | 0 |
-| `arcade/PA5/main.md` | never | 0 |
-| `lines/LB/main.md` | never | 0 |
-| `lines/LB/sprout.md` | never | 0 |
-| `lines/LB/reader.md` | never | 0 |
-| `lines/LK/main.md` | never | 0 |
-| `lines/LK/sprout.md` | never | 0 |
-| `lines/LK/reader.md` | never | 0 |
-| `lines/lang-hebrew/main.md` | never | 0 |
-| `lines/lang-hebrew/sprout.md` | never | 0 |
+| `arcade/PA4/main.md` | [review-2026-10-26](review-2026-10-26.md) | 9 |
+| `arcade/PA5/main.md` | [review-2026-10-26](review-2026-10-26.md) | 8 |
+| `lines/LB/main.md` | [review-2026-10-26](review-2026-10-26.md) | 8 |
+| `lines/LB/sprout.md` | [review-2026-10-26](review-2026-10-26.md) | 10 |
+| `lines/LB/reader.md` | [review-2026-10-26](review-2026-10-26.md) | 6 |
+| `lines/LK/main.md` | [review-2026-10-26](review-2026-10-26.md) | 7 |
+| `lines/LK/sprout.md` | [review-2026-10-26](review-2026-10-26.md) | 8 |
+| `lines/LK/reader.md` | [review-2026-10-26](review-2026-10-26.md) | 10 |
+| `lines/lang-hebrew/main.md` | [review-2026-10-26](review-2026-10-26.md) | 6 |
+| `lines/lang-hebrew/sprout.md` | [review-2026-10-26](review-2026-10-26.md) | 5 |
 | `lines/lang-hebrew/reader.md` | never | 0 |
 | `lines/lang-hebrew/words.md` | never | 0 |
 | `lines/lang-japanese/main.md` | never | 0 |
@@ -1186,6 +1186,64 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261025-932 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md<br>arcade/PA3/main.md | cross-story | High | theme | Pixel and Byte's marriage as the Arcade's dry running joke, one barb per cartridge | fixed | 2026-10-25-3 |
 | SR-20261025-933 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>arcade/PA1/reader.md | cross-story | Medium | follow | Numbers asked in lessons that the scene never says: put each one in the story first | fixed | 2026-10-25-3 |
 | SR-20261025-934 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | cross-story | Medium | child-read | Idioms and off-page knowledge a literal child will trip on, in one sweep | fixed | 2026-10-25-3 |
+| SR-20261026-935 | arcade/PA4/main.md | pa4-01-shed | Critical | continuity | None of PA4's 25 "play after" variants can ever play, so Wisp, Clank, every friend line and the candy signature are dead | open | 2026-10-26 |
+| SR-20261026-936 | arcade/PA5/main.md | pa5-05-photos | Critical | continuity | The "find every memory" signature pays nothing: the eight memory scenes have no host, and nothing ever answers "hunt" | open | 2026-10-26 |
+| SR-20261026-937 | lines/LK/reader.md | lk03-count | Critical | child-read | The counting lesson ends on "fourteen crocodiles", but the check, the scene and every later line say ten | open | 2026-10-26 |
+| SR-20261026-938 | lines/LB/main.md<br>lines/LB/sprout.md<br>lines/LB/reader.md | lb12-arrive | High | continuity | LB's nine "play straight after" variants have no host scene, so the box and race choices can never pay off | open | 2026-10-26 |
+| SR-20261026-939 | lines/LK/main.md<br>lines/LK/sprout.md<br>lines/LK/reader.md | lk07-garden-siti | High | continuity | The cucumber-tale variant is named backwards, and "ramp" is a Grove value: both payoffs would fire for the wrong players | open | 2026-10-26 |
+| SR-20261026-940 | lines/LB/sprout.md | lb11-five | High | child-read | "Five races!" but the scene shows four results | open | 2026-10-26 |
+| SR-20261026-941 | lines/lang-hebrew/main.md<br>lines/lang-hebrew/sprout.md | lh3-s1 | High | continuity | The course teaches arba with first-syllable stress, against the standard stress it uses everywhere else | open | 2026-10-26 |
+| SR-20261026-942 | lines/LB/reader.md | lb07-complete | High | follow | The lesson asks why Ned's glass of water barely casts a shadow, but no glass ever appears | open | 2026-10-26 |
+| SR-20261026-943 | lines/LB/reader.md | lb10-sail | High | follow | The simile lesson quotes "steady as a duck", which only cork sailors ever read | open | 2026-10-26 |
+| SR-20261026-944 | lines/LK/reader.md | lk05-log | High | follow | The lesson says "the crocodile broke its promise", but it never makes one | open | 2026-10-26 |
+| SR-20261026-945 | lines/LK/sprout.md | lk06-race | High | child-read | The snail trick is never said, so "Still ahead of you!" makes no sense to a four-year-old | open | 2026-10-26 |
+| SR-20261026-946 | arcade/PA4/main.md | pa4-17-friends | High | humour | Pay off Pixel's friends receipt when everyone arrives, and tape it up at the end | open | 2026-10-26 |
+| SR-20261026-947 | arcade/PA5/main.md | pa5-06-slate-done | High | humour | Give everyone the frog memory as the slate's test shot, and make the off-road site a sequel | open | 2026-10-26 |
+| SR-20261026-948 | arcade/PA4/main.md | pa4-13-complete | High | humour | Sans calls the Nubbin "a dumpling with a crown" and never again; make it his nickname | open | 2026-10-26 |
+| SR-20261026-949 | lines/LK/main.md | lk07-garden | High | humour | Call back LK1's "You may sulk" / "I never sulk. I wait" and "I always do the crocodile voices" | open | 2026-10-26 |
+| SR-20261026-950 | lines/LB/main.md<br>lines/LB/sprout.md | lb12-complete | High | humour | "HE DID THE N" misses the line's best callback, Ned's backwards S on the SHOP sign | open | 2026-10-26 |
+| SR-20261026-951 | lines/lang-hebrew/main.md<br>lines/lang-hebrew/sprout.md | lh6-complete | High | humour | Pay off "Is it blossoming yet?" at the gate, and give the Wobbler its goodbye beside Ori's | open | 2026-10-26 |
+| SR-20261026-952 | arcade/PA5/main.md | pa5-18-question | High | compelling | Deliver the old man's apology to Zelda; the told/kept choice is read by nothing | open | 2026-10-26 |
+| SR-20261026-953 | arcade/PA4/main.md | pa4-02-candy | High | compelling | "Leave him be" pays off nowhere; let Asriel thank you for that too | open | 2026-10-26 |
+| SR-20261026-954 | lines/LK/main.md<br>lines/LK/sprout.md<br>lines/LK/reader.md | lk04-grab | High | compelling | The crocodile treats "sorry" like "thanks"; give the apology its own reaction | open | 2026-10-26 |
+| SR-20261026-955 | lines/LB/main.md | lb10-complete | High | compelling | Whichever boat you sail, the scene ends the same; let the cork and the walnut have their moment | open | 2026-10-26 |
+| SR-20261026-956 | arcade/PA5/main.md | pa5-11-complete | Medium | humour | Pixel's finger count breaks its own arithmetic | open | 2026-10-26 |
+| SR-20261026-957 | arcade/PA4/main.md | pa4-08-echo | Medium | humour | Waterfall's only laugh is the flip; let an echo flower heckle Monster Kid with his own voice | open | 2026-10-26 |
+| SR-20261026-958 | arcade/PA4/main.md | pa4-06-sans | Medium | humour | Sharpen Sans's two puns so each lands on its last word | open | 2026-10-26 |
+| SR-20261026-959 | lines/LK/main.md | lk01-lamp | Medium | humour | Open the friendship with a bicker about a sagging screen | open | 2026-10-26 |
+| SR-20261026-960 | lines/LK/main.md | lk05-log | Medium | humour | LK5 is the flattest tale; let Wulan try the crocodile voice and get it wrong | open | 2026-10-26 |
+| SR-20261026-961 | lines/LB/main.md | lb08-map | Medium | theme | Ama and Sam barely speak to each other; give them one married bicker | open | 2026-10-26 |
+| SR-20261026-962 | lines/LB/main.md | lb01-unpacked | Medium | humour | Pay off Ned's job, "in charge of not dropping things" | open | 2026-10-26 |
+| SR-20261026-963 | lines/LB/main.md | lb09-complete | Medium | continuity | Ama sits at "the fourth plate", but your Nubbin already has it; make the clash the joke | open | 2026-10-26 |
+| SR-20261026-964 | lines/LB/sprout.md | lb04-complete | Medium | humour | Four players, four biscuit pieces, so the giant gets none; use it | open | 2026-10-26 |
+| SR-20261026-965 | lines/LB/sprout.md | lb03-complete | Medium | humour | The reader band's pond-monster gag is lost in sprout; give it back in short lines | open | 2026-10-26 |
+| SR-20261026-966 | lines/LK/sprout.md | lk09-pit | Medium | humour | The elephant joins Kancil in the pit with no comic beat, and the little ones aren't let in on the fib | open | 2026-10-26 |
+| SR-20261026-967 | lines/LK/reader.md | lk08-look | Medium | humour | The tiger meets his reflection with one grumpy line; let it escalate | open | 2026-10-26 |
+| SR-20261026-968 | lines/LK/reader.md | lk04-free | Medium | humour | The senses lesson splits "This is a stick" from "It certainly is" | open | 2026-10-26 |
+| SR-20261026-969 | lines/lang-hebrew/main.md<br>lines/lang-hebrew/sprout.md | lh4-s2 | Medium | humour | The fruit fetch has one gag; let the bird win a round against the Wobbler | open | 2026-10-26 |
+| SR-20261026-970 | arcade/PA5/main.md | pa5-16-climb | Medium | humour | Two callbacks left on the table: the Yiga's bananas and your jumper | open | 2026-10-26 |
+| SR-20261026-971 | arcade/PA5/main.md | pa5-18-seal-done | Medium | compelling | The cartridge's first line, "Open your eyes", is never answered | open | 2026-10-26 |
+| SR-20261026-972 | arcade/PA4/main.md | pa4-17-barrier | Medium | follow | "She doesn't look down" could be Toriel or the child, who is they/them | open | 2026-10-26 |
+| SR-20261026-973 | arcade/PA4/main.md | pa4-16-complete | Medium | follow | "Somebody in the Grove said that once. About a stone." leans on a Grove scene the cartridge can't know | open | 2026-10-26 |
+| SR-20261026-974 | arcade/PA5/main.md | pa5-11-naboris | Medium | follow | Urbosa's greeting is garbled | open | 2026-10-26 |
+| SR-20261026-975 | lines/LB/main.md<br>lines/LB/sprout.md | lb12-waiting | Medium | follow | Brisbane arrives as a new place name at the quietest beat; seed it in LB1, drop it from sprout | open | 2026-10-26 |
+| SR-20261026-976 | lines/LB/main.md | lb05-bandage | Medium | child-read | Maisie states the lesson aloud in quiz tone | open | 2026-10-26 |
+| SR-20261026-977 | lines/LB/sprout.md | lb08-moved | Medium | child-read | The "ask Maisie why" reply doesn't answer why | open | 2026-10-26 |
+| SR-20261026-978 | lines/LB/sprout.md | lb10-sail | Medium | follow | The lesson says "the wind pushes the sails", but sprout's boats have no sails and there is no wind | open | 2026-10-26 |
+| SR-20261026-979 | lines/LB/sprout.md | lb05-complete | Medium | continuity | Maisie tells Dad to nap, but Sam isn't in the shed | open | 2026-10-26 |
+| SR-20261026-980 | lines/LB/reader.md | lb06-built | Medium | follow | The pegs are in the den before the lesson asks the child to think of pegs, and "Mum's head is a circle" has no set-up | open | 2026-10-26 |
+| SR-20261026-981 | lines/LB/reader.md | lb02-bought | Medium | child-read | In a "do" lesson, Ned says the answer before the child can count | open | 2026-10-26 |
+| SR-20261026-982 | lines/LK/main.md<br>lines/LK/reader.md | lk10-complete | Medium | compelling | The old ending leaves the elephant in the pit; give it a gentle way home | open | 2026-10-26 |
+| SR-20261026-983 | lines/LK/sprout.md | lk04-stick | Medium | follow | "Stick or leg, which is longer?" with no sizes shown, and "It was dark" from nowhere | open | 2026-10-26 |
+| SR-20261026-984 | lines/LK/sprout.md | lk10-count | Medium | child-read | The check is twenty crocodiles, but the lesson only ever says "ten and ten" | open | 2026-10-26 |
+| SR-20261026-985 | lines/LK/sprout.md<br>lines/LK/reader.md | lk07-endings | Medium | follow | "The farmer's dog" turns up in the old ending without ever being in the tale | open | 2026-10-26 |
+| SR-20261026-986 | lines/lang-hebrew/main.md<br>lines/lang-hebrew/sprout.md | lh4-s2 | Medium | continuity | "These ones are sagol" uses the masculine colour as a predicate for plural and feminine fruit | open | 2026-10-26 |
+| SR-20261026-987 | lines/lang-hebrew/main.md | lh1-s3-done | Medium | follow | The step asks you to say laila tov to Clover, who never appears | open | 2026-10-26 |
+| SR-20261026-988 | lines/lang-hebrew/sprout.md | lh5-s1 | Medium | child-read | Sprout names Hazel without saying who she is | open | 2026-10-26 |
+| SR-20261026-989 | lines/LB/sprout.md | lb01-van | Nice | child-read | Five idioms a young child will take literally | open | 2026-10-26 |
+| SR-20261026-990 | lines/LB/reader.md<br>lines/LK/reader.md | cross-story | Medium | child-read | Reader bands use K-2 standards, including the C3 codes EDU-STYLE forbids there; swap to approved 3-5 codes only | open | 2026-10-26 |
+| SR-20261026-991 | arcade/PA4/main.md<br>arcade/PA5/main.md | cross-story | Medium | humour | Pixel's mouse-nest, blow-on-it and "nobody's ever ready" lines repeat across cartridges; give each its own twist | open | 2026-10-26 |
+| SR-20261026-992 | lines/LK/main.md<br>lines/LK/sprout.md<br>lines/LK/reader.md<br>lines/lang-hebrew/main.md | cross-story | Medium | theme | Pixel and Byte turn up in LK10 and LH6 without each other; let the married pair bicker (canon 38) | open | 2026-10-26 |
 
 ## Runs
 
@@ -1221,3 +1279,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-25 · fix pass on branch `fix/story-review-2026-10-25-3` · run 15's 56 recs: 56 fixed · -822 branches Rudaba's line on the a27-11-praise choice; -824 the taught word returns at the reunion through flag values `taught-friend`/`taught-home`/`taught-sorry` (a bare "home" would match Grove flags c4-lamps and s23-stay in `variantFor`), with variants in main, sprout and reader; -832 adds an `a26-scorpion-wife` speaker in A26 main and both bands; -857 turns the A27 feast maths lesson into an L.3.4 word lesson so two maths lessons don't sit back to back; -874 A28 reader lessons moved off the stopper and wait beats, with small replacement lessons · canon: none
 - 2026-10-25 run 16 · [review-2026-10-25-3](review-2026-10-25-3.md) · units: atlas/A30/sprout.md, atlas/A30/reader.md, atlas/A31/main.md, atlas/A31/sprout.md, atlas/A31/reader.md, arcade/PA1/main.md, arcade/PA1/sprout.md, arcade/PA1/reader.md, arcade/PA2/main.md, arcade/PA3/main.md · 57 recs: Critical 1, High 23, Medium 32, Nice 1 (5 cross-story) · fixed since last run: 56 (all)
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26` · run 16's 57 recs: 57 fixed · -878 Little Sprouts pa1-16-friends names the four arrivals one by one and counts to 4; -924 drops the three sprout locked-gate scenes (the sprout gate always opens; content-check exempts them); -913 adds `pa1-11-garden-done-clank` in main and both bands; -906 adds `pa2-06-complete-unset` (Byte's biscuit run), wired by a new PA2 entry for s7Done in `GROVE_UNSET` in src/sim/atlas.ts; the old "play after" Clank scenes in PA1 and PA3 never played, so they now replace their host scenes (`pa1-01-shed-done-clank`, `pa3-01-cabinet-clank`, `pa3-07-plaque-clank`, `pa3-13-memory-clank`, `pa3-17-complete-clank`), with a test · canon: none
+- 2026-10-26 run 17 · [review-2026-10-26](review-2026-10-26.md) · units: arcade/PA4/main.md, arcade/PA5/main.md, lines/LB/main.md, lines/LB/sprout.md, lines/LB/reader.md, lines/LK/main.md, lines/LK/sprout.md, lines/LK/reader.md, lines/lang-hebrew/main.md, lines/lang-hebrew/sprout.md · 58 recs: Critical 3, High 18, Medium 36, Nice 1 (3 cross-story) · fixed since last run: 57 (all)
