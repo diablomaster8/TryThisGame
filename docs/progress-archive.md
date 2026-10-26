@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 13 fixes (2026-10-25)
+
+- **Works:** all 60 run-13 recs fixed across A19, A20 and A22 with their bands, plus A21. A21 shows the
+  Grove neighbour as "Keeper Fern" through a page-local speaker. A20's Thor escalates to the millstone
+  before Baldr's death, and A22's dinner has Pepa's cloud and Félix's umbrellas back.
+- **Partial:** none.
+- **Known bugs:** none new. `tests/tools/script-book.ts` now keeps page-local name-plates of shared
+  speakers out of other storylines' renders.
+
 ## Story review run 12 fixes (2026-10-24)
 
 - **Works:** all 60 run-12 recs fixed across the A15 bands, A16, A17 and A18 with their bands. A18's

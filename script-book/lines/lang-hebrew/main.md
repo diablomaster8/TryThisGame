@@ -95,6 +95,8 @@ _At the word “shalom”, the Wobbler waves goodbye, falls over, and goes to sl
 #### <a id="lh1-s3-done"></a>Done `lh1-s3-done`
 
 **Fern**: Laila tov to you too! I think. Did I say it right? I’ve been practising on the plum tree.  
+**Clover**: Laila tov! I said it to my Nubbin as well. It went straight to sleep.  
+**Ori**: Then it works.  
 **Ori**: Perfect. Fern, תּוֹדָה רַבָּה (toda raba, “thank you very much”). That’s the big thank-you. For people who try.  
 _All three Nubbins are asleep in a heap by Ori’s tent, like dropped socks._  
 **Ori**: Lehitra’ot, everybody. Laila tov. Toda raba for today. Tomorrow: letters.  
@@ -387,10 +389,11 @@ _Clover is by the pond with a little Nubbin who hasn’t eaten all day. She look
 **Ori**: Something adom! On it. I’m fast. I play on the wing.  
 _Back at the crate, there are a lot of things that might be red._  
 **Ori**: רִמּוֹן (rimon), a pomegranate. Red outside, full of red seeds inside. My favourite. Nobody believes how many seeds.  
-**Ori**: עֲנָבִים (anavim), grapes. These ones are סָגֹל (sagol), purple. Not adom. Close, but lo.  
-**Ori**: תְּאֵנָה (te’ena), a fig. Also a bit sagol. And תָּמָר (tamar), a date. Brown and sticky.  
-_A צִפּוֹר (tsipor), a small bird, lands on the crate and starts pecking at the te’ena._  
-**Ori**: Tsipor! Lo! That’s not yours! …Fine. One bite. Bevakasha.  
+**Ori**: עֲנָבִים (anavim), grapes. Their colour is סָגֹל (sagol), purple. Not adom. Close, but lo.  
+**Ori**: תְּאֵנָה (te’ena), a fig. Same colour: sagol. Figs and grapes, wearing the same coat. And תָּמָר (tamar), a date. Brown and sticky.  
+_A צִפּוֹר (tsipor), a small bird, lands on the crate and pecks at the te’ena. The Wobbler shoos it._  
+_The tsipor shoos the Wobbler. The Wobbler loses._  
+**Ori**: Tsipor! Lo! …Fine. Have one. Bevakasha.  
 
 **Choices**
 
@@ -643,7 +646,10 @@ _The Wobbler pats the soil down very carefully, using its whole body._
 _A thin little ets stands in the ground, tied to a stake and dripping. It doesn’t look like much yet._  
 **Ori**: Mayim, shemesh, a bit of geshem, and patience. Then perach. Then shaked. That’s how a gan works.  
 **Ori**: Is it blossoming yet?  
+_The Wobbler lies down with one ear against the stake, listening for blossom._  
 **Ori** _(happy)_: Lo. I’m going to ask every day until I leave.  
+**Byte** _(think)_: It has grown nought centimetres. I measured twice.  
+**Byte**: Pixel says a watched tree never blossoms. Pixel has never watched anything for more than a minute.  
 
 ### Step 3: The review party: greet, count, colours, family and feelings, all in Hebrew.
 
@@ -688,6 +694,10 @@ _Morning. Ori’s bag is packed and leaning against the gate under the shalom si
 **Ori**: You’re an Alef-Bet Keeper now. That’s a real title. I made it up, so it’s real.  
 **Ori** _(soft)_: Shalom. That’s goodbye. And hello, next time. And peace, in between. Lehitra’ot!  
 _Ori lifts and pushes, and the gate gives first time. He gallops down the lane like a sus, then turns back, grinning._  
+**Ori**: Is it blossoming yet?  
+_Nobody even looks. Everybody shouts “Lo!” The Wobbler shouts it too, in its way, by falling over._  
+**Ori** _(happy)_: Tov. Write and tell me when. Shalom!  
+_The Wobbler gets up, sits by the shaked facing the lane, and waits for blossom on Ori’s behalf._  
 _By the pond, the little shaked waits for winter. In late winter it will blossom, perach after perach, lavan and pale pink._  
 
 **Rewards**

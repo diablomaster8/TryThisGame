@@ -9,7 +9,7 @@
  * AUDIENCE. 'all'. This is a Learning Grove line: it is offered only when the Learning Grove is
  * on, and there is no main-game version. The base script (LINE_LK) is the plain, warm telling the
  * sim falls back to; LINE_LK_EDU carries the two bands (sprout 3–6, reader 7–10) for every
- * scene, and LINE_LK_EDU_VARIANTS the bands' versions of the four variant scenes.
+ * scene, and LINE_LK_EDU_VARIANTS the bands' versions of the six variant scenes.
  *
  * FRAME. At summer's end, after chapter 6, two old friends arrive with a shadow screen and a box
  * of leather puppets: Mak Cik Siti from Melaka (Malaysia) and Bu Wulan from Yogyakarta
@@ -19,22 +19,25 @@
  * voice every animal, so no animal speaks in the Grove: the puppets do (speaker ids lk-kancil,
  * lk-buaya and so on are the puppets, voiced by whichever teller is telling). In LK3 and LK10 the
  * Grove's Nubbins float in a line across the stream as the crocodiles, and your Nubbin hops along
- * them. Pixel (she/her) rigs a second lamp for the last night (LK10); she is a guest here, not
+ * them. Pixel (she/her) rigs a second lamp for the last night (LK10), and her husband Byte (he/him,
+ * canon 38) brings a bucket of sand and the word "Probably"; they are guests here, Pixel is not
  * player two: this line is not an Arcade cartridge.
  *
  * GROVE FLAGS READ: none (the outline's "Reads: none").
  *
  * FLAGS WRITTEN (all prefixed lk-; never a Grove flag):
  *   - lk-first = siti | wulan (LK1, lk01-names): whose way you hear the tales first. Pays off in
- *     LK7 (the other teller tells the cucumber tale: lk07-garden for siti, lk07-garden-siti for
- *     wulan) and LK10 (the count's leading language: lk10-count for siti, lk10-count-wulan).
+ *     LK7 (the other teller tells the cucumber tale: lk07-garden for siti, lk07-garden-wulan for
+ *     wulan, where Siti tells it) and LK10 (the count's leading language: lk10-count for siti,
+ *     lk10-count-wulan). Variant ids carry the flag VALUE they answer (src/sim/atlas.ts variantFor).
  *   - lk-croc = thanks | sorry | laughed (LK3, lk03-turn): the signature choice. Pays off in LK4
- *     (lk04-grab-laughed for laughed) and, seven quests later, in LK10 (lk10-line-laughed: the
+ *     (lk04-grab-laughed for laughed, lk04-grab-sorry for sorry) and, seven quests later, in LK10 (lk10-line-laughed: the
  *     Nubbin crocodiles won't line up until you help Kancil ask nicely). Sprout leaves out
  *     "laughed" (defaultChoice thanks).
- *   - lk-pit = stuck | ramp (LK9, lk09-ending): the old ending or the helping one. Reader keeps
- *     both; sprout always helps (defaultChoice ramp). It plays out inside LK9 and is read once more
- *     in LK10 (lk10-complete-ramp for ramp).
+ *   - lk-pit = pit-stuck | pit-ramp (LK9, lk09-ending): the old ending or the helping one. Reader
+ *     keeps both; sprout always helps (defaultChoice ramp). It plays out inside LK9 and is read once
+ *     more in LK10 (lk10-complete-pit-ramp for pit-ramp; lk10-complete, with the girl's twig ramp,
+ *     for pit-stuck). The values are prefixed so S26's s26-steps = ramp can never pick an LK variant.
  *   - lk-done (LK10 complete).
  *
  * LIFTED TEXT: none. The tales are traditional and retold in our own words; the Learning Grove
@@ -80,6 +83,7 @@ const say =
 const N = say('narrator');
 const Y = say('you');
 const PX = say('pixel');
+const BY = say('byte');
 const SI = say('lk-siti');
 const WU = say('lk-wulan');
 const KA = say('lk-kancil');
@@ -94,6 +98,7 @@ const PT = say('lk-pak-tani');
 
 const SPEAKERS_LK: Speaker[] = [
   { id: 'pixel', name: 'Pixel', kind: 'keeper' },
+  { id: 'byte', name: 'Byte', kind: 'keeper' },
   {
     id: 'lk-siti',
     name: 'Mak Cik Siti',
@@ -186,8 +191,11 @@ const LK1 = quest(
         N('Your Nubbin takes the other pole without being asked. The pole is taller than it by quite a lot.'),
       ]),
       sc('lk01-lamp', [
-        N('The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold.'),
-        SI('There. Now nothing can hide. Not even a shadow.', 'happy'),
+        N('The screen goes up. Wulan lights a lamp behind it, and the cloth glows warm gold.'),
+        SI('There. Tight as a drum.', 'happy'),
+        WU('It sags on the left.'),
+        SI('It does not sag.'),
+        N('It sags, a little, on the left. Your Nubbin tilts its head to match.'),
         N('Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous.'),
         N('It stares at the giant shadow, then waves. The shadow waves back.'),
         WU('Shadows are honest. They copy you exactly, only bigger or smaller.'),
@@ -458,6 +466,7 @@ const LK4 = quest(
         N('Kancil is up the bank and gone before the crocodile notices it’s chewing a stick.'),
         BU('...This is a stick.', 'shock'),
         SI('It certainly is.', 'happy'),
+        N('The crocodile spits out the stick and glares at it, as if the stick had lied.'),
       ]),
     ),
     step(
@@ -478,11 +487,12 @@ const LK4 = quest(
   sc('lk04-complete', [
     N('Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly.'),
     WU('So it wasn’t a very good stick to mistake for a leg.', 'happy'),
-    SI('It was dark. The crocodile was hungry. Hungry makes everyone silly.'),
+    SI('The crocodile was hungry. Hungry makes everyone silly.'),
     N('The crocodile puppet goes back into the box looking, if anything, slightly embarrassed.'),
   ]),
   'VARIANT: if lk-croc = laughed, play lk04-grab-laughed (LINE_LK_VARIANTS) in place of lk04-grab: the ' +
-    'crocodile is much crosser. Otherwise (thanks or sorry) lk04-grab, where it grumbles that it remembers. ' +
+    'crocodile is much crosser. If lk-croc = sorry, lk04-grab-sorry: the apology has been bothering it ever ' +
+    'since. Otherwise (thanks) lk04-grab, where it grumbles that Kancil was polite. ' +
     'Staging: the crocodile “has” the leg; no teeth meet anything, and no biting is shown.',
 );
 
@@ -500,14 +510,19 @@ const LK5 = quest(
       sc('lk05-log', [
         SI('One day a great storm blew through the forest, and a tree fell across the riverbank.', 'soft'),
         N('Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail.'),
+        N('Tonight Wulan does the crocodile. It comes out as a very small squeak.'),
         BU('Help! Help! I’m stuck under this log and I can’t get out!', 'sad'),
+        SI('Wulan. We have talked about this.', 'think'),
+        WU('It’s a frightened crocodile.'),
+        SI('It’s a frightened mouse.'),
+        WU('It’s a crocodile having a mouse sort of day.', 'happy'),
         N('Wulan brings on the buffalo, slow and heavy, with wide curved horns.'),
         KE('Poor crocodile. Hold still. I’ll get you out.', 'soft'),
         N('The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away.'),
-        BU('Free! Thank you, buffalo. Thank you so much. And now...', 'happy'),
+        BU('Free! Thank you, buffalo. I promise I will never forget this.', 'happy'),
         N('Snap! The crocodile grabs the buffalo by the leg.', 'shock'),
-        KE('But I helped you!', 'shock'),
-        BU('And now I’m hungry. Helping makes a crocodile hungry.', 'think'),
+        KE('You promised!', 'shock'),
+        BU('I promised not to forget. I haven’t. I remember you perfectly. You look delicious.', 'think'),
       ]),
       sc('lk05-judge', [
         N('Your Nubbin trots Kancil onto the screen, and the children cheer as if he were a famous footballer.'),
@@ -609,7 +624,9 @@ const LK7 = quest(
       'watch:lk-shadow-play:cucumbers',
       sc('lk07-garden', [
         N('Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat.'),
-        WU('This is the tale I heard before any other. Kancil and the cucumbers.', 'soft'),
+        WU('Five tales of waiting. I did not sulk once.', 'happy'),
+        SI('She sulked on Tuesday.'),
+        WU('I waited loudly on Tuesday. This is the tale I heard before any other. Kancil and the cucumbers.', 'soft'),
         WU('There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.'),
         PT('My cucumbers! Somebody has been eating my cucumbers again!', 'angry'),
         N('Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber.'),
@@ -617,6 +634,7 @@ const LK7 = quest(
         KA('Who’s this, standing in the garden? Out of my way, please. I’m busy eating.', 'happy'),
         N('Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too.', 'shock'),
         PT('Got you, cucumber thief!', 'angry'),
+        N('A small brown dog trots in, sits down, and watches with great interest.'),
         SI('Wait, wait. That’s not how my grandmother told it.', 'think'),
       ]),
       sc('lk07-endings', [
@@ -650,8 +668,9 @@ const LK7 = quest(
     N('Within a few days the vine has climbed halfway up. There is one small cucumber on it, and nobody touches it.'),
   ]),
   'PAYOFF of LK1: whoever told second tells this tale. If lk-first = siti, play lk07-garden (Wulan tells, ' +
-    'Siti objects). If lk-first = wulan, play lk07-garden-siti (LINE_LK_VARIANTS) in its place: Siti tells ' +
-    'Wulan’s tale and Wulan objects. lk07-endings fits both. The old ending (the dog) is told, not shown.',
+    'Siti objects). If lk-first = wulan, play lk07-garden-wulan (LINE_LK_VARIANTS) in its place: Siti tells ' +
+    'Wulan’s tale and Wulan objects. lk07-endings fits both. The old ending (the dog) is told, not shown; ' +
+    'the dog itself is shown arriving in the garden so the old ending has a set-up.',
   [
     {
       id: 'lk-cucumber-trellis',
@@ -685,7 +704,9 @@ const LK8 = quest(
       sc('lk08-look', [
         HA('Nonsense. Show me this tiger.', 'angry'),
         N('The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose.'),
-        HA('Grrr! Who are you? Go away! This is MY forest!', 'angry'),
+        HA('Who are you? Stop copying me. ...Stop it. ...I said STOP it!', 'angry'),
+        N('The tiger shakes a paw. The tiger in the water shakes a paw back.'),
+        HA('Rude. And he’s got terrible manners as well.', 'angry'),
       ]),
     ),
     step(
@@ -767,8 +788,9 @@ const LK9 = quest(
               SI('Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.', 'soft'),
               N('The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.'),
               WU('Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.', 'think'),
+              WU('I like to think somebody kind came by later, with a rope. And a banana.', 'soft'),
             ],
-            { 'lk-pit': 'stuck' },
+            { 'lk-pit': 'pit-stuck' },
           ),
           ch(
             'ramp',
@@ -778,7 +800,7 @@ const LK9 = quest(
               N('Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.'),
               N('The elephant climbs out, one big step at a time, while the children count the logs out loud.'),
             ],
-            { 'lk-pit': 'ramp' },
+            { 'lk-pit': 'pit-ramp' },
           ),
         ],
       ),
@@ -808,7 +830,9 @@ const LK10 = quest(
         N('The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food.'),
         SI('Kuih! Who wants kuih? I made the green ones and the stripy ones.', 'happy'),
         WU('And kue from me. Same idea, different spelling, better coconut.', 'happy'),
-        PX('I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.', 'happy'),
+        N('Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand.'),
+        PX('I’ve rigged a second lamp so the people at the back can see. It won’t blow up.', 'happy'),
+        BY('Probably.', 'think'),
         N('Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight.'),
         WU('Crocodiles! The last crossing! Line up, please!'),
         N('The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them.'),
@@ -836,12 +860,15 @@ const LK10 = quest(
     SI('So. What did Kancil learn this summer?', 'think'),
     N('A boy says be clever, and a girl says say thank you. The small boy who helped the snails says don’t laugh at slow people.'),
     WU('All true. My grandmother would have liked you lot.', 'soft'),
+    N('The little girl who held the elephant puppet has it again. It sits on a ramp she made herself, out of six twigs.'),
+    WU('Siti’s grandmother stopped the tale in the pit. She never said nobody could build a ramp later.', 'soft'),
+    SI('My grandmother would be furious. And then she’d help.', 'happy'),
     SI('We’re leaving the screen by the pond. It belongs here now.', 'soft'),
     WU('And we’re staying a while. We like your valley. It argues nearly as well as we do.', 'happy'),
     N('Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own.'),
   ]),
-  'PAYOFFS. LK9: if lk-pit = ramp, play lk10-complete-ramp in place of lk10-complete (the snail boy’s answer is the ' +
-    'elephant). LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line ' +
+  'PAYOFFS. LK9: if lk-pit = pit-ramp, play lk10-complete-pit-ramp in place of lk10-complete (the snail boy’s ' +
+    'answer is the elephant); for pit-stuck, lk10-complete gives the elephant its twig ramp. LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line ' +
     'up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of ' +
     'lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. ' +
     'Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti ' +
@@ -870,8 +897,8 @@ export const LINE_LK: Quest[] = [LK1, LK2, LK3, LK4, LK5, LK6, LK7, LK8, LK9, LK
 // ---------------------------------------------------------------- variants
 
 export const LINE_LK_VARIANTS: Scene[] = [
-  // LK10, lk-pit = ramp: in place of lk10-complete.
-  sc('lk10-complete-ramp', [
+  // LK10, lk-pit = pit-ramp: in place of lk10-complete.
+  sc('lk10-complete-pit-ramp', [
     N('Afterwards the children sit in a heap on the bank, full of kuih and kue, and nobody wants to go home.'),
     SI('So. What did Kancil learn this summer?', 'think'),
     N('A boy says be clever, and a girl says say thank you. The small boy who helped the snails says go back for the elephant.'),
@@ -891,10 +918,23 @@ export const LINE_LK_VARIANTS: Scene[] = [
     KA('That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!', 'happy'),
     N('The crocodile lets go, quick as anything, and snaps at a stick floating past.'),
   ]),
-  // LK7, lk-first = wulan: in place of lk07-garden.
-  sc('lk07-garden-siti', [
+  // LK4, lk-croc = sorry: in place of lk04-grab.
+  sc('lk04-grab-sorry', [
+    WU('Some days later, Kancil was thirsty, so he went down to the river for a drink.'),
+    N('Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples.'),
+    N('A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg.', 'shock'),
+    BU('I remember you. You’re the one who said sorry.', 'think'),
+    BU('Nobody says sorry to a crocodile. I’ve thought about it every day. It’s very annoying.', 'think'),
+    BU('I still have to eat you. But I’ll feel odd about it.', 'sad'),
+    KA('Oh, crocodile. Is that my leg you’ve caught?', 'think'),
+    KA('That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!', 'happy'),
+    N('The crocodile lets go, quick as anything, and snaps at a stick floating past.'),
+  ]),
+  // LK7, lk-first = wulan (Wulan's way came first, so Siti tells this one): in place of lk07-garden.
+  sc('lk07-garden-wulan', [
     N('Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat.'),
-    SI('This is Wulan’s tale really. But she told the first tale, so this one is mine.', 'happy'),
+    SI('This is Wulan’s tale really. But her way came first all summer, so tonight it’s mine.', 'happy'),
+    WU('There’s no crocodile in it. She’s been practising the farmer in the bath.', 'think'),
     SI('There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.'),
     PT('My cucumbers! Somebody has been eating my cucumbers again!', 'angry'),
     N('Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber.'),
@@ -902,6 +942,7 @@ export const LINE_LK_VARIANTS: Scene[] = [
     KA('Who’s this, standing in the garden? Out of my way, please. I’m busy eating.', 'happy'),
     N('Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too.', 'shock'),
     PT('Got you, cucumber thief!', 'angry'),
+    N('A small brown dog trots in, sits down, and watches with great interest.'),
     WU('Wait, wait. That’s not how my grandmother told it.', 'think'),
   ]),
   // LK10, lk-croc = laughed: in place of lk10-line.
@@ -909,7 +950,9 @@ export const LINE_LK_VARIANTS: Scene[] = [
     N('The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food.'),
     SI('Kuih! Who wants kuih? I made the green ones and the stripy ones.', 'happy'),
     WU('And kue from me. Same idea, different spelling, better coconut.', 'happy'),
-    PX('I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.', 'happy'),
+    N('Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand.'),
+    PX('I’ve rigged a second lamp so the people at the back can see. It won’t blow up.', 'happy'),
+    BY('Probably.', 'think'),
     N('Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight.'),
     WU('Crocodiles! The last crossing! Line up, please!'),
     N('The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up.'),
@@ -1350,9 +1393,10 @@ const SPROUT: EduQuest[] = [
           SI('But Kancil had to get away!', 'think'),
           N('Your Nubbin finds a stick by the pond.'),
           N('It puts the stick next to its leg.'),
+          N('The stick sticks out past its foot. Wobble!'),
         ],
         [
-          ask(3, m('maths', 'long and short', 'Your child compared a stick and a leg and said which was longer.', 'K.MD.A.2'), [SI('Which is longer, the stick or the leg?')], [
+          ask(4, m('maths', 'long and short', 'Your child compared a stick and a leg and said which was longer.', 'K.MD.A.2'), [SI('Which is longer, the stick or the leg?')], [
             best('The stick!', WU('Yes! The stick is long. The leg is short.', 'happy')),
             opt('The leg.', SI('Look again. The stick goes further. The stick is longer!', 'soft')),
           ]),
@@ -1363,7 +1407,7 @@ const SPROUT: EduQuest[] = [
         [
           N('The stick is long. The leg is short. And wriggly!'),
           WU('So the stick was not much like a leg!', 'happy'),
-          SI('It was dark. The crocodile was hungry. Hungry makes us silly.'),
+          SI('The crocodile was hungry. Hungry makes us silly.'),
           N('The crocodile puppet goes back in the box.'),
         ],
         [
@@ -1498,6 +1542,7 @@ const SPROUT: EduQuest[] = [
         'lk06-race',
         [
           N('Siti puts ten snails along the river.'),
+          N('Each snail hides in a different spot.'),
           KA('Ready? Go!', 'happy'),
           N('Kancil runs and runs. Then he stops.'),
           KA('Where are you, snail?', 'happy'),
@@ -1505,9 +1550,11 @@ const SPROUT: EduQuest[] = [
           KA('Where are you now?', 'shock'),
           SN('Still ahead of you!', 'happy'),
           N('Kancil runs ten times. He is so tired! He gives up.'),
+          SI('A different snail every time! Kancil only looks for one.', 'happy'),
+          N('Ten snails wave. Very slowly.'),
         ],
         [
-          act(7, m('maths', 'count to ten', 'Your child counted the ten snails along the riverbank.', 'K.CC.B.5'), 'edu:count:snails:10', [
+          act(10, m('maths', 'count to ten', 'Your child counted the ten snails along the riverbank.', 'K.CC.B.5'), 'edu:count:snails:10', [
             N('(Count the snails on the screen together.)'),
             SI('Ten snails! Each one waited in its place.', 'happy'),
           ]),
@@ -1561,7 +1608,7 @@ const SPROUT: EduQuest[] = [
         'lk07-endings',
         [
           N('Siti and Wulan whisper behind the screen.'),
-          WU('In the old story, Kancil tricks a dog and runs away.', 'think'),
+          WU('In the old story, Kancil is sneaky. Somebody else gets stuck!', 'think'),
           SI('In the new story, Kancil says sorry.', 'soft'),
           WU('Both are stories. One is just older.', 'soft'),
         ],
@@ -1700,7 +1747,11 @@ const SPROUT: EduQuest[] = [
           N('Thump, thump. Here comes the elephant!'),
           GA('What are you doing down there, little one?', 'think'),
           KA('The sky is falling! This hole is the safe place!', 'shock'),
+          N('Kancil is fibbing. The sky is not falling. Shh!'),
           GA('Oh no! Make room!', 'shock'),
+          N('Whump! The elephant jumps in and sits down.'),
+          N('The hole is very full.'),
+          GA('Cosy!', 'happy'),
         ],
         [
           ask(3, m('sel', 'asking for help', 'Your child thought about asking for help when they are stuck.', 'CASEL: Relationship skills'), [WU('Kancil is stuck. What can you do when you are stuck?')], [
@@ -1712,7 +1763,7 @@ const SPROUT: EduQuest[] = [
       sp(
         'lk09-out',
         [
-          N('The elephant climbs in. Thump!'),
+          N('Kancil is squashed. But he has an idea!'),
           N('First, Kancil hops on its back. Next, on its head. Last, out!'),
           KA('Thank you, Elephant!', 'happy'),
           N('But the elephant is still in the hole.'),
@@ -1774,6 +1825,8 @@ const SPROUT: EduQuest[] = [
           N('It is the last night of summer. Everyone is here!'),
           SI('Kuih! Who wants kuih?', 'happy'),
           WU('And kue from me! Coconut, yum!', 'happy'),
+          N('Pixel brings a second lamp.'),
+          N('Her husband Byte brings a bucket. Just in case!'),
           PX('I made a second lamp. So everyone can see!', 'happy'),
           N('Tonight your Nubbin is Kancil. No puppet. Just itself!'),
           WU('Crocodiles! Line up, please!'),
@@ -1800,7 +1853,7 @@ const SPROUT: EduQuest[] = [
         [
           act(5, m('maths', 'count to ten, twice', 'Your child counted one line of ten crocodiles, then the other.', 'K.CC.A.1'), 'edu:count:crocodiles:20', [
             N('(Count one line together, from one to ten.)'),
-            N('(Then count the other line. Ten and ten!)'),
+            N('(Then count the other line. Ten and ten. That’s twenty crocodiles!)'),
           ]),
         ],
       ),
@@ -1827,7 +1880,7 @@ const SPROUT: EduQuest[] = [
 
 const SPROUT_VARIANTS: EduScene[] = [
   sp(
-    'lk10-complete-ramp',
+    'lk10-complete-pit-ramp',
     [
       N('The children sit on the bank, full of kuih and kue.'),
       SI('What did Kancil learn this summer?', 'think'),
@@ -1861,9 +1914,29 @@ const SPROUT_VARIANTS: EduScene[] = [
     ],
   ),
   sp(
-    'lk07-garden-siti',
+    'lk04-grab-sorry',
+    [
+      WU('One day, Kancil is thirsty. He goes to the river.'),
+      N('Kancil puts his nose down to drink.'),
+      N('Oh no! The crocodile catches his leg!', 'shock'),
+      BU('I remember you. You said sorry.', 'think'),
+      BU('Nobody says sorry to a crocodile! I think about it every day.', 'think'),
+      BU('I am still hungry. But I feel a bit odd about it.', 'sad'),
+      KA('Silly crocodile! That is not my leg. That is a stick!', 'happy'),
+      N('The crocodile lets go. It grabs a stick instead.'),
+    ],
+    [
+      ask(5, m('sel', 'saying sorry is remembered', 'Your child thought about why the crocodile still remembers Kancil’s sorry.', 'CASEL: Relationship skills'), [N('Why does the crocodile remember Kancil?')], [
+        best('Kancil said sorry.', WU('Yes. A sorry stays with people. Even with crocodiles.', 'soft')),
+        opt('He likes sticks.', SI('Ha! Maybe. But he remembers because Kancil said sorry.', 'soft')),
+      ]),
+    ],
+  ),
+  sp(
+    'lk07-garden-wulan',
     [
       SI('My turn! This is Wulan’s story, but I will tell it.', 'happy'),
+      WU('There is no crocodile in it, Siti.', 'think'),
       SI('Pak Tani is a farmer. Pak Tani means Mr Farmer.'),
       PT('Who ate my cucumbers?', 'angry'),
       N('Kancil creeps in. Nibble, nibble, crunch!'),
@@ -1872,7 +1945,7 @@ const SPROUT_VARIANTS: EduScene[] = [
       WU('Wait! My grandma told it differently!', 'think'),
     ],
     [
-      notice(1, m('science', 'plants need water and light', 'Your child heard that cucumber plants need water and sun to grow.', '2-LS2-1'), [
+      notice(2, m('science', 'plants need water and light', 'Your child heard that cucumber plants need water and sun to grow.', '2-LS2-1'), [
         SI('Cucumbers need water and sun to grow.'),
         N('(Ask: what do plants need? Water and sun!)'),
       ]),
@@ -1910,7 +1983,7 @@ const SPROUT_VARIANTS: EduScene[] = [
     [
       act(5, m('maths', 'count to ten, twice', 'Your child counted one line of ten crocodiles, then the other.', 'K.CC.A.1'), 'edu:count:crocodiles:20', [
         N('(Count one line together, from one to ten.)'),
-        N('(Then count the other line. Ten and ten!)'),
+        N('(Then count the other line. Ten and ten. That’s twenty crocodiles!)'),
       ]),
     ],
   ),
@@ -1929,7 +2002,7 @@ const READER: EduQuest[] = [
     },
     [
       rd('lk01-dusk', [
-        notice(4, m('social-studies', 'finding Malaysia and Indonesia on a map', 'Your child placed Melaka and Yogyakarta on a map and saw the two countries are neighbours.', 'D2.Geo.2.K-2'), [
+        notice(4, m('social-studies', 'finding Malaysia and Indonesia on a map', 'Your child placed Melaka and Yogyakarta on a map and saw the two countries are neighbours.', 'D2.Geo.2.3-5'), [
           SI('Melaka is an old port town on the coast of Malaysia. Ships have stopped there for hundreds of years.'),
           WU('Yogyakarta is on Java, one of the thousands of islands that make up Indonesia.'),
           WU('Between us is the sea. On a map, we’re neighbours.', 'happy'),
@@ -1940,7 +2013,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk01-lamp', [
-        act(5, m('science', 'how shadows form and change size', 'Your child moved a puppet between a lamp and a screen and ordered the shadows by size.', '1-PS4-2'), 'edu:order:shadows:size', [
+        act(8, m('science', 'how shadows form and change size', 'Your child moved a puppet between a lamp and a screen and ordered the shadows by size.', '5-ESS1-2'), 'edu:order:shadows:size', [
           WU('Hold the puppet close to the lamp. It blocks a lot of light, so the shadow is huge.'),
           WU('Move it close to the screen. It blocks less light, and the shadow shrinks.'),
           N('Put three puppet shadows in order, from smallest to largest.'),
@@ -1976,13 +2049,13 @@ const READER: EduQuest[] = [
     },
     [
       rd('lk02-hungry', [
-        ask(3, m('literacy', 'words that show feelings or senses', 'Your child picked out the word that shows how hungry Kancil is.', 'RL.1.4'), [WU('Which word tells you Kancil is really hungry?')], [
-          best('Growling', SI('Yes. A growling tummy is a very hungry tummy. You can almost hear it.', 'happy')),
-          opt('Breakfast', WU('Close! But “growling” is the word that lets you hear his hunger.', 'soft')),
+        ask(3, m('literacy', 'a word with two meanings', 'Your child worked out what “growling” means for a tummy, not a tiger.', 'L.3.4'), [WU('A tiger growls to warn you off. What does “growling” mean for Kancil’s tummy?')], [
+          best('It rumbles because it’s empty.', SI('Yes. Same word, different job. A tiger growls on purpose; a tummy growls when it wants breakfast.', 'happy')),
+          opt('His tummy is angry.', WU('Ha! Close. The tummy isn’t cross, just empty. The rumble sounds like a growl.', 'soft')),
         ]),
       ]),
       rd('lk02-ripples', [
-        notice(1, m('science', 'why rainforest rivers are full of life', 'Your child learned why warm, wet rainforests support so many animals.', '2-LS4-1'), [
+        notice(1, m('science', 'why rainforest rivers are full of life', 'Your child learned why warm, wet rainforests support so many animals.', '3-LS4-3'), [
           WU('A rainforest is warm and wet all year, so plants grow fast and never stop.'),
           WU('Lots of plants means lots of food, so the rivers are crowded with fish, frogs, birds and crocodiles.'),
           SI('Each of them has found its habitat: the place that gives it what it needs.'),
@@ -2031,10 +2104,11 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk03-count', [
-        act(6, m('maths', 'counting in twos and adding on', 'Your child counted ten crocodiles in twos, then added four more to make fourteen.', '1.OA.A.1'), 'edu:count:crocodiles:10', [
+        act(6, m('maths', 'counting in twos as equal groups', 'Your child counted ten crocodiles in twos: five pairs.', '3.OA.A.1'), 'edu:count:crocodiles:10', [
           WU('Count the line again in twos this time: two, four, six, eight, ten.'),
-          SI('Oh, look! Four more Nubbins swim up and join the end. How many crocodiles now?'),
-          N('Count on from ten: eleven, twelve, thirteen, fourteen. Fourteen crocodiles!'),
+          SI('Oh, look! Four more Nubbins swim up to join. The line is full, so they swim off again, very offended.'),
+          N('Still ten, then. Count in twos once more: two, four, six, eight, ten.'),
+          WU('Five twos make ten. Five pairs of crocodiles, and four offended Nubbins on the bank.', 'happy'),
         ]),
         notice(11, m('literacy', 'the same numbers in two languages', 'Your child heard the numbers one to ten in Malay and Indonesian, where only eight differs.'), [
           SI('In Malay, eight is lapan. In Indonesian, it’s delapan.'),
@@ -2042,9 +2116,9 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk03-over', [
-        ask(2, m('maths', 'odd and even', 'Your child paired up ten crocodiles to show that ten is even.', '2.OA.C.3'), [WU('Ten crocodiles. Is ten odd or even? Pair them up and see.')], [
-          best('Even', SI('Even! Five pairs, and nobody left over.', 'happy')),
-          opt('Odd', WU('Let’s pair them: two, four, six, eight, ten. Five pairs, none left over, so ten is even.', 'soft')),
+        ask(2, m('maths', 'dividing into equal groups', 'Your child shared ten crocodiles into pairs: 10 ÷ 2 = 5, with none left over.', '3.OA.A.3'), [WU('Ten crocodiles, two in each pair. How many pairs?')], [
+          best('Five pairs', SI('Five! Ten shared into twos is five pairs, and nobody left over. That makes ten an even number.', 'happy')),
+          opt('Two pairs', WU('Two is how many in each pair. Count the pairs: two, four, six, eight, ten. That’s five pairs.', 'soft')),
         ]),
       ]),
       rd('lk03-turn', [
@@ -2054,7 +2128,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk03-complete', [
-        notice(2, m('social-studies', 'how stories carry the past', 'Your child learned that the Kancil tales were passed down by word of mouth for generations.', 'D2.His.2.K-2'), [
+        notice(2, m('social-studies', 'how stories carry the past', 'Your child learned that the Kancil tales were passed down by word of mouth for generations.', 'D2.His.2.3-5'), [
           SI('Families in Malaysia, Indonesia, Singapore and Brunei have told this tale for generations.'),
           WU('It travelled from mouth to ear, grandmother to grandchild. That’s called an oral tradition.'),
         ]),
@@ -2083,7 +2157,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk04-free', [
-        notice(1, m('science', 'animals’ senses', 'Your child learned that crocodiles feel tiny ripples with sense organs on their jaws.', '4-LS1-2'), [
+        notice(3, m('science', 'animals’ senses', 'Your child learned that crocodiles feel tiny ripples with sense organs on their jaws.', '4-LS1-2'), [
           SI('Real crocodiles have tiny bumps along their jaws that feel the smallest ripple in the water.'),
           WU('A drinking mouse-deer makes ripples. That’s how a crocodile knows someone has arrived.'),
         ]),
@@ -2096,7 +2170,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk04-complete', [
-        ask(1, m('maths', 'comparing lengths by subtracting', 'Your child found the difference between two lengths by subtracting.', '2.OA.A.1'), [N('The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?')], [
+        ask(1, m('maths', 'comparing lengths by subtracting', 'Your child found the difference between two lengths by subtracting.', '4.MD.A.2'), [N('The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?')], [
           best('45 centimetres', WU('Yes! 60 take away 15 is 45. That’s a lot of extra stick.', 'happy')),
           opt('75 centimetres', SI('That’s adding them together. To compare, take away: 60 minus 15 is 45.', 'soft')),
           opt('15 centimetres', WU('That’s the leg. The difference is 60 minus 15, which is 45.', 'soft')),
@@ -2115,13 +2189,13 @@ const READER: EduQuest[] = [
     },
     [
       rd('lk05-log', [
-        notice(5, m('science', 'a lever helps lift heavy things', 'Your child learned how a long branch used as a lever lifts a heavy log.', '3-PS2-1'), [
+        notice(10, m('science', 'a lever helps lift heavy things', 'Your child learned how a long branch used as a lever lifts a heavy log.', '3-PS2-1'), [
           WU('See how the buffalo used a branch? A long branch pushed under a heavy log is called a lever.'),
           SI('Push down on the long end, and the short end lifts far more than you could lift alone.'),
         ]),
       ]),
       rd('lk05-judge', [
-        notice(2, m('social-studies', 'fairness: hear both sides', 'Your child learned that a fair judge listens to both sides and looks at the facts first.', 'D2.Civ.8.K-2'), [
+        notice(2, m('social-studies', 'fairness: hear both sides', 'Your child learned that a fair judge listens to both sides and looks at the facts first.', 'D2.Civ.8.3-5'), [
           WU('That’s what a good judge does. Listen to both sides and look at the facts before deciding.'),
           SI('Deciding first and looking afterwards is how unfair things happen.'),
         ]),
@@ -2175,7 +2249,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk06-complete', [
-        ask(3, m('literacy', 'how a character responds to events', 'Your child described how Kancil felt when he lost the race.', 'RL.2.3'), [SI('How did Kancil feel when he flopped down and gave up?')], [
+        ask(3, m('literacy', 'how a character responds to events', 'Your child described how Kancil felt when he lost the race.', 'RL.3.3'), [SI('How did Kancil feel when he flopped down and gave up?')], [
           best('Tired, and a bit silly.', WU('Yes. Tired legs and a red face. He’d learned something.', 'think')),
           opt('Proud.', SI('Not this time! He’d boasted and lost. He felt tired and silly.', 'soft')),
         ]),
@@ -2193,9 +2267,9 @@ const READER: EduQuest[] = [
     },
     [
       rd('lk07-garden', [
-        notice(2, m('science', 'why plants need water and light', 'Your child learned that plants take in water through roots and make food with sunlight in their leaves.', '2-LS2-1'), [
+        notice(4, m('science', 'why a climbing vine does well', 'Your child learned that a vine climbs towards the light, which helps it grow well where it lives.', '3-LS4-3'), [
           WU('Cucumber vines drink water through their roots, and their leaves use sunlight to make food.'),
-          SI('That’s why the vines climb. Higher up, the leaves catch more sun.'),
+          SI('That’s why the vines climb. A vine that reaches the sun grows better than one left in the shade.'),
         ]),
       ]),
       rd('lk07-endings', [
@@ -2212,7 +2286,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk07-complete', [
-        notice(2, m('social-studies', 'how stories change over time', 'Your child learned that tales passed by word of mouth change a little with each teller.', 'D2.His.2.K-2'), [
+        notice(2, m('social-studies', 'how stories change over time', 'Your child learned that tales passed by word of mouth change a little with each teller.', 'D2.His.2.3-5'), [
           WU('Tales passed on by word of mouth change a little with each teller.'),
           SI('That isn’t a mistake. It’s how old stories stay alive.', 'soft'),
         ]),
@@ -2236,9 +2310,10 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk08-look', [
-        notice(2, m('science', 'why still water reflects', 'Your child learned why still water reflects like a mirror and rippled water doesn’t.', '1-PS4-2'), [
-          WU('Still water is smooth, so light bounces straight back off it, like a mirror. That picture is a reflection.'),
-          SI('Ripples scatter the light in all directions, and the picture breaks up.'),
+        notice(4, m('science', 'light travels and bounces', 'Your child learned that light travels from the tiger to the water and bounces back to his eyes.', '4-PS3-2'), [
+          WU('Light travels from the tiger down to the pool. Still water is smooth, so the light bounces straight back up.'),
+          SI('It reaches his eyes and makes a picture: a reflection. He’s being rude to some bounced light.', 'happy'),
+          WU('Ripples scatter the light in all directions, and the picture breaks up.'),
         ]),
       ]),
       rd('lk08-splash', [
@@ -2284,7 +2359,7 @@ const READER: EduQuest[] = [
         ]),
       ]),
       rd('lk09-ending', [
-        ask(5, m('science', 'defining a problem and finding solutions', 'Your child named the real problem (steep sides) and two ways to solve it.', 'K-2-ETS1-1'), [WU('What exactly is the problem? And what are two ways to solve it?')], [
+        ask(5, m('science', 'defining a problem and finding solutions', 'Your child named the real problem (steep sides) and compared two ways to solve it.', '3-5-ETS1-2'), [WU('What exactly is the problem? And what are two ways to solve it?')], [
           best('The sides are too steep. A ramp, or ropes.', SI('Exactly. Name the problem first: steep, slippery sides. Then a log ramp, or ropes to pull with.', 'happy')),
           opt('Elephant is too big.', WU('He is big! But the real problem is the steep sides. A ramp would fix that.', 'soft')),
         ]),
@@ -2309,13 +2384,13 @@ const READER: EduQuest[] = [
     },
     [
       rd('lk10-line', [
-        notice(2, m('social-studies', 'shared food and words', 'Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia.', 'D2.Geo.2.K-2'), [
+        notice(2, m('social-studies', 'shared food and words', 'Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia.', 'D2.Geo.2.3-5'), [
           SI('Kuih is the Malay word for small cakes and snacks, sweet or savoury.'),
           WU('In Indonesia we say kue. Same idea, different spelling, and we argue about the coconut.', 'happy'),
         ]),
       ]),
       rd('lk10-count', [
-        act(5, m('maths', 'adding tens', 'Your child added two lines of ten crocodiles to make twenty.', '2.OA.A.1'), 'edu:count:crocodiles:20', [
+        act(5, m('maths', 'adding tens', 'Your child added two lines of ten crocodiles to make twenty.', '3.OA.A.1'), 'edu:count:crocodiles:20', [
           WU('Two lines of ten crocodiles. How many crocodiles in all?'),
           SI('Ten and ten make twenty. Or two tens, if you like your times tables.', 'happy'),
         ]),
@@ -2326,7 +2401,7 @@ const READER: EduQuest[] = [
           opt('Clever isn’t enough. Be kind too.', SI('That’s the one I’d pick. Every trick needed a thank you after.', 'soft')),
           opt('Don’t boast.', WU('The snails would agree with you.', 'happy')),
         ]),
-        ask(5, m('sel', 'reflecting on your own learning', 'Your child said what they learned over the summer of tales.', 'CASEL: Self-awareness'), [WU('And you? What did you learn this summer?')], [
+        ask(8, m('sel', 'reflecting on your own learning', 'Your child said what they learned over the summer of tales.', 'CASEL: Self-awareness'), [WU('And you? What did you learn this summer?')], [
           opt('Counting in Malay and Indonesian.', SI('Satu, dua, tiga! You’ll never forget lapan and delapan now.', 'happy')),
           opt('That stories change.', WU('They do. And you’ll change them too, when you tell them.', 'soft')),
           opt('Something else.', SI('Tell us. We like hearing what people take home.', 'soft')),
@@ -2338,7 +2413,7 @@ const READER: EduQuest[] = [
 ];
 
 const READER_VARIANTS: EduScene[] = [
-  rd('lk10-complete-ramp', [
+  rd('lk10-complete-pit-ramp', [
     ask(2, m('literacy', 'finding the theme', 'Your child named the big idea running through the Kancil tales, elephant and all.', 'RL.4.2'), [SI('What did Kancil learn this summer? What is the big idea of all his tales?')], [
       opt('Being small is fine if you think.', WU('That’s a strong theme. Brains beat size, over and over.', 'happy')),
       opt('Clever isn’t enough. Go back and put it right.', SI('That’s the one I’d pick. You gave the tale its new ending yourselves.', 'soft')),
@@ -2356,20 +2431,26 @@ const READER_VARIANTS: EduScene[] = [
       opt('It’s hungrier.', WU('Maybe! But it says it remembers being laughed at. That’s what made it cross.', 'soft')),
     ]),
   ]),
-  rd('lk07-garden-siti', [
-    notice(2, m('science', 'why plants need water and light', 'Your child learned that plants take in water through roots and make food with sunlight in their leaves.', '2-LS2-1'), [
+  rd('lk04-grab-sorry', [
+    ask(5, m('literacy', 'why a character acts', 'Your child worked out why Kancil’s sorry still bothers the crocodile.', 'RL.3.3'), [WU('Why can’t the crocodile stop thinking about Kancil?')], [
+      best('Kancil said sorry, and nobody ever does.', SI('Yes. A real sorry is hard to forget, even for a crocodile.', 'think')),
+      opt('It’s just hungry.', WU('It is hungry! But it says the sorry is what it keeps thinking about.', 'soft')),
+    ]),
+  ]),
+  rd('lk07-garden-wulan', [
+    notice(3, m('science', 'why a climbing vine does well', 'Your child learned that a vine climbs towards the light, which helps it grow well where it lives.', '3-LS4-3'), [
       SI('Cucumber vines drink water through their roots, and their leaves use sunlight to make food.'),
-      WU('That’s why the vines climb. Higher up, the leaves catch more sun.'),
+      WU('That’s why the vines climb. A vine that reaches the sun grows better than one left in the shade.'),
     ]),
   ]),
   rd('lk10-line-laughed', [
-    ask(8, m('sel', 'mending a friendship', 'Your child thought about what helps someone trust you again after you hurt them.', 'CASEL: Relationship skills'), [SI('What could help the Nubbins trust Kancil again?')], [
+    ask(10, m('sel', 'mending a friendship', 'Your child thought about what helps someone trust you again after you hurt them.', 'CASEL: Relationship skills'), [SI('What could help the Nubbins trust Kancil again?')], [
       best('Say sorry and ask nicely.', WU('Yes. A real sorry, and a please. Then let them decide.', 'soft')),
       opt('Order them to line up.', SI('Orders don’t mend things. A sorry and a please might.', 'soft')),
     ]),
   ]),
   rd('lk10-count-wulan', [
-    act(5, m('maths', 'adding tens', 'Your child added two lines of ten crocodiles to make twenty.', '2.OA.A.1'), 'edu:count:crocodiles:20', [
+    act(5, m('maths', 'adding tens', 'Your child added two lines of ten crocodiles to make twenty.', '3.OA.A.1'), 'edu:count:crocodiles:20', [
       WU('Two lines of ten crocodiles. How many crocodiles in all?'),
       SI('Ten and ten make twenty. Or two tens, if you like your times tables.', 'happy'),
     ]),
@@ -2379,7 +2460,7 @@ const READER_VARIANTS: EduScene[] = [
 /** The Learning Grove versions of every LK scene, per band. */
 export const LINE_LK_EDU: Record<EduBand, EduQuest[]> = { sprout: SPROUT, reader: READER };
 
-/** The bands' versions of the four variant scenes in LINE_LK_VARIANTS. */
+/** The bands' versions of the six variant scenes in LINE_LK_VARIANTS. */
 export const LINE_LK_EDU_VARIANTS: Record<EduBand, EduScene[]> = { sprout: SPROUT_VARIANTS, reader: READER_VARIANTS };
 
 /** Every `edu:` check used by the bands' lessons. */

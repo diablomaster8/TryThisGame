@@ -610,7 +610,7 @@ _On “achat”, the Wobbler leaps into the air, waves, and lands in a basket of
 - **אַחַת (achat)**: One, 1 (say it: ah-KHAT).
 - **שְׁתַּיִם (shtayim)**: Two, 2 (say it: SHTAI-yim).
 - **שָׁלוֹשׁ (shalosh)**: Three, 3 (say it: sha-LOSH).
-- **אַרְבַּע (arba)**: Four, 4 (say it: AR-bah).
+- **אַרְבַּע (arba)**: Four, 4 (say it: ar-BAH).
 - **חָמֵשׁ (chamesh)**: Five, 5, with the throaty “ch” (say it: kha-MESH).
 - **שֵׁשׁ (shesh)**: Six, 6 (say it: SHESH).
 - **שֶׁבַע (sheva)**: Seven, 7 (say it: SHEH-vah).
@@ -687,7 +687,7 @@ _Clover is by the pond with a little Nubbin who hasn’t eaten all day._
 **Clover**: This one will only eat red things. Don’t ask me why. We all have our ways.  
 **Ori**: Something adom! On it. I’m fast. I play on the wing.  
 **Ori**: רִמּוֹן (rimon) is a pomegranate. Red outside, and full of red seeds inside. My favourite.  
-**Ori**: עֲנָבִים (anavim) are grapes. These ones are סָגֹל (sagol), purple. Not adom. Close, but lo.  
+**Ori**: עֲנָבִים (anavim) are grapes. Their colour is סָגֹל (sagol), purple. Not adom. Close, but lo.  
 
 > **Lesson** (literacy, notice): colour words change their ending for feminine words  
 > **Ori**: Adom is the form we use to name the colour red.  

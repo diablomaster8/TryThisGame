@@ -8,7 +8,7 @@
 #### `sprout:lb01-van` · [main](main.md#lb01-van)
 
 _A red van stops in the lane. Beep beep!_  
-_A new family is moving in, next door but one._  
+_A new family is moving in, two houses along._  
 **Ama Larkin**: Hello! I’m Ama. I drive the post van.  
 **Sam Larkin**: I’m Sam. We’re very sleepy. We got up so early!  
 **Maisie**: I’m Maisie. I’m six. I make the rules.  
@@ -142,7 +142,7 @@ _Ned holds the tin tight. Maisie folds her arms._
 > _Taking turns helps. First Ned, then Maisie. Then Ned again!_  
 > _For grown-ups: Your child heard how taking turns lets two people share one thing._
 
-**Sam Larkin**: Can two shopkeepers work this out?  
+**Sam Larkin**: Can two shopkeepers sort this out?  
 **Maisie**: Ned could be the customer. Customers are important too.  
 
 **Choices**
@@ -234,7 +234,9 @@ _Two tickly fingers wiggle in the grass._
 
 _Everyone gets to the fence. Then everyone goes back!_  
 _The tickly fingers catch Ned’s foot. He falls in the grass, laughing._  
-**Sam Larkin**: Got one! Now the pond monster wants a cup of tea.  
+**Sam Larkin**: Got one! The pond monster wants tea.  
+**Maisie**: Pond monsters don’t drink tea!  
+**Sam Larkin**: This one does. Two sugars.  
 _Ned makes pretend tea in a flowerpot._  
 
 > **Lesson** (literacy, ELOF: Approaches to Learning, ask): pretend play  
@@ -317,6 +319,9 @@ _Ned breaks the biscuit. One piece for each player._
 > Check: `edu:count:biscuit:4`
 > _For grown-ups: Your child matched one biscuit piece to each of four players._
 
+**Sam Larkin**: And one for the giant?  
+**Ned**: Giants are asleep!  
+_Sam does a very loud snore._  
 
 ## LB5. Nubbin Doctor
 
@@ -383,7 +388,8 @@ _Your Nubbin walks home in two toilet-paper boots!_
 > _When were you brave?_  
 > _For grown-ups: Your child learned a feeling word: brave._
 
-**Maisie**: Dad, you need more sleep. Have a nap!  
+_Sam peeks in for a pencil. Maisie looks at him very hard._  
+**Maisie**: Dad, you look tired. The doctor says nap!  
 **Sam Larkin**: The best medicine!  
 
 ## LB6. Den Day
@@ -417,6 +423,80 @@ _Everyone helps. The den goes up!_
 
 **Ama Larkin**: Every den needs a door.  
 _Ned pulls his box across the rug._  
+
+#### `sprout:lb06-built-box-big` · [main](main.md#lb06-built-box-big)
+
+_Variant of `lb06-built`._
+
+_Chairs, blankets, a sheet on top. Pegs hold it._  
+_Everyone helps. The den goes up!_  
+
+> **Lesson** (sel, ELOF: Social and Emotional Development, notice): working together  
+> _Ama holds. Maisie pegs. Sam brings chairs._  
+> _When everyone helps, big jobs get easy!_  
+> _For grown-ups: Your child heard how everyone helping makes a big job easy._
+
+**Ama Larkin**: Every den needs a door.  
+_Ned pulls his box across the rug._  
+_The big box is the den door._  
+**Ned**: A front door! With a roof!  
+**Maisie**: Knock first. That’s the rule.  
+
+> **Lesson** (literacy, RF.K.2, notice): first sounds  
+> _D-d-door. D-d-den. Same first sound!_  
+> _For grown-ups: Your child heard that door and den start with the same d sound._
+
+_Knock, knock!_  
+
+#### `sprout:lb06-built-box-long` · [main](main.md#lb06-built-box-long)
+
+_Variant of `lb06-built`._
+
+_Chairs, blankets, a sheet on top. Pegs hold it._  
+_Everyone helps. The den goes up!_  
+
+> **Lesson** (sel, ELOF: Social and Emotional Development, notice): working together  
+> _Ama holds. Maisie pegs. Sam brings chairs._  
+> _When everyone helps, big jobs get easy!_  
+> _For grown-ups: Your child heard how everyone helping makes a big job easy._
+
+**Ama Larkin**: Every den needs a door.  
+_Ned pulls his box across the rug._  
+_The long box is a tunnel door._  
+**Ned**: You have to wriggle!  
+_Your Nubbin wriggles in. Stuck! Then unstuck._  
+
+> **Lesson** (literacy, ELOF: Language and Communication, do): movement words  
+> _Can you wriggle like the Nubbin? Wriggle, wriggle!_  
+> Check: `edu:move:wriggle`
+> _For grown-ups: Your child acted out a movement word: wriggle._
+
+_Wriggle, wriggle, pop!_  
+
+#### `sprout:lb06-built-box-tall` · [main](main.md#lb06-built-box-tall)
+
+_Variant of `lb06-built`._
+
+_Chairs, blankets, a sheet on top. Pegs hold it._  
+_Everyone helps. The den goes up!_  
+
+> **Lesson** (sel, ELOF: Social and Emotional Development, notice): working together  
+> _Ama holds. Maisie pegs. Sam brings chairs._  
+> _When everyone helps, big jobs get easy!_  
+> _For grown-ups: Your child heard how everyone helping makes a big job easy._
+
+**Ama Larkin**: Every den needs a door.  
+_Ned pulls his box across the rug._  
+_The tall box is the den door._  
+**Ned**: It’s a lift. It goes DOWN!  
+
+> **Lesson** (literacy, ELOF: Language and Communication, ask): opposite words  
+> _The lift goes down. What is the opposite of down?_  
+> - ✅ Up → Yes! Up and down. Stand up tall, then crouch down low!
+> - Sideways → Down’s opposite is up! Up, down, up, down!
+> _For grown-ups: Your child found the opposite of down._
+
+_You step in. Then you duck down. Down, down!_  
 
 #### `sprout:lb06-inside` · [main](main.md#lb06-inside)
 
@@ -454,50 +534,6 @@ _Ama gives you a blanket. Now you can make a den too!_
 > _For grown-ups: Your child noticed saying thank you when someone shares._
 
 **You**: Thank you, Ama!  
-
-#### `sprout:lb06-door-big` · [main](main.md#lb06-door-big)
-
-_Variant of `lb06-complete`._
-
-_The big box is the den door._  
-**Ned**: A front door! With a roof!  
-**Maisie**: Knock first. That’s the rule.  
-
-> **Lesson** (literacy, RF.K.2, notice): first sounds  
-> _D-d-door. D-d-den. Same first sound!_  
-> _For grown-ups: Your child heard that door and den start with the same d sound._
-
-_Knock, knock!_  
-
-#### `sprout:lb06-door-long` · [main](main.md#lb06-door-long)
-
-_Variant of `lb06-complete`._
-
-_The long box is a tunnel door._  
-**Ned**: You have to wriggle!  
-_Your Nubbin wriggles in. Stuck! Then unstuck._  
-
-> **Lesson** (literacy, ELOF: Language and Communication, do): movement words  
-> _Can you wriggle like the Nubbin? Wriggle, wriggle!_  
-> Check: `edu:move:wriggle`
-> _For grown-ups: Your child acted out a movement word: wriggle._
-
-_Wriggle, wriggle, pop!_  
-
-#### `sprout:lb06-door-tall` · [main](main.md#lb06-door-tall)
-
-_Variant of `lb06-complete`._
-
-_The tall box is the den door._  
-**Ned**: It’s a lift. It goes DOWN!  
-
-> **Lesson** (literacy, ELOF: Language and Communication, ask): opposite words  
-> _The lift goes down. What is the opposite of down?_  
-> - ✅ Up → Yes! Up and down. Stand up tall, then crouch down low!
-> - Sideways → Down’s opposite is up! Up, down, up, down!
-> _For grown-ups: Your child found the opposite of down._
-
-_You step in. Then you duck down. Down, down!_  
 
 ## LB7. Shadow Show
 
@@ -616,7 +652,7 @@ _Ned sits down in the lane. He feels cross._
 > _Maisie moved the treasure. Was that fair?_  
 > - Fair. It’s a fun trick. → Tricky is the fun bit!
 > - Not fair. The map said X. → Yes! The map said X! A map is like a promise.
-> - Let’s ask Maisie why. → I wanted to know a secret. Ned always finds things first.
+> - Let’s ask Maisie why. → Ned always finds things first. I wanted one win! Asking helps.
 > _For grown-ups: Your child thought about whether Maisie’s trick was fair, and why._
 
 **Maisie**: It’s close by. Look along the wall.  
@@ -685,7 +721,7 @@ _Oops! Ned got it wrong. But he tried very hard._
 
 > **Lesson** (literacy, SL.K.1, ask): kind words in a talk  
 > _What could you say to Ned?_  
-> - ✅ “Thank you! Could I have the sandwich too?” → Coming right up!
+> - ✅ “Thank you! Could I have the sandwich too?” → Here it comes!
 > - “That’s wrong!” → Ned might feel sad. Try “Thank you! Could I have the sandwich too?”
 > _For grown-ups: Your child chose kind words for when someone gets something wrong._
 
@@ -752,14 +788,16 @@ _The spoon goes plip. It sinks too._
 #### `sprout:lb10-sail` · [main](main.md#lb10-sail)
 
 _Now there are three boats._  
-_A cork boat, a bark raft, and a walnut boat._  
-**Maisie**: A race across the pond!  
+_A cork with a leaf sail. A flat bark raft._  
+_And a walnut with a petal sail._  
+_A breeze comes. The sails go puff!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): wind pushes  
 > _Blow on your hand. Feel that? That’s a push._  
 > _The wind pushes the sails, just like that!_  
 > _For grown-ups: Your child noticed that the wind pushes the boats along._
 
+**Maisie**: A race across the pond!  
 _Your Nubbin wades in to help. Splash!_  
 **Ama Larkin**: Which boat will you sail?  
 
@@ -776,6 +814,38 @@ _Your Nubbin wades in to help. Splash!_
 
 _The raft wins! Slow and steady._  
 _The walnut is still spinning. Ned still cheers._  
+
+> **Lesson** (sel, CASEL: Self-management, ask): enjoying a game, win or lose  
+> _Ned’s boat didn’t win. Is Ned sad?_  
+> - ✅ No, he’s having fun! → Yes! Ned is cheering. Games are fun, win or lose.
+> - Yes → Look, he’s cheering! He’s having fun anyway.
+> _For grown-ups: Your child thought about having fun even when your boat doesn’t win._
+
+_Your Nubbin dives for Sam’s spoon. Splash!_  
+**Sam Larkin**: My spoon! Thank you, Nubbin.  
+
+#### `sprout:lb10-complete-boat-cork` · [main](main.md#lb10-complete-boat-cork)
+
+_Variant of `lb10-complete`._
+
+_The raft wins! The cork is second, and leans over to shake hands._  
+_The walnut is still spinning. Ned still cheers._  
+
+> **Lesson** (sel, CASEL: Self-management, ask): enjoying a game, win or lose  
+> _Ned’s boat didn’t win. Is Ned sad?_  
+> - ✅ No, he’s having fun! → Yes! Ned is cheering. Games are fun, win or lose.
+> - Yes → Look, he’s cheering! He’s having fun anyway.
+> _For grown-ups: Your child thought about having fun even when your boat doesn’t win._
+
+_Your Nubbin dives for Sam’s spoon. Splash!_  
+**Sam Larkin**: My spoon! Thank you, Nubbin.  
+
+#### `sprout:lb10-complete-boat-walnut` · [main](main.md#lb10-complete-boat-walnut)
+
+_Variant of `lb10-complete`._
+
+_The raft wins, slow and steady._  
+_The walnut is still spinning. Ned says it wins at spinning!_  
 
 > **Lesson** (sel, CASEL: Self-management, ask): enjoying a game, win or lose  
 > _Ned’s boat didn’t win. Is Ned sad?_  
@@ -807,8 +877,10 @@ _Sam is lying down. Maisie says that counts._
 
 #### `sprout:lb11-five` · [main](main.md#lb11-five)
 
-_Maisie wins. Then Maisie wins again._  
-_Your Nubbin wins two races, flap flap!_  
+_Maisie wins. Maisie wins again._  
+_Your Nubbin wins one, flap flap!_  
+_Then it wins another, by falling over the rope!_  
+_Maisie wins the last one. That’s five races!_  
 _Ned comes last every time._  
 _Ned lies face down in the grass._  
 
@@ -822,7 +894,7 @@ _Ned lies face down in the grass._
 
 **Maisie**: Come on, Ned. One more race!  
 **Ned**: No. I’m staying here.  
-**Sam Larkin**: Nobody likes losing, mate.  
+**Sam Larkin**: Nobody likes losing, Ned.  
 
 > **Lesson** (sel, CASEL: Self-management, ask): what helps big feelings  
 > _What helps when you feel cross?_  
@@ -850,7 +922,7 @@ _Sam sits up. Ned climbs into his lap._
 _Ned picks grass off his face._  
 _He gives each bit to your Nubbin._  
 
-**Notes:** Sprout drops the race choice (reader only) and plays the hand-holding race, defaultChoice "hand"; so LB12 plays lb12-ned-hand.
+**Notes:** Sprout drops the race choice (reader only) and plays the hand-holding race, defaultChoice "hand"; so LB12 plays lb12-arrive-race-hand.
 
 ## LB12. The Long Grass Campout
 
@@ -884,6 +956,76 @@ _Look! Ama, Sam, Maisie, Ned, and you. Five sleeping bags._
 > _For grown-ups: Your child counted five sleeping bags in a row._
 
 
+#### `sprout:lb12-arrive-race-proper` · [main](main.md#lb12-arrive-race-proper)
+
+_Variant of `lb12-arrive`._
+
+_You bring your sleeping bag at sunset._  
+_Sam is awake now, in his pyjamas!_  
+**Sam Larkin**: A game where I lie down? I’ve been practising!  
+_Ned runs in, shouting._  
+**Ned**: I came last ALL the way!  
+
+> **Lesson** (sel, CASEL: Self-awareness, notice): feeling proud  
+> _Ned didn’t win. But he feels proud. He tried his best!_  
+> _For grown-ups: Your child heard that you can feel proud of trying, not just winning._
+
+**Sam Larkin**: Shh now. Proud boy.  
+_Look! Ama, Sam, Maisie, Ned, and you. Five sleeping bags._  
+
+> **Lesson** (maths, K.CC.B.5, do): count to 5  
+> _Count the sleeping bags. One, two, three, four, five!_  
+> Check: `edu:count:sleeping-bags:5`
+> _For grown-ups: Your child counted five sleeping bags in a row._
+
+
+#### `sprout:lb12-arrive-race-let-win` · [main](main.md#lb12-arrive-race-let-win)
+
+_Variant of `lb12-arrive`._
+
+_You bring your sleeping bag at sunset._  
+_Sam is awake now, in his pyjamas!_  
+**Sam Larkin**: A game where I lie down? I’ve been practising!  
+_Ned walks in with his chin up._  
+**Ned**: I’m the fastest in the valley!  
+**Maisie**: He keeps saying that.  
+_Maisie lets him. That’s kind._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): kindness  
+> _Maisie let Ned have his happy moment. That’s a kind sister._  
+> _For grown-ups: Your child noticed Maisie being kind to her brother._
+
+_Look! Ama, Sam, Maisie, Ned, and you. Five sleeping bags._  
+
+> **Lesson** (maths, K.CC.B.5, do): count to 5  
+> _Count the sleeping bags. One, two, three, four, five!_  
+> Check: `edu:count:sleeping-bags:5`
+> _For grown-ups: Your child counted five sleeping bags in a row._
+
+
+#### `sprout:lb12-arrive-race-hand` · [main](main.md#lb12-arrive-race-hand)
+
+_Variant of `lb12-arrive`._
+
+_You bring your sleeping bag at sunset._  
+_Sam is awake now, in his pyjamas!_  
+**Sam Larkin**: A game where I lie down? I’ve been practising!  
+_Ned comes in holding Maisie’s hand._  
+**Ned**: We’re a team. Teams hold hands.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): friendship and teams  
+> _A team helps each other. Who is on your team?_  
+> _For grown-ups: Your child heard that a team helps each other._
+
+**Maisie**: Tonight, yes.  
+_Look! Ama, Sam, Maisie, Ned, and you. Five sleeping bags._  
+
+> **Lesson** (maths, K.CC.B.5, do): count to 5  
+> _Count the sleeping bags. One, two, three, four, five!_  
+> Check: `edu:count:sleeping-bags:5`
+> _For grown-ups: Your child counted five sleeping bags in a row._
+
+
 #### `sprout:lb12-waiting` · [main](main.md#lb12-waiting)
 
 _Everyone lies down in a row._  
@@ -896,7 +1038,118 @@ _The sky goes gold, then pink, then blue._
 
 **Maisie**: No talking. No wriggling. Shh!  
 _Everyone is very, very still._  
-**Sam Larkin**: In Brisbane, where I grew up, it’s winter now.  
+**Sam Larkin**: Far away, where I grew up, it’s winter now.  
+**Sam Larkin**: My mum is wearing a woolly hat!  
+
+**Choices**
+
+- **Make a quiet wish.**
+    - You make a wish. Shh, it’s a secret.
+- **Hum very quietly.**
+    - Hmm, hmm, hmm. Ama hums too.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s eyes close. Night night.
+
+#### `sprout:lb12-waiting-box-big` · [main](main.md#lb12-waiting-box-big)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box is in the grass. Tonight it’s a house!_  
+
+> **Lesson** (literacy, ELOF: Approaches to Learning, ask): pretend play  
+> _A box can be a house. What else could a box be?_  
+> - A car → Brrm brrm! Great idea.
+> - A bed → Snore! Great idea.
+> - Something else → Tell me! Boxes can be anything.
+> _For grown-ups: Your child imagined what else a cardboard box could be._
+
+**Ned**: Only small ones can sleep in it.  
+_Your Nubbin is small. In it goes!_  
+_Everyone lies down in a row._  
+_The sky goes gold, then pink, then blue._  
+
+> **Lesson** (science, 1-ESS1-1, notice): the Sun sets, the stars come out  
+> _The Sun goes down. The sky gets dark._  
+> _Then the stars come out. Every night!_  
+> _For grown-ups: Your child noticed the pattern of evening: the Sun goes down, then stars appear._
+
+**Maisie**: No talking. No wriggling. Shh!  
+_Everyone is very, very still._  
+**Sam Larkin**: Far away, where I grew up, it’s winter now.  
+**Sam Larkin**: My mum is wearing a woolly hat!  
+
+**Choices**
+
+- **Make a quiet wish.**
+    - You make a wish. Shh, it’s a secret.
+- **Hum very quietly.**
+    - Hmm, hmm, hmm. Ama hums too.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s eyes close. Night night.
+
+#### `sprout:lb12-waiting-box-long` · [main](main.md#lb12-waiting-box-long)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box has a sail. Tonight it’s a boat!_  
+
+> **Lesson** (literacy, ELOF: Approaches to Learning, ask): pretend play  
+> _A box can be a boat. What else could a box be?_  
+> - A car → Brrm brrm! Great idea.
+> - A bed → Snore! Great idea.
+> - Something else → Tell me! Boxes can be anything.
+> _For grown-ups: Your child imagined what else a cardboard box could be._
+
+**Ned**: We’re sailing to the stars!  
+_Only Ned and your Nubbin fit. Everyone else pretends._  
+_Everyone lies down in a row._  
+_The sky goes gold, then pink, then blue._  
+
+> **Lesson** (science, 1-ESS1-1, notice): the Sun sets, the stars come out  
+> _The Sun goes down. The sky gets dark._  
+> _Then the stars come out. Every night!_  
+> _For grown-ups: Your child noticed the pattern of evening: the Sun goes down, then stars appear._
+
+**Maisie**: No talking. No wriggling. Shh!  
+_Everyone is very, very still._  
+**Sam Larkin**: Far away, where I grew up, it’s winter now.  
+**Sam Larkin**: My mum is wearing a woolly hat!  
+
+**Choices**
+
+- **Make a quiet wish.**
+    - You make a wish. Shh, it’s a secret.
+- **Hum very quietly.**
+    - Hmm, hmm, hmm. Ama hums too.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s eyes close. Night night.
+
+#### `sprout:lb12-waiting-box-tall` · [main](main.md#lb12-waiting-box-tall)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box has a pointy top. Tonight it’s a rocket!_  
+**Ned**: Three, two, one… blast off!  
+
+> **Lesson** (maths, do): counting down  
+> _Count down with Ned! Ten, nine, eight, seven, six, five, four, three, two, one!_  
+> _Blast off!_  
+> Check: `edu:count:down:10`
+> _For grown-ups: Your child counted backwards from ten to one, like a rocket launch._
+
+_The rocket stays still. Best rocket ever._  
+_Everyone lies down in a row._  
+_The sky goes gold, then pink, then blue._  
+
+> **Lesson** (science, 1-ESS1-1, notice): the Sun sets, the stars come out  
+> _The Sun goes down. The sky gets dark._  
+> _Then the stars come out. Every night!_  
+> _For grown-ups: Your child noticed the pattern of evening: the Sun goes down, then stars appear._
+
+**Maisie**: No talking. No wriggling. Shh!  
+_Everyone is very, very still._  
+**Sam Larkin**: Far away, where I grew up, it’s winter now.  
+**Sam Larkin**: My mum is wearing a woolly hat!  
 
 **Choices**
 
@@ -935,8 +1188,9 @@ _Sam is asleep. Ned is asleep on Sam’s arm._
 
 _Your Nubbin is asleep in Ned’s box._  
 _Next morning, a little box is on your step. From Ned!_  
+_It has a big N on it, the wrong way round. Ned did that!_  
 
-#### `sprout:lb12-complete-wish` · [main](main.md#lb12-complete-wish)
+#### `sprout:lb12-complete-star-wish` · [main](main.md#lb12-complete-star-wish)
 
 _Variant of `lb12-complete`._
 
@@ -951,90 +1205,4 @@ _Shh. Wishes are secret. Maisie nods, and falls asleep._
 
 _Your Nubbin is asleep in Ned’s box._  
 _Next morning, a little box is on your step. From Ned!_  
-
-#### `sprout:lb12-ned-proper` · [main](main.md#lb12-ned-proper)
-
-_Variant of `lb12-complete`._
-
-_Ned runs in, shouting._  
-**Ned**: I came last ALL the way!  
-
-> **Lesson** (sel, CASEL: Self-awareness, notice): feeling proud  
-> _Ned didn’t win. But he feels proud. He tried his best!_  
-> _For grown-ups: Your child heard that you can feel proud of trying, not just winning._
-
-**Sam Larkin**: Shh now. Proud boy.  
-
-#### `sprout:lb12-ned-let-win` · [main](main.md#lb12-ned-let-win)
-
-_Variant of `lb12-complete`._
-
-_Ned walks in like a king._  
-**Ned**: I’m the fastest in the valley!  
-**Maisie**: He keeps saying that.  
-_Maisie lets him. That’s kind._  
-
-> **Lesson** (sel, CASEL: Social awareness, notice): kindness  
-> _Maisie let Ned have his happy moment. That’s a kind sister._  
-> _For grown-ups: Your child noticed Maisie being kind to her brother._
-
-
-#### `sprout:lb12-ned-hand` · [main](main.md#lb12-ned-hand)
-
-_Variant of `lb12-complete`._
-
-_Ned comes in holding Maisie’s hand._  
-**Ned**: We’re a team. Teams hold hands.  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): friendship and teams  
-> _A team helps each other. Who is on your team?_  
-> _For grown-ups: Your child heard that a team helps each other._
-
-**Maisie**: Tonight, yes.  
-
-#### `sprout:lb12-box-big` · [main](main.md#lb12-box-big)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box is in the grass. Tonight it’s a house!_  
-
-> **Lesson** (literacy, ELOF: Approaches to Learning, ask): pretend play  
-> _A box can be a house. What else could a box be?_  
-> - A car → Brrm brrm! Great idea.
-> - A bed → Snore! Great idea.
-> - Something else → Tell me! Boxes can be anything.
-> _For grown-ups: Your child imagined what else a cardboard box could be._
-
-**Ned**: Only small ones can sleep in it.  
-_Your Nubbin is small. In it goes!_  
-
-#### `sprout:lb12-box-long` · [main](main.md#lb12-box-long)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box has a sail. Tonight it’s a boat!_  
-
-> **Lesson** (literacy, ELOF: Approaches to Learning, ask): pretend play  
-> _A box can be a boat. What else could a box be?_  
-> - A car → Brrm brrm! Great idea.
-> - A bed → Snore! Great idea.
-> - Something else → Tell me! Boxes can be anything.
-> _For grown-ups: Your child imagined what else a cardboard box could be._
-
-**Ned**: We’re sailing to the stars!  
-_Only Ned and your Nubbin fit. Everyone else pretends._  
-
-#### `sprout:lb12-box-tall` · [main](main.md#lb12-box-tall)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box has a pointy top. Tonight it’s a rocket!_  
-**Ned**: Three, two, one… blast off!  
-
-> **Lesson** (maths, do): counting down  
-> _Count down with Ned! Ten, nine, eight, seven, six, five, four, three, two, one!_  
-> _Blast off!_  
-> Check: `edu:count:down:10`
-> _For grown-ups: Your child counted backwards from ten to one, like a rocket launch._
-
-_The rocket stays still. Best rocket ever._  
+_It has a big N on it, the wrong way round. Ned did that!_  

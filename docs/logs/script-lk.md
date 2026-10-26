@@ -60,7 +60,7 @@ These Malay and Indonesian words appear on screen and need adviser checks:
 | --- | --- | --- |
 | `lk-first` | siti, wulan | LK1 |
 | `lk-croc` | thanks, sorry, laughed | LK3, the signature choice |
-| `lk-pit` | stuck, ramp | LK9 |
+| `lk-pit` | pit-stuck, pit-ramp | LK9 |
 | `lk-done` | true | LK10 |
 
 ## Variants
@@ -68,16 +68,18 @@ These Malay and Indonesian words appear on screen and need adviser checks:
 | Variant | Plays in place of | When |
 | --- | --- | --- |
 | `lk04-grab-laughed` | `lk04-grab` | `lk-croc` = laughed |
-| `lk07-garden-siti` | `lk07-garden` | `lk-first` = wulan |
+| `lk04-grab-sorry` | `lk04-grab` | `lk-croc` = sorry |
+| `lk07-garden-wulan` | `lk07-garden` | `lk-first` = wulan |
 | `lk10-line-laughed` | `lk10-line` | `lk-croc` = laughed |
 | `lk10-count-wulan` | `lk10-count` | `lk-first` = wulan |
+| `lk10-complete-pit-ramp` | `lk10-complete` | `lk-pit` = pit-ramp |
 
 Each quest's `notes` says the same.
 
 ## SIM needs
 
 - **Learning Grove gating.** The line is offered only when the Learning Grove is on, after chapter 6. It pauses during chapters 9–11.
-- **Variant selection.** The four variants above are picked by flag.
+- **Variant selection.** The six variants above are picked by flag.
 - **Stream crossing (LK3, LK10).** 10 Nubbins, then 20, float in lines across the stream, and the player's Nubbin hops along them. Fill from wild Nubbins when the Grove has fewer.
 - **Sprout defaults.** Sprout omits `laughed` (defaultChoice `thanks`) and the LK9 choice (defaultChoice `ramp`).
 - **Rewards (all one-time):**

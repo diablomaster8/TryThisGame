@@ -124,6 +124,11 @@ const GROVE_ALIASES: Record<string, readonly string[]> = {
   keptStone: ['kept'],
 };
 
+/** Grove string values a line answers under a name of its own (Wisp is warm if spared or sable). */
+const GROVE_VALUE_ALIASES: Record<string, Record<string, readonly string[]>> = {
+  wisp: { spared: ['wisp-warm'], sable: ['wisp-warm'], driven: ['wisp-driven'] },
+};
+
 /** Grove flags a line answers with an `-unset` variant while the Grove has not set them. */
 const GROVE_UNSET: Record<string, readonly string[]> = { A19: ['sableFirst'], PA2: ['s7Done'] };
 
@@ -158,8 +163,10 @@ export function variantFor(
   const answers = new Set<string>();
   for (const flags of [grove, p.flags]) {
     for (const [k, v] of Object.entries(flags)) {
-      if (typeof v === 'string') answers.add(v);
-      else if (v === true) {
+      if (typeof v === 'string') {
+        answers.add(v);
+        for (const alias of GROVE_VALUE_ALIASES[k]?.[v] ?? []) answers.add(alias);
+      } else if (v === true) {
         answers.add(k);
         for (const alias of GROVE_ALIASES[k] ?? []) answers.add(alias);
       }

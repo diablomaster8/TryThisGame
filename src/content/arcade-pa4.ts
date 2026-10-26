@@ -20,24 +20,26 @@
  * for a monster and adores it. Nubbins never speak. The source’s own monsters talk.
  *
  * GROVE FLAGS READ (read-only; a cartridge never writes a Grove flag):
- *   - wisp (S2): spared | sable | driven | unset.
- *       PA4-1: spared or sable plays ARCADE_PA4_VARIANTS pa4-01-vent-warm (a dry hiss from the vent
- *              under the cabinet; Wisp has come in out of the cold to watch the warm screen);
- *              driven or unset plays pa4-01-vent-quiet.
- *       PA4-18: spared or sable plays pa4-18-wisp-warm (Wisp whispers from the vent in both his
- *              voices, “spared… warm”), and pa4-end-wisp-asleep after the cartridge ends (he is
- *              asleep on top of the cabinet). driven plays pa4-18-wisp-driven (Pixel: “We
- *              didn’t, with ours,” and she switches the cabinet off for a minute). unset: nothing.
- *   - s21Done (S21): pa4-01-clank and pa4-end-clank (Clank on the cabinet). Unset: nothing.
+ *   - wisp (S2): spared | sable | driven | unset. Read through the answers `wisp-warm` (spared or
+ *       sable) and `wisp-driven` (driven), which src/sim/atlas.ts derives from the Grove's wisp.
+ *       PA4-1: wisp-warm replaces pa4-01-shed-done with -wisp-warm (a dry hiss from the vent under
+ *              the cabinet); otherwise the base's quiet vent.
+ *       PA4-18: wisp-warm replaces pa4-18-complete with -wisp-warm (Wisp whispers “spared…
+ *              warm”); wisp-driven with -wisp-driven (Pixel switches the cabinet off a minute).
+ *       PA4-19: wisp-warm replaces pa4-19-complete with -wisp-warm (asleep on the cabinet).
+ *   - s21Done (S21, alias clank): -clank copies of pa4-01-shed-done and pa4-19-complete.
  *
- * FLAGS WRITTEN (cartridge save only, all prefixed pa4-):
+ * FLAGS WRITTEN (cartridge save only, all prefixed pa4-). Values carry the friend's or the
+ * sweet's name so no Grove value can ever pick a PA4 variant:
  *   - pa4-01 … pa4-19 on each quest’s completion; pa4-done for the whole cartridge (PA4-19),
  *     which counts towards High Score Night (any two of PA1–PA5).
- *   - pa4-candy = left | be (PA4-2, the signature choice). Pays off in PA4-17 (pa4-17-candy),
- *     PA4-18 (pa4-18-candy) and the last frame of PA4-19 (pa4-19-flower-turns | -still).
- *   - pa4-blook = lie | joke (PA4-3), pa4-papyrus = puzzles | pasta (PA4-7),
- *     pa4-undyne = hot | low (PA4-10), pa4-mettaton = pose | encore (PA4-12). Each picks that
- *     friend’s line in PA4-17’s crowd and PA4-19’s sunrise. Unset (never in normal play): the first.
+ *   - pa4-candy = candy-left | candy-be (PA4-2, the signature choice). Pays off in PA4-17
+ *     (pa4-17-rise-candy-left | -candy-be), PA4-18 (pa4-18-sorry-candy-left) and the last frame
+ *     of PA4-19 (pa4-19-home-candy-left | -candy-be).
+ *   - pa4-blook = blook-lie | blook-joke (PA4-3), pa4-papyrus = papyrus-puzzles | papyrus-pasta
+ *     (PA4-7), pa4-undyne = undyne-hot | undyne-low (PA4-10), pa4-mettaton = mettaton-pose |
+ *     mettaton-encore (PA4-12). Each picks that friend’s line, inline in pa4-17-friends and
+ *     pa4-19-sunrise, through ARCADE_PA4_LINE_NEEDS (the cart's lineLive). Unset: the first.
  *
  * LIFTED TEXT (copyrighted; two of the three allowed, exactly as the outline lists them):
  *   1. Flowey: “In this world, it’s kill or be killed.” pa4-02-flower#7. Used once.
@@ -119,6 +121,11 @@ const AS = say('pa4-asgore');
 const AR = say('pa4-asriel');
 const WI = say('wisp');
 
+/** PA4-19’s last frame when the sweet was not left (or never chosen); the candy variants swap it. */
+const FLOWER_STILL: Line = N(
+  'Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.',
+);
+
 // =================================================================== MERCY
 
 export const ARCADE_PA4: Quest[] = [
@@ -146,7 +153,9 @@ export const ARCADE_PA4: Quest[] = [
             N(
               'The lantern shed smells of sawdust and solder. Pixel’s cabinet stands in the corner, dented, humming to itself.',
             ),
-            PX('New one. Found it wedged behind the coin box, under what used to be a mouse nest.'),
+            PX(
+              'New one. Found it behind the coin box. The mice had hung it in their nest, label out, like a painting.',
+            ),
             N(
               'She holds up a cartridge. The label is plain black, with a small red heart in the middle.',
             ),
@@ -182,6 +191,7 @@ export const ARCADE_PA4: Quest[] = [
         done: {
           id: 'pa4-01-shed-done',
           lines: [
+            N('The vent under the cabinet is quiet. The fan inside turns over, and that’s all.'),
             N(
               'The cartridge clicks home. The screen goes black, then shows one red heart, beating slowly.',
             ),
@@ -238,9 +248,8 @@ export const ARCADE_PA4: Quest[] = [
     sets: { 'pa4-01': true },
     notes:
       'OPENING: the cartridge plays in Pixel’s cabinet; its progress lives in the cartridge’s own save. ' +
-      'WISP (reads wisp, Grove, read-only): after pa4-01-shed’s choice, before pa4-01-shed-done, play ARCADE_PA4_VARIANTS ' +
-      'pa4-01-vent-warm if wisp is spared or sable; pa4-01-vent-quiet if driven or unset. ' +
-      'CLANK (reads s21Done): if set, play ARCADE_PA4_VARIANTS pa4-01-clank straight after pa4-01-shed. ' +
+      'WISP and CLANK (Grove, read-only): pa4-01-shed-done is replaced by ARCADE_PA4_VARIANTS pa4-01-shed-done-wisp-warm ' +
+      '(wisp spared or sable), -clank (s21Done), or -wisp-warm-clank (both); the base keeps the quiet vent. ' +
       'STAGING: from here on Pixel speaks from the cabinet speaker, drawn as a small portrait in a frame of scan lines. ' +
       'The fight box UI has exactly two buttons, ACT and MERCY. Never draw a FIGHT button, even greyed out. ' +
       'No music from the source, ever, not even as a hum: use our own soft ambient sound.',
@@ -342,7 +351,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'left',
               label: 'Leave him the candy, on the spot where he was.',
-              set: { 'pa4-candy': 'left' },
+              set: { 'pa4-candy': 'candy-left' },
               then: [
                 N(
                   'Your Nubbin runs back alone and sets the sweet down on the earth, wrapper and all, very neatly.',
@@ -359,7 +368,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'be',
               label: 'Leave him be. He made his feelings clear.',
-              set: { 'pa4-candy': 'be' },
+              set: { 'pa4-candy': 'candy-be' },
               then: [
                 N(
                   'Your Nubbin looks at the doorway a while longer. Then it eats the sweet, slowly, and comes on.',
@@ -395,8 +404,8 @@ export const ARCADE_PA4: Quest[] = [
       'pa4-02-flower#7': 'Down here, you either get the other one first, or they get you!',
     },
     notes:
-      'SIGNATURE CHOICE: pa4-candy = left | be (pa4-02-candy). It pays off in PA4-17 (pa4-17-candy), PA4-18 (pa4-18-candy) ' +
-      'and the last frame of PA4-19 (pa4-19-flower-turns | pa4-19-flower-still). LIFTED TEXT: pa4-02-flower#7 is the ' +
+      'SIGNATURE CHOICE: pa4-candy = candy-left | candy-be (pa4-02-candy). It pays off in PA4-17 (pa4-17-rise-candy-left | ' +
+      '-candy-be), PA4-18 (pa4-18-sorry-candy-left) and the last frame of PA4-19 (pa4-19-home-candy-left | -candy-be). LIFTED TEXT: pa4-02-flower#7 is the ' +
       'outline’s first quote (Flowey, Undertale, © Toby Fox), used once; the childLine replaces it. ' +
       'CARE: the pellets never touch anyone; Flowey’s second face is a cartoon grin with no teeth shown in detail; ' +
       'Toriel’s fireball knocks him away with a puff of petals, nothing more.',
@@ -535,7 +544,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'lie',
               label: 'Lie down on the floor next to them as well.',
-              set: { 'pa4-blook': 'lie' },
+              set: { 'pa4-blook': 'blook-lie' },
               then: [
                 N('You lie down.'),
                 N(
@@ -548,7 +557,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'joke',
               label: 'Tell them a terrible joke.',
-              set: { 'pa4-blook': 'joke' },
+              set: { 'pa4-blook': 'blook-joke' },
               then: [
                 Y('What do you call a ghost with no friends? Nothing yet. But give it a minute.'),
                 N(
@@ -589,8 +598,8 @@ export const ARCADE_PA4: Quest[] = [
     rewards: [],
     sets: { 'pa4-03': true },
     notes:
-      'FRIEND FLAG: pa4-blook = lie | joke (pa4-03-blook). It picks Napstablook’s line in PA4-17 (pa4-17-blook-lie | -joke) ' +
-      'and PA4-19 (pa4-19-blook-lie | -joke). Napstablook speaks in lower case on purpose (their voice; our own words). ' +
+      'FRIEND FLAG: pa4-blook = blook-lie | blook-joke (pa4-03-blook). It picks Napstablook’s line in pa4-17-friends ' +
+      'and pa4-19-sunrise (inline lines, ARCADE_PA4_LINE_NEEDS). Napstablook speaks in lower case on purpose (their voice; our own words). ' +
       'The upward tears never touch the box. The dummy fight cannot be lost: any ACT or MERCY ends it.',
   },
   // ---------------------------------------------------------------- PA4-4
@@ -898,14 +907,17 @@ export const ARCADE_PA4: Quest[] = [
               id: 'joke',
               label: 'Ask him if he’s got any more jokes.',
               then: [
-                SA('only skele-ton of ’em. sorry. that one came free with the cushion.', 'happy'),
+                SA(
+                  'got a skele-ton of ’em. most are pretty bare. that one came free with the cushion.',
+                  'happy',
+                ),
               ],
             },
             {
               id: 'cold',
               label: 'Ask if he’s cold in slippers.',
               then: [
-                SA('nah. nothing gets through to me. i’ve got no body to get through to.', 'happy'),
+                SA('nah. cold can’t touch me. i’ve got no skin in the game.', 'happy'),
               ],
             },
           ],
@@ -1154,7 +1166,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'puzzles',
               label: 'Tell him his puzzles were the best part of your day.',
-              set: { 'pa4-papyrus': 'puzzles' },
+              set: { 'pa4-papyrus': 'papyrus-puzzles' },
               then: [
                 PA(
                   'THE BEST PART? EVEN THE ONE WITH NO WORDS IN IT? I KNEW IT! I KNEW IT WAS AVANT-GARDE!',
@@ -1165,7 +1177,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'pasta',
               label: 'Tell him it’s the best spaghetti you’ve ever had.',
-              set: { 'pa4-papyrus': 'pasta' },
+              set: { 'pa4-papyrus': 'papyrus-pasta' },
               then: [
                 PA(
                   'IT IS ONLY THE BEST SO FAR! WAIT UNTIL I AM TAUGHT BY A PROFESSIONAL! IT WILL BE TERRIFYING!',
@@ -1208,7 +1220,7 @@ export const ARCADE_PA4: Quest[] = [
       'pa4-07-capture#2': 'HA HA HAAA! PREPARE TO BE CAPTURED, VERY POLITELY!',
     },
     notes:
-      'FRIEND FLAG: pa4-papyrus = puzzles | pasta (pa4-07-date). It picks Papyrus’s line in PA4-17 and PA4-19. ' +
+      'FRIEND FLAG: pa4-papyrus = papyrus-puzzles | papyrus-pasta (pa4-07-date). It picks Papyrus’s line in PA4-17 and PA4-19. ' +
       'LIFTED TEXT: pa4-07-capture#2, Papyrus’s laugh (counted with pa4-06-gauntlet#2 as one quote); childLine given. ' +
       'CARE: the “date” is pure friendship, played for laughs, and says so. The bones are slow and soft-edged.',
   },
@@ -1255,6 +1267,10 @@ export const ARCADE_PA4: Quest[] = [
             ),
             N('Your Nubbin tries a flip, for him.'),
             N('It lands on its bottom. He thinks it’s the best flip he has ever seen.'),
+            N('Further on, an echo flower clears its throat.'),
+            EC('…can it do a flip? I can’t do a flip. I’ve got no arms. I’ve tried…'),
+            MK('That’s ME! I’m in a FLOWER! I’m FAMOUS!', 'shock'),
+            PX('He’s been heckled by his own echo, and he’s never been happier.', 'happy'),
           ],
           choices: [
             {
@@ -1591,7 +1607,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'hot',
               label: 'All the way up. Hotter than that.',
-              set: { 'pa4-undyne': 'hot' },
+              set: { 'pa4-undyne': 'undyne-hot' },
               then: [
                 UN('YES! I like you! NOBODY ever says hotter!', 'happy'),
                 N(
@@ -1602,7 +1618,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'low',
               label: 'Maybe turn it down a bit?',
-              set: { 'pa4-undyne': 'low' },
+              set: { 'pa4-undyne': 'undyne-low' },
               then: [
                 UN(
                   'Down? DOWN? …Huh. Nobody’s ever said that. I’m going to think about it. Later.',
@@ -1657,7 +1673,7 @@ export const ARCADE_PA4: Quest[] = [
     ],
     sets: { 'pa4-10': true },
     notes:
-      'FRIEND FLAG: pa4-undyne = hot | low (pa4-10-cook). It picks Undyne’s line in PA4-17 and PA4-19; the house burns ' +
+      'FRIEND FLAG: pa4-undyne = undyne-hot | undyne-low (pa4-10-cook). It picks Undyne’s line in PA4-17 and PA4-19; the house burns ' +
       'either way. REWARD: the Burnt Saucepan decoration, one-time, delivered to the Grove inventory at pa4-10-complete ' +
       '(cosmetic only; the cartridge writes no Grove flag). CARE: the fire is cartoon flames; nobody is inside; it is played ' +
       'for laughs and everyone says they’re fine.',
@@ -1869,7 +1885,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'pose',
               label: 'ACT: strike a pose. Get your Nubbin to strike one too.',
-              set: { 'pa4-mettaton': 'pose' },
+              set: { 'pa4-mettaton': 'mettaton-pose' },
               then: [
                 N('You pose.'),
                 N(
@@ -1881,7 +1897,7 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'encore',
               label: 'ACT: shout “Encore!” before he’s even finished.',
-              set: { 'pa4-mettaton': 'encore' },
+              set: { 'pa4-mettaton': 'mettaton-encore' },
               then: [
                 N('Your Nubbin claps, both hands, very fast.'),
                 N('The child joins in. The invisible crowd goes wild.'),
@@ -1947,9 +1963,9 @@ export const ARCADE_PA4: Quest[] = [
     rewards: [],
     sets: { 'pa4-12': true },
     notes:
-      'FRIEND FLAG: pa4-mettaton = pose | encore (pa4-12-show). It picks Mettaton’s line in PA4-17 and PA4-19. ' +
+      'FRIEND FLAG: pa4-mettaton = mettaton-pose | mettaton-encore (pa4-12-show). It picks Mettaton’s line in PA4-17 and PA4-19. ' +
       'The fight cannot be lost: the ratings bar only rises. The call is Napstablook (same lower-case voice as PA4-3). ' +
-      'If pa4-blook is “joke”, the call may add the line “i told my friends your joke…” (optional, not required).',
+      'If pa4-blook is “blook-joke”, the call may add the line “i told my friends your joke…” (optional, not required).',
   },
   // ---------------------------------------------------------------- PA4-13
   {
@@ -2059,7 +2075,7 @@ export const ARCADE_PA4: Quest[] = [
       id: 'pa4-13-complete',
       lines: [
         SA(
-          'go on. the king’s through there. he’s a big softie. he’s also gonna fight you. both are true.',
+          'go on, dumpling. the king’s through there. he’s a big softie. he’s also gonna fight you. both are true.',
         ),
         N('Your Nubbin hugs Sans’s leg. He pats its crown, once.'),
         PX(
@@ -2486,9 +2502,9 @@ export const ARCADE_PA4: Quest[] = [
           'I told the truth. I actually told it. I didn’t know it would feel like this. Like I can breathe.',
           'soft',
         ),
+        PX('Keeping them hidden wasn’t keeping them.', 'soft'),
         PX(
-          'Keeping them hidden wasn’t keeping them. Somebody in the Grove said that once. About a stone.',
-          'soft',
+          'I once hid a broken clock in a drawer for a year. It was still wrong. It was just wrong in a drawer.',
         ),
         N('Your Nubbin climbs into your arms and stays there all the way back up the lift.'),
       ],
@@ -2498,8 +2514,8 @@ export const ARCADE_PA4: Quest[] = [
     notes:
       'CARE: the True Lab is dim, never frightening. No jump scares, no sudden sounds, no lights going out with a bang. ' +
       'The lost ones are drawn soft, pale and gentle, with sad kind faces; they never chase. The comfort fight cannot be lost. ' +
-      'The third rule is acted out in pa4-16-comfort’s “sit” choice, never quoted. Pixel’s closing line echoes the shard’s ' +
-      'lesson in the Grove without naming it.',
+      'The third rule is acted out in pa4-16-comfort’s “sit” choice, never quoted. Pixel’s closing lines stand on their own ' +
+      '(the cartridge cannot know which Grove scenes the player has seen): her own broken clock, canon 38.',
   },
   // ---------------------------------------------------------------- PA4-17
   {
@@ -2510,7 +2526,7 @@ export const ARCADE_PA4: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA4-16') },
     requires: ['PA4-16'],
-    speakers: [ASGORE, TORIEL, SANS, PAPYRUS, UNDYNE, ALPHYS, FLOWEY, ASRIEL],
+    speakers: [ASGORE, TORIEL, SANS, PAPYRUS, UNDYNE, ALPHYS, BLOOK, METTATON, FLOWEY, ASRIEL],
     steps: [
       {
         id: 'pa4-17-s1',
@@ -2541,7 +2557,7 @@ export const ARCADE_PA4: Quest[] = [
               label: 'Stand beside Toriel.',
               then: [
                 N('You stand beside her. So does your Nubbin.'),
-                N('So does the child. She doesn’t look down, but she smiles.'),
+                N('So does the child. Toriel doesn’t look down at any of you, but she smiles.'),
               ],
             },
             {
@@ -2577,12 +2593,42 @@ export const ARCADE_PA4: Quest[] = [
               'Sans comes last, with his hands in his pockets, as if he just happened to be passing.',
             ),
             SA('heya. thought you might want a crowd. you’ve got one.'),
+            N('He nods at your Nubbin.'),
+            SA('dumpling.'),
+            // One line per friend, picked by ARCADE_PA4_LINE_NEEDS (the first of each pair when unset).
+            BL(
+              'i lay down on the floor of the corridor to get here… it seemed polite… i’m standing now…',
+              'soft',
+            ),
+            BL(
+              'i’ve been telling everyone your joke… it’s still awful… they all laughed though…',
+              'happy',
+            ),
+            PA(
+              'I HAVE BROUGHT A PUZZLE FOR THE KING TO SOLVE INSTEAD OF FIGHTING! IT HAS NO WORDS IN IT! FOR CALM!',
+              'happy',
+            ),
+            PA(
+              'I HAVE BROUGHT SPAGHETTI! NOBODY CAN FIGHT WITH A MOUTH FULL OF SPAGHETTI! THAT IS SCIENCE!',
+              'happy',
+            ),
+            UN('Nobody touches my friends! I’ll turn this whole room up to hotter than hot!', 'angry'),
+            UN(
+              'Everybody calm down! I’m turning it down! See? Down by one! That’s me being calm!',
+              'angry',
+            ),
+            MT(
+              'Darlings, I’m only here for my co-star. The small blue one. Strike a pose, sweetheart.',
+              'happy',
+            ),
+            MT('Did someone say encore? Darlings, I never miss a cue.', 'happy'),
             N('Everyone talks at once. Toriel tells Asgore off.'),
             N('Undyne tells Toriel she’s amazing. Alphys tells nobody anything.'),
             PX(
               'Every single one. I didn’t think they’d all come. I should have. Look at them.',
               'soft',
             ),
+            PX('I’ve run out of receipts. I’m on the till roll now. Don’t tell anyone.'),
           ],
         },
       },
@@ -2637,11 +2683,10 @@ export const ARCADE_PA4: Quest[] = [
     rewards: [],
     sets: { 'pa4-17': true },
     notes:
-      'FRIENDS (Tier 3): after pa4-17-friends line 6 (Sans), before line 7, play one ARCADE_PA4_VARIANTS scene per friend in this order: ' +
-      'pa4-17-blook-lie | -joke (pa4-blook), pa4-17-papyrus-puzzles | -pasta (pa4-papyrus), pa4-17-undyne-hot | -low ' +
-      '(pa4-undyne), pa4-17-mettaton-pose | -encore (pa4-mettaton). Unset (never in normal play): the first value. ' +
-      'CANDY (signature, Tier 3): if pa4-candy = left, play ARCADE_PA4_VARIANTS pa4-17-candy after pa4-17-rise line 7 (“Don’t you ' +
-      'remember?”), before line 8; if be, nothing. CARE: Asriel’s form is light, wings of colour and noise, never gore; ' +
+      'FRIENDS (Tier 3): pa4-17-friends holds both lines for each friend after Sans; ARCADE_PA4_LINE_NEEDS (the cart’s ' +
+      'lineLive) keeps the one that answers pa4-blook, pa4-papyrus, pa4-undyne and pa4-mettaton (unset: the first). ' +
+      'CANDY (signature, Tier 3): ARCADE_PA4_VARIANTS pa4-17-rise-candy-left and pa4-17-rise-candy-be replace pa4-17-rise, ' +
+      'with Asriel’s two lines after “Don’t you remember?”. CARE: Asriel’s form is light, wings of colour and noise, never gore; ' +
       'the vines hold, never hurt. Flowey’s grin stays cartoon. Flowey never repeats his PA4-2 line.',
   },
   // ---------------------------------------------------------------- PA4-18
@@ -2774,10 +2819,10 @@ export const ARCADE_PA4: Quest[] = [
     rewards: [],
     sets: { 'pa4-18': true },
     notes:
-      'CANDY (signature, pays off sixteen quests after PA4-2): if pa4-candy = left, play ARCADE_PA4_VARIANTS pa4-18-candy after ' +
-      'pa4-18-sorry’s choice, before pa4-18-complete. WISP (reads wisp, Grove, read-only): after pa4-18-complete, if wisp is ' +
-      'spared or sable play pa4-18-wisp-warm; if driven play pa4-18-wisp-driven (the cabinet goes dark for a minute, then ' +
-      'resumes); if unset, nothing. CARE: the god form is light, noise and colour, never gore; nobody is hurt; the forgetting ' +
+      'CANDY (signature, pays off sixteen quests after PA4-2): ARCADE_PA4_VARIANTS pa4-18-sorry-candy-left replaces ' +
+      'pa4-18-sorry, with Asriel’s thanks at the end of each choice. WISP (Grove, read-only): pa4-18-complete-wisp-warm ' +
+      '(spared or sable) or pa4-18-complete-wisp-driven (the cabinet goes dark for a minute, then resumes) replace ' +
+      'pa4-18-complete; unset, the base. CARE: the god form is light, noise and colour, never gore; nobody is hurt; the forgetting ' +
       'is shown as blank eyes, briefly, never as fear.',
   },
   // ---------------------------------------------------------------- PA4-19
@@ -2789,7 +2834,7 @@ export const ARCADE_PA4: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA4-18') },
     requires: ['PA4-18'],
-    speakers: [TORIEL, SANS, PAPYRUS, UNDYNE, ALPHYS, ASGORE],
+    speakers: [TORIEL, SANS, PAPYRUS, UNDYNE, ALPHYS, BLOOK, METTATON, ASGORE],
     steps: [
       {
         id: 'pa4-19-s1',
@@ -2807,10 +2852,35 @@ export const ARCADE_PA4: Quest[] = [
               'Oh. Oh, look at that. I guessed sunny. All those years, and I guessed right.',
               'soft',
             ),
+            // One line per friend, picked by ARCADE_PA4_LINE_NEEDS (the first of each pair when unset).
+            BL(
+              'i’m going to lie down in the grass. it’s like the ruins floor, but it’s green. …it’s nice.',
+              'happy',
+            ),
+            BL(
+              'what do you call a ghost in the sunshine? …i don’t know yet. i’ll think of one. for you.',
+              'happy',
+            ),
+            PA('THE SURFACE HAS NO PUZZLES YET! I MUST BUILD SOME AT ONCE! FOR TOURISM!', 'happy'),
+            PA(
+              'I WILL OPEN A SPAGHETTI RESTAURANT ON THE SURFACE! YOU WILL ALL EAT FOR FREE! PLEASE COME!',
+              'happy',
+            ),
+            UN(
+              'The sun! It’s HOT! I love it! Alphys, look, it’s the biggest stove in the world!',
+              'happy',
+            ),
+            UN('…Huh. It’s warm, but it’s not too hot. Somebody turned the sky down. I like it.', 'soft'),
+            MT(
+              'Perfect light. Perfect angle. Darling blue one, one last pose, for the first sunrise.',
+              'happy',
+            ),
+            MT('A sunrise! Darlings, what an opening. I want an encore of this tomorrow.', 'happy'),
             N('Your Nubbin runs out into the sunlight and spins round, crown up, arms out.'),
             N(
               'The child stands beside Toriel, squinting. Undyne shades her eyes, and Sans takes his hands out of his pockets.',
             ),
+            SA('huh. so that’s what the sky’s been doing all this time.'),
             PX(
               'That’s just the sky. It’s not even a very good sky, pixel-wise. I’m crying anyway.',
               'sad',
@@ -2855,7 +2925,10 @@ export const ARCADE_PA4: Quest[] = [
             {
               id: 'goodbye',
               label: 'Say goodbye to Frisk.',
-              then: [N('Frisk hugs you, quickly, and then hugs your Nubbin for much longer.')],
+              then: [
+                N('Frisk hugs you, quickly, and then hugs your Nubbin for much longer.'),
+                FLOWER_STILL,
+              ],
             },
             {
               id: 'thanks',
@@ -2864,6 +2937,7 @@ export const ARCADE_PA4: Quest[] = [
                 N(
                   'Frisk smiles, and points at your Nubbin, and then at their own heart. You understand.',
                 ),
+                FLOWER_STILL,
               ],
             },
           ],
@@ -2883,6 +2957,7 @@ export const ARCADE_PA4: Quest[] = [
           'I typed our names on the high score. There wasn’t a score. I typed them anyway.',
           'happy',
         ),
+        N('Pixel tapes the till roll to the side of the cabinet. It reaches the floor, and then turns left.'),
         PX('Nobody got hurt. Not one. That’s the high score.', 'soft'),
       ],
     },
@@ -2910,11 +2985,11 @@ export const ARCADE_PA4: Quest[] = [
     ],
     sets: { 'pa4-19': true, 'pa4-done': true },
     notes:
-      'FRIENDS (Tier 3): after pa4-19-sunrise line 2 (Asgore), before line 3, play one ARCADE_PA4_VARIANTS scene per friend in this ' +
-      'order: pa4-19-blook-lie | -joke, pa4-19-papyrus-puzzles | -pasta, pa4-19-undyne-hot | -low, pa4-19-mettaton-pose | ' +
-      '-encore. LAST FRAME (signature): after pa4-19-home’s choice, before pa4-19-complete, play pa4-19-flower-turns if ' +
-      'pa4-candy = left, pa4-19-flower-still if be. AFTER THE CARTRIDGE: once pa4-19-complete ends, if wisp is spared or ' +
-      'sable play pa4-end-wisp-asleep; if s21Done play pa4-end-clank. REWARDS (one-time): the Striped Jumper cosmetic, the ' +
+      'FRIENDS (Tier 3): pa4-19-sunrise holds both lines for each friend after Asgore; ARCADE_PA4_LINE_NEEDS keeps the ' +
+      'one that answers each friend flag (unset: the first). LAST FRAME (signature): pa4-19-home-candy-left (the flower ' +
+      'turns) or pa4-19-home-candy-be (the flower rests) replace pa4-19-home, the frame at the end of each choice; the base ' +
+      'keeps the still flower. AFTER THE CARTRIDGE: pa4-19-complete-wisp-warm (wisp spared or sable), -clank (s21Done) or ' +
+      '-wisp-warm-clank replace pa4-19-complete with the end frames. REWARDS (one-time): the Striped Jumper cosmetic, the ' +
       'Golden Flower Pot decoration (by the cottage door) and the high-score plate. SIM: pa4-done counts towards High Score ' +
       'Night (any two of PA1–PA5 done). CREDITS NOTE: “The neutral ending is not shown in this cartridge.”',
   },
@@ -2923,121 +2998,127 @@ export const ARCADE_PA4: Quest[] = [
 // =================================================================== variants
 
 /**
- * Variant scenes chosen by flags. Each quest’s notes say exactly where each plays.
- *   wisp (Grove, read-only): pa4-01-vent-warm | pa4-01-vent-quiet; pa4-18-wisp-warm | pa4-18-wisp-driven;
- *     pa4-end-wisp-asleep.
- *   s21Done (Grove, read-only): pa4-01-clank, pa4-end-clank.
- *   pa4-candy (PA4-2): pa4-17-candy, pa4-18-candy, pa4-19-flower-turns | pa4-19-flower-still.
- *   pa4-blook, pa4-papyrus, pa4-undyne, pa4-mettaton: the friends’ lines in PA4-17 and PA4-19.
+ * Variants only ever replace a scene: src/sim/atlas.ts `variantFor` picks the variant whose id
+ * is `<host scene id>-<answer>`, the most answers winning. So each variant below is its host
+ * scene, copied here with its extra lines spliced in, and keeps the host's choice ids.
+ *   wisp (Grove): answers wisp-warm (spared or sable) and wisp-driven (driven), derived in atlas.ts.
+ *   s21Done (Grove): answers clank.
+ *   pa4-candy: answers candy-left | candy-be.
+ * The friends’ lines are not variants: they sit inline, kept by ARCADE_PA4_LINE_NEEDS.
  */
+
+/** Every scene of the cartridge by id, so a variant can copy its host. */
+const HOSTS = new Map<string, Scene>(
+  ARCADE_PA4.flatMap((q) => [
+    ...q.steps.flatMap((s) => (s.done ? [s.scene, s.done] : [s.scene])),
+    q.complete,
+  ]).map((s) => [s.id, s]),
+);
+
+function hostOf(id: string): Scene {
+  const scene = HOSTS.get(id);
+  if (!scene) throw new Error(`PA4 variant has no host scene: ${id}`);
+  return scene;
+}
+
+/** The host scene's lines with `extra` put in after the line whose text starts with `at`. */
+function spliced(lines: Line[], at: string, extra: Line[]): Line[] {
+  const i = lines.findIndex((l) => l.text.startsWith(at));
+  if (i < 0) throw new Error(`PA4 variant: no line starting “${at}”`);
+  return [...lines.slice(0, i + 1), ...extra, ...lines.slice(i + 1)];
+}
+
+/** A copy of the host with new lines; choices (ids and all) stay the host’s. */
+function variant(hostId: string, answer: string, lines: (host: Scene) => Line[]): Scene {
+  const host = hostOf(hostId);
+  return { ...host, id: `${hostId}-${answer}`, lines: lines(host) };
+}
+
+/** A copy of the host whose every choice ends with `swap` in place of FLOWER_STILL, or with `add`. */
+function withChoiceEnd(hostId: string, answer: string, end: Line[], replaceStill: boolean): Scene {
+  const host = hostOf(hostId);
+  const choices = host.choices?.map((c) => {
+    const then = c.then ?? [];
+    return {
+      ...c,
+      then: replaceStill ? [...then.filter((l) => l !== FLOWER_STILL), ...end] : [...then, ...end],
+    };
+  });
+  return { ...host, id: `${hostId}-${answer}`, ...(choices ? { choices } : {}) };
+}
+
+// ---------------------------------------------------------------- shared extra lines
+
+const VENT_QUIET = 'The vent under the cabinet is quiet.';
+
+const VENT_WARM: Line[] = [
+  N(
+    'From the vent under the cabinet comes a dry little hiss. Two pale eyes, one ear torn, catch the glow of the screen.',
+  ),
+  PX('Wisp. He’s come in out of the cold. The cabinet’s warm underneath. Let him watch.', 'soft'),
+];
+
+const CLANK_ON_TOP: Line[] = [
+  N(
+    'Clank is sitting on top of the cabinet with his legs over the edge, like a gargoyle that’s been told to cheer up.',
+  ),
+  N('He leans down to look at the heart on the label, and his eye-light goes a little pink.'),
+];
+
+/** pa4-01-shed-done with the vent warm (Wisp) and/or Clank on top. */
+function shedDone(answer: string, warm: boolean, clank: boolean): Scene {
+  return variant('pa4-01-shed-done', answer, (h) => {
+    const lines = h.lines.flatMap((l) => (warm && l.text.startsWith(VENT_QUIET) ? VENT_WARM : [l]));
+    return clank ? [...CLANK_ON_TOP, ...lines] : lines;
+  });
+}
+
+const WISP_ASLEEP: Line[] = [
+  N(
+    'Later, when you look back into the shed, Wisp is asleep on top of the cabinet, curled up where it’s warm.',
+  ),
+  PX('Leave him. He’s earned the warm spot. I’ll turn the screen down.', 'soft'),
+];
+
+const CLANK_GOODBYE: Line[] = [
+  N(
+    'Clank gets down off the cabinet, very carefully, and pats the taped MERCY button once, like your Nubbin did.',
+  ),
+];
+
+const REMEMBER = 'Do you know who I am now?';
+
 export const ARCADE_PA4_VARIANTS: Scene[] = [
   // ---------------------------------------------------------------- PA4-1 (wisp, s21Done)
-  {
-    id: 'pa4-01-vent-warm',
-    lines: [
-      N(
-        'From the vent under the cabinet comes a dry little hiss. Two pale eyes, one ear torn, catch the glow of the screen.',
-      ),
-      PX(
-        'Wisp. He’s come in out of the cold. The cabinet’s warm underneath. Let him watch.',
-        'soft',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-01-vent-quiet',
-    lines: [N('The vent under the cabinet is quiet. The fan inside turns over, and that’s all.')],
-  },
-  {
-    id: 'pa4-01-clank',
-    lines: [
-      N(
-        'Clank is sitting on top of the cabinet with his legs over the edge, like a gargoyle that’s been told to cheer up.',
-      ),
-      N('He leans down to look at the heart on the label, and his eye-light goes a little pink.'),
-    ],
-  },
-  // ---------------------------------------------------------------- PA4-17 friends
-  {
-    id: 'pa4-17-blook-lie',
-    lines: [
-      BL(
-        'i lay down on the floor of the corridor to get here… it seemed polite… i’m standing now…',
-        'soft',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-blook-joke',
-    lines: [
-      BL(
-        'i’ve been telling everyone your joke… it’s still awful… they all laughed though…',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-papyrus-puzzles',
-    lines: [
-      PA(
-        'I HAVE BROUGHT A PUZZLE FOR THE KING TO SOLVE INSTEAD OF FIGHTING! IT HAS NO WORDS IN IT! FOR CALM!',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-papyrus-pasta',
-    lines: [
-      PA(
-        'I HAVE BROUGHT SPAGHETTI! NOBODY CAN FIGHT WITH A MOUTH FULL OF SPAGHETTI! THAT IS SCIENCE!',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-undyne-hot',
-    lines: [
-      UN('Nobody touches my friends! I’ll turn this whole room up to hotter than hot!', 'angry'),
-    ],
-  },
-  {
-    id: 'pa4-17-undyne-low',
-    lines: [
-      UN(
-        'Everybody calm down! I’m turning it down! See? Down by one! That’s me being calm!',
-        'angry',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-mettaton-pose',
-    lines: [
-      MT(
-        'Darlings, I’m only here for my co-star. The small blue one. Strike a pose, sweetheart.',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-17-mettaton-encore',
-    lines: [MT('Did someone say encore? Darlings, I never miss a cue.', 'happy')],
-  },
-  // ---------------------------------------------------------------- PA4-17 candy
-  {
-    id: 'pa4-17-candy',
-    lines: [
+  shedDone('wisp-warm', true, false),
+  shedDone('clank', false, true),
+  shedDone('wisp-warm-clank', true, true),
+  // ---------------------------------------------------------------- PA4-17 candy (signature)
+  variant('pa4-17-rise', 'candy-left', (h) =>
+    spliced(h.lines, REMEMBER, [
       AR('You left me a sweet once. On the dirt, where I’d been. I found it.', 'think'),
       AR(
         'I didn’t know what to feel about it. I didn’t know how to feel anything. I kept it anyway.',
         'sad',
       ),
       N('Your Nubbin looks up at him. It isn’t frightened at all.'),
-    ],
-  },
+    ]),
+  ),
+  variant('pa4-17-rise', 'candy-be', (h) =>
+    spliced(h.lines, REMEMBER, [
+      AR('You. In the Ruins. Your little one wanted to come back to me, and you let me be.', 'think'),
+      AR(
+        'Nobody ever does that. It was the nicest thing anybody did for me all day. It was a very long day. About a hundred years.',
+        'sad',
+      ),
+      N('Your Nubbin looks up at him and, very politely, stays exactly where it is this time.'),
+    ]),
+  ),
   // ---------------------------------------------------------------- PA4-18 candy and wisp
-  {
-    id: 'pa4-18-candy',
-    lines: [
+  withChoiceEnd(
+    'pa4-18-sorry',
+    'candy-left',
+    [
       AR('Your little blue one. It left me that candy, didn’t it?', 'soft'),
       AR(
         'Will you give it one from me? From the bowl, in the Ruins. Tell it… tell it I said thank you.',
@@ -3047,126 +3128,78 @@ export const ARCADE_PA4_VARIANTS: Scene[] = [
         'Later, on the way out, you take one sweet from the bowl. Your Nubbin eats it very slowly, looking back.',
       ),
     ],
-  },
-  {
-    id: 'pa4-18-wisp-warm',
-    lines: [
-      N(
-        'In the lantern shed, there’s a sound from the vent under the cabinet. Two whispers, one over the other.',
-      ),
-      WI('spared… warm…', 'soft'),
-      N(
-        'Pixel doesn’t say anything. She turns the cabinet’s volume down a notch, so as not to wake him.',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-18-wisp-driven',
-    lines: [
-      PX('We didn’t, with ours.', 'sad'),
-      N('She switches the cabinet off.'),
-      N('The shed is dark and quiet for a minute. Then she switches it back on.'),
-    ],
-  },
-  // ---------------------------------------------------------------- PA4-19 friends
-  {
-    id: 'pa4-19-blook-lie',
-    lines: [
-      BL(
-        'i’m going to lie down in the grass. it’s like the ruins floor, but it’s green. …it’s nice.',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-19-blook-joke',
-    lines: [
-      BL(
-        'what do you call a ghost in the sunshine? …i don’t know yet. i’ll think of one. for you.',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-19-papyrus-puzzles',
-    lines: [PA('THE SURFACE HAS NO PUZZLES YET! I MUST BUILD SOME AT ONCE! FOR TOURISM!', 'happy')],
-  },
-  {
-    id: 'pa4-19-papyrus-pasta',
-    lines: [
-      PA(
-        'I WILL OPEN A SPAGHETTI RESTAURANT ON THE SURFACE! YOU WILL ALL EAT FOR FREE! PLEASE COME!',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-19-undyne-hot',
-    lines: [
-      UN(
-        'The sun! It’s HOT! I love it! Alphys, look, it’s the biggest stove in the world!',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-19-undyne-low',
-    lines: [
-      UN('…Huh. It’s warm, but it’s not too hot. Somebody turned the sky down. I like it.', 'soft'),
-    ],
-  },
-  {
-    id: 'pa4-19-mettaton-pose',
-    lines: [
-      MT(
-        'Perfect light. Perfect angle. Darling blue one, one last pose, for the first sunrise.',
-        'happy',
-      ),
-    ],
-  },
-  {
-    id: 'pa4-19-mettaton-encore',
-    lines: [
-      MT('A sunrise! Darlings, what an opening. I want an encore of this tomorrow.', 'happy'),
-    ],
-  },
+    false,
+  ),
+  variant('pa4-18-complete', 'wisp-warm', (h) => [
+    ...h.lines,
+    N(
+      'In the lantern shed, there’s a sound from the vent under the cabinet. Two whispers, one over the other.',
+    ),
+    WI('spared… warm…', 'soft'),
+    N('Pixel doesn’t say anything. She turns the cabinet’s volume down a notch, so as not to wake him.'),
+  ]),
+  variant('pa4-18-complete', 'wisp-driven', (h) => [
+    ...h.lines,
+    PX('We didn’t, with ours.', 'sad'),
+    N('She switches the cabinet off.'),
+    N('The shed is dark and quiet for a minute. Then she switches it back on.'),
+  ]),
   // ---------------------------------------------------------------- PA4-19 last frame (pa4-candy)
-  {
-    id: 'pa4-19-flower-turns',
-    lines: [
+  withChoiceEnd(
+    'pa4-19-home',
+    'candy-left',
+    [
       N(
         'Last of all, the screen shows the Ruins one more time. A golden flower in the dark lifts its head.',
       ),
       N('It turns, very slowly, towards the light.'),
     ],
-  },
-  {
-    id: 'pa4-19-flower-still',
-    lines: [
-      N(
-        'Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.',
-      ),
-    ],
-  },
+    true,
+  ),
+  withChoiceEnd(
+    'pa4-19-home',
+    'candy-be',
+    [FLOWER_STILL, N('For a flower, it looks as if it is having a rest.')],
+    true,
+  ),
   // ---------------------------------------------------------------- after the cartridge (wisp, s21Done)
-  {
-    id: 'pa4-end-wisp-asleep',
-    lines: [
-      N(
-        'Later, when you look back into the shed, Wisp is asleep on top of the cabinet, curled up where it’s warm.',
-      ),
-      PX('Leave him. He’s earned the warm spot. I’ll turn the screen down.', 'soft'),
-    ],
-  },
-  {
-    id: 'pa4-end-clank',
-    lines: [
-      N(
-        'Clank gets down off the cabinet, very carefully, and pats the taped MERCY button once, like your Nubbin did.',
-      ),
-    ],
-  },
+  variant('pa4-19-complete', 'wisp-warm', (h) => [...h.lines, ...WISP_ASLEEP]),
+  variant('pa4-19-complete', 'clank', (h) => [...h.lines, ...CLANK_GOODBYE]),
+  variant('pa4-19-complete', 'wisp-warm-clank', (h) => [...h.lines, ...WISP_ASLEEP, ...CLANK_GOODBYE]),
 ];
+
+/**
+ * Lines spoken only for one answer (the cart’s `lineLive`, wired in src/sim/arcade-catalogue.ts):
+ * line text → [flag, value, plays when the flag is unset]. Each friend has one line per value
+ * in pa4-17-friends and pa4-19-sunrise; every other line always plays.
+ */
+export const ARCADE_PA4_LINE_NEEDS: Record<string, readonly [string, string, boolean]> =
+  Object.fromEntries(
+    (
+      [
+        ['pa4-17-friends', 'i lay down on the floor', 'pa4-blook', 'blook-lie', true],
+        ['pa4-17-friends', 'i’ve been telling everyone', 'pa4-blook', 'blook-joke', false],
+        ['pa4-17-friends', 'I HAVE BROUGHT A PUZZLE', 'pa4-papyrus', 'papyrus-puzzles', true],
+        ['pa4-17-friends', 'I HAVE BROUGHT SPAGHETTI', 'pa4-papyrus', 'papyrus-pasta', false],
+        ['pa4-17-friends', 'Nobody touches my friends', 'pa4-undyne', 'undyne-hot', true],
+        ['pa4-17-friends', 'Everybody calm down', 'pa4-undyne', 'undyne-low', false],
+        ['pa4-17-friends', 'Darlings, I’m only here', 'pa4-mettaton', 'mettaton-pose', true],
+        ['pa4-17-friends', 'Did someone say encore', 'pa4-mettaton', 'mettaton-encore', false],
+        ['pa4-19-sunrise', 'i’m going to lie down', 'pa4-blook', 'blook-lie', true],
+        ['pa4-19-sunrise', 'what do you call a ghost', 'pa4-blook', 'blook-joke', false],
+        ['pa4-19-sunrise', 'THE SURFACE HAS NO PUZZLES', 'pa4-papyrus', 'papyrus-puzzles', true],
+        ['pa4-19-sunrise', 'I WILL OPEN A SPAGHETTI', 'pa4-papyrus', 'papyrus-pasta', false],
+        ['pa4-19-sunrise', 'The sun! It’s HOT!', 'pa4-undyne', 'undyne-hot', true],
+        ['pa4-19-sunrise', '…Huh. It’s warm', 'pa4-undyne', 'undyne-low', false],
+        ['pa4-19-sunrise', 'Perfect light.', 'pa4-mettaton', 'mettaton-pose', true],
+        ['pa4-19-sunrise', 'A sunrise! Darlings', 'pa4-mettaton', 'mettaton-encore', false],
+      ] as const
+    ).map(([scene, at, flag, value, unset]) => {
+      const line = hostOf(scene).lines.find((l) => l.text.startsWith(at));
+      if (!line) throw new Error(`PA4 friend line “${at}” missing in ${scene}`);
+      return [line.text, [flag, value, unset] as const];
+    }),
+  );
 
 // =================================================================== flags and checks
 
@@ -3192,11 +3225,11 @@ export const ARCADE_PA4_FLAGS: string[] = [
   'pa4-18',
   'pa4-19',
   'pa4-done', // PA4-19: the whole cartridge; counts towards High Score Night
-  'pa4-candy', // left | be (pa4-02-candy): PA4-17, PA4-18, PA4-19
-  'pa4-blook', // lie | joke (pa4-03-blook)
-  'pa4-papyrus', // puzzles | pasta (pa4-07-date)
-  'pa4-undyne', // hot | low (pa4-10-cook)
-  'pa4-mettaton', // pose | encore (pa4-12-show)
+  'pa4-candy', // candy-left | candy-be (pa4-02-candy): PA4-17, PA4-18, PA4-19
+  'pa4-blook', // blook-lie | blook-joke (pa4-03-blook)
+  'pa4-papyrus', // papyrus-puzzles | papyrus-pasta (pa4-07-date)
+  'pa4-undyne', // undyne-hot | undyne-low (pa4-10-cook)
+  'pa4-mettaton', // mettaton-pose | mettaton-encore (pa4-12-show)
 ];
 
 export const ARCADE_PA4_CHECKS: string[] = [

@@ -143,16 +143,16 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Pixel's Arcade, cartridge PA1: The Chao Altar | [main.md](arcade/PA1/main.md) (1450) | [sprout.md](arcade/PA1/sprout.md) (1826) | [reader.md](arcade/PA1/reader.md) (2045) |
 | Pixel's Arcade, cartridge PA2: The Clone Island | [main.md](arcade/PA2/main.md) (1523) |  |  |
 | Pixel's Arcade, cartridge PA3: The Hollow Kingdom | [main.md](arcade/PA3/main.md) (1574) |  |  |
-| Pixel's Arcade, cartridge PA4: Mercy | [main.md](arcade/PA4/main.md) (1641) |  |  |
-| Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep | [main.md](arcade/PA5/main.md) (1501) |  |  |
+| Pixel's Arcade, cartridge PA4: Mercy | [main.md](arcade/PA4/main.md) (1693) |  |  |
+| Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep | [main.md](arcade/PA5/main.md) (1613) |  |  |
 
 ## Learning Grove lines
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| Learning Grove line LB: Play (LB1–LB12) | [main.md](lines/LB/main.md) (911) | [sprout.md](lines/LB/sprout.md) (1040) | [reader.md](lines/LB/reader.md) (1168) |
-| Learning Grove line LK: Mouse-Deer (LK1–LK10) | [main.md](lines/LK/main.md) (698) | [sprout.md](lines/LK/sprout.md) (787) | [reader.md](lines/LK/reader.md) (928) |
-| Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (700) | [sprout.md](lines/lang-hebrew/sprout.md) (1046) | [reader.md](lines/lang-hebrew/reader.md) (1262) |
+| Learning Grove line LB: Play (LB1–LB12) | [main.md](lines/LB/main.md) (1024) | [sprout.md](lines/LB/sprout.md) (1208) | [reader.md](lines/LB/reader.md) (1346) |
+| Learning Grove line LK: Mouse-Deer (LK1–LK10) | [main.md](lines/LK/main.md) (736) | [sprout.md](lines/LK/sprout.md) (818) | [reader.md](lines/LK/reader.md) (975) |
+| Ori's Alef-Bet, Hebrew (LH1–LH6) | [main.md](lines/lang-hebrew/main.md) (710) | [sprout.md](lines/lang-hebrew/sprout.md) (1051) | [reader.md](lines/lang-hebrew/reader.md) (1262) |
 | Ori's Alef-Bet: word list and script primer | [words.md](lines/lang-hebrew/words.md) (111) |  |  |
 | Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (774) | [sprout.md](lines/lang-japanese/sprout.md) (1007) | [reader.md](lines/lang-japanese/reader.md) (1191) |
 | Hana's Hiragana: word list and script primer | [words.md](lines/lang-japanese/words.md) (110) |  |  |

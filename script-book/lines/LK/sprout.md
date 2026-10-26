@@ -294,6 +294,26 @@ _Oh no! The crocodile catches his leg!_
 **Kancil**: Silly crocodile! That is not my leg. That is a stick!  
 _The crocodile lets go. It grabs a stick instead._  
 
+#### `sprout:lk04-grab-sorry` · [main](main.md#lk04-grab-sorry)
+
+_Variant of `lk04-grab`._
+
+**Bu Wulan**: One day, Kancil is thirsty. He goes to the river.  
+_Kancil puts his nose down to drink._  
+_Oh no! The crocodile catches his leg!_  
+**Crocodile**: I remember you. You said sorry.  
+**Crocodile**: Nobody says sorry to a crocodile! I think about it every day.  
+**Crocodile**: I am still hungry. But I feel a bit odd about it.  
+
+> **Lesson** (sel, CASEL: Relationship skills, ask): saying sorry is remembered  
+> _Why does the crocodile remember Kancil?_  
+> - ✅ Kancil said sorry. → Yes. A sorry stays with people. Even with crocodiles.
+> - He likes sticks. → Ha! Maybe. But he remembers because Kancil said sorry.
+> _For grown-ups: Your child thought about why the crocodile still remembers Kancil’s sorry._
+
+**Kancil**: Silly crocodile! That is not my leg. That is a stick!  
+_The crocodile lets go. It grabs a stick instead._  
+
 #### `sprout:lk04-free` · [main](main.md#lk04-free)
 
 _Kancil runs up the bank. Gone!_  
@@ -314,6 +334,7 @@ _The crocodile is cross. His tail goes swish, swish._
 **Mak Cik Siti**: But Kancil had to get away!  
 _Your Nubbin finds a stick by the pond._  
 _It puts the stick next to its leg._  
+_The stick sticks out past its foot. Wobble!_  
 
 > **Lesson** (maths, K.MD.A.2, ask): long and short  
 > **Mak Cik Siti**: Which is longer, the stick or the leg?  
@@ -326,7 +347,7 @@ _It puts the stick next to its leg._
 
 _The stick is long. The leg is short. And wriggly!_  
 **Bu Wulan**: So the stick was not much like a leg!  
-**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes us silly.  
+**Mak Cik Siti**: The crocodile was hungry. Hungry makes us silly.  
 
 > **Lesson** (health, CASEL: Self-management, notice): hunger can make us grumpy  
 > **Bu Wulan**: When I am hungry, I get grumpy too.  
@@ -438,6 +459,7 @@ _They carry their houses on their backs._
 #### `sprout:lk06-race` · [main](main.md#lk06-race)
 
 _Siti puts ten snails along the river._  
+_Each snail hides in a different spot._  
 **Kancil**: Ready? Go!  
 _Kancil runs and runs. Then he stops._  
 **Kancil**: Where are you, snail?  
@@ -445,6 +467,8 @@ _Kancil runs and runs. Then he stops._
 **Kancil**: Where are you now?  
 **Snail**: Still ahead of you!  
 _Kancil runs ten times. He is so tired! He gives up._  
+**Mak Cik Siti**: A different snail every time! Kancil only looks for one.  
+_Ten snails wave. Very slowly._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to ten  
 > _(Count the snails on the screen together.)_  
@@ -487,11 +511,12 @@ _Kancil creeps in. Nibble, nibble, crunch!_
 _Kancil pushes it. Stuck! He pushes again. Stuck again!_  
 **Mak Cik Siti**: Wait! My grandma told it differently!  
 
-#### `sprout:lk07-garden-siti` · [main](main.md#lk07-garden-siti)
+#### `sprout:lk07-garden-wulan` · [main](main.md#lk07-garden-wulan)
 
 _Variant of `lk07-garden`._
 
 **Mak Cik Siti**: My turn! This is Wulan’s story, but I will tell it.  
+**Bu Wulan**: There is no crocodile in it, Siti.  
 **Mak Cik Siti**: Pak Tani is a farmer. Pak Tani means Mr Farmer.  
 
 > **Lesson** (science, 2-LS2-1, notice): plants need water and light  
@@ -508,7 +533,7 @@ _Kancil pushes it. Stuck! He pushes again. Stuck again!_
 #### `sprout:lk07-endings` · [main](main.md#lk07-endings)
 
 _Siti and Wulan whisper behind the screen._  
-**Bu Wulan**: In the old story, Kancil tricks a dog and runs away.  
+**Bu Wulan**: In the old story, Kancil is sneaky. Somebody else gets stuck!  
 **Mak Cik Siti**: In the new story, Kancil says sorry.  
 **Bu Wulan**: Both are stories. One is just older.  
 
@@ -632,11 +657,15 @@ _Kancil jumps and jumps. He is too small._
 _Thump, thump. Here comes the elephant!_  
 **Elephant**: What are you doing down there, little one?  
 **Kancil**: The sky is falling! This hole is the safe place!  
+_Kancil is fibbing. The sky is not falling. Shh!_  
 **Elephant**: Oh no! Make room!  
+_Whump! The elephant jumps in and sits down._  
+_The hole is very full._  
+**Elephant**: Cosy!  
 
 #### `sprout:lk09-out` · [main](main.md#lk09-out)
 
-_The elephant climbs in. Thump!_  
+_Kancil is squashed. But he has an idea!_  
 _First, Kancil hops on its back. Next, on its head. Last, out!_  
 
 > **Lesson** (literacy, RL.K.3, ask): first, next, last  
@@ -692,6 +721,8 @@ _It is the last night of summer. Everyone is here!_
 > **Bu Wulan**: Kue are little cakes from Indonesia. Nearly the same word!  
 > _For grown-ups: Your child heard about kuih and kue, little cakes from Malaysia and Indonesia._
 
+_Pixel brings a second lamp._  
+_Her husband Byte brings a bucket. Just in case!_  
 **Pixel**: I made a second lamp. So everyone can see!  
 _Tonight your Nubbin is Kancil. No puppet. Just itself!_  
 **Bu Wulan**: Crocodiles! Line up, please!  
@@ -727,7 +758,7 @@ _Ten more hops back on the other line. Squelch!_
 
 > **Lesson** (maths, K.CC.A.1, do): count to ten, twice  
 > _(Count one line together, from one to ten.)_  
-> _(Then count the other line. Ten and ten!)_  
+> _(Then count the other line. Ten and ten. That’s twenty crocodiles!)_  
 > Check: `edu:count:crocodiles:20`
 > _For grown-ups: Your child counted one line of ten crocodiles, then the other._
 
@@ -746,7 +777,7 @@ _Ten more hops back on the other line. Squelch!_
 
 > **Lesson** (maths, K.CC.A.1, do): count to ten, twice  
 > _(Count one line together, from one to ten.)_  
-> _(Then count the other line. Ten and ten!)_  
+> _(Then count the other line. Ten and ten. That’s twenty crocodiles!)_  
 > Check: `edu:count:crocodiles:20`
 > _For grown-ups: Your child counted one line of ten crocodiles, then the other._
 
@@ -768,7 +799,7 @@ _The children sit on the bank, full of kuih and kue._
 **Mak Cik Siti**: And we are staying for a while!  
 _Your Nubbin makes the little puppet hop. One, two, three._  
 
-#### `sprout:lk10-complete-ramp` · [main](main.md#lk10-complete-ramp)
+#### `sprout:lk10-complete-pit-ramp` · [main](main.md#lk10-complete-pit-ramp)
 
 _Variant of `lk10-complete`._
 

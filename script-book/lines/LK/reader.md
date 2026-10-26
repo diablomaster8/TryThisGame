@@ -13,7 +13,7 @@ _They stop at the pond and study it the way builders study a wall._
 **Mak Cik Siti**: I’m Siti. The little ones call me Mak Cik Siti, which means Auntie Siti. I’m from Melaka, in Malaysia.  
 **Bu Wulan**: And I’m Wulan. Bu Wulan, to be polite. I’m from Yogyakarta, in Indonesia.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): finding Malaysia and Indonesia on a map  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): finding Malaysia and Indonesia on a map  
 > **Mak Cik Siti**: Melaka is an old port town on the coast of Malaysia. Ships have stopped there for hundreds of years.  
 > **Bu Wulan**: Yogyakarta is on Java, one of the thousands of islands that make up Indonesia.  
 > **Bu Wulan**: Between us is the sea. On a map, we’re neighbours.  
@@ -32,14 +32,17 @@ _Your Nubbin takes the other pole without being asked. The pole is taller than i
 
 #### `reader:lk01-lamp` · [main](main.md#lk01-lamp)
 
-_The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold._  
-**Mak Cik Siti**: There. Now nothing can hide. Not even a shadow.  
+_The screen goes up. Wulan lights a lamp behind it, and the cloth glows warm gold._  
+**Mak Cik Siti**: There. Tight as a drum.  
+**Bu Wulan**: It sags on the left.  
+**Mak Cik Siti**: It does not sag.  
+_It sags, a little, on the left. Your Nubbin tilts its head to match._  
 _Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous._  
 _It stares at the giant shadow, then waves. The shadow waves back._  
 **Bu Wulan**: Shadows are honest. They copy you exactly, only bigger or smaller.  
 **Bu Wulan**: Here. Try it with a puppet.  
 
-> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> **Lesson** (science, 5-ESS1-2, do): how shadows form and change size  
 > **Bu Wulan**: Hold the puppet close to the lamp. It blocks a lot of light, so the shadow is huge.  
 > **Bu Wulan**: Move it close to the screen. It blocks less light, and the shadow shrinks.  
 > _Put three puppet shadows in order, from smallest to largest._  
@@ -109,11 +112,11 @@ _Dusk again. The lamp is lit, and the bank is full of valley children sitting on
 _Your Nubbin trots the puppet across the screen. Its shadow hops, quick and light._  
 **Kancil**: My tummy is growling louder than a tiger. Somebody find me breakfast.  
 
-> **Lesson** (literacy, RL.1.4, ask): words that show feelings or senses  
-> **Bu Wulan**: Which word tells you Kancil is really hungry?  
-> - ✅ Growling → Yes. A growling tummy is a very hungry tummy. You can almost hear it.
-> - Breakfast → Close! But “growling” is the word that lets you hear his hunger.
-> _For grown-ups: Your child picked out the word that shows how hungry Kancil is._
+> **Lesson** (literacy, L.3.4, ask): a word with two meanings  
+> **Bu Wulan**: A tiger growls to warn you off. What does “growling” mean for Kancil’s tummy?  
+> - ✅ It rumbles because it’s empty. → Yes. Same word, different job. A tiger growls on purpose; a tummy growls when it wants breakfast.
+> - His tummy is angry. → Ha! Close. The tummy isn’t cross, just empty. The rumble sounds like a growl.
+> _For grown-ups: Your child worked out what “growling” means for a tummy, not a tiger._
 
 **Bu Wulan**: Kancil looked everywhere. The bushes were bare. The berries were gone.  
 **Kancil**: And over there, across the river, the trees are heavy with fruit. Ripe and sweet and swinging.  
@@ -125,7 +128,7 @@ _Siti slides a long, lumpy shadow along the bottom of the screen, then another. 
 _Wulan flicks water from the pond onto the screen. The shadow river ripples._  
 **Bu Wulan**: Rivers in the forest are never empty. Fish, frogs, birds and crocodiles, all of them hungry too.  
 
-> **Lesson** (science, 2-LS4-1, notice): why rainforest rivers are full of life  
+> **Lesson** (science, 3-LS4-3, notice): why rainforest rivers are full of life  
 > **Bu Wulan**: A rainforest is warm and wet all year, so plants grow fast and never stop.  
 > **Bu Wulan**: Lots of plants means lots of food, so the rivers are crowded with fish, frogs, birds and crocodiles.  
 > **Mak Cik Siti**: Each of them has found its habitat: the place that gives it what it needs.  
@@ -217,12 +220,13 @@ _Your Nubbin hops onto the first Nubbin, wobbles and holds out its arms. Then it
 **Bu Wulan**: Six, seven, eight, nine, ten!  
 _Ten hops, and your Nubbin lands on the far bank with a squelch and a look of enormous pride._  
 
-> **Lesson** (maths, 1.OA.A.1, do): counting in twos and adding on  
+> **Lesson** (maths, 3.OA.A.1, do): counting in twos as equal groups  
 > **Bu Wulan**: Count the line again in twos this time: two, four, six, eight, ten.  
-> **Mak Cik Siti**: Oh, look! Four more Nubbins swim up and join the end. How many crocodiles now?  
-> _Count on from ten: eleven, twelve, thirteen, fourteen. Fourteen crocodiles!_  
+> **Mak Cik Siti**: Oh, look! Four more Nubbins swim up to join. The line is full, so they swim off again, very offended.  
+> _Still ten, then. Count in twos once more: two, four, six, eight, ten._  
+> **Bu Wulan**: Five twos make ten. Five pairs of crocodiles, and four offended Nubbins on the bank.  
 > Check: `edu:count:crocodiles:10`
-> _For grown-ups: Your child counted ten crocodiles in twos, then added four more to make fourteen._
+> _For grown-ups: Your child counted ten crocodiles in twos: five pairs._
 
 **Mak Cik Siti**: Now in my language. Satu, dua, tiga, empat, lima, enam, tujuh, lapan, sembilan, sepuluh!  
 **Bu Wulan**: Mine is the same, all but one. Satu, dua, tiga, empat, lima, enam, tujuh, delapan, sembilan, sepuluh!  
@@ -242,11 +246,11 @@ _The children shout both, very loudly, at once._
 **Crocodile**: Wait. Was that counting? Or was that crossing?  
 _Behind the screen, Siti laughs so hard the crocodile puppet shakes._  
 
-> **Lesson** (maths, 2.OA.C.3, ask): odd and even  
-> **Bu Wulan**: Ten crocodiles. Is ten odd or even? Pair them up and see.  
-> - ✅ Even → Even! Five pairs, and nobody left over.
-> - Odd → Let’s pair them: two, four, six, eight, ten. Five pairs, none left over, so ten is even.
-> _For grown-ups: Your child paired up ten crocodiles to show that ten is even._
+> **Lesson** (maths, 3.OA.A.3, ask): dividing into equal groups  
+> **Bu Wulan**: Ten crocodiles, two in each pair. How many pairs?  
+> - ✅ Five pairs → Five! Ten shared into twos is five pairs, and nobody left over. That makes ten an even number.
+> - Two pairs → Two is how many in each pair. Count the pairs: two, four, six, eight, ten. That’s five pairs.
+> _For grown-ups: Your child shared ten crocodiles into pairs: 10 ÷ 2 = 5, with none left over._
 
 
 #### `reader:lk03-turn` · [main](main.md#lk03-turn)
@@ -286,7 +290,7 @@ _The Nubbins paddle back to the shallows, very pleased with themselves for being
 **Mak Cik Siti**: Ten crocodiles, ten hops. Some tales are made of numbers.  
 **Bu Wulan**: Leave a bridge across the stream. The children will want to count it again.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how stories carry the past  
 > **Mak Cik Siti**: Families in Malaysia, Indonesia, Singapore and Brunei have told this tale for generations.  
 > **Bu Wulan**: It travelled from mouth to ear, grandmother to grandchild. That’s called an oral tradition.  
 > _For grown-ups: Your child learned that the Kancil tales were passed down by word of mouth for generations._
@@ -344,17 +348,39 @@ _A long shadow slides up underneath, and snap! The crocodile puppet has Kancil b
 **Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
 _The crocodile lets go, quick as anything, and snaps at a stick floating past._  
 
+#### `reader:lk04-grab-sorry` · [main](main.md#lk04-grab-sorry)
+
+_Variant of `lk04-grab`._
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile**: I remember you. You’re the one who said sorry.  
+**Crocodile**: Nobody says sorry to a crocodile. I’ve thought about it every day. It’s very annoying.  
+**Crocodile**: I still have to eat you. But I’ll feel odd about it.  
+
+> **Lesson** (literacy, RL.3.3, ask): why a character acts  
+> **Bu Wulan**: Why can’t the crocodile stop thinking about Kancil?  
+> - ✅ Kancil said sorry, and nobody ever does. → Yes. A real sorry is hard to forget, even for a crocodile.
+> - It’s just hungry. → It is hungry! But it says the sorry is what it keeps thinking about.
+> _For grown-ups: Your child worked out why Kancil’s sorry still bothers the crocodile._
+
+**Kancil**: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil**: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
 #### `reader:lk04-free` · [main](main.md#lk04-free)
 
 _Kancil is up the bank and gone before the crocodile notices it’s chewing a stick._  
 **Crocodile**: ...This is a stick.  
+**Mak Cik Siti**: It certainly is.  
+_The crocodile spits out the stick and glares at it, as if the stick had lied._  
 
 > **Lesson** (science, 4-LS1-2, notice): animals’ senses  
 > **Mak Cik Siti**: Real crocodiles have tiny bumps along their jaws that feel the smallest ripple in the water.  
 > **Bu Wulan**: A drinking mouse-deer makes ripples. That’s how a crocodile knows someone has arrived.  
 > _For grown-ups: Your child learned that crocodiles feel tiny ripples with sense organs on their jaws._
 
-**Mak Cik Siti**: It certainly is.  
 
 #### `reader:lk04-stick` · [main](main.md#lk04-stick)
 
@@ -378,14 +404,14 @@ _The children argue about it all down the bank. Your Nubbin goes looking for a s
 _Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly._  
 **Bu Wulan**: So it wasn’t a very good stick to mistake for a leg.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): comparing lengths by subtracting  
+> **Lesson** (maths, 4.MD.A.2, ask): comparing lengths by subtracting  
 > _The stick is 60 centimetres long. Your Nubbin’s leg is 15 centimetres. How much longer is the stick?_  
 > - ✅ 45 centimetres → Yes! 60 take away 15 is 45. That’s a lot of extra stick.
 > - 75 centimetres → That’s adding them together. To compare, take away: 60 minus 15 is 45.
 > - 15 centimetres → That’s the leg. The difference is 60 minus 15, which is 45.
 > _For grown-ups: Your child found the difference between two lengths by subtracting._
 
-**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes everyone silly.  
+**Mak Cik Siti**: The crocodile was hungry. Hungry makes everyone silly.  
 _The crocodile puppet goes back into the box looking, if anything, slightly embarrassed._  
 
 ### Glossary
@@ -401,7 +427,12 @@ _The crocodile puppet goes back into the box looking, if anything, slightly emba
 
 **Mak Cik Siti**: One day a great storm blew through the forest, and a tree fell across the riverbank.  
 _Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail._  
+_Tonight Wulan does the crocodile. It comes out as a very small squeak._  
 **Crocodile**: Help! Help! I’m stuck under this log and I can’t get out!  
+**Mak Cik Siti**: Wulan. We have talked about this.  
+**Bu Wulan**: It’s a frightened crocodile.  
+**Mak Cik Siti**: It’s a frightened mouse.  
+**Bu Wulan**: It’s a crocodile having a mouse sort of day.  
 _Wulan brings on the buffalo, slow and heavy, with wide curved horns._  
 **Buffalo**: Poor crocodile. Hold still. I’ll get you out.  
 _The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away._  
@@ -411,10 +442,10 @@ _The buffalo wedges a long branch under the log and leans on the other end with 
 > **Mak Cik Siti**: Push down on the long end, and the short end lifts far more than you could lift alone.  
 > _For grown-ups: Your child learned how a long branch used as a lever lifts a heavy log._
 
-**Crocodile**: Free! Thank you, buffalo. Thank you so much. And now...  
+**Crocodile**: Free! Thank you, buffalo. I promise I will never forget this.  
 _Snap! The crocodile grabs the buffalo by the leg._  
-**Buffalo**: But I helped you!  
-**Crocodile**: And now I’m hungry. Helping makes a crocodile hungry.  
+**Buffalo**: You promised!  
+**Crocodile**: I promised not to forget. I haven’t. I remember you perfectly. You look delicious.  
 
 #### `reader:lk05-judge` · [main](main.md#lk05-judge)
 
@@ -422,7 +453,7 @@ _Your Nubbin trots Kancil onto the screen, and the children cheer as if he were 
 **Buffalo**: Kancil! Kancil! Tell this crocodile it isn’t fair!  
 **Kancil**: Hmm. I can’t judge something I haven’t seen. Show me exactly how it was, from the beginning.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, notice): fairness: hear both sides  
+> **Lesson** (social-studies, D2.Civ.8.3-5, notice): fairness: hear both sides  
 > **Bu Wulan**: That’s what a good judge does. Listen to both sides and look at the facts before deciding.  
 > **Mak Cik Siti**: Deciding first and looking afterwards is how unfair things happen.  
 > _For grown-ups: Your child learned that a fair judge listens to both sides and looks at the facts first._
@@ -528,7 +559,7 @@ _Ten times Kancil runs, and ten times a snail answers just ahead of him, until h
 _The small boy at the back is smiling now. He has been helping Wulan move the snails._  
 **Bu Wulan**: Slow isn’t silly. Slow is just slow. And a lot of slow friends together can be very quick indeed.  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character responds to events  
+> **Lesson** (literacy, RL.3.3, ask): how a character responds to events  
 > **Mak Cik Siti**: How did Kancil feel when he flopped down and gave up?  
 > - ✅ Tired, and a bit silly. → Yes. Tired legs and a red face. He’d learned something.
 > - Proud. → Not this time! He’d boasted and lost. He felt tired and silly.
@@ -547,13 +578,15 @@ _The small boy at the back is smiling now. He has been helping Wulan move the sn
 #### `reader:lk07-garden` · [main](main.md#lk07-garden)
 
 _Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat._  
-**Bu Wulan**: This is the tale I heard before any other. Kancil and the cucumbers.  
+**Bu Wulan**: Five tales of waiting. I did not sulk once.  
+**Mak Cik Siti**: She sulked on Tuesday.  
+**Bu Wulan**: I waited loudly on Tuesday. This is the tale I heard before any other. Kancil and the cucumbers.  
 **Bu Wulan**: There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.  
 
-> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Lesson** (science, 3-LS4-3, notice): why a climbing vine does well  
 > **Bu Wulan**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
-> **Mak Cik Siti**: That’s why the vines climb. Higher up, the leaves catch more sun.  
-> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+> **Mak Cik Siti**: That’s why the vines climb. A vine that reaches the sun grows better than one left in the shade.  
+> _For grown-ups: Your child learned that a vine climbs towards the light, which helps it grow well where it lives._
 
 **Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
 _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
@@ -561,20 +594,22 @@ _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling a
 **Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
 _Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
 **Pak Tani**: Got you, cucumber thief!  
+_A small brown dog trots in, sits down, and watches with great interest._  
 **Mak Cik Siti**: Wait, wait. That’s not how my grandmother told it.  
 
-#### `reader:lk07-garden-siti` · [main](main.md#lk07-garden-siti)
+#### `reader:lk07-garden-wulan` · [main](main.md#lk07-garden-wulan)
 
 _Variant of `lk07-garden`._
 
 _Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat._  
-**Mak Cik Siti**: This is Wulan’s tale really. But she told the first tale, so this one is mine.  
+**Mak Cik Siti**: This is Wulan’s tale really. But her way came first all summer, so tonight it’s mine.  
+**Bu Wulan**: There’s no crocodile in it. She’s been practising the farmer in the bath.  
 **Mak Cik Siti**: There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.  
 
-> **Lesson** (science, 2-LS2-1, notice): why plants need water and light  
+> **Lesson** (science, 3-LS4-3, notice): why a climbing vine does well  
 > **Mak Cik Siti**: Cucumber vines drink water through their roots, and their leaves use sunlight to make food.  
-> **Bu Wulan**: That’s why the vines climb. Higher up, the leaves catch more sun.  
-> _For grown-ups: Your child learned that plants take in water through roots and make food with sunlight in their leaves._
+> **Bu Wulan**: That’s why the vines climb. A vine that reaches the sun grows better than one left in the shade.  
+> _For grown-ups: Your child learned that a vine climbs towards the light, which helps it grow well where it lives._
 
 **Pak Tani**: My cucumbers! Somebody has been eating my cucumbers again!  
 _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
@@ -582,6 +617,7 @@ _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling a
 **Kancil**: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
 _Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
 **Pak Tani**: Got you, cucumber thief!  
+_A small brown dog trots in, sits down, and watches with great interest._  
 **Bu Wulan**: Wait, wait. That’s not how my grandmother told it.  
 
 #### `reader:lk07-endings` · [main](main.md#lk07-endings)
@@ -623,7 +659,7 @@ _Siti and Wulan build a little trellis of split bamboo beside the screen for the
 **Mak Cik Siti**: The old ending is clever. The new ending is kind.  
 **Bu Wulan**: My grandmother would say Kancil got off lightly. Then she’d give him a cucumber anyway.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories change over time  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how stories change over time  
 > **Bu Wulan**: Tales passed on by word of mouth change a little with each teller.  
 > **Mak Cik Siti**: That isn’t a mistake. It’s how old stories stay alive.  
 > _For grown-ups: Your child learned that tales passed by word of mouth change a little with each teller._
@@ -659,12 +695,15 @@ _Your Nubbin backs the Kancil puppet right up to the edge of the shadow water._
 
 **Tiger**: Nonsense. Show me this tiger.  
 _The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose._  
-**Tiger**: Grrr! Who are you? Go away! This is MY forest!  
+**Tiger**: Who are you? Stop copying me. ...Stop it. ...I said STOP it!  
+_The tiger shakes a paw. The tiger in the water shakes a paw back._  
+**Tiger**: Rude. And he’s got terrible manners as well.  
 
-> **Lesson** (science, 1-PS4-2, notice): why still water reflects  
-> **Bu Wulan**: Still water is smooth, so light bounces straight back off it, like a mirror. That picture is a reflection.  
-> **Mak Cik Siti**: Ripples scatter the light in all directions, and the picture breaks up.  
-> _For grown-ups: Your child learned why still water reflects like a mirror and rippled water doesn’t._
+> **Lesson** (science, 4-PS3-2, notice): light travels and bounces  
+> **Bu Wulan**: Light travels from the tiger down to the pool. Still water is smooth, so the light bounces straight back up.  
+> **Mak Cik Siti**: It reaches his eyes and makes a picture: a reflection. He’s being rude to some bounced light.  
+> **Bu Wulan**: Ripples scatter the light in all directions, and the picture breaks up.  
+> _For grown-ups: Your child learned that light travels from the tiger to the water and bounces back to his eyes._
 
 
 #### `reader:lk08-splash` · [main](main.md#lk08-splash)
@@ -752,11 +791,11 @@ _Siti stops. She lowers the puppets and looks at them for a moment._
 _A little girl on the bank puts her hand up. She wants to know what happens to the elephant._  
 **Mak Cik Siti**: So. Do we end it the old way, or help Kancil find a way to get Elephant out?  
 
-> **Lesson** (science, K-2-ETS1-1, ask): defining a problem and finding solutions  
+> **Lesson** (science, 3-5-ETS1-2, ask): defining a problem and finding solutions  
 > **Bu Wulan**: What exactly is the problem? And what are two ways to solve it?  
 > - ✅ The sides are too steep. A ramp, or ropes. → Exactly. Name the problem first: steep, slippery sides. Then a log ramp, or ropes to pull with.
 > - Elephant is too big. → He is big! But the real problem is the steep sides. A ramp would fix that.
-> _For grown-ups: Your child named the real problem (steep sides) and two ways to solve it._
+> _For grown-ups: Your child named the real problem (steep sides) and compared two ways to solve it._
 
 
 **Choices**
@@ -765,6 +804,7 @@ _A little girl on the bank puts her hand up. She wants to know what happens to t
     - **Mak Cik Siti**: Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.
     - The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.
     - **Bu Wulan**: Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.
+    - **Bu Wulan**: I like to think somebody kind came by later, with a rope. And a banana.
 - **Help Kancil get Elephant out.**
     - **Kancil**: Elephant! I’m sorry. The sky isn’t falling. Wait there, I’ll get help!
     - Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.
@@ -799,12 +839,14 @@ _The last evening of summer. The whole valley is on the bank, with mats and cush
 **Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
 **Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): shared food and words  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): shared food and words  
 > **Mak Cik Siti**: Kuih is the Malay word for small cakes and snacks, sweet or savoury.  
 > **Bu Wulan**: In Indonesia we say kue. Same idea, different spelling, and we argue about the coconut.  
 > _For grown-ups: Your child learned that kuih and kue are snacks shared by Malaysia and Indonesia._
 
-**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand._  
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up.  
+**Byte**: Probably.  
 _Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
 **Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
 _The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them._  
@@ -817,7 +859,9 @@ _Variant of `lk10-line`._
 _The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
 **Mak Cik Siti**: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
 **Bu Wulan**: And kue from me. Same idea, different spelling, better coconut.  
-**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand._  
+**Pixel**: I’ve rigged a second lamp so the people at the back can see. It won’t blow up.  
+**Byte**: Probably.  
 _Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
 **Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
 _The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up._  
@@ -842,7 +886,7 @@ _At eight the children all shout “Delapan!”, the Indonesian word, as loud as
 **Mak Cik Siti**: Lapan. Sembilan, sepuluh! And back along the second line!  
 _Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
 
-> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Lesson** (maths, 3.OA.A.1, do): adding tens  
 > **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
 > **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
 > Check: `edu:count:crocodiles:20`
@@ -861,7 +905,7 @@ _At eight the children all shout “Lapan!”, the Malay word, as loud as they c
 **Bu Wulan**: Delapan. Sembilan, sepuluh! And back along the second line!  
 _Your Nubbin hops back along the second line, ten more, and lands on the home bank with a squelch._  
 
-> **Lesson** (maths, 2.OA.A.1, do): adding tens  
+> **Lesson** (maths, 3.OA.A.1, do): adding tens  
 > **Bu Wulan**: Two lines of ten crocodiles. How many crocodiles in all?  
 > **Mak Cik Siti**: Ten and ten make twenty. Or two tens, if you like your times tables.  
 > Check: `edu:count:crocodiles:20`
@@ -883,6 +927,9 @@ _A boy says be clever, and a girl says say thank you. The small boy who helped t
 > _For grown-ups: Your child named the big idea running through the Kancil tales._
 
 **Bu Wulan**: All true. My grandmother would have liked you lot.  
+_The little girl who held the elephant puppet has it again. It sits on a ramp she made herself, out of six twigs._  
+**Bu Wulan**: Siti’s grandmother stopped the tale in the pit. She never said nobody could build a ramp later.  
+**Mak Cik Siti**: My grandmother would be furious. And then she’d help.  
 **Mak Cik Siti**: We’re leaving the screen by the pond. It belongs here now.  
 **Bu Wulan**: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
 
@@ -895,7 +942,7 @@ _A boy says be clever, and a girl says say thank you. The small boy who helped t
 
 _Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
 
-#### `reader:lk10-complete-ramp` · [main](main.md#lk10-complete-ramp)
+#### `reader:lk10-complete-pit-ramp` · [main](main.md#lk10-complete-pit-ramp)
 
 _Variant of `lk10-complete`._
 

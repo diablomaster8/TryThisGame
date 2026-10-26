@@ -15,7 +15,7 @@ Hint: The lantern shed is lit; Pixel has a new cartridge. · check: `visit:pa5-c
 _The lantern shed smells of sawdust and solder. The cabinet hums in the corner like a fridge with ambitions._  
 **Pixel**: New cartridge. Well, old cartridge. New to us.  
 _She holds it up. The label is faded to the colour of weak tea, except for one blue eye, which hasn’t faded at all._  
-**Pixel**: Found it under the mouse nest. The mice had been using it as a table. It works anyway. I checked.  
+**Pixel**: Found it in the mouse nest. They’d been using it as a table. I gave them a coaster in exchange.  
 **Pixel**: You go in. I stay out here as player two and talk through the speaker. I’ve fixed the speaker. Mostly.  
 **Pixel**: If it goes wrong, I pull the plug and you’re back on this floor. Ruling: that has never failed.  
 **You**: How many times have you tried it?  
@@ -25,8 +25,8 @@ _Your Nubbin climbs on to the stool and stares into the dark screen, nose almost
 **Choices**
 
 - **Blow on the cartridge first.**
-    - **Pixel**: That does nothing. Everybody does it anyway. Fine.
-    - You blow on it. Pixel blows on it too, a bit harder, and looks pleased with herself.
+    - **Pixel**: Ruling: it does nothing. Ruling two: I’m doing it too.
+    - You blow on it, and Pixel blows on it harder. Your Nubbin, not to be left out, blows on Pixel.
 - **Just put it in.**
     - **Pixel**: A person of action. Player one, ready.
 
@@ -38,7 +38,7 @@ _The lantern shed smells of sawdust and solder. The cabinet hums in the corner, 
 **Clank** _(happy)_: Announcement! I am on the cabinet! It is warm! It is my best friend!  
 **Pixel**: He’s been up there since breakfast. He says it’s a lookout. It’s not a lookout. It’s a radiator.  
 _She holds up a cartridge. The label is faded to the colour of weak tea, except for one blue eye._  
-**Pixel**: Found it under the mouse nest. You go in. I stay out here as player two and talk through the speaker.  
+**Pixel**: Found it in the mouse nest. I gave them a coaster for it. You go in; I’m player two, on the speaker.  
 **Clank** _(happy)_: And I am player three! I will announce things!  
 **Pixel**: There is no player three. Fine. Player three. Announce quietly.  
 _Your Nubbin climbs on to the stool and stares into the dark screen, nose almost on the glass._  
@@ -46,8 +46,9 @@ _Your Nubbin climbs on to the stool and stares into the dark screen, nose almost
 **Choices**
 
 - **Blow on the cartridge first.**
-    - **Pixel**: That does nothing. Everybody does it anyway.
+    - **Pixel**: Ruling: it does nothing. Ruling two: I’m doing it too.
     - **Clank**: Announcement: I have also blown on it!
+    - Your Nubbin, not to be left out, blows on Clank. Clank announces nothing, for once.
 - **Just put it in.**
     - **Pixel**: A person of action. Player one, ready.
 
@@ -123,7 +124,7 @@ _Link picks it up, and it chirps. Your Nubbin chirps back, and Link looks at it 
 
 **Choices**
 
-- **Offer him your jumper.**
+- **Offer him your jumper.** — sets `{"pa5-jumper":"lent-jumper"}`
     - Link takes it, puts it on back to front, and fixes it without a word. It fits him better than it fits you.
     - **Pixel**: Ruling: that’s his now. Heroes don’t give jumpers back. It’s in the rules.
 - **Say hello.**
@@ -394,11 +395,11 @@ _A meadow, a rainy tree, a spring, a road, a cliff over the sea. Zelda is in mos
 
 **Choices**
 
-- **We’ll find every one of them.** — sets `{"pa5-memories":"all"}`
+- **We’ll find every one of them.** — sets `{"pa5-memories":"photohunt"}`
     - **Impa**: Every one. Good. That is the slow way, and the slow way is often the right one.
     - You lay the twelve photographs out on the floor, and Link looks at each one for a long time.
     - **Pixel**: Marking them all on the slate. Player two: also the map player.
-- **Only the ones on our road. She’s waiting.** — sets `{"pa5-memories":"road"}`
+- **Only the ones on our road. She’s waiting.** — sets `{"pa5-memories":"photoroad"}`
     - **Impa**: She is. That is true too. Go on, then.
     - You put the photographs in your coat, close to your chest, where they won’t get rained on.
 
@@ -420,13 +421,13 @@ _She says it to your Nubbin, and your Nubbin waves. Link, very slightly, waves t
 
 Sets on completion: `{"pa5-05":true}`
 
-**Notes:** SIGNATURE CHOICE: pa5-05-photos sets pa5-memories = all | road. all: the eight off-road memory sites are marked on the slate map, and each plays its PA5_VARIANTS pa5-mem-* scene when found (find:pa5-memory:<slug>). road: they stay unmarked and unplayable until PA5-18’s "look" choice. The four on-road memories (Mipha, shelter, sword, father) play in PA5-8, 12, 13 and 14 either way. Pays off in PA5-15 and PA5-18. The photo bundle goes in the player’s inventory as one item that fills as memories are seen.
+**Notes:** SIGNATURE CHOICE: pa5-05-photos sets pa5-memories = photohunt | photoroad. photohunt: the eight off-road memories play as PA5_VARIANTS <host>-photohunt (PA5-6 to PA5-13; the eighth sets pa5-hunt = hunt). photoroad: they stay unplayed. The four on-road memories (Mipha, shelter, sword, father) play in PA5-8, 12, 13 and 14 either way. Pays off in PA5-15 and PA5-18. The photo bundle goes in the player’s inventory as one item that fills as memories are seen.
 
 ## PA5-6. Hateno
 
 *The Legend of Zelda: Breath of the Wild (Nintendo, 2017): Hateno Ancient Tech Lab* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Hundred-Year Sleep (Pixel’s Arcade) · when: Any time after PA5-5, from Pixel’s cabinet. · requires: PA5-5
 
-**Cast:** Purah (Purah, director of the Hateno Ancient Tech Lab (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
+**Cast:** Purah (Purah, director of the Hateno Ancient Tech Lab (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Zelda (Princess Zelda (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
 
 ### Step 1: Find Purah’s lab on the hill above Hateno.
 
@@ -473,6 +474,10 @@ _Link holds up the slate, and Purah strikes a pose. Your Nubbin strikes the same
 
 _The slate clicks. The picture is of Purah, your Nubbin and, at the edge, half of your ear._  
 **Purah**: Perfect. Science!  
+_Then the slate chirps at the lab pond, and it is a hundred years ago. Zelda holds out a frog to Link in both hands, very pleased._  
+**Zelda** _(happy)_: Hot-footed frog. Eating one makes you quicker. Science! Well. Possibly science.  
+_Link looks at the frog. The frog looks at Link. The memory, mercifully, ends._  
+**Purah**: That’s not one of Impa’s twelve. That’s a test. The test was a frog.  
 
 ### Complete
 
@@ -482,18 +487,30 @@ _The slate clicks. The picture is of Purah, your Nubbin and, at the edge, half o
 **Purah**: Remembering is just finding the right place to stand. Most people never work that out.  
 _As you leave, Purah and your Nubbin wave at each other until you are both round the corner._  
 
+#### <a id="pa5-06-complete-photohunt"></a>Variant `pa5-06-complete-photohunt`
+
+_Variant of `pa5-06-complete`._
+
+**Purah**: Those photographs of Impa’s. The slate can match them now: hold one up, and it will tell you when you’re close.  
+**Purah**: Remembering is just finding the right place to stand. Most people never work that out.  
+_The slate chirps at the same pond, and it is a week later, a hundred years ago. Zelda has a jar with six frogs in it._  
+**Zelda** _(happy)_: Control group.  
+_All six frogs look at Link. The memory ends before anyone has to eat anything._  
+**Purah** _(happy)_: That one is one of the twelve! The princess ran a proper trial. I could cry.  
+_As you leave, Purah and your Nubbin wave at each other until you are both round the corner._  
+
 **Rewards**
 
 
 Sets on completion: `{"pa5-06":true}`
 
-**Notes:** Purah looks about six; she is old and brilliant, and every joke is hers, never at her expense. The slate now points to memory sites: with pa5-memories = all, all twelve are marked; with road, only the on-road four.
+**Notes:** Purah looks about six; she is old and brilliant, and every joke is hers, never at her expense. The slate now points to memory sites: with pa5-memories = photohunt, all twelve are marked; with photoroad, only the on-road four. The frog test shot in pa5-06-slate-done plays for everyone and is not one of the twelve; its sequel, the control group, is (pa5-06-complete-photohunt).
 
 ## PA5-7. Hestu
 
 *The Legend of Zelda: Breath of the Wild (Nintendo, 2017): Hestu and the Korok seeds* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Hundred-Year Sleep (Pixel’s Arcade) · when: Any time after PA5-6, from Pixel’s cabinet. · requires: PA5-6
 
-**Cast:** Hestu (Hestu, the giant Korok with maracas (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
+**Cast:** Hestu (Hestu, the giant Korok with maracas (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Zelda (Princess Zelda (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
 
 ### Step 1: Find out what is troubling the enormous Korok on the road.
 
@@ -530,6 +547,16 @@ _Every Korok giggles once, gives its seed, and vanishes with a puff of leaves. E
 #### <a id="pa5-07-koroks-done"></a>Done `pa5-07-koroks-done`
 
 _Twelve seeds. Your Nubbin carries them back in its two cupped hands, and won’t let you help._  
+
+#### <a id="pa5-07-koroks-done-photohunt"></a>Variant `pa5-07-koroks-done-photohunt`
+
+_Variant of `pa5-07-koroks-done`._
+
+_Twelve seeds. Your Nubbin carries them back in its two cupped hands, and won’t let you help._  
+_On the way the slate chirps over a field of small blue flowers. A hundred years ago, Zelda kneels there with a notebook._  
+**Zelda** _(happy)_: They only grow wild. Nobody can grow them in a garden. Isn’t that wonderful? They choose where they live.  
+_She looks up at Link, and for a moment forgets to be cross with him._  
+_The memory goes. Your Nubbin sits among the same flowers, a hundred years later, still not letting go of the seeds._  
 
 ### Step 3: Bring Hestu his seeds.
 
@@ -576,7 +603,7 @@ Sets on completion: `{"pa5-07":true}`
 
 *The Legend of Zelda: Breath of the Wild (Nintendo, 2017): Zora’s Domain and Vah Ruta* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Hundred-Year Sleep (Pixel’s Arcade) · when: Any time after PA5-7, from Pixel’s cabinet. · requires: PA5-7
 
-**Cast:** Sidon (Prince Sidon of the Zora (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Muzu (Muzu, elder Zora and Mipha’s old teacher (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Mipha (Mipha, Zora Champion, as a spirit and in memory (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
+**Cast:** Sidon (Prince Sidon of the Zora (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Muzu (Muzu, elder Zora and Mipha’s old teacher (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Mipha (Mipha, Zora Champion, as a spirit and in memory (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Zelda (Princess Zelda (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
 
 ### Step 1: Follow the flooded river up to meet the Zora prince.
 
@@ -595,6 +622,17 @@ _He gives your Nubbin a thumbs up. Your Nubbin, who has no thumbs, does its best
 #### <a id="pa5-08-rain-done"></a>Done `pa5-08-rain-done`
 
 **Sidon**: Come up to the Domain! My father will want to meet you. Some of the elders… less so.  
+
+#### <a id="pa5-08-rain-done-photohunt"></a>Variant `pa5-08-rain-done-photohunt`
+
+_Variant of `pa5-08-rain-done`._
+
+**Sidon**: Come up to the Domain! My father will want to meet you. Some of the elders… less so.  
+_Halfway up, the slate chirps at a cold spring. A hundred years ago, Zelda stands in it up to her waist, praying._  
+_Her lips are blue, and nothing comes. Link waits on the bank with a blanket, because there is nothing else to do._  
+**Zelda** _(sad)_: Nothing. Again.  
+_He holds the blanket out. After a long moment, she takes it._  
+**Sidon** _(happy)_: Friends? You went quiet. Come in out of the wet! Well. Into a different wet.  
 
 ### Step 2: Stand where the Domain photograph was taken.
 
@@ -684,6 +722,17 @@ _Yunobo curls into a ball, and Link climbs into a cannon. You hold your Nubbin�
 
 _Yunobo rolls up the slope like a boulder that has decided to be brave._  
 **Yunobo** _(happy)_: Did I do good? I did good! Sorry. I mean: good.  
+
+#### <a id="pa5-09-yunobo-done-photohunt"></a>Variant `pa5-09-yunobo-done-photohunt`
+
+_Variant of `pa5-09-yunobo-done`._
+
+_Yunobo rolls up the slope like a boulder that has decided to be brave._  
+**Yunobo** _(happy)_: Did I do good? I did good! Sorry. I mean: good.  
+_At the crater edge the slate chirps. A hundred years ago, Daruk claps Link on the back so hard Link nearly goes over._  
+**Daruk** _(happy)_: Little guy, you’re all right! Come back up and we’ll eat rocks. The good ones. Not the gravel.  
+_The memory goes. Your Nubbin is standing on the crater edge, looking at a rock, as if it might be a good one._  
+**Yunobo** _(soft)_: That one’s good. Sorry. I mean: I’d eat that one.  
 
 ### Step 2: Go inside Vah Rudania and help free it.
 
@@ -775,6 +824,17 @@ _Your Nubbin points at each one too, a half-second before you see it._
 **Teba**: Not bad. Not bad at all. Tomorrow, we go for the bird.  
 _He nods at your Nubbin, warrior to warrior._  
 
+#### <a id="pa5-10-range-done-photohunt"></a>Variant `pa5-10-range-done-photohunt`
+
+_Variant of `pa5-10-range-done`._
+
+**Teba**: Not bad. Not bad at all. Tomorrow, we go for the bird.  
+_He nods at your Nubbin, warrior to warrior._  
+_On the landing below, the slate chirps. A hundred years ago, Revali hovers above Link on a gust of his own making._  
+**Revali**: So you’re the chosen knight. I’m sure the sword knows best. I’m sure it’s not just luck.  
+_He shoots up out of sight. Link doesn’t rise to it; he nods to the empty air where Revali was._  
+**Pixel**: He’s so rude. He’s brilliant. Both. That’s allowed.  
+
 ### Step 3: Go inside Vah Medoh and help free it.
 
 Hint: The Beast tilts to one side and then the other; walk with the tilt. · check: `puzzle:pa5-medoh:terminals`
@@ -812,7 +872,7 @@ Sets on completion: `{"pa5-10":true}`
 
 *The Legend of Zelda: Breath of the Wild (Nintendo, 2017): Gerudo Town, the Yiga hideout and Vah Naboris* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Hundred-Year Sleep (Pixel’s Arcade) · when: Any time after PA5-10, from Pixel’s cabinet. · requires: PA5-10
 
-**Cast:** Riju (Riju, young chief of the Gerudo (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Buliara (Buliara, Riju’s guard (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Yiga Footsoldier (A Yiga Clan footsoldier, played comic (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Urbosa (Urbosa, Gerudo Champion, as a spirit and in memory (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
+**Cast:** Riju (Riju, young chief of the Gerudo (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Buliara (Buliara, Riju’s guard (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Yiga Footsoldier (A Yiga Clan footsoldier, played comic (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Urbosa (Urbosa, Gerudo Champion, as a spirit and in memory (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design), Zelda (Princess Zelda (The Legend of Zelda: Breath of the Wild (Nintendo, 2017)); licensed design)
 
 ### Step 1: Go into Gerudo Town with Riju’s guard, Buliara.
 
@@ -839,6 +899,16 @@ _The chief is young, about twelve, with a heavy gold crown and a sand seal aslee
 #### <a id="pa5-11-riju-done"></a>Done `pa5-11-riju-done`
 
 _Buliara gives you a bunch of bananas from the market. She does not explain, and she doesn’t need to._  
+
+#### <a id="pa5-11-riju-done-photohunt"></a>Variant `pa5-11-riju-done-photohunt`
+
+_Variant of `pa5-11-riju-done`._
+
+_Buliara gives you a bunch of bananas from the market. She does not explain, and she doesn’t need to._  
+_By the town fountain the slate chirps. A hundred years ago, Urbosa is laughing with Zelda, who has had to sit down._  
+**Urbosa** _(happy)_: And then your father fell straight into the fountain. In the crown. In front of everyone.  
+**Zelda** _(happy)_: Don’t. Don’t. I can’t breathe.  
+_Link stands guard behind them, very straight. One corner of his mouth is trying to move._  
 
 ### Step 2: Sneak through the Yiga hideout and get the Thunder Helm.
 
@@ -870,7 +940,7 @@ Hint: Riju’s lightning drops the Beast’s shield; then you’re inside. · ch
 _Riju puts on the helm. Lightning comes down round the stone camel, and its shield fails._  
 _Inside Vah Naboris, the Beast turns slowly on great stone gears. Your Nubbin follows the sparks round the walls._  
 _At the last terminal, a tall golden light gathers into a woman: Urbosa, the Gerudo chief of a hundred years ago._  
-**Urbosa** _(happy)_: There you are. You took your time. You always did, with dawdling, you know. But not with her.  
+**Urbosa** _(happy)_: There you are. You took your time. You always did, except where she was concerned.  
 **Urbosa**: I watched the princess grow up. Her mother was my dearest friend. I promised to look after her.  
 **Urbosa** _(soft)_: I couldn’t. Not at the end. So you will, won’t you?  
 _She looks down at your Nubbin, and then at you._  
@@ -888,7 +958,7 @@ _Vah Naboris turns in the sand until it faces the far castle._
 **Riju** _(happy)_: Four Beasts. All four, aimed at the castle. A hundred years of waiting, and it’s you who came.  
 **Buliara**: The chief did very well.  
 **Riju** _(happy)_: The chief knows that, Buliara.  
-**Pixel**: Four Beasts. Four Champions. Zero fingers left. Now the castle.  
+**Pixel**: Four Beasts. Four Champions. That’s eight fingers. Two left, and I’m saving them for the castle.  
 
 **Rewards**
 
@@ -909,6 +979,21 @@ Hint: It’s on your road; hold the photograph up until the slate chirps. · che
 
 #### <a id="pa5-12-road"></a>Scene `pa5-12-road`
 
+_It starts to rain on the road. Proper rain, the kind that runs down your neck._  
+_You take out the photograph with the tree in it. The tree is right there, by the road._  
+_Link goes and stands under it, where the camera stood. So do you, and your Nubbin._  
+**Pixel**: This one’s on the road. You didn’t even have to look for it. Some memories wait for you.  
+_The slate chirps once, softly. The rain gets quieter, and then it isn’t this rain any more._  
+_It is the same rain, a hundred years ago._  
+
+#### <a id="pa5-12-road-photohunt"></a>Variant `pa5-12-road-photohunt`
+
+_Variant of `pa5-12-road`._
+
+_The road crosses a bridge over a gorge, and the slate chirps. A hundred years ago, Zelda turns round sharply on Link._  
+**Zelda** _(angry)_: Stop following me. I know you’re ordered to. I don’t need a reminder of everything I can’t do.  
+_He stops, but he doesn’t go away. She walks on, and after a while, he follows at the same distance._  
+**Pixel**: Oof. She didn’t like him at first. That makes the rest better, somehow.  
 _It starts to rain on the road. Proper rain, the kind that runs down your neck._  
 _You take out the photograph with the tree in it. The tree is right there, by the road._  
 _Link goes and stands under it, where the camera stood. So do you, and your Nubbin._  
@@ -953,7 +1038,7 @@ _After a while, he stands up. He puts the photograph back in your coat himself, 
 
 Sets on completion: `{"pa5-12":true}`
 
-**Notes:** MEMORY (on-road, 2 of 4): Shelter from the Storm. Zelda is seen here for the first time; licensed design. The memory is staged with you and your Nubbin visible at its edge, slightly greyed, unseen by them. Hazel’s third rule is acted here (Link sits and waits) and never quoted.
+**Notes:** MEMORY (on-road, 2 of 4): Shelter from the Storm. Zelda is first seen in the PA5-6 frog test shot; licensed design. The memory is staged with you and your Nubbin visible at its edge, slightly greyed, unseen by them. Hazel’s third rule is acted here (Link sits and waits) and never quoted.
 
 ## PA5-13. The Lost Woods
 
@@ -1016,6 +1101,20 @@ _The memory goes, and Link pulls. His arms shake, and the sword comes out, ringi
 
 **The Great Deku Tree**: So. You are strong enough. She knew you would be.  
 _Your Nubbin looks up at the sword, and then at Link, and then holds his free hand._  
+
+#### <a id="pa5-13-sword-done-photohunt"></a>Variant `pa5-13-sword-done-photohunt`
+
+_Variant of `pa5-13-sword-done`._
+
+**The Great Deku Tree**: So. You are strong enough. She knew you would be.  
+_Your Nubbin looks up at the sword, and then at Link, and then holds his free hand._  
+_The sword rings, and the slate chirps with it. A hundred years ago, by a shrine in a meadow, Link kneels before Zelda._  
+**Zelda** _(sad)_: I name you my knight. The sword chose you. I didn’t. Please understand that.  
+_Behind her, four Champions stand in a row, very straight. Daruk is trying not to grin, and failing._  
+_The memory goes. Your Nubbin is kneeling in the moss too, very solemnly, with its crown bowed._  
+**Pixel** _(soft)_: Eleven ticks on the slate. The last one’s on our road. I’m not counting out loud. I am counting.  
+
+Sets `{"pa5-hunt":"hunt"}`
 
 ### Complete
 
@@ -1093,12 +1192,13 @@ _He said he was hard on her. He said he only ever told her to try harder._
 
 **Choices**
 
-- **Tell Link the old man is sorry now.** — sets `{"pa5-14-told":"told"}`
+- **Tell Link the old man is sorry now.** — sets `{"pa5-14-told":"oldman-told"}`
     - **You**: He’s sorry. Her father. He told me, on the mountain. He’d have told her, if he could.
     - Link turns and looks at the castle for a long time. The red-black cloud turns over it, slow.
     - Then he nods, once, as if he has been given something to carry to someone.
+    - You give Link the old man’s last apple to carry, too. It has gone very wrinkled in your coat.
     - **Pixel**: That’s a message now. He’s got a message to deliver. Ruling: that’s the most important thing in his bag.
-- **Keep it for her, if you ever meet her.** — sets `{"pa5-14-told":"kept"}`
+- **Keep it for her, if you ever meet her.** — sets `{"pa5-14-told":"oldman-kept"}`
     - You keep it, in your coat with the photographs. Your Nubbin puts its blue flower on the fountain edge.
     - **Pixel**: Some things you say to the person themselves. Good call.
 
@@ -1131,7 +1231,7 @@ _You lay the photographs out on Impa’s floor. Some have a little blue tick in 
 **Choices**
 
 - **We’re ready.**
-    - **Impa**: Nobody is ever ready. Go anyway.
+    - **Impa**: Ready? I have been getting ready for a hundred years. Go anyway.
 - **Should we have looked for the rest?**
     - **Impa**: You came back. That is what matters most. The rest can be found another day.
 
@@ -1207,7 +1307,7 @@ Sets `{"pa5-thirteenth":true}`
 
 Sets on completion: `{"pa5-15":true}`
 
-**Notes:** MEMORY PAYOFF (quest 5, ten quests later). Title: "The Road to the Castle" as written; with the hunt it is shown as "The Thirteenth Photograph". RULE: if pa5-memories = all AND all twelve memories have been seen (four on-road plus the eight pa5-mem-* scenes), play PA5_VARIANTS pa5-15-impa-hunt, pa5-15-plain-hunt and pa5-15-complete-hunt in place of pa5-15-impa, pa5-15-plain and pa5-15-complete. pa5-15-complete-hunt sets pa5-thirteenth = true. With all but fewer than twelve found, play the scenes as written (Impa: some are still waiting). The hunt variant of step 1 keeps the step’s check. The Blatchery memory shows Link going down on one knee in the mud; never a wound.
+**Notes:** MEMORY PAYOFF (quest 5, ten quests later). Title: "The Road to the Castle" as written; with the hunt it is shown as "The Thirteenth Photograph". RULE: pa5-hunt = hunt (set by the eighth off-road memory, so all twelve have been seen) plays PA5_VARIANTS pa5-15-impa-hunt, pa5-15-plain-hunt and pa5-15-complete-hunt in place of pa5-15-impa, pa5-15-plain and pa5-15-complete. pa5-15-complete-hunt sets pa5-thirteenth = true. With photoroad, play the scenes as written (Impa: some are still waiting). The hunt variant of step 1 keeps the step’s check. The Blatchery memory shows Link going down on one knee in the mud; never a wound.
 
 ## PA5-16. Hyrule Castle
 
@@ -1241,6 +1341,8 @@ Hint: Up the long stair, through the library, to the top. · check: `climb:pa5-c
 #### <a id="pa5-16-climb"></a>Scene `pa5-16-climb`
 
 _Inside, the castle is silent. Dust lies on everything, and the Calamity’s ooze still drips from the ceilings._  
+_On the third stair someone has left a banana skin. Your Nubbin steps over it with the air of a veteran._  
+**Pixel**: The Yiga have been. Of course they have.  
 _You pass a library with its books still on the shelves, and a girl’s study with drawings of machines on the wall._  
 _In the study, on the desk, is a notebook, open. The ink is a hundred years old._  
 _Your Nubbin climbs on the chair and looks at it. You don’t read it; it isn’t yours._  
@@ -1382,6 +1484,17 @@ _Then the five figures fade, one after another, the way the king did on the temp
 #### <a id="pa5-18-seal-done"></a>Done `pa5-18-seal-done`
 
 _Where the gold light stood, there is a young woman in a white dress. She is very tired, and smiling._  
+**Pixel** _(soft)_: That’s the voice. The one in the cave, at the start. I said it wasn’t me. It’s on the record.  
+**Pixel** _(soft)_: She said it to one sleepy boy, for a hundred years. That’s love. Or stubbornness. Usually both.  
+
+#### <a id="pa5-18-seal-done-lent-jumper"></a>Variant `pa5-18-seal-done-lent-jumper`
+
+_Variant of `pa5-18-seal-done`._
+
+_Where the gold light stood, there is a young woman in a white dress. She is very tired, and smiling._  
+**Pixel** _(soft)_: That’s the voice. The one in the cave, at the start. I said it wasn’t me. It’s on the record.  
+**Pixel** _(soft)_: She said it to one sleepy boy, for a hundred years. That’s love. Or stubbornness. Usually both.  
+_Link is still wearing your jumper under his tunic. Zelda looks at it, then at you, and decides not to ask._  
 
 ### Step 2: Stay with them in the field.
 
@@ -1397,6 +1510,37 @@ _She turns back to Link. She looks at him for a long time, as if she’s afraid 
 _Link opens his mouth, for the first time since the pool. The screen goes white before you hear what he says._  
 **Pixel** _(shock)_: Oh, you’re joking. You are JOKING. They cut it there?  
 
+#### <a id="pa5-18-question-oldman-told"></a>Variant `pa5-18-question-oldman-told`
+
+_Variant of `pa5-18-question`._
+
+_Zelda walks across the grass to Link. You stand back a little with your Nubbin and the horse._  
+**Zelda**: Link. You did it. Thank you. I mean it: thank you, for coming back.  
+**Zelda** _(soft)_: And thank you, both of you. I don’t know you, but I think you’ve been carrying him a little.  
+_Link puts a small, wrinkled apple in her hand._  
+**Zelda** _(shock)_: This is from Father’s cabin. He never let anyone eat them cold.  
+_She holds it in both hands, like something warm. Then she laughs, and wipes her eyes with the heel of her hand._  
+_She turns back to Link. She looks at him for a long time, as if she’s afraid of the answer._  
+**Zelda**: Do you… really remember me?  
+_Link opens his mouth, for the first time since the pool. The screen goes white before you hear what he says._  
+**Pixel** _(shock)_: Oh, you’re joking. You are JOKING. They cut it there?  
+
+#### <a id="pa5-18-question-oldman-kept"></a>Variant `pa5-18-question-oldman-kept`
+
+_Variant of `pa5-18-question`._
+
+_Zelda walks across the grass to Link. You stand back a little with your Nubbin and the horse._  
+**Zelda**: Link. You did it. Thank you. I mean it: thank you, for coming back.  
+**Zelda** _(soft)_: And thank you, both of you. I don’t know you, but I think you’ve been carrying him a little.  
+**You**: Your father cooked for me once. He said everything is better roasted, apart from fingers.  
+**Zelda** _(shock)_: Father? Cooked? He once sent back a soup for being too round.  
+**You**: He said he was hard on you. He’s sorry.  
+_Zelda looks at the castle for a long moment. Then she laughs, and wipes her eyes with the heel of her hand._  
+_She turns back to Link. She looks at him for a long time, as if she’s afraid of the answer._  
+**Zelda**: Do you… really remember me?  
+_Link opens his mouth, for the first time since the pool. The screen goes white before you hear what he says._  
+**Pixel** _(shock)_: Oh, you’re joking. You are JOKING. They cut it there?  
+
 ### Complete
 
 #### <a id="pa5-18-complete"></a>Complete `pa5-18-complete`
@@ -1404,13 +1548,19 @@ _Link opens his mouth, for the first time since the pool. The screen goes white 
 _The credits roll over the field, the castle and the sky. Then the screen shows the field again, and the question._  
 _The shed comes back around you: sawdust, the heater, Pixel on her stool. Your Nubbin is asleep in your lap._  
 **Pixel**: That was good. That was really good. The end’s a question. I don’t mind a question.  
-**Pixel**: There are memories you didn’t find, you know. The cartridge keeps the photographs, if you want to go back and look.  
+**Pixel**: There are memories you didn’t find, you know. The slate kept the ones you did, though. It’s got an album.  
 
 **Choices**
 
-- **One day, we’ll go back and look.** — sets `{"pa5-18-after":"look"}`
-    - **Pixel**: I’ll mark them on the slate for you. They’ll keep. Memories are patient. That’s what the tiny lady said.
-- **Let the question stay a question.** — sets `{"pa5-18-after":"leave"}`
+- **Look through the ones we found.** — sets `{"pa5-18-after":"look-back"}`
+    - Pixel scrolls the slate’s album on the cabinet screen, one photograph at a time, with great ceremony.
+    - **Pixel**: The frog. The test shot. Not one of the twelve. Purah made it her lock screen.
+    - **Pixel**: Mipha, fixing his hand. Gently. Pointedly gently.
+    - **Pixel**: The tree in the rain. Two people being quiet at each other. Ten out of ten.
+    - **Pixel**: The sword in the stone. She parked it there herself. Very organised.
+    - **Pixel**: The fountain, and her dad. We don’t scroll fast past that one. But we do scroll.
+    - **Pixel**: That’s the album. Four and a frog. The rest are out in the hills, being patient. Like the tiny lady said.
+- **Let the question stay a question.** — sets `{"pa5-18-after":"leave-room"}`
     - **Pixel**: Fair. Some endings are better with a bit of room in them.
 
 #### <a id="pa5-18-complete-hunt"></a>Variant `pa5-18-complete-hunt`
@@ -1428,6 +1578,27 @@ _They get on their horses and ride out across the field, to start mending. Your 
 _The shed comes back around you: sawdust, the heater, Pixel on her stool, very quiet._  
 **Pixel** _(soft)_: Every memory. That’s what it was for. That’s the whole ending. I’m not crying. The heater’s too high.  
 
+**Choices**
+
+- **Look through the whole album.** — sets `{"pa5-18-after":"look-back"}`
+    - Pixel scrolls the slate’s album on the cabinet screen, one photograph at a time, with great ceremony.
+    - **Pixel**: The frog. The test shot. Purah made it her lock screen.
+    - **Pixel**: Six frogs in a jar. The control group. Peer review.
+    - **Pixel**: The blue flowers. She forgot to be cross with him for one whole frame.
+    - **Pixel**: The cold spring. He held the blanket. That’s the whole picture, and it’s enough.
+    - **Pixel**: Mipha, fixing his hand. Gently. Pointedly gently.
+    - **Pixel**: Daruk, and a rock that was apparently delicious.
+    - **Pixel**: Revali, being rude upwards.
+    - **Pixel**: Urbosa, and the king in the fountain. I’ve zoomed in on the crown. Twice.
+    - **Pixel**: The bridge. She told him to stop following her. He didn’t. Good.
+    - **Pixel**: The tree in the rain. Two people being quiet at each other. Ten out of ten.
+    - **Pixel**: The knighting. Daruk, losing a fight with his own grin.
+    - **Pixel**: The sword in the stone. She parked it there herself. Very organised.
+    - **Pixel**: The fountain, and her dad. We don’t scroll fast past that one. But we do scroll.
+    - **Pixel**: And the plain. Thirteen. I’ll just leave the album open on that one.
+- **Let it end there.** — sets `{"pa5-18-after":"leave-room"}`
+    - **Pixel**: Fair. Best ending in the cartridge. Still the heater, by the way.
+
 **Rewards**
 
 - The twelve photographs (decor): Impa’s twelve photographs in a frame on the cottage wall, filled in as you found each one.
@@ -1439,63 +1610,4 @@ Sets on completion: `{"pa5-18":true,"pa5-done":true}`
 
 - `pa5-18-complete-hunt#6` → I don’t mind. I really don’t.
 
-**Notes:** ENDINGS (quest 5 payoff, thirteen quests later). AS WRITTEN: the field and the question (pa5-thirteenth unset). WITH pa5-thirteenth = true: play PA5_VARIANTS pa5-18-complete-hunt instead of pa5-18-complete (the after-credits field: her power gone, they ride out to mend; lifted quote 2 at #6, with childLines). LOOK: pa5-18-after = look marks the off-road memory sites (as pa5-memories = all does); if all twelve are later seen, play pa5-15-impa-hunt then pa5-15-plain-hunt then pa5-18-complete-hunt once, from Impa’s house (one-time). The photo frame shows only the memories seen; the high-score plate counts towards High Score Night (any two of PA1–PA5). No Grove flag is written. Pixel’s "tiny lady" is Impa.
-
-## Variant scenes
-
-Variants with no parent scene in this storyline (Grove-side, campaign-side or shared scenes).
-
-#### <a id="pa5-mem-ceremony"></a>Variant `pa5-mem-ceremony`
-
-_A memory, at the old shrine in the meadow. Zelda, sixteen, stands before Link as he kneels in his blue tunic._  
-**Zelda** _(sad)_: I name you my knight. The sword chose you. I didn’t. Please understand that.  
-_Behind her, four Champions stand in a row, very straight. Daruk is trying not to grin, and failing._  
-_The memory goes. Your Nubbin is kneeling on the grass too, very solemnly, with its crown bowed._  
-
-#### <a id="pa5-mem-resentment"></a>Variant `pa5-mem-resentment`
-
-_A memory, on a bridge over a gorge. Zelda turns round sharply on Link, a few steps behind her._  
-**Zelda** _(angry)_: Stop following me. I know you’re ordered to. I don’t need a reminder of everything I can’t do.  
-_He stops, but he doesn’t go away. She walks on, and after a while, he follows at the same distance._  
-**Pixel**: Oof. She didn’t like him at first. That makes the rest better, somehow.  
-
-#### <a id="pa5-mem-silent-princess"></a>Variant `pa5-mem-silent-princess`
-
-_A memory, in a field of small blue flowers. Zelda is on her knees with a notebook, very happy._  
-**Zelda** _(happy)_: They only grow wild. Nobody can grow them in a garden. Isn’t that wonderful? They choose where they live.  
-_She looks up at Link, and for a moment forgets to be cross with him._  
-_The memory goes. Your Nubbin is sitting in the same field, among the same flowers, a hundred years later._  
-
-#### <a id="pa5-mem-revali"></a>Variant `pa5-mem-revali`
-
-_A memory, on the Rito landing. Revali, alive, hovers above Link on a gust of his own making._  
-**Revali**: So you’re the chosen knight. I’m sure the sword knows best. I’m sure it’s not just luck.  
-_He shoots up out of sight. Link doesn’t rise to it; he nods to the empty air where Revali was._  
-**Pixel**: He’s so rude. He’s brilliant. Both. That’s allowed.  
-
-#### <a id="pa5-mem-daruk"></a>Variant `pa5-mem-daruk`
-
-_A memory, on the crater edge. Daruk, alive, claps Link on the back so hard Link nearly goes over._  
-**Daruk** _(happy)_: Little guy, you’re all right! Come back up and we’ll eat rocks. The good ones. Not the gravel.  
-_The memory goes. Your Nubbin is standing on the crater edge, looking at a rock, as if it might be a good one._  
-
-#### <a id="pa5-mem-urbosa"></a>Variant `pa5-mem-urbosa`
-
-_A memory, in the desert. Urbosa, alive, is laughing with Zelda, who is laughing so hard she has to sit down._  
-**Urbosa** _(happy)_: And then your father fell straight into the fountain. In the crown. In front of everyone.  
-**Zelda** _(happy)_: Don’t. Don’t. I can’t breathe.  
-_Link stands guard behind them, very straight. One corner of his mouth is trying to move._  
-
-#### <a id="pa5-mem-spring"></a>Variant `pa5-mem-spring`
-
-_A memory, at a cold spring high in the mountains. Zelda is standing in water up to her waist, praying._  
-_Her lips are blue, and nothing comes. Link waits on the bank with a blanket, because there is nothing else to do._  
-**Zelda** _(sad)_: Nothing. Again.  
-_He holds the blanket out. After a long moment, she takes it._  
-
-#### <a id="pa5-mem-frog"></a>Variant `pa5-mem-frog`
-
-_A memory, by a pond. Zelda is holding out a frog to Link in both hands, very pleased._  
-**Zelda** _(happy)_: Hot-footed frog. They say eating one makes you quicker. Science! Well. Possibly science. Try it.  
-_Link looks at the frog, and the frog looks at Link. The memory, mercifully, ends._  
-_Your Nubbin sits by the same pond, a hundred years later, and looks at a frog with deep suspicion._  
+**Notes:** ENDINGS (quest 5 payoff, thirteen quests later). AS WRITTEN: the field and the question (pa5-hunt unset). WITH pa5-hunt = hunt: PA5_VARIANTS pa5-18-complete-hunt replaces pa5-18-complete (the after-credits field: her power gone, they ride out to mend; lifted quote 2 at #6, with childLines). pa5-14-told picks pa5-18-question-oldman-told | -oldman-kept (the father’s message reaches Zelda); pa5-jumper picks pa5-18-seal-done-lent-jumper. LOOK: Pixel scrolls the slate album in the look choice, one line per memory found (four and the frog as written; all thirteen in the hunt variant, which keeps the same choice ids). Nothing replays. The photo frame shows only the memories seen; the high-score plate counts towards High Score Night (any two of PA1–PA5). No Grove flag is written. Pixel’s "tiny lady" is Impa.

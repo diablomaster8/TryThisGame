@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 17 fixes (2026-10-26)
+
+- **Works:** 57 of run 17's 58 recs fixed across PA4, PA5, LB and LK with their bands, and the
+  Hebrew line. PA4's Wisp, Clank, candy and friend beats and PA5's eight memories now actually
+  play (replacing variants, `GROVE_VALUE_ALIASES` and PA4's `lineLive`, with tests). LK's reader
+  counts ten crocodiles again; "arba" is glossed ar-BAH. Flag values no longer collide with Grove's.
+- **Partial:** SR-20261026-939: LK's renamed variants have no test, because no engine plays LK yet.
+- **Known bugs:** LB and LK are not wired into any sim engine (CV4); their variants wait for it.
+
 ## Story review run 16 fixes (2026-10-26)
 
 - **Works:** all 57 run-16 recs fixed across PA1 with its bands, PA2, PA3, the A30 bands and A31
@@ -128,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   over-long replies are trimmed.
 - **Partial:** none.
 - **Known bugs:** none new. Some reader lessons carry no standard tag where no grades 3–5 code fits.
-
-## Story review run 13 fixes (2026-10-25)
-
-- **Works:** all 60 run-13 recs fixed across A19, A20 and A22 with their bands, plus A21. A21 shows the
-  Grove neighbour as "Keeper Fern" through a page-local speaker. A20's Thor escalates to the millstone
-  before Baldr's death, and A22's dinner has Pepa's cloud and Félix's umbrellas back.
-- **Partial:** none.
-- **Known bugs:** none new. `tests/tools/script-book.ts` now keeps page-local name-plates of shared
-  speakers out of other storylines' renders.
 
 ## Standing approval (Maor, 2026-10-12)
 

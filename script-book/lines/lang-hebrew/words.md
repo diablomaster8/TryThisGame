@@ -25,7 +25,7 @@ Hebrew is written right to left. It has 22 letters and no capital letters. Vowel
 | אַחַת | אחת | achat | one (1) | ah-KHAT | numbers | LH3 | both | The form used when counting aloud. “Ch” is the throaty sound in Scottish “loch”. | `he/achat` |
 | שְׁתַּיִם | שתיים | shtayim | two (2) | SHTAI-yim | numbers | LH3 | both | The form used when counting aloud. Stress on the first syllable. Plain form doubles the yod (שתיים) to show it is the consonant “y”, the usual modern spelling. | `he/shtayim` |
 | שָׁלוֹשׁ | שלוש | shalosh | three (3) | sha-LOSH | numbers | LH3 | both | The form used when counting aloud. | `he/shalosh` |
-| אַרְבַּע | ארבע | arba | four (4) | AR-bah | numbers | LH3 | both | The form used when counting aloud. Stress on the first syllable. | `he/arba` |
+| אַרְבַּע | ארבע | arba | four (4) | ar-BAH | numbers | LH3 | both | The form used when counting aloud. Stress on the last syllable, unlike sheva, tesha and eser. | `he/arba` |
 | חָמֵשׁ | חמש | chamesh | five (5) | kha-MESH | numbers | LH3 | both | The form used when counting aloud. Throaty “ch”, as in “loch”. | `he/chamesh` |
 | שֵׁשׁ | שש | shesh | six (6) | SHESH | numbers | LH3 | both | The form used when counting aloud. | `he/shesh` |
 | שֶׁבַע | שבע | sheva | seven (7) | SHEH-vah | numbers | LH3 | both | The form used when counting aloud. Stress on the first syllable. | `he/sheva` |

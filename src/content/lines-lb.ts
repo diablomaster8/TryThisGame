@@ -28,20 +28,24 @@
  * Grove flags read: none.
  * Flags written (all the line’s own, prefixed `lb-`; none is a Grove flag):
  *   lb-moved-in  true when LB1 completes (Tier 2: the cottage past Fern’s is lived in).
- *   lb-box       big | long | tall, LB1’s signature choice (Ned’s box). Read by the LB6 den-door
+ *   lb-box       box-big | box-long | box-tall, LB1’s signature choice (Ned’s box). Read by the LB6 den-door
  *                variant and the LB12 payoff variant: big = house, long = boat, tall = rocket.
- *   lb-race      proper | let-win | hand, LB11’s choice (reader only; sprout defaults to hand).
+ *   lb-race      race-proper | race-let-win | race-hand, LB11’s choice (reader only; sprout defaults to hand).
  *                Read by the LB12 arrival variant: proud and loud, too pleased with himself, or
  *                holding Maisie’s hand.
  *   lb-done      true when LB12 completes (Tier 2 ambient, see LB12 notes).
- *   lb-star-wish = wish | hum | nubbin (LB12, lb12-waiting): read once more in LB12's complete scene
- *                (lb12-complete-wish for wish).
+ *   lb-star-wish = star-wish | star-hum | star-nubbin (LB12, lb12-waiting): read once more in LB12's complete scene
+ *                (lb12-complete-star-wish for star-wish).
  *   lb-ned-shop, lb-den-story, lb-shadow, lb-map-fair, lb-cafe-reply, lb-boat:
  *                harmless choice flags: recorded for the journal, read by nothing.
  *
- * Variants (LINE_LB_VARIANTS): lb06-door-big | -long | -tall (play straight after lb06-built);
- * then lb12-ned-proper | -let-win | -hand and then lb12-box-big | -long | -tall (both play straight
- * after lb12-arrive, in that order, before the step-2 scene lb12-waiting).
+ * Variants (LINE_LB_VARIANTS): each one replaces its host scene (variantFor picks `<host>-<answer>`):
+ * lb06-built-box-big | -box-long | -box-tall (the den door, by lb-box); lb12-arrive-race-proper |
+ * -race-let-win | -race-hand (Ned’s arrival, by lb-race); lb12-waiting-box-big | -box-long | -box-tall
+ * (Ned’s box, by lb-box); lb10-complete-boat-cork | -boat-walnut (by lb-boat; raft is the base);
+ * lb12-complete-star-wish (by lb-star-wish). Every LB flag value carries a prefix (box-, race-, boat-,
+ * star-, ...) so none can match a Grove value.
+ * Each holds its host’s full lines and choices, with the extra lines spliced in.
  *
  * Lifted text: none. Bluey is copyrighted and nothing is quoted from it, so there are no
  * childLines: every line is original.
@@ -128,6 +132,11 @@ export const LINE_LB: Quest[] = [
             N('The empty cottage has its windows open. You have never seen them open before.'),
             AMA('Oh, hello! You must be next door. Well, next door but one. I’m Ama.', 'happy'),
             AMA(
+              'We’ve come all the way from Brisbane, in Australia. The van has been very patient.',
+            ),
+            NED('I was patient too.'),
+            AMA('You bit the van.'),
+            AMA(
               'I drive the post van. It isn’t usually full of our own socks. Usually it’s everyone else’s parcels.',
             ),
             SAM('Sam. Hello. Sorry. We’ve been up since four.', 'soft'),
@@ -152,6 +161,9 @@ export const LINE_LB: Quest[] = [
             N(
               'Maisie and Ned are not looking at the kettle. They are looking at the empty boxes, the way other children look at cake.',
             ),
+            NED('I didn’t drop anything. Not one thing.'),
+            MAI('You didn’t carry anything.'),
+            NED('That’s how.', 'happy'),
           ],
         },
       },
@@ -190,7 +202,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'big',
               label: 'The big one. You could live in it.',
-              set: { 'lb-box': 'big' },
+              set: { 'lb-box': 'box-big' },
               then: [
                 N('Ned climbs into the big box and pulls the flaps shut over his head.'),
                 NED('It’s got a ROOF.', 'happy'),
@@ -199,7 +211,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'long',
               label: 'The long one. It’s the shape of a boat.',
-              set: { 'lb-box': 'long' },
+              set: { 'lb-box': 'box-long' },
               then: [
                 N(
                   'Ned lies down in the long box. It fits him exactly, with room at the end for your Nubbin.',
@@ -210,7 +222,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'tall',
               label: 'The tall one. It’s nearly as tall as Ned.',
-              set: { 'lb-box': 'tall' },
+              set: { 'lb-box': 'box-tall' },
               then: [
                 N('Ned stands up inside the tall box. Only his eyes show over the top.'),
                 NED('It goes UP.', 'happy'),
@@ -351,13 +363,13 @@ export const LINE_LB: Quest[] = [
             {
               id: 'swap-sale',
               label: 'Ned sells one thing, then you swap.',
-              set: { 'lb-ned-shop': 'swap' },
+              set: { 'lb-ned-shop': 'shop-swap' },
               then: [MAI('One each. Fine. But I’m having the window leaf.')],
             },
             {
               id: 'two-shops',
               label: 'Two shops, side by side. I’ll shop at both.',
-              set: { 'lb-ned-shop': 'two' },
+              set: { 'lb-ned-shop': 'shop-two' },
               then: [
                 N('Maisie sets up her tea towel next to Ned’s. Now the step has a high street.'),
               ],
@@ -365,7 +377,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'tin-turns',
               label: 'Whoever’s selling holds the tin.',
-              set: { 'lb-ned-shop': 'tin' },
+              set: { 'lb-ned-shop': 'shop-tin' },
               then: [NED('And then I get it back?'), MAI('Then you get it back.')],
             },
           ],
@@ -692,10 +704,8 @@ export const LINE_LB: Quest[] = [
             N(
               'Maisie opens her mouth to say something. Then she looks at Ned’s face and closes it again.',
             ),
-            MAI(
-              'How do you tell somebody they’ve done it wrong, without making them sad?',
-              'think',
-            ),
+            MAI('He’s bandaged the wrong foot. Your Nubbin is limping on the other one, to be polite.', 'think'),
+            MAI('If I say “wrong”, Ned will cry. If I don’t, the patient limps for ever.', 'think'),
             N(
               'Your Nubbin lies quite still, wrapped up to the knee, looking pleased with the attention.',
             ),
@@ -821,7 +831,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'story',
               label: 'Tell a story about a den in the rain.',
-              set: { 'lb-den-story': 'story' },
+              set: { 'lb-den-story': 'den-story' },
               then: [
                 N(
                   'You tell a story about a den that floats away down the lane and comes back in time for tea. Ned makes you tell it twice.',
@@ -831,7 +841,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'listen',
               label: 'Just listen to the rain.',
-              set: { 'lb-den-story': 'listen' },
+              set: { 'lb-den-story': 'den-listen' },
               then: [
                 N('Nobody says anything for a while. The rain does the talking.'),
                 MAI('This is the quietest Ned has ever been.', 'soft'),
@@ -840,7 +850,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'drips',
               label: 'Count the drips from the gutter.',
-              set: { 'lb-den-story': 'drips' },
+              set: { 'lb-den-story': 'den-drips' },
               then: [
                 N(
                   'You count drips out loud together. You get to forty-one, and then the drips go too fast and you all give up laughing.',
@@ -874,8 +884,8 @@ export const LINE_LB: Quest[] = [
       },
     ],
     notes:
-      'The Larkins’ front room on a rainy day. After lb06-built, play the den-door variant chosen by lb-box: lb06-door-big, ' +
-      '-long or -tall (Ned’s box from LB1 becomes the den’s door; if lb-box is somehow unset, use -big). Ama is home (Saturday). ' +
+      'The Larkins’ front room on a rainy day. lb06-built is replaced by the den-door variant chosen by lb-box: lb06-built-box-big, ' +
+      '-box-long or -box-tall (Ned’s box from LB1 becomes the den’s door; if lb-box is somehow unset, use -box-big). Ama is home (Saturday). ' +
       'Reward: a blanket den decor for the Grove; Nubbins prefer to nap in it during rain (ambient behaviour, no stat effect).',
   },
 
@@ -951,7 +961,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'bird',
               label: 'A bird, flapping.',
-              set: { 'lb-shadow': 'bird' },
+              set: { 'lb-shadow': 'shadow-bird' },
               then: [
                 N(
                   'Your two hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.',
@@ -961,7 +971,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'nubbin',
               label: 'Put your Nubbin in the light.',
-              set: { 'lb-shadow': 'nubbin' },
+              set: { 'lb-shadow': 'shadow-nubbin' },
               then: [
                 N(
                   'Your Nubbin sees its own shape on the sheet and waves a wing. So does the shadow.',
@@ -971,7 +981,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'monster',
               label: 'A friendly monster.',
-              set: { 'lb-shadow': 'monster' },
+              set: { 'lb-shadow': 'shadow-monster' },
               then: [
                 N('You make a big shadow with claws. It waves, very politely.'),
                 NED('Hello, monster.', 'happy'),
@@ -1038,6 +1048,10 @@ export const LINE_LB: Quest[] = [
             AMA(
               'Every house, every gate, every pothole. I know this lane better than my own feet.',
             ),
+            SAM('You got lost coming back from the bins on Tuesday.'),
+            AMA('It was dark.'),
+            SAM('It was eleven in the morning.'),
+            AMA('It was a very cloudy eleven.'),
             N(
               'There is your pond, your gate that sticks, the big oak, and a red X past the oak, by the old wall.',
             ),
@@ -1076,13 +1090,13 @@ export const LINE_LB: Quest[] = [
             {
               id: 'fair',
               label: '“Treasure hunts are meant to be a bit tricky.”',
-              set: { 'lb-map-fair': 'fair' },
+              set: { 'lb-map-fair': 'map-fair' },
               then: [MAI('See? Tricky is the fun bit.'), NED('Tricky is the CROSS bit.', 'angry')],
             },
             {
               id: 'not-fair',
               label: '“A map’s a kind of promise, Maisie.”',
-              set: { 'lb-map-fair': 'promise' },
+              set: { 'lb-map-fair': 'map-promise' },
               then: [
                 MAI('…I suppose.', 'think'),
                 N(
@@ -1093,7 +1107,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'ask-why',
               label: 'Ask Maisie why she moved it.',
-              set: { 'lb-map-fair': 'asked' },
+              set: { 'lb-map-fair': 'map-asked' },
               then: [
                 MAI(
                   'I wanted to be the one who knew something. Ned always finds things first.',
@@ -1211,7 +1225,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'thank-and-ask',
               label: '“Thank you! Could I have the sandwich as well?”',
-              set: { 'lb-cafe-reply': 'ask' },
+              set: { 'lb-cafe-reply': 'cafe-ask' },
               then: [
                 NED('Oh! The sandwich! Coming right up.', 'shock'),
                 N('He comes back with a second pine cone. This one, he says, is the sandwich.'),
@@ -1220,7 +1234,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'enjoy',
               label: 'Eat the pine cone with great pleasure.',
-              set: { 'lb-cafe-reply': 'enjoy' },
+              set: { 'lb-cafe-reply': 'cafe-enjoy' },
               then: [
                 N(
                   'You pretend to eat the pine cone, slowly, with your eyes closed. Ned watches every bite.',
@@ -1232,7 +1246,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'mix-up',
               label: '“Excuse me. I think there’s been a little mix-up.”',
-              set: { 'lb-cafe-reply': 'mix-up' },
+              set: { 'lb-cafe-reply': 'cafe-mix-up' },
               then: [
                 NED('Is it the wrong one?', 'sad'),
                 Y('It’s a lovely cake. I ordered the sandwich, that’s all.'),
@@ -1246,8 +1260,9 @@ export const LINE_LB: Quest[] = [
     complete: {
       id: 'lb09-complete',
       lines: [
-        N('Ama comes home and sits down in her post-office jacket at the fourth plate.'),
-        AMA('Table for one, please. Anything that comes with tea.'),
+        N('Ama comes home in her post-office jacket. Your Nubbin is in her chair, eating leaves off the frisbee.'),
+        N('It shuffles along the cushion to make room, and keeps the leaves.'),
+        AMA('Table for one and a half, please. Anything that comes with tea.'),
         N(
           'Ned brings her a real cup of tea, which Sam made, and a pine cone, which Ned made. She is delighted with both.',
         ),
@@ -1338,13 +1353,13 @@ export const LINE_LB: Quest[] = [
             {
               id: 'cork',
               label: 'The cork, with the leaf sail.',
-              set: { 'lb-boat': 'cork' },
+              set: { 'lb-boat': 'boat-cork' },
               then: [N('The cork boat leans into the breeze and sets off, steady as a duck.')],
             },
             {
               id: 'raft',
               label: 'The bark raft.',
-              set: { 'lb-boat': 'raft' },
+              set: { 'lb-boat': 'boat-raft' },
               then: [
                 N(
                   'The raft is slow and flat and sensible. It goes exactly where the breeze tells it.',
@@ -1354,7 +1369,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'walnut',
               label: 'The walnut shell, with Ned.',
-              set: { 'lb-boat': 'walnut' },
+              set: { 'lb-boat': 'boat-walnut' },
               then: [
                 N(
                   'The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.',
@@ -1453,7 +1468,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'proper',
               label: 'Race properly. Ned can finish, even if he’s last.',
-              set: { 'lb-race': 'proper' },
+              set: { 'lb-race': 'race-proper' },
               then: [
                 N(
                   'Ned gets up, slowly. He runs the whole race and comes last, but this time he runs all the way, and you cheer him over the rope.',
@@ -1464,7 +1479,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'let-win',
               label: 'Everyone slows down so Ned wins.',
-              set: { 'lb-race': 'let-win' },
+              set: { 'lb-race': 'race-let-win' },
               then: [
                 N('Everyone jogs, Maisie very slowly and with a face. Ned wins by a mile.'),
                 NED('I WON! I’m the fastest in the valley!', 'happy'),
@@ -1477,7 +1492,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'hand',
               label: 'Race holding hands, all together.',
-              set: { 'lb-race': 'hand' },
+              set: { 'lb-race': 'race-hand' },
               then: [
                 N(
                   'Maisie holds out her hand to Ned, and he takes it. You all run the last race in a line, holding hands.',
@@ -1559,6 +1574,10 @@ export const LINE_LB: Quest[] = [
               'I hear there’s a game where I have to lie down. I’ve been practising all day.',
               'happy',
             ),
+            N('Ned empties his pockets onto the grass: a torch, a biscuit, and a teaspoon.'),
+            SAM('Is that my good teaspoon?'),
+            NED('It’s for the stars.'),
+            SAM('Of course it is.'),
           ],
         },
       },
@@ -1590,7 +1609,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'wish',
               label: 'Make a quiet wish for the Larkins.',
-              set: { 'lb-star-wish': 'wish' },
+              set: { 'lb-star-wish': 'star-wish' },
               then: [
                 N(
                   'You make a wish. You don’t say it out loud, because that is the rule with wishes.',
@@ -1600,7 +1619,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'hum',
               label: 'Hum something very quietly.',
-              set: { 'lb-star-wish': 'hum' },
+              set: { 'lb-star-wish': 'star-hum' },
               then: [
                 N(
                   'You hum a tune you half remember. After a while Ama hums it too, and gets the end right.',
@@ -1610,7 +1629,7 @@ export const LINE_LB: Quest[] = [
             {
               id: 'watch-nubbin',
               label: 'Watch your Nubbin fall asleep.',
-              set: { 'lb-star-wish': 'nubbin' },
+              set: { 'lb-star-wish': 'star-nubbin' },
               then: [
                 N('Your Nubbin’s emote ball dims to a soft glow, and then goes out. It is asleep.'),
               ],
@@ -1641,7 +1660,10 @@ export const LINE_LB: Quest[] = [
         N('Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you.'),
         AMA('That box should stay out here for good, I think. It’s earned its place.'),
         N(
-          'In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N).',
+          'In the morning there is a small painted box on your doorstep, with a note in Ama’s writing: FOR YOUR NUBBIN FROM NED.',
+        ),
+        N(
+          'Under it, in green crayon, is a very large N, the wrong way round. Ama has added: (HE DID THE N. YOU CAN TELL.)',
         ),
       ],
     },
@@ -1657,9 +1679,9 @@ export const LINE_LB: Quest[] = [
     sets: { 'lb-done': true },
     notes:
       'A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear ' +
-      'one by one (the first, low in the west, may be Venus). After lb12-arrive, play lb12-ned-<lb-race> (proper | let-win | ' +
-      'hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). If lb-star-wish = wish, ' +
-      'play lb12-complete-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small ' +
+      'one by one (the first, low in the west, may be Venus). lb12-arrive is replaced by lb12-arrive-<lb-race> (race-proper | race-let-win | ' +
+      'race-hand; default race-hand) and lb12-waiting by lb12-waiting-<lb-box> (box-big = house, box-long = boat, box-tall = rocket; default box-big). If lb-star-wish = star-wish, ' +
+      'play lb12-complete-star-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small ' +
       'decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, ' +
       'Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket ' +
       '(ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.',
@@ -1669,10 +1691,10 @@ export const LINE_LB: Quest[] = [
 // ================================================================ variants
 
 /** Scenes picked by the line’s own flags (lb-box, lb-race). Where each plays is in the quest notes. */
-export const LINE_LB_VARIANTS: Scene[] = [
-  // ---------------------------------------------------------------- LB12, in place of lb12-complete, when lb-star-wish = wish
+const VARIANT_PARTS: Scene[] = [
+  // ---------------------------------------------------------------- LB12, in place of lb12-complete, when lb-star-wish = star-wish
   {
-    id: 'lb12-complete-wish',
+    id: 'lb12-complete-star-wish',
     lines: [
       N(
         'Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be.',
@@ -1684,7 +1706,10 @@ export const LINE_LB_VARIANTS: Scene[] = [
       N('Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you.'),
       AMA('That box should stay out here for good, I think. It’s earned its place.'),
       N(
-        'In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N).',
+        'In the morning there is a small painted box on your doorstep, with a note in Ama’s writing: FOR YOUR NUBBIN FROM NED.',
+      ),
+      N(
+        'Under it, in green crayon, is a very large N, the wrong way round. Ama has added: (HE DID THE N. YOU CAN TELL.)',
       ),
     ],
   },
@@ -1782,6 +1807,73 @@ export const LINE_LB_VARIANTS: Scene[] = [
   },
 ];
 
+/** A main host scene by id (step scene, done scene or complete scene). */
+const mainScene = (id: string): Scene => {
+  for (const q of LINE_LB) {
+    for (const st of q.steps ?? []) {
+      if (st.scene.id === id) return st.scene;
+      if (st.done?.id === id) return st.done;
+    }
+    if (q.complete?.id === id) return q.complete;
+  }
+  throw new Error(`lines-lb: no host scene ${id}`);
+};
+
+/** Where each variant part is spliced into its host: the end, or before this line index. */
+const MAIN_SPLICES: { part: string; host: string; answer: string; at: number | 'end' }[] = [
+  { part: 'lb06-door-big', host: 'lb06-built', answer: 'box-big', at: 'end' },
+  { part: 'lb06-door-long', host: 'lb06-built', answer: 'box-long', at: 'end' },
+  { part: 'lb06-door-tall', host: 'lb06-built', answer: 'box-tall', at: 'end' },
+  { part: 'lb12-ned-proper', host: 'lb12-arrive', answer: 'race-proper', at: 2 },
+  { part: 'lb12-ned-let-win', host: 'lb12-arrive', answer: 'race-let-win', at: 2 },
+  { part: 'lb12-ned-hand', host: 'lb12-arrive', answer: 'race-hand', at: 2 },
+  { part: 'lb12-box-big', host: 'lb12-waiting', answer: 'box-big', at: 0 },
+  { part: 'lb12-box-long', host: 'lb12-waiting', answer: 'box-long', at: 0 },
+  { part: 'lb12-box-tall', host: 'lb12-waiting', answer: 'box-tall', at: 0 },
+];
+
+/** The cork and walnut endings of the boat race: the raft’s base scene with its first line changed. */
+const BOAT_ENDINGS: { answer: string; first: string }[] = [
+  {
+    answer: 'boat-cork',
+    first:
+      'The raft wins, by drifting. Your cork comes second, and leans over in the breeze as if to shake hands.',
+  },
+  {
+    answer: 'boat-walnut',
+    first:
+      'The raft wins, by drifting. The walnut is still spinning in the middle of the pond, and Ned has declared it the winner of spinning.',
+  },
+];
+
+/**
+ * Scenes picked by the line’s own flags (lb-box, lb-race, lb-boat). variantFor replaces a host
+ * scene with `<host>-<answer>`, so each one is the host’s full lines with the part spliced in
+ * (the host’s choices carry over unchanged). The quest notes say where each plays.
+ */
+export const LINE_LB_VARIANTS: Scene[] = [
+  ...VARIANT_PARTS.filter((p) => !MAIN_SPLICES.some((t) => t.part === p.id)),
+  ...MAIN_SPLICES.map((t): Scene => {
+    const host = mainScene(t.host);
+    const part = VARIANT_PARTS.find((p) => p.id === t.part);
+    if (!part) throw new Error(`lines-lb: no variant part ${t.part}`);
+    const at = t.at === 'end' ? host.lines.length : t.at;
+    return {
+      ...host,
+      id: `${t.host}-${t.answer}`,
+      lines: [...host.lines.slice(0, at), ...part.lines, ...host.lines.slice(at)],
+    };
+  }),
+  ...BOAT_ENDINGS.map((b): Scene => {
+    const host = mainScene('lb10-complete');
+    return {
+      ...host,
+      id: `lb10-complete-${b.answer}`,
+      lines: [N(b.first), ...host.lines.slice(1)],
+    };
+  }),
+];
+
 // ================================================================ checks and flags
 
 export const LINE_LB_CHECKS: string[] = [
@@ -1814,15 +1906,15 @@ export const LINE_LB_CHECKS: string[] = [
 /** Every flag LB sets. None is a Grove flag; the line reads no Grove flags. */
 export const LINE_LB_FLAGS: string[] = [
   'lb-moved-in', // true, LB1 complete
-  'lb-box', // big | long | tall (lb01-boxes); read by lb06-door-* and lb12-box-*
-  'lb-ned-shop', // swap | two | tin (lb02-turns)
-  'lb-den-story', // story | listen | drips (lb06-inside)
-  'lb-shadow', // bird | nubbin | monster (lb07-show)
-  'lb-map-fair', // fair | promise | asked (lb08-moved)
-  'lb-cafe-reply', // ask | enjoy | mix-up (lb09-order)
-  'lb-boat', // cork | raft | walnut (lb10-sail)
-  'lb-race', // proper | let-win | hand (lb11-facedown); read by lb12-ned-*
-  'lb-star-wish', // wish | hum | nubbin (lb12-waiting)
+  'lb-box', // box-big | box-long | box-tall (lb01-boxes); read by lb06-built-* and lb12-waiting-*
+  'lb-ned-shop', // shop-swap | shop-two | shop-tin (lb02-turns)
+  'lb-den-story', // den-story | den-listen | den-drips (lb06-inside)
+  'lb-shadow', // shadow-bird | shadow-nubbin | shadow-monster (lb07-show)
+  'lb-map-fair', // map-fair | map-promise | map-asked (lb08-moved)
+  'lb-cafe-reply', // cafe-ask | cafe-enjoy | cafe-mix-up (lb09-order)
+  'lb-boat', // boat-cork | boat-raft | boat-walnut (lb10-sail); read by lb10-complete-*
+  'lb-race', // race-proper | race-let-win | race-hand (lb11-facedown); read by lb12-arrive-*
+  'lb-star-wish', // star-wish | star-hum | star-nubbin (lb12-waiting)
   'lb-done', // true, LB12 complete (Tier 2 ambient)
 ];
 
@@ -1948,7 +2040,7 @@ const SPROUT: EduQuest[] = [
         'lb01-van',
         [
           N('A red van stops in the lane. Beep beep!'),
-          N('A new family is moving in, next door but one.'),
+          N('A new family is moving in, two houses along.'),
           AMA('Hello! I’m Ama. I drive the post van.', 'happy'),
           SAM('I’m Sam. We’re very sleepy. We got up so early!', 'soft'),
           MAI('I’m Maisie. I’m six. I make the rules.'),
@@ -2047,19 +2139,19 @@ const SPROUT: EduQuest[] = [
             'big',
             'The big box. It’s like a house!',
             [N('Ned climbs in and shuts the top.'), NED('It has a ROOF!', 'happy')],
-            { 'lb-box': 'big' },
+            { 'lb-box': 'box-big' },
           ),
           ch(
             'long',
             'The long box. It’s like a boat!',
             [N('Ned lies down in it. He fits just right.'), NED('Shh. I’m lying down.', 'happy')],
-            { 'lb-box': 'long' },
+            { 'lb-box': 'box-long' },
           ),
           ch(
             'tall',
             'The tall box. It goes up high!',
             [N('Ned stands in it. Only his eyes peep out.'), NED('It goes UP!', 'happy')],
-            { 'lb-box': 'tall' },
+            { 'lb-box': 'box-tall' },
           ),
         ],
       ),
@@ -2170,7 +2262,7 @@ const SPROUT: EduQuest[] = [
           MAI('My turn to be the shopkeeper!'),
           NED('It’s MY shop!', 'angry'),
           N('Ned holds the tin tight. Maisie folds her arms.'),
-          SAM('Can two shopkeepers work this out?'),
+          SAM('Can two shopkeepers sort this out?'),
           MAI('Ned could be the customer. Customers are important too.'),
         ],
         [
@@ -2190,19 +2282,19 @@ const SPROUT: EduQuest[] = [
         ],
         [
           ch('swap-sale', 'Ned sells one thing, then swap.', [MAI('One each. Fine!')], {
-            'lb-ned-shop': 'swap',
+            'lb-ned-shop': 'shop-swap',
           }),
           ch(
             'two-shops',
             'Two shops, side by side!',
             [N('Now there are two shops. You can buy from both!')],
-            { 'lb-ned-shop': 'two' },
+            { 'lb-ned-shop': 'shop-two' },
           ),
           ch(
             'tin-turns',
             'Whoever sells holds the tin.',
             [NED('And then I get it back?'), MAI('Then you get it back.')],
-            { 'lb-ned-shop': 'tin' },
+            { 'lb-ned-shop': 'shop-tin' },
           ),
         ],
       ),
@@ -2346,13 +2438,15 @@ const SPROUT: EduQuest[] = [
         [
           N('Everyone gets to the fence. Then everyone goes back!'),
           N('The tickly fingers catch Ned’s foot. He falls in the grass, laughing.'),
-          SAM('Got one! Now the pond monster wants a cup of tea.'),
+          SAM('Got one! The pond monster wants tea.'),
+          MAI('Pond monsters don’t drink tea!'),
+          SAM('This one does. Two sugars.', 'happy'),
           N('Ned makes pretend tea in a flowerpot.'),
           N('Sam drinks every pretend drop. Slurp!'),
         ],
         [
           ask(
-            3,
+            5,
             m(
               'literacy',
               'pretend play',
@@ -2476,6 +2570,9 @@ const SPROUT: EduQuest[] = [
           NED('Got it!', 'happy'),
           SAM('Beaten by the smallest statue. One more go?'),
           N('Ned breaks the biscuit. One piece for each player.'),
+          SAM('And one for the giant?'),
+          NED('Giants are asleep!', 'happy'),
+          N('Sam does a very loud snore.'),
         ],
         [
           act(
@@ -2607,7 +2704,8 @@ const SPROUT: EduQuest[] = [
         [
           N('Your Nubbin walks home in two toilet-paper boots!'),
           NED('It was a very brave patient.', 'soft'),
-          MAI('Dad, you need more sleep. Have a nap!'),
+          N('Sam peeks in for a pencil. Maisie looks at him very hard.'),
+          MAI('Dad, you look tired. The doctor says nap!'),
           SAM('The best medicine!', 'happy'),
         ],
         [
@@ -2720,16 +2818,16 @@ const SPROUT: EduQuest[] = [
             'story',
             'Tell a story about a den.',
             [N('A den floats down the lane, then comes home for tea!')],
-            { 'lb-den-story': 'story' },
+            { 'lb-den-story': 'den-story' },
           ),
           ch('listen', 'Listen to the rain.', [N('Shh. Tap, tap, tap. The rain is talking.')], {
-            'lb-den-story': 'listen',
+            'lb-den-story': 'den-listen',
           }),
           ch(
             'drips',
             'Count the drips.',
             [N('One drip, two drips, three drips… too many! Everyone laughs.')],
-            { 'lb-den-story': 'drips' },
+            { 'lb-den-story': 'den-drips' },
           ),
         ],
       ),
@@ -2846,16 +2944,16 @@ const SPROUT: EduQuest[] = [
         ],
         [
           ch('bird', 'A flapping bird.', [N('Flap, flap! Ned tries to catch it.')], {
-            'lb-shadow': 'bird',
+            'lb-shadow': 'shadow-bird',
           }),
           ch('nubbin', 'Your Nubbin!', [N('Your Nubbin waves a wing. The shadow waves too!')], {
-            'lb-shadow': 'nubbin',
+            'lb-shadow': 'shadow-nubbin',
           }),
           ch(
             'monster',
             'A friendly monster.',
             [N('A big shadow monster waves hello.'), NED('Hello, monster!', 'happy')],
-            { 'lb-shadow': 'monster' },
+            { 'lb-shadow': 'shadow-monster' },
           ),
         ],
       ),
@@ -2971,23 +3069,23 @@ const SPROUT: EduQuest[] = [
               ),
               opt(
                 'Let’s ask Maisie why.',
-                MAI('I wanted to know a secret. Ned always finds things first.', 'soft'),
+                MAI('Ned always finds things first. I wanted one win! Asking helps.', 'soft'),
               ),
             ],
           ),
         ],
         [
           ch('fair', '“Treasure hunts can be tricky.”', [MAI('See? Tricky is fun!')], {
-            'lb-map-fair': 'fair',
+            'lb-map-fair': 'map-fair',
           }),
           ch(
             'not-fair',
             '“A map is a promise, Maisie.”',
             [N('Maisie draws a new X. A true one.')],
-            { 'lb-map-fair': 'promise' },
+            { 'lb-map-fair': 'map-promise' },
           ),
           ch('ask-why', 'Ask Maisie why.', [MAI('Ned always finds things first.', 'soft')], {
-            'lb-map-fair': 'asked',
+            'lb-map-fair': 'map-asked',
           }),
         ],
       ),
@@ -3090,7 +3188,7 @@ const SPROUT: EduQuest[] = [
             ),
             [N('What could you say to Ned?')],
             [
-              best('“Thank you! Could I have the sandwich too?”', NED('Coming right up!', 'happy')),
+              best('“Thank you! Could I have the sandwich too?”', NED('Here it comes!', 'happy')),
               opt(
                 '“That’s wrong!”',
                 N('Ned might feel sad.'),
@@ -3104,20 +3202,20 @@ const SPROUT: EduQuest[] = [
             'thank-and-ask',
             '“Thank you! And the sandwich too?”',
             [NED('The sandwich! Coming up!', 'shock')],
-            { 'lb-cafe-reply': 'ask' },
+            { 'lb-cafe-reply': 'cafe-ask' },
           ),
           ch(
             'enjoy',
             'Pretend to eat the pine cone.',
             [N('Munch, munch. You smile.'), Y('Best cake ever!')],
-            { 'lb-cafe-reply': 'enjoy' },
+            { 'lb-cafe-reply': 'cafe-enjoy' },
           ),
           ch(
             'mix-up',
             '“I think there’s a little mix-up.”',
             [Y('It’s a lovely cake. I asked for a sandwich.'), NED('I’ll tell the cook!')],
             {
-              'lb-cafe-reply': 'mix-up',
+              'lb-cafe-reply': 'cafe-mix-up',
             },
           ),
         ],
@@ -3220,14 +3318,16 @@ const SPROUT: EduQuest[] = [
         'lb10-sail',
         [
           N('Now there are three boats.'),
-          N('A cork boat, a bark raft, and a walnut boat.'),
+          N('A cork with a leaf sail. A flat bark raft.'),
+          N('And a walnut with a petal sail.'),
+          N('A breeze comes. The sails go puff!'),
           MAI('A race across the pond!'),
           N('Your Nubbin wades in to help. Splash!'),
           AMA('Which boat will you sail?'),
         ],
         [
           notice(
-            2,
+            3,
             m(
               'science',
               'wind pushes',
@@ -3242,11 +3342,11 @@ const SPROUT: EduQuest[] = [
         ],
         [
           ch('cork', 'The cork boat.', [N('Off it goes, like a little duck!')], {
-            'lb-boat': 'cork',
+            'lb-boat': 'boat-cork',
           }),
-          ch('raft', 'The bark raft.', [N('Slow and steady. Off it goes.')], { 'lb-boat': 'raft' }),
+          ch('raft', 'The bark raft.', [N('Slow and steady. Off it goes.')], { 'lb-boat': 'boat-raft' }),
           ch('walnut', 'The walnut, with Ned.', [N('Round and round it spins! Ned loves it.')], {
-            'lb-boat': 'walnut',
+            'lb-boat': 'boat-walnut',
           }),
         ],
       ),
@@ -3313,14 +3413,16 @@ const SPROUT: EduQuest[] = [
       sS(
         'lb11-five',
         [
-          N('Maisie wins. Then Maisie wins again.'),
-          N('Your Nubbin wins two races, flap flap!'),
+          N('Maisie wins. Maisie wins again.'),
+          N('Your Nubbin wins one, flap flap!'),
+          N('Then it wins another, by falling over the rope!'),
+          N('Maisie wins the last one. That’s five races!'),
           N('Ned comes last every time.'),
           N('Ned lies face down in the grass.'),
         ],
         [
           notice(
-            3,
+            5,
             m(
               'sel',
               'naming big feelings',
@@ -3336,7 +3438,7 @@ const SPROUT: EduQuest[] = [
         [
           MAI('Come on, Ned. One more race!'),
           NED('No. I’m staying here.', 'sad'),
-          SAM('Nobody likes losing, mate.', 'soft'),
+          SAM('Nobody likes losing, Ned.', 'soft'),
           N('Maisie holds out her hand. Ned takes it.'),
           N('Everyone runs the last race holding hands.'),
           N('Everybody crosses the rope together!'),
@@ -3389,7 +3491,7 @@ const SPROUT: EduQuest[] = [
       ),
     ],
     undefined,
-    'Sprout drops the race choice (reader only) and plays the hand-holding race, defaultChoice "hand"; so LB12 plays lb12-ned-hand.',
+    'Sprout drops the race choice (reader only) and plays the hand-holding race, defaultChoice "hand"; so LB12 plays lb12-arrive-race-hand.',
   ),
 
   // ------------------------------------------------------------------ LB12
@@ -3447,7 +3549,8 @@ const SPROUT: EduQuest[] = [
           N('The sky goes gold, then pink, then blue.'),
           MAI('No talking. No wriggling. Shh!'),
           N('Everyone is very, very still.'),
-          SAM('In Brisbane, where I grew up, it’s winter now.', 'soft'),
+          SAM('Far away, where I grew up, it’s winter now.', 'soft'),
+          SAM('My mum is wearing a woolly hat!', 'soft'),
         ],
         [
           notice(
@@ -3466,16 +3569,16 @@ const SPROUT: EduQuest[] = [
         ],
         [
           ch('wish', 'Make a quiet wish.', [N('You make a wish. Shh, it’s a secret.')], {
-            'lb-star-wish': 'wish',
+            'lb-star-wish': 'star-wish',
           }),
           ch('hum', 'Hum very quietly.', [N('Hmm, hmm, hmm. Ama hums too.')], {
-            'lb-star-wish': 'hum',
+            'lb-star-wish': 'star-hum',
           }),
           ch(
             'watch-nubbin',
             'Watch your Nubbin fall asleep.',
             [N('Your Nubbin’s eyes close. Night night.')],
-            { 'lb-star-wish': 'nubbin' },
+            { 'lb-star-wish': 'star-nubbin' },
           ),
         ],
       ),
@@ -3513,6 +3616,7 @@ const SPROUT: EduQuest[] = [
           AMA('Lying still together. You all did it!', 'soft'),
           N('Your Nubbin is asleep in Ned’s box.'),
           N('Next morning, a little box is on your step. From Ned!'),
+          N('It has a big N on it, the wrong way round. Ned did that!'),
         ],
         [
           notice(
@@ -3534,9 +3638,97 @@ const SPROUT: EduQuest[] = [
   ),
 ];
 
-const SPROUT_VARIANTS: EduScene[] = [
+/**
+ * Splices variant parts into their host scenes for one band (see MAIN_SPLICES). The host's lessons
+ * and choices carry over; a lesson after line k moves down by the spliced lines if k is at or past
+ * the splice, and the part's own lessons move along with its lines.
+ */
+const BAND_SPLICES: { part: string; host: string; answer: string; at: Record<EduBand, number | 'end'> }[] = [
+  { part: 'lb06-door-big', host: 'lb06-built', answer: 'box-big', at: { sprout: 'end', reader: 'end' } },
+  { part: 'lb06-door-long', host: 'lb06-built', answer: 'box-long', at: { sprout: 'end', reader: 'end' } },
+  { part: 'lb06-door-tall', host: 'lb06-built', answer: 'box-tall', at: { sprout: 'end', reader: 'end' } },
+  { part: 'lb12-ned-proper', host: 'lb12-arrive', answer: 'race-proper', at: { sprout: 3, reader: 2 } },
+  { part: 'lb12-ned-let-win', host: 'lb12-arrive', answer: 'race-let-win', at: { sprout: 3, reader: 2 } },
+  { part: 'lb12-ned-hand', host: 'lb12-arrive', answer: 'race-hand', at: { sprout: 3, reader: 2 } },
+  { part: 'lb12-box-big', host: 'lb12-waiting', answer: 'box-big', at: { sprout: 0, reader: 0 } },
+  { part: 'lb12-box-long', host: 'lb12-waiting', answer: 'box-long', at: { sprout: 0, reader: 0 } },
+  { part: 'lb12-box-tall', host: 'lb12-waiting', answer: 'box-tall', at: { sprout: 0, reader: 0 } },
+];
+
+/** The band versions of the cork and walnut endings: the raft’s scene with its opening line(s) changed. */
+const BOAT_BAND: Record<EduBand, { answer: string; lines: Line[]; drop: number }[]> = {
+  sprout: [
+    {
+      answer: 'boat-cork',
+      lines: [N('The raft wins! The cork is second, and leans over to shake hands.')],
+      drop: 1,
+    },
+    {
+      answer: 'boat-walnut',
+      lines: [
+        N('The raft wins, slow and steady.'),
+        N('The walnut is still spinning. Ned says it wins at spinning!'),
+      ],
+      drop: 2,
+    },
+  ],
+  reader: [
+    {
+      answer: 'boat-cork',
+      lines: [
+        N(
+          'The raft wins, by drifting. Your cork comes second, and leans over in the breeze as if to shake hands.',
+        ),
+      ],
+      drop: 1,
+    },
+    {
+      answer: 'boat-walnut',
+      lines: [
+        N(
+          'The raft wins, by drifting. The walnut is still spinning in the middle of the pond, and Ned has declared it the winner of spinning.',
+        ),
+      ],
+      drop: 1,
+    },
+  ],
+};
+
+const spliceBand = (band: EduBand, quests: EduQuest[], parts: EduScene[]): EduScene[] => {
+  const make = band === 'sprout' ? sS : sR;
+  const bare = (l: Lesson, after: number): LessonIn => {
+    const { id: dropped, ...rest } = l;
+    void dropped;
+    return { ...rest, after } as LessonIn;
+  };
+  const out = parts.filter((p) => !BAND_SPLICES.some((t) => `${band}:${t.part}` === p.id));
+  for (const t of BAND_SPLICES) {
+    const host = quests.flatMap((q) => q.scenes).find((e) => e.of === t.host);
+    const part = parts.find((p) => p.id === `${band}:${t.part}`);
+    if (!host || !part) throw new Error(`lines-lb: ${band} splice ${t.part} has no host or part`);
+    const where = t.at[band];
+    const at = where === 'end' ? host.lines.length : where;
+    const n = part.lines.length;
+    const lessons = [
+      ...host.lessons.map((l) => bare(l, l.after >= at ? l.after + n : l.after)),
+      ...part.lessons.map((l) => bare(l, l.after + at)),
+    ].sort((a, b) => a.after - b.after);
+    const lines = [...host.lines.slice(0, at), ...part.lines, ...host.lines.slice(at)];
+    out.push(make(`${t.host}-${t.answer}`, lines, lessons, host.choices, host.defaultChoice));
+  }
+  const win = quests.flatMap((q) => q.scenes).find((e) => e.of === 'lb10-complete');
+  if (!win) throw new Error(`lines-lb: ${band} has no lb10-complete`);
+  for (const b of BOAT_BAND[band]) {
+    const lessons = win.lessons.map((l) => bare(l, l.after - b.drop + b.lines.length));
+    const lines = [...b.lines, ...win.lines.slice(b.drop)];
+    out.push(make(`lb10-complete-${b.answer}`, lines, lessons, win.choices, win.defaultChoice));
+  }
+  return out;
+};
+
+const SPROUT_PARTS: EduScene[] = [
   sS(
-    'lb12-complete-wish',
+    'lb12-complete-star-wish',
     [
       N('Sam is asleep. Ned is asleep on Sam’s arm.'),
       MAI('That was the best game ever.', 'soft'),
@@ -3544,6 +3736,7 @@ const SPROUT_VARIANTS: EduScene[] = [
       N('Shh. Wishes are secret. Maisie nods, and falls asleep.'),
       N('Your Nubbin is asleep in Ned’s box.'),
       N('Next morning, a little box is on your step. From Ned!'),
+      N('It has a big N on it, the wrong way round. Ned did that!'),
     ],
     [
       notice(
@@ -3648,7 +3841,7 @@ const SPROUT_VARIANTS: EduScene[] = [
   sS(
     'lb12-ned-let-win',
     [
-      N('Ned walks in like a king.'),
+      N('Ned walks in with his chin up.'),
       NED('I’m the fastest in the valley!', 'happy'),
       MAI('He keeps saying that.'),
       N('Maisie lets him. That’s kind.'),
@@ -3760,6 +3953,8 @@ const SPROUT_VARIANTS: EduScene[] = [
     ],
   ),
 ];
+
+const SPROUT_VARIANTS: EduScene[] = spliceBand('sprout', SPROUT, SPROUT_PARTS);
 
 // ================================================================ reader (ages 7–10)
 
@@ -3923,7 +4118,7 @@ const READER: EduQuest[] = [
               N('Ned climbs into the big box and pulls the flaps shut over his head.'),
               NED('It’s got a ROOF.', 'happy'),
             ],
-            { 'lb-box': 'big' },
+            { 'lb-box': 'box-big' },
           ),
           ch(
             'long',
@@ -3934,7 +4129,7 @@ const READER: EduQuest[] = [
               ),
             ],
             {
-              'lb-box': 'long',
+              'lb-box': 'box-long',
             },
           ),
           ch(
@@ -3945,7 +4140,7 @@ const READER: EduQuest[] = [
               NED('It goes UP.', 'happy'),
             ],
             {
-              'lb-box': 'tall',
+              'lb-box': 'box-tall',
             },
           ),
         ],
@@ -4038,7 +4233,7 @@ const READER: EduQuest[] = [
               'social-studies',
               'prices and choices',
               'Your child learned that a price is what something costs, and buyers choose what to spend on.',
-              'D2.Eco.1.K-2',
+              'D2.Eco.1.3-5',
             ),
             [
               N(
@@ -4066,6 +4261,7 @@ const READER: EduQuest[] = [
           N('You hand Ned twenty Shells for the thirteen-Shell leaf. He looks at them very hard.'),
           NED('Now I give you change. That’s the best bit.'),
           N('Ned counts change out of the biscuit tin, slowly, with his tongue out.'),
+          NED('Seven! I knew that. I was just checking you knew.', 'happy'),
           N(
             'Then he gives you all twenty back anyway, because in Ned’s shop change is the best bit and nobody leaves without all of it.',
           ),
@@ -4082,7 +4278,7 @@ const READER: EduQuest[] = [
             'edu:count:shells:change-7',
             [
               N('You paid 20 for a 13-Shell leaf. How much change? Count up from 13 to 20.'),
-              NED('Fourteen, fifteen… twenty! Seven Shells change!', 'happy'),
+              NED('Fourteen, fifteen, sixteen… hmm. How many is that?', 'think'),
             ],
           ),
         ],
@@ -4124,19 +4320,19 @@ const READER: EduQuest[] = [
             'swap-sale',
             'Ned sells one thing, then you swap.',
             [MAI('One each. Fine. But I’m having the window leaf.')],
-            { 'lb-ned-shop': 'swap' },
+            { 'lb-ned-shop': 'shop-swap' },
           ),
           ch(
             'two-shops',
             'Two shops, side by side. I’ll shop at both.',
             [N('Maisie sets up next to Ned. The step now has a high street.')],
-            { 'lb-ned-shop': 'two' },
+            { 'lb-ned-shop': 'shop-two' },
           ),
           ch(
             'tin-turns',
             'Whoever’s selling holds the tin.',
             [NED('And then I get it back?'), MAI('Then you get it back.')],
-            { 'lb-ned-shop': 'tin' },
+            { 'lb-ned-shop': 'shop-tin' },
           ),
         ],
       ),
@@ -4162,7 +4358,7 @@ const READER: EduQuest[] = [
               'literacy',
               'how a character changes',
               'Your child noticed how Ned’s feelings changed when he tried a new role.',
-              'RL.2.3',
+              'RL.3.3',
             ),
             [N('Ned didn’t want to be the customer. Now he loves it. What changed?')],
             [
@@ -4253,7 +4449,7 @@ const READER: EduQuest[] = [
               'maths',
               'measuring with a tape',
               'Your child measured the gap and the biggest jump with a tape measure, in centimetres.',
-              '2.MD.A.1',
+              '4.MD.A.1',
             ),
             'edu:measure:jump:tape',
             [
@@ -4285,7 +4481,7 @@ const READER: EduQuest[] = [
               'science',
               'defining the problem',
               'Your child stated the problem clearly before solving it: the gap is longer than Ned’s jump.',
-              'K-2-ETS1-1',
+              '3-5-ETS1-2',
             ),
             [
               N(
@@ -4796,9 +4992,10 @@ const READER: EduQuest[] = [
         'lb06-built',
         [
           N(
-            'The den goes up: four chairs, three blankets, a sheet for a roof, and pegs from the washing line.',
+            'The den goes up: four chairs, three blankets, and a sheet for a roof. The pegs are still on the washing line.',
           ),
           N('Twice the roof sheet slides off. Twice everyone groans.'),
+          AMA('Pegs! Of course. I’m a postwoman. I only deliver pegs.', 'happy'),
           AMA('Every den needs a door.'),
           N('Ned is already dragging his box across the rug, the one with NED on the side.'),
         ],
@@ -4815,7 +5012,7 @@ const READER: EduQuest[] = [
             [
               best(
                 'Peg it to the chair backs',
-                AMA('Pegs grip the sheet, so it can’t slide. Done.'),
+                N('Pegs grip the sheet, so it can’t slide. Done.'),
                 N('Comparing fixes and testing the best one is how engineers work.'),
               ),
               opt(
@@ -4837,6 +5034,7 @@ const READER: EduQuest[] = [
           MAI(
             'The rug in here is three metres long and two metres wide. I measured it with Dad’s tape.',
           ),
+          MAI('The sheet is a rectangle. The chair seats are squares.'),
           NED('And Mum’s head is a circle.'),
           AMA('Thank you, Ned.', 'happy'),
           N('Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake it.'),
@@ -4866,7 +5064,7 @@ const READER: EduQuest[] = [
                 'You tell a story about a den that floats down the lane and comes home for tea. Ned makes you tell it twice.',
               ),
             ],
-            { 'lb-den-story': 'story' },
+            { 'lb-den-story': 'den-story' },
           ),
           ch(
             'listen',
@@ -4875,7 +5073,7 @@ const READER: EduQuest[] = [
               N('Nobody says anything for a while. The rain does the talking.'),
               MAI('This is the quietest Ned has ever been.', 'soft'),
             ],
-            { 'lb-den-story': 'listen' },
+            { 'lb-den-story': 'den-listen' },
           ),
           ch(
             'drips',
@@ -4885,7 +5083,7 @@ const READER: EduQuest[] = [
                 'You count drips together. At forty-one they go too fast, and you all give up laughing.',
               ),
             ],
-            { 'lb-den-story': 'drips' },
+            { 'lb-den-story': 'den-drips' },
           ),
         ],
       ),
@@ -4963,7 +5161,7 @@ const READER: EduQuest[] = [
               'social-studies',
               'shadow theatre around the world',
               'Your child learned that shadow puppet theatre is an old art in many countries.',
-              'D2.His.2.K-2',
+              'D2.His.2.3-5',
             ),
             [
               AMA(
@@ -5027,7 +5225,7 @@ const READER: EduQuest[] = [
               'science',
               'how shadows form and change size',
               'Your child explained shadows: light travels in straight lines, and a hand near the torch blocks more of it.',
-              '1-PS4-2',
+              '5-ESS1-2',
             ),
             'edu:order:shadows:size',
             [
@@ -5049,7 +5247,7 @@ const READER: EduQuest[] = [
                 'Your hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.',
               ),
             ],
-            { 'lb-shadow': 'bird' },
+            { 'lb-shadow': 'shadow-bird' },
           ),
           ch(
             'nubbin',
@@ -5059,7 +5257,7 @@ const READER: EduQuest[] = [
                 'Your Nubbin sees its shape on the sheet and stares. It waves a wing. So does the shadow.',
               ),
             ],
-            { 'lb-shadow': 'nubbin' },
+            { 'lb-shadow': 'shadow-nubbin' },
           ),
           ch(
             'monster',
@@ -5068,13 +5266,19 @@ const READER: EduQuest[] = [
               N('You make a big shadow with claws. It waves, very politely.'),
               NED('Hello, monster.', 'happy'),
             ],
-            { 'lb-shadow': 'monster' },
+            { 'lb-shadow': 'shadow-monster' },
           ),
         ],
       ),
       sR(
         'lb07-complete',
         [
+          N(
+            'Before the finale, Ned holds a glass of water up to the torch. On the sheet there is almost nothing: a faint, wobbly ghost of a glass.',
+          ),
+          NED('That’s a rubbish rabbit.'),
+          MAI('It’s not a rabbit. It’s a glass.'),
+          NED('It’s a rubbish one of those too.'),
           N(
             'The show ends with the whole family in the light at once: one big shadow with far too many arms.',
           ),
@@ -5087,7 +5291,7 @@ const READER: EduQuest[] = [
         ],
         [
           ask(
-            0,
+            3,
             m(
               'science',
               'opaque and see-through materials',
@@ -5158,7 +5362,7 @@ const READER: EduQuest[] = [
               'science',
               'maps and compass directions',
               'Your child used the map’s compass: north, east, south and west.',
-              '2-ESS2-2',
+              '4-ESS2-2',
             ),
             'edu:order:map:lane',
             [
@@ -5244,7 +5448,7 @@ const READER: EduQuest[] = [
             'fair',
             '“Treasure hunts are meant to be a bit tricky.”',
             [MAI('See? Tricky is the fun bit.'), NED('Tricky is the CROSS bit.', 'angry')],
-            { 'lb-map-fair': 'fair' },
+            { 'lb-map-fair': 'map-fair' },
           ),
           ch(
             'not-fair',
@@ -5254,7 +5458,7 @@ const READER: EduQuest[] = [
               N('Maisie borrows her mum’s pen and draws a small, honest X further along the wall.'),
             ],
             {
-              'lb-map-fair': 'promise',
+              'lb-map-fair': 'map-promise',
             },
           ),
           ch(
@@ -5266,7 +5470,7 @@ const READER: EduQuest[] = [
                 'soft',
               ),
             ],
-            { 'lb-map-fair': 'asked' },
+            { 'lb-map-fair': 'map-asked' },
           ),
         ],
       ),
@@ -5468,7 +5672,7 @@ const READER: EduQuest[] = [
               N('He comes back with a second pine cone. This one, he says, is the sandwich.'),
             ],
             {
-              'lb-cafe-reply': 'ask',
+              'lb-cafe-reply': 'cafe-ask',
             },
           ),
           ch(
@@ -5479,7 +5683,7 @@ const READER: EduQuest[] = [
               Y('Best cake I’ve ever had.'),
             ],
             {
-              'lb-cafe-reply': 'enjoy',
+              'lb-cafe-reply': 'cafe-enjoy',
             },
           ),
           ch(
@@ -5491,7 +5695,7 @@ const READER: EduQuest[] = [
               NED('I’ll tell the chef. She’ll be cross with the kitchen, not me.'),
             ],
             {
-              'lb-cafe-reply': 'mix-up',
+              'lb-cafe-reply': 'cafe-mix-up',
             },
           ),
         ],
@@ -5621,6 +5825,9 @@ const READER: EduQuest[] = [
           ),
           MAI('A race! First one across the pond wins.'),
           N('Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond.'),
+          MAI('The cork’s the best. It sits steady as a duck.'),
+          NED('The walnut’s better. It’s not steady at all. That’s why it’s better.'),
+          N('The walnut, as if it heard him, turns round twice.'),
           AMA('Which one are you sailing?'),
         ],
         [
@@ -5644,7 +5851,7 @@ const READER: EduQuest[] = [
             'cork',
             'The cork, with the leaf sail.',
             [N('The cork boat leans into the breeze and sets off, steady as a duck.')],
-            { 'lb-boat': 'cork' },
+            { 'lb-boat': 'boat-cork' },
           ),
           ch(
             'raft',
@@ -5654,7 +5861,7 @@ const READER: EduQuest[] = [
                 'The raft is slow and flat and sensible. It goes exactly where the breeze tells it.',
               ),
             ],
-            { 'lb-boat': 'raft' },
+            { 'lb-boat': 'boat-raft' },
           ),
           ch(
             'walnut',
@@ -5664,7 +5871,7 @@ const READER: EduQuest[] = [
                 'The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.',
               ),
             ],
-            { 'lb-boat': 'walnut' },
+            { 'lb-boat': 'boat-walnut' },
           ),
         ],
       ),
@@ -5764,7 +5971,7 @@ const READER: EduQuest[] = [
               'maths',
               'tally charts and comparing',
               'Your child made a tally chart of five races and compared the totals.',
-              '2.MD.D.10',
+              '3.MD.B.3',
             ),
             'edu:tally:races:5',
             [
@@ -5796,7 +6003,7 @@ const READER: EduQuest[] = [
               'literacy',
               'how characters respond to events',
               'Your child compared how Maisie and Ned each respond to winning and losing.',
-              'RL.2.3',
+              'RL.3.3',
             ),
             [N('Maisie and Ned both feel something about the races. How is each one responding?')],
             [
@@ -5827,7 +6034,7 @@ const READER: EduQuest[] = [
               ),
               NED('I came last, but I came ALL the way!', 'happy'),
             ],
-            { 'lb-race': 'proper' },
+            { 'lb-race': 'race-proper' },
           ),
           ch(
             'let-win',
@@ -5838,7 +6045,7 @@ const READER: EduQuest[] = [
               MAI('It wasn’t a real race.', 'angry'),
               N('Maisie says it quietly, so Ned won’t hear. Then she lets him have it.'),
             ],
-            { 'lb-race': 'let-win' },
+            { 'lb-race': 'race-let-win' },
           ),
           ch(
             'hand',
@@ -5850,7 +6057,7 @@ const READER: EduQuest[] = [
               N('Nobody wins. Everybody crosses the rope at once.'),
               MAI('That’s a draw. Draws are allowed.', 'happy'),
             ],
-            { 'lb-race': 'hand' },
+            { 'lb-race': 'race-hand' },
           ),
         ],
       ),
@@ -6022,7 +6229,7 @@ const READER: EduQuest[] = [
               'science',
               'why the hemispheres have opposite seasons',
               'Your child learned that the Earth’s tilt gives the north and south opposite seasons.',
-              '1-ESS1-2',
+              '5-ESS1-2',
             ),
             [
               N(
@@ -6043,7 +6250,7 @@ const READER: EduQuest[] = [
                 'You make a wish. You don’t say it out loud, because that is the rule with wishes.',
               ),
             ],
-            { 'lb-star-wish': 'wish' },
+            { 'lb-star-wish': 'star-wish' },
           ),
           ch(
             'hum',
@@ -6053,13 +6260,13 @@ const READER: EduQuest[] = [
                 'You hum a tune you half remember. After a while Ama hums it too, and gets the end right.',
               ),
             ],
-            { 'lb-star-wish': 'hum' },
+            { 'lb-star-wish': 'star-hum' },
           ),
           ch(
             'watch-nubbin',
             'Watch your Nubbin fall asleep.',
             [N('Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.')],
-            { 'lb-star-wish': 'nubbin' },
+            { 'lb-star-wish': 'star-nubbin' },
           ),
         ],
       ),
@@ -6080,7 +6287,7 @@ const READER: EduQuest[] = [
               'science',
               'stars in day and night',
               'Your child learned the stars are always there; the Sun’s brightness hides them by day.',
-              '1-ESS1-1',
+              '5-ESS1-2',
             ),
             [
               AMA(
@@ -6150,9 +6357,9 @@ const READER: EduQuest[] = [
   ),
 ];
 
-const READER_VARIANTS: EduScene[] = [
+const READER_PARTS: EduScene[] = [
   sR(
-    'lb12-complete-wish',
+    'lb12-complete-star-wish',
     [
       N(
         'Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is trying very hard not to be.',
@@ -6200,7 +6407,6 @@ const READER_VARIANTS: EduScene[] = [
           'maths',
           'turning a shape',
           'Your child noticed that a box on its side is the same shape, just turned.',
-          'K.G.A.2',
         ),
         [
           N(
@@ -6409,6 +6615,8 @@ const READER_VARIANTS: EduScene[] = [
     ],
   ),
 ];
+
+const READER_VARIANTS: EduScene[] = spliceBand('reader', READER, READER_PARTS);
 
 // ================================================================ edu exports
 

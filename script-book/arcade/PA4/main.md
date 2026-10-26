@@ -11,7 +11,7 @@ Hint: Look in the shoebox of cartridges by the cabinet; it’s the one with the 
 #### <a id="pa4-01-shed"></a>Scene `pa4-01-shed`
 
 _The lantern shed smells of sawdust and solder. Pixel’s cabinet stands in the corner, dented, humming to itself._  
-**Pixel**: New one. Found it wedged behind the coin box, under what used to be a mouse nest.  
+**Pixel**: New one. Found it behind the coin box. The mice had hung it in their nest, label out, like a painting.  
 _She holds up a cartridge. The label is plain black, with a small red heart in the middle._  
 **Pixel** _(think)_: No title. No picture on the back. Just the heart.  
 _She blows into the slot, hard. A cloud of sawdust comes out, and something that might have been a seed._  
@@ -29,6 +29,37 @@ _Your Nubbin sniffs the cartridge, then pats the heart, gently, as if it might b
 
 #### <a id="pa4-01-shed-done"></a>Done `pa4-01-shed-done`
 
+_The vent under the cabinet is quiet. The fan inside turns over, and that’s all._  
+_The cartridge clicks home. The screen goes black, then shows one red heart, beating slowly._  
+**Pixel**: Huh. It’s waiting for something.  
+
+#### <a id="pa4-01-shed-done-wisp-warm"></a>Variant `pa4-01-shed-done-wisp-warm`
+
+_Variant of `pa4-01-shed-done`._
+
+_From the vent under the cabinet comes a dry little hiss. Two pale eyes, one ear torn, catch the glow of the screen._  
+**Pixel** _(soft)_: Wisp. He’s come in out of the cold. The cabinet’s warm underneath. Let him watch.  
+_The cartridge clicks home. The screen goes black, then shows one red heart, beating slowly._  
+**Pixel**: Huh. It’s waiting for something.  
+
+#### <a id="pa4-01-shed-done-wisp-warm-clank"></a>Variant `pa4-01-shed-done-wisp-warm-clank`
+
+_Variant of `pa4-01-shed-done-wisp-warm`._
+
+_Clank is sitting on top of the cabinet with his legs over the edge, like a gargoyle that’s been told to cheer up._  
+_He leans down to look at the heart on the label, and his eye-light goes a little pink._  
+_From the vent under the cabinet comes a dry little hiss. Two pale eyes, one ear torn, catch the glow of the screen._  
+**Pixel** _(soft)_: Wisp. He’s come in out of the cold. The cabinet’s warm underneath. Let him watch.  
+_The cartridge clicks home. The screen goes black, then shows one red heart, beating slowly._  
+**Pixel**: Huh. It’s waiting for something.  
+
+#### <a id="pa4-01-shed-done-clank"></a>Variant `pa4-01-shed-done-clank`
+
+_Variant of `pa4-01-shed-done`._
+
+_Clank is sitting on top of the cabinet with his legs over the edge, like a gargoyle that’s been told to cheer up._  
+_He leans down to look at the heart on the label, and his eye-light goes a little pink._  
+_The vent under the cabinet is quiet. The fan inside turns over, and that’s all._  
 _The cartridge clicks home. The screen goes black, then shows one red heart, beating slowly._  
 **Pixel**: Huh. It’s waiting for something.  
 
@@ -58,32 +89,12 @@ _The child stands, brushes the petals off, and walks towards the only doorway. Y
 **Pixel** _(think)_: I’ve looked at the buttons. There’s ACT. There’s MERCY. That’s the lot.  
 **Pixel** _(happy)_: Somebody made a game with no way to hit anyone. I want to shake their hand.  
 
-#### <a id="pa4-01-vent-warm"></a>Variant `pa4-01-vent-warm`
-
-_Variant within PA4-1; it has no single parent scene._
-
-_From the vent under the cabinet comes a dry little hiss. Two pale eyes, one ear torn, catch the glow of the screen._  
-**Pixel** _(soft)_: Wisp. He’s come in out of the cold. The cabinet’s warm underneath. Let him watch.  
-
-#### <a id="pa4-01-vent-quiet"></a>Variant `pa4-01-vent-quiet`
-
-_Variant within PA4-1; it has no single parent scene._
-
-_The vent under the cabinet is quiet. The fan inside turns over, and that’s all._  
-
-#### <a id="pa4-01-clank"></a>Variant `pa4-01-clank`
-
-_Variant within PA4-1; it has no single parent scene._
-
-_Clank is sitting on top of the cabinet with his legs over the edge, like a gargoyle that’s been told to cheer up._  
-_He leans down to look at the heart on the label, and his eye-light goes a little pink._  
-
 **Rewards**
 
 
 Sets on completion: `{"pa4-01":true}`
 
-**Notes:** OPENING: the cartridge plays in Pixel’s cabinet; its progress lives in the cartridge’s own save. WISP (reads wisp, Grove, read-only): after pa4-01-shed’s choice, before pa4-01-shed-done, play ARCADE_PA4_VARIANTS pa4-01-vent-warm if wisp is spared or sable; pa4-01-vent-quiet if driven or unset. CLANK (reads s21Done): if set, play ARCADE_PA4_VARIANTS pa4-01-clank straight after pa4-01-shed. STAGING: from here on Pixel speaks from the cabinet speaker, drawn as a small portrait in a frame of scan lines. The fight box UI has exactly two buttons, ACT and MERCY. Never draw a FIGHT button, even greyed out. No music from the source, ever, not even as a hum: use our own soft ambient sound.
+**Notes:** OPENING: the cartridge plays in Pixel’s cabinet; its progress lives in the cartridge’s own save. WISP and CLANK (Grove, read-only): pa4-01-shed-done is replaced by ARCADE_PA4_VARIANTS pa4-01-shed-done-wisp-warm (wisp spared or sable), -clank (s21Done), or -wisp-warm-clank (both); the base keeps the quiet vent. STAGING: from here on Pixel speaks from the cabinet speaker, drawn as a small portrait in a frame of scan lines. The fight box UI has exactly two buttons, ACT and MERCY. Never draw a FIGHT button, even greyed out. No music from the source, ever, not even as a hum: use our own soft ambient sound.
 
 ## PA4-2. The Flower
 
@@ -132,11 +143,11 @@ _It looks back through the doorway, towards the bare patch of earth where the fl
 
 **Choices**
 
-- **Leave him the candy, on the spot where he was.** — sets `{"pa4-candy":"left"}`
+- **Leave him the candy, on the spot where he was.** — sets `{"pa4-candy":"candy-left"}`
     - Your Nubbin runs back alone and sets the sweet down on the earth, wrapper and all, very neatly.
     - Nothing comes up out of the ground. Your Nubbin trots back anyway, looking pleased.
     - **Pixel**: For the record, that’s a sweet for something that called us food. I’d have done the same.
-- **Leave him be. He made his feelings clear.** — sets `{"pa4-candy":"be"}`
+- **Leave him be. He made his feelings clear.** — sets `{"pa4-candy":"candy-be"}`
     - Your Nubbin looks at the doorway a while longer. Then it eats the sweet, slowly, and comes on.
     - **Pixel**: Fair. Some things want leaving alone. Doesn’t mean they want leaving.
 
@@ -157,7 +168,7 @@ Sets on completion: `{"pa4-02":true}`
 
 - `pa4-02-flower#7` → Down here, you either get the other one first, or they get you!
 
-**Notes:** SIGNATURE CHOICE: pa4-candy = left | be (pa4-02-candy). It pays off in PA4-17 (pa4-17-candy), PA4-18 (pa4-18-candy) and the last frame of PA4-19 (pa4-19-flower-turns | pa4-19-flower-still). LIFTED TEXT: pa4-02-flower#7 is the outline’s first quote (Flowey, Undertale, © Toby Fox), used once; the childLine replaces it. CARE: the pellets never touch anyone; Flowey’s second face is a cartoon grin with no teeth shown in detail; Toriel’s fireball knocks him away with a puff of petals, nothing more.
+**Notes:** SIGNATURE CHOICE: pa4-candy = candy-left | candy-be (pa4-02-candy). It pays off in PA4-17 (pa4-17-rise-candy-left | -candy-be), PA4-18 (pa4-18-sorry-candy-left) and the last frame of PA4-19 (pa4-19-home-candy-left | -candy-be). LIFTED TEXT: pa4-02-flower#7 is the outline’s first quote (Flowey, Undertale, © Toby Fox), used once; the childLine replaces it. CARE: the pellets never touch anyone; Flowey’s second face is a cartoon grin with no teeth shown in detail; Toriel’s fireball knocks him away with a puff of petals, nothing more.
 
 ## PA4-3. The Ruins
 
@@ -225,12 +236,12 @@ _Your Nubbin walks over, lies flat on the cold floor next to the ghost, and look
 
 **Choices**
 
-- **Lie down on the floor next to them as well.** — sets `{"pa4-blook":"lie"}`
+- **Lie down on the floor next to them as well.** — sets `{"pa4-blook":"blook-lie"}`
     - You lie down.
     - The child lies down. Four of you, flat on your backs, looking at a purple ceiling.
     - **Napstablook**: …this is nice. i usually do this on my own. it’s nicer with people.
     - Nobody says anything for a while. Nobody needs to.
-- **Tell them a terrible joke.** — sets `{"pa4-blook":"joke"}`
+- **Tell them a terrible joke.** — sets `{"pa4-blook":"blook-joke"}`
     - **You**: What do you call a ghost with no friends? Nothing yet. But give it a minute.
     - Silence. Then a very small, very wobbly sound, which is a ghost trying not to laugh.
     - **Napstablook**: …that was awful. i liked it. can i keep it?
@@ -255,7 +266,7 @@ _Your Nubbin is still looking back at the spot where the ghost was, its crown ti
 
 Sets on completion: `{"pa4-03":true}`
 
-**Notes:** FRIEND FLAG: pa4-blook = lie | joke (pa4-03-blook). It picks Napstablook’s line in PA4-17 (pa4-17-blook-lie | -joke) and PA4-19 (pa4-19-blook-lie | -joke). Napstablook speaks in lower case on purpose (their voice; our own words). The upward tears never touch the box. The dummy fight cannot be lost: any ACT or MERCY ends it.
+**Notes:** FRIEND FLAG: pa4-blook = blook-lie | blook-joke (pa4-03-blook). It picks Napstablook’s line in pa4-17-friends and pa4-19-sunrise (inline lines, ARCADE_PA4_LINE_NEEDS). Napstablook speaks in lower case on purpose (their voice; our own words). The upward tears never touch the box. The dummy fight cannot be lost: any ACT or MERCY ends it.
 
 ## PA4-4. Toriel’s House
 
@@ -423,9 +434,9 @@ _Sans shakes it, solemnly. No noise this time._
 **Choices**
 
 - **Ask him if he’s got any more jokes.**
-    - **Sans**: only skele-ton of ’em. sorry. that one came free with the cushion.
+    - **Sans**: got a skele-ton of ’em. most are pretty bare. that one came free with the cushion.
 - **Ask if he’s cold in slippers.**
-    - **Sans**: nah. nothing gets through to me. i’ve got no body to get through to.
+    - **Sans**: nah. cold can’t touch me. i’ve got no skin in the game.
 
 #### <a id="pa4-06-sans-done"></a>Done `pa4-06-sans-done`
 
@@ -555,9 +566,9 @@ _The spaghetti is stuck together in one solid lump. Your Nubbin eats it anyway, 
 
 **Choices**
 
-- **Tell him his puzzles were the best part of your day.** — sets `{"pa4-papyrus":"puzzles"}`
+- **Tell him his puzzles were the best part of your day.** — sets `{"pa4-papyrus":"papyrus-puzzles"}`
     - **Papyrus**: THE BEST PART? EVEN THE ONE WITH NO WORDS IN IT? I KNEW IT! I KNEW IT WAS AVANT-GARDE!
-- **Tell him it’s the best spaghetti you’ve ever had.** — sets `{"pa4-papyrus":"pasta"}`
+- **Tell him it’s the best spaghetti you’ve ever had.** — sets `{"pa4-papyrus":"papyrus-pasta"}`
     - **Papyrus**: IT IS ONLY THE BEST SO FAR! WAIT UNTIL I AM TAUGHT BY A PROFESSIONAL! IT WILL BE TERRIFYING!
 
 #### <a id="pa4-07-date-done"></a>Done `pa4-07-date-done`
@@ -583,7 +594,7 @@ Sets on completion: `{"pa4-07":true}`
 
 - `pa4-07-capture#2` → HA HA HAAA! PREPARE TO BE CAPTURED, VERY POLITELY!
 
-**Notes:** FRIEND FLAG: pa4-papyrus = puzzles | pasta (pa4-07-date). It picks Papyrus’s line in PA4-17 and PA4-19. LIFTED TEXT: pa4-07-capture#2, Papyrus’s laugh (counted with pa4-06-gauntlet#2 as one quote); childLine given. CARE: the “date” is pure friendship, played for laughs, and says so. The bones are slow and soft-edged.
+**Notes:** FRIEND FLAG: pa4-papyrus = papyrus-puzzles | papyrus-pasta (pa4-07-date). It picks Papyrus’s line in PA4-17 and PA4-19. LIFTED TEXT: pa4-07-capture#2, Papyrus’s laugh (counted with pa4-06-gauntlet#2 as one quote); childLine given. CARE: the “date” is pure friendship, played for laughs, and says so. The bones are slow and soft-edged.
 
 ## PA4-8. Waterfall
 
@@ -607,6 +618,10 @@ _He doesn’t wait for an answer. He falls over, gets up and follows you everywh
 **Monster Kid**: Is that your monster? What’s it do? Can it do a flip? I can’t do a flip. I’ve got no arms. I’ve tried.  
 _Your Nubbin tries a flip, for him._  
 _It lands on its bottom. He thinks it’s the best flip he has ever seen._  
+_Further on, an echo flower clears its throat._  
+**Echo flower**: …can it do a flip? I can’t do a flip. I’ve got no arms. I’ve tried…  
+**Monster Kid** _(shock)_: That’s ME! I’m in a FLOWER! I’m FAMOUS!  
+**Pixel** _(happy)_: He’s been heckled by his own echo, and he’s never been happier.  
 
 **Choices**
 
@@ -796,10 +811,10 @@ _The pasta goes in, bag and all. Then the pot gets stirred so hard it starts to 
 
 **Choices**
 
-- **All the way up. Hotter than that.** — sets `{"pa4-undyne":"hot"}`
+- **All the way up. Hotter than that.** — sets `{"pa4-undyne":"undyne-hot"}`
     - **Undyne**: YES! I like you! NOBODY ever says hotter!
     - She turns the knob past the last number, and then a bit further, with a spanner.
-- **Maybe turn it down a bit?** — sets `{"pa4-undyne":"low"}`
+- **Maybe turn it down a bit?** — sets `{"pa4-undyne":"undyne-low"}`
     - **Undyne**: Down? DOWN? …Huh. Nobody’s ever said that. I’m going to think about it. Later.
     - She turns it down by one. Then, out of habit, she turns it up by six.
 
@@ -827,7 +842,7 @@ _Your Nubbin is holding the saucepan, which it rescued. It is black all over._
 
 Sets on completion: `{"pa4-10":true}`
 
-**Notes:** FRIEND FLAG: pa4-undyne = hot | low (pa4-10-cook). It picks Undyne’s line in PA4-17 and PA4-19; the house burns either way. REWARD: the Burnt Saucepan decoration, one-time, delivered to the Grove inventory at pa4-10-complete (cosmetic only; the cartridge writes no Grove flag). CARE: the fire is cartoon flames; nobody is inside; it is played for laughs and everyone says they’re fine.
+**Notes:** FRIEND FLAG: pa4-undyne = undyne-hot | undyne-low (pa4-10-cook). It picks Undyne’s line in PA4-17 and PA4-19; the house burns either way. REWARD: the Burnt Saucepan decoration, one-time, delivered to the Grove inventory at pa4-10-complete (cosmetic only; the cartridge writes no Grove flag). CARE: the fire is cartoon flames; nobody is inside; it is played for laughs and everyone says they’re fine.
 
 ## PA4-11. Hotland
 
@@ -937,11 +952,11 @@ _The box closes round the child’s heart. Above it, a bar fills slowly: the rat
 
 **Choices**
 
-- **ACT: strike a pose. Get your Nubbin to strike one too.** — sets `{"pa4-mettaton":"pose"}`
+- **ACT: strike a pose. Get your Nubbin to strike one too.** — sets `{"pa4-mettaton":"mettaton-pose"}`
     - You pose.
     - The child poses. Your Nubbin poses with one arm in the air and holds it, trembling, for ages.
     - **Mettaton**: YES! The ratings! Look at the ratings! The little one is a NATURAL!
-- **ACT: shout “Encore!” before he’s even finished.** — sets `{"pa4-mettaton":"encore"}`
+- **ACT: shout “Encore!” before he’s even finished.** — sets `{"pa4-mettaton":"mettaton-encore"}`
     - Your Nubbin claps, both hands, very fast.
     - The child joins in. The invisible crowd goes wild.
     - **Mettaton**: An encore? In the middle? Darlings, you’re rewriting television!
@@ -980,7 +995,7 @@ _Your Nubbin catches it and puts it in its pocket. It doesn’t have a pocket._
 
 Sets on completion: `{"pa4-12":true}`
 
-**Notes:** FRIEND FLAG: pa4-mettaton = pose | encore (pa4-12-show). It picks Mettaton’s line in PA4-17 and PA4-19. The fight cannot be lost: the ratings bar only rises. The call is Napstablook (same lower-case voice as PA4-3). If pa4-blook is “joke”, the call may add the line “i told my friends your joke…” (optional, not required).
+**Notes:** FRIEND FLAG: pa4-mettaton = mettaton-pose | mettaton-encore (pa4-12-show). It picks Mettaton’s line in PA4-17 and PA4-19. The fight cannot be lost: the ratings bar only rises. The call is Napstablook (same lower-case voice as PA4-3). If pa4-blook is “blook-joke”, the call may add the line “i told my friends your joke…” (optional, not required).
 
 ## PA4-13. New Home
 
@@ -1036,7 +1051,7 @@ _He looks at you, and at your Nubbin, as if he is seeing you properly for the fi
 
 #### <a id="pa4-13-complete"></a>Complete `pa4-13-complete`
 
-**Sans**: go on. the king’s through there. he’s a big softie. he’s also gonna fight you. both are true.  
+**Sans**: go on, dumpling. the king’s through there. he’s a big softie. he’s also gonna fight you. both are true.  
 _Your Nubbin hugs Sans’s leg. He pats its crown, once._  
 **Pixel** _(think)_: I don’t like where this is going. I’m going to make a save. Just in case. Just because I can.  
 
@@ -1260,7 +1275,8 @@ _Each lost one is led home by someone who knew them all along._
 _Undyne comes down last._  
 _She doesn’t shout. She puts her arms round Alphys and doesn’t let go for a long time._  
 **Alphys** _(soft)_: I told the truth. I actually told it. I didn’t know it would feel like this. Like I can breathe.  
-**Pixel** _(soft)_: Keeping them hidden wasn’t keeping them. Somebody in the Grove said that once. About a stone.  
+**Pixel** _(soft)_: Keeping them hidden wasn’t keeping them.  
+**Pixel**: I once hid a broken clock in a drawer for a year. It was still wrong. It was just wrong in a drawer.  
 _Your Nubbin climbs into your arms and stays there all the way back up the lift._  
 
 **Rewards**
@@ -1268,13 +1284,13 @@ _Your Nubbin climbs into your arms and stays there all the way back up the lift.
 
 Sets on completion: `{"pa4-16":true}`
 
-**Notes:** CARE: the True Lab is dim, never frightening. No jump scares, no sudden sounds, no lights going out with a bang. The lost ones are drawn soft, pale and gentle, with sad kind faces; they never chase. The comfort fight cannot be lost. The third rule is acted out in pa4-16-comfort’s “sit” choice, never quoted. Pixel’s closing line echoes the shard’s lesson in the Grove without naming it.
+**Notes:** CARE: the True Lab is dim, never frightening. No jump scares, no sudden sounds, no lights going out with a bang. The lost ones are drawn soft, pale and gentle, with sad kind faces; they never chase. The comfort fight cannot be lost. The third rule is acted out in pa4-16-comfort’s “sit” choice, never quoted. Pixel’s closing lines stand on their own (the cartridge cannot know which Grove scenes the player has seen): her own broken clock, canon 38.
 
 ## PA4-17. Everyone
 
 *Undertale (Toby Fox, 2015): the barrier, the friends and Flowey’s rise* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: Mercy (Pixel’s Arcade) · when: Any time after PA4-16, from the Mercy cartridge in Pixel’s arcade cabinet. · requires: PA4-16
 
-**Cast:** Asgore (King Asgore Dreemurr (Undertale)), Toriel (Toriel, keeper of the Ruins (Undertale)), Sans (Sans the skeleton (Undertale)), Papyrus (Papyrus the skeleton (Undertale)), Undyne (Undyne, captain of the Royal Guard (Undertale)), Alphys (Dr Alphys, the royal scientist (Undertale)), Flowey (Flowey the Flower (Undertale)), Asriel (Asriel Dreemurr, the lost prince (Undertale))
+**Cast:** Asgore (King Asgore Dreemurr (Undertale)), Toriel (Toriel, keeper of the Ruins (Undertale)), Sans (Sans the skeleton (Undertale)), Papyrus (Papyrus the skeleton (Undertale)), Undyne (Undyne, captain of the Royal Guard (Undertale)), Alphys (Dr Alphys, the royal scientist (Undertale)), Napstablook (Napstablook, the shy ghost (Undertale)), Mettaton (Mettaton, the robot star (Undertale)), Flowey (Flowey the Flower (Undertale)), Asriel (Asriel Dreemurr, the lost prince (Undertale))
 
 ### Step 1: Go back to the king, and see who comes after you.
 
@@ -1294,7 +1310,7 @@ _Toriel walks in, tall and furious, in the same purple robe. She stands between 
 
 - **Stand beside Toriel.**
     - You stand beside her. So does your Nubbin.
-    - So does the child. She doesn’t look down, but she smiles.
+    - So does the child. Toriel doesn’t look down at any of you, but she smiles.
 - **Step between them both.**
     - You step into the middle. Two very large, very sad people look down at you, and neither of them moves.
 
@@ -1311,9 +1327,20 @@ _In they come: Papyrus, and Undyne behind him with a spear she isn’t holding u
 _Then a little cloud of tears falling upwards: the ghost from the Ruins. Then a lot of sparkle: Mettaton._  
 _Sans comes last, with his hands in his pockets, as if he just happened to be passing._  
 **Sans**: heya. thought you might want a crowd. you’ve got one.  
+_He nods at your Nubbin._  
+**Sans**: dumpling.  
+**Napstablook** _(soft)_: i lay down on the floor of the corridor to get here… it seemed polite… i’m standing now…  
+**Napstablook** _(happy)_: i’ve been telling everyone your joke… it’s still awful… they all laughed though…  
+**Papyrus** _(happy)_: I HAVE BROUGHT A PUZZLE FOR THE KING TO SOLVE INSTEAD OF FIGHTING! IT HAS NO WORDS IN IT! FOR CALM!  
+**Papyrus** _(happy)_: I HAVE BROUGHT SPAGHETTI! NOBODY CAN FIGHT WITH A MOUTH FULL OF SPAGHETTI! THAT IS SCIENCE!  
+**Undyne** _(angry)_: Nobody touches my friends! I’ll turn this whole room up to hotter than hot!  
+**Undyne** _(angry)_: Everybody calm down! I’m turning it down! See? Down by one! That’s me being calm!  
+**Mettaton** _(happy)_: Darlings, I’m only here for my co-star. The small blue one. Strike a pose, sweetheart.  
+**Mettaton** _(happy)_: Did someone say encore? Darlings, I never miss a cue.  
 _Everyone talks at once. Toriel tells Asgore off._  
 _Undyne tells Toriel she’s amazing. Alphys tells nobody anything._  
 **Pixel** _(soft)_: Every single one. I didn’t think they’d all come. I should have. Look at them.  
+**Pixel**: I’ve run out of receipts. I’m on the till roll now. Don’t tell anyone.  
 
 ### Step 3: See what the flower does.
 
@@ -1331,6 +1358,40 @@ _He is laughing._
 **Asriel**: Do you know who I am now? Look at me. Look. Don’t you remember?  
 **Pixel** _(sad)_: That’s the prince. That’s Asriel. Oh no. Oh, no, you poor thing.  
 
+#### <a id="pa4-17-rise-candy-left"></a>Variant `pa4-17-rise-candy-left`
+
+_Variant of `pa4-17-rise`._
+
+_Vines come up through the floor. In a moment everyone you love down here is caught fast and lifted off the ground._  
+_A golden flower rises out of the stone in the middle of them all. He is smiling his first smile._  
+**Flowey** _(happy)_: Look at you all. Together. Holding hands. It’s sweet. It’s really, truly sweet.  
+**Flowey** _(angry)_: You know what I learned, from watching you? That a crowd of friends is a very big pile of power.  
+_He draws something out of the room: six small human lights, and every monster’s light, all at once._  
+_The flower grows into a tall, terrible child with horns and a long black coat._  
+_He is laughing._  
+**Asriel**: Do you know who I am now? Look at me. Look. Don’t you remember?  
+**Asriel** _(think)_: You left me a sweet once. On the dirt, where I’d been. I found it.  
+**Asriel** _(sad)_: I didn’t know what to feel about it. I didn’t know how to feel anything. I kept it anyway.  
+_Your Nubbin looks up at him. It isn’t frightened at all._  
+**Pixel** _(sad)_: That’s the prince. That’s Asriel. Oh no. Oh, no, you poor thing.  
+
+#### <a id="pa4-17-rise-candy-be"></a>Variant `pa4-17-rise-candy-be`
+
+_Variant of `pa4-17-rise`._
+
+_Vines come up through the floor. In a moment everyone you love down here is caught fast and lifted off the ground._  
+_A golden flower rises out of the stone in the middle of them all. He is smiling his first smile._  
+**Flowey** _(happy)_: Look at you all. Together. Holding hands. It’s sweet. It’s really, truly sweet.  
+**Flowey** _(angry)_: You know what I learned, from watching you? That a crowd of friends is a very big pile of power.  
+_He draws something out of the room: six small human lights, and every monster’s light, all at once._  
+_The flower grows into a tall, terrible child with horns and a long black coat._  
+_He is laughing._  
+**Asriel**: Do you know who I am now? Look at me. Look. Don’t you remember?  
+**Asriel** _(think)_: You. In the Ruins. Your little one wanted to come back to me, and you let me be.  
+**Asriel** _(sad)_: Nobody ever does that. It was the nicest thing anybody did for me all day. It was a very long day. About a hundred years.  
+_Your Nubbin looks up at him and, very politely, stays exactly where it is this time._  
+**Pixel** _(sad)_: That’s the prince. That’s Asriel. Oh no. Oh, no, you poor thing.  
+
 ### Complete
 
 #### <a id="pa4-17-complete"></a>Complete `pa4-17-complete`
@@ -1339,68 +1400,12 @@ _He is laughing._
 _The child doesn’t run. They stand in the box and look up at him, and your Nubbin stands right beside them._  
 **Pixel** _(think)_: There’s no MERCY button now. There’s only… there’s a new button. It says SAVE. I don’t think it means the game.  
 
-#### <a id="pa4-17-blook-lie"></a>Variant `pa4-17-blook-lie`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Napstablook** _(soft)_: i lay down on the floor of the corridor to get here… it seemed polite… i’m standing now…  
-
-#### <a id="pa4-17-blook-joke"></a>Variant `pa4-17-blook-joke`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Napstablook** _(happy)_: i’ve been telling everyone your joke… it’s still awful… they all laughed though…  
-
-#### <a id="pa4-17-papyrus-puzzles"></a>Variant `pa4-17-papyrus-puzzles`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Papyrus** _(happy)_: I HAVE BROUGHT A PUZZLE FOR THE KING TO SOLVE INSTEAD OF FIGHTING! IT HAS NO WORDS IN IT! FOR CALM!  
-
-#### <a id="pa4-17-papyrus-pasta"></a>Variant `pa4-17-papyrus-pasta`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Papyrus** _(happy)_: I HAVE BROUGHT SPAGHETTI! NOBODY CAN FIGHT WITH A MOUTH FULL OF SPAGHETTI! THAT IS SCIENCE!  
-
-#### <a id="pa4-17-undyne-hot"></a>Variant `pa4-17-undyne-hot`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Undyne** _(angry)_: Nobody touches my friends! I’ll turn this whole room up to hotter than hot!  
-
-#### <a id="pa4-17-undyne-low"></a>Variant `pa4-17-undyne-low`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Undyne** _(angry)_: Everybody calm down! I’m turning it down! See? Down by one! That’s me being calm!  
-
-#### <a id="pa4-17-mettaton-pose"></a>Variant `pa4-17-mettaton-pose`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Mettaton** _(happy)_: Darlings, I’m only here for my co-star. The small blue one. Strike a pose, sweetheart.  
-
-#### <a id="pa4-17-mettaton-encore"></a>Variant `pa4-17-mettaton-encore`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Mettaton** _(happy)_: Did someone say encore? Darlings, I never miss a cue.  
-
-#### <a id="pa4-17-candy"></a>Variant `pa4-17-candy`
-
-_Variant within PA4-17; it has no single parent scene._
-
-**Asriel** _(think)_: You left me a sweet once. On the dirt, where I’d been. I found it.  
-**Asriel** _(sad)_: I didn’t know what to feel about it. I didn’t know how to feel anything. I kept it anyway.  
-_Your Nubbin looks up at him. It isn’t frightened at all._  
-
 **Rewards**
 
 
 Sets on completion: `{"pa4-17":true}`
 
-**Notes:** FRIENDS (Tier 3): after pa4-17-friends line 6 (Sans), before line 7, play one ARCADE_PA4_VARIANTS scene per friend in this order: pa4-17-blook-lie | -joke (pa4-blook), pa4-17-papyrus-puzzles | -pasta (pa4-papyrus), pa4-17-undyne-hot | -low (pa4-undyne), pa4-17-mettaton-pose | -encore (pa4-mettaton). Unset (never in normal play): the first value. CANDY (signature, Tier 3): if pa4-candy = left, play ARCADE_PA4_VARIANTS pa4-17-candy after pa4-17-rise line 7 (“Don’t you remember?”), before line 8; if be, nothing. CARE: Asriel’s form is light, wings of colour and noise, never gore; the vines hold, never hurt. Flowey’s grin stays cartoon. Flowey never repeats his PA4-2 line.
+**Notes:** FRIENDS (Tier 3): pa4-17-friends holds both lines for each friend after Sans; ARCADE_PA4_LINE_NEEDS (the cart’s lineLive) keeps the one that answers pa4-blook, pa4-papyrus, pa4-undyne and pa4-mettaton (unset: the first). CANDY (signature, Tier 3): ARCADE_PA4_VARIANTS pa4-17-rise-candy-left and pa4-17-rise-candy-be replace pa4-17-rise, with Asriel’s two lines after “Don’t you remember?”. CARE: Asriel’s form is light, wings of colour and noise, never gore; the vines hold, never hurt. Flowey’s grin stays cartoon. Flowey never repeats his PA4-2 line.
 
 ## PA4-18. Asriel
 
@@ -1462,6 +1467,31 @@ _He breaks the barrier. It goes up like sunlight through a window, and then it i
 - **We’ll remember you, even if you don’t.**
     - **Asriel**: Then that’s enough. That’s more than I had.
 
+#### <a id="pa4-18-sorry-candy-left"></a>Variant `pa4-18-sorry-candy-left`
+
+_Variant of `pa4-18-sorry`._
+
+_The stars go out one by one. Asriel gets smaller and smaller, until he’s just a boy, kneeling on the floor._  
+**Asriel** _(sad)_: I’m… I’m so sorry. I didn’t want to be alone. I didn’t want you to leave. Everyone always leaves.  
+**Asriel** _(sad)_: When I was a flower I couldn’t feel anything. Not even sorry. I’m sorry now. That’s the worst part.  
+_The child hugs him. He cries into their striped shoulder for a long time._  
+**Asriel**: I’m going to open the barrier. And then I have to go back. When I’m a flower again, I’ll forget how to care.  
+**Asriel** _(sad)_: So don’t come and find me. Please. Just… let me have been good, once.  
+_He breaks the barrier. It goes up like sunlight through a window, and then it isn’t there._  
+
+**Choices**
+
+- **You could come with us.**
+    - **Asriel**: I can’t. But thank you for asking. Nobody ever asked.
+    - **Asriel**: Your little blue one. It left me that candy, didn’t it?
+    - **Asriel**: Will you give it one from me? From the bowl, in the Ruins. Tell it… tell it I said thank you.
+    - Later, on the way out, you take one sweet from the bowl. Your Nubbin eats it very slowly, looking back.
+- **We’ll remember you, even if you don’t.**
+    - **Asriel**: Then that’s enough. That’s more than I had.
+    - **Asriel**: Your little blue one. It left me that candy, didn’t it?
+    - **Asriel**: Will you give it one from me? From the bowl, in the Ruins. Tell it… tell it I said thank you.
+    - Later, on the way out, you take one sweet from the bowl. Your Nubbin eats it very slowly, looking back.
+
 ### Complete
 
 #### <a id="pa4-18-complete"></a>Complete `pa4-18-complete`
@@ -1471,26 +1501,26 @@ _He doesn’t look back. That’s the only kind thing he can do._
 _Your Nubbin watches him go until there is nothing left to watch._  
 **Pixel** _(soft)_: Spare the wretched one. Even if he’ll forget it. Especially then.  
 
-#### <a id="pa4-18-candy"></a>Variant `pa4-18-candy`
+#### <a id="pa4-18-complete-wisp-warm"></a>Variant `pa4-18-complete-wisp-warm`
 
-_Variant within PA4-18; it has no single parent scene._
+_Variant of `pa4-18-complete`._
 
-**Asriel** _(soft)_: Your little blue one. It left me that candy, didn’t it?  
-**Asriel** _(soft)_: Will you give it one from me? From the bowl, in the Ruins. Tell it… tell it I said thank you.  
-_Later, on the way out, you take one sweet from the bowl. Your Nubbin eats it very slowly, looking back._  
-
-#### <a id="pa4-18-wisp-warm"></a>Variant `pa4-18-wisp-warm`
-
-_Variant within PA4-18; it has no single parent scene._
-
+_Asriel walks away into the dark beyond the barrier room._  
+_He doesn’t look back. That’s the only kind thing he can do._  
+_Your Nubbin watches him go until there is nothing left to watch._  
+**Pixel** _(soft)_: Spare the wretched one. Even if he’ll forget it. Especially then.  
 _In the lantern shed, there’s a sound from the vent under the cabinet. Two whispers, one over the other._  
 **Wisp** _(soft)_: spared… warm…  
 _Pixel doesn’t say anything. She turns the cabinet’s volume down a notch, so as not to wake him._  
 
-#### <a id="pa4-18-wisp-driven"></a>Variant `pa4-18-wisp-driven`
+#### <a id="pa4-18-complete-wisp-driven"></a>Variant `pa4-18-complete-wisp-driven`
 
-_Variant within PA4-18; it has no single parent scene._
+_Variant of `pa4-18-complete`._
 
+_Asriel walks away into the dark beyond the barrier room._  
+_He doesn’t look back. That’s the only kind thing he can do._  
+_Your Nubbin watches him go until there is nothing left to watch._  
+**Pixel** _(soft)_: Spare the wretched one. Even if he’ll forget it. Especially then.  
 **Pixel** _(sad)_: We didn’t, with ours.  
 _She switches the cabinet off._  
 _The shed is dark and quiet for a minute. Then she switches it back on._  
@@ -1500,13 +1530,13 @@ _The shed is dark and quiet for a minute. Then she switches it back on._
 
 Sets on completion: `{"pa4-18":true}`
 
-**Notes:** CANDY (signature, pays off sixteen quests after PA4-2): if pa4-candy = left, play ARCADE_PA4_VARIANTS pa4-18-candy after pa4-18-sorry’s choice, before pa4-18-complete. WISP (reads wisp, Grove, read-only): after pa4-18-complete, if wisp is spared or sable play pa4-18-wisp-warm; if driven play pa4-18-wisp-driven (the cabinet goes dark for a minute, then resumes); if unset, nothing. CARE: the god form is light, noise and colour, never gore; nobody is hurt; the forgetting is shown as blank eyes, briefly, never as fear.
+**Notes:** CANDY (signature, pays off sixteen quests after PA4-2): ARCADE_PA4_VARIANTS pa4-18-sorry-candy-left replaces pa4-18-sorry, with Asriel’s thanks at the end of each choice. WISP (Grove, read-only): pa4-18-complete-wisp-warm (spared or sable) or pa4-18-complete-wisp-driven (the cabinet goes dark for a minute, then resumes) replace pa4-18-complete; unset, the base. CARE: the god form is light, noise and colour, never gore; nobody is hurt; the forgetting is shown as blank eyes, briefly, never as fear.
 
 ## PA4-19. The Surface
 
 *Undertale (Toby Fox, 2015): the walk out of the mountain* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: Mercy (Pixel’s Arcade) · when: Any time after PA4-18, from the Mercy cartridge in Pixel’s arcade cabinet. · requires: PA4-18
 
-**Cast:** Toriel (Toriel, keeper of the Ruins (Undertale)), Sans (Sans the skeleton (Undertale)), Papyrus (Papyrus the skeleton (Undertale)), Undyne (Undyne, captain of the Royal Guard (Undertale)), Alphys (Dr Alphys, the royal scientist (Undertale)), Asgore (King Asgore Dreemurr (Undertale))
+**Cast:** Toriel (Toriel, keeper of the Ruins (Undertale)), Sans (Sans the skeleton (Undertale)), Papyrus (Papyrus the skeleton (Undertale)), Undyne (Undyne, captain of the Royal Guard (Undertale)), Alphys (Dr Alphys, the royal scientist (Undertale)), Napstablook (Napstablook, the shy ghost (Undertale)), Mettaton (Mettaton, the robot star (Undertale)), Asgore (King Asgore Dreemurr (Undertale))
 
 ### Step 1: Walk out of the mountain with everyone.
 
@@ -1517,8 +1547,17 @@ Hint: Go up through the place the barrier used to be. Everyone will follow. · c
 _You all walk out of the mountain together, into the open air. It is morning._  
 _The sun is coming up over a valley full of trees. None of the monsters has ever seen it._  
 **Asgore** _(soft)_: Oh. Oh, look at that. I guessed sunny. All those years, and I guessed right.  
+**Napstablook** _(happy)_: i’m going to lie down in the grass. it’s like the ruins floor, but it’s green. …it’s nice.  
+**Napstablook** _(happy)_: what do you call a ghost in the sunshine? …i don’t know yet. i’ll think of one. for you.  
+**Papyrus** _(happy)_: THE SURFACE HAS NO PUZZLES YET! I MUST BUILD SOME AT ONCE! FOR TOURISM!  
+**Papyrus** _(happy)_: I WILL OPEN A SPAGHETTI RESTAURANT ON THE SURFACE! YOU WILL ALL EAT FOR FREE! PLEASE COME!  
+**Undyne** _(happy)_: The sun! It’s HOT! I love it! Alphys, look, it’s the biggest stove in the world!  
+**Undyne** _(soft)_: …Huh. It’s warm, but it’s not too hot. Somebody turned the sky down. I like it.  
+**Mettaton** _(happy)_: Perfect light. Perfect angle. Darling blue one, one last pose, for the first sunrise.  
+**Mettaton** _(happy)_: A sunrise! Darlings, what an opening. I want an encore of this tomorrow.  
 _Your Nubbin runs out into the sunlight and spins round, crown up, arms out._  
 _The child stands beside Toriel, squinting. Undyne shades her eyes, and Sans takes his hands out of his pockets._  
+**Sans**: huh. so that’s what the sky’s been doing all this time.  
 **Pixel** _(sad)_: That’s just the sky. It’s not even a very good sky, pixel-wise. I’m crying anyway.  
 
 #### <a id="pa4-19-sunrise-done"></a>Done `pa4-19-sunrise-done`
@@ -1544,8 +1583,58 @@ _Frisk turns to you and your Nubbin, and holds out their hand. Your Nubbin shake
 
 - **Say goodbye to Frisk.**
     - Frisk hugs you, quickly, and then hugs your Nubbin for much longer.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.
 - **Thank Frisk for letting you come along.**
     - Frisk smiles, and points at your Nubbin, and then at their own heart. You understand.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.
+
+#### <a id="pa4-19-home-candy-left"></a>Variant `pa4-19-home-candy-left`
+
+_Variant of `pa4-19-home`._
+
+**Toriel** _(soft)_: Child. I know you have a home somewhere. But if you would like… you could come and live with me.  
+_The child looks at her for a long moment. Then they nod, and take her hand._  
+_Then they look up at everyone, and for the first time, they speak._  
+_They tell everyone their name. It’s Frisk._  
+**Toriel** _(happy)_: Frisk. What a lovely name. Thank you for telling us.  
+**Papyrus** _(happy)_: FRISK! I SHALL NEVER FORGET IT! I MAY WRITE IT ON A BONE!  
+_Frisk turns to you and your Nubbin, and holds out their hand. Your Nubbin shakes it, very solemnly._  
+**Pixel** _(soft)_: Time to come home, you two. The cartridge is done. The good ending. The one with everybody.  
+
+**Choices**
+
+- **Say goodbye to Frisk.**
+    - Frisk hugs you, quickly, and then hugs your Nubbin for much longer.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark lifts its head.
+    - It turns, very slowly, towards the light.
+- **Thank Frisk for letting you come along.**
+    - Frisk smiles, and points at your Nubbin, and then at their own heart. You understand.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark lifts its head.
+    - It turns, very slowly, towards the light.
+
+#### <a id="pa4-19-home-candy-be"></a>Variant `pa4-19-home-candy-be`
+
+_Variant of `pa4-19-home`._
+
+**Toriel** _(soft)_: Child. I know you have a home somewhere. But if you would like… you could come and live with me.  
+_The child looks at her for a long moment. Then they nod, and take her hand._  
+_Then they look up at everyone, and for the first time, they speak._  
+_They tell everyone their name. It’s Frisk._  
+**Toriel** _(happy)_: Frisk. What a lovely name. Thank you for telling us.  
+**Papyrus** _(happy)_: FRISK! I SHALL NEVER FORGET IT! I MAY WRITE IT ON A BONE!  
+_Frisk turns to you and your Nubbin, and holds out their hand. Your Nubbin shakes it, very solemnly._  
+**Pixel** _(soft)_: Time to come home, you two. The cartridge is done. The good ending. The one with everybody.  
+
+**Choices**
+
+- **Say goodbye to Frisk.**
+    - Frisk hugs you, quickly, and then hugs your Nubbin for much longer.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.
+    - For a flower, it looks as if it is having a rest.
+- **Thank Frisk for letting you come along.**
+    - Frisk smiles, and points at your Nubbin, and then at their own heart. You understand.
+    - Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move.
+    - For a flower, it looks as if it is having a rest.
 
 ### Complete
 
@@ -1554,68 +1643,44 @@ _Frisk turns to you and your Nubbin, and holds out their hand. Your Nubbin shake
 _The screen fades to gold. You are standing in the lantern shed, with your Nubbin, in a striped jumper that wasn’t there before._  
 _Pixel leans back from the cabinet. Her taped MERCY button sits beside her, and a pot with one golden flower in it._  
 **Pixel** _(happy)_: I typed our names on the high score. There wasn’t a score. I typed them anyway.  
+_Pixel tapes the till roll to the side of the cabinet. It reaches the floor, and then turns left._  
 **Pixel** _(soft)_: Nobody got hurt. Not one. That’s the high score.  
 
-#### <a id="pa4-19-blook-lie"></a>Variant `pa4-19-blook-lie`
+#### <a id="pa4-19-complete-wisp-warm"></a>Variant `pa4-19-complete-wisp-warm`
 
-_Variant within PA4-19; it has no single parent scene._
+_Variant of `pa4-19-complete`._
 
-**Napstablook** _(happy)_: i’m going to lie down in the grass. it’s like the ruins floor, but it’s green. …it’s nice.  
+_The screen fades to gold. You are standing in the lantern shed, with your Nubbin, in a striped jumper that wasn’t there before._  
+_Pixel leans back from the cabinet. Her taped MERCY button sits beside her, and a pot with one golden flower in it._  
+**Pixel** _(happy)_: I typed our names on the high score. There wasn’t a score. I typed them anyway.  
+_Pixel tapes the till roll to the side of the cabinet. It reaches the floor, and then turns left._  
+**Pixel** _(soft)_: Nobody got hurt. Not one. That’s the high score.  
+_Later, when you look back into the shed, Wisp is asleep on top of the cabinet, curled up where it’s warm._  
+**Pixel** _(soft)_: Leave him. He’s earned the warm spot. I’ll turn the screen down.  
 
-#### <a id="pa4-19-blook-joke"></a>Variant `pa4-19-blook-joke`
+#### <a id="pa4-19-complete-wisp-warm-clank"></a>Variant `pa4-19-complete-wisp-warm-clank`
 
-_Variant within PA4-19; it has no single parent scene._
+_Variant of `pa4-19-complete-wisp-warm`._
 
-**Napstablook** _(happy)_: what do you call a ghost in the sunshine? …i don’t know yet. i’ll think of one. for you.  
+_The screen fades to gold. You are standing in the lantern shed, with your Nubbin, in a striped jumper that wasn’t there before._  
+_Pixel leans back from the cabinet. Her taped MERCY button sits beside her, and a pot with one golden flower in it._  
+**Pixel** _(happy)_: I typed our names on the high score. There wasn’t a score. I typed them anyway.  
+_Pixel tapes the till roll to the side of the cabinet. It reaches the floor, and then turns left._  
+**Pixel** _(soft)_: Nobody got hurt. Not one. That’s the high score.  
+_Later, when you look back into the shed, Wisp is asleep on top of the cabinet, curled up where it’s warm._  
+**Pixel** _(soft)_: Leave him. He’s earned the warm spot. I’ll turn the screen down.  
+_Clank gets down off the cabinet, very carefully, and pats the taped MERCY button once, like your Nubbin did._  
 
-#### <a id="pa4-19-papyrus-puzzles"></a>Variant `pa4-19-papyrus-puzzles`
+#### <a id="pa4-19-complete-clank"></a>Variant `pa4-19-complete-clank`
 
-_Variant within PA4-19; it has no single parent scene._
+_Variant of `pa4-19-complete`._
 
-**Papyrus** _(happy)_: THE SURFACE HAS NO PUZZLES YET! I MUST BUILD SOME AT ONCE! FOR TOURISM!  
-
-#### <a id="pa4-19-papyrus-pasta"></a>Variant `pa4-19-papyrus-pasta`
-
-_Variant within PA4-19; it has no single parent scene._
-
-**Papyrus** _(happy)_: I WILL OPEN A SPAGHETTI RESTAURANT ON THE SURFACE! YOU WILL ALL EAT FOR FREE! PLEASE COME!  
-
-#### <a id="pa4-19-undyne-hot"></a>Variant `pa4-19-undyne-hot`
-
-_Variant within PA4-19; it has no single parent scene._
-
-**Undyne** _(happy)_: The sun! It’s HOT! I love it! Alphys, look, it’s the biggest stove in the world!  
-
-#### <a id="pa4-19-undyne-low"></a>Variant `pa4-19-undyne-low`
-
-_Variant within PA4-19; it has no single parent scene._
-
-**Undyne** _(soft)_: …Huh. It’s warm, but it’s not too hot. Somebody turned the sky down. I like it.  
-
-#### <a id="pa4-19-mettaton-pose"></a>Variant `pa4-19-mettaton-pose`
-
-_Variant within PA4-19; it has no single parent scene._
-
-**Mettaton** _(happy)_: Perfect light. Perfect angle. Darling blue one, one last pose, for the first sunrise.  
-
-#### <a id="pa4-19-mettaton-encore"></a>Variant `pa4-19-mettaton-encore`
-
-_Variant within PA4-19; it has no single parent scene._
-
-**Mettaton** _(happy)_: A sunrise! Darlings, what an opening. I want an encore of this tomorrow.  
-
-#### <a id="pa4-19-flower-turns"></a>Variant `pa4-19-flower-turns`
-
-_Variant within PA4-19; it has no single parent scene._
-
-_Last of all, the screen shows the Ruins one more time. A golden flower in the dark lifts its head._  
-_It turns, very slowly, towards the light._  
-
-#### <a id="pa4-19-flower-still"></a>Variant `pa4-19-flower-still`
-
-_Variant within PA4-19; it has no single parent scene._
-
-_Last of all, the screen shows the Ruins one more time. A golden flower in the dark doesn’t move._  
+_The screen fades to gold. You are standing in the lantern shed, with your Nubbin, in a striped jumper that wasn’t there before._  
+_Pixel leans back from the cabinet. Her taped MERCY button sits beside her, and a pot with one golden flower in it._  
+**Pixel** _(happy)_: I typed our names on the high score. There wasn’t a score. I typed them anyway.  
+_Pixel tapes the till roll to the side of the cabinet. It reaches the floor, and then turns left._  
+**Pixel** _(soft)_: Nobody got hurt. Not one. That’s the high score.  
+_Clank gets down off the cabinet, very carefully, and pats the taped MERCY button once, like your Nubbin did._  
 
 **Rewards**
 
@@ -1625,17 +1690,4 @@ _Last of all, the screen shows the Ruins one more time. A golden flower in the d
 
 Sets on completion: `{"pa4-19":true,"pa4-done":true}`
 
-**Notes:** FRIENDS (Tier 3): after pa4-19-sunrise line 2 (Asgore), before line 3, play one ARCADE_PA4_VARIANTS scene per friend in this order: pa4-19-blook-lie | -joke, pa4-19-papyrus-puzzles | -pasta, pa4-19-undyne-hot | -low, pa4-19-mettaton-pose | -encore. LAST FRAME (signature): after pa4-19-home’s choice, before pa4-19-complete, play pa4-19-flower-turns if pa4-candy = left, pa4-19-flower-still if be. AFTER THE CARTRIDGE: once pa4-19-complete ends, if wisp is spared or sable play pa4-end-wisp-asleep; if s21Done play pa4-end-clank. REWARDS (one-time): the Striped Jumper cosmetic, the Golden Flower Pot decoration (by the cottage door) and the high-score plate. SIM: pa4-done counts towards High Score Night (any two of PA1–PA5 done). CREDITS NOTE: “The neutral ending is not shown in this cartridge.”
-
-## Variant scenes
-
-Variants with no parent scene in this storyline (Grove-side, campaign-side or shared scenes).
-
-#### <a id="pa4-end-wisp-asleep"></a>Variant `pa4-end-wisp-asleep`
-
-_Later, when you look back into the shed, Wisp is asleep on top of the cabinet, curled up where it’s warm._  
-**Pixel** _(soft)_: Leave him. He’s earned the warm spot. I’ll turn the screen down.  
-
-#### <a id="pa4-end-clank"></a>Variant `pa4-end-clank`
-
-_Clank gets down off the cabinet, very carefully, and pats the taped MERCY button once, like your Nubbin did._  
+**Notes:** FRIENDS (Tier 3): pa4-19-sunrise holds both lines for each friend after Asgore; ARCADE_PA4_LINE_NEEDS keeps the one that answers each friend flag (unset: the first). LAST FRAME (signature): pa4-19-home-candy-left (the flower turns) or pa4-19-home-candy-be (the flower rests) replace pa4-19-home, the frame at the end of each choice; the base keeps the still flower. AFTER THE CARTRIDGE: pa4-19-complete-wisp-warm (wisp spared or sable), -clank (s21Done) or -wisp-warm-clank replace pa4-19-complete with the end frames. REWARDS (one-time): the Striped Jumper cosmetic, the Golden Flower Pot decoration (by the cottage door) and the high-score plate. SIM: pa4-done counts towards High Score Night (any two of PA1–PA5 done). CREDITS NOTE: “The neutral ending is not shown in this cartridge.”

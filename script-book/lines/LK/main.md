@@ -4,7 +4,7 @@
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): the storytellers and the mouse-deer* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Help Siti and Wulan put up their shadow screen by the pond.
 
@@ -24,8 +24,11 @@ _Your Nubbin takes the other pole without being asked. The pole is taller than i
 
 #### <a id="lk01-lamp"></a>Done `lk01-lamp`
 
-_The screen goes up, tight as a drum. Wulan lights a lamp behind it, and the cloth glows warm gold._  
-**Mak Cik Siti** _(happy)_: There. Now nothing can hide. Not even a shadow.  
+_The screen goes up. Wulan lights a lamp behind it, and the cloth glows warm gold._  
+**Mak Cik Siti** _(happy)_: There. Tight as a drum.  
+**Bu Wulan**: It sags on the left.  
+**Mak Cik Siti**: It does not sag.  
+_It sags, a little, on the left. Your Nubbin tilts its head to match._  
 _Your Nubbin walks between the lamp and the cloth. Its shadow stretches across the screen, enormous._  
 _It stares at the giant shadow, then waves. The shadow waves back._  
 **Bu Wulan**: Shadows are honest. They copy you exactly, only bigger or smaller.  
@@ -77,7 +80,7 @@ _Your Nubbin nods, solemn. It has never been better suited to a part._
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil and the fruit across the river* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK1
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch the first tale from the bank: Kancil is hungry.
 
@@ -132,7 +135,7 @@ _Your Nubbin is still at the stream, counting something on its fingers._
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil counts the crocodiles* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK2
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch Kancil call the crocodiles to the bank.
 
@@ -229,7 +232,7 @@ _Your Nubbin crosses on them twice, nodding once at every stone._
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil and the stick* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK3
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch Kancil go down to the river for a drink.
 
@@ -259,11 +262,26 @@ _A long shadow slides up underneath, and snap! The crocodile puppet has Kancil b
 **Kancil** _(happy)_: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
 _The crocodile lets go, quick as anything, and snaps at a stick floating past._  
 
+#### <a id="lk04-grab-sorry"></a>Variant `lk04-grab-sorry`
+
+_Variant of `lk04-grab`._
+
+**Bu Wulan**: Some days later, Kancil was thirsty, so he went down to the river for a drink.  
+_Your Nubbin bends the puppet down to the shadow water. Its little nose nearly touches the ripples._  
+_A long shadow slides up underneath, and snap! The crocodile puppet has Kancil by the leg._  
+**Crocodile** _(think)_: I remember you. You’re the one who said sorry.  
+**Crocodile** _(think)_: Nobody says sorry to a crocodile. I’ve thought about it every day. It’s very annoying.  
+**Crocodile** _(sad)_: I still have to eat you. But I’ll feel odd about it.  
+**Kancil** _(think)_: Oh, crocodile. Is that my leg you’ve caught?  
+**Kancil** _(happy)_: That isn’t my leg at all! That’s an old stick. Silly crocodile, you’ve caught a stick!  
+_The crocodile lets go, quick as anything, and snaps at a stick floating past._  
+
 #### <a id="lk04-free"></a>Done `lk04-free`
 
 _Kancil is up the bank and gone before the crocodile notices it’s chewing a stick._  
 **Crocodile** _(shock)_: ...This is a stick.  
 **Mak Cik Siti** _(happy)_: It certainly is.  
+_The crocodile spits out the stick and glares at it, as if the stick had lied._  
 
 ### Step 2: Find a stick by the pond and lay it beside your Nubbin’s leg.
 
@@ -284,19 +302,19 @@ _The children argue about it all down the bank. Your Nubbin goes looking for a s
 
 _Your Nubbin lays the stick beside its leg. The stick is much longer, and a lot less wriggly._  
 **Bu Wulan** _(happy)_: So it wasn’t a very good stick to mistake for a leg.  
-**Mak Cik Siti**: It was dark. The crocodile was hungry. Hungry makes everyone silly.  
+**Mak Cik Siti**: The crocodile was hungry. Hungry makes everyone silly.  
 _The crocodile puppet goes back into the box looking, if anything, slightly embarrassed._  
 
 **Rewards**
 
 
-**Notes:** VARIANT: if lk-croc = laughed, play lk04-grab-laughed (LINE_LK_VARIANTS) in place of lk04-grab: the crocodile is much crosser. Otherwise (thanks or sorry) lk04-grab, where it grumbles that it remembers. Staging: the crocodile “has” the leg; no teeth meet anything, and no biting is shown.
+**Notes:** VARIANT: if lk-croc = laughed, play lk04-grab-laughed (LINE_LK_VARIANTS) in place of lk04-grab: the crocodile is much crosser. If lk-croc = sorry, lk04-grab-sorry: the apology has been bothering it ever since. Otherwise (thanks) lk04-grab, where it grumbles that Kancil was polite. Staging: the crocodile “has” the leg; no teeth meet anything, and no biting is shown.
 
 ## LK5. The Buffalo and the Crocodile
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil judges between the buffalo and the crocodile* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK4
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch the buffalo help the crocodile out from under a log.
 
@@ -306,14 +324,19 @@ Hint: Sit on the bank at dusk for the fourth tale. · check: `watch:lk-shadow-pl
 
 **Mak Cik Siti** _(soft)_: One day a great storm blew through the forest, and a tree fell across the riverbank.  
 _Siti drops a long shadow log across the screen. Underneath it, the crocodile puppet thrashes its tail._  
+_Tonight Wulan does the crocodile. It comes out as a very small squeak._  
 **Crocodile** _(sad)_: Help! Help! I’m stuck under this log and I can’t get out!  
+**Mak Cik Siti** _(think)_: Wulan. We have talked about this.  
+**Bu Wulan**: It’s a frightened crocodile.  
+**Mak Cik Siti**: It’s a frightened mouse.  
+**Bu Wulan** _(happy)_: It’s a crocodile having a mouse sort of day.  
 _Wulan brings on the buffalo, slow and heavy, with wide curved horns._  
 **Buffalo** _(soft)_: Poor crocodile. Hold still. I’ll get you out.  
 _The buffalo wedges a long branch under the log and leans on the other end with its horns. The log rolls away._  
-**Crocodile** _(happy)_: Free! Thank you, buffalo. Thank you so much. And now...  
+**Crocodile** _(happy)_: Free! Thank you, buffalo. I promise I will never forget this.  
 _Snap! The crocodile grabs the buffalo by the leg._  
-**Buffalo** _(shock)_: But I helped you!  
-**Crocodile** _(think)_: And now I’m hungry. Helping makes a crocodile hungry.  
+**Buffalo** _(shock)_: You promised!  
+**Crocodile** _(think)_: I promised not to forget. I haven’t. I remember you perfectly. You look delicious.  
 
 #### <a id="lk05-judge"></a>Done `lk05-judge`
 
@@ -354,7 +377,7 @@ _A small girl asks if the crocodile stays there forever._
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil races the snails* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK5
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch Kancil boast to a snail.
 
@@ -410,7 +433,7 @@ _The small boy at the back is smiling now. He has been helping Wulan move the sn
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil and Pak Tani’s cucumbers* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK6
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch the tale of the cucumber garden.
 
@@ -419,7 +442,9 @@ Hint: Sit on the bank at dusk for the sixth tale. · check: `watch:lk-shadow-pla
 #### <a id="lk07-garden"></a>Scene `lk07-garden`
 
 _Tonight Wulan sits at the lamp. She has brought a new puppet: a farmer in a wide straw hat._  
-**Bu Wulan** _(soft)_: This is the tale I heard before any other. Kancil and the cucumbers.  
+**Bu Wulan** _(happy)_: Five tales of waiting. I did not sulk once.  
+**Mak Cik Siti**: She sulked on Tuesday.  
+**Bu Wulan** _(soft)_: I waited loudly on Tuesday. This is the tale I heard before any other. Kancil and the cucumbers.  
 **Bu Wulan**: There was a farmer called Pak Tani, and he grew the best cucumbers in the whole village.  
 **Pak Tani** _(angry)_: My cucumbers! Somebody has been eating my cucumbers again!  
 _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
@@ -427,14 +452,16 @@ _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling a
 **Kancil** _(happy)_: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
 _Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
 **Pak Tani** _(angry)_: Got you, cucumber thief!  
+_A small brown dog trots in, sits down, and watches with great interest._  
 **Mak Cik Siti** _(think)_: Wait, wait. That’s not how my grandmother told it.  
 
-#### <a id="lk07-garden-siti"></a>Variant `lk07-garden-siti`
+#### <a id="lk07-garden-wulan"></a>Variant `lk07-garden-wulan`
 
 _Variant of `lk07-garden`._
 
 _Tonight Siti sits at the lamp. She has borrowed Wulan’s new puppet: a farmer in a wide straw hat._  
-**Mak Cik Siti** _(happy)_: This is Wulan’s tale really. But she told the first tale, so this one is mine.  
+**Mak Cik Siti** _(happy)_: This is Wulan’s tale really. But her way came first all summer, so tonight it’s mine.  
+**Bu Wulan** _(think)_: There’s no crocodile in it. She’s been practising the farmer in the bath.  
 **Mak Cik Siti**: There was a farmer, Pak Tani, as Wulan calls him, and he grew the best cucumbers in the whole village.  
 **Pak Tani** _(angry)_: My cucumbers! Somebody has been eating my cucumbers again!  
 _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling an invisible cucumber._  
@@ -442,6 +469,7 @@ _Your Nubbin creeps the Kancil puppet along the bottom of the screen, nibbling a
 **Kancil** _(happy)_: Who’s this, standing in the garden? Out of my way, please. I’m busy eating.  
 _Kancil pushes the scarecrow, and his hoof sticks. He pushes with the other, and that sticks too._  
 **Pak Tani** _(angry)_: Got you, cucumber thief!  
+_A small brown dog trots in, sits down, and watches with great interest._  
 **Bu Wulan** _(think)_: Wait, wait. That’s not how my grandmother told it.  
 
 #### <a id="lk07-endings"></a>Done `lk07-endings`
@@ -479,13 +507,13 @@ _Within a few days the vine has climbed halfway up. There is one small cucumber 
 
 - Cucumber-vine trellis (decor): A split-bamboo trellis by the shadow screen with a cucumber vine climbing it. One-time.
 
-**Notes:** PAYOFF of LK1: whoever told second tells this tale. If lk-first = siti, play lk07-garden (Wulan tells, Siti objects). If lk-first = wulan, play lk07-garden-siti (LINE_LK_VARIANTS) in its place: Siti tells Wulan’s tale and Wulan objects. lk07-endings fits both. The old ending (the dog) is told, not shown.
+**Notes:** PAYOFF of LK1: whoever told second tells this tale. If lk-first = siti, play lk07-garden (Wulan tells, Siti objects). If lk-first = wulan, play lk07-garden-wulan (LINE_LK_VARIANTS) in its place: Siti tells Wulan’s tale and Wulan objects. lk07-endings fits both. The old ending (the dog) is told, not shown; the dog itself is shown arriving in the garden so the old ending has a set-up.
 
 ## LK8. The Tiger at the River
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil and the tiger in the pool* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK7
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch the tiger corner Kancil by the water.
 
@@ -505,7 +533,9 @@ _Your Nubbin backs the Kancil puppet right up to the edge of the shadow water._
 
 **Tiger** _(angry)_: Nonsense. Show me this tiger.  
 _The tiger leans over the shadow pool. Wulan tips a second tiger puppet upside down beneath it, nose to nose._  
-**Tiger** _(angry)_: Grrr! Who are you? Go away! This is MY forest!  
+**Tiger** _(angry)_: Who are you? Stop copying me. ...Stop it. ...I said STOP it!  
+_The tiger shakes a paw. The tiger in the water shakes a paw back._  
+**Tiger** _(angry)_: Rude. And he’s got terrible manners as well.  
 
 ### Step 2: Look at your Nubbin’s reflection in the still pond.
 
@@ -540,7 +570,7 @@ _It waves, and the other one waves back. It pokes the water, and the other Nubbi
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): Kancil, the elephant and the falling sky* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK8
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Watch Kancil fall into the hunters’ pit.
 
@@ -579,11 +609,12 @@ _A little girl on the bank puts her hand up. She wants to know what happens to t
 
 **Choices**
 
-- **End it the old way. It’s Siti’s grandmother’s tale.** — sets `{"lk-pit":"stuck"}`
+- **End it the old way. It’s Siti’s grandmother’s tale.** — sets `{"lk-pit":"pit-stuck"}`
     - **Mak Cik Siti**: Then it ends there. Kancil was clever, and the elephant was trusting, and that was all.
     - The little girl thinks about it for a long time. Then she asks to hold the elephant puppet, and Siti lets her.
     - **Bu Wulan**: Old tales don’t always comfort you. Sometimes they tell you to be careful who you trust.
-- **Help Kancil get Elephant out.** — sets `{"lk-pit":"ramp"}`
+    - **Bu Wulan**: I like to think somebody kind came by later, with a rope. And a banana.
+- **Help Kancil get Elephant out.** — sets `{"lk-pit":"pit-ramp"}`
     - **Kancil**: Elephant! I’m sorry. The sky isn’t falling. Wait there, I’ll get help!
     - Your Nubbin rolls six logs from the woodpile and leans them in a ramp against the shadow pit.
     - The elephant climbs out, one big step at a time, while the children count the logs out loud.
@@ -605,7 +636,7 @@ _Your Nubbin puts the elephant puppet back in the box, very gently, on top of ev
 
 *Sang Kancil tales (traditional; Malaysia and Indonesia): the last crossing* · audience: all · where: The pond at dusk, by the shadow screen (Learning Grove only) · when: After chapter 6, at summer’s end. One tale at a time, in order; paused during chapters 9–11; never repeats · requires: LK9
 
-**Cast:** Pixel, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
+**Cast:** Pixel, Byte, Mak Cik Siti (A storyteller from Melaka, Malaysia (our invention), in the Sang Kancil tradition), Bu Wulan (A wayang kancil puppeteer from Yogyakarta, Indonesia (our invention)), Kancil (Sang Kancil / Si Kancil, the mouse-deer (a puppet)), Crocodile (Buaya, the crocodile of the Kancil tales (a puppet)), Buffalo (Kerbau, the water buffalo of the Kancil tales (a puppet)), Snail (The snail who races Kancil (a puppet)), Tiger (Harimau, the tiger of the Kancil tales (a puppet)), Elephant (Gajah, the elephant in the pit tale (a puppet)), Pak Tani (Pak Tani, the farmer in Kancil and the cucumbers (a puppet))
 
 ### Step 1: Line up the Grove’s Nubbins across the stream for the last crossing.
 
@@ -616,7 +647,9 @@ Hint: Call your Nubbins to the stream by the shadow screen. · check: `place:lk-
 _The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
 **Mak Cik Siti** _(happy)_: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
 **Bu Wulan** _(happy)_: And kue from me. Same idea, different spelling, better coconut.  
-**Pixel** _(happy)_: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand._  
+**Pixel** _(happy)_: I’ve rigged a second lamp so the people at the back can see. It won’t blow up.  
+**Byte** _(think)_: Probably.  
 _Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
 **Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
 _The Grove’s Nubbins slide into the stream at once. They remember that Kancil was kind to them._  
@@ -629,7 +662,9 @@ _Variant of `lk10-line`._
 _The last evening of summer. The whole valley is on the bank, with mats and cushions and far too much food._  
 **Mak Cik Siti** _(happy)_: Kuih! Who wants kuih? I made the green ones and the stripy ones.  
 **Bu Wulan** _(happy)_: And kue from me. Same idea, different spelling, better coconut.  
-**Pixel** _(happy)_: I’ve rigged a second lamp so the people at the back can see. It won’t blow up. Probably.  
+_Pixel, who mends everything in the Grove, brings a second lamp. Her husband Byte follows with a bucket of sand._  
+**Pixel** _(happy)_: I’ve rigged a second lamp so the people at the back can see. It won’t blow up.  
+**Byte** _(think)_: Probably.  
 _Your Nubbin is Kancil tonight, for real: no puppet, just itself in the lamplight._  
 **Bu Wulan**: Crocodiles! The last crossing! Line up, please!  
 _The Grove’s Nubbins float in the shallows with their arms folded. Nobody lines up._  
@@ -672,11 +707,14 @@ _Afterwards the children sit in a heap on the bank, full of kuih and kue, and no
 **Mak Cik Siti** _(think)_: So. What did Kancil learn this summer?  
 _A boy says be clever, and a girl says say thank you. The small boy who helped the snails says don’t laugh at slow people._  
 **Bu Wulan** _(soft)_: All true. My grandmother would have liked you lot.  
+_The little girl who held the elephant puppet has it again. It sits on a ramp she made herself, out of six twigs._  
+**Bu Wulan** _(soft)_: Siti’s grandmother stopped the tale in the pit. She never said nobody could build a ramp later.  
+**Mak Cik Siti** _(happy)_: My grandmother would be furious. And then she’d help.  
 **Mak Cik Siti** _(soft)_: We’re leaving the screen by the pond. It belongs here now.  
 **Bu Wulan** _(happy)_: And we’re staying a while. We like your valley. It argues nearly as well as we do.  
 _Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, one, two, three, all on its own._  
 
-#### <a id="lk10-complete-ramp"></a>Variant `lk10-complete-ramp`
+#### <a id="lk10-complete-pit-ramp"></a>Variant `lk10-complete-pit-ramp`
 
 _Variant of `lk10-complete`._
 
@@ -695,4 +733,4 @@ _Your Nubbin sits by the screen with the little Kancil puppet and makes it hop, 
 
 Sets on completion: `{"lk-done":true}`
 
-**Notes:** PAYOFFS. LK9: if lk-pit = ramp, play lk10-complete-ramp in place of lk10-complete (the snail boy’s answer is the elephant). LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti and Wulan stay in the valley and can be found by the screen in the evenings, with idle lines in both languages (to write with the advisers, e.g. greetings, “Selamat petang” for good evening, and a count to ten); the screen and the stepping-stones stay. No timers: the idle lines are unlimited and give nothing.
+**Notes:** PAYOFFS. LK9: if lk-pit = pit-ramp, play lk10-complete-pit-ramp in place of lk10-complete (the snail boy’s answer is the elephant); for pit-stuck, lk10-complete gives the elephant its twig ramp. LK3: if lk-croc = laughed, play lk10-line-laughed in place of lk10-line (the Nubbins won’t line up until you help Kancil ask nicely). LK1: if lk-first = wulan, play lk10-count-wulan in place of lk10-count (Indonesian leads; the bank shouts “Lapan!” at eight). Both variants are in LINE_LK_VARIANTS. Staging: twenty Nubbins in two lines (fill from wild Nubbins if the Grove has fewer). AFTER THE LINE: Siti and Wulan stay in the valley and can be found by the screen in the evenings, with idle lines in both languages (to write with the advisers, e.g. greetings, “Selamat petang” for good evening, and a count to ten); the screen and the stepping-stones stay. No timers: the idle lines are unlimited and give nothing.

@@ -29,13 +29,17 @@
  *     Night reads it through the Arcade save (any two of PA1–PA5).
  *   - pa5-oldman = ate | left (PA5-3, pa5-03-cold): ate plays pa5-14-complete-ate in PA5-14,
  *     eleven quests later.
- *   - pa5-memories = all | road (PA5-5, pa5-05-photos): THE SIGNATURE CHOICE. all marks the eight
- *     off-road memory sites on the slate's map (PA5_VARIANTS pa5-mem-*); road leaves them unmarked.
- *     Pays off in PA5-15 and PA5-18.
- *   - pa5-thirteenth = true (pa5-15-complete-hunt): set only when pa5-memories = all AND all twelve
- *     memories have been seen. PA5-18 reads it for the second ending.
- *   - pa5-17-hold = steady | gentle, pa5-14-told = told | kept, pa5-18-after = look | leave: small
- *     choice flags, read by nothing outside their own scene (pa5-18-after = look re-marks the sites).
+ *   - pa5-memories = photohunt | photoroad (PA5-5, pa5-05-photos): THE SIGNATURE CHOICE. photohunt
+ *     plays the eight off-road memories as PA5_VARIANTS `<host>-photohunt`, replacing scenes that
+ *     always play in PA5-6 to PA5-13; photoroad leaves them out. Pays off in PA5-15 and PA5-18.
+ *   - pa5-hunt = hunt (pa5-13-sword-done-photohunt, the eighth off-road memory): with the four
+ *     on-road memories, all twelve are seen by PA5-15. Answers pa5-15-*-hunt and pa5-18-complete-hunt.
+ *   - pa5-thirteenth = true (pa5-15-complete-hunt): the thirteenth photograph, kept for the journal.
+ *   - pa5-14-told = oldman-told | oldman-kept (pa5-14-complete-ate): picks pa5-18-question-oldman-*,
+ *     where the old man's message reaches Zelda.
+ *   - pa5-jumper = lent-jumper (pa5-02-pool): picks pa5-18-seal-done-lent-jumper.
+ *   - pa5-17-hold = steady | gentle, pa5-18-after = look-back | leave-room: small choice flags, read by
+ *     nothing outside their own scene.
  *
  * LIFTED TEXT (copyrighted; two one-sentence lines, both exactly as the outline lists them, from
  * the English script as quoted in Nintendo's trailers and by Zelda Dungeon; CHECK BOTH AGAINST THE
@@ -157,7 +161,7 @@ export const ARCADE_PA5: Quest[] = [
             N('The lantern shed smells of sawdust and solder. The cabinet hums in the corner like a fridge with ambitions.'),
             PX('New cartridge. Well, old cartridge. New to us.'),
             N('She holds it up. The label is faded to the colour of weak tea, except for one blue eye, which hasn’t faded at all.'),
-            PX('Found it under the mouse nest. The mice had been using it as a table. It works anyway. I checked.'),
+            PX('Found it in the mouse nest. They’d been using it as a table. I gave them a coaster in exchange.'),
             PX('You go in. I stay out here as player two and talk through the speaker. I’ve fixed the speaker. Mostly.'),
             PX('If it goes wrong, I pull the plug and you’re back on this floor. Ruling: that has never failed.'),
             Y('How many times have you tried it?'),
@@ -169,8 +173,8 @@ export const ARCADE_PA5: Quest[] = [
               id: 'blow',
               label: 'Blow on the cartridge first.',
               then: [
-                PX('That does nothing. Everybody does it anyway. Fine.'),
-                N('You blow on it. Pixel blows on it too, a bit harder, and looks pleased with herself.'),
+                PX('Ruling: it does nothing. Ruling two: I’m doing it too.'),
+                N('You blow on it, and Pixel blows on it harder. Your Nubbin, not to be left out, blows on Pixel.'),
               ],
             },
             {
@@ -281,6 +285,7 @@ export const ARCADE_PA5: Quest[] = [
             {
               id: 'jumper',
               label: 'Offer him your jumper.',
+              set: { 'pa5-jumper': 'lent-jumper' },
               then: [
                 N('Link takes it, puts it on back to front, and fixes it without a word. It fits him better than it fits you.'),
                 PX('Ruling: that’s his now. Heroes don’t give jumpers back. It’s in the rules.'),
@@ -661,7 +666,7 @@ export const ARCADE_PA5: Quest[] = [
             {
               id: 'all',
               label: 'We’ll find every one of them.',
-              set: { 'pa5-memories': 'all' },
+              set: { 'pa5-memories': 'photohunt' },
               then: [
                 IM('Every one. Good. That is the slow way, and the slow way is often the right one.'),
                 N('You lay the twelve photographs out on the floor, and Link looks at each one for a long time.'),
@@ -671,7 +676,7 @@ export const ARCADE_PA5: Quest[] = [
             {
               id: 'road',
               label: 'Only the ones on our road. She’s waiting.',
-              set: { 'pa5-memories': 'road' },
+              set: { 'pa5-memories': 'photoroad' },
               then: [
                 IM('She is. That is true too. Go on, then.'),
                 N('You put the photographs in your coat, close to your chest, where they won’t get rained on.'),
@@ -697,9 +702,9 @@ export const ARCADE_PA5: Quest[] = [
     rewards: [],
     sets: { 'pa5-05': true },
     notes:
-      'SIGNATURE CHOICE: pa5-05-photos sets pa5-memories = all | road. all: the eight off-road memory sites are marked on ' +
-      'the slate map, and each plays its PA5_VARIANTS pa5-mem-* scene when found (find:pa5-memory:<slug>). road: they ' +
-      'stay unmarked and unplayable until PA5-18’s "look" choice. The four on-road memories (Mipha, shelter, sword, ' +
+      'SIGNATURE CHOICE: pa5-05-photos sets pa5-memories = photohunt | photoroad. photohunt: the eight off-road ' +
+      'memories play as PA5_VARIANTS <host>-photohunt (PA5-6 to PA5-13; the eighth sets pa5-hunt = hunt). photoroad: ' +
+      'they stay unplayed. The four on-road memories (Mipha, shelter, sword, ' +
       'father) play in PA5-8, 12, 13 and 14 either way. Pays off in PA5-15 and PA5-18. The photo bundle goes in the ' +
       'player’s inventory as one item that fills as memories are seen.',
   },
@@ -713,7 +718,7 @@ export const ARCADE_PA5: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA5-5') },
     requires: ['PA5-5'],
-    speakers: [PURAH],
+    speakers: [PURAH, ZELDA],
     steps: [
       {
         id: 'pa5-06-s1',
@@ -775,6 +780,10 @@ export const ARCADE_PA5: Quest[] = [
           lines: [
             N('The slate clicks. The picture is of Purah, your Nubbin and, at the edge, half of your ear.'),
             PU('Perfect. Science!'),
+            N('Then the slate chirps at the lab pond, and it is a hundred years ago. Zelda holds out a frog to Link in both hands, very pleased.'),
+            ZE('Hot-footed frog. Eating one makes you quicker. Science! Well. Possibly science.', 'happy'),
+            N('Link looks at the frog. The frog looks at Link. The memory, mercifully, ends.'),
+            PU('That’s not one of Impa’s twelve. That’s a test. The test was a frog.'),
           ],
         },
       },
@@ -791,7 +800,9 @@ export const ARCADE_PA5: Quest[] = [
     sets: { 'pa5-06': true },
     notes:
       'Purah looks about six; she is old and brilliant, and every joke is hers, never at her expense. The slate now ' +
-      'points to memory sites: with pa5-memories = all, all twelve are marked; with road, only the on-road four.',
+      'points to memory sites: with pa5-memories = photohunt, all twelve are marked; with photoroad, only the on-road ' +
+      'four. The frog test shot in pa5-06-slate-done plays for everyone and is not one of the twelve; its sequel, the ' +
+      'control group, is (pa5-06-complete-photohunt).',
   },
 
   // ---------------------------------------------------------------- PA5-7
@@ -803,7 +814,7 @@ export const ARCADE_PA5: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA5-6') },
     requires: ['PA5-6'],
-    speakers: [HESTU],
+    speakers: [HESTU, ZELDA],
     steps: [
       {
         id: 'pa5-07-s1',
@@ -918,7 +929,7 @@ export const ARCADE_PA5: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA5-7') },
     requires: ['PA5-7'],
-    speakers: [SIDON, MUZU, MIPHA],
+    speakers: [SIDON, MUZU, MIPHA, ZELDA],
     steps: [
       {
         id: 'pa5-08-s1',
@@ -1226,7 +1237,7 @@ export const ARCADE_PA5: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA5-10') },
     requires: ['PA5-10'],
-    speakers: [RIJU, BULIARA, YIGA, URBOSA],
+    speakers: [RIJU, BULIARA, YIGA, URBOSA, ZELDA],
     steps: [
       {
         id: 'pa5-11-s1',
@@ -1301,7 +1312,7 @@ export const ARCADE_PA5: Quest[] = [
             N('Riju puts on the helm. Lightning comes down round the stone camel, and its shield fails.'),
             N('Inside Vah Naboris, the Beast turns slowly on great stone gears. Your Nubbin follows the sparks round the walls.'),
             N('At the last terminal, a tall golden light gathers into a woman: Urbosa, the Gerudo chief of a hundred years ago.'),
-            UR('There you are. You took your time. You always did, with dawdling, you know. But not with her.', 'happy'),
+            UR('There you are. You took your time. You always did, except where she was concerned.', 'happy'),
             UR('I watched the princess grow up. Her mother was my dearest friend. I promised to look after her.'),
             UR('I couldn’t. Not at the end. So you will, won’t you?', 'soft'),
             N('She looks down at your Nubbin, and then at you.'),
@@ -1323,7 +1334,7 @@ export const ARCADE_PA5: Quest[] = [
         RI('Four Beasts. All four, aimed at the castle. A hundred years of waiting, and it’s you who came.', 'happy'),
         BU('The chief did very well.'),
         RI('The chief knows that, Buliara.', 'happy'),
-        PX('Four Beasts. Four Champions. Zero fingers left. Now the castle.'),
+        PX('Four Beasts. Four Champions. That’s eight fingers. Two left, and I’m saving them for the castle.'),
       ],
     },
     rewards: [],
@@ -1407,7 +1418,7 @@ export const ARCADE_PA5: Quest[] = [
     rewards: [],
     sets: { 'pa5-12': true },
     notes:
-      'MEMORY (on-road, 2 of 4): Shelter from the Storm. Zelda is seen here for the first time; licensed design. The ' +
+      'MEMORY (on-road, 2 of 4): Shelter from the Storm. Zelda is first seen in the PA5-6 frog test shot; licensed design. The ' +
       'memory is staged with you and your Nubbin visible at its edge, slightly greyed, unseen by them. Hazel’s third ' +
       'rule is acted here (Link sits and waits) and never quoted.',
   },
@@ -1624,7 +1635,7 @@ export const ARCADE_PA5: Quest[] = [
             {
               id: 'ready',
               label: 'We’re ready.',
-              then: [IM('Nobody is ever ready. Go anyway.')],
+              then: [IM('Ready? I have been getting ready for a hundred years. Go anyway.')],
             },
             {
               id: 'sorry',
@@ -1668,10 +1679,10 @@ export const ARCADE_PA5: Quest[] = [
     sets: { 'pa5-15': true },
     notes:
       'MEMORY PAYOFF (quest 5, ten quests later). Title: "The Road to the Castle" as written; with the hunt it is shown as ' +
-      '"The Thirteenth Photograph". RULE: if pa5-memories = all AND all twelve memories have been seen (four on-road plus ' +
-      'the eight pa5-mem-* scenes), play PA5_VARIANTS pa5-15-impa-hunt, pa5-15-plain-hunt and pa5-15-complete-hunt in ' +
+      '"The Thirteenth Photograph". RULE: pa5-hunt = hunt (set by the eighth off-road memory, so all twelve ' +
+      'have been seen) plays PA5_VARIANTS pa5-15-impa-hunt, pa5-15-plain-hunt and pa5-15-complete-hunt in ' +
       'place of pa5-15-impa, pa5-15-plain and pa5-15-complete. pa5-15-complete-hunt sets pa5-thirteenth = true. With ' +
-      'all but fewer than twelve found, play the scenes as written (Impa: some are still waiting). The hunt variant of ' +
+      'photoroad, play the scenes as written (Impa: some are still waiting). The hunt variant of ' +
       'step 1 keeps the step’s check. The Blatchery memory shows Link going down on one knee in the mud; never a wound.',
   },
 
@@ -1718,6 +1729,8 @@ export const ARCADE_PA5: Quest[] = [
           id: 'pa5-16-climb',
           lines: [
             N('Inside, the castle is silent. Dust lies on everything, and the Calamity’s ooze still drips from the ceilings.'),
+            N('On the third stair someone has left a banana skin. Your Nubbin steps over it with the air of a veteran.'),
+            PX('The Yiga have been. Of course they have.'),
             N('You pass a library with its books still on the shelves, and a girl’s study with drawings of machines on the wall.'),
             N('In the study, on the desk, is a notebook, open. The ink is a hundred years old.'),
             N('Your Nubbin climbs on the chair and looks at it. You don’t read it; it isn’t yours.'),
@@ -1898,7 +1911,11 @@ export const ARCADE_PA5: Quest[] = [
         },
         done: {
           id: 'pa5-18-seal-done',
-          lines: [N('Where the gold light stood, there is a young woman in a white dress. She is very tired, and smiling.')],
+          lines: [
+            N('Where the gold light stood, there is a young woman in a white dress. She is very tired, and smiling.'),
+            PX('That’s the voice. The one in the cave, at the start. I said it wasn’t me. It’s on the record.', 'soft'),
+            PX('She said it to one sleepy boy, for a hundred years. That’s love. Or stubbornness. Usually both.', 'soft'),
+          ],
         },
       },
       {
@@ -1926,19 +1943,27 @@ export const ARCADE_PA5: Quest[] = [
         N('The credits roll over the field, the castle and the sky. Then the screen shows the field again, and the question.'),
         N('The shed comes back around you: sawdust, the heater, Pixel on her stool. Your Nubbin is asleep in your lap.'),
         PX('That was good. That was really good. The end’s a question. I don’t mind a question.'),
-        PX('There are memories you didn’t find, you know. The cartridge keeps the photographs, if you want to go back and look.'),
+        PX('There are memories you didn’t find, you know. The slate kept the ones you did, though. It’s got an album.'),
       ],
       choices: [
         {
           id: 'look',
-          label: 'One day, we’ll go back and look.',
-          set: { 'pa5-18-after': 'look' },
-          then: [PX('I’ll mark them on the slate for you. They’ll keep. Memories are patient. That’s what the tiny lady said.', 'soft')],
+          label: 'Look through the ones we found.',
+          set: { 'pa5-18-after': 'look-back' },
+          then: [
+            N('Pixel scrolls the slate’s album on the cabinet screen, one photograph at a time, with great ceremony.'),
+            PX('The frog. The test shot. Not one of the twelve. Purah made it her lock screen.'),
+            PX('Mipha, fixing his hand. Gently. Pointedly gently.'),
+            PX('The tree in the rain. Two people being quiet at each other. Ten out of ten.'),
+            PX('The sword in the stone. She parked it there herself. Very organised.'),
+            PX('The fountain, and her dad. We don’t scroll fast past that one. But we do scroll.', 'soft'),
+            PX('That’s the album. Four and a frog. The rest are out in the hills, being patient. Like the tiny lady said.', 'soft'),
+          ],
         },
         {
           id: 'leave',
           label: 'Let the question stay a question.',
-          set: { 'pa5-18-after': 'leave' },
+          set: { 'pa5-18-after': 'leave-room' },
           then: [PX('Fair. Some endings are better with a bit of room in them.')],
         },
       ],
@@ -1959,11 +1984,13 @@ export const ARCADE_PA5: Quest[] = [
     ],
     sets: { 'pa5-18': true, 'pa5-done': true },
     notes:
-      'ENDINGS (quest 5 payoff, thirteen quests later). AS WRITTEN: the field and the question (pa5-thirteenth unset). ' +
-      'WITH pa5-thirteenth = true: play PA5_VARIANTS pa5-18-complete-hunt instead of pa5-18-complete (the after-credits ' +
-      'field: her power gone, they ride out to mend; lifted quote 2 at #6, with childLines). LOOK: pa5-18-after = look ' +
-      'marks the off-road memory sites (as pa5-memories = all does); if all twelve are later seen, play pa5-15-impa-hunt ' +
-      'then pa5-15-plain-hunt then pa5-18-complete-hunt once, from Impa’s house (one-time). The photo frame shows only ' +
+      'ENDINGS (quest 5 payoff, thirteen quests later). AS WRITTEN: the field and the question (pa5-hunt unset). ' +
+      'WITH pa5-hunt = hunt: PA5_VARIANTS pa5-18-complete-hunt replaces pa5-18-complete (the after-credits ' +
+      'field: her power gone, they ride out to mend; lifted quote 2 at #6, with childLines). pa5-14-told picks ' +
+      'pa5-18-question-oldman-told | -oldman-kept (the father’s message reaches Zelda); pa5-jumper picks ' +
+      'pa5-18-seal-done-lent-jumper. LOOK: Pixel scrolls the slate album in the look choice, one line per memory found ' +
+      '(four and the frog as written; all thirteen in the hunt variant, which keeps the same choice ids). Nothing ' +
+      'replays. The photo frame shows only ' +
       'the memories seen; the high-score plate counts towards High Score Night (any two of PA1–PA5). No Grove flag is ' +
       'written. Pixel’s "tiny lady" is Impa.',
     childLines: {
@@ -1983,7 +2010,7 @@ export const PA5_VARIANTS: Scene[] = [
       CK('Announcement! I am on the cabinet! It is warm! It is my best friend!', 'happy'),
       PX('He’s been up there since breakfast. He says it’s a lookout. It’s not a lookout. It’s a radiator.'),
       N('She holds up a cartridge. The label is faded to the colour of weak tea, except for one blue eye.'),
-      PX('Found it under the mouse nest. You go in. I stay out here as player two and talk through the speaker.'),
+      PX('Found it in the mouse nest. I gave them a coaster for it. You go in; I’m player two, on the speaker.'),
       CK('And I am player three! I will announce things!', 'happy'),
       PX('There is no player three. Fine. Player three. Announce quietly.'),
       N('Your Nubbin climbs on to the stool and stares into the dark screen, nose almost on the glass.'),
@@ -1992,7 +2019,11 @@ export const PA5_VARIANTS: Scene[] = [
       {
         id: 'blow',
         label: 'Blow on the cartridge first.',
-        then: [PX('That does nothing. Everybody does it anyway.'), CK('Announcement: I have also blown on it!')],
+        then: [
+          PX('Ruling: it does nothing. Ruling two: I’m doing it too.'),
+          CK('Announcement: I have also blown on it!'),
+          N('Your Nubbin, not to be left out, blows on Clank. Clank announces nothing, for once.'),
+        ],
       },
       {
         id: 'slot',
@@ -2002,77 +2033,102 @@ export const PA5_VARIANTS: Scene[] = [
     ],
   },
 
-  // ---------------------------------------------------------------- off-road memories (pa5-memories = all), eight of twelve
+  // ---------------------------------------------------------------- off-road memories (pa5-memories = photohunt)
+  // Each replaces a scene the cartridge always plays (same lines, then the memory). The eighth,
+  // pa5-13-sword-done-photohunt, sets pa5-hunt = hunt: with the four on-road memories (PA5-8, 12,
+  // 13, 14 all come before PA5-15), every one of the twelve has been seen by PA5-15.
   {
-    id: 'pa5-mem-ceremony',
+    id: 'pa5-06-complete-photohunt',
     lines: [
-      N('A memory, at the old shrine in the meadow. Zelda, sixteen, stands before Link as he kneels in his blue tunic.'),
-      ZE('I name you my knight. The sword chose you. I didn’t. Please understand that.', 'sad'),
-      N('Behind her, four Champions stand in a row, very straight. Daruk is trying not to grin, and failing.'),
-      N('The memory goes. Your Nubbin is kneeling on the grass too, very solemnly, with its crown bowed.'),
+      PU('Those photographs of Impa’s. The slate can match them now: hold one up, and it will tell you when you’re close.'),
+      PU('Remembering is just finding the right place to stand. Most people never work that out.'),
+      N('The slate chirps at the same pond, and it is a week later, a hundred years ago. Zelda has a jar with six frogs in it.'),
+      ZE('Control group.', 'happy'),
+      N('All six frogs look at Link. The memory ends before anyone has to eat anything.'),
+      PU('That one is one of the twelve! The princess ran a proper trial. I could cry.', 'happy'),
+      N('As you leave, Purah and your Nubbin wave at each other until you are both round the corner.'),
     ],
   },
   {
-    id: 'pa5-mem-resentment',
+    id: 'pa5-07-koroks-done-photohunt',
     lines: [
-      N('A memory, on a bridge over a gorge. Zelda turns round sharply on Link, a few steps behind her.'),
-      ZE('Stop following me. I know you’re ordered to. I don’t need a reminder of everything I can’t do.', 'angry'),
-      N('He stops, but he doesn’t go away. She walks on, and after a while, he follows at the same distance.'),
-      PX('Oof. She didn’t like him at first. That makes the rest better, somehow.'),
-    ],
-  },
-  {
-    id: 'pa5-mem-silent-princess',
-    lines: [
-      N('A memory, in a field of small blue flowers. Zelda is on her knees with a notebook, very happy.'),
+      N('Twelve seeds. Your Nubbin carries them back in its two cupped hands, and won’t let you help.'),
+      N('On the way the slate chirps over a field of small blue flowers. A hundred years ago, Zelda kneels there with a notebook.'),
       ZE('They only grow wild. Nobody can grow them in a garden. Isn’t that wonderful? They choose where they live.', 'happy'),
       N('She looks up at Link, and for a moment forgets to be cross with him.'),
-      N('The memory goes. Your Nubbin is sitting in the same field, among the same flowers, a hundred years later.'),
+      N('The memory goes. Your Nubbin sits among the same flowers, a hundred years later, still not letting go of the seeds.'),
     ],
   },
   {
-    id: 'pa5-mem-revali',
+    id: 'pa5-08-rain-done-photohunt',
     lines: [
-      N('A memory, on the Rito landing. Revali, alive, hovers above Link on a gust of his own making.'),
+      SI('Come up to the Domain! My father will want to meet you. Some of the elders… less so.'),
+      N('Halfway up, the slate chirps at a cold spring. A hundred years ago, Zelda stands in it up to her waist, praying.'),
+      N('Her lips are blue, and nothing comes. Link waits on the bank with a blanket, because there is nothing else to do.'),
+      ZE('Nothing. Again.', 'sad'),
+      N('He holds the blanket out. After a long moment, she takes it.'),
+      SI('Friends? You went quiet. Come in out of the wet! Well. Into a different wet.', 'happy'),
+    ],
+  },
+  {
+    id: 'pa5-09-yunobo-done-photohunt',
+    lines: [
+      N('Yunobo rolls up the slope like a boulder that has decided to be brave.'),
+      YU('Did I do good? I did good! Sorry. I mean: good.', 'happy'),
+      N('At the crater edge the slate chirps. A hundred years ago, Daruk claps Link on the back so hard Link nearly goes over.'),
+      DA('Little guy, you’re all right! Come back up and we’ll eat rocks. The good ones. Not the gravel.', 'happy'),
+      N('The memory goes. Your Nubbin is standing on the crater edge, looking at a rock, as if it might be a good one.'),
+      YU('That one’s good. Sorry. I mean: I’d eat that one.', 'soft'),
+    ],
+  },
+  {
+    id: 'pa5-10-range-done-photohunt',
+    lines: [
+      TE('Not bad. Not bad at all. Tomorrow, we go for the bird.'),
+      N('He nods at your Nubbin, warrior to warrior.'),
+      N('On the landing below, the slate chirps. A hundred years ago, Revali hovers above Link on a gust of his own making.'),
       RE('So you’re the chosen knight. I’m sure the sword knows best. I’m sure it’s not just luck.'),
       N('He shoots up out of sight. Link doesn’t rise to it; he nods to the empty air where Revali was.'),
       PX('He’s so rude. He’s brilliant. Both. That’s allowed.'),
     ],
   },
   {
-    id: 'pa5-mem-daruk',
+    id: 'pa5-11-riju-done-photohunt',
     lines: [
-      N('A memory, on the crater edge. Daruk, alive, claps Link on the back so hard Link nearly goes over.'),
-      DA('Little guy, you’re all right! Come back up and we’ll eat rocks. The good ones. Not the gravel.', 'happy'),
-      N('The memory goes. Your Nubbin is standing on the crater edge, looking at a rock, as if it might be a good one.'),
-    ],
-  },
-  {
-    id: 'pa5-mem-urbosa',
-    lines: [
-      N('A memory, in the desert. Urbosa, alive, is laughing with Zelda, who is laughing so hard she has to sit down.'),
+      N('Buliara gives you a bunch of bananas from the market. She does not explain, and she doesn’t need to.'),
+      N('By the town fountain the slate chirps. A hundred years ago, Urbosa is laughing with Zelda, who has had to sit down.'),
       UR('And then your father fell straight into the fountain. In the crown. In front of everyone.', 'happy'),
       ZE('Don’t. Don’t. I can’t breathe.', 'happy'),
       N('Link stands guard behind them, very straight. One corner of his mouth is trying to move.'),
     ],
   },
   {
-    id: 'pa5-mem-spring',
+    id: 'pa5-12-road-photohunt',
     lines: [
-      N('A memory, at a cold spring high in the mountains. Zelda is standing in water up to her waist, praying.'),
-      N('Her lips are blue, and nothing comes. Link waits on the bank with a blanket, because there is nothing else to do.'),
-      ZE('Nothing. Again.', 'sad'),
-      N('He holds the blanket out. After a long moment, she takes it.'),
+      N('The road crosses a bridge over a gorge, and the slate chirps. A hundred years ago, Zelda turns round sharply on Link.'),
+      ZE('Stop following me. I know you’re ordered to. I don’t need a reminder of everything I can’t do.', 'angry'),
+      N('He stops, but he doesn’t go away. She walks on, and after a while, he follows at the same distance.'),
+      PX('Oof. She didn’t like him at first. That makes the rest better, somehow.'),
+      N('It starts to rain on the road. Proper rain, the kind that runs down your neck.'),
+      N('You take out the photograph with the tree in it. The tree is right there, by the road.'),
+      N('Link goes and stands under it, where the camera stood. So do you, and your Nubbin.'),
+      PX('This one’s on the road. You didn’t even have to look for it. Some memories wait for you.'),
+      N('The slate chirps once, softly. The rain gets quieter, and then it isn’t this rain any more.'),
+      N('It is the same rain, a hundred years ago.'),
     ],
   },
   {
-    id: 'pa5-mem-frog',
+    id: 'pa5-13-sword-done-photohunt',
     lines: [
-      N('A memory, by a pond. Zelda is holding out a frog to Link in both hands, very pleased.'),
-      ZE('Hot-footed frog. They say eating one makes you quicker. Science! Well. Possibly science. Try it.', 'happy'),
-      N('Link looks at the frog, and the frog looks at Link. The memory, mercifully, ends.'),
-      N('Your Nubbin sits by the same pond, a hundred years later, and looks at a frog with deep suspicion.'),
+      DE('So. You are strong enough. She knew you would be.'),
+      N('Your Nubbin looks up at the sword, and then at Link, and then holds his free hand.'),
+      N('The sword rings, and the slate chirps with it. A hundred years ago, by a shrine in a meadow, Link kneels before Zelda.'),
+      ZE('I name you my knight. The sword chose you. I didn’t. Please understand that.', 'sad'),
+      N('Behind her, four Champions stand in a row, very straight. Daruk is trying not to grin, and failing.'),
+      N('The memory goes. Your Nubbin is kneeling in the moss too, very solemnly, with its crown bowed.'),
+      PX('Eleven ticks on the slate. The last one’s on our road. I’m not counting out loud. I am counting.', 'soft'),
     ],
+    set: { 'pa5-hunt': 'hunt' },
   },
 
   // ---------------------------------------------------------------- PA5-14 complete (pa5-oldman = ate)
@@ -2087,18 +2143,19 @@ export const PA5_VARIANTS: Scene[] = [
       {
         id: 'told',
         label: 'Tell Link the old man is sorry now.',
-        set: { 'pa5-14-told': 'told' },
+        set: { 'pa5-14-told': 'oldman-told' },
         then: [
           Y('He’s sorry. Her father. He told me, on the mountain. He’d have told her, if he could.'),
           N('Link turns and looks at the castle for a long time. The red-black cloud turns over it, slow.'),
           N('Then he nods, once, as if he has been given something to carry to someone.'),
+          N('You give Link the old man’s last apple to carry, too. It has gone very wrinkled in your coat.'),
           PX('That’s a message now. He’s got a message to deliver. Ruling: that’s the most important thing in his bag.', 'soft'),
         ],
       },
       {
         id: 'kept',
         label: 'Keep it for her, if you ever meet her.',
-        set: { 'pa5-14-told': 'kept' },
+        set: { 'pa5-14-told': 'oldman-kept' },
         then: [
           N('You keep it, in your coat with the photographs. Your Nubbin puts its blue flower on the fountain edge.'),
           PX('Some things you say to the person themselves. Good call.', 'soft'),
@@ -2164,7 +2221,51 @@ export const PA5_VARIANTS: Scene[] = [
     ],
   },
 
-  // ---------------------------------------------------------------- PA5-18 complete (pa5-thirteenth)
+  // ---------------------------------------------------------------- PA5-18 seal done (pa5-jumper = lent-jumper)
+  {
+    id: 'pa5-18-seal-done-lent-jumper',
+    lines: [
+      N('Where the gold light stood, there is a young woman in a white dress. She is very tired, and smiling.'),
+      PX('That’s the voice. The one in the cave, at the start. I said it wasn’t me. It’s on the record.', 'soft'),
+      PX('She said it to one sleepy boy, for a hundred years. That’s love. Or stubbornness. Usually both.', 'soft'),
+      N('Link is still wearing your jumper under his tunic. Zelda looks at it, then at you, and decides not to ask.'),
+    ],
+  },
+
+  // ---------------------------------------------------------------- PA5-18 question (pa5-14-told): the father's message arrives
+  {
+    id: 'pa5-18-question-oldman-told',
+    lines: [
+      N('Zelda walks across the grass to Link. You stand back a little with your Nubbin and the horse.'),
+      ZE('Link. You did it. Thank you. I mean it: thank you, for coming back.'),
+      ZE('And thank you, both of you. I don’t know you, but I think you’ve been carrying him a little.', 'soft'),
+      N('Link puts a small, wrinkled apple in her hand.'),
+      ZE('This is from Father’s cabin. He never let anyone eat them cold.', 'shock'),
+      N('She holds it in both hands, like something warm. Then she laughs, and wipes her eyes with the heel of her hand.'),
+      N('She turns back to Link. She looks at him for a long time, as if she’s afraid of the answer.'),
+      ZE('Do you… really remember me?'),
+      N('Link opens his mouth, for the first time since the pool. The screen goes white before you hear what he says.'),
+      PX('Oh, you’re joking. You are JOKING. They cut it there?', 'shock'),
+    ],
+  },
+  {
+    id: 'pa5-18-question-oldman-kept',
+    lines: [
+      N('Zelda walks across the grass to Link. You stand back a little with your Nubbin and the horse.'),
+      ZE('Link. You did it. Thank you. I mean it: thank you, for coming back.'),
+      ZE('And thank you, both of you. I don’t know you, but I think you’ve been carrying him a little.', 'soft'),
+      Y('Your father cooked for me once. He said everything is better roasted, apart from fingers.'),
+      ZE('Father? Cooked? He once sent back a soup for being too round.', 'shock'),
+      Y('He said he was hard on you. He’s sorry.'),
+      N('Zelda looks at the castle for a long moment. Then she laughs, and wipes her eyes with the heel of her hand.'),
+      N('She turns back to Link. She looks at him for a long time, as if she’s afraid of the answer.'),
+      ZE('Do you… really remember me?'),
+      N('Link opens his mouth, for the first time since the pool. The screen goes white before you hear what he says.'),
+      PX('Oh, you’re joking. You are JOKING. They cut it there?', 'shock'),
+    ],
+  },
+
+  // ---------------------------------------------------------------- PA5-18 complete (pa5-hunt = hunt)
   {
     id: 'pa5-18-complete-hunt',
     lines: [
@@ -2178,6 +2279,36 @@ export const PA5_VARIANTS: Scene[] = [
       N('They get on their horses and ride out across the field, to start mending. Your Nubbin trots behind them.'),
       N('The shed comes back around you: sawdust, the heater, Pixel on her stool, very quiet.'),
       PX('Every memory. That’s what it was for. That’s the whole ending. I’m not crying. The heater’s too high.', 'soft'),
+    ],
+    choices: [
+      {
+        id: 'look',
+        label: 'Look through the whole album.',
+        set: { 'pa5-18-after': 'look-back' },
+        then: [
+          N('Pixel scrolls the slate’s album on the cabinet screen, one photograph at a time, with great ceremony.'),
+          PX('The frog. The test shot. Purah made it her lock screen.'),
+          PX('Six frogs in a jar. The control group. Peer review.'),
+          PX('The blue flowers. She forgot to be cross with him for one whole frame.'),
+          PX('The cold spring. He held the blanket. That’s the whole picture, and it’s enough.', 'soft'),
+          PX('Mipha, fixing his hand. Gently. Pointedly gently.'),
+          PX('Daruk, and a rock that was apparently delicious.'),
+          PX('Revali, being rude upwards.'),
+          PX('Urbosa, and the king in the fountain. I’ve zoomed in on the crown. Twice.', 'happy'),
+          PX('The bridge. She told him to stop following her. He didn’t. Good.'),
+          PX('The tree in the rain. Two people being quiet at each other. Ten out of ten.'),
+          PX('The knighting. Daruk, losing a fight with his own grin.'),
+          PX('The sword in the stone. She parked it there herself. Very organised.'),
+          PX('The fountain, and her dad. We don’t scroll fast past that one. But we do scroll.', 'soft'),
+          PX('And the plain. Thirteen. I’ll just leave the album open on that one.', 'soft'),
+        ],
+      },
+      {
+        id: 'leave',
+        label: 'Let it end there.',
+        set: { 'pa5-18-after': 'leave-room' },
+        then: [PX('Fair. Best ending in the cartridge. Still the heater, by the way.')],
+      },
     ],
   },
 ];
@@ -2205,11 +2336,13 @@ export const ARCADE_PA5_FLAGS: string[] = [
   'pa5-18',
   'pa5-done', // PA5-18: the whole cartridge; High Score Night reads the Arcade save
   'pa5-oldman', // ate | left (pa5-03-cold): pa5-14-complete-ate
-  'pa5-memories', // all | road (pa5-05-photos): THE SIGNATURE CHOICE; PA5-15 and PA5-18
-  'pa5-thirteenth', // true (pa5-15-complete-hunt): the after-credits ending in PA5-18
-  'pa5-14-told', // told | kept (pa5-14-complete-ate): read by nothing
+  'pa5-memories', // photohunt | photoroad (pa5-05-photos): THE SIGNATURE CHOICE; the -photohunt memories
+  'pa5-hunt', // hunt (pa5-13-sword-done-photohunt): pa5-15-*-hunt and pa5-18-complete-hunt
+  'pa5-thirteenth', // true (pa5-15-complete-hunt): the thirteenth photograph, for the journal
+  'pa5-14-told', // oldman-told | oldman-kept (pa5-14-complete-ate): pa5-18-question-oldman-*
+  'pa5-jumper', // lent-jumper (pa5-02-pool): pa5-18-seal-done-lent-jumper
   'pa5-17-hold', // steady | gentle (pa5-17-horse): read by nothing
-  'pa5-18-after', // look | leave (pa5-18-complete): look re-marks the off-road memory sites
+  'pa5-18-after', // look-back | leave-room (pa5-18-complete): read by nothing
 ];
 
 export const ARCADE_PA5_CHECKS: string[] = [
@@ -2257,13 +2390,4 @@ export const ARCADE_PA5_CHECKS: string[] = [
   'minigame:clear:pa5-hold-horse',
   'watch:pa5-zelda:seal',
   'wait:pa5-field:credits',
-  // Off-road memory sites (pa5-memories = all, or pa5-18-after = look): each plays its pa5-mem-* variant once.
-  'find:pa5-memory:ceremony',
-  'find:pa5-memory:resentment',
-  'find:pa5-memory:silent-princess',
-  'find:pa5-memory:revali',
-  'find:pa5-memory:daruk',
-  'find:pa5-memory:urbosa',
-  'find:pa5-memory:spring',
-  'find:pa5-memory:frog',
 ];

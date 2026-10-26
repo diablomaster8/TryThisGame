@@ -105,7 +105,7 @@ _Leaves sit in rows on a tea towel. One has a hole in it, which Ned says is a wi
 **Ned**: Five Shells. No. A hundred. No. Two.  
 _Prices in Ned’s shop change as often as the wind. Your Nubbin guards the till, which is a biscuit tin._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, notice): prices and choices  
+> **Lesson** (social-studies, D2.Eco.1.3-5, notice): prices and choices  
 > _A price is what something costs. The shopkeeper sets it; the customer decides if it’s worth it._  
 > _Real shops change prices too, just not every four seconds._  
 > _For grown-ups: Your child learned that a price is what something costs, and buyers choose what to spend on._
@@ -131,10 +131,11 @@ _Ned counts change out of the biscuit tin, slowly, with his tongue out._
 
 > **Lesson** (maths, 2.OA.A.1, do): working out change  
 > _You paid 20 for a 13-Shell leaf. How much change? Count up from 13 to 20._  
-> **Ned**: Fourteen, fifteen… twenty! Seven Shells change!  
+> **Ned**: Fourteen, fifteen, sixteen… hmm. How many is that?  
 > Check: `edu:count:shells:change-7`
 > _For grown-ups: Your child worked out the change from 20 for a 13-Shell leaf (7)._
 
+**Ned**: Seven! I knew that. I was just checking you knew.  
 _Then he gives you all twenty back anyway, because in Ned’s shop change is the best bit and nobody leaves without all of it._  
 
 #### `reader:lb02-turns` · [main](main.md#lb02-turns)
@@ -168,7 +169,7 @@ _Sam is leaning out of the shed window, holding a chair leg he has been sanding 
 _Maisie runs the shop for a while. Ned is a customer, and finds out something surprising._  
 **Ned**: Buying is ALSO good.  
 
-> **Lesson** (literacy, RL.2.3, ask): how a character changes  
+> **Lesson** (literacy, RL.3.3, ask): how a character changes  
 > _Ned didn’t want to be the customer. Now he loves it. What changed?_  
 > - He tried it → Yes. Sometimes you don’t know you like something until you try it.
 > - He got change every time → Ha! That helped. Getting things back is Ned’s favourite.
@@ -211,7 +212,7 @@ _The cushions wobble across the lawn in a crooked line. Most are close together.
 **Ned**: How big is it?  
 _Sam’s tape measure is in his shed. Maisie fetches it at a run._  
 
-> **Lesson** (maths, 2.MD.A.1, do): measuring with a tape  
+> **Lesson** (maths, 4.MD.A.1, do): measuring with a tape  
 > _Hold the tape at the edge of one cushion and read where the next begins. Start from zero, not from the metal tab._  
 > **Maisie**: The gap is 90 centimetres. My best jump is 110. Ned’s is 60.  
 > _Ned’s jump is 30 centimetres short. Can that be fixed without changing Ned?_  
@@ -228,7 +229,7 @@ _The grass rustles. Two fingers appear, wiggling, and go away again._
 **Maisie**: You can do it, Ned. Big jump.  
 **Ned**: My legs are only small.  
 
-> **Lesson** (science, K-2-ETS1-1, notice): defining the problem  
+> **Lesson** (science, 3-5-ETS1-2, notice): defining the problem  
 > _Engineers start by saying the problem exactly. Here: the gap is 90 cm and Ned can jump 60._  
 > _So the fix must close 30 cm, or help Ned across it._  
 > _For grown-ups: Your child stated the problem clearly before solving it: the gap is longer than Ned’s jump._
@@ -458,7 +459,7 @@ _Ama empties the blanket cupboard. Sam brings four chairs from the shed, all his
 
 #### `reader:lb06-built` · [main](main.md#lb06-built)
 
-_The den goes up: four chairs, three blankets, a sheet for a roof, and pegs from the washing line._  
+_The den goes up: four chairs, three blankets, and a sheet for a roof. The pegs are still on the washing line._  
 _Twice the roof sheet slides off. Twice everyone groans._  
 
 > **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
@@ -468,8 +469,87 @@ _Twice the roof sheet slides off. Twice everyone groans._
 > - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
 > _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
 
+**Ama Larkin**: Pegs! Of course. I’m a postwoman. I only deliver pegs.  
 **Ama Larkin**: Every den needs a door.  
 _Ned is already dragging his box across the rug, the one with NED on the side._  
+
+#### `reader:lb06-built-box-big` · [main](main.md#lb06-built-box-big)
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, and a sheet for a roof. The pegs are still on the washing line._  
+_Twice the roof sheet slides off. Twice everyone groans._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
+> _The sheet keeps sliding off the chairs. Which fix is best?_  
+> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
+> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
+> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
+> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
+
+**Ama Larkin**: Pegs! Of course. I’m a postwoman. I only deliver pegs.  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The big box goes on its side at the front of the den, flaps open. You can crawl through without bending your neck._  
+
+> **Lesson** (maths, notice): turning a shape  
+> _On its side, the box is still a cuboid. Turning a shape doesn’t change what it is, only how it looks._  
+> _For grown-ups: Your child noticed that a box on its side is the same shape, just turned._
+
+**Ned**: It’s a front door. With a roof on the door.  
+**Maisie**: You have to knock first. That’s the rule.  
+
+#### `reader:lb06-built-box-long` · [main](main.md#lb06-built-box-long)
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, and a sheet for a roof. The pegs are still on the washing line._  
+_Twice the roof sheet slides off. Twice everyone groans._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
+> _The sheet keeps sliding off the chairs. Which fix is best?_  
+> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
+> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
+> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
+> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
+
+**Ama Larkin**: Pegs! Of course. I’m a postwoman. I only deliver pegs.  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The long box lies flat at the front of the den, open at both ends. You crawl through it like a tunnel._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Like a tunnel” is a simile: it compares the box to something else using “like”._  
+> _For grown-ups: Your child spotted a simile: crawling through “like a tunnel”._
+
+**Ned**: It’s a tunnel door. You have to wriggle.  
+_Your Nubbin wriggles through first, gets stuck halfway, then gets unstuck._  
+
+#### `reader:lb06-built-box-tall` · [main](main.md#lb06-built-box-tall)
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, and a sheet for a roof. The pegs are still on the washing line._  
+_Twice the roof sheet slides off. Twice everyone groans._  
+
+> **Lesson** (science, 3-5-ETS1-2, ask): comparing solutions  
+> _The sheet keeps sliding off the chairs. Which fix is best?_  
+> - ✅ Peg it to the chair backs → Pegs grip the sheet, so it can’t slide. Done. Comparing fixes and testing the best one is how engineers work.
+> - Pile books on top → Books would weigh it down, but the roof would sag onto heads. Pegs work better.
+> - Hold it up by hand → That works till your arms ache. Pegs don’t get tired.
+> _For grown-ups: Your child compared ways to stop the den roof sliding off and chose the best._
+
+**Ama Larkin**: Pegs! Of course. I’m a postwoman. I only deliver pegs.  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
+**Ned**: It’s a lift. It goes DOWN to the den.  
+
+> **Lesson** (literacy, L.3.4, notice): multiple-meaning words  
+> _“Lift” has two meanings: a little room that carries people up and down, or to pick something up._  
+> _For grown-ups: Your child noticed that “lift” can mean a machine that carries people, or to raise something._
+
+**Maisie**: Lifts don’t… Fine. It’s a lift.  
 
 #### `reader:lb06-inside` · [main](main.md#lb06-inside)
 
@@ -483,6 +563,7 @@ _Rain taps on the window. From in here it sounds further away and friendlier._
 > Check: `edu:measure:rug:perimeter`
 > _For grown-ups: Your child found the distance round a 3 m by 2 m rug: 10 metres._
 
+**Maisie**: The sheet is a rectangle. The chair seats are squares.  
 **Ned**: And Mum’s head is a circle.  
 **Ama Larkin**: Thank you, Ned.  
 _Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake it._  
@@ -511,45 +592,6 @@ _The rain stops at teatime. Nobody wants to come out._
 
 _Ama folds a spare blanket and hands it to you: a den for your own Grove, for the next rainy day._  
 
-#### `reader:lb06-door-big` · [main](main.md#lb06-door-big)
-
-_Variant of `lb06-complete`._
-
-_The big box goes on its side at the front of the den, flaps open. You can crawl through without bending your neck._  
-
-> **Lesson** (maths, K.G.A.2, notice): turning a shape  
-> _On its side, the box is still a cuboid. Turning a shape doesn’t change what it is, only how it looks._  
-> _For grown-ups: Your child noticed that a box on its side is the same shape, just turned._
-
-**Ned**: It’s a front door. With a roof on the door.  
-**Maisie**: You have to knock first. That’s the rule.  
-
-#### `reader:lb06-door-long` · [main](main.md#lb06-door-long)
-
-_Variant of `lb06-complete`._
-
-_The long box lies flat at the front of the den, open at both ends. You crawl through it like a tunnel._  
-
-> **Lesson** (literacy, L.4.5, notice): simile  
-> _“Like a tunnel” is a simile: it compares the box to something else using “like”._  
-> _For grown-ups: Your child spotted a simile: crawling through “like a tunnel”._
-
-**Ned**: It’s a tunnel door. You have to wriggle.  
-_Your Nubbin wriggles through first, gets stuck halfway, then gets unstuck._  
-
-#### `reader:lb06-door-tall` · [main](main.md#lb06-door-tall)
-
-_Variant of `lb06-complete`._
-
-_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
-**Ned**: It’s a lift. It goes DOWN to the den.  
-
-> **Lesson** (literacy, L.3.4, notice): multiple-meaning words  
-> _“Lift” has two meanings: a little room that carries people up and down, or to pick something up._  
-> _For grown-ups: Your child noticed that “lift” can mean a machine that carries people, or to raise something._
-
-**Maisie**: Lifts don’t… Fine. It’s a lift.  
-
 ### Glossary
 
 - **tally**: A quick way of counting with lines, where every fifth line crosses the four before it.
@@ -565,7 +607,7 @@ _The tall box stands at the front of the den with a hole cut low in one side. Yo
 _Ama pegs a white bedsheet across the front room, from the curtain rail to the top of the bookcase._  
 **Maisie**: It’s a theatre. Tonight only. Tickets are free, but you have to clap.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): shadow theatre around the world  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): shadow theatre around the world  
 > **Ama Larkin**: People have made shadow plays for hundreds of years. In Indonesia it’s called wayang kulit, with leather puppets.  
 > **Ama Larkin**: China and Turkey have their own old shadow theatres too. We’re in good company.  
 > _For grown-ups: Your child learned that shadow puppet theatre is an old art in many countries._
@@ -596,7 +638,7 @@ _Ned steps back towards the sheet. The rabbit shrinks and shrinks until it is th
 **Sam Larkin**: Walk back towards the torch, mate, and see what happens.  
 _Ned walks to and fro. The rabbit grows and shrinks. He could do this all night._  
 
-> **Lesson** (science, 1-PS4-2, do): how shadows form and change size  
+> **Lesson** (science, 5-ESS1-2, do): how shadows form and change size  
 > _Light travels in straight lines. Ned’s hand blocks some, so a dark patch, a shadow, lands on the sheet._  
 > _Near the torch, his hand blocks a wide cone of light: big shadow. Near the sheet, only a little: small shadow._  
 > Check: `edu:order:shadows:size`
@@ -616,7 +658,10 @@ _Ned walks to and fro. The rabbit grows and shrinks. He could do this all night.
 
 #### `reader:lb07-complete` · [main](main.md#lb07-complete)
 
-_The show ends with the whole family in the light at once: one big shadow with far too many arms._  
+_Before the finale, Ned holds a glass of water up to the torch. On the sheet there is almost nothing: a faint, wobbly ghost of a glass._  
+**Ned**: That’s a rubbish rabbit.  
+**Maisie**: It’s not a rabbit. It’s a glass.  
+**Ned**: It’s a rubbish one of those too.  
 
 > **Lesson** (science, 2-PS1-1, ask): opaque and see-through materials  
 > _Ned tries to make a shadow with a glass of water. It barely shows. Why?_  
@@ -624,6 +669,7 @@ _The show ends with the whole family in the light at once: one big shadow with f
 > - The glass is too small → Size isn’t it. Light passes straight through glass. Opaque things, like hands, block it.
 > _For grown-ups: Your child worked out that only light-blocking (opaque) things make dark shadows._
 
+_The show ends with the whole family in the light at once: one big shadow with far too many arms._  
 **Maisie**: That was the best show ever made. Clap now.  
 _Everyone claps. On the sheet, so do the shadows._  
 **Ama Larkin**: Keep the sheet. We’ve got more sheets than beds, it turns out.  
@@ -646,7 +692,7 @@ _Ama spreads a sheet of paper on the kitchen table. It is a map of the lane, dra
 _There is your pond, your gate that sticks, the big oak, and a red X by the old wall._  
 _In one corner Ama has drawn a compass, with a fancy N at the top._  
 
-> **Lesson** (science, 2-ESS2-2, do): maps and compass directions  
+> **Lesson** (science, 4-ESS2-2, do): maps and compass directions  
 > **Ama Larkin**: The compass shows north at the top. Clockwise round it: north, east, south, west.  
 > **Ama Larkin**: Up the valley, where the river comes from, is north. East is to its right, and west to its left.  
 > _Put the landmarks in order on the map: pond, gate, oak, X._  
@@ -856,6 +902,9 @@ _The boats are built on the bank: a cork with a leaf sail, a bark raft with a tw
 
 **Maisie**: A race! First one across the pond wins.  
 _Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._  
+**Maisie**: The cork’s the best. It sits steady as a duck.  
+**Ned**: The walnut’s better. It’s not steady at all. That’s why it’s better.  
+_The walnut, as if it heard him, turns round twice._  
 **Ama Larkin**: Which one are you sailing?  
 
 **Choices**
@@ -870,6 +919,36 @@ _Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._
 #### `reader:lb10-complete` · [main](main.md#lb10-complete)
 
 _The raft wins, in the end, by drifting. Nobody minds, because the walnut is still spinning and Ned is still cheering it._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
+> _For grown-ups: Your child spotted a simile: “steady as a duck”._
+
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin**: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+#### `reader:lb10-complete-boat-cork` · [main](main.md#lb10-complete-boat-cork)
+
+_Variant of `lb10-complete`._
+
+_The raft wins, by drifting. Your cork comes second, and leans over in the breeze as if to shake hands._  
+
+> **Lesson** (literacy, L.4.5, notice): simile  
+> _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
+> _For grown-ups: Your child spotted a simile: “steady as a duck”._
+
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin**: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+#### `reader:lb10-complete-boat-walnut` · [main](main.md#lb10-complete-boat-walnut)
+
+_Variant of `lb10-complete`._
+
+_The raft wins, by drifting. The walnut is still spinning in the middle of the pond, and Ned has declared it the winner of spinning._  
 
 > **Lesson** (literacy, L.4.5, notice): simile  
 > _“Steady as a duck” compares a boat to a duck using “as”. A comparison with “like” or “as” is called a simile._  
@@ -909,7 +988,7 @@ _Sam is lying beside the finish line, which Maisie says still counts as a crowd.
 _Maisie wins the first race, and the second. Your Nubbin wins the third by flapping, and the fourth by accident._  
 _Maisie wins the fifth. Ned comes last in every one._  
 
-> **Lesson** (maths, 2.MD.D.10, do): tally charts and comparing  
+> **Lesson** (maths, 3.MD.B.3, do): tally charts and comparing  
 > _Your tally: Maisie |||, Nubbin ||, Ned none. That’s 3 + 2 + 0 = 5 races._  
 > _How many more wins has Maisie than your Nubbin? 3 − 2 = 1. And Ned? He hasn’t got a line yet._  
 > Check: `edu:tally:races:5`
@@ -926,7 +1005,7 @@ _His voice comes out muffled, straight into the grass._
 **Ned**: It’s only a game for WINNERS.  
 _Maisie looks at you. She is six, she has won every race she’s ever run, and she doesn’t know what to do._  
 
-> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
+> **Lesson** (literacy, RL.3.3, ask): how characters respond to events  
 > _Maisie and Ned both feel something about the races. How is each one responding?_  
 > - Ned hides; Maisie is puzzled → Well read. Ned shuts out the world. Maisie has never lost, so she can’t imagine it.
 > - Ned is cross; Maisie is impatient → Fair. “It’s only a game” is easy to say when you’re winning.
@@ -1008,6 +1087,79 @@ _At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake n
 > _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
 
 
+#### `reader:lb12-arrive-race-proper` · [main](main.md#lb12-arrive-race-proper)
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
+**Ned**: I’m here! I’m the one who came last ALL the way!  
+
+> **Lesson** (literacy, RL.3.3, notice): character traits  
+> _Ned lost, but he finished. Now he is proud of his effort, and loud about it._  
+> _For grown-ups: Your child saw how finishing the race changed Ned: proud of effort, not the result._
+
+**Sam Larkin**: Loudest camper in the valley. Love it. Shh now.  
+**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _From 8:40 to 9:15, how long will everyone have to lie still?_  
+> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
+> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
+> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
+> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
+
+
+#### `reader:lb12-arrive-race-let-win` · [main](main.md#lb12-arrive-race-let-win)
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
+**Ned**: Make way for the fastest boy in the valley.  
+**Maisie**: He’s been saying that for a week.  
+_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
+
+> **Lesson** (literacy, RL.3.3, notice): consequences of choices  
+> _Letting Ned win made him happy, but now he believes he’s the fastest. Maisie is patient about it. Kindness can have a cost._  
+> _For grown-ups: Your child saw the cost of letting Ned win: he believes something untrue, and Maisie puts up with it._
+
+**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _From 8:40 to 9:15, how long will everyone have to lie still?_  
+> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
+> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
+> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
+> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
+
+
+#### `reader:lb12-arrive-race-hand` · [main](main.md#lb12-arrive-race-hand)
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin**: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
+**Ned**: We’re a team. Teams hold hands.  
+
+> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork  
+> _Holding hands in the race turned two rivals into a team. Nobody lost, so nobody had to get over it._  
+> _For grown-ups: Your child saw how racing together turned rivals into a team._
+
+**Maisie**: Only sometimes. But tonight, yes.  
+**Ama Larkin**: Sunset was at twenty to nine. Stars by quarter past, if we’re lucky.  
+
+> **Lesson** (maths, 3.MD.A.1, ask): time intervals  
+> _From 8:40 to 9:15, how long will everyone have to lie still?_  
+> - ✅ 35 minutes → Yes. 8:40 to 9:00 is 20 minutes, and 9:00 to 9:15 is 15 more. 35 minutes.
+> - 25 minutes → Close. 8:40 to 9:00 is 20, then 15 more to 9:15. That makes 35.
+> - An hour → Not quite that long. 20 minutes to nine o’clock, then 15 more: 35 minutes.
+> _For grown-ups: Your child worked out the time from 8:40 to 9:15 (35 minutes)._
+
+
 #### `reader:lb12-waiting` · [main](main.md#lb12-waiting)
 
 _Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
@@ -1018,7 +1170,112 @@ _For a long time nobody does anything. It is the stillest the Larkins have ever 
 **Ned**: Why?  
 **Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
 
-> **Lesson** (science, 1-ESS1-2, notice): why the hemispheres have opposite seasons  
+> **Lesson** (science, 5-ESS1-2, notice): why the hemispheres have opposite seasons  
+> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
+> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
+> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
+
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.**
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.**
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
+
+#### `reader:lb12-waiting-box-big` · [main](main.md#lb12-waiting-box-big)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the big box because you could live in it. “Tonight it is a house” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a house: play works like metaphor._
+
+**Ned**: It’s our house. You can sleep in it if you’re small.  
+_Your Nubbin is small. It goes straight in._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
+
+> **Lesson** (science, 5-ESS1-2, notice): why the hemispheres have opposite seasons  
+> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
+> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
+> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
+
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.**
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.**
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
+
+#### `reader:lb12-waiting-box-long` · [main](main.md#lb12-waiting-box-long)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
+
+> **Lesson** (literacy, L.4.5, notice): metaphor in play  
+> _In LB1 you chose the long box, shaped like a boat. “Tonight it is a boat” is a metaphor come true._  
+> _For grown-ups: Your child noticed the box becoming a boat: play works like metaphor._
+
+**Ned**: We’re sailing to the stars. Everybody get in.  
+_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
+
+> **Lesson** (science, 5-ESS1-2, notice): why the hemispheres have opposite seasons  
+> _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
+> _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
+> _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
+
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.**
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.**
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.**
+    - Your Nubbin’s emote ball dims to a soft glow, then goes out. It is asleep.
+
+#### `reader:lb12-waiting-box-tall` · [main](main.md#lb12-waiting-box-tall)
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
+**Ned**: Ten, nine… seven… one. Blast off!  
+
+> **Lesson** (maths, notice): counting backwards  
+> _Ned skipped eight, three and a few more. A full countdown goes 10, 9, 8, 7, 6, 5, 4, 3, 2, 1._  
+> _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
+
+_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin**: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The Earth is tilted. While our half leans towards the Sun, her half leans away. Then they swap.  
+
+> **Lesson** (science, 5-ESS1-2, notice): why the hemispheres have opposite seasons  
 > _Brisbane is in Australia, in the southern hemisphere. The valley is in the northern one._  
 > _The Earth’s axis is tilted. When the north leans towards the Sun it’s summer here, and winter in the south._  
 > _For grown-ups: Your child learned that the Earth’s tilt gives the north and south opposite seasons._
@@ -1039,7 +1296,7 @@ _Ned sees it first: one bright point over the hedge, low in the west._
 **Ned**: STAR!  
 **Ama Larkin**: That might be a planet, actually. Never mind. It counts.  
 
-> **Lesson** (science, 1-ESS1-1, notice): stars in day and night  
+> **Lesson** (science, 5-ESS1-2, notice): stars in day and night  
 > **Ama Larkin**: The first bright “star” is sometimes a planet, like Venus, shining with reflected sunlight.  
 > **Ama Larkin**: And the stars never go away in the daytime. The Sun is just so bright that we can’t see them.  
 > _For grown-ups: Your child learned the stars are always there; the Sun’s brightness hides them by day._
@@ -1063,7 +1320,7 @@ _Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._
 **Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
 _In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
 
-#### `reader:lb12-complete-wish` · [main](main.md#lb12-complete-wish)
+#### `reader:lb12-complete-star-wish` · [main](main.md#lb12-complete-star-wish)
 
 _Variant of `lb12-complete`._
 
@@ -1082,85 +1339,6 @@ _You say you can’t tell her, because that is the rule. She nods, very seriousl
 _Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
 **Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
 _In the morning there is a small painted box on your doorstep, with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
-
-#### `reader:lb12-ned-proper` · [main](main.md#lb12-ned-proper)
-
-_Variant of `lb12-complete`._
-
-_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
-**Ned**: I’m here! I’m the one who came last ALL the way!  
-
-> **Lesson** (literacy, RL.3.3, notice): character traits  
-> _Ned lost, but he finished. Now he is proud of his effort, and loud about it._  
-> _For grown-ups: Your child saw how finishing the race changed Ned: proud of effort, not the result._
-
-**Sam Larkin**: Loudest camper in the valley. Love it. Shh now.  
-
-#### `reader:lb12-ned-let-win` · [main](main.md#lb12-ned-let-win)
-
-_Variant of `lb12-complete`._
-
-_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
-**Ned**: Make way for the fastest boy in the valley.  
-**Maisie**: He’s been saying that for a week.  
-_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
-
-> **Lesson** (literacy, RL.3.3, notice): consequences of choices  
-> _Letting Ned win made him happy, but now he believes he’s the fastest. Maisie is patient about it. Kindness can have a cost._  
-> _For grown-ups: Your child saw the cost of letting Ned win: he believes something untrue, and Maisie puts up with it._
-
-
-#### `reader:lb12-ned-hand` · [main](main.md#lb12-ned-hand)
-
-_Variant of `lb12-complete`._
-
-_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
-**Ned**: We’re a team. Teams hold hands.  
-
-> **Lesson** (sel, CASEL: Relationship skills, notice): teamwork  
-> _Holding hands in the race turned two rivals into a team. Nobody lost, so nobody had to get over it._  
-> _For grown-ups: Your child saw how racing together turned rivals into a team._
-
-**Maisie**: Only sometimes. But tonight, yes.  
-
-#### `reader:lb12-box-big` · [main](main.md#lb12-box-big)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
-
-> **Lesson** (literacy, L.4.5, notice): metaphor in play  
-> _In LB1 you chose the big box because you could live in it. “Tonight it is a house” is a metaphor come true._  
-> _For grown-ups: Your child noticed the box becoming a house: play works like metaphor._
-
-**Ned**: It’s our house. You can sleep in it if you’re small.  
-_Your Nubbin is small. It goes straight in._  
-
-#### `reader:lb12-box-long` · [main](main.md#lb12-box-long)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
-
-> **Lesson** (literacy, L.4.5, notice): metaphor in play  
-> _In LB1 you chose the long box, shaped like a boat. “Tonight it is a boat” is a metaphor come true._  
-> _For grown-ups: Your child noticed the box becoming a boat: play works like metaphor._
-
-**Ned**: We’re sailing to the stars. Everybody get in.  
-_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
-
-#### `reader:lb12-box-tall` · [main](main.md#lb12-box-tall)
-
-_Variant of `lb12-complete`._
-
-_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
-**Ned**: Ten, nine… seven… one. Blast off!  
-
-> **Lesson** (maths, notice): counting backwards  
-> _Ned skipped eight, three and a few more. A full countdown goes 10, 9, 8, 7, 6, 5, 4, 3, 2, 1._  
-> _For grown-ups: Your child noticed Ned skipped numbers in his countdown and filled in the gaps._
-
-_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
 
 ### Glossary
 

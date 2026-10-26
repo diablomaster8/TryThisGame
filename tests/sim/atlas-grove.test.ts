@@ -81,6 +81,46 @@ describe('Grove flags reach the story worlds', () => {
     expect(variantFor(pa2, progress(), lunch, { s7Done: true }).id).toBe('pa2-06-complete');
   }, 30_000);
 
+  it('PA4 and PA5 memories, candy and Wisp variants are reachable (run-17 fixes)', async () => {
+    const pa4 = await line('PA4');
+    const shed = sceneOf(pa4, 'pa4-01-shed-done');
+    expect(variantFor(pa4, progress(), shed, { wisp: 'sable' }).id).toBe(
+      'pa4-01-shed-done-wisp-warm',
+    );
+    expect(variantFor(pa4, progress(), shed, { wisp: 'spared', s21Done: true }).id).toBe(
+      'pa4-01-shed-done-wisp-warm-clank',
+    );
+    const end = sceneOf(pa4, 'pa4-18-complete');
+    expect(variantFor(pa4, progress(), end, { wisp: 'driven' }).id).toBe(
+      'pa4-18-complete-wisp-driven',
+    );
+    const rise = sceneOf(pa4, 'pa4-17-rise');
+    expect(variantFor(pa4, progress({ 'pa4-candy': 'candy-left' }), rise).id).toBe(
+      'pa4-17-rise-candy-left',
+    );
+    // A Grove value that happens to read 'left' must not pick the candy variant.
+    expect(variantFor(pa4, progress(), rise, { s18: 'left' }).id).toBe('pa4-17-rise');
+    // Each friend speaks once in pa4-17-friends, whatever was answered.
+    const friends = sceneOf(pa4, 'pa4-17-friends');
+    const kept = friends.lines.filter((l) => pa4.lineLive!(friends.id, l, {}));
+    expect(kept.length).toBeLessThan(friends.lines.length);
+
+    const pa5 = await line('PA5');
+    const photos = sceneOf(pa5, 'pa5-06-complete');
+    expect(variantFor(pa5, progress({ 'pa5-memories': 'photohunt' }), photos).id).toBe(
+      'pa5-06-complete-photohunt',
+    );
+    expect(variantFor(pa5, progress({ 'pa5-memories': 'photoroad' }), photos).id).toBe(
+      'pa5-06-complete',
+    );
+    const impa = sceneOf(pa5, 'pa5-15-impa');
+    expect(variantFor(pa5, progress({ 'pa5-hunt': 'hunt' }), impa).id).toBe('pa5-15-impa-hunt');
+    const q = sceneOf(pa5, 'pa5-18-question');
+    expect(variantFor(pa5, progress({ 'pa5-14-told': 'oldman-told' }), q).id).toBe(
+      'pa5-18-question-oldman-told',
+    );
+  }, 30_000);
+
   it('the context carries the Grove flags read-only, under the line’s own', async () => {
     const a19 = await line('A19');
     const grove = { sableFirst: 'slow' } as const;

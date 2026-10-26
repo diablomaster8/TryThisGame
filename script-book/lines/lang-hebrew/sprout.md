@@ -346,7 +346,7 @@ _Fern’s plum trees are full. Plop! Plop!_
 **Ori**: אַחַת (achat, “one”). שְׁתַּיִם (shtayim, “two”). שָׁלוֹשׁ (shalosh, “three”).  
 _(Say them: ah-KHAT, SHTAI-yim, sha-LOSH.)_  
 **Ori**: אַרְבַּע (arba, “four”). חָמֵשׁ (chamesh, “five”).  
-_(Say them: AR-bah, kha-MESH. The “kh” is throaty, like “loch”.)_  
+_(Say them: ar-BAH, kha-MESH. The “kh” is throaty, like “loch”.)_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5 in Hebrew  
 > _(Hold up one finger for each plum.)_  
@@ -569,10 +569,11 @@ _Clover sits by the pond with a little Nubbin._
 **Ori**: Something adom! I’m fast. I play on the wing!  
 **Ori**: רִמּוֹן (rimon, “pomegranate”). Red, with red seeds inside!  
 _(Say it: ree-MONE.)_  
-**Ori**: עֲנָבִים (anavim, “grapes”). These are סָגֹל (sagol, “purple”).  
+**Ori**: עֲנָבִים (anavim, “grapes”). Their colour is סָגֹל (sagol, “purple”).  
 _(Say them: ah-nah-VEEM, sah-GOLE.)_  
 _A צִפּוֹר (tsipor, “bird”) lands on the crate. Peck, peck!_  
 _(Say it: tsee-POR. Tweet tweet!)_  
+_The Wobbler shoos the tsipor. The tsipor shoos the Wobbler! Bump._  
 **Ori**: Tsipor! One bite. Then shoo!  
 
 **Choices**
@@ -686,7 +687,7 @@ _A parpar lands on the Wobbler. It is still pink!_
 _Pitter-patter. Rain. Ori opens his biscuit tin._  
 **Ori**: Letters! They belong to my סַבְתָּא (savta, “grandma”).  
 _(Say it: SAHV-tah.)_  
-**Ori**: Hazel used to write to Savta. For forty years!  
+**Ori**: Hazel looked after this garden. She wrote to Savta. For forty years!  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): letters, long ago and today  
 > **Nova**: Long ago, people sent lots and lots of letters.  
@@ -940,6 +941,7 @@ _The Wobbler pats the soil flat. With its whole body._
 _(Say them: mah shlo-MEKH, beh-SEH-der.)_  
 **Fern**: I’ll look after it. Badly, but with love.  
 **Ori**: Is there a perach yet?  
+_The Wobbler lies down by the stake. It listens for perach._  
 **Ori**: לֹא (lo, “no”). I’ll ask every day until I go!  
 _(Say it: LOW. Shake your head!)_  
 
@@ -963,7 +965,7 @@ _Every Nubbin waves. The Wobbler wobbles… and stays up!_
 > **Lesson** (maths, K.CC.B.5, do): count to 10 in Hebrew: review  
 > _(Point to each lantern. Count together.)_  
 > **Ori**: אַחַת (achat), שְׁתַּיִם (shtayim), שָׁלוֹשׁ (shalosh), אַרְבַּע (arba), חָמֵשׁ (chamesh)!  
-> _(Say them: ah-KHAT, SHTAI-yim, sha-LOSH, AR-bah, kha-MESH.)_  
+> _(Say them: ah-KHAT, SHTAI-yim, sha-LOSH, ar-BAH, kha-MESH.)_  
 > **Ori**: שֵׁשׁ (shesh), שֶׁבַע (sheva), שְׁמוֹנֶה (shmone), תֵּשַׁע (tesha), עֶשֶׂר (eser)!  
 > _(Say them: SHESH, SHEH-vah, shmo-NEH, TEH-sha, EH-ser.)_  
 > **Ori**: Ten lanterns! Eser!  
@@ -1039,7 +1041,10 @@ _(Say it: BO-ker TOVE.)_
 
 **Ori**: You’re an Alef-Bet Keeper now. I made it up, so it’s real.  
 **Ori**: שָׁלוֹם (shalom)! Goodbye. And hello, next time.  
+**Ori**: Is there a perach yet?  
+_Nobody looks. Everybody shouts “Lo!” The Wobbler falls over._  
 _The gate opens first time. Ori gallops off like a sus!_  
+_The Wobbler sits by the shaked. It waits for perach._  
 _By the pond, the little shaked waits. One day: perach!_  
 _(Hop like an arnav. Wave goodbye: shalom!)_  
 

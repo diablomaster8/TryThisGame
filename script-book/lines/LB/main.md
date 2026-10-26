@@ -15,6 +15,9 @@ Hint: Pick up a box at the van’s back doors and carry it into the front room. 
 _A red post van is parked crooked in the lane past Fern’s. Its back doors are open and it is full of somebody’s whole life._  
 _The empty cottage has its windows open. You have never seen them open before._  
 **Ama Larkin** _(happy)_: Oh, hello! You must be next door. Well, next door but one. I’m Ama.  
+**Ama Larkin**: We’ve come all the way from Brisbane, in Australia. The van has been very patient.  
+**Ned**: I was patient too.  
+**Ama Larkin**: You bit the van.  
 **Ama Larkin**: I drive the post van. It isn’t usually full of our own socks. Usually it’s everyone else’s parcels.  
 **Sam Larkin** _(soft)_: Sam. Hello. Sorry. We’ve been up since four.  
 _A girl in a paper crown marches past with a lampshade. A small boy follows her, carrying nothing, very carefully._  
@@ -28,6 +31,9 @@ _Your Nubbin trots up to Ned. They stare at each other, both delighted._
 _By lunchtime the van is empty and the front room is full of boxes. Most of the boxes are empty too._  
 **Ama Larkin**: That’s the lot. The kettle was in the box marked SHOES, so that’s a mystery solved.  
 _Maisie and Ned are not looking at the kettle. They are looking at the empty boxes, the way other children look at cake._  
+**Ned**: I didn’t drop anything. Not one thing.  
+**Maisie**: You didn’t carry anything.  
+**Ned** _(happy)_: That’s how.  
 
 ### Step 2: Help Ned choose one empty box to keep.
 
@@ -48,13 +54,13 @@ _Ned thinks about that for a long time. Then he climbs out, points at three boxe
 
 **Choices**
 
-- **The big one. You could live in it.** — sets `{"lb-box":"big"}`
+- **The big one. You could live in it.** — sets `{"lb-box":"box-big"}`
     - Ned climbs into the big box and pulls the flaps shut over his head.
     - **Ned**: It’s got a ROOF.
-- **The long one. It’s the shape of a boat.** — sets `{"lb-box":"long"}`
+- **The long one. It’s the shape of a boat.** — sets `{"lb-box":"box-long"}`
     - Ned lies down in the long box. It fits him exactly, with room at the end for your Nubbin.
     - **Ned**: We’re lying down. Shh.
-- **The tall one. It’s nearly as tall as Ned.** — sets `{"lb-box":"tall"}`
+- **The tall one. It’s nearly as tall as Ned.** — sets `{"lb-box":"box-tall"}`
     - Ned stands up inside the tall box. Only his eyes show over the top.
     - **Ned**: It goes UP.
 
@@ -132,11 +138,11 @@ _Sam is leaning out of the shed window, holding a chair leg he has been sanding 
 
 **Choices**
 
-- **Ned sells one thing, then you swap.** — sets `{"lb-ned-shop":"swap"}`
+- **Ned sells one thing, then you swap.** — sets `{"lb-ned-shop":"shop-swap"}`
     - **Maisie**: One each. Fine. But I’m having the window leaf.
-- **Two shops, side by side. I’ll shop at both.** — sets `{"lb-ned-shop":"two"}`
+- **Two shops, side by side. I’ll shop at both.** — sets `{"lb-ned-shop":"shop-two"}`
     - Maisie sets up her tea towel next to Ned’s. Now the step has a high street.
-- **Whoever’s selling holds the tin.** — sets `{"lb-ned-shop":"tin"}`
+- **Whoever’s selling holds the tin.** — sets `{"lb-ned-shop":"shop-tin"}`
     - **Ned**: And then I get it back?
     - **Maisie**: Then you get it back.
 
@@ -321,7 +327,8 @@ Hint: Talk to Ned at the workbench. He has the wrong leg. · check: `talk:lb-ned
 **Maisie**: The patient has a sore left foot. Nurse, bandage please.  
 _Ned starts winding the toilet paper round your Nubbin’s right foot, with his tongue out, very carefully._  
 _Maisie opens her mouth to say something. Then she looks at Ned’s face and closes it again._  
-**Maisie** _(think)_: How do you tell somebody they’ve done it wrong, without making them sad?  
+**Maisie** _(think)_: He’s bandaged the wrong foot. Your Nubbin is limping on the other one, to be polite.  
+**Maisie** _(think)_: If I say “wrong”, Ned will cry. If I don’t, the patient limps for ever.  
 _Your Nubbin lies quite still, wrapped up to the knee, looking pleased with the attention._  
 
 **Choices**
@@ -375,6 +382,39 @@ _The den goes up: four chairs, three blankets, a sheet for the roof, and pegs fr
 **Ama Larkin**: Every den needs a door.  
 _Ned is already dragging his box across the rug, the one with NED on the side._  
 
+#### <a id="lb06-built-box-big"></a>Variant `lb06-built-box-big`
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, a sheet for the roof, and pegs from the washing line to hold it all._  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The big box goes on its side at the front of the den, flaps open. You can crawl through it without bending your neck._  
+**Ned** _(happy)_: It’s a front door. With a roof on the door.  
+**Maisie**: You have to knock first. That’s the rule.  
+
+#### <a id="lb06-built-box-long"></a>Variant `lb06-built-box-long`
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, a sheet for the roof, and pegs from the washing line to hold it all._  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The long box lies flat at the front of the den, open at both ends. You have to crawl through it like a tunnel._  
+**Ned** _(happy)_: It’s a tunnel door. You have to wriggle.  
+_Your Nubbin wriggles through first, gets stuck halfway, and then gets unstuck._  
+
+#### <a id="lb06-built-box-tall"></a>Variant `lb06-built-box-tall`
+
+_Variant of `lb06-built`._
+
+_The den goes up: four chairs, three blankets, a sheet for the roof, and pegs from the washing line to hold it all._  
+**Ama Larkin**: Every den needs a door.  
+_Ned is already dragging his box across the rug, the one with NED on the side._  
+_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
+**Ned** _(happy)_: It’s a lift. It goes DOWN to the den.  
+**Maisie**: Lifts don’t… Fine. It’s a lift.  
+
 ### Step 2: Sit in the den with the Larkins while the rain goes on.
 
 Hint: Crawl in through Ned’s box and sit down. There is nothing to do but listen. · check: `sit:lb-den`
@@ -390,12 +430,12 @@ _Your Nubbin curls up on Ned’s feet. Ned holds very still, so as not to wake i
 
 **Choices**
 
-- **Tell a story about a den in the rain.** — sets `{"lb-den-story":"story"}`
+- **Tell a story about a den in the rain.** — sets `{"lb-den-story":"den-story"}`
     - You tell a story about a den that floats away down the lane and comes back in time for tea. Ned makes you tell it twice.
-- **Just listen to the rain.** — sets `{"lb-den-story":"listen"}`
+- **Just listen to the rain.** — sets `{"lb-den-story":"den-listen"}`
     - Nobody says anything for a while. The rain does the talking.
     - **Maisie**: This is the quietest Ned has ever been.
-- **Count the drips from the gutter.** — sets `{"lb-den-story":"drips"}`
+- **Count the drips from the gutter.** — sets `{"lb-den-story":"den-drips"}`
     - You count drips out loud together. You get to forty-one, and then the drips go too fast and you all give up laughing.
 
 ### Complete
@@ -409,35 +449,11 @@ _The rain stops at teatime. Nobody wants to come out._
 **Sam Larkin** _(soft)_: I’ll make more chairs.  
 _Ama folds a spare blanket and gives it to you. A den for your own Grove, she says, for the next rainy day._  
 
-#### <a id="lb06-door-big"></a>Variant `lb06-door-big`
-
-_Variant within LB6; it has no single parent scene._
-
-_The big box goes on its side at the front of the den, flaps open. You can crawl through it without bending your neck._  
-**Ned** _(happy)_: It’s a front door. With a roof on the door.  
-**Maisie**: You have to knock first. That’s the rule.  
-
-#### <a id="lb06-door-long"></a>Variant `lb06-door-long`
-
-_Variant within LB6; it has no single parent scene._
-
-_The long box lies flat at the front of the den, open at both ends. You have to crawl through it like a tunnel._  
-**Ned** _(happy)_: It’s a tunnel door. You have to wriggle.  
-_Your Nubbin wriggles through first, gets stuck halfway, and then gets unstuck._  
-
-#### <a id="lb06-door-tall"></a>Variant `lb06-door-tall`
-
-_Variant within LB6; it has no single parent scene._
-
-_The tall box stands at the front of the den with a hole cut low in one side. You step in, then duck down into the den._  
-**Ned** _(happy)_: It’s a lift. It goes DOWN to the den.  
-**Maisie**: Lifts don’t… Fine. It’s a lift.  
-
 **Rewards**
 
 - Blanket Den (decor): Two chairs, a patchwork blanket and a peg on top. Your Nubbin naps in it when it rains.
 
-**Notes:** The Larkins’ front room on a rainy day. After lb06-built, play the den-door variant chosen by lb-box: lb06-door-big, -long or -tall (Ned’s box from LB1 becomes the den’s door; if lb-box is somehow unset, use -big). Ama is home (Saturday). Reward: a blanket den decor for the Grove; Nubbins prefer to nap in it during rain (ambient behaviour, no stat effect).
+**Notes:** The Larkins’ front room on a rainy day. lb06-built is replaced by the den-door variant chosen by lb-box: lb06-built-box-big, -box-long or -box-tall (Ned’s box from LB1 becomes the den’s door; if lb-box is somehow unset, use -box-big). Ama is home (Saturday). Reward: a blanket den decor for the Grove; Nubbins prefer to nap in it during rain (ambient behaviour, no stat effect).
 
 ## LB7. Shadow Show
 
@@ -481,11 +497,11 @@ _Ned walks to and fro, and the rabbit grows and shrinks. He could do this all ni
 
 **Choices**
 
-- **A bird, flapping.** — sets `{"lb-shadow":"bird"}`
+- **A bird, flapping.** — sets `{"lb-shadow":"shadow-bird"}`
     - Your two hands flap across the sheet. Ned tries to catch the bird, and it flies over his head.
-- **Put your Nubbin in the light.** — sets `{"lb-shadow":"nubbin"}`
+- **Put your Nubbin in the light.** — sets `{"lb-shadow":"shadow-nubbin"}`
     - Your Nubbin sees its own shape on the sheet and waves a wing. So does the shadow.
-- **A friendly monster.** — sets `{"lb-shadow":"monster"}`
+- **A friendly monster.** — sets `{"lb-shadow":"shadow-monster"}`
     - You make a big shadow with claws. It waves, very politely.
     - **Ned**: Hello, monster.
 
@@ -519,6 +535,10 @@ Hint: Go in order: the pond, your gate, the big oak, then six big steps to the X
 
 _Ama spreads a sheet of paper on the kitchen table. It is a map of the lane, drawn in post-van detail._  
 **Ama Larkin**: Every house, every gate, every pothole. I know this lane better than my own feet.  
+**Sam Larkin**: You got lost coming back from the bins on Tuesday.  
+**Ama Larkin**: It was dark.  
+**Sam Larkin**: It was eleven in the morning.  
+**Ama Larkin**: It was a very cloudy eleven.  
 _There is your pond, your gate that sticks, the big oak, and a red X past the oak, by the old wall._  
 _In one corner Ama has drawn a compass, with a fancy N at the top._  
 **Ama Larkin**: Maisie hid some treasure this morning. I drew it where she told me.  
@@ -547,13 +567,13 @@ _Ned looks at you. He wants to know whose side you are on._
 
 **Choices**
 
-- **“Treasure hunts are meant to be a bit tricky.”** — sets `{"lb-map-fair":"fair"}`
+- **“Treasure hunts are meant to be a bit tricky.”** — sets `{"lb-map-fair":"map-fair"}`
     - **Maisie**: See? Tricky is the fun bit.
     - **Ned**: Tricky is the CROSS bit.
-- **“A map’s a kind of promise, Maisie.”** — sets `{"lb-map-fair":"promise"}`
+- **“A map’s a kind of promise, Maisie.”** — sets `{"lb-map-fair":"map-promise"}`
     - **Maisie**: …I suppose.
     - Maisie borrows her mum’s pen and draws a small, honest X further along the wall.
-- **Ask Maisie why she moved it.** — sets `{"lb-map-fair":"asked"}`
+- **Ask Maisie why she moved it.** — sets `{"lb-map-fair":"map-asked"}`
     - **Maisie**: I wanted to be the one who knew something. Ned always finds things first.
 
 ### Complete
@@ -614,14 +634,14 @@ _Sam ordered tea and got a stick. Your Nubbin ordered nothing and got three leav
 
 **Choices**
 
-- **“Thank you! Could I have the sandwich as well?”** — sets `{"lb-cafe-reply":"ask"}`
+- **“Thank you! Could I have the sandwich as well?”** — sets `{"lb-cafe-reply":"cafe-ask"}`
     - **Ned**: Oh! The sandwich! Coming right up.
     - He comes back with a second pine cone. This one, he says, is the sandwich.
-- **Eat the pine cone with great pleasure.** — sets `{"lb-cafe-reply":"enjoy"}`
+- **Eat the pine cone with great pleasure.** — sets `{"lb-cafe-reply":"cafe-enjoy"}`
     - You pretend to eat the pine cone, slowly, with your eyes closed. Ned watches every bite.
     - **Ned**: Is it nice?
     - **You**: Best cake I’ve ever had.
-- **“Excuse me. I think there’s been a little mix-up.”** — sets `{"lb-cafe-reply":"mix-up"}`
+- **“Excuse me. I think there’s been a little mix-up.”** — sets `{"lb-cafe-reply":"cafe-mix-up"}`
     - **Ned**: Is it the wrong one?
     - **You**: It’s a lovely cake. I ordered the sandwich, that’s all.
     - **Ned**: I’ll tell the chef. She’ll be cross with the kitchen, not me.
@@ -630,8 +650,9 @@ _Sam ordered tea and got a stick. Your Nubbin ordered nothing and got three leav
 
 #### <a id="lb09-complete"></a>Complete `lb09-complete`
 
-_Ama comes home and sits down in her post-office jacket at the fourth plate._  
-**Ama Larkin**: Table for one, please. Anything that comes with tea.  
+_Ama comes home in her post-office jacket. Your Nubbin is in her chair, eating leaves off the frisbee._  
+_It shuffles along the cushion to make room, and keeps the leaves._  
+**Ama Larkin**: Table for one and a half, please. Anything that comes with tea.  
 _Ned brings her a real cup of tea, which Sam made, and a pine cone, which Ned made. She is delighted with both._  
 **Ama Larkin**: Is that my good tablecloth?  
 **Maisie** _(shock)_: Café Larkin is closed now. The chef has to go.  
@@ -682,11 +703,11 @@ _Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._
 
 **Choices**
 
-- **The cork, with the leaf sail.** — sets `{"lb-boat":"cork"}`
+- **The cork, with the leaf sail.** — sets `{"lb-boat":"boat-cork"}`
     - The cork boat leans into the breeze and sets off, steady as a duck.
-- **The bark raft.** — sets `{"lb-boat":"raft"}`
+- **The bark raft.** — sets `{"lb-boat":"boat-raft"}`
     - The raft is slow and flat and sensible. It goes exactly where the breeze tells it.
-- **The walnut shell, with Ned.** — sets `{"lb-boat":"walnut"}`
+- **The walnut shell, with Ned.** — sets `{"lb-boat":"boat-walnut"}`
     - The walnut spins in slow circles and goes nowhere at all. Ned thinks it is the best boat of the lot.
 
 ### Complete
@@ -694,6 +715,26 @@ _Your Nubbin wades in up to its middle, ready to help. Nubbins love the pond._
 #### <a id="lb10-complete"></a>Complete `lb10-complete`
 
 _The raft wins, in the end, by drifting. Nobody minds, because the walnut is still spinning and Ned is still cheering it._  
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin** _(soft)_: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+#### <a id="lb10-complete-boat-cork"></a>Variant `lb10-complete-boat-cork`
+
+_Variant of `lb10-complete`._
+
+_The raft wins, by drifting. Your cork comes second, and leans over in the breeze as if to shake hands._  
+_Your Nubbin tows the walnut home, very gently, with its nose._  
+**Ama Larkin** _(soft)_: What a pond. You’re lucky, having this on your doorstep.  
+**Sam Larkin**: My good teaspoon is still in it.  
+_Your Nubbin dives for the teaspoon and brings it back. Sam shakes its wing, very solemnly._  
+
+#### <a id="lb10-complete-boat-walnut"></a>Variant `lb10-complete-boat-walnut`
+
+_Variant of `lb10-complete`._
+
+_The raft wins, by drifting. The walnut is still spinning in the middle of the pond, and Ned has declared it the winner of spinning._  
 _Your Nubbin tows the walnut home, very gently, with its nose._  
 **Ama Larkin** _(soft)_: What a pond. You’re lucky, having this on your doorstep.  
 **Sam Larkin**: My good teaspoon is still in it.  
@@ -745,15 +786,15 @@ _Maisie looks at you. She is six, and she has won every race she has ever run, a
 
 **Choices**
 
-- **Race properly. Ned can finish, even if he’s last.** — sets `{"lb-race":"proper"}`
+- **Race properly. Ned can finish, even if he’s last.** — sets `{"lb-race":"race-proper"}`
     - Ned gets up, slowly. He runs the whole race and comes last, but this time he runs all the way, and you cheer him over the rope.
     - **Ned**: I came last, but I came ALL the way!
-- **Everyone slows down so Ned wins.** — sets `{"lb-race":"let-win"}`
+- **Everyone slows down so Ned wins.** — sets `{"lb-race":"race-let-win"}`
     - Everyone jogs, Maisie very slowly and with a face. Ned wins by a mile.
     - **Ned**: I WON! I’m the fastest in the valley!
     - **Maisie**: It wasn’t a real race.
     - Maisie says it quietly, so Ned won’t hear. Then she decides to let him have it.
-- **Race holding hands, all together.** — sets `{"lb-race":"hand"}`
+- **Race holding hands, all together.** — sets `{"lb-race":"race-hand"}`
     - Maisie holds out her hand to Ned, and he takes it. You all run the last race in a line, holding hands.
     - Nobody wins. Everybody crosses the rope at once.
     - **Maisie**: That’s a draw. Draws are allowed.
@@ -798,6 +839,53 @@ _Maisie explains it at speed: sleeping bags, the long grass, everyone very still
 
 _At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
 **Sam Larkin** _(happy)_: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned empties his pockets onto the grass: a torch, a biscuit, and a teaspoon._  
+**Sam Larkin**: Is that my good teaspoon?  
+**Ned**: It’s for the stars.  
+**Sam Larkin**: Of course it is.  
+
+#### <a id="lb12-arrive-race-proper"></a>Variant `lb12-arrive-race-proper`
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin** _(happy)_: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
+**Ned** _(happy)_: I’m here! I’m the one who came last ALL the way!  
+**Sam Larkin** _(soft)_: Loudest camper in the valley. Love it. Shh now.  
+_Ned empties his pockets onto the grass: a torch, a biscuit, and a teaspoon._  
+**Sam Larkin**: Is that my good teaspoon?  
+**Ned**: It’s for the stars.  
+**Sam Larkin**: Of course it is.  
+
+#### <a id="lb12-arrive-race-let-win"></a>Variant `lb12-arrive-race-let-win`
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin** _(happy)_: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
+**Ned** _(happy)_: Make way for the fastest boy in the valley.  
+**Maisie**: He’s been saying that for a week.  
+_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
+_Ned empties his pockets onto the grass: a torch, a biscuit, and a teaspoon._  
+**Sam Larkin**: Is that my good teaspoon?  
+**Ned**: It’s for the stars.  
+**Sam Larkin**: Of course it is.  
+
+#### <a id="lb12-arrive-race-hand"></a>Variant `lb12-arrive-race-hand`
+
+_Variant of `lb12-arrive`._
+
+_At dusk you carry your sleeping bag through the Larkins’ gate. Sam is awake now, in pyjamas, holding a torch._  
+**Sam Larkin** _(happy)_: I hear there’s a game where I have to lie down. I’ve been practising all day.  
+_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
+**Ned** _(soft)_: We’re a team. Teams hold hands.  
+**Maisie**: Only sometimes. But tonight, yes.  
+_Ned empties his pockets onto the grass: a torch, a biscuit, and a teaspoon._  
+**Sam Larkin**: Is that my good teaspoon?  
+**Ned**: It’s for the stars.  
+**Sam Larkin**: Of course it is.  
 
 ### Step 2: Lie still in the long grass and wait for the first star.
 
@@ -815,11 +903,83 @@ _For a long time nobody does anything. It is the stillest the Larkins have ever 
 
 **Choices**
 
-- **Make a quiet wish for the Larkins.** — sets `{"lb-star-wish":"wish"}`
+- **Make a quiet wish for the Larkins.** — sets `{"lb-star-wish":"star-wish"}`
     - You make a wish. You don’t say it out loud, because that is the rule with wishes.
-- **Hum something very quietly.** — sets `{"lb-star-wish":"hum"}`
+- **Hum something very quietly.** — sets `{"lb-star-wish":"star-hum"}`
     - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
-- **Watch your Nubbin fall asleep.** — sets `{"lb-star-wish":"nubbin"}`
+- **Watch your Nubbin fall asleep.** — sets `{"lb-star-wish":"star-nubbin"}`
+    - Your Nubbin’s emote ball dims to a soft glow, and then goes out. It is asleep.
+
+#### <a id="lb12-waiting-box-big"></a>Variant `lb12-waiting-box-big`
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
+**Ned**: It’s our house. You can sleep in it if you’re small.  
+_Your Nubbin is small. It goes straight in._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, who is already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin** _(soft)_: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The world’s tipped a bit. While our half leans towards the sun, her half leans away. Then they swap.  
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.** — sets `{"lb-star-wish":"star-wish"}`
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.** — sets `{"lb-star-wish":"star-hum"}`
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.** — sets `{"lb-star-wish":"star-nubbin"}`
+    - Your Nubbin’s emote ball dims to a soft glow, and then goes out. It is asleep.
+
+#### <a id="lb12-waiting-box-long"></a>Variant `lb12-waiting-box-long`
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
+**Ned**: We’re sailing to the stars. Everybody get in.  
+_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, who is already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin** _(soft)_: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The world’s tipped a bit. While our half leans towards the sun, her half leans away. Then they swap.  
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.** — sets `{"lb-star-wish":"star-wish"}`
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.** — sets `{"lb-star-wish":"star-hum"}`
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.** — sets `{"lb-star-wish":"star-nubbin"}`
+    - Your Nubbin’s emote ball dims to a soft glow, and then goes out. It is asleep.
+
+#### <a id="lb12-waiting-box-tall"></a>Variant `lb12-waiting-box-tall`
+
+_Variant of `lb12-waiting`._
+
+_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
+**Ned** _(happy)_: Ten, nine… seven… one. Blast off!  
+_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+_Everyone lies in a row in the long grass: Ama, Sam, Maisie, Ned, you, and your Nubbin, who is already half asleep._  
+_The sky goes from gold to pink to a deep, slow blue. A bat flickers over the hedge._  
+**Maisie**: The rules. Nobody talks. Nobody wriggles. The first to see a star says STAR.  
+_For a long time nobody does anything. It is the stillest the Larkins have ever been._  
+**Sam Larkin** _(soft)_: It’s winter in Brisbane now. My mum’s wearing a jumper.  
+**Ned**: Why?  
+**Sam Larkin**: The world’s tipped a bit. While our half leans towards the sun, her half leans away. Then they swap.  
+
+**Choices**
+
+- **Make a quiet wish for the Larkins.** — sets `{"lb-star-wish":"star-wish"}`
+    - You make a wish. You don’t say it out loud, because that is the rule with wishes.
+- **Hum something very quietly.** — sets `{"lb-star-wish":"star-hum"}`
+    - You hum a tune you half remember. After a while Ama hums it too, and gets the end right.
+- **Watch your Nubbin fall asleep.** — sets `{"lb-star-wish":"star-nubbin"}`
     - Your Nubbin’s emote ball dims to a soft glow, and then goes out. It is asleep.
 
 #### <a id="lb12-star"></a>Done `lb12-star`
@@ -838,9 +998,10 @@ _Sam is asleep again in the long grass, with Ned asleep on his arm. Maisie is tr
 **Ama Larkin** _(soft)_: It was. Lying still together. It’s hard, and you all did it.  
 _Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
 **Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
-_In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
+_In the morning there is a small painted box on your doorstep, with a note in Ama’s writing: FOR YOUR NUBBIN FROM NED._  
+_Under it, in green crayon, is a very large N, the wrong way round. Ama has added: (HE DID THE N. YOU CAN TELL.)_  
 
-#### <a id="lb12-complete-wish"></a>Variant `lb12-complete-wish`
+#### <a id="lb12-complete-star-wish"></a>Variant `lb12-complete-star-wish`
 
 _Variant of `lb12-complete`._
 
@@ -851,56 +1012,8 @@ _You say you can’t tell her, because that is the rule. She nods, very seriousl
 **Ama Larkin** _(soft)_: Lying still together. It’s hard, and you all did it.  
 _Your Nubbin is asleep in Ned’s box. Ama looks at it, and then at you._  
 **Ama Larkin**: That box should stay out here for good, I think. It’s earned its place.  
-_In the morning there is a small painted box on your doorstep with a note: FOR YOUR NUBBIN FROM NED (HE DID THE N)._  
-
-#### <a id="lb12-ned-proper"></a>Variant `lb12-ned-proper`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned arrives at a run, in his pyjamas, shouting. He has been proud of himself all week._  
-**Ned** _(happy)_: I’m here! I’m the one who came last ALL the way!  
-**Sam Larkin** _(soft)_: Loudest camper in the valley. Love it. Shh now.  
-
-#### <a id="lb12-ned-let-win"></a>Variant `lb12-ned-let-win`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned strolls in with his sleeping bag over his shoulder like a cape, a bit too pleased with himself._  
-**Ned** _(happy)_: Make way for the fastest boy in the valley.  
-**Maisie**: He’s been saying that for a week.  
-_Maisie lets him say it once more. Then she gives him a look, and he stops, mostly._  
-
-#### <a id="lb12-ned-hand"></a>Variant `lb12-ned-hand`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned arrives holding Maisie’s hand. He has hardly let go of it since the race, Ama says._  
-**Ned** _(soft)_: We’re a team. Teams hold hands.  
-**Maisie**: Only sometimes. But tonight, yes.  
-
-#### <a id="lb12-box-big"></a>Variant `lb12-box-big`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned’s box is out in the long grass, on its side, with a tea towel for a curtain. Tonight it is a house._  
-**Ned**: It’s our house. You can sleep in it if you’re small.  
-_Your Nubbin is small. It goes straight in._  
-
-#### <a id="lb12-box-long"></a>Variant `lb12-box-long`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned’s box lies in the long grass with a broom-handle mast and a pillowcase sail. Tonight it is a boat._  
-**Ned**: We’re sailing to the stars. Everybody get in.  
-_Nobody fits but Ned and your Nubbin. Everyone else sails alongside, lying very still._  
-
-#### <a id="lb12-box-tall"></a>Variant `lb12-box-tall`
-
-_Variant within LB12; it has no single parent scene._
-
-_Ned’s box stands in the long grass with a paper cone on top and NED ROCKET down the side. Tonight it is a rocket._  
-**Ned** _(happy)_: Ten, nine… seven… one. Blast off!  
-_Ned lies down next to it. The rocket stays exactly where it is, which is how the best rockets work._  
+_In the morning there is a small painted box on your doorstep, with a note in Ama’s writing: FOR YOUR NUBBIN FROM NED._  
+_Under it, in green crayon, is a very large N, the wrong way round. Ama has added: (HE DID THE N. YOU CAN TELL.)_  
 
 **Rewards**
 
@@ -908,4 +1021,4 @@ _Ned lies down next to it. The rocket stays exactly where it is, which is how th
 
 Sets on completion: `{"lb-done":true}`
 
-**Notes:** A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear one by one (the first, low in the west, may be Venus). After lb12-arrive, play lb12-ned-<lb-race> (proper | let-win | hand; default hand) and then lb12-box-<lb-box> (big = house, long = boat, tall = rocket; default big). If lb-star-wish = wish, play lb12-complete-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket (ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.
+**Notes:** A clear late-summer evening in the field behind the Larkins’ cottage; the sky fades gold → pink → blue and stars appear one by one (the first, low in the west, may be Venus). lb12-arrive is replaced by lb12-arrive-<lb-race> (race-proper | race-let-win | race-hand; default race-hand) and lb12-waiting by lb12-waiting-<lb-box> (box-big = house, box-long = boat, box-tall = rocket; default box-big). If lb-star-wish = star-wish, play lb12-complete-star-wish in place of lb12-complete (Maisie asks whether the wish came true). Reward: the small decor box in the form matching lb-box. Tier 2, Learning Grove only, after lb-done: washing flaps on the Larkins’ line, Ned waves from their gate as you pass, and Ned’s big box sits in their garden for good as a house, boat or rocket (ambient art only, no dialogue). The Larkins never appear in campaign scenes and hold no lantern at the Long Night.
