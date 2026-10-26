@@ -502,7 +502,7 @@ Sets on completion: `{"a31-06":true}`
 
 *Popol Vuh (K’iche’ Maya; written down in the 1550s, Ximénez copy c. 1701), retold: Seven Macaw, the false sun, and the old couple who mend his teeth* · audience: all · where: Nova’s atlas: the Hero Twins page (Atlas campaign) · when: Any time after A31-6, from Nova’s atlas. · requires: A31-6
 
-**Cast:** Grandmother (A K’iche’ Maya grandmother in the Guatemalan highlands today, the storyteller (our own; drawn and named with the advisers)), Hunahpu (Hunahpu (Junajpu), one of the Hero Twins (Popol Vuh)), Xbalanque (Xbalanque (Xb’alanke), one of the Hero Twins (Popol Vuh)), Seven Macaw (Seven Macaw (Wuqub’ Kaqix), the false sun (Popol Vuh)), Old Couple (The old grandparents who pretend to be healers, Great White Peccary and Great White Coati (Popol Vuh))
+**Cast:** Grandmother (A K’iche’ Maya grandmother in the Guatemalan highlands today, the storyteller (our own; drawn and named with the advisers)), Granddaughter (Her granddaughter, about nine, who interrupts (our own; drawn and named with the advisers)), Hunahpu (Hunahpu (Junajpu), one of the Hero Twins (Popol Vuh)), Xbalanque (Xbalanque (Xb’alanke), one of the Hero Twins (Popol Vuh)), Seven Macaw (Seven Macaw (Wuqub’ Kaqix), the false sun (Popol Vuh)), Old Couple (The old grandparents who pretend to be healers, Great White Peccary and Great White Coati (Popol Vuh))
 
 ### Step 1: Go with the twins to the shining bird’s tree.
 
@@ -519,6 +519,8 @@ _He sits in a tree of yellow fruit, eating, and lights up the sky about as well 
 _Hunahpu lifts his blowgun. A clay pellet goes thup, and hits Seven Macaw right on the jaw._  
 **Seven Macaw** _(shock)_: My TEETH!  
 _Seven Macaw swoops down, grabs Hunahpu’s arm, and pulls, and flies off home with it. Just like that, the arm is taken._  
+**Granddaughter** _(shock)_: His ARM?  
+**Grandmother**: He gets it back. Sit still. You’ll get flour on the story.  
 
 **Choices**
 
@@ -631,7 +633,11 @@ _Earthquake is stamping through the hills, and every stamp shakes a mountain loo
 _You dig wet clay from the riverbank with your hands. The twins roast a bird, and coat it all over, thick, with the earth you bring._  
 **Hunahpu**: There. Earth outside. And earth inside, once he’s eaten it.  
 **Earthquake** _(happy)_: That smells good. Is that for me?  
-_He eats it. Then he sits down rather suddenly, as if he is very tired, and doesn’t get up again._  
+_He eats it._  
+**Earthquake**: Crunchy. Is it meant to be crunchy?  
+**Hunahpu**: Family recipe.  
+**Earthquake**: …Lovely.  
+_Then he sits down rather suddenly, as if he is very tired, and doesn’t get up again._  
 _He is part of the hills now. The ground still shakes a little sometimes, when he turns over in his sleep._  
 
 **Choices**
@@ -719,7 +725,10 @@ _Back at the house the twins sit down to lunch and complain, loudly, about the c
 _Xmucane goes down to the river to fill the big jar, and the twins hand you the small one to take after her. Slowly._  
 _At the river a mosquito lands on Xmucane’s big jar and makes a tiny hole in it, very neatly._  
 **Mosquito**: Pardon me. So sorry. Pardon.  
-_The water runs out as fast as she pours it in. She stands there trying to stop it, and Xquic comes down to help, and so do you._  
+_The water runs out as fast as she pours it in. Yours is the only jar on the bank that holds any._  
+**Xmucane** _(think)_: Lunch. Chilli. A small jar, sent slowly. A mosquito with manners.  
+**Xmucane**: Those boys.  
+_Xquic comes down to help, and so do you. Nobody hurries._  
 _Back in the empty house, the rat runs up the post and along the beam and gnaws through a cord. Down falls a bundle: a ball, gloves, hip-pads._  
 **Xbalanque** _(soft)_: Father’s.  
 _Hunahpu holds the ball for a while without saying anything._  
@@ -734,7 +743,9 @@ _Hunahpu holds the ball for a while without saying anything._
     - **Rat**: Ever is a good length.
 - **Ask the rat to come with you to Xibalba.** — sets `{"a31-rat":"come"}`
     - **Rat**: Xibalba? Me? There are owls down there.
-    - **Rat**: …Fine. But I’m riding on your Nubbin.
+    - **Rat**: …Fine. But I’m not walking. Somebody carries me, or I stay and eat the corn.
+    - **Xbalanque**: We’ll carry you.
+    - **Rat**: Then I’m coming. Under protest. Write that down.
 
 ### Complete
 
@@ -843,7 +854,9 @@ _At the bottom, four roads meet: a red one, a white one, a yellow one and a blac
 **Xbalanque** _(think)_: That’s the road that talked to our father.  
 **Hunahpu**: And it was telling the truth. It just didn’t say what was at the end of it.  
 _Hunahpu pulls one hair from his shin, wincing, and blows on it. It turns into a mosquito, which hovers politely in front of his nose._  
-**Mosquito**: Good afternoon. How may I help?  
+**Mosquito**: Good afternoon. We’ve met. At the jar. Sorry again about the jar.  
+**Hunahpu**: Same hair. It keeps.  
+**Mosquito**: How may I help?  
 **Hunahpu**: Go ahead of us. Bite everyone sitting down there. Every one.  
 **Mosquito** _(shock)_: Bite? Strangers? Without being introduced?  
 **Xbalanque**: Introduce yourself after.  
@@ -890,7 +903,11 @@ _It bites the third._
 _All the way down the row it goes. Every real lord yells, and the lord beside him asks what happened, by name._  
 **Hunahpu** _(happy)_: Good day, One Death. Good day, Seven Death. Good day, Wing. Good day, Packstrap.  
 **Xbalanque**: And good day to the wooden ones. Very nice carving.  
-_The lords stare at them. Nobody has ever done that before._  
+_The lords stare at them. Nobody has ever greeted the wood before. Then One Death points at your Nubbin._  
+**One Death**: And what is THAT?  
+**Hunahpu**: It’s a guest. You don’t ask a guest what it is. You give it a tortilla.  
+**Seven Death**: We haven’t got any tortillas.  
+**Xbalanque**: Then you’re not much of a house.  
 **Lords of Xibalba**: Sit down. Have a seat. Please.  
 _The seat glows faintly at the edges. It is a stone, and it is hot._  
 **Xbalanque**: No thanks. We’ve been sitting all the way down.  
@@ -900,7 +917,7 @@ _The seat glows faintly at the edges. It is a stone, and it is hot._
 - **Try very hard not to grin.**
     - You fail. One of the lords sees, and glares, and you look at the ceiling as if it is very interesting.
 - **Stand well back from the bench.**
-    - You stand well back. Your Nubbin, which once sat on a warm hearthstone by mistake, stands further back still.
+    - You stand well back. Your Nubbin, which has strong views about hot seats, stands further back still. Then a bit further.
 
 #### <a id="a31-11-lords-stay"></a>Variant `a31-11-lords-stay`
 
@@ -1008,6 +1025,7 @@ Hint: Carry pine cones for the Cold House fire. Keep away from the jaguars. · c
 **Grandmother**: Then the Razor House, where the knives are always hungry. The twins promised them the meat of animals one day, and the knives lay down.  
 _In the Cold House, frost is thick on the walls. The twins build a fire of old pine cones, and the cold goes and sulks in a corner._  
 _In the Jaguar House, the jaguars pace. The twins throw them bones from the lords’ own kitchen, and the jaguars lie down and crunch._  
+_Your Nubbin offers the nearest jaguar its stick. The jaguar sniffs it, and gives it back, with better manners than any lord._  
 _In the Fire House, the fire roars and roars, and doesn’t burn them. Possibly it liked them._  
 _Your Nubbin carries a pine cone for the fire, then another. Then all of them, one at a time, because it has found a job._  
 **Hunahpu** _(happy)_: Every house. Every one. And we’re still here.  
@@ -1564,6 +1582,10 @@ _The smoke clears. You are on the low stool in the kitchen, with your Nubbin asl
 **Grandmother**: The sun came up this morning, didn’t it?  
 **Granddaughter**: …Yes.  
 **Grandmother** _(happy)_: Then eat a tortilla. Go home.  
+**Granddaughter** _(think)_: Can I put it in my homework?  
+**Grandmother**: In your own words. Not mine. I’ll know.  
+**Granddaughter**: How?  
+**Grandmother**: I’m a grandmother.  
 _Outside the window, the green mountain has the evening on it. Somebody down the road is calling a dog in for its supper._  
 
 **Choices**

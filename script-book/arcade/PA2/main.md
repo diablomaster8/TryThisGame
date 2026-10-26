@@ -21,6 +21,10 @@ _Byte is standing behind her chair with his arms folded, as if the chair might d
 **Byte**: I’m here to check the maths. Arcades are probability with a coin slot.  
 **Pixel**: He’s here because I said there’d be biscuits.  
 **Byte**: That too.  
+_One of Byte’s laces is undone. Pixel looks at it, then at him, and says nothing. It is a lot of nothing._  
+**Byte**: I’m aware.  
+**Pixel**: I haven’t said a word.  
+**Byte**: You’re saying it very loudly.  
 
 **Choices**
 
@@ -49,6 +53,10 @@ _Byte is standing behind her chair with his arms folded, as if the chair might d
 **Byte**: I’m here to check the maths. Arcades are probability with a coin slot.  
 **Pixel**: He’s here because I said there’d be biscuits.  
 **Byte**: That too.  
+_One of Byte’s laces is undone. Pixel looks at it, then at him, and says nothing. It is a lot of nothing._  
+**Byte**: I’m aware.  
+**Pixel**: I haven’t said a word.  
+**Byte**: You’re saying it very loudly.  
 
 **Choices**
 
@@ -423,6 +431,11 @@ _A boy in a sharp jacket comes over the stile and points straight at Ash._
 _It doesn’t take long. The challenger’s creature sits down in the grass, dazed but fine, and Raymond stares at it._  
 **Raymond**: That’s… not how that was supposed to go.  
 **Ash** _(happy)_: Good battle! Want some lunch?  
+_Brock hands Raymond a bowl without being asked._  
+**Brock**: You battled on an empty stomach. It showed.  
+**Raymond**: …Is there any more?  
+**Brock**: There’s always more.  
+_Your Nubbin has moved its stool between Raymond and the pot._  
 
 ### Step 2: Take the letter the Dragonite brings you.
 
@@ -547,13 +560,24 @@ _The rain hammers the hut roof. Outside, a boat bumps against the pier where no 
 _She gives you a storm lantern: brass, dented, with a glass that has been mended once. It is still warm from her hand._  
 **Miranda**: And remember the story. You never know which ones are for using.  
 
+#### <a id="pa2-06-complete-unset"></a>Variant `pa2-06-complete-unset`
+
+_Variant of `pa2-06-complete`._
+
+_The rain hammers the hut roof. Outside, a boat bumps against the pier where no boat should be._  
+**Miranda**: Take this. You’ll want a light that doesn’t blow out. I’ve another.  
+_She gives you a storm lantern: brass, dented, with a glass that has been mended once. It is still warm from her hand._  
+**Pixel**: Byte’s biscuit run is now longer than this storm.  
+**Pixel** _(happy)_: I’m not worried. I’m timing it.  
+**Miranda**: And remember the story. You never know which ones are for using.  
+
 **Rewards**
 
 - Miranda’s storm lantern (decor): A dented brass storm lantern from Old Shore Wharf, with a glass mended once. It hangs from a hook and never blows out.
 
 Sets on completion: `{"pa2-06":true}`
 
-**Notes:** TEA: a small craft step in the pier hut: fill the kettle at the barrel (to the dent), set it on the stove, warm the cups. No timer. The story is told while the kettle heats. Neesha, Fergus and Corey leave by their own creatures (swimmer, Gyarados-sized sea creature, flyer), as in the film. The empty Pokémon Center is a clue: its Nurse Joy is the cloaked woman. REWARD: Miranda’s storm lantern (decoration) is given here, inside the cartridge, and appears in the Grove when the cartridge is next exited.
+**Notes:** TEA: a small craft step in the pier hut: fill the kettle at the barrel (to the dent), set it on the stove, warm the cups. No timer. The story is told while the kettle heats. Neesha, Fergus and Corey leave by their own creatures (swimmer, Gyarados-sized sea creature, flyer), as in the film. The empty Pokémon Center is a clue: its Nurse Joy is the cloaked woman. REWARD: Miranda’s storm lantern (decoration) is given here, inside the cartridge, and appears in the Grove when the cartridge is next exited. BYTE (s7Done unset): play ARCADE_PA2_VARIANTS pa2-06-complete-unset instead of pa2-06-complete: Pixel times Byte’s biscuit run (paid off in PA2-15).
 
 ## PA2-7. The Boat
 
@@ -783,10 +807,10 @@ _It is waiting. It looks at you as if you should know what it is for._
 
 **Choices**
 
-- **Call it by your Nubbin’s name.** — sets `{"pa2-name":"borrowed"}`
+- **Say your Nubbin’s name. It looks just like it.** — sets `{"pa2-name":"borrowed"}`
     - You say your Nubbin’s name. Your Nubbin’s ears go up, and so do the new one’s.
     - It says nothing. It looks at your Nubbin, which has the same name, and back at you, and something in it goes small and tight.
-- **Tell it it gets a name of its own, and give it one.** — sets `{"pa2-name":"own"}`
+- **Give it a new name.** — sets `{"pa2-name":"own"}`
     - **You**: You’re not a copy of anybody. You get your own name. Here.
     - You give it the name. It tilts its head, and you say it again, slower.
     - Its ball turns, very faintly, from grey to the colour of the inside of a shell.
@@ -1350,6 +1374,11 @@ _You open your eyes on a bench in the little Pokémon Center at Old Shore Wharf.
 _Everyone is here: Ash, Misty, Brock and the three other trainers. Nurse Joy is behind her counter, blinking._  
 **Nurse Joy** _(think)_: Goodness. I must have dozed off. How long have you all been sitting here?  
 **Ash**: Not sure. A while? Weird. I had a dream about… no. It’s gone.  
+**Ash** _(happy)_: Hey, what’s that? Is it a Pokémon?  
+**You**: It’s a Nubbin.  
+**Ash**: Never heard of one! …Weird. I feel like I’ve said that before.  
+_Brock is already at the counter, on one knee, holding Nurse Joy’s hand. Misty has him by the ear before he finishes._  
+**Misty**: He forgot a whole island. He didn’t forget that.  
 _Outside the window, the storm is clearing. Blue sky is coming through in long cracks over the sea._  
 _Your Nubbin wakes and yawns. It looks straight out of the window towards the island, the way it looks for someone gone home._  
 
@@ -1387,6 +1416,7 @@ _Your Nubbin waves both arms at the sky. It is the only one on the pier who does
 **Pixel** _(think)_: Funny thing. The cartridge’s save file. I just looked.  
 **Pixel** _(soft)_: It’s kept it. All of it. The island, the pods, the rafters, the tears. It doesn’t forget.  
 **Pixel**: So that’s two of us. Three, with the cartridge.  
+**Pixel** _(happy)_: Also, the screenshots saved. All forty. Thirty-one are Mew’s tail. I’m not sorry.  
 _Your Nubbin is still waving at the sky. Ash shrugs, and starts waving too, without knowing why._  
 
 **Rewards**
@@ -1416,6 +1446,9 @@ _Three figures lie in the grass in what is left of their Viking costumes, blinki
 **Meowth** _(think)_: I got a feelin’ we was supposed to be doin’ somethin’. Can’t remember what.  
 **Jessie** _(happy)_: Then we’re not doing it. We’re on holiday.  
 **James** _(happy)_: A holiday. Do you know, I don’t think we’ve ever had one.  
+**Meowth**: Who’s payin’ for it?  
+**Jessie**: Nobody. That’s the best part.  
+**James**: I keep waiting for the bill.  
 _Meowth lies back in the grass with his paws behind his head. Somewhere, a long way off, a pink speck does a loop._  
 
 #### <a id="pa2-18-holiday-done"></a>Done `pa2-18-holiday-done`

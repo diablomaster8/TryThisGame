@@ -30,6 +30,32 @@ _The label shows a pale mask with two horns, on a lot of black._
     - **Pixel**: Don’t know. Somebody thought it was worth keeping anyway. That’s a review, in a way.
     - **Pixel**: If it’s too much, you come out. The door’s always open from my side.
 
+#### <a id="pa3-01-cabinet-clank"></a>Variant `pa3-01-cabinet-clank`
+
+_Variant of `pa3-01-cabinet`._
+
+_The lantern shed smells of sawdust and warm dust. The cabinet hums like a fridge that’s thinking._  
+_On top of the cabinet, Clank swivels his eye down at the cartridge._  
+**Clank** _(happy)_: Announcement: a NEW GAME! Announcement: it has a MASK on it! Is it a party? Is it a SAD party?  
+**Pixel**: It’s a sad party, Clank. Sit still. You can watch, but you can’t press anything.  
+**Clank**: I will watch SO hard.  
+**Pixel**: Found another box of cartridges in the cabinet’s belly. Under the mouse nest. The mice have moved out. Mostly.  
+**Pixel**: This one was on its own, in a box inside the box. Someone wrote on the lid.  
+_She holds it up. In pencil, in a hand neither of you knows: “too sad, keep”._  
+**Pixel** _(think)_: Not “too sad, bin”. Not “too sad, sell”. Keep.  
+_The label shows a pale mask with two horns, on a lot of black._  
+**Pixel**: No title. Just the mask. Ruling: that’s either very good or very sad.  
+**Pixel** _(soft)_: Probably both. The best ones are usually both.  
+**Pixel**: You go in. I’ll be player two. I’ve got the map, the speaker and a biscuit.  
+
+**Choices**
+
+- **Put it in.**
+    - **Pixel**: Putting it in. Blowing on it first. That’s not superstition, it’s maintenance.
+- **How sad is “too sad”?**
+    - **Pixel**: Don’t know. Somebody thought it was worth keeping anyway. That’s a review, in a way.
+    - **Pixel**: If it’s too much, you come out. The door’s always open from my side.
+
 #### <a id="pa3-01-cabinet-done"></a>Done `pa3-01-cabinet-done`
 
 _The screen goes black, then grey, then it’s raining on you._  
@@ -76,21 +102,12 @@ _It isn’t waiting for you; it’s waiting for its eyes to get used to the dark
 _Your Nubbin goes after it, then looks back, to make sure you’re coming._  
 **Pixel**: Ruling: we’re a party now. Nobody asked the Knight. That’s how parties work.  
 
-#### <a id="pa3-01-clank"></a>Variant `pa3-01-clank`
-
-_Variant within PA3-1; it has no single parent scene._
-
-_On top of the cabinet, Clank swivels his eye down at the cartridge._  
-**Clank** _(happy)_: Announcement: a NEW GAME! Announcement: it has a MASK on it! Is it a party? Is it a SAD party?  
-**Pixel**: It’s a sad party, Clank. Sit still. You can watch, but you can’t press anything.  
-**Clank**: I will watch SO hard.  
-
 **Rewards**
 
 
 Sets on completion: `{"pa3-01":true}`
 
-**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-01-clank straight after pa3-01-cabinet (before its choices). The cartridge has its own save in the Arcade save; it never writes a Grove flag. The Knight never speaks and has no portrait in the dialogue box. The head-tilt is the Knight’s first animation that isn’t walking: give it two frames each way. Pixel is heard through the speaker only (her portrait shows in a small cabinet-bezel frame).
+**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-01-cabinet-clank instead of pa3-01-cabinet (same choices). The cartridge has its own save in the Arcade save; it never writes a Grove flag. The Knight never speaks and has no portrait in the dialogue box. The head-tilt is the Knight’s first animation that isn’t walking: give it two frames each way. Pixel is heard through the speaker only (her portrait shows in a small cabinet-bezel frame).
 
 ## PA3-2. The Crossroads
 
@@ -135,6 +152,7 @@ _Your Nubbin trots off down a side tunnel, stopping every few steps to listen._
 _In a niche in the wall: a glass jar, corked. Inside, a fat pale grub, crying its heart out._  
 **Pixel** _(shock)_: Oh no. Oh, that’s a grub. In a jar. Who puts a grub in a jar?  
 **Pixel** _(angry)_: Somebody who collects them, I suppose. There’s always somebody.  
+**Pixel**: …Byte keeps his screws in jars. I’m going to have words with him at tea.  
 _The Knight comes up behind you and looks at the jar for a long moment._  
 _Your Nubbin puts both hands flat on the glass. The grub stops crying, just for a second, to look._  
 
@@ -197,11 +215,11 @@ Hint: Pixel has counted. Listen to her number before you promise. · check: `cho
 #### <a id="pa3-03-promise"></a>Scene `pa3-03-promise`
 
 **Pixel**: Forty-six houses. Forty-six grubs. One’s back. Forty-five out there, in jars.  
-**Pixel** _(think)_: I’ve checked the map. Twelve of them are on the road we’re taking. The rest are in places we’re not going.  
+**Pixel** _(think)_: I’ve checked the map. Eleven more are on our road. Twelve, counting the one you freed. I’m counting it. It hugged a leg.  
 **Pixel**: Ruling: we don’t promise forty-five. We promise twelve. Twelve is a number you can carry.  
 _The Grubfather looks at you with eyes like two wet buttons._  
 _The Knight stands at the cavern mouth with its back to you all. It doesn’t leave, though._  
-**Pixel** _(soft)_: And somebody else gets the other thirty-three. Somebody always comes. We came.  
+**Pixel** _(soft)_: And somebody else gets the other thirty-four. Somebody always comes. We came.  
 
 **Choices**
 
@@ -384,7 +402,8 @@ Hint: The mantises are guarding a door, not hunting you. Keep low and keep behin
 _A village built down a cliff, all hooks and ladders. Tall green bugs stand guard on every rail._  
 _They don’t have orange eyes; they’re not ill. They’re just guarding, the way they always have._  
 **Pixel**: Mantises. The box says they hold the way into Deepnest, so nothing from down there comes up.  
-**Pixel**: They’re not the baddies. They’re the gate. Gates aren’t baddies. Ask Corvin.  
+**Pixel**: They’re not the baddies. They’re the gate. Gates aren’t baddies. Gates just have very firm opinions about boots.  
+_A mantis looks down at the Knight’s boots. It has a very firm opinion._  
 _A young mantis lunges at the Knight. The Knight turns it aside and keeps walking, nail down._  
 _Under a ladder, in the shadow, your Nubbin finds a jar. The grub inside has stopped crying, out of tiredness._  
 _It starts again the moment it sees you, mostly from relief._  
@@ -464,6 +483,33 @@ _Rain runs down the statue’s mask. The Knight puts out one small hand and touc
 - **Hold your lantern up so the Knight can see the face.**
     - You lift the lantern and the statue’s mask shines. The Knight looks at it for a long time, then walks on.
 
+#### <a id="pa3-07-plaque-clank"></a>Variant `pa3-07-plaque-clank`
+
+_Variant of `pa3-07-plaque`._
+
+_A city under a lake. Blue towers, blue glass, and rain falling from the cave roof, the way it has for an age._  
+_In the square stands a statue: a tall figure with a horned mask, chained, holding a nail. It is very like the Knight._  
+_The Knight stops in front of it and doesn’t move at all._  
+_On the plinth there’s a plaque, its letters worn. Your lantern isn’t bright enough to read it._  
+**Pixel** _(soft)_: I can read it from here. Hang on. I’ll read it slowly.  
+**Pixel**: It says it’s for the Hollow Knight. The kingdom’s vessel. The one who held the plague.  
+**Pixel** _(sad)_: “Through its sacrifice Hallownest lasts eternal.”  
+**Pixel** _(sad)_: …That’s it. That’s the whole plaque. Somebody gave up everything and they got one sentence.  
+**Pixel**: …Clank?  
+_Through the speaker, the cabinet is quieter than it’s been all day. No beeping, no announcing._  
+**Pixel** _(soft)_: He’s just sitting there. He stopped when I said “vessel”. He’s looking at his own hands.  
+**Clank** _(sad)_: Announcement… no announcement.  
+**Pixel** _(soft)_: Hey. You’re not a vessel. You’re Clank. You’re an announcer. You’re my best announcer.  
+**Clank** _(soft)_: …Okay.  
+_Rain runs down the statue’s mask. The Knight puts out one small hand and touches the stone._  
+
+**Choices**
+
+- **Wait with the Knight.**
+    - You stand in the rain beside it, and nobody says anything. After a while the Knight takes its hand back.
+- **Hold your lantern up so the Knight can see the face.**
+    - You lift the lantern and the statue’s mask shines. The Knight looks at it for a long time, then walks on.
+
 #### <a id="pa3-07-plaque-done"></a>Done `pa3-07-plaque-done`
 
 **Pixel** _(think)_: A vessel. That’s what it says. Not a knight. A thing you put something in.  
@@ -496,17 +542,6 @@ _From the roof you can see the whole City of Tears, and the statue in the square
 _The Knight looks at it once more. Then it turns away and drops off the roof towards the next road._  
 **Pixel**: Ruling: I’m not reading any more plaques today. Next one, you read. Or the Nubbin.  
 
-#### <a id="pa3-07-clank"></a>Variant `pa3-07-clank`
-
-_Variant within PA3-7; it has no single parent scene._
-
-**Pixel**: …Clank?  
-_Through the speaker, the cabinet is quieter than it’s been all day. No beeping, no announcing._  
-**Pixel** _(soft)_: He’s just sitting there. He stopped when I said “vessel”. He’s looking at his own hands.  
-**Clank** _(sad)_: Announcement… no announcement.  
-**Pixel** _(soft)_: Hey. You’re not a vessel. You’re Clank. You’re an announcer. You’re my best announcer.  
-**Clank** _(soft)_: …Okay.  
-
 **Rewards**
 
 
@@ -516,7 +551,7 @@ Sets on completion: `{"pa3-07":true}`
 
 - `pa3-07-plaque#6` → “It gave up everything, so the kingdom could stay.”
 
-**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-07-clank straight after pa3-07-plaque’s choice, before its done scene. LIFTED TEXT 2 at pa3-07-plaque#6 (the memorial plaque, © Team Cherry, from the outline’s wiki transcription; check against the game). Pixel reads the plaque; draw it worn and unreadable on screen so the line is hers. GRUB 5 of 12.
+**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-07-plaque-clank instead of pa3-07-plaque (same choices). LIFTED TEXT 2 at pa3-07-plaque#6 (the memorial plaque, © Team Cherry, from the outline’s wiki transcription; check against the game). Pixel reads the plaque; draw it worn and unreadable on screen so the line is hers. GRUB 5 of 12.
 
 ## PA3-8. The Seer
 
@@ -623,7 +658,7 @@ _Inside, everything is grey: grey walls, grey cloth, a tall grey bug sitting ver
 **The Grey Mourner**: I loved someone. They’re buried in the Queen’s Gardens, far from here. I can’t go. I’m too slow, and too sad.  
 _She holds out a flower, white and thin as tissue, with a stem that bends if you look at it._  
 **The Grey Mourner**: Take this to the grave for me. Please. But it is very delicate.  
-**The Grey Mourner**: One knock and it’s gone. Not the stag. Not a dream-gate. The trams. Slowly.  
+**The Grey Mourner**: One knock and it’s gone. No stag rides. No dream-gates. Take the trams, and take them slowly.  
 _The Knight looks at the flower. Then it looks at you, and steps back._  
 **Pixel** _(happy)_: It’s giving you the job. The Knight fights; you carry. That’s… actually perfect.  
 
@@ -1024,6 +1059,23 @@ _The memory goes thin. The other small figures in the row fade last._
 _The Knight looks at where they were. Your Nubbin walks over and stands next to it, very close._  
 **Pixel** _(sad)_: He chose one. And he thought choosing made it fine. For the others too.  
 
+#### <a id="pa3-13-memory-clank"></a>Variant `pa3-13-memory-clank`
+
+_Variant of `pa3-13-memory`._
+
+_On the throne lies the other half of the white charm. The Knight picks it up, and they become one._  
+_The light changes. The room fills with a memory, pale and thin, like breath on glass._  
+_A tall pale king stands in this room. In front of him stand dozens of small dark figures, all with horned masks._  
+_He walks along their row. He stops at one, taller than the rest, very still, with no light in it at all._  
+_He looks at it for a long time. Then he chooses it._  
+**The Pale King** _(think)_: No cost too great.  
+_The memory goes thin. The other small figures in the row fade last._  
+_The Knight looks at where they were. Your Nubbin walks over and stands next to it, very close._  
+**Pixel** _(sad)_: He chose one. And he thought choosing made it fine. For the others too.  
+_On the cabinet, Clank has put his hands over his eye._  
+**Pixel** _(soft)_: You can come down, Clank. Come and sit on my lap. Nobody here is choosing anybody.  
+_A clank, a scrape, and a small metal weight settles somewhere near Pixel. She doesn’t say anything else for a bit._  
+
 #### <a id="pa3-13-memory-done"></a>Done `pa3-13-memory-done`
 
 _The charm in the Knight’s hand glows white, and warm. The palace begins to come apart, gently, like a dream does._  
@@ -1037,14 +1089,6 @@ _You wake beside the fallen guard at the basin’s edge, all three of you, with 
 **Pixel**: …Sorry. Not my kingdom. But it’s my cartridge, and I’m allowed to be cross at a king.  
 _The Knight is standing at the edge of the basin, looking down. Below it, the dark goes on._  
 
-#### <a id="pa3-13-clank"></a>Variant `pa3-13-clank`
-
-_Variant within PA3-13; it has no single parent scene._
-
-_On the cabinet, Clank has put his hands over his eye._  
-**Pixel** _(soft)_: You can come down, Clank. Come and sit on my lap. Nobody here is choosing anybody.  
-_A clank, a scrape, and a small metal weight settles somewhere near Pixel. She doesn’t say anything else for a bit._  
-
 **Rewards**
 
 
@@ -1054,7 +1098,7 @@ Sets on completion: `{"pa3-13":true}`
 
 - `pa3-13-memory#5` → This one will do. Whatever it costs.
 
-**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-13-clank straight after pa3-13-memory. LIFTED TEXT 3 at pa3-13-memory#5 (“No cost too great.”, © Team Cherry, from the outline’s wiki transcription; check against the game). The palace is a skill section for the Knight: the player’s job is the call-outs (a rhythm minigame on Pixel’s cues). No fail state beyond a retry. Pixel’s humming is a beat, no tune.
+**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-13-memory-clank instead of pa3-13-memory. LIFTED TEXT 3 at pa3-13-memory#5 (“No cost too great.”, © Team Cherry, from the outline’s wiki transcription; check against the game). The palace is a skill section for the Knight: the player’s job is the call-outs (a rhythm minigame on Pixel’s cues). No fail state beyond a retry. Pixel’s humming is a beat, no tune.
 
 ## PA3-14. The Abyss
 
@@ -1280,6 +1324,7 @@ _You sit beside him on the rock. He moves up to make room, though there was room
 **Quirrel** _(soft)_: I’ve seen this kingdom twice now. Once long ago, when I forgot. And once now. I’m glad of both.  
 **Quirrel**: I came to let my teacher rest. And I did. So I think I’m finished. It’s a nice feeling.  
 _He looks at the water for a while. Then he gives your Nubbin a pat, and stands, and looks at his nail._  
+**Quirrel**: If anyone ever asks about a bug called Quirrel, say he was here. That’s all.  
 **Quirrel**: Go on. The end’s that way. I’m going to stay here a bit.  
 
 #### <a id="pa3-16-shore-done"></a>Done `pa3-16-shore-done`
@@ -1308,6 +1353,8 @@ Sets on completion: `{"pa3-16":true}`
 ## PA3-17. The Grubs Go Home
 
 *Hollow Knight (Team Cherry, 2017): the Grubfather’s reward* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Hollow Kingdom (Pixel’s Arcade) · when: Any time after PA3-16, from Pixel’s cabinet in the lantern shed. · requires: PA3-16
+
+**Cast:** Clank (Claptrap, the CL4P-TP unit (Borderlands), reference only; the Grove’s own Clank from S21)
 
 ### Step 1: Take the twelfth grub home to the Grubfather.
 
@@ -1361,6 +1408,27 @@ _He pats his tummy. From inside comes a happy, muffled wriggle: twelve wriggles.
 **Pixel** _(think)_: They’re fine. It’s on the box. It’s how they grow up. They go in grubs and come out grubberflies.  
 **Pixel**: I mean. It’s a choice. As parenting goes. But it’s THEIR choice.  
 _Pixel starts laughing, then can’t stop. You hear her chair scrape: she’s had to sit on the floor._  
+_A small crunch comes through the speaker._  
+**Pixel** _(shock)_: …I’ve sat on my biscuit.  
+**Pixel**: It’s fine. It’s a choice. As biscuits go.  
+**Pixel** _(happy)_: …Ruling: best ending to a fetch quest ever made. The empty jar’s yours. Keep it. Put a candle in it.  
+
+#### <a id="pa3-17-complete-clank"></a>Variant `pa3-17-complete-clank`
+
+_Variant of `pa3-17-complete`._
+
+_The Grubfather is lying on his back, very round, very happy. Every one of the doorways is empty._  
+**Pixel** _(shock)_: Did he… did he EAT them?  
+_He pats his tummy. From inside comes a happy, muffled wriggle: twelve wriggles._  
+**Pixel** _(think)_: They’re fine. It’s on the box. It’s how they grow up. They go in grubs and come out grubberflies.  
+**Pixel**: I mean. It’s a choice. As parenting goes. But it’s THEIR choice.  
+_Pixel starts laughing, then can’t stop. You hear her chair scrape: she’s had to sit on the floor._  
+_A small crunch comes through the speaker._  
+**Pixel** _(shock)_: …I’ve sat on my biscuit.  
+**Pixel**: It’s fine. It’s a choice. As biscuits go.  
+**Clank** _(happy)_: Announcement: the big one ate the small ones!  
+**Pixel**: They’re fine, Clank. It’s how they grow up.  
+**Clank** _(happy)_: Announcement: I am never growing up.  
 **Pixel** _(happy)_: …Ruling: best ending to a fetch quest ever made. The empty jar’s yours. Keep it. Put a candle in it.  
 
 **Rewards**
@@ -1369,7 +1437,7 @@ _Pixel starts laughing, then can’t stop. You hear her chair scrape: she’s ha
 
 Sets on completion: `{"pa3-17":true}`
 
-**Notes:** CARE: the swallowing is joy, not horror. Show only a round, happy Grubfather on his back and twelve tiny wriggles under his skin; Pixel says plainly that they’re fine. The Knight sitting on the bench is its only sit in the whole cartridge: a two-frame sit-down, slightly awkward. Requires all twelve grub checks (they’re all on the quest chain, so they are always done by now).
+**Notes:** CLANK: if s21Done, play PA3_VARIANTS pa3-17-complete-clank instead of pa3-17-complete. CARE: the swallowing is joy, not horror. Show only a round, happy Grubfather on his back and twelve tiny wriggles under his skin; Pixel says plainly that they’re fine. The Knight sitting on the bench is its only sit in the whole cartridge: a two-frame sit-down, slightly awkward. Requires all twelve grub checks (they’re all on the quest chain, so they are always done by now).
 
 ## PA3-18. The Black Egg
 
@@ -1491,6 +1559,10 @@ _Up in the city, in the rain, the statue still stands, and the plaque is still t
     - **Pixel**: Loading. Lighthouse switch is on the left. I’m just saying.
 - **Leave it as it is, for now.**
     - **Pixel**: All right. It’ll keep. Come back up. Elderbug will want to see you.
+    - Up the well, in the rain, Elderbug is on his bench. He stands when he sees you, and doesn’t ask.
+    - **Elderbug**: You came back up. That’s the part I asked for.
+    - He gives your Nubbin a tiny pale mask. It puts it on and tilts its head, the way the Knight did.
+    - **Pixel**: He kept one ready. Just in case. People like him always do.
 
 **Rewards**
 

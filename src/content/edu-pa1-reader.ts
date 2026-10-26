@@ -2,15 +2,15 @@
  * The Learning Grove, reader band (ages 7–10): Pixel’s Arcade cartridge PA1, The Chao Altar.
  *
  * Source: arcade-pa1.ts (ARCADE_PA1 and PA1_VARIANTS). One EduScene per original scene, id
- * `reader:<original id>`: every step scene, every done scene, every complete scene and all nine
+ * `reader:<original id>`: every step scene, every done scene, every complete scene and all ten
  * variants. Every choice keeps its original id and `set`, including the gate’s “lock” choice,
  * framed so the child can see its cost in PA1-17. See EDU-STYLE.md.
  *
- *   Learning angles: water as a liquid and the water cycle (2-ESS2-3, 2-PS1-4), floating and
- *   forces (3-PS2-1), parachutes and air, sound and vibration (1-PS4-1), light and shadow
- *   (1-PS4-2), frogs’ life cycles (3-LS1-1), what birds need (K-LS1-1, 4-LS1-1), murals as a
- *   record of the past (D2.His.2.K-2, 3-LS4-1 for the idea of evidence), maps and port/starboard
- *   (2-ESS2-2), fairness and rules (D2.Civ.8.K-2), scarcity and choices (D2.Eco.1.K-2); maths in
+ *   Learning angles: water as a liquid and the water cycle, floating and
+ *   forces (3-PS2-1), parachutes and air, sound, light and shadow (4-PS3-2), frogs’ life cycles
+ *   (3-LS1-1), what birds need (4-LS1-1), murals as a record of the past (D2.His.2.3-5, 3-LS4-1
+ *   for the idea of evidence), maps and port/starboard (D2.Geo.2.3-5), fairness and rules
+ *   (D2.Civ.8.3-5), scarcity and choices (D2.Eco.1.3-5); maths in
  *   the story’s own numbers (seven spanners, seven Emeralds, a hundred shards, two decks up,
  *   twelve Chao in lifeboats, nine seconds); reading for motive and theme (RL.3.3, RL.4.2),
  *   similes and metaphors (L.4.5), vocabulary (L.3.4).
@@ -204,7 +204,7 @@ const Q01: EduQuest = quest(
           3,
           'social-studies',
           'trading: a fair swap',
-          'D2.Eco.1.K-2',
+          'D2.Eco.1.3-5',
           [PX('I swapped a jar of honey for a part. Byte thinks he won. What makes a swap fair?')],
           [
             o(
@@ -472,7 +472,7 @@ const Q02: EduQuest = quest(
           2,
           'literacy',
           'reading signs for feelings',
-          'RL.1.4',
+          'RL.3.3',
           [
             N(
               'A spiral when it bumps the tree, a heart when it makes a friend. What is the floating ball for?',
@@ -500,7 +500,7 @@ const Q02: EduQuest = quest(
           7,
           'science',
           'glass lets light in',
-          '2-LS2-1',
+          null,
           [
             PX(
               'A glass roof is clever. It lets sunlight through, so the grass and the fruit tree can grow indoors.',
@@ -627,7 +627,7 @@ const Q02: EduQuest = quest(
           0,
           'science',
           'why sirens change pitch',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             PX(
               'Did you hear the siren drop lower as it drove away? That’s not the siren changing. It’s the sound waves stretching out as it moves off.',
@@ -736,7 +736,7 @@ const Q03: EduQuest = quest(
           7,
           'science',
           'liquids and solids',
-          '2-PS1-1',
+          null,
           [
             PX(
               'Things thrown at it go straight through. Why can’t you knock over something made of water?',
@@ -886,7 +886,7 @@ const Q03: EduQuest = quest(
           1,
           'maths',
           'estimating size',
-          '2.MD.A.1',
+          '3.OA.A.3',
           [
             PX(
               'Plum-sized. If a plum is about 5 cm across, and your Nubbin is 30 cm tall, how many lights tall is your Nubbin?',
@@ -1064,7 +1064,7 @@ const Q04: EduQuest = quest(
           1,
           'social-studies',
           'shrines and altars',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'A shrine is a place people keep for something they treasure or honour. An altar is the raised stone at its heart where that thing is set.',
@@ -1126,7 +1126,7 @@ const Q04: EduQuest = quest(
           'The gold comes back, and the birdsong goes, and you are in the back street with your hand on a blank wall.',
         ),
         PX(
-          'You were gone for nine seconds. Nine. You look like you were gone all afternoon.',
+          'You were gone for nine seconds. Nine. You look like you were gone three hours.',
           'shock',
         ),
         N('Your Nubbin’s feet are still wet.'),
@@ -1139,7 +1139,7 @@ const Q04: EduQuest = quest(
           '3.MD.A.1',
           [
             PX(
-              'Nine seconds out here. Say the pool visit felt like 3 hours in there. How many seconds is 3 hours?',
+              'Nine seconds out here, three hours in there, by the look of you. How many seconds is 3 hours?',
             ),
           ],
           [
@@ -1177,7 +1177,7 @@ const Q04: EduQuest = quest(
           2,
           'literacy',
           'predicting from clues',
-          'RL.2.3',
+          'RL.3.3',
           [PX('Kind long ago, lost today. What kind of thing could have happened in between?')],
           [
             o(
@@ -1259,7 +1259,7 @@ const Q05: EduQuest = quest(
           0,
           'social-studies',
           'reading a route',
-          '2-ESS2-2',
+          'D2.Geo.2.3-5',
           [
             PX(
               'City to valley by train. On the map the line runs from the square, out past the coast, into the hills. Which comes first after the square?',
@@ -1436,7 +1436,7 @@ const Q05: EduQuest = quest(
           9,
           'maths',
           'counting on to a target',
-          '2.OA.A.1',
+          null,
           [
             PX(
               'Two Emeralds down. He wants all seven. How many more does he need, and how many are still out there for someone else to find?',
@@ -1615,7 +1615,7 @@ const Q06: EduQuest = quest(
           9,
           'science',
           'seeds scattering',
-          '2-LS2-2',
+          null,
           [
             N(
               '“Like seeds from a pod.” Some plants fling their seeds: the pod dries, twists and bursts, scattering them far from the parent so they don’t all grow in one spot.',
@@ -1725,9 +1725,7 @@ const Q06: EduQuest = quest(
         ]),
         ch('people', 'Ask about his people.', [
           KN('Echidnas. There was a whole clan once. Now there’s me.', 'sad'),
-          N(
-            'His people died long ago, before he was born. He never knew them, and misses them anyway. Now he has Sonic and Tails, and a Nubbin in his ferns.',
-          ),
+          N('His people died long ago, before he was born. He misses them anyway.'),
           KN('Anyway. Shards. Left side.'),
         ]),
       ],
@@ -1738,15 +1736,16 @@ const Q06: EduQuest = quest(
         N(
           'By sunset you have a sack of shards between you. Knuckles counts them twice and scowls, which seems to be how he says thank you.',
         ),
+        KN('Thirty-six. Out of a hundred.'),
         KN('Not all of them. Not yet. But it’s a start.'),
         N('Your Nubbin counts them too, in its own way, by patting each one.'),
       ],
       [
         ask(
-          1,
+          2,
           'maths',
           'subtraction from 100',
-          '2.OA.A.1',
+          '4.NBT.B.4',
           [KN('A hundred pieces. Thirty-six in the sack. How many still out there?')],
           [
             o('64', [KN('Sixty-four. Yeah. That’s what I got. Twice.')], true),
@@ -1885,7 +1884,7 @@ const Q07: EduQuest = quest(
           0,
           'social-studies',
           'before and after',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'You are standing in a “before”. Everything whole here is in pieces in Knuckles’s time. That is how history works: the stones stay, and what happens to them changes.',
@@ -2044,7 +2043,7 @@ const Q07: EduQuest = quest(
           3,
           'social-studies',
           'oral history: what is lost when nobody teaches it',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Knuckles’s people passed their prayers down by teaching, voice to voice. When the last teacher died, the words went with them.',
@@ -2112,7 +2111,7 @@ const Q08: EduQuest = quest(
           7,
           'literacy',
           'inference from clues',
-          'RL.2.3',
+          'RL.3.3',
           [
             PX(
               'A green glow. Where have we seen that glow before, and what might the robots really be chasing?',
@@ -2503,12 +2502,13 @@ const Q09: EduQuest = quest(
           'This is the slowest game I have ever played. I love it. I’m going to make a cup of tea.',
           'happy',
         ),
+        PX('Byte fished once. He caught a boot. Twenty years married, and he still calls it a rare fish.'),
         N('An hour passes, or the game’s idea of an hour. Dragonflies come and go.'),
         N('The bell on your lure rings once, and then doesn’t.'),
       ],
       [
         ask(
-          4,
+          5,
           'sel',
           'think: is waiting doing nothing?',
           null,
@@ -2566,7 +2566,7 @@ const Q09: EduQuest = quest(
           0,
           'science',
           'dragonflies and rivers',
-          '2-LS4-1',
+          '3-LS4-3',
           [
             N(
               'Dragonflies, a frog, a slow brown river. Why do so many creatures live right by the water?',
@@ -2745,7 +2745,7 @@ const Q10: EduQuest = quest(
           1,
           'science',
           'light and shadows',
-          '1-PS4-2',
+          '4-PS3-2',
           [
             N(
               'Torches throw moving shadows up the steps. Why do shadows move when the torch flame flickers?',
@@ -2862,7 +2862,7 @@ const Q10: EduQuest = quest(
           0,
           'social-studies',
           'rules and fairness: “as a chief’s daughter should”',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Pachacamac says Tikal must stand aside because of who her father is. Is that a fair rule?',
@@ -3027,7 +3027,7 @@ const Q11: EduQuest = quest(
           1,
           'science',
           'sound travels through metal',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             PX(
               'You can hear them through the floor because sound is a vibration, and metal passes vibrations along well. Put your ear to a railing sometime; you’ll hear the whole ship.',
@@ -3058,7 +3058,7 @@ const Q11: EduQuest = quest(
           3,
           'social-studies',
           'port and starboard',
-          '2-ESS2-2',
+          'D2.Geo.2.3-5',
           [
             PX(
               'Ships don’t say left and right, because left depends which way you’re facing. Port is always the ship’s left when you face the front, starboard its right.',
@@ -3245,7 +3245,7 @@ const Q11: EduQuest = quest(
           0,
           'maths',
           'tally the parachutes',
-          '2.MD.D.10',
+          '3.OA.A.1',
           'edu:tally:parachutes:12',
           [
             PX(
@@ -3369,7 +3369,7 @@ const Q12: EduQuest = quest(
           3,
           'science',
           'what a caged bird is missing',
-          'K-LS1-1',
+          null,
           [
             AM(
               'A bird in a cage the size of a tin. What does a bird need that a cage like that can’t give?',
@@ -3593,7 +3593,7 @@ const Q13: EduQuest = quest(
           1,
           'science',
           'morning mist',
-          '2-ESS2-3',
+          null,
           [
             N(
               'Mist at dawn: night air cooled until the water in it became tiny droplets you can see. Sun warms the air, droplets turn back to vapour, and the mist goes.',
@@ -3781,7 +3781,7 @@ const Q13: EduQuest = quest(
           4,
           'literacy',
           'showing, not telling',
-          'RL.2.3',
+          'RL.3.3',
           [
             N(
               'Knuckles doesn’t say “I’m sorry you’re sad”. He fetches a leaf. What is the story showing you about him?',
@@ -3862,7 +3862,7 @@ const Q14: EduQuest = quest(
           3,
           'science',
           'why old paint changes colour',
-          '2-PS1-4',
+          null,
           [PX('Red gone brown with age. What happens to colours over thousands of years?')],
           [
             o(
@@ -3886,7 +3886,7 @@ const Q14: EduQuest = quest(
           5,
           'social-studies',
           'murals as a record',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Before writing was common, people painted what happened so it was remembered. A mural is evidence: you can’t ask the painter, but you can read what they chose to show.',
@@ -4076,7 +4076,7 @@ const Q14: EduQuest = quest(
       'pa1-14-complete',
       [
         PX('Keeper. I’ve got something to say, and it’s probably nothing.'),
-        PX('Back home. The old story, about the fierce one who loved them too hard.', 'think'),
+        PX('Back home. Cinder. The old story, about the fierce one who loved the little ones too hard.', 'think'),
         PX('It’s probably nothing. It just feels like the same shape.', 'soft'),
         N(
           'Your Nubbin looks up at the painted water-shape for a long time before it will come away.',
@@ -4090,7 +4090,7 @@ const Q14: EduQuest = quest(
           'RL.4.2',
           [
             PX(
-              'Two stories, the same shape. What do Chaos and the fierce one from home have in common?',
+              'Two stories, the same shape. What do Chaos and Cinder from home have in common?',
             ),
           ],
           [
@@ -4165,7 +4165,7 @@ const Q15: EduQuest = quest(
           5,
           'health',
           'flood safety',
-          'K-2-ETS1-1',
+          null,
           [
             PX(
               'Water in the streets. The problem is: how do we stay out of it? What’s the first thing to do?',
@@ -4264,7 +4264,7 @@ const Q15: EduQuest = quest(
           3,
           'maths',
           'counting floors: climbing and descending',
-          '2.OA.A.1',
+          '3.OA.A.1',
           [
             PX(
               'Five floors up to the roof. Four trips up and down. How many floors have you climbed, going up only?',
@@ -4438,20 +4438,20 @@ const Q16: EduQuest = quest(
           3,
           'maths',
           'who holds what',
-          '1.OA.A.1',
-          [PX('Seven Emeralds. Sonic’s five friends hold one each. Who’s holding the other two?')],
+          null,
+          [PX('Seven Emeralds. Sonic’s four friends hold one each. Who’s holding the other three?')],
           [
             o(
-              'Sonic must have two',
+              'Sonic must have three',
               [
                 PX(
-                  'Yes: 7 take away 5 leaves 2, and Sonic is the only one left. He had two in his pockets all along, the show-off.',
+                  'Yes: 7 take away 4 leaves 3, and Sonic is the only one left. He had three in his pockets all along, the show-off.',
                 ),
               ],
               true,
             ),
             o('Nobody', [
-              PX('All seven are here. 7 take 5 is 2, and the only one left to hold them is Sonic.'),
+              PX('All seven are here. 7 take 4 is 3, and the only one left to hold them is Sonic.'),
             ]),
           ],
           'Subtracted to find what was unaccounted for.',
@@ -4595,7 +4595,7 @@ const Q16: EduQuest = quest(
           1,
           'science',
           'where floodwater goes',
-          '2-ESS2-3',
+          null,
           [
             PX(
               'The water goes down like a bath draining. In a real flood, where does the water go when it goes?',
@@ -4759,7 +4759,7 @@ const Q17: EduQuest = quest(
           0,
           'literacy',
           'repetition for effect',
-          'RL.2.4',
+          'RL.3.3',
           [
             N(
               '“At the buildings, at all the people, and at none of the small ones.” The list builds up, then drops to nothing, so the missing thing lands hardest.',
@@ -4792,10 +4792,10 @@ const Q17: EduQuest = quest(
           2,
           'social-studies',
           'the gate choice pays off',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             PX(
-              'You left the gate open, fifteen quests ago. Look what it meant. Why did an open gate keep them safe?',
+              'You left the gate open, back in the garden, before any of this. Look what it meant. Why did an open gate keep them safe?',
             ),
           ],
           [
@@ -5067,7 +5067,7 @@ const Q18: EduQuest = quest(
           2,
           'music',
           'a tune carries a story',
-          'RL.2.4',
+          null,
           [
             N(
               'Pixel hums the tune and stops before the last line. Why can a tune with no words still feel sad?',
@@ -5113,6 +5113,7 @@ const Q18: EduQuest = quest(
           'You’re back! You’ve got flowers in your hair. They came out with you. How did they come out with you?',
           'shock',
         ),
+        PX('And your hair’s round again. I’ll be honest. I miss the square.'),
         N(
           'On the side of the cabinet, where the dent was, a small brass plate has appeared, blank, waiting for a name.',
         ),
@@ -5167,22 +5168,27 @@ const Q18: EduQuest = quest(
 // ================================================================== VARIANTS
 /** Reader versions of every scene in PA1_VARIANTS. */
 export const EDU_PA1_READER_VARIANTS: EduScene[] = [
-  // ---------------------------------------------------------------- after pa1-01-shed-done (s21Done)
+  // ---------------------------------------------------------------- replaces pa1-01-shed-done (s21Done)
   sc(
-    'pa1-01-clank',
+    'pa1-01-shed-done-clank',
     [
+      N(
+        'Pixel blows the dust off the cartridge in one long puff and wipes the metal contacts on her sleeve.',
+      ),
+      PX('Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.'),
+      N('Your Nubbin blows on the sleeve too, with no dust left to move.'),
       N(
         'Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen.',
       ),
       CK('Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.', 'happy'),
       PX('I said lookouts sit still.'),
       CK('I am sitting very still. Look how still. This is the stillest I have ever been.'),
-      N('His legs go on swinging. Every few seconds one heel bonks the screen.'),
+      N('His legs go on swinging. Every five seconds, exactly, one heel goes bonk on the screen.'),
       N('Your Nubbin counts the bonks on its fingers and runs out of fingers.'),
     ],
     [
       ask(
-        4,
+        7,
         'maths',
         'rate: bonks per minute',
         '3.MD.A.1',
@@ -5205,12 +5211,51 @@ export const EDU_PA1_READER_VARIANTS: EduScene[] = [
       ),
     ],
   ),
+  // ---------------------------------------------------------------- replaces pa1-11-garden-done (s21Done)
+  sc(
+    'pa1-11-garden-done-clank',
+    [
+      N(
+        'The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it.',
+      ),
+      PX('I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.', 'happy'),
+      CK('Announcement: that parachute has a FACE on it. I would like a parachute with MY face on it.', 'happy'),
+      PX('It’s the villain’s face, Clank.'),
+      CK('Then I would like a very small villain.'),
+    ],
+    [
+      ask(
+        0,
+        'science',
+        'how parachutes work',
+        '3-PS2-1',
+        [PX('Why does a parachute slow the lifeboat down?')],
+        [
+          o(
+            'The big canopy pushes against the air, and the air pushes back',
+            [
+              PX(
+                'Yes. Weight pulls down; the air pushing up on all that cloth nearly balances it. Nearly balanced means slow.',
+              ),
+            ],
+            true,
+          ),
+          o('It makes the lifeboat lighter', [
+            PX(
+              'Same weight. The cloth catches air, and the air pushes up against it. Two forces nearly balanced means a slow fall.',
+            ),
+          ]),
+        ],
+        'Learned that air resistance slows a parachute.',
+      ),
+    ],
+  ),
   // ---------------------------------------------------------------- replaces pa1-17-chao (pa1-gate locked)
   sc(
     'pa1-17-chao-locked',
     [
       N('Chaos looks round for them, and there are none. Not on the roofs, not in the streets.'),
-      N('Your stomach drops. The garden, the gate, the little key you turned.'),
+      N('Your heart thumps. The garden, the gate, the little key you turned.'),
       Y('They’re still in there.'),
       N(
         'You wade back across the square and through the hotel lobby, where the water is up to your waist and full of floating menus.',
@@ -5218,7 +5263,7 @@ export const EDU_PA1_READER_VARIANTS: EduScene[] = [
       N(
         'The garden gate is still locked. Behind it, on top of the palm tree and the fruit tree and each other, the Chao are huddled, wet and very quiet.',
       ),
-      N('They’re all alive. Not one of them is moving.'),
+      N('They’re all alive. They are too frightened to move, so they keep very still.'),
       PX('Safe isn’t the same as well, is it.', 'soft'),
       N(
         'You turn the key. Your Nubbin goes in first, and one by one they come down out of the trees and follow it.',
@@ -5231,10 +5276,10 @@ export const EDU_PA1_READER_VARIANTS: EduScene[] = [
         6,
         'social-studies',
         'the gate choice pays off',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
         [
           PX(
-            'You locked the gate, fifteen quests ago, to keep them safe. They lived, and they couldn’t leave. What did the lock cost?',
+            'You locked the gate, back in the garden, to keep them safe. They lived, and they couldn’t leave. What did the lock cost?',
           ),
         ],
         [
@@ -5353,7 +5398,7 @@ export const EDU_PA1_READER_VARIANTS: EduScene[] = [
         2,
         'social-studies',
         'remembering as keeping',
-        'D2.His.2.K-2',
+        'D2.His.2.3-5',
         [
           TI(
             'Remembering is a kind of keeping. What does your valley keep, to remember the ones who are gone?',

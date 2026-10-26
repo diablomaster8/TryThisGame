@@ -21,8 +21,8 @@
  * speak; Gamma is a robot and speaks as Sega wrote him, in our words.
  *
  * GROVE FLAGS READ (read-only; a cartridge never writes a Grove flag):
- *   - s21Done: Clank sits on top of the cabinet. PA1_VARIANTS 'pa1-01-clank' plays straight after
- *     pa1-01-shed-done.
+ *   - s21Done: Clank sits on top of the cabinet. PA1_VARIANTS 'pa1-01-shed-done-clank' replaces
+ *     pa1-01-shed-done (its lines, then Clank's), and 'pa1-11-garden-done-clank' replaces pa1-11-garden-done (the face parachute).
  *   - cinder (S19: 'forgiven' | 'remembered'; unset otherwise). PA1-18, step 2's done scene:
  *       unset: pa1-18-rhyme (Pixel hums the tune of Cinder's rhyme without the words, and stops
  *         before the last line).
@@ -216,7 +216,7 @@ export const ARCADE_PA1: Quest[] = [
       'FRAME: the cabinet stands in the lantern shed from the moment Pixel’s Arcade unlocks (after chapter 5). Pixel never ' +
       'enters a cartridge: every Pixel line in PA1 is through the speaker (tinny filter, a small speaker badge on her ' +
       'portrait). Stepping through: a two-second pixel-dissolve; inside, the Keeper and Nubbin get a faint square edge, the ' +
-      'cartridge’s own look. CLANK (s21Done): play PA1_VARIANTS pa1-01-clank straight after pa1-01-shed-done; from then on ' +
+      'cartridge’s own look. CLANK (s21Done): play PA1_VARIANTS pa1-01-shed-done-clank in place of pa1-01-shed-done; from then on ' +
       'Clank is drawn sitting on top of the cabinet in every PA1 frame scene. The cartridge has its own save (canon 29).',
   },
 
@@ -557,6 +557,7 @@ export const ARCADE_PA1: Quest[] = [
             N('The bench has seven silver things on it. All of them are spanners.'),
             TA('The other silver one.'),
             N('Your Nubbin climbs onto the bench, picks one up in both arms, and stands there beaming.'),
+            PX('Tails has seven spanners and knows every one. Byte has one spanner and a theory.'),
             PX('Tell him it’s a ten. It looks like a ten. Through the screen, everything looks like a ten.'),
             TA('Nearly there. If I’m reading this right, the Emerald’s giving off a signal, and something’s following it.', 'think'),
           ],
@@ -1015,6 +1016,8 @@ export const ARCADE_PA1: Quest[] = [
             BI('FROGGY!', 'happy'),
             N('Froggy jumps from your Nubbin’s foot straight back into the river. Big is still beaming.'),
             BI('He’s all right. He’s just being silly. I’ll find him. I always find him.'),
+            PX('Froggy! Brilliant! Hang on. My tea’s gone cold. I made it before the dragonflies.', 'happy'),
+            PX('Don’t tell Big. He looks so happy about the waiting.'),
           ],
         },
       },
@@ -1145,7 +1148,7 @@ export const ARCADE_PA1: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA1-10') },
     requires: ['PA1-10'],
-    speakers: [sTails, sSonic, sEggman, sAmy],
+    speakers: [sTails, sSonic, sEggman, sAmy, sClank],
     steps: [
       {
         id: 'pa1-11-s1',
@@ -1160,6 +1163,7 @@ export const ARCADE_PA1: Quest[] = [
             SO('In, find Amy, out. Easy. You two coming? Stay close, and don’t press any red buttons.'),
             N('Tails’s plane drops you on the deck in a roar of wind. Sonic is gone the moment his feet touch metal.'),
             PX('Okay. A flying fortress. Brilliant. I love that. I hate that. Both.', 'shock'),
+            PX('Also, Tails is right there. Two tails. Still not asking. I’m a professional.'),
             N('Klaxons, corridors, and signs that all say EGG something. Your Nubbin stays tucked inside your jacket.'),
           ],
         },
@@ -1242,7 +1246,8 @@ export const ARCADE_PA1: Quest[] = [
     notes:
       'Chaos 4 and Chaos 6 are folded into one growth here (“Four Emeralds”). The lifeboat carry is a short escort: one ' +
       'trip on screen, the rest narrated in the choice. The Egg Carrier’s Chao land safely by parachute; the Grove never ' +
-      'sees them again (they are this world’s).',
+      'sees them again (they are this world’s).' +
+      ' CLANK (s21Done): play PA1_VARIANTS pa1-11-garden-done-clank in place of pa1-11-garden-done.',
   },
 
   // ---------------------------------------------------------------- PA1-12
@@ -1539,7 +1544,7 @@ export const ARCADE_PA1: Quest[] = [
       id: 'pa1-14-complete',
       lines: [
         PX('Keeper. I’ve got something to say, and it’s probably nothing.'),
-        PX('Back home. The old story, about the fierce one who loved them too hard.', 'think'),
+        PX('Back home. Cinder. The old story, about the fierce one who loved the little ones too hard.', 'think'),
         PX('It’s probably nothing. It just feels like the same shape.', 'soft'),
         N('Your Nubbin looks up at the painted water-shape for a long time before it will come away.'),
       ],
@@ -1648,7 +1653,7 @@ export const ARCADE_PA1: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA1-15') },
     requires: ['PA1-15'],
-    speakers: [sSonic, sKnuckles, sTails, sAmy, sBig],
+    speakers: [sSonic, sKnuckles, sTails, sAmy, sBig, sEggman],
     steps: [
       {
         id: 'pa1-16-s1',
@@ -1662,7 +1667,9 @@ export const ARCADE_PA1: Quest[] = [
             SO('Okay. That’s big. That’s really, really big.', 'shock'),
             N('One by one they come: Tails in his plane, Knuckles up the drainpipe, Amy with the blue bird. Big, with Froggy back in his hat.'),
             N('Each of them is holding an Emerald. All seven, dull now and grey-green, with the light drained out of them.'),
-            KN('Chaos used them up. They’re empty.', 'angry'),
+            KN('Chaos used them up. They’re empty. And nobody lick one to check.', 'angry'),
+            N('Your Nubbin puts its tongue back in.'),
+            KN('I saw that.'),
             TA('Not empty. Not all the way.', 'think'),
             TA('Chaos took the bad side of them, the anger, all that grief. But there’s still something left in them. The good.'),
             TA('Use what’s left, Sonic. Use the good.'),
@@ -1717,6 +1724,9 @@ export const ARCADE_PA1: Quest[] = [
       id: 'pa1-16-complete',
       lines: [
         N('The sea pulls back out of the streets. Cars, benches and lamp posts come up out of it, dripping and surprised.'),
+        N('Far out in the bay, something round bobs under a parachute with its own face on it.'),
+        EG('I’m fine! Nobody asked, but I’m FINE!', 'angry'),
+        PX('Nobody asked.'),
         N('In the middle of the square, in a puddle no bigger than a pond, something small is left.'),
         PX('Is that…?', 'think'),
       ],
@@ -1901,6 +1911,8 @@ export const ARCADE_PA1: Quest[] = [
         N('Then she takes Chaos’s hand again. The two of them turn to light together, pink and green, and rise, and the Chao wave until they’re gone.'),
         N('The world folds up gently round you, like a letter, and you are standing in the lantern shed with your Nubbin under your arm.'),
         PX('You’re back! You’ve got flowers in your hair. They came out with you. How did they come out with you?', 'shock'),
+        PX('And your hair’s round again. I’ll be honest. I miss the square.'),
+        PX('I never did ask about the tails. Ruling: some things stay a mystery. Two of them.'),
         N('On the side of the cabinet, where the dent was, a small brass plate has appeared, blank, waiting for a name.'),
         PX('A high-score plate. For High Score Night. When we’ve done another cartridge, we’ll do it properly.', 'happy'),
       ],
@@ -1944,21 +1956,34 @@ export const ARCADE_PA1: Quest[] = [
 
 /**
  * Variant scenes picked by flags.
- *   s21Done (Grove, read-only): pa1-01-clank.
+ *   s21Done (Grove, read-only): pa1-01-shed-done-clank; pa1-11-garden-done-clank (replaces pa1-11-garden-done).
  *   pa1-gate (PA1-2): pa1-17-chao-locked; the last images.
  *   pa1-stood (PA1-10): pa1-18-stood; the last images.
  *   cinder (Grove, read-only): pa1-18-cinder-forgiven, pa1-18-cinder-remembered.
  */
 export const PA1_VARIANTS: Scene[] = [
-  // ---------------------------------------------------------------- PA1-1, after pa1-01-shed-done (s21Done)
+  // ---------------------------------------------------------------- PA1-1, replaces pa1-01-shed-done (s21Done)
   {
-    id: 'pa1-01-clank',
+    id: 'pa1-01-shed-done-clank',
     lines: [
+      N('Pixel blows the dust off the cartridge in one long puff and wipes the contacts on her sleeve.'),
+      PX('Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.'),
       N('Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen.'),
       CK('Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.', 'happy'),
       PX('I said lookouts sit still.'),
       CK('I am sitting very still. Look how still. This is the stillest I have ever been.'),
       N('His legs go on swinging. Every few seconds one heel bonks the screen.'),
+    ],
+  },
+  // ---------------------------------------------------------------- PA1-11, replaces pa1-11-garden-done (s21Done)
+  {
+    id: 'pa1-11-garden-done-clank',
+    lines: [
+      N('The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it.'),
+      PX('I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.', 'happy'),
+      CK('Announcement: that parachute has a FACE on it. I would like a parachute with MY face on it.', 'happy'),
+      PX('It’s the villain’s face, Clank.'),
+      CK('Then I would like a very small villain.'),
     ],
   },
   // ---------------------------------------------------------------- PA1-17, replaces pa1-17-chao (pa1-gate locked)

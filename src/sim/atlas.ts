@@ -125,7 +125,7 @@ const GROVE_ALIASES: Record<string, readonly string[]> = {
 };
 
 /** Grove flags a line answers with an `-unset` variant while the Grove has not set them. */
-const GROVE_UNSET: Record<string, readonly string[]> = { A19: ['sableFirst'] };
+const GROVE_UNSET: Record<string, readonly string[]> = { A19: ['sableFirst'], PA2: ['s7Done'] };
 
 /** How many answers a variant suffix is made of (`ran-unset` is two), or 0 if not all. */
 function answeredParts(suffix: string, answers: ReadonlySet<string>): number {

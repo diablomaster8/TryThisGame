@@ -264,7 +264,7 @@ const A1: EduQuest = quest(
           1,
           'social-studies',
           'reading a river on a map',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [OR('Maps use signs. How is a river like the Vltava usually drawn on a map?')],
           [
             o(
@@ -456,7 +456,7 @@ const A1: EduQuest = quest(
           3,
           'science',
           'some changes cannot be undone',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Hannah’s soft dough goes into the hot oven and comes out as bread. Can baked bread be turned back into dough?',
@@ -555,17 +555,15 @@ const A2: EduQuest = quest(
           'The study house is one long room full of books and noise. Students sit in pairs, arguing over a page, both talking at once.',
         ),
         AV('It’s meant to be loud. A quiet study house is one where nobody’s thinking.'),
-        AV(
-          'Sit at the back. That is Rabbi Judah Loew. People call him the Maharal, from the first letters of “our teacher, the rabbi Loew”.',
-        ),
+        AV('Sit at the back. That is Rabbi Judah Loew.'),
         N(
           'At the front sits an old man with a plain grey beard and ink on his fingers. The room goes quiet for him without being asked.',
         ),
         LO(
-          'I’m going to tell you a story from the Talmud. Rava made a man, and sent him to Rabbi Zeira.',
+          'I’m going to tell you an old story. A wise man called Rava made a man, and sent him to a friend.',
         ),
-        LO('Rabbi Zeira spoke to him, and the man did not answer.'),
-        LO('So Rabbi Zeira said to him: then go back to your dust.'),
+        LO('The friend spoke to him, and the man did not answer.'),
+        LO('So the friend said to him: then go back to your dust.'),
         N('Your Nubbin, on the bench beside you, has gone very still.'),
       ],
       [
@@ -573,7 +571,7 @@ const A2: EduQuest = quest(
           1,
           'social-studies',
           'how people studied in the past, compared with today',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Students here study in pairs and argue over a page. Why might that be a good way to learn?',
@@ -611,27 +609,23 @@ const A2: EduQuest = quest(
         ask(
           0,
           'literacy',
-          'recognising a simile',
-          'L.4.5',
-          [
-            N(
-              'That line compares a story with bread. Which of these is a simile, a comparison using “as” or “like”?',
-            ),
-          ],
+          'why a character acts as he does',
+          'RL.3.3',
+          [N('Why did the friend say the man was only dust?')],
           [
             o(
-              'The room was as quiet as snow',
-              [N('Yes. “As quiet as snow” compares two things using “as”. That is a simile.')],
+              'The man could not answer, so he was not alive',
+              [N('Yes. In the story, a person is someone who can be spoken to and answers.')],
               true,
             ),
-            o('The room was a snowfield', [
-              N(
-                'That compares without “as” or “like”. It is a metaphor, a close cousin of the simile.',
-              ),
+            o('The friend was in a bad mood', [
+              N('The story gives a better reason. The man did not answer when he was spoken to.'),
             ]),
-            o('The room was silent', [N('That says it plainly, without any comparison.')]),
+            o('The man was too heavy to lift', [
+              N('Weight is not the reason. The man did not answer, so he was only dust.'),
+            ]),
           ],
-          'Told a simile from a metaphor and a plain statement.',
+          'Explained a character’s motive from what happened in a short story.',
         ),
       ],
     ),
@@ -741,14 +735,7 @@ const A2: EduQuest = quest(
       ],
     ),
   ],
-  [
-    gl(
-      'simile',
-      'A comparison that uses “like” or “as”, such as “as quiet as snow”.',
-      'a30-02-study-done',
-    ),
-    gl('acronym', 'A name or word made from the first letters of other words.', 'a30-02-study'),
-  ],
+  [gl('golmi', 'A Hebrew word for a shapeless lump, not yet made into anything.', 'a30-02-question')],
 );
 
 // ================================================================== A30-3 Fear
@@ -853,7 +840,7 @@ const A3: EduQuest = quest(
           3,
           'science',
           'we see a lamp because its light reaches our eyes',
-          '1-PS4-2',
+          '4-PS3-2',
           [N('The lane is dark, but you can see the lamp across it. How can you see it?')],
           [
             o(
@@ -1219,7 +1206,7 @@ const A5: EduQuest = quest(
           'You follow at a distance, through the sleeping lanes, out by the little water gate to the river.',
         ),
         N(
-          'The Vltava is wide and black and talking to itself. It flows on north, far away, to join the great river Elbe.',
+          'The Vltava is wide and black and talking to itself. It flows on north, far away, out of the city.',
         ),
         N(
           'You stop in the willows above the bank. Your Nubbin stops too, and holds on to your trouser leg.',
@@ -1237,7 +1224,7 @@ const A5: EduQuest = quest(
           4,
           'social-studies',
           'why towns grow beside rivers',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Prague grew up beside the Vltava. What could a town in the 1500s take from a river?',
@@ -1304,7 +1291,7 @@ const A5: EduQuest = quest(
           2,
           'science',
           'wet clay is soft and dry clay is hard',
-          '2-PS1-1',
+          undefined,
           [
             N(
               'Isaac keeps wetting the clay while the wind dries it. Why does the clay need to stay wet?',
@@ -1453,7 +1440,7 @@ const A6: EduQuest = quest(
           3,
           'social-studies',
           'why oral stories change over time',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'The rabbi says the tellings “rarely agree”. Why do stories change when they are told again and again?',
@@ -1649,7 +1636,7 @@ const A7: EduQuest = quest(
           3,
           'social-studies',
           'life in the past and today: getting water',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Yossele fetches water every day. In Prague then, where did most families get theirs?',
@@ -1688,7 +1675,7 @@ const A7: EduQuest = quest(
         N('A hen floats past the door on a cabbage, looking as if she was promised dry land.'),
         N('Your Nubbin gives up bailing, climbs into the bread trough, and sails.'),
         DV('Oh, no. No, no, no. Yossele! That’s enough! Enough!', 'shock'),
-        N('He doesn’t stop. She isn’t the one who made him.'),
+        N('He doesn’t stop. He only stops for the rabbi who made him, and the rabbi isn’t here yet.'),
         N(
           'Then the rabbi is at the door with his sleeves wet to the elbow, and says, “Stop.” Yossele sets the bucket down.',
         ),
@@ -2089,7 +2076,7 @@ const A9: EduQuest = quest(
           1,
           'social-studies',
           'the Sabbath as a day of rest',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [N('Everyone is hurrying to be ready before sunset. What is the Sabbath for?')],
           [
             o(
@@ -2134,7 +2121,7 @@ const A9: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          7,
           'literacy',
           'one letter can change a word',
           'L.3.4',
@@ -2183,7 +2170,7 @@ const A9: EduQuest = quest(
           'Your Nubbin is waiting by the door, and falls in a step behind him as if it had never been away.',
         ),
         N(
-          'Say the Sabbath began at half past four on Friday, and ended at half past five on Saturday, when the stars came out.',
+          'This week the Sabbath began at half past four on Friday. It ended at half past five on Saturday, when the stars came out.',
         ),
       ],
       [
@@ -2305,7 +2292,7 @@ const A10: EduQuest = quest(
           2,
           'science',
           'young need care from parents',
-          '1-LS1-2',
+          undefined,
           [
             N(
               'A foal can stand within an hour or so of being born. A human baby takes about a year to walk. What does that tell us?',
@@ -2491,7 +2478,7 @@ const A10: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'sel',
           'forgiving a mistake made out of gladness',
           'CASEL: Self-awareness',
@@ -2561,7 +2548,7 @@ const A11: EduQuest = quest(
           3,
           'literacy',
           'refrain and repeated lines',
-          'RL.2.4',
+          undefined,
           [
             N(
               'A line or phrase that comes round again and again in a song or poem has a special name. What is it?',
@@ -2605,15 +2592,15 @@ const A11: EduQuest = quest(
           'Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all.',
         ),
         N(
-          'It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does.',
+          'It has its own piece: one small burnt crust, wrapped in a cloth. Hannah burns one every day. Even on the Sabbath. Especially then.',
         ),
       ],
       [
         ask(
-          3,
+          4,
           'social-studies',
           'customs of a Sabbath meal',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [N('Which of these belong to the Sabbath table in Avram’s house?')],
           [
             o(
@@ -2791,7 +2778,7 @@ const A12: EduQuest = quest(
           3,
           'social-studies',
           'treating worn-out holy books with respect',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'Why do people keep worn-out holy books in a genizah, instead of throwing them in the rubbish?',
@@ -2837,7 +2824,7 @@ const A12: EduQuest = quest(
       ],
       [
         ask(
-          1,
+          2,
           'sel',
           'why company helps when we are sad',
           'CASEL: Relationship skills',
@@ -2874,7 +2861,7 @@ const A12: EduQuest = quest(
           1,
           'literacy',
           'what people’s actions show about their feelings',
-          'RL.2.3',
+          'RL.3.3',
           [
             N(
               'Nobody sweeps the clay away, not for a whole week. What does that show about how they feel?',
@@ -2944,7 +2931,7 @@ const A13: EduQuest = quest(
           4,
           'social-studies',
           'compass directions on a map',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             N(
               'Chełm is a town in eastern Poland, east of Prague. If you travelled from Prague to Chełm, which way would you head?',
@@ -3204,10 +3191,11 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
       N(
         'Behind him, in a neat row, are six chairs nobody asked to be moved. He has started helping before he’s asked.',
       ),
+      N('He carries two at a time.'),
     ],
     [
       ask(
-        3,
+        4,
         'maths',
         'division: 6 ÷ 2',
         '3.OA.A.3',
@@ -3288,7 +3276,7 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
         4,
         'social-studies',
         'fairness: everyone should be free to come and go',
-        'D2.Civ.8.K-2',
+        'D2.Civ.8.3-5',
         [N('Yossele has shut everyone in. Why is that unfair, even though he means well?')],
         [
           o(
@@ -3325,18 +3313,15 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
       ),
       N('Nobody has asked him. He is helping, and helping, and helping, and he is getting bigger.'),
       DV('My pots! He’s scrubbing my pots! He’s scrubbing them into pieces!', 'shock'),
+      N('Four pots go in. Each comes out in three pieces.'),
     ],
     [
       ask(
-        4,
+        5,
         'maths',
         'multiplication: 4 × 3',
         '3.OA.A.1',
-        [
-          N(
-            'Say Yossele scrubs four pots, and each one breaks into three pieces. How many pieces are there?',
-          ),
-        ],
+        [N('Four pots, and each one breaks into three pieces. How many pieces are there?')],
         [
           o(
             '12',
@@ -3475,24 +3460,15 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
       N('Your Nubbin puts one paw on the drawing of the attic window, and leaves it there.'),
     ],
     [
-      ask(
-        2,
+      notice(
+        3,
         'sel',
         'being honest about our own faults',
         'CASEL: Self-awareness',
-        [N('Hazel says she would have forgotten every Friday. What does that show about her?')],
         [
-          o(
-            'She can be honest about her own faults, and laugh',
-            [N('Yes. Admitting what we are bad at, kindly, is a sign of a settled heart.')],
-            true,
+          N(
+            'Hazel knew she was forgetful, and laughed at herself. That is a kind of honesty.',
           ),
-          o('She is boasting', [
-            N('Boasting would be saying she is brilliant. She is owning up to a weakness.'),
-          ]),
-          o('She doesn’t care about the story', [
-            N('The note shows she read it closely, and saw herself in it.'),
-          ]),
         ],
         'Noticed that admitting our own faults with humour is a sign of self-awareness.',
       ),
@@ -3623,11 +3599,12 @@ export const EDU_A30_READER_VARIANTS: EduScene[] = [
     'a30-13-kept',
     [
       N('The rabbi looks at your pocket, where the stone is. You hadn’t thought it showed.'),
+      N('Your pocket has a small grey stone in it. It hums.'),
       LO('You carry something. Heavy, for its size. What is it?'),
     ],
     [
       ask(
-        1,
+        2,
         'sel',
         'private things and secrets that worry us',
         'CASEL: Responsible decision-making',

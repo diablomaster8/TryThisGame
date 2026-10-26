@@ -12,7 +12,7 @@ _You put your hand flat on the page, and it is warm. Then the warmth is a fire, 
 _A grandmother sits by the fire, patting dough into rounds and laying them on a clay griddle. Pat, pat, turn._  
 _A girl of about nine is doing her homework at the table, badly, because she keeps watching the door._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): Guatemala is in Central America, south of Mexico; K’iche’ Maya people live there and speak K’iche’ today  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): Guatemala is in Central America, south of Mexico; K’iche’ Maya people live there and speak K’iche’ today  
 > **Grandmother**: This kitchen is in Guatemala. Look south of Mexico on a map, and there we are, in Central America.  
 > **Grandmother**: Many people here are K’iche’ Maya, and K’iche’ is one of more than twenty Mayan languages spoken in Guatemala.  
 > **Grandmother**: We speak it today, at this table. It is not a language from a book. It is the one I scold you in.  
@@ -78,7 +78,7 @@ _The smoke thickens, and the kitchen goes soft at the edges. You can still hear 
 _You are standing on a hillside in the early morning, in a world that is mostly still being made._  
 _Somewhere close, something heavy and rubbery goes thock against a wall. Then again: thock._  
 
-> **Lesson** (science, 1-PS4-1, ask): sound is made by vibration  
+> **Lesson** (science, 4-PS3-2, ask): sound is made by vibration  
 > **Grandmother**: Thock. The ball hits the wall, and you hear it from here. What is happening to make that sound?  
 > - ✅ The ball and the wall vibrate, and the air carries the shake to our ears. → Yes. A sound is a vibration, a very fast shake, passed through the air to your ears.
 > - The ball is only loud because it is heavy. → Weight helps, because a heavy ball hits harder and shakes more. But the sound itself is the shake that travels through the air.
@@ -150,7 +150,7 @@ _Your Nubbin is already gone, bouncing down the slope after the ball, bouncing a
 _You find it sitting proudly on the ball, which is nearly as big as it is._  
 _The ball is heavier than you expect. It’s made from tree sap, worked until it bounces, and it smells faintly of smoke._  
 
-> **Lesson** (science, 2-PS1-1, notice): rubber is made from the milky latex of a tree; materials have properties  
+> **Lesson** (science, notice): rubber is made from the milky latex of a tree; materials have properties  
 > **Grandmother**: The sap is called latex. It comes out of the rubber tree thick and white, like milk that has been left out.  
 > **Grandmother**: Left alone, it dries into something stretchy that bounces. People in this part of the world were using it more than three thousand years ago.  
 > **Grandmother**: A tree gave them a material that was stretchy, bouncy and waterproof. All they needed was the idea.  
@@ -224,7 +224,7 @@ _In the atlas’s margin there is a little brown drawing of it, every gourd the 
 **Granddaughter**: Grandmother. Why can’t anyone go near it?  
 **Grandmother**: The lords said nobody was to touch that tree. So of course somebody did.  
 
-> **Lesson** (science, 2-PS1-1, notice): a dried gourd shell is hard and waterproof, so it makes a bowl or cup  
+> **Lesson** (science, notice): a dried gourd shell is hard and waterproof, so it makes a bowl or cup  
 > **Grandmother**: A gourd is a fruit with a thick skin. When it dries out, the skin turns hard and light, and the inside can be scooped away.  
 > **Grandmother**: People in Guatemala still make bowls and cups from dried gourds. They are strong, light, and they hold water.  
 > _For grown-ups: Learned that a dried gourd has a hard, waterproof shell, so it makes a bowl or cup._
@@ -418,7 +418,7 @@ _You take one end and Xquic takes the other. Your Nubbin takes the middle, which
 _Halfway up, the older brothers come out to watch. They don’t help._  
 **Xquic**: Artists, those two. They play the flute, and paint, and sing. They never carry anything.  
 _You put the net down in front of Xmucane. She looks at it, and goes on looking for a long time._  
-_It holds 36 ears. Later she splits them into 4 equal piles, one for each person in the house._  
+_It holds 36 ears. Xmucane counts them twice, in case the corn is lying. Then she splits them into 4 equal piles, one for each person._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division within 100  
 > _Xmucane shares 36 ears of corn into 4 equal piles. How many ears are in each pile?_  
@@ -675,7 +675,7 @@ _Zipacna comes down the river, huge and hungry, looking for crabs. He has not ea
 _Zipacna lies on his front and squeezes in under the overhang, reaching. The crab, which is leaves, does not move._  
 _Then the mountain settles, the way mountains do, with a long slow sigh. Zipacna is under it, and there he stays._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): the geography of Guatemala: highlands and volcanoes  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): the geography of Guatemala: highlands and volcanoes  
 > **Grandmother**: Mountains matter here. Guatemala has highlands running through the middle, and more than thirty volcanoes.  
 > **Grandmother**: The K’iche’ homeland is in those highlands, so the tale’s mountains are the very ones outside the window.  
 > _For grown-ups: Learned that Guatemala has highlands and more than thirty volcanoes, and that the K’iche’ homeland is in the highlands._
@@ -697,7 +697,7 @@ _Earthquake is stamping through the hills, and every stamp shakes a mountain loo
 **Xbalanque**: He’s hungry too. They’re always hungry, this family. We need clay.  
 _You dig wet clay from the riverbank with your hands. The twins roast a bird, and coat it all over, thick, with the earth you bring._  
 
-> **Lesson** (science, 2-PS1-4, ask): some changes can be reversed and some cannot  
+> **Lesson** (science, ask): some changes can be reversed and some cannot  
 > _Wet clay can be squished into any shape. Once clay is baked hard in a fire, can it be made soft again?_  
 > - ✅ No. Baking is a change that cannot be undone. → Yes: baked clay is pottery for good. Melting ice can be refrozen, but a baked pot cannot go back to soft clay.
 > - Yes, just add water. → Sun-dried clay can be soaked soft again, but clay that has been fired in a hot oven or kiln is changed for good.
@@ -720,15 +720,15 @@ _He is part of the hills now. The ground still shakes a little sometimes, when h
 _The world is quieter. The mountains stay where they are put._  
 **Hunahpu**: Is that all of them?  
 **Xbalanque**: All the shiny, boasting ones.  
-**Grandmother**: The Maya counted in twenties, not tens: fingers and toes.  
+**Grandmother**: The Maya counted in twenties, not tens: fingers and toes, with 5 on each hand and foot.  
 **Grandmother**: Now: somebody has to go down to Xibalba. You know who.  
 
-> **Lesson** (maths, 3.OA.A.3, ask): multiplication within 100 and beyond: 20 x 20  
-> _The Maya counted in twenties. If the Four Hundred Boys are 20 groups of 20, how many boys is that?_  
-> - ✅ 400 → Yes. 20 x 20 = 400. Two times 20 is 40, and ten of those is 400.
-> - 40 → That is 2 x 20. Twenty groups of twenty is 20 x 20 = 400.
-> - 200 → That is 10 x 20. We need twenty groups: 20 x 20 = 400.
-> _For grown-ups: Multiplied 20 x 20 = 400 while learning that the Maya counted in twenties._
+> **Lesson** (maths, 3.OA.A.3, ask): dividing within 100: how many twenties make a hundred  
+> _The Maya counted in twenties. How many twenties make a hundred?_  
+> - ✅ 5 → Yes. 20, 40, 60, 80, 100: five twenties. 5 x 20 = 100.
+> - 4 → Four twenties make only 80. Five twenties make 100, because 5 x 20 = 100.
+> - 10 → Ten twenties make 200. Five twenties make 100, because 5 x 20 = 100.
+> _For grown-ups: Worked out that five twenties make a hundred, counting like the Maya._
 
 **Granddaughter**: The twins!  
 **Grandmother**: Not yet. First, a rat. Eat your tortilla.  
@@ -749,7 +749,7 @@ _The twins are meant to clear a garden. Instead they lie in the shade, and their
 **Hunahpu**: Hoe, dig. Axe, chop.  
 _A dove sits on the fence, ready to call if anyone comes. In the morning the garden is a forest again, every tree back as if nobody had touched it._  
 
-> **Lesson** (science, 2-LS2-1, notice): plants need water and light; the milpa grows corn, beans and squash together  
+> **Lesson** (science, notice): plants need water and light; the milpa grows corn, beans and squash together  
 > **Grandmother**: Seeds sleep in the soil until water and sun wake them. That is why a cleared garden turns green again so fast.  
 > **Grandmother**: Here the farmers plant a milpa: corn, beans and squash together. The beans climb the corn, and the squash leaves shade the soil.  
 > _For grown-ups: Learned that seeds wake up with water and light, and that a milpa grows corn, beans and squash together._
@@ -775,7 +775,7 @@ _Everyone gets away except one. Hunahpu catches a rat by the tail, and holds it 
 _The twins look at each other. Something lights up in both their faces._  
 **Rat**: And while we’re talking: I’d like food. For ever. That’s my price.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): what makes a swap fair  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): what makes a swap fair  
 > _The rat trades a secret for food for ever. What makes a swap fair?_  
 > - ✅ Both sides get something they value, and both agree. → Yes. A fair swap is one where each side gains something and nobody is forced.
 > - The strongest side decides the price. → The twins are stronger, but a price set by force is not a swap. The rat has to agree too.
@@ -849,17 +849,18 @@ _The owls come to Xmucane’s door. The twins are out at the court, so it’s Xm
 _Xmucane sits down on her stool and doesn’t get up for a while. Then she lifts a louse off her own sleeve._  
 **Xmucane**: Go and tell my grandsons. Quickly.  
 _The louse sets off, and it is not quick. A toad offers it a lift inside its mouth, then a snake offers the toad one, and a falcon the snake._  
+**Louse**: Very kind. Bit damp.  
 _The falcon lands on the ballcourt wall and coughs up the snake, who coughs up the toad, who tries to cough up the louse and can’t._  
+**Toad**: It’s in there. It’s fine. It’s just stuck.  
+**Louse**: Your grandmother says come home. The lords say come down. In that order.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how people sent messages in the past and today  
-> _The message passes through five messengers. Before phones, what could go wrong with a message passed along like this?_  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how people sent messages in the past and today  
+> _The message went from the owls to Xmucane, then along four carriers. What could go wrong with a message passed along like this?_  
 > - ✅ It could change as it is passed. Repeating it back helps. → Yes: every retelling can add mistakes. Checking by repeating it back is how people kept messages true.
 > - Nothing. Messages never change. → They do, as anyone who has played a whispering game knows. Every messenger can drop or change a word.
 > - It would arrive faster than a phone call. → Phones are far quicker. In the past a message could take days, carried by people on foot.
 > _For grown-ups: Compared how messages travelled in the past with today, and how to keep a message accurate._
 
-**Toad**: It’s in there. It’s fine. It’s just stuck.  
-**Louse**: Your grandmother says come home. The lords say come down. In that order.  
 
 **Choices**
 
@@ -874,16 +875,16 @@ _Before they go, the twins come home. Each of them takes an ear of corn and plan
 **Hunahpu**: Grandmother, look at these. Every day.  
 **Xbalanque**: If they droop, come and look for us. If they stay green, we’re all right.  
 **Xmucane**: And if they do both?  
-
-> **Lesson** (science, 3-LS1-1, ask): the corn life cycle  
-> _A corn seed is planted in the earth. What happens next in its life cycle?_  
-> - ✅ It sprouts into a seedling, grows into a plant, and makes ears with new seeds. → Yes: seed, seedling, plant, ear, new seeds. Then the cycle can start again.
-> - It turns straight into an ear. → There are steps in between. The seed sprouts, the plant grows tall, and only then does the ear form.
-> - It stays a seed until it is picked. → A seed with water and warmth wakes up and sprouts. That is why the twins’ corn is a sign worth watching.
-> _For grown-ups: Put the corn life cycle in order, from seed to seedling to plant to ear._
-
 **Hunahpu**: Then we’re being clever. Don’t worry. You’ll know.  
-**Grandmother**: An old book in English says they planted canes. We say corn. We are made of corn, you know. That’s another story.  
+
+> **Lesson** (science, 3-LS1-1, ask): living plants show how they are doing  
+> _Green corn is alive. Drooping corn means trouble. What will Xmucane look for each morning?_  
+> - ✅ Whether the corn is green or drooping. → Yes: green means the twins are safe, and drooping means trouble. A living plant shows how it is doing.
+> - Whether the corn has grown into a tree. → Corn does not grow that fast. The twins gave her one simple sign: green or drooping.
+> - Whether the corn has been eaten. → Nobody is eating it. It is planted as a sign, and she checks if it is green or drooping.
+> _For grown-ups: Learned that a living plant shows its health: green means well, drooping means trouble._
+
+**Grandmother**: Some books say canes. In our kitchen it is always corn. Nobody argues with the corn.  
 _The twins pick up their father’s gear, and your Nubbin looks at you. You look at the corn, and at Xmucane, and at the road._  
 
 **Choices**
@@ -923,19 +924,19 @@ _At the bottom, four roads meet: a red one, a white one, a yellow one and a blac
 **Black Road**: I’m the way. Me. Take me. I go straight to the lords.  
 **Xbalanque**: That’s the road that talked to our father.  
 **Hunahpu**: And it was telling the truth. It just didn’t say what was at the end of it.  
-
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): reading directions on a map  
-> _On a map, north is usually at the top. If you walk east and then turn right, which way are you facing?_  
-> - ✅ South → Yes. Facing east, a right turn points you south, like a clock hand moving from 3 to 6.
-> - North → A left turn from east would point north. A right turn points south.
-> - West → West is the opposite of east, so you would have to turn all the way round. A right turn points south.
-> _For grown-ups: Used compass directions to follow a turn on a map._
-
 _Hunahpu pulls one hair from his shin, wincing, and blows on it. It turns into a mosquito, which hovers politely in front of his nose._  
 **Mosquito**: Good afternoon. How may I help?  
 **Hunahpu**: Go ahead of us. Bite everyone sitting down there. Every one.  
 **Mosquito**: Bite? Strangers? Without being introduced?  
 **Xbalanque**: Introduce yourself after.  
+
+> **Lesson** (literacy, RL.3.3, ask): a true statement can leave out what matters  
+> _The black road said it went straight to the lords. That was true. What did it leave out?_  
+> - ✅ What was waiting at the end. → Yes. A true thing can still hide the part that matters.
+> - It told a lie. → It didn’t lie. It just didn’t say what was at the end. That is why Hunahpu doesn’t trust it.
+> - Nothing. It said everything. → It said where it goes, but not what is there. Hunahpu notices the missing part.
+> _For grown-ups: Noticed that a road, or a person, can say something true and still hide the part that matters._
+
 
 **Choices**
 
@@ -952,7 +953,7 @@ _The house is very quiet with the twins gone. Xmucane sweeps the floor round the
 **Xmucane**: Don’t stand on them. Don’t breathe on them. I know. I’m being silly.  
 _Xquic grinds corn at the stone. You fetch water from the river twice, then a third time, because it’s something to do._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how corn becomes tortillas, then and now  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how corn becomes tortillas, then and now  
 > **Xquic**: We soak the dry corn in water with lime, a white powder made from stone, not the fruit. It softens the corn and makes it better for you.  
 > **Xquic**: Then it is ground into dough. I use a flat stone, as my mother did. In some houses today, a small mill does that job.  
 > _For grown-ups: Learned how corn is soaked and ground into tortilla dough, by stone in the past and sometimes by mill today._
@@ -977,7 +978,8 @@ _The mosquito bites the first lord in the row: nothing, wood. It bites the secon
 **Seven Death**: One Death? What is it, One Death?  
 **One Death**: Something bit me, Seven Death!  
 _All the way down the row it goes. Every real lord yells, and the lord beside him asks what happened, by name._  
-**Hunahpu**: Good day, One Death. Good day, Seven Death. Good day, Wing. Good day, Packstrap.  
+**Hunahpu**: Good day, One Death. Good day, Seven Death. Good day to the rest of the row, one at a time.  
+_It takes a while. There are a lot of lords._  
 **Xbalanque**: And good day to the wooden ones. Very nice carving.  
 _The lords stare at them. Nobody has ever done that before._  
 
@@ -997,7 +999,7 @@ _The seat glows faintly at the edges. It is a stone, and it is hot._
 - **Try very hard not to grin.**
     - You fail. One of the lords sees, and glares, and you look at the ceiling as if it is very interesting.
 - **Stand well back from the bench.**
-    - You stand well back. Your Nubbin, which once sat on a warm hearthstone by mistake, stands further back still.
+    - You stand well back. Your Nubbin, which has strong views about hot seats, stands further back still. Then a bit further.
 
 #### `reader:a31-11-lords-stay` · [main](main.md#a31-11-lords-stay)
 
@@ -1104,14 +1106,6 @@ _The corn stays green. All night, both ears, green._
 _In the morning they hand back the torch and the candles, whole and unlit. The lords look at them for a long time._  
 **One Death**: How?  
 **Hunahpu**: Good morning.  
-
-> **Lesson** (literacy, RL.3.3, ask): what a character’s words show about him  
-> _The lord shouts “How?” and Hunahpu says only “Good morning.” What does that tell us about Hunahpu?_  
-> - ✅ He is calm and cheeky. → Yes: after a night in the dark, he greets the lord like a neighbour. That is the cheek.
-> - He is frightened. → A frightened person would not tease. His calm words show he is in charge.
-> - He is angry. → He is not shouting. “Good morning” is polite, which is part of the joke.
-> _For grown-ups: Described a character’s traits from what he says._
-
 _The twins were shut in at six in the evening, and let out at six the next morning._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals in hours  
@@ -1129,7 +1123,7 @@ _Variant of `a31-12-dark-done`._
 **Xmucane**: Still green.  
 _She says it every morning after that. By the third morning you are saying it with her._  
 
-> **Lesson** (literacy, RL.2.4, ask): repeated lines make a refrain  
+> **Lesson** (literacy, RL.4.2, ask): repeated lines make a refrain  
 > _Xmucane says “Still green” every morning, and then you join in. What does a repeated line like that do?_  
 > - ✅ It gives the family something steady to hold on to. → Yes: a repeated line is called a refrain. It turns worry into a small, shared habit.
 > - It makes the story longer. → It does add words, but its real job is feeling. A refrain gives a worried household a steady rhythm.
@@ -1278,6 +1272,7 @@ _While they’re all off in the trees, Xbalanque climbs the end wall and takes b
 **Hunahpu**: Ah. That’s better. That’s much better.  
 _The lords come back, panting. One of them takes down the squash to serve with, and it hits the wall and bursts, seeds everywhere._  
 **One Death**: That’s cheating!  
+**Hunahpu**: That’s squash.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): fair play and tricking someone who is unfair  
 > _The lords planned to wreck Hunahpu’s hat in a game, and the twins tricked them. Was it fair play, or cheating?_  
@@ -1286,7 +1281,6 @@ _The lords come back, panting. One of them takes down the squash to serve with, 
 > - It is complicated. → That’s a thoughtful answer. Tricking someone who means harm is not the same as tricking a friend, but it is worth asking where the line is.
 > _For grown-ups: Thought about fair play and whether tricking an unfair opponent is cheating._
 
-**Hunahpu**: That’s squash.  
 
 **Choices**
 
@@ -1307,7 +1301,7 @@ _The falcon comes at noon with its feathers every which way. It is talking befor
 **Xmucane**: I saw his corn.  
 _Xmucane gets up and makes tortillas, very fast, far too many, and gives the first one to the falcon._  
 
-> **Lesson** (literacy, RL.2.3, ask): how characters respond to events  
+> **Lesson** (literacy, RL.3.3, ask): how characters respond to events  
 > _Xmucane makes far too many tortillas, very fast. What does that show about how she feels?_  
 > - ✅ She is so relieved she cannot sit still. → Yes: her hands need a job. Relief and joy can come out as busyness.
 > - She is angry at the falcon. → She gives the falcon the very first tortilla. That is thanks, not anger.
@@ -1461,7 +1455,7 @@ _The lords do just what the seers tell them. They are very pleased with themselv
 _The river has taken the twins into itself. The atlas’s margin says only that it kept them safe, and gave them back as boys._  
 _You wait on the bank. The page turns its days over gently: one, two, three, four, five._  
 
-> **Lesson** (maths, 3.OA.A.3, ask): multiplication in a time word problem  
+> **Lesson** (maths, 4.MD.A.2, ask): multiplication in a time word problem  
 > _You waited five days, and there are 24 hours in a day. How many hours is that?_  
 > - ✅ 120 hours → Yes. 5 x 24 = 120. Ten times 24 is 240, so half of that is 120.
 > - 100 hours → That would be 5 x 20. A day has 24 hours, so 5 x 24 = 120.
@@ -1641,7 +1635,7 @@ _Nobody in the house says anything. Outside, the wind goes over the corn on the 
 **Grandmother**: And from that day the lords of Xibalba were small. Not gone. Small.  
 **Grandmother**: After that, the lords had no more ball games. They had jobs to do, like everyone else.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): why rules and chores apply to everyone  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): why rules and chores apply to everyone  
 > _The lords now have to do chores like everyone else. Why is it fair when rules and jobs apply to everybody?_  
 > - ✅ Nobody is above the rules, so the community stays fair. → Yes. Fairness means the same rules for lords and neighbours alike.
 > - It is only fair for people who are lazy. → Fairness has nothing to do with laziness. It is about everyone doing their share.
@@ -1723,7 +1717,7 @@ _One of them goes up and becomes the Sun. The other goes up and becomes the Moon
 _After them, rising, come four hundred small lights. You’d know them anywhere: the Four Hundred Boys._  
 _They spread out across the sky and stay there. The atlas’s margin says it simply: now they are the stars._  
 
-> **Lesson** (science, 1-ESS1-1, ask): why the Sun and Moon seem to take turns  
+> **Lesson** (science, 5-ESS1-2, ask): why the Sun and Moon seem to take turns  
 > _The Sun and the Moon seem to take turns in the sky. What really makes that happen?_  
 > - ✅ The Earth spins, so we turn towards the Sun and then away. → Yes: the Earth turns once about every 24 hours. When our side faces the Sun it is day, and when it faces away it is night.
 > - The Sun goes round the Earth once a day. → It looks that way, and people believed it for ages. In fact the Earth is the one turning.
@@ -1773,7 +1767,7 @@ _When the light is all the way up, there is a green stone on a cord lying on the
 _It wasn’t there before, and you know exactly who left it. Your Nubbin lets you tie it round its neck, then can’t stop looking down at it._  
 **Grandmother**: Jade is a hard green stone. People in Guatemala have been carving it for thousands of years, and they still do.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): jade is carved in Guatemala, then and now  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): jade is carved in Guatemala, then and now  
 > **Grandmother**: Jade is found in the Motagua valley in Guatemala. It is very hard, so carvers shape it by rubbing it with sand and patience.  
 > **Grandmother**: Maya people carved it long ago, and Guatemalan carvers still make jade jewellery today. The craft never stopped.  
 > _For grown-ups: Learned that jade is found in Guatemala and has been carved there for thousands of years, up to the present day._
@@ -1828,6 +1822,8 @@ _The smoke clears. You are on the low stool in the kitchen, with your Nubbin asl
 **Grandmother**: And that’s the story.  
 **Granddaughter**: Is it true?  
 **Grandmother**: The sun came up this morning, didn’t it?  
+**Granddaughter**: …Yes.  
+**Grandmother**: Then eat a tortilla. Go home.  
 
 > **Lesson** (literacy, RL.4.2, ask): stories, truth and what a story is for  
 > _The girl asks if the story is true, and the grandmother answers with a question about the sun. What do you think she means?_  
@@ -1836,8 +1832,6 @@ _The smoke clears. You are on the low stool in the kitchen, with your Nubbin asl
 > - A story can be true in a different way from a fact. → That’s a thoughtful answer. A true story can be about waiting, courage and being remembered, even when it has talking owls in it.
 > _For grown-ups: Thought about how a story can be true in a way that is different from a fact._
 
-**Granddaughter**: …Yes.  
-**Grandmother**: Then eat a tortilla. Go home.  
 _Outside the window, the green mountain has the evening on it. Somebody down the road is calling a dog in for its supper._  
 
 **Choices**
@@ -1879,7 +1873,7 @@ _There is a black rubber ball on the floor. Your Nubbin is already sitting on it
 _And caught in the atlas’s spine there is an ear of corn, dry and golden, the colour of a long walk in the sun._  
 _The people of this part of the world first grew corn from a wild grass called teosinte, over eight thousand years ago._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): where corn comes from, and who still grows it  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): where corn comes from, and who still grows it  
 > _Teosinte looks like a thin grass with a few hard seeds. Over many seasons, farmers kept the best seeds and planted them again, and the plant slowly became corn._  
 > _Corn now feeds people all over the world. In Guatemala, K’iche’ families still grow it, and tortillas like your Nubbin’s are still made from it._  
 > _For grown-ups: Learned that corn was first grown from a wild grass called teosinte by people in this part of the world, and is still grown there._
@@ -1934,7 +1928,7 @@ _Byte is by the pond, watching your Nubbin play hip-ball. Its ribbons flap as it
 _The sun is going down behind the hill. On the other side, the moon is already up._  
 **Byte**: Same sky. It was always the same sky. I’d like that read into the record.  
 
-> **Lesson** (science, 1-ESS1-1, ask): the Sun and Moon can share the sky  
+> **Lesson** (science, 5-ESS1-2, ask): the Sun and Moon can share the sky  
 > _Byte sees the Sun and the Moon in the sky together. Is that possible, or only in stories?_  
 > - ✅ It is real. The Moon is often up in the daytime. → Yes. The Moon is in the sky for about half of each day, and we can often see it pale against the blue.
 > - It cannot happen. They only appear at different times. → They take turns, but the turns overlap. Look up some afternoon, and you may well see a pale Moon beside the Sun.

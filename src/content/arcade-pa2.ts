@@ -161,6 +161,10 @@ export const ARCADE_PA2: Quest[] = [
             B('I’m here to check the maths. Arcades are probability with a coin slot.'),
             P('He’s here because I said there’d be biscuits.'),
             B('That too.'),
+            N('One of Byte’s laces is undone. Pixel looks at it, then at him, and says nothing. It is a lot of nothing.'),
+            B('I’m aware.'),
+            P('I haven’t said a word.'),
+            B('You’re saying it very loudly.'),
           ],
           choices: [
             {
@@ -641,6 +645,11 @@ export const ARCADE_PA2: Quest[] = [
             N('It doesn’t take long. The challenger’s creature sits down in the grass, dazed but fine, and Raymond stares at it.'),
             RA('That’s… not how that was supposed to go.'),
             AS('Good battle! Want some lunch?', 'happy'),
+            N('Brock hands Raymond a bowl without being asked.'),
+            BR('You battled on an empty stomach. It showed.'),
+            RA('…Is there any more?'),
+            BR('There’s always more.'),
+            N('Your Nubbin has moved its stool between Raymond and the pot.'),
           ],
         },
       },
@@ -821,7 +830,8 @@ export const ARCADE_PA2: Quest[] = [
       'warm the cups. No timer. The story is told while the kettle heats. Neesha, Fergus and Corey leave by their own ' +
       'creatures (swimmer, Gyarados-sized sea creature, flyer), as in the film. The empty Pokémon Center is a clue: ' +
       'its Nurse Joy is the cloaked woman. REWARD: Miranda’s storm lantern (decoration) is given here, inside the ' +
-      'cartridge, and appears in the Grove when the cartridge is next exited.',
+      'cartridge, and appears in the Grove when the cartridge is next exited. BYTE (s7Done unset): play ' +
+      'ARCADE_PA2_VARIANTS pa2-06-complete-unset instead of pa2-06-complete: Pixel times Byte’s biscuit run (paid off in PA2-15).',
   },
 
   // ---------------------------------------------------------------- PA2-7
@@ -1120,7 +1130,7 @@ export const ARCADE_PA2: Quest[] = [
           choices: [
             {
               id: 'borrowed',
-              label: 'Call it by your Nubbin’s name.',
+              label: 'Say your Nubbin’s name. It looks just like it.',
               set: { 'pa2-name': 'borrowed' },
               then: [
                 N('You say your Nubbin’s name. Your Nubbin’s ears go up, and so do the new one’s.'),
@@ -1129,7 +1139,7 @@ export const ARCADE_PA2: Quest[] = [
             },
             {
               id: 'own',
-              label: 'Tell it it gets a name of its own, and give it one.',
+              label: 'Give it a new name.',
               set: { 'pa2-name': 'own' },
               then: [
                 Y('You’re not a copy of anybody. You get your own name. Here.'),
@@ -1835,6 +1845,11 @@ export const ARCADE_PA2: Quest[] = [
             N('Everyone is here: Ash, Misty, Brock and the three other trainers. Nurse Joy is behind her counter, blinking.'),
             JO('Goodness. I must have dozed off. How long have you all been sitting here?', 'think'),
             AS('Not sure. A while? Weird. I had a dream about… no. It’s gone.'),
+            AS('Hey, what’s that? Is it a Pokémon?', 'happy'),
+            Y('It’s a Nubbin.'),
+            AS('Never heard of one! …Weird. I feel like I’ve said that before.'),
+            N('Brock is already at the counter, on one knee, holding Nurse Joy’s hand. Misty has him by the ear before he finishes.'),
+            MI('He forgot a whole island. He didn’t forget that.'),
             N('Outside the window, the storm is clearing. Blue sky is coming through in long cracks over the sea.'),
             N('Your Nubbin wakes and yawns. It looks straight out of the window towards the island, the way it looks for someone gone home.'),
           ],
@@ -1884,6 +1899,7 @@ export const ARCADE_PA2: Quest[] = [
         P('Funny thing. The cartridge’s save file. I just looked.', 'think'),
         P('It’s kept it. All of it. The island, the pods, the rafters, the tears. It doesn’t forget.', 'soft'),
         P('So that’s two of us. Three, with the cartridge.'),
+        P('Also, the screenshots saved. All forty. Thirty-one are Mew’s tail. I’m not sorry.', 'happy'),
         N('Your Nubbin is still waving at the sky. Ash shrugs, and starts waving too, without knowing why.'),
       ],
     },
@@ -1922,6 +1938,9 @@ export const ARCADE_PA2: Quest[] = [
             ME('I got a feelin’ we was supposed to be doin’ somethin’. Can’t remember what.', 'think'),
             JE('Then we’re not doing it. We’re on holiday.', 'happy'),
             JA('A holiday. Do you know, I don’t think we’ve ever had one.', 'happy'),
+            ME('Who’s payin’ for it?'),
+            JE('Nobody. That’s the best part.'),
+            JA('I keep waiting for the bill.'),
             N('Meowth lies back in the grass with his paws behind his head. Somewhere, a long way off, a pink speck does a loop.'),
           ],
         },
@@ -2023,6 +2042,10 @@ export const ARCADE_PA2_VARIANTS: Scene[] = [
       B('I’m here to check the maths. Arcades are probability with a coin slot.'),
       P('He’s here because I said there’d be biscuits.'),
       B('That too.'),
+      N('One of Byte’s laces is undone. Pixel looks at it, then at him, and says nothing. It is a lot of nothing.'),
+      B('I’m aware.'),
+      P('I haven’t said a word.'),
+      B('You’re saying it very loudly.'),
     ],
     choices: [
       {
@@ -2092,6 +2115,18 @@ export const ARCADE_PA2_VARIANTS: Scene[] = [
           N('The new one stops, with its paws still up. Then it turns round and walks away, very fast, and sits down alone.'),
         ],
       },
+    ],
+  },
+  // ---------------------------------------------------------------- PA2-6, s7Done unset: replaces pa2-06-complete
+  {
+    id: 'pa2-06-complete-unset',
+    lines: [
+      N('The rain hammers the hut roof. Outside, a boat bumps against the pier where no boat should be.'),
+      MR('Take this. You’ll want a light that doesn’t blow out. I’ve another.'),
+      N('She gives you a storm lantern: brass, dented, with a glass that has been mended once. It is still warm from her hand.'),
+      P('Byte’s biscuit run is now longer than this storm.'),
+      P('I’m not worried. I’m timing it.', 'happy'),
+      MR('And remember the story. You never know which ones are for using.'),
     ],
   },
   // ---------------------------------------------------------------- PA2-15, s7Done: replaces pa2-15-tears

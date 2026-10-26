@@ -11,7 +11,7 @@
 _Nova’s atlas falls open at a page of brown ink: a steep-roofed synagogue, a lane of small houses, a river._  
 **Ori**: That is Prague, in the Czech lands. The wavy line is the Vltava, the river that runs through the city.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): reading a river on a map  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): reading a river on a map  
 > **Ori**: Maps use signs. How is a river like the Vltava usually drawn on a map?  
 > - ✅ As a wavy blue line → Yes. Rivers are usually wavy blue lines, and they often join the sea or another river.
 > - As a straight red line → Red lines are often roads or borders. A river is wavy, and blue like water.
@@ -92,7 +92,7 @@ _Your Nubbin is already sitting on the bakery step, which is warm from the oven 
 _Hannah is flour to the elbows. Behind her, plaited loaves stand in rows, shining, waiting for Friday._  
 **Hannah**: Those are for the Sabbath. Nobody touches those. This, on the other hand, is a crust I burnt.  
 
-> **Lesson** (science, 2-PS1-4, ask): some changes cannot be undone  
+> **Lesson** (science, ask): some changes cannot be undone  
 > _Hannah’s soft dough goes into the hot oven and comes out as bread. Can baked bread be turned back into dough?_  
 > - ✅ No, the heat changed it for good → Right. Some changes, like baking, can’t be undone. Others, like melting butter, can.
 > - Yes, if you add water → Water won’t help. The heat has changed the dough into something new.
@@ -146,30 +146,30 @@ _Your Nubbin holds the lantern a little closer to itself, the way you hold somet
 _The study house is one long room full of books and noise. Students sit in pairs, arguing over a page, both talking at once._  
 **Avram**: It’s meant to be loud. A quiet study house is one where nobody’s thinking.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how people studied in the past, compared with today  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how people studied in the past, compared with today  
 > _Students here study in pairs and argue over a page. Why might that be a good way to learn?_  
 > - ✅ Your partner spots things you missed → Yes. Two minds catch more than one, and explaining your idea helps you understand it.
 > - It keeps the room quiet → The room is anything but quiet! Arguing in pairs is how they test their ideas.
 > - There are no books → There are books everywhere. The pairs are for thinking, not for sharing.
 > _For grown-ups: Compared learning in pairs in a study house long ago with learning at school today._
 
-**Avram**: Sit at the back. That is Rabbi Judah Loew. People call him the Maharal, from the first letters of “our teacher, the rabbi Loew”.  
+**Avram**: Sit at the back. That is Rabbi Judah Loew.  
 _At the front sits an old man with a plain grey beard and ink on his fingers. The room goes quiet for him without being asked._  
-**Rabbi Loew**: I’m going to tell you a story from the Talmud. Rava made a man, and sent him to Rabbi Zeira.  
-**Rabbi Loew**: Rabbi Zeira spoke to him, and the man did not answer.  
-**Rabbi Loew**: So Rabbi Zeira said to him: then go back to your dust.  
+**Rabbi Loew**: I’m going to tell you an old story. A wise man called Rava made a man, and sent him to a friend.  
+**Rabbi Loew**: The friend spoke to him, and the man did not answer.  
+**Rabbi Loew**: So the friend said to him: then go back to your dust.  
 _Your Nubbin, on the bench beside you, has gone very still._  
 
 #### `reader:a30-02-study-done` · [main](main.md#a30-02-study-done)
 
 _The rabbi lets the story sit in the room a while, the way you let bread rest before you cut it._  
 
-> **Lesson** (literacy, L.4.5, ask): recognising a simile  
-> _That line compares a story with bread. Which of these is a simile, a comparison using “as” or “like”?_  
-> - ✅ The room was as quiet as snow → Yes. “As quiet as snow” compares two things using “as”. That is a simile.
-> - The room was a snowfield → That compares without “as” or “like”. It is a metaphor, a close cousin of the simile.
-> - The room was silent → That says it plainly, without any comparison.
-> _For grown-ups: Told a simile from a metaphor and a plain statement._
+> **Lesson** (literacy, RL.3.3, ask): why a character acts as he does  
+> _Why did the friend say the man was only dust?_  
+> - ✅ The man could not answer, so he was not alive → Yes. In the story, a person is someone who can be spoken to and answers.
+> - The friend was in a bad mood → The story gives a better reason. The man did not answer when he was spoken to.
+> - The man was too heavy to lift → Weight is not the reason. The man did not answer, so he was only dust.
+> _For grown-ups: Explained a character’s motive from what happened in a short story._
 
 
 #### `reader:a30-02-question` · [main](main.md#a30-02-question)
@@ -218,8 +218,7 @@ _He goes out into the lane with a book under each arm, and leaves his coat behin
 
 ### Glossary
 
-- **simile**: A comparison that uses “like” or “as”, such as “as quiet as snow”.
-- **acronym**: A name or word made from the first letters of other words.
+- **golmi**: A Hebrew word for a shapeless lump, not yet made into anything.
 
 ## A30-3. Fear
 
@@ -265,7 +264,7 @@ _You can’t hear the words. You don’t want to._
 _The house goes very quiet. Shmuel gets into his sister’s bed without asking, and she lets him._  
 _Across the lane, in the rabbi’s window, the lamp is lit. It stays lit._  
 
-> **Lesson** (science, 1-PS4-2, ask): we see a lamp because its light reaches our eyes  
+> **Lesson** (science, 4-PS3-2, ask): we see a lamp because its light reaches our eyes  
 > _The lane is dark, but you can see the lamp across it. How can you see it?_  
 > - ✅ Light from the lamp travels to your eyes → Yes. We see a glowing thing when its light reaches our eyes, and in a dark lane there is nothing to hide it.
 > - Your eyes send light to the lamp → Eyes don’t send out light. They catch light that arrives from the lamp.
@@ -414,12 +413,12 @@ _Three shapes go down the lane towards the river. Rivka is still awake, and look
 #### `reader:a30-05-follow` · [main](main.md#a30-05-follow)
 
 _You follow at a distance, through the sleeping lanes, out by the little water gate to the river._  
-_The Vltava is wide and black and talking to itself. It flows on north, far away, to join the great river Elbe._  
+_The Vltava is wide and black and talking to itself. It flows on north, far away, out of the city._  
 _You stop in the willows above the bank. Your Nubbin stops too, and holds on to your trouser leg._  
 _Below you, on the mud, three men are kneeling. They have their sleeves rolled up._  
 _They are digging clay out of the bank with their hands, and laying it out on the ground._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): why towns grow beside rivers  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): why towns grow beside rivers  
 > _Prague grew up beside the Vltava. What could a town in the 1500s take from a river?_  
 > - ✅ Water, fish, clay for building, and a way to travel → Yes. Rivers gave people drink, food, clay and roads of water, so towns grew beside them.
 > - Only water for the fountain → Water was important. But look at these three men: they are digging clay, too.
@@ -441,7 +440,7 @@ _The clay on the ground is taking a shape: a head, shoulders, two long arms. It 
 _The rabbi bends over the head. The other two work at the arms and legs, smoothing, as if they were making bread._  
 _The clay is drying in the wind off the water. Isaac keeps going down to the river with cupped hands, and it’s slow._  
 
-> **Lesson** (science, 2-PS1-1, ask): wet clay is soft and dry clay is hard  
+> **Lesson** (science, ask): wet clay is soft and dry clay is hard  
 > _Isaac keeps wetting the clay while the wind dries it. Why does the clay need to stay wet?_  
 > - ✅ Dry clay goes hard and can’t be shaped → Yes. Wet clay is soft, and dry clay is hard. They must shape it before it sets.
 > - Wet clay is warmer → Wetness isn’t about warmth. It is about whether the clay is soft enough to shape.
@@ -496,7 +495,7 @@ _Before sunrise Jacob knocks at the door. The rabbi wants you at the river, and 
 _The clay man lies on the bank under the grey sky. He is plain and smooth and as long as a door._  
 **Rabbi Loew**: Some say the word goes in the mouth, some say on the brow. The tellings don’t agree. They rarely do.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): why oral stories change over time  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): why oral stories change over time  
 > _The rabbi says the tellings “rarely agree”. Why do stories change when they are told again and again?_  
 > - ✅ People forget bits, add bits, and tell it for their listeners → Yes. Before books were common, every telling was a little different, and so a story grew.
 > - Stories stay exactly the same → Not quite. A story passed from mouth to mouth changes a little each time.
@@ -577,7 +576,7 @@ _He never speaks, and never tires. He never does one thing more than he is told.
 **Avram**: Told to sweep the step, he sweeps the step. Not the step next to it. I find it very restful.  
 _Everywhere he goes, your Nubbin goes too, a step behind. When he stops, it stops; when he turns, it turns._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): life in the past and today: getting water  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): life in the past and today: getting water  
 > _Yossele fetches water every day. In Prague then, where did most families get theirs?_  
 > - ✅ From wells, carried home in buckets → Yes. Most homes had no taps, so water was carried, bucket by bucket.
 > - From a tap in the kitchen → Taps came much later. Then, someone had to fetch every drop.
@@ -606,7 +605,7 @@ _You bail with a pan. Your Nubbin bails with its cheeks, which is no help at all
 _A hen floats past the door on a cabbage, looking as if she was promised dry land._  
 _Your Nubbin gives up bailing, climbs into the bread trough, and sails._  
 **Dvora**: Oh, no. No, no, no. Yossele! That’s enough! Enough!  
-_He doesn’t stop. She isn’t the one who made him._  
+_He doesn’t stop. He only stops for the rabbi who made him, and the rabbi isn’t here yet._  
 _Then the rabbi is at the door with his sleeves wet to the elbow, and says, “Stop.” Yossele sets the bucket down._  
 
 #### `reader:a30-07-flood-done` · [main](main.md#a30-07-flood-done)
@@ -740,7 +739,7 @@ _Avram gives you a small lantern with a horn window, for walking the round. Your
 _Friday afternoon. The whole lane is hurrying: floors swept, pots on, children scrubbed whether they like it or not._  
 _Hannah’s plaited loaves go past the window in baskets, shining. Everyone is getting ready for the Sabbath._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): the Sabbath as a day of rest  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): the Sabbath as a day of rest  
 > _Everyone is hurrying to be ready before sunset. What is the Sabbath for?_  
 > - ✅ A day to stop working and rest, together → Yes. It starts at sunset on Friday, and everything is ready beforehand so that everyone, even Yossele, can rest.
 > - A day for the longest journeys → Quite the opposite. It is a day to stay and rest, not to rush about.
@@ -760,6 +759,8 @@ _He comes, and lies down on a blanket in the rabbi’s back room, as long as a d
 _The rabbi reaches over and rubs out the first letter, the alef. It comes away under his thumb like flour._  
 _Two letters are left on the brow: מת, met. Dead._  
 **Ori**: With its vowel marks, that is מֵת. Take the silent alef from אֱמֶת, “truth”, and the word left means “dead”.  
+_Yossele closes his eyes, and the warmth goes out of him slowly, like a stove at night. The clay is only clay._  
+_Your Nubbin climbs up beside the clay and puts its paw on the arm, and keeps it there._  
 
 > **Lesson** (literacy, L.3.4, ask): one letter can change a word  
 > _Rubbing out one letter changed emet into met. Take the first letter off “plane”._  
@@ -769,8 +770,6 @@ _Two letters are left on the brow: מת, met. Dead._
 > - pane → That swaps a letter instead. Take the p away and “lane” is left.
 > _For grown-ups: Saw that removing one letter can change a word completely, as alef does to emet._
 
-_Yossele closes his eyes, and the warmth goes out of him slowly, like a stove at night. The clay is only clay._  
-_Your Nubbin climbs up beside the clay and puts its paw on the arm, and keeps it there._  
 
 **Choices**
 
@@ -784,7 +783,7 @@ _Your Nubbin climbs up beside the clay and puts its paw on the arm, and keeps it
 
 _On Saturday night, when three stars are out, the rabbi writes the alef again. Yossele opens his eyes and sits up._  
 _Your Nubbin is waiting by the door, and falls in a step behind him as if it had never been away._  
-_Say the Sabbath began at half past four on Friday, and ended at half past five on Saturday, when the stars came out._  
+_This week the Sabbath began at half past four on Friday. It ended at half past five on Saturday, when the stars came out._  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals across two days  
 > _The Sabbath began at 4:30 pm on Friday and ended at 5:30 pm on Saturday. How long was it?_  
@@ -834,6 +833,7 @@ _Yossele is sweeping the caretaker’s step. It is very clean, as if it has been
 _Every neighbour who passes says “Yossele, would you…” and he would. He has a basket, two buckets and a broom._  
 **Rivka**: Old Mrs Weiss asked him to carry her chair in, and he carried her in too. She was sitting in it.  
 _Behind him, in a neat row, are six chairs nobody asked to be moved. He has started helping before he’s asked._  
+_He carries two at a time._  
 
 > **Lesson** (maths, 3.OA.A.3, ask): division: 6 ÷ 2  
 > _Yossele carries two chairs at a time, and there are six. How many trips does he make?_  
@@ -877,7 +877,7 @@ _Another Friday. You are helping Dvora when a boy comes running up the lane, out
 **A Boy**: Rabbi! Rabbi Loew! At the far end of the town, by the old cemetery. A baby’s coming, and it’s slow.  
 **A Boy**: The family asks will you come and sit with them. They’re frightened. They asked for you.  
 
-> **Lesson** (science, 1-LS1-2, ask): young need care from parents  
+> **Lesson** (science, ask): young need care from parents  
 > _A foal can stand within an hour or so of being born. A human baby takes about a year to walk._  
 > _What does that tell us?_  
 > - ✅ Human babies need care for a long time → Yes. Babies are helpless at first, and their families look after them for years.
@@ -951,6 +951,7 @@ _Nobody is hurt. Things are broken, and the lane is a mess, and nobody, nobody a
 _The lane is very quiet. The clay lies in a long heap across the cobbles, with two letters on what was a brow._  
 _The rabbi stands over it, out of breath, with his hand on the cold clay. He doesn’t say anything for a long time._  
 **Rabbi Loew**: I forgot. A baby was born, and I was so glad, and I forgot him.  
+**Rabbi Loew**: Come. They’re waiting. The Sabbath doesn’t wait, and nor should we.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): forgiving a mistake made out of gladness  
 > _The rabbi forgot because he was busy being glad about a baby. Does that make forgetting easier or harder to forgive?_  
@@ -959,7 +960,6 @@ _The rabbi stands over it, out of breath, with his hand on the cold clay. He doe
 > - It depends on whether he learns from it → That’s a fair answer. Being sorry and doing better is how we mend a mistake.
 > _For grown-ups: Thought about whether a kind reason makes a mistake easier to forgive. No single right answer._
 
-**Rabbi Loew**: Come. They’re waiting. The Sabbath doesn’t wait, and nor should we.  
 
 #### `reader:a30-10-grow-safe` · [main](main.md#a30-10-grow-safe)
 
@@ -971,7 +971,7 @@ _He drags Hannah’s cart across the end of the lane, and the gate behind it, an
 _People call from behind their shutters, and he doesn’t hear them. He is keeping everyone safe, and he is getting bigger._  
 **Rivka**: He’s shut the whole lane in! Mama’s behind one of those doors, and the rabbi doesn’t know!  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: everyone should be free to come and go  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness: everyone should be free to come and go  
 > _Yossele has shut everyone in. Why is that unfair, even though he means well?_  
 > - ✅ Everyone should be free to open their own door → Yes. Fairness means people can come and go from their own homes. Good intentions don’t change that.
 > - It is fair, because he is strong → Being strong doesn’t make a rule fair. Fair rules are ones people can live with.
@@ -988,9 +988,10 @@ _Every time he moves he is a little taller. The broom snaps in his hands; he pic
 _The woodpile goes to splinters and the water barrel splits. Hannah’s oven door comes off its hinges._  
 _Nobody has asked him. He is helping, and helping, and helping, and he is getting bigger._  
 **Dvora**: My pots! He’s scrubbing my pots! He’s scrubbing them into pieces!  
+_Four pots go in. Each comes out in three pieces._  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication: 4 × 3  
-> _Say Yossele scrubs four pots, and each one breaks into three pieces. How many pieces are there?_  
+> _Four pots, and each one breaks into three pieces. How many pieces are there?_  
 > - ✅ 12 → Yes. Four groups of three is 4 × 3 = 12 pieces. That is a lot of mending.
 > - 7 → That adds 4 + 3. Four pots with three pieces each is 4 × 3 = 12.
 > - 9 → Close, but three threes is 9 and there are four pots. 4 × 3 = 12.
@@ -1061,7 +1062,7 @@ _You sit on the step outside with your Nubbin. Inside, there is a pause, and the
 _They are saying the psalm again, from the very start, as if the first time had not happened._  
 _You hear it twice tonight, the same psalm. It comes through the old wall as a murmur, low and steady, like rain._  
 
-> **Lesson** (literacy, RL.2.4, ask): refrain and repeated lines  
+> **Lesson** (literacy, ask): refrain and repeated lines  
 > _A line or phrase that comes round again and again in a song or poem has a special name. What is it?_  
 > - ✅ A refrain → Yes. A refrain returns, like a chorus. Repeating makes a song easy to remember and gives it a steady beat.
 > - A riddle → A riddle is a puzzle. A repeated line is a refrain.
@@ -1077,17 +1078,18 @@ _At Avram’s house the candles are lit and the table is laid with a white cloth
 _Nobody talks about the lane. Avram blesses the wine, and the bread, and passes it round._  
 **Shmuel**: Is Yossele dead?  
 **Dvora**: Tomorrow. We’ll talk about Yossele tomorrow night. Tonight is the Sabbath, and we rest, even from that.  
+_Shmuel thinks about this, and nods, and eats his bread._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): customs of a Sabbath meal  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): customs of a Sabbath meal  
 > _Which of these belong to the Sabbath table in Avram’s house?_  
 > - ✅ Lit candles, a white cloth, blessings, and a covered plaited loaf → Yes. These are the signs that the Sabbath has begun, and that the family rests together.
 > - A loud party with a band → Not a band. The Sabbath table has blessings and shared bread, and families often sing together.
 > - Everyone cooking at once → The cooking is done before sunset. At the table everyone rests.
 > _For grown-ups: Named customs of a Sabbath meal: candles, a cloth, blessings and plaited bread._
 
-_Shmuel thinks about this, and nods, and eats his bread._  
 _Your Nubbin sits on the bench between Rivka and you, and nobody asks it to do anything at all._  
-_It has its own piece of bread, and holds it in both paws like something borrowed. It does not eat until Rivka does._  
+_It has its own piece: one small burnt crust, wrapped in a cloth. Hannah burns one every day._  
+_Even on the Sabbath. Especially then._  
 
 **Choices**
 
@@ -1146,7 +1148,7 @@ _The rabbi comes down last. At the bottom he turns and speaks to everyone in the
 _Isaac and Jacob take the steps away, one by one, and carry them off. The attic door is high in the wall now._  
 _The attic is a genizah, a place where worn-out holy books are kept with respect, not thrown away._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): treating worn-out holy books with respect  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): treating worn-out holy books with respect  
 > _Why do people keep worn-out holy books in a genizah, instead of throwing them in the rubbish?_  
 > - ✅ Out of respect for the words they hold → Yes. Words that matter deeply to people are treated with care, even when the pages are worn.
 > - Because attics have lots of spare room → Room isn’t the reason. It is about respect for the words.
@@ -1168,6 +1170,7 @@ _So you sit down next to it, on the cold cobbles, and wait._
 
 _Near midnight the rabbi comes back out, with a blanket, and sits down on the other side of your Nubbin._  
 **Rabbi Loew**: I thought there would be someone here. I hoped so.  
+_The three of you sit under the wall a long time, saying nothing. Then your Nubbin gets up, and lets you take it home._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): why company helps when we are sad  
 > _Nobody said anything, and it still helped. Why does it help to have someone sit with us when we are sad?_  
@@ -1176,14 +1179,13 @@ _Near midnight the rabbi comes back out, with a blanket, and sits down on the ot
 > - It gives us time to feel it → That’s a fair answer. A quiet friend lets us feel what we need to feel.
 > _For grown-ups: Thought about why quiet company helps when we are sad. No single right answer._
 
-_The three of you sit under the wall a long time, saying nothing. Then your Nubbin gets up, and lets you take it home._  
 
 #### `reader:a30-12-complete` · [main](main.md#a30-12-complete)
 
 _In the morning there is a little heap of river clay at the foot of the wall, where your Nubbin sat._  
 _Nobody sweeps it away. Not Avram, not Dvora, not anyone, all week._  
 
-> **Lesson** (literacy, RL.2.3, ask): what people’s actions show about their feelings  
+> **Lesson** (literacy, RL.3.3, ask): what people’s actions show about their feelings  
 > _Nobody sweeps the clay away, not for a whole week. What does that show about how they feel?_  
 > - ✅ They want to remember him → Yes. Leaving the clay where it is, is their way of keeping Yossele in mind.
 > - They are all too tired to sweep → A week is a long time to be tired. They are choosing to leave it.
@@ -1208,7 +1210,7 @@ _A week later. The rabbi sits on the bench outside the study house in the sun, a
 **Rabbi Loew**: But a thing that only obeys has no brakes of its own. All its brakes are in your hands. And hands forget.  
 **Rabbi Loew**: I am not the first, you know. In Chełm, they say, a rabbi made one before me, and it grew, and kept growing.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, ask): compass directions on a map  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): compass directions on a map  
 > _Chełm is a town in eastern Poland, east of Prague. If you travelled from Prague to Chełm, which way would you head?_  
 > - ✅ East → Yes. Chełm lies to the east of Prague, more than six hundred kilometres away.
 > - West → West would take you away from it. Chełm lies to the east of Prague.
@@ -1343,6 +1345,7 @@ _Your Nubbin, at your feet, is looking at the attic window._
 _Variant of `a30-13-complete`._
 
 _The rabbi looks at your pocket, where the stone is. You hadn’t thought it showed._  
+_Your pocket has a small grey stone in it. It hums._  
 **Rabbi Loew**: You carry something. Heavy, for its size. What is it?  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): private things and secrets that worry us  
@@ -1412,15 +1415,12 @@ Versions of the variants with no parent scene in this storyline.
 _Nova’s atlas lies open at the steep roof of the synagogue, and the little window high in its gable._  
 _Beside the window, in faint pencil you have never noticed, there is a note in the margin. You know the hand._  
 _“Clay, a word, and a man who forgot one Friday. I’d have forgotten every Friday.”_  
+_Your Nubbin puts one paw on the drawing of the attic window, and leaves it there._  
 
-> **Lesson** (sel, CASEL: Self-awareness, ask): being honest about our own faults  
-> _Hazel says she would have forgotten every Friday. What does that show about her?_  
-> - ✅ She can be honest about her own faults, and laugh → Yes. Admitting what we are bad at, kindly, is a sign of a settled heart.
-> - She is boasting → Boasting would be saying she is brilliant. She is owning up to a weakness.
-> - She doesn’t care about the story → The note shows she read it closely, and saw herself in it.
+> **Lesson** (sel, CASEL: Self-awareness, notice): being honest about our own faults  
+> _Hazel knew she was forgetful, and laughed at herself. That is a kind of honesty._  
 > _For grown-ups: Noticed that admitting our own faults with humour is a sign of self-awareness._
 
-_Your Nubbin puts one paw on the drawing of the attic window, and leaves it there._  
 
 #### `reader:a30-grove-tile` · [main](main.md#a30-grove-tile)
 

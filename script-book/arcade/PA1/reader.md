@@ -12,7 +12,7 @@ _It has a dent the shape of a boot in one side. Someone has painted over the nam
 **Pixel**: Don’t touch the coin slot. There was a mouse family in it. They’ve moved to the bottom drawer and they’re very happy.  
 **Pixel**: Three days. One new fuse, four wires, and a part I traded Byte for a jar of Clover’s honey.  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): trading: a fair swap  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): trading: a fair swap  
 > **Pixel**: I swapped a jar of honey for a part. Byte thinks he won. What makes a swap fair?  
 > - ✅ Both people get something they wanted → Exactly. Byte wanted honey, I wanted the part. Both happy means fair. Even if I did win.
 > - The bigger thing always wins → Size isn’t the point. A swap is fair when both people get something they wanted.
@@ -53,6 +53,27 @@ _Pixel blows the dust off the cartridge in one long puff and wipes the metal con
 > _For grown-ups: Learned that electricity needs a clean path to flow._
 
 _Your Nubbin blows on the sleeve too, with no dust left to move._  
+
+#### `reader:pa1-01-shed-done-clank` · [main](main.md#pa1-01-shed-done-clank)
+
+_Variant of `pa1-01-shed-done`._
+
+_Pixel blows the dust off the cartridge in one long puff and wipes the metal contacts on her sleeve._  
+**Pixel**: Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.  
+_Your Nubbin blows on the sleeve too, with no dust left to move._  
+_Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen._  
+**Clank**: Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.  
+**Pixel**: I said lookouts sit still.  
+**Clank**: I am sitting very still. Look how still. This is the stillest I have ever been.  
+_His legs go on swinging. Every five seconds, exactly, one heel goes bonk on the screen._  
+
+> **Lesson** (maths, 3.MD.A.1, ask): rate: bonks per minute  
+> **Pixel**: One bonk every 5 seconds. How many bonks in a minute?  
+> - ✅ 12 → Twelve. 60 shared into 5s is 12. Twelve bonks a minute, for the whole cartridge. Wonderful.
+> - 5 → Count up in 5s to 60: 5, 10, 15… you get there after 12 counts. Twelve bonks.
+> _For grown-ups: Worked out how many times something happens in a minute._
+
+_Your Nubbin counts the bonks on its fingers and runs out of fingers._  
 
 #### `reader:pa1-01-slot` · [main](main.md#pa1-01-slot)
 
@@ -99,24 +120,6 @@ _There’s a pool, a palm tree, a path of stepping stones. Somewhere, a fountain
 
 _Your Nubbin rolls off your arm and lands sitting up, already staring at something past your knee._  
 
-#### `reader:pa1-01-clank` · [main](main.md#pa1-01-clank)
-
-_Variant of `pa1-01-complete`._
-
-_Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen._  
-**Clank**: Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.  
-**Pixel**: I said lookouts sit still.  
-**Clank**: I am sitting very still. Look how still. This is the stillest I have ever been.  
-_His legs go on swinging. Every few seconds one heel bonks the screen._  
-
-> **Lesson** (maths, 3.MD.A.1, ask): rate: bonks per minute  
-> **Pixel**: One bonk every 5 seconds. How many bonks in a minute?  
-> - ✅ 12 → Twelve. 60 shared into 5s is 12. Twelve bonks a minute, for the whole cartridge. Wonderful.
-> - 5 → Count up in 5s to 60: 5, 10, 15… you get there after 12 counts. Twelve bonks.
-> _For grown-ups: Worked out how many times something happens in a minute._
-
-_Your Nubbin counts the bonks on its fingers and runs out of fingers._  
-
 ### Glossary
 
 - **cartridge**: A small box that holds a game, which you push into a machine to play it.
@@ -133,7 +136,7 @@ _It’s a garden behind glass, tucked into the back of a big city hotel. Through
 _Eggs sit in the grass like dropped sweets. Small round creatures wobble between them._  
 _Each one has a little ball floating over its head. When one bumps into the palm tree, its ball turns into a spiral._  
 
-> **Lesson** (literacy, RL.1.4, ask): reading signs for feelings  
+> **Lesson** (literacy, RL.3.3, ask): reading signs for feelings  
 > _A spiral when it bumps the tree, a heart when it makes a friend. What is the floating ball for?_  
 > - ✅ It shows how the Chao feels → Yes. The ball is a feeling made visible: dizzy is a spiral, happy is a heart. Nubbins do the same.
 > - It’s a hat → Not a hat. It changes with the Chao’s mood: a spiral for dizzy, a heart for happy.
@@ -145,7 +148,7 @@ _The Chao that sat on it gets up, looks at it, and pats it on the head. Its ball
 **Pixel**: Oh, they’re cousins. They are absolutely cousins.  
 _A Chao offers your Nubbin half a fruit. Your Nubbin offers back a pebble, and both of them seem to think this is fair._  
 
-> **Lesson** (science, 2-LS2-1, notice): glass lets light in  
+> **Lesson** (science, notice): glass lets light in  
 > **Pixel**: A glass roof is clever. It lets sunlight through, so the grass and the fruit tree can grow indoors.  
 > **Pixel**: Plants need light and water to live. Take the glass away and put a wooden roof on, and the garden would go yellow.  
 > _For grown-ups: Learned that plants need light, and glass lets it through._
@@ -199,7 +202,7 @@ _A Chao is sitting on the latch, swinging its feet._
 
 _The sirens move off toward the square. Your Nubbin is the last to leave the pool, and it looks back twice._  
 
-> **Lesson** (science, 1-PS4-1, notice): why sirens change pitch  
+> **Lesson** (science, 4-PS3-2, notice): why sirens change pitch  
 > **Pixel**: Did you hear the siren drop lower as it drove away? That’s not the siren changing. It’s the sound waves stretching out as it moves off.  
 > **Pixel**: Coming toward you, the waves bunch up and sound higher. Going away, they spread out and sound lower.  
 > _For grown-ups: Learned why a moving siren seems to change pitch._
@@ -241,7 +244,7 @@ _Your Nubbin stays back. It is holding the hem of your shirt in both hands._
 _The top of the creature’s head curls up and over, just like the Chao’s heads. Just like your Nubbin’s._  
 _The officers shout warnings. Whatever they throw at it goes straight through, like pebbles into a pond._  
 
-> **Lesson** (science, 2-PS1-1, ask): liquids and solids  
+> **Lesson** (science, ask): liquids and solids  
 > **Pixel**: Things thrown at it go straight through. Why can’t you knock over something made of water?  
 > - ✅ Water is a liquid: it flows round things instead of breaking → Right. A solid holds its shape and can crack. A liquid just moves aside and closes up again.
 > - Water is too heavy → Water’s heavy, but that’s not it. It’s a liquid: it flows round the pebble and closes up behind it.
@@ -303,7 +306,7 @@ _Your Nubbin lets go of your shirt one hand at a time._
 _A small rosy light is bobbing above the drain, about the size of a plum._  
 _It wasn’t there a moment ago. It comes up to your face, circles your Nubbin once, and waits._  
 
-> **Lesson** (maths, 2.MD.A.1, ask): estimating size  
+> **Lesson** (maths, 3.OA.A.3, ask): estimating size  
 > **Pixel**: Plum-sized. If a plum is about 5 cm across, and your Nubbin is 30 cm tall, how many lights tall is your Nubbin?  
 > - ✅ 6 → Six lights, stacked. 30 shared into 5s is 6. Don’t stack the real one, it looks like it has opinions.
 > - 5 → Close. Count up in 5s: 5, 10, 15, 20, 25, 30. That’s six.
@@ -355,7 +358,7 @@ _You can still hear her, faint and tinny, as if she were calling down a long pip
 _You are standing on old stone steps at the edge of a jungle. It is morning, very long ago; you can feel that the way you feel weather._  
 _Ahead is a shrine. On a stone altar in the middle of it sits an enormous green jewel, glowing softly._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): shrines and altars  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): shrines and altars  
 > _A shrine is a place people keep for something they treasure or honour. An altar is the raised stone at its heart where that thing is set._  
 > _People long ago built them from the stone around them. This one has lasted because stone does._  
 > _For grown-ups: Learned what a shrine and an altar are._
@@ -390,10 +393,10 @@ _It isn’t lost now. It stands tall over the Chao, quiet and watchful, with the
 #### `reader:pa1-04-shrine-done` · [main](main.md#pa1-04-shrine-done)
 
 _The gold comes back, and the birdsong goes, and you are in the back street with your hand on a blank wall._  
-**Pixel**: You were gone for nine seconds. Nine. You look like you were gone all afternoon.  
+**Pixel**: You were gone for nine seconds. Nine. You look like you were gone three hours.  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals  
-> **Pixel**: Nine seconds out here. Say the pool visit felt like 3 hours in there. How many seconds is 3 hours?  
+> **Pixel**: Nine seconds out here, three hours in there, by the look of you. How many seconds is 3 hours?  
 > - ✅ 10,800 → Yes. 60 seconds in a minute, 60 minutes in an hour: 3,600 an hour, times 3. That’s 10,800 seconds squeezed into nine.
 > - 180 → 180 is 3 minutes. An hour is 3,600 seconds, so 3 hours is 10,800.
 > - 3,600 → 3,600 is one hour. Three of those: 10,800 seconds.
@@ -407,7 +410,7 @@ _Your Nubbin’s feet are still wet._
 **You**: It was looking after them.  
 **Pixel**: Then what happened to it?  
 
-> **Lesson** (literacy, RL.2.3, ask): predicting from clues  
+> **Lesson** (literacy, RL.3.3, ask): predicting from clues  
 > **Pixel**: Kind long ago, lost today. What kind of thing could have happened in between?  
 > - ✅ Something was done to the Chao it looked after → That’s my guess too. You don’t go from watchful to lost unless something you were watching is gone.
 > - It got bored of the garden → Bored things wander off. This one looks like it’s searching. Something it cared about is missing.
@@ -430,7 +433,7 @@ _The rosy light bobs once at your shoulder and goes quiet, like someone who isn�
 
 _A train runs from Station Square out to the Mystic Ruins, a green valley full of old stones and older trees._  
 
-> **Lesson** (social-studies, 2-ESS2-2, ask): reading a route  
+> **Lesson** (social-studies, D2.Geo.2.3-5, ask): reading a route  
 > **Pixel**: City to valley by train. On the map the line runs from the square, out past the coast, into the hills. Which comes first after the square?  
 > - ✅ The coast → Yes: square, coast, hills. Following a line on a map in order is most of reading one.
 > - The hills → The hills are the end of the line. Square first, then the coast, then the hills.
@@ -505,7 +508,7 @@ _Out of a puddle by the runway rises the water creature, taller than before. Egg
 _It grows: its arms lengthen and its head curls higher. Its eyes don’t look at Eggman at all, but past him, at nothing._  
 **Dr. Eggman**: Two Emeralds, two sizes! At seven, my friend, nobody will be able to stop us. Toodle-oo!  
 
-> **Lesson** (maths, 2.OA.A.1, ask): counting on to a target  
+> **Lesson** (maths, ask): counting on to a target  
 > **Pixel**: Two Emeralds down. He wants all seven. How many more does he need, and how many are still out there for someone else to find?  
 > - ✅ 5 more, and the same 5 are out there → Yes. 7 take away 2 is 5. Five chances for someone other than Eggman to get there first.
 > - 4 more → Count on from 2: three, four, five, six, seven. That’s five more.
@@ -569,7 +572,7 @@ _Then the sky goes dark, and the Emerald flashes, and the steps shake under your
 _Something rises out of the Emerald itself: water, clear, with a green glow. It strikes the stone once, very hard._  
 _The Master Emerald splits into a hundred green shards. They fly out in every direction, like seeds from a pod._  
 
-> **Lesson** (science, 2-LS2-2, notice): seeds scattering  
+> **Lesson** (science, notice): seeds scattering  
 > _“Like seeds from a pod.” Some plants fling their seeds: the pod dries, twists and bursts, scattering them far from the parent so they don’t all grow in one spot._  
 > _For grown-ups: Learned that some plants scatter seeds by bursting pods._
 
@@ -614,15 +617,16 @@ _Your Nubbin trots off into the ferns. A minute later it comes back with a green
     - **Knuckles**: You take the left side. I’ll take the right. Shout if you find anything. Don’t shout if you don’t.
 - **Ask about his people.**
     - **Knuckles**: Echidnas. There was a whole clan once. Now there’s me.
-    - His people died long ago, before he was born. He never knew them, and misses them anyway. Now he has Sonic and Tails, and a Nubbin in his ferns.
+    - His people died long ago, before he was born. He misses them anyway.
     - **Knuckles**: Anyway. Shards. Left side.
 
 #### `reader:pa1-06-shards-done` · [main](main.md#pa1-06-shards-done)
 
 _By sunset you have a sack of shards between you. Knuckles counts them twice and scowls, which seems to be how he says thank you._  
+**Knuckles**: Thirty-six. Out of a hundred.  
 **Knuckles**: Not all of them. Not yet. But it’s a start.  
 
-> **Lesson** (maths, 2.OA.A.1, ask): subtraction from 100  
+> **Lesson** (maths, 4.NBT.B.4, ask): subtraction from 100  
 > **Knuckles**: A hundred pieces. Thirty-six in the sack. How many still out there?  
 > - ✅ 64 → Sixty-four. Yeah. That’s what I got. Twice.
 > - 74 → Count again. 100 take 30 is 70, take 6 more is 64.
@@ -675,7 +679,7 @@ _Your Nubbin takes your finger. The light comes down over the two of you like a 
 
 _Birdsong and warm stone. The Master Emerald is whole again, glowing on its altar at the top of the steps._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): before and after  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): before and after  
 > _You are standing in a “before”. Everything whole here is in pieces in Knuckles’s time. That is how history works: the stones stay, and what happens to them changes._  
 > _For grown-ups: Compared a place in the past and the present._
 
@@ -737,7 +741,7 @@ _Your Nubbin is still waving at a wall._
 **Knuckles**: Huh. My people used to pray here. I don’t know any of it. There was nobody left to teach me.  
 _He sits down on the broken altar with his back to you, and for a while nobody says anything._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: what is lost when nobody teaches it  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): oral history: what is lost when nobody teaches it  
 > _Knuckles’s people passed their prayers down by teaching, voice to voice. When the last teacher died, the words went with them._  
 > _That is why people write things down, and why grandparents tell the same stories twice. A story only lasts as long as someone is telling it._  
 > _For grown-ups: Learned how spoken history is passed on and lost._
@@ -766,7 +770,7 @@ _In her arms is a little blue bird with a tiny pendant round its neck. It’s tr
 **Amy**: He fell out of the sky right into my arms. The robots keep chasing him, and he hasn’t done anything!  
 **Pixel**: The pendant. Look at the pendant. It’s glowing green.  
 
-> **Lesson** (literacy, RL.2.3, ask): inference from clues  
+> **Lesson** (literacy, RL.3.3, ask): inference from clues  
 > **Pixel**: A green glow. Where have we seen that glow before, and what might the robots really be chasing?  
 > - ✅ The Emeralds. The robots want the pendant, not the bird. → Yes. Green glow means Emerald. The bird is just the one wearing it. That makes the chase make sense, and makes it worse.
 > - The robots are afraid of birds → Robots don’t scare easy. Green glow, every time, has meant an Emerald. They want what’s round his neck.
@@ -913,6 +917,7 @@ _You sit on the bank beside Big. The river slides by, brown and green and slow._
 **Big**: Froggy likes it when you’re still. If you wiggle, he hides. If you’re still, he comes and sits on your foot.  
 _Big is very good at being still, and you are less good at it. Your Nubbin is excellent._  
 **Pixel**: This is the slowest game I have ever played. I love it. I’m going to make a cup of tea.  
+**Pixel**: Byte fished once. He caught a boot. Twenty years married, and he still calls it a rare fish.  
 _An hour passes, or the game’s idea of an hour. Dragonflies come and go._  
 
 > **Lesson** (sel, ask): think: is waiting doing nothing?  
@@ -936,7 +941,7 @@ _The bell on your lure rings once, and then doesn’t._
 
 _Something small and green climbs out of the water and sits on your Nubbin’s foot. It has a long, wavering tail, clear as water._  
 
-> **Lesson** (science, 2-LS4-1, ask): dragonflies and rivers  
+> **Lesson** (science, 3-LS4-3, ask): dragonflies and rivers  
 > _Dragonflies, a frog, a slow brown river. Why do so many creatures live right by the water?_  
 > - ✅ They need it to drink, lay eggs in, or hunt over → Yes. Frogs lay eggs in it, dragonfly young grow up under it, and everything drinks it. A river is a habitat: a home that meets needs.
 > - They like the view → Nice as it is, it’s about needs: eggs laid in the water, young that grow in it, and something to drink. That makes the river a habitat.
@@ -999,7 +1004,7 @@ _Chaos rises a little in the water, watching. Tikal stands in front of the altar
 _The warriors go quiet. Tikal looks round, and sees you at the bottom of the steps._  
 _Nobody else does. To the clan you are a trick of the torchlight._  
 
-> **Lesson** (science, 1-PS4-2, ask): light and shadows  
+> **Lesson** (science, 4-PS3-2, ask): light and shadows  
 > _Torches throw moving shadows up the steps. Why do shadows move when the torch flame flickers?_  
 > - ✅ Shadows are where light is blocked, so when the light moves the shadow moves → Yes. A shadow is the dark patch behind something that blocks light. Move the light and the dark patch shifts.
 > - Shadows are alive → Not alive. A shadow is just where light can’t reach past something. Move the flame, and the dark patch moves with it.
@@ -1037,7 +1042,7 @@ _Tikal is shaking. She doesn’t step back._
 
 **Pachacamac**: We march on the shrine at dawn, and take what the Emeralds can give. Tikal, you will stand aside, as a chief’s daughter should.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules and fairness: “as a chief’s daughter should”  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): rules and fairness: “as a chief’s daughter should”  
 > _Pachacamac says Tikal must stand aside because of who her father is. Is that a fair rule?_  
 > - ✅ No. A fair rule applies to what you do, not who you were born to. → Yes. Rules are fair when they treat people by their actions, not their family. He is using his title to end an argument he can’t win.
 > - Yes, he’s the chief → Being chief gives him power, but power isn’t the same as fair. A fair rule is about what people do, not who their parents are.
@@ -1094,7 +1099,7 @@ _Klaxons, corridors, and signs that all say EGG something. Your Nubbin stays tuc
 _Down a ladder, past a door marked EGG STORAGE, you hear something you don’t expect up here: Chao._  
 _Small, cheerful, and somewhere below you._  
 
-> **Lesson** (science, 1-PS4-1, notice): sound travels through metal  
+> **Lesson** (science, 4-PS3-2, notice): sound travels through metal  
 > **Pixel**: You can hear them through the floor because sound is a vibration, and metal passes vibrations along well. Put your ear to a railing sometime; you’ll hear the whole ship.  
 > _For grown-ups: Learned that sound travels as vibration through solids._
 
@@ -1106,7 +1111,7 @@ _Eggman keeps one, it seems, for the reason he keeps everything: because he can.
 _The floor shudders. Somewhere far below, something large has been hit._  
 **Pixel**: There are lifeboats. On the map. Two decks up, port side. Port is left. I looked it up.  
 
-> **Lesson** (social-studies, 2-ESS2-2, notice): port and starboard  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): port and starboard  
 > **Pixel**: Ships don’t say left and right, because left depends which way you’re facing. Port is always the ship’s left when you face the front, starboard its right.  
 > **Pixel**: Trick to remember: “port” and “left” both have four letters.  
 > _For grown-ups: Learned port and starboard._
@@ -1139,6 +1144,23 @@ _The last Chao is in the last lifeboat. You pull the lever, and it drops away un
 > _For grown-ups: Learned that air resistance slows a parachute._
 
 **Pixel**: I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.  
+
+#### `reader:pa1-11-garden-done-clank` · [main](main.md#pa1-11-garden-done-clank)
+
+_Variant of `pa1-11-garden-done`._
+
+_The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it._  
+
+> **Lesson** (science, 3-PS2-1, ask): how parachutes work  
+> **Pixel**: Why does a parachute slow the lifeboat down?  
+> - ✅ The big canopy pushes against the air, and the air pushes back → Yes. Weight pulls down; the air pushing up on all that cloth nearly balances it. Nearly balanced means slow.
+> - It makes the lifeboat lighter → Same weight. The cloth catches air, and the air pushes up against it. Two forces nearly balanced means a slow fall.
+> _For grown-ups: Learned that air resistance slows a parachute._
+
+**Pixel**: I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.  
+**Clank**: Announcement: that parachute has a FACE on it. I would like a parachute with MY face on it.  
+**Pixel**: It’s the villain’s face, Clank.  
+**Clank**: Then I would like a very small villain.  
 
 #### `reader:pa1-11-chaos` · [main](main.md#pa1-11-chaos)
 
@@ -1174,7 +1196,7 @@ _The bird, in her hands, looks like it agrees._
 
 _From the rail you can see the lifeboats drifting down toward the sea: a dozen little parachutes, a dozen Chao._  
 
-> **Lesson** (maths, 2.MD.D.10, do): tally the parachutes  
+> **Lesson** (maths, 3.OA.A.1, do): tally the parachutes  
 > **Pixel**: Count the parachutes as they go and keep a tally: four strokes, then a line through for five. How many groups of five, and how many over?  
 > Check: `edu:tally:parachutes:12`
 > _For grown-ups: Kept a tally of twelve and read it in fives._
@@ -1227,7 +1249,7 @@ _Gamma opens a panel on the first robot’s back. Inside, where an engine might 
 **E-102 Gamma**: This unit… also contains one.  
 _It opens the cage. The bird hops onto Gamma’s hand, blinks, and flies up into the rafters._  
 
-> **Lesson** (science, K-LS1-1, ask): what a caged bird is missing  
+> **Lesson** (science, ask): what a caged bird is missing  
 > **Amy**: A bird in a cage the size of a tin. What does a bird need that a cage like that can’t give?  
 > - ✅ Room to fly, daylight, food and water it chooses → All of that. Animals need the things their bodies are built for. Wings need sky.
 > - A smaller cage → Smaller! No. Wings are built for flying. A bird needs room, daylight, and food and water it can choose.
@@ -1314,7 +1336,7 @@ _Your Nubbin stays at the glass until the last bird is out of sight._
 _The rosy light comes for you, and this time it isn’t warm. It’s trembling._  
 _The shrine at dawn, with mist on the pools. The Chao are still asleep in heaps on the warm steps._  
 
-> **Lesson** (science, 2-ESS2-3, notice): morning mist  
+> **Lesson** (science, notice): morning mist  
 > _Mist at dawn: night air cooled until the water in it became tiny droplets you can see. Sun warms the air, droplets turn back to vapour, and the mist goes._  
 > _For grown-ups: Learned why mist forms at dawn and clears._
 
@@ -1393,7 +1415,7 @@ _Knuckles finds you sitting by the broken altar. He doesn’t ask anything; he s
 **Knuckles**: Yeah. This place has a lot of those.  
 _After a while he gets up, comes back with a big leaf to keep the rain off your Nubbin, and sits down again._  
 
-> **Lesson** (literacy, RL.2.3, ask): showing, not telling  
+> **Lesson** (literacy, RL.3.3, ask): showing, not telling  
 > _Knuckles doesn’t say “I’m sorry you’re sad”. He fetches a leaf. What is the story showing you about him?_  
 > - ✅ He is kind, and shows it in actions, not words → Yes. Writers often show a feeling through what a character does. The leaf says more than a speech would, and it’s more Knuckles.
 > - He likes leaves → He might, but the leaf is for the Nubbin, in the rain. It shows his kindness without a single word about it.
@@ -1417,7 +1439,7 @@ _Inside, the walls are covered in murals, carved and painted, faded but still cl
 _A pool with small round shapes in it, and a girl with braids. A tall shape made of water stands over them._  
 _Further along: a line of warriors. Then fire, painted in a red that has gone brown with age._  
 
-> **Lesson** (science, 2-PS1-4, ask): why old paint changes colour  
+> **Lesson** (science, ask): why old paint changes colour  
 > **Pixel**: Red gone brown with age. What happens to colours over thousands of years?  
 > - ✅ Light and air slowly change the paint, and it fades or darkens → Yes. Sunlight and air react with the colours bit by bit. Some changes, like this one, can’t be undone; the red isn’t coming back.
 > - Someone repainted it brown → Nobody’s been here with a brush in a long time. Light and air changed the red slowly, and that change doesn’t reverse.
@@ -1426,7 +1448,7 @@ _Further along: a line of warriors. Then fire, painted in a red that has gone br
 _Then a great green stone with the water-shape inside it, and the girl curled up beside it like someone asleep._  
 **Pixel**: That’s her. That’s Tikal. They painted it all. Somebody stayed behind and painted it.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): murals as a record  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): murals as a record  
 > _Before writing was common, people painted what happened so it was remembered. A mural is evidence: you can’t ask the painter, but you can read what they chose to show._  
 > _For grown-ups: Learned how pictures can record history._
 
@@ -1499,11 +1521,11 @@ _He goes anyway, very fast, out into the rain._
 #### `reader:pa1-14-complete` · [main](main.md#pa1-14-complete)
 
 **Pixel**: Keeper. I’ve got something to say, and it’s probably nothing.  
-**Pixel**: Back home. The old story, about the fierce one who loved them too hard.  
+**Pixel**: Back home. Cinder. The old story, about the fierce one who loved the little ones too hard.  
 **Pixel**: It’s probably nothing. It just feels like the same shape.  
 
 > **Lesson** (literacy, RL.4.2, ask): comparing stories  
-> **Pixel**: Two stories, the same shape. What do Chaos and the fierce one from home have in common?  
+> **Pixel**: Two stories, the same shape. What do Chaos and Cinder from home have in common?  
 > - ✅ Both loved the small ones so much that holding on became harm → That’s the shape. Love that grips too tight. Stories from different places keep finding it, which makes me think it’s true.
 > - Both are made of water → Only one is. The shape I mean is underneath: love that held on too tight and did harm. Both stories have that.
 > _For grown-ups: Compared the theme of two stories._
@@ -1529,7 +1551,7 @@ _Eggman’s new ship roars in toward it, all guns and confidence. Chaos lifts on
 _Then the water comes. Not a wave, but a rising: a whole sea standing up and walking into the city._  
 **Pixel**: Get up high. Keeper, get up high, now. Find a roof.  
 
-> **Lesson** (health, K-2-ETS1-1, ask): flood safety  
+> **Lesson** (health, ask): flood safety  
 > **Pixel**: Water in the streets. The problem is: how do we stay out of it? What’s the first thing to do?  
 > - ✅ Get to high ground and stay there → Yes. Water goes to the lowest place, so you go to the highest. Roofs, hills, upstairs. Then you help from there.
 > - Try to swim through it → Moving floodwater is stronger than it looks. Highest place first, every time. Then help from there.
@@ -1562,7 +1584,7 @@ _A man with a pushchair, and a boy holding two Chao he found in a fountain. An o
 
 _Up and down the iron stairs, over and over. Your Nubbin swims as it has never swum before, strong and steady, with a Chao on its back._  
 
-> **Lesson** (maths, 2.OA.A.1, ask): counting floors: climbing and descending  
+> **Lesson** (maths, 3.OA.A.1, ask): counting floors: climbing and descending  
 > **Pixel**: Five floors up to the roof. Four trips up and down. How many floors have you climbed, going up only?  
 > - ✅ 20 → Twenty floors up, and twenty down. That’s why your legs feel like that. 5 times 4 is 20.
 > - 9 → Nine would be five plus four. It’s five floors each trip, four times: 5, 10, 15, 20.
@@ -1621,10 +1643,10 @@ _Sonic lands on your roof, soaked and, for once, out of breath. He stares at the
 _One by one they come: Tails in his plane, Knuckles up the drainpipe, Amy with the blue bird. Big, with Froggy back in his hat._  
 _Each of them is holding an Emerald. All seven, dull now and grey-green, with the light drained out of them._  
 
-> **Lesson** (maths, 1.OA.A.1, ask): who holds what  
-> **Pixel**: Seven Emeralds. Sonic’s five friends hold one each. Who’s holding the other two?  
-> - ✅ Sonic must have two → Yes: 7 take away 5 leaves 2, and Sonic is the only one left. He had two in his pockets all along, the show-off.
-> - Nobody → All seven are here. 7 take 5 is 2, and the only one left to hold them is Sonic.
+> **Lesson** (maths, ask): who holds what  
+> **Pixel**: Seven Emeralds. Sonic’s four friends hold one each. Who’s holding the other three?  
+> - ✅ Sonic must have three → Yes: 7 take away 4 leaves 3, and Sonic is the only one left. He had three in his pockets all along, the show-off.
+> - Nobody → All seven are here. 7 take 4 is 3, and the only one left to hold them is Sonic.
 > _For grown-ups: Subtracted to find what was unaccounted for._
 
 **Knuckles**: Chaos used them up. They’re empty.  
@@ -1684,7 +1706,7 @@ _Out over the flooded city, a gold spark circles a great coil of water, round an
 _The gold spark strikes, and strikes again. Chaos roars and shrinks, and roars and shrinks._  
 _Then the water goes down all at once, the way a bath drains when someone pulls the plug._  
 
-> **Lesson** (science, 2-ESS2-3, ask): where floodwater goes  
+> **Lesson** (science, ask): where floodwater goes  
 > **Pixel**: The water goes down like a bath draining. In a real flood, where does the water go when it goes?  
 > - ✅ Back to the sea and rivers, into the ground, and some into the air → Yes. Downhill to rivers and sea, soaking into soil, and slowly evaporating. It all stays in the water cycle; it just moves.
 > - It disappears → Water doesn’t vanish. It drains to the sea, soaks into the ground, or evaporates into the air, and comes round again as rain.
@@ -1741,7 +1763,7 @@ _Your Nubbin goes and sits at the edge of the puddle. Chaos looks down at it._
 
 _Chaos looks round the empty square: at the dripping buildings, at all the people, and at none of the small ones._  
 
-> **Lesson** (literacy, RL.2.4, notice): repetition for effect  
+> **Lesson** (literacy, RL.3.3, notice): repetition for effect  
 > _“At the buildings, at all the people, and at none of the small ones.” The list builds up, then drops to nothing, so the missing thing lands hardest._  
 > _For grown-ups: Noticed how a list is built to make the last item land._
 
@@ -1753,8 +1775,8 @@ _Then a sound comes from above: small, cheerful, unmistakable._
 _Along the edge of the hotel roof, a whole row of Chao is sitting with their legs dangling over the gutter. The garden Chao._  
 _They went out through the open gate when the water came. They went where everyone went: up._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): the gate choice pays off  
-> **Pixel**: You left the gate open, fifteen quests ago. Look what it meant. Why did an open gate keep them safe?  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): the gate choice pays off  
+> **Pixel**: You left the gate open, back in the garden, before any of this. Look what it meant. Why did an open gate keep them safe?  
 > - ✅ Because they could choose to leave when the danger came → Yes. Safe wasn’t a locked door; it was being free to move. The rule that let them wander was the rule that saved them.
 > - Because the water couldn’t get through a gate → Water goes through anything. They were safe because they could leave when they needed to. Freedom to move was the protection.
 > _For grown-ups: Saw an early choice pay off, and why._
@@ -1770,15 +1792,15 @@ _A Chao reaches up and touches the water. Chaos bends, slowly, and lets it._
 _Variant of `pa1-17-chao`._
 
 _Chaos looks round for them, and there are none. Not on the roofs, not in the streets._  
-_Your stomach drops. The garden, the gate, the little key you turned._  
+_Your heart thumps. The garden, the gate, the little key you turned._  
 **You**: They’re still in there.  
 _You wade back across the square and through the hotel lobby, where the water is up to your waist and full of floating menus._  
 _The garden gate is still locked. Behind it, on top of the palm tree and the fruit tree and each other, the Chao are huddled, wet and very quiet._  
-_They’re all alive. Not one of them is moving._  
+_They’re all alive. They are too frightened to move, so they keep very still._  
 **Pixel**: Safe isn’t the same as well, is it.  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): the gate choice pays off  
-> **Pixel**: You locked the gate, fifteen quests ago, to keep them safe. They lived, and they couldn’t leave. What did the lock cost?  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): the gate choice pays off  
+> **Pixel**: You locked the gate, back in the garden, to keep them safe. They lived, and they couldn’t leave. What did the lock cost?  
 > - ✅ Their freedom to get away from the danger themselves → Yes. Locking wasn’t cruel; it was careful. But a rule meant to protect can trap, and the ones it traps don’t get a say. That’s the cost.
 > - Nothing: they’re alive → They are alive, and that matters most. But look at them: wet, silent, stuck. The lock cost them the chance to save themselves. Safe isn’t the whole of well.
 > _For grown-ups: Saw the cost of an early choice, without being scolded for it._
@@ -1881,7 +1903,7 @@ _You open your mouth, and find you don’t know how the story ends. Nobody back 
 _Pixel hums something under her breath: four lines, the skipping tune from the lane. She stops before the last one._  
 _She doesn’t hum the rest, as if she’s just remembered what the last line says._  
 
-> **Lesson** (music, RL.2.4, ask): a tune carries a story  
+> **Lesson** (music, ask): a tune carries a story  
 > _Pixel hums the tune and stops before the last line. Why can a tune with no words still feel sad?_  
 > - ✅ The tune carries the feeling of the words you already know → Yes. Once you know a song, the tune brings the words back on its own. Stopping early is a way of not saying the sad part.
 > - Tunes can’t be sad → Hum a lullaby and a march and see. Tunes carry feelings, and once you know the words, the tune brings them back.
@@ -1906,6 +1928,7 @@ _Tikal died long ago, and Chaos has carried its grief since then. Now neither of
 
 _The world folds up gently round you, like a letter, and you are standing in the lantern shed with your Nubbin under your arm._  
 **Pixel**: You’re back! You’ve got flowers in your hair. They came out with you. How did they come out with you?  
+**Pixel**: And your hair’s round again. I’ll be honest. I miss the square.  
 _On the side of the cabinet, where the dent was, a small brass plate has appeared, blank, waiting for a name._  
 **Pixel**: A high-score plate. For High Score Night. When we’ve done another cartridge, we’ll do it properly.  
 
@@ -1949,7 +1972,7 @@ _Variant of `pa1-18-complete`._
 **You**: We don’t forgive all of it. But we remember ours.  
 **Tikal**: Remember. Yes. That’s a kind of keeping too.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): remembering as keeping  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): remembering as keeping  
 > **Tikal**: Remembering is a kind of keeping. What does your valley keep, to remember the ones who are gone?  
 > - ✅ Flowers on the hill, and the stories people tell → Flowers and stories. Here we had murals and a prayer. Every people finds a way to keep its dead close without holding on.
 > - Nothing; they just forget → Your Nubbin carried a petal all this way. That is not forgetting. Flowers and stories are how a valley remembers.

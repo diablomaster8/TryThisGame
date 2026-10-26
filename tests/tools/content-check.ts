@@ -391,6 +391,8 @@ const eduExempt = (band: string, id: string): boolean =>
       id,
     )) ||
   (band === 'sprout' && /^(a16|a25|a29)-/.test(id)) ||
+  // Little Sprouts' PA1 gate always opens, so the locked-gate scenes never play there.
+  (band === 'sprout' && /^pa1-(17-chao-locked|18-last-locked(-stood)?)$/.test(id)) ||
   (band === 'reader' &&
     (/^a16-(16|17)(-|$)|^a16-grove-/.test(id) ||
       /^a25-(1[5-9]|[2-9]\d)(-|$)|^a25-(margin-hazel|grove-ember)(-|$)/.test(id)));

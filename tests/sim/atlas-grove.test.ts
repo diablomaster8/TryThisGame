@@ -65,6 +65,22 @@ describe('Grove flags reach the story worlds', () => {
     expect(variantFor(pa5, progress(), shed, { s21Done: true }).id).toBe('pa5-01-shed-clank');
   }, 30_000);
 
+  it('Arcade Clank and Byte variants replace their host scenes (run-16 fixes)', async () => {
+    const pa1 = await line('PA1');
+    const shedDone = sceneOf(pa1, 'pa1-01-shed-done');
+    expect(variantFor(pa1, progress(), shedDone, { s21Done: true }).id).toBe(
+      'pa1-01-shed-done-clank',
+    );
+    const pa3 = await line('PA3');
+    const end = sceneOf(pa3, 'pa3-17-complete');
+    expect(variantFor(pa3, progress(), end, { s21Done: true }).id).toBe('pa3-17-complete-clank');
+    expect(variantFor(pa3, progress(), end, {}).id).toBe('pa3-17-complete');
+    const pa2 = await line('PA2');
+    const lunch = sceneOf(pa2, 'pa2-06-complete');
+    expect(variantFor(pa2, progress(), lunch, {}).id).toBe('pa2-06-complete-unset');
+    expect(variantFor(pa2, progress(), lunch, { s7Done: true }).id).toBe('pa2-06-complete');
+  }, 30_000);
+
   it('the context carries the Grove flags read-only, under the line’s own', async () => {
     const a19 = await line('A19');
     const grove = { sableFirst: 'slow' } as const;

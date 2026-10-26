@@ -3,16 +3,18 @@
  * PA1, The Chao Altar.
  *
  * Source: arcade-pa1.ts (ARCADE_PA1 and PA1_VARIANTS). One EduScene per original scene, id
- * `sprout:<original id>`: every step scene, every done scene, every complete scene and all nine
- * variants, each with exactly one lesson. Choice ids and `set` flags are copied from the originals
+ * `sprout:<original id>`: every step scene, every done scene, every complete scene and every
+ * variant an open gate can reach, each with exactly one lesson. Choice ids and `set` flags are copied from the originals
  * so the cartridge’s own flags (pa1-gate, pa1-stood) still work. See EDU-STYLE.md.
  *
  * - The frame: you step through Pixel’s cabinet with your Nubbin; Pixel (she/her) stays outside
  *   and talks through the speaker. You are a guest in the cartridge. Sonic and his friends keep
  *   their story; your Nubbin acts and never speaks. Chao, Chaos, Froggy and the birds never speak.
  * - Dropped for this age (EDU-STYLE.md, “Hard things”): the gate’s “lock” choice in pa1-02-gate
- *   (`defaultChoice: 'open'`), so a sprout never sees the huddled Chao. Every other choice is kind
- *   and is kept.
+ *   (`defaultChoice: 'open'`), so a sprout never sees the huddled Chao, and pa1-17-chao tells you
+ *   the open gate was your doing. The lock-only variants (pa1-17-chao-locked, pa1-18-last-locked,
+ *   pa1-18-last-locked-stood) cannot play in this band and have no sprout version (exempt in
+ *   content-check). Every other choice is kind and is kept.
  * - Hard things said plainly, once, with comfort straight after: Tikal lived long ago and died;
  *   her light stayed to look after Chaos. Some Chao died the day the warriors came; Tikal stayed
  *   with Chaos so it was not alone. Knuckles’s people died long ago, and now he has friends. Gamma’s
@@ -141,6 +143,7 @@ const Q01: EduQuest = quest(
         N('It is a big old game box. It has a dent in the side.'),
         PX('Don’t touch the coin slot. A mouse family lived in there!', 'happy'),
         PX('I fixed it. One fuse, four wires. Three whole days.'),
+        PX('Byte says it might catch fire. Byte says that about toast.'),
         N('Pixel lifts a flap. Inside sit five cartridges in a row.'),
         PX('Each one is a whole world. You go in. I stay here.'),
         N('The label shows a garden, a pool, and little round creatures.'),
@@ -148,7 +151,7 @@ const Q01: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          5,
           'maths',
           'count to 5',
           'K.CC.B.5',
@@ -377,7 +380,7 @@ const Q02: EduQuest = quest(
             'Leave it open. Let them come and go.',
             [
               N('You prop the gate with a stone. The Chao rides it open. Wheee!'),
-              PX('Free-range Chao. Like ours. All right.'),
+              PX('Chao who go out and come home, like ours. All right.'),
             ],
             { 'pa1-gate': 'open' },
           ),
@@ -809,7 +812,8 @@ const Q05: EduQuest = quest(
         N('There are seven silver spanners on the bench.'),
         TA('The other silver one.'),
         N('Your Nubbin picks one up in both arms. It beams.'),
-        PX('Tell him it’s a ten. It looks like a ten.'),
+        PX('Tell him “the shiny one.”'),
+        N('All seven are shiny. The whole bench is shiny.'),
         TA('Nearly there. The jewel is sending out a signal. Something is following it.', 'think'),
       ],
       [
@@ -833,7 +837,7 @@ const Q05: EduQuest = quest(
             N('Your Nubbin hands him the right one.'),
           ]),
           ch('ask', 'Ask which one he means.', [
-            TA('The ten. Sorry.'),
+            TA('The shiny one. Sorry. They are all shiny.'),
             N('Your Nubbin is already holding it.'),
           ]),
         ],
@@ -1491,7 +1495,7 @@ const Q09: EduQuest = quest(
           4,
           'science',
           'frogs and tails',
-          '3-LS1-1',
+          'K-LS1-1',
           [N('Froggy grew a tail. Do grown-up frogs have tails?')],
           [
             o(
@@ -1722,7 +1726,7 @@ const Q10: EduQuest = quest(
             'Climb up and stand beside her.',
             [
               N('You climb up and stand next to Tikal, so she isn’t alone.'),
-              N('Her father looks at you like a fly. Nothing changes.'),
+              N('Her father looks at you. His face stays hard. Nothing changes.'),
               TI('Thank you.', 'soft'),
             ],
             { 'pa1-stood': true },
@@ -2139,15 +2143,16 @@ const Q12: EduQuest = quest(
       'pa1-12-sky',
       [
         N('Nobody says much. Tails flies low over the sea.'),
-        AM('He’ll be all right. Won’t he? He’s very big.', 'sad'),
+        AM('Gamma will be all right. Won’t it? It is very big.', 'sad'),
         PX('Amy. I don’t know.', 'soft'),
+        PX('I hope so. I really hope so.', 'soft'),
         N('Your Nubbin kneels on the seat, hands on the glass, looking back.'),
         N('Then, out of the cloud, comes one bird. Then another. Then another!'),
         N('They fly free over the water, toward the land.'),
       ],
       [
         doIt(
-          4,
+          5,
           'maths',
           'count to 3',
           'K.CC.B.5',
@@ -2281,7 +2286,7 @@ const Q13: EduQuest = quest(
         N('The warriors come out of the trees in a line. They do not stop.'),
         TI('Father! Stop! Please, the Chao!', 'shock'),
         N('The pink light closes round you. The shrine goes far away.'),
-        N('Through the light: running feet, and a sound like the sea standing up.'),
+        N('Through the light: running feet, and a sound like a very big wave.'),
         N('Then it goes quiet.'),
         N('Some of the Chao were hurt that day, and some of them died.'),
         N('That is why Chaos grew so big and so sad.'),
@@ -2431,7 +2436,7 @@ const Q14: EduQuest = quest(
           1,
           'science',
           'animals shake off water',
-          '4-LS1-1',
+          'K-LS1-1',
           [N('Sonic shakes like a wet dog. Why do dogs shake when wet?')],
           [
             o(
@@ -2514,17 +2519,18 @@ const Q14: EduQuest = quest(
     sc(
       'pa1-14-complete',
       [
-        PX('Back home there’s an old story, about a fierce one who loved too hard.', 'think'),
+        PX('Back home there’s an old story about Cinder.', 'think'),
+        PX('She loved the little ones, and held on too tight.', 'think'),
         PX('It just feels like the same shape.', 'soft'),
         N('Your Nubbin looks up at the painted water shape for a long time.'),
       ],
       [
         ask(
-          1,
+          2,
           'literacy',
           'stories can be alike',
           'RL.K.3',
-          [PX('Two stories, the same shape. What do Chaos and the fierce one both do?')],
+          [PX('Two stories, the same shape. What do Chaos and Cinder both do?')],
           [
             o(
               'Love too hard and hold too tight',
@@ -2700,8 +2706,9 @@ const Q16: EduQuest = quest(
       [
         N('Sonic lands on your roof, soaked and out of breath.'),
         SO('Okay. That’s big. That’s really, really big.', 'shock'),
-        N('His friends come: Tails, Knuckles, Amy with the bird, and Big with Froggy!'),
-        N('Each one holds a jewel. All seven, dull and grey now.'),
+        N('Tails comes. Knuckles comes. Amy comes, with the bird. Big comes, with Froggy!'),
+        N('Froggy puts up one hand. He would like to be counted too.'),
+        N('They bring all seven jewels. The jewels are dull and grey now.'),
         KN('Chaos used them up. They’re empty.', 'angry'),
         TA('Not empty. Not all the way.', 'think'),
         TA('Chaos took the sad part. But the good part is still in there.'),
@@ -2711,11 +2718,11 @@ const Q16: EduQuest = quest(
         doIt(
           2,
           'maths',
-          'count to 5',
+          'count to 4',
           'K.CC.B.5',
-          'edu:count:friends:5',
-          [N('Count Sonic’s friends on the roof. Tails, Knuckles… (Count on your fingers.)')],
-          'Your child counted five friends.',
+          'edu:count:friends:4',
+          [N('Count Sonic’s friends: Tails, Knuckles, Amy, Big. (Count on your fingers.)')],
+          'Your child counted four friends.',
         ),
       ],
     ),
@@ -2907,6 +2914,7 @@ const Q17: EduQuest = quest(
         N('Then a sound comes from up high. Small and cheerful.'),
         N('Along the hotel roof sits a whole row of Chao, legs dangling!'),
         N('They went out through the open gate when the water came. They went up.'),
+        PX('The gate was open! You did that!', 'happy'),
         N('Now they come down: by the drainpipe, by the stairs, sliding down awnings.'),
         N('They walk right up to the puddle. They are not afraid at all.'),
         N('Chaos looks at them. Its glow goes still, and soft, and warm.'),
@@ -2915,7 +2923,7 @@ const Q17: EduQuest = quest(
       ],
       [
         ask(
-          5,
+          6,
           'sel',
           'relief',
           'ELOF: Social and Emotional Development',
@@ -3135,12 +3143,13 @@ const Q18: EduQuest = quest(
         N('The Chao wave until they’re gone. Tikal and Chaos are together, at peace.'),
         N('The world folds up gently, like a letter. You are back in the shed.'),
         PX('You’re back! You’ve got flowers in your hair!', 'shock'),
+        PX('And your hair is round again. I liked it square.'),
         N('On the cabinet, a little brass plate has appeared, waiting for a name.'),
         PX('A high-score plate. We’ll do it properly after another cartridge.', 'happy'),
       ],
       [
         ask(
-          2,
+          4,
           'art',
           'pattern: pink, white, pink',
           'ELOF: Mathematics Development',
@@ -3161,10 +3170,13 @@ const Q18: EduQuest = quest(
 // ================================================================== VARIANTS
 /** Sprout versions of every scene in PA1_VARIANTS. */
 export const EDU_PA1_SPROUT_VARIANTS: EduScene[] = [
-  // ---------------------------------------------------------------- after pa1-01-shed-done (s21Done)
+  // ---------------------------------------------------------------- replaces pa1-01-shed-done (s21Done)
   sc(
-    'pa1-01-clank',
+    'pa1-01-shed-done-clank',
     [
+      N('Pixel blows the dust off the cartridge. Puff!'),
+      N('She wipes the shiny bit on her sleeve.'),
+      PX('Clean contacts, happy cartridge. Everyone knows that.'),
       N('Clank sits on top of the cabinet. His legs dangle over the screen.'),
       CK('Announcement: I am the lookout. Lookouts sit on top. I am on top.', 'happy'),
       PX('I said lookouts sit still.'),
@@ -3173,7 +3185,7 @@ export const EDU_PA1_SPROUT_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        3,
+        6,
         'sel',
         'listening to what was asked',
         'ELOF: Approaches to Learning',
@@ -3190,36 +3202,35 @@ export const EDU_PA1_SPROUT_VARIANTS: EduScene[] = [
       ),
     ],
   ),
-  // ---------------------------------------------------------------- replaces pa1-17-chao (pa1-gate locked)
+  // ---------------------------------------------------------------- replaces pa1-11-garden-done (s21Done)
   sc(
-    'pa1-17-chao-locked',
+    'pa1-11-garden-done-clank',
     [
-      N('Chaos looks round for the Chao. None on the roofs. None in the streets.'),
-      N('Oh! The garden. The gate. The little key you turned.'),
-      Y('They’re still in there.'),
-      N('You wade back through the hotel to the garden. The gate is still shut.'),
-      N('The Chao sit up in the trees, wet and very quiet. All safe.'),
-      PX('Safe isn’t the same as well, is it.', 'soft'),
-      N('You turn the key. Your Nubbin goes in first, and they all climb down.'),
-      N('You lead them across the square to the puddle.'),
-      N('Chaos looks at them. Its glow goes still, and soft, and warm.'),
+      N('The last Chao is in the last lifeboat. You pull the lever.'),
+      N('It floats down under a parachute with Eggman’s face on it.'),
+      PX('The parachutes have his face on them. I can’t believe it.', 'happy'),
+      CK('Announcement: that parachute has a FACE on it. I want one with MY face.', 'happy'),
+      PX('It’s Eggman’s face, Clank.'),
+      CK('Then I would like a very small Eggman.'),
     ],
     [
       ask(
-        5,
-        'sel',
-        'safe and well are different',
-        'CASEL: Social awareness',
-        [PX('The Chao were safe, but alone and scared. Is that the same as well?')],
+        1,
+        'science',
+        'parachutes catch air',
+        'ELOF: Scientific Reasoning',
+        [N('The parachute opens wide. Why does the lifeboat float down slowly?')],
         [
           o(
-            'No, well means happy too',
-            [PX('Yes. Safe is good. Well is safe AND happy, with friends.')],
+            'The big parachute catches the air',
+            [N('Yes! A big open parachute catches air and slows the fall.')],
             true,
           ),
-          o('Yes, same thing', [PX('Nearly. Safe is good. Well is safe AND happy, with friends.')]),
+          o('Eggman’s face is magic', [
+            N('Not magic! The big open parachute catches air and slows the fall.'),
+          ]),
         ],
-        'Your child thought about the difference between safe and well.',
+        'Your child learned that parachutes catch air.',
       ),
     ],
   ),
@@ -3361,64 +3372,6 @@ export const EDU_PA1_SPROUT_VARIANTS: EduScene[] = [
       ),
     ],
   ),
-  sc(
-    'pa1-18-last-locked-stood',
-    [
-      N('The screen shows one last picture: the garden, with its gate wide open.'),
-      N('A Chao swings on the gate. Two lights float above the palm tree.'),
-      N('Beside them, a little square person who looks a lot like you.'),
-      PX('Open. They’ve drawn it open. And you’re in it, look.', 'soft'),
-    ],
-    [
-      ask(
-        0,
-        'sel',
-        'open means free to choose',
-        'CASEL: Responsible decision-making',
-        [PX('The gate is open now. Why is an open gate nicer for the Chao?')],
-        [
-          o(
-            'They can come and go as they like',
-            [PX('Yes. Open means they can choose: in, or out. That feels good.')],
-            true,
-          ),
-          o('It isn’t nicer', [
-            PX('It is! Open means they can choose: in, or out. That feels good.'),
-          ]),
-        ],
-        'Your child thought about why an open gate is kinder.',
-      ),
-    ],
-  ),
-  sc(
-    'pa1-18-last-locked',
-    [
-      N('The screen shows one last picture: the garden, with its gate wide open.'),
-      N('A Chao swings on the gate, back and forth. Creak, creak.'),
-      N('Two lights, pink and green, float up through the glass roof and away.'),
-      PX('Open. Next time, we leave it open from the start. Deal?', 'soft'),
-    ],
-    [
-      ask(
-        3,
-        'sel',
-        'learning for next time',
-        'CASEL: Self-management',
-        [PX('Next time, we leave it open. Is it all right to do better?')],
-        [
-          o(
-            'Yes, that’s how we learn',
-            [PX('Yes. Nobody gets it all right first go. We learn, and do better.')],
-            true,
-          ),
-          o('No, you should never get it wrong', [
-            PX('Everyone gets things wrong sometimes. We learn, and do better.'),
-          ]),
-        ],
-        'Your child learned that doing better next time is how we learn.',
-      ),
-    ],
-  ),
 ];
 
 // ================================================================== exports
@@ -3453,5 +3406,5 @@ export const CHECKS: string[] = [
   'edu:count:lifeboats:4',
   'edu:count:birds:3',
   'edu:count:floors:5',
-  'edu:count:friends:5',
+  'edu:count:friends:4',
 ];

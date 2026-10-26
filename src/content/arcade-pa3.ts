@@ -30,7 +30,7 @@
  * GROVE FLAGS READ (read-only; the cartridge never writes a Grove flag):
  *   - s21Done (S21, Clank). If set, Clank sits on top of the cabinet. PA3_VARIANTS
  *     'pa3-01-clank' plays straight after pa3-01-cabinet; 'pa3-07-clank' after pa3-07-plaque
- *     (he goes very quiet at the word "vessel"); 'pa3-13-clank' after pa3-13-memory. If s21Done
+ *     (he goes very quiet at the word "vessel"); 'pa3-13-clank' after pa3-13-memory; 'pa3-17-clank' after pa3-17-complete. If s21Done
  *     is not set, none of them play and nothing else changes. No other flag is read.
  *
  * FLAGS WRITTEN (Arcade save only, all prefixed pa3-):
@@ -222,7 +222,7 @@ export const ARCADE_PA3: Quest[] = [
     rewards: [],
     sets: { 'pa3-01': true },
     notes:
-      'CLANK: if s21Done, play PA3_VARIANTS pa3-01-clank straight after pa3-01-cabinet (before its choices). ' +
+      'CLANK: if s21Done, play PA3_VARIANTS pa3-01-cabinet-clank instead of pa3-01-cabinet (same choices). ' +
       'The cartridge has its own save in the Arcade save; it never writes a Grove flag. The Knight never speaks ' +
       'and has no portrait in the dialogue box. The head-tilt is the Knight’s first animation that isn’t walking: ' +
       'give it two frames each way. Pixel is heard through the speaker only (her portrait shows in a small cabinet-bezel frame).',
@@ -293,6 +293,7 @@ export const ARCADE_PA3: Quest[] = [
             n('In a niche in the wall: a glass jar, corked. Inside, a fat pale grub, crying its heart out.'),
             px('Oh no. Oh, that’s a grub. In a jar. Who puts a grub in a jar?', 'shock'),
             px('Somebody who collects them, I suppose. There’s always somebody.', 'angry'),
+            px('…Byte keeps his screws in jars. I’m going to have words with him at tea.'),
             n('The Knight comes up behind you and looks at the jar for a long moment.'),
             n('Your Nubbin puts both hands flat on the glass. The grub stops crying, just for a second, to look.'),
           ],
@@ -380,11 +381,11 @@ export const ARCADE_PA3: Quest[] = [
           id: 'pa3-03-promise',
           lines: [
             px('Forty-six houses. Forty-six grubs. One’s back. Forty-five out there, in jars.'),
-            px('I’ve checked the map. Twelve of them are on the road we’re taking. The rest are in places we’re not going.', 'think'),
+            px('I’ve checked the map. Eleven more are on our road. Twelve, counting the one you freed. I’m counting it. It hugged a leg.', 'think'),
             px('Ruling: we don’t promise forty-five. We promise twelve. Twelve is a number you can carry.'),
             n('The Grubfather looks at you with eyes like two wet buttons.'),
             n('The Knight stands at the cavern mouth with its back to you all. It doesn’t leave, though.'),
-            px('And somebody else gets the other thirty-three. Somebody always comes. We came.', 'soft'),
+            px('And somebody else gets the other thirty-four. Somebody always comes. We came.', 'soft'),
           ],
           choices: [
             {
@@ -642,7 +643,8 @@ export const ARCADE_PA3: Quest[] = [
             n('A village built down a cliff, all hooks and ladders. Tall green bugs stand guard on every rail.'),
             n('They don’t have orange eyes; they’re not ill. They’re just guarding, the way they always have.'),
             px('Mantises. The box says they hold the way into Deepnest, so nothing from down there comes up.'),
-            px('They’re not the baddies. They’re the gate. Gates aren’t baddies. Ask Corvin.'),
+            px('They’re not the baddies. They’re the gate. Gates aren’t baddies. Gates just have very firm opinions about boots.'),
+            n('A mantis looks down at the Knight’s boots. It has a very firm opinion.'),
             n('A young mantis lunges at the Knight. The Knight turns it aside and keeps walking, nail down.'),
             n('Under a ladder, in the shadow, your Nubbin finds a jar. The grub inside has stopped crying, out of tiredness.'),
             n('It starts again the moment it sees you, mostly from relief.'),
@@ -799,7 +801,7 @@ export const ARCADE_PA3: Quest[] = [
       'pa3-07-plaque#6': '“It gave up everything, so the kingdom could stay.”',
     },
     notes:
-      'CLANK: if s21Done, play PA3_VARIANTS pa3-07-clank straight after pa3-07-plaque’s choice, before its done scene. ' +
+      'CLANK: if s21Done, play PA3_VARIANTS pa3-07-plaque-clank instead of pa3-07-plaque (same choices). ' +
       'LIFTED TEXT 2 at pa3-07-plaque#6 (the memorial plaque, © Team Cherry, from the outline’s wiki transcription; ' +
       'check against the game). Pixel reads the plaque; draw it worn and unreadable on screen so the line is hers. ' +
       'GRUB 5 of 12.',
@@ -949,7 +951,7 @@ export const ARCADE_PA3: Quest[] = [
             l('pa3-mourner', 'I loved someone. They’re buried in the Queen’s Gardens, far from here. I can’t go. I’m too slow, and too sad.'),
             n('She holds out a flower, white and thin as tissue, with a stem that bends if you look at it.'),
             l('pa3-mourner', 'Take this to the grave for me. Please. But it is very delicate.'),
-            l('pa3-mourner', 'One knock and it’s gone. Not the stag. Not a dream-gate. The trams. Slowly.'),
+            l('pa3-mourner', 'One knock and it’s gone. No stag rides. No dream-gates. Take the trams, and take them slowly.'),
             n('The Knight looks at the flower. Then it looks at you, and steps back.'),
             px('It’s giving you the job. The Knight fights; you carry. That’s… actually perfect.', 'happy'),
           ],
@@ -1481,7 +1483,7 @@ export const ARCADE_PA3: Quest[] = [
       'pa3-13-memory#5': 'This one will do. Whatever it costs.',
     },
     notes:
-      'CLANK: if s21Done, play PA3_VARIANTS pa3-13-clank straight after pa3-13-memory. LIFTED TEXT 3 at ' +
+      'CLANK: if s21Done, play PA3_VARIANTS pa3-13-memory-clank instead of pa3-13-memory. LIFTED TEXT 3 at ' +
       'pa3-13-memory#5 (“No cost too great.”, © Team Cherry, from the outline’s wiki transcription; check against the ' +
       'game). The palace is a skill section for the Knight: the player’s job is the call-outs (a rhythm minigame on ' +
       'Pixel’s cues). No fail state beyond a retry. Pixel’s humming is a beat, no tune.',
@@ -1801,7 +1803,7 @@ export const ARCADE_PA3: Quest[] = [
     audience: 'all',
     trigger: { where: WHERE, when: after('PA3-16') },
     requires: ['PA3-16'],
-    speakers: [],
+    speakers: [CLANK],
     steps: [
       {
         id: 'pa3-17-s1',
@@ -1872,6 +1874,9 @@ export const ARCADE_PA3: Quest[] = [
         px('They’re fine. It’s on the box. It’s how they grow up. They go in grubs and come out grubberflies.', 'think'),
         px('I mean. It’s a choice. As parenting goes. But it’s THEIR choice.'),
         n('Pixel starts laughing, then can’t stop. You hear her chair scrape: she’s had to sit on the floor.'),
+        n('A small crunch comes through the speaker.'),
+        px('…I’ve sat on my biscuit.', 'shock'),
+        px('It’s fine. It’s a choice. As biscuits go.'),
         px('…Ruling: best ending to a fetch quest ever made. The empty jar’s yours. Keep it. Put a candle in it.', 'happy'),
       ],
     },
@@ -1885,6 +1890,7 @@ export const ARCADE_PA3: Quest[] = [
     ],
     sets: { 'pa3-17': true },
     notes:
+      'CLANK: if s21Done, play PA3_VARIANTS pa3-17-complete-clank instead of pa3-17-complete. ' +
       'CARE: the swallowing is joy, not horror. Show only a round, happy Grubfather on his back and twelve tiny wriggles ' +
       'under his skin; Pixel says plainly that they’re fine. The Knight sitting on the bench is its only sit in the ' +
       'whole cartridge: a two-frame sit-down, slightly awkward. Requires all twelve grub checks (they’re all on the ' +
@@ -2016,7 +2022,8 @@ export const ARCADE_PA3: Quest[] = [
 
 /**
  * Variant scenes, picked by flags. Where each plays is in the owning quest's notes.
- * - Clank (Grove s21Done, read only): pa3-01-clank, pa3-07-clank, pa3-13-clank.
+ * - Clank (Grove s21Done, read only; each replaces its host scene): pa3-01-cabinet-clank, pa3-07-plaque-clank,
+ *   pa3-13-memory-clank, pa3-17-complete-clank.
  * - The flower breaking (any knock, PA3-9 to PA3-12): pa3-09-broken.
  * - Hornet (pa3-hornet = stood): pa3-11-den-stood, pa3-11-den-done-stood, pa3-15-test-stood,
  *   pa3-15-test-done-stood.
@@ -2027,31 +2034,103 @@ export const ARCADE_PA3: Quest[] = [
  */
 export const PA3_VARIANTS: Scene[] = [
   {
-    id: 'pa3-01-clank',
+    id: 'pa3-01-cabinet-clank',
     lines: [
+      n('The lantern shed smells of sawdust and warm dust. The cabinet hums like a fridge that’s thinking.'),
       n('On top of the cabinet, Clank swivels his eye down at the cartridge.'),
       l('clank', 'Announcement: a NEW GAME! Announcement: it has a MASK on it! Is it a party? Is it a SAD party?', 'happy'),
       px('It’s a sad party, Clank. Sit still. You can watch, but you can’t press anything.'),
       l('clank', 'I will watch SO hard.'),
+      px('Found another box of cartridges in the cabinet’s belly. Under the mouse nest. The mice have moved out. Mostly.'),
+      px('This one was on its own, in a box inside the box. Someone wrote on the lid.'),
+      n('She holds it up. In pencil, in a hand neither of you knows: “too sad, keep”.'),
+      px('Not “too sad, bin”. Not “too sad, sell”. Keep.', 'think'),
+      n('The label shows a pale mask with two horns, on a lot of black.'),
+      px('No title. Just the mask. Ruling: that’s either very good or very sad.'),
+      px('Probably both. The best ones are usually both.', 'soft'),
+      px('You go in. I’ll be player two. I’ve got the map, the speaker and a biscuit.'),
+    ],
+    choices: [
+      {
+        id: 'ready',
+        label: 'Put it in.',
+        then: [px('Putting it in. Blowing on it first. That’s not superstition, it’s maintenance.')],
+      },
+      {
+        id: 'sad',
+        label: 'How sad is “too sad”?',
+        then: [
+          px('Don’t know. Somebody thought it was worth keeping anyway. That’s a review, in a way.', 'think'),
+          px('If it’s too much, you come out. The door’s always open from my side.'),
+        ],
+      },
     ],
   },
   {
-    id: 'pa3-07-clank',
+    id: 'pa3-07-plaque-clank',
     lines: [
+      n('A city under a lake. Blue towers, blue glass, and rain falling from the cave roof, the way it has for an age.'),
+      n('In the square stands a statue: a tall figure with a horned mask, chained, holding a nail. It is very like the Knight.'),
+      n('The Knight stops in front of it and doesn’t move at all.'),
+      n('On the plinth there’s a plaque, its letters worn. Your lantern isn’t bright enough to read it.'),
+      px('I can read it from here. Hang on. I’ll read it slowly.', 'soft'),
+      px('It says it’s for the Hollow Knight. The kingdom’s vessel. The one who held the plague.'),
+      px('“Through its sacrifice Hallownest lasts eternal.”', 'sad'),
+      px('…That’s it. That’s the whole plaque. Somebody gave up everything and they got one sentence.', 'sad'),
       px('…Clank?'),
       n('Through the speaker, the cabinet is quieter than it’s been all day. No beeping, no announcing.'),
       px('He’s just sitting there. He stopped when I said “vessel”. He’s looking at his own hands.', 'soft'),
       l('clank', 'Announcement… no announcement.', 'sad'),
       px('Hey. You’re not a vessel. You’re Clank. You’re an announcer. You’re my best announcer.', 'soft'),
       l('clank', '…Okay.', 'soft'),
+      n('Rain runs down the statue’s mask. The Knight puts out one small hand and touches the stone.'),
+    ],
+    choices: [
+      {
+        id: 'wait',
+        label: 'Wait with the Knight.',
+        then: [n('You stand in the rain beside it, and nobody says anything. After a while the Knight takes its hand back.')],
+      },
+      {
+        id: 'light',
+        label: 'Hold your lantern up so the Knight can see the face.',
+        then: [n('You lift the lantern and the statue’s mask shines. The Knight looks at it for a long time, then walks on.')],
+      },
     ],
   },
   {
-    id: 'pa3-13-clank',
+    id: 'pa3-13-memory-clank',
     lines: [
+      n('On the throne lies the other half of the white charm. The Knight picks it up, and they become one.'),
+      n('The light changes. The room fills with a memory, pale and thin, like breath on glass.'),
+      n('A tall pale king stands in this room. In front of him stand dozens of small dark figures, all with horned masks.'),
+      n('He walks along their row. He stops at one, taller than the rest, very still, with no light in it at all.'),
+      n('He looks at it for a long time. Then he chooses it.'),
+      l('pa3-king', 'No cost too great.', 'think'),
+      n('The memory goes thin. The other small figures in the row fade last.'),
+      n('The Knight looks at where they were. Your Nubbin walks over and stands next to it, very close.'),
+      px('He chose one. And he thought choosing made it fine. For the others too.', 'sad'),
       n('On the cabinet, Clank has put his hands over his eye.'),
       px('You can come down, Clank. Come and sit on my lap. Nobody here is choosing anybody.', 'soft'),
       n('A clank, a scrape, and a small metal weight settles somewhere near Pixel. She doesn’t say anything else for a bit.'),
+    ],
+  },
+  {
+    id: 'pa3-17-complete-clank',
+    lines: [
+      n('The Grubfather is lying on his back, very round, very happy. Every one of the doorways is empty.'),
+      px('Did he… did he EAT them?', 'shock'),
+      n('He pats his tummy. From inside comes a happy, muffled wriggle: twelve wriggles.'),
+      px('They’re fine. It’s on the box. It’s how they grow up. They go in grubs and come out grubberflies.', 'think'),
+      px('I mean. It’s a choice. As parenting goes. But it’s THEIR choice.'),
+      n('Pixel starts laughing, then can’t stop. You hear her chair scrape: she’s had to sit on the floor.'),
+      n('A small crunch comes through the speaker.'),
+      px('…I’ve sat on my biscuit.', 'shock'),
+      px('It’s fine. It’s a choice. As biscuits go.'),
+      l('clank', 'Announcement: the big one ate the small ones!', 'happy'),
+      px('They’re fine, Clank. It’s how they grow up.'),
+      l('clank', 'Announcement: I am never growing up.', 'happy'),
+      px('…Ruling: best ending to a fetch quest ever made. The empty jar’s yours. Keep it. Put a candle in it.', 'happy'),
     ],
   },
   {
@@ -2121,6 +2200,7 @@ export const PA3_VARIANTS: Scene[] = [
       l('pa3-quirrel', 'I’ve seen this kingdom twice now. Once long ago, when I forgot. And once now. I’m glad of both.', 'soft'),
       l('pa3-quirrel', 'I came to let my teacher rest. And I did. So I think I’m finished. It’s a nice feeling.'),
       n('He looks at the water for a while. Then he gives your Nubbin a pat, and stands, and looks at his nail.'),
+      l('pa3-quirrel', 'If anyone ever asks about a bug called Quirrel, say he was here. That’s all.'),
       l('pa3-quirrel', 'Go on. The end’s that way. I’m going to stay here a bit.'),
     ],
   },
@@ -2186,7 +2266,13 @@ export const PA3_VARIANTS: Scene[] = [
       {
         id: 'stay',
         label: 'Leave it as it is, for now.',
-        then: [px('All right. It’ll keep. Come back up. Elderbug will want to see you.', 'soft')],
+        then: [
+          px('All right. It’ll keep. Come back up. Elderbug will want to see you.', 'soft'),
+          n('Up the well, in the rain, Elderbug is on his bench. He stands when he sees you, and doesn’t ask.'),
+          l('pa3-elderbug', 'You came back up. That’s the part I asked for.', 'soft'),
+          n('He gives your Nubbin a tiny pale mask. It puts it on and tilts its head, the way the Knight did.'),
+          px('He kept one ready. Just in case. People like him always do.', 'soft'),
+        ],
       },
     ],
   },

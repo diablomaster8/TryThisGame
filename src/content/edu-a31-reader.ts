@@ -184,7 +184,7 @@ const Q1 = quest(
           3,
           'social-studies',
           'Guatemala is in Central America, south of Mexico; K’iche’ Maya people live there and speak K’iche’ today',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             GM(
               'This kitchen is in Guatemala. Look south of Mexico on a map, and there we are, in Central America.',
@@ -369,7 +369,7 @@ const Q1 = quest(
           1,
           'science',
           'sound is made by vibration',
-          '1-PS4-1',
+          '4-PS3-2',
           [
             GM(
               'Thock. The ball hits the wall, and you hear it from here. What is happening to make that sound?',
@@ -502,7 +502,7 @@ const Q2 = quest(
           4,
           'science',
           'rubber is made from the milky latex of a tree; materials have properties',
-          '2-PS1-1',
+          undefined,
           [
             GM(
               'The sap is called latex. It comes out of the rubber tree thick and white, like milk that has been left out.',
@@ -666,7 +666,7 @@ const Q3 = quest(
           3,
           'science',
           'a dried gourd shell is hard and waterproof, so it makes a bowl or cup',
-          '2-PS1-1',
+          undefined,
           [
             GM(
               'A gourd is a fruit with a thick skin. When it dries out, the skin turns hard and light, and the inside can be scooped away.',
@@ -1093,7 +1093,7 @@ const Q5 = quest(
           'You put the net down in front of Xmucane. She looks at it, and goes on looking for a long time.',
         ),
         N(
-          'It holds 36 ears. Later she splits them into 4 equal piles, one for each person in the house.',
+          'It holds 36 ears. Xmucane counts them twice, in case the corn is lying. Then she splits them into 4 equal piles, one for each person.',
         ),
         XM('One plant. I planted it myself.', 'think'),
       ],
@@ -1654,7 +1654,7 @@ const Q8 = quest(
           4,
           'social-studies',
           'the geography of Guatemala: highlands and volcanoes',
-          'D2.Geo.2.K-2',
+          'D2.Geo.2.3-5',
           [
             GM(
               'Mountains matter here. Guatemala has highlands running through the middle, and more than thirty volcanoes.',
@@ -1701,7 +1701,7 @@ const Q8 = quest(
           3,
           'science',
           'some changes can be reversed and some cannot',
-          '2-PS1-4',
+          undefined,
           [
             N(
               'Wet clay can be squished into any shape. Once clay is baked hard in a fire, can it be made soft again?',
@@ -1748,7 +1748,7 @@ const Q8 = quest(
         N('The world is quieter. The mountains stay where they are put.'),
         HP('Is that all of them?'),
         XB('All the shiny, boasting ones.'),
-        GM('The Maya counted in twenties, not tens: fingers and toes.'),
+        GM('The Maya counted in twenties, not tens: fingers and toes, with 5 on each hand and foot.'),
         GM('Now: somebody has to go down to Xibalba. You know who.'),
         GD('The twins!'),
         GM('Not yet. First, a rat. Eat your tortilla.'),
@@ -1757,19 +1757,15 @@ const Q8 = quest(
         ask(
           4,
           'maths',
-          'multiplication within 100 and beyond: 20 x 20',
+          'dividing within 100: how many twenties make a hundred',
           '3.OA.A.3',
+          [N('The Maya counted in twenties. How many twenties make a hundred?')],
           [
-            N(
-              'The Maya counted in twenties. If the Four Hundred Boys are 20 groups of 20, how many boys is that?',
-            ),
+            o('5', [N('Yes. 20, 40, 60, 80, 100: five twenties. 5 x 20 = 100.')], true),
+            o('4', [N('Four twenties make only 80. Five twenties make 100, because 5 x 20 = 100.')]),
+            o('10', [N('Ten twenties make 200. Five twenties make 100, because 5 x 20 = 100.')]),
           ],
-          [
-            o('400', [N('Yes. 20 x 20 = 400. Two times 20 is 40, and ten of those is 400.')], true),
-            o('40', [N('That is 2 x 20. Twenty groups of twenty is 20 x 20 = 400.')]),
-            o('200', [N('That is 10 x 20. We need twenty groups: 20 x 20 = 400.')]),
-          ],
-          'Multiplied 20 x 20 = 400 while learning that the Maya counted in twenties.',
+          'Worked out that five twenties make a hundred, counting like the Maya.',
         ),
       ],
     ),
@@ -1815,7 +1811,7 @@ const Q9 = quest(
           2,
           'science',
           'plants need water and light; the milpa grows corn, beans and squash together',
-          '2-LS2-1',
+          undefined,
           [
             GM(
               'Seeds sleep in the soil until water and sun wake them. That is why a cleared garden turns green again so fast.',
@@ -1863,7 +1859,7 @@ const Q9 = quest(
           7,
           'social-studies',
           'what makes a swap fair',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [N('The rat trades a secret for food for ever. What makes a swap fair?')],
           [
             o(
@@ -2048,6 +2044,7 @@ const Q10 = quest(
         N(
           'The louse sets off, and it is not quick. A toad offers it a lift inside its mouth, then a snake offers the toad one, and a falcon the snake.',
         ),
+        LS('Very kind. Bit damp.'),
         N(
           'The falcon lands on the ballcourt wall and coughs up the snake, who coughs up the toad, who tries to cough up the louse and can’t.',
         ),
@@ -2056,13 +2053,13 @@ const Q10 = quest(
       ],
       [
         ask(
-          5,
+          8,
           'social-studies',
           'how people sent messages in the past and today',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
-              'The message passes through five messengers. Before phones, what could go wrong with a message passed along like this?',
+              'The message went from the owls to Xmucane, then along four carriers. What could go wrong with a message passed along like this?',
             ),
           ],
           [
@@ -2111,7 +2108,7 @@ const Q10 = quest(
         XM('And if they do both?', 'think'),
         HP('Then we’re being clever. Don’t worry. You’ll know.'),
         GM(
-          'An old book in English says they planted canes. We say corn. We are made of corn, you know. That’s another story.',
+          'Some books say canes. In our kitchen it is always corn. Nobody argues with the corn.',
           'soft',
         ),
         N(
@@ -2120,29 +2117,37 @@ const Q10 = quest(
       ],
       [
         ask(
-          3,
+          4,
           'science',
-          'the corn life cycle',
+          'living plants show how they are doing',
           '3-LS1-1',
-          [N('A corn seed is planted in the earth. What happens next in its life cycle?')],
+          [
+            N(
+              'Green corn is alive. Drooping corn means trouble. What will Xmucane look for each morning?',
+            ),
+          ],
           [
             o(
-              'It sprouts into a seedling, grows into a plant, and makes ears with new seeds.',
-              [N('Yes: seed, seedling, plant, ear, new seeds. Then the cycle can start again.')],
+              'Whether the corn is green or drooping.',
+              [
+                N(
+                  'Yes: green means the twins are safe, and drooping means trouble. A living plant shows how it is doing.',
+                ),
+              ],
               true,
             ),
-            o('It turns straight into an ear.', [
+            o('Whether the corn has grown into a tree.', [
               N(
-                'There are steps in between. The seed sprouts, the plant grows tall, and only then does the ear form.',
+                'Corn does not grow that fast. The twins gave her one simple sign: green or drooping.',
               ),
             ]),
-            o('It stays a seed until it is picked.', [
+            o('Whether the corn has been eaten.', [
               N(
-                'A seed with water and warmth wakes up and sprouts. That is why the twins’ corn is a sign worth watching.',
+                'Nobody is eating it. It is planted as a sign, and she checks if it is green or drooping.',
               ),
             ]),
           ],
-          'Put the corn life cycle in order, from seed to seedling to plant to ear.',
+          'Learned that a living plant shows its health: green means well, drooping means trouble.',
         ),
       ],
       [
@@ -2251,33 +2256,31 @@ const Q11 = quest(
       ],
       [
         ask(
-          4,
-          'social-studies',
-          'reading directions on a map',
-          'D2.Geo.2.K-2',
+          9,
+          'literacy',
+          'a true statement can leave out what matters',
+          'RL.3.3',
           [
             N(
-              'On a map, north is usually at the top. If you walk east and then turn right, which way are you facing?',
+              'The black road said it went straight to the lords. That was true. What did it leave out?',
             ),
           ],
           [
             o(
-              'South',
-              [
-                N(
-                  'Yes. Facing east, a right turn points you south, like a clock hand moving from 3 to 6.',
-                ),
-              ],
+              'What was waiting at the end.',
+              [N('Yes. A true thing can still hide the part that matters.')],
               true,
             ),
-            o('North', [N('A left turn from east would point north. A right turn points south.')]),
-            o('West', [
+            o('It told a lie.', [
               N(
-                'West is the opposite of east, so you would have to turn all the way round. A right turn points south.',
+                'It didn’t lie. It just didn’t say what was at the end. That is why Hunahpu doesn’t trust it.',
               ),
             ]),
+            o('Nothing. It said everything.', [
+              N('It said where it goes, but not what is there. Hunahpu notices the missing part.'),
+            ]),
           ],
-          'Used compass directions to follow a turn on a map.',
+          'Noticed that a road, or a person, can say something true and still hide the part that matters.',
         ),
       ],
       [
@@ -2312,7 +2315,7 @@ const Q11 = quest(
           2,
           'social-studies',
           'how corn becomes tortillas, then and now',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             XQ(
               'We soak the dry corn in water with lime, a white powder made from stone, not the fruit. It softens the corn and makes it better for you.',
@@ -2349,9 +2352,10 @@ const Q11 = quest(
           'All the way down the row it goes. Every real lord yells, and the lord beside him asks what happened, by name.',
         ),
         HP(
-          'Good day, One Death. Good day, Seven Death. Good day, Wing. Good day, Packstrap.',
+          'Good day, One Death. Good day, Seven Death. Good day to the rest of the row, one at a time.',
           'happy',
         ),
+        N('It takes a while. There are a lot of lords.'),
         XB('And good day to the wooden ones. Very nice carving.'),
         N('The lords stare at them. Nobody has ever done that before.'),
         LD('Sit down. Have a seat. Please.'),
@@ -2360,7 +2364,7 @@ const Q11 = quest(
       ],
       [
         ask(
-          8,
+          9,
           'sel',
           'why greeting people by name matters',
           'CASEL: Social awareness',
@@ -2401,7 +2405,7 @@ const Q11 = quest(
         ]),
         ch('back', 'Stand well back from the bench.', [
           N(
-            'You stand well back. Your Nubbin, which once sat on a warm hearthstone by mistake, stands further back still.',
+            'You stand well back. Your Nubbin, which has strong views about hot seats, stands further back still. Then a bit further.',
           ),
         ]),
       ],
@@ -2637,35 +2641,6 @@ const Q12 = quest(
       ],
       [
         ask(
-          2,
-          'literacy',
-          'what a character’s words show about him',
-          'RL.3.3',
-          [
-            N(
-              'The lord shouts “How?” and Hunahpu says only “Good morning.” What does that tell us about Hunahpu?',
-            ),
-          ],
-          [
-            o(
-              'He is calm and cheeky.',
-              [
-                N(
-                  'Yes: after a night in the dark, he greets the lord like a neighbour. That is the cheek.',
-                ),
-              ],
-              true,
-            ),
-            o('He is frightened.', [
-              N('A frightened person would not tease. His calm words show he is in charge.'),
-            ]),
-            o('He is angry.', [
-              N('He is not shouting. “Good morning” is polite, which is part of the joke.'),
-            ]),
-          ],
-          'Described a character’s traits from what he says.',
-        ),
-        ask(
           3,
           'maths',
           'time intervals in hours',
@@ -2707,7 +2682,7 @@ const Q12 = quest(
           1,
           'literacy',
           'repeated lines make a refrain',
-          'RL.2.4',
+          'RL.4.2',
           [
             N(
               'Xmucane says “Still green” every morning, and then you join in. What does a repeated line like that do?',
@@ -3070,7 +3045,7 @@ const Q13 = quest(
       ],
       [
         ask(
-          9,
+          10,
           'sel',
           'fair play and tricking someone who is unfair',
           'CASEL: Responsible decision-making',
@@ -3176,7 +3151,7 @@ const Q13 = quest(
           6,
           'literacy',
           'how characters respond to events',
-          'RL.2.3',
+          'RL.3.3',
           [
             N(
               'Xmucane makes far too many tortillas, very fast. What does that show about how she feels?',
@@ -3468,7 +3443,7 @@ const Q14 = quest(
           2,
           'maths',
           'multiplication in a time word problem',
-          '3.OA.A.3',
+          '4.MD.A.2',
           [N('You waited five days, and there are 24 hours in a day. How many hours is that?')],
           [
             o(
@@ -3836,7 +3811,7 @@ const Q15 = quest(
           1,
           'social-studies',
           'why rules and chores apply to everyone',
-          'D2.Civ.8.K-2',
+          'D2.Civ.8.3-5',
           [
             N(
               'The lords now have to do chores like everyone else. Why is it fair when rules and jobs apply to everybody?',
@@ -4071,7 +4046,7 @@ const Q16 = quest(
           5,
           'science',
           'why the Sun and Moon seem to take turns',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [N('The Sun and the Moon seem to take turns in the sky. What really makes that happen?')],
           [
             o(
@@ -4238,7 +4213,7 @@ const Q16 = quest(
           2,
           'social-studies',
           'jade is carved in Guatemala, then and now',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             GM(
               'Jade is found in the Motagua valley in Guatemala. It is very hard, so carvers shape it by rubbing it with sand and patience.',
@@ -4318,7 +4293,7 @@ const Q17 = quest(
       ],
       [
         ask(
-          3,
+          5,
           'literacy',
           'stories, truth and what a story is for',
           'RL.4.2',
@@ -4435,7 +4410,7 @@ const Q17 = quest(
           3,
           'social-studies',
           'where corn comes from, and who still grows it',
-          'D2.His.2.K-2',
+          'D2.His.2.3-5',
           [
             N(
               'Teosinte looks like a thin grass with a few hard seeds. Over many seasons, farmers kept the best seeds and planted them again, and the plant slowly became corn.',
@@ -4512,7 +4487,7 @@ const Q17 = quest(
           2,
           'science',
           'the Sun and Moon can share the sky',
-          '1-ESS1-1',
+          '5-ESS1-2',
           [
             N(
               'Byte sees the Sun and the Moon in the sky together. Is that possible, or only in stories?',

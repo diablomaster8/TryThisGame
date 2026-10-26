@@ -2,6 +2,23 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 12 fixes (2026-10-24)
+
+- **Works:** all 60 run-12 recs fixed across the A15 bands, A16, A17 and A18 with their bands. A18's
+  merchant now pays off his thimble and "who won" joke at the homecoming. The keepsake gag runs A15
+  to A18, each page naming only its own item, ending "Your coat pocket has stopped trying."
+- **Partial:** none.
+- **Known bugs:** none new. A few A16/A18 reader `maths:` warnings stand (answers come from stated numbers).
+
+## Story review run 11 fixes (2026-10-24)
+
+- **Works:** all 59 run-11 recs fixed across A12–A15 mains and bands. A15's honesty choice now sets
+  `a15-secret = 'promised'` and pays off in four new variants (Oz's goodbye, the Scarecrow's laws), with
+  sprout and reader clones. A13 gains a Clank variant of the belly scene. The Nubbin's souvenirs run
+  as a gag from A12 to A15.
+- **Partial:** none.
+- **Known bugs:** none new. Two A14 reader `maths:` warnings stand (answers come from stated numbers).
+
 ## Story review run 10 fixes (2026-10-24)
 
 All 60 run-10 recs in `docs/story-review/LOG.md` fixed; no open recs remain.

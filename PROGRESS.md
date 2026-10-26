@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 16 fixes (2026-10-26)
+
+- **Works:** all 57 run-16 recs fixed across PA1 with its bands, PA2, PA3, the A30 bands and A31
+  with its bands. Little Sprouts' PA1 Critical (pa1-16-friends) now counts four friends aloud.
+  Clank's Arcade cameos never played (they were "play after" scenes the engine has no hook for);
+  they now replace their host scenes, and PA2's Byte-less biscuit run is wired through `GROVE_UNSET`.
+- **Partial:** none.
+- **Known bugs:** none new. The sprout PA1 gate always opens; its locked-gate scenes are exempt.
+
 ## Story review run 15 fixes (2026-10-25)
 
 - **Works:** all 56 run-15 recs fixed across the A26 reader, A27 and A28 with their bands, A29 main
@@ -128,23 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
 - **Partial:** none.
 - **Known bugs:** none new. `tests/tools/script-book.ts` now keeps page-local name-plates of shared
   speakers out of other storylines' renders.
-
-## Story review run 12 fixes (2026-10-24)
-
-- **Works:** all 60 run-12 recs fixed across the A15 bands, A16, A17 and A18 with their bands. A18's
-  merchant now pays off his thimble and "who won" joke at the homecoming. The keepsake gag runs A15
-  to A18, each page naming only its own item, ending "Your coat pocket has stopped trying."
-- **Partial:** none.
-- **Known bugs:** none new. A few A16/A18 reader `maths:` warnings stand (answers come from stated numbers).
-
-## Story review run 11 fixes (2026-10-24)
-
-- **Works:** all 59 run-11 recs fixed across A12–A15 mains and bands. A15's honesty choice now sets
-  `a15-secret = 'promised'` and pays off in four new variants (Oz's goodbye, the Scarecrow's laws), with
-  sprout and reader clones. A13 gains a Clank variant of the belly scene. The Nubbin's souvenirs run
-  as a gag from A12 to A15.
-- **Partial:** none.
-- **Known bugs:** none new. Two A14 reader `maths:` warnings stand (answers come from stated numbers).
 
 ## Standing approval (Maor, 2026-10-12)
 

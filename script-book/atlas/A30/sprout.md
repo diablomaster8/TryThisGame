@@ -61,6 +61,8 @@ _Shmuel waves from under the table._
 _Rivka walks backwards the whole way, so she can talk to you._  
 **Rivka**: That is the study house. That is Hannah’s bakery.  
 **Rivka**: Do not look, you will want it!  
+_Your Nubbin looks._  
+_Your Nubbin wants it._  
 **Rivka**: Worn-out books are put to rest in the attic, not thrown away.  
 _At the well you fill two buckets. Your Nubbin fills one little cup._  
 
@@ -97,6 +99,8 @@ _The step is warm, and its eyes are shut._
 _Behind Hannah, plaited loaves stand in rows, waiting for Friday._  
 **Hannah**: Those are for the Sabbath. This is a crust I burnt.  
 **Hannah**: It is for you.  
+**Rivka**: She burns one every day!  
+**Hannah**: Shh!  
 
 > **Lesson** (science, 2-PS1-4, ask): baking cannot be undone  
 > **Hannah**: The soft dough went into the hot oven and came out as bread.  
@@ -151,7 +155,7 @@ _Students sit in pairs, and talk and talk about one page._
 > **Lesson** (social-studies, D2.His.2.K-2, ask): how people learned long ago  
 > _In the study house, students learn in pairs and talk it out._  
 > _How do they learn?_  
-> - ✅ Together, with a partner → Yes! Two heads think better than one.
+> - ✅ Together, with a partner → Yes! Two people spot more than one.
 > - All alone and silent → Not here! In this study house everyone talks.
 > _For grown-ups: Compared how students learned in the past (talking in pairs) with today._
 
@@ -562,17 +566,25 @@ _He never speaks, and he never gets tired._
 
 **Avram**: Told to sweep the step, he sweeps the step. Only the step!  
 _Everywhere he goes, your Nubbin goes too, one step behind._  
+_Your Nubbin sweeps too. It uses a feather._  
+_The step is now a little dirtier._  
+**Avram**: Only the step! He never does the next step.  
+**Avram**: Neither does the little one.  
 
 #### `sprout:a30-07-flood` · [main](main.md#a30-07-flood)
 
 **Dvora**: Yossele, fill the barrel for me, there is a dear.  
 _He fills the barrel. Then he fills it again, because nobody said stop._  
+_The barrel holds three buckets. He pours in five._  
 _Water runs over the rim, across the kitchen, and out into the lane._  
 _You bail with a pan._  
 _Your Nubbin bails with its cheeks, which does not help at all._  
 _A hen floats past on a cabbage._  
 _Your Nubbin climbs into the bread trough and sails._  
 **Dvora**: Yossele! That is enough!  
+_He does not stop._  
+_He only stops for the rabbi, and the rabbi is not here._  
+_Then the rabbi says, “Stop,” and Yossele puts the bucket down._  
 
 > **Lesson** (maths, K.OA.A.2, ask): taking away  
 > _The barrel holds 3 buckets. Yossele poured 5._  
@@ -582,8 +594,6 @@ _Your Nubbin climbs into the bread trough and sails._
 > - 5 → Five is how many he poured. Take away the three that fit: two too many.
 > _For grown-ups: Took away 3 from 5 in a story about buckets._
 
-_He does not stop. She is not the one who made him._  
-_Then the rabbi says, “Stop,” and Yossele puts the bucket down._  
 
 #### `sprout:a30-07-flood-done` · [main](main.md#a30-07-flood-done)
 
@@ -690,7 +700,7 @@ _Nobody is hurt. Yossele stays until the last light is gone._
 #### `sprout:a30-08-complete` · [main](main.md#a30-08-complete)
 
 _By breakfast, everybody says they slept well._  
-**Avram**: I slept like a stone! I dreamt about keys.  
+**Avram**: I slept so well! I dreamt about keys.  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): sleep helps our bodies  
 > _Avram slept well, and he feels better. Why is sleep good for us?_  
@@ -731,6 +741,9 @@ _You hold his head._
 **Rabbi Loew**: Every week, before the Sabbath, everything rests. Even Yossele.  
 _The rabbi rubs out the first letter, the alef. It comes away like flour._  
 _Two letters are left on the brow._  
+_The warmth goes out of him, slowly, like a stove at night._  
+_Now he is only clay._  
+_Your Nubbin puts its paw on his arm, and keeps it there._  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): recognising alef, the first letter  
 > **Ori**: The rabbi rubbed out a letter.  
@@ -739,9 +752,6 @@ _Two letters are left on the brow._
 > - Tav → Tav is the last letter, on the left. He rubbed out alef, the first one.
 > _For grown-ups: Found alef, the first Hebrew letter, as the one rubbed out._
 
-_The warmth goes out of him, slowly, like a stove at night._  
-_Now he is only clay._  
-_Your Nubbin puts its paw on his arm, and keeps it there._  
 
 **Choices**
 
@@ -786,7 +796,7 @@ _The lane goes quiet, as if the whole town has sat down._
 _Variant of `a30-09-complete`._
 
 _Yossele stands in the doorway, one arm across it like a gate._  
-_Shmuel and Mirele want to go out to see the bread._  
+_Shmuel and his little sister Mirele want to go out to see the bread._  
 _He will not let them._  
 **Shmuel**: He will not let us out! We only want to see the bread!  
 _Gently, he lifts them back in, every time._  
@@ -820,7 +830,7 @@ _He has started helping before he is asked._
 _Variant of `a30-09-complete`._
 
 _Yossele sits on the caretaker’s step, as long as the step._  
-_Shmuel is on one knee, and Mirele is on the other._  
+_Shmuel is on one knee. Mirele, the littlest, is on the other._  
 _Rivka leans on his arm._  
 _Your Nubbin is asleep in his lap, with its paws in the air._  
 **Mirele**: He does not talk. But he listens properly!  
@@ -919,6 +929,7 @@ _The lane is quiet. The clay lies in a long heap across the cobbles._
 _The rabbi stands beside it, out of breath, with his hand on the clay._  
 **Rabbi Loew**: I forgot.  
 **Rabbi Loew**: A baby was born, and I was so glad, and I forgot him.  
+**Rabbi Loew**: Come. The Sabbath does not wait, and neither should we.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): owning up to a mistake  
 > _The rabbi made a mistake, and he said so._  
@@ -927,7 +938,6 @@ _The rabbi stands beside it, out of breath, with his hand on the clay._
 > - Hide it → Hiding makes it harder. Saying so and fixing it is braver.
 > _For grown-ups: Talked about owning up to a mistake and putting it right._
 
-**Rabbi Loew**: Come. The Sabbath does not wait, and neither should we.  
 
 #### `sprout:a30-10-grow-safe` · [main](main.md#a30-10-grow-safe)
 
@@ -1037,6 +1047,7 @@ _At Avram’s house the candles are lit, and the table has a white cloth._
 _Hannah’s plaited loaf sits under its cover. Avram says the blessings._  
 **Shmuel**: Is Yossele all right?  
 **Dvora**: Tomorrow night we will talk about Yossele. Tonight is the Sabbath, and we rest.  
+_Shmuel thinks about this, and nods, and eats his bread._  
 
 > **Lesson** (social-studies, D2.His.2.K-2, ask): the Sabbath as a day of rest  
 > _Dvora says that on the Sabbath, we rest even from worrying._  
@@ -1045,7 +1056,8 @@ _Hannah’s plaited loaf sits under its cover. Avram says the blessings._
 > - A day of work → No work on the Sabbath! It is a day of rest.
 > _For grown-ups: Reinforced that the Sabbath is a day of rest and being together._
 
-_Shmuel thinks about this, and nods, and eats his bread._  
+_Beside the loaf is one small burnt crust, for your Nubbin._  
+_Your Nubbin looks at it with great hope._  
 
 **Choices**
 
@@ -1119,6 +1131,9 @@ _So you sit down next to it, and wait._
 _Near midnight the rabbi comes out with a blanket._  
 _He sits down on the other side of your Nubbin._  
 **Rabbi Loew**: I thought there would be someone here. I hoped so.  
+_Your Nubbin’s ears droop._  
+_The three of you sit a long time._  
+_Then your Nubbin gets up, and lets you take it home._  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): what helps a sad friend  
 > _Your Nubbin feels sad. What helps a sad friend?_  
@@ -1126,8 +1141,6 @@ _He sits down on the other side of your Nubbin._
 > - Tell them to hurry up → Hurrying does not help. Sitting beside them does.
 > _For grown-ups: Talked about sitting with a sad friend as a way to help._
 
-_The three of you sit a long time._  
-_Then your Nubbin gets up, and lets you take it home._  
 
 #### `sprout:a30-12-complete` · [main](main.md#a30-12-complete)
 
@@ -1284,6 +1297,7 @@ _Variant of `a30-13-complete`._
 _Variant of `a30-13-complete`._
 
 _The rabbi looks at your pocket, where the stone is._  
+_Your pocket has a small grey stone in it. It hums._  
 **Rabbi Loew**: You carry something heavy for its size. What is it?  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): private things and secrets that worry us  
@@ -1391,7 +1405,7 @@ _Moss comes in from the step, and stops beside it._
 > - The left → English starts on the left. Hebrew starts on the right.
 > _For grown-ups: Remembered that Hebrew is read from right to left._
 
-**Moss**: Cinder would have liked him. That is the trouble with her.  
+**Moss**: Cinder would have liked him. She loved too hard, and that made trouble.  
 _Your Nubbin puts its little lantern down beside the tile._  
 
 #### `sprout:a30-grove-tile-quiet` · [main](main.md#a30-grove-tile-quiet)

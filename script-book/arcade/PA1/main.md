@@ -38,6 +38,18 @@ _Your Nubbin presses its face to the sleeve and goes very still._
 _Pixel blows the dust off the cartridge in one long puff and wipes the contacts on her sleeve._  
 **Pixel**: Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.  
 
+#### <a id="pa1-01-shed-done-clank"></a>Variant `pa1-01-shed-done-clank`
+
+_Variant of `pa1-01-shed-done`._
+
+_Pixel blows the dust off the cartridge in one long puff and wipes the contacts on her sleeve._  
+**Pixel**: Clean contacts, happy cartridge. Everyone knows that. Nobody knows why.  
+_Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen._  
+**Clank** _(happy)_: Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.  
+**Pixel**: I said lookouts sit still.  
+**Clank**: I am sitting very still. Look how still. This is the stillest I have ever been.  
+_His legs go on swinging. Every few seconds one heel bonks the screen._  
+
 ### Step 2: Slot the cartridge into the cabinet and step through.
 
 Hint: Push the cartridge into the slot under the screen, then step up onto the footplate. · check: `place:pa1-cartridge:cabinet`
@@ -68,22 +80,12 @@ _There’s a pool, a palm tree, a path of stepping stones. Somewhere, a fountain
 **Pixel** _(happy)_: You’re in! You’re in. Your hair’s gone a bit square at the edges. It suits you.  
 _Your Nubbin rolls off your arm and lands sitting up, already staring at something past your knee._  
 
-#### <a id="pa1-01-clank"></a>Variant `pa1-01-clank`
-
-_Variant within PA1-1; it has no single parent scene._
-
-_Clank is sitting on top of the cabinet with his legs dangling over the edge of the screen._  
-**Clank** _(happy)_: Announcement: I am the lookout. Pixel said lookouts sit on top. I am on top.  
-**Pixel**: I said lookouts sit still.  
-**Clank**: I am sitting very still. Look how still. This is the stillest I have ever been.  
-_His legs go on swinging. Every few seconds one heel bonks the screen._  
-
 **Rewards**
 
 
 Sets on completion: `{"pa1-01":true}`
 
-**Notes:** FRAME: the cabinet stands in the lantern shed from the moment Pixel’s Arcade unlocks (after chapter 5). Pixel never enters a cartridge: every Pixel line in PA1 is through the speaker (tinny filter, a small speaker badge on her portrait). Stepping through: a two-second pixel-dissolve; inside, the Keeper and Nubbin get a faint square edge, the cartridge’s own look. CLANK (s21Done): play PA1_VARIANTS pa1-01-clank straight after pa1-01-shed-done; from then on Clank is drawn sitting on top of the cabinet in every PA1 frame scene. The cartridge has its own save (canon 29).
+**Notes:** FRAME: the cabinet stands in the lantern shed from the moment Pixel’s Arcade unlocks (after chapter 5). Pixel never enters a cartridge: every Pixel line in PA1 is through the speaker (tinny filter, a small speaker badge on her portrait). Stepping through: a two-second pixel-dissolve; inside, the Keeper and Nubbin get a faint square edge, the cartridge’s own look. CLANK (s21Done): play PA1_VARIANTS pa1-01-shed-done-clank in place of pa1-01-shed-done; from then on Clank is drawn sitting on top of the cabinet in every PA1 frame scene. The cartridge has its own save (canon 29).
 
 ## PA1-2. A Garden Like Ours
 
@@ -330,6 +332,7 @@ Hint: It’s one of the seven on the bench. Your Nubbin may already know which. 
 _The bench has seven silver things on it. All of them are spanners._  
 **Tails**: The other silver one.  
 _Your Nubbin climbs onto the bench, picks one up in both arms, and stands there beaming._  
+**Pixel**: Tails has seven spanners and knows every one. Byte has one spanner and a theory.  
 **Pixel**: Tell him it’s a ten. It looks like a ten. Through the screen, everything looks like a ten.  
 **Tails** _(think)_: Nearly there. If I’m reading this right, the Emerald’s giving off a signal, and something’s following it.  
 
@@ -677,6 +680,8 @@ _Something small and green climbs out of the water and sits on your Nubbin’s f
 **Big** _(happy)_: FROGGY!  
 _Froggy jumps from your Nubbin’s foot straight back into the river. Big is still beaming._  
 **Big**: He’s all right. He’s just being silly. I’ll find him. I always find him.  
+**Pixel** _(happy)_: Froggy! Brilliant! Hang on. My tea’s gone cold. I made it before the dragonflies.  
+**Pixel**: Don’t tell Big. He looks so happy about the waiting.  
 
 ### Complete
 
@@ -770,7 +775,7 @@ Sets on completion: `{"pa1-10":true}`
 
 *Sonic Adventure (Sonic Team, Sega, 1998): the Egg Carrier and its Chao Garden* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-10, from Pixel’s cabinet. · requires: PA1-10
 
-**Cast:** Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998))
+**Cast:** Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998)), Clank (Claptrap, the CL4P-TP unit (Borderlands), reference only)
 
 ### Step 1: Board the Egg Carrier with Sonic and Tails.
 
@@ -783,6 +788,7 @@ _Back in the present, the sky over Station Square is full of a shape: a flying f
 **Sonic**: In, find Amy, out. Easy. You two coming? Stay close, and don’t press any red buttons.  
 _Tails’s plane drops you on the deck in a roar of wind. Sonic is gone the moment his feet touch metal._  
 **Pixel** _(shock)_: Okay. A flying fortress. Brilliant. I love that. I hate that. Both.  
+**Pixel**: Also, Tails is right there. Two tails. Still not asking. I’m a professional.  
 _Klaxons, corridors, and signs that all say EGG something. Your Nubbin stays tucked inside your jacket._  
 
 #### <a id="pa1-11-board-done"></a>Done `pa1-11-board-done`
@@ -813,6 +819,16 @@ _You pick up two Chao. Your Nubbin, without being told, gets three more to follo
 
 _The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it._  
 **Pixel** _(happy)_: I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.  
+
+#### <a id="pa1-11-garden-done-clank"></a>Variant `pa1-11-garden-done-clank`
+
+_Variant of `pa1-11-garden-done`._
+
+_The last Chao is in the last lifeboat. You pull the lever, and it drops away under a parachute with Eggman’s face on it._  
+**Pixel** _(happy)_: I can’t believe the parachutes have his face on them. No, I can. I can’t. I can.  
+**Clank** _(happy)_: Announcement: that parachute has a FACE on it. I would like a parachute with MY face on it.  
+**Pixel**: It’s the villain’s face, Clank.  
+**Clank**: Then I would like a very small villain.  
 
 ### Step 3: Keep back by the hatch while Sonic faces Chaos.
 
@@ -845,7 +861,7 @@ _Your Nubbin waves at them with both arms until the last one is out of sight._
 
 Sets on completion: `{"pa1-11":true}`
 
-**Notes:** Chaos 4 and Chaos 6 are folded into one growth here (“Four Emeralds”). The lifeboat carry is a short escort: one trip on screen, the rest narrated in the choice. The Egg Carrier’s Chao land safely by parachute; the Grove never sees them again (they are this world’s).
+**Notes:** Chaos 4 and Chaos 6 are folded into one growth here (“Four Emeralds”). The lifeboat carry is a short escort: one trip on screen, the rest narrated in the choice. The Egg Carrier’s Chao land safely by parachute; the Grove never sees them again (they are this world’s). CLANK (s21Done): play PA1_VARIANTS pa1-11-garden-done-clank in place of pa1-11-garden-done.
 
 ## PA1-12. Gamma
 
@@ -1069,7 +1085,7 @@ _He goes anyway, very fast, out into the rain._
 #### <a id="pa1-14-complete"></a>Complete `pa1-14-complete`
 
 **Pixel**: Keeper. I’ve got something to say, and it’s probably nothing.  
-**Pixel** _(think)_: Back home. The old story, about the fierce one who loved them too hard.  
+**Pixel** _(think)_: Back home. Cinder. The old story, about the fierce one who loved the little ones too hard.  
 **Pixel** _(soft)_: It’s probably nothing. It just feels like the same shape.  
 _Your Nubbin looks up at the painted water-shape for a long time before it will come away._  
 
@@ -1148,7 +1164,7 @@ Sets on completion: `{"pa1-15":true}`
 
 *Sonic Adventure (Sonic Team, Sega, 1998): the drained Emeralds and Super Sonic* · audience: all · where: Pixel’s arcade cabinet, the lantern shed: The Chao Altar (Pixel’s Arcade) · when: Any time after PA1-15, from Pixel’s cabinet. · requires: PA1-15
 
-**Cast:** Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998)), Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998)), Big (Big the Cat (Sonic Adventure, Sega, 1998))
+**Cast:** Sonic (Sonic the Hedgehog (Sonic Adventure, Sega, 1998)), Knuckles (Knuckles the Echidna (Sonic Adventure, Sega, 1998)), Tails (Miles “Tails” Prower (Sonic Adventure, Sega, 1998)), Amy (Amy Rose (Sonic Adventure, Sega, 1998)), Big (Big the Cat (Sonic Adventure, Sega, 1998)), Dr. Eggman (Dr. Eggman, Dr. Ivo Robotnik (Sonic Adventure, Sega, 1998))
 
 ### Step 1: Watch Sonic’s friends bring him the Emeralds.
 
@@ -1160,7 +1176,9 @@ _Sonic lands on your roof, soaked and, for once, out of breath. He stares at the
 **Sonic** _(shock)_: Okay. That’s big. That’s really, really big.  
 _One by one they come: Tails in his plane, Knuckles up the drainpipe, Amy with the blue bird. Big, with Froggy back in his hat._  
 _Each of them is holding an Emerald. All seven, dull now and grey-green, with the light drained out of them._  
-**Knuckles** _(angry)_: Chaos used them up. They’re empty.  
+**Knuckles** _(angry)_: Chaos used them up. They’re empty. And nobody lick one to check.  
+_Your Nubbin puts its tongue back in._  
+**Knuckles**: I saw that.  
 **Tails** _(think)_: Not empty. Not all the way.  
 **Tails**: Chaos took the bad side of them, the anger, all that grief. But there’s still something left in them. The good.  
 **Tails**: Use what’s left, Sonic. Use the good.  
@@ -1200,6 +1218,9 @@ _Then the water goes down all at once, the way a bath drains when someone pulls 
 #### <a id="pa1-16-complete"></a>Complete `pa1-16-complete`
 
 _The sea pulls back out of the streets. Cars, benches and lamp posts come up out of it, dripping and surprised._  
+_Far out in the bay, something round bobs under a parachute with its own face on it._  
+**Dr. Eggman** _(angry)_: I’m fine! Nobody asked, but I’m FINE!  
+**Pixel**: Nobody asked.  
 _In the middle of the square, in a puddle no bigger than a pond, something small is left._  
 **Pixel** _(think)_: Is that…?  
 
@@ -1353,6 +1374,8 @@ _She lifts a crown of small pink and white flowers from her own hair and sets it
 _Then she takes Chaos’s hand again. The two of them turn to light together, pink and green, and rise, and the Chao wave until they’re gone._  
 _The world folds up gently round you, like a letter, and you are standing in the lantern shed with your Nubbin under your arm._  
 **Pixel** _(shock)_: You’re back! You’ve got flowers in your hair. They came out with you. How did they come out with you?  
+**Pixel**: And your hair’s round again. I’ll be honest. I miss the square.  
+**Pixel**: I never did ask about the tails. Ruling: some things stay a mystery. Two of them.  
 _On the side of the cabinet, where the dent was, a small brass plate has appeared, blank, waiting for a name._  
 **Pixel** _(happy)_: A high-score plate. For High Score Night. When we’ve done another cartridge, we’ll do it properly.  
 

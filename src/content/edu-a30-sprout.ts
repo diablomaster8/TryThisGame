@@ -269,13 +269,15 @@ const A1: EduQuest = quest(
       [
         N('Rivka walks backwards the whole way, so she can talk to you.'),
         RI('That is the study house. That is Hannah’s bakery. Do not look, you will want it!'),
+        N('Your Nubbin looks.'),
+        N('Your Nubbin wants it.'),
         RI('Worn-out books are put to rest in the attic, not thrown away.'),
         N('At the well you fill two buckets. Your Nubbin fills one little cup.'),
         N('Plop! Plop! The water splashes and sparkles.'),
       ],
       [
         ask(
-          3,
+          5,
           'maths',
           'counting up to 3',
           'K.OA.A.1',
@@ -321,11 +323,13 @@ const A1: EduQuest = quest(
         HA('Is this one yours? It has not moved since you came.'),
         N('Behind Hannah, plaited loaves stand in rows, waiting for Friday.'),
         HA('Those are for the Sabbath. This is a crust I burnt. It is for you.'),
+        RI('She burns one every day!'),
+        HA('Shh!'),
         N('Your Nubbin holds the crust in both paws, as if it were a medal.'),
       ],
       [
         ask(
-          3,
+          5,
           'science',
           'baking cannot be undone',
           '2-PS1-4',
@@ -403,7 +407,7 @@ const A2: EduQuest = quest(
           'D2.His.2.K-2',
           [N('In the study house, students learn in pairs and talk it out. How do they learn?')],
           [
-            o('Together, with a partner', [N('Yes! Two heads think better than one.')], true),
+            o('Together, with a partner', [N('Yes! Two people spot more than one.')], true),
             o('All alone and silent', [N('Not here! In this study house everyone talks.')]),
           ],
           'Compared how students learned in the past (talking in pairs) with today.',
@@ -1065,6 +1069,9 @@ const A7: EduQuest = quest(
         N('He never speaks, and he never gets tired.'),
         AV('Told to sweep the step, he sweeps the step. Only the step!', 'happy'),
         N('Everywhere he goes, your Nubbin goes too, one step behind.'),
+        N('Your Nubbin sweeps too. It uses a feather.'),
+        N('The step is now a little dirtier.'),
+        AV('Only the step! He never does the next step. Neither does the little one.'),
       ],
       [
         ask(
@@ -1096,16 +1103,17 @@ const A7: EduQuest = quest(
       [
         DV('Yossele, fill the barrel for me, there is a dear.'),
         N('He fills the barrel. Then he fills it again, because nobody said stop.'),
+        N('The barrel holds three buckets. He pours in five.'),
         N('Water runs over the rim, across the kitchen, and out into the lane.'),
         N('You bail with a pan. Your Nubbin bails with its cheeks, which does not help at all.'),
         N('A hen floats past on a cabbage. Your Nubbin climbs into the bread trough and sails.'),
         DV('Yossele! That is enough!', 'shock'),
-        N('He does not stop. She is not the one who made him.'),
+        N('He does not stop. He only stops for the rabbi, and the rabbi is not here.'),
         N('Then the rabbi says, “Stop,” and Yossele puts the bucket down.'),
       ],
       [
         ask(
-          5,
+          8,
           'maths',
           'taking away',
           'K.OA.A.2',
@@ -1295,7 +1303,7 @@ const A8: EduQuest = quest(
       'a30-08-complete',
       [
         N('By breakfast, everybody says they slept well.'),
-        AV('I slept like a stone! I dreamt about keys.', 'happy'),
+        AV('I slept so well! I dreamt about keys.', 'happy'),
         LO('He did not have to do anything. That is the best kind of guard.', 'soft'),
         N('Avram gives you a small lantern with a horn window. Your Nubbin will not give it back.'),
       ],
@@ -1375,7 +1383,7 @@ const A9: EduQuest = quest(
       ],
       [
         ask(
-          4,
+          6,
           'literacy',
           'recognising alef, the first letter',
           'ELOF: Literacy',
@@ -1592,7 +1600,7 @@ const A10: EduQuest = quest(
       ],
       [
         ask(
-          2,
+          3,
           'sel',
           'owning up to a mistake',
           'CASEL: Responsible decision-making',
@@ -1653,10 +1661,11 @@ const A11: EduQuest = quest(
           'soft',
         ),
         N('Shmuel thinks about this, and nods, and eats his bread.'),
+        N('Beside the loaf is one small burnt crust, for your Nubbin. Your Nubbin looks at it with great hope.'),
       ],
       [
         ask(
-          3,
+          4,
           'social-studies',
           'the Sabbath as a day of rest',
           'D2.His.2.K-2',
@@ -1793,11 +1802,12 @@ const A12: EduQuest = quest(
         N('Near midnight the rabbi comes out with a blanket.'),
         N('He sits down on the other side of your Nubbin.'),
         LO('I thought there would be someone here. I hoped so.', 'soft'),
+        N('Your Nubbin’s ears droop.'),
         N('The three of you sit a long time. Then your Nubbin gets up, and lets you take it home.'),
       ],
       [
         ask(
-          2,
+          4,
           'sel',
           'what helps a sad friend',
           'CASEL: Relationship skills',
@@ -1987,7 +1997,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     'a30-09-order-safe',
     [
       N('Yossele stands in the doorway, one arm across it like a gate.'),
-      N('Shmuel and Mirele want to go out to see the bread. He will not let them.'),
+      N('Shmuel and his little sister Mirele want to go out to see the bread. He will not let them.'),
       SH('He will not let us out! We only want to see the bread!', 'angry'),
       N('Gently, he lifts them back in, every time.'),
       DV('He does that at every door, all afternoon. They are very safe.', 'think'),
@@ -2035,7 +2045,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     'a30-09-order-sit',
     [
       N('Yossele sits on the caretaker’s step, as long as the step.'),
-      N('Shmuel is on one knee, and Mirele is on the other. Rivka leans on his arm.'),
+      N('Shmuel is on one knee. Mirele, the littlest, is on the other. Rivka leans on his arm.'),
       N('Your Nubbin is asleep in his lap, with its paws in the air.'),
       MI('He does not talk. But he listens properly!', 'happy'),
     ],
@@ -2283,11 +2293,12 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     'a30-13-kept',
     [
       N('The rabbi looks at your pocket, where the stone is.'),
+      N('Your pocket has a small grey stone in it. It hums.'),
       LO('You carry something heavy for its size. What is it?'),
     ],
     [
       ask(
-        1,
+        2,
         'sel',
         'private things and secrets that worry us',
         'CASEL: Responsible decision-making',
@@ -2400,7 +2411,7 @@ export const EDU_A30_SPROUT_VARIANTS: EduScene[] = [
     [
       N('You set the clay tile on the cottage hearth, beside Hazel’s old clay tablets.'),
       N('Moss comes in from the step, and stops beside it.'),
-      M('Cinder would have liked him. That is the trouble with her.', 'soft'),
+      M('Cinder would have liked him. She loved too hard, and that made trouble.', 'soft'),
       N('Your Nubbin puts its little lantern down beside the tile.'),
     ],
     [

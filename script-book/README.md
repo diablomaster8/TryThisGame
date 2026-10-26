@@ -133,16 +133,16 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Atlas, page A27: The White-Haired Prince | [main.md](atlas/A27/main.md) (1706) | [sprout.md](atlas/A27/sprout.md) (2211) | [reader.md](atlas/A27/reader.md) (2558) |
 | Atlas, page A28: The Box of Stories | [main.md](atlas/A28/main.md) (1258) | [sprout.md](atlas/A28/sprout.md) (1750) | [reader.md](atlas/A28/reader.md) (1927) |
 | Atlas, page A29: The Honmoon | [main.md](atlas/A29/main.md) (1415) |  | [reader.md](atlas/A29/reader.md) (2087) |
-| Atlas, page A30: The Word on the Brow | [main.md](atlas/A30/main.md) (1096) | [sprout.md](atlas/A30/sprout.md) (1410) | [reader.md](atlas/A30/reader.md) (1466) |
-| Atlas, page A31: The Hero Twins | [main.md](atlas/A31/main.md) (1643) | [sprout.md](atlas/A31/sprout.md) (1879) | [reader.md](atlas/A31/reader.md) (1944) |
+| Atlas, page A30: The Word on the Brow | [main.md](atlas/A30/main.md) (1096) | [sprout.md](atlas/A30/sprout.md) (1424) | [reader.md](atlas/A30/reader.md) (1466) |
+| Atlas, page A31: The Hero Twins | [main.md](atlas/A31/main.md) (1665) | [sprout.md](atlas/A31/sprout.md) (1889) | [reader.md](atlas/A31/reader.md) (1938) |
 
 ## Pixel's Arcade
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| Pixel's Arcade, cartridge PA1: The Chao Altar | [main.md](arcade/PA1/main.md) (1427) | [sprout.md](arcade/PA1/sprout.md) (1851) | [reader.md](arcade/PA1/reader.md) (2022) |
-| Pixel's Arcade, cartridge PA2: The Clone Island | [main.md](arcade/PA2/main.md) (1490) |  |  |
-| Pixel's Arcade, cartridge PA3: The Hollow Kingdom | [main.md](arcade/PA3/main.md) (1502) |  |  |
+| Pixel's Arcade, cartridge PA1: The Chao Altar | [main.md](arcade/PA1/main.md) (1450) | [sprout.md](arcade/PA1/sprout.md) (1826) | [reader.md](arcade/PA1/reader.md) (2045) |
+| Pixel's Arcade, cartridge PA2: The Clone Island | [main.md](arcade/PA2/main.md) (1523) |  |  |
+| Pixel's Arcade, cartridge PA3: The Hollow Kingdom | [main.md](arcade/PA3/main.md) (1574) |  |  |
 | Pixel's Arcade, cartridge PA4: Mercy | [main.md](arcade/PA4/main.md) (1641) |  |  |
 | Pixel's Arcade, cartridge PA5: The Hundred-Year Sleep | [main.md](arcade/PA5/main.md) (1501) |  |  |
 

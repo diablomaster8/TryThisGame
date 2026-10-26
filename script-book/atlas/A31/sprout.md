@@ -378,13 +378,13 @@ _Xquic sits on the earth with the empty net. Your Nubbin sits too._
 _She asks for help, softly, the way you ask friends for a favour._  
 _She lays the silk of the ear in the net. The net is full!_  
 
-> **Lesson** (science, 3-LS1-1, notice): a seed grows into a plant, and a plant makes new seeds  
+> **Lesson** (science, K-LS1-1, notice): a seed grows into a plant, and a plant makes new seeds  
 > **Grandmother**: One corn seed grows into one corn plant.  
 > **Grandmother**: One plant makes ears. One ear has lots of kernels.  
 > **Grandmother**: Each kernel is a seed. It can grow into a new plant!  
 > _For grown-ups: Learned that a corn seed grows into a plant that makes ears full of new seeds._
 
-**Grandmother**: Full from one ear! Hold on to that.  
+**Grandmother**: Full from one ear! Remember that.  
 
 **Choices**
 
@@ -398,8 +398,10 @@ _She lays the silk of the ear in the net. The net is full!_
 
 _The net is heavy. You take one end._  
 _Xquic takes the other._  
-_Your Nubbin rides in the middle._  
+_Your Nubbin rides in the middle. It does not carry anything._  
+_It supervises._  
 **Xquic**: The older brothers will not help. They only play flutes.  
+**Xquic**: Some helpers only watch. Like that one.  
 
 > **Lesson** (maths, K.MD.A.2, ask): compare: which is heavier  
 > _The net is full of corn._  
@@ -448,6 +450,8 @@ _They are loud from the first minute._
 **Grandmother**: The twins grew up outside, with blowguns. And very cheeky!  
 _Years pass in one breath. Two boys come down the hill._  
 **Hunahpu**: Hello! A guest, and a guest’s guest!  
+**Grandmother**: This Hunahpu is a twin. His father was Hun Hunahpu, the ballplayer.  
+**Grandmother**: Same name, with a bit on the front.  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds  
 > _Hunahpu starts with “h”. (Say it: h, h, Hunahpu.)_  
@@ -499,7 +503,7 @@ _The brothers swing off into the trees as monkeys._
 **Hunahpu**: Do not laugh when you see them, Grandmother.  
 _They swing back, with long arms and curly tails and very serious faces._  
 
-> **Lesson** (science, 4-LS1-1, notice): monkeys use arms and tails to swing and hold on  
+> **Lesson** (science, K-LS1-1, notice): monkeys use arms and tails to swing and hold on  
 > **Grandmother**: Monkeys swing with their long arms.  
 > **Grandmother**: In Guatemala, spider monkeys use their tails like a fifth hand!  
 > _For grown-ups: Learned that monkeys’ arms and tails help them climb, and spider monkeys grip with their tails._
@@ -543,7 +547,7 @@ _The sky has no sun yet. Only a big, shining bird._
 **Grandmother**: He was not the sun. He was just shiny.  
 **Xbalanque**: The sun would be warm. He is not warm.  
 
-> **Lesson** (science, 4-LS1-1, notice): birds have no teeth; they have beaks  
+> **Lesson** (science, K-LS1-1, notice): birds have no teeth; they have beaks  
 > **Grandmother**: Real birds have no teeth! They have a beak instead.  
 > **Grandmother**: Seven Macaw’s jewel teeth are only in the story.  
 > _For grown-ups: Learned that real birds have beaks and no teeth._
@@ -812,8 +816,12 @@ _The rat watches from the wall, eating._
 _The owls come to Xmucane’s door with the lords’ message._  
 **Xmucane**: Go and tell my grandsons, little louse. Quickly!  
 _The louse is not quick. A toad gives it a lift, inside its mouth._  
+**Louse**: Thank you. It is a bit wet in here.  
 _Then a snake gives the toad a lift._  
 _Then a falcon gives the snake a lift._  
+_At the ballcourt, out pops the snake. Then the toad._  
+**Toad**: The louse is fine. It is just a bit stuck.  
+**Louse**: Your grandmother says come home. The lords say come down.  
 
 > **Lesson** (literacy, RL.K.3, ask): what happens first, next, last  
 > _The louse rode in the toad. The toad rode in the snake._  
@@ -822,9 +830,6 @@ _Then a falcon gives the snake a lift._
 > - The toad → The toad gave the first lift. The falcon gave the last.
 > _For grown-ups: Followed the order of events in a story: first, next, last._
 
-_At the ballcourt, out pops the snake. Then the toad._  
-**Toad**: The louse is fine. It is just a bit stuck.  
-**Louse**: Your grandmother says come home. The lords say come down.  
 
 **Choices**
 
@@ -991,7 +996,7 @@ _Xmucane laughs once, out loud. Then she covers her mouth._
 **Grandmother**: Every lord by name. No bowing to the wood.  
 **Grandmother**: No sitting on the hot bench.  
 **Granddaughter**: Because of a mosquito!  
-**Grandmother**: Small help is never small.  
+**Grandmother**: A small helper can do a big job.  
 _The mosquito finds your Nubbin. It lands on its crown and bows._  
 _The mosquito bows: one, two, three times!_  
 
@@ -1013,7 +1018,10 @@ _The lords send the twins to the Dark House._
 _They get a torch and two little candles._  
 **Lords of Xibalba**: Keep them lit all night. Give them back whole in the morning.  
 _It is as dark as a cupboard with the door shut._  
-**Hunahpu**: So we do not light them.  
+**Hunahpu**: So we do not light them. We make them LOOK lit.  
+**Xbalanque**: Sneaky.  
+**Hunahpu**: Clever. It is different.  
+**Hunahpu**: A bit.  
 _Hunahpu ties a red feather on the torch._  
 _In the dark, it looks like a flame!_  
 _Xbalanque puts a firefly on each candle. They glow on, off, on._  
@@ -1066,6 +1074,7 @@ _The corn stays green. All night, both ears, green._
 _In the morning they give back the torch and the candles._  
 _Not burnt at all._  
 **One Death**: How?  
+**Hunahpu**: Good morning!  
 
 > **Lesson** (literacy, RL.2.3, ask): how characters feel at what happens  
 > _How does the lord feel when he gets the candles back?_  
@@ -1073,7 +1082,6 @@ _Not burnt at all._
 > - Sleepy → He says “How?” His mouth falls open. He is surprised.
 > _For grown-ups: Worked out how a character feels from what he says and does._
 
-**Hunahpu**: Good morning!  
 
 #### `sprout:a31-12-dark-done-stay` · [main](main.md#a31-12-dark-done-stay)
 
@@ -1152,7 +1160,7 @@ _Every time you come in, you look at the corn first._
 
 **Grandmother**: And on the mountain, the corn stayed green the whole time.  
 **Granddaughter**: Because they were safe!  
-**Grandmother**: Because they were clever. Safe came with it.  
+**Grandmother**: Because they were clever. Being clever kept them safe.  
 
 ## A31-13. The Bat House
 
@@ -1168,7 +1176,7 @@ _You squeeze under a bench with your Nubbin._
 **Xbalanque**: Do not peek!  
 _Whoosh! A bat swoops and snatches Hunahpu’s hat._  
 
-> **Lesson** (science, 4-LS1-2, notice): many bats squeak and listen for echoes to find their way in the dark  
+> **Lesson** (science, K-LS1-1, notice): many bats squeak and listen for echoes to find their way in the dark  
 > **Grandmother**: Bats fly at night.  
 > **Grandmother**: Many bats squeak, and listen for the echoes. That helps them find their way.  
 > _For grown-ups: Learned that many bats use squeaks and echoes to find their way at night._
@@ -1247,7 +1255,7 @@ _Seeds everywhere._
 
 _Variant of `a31-13-game`._
 
-_The falcon comes at noon with its feathers every which way._  
+_The falcon comes at noon with its feathers all messy._  
 **Falcon**: A bat took Hunahpu’s hat! Then a coati brought a squash!  
 **Falcon**: And a rabbit ran off with the ball, and everyone chased it.  
 **Falcon**: Everything is back where it belongs.  
@@ -1304,7 +1312,7 @@ _Variant of `a31-13-rat-coati`._
 **Falcon**: And a rat fetched the coati.  
 **Falcon**: Somebody shared lunch with it once, and it does not forget.  
 
-> **Lesson** (science, 4-LS1-1, notice): coatis have long ringed tails and long noses for sniffing out food  
+> **Lesson** (science, K-LS1-1, notice): coatis have long ringed tails and long noses for sniffing out food  
 > **Grandmother**: A coati is a real animal of the forest.  
 > **Grandmother**: It has a long, stripy tail, and a long nose for sniffing out food.  
 > _For grown-ups: Learned that coatis have long noses for finding food and a long ringed tail._
@@ -1330,9 +1338,9 @@ _The lords chase it twice as far. That gives Xbalanque twice as long._
 _Variant of `a31-13-rat-court`._
 
 **Falcon**: Oh, and a rat. It rode down in Hunahpu’s pocket.  
-**Falcon**: It ran rings round the lords, shouting about cheese.  
+**Falcon**: It ran round and round the lords, shouting about cheese.  
 
-> **Lesson** (science, 4-LS1-2, notice): rats have whiskers to feel their way in the dark  
+> **Lesson** (science, K-LS1-1, notice): rats have whiskers to feel their way in the dark  
 > **Grandmother**: Rats have whiskers on their faces.  
 > **Grandmother**: Whiskers help a rat feel its way in the dark.  
 > _For grown-ups: Learned that whiskers help rats feel their way in the dark._
@@ -1453,7 +1461,7 @@ _Both ears, green._
 
 **Grandmother**: Five days. Their grandmother counted every one.  
 
-> **Lesson** (science, 4-LS1-2, notice): catfish feel and taste with whiskers called barbels  
+> **Lesson** (science, K-LS1-1, notice): catfish feel and taste with whiskers called barbels  
 > **Grandmother**: Catfish have whiskers. They are called barbels.  
 > **Grandmother**: A catfish feels and tastes with them, even in muddy water.  
 > _For grown-ups: Learned that catfish use whiskers to feel and taste._
@@ -1523,20 +1531,23 @@ _The falcon lands and looks pleased with itself._
 **Hunahpu**: Are you sure?  
 _Xbalanque takes the rope from your Nubbin. He lets the curtain down gently._  
 _When it goes up again, the lords’ seats are empty._  
-_They have gone, and will not bother anyone again._  
+_The two big lords are gone. The twins do not bring them back._  
+**Grandmother**: They died. That is sad, even for unkind lords.  
+**Grandmother**: The other lords were not hurt.  
 **Hunahpu**: I am Hunahpu. This is my brother Xbalanque.  
 **Hunahpu**: Our father is Hun Hunahpu.  
 _Everyone in Xibalba kneels and begs._  
 **Lords of Xibalba**: Mercy. Please.  
+**Xbalanque**: You can have mercy. Not greatness.  
+**Xbalanque**: Not any more.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): forgiving someone who says sorry  
-> _Someone says sorry and means it. What can you do?_  
+> _The other lords say sorry. The twins let them stay, with jobs._  
+> _What can you do when someone says sorry?_  
 > - ✅ Say it is okay, and try again together → Yes. Forgiving, and trying again, is kind and wise.
 > - Be mean back → Being mean back keeps the trouble going. Forgiving and trying again is better.
 > _For grown-ups: Talked about forgiving someone who says sorry._
 
-**Xbalanque**: You can have mercy. Not greatness.  
-**Xbalanque**: Not any more.  
 
 **Choices**
 
@@ -1575,8 +1586,7 @@ _Outside, the wind goes over the corn on the hill._
 
 #### `sprout:a31-15-complete` · [main](main.md#a31-15-complete)
 
-**Grandmother**: From that day, the lords of Xibalba were small. Not gone from the story.  
-**Grandmother**: Small.  
+**Grandmother**: From that day, the other lords of Xibalba were small. Small, not gone.  
 **Grandmother**: After that, the lords had no more ball games.  
 **Grandmother**: They had jobs to do, like everyone else.  
 
@@ -1837,7 +1847,7 @@ _A black rubber ball is on the floor. Your Nubbin sits on it._
 _Caught in the atlas spine is an ear of corn, still green._  
 _It is soft, and it smells like a field after rain._  
 
-> **Lesson** (science, 3-LS1-1, notice): green corn is still growing; later it turns golden and dry, and its seeds can grow again  
+> **Lesson** (science, K-LS1-1, notice): green corn is still growing; later it turns golden and dry, and its seeds can grow again  
 > **Grandmother**: Green corn is still growing.  
 > **Grandmother**: Later it turns golden and dry. Its seeds can grow into new plants!  
 > _For grown-ups: Learned that green corn is still growing and that its dry seeds can grow into new plants._

@@ -217,16 +217,16 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `atlas/A29/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 0 |
 | `atlas/A29/reader.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 0 |
 | `atlas/A30/main.md` | [review-2026-10-25-2](review-2026-10-25-2.md) | 0 |
-| `atlas/A30/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 9 |
-| `atlas/A30/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 8 |
-| `atlas/A31/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 9 |
-| `atlas/A31/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 8 |
-| `atlas/A31/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 8 |
-| `arcade/PA1/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 8 |
-| `arcade/PA1/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 10 |
-| `arcade/PA1/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 9 |
-| `arcade/PA2/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 7 |
-| `arcade/PA3/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 8 |
+| `atlas/A30/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `atlas/A30/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `atlas/A31/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `atlas/A31/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `atlas/A31/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `arcade/PA1/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `arcade/PA1/sprout.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `arcade/PA1/reader.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `arcade/PA2/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
+| `arcade/PA3/main.md` | [review-2026-10-25-3](review-2026-10-25-3.md) | 0 |
 | `arcade/PA4/main.md` | never | 0 |
 | `arcade/PA5/main.md` | never | 0 |
 | `lines/LB/main.md` | never | 0 |
@@ -1129,63 +1129,63 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261025-875 | atlas/A26/reader.md, atlas/A28/reader.md, atlas/A29/reader.md | cross-story | High | child-read | Lessons that ask for facts the scene never says: put each fact into the story | fixed | 2026-10-25-2 |
 | SR-20261025-876 | atlas/A29/reader.md, atlas/A28/reader.md, atlas/A27/sprout.md | cross-story | Medium | child-read | 26 lesson replies run over the band cap (A29 reader 22, A28 reader 3, A27 sprout 1); cut each to one fact and one reason | fixed | 2026-10-25-2 |
 | SR-20261025-877 | atlas/A27/reader.md, atlas/A28/sprout.md, atlas/A26/reader.md | cross-story | Medium | follow | Names used before the story introduces them | fixed | 2026-10-25-2 |
-| SR-20261025-878 | arcade/PA1/sprout.md | pa1-16-friends | Critical | child-read | The "count Sonic's friends" lesson wants five, but the scene names four | open | 2026-10-25-3 |
-| SR-20261025-879 | arcade/PA3/main.md | pa3-03-promise | High | continuity | The grub sums don't add up: the freed grub is one of the twelve, so 34 are left for somebody else | open | 2026-10-25-3 |
-| SR-20261025-880 | arcade/PA3/main.md | pa3-06-village | High | follow | "Ask Corvin" leans on S9, which PA3 never requires; swap it for a joke that stands alone | open | 2026-10-25-3 |
-| SR-20261025-881 | atlas/A31/main.md | a31-09-roof | High | continuity | The rat says it will ride on your Nubbin, but on the stay branch your Nubbin never goes down | open | 2026-10-25-3 |
-| SR-20261025-882 | atlas/A30/sprout.md | a30-09-order-safe | High | follow | Mirele appears twice in Sprout without ever being introduced | open | 2026-10-25-3 |
-| SR-20261025-883 | atlas/A31/sprout.md | a31-15-curtain | High | follow | Say plainly what happens to the two great lords, and move the lesson out of the mercy beat | open | 2026-10-25-3 |
-| SR-20261025-884 | arcade/PA3/main.md | pa3-18-complete-sealed | High | compelling | The sealed ending gives Elderbug's mask without Elderbug; let him hand it over | open | 2026-10-25-3 |
-| SR-20261025-885 | atlas/A31/main.md | a31-11-lords | High | humour | Pay off the kitchen's guest rule in the lords' hall | open | 2026-10-25-3 |
-| SR-20261025-886 | arcade/PA2/main.md | pa2-01-shed | High | theme | Open PA2 with the marriage: Byte's shoelace and Pixel saying nothing, loudly | open | 2026-10-25-3 |
-| SR-20261025-887 | arcade/PA2/main.md | pa2-17-wake | High | humour | Everyone has forgotten: let Ash meet your Nubbin again, and Brock remember only Nurse Joy | open | 2026-10-25-3 |
-| SR-20261025-888 | arcade/PA3/main.md | pa3-17-complete | High | humour | Pixel's biscuit runs all cartridge; end it under her on the floor | open | 2026-10-25-3 |
-| SR-20261025-889 | arcade/PA1/main.md | pa1-16-friends | High | humour | Knuckles's "that thing doesn't lick it" rule finally gets broken, nearly | open | 2026-10-25-3 |
-| SR-20261025-890 | arcade/PA1/main.md | pa1-16-complete | High | humour | Eggman comes down under his own face; the lifeboat parachute gag pays off | open | 2026-10-25-3 |
-| SR-20261025-891 | arcade/PA1/main.md | pa1-11-board | High | humour | Run "I was going to ask about the tails" as Pixel's gag to the end of the cartridge | open | 2026-10-25-3 |
-| SR-20261025-892 | atlas/A31/sprout.md<br>atlas/A31/reader.md | a31-10-relay | High | humour | Give the louse back its best line, let the punchline land, and count the carriers right | open | 2026-10-25-3 |
-| SR-20261025-893 | atlas/A30/sprout.md<br>atlas/A30/reader.md | a30-11-table | High | humour | Pay off Hannah's daily burnt crust at the Sabbath table, in both bands | open | 2026-10-25-3 |
-| SR-20261025-894 | arcade/PA1/sprout.md | pa1-05-spanner | High | humour | "Tell him it's a ten" is spanner jargon a four-year-old can't get; make the gag about shiny | open | 2026-10-25-3 |
-| SR-20261025-895 | atlas/A30/sprout.md | a30-07-chores | High | humour | Give the chores scene a wordless Nubbin gag with Avram as the straight man | open | 2026-10-25-3 |
-| SR-20261025-896 | arcade/PA2/main.md | pa2-05-lunch-done | High | humour | The first light scene after four grave quests ends flat; give Brock and the Nubbin the pot | open | 2026-10-25-3 |
-| SR-20261025-897 | atlas/A30/reader.md | a30-02-study | High | child-read | The study house gives a child five new names in two scenes; keep Rava, cut the rest | open | 2026-10-25-3 |
-| SR-20261025-898 | atlas/A31/reader.md | a31-10-corn | High | follow | Untangle the grandmother's "old book in English" aside and replace the repeated corn-cycle lesson | open | 2026-10-25-3 |
-| SR-20261025-899 | atlas/A31/main.md<br>atlas/A31/reader.md | a31-11-lords | Medium | continuity | The "hot hearthstone" callback points at a scene that never happened | open | 2026-10-25-3 |
-| SR-20261025-900 | atlas/A31/main.md | a31-09-roof | Medium | humour | Let your slow small jar be the only one that holds water, and Xmucane guess why | open | 2026-10-25-3 |
-| SR-20261025-901 | atlas/A31/main.md | a31-07-macaw | Medium | humour | The granddaughter should react when the arm goes; the grandmother reassures and scolds | open | 2026-10-25-3 |
-| SR-20261025-902 | atlas/A31/main.md | a31-08-earthquake | Medium | humour | One silly exchange before Earthquake sits down for good | open | 2026-10-25-3 |
-| SR-20261025-903 | atlas/A31/main.md | a31-12-houses | Medium | humour | The Nubbin offers a jaguar its stick from A31-8 | open | 2026-10-25-3 |
-| SR-20261025-904 | atlas/A31/main.md | a31-11-road | Medium | continuity | The polite mosquito has met you before; let it say so | open | 2026-10-25-3 |
-| SR-20261025-905 | atlas/A31/main.md | a31-17-hearth | Medium | humour | Close the granddaughter's bad homework from the first scene | open | 2026-10-25-3 |
-| SR-20261025-906 | arcade/PA2/main.md | pa2-06-complete | Medium | humour | Without s7Done, Byte's biscuit run becomes a running gag Pixel can comment on | open | 2026-10-25-3 |
-| SR-20261025-907 | arcade/PA2/main.md | pa2-17-complete | Medium | humour | Pay off "I'm taking about forty" screenshots | open | 2026-10-25-3 |
-| SR-20261025-908 | arcade/PA2/main.md | pa2-18-holiday | Medium | humour | Team Rocket's holiday earns a laugh, not only a smile | open | 2026-10-25-3 |
-| SR-20261025-909 | arcade/PA2/main.md | pa2-09-pod | Medium | compelling | The signature naming choice is telegraphed; make both options sound kind | open | 2026-10-25-3 |
-| SR-20261025-910 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | pa1-14-complete | Medium | continuity | Name Cinder when Pixel first sees "the same shape", so the PA1-18 variants land | open | 2026-10-25-3 |
-| SR-20261025-911 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | pa1-18-complete | Medium | humour | Call back "your hair's gone a bit square" when the Keeper comes home | open | 2026-10-25-3 |
-| SR-20261025-912 | arcade/PA1/main.md | pa1-09-fish-done | Medium | humour | Pixel's cup of tea goes cold while Big waits; let her impatience meet his patience | open | 2026-10-25-3 |
-| SR-20261025-913 | arcade/PA1/main.md | pa1-11-garden-done | Medium | humour | With s21Done, give Clank a second PA1 line about the face parachutes | open | 2026-10-25-3 |
-| SR-20261025-914 | arcade/PA3/main.md | pa3-17-complete | Medium | humour | With s21Done, give Clank one joyful beat after two sad ones | open | 2026-10-25-3 |
-| SR-20261025-915 | arcade/PA3/main.md | pa3-16-shore-passed | Medium | continuity | On the "passed" path, Quirrel never asks to be remembered, though the nail reward says why | open | 2026-10-25-3 |
-| SR-20261025-916 | arcade/PA3/main.md | pa3-09-house | Medium | follow | The Grey Mourner's rule reads as a list of safe routes; say what breaks the flower | open | 2026-10-25-3 |
-| SR-20261025-917 | atlas/A30/sprout.md<br>atlas/A30/reader.md | a30-07-flood | Medium | follow | Say why Yossele doesn't stop for Dvora | open | 2026-10-25-3 |
-| SR-20261025-918 | atlas/A30/sprout.md | a30-01-water | Medium | humour | "Do not look, you will want it!" needs the Nubbin to look | open | 2026-10-25-3 |
-| SR-20261025-919 | atlas/A31/sprout.md<br>atlas/A31/reader.md | a31-05-carry | Medium | humour | The corn-carrying scene is flat in both bands; let the Nubbin supervise and Xmucane count twice | open | 2026-10-25-3 |
-| SR-20261025-920 | atlas/A31/sprout.md | a31-06-born | Medium | child-read | Hun Hunahpu and Hunahpu sound alike read aloud; give the child one rule for the two names | open | 2026-10-25-3 |
-| SR-20261025-921 | atlas/A31/sprout.md | a31-12-dark | Medium | follow | Say the Dark House trick out loud before the feather | open | 2026-10-25-3 |
-| SR-20261025-922 | atlas/A31/reader.md | a31-11-lords | Medium | child-read | Wing and Packstrap add two new names to the scene; get the laugh from the length instead | open | 2026-10-25-3 |
-| SR-20261025-923 | atlas/A31/reader.md | a31-11-road | Medium | theme | Swap the off-page compass quiz for a lesson about the black road's half-truth | open | 2026-10-25-3 |
-| SR-20261025-924 | arcade/PA1/sprout.md | pa1-02-gate | Medium | continuity | Sprout plays the gate as open only, so its locked variants are dead and the open path lost its payoff | open | 2026-10-25-3 |
-| SR-20261025-925 | arcade/PA1/sprout.md | pa1-12-sky | Medium | child-read | Name Gamma in Amy's worry, keep one pronoun, and give Pixel a gentle line | open | 2026-10-25-3 |
-| SR-20261025-926 | arcade/PA1/reader.md | pa1-17-chao | Medium | continuity | "Fifteen quests ago" is a menu count; say where, not how many quests | open | 2026-10-25-3 |
-| SR-20261025-927 | arcade/PA1/reader.md | pa1-17-chao-locked | Medium | child-read | Say why the locked-in Chao aren't moving, so a 7-year-old isn't left frightened | open | 2026-10-25-3 |
-| SR-20261025-928 | arcade/PA1/reader.md | pa1-06-shards | Medium | pacing | The "Ask about his people" reply tells and explains in three sentences; cut to two | open | 2026-10-25-3 |
-| SR-20261025-929 | atlas/A30/reader.md | a30-margin-hazel | Nice | pacing | Let Hazel's margin joke sit; cut the lesson that explains it to one line | open | 2026-10-25-3 |
-| SR-20261025-930 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>atlas/A31/reader.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | cross-story | High | child-read | Standard tags off band: K-2 codes across the reader bands, grade 3-4 science in Sprout, and maths past its tag | open | 2026-10-25-3 |
-| SR-20261025-931 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>atlas/A31/reader.md<br>arcade/PA1/sprout.md | cross-story | High | pacing | Lessons that interrupt a grave beat or sit on a punchline: move each one after the beat | open | 2026-10-25-3 |
-| SR-20261025-932 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md<br>arcade/PA3/main.md | cross-story | High | theme | Pixel and Byte's marriage as the Arcade's dry running joke, one barb per cartridge | open | 2026-10-25-3 |
-| SR-20261025-933 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>arcade/PA1/reader.md | cross-story | Medium | follow | Numbers asked in lessons that the scene never says: put each one in the story first | open | 2026-10-25-3 |
-| SR-20261025-934 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | cross-story | Medium | child-read | Idioms and off-page knowledge a literal child will trip on, in one sweep | open | 2026-10-25-3 |
+| SR-20261025-878 | arcade/PA1/sprout.md | pa1-16-friends | Critical | child-read | The "count Sonic's friends" lesson wants five, but the scene names four | fixed | 2026-10-25-3 |
+| SR-20261025-879 | arcade/PA3/main.md | pa3-03-promise | High | continuity | The grub sums don't add up: the freed grub is one of the twelve, so 34 are left for somebody else | fixed | 2026-10-25-3 |
+| SR-20261025-880 | arcade/PA3/main.md | pa3-06-village | High | follow | "Ask Corvin" leans on S9, which PA3 never requires; swap it for a joke that stands alone | fixed | 2026-10-25-3 |
+| SR-20261025-881 | atlas/A31/main.md | a31-09-roof | High | continuity | The rat says it will ride on your Nubbin, but on the stay branch your Nubbin never goes down | fixed | 2026-10-25-3 |
+| SR-20261025-882 | atlas/A30/sprout.md | a30-09-order-safe | High | follow | Mirele appears twice in Sprout without ever being introduced | fixed | 2026-10-25-3 |
+| SR-20261025-883 | atlas/A31/sprout.md | a31-15-curtain | High | follow | Say plainly what happens to the two great lords, and move the lesson out of the mercy beat | fixed | 2026-10-25-3 |
+| SR-20261025-884 | arcade/PA3/main.md | pa3-18-complete-sealed | High | compelling | The sealed ending gives Elderbug's mask without Elderbug; let him hand it over | fixed | 2026-10-25-3 |
+| SR-20261025-885 | atlas/A31/main.md | a31-11-lords | High | humour | Pay off the kitchen's guest rule in the lords' hall | fixed | 2026-10-25-3 |
+| SR-20261025-886 | arcade/PA2/main.md | pa2-01-shed | High | theme | Open PA2 with the marriage: Byte's shoelace and Pixel saying nothing, loudly | fixed | 2026-10-25-3 |
+| SR-20261025-887 | arcade/PA2/main.md | pa2-17-wake | High | humour | Everyone has forgotten: let Ash meet your Nubbin again, and Brock remember only Nurse Joy | fixed | 2026-10-25-3 |
+| SR-20261025-888 | arcade/PA3/main.md | pa3-17-complete | High | humour | Pixel's biscuit runs all cartridge; end it under her on the floor | fixed | 2026-10-25-3 |
+| SR-20261025-889 | arcade/PA1/main.md | pa1-16-friends | High | humour | Knuckles's "that thing doesn't lick it" rule finally gets broken, nearly | fixed | 2026-10-25-3 |
+| SR-20261025-890 | arcade/PA1/main.md | pa1-16-complete | High | humour | Eggman comes down under his own face; the lifeboat parachute gag pays off | fixed | 2026-10-25-3 |
+| SR-20261025-891 | arcade/PA1/main.md | pa1-11-board | High | humour | Run "I was going to ask about the tails" as Pixel's gag to the end of the cartridge | fixed | 2026-10-25-3 |
+| SR-20261025-892 | atlas/A31/sprout.md<br>atlas/A31/reader.md | a31-10-relay | High | humour | Give the louse back its best line, let the punchline land, and count the carriers right | fixed | 2026-10-25-3 |
+| SR-20261025-893 | atlas/A30/sprout.md<br>atlas/A30/reader.md | a30-11-table | High | humour | Pay off Hannah's daily burnt crust at the Sabbath table, in both bands | fixed | 2026-10-25-3 |
+| SR-20261025-894 | arcade/PA1/sprout.md | pa1-05-spanner | High | humour | "Tell him it's a ten" is spanner jargon a four-year-old can't get; make the gag about shiny | fixed | 2026-10-25-3 |
+| SR-20261025-895 | atlas/A30/sprout.md | a30-07-chores | High | humour | Give the chores scene a wordless Nubbin gag with Avram as the straight man | fixed | 2026-10-25-3 |
+| SR-20261025-896 | arcade/PA2/main.md | pa2-05-lunch-done | High | humour | The first light scene after four grave quests ends flat; give Brock and the Nubbin the pot | fixed | 2026-10-25-3 |
+| SR-20261025-897 | atlas/A30/reader.md | a30-02-study | High | child-read | The study house gives a child five new names in two scenes; keep Rava, cut the rest | fixed | 2026-10-25-3 |
+| SR-20261025-898 | atlas/A31/reader.md | a31-10-corn | High | follow | Untangle the grandmother's "old book in English" aside and replace the repeated corn-cycle lesson | fixed | 2026-10-25-3 |
+| SR-20261025-899 | atlas/A31/main.md<br>atlas/A31/reader.md | a31-11-lords | Medium | continuity | The "hot hearthstone" callback points at a scene that never happened | fixed | 2026-10-25-3 |
+| SR-20261025-900 | atlas/A31/main.md | a31-09-roof | Medium | humour | Let your slow small jar be the only one that holds water, and Xmucane guess why | fixed | 2026-10-25-3 |
+| SR-20261025-901 | atlas/A31/main.md | a31-07-macaw | Medium | humour | The granddaughter should react when the arm goes; the grandmother reassures and scolds | fixed | 2026-10-25-3 |
+| SR-20261025-902 | atlas/A31/main.md | a31-08-earthquake | Medium | humour | One silly exchange before Earthquake sits down for good | fixed | 2026-10-25-3 |
+| SR-20261025-903 | atlas/A31/main.md | a31-12-houses | Medium | humour | The Nubbin offers a jaguar its stick from A31-8 | fixed | 2026-10-25-3 |
+| SR-20261025-904 | atlas/A31/main.md | a31-11-road | Medium | continuity | The polite mosquito has met you before; let it say so | fixed | 2026-10-25-3 |
+| SR-20261025-905 | atlas/A31/main.md | a31-17-hearth | Medium | humour | Close the granddaughter's bad homework from the first scene | fixed | 2026-10-25-3 |
+| SR-20261025-906 | arcade/PA2/main.md | pa2-06-complete | Medium | humour | Without s7Done, Byte's biscuit run becomes a running gag Pixel can comment on | fixed | 2026-10-25-3 |
+| SR-20261025-907 | arcade/PA2/main.md | pa2-17-complete | Medium | humour | Pay off "I'm taking about forty" screenshots | fixed | 2026-10-25-3 |
+| SR-20261025-908 | arcade/PA2/main.md | pa2-18-holiday | Medium | humour | Team Rocket's holiday earns a laugh, not only a smile | fixed | 2026-10-25-3 |
+| SR-20261025-909 | arcade/PA2/main.md | pa2-09-pod | Medium | compelling | The signature naming choice is telegraphed; make both options sound kind | fixed | 2026-10-25-3 |
+| SR-20261025-910 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | pa1-14-complete | Medium | continuity | Name Cinder when Pixel first sees "the same shape", so the PA1-18 variants land | fixed | 2026-10-25-3 |
+| SR-20261025-911 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | pa1-18-complete | Medium | humour | Call back "your hair's gone a bit square" when the Keeper comes home | fixed | 2026-10-25-3 |
+| SR-20261025-912 | arcade/PA1/main.md | pa1-09-fish-done | Medium | humour | Pixel's cup of tea goes cold while Big waits; let her impatience meet his patience | fixed | 2026-10-25-3 |
+| SR-20261025-913 | arcade/PA1/main.md | pa1-11-garden-done | Medium | humour | With s21Done, give Clank a second PA1 line about the face parachutes | fixed | 2026-10-25-3 |
+| SR-20261025-914 | arcade/PA3/main.md | pa3-17-complete | Medium | humour | With s21Done, give Clank one joyful beat after two sad ones | fixed | 2026-10-25-3 |
+| SR-20261025-915 | arcade/PA3/main.md | pa3-16-shore-passed | Medium | continuity | On the "passed" path, Quirrel never asks to be remembered, though the nail reward says why | fixed | 2026-10-25-3 |
+| SR-20261025-916 | arcade/PA3/main.md | pa3-09-house | Medium | follow | The Grey Mourner's rule reads as a list of safe routes; say what breaks the flower | fixed | 2026-10-25-3 |
+| SR-20261025-917 | atlas/A30/sprout.md<br>atlas/A30/reader.md | a30-07-flood | Medium | follow | Say why Yossele doesn't stop for Dvora | fixed | 2026-10-25-3 |
+| SR-20261025-918 | atlas/A30/sprout.md | a30-01-water | Medium | humour | "Do not look, you will want it!" needs the Nubbin to look | fixed | 2026-10-25-3 |
+| SR-20261025-919 | atlas/A31/sprout.md<br>atlas/A31/reader.md | a31-05-carry | Medium | humour | The corn-carrying scene is flat in both bands; let the Nubbin supervise and Xmucane count twice | fixed | 2026-10-25-3 |
+| SR-20261025-920 | atlas/A31/sprout.md | a31-06-born | Medium | child-read | Hun Hunahpu and Hunahpu sound alike read aloud; give the child one rule for the two names | fixed | 2026-10-25-3 |
+| SR-20261025-921 | atlas/A31/sprout.md | a31-12-dark | Medium | follow | Say the Dark House trick out loud before the feather | fixed | 2026-10-25-3 |
+| SR-20261025-922 | atlas/A31/reader.md | a31-11-lords | Medium | child-read | Wing and Packstrap add two new names to the scene; get the laugh from the length instead | fixed | 2026-10-25-3 |
+| SR-20261025-923 | atlas/A31/reader.md | a31-11-road | Medium | theme | Swap the off-page compass quiz for a lesson about the black road's half-truth | fixed | 2026-10-25-3 |
+| SR-20261025-924 | arcade/PA1/sprout.md | pa1-02-gate | Medium | continuity | Sprout plays the gate as open only, so its locked variants are dead and the open path lost its payoff | fixed | 2026-10-25-3 |
+| SR-20261025-925 | arcade/PA1/sprout.md | pa1-12-sky | Medium | child-read | Name Gamma in Amy's worry, keep one pronoun, and give Pixel a gentle line | fixed | 2026-10-25-3 |
+| SR-20261025-926 | arcade/PA1/reader.md | pa1-17-chao | Medium | continuity | "Fifteen quests ago" is a menu count; say where, not how many quests | fixed | 2026-10-25-3 |
+| SR-20261025-927 | arcade/PA1/reader.md | pa1-17-chao-locked | Medium | child-read | Say why the locked-in Chao aren't moving, so a 7-year-old isn't left frightened | fixed | 2026-10-25-3 |
+| SR-20261025-928 | arcade/PA1/reader.md | pa1-06-shards | Medium | pacing | The "Ask about his people" reply tells and explains in three sentences; cut to two | fixed | 2026-10-25-3 |
+| SR-20261025-929 | atlas/A30/reader.md | a30-margin-hazel | Nice | pacing | Let Hazel's margin joke sit; cut the lesson that explains it to one line | fixed | 2026-10-25-3 |
+| SR-20261025-930 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>atlas/A31/reader.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | cross-story | High | child-read | Standard tags off band: K-2 codes across the reader bands, grade 3-4 science in Sprout, and maths past its tag | fixed | 2026-10-25-3 |
+| SR-20261025-931 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>atlas/A31/reader.md<br>arcade/PA1/sprout.md | cross-story | High | pacing | Lessons that interrupt a grave beat or sit on a punchline: move each one after the beat | fixed | 2026-10-25-3 |
+| SR-20261025-932 | arcade/PA1/main.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md<br>arcade/PA3/main.md | cross-story | High | theme | Pixel and Byte's marriage as the Arcade's dry running joke, one barb per cartridge | fixed | 2026-10-25-3 |
+| SR-20261025-933 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>arcade/PA1/reader.md | cross-story | Medium | follow | Numbers asked in lessons that the scene never says: put each one in the story first | fixed | 2026-10-25-3 |
+| SR-20261025-934 | atlas/A30/sprout.md<br>atlas/A30/reader.md<br>atlas/A31/sprout.md<br>arcade/PA1/sprout.md<br>arcade/PA1/reader.md | cross-story | Medium | child-read | Idioms and off-page knowledge a literal child will trip on, in one sweep | fixed | 2026-10-25-3 |
 
 ## Runs
 
@@ -1220,3 +1220,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-25 run 15 · [review-2026-10-25-2](review-2026-10-25-2.md) · units: atlas/A26/reader.md, atlas/A27/main.md, atlas/A27/sprout.md, atlas/A27/reader.md, atlas/A28/main.md, atlas/A28/sprout.md, atlas/A28/reader.md, atlas/A29/main.md, atlas/A29/reader.md, atlas/A30/main.md · 56 recs: Critical 1, High 24, Medium 24, Nice 7 (5 cross-story) · fixed since last run: 55 (all)
 - 2026-10-25 · fix pass on branch `fix/story-review-2026-10-25-3` · run 15's 56 recs: 56 fixed · -822 branches Rudaba's line on the a27-11-praise choice; -824 the taught word returns at the reunion through flag values `taught-friend`/`taught-home`/`taught-sorry` (a bare "home" would match Grove flags c4-lamps and s23-stay in `variantFor`), with variants in main, sprout and reader; -832 adds an `a26-scorpion-wife` speaker in A26 main and both bands; -857 turns the A27 feast maths lesson into an L.3.4 word lesson so two maths lessons don't sit back to back; -874 A28 reader lessons moved off the stopper and wait beats, with small replacement lessons · canon: none
 - 2026-10-25 run 16 · [review-2026-10-25-3](review-2026-10-25-3.md) · units: atlas/A30/sprout.md, atlas/A30/reader.md, atlas/A31/main.md, atlas/A31/sprout.md, atlas/A31/reader.md, arcade/PA1/main.md, arcade/PA1/sprout.md, arcade/PA1/reader.md, arcade/PA2/main.md, arcade/PA3/main.md · 57 recs: Critical 1, High 23, Medium 32, Nice 1 (5 cross-story) · fixed since last run: 56 (all)
+- 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26` · run 16's 57 recs: 57 fixed · -878 Little Sprouts pa1-16-friends names the four arrivals one by one and counts to 4; -924 drops the three sprout locked-gate scenes (the sprout gate always opens; content-check exempts them); -913 adds `pa1-11-garden-done-clank` in main and both bands; -906 adds `pa2-06-complete-unset` (Byte's biscuit run), wired by a new PA2 entry for s7Done in `GROVE_UNSET` in src/sim/atlas.ts; the old "play after" Clank scenes in PA1 and PA3 never played, so they now replace their host scenes (`pa1-01-shed-done-clank`, `pa3-01-cabinet-clank`, `pa3-07-plaque-clank`, `pa3-13-memory-clank`, `pa3-17-complete-clank`), with a test · canon: none

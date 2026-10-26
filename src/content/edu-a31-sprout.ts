@@ -821,14 +821,14 @@ const Q5 = quest(
         N('Xquic sits on the earth with the empty net. Your Nubbin sits too.'),
         N('She asks for help, softly, the way you ask friends for a favour.'),
         N('She lays the silk of the ear in the net. The net is full!'),
-        GM('Full from one ear! Hold on to that.', 'happy'),
+        GM('Full from one ear! Remember that.', 'happy'),
       ],
       [
         notice(
           3,
           'science',
           'a seed grows into a plant, and a plant makes new seeds',
-          '3-LS1-1',
+          'K-LS1-1',
           [
             GM('One corn seed grows into one corn plant.'),
             GM('One plant makes ears. One ear has lots of kernels.'),
@@ -852,14 +852,15 @@ const Q5 = quest(
       'a31-05-carry',
       [
         N('The net is heavy. You take one end. Xquic takes the other.'),
-        N('Your Nubbin rides in the middle.'),
+        N('Your Nubbin rides in the middle. It does not carry anything. It supervises.'),
         XQ('The older brothers will not help. They only play flutes.'),
+        XQ('Some helpers only watch. Like that one.'),
         N('You set the net down by Xmucane. She looks for a long time.'),
         XM('One plant. I planted it myself.', 'think'),
       ],
       [
         ask(
-          2,
+          3,
           'maths',
           'compare: which is heavier',
           'K.MD.A.2',
@@ -945,11 +946,13 @@ const Q6 = quest(
         GM('The twins grew up outside, with blowguns. And very cheeky!', 'happy'),
         N('Years pass in one breath. Two boys come down the hill.'),
         HP('Hello! A guest, and a guest’s guest!', 'happy'),
+        GM('This Hunahpu is a twin. His father was Hun Hunahpu, the ballplayer.'),
+        GM('Same name, with a bit on the front.'),
         N('Your Nubbin and the twins are friends at once.'),
       ],
       [
         ask(
-          5,
+          7,
           'literacy',
           'first sounds',
           'RF.K.2',
@@ -1028,7 +1031,7 @@ const Q6 = quest(
           3,
           'science',
           'monkeys use arms and tails to swing and hold on',
-          '4-LS1-1',
+          'K-LS1-1',
           [
             GM('Monkeys swing with their long arms.'),
             GM('In Guatemala, spider monkeys use their tails like a fifth hand!'),
@@ -1108,7 +1111,7 @@ const Q7 = quest(
           3,
           'science',
           'birds have no teeth; they have beaks',
-          '4-LS1-1',
+          'K-LS1-1',
           [
             GM('Real birds have no teeth! They have a beak instead.'),
             GM('Seven Macaw’s jewel teeth are only in the story.'),
@@ -1531,6 +1534,7 @@ const Q10 = quest(
         N('The owls come to Xmucane’s door with the lords’ message.'),
         XM('Go and tell my grandsons, little louse. Quickly!', 'sad'),
         N('The louse is not quick. A toad gives it a lift, inside its mouth.'),
+        LS('Thank you. It is a bit wet in here.'),
         N('Then a snake gives the toad a lift. Then a falcon gives the snake a lift.'),
         N('At the ballcourt, out pops the snake. Then the toad.'),
         TD('The louse is fine. It is just a bit stuck.', 'think'),
@@ -1538,7 +1542,7 @@ const Q10 = quest(
       ],
       [
         ask(
-          3,
+          7,
           'literacy',
           'what happens first, next, last',
           'RL.K.3',
@@ -1743,7 +1747,7 @@ const Q11 = quest(
       [
         GM('Every lord by name. No bowing to the wood. No sitting on the hot bench.', 'happy'),
         GD('Because of a mosquito!'),
-        GM('Small help is never small.'),
+        GM('A small helper can do a big job.'),
         N('The mosquito finds your Nubbin. It lands on its crown and bows.'),
         N('The mosquito bows: one, two, three times!'),
         N('Your Nubbin says nothing. The mosquito takes that as yes.'),
@@ -1784,14 +1788,16 @@ const Q12 = quest(
         N('The lords send the twins to the Dark House. They get a torch and two little candles.'),
         LD('Keep them lit all night. Give them back whole in the morning.'),
         N('It is as dark as a cupboard with the door shut.'),
-        HP('So we do not light them.'),
+        HP('So we do not light them. We make them LOOK lit.'),
+        XB('Sneaky.'),
+        HP('Clever. It is different. A bit.'),
         N('Hunahpu ties a red feather on the torch. In the dark, it looks like a flame!'),
         N('Xbalanque puts a firefly on each candle. They glow on, off, on.'),
         N('A guard looks in, sees the glow, and goes away.'),
       ],
       [
         notice(
-          5,
+          7,
           'science',
           'we see things when there is light; fireflies make their own light',
           '1-PS4-2',
@@ -1823,7 +1829,7 @@ const Q12 = quest(
       ],
       [
         ask(
-          1,
+          2,
           'literacy',
           'how characters feel at what happens',
           'RL.2.3',
@@ -1878,7 +1884,7 @@ const Q12 = quest(
         GM('Clever every time. Clever, not strong.'),
         GM('And on the mountain, the corn stayed green the whole time.'),
         GD('Because they were safe!'),
-        GM('Because they were clever. Safe came with it.', 'happy'),
+        GM('Because they were clever. Being clever kept them safe.', 'happy'),
       ],
       [
         ask(
@@ -1932,7 +1938,7 @@ const Q13 = quest(
           5,
           'science',
           'many bats squeak and listen for echoes to find their way in the dark',
-          '4-LS1-2',
+          'K-LS1-1',
           [
             GM('Bats fly at night.'),
             GM('Many bats squeak, and listen for the echoes. That helps them find their way.'),
@@ -2128,7 +2134,7 @@ const Q14 = quest(
           0,
           'science',
           'catfish feel and taste with whiskers called barbels',
-          '4-LS1-2',
+          'K-LS1-1',
           [
             GM('Catfish have whiskers. They are called barbels.'),
             GM('A catfish feels and tastes with them, even in muddy water.'),
@@ -2196,9 +2202,8 @@ const Q15 = quest(
         OD('Do it to us! Make us a wonder!', 'happy'),
         HP('Are you sure?', 'think'),
         N('Xbalanque takes the rope from your Nubbin. He lets the curtain down gently.'),
-        N(
-          'When it goes up again, the lords’ seats are empty. They have gone, and will not bother anyone again.',
-        ),
+        N('When it goes up again, the lords’ seats are empty. The two big lords are gone. The twins do not bring them back.'),
+        GM('They died. That is sad, even for unkind lords. The other lords were not hurt.'),
         HP('I am Hunahpu. This is my brother Xbalanque. Our father is Hun Hunahpu.'),
         N('Everyone in Xibalba kneels and begs.'),
         LD('Mercy. Please.', 'shock'),
@@ -2206,11 +2211,11 @@ const Q15 = quest(
       ],
       [
         ask(
-          6,
+          8,
           'sel',
           'forgiving someone who says sorry',
           'CASEL: Relationship skills',
-          [N('Someone says sorry and means it. What can you do?')],
+          [N('The other lords say sorry. The twins let them stay, with jobs. What can you do when someone says sorry?')],
           [
             o(
               'Say it is okay, and try again together',
@@ -2238,7 +2243,7 @@ const Q15 = quest(
     sc(
       'a31-15-complete',
       [
-        GM('From that day, the lords of Xibalba were small. Not gone from the story. Small.'),
+        GM('From that day, the other lords of Xibalba were small. Small, not gone.'),
         GM(
           'After that, the lords had no more ball games. They had jobs to do, like everyone else.',
         ),
@@ -2788,7 +2793,7 @@ const V_BATS_STAY = sc(
 const V_GAME_STAY = sc(
   'a31-13-game-stay',
   [
-    N('The falcon comes at noon with its feathers every which way.'),
+    N('The falcon comes at noon with its feathers all messy.'),
     FA('A bat took Hunahpu’s hat! Then a coati brought a squash!', 'shock'),
     FA(
       'And a rabbit ran off with the ball, and everyone chased it. Everything is back where it belongs.',
@@ -2829,7 +2834,7 @@ const V_COATI_TOLD = sc(
       0,
       'science',
       'coatis have long ringed tails and long noses for sniffing out food',
-      '4-LS1-1',
+      'K-LS1-1',
       [
         GM('A coati is a real animal of the forest.'),
         GM('It has a long, stripy tail, and a long nose for sniffing out food.'),
@@ -2843,7 +2848,7 @@ const V_COURT_TOLD = sc(
   'a31-13-rat-court-told',
   [
     FA(
-      'Oh, and a rat. It rode down in Hunahpu’s pocket. It ran rings round the lords, shouting about cheese.',
+      'Oh, and a rat. It rode down in Hunahpu’s pocket. It ran round and round the lords, shouting about cheese.',
       'happy',
     ),
   ],
@@ -2852,7 +2857,7 @@ const V_COURT_TOLD = sc(
       0,
       'science',
       'rats have whiskers to feel their way in the dark',
-      '4-LS1-2',
+      'K-LS1-1',
       [
         GM('Rats have whiskers on their faces.'),
         GM('Whiskers help a rat feel its way in the dark.'),
@@ -3169,7 +3174,7 @@ const V_COMPLETE_STAY_17 = sc(
       3,
       'science',
       'green corn is still growing; later it turns golden and dry, and its seeds can grow again',
-      '3-LS1-1',
+      'K-LS1-1',
       [
         GM('Green corn is still growing.'),
         GM('Later it turns golden and dry. Its seeds can grow into new plants!'),

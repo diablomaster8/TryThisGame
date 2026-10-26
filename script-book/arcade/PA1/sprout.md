@@ -11,6 +11,7 @@ _The lantern shed smells of sawdust. Something is humming._
 _It is a big old game box. It has a dent in the side._  
 **Pixel**: Don’t touch the coin slot. A mouse family lived in there!  
 **Pixel**: I fixed it. One fuse, four wires. Three whole days.  
+**Pixel**: Byte says it might catch fire. Byte says that about toast.  
 _Pixel lifts a flap. Inside sit five cartridges in a row._  
 
 > **Lesson** (maths, K.CC.B.5, ask): count to 5  
@@ -45,6 +46,26 @@ _Pixel blows the dust off the cartridge. Puff!_
 
 _She wipes the shiny bit on her sleeve._  
 **Pixel**: Clean contacts, happy cartridge. Everyone knows that.  
+
+#### `sprout:pa1-01-shed-done-clank` · [main](main.md#pa1-01-shed-done-clank)
+
+_Variant of `pa1-01-shed-done`._
+
+_Pixel blows the dust off the cartridge. Puff!_  
+_She wipes the shiny bit on her sleeve._  
+**Pixel**: Clean contacts, happy cartridge. Everyone knows that.  
+_Clank sits on top of the cabinet. His legs dangle over the screen._  
+**Clank**: Announcement: I am the lookout. Lookouts sit on top. I am on top.  
+**Pixel**: I said lookouts sit still.  
+**Clank**: I am sitting very still. Look how still. The stillest ever.  
+
+> **Lesson** (sel, ELOF: Approaches to Learning, ask): listening to what was asked  
+> **Pixel**: I asked Clank to sit still. His legs are swinging. Is he sitting still?  
+> - ✅ Not quite! His legs are moving → Right. Still means all of you. Legs too, Clank.
+> - Yes, very still → Look at those legs swing! Still means all of you. Legs too.
+> _For grown-ups: Your child checked whether an instruction was really followed._
+
+_His legs keep swinging. Bonk. Bonk. One heel hits the screen._  
 
 #### `sprout:pa1-01-slot` · [main](main.md#pa1-01-slot)
 
@@ -90,23 +111,6 @@ _There is a pool, a palm tree, and stepping stones._
 
 **Pixel**: You’re in! Your hair has gone a bit square. It suits you.  
 _Your Nubbin rolls off your arm. It sits up and stares._  
-
-#### `sprout:pa1-01-clank` · [main](main.md#pa1-01-clank)
-
-_Variant of `pa1-01-complete`._
-
-_Clank sits on top of the cabinet. His legs dangle over the screen._  
-**Clank**: Announcement: I am the lookout. Lookouts sit on top. I am on top.  
-**Pixel**: I said lookouts sit still.  
-**Clank**: I am sitting very still. Look how still. The stillest ever.  
-
-> **Lesson** (sel, ELOF: Approaches to Learning, ask): listening to what was asked  
-> **Pixel**: I asked Clank to sit still. His legs are swinging. Is he sitting still?  
-> - ✅ Not quite! His legs are moving → Right. Still means all of you. Legs too, Clank.
-> - Yes, very still → Look at those legs swing! Still means all of you. Legs too.
-> _For grown-ups: Your child checked whether an instruction was really followed._
-
-_His legs keep swinging. Bonk. Bonk. One heel hits the screen._  
 
 ## PA1-2. A Garden Like Ours
 
@@ -165,7 +169,7 @@ _A Chao is sitting on the latch, swinging its feet._
 
 - **Leave it open. Let them come and go.**
     - You prop the gate with a stone. The Chao rides it open. Wheee!
-    - **Pixel**: Free-range Chao. Like ours. All right.
+    - **Pixel**: Chao who go out and come home, like ours. All right.
 - _(left out in this band; plays as `open`)_
 
 #### `sprout:pa1-02-gate-done` · [main](main.md#pa1-02-gate-done)
@@ -416,7 +420,8 @@ _There are seven silver spanners on the bench._
 
 **Tails**: The other silver one.  
 _Your Nubbin picks one up in both arms. It beams._  
-**Pixel**: Tell him it’s a ten. It looks like a ten.  
+**Pixel**: Tell him “the shiny one.”  
+_All seven are shiny. The whole bench is shiny._  
 **Tails**: Nearly there. The jewel is sending out a signal. Something is following it.  
 
 **Choices**
@@ -427,7 +432,7 @@ _Your Nubbin picks one up in both arms. It beams._
     - **Tails**: Close! One up.
     - Your Nubbin hands him the right one.
 - **Ask which one he means.**
-    - **Tails**: The ten. Sorry.
+    - **Tails**: The shiny one. Sorry. They are all shiny.
     - Your Nubbin is already holding it.
 
 #### `sprout:pa1-05-spanner-done` · [main](main.md#pa1-05-spanner-done)
@@ -803,7 +808,7 @@ _He has a fishing rod and a huge tackle box._
 **Big**: Oh. Hello. I’m Big. Have you seen my friend? He’s a green frog.  
 **Big**: He swallowed a shiny green stone. Then he grew a tail!  
 
-> **Lesson** (science, 3-LS1-1, ask): frogs and tails  
+> **Lesson** (science, K-LS1-1, ask): frogs and tails  
 > _Froggy grew a tail. Do grown-up frogs have tails?_  
 > - ✅ No, only tadpoles do → Yes! Baby frogs are tadpoles with tails. Grown frogs have none.
 > - Yes, long ones → Grown frogs have no tails. Only baby tadpoles do. Froggy is being odd!
@@ -934,7 +939,7 @@ _Tikal is shaking. She does not step back._
 
 - **Climb up and stand beside her.**
     - You climb up and stand next to Tikal, so she isn’t alone.
-    - Her father looks at you like a fly. Nothing changes.
+    - Her father looks at you. His face stays hard. Nothing changes.
     - **Tikal**: Thank you.
 - **Stay down with the Chao.**
     - You stay with the Chao. Your Nubbin climbs into your lap.
@@ -1038,6 +1043,24 @@ _It floats down under a parachute with Eggman’s face on it._
 > _For grown-ups: Your child learned that parachutes catch air._
 
 **Pixel**: The parachutes have his face on them. I can’t believe it.  
+
+#### `sprout:pa1-11-garden-done-clank` · [main](main.md#pa1-11-garden-done-clank)
+
+_Variant of `pa1-11-garden-done`._
+
+_The last Chao is in the last lifeboat. You pull the lever._  
+_It floats down under a parachute with Eggman’s face on it._  
+
+> **Lesson** (science, ELOF: Scientific Reasoning, ask): parachutes catch air  
+> _The parachute opens wide. Why does the lifeboat float down slowly?_  
+> - ✅ The big parachute catches the air → Yes! A big open parachute catches air and slows the fall.
+> - Eggman’s face is magic → Not magic! The big open parachute catches air and slows the fall.
+> _For grown-ups: Your child learned that parachutes catch air._
+
+**Pixel**: The parachutes have his face on them. I can’t believe it.  
+**Clank**: Announcement: that parachute has a FACE on it. I want one with MY face.  
+**Pixel**: It’s Eggman’s face, Clank.  
+**Clank**: Then I would like a very small Eggman.  
 
 #### `sprout:pa1-11-chaos` · [main](main.md#pa1-11-chaos)
 
@@ -1157,8 +1180,9 @@ _The big ship falls away behind you into the clouds._
 #### `sprout:pa1-12-sky` · [main](main.md#pa1-12-sky)
 
 _Nobody says much. Tails flies low over the sea._  
-**Amy**: He’ll be all right. Won’t he? He’s very big.  
+**Amy**: Gamma will be all right. Won’t it? It is very big.  
 **Pixel**: Amy. I don’t know.  
+**Pixel**: I hope so. I really hope so.  
 _Your Nubbin kneels on the seat, hands on the glass, looking back._  
 _Then, out of the cloud, comes one bird. Then another. Then another!_  
 
@@ -1242,7 +1266,7 @@ _The Chao wake one by one. They gather behind her._
 _The warriors come out of the trees in a line. They do not stop._  
 **Tikal**: Father! Stop! Please, the Chao!  
 _The pink light closes round you. The shrine goes far away._  
-_Through the light: running feet, and a sound like the sea standing up._  
+_Through the light: running feet, and a sound like a very big wave._  
 _Then it goes quiet._  
 _Some of the Chao were hurt that day, and some of them died._  
 _That is why Chaos grew so big and so sad._  
@@ -1322,7 +1346,7 @@ _Your Nubbin puts its hand on a painted Chao, very gently._
 _Footsteps! Sonic comes in out of the rain._  
 _He shakes himself like a dog. Flap, flap, flap!_  
 
-> **Lesson** (science, 4-LS1-1, ask): animals shake off water  
+> **Lesson** (science, K-LS1-1, ask): animals shake off water  
 > _Sonic shakes like a wet dog. Why do dogs shake when wet?_  
 > - ✅ To fling the water off → Yes! A big shake flings the water drops off their fur.
 > - Because they are cross → Not cross! A big shake flings the water drops off their fur.
@@ -1366,11 +1390,12 @@ _He runs off anyway, very fast, into the rain._
 
 #### `sprout:pa1-14-complete` · [main](main.md#pa1-14-complete)
 
-**Pixel**: Back home there’s an old story, about a fierce one who loved too hard.  
+**Pixel**: Back home there’s an old story about Cinder.  
+**Pixel**: She loved the little ones, and held on too tight.  
 **Pixel**: It just feels like the same shape.  
 
 > **Lesson** (literacy, RL.K.3, ask): stories can be alike  
-> **Pixel**: Two stories, the same shape. What do Chaos and the fierce one both do?  
+> **Pixel**: Two stories, the same shape. What do Chaos and Cinder both do?  
 > - ✅ Love too hard and hold too tight → Yes. Both love too hard and hold on too tight. Same shape.
 > - Nothing alike → Look again: both love too hard and hold on too tight. Same shape.
 > _For grown-ups: Your child compared two stories._
@@ -1467,14 +1492,15 @@ _It doesn’t see the people on the roofs. It is looking under the water._
 
 _Sonic lands on your roof, soaked and out of breath._  
 **Sonic**: Okay. That’s big. That’s really, really big.  
-_His friends come: Tails, Knuckles, Amy with the bird, and Big with Froggy!_  
+_Tails comes. Knuckles comes. Amy comes, with the bird. Big comes, with Froggy!_  
 
-> **Lesson** (maths, K.CC.B.5, do): count to 5  
-> _Count Sonic’s friends on the roof. Tails, Knuckles… (Count on your fingers.)_  
-> Check: `edu:count:friends:5`
-> _For grown-ups: Your child counted five friends._
+> **Lesson** (maths, K.CC.B.5, do): count to 4  
+> _Count Sonic’s friends: Tails, Knuckles, Amy, Big. (Count on your fingers.)_  
+> Check: `edu:count:friends:4`
+> _For grown-ups: Your child counted four friends._
 
-_Each one holds a jewel. All seven, dull and grey now._  
+_Froggy puts up one hand. He would like to be counted too._  
+_They bring all seven jewels. The jewels are dull and grey now._  
 **Knuckles**: Chaos used them up. They’re empty.  
 **Tails**: Not empty. Not all the way.  
 **Tails**: Chaos took the sad part. But the good part is still in there.  
@@ -1585,6 +1611,7 @@ _And at none of the small ones._
 _Then a sound comes from up high. Small and cheerful._  
 _Along the hotel roof sits a whole row of Chao, legs dangling!_  
 _They went out through the open gate when the water came. They went up._  
+**Pixel**: The gate was open! You did that!  
 _Now they come down: by the drainpipe, by the stairs, sliding down awnings._  
 _They walk right up to the puddle. They are not afraid at all._  
 _Chaos looks at them. Its glow goes still, and soft, and warm._  
@@ -1597,27 +1624,6 @@ _Chaos looks at them. Its glow goes still, and soft, and warm._
 
 **Pixel**: They’re all right. And it can see them.  
 _A Chao reaches up and touches the water. Chaos bends down and lets it._  
-
-#### `sprout:pa1-17-chao-locked` · [main](main.md#pa1-17-chao-locked)
-
-_Variant of `pa1-17-chao`._
-
-_Chaos looks round for the Chao. None on the roofs. None in the streets._  
-_Oh! The garden. The gate. The little key you turned._  
-**You**: They’re still in there.  
-_You wade back through the hotel to the garden. The gate is still shut._  
-_The Chao sit up in the trees, wet and very quiet. All safe._  
-**Pixel**: Safe isn’t the same as well, is it.  
-
-> **Lesson** (sel, CASEL: Social awareness, ask): safe and well are different  
-> **Pixel**: The Chao were safe, but alone and scared. Is that the same as well?  
-> - ✅ No, well means happy too → Yes. Safe is good. Well is safe AND happy, with friends.
-> - Yes, same thing → Nearly. Safe is good. Well is safe AND happy, with friends.
-> _For grown-ups: Your child thought about the difference between safe and well._
-
-_You turn the key. Your Nubbin goes in first, and they all climb down._  
-_You lead them across the square to the puddle._  
-_Chaos looks at them. Its glow goes still, and soft, and warm._  
 
 #### `sprout:pa1-17-chao-done` · [main](main.md#pa1-17-chao-done)
 
@@ -1724,6 +1730,8 @@ _She stops before the last line._
 **Tikal**: Here. For you. I made it a long while ago, and it kept.  
 _She puts a crown of little pink and white flowers on your head._  
 _Then she takes Chaos’s hand. They turn to light, pink and green, and rise._  
+_The Chao wave until they’re gone. Tikal and Chaos are together, at peace._  
+_The world folds up gently, like a letter. You are back in the shed._  
 
 > **Lesson** (art, ELOF: Mathematics Development, ask): pattern: pink, white, pink  
 > _The crown goes pink, white, pink, white. What comes next?_  
@@ -1731,9 +1739,8 @@ _Then she takes Chaos’s hand. They turn to light, pink and green, and rise._
 > - Green → Green is Chaos’s light! The crown goes pink, white, pink, white… pink!
 > _For grown-ups: Your child continued a two-colour pattern._
 
-_The Chao wave until they’re gone. Tikal and Chaos are together, at peace._  
-_The world folds up gently, like a letter. You are back in the shed._  
 **Pixel**: You’re back! You’ve got flowers in your hair!  
+**Pixel**: And your hair is round again. I liked it square.  
 _On the cabinet, a little brass plate has appeared, waiting for a name._  
 **Pixel**: A high-score plate. We’ll do it properly after another cartridge.  
 
@@ -1817,35 +1824,3 @@ _The screen shows one last picture: the hotel roof at sunset._
 _A row of Chao sits along the edge, legs dangling._  
 _In one corner, two tiny lights, pink and green, and a little square person._  
 **Pixel**: That’s you. It put you in the ending!  
-
-#### `sprout:pa1-18-last-locked` · [main](main.md#pa1-18-last-locked)
-
-_Variant of `pa1-18-complete`._
-
-_The screen shows one last picture: the garden, with its gate wide open._  
-_A Chao swings on the gate, back and forth. Creak, creak._  
-_Two lights, pink and green, float up through the glass roof and away._  
-**Pixel**: Open. Next time, we leave it open from the start. Deal?  
-
-> **Lesson** (sel, CASEL: Self-management, ask): learning for next time  
-> **Pixel**: Next time, we leave it open. Is it all right to do better?  
-> - ✅ Yes, that’s how we learn → Yes. Nobody gets it all right first go. We learn, and do better.
-> - No, you should never get it wrong → Everyone gets things wrong sometimes. We learn, and do better.
-> _For grown-ups: Your child learned that doing better next time is how we learn._
-
-
-#### `sprout:pa1-18-last-locked-stood` · [main](main.md#pa1-18-last-locked-stood)
-
-_Variant of `pa1-18-last-locked`._
-
-_The screen shows one last picture: the garden, with its gate wide open._  
-
-> **Lesson** (sel, CASEL: Responsible decision-making, ask): open means free to choose  
-> **Pixel**: The gate is open now. Why is an open gate nicer for the Chao?  
-> - ✅ They can come and go as they like → Yes. Open means they can choose: in, or out. That feels good.
-> - It isn’t nicer → It is! Open means they can choose: in, or out. That feels good.
-> _For grown-ups: Your child thought about why an open gate is kinder._
-
-_A Chao swings on the gate. Two lights float above the palm tree._  
-_Beside them, a little square person who looks a lot like you._  
-**Pixel**: Open. They’ve drawn it open. And you’re in it, look.  
