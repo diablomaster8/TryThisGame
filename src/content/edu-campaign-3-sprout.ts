@@ -196,14 +196,17 @@ const C9: EduScene[] = [
       N('You put the note in a drawer. Then you move it somewhere else.'),
     ],
     [
-      doIt(
-        4,
-        'literacy',
-        'first sounds: the /k/ sound of C',
-        'RF.K.2',
-        'edu:say:sound:c',
-        [N('(Say the sound with me: c-c-cold, c-c-Corvin!)')],
-        'Your child said the first sound of Corvin and cold, and heard that they start the same.',
+      ask(
+        5,
+        'sel',
+        'quiet can mean calm or sad',
+        'CASEL: Social awareness',
+        [N('Your Nubbin is quiet when it naps.'), N('Is it quiet when it is sad, too?')],
+        [
+          opt('Yes. Quiet can be calm or sad', [N('Yes. Look at faces to tell which.'), N('A cosy face is calm. A droopy face is sad.')], true),
+          opt('No. Quiet is always happy', [N('Not always. Sometimes quiet is sad.'), N('Look at the face to tell.')]),
+        ],
+        'Your child learned that being quiet can mean calm or sad, and that faces help us tell.',
       ),
     ],
   ),
@@ -640,7 +643,7 @@ const C10: EduScene[] = [
     ],
     [
       ask(
-        5,
+        6,
         'sel',
         'being brave means doing a hard thing even when scared',
         'CASEL: Self-awareness',
@@ -664,14 +667,13 @@ const C10: EduScene[] = [
       N('They stand up tall by their lanterns.'),
     ],
     [
-      doIt(
-        0,
-        'literacy',
-        'first sounds: the /m/ sound of M',
-        'RF.K.2',
-        'edu:say:sound:m',
-        [N('(Say the sound with me: m-m-Moss, m-m-moon!)')],
-        'Your child said the first sound of Moss and moon, and heard that they start the same.',
+      notice(
+        5,
+        'sel',
+        'brave acts help others feel brave',
+        'CASEL: Social awareness',
+        [N('Moss was brave. So the Keepers stand up tall too.'), N('When one friend is brave, it helps the others be brave.')],
+        'Your child noticed that one person’s courage can help others feel brave.',
       ),
     ],
   ),
@@ -855,7 +857,7 @@ const C10: EduScene[] = [
     [
       N('Moss stands in the water. The stone is still in his mouth.'),
       N('He turns his head and looks at you.'),
-      MOSS('I can’t put her down. So I will carry her home.', 'soft'),
+      MOSS('I can’t put Cinder down. So I will carry her home.', 'soft'),
       MOSS('That’s what you do for a friend who stays out too late.', 'soft'),
       MOSS('Hold the lantern up for me. I want to see.', 'soft'),
       N('Your arm shakes. You hold it up anyway.'),
@@ -996,18 +998,6 @@ const C10: EduScene[] = [
         [N('Count the lanterns with me: pond, stream, old wall, long grass.'), N('One, two, three, four! All four lit!')],
         'Your child counted four objects, one number for each.',
       ),
-      ask(
-        7,
-        'science',
-        'sunlight warms the ground and melts frost',
-        'K-PS3-1',
-        [N('Why did the frost melt?')],
-        [
-          opt('The sun warmed it', [N('Yes! Sunlight warms the ground. Warm frost melts into water drops.')], true),
-          opt('Sparks touched it', [N('Sparks says she didn’t! The sunshine warmed the ground, and the frost melted.')]),
-        ],
-        'Your child learned that sunlight warms the ground and melts frost.',
-      ),
     ],
   ),
   scene(
@@ -1080,7 +1070,7 @@ const C10: EduScene[] = [
     ],
     [
       ask(
-        4,
+        7,
         'sel',
         'people show sadness in different ways',
         'CASEL: Social awareness',
@@ -1162,13 +1152,14 @@ const C10: EduScene[] = [
     'c10-bramble',
     [
       FERN('That ear folds at the tip. Just like Bramble’s!', 'shock'),
+      FERN('Bramble used to be my Nubbin.', 'soft'),
       HAZEL('This is Bramble’s baby. I found her under a root.'),
-      FERN('Bramble used to be my Nubbin. Hello, little one!', 'soft'),
+      FERN('Hello, little one!', 'soft'),
       N('Fern touches the folded ear, gently. The baby sighs and snuggles in.'),
     ],
     [
       ask(
-        1,
+        2,
         'science',
         'babies need grown-ups to feed them and keep them warm',
         '1-LS1-2',
@@ -1247,7 +1238,7 @@ const C11: EduScene[] = [
     ],
     [
       ask(
-        2,
+        5,
         'literacy',
         'rhyming words',
         'RF.K.2',
@@ -1295,7 +1286,7 @@ const C11: EduScene[] = [
     ],
     [
       notice(
-        1,
+        2,
         'sel',
         'a happy memory and a sad feeling can come together',
         'CASEL: Self-awareness',
@@ -1360,19 +1351,6 @@ const C11: EduScene[] = [
         ],
         'Your child noticed that still water reflects things like a mirror.',
       ),
-      ask(
-        6,
-        'literacy',
-        'animal sounds',
-        'ELOF: Language and Communication',
-        [N('Which animal says “hoo-hoo” in the dark?')],
-        [
-          opt('An owl', [N('Yes! Hoo-hoo. Owls are awake at night, even in winter.')], true),
-          opt('A cow', [N('A cow says moo! An owl says hoo-hoo.')]),
-          opt('A duck', [N('A duck says quack! An owl says hoo-hoo.')]),
-        ],
-        'Your child matched an animal to the sound it makes.',
-      ),
     ],
   ),
   scene(
@@ -1409,7 +1387,7 @@ const C11: EduScene[] = [
         },
         {
           id: 'gate-cruel',
-          label: 'It’s so cold! Isn’t that unkind?',
+          label: 'He’ll stand there all night! Isn’t that unkind?',
           then: [
             HAZEL('It would be, if someone made him wait. Nobody did.', 'think'),
             HAZEL('He chose to wait. Let him choose something, love.', 'soft'),
@@ -1730,7 +1708,7 @@ const C12: EduScene[] = [
         [N('Let’s look after Gran Hazel’s flower. What does a flower need?')],
         [
           opt('Sunlight and water', [N('Yes. Sun and water help it grow.'), N('Looking after it is a way to remember her.')], true),
-          opt('Sweets', [N('Flowers don’t eat sweets! They need sunlight and water.'), N('Caring for it helps us remember her.')]),
+          opt('A hug', [N('Hugs are for people. Flowers need sunlight and water.'), N('We can give each other the hugs.')]),
         ],
         'Your child learned that plants need light and water, and that caring for a memorial flower is a way to remember.',
       ),
@@ -1902,6 +1880,7 @@ const ENDS: EduScene[] = [
       N('Sable meets each one. She sits near it. She doesn’t rush.'),
       N('She shows them how to be brave.'),
       N('Ash sits with her most days. Two grey friends together.'),
+      N('Byte writes down every Nubbin who comes. Nobody ever leaves. He checks anyway.'),
     ],
     [
       ask(
@@ -1994,6 +1973,8 @@ const ENDS: EduScene[] = [
       N('There is no gate now. Some Nubbins stay. Some don’t.'),
       N('Grey Nubbins from Corvin’s garden live in the Hollow, free.'),
       N('Each week you go there with a lantern and a bag of fruit.'),
+      N('Fern sends lantern buns. The Hollow Nubbins won’t touch them!'),
+      N('Fern says that proves they are fussy eaters.'),
       N('Some of them let you come near now.'),
       N('A little grey one let you touch its ear. Took two months. Worth it.'),
     ],
@@ -2296,7 +2277,7 @@ const EPI: EduScene[] = [
     'end-epi-gate-guest',
     [
       N('Corvin comes when he is asked. That’s not very often.'),
-      N('He knocks on the gatepost every time. Knock, knock!'),
+      N('He knocks on the gatepost every time. Knock, knock, knock! Three, never four.'),
       N('You let him in every time.'),
       N('Once he brought flowers for the gatepost. You put them in a jar.'),
     ],
@@ -2495,6 +2476,7 @@ const EPI: EduScene[] = [
       N('They stand together, and remember her.'),
       N('Fern brings lantern buns. They come out right every time now!'),
       N('She says it’s because she stopped trying so hard.'),
+      N('She says this mostly to the buns.'),
     ],
     [
       notice(
@@ -2568,7 +2550,7 @@ const EPI: EduScene[] = [
         'D2.Civ.8.K-2',
         [N('Is it OK to read someone else’s letter?')],
         [
-          opt('No, it belongs to them', [N('Yes. Their letter, their words. We keep it safe for them.')], true),
+          opt('No, it belongs to them', [N('That’s right. Their letter, their words. We keep it safe for them.')], true),
           opt('Yes, any time', [N('A letter belongs to the person it’s for.'), N('We keep it safe, and don’t peek.')]),
         ],
         'Your child thought about respecting other people’s belongings.',
@@ -2581,6 +2563,7 @@ const EPI: EduScene[] = [
       N('Old Tobin lights the mill stove on cold mornings.'),
       N('He tells the Nubbins stories by the fire.'),
       N('He never finishes a story. Not one!'),
+      N('You put Aldous’s letter in the stove. It burned up.'),
       N('Corvin never knew about his dad’s letter. You still wonder about that.'),
       N('Tobin says most things are a bit of both.'),
     ],
@@ -2769,8 +2752,6 @@ export const EDU_CAMPAIGN_3_SPROUT: EduCampaign = {
 };
 
 export const CHECKS: string[] = [
-  'edu:say:sound:c',
-  'edu:say:sound:m',
   'edu:tap:row:third',
   'edu:share:pie:2',
   'edu:copy:sniff:sable',

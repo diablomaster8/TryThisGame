@@ -14,14 +14,14 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | --- | --- | --- | --- |
 | The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (494) |  |  |
 | The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (580) |  |  |
-| The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1147) |  |  |
-| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (73) |  |  |
-| The campaign: endings | [endings.md](campaign/endings.md) (363) |  |  |
-| Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (199) | [sprout.md](learning/side/S01/sprout.md) (245) | [reader.md](learning/side/S01/reader.md) (333) |
-| Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (205) | [sprout.md](learning/side/S02/sprout.md) (218) | [reader.md](learning/side/S02/reader.md) (317) |
-| Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (170) | [sprout.md](learning/side/S03/sprout.md) (210) | [reader.md](learning/side/S03/reader.md) (274) |
-| Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (146) | [sprout.md](learning/side/S04/sprout.md) (191) | [reader.md](learning/side/S04/reader.md) (253) |
-| Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (141) | [sprout.md](learning/side/S05/sprout.md) (183) | [reader.md](learning/side/S05/reader.md) (253) |
+| The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1152) |  |  |
+| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (75) |  |  |
+| The campaign: endings | [endings.md](campaign/endings.md) (366) |  |  |
+| Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (202) | [sprout.md](learning/side/S01/sprout.md) (249) | [reader.md](learning/side/S01/reader.md) (336) |
+| Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (207) | [sprout.md](learning/side/S02/sprout.md) (220) | [reader.md](learning/side/S02/reader.md) (319) |
+| Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (178) | [sprout.md](learning/side/S03/sprout.md) (219) | [reader.md](learning/side/S03/reader.md) (282) |
+| Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (152) | [sprout.md](learning/side/S04/sprout.md) (194) | [reader.md](learning/side/S04/reader.md) (259) |
+| Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (146) | [sprout.md](learning/side/S05/sprout.md) (186) | [reader.md](learning/side/S05/reader.md) (258) |
 | Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (163) | [sprout.md](learning/side/S06/sprout.md) (193) | [reader.md](learning/side/S06/reader.md) (238) |
 | Side story S7: Unverified · opens in chapter 7 | [S07.md](side/S07.md) (164) | [sprout.md](learning/side/S07/sprout.md) (192) | [reader.md](learning/side/S07/reader.md) (265) |
 | Side story S8: The Warren in the Hollow · opens in chapter 8 | [S08.md](side/S08.md) (178) | [sprout.md](learning/side/S08/sprout.md) (225) | [reader.md](learning/side/S08/reader.md) (302) |
@@ -48,7 +48,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (665) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
 | Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (554) | [sprout.md](learning/side/S30/sprout.md) (772) | [reader.md](learning/side/S30/reader.md) (892) |
 | Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (617) | [sprout.md](learning/side/S31/sprout.md) (851) | [reader.md](learning/side/S31/reader.md) (920) |
-| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2823) | [reader-1.md](learning/campaign/reader-1.md) (2574), [reader-2.md](learning/campaign/reader-2.md) (1378) |
+| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2829) | [reader-1.md](learning/campaign/reader-1.md) (2556), [reader-2.md](learning/campaign/reader-2.md) (1381) |
 
 ## Fun quests
 

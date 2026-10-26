@@ -662,8 +662,11 @@ const CH4: EduScene[] = [
       SPARKS('Fern’s lantern buns! Crunch! They’re very crunchy!', 'happy'),
       N('An old Nubbin taps a bun. Tap, tap! It rings like a bell.'),
       FERN('Oh dear. Buns are not meant to ring.'),
+      SPARKS('That’s Byte. He counts everything. He counted my sandwiches. Twice.', 'happy'),
       MOSS('Psst. Tell Byte his shoelace is undone.'),
-      BYTE('…Hm. How did Moss know that?', 'think'),
+      N('You tell Byte. Byte looks down. It is undone!'),
+      BYTE('Anyone could have seen that.', 'think'),
+      MOSS('Nobody did.'),
       N('Then Luna starts to sing. One by one, everyone joins in.', 'soft'),
       LUNA('Light one for the pond where the first ones woke,', 'soft'),
       CHORUS('light one for the stream and the laughing folk,', 'soft'),
@@ -677,7 +680,7 @@ const CH4: EduScene[] = [
         skill: 'hearing rhyme (keep, sleep)',
         standard: 'RF.K.2',
         kind: 'ask',
-        after: 10,
+        after: 13,
         prompt: [
           N('(Listen: woke, folk. They rhyme! They sound the same at the end.)'),
           N('The last line rhymes with keep. Which word will it be?'),
@@ -706,7 +709,7 @@ const CH4: EduScene[] = [
         skill: 'joining in with a repeated refrain and keeping the beat',
         standard: 'RL.2.4',
         kind: 'do',
-        after: 11,
+        after: 14,
         check: 'edu:sing:refrain:lantern-song',
         lines: [
           N('(Now the bit everyone knows. Sing it together!)'),
@@ -1062,8 +1065,9 @@ const TRIGGERED: EduScene[] = [
       N('Look! Something grey sits at the edge of the long grass.'),
       N('It is watching you. You want to run to it!'),
       N('But remember Gran’s rule three: sit down and wait.'),
-      N('You put a fruit in the grass. You sit a little way off.'),
-      N('It looks at the fruit. Then at you. It stays.', 'soft'),
+      N('You put a plum in the grass. Then a second plum, just in case.'),
+      N('Then you sit a little way off.'),
+      N('It looks at the plums. Then at you. It stays.', 'soft'),
     ],
     [
       {
@@ -1171,6 +1175,7 @@ const TRIGGERED: EduScene[] = [
       N('You put your hand on his head. He is dry and soft.'),
       N('Then, very slowly, he leans into your hand.'),
       N('Like a plant leaning towards a sunny window.'),
+      N('A tuft of grass grows on his head. You don’t mention it.'),
       N('At the bottom of the hill, you look back. He is watching you go.'),
     ],
     [

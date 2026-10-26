@@ -122,6 +122,9 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
     - …
     - **Corvin Vale**: Ash can go, Ember.
     - Ash does not move for a long time. Then she walks out of the third row, past Ember, not looking at her.
+    - In the second row, the one with the number on its side watches Ash go. It doesn’t follow. Nobody has told it that it may.
+    - **Corvin Vale**: Yours, once. It’s quiet now. I never asked if it wanted to be.
+    - When you look again, the second row is empty. You tell yourself you’ll find it later. It will keep.
     - Ember follows her down the road, three steps behind, the way you follow something you must not frighten.
 - **Buy Ash back. Whatever it costs.** — sets `{"corvin":"bargained","boughtBack":true}`
     - **Corvin Vale**: Two hundred. The same as always. A fair price for a champion who no longer wins.
@@ -134,6 +137,7 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
     - You throw the latches, one after another. The iron is so cold your fingers stick to it.
     - The grey Nubbins do not move. They have never been told they could.
     - Then Ash takes one step. Then all of them: a grey tide pouring out past Corvin, past you, into the trees, towards the Hollow and the dark.
+    - Your old Nubbin goes with them, number and all. You lose it in the first ten yards of trees.
     - **Corvin Vale**: You think you freed them. You scattered them. Half will starve.
     - **Corvin Vale**: Hazel would have fed them one at a time for a year. You had an afternoon.
     - **Ember**: She looked at me. On her way past. She looked at me.
@@ -231,7 +235,8 @@ _She doesn’t flinch. She sits down, and looks at the pocket, and then up at yo
 **Marina**: Whatever you did up there, the valley’s already talking about it.  
 **Marina** _(think)_: Fern says it was brave. Byte says it was statistically unwise. Both of them are right. That’s the trouble with this valley.  
 _On your step is a pie from Fern, still warm, with a note on top._  
-_RULE ONE, THE SECOND HALF. THE BIT SHE NEVER DID._  
+_RULE ONE, SECOND HALF: FEED YOURSELF. THE BIT SHE NEVER DID._  
+_EAT THIS. IT CAME OUT OF THE TIN IN ONE PIECE. FIRST TIME._  
 **Marina** _(think)_: She baked two, you know. Won’t say where the other one went. Went pink when I asked.  
 _Dusk. The tin is in your coat, and the coat is stiff with frost down that side._  
 _Moss is waiting at the foot of the hill._  
@@ -654,7 +659,7 @@ _So you wait. After a while Marina comes in from the cave mouth, coiling her rop
 **Marina** _(soft)_: Talk about him. Out loud. It helps.  
 **Marina**: That’s all that singing was, back there. People talking about him out loud.  
 _So you tell her. The first morning on the hill: “…You lift and push.”_  
-_I bruise like fruit. The pale one’s shoelace._  
+_“I bruise like fruit.” The pale one’s shoelace._  
 _The afternoons you sat with him and said nothing at all._  
 _There were a lot of those. You find you remember every one._  
 _Marina laughs in the right places. You talk until your voice goes._  
@@ -681,7 +686,7 @@ _So you wait. After a while Marina comes in from the cave mouth, coiling her rop
 **Marina** _(soft)_: Talk about him. Out loud. It helps.  
 **Marina**: That’s all that singing was, back there. People talking about him out loud.  
 _So you tell her. The first morning on the hill: “…You lift and push.”_  
-_I bruise like fruit. The pale one’s shoelace._  
+_“I bruise like fruit.” The pale one’s shoelace._  
 _And then you can’t think what else._  
 _You didn’t sit with him as often as you meant to. You thought there would be time._  
 _Marina doesn’t say anything. She just stays, which is the same thing._  
@@ -918,7 +923,7 @@ _Beside you, Hazel doesn’t turn round. But she has stopped breathing, just for
 - **Stay where you are.**
     - You stay where you are. In the dark the gate creaks once more, and then is quiet.
     - But you don’t hear him go.
-- **It’s freezing. Isn’t that cruel?**
+- **He’ll stand there all night. Isn’t that cruel?**
     - **Gran Hazel**: It would be, if anyone had asked him to. Nobody did. He chose the hour himself.
     - **Gran Hazel**: Let him have chosen something, love. It’s been a long time.
     - You stay. In the dark the gate creaks once more, and then is quiet.

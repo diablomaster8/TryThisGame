@@ -23,6 +23,7 @@ _Moon friends sit on the right. An empty bench sits in the middle._
 **Fern**: Don’t sit there! That’s the gap.  
 **Fern**: Hazel sat in the gap. Just to be cheeky.  
 _Two big tea pots. One has a sun. One has a moon._  
+_Each side says the other pot’s tea is worse._  
 **Sparks**: Long ago, at the Midsummer race, Bramble fell!  
 **Sparks**: Sun says one thing. Moon says another. Now nobody races together!  
 **Sparks**: Oops. I didn’t say that. That was the wind.  
@@ -107,6 +108,8 @@ _A man in a grey coat is moving the flag!_
 
 **Sparks**: Nobody from Sun or Moon moved it. It was a race helper!  
 **Sparks**: We fought about the wrong thing. For years!  
+**Byte**: There’s a thumb on the last picture too. In the corner.  
+**Sparks**: That’s how I sign my pictures!  
 
 #### `sprout:s3-courier` · [main](../../../side/S03.md#s3-courier)
 
@@ -131,6 +134,7 @@ _Byte wraps a moon tea towel round that._
 - **Show them one at a time.**
     - Fern first. Then Ember.
     - Each one asks: has the other one seen it?
+    - By evening, both are at the same fence. They say it’s an accident.
 
 #### `sprout:s3-truce` · [main](../../../side/S03.md#s3-truce)
 
@@ -180,6 +184,10 @@ _Evening at the pond. Ten friends. One tea pot._
 
 _Dusty dug a hole. The pot sits in it. Dusty is proud._  
 **Gran Hazel**: A Moot! I haven’t been to one in years!  
+_You put the pictures on the bench in the middle._  
+_Gran Hazel sits right in the middle. She smiles at both sides._  
+_Everyone shuffles in close to look. Now there is no gap!_  
+**Fern**: She did it again! Still cheeky, after all these years.  
 **Sparks**: It was the flag. I had the pictures all along.  
 **Fern**: Bramble fell because a man moved a flag. Not because of us.  
 **Byte**: I tasted both teas. Same tea. It always was.  
@@ -199,12 +207,13 @@ _Dusty dug a hole. The pot sits in it. Dusty is proud._
 - **Bang the spoon on the pot.**
     - Bong! Everybody stops talking.
     - Now one person talks at a time. Taking turns!
+    - **Byte**: That spoon is now a very important spoon.
     - **Pixel**: Ribbons for every racer! Gold, silver and green!
     - **Gran Hazel**: Moot-Keeper. It suits you.
 - **Let Fern and Ember share the spoon.**
     - Fern and Ember hold the spoon together. Bong! They both miss!
     - Everybody cheers.
-    - **Pixel**: Ribbons for every racer! Gold, silver and green!
+    - **Pixel**: Ribbons for every racer! Gold, silver and green. Mine came out wonky.
     - **Gran Hazel**: You’re still the Moot-Keeper, love.
 
 **Notes:** Bramble’s fall is “fell at the cliff bend and got lost” (S8 reunites them). The steward is “a man in a grey coat” / “a race helper”. The urns are “tea pots” for read-aloud. s3-step4 has no done scene in the source.

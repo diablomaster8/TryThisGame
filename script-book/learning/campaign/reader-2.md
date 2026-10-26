@@ -227,7 +227,7 @@ _Beside you, Gran Hazel doesn’t turn round. But she stops breathing for a mome
 
 - **Stay where you are.**
     - You stay where you are. In the dark the gate creaks once more, and then is quiet. But you don’t hear him go.
-- **It’s freezing. Isn’t that cruel?**
+- **He’ll stand there all night. Isn’t that cruel?**
     - **Gran Hazel**: It would be, if anyone had made him. Nobody did. He chose the hour himself.
     - **Gran Hazel**: Let him have chosen something, love. It’s been a long time.
     - You stay. In the dark the gate creaks once more, and then is quiet. But you don’t hear him go.
@@ -502,7 +502,7 @@ _And on the hill, near Briar’s, there is a new flower: small, brisk, a bit unt
 _HAZEL’S GROVE_  
 _The gate sticks. Everyone who matters knows to lift and push._  
 _The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen._  
-_There is a flower on the hill that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it._  
+_Near Briar’s, on the hill, there is a small, untidy flower that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it._  
 _Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has._  
 _Sable sleeps on your feet. Grey as ash. Heart above her head. Both at once, for ever._  
 _Pixel’s trust meter still hangs by the cottage door. Somebody has painted over MAYBE. It now says OBVIOUSLY._  
@@ -529,7 +529,7 @@ _There is no gate now. Everyone who matters still comes in, and most of them sti
 > _For grown-ups: Your child explained a character’s action as a habit, and how habits can also be a way of remembering._
 
 _The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen._  
-_There is a flower on the hill that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it._  
+_Near Briar’s, on the hill, there is a small, untidy flower that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it._  
 _Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has._  
 _Sable sleeps on your feet. Grey as ash. Heart above her head. Both at once, for ever._  
 _Pixel’s trust meter still hangs by the cottage door. Somebody has painted over MAYBE. It now says OBVIOUSLY._  
@@ -568,7 +568,7 @@ _In the Grove, a Nubbin loved enough can become an Eternal. That is Grove magic.
 _In the real world, every living thing has a life cycle. It is born, grows up, gets older, and one day dies._  
 _It sits on the western hill now, where the sun goes down, and watches the gate._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, do): compass directions: west is where the sun sets  
+> **Lesson** (social-studies, D2.Geo.2.3-5, do): compass directions: west is where the sun sets  
 > _The Sun rises in the east and sets in the west. So the western hill is the one the sunset sits behind._  
 > _Find W for west on the Grove’s compass, and tap the hill it points to._  
 > Check: `edu:tap:compass:west`
@@ -632,7 +632,9 @@ _THE SHADOW’S KEEPER_
 _Grey Nubbins find their way to your gate now. Word gets round, somehow, among creatures that do not speak._  
 _They come out of the Hollow, down from the Circuit, in from the long grass: thin and quiet, waiting for the next bad thing._  
 _Sable meets each one at the edge and sits with it. She does not come closer. She does not run. She shows them how._  
-_Ash sits with her most days. Two grey shapes in the long grass. The newcomers go to both._  
+_Ash sits with her most days, half a step further out, out of respect. Two grey shapes in the long grass. The newcomers go to both._  
+_Byte keeps a list of every arrival at the edge. The column for leavings is still empty._  
+_He checks it anyway, as if it might fill in while he isn’t looking._  
 _Together, the two of them make it feel safe enough to stay._  
 
 > **Lesson** (science, 3-LS2-1, notice): animals in groups help each other survive  
@@ -689,7 +691,7 @@ _So you do. You tell the new Keepers about him: the shoelace jokes, the long sit
 _Byte writes the stories down. Fern leaves a lantern bun by his flower every Lantern Night._  
 _That is how stories carry someone forward: one person telling the next._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): oral history: how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): oral history: how stories carry the past  
 > _Long before there were books, people kept their history by telling it out loud: grandparents to parents, parents to children._  
 > _That is called oral history. Moss’s Tale of the Four was oral history. Now you are the one telling his._  
 > _For grown-ups: Your child learned about oral history: how people pass the past on by telling stories aloud._
@@ -701,6 +703,7 @@ _Who would you tell about Moss? Which story would you tell first?_
 _WILD GROVE_  
 _There is no gate any more. Some stayed. Most didn’t. The grey ones from Corvin’s garden come and go through the Hollow._  
 _You leave fruit, and some of it is eaten._  
+_Fern sends lantern buns. Nothing in the Hollow will touch them. Fern says that proves they have standards._  
 _Most weeks you go into the Hollow with a lantern, a bag of fruit and the stubborn chin. Some of them let you near now._  
 _They have learned to live wild: where the water is, where to shelter from the wind, how much room they need._  
 
@@ -787,7 +790,7 @@ _Two hundred Shells buys a lot of eggs._
 > _For grown-ups: Your child solved a division word problem with money (200 ÷ 25 = 8)._
 
 _They hatch, and they are fast, and by autumn they are grey, every one._  
-_When the pens opened, you never went looking for the first one. You told yourself it was doing well._  
+_When the pens opened, you meant to go looking for the first one. You told yourself it would keep._  
 _Quiet. You told yourself quiet and well were the same thing._  
 _They aren’t. Somewhere inside, you knew that._  
 
@@ -941,7 +944,7 @@ _You never do._
 _You never saw Wisp again._  
 _Once, from the ridge, you thought you did: thin and grey, one ear torn to a fringe, sitting where the paths stop, watching the Grove._  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, notice): land features on a map: a ridge  
+> **Lesson** (social-studies, D2.Geo.2.3-5, notice): land features on a map: a ridge  
 > _A ridge is a long, narrow line of high ground, like the top edge of a roof. You can see a long way from one._  
 > _On some maps, hills are drawn with curvy lines. Where the lines are packed close together, the land is steep._  
 > _For grown-ups: Your child learned what a ridge is and how maps can show hills and steep ground._
@@ -1066,7 +1069,7 @@ _Tobin says a great many things. You believe this one._
 _A letter can be read again and again. Every time, his father says the same kind words._  
 _Paper remembers, when people can’t._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): letters as a window on the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): letters as a window on the past  
 > _Old letters and diaries are one of the ways we learn about life long ago._  
 > _They show what real people thought and felt, in their own words. Historians treasure them._  
 > _For grown-ups: Your child learned that letters and diaries help us learn about life in the past._
@@ -1274,16 +1277,16 @@ _You keep that one close, like a warm stone in a pocket. The good kind._
 
 _The whole valley walked her to the foot of the hill._  
 _They still meet there once a year, on the day she went up the hill._  
-_They stand together, and say nothing, badly. It has become a tradition._  
+_They are quiet together in shifts, because somebody always has to blow their nose. It has become a tradition._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): traditions help communities remember  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): traditions help communities remember  
 > _Families and towns all over the world keep traditions: special days, songs and foods that come round again each year._  
 > _Traditions help people remember the past, and feel that they belong together. What traditions does your family have?_  
 > _For grown-ups: Your child learned what a tradition is and how traditions help communities remember and belong._
 
 _Fern brings lantern buns. They come out every time now._  
 _She says it’s because she stopped trying so hard._  
-_Hazel would have said that was the whole trick._  
+_She says this mostly to the buns._  
 
 #### `reader:end-epi-secret` · [main](../../campaign/endings.md#end-epi-secret)
 

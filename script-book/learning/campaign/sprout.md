@@ -278,8 +278,11 @@ _Here come the Keepers, through the gate. Lift and push!_
 **Sparks**: Fern’s lantern buns! Crunch! They’re very crunchy!  
 _An old Nubbin taps a bun. Tap, tap! It rings like a bell._  
 **Fern**: Oh dear. Buns are not meant to ring.  
+**Sparks**: That’s Byte. He counts everything. He counted my sandwiches. Twice.  
 **Moss**: Psst. Tell Byte his shoelace is undone.  
-**Byte**: …Hm. How did Moss know that?  
+_You tell Byte. Byte looks down. It is undone!_  
+**Byte**: Anyone could have seen that.  
+**Moss**: Nobody did.  
 _Then Luna starts to sing. One by one, everyone joins in._  
 **Luna**: Light one for the pond where the first ones woke,  
 **Everyone**: light one for the stream and the laughing folk,  
@@ -488,8 +491,9 @@ _But remember Gran’s rule three: sit down and wait._
 > - On top of its head → Ha! On its head would give it a fright. Beside it is best.
 > _For grown-ups: Your child used position words (beside, on top) to choose where to put the fruit._
 
-_You put a fruit in the grass. You sit a little way off._  
-_It looks at the fruit. Then at you. It stays._  
+_You put a plum in the grass. Then a second plum, just in case._  
+_Then you sit a little way off._  
+_It looks at the plums. Then at you. It stays._  
 
 #### `sprout:t-sable-bonded` · [main](../../campaign/triggered.md#t-sable-bonded)
 
@@ -535,6 +539,7 @@ _Like a plant leaning towards a sunny window._
 > _(Is there a plant on a windowsill near you? Which way does it lean?)_  
 > _For grown-ups: Your child learned that plants need light and grow towards it, and looked for a plant that does._
 
+_A tuft of grass grows on his head. You don’t mention it._  
 _At the bottom of the hill, you look back. He is watching you go._  
 
 #### `sprout:t-talk-generic` · [main](../../campaign/triggered.md#t-talk-generic)
@@ -619,11 +624,12 @@ _Corvin’s Nubbins wait in a row. Grey, and very still._
 
 _Corvin comes over. His hands are cold and blue._  
 
-> **Lesson** (literacy, RF.K.2, do): hear the same first sound (c in Corvin and cold)  
-> **Sparks**: Corvin… cold… they start the same! C-c-c!  
-> **Sparks**: Say the sound with me: c-c-cold, c-c-Corvin!  
-> Check: `edu:say:sound:c`
-> _For grown-ups: Said the first sound of Corvin and cold, and heard that they start the same way._
+> **Lesson** (literacy, RF.K.2, do): hear the same first sound (b in Byte and buttons)  
+> **Sparks**: B-b-Byte! B-b-buttons! Byte, stop counting my buttons.  
+> **Byte**: Seven. You’ve lost one.  
+> **Sparks**: Byte and buttons start the same. Say it with me: b-b-b!  
+> Check: `edu:say:sound:b`
+> _For grown-ups: Said the first sound of Byte and buttons, and heard that they start the same way._
 
 **Ember**: Where is Ash?  
 **Corvin Vale**: She’s safe. Now: what matters most in a race?  
@@ -793,11 +799,12 @@ _Sable stares at the post. She is very, very still._
 **Luna**: Morning! Well, it’s my bedtime. I work at night.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): some animals are awake at night  
-> **Luna**: Who else stays up all night, like me?  
-> - ✅ An owl → Yes! Lots of owls hunt at night. Hoo-hoo!
-> - A butterfly → Butterflies like sunny days. Lots of owls are awake at night. Hoo-hoo!
-> - A sunflower → Sunflowers love the sun! Lots of owls stay up at night. Hoo-hoo!
-> _For grown-ups: Learned that some animals, like many owls, are awake at night and rest in the day._
+> _A hedgehog snuffles past Luna’s boots. Snuffle, snuffle._  
+> **Luna**: Who else is awake at night, like me?  
+> - ✅ A hedgehog → Yes! Hedgehogs, and owls, and me. We sleep in the day.
+> - A butterfly → Butterflies like sunny days. Hedgehogs are awake at night. So am I.
+> - A sunflower → Sunflowers love the sun! Hedgehogs are awake at night. So am I.
+> _For grown-ups: Learned that some animals, like hedgehogs, are awake at night and rest in the day._
 
 **Luna**: I found out where Sable lived before. In Corvin’s garden.  
 **Luna**: It’s cold there. Sable was hungry and scared. She ran away.  
@@ -928,6 +935,7 @@ _She is heavy! You stand very still and let her._
 **Luna**: Still grey. Always will be. And look at her anyway.  
 **Byte**: I’m writing that down as nice.  
 **Clover**: Write it down twice!  
+**Pixel**: I’m Pixel. Byte is my husband. We argue about machines.  
 **Pixel**: I made Sable a trust meter! It says MAYBE.  
 **Byte**: Your machines never measure things right.  
 **Pixel**: Byte, your shoelace is undone.  
@@ -991,6 +999,10 @@ _Could it be Gran Hazel?_
 
 _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_  
 **Fern**: It’s cold where you’re going. So: jumpers!  
+**Fern**: Two jumpers! One for you. One for your Nubbin.  
+**Fern**: I knitted them myself. They are very, very itchy.  
+**Fern**: It will look very silly.  
+_Your Nubbin tries its jumper on. It wears it as a hat._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 4  
 > **Fern**: Count my bag with me! Tap each thing.  
@@ -1000,8 +1012,6 @@ _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_
 > Check: `edu:count:bag-items:4`
 > _For grown-ups: Counted four things in a bag, touching each one once._
 
-**Fern**: Two jumpers! One for you. One for your Nubbin.  
-**Fern**: It will look very silly.  
 _Sable sits by the gate. She will wait here._  
 **Marina**: Don’t be brave. Be careful. Hold the rock. Watch my feet.  
 **Marina**: Rule four still counts. Don’t be Sparks!  
@@ -1028,6 +1038,10 @@ _Past the falls, grey Nubbins peek from the dark trees._
 
 _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_  
 **Fern**: It’s cold where you’re going. So: jumpers!  
+**Fern**: Two jumpers! One for you. One for your Nubbin.  
+**Fern**: I knitted them myself. They are very, very itchy.  
+**Fern**: It will look very silly.  
+_Your Nubbin tries its jumper on. It wears it as a hat._  
 
 > **Lesson** (maths, K.CC.B.5, ask): count a small group (2)  
 > **Fern**: How many jumpers did I pack?  
@@ -1037,8 +1051,6 @@ _Fern brings a bag: fruit, a jumper, a whistle, and another jumper!_
 > - Five → Five would be a lot! Count again: one, two. Two jumpers.
 > _For grown-ups: Counted a small group and said how many there were._
 
-**Fern**: Two jumpers! One for you. One for your Nubbin.  
-**Fern**: It will look very silly.  
 _Sable sits by the gate. She will wait here._  
 **Marina**: You know my rules. Hold the rock. Watch my feet.  
 
@@ -1074,10 +1086,11 @@ _Gran’s camp. No Gran. A cold fire. Empty bowls._
 _Grey Nubbins watch from the trees, quiet as mice._  
 _On a flat stone is Gran’s notebook._  
 **Gran Hazel**: “Fed nineteen today. The brown one let me touch her ear.”  
+**Gran Hazel**: “It took two months. Worth it.”  
 **Gran Hazel**: “I’m very poorly. The doctors can’t make me better.”  
 **Gran Hazel**: “So I decided to make this year a good one.”  
 **Gran Hazel**: “To my grandchild: I love you. Lift and push.”  
-**Gran Hazel**: “The cold comes from up the valley. I hope he brings it back.”  
+**Gran Hazel**: “The cold comes from Corvin’s house. I hope he brings it back.”  
 **Nova**: Her footprints go up the valley, into the cold. Brave Gran.  
 _Your Nubbin puts its head on your knee. That helps._  
 
@@ -1144,13 +1157,15 @@ _The paper is cold. Brrr. It lived in a cold pocket._
 **Corvin Vale**: “Hello, partner. Come up the valley tomorrow.”  
 **Corvin Vale**: “Come and see the Nubbin you sold me. It is very quiet now.”  
 _The note ends with two letters: C.V. That is Corvin Vale._  
-
-> **Lesson** (literacy, RF.K.2, do): first sounds: the /k/ sound of C  
-> _(Say the sound with me: c-c-cold, c-c-Corvin!)_  
-> Check: `edu:say:sound:c`
-> _For grown-ups: Your child said the first sound of Corvin and cold, and heard that they start the same._
-
 _Quiet. Is quiet the same as happy? You are not sure._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): quiet can mean calm or sad  
+> _Your Nubbin is quiet when it naps._  
+> _Is it quiet when it is sad, too?_  
+> - ✅ Yes. Quiet can be calm or sad → Yes. Look at faces to tell which. A cosy face is calm. A droopy face is sad.
+> - No. Quiet is always happy → Not always. Sometimes quiet is sad. Look at the face to tell.
+> _For grown-ups: Your child learned that being quiet can mean calm or sad, and that faces help us tell._
+
 _You put the note in a drawer. Then you move it somewhere else._  
 
 #### `sprout:c9-open` · [main](../../campaign/book-3.md#c9-open)
@@ -1500,6 +1515,7 @@ _She looks at the stone. She looks at Moss. She looks at you._
 **Moss**: Yes. Only a grey one can carry it. The cold can’t hurt her more.  
 _Sable picks up the stone in her mouth, gently, like an egg._  
 _She shivers once. Brrr. But she keeps going._  
+_Luna touches her forehead to Sable’s. Just for a second._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): being brave means doing a hard thing even when scared  
 > _Sable is scared, but she still helps. What is that called?_  
@@ -1507,22 +1523,21 @@ _She shivers once. Brrr. But she keeps going._
 > - Being silly → Not silly. Sable is scared and helps anyway. That is being brave.
 > _For grown-ups: Your child learned that being brave can mean feeling scared and trying anyway._
 
-_Luna touches her forehead to Sable’s. Just for a second._  
 
 #### `sprout:c10-bearer-moss` · [main](../../campaign/book-3.md#c10-bearer-moss)
 
 **Moss**: I put it there long ago. I will carry it now.  
-
-> **Lesson** (literacy, RF.K.2, do): first sounds: the /m/ sound of M  
-> _(Say the sound with me: m-m-Moss, m-m-moon!)_  
-> Check: `edu:say:sound:m`
-> _For grown-ups: Your child said the first sound of Moss and moon, and heard that they start the same._
-
 _Moss picks up the stone, quick and careful._  
 _Frost climbs up his face. He is so faint now._  
 **Moss**: There. Not so bad.  
 _Nobody else can hear him. They just see a blue glow._  
 _They stand up tall by their lanterns._  
+
+> **Lesson** (sel, CASEL: Social awareness, notice): brave acts help others feel brave  
+> _Moss was brave. So the Keepers stand up tall too._  
+> _When one friend is brave, it helps the others be brave._  
+> _For grown-ups: Your child noticed that one person’s courage can help others feel brave._
+
 
 #### `sprout:c10-ledge` · [main](../../campaign/book-3.md#c10-ledge)
 
@@ -1642,7 +1657,7 @@ _The water goes still. Moss has gone under. We wait._
 
 _Moss stands in the water. The stone is still in his mouth._  
 _He turns his head and looks at you._  
-**Moss**: I can’t put her down. So I will carry her home.  
+**Moss**: I can’t put Cinder down. So I will carry her home.  
 **Moss**: That’s what you do for a friend who stays out too late.  
 **Moss**: Hold the lantern up for me. I want to see.  
 
@@ -1734,13 +1749,6 @@ _…glows. Brighter. Brighter! It lit all by itself!_
 
 **Sparks**: I didn’t touch it! I did not touch it!  
 _By the time you get home, the frost has melted. Drip, drip._  
-
-> **Lesson** (science, K-PS3-1, ask): sunlight warms the ground and melts frost  
-> _Why did the frost melt?_  
-> - ✅ The sun warmed it → Yes! Sunlight warms the ground. Warm frost melts into water drops.
-> - Sparks touched it → Sparks says she didn’t! The sunshine warmed the ground, and the frost melted.
-> _For grown-ups: Your child learned that sunlight warms the ground and melts frost._
-
 _Sparks skims a frozen soup puck across the last of the pond ice. Whee!_  
 _Everyone laughs and laughs._  
 
@@ -1789,6 +1797,9 @@ _Everyone looks for Moss. You shake your head._
 _Moss has died. He won’t come back._  
 _Clover sits down in the wet grass. She is crying._  
 _Byte’s shoelace is untied. He leaves it._  
+**Dusty**: Love them anyway. Love them harder because of it.  
+_On the hill, by the flat stone where Moss sat, is a new flower._  
+_The flower helps everyone remember him._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): people show sadness in different ways  
 > _Clover is crying. Byte is very quiet. How do they feel?_  
@@ -1796,9 +1807,6 @@ _Byte’s shoelace is untied. He leaves it._
 > - Cross → They look sad, not cross. They miss Moss. Crying and quiet are both sad.
 > _For grown-ups: Your child noticed that people show sadness in different ways._
 
-**Dusty**: Love them anyway. Love them harder because of it.  
-_On the hill, by the flat stone where Moss sat, is a new flower._  
-_The flower helps everyone remember him._  
 
 #### `sprout:c10-moss-light` · [main](../../campaign/book-3.md#c10-moss-light)
 
@@ -1841,6 +1849,7 @@ _It’s Gran Hazel! Of course it is._
 #### `sprout:c10-bramble` · [main](../../campaign/book-3.md#c10-bramble)
 
 **Fern**: That ear folds at the tip. Just like Bramble’s!  
+**Fern**: Bramble used to be my Nubbin.  
 **Gran Hazel**: This is Bramble’s baby. I found her under a root.  
 
 > **Lesson** (science, 1-LS1-2, ask): babies need grown-ups to feed them and keep them warm  
@@ -1849,7 +1858,7 @@ _It’s Gran Hazel! Of course it is._
 > - Nothing at all → Babies need lots! Food, warmth, and a grown-up to look after them.
 > _For grown-ups: Your child learned that young animals need their parents to feed and protect them._
 
-**Fern**: Bramble used to be my Nubbin. Hello, little one!  
+**Fern**: Hello, little one!  
 _Fern touches the folded ear, gently. The baby sighs and snuggles in._  
 
 #### `sprout:c11-open` · [main](../../campaign/book-3.md#c11-open)
@@ -1885,6 +1894,9 @@ _Gran Hazel is small. She smells of woodsmoke and leaves._
 _Moss sits by Gran Hazel’s boot._  
 **Gran Hazel**: Hello, old thing.  
 **Moss**: You’re late.  
+**Gran Hazel**: I’m always late. You’re thinner.  
+**Moss**: You’re late. I’m thinner. We’re even.  
+_Gran Hazel laughs and laughs. She holds her side._  
 
 > **Lesson** (literacy, RF.K.2, ask): rhyming words  
 > _Late! Which word rhymes with late?_  
@@ -1893,9 +1905,6 @@ _Moss sits by Gran Hazel’s boot._
 > - Pond → Listen: late… gate. Gate rhymes with late!
 > _For grown-ups: Your child listened for words that rhyme._
 
-**Gran Hazel**: I’m always late. You’re thinner.  
-**Moss**: You’re late. I’m thinner. We’re even.  
-_Gran Hazel laughs and laughs. She holds her side._  
 _She pats his head, just like every evening for forty years._  
 
 #### `sprout:c11-moss-gone` · [main](../../campaign/book-3.md#c11-moss-gone)
@@ -1917,13 +1926,13 @@ _Gran Hazel holds your hand. You sit together, quietly._
 
 _Gran Hazel looks up the hill, where Moss always sat._  
 **Gran Hazel**: I passed Moss on the path, coming down. He said, “You’re late.”  
+_Moss has faded. That means he died._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): a happy memory and a sad feeling can come together  
 > _Moss made one last little joke. Gran Hazel smiles, and she is sad too._  
 > _You can smile and feel sad at the same time. Both are OK._  
 > _For grown-ups: Your child heard that a happy memory and a sad feeling can come at the same time._
 
-_Moss has faded. That means he died._  
 **Gran Hazel**: He sat beside me a whole winter before he said one word.  
 **Gran Hazel**: He’d hate a fuss. We’ll make a small one. Just us.  
 _Gran Hazel holds your hand. You sit together, quietly._  
@@ -1961,14 +1970,6 @@ _You sit. The pond is still and dark. The sky is in it._
 > _For grown-ups: Your child noticed that still water reflects things like a mirror._
 
 _Far off in the wood, an owl says “hoo-hoo”, once. Then it stops._  
-
-> **Lesson** (literacy, ELOF: Language and Communication, ask): animal sounds  
-> _Which animal says “hoo-hoo” in the dark?_  
-> - ✅ An owl → Yes! Hoo-hoo. Owls are awake at night, even in winter.
-> - A cow → A cow says moo! An owl says hoo-hoo.
-> - A duck → A duck says quack! An owl says hoo-hoo.
-> _For grown-ups: Your child matched an animal to the sound it makes._
-
 **Gran Hazel**: I used to think about all I got wrong. Then I just sat.  
 **Gran Hazel**: Tomorrow I want to see the whole Grove. Every post, every tree.  
 _Gran Hazel’s hand is warm and very light._  
@@ -1994,7 +1995,7 @@ _Then he folds his arms on the gate, and waits._
 
 - **Stay where you are.**
     - You stay. The gate creaks once. Then it’s quiet. Corvin doesn’t go.
-- **It’s so cold! Isn’t that unkind?**
+- **He’ll stand there all night! Isn’t that unkind?**
     - **Gran Hazel**: It would be, if someone made him wait. Nobody did.
     - **Gran Hazel**: He chose to wait. Let him choose something, love.
     - The gate creaks once. Then it’s quiet. Corvin doesn’t go.
@@ -2199,7 +2200,7 @@ _On the hill is a new flower, a bit untidy, facing the Grove._
 > **Lesson** (science, K-LS1-1, ask): what plants need to grow  
 > _Let’s look after Gran Hazel’s flower. What does a flower need?_  
 > - ✅ Sunlight and water → Yes. Sun and water help it grow. Looking after it is a way to remember her.
-> - Sweets → Flowers don’t eat sweets! They need sunlight and water. Caring for it helps us remember her.
+> - A hug → Hugs are for people. Flowers need sunlight and water. We can give each other the hugs.
 > _For grown-ups: Your child learned that plants need light and water, and that caring for a memorial flower is a way to remember._
 
 
@@ -2322,6 +2323,7 @@ _Sable meets each one. She sits near it. She doesn’t rush._
 
 _She shows them how to be brave._  
 _Ash sits with her most days. Two grey friends together._  
+_Byte writes down every Nubbin who comes. Nobody ever leaves. He checks anyway._  
 
 #### `sprout:end-shadow-keeper-last` · [main](../../campaign/endings.md#end-shadow-keeper-last)
 
@@ -2381,6 +2383,8 @@ _Grey Nubbins from Corvin’s garden live in the Hollow, free._
 > _For grown-ups: Your child learned that animals live where they can find food, water and shelter._
 
 _Each week you go there with a lantern and a bag of fruit._  
+_Fern sends lantern buns. The Hollow Nubbins won’t touch them!_  
+_Fern says that proves they are fussy eaters._  
 _Some of them let you come near now._  
 _A little grey one let you touch its ear. Took two months. Worth it._  
 
@@ -2566,7 +2570,7 @@ _But some Sundays, she passes him the teapot._
 #### `sprout:end-epi-gate-guest` · [main](../../campaign/endings.md#end-epi-gate-guest)
 
 _Corvin comes when he is asked. That’s not very often._  
-_He knocks on the gatepost every time. Knock, knock!_  
+_He knocks on the gatepost every time. Knock, knock, knock! Three, never four._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, do): good manners: knocking and waiting to be asked in  
 > _Corvin knocks and waits to be asked in. That’s good manners._  
@@ -2704,6 +2708,7 @@ _They stand together, and remember her._
 
 _Fern brings lantern buns. They come out right every time now!_  
 _She says it’s because she stopped trying so hard._  
+_She says this mostly to the buns._  
 
 #### `sprout:end-epi-secret` · [main](../../campaign/endings.md#end-epi-secret)
 
@@ -2743,7 +2748,7 @@ _It isn’t yours. You’re only keeping it safe._
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): respecting other people’s things  
 > _Is it OK to read someone else’s letter?_  
-> - ✅ No, it belongs to them → Yes. Their letter, their words. We keep it safe for them.
+> - ✅ No, it belongs to them → That’s right. Their letter, their words. We keep it safe for them.
 > - Yes, any time → A letter belongs to the person it’s for. We keep it safe, and don’t peek.
 > _For grown-ups: Your child thought about respecting other people’s belongings._
 
@@ -2761,6 +2766,7 @@ _He never finishes a story. Not one!_
 > - The beginning → He always starts! He just never finishes. He forgets the end.
 > _For grown-ups: Your child learned that stories have a beginning, a middle and an end._
 
+_You put Aldous’s letter in the stove. It burned up._  
 _Corvin never knew about his dad’s letter. You still wonder about that._  
 _Tobin says most things are a bit of both._  
 

@@ -235,6 +235,10 @@ const S1: EduQuest = quest(
         N('(Laugh out loud together. Ha ha ha!)'),
         N('Your laugh rings out across the water.'),
         M('There. That’s Briar’s sound. I missed it.', 'soft'),
+        N('Moss’s boat floats back to the bank, upside down.'),
+        M('Maybe this was Briar’s joke. My boat never gets there.', 'think'),
+        M('She folded my first boat. I still fold it her way. Hmm.'),
+        N('Moss looks at his boat. He does not trust it at all.'),
       ],
       [
         {
@@ -415,7 +419,7 @@ const S1: EduQuest = quest(
       [
         N('Winter now. Frost creeps out of the long grass.'),
         N('Moss is at your door. He looks very faint.'),
-        M('All four are home. You may carry me this time.', 'soft'),
+        M('All four are home. You may carry me now. What an honour!', 'soft'),
         N('You carry him gently. He is light as a leaf.'),
         M('Let me tell you about Cinder’s last warm day.'),
         M('It was so hot! The Nubbins lay flat in the sun.', 'happy'),
@@ -585,7 +589,7 @@ const S2: EduQuest = quest(
       [
         N('Next day, more things go missing. Warm things.'),
         FE('My left glove is gone! The right one is here.', 'think'),
-        N('A sock. A candle. The tea cosy. Gran’s warm egg stone.'),
+        N('Your sock. A candle. The tea cosy. Gran’s warm egg stone.'),
         CL('He’s cold, that’s all. Can we feed him too?', 'sad'),
         LU('He hisses at Sable. And she listens to him.', 'angry'),
         CL('Somebody taught him to be scared.', 'soft'),
@@ -841,6 +845,8 @@ const S2_VARIANTS: EduScene[] = [
       N('Sable sits by the gap for a long time.'),
       N('Then she comes back. She eats all her fruit.'),
       LU('She’s eating. That’s good. I still feel sad.', 'sad'),
+      CL('I was cross yesterday. I’m not cross now.', 'soft'),
+      CL('I hung a blanket on the hedge. Just in case Wisp is cold.', 'soft'),
       M('Sensible things are not always warm things.', 'soft'),
     ],
     [
@@ -888,6 +894,7 @@ const S3: EduQuest = quest(
         FE('Don’t sit there! That’s the gap.', 'think'),
         FE('Hazel sat in the gap. Just to be cheeky.', 'happy'),
         N('Two big tea pots. One has a sun. One has a moon.'),
+        N('Each side says the other pot’s tea is worse.'),
         SP('Long ago, at the Midsummer race, Bramble fell!', 'shock'),
         SP('Sun says one thing. Moon says another. Now nobody races together!'),
         SP('Oops. I didn’t say that. That was the wind.'),
@@ -1018,6 +1025,8 @@ const S3: EduQuest = quest(
         BY('He moved it two posts nearer the edge.', 'think'),
         SP('Nobody from Sun or Moon moved it. It was a race helper!', 'shock'),
         SP('We fought about the wrong thing. For years!', 'shock'),
+        BY('There’s a thumb on the last picture too. In the corner.'),
+        SP('That’s how I sign my pictures!', 'happy'),
       ],
       [
         {
@@ -1079,7 +1088,11 @@ const S3: EduQuest = quest(
             id: 'apart',
             label: 'Show them one at a time.',
             set: { 's3-shown': 'apart' },
-            then: [N('Fern first. Then Ember.'), N('Each one asks: has the other one seen it?')],
+            then: [
+              N('Fern first. Then Ember.'),
+              N('Each one asks: has the other one seen it?'),
+              N('By evening, both are at the same fence. They say it’s an accident.'),
+            ],
           },
         ],
       },
@@ -1144,6 +1157,10 @@ const S3: EduQuest = quest(
         N('Evening at the pond. Ten friends. One tea pot.'),
         N('Dusty dug a hole. The pot sits in it. Dusty is proud.'),
         HZ('A Moot! I haven’t been to one in years!', 'happy'),
+        N('You put the pictures on the bench in the middle.'),
+        N('Gran Hazel sits right in the middle. She smiles at both sides.'),
+        N('Everyone shuffles in close to look. Now there is no gap!'),
+        FE('She did it again! Still cheeky, after all these years.', 'happy'),
         SP('It was the flag. I had the pictures all along.', 'sad'),
         FE('Bramble fell because a man moved a flag. Not because of us.'),
         BY('I tasted both teas. Same tea. It always was.', 'think'),
@@ -1168,7 +1185,7 @@ const S3: EduQuest = quest(
           skill: 'a fair rule is the same for everyone',
           standard: 'D2.Civ.8.K-2',
           kind: 'notice',
-          after: 8,
+          after: 12,
           lines: [N('A rule is fair when it’s the same for everyone.'), N('Everybody checks the flags. That keeps the race fair.')],
           parentNote: 'Talked about fair rules that are the same for everyone.',
         },
@@ -1182,6 +1199,7 @@ const S3: EduQuest = quest(
             then: [
               N('Bong! Everybody stops talking.'),
               N('Now one person talks at a time. Taking turns!'),
+              BY('That spoon is now a very important spoon.', 'think'),
               PX('Ribbons for every racer! Gold, silver and green!', 'happy'),
               HZ('Moot-Keeper. It suits you.', 'happy'),
             ],
@@ -1193,7 +1211,7 @@ const S3: EduQuest = quest(
             then: [
               N('Fern and Ember hold the spoon together. Bong! They both miss!'),
               N('Everybody cheers.'),
-              PX('Ribbons for every racer! Gold, silver and green!', 'happy'),
+              PX('Ribbons for every racer! Gold, silver and green. Mine came out wonky.', 'happy'),
               HZ('You’re still the Moot-Keeper, love.', 'happy'),
             ],
           },
@@ -1286,6 +1304,7 @@ const S4: EduQuest = quest(
       's4-lesson',
       [
         MA('Hazel’s Nubbins learned to swim with me.', 'happy'),
+        MA('Fossil swam sideways, on purpose. I still look for her in the pool.', 'soft'),
         MA('Lesson one: Nubbins float better than you’d think.'),
         N('Marina holds your Nubbin under its chin. Like a cup.'),
         N('It kicks. It doesn’t sink!'),
@@ -1297,7 +1316,7 @@ const S4: EduQuest = quest(
           skill: 'float or sink',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'do',
-          after: 3,
+          after: 4,
           check: 'edu:sort:float-sink:leaf-stone-apple',
           lines: [
             N('(Guess: does it float or sink? A leaf, a stone, an apple.)'),
@@ -1410,8 +1429,9 @@ const S4: EduQuest = quest(
         N('He snores. In… out… whistle! In… out… whistle!'),
         MA('Move on the snore. Freeze on the whistle.', 'think'),
         N('(Whistle! Everyone say “Freeze!”)'),
-        N('You freeze. Your Nubbin does not. Wobble, wobble… plop!'),
-        MA('Freeze means freeze.', 'soft'),
+        N('You freeze. Your Nubbin freezes too, one foot up, like a statue.'),
+        N('Snore! You move. Your Nubbin stays still. And still.'),
+        MA('You can put your foot down now, pet.', 'soft'),
         N('You creep to the gate. You push. It’s stuck!'),
       ],
       [
@@ -1448,7 +1468,12 @@ const S4: EduQuest = quest(
             id: 'note',
             label: 'Pin a polite note on the gate first.',
             set: { 's4-gate': 'note' },
-            then: [N('You write: “Opened for the rock pools. Thank you!”'), N('Then you lift and push. It opens.'), MA('Polite! Lovely.', 'happy')],
+            then: [
+              N('You write: “Opened for the rock pools. Thank you!”'),
+              N('Then you lift and push. It opens.'),
+              MA('Polite! Lovely.', 'happy'),
+              N('In his sleep, the guard pats the air, looking for the note.'),
+            ],
           },
         ],
       },
@@ -1709,7 +1734,11 @@ const S5: EduQuest = quest(
             id: 'yours',
             label: 'Let one of your swimmers hold her.',
             set: { 's5-holder': 'yours' },
-            then: [N('Your swimmer wades out. It looks very serious.'), MA('Paw under her chin. Like a cup.', 'soft')],
+            then: [
+              N('Your swimmer wades out. It looks very serious.'),
+              MA('Paw under her chin. Like a cup.', 'soft'),
+              DU('Look how careful it is. Like she’s a precious egg.', 'soft'),
+            ],
           },
           {
             id: 'marina',
@@ -1778,6 +1807,8 @@ const S5: EduQuest = quest(
       [
         N('The Sun goes down behind the hill.'),
         N('Nobody moves. Not Fossil. Not your littlest. Not you.'),
+        N('Your other Nubbins fall asleep in a heap. One snores, very softly.'),
+        N('Dusty sees the heap, and smiles.'),
         N('When it’s dark, Fossil touches noses with your littlest.'),
         N('Your littlest sits up tall and proud. A gift from Fossil!'),
       ],

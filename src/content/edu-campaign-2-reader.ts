@@ -215,7 +215,7 @@ const CH5: EduScene[] = [
         kind: 'ask',
         after: 2,
         prompt: [
-          SPARKS('For frost, things have to get down to 0°C (32°F). On the hottest day of summer!'),
+          SPARKS('Frost! On the hottest day of summer!'),
           SPARKS('Why is summer warm in the first place? Go on. Pixel always asks me and I always panic.'),
         ],
         options: [
@@ -1593,6 +1593,11 @@ const CH8: EduScene[] = [
     'c8-nova',
     [
       N('You walk back towards the falls with the notebook inside your coat, flat against your chest, where it stays warm.'),
+      N('At the foot of the ledge, Marina is waiting with the rope, exactly where you left her.'),
+      MARINA('Well? This is the other end.', 'happy'),
+      NOVA('“And that is why we came.” That’s the end. It’s quite short without the owls.', 'think'),
+      MARINA('Most things are.', 'happy'),
+      N('Nova folds the speech away. She looks as if she expected more owls.'),
       N('Fireflies blink on and off. Behind you, something grey drops from a branch to a bowl, and eats, and does not run.'),
       NOVA('Can I say something I shouldn’t?', 'think'),
       NOVA('She had a year. She could have spent it at home. By the pond. With you, when you came.'),
@@ -1605,7 +1610,7 @@ const CH8: EduScene[] = [
         skill: 'a think question: can two opposite feelings both be true?',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 0,
+        after: 5,
         prompt: [
           N('You think about Hazel’s page. “I’m not sorry. I’m sorry you had to find out this way. Both are true.”'),
           N('Can two feelings that seem opposite both be true at the same time?'),
@@ -1634,7 +1639,7 @@ const CH8: EduScene[] = [
         skill: 'fireflies make their own light (bioluminescence)',
         standard: '4-LS1-1',
         kind: 'notice',
-        after: 1,
+        after: 6,
         lines: [
           NOVA('Fireflies are beetles, you know. They make their own light, inside their bodies.'),
           NOVA('It’s called bioluminescence. It’s a cold light, hardly warm at all. They flash to find each other in the dark.'),

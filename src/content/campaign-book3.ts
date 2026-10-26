@@ -142,7 +142,7 @@ const MOSS_GONE_TAIL: Line[] = [
 /** Hazel's Grove after its first body line, shared by end-hazels-grove (keep) and end-hazels-grove-open (Open). */
 const HAZELS_GROVE_BODY: Line[] = [
   N('The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen.'),
-  N('There is a flower on the hill that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it.'),
+  N('Near Briar’s, on the hill, there is a small, untidy flower that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it.'),
   N('Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has.'),
   N('Sable sleeps on your feet. Grey as ash.'),
   N('Heart above her head. Both at once, for ever.'),
@@ -257,10 +257,26 @@ const C9_SOLD_BARGAIN_EXTRA: Line[] = [
   CORVIN('And that one. Yours, once. The two hundred covers it.', 'think'),
   N('Your old Nubbin walks out behind Ash, number and all. It doesn’t look at you, but it comes anyway.'),
 ];
+/* On confront and force the old Nubbin is seen and let go, so end-collector-sold's charge rests on something played. */
+const C9_SOLD_CONFRONT_EXTRA: Line[] = [
+  N('In the second row, the one with the number on its side watches Ash go. It doesn’t follow. Nobody has told it that it may.'),
+  CORVIN('Yours, once. It’s quiet now. I never asked if it wanted to be.', 'think'),
+  N('When you look again, the second row is empty. You tell yourself you’ll find it later. It will keep.'),
+];
+const C9_SOLD_FORCE_EXTRA: Line[] = [
+  N('Your old Nubbin goes with them, number and all. You lose it in the first ten yards of trees.'),
+];
 const C9_CHOICE_SOLD: Partial<Scene> = {
-  choices: (C9_CHOICE.choices ?? []).map((c) =>
-    c.id === 'bargain' && c.then ? { ...c, then: [...c.then.slice(0, 2), ...C9_SOLD_BARGAIN_EXTRA, ...c.then.slice(2)] } : c,
-  ),
+  choices: (C9_CHOICE.choices ?? []).map((c) => {
+    if (!c.then) return c;
+    if (c.id === 'bargain') return { ...c, then: [...c.then.slice(0, 2), ...C9_SOLD_BARGAIN_EXTRA, ...c.then.slice(2)] };
+    if (c.id === 'confront') {
+      const at = c.then.findIndex((l) => l.text.startsWith('Ash does not move for a long time.')) + 1;
+      return { ...c, then: [...c.then.slice(0, at), ...C9_SOLD_CONFRONT_EXTRA, ...c.then.slice(at)] };
+    }
+    if (c.id === 'force') return { ...c, then: [...c.then.slice(0, 3), ...C9_SOLD_FORCE_EXTRA, ...c.then.slice(3)] };
+    return c;
+  }),
 };
 
 export const BOOK3_SCENES: Scene[] = [
@@ -360,7 +376,8 @@ export const BOOK3_SCENES: Scene[] = [
       'shrug',
     ),
     N('On your step is a pie from Fern, still warm, with a note on top.'),
-    N('RULE ONE, THE SECOND HALF. THE BIT SHE NEVER DID.'),
+    N('RULE ONE, SECOND HALF: FEED YOURSELF. THE BIT SHE NEVER DID.'),
+    N('EAT THIS. IT CAME OUT OF THE TIN IN ONE PIECE. FIRST TIME.'),
     MARINA(
       'She baked two, you know. Won’t say where the other one went. Went pink when I asked.',
       'think',
@@ -750,7 +767,7 @@ export const BOOK3_SCENES: Scene[] = [
     [
       ...BANK_WAIT,
       N('So you tell her. The first morning on the hill: “…You lift and push.”'),
-      N('I bruise like fruit. The pale one’s shoelace.'),
+      N('“I bruise like fruit.” The pale one’s shoelace.'),
       N('The afternoons you sat with him and said nothing at all.'),
       N('There were a lot of those. You find you remember every one.'),
       N('Marina laughs in the right places. You talk until your voice goes.'),
@@ -772,7 +789,7 @@ export const BOOK3_SCENES: Scene[] = [
     [
       ...BANK_WAIT,
       N('So you tell her. The first morning on the hill: “…You lift and push.”'),
-      N('I bruise like fruit. The pale one’s shoelace.'),
+      N('“I bruise like fruit.” The pale one’s shoelace.'),
       N('And then you can’t think what else.'),
       N('You didn’t sit with him as often as you meant to. You thought there would be time.'),
       N('Marina doesn’t say anything. She just stays, which is the same thing.'),
@@ -982,7 +999,7 @@ export const BOOK3_SCENES: Scene[] = [
       },
       {
         id: 'gate-cruel',
-        label: 'It’s freezing. Isn’t that cruel?',
+        label: 'He’ll stand there all night. Isn’t that cruel?',
         then: [
           HAZEL('It would be, if anyone had asked him to. Nobody did. He chose the hour himself.', 'think'),
           HAZEL('Let him have chosen something, love. It’s been a long time.', 'soft'),
@@ -1227,7 +1244,9 @@ export const BOOK3_SCENES: Scene[] = [
     N('They come out of the Hollow, and down from the Circuit, and in from the long grass: thin and quiet, waiting for the next bad thing.'),
     N('Sable meets each one at the edge and sits with it. She does not come closer.'),
     N('She does not run. She shows them how.'),
-    N('Ash sits with her, most days.'),
+    N('Ash sits with her, most days, half a step further out, out of respect.'),
+    N('Byte keeps a register of arrivals at the edge. The column for departures is still blank.'),
+    N('He checks it anyway, as if it might fill in while he isn’t looking.'),
     N('Two grey shapes in the long grass. The new ones go to both.'),
   ]),
   S('end-shadow-keeper-last', [
@@ -1255,6 +1274,7 @@ export const BOOK3_SCENES: Scene[] = [
     N('There is no gate any more. Some stayed; most didn’t.'),
     N('The grey ones you scattered from Corvin’s garden come and go through the Hollow.'),
     N('You leave fruit, and some of it is eaten.'),
+    N('Fern sends lantern buns. Nothing in the Hollow will touch them. Fern says that proves they have standards.'),
     N('Most weeks you go into the Hollow with a lantern and a bag of fruit and the stubborn chin. Some of them let you near now.'),
     N('A small grey one with a nicked ear let you touch it this spring.'),
     N('Took two months. Worth it.'),
@@ -1281,7 +1301,7 @@ export const BOOK3_SCENES: Scene[] = [
   S('end-collector', [N('THE COLLECTOR')]),
   S('end-collector-sold', [
     N('Two hundred Shells buys a lot of eggs. They hatch, and they are fast, and they are grey by autumn, every one.'),
-    N('You never went looking for the first one when the pens opened.'),
+    N('You meant to go looking for the first one. You told yourself it would keep.'),
     N('You told yourself it was doing well. Quiet.'),
     N('You told yourself those were the same thing.'),
     CORVIN('I told you. Everyone sells, eventually. I’m almost sorry I was right.', 'think'),
@@ -1410,9 +1430,9 @@ export const BOOK3_SCENES: Scene[] = [
   ]),
   S('end-epi-told', [
     N('The whole valley walked her to the foot of the hill.'),
-    N('They still meet there once a year, on the day she went up, and stand together, and say nothing, badly.'),
+    N('They still meet there once a year, on the day she went up, and are quiet together in shifts, because somebody always has to blow their nose.'),
     N('Fern brings lantern buns. They come out every time now.'),
-    N('She says it’s because she stopped trying so hard. Hazel would have said that was the whole trick.'),
+    N('She says it’s because she stopped trying so hard. She says this mostly to the buns.'),
   ]),
   S('end-epi-secret', [
     N('She left the letter under Fern’s stone on the signpost. Fern says she always knew that stone would come in useful.'),
@@ -1739,7 +1759,8 @@ export const BOOK3_NOTES: Record<string, string> = {
     'end-collector-last.',
   'end-collector-sold':
     'Body variant: sold in ch2 and never bought anyone back (stone unmade). The pens opened in ch9 on both Collector ' +
-    'routes (confront and force), so: you never went looking for the first one when the pens opened.',
+    'routes (confront and force), and C9_CHOICE_SOLD shows the old Nubbin let go on both; ' +
+    'so: you meant to go looking and told yourself it would keep.',
   'end-collector-kept':
     'Body variant: kept the stone. Corvin, thawed or not, recognises it in you. Moss stayed on the hill after Hazel ' +
     'went up and never came down (matches c10-kept and c11-moss-kept).',

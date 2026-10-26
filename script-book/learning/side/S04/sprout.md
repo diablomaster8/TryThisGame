@@ -45,6 +45,7 @@ _Your Nubbin dips a paw in. Brr! It looks at you._
 #### `sprout:s4-lesson` · [main](../../../side/S04.md#s4-lesson)
 
 **Marina**: Hazel’s Nubbins learned to swim with me.  
+**Marina**: Fossil swam sideways, on purpose. I still look for her in the pool.  
 **Marina**: Lesson one: Nubbins float better than you’d think.  
 _Marina holds your Nubbin under its chin. Like a cup._  
 _It kicks. It doesn’t sink!_  
@@ -128,8 +129,9 @@ _He snores. In… out… whistle! In… out… whistle!_
 
 **Marina**: Move on the snore. Freeze on the whistle.  
 _(Whistle! Everyone say “Freeze!”)_  
-_You freeze. Your Nubbin does not. Wobble, wobble… plop!_  
-**Marina**: Freeze means freeze.  
+_You freeze. Your Nubbin freezes too, one foot up, like a statue._  
+_Snore! You move. Your Nubbin stays still. And still._  
+**Marina**: You can put your foot down now, pet.  
 _You creep to the gate. You push. It’s stuck!_  
 
 **Choices**
@@ -146,6 +148,7 @@ _You creep to the gate. You push. It’s stuck!_
     - You write: “Opened for the rock pools. Thank you!”
     - Then you lift and push. It opens.
     - **Marina**: Polite! Lovely.
+    - In his sleep, the guard pats the air, looking for the note.
 
 #### `sprout:s4-water` · [main](../../../side/S04.md#s4-water)
 

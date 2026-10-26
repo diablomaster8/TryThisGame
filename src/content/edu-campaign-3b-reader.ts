@@ -527,7 +527,7 @@ const CH11: EduScene[] = [
       },
       {
         id: 'gate-cruel',
-        label: 'It’s freezing. Isn’t that cruel?',
+        label: 'He’ll stand there all night. Isn’t that cruel?',
         then: [
           HAZEL('It would be, if anyone had made him. Nobody did. He chose the hour himself.', 'think'),
           HAZEL('Let him have chosen something, love. It’s been a long time.', 'soft'),
@@ -1136,7 +1136,7 @@ const CH12: EduScene[] = [
 /** Hazel’s Grove after its first body line, shared by end-hazels-grove and end-hazels-grove-open. */
 const HAZELS_GROVE_BODY: Line[] = [
   N('The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen.'),
-  N('There is a flower on the hill that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it.'),
+  N('Near Briar’s, on the hill, there is a small, untidy flower that Moss won’t let anyone step near. He sits beside it in the afternoons and talks to it.'),
   N('Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has.'),
   N('Sable sleeps on your feet. Grey as ash. Heart above her head. Both at once, for ever.'),
   N('Pixel’s trust meter still hangs by the cottage door. Somebody has painted over MAYBE. It now says OBVIOUSLY.'),
@@ -1296,7 +1296,7 @@ const ENDING_SCENES: EduScene[] = [
         id: 'reader:end-eternal-dawn-l1',
         domain: 'social-studies',
         skill: 'compass directions: west is where the sun sets',
-        standard: 'D2.Geo.2.K-2',
+        standard: 'D2.Geo.2.3-5',
         kind: 'do',
         after: 4,
         check: 'edu:tap:compass:west',
@@ -1415,7 +1415,9 @@ const ENDING_SCENES: EduScene[] = [
       N('Grey Nubbins find their way to your gate now. Word gets round, somehow, among creatures that do not speak.'),
       N('They come out of the Hollow, down from the Circuit, in from the long grass: thin and quiet, waiting for the next bad thing.'),
       N('Sable meets each one at the edge and sits with it. She does not come closer. She does not run. She shows them how.'),
-      N('Ash sits with her most days. Two grey shapes in the long grass. The newcomers go to both.'),
+      N('Ash sits with her most days, half a step further out, out of respect. Two grey shapes in the long grass. The newcomers go to both.'),
+      N('Byte keeps a list of every arrival at the edge. The column for leavings is still empty.'),
+      N('He checks it anyway, as if it might fill in while he isn’t looking.'),
       N('Together, the two of them make it feel safe enough to stay.'),
     ],
     lessons: [
@@ -1425,7 +1427,7 @@ const ENDING_SCENES: EduScene[] = [
         skill: 'animals in groups help each other survive',
         standard: '3-LS2-1',
         kind: 'notice',
-        after: 5,
+        after: 7,
         lines: [
           N('Real animals help each other in groups too.'),
           N('Emperor penguins huddle together to keep warm through the freezing Antarctic winter.'),
@@ -1541,7 +1543,7 @@ const ENDING_SCENES: EduScene[] = [
         id: 'reader:end-moss-sleeps-last-l1',
         domain: 'social-studies',
         skill: 'oral history: how stories carry the past',
-        standard: 'D2.His.2.K-2',
+        standard: 'D2.His.2.3-5',
         kind: 'notice',
         after: 4,
         lines: [
@@ -1561,6 +1563,7 @@ const ENDING_SCENES: EduScene[] = [
       N('WILD GROVE'),
       N('There is no gate any more. Some stayed. Most didn’t. The grey ones from Corvin’s garden come and go through the Hollow.'),
       N('You leave fruit, and some of it is eaten.'),
+      N('Fern sends lantern buns. Nothing in the Hollow will touch them. Fern says that proves they have standards.'),
       N('Most weeks you go into the Hollow with a lantern, a bag of fruit and the stubborn chin. Some of them let you near now.'),
       N('They have learned to live wild: where the water is, where to shelter from the wind, how much room they need.'),
       N('A small grey one with a nicked ear let you touch it this spring. Took two months. Worth it.'),
@@ -1572,7 +1575,7 @@ const ENDING_SCENES: EduScene[] = [
         skill: 'what a habitat must provide',
         standard: 'K-ESS3-1',
         kind: 'do',
-        after: 4,
+        after: 5,
         check: 'edu:sort:habitat-needs:4',
         lines: [
           N('An animal’s habitat is the place it lives. A good habitat gives it four things: food, water, shelter and space.'),
@@ -1732,7 +1735,7 @@ const ENDING_SCENES: EduScene[] = [
     lines: [
       N('Two hundred Shells buys a lot of eggs.'),
       N('They hatch, and they are fast, and by autumn they are grey, every one.'),
-      N('When the pens opened, you never went looking for the first one. You told yourself it was doing well.'),
+      N('When the pens opened, you meant to go looking for the first one. You told yourself it would keep.'),
       N('Quiet. You told yourself quiet and well were the same thing.'),
       N('They aren’t. Somewhere inside, you knew that.'),
       CORVIN('I told you. Everyone sells, eventually. I’m almost sorry I was right.', 'think'),
@@ -2125,7 +2128,7 @@ const EPILOGUE_SCENES: EduScene[] = [
         id: 'reader:end-epi-wisp-driven-l1',
         domain: 'social-studies',
         skill: 'land features on a map: a ridge',
-        standard: 'D2.Geo.2.K-2',
+        standard: 'D2.Geo.2.3-5',
         kind: 'notice',
         after: 1,
         lines: [
@@ -2403,7 +2406,7 @@ const EPILOGUE_SCENES: EduScene[] = [
         id: 'reader:end-epi-mill-kept-l2',
         domain: 'social-studies',
         skill: 'letters as a window on the past',
-        standard: 'D2.His.2.K-2',
+        standard: 'D2.His.2.3-5',
         kind: 'notice',
         after: 5,
         lines: [
@@ -2852,17 +2855,17 @@ const EPILOGUE_SCENES: EduScene[] = [
     lines: [
       N('The whole valley walked her to the foot of the hill.'),
       N('They still meet there once a year, on the day she went up the hill.'),
-      N('They stand together, and say nothing, badly. It has become a tradition.'),
+      N('They are quiet together in shifts, because somebody always has to blow their nose. It has become a tradition.'),
       N('Fern brings lantern buns. They come out every time now.'),
       N('She says it’s because she stopped trying so hard.'),
-      N('Hazel would have said that was the whole trick.'),
+      N('She says this mostly to the buns.'),
     ],
     lessons: [
       {
         id: 'reader:end-epi-told-l1',
         domain: 'social-studies',
         skill: 'traditions help communities remember',
-        standard: 'D2.His.2.K-2',
+        standard: 'D2.His.2.3-5',
         kind: 'notice',
         after: 2,
         lines: [

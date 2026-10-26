@@ -12,22 +12,22 @@ The running log for the repeatable story and writing review. Each run reviews th
 | --- | --- | --- |
 | `campaign/book-1.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
 | `campaign/book-2.md` | [review-2026-10-26-2](review-2026-10-26-2.md) | 0 |
-| `campaign/book-3.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 6 |
-| `campaign/triggered.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 3 |
-| `campaign/endings.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 6 |
-| `side/S01.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 3 |
+| `campaign/book-3.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
+| `campaign/triggered.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 1 |
+| `campaign/endings.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
+| `side/S01.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S01/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S01/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S02.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 4 |
+| `side/S02.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S02/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S02/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S03.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 5 |
+| `side/S03.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S03/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S03/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S04.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 4 |
+| `side/S04.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S04/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S04/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
-| `side/S05.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 3 |
+| `side/S05.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S05/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S05/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `side/S06.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
@@ -106,8 +106,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S31.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/side/S31/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/side/S31/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
-| `learning/campaign/sprout.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 11 |
-| `learning/campaign/reader-1.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 9 |
+| `learning/campaign/sprout.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
+| `learning/campaign/reader-1.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/campaign/reader-2.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `fun/python.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
 | `learning/fun/python/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
@@ -1287,54 +1287,54 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261026-1033 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/reader.md | cross-story | Medium | child-read | Both language reader bands carry K-2 standards, including C3 codes EDU-STYLE forbids; swap to approved 3-5 codes only | fixed | 2026-10-26-2 |
 | SR-20261026-1034 | lines/lang-hebrew/reader.md<br>lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | humour | Hazel wrote to Savta and to Obāchan for decades; give both letter tins the same P.S. about the stuck gate | fixed | 2026-10-26-2 |
 | SR-20261026-1035 | lines/lang-japanese/main.md<br>lines/lang-japanese/reader.md | cross-story | Medium | theme | Byte times Hana's race; bring his four stopwatches from chapter 5 and let Pixel, his wife, explain them | fixed | 2026-10-26-2 |
-| SR-20261026-1036 | side/S02.md | s2-night | High | continuity | s2-early and s2-carried are set and read by nothing; pay each one off with a joke in s2-night | open | 2026-10-26-3 |
-| SR-20261026-1037 | campaign/book-3.md<br>campaign/endings.md | c9-open-sold | High | continuity | On the Collector route the sold Nubbin stands in row two and nobody addresses it, yet the ending blames you for not going back | open | 2026-10-26-3 |
-| SR-20261026-1038 | side/S03.md | s3-stands | High | humour | The opening narration gives away the story's best gag; keep "same tea" for Byte at the Moot | open | 2026-10-26-3 |
-| SR-20261026-1039 | learning/campaign/sprout.md | c8-close | High | continuity | The sprout notebook drops "Took two months. Worth it.", which the child is asked to read aloud in chapter 9 | open | 2026-10-26-3 |
-| SR-20261026-1040 | side/S04.md | s4-sluice | High | humour | The snore-and-whistle stealth game has no Nubbin in it; make your Nubbin a very serious statue | open | 2026-10-26-3 |
-| SR-20261026-1041 | learning/campaign/reader-1.md | c8-nova | High | humour | Marina said "tell me the end at the other end"; let Nova finally deliver it, owls and all | open | 2026-10-26-3 |
-| SR-20261026-1042 | learning/campaign/sprout.md | c4-close | High | humour | Byte arrives unintroduced and the shoelace gag loses its straight-man beat; give it a set-up and a punchline | open | 2026-10-26-3 |
-| SR-20261026-1043 | side/S03.md | s3-moot | High | humour | Hazel used to sit in the gap to annoy everyone; at the Moot she does it again and the gap closes round her | open | 2026-10-26-3 |
-| SR-20261026-1044 | side/S05.md | s5-cliff | High | humour | Fossil's taps stop after two corrections; one more, smaller, before the quiet turn | open | 2026-10-26-3 |
-| SR-20261026-1045 | campaign/endings.md | end-epi-told | Medium | humour | "Say nothing, badly" and "the whole trick" each land twice in one ending run; give the told epilogue fresh jokes | open | 2026-10-26-3 |
-| SR-20261026-1046 | side/S01.md | s1-boats | Medium | humour | Moss "never found out" Briar's joke; let him share a theory at the boats, and give the sail choice its payoff | open | 2026-10-26-3 |
-| SR-20261026-1047 | campaign/book-3.md | c9-close | Medium | humour | Fern's pie note leans on a chapter-2 line most players won't connect; spell it out and make it Fern's | open | 2026-10-26-3 |
-| SR-20261026-1048 | campaign/endings.md | end-shadow-keeper | Medium | humour | The flattest ending has no smile; give Byte a register at the edge of the long grass | open | 2026-10-26-3 |
-| SR-20261026-1049 | campaign/endings.md | end-wild-grove | Medium | humour | Fern's buns reach every ending but the wild one; give it a grace note before "Took two months. Worth it." | open | 2026-10-26-3 |
-| SR-20261026-1050 | side/S02.md | s2-complete-driven | Medium | humour | Clover's "not speaking to you till Thursday" is dropped; let Thursday arrive, with a blanket | open | 2026-10-26-3 |
-| SR-20261026-1051 | side/S05.md | s5-gift | Medium | humour | The long wait until dark has nothing light in it; let the other Nubbins fall asleep in a heap | open | 2026-10-26-3 |
-| SR-20261026-1052 | side/S04.md | s4-sluice | Medium | humour | The polite-note branch gets one line; let the steward file it in his sleep | open | 2026-10-26-3 |
-| SR-20261026-1053 | learning/campaign/sprout.md | c11-moss-here | Medium | humour | The rhyme lesson cuts in between "You're late." and the punchline; move it to after the laugh | open | 2026-10-26-3 |
-| SR-20261026-1054 | learning/campaign/sprout.md | c8-open | Medium | humour | "Sorry about the jumpers" has no reason in sprout; give the child one | open | 2026-10-26-3 |
-| SR-20261026-1055 | campaign/triggered.md | t-talk-generic | Medium | humour | The one repeatable chat line wears out; give it three rotating versions | open | 2026-10-26-3 |
-| SR-20261026-1056 | campaign/triggered.md | t-stray-returned | Medium | humour | A long hush with no smile; add a second plum beside it | open | 2026-10-26-3 |
-| SR-20261026-1057 | side/S01.md | s1-cinder | Medium | humour | "You can carry me this time" only has an antecedent if you offered to carry him; split it by s1-pace | open | 2026-10-26-3 |
-| SR-20261026-1058 | side/S02.md | s2-fruit | Medium | humour | Luna's "You noticed. Good." answers nothing; make her opener the story's first smile | open | 2026-10-26-3 |
-| SR-20261026-1059 | campaign/book-3.md | c10-dawn | Medium | pacing | On the Moss-gone route the soup-puck laugh follows "He knew the way" too closely; play it as relief | open | 2026-10-26-3 |
-| SR-20261026-1060 | campaign/endings.md | end-hazels-grove | Medium | follow | Name Hazel's flower, and drop "which one it means" for players who never heard Sable's word | open | 2026-10-26-3 |
-| SR-20261026-1061 | side/S03.md | s3-courier | Medium | continuity | After "Show them one at a time", s3-truce has both women at the plates together, and the branch has no laugh | open | 2026-10-26-3 |
-| SR-20261026-1062 | side/S04.md | s4-lesson | Medium | continuity | Marina taught Fossil to swim and held her in S5's last swim; give her one line if S5 was played | open | 2026-10-26-3 |
-| SR-20261026-1063 | learning/campaign/sprout.md | c11-moss-passed | Medium | follow | The "smile and feel sad" notice comes before the scene says Moss died; move it after | open | 2026-10-26-3 |
-| SR-20261026-1064 | learning/campaign/sprout.md | end-epi-mill-burned | Medium | follow | Three sprout epilogues state facts their own scene doesn't (two knocks for three, a burned letter never shown, "Yes" to a "No") | open | 2026-10-26-3 |
-| SR-20261026-1065 | learning/campaign/reader-1.md | c4-tale | Medium | pacing | Moss's tale stops for geothermal heat and floating ice; cut both notices and let the story run | open | 2026-10-26-3 |
-| SR-20261026-1066 | learning/campaign/reader-1.md | c2-corvin | Medium | child-read | Reader-1 still tags K-2 C3 codes that EDU-STYLE rules out, and one division goes past 100 | open | 2026-10-26-3 |
-| SR-20261026-1067 | campaign/book-3.md | c11-gate | Nice | follow | "It's freezing" sits oddly in the week the frost left; make the stake the hours, not the cold | open | 2026-10-26-3 |
-| SR-20261026-1068 | campaign/book-3.md | c10-bank-moss-returned | Nice | follow | Moss's remembered words read as narration; put them in quotation marks | open | 2026-10-26-3 |
-| SR-20261026-1069 | campaign/endings.md | end-moss-sleeps | Nice | continuity | "Sable carries his light now" has no scene behind it if Sable bonded after chapter 10 | open | 2026-10-26-3 |
-| SR-20261026-1070 | campaign/book-3.md | c10-kept | Nice | character | On the kept route Sable, if she bore the stone, vanishes from the walk home | open | 2026-10-26-3 |
-| SR-20261026-1071 | side/S01.md | s1-cinder | Nice | continuity | "Three nights before" sits awkwardly beside c9-close's all-night sit; anchor it to the tin instead | open | 2026-10-26-3 |
-| SR-20261026-1072 | side/S02.md | s2-missing | Nice | humour | Make the missing sock yours, so "your other sock" in the spared branch lands | open | 2026-10-26-3 |
-| SR-20261026-1073 | side/S03.md | s3-moot | Nice | humour | Both spoon branches share Pixel's ribbons line; give the spoon branch Byte instead | open | 2026-10-26-3 |
-| SR-20261026-1074 | side/S03.md | s3-flag | Nice | humour | The thumb plate lands once; bring it back on the third plate, after the Corvin beat | open | 2026-10-26-3 |
-| SR-20261026-1075 | side/S05.md | s5-water-ask | Nice | humour | The "yours" holder branch gives Dusty nothing to say | open | 2026-10-26-3 |
-| SR-20261026-1076 | campaign/triggered.md | t-moss-first-pet-early | Nice | humour | Seed Dusty's "grass on his head" gag at the first pet | open | 2026-10-26-3 |
-| SR-20261026-1077 | learning/campaign/reader-1.md | c10-bank-wisp | Nice | child-read | Three idioms and one ambiguous "him" in reader-1's later chapters | open | 2026-10-26-3 |
-| SR-20261026-1078 | learning/campaign/sprout.md | c10-moss-walks-bearer | Nice | child-read | "I can't put her down" with the stone in Moss's mouth reads as Sable | open | 2026-10-26-3 |
-| SR-20261026-1079 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | High | child-read | Both bands stop for lessons at their gravest beats; cut or move ten of them | open | 2026-10-26-3 |
-| SR-20261026-1080 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | High | pacing | The same lesson comes back three times in each band; swap the repeats for fresh, sillier ones | open | 2026-10-26-3 |
-| SR-20261026-1081 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | theme | Pixel introduces Byte as her husband in both bands (canon 38), with a bicker | open | 2026-10-26-3 |
-| SR-20261026-1082 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | follow | Wisp and Bramble return in chapter 10 months after S2 and S8; give each a one-line reminder | open | 2026-10-26-3 |
-| SR-20261026-1083 | learning/campaign/reader-1.md<br>side/S04.md | cross-story | Medium | humour | Marina's numbered rules (canon 39): let Sparks answer rule four, and make rule five stand alone | open | 2026-10-26-3 |
+| SR-20261026-1036 | side/S02.md | s2-night | High | continuity | s2-early and s2-carried are set and read by nothing; pay each one off with a joke in s2-night | fixed | 2026-10-26-3 |
+| SR-20261026-1037 | campaign/book-3.md<br>campaign/endings.md | c9-open-sold | High | continuity | On the Collector route the sold Nubbin stands in row two and nobody addresses it, yet the ending blames you for not going back | fixed | 2026-10-26-3 |
+| SR-20261026-1038 | side/S03.md | s3-stands | High | humour | The opening narration gives away the story's best gag; keep "same tea" for Byte at the Moot | fixed | 2026-10-26-3 |
+| SR-20261026-1039 | learning/campaign/sprout.md | c8-close | High | continuity | The sprout notebook drops "Took two months. Worth it.", which the child is asked to read aloud in chapter 9 | fixed | 2026-10-26-3 |
+| SR-20261026-1040 | side/S04.md | s4-sluice | High | humour | The snore-and-whistle stealth game has no Nubbin in it; make your Nubbin a very serious statue | fixed | 2026-10-26-3 |
+| SR-20261026-1041 | learning/campaign/reader-1.md | c8-nova | High | humour | Marina said "tell me the end at the other end"; let Nova finally deliver it, owls and all | fixed | 2026-10-26-3 |
+| SR-20261026-1042 | learning/campaign/sprout.md | c4-close | High | humour | Byte arrives unintroduced and the shoelace gag loses its straight-man beat; give it a set-up and a punchline | fixed | 2026-10-26-3 |
+| SR-20261026-1043 | side/S03.md | s3-moot | High | humour | Hazel used to sit in the gap to annoy everyone; at the Moot she does it again and the gap closes round her | fixed | 2026-10-26-3 |
+| SR-20261026-1044 | side/S05.md | s5-cliff | High | humour | Fossil's taps stop after two corrections; one more, smaller, before the quiet turn | fixed | 2026-10-26-3 |
+| SR-20261026-1045 | campaign/endings.md | end-epi-told | Medium | humour | "Say nothing, badly" and "the whole trick" each land twice in one ending run; give the told epilogue fresh jokes | fixed | 2026-10-26-3 |
+| SR-20261026-1046 | side/S01.md | s1-boats | Medium | humour | Moss "never found out" Briar's joke; let him share a theory at the boats, and give the sail choice its payoff | fixed | 2026-10-26-3 |
+| SR-20261026-1047 | campaign/book-3.md | c9-close | Medium | humour | Fern's pie note leans on a chapter-2 line most players won't connect; spell it out and make it Fern's | fixed | 2026-10-26-3 |
+| SR-20261026-1048 | campaign/endings.md | end-shadow-keeper | Medium | humour | The flattest ending has no smile; give Byte a register at the edge of the long grass | fixed | 2026-10-26-3 |
+| SR-20261026-1049 | campaign/endings.md | end-wild-grove | Medium | humour | Fern's buns reach every ending but the wild one; give it a grace note before "Took two months. Worth it." | fixed | 2026-10-26-3 |
+| SR-20261026-1050 | side/S02.md | s2-complete-driven | Medium | humour | Clover's "not speaking to you till Thursday" is dropped; let Thursday arrive, with a blanket | fixed | 2026-10-26-3 |
+| SR-20261026-1051 | side/S05.md | s5-gift | Medium | humour | The long wait until dark has nothing light in it; let the other Nubbins fall asleep in a heap | fixed | 2026-10-26-3 |
+| SR-20261026-1052 | side/S04.md | s4-sluice | Medium | humour | The polite-note branch gets one line; let the steward file it in his sleep | fixed | 2026-10-26-3 |
+| SR-20261026-1053 | learning/campaign/sprout.md | c11-moss-here | Medium | humour | The rhyme lesson cuts in between "You're late." and the punchline; move it to after the laugh | fixed | 2026-10-26-3 |
+| SR-20261026-1054 | learning/campaign/sprout.md | c8-open | Medium | humour | "Sorry about the jumpers" has no reason in sprout; give the child one | fixed | 2026-10-26-3 |
+| SR-20261026-1055 | campaign/triggered.md | t-talk-generic | Medium | humour | The one repeatable chat line wears out; give it three rotating versions | partial | 2026-10-26-3 |
+| SR-20261026-1056 | campaign/triggered.md | t-stray-returned | Medium | humour | A long hush with no smile; add a second plum beside it | fixed | 2026-10-26-3 |
+| SR-20261026-1057 | side/S01.md | s1-cinder | Medium | humour | "You can carry me this time" only has an antecedent if you offered to carry him; split it by s1-pace | fixed | 2026-10-26-3 |
+| SR-20261026-1058 | side/S02.md | s2-fruit | Medium | humour | Luna's "You noticed. Good." answers nothing; make her opener the story's first smile | fixed | 2026-10-26-3 |
+| SR-20261026-1059 | campaign/book-3.md | c10-dawn | Medium | pacing | On the Moss-gone route the soup-puck laugh follows "He knew the way" too closely; play it as relief | fixed | 2026-10-26-3 |
+| SR-20261026-1060 | campaign/endings.md | end-hazels-grove | Medium | follow | Name Hazel's flower, and drop "which one it means" for players who never heard Sable's word | fixed | 2026-10-26-3 |
+| SR-20261026-1061 | side/S03.md | s3-courier | Medium | continuity | After "Show them one at a time", s3-truce has both women at the plates together, and the branch has no laugh | fixed | 2026-10-26-3 |
+| SR-20261026-1062 | side/S04.md | s4-lesson | Medium | continuity | Marina taught Fossil to swim and held her in S5's last swim; give her one line if S5 was played | fixed | 2026-10-26-3 |
+| SR-20261026-1063 | learning/campaign/sprout.md | c11-moss-passed | Medium | follow | The "smile and feel sad" notice comes before the scene says Moss died; move it after | fixed | 2026-10-26-3 |
+| SR-20261026-1064 | learning/campaign/sprout.md | end-epi-mill-burned | Medium | follow | Three sprout epilogues state facts their own scene doesn't (two knocks for three, a burned letter never shown, "Yes" to a "No") | fixed | 2026-10-26-3 |
+| SR-20261026-1065 | learning/campaign/reader-1.md | c4-tale | Medium | pacing | Moss's tale stops for geothermal heat and floating ice; cut both notices and let the story run | fixed | 2026-10-26-3 |
+| SR-20261026-1066 | learning/campaign/reader-1.md | c2-corvin | Medium | child-read | Reader-1 still tags K-2 C3 codes that EDU-STYLE rules out, and one division goes past 100 | fixed | 2026-10-26-3 |
+| SR-20261026-1067 | campaign/book-3.md | c11-gate | Nice | follow | "It's freezing" sits oddly in the week the frost left; make the stake the hours, not the cold | fixed | 2026-10-26-3 |
+| SR-20261026-1068 | campaign/book-3.md | c10-bank-moss-returned | Nice | follow | Moss's remembered words read as narration; put them in quotation marks | fixed | 2026-10-26-3 |
+| SR-20261026-1069 | campaign/endings.md | end-moss-sleeps | Nice | continuity | "Sable carries his light now" has no scene behind it if Sable bonded after chapter 10 | fixed | 2026-10-26-3 |
+| SR-20261026-1070 | campaign/book-3.md | c10-kept | Nice | character | On the kept route Sable, if she bore the stone, vanishes from the walk home | fixed | 2026-10-26-3 |
+| SR-20261026-1071 | side/S01.md | s1-cinder | Nice | continuity | "Three nights before" sits awkwardly beside c9-close's all-night sit; anchor it to the tin instead | fixed | 2026-10-26-3 |
+| SR-20261026-1072 | side/S02.md | s2-missing | Nice | humour | Make the missing sock yours, so "your other sock" in the spared branch lands | fixed | 2026-10-26-3 |
+| SR-20261026-1073 | side/S03.md | s3-moot | Nice | humour | Both spoon branches share Pixel's ribbons line; give the spoon branch Byte instead | fixed | 2026-10-26-3 |
+| SR-20261026-1074 | side/S03.md | s3-flag | Nice | humour | The thumb plate lands once; bring it back on the third plate, after the Corvin beat | fixed | 2026-10-26-3 |
+| SR-20261026-1075 | side/S05.md | s5-water-ask | Nice | humour | The "yours" holder branch gives Dusty nothing to say | fixed | 2026-10-26-3 |
+| SR-20261026-1076 | campaign/triggered.md | t-moss-first-pet-early | Nice | humour | Seed Dusty's "grass on his head" gag at the first pet | fixed | 2026-10-26-3 |
+| SR-20261026-1077 | learning/campaign/reader-1.md | c10-bank-wisp | Nice | child-read | Three idioms and one ambiguous "him" in reader-1's later chapters | fixed | 2026-10-26-3 |
+| SR-20261026-1078 | learning/campaign/sprout.md | c10-moss-walks-bearer | Nice | child-read | "I can't put her down" with the stone in Moss's mouth reads as Sable | fixed | 2026-10-26-3 |
+| SR-20261026-1079 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | High | child-read | Both bands stop for lessons at their gravest beats; cut or move ten of them | fixed | 2026-10-26-3 |
+| SR-20261026-1080 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | High | pacing | The same lesson comes back three times in each band; swap the repeats for fresh, sillier ones | fixed | 2026-10-26-3 |
+| SR-20261026-1081 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | theme | Pixel introduces Byte as her husband in both bands (canon 38), with a bicker | fixed | 2026-10-26-3 |
+| SR-20261026-1082 | learning/campaign/sprout.md<br>learning/campaign/reader-1.md | cross-story | Medium | follow | Wisp and Bramble return in chapter 10 months after S2 and S8; give each a one-line reminder | fixed | 2026-10-26-3 |
+| SR-20261026-1083 | learning/campaign/reader-1.md<br>side/S04.md | cross-story | Medium | humour | Marina's numbered rules (canon 39): let Sparks answer rule four, and make rule five stand alone | fixed | 2026-10-26-3 |
 
 ## Runs
 
@@ -1375,3 +1375,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-26 run 18 · [review-2026-10-26-2](review-2026-10-26-2.md) · units: lines/lang-hebrew/reader.md, lines/lang-hebrew/words.md, lines/lang-japanese/main.md, lines/lang-japanese/sprout.md, lines/lang-japanese/reader.md, lines/lang-japanese/words.md, extras/readers.md, extras/results.md, campaign/book-1.md, campaign/book-2.md · 43 recs: Critical 0, High 8, Medium 27, Nice 8 (3 cross-story) · fixed since last run: 57 (1 partial)
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-3` · run 18's 43 recs: 43 fixed · -1000 c5-circuit's choices set `c5-race` (want/win/home) and Corvin quotes the answer back in c9-open and c9-open-sold through src/sim/choice-payoffs.ts, all three bands; -1003 LJ3 and LJ4 choices set `lj3-race` and `lj4-bento`, paid off in their done scenes through choice-payoffs.ts (tests in choice-payoffs.test.ts); -996 Nova's owl speech, with Marina cutting it short, plays in both ledge scenes on every route; -999 the sandstone Nubbin stays unnamed at Lantern Night so Fossil is still introduced once; -993 the Japanese reader's snow lesson moves to the lantern-making scene and lj6-s3 keeps a gentle notice before the lanterns are lit; -1033 Hebrew and Japanese reader lessons rebuilt on approved grades 3–5 codes with their numbers stated (lj3-s3 counts ten stars in twos) · canon: none. SR-20261026-939 (LK) stays partial.
 - 2026-10-26 run 19 · [review-2026-10-26-3](review-2026-10-26-3.md) · units: campaign/book-3.md, campaign/triggered.md, campaign/endings.md, campaign/sprout.md, campaign/reader-1.md, side/S01.md, side/S02.md, side/S03.md, side/S04.md, side/S05.md · 48 recs: Critical 0, High 11, Medium 25, Nice 12 (5 cross-story) · fixed since last run: 43 (all)
+- 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-4` · run 19's 48 recs: 47 fixed, 1 partial · new sim payoffs, tested: s2-night reads `s2-early` and `s2-carried` (choice-payoffs.ts); SWAPS for s1-boats (sail), s1-cinder (offered), a gap-seat Hazel line in s3-moot, and c10-dawn, c10-kept, end-hazels-grove(-open) and end-moss-sleeps through a new `Swapper.swapText` (story-scenes.ts); -1037 adapted: the sold Nubbin leaves the garden in c9-open-sold, since c9-shard-reconciled says the garden is empty; -1055 partial: `T_TALK_GENERIC_ROTATION` is written in campaign-book1.ts, but nothing plays t-talk-generic (the talk command only shows a toast), so wiring it needs a trigger or UI decision; both campaign bands moved lessons out of their gravest beats (-1079..1082) · canon: none

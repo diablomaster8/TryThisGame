@@ -818,7 +818,8 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'narrator', text: 'Watching the gate. Watching you.' },
     { who: 'narrator', text: 'You want to run to it. Every part of you wants to run to it.' },
     { who: 'narrator', text: 'Rule three, in her leaning hand: when you don’t know what to do, sit down next to them and wait.' },
-    { who: 'narrator', text: 'So you don’t run. You set a fruit in the grass, and sit down a little way off.' },
+    { who: 'narrator', text: 'So you don’t run. You set a plum in the grass. Then a second plum, in case the first was the wrong size.' },
+    { who: 'narrator', text: 'Then you sit down a little way off.' },
     { who: 'narrator', text: 'It looks at the fruit.', mood: 'soft' },
     { who: 'narrator', text: 'Then at you. It doesn’t leave.' },
   ]),
@@ -845,11 +846,22 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'narrator', text: 'The old grey one on the hill doesn’t move away when you come close. He doesn’t move at all.' },
     { who: 'narrator', text: 'You put your hand on his head. He is dry and soft, like moss on a warm wall.' },
     { who: 'narrator', text: 'For a moment, nothing. Then, very slightly, he leans into your palm, the way a plant leans towards a window.' },
+    { who: 'narrator', text: 'A small tuft of grass is growing on top of his head. You decide not to mention it.' },
     { who: 'narrator', text: 'When you look back from the bottom of the hill, he is watching you go.' },
   ]),
   S('t-talk-generic', [
     { who: 'narrator', text: 'A nod, a few words about the weather, and a short argument about whose Nubbin ate whose hat. It helps.' },
   ]),
+];
+
+/**
+ * t-talk-generic's line and its two rotations (review SR-20261026-1055): whatever plays the scene picks one, seeded,
+ * never the same twice running. Index 0 is the scene's own line.
+ */
+export const T_TALK_GENERIC_ROTATION: string[] = [
+  'A nod, a few words about the weather, and a short argument about whose Nubbin ate whose hat. It helps.',
+  'A nod, a few words about the weather, and a short argument about whose Nubbin is sitting on whose boot. Neither of you moves it. It helps.',
+  'A nod, a few words about the weather, and a long story about a hat. The hat is fine now. It helps.',
 ];
 
 export const BOOK1_FLAGS: string[] = [
@@ -894,5 +906,5 @@ export const BOOK1_NOTES: Record<string, string> = {
     'First pet of Moss in chapter 4 or later (he speaks). SIM: in noteCampaign, queue this only when c.chapter >= 4; otherwise queue t-moss-first-pet-early. Both may each play once, so a player who petted Moss early still hears him speak the first time after c4-open.',
   't-moss-first-pet-early':
     'NEW. First pet of Moss in chapters 1–3, before he has spoken (c4-open is his first word). Narrator only; he leans into your hand and watches you go.',
-  't-talk-generic': 'Fallback when talking to a Keeper with nothing chapter-specific to say. One line, chapter-neutral.',
+  't-talk-generic': 'Fallback when talking to a Keeper with nothing chapter-specific to say. One line, chapter-neutral, rotated (seeded, never twice running) with T_TALK_GENERIC_ROTATION.',
 };

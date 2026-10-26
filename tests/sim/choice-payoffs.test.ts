@@ -13,7 +13,9 @@ import { c, campaignWorld } from './campaign-driver';
 registerSideStories(SIDE_STORY_CONTENT);
 registerEduContent(EDU);
 
-const CASES: Array<[scene: string, flag: string, values: Array<string | true>]> = [
+const CASES: Array<[scene: string, flag: string, values: Array<string | boolean>]> = [
+  ['s2-night', 's2-early', ['fed', 'shooed', 'waited']],
+  ['s2-night', 's2-carried', [true, false]],
   ['s19-climb', 's1-pace', ['walk', 'offered', 'asked']],
   ['s26-bench', 's1-sat', [true]],
   ['s26-bench', 's1-asked-why', [true]],

@@ -298,7 +298,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
             N('Morning. The fruit you left for Sable is gone.'),
             N('That would be good news, but Sable is curled in the long grass looking thinner, not fatter.'),
             N('There is frost on the grass round her, though it is nearly midsummer.'),
-            LU('You noticed. Good.', 'think'),
+            LU('You’ve seen the frost. Good. Most people see frost at midsummer and go in for a cardigan.', 'think'),
             LU('I saw her eat one piece last night. Then something else came out of the dark and took the rest.'),
             LU('Not shared. Took.'),
             Y('Another Nubbin?'),
@@ -337,7 +337,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
           lines: [
             N('Over the next days, things go missing from the Grove. Not only fruit now. Warm things.'),
             FE('Someone’s had my left glove. Left me the right. I can’t decide if that’s cruel or considerate.', 'think'),
-            N('A sock off the line. A candle stub from the cottage window. The tea cosy, which nobody will admit to missing.'),
+            N('Your left sock, off the line. A candle stub from the cottage window. The tea cosy, which nobody will admit to missing.'),
             N('And the round stone Hazel kept by the hearth for warming eggs. Its dish is empty.'),
             CL('He’s cold. That’s all it is. Can’t we feed him too? I can see the light through his ears.', 'sad'),
             LU('Shoo him off, Clover. I mean it.', 'angry'),
@@ -552,8 +552,9 @@ export const SIDE_STORIES_MAIN: Quest[] = [
       'the shard from the bearer at the water’s edge (“mine — warm — mine”) and tumbles into the Wellspring; it unmakes ' +
       '(stoneUnmadeBy = wisp). Otherwise Moss takes it in (stoneUnmadeBy = moss). His hoarding of Hazel’s cold egg stone ' +
       'here is the setup; he never gives it back. Epilogue lines: spared, Sable’s choice, driven off, or never met. ' +
-      'Small flags: s2-early (fed | shooed | waited) and s2-carried (bool) are flavour only. s2-carried = false means ' +
-      'Clover carried him; nothing reads it except optional epilogue colour. ' +
+      'Small flags: s2-early (fed | shooed | waited) and s2-carried (bool) pay off in s2-night (src/sim/choice-payoffs.ts): ' +
+      's2-early adds one Luna line after “Get down. Listen.”; s2-carried = true adds a narration line after Luna’s bite ' +
+      'line, and false (Clover carried him) adds Clover’s “badge” line. ' +
       'HOME. If spared (or Sable’s choice), Wisp sleeps at the edge of the long grass until the story ends, then settles ' +
       'under the cottage step (bible). The bathhouse in s2-rain and s2-number is optional decor; it is never his home.',
   },
@@ -1100,6 +1101,8 @@ export const SIDE_STORIES_MAIN_VARIANTS: Scene[] = [
       ),
       LU('She’s eating. That’s what we wanted.', 'sad'),
       M('Yes.', 'soft'),
+      CL('It’s Thursday. I’m speaking to you again.', 'soft'),
+      CL('I’ve hung a blanket on the hedge. In case anyone thin comes past. Nobody in particular.', 'soft'),
       N('…'),
       M('Sensible things are sometimes right. It doesn’t make them warm.', 'soft'),
     ],

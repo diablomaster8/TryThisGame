@@ -111,6 +111,7 @@ _Marina is at the pond, with a towel. What a surprise!_
 - **Let one of your swimmers hold her.**
     - Your swimmer wades out. It looks very serious.
     - **Marina**: Paw under her chin. Like a cup.
+    - **Dusty**: Look how careful it is. Like she’s a precious egg.
 - **Ask Marina to hold her.**
     - Marina wades in and holds out her hands.
     - **Marina**: Come on, old girl. Same as always.
@@ -158,6 +159,8 @@ _The Sun goes down behind the hill._
 > _For grown-ups: Learned that the Sun sets in the evening and then night comes._
 
 _Nobody moves. Not Fossil. Not your littlest. Not you._  
+_Your other Nubbins fall asleep in a heap. One snores, very softly._  
+_Dusty sees the heap, and smiles._  
 _When it’s dark, Fossil touches noses with your littlest._  
 _Your littlest sits up tall and proud. A gift from Fossil!_  
 

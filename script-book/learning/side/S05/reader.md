@@ -61,6 +61,8 @@ _Fossil leans out and taps the rock, twice, very firmly._
 **Dusty**: …Eleven. Fine. Eleven. And it was sunny.  
 _Tap._  
 **Dusty**: A spoon. It was a spoon. A big spoon. You try digging out a whole egg with a spoon. It took two days.  
+_Tap._  
+**Dusty**: …Four days. And a teaspoon. I’d like it noted that I was extremely thorough.  
 _Fossil lays her head against the rock and leaves it there a while. Dusty doesn’t say anything at all._  
 **Dusty**: I tell it wrong on purpose. Every time. Twenty years, and she’s never once let me get away with it.  
 _By her head a little fern grows out of a crack, curled tight. Pressed into the stone beside it is a much older one._  
@@ -141,6 +143,7 @@ _Dusty is very bad at secrets._
 - **Let one of your swimmers hold her.**
     - Your swimmer wades out and waits, very serious, as if it has been given the most important job in the valley.
     - **Marina**: Paw under the chin. Like a cup. There you go.
+    - **Dusty**: It’s holding her like she’s the last egg in the valley. …Don’t tell it I said that.
 - **Ask Marina to hold her.**
     - Marina wades in to her waist and holds out her hands.
     - **Marina**: Come on then, old girl. Same as always.
@@ -205,6 +208,8 @@ _One by one, the first stars come out over the pond._
 > _Once the Sun has set and the sky grows dark, the stars can shine through._  
 > _For grown-ups: Learned that stars are in the sky all the time but are hidden by daylight._
 
+_Behind you, the rest of your Nubbins have given up waiting and fallen asleep in a heap. One of them snores in a very small voice._  
+_Dusty looks at the heap, and then at Fossil, and doesn’t say anything. Dusty is smiling._  
 _When it’s dark, the old Nubbin gets up and touches her nose to your youngest’s nose._  
 _Then Fossil walks back to Dusty, slowly, the way she does everything._  
 _Your youngest sits up straighter than you’ve ever seen it sit._  

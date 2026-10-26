@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 19 fixes (2026-10-26)
+
+- **Works:** 47 of run 19's 48 recs fixed across campaign book 3, the endings, the triggered scenes,
+  both campaign bands and side stories S1–S5. New tested payoffs: S2's early/carried choices in
+  s2-night, S1's boat and cinder choices, Hazel taking the gap seat at the S3 moot, and five campaign
+  and ending swaps through a new `Swapper.swapText`. Band lessons no longer sit inside grave beats.
+- **Partial:** SR-20261026-1055: t-talk-generic has lines but nothing plays it yet (needs a trigger).
+- **Known bugs:** the C: drive ran out of space during this pass (0 bytes free); see the status block.
+
 ## Story review run 18 fixes (2026-10-26)
 
 - **Works:** all 43 run-18 recs fixed across the Japanese line and its bands, the Hebrew reader, the
@@ -128,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   they now replace their host scenes, and PA2's Byte-less biscuit run is wired through `GROVE_UNSET`.
 - **Partial:** none.
 - **Known bugs:** none new. The sprout PA1 gate always opens; its locked-gate scenes are exempt.
-
-## Story review run 15 fixes (2026-10-25)
-
-- **Works:** all 56 run-15 recs fixed across the A26 reader, A27 and A28 with their bands, A29 main
-  and reader, and A30. The word you teach in A27 ("friend", "home" or "sorry") now comes back at the
-  reunion (flag values `taught-*`, variants in all three files). A29's farewell pays off Bobby's mug
-  and Celine's pears, and the sticky Nubbin finally reaches the shawl and the stool in A28.
-- **Partial:** none.
-- **Known bugs:** none new. Atlas flag values must not collide with Grove flag values such as 'home'.
 
 ## Standing approval (Maor, 2026-10-12)
 

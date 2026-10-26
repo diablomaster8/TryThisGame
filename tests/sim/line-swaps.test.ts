@@ -95,4 +95,128 @@ describe('line swaps in every band', () => {
       expect(nursery.includes('lantern') && nursery.includes('roof')).toBe(true);
     }
   });
+
+  // Review 2026-10-26 (SR-1043, 1046, 1057, 1059, 1060, 1069, 1070): each flag value changes
+  // exactly the expected line in every band, and nothing changes while the flag is unset.
+  const FLAGGED: Array<{
+    id: string;
+    set: (st: ReturnType<typeof c>) => void;
+    // The changed or added line's opening words, by band (null: that band is untouched).
+    want: Record<'main' | 'sprout' | 'reader', string | null>;
+    added: boolean;
+  }> = [
+    {
+      id: 's3-moot',
+      set: (st) => (st.flags['s3-seat'] = 'gap'),
+      want: { main: 'I hear somebody', sprout: 'I hear you sat', reader: 'I hear somebody' },
+      added: true,
+    },
+    {
+      id: 's1-boats',
+      set: (st) => (st.flags['s1-boat'] = 'sail'),
+      want: {
+        main: 'Moss’s boat, you notice',
+        sprout: 'Moss’s boat has a sail',
+        reader: 'Moss’s boat, you notice',
+      },
+      added: true,
+    },
+    {
+      id: 's1-cinder',
+      set: (st) => (st.flags['s1-pace'] = 'offered'),
+      want: {
+        main: 'All four home. You offered',
+        sprout: 'All four are home. You offered',
+        reader: 'All four home. You offered',
+      },
+      added: false,
+    },
+    {
+      id: 'c10-dawn',
+      set: (st) => (st.flags.mossReturned = false),
+      want: {
+        main: 'Somebody laughs, once',
+        sprout: 'Someone laughs, then stops',
+        reader: 'It goes a very long way. Somebody laughs',
+      },
+      added: false,
+    },
+    {
+      id: 'c10-kept',
+      set: (st) => (st.flags.stoneBearer = 'sable'),
+      want: { main: 'Sable walks home', sprout: 'Sable walks home', reader: 'Sable walks home' },
+      added: true,
+    },
+    ...['end-hazels-grove', 'end-hazels-grove-open'].map((id) => ({
+      id,
+      set: (st: ReturnType<typeof c>) => (st.flags.stoneBearer = 'moss'),
+      want: { main: 'You never wonder', sprout: null, reader: 'Some nights, half asleep' },
+      added: false,
+    })),
+    {
+      id: 'end-moss-sleeps',
+      set: () => undefined,
+      want: {
+        main: 'Some evenings you think',
+        sprout: 'Some evenings you see',
+        reader: 'Some evenings you think',
+      },
+      added: false,
+    },
+  ];
+
+  for (const { id, set, want, added } of FLAGGED) {
+    it(`${id} swaps its flagged line in each band`, () => {
+      for (const band of ['main', 'sprout', 'reader'] as const) {
+        const { world, st } = lateWorld();
+        // end-moss-sleeps keeps Sable's light only when the player saw it arrive.
+        if (id === 'end-moss-sleeps') st.seen.push('c10-moss-light');
+        const plain = sceneFor(world, id, band)!.lines.map((l) => l.text);
+        const opening = want[band];
+        if (id === 'end-moss-sleeps') st.seen.pop();
+        set(st);
+        const lines = sceneFor(world, id, band)!.lines.map((l) => l.text);
+        if (!opening) {
+          expect(lines, `${id} ${band}`).toEqual(plain);
+          continue;
+        }
+        expect(lines.length, `${id} ${band}`).toBe(plain.length + (added ? 1 : 0));
+        const changed = lines.filter((t) => !plain.includes(t));
+        expect(changed.length, `${id} ${band}`).toBeGreaterThan(0);
+        expect(changed[0]!.startsWith(opening), `${id} ${band}: ${changed[0]}`).toBe(true);
+        for (const t of changed) expect(t.length).toBeLessThanOrEqual(160);
+      }
+    });
+  }
+
+  it('end-hazels-grove no longer asks “which one” once Moss bore the stone', () => {
+    const { world, st } = lateWorld();
+    st.flags.stoneBearer = 'moss';
+    for (const band of ['main', 'reader'] as const)
+      expect(
+        sceneFor(world, 'end-hazels-grove', band)!.lines.some((l) => l.text.includes('which one')),
+      ).toBe(false);
+    st.flags.stoneBearer = 'sable';
+    expect(
+      sceneFor(world, 'end-hazels-grove')!.lines.some((l) => l.text.includes('which one')),
+    ).toBe(true);
+  });
+
+  it('end-moss-sleeps drops the floating light in main when it was never seen', () => {
+    const { world } = lateWorld();
+    const lines = sceneFor(world, 'end-moss-sleeps')!.lines.map((l) => l.text);
+    expect(lines.some((t) => t.startsWith('It floats beside hers'))).toBe(false);
+    expect(lines).toContain('Then she turns her head, and it’s only the lantern.');
+  });
+
+  it('s3-moot: Hazel’s gap line follows Fern’s, and the Bramble line still follows the rail', () => {
+    const { world, st } = lateWorld();
+    st.flags['s3-seat'] = 'gap';
+    st.flags.s8Done = true;
+    const lines = sceneFor(world, 's3-moot')!.lines;
+    const again = lines.findIndex((l) => l.text.startsWith('She’s done it again.'));
+    expect(lines[again + 1]!.who).toBe('hazel');
+    const rail = lines.findIndex((l) => l.text.startsWith('Bramble went over that rail'));
+    expect(lines[rail + 1]!.text.startsWith('And she came home anyway.')).toBe(true);
+  });
 });

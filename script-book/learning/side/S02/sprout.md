@@ -55,7 +55,7 @@ _Whoosh. He’s gone._
 
 _Next day, more things go missing. Warm things._  
 **Fern**: My left glove is gone! The right one is here.  
-_A sock. A candle. The tea cosy. Gran’s warm egg stone._  
+_Your sock. A candle. The tea cosy. Gran’s warm egg stone._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count the missing things on your fingers.)_  
@@ -213,6 +213,8 @@ _Then she comes back. She eats all her fruit._
 > _For grown-ups: Named missing someone as a sad feeling and heard that sitting together helps._
 
 **Luna**: She’s eating. That’s good. I still feel sad.  
+**Clover**: I was cross yesterday. I’m not cross now.  
+**Clover**: I hung a blanket on the hedge. Just in case Wisp is cold.  
 **Moss**: Sensible things are not always warm things.  
 
 **Notes:** Sprout leaves out “drive him off” in s2-night (defaultChoice spared). The s2-complete-driven variant is still written, gently, in case a save carries wisp = driven.

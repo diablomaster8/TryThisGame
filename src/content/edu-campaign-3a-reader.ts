@@ -231,7 +231,27 @@ const C9_CHOICES_SOLD: Choice[] = C9_CHOICES.map((c) =>
           ...c.then.slice(2),
         ],
       }
-    : c,
+    : c.id === 'confront' && c.then
+      ? {
+          ...c,
+          then: [
+            ...c.then.slice(0, 11),
+            N('In the second row, the one with the number on its side watches Ash go. It doesn’t follow. Nobody has told it that it may.'),
+            CORVIN('Yours, once. It’s quiet now. I never asked if it wanted to be.', 'think'),
+            N('When you look again, the second row is empty. You tell yourself you’ll find it later. It will keep.'),
+            ...c.then.slice(11),
+          ],
+        }
+      : c.id === 'force' && c.then
+        ? {
+            ...c,
+            then: [
+              ...c.then.slice(0, 3),
+              N('Your old Nubbin goes with them, number and all. You lose it in the first ten yards of trees.'),
+              ...c.then.slice(3),
+            ],
+          }
+        : c,
 );
 
 const C9: EduScene[] = [
@@ -364,7 +384,7 @@ const C9: EduScene[] = [
         skill: 'add two-digit numbers',
         standard: '2.OA.A.1',
         kind: 'ask',
-        after: 11,
+        after: 12,
         prompt: [
           N('Corvin was twenty-two when he dug up the shard. He has carried it for twenty-two years since.'),
           N('How old is Corvin now?'),
@@ -426,7 +446,7 @@ const C9: EduScene[] = [
         id: 'reader:c9-shard-bargained-l1',
         domain: 'maths',
         skill: 'divide into equal groups',
-        standard: '3.OA.A.3',
+        standard: '3.OA.A.1',
         kind: 'ask',
         after: 0,
         prompt: [
@@ -665,7 +685,8 @@ const C9: EduScene[] = [
     [
       MARINA('Whatever you did up there, the valley’s already talking about it.'),
       MARINA('Fern says it was brave. Byte says it was statistically unwise. They’re both right. That’s the trouble with this valley.', 'think'),
-      N('On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID.'),
+      N('On your step is a pie from Fern, still warm, with a note on top: RULE ONE, SECOND HALF: FEED YOURSELF. THE BIT SHE NEVER DID.'),
+      N('Underneath: EAT THIS. IT CAME OUT OF THE TIN IN ONE PIECE. FIRST TIME.'),
       N('Dusk. Your coat is stiff with frost down the side with the tin. Moss is waiting at the foot of the hill. You can see the grass through him.'),
       MOSS('…Show me.'),
       N('You open the tin. Inside, on grey felt, is a shard: a sharp broken piece of something like ice. Dark at the heart. No longer than your thumb.'),
@@ -687,7 +708,7 @@ const C9: EduScene[] = [
         skill: 'changes that can and can’t be undone',
         standard: '2-PS1-4',
         kind: 'ask',
-        after: 2,
+        after: 3,
         prompt: [
           MARINA('Here’s a puzzle while the pie cools. Heat and cold change things. Some changes can be undone. Some can’t.'),
           MARINA('Which of these can never be changed back?'),
@@ -724,7 +745,7 @@ const C9: EduScene[] = [
         skill: 'multiply to find hours in days',
         standard: '3.OA.A.3',
         kind: 'ask',
-        after: 15,
+        after: 16,
         prompt: [N('Three days to go. There are 24 hours in a day. How many hours until the longest night?')],
         options: [
           {
@@ -771,7 +792,7 @@ const C10A: EduScene[] = [
       FERN('I didn’t know what to bring, so I brought everything that was near the door.'),
       N('Then Sparks with wire, Pixel with the timing box wrapped like a baby, Clover with soup, Luna, Dusty with a spade, Nova with snow on her hat.'),
       N('Marina, with rope. Ember, last, with Ash a step behind her heel, grey, looking at nobody. But she came. And Byte, with a clipboard.'),
-      BYTE('Statistically, an Eternal that is petted regularly fades sixty per cent slower. I ran the numbers. While believing it was a hoax.', 'think'),
+      BYTE('Statistically, an Eternal that is petted regularly fades sixty per cent slower. I worked it out on paper. Twice. While believing it was a hoax.', 'think'),
       MOSS('Noted.', 'soft'),
       N('Byte can’t hear him. Byte nods anyway. The sun touches the ridge.'),
       MOSS('Light them.', 'soft'),
@@ -1000,7 +1021,7 @@ const C10A: EduScene[] = [
   scene(
     'c10-vigil-wisp',
     [
-      N('At the edge of the light, in the long grass, there is a thin grey shape with a torn ear.'),
+      N('At the edge of the light, in the long grass, is Wisp: thin, grey, one torn ear. He once ate Sable’s plums, and now he sleeps under your step.'),
       N('Wisp isn’t watching the lanterns. He is watching the fourth post, and what is buried under it.'),
       N('He covets it. He wants it so badly that his whole thin body leans towards it, the way he once leaned towards Sable’s fruit.'),
       WISP('…warm.', 'soft'),
@@ -1233,20 +1254,6 @@ const C10A: EduScene[] = [
     ],
     [
       {
-        id: 'reader:c10-bearer-sable-l1',
-        domain: 'science',
-        skill: 'how animal parents carry their young',
-        standard: '1-LS1-2',
-        kind: 'notice',
-        after: 7,
-        lines: [
-          N('Animal mothers carry precious things this way. A cat lifts her kitten by the loose skin at the back of its neck.'),
-          N('A mother crocodile carries her tiny hatchlings in her huge jaws, so gently they aren’t hurt.'),
-          N('Strong jaws can be gentle jaws. It’s all in how you hold.'),
-        ],
-        parentNote: 'Learned how some animal parents, like cats and crocodiles, carry their young in their mouths.',
-      },
-      {
         id: 'reader:c10-bearer-sable-l2',
         domain: 'sel',
         skill: 'understand that brave includes being scared',
@@ -1292,30 +1299,6 @@ const C10A: EduScene[] = [
       N('Moss is the bearer now: the one who carries it.'),
     ],
     [
-      {
-        id: 'reader:c10-bearer-moss-l1',
-        domain: 'literacy',
-        skill: 'choose the right meaning of a word',
-        standard: 'L.3.4',
-        kind: 'ask',
-        after: 2,
-        prompt: [N('Moss is “so faint now”. Faint has more than one meaning. Which one fits here?')],
-        options: [
-          {
-            label: 'Hard to see, nearly see-through',
-            best: true,
-            reply: [N('Yes. Faint can mean pale and hard to see. Moss is fading, so the light shows through him.')],
-          },
-          {
-            label: 'Falling down in a dizzy spell',
-            reply: [
-              N('That’s a real meaning too: “she felt faint and sat down.” But Moss isn’t falling.'),
-              N('Here faint means pale and hard to see. Moss is fading, so the light shows through him.'),
-            ],
-          },
-        ],
-        parentNote: 'Used context to choose between two meanings of the word “faint”.',
-      },
       {
         id: 'reader:c10-bearer-moss-l2',
         domain: 'sel',
@@ -1672,15 +1655,15 @@ const C10B: EduScene[] = [
       {
         id: 'reader:c10-wisp-l1',
         domain: 'science',
-        skill: 'light passes through clear materials',
-        standard: '1-PS4-2',
+        skill: 'wet and icy surfaces have little friction',
+        standard: '3-PS2-1',
         kind: 'notice',
-        after: 10,
+        after: 0,
         lines: [
-          N('Why does the frozen waterfall turn gold? Clear ice lets light pass through it.'),
-          N('When golden light shines through ice, the ice glows gold too. We see things only when light reaches our eyes, and tonight the light is coming from the spring.'),
+          N('Wet stone and ice are very slippery. There is little friction, the rubbing force that grips and slows things, between a boot and a wet rock.'),
+          N('That is why Marina told you to put your feet exactly where hers went.'),
         ],
-        parentNote: 'Learned that light passes through clear materials like ice, which then glow with the light’s colour.',
+        parentNote: 'Learned that wet and icy surfaces have little friction, which makes them slippery.',
       },
     ],
   ),
@@ -1826,7 +1809,7 @@ const C10B: EduScene[] = [
       N('He is asleep. He is grey, and he will be grey always. His torn ear lies flat against his head.'),
       N('And for the first time since you have known him, he is not trembling.'),
       MOSS('…Well. I was wrong about him. I am nearly never wrong. Don’t tell Hazel.', 'happy'),
-      N('You carry him home. He doesn’t bite you. He doesn’t even wake up.'),
+      N('You carry Wisp home. He doesn’t bite you. He doesn’t even wake up.'),
     ],
     [
       {
@@ -1888,7 +1871,7 @@ const C10B: EduScene[] = [
       N('When you don’t know what to do, sit down next to them and wait.'),
       N('So you wait. After a while Marina comes in from the cave mouth, coiling her rope, and sits beside you.'),
       MARINA('Talk about him. Out loud. It helps. That’s all that singing was, back there: people talking about him out loud.', 'soft'),
-      N('So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace.'),
+      N('So you tell her. The first morning on the hill: “…You lift and push.” “I bruise like fruit.” The pale one’s shoelace.'),
       N('The afternoons you sat with him and said nothing at all. There were a lot of those. You remember every one.'),
       N('Marina laughs in the right places. You talk until your voice goes. Then you just remember, which is quieter, and the same.'),
       N('Outside, the falls start to run again: a trickle, then a rush, then the old roar.'),
@@ -1918,7 +1901,7 @@ const C10B: EduScene[] = [
         id: 'reader:c10-bank-moss-returned-l2',
         domain: 'social-studies',
         skill: 'how stories carry the past',
-        standard: 'D2.His.2.K-2',
+        standard: 'D2.His.2.3-5',
         kind: 'notice',
         after: 6,
         lines: [
@@ -1937,7 +1920,7 @@ const C10B: EduScene[] = [
       N('When you don’t know what to do, sit down next to them and wait.'),
       N('So you wait. After a while Marina comes in from the cave mouth, coiling her rope, and sits beside you.'),
       MARINA('Talk about him. Out loud. It helps. That’s all that singing was, back there: people talking about him out loud.', 'soft'),
-      N('So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace.'),
+      N('So you tell her. The first morning on the hill: “…You lift and push.” “I bruise like fruit.” The pale one’s shoelace.'),
       N('And then you can’t think what else. You didn’t sit with him as often as you meant to. You thought there would be time.'),
       N('Marina doesn’t say anything. She just stays, which is the same thing.'),
       N('Outside, the falls start to run again. Steam rises off the spring again. Grey light comes in at the cave mouth.'),
@@ -1986,7 +1969,8 @@ const C10B: EduScene[] = [
       N('And as you watch, the sun comes over the ridge, and the fourth lantern, by the long grass, which has only ever flickered…'),
       N('…steadies. Brightens. Burns. Nobody lit it. For the first time in twenty-two years, it has lit itself.'),
       N('By the time you get home the frost has melted. There is dew instead, and the whole Grove smells of spring, in the middle of winter.'),
-      SPARKS('I didn’t touch it! I want that on the record. I did not touch it.', 'shock'),
+      SPARKS('I didn’t touch it! Write that down, Byte.', 'shock'),
+      BYTE('Writing it down.', 'think'),
       PIXEL('She didn’t. I was watching her hands. I’m always watching her hands.', 'happy'),
       N('Somebody’s soup has frozen solid in its cup overnight.'),
       N('Sparks tips it out, a perfect brown puck, and skims it across the last of the pond ice.'),
@@ -2000,7 +1984,7 @@ const C10B: EduScene[] = [
         skill: 'freezing and melting can be reversed',
         standard: '2-PS1-4',
         kind: 'ask',
-        after: 10,
+        after: 11,
         prompt: [N('If the soup puck sits by Clover’s warm stove for a while, what will happen to it?')],
         options: [
           {
@@ -2034,7 +2018,7 @@ const C10B: EduScene[] = [
         skill: 'friction slows moving things',
         standard: '3-PS2-1',
         kind: 'do',
-        after: 11,
+        after: 12,
         check: 'edu:slide:soup-puck:ice-vs-grass',
         lines: [
           PIXEL('Experiment! Skim the puck across the ice. Now skim it across the grass.', 'happy'),
@@ -2129,37 +2113,6 @@ const C10B: EduScene[] = [
         ],
         parentNote: 'Thought about what to say when saying goodbye to someone they love; every answer was valued.',
       },
-      {
-        id: 'reader:c10-moss-fades-l2',
-        domain: 'literacy',
-        skill: 'understand a character’s action',
-        standard: 'RL.3.3',
-        kind: 'ask',
-        after: 7,
-        prompt: [N('Byte’s shoelace is untied. Why doesn’t he tie it?')],
-        options: [
-          {
-            label: 'He wants to keep Moss’s last joke',
-            best: true,
-            reply: [N('Yes. Leaving it untied is Byte’s way of keeping Moss close. It is the last thing Moss ever said to him.')],
-          },
-          {
-            label: 'He forgot how',
-            reply: [
-              N('Byte can tie a shoelace. He chooses not to.'),
-              N('Leaving it untied is his way of keeping Moss close. It is the last thing Moss ever said to him.'),
-            ],
-          },
-          {
-            label: 'He is too tired',
-            reply: [
-              N('He is very tired! But this is a choice.'),
-              N('Leaving it untied is his way of keeping Moss close. It is the last thing Moss ever said to him.'),
-            ],
-          },
-        ],
-        parentNote: 'Explained the meaning behind a character’s small action.',
-      },
     ],
   ),
 
@@ -2193,7 +2146,7 @@ const C10B: EduScene[] = [
         id: 'reader:c10-moss-mourned-l2',
         domain: 'social-studies',
         skill: 'how people remember those who have died',
-        standard: 'D2.His.2.K-2',
+        standard: 'D2.His.2.3-5',
         kind: 'ask',
         after: 7,
         prompt: [N('People all over the world remember those who have died. Which of these are real ways people do it?')],
@@ -2350,8 +2303,8 @@ const C10B: EduScene[] = [
     'c10-bramble',
     [
       FERN('That ear. The way it folds over at the tip. That’s… oh. That’s Bramble’s ear.', 'shock'),
-      HAZEL('Found her at the edge of the ring, under a root. Her mother runs the place. Terrible manners. I gather you’ve met.', 'happy'),
-      FERN('Her mother was mine. Once.', 'soft'),
+      HAZEL('Found her under a root, at the edge of the ring. She’s Bramble’s baby. Bramble runs the place now. Terrible manners. I gather you’ve met.', 'happy'),
+      FERN('Bramble was my Nubbin. Once.', 'soft'),
       N('The little one’s ear flops over at the tip, exactly like Bramble’s. Same fold, same floppy point.'),
       N('Fern puts out one finger and touches the folded ear, very lightly.'),
       N('The thin grey Nubbin sighs in its sleep, and leans into it.'),

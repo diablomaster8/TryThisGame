@@ -516,8 +516,102 @@ const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
         'fern',
         'happy',
       );
+    // SR-20261026-1043: Hazel heard who kept the gap at the Circuit.
+    if (c.flags['s3-seat'] === 'gap')
+      s.insertAfter(
+        'She’s done it again.',
+        {
+          main: 'I hear somebody kept my seat warm at the Circuit. Good.',
+          sprout: 'I hear you sat in my seat at the races. Good!',
+        },
+        'hazel',
+        'happy',
+      );
+  },
+  's1-boats': (c, s) => {
+    // SR-20261026-1046: a sailed boat gets copied.
+    if (c.flags['s1-boat'] === 'sail')
+      s.insertAfter('The stream takes the boats', {
+        main: 'Moss’s boat, you notice, has grown a sail while you weren’t looking. It tips over anyway, with more dignity than before.',
+        sprout: 'Moss’s boat has a sail now, like yours. It tips over anyway.',
+      });
+  },
+  's1-cinder': (c, s) => {
+    // SR-20261026-1057: he turned the offer down at the lanterns, and remembers.
+    if (c.flags['s1-pace'] === 'offered')
+      s.swap('All four home.', {
+        main: 'All four home. You offered once. I said certainly not. I have reconsidered. Don’t make a face.',
+        sprout: 'All four are home. You offered to carry me once. Yes, please, now.',
+      });
+  },
+  'c10-dawn': (c, s) => {
+    // SR-20261026-1059: on the Moss-gone route the puck laugh is relief, not forgetting.
+    if (c.flags.mossReturned === false)
+      s.swapText(
+        {
+          main: 'Nobody can think of a single reason',
+          sprout: 'Everyone laughs and laughs.',
+          reader: 'It goes a very long way. Everyone watches it go.',
+        },
+        {
+          main: 'Somebody laughs, once, and stops, and looks guilty. Then somebody else does too. It is the first thing all night that has helped.',
+          sprout: 'Someone laughs, then stops. Then everyone laughs. It helps a little.',
+          reader:
+            'It goes a very long way. Somebody laughs, once, and stops, and looks guilty. Then somebody else does. It is the first thing all night that has helped.',
+        },
+      );
+  },
+  'c10-kept': (c, s) => {
+    // SR-20261026-1070: the bearer's loss on the walk home. Sprout reads the main scene.
+    if (c.flags.stoneBearer === 'sable')
+      s.insertAfter(
+        { main: 'You find you don’t want to say.', reader: 'You find you don’t want to say.' },
+        {
+          main: 'Sable walks home two steps behind you. Not one. She doesn’t look at your pocket.',
+        },
+      );
+  },
+  'end-hazels-grove': (c, s) => hazelsGroveBearer(c, s),
+  'end-hazels-grove-open': (c, s) => hazelsGroveBearer(c, s),
+  'end-moss-sleeps': (c, s) => {
+    // SR-20261026-1069: no claim the player didn't see. Main splits the light over two
+    // lines, so its second line (the light floating beside hers) goes too.
+    if (c.seen.includes('c10-moss-light')) return;
+    s.swapText(
+      {
+        main: 'Sable carries his light now.',
+        sprout: 'Sable carries his little pale light',
+        reader: 'Sable carries his light now.',
+      },
+      {
+        main: 'Some evenings you think you see a second, paler light near Sable.',
+        sprout: 'Some evenings you see a pale light near Sable. Then it’s just the lantern.',
+        reader:
+          'Some evenings you think you see a second, paler light near Sable. Then she turns her head, and it’s only the lantern.',
+      },
+    );
+    s.swapText(
+      { main: 'It floats beside hers, pale and small' },
+      { main: 'Then she turns her head, and it’s only the lantern.' },
+    );
   },
 };
+
+/**
+ * SR-20261026-1060: without Sable's "…safe" (Moss bore the stone), the close can't ask
+ * "which one". The reader band folds the sound and the close into one line.
+ */
+function hazelsGroveBearer(c: CampaignState, s: Swapper): void {
+  if (c.flags.stoneBearer !== 'moss') return;
+  s.swapText(
+    { main: 'You never wonder any more', reader: 'Some nights, half asleep, Sable makes' },
+    {
+      main: 'You never wonder any more what it means. It’s yours now.',
+      reader:
+        'Some nights, half asleep, Sable makes a small sound that might be a word. You never wonder any more what it means. It’s yours now.',
+    },
+  );
+}
 
 /** S10's letter with Open: there is no gate to stick. */
 function openLetter(c: CampaignState, s: Swapper): void {
@@ -639,6 +733,18 @@ class Swapper {
   /** Replace the whole text of the line at `anchor`. */
   swap(anchor: string | number, text: BandText): void {
     const i = this.index(anchor);
+    if (i < 0) return;
+    this.lines = this.lines.map((l, j) => (j === i ? { ...l, text: textFor(text, this.band) } : l));
+  }
+
+  /**
+   * Replace the line that starts with this band's anchor, found by text in the band's own
+   * lines (for bands whose lines don't line up with main's). A band without its own anchor
+   * looks for main's words, so a band that lacks the line is left alone.
+   */
+  swapText(anchor: BandText, text: BandText): void {
+    const own = (this.band === 'main' ? undefined : anchor[this.band]) ?? anchor.main;
+    const i = this.lines.findIndex((l) => l.text.startsWith(own));
     if (i < 0) return;
     this.lines = this.lines.map((l, j) => (j === i ? { ...l, text: textFor(text, this.band) } : l));
   }

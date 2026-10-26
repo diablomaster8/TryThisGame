@@ -101,7 +101,7 @@ _A woman comes up the lane smelling of salt and seaweed. Her bucket slops at eve
 **Marina**: Morning. Marina. I keep the tide pools past the ridge. Hazel traded me fruit for swimming lessons. For the Nubbins, not for her.  
 **Marina**: You’ve not eaten. Don’t argue, you’ve got the look. What’s rule one?  
 **You**: Feed them before you feed yourself.  
-**Marina**: That’s the one. Then, for pity’s sake, feed yourself. She never did that bit either.  
+**Marina**: That’s the one. Then, please, feed yourself. She never did that bit either.  
 **Marina**: A Nubbin fed by your hand remembers the hand. That matters more than people think.  
 **Sparks**: Are we doing hand-feeding? I’m GREAT at hand-feeding. Flat palm. Fruit in the middle. Fingers FLAT.  
 **Marina**: Don’t push it at them. Hold still. Let them come the last bit. The last bit is theirs.  
@@ -115,6 +115,8 @@ _A woman comes up the lane smelling of salt and seaweed. Her bucket slops at eve
 _Your Nubbin comes the last bit. It takes the plum very politely. Then it takes Sparks’s thumb, very politely, and holds on._  
 **Sparks**: FLAT. I said FLAT. I didn’t do it FLAT.  
 **Marina**: Rule four. Don’t be Sparks.  
+**Sparks**: Then here’s one of mine. Don’t be Marina.  
+**Marina**: Too late for me, love.  
 **Marina**: Hazel owes me a bag of plums. Hazel never leaves a debt unpaid, so I’m not worried.  
 
 > **Lesson** (maths, 3.OA.A.1, ask): multiplication as equal groups  
@@ -153,7 +155,7 @@ _His hand goes to his coat, to the breast pocket, and rests there. You don’t t
 **Corvin Vale**: Your young one there. Good bones. I will give you two hundred Shells for it, right now. It will eat better with me than here.  
 _Your Nubbin has gone very still behind your legs._  
 
-> **Lesson** (social-studies, D2.Eco.1.K-2, ask): think about choices, and what money can and can’t buy  
+> **Lesson** (social-studies, D2.Eco.1.3-5, ask): think about choices, and what money can and can’t buy  
 > _Two hundred Shells is a lot. At 2 Shells a plum, it would buy a hundred plums._  
 > _Before you answer him, think: is there anything Shells can’t buy?_  
 > - A friend who trusts you. → That’s a thoughtful answer. Trust is earned slowly, plum by plum. Nobody can sell it to you.
@@ -347,7 +349,8 @@ _Sparks bites one. It makes a sound like a dropped plate. “Crunchy!” she say
 _A very old, sandstone-coloured Nubbin on the wall reaches out and taps a bun, twice. It rings like a plate._  
 **Sparks**: SEE? Even the old one says crunchy!  
 **Fern**: Tapping isn’t tasting.  
-**Pixel**: Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes. Can you really hear Moss? Byte says it’s a hoax.  
+**Pixel**: Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes.  
+**Pixel**: That’s Byte, with the clipboard. I married him. He says Moss is a hoax. He says that about my clocks too.  
 
 > **Lesson** (maths, 3.MD.A.1, ask): time intervals across midnight  
 > **Pixel**: My timer turns the lanterns on at 10 o’clock at night and off at 5 o’clock in the morning. How many hours is that?  
@@ -384,7 +387,7 @@ _Late. Most of the Keepers have gone home. Sparks is asleep sitting up. Moss sit
 **Moss**: Ah. You were listening. Most people only sing it.  
 **Moss**: Sit, then. It is an old story, and I am in it. That is the trouble with old stories, at my age. You are in all of them.  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): oral history: how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): oral history: how stories carry the past  
 > **Moss**: Nobody wrote this story in a book. And yet here it is, older than the trees. How do you think it lasted?  
 > - ✅ People told it to their children, who told theirs. → Just so. Grown-up to child, over and over. That is called oral history: history kept by telling. It passes like a flame from wick to wick. Songs help too. The Lantern Song is a history, hiding in a tune.
 > - People turned it into songs and rhymes. → Clever. The Lantern Song you just sang is a history, hiding in a tune. Songs are easy to remember. And under every song is the telling, grown-up to child, over and over. That is oral history: history kept by telling.
@@ -394,12 +397,6 @@ _Late. Most of the Keepers have gone home. Sparks is asleep sitting up. Moss sit
 _You sit. The pond lantern ticks as it warms._  
 **Moss**: Before the Keepers, before the cottage, before the trees, there was the spring.  
 **Moss**: Not the season. A spring of water. Behind the falls, in a cave of glittering rock, is a warm pool that has never once frozen.  
-
-> **Lesson** (science, 4-PS3-2, notice): why some springs stay warm: heat from underground rock  
-> **Moss**: Why warm? Deep under the ground, the rock is hot. Water that trickles down near it is warmed, and rises back up.  
-> **Moss**: Your people call that a hot spring. That is why some springs stay warm, even in the coldest winter.  
-> _For grown-ups: Your child learned that hot springs are warmed by heat from rock deep underground._
-
 **Moss**: The first Nubbins came up out of it, each one a small light. Nobody made them. They came the way the first warm day comes.  
 **Moss**: Lights fade, on their own. That is our word for dying. The little ones always have faded, in the end.  
 **Moss**: But one that is loved enough stops fading. It stays. That is what Eternal means. Nothing grander.  
@@ -428,12 +425,6 @@ _Against the wall, Sparks says “FLAT” in her sleep, and turns over._
 **Moss**: And me. I sat. Somebody has to.  
 **Moss**: Then came the White Year.  
 **Moss**: A winter that would not end. Snow where the spring should be. Snow at midsummer. The falls froze to the bottom.  
-
-> **Lesson** (science, 2-ESS2-3, notice): ice floats, so water freezes from the top down  
-> _Ice floats. So when ponds and rivers freeze, they freeze from the top down. Fish can live all winter in the water underneath._  
-> _For water to freeze right to the bottom, the cold must be fierce and last a very long time. That was the White Year._  
-> _For grown-ups: Your child learned that ice floats, so ponds freeze from the top down, and how cold it must be for water to freeze solid._
-
 **Moss**: The little ones froze in the long grass, and died. We found them in the mornings. More each morning.  
 **Moss**: Cinder could not bear it. She went behind the falls, to the rim of the warm spring, where even that had iced over.  
 **Moss**: She broke off a shard of the ice, and of it she made a stone. The Heartstone.  
@@ -537,7 +528,7 @@ _Nobody comes down the hill._
 **Moss**: Some evening, when you have time, carry me round the posts. There is more to each of them than one night holds.  
 **Moss**: I am too old to walk it on my own. And I would like the company.  
 
-> **Lesson** (social-studies, D2.Geo.2.K-2, do): read a simple map and plan a route  
+> **Lesson** (social-studies, D2.Geo.2.3-5, do): read a simple map and plan a route  
 > **Moss**: Here is Hazel’s map of the Grove. Find the four posts for me, in the order the song sings them.  
 > **Moss**: Pond, stream, old wall, long grass. That will be our walk.  
 > Check: `edu:order:lantern-posts:song`
@@ -595,7 +586,8 @@ _You look at the edge too. Then you go and fill the fruit bowl, just in case._
 _Something grey is sitting at the very edge of the Grove, in the long grass. Not coming in. Watching the gate. Watching you._  
 _You want to run to it. Every part of you wants to run to it._  
 _Rule three, in her leaning hand: when you don’t know what to do, sit down next to them and wait._  
-_So you don’t run. You set a fruit in the grass, and sit down a little way off._  
+_So you don’t run. You set a plum in the grass. Then a second plum, in case the first was the wrong size._  
+_Then you sit down a little way off._  
 _Your heart is going fast. You let it slow down._  
 
 > **Lesson** (sel, CASEL: Self-management, do): calm a big feeling with slow breaths  
@@ -662,6 +654,7 @@ _For a moment, nothing. Then, very slightly, he leans into your palm, the way a 
 
 _He doesn’t say anything. He seems to be making up his mind about something._  
 _You stay a while. Then you go back down the hill._  
+_A small tuft of grass is growing on top of his head. You decide not to mention it._  
 _When you look back from the bottom of the hill, he is watching you go._  
 
 #### `reader:t-talk-generic` · [main](../../campaign/triggered.md#t-talk-generic)
@@ -670,7 +663,7 @@ _A Keeper stops by the gate for a chat._
 _A nod. A few words about the weather. Is it going to rain? It might. It usually might._  
 _Then a short argument about whose Nubbin ate whose hat._  
 
-> **Lesson** (social-studies, D2.Civ.8.K-2, ask): settle a disagreement fairly  
+> **Lesson** (social-studies, D2.Civ.8.3-5, ask): settle a disagreement fairly  
 > _Each Keeper says the other one’s Nubbin ate the hat. What’s the fairest way to sort it out?_  
 > - ✅ Listen to both sides and look for clues. → Fair and clever. Everyone gets heard, and the clues decide. Speaking of clues, look at those chins…
 > - Whoever shouts loudest wins. → Then Sparks would win every argument in the valley, which nobody wants. Fairer: listen to both sides and look for clues. Speaking of clues, look at those chins…
@@ -772,7 +765,7 @@ _It’s the hottest day of the summer. And the railings are furred with frost._
 **Sparks**: Feel that! No, go on, put your hand on it. It’s AUGUST!  
 
 > **Lesson** (science, 1-ESS1-2, ask): why summer is warm: the tilt of the Earth  
-> **Sparks**: For frost, things have to get down to 0°C (32°F). On the hottest day of summer!  
+> **Sparks**: Frost! On the hottest day of summer!  
 > **Sparks**: Why is summer warm in the first place? Go on. Pixel always asks me and I always panic.  
 > - ✅ In summer our half of the Earth leans towards the Sun. → YES! The Earth spins on a tilted axis, like a spinning top leaning over. In summer our half leans towards the Sun. The light hits us more directly, for longer. Long, warm days. No frost!
 > - In summer the Sun is closer to the Earth. → Loads of people think that! I did. But the Earth is actually closest to the Sun in early January. It’s the tilt. In summer our half of the Earth leans towards the Sun, so we get long days and strong sunshine.
@@ -1408,6 +1401,11 @@ _Your Nubbin puts its head on your knee and keeps it there until you can stand u
 #### `reader:c8-nova` · [main](../../campaign/book-2.md#c8-nova)
 
 _You walk back towards the falls with the notebook inside your coat, flat against your chest, where it stays warm._  
+_At the foot of the ledge, Marina is waiting with the rope, exactly where you left her._  
+**Marina**: Well? This is the other end.  
+**Nova**: “And that is why we came.” That’s the end. It’s quite short without the owls.  
+**Marina**: Most things are.  
+_Nova folds the speech away. She looks as if she expected more owls._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): a think question: can two opposite feelings both be true?  
 > _You think about Hazel’s page. “I’m not sorry. I’m sorry you had to find out this way. Both are true.”_  
@@ -1617,6 +1615,9 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
     - …
     - **Corvin Vale**: Ash can go, Ember.
     - Ash does not move for a long time. Then she walks out of the third row, past Ember, not looking at her.
+    - In the second row, the one with the number on its side watches Ash go. It doesn’t follow. Nobody has told it that it may.
+    - **Corvin Vale**: Yours, once. It’s quiet now. I never asked if it wanted to be.
+    - When you look again, the second row is empty. You tell yourself you’ll find it later. It will keep.
     - Ember follows her down the road, three steps behind, the way you follow something you must not frighten.
 - **Buy Ash back. Whatever it costs.**
     - **Corvin Vale**: Two hundred Shells. The same as always. A fair price for a champion who no longer wins.
@@ -1629,6 +1630,7 @@ _Every grey eye in the garden is on you, waiting for the next bad thing._
     - You throw the latches, one after another. The iron is so cold your fingers stick to it.
     - The grey Nubbins do not move. Nobody ever told them they could.
     - Then Ash takes one step. Then all of them: a grey stampede, pouring past Corvin, past you, into the trees and the dark.
+    - Your old Nubbin goes with them, number and all. You lose it in the first ten yards of trees.
     - **Corvin Vale**: You think you freed them. You scattered them. Half will starve.
     - **Corvin Vale**: Hazel would have fed them one at a time for a year. You had an afternoon.
     - He might be right about some of it. They are free, and they are out in the cold woods with nobody to feed them.
@@ -1648,6 +1650,7 @@ _He holds it out. His hand is blue to the wrist._
 _You take it. It is heavier than a tin should be, colder than anything, and very slightly humming._  
 _Corvin tucks his empty hand under his arm. He looks surprised, as if he’d forgotten there were other places to keep a hand._  
 **Corvin Vale**: I haven’t been warm in twenty-two years.  
+_When you look back from the road, he is still standing in his empty garden, hands in his armpits, like a boy told to wait._  
 
 > **Lesson** (maths, 2.OA.A.1, ask): add two-digit numbers  
 > _Corvin was twenty-two when he dug up the shard. He has carried it for twenty-two years since._  
@@ -1657,7 +1660,6 @@ _Corvin tucks his empty hand under his arm. He looks surprised, as if he’d for
 > - 42 → Close! Check the ones: 2 + 2 = 4, not 2. Then the tens: 20 + 20 = 40. 40 and 4 make 44. Half his whole life, he has had that tin in his pocket.
 > _For grown-ups: Added 22 + 22 to work out a character’s age, using tens and ones._
 
-_When you look back from the road, he is still standing in his empty garden, hands in his armpits, like a boy told to wait._  
 
 > **Lesson** (health, notice): how the body copes with cold  
 > _Why is Corvin’s hand blue? When you are very cold, your body keeps its warm blood close to your heart and tummy._  
@@ -1670,7 +1672,7 @@ _When you look back from the road, he is still standing in his empty garden, han
 
 _Ember and Ash are halfway down the road. You turn to follow, and Corvin says your name._  
 
-> **Lesson** (maths, 3.OA.A.3, ask): divide into equal groups  
+> **Lesson** (maths, 3.OA.A.1, ask): divide into equal groups  
 > _Your two hundred Shells are still on the gatepost, frozen into neat stacks of twenty._  
 > _How many stacks are there?_  
 > - ✅ 10 → Yes. Count in twenties: 20, 40, 60, 80, 100, 120, 140, 160, 180, 200. Ten stacks.
@@ -1781,7 +1783,8 @@ _You think of the frost round her bed, the summer she came. Luna is right._
 
 **Marina**: Whatever you did up there, the valley’s already talking about it.  
 **Marina**: Fern says it was brave. Byte says it was statistically unwise. They’re both right. That’s the trouble with this valley.  
-_On your step is a pie from Fern, still warm, with a note on top: RULE ONE. THE SECOND HALF. THE BIT SHE NEVER DID._  
+_On your step is a pie from Fern, still warm, with a note on top: RULE ONE, SECOND HALF: FEED YOURSELF. THE BIT SHE NEVER DID._  
+_Underneath: EAT THIS. IT CAME OUT OF THE TIN IN ONE PIECE. FIRST TIME._  
 
 > **Lesson** (science, 2-PS1-4, ask): changes that can and can’t be undone  
 > **Marina**: Here’s a puzzle while the pie cools. Heat and cold change things. Some changes can be undone. Some can’t.  
@@ -1844,7 +1847,7 @@ _Below, the gate goes: a lift, a push, a squeal. Fern, with a lantern, a flask, 
 **Fern**: I didn’t know what to bring, so I brought everything that was near the door.  
 _Then Sparks with wire, Pixel with the timing box wrapped like a baby, Clover with soup, Luna, Dusty with a spade, Nova with snow on her hat._  
 _Marina, with rope. Ember, last, with Ash a step behind her heel, grey, looking at nobody. But she came. And Byte, with a clipboard._  
-**Byte**: Statistically, an Eternal that is petted regularly fades sixty per cent slower. I ran the numbers. While believing it was a hoax.  
+**Byte**: Statistically, an Eternal that is petted regularly fades sixty per cent slower. I worked it out on paper. Twice. While believing it was a hoax.  
 **Moss**: Noted.  
 _Byte can’t hear him. Byte nods anyway. The sun touches the ridge._  
 **Moss**: Light them.  
@@ -1910,7 +1913,7 @@ _Up on the hill, Moss is listening. In the lantern light he is a little easier t
 
 #### `reader:c10-vigil-wisp` · [main](../../campaign/book-3.md#c10-vigil-wisp)
 
-_At the edge of the light, in the long grass, there is a thin grey shape with a torn ear._  
+_At the edge of the light, in the long grass, is Wisp: thin, grey, one torn ear. He once ate Sable’s plums, and now he sleeps under your step._  
 _Wisp isn’t watching the lanterns. He is watching the fourth post, and what is buried under it._  
 _He covets it. He wants it so badly that his whole thin body leans towards it, the way he once leaned towards Sable’s fruit._  
 **Wisp**: …warm.  
@@ -2007,13 +2010,6 @@ _Sable. She looks at the shard. She looks at Moss. Then she looks at you, the wa
 **Moss**: The cold has already done its worst to her. It has nothing new to do to her. That is the sad part. Tonight it is also the useful part.  
 _Sable bends her head and picks up the shard in her mouth, as gently as an egg._  
 _She is the bearer now: the one who carries it._  
-
-> **Lesson** (science, 1-LS1-2, notice): how animal parents carry their young  
-> _Animal mothers carry precious things this way. A cat lifts her kitten by the loose skin at the back of its neck._  
-> _A mother crocodile carries her tiny hatchlings in her huge jaws, so gently they aren’t hurt._  
-> _Strong jaws can be gentle jaws. It’s all in how you hold._  
-> _For grown-ups: Learned how some animal parents, like cats and crocodiles, carry their young in their mouths._
-
 _The frost runs up her muzzle and stops. She shivers once, all over. She does not go still._  
 _Luna crouches and puts her forehead against Sable’s, just for a second. Then she goes back to her lantern without a word._  
 
@@ -2030,13 +2026,6 @@ _Luna crouches and puts her forehead against Sable’s, just for a second. Then 
 **Moss**: Mine. I laid it there. I can carry it the rest of the way.  
 _He bends and takes it the way you take something out of a fire: quickly, without flinching, because flinching is worse._  
 _The frost climbs his face and settles in the creases. He is so faint now that the shard seems to float by itself._  
-
-> **Lesson** (literacy, L.3.4, ask): choose the right meaning of a word  
-> _Moss is “so faint now”. Faint has more than one meaning. Which one fits here?_  
-> - ✅ Hard to see, nearly see-through → Yes. Faint can mean pale and hard to see. Moss is fading, so the light shows through him.
-> - Falling down in a dizzy spell → That’s a real meaning too: “she felt faint and sat down.” But Moss isn’t falling. Here faint means pale and hard to see. Moss is fading, so the light shows through him.
-> _For grown-ups: Used context to choose between two meanings of the word “faint”._
-
 **Moss**: There. Not so bad. Briar would have made a joke about it. I can’t think of one.  
 _Nobody else can hear him. They see an old grey shape with ice on his face and a blue light in his mouth._  
 _They stand a little straighter at their lanterns._  
@@ -2188,6 +2177,12 @@ _He stands in the water with the stone in his mouth, and the frost creeps back u
 #### `reader:c10-wisp` · [main](../../campaign/book-3.md#c10-wisp)
 
 _Behind you, on the ledge, something has followed you all the way here. Very quietly, for once in its life._  
+
+> **Lesson** (science, 3-PS2-1, notice): wet and icy surfaces have little friction  
+> _Wet stone and ice are very slippery. There is little friction, the rubbing force that grips and slows things, between a boot and a wet rock._  
+> _That is why Marina told you to put your feet exactly where hers went._  
+> _For grown-ups: Learned that wet and icy surfaces have little friction, which makes them slippery._
+
 _A thin grey shape with a torn ear shoots past your boots like a thrown stone._  
 **Wisp**: Hsss! Mine!  
 _He hits the shallows and snatches the shard away, quick as a theft, which it is._  
@@ -2198,12 +2193,6 @@ _The water closes over him._
 _And the light comes up._  
 _Not cold. Warm. Gold, like the inside of a lantern, like a kitchen window seen from a dark road._  
 _It fills the cave and the ledge and the frozen falls, and the ice on the falls glows the colour of honey._  
-
-> **Lesson** (science, 1-PS4-2, notice): light passes through clear materials  
-> _Why does the frozen waterfall turn gold? Clear ice lets light pass through it._  
-> _When golden light shines through ice, the ice glows gold too. We see things only when light reaches our eyes, and tonight the light is coming from the spring._  
-> _For grown-ups: Learned that light passes through clear materials like ice, which then glow with the light’s colour._
-
 _Somewhere very deep, something that has whispered for longer than anyone has been alive goes quiet._  
 _…_  
 _In the shallows, the stone’s bearer stands blinking. The frost is melting off the bearer’s face, drip by drip._  
@@ -2289,7 +2278,7 @@ _And for the first time since you have known him, he is not trembling._
 > _In stories, the characters who can say “I was wrong” are often the wisest ones._  
 > _For grown-ups: Noticed how a character responds to events by changing his mind._
 
-_You carry him home. He doesn’t bite you. He doesn’t even wake up._  
+_You carry Wisp home. He doesn’t bite you. He doesn’t even wake up._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think about mercy  
 > _In the summer, Wisp stole from Sable. He could have been driven off. Instead he was shown mercy: kindness when you could have been hard._  
@@ -2312,11 +2301,11 @@ _So you wait. After a while Marina comes in from the cave mouth, coiling her rop
 > **Marina**: It doesn’t fix things. It makes them easier to carry.  
 > _For grown-ups: Learned that talking to a good listener can help with worry and sadness._
 
-_So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace._  
+_So you tell her. The first morning on the hill: “…You lift and push.” “I bruise like fruit.” The pale one’s shoelace._  
 _The afternoons you sat with him and said nothing at all. There were a lot of those. You remember every one._  
 _Marina laughs in the right places. You talk until your voice goes. Then you just remember, which is quieter, and the same._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, notice): how stories carry the past  
+> **Lesson** (social-studies, D2.His.2.3-5, notice): how stories carry the past  
 > _This is how stories carry the past. Long before books, people kept their history by telling it out loud, again and again._  
 > _The Lantern Song is the valley’s history, sung. Your stories about Moss are part of it now._  
 > _For grown-ups: Learned about oral history: how people pass on the past by telling and singing it._
@@ -2336,7 +2325,7 @@ _You sit down on the warm rock at the edge of the water._
 _When you don’t know what to do, sit down next to them and wait._  
 _So you wait. After a while Marina comes in from the cave mouth, coiling her rope, and sits beside you._  
 **Marina**: Talk about him. Out loud. It helps. That’s all that singing was, back there: people talking about him out loud.  
-_So you tell her. The first morning on the hill: “…You lift and push.” I bruise like fruit. The pale one’s shoelace._  
+_So you tell her. The first morning on the hill: “…You lift and push.” “I bruise like fruit.” The pale one’s shoelace._  
 _And then you can’t think what else. You didn’t sit with him as often as you meant to. You thought there would be time._  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): understand regret  
@@ -2366,7 +2355,8 @@ _The fourth is dark. Ember has her arms round it all the same._
 _And as you watch, the sun comes over the ridge, and the fourth lantern, by the long grass, which has only ever flickered…_  
 _…steadies. Brightens. Burns. Nobody lit it. For the first time in twenty-two years, it has lit itself._  
 _By the time you get home the frost has melted. There is dew instead, and the whole Grove smells of spring, in the middle of winter._  
-**Sparks**: I didn’t touch it! I want that on the record. I did not touch it.  
+**Sparks**: I didn’t touch it! Write that down, Byte.  
+**Byte**: Writing it down.  
 **Pixel**: She didn’t. I was watching her hands. I’m always watching her hands.  
 _Somebody’s soup has frozen solid in its cup overnight._  
 _Sparks tips it out, a perfect brown puck, and skims it across the last of the pond ice._  
@@ -2428,14 +2418,6 @@ _You kneel down by him. You want to say something. You don’t know what._
 **Moss**: Don’t be dramatic about it. That’s Hazel’s. She won’t mind me borrowing it.  
 **Moss**: Tell the pale one his shoelace is untied.  
 _You tell Byte. Byte looks down. It is. He doesn’t tie it._  
-
-> **Lesson** (literacy, RL.3.3, ask): understand a character’s action  
-> _Byte’s shoelace is untied. Why doesn’t he tie it?_  
-> - ✅ He wants to keep Moss’s last joke → Yes. Leaving it untied is Byte’s way of keeping Moss close. It is the last thing Moss ever said to him.
-> - He forgot how → Byte can tie a shoelace. He chooses not to. Leaving it untied is his way of keeping Moss close. It is the last thing Moss ever said to him.
-> - He is too tired → He is very tired! But this is a choice. Leaving it untied is his way of keeping Moss close. It is the last thing Moss ever said to him.
-> _For grown-ups: Explained the meaning behind a character’s small action._
-
 _Moss goes up the hill path, slowly, the way he climbs everything. He doesn’t look back. He never did like a fuss._  
 _Halfway, he stops, as if someone coming down has said his name._  
 
@@ -2456,7 +2438,7 @@ _Byte looks down at his shoelace. It’s untied. He leaves it._
 _On the hill, by the flat stone where he always sat, there is a flower that wasn’t there yesterday._  
 _A memorial flower, like Briar’s and Hush’s and Fossil’s. It is how the valley remembers._  
 
-> **Lesson** (social-studies, D2.His.2.K-2, ask): how people remember those who have died  
+> **Lesson** (social-studies, D2.His.2.3-5, ask): how people remember those who have died  
 > _People all over the world remember those who have died. Which of these are real ways people do it?_  
 > - Planting flowers or trees → Yes, that’s one. And telling stories, and lighting candles or lanterns too. All of these are real ways people remember.
 > - Telling stories about them → Yes, that’s one. And planting flowers, and lighting candles or lanterns too. All of these are real ways people remember.
@@ -2524,8 +2506,8 @@ _It is her. Of course it is her._
 #### `reader:c10-bramble` · [main](../../campaign/book-3.md#c10-bramble)
 
 **Fern**: That ear. The way it folds over at the tip. That’s… oh. That’s Bramble’s ear.  
-**Gran Hazel**: Found her at the edge of the ring, under a root. Her mother runs the place. Terrible manners. I gather you’ve met.  
-**Fern**: Her mother was mine. Once.  
+**Gran Hazel**: Found her under a root, at the edge of the ring. She’s Bramble’s baby. Bramble runs the place now. Terrible manners. I gather you’ve met.  
+**Fern**: Bramble was my Nubbin. Once.  
 _The little one’s ear flops over at the tip, exactly like Bramble’s. Same fold, same floppy point._  
 
 > **Lesson** (science, 3-LS3-1, ask): traits passed from parents to young  

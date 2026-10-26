@@ -97,6 +97,10 @@ _Your Nubbin sits down, plop, in surprise._
 _(Laugh out loud together. Ha ha ha!)_  
 _Your laugh rings out across the water._  
 **Moss**: There. That’s Briar’s sound. I missed it.  
+_Moss’s boat floats back to the bank, upside down._  
+**Moss**: Maybe this was Briar’s joke. My boat never gets there.  
+**Moss**: She folded my first boat. I still fold it her way. Hmm.  
+_Moss looks at his boat. He does not trust it at all._  
 
 #### `sprout:s1-wall-ask` · [main](../../../side/S01.md#s1-wall-ask)
 
@@ -201,7 +205,7 @@ _“when the morning came to call, / they did not move at all.”_
 
 _Winter now. Frost creeps out of the long grass._  
 _Moss is at your door. He looks very faint._  
-**Moss**: All four are home. You may carry me this time.  
+**Moss**: All four are home. You may carry me now. What an honour!  
 _You carry him gently. He is light as a leaf._  
 **Moss**: Let me tell you about Cinder’s last warm day.  
 **Moss**: It was so hot! The Nubbins lay flat in the sun.  

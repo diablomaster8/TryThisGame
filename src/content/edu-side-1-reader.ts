@@ -305,6 +305,9 @@ const S1_SCENES: EduScene[] = [
       N('You laugh. It comes out louder than you meant, and it rolls right across the water.'),
       M('…There. That’s the sound. I haven’t heard it at this post in a very long time.', 'soft'),
       N('Behind you, Moss’s boat drifts back to the bank upside down, as if it would quite like another go.'),
+      M('I have a theory about Briar’s joke, you know. That my boat never reaches the pond.', 'think'),
+      M('She folded my first one. I’ve used her fold ever since. I’m beginning to suspect the fold.'),
+      N('He looks at the upside-down boat with deep suspicion.'),
       M('Next Lantern Night. And the one after. Somebody ought to. It’s a tradition now.', 'soft'),
     ],
     lessons: [
@@ -326,7 +329,7 @@ const S1_SCENES: EduScene[] = [
         skill: 'traditions: how a group remembers together',
         standard: 'D2.His.2.K-2',
         kind: 'notice',
-        after: 9,
+        after: 12,
         lines: [
           N('Something a family or a town does again every year, the same way, is called a tradition.'),
           M('Traditions are how a valley remembers without anybody having to write it down. Boats included.', 'soft'),
@@ -646,9 +649,9 @@ const S1_SCENES: EduScene[] = [
     of: 's1-cinder',
     band: 'reader',
     lines: [
-      N('Three nights before the longest night. Frost reaches out of the long grass in thin white fingers.'),
+      N('The evening after you buried the tin. Frost reaches out of the long grass in thin white fingers.'),
       N('Moss is waiting at your door. He is so faint you can see the doorstep through him.'),
-      M('All four home. I said I’d tell you. You can carry me this time. Don’t make a face.', 'soft'),
+      M('All four home. I said I’d tell you. You may carry me. I’m told it’s an honour. Don’t make a face.', 'soft'),
       N('You carry him to the fourth post. He weighs almost nothing, like a bird’s nest with opinions.'),
       M('Everyone remembers Cinder in the snow. I’m going to tell you about the day before.'),
       M('Hot. The hottest day anyone could remember. The Nubbins lay flat in the long grass like dropped gloves.'),
@@ -798,7 +801,7 @@ const S2_SCENES: EduScene[] = [
       N('Morning. The fruit you left for Sable is gone.'),
       N('That should be good news. But Sable is curled in the long grass looking thinner, not fatter.'),
       N('There is frost on the grass round her, though it is nearly midsummer.'),
-      LU('You noticed. Good.', 'think'),
+      LU('You’ve seen the frost. Good. Most people see frost at midsummer and go in for a cardigan.', 'think'),
       LU('I saw her eat one piece last night. Then something else came out of the dark and took the rest.'),
       LU('Not shared. Took.'),
       Y('Another Nubbin?'),
@@ -919,7 +922,7 @@ const S2_SCENES: EduScene[] = [
     lines: [
       N('Over the next days, things go missing from the Grove. Not just fruit now. Warm things.'),
       FE('Someone’s had my left glove. Left me the right. I can’t decide if that’s cruel or considerate.', 'think'),
-      N('A sock off the line. A candle stub from the cottage window. The tea cosy, which nobody admits to missing.'),
+      N('Your left sock, off the line. A candle stub from the cottage window. The tea cosy, which nobody admits to missing.'),
       N('And the round stone Hazel kept by the hearth for warming eggs. Its dish is empty.'),
       CL('He’s cold. That’s all it is. Can’t we feed him too? I can see the light through his ears.', 'sad'),
       LU('Shoo him off, Clover. I mean it.', 'angry'),
@@ -1423,6 +1426,8 @@ const S2_VARIANTS: EduScene[] = [
       N('Sable sits by the gap for most of the morning. Then she comes back and eats her fruit, all of it.'),
       LU('She’s eating. That’s what we wanted.', 'sad'),
       M('Yes.', 'soft'),
+      CL('It’s Thursday. I’m speaking to you again.', 'soft'),
+      CL('I’ve hung a blanket on the hedge. In case anyone thin comes past. Nobody in particular.', 'soft'),
       N('…'),
       M('Sensible things are sometimes right. It doesn’t make them warm.', 'soft'),
     ],
@@ -1446,7 +1451,7 @@ const S2_VARIANTS: EduScene[] = [
         skill: 'understanding what a character means',
         standard: 'RL.4.2',
         kind: 'ask',
-        after: 6,
+        after: 8,
         prompt: [N('Moss says, “Sensible things are sometimes right. It doesn’t make them warm.” What does he mean?')],
         options: [
           {
@@ -1486,7 +1491,7 @@ const S3_SCENES: EduScene[] = [
       FE('Don’t sit there. That’s the gap. Nobody sits in the gap.', 'think'),
       Y('Why not?'),
       FE('Because it’s the gap. Hazel sat in it every race, on purpose, to annoy everyone.', 'think'),
-      N('At the front stand two tea urns: same make, same tea, same shop. One has a sun painted on it, and one a moon.'),
+      N('At the front stand two tea urns, one with a sun painted on it and one with a moon. Each queue is certain the other urn’s tea is worse.'),
       SP('Years ago, at Midsummer, Bramble fell over the cliff rail.', 'shock'),
       SP('Sun says Ash barged her. Moon says the race was rigged.'),
       SP('Right. Bye.'),
@@ -1569,6 +1574,7 @@ const S3_SCENES: EduScene[] = [
       N('Moon says: the cliff-bend flag was in the wrong place, so Ash went wide where the flag told her to.'),
       BY('I have a chart. Both stories, colour-coded. The colours are also disputed.', 'think'),
       BY('Two hundred and fourteen grievances in all. Three are about the race. The rest are about the urns.'),
+      BY('I have never tasted the Sun tea. On principle. The principle is also disputed.', 'think'),
       EM('After Midsummer, nobody would race Ash. Not Sun. Not Moon. Do you know who would?', 'angry'),
       EM('Him. He said he’d make her a champion.', 'sad'),
       N('Nobody, on either side, talks about Bramble after the rail. The story just stops there, like a path at a cliff.'),
@@ -1613,7 +1619,7 @@ const S3_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'evidence: how to settle what really happened',
         kind: 'ask',
-        after: 7,
+        after: 8,
         prompt: [N('Two stories, and they can’t both be right. What would help find out what really happened?')],
         options: [
           {
@@ -1737,6 +1743,8 @@ const S3_SCENES: EduScene[] = [
       SP('We’ve been fighting about the wrong thing for years. Byte. We have two URNS.', 'shock'),
       BY('The urns were your idea.'),
       SP('They were a GOOD idea at the TIME.', 'angry'),
+      BY('There’s a thumb on the finish plate too. In the corner.'),
+      SP('It’s my signature.', 'happy'),
     ],
     lessons: [
       {
@@ -1857,7 +1865,10 @@ const S3_SCENES: EduScene[] = [
         id: 'apart',
         label: 'Show them one at a time.',
         set: { 's3-shown': 'apart' },
-        then: [N('You go to Fern first, then to Ember. Each asks, before anything else, whether the other one has seen it yet.')],
+        then: [
+          N('You go to Fern first, then to Ember. Each asks whether the other has seen it yet.'),
+          N('By evening both are at the same fence, looking at the same plates. Both swear it’s a coincidence.'),
+        ],
       },
     ],
   },
@@ -2002,7 +2013,10 @@ const S3_SCENES: EduScene[] = [
       N('Evening at the pond. Ten Keepers, one urn, green invitations, and nobody sure where to stand.'),
       N('Dusty has dug the hole. The one urn stands in it, so that it is exactly level with nobody. Dusty is very proud.'),
       HZ('A Moot! I haven’t been to a Moot since my hair was brown. Isn’t this awkward. I love it.', 'happy'),
-      N('You set the plates on the bench by the pond, between the two groups. Sun and Moon come to look, and then everyone.'),
+      N('You set the plates on the bench by the pond, between the two groups.'),
+      N('Gran Hazel sits down on the bench first, right in the middle, and beams at both sides.'),
+      N('Both sides shuffle in to see the plates until there is no gap left. Nobody can say who started it.'),
+      FE('She’s done it again. Forty years, and still annoying everyone on purpose.', 'happy'),
       SP('It was the flag. I had it in a box the whole time. I’m loud about everything except the one thing.', 'sad'),
       FE('Bramble went over that rail because a man moved a flag. Not because of Ash. Not because of anyone here.'),
       N('Pixel pours the last of the sun urn and the last of the moon urn into the one urn. Byte tastes it, gravely.'),
@@ -2020,7 +2034,7 @@ const S3_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'planning a fair test',
         kind: 'ask',
-        after: 9,
+        after: 12,
         prompt: [
           BY('For the record, I tested it properly first. Which test is fairest, to prove two teas are the same?', 'think'),
         ],
@@ -2056,7 +2070,7 @@ const S3_SCENES: EduScene[] = [
         skill: 'ending a quarrel by talking openly',
         standard: 'CASEL: Relationship skills',
         kind: 'notice',
-        after: 13,
+        after: 16,
         lines: [
           HZ('Disagreeing is fine, love. Valleys are full of it. It’s the whispering behind urns that does the damage.', 'happy'),
           HZ('Say it to their faces, kindly, with the evidence on the table. That’s how a feud ends.'),
@@ -2071,6 +2085,7 @@ const S3_SCENES: EduScene[] = [
         set: { 's3-moot': 'spoon' },
         then: [
           N('You bang the spoon on the urn, and ten Keepers stop talking at once. It is the most powerful you have ever felt.'),
+          BY('Procedurally, that was a gavel. I’m noting that the gavel is a spoon.', 'think'),
           PX('Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.', 'happy'),
           HZ('Moot-Keeper. Told you it’d suit.', 'happy'),
         ],
@@ -2081,7 +2096,7 @@ const S3_SCENES: EduScene[] = [
         set: { 's3-moot': 'shared' },
         then: [
           N('Fern and Ember hold the spoon between them and bang the urn together. Both miss, and the whole pond cheers.'),
-          PX('Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.', 'happy'),
+          PX('Ribbons! Gold and silver, stitched down the middle in green. I did a test run. The stitching is also disputed.', 'happy'),
           HZ('You’re still the Moot-Keeper, love. Somebody had to bring the spoon.', 'happy'),
         ],
       },
@@ -2220,6 +2235,7 @@ const S4_SCENES: EduScene[] = [
     band: 'reader',
     lines: [
       MA('Hazel traded me fruit for swimming lessons. For her Nubbins, not her. She swam like a dropped teapot.', 'happy'),
+      MA('Fossil swam sideways, on purpose. Never once the way I taught her. I still check that corner of the pool.', 'soft'),
       MA('Lesson one: they float better than you’d think. Lesson two: they don’t think, so let them.'),
       N('She wades in to her knees and holds your Nubbin under the chin, the way you’d steady a cup.'),
       N('It kicks once, amazed, and doesn’t sink.'),
@@ -2233,7 +2249,7 @@ const S4_SCENES: EduScene[] = [
         skill: 'water safety',
         standard: 'CASEL: Responsible decision-making',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           MA('Real rule, for real water: never swim without a grown-up watching. Not once. Not even a good swimmer.', 'think'),
           MA('Rivers and pools can be colder, deeper and faster than they look. Cold water steals your strength quickly.'),
@@ -2441,7 +2457,11 @@ const S4_SCENES: EduScene[] = [
       MA('I’ve watched him three nights. Move on the snore. Freeze on the whistle. The whistle’s when they wake.', 'think'),
       Y('“They”?'),
       MA('Stewards. They’re all the same steward, as far as I can tell.'),
-      N('You creep to the sluice on a snore and try it on the next one. It doesn’t move. It is, without any doubt, stuck.'),
+      N('You creep to the sluice on a snore. Your Nubbin creeps beside you, one foot raised, and freezes on the whistle like a garden ornament.'),
+      N('It holds the pose through three more whistles. It is still holding it when the snore comes back.'),
+      MA('You can put your foot down now, pet.', 'soft'),
+      N('It puts its foot down. It looks as if it would have preferred to win.'),
+      N('You try the sluice on the next snore. It doesn’t move. It is, without any doubt, stuck.'),
     ],
     lessons: [
       {
@@ -2481,7 +2501,7 @@ const S4_SCENES: EduScene[] = [
         skill: 'think question: is it right to open the gate without asking?',
         standard: 'D2.Civ.8.K-2',
         kind: 'ask',
-        after: 8,
+        after: 12,
         prompt: [
           N('Marina asked three times, politely, and nobody listened. The gate isn’t hers.'),
           N('Is it right to open it without permission? What do you think?'),
@@ -2530,6 +2550,7 @@ const S4_SCENES: EduScene[] = [
         then: [
           N('You write: “Sluice opened for the tide pools, with thanks, from Hazel’s Grove.” Then you lift, and push, and it swings.'),
           MA('Polite. He’ll hate that more than anything.', 'happy'),
+          N('In the hut, the steward’s hand rises in his sleep, pats the air where a note might be, and puts it in a tray that isn’t there.'),
         ],
       },
     ],
@@ -2757,6 +2778,8 @@ const S5_SCENES: EduScene[] = [
       DU('…Eleven. Fine. Eleven. And it was sunny.'),
       N('Tap.'),
       DU('A spoon. It was a spoon. A big spoon. You try digging out a whole egg with a spoon. It took two days.', 'happy'),
+      N('Tap.'),
+      DU('…Four days. And a teaspoon. I’d like it noted that I was extremely thorough.', 'think'),
       N('Fossil lays her head against the rock and leaves it there a while. Dusty doesn’t say anything at all.'),
       DU('I tell it wrong on purpose. Every time. Twenty years, and she’s never once let me get away with it.', 'soft'),
       N('By her head a little fern grows out of a crack, curled tight. Pressed into the stone beside it is a much older one.'),
@@ -2784,7 +2807,7 @@ const S5_SCENES: EduScene[] = [
         skill: 'fossils show what lived long ago',
         standard: '3-LS4-1',
         kind: 'notice',
-        after: 8,
+        after: 10,
         lines: [
           DU('That’s a fossil. A real one. Not her. The fern.', 'happy'),
           DU('Long ago a fern was buried in mud. Very slowly the mud turned to stone, and kept the fern’s shape.'),
@@ -2949,6 +2972,7 @@ const S5_SCENES: EduScene[] = [
         then: [
           N('Your swimmer wades out and waits, very serious, as if it has been given the most important job in the valley.'),
           MA('Paw under the chin. Like a cup. There you go.', 'soft'),
+          DU('It’s holding her like she’s the last egg in the valley. …Don’t tell it I said that.', 'soft'),
         ],
       },
       {
@@ -3075,6 +3099,8 @@ const S5_SCENES: EduScene[] = [
       N('The sun goes down behind the western hill. Fossil doesn’t move, nor does your youngest, and after a while nor do you.'),
       N('The sky turns orange, then pink, then a deep, quiet blue.'),
       N('One by one, the first stars come out over the pond.'),
+      N('Behind you, the rest of your Nubbins have given up waiting and fallen asleep in a heap. One of them snores in a very small voice.'),
+      N('Dusty looks at the heap, and then at Fossil, and doesn’t say anything. Dusty is smiling.'),
       N('When it’s dark, the old Nubbin gets up and touches her nose to your youngest’s nose.'),
       N('Then Fossil walks back to Dusty, slowly, the way she does everything.'),
       N('Your youngest sits up straighter than you’ve ever seen it sit.'),

@@ -175,17 +175,18 @@ const CH5: EduScene[] = [
       {
         id: lid('c5-circuit', 2),
         domain: 'literacy',
-        skill: 'hear the same first sound (c in Corvin and cold)',
+        skill: 'hear the same first sound (b in Byte and buttons)',
         standard: 'RF.K.2',
         kind: 'do',
         after: 7,
-        check: 'edu:say:sound:c',
+        check: 'edu:say:sound:b',
         lines: [
-          SPARKS('Corvin… cold… they start the same! C-c-c!', 'think'),
-          SPARKS('Say the sound with me: c-c-cold, c-c-Corvin!'),
+          SPARKS('B-b-Byte! B-b-buttons! Byte, stop counting my buttons.', 'angry'),
+          BYTE('Seven. You’ve lost one.', 'think'),
+          SPARKS('Byte and buttons start the same. Say it with me: b-b-b!', 'happy'),
         ],
         parentNote:
-          'Said the first sound of Corvin and cold, and heard that they start the same way.',
+          'Said the first sound of Byte and buttons, and heard that they start the same way.',
       },
     ],
     [
@@ -531,23 +532,26 @@ const CH7: EduScene[] = [
         standard: 'ELOF: Scientific Reasoning',
         kind: 'ask',
         after: 5,
-        prompt: [LUNA('Who else stays up all night, like me?', 'think')],
+        prompt: [
+          N('A hedgehog snuffles past Luna’s boots. Snuffle, snuffle.'),
+          LUNA('Who else is awake at night, like me?', 'think'),
+        ],
         options: [
           {
-            label: 'An owl',
+            label: 'A hedgehog',
             best: true,
-            reply: [LUNA('Yes! Lots of owls hunt at night. Hoo-hoo!', 'happy')],
+            reply: [LUNA('Yes! Hedgehogs, and owls, and me.', 'happy'), LUNA('We sleep in the day.')],
           },
           {
             label: 'A butterfly',
-            reply: [LUNA('Butterflies like sunny days.'), LUNA('Lots of owls are awake at night. Hoo-hoo!')],
+            reply: [LUNA('Butterflies like sunny days.'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
           {
             label: 'A sunflower',
-            reply: [LUNA('Sunflowers love the sun!'), LUNA('Lots of owls stay up at night. Hoo-hoo!')],
+            reply: [LUNA('Sunflowers love the sun!'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
         ],
-        parentNote: 'Learned that some animals, like many owls, are awake at night and rest in the day.',
+        parentNote: 'Learned that some animals, like hedgehogs, are awake at night and rest in the day.',
       },
     ],
   ),
@@ -751,6 +755,7 @@ const CH7: EduScene[] = [
       LUNA('Still grey. Always will be. And look at her anyway.', 'soft'),
       BYTE('I’m writing that down as nice.', 'think'),
       CLOVER('Write it down twice!', 'happy'),
+      PIXEL('I’m Pixel. Byte is my husband. We argue about machines.', 'happy'),
       PIXEL('I made Sable a trust meter! It says MAYBE.', 'happy'),
       BYTE('Your machines never measure things right.', 'think'),
       PIXEL('Byte, your shoelace is undone.'),
@@ -791,7 +796,7 @@ const CH7: EduScene[] = [
         skill: 'the letter M and its sound',
         standard: 'ELOF: Literacy',
         kind: 'do',
-        after: 11,
+        after: 12,
         check: 'edu:say:sound:m',
         lines: [
           PIXEL('MAYBE starts with the letter M. Mmm!', 'happy'),
@@ -809,7 +814,9 @@ const C8_GATE: Line[] = [
   N('Fern brings a bag: fruit, a jumper, a whistle, and another jumper!'),
   FERN('It’s cold where you’re going. So: jumpers!', 'happy'),
   FERN('Two jumpers! One for you. One for your Nubbin.', 'happy'),
+  FERN('I knitted them myself. They are very, very itchy.'),
   FERN('It will look very silly.'),
+  N('Your Nubbin tries its jumper on. It wears it as a hat.'),
   N('Sable sits by the gate. She will wait here.'),
 ];
 
@@ -935,7 +942,7 @@ const CH8: EduScene[] = [
         skill: 'count to 4',
         standard: 'K.CC.B.5',
         kind: 'do',
-        after: 1,
+        after: 5,
         check: 'edu:count:bag-items:4',
         lines: [
           FERN('Count my bag with me! Tap each thing.', 'happy'),
@@ -950,7 +957,7 @@ const CH8: EduScene[] = [
         skill: 'staying safe near water',
         standard: 'ELOF: Perceptual, Motor, and Physical Development',
         kind: 'ask',
-        after: 6,
+        after: 8,
         prompt: [MARINA('Why do we go slowly near water?', 'think')],
         options: [
           {
@@ -991,7 +998,7 @@ const CH8: EduScene[] = [
         skill: 'count a small group (2)',
         standard: 'K.CC.B.5',
         kind: 'ask',
-        after: 1,
+        after: 5,
         prompt: [FERN('How many jumpers did I pack?', 'think'), FERN('Count them in the bag.')],
         options: [
           {
@@ -1016,7 +1023,7 @@ const CH8: EduScene[] = [
         skill: 'staying safe near water',
         standard: 'ELOF: Perceptual, Motor, and Physical Development',
         kind: 'ask',
-        after: 5,
+        after: 7,
         prompt: [MARINA('Do you remember my rules near water?', 'think')],
         options: [
           {
@@ -1044,10 +1051,11 @@ const CH8: EduScene[] = [
       N('Grey Nubbins watch from the trees, quiet as mice.'),
       N('On a flat stone is Gran’s notebook.'),
       HAZEL('“Fed nineteen today. The brown one let me touch her ear.”', 'soft'),
+      HAZEL('“It took two months. Worth it.”', 'happy'),
       HAZEL('“I’m very poorly. The doctors can’t make me better.”'),
       HAZEL('“So I decided to make this year a good one.”'),
       HAZEL('“To my grandchild: I love you. Lift and push.”', 'soft'),
-      HAZEL('“The cold comes from up the valley. I hope he brings it back.”'),
+      HAZEL('“The cold comes from Corvin’s house. I hope he brings it back.”'),
       NOVA('Her footprints go up the valley, into the cold. Brave Gran.', 'soft'),
       N('Your Nubbin puts its head on your knee. That helps.'),
     ],
@@ -1073,7 +1081,7 @@ const CH8: EduScene[] = [
         skill: 'what helps when we miss someone',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 9,
+        after: 10,
         prompt: [N('You miss Gran. What helps when we miss someone?')],
         options: [
           {
@@ -1218,7 +1226,7 @@ export const EDU_CAMPAIGN_2_SPROUT: EduCampaign = {
 };
 
 export const CHECKS: string[] = [
-  'edu:say:sound:c',
+  'edu:say:sound:b',
   'edu:say:sound:m',
   'edu:count:stopwatches:4',
   'edu:count:wishes:3',

@@ -61,6 +61,7 @@ _Marina has followed you after all. She is standing at the edge of the pool with
 #### `reader:s4-lesson` · [main](../../../side/S04.md#s4-lesson)
 
 **Marina**: Hazel traded me fruit for swimming lessons. For her Nubbins, not her. She swam like a dropped teapot.  
+**Marina**: Fossil swam sideways, on purpose. Never once the way I taught her. I still check that corner of the pool.  
 **Marina**: Lesson one: they float better than you’d think. Lesson two: they don’t think, so let them.  
 _She wades in to her knees and holds your Nubbin under the chin, the way you’d steady a cup._  
 _It kicks once, amazed, and doesn’t sink._  
@@ -165,7 +166,11 @@ _He snores in a perfect rhythm. In, out, and a thin little whistle. The clipboar
 
 **You**: “They”?  
 **Marina**: Stewards. They’re all the same steward, as far as I can tell.  
-_You creep to the sluice on a snore and try it on the next one. It doesn’t move. It is, without any doubt, stuck._  
+_You creep to the sluice on a snore. Your Nubbin creeps beside you, one foot raised, and freezes on the whistle like a garden ornament._  
+_It holds the pose through three more whistles. It is still holding it when the snore comes back._  
+**Marina**: You can put your foot down now, pet.  
+_It puts its foot down. It looks as if it would have preferred to win._  
+_You try the sluice on the next snore. It doesn’t move. It is, without any doubt, stuck._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): think question: is it right to open the gate without asking?  
 > _Marina asked three times, politely, and nobody listened. The gate isn’t hers._  
@@ -188,6 +193,7 @@ _You creep to the sluice on a snore and try it on the next one. It doesn’t mov
 - **Pin a polite note to the gate first.**
     - You write: “Sluice opened for the tide pools, with thanks, from Hazel’s Grove.” Then you lift, and push, and it swings.
     - **Marina**: Polite. He’ll hate that more than anything.
+    - In the hut, the steward’s hand rises in his sleep, pats the air where a note might be, and puts it in a tray that isn’t there.
 
 #### `reader:s4-water` · [main](../../../side/S04.md#s4-water)
 

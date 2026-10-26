@@ -14,7 +14,7 @@
 _HAZEL’S GROVE_  
 _The gate sticks. Everyone who matters knows to lift and push._  
 _The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen._  
-_There is a flower on the hill that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it._  
+_Near Briar’s, on the hill, there is a small, untidy flower that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it._  
 _Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has._  
 _Sable sleeps on your feet. Grey as ash._  
 _Heart above her head. Both at once, for ever._  
@@ -30,7 +30,7 @@ _You never wonder any more which one it means. It’s yours now._
 _HAZEL’S GROVE_  
 _There is no gate any more. Everyone who matters comes in anyway, and most of them still lift and push at the air where it was._  
 _The frost never comes back to the long grass. The fourth lantern lights itself every dusk now, a little before the others, as if it’s keen._  
-_There is a flower on the hill that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it._  
+_Near Briar’s, on the hill, there is a small, untidy flower that Moss will not let anyone step near. He sits beside it in the afternoons and talks to it._  
 _Sometimes he stops in the middle of a sentence, as if it has said something back. He says it usually has._  
 _Sable sleeps on your feet. Grey as ash._  
 _Heart above her head. Both at once, for ever._  
@@ -88,7 +88,9 @@ _Grey Nubbins find their way to your gate now. Word gets round, in whatever way 
 _They come out of the Hollow, and down from the Circuit, and in from the long grass: thin and quiet, waiting for the next bad thing._  
 _Sable meets each one at the edge and sits with it. She does not come closer._  
 _She does not run. She shows them how._  
-_Ash sits with her, most days._  
+_Ash sits with her, most days, half a step further out, out of respect._  
+_Byte keeps a register of arrivals at the edge. The column for departures is still blank._  
+_He checks it anyway, as if it might fill in while he isn’t looking._  
 _Two grey shapes in the long grass. The new ones go to both._  
 
 > Corvin-neutral (the gate epilogue says what became of him). Ash sits with Sable.
@@ -126,6 +128,7 @@ _WILD GROVE_
 _There is no gate any more. Some stayed; most didn’t._  
 _The grey ones you scattered from Corvin’s garden come and go through the Hollow._  
 _You leave fruit, and some of it is eaten._  
+_Fern sends lantern buns. Nothing in the Hollow will touch them. Fern says that proves they have standards._  
 _Most weeks you go into the Hollow with a lantern and a bag of fruit and the stubborn chin. Some of them let you near now._  
 _A small grey one with a nicked ear let you touch it this spring._  
 _Took two months. Worth it._  
@@ -167,12 +170,12 @@ _THE COLLECTOR_
 #### <a id="end-collector-sold"></a>Ending scene `end-collector-sold`
 
 _Two hundred Shells buys a lot of eggs. They hatch, and they are fast, and they are grey by autumn, every one._  
-_You never went looking for the first one when the pens opened._  
+_You meant to go looking for the first one. You told yourself it would keep._  
 _You told yourself it was doing well. Quiet._  
 _You told yourself those were the same thing._  
 **Corvin Vale** _(think)_: I told you. Everyone sells, eventually. I’m almost sorry I was right.  
 
-> Body variant: sold in ch2 and never bought anyone back (stone unmade). The pens opened in ch9 on both Collector routes (confront and force), so: you never went looking for the first one when the pens opened.
+> Body variant: sold in ch2 and never bought anyone back (stone unmade). The pens opened in ch9 on both Collector routes (confront and force), and C9_CHOICE_SOLD shows the old Nubbin let go on both; so: you meant to go looking and told yourself it would keep.
 
 #### <a id="end-collector-kept"></a>Ending scene `end-collector-kept`
 
@@ -347,9 +350,9 @@ _You leave out the waving. That part is yours._
 #### <a id="end-epi-told"></a>Ending scene `end-epi-told`
 
 _The whole valley walked her to the foot of the hill._  
-_They still meet there once a year, on the day she went up, and stand together, and say nothing, badly._  
+_They still meet there once a year, on the day she went up, and are quiet together in shifts, because somebody always has to blow their nose._  
 _Fern brings lantern buns. They come out every time now._  
-_She says it’s because she stopped trying so hard. Hazel would have said that was the whole trick._  
+_She says it’s because she stopped trying so hard. She says this mostly to the buns._  
 
 > hazel = told (S10). They meet “on the day she went up” (chapter 11 spans several days, so not the morning after the Long Night). Fern’s lantern buns come out every year now (payoff of c4-close).
 

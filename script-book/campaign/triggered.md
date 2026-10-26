@@ -30,7 +30,8 @@ _Something grey is sitting at the very edge of the Grove, in the long grass, not
 _Watching the gate. Watching you._  
 _You want to run to it. Every part of you wants to run to it._  
 _Rule three, in her leaning hand: when you don’t know what to do, sit down next to them and wait._  
-_So you don’t run. You set a fruit in the grass, and sit down a little way off._  
+_So you don’t run. You set a plum in the grass. Then a second plum, in case the first was the wrong size._  
+_Then you sit down a little way off._  
 _It looks at the fruit._  
 _Then at you. It doesn’t leave._  
 
@@ -62,6 +63,7 @@ _You start to take your hand away._
 _The old grey one on the hill doesn’t move away when you come close. He doesn’t move at all._  
 _You put your hand on his head. He is dry and soft, like moss on a warm wall._  
 _For a moment, nothing. Then, very slightly, he leans into your palm, the way a plant leans towards a window._  
+_A small tuft of grass is growing on top of his head. You decide not to mention it._  
 _When you look back from the bottom of the hill, he is watching you go._  
 
 > NEW. First pet of Moss in chapters 1–3, before he has spoken (c4-open is his first word). Narrator only; he leans into your hand and watches you go.
@@ -70,4 +72,4 @@ _When you look back from the bottom of the hill, he is watching you go._
 
 _A nod, a few words about the weather, and a short argument about whose Nubbin ate whose hat. It helps._  
 
-> Fallback when talking to a Keeper with nothing chapter-specific to say. One line, chapter-neutral.
+> Fallback when talking to a Keeper with nothing chapter-specific to say. One line, chapter-neutral, rotated (seeded, never twice running) with T_TALK_GENERIC_ROTATION.

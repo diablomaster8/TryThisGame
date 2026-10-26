@@ -124,6 +124,9 @@ _Your Nubbin, who has run beside it the whole way along the bank, sits down hard
 _You laugh. It comes out louder than you meant, and it rolls right across the water._  
 **Moss**: …There. That’s the sound. I haven’t heard it at this post in a very long time.  
 _Behind you, Moss’s boat drifts back to the bank upside down, as if it would quite like another go._  
+**Moss**: I have a theory about Briar’s joke, you know. That my boat never reaches the pond.  
+**Moss**: She folded my first one. I’ve used her fold ever since. I’m beginning to suspect the fold.  
+_He looks at the upside-down boat with deep suspicion._  
 **Moss**: Next Lantern Night. And the one after. Somebody ought to. It’s a tradition now.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): traditions: how a group remembers together  
@@ -261,7 +264,7 @@ _“when the morning came to call, / they did not move at all.”_
 
 #### `reader:s1-cinder` · [main](../../../side/S01.md#s1-cinder)
 
-_Three nights before the longest night. Frost reaches out of the long grass in thin white fingers._  
+_The evening after you buried the tin. Frost reaches out of the long grass in thin white fingers._  
 
 > **Lesson** (literacy, L.4.5, notice): metaphors  
 > _Frost doesn’t really have fingers. “Thin white fingers” is a metaphor: it says one thing is another._  
@@ -269,7 +272,7 @@ _Three nights before the longest night. Frost reaches out of the long grass in t
 > _For grown-ups: Recognised a metaphor and what feeling it creates._
 
 _Moss is waiting at your door. He is so faint you can see the doorstep through him._  
-**Moss**: All four home. I said I’d tell you. You can carry me this time. Don’t make a face.  
+**Moss**: All four home. I said I’d tell you. You may carry me. I’m told it’s an honour. Don’t make a face.  
 _You carry him to the fourth post. He weighs almost nothing, like a bird’s nest with opinions._  
 **Moss**: Everyone remembers Cinder in the snow. I’m going to tell you about the day before.  
 **Moss**: Hot. The hottest day anyone could remember. The Nubbins lay flat in the long grass like dropped gloves.  

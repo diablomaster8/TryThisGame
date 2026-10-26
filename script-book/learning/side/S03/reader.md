@@ -21,7 +21,7 @@ _The Circuit stands are split down the middle: Sun Keepers on the left, Moon Kee
 > - It was the best seat. → Byte says it’s the worst seat. He’s checked. She sat there to show she was on nobody’s side. To remind us we’re one valley.
 > _For grown-ups: Thought about how staying neutral can help people in a quarrel remember what they share._
 
-_At the front stand two tea urns: same make, same tea, same shop. One has a sun painted on it, and one a moon._  
+_At the front stand two tea urns, one with a sun painted on it and one with a moon. Each queue is certain the other urn’s tea is worse._  
 **Sparks**: Years ago, at Midsummer, Bramble fell over the cliff rail.  
 **Sparks**: Sun says Ash barged her. Moon says the race was rigged.  
 **Sparks**: Right. Bye.  
@@ -59,6 +59,7 @@ _Moon says: the cliff-bend flag was in the wrong place, so Ash went wide where t
 > - 45 → That’s all the urn grievances: 9 squares × 5 = 45. Biscuits have 4 × 5 = 20. So the difference is 45 − 20 = 25.
 > _For grown-ups: Read a bar graph where each square stands for 5, and found a difference (25)._
 
+**Byte**: I have never tasted the Sun tea. On principle. The principle is also disputed.  
 **Ember**: After Midsummer, nobody would race Ash. Not Sun. Not Moon. Do you know who would?  
 **Ember**: Him. He said he’d make her a champion.  
 _Nobody, on either side, talks about Bramble after the rail. The story just stops there, like a path at a cliff._  
@@ -137,6 +138,8 @@ _The last plate is the finish, with the owners’ box behind it. Corvin isn’t 
 **Sparks**: We’ve been fighting about the wrong thing for years. Byte. We have two URNS.  
 **Byte**: The urns were your idea.  
 **Sparks**: They were a GOOD idea at the TIME.  
+**Byte**: There’s a thumb on the finish plate too. In the corner.  
+**Sparks**: It’s my signature.  
 
 #### `reader:s3-courier` · [main](../../../side/S03.md#s3-courier)
 
@@ -161,7 +164,8 @@ _The plates are heavier than they look. Glass, and years of not knowing._
     - Getting Fern and Ember into one place takes a week. You manage it by telling each that the other won’t come.
     - **Fern**: You absolute snake. Hazel did that to me once.
 - **Show them one at a time.**
-    - You go to Fern first, then to Ember. Each asks, before anything else, whether the other one has seen it yet.
+    - You go to Fern first, then to Ember. Each asks whether the other has seen it yet.
+    - By evening both are at the same fence, looking at the same plates. Both swear it’s a coincidence.
 
 #### `reader:s3-truce` · [main](../../../side/S03.md#s3-truce)
 
@@ -221,7 +225,10 @@ _Dusty has offered to dig a hole for the one urn. Nobody asked for a hole, and n
 _Evening at the pond. Ten Keepers, one urn, green invitations, and nobody sure where to stand._  
 _Dusty has dug the hole. The one urn stands in it, so that it is exactly level with nobody. Dusty is very proud._  
 **Gran Hazel**: A Moot! I haven’t been to a Moot since my hair was brown. Isn’t this awkward. I love it.  
-_You set the plates on the bench by the pond, between the two groups. Sun and Moon come to look, and then everyone._  
+_You set the plates on the bench by the pond, between the two groups._  
+_Gran Hazel sits down on the bench first, right in the middle, and beams at both sides._  
+_Both sides shuffle in to see the plates until there is no gap left. Nobody can say who started it._  
+**Fern**: She’s done it again. Forty years, and still annoying everyone on purpose.  
 **Sparks**: It was the flag. I had it in a box the whole time. I’m loud about everything except the one thing.  
 **Fern**: Bramble went over that rail because a man moved a flag. Not because of Ash. Not because of anyone here.  
 _Pixel pours the last of the sun urn and the last of the moon urn into the one urn. Byte tastes it, gravely._  
@@ -251,11 +258,12 @@ _Pixel pours the last of the sun urn and the last of the moon urn into the one u
 
 - **Bang the spoon on the urn.**
     - You bang the spoon on the urn, and ten Keepers stop talking at once. It is the most powerful you have ever felt.
+    - **Byte**: Procedurally, that was a gavel. I’m noting that the gavel is a spoon.
     - **Pixel**: Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.
     - **Gran Hazel**: Moot-Keeper. Told you it’d suit.
 - **Give the spoon to Fern and Ember to share.**
     - Fern and Ember hold the spoon between them and bang the urn together. Both miss, and the whole pond cheers.
-    - **Pixel**: Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.
+    - **Pixel**: Ribbons! Gold and silver, stitched down the middle in green. I did a test run. The stitching is also disputed.
     - **Gran Hazel**: You’re still the Moot-Keeper, love. Somebody had to bring the spoon.
 
 ### Glossary

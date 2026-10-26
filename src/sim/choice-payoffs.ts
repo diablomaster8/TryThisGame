@@ -1,5 +1,5 @@
 /**
- * Payoffs for the small choices in S1, S3, S4 and S5 (review 2026-10-18, goal 9). Each of
+ * Payoffs for the small choices in S1–S5 (review 2026-10-18, goal 9). Each of
  * those choices set a flag nothing read; here each one is remembered by a single line in a
  * scene three or more stories later, so every choice changes something the player sees.
  * The lines go in through the same line swaps as the scene notes' (`sceneFor`), with words
@@ -7,6 +7,8 @@
  *
  *   s1-pace      (walk | offered | asked)   S19, Moss riding up the pass in your coat
  *   s1-sat       / s1-asked-why             S26, Moss on Hush's bench
+ *   s2-early     (fed | shooed | waited)    s2-night, Luna on the first week
+ *   s2-carried   (true | false)             s2-night, the bitten hand
  *   s3-seat      (gap | sun | moon)         S30, Dimple's party
  *   s3-byte      (science | nicely)         S28, the Nubbin at Byte's door
  *   s3-shown     (together | apart)         S23, Ember's kitchen
@@ -58,6 +60,22 @@ const S1_PACE: Record<string, BandText> = {
     sprout: 'You asked which lantern came first. This is the last place. No lantern here.',
     reader:
       'At the lanterns you asked which post came first. This is the last one, and there’s no post up here at all.',
+  },
+};
+
+/** SR-20261026-1036: how you met Wisp, remembered the night Luna and Clover argue over him. */
+const S2_EARLY: Record<string, BandText> = {
+  fed: {
+    main: 'He ate both your piles in about a minute, by the way. Thorough, for a thief.',
+    sprout: 'He ate both piles of fruit. Very fast, for a thief!',
+  },
+  shooed: {
+    main: 'You clapped at him, that first week. He still flinches whenever Sparks applauds. Sparks applauds a lot.',
+    sprout: 'You clapped at him once. He still jumps when Sparks claps.',
+  },
+  waited: {
+    main: 'You sat there till he ran out of hiss. I didn’t know anything could run out of hiss.',
+    sprout: 'You sat so still, he ran out of hiss!',
   },
 };
 
@@ -291,6 +309,47 @@ export const CHOICE_PAYOFFS: Record<string, Payoff> = {
           reader: '…steadies. Brightens. Burns. Nobody lit it.',
         },
         t,
+      );
+  },
+  's2-night': (c, s) => {
+    // The reader band's s2-night doesn't line up with main's, so it names its own anchors.
+    const t = by(c.flags['s2-early'], S2_EARLY);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Get down. Listen.',
+          reader: 'Get down. Listen.',
+          sprout: 'Night in Luna’s garden.',
+        },
+        t,
+        'luna',
+        'think',
+      );
+    if (c.flags['s2-carried'] === true)
+      s.insertAfter(
+        {
+          main: 'He bit the hand that carried him, Clover.',
+          reader: 'He bit the hand that carried him, Clover.',
+          sprout: 'Wisp is cold and scared.',
+        },
+        {
+          main: 'She points at your hand. You put it in your pocket.',
+          sprout: 'Luna points at your hand. Wisp bit it once!',
+        },
+      );
+    else if (c.flags['s2-carried'] === false)
+      s.insertAfter(
+        {
+          main: 'He was cold. I’d have bitten too.',
+          reader: 'He was cold. I’d have bitten too.',
+          sprout: 'Wisp is cold and scared.',
+        },
+        {
+          main: 'I’ve decided the mark is a badge.',
+          sprout: 'Wisp bit me once. I call it my badge.',
+        },
+        'clover',
+        'happy',
       );
   },
   's19-climb': (c, s) => {

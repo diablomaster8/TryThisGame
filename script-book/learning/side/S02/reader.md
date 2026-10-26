@@ -17,7 +17,7 @@ _There is frost on the grass round her, though it is nearly midsummer._
 > **Luna**: It only forms when the ground is at freezing or colder: 0°C (32°F). In midsummer, that’s very strange.  
 > _For grown-ups: Learned that frost is frozen water from the air, and forms at 0°C (32°F) or below._
 
-**Luna**: You noticed. Good.  
+**Luna**: You’ve seen the frost. Good. Most people see frost at midsummer and go in for a cardigan.  
 **Luna**: I saw her eat one piece last night. Then something else came out of the dark and took the rest.  
 **Luna**: Not shared. Took.  
 
@@ -66,7 +66,7 @@ _He is gone before you can breathe out. Sable stares at the place where he went 
 
 _Over the next days, things go missing from the Grove. Not just fruit now. Warm things._  
 **Fern**: Someone’s had my left glove. Left me the right. I can’t decide if that’s cruel or considerate.  
-_A sock off the line. A candle stub from the cottage window. The tea cosy, which nobody admits to missing._  
+_Your left sock, off the line. A candle stub from the cottage window. The tea cosy, which nobody admits to missing._  
 _And the round stone Hazel kept by the hearth for warming eggs. Its dish is empty._  
 
 > **Lesson** (science, 2-PS1-1, ask): insulation: materials that keep warmth in  
@@ -293,6 +293,8 @@ _Sable sits by the gap for most of the morning. Then she comes back and eats her
 > _For grown-ups: Learned that people can feel mixed emotions, like glad and sad, at the same time._
 
 **Moss**: Yes.  
+**Clover**: It’s Thursday. I’m speaking to you again.  
+**Clover**: I’ve hung a blanket on the hedge. In case anyone thin comes past. Nobody in particular.  
 _…_  
 **Moss**: Sensible things are sometimes right. It doesn’t make them warm.  
 

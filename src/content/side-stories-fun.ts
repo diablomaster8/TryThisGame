@@ -182,6 +182,9 @@ export const SIDE_STORIES_FUN: Quest[] = [
             N('You laugh. It comes out louder than you meant, and it carries right across the water.'),
             M('…There. That’s the sound. I haven’t heard it at this post in a very long time.', 'soft'),
             N('Behind you, Moss’s boat drifts back to the bank upside down, as if it would quite like another go.'),
+            M('I have a theory about Briar’s joke, you know. That my boat never reaches the pond.', 'think'),
+            M('She folded my first one. I’ve used her fold ever since. I’m beginning to suspect the fold.'),
+            N('He looks at the upside-down boat with deep suspicion.'),
             M('Next Lantern Night. And the one after. Somebody ought to.', 'soft'),
           ],
         },
@@ -295,9 +298,9 @@ export const SIDE_STORIES_FUN: Quest[] = [
         done: {
           id: 's1-cinder',
           lines: [
-            N('Three nights before the longest night. Frost reaches out of the long grass in thin white fingers.'),
+            N('The evening after you buried the tin. Frost reaches out of the long grass in thin white fingers.'),
             N('Moss is waiting at your door. He is so faint you can see the doorstep through him.'),
-            M('All four home. I said I’d tell you. You can carry me this time. Don’t make a face.', 'soft'),
+            M('All four home. I said I’d tell you. You may carry me. I’m told it’s an honour. Don’t make a face.', 'soft'),
             N('You carry him to the fourth post. He weighs almost nothing, like a bird’s nest with opinions.'),
             M('Everyone remembers Cinder in the snow. I’m going to tell you about the day before.'),
             M('Hot. The hottest day anyone could remember. The Nubbins lay flat in the long grass like dropped gloves.'),
@@ -370,7 +373,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
       'is free and instant, so there is no fail state. Moss launches his own boat each try and it always capsizes at once ' +
       '(a running gag; never let his reach the pond). The sail choice gives the boat a little more speed and wobble. ' +
       'The step is met when a boat reaches the pond still lit. Laugh SFX from the player Keeper, then a faint gold shimmer ' +
-      'on the stream lantern. s1-boat (flat | sail) is flavour only. The memories still count as four; the boats are a game.',
+      'on the stream lantern. s1-boat = sail adds a line in s1-boats (Moss’s boat grows a sail too); s1-pace = offered swaps Moss’s carry line ' +
+      'in s1-cinder (both in src/sim/story-scenes.ts SWAPS). The memories still count as four; the boats are a game.',
   },
 
   // ================================================================== S3
@@ -400,7 +404,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
             FE('Don’t sit there. That’s the gap. Nobody sits in the gap.', 'think'),
             Y('Why not?'),
             FE('Because it’s the gap. Hazel used to sit in it every race, on purpose, to annoy everyone.', 'think'),
-            N('Down at the front stand two tea urns: same make, same tea, same shop. One has a sun painted on it, and one a moon.'),
+            N('Down at the front stand two tea urns, one with a sun painted on it and one with a moon. Each queue is certain the other urn’s tea is worse.'),
             SP('Midsummer, years back, Fern’s Bramble went over the cliff rail, Sun says Ash barged her, Moon says rigged, nobody’s raced together since, OK bye.', 'shock'),
             N('Sparks sits down very fast and studies the race card as if it holds the meaning of life.'),
             SP('I didn’t say any of that. That was the wind.'),
@@ -446,6 +450,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
             N('Moon: the cliff-bend flag was in the wrong place, so Ash went wide where the flag told her to.'),
             BY('I have a chart. Both stories, colour-coded. The colours are also disputed.', 'think'),
             BY('Two hundred and fourteen grievances in all. Three are about the race. The rest are about the urns.'),
+            BY('I have never tasted the Sun tea. On principle. The principle is also disputed.', 'think'),
             EM('After Midsummer, nobody would race Ash. Not Sun. Not Moon. Do you know who would?', 'angry'),
             EM('Him. He said he’d make her a champion.', 'sad'),
             N('Nobody, on either side, talks about Bramble after the rail. The story just stops there, the way a path stops at a cliff.'),
@@ -504,6 +509,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
             SP('We’ve been fighting about the wrong thing for years. Byte. We have two URNS.', 'shock'),
             BY('The urns were your idea.'),
             SP('They were a GOOD idea at the TIME.', 'angry'),
+            BY('There’s a thumb on the finish plate too. In the corner.'),
+            SP('It’s my signature.', 'happy'),
           ],
         },
       },
@@ -534,7 +541,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
               label: 'Show them one at a time.',
               set: { 's3-shown': 'apart' },
               then: [
-                N('You go to Fern first, then to Ember. Each asks, before anything else, whether the other one has seen it yet.'),
+                N('You go to Fern first, then to Ember. Each asks whether the other has seen it yet.'),
+                N('By evening both are at the same fence, looking at the same plates. Both swear it’s a coincidence.'),
               ],
             },
           ],
@@ -579,7 +587,10 @@ export const SIDE_STORIES_FUN: Quest[] = [
         N('Evening at the pond. Ten Keepers, one urn, green invitations, and nobody sure where to stand.'),
         N('Dusty has dug the hole. The one urn stands in it, so that it is exactly level with nobody. Dusty is very proud.'),
         HZ('A Moot! I haven’t been to a Moot since my hair was brown. Isn’t this awkward. I love it.', 'happy'),
-        N('You set the plates on the bench by the pond, between the two groups. Sun and Moon come to look, and then everyone.'),
+        N('You set the plates on the bench by the pond, between the two groups.'),
+        N('Gran Hazel sits down on the bench first, right in the middle, and beams at both sides.'),
+        N('Both sides shuffle in to see the plates until there is no gap left. Nobody can say who started it.'),
+        FE('She’s done it again. Forty years, and still annoying everyone on purpose.', 'happy'),
         SP('It was the flag. I had it in a box the whole time. I’m loud about everything except the one thing.', 'sad'),
         FE('Bramble went over that rail because a man moved a flag. Not because of Ash. Not because of anyone here.'),
         N('Pixel pours the last of the sun urn and the last of the moon urn into the one urn. Byte tastes it, gravely.'),
@@ -598,6 +609,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
           set: { 's3-moot': 'spoon' },
           then: [
             N('You bang the spoon on the urn, and ten Keepers stop talking at once. It is the most powerful you have ever felt.'),
+            BY('Procedurally, that was a gavel. I’m noting that the gavel is a spoon.', 'think'),
             PX('Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.', 'happy'),
             HZ('Moot-Keeper. Told you it’d suit.', 'happy'),
           ],
@@ -608,7 +620,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
           set: { 's3-moot': 'shared' },
           then: [
             N('Fern and Ember hold the spoon between them and bang the urn together. Both miss, and the whole pond cheers.'),
-            PX('Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.', 'happy'),
+            PX('Ribbons! Gold and silver, stitched down the middle in green. I did a test run. The stitching is also disputed.', 'happy'),
             HZ('You’re still the Moot-Keeper, love. Somebody had to bring the spoon.', 'happy'),
           ],
         },
@@ -718,6 +730,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
           id: 's4-lesson',
           lines: [
             MA('Hazel traded me fruit for swimming lessons. For her Nubbins, not her. She swam like a dropped teapot.', 'happy'),
+            MA('Fossil swam sideways, on purpose. Never once the way I taught her. I still check that corner of the pool.', 'soft'),
             MA('Lesson one: they float better than you’d think. Lesson two: they don’t think, so let them.'),
             N('She wades in to her knees and holds your Nubbin under the chin, the way you’d steady a cup.'),
             N('It kicks once, astonished, and doesn’t sink.'),
@@ -775,7 +788,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
             MA(
               'Don’t look at the water. Don’t look up either. Up is worse. It doesn’t like being stared at.',
             ),
-            MA('Rule five. Don’t be me at your age. I was Sparks with longer hair.', 'happy'),
+            MA('Rule five. Don’t be me at your age. Rule four is “Don’t be Sparks”, and at your age I was Sparks, with longer hair.', 'happy'),
           ],
         },
         done: {
@@ -806,7 +819,11 @@ export const SIDE_STORIES_FUN: Quest[] = [
             MA('I’ve watched him three nights. Move on the snore. Freeze on the whistle. The whistle’s when they wake.', 'think'),
             Y('“They”?'),
             MA('Stewards. They’re all the same steward, as far as I can tell.'),
-            N('You creep to the sluice on a snore and try it on the next one. It doesn’t move. It is, unmistakably, stuck.'),
+            N('You creep to the sluice on a snore. Your Nubbin creeps beside you, one foot raised, and freezes on the whistle like a garden ornament.'),
+            N('It holds the pose through three more whistles. It is still holding it when the snore comes back.'),
+            MA('You can put your foot down now, pet.', 'soft'),
+            N('It puts its foot down. It looks as if it would have preferred to win.'),
+            N('You try the sluice on the next snore. It doesn’t move. It is, unmistakably, stuck.'),
           ],
           choices: [
             {
@@ -835,6 +852,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
               then: [
                 N('You write: “Sluice opened for the tide pools, with thanks, from Hazel’s Grove.” Then you lift, and push, and it swings.'),
                 MA('Polite. He’ll hate that more than anything.', 'happy'),
+                N('In the hut, the steward’s hand rises in his sleep, pats the air where a note might be, and puts it in a tray that isn’t there.'),
               ],
             },
           ],
@@ -974,6 +992,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
             DU('…Eleven. Fine. Eleven. And it was sunny.'),
             N('Tap.'),
             DU('A spoon. It was a spoon. A big spoon. You try digging out a whole egg with a spoon. It took two days.', 'happy'),
+            N('Tap.'),
+            DU('…Four days. And a teaspoon. I’d like it noted that I was extremely thorough.', 'think'),
             N('Fossil lays her head against the rock and leaves it there a while. Dusty doesn’t say anything at all.'),
             DU('I tell it wrong on purpose. Every time. Twenty years, and she’s never once let me get away with it.', 'soft'),
             N('By her head a little fern grows out of a crack, curled tight. Pressed into the stone beside it is a much older one.'),
@@ -1029,6 +1049,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
               then: [
                 N('Your swimmer wades out and waits, very serious, as if it has been given the most important job in the valley.'),
                 MA('Paw under the chin. Like a cup. There you go.', 'soft'),
+                DU('It’s holding her like she’s the last egg in the valley. …Don’t tell it I said that.', 'soft'),
               ],
             },
             {
@@ -1075,6 +1096,8 @@ export const SIDE_STORIES_FUN: Quest[] = [
           id: 's5-gift',
           lines: [
             N('The sun goes down behind the western hill. Fossil doesn’t move, nor does your youngest, and after a while nor do you.'),
+            N('Behind you, the rest of your Nubbins have given up waiting and fallen asleep in a heap. One of them snores in a very small voice.'),
+            N('Dusty looks at the heap, and then at Fossil, and doesn’t say anything. Dusty is smiling.'),
             N('When it’s dark, Fossil gets up, touches her nose to your youngest Nubbin’s nose, and walks back to Dusty.'),
             N('Your youngest sits up straighter than you’ve ever seen it sit. On its stats sheet, under Stamina: “A gift from Fossil.”'),
           ],
