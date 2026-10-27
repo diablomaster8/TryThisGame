@@ -48,31 +48,13 @@
  *   s27-sold     (true)                     s27-tam, you know Nine's other name
  */
 import type { Line } from '../config/story';
-import type { CampaignState } from './types';
+import type { BandText, Payoff } from './payoff-kit';
+import { by } from './payoff-kit';
+import { PYTHON_PAYOFFS } from './fun-payoffs-python';
+import { BEAN_PAYOFFS } from './fun-payoffs-bean';
+import { AVATAR_PAYOFFS } from './fun-payoffs-avatar';
 
-/** One line's words in every band; a band without its own reads the main ones. */
-interface BandText {
-  main: string;
-  sprout?: string;
-  reader?: string;
-}
-
-/** The part of the scene's line swapper a payoff uses. */
-export interface PayoffSwaps {
-  /** The band being built, for a line only one band has room for (S24's look at the cage). */
-  readonly band: 'main' | 'sprout' | 'reader';
-  insertAfter(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
-  insertBefore(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
-  /** Replace the text of the line starting with this band's anchor (speaker and mood stay). */
-  swapText(anchor: BandText, text: BandText): void;
-}
-
-type Payoff = (c: CampaignState, s: PayoffSwaps) => void;
-
-/** The text for whichever value the flag holds, if any. */
-function by<T>(value: unknown, table: Record<string, T>): T | undefined {
-  return typeof value === 'string' ? table[value] : undefined;
-}
+export type { PayoffSwaps } from './payoff-kit';
 
 const S1_PACE: Record<string, BandText> = {
   walk: {
@@ -731,22 +713,6 @@ const linnetPlot: Payoff = (c, s) => {
     );
 };
 
-/** SR-20261027-1276: the lead player's greeting after Q55's finale. */
-const Q55_REACTION: Record<string, BandText> = {
-  boo: {
-    main: 'You! The booer! Take the sad mask. You’ve earned it.',
-    sprout: 'You booed! Have the sad mask.',
-  },
-  cheer: {
-    main: 'Our fan! Take both masks. Take three. We only have two.',
-    sprout: 'Our fan! Have both masks!',
-  },
-  storm: {
-    main: 'Our new ending! Next week the Keeper doesn’t slip. Well. Slips less.',
-    sprout: 'Next week, the Keeper does not slip!',
-  },
-};
-
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
   's7-week': (c, s) => {
     // SR-20261026-1088: the player who asked about the lever, before it is pulled.
@@ -1155,90 +1121,8 @@ export const CHOICE_PAYOFFS: Record<string, Payoff> = {
   's28-logged': byteLog,
   's28-logged-unverified': byteLog,
   's28-logged-none': byteLog,
-  // Avatar pack (review 2026-10-27-2): fun-quest flags, read only inside the same pack.
-  'q46-complete': (c, s) => {
-    // SR-20261027-1275: the warning-bell cart finally gets to ring.
-    if (c.flags['q46-cart'] !== 'bell') return;
-    s.insertAfter(
-      {
-        main: 'He bounces off. The cart doesn’t move.',
-        reader: 'He bounces off. The cart doesn’t move.',
-        sprout: 'Boing! He bounces off.',
-      },
-      {
-        main: 'The bell goes TING. The merchant puts a hand on his heart: thirty-one carts, and not one of them ever said TING.',
-        reader: 'The bell goes TING. Thirty-one carts, and not one of them ever said TING before.',
-        sprout: 'The bell goes TING! The merchant is very happy.',
-      },
-    );
-  },
-  'q47-complete': (c, s) => {
-    // SR-20261027-1273: Pemba does tell everyone. Last line in first.
-    if (c.flags['q47-tuk-pemba'] !== true) return;
-    const anchor = {
-      main: 'Strategically.',
-      reader: 'Strategically.',
-      sprout: 'I hummed to be brave.',
-    };
-    s.insertAfter(
-      anchor,
-      { main: 'Both hands. Strategically.', sprout: 'That was a plan.' },
-      'tuk',
-    );
-    s.insertAfter(
-      anchor,
-      {
-        main: 'And you held my hand! Everybody! Tuk held my hand!',
-        sprout: 'And you held my hand! Everybody!',
-      },
-      'pemba',
-      'happy',
-    );
-  },
-  'q48-complete': (c, s) => {
-    // SR-20261027-1272: the promise to tell the clans, or Nalu catching up with them.
-    const truth = c.flags['q48-truth'];
-    if (truth !== 'kept' && truth !== 'told') return;
-    const anchor = {
-      main: 'What? They’re sharing socks now.',
-      reader: 'What? They’re sharing socks now.',
-      sprout: 'Look! They’re sharing socks now!',
-    };
-    if (truth === 'told') {
-      // The clans already know, so Nalu's "Pemba!" becomes her catching up. The sprout
-      // scene has no Nalu line; its narrator says it instead.
-      s.swapText(
-        { main: 'Pemba!', reader: 'Pemba!', sprout: 'They talk and laugh.' },
-        {
-          main: 'They knew all along, and they kept it anyway. I need to sit down.',
-          sprout: 'They talk and laugh. They knew it was pretend all along!',
-        },
-      );
-      return;
-    }
-    s.insertAfter(
-      anchor,
-      { main: 'After the bridge. Maybe after the pudding.', sprout: 'After the pudding.' },
-      'pemba',
-    );
-    s.insertAfter(
-      anchor,
-      { main: 'Pemba! You promised to tell them.', sprout: 'You promised, Pemba!' },
-      'nalu',
-    );
-  },
-  'q55-complete': (c, s) => {
-    // SR-20261027-1276: the Players greet you by how you took their finale.
-    const t = by(c.flags['q55-reaction'], Q55_REACTION);
-    if (!t) return;
-    s.insertAfter(
-      {
-        main: 'Take a mask or two!',
-        reader: 'Take a mask or two!',
-        sprout: 'Take a mask! We do the show again',
-      },
-      t,
-      'ember-bay-players',
-    );
-  },
+  // The fun-quest packs keep their own payoffs, each read only inside its own pack.
+  ...PYTHON_PAYOFFS,
+  ...BEAN_PAYOFFS,
+  ...AVATAR_PAYOFFS,
 };

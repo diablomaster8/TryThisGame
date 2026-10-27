@@ -1697,7 +1697,7 @@ export const QUESTS_AVATAR: Quest[] = [
       },
     ],
     notes:
-      'Step 2 completes win or lose (karate:fight, not karate:win). Bao is blind and senses movement through the ground: in the bout, standing still hides you from her briefly. Bao jokes about it herself; nobody else does. The Big Slab lands in the noodle stand unhurt, covered in noodles.',
+      'Step 2 completes win or lose (karate:fight, not karate:win). Bao is blind and senses movement through the ground: in the bout, standing still hides you from her briefly. Bao jokes about it herself; nobody else does. The Big Slab lands in the noodle stand unhurt, covered in noodles. q56-bowed is flavour: bowing to someone who can’t see it is the whole joke.',
   },
 
   // ------------------------------------------------------------------ Q57
@@ -2152,7 +2152,7 @@ export const QUESTS_AVATAR: Quest[] = [
       },
     ],
     notes:
-      'River chase: side-scrolling rapids, rocks to dodge, Swim Nubbins boost on straight water. Nalu’s “borrowing” is shown as wrong-but-understandable, and she promises to return the scroll. Water whip is limited to Swim-type Nubbins.',
+      'River chase: side-scrolling rapids, rocks to dodge, Swim Nubbins boost on straight water. Nalu’s “borrowing” is shown as wrong-but-understandable, and she promises to return the scroll. Water whip is limited to Swim-type Nubbins. q59-haggled is flavour: Hake haggling against himself is the joke.',
   },
 
   // ------------------------------------------------------------------ Q60
@@ -2709,7 +2709,7 @@ export const QUESTS_AVATAR: Quest[] = [
       'q63-pet-done#1': 'Not the cabbages! Not up there!',
     },
     notes:
-      'King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The cabbage merchant’s cry in q63-pet-done (swapped in childLines) is heard from off screen (a voice only; he is not seen). Mail chute: downhill track minigame with the king riding alongside.',
+      'King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The cabbage merchant’s cry in q63-pet-done (swapped in childLines) is heard from off screen (a voice only; he is not seen). Mail chute: downhill track minigame with the king riding alongside. q63-opponent is flavour: every pick is wrong, and that is the joke.',
   },
 
   // ------------------------------------------------------------------ Q64
@@ -2979,7 +2979,7 @@ export const QUESTS_AVATAR: Quest[] = [
       },
     ],
     notes:
-      'Tile game is an original simple board game (flowers grow, rocks block, wind shifts, lotus unblockable); not a recreation of Pai Sho rules. Practice round cannot be lost. Uncle Tenzo plays at “medium” difficulty. All proverbs are new. Rainy-afternoon trigger needs weather rain or any afternoon if rain is rare.',
+      'Tile game is an original simple board game (flowers grow, rocks block, wind shifts, lotus unblockable); not a recreation of Pai Sho rules. Practice round cannot be lost. Uncle Tenzo plays at “medium” difficulty. All proverbs are new. Rainy-afternoon trigger needs weather rain or any afternoon if rain is rare. q65-snacks is flavour: Tenzo’s reply is the joke.',
   },
 ];
 

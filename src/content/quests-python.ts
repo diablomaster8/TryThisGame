@@ -1030,7 +1030,7 @@ export const QUESTS_PYTHON: Quest[] = [
       'harmlessly with a sad trombone and Sparks hands over another. The burst is fruit-coloured confetti, no smoke or bang. ' +
       'Snowdrop then roams the Grove; a Nubbin that plays with it can gain a fluffy-ears part through the usual part-pickup ' +
       'rule. Approved quotes "Run away!" and "Three shall be the number thou shalt count." each used once; both swapped in ' +
-      'childLines.',
+      'childLines. q05-rollo-counted is flavour: "One, two, several!" and the sad fizz are the joke.',
   },
 
   // ------------------------------------------------------------------ Q6
@@ -1828,7 +1828,7 @@ export const QUESTS_PYTHON: Quest[] = [
       'no mess, no splatter. Afterwards Gorbold is a normal-sized Nubbin who lives at the bathhouse and says "More?" when ' +
       'tapped. The wafer-thin slice is a restockable item (the shop sells it after this quest) that sets hunger to exactly ' +
       '1.0 and never overfeeds. Mint is a new pickable plant by the pond. Approved quote "It\'s only wafer-thin." used once; ' +
-      'swapped in childLines.',
+      'swapped in childLines. q11-asked-gorbold is flavour: "More." as a yes is the joke.',
   },
 
   // ------------------------------------------------------------------ Q12
@@ -1973,7 +1973,7 @@ export const QUESTS_PYTHON: Quest[] = [
       'in pond); each adds an evidence icon to the quest card, in any order. The price tag is a small floating prop. ' +
       'Refunds: a Return option in the shop for items bought within one in-game day, full price back. Approved quotes ' +
       '"It\'s resting." and "This is an ex-parrot." each used once; swapped in childLines, along with the two lines after ' +
-      'the second quote so the Learning Grove version still reads properly.',
+      'the second quote so the Learning Grove version still reads properly. q12-stared is flavour: the stare is the joke.',
   },
 
   // ------------------------------------------------------------------ Q13
@@ -2547,7 +2547,8 @@ export const QUESTS_PYTHON: Quest[] = [
       'round is "point out what he is doing". Picking it wins. If the sand runs out first, Byte offers another minute for ' +
       'free ("I was enjoying that"). Approved quotes "This isn\'t an argument." and "An argument isn\'t just ' +
       'contradiction." each used once; both swapped in childLines. ' +
-      'The COMPLAINTS booth is a second, smaller booth prop beside the first; Byte swaps between two hats (one per booth).',
+      'The COMPLAINTS booth is a second, smaller booth prop beside the first; Byte swaps between two hats (one per booth). ' +
+      'q16-haggled is flavour: "That one was free" is the joke.',
   },
 
   // ------------------------------------------------------------------ Q17

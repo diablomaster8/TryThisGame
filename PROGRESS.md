@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Fun-quest choice payoffs (2026-10-27)
+
+- **Works:** every Q1–Q65 fun-quest choice now changes something: 80 flags pay off with a later line in
+  main and both bands (src/sim/fun-payoffs-*.ts, merged into CHOICE_PAYOFFS via payoff-kit.ts, 111
+  new test cases), and 10 are named as flavour in their quest notes. Closes SR-20261027-1304.
+- **Partial:** Python's quests have no set order, so a later-quest payoff shows only if the earlier
+  quest came first; otherwise the scene plays as written.
+- **Known bugs:** none new.
+
 ## Story review run 23 fixes (2026-10-27)
 
 - **Works:** 54 of run 23's 55 recs fixed across the Sunny, Python, Bean and Avatar fun quests, S30,
@@ -129,15 +138,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   badges in S24.
 - **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
 - **Known bugs:** none new.
-
-## Story review run 20 fixes (2026-10-26)
-
-- **Works:** all 57 of run 20's recs fixed across S6–S13 and S1's two bands; the S10 and S13 bands
-  were synced with their mains. New tested payoffs: S7's lever and stopwatch, Solo's choice in S12,
-  the S10 racer and S13's rats. S10's third wish now plays its S1 version once S1 is done.
-- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
-- **Known bugs:** S13's levels can play in chapter 11, after Moss may have gone at the Long Night,
-  but s13-arrive, the cellar call-down and s13-wheelpit still show him at the mill.
 
 ## Standing approval (Maor, 2026-10-12)
 

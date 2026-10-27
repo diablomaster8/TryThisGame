@@ -12,7 +12,7 @@ import type { CampaignState } from './types';
 
 type PackRule = Pick<StoryRule, 'variant' | 'before' | 'after'>;
 
-/** Q70's choice, remembered by one of three flags. */
+/** Q70's choice, remembered by one of three flags; 'q70-coat' is the base scene, so null. */
 function q70(c: CampaignState): 'garden' | 'mirror' | null {
   if (c.flags['q70-garden']) return 'garden';
   if (c.flags['q70-mirror']) return 'mirror';

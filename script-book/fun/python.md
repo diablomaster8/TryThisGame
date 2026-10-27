@@ -518,7 +518,7 @@ _Its name, you decide, is Snowdrop. It agrees by sitting on your foot._
 - `q05-intro#7` → Back, everyone! Back!
 - `q05-melon#5` → Count to three. Exactly three, and then let go.
 
-**Notes:** The rabbit is a critter, not a Nubbin. Its "karate" is a one-frame white blur that relocates the opposing Nubbin into a bush with no damage or happiness loss (do not let these bouts count as losses). Bush stacks up visibly. The count minigame: a Count button and a Throw button; exactly three counts then Throw succeeds, anything else fizzles harmlessly with a sad trombone and Sparks hands over another. The burst is fruit-coloured confetti, no smoke or bang. Snowdrop then roams the Grove; a Nubbin that plays with it can gain a fluffy-ears part through the usual part-pickup rule. Approved quotes "Run away!" and "Three shall be the number thou shalt count." each used once; both swapped in childLines.
+**Notes:** The rabbit is a critter, not a Nubbin. Its "karate" is a one-frame white blur that relocates the opposing Nubbin into a bush with no damage or happiness loss (do not let these bouts count as losses). Bush stacks up visibly. The count minigame: a Count button and a Throw button; exactly three counts then Throw succeeds, anything else fizzles harmlessly with a sad trombone and Sparks hands over another. The burst is fruit-coloured confetti, no smoke or bang. Snowdrop then roams the Grove; a Nubbin that plays with it can gain a fluffy-ears part through the usual part-pickup rule. Approved quotes "Run away!" and "Three shall be the number thou shalt count." each used once; both swapped in childLines. q05-rollo-counted is flavour: "One, two, several!" and the sad fizz are the joke.
 
 ## Q6. The Wooden Rabbit
 
@@ -1109,7 +1109,7 @@ _Mr Crisp stops sweeping. In eleven years he has never once seen Gorbold give an
 
 - `q11-slice#3` → Only a sliver. You will hardly notice it.
 
-**Notes:** Keep this entirely gentle: Gorbold is round and bobbing, never sick, and the pop is a soft sound with glitter confetti, no mess, no splatter. Afterwards Gorbold is a normal-sized Nubbin who lives at the bathhouse and says "More?" when tapped. The wafer-thin slice is a restockable item (the shop sells it after this quest) that sets hunger to exactly 1.0 and never overfeeds. Mint is a new pickable plant by the pond. Approved quote "It's only wafer-thin." used once; swapped in childLines.
+**Notes:** Keep this entirely gentle: Gorbold is round and bobbing, never sick, and the pop is a soft sound with glitter confetti, no mess, no splatter. Afterwards Gorbold is a normal-sized Nubbin who lives at the bathhouse and says "More?" when tapped. The wafer-thin slice is a restockable item (the shop sells it after this quest) that sets hunger to exactly 1.0 and never overfeeds. Mint is a new pickable plant by the pond. Approved quote "It's only wafer-thin." used once; swapped in childLines. q11-asked-gorbold is flavour: "More." as a yes is the joke.
 
 ## Q12. Just Resting
 
@@ -1205,7 +1205,7 @@ _From now on the shop takes things back within a day. You needn’t explain, tho
 - `q12-argument#10` → “Never” is a very strong word.
 - `q12-argument#11` → It’s the right word. My point stands.
 
-**Notes:** The parcel arrives at the nest with a delivery jingle; the plush uses a Nubbin model with a stitched seam and one button eye, no animation at all. Evidence is gathered by three interactions with the plush (Feed, Tickle/Pet, drop in pond); each adds an evidence icon to the quest card, in any order. The price tag is a small floating prop. Refunds: a Return option in the shop for items bought within one in-game day, full price back. Approved quotes "It's resting." and "This is an ex-parrot." each used once; swapped in childLines, along with the two lines after the second quote so the Learning Grove version still reads properly.
+**Notes:** The parcel arrives at the nest with a delivery jingle; the plush uses a Nubbin model with a stitched seam and one button eye, no animation at all. Evidence is gathered by three interactions with the plush (Feed, Tickle/Pet, drop in pond); each adds an evidence icon to the quest card, in any order. The price tag is a small floating prop. Refunds: a Return option in the shop for items bought within one in-game day, full price back. Approved quotes "It's resting." and "This is an ex-parrot." each used once; swapped in childLines, along with the two lines after the second quote so the Learning Grove version still reads properly. q12-stared is flavour: the stare is the joke.
 
 ## Q13. Ministry of Silly Walks
 
@@ -1586,7 +1586,7 @@ _Pixel leans out of the Workshop window with a spanner._
 - `q16-win#0` → Hang on. You’re not giving any reasons.
 - `q16-win#2` → Saying the opposite isn’t the same as explaining why.
 
-**Notes:** Costs exactly 5 Shells; if the player cannot pay, Byte says the booth will be here and the quest waits. Step 2 is a one-minute reply minigame: a few reply cards each turn; every ordinary reply gets contradicted, and one card each round is "point out what he is doing". Picking it wins. If the sand runs out first, Byte offers another minute for free ("I was enjoying that"). Approved quotes "This isn't an argument." and "An argument isn't just contradiction." each used once; both swapped in childLines. The COMPLAINTS booth is a second, smaller booth prop beside the first; Byte swaps between two hats (one per booth).
+**Notes:** Costs exactly 5 Shells; if the player cannot pay, Byte says the booth will be here and the quest waits. Step 2 is a one-minute reply minigame: a few reply cards each turn; every ordinary reply gets contradicted, and one card each round is "point out what he is doing". Picking it wins. If the sand runs out first, Byte offers another minute for free ("I was enjoying that"). Approved quotes "This isn't an argument." and "An argument isn't just contradiction." each used once; both swapped in childLines. The COMPLAINTS booth is a second, smaller booth prop beside the first; Byte swaps between two hats (one per booth). q16-haggled is flavour: "That one was free" is the joke.
 
 ## Q17. The Fish-Slapping Dance
 

@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 20 fixes (2026-10-26)
+
+- **Works:** all 57 of run 20's recs fixed across S6–S13 and S1's two bands; the S10 and S13 bands
+  were synced with their mains. New tested payoffs: S7's lever and stopwatch, Solo's choice in S12,
+  the S10 racer and S13's rats. S10's third wish now plays its S1 version once S1 is done.
+- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
+- **Known bugs:** S13's levels can play in chapter 11, after Moss may have gone at the Long Night,
+  but s13-arrive, the cellar call-down and s13-wheelpit still show him at the mill.
+
 ## Story review run 19 fixes (2026-10-26)
 
 - **Works:** 47 of run 19's 48 recs fixed across campaign book 3, the endings, the triggered scenes,

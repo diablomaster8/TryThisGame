@@ -1229,7 +1229,7 @@ export const QUESTS_BEAN: Quest[] = [
       },
     ],
     notes:
-      'Odette is a friendly visiting Keeper from over the ridge; she can reappear later. Her egg is a temporary item ' +
+      'q29-told is flavour: Odette’s reply is the whole joke. Odette is a friendly visiting Keeper from over the ridge; she can reappear later. Her egg is a temporary item ' +
       'that cannot hatch, be sold or be thrown. The chase is a downhill route: garden path, fork, bridge, dojo, ' +
       'stream. The egg rolls faster on slopes and when tapped from behind; the player catches it by standing in ' +
       'its path, or Mr. Tweed’s hat does on the last stretch if the player chose "ask". If it reaches the stream ' +
@@ -1346,7 +1346,7 @@ export const QUESTS_BEAN: Quest[] = [
       },
     ],
     notes:
-      'Requires Q22 for the Hand Cart; Mr. Tweed rides in its back seat as navigator (he gave the cart away, so he ' +
+      'q30-fair is flavour: Rufus waving anyway is the whole joke. Requires Q22 for the Hand Cart; Mr. Tweed rides in its back seat as navigator (he gave the cart away, so he ' +
       'never drives). Rufus is a cheerful rival, never mean, and always rights the Bluebell himself; nobody is hurt. ' +
       'Race: one lap of the ridge track with three marked bends; drawing level on a bend triggers Mr. Tweed’s wave ' +
       'and the Bluebell tip animation (it loses about two seconds). The check needs a first-place finish with at ' +
