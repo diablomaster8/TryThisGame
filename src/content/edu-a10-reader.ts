@@ -2534,7 +2534,7 @@ const Q07: EduQuest = quest(
           'social-studies',
           'fairness and claims',
           'D2.Civ.8.3-5',
-          1,
+          2,
           [
             N(
               'Moana says, “You owe me. I saved your boat.” Maui answers, “My boat.” Does saving something give you a claim on it?',

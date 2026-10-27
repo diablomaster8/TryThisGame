@@ -1977,6 +1977,7 @@ _Variant of `a24-13-hut-done`._
 _The back door opens without a sound. Messua leans on you, and her husband leans on Mowgli, both stiff from the ropes._  
 **Messua**: My son. And you.  
 **Messua**: I knew. I did not believe it, but I knew.  
+_She says “and you” as if you had always been in the family._  
 
 > **Lesson** (literacy, RL.3.3, ask): small words carry meaning: “and you”  
 > _Messua says, “My son. And you.”_  
@@ -1986,7 +1987,6 @@ _The back door opens without a sound. Messua leans on you, and her husband leans
 > - She has forgotten your name. → She does not use your name because she is too moved to remember to. The words tell us you matter to her.
 > _For grown-ups: Noticed how two small words, “and you”, show how a character feels about someone._
 
-_She says “and you” as if you had always been in the family._  
 
 #### `reader:a24-13-road` · [main](main.md#a24-13-road)
 

@@ -1460,7 +1460,7 @@ _Its name is Mount Grumble. It rumbles._
 
 _Above Hillstead, Mount Grumble puffs out grey smoke._  
 **Tuk**: I’m going up there to see for myself.  
-**Pemba**: I’ll come! Puffin can fly us up.  
+**Pemba**: I’ll come! Puffin, my flying bison, can carry us.  
 **Nalu**: I’ll stay and talk to the people. Just in case.  
 _At the top, it is hot. It smells like eggs._  
 _Inside, red rock bubbles. Blub, blub, hiss!_  
@@ -1805,7 +1805,7 @@ _Two guards put Pemba in a cage. It has flags on it._
 
 _You search the old records room. Dusty, dusty!_  
 _Behind the oldest shelf, your Nubbin finds a scroll._  
-_It has Marshal Brag’s own stamp on it._  
+_It has Brag’s stamp. And an old map to sleep on!_  
 **Nalu**: It’s his diary! Look at this!  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): diaries tell us about long ago  
@@ -1838,7 +1838,7 @@ _Someone takes off a Brag hat. They put it in the bin._
 
 **Choices**
 
-- **Show the stone that thanks Kesh**
+- **Point at the stone under the statue**
     - **Mayor Tibbs**: “Thank you, Kesh, for our peace.” It was here all along!
 - **Show the old map**
     - **Mayor Tibbs**: We were on her island! She was looking after us!
@@ -1948,6 +1948,9 @@ _On the snowy hill, penguins waddle past. Waddle, waddle!_
 
 **Pemba**: Give them a fish. Then they give you a ride!  
 _Your Nubbin holds out a fish to the smallest penguin._  
+**Pemba**: Race you! Loser carries the fish!  
+_The smallest penguin picks your Nubbin, not Pemba._  
+**Tuk**: Smart penguin.  
 
 #### `sprout:q62-sled-done` · [main](../../../fun/avatar.md#q62-sled-done)
 
@@ -2047,7 +2050,7 @@ _Your Nubbin climbs the highest wall. It chews a leaf._
 #### `sprout:q63-pet-done` · [main](../../../fun/avatar.md#q63-pet-done)
 
 _Biscuit is on a roof! He’s eating a cabbage._  
-_Down below, a voice wails. It sounds familiar._  
+**The cabbage merchant**: Not the cabbages! Not up there!  
 **King Rumbold**: Biscuit! That’s two challenges!  
 **King Rumbold**: Oh dear. Biscuit ate someone else’s cabbage.  
 
@@ -2136,6 +2139,8 @@ _Behind a pillar, Kaito walks in circles. He talks to a rock._
 > - Never try at all → Then he can’t join his friends. Practice and slow breaths help.
 > _For grown-ups: Your child named feeling nervous and two things that help: practice and slow breaths._
 
+**Kaito**: I chased them all summer, in a very loud boat.  
+**Kaito**: I was mean. And loud. Mostly loud.  
 _Your Nubbin sits on the rock. It listens._  
 **Kaito**: Pemba. Hello. I am a person. Now a good one. Probably.  
 

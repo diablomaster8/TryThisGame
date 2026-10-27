@@ -380,6 +380,7 @@ const SCENES: EduScene[] = [
         {
           id: 'dont',
           label: 'Don’t sign. Tell Ned not to do it.',
+          set: { 's31-witness': 'refused' },
           then: [
             Y('Don’t do it, Ned.'),
             NED('But it’s written down.', 'sad'),
@@ -498,7 +499,7 @@ const SCENES: EduScene[] = [
   sc(
     's31-moss',
     [
-      N('You knock the sign in. Tap, tap, tap.'),
+      N('You hammer the sign in. Tap, tap, ouch! Your thumb!'),
       N('Tam puts the toffee apple on top of the sign.'),
       N('Moss walks by, slowly. He stops to read the sign.'),
       TAM('Moss, you’re very old. Is the Great Gourd real?'),
@@ -908,6 +909,8 @@ const SCENES: EduScene[] = [
       N('She tucks him into bed. Then she goes to her own room.'),
       N('In the long grass, the sky gets light. Slowly.'),
       N('The sun comes up. The frost melts away.'),
+      N('Your Nubbin wakes up in its goggles. It salutes the sign.'),
+      N('Nobody told it the game is over!'),
       N('Tam’s sign is still there. WELCOME GREAT GOURD.'),
     ],
     [SUN_MELTS(3)],
@@ -1022,7 +1025,25 @@ const SCENES: EduScene[] = [
 ];
 
 // ================================================================== variants
+// Refused-witness clones (SR-20261027-1257): the base scene with one line swapped.
+const refusedClone = (of: string, at: number, line: Line): EduScene => {
+  const base = SCENES.find((s) => s.of === of);
+  if (!base) throw new Error(`missing base scene ${of}`);
+  return {
+    ...base,
+    id: `sprout:${of}-refused`,
+    of: `${of}-refused`,
+    lines: base.lines.map((l, i) => (i === at ? line : l)),
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace(`sprout:${of}-l`, `sprout:${of}-refused-l`),
+    })),
+  };
+};
+
 export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
+  refusedClone('s31-kick', 4, IVY('Ned signed it himself. Ned can’t be his own witness. Doesn’t count.')),
+  refusedClone('s31-rock', 3, NED('You have it. You were the only one who said no.', 'soft')),
   sc(
     's31-guising-sat',
     [

@@ -41,6 +41,10 @@
  *   s26-bulbs    (snowdrops | crocus | mix) s26-snowdrops (and -lifted), Linnet's bed in winter
  *   s26-hello    (asked | agree | walk)     s26-complete (and -post, -door), Linnet's mum
  *   s26-plot     (sun | rose | hers)        c12-wall-garden (spliced into c12-open), Hazel finds the bed
+ *   q46-cart     (bell)                     q46-complete, the bell goes TING (wide, low: as written)
+ *   q47-tuk-pemba (true)                    q47-complete, Pemba tells everybody about the hand
+ *   q48-truth    (kept | told)              q48-complete, Nalu on the promise (kept) or her "Pemba!" swapped (told)
+ *   q55-reaction (boo | cheer | storm)      q55-complete, the Players' greeting at the stage door
  *   s27-sold     (true)                     s27-tam, you know Nine's other name
  */
 import type { Line } from '../config/story';
@@ -727,6 +731,22 @@ const linnetPlot: Payoff = (c, s) => {
     );
 };
 
+/** SR-20261027-1276: the lead player's greeting after Q55's finale. */
+const Q55_REACTION: Record<string, BandText> = {
+  boo: {
+    main: 'You! The booer! Take the sad mask. You’ve earned it.',
+    sprout: 'You booed! Have the sad mask.',
+  },
+  cheer: {
+    main: 'Our fan! Take both masks. Take three. We only have two.',
+    sprout: 'Our fan! Have both masks!',
+  },
+  storm: {
+    main: 'Our new ending! Next week the Keeper doesn’t slip. Well. Slips less.',
+    sprout: 'Next week, the Keeper does not slip!',
+  },
+};
+
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
   's7-week': (c, s) => {
     // SR-20261026-1088: the player who asked about the lever, before it is pulled.
@@ -1135,4 +1155,90 @@ export const CHOICE_PAYOFFS: Record<string, Payoff> = {
   's28-logged': byteLog,
   's28-logged-unverified': byteLog,
   's28-logged-none': byteLog,
+  // Avatar pack (review 2026-10-27-2): fun-quest flags, read only inside the same pack.
+  'q46-complete': (c, s) => {
+    // SR-20261027-1275: the warning-bell cart finally gets to ring.
+    if (c.flags['q46-cart'] !== 'bell') return;
+    s.insertAfter(
+      {
+        main: 'He bounces off. The cart doesn’t move.',
+        reader: 'He bounces off. The cart doesn’t move.',
+        sprout: 'Boing! He bounces off.',
+      },
+      {
+        main: 'The bell goes TING. The merchant puts a hand on his heart: thirty-one carts, and not one of them ever said TING.',
+        reader: 'The bell goes TING. Thirty-one carts, and not one of them ever said TING before.',
+        sprout: 'The bell goes TING! The merchant is very happy.',
+      },
+    );
+  },
+  'q47-complete': (c, s) => {
+    // SR-20261027-1273: Pemba does tell everyone. Last line in first.
+    if (c.flags['q47-tuk-pemba'] !== true) return;
+    const anchor = {
+      main: 'Strategically.',
+      reader: 'Strategically.',
+      sprout: 'I hummed to be brave.',
+    };
+    s.insertAfter(
+      anchor,
+      { main: 'Both hands. Strategically.', sprout: 'That was a plan.' },
+      'tuk',
+    );
+    s.insertAfter(
+      anchor,
+      {
+        main: 'And you held my hand! Everybody! Tuk held my hand!',
+        sprout: 'And you held my hand! Everybody!',
+      },
+      'pemba',
+      'happy',
+    );
+  },
+  'q48-complete': (c, s) => {
+    // SR-20261027-1272: the promise to tell the clans, or Nalu catching up with them.
+    const truth = c.flags['q48-truth'];
+    if (truth !== 'kept' && truth !== 'told') return;
+    const anchor = {
+      main: 'What? They’re sharing socks now.',
+      reader: 'What? They’re sharing socks now.',
+      sprout: 'Look! They’re sharing socks now!',
+    };
+    if (truth === 'told') {
+      // The clans already know, so Nalu's "Pemba!" becomes her catching up. The sprout
+      // scene has no Nalu line; its narrator says it instead.
+      s.swapText(
+        { main: 'Pemba!', reader: 'Pemba!', sprout: 'They talk and laugh.' },
+        {
+          main: 'They knew all along, and they kept it anyway. I need to sit down.',
+          sprout: 'They talk and laugh. They knew it was pretend all along!',
+        },
+      );
+      return;
+    }
+    s.insertAfter(
+      anchor,
+      { main: 'After the bridge. Maybe after the pudding.', sprout: 'After the pudding.' },
+      'pemba',
+    );
+    s.insertAfter(
+      anchor,
+      { main: 'Pemba! You promised to tell them.', sprout: 'You promised, Pemba!' },
+      'nalu',
+    );
+  },
+  'q55-complete': (c, s) => {
+    // SR-20261027-1276: the Players greet you by how you took their finale.
+    const t = by(c.flags['q55-reaction'], Q55_REACTION);
+    if (!t) return;
+    s.insertAfter(
+      {
+        main: 'Take a mask or two!',
+        reader: 'Take a mask or two!',
+        sprout: 'Take a mask! We do the show again',
+      },
+      t,
+      'ember-bay-players',
+    );
+  },
 };

@@ -100,23 +100,23 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S29.md` | [review-2026-10-27](review-2026-10-27.md) | 1 |
 | `learning/side/S29/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S29/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
-| `side/S30.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 6 |
+| `side/S30.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
 | `learning/side/S30/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/side/S30/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
-| `side/S31.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 4 |
+| `side/S31.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
 | `learning/side/S31/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/side/S31/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/campaign/sprout.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/campaign/reader-1.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/campaign/reader-2.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 12 |
-| `fun/python.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 8 |
+| `learning/campaign/reader-2.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
+| `fun/python.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
 | `learning/fun/python/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/fun/python/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
-| `fun/bean.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 3 |
+| `fun/bean.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
 | `learning/fun/bean/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/fun/bean/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
-| `fun/sunny.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 10 |
-| `fun/avatar.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 10 |
+| `fun/sunny.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
+| `fun/avatar.md` | [review-2026-10-27-2](review-2026-10-27-2.md) | 0 |
 | `learning/fun/avatar/sprout.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `learning/fun/avatar/reader.md` | [review-2026-10-23](review-2026-10-23.md) | 0 |
 | `fun/alice.md` | [review-2026-10-23-2](review-2026-10-23-2.md) | 0 |
@@ -1503,61 +1503,61 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261027-1249 | side/S23.md<br>side/S26.md<br>side/S28.md<br>side/S29.md | cross-story | High | continuity | Written scenes no rule ever plays: S26's ramp and lift evenings, and three ambient scenes | partial | 2026-10-27 |
 | SR-20261027-1250 | side/S22.md<br>side/S24.md | cross-story | High | continuity | S22's chimney choice pays off nowhere; let Nova use it on the far ridge in S24 | fixed | 2026-10-27 |
 | SR-20261027-1251 | side/S25.md<br>side/S27.md | cross-story | Medium | theme | Give Pixel and Byte one bicker each in S25 and S27 (canon 38) | fixed | 2026-10-27 |
-| SR-20261027-1252 | learning/campaign/reader-2.md | reader:c12-foot-secret | Critical | child-read | The secret scene praises carrying a heavy secret for a grown-up, then its lesson says to tell one | open | 2026-10-27-2 |
-| SR-20261027-1253 | fun/sunny.md | q45-complete | Critical | continuity | Fitz says he hedged and lost even when you made him bet on you; give each q45-hedge choice its own line, and pay off Q31's deal | open | 2026-10-27-2 |
-| SR-20261027-1254 | fun/sunny.md | q37-sun-keeper | High | humour | Telling Rook to keep his shirt on changes nothing; pay off all three q37-calm choices on opening night | open | 2026-10-27-2 |
-| SR-20261027-1255 | learning/campaign/reader-2.md | reader:end-epi-cinder-forgiven, reader:end-epi-cinder-remembered | High | follow | Three Cinder-epilogue lessons ask about lines the child hasn't read yet | open | 2026-10-27-2 |
-| SR-20261027-1256 | fun/avatar.md | q58-complete | High | continuity | "Tuk keeps his promise" plays in the arrow branch, where he promised nothing | open | 2026-10-27-2 |
-| SR-20261027-1257 | side/S31.md | s31-kick | High | continuity | Refusing to witness changes nothing; Ivy still calls you biased and Ned still thanks you "for being the witness" | open | 2026-10-27-2 |
-| SR-20261027-1258 | side/S30.md | s30-complete | High | compelling | The "broke" and "sat" branches of the signature choice end identically; let Drizzle's mark show which you chose | open | 2026-10-27-2 |
-| SR-20261027-1259 | fun/avatar.md | q61-trial-done | High | follow | The trial offers a map nobody found; plant it in the records hall | open | 2026-10-27-2 |
-| SR-20261027-1260 | fun/avatar.md | q64-rehearse | High | follow | Nalu "hasn't forgotten what you did", but nobody ever says what Kaito did | open | 2026-10-27-2 |
-| SR-20261027-1261 | learning/campaign/reader-2.md | reader:c12-walk-you, reader:c12-walk-moss, reader:c12-walk-sable, reader:c12-walk-corvin | High | pacing | Two lessons per walk break into Hazel's last climb; keep one per walk | open | 2026-10-27-2 |
-| SR-20261027-1262 | learning/campaign/reader-2.md | reader:end-collector-sold | High | pacing | A cheerful egg sum straight after you sold a Nubbin; make the maths land the loss | open | 2026-10-27-2 |
-| SR-20261027-1263 | fun/python.md | q16-complete | High | humour | Byte's best quest has no Pixel; give the married couple one beat at the booth | open | 2026-10-27-2 |
-| SR-20261027-1264 | fun/sunny.md | q34-stands | High | follow | The man in green is introduced as a stranger, then turns out to be Corky | open | 2026-10-27-2 |
-| SR-20261027-1265 | fun/sunny.md | q35-complete | High | theme | Dabney's dodged dare (one nice thing about Mags) never comes back; pay it off as the twins' one warm beat | open | 2026-10-27-2 |
-| SR-20261027-1266 | fun/sunny.md | q45-challenge | Medium | humour | Pay off Q41's thrown-bout offer when Highbank asks for a bet | open | 2026-10-27-2 |
-| SR-20261027-1267 | fun/sunny.md | q45-lanes | Medium | humour | Turn the Mags-as-a-bird tic into a running gag with an ending | open | 2026-10-27-2 |
-| SR-20261027-1268 | fun/sunny.md | q32-complete | Medium | humour | The forty crates of eggs are set up and never land | open | 2026-10-27-2 |
-| SR-20261027-1269 | fun/avatar.md | q62-sled | Medium | humour | The step says "race Pemba" but nobody proposes it, and the penguin is a prop | open | 2026-10-27-2 |
-| SR-20261027-1270 | fun/python.md | q06-complete | Medium | humour | Answer your Q6 choices in the taunter's note | open | 2026-10-27-2 |
-| SR-20261027-1271 | fun/python.md | q04-complete | Medium | humour | "Keep them" and "share them" end the same way | open | 2026-10-27-2 |
-| SR-20261027-1272 | fun/avatar.md | q48-complete | Medium | continuity | Pemba's "I'll tell them, after dumplings" promise is never kept or mentioned | open | 2026-10-27-2 |
-| SR-20261027-1273 | fun/avatar.md | q47-complete | Medium | humour | Pemba threatens to tell everyone Tuk held his hand, then never does | open | 2026-10-27-2 |
-| SR-20261027-1274 | fun/avatar.md | q63-pet-done | Medium | humour | Let the cabbage merchant's cry pay off by name | open | 2026-10-27-2 |
-| SR-20261027-1275 | fun/avatar.md | q46-complete | Medium | humour | The warning-bell cart is the funniest choice and never rings | open | 2026-10-27-2 |
-| SR-20261027-1276 | fun/avatar.md | q55-complete | Medium | humour | Boo, cheer or storm the stage, the Players hand out the same masks | open | 2026-10-27-2 |
-| SR-20261027-1277 | fun/avatar.md | q51-desert | Medium | humour | Nalu's "You wrote it on a list!" is a new fact in the payoff line | open | 2026-10-27-2 |
-| SR-20261027-1278 | fun/sunny.md | q44-drawing | Medium | character | Plant Corky's loneliness so "Nobody comes" lands, and let Spirit-night's truth or lie come back | open | 2026-10-27-2 |
-| SR-20261027-1279 | fun/sunny.md | q39-complete | Medium | humour | Rook's poster confession from Q35 is the best character beat, and his pose speech ignores it | open | 2026-10-27-2 |
-| SR-20261027-1280 | fun/python.md | q08-complete | Medium | humour | "Four chairs, three Keepers" never pays off | open | 2026-10-27-2 |
-| SR-20261027-1281 | fun/python.md | q07-intro, q07-complete | Medium | character | Show Byte secretly helping Pixel's castle, so "a very good model" is earned | open | 2026-10-27-2 |
-| SR-20261027-1282 | fun/python.md | q12-complete | Medium | continuity | The refund rule in the scene and in the reward disagree | open | 2026-10-27-2 |
-| SR-20261027-1283 | fun/python.md | q09-complete | Medium | humour | The pebble faction and your ruling both vanish at the end | open | 2026-10-27-2 |
-| SR-20261027-1284 | fun/python.md | q14-intro | Medium | follow | "You said you'd carry it" sounds aimed at the Keeper, who never said so | open | 2026-10-27-2 |
-| SR-20261027-1285 | fun/bean.md | q27-complete | Medium | humour | The confession lands flat, and "try first, then tell" never comes due | open | 2026-10-27-2 |
-| SR-20261027-1286 | side/S30.md | s30-rim | Medium | character | Clover's crying line is in someone else's register; give her the theme in her own voice | open | 2026-10-27-2 |
-| SR-20261027-1287 | side/S30.md | s30-wall, s30-wall-s1 | Medium | humour | Moss's long Hush speech has no smile before it | open | 2026-10-27-2 |
-| SR-20261027-1288 | side/S30.md | s30-party | Medium | humour | Give Sparks a defensive comeback at the turn of the party | open | 2026-10-27-2 |
-| SR-20261027-1289 | side/S31.md | s31-sincere | Medium | humour | The sign-building step is all set-up; give the Keeper a line and a thumb | open | 2026-10-27-2 |
-| SR-20261027-1290 | side/S31.md | s31-light | Medium | humour | The dawn after the long night has no joke and no Nubbin | open | 2026-10-27-2 |
-| SR-20261027-1291 | learning/campaign/reader-2.md | reader:c12-open | Medium | follow | "Ember's Ash ran... the way she used to" leaves the child guessing who "she" is, and the bun sum's "ten Keepers" can't be counted | open | 2026-10-27-2 |
-| SR-20261027-1292 | learning/campaign/reader-2.md | reader:c11-sable, reader:end-long-road | Medium | follow | "Two months" leans on a Hazel line the child may not have read, and Sable becomes "it" | open | 2026-10-27-2 |
-| SR-20261027-1293 | learning/campaign/reader-2.md | reader:c11-cold-hands | Medium | follow | "Over the stone" is unexplained until the lesson answer | open | 2026-10-27-2 |
-| SR-20261027-1294 | learning/campaign/reader-2.md | reader:c11-open | Medium | child-read | Hazel's opening line holds three ideas and an irony | open | 2026-10-27-2 |
-| SR-20261027-1295 | learning/campaign/reader-2.md | reader:c11-gate | Medium | humour | Swap Hazel's ironic "you're worse than me" for a joke a child can read | open | 2026-10-27-2 |
-| SR-20261027-1296 | learning/campaign/reader-2.md | reader:c11-gate | Medium | humour | Call back Byte's "Condensation" in the condensation lesson | open | 2026-10-27-2 |
-| SR-20261027-1297 | fun/sunny.md | q36-bender | Nice | follow | Fitz and Corky fall asleep, then talk with no waking | open | 2026-10-27-2 |
-| SR-20261027-1298 | fun/bean.md | q26-complete | Nice | humour | Bring the jam-lettuce duck back for the crust | open | 2026-10-27-2 |
-| SR-20261027-1299 | fun/bean.md | q29-afternoon | Nice | humour | Keep Tweed's hat-nest in the frame through the afternoon | open | 2026-10-27-2 |
-| SR-20261027-1300 | side/S30.md | s30-shed, s30-blanket | Nice | humour | "Her ladyship, who only eats red things" becomes "the fussy one"; keep her title and her gag | open | 2026-10-27-2 |
-| SR-20261027-1301 | side/S30.md | s30-fidget-hill | Nice | follow | Say why a week-old Fidget was alone in the kitchen | open | 2026-10-27-2 |
-| SR-20261027-1302 | side/S31.md | s31-shape-sable | Nice | follow | Sable's frost line is a riddle in an all-ages story | open | 2026-10-27-2 |
-| SR-20261027-1303 | learning/campaign/reader-2.md | reader:end-collector-kept, reader:end-epi-mill-grave | Nice | child-read | Two last lines a child can't decode | open | 2026-10-27-2 |
-| SR-20261027-1304 | fun/sunny.md, fun/python.md, fun/avatar.md, fun/bean.md | cross-story | High | compelling | Q1–Q65 have no payoff wiring at all; extend FUN_PACK_RULES to the four older packs | open | 2026-10-27-2 |
-| SR-20261027-1305 | learning/campaign/reader-2.md | cross-story | Medium | follow | Catch lessons that quote a line before the child has read it | open | 2026-10-27-2 |
-| SR-20261027-1306 | fun/python.md, side/S30.md | cross-story | Medium | theme | Pixel and Byte bicker as a couple across Python Q7, Q16 and S30 | open | 2026-10-27-2 |
+| SR-20261027-1252 | learning/campaign/reader-2.md | reader:c12-foot-secret | Critical | child-read | The secret scene praises carrying a heavy secret for a grown-up, then its lesson says to tell one | fixed | 2026-10-27-2 |
+| SR-20261027-1253 | fun/sunny.md | q45-complete | Critical | continuity | Fitz says he hedged and lost even when you made him bet on you; give each q45-hedge choice its own line, and pay off Q31's deal | fixed | 2026-10-27-2 |
+| SR-20261027-1254 | fun/sunny.md | q37-sun-keeper | High | humour | Telling Rook to keep his shirt on changes nothing; pay off all three q37-calm choices on opening night | fixed | 2026-10-27-2 |
+| SR-20261027-1255 | learning/campaign/reader-2.md | reader:end-epi-cinder-forgiven, reader:end-epi-cinder-remembered | High | follow | Three Cinder-epilogue lessons ask about lines the child hasn't read yet | fixed | 2026-10-27-2 |
+| SR-20261027-1256 | fun/avatar.md | q58-complete | High | continuity | "Tuk keeps his promise" plays in the arrow branch, where he promised nothing | fixed | 2026-10-27-2 |
+| SR-20261027-1257 | side/S31.md | s31-kick | High | continuity | Refusing to witness changes nothing; Ivy still calls you biased and Ned still thanks you "for being the witness" | fixed | 2026-10-27-2 |
+| SR-20261027-1258 | side/S30.md | s30-complete | High | compelling | The "broke" and "sat" branches of the signature choice end identically; let Drizzle's mark show which you chose | fixed | 2026-10-27-2 |
+| SR-20261027-1259 | fun/avatar.md | q61-trial-done | High | follow | The trial offers a map nobody found; plant it in the records hall | fixed | 2026-10-27-2 |
+| SR-20261027-1260 | fun/avatar.md | q64-rehearse | High | follow | Nalu "hasn't forgotten what you did", but nobody ever says what Kaito did | fixed | 2026-10-27-2 |
+| SR-20261027-1261 | learning/campaign/reader-2.md | reader:c12-walk-you, reader:c12-walk-moss, reader:c12-walk-sable, reader:c12-walk-corvin | High | pacing | Two lessons per walk break into Hazel's last climb; keep one per walk | fixed | 2026-10-27-2 |
+| SR-20261027-1262 | learning/campaign/reader-2.md | reader:end-collector-sold | High | pacing | A cheerful egg sum straight after you sold a Nubbin; make the maths land the loss | fixed | 2026-10-27-2 |
+| SR-20261027-1263 | fun/python.md | q16-complete | High | humour | Byte's best quest has no Pixel; give the married couple one beat at the booth | fixed | 2026-10-27-2 |
+| SR-20261027-1264 | fun/sunny.md | q34-stands | High | follow | The man in green is introduced as a stranger, then turns out to be Corky | fixed | 2026-10-27-2 |
+| SR-20261027-1265 | fun/sunny.md | q35-complete | High | theme | Dabney's dodged dare (one nice thing about Mags) never comes back; pay it off as the twins' one warm beat | fixed | 2026-10-27-2 |
+| SR-20261027-1266 | fun/sunny.md | q45-challenge | Medium | humour | Pay off Q41's thrown-bout offer when Highbank asks for a bet | fixed | 2026-10-27-2 |
+| SR-20261027-1267 | fun/sunny.md | q45-lanes | Medium | humour | Turn the Mags-as-a-bird tic into a running gag with an ending | fixed | 2026-10-27-2 |
+| SR-20261027-1268 | fun/sunny.md | q32-complete | Medium | humour | The forty crates of eggs are set up and never land | fixed | 2026-10-27-2 |
+| SR-20261027-1269 | fun/avatar.md | q62-sled | Medium | humour | The step says "race Pemba" but nobody proposes it, and the penguin is a prop | fixed | 2026-10-27-2 |
+| SR-20261027-1270 | fun/python.md | q06-complete | Medium | humour | Answer your Q6 choices in the taunter's note | fixed | 2026-10-27-2 |
+| SR-20261027-1271 | fun/python.md | q04-complete | Medium | humour | "Keep them" and "share them" end the same way | fixed | 2026-10-27-2 |
+| SR-20261027-1272 | fun/avatar.md | q48-complete | Medium | continuity | Pemba's "I'll tell them, after dumplings" promise is never kept or mentioned | fixed | 2026-10-27-2 |
+| SR-20261027-1273 | fun/avatar.md | q47-complete | Medium | humour | Pemba threatens to tell everyone Tuk held his hand, then never does | fixed | 2026-10-27-2 |
+| SR-20261027-1274 | fun/avatar.md | q63-pet-done | Medium | humour | Let the cabbage merchant's cry pay off by name | fixed | 2026-10-27-2 |
+| SR-20261027-1275 | fun/avatar.md | q46-complete | Medium | humour | The warning-bell cart is the funniest choice and never rings | fixed | 2026-10-27-2 |
+| SR-20261027-1276 | fun/avatar.md | q55-complete | Medium | humour | Boo, cheer or storm the stage, the Players hand out the same masks | fixed | 2026-10-27-2 |
+| SR-20261027-1277 | fun/avatar.md | q51-desert | Medium | humour | Nalu's "You wrote it on a list!" is a new fact in the payoff line | fixed | 2026-10-27-2 |
+| SR-20261027-1278 | fun/sunny.md | q44-drawing | Medium | character | Plant Corky's loneliness so "Nobody comes" lands, and let Spirit-night's truth or lie come back | fixed | 2026-10-27-2 |
+| SR-20261027-1279 | fun/sunny.md | q39-complete | Medium | humour | Rook's poster confession from Q35 is the best character beat, and his pose speech ignores it | fixed | 2026-10-27-2 |
+| SR-20261027-1280 | fun/python.md | q08-complete | Medium | humour | "Four chairs, three Keepers" never pays off | fixed | 2026-10-27-2 |
+| SR-20261027-1281 | fun/python.md | q07-intro, q07-complete | Medium | character | Show Byte secretly helping Pixel's castle, so "a very good model" is earned | fixed | 2026-10-27-2 |
+| SR-20261027-1282 | fun/python.md | q12-complete | Medium | continuity | The refund rule in the scene and in the reward disagree | fixed | 2026-10-27-2 |
+| SR-20261027-1283 | fun/python.md | q09-complete | Medium | humour | The pebble faction and your ruling both vanish at the end | fixed | 2026-10-27-2 |
+| SR-20261027-1284 | fun/python.md | q14-intro | Medium | follow | "You said you'd carry it" sounds aimed at the Keeper, who never said so | fixed | 2026-10-27-2 |
+| SR-20261027-1285 | fun/bean.md | q27-complete | Medium | humour | The confession lands flat, and "try first, then tell" never comes due | fixed | 2026-10-27-2 |
+| SR-20261027-1286 | side/S30.md | s30-rim | Medium | character | Clover's crying line is in someone else's register; give her the theme in her own voice | fixed | 2026-10-27-2 |
+| SR-20261027-1287 | side/S30.md | s30-wall, s30-wall-s1 | Medium | humour | Moss's long Hush speech has no smile before it | fixed | 2026-10-27-2 |
+| SR-20261027-1288 | side/S30.md | s30-party | Medium | humour | Give Sparks a defensive comeback at the turn of the party | fixed | 2026-10-27-2 |
+| SR-20261027-1289 | side/S31.md | s31-sincere | Medium | humour | The sign-building step is all set-up; give the Keeper a line and a thumb | fixed | 2026-10-27-2 |
+| SR-20261027-1290 | side/S31.md | s31-light | Medium | humour | The dawn after the long night has no joke and no Nubbin | fixed | 2026-10-27-2 |
+| SR-20261027-1291 | learning/campaign/reader-2.md | reader:c12-open | Medium | follow | "Ember's Ash ran... the way she used to" leaves the child guessing who "she" is, and the bun sum's "ten Keepers" can't be counted | fixed | 2026-10-27-2 |
+| SR-20261027-1292 | learning/campaign/reader-2.md | reader:c11-sable, reader:end-long-road | Medium | follow | "Two months" leans on a Hazel line the child may not have read, and Sable becomes "it" | fixed | 2026-10-27-2 |
+| SR-20261027-1293 | learning/campaign/reader-2.md | reader:c11-cold-hands | Medium | follow | "Over the stone" is unexplained until the lesson answer | fixed | 2026-10-27-2 |
+| SR-20261027-1294 | learning/campaign/reader-2.md | reader:c11-open | Medium | child-read | Hazel's opening line holds three ideas and an irony | fixed | 2026-10-27-2 |
+| SR-20261027-1295 | learning/campaign/reader-2.md | reader:c11-gate | Medium | humour | Swap Hazel's ironic "you're worse than me" for a joke a child can read | fixed | 2026-10-27-2 |
+| SR-20261027-1296 | learning/campaign/reader-2.md | reader:c11-gate | Medium | humour | Call back Byte's "Condensation" in the condensation lesson | fixed | 2026-10-27-2 |
+| SR-20261027-1297 | fun/sunny.md | q36-bender | Nice | follow | Fitz and Corky fall asleep, then talk with no waking | fixed | 2026-10-27-2 |
+| SR-20261027-1298 | fun/bean.md | q26-complete | Nice | humour | Bring the jam-lettuce duck back for the crust | fixed | 2026-10-27-2 |
+| SR-20261027-1299 | fun/bean.md | q29-afternoon | Nice | humour | Keep Tweed's hat-nest in the frame through the afternoon | fixed | 2026-10-27-2 |
+| SR-20261027-1300 | side/S30.md | s30-shed, s30-blanket | Nice | humour | "Her ladyship, who only eats red things" becomes "the fussy one"; keep her title and her gag | fixed | 2026-10-27-2 |
+| SR-20261027-1301 | side/S30.md | s30-fidget-hill | Nice | follow | Say why a week-old Fidget was alone in the kitchen | fixed | 2026-10-27-2 |
+| SR-20261027-1302 | side/S31.md | s31-shape-sable | Nice | follow | Sable's frost line is a riddle in an all-ages story | fixed | 2026-10-27-2 |
+| SR-20261027-1303 | learning/campaign/reader-2.md | reader:end-collector-kept, reader:end-epi-mill-grave | Nice | child-read | Two last lines a child can't decode | fixed | 2026-10-27-2 |
+| SR-20261027-1304 | fun/sunny.md, fun/python.md, fun/avatar.md, fun/bean.md | cross-story | High | compelling | Q1–Q65 have no payoff wiring at all; extend FUN_PACK_RULES to the four older packs | partial | 2026-10-27-2 |
+| SR-20261027-1305 | learning/campaign/reader-2.md | cross-story | Medium | follow | Catch lessons that quote a line before the child has read it | fixed | 2026-10-27-2 |
+| SR-20261027-1306 | fun/python.md, side/S30.md | cross-story | Medium | theme | Pixel and Byte bicker as a couple across Python Q7, Q16 and S30 | fixed | 2026-10-27-2 |
 
 ## Runs
 
@@ -1606,3 +1606,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-27 run 22 · [review-2026-10-27](review-2026-10-27.md) · units: side/S22.md, side/S23.md, side/S24.md, side/S25.md, side/S26.md, side/S27.md, side/S28.md, side/S29.md, S03/sprout.md, S03/reader.md · 58 recs: Critical 3, High 15, Medium 34, Nice 6 (3 cross-story) · fixed since last run: 53 (all)
 - 2026-10-27 · fix pass on branch `fix/story-review-2026-10-27` · run 22's 58 recs: 57 fixed, 1 partial · the three Critical: S24's variant() now routes the bird, nest, lights and tick scenes (s24-bird, s24-cairn, collector, hazel, keptStone), S25's spring coda and Moss line now queue after s25Done, and s24-cage sets a flag Fairweather answers at s24-proof; new tested payoffs for s22-chimney (S24), s26-bulbs/hello/plot, s27-sold; s24-lecture plays once from a new old-barn tap hook; Swapper's find() falls back to a text search so c12-wall-garden payoffs fire inside c12-open; -1249 partial: S26's ramp/lift evenings and Ember's soup now play, but Byte's barks play once as a scene (no bark mechanism), s29-brock-knock plays once on the next Grove day (no green-door prop), and the proposed orphan-scene check in content-check is not written · canon: none
 - 2026-10-27 run 23 · [review-2026-10-27-2](review-2026-10-27-2.md) · units: fun/sunny.md, fun/python.md, fun/bean.md, fun/avatar.md, side/S30.md, side/S31.md, campaign/reader-2.md · 55 recs: Critical 2, High 13, Medium 33, Nice 7 (3 cross-story) · fixed since last run: 57 of 58
+- 2026-10-27 · fix pass on branch `fix/story-review-2026-10-27-2` · run 23's 55 recs: 54 fixed, 1 partial · both Critical fixed: reader-2's c12-foot-secret lesson now matches the story, and Sunny Q45's ending answers each hedge choice; FUN_PACK_RULES now routes Q04, Q06, Q09, Q27 and Q32–Q45 (Sunny tables copied into fun-pack-rules.ts with a test that they match), Avatar's q46–q48 and q55 pay off through choice-payoffs.ts, and S30/S31 route their ring and witness variants; script-book.ts now renders the Python, Bean and Sunny variants; content-check gained two warnings (unread fun-quest choice flags; lessons that quote a line not yet read), and eight lessons across Atlas, S28, Hebrew and campaign bands moved one line later · -1304 partial: only the quests the recs named pay off; 91 Q1–Q65 choice flags are still read nowhere (now listed by the new warning) · canon: none

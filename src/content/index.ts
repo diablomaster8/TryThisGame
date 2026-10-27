@@ -5,9 +5,15 @@
 export * from './types';
 export { READERS, READER_SPEAKERS } from './readers';
 export { RESULT_SETS } from './results';
-export { QUESTS_PYTHON } from './quests-python';
-export { QUESTS_BEAN } from './quests-bean';
-export { QUESTS_SUNNY } from './quests-sunny';
+export { QUESTS_PYTHON, QUESTS_PYTHON_VARIANTS } from './quests-python';
+export { QUESTS_BEAN, QUESTS_BEAN_VARIANTS } from './quests-bean';
+export {
+  QUESTS_SUNNY,
+  QUESTS_SUNNY_VARIANTS,
+  QUESTS_SUNNY_FLAGS,
+  QUESTS_SUNNY_PAYOFFS,
+  QUESTS_SUNNY_VARIANT_FLAGS,
+} from './quests-sunny';
 export { QUESTS_AVATAR } from './quests-avatar';
 export {
   QUESTS_ALICE,

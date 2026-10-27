@@ -16,7 +16,8 @@ _Byte is standing very straight with his clipboard. His face is wet._
 **Byte**: Condensation.  
 **Gran Hazel**: Of course it is.  
 _She sits down on the bench by the door, quite suddenly, as if her legs have made the decision for her._  
-**Gran Hazel**: I’m not staying long. I want to say that now, so nobody gets dramatic later. My letter said I’d gone up the hill. I was optimistic about the timing.  
+**Gran Hazel**: I’m not staying long. I’m saying it now, so nobody makes a fuss later.  
+**Gran Hazel**: My letter said I’d gone up the hill. I was a bit early. I always am.  
 _She means it. Gran Hazel is very poorly. The doctors can’t make her better, and soon she is going to die._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): honest, clear words about serious illness  
@@ -129,7 +130,7 @@ _The thin grey Nubbin sleeps in her arm._
 _Sable comes out of the long grass. She looks at Gran Hazel for a long time._  
 _Then she walks straight past her and leans her whole weight on your shin._  
 **Gran Hazel**: Well. That’s me told.  
-**Gran Hazel**: That one took longer than two months, I’ll bet.  
+**Gran Hazel**: Shy ones take about two months to trust you. That one took longer, I’ll bet.  
 _You think of the first night, and of every night since._  
 _Sable came in June, at the start of summer. Now it is December, the middle of winter. You nod._  
 
@@ -147,7 +148,7 @@ _Sable came in June, at the start of summer. Now it is December, the middle of w
 _Gran Hazel takes your hand to help herself stand up. Then she doesn’t stand up._  
 **Gran Hazel**: Your hands are cold, love.  
 _You take your hand back and put it on your coat, over the breast pocket. You don’t mean to. It just goes there._  
-_Over the stone. It has become a habit already._  
+_Over the cold stone from the Wellspring, the one you carry. It has become a habit already._  
 _Hazel watches your hand go. She has seen someone do that before, a long time ago, in this garden._  
 **Gran Hazel**: …Ah.  
 
@@ -207,12 +208,13 @@ _He tries the latch once, the way you knock on a door you know is locked. It sti
 > **Lesson** (science, 2-PS1-4, notice): condensation: why breath shows on a cold night  
 > _Corvin’s breath makes little white clouds in the dark._  
 > _Your breath carries water as an invisible gas. In cold air it cools into tiny drops you can see. That’s condensation._  
+> _Byte said the water on his face was condensation. It wasn’t. Some water is tears._  
 > _For grown-ups: Your child learned that we see our breath on cold days because water vapour condenses into tiny droplets._
 
 _Then he folds his arms on the top bar, like a man settling in for the night._  
 _Beside you, Gran Hazel doesn’t turn round. But she stops breathing for a moment, to listen._  
 **Gran Hazel**: Don’t look at me, love. I’ve done my bit. It’s your gate now.  
-**Gran Hazel**: He said he’d stand there till first light, and he will. Meaning things was never his problem.  
+**Gran Hazel**: He said he’d stand there till first light, and he will. He always does what he says.  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: fairness and second chances  
 > _Corvin did a very wrong thing here, twenty-two years ago. Now he has come back, and he says he will wait at the gate till first light._  
@@ -232,14 +234,14 @@ _Beside you, Gran Hazel doesn’t turn round. But she stops breathing for a mome
     - **Gran Hazel**: Let him have chosen something, love. It’s been a long time.
     - You stay. In the dark the gate creaks once more, and then is quiet. But you don’t hear him go.
 - **Take him a cup of tea. Leave the gate shut.**
-    - **Gran Hazel**: …Oh, you’re worse than me.
+    - **Gran Hazel**: …Oh, you’re softer than me. And I’m the softest person I know.
     - **Gran Hazel**: Go on, then. The cup by the stove. The one that’s turned upside down.
     - You pass it over the top bar. He holds it in both hands, and the warmth goes into his cold fingers. Neither of you speaks.
     - In the morning the cup is on the gatepost, rinsed in the stream, and turned upside down.
 
 #### `reader:c12-open` · [main](../../campaign/book-3.md#c12-open)
 
-_Morning. Cold and very bright. Every Keeper is here, and every Nubbin. Nobody planned it. Everybody just came._  
+_Morning. Cold and very bright. All ten Keepers are here, and every Nubbin. Nobody planned it. Everybody just came._  
 _Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the cake. It is still collapsed, but now it lights up._  
 _Fern has made lantern buns, three trays of eight. For the first time ever, they have come out. She keeps showing people one, as evidence._  
 
@@ -253,7 +255,7 @@ _Fern has made lantern buns, three trays of eight. For the first time ever, they
 _Dusty is digging a new bed by the old wall. Nova has brought seeds from somewhere you’ve never heard of._  
 _Clover is crying already, and says it’s the cold. Byte has a clipboard and has written nothing on it._  
 _Marina sits with her feet in the freezing pond and says it’s lovely._  
-_At first light, Ember’s Ash ran at the gate the way she used to. Not full tilt. Half. She bounced off it._  
+_At first light, Ash, Ember’s Nubbin, ran at the gate the way she used to. Not full tilt. Half. Ash bounced off it._  
 _Ember has told nobody. Everybody knows._  
 _Gran Hazel walks the Grove slowly. She touches each post as she passes, like the shoulder of someone she is about to leave._  
 _At the fourth post, by the long grass, she stands a long time._  
@@ -310,10 +312,10 @@ _Hazel catches your eye across the Grove, and winks._
 **Gran Hazel**: Not a word. They’d only fuss.  
 _She asked you to keep it quiet, and you did. It is her goodbye, and her choice how to make it._  
 _She takes her lantern and her three coats, and walks to the foot of the hill, unhurried, as if to look at a tree._  
-_You watch her go. A secret this big is heavy. You carry it anyway, because she asked._  
+_You watch her go. A secret this big is heavy. You only have to carry it till morning, when her letter tells everyone._  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): safe secrets and unsafe secrets  
-> _Gran Hazel’s secret was a grown-up’s choice about her own goodbye, and she has left a letter so everyone will know._  
+> _Gran Hazel’s secret was about her own goodbye. It only lasts one night, because her letter tells everyone in the morning._  
 > _In real life, a happy surprise, like a present, is fine to keep._  
 > _A secret that makes you feel worried or scared, or where someone could get hurt, is not._  
 > _Tell a grown-up you trust about those. That is never telling tales. It is keeping people safe._  
@@ -340,12 +342,6 @@ _From up here everybody looks as small as buttons, bright and busy, doing things
 **Gran Hazel**: There. That’s mine. That was mine.  
 **Gran Hazel**: It’s a good one. Don’t you dare let anyone tell you otherwise.  
 _You sit with her a while. Neither of you says anything. It is the best part. It always was._  
-
-> **Lesson** (art, notice): perspective: far things look smaller  
-> _The Keepers haven’t shrunk. Things look smaller the further away they are._  
-> _Artists use this. Draw something small and it looks far off; draw it big and it looks close. It’s called perspective._  
-> _For grown-ups: Your child learned that far-away things look smaller, and that artists use size to show distance (perspective)._
-
 **Gran Hazel**: Right. Off you go.  
 **Gran Hazel**: Don’t look back on the way down. It turns everything into a scene.  
 _You get up. You go down. You look back once. Of course you do._  
@@ -372,13 +368,6 @@ _At the top they sit, an old woman and an old Nubbin, looking out over the Grove
 _They sat just like that when she was young, and he had only just decided she was worth it._  
 **Moss**: I’ll decide at the top. Go home. Light something.  
 _You wait at the foot until her lantern is the only light on the hill._  
-
-> **Lesson** (science, 1-PS4-2, notice): we see things when light reaches our eyes  
-> _Her lantern is tiny, and far away, but you can still see it._  
-> _Light travels from the lantern all the way to your eyes._  
-> _In the dark, with no other light around it, even a small flame shows up a long way off._  
-> _For grown-ups: Your child learned that we see a light because light travels from it to our eyes, and why small lights show up in the dark._
-
 _He doesn’t come down. Not tonight._  
 
 #### `reader:c12-walk-sable` · [main](../../campaign/book-3.md#c12-walk-sable)
@@ -392,12 +381,6 @@ _You stop at the foot. They go up together: the old woman with the lantern, and 
 _Two steps ahead. Never more. She has had a lot of practice at two steps._  
 _At the top, Sable sits down beside her. You can see them for a long time, the lantern and the dark, side by side._  
 _After dusk, a small grey shape comes down the path alone, very slowly._  
-
-> **Lesson** (science, 1-ESS1-1, notice): dusk, and why day turns to night  
-> _Dusk is the time just after the Sun sets, when the sky is fading from blue to dark._  
-> _It happens every day because the Earth spins. Our side of the Earth turns away from the Sun, and night comes._  
-> _For grown-ups: Your child learned what dusk is and that day and night happen because the Earth spins._
-
 _She doesn’t go to her place in the long grass. She comes to the cottage step, and sits on it, and waits for you._  
 _She has never once walked towards a Keeper’s door. Until now._  
 
@@ -412,13 +395,6 @@ _She has never once walked towards a Keeper’s door. Until now._
 
 _Corvin stands by the hedge at the foot of the hill, a long way off, the way he stands at the edge of everything now._  
 **Gran Hazel**: Well, don’t stand there like a heron. Come and take the lantern.  
-
-> **Lesson** (science, 4-LS1-1, notice): how a heron’s body helps it catch food  
-> _A heron is a tall grey bird that stands in shallow water. It keeps very, very still, waiting._  
-> _Its long legs let it wade without getting its feathers wet. When a fish swims close, its long sharp beak strikes fast._  
-> _Corvin, standing still at the edge and waiting, does look a bit like one._  
-> _For grown-ups: Your child learned how a heron’s long legs and sharp beak help it survive, and enjoyed a simile._
-
 **Gran Hazel**: You used to carry it for me, when you were my apprentice. Twenty-two, and you knew everything.  
 **Corvin Vale**: …I used to.  
 _He comes. He takes it. His hands aren’t blue any more. They are only a man’s hands, a little red with cold, and steady._  
@@ -789,6 +765,7 @@ _Two hundred Shells buys a lot of eggs._
 > - 10 eggs → 10 eggs would cost 250 Shells. That’s too many. 4 eggs cost 100, so 200 Shells buys 8. 8 × 25 = 200.
 > _For grown-ups: Your child solved a division word problem with money (200 ÷ 25 = 8)._
 
+_Eight new eggs. Not one of them is the one you sold._  
 _They hatch, and they are fast, and by autumn they are grey, every one._  
 _When the pens opened, you meant to go looking for the first one. You told yourself it would keep._  
 _Quiet. You told yourself quiet and well were the same thing._  
@@ -816,7 +793,7 @@ _They don’t play. They don’t explore. They never run at the gate for fun._
 _Moss stayed up on the hill after Gran Hazel went up. He never came down again. He didn’t say anything. He didn’t need to._  
 _Corvin came once. He stood in the lane and looked at your hand, resting on your coat, over the pocket._  
 **Corvin Vale**: I’m sorry. I am so sorry. I know exactly how sorry.  
-_Your hands are always cold now. You keep meaning to mind._  
+_Your hands are always cold now. You keep meaning to care, and you don’t._  
 
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: is safe the same as well?  
 > _Moss always said safe is not the same as well. This Grove is perfectly safe._  
@@ -846,9 +823,9 @@ _The stone promised that nothing would ever hurt them again. What do you think t
 
 _THE LONG ROAD_  
 _Sable is still here. Still grey. Still two steps away, never one. She eats what you leave and sleeps near, not next to._  
-_Hazel said two months for an ear. It has been much longer than that. You sit down next to her every evening and wait._  
-_You have stopped counting, which Hazel would have said was the point._  
-_Some evenings she is one and a half steps away. You don’t say anything. You don’t want to frighten it._  
+_Hazel once said a shy one needs about two months to trust you. Sable has needed much longer than that._  
+_You sit down next to her every evening and wait. You have stopped counting, which Hazel would have said was the point._  
+_Some evenings she is one and a half steps away. You don’t say anything. You don’t want to frighten her._  
 
 > **Lesson** (maths, 3.NF.A.1, ask): halves: how much closer  
 > _Sable used to stay 2 steps away. Now, some evenings, she is 1½ steps away. How much closer is she?_  
@@ -1125,21 +1102,22 @@ _The mill wheel turns beside the grave at the river’s pace._
 > _Inside a mill, that turning drives big millstones that grind grain into flour. The wheel changes the moving water’s energy into useful work._  
 > _For grown-ups: Your child learned how a water wheel uses the energy of moving water to do work, like grinding flour._
 
-_He would have hated that. He would have got used to it._  
+_Aldous would have hated that. He would have got used to it._  
 
 #### `reader:end-epi-cinder-forgiven` · [main](../../side/S19.md#end-epi-cinder-forgiven)
 
 _In the spring there is a new flower on the hill. It is red._  
 _It comes up a little apart from the others, as if it isn’t sure it’s allowed._  
+_By midsummer the others have leant towards it. Briar’s yellow one most of all._  
 
 > **Lesson** (science, 2-LS2-1, notice): plants grow towards light  
 > _Real plants lean too, but towards sunlight. Plants need light to make their food._  
 > _A stem grows a little more on its shady side, so it bends towards the light. Try it with a plant on a windowsill._  
 > _For grown-ups: Your child learned that plants need light and bend towards it as they grow._
 
-_By midsummer the others have leant towards it. Briar’s yellow one most of all._  
 _The Long-Grass lantern burns warm now. On cold nights the grey ones sleep in a ring round the foot of the post._  
 _The children still skip to Cinder’s rhyme:_  
+_“Cinder held them close and tight, kept them warm one winter night; when the morning came to call, they did not move at all.”_  
 
 > **Lesson** (literacy, RL.2.4, ask): find the rhyming words  
 > _Which words rhyme in Cinder’s rhyme?_  
@@ -1148,13 +1126,13 @@ _The children still skip to Cinder’s rhyme:_
 > - Warm and morning. → They share an “or” sound in the middle, but rhymes match at the end. Listen to the ends of the lines. Tight and night. Call and all. Rhymes make a chant easy to remember.
 > _For grown-ups: Your child found rhyming words in a chant and noticed how rhyme helps memory._
 
-_“Cinder held them close and tight, kept them warm one winter night; when the morning came to call, they did not move at all.”_  
 _Lately, at the end of it, they run up the hill and touch the red flower. Nobody told them to._  
 
 #### `reader:end-epi-cinder-remembered` · [main](../../side/S19.md#end-epi-cinder-remembered)
 
 _In the spring there is a new flower on the hill. It is red._  
 _It comes up a little apart from the others, as if it isn’t sure it’s allowed._  
+_You never said she was forgiven. It wasn’t yours to say._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): think question: who can forgive  
 > _“It wasn’t yours to say.” Who do you think gets to forgive Cinder? There is no wrong answer._  
@@ -1163,7 +1141,6 @@ _It comes up a little apart from the others, as if it isn’t sure it’s allowe
 > - Nobody can now. It was too long ago. → That’s a thoughtful answer. Some things can’t be forgiven by anyone left. They can still be remembered honestly.
 > _For grown-ups: Your child considered who has the right to forgive a wrong, with no single right answer._
 
-_You never said she was forgiven. It wasn’t yours to say._  
 _But you tell her story, all of it, to anyone who asks, and some who don’t._  
 _The Long-Grass lantern burns warm now. You stand beside it on cold nights, and don’t explain why._  
 _The children still skip to her rhyme. Now, at the end, one always shouts “She loved them!” and the rest shout “Too tight!”_  

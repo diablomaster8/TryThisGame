@@ -263,7 +263,7 @@ export const QUESTS_AVATAR: Quest[] = [
       'q46-glider#5': 'Oh, my poor leafy darlings!',
     },
     notes:
-      'Three wrecks in one afternoon: keep the steps back to back. Cart wreck needs a tip-over animation and a cabbage scatter (8 pickups, some in the stream). Step 2 crash: one oversized fruit sprite. Step 3: Pemba glides in from off-screen. The cart-style choice is cosmetic only (bell variant can ring when a Nubbin bumps it). The emote’s voice line uses the childLines text in the Learning Grove.',
+      'Three wrecks in one afternoon: keep the steps back to back. Cart wreck needs a tip-over animation and a cabbage scatter (8 pickups, some in the stream). Step 2 crash: one oversized fruit sprite. Step 3: Pemba glides in from off-screen. The cart-style choice (q46-cart) pays off in q46-complete: with “bell” the bell goes TING after the bounce (a line inserted by flag; wide and low share the base lines). The emote’s voice line uses the childLines text in the Learning Grove.',
   },
 
   // ------------------------------------------------------------------ Q47
@@ -578,7 +578,7 @@ export const QUESTS_AVATAR: Quest[] = [
       },
     ],
     notes:
-      'Escort: two NPC groups that drift apart and grumble; standing between them calms a “tension” bar. Straight-face minigame: a laugh meter that rises with each of Pemba’s lines; tap in the green to hold it. Pemba’s ancestor story is invented in-world (he admits it); keep the tone light. q48-truth (told / kept) is the quest’s real question: is a kind invention ever fine? If told, the clans reveal they guessed, and keep the story anyway.',
+      'Escort: two NPC groups that drift apart and grumble; standing between them calms a “tension” bar. Straight-face minigame: a laugh meter that rises with each of Pemba’s lines; tap in the green to hold it. Pemba’s ancestor story is invented in-world (he admits it); keep the tone light. q48-truth (told / kept) is the quest’s real question: is a kind invention ever fine? It is paid off in q48-complete (a Nalu line inserted by flag: kept, “You promised to tell them”; told, “They knew all along”). If told, the clans reveal they guessed, and keep the story anyway.',
   },
 
   // ------------------------------------------------------------------ Q49
@@ -923,7 +923,7 @@ export const QUESTS_AVATAR: Quest[] = [
           id: 'q51-desert',
           lines: [
             N('The desert stretches flat and gold in every direction. Your water skins are empty.'),
-            K('Right. I’m going to find water. Nobody wanders off. Nobody eats anything strange. Tuk, that means you.'),
+            K('Right. I’m going to find water. Rule one, which Tuk wrote and made us sign: nobody eats anything strange. Tuk, that means you.'),
             T('Me? I’m the responsible one. I have a schedule.'),
             N('Nalu leaves. Tuk eyes a fat green cactus. Thirty seconds pass.'),
             T('You know what cacti are full of? Juice. Survival juice. It would be irresponsible not to.'),
@@ -1565,7 +1565,7 @@ export const QUESTS_AVATAR: Quest[] = [
       },
     ],
     notes:
-      'The Ember Bay Players speak as one speaker (the troupe); whichever actor is on stage gets the box. The play is a cheap pastiche of the player’s own adventures: sock-puppet Nubbins, a mop ponytail, a bearded “Bao”. q55-reaction can set the Players’ greeting on later beach visits.',
+      'The Ember Bay Players speak as one speaker (the troupe); whichever actor is on stage gets the box. The play is a cheap pastiche of the player’s own adventures: sock-puppet Nubbins, a mop ponytail, a bearded “Bao”. q55-reaction (boo / cheer / storm) is paid off in q55-complete: the lead player greets the player by that choice (one line inserted by flag after “Take a mask or two!”).',
   },
 
   // ------------------------------------------------------------------ Q56
@@ -1925,7 +1925,7 @@ export const QUESTS_AVATAR: Quest[] = [
           lines: [
             N('Above Hillstead, Mount Grumble sends up a thin grey thread of smoke. Tuk stares at it.'),
             T('Everyone here trusts clouds over common sense. I’m going up there. I want to see with my own eyes.'),
-            P('I’ll come! Puffin can fly us most of the way.'),
+            P('I’ll come! Puffin, my sky bison, can fly us most of the way. Or my glider, if he’s sulking.'),
             K('I’ll stay and talk to the villagers. Just in case.'),
             N('At the top, the air is hot and smells of boiled eggs. Inside the crater, red rock bubbles and hisses.'),
             T('That is not “nice and fluffy”. That is “very much about to go off”.', 'shock'),
@@ -1999,7 +1999,7 @@ export const QUESTS_AVATAR: Quest[] = [
         T('I believe one word. “Shovels.” That was a great call.'),
         W('Then let me give the Keeper something. Bring your Nubbins to me whenever you like. I’ll read the bones for them.', 'happy'),
         W('I’m right more often than not. And much more often about Nubbins than about mountains.'),
-        N('Next morning Tuk keeps his promise. A hundred villagers shuffle up to the crater rim.'),
+        N('Next morning Tuk, who likes to have the last word, walks a hundred villagers up to the crater rim. With diagrams.'),
         N('Nobody says anything for a long time.'),
         W('I did say it was nice and fluffy.', 'happy'),
         N(
@@ -2334,7 +2334,7 @@ export const QUESTS_AVATAR: Quest[] = [
         done: {
           id: 'q61-trial-done',
           lines: [
-            N('Behind the oldest shelf, your Nubbin finds a scroll sealed with Marshal Brag’s own stamp.'),
+            N('Behind the oldest shelf, your Nubbin finds a scroll sealed with Marshal Brag’s own stamp, and an old map it has been using as a blanket.'),
             K('It’s his diary. Look at this entry. And this one.', 'shock'),
           ],
         },
@@ -2365,7 +2365,7 @@ export const QUESTS_AVATAR: Quest[] = [
           choices: [
             {
               id: 'stone',
-              label: 'Show the founding stone that thanks Avatar Kesh',
+              label: 'Point at the founding stone under the statue',
               set: { 'q61-evidence': 'stone' },
               then: [TI('“Thank you, Kesh, for our peace.” It was under the statue all along!', 'shock')],
             },
@@ -2513,6 +2513,9 @@ export const QUESTS_AVATAR: Quest[] = [
             N('On the snowy hill, a line of penguins waddles past, sleek and round and not at all in the mood.'),
             P('The trick is fish. You give them a fish, they give you a ride. Everyone knows that.'),
             N('Your Nubbin is already holding out a fish to the smallest penguin. The penguin considers it carefully.'),
+            P('Race you to the bottom! Loser carries the fish!', 'happy'),
+            N('The smallest penguin takes the fish, looks at Pemba, and waddles over to your Nubbin instead. It has chosen.'),
+            T('That penguin has better judgement than most of us.'),
           ],
         },
         done: {
@@ -2555,7 +2558,7 @@ export const QUESTS_AVATAR: Quest[] = [
     audience: 'all',
     trigger: { where: 'The cliff city of Stonereach', when: 'Any day' + WHEN_SUFFIX },
     requires: ['Q46'],
-    speakers: [RUMBOLD, PEMBA, TUK],
+    speakers: [RUMBOLD, PEMBA, TUK, CABBAGE],
     steps: [
       {
         id: 'q63-s1',
@@ -2622,7 +2625,8 @@ export const QUESTS_AVATAR: Quest[] = [
         done: {
           id: 'q63-pet-done',
           lines: [
-            N('You find Biscuit on a rooftop, eating a cabbage from a familiar-looking cart. Somewhere below, a familiar voice wails.'),
+            N('You find Biscuit on a rooftop, eating a cabbage from a familiar-looking cart.'),
+            C('My cabbages! Not UP there!'),
             BU('Biscuit! You found him! That’s two!', 'happy'),
           ],
         },
@@ -2701,8 +2705,11 @@ export const QUESTS_AVATAR: Quest[] = [
         description: 'Your Keeper throws their head back and gives a loud, honking bray of a laugh.',
       },
     ],
+    childLines: {
+      'q63-pet-done#1': 'Not the cabbages! Not up there!',
+    },
     notes:
-      'King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The “familiar voice” in the q63-pet-done line is the cabbage merchant, off screen, with no words. Mail chute: downhill track minigame with the king riding alongside.',
+      'King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The cabbage merchant’s cry in q63-pet-done (swapped in childLines) is heard from off screen (a voice only; he is not seen). Mail chute: downhill track minigame with the king riding alongside.',
   },
 
   // ------------------------------------------------------------------ Q64
@@ -2728,6 +2735,8 @@ export const QUESTS_AVATAR: Quest[] = [
             Z('Oh! Keeper. I wasn’t… I’m not talking to a rock. Why would I be talking to a rock.', 'shock'),
             Z('Fine. I was talking to the rock. I’m practising. I want to ask Pemba if I can join his group.'),
             Z('The problem is, I keep getting it wrong. Last time I said “I have changed” and then just stood there for a full minute.', 'sad'),
+            Z('I chased them right round the world in a very loud boat. All summer. At night.'),
+            Z('In my defence, I was very tired. In nobody’s defence, I was very loud.', 'sad'),
             N('Your Nubbin climbs onto the rock and sits on it, as if it were the audience.'),
             Z('Can you listen? Tell me if it’s bad. It’s going to be bad. Okay. Here goes.', 'think'),
             Z('Pemba. Greetings. I am… a person. Who used to be… the bad kind of person. But now I’m the good kind. Probably. Thanks.'),

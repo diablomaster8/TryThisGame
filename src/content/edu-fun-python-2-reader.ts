@@ -112,6 +112,7 @@ const gloss = (word: string, meaning: string, of: string): GlossaryEntry => ({ w
 const N = say('narrator');
 const Y = say('you');
 const BY = say('byte');
+const PX = say('pixel');
 
 const GB = say('gorbold');
 const CR = say('mr-crisp');
@@ -564,7 +565,7 @@ const Q12 = quest(
         N('You carry it home. Your Nubbins take it straight to the nest and pile round it.'),
         N('By evening they are fast asleep, cuddled up to the plush Nubbin.'),
         N('It is, at last, having a genuinely lovely rest.'),
-        N('From now on the shop gives refunds, if you can explain what is wrong with the thing you bought.'),
+        N('From now on the shop takes things back within a day. You needn’t explain, though Mr Fenwick Mull will ask, hopefully.'),
       ],
       [
         act(
@@ -803,7 +804,7 @@ const Q14 = quest(
         BO('Soft. Very soft. You have been warned.', 'think'),
         PO('Your Nubbins look tired. Overworked. Under-napped. We shall see to that. Sister Tuft!'),
         PO('Bring forth… the big red chair!', 'angry'),
-        TF('We left it at your Workshop. You said you’d carry it.', 'sad'),
+        TF('We left it at your Workshop. Brother Pouffe said he’d carry it.', 'sad'),
         PO('…Keeper. Would you be so good as to carry it over for us?', 'sad'),
       ],
       [
@@ -1399,6 +1400,10 @@ const Q16 = quest(
         BY('And I am putting you on the board. Debate Club. Founding member. There are no other members.', 'happy'),
         Y('Is there a club?'),
         BY('There is now. Do not argue.'),
+        N('Pixel leans out of the Workshop window with a spanner.'),
+        PX('Did you win? Nobody wins. I’ve been married to the man in that booth for twenty years.', 'happy'),
+        BY('Disagree.'),
+        PX('See?'),
       ],
       [
         think(

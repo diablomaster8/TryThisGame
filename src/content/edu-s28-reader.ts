@@ -1814,7 +1814,7 @@ const VARIANTS: EduScene[] = [
       N('Then he puts the pencil back behind his ear.'),
       N('He closes the notebook carefully, so the page won’t smudge.'),
     ],
-    [incidentBeat(1)],
+    [incidentBeat(2)],
   ),
   // step 11 done: Bramble's youngest came down with Hazel (colour only)
   scene(

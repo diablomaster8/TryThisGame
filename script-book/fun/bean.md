@@ -478,6 +478,7 @@ _He pulls a checked blanket out of his coat. It is bigger than the coat._
 
 _Everyone gets a square. Mr. Tweed takes the last one, which is mostly crust, and eats it as if it were cake._  
 _It is the first time in years he has needed the ruler._  
+_The duck comes back for the crust. Mr. Tweed measures it with the ruler, finds it over regulation size, and gives it half anyway._  
 _The Nubbins sit in a sleepy pile on the blanket, sticky and full and very happy._  
 _Mr. Tweed goes to fold the blanket, looks at the pile of sleeping Nubbins, and quietly leaves it where it is._  
 _He tips his hat to you. The blanket is yours now; the Nubbins have decided._  
@@ -571,11 +572,35 @@ _Behind his back, he presses a stack of spare frames into your hands and mimes: 
 
 - **It’s a photo. There was a sneeze.** — sets `{"q27-confessed":true}`
     - **Warden Pryce**: A sneeze. Of course there was.
+    - She looks at the half moustache still stuck to Mr. Tweed’s lip.
+    - **Warden Pryce**: And the moustache. Did that sneeze too?
     - **Warden Pryce**: Honestly? I prefer this one. The old one always looked cross. It stays.
     - Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.
 - **Say nothing. Admire it.** — sets `{"q27-confessed":false}`
     - **Warden Pryce**: Well. Keep up the good work, both of you.
     - As the door closes behind her, Mr. Tweed breathes out for the first time in an hour.
+
+#### <a id="q27-complete-told"></a>Variant `q27-complete-told`
+
+_Variant of `q27-complete`._
+
+_The Warden walks in and looks at the portrait for a long, long time._  
+**Warden Pryce** _(think)_: It looks… brighter. Younger, somehow. That founder has your chin.  
+_Mr. Tweed studies the ceiling. Half a grey moustache is still stuck to his lip._  
+_Behind his back, he presses a stack of spare frames into your hands and mimes: your photos, your walls._  
+
+**Choices**
+
+- **It’s a photo. There was a sneeze.** — sets `{"q27-confessed":true}`
+    - **Warden Pryce**: A sneeze. Of course there was.
+    - She looks at the half moustache still stuck to Mr. Tweed’s lip.
+    - **Warden Pryce**: And the moustache. Did that sneeze too?
+    - **Warden Pryce**: Honestly? I prefer this one. The old one always looked cross. It stays.
+    - Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.
+- **Say nothing. Admire it.** — sets `{"q27-confessed":false}`
+    - **Warden Pryce**: Well. Keep up the good work, both of you.
+    - As the door closes behind her, Mr. Tweed breathes out for the first time in an hour.
+    - Mr. Tweed taps the clock, then points at you: try first, then tell. He waits. He is very good at waiting.
 
 **Rewards**
 
@@ -716,6 +741,7 @@ Hint: Odette waits at your gate at sunset. Carry the egg to her and choose Give.
 
 _For the rest of the afternoon, nobody puts the egg down._  
 _Mr. Tweed knits it a little woolly cosy with a hole for the top. It is lumpy, and the egg seems to like it._  
+_He keeps his hat off all afternoon, upside down beside the egg, just in case._  
 _You line an old fruit box with a blanket and put it on wheels, with a stone wedged at each end for brakes._  
 _The egg wobbles once, tries the box, and decides to stay._  
 _There is room in the box for two. Your own eggs look at it with interest._  

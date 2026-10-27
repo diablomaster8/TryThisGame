@@ -4,11 +4,11 @@ import { EXPANSION_E2, EXPANSION_E2_VARIANTS } from '../content/expansion-e2';
 import { EXPANSION_E3, EXPANSION_E3_VARIANTS } from '../content/expansion-e3';
 import { QUESTS_ALICE, QUESTS_ALICE_VARIANTS } from '../content/quests-alice';
 import { QUESTS_AVATAR } from '../content/quests-avatar';
-import { QUESTS_BEAN } from '../content/quests-bean';
+import { QUESTS_BEAN, QUESTS_BEAN_VARIANTS } from '../content/quests-bean';
 import { QUESTS_HODJA, QUESTS_HODJA_VARIANTS } from '../content/quests-hodja';
 import { QUESTS_HOLMES, QUESTS_HOLMES_VARIANTS } from '../content/quests-holmes';
-import { QUESTS_PYTHON } from '../content/quests-python';
-import { QUESTS_SUNNY } from '../content/quests-sunny';
+import { QUESTS_PYTHON, QUESTS_PYTHON_VARIANTS } from '../content/quests-python';
+import { QUESTS_SUNNY, QUESTS_SUNNY_VARIANTS } from '../content/quests-sunny';
 import { SIDE_STORIES_FUN } from '../content/side-stories-fun';
 import { SIDE_STORIES_FUN_2, SIDE_STORIES_FUN_2_VARIANTS } from '../content/side-stories-fun-2';
 import { SIDE_STORIES_MAIN, SIDE_STORIES_MAIN_VARIANTS } from '../content/side-stories-main';
@@ -79,5 +79,8 @@ export const SIDE_STORY_CONTENT: SideStoryContent = {
     ...QUESTS_ALICE_VARIANTS,
     ...QUESTS_HOLMES_VARIANTS,
     ...QUESTS_HODJA_VARIANTS,
+    ...QUESTS_PYTHON_VARIANTS,
+    ...QUESTS_BEAN_VARIANTS,
+    ...QUESTS_SUNNY_VARIANTS,
   ],
 };

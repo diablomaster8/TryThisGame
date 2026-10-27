@@ -118,7 +118,7 @@ _The old cart is yours now, a planter on wheels. Somehow, you’ve also picked u
 - `q46-crash#5` → Not the cabbages! Not again!
 - `q46-glider#5` → Oh, my poor leafy darlings!
 
-**Notes:** Three wrecks in one afternoon: keep the steps back to back. Cart wreck needs a tip-over animation and a cabbage scatter (8 pickups, some in the stream). Step 2 crash: one oversized fruit sprite. Step 3: Pemba glides in from off-screen. The cart-style choice is cosmetic only (bell variant can ring when a Nubbin bumps it). The emote’s voice line uses the childLines text in the Learning Grove.
+**Notes:** Three wrecks in one afternoon: keep the steps back to back. Cart wreck needs a tip-over animation and a cabbage scatter (8 pickups, some in the stream). Step 2 crash: one oversized fruit sprite. Step 3: Pemba glides in from off-screen. The cart-style choice (q46-cart) pays off in q46-complete: with “bell” the bell goes TING after the bounce (a line inserted by flag; wide and low share the base lines). The emote’s voice line uses the childLines text in the Learning Grove.
 
 ## Q47. The Secret Tunnel
 
@@ -318,7 +318,7 @@ _She presses a wide-brimmed canyon guide’s hat into your hands. By evening, a 
 - Canyon guide’s hat (cosmetic): A wide-brimmed, sun-faded hat for your Keeper. Comes with an air of knowing the way.
 - Rope bridge (feature): A swaying rope bridge across the canyon, joining the rocky section to its neighbour.
 
-**Notes:** Escort: two NPC groups that drift apart and grumble; standing between them calms a “tension” bar. Straight-face minigame: a laugh meter that rises with each of Pemba’s lines; tap in the green to hold it. Pemba’s ancestor story is invented in-world (he admits it); keep the tone light. q48-truth (told / kept) is the quest’s real question: is a kind invention ever fine? If told, the clans reveal they guessed, and keep the story anyway.
+**Notes:** Escort: two NPC groups that drift apart and grumble; standing between them calms a “tension” bar. Straight-face minigame: a laugh meter that rises with each of Pemba’s lines; tap in the green to hold it. Pemba’s ancestor story is invented in-world (he admits it); keep the tone light. q48-truth (told / kept) is the quest’s real question: is a kind invention ever fine? It is paid off in q48-complete (a Nalu line inserted by flag: kept, “You promised to tell them”; told, “They knew all along”). If told, the clans reveal they guessed, and keep the story anyway.
 
 ## Q49. Flameo, Hotman
 
@@ -529,7 +529,7 @@ Hint: Stand between Tuk and the open sand. Shiny things distract him; your Nubbi
 #### <a id="q51-desert"></a>Scene `q51-desert`
 
 _The desert stretches flat and gold in every direction. Your water skins are empty._  
-**Nalu**: Right. I’m going to find water. Nobody wanders off. Nobody eats anything strange. Tuk, that means you.  
+**Nalu**: Right. I’m going to find water. Rule one, which Tuk wrote and made us sign: nobody eats anything strange. Tuk, that means you.  
 **Tuk**: Me? I’m the responsible one. I have a schedule.  
 _Nalu leaves. Tuk eyes a fat green cactus. Thirty seconds pass._  
 **Tuk**: You know what cacti are full of? Juice. Survival juice. It would be irresponsible not to.  
@@ -957,7 +957,7 @@ _You go home with two theatre masks and a playbill with your name spelt wrong._
 - Theatre masks (cosmetic): A happy mask and a sad mask on a ribbon. Your Keeper can wear either.
 - Playbill photo frame (feature): A new Photo mode frame styled as an Ember Bay playbill, with your name (spelt wrong).
 
-**Notes:** The Ember Bay Players speak as one speaker (the troupe); whichever actor is on stage gets the box. The play is a cheap pastiche of the player’s own adventures: sock-puppet Nubbins, a mop ponytail, a bearded “Bao”. q55-reaction can set the Players’ greeting on later beach visits.
+**Notes:** The Ember Bay Players speak as one speaker (the troupe); whichever actor is on stage gets the box. The play is a cheap pastiche of the player’s own adventures: sock-puppet Nubbins, a mop ponytail, a bearded “Bao”. q55-reaction (boo / cheer / storm) is paid off in q55-complete: the lead player greets the player by that choice (one line inserted by flag after “Take a mask or two!”).
 
 ## Q56. Earth Rumble
 
@@ -1185,7 +1185,7 @@ Hint: Take the zigzag path, or call Puffin if you’ve found him. Keep your Nubb
 
 _Above Hillstead, Mount Grumble sends up a thin grey thread of smoke. Tuk stares at it._  
 **Tuk**: Everyone here trusts clouds over common sense. I’m going up there. I want to see with my own eyes.  
-**Pemba**: I’ll come! Puffin can fly us most of the way.  
+**Pemba**: I’ll come! Puffin, my sky bison, can fly us most of the way. Or my glider, if he’s sulking.  
 **Nalu**: I’ll stay and talk to the villagers. Just in case.  
 _At the top, the air is hot and smells of boiled eggs. Inside the crater, red rock bubbles and hisses._  
 **Tuk** _(shock)_: That is not “nice and fluffy”. That is “very much about to go off”.  
@@ -1238,7 +1238,7 @@ _The villagers dig a trench all night. When Mount Grumble finally pops, the lava
 **Tuk**: I believe one word. “Shovels.” That was a great call.  
 **Aunt Wen** _(happy)_: Then let me give the Keeper something. Bring your Nubbins to me whenever you like. I’ll read the bones for them.  
 **Aunt Wen**: I’m right more often than not. And much more often about Nubbins than about mountains.  
-_Next morning Tuk keeps his promise. A hundred villagers shuffle up to the crater rim._  
+_Next morning Tuk, who likes to have the last word, walks a hundred villagers up to the crater rim. With diagrams._  
 _Nobody says anything for a long time._  
 **Aunt Wen** _(happy)_: I did say it was nice and fluffy.  
 _Aunt Wen now reads bones at the Grove’s fortune tent. Tuk says he will never go. He goes twice a week, in a hat._  
@@ -1450,7 +1450,7 @@ _Two guards walk Pemba to a cage. It has bunting on it. Pemba waves at you sadly
 
 #### <a id="q61-trial-done"></a>Done `q61-trial-done`
 
-_Behind the oldest shelf, your Nubbin finds a scroll sealed with Marshal Brag’s own stamp._  
+_Behind the oldest shelf, your Nubbin finds a scroll sealed with Marshal Brag’s own stamp, and an old map it has been using as a blanket._  
 **Nalu** _(shock)_: It’s his diary. Look at this entry. And this one.  
 
 ### Step 2: Present the evidence at Pemba’s trial.
@@ -1474,7 +1474,7 @@ _The crowd murmurs. Someone at the back takes off a Marshal Brag hat and quietly
 
 **Choices**
 
-- **Show the founding stone that thanks Avatar Kesh** — sets `{"q61-evidence":"stone"}`
+- **Point at the founding stone under the statue** — sets `{"q61-evidence":"stone"}`
     - **Mayor Tibbs**: “Thank you, Kesh, for our peace.” It was under the statue all along!
 - **Show the old map with Kettleby on Kesh’s side** — sets `{"q61-evidence":"map"}`
     - **Mayor Tibbs**: We were… on her island. Oh dear. She was protecting us.
@@ -1565,6 +1565,9 @@ Hint: Offer a fish first, then lean left and right to steer. Belly-flat is faste
 _On the snowy hill, a line of penguins waddles past, sleek and round and not at all in the mood._  
 **Pemba**: The trick is fish. You give them a fish, they give you a ride. Everyone knows that.  
 _Your Nubbin is already holding out a fish to the smallest penguin. The penguin considers it carefully._  
+**Pemba** _(happy)_: Race you to the bottom! Loser carries the fish!  
+_The smallest penguin takes the fish, looks at Pemba, and waddles over to your Nubbin instead. It has chosen._  
+**Tuk**: That penguin has better judgement than most of us.  
 
 #### <a id="q62-sled-done"></a>Done `q62-sled-done`
 
@@ -1591,7 +1594,7 @@ _The penguins waddle home over the hill. The smallest one turns back to stare at
 
 *Avatar: The Last Airbender: The King of Omashu* · audience: all · where: The cliff city of Stonereach · when: Any day (never during Chapters 9–11) · requires: Q46
 
-**Cast:** King Rumbold (Bumi), Pemba (Aang), Tuk (Sokka)
+**Cast:** King Rumbold (Bumi), Pemba (Aang), Tuk (Sokka), The cabbage merchant (Cabbage merchant)
 
 ### Step 1: Fetch the king’s key from the bottom of the waterfall.
 
@@ -1639,7 +1642,8 @@ _Your Nubbin is already climbing the highest wall in sight, chewing a leaf thoug
 
 #### <a id="q63-pet-done"></a>Done `q63-pet-done`
 
-_You find Biscuit on a rooftop, eating a cabbage from a familiar-looking cart. Somewhere below, a familiar voice wails._  
+_You find Biscuit on a rooftop, eating a cabbage from a familiar-looking cart._  
+**The cabbage merchant**: My cabbages! Not UP there!  
 **King Rumbold** _(happy)_: Biscuit! You found him! That’s two!  
 
 ### Step 3: Ride the mail chutes to the bottom of Stonereach with King Rumbold.
@@ -1687,7 +1691,11 @@ _You go home with a short stone slide for the Grove, and a laugh that makes ever
 - Mail-chute slide (decor): A short, twisty stone slide. Nubbins climb up and whizz down it all day.
 - King Rumbold’s laugh emote (cosmetic): Your Keeper throws their head back and gives a loud, honking bray of a laugh.
 
-**Notes:** King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The “familiar voice” in the q63-pet-done line is the cabbage merchant, off screen, with no words. Mail chute: downhill track minigame with the king riding alongside.
+**Learning Grove swaps**
+
+- `q63-pet-done#1` → Not the cabbages! Not up there!
+
+**Notes:** King Rumbold’s laugh is a donkey-like honk (needs a dedicated SFX, reused by the emote). Waterfall pool: Swim Nubbins can fetch the key at any time; otherwise the water level drops at noon. The cabbage merchant’s cry in q63-pet-done (swapped in childLines) is heard from off screen (a voice only; he is not seen). Mail chute: downhill track minigame with the king riding alongside.
 
 ## Q64. Hello, Kaito Here
 
@@ -1705,6 +1713,8 @@ _Behind a broken pillar, you find Kaito pacing in circles, muttering to a rock._
 **Kaito** _(shock)_: Oh! Keeper. I wasn’t… I’m not talking to a rock. Why would I be talking to a rock.  
 **Kaito**: Fine. I was talking to the rock. I’m practising. I want to ask Pemba if I can join his group.  
 **Kaito** _(sad)_: The problem is, I keep getting it wrong. Last time I said “I have changed” and then just stood there for a full minute.  
+**Kaito**: I chased them right round the world in a very loud boat. All summer. At night.  
+**Kaito** _(sad)_: In my defence, I was very tired. In nobody’s defence, I was very loud.  
 _Your Nubbin climbs onto the rock and sits on it, as if it were the audience._  
 **Kaito** _(think)_: Can you listen? Tell me if it’s bad. It’s going to be bad. Okay. Here goes.  
 **Kaito**: Pemba. Greetings. I am… a person. Who used to be… the bad kind of person. But now I’m the good kind. Probably. Thanks.  

@@ -12,7 +12,12 @@ import { EDU_CAMPAIGN_3_SPROUT } from './edu-campaign-3-sprout';
 import { EDU_SIDE_1_SPROUT, EDU_SIDE_1_SPROUT_VARIANTS } from './edu-side-1-sprout';
 import { EDU_SIDE_NEW_A_SPROUT } from './edu-side-new-a-sprout';
 import { EDU_SIDE_NEW_B_SPROUT, EDU_SIDE_NEW_B_SPROUT_VARIANTS } from './edu-side-new-b-sprout';
-import { EDU_PYTHON_SPROUT, EDU_BEAN_SPROUT } from './edu-fun-python-bean-sprout';
+import {
+  EDU_PYTHON_SPROUT,
+  EDU_BEAN_SPROUT,
+  EDU_PYTHON_SPROUT_VARIANTS,
+  EDU_BEAN_SPROUT_VARIANTS,
+} from './edu-fun-python-bean-sprout';
 import { EDU_AVATAR_SPROUT } from './edu-fun-avatar-sprout';
 import { EDU_LANG_HEBREW_SPROUT } from './edu-lang-hebrew-sprout';
 import { EDU_LANG_JAPANESE_SPROUT } from './edu-lang-japanese-sprout';
@@ -54,6 +59,8 @@ export const EDU_SPROUT: EduBandSet = {
   variants: [
     ...EDU_SIDE_1_SPROUT_VARIANTS,
     ...EDU_SIDE_NEW_B_SPROUT_VARIANTS,
+    ...EDU_PYTHON_SPROUT_VARIANTS,
+    ...EDU_BEAN_SPROUT_VARIANTS,
     ...EDU_S24_SPROUT_VARIANTS,
     ...EDU_S25_SPROUT_VARIANTS,
     ...EDU_S26_SPROUT_VARIANTS,

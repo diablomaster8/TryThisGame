@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 19 fixes (2026-10-26)
+
+- **Works:** 47 of run 19's 48 recs fixed across campaign book 3, the endings, the triggered scenes,
+  both campaign bands and side stories S1–S5. New tested payoffs: S2's early/carried choices in
+  s2-night, S1's boat and cinder choices, Hazel taking the gap seat at the S3 moot, and five campaign
+  and ending swaps through a new `Swapper.swapText`. Band lessons no longer sit inside grave beats.
+- **Partial:** SR-20261026-1055: t-talk-generic has lines but nothing plays it yet (needs a trigger).
+- **Known bugs:** the C: drive ran out of space during this pass; Maor freed space the same day.
+
 ## Story review run 18 fixes (2026-10-26)
 
 - **Works:** all 43 run-18 recs fixed across the Japanese line and its bands, the Hebrew reader, the

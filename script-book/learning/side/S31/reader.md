@@ -198,6 +198,23 @@ _Ned kicks the air, goes up, and comes down flat on his back with a sound like a
 _She tucks the clipboard under her arm and walks off._  
 _Ned lies on the grass and looks at the sky, which at least stays put._  
 
+#### `reader:s31-kick-refused` · [main](../../../side/S31.md#s31-kick-refused)
+
+_Variant of `s31-kick`._
+
+_Ned runs with everything he has. At the very last moment Ivy lifts her finger, and the ball rolls gently away._  
+_Ned kicks the air, goes up, and comes down flat on his back with a sound like a dropped sack._  
+
+> **Lesson** (science, 3-PS2-1, notice): unbalanced forces: a kick that meets nothing  
+> _A kick is a push. When Ned’s foot hits the ball, the ball pushes back and slows his leg down._  
+> _With no ball there, nothing balances that push. His leg keeps swinging up, and the rest of Ned goes with it._  
+> _For grown-ups: Learned that a push with nothing to push against is an unbalanced force that keeps things moving._
+
+**Ned**: …You promised. It was witnessed.  
+**Ivy**: Ned signed it himself. You can’t witness your own promise. It doesn’t count.  
+_She tucks the clipboard under her arm and walks off._  
+_Ned lies on the grass and looks at the sky, which at least stays put._  
+
 #### `reader:s31-lists` · [main](../../../side/S31.md#s31-lists)
 
 _Ned is still on the green when you come back past. He is holding a card cut in the shape of a cog._  
@@ -259,7 +276,7 @@ _He also has a toffee apple in a hanky, for the Great Gourd, in case he’s hung
 
 #### `reader:s31-moss` · [main](../../../side/S31.md#s31-moss)
 
-_You knock the sign in by the dark post. Tam sets the toffee apple on top and looks at it all the way people look at cathedrals._  
+_You hammer the sign in by the dark post, and hit your thumb. Tam sets the toffee apple on top and looks at it the way people look at cathedrals._  
 _Moss comes past along the hill path, slowly, the grass hardly bending under him. He stops to read the sign._  
 **Tam**: Moss. You’re very old. Is the Great Gourd real?  
 **Moss**: I have never seen it. Then again, there are a great many real things I have never seen.  
@@ -426,6 +443,23 @@ _Ned holds up the rock with the label, so you can read it. In Byte’s small squ
 **Ned**: Five doors. Five rocks. I think the rocks have found me on purpose.  
 **Ned**: But Byte wrote what it is. Nobody ever writes down what my things are.  
 **Ned**: You have it. For being the witness. I know it didn’t count.  
+_It is heavy and cold and very ordinary. You put it in your pocket, and find you keep checking it’s there._  
+
+#### `reader:s31-rock-refused` · [main](../../../side/S31.md#s31-rock-refused)
+
+_Variant of `s31-rock`._
+
+_Ned holds up the rock with the label, so you can read it. In Byte’s small square capitals: BASALT._  
+
+> **Lesson** (science, 2-PS1-4, notice): basalt forms when lava cools quickly  
+> _Basalt is a dark rock made from lava, melted rock that pours out of a volcano. It cooled fast, so its crystals are tiny._  
+> _Melting rock and cooling it again is a change that can happen both ways, but it takes enormous heat._  
+> _At the Giant’s Causeway in Northern Ireland, cooling basalt cracked into about 40,000 tall stone columns._  
+> _For grown-ups: Learned that basalt is cooled lava, with an example from the Giant’s Causeway._
+
+**Ned**: Five doors. Five rocks. I think the rocks have found me on purpose.  
+**Ned**: But Byte wrote what it is. Nobody ever writes down what my things are.  
+**Ned**: You have it. For being the only one who said don’t.  
 _It is heavy and cold and very ordinary. You put it in your pocket, and find you keep checking it’s there._  
 
 #### `reader:s31-ace-roof` · [main](../../../side/S31.md#s31-ace-roof)
@@ -693,6 +727,7 @@ _In the long grass it gets light, slowly. The frost comes off the post in a thin
 > _Some of the water evaporates, then cools again in the chilly air into a thin mist of tiny drops: that’s the steam._  
 > _For grown-ups: Learned that sunlight warms surfaces and melts frost._
 
+_Your Nubbin wakes, one goggle lens fogged, and salutes the sign. Nobody has told it the war is over._  
 _Tam’s sign is still standing, WELCOME GREAT GOURD, with the R still backwards for luck._  
 
 > **Lesson** (science, 3-LS4-3, notice): why frost ends the gourd season  

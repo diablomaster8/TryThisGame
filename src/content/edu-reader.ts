@@ -16,9 +16,9 @@ import { EDU_SIDE_NEW_1_READER } from './edu-side-new-1-reader';
 import { EDU_SIDE_NEW_2_READER } from './edu-side-new-2-reader';
 import { EDU_SIDE_NEW_3_READER, EDU_SIDE_NEW_3_READER_VARIANTS } from './edu-side-new-3-reader';
 import { EDU_SIDE_NEW_4_READER } from './edu-side-new-4-reader';
-import { EDU_PYTHON_1_READER } from './edu-fun-python-1-reader';
+import { EDU_PYTHON_1_READER, EDU_PYTHON_1_READER_VARIANTS } from './edu-fun-python-1-reader';
 import { EDU_PYTHON_2_READER } from './edu-fun-python-2-reader';
-import { EDU_BEAN_READER } from './edu-fun-bean-reader';
+import { EDU_BEAN_READER, EDU_BEAN_READER_VARIANTS } from './edu-fun-bean-reader';
 import { EDU_AVATAR_1_READER } from './edu-fun-avatar-1-reader';
 import { EDU_AVATAR_2_READER } from './edu-fun-avatar-2-reader';
 import { EDU_LANG_HEBREW_READER } from './edu-lang-hebrew-reader';
@@ -72,6 +72,8 @@ export const EDU_READER: EduBandSet = {
     ...EDU_SIDE_1_READER_VARIANTS,
     ...EDU_SIDE_2_READER_VARIANTS,
     ...EDU_SIDE_NEW_3_READER_VARIANTS,
+    ...EDU_PYTHON_1_READER_VARIANTS,
+    ...EDU_BEAN_READER_VARIANTS,
     ...EDU_S24_READER_VARIANTS,
     ...EDU_S25_READER_VARIANTS,
     ...EDU_S26_READER_VARIANTS,

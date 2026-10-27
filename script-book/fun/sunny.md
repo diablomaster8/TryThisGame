@@ -93,12 +93,33 @@ _Corky presses a pair of mittens into your hands. They smell faintly of the fork
 **Corky** _(happy)_: Your Nubbins can walk past sleepy ones now and nobody wakes up. Kitten Mittens!  
 _Nubbin Mittens: sleeping Nubbins no longer wake when others walk past. A pair of mittens joins your wardrobe._  
 
+#### <a id="q31-rook-is-cut"></a>Variant `q31-rook-is-cut`
+
+_Variant within Q31; it has no single parent scene._
+
+**Rook** _(angry)_: And nobody cuts me out this time. I watched the mitten advert. I’m one elbow.  
+**Corky** _(happy)_: It was a great elbow.  
+
+#### <a id="q31-rook-is-kept"></a>Variant `q31-rook-is-kept`
+
+_Variant within Q31; it has no single parent scene._
+
+**Rook** _(happy)_: You got my best side in the mitten advert. That’s why you’re behind the camera again.  
+_There is still no best side._  
+
+#### <a id="q31-rook-is-wildcard"></a>Variant `q31-rook-is-wildcard`
+
+_Variant within Q31; it has no single parent scene._
+
+**Rook**: And no wildcards, Corky. Last time you wore the set.  
+**Corky** _(happy)_: You can’t plan a wildcard, Rook. That’s the whole thing.  
+
 **Rewards**
 
 - Nubbin Mittens (feature): Sleeping Nubbins never wake when other Nubbins walk past them.
 - Mittens (cosmetic): Lumpy, mismatched foot mittens a Nubbin can wear. Stitched with fishing line.
 
-**Notes:** Lead: Corky. Introduces the whole gang; Q32–Q45 require it. Content gate: Q31 offers itself only when Settings › Content › “Mature content” is set to 18+, which is off by default; Q32–Q45 inherit this gate through requires: ['Q31']. Running gag: the product is Nubbin Mittens, Corky only ever says the old name (approved quote, used twice). Step 2 needs a scripted Photo mode target on the pub bedsheet; the shot counts if the mittened Nubbin is in frame. Set collapse: bedsheet and pole fall, lantern swings; comedy crash SFX. Rook’s kick is a one-off pose animation. Mittens should mute footstep SFX. The q31-deal choice (warn Corky about Fitz’s 70/30 or stay out of it) is flavour only; Corky signs either way.
+**Notes:** Lead: Corky. Introduces the whole gang; Q32–Q45 require it. Content gate: Q31 offers itself only when Settings › Content › “Mature content” is set to 18+, which is off by default; Q32–Q45 inherit this gate through requires: ['Q31']. Running gag: the product is Nubbin Mittens, Corky only ever says the old name (approved quote, used twice). Step 2 needs a scripted Photo mode target on the pub bedsheet; the shot counts if the mittened Nubbin is in frame. Set collapse: bedsheet and pole fall, lantern swings; comedy crash SFX. Rook’s kick is a one-off pose animation. Mittens should mute footstep SFX. Corky signs either way. Payoffs: q31-deal comes back in Q45 (q45-practice-done-warned if you warned him); q31-rook comes back in Q39 (q31-rook-is-*).
 
 ## Q32. Charlie Work
 
@@ -185,16 +206,53 @@ _The goose waddles off down the stream bank, unharmed and deeply smug._
 **Dabney** _(happy)_: A pass! Because of our scheme.  
 **Corky**: Because of me, Dabney. Because of me and the stick.  
 **Dabney**: Nobody is ever going to remember the stick, Corky.  
+**Fitz** _(sad)_: Bad news on the eggs. Turns out hens keep making more.  
+**Dabney** _(angry)_: Every day. Every single day. Why did nobody tell us that?  
 _Nobody thanks him. He doesn’t seem to expect it. He hands you his spare gloves, stiff and dark with something._  
 **Corky** _(soft)_: You did good. Teach one of your little guys the long take. It’ll tidy up after itself.  
 _Grove Work: one chosen Nubbin piles up fallen fruit and leaves on its own. Filthy work gloves join your wardrobe._  
+
+#### <a id="q32-first-is-stick"></a>Variant `q32-first-is-stick`
+
+_Variant within Q32; it has no single parent scene._
+
+**Corky** _(happy)_: Stick first. You didn’t even think about it. You’re a natural, and it scares me.  
+
+#### <a id="q32-first-is-plunger"></a>Variant `q32-first-is-plunger`
+
+_Variant within Q32; it has no single parent scene._
+
+**Corky** _(think)_: Plunger first, in a cellar. Nobody’s ever done that. I’m gonna do it every time now.  
+_He will not. The rats would never stand for it._  
+
+#### <a id="q32-inspector-is-covered"></a>Variant `q32-inspector-is-covered`
+
+_Variant within Q32; it has no single parent scene._
+
+**Inspector Plimsoll**: Your choir has gone quiet. I’ll note that as an improvement.  
+_Upstairs, a single egg rolls slowly across the floorboards and stops._  
+
+#### <a id="q32-inspector-is-told"></a>Variant `q32-inspector-is-told`
+
+_Variant within Q32; it has no single parent scene._
+
+**Inspector Plimsoll**: I’ve made my note about the eggs. It says “sad”. It is underlined.  
+**Dabney** _(angry)_: You can’t underline sad!  
+
+#### <a id="q32-inspector-is-corky"></a>Variant `q32-inspector-is-corky`
+
+_Variant within Q32; it has no single parent scene._
+
+**Inspector Plimsoll** _(think)_: That man in the drain. Does he work here?  
+**Corky**: Nobody works here.  
+**Inspector Plimsoll**: He’s the only one who does.  
 
 **Rewards**
 
 - Grove Work (feature): Choose one Nubbin to gather fallen fruit and leaves into tidy piles by itself.
 - Filthy Work Gloves (cosmetic): Corky’s spare gloves. Stiff, dark, and best not sniffed.
 
-**Notes:** Lead: Corky. Stage both relay steps as one continuous tracking shot following Corky (cellar → drain → bins → back room) with the gang’s egg scheme heard through the ceiling. No animal is ever hit: the rat stick only bangs pipes, rats stroll out unharmed, the goose leaves with a pear and bites Corky. SFX: pipe clangs, drain gurgle, goose hiss and honk, muffled upstairs chatter. q32-inspector (covered / told / corky) is flavour only: the pub passes either way. The question is loyalty to the gang versus honesty, and who notices the work.
+**Notes:** Lead: Corky. Stage both relay steps as one continuous tracking shot following Corky (cellar → drain → bins → back room) with the gang’s egg scheme heard through the ceiling. No animal is ever hit: the rat stick only bangs pipes, rats stroll out unharmed, the goose leaves with a pear and bites Corky. SFX: pipe clangs, drain gurgle, goose hiss and honk, muffled upstairs chatter. q32-inspector (covered / told / corky): the pub passes either way. The question is loyalty to the gang versus honesty, and who notices the work. Payoffs: q32-first-is-* and q32-inspector-is-* play before the complete scene.
 
 ## Q33. Fight Milk
 
@@ -295,6 +353,57 @@ _A crow lands on the bar, takes a full carton in its beak, and flies off with it
 _Rook hands you a carton, and a hat folded out of an empty one. It still drips a little._  
 _Fight Milk: drink it before a karate bout for a big Power boost, and a Keeper who can’t walk straight. The carton hat joins your wardrobe._  
 
+#### <a id="q33-drink-is-chug"></a>Variant `q33-drink-is-chug`
+
+_Variant within Q33; it has no single parent scene._
+
+**Rook** _(happy)_: Put the Keeper down as “chugged the lot”. That’s what a bodyguard looks like.  
+_You hiccup. It still tastes of eggs._  
+
+#### <a id="q33-drink-is-sip"></a>Variant `q33-drink-is-sip`
+
+_Variant within Q33; it has no single parent scene._
+
+**Corky** _(happy)_: One sip, and the Keeper’s eye is still going. That’s a strong sip. Put it on the box.  
+
+#### <a id="q33-drink-is-sniff"></a>Variant `q33-drink-is-sniff`
+
+_Variant within Q33; it has no single parent scene._
+
+**Rook**: The Keeper sniffed it first. Smart bodyguard. Write that down, Corky.  
+**Corky**: I still don’t write, man.  
+
+#### <a id="q33-dabney-is-flattered"></a>Variant `q33-dabney-is-flattered`
+
+_Variant within Q33; it has no single parent scene._
+
+**Dabney** _(angry)_: You said it was good for my skin, Keeper. My skin is now a colour.  
+
+#### <a id="q33-dabney-is-dared"></a>Variant `q33-dabney-is-dared`
+
+_Variant within Q33; it has no single parent scene._
+
+**Dabney** _(think)_: For the record, I kept it down. Most of it. All of it went down at some point.  
+
+#### <a id="q33-label-is-honest"></a>Variant `q33-label-is-honest`
+
+_Variant within Q33; it has no single parent scene._
+
+_The finished cartons read SIDE EFFECTS: EVERYONE. It is the most honest thing ever sold in the pub._  
+
+#### <a id="q33-label-is-spin"></a>Variant `q33-label-is-spin`
+
+_Variant within Q33; it has no single parent scene._
+
+_The finished cartons read TESTED ON FIVE BRAVE ADULTS (AND ONE ACTRESS). Mags has signed every one._  
+
+#### <a id="q33-label-is-crows"></a>Variant `q33-label-is-crows`
+
+_Variant within Q33; it has no single parent scene._
+
+_The finished cartons read CONTAINS CROW EGGS. On the mill roof, the crows have gone very still._  
+**Corky** _(shock)_: I told you. They can read.  
+
 **Rewards**
 
 - Fight Milk (item): Single use. The Keeper drinks it before a karate bout: your fighter gets extra Power for that bout, and you wobble for a while afterwards.
@@ -314,7 +423,7 @@ Hint: Tap Cheer in the stands as the runners pass; the louder the stands, the fa
 
 #### <a id="q34-stands"></a>Scene `q34-stands`
 
-_The race stands are half full. In the middle is a man in skin-tight green spandex from head to toe, face and all._  
+_The race stands are half full. In the middle sits Corky, in skin-tight green spandex from head to toe, face and all._  
 **Corky** _(happy)_: Green Man!  
 **Dabney**: He’s been like this since breakfast. He won’t take it off. I don’t think he can take it off.  
 **Corky**: It’s a lifestyle, Dabney. In the suit, I’m free. I can’t see much, but I’m free.  
@@ -331,6 +440,19 @@ _He is drinking beer through the suit. The fabric is doing most of the drinking.
 - **Start a chant for the man in green.** — sets `{"q34-cheer":"green"}`
     - **Corky**: Yes! Yes! Me! Do me!
     - **Dabney**: You are feeding it. Why would you feed it?
+
+#### <a id="q34-cheer-is-runners"></a>Variant `q34-cheer-is-runners`
+
+_Variant of `q34-stands`._
+
+**The Announcer**: The runners would like to thank whoever started that chant. Not the green one. The other one.  
+
+#### <a id="q34-cheer-is-green"></a>Variant `q34-cheer-is-green`
+
+_Variant of `q34-stands`._
+
+_Somebody at the back is selling green paper masks. You did this._  
+**Corky** _(happy)_: You started a movement!  
 
 #### <a id="q34-climb"></a>Done `q34-climb`
 
@@ -376,6 +498,21 @@ _The race restarts. Every time a runner passes, people at the back shout for the
 **Dabney**: Oh, great. Now he has fans.  
 **Corky** _(happy)_: Here. Spare suit. I had two made. One for days, one for special days.  
 _A green bodysuit joins your wardrobe. From now on, every race has a cheering crowd in the stands._  
+
+#### <a id="q34-lap-is-dragged"></a>Variant `q34-lap-is-dragged`
+
+_Variant within Q34; it has no single parent scene._
+
+**Corky** _(sad)_: You dragged me off in front of my people.  
+**Dabney**: Your people are eating crisps, Corky.  
+
+#### <a id="q34-lap-is-lap"></a>Variant `q34-lap-is-lap`
+
+_Variant within Q34; it has no single parent scene._
+
+**Corky** _(happy)_: One lap. One perfect lap. I’m gonna tell my grandchildren.  
+**Dabney**: You don’t have grandchildren.  
+**Corky**: I’ll tell yours.  
 
 **Rewards**
 
@@ -477,6 +614,24 @@ _Silence. Then Rook starts crying, hard, into the board._
     - **Mags**: Now I’m crying. Why am I crying?
     - **Corky**: Everybody’s crying. It’s Spirit, man.
 
+#### <a id="q35-spirit-is-truth"></a>Variant `q35-spirit-is-truth`
+
+_Variant of `q35-truths`._
+
+**Corky** _(soft)_: You told a real truth at Spirit. Nobody does that. That’s why I asked you.  
+
+#### <a id="q35-spirit-is-lie"></a>Variant `q35-spirit-is-lie`
+
+_Variant of `q35-truths`._
+
+**Corky** _(happy)_: And you can tell me about the bear. On the boat. In the rain.  
+
+#### <a id="q35-spirit-is-cry"></a>Variant `q35-spirit-is-cry`
+
+_Variant of `q35-truths`._
+
+**Corky** _(soft)_: And you cried at Spirit. Proper crying. You get it. That’s why I asked you.  
+
 ### Complete
 
 #### <a id="q35-complete"></a>Complete `q35-complete`
@@ -485,8 +640,29 @@ _The candle gutters out. On the scoreboard, in Corky’s handwriting, is somethi
 **Rook** _(happy)_: Brute Force! Brute Force! We beat the champions!  
 **Mags** _(angry)_: This is a fix. You all cheated. I want a recount.  
 **Dabney** _(angry)_: There will be a rematch. And I will crush every one of you.  
+**Dabney**: Except Mags. Mags is… adequate. There. That’s my nice thing. I already drank for it.  
+**Mags** _(soft)_: That’s the nicest thing you’ve said to me since we shared a pram.  
+**Dabney**: It was a dare.  
 **Corky** _(happy)_: You take the trophy. I already licked it.  
 _You take home the board, the trophy, and a new title for your profile: Game of Games._  
+
+#### <a id="q35-answer-is-mags"></a>Variant `q35-answer-is-mags`
+
+_Variant within Q35; it has no single parent scene._
+
+**Mags** _(angry)_: For the record, I’m not the biggest disappointment. I’m the biggest talent. From a distance they look the same.  
+
+#### <a id="q35-answer-is-dabney"></a>Variant `q35-answer-is-dabney`
+
+_Variant within Q35; it has no single parent scene._
+
+**Dabney**: Still thinking about your Mind answer, Keeper. Still wrong. I wrote the rules out again to be sure.  
+
+#### <a id="q35-answer-is-board"></a>Variant `q35-answer-is-board`
+
+_Variant within Q35; it has no single parent scene._
+
+**Corky** _(sad)_: I’m still upset you pointed at the board. It never did anything to you. It’s only ever been sticky.  
 
 **Rewards**
 
@@ -514,6 +690,7 @@ _Fitz is at the pond with a raft, a bucket and a whole ham. The ham is in the bu
 **Fitz**: Beach day. There’s no beach, so the pond’s the beach. Don’t think about it.  
 _They push off. They eat the ham. They drink the ham. Within the hour both are asleep, face down on the raft._  
 _The current takes the ham. It bobs away across the pond, glistening, faintly steaming._  
+_Corky wakes, because a ham is moving._  
 **Corky** _(shock)_: The ham. The ham’s leaving. Why is the ham leaving?  
 **Fitz** _(sad)_: Get it back. That ham is my whole holiday.  
 
@@ -568,6 +745,34 @@ _The ham is too waterlogged to eat. Fitz is sad about this for nearly a minute._
 _Corky lashes the ham to a log. Your Nubbin climbs straight on and lies down, very pleased with itself._  
 _On the far bank, the goose watches your Nubbin sunbathe on the ham with naked envy._  
 _The Rum Ham pond float joins your decorations. Nubbins lounge on it whenever it’s sunny._  
+
+#### <a id="q36-promise-is-true"></a>Variant `q36-promise-is-true`
+
+_Variant within Q36; it has no single parent scene._
+
+**Fitz** _(happy)_: You promised me my ham, and there’s my ham. Wet, but mine. I’m moving you up the will.  
+**Corky**: Near the middle?  
+**Fitz**: Near the bottom. But higher.  
+
+#### <a id="q36-promise-is-false"></a>Variant `q36-promise-is-false`
+
+_Variant within Q36; it has no single parent scene._
+
+**Corky** _(soft)_: The ham made its choice, Fitz. And it chose to come back.  
+**Fitz**: It chose a Nubbin shoving it.  
+
+#### <a id="q36-goose-is-raced"></a>Variant `q36-goose-is-raced`
+
+_Variant within Q36; it has no single parent scene._
+
+_Out on the water, the goose is still honking about the race. It lost by a nose and wants a rematch._  
+
+#### <a id="q36-goose-is-egg"></a>Variant `q36-goose-is-egg`
+
+_Variant within Q36; it has no single parent scene._
+
+**Fitz** _(sad)_: That goose owes me an egg.  
+_On the far bank, the goose is sitting on Fitz’s egg. It plans to keep it._  
 
 **Rewards**
 
@@ -641,6 +846,17 @@ _The giant lantern blazes. Rook steps into the light, shirtless and oiled, holdi
 **Rook**: He’s got a giant lantern and abs you can see  
 **Rook** _(happy)_: He’ll punch the dark in the face for you and for me!  
 
+#### <a id="q37-sun-keeper-rook"></a>Variant `q37-sun-keeper-rook`
+
+_Variant of `q37-sun-keeper`._
+
+_The giant lantern blazes. Rook steps into the light with his shirt on, and a card round his neck: IT IS ME._  
+**Rook** _(happy)_: SUN KEEPER! (hey! hey!)  
+**Rook**: Lighter of the lanterns! (hey! hey!)  
+**Rook**: He’s got a giant lantern and abs you can see  
+_Nobody can see them. Rook taps the card._  
+**Rook** _(happy)_: He’ll punch the dark in the face for you and for me!  
+
 ### Complete
 
 #### <a id="q37-finale"></a>Complete `q37-finale`
@@ -651,6 +867,39 @@ _The giant lantern blazes. Rook steps into the light, shirtless and oiled, holdi
 **Dabney** _(happy)_: And your dignity.  
 **Mags**: I’m the princess and I’m meant to be the star  
 **Mags** _(angry)_: So why am I just standing here holding a jar?  
+**Everyone** _(happy)_: Night Keeper, Sun Keeper, holding hands at last  
+**Everyone**: We spent the whole budget and the lanterns are gas—  
+**Dabney** _(angry)_: Stop singing, Fitz.  
+_The crowd goes wild, mostly from relief. The open-air stage, Sun and Night capes, and the song on the jukebox are yours._  
+
+#### <a id="q37-finale-dabney"></a>Variant `q37-finale-dabney`
+
+_Variant of `q37-finale`._
+
+**Dabney** _(think)_: You want to cross my bridge? Then you pay the bridge fee.  
+**Dabney**: And what’s the fee? Whatever’s in your pockets.  
+**Dabney**: And your boots.  
+**Dabney** _(happy)_: And your dignity.  
+_Dabney bows. Then he bows again, because he is the real lead._  
+**Mags**: I’m the princess and I’m meant to be the star  
+**Mags** _(angry)_: So why am I just standing here holding a jar?  
+**Everyone** _(happy)_: Night Keeper, Sun Keeper, holding hands at last  
+**Everyone**: We spent the whole budget and the lanterns are gas—  
+**Dabney** _(angry)_: Stop singing, Fitz.  
+_The crowd goes wild, mostly from relief. The open-air stage, Sun and Night capes, and the song on the jukebox are yours._  
+
+#### <a id="q37-finale-mags"></a>Variant `q37-finale-mags`
+
+_Variant of `q37-finale`._
+
+**Dabney** _(think)_: You want to cross my bridge? Then you pay the bridge fee.  
+**Dabney**: And what’s the fee? Whatever’s in your pockets.  
+**Dabney**: And your boots.  
+**Dabney** _(happy)_: And your dignity.  
+**Mags**: I’m the princess and I’m meant to be the star  
+**Mags** _(angry)_: So why am I just standing here holding a jar?  
+_She raises the jar like a crown._  
+_It is the emotional heart of the play. She has decided._  
 **Everyone** _(happy)_: Night Keeper, Sun Keeper, holding hands at last  
 **Everyone**: We spent the whole budget and the lanterns are gas—  
 **Dabney** _(angry)_: Stop singing, Fitz.  
@@ -741,6 +990,41 @@ _The goose hisses. A small piece of pear falls out of its beak._
 _Fitz bangs the bar with a wooden mallet, then hands it to you, because he’s bored now._  
 _A gavel joins your decorations, and a “Nubbin Law” page appears in the Collection book, explaining trust, grades and alignment._  
 _The goose leaves, still chewing._  
+
+#### <a id="q38-plea-is-trust"></a>Variant `q38-plea-is-trust`
+
+_Variant within Q38; it has no single parent scene._
+
+**Corky** _(happy)_: Like I said. A well-fed bird is an honest bird. It’s law now. I scratched it into the bar.  
+
+#### <a id="q38-plea-is-maybe"></a>Variant `q38-plea-is-maybe`
+
+_Variant within Q38; it has no single parent scene._
+
+**Fitz**: For the record, the Keeper said it might have done it. I’m ignoring that. I’m a merciful judge.  
+**Corky** _(angry)_: Objection!  
+**Fitz**: To what?  
+**Corky**: Habit.  
+
+#### <a id="q38-lead-is-trust"></a>Variant `q38-lead-is-trust`
+
+_Variant within Q38; it has no single parent scene._
+
+**Fitz** _(think)_: That trust thing is swinging me. I trust the trust.  
+
+#### <a id="q38-lead-is-glow"></a>Variant `q38-lead-is-glow`
+
+_Variant within Q38; it has no single parent scene._
+
+**Dabney** _(angry)_: I still say glowing proves nothing.  
+_Your Nubbin glows a little brighter. You suspect it is doing it on purpose._  
+
+#### <a id="q38-lead-is-feather"></a>Variant `q38-lead-is-feather`
+
+_Variant within Q38; it has no single parent scene._
+
+_The goose keeps eyeing the feather on the bar. It would like it back._  
+**Corky**: Evidence stays with the court, goose.  
 
 **Rewards**
 
@@ -841,6 +1125,46 @@ _Rook tears the sleeves off his karate gi so he can “breathe on camera”, and
 **Rook**: And learn the pose. Every fighter needs a pose. This is the one I do before I don’t fight.  
 _A sleeveless karate gi joins your wardrobe, and your Nubbins can strike a pose before every karate bout._  
 
+#### <a id="q39-cart-is-moved"></a>Variant `q39-cart-is-moved`
+
+_Variant within Q39; it has no single parent scene._
+
+**Corky** _(soft)_: You tried to move the cart for me. Nobody moves the cart for me.  
+**Rook**: Because the cart was in the right place.  
+
+#### <a id="q39-cart-is-left"></a>Variant `q39-cart-is-left`
+
+_Variant within Q39; it has no single parent scene._
+
+**Corky** _(happy)_: You didn’t even look at the cart. Cold. That’s real director stuff.  
+
+#### <a id="q39-credit-is-corky"></a>Variant `q39-credit-is-corky`
+
+_Variant within Q39; it has no single parent scene._
+
+_The reel ends on a card: ALL STUNTS PERFORMED BY ROOK. Underneath, in brackets you have to squint at: (Corky)._  
+**Corky** _(happy)_: Brackets!  
+
+#### <a id="q39-credit-is-rook"></a>Variant `q39-credit-is-rook`
+
+_Variant within Q39; it has no single parent scene._
+
+_The reel ends on a card: ALL STUNTS PERFORMED BY ROOK. Corky watches it six times and claps every time._  
+
+#### <a id="q39-complete-poster"></a>Variant `q39-complete-poster`
+
+_Variant of `q39-complete`._
+
+_Corky goes off the jetty like a bag of laundry. Your Nubbin tows him back by the collar, rather proudly._  
+**Corky** _(happy)_: I nailed it. Did I nail it? I can’t feel my face.  
+**Rook** _(happy)_: That’s a wrap on Project Badass. Every stunt done by me. In spirit.  
+_Rook tears the sleeves off his karate gi so he can “breathe on camera”, and hands you the spare._  
+**Rook**: And learn the pose. Every fighter needs a pose. This is the one I do before I don’t fight.  
+**Rook** _(soft)_: It’s from the poster. I’ve never told anyone that.  
+**Corky**: You told everyone, Rook. You cried on the board.  
+**Rook** _(sad)_: …It’s still a good poster.  
+_A sleeveless karate gi joins your wardrobe, and your Nubbins can strike a pose before every karate bout._  
+
 **Rewards**
 
 - Sleeveless Karate Gi (cosmetic): Rook’s spare gi, sleeves torn off for maximum arm.
@@ -896,7 +1220,7 @@ _Halfway down, inside the tube, there is a thud. Then nothing. Then two voices._
 **Mags** _(shock)_: Why is it wet?  
 **Fitz**: It’s a waterslide, Mags.  
 _Water is backing up behind them. The tube creaks._  
-**Fitz**: Hurry up! She’s flapping about like a wet heron in a drainpipe!  
+**Fitz**: Hurry up! If this dries, it’s a sandwich with a view.  
 **Mags** _(angry)_: Get. Us. Out.  
 
 **Choices**
@@ -937,11 +1261,55 @@ _At the bottom of the hill, a long queue of damp neighbours and their Nubbins is
 _A Nubbin climbs the hill, sits at the top of the slide and whooshes into the pond. It runs straight back up for another go._  
 _The waterslide is yours. Nubbins slide down it for fun, and it nudges them towards Swim._  
 
+#### <a id="q40-tube-is-yours"></a>Variant `q40-tube-is-yours`
+
+_Variant within Q40; it has no single parent scene._
+
+**Mags**: And for the record, the tube was my idea. The Keeper just said it first. Out loud. Near me.  
+
+#### <a id="q40-tube-is-hers"></a>Variant `q40-tube-is-hers`
+
+_Variant within Q40; it has no single parent scene._
+
+**Dabney**: The Keeper said leave it open, so people could get out. I wrote that down. I’ll read it at the inquiry.  
+**Mags** _(angry)_: There’s no inquiry!  
+
+#### <a id="q40-rescue-is-push"></a>Variant `q40-rescue-is-push`
+
+_Variant within Q40; it has no single parent scene._
+
+**Fitz** _(angry)_: Somebody pushed me through a tube by my sandwich. I won’t forget it.  
+
+#### <a id="q40-rescue-is-pull"></a>Variant `q40-rescue-is-pull`
+
+_Variant within Q40; it has no single parent scene._
+
+**Fitz**: Somebody pulled my leg first. Thought it was Mags’s. It’s my good leg.  
+**Mags** _(angry)_: You don’t have a good leg.  
+
+#### <a id="q40-tickets-is-refund"></a>Variant `q40-tickets-is-refund`
+
+_Variant within Q40; it has no single parent scene._
+
+_The refunded queue rides anyway, for nothing, and says thank you. Dabney finds this physically painful._  
+
+#### <a id="q40-tickets-is-honour"></a>Variant `q40-tickets-is-honour`
+
+_Variant within Q40; it has no single parent scene._
+
+**Dabney** _(think)_: Not one complaint. A scam with no victims. Is that just a shop?  
+
+#### <a id="q40-tickets-is-cut"></a>Variant `q40-tickets-is-cut`
+
+_Variant within Q40; it has no single parent scene._
+
+**Corky** _(think)_: Don’t spend your shell yet. It might be the last one.  
+
 **Rewards**
 
 - Waterslide (decor): A wobbly slide from the hilltop into the pond. Nubbins ride it for fun, which gives them a small lean towards Swim.
 
-**Notes:** Lead: Mags. The tube gets built whichever choice the player makes (Mags always overrules); the flag only records who suggested it. Corky and Dabney are off-screen during step 2. Unstick minigame: tilt and pull with water rising behind the stuck pair; failure just resets with a gush of water. No Nubbins go in the slide until it is fixed. q40-tickets (refund / honour / cut) is flavour; “cut” gives 1 shell.
+**Notes:** Lead: Mags. The tube gets built whichever choice the player makes (Mags always overrules); the flag only records who suggested it. Corky and Dabney are off-screen during step 2. Unstick minigame: tilt and pull with water rising behind the stuck pair; failure just resets with a gush of water. No Nubbins go in the slide until it is fixed. “cut” gives 1 shell. Payoffs: q40-tube-is-*, q40-rescue-is-* and q40-tickets-is-* play before the complete scene.
 
 ## Q41. The Gang Wrestles for the Troops
 
@@ -1018,12 +1386,45 @@ _Dabney slips on his own oil and leaves the ring backwards. The referee, who is 
 **Fitz**: Most of the shells. Some shells. A shell. Take the costumes. Feathers, peel, the lot. The smell’s free.  
 _The wrestling costumes join your wardrobe. In karate, two of your Nubbins can now share a bout as a tag team._  
 
+#### <a id="q41-entrance-is-bin"></a>Variant `q41-entrance-is-bin`
+
+_Variant within Q41; it has no single parent scene._
+
+_You still smell of the bin. Somewhere in the crowd, a chant starts: “Trash Pal! Trash Pal!”_  
+
+#### <a id="q41-entrance-is-steps"></a>Variant `q41-entrance-is-steps`
+
+_Variant within Q41; it has no single parent scene._
+
+**Fitz** _(angry)_: Partner who uses steps! At least try to smell like a bin. Roll in something.  
+
+#### <a id="q41-deal-is-refused"></a>Variant `q41-deal-is-refused`
+
+_Variant within Q41; it has no single parent scene._
+
+_Pim leans over and asks you, very quietly, what it would cost for you to bowl badly._  
+**Dabney**: Don’t bother bribing the Keeper, Pim. I tried. It was humiliating.  
+
+#### <a id="q41-deal-is-double-crossed"></a>Variant `q41-deal-is-double-crossed`
+
+_Variant within Q41; it has no single parent scene._
+
+_Pim leans over and asks you, very quietly, what it would cost for you to bowl badly._  
+**Dabney**: Don’t make deals with the Keeper, Pim. The Keeper takes them, then wins anyway.  
+
+#### <a id="q41-deal-is-told"></a>Variant `q41-deal-is-told`
+
+_Variant within Q41; it has no single parent scene._
+
+_Pim leans over and asks you, very quietly, what it would cost for you to bowl badly._  
+**Fitz** _(angry)_: And nobody offer the Keeper a split. The Keeper tells.  
+
 **Rewards**
 
 - Tag-Team Karate (feature): Two of your Nubbins can share one karate bout, swapping in and out.
 - Wrestling Costumes (cosmetic): The Trash Man’s peel-covered vest and a feathered Feathers and Fury cape.
 
-**Notes:** Lead: Fitz. The quest bout is a scripted tag-team karate bout against Rook and Dabney (use the karate UI with their portraits); no person ever strikes a Nubbin: Rook lands in the bin and Dabney slips on his own oil. Trash Man entrance: bin lid lift, peel particles, crowd scream. Fitz eats from the bin on screen (gross-out is fine, keep it a quick gag). Dabney’s offer to throw the bout is a flavour choice (q41-deal); the step is still won in the karate UI.
+**Notes:** Lead: Fitz. The quest bout is a scripted tag-team karate bout against Rook and Dabney (use the karate UI with their portraits); no person ever strikes a Nubbin: Rook lands in the bin and Dabney slips on his own oil. Trash Man entrance: bin lid lift, peel particles, crowd scream. Fitz eats from the bin on screen (gross-out is fine, keep it a quick gag). Dabney’s offer to throw the bout is a choice (q41-deal); the step is still won in the karate UI. It pays off in Q45 (q41-deal-is-*, when Pim tries the same). q41-entrance-is-* plays before the bout.
 
 ## Q42. Pepe Silvia
 
@@ -1090,6 +1491,19 @@ _The Nubbin looks at Corky. Corky looks at the Nubbin. The Nubbin hands him the 
 **Corky** _(happy)_: I’m keeping the wall. The wall was right, it was just right about different stuff.  
 _Corky gives you the conspiracy board anyway, string and all. A red-string conspiracy board joins your decorations._  
 
+#### <a id="q42-believe-is-true"></a>Variant `q42-believe-is-true`
+
+_Variant within Q42; it has no single parent scene._
+
+**Corky** _(soft)_: You believed me. Even when it was mad. I’m putting you on the wall. With the good string.  
+
+#### <a id="q42-believe-is-false"></a>Variant `q42-believe-is-false`
+
+_Variant within Q42; it has no single parent scene._
+
+**Corky**: You asked when I last slept. It was Tuesday. I’m gonna sleep now. Right here. In the hedge.  
+_He does. Your Nubbin covers him with a leaf._  
+
 **Rewards**
 
 - Red-String Conspiracy Board (decor): Corky’s wall of notes, pear stalks and red string. It explains everything, if you don’t look closely.
@@ -1115,7 +1529,7 @@ _Fitz has bought a crate of fireworks. Rook has bought a leather jacket two size
 **Mags**: And me?  
 **Fitz**: You’re a body in the river.  
 **Mags** _(angry)_: A dead body? I can act! I’ve got range!  
-**Dabney**: You’ll be perfect, Mags. Just lie still and look like a wet egret.  
+**Dabney**: You’ll be perfect, Mags. Just lie still. You’ve been rehearsing for years.  
 **Rook**: Keeper, you’re on camera. Nubbins are the extras. Scene one: the car chase.  
 _There is no car. There is a wheelbarrow with two headlights painted on it, and Corky, ready to push._  
 
@@ -1186,6 +1600,34 @@ _The fight lasts four seconds. Both men fall into the stream. Mags is landed on 
 _Fitz shows you how to keep the camera rolling instead of taking one picture. He breaks it twice doing so._  
 _Movie mode is now part of Photo mode: record a short clip and save it._  
 
+#### <a id="q43-extras-is-back"></a>Variant `q43-extras-is-back`
+
+_Variant within Q43; it has no single parent scene._
+
+**Fitz**: The extras were too far back. You can’t see them. They’re dots. Very safe dots.  
+
+#### <a id="q43-extras-is-cheering"></a>Variant `q43-extras-is-cheering`
+
+_Variant within Q43; it has no single parent scene._
+
+_The Nubbin extras cheer every take, including the ones where Rook falls over. Those most of all._  
+
+#### <a id="q43-mags-is-line"></a>Variant `q43-mags-is-line`
+
+_Variant within Q43; it has no single parent scene._
+
+**Mags** _(happy)_: I said my line. Most of it. It’s going on my reel.  
+**Rook**: You don’t have a reel.  
+**Mags** _(happy)_: I do now. It’s ten words long.  
+
+#### <a id="q43-mags-is-dead"></a>Variant `q43-mags-is-dead`
+
+_Variant within Q43; it has no single parent scene._
+
+**Fitz**: Best corpse I’ve ever worked with, and I’ve worked with a lot of corpses.  
+**Mags** _(happy)_: Thank you!  
+**Dabney**: Don’t ask him, Keeper.  
+
 **Rewards**
 
 - Movie Mode (feature): A new Photo mode option: record a short clip of your Grove and save it.
@@ -1208,6 +1650,7 @@ _There is a drawing at your gate. A cow. A fork. An arrow pointing down the vall
 **Corky** _(happy)_: You came! I booked us a table. The fanciest place in the valley. The Gilded Pear.  
 _He is wearing a suit jacket over his work overalls, and a tie made from a sock._  
 **Corky**: I save all year. I eat here once, on my birthday. Which is today. Right now.  
+**Corky** _(soft)_: I put two chairs out last year. Mr Tallis took one back at nine.  
 **Corky**: You gotta look nice. They don’t let you in if you look like me. Well, they do now. They know me.  
 **Corky** _(think)_: And you let me order. I know the good stuff. The stuff that’s not on the menu.  
 
@@ -1262,6 +1705,18 @@ _Corky finishes his in four bites. Then he looks at your plate. Then at you._
 - **Try to slip a piece onto Corky’s plate.** — sets `{"q44-method":"slip"}`
     - **Corky**: Hey, no. That’s yours. That’s a gift. You don’t give back a gift.
 
+#### <a id="q44-order-is-milk"></a>Variant `q44-order-is-milk`
+
+_Variant of `q44-order`._
+
+**Corky** _(soft)_: You ordered what I ordered. On purpose. I saw you.  
+
+#### <a id="q44-order-is-trout"></a>Variant `q44-order-is-trout`
+
+_Variant of `q44-order`._
+
+**Mr Tallis**: (quietly) The trout will be here next year. So will I. Courage.  
+
 ### Complete
 
 #### <a id="q44-complete"></a>Complete `q44-complete`
@@ -1273,12 +1728,44 @@ _He pays in coins from a jam jar and wraps the leftovers in his sock tie._
 **Corky**: Take some for the little guys. Fills ’em right up. They hate it, but it fills ’em up.  
 _Milk steak joins your items: a huge, grim meal that fills a Nubbin’s hunger completely. You keep the napkin bib._  
 
+#### <a id="q44-outfit-is-smart"></a>Variant `q44-outfit-is-smart`
+
+_Variant within Q44; it has no single parent scene._
+
+**Mr Tallis**: May I say, you are the best-dressed guest Mr Corky has ever brought.  
+**Corky** _(happy)_: I’ve never brought anyone.  
+**Mr Tallis** _(soft)_: I know, sir.  
+
+#### <a id="q44-outfit-is-sock"></a>Variant `q44-outfit-is-sock`
+
+_Variant within Q44; it has no single parent scene._
+
+**Mr Tallis** _(shock)_: Two sock ties. At one table. I will be telling my wife about this.  
+
+#### <a id="q44-method-is-beans"></a>Variant `q44-method-is-beans`
+
+_Variant within Q44; it has no single parent scene._
+
+**Corky** _(happy)_: You used the beans. You’re a bean person now. There’s no going back.  
+
+#### <a id="q44-method-is-nose"></a>Variant `q44-method-is-nose`
+
+_Variant within Q44; it has no single parent scene._
+
+_You let go of your nose. That was also a mistake._  
+
+#### <a id="q44-method-is-slip"></a>Variant `q44-method-is-slip`
+
+_Variant within Q44; it has no single parent scene._
+
+_The piece you slipped onto Corky’s plate is back on yours. He has been guarding it like a gift._  
+
 **Rewards**
 
 - Milk Steak (item): A grey steak boiled in milk. Fills a Nubbin’s hunger completely; it eats it with a visible shudder.
 - Napkin Bib (cosmetic): A starched restaurant napkin, tucked in at the collar. Splattered.
 
-**Notes:** Lead: Corky. Corky’s order is in his own words (not the show’s). q44-order (milk / trout) is flavour: the kitchen serves milk steak either way. Eating minigame: tap to bite, a queasy meter rises per bite and falls with water; full meter = run outside, retry. Feeding milk steak to a Nubbin plays a shudder then a contented full-belly idle; no harm, no stat penalty. Art: two grey steaks in milk skin, jelly beans in a gravy boat, Corky’s sock tie.
+**Notes:** Lead: Corky. Corky’s order is in his own words (not the show’s). q44-order (milk / trout): the kitchen serves milk steak either way; q44-order-is-* and q44-method-is-* play before the complete scene, q44-outfit-is-* before the meal, q35-spirit-is-* after the drawing. Eating minigame: tap to bite, a queasy meter rises per bite and falls with water; full meter = run outside, retry. Feeding milk steak to a Nubbin plays a shudder then a contented full-belly idle; no harm, no stat penalty. Art: two grey steaks in milk skin, jelly beans in a gravy boat, Corky’s sock tie.
 
 ## Q45. The Gang Goes Bowling
 
@@ -1316,6 +1803,19 @@ _Their ball is a melon. Nobody questions this._
 
 _On your fortieth try, every pin goes down. Corky, who was standing behind them, also goes down._  
 **Corky** _(happy)_: Strike! And me! Two strikes!  
+**Dabney**: By the way. Forty percent of the mittens. I want it in writing. On a beer mat.  
+**Fitz**: Seventy-thirty. I’m the seventy. I’m also the thirty.  
+**Corky** _(happy)_: I don’t know what any of those numbers mean, but I’m in.  
+
+#### <a id="q45-practice-done-warned"></a>Variant `q45-practice-done-warned`
+
+_Variant of `q45-practice-done`._
+
+_On your fortieth try, every pin goes down. Corky, who was standing behind them, also goes down._  
+**Corky** _(happy)_: Strike! And me! Two strikes!  
+**Dabney**: By the way. Forty percent of the mittens. I want it in writing. On a beer mat.  
+**Corky** _(happy)_: Thirty mittens, Fitz. The Keeper told me. I counted them twice.  
+**Fitz** _(angry)_: Stay out of my business, Keeper. Still.  
 
 ### Step 2: Win the bowling match against Highbank.
 
@@ -1329,6 +1829,9 @@ _Match day. Half the Grove is behind the pub. The Highbank team warms up in sile
 **Mags**: You bowl like a cow trying to sit on a stool.  
 **Pim Ashdown**: Says the woman built like a heron on stilts.  
 **Mags** _(angry)_: I am NOT a bird!  
+**Dabney**: You’ve been a pelican, a flamingo and three herons this year. One of the herons was your idea.  
+**Mags** _(shock)_: Who’s been COUNTING?  
+**Dabney**: Everyone, Mags.  
 **Rook**: Rook bowls first. Rook always bowls first. A kata before every roll, to scare them.  
 _Rook does a kata. It takes four minutes. He rolls straight into the gutter._  
 **Corky** _(think)_: It’s on you and me, Keeper. If we lose, Fitz sells the pub, and I live in the pub.  
@@ -1358,9 +1861,47 @@ _The melon curves, wobbles, and takes out all twelve pins in a spray of seeds._
 **Fitz**: I hedged. I won the boat and lost half the bet. Down forty shells, up one boat I can’t sail.  
 **Fitz**: That’s called a profit. In my head.  
 **Dabney**: The lane stays. We’re bowlers now. It’s part of my brand.  
-**Dabney**: By the way. Forty percent of the mittens. I want it in writing. On a beer mat.  
-**Fitz**: Seventy-thirty. I’m the seventy. I’m also the thirty.  
-**Corky** _(happy)_: I don’t know what any of those numbers mean, but I’m in.  
+_Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play._  
+_A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe._  
+
+#### <a id="q45-talk-is-trash"></a>Variant `q45-talk-is-trash`
+
+_Variant within Q45; it has no single parent scene._
+
+**Pim Ashdown**: Still bringing a mop, by the way. For afterwards. For you.  
+
+#### <a id="q45-talk-is-polite"></a>Variant `q45-talk-is-polite`
+
+_Variant within Q45; it has no single parent scene._
+
+**Pim Ashdown**: Firm handshake yesterday. I respected it. I’m still going to crush you.  
+**Rook** _(angry)_: See? Weakness. He can smell it.  
+
+#### <a id="q45-complete-exposed"></a>Variant `q45-complete-exposed`
+
+_Variant of `q45-complete`._
+
+_The melon curves, wobbles, and takes out all twelve pins in a spray of seeds._  
+**Corky** _(happy)_: We won! We kept the pub! I still live in the pub!  
+**Pim Ashdown** _(angry)_: Rematch. Next season. Bring a real ball.  
+**Fitz** _(happy)_: And we won a boat! Who wants a boat? I’m selling it. Tonight.  
+**Fitz** _(sad)_: I hedged, the Keeper told everyone, and I still lost half.  
+**Fitz**: Honesty costs forty shells. Nobody warned me.  
+**Dabney**: The lane stays. We’re bowlers now. It’s part of my brand.  
+_Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play._  
+_A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe._  
+
+#### <a id="q45-complete-doubled"></a>Variant `q45-complete-doubled`
+
+_Variant of `q45-complete`._
+
+_The melon curves, wobbles, and takes out all twelve pins in a spray of seeds._  
+**Corky** _(happy)_: We won! We kept the pub! I still live in the pub!  
+**Pim Ashdown** _(angry)_: Rematch. Next season. Bring a real ball.  
+**Fitz** _(happy)_: And we won a boat! Who wants a boat? I’m selling it. Tonight.  
+**Fitz** _(shock)_: I moved the lot onto the Keeper. Up forty shells and a boat I can’t sail.  
+**Fitz**: First time I’ve ever backed a winner. I feel sick.  
+**Dabney**: The lane stays. We’re bowlers now. It’s part of my brand.  
 _Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play._  
 _A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe._  
 
@@ -1369,4 +1910,4 @@ _A bowling lane joins your decorations, playable any time, and a bowling shirt j
 - Bowling Lane (decor): A plank lane with twelve wooden pins and a melon. Play it any time.
 - Bowling Shirt (cosmetic): A stained bowling shirt with someone else’s name on the pocket.
 
-**Notes:** Lead: Corky. Bowling minigame: aim line + curve, twelve pins in a triangle, the ball is a melon (seed splash on a strike). In the match the gang bowls automatically (badly) and the player bowls the last three frames; Pim’s trash talk pops up as barks during the run-up. The boat is flavour only; Fitz sells it off-screen. The pub is never actually at risk: losing just restarts the match. q45-hedge (exposed / quiet / doubled) records what you did about Fitz betting on Highbank.
+**Notes:** Lead: Corky. Bowling minigame: aim line + curve, twelve pins in a triangle, the ball is a melon (seed splash on a strike). In the match the gang bowls automatically (badly) and the player bowls the last three frames; Pim’s trash talk pops up as barks during the run-up. The boat is flavour only; Fitz sells it off-screen. The pub is never actually at risk: losing just restarts the match. q45-hedge (exposed / quiet / doubled) picks q45-complete (quiet), q45-complete-exposed or q45-complete-doubled; q45-talk-is-* plays before the match.

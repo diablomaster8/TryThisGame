@@ -1893,7 +1893,7 @@ _Everyone turns to look at Mount Grumble, high above the village. A thin thread 
 
 _Above Hillstead, Mount Grumble sends up a thin grey thread of smoke. Tuk stares at it._  
 **Tuk**: Everyone here trusts clouds over common sense. I’m going up there. I want to see with my own eyes.  
-**Pemba**: I’ll come! Puffin can fly us most of the way.  
+**Pemba**: I’ll come! Puffin, my sky bison, can fly us most of the way. Or my glider, if he’s sulking.  
 **Nalu**: I’ll stay and talk to the villagers. Just in case.  
 _At the top, the air is hot and smells of boiled eggs. Inside the crater, red rock bubbles and hisses._  
 
@@ -2349,7 +2349,7 @@ _The records hall is dark and dusty. Shelves stretch back and back, each one lab
 > _For grown-ups: Ordered four-digit years from oldest (smallest) to newest (largest)._
 
 _Your Nubbin squeezes behind the oldest shelf. There is a sneeze, a scrabble and a cloud of dust._  
-_It comes back out holding a scroll sealed with Marshal Brag’s own stamp._  
+_It comes back out holding a scroll sealed with Marshal Brag’s own stamp, and an old map it has been using as a blanket._  
 **Nalu**: It’s his diary. Written by Brag himself. Look at this entry. And this one.  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): a diary is evidence from the time  
@@ -2390,7 +2390,7 @@ _The crowd murmurs. Someone at the back takes off a Marshal Brag hat and quietly
 
 **Choices**
 
-- **Show the founding stone that thanks Avatar Kesh**
+- **Point at the founding stone under the statue**
     - **Mayor Tibbs**: “Thank you, Kesh, for our peace.” It was under the statue all along!
 - **Show the old map with Kettleby on Kesh’s side**
     - **Mayor Tibbs**: We were… on her island. Oh dear. She was protecting us.
@@ -2527,6 +2527,9 @@ _On the snowy hill, a line of penguins waddles past, sleek and round and not at 
 > _For grown-ups: Learned that penguins are flightless birds that swim, eat fish and slide on their bellies._
 
 _Your Nubbin is already holding out a fish to the smallest penguin. The penguin considers it carefully._  
+**Pemba**: Race you to the bottom! Loser carries the fish!  
+_The smallest penguin takes the fish, looks at Pemba, and waddles over to your Nubbin instead. It has chosen._  
+**Tuk**: That penguin has better judgement than most of us.  
 
 #### `reader:q62-sled-done` · [main](../../../fun/avatar.md#q62-sled-done)
 
@@ -2651,7 +2654,7 @@ _Your Nubbin is already climbing the highest wall in sight, chewing a leaf thoug
 #### `reader:q63-pet-done` · [main](../../../fun/avatar.md#q63-pet-done)
 
 _You find Biscuit on a rooftop, eating a cabbage from a cart that looks very familiar._  
-_Somewhere far below, a familiar voice wails._  
+**The cabbage merchant**: Not the cabbages! Not up there!  
 **Tuk**: I know that wail. Somebody’s having a bad cabbage day.  
 **King Rumbold**: Biscuit! You found him! That’s two!  
 _Biscuit chews the last leaf, looks at you, and burps._  
@@ -2768,6 +2771,8 @@ _Behind a broken pillar, you find Kaito pacing in circles, muttering to a rock._
 > _For grown-ups: Learned that rehearsing out loud makes a hard moment easier._
 
 **Kaito**: The problem is, I keep getting it wrong. Last time I said “I have changed” and then stood there for a whole minute.  
+**Kaito**: I chased them right round the world in a very loud boat. All summer. At night.  
+**Kaito**: In my defence, I was very tired. In nobody’s defence, I was very loud.  
 _Your Nubbin climbs onto the rock and sits on it, as if it were the audience._  
 **Kaito**: Can you listen? Tell me if it’s bad. It’s going to be bad. Okay. Here goes.  
 

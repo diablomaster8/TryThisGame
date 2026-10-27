@@ -1784,7 +1784,7 @@ const LH6: EduQuest = quest(
         act(
           'music',
           'a call-and-response chant reviewing the questline',
-          4,
+          6,
           'edu:chant:he:lh6',
           [
             N('(Say them: ah-DOME, yah-ROKE, ko-KHAV, yah-REH-akh.)'),

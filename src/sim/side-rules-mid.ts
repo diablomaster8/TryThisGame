@@ -92,8 +92,12 @@ const S30: StoryRule = {
       case 's30-gone':
       case 's30-hollow':
       case 's30-hill':
-      case 's30-complete':
         return helped ? `${scene}-helped` : scene;
+      case 's30-complete': {
+        // The ring's three answers each close the story their own way (SR-20261027-1258).
+        const ring = flag(c, 's30-ring');
+        return ring === 'helped' || ring === 'broke' || ring === 'sat' ? `${scene}-${ring}` : scene;
+      }
       default:
         return scene;
     }
@@ -205,6 +209,11 @@ const S31: StoryRule = {
         return sable ? 's31-light-sable' : scene;
       case 's31-promise':
         return away ? 's31-promise-went' : scene;
+      // Refusing to be Ned's witness (s31-witness) changes the kick and who gives the rock
+      // (SR-20261027-1257).
+      case 's31-kick':
+      case 's31-rock':
+        return flag(c, 's31-witness') === 'refused' ? `${scene}-refused` : scene;
       case 's31-complete': {
         const letter = flag(c, 's31-letter');
         return letter === 'strays'

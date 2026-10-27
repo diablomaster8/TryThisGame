@@ -579,6 +579,7 @@ _He has never shared his lunch before._
 > - No → Everyone got one square each. That’s fair sharing!
 > _For grown-ups: Your child talked about why sharing so everyone gets some is fair._
 
+_The duck comes back. Mr. Tweed gives it half his crust._  
 _The Nubbins snuggle in a sleepy pile on the blanket._  
 _Mr. Tweed goes to fold it. Then he stops._  
 _He leaves it there, for the sleeping Nubbins._  
@@ -695,11 +696,41 @@ _The teeny bear hides in your collar until the Warden goes._
 
 - **Tell her: it’s a photo. There was a sneeze.**
     - **Warden Pryce**: A sneeze. Of course.
+    - **Warden Pryce**: Did the moustache sneeze too?
     - **Warden Pryce**: You know what? I like this one better. It stays.
     - Mr. Tweed gives her the old painting, rolled up.
 - **Say nothing. Just smile.**
     - **Warden Pryce**: Well. Good work, both of you.
     - The door closes. Mr. Tweed breathes out at last.
+
+#### `sprout:q27-complete-told` · [main](../../../fun/bean.md#q27-complete-told)
+
+_Variant of `q27-complete`._
+
+_The Warden looks at the picture. For a long, long time._  
+**Warden Pryce**: It looks… brighter. And that Keeper has your chin.  
+_Mr. Tweed looks at the ceiling. Half a moustache is still on his lip._  
+_Behind his back, he gives you a pile of empty frames._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): owning up to accidents  
+> _Something went wrong by accident. What is the best thing to do?_  
+> - ✅ Tell the truth → Yes. Accidents happen. Telling the truth helps fix them.
+> - Hide it → Hiding feels worse inside. Telling the truth helps fix it.
+> _For grown-ups: Your child thought about telling the truth after an accident._
+
+_The teeny bear hides in your collar until the Warden goes._  
+
+**Choices**
+
+- **Tell her: it’s a photo. There was a sneeze.**
+    - **Warden Pryce**: A sneeze. Of course.
+    - **Warden Pryce**: Did the moustache sneeze too?
+    - **Warden Pryce**: You know what? I like this one better. It stays.
+    - Mr. Tweed gives her the old painting, rolled up.
+- **Say nothing. Just smile.**
+    - **Warden Pryce**: Well. Good work, both of you.
+    - The door closes. Mr. Tweed breathes out at last.
+    - Mr. Tweed points at the clock, then at you. Now we tell.
 
 ## Q28. The Yellow Room
 
@@ -870,6 +901,7 @@ _…and lands in his hat. Plop!_
 
 _All afternoon, nobody puts the egg down._  
 _Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it._  
+_Mr. Tweed keeps his hat ready, just in case._  
 _You put a blanket in a fruit box, and add wheels._  
 _A stone at each end stops it rolling._  
 _The egg tries the box. There is room for two._  

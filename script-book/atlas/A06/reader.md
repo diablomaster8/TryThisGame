@@ -1109,6 +1109,7 @@ _Sinbad thanks the sailors, and doesn’t say much else for a while._
 _The lamps in the long room. The porter has stopped eating altogether._  
 **Sinbad the Porter**: I’m sorry about your wife.  
 **Sinbad the Sailor**: Thank you. Nobody has said that to me in forty years. I never told anyone that part properly.  
+**Sinbad the Sailor**: That is the truth about this house, porter. It was paid for, and some of it in ways I wouldn’t sell you.  
 
 > **Lesson** (literacy, RL.4.2, notice): theme: what looks like luck can hide a cost  
 > **Nova**: Nova’s notes: the old man says his house was “paid for.” In stories, a rich person’s comfort often hides a past cost.  
@@ -1116,7 +1117,6 @@ _The lamps in the long room. The porter has stopped eating altogether._
 > **Nova**: Noticing a hidden cost is a way readers work out a theme: here, that what we see of someone’s life is only half the truth.  
 > _For grown-ups: Noticed a theme (what we see of others is half the story) from the old man’s words._
 
-**Sinbad the Sailor**: That is the truth about this house, porter. It was paid for, and some of it in ways I wouldn’t sell you.  
 **Sinbad the Porter**: I said a foolish thing on your bench.  
 **Sinbad the Sailor**: You said a true thing on my bench. It was only half the truth. Come back for the other half.  
 
@@ -2039,6 +2039,7 @@ _It is a sail, folded small: old canvas, salt-stained, with a patch on it you ha
 **Sinbad the Sailor**: Hang it somewhere you can see the wind. It’s no use to me now. I don’t go anywhere.  
 **Sinbad the Porter**: Then give me one more evening. Next time, you’ll hear mine.  
 **Sinbad the Sailor**: Yours?  
+**Sinbad the Porter**: I’ve been listening for seven nights. I think I’ve got one.  
 
 > **Lesson** (literacy, RL.3.3, notice): a character decides to become a teller  
 > **Nova**: Nova’s notes: the porter has spent seven nights as a listener, and now says he has “got one”: a story of his own.  
@@ -2046,7 +2047,6 @@ _It is a sail, folded small: old canvas, salt-stained, with a patch on it you ha
 > **Nova**: Notice that he doesn’t say he is clever or brave. He says he has been listening. Listening, the story suggests, is where telling begins.  
 > _For grown-ups: Noticed how a character changes from listener to teller._
 
-**Sinbad the Porter**: I’ve been listening for seven nights. I think I’ve got one.  
 
 ### Glossary
 

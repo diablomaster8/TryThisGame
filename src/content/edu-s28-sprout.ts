@@ -242,7 +242,7 @@ const SCENES: EduScene[] = [
         skill: 'clapping the syllables in a word',
         standard: 'RF.K.2',
         kind: 'do',
-        after: 2,
+        after: 3,
         check: 'edu:clap:syllables:marmalade',
         lines: [
           N('Let’s clap “marmalade” together. Mar-ma-lade!'),

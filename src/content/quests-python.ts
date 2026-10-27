@@ -8,7 +8,7 @@
  * never set a campaign flag. They do not appear during Chapters 9–11.
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const say =
   (who: string) =>
@@ -1186,6 +1186,7 @@ export const QUESTS_PYTHON: Quest[] = [
             PX('SHH.', 'angry'),
             PX('It needs proper stone towers. Real ones. Little ones. Will you help? Byte clearly won’t.'),
             BY('I am drinking my tea.', 'think'),
+            N('There is a tea stain on the lolly-stick drawbridge. Byte moves his cup behind his back.'),
           ],
           choices: [
             {
@@ -1257,6 +1258,7 @@ export const QUESTS_PYTHON: Quest[] = [
         BY('Still quite small, I’d say…', 'think'),
         N('Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the tea instead.'),
         BY('It is a very good model.', 'soft'),
+        BY('The drawbridge is load-bearing. I tested it. Twice.'),
       ],
     },
     rewards: [
@@ -1376,7 +1378,10 @@ export const QUESTS_PYTHON: Quest[] = [
         RG('That was a private teapot.', 'sad'),
         FQ('Dear. It’s a municipal aqueduct.'),
         RG('…Motion to thank the Keeper. All in favour.', 'sad'),
-        N('Every hand goes up, Reggie’s last and slowly. The crops beside the aqueduct will never need watering again.'),
+        N('Every hand goes up, Reggie’s last and slowly.'),
+        N('Frannie pulls out the fourth chair for you. It has had your name on it since item one.'),
+        MG('Biscuit?'),
+        N('The crops beside the aqueduct will never need watering again.'),
       ],
     },
     rewards: [
@@ -1939,7 +1944,7 @@ export const QUESTS_PYTHON: Quest[] = [
         FM('Keep the toy, though. No charge. It’s grown on me. In a way that isn’t growing.', 'soft'),
         N('You carry it home. Your Nubbins take it straight to the nest and pile round it.'),
         N('By evening they are fast asleep, cuddled up to the plush Nubbin, who is having a genuinely lovely rest.'),
-        N('From now on the shop takes things back, if you can explain what is wrong with them.'),
+        N('From now on the shop takes things back within a day. You needn’t explain, though Mr Fenwick Mull will ask, hopefully.'),
       ],
     },
     rewards: [
@@ -2127,7 +2132,7 @@ export const QUESTS_PYTHON: Quest[] = [
             BO('Soft. Very soft. You have been warned.', 'think'),
             PO('Your Nubbins look tired. Overworked. Under-napped. We shall see to that. Sister Tuft!'),
             PO('Fetch… the comfy chair!', 'angry'),
-            TF('We left it at your Workshop. You said you’d carry it.', 'sad'),
+            TF('We left it at your Workshop. Brother Pouffe said he’d carry it.', 'sad'),
             PO('…Keeper. Would you be so good as to fetch the comfy chair?', 'sad'),
           ],
           choices: [
@@ -2398,7 +2403,7 @@ export const QUESTS_PYTHON: Quest[] = [
     source: 'Monty Python’s Flying Circus: the Argument Clinic',
     audience: 'all',
     trigger: { where: 'Byte’s booth outside the Workshop', when: WHEN },
-    speakers: [BYTE],
+    speakers: [BYTE, PIXEL],
     steps: [
       {
         id: 'q16-s1',
@@ -2512,6 +2517,10 @@ export const QUESTS_PYTHON: Quest[] = [
         BY('And I am putting you on the board. Debate Club. Founding member. There are no other members.', 'happy'),
         Y('Is there a club?'),
         BY('There is now. Do not argue.'),
+        N('Pixel leans out of the Workshop window with a spanner.'),
+        PX('Did you win? Nobody wins. I’ve been married to the man in that booth for twenty years.', 'happy'),
+        BY('Disagree.'),
+        PX('See?'),
       ],
     },
     rewards: [
@@ -3078,6 +3087,54 @@ export const QUESTS_PYTHON: Quest[] = [
       'twice; both swapped in childLines. ' +
       'The giant foot in the complete scene is a one-off cut-in: a cut-out-style foot descends over the orchard, pauses, and lifts away, with no sound but a soft thump.',
   },
+];
+
+/**
+ * Variant scenes for the fun-pack rules (src/sim/fun-pack-rules.ts): each is the quest's
+ * complete scene with the payoff to an earlier choice written in. The base scene stays the
+ * fallback when the flag is missing.
+ *   q04-complete-kept / -shared   by q04-kept or q04-shared
+ *   q06-complete-shouted / -laughed / -knocked   by q06-shouted, else q06-laughed, else q06-knocked
+ *   q09-complete-themselves / -pebble   by q09-ruling === 'themselves', else any other ruling
+ */
+const completeWith = (qid: string, id: string, at: number, add: Line[], drop = 0): Scene => {
+  const base = QUESTS_PYTHON.find((q) => q.id === qid)?.complete;
+  if (!base) throw new Error(`no quest ${qid}`);
+  return { ...base, id, lines: [...base.lines.slice(0, at), ...add, ...base.lines.slice(at + drop)] };
+};
+
+export const QUESTS_PYTHON_VARIANTS: Scene[] = [
+  completeWith(
+    'q04',
+    'q04-complete-kept',
+    0,
+    [
+      N('The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove.'),
+      N('Nobody else gets a go. Trotwell clops past the whole queue, very politely smug.'),
+    ],
+    1,
+  ),
+  completeWith(
+    'q04',
+    'q04-complete-shared',
+    0,
+    [
+      N('The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove.'),
+      N('Everyone gets a go. Trotwell stands at the front of the queue and the back, which takes a lot of running.'),
+    ],
+    1,
+  ),
+  completeWith('q06', 'q06-complete-shouted', 5, [N('“P.P.S. The wall is NOT wonky.”')]),
+  completeWith('q06', 'q06-complete-laughed', 5, [
+    N('“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”'),
+  ]),
+  completeWith('q06', 'q06-complete-knocked', 5, [N('“P.P.S. I have no rabbit. Stop knocking.”')]),
+  completeWith('q09', 'q09-complete-themselves', 3, [
+    N('The pebble group sleeps a little apart, on purpose. They have thought for themselves, and they think the heap is too warm.'),
+  ]),
+  completeWith('q09', 'q09-complete-pebble', 3, [
+    N('The pebble group sleeps at the edge, still holding its pebble. Nobody has asked it anything. It is perfectly happy.'),
+  ]),
 ];
 
 export const CHECKS: string[] = [

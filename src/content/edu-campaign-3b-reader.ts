@@ -59,7 +59,8 @@ const CH11: EduScene[] = [
       BYTE('Condensation.', 'think'),
       HAZEL('Of course it is.', 'happy'),
       N('She sits down on the bench by the door, quite suddenly, as if her legs have made the decision for her.'),
-      HAZEL('I’m not staying long. I want to say that now, so nobody gets dramatic later. My letter said I’d gone up the hill. I was optimistic about the timing.', 'think'),
+      HAZEL('I’m not staying long. I’m saying it now, so nobody makes a fuss later.', 'think'),
+      HAZEL('My letter said I’d gone up the hill. I was a bit early. I always am.', 'happy'),
       N('She means it. Gran Hazel is very poorly. The doctors can’t make her better, and soon she is going to die.'),
       HAZEL('The doctor gave me a year. That’s twelve months. I’ve had fourteen, which I will be mentioning to him.', 'happy'),
       HAZEL('I spent them in the Hollow, feeding anyone who’d let me. Waiting for him to walk the stone home. He couldn’t. You did.', 'soft'),
@@ -74,7 +75,7 @@ const CH11: EduScene[] = [
         skill: 'honest, clear words about serious illness',
         standard: 'CASEL: Social awareness',
         kind: 'ask',
-        after: 10,
+        after: 11,
         prompt: [
           N('Nobody in the Grove pretends. Gran Hazel told everyone, straight out, the very first morning.'),
           N('Why do you think she said it so plainly?'),
@@ -111,7 +112,7 @@ const CH11: EduScene[] = [
         skill: 'find the theme in a character’s words',
         standard: 'RL.4.2',
         kind: 'ask',
-        after: 15,
+        after: 16,
         prompt: [
           HAZEL('Go on, then. You’ve kept it since spring. What makes a Grove, would you say?', 'think'),
         ],
@@ -352,7 +353,7 @@ const CH11: EduScene[] = [
       N('Sable comes out of the long grass. She looks at Gran Hazel for a long time.'),
       N('Then she walks straight past her and leans her whole weight on your shin.'),
       HAZEL('Well. That’s me told.', 'happy'),
-      HAZEL('That one took longer than two months, I’ll bet.', 'soft'),
+      HAZEL('Shy ones take about two months to trust you. That one took longer, I’ll bet.', 'soft'),
       N('You think of the first night, and of every night since.'),
       N('Sable came in June, at the start of summer. Now it is December, the middle of winter. You nod.'),
       HAZEL('Worth it.', 'soft'),
@@ -399,7 +400,7 @@ const CH11: EduScene[] = [
       N('Gran Hazel takes your hand to help herself stand up. Then she doesn’t stand up.'),
       HAZEL('Your hands are cold, love.', 'think'),
       N('You take your hand back and put it on your coat, over the breast pocket. You don’t mean to. It just goes there.'),
-      N('Over the stone. It has become a habit already.'),
+      N('Over the cold stone from the Wellspring, the one you carry. It has become a habit already.'),
       N('Hazel watches your hand go. She has seen someone do that before, a long time ago, in this garden.'),
       HAZEL('…Ah.', 'sad'),
       N('She doesn’t say anything else. Her silences were always the loudest thing about her.'),
@@ -517,7 +518,7 @@ const CH11: EduScene[] = [
       N('Then he folds his arms on the top bar, like a man settling in for the night.'),
       N('Beside you, Gran Hazel doesn’t turn round. But she stops breathing for a moment, to listen.'),
       HAZEL('Don’t look at me, love. I’ve done my bit. It’s your gate now.', 'soft'),
-      HAZEL('He said he’d stand there till first light, and he will. Meaning things was never his problem.', 'think'),
+      HAZEL('He said he’d stand there till first light, and he will. He always does what he says.', 'think'),
     ],
     choices: [
       {
@@ -538,7 +539,7 @@ const CH11: EduScene[] = [
         id: 'gate-tea',
         label: 'Take him a cup of tea. Leave the gate shut.',
         then: [
-          HAZEL('…Oh, you’re worse than me.', 'happy'),
+          HAZEL('…Oh, you’re softer than me. And I’m the softest person I know.', 'happy'),
           HAZEL('Go on, then. The cup by the stove. The one that’s turned upside down.', 'soft'),
           N('You pass it over the top bar. He holds it in both hands, and the warmth goes into his cold fingers. Neither of you speaks.'),
           N('In the morning the cup is on the gatepost, rinsed in the stream, and turned upside down.'),
@@ -556,6 +557,7 @@ const CH11: EduScene[] = [
         lines: [
           N('Corvin’s breath makes little white clouds in the dark.'),
           N('Your breath carries water as an invisible gas. In cold air it cools into tiny drops you can see. That’s condensation.'),
+          N('Byte said the water on his face was condensation. It wasn’t. Some water is tears.'),
         ],
         parentNote: 'Your child learned that we see our breath on cold days because water vapour condenses into tiny droplets.',
       },
@@ -606,13 +608,13 @@ const CH12: EduScene[] = [
     of: 'c12-open',
     band: 'reader',
     lines: [
-      N('Morning. Cold and very bright. Every Keeper is here, and every Nubbin. Nobody planned it. Everybody just came.'),
+      N('Morning. Cold and very bright. All ten Keepers are here, and every Nubbin. Nobody planned it. Everybody just came.'),
       N('Sparks has brought a cake, which has collapsed on one side. Pixel has fixed the cake. It is still collapsed, but now it lights up.'),
       N('Fern has made lantern buns, three trays of eight. For the first time ever, they have come out. She keeps showing people one, as evidence.'),
       N('Dusty is digging a new bed by the old wall. Nova has brought seeds from somewhere you’ve never heard of.'),
       N('Clover is crying already, and says it’s the cold. Byte has a clipboard and has written nothing on it.'),
       N('Marina sits with her feet in the freezing pond and says it’s lovely.'),
-      N('At first light, Ember’s Ash ran at the gate the way she used to. Not full tilt. Half. She bounced off it.'),
+      N('At first light, Ash, Ember’s Nubbin, ran at the gate the way she used to. Not full tilt. Half. Ash bounced off it.'),
       N('Ember has told nobody. Everybody knows.'),
       N('Gran Hazel walks the Grove slowly. She touches each post as she passes, like the shoulder of someone she is about to leave.'),
       N('At the fourth post, by the long grass, she stands a long time.'),
@@ -751,7 +753,7 @@ const CH12: EduScene[] = [
       HAZEL('Not a word. They’d only fuss.', 'soft'),
       N('She asked you to keep it quiet, and you did. It is her goodbye, and her choice how to make it.'),
       N('She takes her lantern and her three coats, and walks to the foot of the hill, unhurried, as if to look at a tree.'),
-      N('You watch her go. A secret this big is heavy. You carry it anyway, because she asked.'),
+      N('You watch her go. A secret this big is heavy. You only have to carry it till morning, when her letter tells everyone.'),
     ],
     lessons: [
       {
@@ -762,7 +764,7 @@ const CH12: EduScene[] = [
         kind: 'notice',
         after: 5,
         lines: [
-          N('Gran Hazel’s secret was a grown-up’s choice about her own goodbye, and she has left a letter so everyone will know.'),
+          N('Gran Hazel’s secret was about her own goodbye. It only lasts one night, because her letter tells everyone in the morning.'),
           N('In real life, a happy surprise, like a present, is fine to keep.'),
           N('A secret that makes you feel worried or scared, or where someone could get hurt, is not.'),
           N('Tell a grown-up you trust about those. That is never telling tales. It is keeping people safe.'),
@@ -819,18 +821,6 @@ const CH12: EduScene[] = [
         ],
         parentNote: 'Your child recognised a simile and explained what it helps the reader picture.',
       },
-      {
-        id: 'reader:c12-walk-you-l2',
-        domain: 'art',
-        skill: 'perspective: far things look smaller',
-        kind: 'notice',
-        after: 9,
-        lines: [
-          N('The Keepers haven’t shrunk. Things look smaller the further away they are.'),
-          N('Artists use this. Draw something small and it looks far off; draw it big and it looks close. It’s called perspective.'),
-        ],
-        parentNote: 'Your child learned that far-away things look smaller, and that artists use size to show distance (perspective).',
-      },
     ],
   },
   {
@@ -877,20 +867,6 @@ const CH12: EduScene[] = [
         ],
         parentNote: 'Your child worked out what an unusual comparison tells the reader about a character.',
       },
-      {
-        id: 'reader:c12-walk-moss-l2',
-        domain: 'science',
-        skill: 'we see things when light reaches our eyes',
-        standard: '1-PS4-2',
-        kind: 'notice',
-        after: 11,
-        lines: [
-          N('Her lantern is tiny, and far away, but you can still see it.'),
-          N('Light travels from the lantern all the way to your eyes.'),
-          N('In the dark, with no other light around it, even a small flame shows up a long way off.'),
-        ],
-        parentNote: 'Your child learned that we see a light because light travels from it to our eyes, and why small lights show up in the dark.',
-      },
     ],
   },
   {
@@ -911,19 +887,6 @@ const CH12: EduScene[] = [
       N('She has never once walked towards a Keeper’s door. Until now.'),
     ],
     lessons: [
-      {
-        id: 'reader:c12-walk-sable-l1',
-        domain: 'science',
-        skill: 'dusk, and why day turns to night',
-        standard: '1-ESS1-1',
-        kind: 'notice',
-        after: 8,
-        lines: [
-          N('Dusk is the time just after the Sun sets, when the sky is fading from blue to dark.'),
-          N('It happens every day because the Earth spins. Our side of the Earth turns away from the Sun, and night comes.'),
-        ],
-        parentNote: 'Your child learned what dusk is and that day and night happen because the Earth spins.',
-      },
       {
         id: 'reader:c12-walk-sable-l2',
         domain: 'literacy',
@@ -966,20 +929,6 @@ const CH12: EduScene[] = [
       N('He has left her lantern up there with her, still burning. He sits by the pond, a little way off, and says nothing. He is getting better at it.'),
     ],
     lessons: [
-      {
-        id: 'reader:c12-walk-corvin-l1',
-        domain: 'science',
-        skill: 'how a heron’s body helps it catch food',
-        standard: '4-LS1-1',
-        kind: 'notice',
-        after: 1,
-        lines: [
-          N('A heron is a tall grey bird that stands in shallow water. It keeps very, very still, waiting.'),
-          N('Its long legs let it wade without getting its feathers wet. When a fish swims close, its long sharp beak strikes fast.'),
-          N('Corvin, standing still at the edge and waiting, does look a bit like one.'),
-        ],
-        parentNote: 'Your child learned how a heron’s long legs and sharp beak help it survive, and enjoyed a simile.',
-      },
       {
         id: 'reader:c12-walk-corvin-l2',
         domain: 'sel',
@@ -1734,6 +1683,7 @@ const ENDING_SCENES: EduScene[] = [
     band: 'reader',
     lines: [
       N('Two hundred Shells buys a lot of eggs.'),
+      N('Eight new eggs. Not one of them is the one you sold.'),
       N('They hatch, and they are fast, and by autumn they are grey, every one.'),
       N('When the pens opened, you meant to go looking for the first one. You told yourself it would keep.'),
       N('Quiet. You told yourself quiet and well were the same thing.'),
@@ -1779,7 +1729,7 @@ const ENDING_SCENES: EduScene[] = [
         skill: 'being honest with yourself',
         standard: 'CASEL: Self-awareness',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           N('Telling yourself something comfortable that isn’t true is easy. It’s a way of hiding from a bad feeling.'),
           N('Being honest with yourself, even when it hurts, is the first step to putting something right.'),
@@ -1799,7 +1749,7 @@ const ENDING_SCENES: EduScene[] = [
       N('Moss stayed up on the hill after Gran Hazel went up. He never came down again. He didn’t say anything. He didn’t need to.'),
       N('Corvin came once. He stood in the lane and looked at your hand, resting on your coat, over the pocket.'),
       CORVIN('I’m sorry. I am so sorry. I know exactly how sorry.', 'sad'),
-      N('Your hands are always cold now. You keep meaning to mind.'),
+      N('Your hands are always cold now. You keep meaning to care, and you don’t.'),
     ],
     lessons: [
       {
@@ -1883,9 +1833,9 @@ const ENDING_SCENES: EduScene[] = [
     lines: [
       N('THE LONG ROAD'),
       N('Sable is still here. Still grey. Still two steps away, never one. She eats what you leave and sleeps near, not next to.'),
-      N('Hazel said two months for an ear. It has been much longer than that. You sit down next to her every evening and wait.'),
-      N('You have stopped counting, which Hazel would have said was the point.'),
-      N('Some evenings she is one and a half steps away. You don’t say anything. You don’t want to frighten it.'),
+      N('Hazel once said a shy one needs about two months to trust you. Sable has needed much longer than that.'),
+      N('You sit down next to her every evening and wait. You have stopped counting, which Hazel would have said was the point.'),
+      N('Some evenings she is one and a half steps away. You don’t say anything. You don’t want to frighten her.'),
       N('Pixel’s meter by the door still says MAYBE. Pixel offered to repaint it. You said no.'),
       N('Maybe is a good word. It has room in it.'),
     ],
@@ -2507,7 +2457,7 @@ const EPILOGUE_SCENES: EduScene[] = [
       N('Someone keeps the grass short round his stone, under the alders. Not Tobin. Tobin’s knees wouldn’t allow it.'),
       N('Alders are trees that like wet ground. They grow well beside rivers and streams.'),
       N('The mill wheel turns beside the grave at the river’s pace.'),
-      N('He would have hated that. He would have got used to it.'),
+      N('Aldous would have hated that. He would have got used to it.'),
     ],
     lessons: [
       {
@@ -2546,7 +2496,7 @@ const EPILOGUE_SCENES: EduScene[] = [
         skill: 'plants grow towards light',
         standard: '2-LS2-1',
         kind: 'notice',
-        after: 1,
+        after: 2,
         lines: [
           N('Real plants lean too, but towards sunlight. Plants need light to make their food.'),
           N('A stem grows a little more on its shady side, so it bends towards the light. Try it with a plant on a windowsill.'),
@@ -2559,7 +2509,7 @@ const EPILOGUE_SCENES: EduScene[] = [
         skill: 'find the rhyming words',
         standard: 'RL.2.4',
         kind: 'ask',
-        after: 4,
+        after: 5,
         prompt: [N('Which words rhyme in Cinder’s rhyme?')],
         options: [
           {
@@ -2606,7 +2556,7 @@ const EPILOGUE_SCENES: EduScene[] = [
         skill: 'think question: who can forgive',
         standard: 'CASEL: Social awareness',
         kind: 'ask',
-        after: 1,
+        after: 2,
         prompt: [N('“It wasn’t yours to say.” Who do you think gets to forgive Cinder? There is no wrong answer.')],
         options: [
           {

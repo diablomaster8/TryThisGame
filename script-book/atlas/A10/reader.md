@@ -913,6 +913,7 @@ _The pirates drift away in the fog, drumming crossly, in two directions at once.
 
 _Heihei coughs up the green stone onto the deck with no fuss at all. Moana washes it, twice._  
 **Moana**: Now. You’ll help me. You owe me. I saved your boat.  
+**Maui**: My boat.  
 
 > **Lesson** (social-studies, D2.Civ.8.3-5, ask): fairness and claims  
 > _Moana says, “You owe me. I saved your boat.” Maui answers, “My boat.” Does saving something give you a claim on it?_  
@@ -921,7 +922,6 @@ _Heihei coughs up the green stone onto the deck with no fuss at all. Moana washe
 > - It depends who owned the boat first → Fair. Who built or found it matters in deciding whose it is.
 > _For grown-ups: Thought about whether doing someone a favour gives a claim on what you saved._
 
-**Maui**: My boat.  
 **Maui**: Listen. Te Fiti’s heart has a demon of fire guarding it. Te Kā. I can’t get past Te Kā without my hook.  
 **Maui**: And my hook is at the bottom of the world, in the Realm of Monsters. And you can’t even sail.  
 **Moana**: Then teach me.  

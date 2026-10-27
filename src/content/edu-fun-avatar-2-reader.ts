@@ -45,6 +45,7 @@ const RE = say('ma-reedy');
 const CH = say('captain-hake');
 const TI = say('mayor-tibbs');
 const MT = say('mrs-tibbs');
+const C = say('cabbage-merchant');
 
 // ---------------------------------------------------------------- builders
 type LessonDraft = Omit<Lesson, 'id'>;
@@ -679,7 +680,7 @@ const Q58: EduQuest = {
       [
         N('Above Hillstead, Mount Grumble sends up a thin grey thread of smoke. Tuk stares at it.'),
         T('Everyone here trusts clouds over common sense. I’m going up there. I want to see with my own eyes.'),
-        P('I’ll come! Puffin can fly us most of the way.'),
+        P('I’ll come! Puffin, my sky bison, can fly us most of the way. Or my glider, if he’s sulking.'),
         K('I’ll stay and talk to the villagers. Just in case.'),
         N('At the top, the air is hot and smells of boiled eggs. Inside the crater, red rock bubbles and hisses.'),
         T('That is not “nice and fluffy”. That is “very much about to go off”.', 'shock'),
@@ -1392,7 +1393,7 @@ const Q61: EduQuest = {
         K('Newest at the front, oldest at the back. It’s 1425 now, and Kesh lived four hundred years ago.'),
         T('So we want 1025. Right at the back. Of course it’s right at the back.'),
         N('Your Nubbin squeezes behind the oldest shelf. There is a sneeze, a scrabble and a cloud of dust.'),
-        N('It comes back out holding a scroll sealed with Marshal Brag’s own stamp.'),
+        N('It comes back out holding a scroll sealed with Marshal Brag’s own stamp, and an old map it has been using as a blanket.'),
         K('It’s his diary. Written by Brag himself. Look at this entry. And this one.', 'shock'),
       ],
       [
@@ -1467,7 +1468,7 @@ const Q61: EduQuest = {
       [
         ch(
           'stone',
-          'Show the founding stone that thanks Avatar Kesh',
+          'Point at the founding stone under the statue',
           [TI('“Thank you, Kesh, for our peace.” It was under the statue all along!', 'shock')],
           { 'q61-evidence': 'stone' },
         ),
@@ -1665,6 +1666,9 @@ const Q62: EduQuest = {
         N('On the snowy hill, a line of penguins waddles past, sleek and round and not at all in the mood.'),
         P('The trick is fish. You give them a fish, they give you a ride. Everyone knows that.'),
         N('Your Nubbin is already holding out a fish to the smallest penguin. The penguin considers it carefully.'),
+        P('Race you to the bottom! Loser carries the fish!', 'happy'),
+        N('The smallest penguin takes the fish, looks at Pemba, and waddles over to your Nubbin instead. It has chosen.'),
+        T('That penguin has better judgement than most of us.'),
       ],
       [
         ask(
@@ -1904,7 +1908,7 @@ const Q63: EduQuest = {
       'q63-pet-done',
       [
         N('You find Biscuit on a rooftop, eating a cabbage from a cart that looks very familiar.'),
-        N('Somewhere far below, a familiar voice wails.'),
+        C('Not the cabbages! Not up there!'),
         T('I know that wail. Somebody’s having a bad cabbage day.'),
         BU('Biscuit! You found him! That’s two!', 'happy'),
         N('Biscuit chews the last leaf, looks at you, and burps.'),
@@ -2092,6 +2096,8 @@ const Q64: EduQuest = {
         Z('Oh! Keeper. I wasn’t… I’m not talking to a rock. Why would I be talking to a rock.', 'shock'),
         Z('Fine. I was talking to the rock. I’m practising. I want to ask Pemba if I can join his group.'),
         Z('The problem is, I keep getting it wrong. Last time I said “I have changed” and then stood there for a whole minute.', 'sad'),
+        Z('I chased them right round the world in a very loud boat. All summer. At night.'),
+        Z('In my defence, I was very tired. In nobody’s defence, I was very loud.', 'sad'),
         N('Your Nubbin climbs onto the rock and sits on it, as if it were the audience.'),
         Z('Can you listen? Tell me if it’s bad. It’s going to be bad. Okay. Here goes.', 'think'),
         Z('Pemba. Greetings. I am… a person. Who used to be… the bad kind of person. But now I’m the good kind. Probably. Thanks.'),
@@ -2109,7 +2115,7 @@ const Q64: EduQuest = {
           'CASEL: Self-management',
         ),
         ask(
-          6,
+          8,
           'sel',
           'kind self-talk',
           [N('Kaito just told himself, “It’s going to be bad.” What could he say to himself instead?')],

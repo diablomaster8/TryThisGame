@@ -25,6 +25,7 @@
  * also require Q32 (the goose). Never during Chapters 9–11 (`WHEN_SUFFIX` on every trigger).
  */
 import type { Quest, Speaker } from './types';
+import type { Line, Mood, Scene } from '../config/story';
 
 const SHOW = 'It’s Always Sunny in Philadelphia';
 
@@ -220,7 +221,7 @@ export const QUESTS_SUNNY: Quest[] = [
       'Lead: Corky. Introduces the whole gang; Q32–Q45 require it. Content gate: Q31 offers itself only when Settings › Content › “Mature content” is set to 18+, which is off by default; Q32–Q45 inherit this gate through requires: [\'Q31\']. Running gag: the product is Nubbin Mittens, Corky only ever says the old name ' +
       '(approved quote, used twice). Step 2 needs a scripted Photo mode target on the pub bedsheet; the shot counts if the mittened Nubbin is in frame. ' +
       'Set collapse: bedsheet and pole fall, lantern swings; comedy crash SFX. Rook’s kick is a one-off pose animation. Mittens should mute footstep SFX. ' +
-      'The q31-deal choice (warn Corky about Fitz’s 70/30 or stay out of it) is flavour only; Corky signs either way.',
+      'Corky signs either way. Payoffs: q31-deal comes back in Q45 (q45-practice-done-warned if you warned him); q31-rook comes back in Q39 (q31-rook-is-*).',
   },
 
   // ------------------------------------------------------------------ Q32
@@ -368,6 +369,8 @@ export const QUESTS_SUNNY: Quest[] = [
         { who: 'dabney', text: 'A pass! Because of our scheme.', mood: 'happy' },
         { who: 'corky', text: 'Because of me, Dabney. Because of me and the stick.' },
         { who: 'dabney', text: 'Nobody is ever going to remember the stick, Corky.' },
+        { who: 'fitz', text: 'Bad news on the eggs. Turns out hens keep making more.', mood: 'sad' },
+        { who: 'dabney', text: 'Every day. Every single day. Why did nobody tell us that?', mood: 'angry' },
         { who: 'narrator', text: 'Nobody thanks him. He doesn’t seem to expect it. He hands you his spare gloves, stiff and dark with something.' },
         { who: 'corky', text: 'You did good. Teach one of your little guys the long take. It’ll tidy up after itself.', mood: 'soft' },
         { who: 'narrator', text: 'Grove Work: one chosen Nubbin piles up fallen fruit and leaves on its own. Filthy work gloves join your wardrobe.' },
@@ -391,7 +394,8 @@ export const QUESTS_SUNNY: Quest[] = [
       'Lead: Corky. Stage both relay steps as one continuous tracking shot following Corky (cellar → drain → bins → back room) with the ' +
       'gang’s egg scheme heard through the ceiling. No animal is ever hit: the rat stick only bangs pipes, rats stroll out unharmed, the goose leaves ' +
       'with a pear and bites Corky. SFX: pipe clangs, drain gurgle, goose hiss and honk, muffled upstairs chatter. ' +
-      'q32-inspector (covered / told / corky) is flavour only: the pub passes either way. The question is loyalty to the gang versus honesty, and who notices the work.',
+      'q32-inspector (covered / told / corky): the pub passes either way. The question is loyalty to the gang versus honesty, and who notices the work. ' +
+      'Payoffs: q32-first-is-* and q32-inspector-is-* play before the complete scene.',
   },
 
   // ------------------------------------------------------------------ Q33
@@ -607,7 +611,7 @@ export const QUESTS_SUNNY: Quest[] = [
         scene: {
           id: 'q34-stands',
           lines: [
-            { who: 'narrator', text: 'The race stands are half full. In the middle is a man in skin-tight green spandex from head to toe, face and all.' },
+            { who: 'narrator', text: 'The race stands are half full. In the middle sits Corky, in skin-tight green spandex from head to toe, face and all.' },
             { who: 'corky', text: 'Green Man!', mood: 'happy' },
             { who: 'dabney', text: 'He’s been like this since breakfast. He won’t take it off. I don’t think he can take it off.' },
             { who: 'corky', text: 'It’s a lifestyle, Dabney. In the suit, I’m free. I can’t see much, but I’m free.' },
@@ -882,6 +886,9 @@ export const QUESTS_SUNNY: Quest[] = [
         { who: 'rook', text: 'Brute Force! Brute Force! We beat the champions!', mood: 'happy' },
         { who: 'mags', text: 'This is a fix. You all cheated. I want a recount.', mood: 'angry' },
         { who: 'dabney', text: 'There will be a rematch. And I will crush every one of you.', mood: 'angry' },
+        { who: 'dabney', text: 'Except Mags. Mags is… adequate. There. That’s my nice thing. I already drank for it.' },
+        { who: 'mags', text: 'That’s the nicest thing you’ve said to me since we shared a pram.', mood: 'soft' },
+        { who: 'dabney', text: 'It was a dare.' },
         { who: 'corky', text: 'You take the trophy. I already licked it.', mood: 'happy' },
         { who: 'narrator', text: 'You take home the board, the trophy, and a new title for your profile: Game of Games.' },
       ],
@@ -940,6 +947,7 @@ export const QUESTS_SUNNY: Quest[] = [
             { who: 'fitz', text: 'Beach day. There’s no beach, so the pond’s the beach. Don’t think about it.' },
             { who: 'narrator', text: 'They push off. They eat the ham. They drink the ham. Within the hour both are asleep, face down on the raft.' },
             { who: 'narrator', text: 'The current takes the ham. It bobs away across the pond, glistening, faintly steaming.' },
+            { who: 'narrator', text: 'Corky wakes, because a ham is moving.' },
             { who: 'corky', text: 'The ham. The ham’s leaving. Why is the ham leaving?', mood: 'shock' },
             { who: 'fitz', text: 'Get it back. That ham is my whole holiday.', mood: 'sad' },
           ],
@@ -1577,7 +1585,7 @@ export const QUESTS_SUNNY: Quest[] = [
             { who: 'mags', text: 'Why is it wet?', mood: 'shock' },
             { who: 'fitz', text: 'It’s a waterslide, Mags.' },
             { who: 'narrator', text: 'Water is backing up behind them. The tube creaks.' },
-            { who: 'fitz', text: 'Hurry up! She’s flapping about like a wet heron in a drainpipe!' },
+            { who: 'fitz', text: 'Hurry up! If this dries, it’s a sandwich with a view.' },
             { who: 'mags', text: 'Get. Us. Out.', mood: 'angry' },
           ],
           choices: [
@@ -1662,7 +1670,7 @@ export const QUESTS_SUNNY: Quest[] = [
     notes:
       'Lead: Mags. The tube gets built whichever choice the player makes (Mags always overrules); the flag only records who suggested it. ' +
       'Corky and Dabney are off-screen during step 2. Unstick minigame: tilt and pull with water rising behind the stuck pair; failure just ' +
-      'resets with a gush of water. No Nubbins go in the slide until it is fixed. q40-tickets (refund / honour / cut) is flavour; “cut” gives 1 shell.',
+      'resets with a gush of water. No Nubbins go in the slide until it is fixed. “cut” gives 1 shell. Payoffs: q40-tube-is-*, q40-rescue-is-* and q40-tickets-is-* play before the complete scene.',
   },
 
   // ------------------------------------------------------------------ Q41
@@ -1803,7 +1811,7 @@ export const QUESTS_SUNNY: Quest[] = [
       'Lead: Fitz. The quest bout is a scripted tag-team karate bout against Rook and Dabney (use the karate UI with their portraits); ' +
       'no person ever strikes a Nubbin: Rook lands in the bin and Dabney slips on his own oil. Trash Man entrance: bin lid lift, peel ' +
       'particles, crowd scream. Fitz eats from the bin on screen (gross-out is fine, keep it a quick gag). Dabney’s offer to throw the bout is a ' +
-      'flavour choice (q41-deal); the step is still won in the karate UI.',
+      'choice (q41-deal); the step is still won in the karate UI. It pays off in Q45 (q41-deal-is-*, when Pim tries the same). q41-entrance-is-* plays before the bout.',
   },
 
   // ------------------------------------------------------------------ Q42
@@ -1944,7 +1952,7 @@ export const QUESTS_SUNNY: Quest[] = [
             { who: 'mags', text: 'And me?' },
             { who: 'fitz', text: 'You’re a body in the river.' },
             { who: 'mags', text: 'A dead body? I can act! I’ve got range!', mood: 'angry' },
-            { who: 'dabney', text: 'You’ll be perfect, Mags. Just lie still and look like a wet egret.' },
+            { who: 'dabney', text: 'You’ll be perfect, Mags. Just lie still. You’ve been rehearsing for years.' },
             { who: 'rook', text: 'Keeper, you’re on camera. Nubbins are the extras. Scene one: the car chase.' },
             { who: 'narrator', text: 'There is no car. There is a wheelbarrow with two headlights painted on it, and Corky, ready to push.' },
           ],
@@ -2092,6 +2100,7 @@ export const QUESTS_SUNNY: Quest[] = [
             { who: 'corky', text: 'You came! I booked us a table. The fanciest place in the valley. The Gilded Pear.', mood: 'happy' },
             { who: 'narrator', text: 'He is wearing a suit jacket over his work overalls, and a tie made from a sock.' },
             { who: 'corky', text: 'I save all year. I eat here once, on my birthday. Which is today. Right now.' },
+            { who: 'corky', text: 'I put two chairs out last year. Mr Tallis took one back at nine.', mood: 'soft' },
             { who: 'corky', text: 'You gotta look nice. They don’t let you in if you look like me. Well, they do now. They know me.' },
             { who: 'corky', text: 'And you let me order. I know the good stuff. The stuff that’s not on the menu.', mood: 'think' },
           ],
@@ -2216,7 +2225,7 @@ export const QUESTS_SUNNY: Quest[] = [
       },
     ],
     notes:
-      'Lead: Corky. Corky’s order is in his own words (not the show’s). q44-order (milk / trout) is flavour: the kitchen serves milk steak either way. Eating minigame: tap to bite, a queasy meter rises per bite and falls ' +
+      'Lead: Corky. Corky’s order is in his own words (not the show’s). q44-order (milk / trout): the kitchen serves milk steak either way; q44-order-is-* and q44-method-is-* play before the complete scene, q44-outfit-is-* before the meal, q35-spirit-is-* after the drawing. Eating minigame: tap to bite, a queasy meter rises per bite and falls ' +
       'with water; full meter = run outside, retry. Feeding milk steak to a Nubbin plays a shudder then a contented full-belly idle; no harm, ' +
       'no stat penalty. Art: two grey steaks in milk skin, jelly beans in a gravy boat, Corky’s sock tie.',
   },
@@ -2287,6 +2296,9 @@ export const QUESTS_SUNNY: Quest[] = [
           lines: [
             { who: 'narrator', text: 'On your fortieth try, every pin goes down. Corky, who was standing behind them, also goes down.' },
             { who: 'corky', text: 'Strike! And me! Two strikes!', mood: 'happy' },
+            { who: 'dabney', text: 'By the way. Forty percent of the mittens. I want it in writing. On a beer mat.' },
+            { who: 'fitz', text: 'Seventy-thirty. I’m the seventy. I’m also the thirty.' },
+            { who: 'corky', text: 'I don’t know what any of those numbers mean, but I’m in.', mood: 'happy' },
           ],
         },
       },
@@ -2304,6 +2316,9 @@ export const QUESTS_SUNNY: Quest[] = [
             { who: 'mags', text: 'You bowl like a cow trying to sit on a stool.' },
             { who: 'pim', text: 'Says the woman built like a heron on stilts.' },
             { who: 'mags', text: 'I am NOT a bird!', mood: 'angry' },
+            { who: 'dabney', text: 'You’ve been a pelican, a flamingo and three herons this year. One of the herons was your idea.' },
+            { who: 'mags', text: 'Who’s been COUNTING?', mood: 'shock' },
+            { who: 'dabney', text: 'Everyone, Mags.' },
             { who: 'rook', text: 'Rook bowls first. Rook always bowls first. A kata before every roll, to scare them.' },
             { who: 'narrator', text: 'Rook does a kata. It takes four minutes. He rolls straight into the gutter.' },
             { who: 'corky', text: 'It’s on you and me, Keeper. If we lose, Fitz sells the pub, and I live in the pub.', mood: 'think' },
@@ -2358,16 +2373,6 @@ export const QUESTS_SUNNY: Quest[] = [
         { who: 'fitz', text: 'That’s called a profit. In my head.' },
         { who: 'dabney', text: 'The lane stays. We’re bowlers now. It’s part of my brand.' },
         {
-          who: 'dabney',
-          text: 'By the way. Forty percent of the mittens. I want it in writing. On a beer mat.',
-        },
-        { who: 'fitz', text: 'Seventy-thirty. I’m the seventy. I’m also the thirty.' },
-        {
-          who: 'corky',
-          text: 'I don’t know what any of those numbers mean, but I’m in.',
-          mood: 'happy',
-        },
-        {
           who: 'narrator',
           text: 'Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play.',
         },
@@ -2395,7 +2400,7 @@ export const QUESTS_SUNNY: Quest[] = [
       'Lead: Corky. Bowling minigame: aim line + curve, twelve pins in a triangle, the ball is a melon (seed splash on a strike). In the match ' +
       'the gang bowls automatically (badly) and the player bowls the last three frames; Pim’s trash talk pops up as barks during the ' +
       'run-up. The boat is flavour only; Fitz sells it off-screen. The pub is never actually at risk: losing just restarts the match. ' +
-      'q45-hedge (exposed / quiet / doubled) records what you did about Fitz betting on Highbank.',
+      'q45-hedge (exposed / quiet / doubled) picks q45-complete (quiet), q45-complete-exposed or q45-complete-doubled; q45-talk-is-* plays before the match.',
   },
 ];
 
@@ -2433,4 +2438,397 @@ export const CHECKS: string[] = [
   'minigame:eat:milk-steak',
   'minigame:bowling:strike',
   'minigame:bowling:win:highbank',
+];
+
+// ------------------------------------------------------------------ Payoffs
+// Every Sunny choice pays off inside the pack. Two kinds of scene live here:
+//  * whole-scene variants, picked by QUESTS_SUNNY_VARIANT_FLAGS (`<scene>-<value>` replaces `<scene>`),
+//    plus `q39-complete-poster`, which replaces q39-complete once Q35 is complete;
+//  * short payoff scenes named `<flag>-is-<value>`, played before or after a step by QUESTS_SUNNY_PAYOFFS.
+// They only read the pack's own q31–q45 flags; nothing here writes anything.
+
+const ln = (who: string, text: string, mood?: Mood): Line => (mood ? { who, text, mood } : { who, text });
+const pay = (id: string, ...lines: Line[]): Scene => ({ id, lines });
+
+const PIM_ASKS = 'Pim leans over and asks you, very quietly, what it would cost for you to bowl badly.';
+const REEL_CARD = 'The reel ends on a card: ALL STUNTS PERFORMED BY ROOK.';
+
+/** Whole-scene variants and the short payoff scenes (see QUESTS_SUNNY_VARIANT_FLAGS and QUESTS_SUNNY_PAYOFFS). */
+export const QUESTS_SUNNY_VARIANTS: Scene[] = [
+  // Q31 → Q39: what you did with Rook in the mitten advert.
+  pay(
+    'q31-rook-is-cut',
+    ln('rook', 'And nobody cuts me out this time. I watched the mitten advert. I’m one elbow.', 'angry'),
+    ln('corky', 'It was a great elbow.', 'happy'),
+  ),
+  pay(
+    'q31-rook-is-kept',
+    ln('rook', 'You got my best side in the mitten advert. That’s why you’re behind the camera again.', 'happy'),
+    ln('narrator', 'There is still no best side.'),
+  ),
+  pay(
+    'q31-rook-is-wildcard',
+    ln('rook', 'And no wildcards, Corky. Last time you wore the set.'),
+    ln('corky', 'You can’t plan a wildcard, Rook. That’s the whole thing.', 'happy'),
+  ),
+  // Q31 → Q45: the seventy-thirty, once the Keeper explained it.
+  {
+    id: 'q45-practice-done-warned',
+    lines: [
+      ln('narrator', 'On your fortieth try, every pin goes down. Corky, who was standing behind them, also goes down.'),
+      ln('corky', 'Strike! And me! Two strikes!', 'happy'),
+      ln('dabney', 'By the way. Forty percent of the mittens. I want it in writing. On a beer mat.'),
+      ln('corky', 'Thirty mittens, Fitz. The Keeper told me. I counted them twice.', 'happy'),
+      ln('fitz', 'Stay out of my business, Keeper. Still.', 'angry'),
+    ],
+  },
+  // Q32
+  pay('q32-first-is-stick', ln('corky', 'Stick first. You didn’t even think about it. You’re a natural, and it scares me.', 'happy')),
+  pay(
+    'q32-first-is-plunger',
+    ln('corky', 'Plunger first, in a cellar. Nobody’s ever done that. I’m gonna do it every time now.', 'think'),
+    ln('narrator', 'He will not. The rats would never stand for it.'),
+  ),
+  pay(
+    'q32-inspector-is-covered',
+    ln('inspector', 'Your choir has gone quiet. I’ll note that as an improvement.'),
+    ln('narrator', 'Upstairs, a single egg rolls slowly across the floorboards and stops.'),
+  ),
+  pay(
+    'q32-inspector-is-told',
+    ln('inspector', 'I’ve made my note about the eggs. It says “sad”. It is underlined.'),
+    ln('dabney', 'You can’t underline sad!', 'angry'),
+  ),
+  pay(
+    'q32-inspector-is-corky',
+    ln('inspector', 'That man in the drain. Does he work here?', 'think'),
+    ln('corky', 'Nobody works here.'),
+    ln('inspector', 'He’s the only one who does.'),
+  ),
+  // Q33
+  pay(
+    'q33-drink-is-chug',
+    ln('rook', 'Put the Keeper down as “chugged the lot”. That’s what a bodyguard looks like.', 'happy'),
+    ln('narrator', 'You hiccup. It still tastes of eggs.'),
+  ),
+  pay('q33-drink-is-sip', ln('corky', 'One sip, and the Keeper’s eye is still going. That’s a strong sip. Put it on the box.', 'happy')),
+  pay(
+    'q33-drink-is-sniff',
+    ln('rook', 'The Keeper sniffed it first. Smart bodyguard. Write that down, Corky.'),
+    ln('corky', 'I still don’t write, man.'),
+  ),
+  pay('q33-dabney-is-flattered', ln('dabney', 'You said it was good for my skin, Keeper. My skin is now a colour.', 'angry')),
+  pay('q33-dabney-is-dared', ln('dabney', 'For the record, I kept it down. Most of it. All of it went down at some point.', 'think')),
+  pay('q33-label-is-honest', ln('narrator', 'The finished cartons read SIDE EFFECTS: EVERYONE. It is the most honest thing ever sold in the pub.')),
+  pay('q33-label-is-spin', ln('narrator', 'The finished cartons read TESTED ON FIVE BRAVE ADULTS (AND ONE ACTRESS). Mags has signed every one.')),
+  pay(
+    'q33-label-is-crows',
+    ln('narrator', 'The finished cartons read CONTAINS CROW EGGS. On the mill roof, the crows have gone very still.'),
+    ln('corky', 'I told you. They can read.', 'shock'),
+  ),
+  // Q34
+  pay('q34-cheer-is-runners', ln('announcer', 'The runners would like to thank whoever started that chant. Not the green one. The other one.')),
+  pay(
+    'q34-cheer-is-green',
+    ln('narrator', 'Somebody at the back is selling green paper masks. You did this.'),
+    ln('corky', 'You started a movement!', 'happy'),
+  ),
+  pay(
+    'q34-lap-is-dragged',
+    ln('corky', 'You dragged me off in front of my people.', 'sad'),
+    ln('dabney', 'Your people are eating crisps, Corky.'),
+  ),
+  pay(
+    'q34-lap-is-lap',
+    ln('corky', 'One lap. One perfect lap. I’m gonna tell my grandchildren.', 'happy'),
+    ln('dabney', 'You don’t have grandchildren.'),
+    ln('corky', 'I’ll tell yours.'),
+  ),
+  // Q35 (Mind answer, before Body)
+  pay('q35-answer-is-mags', ln('mags', 'For the record, I’m not the biggest disappointment. I’m the biggest talent. From a distance they look the same.', 'angry')),
+  pay('q35-answer-is-dabney', ln('dabney', 'Still thinking about your Mind answer, Keeper. Still wrong. I wrote the rules out again to be sure.')),
+  pay('q35-answer-is-board', ln('corky', 'I’m still upset you pointed at the board. It never did anything to you. It’s only ever been sticky.', 'sad')),
+  // Q35 → Q44: what you gave at Spirit, remembered at the birthday dinner.
+  pay('q35-spirit-is-truth', ln('corky', 'You told a real truth at Spirit. Nobody does that. That’s why I asked you.', 'soft')),
+  pay('q35-spirit-is-lie', ln('corky', 'And you can tell me about the bear. On the boat. In the rain.', 'happy')),
+  pay('q35-spirit-is-cry', ln('corky', 'And you cried at Spirit. Proper crying. You get it. That’s why I asked you.', 'soft')),
+  // Q36
+  pay(
+    'q36-promise-is-true',
+    ln('fitz', 'You promised me my ham, and there’s my ham. Wet, but mine. I’m moving you up the will.', 'happy'),
+    ln('corky', 'Near the middle?'),
+    ln('fitz', 'Near the bottom. But higher.'),
+  ),
+  pay(
+    'q36-promise-is-false',
+    ln('corky', 'The ham made its choice, Fitz. And it chose to come back.', 'soft'),
+    ln('fitz', 'It chose a Nubbin shoving it.'),
+  ),
+  pay('q36-goose-is-raced', ln('narrator', 'Out on the water, the goose is still honking about the race. It lost by a nose and wants a rematch.')),
+  pay(
+    'q36-goose-is-egg',
+    ln('fitz', 'That goose owes me an egg.', 'sad'),
+    ln('narrator', 'On the far bank, the goose is sitting on Fitz’s egg. It plans to keep it.'),
+  ),
+  // Q37: the pep talk, on opening night (variants; the sung lines stay word for word).
+  {
+    id: 'q37-sun-keeper-rook',
+    lines: [
+      ln('narrator', 'The giant lantern blazes. Rook steps into the light with his shirt on, and a card round his neck: IT IS ME.'),
+      ln('rook', 'SUN KEEPER! (hey! hey!)', 'happy'),
+      ln('rook', 'Lighter of the lanterns! (hey! hey!)'),
+      ln('rook', 'He’s got a giant lantern and abs you can see'),
+      ln('narrator', 'Nobody can see them. Rook taps the card.'),
+      ln('rook', 'He’ll punch the dark in the face for you and for me!', 'happy'),
+    ],
+  },
+  {
+    id: 'q37-finale-dabney',
+    lines: [
+      ln('dabney', 'You want to cross my bridge? Then you pay the bridge fee.', 'think'),
+      ln('dabney', 'And what’s the fee? Whatever’s in your pockets.'),
+      ln('dabney', 'And your boots.'),
+      ln('dabney', 'And your dignity.', 'happy'),
+      ln('narrator', 'Dabney bows. Then he bows again, because he is the real lead.'),
+      ln('mags', 'I’m the princess and I’m meant to be the star'),
+      ln('mags', 'So why am I just standing here holding a jar?', 'angry'),
+      ln('everyone', 'Night Keeper, Sun Keeper, holding hands at last', 'happy'),
+      ln('everyone', 'We spent the whole budget and the lanterns are gas—'),
+      ln('dabney', 'Stop singing, Fitz.', 'angry'),
+      ln('narrator', 'The crowd goes wild, mostly from relief. The open-air stage, Sun and Night capes, and the song on the jukebox are yours.'),
+    ],
+  },
+  {
+    id: 'q37-finale-mags',
+    lines: [
+      ln('dabney', 'You want to cross my bridge? Then you pay the bridge fee.', 'think'),
+      ln('dabney', 'And what’s the fee? Whatever’s in your pockets.'),
+      ln('dabney', 'And your boots.'),
+      ln('dabney', 'And your dignity.', 'happy'),
+      ln('mags', 'I’m the princess and I’m meant to be the star'),
+      ln('mags', 'So why am I just standing here holding a jar?', 'angry'),
+      ln('narrator', 'She raises the jar like a crown.'),
+      ln('narrator', 'It is the emotional heart of the play. She has decided.'),
+      ln('everyone', 'Night Keeper, Sun Keeper, holding hands at last', 'happy'),
+      ln('everyone', 'We spent the whole budget and the lanterns are gas—'),
+      ln('dabney', 'Stop singing, Fitz.', 'angry'),
+      ln('narrator', 'The crowd goes wild, mostly from relief. The open-air stage, Sun and Night capes, and the song on the jukebox are yours.'),
+    ],
+  },
+  // Q38
+  pay('q38-plea-is-trust', ln('corky', 'Like I said. A well-fed bird is an honest bird. It’s law now. I scratched it into the bar.', 'happy')),
+  pay(
+    'q38-plea-is-maybe',
+    ln('fitz', 'For the record, the Keeper said it might have done it. I’m ignoring that. I’m a merciful judge.'),
+    ln('corky', 'Objection!', 'angry'),
+    ln('fitz', 'To what?'),
+    ln('corky', 'Habit.'),
+  ),
+  pay('q38-lead-is-trust', ln('fitz', 'That trust thing is swinging me. I trust the trust.', 'think')),
+  pay(
+    'q38-lead-is-glow',
+    ln('dabney', 'I still say glowing proves nothing.', 'angry'),
+    ln('narrator', 'Your Nubbin glows a little brighter. You suspect it is doing it on purpose.'),
+  ),
+  pay(
+    'q38-lead-is-feather',
+    ln('narrator', 'The goose keeps eyeing the feather on the bar. It would like it back.'),
+    ln('corky', 'Evidence stays with the court, goose.'),
+  ),
+  // Q39
+  pay(
+    'q39-cart-is-moved',
+    ln('corky', 'You tried to move the cart for me. Nobody moves the cart for me.', 'soft'),
+    ln('rook', 'Because the cart was in the right place.'),
+  ),
+  pay('q39-cart-is-left', ln('corky', 'You didn’t even look at the cart. Cold. That’s real director stuff.', 'happy')),
+  pay(
+    'q39-credit-is-corky',
+    ln('narrator', `${REEL_CARD} Underneath, in brackets you have to squint at: (Corky).`),
+    ln('corky', 'Brackets!', 'happy'),
+  ),
+  pay('q39-credit-is-rook', ln('narrator', `${REEL_CARD} Corky watches it six times and claps every time.`)),
+  // Q35 → Q39: Rook's poster confession, once Q35 is complete.
+  {
+    id: 'q39-complete-poster',
+    lines: [
+      ln('narrator', 'Corky goes off the jetty like a bag of laundry. Your Nubbin tows him back by the collar, rather proudly.'),
+      ln('corky', 'I nailed it. Did I nail it? I can’t feel my face.', 'happy'),
+      ln('rook', 'That’s a wrap on Project Badass. Every stunt done by me. In spirit.', 'happy'),
+      ln('narrator', 'Rook tears the sleeves off his karate gi so he can “breathe on camera”, and hands you the spare.'),
+      ln('rook', 'And learn the pose. Every fighter needs a pose. This is the one I do before I don’t fight.'),
+      ln('rook', 'It’s from the poster. I’ve never told anyone that.', 'soft'),
+      ln('corky', 'You told everyone, Rook. You cried on the board.'),
+      ln('rook', '…It’s still a good poster.', 'sad'),
+      ln('narrator', 'A sleeveless karate gi joins your wardrobe, and your Nubbins can strike a pose before every karate bout.'),
+    ],
+  },
+  // Q40
+  pay('q40-tube-is-yours', ln('mags', 'And for the record, the tube was my idea. The Keeper just said it first. Out loud. Near me.')),
+  pay(
+    'q40-tube-is-hers',
+    ln('dabney', 'The Keeper said leave it open, so people could get out. I wrote that down. I’ll read it at the inquiry.'),
+    ln('mags', 'There’s no inquiry!', 'angry'),
+  ),
+  pay('q40-rescue-is-push', ln('fitz', 'Somebody pushed me through a tube by my sandwich. I won’t forget it.', 'angry')),
+  pay(
+    'q40-rescue-is-pull',
+    ln('fitz', 'Somebody pulled my leg first. Thought it was Mags’s. It’s my good leg.'),
+    ln('mags', 'You don’t have a good leg.', 'angry'),
+  ),
+  pay('q40-tickets-is-refund', ln('narrator', 'The refunded queue rides anyway, for nothing, and says thank you. Dabney finds this physically painful.')),
+  pay('q40-tickets-is-honour', ln('dabney', 'Not one complaint. A scam with no victims. Is that just a shop?', 'think')),
+  pay('q40-tickets-is-cut', ln('corky', 'Don’t spend your shell yet. It might be the last one.', 'think')),
+  // Q41
+  pay('q41-entrance-is-bin', ln('narrator', 'You still smell of the bin. Somewhere in the crowd, a chant starts: “Trash Pal! Trash Pal!”')),
+  pay('q41-entrance-is-steps', ln('fitz', 'Partner who uses steps! At least try to smell like a bin. Roll in something.', 'angry')),
+  // Q41 → Q45: the thrown-bout offer, when Pim tries the same.
+  pay('q41-deal-is-refused', ln('narrator', PIM_ASKS), ln('dabney', 'Don’t bother bribing the Keeper, Pim. I tried. It was humiliating.')),
+  pay(
+    'q41-deal-is-double-crossed',
+    ln('narrator', PIM_ASKS),
+    ln('dabney', 'Don’t make deals with the Keeper, Pim. The Keeper takes them, then wins anyway.'),
+  ),
+  pay('q41-deal-is-told', ln('narrator', PIM_ASKS), ln('fitz', 'And nobody offer the Keeper a split. The Keeper tells.', 'angry')),
+  // Q42
+  pay('q42-believe-is-true', ln('corky', 'You believed me. Even when it was mad. I’m putting you on the wall. With the good string.', 'soft')),
+  pay(
+    'q42-believe-is-false',
+    ln('corky', 'You asked when I last slept. It was Tuesday. I’m gonna sleep now. Right here. In the hedge.'),
+    ln('narrator', 'He does. Your Nubbin covers him with a leaf.'),
+  ),
+  // Q43
+  pay('q43-extras-is-back', ln('fitz', 'The extras were too far back. You can’t see them. They’re dots. Very safe dots.')),
+  pay('q43-extras-is-cheering', ln('narrator', 'The Nubbin extras cheer every take, including the ones where Rook falls over. Those most of all.')),
+  pay(
+    'q43-mags-is-line',
+    ln('mags', 'I said my line. Most of it. It’s going on my reel.', 'happy'),
+    ln('rook', 'You don’t have a reel.'),
+    ln('mags', 'I do now. It’s ten words long.', 'happy'),
+  ),
+  pay(
+    'q43-mags-is-dead',
+    ln('fitz', 'Best corpse I’ve ever worked with, and I’ve worked with a lot of corpses.'),
+    ln('mags', 'Thank you!', 'happy'),
+    ln('dabney', 'Don’t ask him, Keeper.'),
+  ),
+  // Q44
+  pay(
+    'q44-outfit-is-smart',
+    ln('waiter', 'May I say, you are the best-dressed guest Mr Corky has ever brought.'),
+    ln('corky', 'I’ve never brought anyone.', 'happy'),
+    ln('waiter', 'I know, sir.', 'soft'),
+  ),
+  pay('q44-outfit-is-sock', ln('waiter', 'Two sock ties. At one table. I will be telling my wife about this.', 'shock')),
+  pay('q44-order-is-milk', ln('corky', 'You ordered what I ordered. On purpose. I saw you.', 'soft')),
+  pay('q44-order-is-trout', ln('waiter', '(quietly) The trout will be here next year. So will I. Courage.')),
+  pay('q44-method-is-beans', ln('corky', 'You used the beans. You’re a bean person now. There’s no going back.', 'happy')),
+  pay('q44-method-is-nose', ln('narrator', 'You let go of your nose. That was also a mistake.')),
+  pay('q44-method-is-slip', ln('narrator', 'The piece you slipped onto Corky’s plate is back on yours. He has been guarding it like a gift.')),
+  // Q45
+  pay('q45-talk-is-trash', ln('pim', 'Still bringing a mop, by the way. For afterwards. For you.')),
+  pay(
+    'q45-talk-is-polite',
+    ln('pim', 'Firm handshake yesterday. I respected it. I’m still going to crush you.'),
+    ln('rook', 'See? Weakness. He can smell it.', 'angry'),
+  ),
+  {
+    id: 'q45-complete-exposed',
+    lines: [
+      ln('narrator', 'The melon curves, wobbles, and takes out all twelve pins in a spray of seeds.'),
+      ln('corky', 'We won! We kept the pub! I still live in the pub!', 'happy'),
+      ln('pim', 'Rematch. Next season. Bring a real ball.', 'angry'),
+      ln('fitz', 'And we won a boat! Who wants a boat? I’m selling it. Tonight.', 'happy'),
+      ln('fitz', 'I hedged, the Keeper told everyone, and I still lost half.', 'sad'),
+      ln('fitz', 'Honesty costs forty shells. Nobody warned me.'),
+      ln('dabney', 'The lane stays. We’re bowlers now. It’s part of my brand.'),
+      ln('narrator', 'Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play.'),
+      ln('narrator', 'A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe.'),
+    ],
+  },
+  {
+    id: 'q45-complete-doubled',
+    lines: [
+      ln('narrator', 'The melon curves, wobbles, and takes out all twelve pins in a spray of seeds.'),
+      ln('corky', 'We won! We kept the pub! I still live in the pub!', 'happy'),
+      ln('pim', 'Rematch. Next season. Bring a real ball.', 'angry'),
+      ln('fitz', 'And we won a boat! Who wants a boat? I’m selling it. Tonight.', 'happy'),
+      ln('fitz', 'I moved the lot onto the Keeper. Up forty shells and a boat I can’t sail.', 'shock'),
+      ln('fitz', 'First time I’ve ever backed a winner. I feel sick.'),
+      ln('dabney', 'The lane stays. We’re bowlers now. It’s part of my brand.'),
+      ln('narrator', 'Corky hands you a shirt with someone else’s name stitched on it. The lane stays behind the pub for anyone to play.'),
+      ln('narrator', 'A bowling lane joins your decorations, playable any time, and a bowling shirt joins your wardrobe.'),
+    ],
+  },
+];
+
+/**
+ * Whole-scene variants: when the flag is set and a variant `<scene>-<value>` exists in
+ * QUESTS_SUNNY_VARIANTS, it replaces `<scene>`; otherwise the base scene plays.
+ * (q45-practice-done's base is the 'stayed-out' reading; q45-complete's is 'quiet'.)
+ */
+export const QUESTS_SUNNY_VARIANT_FLAGS: Record<string, string> = {
+  'q37-sun-keeper': 'q37-calm',
+  'q37-finale': 'q37-calm',
+  'q45-practice-done': 'q31-deal',
+  'q45-complete': 'q45-hedge',
+};
+
+/**
+ * Short payoff scenes, per quest: before or after step `i` (`i` = steps.length means the
+ * complete scene), play `<flag>-is-<value>` for each listed flag that is set, in order.
+ * Booleans read as 'true' / 'false'.
+ */
+export const QUESTS_SUNNY_PAYOFFS: Record<
+  string,
+  { before?: Record<number, string[]>; after?: Record<number, string[]> }
+> = {
+  q32: { before: { 2: ['q32-first', 'q32-inspector'] } },
+  q33: { before: { 2: ['q33-drink', 'q33-dabney', 'q33-label'] } },
+  q34: { before: { 2: ['q34-cheer', 'q34-lap'] } },
+  q35: { before: { 1: ['q35-answer'] } },
+  q36: { before: { 2: ['q36-promise', 'q36-goose'] } },
+  q38: { before: { 2: ['q38-plea', 'q38-lead'] } },
+  q39: { after: { 0: ['q31-rook'], 3: ['q39-credit'] }, before: { 1: ['q39-cart'] } },
+  q40: { before: { 2: ['q40-tube', 'q40-rescue', 'q40-tickets'] } },
+  q41: { before: { 1: ['q41-entrance'] } },
+  q42: { after: { 2: ['q42-believe'] } },
+  q43: { after: { 3: ['q43-extras', 'q43-mags'] } },
+  q44: { after: { 0: ['q35-spirit'] }, before: { 1: ['q44-outfit'], 2: ['q44-order', 'q44-method'] } },
+  q45: { after: { 0: ['q41-deal'] }, before: { 1: ['q45-talk'] } },
+};
+
+/** Every flag the Sunny choices set. */
+export const QUESTS_SUNNY_FLAGS: string[] = [
+  'q31-rook',
+  'q31-deal',
+  'q32-first',
+  'q32-inspector',
+  'q33-drink',
+  'q33-dabney',
+  'q33-label',
+  'q34-cheer',
+  'q34-lap',
+  'q35-answer',
+  'q35-spirit',
+  'q36-promise',
+  'q36-goose',
+  'q37-calm',
+  'q38-plea',
+  'q38-lead',
+  'q39-cart',
+  'q39-credit',
+  'q40-tube',
+  'q40-rescue',
+  'q40-tickets',
+  'q41-entrance',
+  'q41-deal',
+  'q42-believe',
+  'q43-extras',
+  'q43-mags',
+  'q44-outfit',
+  'q44-order',
+  'q44-method',
+  'q45-talk',
+  'q45-hedge',
 ];

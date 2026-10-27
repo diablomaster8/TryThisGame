@@ -429,7 +429,7 @@ const SCENES: EduScene[] = [
       ),
       SP('LOOK AT HER GO. That’s a happy Nubbin. That’s a party working.', 'happy'),
       EM('That’s not happy. That’s busy.', 'angry'),
-      SP('…What?', 'shock'),
+      SP('…What? I made a cake shaped like a cake.', 'shock'),
       EM(
         'I know busy. I was busy for a whole year after I lost Ash. Cleaned the house twice a day. Nobody could get a word in.',
         'soft',
@@ -833,6 +833,9 @@ const SCENES: EduScene[] = [
       N(
         'You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.',
       ),
+      N(
+        'A sparrow is sitting in the frost on Moss’s back. Moss has decided this is also a conversation.',
+      ),
       M(
         'Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.',
         'think',
@@ -997,7 +1000,7 @@ const SCENES: EduScene[] = [
         'At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, then gets to work.',
       ),
       N(
-        'She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head.',
+        'She herds the whole household into the shed: Bristle, Flinch, her ladyship, Drizzle, Dimple. She pushes from behind with her head.',
       ),
       N(
         'Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door.',
@@ -1132,7 +1135,7 @@ const SCENES: EduScene[] = [
         'Fidget comes back, inspects the blanket and the bucket, and pushes the bucket one inch further. Shut. She sits down.',
       ),
       N(
-        'A minute later Drizzle’s nose comes out under the hem. Then the fussy one, then Flinch, who jumps at the blanket, and then doesn’t.',
+        'A minute later Drizzle’s nose comes out under the hem. Then her ladyship, with a red leaf she won’t discuss, then Flinch, who jumps at the blanket, and then doesn’t.',
       ),
       N(
         'They go in and out as they please all evening. Fidget counts them every time, and seems to find the number acceptable.',
@@ -1612,7 +1615,7 @@ const SCENES: EduScene[] = [
         'Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget.',
       ),
       N(
-        'She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush.',
+        'Clover left her asleep in the tea towels. She has woken to an empty kitchen, and come up the hill alone, checking every bush.',
       ),
       N(
         'At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top.',
@@ -1736,7 +1739,37 @@ const SCENES: EduScene[] = [
 ];
 
 // ================================================================== variants
+// Ring-choice clones of the rubbing (SR-20261027-1258): the base scene with Drizzle's ring line swapped.
+const ringClone = (suffix: string, at: number, line: Line): EduScene => {
+  const base = SCENES.find((s) => s.of === 's30-complete');
+  if (!base) throw new Error('missing base scene s30-complete');
+  return {
+    ...base,
+    id: `reader:s30-complete-${suffix}`,
+    of: `s30-complete-${suffix}`,
+    lines: base.lines.map((l, i) => (i === at ? line : l)),
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace('reader:s30-complete-l', `reader:s30-complete-${suffix}-l`),
+    })),
+  };
+};
+
 export const EDU_S30_READER_VARIANTS: EduScene[] = [
+  ringClone(
+    'broke',
+    4,
+    N(
+      'Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, with a gap in it where you lifted her out.',
+    ),
+  ),
+  ringClone(
+    'sat',
+    4,
+    N(
+      'Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, and a bigger ring round you both.',
+    ),
+  ),
   // ---- replaces s30-wall when S1's wall memory was seen
   scene(
     's30-wall-s1',
@@ -1744,6 +1777,9 @@ export const EDU_S30_READER_VARIANTS: EduScene[] = [
       N('The frosts have come, and the Grove is white at dawn round the fourth post.'),
       N(
         'You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.',
+      ),
+      N(
+        'A sparrow is sitting in the frost on Moss’s back. Moss has decided this is also a conversation.',
       ),
       M(
         'Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.',
@@ -1768,7 +1804,7 @@ export const EDU_S30_READER_VARIANTS: EduScene[] = [
         skill: 'oral history',
         standard: 'D2.His.2.K-2',
         kind: 'notice',
-        after: 3,
+        after: 4,
         lines: [
           N(
             'Moss remembers Hush and tells her story aloud. Passing history on by telling it is called oral history.',

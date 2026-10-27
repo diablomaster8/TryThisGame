@@ -70,6 +70,7 @@ _He reads the label. Then the back. Then the front again._
 _In the basket: a scarf, a dried apple ring and a jar._  
 _The jar is empty. Licked very clean!_  
 _The jar says “Marmalade”. Marmalade is a jam made from oranges._  
+**Byte**: Nubbins eat fruit. Not marmalade! It says so in every book.  
 
 > **Lesson** (literacy, RF.K.2, do): clapping the syllables in a word  
 > _Let’s clap “marmalade” together. Mar-ma-lade!_  
@@ -77,7 +78,6 @@ _The jar says “Marmalade”. Marmalade is a jam made from oranges._
 > Check: `edu:clap:syllables:marmalade`
 > _For grown-ups: Clapped the three syllables in “marmalade”._
 
-**Byte**: Nubbins eat fruit. Not marmalade! It says so in every book.  
 _The Nubbin holds the jar upside down. Empty! Then it waits, politely._  
 _You remember a shelf at Gran Hazel’s. Orange jars, all in a row._  
 **Byte**: How many jars?  

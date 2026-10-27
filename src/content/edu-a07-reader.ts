@@ -3008,7 +3008,7 @@ const Q09: EduQuest = quest(
           'Talked about big feelings when hearing something terrible, and telling someone you trust.',
         ),
         ask(
-          6,
+          7,
           'literacy',
           'understand a character’s traits from how he speaks',
           'RL.3.3',

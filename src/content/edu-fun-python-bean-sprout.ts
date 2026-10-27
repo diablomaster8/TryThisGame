@@ -1128,6 +1128,7 @@ const Q07 = quest(
         PX('SHH!', 'angry'),
         PX('It needs stone towers. Will you help?'),
         BY('I am drinking my tea.', 'think'),
+        N('There is a tea stain on the drawbridge. Byte hides his cup.'),
       ],
       [
         ask(
@@ -1214,10 +1215,11 @@ const Q07 = quest(
         BY('Still quite sm…', 'think'),
         N('Byte stops. He watches the little crown take a bow.'),
         BY('It’s a very good castle.', 'soft'),
+        BY('I tested the drawbridge. Twice.'),
       ],
       [
         ask(
-          7,
+          8,
           m('sel', 'kind words', 'Your child picked the kinder of two things to say about a friend’s work.', 'CASEL: Relationship skills'),
           [N('Byte changed his words. Which words are kinder?')],
           [
@@ -1347,6 +1349,8 @@ const Q08 = quest(
         RG('My wife exaggerates. Twice a day, at most.'),
         RG('…All right. Hands up to thank the Keeper.', 'sad'),
         N('Up go the hands. Reggie’s goes up last, slowly.'),
+        N('Frannie pulls out the fourth chair. It is for you.'),
+        MG('Biscuit?'),
         N('The crops will never be thirsty again.'),
       ],
       [
@@ -1944,7 +1948,7 @@ const Q12 = quest(
         N('You carry it home.'),
         N('Your Nubbins take it to the nest and snuggle round it.'),
         N('By night, they are all fast asleep, cuddling the toy.'),
-        N('Now the shop takes things back, if you say what’s wrong.'),
+        N('Now the shop takes things back, if you bring them within a day.'),
       ],
       [
         act(
@@ -2121,7 +2125,7 @@ const Q14 = quest(
         PO('Our THREE tools! Hmm. Out we go. We’ll do the door again.', 'think'),
         N('Out they go. Bang! In they come. Nobody trips.'),
         PO('Your Nubbins look tired. Sister Tuft! The big red chair!'),
-        TF('We left it at your Workshop.', 'sad'),
+        TF('We left it at your Workshop. Brother Pouffe said he would carry it.', 'sad'),
         PO('…Keeper, could you bring it here for us, please?', 'sad'),
       ],
       [
@@ -2541,6 +2545,10 @@ const Q16 = quest(
         BY('You’re in my Talking Club. The first member!', 'happy'),
         Y('Is there a club?'),
         BY('There is now. No arguing.'),
+        N('Pixel leans out of the Workshop window.'),
+        PX('Did you win? Nobody wins against Byte.', 'happy'),
+        BY('Disagree.'),
+        PX('See?'),
       ],
       [
         ask(
@@ -3943,6 +3951,7 @@ const Q26 = quest(
         N('Everyone gets a square.'),
         N('Mr. Tweed takes the last one. Mostly crust. He loves it.'),
         N('He has never shared his lunch before.'),
+        N('The duck comes back. Mr. Tweed gives it half his crust.'),
         N('The Nubbins snuggle in a sleepy pile on the blanket.'),
         N('Mr. Tweed goes to fold it. Then he stops.'),
         N('He leaves it there, for the sleeping Nubbins.'),
@@ -4120,6 +4129,7 @@ const Q27 = quest(
           'Tell her: it’s a photo. There was a sneeze.',
           [
             WP('A sneeze. Of course.'),
+            WP('Did the moustache sneeze too?'),
             WP('You know what? I like this one better. It stays.'),
             N('Mr. Tweed gives her the old painting, rolled up.'),
           ],
@@ -4373,6 +4383,7 @@ const Q29 = quest(
       [
         N('All afternoon, nobody puts the egg down.'),
         N('Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it.'),
+        N('Mr. Tweed keeps his hat ready, just in case.'),
         N('You put a blanket in a fruit box, and add wheels.'),
         N('A stone at each end stops it rolling.'),
         N('The egg tries the box. There is room for two.'),
@@ -4381,7 +4392,7 @@ const Q29 = quest(
       ],
       [
         ask(
-          5,
+          6,
           m('science', 'sunset and evening', 'Your child connected the sun going down with evening.', '1-ESS1-1'),
           [N('The sun is going down. What time of day is it?')],
           [
@@ -4556,6 +4567,66 @@ const Q30 = quest(
 );
 
 // ================================================================ exports
+
+// ---------------------------------------------------------------- variant scenes
+
+/**
+ * A quest's complete scene as a variant for the fun-pack rules (src/sim/fun-pack-rules.ts):
+ * `add` replaces `drop` lines at index `at`, and lessons after that point move with the text.
+ */
+const completeWith = (
+  q: EduQuest,
+  id: string,
+  at: number,
+  add: Line[],
+  drop = 0,
+  choices?: Choice[],
+): EduScene => {
+  const base = q.scenes.find((s) => s.of === `${q.of}-complete`);
+  if (!base) throw new Error(`no complete scene in ${q.id}`);
+  const newId = `${base.band}:${id}`;
+  return {
+    ...base,
+    id: newId,
+    of: id,
+    lines: [...base.lines.slice(0, at), ...add, ...base.lines.slice(at + drop)],
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace(base.id, newId),
+      after: l.after >= at + drop ? l.after + add.length - drop : l.after,
+    })),
+    ...(choices ? { choices } : {}),
+  };
+};
+
+/** Q4, Q6 and Q9 payoffs (Python sprout variants; registered with the sprout variants). */
+export const EDU_PYTHON_SPROUT_VARIANTS: EduScene[] = [
+  completeWith(Q04, 'q04-complete-kept', 1, [N('Nobody else gets a go. Trotwell clops past, very proud.')], 1),
+  completeWith(Q04, 'q04-complete-shared', 1, [N('Everyone gets a turn. Trotwell joins the queue twice.')], 1),
+  completeWith(Q06, 'q06-complete-shouted', 3, [N('“P.P.S. The wall is NOT wonky.”')]),
+  completeWith(Q06, 'q06-complete-laughed', 3, [N('“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”')]),
+  completeWith(Q06, 'q06-complete-knocked', 3, [N('“P.P.S. I have no rabbit. Stop knocking.”')]),
+  completeWith(Q09, 'q09-complete-themselves', 5, [
+    N('The pebble Nubbins sleep a little apart. They chose it themselves.'),
+  ]),
+  completeWith(Q09, 'q09-complete-pebble', 5, [N('The pebble Nubbins sleep at the edge. They are very happy.')]),
+];
+
+/** Q27 payoff (Bean sprout variant): the player who wanted to tell, then stayed quiet. */
+const q27SproutQuiet = (c: Choice): Choice =>
+  c.id === 'quiet'
+    ? { ...c, then: [...(c.then ?? []), N('Mr. Tweed points at the clock, then at you. Now we tell.')] }
+    : c;
+export const EDU_BEAN_SPROUT_VARIANTS: EduScene[] = [
+  completeWith(
+    Q27,
+    'q27-complete-told',
+    0,
+    [],
+    0,
+    Q27.scenes.find((s) => s.of === 'q27-complete')?.choices?.map(q27SproutQuiet),
+  ),
+];
 
 export const EDU_PYTHON_SPROUT: EduQuest[] = [Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20];
 

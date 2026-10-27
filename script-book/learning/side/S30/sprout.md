@@ -146,7 +146,7 @@ _Dimple wins every race. She bounces round the cake eleven times!_
 _Your Nubbin copies every bounce. Now it is very tired._  
 **Sparks**: Look at her go! That’s a happy Nubbin!  
 **Ember**: That’s not happy. That’s busy.  
-**Sparks**: What?  
+**Sparks**: What? I made a cake shaped like a cake!  
 **Byte**: I made a scale. It goes from nought to ten.  
 **Byte**: Her ball only got to two. All day.  
 
@@ -292,6 +292,7 @@ _Frost! The Grove is white and sparkly this morning._
 > _For grown-ups: Heard that frost is frozen water that melts when it warms up._
 
 _Moss is by the old wall. There is frost on his back._  
+_A sparrow sits on Moss’s back. Moss lets the sparrow stay._  
 **Moss**: Luna told me about Clover’s gold one.  
 **Moss**: Long ago, there was a very long, cold winter.  
 **Moss**: Many Nubbins got too cold. Some of them died.  
@@ -305,6 +306,7 @@ _Variant of `s30-wall`._
 
 _Frost! The Grove is white and sparkly this morning._  
 _Moss is by the old wall. There is frost on his back._  
+_A sparrow sits on Moss’s back. Moss lets the sparrow stay._  
 **Moss**: Luna told me about Clover’s gold one.  
 **Moss**: You remember Hush. You came here with me before.  
 **Moss**: She sat with the Nubbins who died, so they weren’t alone.  
@@ -649,7 +651,7 @@ _Your Nubbin sits down too._
 #### `sprout:s30-fidget-hill` · [main](../../../side/S30.md#s30-fidget-hill)
 
 _Pitter-patter! Tiny feet run up the path. It’s Fidget!_  
-_She woke up, and everyone was gone. She is scared._  
+_Clover left her asleep. She woke up alone, and she is scared._  
 _She spins round and round. Her ball spins too._  
 **Fidget**: …  
 _Dimple gets up. She sits down right beside Fidget._  
@@ -682,6 +684,48 @@ _You draw her a ring with a line through it. Happy and sad._
 
 **Clover**: That’s Dimple now. Happy and sad. Both!  
 _Next to it, you draw Drizzle’s mark: a plain ring, touching Dimple’s._  
+_Next morning, a parcel from Clover!_  
+_A blue rain hat, and Fossil’s cushion, all puffed up._  
+
+#### `sprout:s30-complete-broke` · [main](../../../side/S30.md#s30-complete-broke)
+
+_Variant of `s30-complete`._
+
+_On the way home, you stop at Hush’s stone._  
+_Clover holds some paper on it. You rub with a black crayon. Swish, swish._  
+_The marks come up! Rings, lines, and rings with lines._  
+**Clover**: Dimple needs a mark of her own.  
+_You draw her a ring with a line through it. Happy and sad._  
+
+> **Lesson** (art, ELOF: Perceptual, Motor, and Physical Development, do): draw a circle and a line  
+> _(Draw Dimple’s mark with your finger: a big ring, then a line through it.)_  
+> _Round… and across. Happy and sad, together._  
+> Check: `edu:draw:shape:ring-with-line`
+> _For grown-ups: Drew a circle with a line through it, a mark for happy and sad together._
+
+**Clover**: That’s Dimple now. Happy and sad. Both!  
+_Next to it, you draw Drizzle’s plain ring, with a gap._  
+_Next morning, a parcel from Clover!_  
+_A blue rain hat, and Fossil’s cushion, all puffed up._  
+
+#### `sprout:s30-complete-sat` · [main](../../../side/S30.md#s30-complete-sat)
+
+_Variant of `s30-complete`._
+
+_On the way home, you stop at Hush’s stone._  
+_Clover holds some paper on it. You rub with a black crayon. Swish, swish._  
+_The marks come up! Rings, lines, and rings with lines._  
+**Clover**: Dimple needs a mark of her own.  
+_You draw her a ring with a line through it. Happy and sad._  
+
+> **Lesson** (art, ELOF: Perceptual, Motor, and Physical Development, do): draw a circle and a line  
+> _(Draw Dimple’s mark with your finger: a big ring, then a line through it.)_  
+> _Round… and across. Happy and sad, together._  
+> Check: `edu:draw:shape:ring-with-line`
+> _For grown-ups: Drew a circle with a line through it, a mark for happy and sad together._
+
+**Clover**: That’s Dimple now. Happy and sad. Both!  
+_You draw Drizzle’s plain ring. Then a big ring round you both._  
 _Next morning, a parcel from Clover!_  
 _A blue rain hat, and Fossil’s cushion, all puffed up._  
 

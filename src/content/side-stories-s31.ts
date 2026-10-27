@@ -326,6 +326,7 @@ export const SIDE_STORY_S31: Quest[] = [
             {
               id: 'dont',
               label: 'Don’t sign. Tell Ned not to do it.',
+              set: { 's31-witness': 'refused' },
               then: [
                 Y('Don’t do it, Ned.'),
                 NED('But she’s written it down.', 'sad'),
@@ -392,6 +393,8 @@ export const SIDE_STORY_S31: Quest[] = [
             Y('There aren’t any gourds here.'),
             TAM('No. But it isn’t pretending. Everywhere else is tidy, for people. This one’s just itself.', 'think'),
             TAM('He’ll like that. The most sincere patch. I’ve got a feeling for sincere.'),
+            Y('How can you tell?'),
+            TAM('It’s the only patch nobody’s tried to make nice.'),
             N('His sign is painted on the back of a tea tray: WELCOME GREAT GOURD. The R is backwards, on purpose, for luck.'),
             N('He also has a toffee apple in a hanky. It’s for the Great Gourd, in case he’s hungry from flying.'),
           ],
@@ -399,7 +402,8 @@ export const SIDE_STORY_S31: Quest[] = [
         done: {
           id: 's31-moss',
           lines: [
-            N('You knock the sign in by the dark post. Tam sets the toffee apple on top and looks at it all the way people look at cathedrals.'),
+            N('You hammer the sign in by the dark post: twice on the nail, once on your thumb. Tam writes this down as a good sign.'),
+            N('He sets the toffee apple on top and looks at it all the way people look at cathedrals.'),
             N('Moss comes past along the hill path, slowly, the grass hardly bending under him. He stops to read the sign.'),
             TAM('Moss. You’re very old. Is the Great Gourd real?'),
             MOSS('I have never seen it. I have not seen a great many things that are real.', 'think'),
@@ -663,6 +667,7 @@ export const SIDE_STORY_S31: Quest[] = [
           lines: [
             ...S31_IVY_HOME,
             N('In the long grass it gets light, slowly. The frost comes off the post in a thin steam.'),
+            N('Your Nubbin wakes, one goggle lens fogged, and salutes the sign. Nobody has told it the war is over.'),
             S31_SIGN_AT_DAWN,
           ],
         },
@@ -750,7 +755,7 @@ export const SIDE_STORY_S31: Quest[] = [
         kind: 'item',
         label: 'Ned’s rock',
         description:
-          'A keepsake. A plain grey rock with a paper label in Byte’s small square capitals: BASALT. Given to you for being the witness.',
+          'A keepsake. A plain grey rock with a paper label in Byte’s small square capitals: BASALT. Given to you for being there. Ned says it didn’t count.',
       },
       {
         id: 's31-sign',
@@ -819,6 +824,28 @@ export const SIDE_STORY_S31: Quest[] = [
 
 // ================================================================== variants
 export const SIDE_STORY_S31_VARIANTS: Scene[] = [
+  // ---------------------------------------------------------------- step 4 done, s31-witness = refused (SR-1257)
+  {
+    id: 's31-kick-refused',
+    lines: [
+      N('Ned runs with everything he has. At the very last moment Ivy lifts her finger, and the ball rolls gently away.'),
+      N('Ned kicks the air, goes up, and comes down flat on his back with a sound like a dropped sack.'),
+      NED('…You promised. It was witnessed.', 'sad'),
+      IVY('Ned signed it himself. You can’t witness your own promise. It doesn’t count.'),
+      N('She tucks the clipboard under her arm and walks off. Ned lies on the grass and looks at the sky, which at least stays put.'),
+    ],
+  },
+  // ---------------------------------------------------------------- step 9 done, s31-witness = refused (SR-1257)
+  {
+    id: 's31-rock-refused',
+    lines: [
+      N('Ned holds up the rock with the label, so you can read it. In Byte’s small square capitals: BASALT.'),
+      NED('I got a rock.'),
+      NED('But Byte wrote what it is. Nobody ever writes down what my things are.', 'soft'),
+      NED('You have it. For being the only one who said don’t.', 'soft'),
+      N('It is heavy and cold and very ordinary. You put it in your pocket, and find you keep checking it’s there.'),
+    ],
+  },
   // ---------------------------------------------------------------- step 9 scene, s31-night = sat
   {
     id: 's31-guising-sat',
@@ -874,7 +901,7 @@ export const SIDE_STORY_S31_VARIANTS: Scene[] = [
     lines: [
       N('A grey shape rises out of the white grass by the post. It comes slowly, and the frost doesn’t seem to touch it at all.'),
       S31_FAINT,
-      N('It is Sable. The frost can’t do anything more to her than it has already done.'),
+      N('It is Sable. She has been grey since the White Year; the frost has nothing left to take from her.'),
       N('She looks at Tam, flat out in his quilt. Then she looks at you, for a long time.'),
       N('Then she sits down beside you, close enough to touch, and faces the dark lane with you.'),
       N('Sable says nothing. Her ears stay up.'),

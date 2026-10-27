@@ -793,6 +793,7 @@ _It is the first time in years he has cut his sandwich into more than one piece.
 > - He just really likes crusts. → Ha! Maybe he does. Some people do. But look at his face. It might not only be about the crust.
 > _For grown-ups: Thought about why someone might be happier with a small shared piece than a whole thing eaten alone._
 
+_The duck comes back for the crust. Mr. Tweed measures it with the ruler, finds it over regulation size, and gives it half anyway._  
 _The Nubbins lie in a sleepy pile on the blanket: sticky, full and very happy._  
 _Mr. Tweed goes to fold the blanket. He looks at the pile of sleeping Nubbins, and quietly leaves it where it is._  
 _He tips his hat to you. The blanket is yours now. The Nubbins have decided._  
@@ -945,6 +946,8 @@ _The Warden is still looking. You could tell her the truth. Or you could say not
 
 - **It’s a photo. There was a sneeze.**
     - **Warden Pryce**: A sneeze. Of course there was.
+    - She looks at the half moustache still stuck to Mr. Tweed’s lip.
+    - **Warden Pryce**: And the moustache. Did that sneeze too?
     - **Warden Pryce**: Honestly? I prefer this one. The old one always looked cross. It stays.
     - Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.
     - He looks lighter, somehow. Secrets are heavy things to carry up the back of a jacket.
@@ -952,6 +955,41 @@ _The Warden is still looking. You could tell her the truth. Or you could say not
     - **Warden Pryce**: Well. Keep up the good work, both of you.
     - As the door closes behind her, Mr. Tweed breathes out for the first time in an hour.
     - The real painting is still rolled up in his jacket. Neither of you mentions it on the way out.
+
+#### `reader:q27-complete-told` · [main](../../../fun/bean.md#q27-complete-told)
+
+_Variant of `q27-complete`._
+
+_The Warden walks in and looks at the portrait for a long, long time._  
+**Warden Pryce**: It looks… brighter. Younger, somehow. That founder has your chin.  
+_Mr. Tweed studies the ceiling. Half a grey moustache is still stuck to his lip._  
+_Behind his back, he presses a stack of spare frames into your hands._  
+_He mimes: your photos, your walls._  
+_The Warden is still looking. You could tell her the truth. Or you could say nothing at all._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): owning up to an accident  
+> _The painting is ruined, and the Warden may never find out._  
+> _Should you tell her what really happened?_  
+> - Yes. Telling the truth is right, even when it’s awkward. → That’s a brave answer. Owning up can feel scary. But it means nobody is fooled, and people know they can trust you.
+> - No. It was an accident, and the photo is lovely. → That’s an honest answer: it was an accident, and the photo is lovely. But the Warden thinks she’s looking at the old painting. Is it fair to let her believe that? Something to think about.
+> - Tell her, and explain it was an accident. → That’s a thoughtful answer. Accidents happen to everyone. Saying what happened, and that you tried to fix it, is often best.
+> _For grown-ups: Thought about whether to own up to an accident when nobody would ever find out._
+
+
+**Choices**
+
+- **It’s a photo. There was a sneeze.**
+    - **Warden Pryce**: A sneeze. Of course there was.
+    - She looks at the half moustache still stuck to Mr. Tweed’s lip.
+    - **Warden Pryce**: And the moustache. Did that sneeze too?
+    - **Warden Pryce**: Honestly? I prefer this one. The old one always looked cross. It stays.
+    - Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.
+    - He looks lighter, somehow. Secrets are heavy things to carry up the back of a jacket.
+- **Say nothing. Admire it.**
+    - **Warden Pryce**: Well. Keep up the good work, both of you.
+    - As the door closes behind her, Mr. Tweed breathes out for the first time in an hour.
+    - The real painting is still rolled up in his jacket. Neither of you mentions it on the way out.
+    - Mr. Tweed taps the clock, then points at you: try first, then tell. He waits. He is very good at waiting.
 
 ### Glossary
 
@@ -1170,6 +1208,7 @@ _The egg sits in the hat and wobbles, very slightly. It looks as if it enjoyed t
 
 _For the rest of the afternoon, nobody puts the egg down._  
 _Mr. Tweed knits it a little woolly cosy with a hole for the top. It is lumpy. The egg seems to like it._  
+_He keeps his hat off all afternoon, upside down beside the egg, just in case._  
 _You line an old fruit box with a blanket and put it on wheels._  
 _Then you wedge a stone against the wheels at each end, for brakes._  
 

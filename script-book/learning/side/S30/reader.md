@@ -142,7 +142,7 @@ _Dimple wins the streamer race and the hat toss. She bounces round the cake elev
 _Your Nubbin copies every bounce, a beat behind. By the end it is worn out, and Dimple is not._  
 **Sparks**: LOOK AT HER GO. That’s a happy Nubbin. That’s a party working.  
 **Ember**: That’s not happy. That’s busy.  
-**Sparks**: …What?  
+**Sparks**: …What? I made a cake shaped like a cake.  
 **Ember**: I know busy. I was busy for a whole year after I lost Ash. Cleaned the house twice a day. Nobody could get a word in.  
 
 > **Lesson** (literacy, RL.2.3, notice): how characters respond to the same event  
@@ -312,6 +312,7 @@ _The frosts have come, and the Grove is white at dawn round the fourth post._
 > _For grown-ups: Learned that frost is water vapour frozen onto cold surfaces, and melts above 0 °C._
 
 _You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
+_A sparrow is sitting in the frost on Moss’s back. Moss has decided this is also a conversation._  
 **Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
 **Moss**: Hush. The quiet one. You may have heard she kept the griefs. Nobody told you how. She sat.  
 **Moss**: When the White Year came, half the valley’s Nubbins grew cold and died. The rest of us dug at the snow.  
@@ -326,6 +327,7 @@ _Variant of `s30-wall`._
 
 _The frosts have come, and the Grove is white at dawn round the fourth post._  
 _You find Moss at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off._  
+_A sparrow is sitting in the frost on Moss’s back. Moss has decided this is also a conversation._  
 **Moss**: Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.  
 **Moss**: You know she sat with the still ones, the ones who had died. You walked here with me, and heard her ask to be kept.  
 
@@ -384,7 +386,7 @@ _Dimple bounces over to welcome her, beaming. Fidget counts Dimple twice._
 #### `reader:s30-shed` · [main](../../../side/S30.md#s30-shed)
 
 _At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, then gets to work._  
-_She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head._  
+_She herds the whole household into the shed: Bristle, Flinch, her ladyship, Drizzle, Dimple. She pushes from behind with her head._  
 _Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door._  
 _Flinch tries to climb out over the bucket. Fidget counts Flinch twice, to be safe, and pushes him back in._  
 _Flinch tries again. Fidget counts him three times._  
@@ -431,7 +433,7 @@ _There’s a blanket frozen stiff on the washing line. There’s the bucket, and
 _You open the door while Fidget is counting something else, and hang the stiff blanket across the doorway like a curtain._  
 _You stand the bucket on one corner of the hem. Underneath, there is a gap a Nubbin could push through._  
 _Fidget comes back, inspects the blanket and the bucket, and pushes the bucket one inch further. Shut. She sits down._  
-_A minute later Drizzle’s nose comes out under the hem. Then the fussy one, then Flinch, who jumps at the blanket, and then doesn’t._  
+_A minute later Drizzle’s nose comes out under the hem. Then her ladyship, with a red leaf she won’t discuss, then Flinch, who jumps at the blanket, and then doesn’t._  
 _They go in and out as they please all evening. Fidget counts them every time, and seems to find the number acceptable._  
 **Clover**: Look at that. Shut, and open. Both. Hazel would have called that a fudge.  
 **Clover**: She liked a fudge. She said most of the good things are fudges.  
@@ -708,7 +710,7 @@ _Your Nubbin, who has copied Dimple all autumn, comes and sits down too. It copi
 #### `reader:s30-fidget-hill` · [main](../../../side/S30.md#s30-fidget-hill)
 
 _Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget._  
-_She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush._  
+_Clover left her asleep in the tea towels. She has woken to an empty kitchen, and come up the hill alone, checking every bush._  
 _At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top._  
 **Fidget**: …  
 _Clover comes puffing up the path behind her, too late, in one welly._  
@@ -745,6 +747,64 @@ _The marks come up black and fine under your hand: rings, and lines, and rings w
 **Clover**: Dimple ought to have a mark of her own. On her page. A proper one.  
 _In the clean corner of the paper, you draw it for her: a ring with a line through it._  
 _Beside it, small and close, you draw Drizzle’s: a plain ring, just touching._  
+**Clover**: That’s the both one. That’s her now.  
+_That night you write it up: Hush’s stone, and a page for each of your Nubbins, ringed and lined from what you remember._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on feelings  
+> _If you made a mark for today, which would it be?_  
+> - A ring: a joy kept → A good day to keep. Hush would have scratched it carefully.
+> - A line: a grief kept → That’s allowed. A line kept is a lantern lit. Someone will find you.
+> - Both: a ring with a line through it → Like Dimple. Like most things, Moss would say.
+> _For grown-ups: Reflected on their own feelings using Hush’s marks (no single right answer)._
+
+_In the morning there is a parcel on your step: a pale-blue rain hat, and Fossil’s cushion, plumped for the first time in years._  
+_The note says Fossil would want it sat on, not kept. Sparks has added a blue-and-gold ribbon, dyed twice._  
+
+#### `reader:s30-complete-broke` · [main](../../../side/S30.md#s30-complete-broke)
+
+_Variant of `s30-complete`._
+
+_On the way home you stop at the old wall. Clover holds the paper flat; you rub over Hush’s stone with a stub of charcoal._  
+_The marks come up black and fine under your hand: rings, and lines, and rings with lines through them._  
+
+> **Lesson** (art, do): texture rubbing  
+> _(Rub the charcoal over the paper on the stone.)_  
+> _A rubbing copies texture: the raised parts catch the charcoal, the scratches stay pale. Try it on a leaf or a coin at home._  
+> Check: `edu:rub:texture:hush-stone`
+> _For grown-ups: Learned how a rubbing records the texture of a surface._
+
+**Clover**: Dimple ought to have a mark of her own. On her page. A proper one.  
+_In the clean corner of the paper, you draw it for her: a ring with a line through it._  
+_Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, with a gap in it where you lifted her out._  
+**Clover**: That’s the both one. That’s her now.  
+_That night you write it up: Hush’s stone, and a page for each of your Nubbins, ringed and lined from what you remember._  
+
+> **Lesson** (sel, CASEL: Self-awareness, ask): reflecting on feelings  
+> _If you made a mark for today, which would it be?_  
+> - A ring: a joy kept → A good day to keep. Hush would have scratched it carefully.
+> - A line: a grief kept → That’s allowed. A line kept is a lantern lit. Someone will find you.
+> - Both: a ring with a line through it → Like Dimple. Like most things, Moss would say.
+> _For grown-ups: Reflected on their own feelings using Hush’s marks (no single right answer)._
+
+_In the morning there is a parcel on your step: a pale-blue rain hat, and Fossil’s cushion, plumped for the first time in years._  
+_The note says Fossil would want it sat on, not kept. Sparks has added a blue-and-gold ribbon, dyed twice._  
+
+#### `reader:s30-complete-sat` · [main](../../../side/S30.md#s30-complete-sat)
+
+_Variant of `s30-complete`._
+
+_On the way home you stop at the old wall. Clover holds the paper flat; you rub over Hush’s stone with a stub of charcoal._  
+_The marks come up black and fine under your hand: rings, and lines, and rings with lines through them._  
+
+> **Lesson** (art, do): texture rubbing  
+> _(Rub the charcoal over the paper on the stone.)_  
+> _A rubbing copies texture: the raised parts catch the charcoal, the scratches stay pale. Try it on a leaf or a coin at home._  
+> Check: `edu:rub:texture:hush-stone`
+> _For grown-ups: Learned how a rubbing records the texture of a surface._
+
+**Clover**: Dimple ought to have a mark of her own. On her page. A proper one.  
+_In the clean corner of the paper, you draw it for her: a ring with a line through it._  
+_Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, and a bigger ring round you both._  
 **Clover**: That’s the both one. That’s her now.  
 _That night you write it up: Hush’s stone, and a page for each of your Nubbins, ringed and lined from what you remember._  
 

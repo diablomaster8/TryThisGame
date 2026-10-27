@@ -104,8 +104,8 @@ const units: Unit[] = [
     return { path: `side/S${pad(n)}`, title: `Side story ${q.code}: ${q.title}`, line: GROVE, kind: 'quests', quests: qs, variants: vars, edu: `learning/side/S${pad(n)}`, opens: opensIn(q) };
   }).sort((a, b) => a.path.localeCompare(b.path)),
   ...([
-    ['python', 'Monty Python (Q1–Q20)', C.QUESTS_PYTHON, []], ['bean', 'Mr. Bean (Q21–Q30)', C.QUESTS_BEAN, []],
-    ['sunny', "It's Always Sunny (Q31–Q45, adults only)", C.QUESTS_SUNNY, []], ['avatar', 'Avatar: The Last Airbender (Q46–Q65)', C.QUESTS_AVATAR, []],
+    ['python', 'Monty Python (Q1–Q20)', C.QUESTS_PYTHON, C.QUESTS_PYTHON_VARIANTS], ['bean', 'Mr. Bean (Q21–Q30)', C.QUESTS_BEAN, C.QUESTS_BEAN_VARIANTS],
+    ['sunny', "It's Always Sunny (Q31–Q45, adults only)", C.QUESTS_SUNNY, C.QUESTS_SUNNY_VARIANTS], ['avatar', 'Avatar: The Last Airbender (Q46–Q65)', C.QUESTS_AVATAR, []],
     ['alice', 'Alice in Wonderland (Q66–Q75)', C.QUESTS_ALICE, C.QUESTS_ALICE_VARIANTS], ['holmes', 'Sherlock Holmes (Q76–Q85)', C.QUESTS_HOLMES, C.QUESTS_HOLMES_VARIANTS],
     ['hodja', 'Nasreddin Hodja (Q86–Q95)', C.QUESTS_HODJA, C.QUESTS_HODJA_VARIANTS],
   ] as [string, string, Quest[], Scene[]][]).map(([f, t, qs, vs]): Unit => ({ path: `fun/${f}`, title: `Fun quests: ${t}`, line: 'Fun quests', kind: 'quests', quests: qs, variants: vs, edu: `learning/fun/${f}` })),

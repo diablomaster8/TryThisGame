@@ -7598,7 +7598,7 @@ export const EDU_A24_READER_VARIANTS: EduScene[] = [
     ],
     [
       ask(
-        1,
+        2,
         'literacy',
         'small words carry meaning: “and you”',
         'RL.3.3',

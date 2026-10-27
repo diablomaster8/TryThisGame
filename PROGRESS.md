@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 23 fixes (2026-10-27)
+
+- **Works:** 54 of run 23's 55 recs fixed across the Sunny, Python, Bean and Avatar fun quests, S30,
+  S31 and the campaign reader band part 2. Fun-quest choices now pay off: FUN_PACK_RULES routes
+  Q04, Q06, Q09, Q27 and Q32–Q45, Avatar's Q46–Q48 and Q55 go through choice-payoffs, and S30/S31
+  route their variants. content-check warns on unread fun-quest flags and on lessons that run ahead.
+- **Partial:** SR-20261027-1304: 91 Q1–Q65 choice flags are still read nowhere (the new warning lists them).
+- **Known bugs:** none new.
+
 ## Story review run 22 fixes (2026-10-27)
 
 - **Works:** 57 of run 22's 58 recs fixed across S22–S29 and S3's two bands, with the S24–S28 bands
@@ -129,15 +138,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
 - **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
 - **Known bugs:** S13's levels can play in chapter 11, after Moss may have gone at the Long Night,
   but s13-arrive, the cellar call-down and s13-wheelpit still show him at the mill.
-
-## Story review run 19 fixes (2026-10-26)
-
-- **Works:** 47 of run 19's 48 recs fixed across campaign book 3, the endings, the triggered scenes,
-  both campaign bands and side stories S1–S5. New tested payoffs: S2's early/carried choices in
-  s2-night, S1's boat and cinder choices, Hazel taking the gap seat at the S3 moot, and five campaign
-  and ending swaps through a new `Swapper.swapText`. Band lessons no longer sit inside grave beats.
-- **Partial:** SR-20261026-1055: t-talk-generic has lines but nothing plays it yet (needs a trigger).
-- **Known bugs:** the C: drive ran out of space during this pass; Maor freed space the same day.
 
 ## Standing approval (Maor, 2026-10-12)
 

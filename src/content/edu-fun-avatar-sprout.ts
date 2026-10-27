@@ -2402,7 +2402,7 @@ const Q58: EduQuest = {
       [
         N('Above Hillstead, Mount Grumble puffs out grey smoke.'),
         T('I’m going up there to see for myself.'),
-        P('I’ll come! Puffin can fly us up.'),
+        P('I’ll come! Puffin, my flying bison, can carry us.'),
         K('I’ll stay and talk to the people. Just in case.'),
         N('At the top, it is hot. It smells like eggs.'),
         N('Inside, red rock bubbles. Blub, blub, hiss!'),
@@ -2936,7 +2936,7 @@ const Q61: EduQuest = {
       [
         N('You search the old records room. Dusty, dusty!'),
         N('Behind the oldest shelf, your Nubbin finds a scroll.'),
-        N('It has Marshal Brag’s own stamp on it.'),
+        N('It has Brag’s stamp. And an old map to sleep on!'),
         K('It’s his diary! Look at this!', 'shock'),
       ],
       [
@@ -2985,7 +2985,7 @@ const Q61: EduQuest = {
       [
         ch(
           'stone',
-          'Show the stone that thanks Kesh',
+          'Point at the stone under the statue',
           [TI('“Thank you, Kesh, for our peace.” It was here all along!', 'shock')],
           { 'q61-evidence': 'stone' },
         ),
@@ -3143,6 +3143,9 @@ const Q62: EduQuest = {
         N('On the snowy hill, penguins waddle past. Waddle, waddle!'),
         P('Give them a fish. Then they give you a ride!'),
         N('Your Nubbin holds out a fish to the smallest penguin.'),
+        P('Race you! Loser carries the fish!', 'happy'),
+        N('The smallest penguin picks your Nubbin, not Pemba.'),
+        T('Smart penguin.'),
       ],
       [
         notice(
@@ -3308,7 +3311,7 @@ const Q63: EduQuest = {
       'q63-pet-done',
       [
         N('Biscuit is on a roof! He’s eating a cabbage.'),
-        N('Down below, a voice wails. It sounds familiar.'),
+        C('Not the cabbages! Not up there!'),
         BU('Biscuit! That’s two challenges!', 'happy'),
         BU('Oh dear. Biscuit ate someone else’s cabbage.', 'think'),
       ],
@@ -3445,6 +3448,8 @@ const Q64: EduQuest = {
         Z('Fine. I was. I’m practising.'),
         Z('I want to ask Pemba if I can join his group.'),
         Z('But I get nervous. I get it all wrong.', 'sad'),
+        Z('I chased them all summer, in a very loud boat.'),
+        Z('I was mean. And loud. Mostly loud.', 'sad'),
         N('Your Nubbin sits on the rock. It listens.'),
         Z('Pemba. Hello. I am a person. Now a good one. Probably.'),
       ],

@@ -275,7 +275,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('Your Nubbin copies every bounce, a beat behind. By the end it is worn out, and Dimple is not.'),
             SP('LOOK AT HER GO. That’s a happy Nubbin. That’s a party working.', 'happy'),
             EM('That’s not happy. That’s busy.', 'angry'),
-            SP('…What?', 'shock'),
+            SP('…What? I made a cake shaped like a cake.', 'shock'),
             EM('I know busy. I was busy for a whole year after Ash. Cleaned the house twice a day. Nobody could get a word in.', 'soft'),
             EM('She’s furious, that one. Watch her land. She stamps every landing. She just hasn’t found who to shout at.'),
             BY('Two hundred and twelve smiles an hour. I counted. And her ball hasn’t gone above a two all afternoon.', 'think'),
@@ -401,6 +401,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N(
               'You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.',
             ),
+            N('A sparrow is sitting in the frost on his back. Moss has decided this is also a conversation.'),
             M(
               'Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.',
               'think',
@@ -462,7 +463,7 @@ export const SIDE_STORY_S30: Quest[] = [
           id: 's30-shed',
           lines: [
             N('At dusk the frost comes down over the yard like a cloth over a cage. Fidget goes very still for one second, and then she gets to work.'),
-            N('She herds the whole household into the shed: Bristle, Flinch, the fussy one, Drizzle, Dimple. She pushes from behind with her head.'),
+            N('She herds the whole household into the shed: Bristle, Flinch, her ladyship, Drizzle, Dimple. She pushes from behind with her head.'),
             N('Then she drags the slop bucket across the yard, an inch at a time, and shoves it hard against the shed door.'),
             N('Fidget stands guard at the bucket, stiff as a peg, eyes wide, listening to the dark.'),
             CL('Every night since the frost. In they go, and the bucket.', 'sad'),
@@ -497,7 +498,7 @@ export const SIDE_STORY_S30: Quest[] = [
             N('You open the door while Fidget is counting something else, and hang the stiff blanket across the doorway like a curtain.'),
             N('You stand the bucket on one corner of the hem. Underneath, there is a gap a Nubbin could push through without trying.'),
             N('Fidget comes back, inspects the blanket and the bucket, and pushes the bucket one inch further. Shut; she sits down.'),
-            N('A minute later Drizzle’s nose comes out under the hem. Then the fussy one, then Flinch, who jumps at the blanket, and then doesn’t.'),
+            N('A minute later Drizzle’s nose comes out under the hem. Then her ladyship, carrying a red leaf she will not discuss, then Flinch, who jumps at the blanket, and then doesn’t.'),
             N('They go in and out as they please all evening. Fidget counts them every time, and seems to find the number acceptable.'),
             CL('Look at that. Shut, and open. Both. Hazel would have called that a fudge.', 'happy'),
             CL('She liked a fudge. She said most of the good things are fudges.', 'soft'),
@@ -622,8 +623,8 @@ export const SIDE_STORY_S30: Quest[] = [
             N('She cries all over her: into her fur, on the cushion, on her ears. Dimple lets her, ball blue and gold, quite still for once.'),
             CL('Look at me. I’m worse than she is. I’m a disgrace. Somebody give me a hanky.', 'sad'),
             N('Dusty gives Clover a sock. It’s clean, mostly.'),
-            // Lifted text 2 (Inside Out, 2015: Sadness). childLines below.
-            CL('Crying helps me slow down and obsess over the weight of life’s problems.', 'happy'),
+            // Was lifted text 2 (Inside Out, Sadness); replaced 2026-10-27 (SR-1286) with an original line in Clover’s voice.
+            CL('Crying slows me right down. Who knew? All these years running about, and I only needed a good wet sit.', 'happy'),
             N('She laughs at herself, and blows her nose on the sock, and laughs harder. Dimple watches her face the whole time.'),
             DU('You can keep the sock.', 'soft'),
           ],
@@ -650,7 +651,7 @@ export const SIDE_STORY_S30: Quest[] = [
           id: 's30-fidget-hill',
           lines: [
             N('Then a noise comes up the path: small feet, very fast, and a thin worried squeak. Fidget.'),
-            N('She has woken in the kitchen and found everybody gone. She has come all the way up the hill alone, checking every bush.'),
+            N('Clover left her asleep in the tea towels, her first quiet sleep. She has woken to an empty kitchen. She has come all the way up the hill alone, checking every bush.'),
             N('At the top she spins round and round in the grass, looking for everybody at once. Her ball is whirling like a top.'),
             N('Fidget skids to a stop in front of you, every whisker out, and says nothing at all.'),
             N('Clover comes puffing up the path behind her, too late, in one welly.'),
@@ -767,12 +768,31 @@ export const SIDE_STORY_S30: Quest[] = [
 
 // ================================================================== variants
 export const SIDE_STORY_S30_VARIANTS: Scene[] = [
+  // ---------------------------------------------------------------- complete: replaces s30-complete when s30-ring = broke (SR-1258)
+  {
+    id: 's30-complete-broke',
+    lines: [
+      ...S30_RUBBING_START,
+      N('Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, with a gap in it where you lifted her out.'),
+      ...S30_RUBBING_END,
+    ],
+  },
+  // ---------------------------------------------------------------- complete: replaces s30-complete when s30-ring = sat (SR-1258)
+  {
+    id: 's30-complete-sat',
+    lines: [
+      ...S30_RUBBING_START,
+      N('Beside it, small and close, you draw Drizzle’s: a plain ring, just touching, and a bigger ring round you both, the way Dimple built it.'),
+      ...S30_RUBBING_END,
+    ],
+  },
   // ---------------------------------------------------------------- step 7: replaces s30-wall when S1’s wall memory was seen
   {
     id: 's30-wall-s1',
     lines: [
       N('The frosts have come, and the Grove is white at dawn round the fourth post. Moss, after his long talk, has not gone back up the hill.'),
       N('You find him at the old wall, by Hush’s lantern post, with frost on his back that he hasn’t bothered to shake off.'),
+      N('A sparrow is sitting in the frost on his back. Moss has decided this is also a conversation.'),
       M('Clover’s gold one. Luna told me. Luna tells me things at dawn, when I am too tired to argue.', 'think'),
       M('You know she sat with the still ones. You walked here with me, and heard her ask to be kept.', 'soft'),
       M('I never told you what she thought sad was for.'),
@@ -880,6 +900,7 @@ export const SIDE_STORY_S30_VARIANTS: Scene[] = [
     lines: [
       BY('I’m keeping the chart. For science. Dimple’s ball, every time I see her.', 'think'),
       BY('Mostly gold. Sometimes blue. Sometimes both, which my scale didn’t cover, so I drew a new column. It’s my favourite column.', 'soft'),
+      BY('Pixel says it’s the only good thing I’ve ever drawn. I disagree. She says that proves it.', 'happy'),
       BY('Also she pulled my laces on Tuesday. Both of them. I’ve logged it as a result.', 'happy'),
     ],
   },

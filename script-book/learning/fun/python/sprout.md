@@ -475,6 +475,44 @@ _Now, when you run, you can sound like a horse!_
 _Far away, Gullwick sleeps on the warm sand._  
 _Beside it: a fruit and a note. “Thank you. From the wall.”_  
 
+#### `sprout:q04-complete-kept` · [main](../../../fun/python.md#q04-complete-kept)
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin is called Trotwell. It clops all round the Grove._  
+_Nobody else gets a go. Trotwell clops past, very proud._  
+**Warden Ollery**: I like the noise. It keeps me company.  
+_Trotwell teaches you to trot. Lots of knees!_  
+
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): trotting on the spot  
+> _(Stand up and trot on the spot!)_  
+> _Knees up! Clop, clop, clop, clop, clop!_  
+> Check: `edu:trot:knees-up:5`
+> _For grown-ups: Your child trotted on the spot with high knees._
+
+_Now, when you run, you can sound like a horse!_  
+_Far away, Gullwick sleeps on the warm sand._  
+_Beside it: a fruit and a note. “Thank you. From the wall.”_  
+
+#### `sprout:q04-complete-shared` · [main](../../../fun/python.md#q04-complete-shared)
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin is called Trotwell. It clops all round the Grove._  
+_Everyone gets a turn. Trotwell joins the queue twice._  
+**Warden Ollery**: I like the noise. It keeps me company.  
+_Trotwell teaches you to trot. Lots of knees!_  
+
+> **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): trotting on the spot  
+> _(Stand up and trot on the spot!)_  
+> _Knees up! Clop, clop, clop, clop, clop!_  
+> Check: `edu:trot:knees-up:5`
+> _For grown-ups: Your child trotted on the spot with high knees._
+
+_Now, when you run, you can sound like a horse!_  
+_Far away, Gullwick sleeps on the warm sand._  
+_Beside it: a fruit and a note. “Thank you. From the wall.”_  
+
 ## Q5. The Rabbit on the Ledge
 
 - `q05-s1`: Ask Sparks to make something to win the rabbit’s friendship. · _Sparks is in the Workshop. Bring one sun fruit._
@@ -689,6 +727,63 @@ _Maybe he was lonely all along._
 _The little tummy door swings open._  
 _You and your Nubbin squeeze in and peek out. Perfect for photos!_  
 
+#### `sprout:q06-complete-shouted` · [main](../../../fun/python.md#q06-complete-shouted)
+
+_Variant of `q06-complete`._
+
+_Next morning, the rabbit is back! A note hangs on its ear._  
+_“Too big for my yard. Nobody inside. Nine out of ten for ears.”_  
+_Then, very small: “Nobody ever visits my wall. Please come again.”_  
+_“P.P.S. The wall is NOT wonky.”_  
+_Maybe he was lonely all along._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): understanding others’ feelings  
+> _Nobody visits his wall. How do you think he felt?_  
+> - ✅ Lonely → Yes. Sometimes lonely people act grumpy. A friendly visit can help.
+> - Very busy → He says nobody visits. I think he felt lonely.
+> _For grown-ups: Your child thought about how the man on the wall might have felt._
+
+_The little tummy door swings open._  
+_You and your Nubbin squeeze in and peek out. Perfect for photos!_  
+
+#### `sprout:q06-complete-laughed` · [main](../../../fun/python.md#q06-complete-laughed)
+
+_Variant of `q06-complete`._
+
+_Next morning, the rabbit is back! A note hangs on its ear._  
+_“Too big for my yard. Nobody inside. Nine out of ten for ears.”_  
+_Then, very small: “Nobody ever visits my wall. Please come again.”_  
+_“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”_  
+_Maybe he was lonely all along._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): understanding others’ feelings  
+> _Nobody visits his wall. How do you think he felt?_  
+> - ✅ Lonely → Yes. Sometimes lonely people act grumpy. A friendly visit can help.
+> - Very busy → He says nobody visits. I think he felt lonely.
+> _For grown-ups: Your child thought about how the man on the wall might have felt._
+
+_The little tummy door swings open._  
+_You and your Nubbin squeeze in and peek out. Perfect for photos!_  
+
+#### `sprout:q06-complete-knocked` · [main](../../../fun/python.md#q06-complete-knocked)
+
+_Variant of `q06-complete`._
+
+_Next morning, the rabbit is back! A note hangs on its ear._  
+_“Too big for my yard. Nobody inside. Nine out of ten for ears.”_  
+_Then, very small: “Nobody ever visits my wall. Please come again.”_  
+_“P.P.S. I have no rabbit. Stop knocking.”_  
+_Maybe he was lonely all along._  
+
+> **Lesson** (sel, CASEL: Social awareness, ask): understanding others’ feelings  
+> _Nobody visits his wall. How do you think he felt?_  
+> - ✅ Lonely → Yes. Sometimes lonely people act grumpy. A friendly visit can help.
+> - Very busy → He says nobody visits. I think he felt lonely.
+> _For grown-ups: Your child thought about how the man on the wall might have felt._
+
+_The little tummy door swings open._  
+_You and your Nubbin squeeze in and peek out. Perfect for photos!_  
+
 **Notes:** Sprout: the man on the wall calls out silly, not hurtful, names. The “shout” choice keeps its id and flag but becomes a calm “Please stop!”.
 
 ## Q7. The Little Castle
@@ -714,6 +809,7 @@ _Byte walks past with a cup of tea._
 **Pixel**: SHH!  
 **Pixel**: It needs stone towers. Will you help?  
 **Byte**: I am drinking my tea.  
+_There is a tea stain on the drawbridge. Byte hides his cup._  
 
 **Choices**
 
@@ -779,6 +875,7 @@ _One lies down and plays a dragon. Or a cloud._
 **Byte**: Still quite sm…  
 _Byte stops. He watches the little crown take a bow._  
 **Byte**: It’s a very good castle.  
+**Byte**: I tested the drawbridge. Twice.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): kind words  
 > _Byte changed his words. Which words are kinder?_  
@@ -891,6 +988,8 @@ _He sniffs it. He holds it up to the light._
 > _For grown-ups: Your child counted the hands raised in the meeting._
 
 _Up go the hands. Reggie’s goes up last, slowly._  
+_Frannie pulls out the fourth chair. It is for you._  
+**Old Mags**: Biscuit?  
 _The crops will never be thirsty again._  
 
 ## Q9. The Gourd and the Shoe
@@ -993,6 +1092,46 @@ _You walk to the pond. They walk to the pond._
 _You turn round. They turn round. Bump!_  
 _You stop. They stop, sit, and fall asleep in a heap._  
 _Barty is on top. Snore._  
+**Mother Brindle**: Thank you, love. Keep the gourd and the shoe.  
+_Now, if you call “Follow me!”, every Nubbin parades behind you._  
+
+> **Lesson** (sel, CASEL: Relationship skills, do): taking turns  
+> _(Play follow-the-leader together!)_  
+> _Take turns. First you lead, then your grown-up leads._  
+> Check: `edu:play:follow-the-leader`
+> _For grown-ups: Your child played follow-the-leader and took turns being the leader._
+
+
+#### `sprout:q09-complete-themselves` · [main](../../../fun/python.md#q09-complete-themselves)
+
+_Variant of `q09-complete`._
+
+_The whole crowd follows you in one long, wobbly line._  
+_You walk to the pond. They walk to the pond._  
+_You turn round. They turn round. Bump!_  
+_You stop. They stop, sit, and fall asleep in a heap._  
+_Barty is on top. Snore._  
+_The pebble Nubbins sleep a little apart. They chose it themselves._  
+**Mother Brindle**: Thank you, love. Keep the gourd and the shoe.  
+_Now, if you call “Follow me!”, every Nubbin parades behind you._  
+
+> **Lesson** (sel, CASEL: Relationship skills, do): taking turns  
+> _(Play follow-the-leader together!)_  
+> _Take turns. First you lead, then your grown-up leads._  
+> Check: `edu:play:follow-the-leader`
+> _For grown-ups: Your child played follow-the-leader and took turns being the leader._
+
+
+#### `sprout:q09-complete-pebble` · [main](../../../fun/python.md#q09-complete-pebble)
+
+_Variant of `q09-complete`._
+
+_The whole crowd follows you in one long, wobbly line._  
+_You walk to the pond. They walk to the pond._  
+_You turn round. They turn round. Bump!_  
+_You stop. They stop, sit, and fall asleep in a heap._  
+_Barty is on top. Snore._  
+_The pebble Nubbins sleep at the edge. They are very happy._  
 **Mother Brindle**: Thank you, love. Keep the gourd and the shoe.  
 _Now, if you call “Follow me!”, every Nubbin parades behind you._  
 
@@ -1325,7 +1464,7 @@ _By night, they are all fast asleep, cuddling the toy._
 > Check: `edu:sort:alive:nubbin-toy`
 > _For grown-ups: Your child sorted things into alive and not alive._
 
-_Now the shop takes things back, if you say what’s wrong._  
+_Now the shop takes things back, if you bring them within a day._  
 
 **Notes:** Sprout never calls the toy “dead” or “resting”: it is simply a toy, not alive, and the lesson is living and not living.
 
@@ -1448,7 +1587,7 @@ _In sweep three Keepers in long red robes. One trips._
 
 _Out they go. Bang! In they come. Nobody trips._  
 **Brother Pouffe**: Your Nubbins look tired. Sister Tuft! The big red chair!  
-**Sister Tuft**: We left it at your Workshop.  
+**Sister Tuft**: We left it at your Workshop. Brother Pouffe said he would carry it.  
 **Brother Pouffe**: …Keeper, could you bring it here for us, please?  
 
 **Choices**
@@ -1760,6 +1899,10 @@ _The last grain of sand falls._
 **Byte**: You’re in my Talking Club. The first member!  
 **You**: Is there a club?  
 **Byte**: There is now. No arguing.  
+_Pixel leans out of the Workshop window._  
+**Pixel**: Did you win? Nobody wins against Byte.  
+**Byte**: Disagree.  
+**Pixel**: See?  
 
 ## Q17. The Dock Dance
 

@@ -81,6 +81,12 @@ const CASES: Array<
   ['c12-wall-garden', 's26-plot', ['sun', 'rose', 'hers']],
   ['c12-open', 's26-plot', ['sun', 'rose', 'hers'], { setup: { hushGarden: true } }],
   ['s27-tam', 's27-sold', [true], { lines: { true: 2 }, quiet: [false] }],
+  // Avatar pack fun-quest flags (review 2026-10-27-2), read inside the same pack.
+  ['q46-complete', 'q46-cart', ['bell'], { quiet: ['wide', 'low'] }],
+  ['q47-complete', 'q47-tuk-pemba', [true], { lines: { true: 2 }, quiet: [false] }],
+  ['q48-complete', 'q48-truth', ['kept'], { lines: { kept: 2 } }],
+  ['q48-complete', 'q48-truth', ['told'], { swap: true }],
+  ['q55-complete', 'q55-reaction', ['boo', 'cheer', 'storm']],
 ];
 
 describe('S1–S5 choices pay off later', () => {

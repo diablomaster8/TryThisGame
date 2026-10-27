@@ -565,6 +565,44 @@ _Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped
 
 _Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
 
+#### `reader:q04-complete-kept` · [main](../../../fun/python.md#q04-complete-kept)
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove._  
+_Nobody else gets a go. Trotwell clops past the whole queue, very politely smug._  
+**Warden Ollery**: I’ll be honest. I quite like the noise. It’s company.  
+_As thanks, Trotwell teaches you the trot. It is mostly knees._  
+_From now on, when you run, you can swap your footsteps for coconut hooves._  
+_Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat._  
+
+> **Lesson** (health, notice): rest and sleep help bodies recover  
+> _Gullwick has earned that sleep. After hard work, muscles need rest to recover and grow stronger._  
+> _Sleep is when a lot of that repair happens. Children your age need about 9 to 12 hours a night._  
+> _Gullwick is aiming for about 14. Nobody is going to argue._  
+> _For grown-ups: Learned that muscles recover during rest and sleep, and that children their age need about 9 to 12 hours a night._
+
+_Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
+
+#### `reader:q04-complete-shared` · [main](../../../fun/python.md#q04-complete-shared)
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove._  
+_Everyone gets a go. Trotwell stands at the front of the queue and the back, which takes a lot of running._  
+**Warden Ollery**: I’ll be honest. I quite like the noise. It’s company.  
+_As thanks, Trotwell teaches you the trot. It is mostly knees._  
+_From now on, when you run, you can swap your footsteps for coconut hooves._  
+_Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat._  
+
+> **Lesson** (health, notice): rest and sleep help bodies recover  
+> _Gullwick has earned that sleep. After hard work, muscles need rest to recover and grow stronger._  
+> _Sleep is when a lot of that repair happens. Children your age need about 9 to 12 hours a night._  
+> _Gullwick is aiming for about 14. Nobody is going to argue._  
+> _For grown-ups: Learned that muscles recover during rest and sleep, and that children their age need about 9 to 12 hours a night._
+
+_Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
+
 ### Glossary
 
 - **vibrate**: To shake very quickly back and forth. Vibrations make sound.
@@ -814,6 +852,72 @@ _Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to 
 _The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
 _It makes, everyone agrees, an excellent spot for photographs._  
 
+#### `reader:q06-complete-shouted` · [main](../../../fun/python.md#q06-complete-shouted)
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+
+> **Lesson** (literacy, RL.3.3, ask): think question: a character’s motive  
+> _Read the P.S. again._  
+> _What do you think is the stranger’s motive: the real reason he shouts at everyone?_  
+> - He’s lonely, and shouting is how he gets people to come. → That’s a fair answer, and the P.S. backs it up: “Nobody ever comes to the wall.” Sometimes people who tease are really asking for company, in a very clumsy way.
+> - He thinks it’s a game, like throwing a ball. → That’s a fair answer. “Bring something to throw” does sound like he wants to play. Maybe he has never learned a gentler way to say “come and play”.
+> - He’s just rude. → He certainly is rude! That’s a fair reading. Characters can be more than one thing, though. Rude, and maybe a little lonely too. Look at that P.S.
+> _For grown-ups: Used a clue in the text (the P.S.) to think about why a character behaves the way he does._
+
+_“P.P.S. The wall is NOT wonky.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
+#### `reader:q06-complete-laughed` · [main](../../../fun/python.md#q06-complete-laughed)
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+
+> **Lesson** (literacy, RL.3.3, ask): think question: a character’s motive  
+> _Read the P.S. again._  
+> _What do you think is the stranger’s motive: the real reason he shouts at everyone?_  
+> - He’s lonely, and shouting is how he gets people to come. → That’s a fair answer, and the P.S. backs it up: “Nobody ever comes to the wall.” Sometimes people who tease are really asking for company, in a very clumsy way.
+> - He thinks it’s a game, like throwing a ball. → That’s a fair answer. “Bring something to throw” does sound like he wants to play. Maybe he has never learned a gentler way to say “come and play”.
+> - He’s just rude. → He certainly is rude! That’s a fair reading. Characters can be more than one thing, though. Rude, and maybe a little lonely too. Look at that P.S.
+> _For grown-ups: Used a clue in the text (the P.S.) to think about why a character behaves the way he does._
+
+_“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
+#### `reader:q06-complete-knocked` · [main](../../../fun/python.md#q06-complete-knocked)
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+
+> **Lesson** (literacy, RL.3.3, ask): think question: a character’s motive  
+> _Read the P.S. again._  
+> _What do you think is the stranger’s motive: the real reason he shouts at everyone?_  
+> - He’s lonely, and shouting is how he gets people to come. → That’s a fair answer, and the P.S. backs it up: “Nobody ever comes to the wall.” Sometimes people who tease are really asking for company, in a very clumsy way.
+> - He thinks it’s a game, like throwing a ball. → That’s a fair answer. “Bring something to throw” does sound like he wants to play. Maybe he has never learned a gentler way to say “come and play”.
+> - He’s just rude. → He certainly is rude! That’s a fair reading. Characters can be more than one thing, though. Rude, and maybe a little lonely too. Look at that P.S.
+> _For grown-ups: Used a clue in the text (the P.S.) to think about why a character behaves the way he does._
+
+_“P.P.S. I have no rabbit. Stop knocking.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
 ### Glossary
 
 - **taunt**: Something said on purpose to tease or upset someone.
@@ -850,6 +954,7 @@ _Byte comes up the path with a cup of tea, looks at the castle, and does not slo
 
 **Pixel**: It needs proper stone towers. Real ones. Little ones. Will you help? Byte clearly won’t.  
 **Byte**: I am drinking my tea.  
+_There is a tea stain on the lolly-stick drawbridge. Byte moves his cup behind his back._  
 
 **Choices**
 
@@ -936,6 +1041,7 @@ _The third lies down and plays a dragon, or a cloud. It is hard to say. It commi
 **Byte**: Still quite small, I’d say…  
 _Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the tea instead._  
 **Byte**: It is a very good model.  
+**Byte**: The drawbridge is load-bearing. I tested it. Twice.  
 
 > **Lesson** (literacy, RL.2.3, ask): think question: why a character changes  
 > _Byte thought the castle was too small. Now he says it’s very good._  
@@ -1078,6 +1184,8 @@ _Reggie takes two biscuits at once, which is how you can tell he is upset._
 
 **Reggie Thistlewood**: …I propose a motion to thank the Keeper. All in favour.  
 _A motion is an idea put to a meeting for a vote. Every hand goes up, Reggie’s last and slowly._  
+_Frannie pulls out the fourth chair for you. It has had your name on it since item one._  
+**Old Mags**: Biscuit?  
 _The crops beside the aqueduct will never need watering again._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): think question: why do people grumble about changes that help them?  
@@ -1212,6 +1320,64 @@ _There are nine of them, one behind the other, each exactly one metre behind the
 
 _You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
 _When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+**Mother Brindle**: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
+_From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: following and thinking for yourself  
+> _The Nubbins followed you everywhere, just because others did._  
+> _When is it good to follow someone, and when should you think for yourself?_  
+> - Follow people you trust. Think for yourself when something feels wrong. → That’s a fair answer. Trust is earned, and a funny feeling inside is worth listening to.
+> - It’s fine to follow, as long as you know where you’re going. → That’s a thoughtful answer. Following with your eyes open is very different from following with them shut.
+> - Always think for yourself, even if you end up agreeing. → That’s a fair answer. You can still choose the same thing as everyone else, as long as it was your choice.
+> _For grown-ups: Thought about when it is wise to follow someone and when to think for yourself._
+
+
+#### `reader:q09-complete-themselves` · [main](../../../fun/python.md#q09-complete-themselves)
+
+_Variant of `q09-complete`._
+
+_The whole crowd falls in behind you in one long, happy, wobbling line._  
+_There are nine of them, one behind the other, each exactly one metre behind the next._  
+
+> **Lesson** (maths, ask): counting gaps in a line  
+> _Nine Nubbins in a line, one metre apart. How long is the line, from the first Nubbin to the last?_  
+> - ✅ 8 metres → Yes! Nine Nubbins, but only eight gaps between them. Eight gaps of one metre: 8 metres. Try it with your fingers: hold up three, and count the gaps. Two!
+> - 9 metres → Lots of people say that! But count the gaps, not the Nubbins. Between 9 Nubbins there are only 8 gaps. So the line is 8 metres long.
+> - 10 metres → Too many! Count the gaps between the Nubbins. Nine Nubbins have eight gaps between them: 8 metres.
+> _For grown-ups: Worked out that 9 Nubbins in a line have 8 gaps between them, so the line is 8 metres long._
+
+_You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
+_When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+_The pebble group sleeps a little apart, on purpose. They have thought for themselves, and they think the heap is too warm._  
+**Mother Brindle**: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
+_From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
+
+> **Lesson** (sel, CASEL: Responsible decision-making, ask): think question: following and thinking for yourself  
+> _The Nubbins followed you everywhere, just because others did._  
+> _When is it good to follow someone, and when should you think for yourself?_  
+> - Follow people you trust. Think for yourself when something feels wrong. → That’s a fair answer. Trust is earned, and a funny feeling inside is worth listening to.
+> - It’s fine to follow, as long as you know where you’re going. → That’s a thoughtful answer. Following with your eyes open is very different from following with them shut.
+> - Always think for yourself, even if you end up agreeing. → That’s a fair answer. You can still choose the same thing as everyone else, as long as it was your choice.
+> _For grown-ups: Thought about when it is wise to follow someone and when to think for yourself._
+
+
+#### `reader:q09-complete-pebble` · [main](../../../fun/python.md#q09-complete-pebble)
+
+_Variant of `q09-complete`._
+
+_The whole crowd falls in behind you in one long, happy, wobbling line._  
+_There are nine of them, one behind the other, each exactly one metre behind the next._  
+
+> **Lesson** (maths, ask): counting gaps in a line  
+> _Nine Nubbins in a line, one metre apart. How long is the line, from the first Nubbin to the last?_  
+> - ✅ 8 metres → Yes! Nine Nubbins, but only eight gaps between them. Eight gaps of one metre: 8 metres. Try it with your fingers: hold up three, and count the gaps. Two!
+> - 9 metres → Lots of people say that! But count the gaps, not the Nubbins. Between 9 Nubbins there are only 8 gaps. So the line is 8 metres long.
+> - 10 metres → Too many! Count the gaps between the Nubbins. Nine Nubbins have eight gaps between them: 8 metres.
+> _For grown-ups: Worked out that 9 Nubbins in a line have 8 gaps between them, so the line is 8 metres long._
+
+_You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
+_When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+_The pebble group sleeps at the edge, still holding its pebble. Nobody has asked it anything. It is perfectly happy._  
 **Mother Brindle**: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
 _From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
 
@@ -1630,7 +1796,7 @@ _He looks lighter for it, somehow._
 _You carry it home. Your Nubbins take it straight to the nest and pile round it._  
 _By evening they are fast asleep, cuddled up to the plush Nubbin._  
 _It is, at last, having a genuinely lovely rest._  
-_From now on the shop gives refunds, if you can explain what is wrong with the thing you bought._  
+_From now on the shop takes things back within a day. You needn’t explain, though Mr Fenwick Mull will ask, hopefully._  
 
 ### Glossary
 
@@ -1818,7 +1984,7 @@ _Sister Tuft holds up three folded blankets, just as menacingly._
 
 **Brother Pouffe**: Your Nubbins look tired. Overworked. Under-napped. We shall see to that. Sister Tuft!  
 **Brother Pouffe**: Bring forth… the big red chair!  
-**Sister Tuft**: We left it at your Workshop. You said you’d carry it.  
+**Sister Tuft**: We left it at your Workshop. Brother Pouffe said he’d carry it.  
 **Brother Pouffe**: …Keeper. Would you be so good as to carry it over for us?  
 
 **Choices**
@@ -2238,6 +2404,10 @@ _The last grain of sand drops. Byte stares at it for a long moment._
 **Byte**: And I am putting you on the board. Debate Club. Founding member. There are no other members.  
 **You**: Is there a club?  
 **Byte**: There is now. Do not argue.  
+_Pixel leans out of the Workshop window with a spanner._  
+**Pixel**: Did you win? Nobody wins. I’ve been married to the man in that booth for twenty years.  
+**Byte**: Disagree.  
+**Pixel**: See?  
 
 ### Glossary
 

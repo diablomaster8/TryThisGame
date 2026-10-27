@@ -312,7 +312,7 @@ const SCENES: EduScene[] = [
       N('Your Nubbin copies every bounce. Now it is very tired.'),
       SP('Look at her go! That’s a happy Nubbin!', 'happy'),
       EM('That’s not happy. That’s busy.', 'angry'),
-      SP('What?', 'shock'),
+      SP('What? I made a cake shaped like a cake!', 'shock'),
       BY('I made a scale. It goes from nought to ten.', 'think'),
       BY('Her ball only got to two. All day.'),
       BY('Her face and her ball don’t agree. The ball is right.', 'angry'),
@@ -530,6 +530,7 @@ const SCENES: EduScene[] = [
     [
       N('Frost! The Grove is white and sparkly this morning.'),
       N('Moss is by the old wall. There is frost on his back.'),
+      N('A sparrow sits on Moss’s back. Moss lets the sparrow stay.'),
       M('Luna told me about Clover’s gold one.', 'think'),
       M('Long ago, there was a very long, cold winter.'),
       M('Many Nubbins got too cold. Some of them died.', 'sad'),
@@ -977,7 +978,7 @@ const SCENES: EduScene[] = [
     's30-fidget-hill',
     [
       N('Pitter-patter! Tiny feet run up the path. It’s Fidget!'),
-      N('She woke up, and everyone was gone. She is scared.'),
+      N('Clover left her asleep. She woke up alone, and she is scared.'),
       N('She spins round and round. Her ball spins too.'),
       FI('…', 'shock'),
       N('Dimple gets up. She sits down right beside Fidget.'),
@@ -1042,13 +1043,32 @@ const SCENES: EduScene[] = [
 ];
 
 // ================================================================== variants
+// Ring-choice clones of the rubbing (SR-20261027-1258): the base scene with Drizzle's ring line swapped.
+const ringClone = (suffix: string, at: number, line: Line): EduScene => {
+  const base = SCENES.find((s) => s.of === 's30-complete');
+  if (!base) throw new Error('missing base scene s30-complete');
+  return {
+    ...base,
+    id: `sprout:s30-complete-${suffix}`,
+    of: `s30-complete-${suffix}`,
+    lines: base.lines.map((l, i) => (i === at ? line : l)),
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace('sprout:s30-complete-l', `sprout:s30-complete-${suffix}-l`),
+    })),
+  };
+};
+
 export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
+  ringClone('broke', 6, N('Next to it, you draw Drizzle’s plain ring, with a gap.')),
+  ringClone('sat', 6, N('You draw Drizzle’s plain ring. Then a big ring round you both.')),
   // ---- replaces s30-wall when S1's wall memory was seen
   sc(
     's30-wall-s1',
     [
       N('Frost! The Grove is white and sparkly this morning.'),
       N('Moss is by the old wall. There is frost on his back.'),
+      N('A sparrow sits on Moss’s back. Moss lets the sparrow stay.'),
       M('Luna told me about Clover’s gold one.', 'think'),
       M('You remember Hush. You came here with me before.', 'soft'),
       M('She sat with the Nubbins who died, so they weren’t alone.', 'sad'),
@@ -1060,7 +1080,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
         skill: 'long ago and today',
         standard: 'D2.His.2.K-2',
         kind: 'notice',
-        after: 4,
+        after: 5,
         lines: [
           M('Hush lived long, long ago. But her stone is still here today.'),
           N('Old things can tell us about people who lived long ago.'),

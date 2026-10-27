@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import * as C from '../../src/content/index';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
@@ -197,6 +197,9 @@ for (const v of [
 for (const v of C.SIDE_STORIES_MAIN_VARIANTS)
   if (sceneIds.has(v.id) && !v.id.startsWith('s')) problems.push(`variant clash ${v.id}`);
 const NEW_VARIANTS = [
+  ...C.QUESTS_PYTHON_VARIANTS,
+  ...C.QUESTS_BEAN_VARIANTS,
+  ...C.QUESTS_SUNNY_VARIANTS,
   ...C.SIDE_STORY_S23_VARIANTS,
   ...C.SIDE_STORY_S24_VARIANTS,
   ...C.SIDE_STORY_S25_VARIANTS,
@@ -405,6 +408,8 @@ for (const s of [
   ...C.SIDE_STORIES_MAIN_VARIANTS,
   ...C.SIDE_STORIES_NEW_3_VARIANTS,
   ...C.SIDE_STORIES_FUN_2_VARIANTS,
+  ...C.QUESTS_PYTHON_VARIANTS,
+  ...C.QUESTS_BEAN_VARIANTS,
   ...C.LINE_LB_VARIANTS,
   ...C.LINE_LK_VARIANTS,
   ...C.SIDE_STORY_S24_VARIANTS,
@@ -519,6 +524,24 @@ const mathsCheck = (
       `maths: ${sceneId} ${l.id}: right answer "${best.label}" is not in the scene text`,
     );
 };
+// A lesson must grow out of story the child has already read (SR-20261027-1305): one that
+// quotes (in “…”) a scene line it plays before is flagged. `after` is the last line read.
+const aheadWarn: string[] = [];
+const aheadCheck = (
+  sceneId: string,
+  sceneLines: { text: string }[],
+  l: { id: string; after: number; prompt?: { text: string }[]; lines?: { text: string }[] },
+): void => {
+  for (const t of [...(l.prompt ?? []), ...(l.lines ?? [])])
+    for (const m of t.text.matchAll(/“([^”]{6,})”/g)) {
+      const key = m[1]!.replace(/[.!?,]+$/, '').slice(0, 25);
+      const at = sceneLines.findIndex((x) => x.text.includes(key));
+      if (at > l.after)
+        aheadWarn.push(
+          `ahead: ${sceneId} ${l.id}: after=${l.after} quotes line ${at} “${m[1]!.slice(0, 40)}”`,
+        );
+    }
+};
 const eduTexts: { band: string; id: string; text: string }[] = [];
 const edu: Record<
   string,
@@ -589,6 +612,7 @@ for (const band of C.EDU_BANDS) {
         ...(l.options ?? []).flatMap((o) => o.reply),
       );
       if (l.domain === 'maths' && l.kind === 'ask') mathsCheck(e.id, e, l);
+      aheadCheck(e.id, e.lines, l);
     }
     for (const l of texts) {
       eduTexts.push({ band, id: e.id, text: l.text });
@@ -764,6 +788,46 @@ for (const r of C.READERS) readings += r.readings.length;
 let results = 0;
 for (const r of C.RESULT_SETS) results += r.lines.length;
 warnings.push(...mathsWarn);
+warnings.push(...aheadWarn);
+// 8. Choices are real (SR-20261027-1304): a fun-quest choice flag that no sim rule, UI or
+// `requires` reads, and that its quest's notes don't call flavour, is a choice that changes
+// nothing. One summary line plus up to 20 examples.
+{
+  const srcText: string[] = [];
+  const walk = (dir: URL): void => {
+    for (const name of readdirSync(dir)) {
+      const u = new URL(name, dir);
+      if (statSync(u).isDirectory()) {
+        if (name !== 'content') walk(new URL(`${name}/`, dir));
+      } else if (name.endsWith('.ts')) srcText.push(readFileSync(u, 'utf8'));
+    }
+  };
+  walk(new URL('../../src/', import.meta.url));
+  const code = srcText.join(String.fromCharCode(10));
+  const required = new Set(allQuests.flatMap((q) => q.requires ?? []));
+  const unread: string[] = [];
+  for (const k of ['python', 'bean', 'sunny', 'avatar', 'alice', 'holmes', 'hodja'] as const)
+    for (const q of packs[k]!) {
+      const notes = q.notes ?? '';
+      const isFlavour = /flavou?r/i.test(notes);
+      const flagIds = new Map<string, string[]>();
+      for (const s of scenesOf(q))
+        for (const c of s.choices ?? [])
+          for (const f of Object.keys(c.set ?? {}))
+            flagIds.set(f, [...(flagIds.get(f) ?? []), c.id]);
+      for (const [f, ids] of flagIds) {
+        // `code` covers all of src/ bar content, so sim/choice-payoffs.ts and sim/story-scenes.ts reads count
+        const read = required.has(f) || code.includes(`'${f}'`) || code.includes(`"${f}"`);
+        const flavour =
+          isFlavour && (notes.includes(f) || ids.some((id) => id && notes.includes(id)));
+        if (!read && !flavour) unread.push(`${q.id}:${f}`);
+      }
+    }
+  if (unread.length)
+    warnings.push(
+      `unread fun-quest choice flags: ${unread.length} (e.g. ${unread.slice(0, 20).join(', ')})`,
+    );
+}
 console.log(
   JSON.stringify(
     {

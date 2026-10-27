@@ -1696,6 +1696,7 @@ const Q26 = quest(
         N('Mr. Tweed takes the last one, which is mostly crust, and eats it as if it were cake.'),
         N('The brass plate on the bench has only ever had one name on it.'),
         N('It is the first time in years he has cut his sandwich into more than one piece.'),
+        N('The duck comes back for the crust. Mr. Tweed measures it with the ruler, finds it over regulation size, and gives it half anyway.'),
         N('The Nubbins lie in a sleepy pile on the blanket: sticky, full and very happy.'),
         N('Mr. Tweed goes to fold the blanket. He looks at the pile of sleeping Nubbins, and quietly leaves it where it is.'),
         N('He tips his hat to you. The blanket is yours now. The Nubbins have decided.'),
@@ -2011,6 +2012,8 @@ const Q27 = quest(
           'It’s a photo. There was a sneeze.',
           [
             W('A sneeze. Of course there was.', 'think'),
+            N('She looks at the half moustache still stuck to Mr. Tweed’s lip.'),
+            W('And the moustache. Did that sneeze too?'),
             W('Honestly? I prefer this one. The old one always looked cross. It stays.', 'happy'),
             N('Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.'),
             N('He looks lighter, somehow. Secrets are heavy things to carry up the back of a jacket.'),
@@ -2442,6 +2445,7 @@ const Q29 = quest(
       [
         N('For the rest of the afternoon, nobody puts the egg down.'),
         N('Mr. Tweed knits it a little woolly cosy with a hole for the top. It is lumpy. The egg seems to like it.'),
+        N('He keeps his hat off all afternoon, upside down beside the egg, just in case.'),
         N('You line an old fruit box with a blanket and put it on wheels.'),
         N('Then you wedge a stone against the wheels at each end, for brakes.'),
         N('The egg wobbles once, tries the box, and decides to stay.'),
@@ -2450,7 +2454,7 @@ const Q29 = quest(
       ],
       [
         ask(
-          3,
+          4,
           m(
             'science',
             'how a wedge works as a brake',
@@ -2811,6 +2815,59 @@ const Q30 = quest(
 );
 
 // ================================================================== exports
+// ---------------------------------------------------------------- variant scenes
+
+/**
+ * A quest's complete scene as a variant for the fun-pack rules (src/sim/fun-pack-rules.ts):
+ * `add` replaces `drop` lines at index `at`, and lessons after that point move with the text.
+ */
+const completeWith = (
+  q: EduQuest,
+  id: string,
+  at: number,
+  add: Line[],
+  drop = 0,
+  choices?: Choice[],
+): EduScene => {
+  const base = q.scenes.find((s) => s.of === `${q.of}-complete`);
+  if (!base) throw new Error(`no complete scene in ${q.id}`);
+  const newId = `${base.band}:${id}`;
+  return {
+    ...base,
+    id: newId,
+    of: id,
+    lines: [...base.lines.slice(0, at), ...add, ...base.lines.slice(at + drop)],
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace(base.id, newId),
+      after: l.after >= at + drop ? l.after + add.length - drop : l.after,
+    })),
+    ...(choices ? { choices } : {}),
+  };
+};
+
+/** Q27 payoff: the player who wanted to tell, then stayed quiet. */
+const q27ReaderQuiet = (c: Choice): Choice =>
+  c.id === 'quiet'
+    ? {
+        ...c,
+        then: [
+          ...(c.then ?? []),
+          N('Mr. Tweed taps the clock, then points at you: try first, then tell. He waits. He is very good at waiting.'),
+        ],
+      }
+    : c;
+export const EDU_BEAN_READER_VARIANTS: EduScene[] = [
+  completeWith(
+    Q27,
+    'q27-complete-told',
+    0,
+    [],
+    0,
+    Q27.scenes.find((s) => s.of === 'q27-complete')?.choices?.map(q27ReaderQuiet),
+  ),
+];
+
 export const EDU_BEAN_READER: EduQuest[] = [Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30];
 
 /** Every `edu:` check used by a `do` lesson in this file. */

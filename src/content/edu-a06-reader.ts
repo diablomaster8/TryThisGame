@@ -2982,7 +2982,7 @@ const A08: EduQuest = quest(
       ],
       [
         nt(
-          2,
+          3,
           'literacy',
           'theme: what looks like luck can hide a cost',
           'RL.4.2',
@@ -5124,7 +5124,7 @@ const A15: EduQuest = quest(
           'Reasoned that a wind that pushes a sail eastwards blows from the west.',
         ),
         nt(
-          6,
+          7,
           'literacy',
           'a character decides to become a teller',
           'RL.3.3',

@@ -1027,6 +1027,8 @@ _Morning. Ori’s bag waits by the gate, with his panas tied on._
 _(Say it: BO-ker TOVE.)_  
 **Ori**: I’m sad to go. And happy I came. Both!  
 **Ori**: The chant, one last time. New verse! Everybody!  
+**Ori**: You’re an Alef-Bet Keeper now. I made it up, so it’s real.  
+**Ori**: שָׁלוֹם (shalom)! Goodbye. And hello, next time.  
 
 > **Lesson** (music, ELOF: Language and Communication, do): a call-and-response chant reviewing the questline  
 > _(Say them: ah-DOME, yah-ROKE, ko-KHAV, yah-REH-akh.)_  
@@ -1039,8 +1041,6 @@ _(Say it: BO-ker TOVE.)_
 > Check: `edu:chant:he:lh6`
 > _For grown-ups: Joined in an original Hebrew review chant: colours, star and moon, family, hello and thank you._
 
-**Ori**: You’re an Alef-Bet Keeper now. I made it up, so it’s real.  
-**Ori**: שָׁלוֹם (shalom)! Goodbye. And hello, next time.  
 **Ori**: Is there a perach yet?  
 _Nobody looks. Everybody shouts “Lo!” The Wobbler falls over._  
 _The gate opens first time. Ori gallops off like a sus!_  

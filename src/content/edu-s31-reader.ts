@@ -560,6 +560,7 @@ const SCENES: EduScene[] = [
       {
         id: 'dont',
         label: 'Don’t sign. Tell Ned not to do it.',
+        set: { 's31-witness': 'refused' },
         then: [
           Y('Don’t do it, Ned.'),
           NED('But she’s written it down.', 'sad'),
@@ -779,7 +780,7 @@ const SCENES: EduScene[] = [
     's31-moss',
     [
       N(
-        'You knock the sign in by the dark post. Tam sets the toffee apple on top and looks at it all the way people look at cathedrals.',
+        'You hammer the sign in by the dark post, and hit your thumb. Tam sets the toffee apple on top and looks at it the way people look at cathedrals.',
       ),
       N(
         'Moss comes past along the hill path, slowly, the grass hardly bending under him. He stops to read the sign.',
@@ -1483,6 +1484,7 @@ const SCENES: EduScene[] = [
         'Then she walks back to her own room and shuts the door. Nobody ever hears about it from her.',
       ),
       N('In the long grass it gets light, slowly. The frost comes off the post in a thin steam.'),
+      N('Your Nubbin wakes, one goggle lens fogged, and salutes the sign. Nobody has told it the war is over.'),
       N('Tam’s sign is still standing, WELCOME GREAT GOURD, with the R still backwards for luck.'),
     ],
     [
@@ -1500,7 +1502,7 @@ const SCENES: EduScene[] = [
         ],
         parentNote: 'Learned that sunlight warms surfaces and melts frost.',
       },
-      FROST_ENDS_SEASON(3),
+      FROST_ENDS_SEASON(4),
     ],
   ),
   // ------------------------------------------------ 14. Next Year
@@ -1671,7 +1673,29 @@ const SCENES: EduScene[] = [
 ];
 
 // ================================================================== variants
+// Refused-witness clones (SR-20261027-1257): the base scene with one line swapped.
+const refusedClone = (of: string, at: number, line: Line): EduScene => {
+  const base = SCENES.find((s) => s.of === of);
+  if (!base) throw new Error(`missing base scene ${of}`);
+  return {
+    ...base,
+    id: `reader:${of}-refused`,
+    of: `${of}-refused`,
+    lines: base.lines.map((l, i) => (i === at ? line : l)),
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace(`reader:${of}-l`, `reader:${of}-refused-l`),
+    })),
+  };
+};
+
 export const EDU_S31_READER_VARIANTS: EduScene[] = [
+  refusedClone(
+    's31-kick',
+    3,
+    IVY('Ned signed it himself. You can’t witness your own promise. It doesn’t count.'),
+  ),
+  refusedClone('s31-rock', 3, NED('You have it. For being the only one who said don’t.', 'soft')),
   scene(
     's31-guising-sat',
     [

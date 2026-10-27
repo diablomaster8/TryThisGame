@@ -8,7 +8,7 @@
  * Never during Chapters 9–11 (`WHEN_SUFFIX` on every trigger).
  */
 import type { Quest, Speaker } from './types';
-import type { Line, Mood } from '../config/story';
+import type { Line, Mood, Scene } from '../config/story';
 
 const say =
   (who: string) =>
@@ -799,6 +799,7 @@ export const QUESTS_BEAN: Quest[] = [
       lines: [
         N('Everyone gets a square. Mr. Tweed takes the last one, which is mostly crust, and eats it as if it were cake.'),
         N('It is the first time in years he has needed the ruler.'),
+        N('The duck comes back for the crust. Mr. Tweed measures it with the ruler, finds it over regulation size, and gives it half anyway.'),
         N('The Nubbins sit in a sleepy pile on the blanket, sticky and full and very happy.'),
         N('Mr. Tweed goes to fold the blanket, looks at the pile of sleeping Nubbins, and quietly leaves it where it is.'),
         N('He tips his hat to you. The blanket is yours now; the Nubbins have decided.'),
@@ -940,6 +941,8 @@ export const QUESTS_BEAN: Quest[] = [
           set: { 'q27-confessed': true },
           then: [
             W('A sneeze. Of course there was.', 'think'),
+            N('She looks at the half moustache still stuck to Mr. Tweed’s lip.'),
+            W('And the moustache. Did that sneeze too?'),
             W('Honestly? I prefer this one. The old one always looked cross. It stays.', 'happy'),
             N('Mr. Tweed quietly pulls the canvas out of his jacket and hands it over, rolled up like a newspaper.'),
           ],
@@ -1175,6 +1178,7 @@ export const QUESTS_BEAN: Quest[] = [
           lines: [
             N('For the rest of the afternoon, nobody puts the egg down.'),
             N('Mr. Tweed knits it a little woolly cosy with a hole for the top. It is lumpy, and the egg seems to like it.'),
+            N('He keeps his hat off all afternoon, upside down beside the egg, just in case.'),
             N('You line an old fruit box with a blanket and put it on wheels, with a stone wedged at each end for brakes.'),
             N('The egg wobbles once, tries the box, and decides to stay.'),
             N('There is room in the box for two. Your own eggs look at it with interest.'),
@@ -1350,6 +1354,32 @@ export const QUESTS_BEAN: Quest[] = [
       'Bluebell on any real car brand. The garden three-wheeler is a physics prop that tips on bump and rights itself ' +
       'after a few seconds. ' +
       'The step 2 choice is cosmetic: either way Rufus keeps tipping, because he waves at everyone. q30-fair only changes the line he says.',
+  },
+];
+
+/**
+ * Variant scene for the fun-pack rules (src/sim/fun-pack-rules.ts): q27-complete-told is the
+ * complete scene for a player who chose "tell the Warden" in step 1 (flag q27-wanted-to-tell)
+ * and then stays quiet; Mr. Tweed holds them to it. The confess branch needs no variant.
+ */
+const q27Complete = QUESTS_BEAN.find((q) => q.id === 'q27')?.complete;
+if (!q27Complete) throw new Error('no quest q27');
+
+export const QUESTS_BEAN_VARIANTS: Scene[] = [
+  {
+    ...q27Complete,
+    id: 'q27-complete-told',
+    choices: (q27Complete.choices ?? []).map((c) =>
+      c.id === 'quiet'
+        ? {
+            ...c,
+            then: [
+              ...(c.then ?? []),
+              N('Mr. Tweed taps the clock, then points at you: try first, then tell. He waits. He is very good at waiting.'),
+            ],
+          }
+        : c,
+    ),
   },
 ];
 

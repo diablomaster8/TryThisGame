@@ -192,6 +192,24 @@ _Ned kicks the air. Whoosh! He lands on his back. Bump!_
 _Ivy walks off. Ned looks up at the sky._  
 _Ned isn’t hurt. But he is sad. A broken promise hurts inside._  
 
+#### `sprout:s31-kick-refused` · [main](../../../side/S31.md#s31-kick-refused)
+
+_Variant of `s31-kick`._
+
+_Ned runs and runs. Thud, thud, thud!_  
+_Ivy lifts her finger. The ball rolls away._  
+_Ned kicks the air. Whoosh! He lands on his back. Bump!_  
+
+> **Lesson** (science, ELOF: Scientific Reasoning, notice): a push makes things move  
+> _A kick is a push. A push makes a ball roll._  
+> _No ball to push? Then Ned’s leg keeps swinging. Up goes Ned!_  
+> _For grown-ups: Heard that a kick is a push, and a push makes things move._
+
+**Ned**: You promised.  
+**Ivy**: Ned signed it himself. Ned can’t be his own witness. Doesn’t count.  
+_Ivy walks off. Ned looks up at the sky._  
+_Ned isn’t hurt. But he is sad. A broken promise hurts inside._  
+
 #### `sprout:s31-lists` · [main](../../../side/S31.md#s31-lists)
 
 _Ned has a card shaped like a cog._  
@@ -245,7 +263,7 @@ _He has a toffee apple too, in case the Great Gourd is hungry._
 
 #### `sprout:s31-moss` · [main](../../../side/S31.md#s31-moss)
 
-_You knock the sign in. Tap, tap, tap._  
+_You hammer the sign in. Tap, tap, ouch! Your thumb!_  
 _Tam puts the toffee apple on top of the sign._  
 _Moss walks by, slowly. He stops to read the sign._  
 **Tam**: Moss, you’re very old. Is the Great Gourd real?  
@@ -400,6 +418,23 @@ _Ned holds up the rock with the label. It says BASALT._
 **Ned**: All rocks. I think the rocks like me best.  
 **Ned**: But Byte wrote what it is! Nobody ever does that.  
 **Ned**: You have it. For being my witness.  
+_It’s heavy and cold. You keep it safe in your pocket._  
+
+#### `sprout:s31-rock-refused` · [main](../../../side/S31.md#s31-rock-refused)
+
+_Variant of `s31-rock`._
+
+_Ned holds up the rock with the label. It says BASALT._  
+
+> **Lesson** (science, ELOF: Scientific Reasoning, notice): basalt is a rock made from cooled lava  
+> _Basalt is a dark rock._  
+> _Long ago it was hot, runny rock from a volcano._  
+> _It cooled down and went hard._  
+> _For grown-ups: Heard that basalt was once hot, runny rock that cooled and went hard._
+
+**Ned**: All rocks. I think the rocks like me best.  
+**Ned**: But Byte wrote what it is! Nobody ever does that.  
+**Ned**: You have it. You were the only one who said no.  
 _It’s heavy and cold. You keep it safe in your pocket._  
 
 #### `sprout:s31-ace-roof` · [main](../../../side/S31.md#s31-ace-roof)
@@ -652,6 +687,8 @@ _The sun comes up. The frost melts away._
 > _So Fern picks all her gourds before the frost comes._  
 > _For grown-ups: Heard that sunshine warms the ground and melts frost, and that frost ends the gourd season._
 
+_Your Nubbin wakes up in its goggles. It salutes the sign._  
+_Nobody told it the game is over!_  
 _Tam’s sign is still there. WELCOME GREAT GOURD._  
 
 #### `sprout:s31-light-sable` · [main](../../../side/S31.md#s31-light-sable)

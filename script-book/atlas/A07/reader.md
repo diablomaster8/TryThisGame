@@ -1174,6 +1174,7 @@ _Héctor died that night, long ago. That is why he never came back to his family
 
 **Héctor**: You took my guitar. You took my songs. You took my whole life and sang it, and you let them forget me.  
 **Ernesto de la Cruz**: I did what I had to do. Anyone would have. And look. Look what I made of them.  
+_He says it like a man explaining the weather. It is the most unsettling thing you have seen all night._  
 
 > **Lesson** (literacy, RL.3.3, ask): understand a character’s traits from how he speaks  
 > _Ernesto says it “like a man explaining the weather”. What does his calm tell us about him? (There is no one right answer.)_  
@@ -1182,7 +1183,6 @@ _Héctor died that night, long ago. That is why he never came back to his family
 > - He is used to getting away with it → A fair reading. His calm suggests he has never been made to answer for it.
 > _For grown-ups: Inferred a character’s traits from the way he speaks._
 
-_He says it like a man explaining the weather. It is the most unsettling thing you have seen all night._  
 **Ernesto de la Cruz**: Guards. Take them away. The boy too. He’s seen too much.  
 
 **Choices**

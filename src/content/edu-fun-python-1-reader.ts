@@ -1751,6 +1751,7 @@ const Q07 = quest(
         PX('SHH.', 'angry'),
         PX('It needs proper stone towers. Real ones. Little ones. Will you help? Byte clearly won’t.'),
         BY('I am drinking my tea.', 'think'),
+        N('There is a tea stain on the lolly-stick drawbridge. Byte moves his cup behind his back.'),
       ],
       [
         ask(
@@ -1933,10 +1934,11 @@ const Q07 = quest(
         BY('Still quite small, I’d say…', 'think'),
         N('Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the tea instead.'),
         BY('It is a very good model.', 'soft'),
+        BY('The drawbridge is load-bearing. I tested it. Twice.'),
       ],
       [
         ask(
-          6,
+          7,
           m(
             'literacy',
             'think question: why a character changes',
@@ -2171,6 +2173,8 @@ const Q08 = quest(
         RG('My wife exaggerates. Twice a day, at most.'),
         RG('…I propose a motion to thank the Keeper. All in favour.', 'sad'),
         N('A motion is an idea put to a meeting for a vote. Every hand goes up, Reggie’s last and slowly.'),
+        N('Frannie pulls out the fourth chair for you. It has had your name on it since item one.'),
+        MG('Biscuit?'),
         N('The crops beside the aqueduct will never need watering again.'),
       ],
       [
@@ -2205,7 +2209,7 @@ const Q08 = quest(
           ],
         ),
         ask(
-          12,
+          14,
           m(
             'sel',
             'think question: why do people grumble about changes that help them?',
@@ -2772,6 +2776,72 @@ const Q10 = quest(
 );
 
 // ================================================================ exports
+
+// ---------------------------------------------------------------- variant scenes
+
+/**
+ * A quest's complete scene as a variant for the fun-pack rules (src/sim/fun-pack-rules.ts):
+ * `add` replaces `drop` lines at index `at`, and lessons after that point move with the text.
+ */
+const completeWith = (
+  q: EduQuest,
+  id: string,
+  at: number,
+  add: Line[],
+  drop = 0,
+  choices?: Choice[],
+): EduScene => {
+  const base = q.scenes.find((s) => s.of === `${q.of}-complete`);
+  if (!base) throw new Error(`no complete scene in ${q.id}`);
+  const newId = `${base.band}:${id}`;
+  return {
+    ...base,
+    id: newId,
+    of: id,
+    lines: [...base.lines.slice(0, at), ...add, ...base.lines.slice(at + drop)],
+    lessons: base.lessons.map((l) => ({
+      ...l,
+      id: l.id.replace(base.id, newId),
+      after: l.after >= at + drop ? l.after + add.length - drop : l.after,
+    })),
+    ...(choices ? { choices } : {}),
+  };
+};
+
+/** Q4, Q6 and Q9 payoffs; registered with the reader variants (see the wiring notes in fix-B). */
+export const EDU_PYTHON_1_READER_VARIANTS: EduScene[] = [
+  completeWith(
+    Q04,
+    'q04-complete-kept',
+    0,
+    [
+      N('The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove.'),
+      N('Nobody else gets a go. Trotwell clops past the whole queue, very politely smug.'),
+    ],
+    1,
+  ),
+  completeWith(
+    Q04,
+    'q04-complete-shared',
+    0,
+    [
+      N('The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove.'),
+      N('Everyone gets a go. Trotwell stands at the front of the queue and the back, which takes a lot of running.'),
+    ],
+    1,
+  ),
+  completeWith(Q06, 'q06-complete-shouted', 5, [N('“P.P.S. The wall is NOT wonky.”')]),
+  completeWith(Q06, 'q06-complete-laughed', 5, [
+    N('“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”'),
+  ]),
+  completeWith(Q06, 'q06-complete-knocked', 5, [N('“P.P.S. I have no rabbit. Stop knocking.”')]),
+  completeWith(Q09, 'q09-complete-themselves', 4, [
+    N('The pebble group sleeps a little apart, on purpose. They have thought for themselves, and they think the heap is too warm.'),
+  ]),
+  completeWith(Q09, 'q09-complete-pebble', 4, [
+    N('The pebble group sleeps at the edge, still holding its pebble. Nobody has asked it anything. It is perfectly happy.'),
+  ]),
+];
 
 export const EDU_PYTHON_1_READER: EduQuest[] = [Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q09, Q10];
 

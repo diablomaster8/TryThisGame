@@ -388,6 +388,36 @@ _Warden Ollery rubs out the chalk diagram of two Fly Nubbins and a string, slowl
 **Warden Ollery** _(sad)_: I’ll miss the string. It was a good string.  
 _Trotwell clops once, in sympathy._  
 
+#### <a id="q04-complete-kept"></a>Variant `q04-complete-kept`
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove._  
+_Nobody else gets a go. Trotwell clops past the whole queue, very politely smug._  
+**Warden Ollery** _(soft)_: I’ll be honest. I quite like the noise. It’s company.  
+_As thanks, Trotwell teaches you the trot. It is mostly knees._  
+_From now on, when you run, you can swap your footsteps for coconut hooves._  
+_Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat._  
+_Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
+_Warden Ollery rubs out the chalk diagram of two Fly Nubbins and a string, slowly, like a man giving up a theory._  
+**Warden Ollery** _(sad)_: I’ll miss the string. It was a good string.  
+_Trotwell clops once, in sympathy._  
+
+#### <a id="q04-complete-shared"></a>Variant `q04-complete-shared`
+
+_Variant of `q04-complete`._
+
+_The Run Nubbin, whose name turns out to be Trotwell, clops a lap of the whole Grove._  
+_Everyone gets a go. Trotwell stands at the front of the queue and the back, which takes a lot of running._  
+**Warden Ollery** _(soft)_: I’ll be honest. I quite like the noise. It’s company.  
+_As thanks, Trotwell teaches you the trot. It is mostly knees._  
+_From now on, when you run, you can swap your footsteps for coconut hooves._  
+_Far away on the beach, Gullwick sleeps soundly, wings spread out like a dropped coat._  
+_Beside it someone has left a fruit and a note in chalk: “Thank you for the noise. From the wall.”_  
+_Warden Ollery rubs out the chalk diagram of two Fly Nubbins and a string, slowly, like a man giving up a theory._  
+**Warden Ollery** _(sad)_: I’ll miss the string. It was a good string.  
+_Trotwell clops once, in sympathy._  
+
 **Rewards**
 
 - Clip-Clop Mode (feature): A toggle for the Run button: your footsteps become coconut hooves, and your Keeper breaks into a trot.
@@ -566,6 +596,45 @@ _Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to 
 _The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
 _It makes, everyone agrees, an excellent spot for photographs._  
 
+#### <a id="q06-complete-shouted"></a>Variant `q06-complete-shouted`
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+_“P.P.S. The wall is NOT wonky.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
+#### <a id="q06-complete-laughed"></a>Variant `q06-complete-laughed`
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+_“P.P.S. You laughed. Nobody laughs on the wall. Do it again.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
+#### <a id="q06-complete-knocked"></a>Variant `q06-complete-knocked`
+
+_Variant of `q06-complete`._
+
+_Next morning, the wooden rabbit is back outside your Workshop with a note pinned to one ear._  
+_“Too big for the courtyard. Also, I found nobody inside it. Very poor attack. Nine out of ten for the ears.”_  
+_Underneath, in smaller writing: “Your hat is still terrible.”_  
+**You**: I’m still not wearing a hat.  
+_Right at the bottom, very small, half rubbed out: “P.S. Nobody ever comes to the wall. Come again. Bring something to throw.”_  
+_“P.P.S. I have no rabbit. Stop knocking.”_  
+_The little door in its tummy swings open. There is just room for you and a Nubbin to squeeze in and peek out._  
+_It makes, everyone agrees, an excellent spot for photographs._  
+
 **Rewards**
 
 - Giant Wooden Rabbit (decor): A huge wooden rabbit on wheels. Climb in through the tummy door and peek out of it in Photo mode.
@@ -598,6 +667,7 @@ _Byte comes up the path with a cup of tea, looks at the castle, and does not slo
 **Pixel** _(angry)_: SHH.  
 **Pixel**: It needs proper stone towers. Real ones. Little ones. Will you help? Byte clearly won’t.  
 **Byte** _(think)_: I am drinking my tea.  
+_There is a tea stain on the lolly-stick drawbridge. Byte moves his cup behind his back._  
 
 **Choices**
 
@@ -647,6 +717,7 @@ _The third lies down and plays a dragon, or a cloud. It is hard to say. It commi
 **Byte** _(think)_: Still quite small, I’d say…  
 _Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the tea instead._  
 **Byte** _(soft)_: It is a very good model.  
+**Byte**: The drawbridge is load-bearing. I tested it. Twice.  
 
 **Rewards**
 
@@ -731,7 +802,10 @@ _Reggie takes the crop, turns it over, sniffs it, and holds it up to the light f
 **Reggie Thistlewood** _(sad)_: That was a private teapot.  
 **Frannie Quill**: Dear. It’s a municipal aqueduct.  
 **Reggie Thistlewood** _(sad)_: …Motion to thank the Keeper. All in favour.  
-_Every hand goes up, Reggie’s last and slowly. The crops beside the aqueduct will never need watering again._  
+_Every hand goes up, Reggie’s last and slowly._  
+_Frannie pulls out the fourth chair for you. It has had your name on it since item one._  
+**Old Mags**: Biscuit?  
+_The crops beside the aqueduct will never need watering again._  
 
 **Rewards**
 
@@ -821,6 +895,28 @@ _Both camps gasp. Both camps are right. Nobody can argue with that._
 _The whole crowd falls in behind you in one long, happy, wobbling line._  
 _You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
 _When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+**Mother Brindle** _(soft)_: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
+_From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
+
+#### <a id="q09-complete-themselves"></a>Variant `q09-complete-themselves`
+
+_Variant of `q09-complete`._
+
+_The whole crowd falls in behind you in one long, happy, wobbling line._  
+_You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
+_When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+_The pebble group sleeps a little apart, on purpose. They have thought for themselves, and they think the heap is too warm._  
+**Mother Brindle** _(soft)_: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
+_From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
+
+#### <a id="q09-complete-pebble"></a>Variant `q09-complete-pebble`
+
+_Variant of `q09-complete`._
+
+_The whole crowd falls in behind you in one long, happy, wobbling line._  
+_You walk to the pond. They walk to the pond. You turn round. They turn round, and bump into each other._  
+_When you finally stop, they stop, sit down and fall asleep in a heap, with Barty on top._  
+_The pebble group sleeps at the edge, still holding its pebble. Nobody has asked it anything. It is perfectly happy._  
 **Mother Brindle** _(soft)_: Thank you, love. Keep the gourd. And the shoe. I don’t want them in my house; they’ll only start something.  
 _From now on, if you call “Follow me”, every Nubbin in the Grove will trail behind you in a parade until you stop._  
 
@@ -1095,7 +1191,7 @@ _Mr Fenwick Mull counts your Shells back into your hand. He looks lighter for it
 **Mr Fenwick Mull** _(soft)_: Keep the toy, though. No charge. It’s grown on me. In a way that isn’t growing.  
 _You carry it home. Your Nubbins take it straight to the nest and pile round it._  
 _By evening they are fast asleep, cuddled up to the plush Nubbin, who is having a genuinely lovely rest._  
-_From now on the shop takes things back, if you can explain what is wrong with them._  
+_From now on the shop takes things back within a day. You needn’t explain, though Mr Fenwick Mull will ask, hopefully._  
 
 **Rewards**
 
@@ -1217,7 +1313,7 @@ _They go out. The gate bangs open. They sweep in, nobody trips, and Brother Bols
 **Brother Bolster** _(think)_: Soft. Very soft. You have been warned.  
 **Brother Pouffe**: Your Nubbins look tired. Overworked. Under-napped. We shall see to that. Sister Tuft!  
 **Brother Pouffe** _(angry)_: Fetch… the comfy chair!  
-**Sister Tuft** _(sad)_: We left it at your Workshop. You said you’d carry it.  
+**Sister Tuft** _(sad)_: We left it at your Workshop. Brother Pouffe said he’d carry it.  
 **Brother Pouffe** _(sad)_: …Keeper. Would you be so good as to fetch the comfy chair?  
 
 **Choices**
@@ -1392,7 +1488,7 @@ _As you leave, you hear him greet the next customer with great cheer: “Just ou
 
 *Monty Python’s Flying Circus: the Argument Clinic* · audience: all · where: Byte’s booth outside the Workshop · when: The first time you walk past, in the Free Grove or the campaign (never during Chapters 9–11)
 
-**Cast:** Byte
+**Cast:** Byte, Pixel
 
 ### Step 1: Pay Byte 5 Shells for an argument.
 
@@ -1475,6 +1571,10 @@ _The last grain of sand drops. Byte stares at it for a long moment._
 **Byte** _(happy)_: And I am putting you on the board. Debate Club. Founding member. There are no other members.  
 **You**: Is there a club?  
 **Byte**: There is now. Do not argue.  
+_Pixel leans out of the Workshop window with a spanner._  
+**Pixel** _(happy)_: Did you win? Nobody wins. I’ve been married to the man in that booth for twenty years.  
+**Byte**: Disagree.  
+**Pixel**: See?  
 
 **Rewards**
 

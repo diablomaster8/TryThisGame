@@ -323,13 +323,13 @@ _Variant of `s28-logged`._
 
 _That night Byte writes it up. He lets you watch over his shoulder, which is new._  
 _He writes it under INCIDENT, in very small letters, as if it might not count._  
+**Byte**: It isn’t really an incident. There isn’t a column for what it is.  
 
 > **Lesson** (literacy, L.2.4, notice): working out what a word means from the sentence around it  
 > _An “incident” is something that happens, usually something that goes a bit wrong._  
 > _Byte’s log was built for incidents. Null and Parcel becoming friends doesn’t fit there neatly, which is the point._  
 > _For grown-ups: Learned the word “incident” from how Byte uses it._
 
-**Byte**: It isn’t really an incident. There isn’t a column for what it is.  
 _He taps the pencil on the page, where a third column might go._  
 _Then he puts the pencil back behind his ear._  
 _He closes the notebook carefully, so the page won’t smudge._  
