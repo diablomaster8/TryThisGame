@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 21 fixes (2026-10-26)
+
+- **Works:** all 53 of run 21's recs fixed across S14–S21 and S2's two bands, with the S2, S14,
+  S18, S20 and S21 bands synced to their mains. Eleven new tested payoffs, among them S16's
+  tired-crew choice (s16-week and Hazel's s10-step), S21's lesson at Spindle's ladder, and S14's
+  badges in S24.
+- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
+- **Known bugs:** none new.
+
 ## Story review run 20 fixes (2026-10-26)
 
 - **Works:** all 57 of run 20's recs fixed across S6–S13 and S1's two bands; the S10 and S13 bands

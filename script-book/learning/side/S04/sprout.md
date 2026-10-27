@@ -16,7 +16,7 @@ _Half of them are dry. No water at all._
 **Marina**: And the water is cold. Cold, in July!  
 **Marina**: Hazel painted a line by the waterfall. Go and look.  
 **You**: Why don’t you look?  
-**Marina**: I’ve looked lots. I want you to tell me I’m wrong.  
+**Marina**: I’ve looked lots. I hope I’m wrong. Please look too.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling: worried  
 > _Marina keeps looking and looking. How does she feel?_  
@@ -57,6 +57,7 @@ _It kicks. It doesn’t sink!_
 > _For grown-ups: Guessed and sorted things that float and sink._
 
 **Marina**: Now swim up the stream. Just a little way.  
+**Marina**: Lesson two: near water, Keepers stay close to a grown-up.  
 
 **Choices**
 
@@ -80,7 +81,7 @@ _Up the stream is a new stone wall. It holds the water back._
 _Behind it is flat, still, blue water._  
 _There are swimming lanes, and a sign: NO SPLASHING._  
 **Marina**: No splashing? Splashing is what water is for!  
-**Marina**: My pools need that water.  
+**Marina**: The wall keeps the water here. So my pools stay dry.  
 **Marina**: I wrote three letters. Nobody helped.  
 
 #### `sprout:s4-ledge-ask` · [main](../../../side/S04.md#s4-ledge-ask)
@@ -89,6 +90,8 @@ _There are swimming lanes, and a sign: NO SPLASHING._
 **Marina**: Hazel knew this path. Now you should too.  
 _By the falls, a thin ledge goes behind the water._  
 **Marina**: Back to the rock. Eyes on my heels. Stay close.  
+**Marina**: Rule five: don’t be me when I was little.  
+**Marina**: I ran on the wet rocks. Splat! Every time.  
 
 > **Lesson** (health, CASEL: Responsible decision-making, ask): staying close to a grown-up near water  
 > **Marina**: Near water, where do we stay?  
@@ -132,6 +135,8 @@ _(Whistle! Everyone say “Freeze!”)_
 _You freeze. Your Nubbin freezes too, one foot up, like a statue._  
 _Snore! You move. Your Nubbin stays still. And still._  
 **Marina**: You can put your foot down now, pet.  
+_The foot comes down. Wobble, wobble… plop!_  
+_Your Nubbin sits on its bottom. The guard snores on._  
 _You creep to the gate. You push. It’s stuck!_  
 
 **Choices**
@@ -162,7 +167,8 @@ _The waterfall sounds bigger now. Deep and full._
 > - Quieter → Listen again. More water is falling. It’s louder!
 > _For grown-ups: Listened and compared louder and quieter sounds._
 
-_The guard mumbles, “Received.” Then he snores again._  
+_The guard mumbles, “Got it. Thank you.” Then he snores again._  
+_In… out… whistle!_  
 **Marina**: Someone may shut it again. Then someone opens it again.  
 **Marina**: That’s most of looking after things.  
 

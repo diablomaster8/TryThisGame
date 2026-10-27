@@ -54,7 +54,8 @@ _A stream runs close by, and the roots make a roof against the wind._
 > _For grown-ups: Named what a habitat provides: water, shelter, company (and food)._
 
 _In the middle sits an old grey Nubbin whose left ear folds over at the tip. A scrap of faded ribbon is tied round it._  
-**Nova**: They aren’t lost. They know exactly where they are. It’s everyone else they’ve lost track of.  
+**Nova**: They look lost. They aren’t. They know exactly where they are. It’s the rest of us who can never find them.  
+_The old grey Nubbin gives Nova one slow look, the way a teacher looks at someone talking in assembly._  
 **Nova**: That one’s in charge. I call her the Old Girl. She’s never told me what she calls herself.  
 **Nova**: This is their warren. It’s been their home for longer than I’ve known it.  
 
@@ -73,14 +74,15 @@ _You take one step towards the roots. Every grey head in the ring turns at once,
 > _For grown-ups: Learned to respect an animal’s space and let it choose to come closer._
 
 _The Old Girl watches you. Her dark ball hangs very still above her head._  
+_Now and then she looks up the dark path, as if someone used to come that way._  
 _Close at her side sits a grey Nubbin thinner than all the rest. Its ear folds over at the tip, just like hers._  
-**Nova**: Her youngest, I think. Doesn’t eat much. The others leave it the soft fruit.  
 
 > **Lesson** (science, 3-LS2-1, notice): animals in groups look after each other  
 > **Nova**: Groups look after their young. In a wolf pack, the grown-ups carry food back for the pups.  
 > **Nova**: Here, the strong ones leave the soft fruit for the thin one.  
 > _For grown-ups: Learned that animals in groups help each other survive, like wolves bringing food to their pups._
 
+**Nova**: Her youngest, I think. Doesn’t eat much. The others leave it the soft fruit.  
 
 **Choices**
 
@@ -163,16 +165,16 @@ _The fireflies drift ahead of you both, low over the path, like sparks from a sl
 > _For grown-ups: Spotted a simile and said what it compares._
 
 **Fern**: Is it always this dark? How did Hazel do this every night? She couldn’t see her own feet.  
+_Fern walks into a tree, says sorry to it, and walks into the same tree again._  
+**Fern**: I’m carrying the soft fruit. I insisted. I have sat on two of them.  
+**Fern**: They’re still soft. Softer, if anything. That has to count.  
+_At the stream she takes her boots off, wades across, and puts them back on the wrong feet. She doesn’t notice for a mile._  
 
 > **Lesson** (science, 1-PS4-2, notice): we need light to see; eyes adjust to the dark  
 > _We see things when light bounces off them into our eyes. In the dark, there’s very little light._  
 > _But eyes slowly get used to it. After about half an hour in the dark, you can see far more than at first._  
 > _For grown-ups: Learned that we need light to see, and that our eyes slowly adjust to the dark._
 
-_Fern walks into a tree, says sorry to it, and walks into the same tree again._  
-**Fern**: I’m carrying the soft fruit. I insisted. I have sat on two of them.  
-**Fern**: They’re still soft. Softer, if anything. That has to count.  
-_At the stream she takes her boots off, wades across, and puts them back on the wrong feet. She doesn’t notice for a mile._  
 _Then the path dips, the fireflies settle low, and for the first time all night, Fern stops talking._  
 
 #### `reader:s8-reunion` · [main](../../../side/S08.md#s8-reunion)
@@ -187,6 +189,8 @@ _Then Bramble walks out through the gap, one careful step at a time, all the way
 _Bramble says nothing. She puts her grey head against Fern’s shin and keeps it there._  
 **Fern**: I stood at the bottom of that cliff till dark. I thought I’d left you there.  
 **Fern**: I’m sorry I stopped looking. I’m so sorry I stopped looking.  
+_Bramble sits down on Fern’s boots, both of them at once, and stays put._  
+**Fern**: Right. Good. I’m going to cry now. Somebody hold my gloves.  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): guilt, sorry and being kind to yourself (think question)  
 > _Fern is saying sorry for something from six years ago. Everyone told her Bramble couldn’t have lived._  
@@ -195,14 +199,6 @@ _Bramble says nothing. She puts her grey head against Fern’s shin and keeps it
 > - A bit, but she’s sorry, and that matters. → That’s a fair answer. Saying sorry, even late, is brave. And Bramble doesn’t seem to mind at all.
 > - I’m not sure. → That’s an honest answer. Some things don’t have a clear right or wrong. Fern isn’t sure either, and that’s all right.
 > _For grown-ups: Thought about guilt, saying sorry and being kind to yourself (a think question with no wrong answer)._
-
-_Bramble sits down on Fern’s boots, both of them at once, and stays put._  
-**Fern**: Right. Good. I’m going to cry now. Somebody hold my gloves.  
-
-> **Lesson** (sel, CASEL: Self-awareness, notice): happy tears  
-> _Fern is going to cry, and she’s happy. A reunion can make anyone cry._  
-> _Tears can come with any big feeling, happy ones too. It’s all right to let them out._  
-> _For grown-ups: Learned that people cry with happy feelings too, and that tears are all right._
 
 
 **Choices**
@@ -228,7 +224,7 @@ _Later, Bramble walks back to the middle of the ring. She has a job, and she goe
 _Bramble sits down and looks past you all, up the dark path, the way she looked the first night._  
 **Nova**: The thin one. Her youngest. It isn’t at the ring tonight.  
 **Fern**: Then we leave the soft fruit at the edge till it is.  
-_Fern sets the softest plum down at the roots, and steps back. Patient, like Hazel._  
+_Fern sets the softest plum down at the roots. Not one she sat on. Then she steps back, patient, like Hazel._  
 
 #### `reader:s8-complete` · [main](../../../side/S08.md#s8-complete)
 
@@ -255,7 +251,7 @@ _Bramble washes her, ear to ear. Then she noses the old brown ribbon off her fol
 > _It keeps the baby clean and warm, and tells it: you’re mine, and you’re safe._  
 > _For grown-ups: Learned that animal parents care for their young, for example by washing them._
 
-_Behind her, three strays stand up and look at you, as if waiting to see where you go next._  
+_Behind Bramble, three grey Nubbins from the ring stand up and look at you, as if waiting to see where you go next._  
 **Nova**: That’s you invited. Come whenever you like. Bring soft fruit.  
 
 #### `reader:s8-complete-dawn` · [main](../../../side/S08.md#s8-complete-dawn)
@@ -283,7 +279,7 @@ _Bramble washes her, ear to ear. Then she noses the old brown ribbon off her fol
 > _It keeps the baby clean and warm, and tells it: you’re mine, and you’re safe._  
 > _For grown-ups: Learned that animal parents care for their young, for example by washing them._
 
-_Behind her, three strays stand up and look at you, as if waiting to see where you go next._  
+_Behind Bramble, three grey Nubbins from the ring stand up and look at you, as if waiting to see where you go next._  
 **Nova**: That’s you invited. Come whenever you like. Bring soft fruit.  
 
 ### Glossary

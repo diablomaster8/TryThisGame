@@ -3,7 +3,7 @@
 ## S5. Fossil’s Walk
 
 - `s5-step1`: Carry Fossil to the cliff where Dusty found her egg. · _The cliff is past the stream. Walk, don’t run. She likes to look at things._
-- `s5-step2`: Take Fossil to Gran’s first tree. Shake it once. · _It’s the low, crooked tree over the stream. Just one shake!_
+- `s5-step2`: Take Fossil to Hazel’s first tree. Shake it once. · _It’s the low, crooked tree over the stream. Just one shake!_
 - `s5-step3`: Help Fossil float in the pond. · _Go to the edge of the pond and choose Swim. A swimmer or Marina can hold her._
 - `s5-step4`: Sit with Fossil and your littlest Nubbin until dark. · _Stay still near them until night comes._
 
@@ -119,7 +119,8 @@ _Marina is at the pond, with a towel. What a surprise!_
 #### `sprout:s5-water` · [main](../../../side/S05.md#s5-water)
 
 _Fossil goes into the water. She floats!_  
-_Then, very slowly, she kicks._  
+_Then, very slowly, she kicks. She goes sideways, like a crab!_  
+_(Wiggle your hand sideways, like Fossil.)_  
 **Dusty**: Look! Her sideways swim!  
 **Dusty**: To the reeds and back, Fos.  
 _Slowly, slowly, she swims. Nobody hurries her._  
@@ -136,6 +137,7 @@ _She looks at the Grove. She has a wish of her own._
 #### `sprout:s5-secret` · [main](../../../side/S05.md#s5-secret)
 
 _Fossil walks across the Grove. Step… by… step._  
+_(Walk two fingers slowly, like Fossil. Slower than that!)_  
 _She sits down by your littlest Nubbin._  
 
 > **Lesson** (maths, K.MD.A.2, ask): comparing: older and younger  
@@ -162,13 +164,16 @@ _Nobody moves. Not Fossil. Not your littlest. Not you._
 _Your other Nubbins fall asleep in a heap. One snores, very softly._  
 _Dusty sees the heap, and smiles._  
 _When it’s dark, Fossil touches noses with your littlest._  
-_Your littlest sits up tall and proud. A gift from Fossil!_  
+_Your littlest feels strong now. A gift from Fossil!_  
+_It sits up so tall, it tips over. Plop! Up it gets._  
 
 #### `sprout:s5-home` · [main](../../../side/S05.md#s5-home)
 
 _Dusty picks Fossil up to carry her home._  
 _The little ball above her head is very pale now._  
-**Dusty**: Fossil won’t be with us much longer. I’m glad we did her wishes.  
+**Dusty**: Fossil is very old. Soon she will die.  
+**Dusty**: That makes me sad. But today she did all her wishes.  
+_Dusty hugs Fossil, very gently._  
 **Dusty**: Thank you for walking with us.  
 _Fossil gives you a baby fern, curled up tight._  
 **Dusty**: She wants you to plant it. A fossil-fern!  
@@ -180,7 +185,8 @@ _Fossil gives you a baby fern, curled up tight._
 > _For grown-ups: Learned that plants need soil, water and light to grow._
 
 **Dusty**: And take my old trowel. For digging.  
-_They go out of the gate. Dusty lifts and pushes._  
+_At your gate, Dusty lifts and pushes, with Fossil in one arm._  
+_(Say it together: lift and push!)_  
 _On the hill, Moss watches them go._  
 
-**Notes:** Fossil’s death is not shown here (it belongs to chapter 6); sprout says plainly that she is very old and will not live much longer. The fossil-fern is a Grove plant; sprout calls Fossil’s gift a baby fern, not a seed (real ferns grow from spores, not seeds).
+**Notes:** Fossil’s death is not shown here (it belongs to chapter 6); sprout says plainly that she is very old and will die soon, with comfort straight after. The fossil-fern is a Grove plant; sprout calls Fossil’s gift a baby fern, not a seed (real ferns grow from spores, not seeds).

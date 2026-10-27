@@ -10,7 +10,7 @@
 #### `sprout:s6-kitchen` · [main](../../../side/S06.md#s6-kitchen)
 
 _A note under your door: COME OVER. PLEASE._  
-_Ember’s house is very, very tidy._  
+_Ember’s house is very, very tidy. Even the spoons stand in a row._  
 _A grey Nubbin sits in the corner. She faces the wall._  
 **Ember**: Ash. Ash, love. It’s me.  
 _Ash does not turn round._  
@@ -41,6 +41,7 @@ _Ash does not turn round._
 _Ember puts the kettle on._  
 **Ember**: When she was tiny, she answered to everything.  
 **Ember**: Her name. My name. Even the kettle!  
+_The kettle whistles. Wheee! Ember glares at it._  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds in names  
 > _(Say the names slowly: Ash, Ember, Fern.)_  
@@ -50,7 +51,7 @@ _Ember puts the kettle on._
 > - Fern → Fern starts with “fff”. Eh-Ember starts with “eh”.
 > _For grown-ups: Listened for the first sound in three names._
 
-**Ember**: Go home now. Thanks for coming.  
+**Ember**: Go home now. Thanks for coming. Don’t tell Fern.  
 
 #### `sprout:s6-fern` · [main](../../../side/S06.md#s6-fern)
 
@@ -66,9 +67,9 @@ _Fern leans on the fence, eating an apple. Your apple!_
 **You**: Ash won’t answer to her name.  
 **Fern**: Oh, poor Ash. Poor Ember.  
 **You**: Ash came from one of Gran’s eggs.  
-**Fern**: Then she’s in Gran’s book! Gran wrote every egg down.  
+**Fern**: Then Ash is in Gran’s book! Gran wrote every egg down.  
 **Fern**: And the first sound each baby made.  
-**Fern**: Bottom shelf, behind the jam. Don’t eat the jam!  
+**Fern**: Bottom shelf, behind the jam. Don’t eat the jam! It’s very old jam.  
 
 #### `sprout:s6-register` · [main](../../../side/S06.md#s6-register)
 
@@ -84,7 +85,7 @@ _Inside, a page says: “Given away.”_
 > Check: `edu:show:fingers:7`
 > _For grown-ups: Showed seven on their fingers as five and two more._
 
-**Gran Hazel**: “Egg 23. Given to Byte. First sound: a hiccup.”  
+**Gran Hazel**: “Egg 23. Given to Byte. First sound: hic! Byte wrote that down too.”  
 **Gran Hazel**: “Egg 41. Given to Ember, aged fifteen. She promised to feed it first.”  
 **Gran Hazel**: “First sound: three notes. Low, high, and a little one.”  
 _Gran drew three dots. Low, high, and a tiny one going up._  
@@ -149,7 +150,7 @@ _Ash faces the wall. Ember kneels a little way off._
 
 _Ember whistles. Low, high, and a little one._  
 _Ash’s ear moves. Just a little._  
-_Ember whistles again. Slower. Her hands shake._  
+_Ember whistles again. Slower than that. Her hands shake._  
 _Ash turns round._  
 _Then a tiny sound: pip. wirr. a?_  
 
@@ -173,14 +174,17 @@ _Step by step, Ash comes. She leans on Ember’s knee._
 
 #### `sprout:s6-complete` · [main](../../../side/S06.md#s6-complete)
 
-_Next morning, Ember is at your gate. Ash walks close._  
-_Ash is still grey._  
+_Next morning, Ember lifts your gate and pushes. Ash walks close._  
 **Ember**: Clover says the grey stays. You can only make it lighter.  
-**Ember**: She ate breakfast with me in the room. That’s lighter.  
+**Ember**: Ash is still grey. But she ate breakfast with me!  
+**Ember**: A happier Ash. That’s what lighter means.  
+**Ember**: The whistle is her first name. Ash is the name I gave her.  
 **Ember**: Here. Ash’s first ribbon. Give it to one of yours.  
-**Ember**: Now. Two fingers, like that. Blow!  
-_Try one: pfff. Try two: pfff. Try three. Try four._  
-_Try five: wheee! Three Nubbins come running!_  
+**Ember**: Now I’ll teach you her first name. Two fingers, like that. Blow!  
+_Try one: pfff. Try two: a squeak!_  
+_Try three: quack! A duck quacks back._  
+**Ember**: Not the duck again.  
+_Try four: pfff. Try five: wheee! Three Nubbins come running!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5; keep trying  
 > _(Count the tries on your fingers: one, two, three, four, five!)_  

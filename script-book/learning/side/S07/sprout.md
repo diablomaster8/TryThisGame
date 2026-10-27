@@ -48,6 +48,7 @@ _Byte writes it down. Then he writes: NOT CHECKED._
 #### `sprout:s7-minder` · [main](../../../side/S07.md#s7-minder)
 
 _Pixel’s bench: a clock, three little bells, and a tiny bed._  
+**Pixel**: It was my lantern clock. Now it’s Null’s clock.  
 **Pixel**: Bell one: fruit drops. Bell two: the bed warms.  
 **Pixel**: Bell three: petting! Byte does the petting.  
 
@@ -98,7 +99,7 @@ _Pixel rolls a ball. Null doesn’t chase it._
 _Ding! Null eats. It only looks at the bell._  
 _Null’s blue has gone pale at the edges._  
 **Byte**: It used to chase that ball everywhere. Why won’t it play?  
-**Pixel**: I think it’s waiting to be told.  
+**Pixel**: I think Null waits for the bell. Only the bell.  
 
 > **Lesson** (health, ask): we need food, rest, play and love  
 > **Pixel**: What does a Nubbin need to be well?  
@@ -122,6 +123,7 @@ _Null’s blue has gone pale at the edges._
 #### `sprout:s7-same-graph` · [main](../../../side/S07.md#s7-same-graph)
 
 **Byte**: I wanted to keep Null safe. I kept it too still.  
+**Byte**: Moss said it. Safe is not the same as well.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): saying “I was wrong”  
 > **Byte**: I was wrong.  
@@ -135,8 +137,10 @@ _It looks a little lost._
 #### `sprout:s7-no-clock` · [main](../../../side/S07.md#s7-no-clock)
 
 _Evening in Byte’s garden. No bells._  
-_Byte holds his stopwatch. Just in case._  
+_Byte holds his stopwatch. His thumb wiggles._  
+_He sits on his thumb._  
 _Null sits in the grass. For a long time, nothing._  
+**Pixel**: Slow, Byte. Slower than that.  
 _Then a moth flutters past. Null’s head turns!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): moths fly at night  
@@ -161,7 +165,8 @@ _Null takes one step after the moth. Then it looks at you._
 
 _Near dark, Null climbs into Byte’s lap._  
 _It falls asleep at once._  
-_Byte sits still for an hour. He doesn’t check the time._  
+_Byte sits still for an hour. His nose itches._  
+_He lets it itch. He doesn’t check the time._  
 **Byte**: Its edges look bluer. Don’t tell me if I’m wrong.  
 
 > **Lesson** (art, do): naming the colour blue  
@@ -173,8 +178,9 @@ _Byte sits still for an hour. He doesn’t check the time._
 
 #### `sprout:s7-complete` · [main](../../../side/S07.md#s7-complete)
 
-_A few days later, Pixel knocks. Pixel doesn’t speak._  
-_Null is under Byte’s hedge. Null has grown up._  
+_A few days later, Pixel knocks. She is very quiet._  
+_Pixel takes your hand._  
+_Null is under Byte’s hedge. Null is old now._  
 _Null’s long life is ending. Around it, a glowing cocoon grows._  
 _Byte sits with his hand on it. He doesn’t count._  
 _The cocoon glows gold. It opens. An egg!_  

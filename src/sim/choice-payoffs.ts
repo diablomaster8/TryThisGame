@@ -156,7 +156,7 @@ const S4_GATE: Record<string, BandText> = {
   },
   note: {
     main: 'Pinned to the post is your old note from the dam, sent back. Under it, in a very tidy hand: “Received.”',
-    sprout: 'Your old note from the dam is on the post. It says: “Received.”',
+    sprout: 'Your dam note is on the post. Under it: “Got it. Thank you.”',
   },
 };
 

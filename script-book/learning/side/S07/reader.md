@@ -24,15 +24,6 @@ _Beside him sits a pale blue Nubbin with a flat, tidy ball above its head. It is
 
 _An Eternal is a Nubbin that never grows old._  
 _He shows you the page. Under everything Moss said tonight, in neat capitals: UNVERIFIED._  
-
-> **Lesson** (literacy, L.2.4, ask): use the prefix un- to work out a word  
-> _UN-VERIFIED. “Un” at the start of a word means “not”. To verify something means to check that it’s true._  
-> _So what does Byte mean when he writes UNVERIFIED?_  
-> - ✅ Not checked or proved yet. → Exactly. I’m not saying Moss is wrong. I’m saying nobody’s checked.
-> - Definitely wrong. → No, that would be “false”. Unverified just means not checked yet. It might be true.
-> - Very important. → Not quite. “Un” means “not”, so unverified means not checked yet. Like “unopened” means not opened.
-> _For grown-ups: Used the prefix un- to work out the meaning of “unverified”._
-
 **Byte**: When Fossil faded, everybody just sat with her. Sitting isn’t a method.  
 _Fossil was Dusty’s old Nubbin. “Fade” is the Grove’s word for die. Fossil died this summer, on the hill._  
 **Byte**: Enough is an amount. Amounts can be put on a schedule. Pixel’s timer runs four lanterns to the second.  
@@ -42,6 +33,15 @@ _Byte looks down. It is. It always is._
 _He goes very quiet._  
 **Moss**: Things on a timer learn to wait for the bell, Byte. Safe is not the same as well.  
 _Byte writes it down carefully. Then, next to it: UNVERIFIED._  
+
+> **Lesson** (literacy, L.2.4, ask): use the prefix un- to work out a word  
+> _UN-VERIFIED. “Un” at the start of a word means “not”. To verify something means to check that it’s true._  
+> _So what does Byte mean when he writes UNVERIFIED?_  
+> - ✅ Not checked or proved yet. → Exactly. I’m not saying Moss is wrong. I’m saying nobody’s checked.
+> - Definitely wrong. → No, that would be “false”. Unverified just means not checked yet. It might be true.
+> - Very important. → Not quite. “Un” means “not”, so unverified means not checked yet. Like “unopened” means not opened.
+> _For grown-ups: Used the prefix un- to work out the meaning of “unverified”._
+
 
 **Choices**
 
@@ -114,6 +114,16 @@ _Null looks at Byte, then at the bell, then eats._
 
 _A week later, Byte’s front room is all clipboards. Null sits in the little bed, perfectly upright, waiting._  
 **Byte**: Best week of data I’ve ever had. Run, Swim, Power, all up. It’s never eaten so tidily.  
+
+> **Lesson** (maths, 2.MD.D.10, ask): read a bar graph and compare two bars  
+> _Byte’s numbers look good. Pixel has kept a different chart: how many times Null played each day._  
+> _Day 1: ■■■■■ (5). Day 2: ■■■ (3). Day 3: ■ (1). Days 4 to 7: nothing at all._  
+> _How many fewer times did Null play on Day 3 than on Day 1?_  
+> - ✅ 4 → Yes. 5 take away 1 is 4. And after Day 3, the bars stop altogether.
+> - 6 → That’s 5 + 1. We want the difference: 5 − 1 = 4 fewer times.
+> - 1 → One is how many times it played on Day 3. The difference from Day 1 is 5 − 1 = 4.
+> _For grown-ups: Read a bar graph and found the difference between two bars (5 − 1 = 4)._
+
 **Pixel**: Watch this.  
 _Pixel rolls a ball across the floor, the way you would for any Nubbin. Null watches it go by and doesn’t move._  
 _The bell rings, and Null eats. It doesn’t look at the fruit, only at the bell._  
@@ -126,16 +136,6 @@ _Its blue has gone thin at the edges, like a shirt washed too often. Not grey. P
 > _For grown-ups: Learned that young animals play to practise skills, and that play is a sign an animal feels safe._
 
 **Pixel**: Byte. I think it’s waiting to be told.  
-
-> **Lesson** (maths, 2.MD.D.10, ask): read a bar graph and compare two bars  
-> _Pixel has been keeping a chart too. It shows how many times Null played each day._  
-> _Day 1: ■■■■■ (5). Day 2: ■■■ (3). Day 3: ■ (1). Days 4 to 7: nothing at all._  
-> _How many fewer times did Null play on Day 3 than on Day 1?_  
-> - ✅ 4 → Yes. 5 take away 1 is 4. And after Day 3, the bars stop altogether.
-> - 6 → That’s 5 + 1. We want the difference: 5 − 1 = 4 fewer times.
-> - 1 → One is how many times it played on Day 3. The difference from Day 1 is 5 − 1 = 4.
-> _For grown-ups: Read a bar graph and found the difference between two bars (5 − 1 = 4)._
-
 _Byte turns his notebook back a week. There is Moss’s line, in his own neat capitals, and beside it: UNVERIFIED._  
 **Byte**: He told me. In plain words. And I wrote “unverified” next to it.  
 _He crosses it out and writes VERIFIED. Then he crosses that out too._  
@@ -154,7 +154,8 @@ _It isn’t something he wanted to be right about._
 
 #### `reader:s7-same-graph` · [main](../../../side/S07.md#s7-same-graph)
 
-**Byte**: I wasn’t trying to own it. I was trying to keep it. Turns out those make the same graph.  
+**Byte**: I wasn’t trying to own Null. I was trying to keep Null safe.  
+**Byte**: On my chart, they look the same. A Nubbin that sits very still, and waits.  
 _Null sits in the bed, waiting for a bell that isn’t coming. For the first time, it looks a little lost._  
 **Pixel**: A clock does the same thing every time. That’s what I love about clocks.  
 **Pixel**: Null isn’t a clock. I don’t think I knew that was the problem until now.  
@@ -174,6 +175,7 @@ _Null sits in the bed, waiting for a bell that isn’t coming. For the first tim
 #### `reader:s7-no-clock` · [main](../../../side/S07.md#s7-no-clock)
 
 _Evening in Byte’s garden, and no bells. The Minder sits under a cloth on the step, with its lever down._  
+_Now and then the cloth twitches. Pixel says it’s the spring settling. Byte says it’s sulking._  
 _Byte has brought his stopwatch. He holds it the way some people hold a habit they’ve given up._  
 **Byte**: I’m not timing. I’m just holding it. In case.  
 

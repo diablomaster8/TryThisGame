@@ -20,9 +20,11 @@ _Nova steps out of the trees._
 > _For grown-ups: Compared nineteen and twelve to see which is more._
 
 **Nova**: So she carried food further in.  
-_A firefly lands on the notebook. Then it flies off._  
+_A firefly lands on the notebook. Blink, blink!_  
+_You blink back. The firefly flies off._  
 **Nova**: The fireflies go the same way every night.  
 **Nova**: Bring fruit. Walk slowly. Slower than that.  
+_(Walk your fingers on your knee. Slow… slower… slower than that!)_  
 
 **Choices**
 
@@ -48,7 +50,8 @@ _Her ear folds over at the tip. A faded ribbon is tied on it._
 
 #### `sprout:s8-edge` · [main](../../../side/S08.md#s8-edge)
 
-_You step towards the roots. Every grey head turns._  
+_You step towards the roots. Every grey head turns. Swish!_  
+**Nova**: Yes. They do that.  
 **Nova**: Don’t go in. This is their home.  
 **Nova**: We don’t walk into a home without being asked.  
 
@@ -61,8 +64,8 @@ _You step towards the roots. Every grey head turns._
 **You**: How did Gran feed them?  
 **Nova**: She left food at the edge and stepped back. Every night.  
 _By the Old Girl sits a very thin grey Nubbin._  
-_Its ear folds over at the tip too. Just like hers!_  
-**Nova**: Her baby, I think. It doesn’t eat much.  
+_The thin one’s ear folds at the tip. Like the Old Girl’s!_  
+**Nova**: Her baby, I think. She doesn’t eat much.  
 
 **Choices**
 
@@ -77,7 +80,7 @@ _Its ear folds over at the tip too. Just like hers!_
 _On the third night, the Old Girl stands up._  
 _She steps aside. There’s a gap, just for you!_  
 **Nova**: I sit by these roots whenever I pass. She never did that for me!  
-_Her old ribbon is brown. A leaf is sewn on it._  
+_The Old Girl’s ribbon is brown. A leaf is sewn on it._  
 _The leaf has five points and a curly stem._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
@@ -93,6 +96,15 @@ _You’ve seen that leaf before. On Fern’s gloves! On Fern’s gate!_
 _Fern is at her gate, sewing a leaf on a glove._  
 **Fern**: I put leaves on everything. Once I put one on a ribbon.  
 **Fern**: That was for Bramble, my Nubbin.  
+
+> **Lesson** (literacy, RF.K.2, ask): first sound b  
+> _(Say it slowly: b-b-Bramble.)_  
+> _Which word starts with “b” too?_  
+> - ✅ Ball → Yes! B-b-ball, b-b-Bramble.
+> - Fish → Fish starts with “fff”. Ball starts with “b”, like Bramble!
+> - Sun → Sun starts with “sss”. Ball starts with “b”, like Bramble!
+> _For grown-ups: Matched the first sound “b” in Bramble and ball._
+
 **Fern**: At a race, long ago, she fell at the cliff bend.  
 **Fern**: I looked till dark. I never found her.  
 **Fern**: I still miss her.  
@@ -106,7 +118,7 @@ _Fern is at her gate, sewing a leaf on a glove._
 **Choices**
 
 - **Fern. I think I’ve found her.**
-    - **Fern**: Don’t say that unless…
+    - **Fern**: Don’t say that. Not unless it’s true.
     - **You**: Bring soft fruit.
     - Fern runs through her gate. She still holds her needle!
 - **Will you help me carry fruit tonight?**
@@ -136,15 +148,6 @@ _Then the fireflies stop. Fern goes very quiet._
 _Fern stops at the roots. She looks at the middle._  
 _The Old Girl stands up. Her brown ribbon hangs from her ear._  
 **Fern**: Bramble? Oh, you’ve gone grey. That’s all right. So have I.  
-
-> **Lesson** (literacy, RF.K.2, ask): first sound b  
-> _(Say it slowly: b-b-Bramble.)_  
-> _Which word starts with “b” too?_  
-> - ✅ Ball → Yes! B-b-ball, b-b-Bramble.
-> - Fish → Fish starts with “fff”. Ball starts with “b”, like Bramble!
-> - Sun → Sun starts with “sss”. Ball starts with “b”, like Bramble!
-> _For grown-ups: Matched the first sound “b” in Bramble and ball._
-
 _Nobody moves._  
 _Then Bramble walks out. Step by step. All the way to Fern._  
 _Bramble says nothing. She leans on Fern’s leg._  
@@ -173,8 +176,9 @@ _Bramble sits down on Fern’s boots. Both boots! And she stays._
 _Later, Bramble goes back to the middle of the ring._  
 **Fern**: She always did like being in charge.  
 _Bramble looks up the dark path._  
-**Nova**: Her thin baby isn’t here tonight.  
-**Fern**: Then we leave soft fruit at the edge. Till it comes back.  
+**Nova**: Bramble’s thin baby isn’t here tonight.  
+**Fern**: Then we leave soft fruit at the edge. Till she comes back.  
+_Fern puts a plum down. Not one she sat on!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): soft and hard  
 > **Fern**: Soft fruit is easy for a little one. Which is softer?  

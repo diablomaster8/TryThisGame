@@ -16,7 +16,7 @@ _In the rest, the anemones have shut up tight, like fists._
 
 > **Lesson** (science, 1-ESS1-1, notice): tides and the Moon’s pull  
 > **Marina**: Real tide pools sit on the seashore. The sea fills them up, then drains away, about twice a day.  
-> **Marina**: That’s the tide. The Moon’s pull makes the oceans bulge on two sides of the Earth. As the Earth turns, we pass through both bulges each day.  
+> **Marina**: That rise and fall is called the tide. The Moon’s pull causes it.  
 > **Marina**: Mine are too high up the rock for any tide. They only get the stream. So when the stream fails, so do they.  
 > _For grown-ups: Learned that the Moon’s pull causes the tides, which rise and fall about twice a day on most coasts._
 
@@ -123,6 +123,7 @@ _Behind the curtain of water, the rock has been worn back into a long, dark holl
 > _For grown-ups: Learned how erosion by falling water carves soft rock faster than hard rock, making hollows behind waterfalls._
 
 **Marina**: The ledge path. Back to the rock, eyes on my heels.  
+**Marina**: Rule five. Don’t be me at your age. Rule four is “Don’t be Sparks”, and at your age I was Sparks, with longer hair.  
 **Marina**: Don’t look at the water. It doesn’t like being stared at.  
 
 #### `reader:s4-ledge` · [main](../../../side/S04.md#s4-ledge)
@@ -155,7 +156,7 @@ _Marina stops at the bend. She doesn’t go on._
 _At night the dam is just a dark wall and the sound of held water. The sluice is a great wooden door in new stone._  
 _Beside it, in a tidy hut, the Circuit’s night steward sits bolt upright in his chair, fast asleep, clipboard on his chest._  
 _He snores in a perfect rhythm. In, out, and a thin little whistle. The clipboard rises and falls._  
-**Marina**: I’ve watched him three nights. Move on the snore. Freeze on the whistle. The whistle’s when they wake.  
+**Marina**: I’ve watched him three nights. Move on the snore. Freeze on the whistle. The whistle’s when he’s nearest to waking.  
 
 > **Lesson** (maths, 4.OA.C.5, ask): a repeating pattern and its rule  
 > **Marina**: In, out, whistle. In, out, whistle. If we count every sound, what will the 9th sound be?  
@@ -164,8 +165,8 @@ _He snores in a perfect rhythm. In, out, and a thin little whistle. The clipboar
 > - Out → Count it with me: in, out, whistle is 1, 2, 3. Then 4, 5, 6. Then 7, 8, 9. The whistle lands on every multiple of 3. The 9th is a whistle. Freeze.
 > _For grown-ups: Found the rule of a repeating pattern (every third sound) and used it to predict the 9th._
 
-**You**: “They”?  
-**Marina**: Stewards. They’re all the same steward, as far as I can tell.  
+**You**: Has he ever woken?  
+**Marina**: Not once in three nights. I’m still not taking chances.  
 _You creep to the sluice on a snore. Your Nubbin creeps beside you, one foot raised, and freezes on the whistle like a garden ornament._  
 _It holds the pose through three more whistles. It is still holding it when the snore comes back._  
 **Marina**: You can put your foot down now, pet.  
@@ -175,7 +176,7 @@ _You try the sluice on the next snore. It doesn’t move. It is, without any dou
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): think question: is it right to open the gate without asking?  
 > _Marina asked three times, politely, and nobody listened. The gate isn’t hers._  
 > _Is it right to open it without permission? What do you think?_  
-> - Yes. The pools are dying, and the gate should never have been shut. → That’s a fair answer. It’s mine. Living things come before tidy swimming lanes.
+> - Yes. The pools are dying, and the gate should never have been shut. → That’s a fair answer, and it’s my answer too. Living things come before tidy swimming lanes.
 > - Only if we leave a note saying what we did and why. → That’s a fair answer. Doing it openly, with your name on it, is a kind of honesty.
 > - No. We should keep asking, louder, and get more people to ask too. → That’s a fair answer. Lots of things change that way. I’m just not sure the pools can wait.
 > _For grown-ups: Weighed rules, fairness and urgency in a hard choice; there was no wrong answer._
@@ -197,7 +198,7 @@ _You try the sluice on the next snore. It doesn’t move. It is, without any dou
 
 #### `reader:s4-water` · [main](../../../side/S04.md#s4-water)
 
-_Water pours through the gap, dark and loud, and goes tumbling off towards the falls as if it’s late for something._  
+_Water pours through the gap, dark and loud._  
 
 > **Lesson** (science, ask): water flows downhill  
 > _Which way does the water go, now the gate is open?_  
@@ -206,6 +207,7 @@ _Water pours through the gap, dark and loud, and goes tumbling off towards the f
 > - It stays where it is. → It stayed put while the gate held it. Now nothing does. Gravity pulls water downhill, to the lowest place it can reach: the falls and the pools.
 > _For grown-ups: Explained that gravity makes water flow downhill to the lowest place it can reach._
 
+_It goes tumbling off towards the falls as if it’s late for something._  
 **Marina**: Listen.  
 _Below you, the falls change their sound: fuller and louder, the way the rock remembers them._  
 _In the hut, the steward stirs, says “Received,” quite clearly, and goes back to sleep._  

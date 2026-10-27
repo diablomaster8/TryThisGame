@@ -25,20 +25,20 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S03/sprout.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `learning/side/S03/reader.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `side/S04.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/side/S04/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 6 |
-| `learning/side/S04/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 5 |
+| `learning/side/S04/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
+| `learning/side/S04/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
 | `side/S05.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/side/S05/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 6 |
-| `learning/side/S05/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 6 |
+| `learning/side/S05/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
+| `learning/side/S05/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
 | `side/S06.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
-| `learning/side/S06/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 9 |
-| `learning/side/S06/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 7 |
+| `learning/side/S06/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
+| `learning/side/S06/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
 | `side/S07.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
-| `learning/side/S07/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 8 |
-| `learning/side/S07/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 4 |
+| `learning/side/S07/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
+| `learning/side/S07/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
 | `side/S08.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
-| `learning/side/S08/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 8 |
-| `learning/side/S08/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 7 |
+| `learning/side/S08/sprout.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
+| `learning/side/S08/reader.md` | [review-2026-10-27-3](review-2026-10-27-3.md) | 0 |
 | `side/S09.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
 | `learning/side/S09/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S09/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
@@ -1558,63 +1558,63 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261027-1304 | fun/sunny.md, fun/python.md, fun/avatar.md, fun/bean.md | cross-story | High | compelling | Q1–Q65 have no payoff wiring at all; extend FUN_PACK_RULES to the four older packs | fixed | 2026-10-27-2 |
 | SR-20261027-1305 | learning/campaign/reader-2.md | cross-story | Medium | follow | Catch lessons that quote a line before the child has read it | fixed | 2026-10-27-2 |
 | SR-20261027-1306 | fun/python.md, side/S30.md | cross-story | Medium | theme | Pixel and Byte bicker as a couple across Python Q7, Q16 and S30 | fixed | 2026-10-27-2 |
-| SR-20261027-1307 | learning/side/S06/sprout.md | sprout:s6-complete | High | follow | Say out loud that the three notes are Ash's first name, so the title pays off | open | 2026-10-27-3 |
-| SR-20261027-1308 | learning/side/S05/sprout.md | sprout:s5-home | High | child-read | Replace "won't be with us much longer" with plain words and comfort straight after | open | 2026-10-27-3 |
-| SR-20261027-1309 | learning/side/S04/sprout.md | sprout:s4-lesson | High | child-read | Teach "stay close to a grown-up near water" before the wade-in choice, and fill the missing "Lesson two" | open | 2026-10-27-3 |
-| SR-20261027-1310 | learning/side/S06/reader.md | reader:s6-practise | High | child-read | Untangle Ember's "I'd rather have lost" so a 7-year-old understands why she is afraid | open | 2026-10-27-3 |
-| SR-20261027-1311 | learning/side/S07/reader.md | reader:s7-same-graph | High | child-read | Make Byte's "those make the same graph" concrete, tied to Pixel's play chart | open | 2026-10-27-3 |
-| SR-20261027-1312 | learning/side/S08/sprout.md | sprout:s8-reunion | High | pacing | Move the "b-b-Bramble" phonics quiz out of the reunion and into Fern's first mention of Bramble | open | 2026-10-27-3 |
-| SR-20261027-1313 | learning/side/S06/sprout.md | sprout:s6-complete | High | theme | Explain what "lighter" means so "the grey stays" isn't heard as a colour promise | open | 2026-10-27-3 |
-| SR-20261027-1314 | learning/side/S05/reader.md | reader:s5-water | High | follow | Name Fossil in "She's got a list of her own" so the story's turn lands | open | 2026-10-27-3 |
-| SR-20261027-1315 | learning/side/S04/sprout.md<br>learning/side/S04/reader.md | sprout:s4-ledge-ask | High | humour | Restore Marina's Rule five ("Don't be me at your age") to both bands, as canon 39 asks | open | 2026-10-27-3 |
-| SR-20261027-1316 | learning/side/S04/reader.md | reader:s4-sluice | Medium | follow | Replace the "They? / all the same steward" joke with one a child can follow | open | 2026-10-27-3 |
-| SR-20261027-1317 | learning/side/S04/reader.md | reader:s4-sluice | Medium | child-read | Fix "It's mine" in the think-question reply, which can mean the gate | open | 2026-10-27-3 |
-| SR-20261027-1318 | learning/side/S04/reader.md | reader:s4-pools | Medium | child-read | Cut the two-bulges explanation from the tides lesson | open | 2026-10-27-3 |
-| SR-20261027-1319 | learning/side/S04/reader.md | reader:s4-water | Medium | pacing | Ask which way the water goes before the narration tells you | open | 2026-10-27-3 |
-| SR-20261027-1320 | learning/side/S04/sprout.md | sprout:s4-pools | Medium | child-read | "I want you to tell me I'm wrong" is backwards for a 3–6 listener | open | 2026-10-27-3 |
-| SR-20261027-1321 | learning/side/S04/sprout.md | sprout:s4-dam | Medium | follow | Say out loud that the wall is why the pools are dry | open | 2026-10-27-3 |
-| SR-20261027-1322 | learning/side/S04/sprout.md | sprout:s4-sluice | Medium | humour | Give the frozen Nubbin's foot a wobbly, plopping payoff | open | 2026-10-27-3 |
-| SR-20261027-1323 | learning/side/S04/sprout.md | sprout:s4-water | Medium | humour | Swap the guard's "Received" for words a four-year-old knows, and echo the snore | open | 2026-10-27-3 |
-| SR-20261027-1324 | learning/side/S05/sprout.md | sprout:s5-tree-ask | Medium | continuity | The step hint says "Gran's first tree"; every scene says "Hazel's first tree" | open | 2026-10-27-3 |
-| SR-20261027-1325 | learning/side/S05/sprout.md | sprout:s5-gift | Medium | humour | Show what Fossil's gift does, then let the littlest sit so tall it tips over | open | 2026-10-27-3 |
-| SR-20261027-1326 | learning/side/S05/sprout.md | sprout:s5-water | Medium | humour | Act out Fossil's sideways swim instead of only naming it | open | 2026-10-27-3 |
-| SR-20261027-1327 | learning/side/S05/reader.md | reader:s5-home | Medium | follow | Say what "it" is in "I think it thins slower" | open | 2026-10-27-3 |
-| SR-20261027-1328 | learning/side/S05/reader.md | reader:s5-water-ask | Medium | child-read | Name Marina in the clue-lesson options, where Dusty and Marina are both "she" | open | 2026-10-27-3 |
-| SR-20261027-1329 | learning/side/S05/reader.md | reader:s5-gift | Medium | humour | Fold the compass quiz into the narration and give the sleeping heap one whispered joke | open | 2026-10-27-3 |
-| SR-20261027-1330 | learning/side/S05/reader.md | reader:s5-list | Medium | child-read | Turn "Don't say the name isn't original" into a joke a 7-year-old gets | open | 2026-10-27-3 |
-| SR-20261027-1331 | learning/side/S06/sprout.md | sprout:s6-fern | Medium | child-read | "Then she's in Gran's book!" could mean Gran; name Ash | open | 2026-10-27-3 |
-| SR-20261027-1332 | learning/side/S06/sprout.md<br>learning/side/S06/reader.md | sprout:s6-complete | Medium | humour | Make the five whistle tries a run of silly sounds, with the confident duck answering back | open | 2026-10-27-3 |
-| SR-20261027-1333 | learning/side/S06/sprout.md | sprout:s6-egg | Medium | humour | Let the kettle whistle and stare Ember down, then end on "Don't tell Fern" | open | 2026-10-27-3 |
-| SR-20261027-1334 | learning/side/S06/sprout.md | sprout:s6-kitchen | Medium | humour | One concrete, funny picture of Ember's tidiness before the worry | open | 2026-10-27-3 |
-| SR-20261027-1335 | learning/side/S06/sprout.md | sprout:s6-register | Medium | humour | Give Byte's egg a "hic!" and Fern's jam a warning, as the reader band does | open | 2026-10-27-3 |
-| SR-20261027-1336 | learning/side/S06/reader.md | reader:s6-fern | Medium | child-read | Name Hazel in Fern's "For the record" story | open | 2026-10-27-3 |
-| SR-20261027-1337 | learning/side/S06/reader.md | reader:s6-complete | Medium | theme | Add three words that say "lighter" isn't Ash's colour | open | 2026-10-27-3 |
-| SR-20261027-1338 | learning/side/S06/reader.md | reader:s6-practise | Medium | humour | The Nubbins hum along between the two sound lessons, and the water shivers | open | 2026-10-27-3 |
-| SR-20261027-1339 | learning/side/S07/sprout.md | sprout:s7-complete | Medium | follow | "Pixel doesn't speak", then Pixel speaks: say why she is quiet | open | 2026-10-27-3 |
-| SR-20261027-1340 | learning/side/S07/sprout.md | sprout:s7-complete | Medium | continuity | "Null has grown up" contradicts the opening, where Null is already four | open | 2026-10-27-3 |
-| SR-20261027-1341 | learning/side/S07/sprout.md | sprout:s7-minder | Medium | follow | Plant the lanterns so "It only counts lanterns now" pays off | open | 2026-10-27-3 |
-| SR-20261027-1342 | learning/side/S07/sprout.md | sprout:s7-week | Medium | child-read | "Waiting to be told" is abstract; say it is the bell | open | 2026-10-27-3 |
-| SR-20261027-1343 | learning/side/S07/sprout.md | sprout:s7-same-graph | Medium | theme | Echo Moss's "Safe is not the same as well" in Byte's admission | open | 2026-10-27-3 |
-| SR-20261027-1344 | learning/side/S07/sprout.md | sprout:s7-lap | Medium | humour | Byte's hour of stillness gets an itchy nose he refuses to scratch | open | 2026-10-27-3 |
-| SR-20261027-1345 | learning/side/S07/reader.md | reader:s7-unverified | Medium | pacing | Move the "un-" lesson after the shoelace, so the first laugh comes before the second lesson | open | 2026-10-27-3 |
-| SR-20261027-1346 | learning/side/S07/reader.md | reader:s7-week | Medium | pacing | Show Pixel's play chart against Byte's proud data before the ball, not after the turn | open | 2026-10-27-3 |
-| SR-20261027-1347 | learning/side/S07/reader.md | reader:s7-no-clock | Medium | humour | The covered Minder twitches; Pixel says spring, Byte says sulking | open | 2026-10-27-3 |
-| SR-20261027-1348 | learning/side/S08/reader.md | reader:s8-reunion | Medium | pacing | Let Bramble answer Fern's "sorry" before the guilt question, and drop the second feelings notice | open | 2026-10-27-3 |
-| SR-20261027-1349 | learning/side/S08/reader.md | reader:s8-edge | Medium | continuity | Set up the Old Girl looking "up the dark path" on the first night | open | 2026-10-27-3 |
-| SR-20261027-1350 | learning/side/S08/sprout.md | sprout:s8-gap | Medium | follow | "Her old ribbon" follows Nova's line; name the Old Girl | open | 2026-10-27-3 |
-| SR-20261027-1351 | learning/side/S08/sprout.md | sprout:s8-one-short | Medium | follow | Say "Bramble's baby", and call the baby "she" as s8-complete does | open | 2026-10-27-3 |
-| SR-20261027-1352 | learning/side/S08/sprout.md | sprout:s8-fern-gate | Medium | child-read | Finish Fern's trailing "Don't say that unless…" | open | 2026-10-27-3 |
-| SR-20261027-1353 | learning/side/S08/sprout.md | sprout:s8-edge | Medium | humour | Every grey head turns at once, swish, and Nova plays it dead straight | open | 2026-10-27-3 |
-| SR-20261027-1354 | learning/side/S08/sprout.md | sprout:s8-further | Medium | humour | The firefly blinks at you, and you blink back | open | 2026-10-27-3 |
-| SR-20261027-1355 | learning/side/S08/reader.md | reader:s8-ring | Medium | child-read | Nova's "everyone else they've lost track of" is an idiom wrapped in irony | open | 2026-10-27-3 |
-| SR-20261027-1356 | learning/side/S08/reader.md | reader:s8-ring | Medium | humour | The Old Girl gives Nova one slow, unimpressed look | open | 2026-10-27-3 |
-| SR-20261027-1357 | learning/side/S08/reader.md | reader:s8-complete | Medium | follow | "Behind her, three strays" has no clear "her" and no set-up | open | 2026-10-27-3 |
-| SR-20261027-1358 | learning/side/S08/reader.md | reader:s8-arrive | Medium | pacing | Let Fern bump the tree before the second lesson | open | 2026-10-27-3 |
-| SR-20261027-1359 | learning/side/S08/sprout.md<br>learning/side/S08/reader.md | reader:s8-one-short | Nice | humour | Pay off "I sat on two" when Fern leaves the plum | open | 2026-10-27-3 |
-| SR-20261027-1360 | learning/side/S07/sprout.md | sprout:s7-no-clock | Nice | humour | Byte's thumb hovers over the stopwatch, so he sits on it | open | 2026-10-27-3 |
-| SR-20261027-1361 | learning/side/S06/reader.md | reader:s6-kitchen | Nice | follow | Name Corvin's garden in Ember's first line | open | 2026-10-27-3 |
-| SR-20261027-1362 | learning/side/S05/sprout.md<br>learning/side/S05/reader.md<br>learning/side/S06/sprout.md<br>learning/side/S06/reader.md | cross-story | Medium | follow | Name the gate every time someone "lifts and pushes", so Hazel's gate trick runs from S4 to S6 | open | 2026-10-27-3 |
-| SR-20261027-1363 | learning/side/S05/sprout.md<br>learning/side/S06/sprout.md<br>learning/side/S07/sprout.md<br>learning/side/S08/sprout.md | cross-story | Medium | theme | Make Nova's "Slower than that" a sprout refrain for "slow hands" across S5 to S8 | open | 2026-10-27-3 |
+| SR-20261027-1307 | learning/side/S06/sprout.md | sprout:s6-complete | High | follow | Say out loud that the three notes are Ash's first name, so the title pays off | fixed | 2026-10-27-3 |
+| SR-20261027-1308 | learning/side/S05/sprout.md | sprout:s5-home | High | child-read | Replace "won't be with us much longer" with plain words and comfort straight after | fixed | 2026-10-27-3 |
+| SR-20261027-1309 | learning/side/S04/sprout.md | sprout:s4-lesson | High | child-read | Teach "stay close to a grown-up near water" before the wade-in choice, and fill the missing "Lesson two" | fixed | 2026-10-27-3 |
+| SR-20261027-1310 | learning/side/S06/reader.md | reader:s6-practise | High | child-read | Untangle Ember's "I'd rather have lost" so a 7-year-old understands why she is afraid | fixed | 2026-10-27-3 |
+| SR-20261027-1311 | learning/side/S07/reader.md | reader:s7-same-graph | High | child-read | Make Byte's "those make the same graph" concrete, tied to Pixel's play chart | fixed | 2026-10-27-3 |
+| SR-20261027-1312 | learning/side/S08/sprout.md | sprout:s8-reunion | High | pacing | Move the "b-b-Bramble" phonics quiz out of the reunion and into Fern's first mention of Bramble | fixed | 2026-10-27-3 |
+| SR-20261027-1313 | learning/side/S06/sprout.md | sprout:s6-complete | High | theme | Explain what "lighter" means so "the grey stays" isn't heard as a colour promise | fixed | 2026-10-27-3 |
+| SR-20261027-1314 | learning/side/S05/reader.md | reader:s5-water | High | follow | Name Fossil in "She's got a list of her own" so the story's turn lands | fixed | 2026-10-27-3 |
+| SR-20261027-1315 | learning/side/S04/sprout.md<br>learning/side/S04/reader.md | sprout:s4-ledge-ask | High | humour | Restore Marina's Rule five ("Don't be me at your age") to both bands, as canon 39 asks | fixed | 2026-10-27-3 |
+| SR-20261027-1316 | learning/side/S04/reader.md | reader:s4-sluice | Medium | follow | Replace the "They? / all the same steward" joke with one a child can follow | fixed | 2026-10-27-3 |
+| SR-20261027-1317 | learning/side/S04/reader.md | reader:s4-sluice | Medium | child-read | Fix "It's mine" in the think-question reply, which can mean the gate | fixed | 2026-10-27-3 |
+| SR-20261027-1318 | learning/side/S04/reader.md | reader:s4-pools | Medium | child-read | Cut the two-bulges explanation from the tides lesson | fixed | 2026-10-27-3 |
+| SR-20261027-1319 | learning/side/S04/reader.md | reader:s4-water | Medium | pacing | Ask which way the water goes before the narration tells you | fixed | 2026-10-27-3 |
+| SR-20261027-1320 | learning/side/S04/sprout.md | sprout:s4-pools | Medium | child-read | "I want you to tell me I'm wrong" is backwards for a 3–6 listener | fixed | 2026-10-27-3 |
+| SR-20261027-1321 | learning/side/S04/sprout.md | sprout:s4-dam | Medium | follow | Say out loud that the wall is why the pools are dry | fixed | 2026-10-27-3 |
+| SR-20261027-1322 | learning/side/S04/sprout.md | sprout:s4-sluice | Medium | humour | Give the frozen Nubbin's foot a wobbly, plopping payoff | fixed | 2026-10-27-3 |
+| SR-20261027-1323 | learning/side/S04/sprout.md | sprout:s4-water | Medium | humour | Swap the guard's "Received" for words a four-year-old knows, and echo the snore | fixed | 2026-10-27-3 |
+| SR-20261027-1324 | learning/side/S05/sprout.md | sprout:s5-tree-ask | Medium | continuity | The step hint says "Gran's first tree"; every scene says "Hazel's first tree" | fixed | 2026-10-27-3 |
+| SR-20261027-1325 | learning/side/S05/sprout.md | sprout:s5-gift | Medium | humour | Show what Fossil's gift does, then let the littlest sit so tall it tips over | fixed | 2026-10-27-3 |
+| SR-20261027-1326 | learning/side/S05/sprout.md | sprout:s5-water | Medium | humour | Act out Fossil's sideways swim instead of only naming it | fixed | 2026-10-27-3 |
+| SR-20261027-1327 | learning/side/S05/reader.md | reader:s5-home | Medium | follow | Say what "it" is in "I think it thins slower" | fixed | 2026-10-27-3 |
+| SR-20261027-1328 | learning/side/S05/reader.md | reader:s5-water-ask | Medium | child-read | Name Marina in the clue-lesson options, where Dusty and Marina are both "she" | fixed | 2026-10-27-3 |
+| SR-20261027-1329 | learning/side/S05/reader.md | reader:s5-gift | Medium | humour | Fold the compass quiz into the narration and give the sleeping heap one whispered joke | fixed | 2026-10-27-3 |
+| SR-20261027-1330 | learning/side/S05/reader.md | reader:s5-list | Medium | child-read | Turn "Don't say the name isn't original" into a joke a 7-year-old gets | fixed | 2026-10-27-3 |
+| SR-20261027-1331 | learning/side/S06/sprout.md | sprout:s6-fern | Medium | child-read | "Then she's in Gran's book!" could mean Gran; name Ash | fixed | 2026-10-27-3 |
+| SR-20261027-1332 | learning/side/S06/sprout.md<br>learning/side/S06/reader.md | sprout:s6-complete | Medium | humour | Make the five whistle tries a run of silly sounds, with the confident duck answering back | fixed | 2026-10-27-3 |
+| SR-20261027-1333 | learning/side/S06/sprout.md | sprout:s6-egg | Medium | humour | Let the kettle whistle and stare Ember down, then end on "Don't tell Fern" | fixed | 2026-10-27-3 |
+| SR-20261027-1334 | learning/side/S06/sprout.md | sprout:s6-kitchen | Medium | humour | One concrete, funny picture of Ember's tidiness before the worry | fixed | 2026-10-27-3 |
+| SR-20261027-1335 | learning/side/S06/sprout.md | sprout:s6-register | Medium | humour | Give Byte's egg a "hic!" and Fern's jam a warning, as the reader band does | fixed | 2026-10-27-3 |
+| SR-20261027-1336 | learning/side/S06/reader.md | reader:s6-fern | Medium | child-read | Name Hazel in Fern's "For the record" story | fixed | 2026-10-27-3 |
+| SR-20261027-1337 | learning/side/S06/reader.md | reader:s6-complete | Medium | theme | Add three words that say "lighter" isn't Ash's colour | fixed | 2026-10-27-3 |
+| SR-20261027-1338 | learning/side/S06/reader.md | reader:s6-practise | Medium | humour | The Nubbins hum along between the two sound lessons, and the water shivers | fixed | 2026-10-27-3 |
+| SR-20261027-1339 | learning/side/S07/sprout.md | sprout:s7-complete | Medium | follow | "Pixel doesn't speak", then Pixel speaks: say why she is quiet | fixed | 2026-10-27-3 |
+| SR-20261027-1340 | learning/side/S07/sprout.md | sprout:s7-complete | Medium | continuity | "Null has grown up" contradicts the opening, where Null is already four | fixed | 2026-10-27-3 |
+| SR-20261027-1341 | learning/side/S07/sprout.md | sprout:s7-minder | Medium | follow | Plant the lanterns so "It only counts lanterns now" pays off | fixed | 2026-10-27-3 |
+| SR-20261027-1342 | learning/side/S07/sprout.md | sprout:s7-week | Medium | child-read | "Waiting to be told" is abstract; say it is the bell | fixed | 2026-10-27-3 |
+| SR-20261027-1343 | learning/side/S07/sprout.md | sprout:s7-same-graph | Medium | theme | Echo Moss's "Safe is not the same as well" in Byte's admission | fixed | 2026-10-27-3 |
+| SR-20261027-1344 | learning/side/S07/sprout.md | sprout:s7-lap | Medium | humour | Byte's hour of stillness gets an itchy nose he refuses to scratch | fixed | 2026-10-27-3 |
+| SR-20261027-1345 | learning/side/S07/reader.md | reader:s7-unverified | Medium | pacing | Move the "un-" lesson after the shoelace, so the first laugh comes before the second lesson | fixed | 2026-10-27-3 |
+| SR-20261027-1346 | learning/side/S07/reader.md | reader:s7-week | Medium | pacing | Show Pixel's play chart against Byte's proud data before the ball, not after the turn | fixed | 2026-10-27-3 |
+| SR-20261027-1347 | learning/side/S07/reader.md | reader:s7-no-clock | Medium | humour | The covered Minder twitches; Pixel says spring, Byte says sulking | fixed | 2026-10-27-3 |
+| SR-20261027-1348 | learning/side/S08/reader.md | reader:s8-reunion | Medium | pacing | Let Bramble answer Fern's "sorry" before the guilt question, and drop the second feelings notice | fixed | 2026-10-27-3 |
+| SR-20261027-1349 | learning/side/S08/reader.md | reader:s8-edge | Medium | continuity | Set up the Old Girl looking "up the dark path" on the first night | fixed | 2026-10-27-3 |
+| SR-20261027-1350 | learning/side/S08/sprout.md | sprout:s8-gap | Medium | follow | "Her old ribbon" follows Nova's line; name the Old Girl | fixed | 2026-10-27-3 |
+| SR-20261027-1351 | learning/side/S08/sprout.md | sprout:s8-one-short | Medium | follow | Say "Bramble's baby", and call the baby "she" as s8-complete does | fixed | 2026-10-27-3 |
+| SR-20261027-1352 | learning/side/S08/sprout.md | sprout:s8-fern-gate | Medium | child-read | Finish Fern's trailing "Don't say that unless…" | fixed | 2026-10-27-3 |
+| SR-20261027-1353 | learning/side/S08/sprout.md | sprout:s8-edge | Medium | humour | Every grey head turns at once, swish, and Nova plays it dead straight | fixed | 2026-10-27-3 |
+| SR-20261027-1354 | learning/side/S08/sprout.md | sprout:s8-further | Medium | humour | The firefly blinks at you, and you blink back | fixed | 2026-10-27-3 |
+| SR-20261027-1355 | learning/side/S08/reader.md | reader:s8-ring | Medium | child-read | Nova's "everyone else they've lost track of" is an idiom wrapped in irony | fixed | 2026-10-27-3 |
+| SR-20261027-1356 | learning/side/S08/reader.md | reader:s8-ring | Medium | humour | The Old Girl gives Nova one slow, unimpressed look | fixed | 2026-10-27-3 |
+| SR-20261027-1357 | learning/side/S08/reader.md | reader:s8-complete | Medium | follow | "Behind her, three strays" has no clear "her" and no set-up | fixed | 2026-10-27-3 |
+| SR-20261027-1358 | learning/side/S08/reader.md | reader:s8-arrive | Medium | pacing | Let Fern bump the tree before the second lesson | fixed | 2026-10-27-3 |
+| SR-20261027-1359 | learning/side/S08/sprout.md<br>learning/side/S08/reader.md | reader:s8-one-short | Nice | humour | Pay off "I sat on two" when Fern leaves the plum | fixed | 2026-10-27-3 |
+| SR-20261027-1360 | learning/side/S07/sprout.md | sprout:s7-no-clock | Nice | humour | Byte's thumb hovers over the stopwatch, so he sits on it | fixed | 2026-10-27-3 |
+| SR-20261027-1361 | learning/side/S06/reader.md | reader:s6-kitchen | Nice | follow | Name Corvin's garden in Ember's first line | fixed | 2026-10-27-3 |
+| SR-20261027-1362 | learning/side/S05/sprout.md<br>learning/side/S05/reader.md<br>learning/side/S06/sprout.md<br>learning/side/S06/reader.md | cross-story | Medium | follow | Name the gate every time someone "lifts and pushes", so Hazel's gate trick runs from S4 to S6 | fixed | 2026-10-27-3 |
+| SR-20261027-1363 | learning/side/S05/sprout.md<br>learning/side/S06/sprout.md<br>learning/side/S07/sprout.md<br>learning/side/S08/sprout.md | cross-story | Medium | theme | Make Nova's "Slower than that" a sprout refrain for "slow hands" across S5 to S8 | fixed | 2026-10-27-3 |
 
 ## Runs
 
@@ -1666,3 +1666,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-27 · fix pass on branch `fix/story-review-2026-10-27-2` · run 23's 55 recs: 54 fixed, 1 partial · both Critical fixed: reader-2's c12-foot-secret lesson now matches the story, and Sunny Q45's ending answers each hedge choice; FUN_PACK_RULES now routes Q04, Q06, Q09, Q27 and Q32–Q45 (Sunny tables copied into fun-pack-rules.ts with a test that they match), Avatar's q46–q48 and q55 pay off through choice-payoffs.ts, and S30/S31 route their ring and witness variants; script-book.ts now renders the Python, Bean and Sunny variants; content-check gained two warnings (unread fun-quest choice flags; lessons that quote a line not yet read), and eight lessons across Atlas, S28, Hebrew and campaign bands moved one line later · -1304 partial: only the quests the recs named pay off; 91 Q1–Q65 choice flags are still read nowhere (now listed by the new warning) · canon: none
 - 2026-10-27 · fun-flag pass on branch `fix/fun-flag-payoffs-2026-10-27` · closes SR-20261027-1304: all 90 unread Q1–Q65 choice flags now pay off (80, each a tested line in main and both bands, in src/sim/fun-payoffs-python/bean/avatar.ts, merged into CHOICE_PAYOFFS through a new payoff-kit.ts) or are named as flavour in their quest notes (10: q05-rollo-counted, q11-asked-gorbold, q12-stared, q16-haggled, q29-told, q30-fair, q56-bowed, q59-haggled, q63-opponent, q65-snacks); Alice's q70-coat is the base scene its rule already falls back to; content-check's unread-flag warning is now empty · canon: none
 - 2026-10-27 run 24 · [review-2026-10-27-3](review-2026-10-27-3.md) · units: S04/sprout.md, S04/reader.md, S05/sprout.md, S05/reader.md, S06/sprout.md, S06/reader.md, S07/sprout.md, S07/reader.md, S08/sprout.md, S08/reader.md · 57 recs: Critical 0, High 9, Medium 45, Nice 3 (2 cross-story) · fixed since last run: 55 (all, with 51b5f82)
+- 2026-10-27 · fix pass on branch `fix/story-review-2026-10-27-3` · run 24's 57 recs: all fixed, in the S4–S8 sprout and reader bands (edu-side-1-sprout.ts, edu-side-1-reader.ts, edu-side-2-reader.ts); S4's sprout guard now says "Got it. Thank you.", so the S10 sprout callback in choice-payoffs.ts (S4_GATE note) follows it · canon: none

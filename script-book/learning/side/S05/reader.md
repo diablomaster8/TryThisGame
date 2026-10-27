@@ -11,7 +11,7 @@
 
 _Dusty is at the gate with a very old Nubbin in the crook of one arm and a much-folded bit of paper in the other hand._  
 _The Nubbin is the colour of sand. When she blinks, she does it slowly, as if each blink costs something._  
-**Dusty**: This is Fossil. I dug her egg out of the cliff when I was eleven. Don’t say the name isn’t original. I was eleven.  
+**Dusty**: This is Fossil. I dug her egg out of the cliff when I was eleven. So I called her Fossil. I was eleven. It was the best name I had.  
 **Dusty**: She’s very old now. She’s fading. Not her glow. Her. You’ll have seen it, if you’ve looked.  
 **Dusty**: Twenty years. You’d think I’d have run out of things to say to her. I’ve got a list.  
 
@@ -125,8 +125,8 @@ _Dusty is very bad at secrets._
 
 > **Lesson** (literacy, RL.3.3, ask): using clues to find a character’s real motive  
 > _Marina says she was “just passing”. Sleeves rolled up. A towel. What’s really going on?_  
-> - ✅ Dusty asked her to come and help, and she’s pretending it’s nothing. → Yes. The towel and the sleeves are the clues. Nobody just passes with a towel.
-> - She was going for a swim anyway. → Possible. But look at the clues: sleeves rolled up for lifting, a towel ready, and Dusty bad at secrets. Dusty asked Marina to come. She’s pretending it’s nothing.
+> - ✅ Dusty asked Marina to come and help, and Marina is pretending it’s nothing. → Yes. The towel and the sleeves are the clues. Nobody just passes with a towel.
+> - Marina was going for a swim anyway. → Possible. But look at the clues: sleeves rolled up for lifting, a towel ready, and Dusty bad at secrets. Dusty asked Marina to come. Marina is pretending it’s nothing.
 > - She’s lost. → Marina knows every rock in this valley. She’s not lost. The towel and sleeves are clues: Dusty asked Marina to help, and she’s pretending it’s nothing.
 > _For grown-ups: Used clues in the text to work out a character’s real reason for being there._
 
@@ -170,7 +170,7 @@ _When you lift her out she is shivering, and her eyes are bright. She isn’t lo
 > - She’s excited. → She might be, a little! But the shiver is from the cold. Shivering is the body shaking its muscles to make heat. A towel helps it along.
 > _For grown-ups: Learned that shivering is the body making heat by moving muscles quickly._
 
-**Dusty**: …That’s not the list. She’s got a list of her own.  
+**Dusty**: …That’s not on my list. Fossil’s got a list of her own.  
 
 #### `reader:s5-secret` · [main](../../../side/S05.md#s5-secret)
 
@@ -191,15 +191,7 @@ _Your youngest stops falling over and looks at Fossil, and Fossil looks back. Th
 
 #### `reader:s5-gift` · [main](../../../side/S05.md#s5-gift)
 
-_The sun goes down behind the western hill. Fossil doesn’t move, nor does your youngest, and after a while nor do you._  
-
-> **Lesson** (science, 1-ESS1-1, ask): the Sun rises in the east and sets in the west  
-> _The sun is setting behind the western hill. Which direction does the Sun set in?_  
-> - ✅ West → Yes. Each day the Sun rises in the east, crosses the sky, and sets in the west.
-> - East → East is where it rises, in the morning. It crosses the sky all day and sets in the west. That’s why the hill is called the western hill.
-> - North → Not north. The Sun rises in the east, crosses the sky, and sets in the west. That’s why the hill it sets behind is called the western hill.
-> _For grown-ups: Recalled the daily pattern of the Sun: rising in the east and setting in the west._
-
+_The sun goes down behind the western hill, in the west, where it sets every evening. Fossil doesn’t move, nor does your youngest, and after a while nor do you._  
 _The sky turns orange, then pink, then a deep, quiet blue._  
 _One by one, the first stars come out over the pond._  
 
@@ -209,7 +201,8 @@ _One by one, the first stars come out over the pond._
 > _For grown-ups: Learned that stars are in the sky all the time but are hidden by daylight._
 
 _Behind you, the rest of your Nubbins have given up waiting and fallen asleep in a heap. One of them snores in a very small voice._  
-_Dusty looks at the heap, and then at Fossil, and doesn’t say anything. Dusty is smiling._  
+**Dusty**: That’s your whole army, is it?  
+_Dusty looks at the heap, and then at Fossil, and says no more. Dusty is smiling._  
 _When it’s dark, the old Nubbin gets up and touches her nose to your youngest’s nose._  
 _Then Fossil walks back to Dusty, slowly, the way she does everything._  
 _Your youngest sits up straighter than you’ve ever seen it sit._  
@@ -220,7 +213,7 @@ _On its stats sheet, under Stamina, are new words: “A gift from Fossil.”_
 _Dusty picks Fossil up to carry her home, bad back or not. The ball above her head is very pale now._  
 _It doesn’t glow. It only gets paler, the way a sky does at the end of the day._  
 **Dusty**: Thank you. I mean it. I don’t say that much. Ask anyone. They’ll tell you I never say it.  
-**Dusty**: I think it thins slower with someone walking beside it. I’d like to think so.  
+**Dusty**: I think a Nubbin’s glow fades slower with someone walking beside it. I’d like to think so.  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): think question: what helps when someone we love is very old  
 > _Fossil is very old. Dusty knows she won’t be alive much longer, and it hurts._  
@@ -241,7 +234,7 @@ _Fossil reaches out to you. In her fist is a curled seed from the fern at the fo
 
 **Dusty**: And have this. Don’t argue. I bought it the week after I dug her out. Never needed it like I needed the spoon.  
 _Dusty’s trowel. The handle is worn pale where a hand has held it for twenty years._  
-_They go out through the gate together. Dusty lifts and pushes without thinking._  
+_At the gate, Dusty lifts it and pushes without thinking, one-handed, with Fossil in the other arm._  
 _On the western hill, Moss watches the gate long after it has closed._  
 
 ### Glossary

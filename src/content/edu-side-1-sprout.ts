@@ -1282,7 +1282,7 @@ const S4: EduQuest = quest(
         MA('And the water is cold. Cold, in July!'),
         MA('Hazel painted a line by the waterfall. Go and look.'),
         Y('Why don’t you look?'),
-        MA('I’ve looked lots. I want you to tell me I’m wrong.', 'soft'),
+        MA('I’ve looked lots. I hope I’m wrong. Please look too.', 'soft'),
         MA('Mind the moss on the rocks. Not that Moss! The slippy kind.', 'happy'),
       ],
       [
@@ -1336,6 +1336,7 @@ const S4: EduQuest = quest(
         N('Marina holds your Nubbin under its chin. Like a cup.'),
         N('It kicks. It doesn’t sink!'),
         MA('Now swim up the stream. Just a little way.'),
+        MA('Lesson two: near water, Keepers stay close to a grown-up.', 'think'),
       ],
       [
         {
@@ -1378,7 +1379,7 @@ const S4: EduQuest = quest(
         N('Behind it is flat, still, blue water.'),
         N('There are swimming lanes, and a sign: NO SPLASHING.'),
         MA('No splashing? Splashing is what water is for!', 'angry'),
-        MA('My pools need that water.', 'angry'),
+        MA('The wall keeps the water here. So my pools stay dry.', 'angry'),
         MA('I wrote three letters. Nobody helped.', 'think'),
       ],
       [
@@ -1403,6 +1404,8 @@ const S4: EduQuest = quest(
         MA('Hazel knew this path. Now you should too.'),
         N('By the falls, a thin ledge goes behind the water.'),
         MA('Back to the rock. Eyes on my heels. Stay close.', 'think'),
+        MA('Rule five: don’t be me when I was little.', 'happy'),
+        MA('I ran on the wet rocks. Splat! Every time.', 'happy'),
       ],
       [
         {
@@ -1410,7 +1413,7 @@ const S4: EduQuest = quest(
           skill: 'staying close to a grown-up near water',
           standard: 'CASEL: Responsible decision-making',
           kind: 'ask',
-          after: 3,
+          after: 5,
           prompt: [MA('Near water, where do we stay?', 'think')],
           options: [
             opt('Close to a grown-up', [MA('Yes. Close to me, all the way.', 'soft')], true),
@@ -1459,6 +1462,8 @@ const S4: EduQuest = quest(
         N('You freeze. Your Nubbin freezes too, one foot up, like a statue.'),
         N('Snore! You move. Your Nubbin stays still. And still.'),
         MA('You can put your foot down now, pet.', 'soft'),
+        N('The foot comes down. Wobble, wobble… plop!'),
+        N('Your Nubbin sits on its bottom. The guard snores on.'),
         N('You creep to the gate. You push. It’s stuck!'),
       ],
       [
@@ -1511,7 +1516,8 @@ const S4: EduQuest = quest(
         N('Whoosh! Water rushes through the gate.'),
         MA('Listen.', 'soft'),
         N('The waterfall sounds bigger now. Deep and full.'),
-        N('The guard mumbles, “Received.” Then he snores again.'),
+        N('The guard mumbles, “Got it. Thank you.” Then he snores again.'),
+        N('In… out… whistle!'),
         MA('Someone may shut it again. Then someone opens it again.', 'think'),
         MA('That’s most of looking after things.'),
       ],
@@ -1585,7 +1591,7 @@ const S5: EduQuest = quest(
       hint: 'The cliff is past the stream. Walk, don’t run. She likes to look at things.',
     },
     's5-step2': {
-      goal: 'Take Fossil to Gran’s first tree. Shake it once.',
+      goal: 'Take Fossil to Hazel’s first tree. Shake it once.',
       hint: 'It’s the low, crooked tree over the stream. Just one shake!',
     },
     's5-step3': {
@@ -1780,7 +1786,8 @@ const S5: EduQuest = quest(
       's5-water',
       [
         N('Fossil goes into the water. She floats!'),
-        N('Then, very slowly, she kicks.'),
+        N('Then, very slowly, she kicks. She goes sideways, like a crab!'),
+        N('(Wiggle your hand sideways, like Fossil.)'),
         DU('Look! Her sideways swim!', 'happy'),
         DU('To the reeds and back, Fos.'),
         N('Slowly, slowly, she swims. Nobody hurries her.'),
@@ -1793,7 +1800,7 @@ const S5: EduQuest = quest(
           skill: 'opposites: slow and fast',
           standard: 'ELOF: Language and Communication',
           kind: 'ask',
-          after: 4,
+          after: 5,
           prompt: [DU('Fossil swims slowly. What’s the opposite of slow?', 'think')],
           options: [
             opt('Fast', [DU('Yes! Slow and fast are opposites.', 'happy')], true),
@@ -1807,6 +1814,7 @@ const S5: EduQuest = quest(
       's5-secret',
       [
         N('Fossil walks across the Grove. Step… by… step.'),
+        N('(Walk two fingers slowly, like Fossil. Slower than that!)'),
         N('She sits down by your littlest Nubbin.'),
         N('Your littlest was falling over a fruit. Now it stops.'),
         N('They look at each other. Then they just sit.'),
@@ -1819,7 +1827,7 @@ const S5: EduQuest = quest(
           skill: 'comparing: older and younger',
           standard: 'K.MD.A.2',
           kind: 'ask',
-          after: 1,
+          after: 2,
           prompt: [N('Who is older: Fossil, or your littlest Nubbin?')],
           options: [
             opt('Fossil', [DU('Yes. Fossil is the oldest. Your littlest is the youngest.', 'soft')], true),
@@ -1837,7 +1845,8 @@ const S5: EduQuest = quest(
         N('Your other Nubbins fall asleep in a heap. One snores, very softly.'),
         N('Dusty sees the heap, and smiles.'),
         N('When it’s dark, Fossil touches noses with your littlest.'),
-        N('Your littlest sits up tall and proud. A gift from Fossil!'),
+        N('Your littlest feels strong now. A gift from Fossil!'),
+        N('It sits up so tall, it tips over. Plop! Up it gets.'),
       ],
       [
         {
@@ -1856,12 +1865,15 @@ const S5: EduQuest = quest(
       [
         N('Dusty picks Fossil up to carry her home.'),
         N('The little ball above her head is very pale now.'),
-        DU('Fossil won’t be with us much longer. I’m glad we did her wishes.', 'soft'),
+        DU('Fossil is very old. Soon she will die.', 'sad'),
+        DU('That makes me sad. But today she did all her wishes.', 'soft'),
+        N('Dusty hugs Fossil, very gently.'),
         DU('Thank you for walking with us.', 'soft'),
         N('Fossil gives you a baby fern, curled up tight.'),
         DU('She wants you to plant it. A fossil-fern!', 'soft'),
         DU('And take my old trowel. For digging.', 'happy'),
-        N('They go out of the gate. Dusty lifts and pushes.'),
+        N('At your gate, Dusty lifts and pushes, with Fossil in one arm.'),
+        N('(Say it together: lift and push!)'),
         N('On the hill, Moss watches them go.'),
       ],
       [
@@ -1870,7 +1882,7 @@ const S5: EduQuest = quest(
           skill: 'what a plant needs to grow',
           standard: 'K-LS1-1',
           kind: 'ask',
-          after: 5,
+          after: 7,
           prompt: [DU('What does a little fern need to grow?', 'think')],
           options: [
             opt('Soil, water and light', [DU('Yes. Soil, water and light. And time.', 'happy')], true),
@@ -1881,7 +1893,7 @@ const S5: EduQuest = quest(
       ],
     ),
   ],
-  'Fossil’s death is not shown here (it belongs to chapter 6); sprout says plainly that she is very old and will not live much longer. The fossil-fern is a Grove plant; sprout calls Fossil’s gift a baby fern, not a seed (real ferns grow from spores, not seeds).',
+  'Fossil’s death is not shown here (it belongs to chapter 6); sprout says plainly that she is very old and will die soon, with comfort straight after. The fossil-fern is a Grove plant; sprout calls Fossil’s gift a baby fern, not a seed (real ferns grow from spores, not seeds).',
 );
 
 // ================================================================== S6 Ash’s True Name
@@ -1911,7 +1923,7 @@ const S6: EduQuest = quest(
       's6-kitchen',
       [
         N('A note under your door: COME OVER. PLEASE.'),
-        N('Ember’s house is very, very tidy.'),
+        N('Ember’s house is very, very tidy. Even the spoons stand in a row.'),
         N('A grey Nubbin sits in the corner. She faces the wall.'),
         EM('Ash. Ash, love. It’s me.', 'soft'),
         N('Ash does not turn round.'),
@@ -1960,7 +1972,8 @@ const S6: EduQuest = quest(
         N('Ember puts the kettle on.'),
         EM('When she was tiny, she answered to everything.'),
         EM('Her name. My name. Even the kettle!', 'happy'),
-        EM('Go home now. Thanks for coming.'),
+        N('The kettle whistles. Wheee! Ember glares at it.'),
+        EM('Go home now. Thanks for coming. Don’t tell Fern.'),
       ],
       [
         {
@@ -1968,7 +1981,7 @@ const S6: EduQuest = quest(
           skill: 'first sounds in names',
           standard: 'RF.K.2',
           kind: 'ask',
-          after: 2,
+          after: 3,
           prompt: [N('(Say the names slowly: Ash, Ember, Fern.)'), EM('Which name starts with an “eh” sound?', 'think')],
           options: [
             opt('Ember', [EM('Yes. Eh-Ember. That’s me.', 'happy')], true),
@@ -1987,9 +2000,9 @@ const S6: EduQuest = quest(
         Y('Ash won’t answer to her name.'),
         FE('Oh, poor Ash. Poor Ember.', 'sad'),
         Y('Ash came from one of Gran’s eggs.'),
-        FE('Then she’s in Gran’s book! Gran wrote every egg down.', 'think'),
+        FE('Then Ash is in Gran’s book! Gran wrote every egg down.', 'think'),
         FE('And the first sound each baby made.'),
-        FE('Bottom shelf, behind the jam. Don’t eat the jam!'),
+        FE('Bottom shelf, behind the jam. Don’t eat the jam! It’s very old jam.'),
       ],
       [
         {
@@ -2015,7 +2028,7 @@ const S6: EduQuest = quest(
         N('And smaller: “Do not lend this to Byte.”'),
         N('Inside, a page says: “Given away.”'),
         HZ('“Egg 7. Given to Sparks. First sound: a bang!”', 'happy'),
-        HZ('“Egg 23. Given to Byte. First sound: a hiccup.”', 'think'),
+        HZ('“Egg 23. Given to Byte. First sound: hic! Byte wrote that down too.”', 'think'),
         HZ('“Egg 41. Given to Ember, aged fifteen. She promised to feed it first.”', 'soft'),
         HZ('“First sound: three notes. Low, high, and a little one.”'),
         N('Gran drew three dots. Low, high, and a tiny one going up.'),
@@ -2119,7 +2132,7 @@ const S6: EduQuest = quest(
         N('Ash faces the wall. Ember kneels a little way off.'),
         N('Ember whistles. Low, high, and a little one.'),
         N('Ash’s ear moves. Just a little.'),
-        N('Ember whistles again. Slower. Her hands shake.'),
+        N('Ember whistles again. Slower than that. Her hands shake.'),
         N('Ash turns round.'),
         N('Then a tiny sound: pip. wirr. a?'),
         N('Step by step, Ash comes. She leans on Ember’s knee.'),
@@ -2165,14 +2178,17 @@ const S6: EduQuest = quest(
     sc(
       's6-complete',
       [
-        N('Next morning, Ember is at your gate. Ash walks close.'),
-        N('Ash is still grey.'),
+        N('Next morning, Ember lifts your gate and pushes. Ash walks close.'),
         EM('Clover says the grey stays. You can only make it lighter.', 'think'),
-        EM('She ate breakfast with me in the room. That’s lighter.'),
+        EM('Ash is still grey. But she ate breakfast with me!', 'happy'),
+        EM('A happier Ash. That’s what lighter means.', 'soft'),
+        EM('The whistle is her first name. Ash is the name I gave her.'),
         EM('Here. Ash’s first ribbon. Give it to one of yours.'),
-        EM('Now. Two fingers, like that. Blow!'),
-        N('Try one: pfff. Try two: pfff. Try three. Try four.'),
-        N('Try five: wheee! Three Nubbins come running!'),
+        EM('Now I’ll teach you her first name. Two fingers, like that. Blow!'),
+        N('Try one: pfff. Try two: a squeak!'),
+        N('Try three: quack! A duck quacks back.'),
+        EM('Not the duck again.', 'angry'),
+        N('Try four: pfff. Try five: wheee! Three Nubbins come running!'),
         EM('Don’t tell anyone I like you.', 'happy'),
       ],
       [
@@ -2181,7 +2197,7 @@ const S6: EduQuest = quest(
           skill: 'count to 5; keep trying',
           standard: 'K.CC.B.5',
           kind: 'do',
-          after: 7,
+          after: 10,
           check: 'edu:count:tries:5',
           lines: [
             N('(Count the tries on your fingers: one, two, three, four, five!)'),
@@ -2282,6 +2298,7 @@ const S7: EduQuest = quest(
       's7-minder',
       [
         N('Pixel’s bench: a clock, three little bells, and a tiny bed.'),
+        PX('It was my lantern clock. Now it’s Null’s clock.', 'think'),
         PX('Bell one: fruit drops. Bell two: the bed warms.', 'happy'),
         PX('Bell three: petting! Byte does the petting.'),
         BY('Exactly ninety seconds. I tested it.', 'think'),
@@ -2298,7 +2315,7 @@ const S7: EduQuest = quest(
           skill: 'first, next, last',
           standard: 'RL.K.3',
           kind: 'ask',
-          after: 2,
+          after: 3,
           prompt: [PX('Bell one, bell two, bell three. What happens first?', 'think')],
           options: [
             opt('Fruit drops', [PX('Yes! First fruit. Next the bed. Last, petting!', 'happy')], true),
@@ -2356,7 +2373,7 @@ const S7: EduQuest = quest(
         N('Ding! Null eats. It only looks at the bell.'),
         N('Null’s blue has gone pale at the edges.'),
         BY('It used to chase that ball everywhere. Why won’t it play?', 'shock'),
-        PX('I think it’s waiting to be told.', 'sad'),
+        PX('I think Null waits for the bell. Only the bell.', 'sad'),
         BY('Moss told me. And I didn’t listen.', 'sad'),
       ],
       [
@@ -2398,6 +2415,7 @@ const S7: EduQuest = quest(
       's7-same-graph',
       [
         BY('I wanted to keep Null safe. I kept it too still.', 'sad'),
+        BY('Moss said it. Safe is not the same as well.', 'sad'),
         N('Null waits for a bell that doesn’t come.'),
         N('It looks a little lost.'),
         PX('Tomorrow, no clock. We’ll just sit. We’re good at sitting.', 'soft'),
@@ -2408,7 +2426,7 @@ const S7: EduQuest = quest(
           skill: 'saying “I was wrong”',
           standard: 'CASEL: Self-awareness',
           kind: 'notice',
-          after: 0,
+          after: 1,
           lines: [BY('I was wrong.', 'sad'), N('Saying “I was wrong” is hard. It’s also brave.')],
           parentNote: 'Heard a character admit a mistake, and that this is brave.',
         },
@@ -2418,8 +2436,10 @@ const S7: EduQuest = quest(
       's7-no-clock',
       [
         N('Evening in Byte’s garden. No bells.'),
-        N('Byte holds his stopwatch. Just in case.'),
+        N('Byte holds his stopwatch. His thumb wiggles.'),
+        N('He sits on his thumb.'),
         N('Null sits in the grass. For a long time, nothing.'),
+        PX('Slow, Byte. Slower than that.', 'soft'),
         N('Then a moth flutters past. Null’s head turns!'),
         BY('Did you see that? That’s not on any list!', 'shock'),
         N('Null takes one step after the moth. Then it looks at you.'),
@@ -2430,7 +2450,7 @@ const S7: EduQuest = quest(
           skill: 'moths fly at night',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'notice',
-          after: 3,
+          after: 5,
           lines: [N('Most moths fly at night. They like lights.'), N('Most butterflies fly in the day.')],
           parentNote: 'Learned that most moths fly at night and most butterflies fly by day.',
         },
@@ -2456,7 +2476,8 @@ const S7: EduQuest = quest(
       [
         N('Near dark, Null climbs into Byte’s lap.'),
         N('It falls asleep at once.'),
-        N('Byte sits still for an hour. He doesn’t check the time.'),
+        N('Byte sits still for an hour. His nose itches.'),
+        N('He lets it itch. He doesn’t check the time.'),
         BY('Its edges look bluer. Don’t tell me if I’m wrong.', 'soft'),
       ],
       [
@@ -2464,7 +2485,7 @@ const S7: EduQuest = quest(
           domain: 'art',
           skill: 'naming the colour blue',
           kind: 'do',
-          after: 3,
+          after: 4,
           check: 'edu:find:colour:blue',
           lines: [N('(Find something blue near you. Point to it!)'), N('(Is it pale blue, like Null? Or dark blue?)')],
           parentNote: 'Found something blue and compared pale and dark blue.',
@@ -2474,8 +2495,9 @@ const S7: EduQuest = quest(
     sc(
       's7-complete',
       [
-        N('A few days later, Pixel knocks. Pixel doesn’t speak.'),
-        N('Null is under Byte’s hedge. Null has grown up.'),
+        N('A few days later, Pixel knocks. She is very quiet.'),
+        N('Pixel takes your hand.'),
+        N('Null is under Byte’s hedge. Null is old now.'),
         N('Null’s long life is ending. Around it, a glowing cocoon grows.'),
         N('Byte sits with his hand on it. He doesn’t count.'),
         N('The cocoon glows gold. It opens. An egg!'),
@@ -2490,7 +2512,7 @@ const S7: EduQuest = quest(
           skill: 'life cycles: caterpillar, cocoon, moth',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'notice',
-          after: 4,
+          after: 5,
           lines: [N('In real life, a caterpillar makes a cocoon.'), N('Later, a moth comes out! Living things change as they grow.')],
           parentNote: 'Heard about a real life cycle: caterpillar, cocoon, moth.',
         },
@@ -2539,9 +2561,11 @@ const S8: EduQuest = quest(
         NO('This is Gran’s camp. But it isn’t all of it.', 'think'),
         NO('Gran wrote, “Fed nineteen today.” But there are only twelve bowls.'),
         NO('So she carried food further in.'),
-        N('A firefly lands on the notebook. Then it flies off.'),
+        N('A firefly lands on the notebook. Blink, blink!'),
+        N('You blink back. The firefly flies off.'),
         NO('The fireflies go the same way every night.'),
         NO('Bring fruit. Walk slowly. Slower than that.'),
+        N('(Walk your fingers on your knee. Slow… slower… slower than that!)'),
       ],
       [
         {
@@ -2602,14 +2626,15 @@ const S8: EduQuest = quest(
     sc(
       's8-edge',
       [
-        N('You step towards the roots. Every grey head turns.'),
+        N('You step towards the roots. Every grey head turns. Swish!'),
+        NO('Yes. They do that.', 'think'),
         NO('Don’t go in. This is their home.'),
         NO('We don’t walk into a home without being asked.'),
         Y('How did Gran feed them?'),
         NO('She left food at the edge and stepped back. Every night.'),
         N('By the Old Girl sits a very thin grey Nubbin.'),
-        N('Its ear folds over at the tip too. Just like hers!'),
-        NO('Her baby, I think. It doesn’t eat much.', 'soft'),
+        N('The thin one’s ear folds at the tip. Like the Old Girl’s!'),
+        NO('Her baby, I think. She doesn’t eat much.', 'soft'),
       ],
       [
         {
@@ -2617,7 +2642,7 @@ const S8: EduQuest = quest(
           skill: 'respecting other people’s homes',
           standard: 'D2.Civ.8.K-2',
           kind: 'ask',
-          after: 2,
+          after: 3,
           prompt: [NO('You visit a friend’s home. What do you do first?', 'think')],
           options: [
             opt('Knock, and wait to be asked in', [NO('Yes. Knock and wait. That’s respect.', 'soft')], true),
@@ -2649,7 +2674,7 @@ const S8: EduQuest = quest(
         N('On the third night, the Old Girl stands up.'),
         N('She steps aside. There’s a gap, just for you!'),
         NO('I sit by these roots whenever I pass. She never did that for me!', 'shock'),
-        N('Her old ribbon is brown. A leaf is sewn on it.'),
+        N('The Old Girl’s ribbon is brown. A leaf is sewn on it.'),
         N('The leaf has five points and a curly stem.'),
         N('You’ve seen that leaf before. On Fern’s gloves! On Fern’s gate!'),
       ],
@@ -2678,6 +2703,20 @@ const S8: EduQuest = quest(
       ],
       [
         {
+          domain: 'literacy',
+          skill: 'first sound b',
+          standard: 'RF.K.2',
+          kind: 'ask',
+          after: 2,
+          prompt: [N('(Say it slowly: b-b-Bramble.)'), N('Which word starts with “b” too?')],
+          options: [
+            opt('Ball', [N('Yes! B-b-ball, b-b-Bramble.')], true),
+            opt('Fish', [N('Fish starts with “fff”. Ball starts with “b”, like Bramble!')]),
+            opt('Sun', [N('Sun starts with “sss”. Ball starts with “b”, like Bramble!')]),
+          ],
+          parentNote: 'Matched the first sound “b” in Bramble and ball.',
+        },
+        {
           domain: 'sel',
           skill: 'missing someone, and talking about it',
           standard: 'CASEL: Self-awareness',
@@ -2694,7 +2733,7 @@ const S8: EduQuest = quest(
             label: 'Fern. I think I’ve found her.',
             set: { 's8-told': true },
             friendship: { fern: 1 },
-            then: [FE('Don’t say that unless…', 'sad'), Y('Bring soft fruit.'), N('Fern runs through her gate. She still holds her needle!')],
+            then: [FE('Don’t say that. Not unless it’s true.', 'sad'), Y('Bring soft fruit.'), N('Fern runs through her gate. She still holds her needle!')],
           },
           {
             id: 'ask',
@@ -2745,20 +2784,6 @@ const S8: EduQuest = quest(
       ],
       [
         {
-          domain: 'literacy',
-          skill: 'first sound b',
-          standard: 'RF.K.2',
-          kind: 'ask',
-          after: 2,
-          prompt: [N('(Say it slowly: b-b-Bramble.)'), N('Which word starts with “b” too?')],
-          options: [
-            opt('Ball', [N('Yes! B-b-ball, b-b-Bramble.')], true),
-            opt('Fish', [N('Fish starts with “fff”. Ball starts with “b”, like Bramble!')]),
-            opt('Sun', [N('Sun starts with “sss”. Ball starts with “b”, like Bramble!')]),
-          ],
-          parentNote: 'Matched the first sound “b” in Bramble and ball.',
-        },
-        {
           domain: 'sel',
           skill: 'happy tears',
           standard: 'CASEL: Self-awareness',
@@ -2796,8 +2821,9 @@ const S8: EduQuest = quest(
         N('Later, Bramble goes back to the middle of the ring.'),
         FE('She always did like being in charge.', 'soft'),
         N('Bramble looks up the dark path.'),
-        NO('Her thin baby isn’t here tonight.', 'think'),
-        FE('Then we leave soft fruit at the edge. Till it comes back.', 'soft'),
+        NO('Bramble’s thin baby isn’t here tonight.', 'think'),
+        FE('Then we leave soft fruit at the edge. Till she comes back.', 'soft'),
+        N('Fern puts a plum down. Not one she sat on!'),
       ],
       [
         {
@@ -2805,7 +2831,7 @@ const S8: EduQuest = quest(
           skill: 'soft and hard',
           standard: 'ELOF: Scientific Reasoning',
           kind: 'ask',
-          after: 4,
+          after: 5,
           prompt: [FE('Soft fruit is easy for a little one. Which is softer?', 'think')],
           options: [
             opt('A ripe banana', [FE('Yes! Squishy and soft. Easy to eat.', 'happy')], true),

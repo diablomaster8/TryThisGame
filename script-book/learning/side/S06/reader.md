@@ -11,7 +11,7 @@
 
 _A note under your door at dawn: COME OVER. Then PLEASE, crossed out, and written again._  
 _Ember’s house is very tidy. It’s the kind of tidy you get when someone cleans because they’re angry._  
-**Ember**: She’s out of that garden. Don’t ask how. I don’t care how, and I never will.  
+**Ember**: She’s out of Corvin’s garden. Don’t ask how. I don’t care how, and I never will.  
 _A grey Nubbin sits in the corner of the kitchen, facing the wall. Beside her is a full bowl._  
 **Ember**: Ash.  
 **Ember**: Ash, love. It’s me. Ash.  
@@ -66,7 +66,7 @@ _Fern is leaning on the fence between your gardens, eating an apple. It is clear
 **Fern**: …Poor Ash. Poor Ember. Don’t tell her I said “poor”.  
 **You**: Ash came from one of Hazel’s eggs.  
 **Fern**: Then she’s in the book. Hazel wrote down every egg she ever gave away, and the first sound each one made.  
-**Fern**: “For the record,” she said. Whose record, I said. “Theirs,” she said.  
+**Fern**: “For the record,” Hazel said. “Whose record?” I said. “Theirs,” said Hazel.  
 
 > **Lesson** (literacy, L.3.4, ask): choose the right meaning of a multiple-meaning word  
 > _“Record” is a word with more than one meaning._  
@@ -110,7 +110,9 @@ _Hazel has drawn the notes as three dots: one low, one high, and a tiny one trai
 
 _Ember reads the page twice. Then she shuts the book on her own thumb, on purpose._  
 **Ember**: And if I do it and she doesn’t turn round?  
-**Ember**: Right now she’s lost. If I call her real name and she still doesn’t turn, she’s gone. I’d rather have lost.  
+**Ember**: Right now I can still hope she remembers.  
+**Ember**: If I whistle her real name and she doesn’t turn, I’ll know she’s forgotten it for good.  
+**Ember**: I’d rather not know.  
 _She follows you to the pond anyway, the register under her arm, scowling at the water._  
 **Ember**: I can’t sing. Don’t ask me to sing. I can whistle.  
 **Ember**: You first. I’m not doing it till I know it doesn’t sound stupid.  
@@ -122,6 +124,7 @@ _She follows you to the pond anyway, the register under her arm, scowling at the
 > _For grown-ups: Felt their own throat vibrate while humming, to learn that sound comes from vibration._
 
 _Your Nubbins gather on the bank to watch. It is the most interesting thing to happen all week._  
+_Your Nubbins hum along. One hums so low that the water shivers. Another squeaks, and a frog leaves._  
 **Ember**: Low, high, little one. Like a question. If a duck answers, we’re stopping.  
 
 > **Lesson** (music, notice): pitch: high and low notes  
@@ -202,14 +205,18 @@ _She crosses the kitchen one careful step at a time and puts her grey head again
 
 #### `reader:s6-complete` · [main](../../../side/S06.md#s6-complete)
 
-_Next morning Ember is at your gate. She lifts and pushes without thinking. She’s known the trick since she was fifteen._  
+_Next morning Ember is at your gate. She lifts it and pushes without thinking._  
+_She learned Hazel’s gate trick at fifteen, the year she got Ash’s egg._  
 _Ash walks so close to Ember’s boots that Ember has to walk carefully. She is still grey._  
 **Ember**: Clover says the grey stays. Clover says you can only make it lighter.  
-**Ember**: She ate breakfast with me in the room. That’s lighter.  
+**Ember**: She ate breakfast with me in the room. That’s lighter. Not her colour. Her mornings.  
 **Ember**: She answers to both now. The whistle’s hers. Ash is the one I gave her. She can keep both.  
 **Ember**: This was her first ribbon. I kept it in a drawer for years, like a soppy old thing. Give it to one of yours.  
 **Ember**: And this. Two fingers, like that. Now blow. No. Less spit.  
-_It takes four tries. On the fifth, your whistle carries across the Grove, and three of your Nubbins come running._  
+_Try one: a wet pfff. Try two: a squeak, like a door._  
+_Try three: a honk. Across the pond, the very confident duck honks back._  
+**Ember**: Don’t encourage it.  
+_Try four: nothing. On the fifth, your whistle carries across the Grove, and three of your Nubbins come running._  
 
 > **Lesson** (sel, CASEL: Self-management, notice): mistakes are part of learning  
 > _Four tries that didn’t work, and one that did. That’s how almost everyone learns to whistle._  

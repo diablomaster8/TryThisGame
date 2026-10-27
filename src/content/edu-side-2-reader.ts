@@ -70,7 +70,7 @@ const S6_SCENES: EduScene[] = [
     [
       N('A note under your door at dawn: COME OVER. Then PLEASE, crossed out, and written again.'),
       N('Ember’s house is very tidy. It’s the kind of tidy you get when someone cleans because they’re angry.'),
-      E('She’s out of that garden. Don’t ask how. I don’t care how, and I never will.'),
+      E('She’s out of Corvin’s garden. Don’t ask how. I don’t care how, and I never will.'),
       N('A grey Nubbin sits in the corner of the kitchen, facing the wall. Beside her is a full bowl.'),
       E('Ash.'),
       E('Ash, love. It’s me. Ash.', 'soft'),
@@ -176,7 +176,7 @@ const S6_SCENES: EduScene[] = [
       F('…Poor Ash. Poor Ember. Don’t tell her I said “poor”.', 'sad'),
       Y('Ash came from one of Hazel’s eggs.'),
       F('Then she’s in the book. Hazel wrote down every egg she ever gave away, and the first sound each one made.', 'think'),
-      F('“For the record,” she said. Whose record, I said. “Theirs,” she said.'),
+      F('“For the record,” Hazel said. “Whose record?” I said. “Theirs,” said Hazel.'),
       F('Bottom shelf, behind the jam. Don’t eat the jam. Nobody knows what the jam was.'),
     ],
     [
@@ -267,11 +267,14 @@ const S6_SCENES: EduScene[] = [
     [
       N('Ember reads the page twice. Then she shuts the book on her own thumb, on purpose.'),
       E('And if I do it and she doesn’t turn round?', 'sad'),
-      E('Right now she’s lost. If I call her real name and she still doesn’t turn, she’s gone. I’d rather have lost.'),
+      E('Right now I can still hope she remembers.'),
+      E('If I whistle her real name and she doesn’t turn, I’ll know she’s forgotten it for good.'),
+      E('I’d rather not know.', 'sad'),
       N('She follows you to the pond anyway, the register under her arm, scowling at the water.'),
       E('I can’t sing. Don’t ask me to sing. I can whistle.'),
       E('You first. I’m not doing it till I know it doesn’t sound stupid.'),
       N('Your Nubbins gather on the bank to watch. It is the most interesting thing to happen all week.'),
+      N('Your Nubbins hum along. One hums so low that the water shivers. Another squeaks, and a frog leaves.'),
       E('Low, high, little one. Like a question. If a duck answers, we’re stopping.'),
       N('There are no ducks on the pond. Ember checks anyway.'),
     ],
@@ -281,7 +284,7 @@ const S6_SCENES: EduScene[] = [
         skill: 'feel your own voice vibrate',
         standard: '1-PS4-1',
         kind: 'do',
-        after: 5,
+        after: 7,
         lines: [
           N('Before you whistle, warm up like a singer. Hum a long “mmmm” and rest your fingers on the front of your throat.'),
           N('Can you feel the buzz? That’s your voice box vibrating. Now hum a high note, then a low one.'),
@@ -293,7 +296,7 @@ const S6_SCENES: EduScene[] = [
         domain: 'music',
         skill: 'pitch: high and low notes',
         kind: 'notice',
-        after: 7,
+        after: 10,
         lines: [
           E('Low, high. That’s pitch. How high or low a sound is.'),
           N('Fast vibrations make high notes. Slow vibrations make low notes. A good whistle can slide from one to the other.'),
@@ -440,14 +443,18 @@ const S6_SCENES: EduScene[] = [
   ),
   // ------------------------------------------------ complete
   scene('s6-complete', [
-    N('Next morning Ember is at your gate. She lifts and pushes without thinking. She’s known the trick since she was fifteen.'),
+    N('Next morning Ember is at your gate. She lifts it and pushes without thinking.'),
+    N('She learned Hazel’s gate trick at fifteen, the year she got Ash’s egg.'),
     N('Ash walks so close to Ember’s boots that Ember has to walk carefully. She is still grey.'),
     E('Clover says the grey stays. Clover says you can only make it lighter.', 'think'),
-    E('She ate breakfast with me in the room. That’s lighter.'),
+    E('She ate breakfast with me in the room. That’s lighter. Not her colour. Her mornings.'),
     E('She answers to both now. The whistle’s hers. Ash is the one I gave her. She can keep both.', 'soft'),
     E('This was her first ribbon. I kept it in a drawer for years, like a soppy old thing. Give it to one of yours.'),
     E('And this. Two fingers, like that. Now blow. No. Less spit.'),
-    N('It takes four tries. On the fifth, your whistle carries across the Grove, and three of your Nubbins come running.'),
+    N('Try one: a wet pfff. Try two: a squeak, like a door.'),
+    N('Try three: a honk. Across the pond, the very confident duck honks back.'),
+    E('Don’t encourage it.'),
+    N('Try four: nothing. On the fifth, your whistle carries across the Grove, and three of your Nubbins come running.'),
     E('Don’t tell anyone I like you. I’ve got a reputation.', 'happy'),
   ], [
     {
@@ -455,7 +462,7 @@ const S6_SCENES: EduScene[] = [
       skill: 'mistakes are part of learning',
       standard: 'CASEL: Self-management',
       kind: 'notice',
-      after: 7,
+      after: 11,
       lines: [
         N('Four tries that didn’t work, and one that did. That’s how almost everyone learns to whistle.'),
         N('Getting it wrong while you practise isn’t failing. It’s part of learning.'),
@@ -466,7 +473,7 @@ const S6_SCENES: EduScene[] = [
       domain: 'music',
       skill: 'sing a three-note pattern',
       kind: 'do',
-      after: 8,
+      after: 12,
       lines: [N('Your turn, for real. Whistle or hum Ash’s three notes: low, high, and a little one going up.')],
       check: 'edu:hum:tune:low-high-question',
       parentNote: 'Sang or whistled a three-note pattern from a description of its shape.',
@@ -567,7 +574,7 @@ const S7_SCENES: EduScene[] = [
         skill: 'use the prefix un- to work out a word',
         standard: 'L.2.4',
         kind: 'ask',
-        after: 5,
+        after: 14,
         prompt: [
           N('UN-VERIFIED. “Un” at the start of a word means “not”. To verify something means to check that it’s true.'),
           N('So what does Byte mean when he writes UNVERIFIED?'),
@@ -731,24 +738,13 @@ const S7_SCENES: EduScene[] = [
     ],
     [
       {
-        domain: 'science',
-        skill: 'why young animals play',
-        kind: 'notice',
-        after: 6,
-        lines: [
-          P('Young animals play all the time. Kittens pounce. Puppies chase. Lambs bounce about.', 'sad'),
-          P('Play is how they practise running, catching and getting along. Animal carers watch for it. It’s a sign an animal feels safe.'),
-        ],
-        parentNote: 'Learned that young animals play to practise skills, and that play is a sign an animal feels safe.',
-      },
-      {
         domain: 'maths',
         skill: 'read a bar graph and compare two bars',
         standard: '2.MD.D.10',
         kind: 'ask',
-        after: 7,
+        after: 1,
         prompt: [
-          N('Pixel has been keeping a chart too. It shows how many times Null played each day.'),
+          N('Byte’s numbers look good. Pixel has kept a different chart: how many times Null played each day.'),
           N('Day 1: ■■■■■ (5). Day 2: ■■■ (3). Day 3: ■ (1). Days 4 to 7: nothing at all.'),
           N('How many fewer times did Null play on Day 3 than on Day 1?'),
         ],
@@ -758,6 +754,17 @@ const S7_SCENES: EduScene[] = [
           { label: '1', reply: [P('One is how many times it played on Day 3. The difference from Day 1 is 5 − 1 = 4.')] },
         ],
         parentNote: 'Read a bar graph and found the difference between two bars (5 − 1 = 4).',
+      },
+      {
+        domain: 'science',
+        skill: 'why young animals play',
+        kind: 'notice',
+        after: 6,
+        lines: [
+          P('Young animals play all the time. Kittens pounce. Puppies chase. Lambs bounce about.', 'sad'),
+          P('Play is how they practise running, catching and getting along. Animal carers watch for it. It’s a sign an animal feels safe.'),
+        ],
+        parentNote: 'Learned that young animals play to practise skills, and that play is a sign an animal feels safe.',
       },
     ],
     [
@@ -787,7 +794,8 @@ const S7_SCENES: EduScene[] = [
   scene(
     's7-same-graph',
     [
-      B('I wasn’t trying to own it. I was trying to keep it. Turns out those make the same graph.', 'sad'),
+      B('I wasn’t trying to own Null. I was trying to keep Null safe.', 'sad'),
+      B('On my chart, they look the same. A Nubbin that sits very still, and waits.', 'sad'),
       N('Null sits in the bed, waiting for a bell that isn’t coming. For the first time, it looks a little lost.'),
       P('A clock does the same thing every time. That’s what I love about clocks.', 'think'),
       P('Null isn’t a clock. I don’t think I knew that was the problem until now.'),
@@ -799,7 +807,7 @@ const S7_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'how living things differ from machines (think question)',
         kind: 'ask',
-        after: 3,
+        after: 4,
         prompt: [
           P('Here’s what I keep wondering. A clock and a Nubbin both tick along, every day.'),
           P('What makes Null different from a machine?'),
@@ -834,6 +842,7 @@ const S7_SCENES: EduScene[] = [
     's7-no-clock',
     [
       N('Evening in Byte’s garden, and no bells. The Minder sits under a cloth on the step, with its lever down.'),
+      N('Now and then the cloth twitches. Pixel says it’s the spring settling. Byte says it’s sulking.'),
       N('Byte has brought his stopwatch. He holds it the way some people hold a habit they’ve given up.'),
       B('I’m not timing. I’m just holding it. In case.', 'think'),
       Y('In case of what?'),
@@ -849,7 +858,7 @@ const S7_SCENES: EduScene[] = [
         skill: 'changing a habit happens in small steps',
         standard: 'CASEL: Self-management',
         kind: 'notice',
-        after: 2,
+        after: 3,
         lines: [
           N('A habit is something you do so often you hardly notice. Byte has timed everything for years.'),
           N('Stopping a habit is hard. Holding the stopwatch without pressing it is his first small step.'),
@@ -860,7 +869,7 @@ const S7_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'nocturnal animals',
         kind: 'notice',
-        after: 7,
+        after: 8,
         lines: [
           B('Fact: most moths fly at night. Animals that are busy at night are called nocturnal.'),
           B('Bats, hedgehogs, most owls and most moths are nocturnal. That one is right on time.', 'happy'),
@@ -1007,7 +1016,7 @@ const S8_TAIL: Line[] = [
   H('Take this one home, then, love. Nothing’s mine. I only carry things for a bit.'),
   N('At the ring, the thin one wakes in your arms, sees her mother, and goes stiff all over with joy.'),
   N('Bramble washes her, ear to ear. Then she noses the old brown ribbon off her folded ear and drops it at your feet.'),
-  N('Behind her, three strays stand up and look at you, as if waiting to see where you go next.'),
+  N('Behind Bramble, three grey Nubbins from the ring stand up and look at you, as if waiting to see where you go next.'),
   NO('That’s you invited. Come whenever you like. Bring soft fruit.', 'soft'),
 ];
 
@@ -1112,7 +1121,8 @@ const S8_SCENES: EduScene[] = [
       N('Inside sit dozens of grey Nubbins. Not in rows: in a ring, facing in. Some of them are touching.'),
       N('A stream runs close by, and the roots make a roof against the wind.'),
       N('In the middle sits an old grey Nubbin whose left ear folds over at the tip. A scrap of faded ribbon is tied round it.'),
-      NO('They aren’t lost. They know exactly where they are. It’s everyone else they’ve lost track of.', 'soft'),
+      NO('They look lost. They aren’t. They know exactly where they are. It’s the rest of us who can never find them.', 'soft'),
+      N('The old grey Nubbin gives Nova one slow look, the way a teacher looks at someone talking in assembly.'),
       NO('That one’s in charge. I call her the Old Girl. She’s never told me what she calls herself.'),
       NO('This is their warren. It’s been their home for longer than I’ve known it.'),
     ],
@@ -1152,6 +1162,7 @@ const S8_SCENES: EduScene[] = [
       Y('Then how did Hazel feed them?'),
       NO('She left it at the edge and stepped back. Then she came again the next night. Patient. That’s the whole trick.'),
       N('The Old Girl watches you. Her dark ball hangs very still above her head.'),
+      N('Now and then she looks up the dark path, as if someone used to come that way.'),
       N('Close at her side sits a grey Nubbin thinner than all the rest. Its ear folds over at the tip, just like hers.'),
       NO('Her youngest, I think. Doesn’t eat much. The others leave it the soft fruit.', 'soft'),
     ],
@@ -1360,7 +1371,7 @@ const S8_SCENES: EduScene[] = [
         skill: 'we need light to see; eyes adjust to the dark',
         standard: '1-PS4-2',
         kind: 'notice',
-        after: 1,
+        after: 5,
         lines: [
           N('We see things when light bounces off them into our eyes. In the dark, there’s very little light.'),
           N('But eyes slowly get used to it. After about half an hour in the dark, you can see far more than at first.'),
@@ -1392,7 +1403,7 @@ const S8_SCENES: EduScene[] = [
         skill: 'guilt, sorry and being kind to yourself (think question)',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 9,
+        after: 11,
         prompt: [
           N('Fern is saying sorry for something from six years ago. Everyone told her Bramble couldn’t have lived.'),
           N('Do you think Fern did something wrong by stopping looking?'),
@@ -1412,18 +1423,6 @@ const S8_SCENES: EduScene[] = [
           },
         ],
         parentNote: 'Thought about guilt, saying sorry and being kind to yourself (a think question with no wrong answer).',
-      },
-      {
-        domain: 'sel',
-        skill: 'happy tears',
-        standard: 'CASEL: Self-awareness',
-        kind: 'notice',
-        after: 11,
-        lines: [
-          N('Fern is going to cry, and she’s happy. A reunion can make anyone cry.'),
-          N('Tears can come with any big feeling, happy ones too. It’s all right to let them out.'),
-        ],
-        parentNote: 'Learned that people cry with happy feelings too, and that tears are all right.',
       },
     ],
     [
@@ -1457,7 +1456,7 @@ const S8_SCENES: EduScene[] = [
       N('Bramble sits down and looks past you all, up the dark path, the way she looked the first night.'),
       NO('The thin one. Her youngest. It isn’t at the ring tonight.', 'think'),
       F('Then we leave the soft fruit at the edge till it is.', 'soft'),
-      N('Fern sets the softest plum down at the roots, and steps back. Patient, like Hazel.'),
+      N('Fern sets the softest plum down at the roots. Not one she sat on. Then she steps back, patient, like Hazel.'),
     ],
     [
       {

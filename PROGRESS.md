@@ -102,6 +102,14 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 24 fixes (2026-10-27)
+
+- **Works:** all 57 of run 24's recs fixed in the S4–S8 sprout and reader bands: plain words at S5's
+  goodbye, a water-safety lesson before S4's wade-in, Marina's rule five back in S4, S6's notes named
+  as Ash's name, and quizzes moved out of S8's reunion.
+- **Partial:** none.
+- **Known bugs:** none new.
+
 ## Fun-quest choice payoffs (2026-10-27)
 
 - **Works:** every Q1–Q65 fun-quest choice now changes something: 80 flags pay off with a later line in
@@ -129,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
 - **Partial:** SR-20261027-1249: Byte's barks and Granny Brock's knock play once (no bark system or
   green-door prop yet); the proposed orphan-scene check in content-check is not written.
 - **Known bugs:** c12-wall-garden's Learning Grove lessons never play when it is spliced into c12-open.
-
-## Story review run 21 fixes (2026-10-26)
-
-- **Works:** all 53 of run 21's recs fixed across S14–S21 and S2's two bands, with the S2, S14,
-  S18, S20 and S21 bands synced to their mains. Eleven new tested payoffs, among them S16's
-  tired-crew choice (s16-week and Hazel's s10-step), S21's lesson at Spindle's ladder, and S14's
-  badges in S24.
-- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
-- **Known bugs:** none new.
 
 ## Standing approval (Maor, 2026-10-12)
 
