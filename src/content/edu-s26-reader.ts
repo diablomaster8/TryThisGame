@@ -139,6 +139,8 @@ const COMPLETE_END: Line[] = [
   N(
     'Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from.',
   ),
+  T('She gets it from my side. Look at that scowl.'),
+  MU('That’s MY scowl, Dad.', 'happy'),
   L('Me. I get it from me.', 'happy'),
   N(
     'The robin has decided it lives with you now, in a general sort of way. The door stays open behind you.',
@@ -518,6 +520,9 @@ const S26: EduQuest = {
         N('Then the wind comes along the wall, and lifts the ivy like a curtain.'),
         N('Under it, exactly at the height of Linnet’s eyes, is a round iron knob.'),
         L('There. There! You lot stand too tall to see anything.', 'happy'),
+        N(
+          'You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault.',
+        ),
         N('You hold back the ivy and find the edge of a door, and under the knob, a keyhole.'),
         N(
           'The key goes in as if it has been waiting. It takes both your hands to turn it, and then Linnet’s as well.',
@@ -1493,7 +1498,7 @@ const S26: EduQuest = {
         L('You took your time. Look. LOOK.', 'happy'),
         N('Snowdrops. All round Hush’s bench, white heads bowed, as if they came up to listen.'),
         N(
-          'Some are in Linnet’s bed, in a dead straight row. The rest are everywhere: under the bench, in the path, one right in the middle of the ramp.',
+          'The rest are everywhere: under the bench, in the path, one right in the middle of the ramp.',
         ),
         L(
           'Your Nubbin’s. It can’t count and it can’t plant, and they all came up anyway.',
@@ -1853,6 +1858,9 @@ const S26_VARIANTS: EduScene[] = [
       N('Under it, exactly at the height of Linnet’s eyes, is a round iron knob.'),
       L('There. There! You lot stand too tall to see anything.', 'happy'),
       N(
+        'You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault.',
+      ),
+      N(
         'The hum in the old wall is loudest here. Every little round door in the mortar has a face in it, watching.',
       ),
       TH('Good morning, Keeper. Yes. That is a door. We have lived beside it for ever.'),
@@ -1872,7 +1880,7 @@ const S26_VARIANTS: EduScene[] = [
         skill: 'sound is vibration, and travels through solids',
         standard: '1-PS4-1',
         kind: 'notice',
-        after: 3,
+        after: 4,
         lines: [
           N(
             'A hum is a vibration: something shaking back and forth very fast. Put your hand on your throat and hum to feel it.',
@@ -1899,7 +1907,7 @@ const S26_VARIANTS: EduScene[] = [
         'Linnet sits at the top, beside Sparks’s coil of wire, and tells you where every barrow of earth goes.',
       ),
       N('She is right about all of it.'),
-      DU('Each step’s fifteen centimetres high. I measured. Twice.'),
+      DU('Each step’s 15 centimetres high. I measured. Twice.'),
     ],
     [
       {
@@ -1910,7 +1918,7 @@ const S26_VARIANTS: EduScene[] = [
         after: 5,
         prompt: [
           L(
-            'Three steps, fifteen centimetres each. So how high does the ramp have to drop, top to bottom?',
+            'Three steps, 15 centimetres each. So how high does the ramp have to drop, top to bottom?',
             'think',
           ),
         ],
@@ -2204,7 +2212,7 @@ const S26_VARIANTS: EduScene[] = [
         'It takes all morning, and it isn’t pretty. When it’s done she goes down it before you can offer, and doesn’t look back.',
       ),
       N(
-        'Snowdrops, all round Hush’s bench. Some in Linnet’s straight row, the rest wherever your Nubbin hid them.',
+        'Snowdrops, all round Hush’s bench, and wherever your Nubbin hid them.',
       ),
       L('I’d have got in on my own. If anybody had built it so I could.', 'soft'),
     ],

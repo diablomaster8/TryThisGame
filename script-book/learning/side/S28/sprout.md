@@ -392,6 +392,8 @@ _Byte runs over in his dressing gown. He stands in front of Parcel._
 > - A cat → Ha! Cats don’t grow from pips. An orange pip grows into an orange tree.
 > _For grown-ups: Learned that a seed, like an orange pip, can grow into a tree._
 
+**Mr Grue**: Sixty years. Only one person ever asked for them.  
+**Mr Grue**: She came every winter. Not this winter.  
 **Mr Grue**: So. What will you give me for them?  
 
 **Choices**
@@ -424,6 +426,8 @@ _Parcel puts a saucer on the frosty windowsill, to keep it cold._
 > - In the oven → Ovens are hot! The cold windowsill is best.
 > _For grown-ups: Thought about which places are hot and which are cold._
 
+_Your Nubbin licks the saucer. Parcel stares. Slowly, it puts it back._  
+**Byte**: Oh dear. That saucer is the test saucer now.  
 _On the back of the card, Gran Hazel wrote one more line._  
 **Byte**: “Be kind. Say please and thank you. Share what you’ve got.”  
 **Byte**: That isn’t a recipe. But I’ll keep it.  
@@ -591,7 +595,8 @@ _Byte looks at the H on the label. Then at Gran Hazel._
 > Check: `edu:say:first-sound:h`
 > _For grown-ups: Said words that begin with the “h” sound._
 
-**Byte**: I made a list of forty-one people. I even asked Mr Grue!  
+**Byte**: I made a list of forty-one people. I crossed you off first.  
+**Byte**: Missing people don’t send parcels. But I did ask Mr Grue!  
 _Byte sits down on the step, all at once. Bump!_  
 **Byte**: Why me? I just count things.  
 **Gran Hazel**: You count things, love. I needed someone to count this one.  
@@ -616,10 +621,10 @@ _Parcel leans on Byte. Byte leans on you. That helps a bit._
 #### `sprout:s28-party` · [main](../../../side/S28.md#s28-party)
 
 _Party time at Byte’s! Paper flags, and a cake that says PARCEL._  
-**Pixel**: Hi! I brought a cake stand. It spins round!  
+**Pixel**: I got the cake stand from our loft. It spins round!  
 _Pixel is Byte’s wife. They are always like this._  
-**Byte**: We have four cake stands, Pixel.  
-**Pixel**: None of them spin, Byte. And your shoelace is undone.  
+**Byte**: It’s a cake, not a funfair.  
+**Pixel**: He said that at our wedding. It spun anyway. And his shoelace was undone.  
 **Byte**: It always comes undone at parties.  
 **Byte**: Now Parcel will do a trick. Nobody told me what. I don’t like that.  
 _Parcel bows to Mr Grue. It holds out a paw for his watch._  

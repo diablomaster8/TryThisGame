@@ -1449,7 +1449,7 @@ const S25_SCENES: EduScene[] = [
     's25-falls',
     [
       N(
-        'You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes.',
+        'You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes.',
       ),
       N(
         'Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.',
@@ -1865,7 +1865,7 @@ export const EDU_S25_READER_VARIANTS: EduScene[] = [
     's25-falls-kept',
     [
       N(
-        'You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes.',
+        'You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes.',
       ),
       N(
         'Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.',

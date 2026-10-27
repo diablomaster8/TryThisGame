@@ -21,10 +21,12 @@ _Moon friends sit on the right. An empty bench sits in the middle._
 > _For grown-ups: Used left, right and middle to find a place._
 
 **Fern**: Don’t sit there! That’s the gap.  
-**Fern**: Hazel sat in the gap. Just to be cheeky.  
+**Fern**: Your Gran Hazel sat in the gap. Just to be cheeky.  
 _Two big tea pots. One has a sun. One has a moon._  
 _Each side says the other pot’s tea is worse._  
-**Sparks**: Long ago, at the Midsummer race, Bramble fell!  
+_A Nubbin sips from the sun pot. Then the moon pot._  
+_It can’t tell. It sips both again, to be sure._  
+**Sparks**: Long ago, at the big race, Fern’s Nubbin Bramble fell!  
 **Sparks**: Sun says one thing. Moon says another. Now nobody races together!  
 **Sparks**: Oops. I didn’t say that. That was the wind.  
 _High up, Corvin watches the people, not the race._  
@@ -43,7 +45,7 @@ _High up, Corvin watches the people, not the race._
 #### `sprout:s3-two-stories` · [main](../../../side/S03.md#s3-two-stories)
 
 _You hear two stories. They are not the same._  
-_Sun says: Ash bumped Bramble at the cliff bend._  
+_Sun says: Ember’s Nubbin Ash bumped Fern’s Nubbin Bramble at the bend._  
 _Moon says: the flag was in the wrong place._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): listening to both sides  
@@ -54,7 +56,7 @@ _Moon says: the flag was in the wrong place._
 
 **Byte**: I made a chart. Sun is yellow. Moon is blue.  
 **Ember**: After that day, nobody would race with Ash.  
-**Ember**: Only Corvin. He said he’d make her a champion.  
+**Ember**: Only Corvin. He said he’d make Ash a champion.  
 _Nobody talks about Bramble. Where did she go?_  
 
 #### `sprout:s3-plates` · [main](../../../side/S03.md#s3-plates)
@@ -65,9 +67,9 @@ _Sparks is at your gate. She is fizzing!_
 **Sparks**: But my timer is broken. I need help.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking for help kindly  
-> **Sparks**: How do I ask Byte for help?  
-> - ✅ “Byte, please will you help me?” → Please. Right. I can say please. Probably.
-> - “Give me your timer!” → He’d say no! Asking kindly works better. “Please will you help me?”
+> **Sparks**: Somebody has a timer. How do I ask for help?  
+> - ✅ “Please will you help me?” → Please. Right. I can say please. Probably.
+> - “Give me your timer!” → They’d say no! Asking kindly works better. “Please will you help me?”
 > _For grown-ups: Practised asking for help kindly, with please._
 
 _She points up the lane, at Byte’s house._  
@@ -94,11 +96,14 @@ _Sparks’s darkroom is red and dark. It smells of vinegar._
 > _For grown-ups: Clapped a steady beat with Byte’s count._
 
 **Sparks**: I rock on FEELING, Byte!  
+_Slosh! The tray tips. Byte’s sleeve is very wet._  
+**Byte**: That was not a rock. That was a wave.  
 _The first picture appears. It’s… a giant thumb._  
 **Sparks**: It’s a GOOD thumb!  
 _The next picture: the cliff bend, before the race._  
 _A man in a grey coat is moving the flag!_  
 **Byte**: He moved it two posts nearer the edge.  
+**Byte**: The flag said “go wide”. So Ash went wide, into Bramble.  
 
 > **Lesson** (maths, K.G.A.1, ask): near and far  
 > **Byte**: Where did the flag go? Nearer the edge, or further away?  
@@ -151,6 +156,9 @@ _Fern looks at the pictures. Ember looks too._
 > - “It’s your fault.” → That keeps the cross feeling going. “I’m sorry” helps friends start again.
 > _For grown-ups: Practised saying sorry, and saw how it helps friends make up._
 
+**Fern**: No, I’m sorrier.  
+**Ember**: No, I’M sorrier.  
+_It is their best argument in years._  
 **Ember**: Let’s have a big meeting. Everyone. Sun and Moon.  
 **Fern**: And just one tea pot.  
 **Ember**: One tea pot.  
@@ -168,9 +176,10 @@ _Pixel makes the invitations. Gold ink or silver?_
 > Check: `edu:find:colour:green`
 > _For grown-ups: Learned that blue and yellow paint mix to make green, and found something green._
 
+**Pixel**: Green is for everybody. Sun and Moon.  
 _Dusty digs a hole for the one tea pot. Nobody asked._  
 **Nova**: Am I Sun or Moon? I’ve decided I’m weather.  
-**Luna**: Ember says she’s coming. That’s Ember for yes.  
+_Ember says she’s coming. That’s Ember for yes._  
 
 #### `sprout:s3-moot` · [main](../../../side/S03.md#s3-moot)
 
@@ -183,7 +192,8 @@ _Evening at the pond. Ten friends. One tea pot._
 > _For grown-ups: Counted ten friends as two groups of five._
 
 _Dusty dug a hole. The pot sits in it. Dusty is proud._  
-**Gran Hazel**: A Moot! I haven’t been to one in years!  
+**Gran Hazel**: A Moot! That’s an old word for a big meeting.  
+**Gran Hazel**: I haven’t been to one in years!  
 _You put the pictures on the bench in the middle._  
 _Gran Hazel sits right in the middle. She smiles at both sides._  
 _Everyone shuffles in close to look. Now there is no gap!_  

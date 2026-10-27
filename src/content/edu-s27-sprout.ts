@@ -105,6 +105,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('It is summer at the Circuit. The sand is hot.'),
       N('But the white fences are covered in frost. Brrr!'),
+      N('Nobody says a word about it.'),
       N('Sparks is lying under a big lamp. It is broken.'),
       SP('I need some wire. A little roll of it.', 'think'),
       SP('It’s in the old lantern shed. Bottom drawer. Can you fetch it?'),
@@ -287,6 +288,8 @@ const S27_SCENES: EduScene[] = [
     [
       N('Spindle practises her words. She copies the drawers.'),
       N('FUSES. WICKS. SPARE. Very neat!'),
+      N('On day four, she writes MISC. She looks very proud.'),
+      SP('That is my messiest drawer! She found it!', 'shock'),
       SP('But those are drawer words. They don’t say how anyone feels.', 'think'),
       N('Spindle looks out at Nine. Then she lifts one leg.'),
       SP('She wants new words. Kind ones.'),
@@ -298,7 +301,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'count to 4 on fingers',
         standard: 'K.CC.B.5',
         kind: 'do',
-        after: 5,
+        after: 7,
         check: 'edu:count:fingers:4',
         lines: [
           N('(Hold up a finger for each friend: Fern, Clover, Luna, Byte.)'),
@@ -639,6 +642,7 @@ const S27_SCENES: EduScene[] = [
       N('Clover helps you brush Nine. Gently, gently.'),
       CL('Long, soft strokes. When Nine leans in, it likes it.', 'soft'),
       N('Nine leans in. Clover smiles.'),
+      BY('Pixel says stop timing. I timed Pixel saying it.', 'think'),
       BY('I worked out if Nine will win. I won’t say.', 'sad'),
       N('Spindle wants to come to the Show. She climbs up your sleeve!'),
       N('She rides on the brim of your hat. The best seat!'),
@@ -1088,6 +1092,8 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
       N('Corvin sits and watches you. All night long.'),
       N('He watches your lantern. He watches your hands.'),
       N('He thinks you are the one writing. He never sees Spindle.'),
+      N('At three o’clock, Corvin opens his window.'),
+      N('“Your wick needs trimming,” he says. Then he shuts it.'),
       N('Spindle works on and on, thread by thread.'),
       N('Spindle is your secret.'),
       N('Near morning, his light goes out. Spindle ties the last thread.'),
@@ -1098,7 +1104,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
         skill: 'putting times of day in order',
         standard: 'ELOF: Mathematics Development',
         kind: 'do',
-        after: 6,
+        after: 8,
         check: 'edu:order:night:evening-midnight-morning',
         lines: [
           N('(Put them in order: evening, the middle of the night, morning.)'),

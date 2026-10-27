@@ -22,8 +22,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S02/sprout.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S02/reader.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `side/S03.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/side/S03/sprout.md` | [review-2026-10-27](review-2026-10-27.md) | 9 |
-| `learning/side/S03/reader.md` | [review-2026-10-27](review-2026-10-27.md) | 7 |
+| `learning/side/S03/sprout.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
+| `learning/side/S03/reader.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `side/S04.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S04/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S04/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
@@ -78,26 +78,26 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S21.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S21/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S21/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
-| `side/S22.md` | [review-2026-10-27](review-2026-10-27.md) | 3 |
+| `side/S22.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `learning/side/S22/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S22/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
-| `side/S23.md` | [review-2026-10-27](review-2026-10-27.md) | 7 |
-| `side/S24.md` | [review-2026-10-27](review-2026-10-27.md) | 8 |
+| `side/S23.md` | [review-2026-10-27](review-2026-10-27.md) | 1 |
+| `side/S24.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `learning/side/S24/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S24/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
-| `side/S25.md` | [review-2026-10-27](review-2026-10-27.md) | 6 |
+| `side/S25.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `learning/side/S25/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S25/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
-| `side/S26.md` | [review-2026-10-27](review-2026-10-27.md) | 5 |
+| `side/S26.md` | [review-2026-10-27](review-2026-10-27.md) | 1 |
 | `learning/side/S26/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S26/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
-| `side/S27.md` | [review-2026-10-27](review-2026-10-27.md) | 5 |
+| `side/S27.md` | [review-2026-10-27](review-2026-10-27.md) | 0 |
 | `learning/side/S27/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S27/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
-| `side/S28.md` | [review-2026-10-27](review-2026-10-27.md) | 7 |
+| `side/S28.md` | [review-2026-10-27](review-2026-10-27.md) | 1 |
 | `learning/side/S28/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S28/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
-| `side/S29.md` | [review-2026-10-27](review-2026-10-27.md) | 6 |
+| `side/S29.md` | [review-2026-10-27](review-2026-10-27.md) | 1 |
 | `learning/side/S29/sprout.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `learning/side/S29/reader.md` | [review-2026-10-22-5](review-2026-10-22-5.md) | 0 |
 | `side/S30.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
@@ -1445,64 +1445,64 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261026-1191 | side/S20.md | s20-intel | Nice | humour | Let Wren notice that Zip's nine laps match her nine salutes | fixed | 2026-10-26-5 |
 | SR-20261026-1192 | side/S02.md, learning/side/S02/sprout.md, learning/side/S02/reader.md | cross-story | High | follow | "Warm. Dry. Fed." but nobody feeds Wisp; show the fruit in every version of the carry | fixed | 2026-10-26-5 |
 | SR-20261026-1193 | side/S14.md, side/S21.md | cross-story | Medium | theme | Show Pixel and Byte as married in S14 as well, with one bicker at the Tax Toad | fixed | 2026-10-26-5 |
-| SR-20261027-1194 | side/S24.md | s24-bird | Critical | continuity | S24's signature choices are written but never routed; the bird, cairn and lights variants never play | open | 2026-10-27 |
-| SR-20261027-1195 | side/S25.md | s25-coda-wild-button | Critical | continuity | S25's naming choice pays off in a spring coda that nothing ever queues | open | 2026-10-27 |
-| SR-20261027-1196 | side/S24.md | s24-cage | Critical | compelling | The cage choice sets no flag; let Fairweather answer it at s24-proof | open | 2026-10-27 |
-| SR-20261027-1197 | learning/side/S03/sprout.md | sprout:s3-two-stories | High | follow | Say whose Nubbins Ash and Bramble are, and who "her" is | open | 2026-10-27 |
-| SR-20261027-1198 | learning/side/S03/reader.md | reader:s3-truce | High | follow | "Him" twice points at Corvin, but the nearest man is the steward; name him | open | 2026-10-27 |
-| SR-20261027-1199 | side/S27.md | s27-tam | High | follow | On the sold path, give the player one beat when Hob calls their own Nubbin "Nine" | open | 2026-10-27 |
-| SR-20261027-1200 | side/S26.md | s26-snowdrops | High | continuity | The bulb choice (snowdrops, crocus, mix) is never seen; answer it when the garden comes up | open | 2026-10-27 |
-| SR-20261027-1201 | side/S26.md | s26-complete | High | continuity | Pay off the hello and plot choices: her mum learns to ask, and Hazel finds the bed | open | 2026-10-27 |
-| SR-20261027-1202 | side/S28.md | s28-party | High | theme | Pixel arrives at her own house like a guest; let her and Byte bicker about the cake stand | open | 2026-10-27 |
-| SR-20261027-1203 | side/S23.md | s23-dawn-one | High | humour | Escalate the ledger: "Cushion: occupied" under every "Nothing felt", then give you the cushion | open | 2026-10-27 |
-| SR-20261027-1204 | side/S29.md | s29-upriver | High | humour | The night row is eight lines of dread; let the Nubbin raise false alarms first | open | 2026-10-27 |
-| SR-20261027-1205 | side/S28.md | s28-why-untold | High | humour | Byte crossed Hazel off his H list first, by procedure; that is the joke and the sting | open | 2026-10-27 |
-| SR-20261027-1206 | side/S23.md | s23-hush | High | humour | Three silent hours before Hush; let the Nubbin fall asleep on his boots and snore | open | 2026-10-27 |
-| SR-20261027-1207 | learning/side/S03/sprout.md | sprout:s3-flag | High | child-read | Say out loud why a moved flag made Bramble fall | open | 2026-10-27 |
-| SR-20261027-1208 | learning/side/S03/sprout.md | sprout:s3-stands | High | humour | A Nubbin tastes both tea pots and can't tell them apart | open | 2026-10-27 |
-| SR-20261027-1209 | side/S24.md | s24-cage | High | humour | Fairweather carries the cage scene alone; give Tilly the bird's name back | open | 2026-10-27 |
-| SR-20261027-1210 | side/S23.md | s23-drip | Medium | follow | Untangle "First time since summer, the railings. The tin's been out of my pocket four days" | open | 2026-10-27 |
-| SR-20261027-1211 | side/S23.md | s23-partner | Medium | continuity | Collector Corvin wrote "Partner" and now says "I haven't got a partner"; cut the denial | open | 2026-10-27 |
-| SR-20261027-1212 | side/S23.md | s23-rhyme | Medium | follow | Say which word in the skipping rhyme is new | open | 2026-10-27 |
-| SR-20261027-1213 | side/S23.md | s23-cold-one | Medium | theme | Let young Hazel say what the cold idol cost, in the game's own words | open | 2026-10-27 |
-| SR-20261027-1214 | side/S28.md | s28-complete | Medium | humour | Show one of Pixel's NOTES FROM HOME | open | 2026-10-27 |
-| SR-20261027-1215 | side/S28.md | s28-glasshouse | Medium | compelling | "Nobody's ever wanted them": then where did Hazel's orange marmalade come from? | open | 2026-10-27 |
-| SR-20261027-1216 | side/S28.md | s28-cart-stop | Medium | continuity | "It has never done that for anyone" contradicts Byte's graph of everyone Parcel feeds | open | 2026-10-27 |
-| SR-20261027-1217 | side/S28.md | s28-kitchen | Medium | humour | The kitchen runs on the quote gag alone; let the Nubbin test the cold saucer | open | 2026-10-27 |
-| SR-20261027-1218 | side/S29.md | s29-ford | Medium | humour | Close the gherkin running gag at the ford, after the reunion | open | 2026-10-27 |
-| SR-20261027-1219 | side/S29.md | s29-turnback | Medium | humour | Give Marina's supper the awkward-relief laugh after Dusty's tears | open | 2026-10-27 |
-| SR-20261027-1220 | side/S29.md | s29-brock-knock | Medium | humour | Granny Brock said "Bring cake. Don't ring the bell"; let her notice | open | 2026-10-27 |
-| SR-20261027-1221 | side/S26.md | s26-door | Medium | humour | You have walked past this door every day; let your Nubbin blame you | open | 2026-10-27 |
-| SR-20261027-1222 | side/S26.md | s26-complete | Medium | humour | Play the chin argument out loud before Linnet settles it | open | 2026-10-27 |
-| SR-20261027-1223 | side/S27.md | s27-labels | Medium | humour | Escalate Spindle's drawer-label practice to MISC | open | 2026-10-27 |
-| SR-20261027-1224 | side/S27.md | s27-wire | Medium | humour | Summer frost on hot sand: let the narrator shrug at it | open | 2026-10-27 |
-| SR-20261027-1225 | side/S25.md | s25-falls | Medium | follow | Name the notebook: it is Hazel's, from chapter 8 | open | 2026-10-27 |
-| SR-20261027-1226 | side/S25.md | s25-sill | Medium | humour | A fortnight on the sill: let the toy slide face down, relieved | open | 2026-10-27 |
-| SR-20261027-1227 | side/S25.md | s25-storm | Medium | humour | One comic Nubbin beat in the storm before the lightning shows the toy | open | 2026-10-27 |
-| SR-20261027-1228 | side/S24.md | s24-nest-fed | Medium | humour | The chick in Tilly's badge sash is now fully qualified | open | 2026-10-27 |
-| SR-20261027-1229 | side/S24.md | s24-net | Medium | follow | Say Nova lunges after Tilly, so "I grabbed the pack" lands | open | 2026-10-27 |
-| SR-20261027-1230 | side/S22.md | s22-complete | Medium | humour | The Worry checks its oatcake is the same size as yours | open | 2026-10-27 |
-| SR-20261027-1231 | learning/side/S03/sprout.md | sprout:s3-stands | Medium | follow | "Hazel" and "Gran Hazel" are one person; say so, and say whose Bramble is | open | 2026-10-27 |
-| SR-20261027-1232 | learning/side/S03/sprout.md | sprout:s3-invitations | Medium | child-read | Four new names in one scene; cut Luna's voice and say why green | open | 2026-10-27 |
-| SR-20261027-1233 | learning/side/S03/sprout.md | sprout:s3-plates | Medium | humour | The lesson names Byte before Sparks can't bring herself to say "Him!" | open | 2026-10-27 |
-| SR-20261027-1234 | learning/side/S03/sprout.md | sprout:s3-flag | Medium | humour | Sparks rocks on feeling; let the tray slosh | open | 2026-10-27 |
-| SR-20261027-1235 | learning/side/S03/sprout.md | sprout:s3-truce | Medium | humour | Fern and Ember argue about who is sorrier | open | 2026-10-27 |
-| SR-20261027-1236 | learning/side/S03/sprout.md | sprout:s3-moot | Medium | follow | Say what a Moot is | open | 2026-10-27 |
-| SR-20261027-1237 | learning/side/S03/reader.md | reader:s3-stands | Medium | follow | Explain the Circuit, link Hazel to Gran, and drop Luna's name from the opening | open | 2026-10-27 |
-| SR-20261027-1238 | learning/side/S03/reader.md | reader:s3-moot | Medium | humour | Give Sparks's broken-off oath an object, so Byte's interruption is the joke | open | 2026-10-27 |
-| SR-20261027-1239 | learning/side/S03/reader.md | reader:s3-courier | Medium | theme | The "together" choice rewards a lie straight after the kindness lesson | open | 2026-10-27 |
-| SR-20261027-1240 | learning/side/S03/reader.md | reader:s3-truce | Medium | child-read | "Honestly very efficient of him" is irony a child may read as praise | open | 2026-10-27 |
-| SR-20261027-1241 | learning/side/S03/reader.md | reader:s3-flag | Medium | follow | Say what a steward is where the word first lands | open | 2026-10-27 |
-| SR-20261027-1242 | learning/side/S03/reader.md | reader:s3-moot | Medium | child-read | "Procedurally, that was a gavel" is adult vocabulary on the payoff line | open | 2026-10-27 |
-| SR-20261027-1243 | side/S24.md | s24-tea-moss | Nice | humour | Nova watches Moss fall asleep on your shoulder, with envy | open | 2026-10-27 |
-| SR-20261027-1244 | side/S24.md | s24-cage | Nice | follow | The lantern rule lives only in the step hint; let Fairweather say it | open | 2026-10-27 |
-| SR-20261027-1245 | side/S25.md | s25-loft | Nice | humour | Hazel marked every Lantern Night programme out of ten | open | 2026-10-27 |
-| SR-20261027-1246 | side/S27.md | s27-midnight-shield | Nice | humour | Corvin watches you all night; let him complain about your wick once | open | 2026-10-27 |
-| SR-20261027-1247 | side/S22.md | s22-chimney-top | Nice | humour | Bring the buzzard back once it loses interest | open | 2026-10-27 |
-| SR-20261027-1248 | side/S29.md | s29-wildwood | Nice | follow | Make "She doesn't lift and push" a clear gate callback | open | 2026-10-27 |
-| SR-20261027-1249 | side/S23.md<br>side/S26.md<br>side/S28.md<br>side/S29.md | cross-story | High | continuity | Written scenes no rule ever plays: S26's ramp and lift evenings, and three ambient scenes | open | 2026-10-27 |
-| SR-20261027-1250 | side/S22.md<br>side/S24.md | cross-story | High | continuity | S22's chimney choice pays off nowhere; let Nova use it on the far ridge in S24 | open | 2026-10-27 |
-| SR-20261027-1251 | side/S25.md<br>side/S27.md | cross-story | Medium | theme | Give Pixel and Byte one bicker each in S25 and S27 (canon 38) | open | 2026-10-27 |
+| SR-20261027-1194 | side/S24.md | s24-bird | Critical | continuity | S24's signature choices are written but never routed; the bird, cairn and lights variants never play | fixed | 2026-10-27 |
+| SR-20261027-1195 | side/S25.md | s25-coda-wild-button | Critical | continuity | S25's naming choice pays off in a spring coda that nothing ever queues | fixed | 2026-10-27 |
+| SR-20261027-1196 | side/S24.md | s24-cage | Critical | compelling | The cage choice sets no flag; let Fairweather answer it at s24-proof | fixed | 2026-10-27 |
+| SR-20261027-1197 | learning/side/S03/sprout.md | sprout:s3-two-stories | High | follow | Say whose Nubbins Ash and Bramble are, and who "her" is | fixed | 2026-10-27 |
+| SR-20261027-1198 | learning/side/S03/reader.md | reader:s3-truce | High | follow | "Him" twice points at Corvin, but the nearest man is the steward; name him | fixed | 2026-10-27 |
+| SR-20261027-1199 | side/S27.md | s27-tam | High | follow | On the sold path, give the player one beat when Hob calls their own Nubbin "Nine" | fixed | 2026-10-27 |
+| SR-20261027-1200 | side/S26.md | s26-snowdrops | High | continuity | The bulb choice (snowdrops, crocus, mix) is never seen; answer it when the garden comes up | fixed | 2026-10-27 |
+| SR-20261027-1201 | side/S26.md | s26-complete | High | continuity | Pay off the hello and plot choices: her mum learns to ask, and Hazel finds the bed | fixed | 2026-10-27 |
+| SR-20261027-1202 | side/S28.md | s28-party | High | theme | Pixel arrives at her own house like a guest; let her and Byte bicker about the cake stand | fixed | 2026-10-27 |
+| SR-20261027-1203 | side/S23.md | s23-dawn-one | High | humour | Escalate the ledger: "Cushion: occupied" under every "Nothing felt", then give you the cushion | fixed | 2026-10-27 |
+| SR-20261027-1204 | side/S29.md | s29-upriver | High | humour | The night row is eight lines of dread; let the Nubbin raise false alarms first | fixed | 2026-10-27 |
+| SR-20261027-1205 | side/S28.md | s28-why-untold | High | humour | Byte crossed Hazel off his H list first, by procedure; that is the joke and the sting | fixed | 2026-10-27 |
+| SR-20261027-1206 | side/S23.md | s23-hush | High | humour | Three silent hours before Hush; let the Nubbin fall asleep on his boots and snore | fixed | 2026-10-27 |
+| SR-20261027-1207 | learning/side/S03/sprout.md | sprout:s3-flag | High | child-read | Say out loud why a moved flag made Bramble fall | fixed | 2026-10-27 |
+| SR-20261027-1208 | learning/side/S03/sprout.md | sprout:s3-stands | High | humour | A Nubbin tastes both tea pots and can't tell them apart | fixed | 2026-10-27 |
+| SR-20261027-1209 | side/S24.md | s24-cage | High | humour | Fairweather carries the cage scene alone; give Tilly the bird's name back | fixed | 2026-10-27 |
+| SR-20261027-1210 | side/S23.md | s23-drip | Medium | follow | Untangle "First time since summer, the railings. The tin's been out of my pocket four days" | fixed | 2026-10-27 |
+| SR-20261027-1211 | side/S23.md | s23-partner | Medium | continuity | Collector Corvin wrote "Partner" and now says "I haven't got a partner"; cut the denial | fixed | 2026-10-27 |
+| SR-20261027-1212 | side/S23.md | s23-rhyme | Medium | follow | Say which word in the skipping rhyme is new | fixed | 2026-10-27 |
+| SR-20261027-1213 | side/S23.md | s23-cold-one | Medium | theme | Let young Hazel say what the cold idol cost, in the game's own words | fixed | 2026-10-27 |
+| SR-20261027-1214 | side/S28.md | s28-complete | Medium | humour | Show one of Pixel's NOTES FROM HOME | fixed | 2026-10-27 |
+| SR-20261027-1215 | side/S28.md | s28-glasshouse | Medium | compelling | "Nobody's ever wanted them": then where did Hazel's orange marmalade come from? | fixed | 2026-10-27 |
+| SR-20261027-1216 | side/S28.md | s28-cart-stop | Medium | continuity | "It has never done that for anyone" contradicts Byte's graph of everyone Parcel feeds | fixed | 2026-10-27 |
+| SR-20261027-1217 | side/S28.md | s28-kitchen | Medium | humour | The kitchen runs on the quote gag alone; let the Nubbin test the cold saucer | fixed | 2026-10-27 |
+| SR-20261027-1218 | side/S29.md | s29-ford | Medium | humour | Close the gherkin running gag at the ford, after the reunion | fixed | 2026-10-27 |
+| SR-20261027-1219 | side/S29.md | s29-turnback | Medium | humour | Give Marina's supper the awkward-relief laugh after Dusty's tears | fixed | 2026-10-27 |
+| SR-20261027-1220 | side/S29.md | s29-brock-knock | Medium | humour | Granny Brock said "Bring cake. Don't ring the bell"; let her notice | fixed | 2026-10-27 |
+| SR-20261027-1221 | side/S26.md | s26-door | Medium | humour | You have walked past this door every day; let your Nubbin blame you | fixed | 2026-10-27 |
+| SR-20261027-1222 | side/S26.md | s26-complete | Medium | humour | Play the chin argument out loud before Linnet settles it | fixed | 2026-10-27 |
+| SR-20261027-1223 | side/S27.md | s27-labels | Medium | humour | Escalate Spindle's drawer-label practice to MISC | fixed | 2026-10-27 |
+| SR-20261027-1224 | side/S27.md | s27-wire | Medium | humour | Summer frost on hot sand: let the narrator shrug at it | fixed | 2026-10-27 |
+| SR-20261027-1225 | side/S25.md | s25-falls | Medium | follow | Name the notebook: it is Hazel's, from chapter 8 | fixed | 2026-10-27 |
+| SR-20261027-1226 | side/S25.md | s25-sill | Medium | humour | A fortnight on the sill: let the toy slide face down, relieved | fixed | 2026-10-27 |
+| SR-20261027-1227 | side/S25.md | s25-storm | Medium | humour | One comic Nubbin beat in the storm before the lightning shows the toy | fixed | 2026-10-27 |
+| SR-20261027-1228 | side/S24.md | s24-nest-fed | Medium | humour | The chick in Tilly's badge sash is now fully qualified | fixed | 2026-10-27 |
+| SR-20261027-1229 | side/S24.md | s24-net | Medium | follow | Say Nova lunges after Tilly, so "I grabbed the pack" lands | fixed | 2026-10-27 |
+| SR-20261027-1230 | side/S22.md | s22-complete | Medium | humour | The Worry checks its oatcake is the same size as yours | fixed | 2026-10-27 |
+| SR-20261027-1231 | learning/side/S03/sprout.md | sprout:s3-stands | Medium | follow | "Hazel" and "Gran Hazel" are one person; say so, and say whose Bramble is | fixed | 2026-10-27 |
+| SR-20261027-1232 | learning/side/S03/sprout.md | sprout:s3-invitations | Medium | child-read | Four new names in one scene; cut Luna's voice and say why green | fixed | 2026-10-27 |
+| SR-20261027-1233 | learning/side/S03/sprout.md | sprout:s3-plates | Medium | humour | The lesson names Byte before Sparks can't bring herself to say "Him!" | fixed | 2026-10-27 |
+| SR-20261027-1234 | learning/side/S03/sprout.md | sprout:s3-flag | Medium | humour | Sparks rocks on feeling; let the tray slosh | fixed | 2026-10-27 |
+| SR-20261027-1235 | learning/side/S03/sprout.md | sprout:s3-truce | Medium | humour | Fern and Ember argue about who is sorrier | fixed | 2026-10-27 |
+| SR-20261027-1236 | learning/side/S03/sprout.md | sprout:s3-moot | Medium | follow | Say what a Moot is | fixed | 2026-10-27 |
+| SR-20261027-1237 | learning/side/S03/reader.md | reader:s3-stands | Medium | follow | Explain the Circuit, link Hazel to Gran, and drop Luna's name from the opening | fixed | 2026-10-27 |
+| SR-20261027-1238 | learning/side/S03/reader.md | reader:s3-moot | Medium | humour | Give Sparks's broken-off oath an object, so Byte's interruption is the joke | fixed | 2026-10-27 |
+| SR-20261027-1239 | learning/side/S03/reader.md | reader:s3-courier | Medium | theme | The "together" choice rewards a lie straight after the kindness lesson | fixed | 2026-10-27 |
+| SR-20261027-1240 | learning/side/S03/reader.md | reader:s3-truce | Medium | child-read | "Honestly very efficient of him" is irony a child may read as praise | fixed | 2026-10-27 |
+| SR-20261027-1241 | learning/side/S03/reader.md | reader:s3-flag | Medium | follow | Say what a steward is where the word first lands | fixed | 2026-10-27 |
+| SR-20261027-1242 | learning/side/S03/reader.md | reader:s3-moot | Medium | child-read | "Procedurally, that was a gavel" is adult vocabulary on the payoff line | fixed | 2026-10-27 |
+| SR-20261027-1243 | side/S24.md | s24-tea-moss | Nice | humour | Nova watches Moss fall asleep on your shoulder, with envy | fixed | 2026-10-27 |
+| SR-20261027-1244 | side/S24.md | s24-cage | Nice | follow | The lantern rule lives only in the step hint; let Fairweather say it | fixed | 2026-10-27 |
+| SR-20261027-1245 | side/S25.md | s25-loft | Nice | humour | Hazel marked every Lantern Night programme out of ten | fixed | 2026-10-27 |
+| SR-20261027-1246 | side/S27.md | s27-midnight-shield | Nice | humour | Corvin watches you all night; let him complain about your wick once | fixed | 2026-10-27 |
+| SR-20261027-1247 | side/S22.md | s22-chimney-top | Nice | humour | Bring the buzzard back once it loses interest | fixed | 2026-10-27 |
+| SR-20261027-1248 | side/S29.md | s29-wildwood | Nice | follow | Make "She doesn't lift and push" a clear gate callback | fixed | 2026-10-27 |
+| SR-20261027-1249 | side/S23.md<br>side/S26.md<br>side/S28.md<br>side/S29.md | cross-story | High | continuity | Written scenes no rule ever plays: S26's ramp and lift evenings, and three ambient scenes | partial | 2026-10-27 |
+| SR-20261027-1250 | side/S22.md<br>side/S24.md | cross-story | High | continuity | S22's chimney choice pays off nowhere; let Nova use it on the far ridge in S24 | fixed | 2026-10-27 |
+| SR-20261027-1251 | side/S25.md<br>side/S27.md | cross-story | Medium | theme | Give Pixel and Byte one bicker each in S25 and S27 (canon 38) | fixed | 2026-10-27 |
 
 ## Runs
 
@@ -1549,3 +1549,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-26 run 21 · [review-2026-10-26-5](review-2026-10-26-5.md) · units: side/S14.md, side/S15.md, side/S16.md, side/S17.md, side/S18.md, side/S19.md, side/S20.md, side/S21.md, S02/sprout.md, S02/reader.md · 53 recs: Critical 1, High 9, Medium 31, Nice 12 (2 cross-story) · fixed since last run: 57 (all)
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-6` · run 21's 53 recs: all fixed · eleven new tested payoffs in choice-payoffs.ts, among them the Critical -1141 (s16-tired now changes s16-week and Hazel's s10-step), s21-lesson in s27-carry-clank, s21 logging in s28-logged and its variants, s14Done in s24-badges, S20's own s20-cry and s20-merge echoes, and a swapped Tilly greeting in s24-stowaway-knows (PayoffSwaps gained `swapText`); the S2, S14, S18, S20 and S21 bands synced with their mains · canon: none
 - 2026-10-27 run 22 · [review-2026-10-27](review-2026-10-27.md) · units: side/S22.md, side/S23.md, side/S24.md, side/S25.md, side/S26.md, side/S27.md, side/S28.md, side/S29.md, S03/sprout.md, S03/reader.md · 58 recs: Critical 3, High 15, Medium 34, Nice 6 (3 cross-story) · fixed since last run: 53 (all)
+- 2026-10-27 · fix pass on branch `fix/story-review-2026-10-27` · run 22's 58 recs: 57 fixed, 1 partial · the three Critical: S24's variant() now routes the bird, nest, lights and tick scenes (s24-bird, s24-cairn, collector, hazel, keptStone), S25's spring coda and Moss line now queue after s25Done, and s24-cage sets a flag Fairweather answers at s24-proof; new tested payoffs for s22-chimney (S24), s26-bulbs/hello/plot, s27-sold; s24-lecture plays once from a new old-barn tap hook; Swapper's find() falls back to a text search so c12-wall-garden payoffs fire inside c12-open; -1249 partial: S26's ramp/lift evenings and Ember's soup now play, but Byte's barks play once as a scene (no bark mechanism), s29-brock-knock plays once on the next Grove day (no green-door prop), and the proposed orphan-scene check in content-check is not written · canon: none

@@ -10,7 +10,9 @@ import {
   commandMeets,
   dawnSince,
   duskSince,
+  isNight,
   postGameMorning,
+  sameDay,
   type StoryRule,
   watchCheck,
 } from './side-rule-kit';
@@ -269,6 +271,11 @@ export function sideVariant(world: World, c: CampaignState, id: string, scene: s
   return rule ? variantOf(world, c, rule, scene) : scene;
 }
 
+/** The scenes runner story `id` plays just before step `i` right now (for tests). */
+export function sideBefore(world: World, c: CampaignState, id: string, i: number): string[] {
+  return RULE_BY_ID.get(id)?.before?.(world, c, i) ?? [];
+}
+
 /** A story or fun quest by id: its state and rule, whichever store holds it. */
 function lookup(c: CampaignState, id: string): { st: SideStoryState; rule: StoryRule } | null {
   const rule = RULE_BY_ID.get(id);
@@ -362,6 +369,7 @@ export function noteSideRace(c: CampaignState): void {
  * named, a visit, a tap on a story prop). Called from applyCommand for every command.
  */
 export function noteSideCommand(world: World, c: CampaignState, cmd: Command): void {
+  noteAmbientCommand(world, c, cmd);
   for (const id of [...RULES.map((r) => r.id), ...Object.keys(c.fun)]) {
     const found = lookup(c, id);
     if (!found) continue;
@@ -509,11 +517,87 @@ function stepOne(
   }
 }
 
-/** The first spring morning after the ending: Spindle's egg sac hatches (S27). */
+const S27_SPRING = ['s27-spring', 's27-spring-wisp'];
+const S25_NAMES = ['button', 'bobble', 'mister'];
+const S25_CODAS = S25_NAMES.flatMap((n) => [`s25-coda-wild-${n}`, `s25-coda-coat-${n}`]);
+
+/**
+ * The first spring mornings after the ending: Spindle's egg sac hatches (S27), and S25's
+ * toy comes back as a wild one at the edge of the grass or as a knitted coat (its spring
+ * coda, in the Grove by day). One a morning: the coda waits a day after S27's.
+ */
 function stepPostGame(world: World, c: CampaignState): void {
-  if (!postGameMorning(world, c) || c.queue.length > 0 || !c.flags.s27Done) return;
-  if (seen(c, 's27-spring') || seen(c, 's27-spring-wisp')) return;
-  queueScene(c, c.flags['s27-carrier'] === 'wisp' ? 's27-spring-wisp' : 's27-spring');
+  if (!postGameMorning(world, c) || c.queue.length > 0) return;
+  if (c.flags.s27Done && !S27_SPRING.some((s) => seen(c, s))) {
+    queueScene(c, c.flags['s27-carrier'] === 'wisp' ? 's27-spring-wisp' : 's27-spring');
+    return;
+  }
+  if (!c.flags.s25Done || S25_CODAS.some((s) => seen(c, s))) return;
+  if (world.location !== 'grove' || isNight(world.timeMs)) return;
+  if (S27_SPRING.some((s) => sameDay(seenAt(c, s) ?? -Infinity, world.timeMs))) return;
+  const name = c.flags['s25-name'];
+  const toy = c.flags['s25-toy'];
+  if (typeof name !== 'string' || !S25_NAMES.includes(name)) return;
+  if (toy !== 'gone' && toy !== 'kept') return;
+  queueScene(c, `s25-coda-${toy === 'gone' ? 'wild' : 'coat'}-${name}`);
+}
+
+/** When side story `id` finished, if it has (the runner's last move on it). */
+function doneAt(c: CampaignState, id: string): number | null {
+  const st = c.side[id];
+  return st?.status === 'done' ? st.sinceMs : null;
+}
+
+/**
+ * Ambient scenes after a story is done, which no step plays (SR-20261027-1249). Granny
+ * Brock's green door (s29-brock-knock) is in the Wild Wood, which the Grove has no door
+ * or place for yet, so the knock plays once instead: the first Grove day after S29.
+ */
+function stepAmbient(world: World, c: CampaignState): void {
+  if (c.storyline || resting(world, c) || openingDue(world, c)) return;
+  if (world.location !== 'grove' || isNight(world.timeMs)) return;
+  const s29 = doneAt(c, 's29');
+  if (c.flags.s29Done && s29 !== null && world.timeMs >= nextDawn(s29))
+    queueScene(c, 's29-brock-knock');
+}
+
+/**
+ * Taps and talks that play a story's idle scene once (queueScene never queues a scene
+ * already seen): Moss after S25, Ember from chapter 11 after S23, Byte at his house after
+ * S28, and the museum (the old barn) after S24 when S18 is done.
+ */
+function noteAmbientCommand(world: World, c: CampaignState, cmd: Command): void {
+  if (c.storyline) return;
+  const f = c.flags;
+  switch (cmd.kind) {
+    case 'select':
+    case 'pet': {
+      const id = cmd.kind === 'select' ? cmd.id : cmd.nubbinId;
+      if (!f.s25Done || !id || id !== c.mossId) return;
+      if (!world.nubbins.some((n) => n.id === id)) return;
+      if (seen(c, 's25-moss-kept') || seen(c, 's25-moss-gone')) return;
+      if (f['s25-toy'] === 'kept') queueScene(c, 's25-moss-kept');
+      else if (f['s25-toy'] === 'gone') queueScene(c, 's25-moss-gone');
+      return;
+    }
+    case 'talk': {
+      // Ember's talk after S23: Fern took the soup up the valley (s23-drip).
+      const npc = world.npcs.find((n) => n.id === cmd.npcId);
+      if (npc?.trainer !== 'ember' || !f[`talked:${c.chapter}:ember`]) return;
+      if (f.s23Done && c.chapter >= 11) queueScene(c, 's23-ember-soup');
+      return;
+    }
+    case 'visit':
+      // Byte's news at his house after S28 (the notes' bark pool, played once as a scene).
+      if (cmd.trainer === 'byte' && f.s28Done) queueScene(c, 's28-byte-barks');
+      return;
+    case 'storyProp':
+      // The museum is the old barn (S18's centre case): Fairweather's lecture, once.
+      if (cmd.prop === 'old-barn' && f.s24Done && f.s18Done) queueScene(c, 's24-lecture');
+      return;
+    default:
+      return;
+  }
 }
 
 /** The campaign's own stories, which the chapter machine waits on: always first. */
@@ -542,6 +626,7 @@ function stepOrder(world: World, c: CampaignState): StoryRule[] {
 /** Once a sim second, after the chapter machine. */
 export function stepSideStories(world: World, c: CampaignState, events: SimEvent[]): void {
   stepPostGame(world, c);
+  stepAmbient(world, c);
   const ctx = { matureContent: world.settings.matureContent, learningGrove: world.edu !== null };
   for (const rule of stepOrder(world, c)) {
     const quest = sideStory(rule.id);

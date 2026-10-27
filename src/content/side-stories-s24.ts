@@ -36,7 +36,8 @@
  *   s18Done     Fairweather lectures at the museum (s24-lecture, later)
  *
  * FLAGS WRITTEN. s24Done (on completion), plus local s24- flags from choices: s24-bird (fed | waited),
- * s24-cairn (cup | scarf | book), s24-page (shelf | tea | here). No campaign flag is written.
+ * s24-cage (argue | sit), s24-cairn (cup | scarf | book), s24-page (shelf | tea | here). No
+ * campaign flag is written.
  *
  * LIFTED TEXT. *Up* (Pixar, 2009), two single lines, exactly as Part M lists them (rechecked
  * 2026-10-14 against secondary sources):
@@ -261,6 +262,10 @@ const NEST_OPEN: Line[] = [
     'In it are four striped chicks like knitted tea cosies. Beside it sits Tilly, perfectly safe and extremely cross.',
   ),
   N('Her badge sash is wound round the smallest chick, badges and all, so it doesn’t get cold.'),
+  TI(
+    'He’s Brave at the Dentist now. He’s never been to a dentist. He’s very brave about it.',
+    'think',
+  ),
   TI('You took AGES. I’ve been whistling for about a hundred years.', 'angry'),
   TI('Sir Reginald’s a mother. That’s allowed. She can still be Sir.'),
   N(
@@ -793,6 +798,9 @@ export const SIDE_STORY_S24: Quest[] = [
               'For the bird. Your girl’s name for it is better than mine. I’ve called it Proof for fifty years.',
               'think',
             ),
+            TI('Proof is a rubbish name. He’s Sir Reginald.', 'angry'),
+            AU('Proof was never a name, child. It was a headline.'),
+            TI('Still rubbish.'),
             AU(
               'One night in that, down in the valley square where everyone can see. Then I can stop.',
             ),
@@ -809,16 +817,19 @@ export const SIDE_STORY_S24: Quest[] = [
             AU(
               'It comes down to drink at the spring above the camp at dusk. It always has. Tonight I shall be ready.',
             ),
+            AU('And keep that lantern dark. One match and it’s gone for a week.', 'angry'),
           ],
           choices: [
             {
               id: 'argue',
               label: 'Tell her the bird doesn’t owe anyone proof.',
+              set: { 's24-cage': 'argue' },
               then: [AU('Nor did I. They wanted it anyway.', 'sad')],
             },
             {
               id: 'sit',
               label: 'Say nothing. Sit down near the cage.',
+              set: { 's24-cage': 'sit' },
               then: [
                 N(
                   'You sit down near the cage. Fairweather watches you do it, and something in her face goes tired.',
@@ -839,7 +850,7 @@ export const SIDE_STORY_S24: Quest[] = [
             N(
               'The bird bolts up the ridge into the dark, dragging net and old woman both. Tilly is after them before anyone can catch her collar.',
             ),
-            N('Nova lunges. Her pack swings, slides on the wet rock, and goes towards the drop.'),
+            N('Nova lunges after Tilly. Her pack swings, slides on the wet rock, and goes towards the drop.'),
             N('She grabs the pack. She grabs it with both arms.'),
             N('When she looks up, Tilly is gone into the dark.'),
           ],
@@ -1372,6 +1383,7 @@ export const SIDE_STORY_S24_VARIANTS: Scene[] = [
       M('I’m coming. Wherever this is going.', 'think'),
       M('Don’t look like that. I’ve decided.', 'soft'),
       N('He settles on your shoulder, light as a hat, and shuts his eyes.'),
+      NO('Is he asleep on you? I tried for four winters.', 'think'),
       TEA_RUN,
       ...TEA_CLOSE,
     ],
@@ -1570,6 +1582,7 @@ export const SIDE_STORY_S24_VARIANTS: Scene[] = [
 export const SIDE_STORY_S24_FLAGS: string[] = [
   // set
   's24-bird', // fed | waited (step 6, s24-bird*); picks s24-nest-fed / -waited (and the -collector pair)
+  's24-cage', // argue | sit (step 8, s24-cage); Fairweather answers it at s24-proof (choice-payoffs)
   's24-cairn', // cup | scarf | book (step 11, s24-cairn); picks s24-tick / -scarf / -book
   's24-page', // shelf | tea | here (step 15, s24-tick*); the first line on the atlas's last page
   's24Done', // on completion; the Atlas reads it (read-only) to show Hazel's margin notes

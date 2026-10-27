@@ -134,7 +134,7 @@ const S27_SCENES: EduScene[] = [
     's27-wire',
     [
       N('High summer at the Circuit. The sand is hot enough to fry an egg on.'),
-      N('And yet the white railings are furred with frost.'),
+      N('And yet the white railings are furred with frost. Nobody up here mentions it.'),
       N('Sparks is on her back under the start lamp, with a screwdriver in her teeth.'),
       SP('Start lamp’s gone again. I need wire. Thin copper wire, a coil about this big.', 'angry'),
       SP('There’s a cabinet of mine in the old lantern shed, behind the straight. Bottom drawer.'),
@@ -485,6 +485,8 @@ const S27_SCENES: EduScene[] = [
         'Over the next few days Spindle practises. FUSES appears in the web, and then WICKS, and then SPARE.',
       ),
       N('They are very good, and the S’s are beautiful. They are also no use to anybody.'),
+      N('On the fourth day she writes MISC, and looks very pleased with herself.'),
+      SP('That’s my worst drawer. She’s been through my worst drawer.', 'shock'),
       SP(
         'That’s the trouble with learning off a cabinet. She can tell you where everything is, but not how anyone feels.',
       ),
@@ -501,7 +503,7 @@ const S27_SCENES: EduScene[] = [
         skill: 'words that show feelings',
         standard: 'RL.1.4',
         kind: 'ask',
-        after: 2,
+        after: 4,
         prompt: [
           N('Which of these words tells you how someone feels, not where something is kept?'),
         ],
@@ -1108,6 +1110,10 @@ const S27_SCENES: EduScene[] = [
         'Byte is at the rail. His newest stopwatch has a tiny web across the strap, and in it, one word: ABOVE.',
       ),
       BY('It isn’t accurate. There’s no data. I’m keeping it.', 'think'),
+      BY(
+        'Pixel says I’m to stop timing things that aren’t racing. I’ve timed how long she’s been saying it.',
+        'think',
+      ),
       BY(
         'I’ve worked out its chances of placing. To three decimal places. I’m not going to tell you the number.',
         'sad',
@@ -1804,6 +1810,9 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
         'He never once looks at the rail itself. He thinks he knows who is writing on it. He is wrong, and you let him be.',
       ),
       N(
+        'At three o’clock he opens the window, says “Your wick wants trimming”, and shuts it again.',
+      ),
+      N(
         'Spindle works on below the lantern, a thread at a time, and Corvin never sees her. Up here, she is your secret.',
       ),
       N(
@@ -1816,7 +1825,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
         skill: 'time intervals in hours',
         standard: '3.MD.A.1',
         kind: 'ask',
-        after: 5,
+        after: 6,
         prompt: [
           N(
             'Corvin’s lamp came on at midnight and went out at five o’clock. How long did he watch?',
@@ -1844,7 +1853,7 @@ export const EDU_S27_READER_VARIANTS: EduScene[] = [
         skill: 'what a fib costs, even a kind one',
         standard: 'CASEL: Responsible decision-making',
         kind: 'notice',
-        after: 5,
+        after: 6,
         lines: [
           N(
             'Your fib kept Spindle hidden. It also means Corvin never gets the chance to choose kindness towards her. Every choice has a cost.',

@@ -190,6 +190,7 @@ const COLD_END: Line[] = [
   YH('Another idol has displaced me.', 'sad'),
   YC('What idol?'),
   YH('A cold one.', 'soft'),
+  YH('You keep them so safe they’ve stopped being well.', 'soft'),
   N('That is all. She goes in and shuts the door, and the snow keeps coming.'),
   N('Later, in the dark, the gate opens. That is all the vision shows: a gate, opening, and the dark.'),
   N('Corvin claps his hand over Briar’s light, hard, the way you’d put out a candle. It shines straight through his fingers.'),
@@ -221,6 +222,7 @@ const CLOAK: Line[] = [
   C('I know that one.', 'soft'),
   N('At dawn she is gone, and the cottage is only the cottage.'),
   N('He writes it down: “Hush, 1 to 7. Nothing felt.”'),
+  N('Under it: “Cushion: occupied. Again.”'),
 ];
 
 /** Q15: the high pass and the hill, before the choice. */
@@ -271,7 +273,8 @@ const DRIP_START: Line[] = [
   N('Corvin is at his gate in his shirtsleeves, watching it, holding a pan with a lid on.'),
   C('Somebody left soup on my step last night. In a pan with a fern scratched on the lid.', 'think'),
   C('I didn’t know what to do with it. So I ate it.'),
-  C('First time since summer, the railings. The tin’s been out of my pocket four days. They’ve only just noticed.'),
+  C('My railings. First thaw since summer.', 'think'),
+  C('The shard’s tin has been out of my pocket four days. They’ve only just noticed.'),
 ];
 
 /** Q16: the vow, before your Q15 answer shapes his reply. */
@@ -288,6 +291,7 @@ const VIGIL_ASK: Line[] = [
   Y('But the lane’s anybody’s.'),
   N('He thinks about that. Then he tears the three pages out of the ledger, folds them once, and gives them to you.'),
   C('For your records. And take the dressing gown off the back of the door, and the cap. You sat up three nights. Dress for it.'),
+  C('The cushion too. I bought it for visitors. You’re the only one who qualified.'),
   N('Behind him the railings drip, and drip, and the sound goes all the way down the valley.'),
 ];
 
@@ -481,6 +485,7 @@ export const SIDE_STORY_S23: Quest[] = [
             N('Then it is the cottage again, and the clock says a quarter past two. Briar has gone.'),
             N('The room smells of summer for a moment, and then it doesn’t.'),
             N('Corvin opens the ledger and writes, in the square hand: “Briar, 1 to 2.15. Nothing felt.”'),
+            N('Under it, smaller: “Cushion: occupied.”'),
             C('Same time tomorrow. If you’re coming.', 'think'),
           ],
         },
@@ -496,6 +501,7 @@ export const SIDE_STORY_S23: Quest[] = [
           lines: [
             N('The second night. Corvin is in his chair before you arrive, with the ledger open on his knee.'),
             N('Neither of you says anything for three hours. It isn’t comfortable, and it isn’t meant to be.'),
+            N('Your Nubbin falls asleep on Corvin’s boots and snores. He writes the snore down in the ledger, with the time.'),
             N('At one o’clock the cottage goes quiet. Not silent: quiet, as if every sound has been gently put away.'),
             N('She is in the corner, though nobody saw her come. Tall for a Nubbin, moon-pale, wrapped in her own grey like a cloak.'),
             N('It is the quietest thing you have ever seen. Even the clock seems to tick more carefully.'),
@@ -626,7 +632,7 @@ export const SIDE_STORY_S23: Quest[] = [
           id: 's23-rhyme',
           lines: [
             N('Then a lane at dusk, on a Lantern Night years from now, with lanterns on every gatepost and children skipping in the road.'),
-            N('They chant it the way children chant old things, flat and fast. You know the tune; one word is new.'),
+            N('They chant it flat and fast: Cinder’s old skipping rhyme. Only the first word has changed.'),
             N('“Corvin held them close and tight, / kept them warm one winter night;”'),
             N('“when the morning came to call, / they did not move at all.”'),
             N('The children shriek and scatter, laughing the way you laugh at something that can’t catch you any more.'),
@@ -664,6 +670,7 @@ export const SIDE_STORY_S23: Quest[] = [
             N('Dawn, in the cottage: the stove still unlit, the ledger open on his knee.'),
             N('He writes: “Cinder, 1 to 8.” And then, after a long time, the same as every night: “Nothing felt.”'),
             N('But he underlines it, as if it were a figure he no longer trusts.'),
+            N('Under it: “Cushion: occupied. Expected.”'),
           ],
         },
       },
@@ -983,7 +990,7 @@ export const SIDE_STORY_S23_VARIANTS: Scene[] = [
     id: 's23-partner',
     lines: [
       C('What she showed you on the pass. The coat.', 'think'),
-      C('I won’t say this as your partner. I haven’t got a partner. I’m saying it as the man whose coat that was.'),
+      C('I won’t say this as your partner. I’m saying it as the man whose coat that was.'),
       C('Don’t let it be you.', 'soft'),
       N('He doesn’t say what “it” is; he doesn’t need to. Your hand has gone to your coat, over a pocket with nothing in it.'),
     ],

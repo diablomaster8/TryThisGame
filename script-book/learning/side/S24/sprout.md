@@ -504,6 +504,7 @@ _Behind the tent is a big cage. It is for the bird._
 > _For grown-ups: Your child learned that wild animals need to live free in their own homes._
 
 **Augusta Fairweather**: The bird drinks at the spring when it gets dark. I’ll be ready.  
+**Augusta Fairweather**: Keep your lantern dark. A light scares the bird away.  
 
 **Choices**
 

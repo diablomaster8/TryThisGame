@@ -1260,6 +1260,7 @@ const S24_SCENES: EduScene[] = [
       AU(
         'It comes down to drink at the spring above the camp at dusk. It always has. Tonight I shall be ready.',
       ),
+      AU('And keep that lantern dark. One match and it’s gone for a week.', 'angry'),
     ],
     [
       ask(
@@ -1315,11 +1316,13 @@ const S24_SCENES: EduScene[] = [
       {
         id: 'argue',
         label: 'Tell her the bird doesn’t owe anyone proof.',
+        set: { 's24-cage': 'argue' },
         then: [AU('Nor did I. They wanted it anyway.', 'sad')],
       },
       {
         id: 'sit',
         label: 'Say nothing. Sit down near the cage.',
+        set: { 's24-cage': 'sit' },
         then: [
           N(
             'You sit down near the cage. Fairweather watches you do it, and something in her face goes tired.',
@@ -1338,7 +1341,7 @@ const S24_SCENES: EduScene[] = [
       N(
         'The bird bolts up the ridge into the dark, dragging net and old woman both. Tilly is after them before anyone can catch her collar.',
       ),
-      N('Nova lunges. Her pack swings, slides on the wet rock, and goes towards the drop.'),
+      N('Nova lunges after Tilly. Her pack swings, slides on the wet rock, and goes towards the drop.'),
       N('She grabs the pack. She grabs it with both arms.'),
       N('When she looks up, Tilly is gone into the dark.'),
     ],

@@ -143,6 +143,12 @@ const S26: StoryRule = {
     return true;
   },
   autoOnly: [4, 5, 7],
+  // Steps 6 to 8 each open with one of the three evenings the step choice picked (PRELUDES).
+  before: (_w, c, i) => {
+    const steps = flag(c, 's26-steps');
+    if (i < 5 || i > 7 || (steps !== 'ramp' && steps !== 'lift')) return [];
+    return [`s26-${steps}-${i - 4}`];
+  },
   variant: (_w, c, scene) => {
     switch (scene) {
       case 's26-door':
@@ -185,6 +191,7 @@ const S24: StoryRule = {
   },
   variant: (_w, c, scene) => {
     const walk = c.flags.walk;
+    const collector = c.ending === 'collector';
     switch (scene) {
       case 's24-tea':
         if (walk === 'moss') return c.flags.keptStone ? 's24-tea-moss-stayed' : 's24-tea-moss';
@@ -196,6 +203,29 @@ const S24: StoryRule = {
         return c.flags.s14Done ? 's24-stowaway-knows' : scene;
       case 's24-home':
         return c.ending === 'eternal-dawn' ? 's24-home-eternal' : scene;
+      // Step 6: with the Collector's ending the bird won't come near you (notes 5).
+      case 's24-bird':
+        if (!collector) return scene;
+        return c.flags.keptStone ? 's24-bird-collector-kept' : 's24-bird-collector';
+      // Step 12's done pays off the step 6 choice (notes 6).
+      case 's24-nest-fed': {
+        const waited = flag(c, 's24-bird') === 'waited';
+        if (collector) return waited ? 's24-nest-waited-collector' : 's24-nest-fed-collector';
+        return waited ? 's24-nest-waited' : scene;
+      }
+      // Step 14's done: the valley answers the Shelf when Hazel was told (notes 7).
+      case 's24-lights': {
+        const told = c.flags.hazel === 'told';
+        const kept = Boolean(c.flags.keptStone);
+        if (told && kept) return 's24-lights-told-kept';
+        if (told) return 's24-lights-told';
+        return kept ? 's24-lights-kept' : scene;
+      }
+      // Step 15: what was left on the cairn (notes 8).
+      case 's24-tick': {
+        const cairn = flag(c, 's24-cairn');
+        return cairn === 'scarf' || cairn === 'book' ? `s24-tick-${cairn}` : scene;
+      }
       default:
         return scene;
     }

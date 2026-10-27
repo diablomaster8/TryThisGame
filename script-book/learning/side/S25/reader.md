@@ -567,7 +567,7 @@ _Up on the hill, Moss is looking at the long grass. He doesn’t say anything al
 
 #### `reader:s25-falls` · [main](../../../side/S25.md#s25-falls)
 
-_You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
+_You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
 _Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
 **Moss**: You’re late. I’ve been not waiting for hours. It’s very tiring.  
 _On the window seat, where the toy used to sit, there is a patch of faded cushion the shape of a small lumpy Nubbin._  
@@ -584,7 +584,7 @@ _You went along the ledge behind the falls today. You put your hand on the rock,
 
 _Variant of `s25-falls`._
 
-_You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
+_You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes._  
 _Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet._  
 **Moss**: You’re late. I’ve been not waiting for hours. It’s very tiring.  
 _On your Nubbin’s bed the toy is waiting, a size smaller, with both eyes on tight._  

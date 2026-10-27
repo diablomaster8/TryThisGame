@@ -17,10 +17,15 @@ registerEduContent(EDU);
  * Extra rules for a case: `lines` is how many lines each value adds (s20-counters' Gordon
  * cry gets his reply too, so it is per value); `swap` means the payoff rewrites one line
  * instead of adding one; `quiet` values must leave the scene as written; `setup` flags are
- * set first (s24-badges pays off only if S14 came before S20).
+ * set first (s24-badges pays off only if S14 came before S20). A `lines` count can be per
+ * band (s24-proof's "sit" adds a look before her line in main only); a band left out adds 1.
  */
+type Band = 'main' | 'sprout' | 'reader';
+
+/** s26-bulbs: the bed, then Linnet on it; "mix" is the bed alone. */
+const BULB_LINES = { snowdrops: 2, crocus: 2 };
 interface CaseOpts {
-  lines?: Record<string, number>;
+  lines?: Record<string, number | Partial<Record<Band, number>>>;
   swap?: boolean;
   quiet?: Array<string | boolean>;
   setup?: Record<string, string | boolean>;
@@ -65,6 +70,17 @@ const CASES: Array<
   ['s28-logged', 's21-byte', ['fair', 'unfair']],
   ['s28-logged-unverified', 's21-byte', ['fair', 'unfair']],
   ['s28-logged-none', 's21-byte', ['fair', 'unfair']],
+  ['s24-proof', 's24-cage', ['argue', 'sit'], { lines: { sit: { main: 2 } } }],
+  ['s24-cairn', 's22-chimney', ['true'], { quiet: ['look'] }],
+  ['s24-rock', 's22-chimney', ['look'], { quiet: ['true'] }],
+  ['s26-snowdrops', 's26-bulbs', ['snowdrops', 'crocus', 'mix'], { lines: BULB_LINES }],
+  ['s26-snowdrops-lifted', 's26-bulbs', ['snowdrops', 'crocus', 'mix'], { lines: BULB_LINES }],
+  ['s26-complete', 's26-hello', ['asked', 'agree', 'walk']],
+  ['s26-complete-post', 's26-hello', ['asked', 'agree', 'walk']],
+  ['s26-complete-door', 's26-hello', ['asked', 'agree', 'walk']],
+  ['c12-wall-garden', 's26-plot', ['sun', 'rose', 'hers']],
+  ['c12-open', 's26-plot', ['sun', 'rose', 'hers'], { setup: { hushGarden: true } }],
+  ['s27-tam', 's27-sold', [true], { lines: { true: 2 }, quiet: [false] }],
 ];
 
 describe('S1–S5 choices pay off later', () => {
@@ -84,8 +100,17 @@ describe('S1–S5 choices pay off later', () => {
         const added = new Set<string>();
         for (const v of values) {
           c(world).flags[flag] = v;
-          const lines = sceneFor(world, scene, band)!.lines;
-          const n = opts.swap ? 0 : (opts.lines?.[String(v)] ?? 1);
+          const played = sceneFor(world, scene, band)!;
+          const lines = played.lines;
+          // Every lesson still follows the line it was written for (a swap rewrites that line).
+          if (!opts.swap)
+            played.lessons.forEach((l, i) =>
+              expect(lines[l.after]?.text, `${scene} ${band} lesson ${i}`).toBe(
+                plain.lines[plain.lessons[i]!.after]?.text,
+              ),
+            );
+          const count = opts.lines?.[String(v)] ?? 1;
+          const n = opts.swap ? 0 : typeof count === 'number' ? count : (count[band] ?? 1);
           expect(lines.length, `${scene} ${band} ${flag}=${v}`).toBe(plain.lines.length + n);
           const extras = lines.filter((l) => !plain.lines.some((p) => p.text === l.text));
           expect(extras.length, `${scene} ${band} ${flag}=${v}`).toBe(n || 1);

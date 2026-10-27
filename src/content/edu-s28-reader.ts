@@ -376,7 +376,8 @@ const SCENES: EduScene[] = [
             'Unknown sender. I’ll make a list of everyone with an H. It’ll be a short list.',
             'think',
           ),
-          N('It won’t be. He will be very thorough about it.'),
+          BY('Not Hazel, obviously. Missing people don’t post parcels. That’s procedure.', 'think'),
+          N('It won’t be a short list. He will be very thorough about it.'),
         ],
       },
     ],
@@ -1083,7 +1084,11 @@ const SCENES: EduScene[] = [
         'think',
       ),
       GR(
-        'My mother brought the pip over the pass in her coat pocket. Grew it in a teacup. Sixty years, and nobody’s ever wanted them.',
+        'My mother brought the pip over the pass in her coat pocket. Grew it in a teacup.',
+        'soft',
+      ),
+      GR(
+        'Sixty years, and one person ever asked for them. Came every winter with a basket. Not this winter.',
         'soft',
       ),
       GR('Well? What’s on offer? I’m not giving them away.', 'angry'),
@@ -1157,6 +1162,10 @@ const SCENES: EduScene[] = [
       N(
         'Parcel has put a saucer out on the frosty windowsill. It sits beside it, guarding it, in case someone steals the cold.',
       ),
+      N(
+        'Your Nubbin licks the cold saucer to see if it’s ready. Parcel gives it a long, level stare, and it puts the saucer back.',
+      ),
+      BY('Contaminated. That saucer is now the control.', 'think'),
       N(
         'Byte turns the card over, looking for the rest of the method. On the back, in the same hand, is one line.',
       ),
@@ -1593,12 +1602,12 @@ const SCENES: EduScene[] = [
       N(
         'Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals.',
       ),
-      PX('Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.', 'happy'),
-      BY('We own three cake stands.'),
+      PX('I got the cake stand down from our loft. It rotates. He’s banned the rotate.', 'happy'),
+      BY('It’s a cake, not a fairground.'),
       PX(
-        'None of them rotate. Twenty years married and you’ve never let a thing rotate. Also, your lace.',
+        'He said that at our wedding. It rotated anyway. So did his lace, all the way down the aisle.',
       ),
-      BY('It came undone at our wedding. All the way down the aisle. It’s tradition now.'),
+      BY('It’s tradition now.'),
       N(
         'Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off.',
       ),
@@ -1864,9 +1873,10 @@ const VARIANTS: EduScene[] = [
       ),
       BY('H.', 'shock'),
       BY(
-        'I had a list. Forty-one people. I had Mr Grue on it. His first name’s Horace. I interviewed him.',
+        'I had a list. Forty-one people. I crossed you off first. Missing people don’t post parcels.',
         'shock',
       ),
+      BY('I had Mr Grue on it. His first name’s Horace. I interviewed him.', 'shock'),
       N(
         'He sits down on the step all at once, as if somebody had taken the step away and put it back lower.',
       ),
@@ -1880,7 +1890,7 @@ const VARIANTS: EduScene[] = [
         skill: 'big surprises and what helps',
         standard: 'CASEL: Self-awareness',
         kind: 'ask',
-        after: 9,
+        after: 10,
         prompt: [N('Byte had to sit down all at once. What do you think he is feeling?')],
         options: [
           opt(

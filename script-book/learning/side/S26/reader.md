@@ -153,6 +153,7 @@ _Under it, exactly at the height of Linnet’s eyes, is a round iron knob._
 > - Pure luck. → Partly the wind. But her eyes were at the knob’s height, and she was looking hard. Different views spot different things.
 > _For grown-ups: Talked about how people’s different points of view help them notice different things._
 
+_You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault._  
 _You hold back the ivy and find the edge of a door, and under the knob, a keyhole._  
 _The key goes in as if it has been waiting. It takes both your hands to turn it, and then Linnet’s as well._  
 _Something inside the lock gives a deep, rusty clunk._  
@@ -164,6 +165,7 @@ _Variant of `s26-door`._
 _Then the wind comes along the wall, and lifts the ivy like a curtain._  
 _Under it, exactly at the height of Linnet’s eyes, is a round iron knob._  
 **Linnet**: There. There! You lot stand too tall to see anything.  
+_You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault._  
 _The hum in the old wall is loudest here. Every little round door in the mortar has a face in it, watching._  
 
 > **Lesson** (science, 1-PS4-1, notice): sound is vibration, and travels through solids  
@@ -597,7 +599,7 @@ _Snowdrops. All round Hush’s bench, white heads bowed, as if they came up to l
 > _Their bulbs stored food all autumn, so they can flower before the trees have leaves to shade them._  
 > _For grown-ups: Learned that snowdrops flower in late winter, using food stored in their bulbs._
 
-_Some are in Linnet’s bed, in a dead straight row. The rest are everywhere: under the bench, in the path, one right in the middle of the ramp._  
+_The rest are everywhere: under the bench, in the path, one right in the middle of the ramp._  
 **Linnet**: Your Nubbin’s. It can’t count and it can’t plant, and they all came up anyway.  
 **Linnet**: I came in on my own. Nearly in the dark. Nobody had to come and do anything.  
 _She says it lightly, like a fact about the weather._  
@@ -637,7 +639,7 @@ _So you dig, in the snow, with frozen hands and Dusty’s spare spade, while Lin
 > _For grown-ups: Talked about anger at something unfair, and turning it into useful action._
 
 _It takes all morning, and it isn’t pretty. When it’s done she goes down it before you can offer, and doesn’t look back._  
-_Snowdrops, all round Hush’s bench. Some in Linnet’s straight row, the rest wherever your Nubbin hid them._  
+_Snowdrops, all round Hush’s bench, and wherever your Nubbin hid them._  
 **Linnet**: I’d have got in on my own. If anybody had built it so I could.  
 
 #### `reader:s26-mum` · [main](../../../side/S26.md#s26-mum)
@@ -730,6 +732,8 @@ _Linnet wears the key on a bootlace round her neck. It is far too big and bangs 
 _It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
 **Linnet**: You can’t take them off until tea. I’ll be checking.  
 _Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Old Tobin**: She gets it from my side. Look at that scowl.  
+**Linnet’s mum**: That’s MY scowl, Dad.  
 **Linnet**: Me. I get it from me.  
 _The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
 _On the way out you look back: the bench, the beds, the white pebble by the bare patch, and the snowdrops in the path._  
@@ -743,10 +747,10 @@ _First evening of the ramp. Dusty takes the top step out in one go, and stands b
 **Dusty**: Give it time.  
 _Linnet sits at the top, beside Sparks’s coil of wire, and tells you where every barrow of earth goes._  
 _She is right about all of it._  
-**Dusty**: Each step’s fifteen centimetres high. I measured. Twice.  
+**Dusty**: Each step’s 15 centimetres high. I measured. Twice.  
 
 > **Lesson** (maths, 3.OA.A.3, ask): multiply to find a total height  
-> **Linnet**: Three steps, fifteen centimetres each. So how high does the ramp have to drop, top to bottom?  
+> **Linnet**: Three steps, 15 centimetres each. So how high does the ramp have to drop, top to bottom?  
 > - ✅ 45 cm → Yes. 3 × 15 = 45. Forty-five centimetres. Write it down, Dusty.
 > - 18 cm → That’s 15 + 3. It’s three lots of 15: 15 + 15 + 15 = 45 centimetres.
 > - 30 cm → That’s only two steps. Three lots of 15 is 45 centimetres.
@@ -861,6 +865,8 @@ _The key hangs on the old wall post, under the lantern. By the end of the week, 
 _It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
 **Linnet**: You can’t take them off until tea. I’ll be checking.  
 _Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Old Tobin**: She gets it from my side. Look at that scowl.  
+**Linnet’s mum**: That’s MY scowl, Dad.  
 **Linnet**: Me. I get it from me.  
 _The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
 
@@ -882,6 +888,8 @@ _The key sits in the door, turned to open. Snow settles on its bow, and nobody b
 _It is a gardener’s apron, with earth worked into every seam. Linnet crowns you with snowdrops._  
 **Linnet**: You can’t take them off until tea. I’ll be checking.  
 _Linnet’s mum sits on Hush’s bench with Tobin. They argue about which of them she gets her chin from._  
+**Old Tobin**: She gets it from my side. Look at that scowl.  
+**Linnet’s mum**: That’s MY scowl, Dad.  
 **Linnet**: Me. I get it from me.  
 _The robin has decided it lives with you now, in a general sort of way. The door stays open behind you._  
 

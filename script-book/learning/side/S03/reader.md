@@ -9,7 +9,7 @@
 
 #### `reader:s3-stands` · [main](../../../side/S03.md#s3-stands)
 
-_The Circuit stands are split down the middle: Sun Keepers on the left, Moon Keepers on the right, an empty bench between._  
+_The stands at the Circuit, the valley’s race track, are split down the middle: Sun Keepers on the left, Moon Keepers on the right._  
 **Fern**: Don’t sit there. That’s the gap. Nobody sits in the gap.  
 **You**: Why not?  
 **Fern**: Because it’s the gap. Hazel sat in it every race, on purpose, to annoy everyone.  
@@ -28,7 +28,7 @@ _At the front stand two tea urns, one with a sun painted on it and one with a mo
 _Sparks sits down very fast and studies the race card as if it holds the meaning of life._  
 **Sparks**: I didn’t say any of that. That was the wind.  
 _This is a feud: a quarrel that has gone on for years. Both sides pretend not to listen. Both are bad at it._  
-_Up in the owners’ box, Corvin, Gran’s old apprentice, isn’t watching the start line. He’s watching the stands._  
+_Up in the owners’ box, Corvin, Gran Hazel’s old apprentice, isn’t watching the start line. He’s watching the stands._  
 
 **Choices**
 
@@ -38,7 +38,7 @@ _Up in the owners’ box, Corvin, Gran’s old apprentice, isn’t watching the 
     - **Byte**: That is the worst seat. You can’t see the cliff bend. I’ve checked.
 - **Sit with the Sun side.**
     - **Sparks**: YES. Sun gets the new Keeper! Sun gets the new Keeper!
-    - Across the gap, Luna writes something in a very small notebook.
+    - Across the gap, a Moon Keeper writes something in a very small notebook.
 - **Sit with the Moon side.**
     - **Byte**: Welcome. Our biscuits are better. I ran a blind taste test. It was mostly blind.
     - **Fern**: Traitor. Lovely to see you. Traitor.
@@ -61,7 +61,7 @@ _Moon says: the cliff-bend flag was in the wrong place, so Ash went wide where t
 
 **Byte**: I have never tasted the Sun tea. On principle. The principle is also disputed.  
 **Ember**: After Midsummer, nobody would race Ash. Not Sun. Not Moon. Do you know who would?  
-**Ember**: Him. He said he’d make her a champion.  
+**Ember**: Corvin. He said he’d make Ash a champion.  
 _Nobody, on either side, talks about Bramble after the rail. The story just stops there, like a path at a cliff._  
 
 > **Lesson** (science, ask): evidence: how to settle what really happened  
@@ -132,7 +132,7 @@ _And a man in a grey Circuit coat, pulling up the flag and moving it._
 > - Holes are always suspicious. → Dusty would disagree. Strongly. The holes are good evidence because anyone can see them and check. They don’t take sides.
 > _For grown-ups: Explained that good evidence can be checked by anyone and doesn’t depend on who is speaking._
 
-**Sparks**: Nobody on either side moved that flag. Nobody. It was a steward.  
+**Sparks**: Nobody on either side moved that flag. Nobody. It was a steward, one of the race officials.  
 _The last plate is the finish, with the owners’ box behind it. Corvin isn’t watching the race. He’s watching the stands._  
 **Byte**: The flag sent them wide. Ash went wide because the course told her to. Bramble went wide because Ash did.  
 **Sparks**: We’ve been fighting about the wrong thing for years. Byte. We have two URNS.  
@@ -161,7 +161,7 @@ _The plates are heavier than they look. Glass, and years of not knowing._
 **Choices**
 
 - **Show them together, at the same time.**
-    - Getting Fern and Ember into one place takes a week. You manage it by telling each that the other won’t come.
+    - Getting Fern and Ember into one place takes a week. You manage it by telling each that the other might come, which is true if you squint.
     - **Fern**: You absolute snake. Hazel did that to me once.
 - **Show them one at a time.**
     - You go to Fern first, then to Ember. Each asks whether the other has seen it yet.
@@ -171,8 +171,8 @@ _The plates are heavier than they look. Glass, and years of not knowing._
 
 _Fern looks at the plates for a long time. So does Ember. Neither looks at the other._  
 **Ember**: I don’t need to be forgiven. I need to know who to be angry at.  
-**Ember**: Him. It’s always him. He had Ash by the autumn.  
-**Fern**: All those years. I hated you because of a flag. That’s… honestly very efficient of him.  
+**Ember**: Corvin. It’s always Corvin. He had Ash by the autumn.  
+**Fern**: All those years. I hated you because of a flag. That’s… horribly clever of him. I’m almost impressed. Almost.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): think question: saying sorry for a mistake you didn’t know you made  
 > _Fern blamed Ember for years, and it wasn’t Ember’s fault. Fern didn’t know._  
@@ -233,7 +233,7 @@ _Both sides shuffle in to see the plates until there is no gap left. Nobody can 
 **Fern**: Bramble went over that rail because a man moved a flag. Not because of Ash. Not because of anyone here.  
 _Pixel pours the last of the sun urn and the last of the moon urn into the one urn. Byte tastes it, gravely._  
 **Byte**: Same tea. It was always the same tea. I’d like that read into the record.  
-**Sparks**: Byte, I swear by every lantern in this valley—  
+**Sparks**: Byte, I swear the sun urn tasted nicer, by every lantern in this—  
 **Byte**: Into the record.  
 
 > **Lesson** (science, ask): planning a fair test  
@@ -258,7 +258,7 @@ _Pixel pours the last of the sun urn and the last of the moon urn into the one u
 
 - **Bang the spoon on the urn.**
     - You bang the spoon on the urn, and ten Keepers stop talking at once. It is the most powerful you have ever felt.
-    - **Byte**: Procedurally, that was a gavel. I’m noting that the gavel is a spoon.
+    - **Byte**: That spoon is now a gavel. A gavel is a judge’s hammer. I’m noting that the hammer is a spoon.
     - **Pixel**: Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.
     - **Gran Hazel**: Moot-Keeper. Told you it’d suit.
 - **Give the spoon to Fern and Ember to share.**

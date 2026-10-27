@@ -103,6 +103,7 @@ const STORM: Line[] = [
   N('Then, at the end of a hot week, a storm. It comes over the hill at bedtime all at once, like a dropped tray.'),
   N('Your Nubbin won’t settle. It goes from the basket to the hearth to the door and back, ears flat at every bang.'),
   N('You look for the old sock it likes, and can’t find it. You warm a stone at the hearth, and it pushes the stone away.'),
+  N('It tries the coal scuttle, which is no help, and comes out a different colour.'),
   N('Thunder, right overhead. The window seat lights up white, and the knitted toy on its sill with it.'),
 ];
 
@@ -193,6 +194,7 @@ export const SIDE_STORY_S25: Quest[] = [
             N('The loft smells of apples, dust and mothballs. Rain ticks on the slates a hand’s breadth above your head.'),
             N('Hazel’s things are up here, in the order of someone who knew exactly where everything was and told nobody.'),
             N('Seed trays, a broken umbrella labelled STILL GOOD, and forty years of Lantern Night programmes tied up with string.'),
+            N('Each one is marked out of ten in pencil. There is one ten. Under it: “Rained. Best yet.”'),
             N('Your Nubbin climbs up behind you, sneezes at the dust, and sets off to investigate a hatbox.'),
             N('Under the eaves, on a trunk, is a parcel in brown paper, soft and gone pale where the sun from the little window has reached it for years.'),
             N('On the front, in her hand: “For when they come back. (They’ll have grown. It won’t mind.)”'),
@@ -258,6 +260,7 @@ export const SIDE_STORY_S25: Quest[] = [
           lines: [
             N('After lunch Pixel comes up the ladder with a toolbox in her teeth and a biscuit tin under each arm.'),
             PX('Afternoon. Don’t touch the tins. Nothing in them is dangerous. Some of it is just enthusiastic.'),
+            PX('If you see my husband, Byte, his lace is undone. It’s always undone. I married it.'),
             PX('The lamp’s fine. It’s the winder. It’s lost the will to wind. I’ve brought it some friends.', 'think'),
             N('Out of the tins come her bits: a clockwork moth, a brass fan the size of a thumbnail, a cog that turns itself when it’s warm.'),
             N('Sparks and Fern come up the ladder too, because three people in a loft is an event.'),
@@ -275,6 +278,7 @@ export const SIDE_STORY_S25: Quest[] = [
             N('The lamp comes on: a warm ring of light, and a small, satisfied tick every second, like something counting sheep.'),
             N('Everyone goes down the ladder talking about the moth. You go last, with the toy and the book, and set them on the window seat for now.'),
             N('For now turns into a week, and then a fortnight. The toy sits on the sill and gets the afternoon sun.'),
+      N('Each day it slides a little further down the cushion. By the second week it is face down, and looks, you feel, relieved.'),
             N('Nobody looks at it. You don’t either, though you mean to.'),
             N('Out of the window, on top of the western hill, the little grey one is looking this way.'),
           ],
@@ -624,7 +628,7 @@ export const SIDE_STORY_S25: Quest[] = [
         scene: {
           id: 's25-falls',
           lines: [
-            N('You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes.'),
+            N('You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes.'),
             N('Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.'),
             N('On the window seat, where the toy used to sit, there is a patch of faded cushion the shape of a small lumpy Nubbin.'),
             N('There is one thing you do want to tell him.'),
@@ -787,6 +791,7 @@ export const SIDE_STORY_S25_VARIANTS: Scene[] = [
       N('The lamp comes on: a warm ring of light, and a small, satisfied tick every second, like something counting sheep.'),
       N('Everyone goes down the ladder talking about the moth. You go last, with the toy and the book, and set them on the window seat for now.'),
       N('For now turns into a week, and then a fortnight. The toy sits on the sill and gets the afternoon sun.'),
+      N('Each day it slides a little further down the cushion. By the second week it is face down, and looks, you feel, relieved.'),
       N('Nobody looks at it. You don’t either, though you mean to.'),
       N('Out of the window, on top of the western hill, Moss is looking this way. He would tell you he was looking at the weather.'),
     ],
@@ -878,7 +883,7 @@ export const SIDE_STORY_S25_VARIANTS: Scene[] = [
   {
     id: 's25-falls-kept',
     lines: [
-      N('You come home from the Hollow with the notebook inside your coat. It’s late, and the cottage smells of cold ashes.'),
+      N('You come home from the Hollow with Hazel’s notebook inside your coat. It’s late, and the cottage smells of cold ashes.'),
       N('Moss is on the window ledge. He doesn’t ask about the notebook, and you don’t tell him yet.'),
       N('On your Nubbin’s bed the toy is waiting, a size smaller, with both eyes on tight.'),
       N('There is one thing you do want to tell him.'),

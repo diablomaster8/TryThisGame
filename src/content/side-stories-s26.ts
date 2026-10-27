@@ -170,7 +170,7 @@ const TOBIN_WAY_OUT: Line[] = [
 const SNOWDROPS: Line[] = [
   N('Snowdrops. All round Hush’s bench, white heads bowed, as if they came up to listen.'),
   N(
-    'Some are in Linnet’s bed, in a dead straight row. The rest are everywhere: under the bench, in the path, one right in the middle of the ramp.',
+    'The rest are everywhere: under the bench, in the path, one right in the middle of the ramp.',
   ),
   L('Your Nubbin’s. It can’t count and it can’t plant, and they all came up anyway.', 'happy'),
 ];
@@ -199,6 +199,8 @@ const COMPLETE_END: Line[] = [
   N(
     'Linnet’s mum sits on Hush’s bench with Tobin, and they argue about which of them she gets her chin from.',
   ),
+  T('She gets it from my side. Look at that scowl.'),
+  MU('That’s MY scowl, Dad.', 'happy'),
   L('Me. I get it from me.', 'happy'),
   N(
     'On the way out you look back: the bench, the beds, the white pebble by the bare patch, and the snowdrops in the path.',
@@ -398,6 +400,9 @@ export const SIDE_STORY_S26: Quest[] = [
             N('Then the wind comes along the wall, and lifts the ivy like a curtain.'),
             N('Under it, exactly at the height of Linnet’s eyes, is a round iron knob.'),
             L('There. There! You lot stand too tall to see anything.', 'happy'),
+            N(
+              'You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault.',
+            ),
             N('You hold back the ivy and find the edge of a door, and under the knob, a keyhole.'),
             N(
               'The key goes in as if it has been waiting. It takes both your hands to turn it, and then Linnet’s as well.',
@@ -1175,6 +1180,9 @@ export const SIDE_STORY_S26_VARIANTS: Scene[] = [
       N('Under it, exactly at the height of Linnet’s eyes, is a round iron knob.'),
       L('There. There! You lot stand too tall to see anything.', 'happy'),
       N(
+        'You have walked past this wall every day since you came. Your Nubbin looks at you as if this is somehow your fault.',
+      ),
+      N(
         'The hum in the old wall is loudest here. Every little round door in the mortar has a face in it, watching.',
       ),
       TH('Good morning, Keeper. Yes. That is a door. We have lived beside it for ever.'),
@@ -1348,10 +1356,10 @@ export const SIDE_STORY_S26_VARIANTS: Scene[] = [
 export const SIDE_STORY_S26_FLAGS: string[] = [
   'hushGarden', // true, on completion (step 13, chapter 11): read by c12-wall-garden, end-moss-sleeps-garden, end-epi-garden(-cold)
   's26Done',
-  's26-hello', // agree | asked | walk (flavour)
+  's26-hello', // agree | asked | walk: a line in s26-complete* (choice-payoffs)
   's26-steps', // ramp | lift: picks the step 6–8 preludes and the step 11 payoff
-  's26-plot', // sun | rose | hers (flavour)
-  's26-bulbs', // snowdrops | crocus | mix (flavour)
+  's26-plot', // sun | rose | hers: a line in c12-wall-garden (choice-payoffs)
+  's26-bulbs', // snowdrops | crocus | mix: a line in s26-snowdrops(-lifted) (choice-payoffs)
   's26-tobin', // asked | shown (flavour)
   's26-key', // linnet | post | door: picks the complete scene
 ];

@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 18 fixes (2026-10-26)
+
+- **Works:** all 43 run-18 recs fixed across the Japanese line and its bands, the Hebrew reader, the
+  extras (readers, results) and campaign books 1–2 with their bands. Two new choice payoffs in
+  `choice-payoffs.ts` (tested): Corvin quotes your c5 race answer back in c9, and the LJ3 race and
+  LJ4 bento choices pay off in their done scenes. Nova finally gives the owl speech.
+- **Partial:** none new; SR-20261026-939 (LK) still waits on LK being wired.
+- **Known bugs:** none new.
+
 ## Story review run 17 fixes (2026-10-26)
 
 - **Works:** 57 of run 17's 58 recs fixed across PA4, PA5, LB and LK with their bands, and the

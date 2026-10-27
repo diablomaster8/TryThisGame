@@ -67,7 +67,8 @@ _You think you know. But you can’t prove it, and you don’t know where Gran H
 - **Keep it to yourself for now.**
     - You let the question go by. It’s only an initial; there must be dozens of H’s in the valley.
     - **Byte**: Unknown sender. I’ll make a list of everyone with an H. It’ll be a short list.
-    - It won’t be. He will be very thorough about it.
+    - **Byte**: Not Hazel, obviously. Missing people don’t post parcels. That’s procedure.
+    - It won’t be a short list. He will be very thorough about it.
 
 #### `reader:s28-one-jar` · [main](../../../side/S28.md#s28-one-jar)
 
@@ -407,13 +408,14 @@ _Byte comes through the gap in the hedge in his dressing gown and slippers, and 
 **Byte**: It’s in my care. Anything it’s done is my responsibility. Send me the bill.  
 _You have never seen Byte stand in front of anything that wasn’t a number. From his face, neither has Byte._  
 **Mr Grue**: …Those are Seville. Bitter. You can’t eat them raw. It’s in for a nasty surprise.  
-**Mr Grue**: My mother brought the pip over the pass in her coat pocket. Grew it in a teacup. Sixty years, and nobody’s ever wanted them.  
+**Mr Grue**: My mother brought the pip over the pass in her coat pocket. Grew it in a teacup.  
 
 > **Lesson** (science, 3-LS1-1, notice): a seed grows into a plant that makes fruit and seeds: a life cycle  
 > _One pip, in a teacup: that’s a whole life cycle. Seed, seedling, young tree, flowers, fruit, and new pips inside the fruit._  
 > _Sixty years on, the same tree is still making seeds. Each one could start a tree of its own._  
 > _For grown-ups: Followed the life cycle of an orange tree from a single pip._
 
+**Mr Grue**: Sixty years, and one person ever asked for them. Came every winter with a basket. Not this winter.  
 **Mr Grue**: Well? What’s on offer? I’m not giving them away.  
 
 **Choices**
@@ -446,17 +448,19 @@ _Byte’s kitchen, on a Saturday. Oranges cut, pips in a muslin bag, and the who
 _Hazel’s recipe card leans on the sugar bag. Under “boil hard” she has written: “Cold saucer, push it, see if it wrinkles.”_  
 **Byte**: “See if it wrinkles.” That isn’t a test. That’s a feeling.  
 _Parcel has put a saucer out on the frosty windowsill. It sits beside it, guarding it, in case someone steals the cold._  
+_Your Nubbin licks the cold saucer to see if it’s ready. Parcel gives it a long, level stare, and it puts the saucer back._  
+**Byte**: Contaminated. That saucer is now the control.  
 _Byte turns the card over, looking for the rest of the method. On the back, in the same hand, is one line._  
 **Byte**: “Mind your manners, mind your neighbours, and always save some for the next one.”  
 **Byte**: That isn’t a recipe.  
-**You**: It’s on the recipe card.  
-**Byte**: Then it’s an ingredient. Unverified.  
 
 > **Lesson** (science, 2-PS1-1, notice): why marmalade uses Seville oranges  
 > _Seville oranges are named after Seville, a city in Spain. They’re too bitter to eat raw, but perfect for marmalade._  
 > _Their peel and pips are rich in pectin, a natural substance that helps jam set. That’s why the pips go in the muslin bag, not the bin._  
 > _For grown-ups: Learned why bitter Seville oranges, rich in pectin, make good marmalade._
 
+**You**: It’s on the recipe card.  
+**Byte**: Then it’s an ingredient. Unverified.  
 _He props the card back against the sugar bag. Writing side out._  
 
 #### `reader:s28-wrinkle` · [main](../../../side/S28.md#s28-wrinkle)
@@ -615,7 +619,8 @@ _Hazel sees the tag round Parcel’s neck, with Byte’s writing on the back of 
 **Gran Hazel**: Byte. I hoped it’d be you that read it.  
 _Byte looks at the tag: at the H, at the leaning hand. Then at Hazel’s hand, resting on the thin grey Nubbin’s back._  
 **Byte**: H.  
-**Byte**: I had a list. Forty-one people. I had Mr Grue on it. His first name’s Horace. I interviewed him.  
+**Byte**: I had a list. Forty-one people. I crossed you off first. Missing people don’t post parcels.  
+**Byte**: I had Mr Grue on it. His first name’s Horace. I interviewed him.  
 _He sits down on the step all at once, as if somebody had taken the step away and put it back lower._  
 **Byte**: Why me? I don’t… I count things. That’s all I do.  
 **Gran Hazel**: You count things, love. I needed someone who’d count this one.  
@@ -646,10 +651,10 @@ _It’s all right to feel sad about Hazel and happy to be here, both at once._
 #### `reader:s28-party` · [main](../../../side/S28.md#s28-party)
 
 _Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals._  
-**Pixel**: Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.  
-**Byte**: We own three cake stands.  
-**Pixel**: None of them rotate. Twenty years married and you’ve never let a thing rotate. Also, your lace.  
-**Byte**: It came undone at our wedding. All the way down the aisle. It’s tradition now.  
+**Pixel**: I got the cake stand down from our loft. It rotates. He’s banned the rotate.  
+**Byte**: It’s a cake, not a fairground.  
+**Pixel**: He said that at our wedding. It rotated anyway. So did his lace, all the way down the aisle.  
+**Byte**: It’s tradition now.  
 _Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off._  
 **Byte**: And now. Parcel has prepared a trick. I wasn’t told what. I’m finding that difficult.  
 _Parcel walks up to Mr Grue and bows. Then it holds out one paw towards his waistcoat pocket, and waits._  

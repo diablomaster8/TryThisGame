@@ -136,6 +136,7 @@ _You pat the earth back down. Let it sleep._
 _Whoosh! The wind lifts the ivy like a curtain._  
 _Under the ivy is a round iron knob._  
 **Linnet**: There! You’re all too tall to see anything.  
+_You walk past this wall every day. Your Nubbin stares at you. Oops!_  
 _There is a door! And a keyhole._  
 _The key fits. You turn it with both hands._  
 _It’s stiff. Linnet puts her hands on too. Click!_  
@@ -500,14 +501,14 @@ _Linnet’s tracks go through the door and down the ramp._
 _Linnet is by the bench. The robin sits on her knee._  
 **Linnet**: You took ages! Look! LOOK!  
 _Snowdrops! Little white flowers, all round the bench._  
-_Some are in a straight row. Some are everywhere!_  
+_Some are in very silly places!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 6  
-> _(Count the snowdrops in Linnet’s row with me.)_  
+> _(Count the snowdrops by the bench with me.)_  
 > _(One, two, three, four, five, six!)_  
-> **Linnet**: Six. In a perfectly straight line. Unlike the others.  
+> **Linnet**: Six. And lots more hiding in silly places.  
 > Check: `edu:count:snowdrops:6`
-> _For grown-ups: Counted six snowdrops in a row._
+> _For grown-ups: Counted six snowdrops by the bench._
 
 **Linnet**: Your Nubbin hid those. And they all came up!  
 **Linnet**: I came in all by myself. Nobody had to help.  

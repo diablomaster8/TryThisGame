@@ -857,6 +857,7 @@ const S24_SCENES: EduScene[] = [
       AU('One night in a cage, in the village. Then everyone will believe me.'),
       TI('You can’t put Sir Reginald in a CAGE!', 'angry'),
       AU('The bird drinks at the spring when it gets dark. I’ll be ready.'),
+      AU('Keep your lantern dark. A light scares the bird away.', 'angry'),
     ],
     [
       ask(
@@ -884,11 +885,13 @@ const S24_SCENES: EduScene[] = [
         {
           id: 'argue',
           label: 'Say the bird doesn’t have to prove anything.',
+          set: { 's24-cage': 'argue' },
           then: [AU('Nor did I. But they wanted proof anyway.', 'sad')],
         },
         {
           id: 'sit',
           label: 'Say nothing. Sit down near the cage.',
+          set: { 's24-cage': 'sit' },
           then: [N('You sit down. Fairweather looks very, very tired.')],
         },
       ],

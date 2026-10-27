@@ -35,6 +35,13 @@
  *   s14-lair     (rolled | asked)           s24-stowaway-knows, Tilly's greeting (replaces "sat")
  *   s21-lesson   (step | sit)               s27-carry-clank, Clank at the foot of the ladder
  *   s21-byte     (fair | unfair)            s28-logged (and -unverified, -none), Byte's columns
+ *   s24-cage     (argue | sit)              s24-proof, Fairweather answers it
+ *   s22-chimney  (true)                     s24-cairn, Nova turns your Chimney words round
+ *   s22-chimney  (look)                     s24-rock, Nova looks at you, not the drop
+ *   s26-bulbs    (snowdrops | crocus | mix) s26-snowdrops (and -lifted), Linnet's bed in winter
+ *   s26-hello    (asked | agree | walk)     s26-complete (and -post, -door), Linnet's mum
+ *   s26-plot     (sun | rose | hers)        c12-wall-garden (spliced into c12-open), Hazel finds the bed
+ *   s27-sold     (true)                     s27-tam, you know Nine's other name
  */
 import type { Line } from '../config/story';
 import type { CampaignState } from './types';
@@ -48,6 +55,8 @@ interface BandText {
 
 /** The part of the scene's line swapper a payoff uses. */
 export interface PayoffSwaps {
+  /** The band being built, for a line only one band has room for (S24's look at the cage). */
+  readonly band: 'main' | 'sprout' | 'reader';
   insertAfter(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
   insertBefore(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
   /** Replace the text of the line starting with this band's anchor (speaker and mood stay). */
@@ -521,6 +530,203 @@ const byteLog: Payoff = (c, s) => {
     );
 };
 
+/** SR-20261027-1196: what you did at the cage, answered by Fairweather once she has her proof. */
+const S24_CAGE: Record<
+  string,
+  Array<{ text: BandText; who: string; mood?: Line['mood']; mainOnly?: boolean }>
+> = {
+  argue: [
+    {
+      text: {
+        main: 'Somebody told me tonight that the bird owed nobody proof. I was cross about it for an hour.',
+        reader:
+          'You told me the bird owed nobody proof. I was cross about it for an hour. You were right.',
+        sprout: 'You said the bird owes nobody proof. You were right.',
+      },
+      who: 'augusta',
+      mood: 'soft',
+    },
+  ],
+  sit: [
+    // Main has room for her look first (`mainOnly`); the bands fold it into her line.
+    {
+      text: {
+        main: 'She looks at you. You sat by her cage and said nothing, and she has clearly been arguing with that all night.',
+      },
+      who: 'narrator',
+      mainOnly: true,
+    },
+    {
+      text: {
+        main: 'Most annoying argument I ever lost.',
+        reader:
+          'You sat by my cage and said nothing. I argued with that all night. Most annoying argument I ever lost.',
+        sprout: 'You sat by the cage and said nothing. That was the best answer.',
+      },
+      who: 'augusta',
+      mood: 'soft',
+    },
+  ],
+};
+
+/** SR-20261027-1250: what you said to Nova halfway up S22's Chimney, back on S24's far ridge. */
+const S22_CHIMNEY_CAIRN: BandText = {
+  // On the Chimney it was "isn't a reason to let go"; at the cairn she turns it round.
+  main: 'She’s gone. That’s true. It still isn’t a reason to hang on. You said it the other way round, halfway up a chimney.',
+  sprout: 'Gran Hazel is gone. That’s true. Up here, it’s all right to let go.',
+};
+const S22_CHIMNEY_ROCK: BandText = {
+  main: 'She looks up. Not at the drop. At you, the way she did halfway up the Tooth.',
+  // The reader's lesson sits between the anchor and this line, so it names her.
+  reader: 'Nova looks up. Not at the drop. At you, the way she did halfway up the Tooth.',
+  sprout: 'Nova looks up. Not at the dark. At you.',
+};
+
+/** SR-20261027-1200: S26's bulbs, come up (or not) in Linnet's bed. Narration, then Linnet. */
+const S26_BULBS: Record<string, Array<{ text: BandText; who: string; mood?: Line['mood'] }>> = {
+  snowdrops: [
+    {
+      text: {
+        main: 'In Linnet’s bed they stand in a dead straight row, exactly where she put them.',
+        sprout: 'Linnet’s snowdrops stand in a straight row.',
+      },
+      who: 'narrator',
+    },
+    {
+      text: {
+        main: 'First. Told you. Before anybody was ready for them.',
+        sprout: 'First! I told you!',
+      },
+      who: 'linnet',
+      mood: 'happy',
+    },
+  ],
+  crocus: [
+    {
+      text: {
+        main: 'Linnet’s crocuses have not come up, not one. She has had words with the bed.',
+        reader: 'Linnet’s purple crocuses have not come up yet, not one. She has told the bed off.',
+        sprout: 'Linnet’s crocuses are not up yet.',
+      },
+      who: 'narrator',
+    },
+    {
+      text: {
+        main: 'They’re purple and they’re late. They’ll be loud when they get here.',
+        sprout: 'They are late. They will be loud!',
+      },
+      who: 'linnet',
+      mood: 'think',
+    },
+  ],
+  mix: [
+    {
+      text: {
+        main: 'In Linnet’s bed the snowdrops have won by a month. She has declared it a heat.',
+        reader:
+          'In Linnet’s bed the snowdrops came up first, a month ahead. She says that was only the first race.',
+        sprout: 'In Linnet’s bed, the snowdrops won the race!',
+      },
+      who: 'narrator',
+    },
+  ],
+};
+
+/**
+ * The bed lines go after the Nubbin's scattered snowdrops, not straight after "Snowdrops.":
+ * there the main scene's next line, "The rest are everywhere", would read as the crocuses.
+ * The reader's lifted scene and the sprout's have no Nubbin line, so they name their own.
+ */
+const bulbs =
+  (reader: string, sprout: string): Payoff =>
+  (c, s) => {
+    const t = by(c.flags['s26-bulbs'], S26_BULBS);
+    if (!t) return;
+    const anchor = { main: 'Your Nubbin’s. It can’t count and it can’t plant', reader, sprout };
+    // Each insert lands straight after the anchor, so the last line goes in first.
+    for (const l of [...t].reverse()) s.insertAfter(anchor, l.text, l.who, l.mood);
+  };
+
+/** SR-20261027-1201: how you first met Linnet, seen in her mum on the garden's last day. */
+const S26_HELLO: Record<string, { text: BandText; who: string; mood?: Line['mood'] }> = {
+  asked: {
+    text: {
+      main: 'Her mum reaches for the chair handles, stops, and asks first. Linnet looks at you as if you taught her that.',
+      reader:
+        'Linnet’s mum reaches for the chair handles, then stops and asks first. Linnet looks at you as if you taught her that.',
+      sprout: 'Linnet’s mum asks before she pushes. Linnet looks at you and smiles.',
+    },
+    who: 'narrator',
+  },
+  agree: {
+    text: {
+      main: 'Mum. Nothing in this valley is flat. The Keeper agrees. It’s official.',
+      sprout: 'Mum, nothing here is flat. The Keeper says so too!',
+    },
+    who: 'linnet',
+    mood: 'happy',
+  },
+  walk: {
+    text: {
+      main: 'Her mum starts to say “Mind yourself”, looks at Linnet, and says “Nice ramp” instead.',
+      reader:
+        'Linnet’s mum starts to say “Mind yourself”. Then she looks at Linnet, and says “Nice ramp” instead.',
+      sprout: 'Linnet’s mum nearly says “Be careful!” She says “Nice ramp!” instead.',
+    },
+    who: 'narrator',
+  },
+};
+
+const linnetHello: Payoff = (c, s) => {
+  const t = by(c.flags['s26-hello'], S26_HELLO);
+  if (t)
+    s.insertBefore(
+      {
+        main: 'Linnet’s mum sits on Hush’s bench with Tobin',
+        reader: 'Linnet’s mum sits on Hush’s bench with Tobin',
+        // The sprout scenes have no chin line; hers goes before the robin.
+        sprout: 'The robin lives with you now.',
+      },
+      t.text,
+      t.who,
+      t.mood,
+    );
+};
+
+/** SR-20261027-1201: the bit of earth you gave Linnet, as Hazel finds it in chapter 12. */
+const S26_PLOT: Record<string, BandText> = {
+  sun: {
+    main: 'In the sunny corner, a bed strung out dead straight. Hazel approves of the string.',
+    reader:
+      'In the sunny corner there is a little bed, marked out with dead straight string. Hazel likes the string.',
+    sprout: 'A little bed in the sunny corner. Hazel likes it.',
+  },
+  rose: {
+    main: 'Under the oldest rose, a bed strung out dead straight, keeping it company.',
+    reader:
+      'Under the oldest rose there is a little bed, marked out with straight string, keeping the rose company.',
+    sprout: 'A little bed sits by the oldest rose.',
+  },
+  hers: {
+    main: 'A stick in the sunny corner says MINE. Underneath, smaller: SOMEBODY SAID SO.',
+    sprout: 'A stick in the corner says MINE.',
+  },
+};
+
+/** c12-wall-garden plays spliced into c12-open, so both keys carry it (the anchor is found by its words). */
+const linnetPlot: Payoff = (c, s) => {
+  const t = by(c.flags['s26-plot'], S26_PLOT);
+  if (t)
+    s.insertAfter(
+      {
+        main: 'Bare roses, pruned. Snowdrops round the bench',
+        reader: 'Bare roses, pruned. Snowdrops round the bench',
+        sprout: 'Roses. Snowdrops. A bench. A robin!',
+      },
+      t,
+    );
+};
+
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
   's7-week': (c, s) => {
     // SR-20261026-1088: the player who asked about the lever, before it is pulled.
@@ -861,6 +1067,70 @@ export const CHOICE_PAYOFFS: Record<string, Payoff> = {
         'clank',
         'happy',
       );
+  },
+  's24-proof': (c, s) => {
+    const t = by(c.flags['s24-cage'], S24_CAGE);
+    if (!t) return;
+    const anchor = {
+      main: 'Fairweather’s hand comes up off her knee',
+      reader: 'Fairweather’s hand comes up off her knee',
+      sprout: 'Fairweather lifts her hand.',
+    };
+    // Each insert lands straight after the anchor, so the last line goes in first.
+    for (const l of [...t].reverse())
+      if (!l.mainOnly || s.band === 'main') s.insertAfter(anchor, l.text, l.who, l.mood);
+  },
+  's24-cairn': (c, s) => {
+    if (c.flags['s22-chimney'] === 'true')
+      s.insertAfter(
+        {
+          main: 'I’m leaving them here. Up here, where she never got to.',
+          reader: 'I’m leaving them here. Up here, where she never got to.',
+          sprout: 'I’ll leave them here, in a pile of stones.',
+        },
+        S22_CHIMNEY_CAIRN,
+        'nova',
+        'soft',
+      );
+  },
+  's24-rock': (c, s) => {
+    if (c.flags['s22-chimney'] === 'look')
+      s.insertAfter(
+        {
+          main: 'I grabbed the pack. She was right there',
+          reader: 'I grabbed the pack. Tilly was right there',
+          sprout: 'I grabbed my bag, not Tilly.',
+        },
+        S22_CHIMNEY_ROCK,
+      );
+  },
+  's26-snowdrops': bulbs('Your Nubbin’s. It can’t count', 'Your Nubbin hid those.'),
+  's26-snowdrops-lifted': bulbs(
+    'Snowdrops, all round Hush’s bench, and wherever',
+    'Snowdrops! Little white flowers, all round the bench.',
+  ),
+  's26-complete': linnetHello,
+  's26-complete-post': linnetHello,
+  's26-complete-door': linnetHello,
+  'c12-wall-garden': linnetPlot,
+  'c12-open': linnetPlot,
+  's27-tam': (c, s) => {
+    // SR-20261027-1199: on the sold path Nine was yours. After the trough line, so "either"
+    // has something to follow; the sprout's second line doesn't repeat its anchor's words.
+    if (c.flags['s27-sold'] !== true) return;
+    const anchor = {
+      main: 'He fills Nine’s trough, and Nine doesn’t look round.',
+      reader: 'He fills Nine’s trough, and Nine doesn’t look round.',
+      sprout: 'Hob fills Nine’s bowl. Nine doesn’t look round.',
+    };
+    s.insertAfter(anchor, {
+      main: 'Nine doesn’t look round for that, either.',
+      sprout: 'Nine stays quiet. Maybe it heard. Maybe not.',
+    });
+    s.insertAfter(anchor, {
+      main: 'You know its other name. You say it under your breath.',
+      sprout: 'You know its real name. You say it very quietly.',
+    });
   },
   's28-logged': byteLog,
   's28-logged-unverified': byteLog,

@@ -145,6 +145,9 @@ const S28_LOG_OPEN: Line[] = [
     'I annotate his log. He pretends not to read it. He has never once rubbed out a note.',
     'happy',
   ),
+  PX('Against “Bath, flood” I’ve put: “See also: Byte, our first winter, the bath, a library book.”', 'happy'),
+  BY('Unverified.', 'think'),
+  PX('I was there, love.', 'happy'),
 ];
 const S28_GIFTS: Line[] = [
   N('Parcel climbs down off its chair and gives you Hazel’s jar from the Hollow, the empty one, washed. Then it bows.'),
@@ -226,6 +229,7 @@ export const SIDE_STORY_S28: Quest[] = [
               then: [
                 N('You let the question go by. It’s only an initial; there must be dozens of H’s in the valley.'),
                 BY('Unknown sender. I’ll make a list of everyone with an H. It’ll be a short list.', 'think'),
+                BY('Not Hazel, obviously. Missing people don’t post parcels. That’s procedure.', 'think'),
                 N('It won’t be. He will be very thorough about it.'),
               ],
             },
@@ -515,7 +519,8 @@ export const SIDE_STORY_S28: Quest[] = [
             BY('It’s in my care. Anything it’s done is my responsibility. Invoice me.', 'angry'),
             N('You have never seen Byte stand in front of anything that wasn’t a number. From his face, neither has Byte.'),
             GR('…Those are Seville. Bitter. You can’t eat them raw. It’s in for a nasty surprise.', 'think'),
-            GR('My mother brought the pip over the pass in her coat pocket. Grew it in a teacup. Sixty years, and nobody’s ever wanted them.', 'soft'),
+            GR('My mother brought the pip over the pass in her coat pocket. Grew it in a teacup.', 'soft'),
+            GR('Sixty years, and one person ever asked for them. Came every winter with a basket. Not this winter.', 'soft'),
             GR('Well? What’s on offer? I’m not giving them away.', 'angry'),
           ],
           choices: S28_OFFER,
@@ -535,6 +540,8 @@ export const SIDE_STORY_S28: Quest[] = [
             N('Hazel’s recipe card leans on the sugar bag. Under “boil hard” she has written: “Cold saucer, push it, see if it wrinkles.”'),
             BY('“See if it wrinkles.” That isn’t a test. That’s a feeling.', 'think'),
             N('Parcel has put a saucer out on the frosty windowsill. It sits beside it, guarding it, in case someone steals the cold.'),
+            N('Your Nubbin licks the cold saucer to see if it’s ready. Parcel gives it a long, level stare, and it puts the saucer back.'),
+            BY('Contaminated. That saucer is now the control.', 'think'),
             N('Byte turns the card over, looking for the rest of the method. On the back, in the same hand, in quotation marks, is one line.'),
             // Paddington 2 (2017), Paddington quoting Aunt Lucy. Hazel copied it. childLines s28-kitchen#6.
             BY('“If we’re kind and polite, the world will be right.”', 'think'),
@@ -596,7 +603,7 @@ export const SIDE_STORY_S28: Quest[] = [
                   'After a moment Byte sits down on its other side, in the snow, in his good trousers.',
                 ),
                 N(
-                  'Parcel unbuttons a toggle and puts half a sandwich in your hand. It has never done that for anyone.',
+                  'Parcel unbuttons a toggle and puts half a sandwich in your hand. It has fed half the valley, but never you.',
                 ),
                 ...S28_KEEPING,
               ],
@@ -687,7 +694,9 @@ export const SIDE_STORY_S28: Quest[] = [
           id: 's28-party',
           lines: [
             N('Byte’s front room, decorated: bunting cut from squared paper, and a cake with PARCEL on it, iced in very straight capitals.'),
-            PX('Hi! I brought a cake stand. It rotates. You don’t have to use the rotate.', 'happy'),
+            PX('I got the cake stand down from our loft. It rotates. He’s banned the rotate.', 'happy'),
+            BY('It’s a cake, not a fairground.', 'think'),
+            PX('He said that at our wedding. It rotated anyway.', 'happy'),
             N('Mr Grue has come “for procedure”, in his best cardigan. He sits on the edge of his chair as if it might go off.'),
             BY('And now. Parcel has prepared a trick. I wasn’t told what. I’m finding that difficult.', 'think'),
             N('Parcel walks up to Mr Grue and bows. Then it holds out one paw towards his waistcoat pocket, and waits.'),
@@ -787,7 +796,7 @@ export const SIDE_STORY_S28: Quest[] = [
     sets: { s28Done: true },
     childLines: {
       's28-cart#6': '“Please be kind to this small one. It has come a long way.”',
-      's28-kitchen#6': '“Be gentle, say thank you, and share what you’ve got.”',
+      's28-kitchen#8': '“Be gentle, say thank you, and share what you’ve got.”',
     },
     notes:
       'THEME. A stranger with a label, taken in by the one Keeper who most needs something he can’t measure. Byte’s whole ' +
@@ -898,7 +907,8 @@ export const SIDE_STORY_S28_VARIANTS: Scene[] = [
       HZ('Byte. I hoped it’d be you that read it.', 'soft'),
       N('Byte looks at the tag: at the H, at the leaning hand. Then at Hazel’s hand, resting on the thin grey Nubbin’s back.'),
       BY('H.', 'shock'),
-      BY('I had a list. Forty-one people. I had Mr Grue on it. His first name’s Horace. I interviewed him.', 'shock'),
+      BY('I had a list. Forty-one people. I crossed you off first. Missing people don’t post parcels.', 'shock'),
+      BY('I had Mr Grue on it. His first name’s Horace. I interviewed him.', 'shock'),
       N('He sits down on the step all at once, as if somebody had taken the step away and put it back lower.'),
       BY('Why me? I don’t… I count things. That’s all I do.'),
       HZ('You count things, love. I needed someone who’d count this one.', 'soft'),

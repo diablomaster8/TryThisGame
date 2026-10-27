@@ -932,6 +932,7 @@ export const SIDE_STORIES_NEW_3: Quest[] = [
                 NO('…Right. Right. Hands.', 'think'),
                 N('She climbs. The Worry climbs too, right behind her, muttering about loose rock.'),
                 N('It’s right about the loose rock.'),
+                N('Far below, the buzzard gives up and goes to watch somebody else.'),
               ],
             },
           ],
@@ -1005,6 +1006,8 @@ export const SIDE_STORIES_NEW_3: Quest[] = [
       lines: [
         N('Going down is quicker and much worse, as it always is. Nova sings the whole way. So does the Worry.'),
         N('At the bottom she unpacks the oatcakes, which have been sat on, and shares them out in three.'),
+        N('The Worry checks its piece is exactly as big as yours. It is. It checks again.'),
+        NO('It’s always done that. Since I was small.', 'happy'),
         NO('Keep the flag. Put it somewhere you’ll see it. I’ll know where it is. I’ll come and look at it.', 'soft'),
         NO('And have my boots. They’re my spare pair. I won’t need spares. I’m not going anywhere.', 'happy'),
         NO('You can see the whole valley from up there now, whenever you like. In case you ever need to find me. I’ll be in it.', 'soft'),

@@ -20,7 +20,7 @@
 #### `reader:s27-wire` · [main](../../../side/S27.md#s27-wire)
 
 _High summer at the Circuit. The sand is hot enough to fry an egg on._  
-_And yet the white railings are furred with frost._  
+_And yet the white railings are furred with frost. Nobody up here mentions it._  
 
 > **Lesson** (science, 2-ESS2-3, notice): frost forms when surfaces are below freezing  
 > _Frost forms when a surface is colder than 0°C (32°F), the temperature at which water freezes._  
@@ -164,6 +164,8 @@ _The spider considers this. Then she lifts two legs, politely, once at Sparks an
 
 _Over the next few days Spindle practises. FUSES appears in the web, and then WICKS, and then SPARE._  
 _They are very good, and the S’s are beautiful. They are also no use to anybody._  
+_On the fourth day she writes MISC, and looks very pleased with herself._  
+**Sparks**: That’s my worst drawer. She’s been through my worst drawer.  
 **Sparks**: That’s the trouble with learning off a cabinet. She can tell you where everything is, but not how anyone feels.  
 
 > **Lesson** (literacy, RL.1.4, ask): words that show feelings  
@@ -438,6 +440,7 @@ _It leans in. Clover stops brushing and lets it._
 
 _Byte is at the rail. His newest stopwatch has a tiny web across the strap, and in it, one word: ABOVE._  
 **Byte**: It isn’t accurate. There’s no data. I’m keeping it.  
+**Byte**: Pixel says I’m to stop timing things that aren’t racing. I’ve timed how long she’s been saying it.  
 **Byte**: I’ve worked out its chances of placing. To three decimal places. I’m not going to tell you the number.  
 _Spindle will not be left in the shed. She makes this very clear by walking up your sleeve._  
 _In the end she rides in the brim of your hat, which is the best seat at the Circuit, and she knows it._  
@@ -512,6 +515,7 @@ _At midnight a lamp comes on in the upstairs window of the house, and stays on._
 _Corvin is sitting at the window, watching you: Hazel’s heir, with a lantern, at his rail, in the middle of the night._  
 _He watches you all night. He watches your hands, and the lantern, and the way you walk the rail a step at a time._  
 _He never once looks at the rail itself. He thinks he knows who is writing on it. He is wrong, and you let him be._  
+_At three o’clock he opens the window, says “Your wick wants trimming”, and shuts it again._  
 _Spindle works on below the lantern, a thread at a time, and Corvin never sees her. Up here, she is your secret._  
 _At five o’clock the upstairs lamp goes out, and Spindle ties off the last thread. You can’t feel your fingers._  
 

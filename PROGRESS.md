@@ -102,6 +102,16 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 22 fixes (2026-10-27)
+
+- **Works:** 57 of run 22's 58 recs fixed across S22–S29 and S3's two bands, with the S24–S28 bands
+  synced. S24's bird, nest, lights and tick variants now play; S25's spring coda and Moss line queue
+  after S25; S24's cage choice gets an answer; new tested payoffs for S22's chimney, S26's bulbs,
+  hello and plot, and S27's sold path.
+- **Partial:** SR-20261027-1249: Byte's barks and Granny Brock's knock play once (no bark system or
+  green-door prop yet); the proposed orphan-scene check in content-check is not written.
+- **Known bugs:** c12-wall-garden's Learning Grove lessons never play when it is spliced into c12-open.
+
 ## Story review run 21 fixes (2026-10-26)
 
 - **Works:** all 53 of run 21's recs fixed across S14–S21 and S2's two bands, with the S2, S14,
@@ -128,15 +138,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   and ending swaps through a new `Swapper.swapText`. Band lessons no longer sit inside grave beats.
 - **Partial:** SR-20261026-1055: t-talk-generic has lines but nothing plays it yet (needs a trigger).
 - **Known bugs:** the C: drive ran out of space during this pass; Maor freed space the same day.
-
-## Story review run 18 fixes (2026-10-26)
-
-- **Works:** all 43 run-18 recs fixed across the Japanese line and its bands, the Hebrew reader, the
-  extras (readers, results) and campaign books 1–2 with their bands. Two new choice payoffs in
-  `choice-payoffs.ts` (tested): Corvin quotes your c5 race answer back in c9, and the LJ3 race and
-  LJ4 bento choices pay off in their done scenes. Nova finally gives the owl speech.
-- **Partial:** none new; SR-20261026-939 (LK) still waits on LK being wired.
-- **Known bugs:** none new.
 
 ## Standing approval (Maor, 2026-10-12)
 

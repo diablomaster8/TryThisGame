@@ -1483,7 +1483,7 @@ const S3_SCENES: EduScene[] = [
     of: 's3-stands',
     band: 'reader',
     lines: [
-      N('The Circuit stands are split down the middle: Sun Keepers on the left, Moon Keepers on the right, an empty bench between.'),
+      N('The stands at the Circuit, the valley’s race track, are split down the middle: Sun Keepers on the left, Moon Keepers on the right.'),
       FE('Don’t sit there. That’s the gap. Nobody sits in the gap.', 'think'),
       Y('Why not?'),
       FE('Because it’s the gap. Hazel sat in it every race, on purpose, to annoy everyone.', 'think'),
@@ -1494,7 +1494,7 @@ const S3_SCENES: EduScene[] = [
       N('Sparks sits down very fast and studies the race card as if it holds the meaning of life.'),
       SP('I didn’t say any of that. That was the wind.'),
       N('This is a feud: a quarrel that has gone on for years. Both sides pretend not to listen. Both are bad at it.'),
-      N('Up in the owners’ box, Corvin, Gran’s old apprentice, isn’t watching the start line. He’s watching the stands.'),
+      N('Up in the owners’ box, Corvin, Gran Hazel’s old apprentice, isn’t watching the start line. He’s watching the stands.'),
     ],
     lessons: [
       {
@@ -1546,7 +1546,7 @@ const S3_SCENES: EduScene[] = [
         set: { 's3-seat': 'sun' },
         then: [
           SP('YES. Sun gets the new Keeper! Sun gets the new Keeper!', 'happy'),
-          N('Across the gap, Luna writes something in a very small notebook.'),
+          N('Across the gap, a Moon Keeper writes something in a very small notebook.'),
         ],
       },
       {
@@ -1572,7 +1572,7 @@ const S3_SCENES: EduScene[] = [
       BY('Two hundred and fourteen grievances in all. Three are about the race. The rest are about the urns.'),
       BY('I have never tasted the Sun tea. On principle. The principle is also disputed.', 'think'),
       EM('After Midsummer, nobody would race Ash. Not Sun. Not Moon. Do you know who would?', 'angry'),
-      EM('Him. He said he’d make her a champion.', 'sad'),
+      EM('Corvin. He said he’d make Ash a champion.', 'sad'),
       N('Nobody, on either side, talks about Bramble after the rail. The story just stops there, like a path at a cliff.'),
     ],
     lessons: [
@@ -1733,7 +1733,7 @@ const S3_SCENES: EduScene[] = [
       N('The second plate comes up slower, on the count: the cliff bend at dawn, before the race. An empty course, and a flag.'),
       N('And a man in a grey Circuit coat, pulling up the flag and moving it.'),
       BY('Two posts nearer the edge. Look at the turf. Old hole there. New hole here.', 'think'),
-      SP('Nobody on either side moved that flag. Nobody. It was a steward.', 'shock'),
+      SP('Nobody on either side moved that flag. Nobody. It was a steward, one of the race officials.', 'shock'),
       N('The last plate is the finish, with the owners’ box behind it. Corvin isn’t watching the race. He’s watching the stands.'),
       BY('The flag sent them wide. Ash went wide because the course told her to. Bramble went wide because Ash did.', 'sad'),
       SP('We’ve been fighting about the wrong thing for years. Byte. We have two URNS.', 'shock'),
@@ -1853,7 +1853,7 @@ const S3_SCENES: EduScene[] = [
         label: 'Show them together, at the same time.',
         set: { 's3-shown': 'together' },
         then: [
-          N('Getting Fern and Ember into one place takes a week. You manage it by telling each that the other won’t come.'),
+          N('Getting Fern and Ember into one place takes a week. You manage it by telling each that the other might come, which is true if you squint.'),
           FE('You absolute snake. Hazel did that to me once.', 'happy'),
         ],
       },
@@ -1875,8 +1875,8 @@ const S3_SCENES: EduScene[] = [
     lines: [
       N('Fern looks at the plates for a long time. So does Ember. Neither looks at the other.'),
       EM('I don’t need to be forgiven. I need to know who to be angry at.', 'angry'),
-      EM('Him. It’s always him. He had Ash by the autumn.', 'sad'),
-      FE('All those years. I hated you because of a flag. That’s… honestly very efficient of him.', 'sad'),
+      EM('Corvin. It’s always Corvin. He had Ash by the autumn.', 'sad'),
+      FE('All those years. I hated you because of a flag. That’s… horribly clever of him. I’m almost impressed. Almost.', 'sad'),
       EM('There should be a Moot. Everyone. Both sides. Out in the open.', 'think'),
       FE('After midwinter. When there’s time to do it properly. And one urn.', 'think'),
       EM('One urn.', 'soft'),
@@ -2017,7 +2017,7 @@ const S3_SCENES: EduScene[] = [
       FE('Bramble went over that rail because a man moved a flag. Not because of Ash. Not because of anyone here.'),
       N('Pixel pours the last of the sun urn and the last of the moon urn into the one urn. Byte tastes it, gravely.'),
       BY('Same tea. It was always the same tea. I’d like that read into the record.', 'think'),
-      SP('Byte, I swear by every lantern in this valley—', 'angry'),
+      SP('Byte, I swear the sun urn tasted nicer, by every lantern in this—', 'angry'),
       BY('Into the record.'),
       EM('So. Midsummer. A Cup. Everybody runs. Same course, new flags, and I check them.', 'think'),
       FE('We check them.'),
@@ -2081,7 +2081,7 @@ const S3_SCENES: EduScene[] = [
         set: { 's3-moot': 'spoon' },
         then: [
           N('You bang the spoon on the urn, and ten Keepers stop talking at once. It is the most powerful you have ever felt.'),
-          BY('Procedurally, that was a gavel. I’m noting that the gavel is a spoon.', 'think'),
+          BY('That spoon is now a gavel. A gavel is a judge’s hammer. I’m noting that the hammer is a spoon.', 'think'),
           PX('Ribbons! Gold and silver, stitched down the middle in green. One for every Nubbin who runs the Cup.', 'happy'),
           HZ('Moot-Keeper. Told you it’d suit.', 'happy'),
         ],

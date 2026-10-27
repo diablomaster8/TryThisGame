@@ -28,6 +28,7 @@ _But the white fences are covered in frost. Brrr!_
 > - Hot! → Hot sand, yes! But ice is cold. So frost is cold too.
 > _For grown-ups: Learned that frost is made of ice, and that ice is cold._
 
+_Nobody says a word about it._  
 _Sparks is lying under a big lamp. It is broken._  
 **Sparks**: I need some wire. A little roll of it.  
 **Sparks**: It’s in the old lantern shed. Bottom drawer. Can you fetch it?  
@@ -142,6 +143,8 @@ _The spider waves two legs. Once at Sparks, once at you._
 
 _Spindle practises her words. She copies the drawers._  
 _FUSES. WICKS. SPARE. Very neat!_  
+_On day four, she writes MISC. She looks very proud._  
+**Sparks**: That is my messiest drawer! She found it!  
 **Sparks**: But those are drawer words. They don’t say how anyone feels.  
 _Spindle looks out at Nine. Then she lifts one leg._  
 **Sparks**: She wants new words. Kind ones.  
@@ -375,6 +378,7 @@ _Autumn is here. The leaves turn orange, and fall._
 _Clover helps you brush Nine. Gently, gently._  
 **Clover**: Long, soft strokes. When Nine leans in, it likes it.  
 _Nine leans in. Clover smiles._  
+**Byte**: Pixel says stop timing. I timed Pixel saying it.  
 **Byte**: I worked out if Nine will win. I won’t say.  
 _Spindle wants to come to the Show. She climbs up your sleeve!_  
 _She rides on the brim of your hat. The best seat!_  
@@ -440,6 +444,8 @@ _In the middle of the night, a light comes on in Corvin’s window._
 _Corvin sits and watches you. All night long._  
 _He watches your lantern. He watches your hands._  
 _He thinks you are the one writing. He never sees Spindle._  
+_At three o’clock, Corvin opens his window._  
+_“Your wick needs trimming,” he says. Then he shuts it._  
 _Spindle works on and on, thread by thread._  
 _Spindle is your secret._  
 _Near morning, his light goes out. Spindle ties the last thread._  

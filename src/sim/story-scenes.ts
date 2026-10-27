@@ -709,7 +709,7 @@ class Swapper {
   private origins: number[];
   constructor(
     private readonly main: Line[],
-    private readonly band: TextBand,
+    readonly band: TextBand,
     base: Line[],
   ) {
     this.lines = base;
@@ -771,9 +771,12 @@ class Swapper {
   /** Where `anchor` sits: as in spliceScene, a band whose lines don't line up names its own. */
   private find(anchor: string | BandText): number {
     const own = typeof anchor === 'string' || this.band === 'main' ? undefined : anchor[this.band];
-    return own
-      ? this.lines.findIndex((l) => l.text.startsWith(own))
-      : this.index(typeof anchor === 'string' ? anchor : anchor.main);
+    if (own) return this.lines.findIndex((l) => l.text.startsWith(own));
+    const main = typeof anchor === 'string' ? anchor : anchor.main;
+    const i = this.index(main);
+    // A line spliced in from another scene (c12-open's walled garden) is not in the main
+    // scene's own list, so it is found by its words instead.
+    return i >= 0 ? i : this.lines.findIndex((l) => l.text.startsWith(main));
   }
 
   insertAfter(

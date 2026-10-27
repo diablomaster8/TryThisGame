@@ -173,7 +173,7 @@ export const SIDE_STORY_S27: Quest[] = [
         scene: {
           id: 's27-wire',
           lines: [
-            N('High summer at the Circuit. The sand is hot enough to fry on, and the white railings are furred with frost.'),
+            N('High summer at the Circuit. The sand is hot enough to fry on, and the railings are furred with frost, which nobody up here mentions.'),
             N('Sparks is on her back under the start lamp, with a screwdriver in her teeth.'),
             SP('Start lamp’s gone again. I need wire. Copper, thin, a coil about so big.', 'angry'),
             SP('There’s a cabinet of mine in the old lantern shed, behind the straight. Bottom drawer. Be a love.'),
@@ -277,6 +277,8 @@ export const SIDE_STORY_S27: Quest[] = [
           lines: [
             N('Over the next few days Spindle practises. FUSES appears in the web, and then WICKS, and then SPARE.'),
             N('They are very good, and the S’s in particular are beautiful. They are also no use to anybody.'),
+            N('On the fourth day she writes MISC, and looks very pleased with herself.'),
+            SP('That’s my worst drawer. She’s been through my worst drawer.', 'shock'),
             SP('That’s the trouble with learning off a cabinet. She can tell you where everything is, but not how anyone feels.'),
             N('Spindle spins a short line, and then cuts it, and then sits looking at the gap where a word ought to go.'),
             N('Then she looks through the window at the end of the row, and back at you, and lifts one leg. Just one.'),
@@ -496,6 +498,7 @@ export const SIDE_STORY_S27: Quest[] = [
             N('It leans in. Clover stops brushing and lets it.'),
             N('Byte is at the rail with his clipboard. His newest stopwatch has a very small web across the strap, and in it, one word: ABOVE.'),
             BY('It isn’t accurate. There’s no data. I’m keeping it.', 'think'),
+            BY('Pixel says I’m to stop timing things that aren’t racing. I’ve timed how long she’s been saying it.', 'think'),
             BY('I’ve worked out its chances of placing. To three decimal places.'),
             BY('I’m not going to tell you the number.', 'sad'),
             N('Spindle will not be left in the shed. She makes this extremely clear by walking up your sleeve.'),
@@ -835,6 +838,7 @@ export const SIDE_STORY_S27_VARIANTS: Scene[] = [
       N('Corvin is sitting at the window. He is watching you: Hazel’s heir, with a lantern, at his rail, in the middle of the night.'),
       N('He watches you all night. He watches your hands, and the lantern, and the way you walk the rail a step at a time.'),
       N('He never once looks at the rail itself: he thinks he knows who is writing on it. He is wrong, and you let him be.'),
+      N('At three he opens the window, says “Your wick wants trimming”, and shuts it again.'),
       N('Spindle works on below the lantern, a thread at a time, and Corvin never sees her. Up here, she is your secret.'),
       N('Near dawn the upstairs lamp goes out, and Spindle ties off the last thread. You can’t feel your fingers.'),
     ],

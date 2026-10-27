@@ -542,6 +542,7 @@ _She doesn’t finish. She folds a net over her arm, carefully, the way you fold
 > - Maybe, if it’s only for one night. → That’s honest. Tilly would argue! Ask yourself: what would one night cost the bird, and her chicks?
 > _For grown-ups: Thought about fairness: whether being treated unfairly makes it fair to do something unfair._
 
+**Augusta Fairweather**: And keep that lantern dark. One match and it’s gone for a week.  
 
 **Choices**
 
@@ -555,7 +556,7 @@ _She doesn’t finish. She folds a net over her arm, carefully, the way you fold
 _Dusk. The bird comes down to the spring, all stripes and stilts, and bends to drink._  
 _The net goes over it with a sound like a sail filling. Fairweather is faster than anyone that old has a right to be._  
 _The bird bolts up the ridge into the dark, dragging net and old woman both. Tilly is after them before anyone can catch her collar._  
-_Nova lunges. Her pack swings, slides on the wet rock, and goes towards the drop._  
+_Nova lunges after Tilly. Her pack swings, slides on the wet rock, and goes towards the drop._  
 _She grabs the pack. She grabs it with both arms._  
 _When she looks up, Tilly is gone into the dark._  
 
