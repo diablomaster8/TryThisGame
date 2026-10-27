@@ -79,7 +79,8 @@ _Fern is in her garden in her dressing gown, holding her cat at arm’s length. 
 > _For grown-ups: Explained a difference between plants (make their own food) and animals (eat food), while noting both need water._
 
 _Behind her, Fern’s one good apple tree has been pruned. Carefully. Thoroughly. Into the shape of a duck._  
-**Fern**: That’s the wrong tree. The ones I’m keeping alive, badly, have never looked better. That one was my good one.  
+**Fern**: That was my good tree. The three I’m keeping alive, badly, Clank never touched. He has a gift.  
+**Clank**: Announcement: it is a DUCK!  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): helping by asking first  
 > _Clank really wanted to help. But helping works best when you ask first: “Would you like me to…?”_  
@@ -102,8 +103,8 @@ _Clank goes over the edge. The little grey one leaves his hands, turns once in t
 > _For grown-ups: Learned that balanced forces keep an object still, and unbalanced forces (like gravity with nothing pushing back) make it move._
 
 **Clank**: Announcement… I have found the step again.  
-_The little grey one looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie._  
-_Then he turns and walks back up the hill, very dignified. It takes him the rest of the morning. He doesn’t look back once._  
+_The little grey one looks at you for a long time. It’s the look of someone very old who has been carried round a pond like a pie._  
+_Then the little grey one walks back up the hill, very dignified, while Clank watches. It takes all morning, and the little grey one doesn’t look back once._  
 
 > **Lesson** (literacy, RL.3.3, ask): reading a silent character’s body language  
 > _The little grey one doesn’t say a word. What do his long look and his slow walk away tell you?_  
@@ -128,7 +129,10 @@ _That afternoon Byte is at the gate with a clipboard, a pencil behind each ear, 
 
 **Byte**: He’s a kettle on a wheel who wants to help. That is exactly how accidents introduce themselves.  
 **Byte**: Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.  
-**Pixel**: Twenty years married, and you still want everything switched off at night.  
+**Pixel**: Pixel is standing right here, Byte.  
+**Byte**: Noted. You’re in the log too. Line six. “Wife: encouraging Clank.”  
+**Pixel**: I was encouraging Clank to stay off the step.  
+**Byte**: Line seven. “Unsuccessfully.”  
 _Behind you, a small whistle starts to rise, and stops halfway._  
 _Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim._  
 _He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all._  

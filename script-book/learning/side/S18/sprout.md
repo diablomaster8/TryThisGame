@@ -153,7 +153,8 @@ _A black stone, heavy and bumpy. Like burnt toast._
 
 _A Nubbin sniffs the rock that looks like toast. It is not toast!_  
 **Nova**: It fell from the sky. I walked two days to find it.  
-**Professor Delve**: A rock from space! And it isn’t a moth!  
+**Professor Delve**: A rock from space! It has no wings at all! I love it!  
+**Nova**: Be gentle with it. It walked a long way.  
 **Nova**: Now. Find me north.  
 
 #### `sprout:s18-star-finds` · [main](../../../side/S18.md#s18-star-finds)

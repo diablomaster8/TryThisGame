@@ -19,8 +19,8 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `learning/side/S01/sprout.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
 | `learning/side/S01/reader.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
 | `side/S02.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
-| `learning/side/S02/sprout.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 6 |
-| `learning/side/S02/reader.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 8 |
+| `learning/side/S02/sprout.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
+| `learning/side/S02/reader.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `side/S03.md` | [review-2026-10-26-3](review-2026-10-26-3.md) | 0 |
 | `learning/side/S03/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S03/reader.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
@@ -54,28 +54,28 @@ The running log for the repeatable story and writing review. Each run reviews th
 | `side/S13.md` | [review-2026-10-26-4](review-2026-10-26-4.md) | 0 |
 | `learning/side/S13/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `learning/side/S13/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S14.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 4 |
+| `side/S14.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S14/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `learning/side/S14/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S15.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 6 |
+| `side/S15.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S15/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S15/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S16.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 4 |
+| `side/S16.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S16/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S16/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S17.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 4 |
+| `side/S17.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S17/sprout.md` | [review-2026-10-22-2](review-2026-10-22-2.md) | 0 |
 | `learning/side/S17/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S18.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 6 |
+| `side/S18.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S18/sprout.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
 | `learning/side/S18/reader.md` | [review-2026-10-22-3](review-2026-10-22-3.md) | 0 |
-| `side/S19.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 3 |
+| `side/S19.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S19/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S19/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
-| `side/S20.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 5 |
+| `side/S20.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S20/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S20/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
-| `side/S21.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 5 |
+| `side/S21.md` | [review-2026-10-26-5](review-2026-10-26-5.md) | 0 |
 | `learning/side/S21/sprout.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `learning/side/S21/reader.md` | [review-2026-10-22-4](review-2026-10-22-4.md) | 0 |
 | `side/S22.md` | [review-2026-10-22](review-2026-10-22.md) | 0 |
@@ -1392,59 +1392,59 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 | SR-20261026-1138 | side/S07.md, side/S09.md | cross-story | High | humour | Byte labels the gate UNVERIFIED | fixed | 2026-10-26-4 |
 | SR-20261026-1139 | side/S06.md, side/S10.md | cross-story | Medium | humour | The very confident duck takes the back-row seat at Hazel's race | fixed | 2026-10-26-4 |
 | SR-20261026-1140 | side/S06.md, side/S10.md | cross-story | Medium | humour | Byte has answered "Do not lend this to Byte" on the register cover | fixed | 2026-10-26-4 |
-| SR-20261026-1141 | side/S16.md | s16-week | Critical | continuity | S16's signature choice (s16-tired) changes no line anywhere; show it in the week visit and again on Hazel's first evening home | open | 2026-10-26-5 |
-| SR-20261026-1142 | side/S21.md | s21-moss | High | follow | Say who gives the long look in s21-moss; "He" currently reads as Clank | open | 2026-10-26-5 |
-| SR-20261026-1143 | side/S21.md | s21-log | High | humour | Let Pixel and Byte bicker as a married couple when he logs her in the third person | open | 2026-10-26-5 |
-| SR-20261026-1144 | side/S21.md | s21-shed | High | continuity | s21-lesson (sit or step) changes nothing; let Clank remember it at Spindle's ladder in S27 | open | 2026-10-26-5 |
-| SR-20261026-1145 | side/S20.md | s20-count | High | humour | Pay off Granny Brock's bell: she comes back with soup, as canon 42 says she always does | open | 2026-10-26-5 |
-| SR-20261026-1146 | side/S18.md | s18-fossils | High | humour | Delve reads "relatives of insects" off his own plaque and takes it badly | open | 2026-10-26-5 |
-| SR-20261026-1147 | side/S17.md | s17-wild | High | humour | Give the four night climbs one Nova joke that the owl doesn't laugh at | open | 2026-10-26-5 |
-| SR-20261026-1148 | learning/side/S02/sprout.md | sprout:s2-thief | High | humour | Give the thief scene one silly, physical Wisp beat a small child can laugh at | open | 2026-10-26-5 |
-| SR-20261026-1149 | learning/side/S02/reader.md | reader:s2-missing | High | humour | Sable copies Wisp licking his torn ear, and is put out to find hers isn't torn | open | 2026-10-26-5 |
-| SR-20261026-1150 | side/S21.md | s21-log | Medium | continuity | s21-byte (fair or unfair) changes nothing; let Byte's incident log remember it in S28 | open | 2026-10-26-5 |
-| SR-20261026-1151 | side/S14.md | s24-stowaway-knows | Medium | continuity | Make Tilly remember how the Lair ended (s14-lair), not just that you sat | open | 2026-10-26-5 |
-| SR-20261026-1152 | side/S20.md | s20-intel | Medium | continuity | s20-round2 (press or wait) changes nothing; give Tilly a badge for it in S24 | open | 2026-10-26-5 |
-| SR-20261026-1153 | side/S20.md | s20-counters | Medium | humour | Let the player's own battle cry come back in round three | open | 2026-10-26-5 |
-| SR-20261026-1154 | side/S20.md | s20-count | Medium | compelling | Give each way of merging the forts its own Tilly line in the shelter | open | 2026-10-26-5 |
-| SR-20261026-1155 | side/S14.md | s14-toad | Medium | humour | Make Byte's converging-tax sum sound like what it is (2.222… Shells), and land "recurring" again | open | 2026-10-26-5 |
-| SR-20261026-1156 | side/S15.md | s15-verdict | Medium | theme | The exposed route has children kicking the wheels of a man who has just confessed; let them go quiet instead | open | 2026-10-26-5 |
-| SR-20261026-1157 | side/S15.md | s15-verdict | Medium | follow | Show Dashwood giving Pip the painted egg, instead of reporting it afterwards | open | 2026-10-26-5 |
-| SR-20261026-1158 | side/S15.md | s15-odds-board | Medium | humour | Answer the poster's "(approx.)" with Byte's "(exact)" | open | 2026-10-26-5 |
-| SR-20261026-1159 | side/S15.md | s15-jackpot | Medium | pacing | Jackpot stops short of spoiling the Legendary egg before the candling | open | 2026-10-26-5 |
-| SR-20261026-1160 | side/S15.md | s15-sneak | Medium | humour | Plant a goat by the wagon so "never let her near a goat" lands | open | 2026-10-26-5 |
-| SR-20261026-1161 | side/S16.md | s16-notes | Medium | humour | Pay off Sparks's "wired backwards" and Brisk's double underlining | open | 2026-10-26-5 |
-| SR-20261026-1162 | side/S16.md | s16-roster | Medium | humour | Give the third banner a deadpan reaction from Sparks | open | 2026-10-26-5 |
-| SR-20261026-1163 | side/S16.md | s16-yard | Medium | humour | Let Clover answer Brisk's proud "Mine get Sundays" | open | 2026-10-26-5 |
-| SR-20261026-1164 | side/S17.md | s17-hatching | Medium | continuity | s17-approach (sneak or wait) changes nothing; let Nightjar remember your face at the hatching | open | 2026-10-26-5 |
-| SR-20261026-1165 | side/S17.md | s17-nest | Medium | follow | Say plainly what Nightjar wants before the carry | open | 2026-10-26-5 |
-| SR-20261026-1166 | side/S18.md | s18-stars | Medium | humour | Give deadpan Nova a foil when Delve gushes over her meteorite | open | 2026-10-26-5 |
-| SR-20261026-1167 | side/S18.md | s18-fossils | Medium | humour | Pay off Dusty's "trowel with nothing to use it on" | open | 2026-10-26-5 |
-| SR-20261026-1168 | side/S18.md | s18-barn | Medium | follow | Seed the thirteenth, centre case when Delve counts twelve | open | 2026-10-26-5 |
-| SR-20261026-1169 | side/S19.md | s19-marina | Medium | humour | The s4-swim insert says "Wear the socks" before Marina's two-pairs-of-socks gag | open | 2026-10-26-5 |
-| SR-20261026-1170 | side/S19.md | s19-climb-sable | Medium | humour | Give the Sable climb its own small left-right joke | open | 2026-10-26-5 |
-| SR-20261026-1171 | side/S21.md | s21-help | Medium | humour | Untangle Fern's tree line so the duck gets its laugh | open | 2026-10-26-5 |
-| SR-20261026-1172 | learning/side/S02/sprout.md | sprout:s2-complete | Medium | child-read | Moss's "She never said ‘only the good ones’. I checked." is irony a 3-year-old can't parse | open | 2026-10-26-5 |
-| SR-20261026-1173 | learning/side/S02/sprout.md | sprout:s2-missing | Medium | continuity | Link "Gran" and "Hazel" for the child: "Gran Hazel's warm egg stone" | open | 2026-10-26-5 |
-| SR-20261026-1174 | learning/side/S02/sprout.md | sprout:s2-complete-driven | Medium | child-read | Replace Moss's riddle "Sensible things are not always warm things" | open | 2026-10-26-5 |
-| SR-20261026-1175 | learning/side/S02/sprout.md | sprout:s2-missing | Medium | humour | Make Fern's one glove a joke a small child can see | open | 2026-10-26-5 |
-| SR-20261026-1176 | learning/side/S02/reader.md | reader:s2-fruit | Medium | child-read | Swap two idioms a 7-year-old reads literally ("expecting a boot", "as if it might go off") | open | 2026-10-26-5 |
-| SR-20261026-1177 | learning/side/S02/reader.md | reader:s2-complete | Medium | follow | Name Hazel in Moss's "She never said only the good ones" | open | 2026-10-26-5 |
-| SR-20261026-1178 | learning/side/S02/reader.md | reader:s2-night | Medium | child-read | Name Sable once in Luna's argument; four characters are on the page | open | 2026-10-26-5 |
-| SR-20261026-1179 | learning/side/S02/reader.md | reader:s2-rain | Medium | pacing | Move the Sable-feelings question after the rescue; it stalls while Wisp is freezing | open | 2026-10-26-5 |
-| SR-20261026-1180 | learning/side/S02/reader.md | reader:s2-rain | Nice | humour | A second wordless Wisp gag once he is warm and furious | open | 2026-10-26-5 |
-| SR-20261026-1181 | learning/side/S02/reader.md | reader:s2-night | Nice | child-read | Vary the four identical "That's a fair answer" openings in the mercy question | open | 2026-10-26-5 |
-| SR-20261026-1182 | learning/side/S02/reader.md | reader:s2-complete | Nice | theme | Let Moss voice the "theme" lesson instead of a definition | open | 2026-10-26-5 |
-| SR-20261026-1183 | learning/side/S02/sprout.md | sprout:s2-night | Nice | child-read | "Somebody has to" is an idiom; say what Luna wants | open | 2026-10-26-5 |
-| SR-20261026-1184 | side/S14.md | s14-complete | Nice | compelling | Touch Tilly's note once more at the end, without opening it | open | 2026-10-26-5 |
-| SR-20261026-1185 | side/S14.md | s14-sparks | Nice | continuity | "Redraws" doesn't fit a dragon cut from a biscuit-tin lid | open | 2026-10-26-5 |
-| SR-20261026-1186 | side/S15.md | s15-jackpot | Nice | follow | Describe the silver sticker instead of naming "the Circuit's mark" | open | 2026-10-26-5 |
-| SR-20261026-1187 | side/S17.md | s17-complete | Nice | humour | Answer Nova's "Take me next time" with the offended owlet | open | 2026-10-26-5 |
-| SR-20261026-1188 | side/S18.md | s18-shore-finds | Nice | humour | Start Delve's measuring habit at the shell cushion | open | 2026-10-26-5 |
-| SR-20261026-1189 | side/S18.md | s18-complete | Nice | continuity | Show the door choice (s18-entry) on opening day | open | 2026-10-26-5 |
-| SR-20261026-1190 | side/S19.md | s19-sit | Nice | humour | One dry Moss smile while you wait, before Cinder speaks (Moss route only) | open | 2026-10-26-5 |
-| SR-20261026-1191 | side/S20.md | s20-intel | Nice | humour | Let Wren notice that Zip's nine laps match her nine salutes | open | 2026-10-26-5 |
-| SR-20261026-1192 | side/S02.md, learning/side/S02/sprout.md, learning/side/S02/reader.md | cross-story | High | follow | "Warm. Dry. Fed." but nobody feeds Wisp; show the fruit in every version of the carry | open | 2026-10-26-5 |
-| SR-20261026-1193 | side/S14.md, side/S21.md | cross-story | Medium | theme | Show Pixel and Byte as married in S14 as well, with one bicker at the Tax Toad | open | 2026-10-26-5 |
+| SR-20261026-1141 | side/S16.md | s16-week | Critical | continuity | S16's signature choice (s16-tired) changes no line anywhere; show it in the week visit and again on Hazel's first evening home | fixed | 2026-10-26-5 |
+| SR-20261026-1142 | side/S21.md | s21-moss | High | follow | Say who gives the long look in s21-moss; "He" currently reads as Clank | fixed | 2026-10-26-5 |
+| SR-20261026-1143 | side/S21.md | s21-log | High | humour | Let Pixel and Byte bicker as a married couple when he logs her in the third person | fixed | 2026-10-26-5 |
+| SR-20261026-1144 | side/S21.md | s21-shed | High | continuity | s21-lesson (sit or step) changes nothing; let Clank remember it at Spindle's ladder in S27 | fixed | 2026-10-26-5 |
+| SR-20261026-1145 | side/S20.md | s20-count | High | humour | Pay off Granny Brock's bell: she comes back with soup, as canon 42 says she always does | fixed | 2026-10-26-5 |
+| SR-20261026-1146 | side/S18.md | s18-fossils | High | humour | Delve reads "relatives of insects" off his own plaque and takes it badly | fixed | 2026-10-26-5 |
+| SR-20261026-1147 | side/S17.md | s17-wild | High | humour | Give the four night climbs one Nova joke that the owl doesn't laugh at | fixed | 2026-10-26-5 |
+| SR-20261026-1148 | learning/side/S02/sprout.md | sprout:s2-thief | High | humour | Give the thief scene one silly, physical Wisp beat a small child can laugh at | fixed | 2026-10-26-5 |
+| SR-20261026-1149 | learning/side/S02/reader.md | reader:s2-missing | High | humour | Sable copies Wisp licking his torn ear, and is put out to find hers isn't torn | fixed | 2026-10-26-5 |
+| SR-20261026-1150 | side/S21.md | s21-log | Medium | continuity | s21-byte (fair or unfair) changes nothing; let Byte's incident log remember it in S28 | fixed | 2026-10-26-5 |
+| SR-20261026-1151 | side/S14.md | s24-stowaway-knows | Medium | continuity | Make Tilly remember how the Lair ended (s14-lair), not just that you sat | fixed | 2026-10-26-5 |
+| SR-20261026-1152 | side/S20.md | s20-intel | Medium | continuity | s20-round2 (press or wait) changes nothing; give Tilly a badge for it in S24 | fixed | 2026-10-26-5 |
+| SR-20261026-1153 | side/S20.md | s20-counters | Medium | humour | Let the player's own battle cry come back in round three | fixed | 2026-10-26-5 |
+| SR-20261026-1154 | side/S20.md | s20-count | Medium | compelling | Give each way of merging the forts its own Tilly line in the shelter | fixed | 2026-10-26-5 |
+| SR-20261026-1155 | side/S14.md | s14-toad | Medium | humour | Make Byte's converging-tax sum sound like what it is (2.222… Shells), and land "recurring" again | fixed | 2026-10-26-5 |
+| SR-20261026-1156 | side/S15.md | s15-verdict | Medium | theme | The exposed route has children kicking the wheels of a man who has just confessed; let them go quiet instead | fixed | 2026-10-26-5 |
+| SR-20261026-1157 | side/S15.md | s15-verdict | Medium | follow | Show Dashwood giving Pip the painted egg, instead of reporting it afterwards | fixed | 2026-10-26-5 |
+| SR-20261026-1158 | side/S15.md | s15-odds-board | Medium | humour | Answer the poster's "(approx.)" with Byte's "(exact)" | fixed | 2026-10-26-5 |
+| SR-20261026-1159 | side/S15.md | s15-jackpot | Medium | pacing | Jackpot stops short of spoiling the Legendary egg before the candling | fixed | 2026-10-26-5 |
+| SR-20261026-1160 | side/S15.md | s15-sneak | Medium | humour | Plant a goat by the wagon so "never let her near a goat" lands | fixed | 2026-10-26-5 |
+| SR-20261026-1161 | side/S16.md | s16-notes | Medium | humour | Pay off Sparks's "wired backwards" and Brisk's double underlining | fixed | 2026-10-26-5 |
+| SR-20261026-1162 | side/S16.md | s16-roster | Medium | humour | Give the third banner a deadpan reaction from Sparks | fixed | 2026-10-26-5 |
+| SR-20261026-1163 | side/S16.md | s16-yard | Medium | humour | Let Clover answer Brisk's proud "Mine get Sundays" | fixed | 2026-10-26-5 |
+| SR-20261026-1164 | side/S17.md | s17-hatching | Medium | continuity | s17-approach (sneak or wait) changes nothing; let Nightjar remember your face at the hatching | fixed | 2026-10-26-5 |
+| SR-20261026-1165 | side/S17.md | s17-nest | Medium | follow | Say plainly what Nightjar wants before the carry | fixed | 2026-10-26-5 |
+| SR-20261026-1166 | side/S18.md | s18-stars | Medium | humour | Give deadpan Nova a foil when Delve gushes over her meteorite | fixed | 2026-10-26-5 |
+| SR-20261026-1167 | side/S18.md | s18-fossils | Medium | humour | Pay off Dusty's "trowel with nothing to use it on" | fixed | 2026-10-26-5 |
+| SR-20261026-1168 | side/S18.md | s18-barn | Medium | follow | Seed the thirteenth, centre case when Delve counts twelve | fixed | 2026-10-26-5 |
+| SR-20261026-1169 | side/S19.md | s19-marina | Medium | humour | The s4-swim insert says "Wear the socks" before Marina's two-pairs-of-socks gag | fixed | 2026-10-26-5 |
+| SR-20261026-1170 | side/S19.md | s19-climb-sable | Medium | humour | Give the Sable climb its own small left-right joke | fixed | 2026-10-26-5 |
+| SR-20261026-1171 | side/S21.md | s21-help | Medium | humour | Untangle Fern's tree line so the duck gets its laugh | fixed | 2026-10-26-5 |
+| SR-20261026-1172 | learning/side/S02/sprout.md | sprout:s2-complete | Medium | child-read | Moss's "She never said ‘only the good ones’. I checked." is irony a 3-year-old can't parse | fixed | 2026-10-26-5 |
+| SR-20261026-1173 | learning/side/S02/sprout.md | sprout:s2-missing | Medium | continuity | Link "Gran" and "Hazel" for the child: "Gran Hazel's warm egg stone" | fixed | 2026-10-26-5 |
+| SR-20261026-1174 | learning/side/S02/sprout.md | sprout:s2-complete-driven | Medium | child-read | Replace Moss's riddle "Sensible things are not always warm things" | fixed | 2026-10-26-5 |
+| SR-20261026-1175 | learning/side/S02/sprout.md | sprout:s2-missing | Medium | humour | Make Fern's one glove a joke a small child can see | fixed | 2026-10-26-5 |
+| SR-20261026-1176 | learning/side/S02/reader.md | reader:s2-fruit | Medium | child-read | Swap two idioms a 7-year-old reads literally ("expecting a boot", "as if it might go off") | fixed | 2026-10-26-5 |
+| SR-20261026-1177 | learning/side/S02/reader.md | reader:s2-complete | Medium | follow | Name Hazel in Moss's "She never said only the good ones" | fixed | 2026-10-26-5 |
+| SR-20261026-1178 | learning/side/S02/reader.md | reader:s2-night | Medium | child-read | Name Sable once in Luna's argument; four characters are on the page | fixed | 2026-10-26-5 |
+| SR-20261026-1179 | learning/side/S02/reader.md | reader:s2-rain | Medium | pacing | Move the Sable-feelings question after the rescue; it stalls while Wisp is freezing | fixed | 2026-10-26-5 |
+| SR-20261026-1180 | learning/side/S02/reader.md | reader:s2-rain | Nice | humour | A second wordless Wisp gag once he is warm and furious | fixed | 2026-10-26-5 |
+| SR-20261026-1181 | learning/side/S02/reader.md | reader:s2-night | Nice | child-read | Vary the four identical "That's a fair answer" openings in the mercy question | fixed | 2026-10-26-5 |
+| SR-20261026-1182 | learning/side/S02/reader.md | reader:s2-complete | Nice | theme | Let Moss voice the "theme" lesson instead of a definition | fixed | 2026-10-26-5 |
+| SR-20261026-1183 | learning/side/S02/sprout.md | sprout:s2-night | Nice | child-read | "Somebody has to" is an idiom; say what Luna wants | fixed | 2026-10-26-5 |
+| SR-20261026-1184 | side/S14.md | s14-complete | Nice | compelling | Touch Tilly's note once more at the end, without opening it | fixed | 2026-10-26-5 |
+| SR-20261026-1185 | side/S14.md | s14-sparks | Nice | continuity | "Redraws" doesn't fit a dragon cut from a biscuit-tin lid | fixed | 2026-10-26-5 |
+| SR-20261026-1186 | side/S15.md | s15-jackpot | Nice | follow | Describe the silver sticker instead of naming "the Circuit's mark" | fixed | 2026-10-26-5 |
+| SR-20261026-1187 | side/S17.md | s17-complete | Nice | humour | Answer Nova's "Take me next time" with the offended owlet | fixed | 2026-10-26-5 |
+| SR-20261026-1188 | side/S18.md | s18-shore-finds | Nice | humour | Start Delve's measuring habit at the shell cushion | fixed | 2026-10-26-5 |
+| SR-20261026-1189 | side/S18.md | s18-complete | Nice | continuity | Show the door choice (s18-entry) on opening day | fixed | 2026-10-26-5 |
+| SR-20261026-1190 | side/S19.md | s19-sit | Nice | humour | One dry Moss smile while you wait, before Cinder speaks (Moss route only) | fixed | 2026-10-26-5 |
+| SR-20261026-1191 | side/S20.md | s20-intel | Nice | humour | Let Wren notice that Zip's nine laps match her nine salutes | fixed | 2026-10-26-5 |
+| SR-20261026-1192 | side/S02.md, learning/side/S02/sprout.md, learning/side/S02/reader.md | cross-story | High | follow | "Warm. Dry. Fed." but nobody feeds Wisp; show the fruit in every version of the carry | fixed | 2026-10-26-5 |
+| SR-20261026-1193 | side/S14.md, side/S21.md | cross-story | Medium | theme | Show Pixel and Byte as married in S14 as well, with one bicker at the Tax Toad | fixed | 2026-10-26-5 |
 
 ## Runs
 
@@ -1489,3 +1489,4 @@ Status is one of `open`, `fixed`, `partial`, `dropped` or `superseded`.
 - 2026-10-26 run 20 · [review-2026-10-26-4](review-2026-10-26-4.md) · units: side/S06.md, side/S07.md, side/S08.md, side/S09.md, side/S10.md, side/S11.md, side/S12.md, side/S13.md, S01/sprout.md, S01/reader.md · 57 recs: Critical 0, High 11, Medium 37, Nice 9 (3 cross-story) · fixed since last run: 47 of 48
 - 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-5` · run 20's 57 recs: all fixed · new tested payoffs in choice-payoffs.ts: s7-lever in s7-week, s7-watch-down in s7-lap (new `insertBefore`), s12-solo in s12-complete, s10-racer in s10-cheer, s13-rats in s13-sluice; s1-cinder band swaps rewritten to match the edited bands; S10's s10-wish3 now plays s10-wish3-s1 after S1 (an older gap, tested); S10 and S13 band copies synced with their mains · canon: none
 - 2026-10-26 run 21 · [review-2026-10-26-5](review-2026-10-26-5.md) · units: side/S14.md, side/S15.md, side/S16.md, side/S17.md, side/S18.md, side/S19.md, side/S20.md, side/S21.md, S02/sprout.md, S02/reader.md · 53 recs: Critical 1, High 9, Medium 31, Nice 12 (2 cross-story) · fixed since last run: 57 (all)
+- 2026-10-26 · fix pass on branch `fix/story-review-2026-10-26-6` · run 21's 53 recs: all fixed · eleven new tested payoffs in choice-payoffs.ts, among them the Critical -1141 (s16-tired now changes s16-week and Hazel's s10-step), s21-lesson in s27-carry-clank, s21 logging in s28-logged and its variants, s14Done in s24-badges, S20's own s20-cry and s20-merge echoes, and a swapped Tilly greeting in s24-stowaway-knows (PayoffSwaps gained `swapText`); the S2, S14, S18, S20 and S21 bands synced with their mains · canon: none

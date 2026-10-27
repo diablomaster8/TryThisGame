@@ -63,6 +63,7 @@ _Mustard says MROWW. That means very, very cross._
 
 _Snip, snip, snip! Fern’s best apple tree is now a duck._  
 **Fern**: It’s a very good duck. It was a better tree.  
+**Clank**: Announcement: it is a DUCK!  
 **Clank**: And I rescued a little old one! He was stuck up the hill!  
 _Round the pond zooms Clank, holding the little grey one like a pie._  
 
@@ -72,7 +73,7 @@ _Clank reaches the cottage. And the step. Bump!_
 _The little grey one flies out of his hands. He lands on his feet._  
 **Clank**: Announcement… I found the step again.  
 _The little grey one gives you a long, long look._  
-_Then he walks all the way back up the hill. Slowly._  
+_Then the little grey one walks back up the hill. Clank watches him go._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): asking before we pick someone up  
 > _Clank picked up the little grey one without asking. He didn’t like it._  

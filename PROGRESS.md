@@ -102,6 +102,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   - Results depend on time zone.
   - Not yet checked on real phones.
 
+## Story review run 21 fixes (2026-10-26)
+
+- **Works:** all 53 of run 21's recs fixed across S14–S21 and S2's two bands, with the S2, S14,
+  S18, S20 and S21 bands synced to their mains. Eleven new tested payoffs, among them S16's
+  tired-crew choice (s16-week and Hazel's s10-step), S21's lesson at Spindle's ladder, and S14's
+  badges in S24.
+- **Partial:** none from this run (SR-20261026-939 and -1055 stay open from earlier runs).
+- **Known bugs:** none new.
+
 ## Story review run 20 fixes (2026-10-26)
 
 - **Works:** all 57 of run 20's recs fixed across S6–S13 and S1's two bands; the S10 and S13 bands
@@ -128,15 +137,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   LJ4 bento choices pay off in their done scenes. Nova finally gives the owl speech.
 - **Partial:** none new; SR-20261026-939 (LK) still waits on LK being wired.
 - **Known bugs:** none new.
-
-## Story review run 17 fixes (2026-10-26)
-
-- **Works:** 57 of run 17's 58 recs fixed across PA4, PA5, LB and LK with their bands, and the
-  Hebrew line. PA4's Wisp, Clank, candy and friend beats and PA5's eight memories now actually
-  play (replacing variants, `GROVE_VALUE_ALIASES` and PA4's `lineLive`, with tests). LK's reader
-  counts ten crocodiles again; "arba" is glossed ar-BAH. Flag values no longer collide with Grove's.
-- **Partial:** SR-20261026-939: LK's renamed variants have no test, because no engine plays LK yet.
-- **Known bugs:** LB and LK are not wired into any sim engine (CV4); their variants wait for it.
 
 ## Standing approval (Maor, 2026-10-12)
 

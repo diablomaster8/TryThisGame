@@ -46,6 +46,7 @@ const TI = say('tilly');
 const GO = say('gordon');
 const WR = say('wren');
 const CK = say('clank');
+const GB = say('granny-brock');
 
 // ---------------------------------------------------------------- builders
 type Beat = Omit<Lesson, 'id'>;
@@ -1315,6 +1316,8 @@ const S14: EduQuest = quest(
         TI('…Yes! Thanks SO much, Byte.', 'happy'),
         N('Byte hands over one more shell. Clink.'),
         TI('That was a very “actually” question. Six!'),
+        PX('Twenty years married, and Byte still gives people ideas.'),
+        BY('You married a man who asks questions. It was in our promises.', 'think'),
       ],
       [
         {
@@ -1595,6 +1598,7 @@ const S14: EduQuest = quest(
         TI('Game over. Snacks for everyone. That was always a rule.', 'soft'),
         N('Crisps, Fern’s burnt biscuits, and grapes the Nubbins already found.'),
         N('Tilly eats with the dragon in her lap.'),
+        N('Now and then, Tilly pats her welly. The note is still there.'),
         TI('The Grey Grandmother isn’t the boss now. You can visit her.'),
         TI('And Byte gets all eight points back. For the tea towel.'),
         N('She puts her cardboard crown on your head. GAME MISTRESS!'),
@@ -1607,7 +1611,7 @@ const S14: EduQuest = quest(
           domain: 'art',
           skill: 'naming colours',
           kind: 'ask',
-          after: 6,
+          after: 7,
           prompt: [N('The corner was grey. What colour is it now?')],
           options: [
             opt('Yellow', [N('Yellow! A bright, warm colour, like sunshine.', 'happy')], true),
@@ -1768,6 +1772,7 @@ const S20: EduQuest = quest(
       [
         N('Zip runs back. He has snow on his eyebrows.'),
         N('He runs round you nine times. That means: news!'),
+        WR('Nine! Same as me. Nobody counts Zip’s.', 'think'),
         N('Their wall is big. But behind it, hardly anyone.'),
         N('Five children were behind their wall. Then three went home!'),
         N('One lost a mitten, one lost a boot, and one wanted his tea.'),
@@ -1782,7 +1787,7 @@ const S20: EduQuest = quest(
           skill: 'take away within 5',
           standard: 'K.OA.A.2',
           kind: 'ask',
-          after: 4,
+          after: 5,
           prompt: [PX('Five children were behind their wall. Three went home. How many are left?')],
           options: [
             opt('2', [PX('Two! Five take away three leaves two.', 'happy'), N('(Show five fingers. Fold three down. Two left!)')], true),
@@ -1937,6 +1942,11 @@ const S20: EduQuest = quest(
         WR('Commander? Which fort won?'),
         N('The storm blows for hours. Pixel sings a song with forty-one verses.'),
         N('Then the wind stops. Someone pokes a hole, and it’s night!'),
+        N('A spoon pokes through the hole. Then a face, upside down!'),
+        N('It’s Granny Brock. She lives by the Common. She brings soup!'),
+        GB('Soup. Somebody rang my bell this morning.'),
+        GO('That was me!', 'happy'),
+        GB('I know. Eat.'),
       ],
       [
         {
@@ -2089,6 +2099,7 @@ const S21: EduQuest = quest(
         CK('Cats are plants that run! I think!'),
         N('Snip, snip, snip! Fern’s best apple tree is now a duck.'),
         FE('It’s a very good duck. It was a better tree.', 'think'),
+        CK('Announcement: it is a DUCK!', 'happy'),
         CK('And I rescued a little old one! He was stuck up the hill!', 'happy'),
         N('Round the pond zooms Clank, holding the little grey one like a pie.'),
       ],
@@ -2115,7 +2126,7 @@ const S21: EduQuest = quest(
         N('The little grey one flies out of his hands. He lands on his feet.'),
         CK('Announcement… I found the step again.', 'sad'),
         N('The little grey one gives you a long, long look.'),
-        N('Then he walks all the way back up the hill. Slowly.'),
+        N('Then the little grey one walks back up the hill. Clank watches him go.'),
         PX('That’s two bumps.'),
       ],
       [

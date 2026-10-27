@@ -111,6 +111,8 @@ _Tilly’s eyes go very wide and very bright._
 > _For grown-ups: Used describing words (wide, bright eyes) to work out how a character feels._
 
 **Tilly**: …Yes. Thanks, Byte. Thanks SO much.  
+**Pixel**: Twenty years married, and Byte still hands people ideas.  
+**Byte**: You married someone who asks questions. It was in the vows.  
 
 #### `reader:s14-toad` · [main](../../../side/S14.md#s14-toad)
 
@@ -119,7 +121,7 @@ _Tilly’s eyes go very wide and very bright._
 > **Lesson** (maths, 4.OA.C.5, ask): a number pattern with a rule: divide by ten each time  
 > **Byte**: Let’s cut each Shell into a hundred tiny bits. So the first tax is 200 bits. The tax on that is a tenth: 20 bits.  
 > **Byte**: The rule is: divide by ten each time. 200, 20, then…?  
-> - ✅ 2 → Yes! A tenth of 20 is 2. Add them up: 200 + 20 + 2 = 222 bits. Two Shells, and then two, and two. And the next tax is a tenth of a bit, and the next a tenth of that. More twos. Forever.
+> - ✅ 2 → Yes! A tenth of 20 is 2. Add them up: 200 + 20 + 2 = 222 bits. Two Shells, and then two, and two. And the next tax is a tenth of a bit, and the next a tenth of that. More twos, forever. That’s called recurring.
 > - 10 → That would be halving. Byte’s rule is a tenth: 20 shared into ten parts is 2. So the next tax is 2 bits.
 > - 0 → It gets very small, but not that fast! A tenth of 20 is 2. After that the taxes are smaller than a bit, but never quite zero.
 > _For grown-ups: Continued a number pattern by applying the rule “divide by ten each time” (200, 20, 2)._
@@ -147,7 +149,7 @@ _That corner is coloured grey. The felt tip was pressed so hard it went through 
 #### `reader:s14-sparks` · [main](../../../side/S14.md#s14-sparks)
 
 _The morning of the last session, Sparks is waiting at your gate, quietly. You didn’t know Sparks had a quiet setting._  
-**Sparks**: The dragon in that corner’s got bigger. She redraws it every night. Last night it got a cardigan.  
+**Sparks**: The dragon in that corner’s got bigger. She colours it in again every night. Last night it got a cardigan.  
 **Sparks**: It’s Hazel. Obviously it’s Hazel.  
 **Sparks**: Hazel went off at the end of the winter. She left Tilly a note, with just “Tilly” on the front. She won’t open it. It’s in her welly.  
 **Sparks**: She won’t say the name. Just “the dragon”.  
@@ -301,6 +303,7 @@ _You keep your button where it is._
 **Tilly**: Session over. Everyone gets snacks. That’s a rule. It was always a rule.  
 _The snacks are crisps, Fern’s slightly burnt biscuits, and a bowl of grapes the Nubbins have already found._  
 _Tilly eats with the dragon in her lap. She doesn’t let go of it once._  
+_Now and then Tilly pats her left welly, to check the note is still there. It is._  
 **Tilly**: The Grey Grandmother isn’t a boss any more. She’s a character. She lives in the game and you can visit her.  
 **Tilly**: And Byte gets all his hit points back. For the tea towel.  
 **Byte**: Thank you. I’d like that in writing. Actually—  

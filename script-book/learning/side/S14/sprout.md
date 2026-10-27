@@ -81,6 +81,8 @@ _Next day there’s a new tower on the map._
 **Tilly**: …Yes! Thanks SO much, Byte.  
 _Byte hands over one more shell. Clink._  
 **Tilly**: That was a very “actually” question. Six!  
+**Pixel**: Twenty years married, and Byte still gives people ideas.  
+**Byte**: You married a man who asks questions. It was in our promises.  
 
 #### `sprout:s14-toad` · [main](../../../side/S14.md#s14-toad)
 
@@ -244,6 +246,7 @@ _You keep your button right where it is._
 **Tilly**: Game over. Snacks for everyone. That was always a rule.  
 _Crisps, Fern’s burnt biscuits, and grapes the Nubbins already found._  
 _Tilly eats with the dragon in her lap._  
+_Now and then, Tilly pats her welly. The note is still there._  
 **Tilly**: The Grey Grandmother isn’t the boss now. You can visit her.  
 **Tilly**: And Byte gets all eight points back. For the tea towel.  
 _She puts her cardboard crown on your head. GAME MISTRESS!_  

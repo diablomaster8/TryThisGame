@@ -423,7 +423,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
             N('After lunch the wagon goes quiet. The mustard waistcoat hangs over the step. Inside, a snore like a slow saw.'),
             N('Jackpot sits on a perch at the open window, ticking. His eyes are brass buttons; one is sewn back on with red thread.'),
             BY('The bells. Touch the wagon and they all go. Come round the stream side. There’s a gap where one fell off.', 'think'),
-            N('Stepping stones lead along the stream. One wobbles. One is a frog.'),
+            N('Stepping stones lead along the stream. One wobbles, one is a frog, and a goat on the far bank is watching the wagon with great interest.'),
           ],
         },
         done: {
@@ -436,8 +436,9 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
             JP('HE SAYS THE POSTER IS A POEM. I CANNOT LIE. A POEM IS NOT A NUMBER.'),
             Y('What happens to the eggs nobody buys?'),
             JP('THEY GO UP THE VALLEY. TO A MAN WHO BUYS IN BULK. HE NEVER HAGGLES. HE NEVER SMILES.'),
-            N('Among the stickers on the tailboard you notice one small, neat silver square: the Circuit’s mark.'),
-            JP('ALSO THE LEGENDARY EGG IS NOT LEGENDARY. I HAVE TRIED NOT TO SAY THAT. IT IS VERY UNCOMFORTABLE.'),
+            N('Among the stickers on the tailboard you notice one small, neat silver square, the kind stamped on crates up the valley.'),
+            JP('ABOUT THE LEGENDARY EGG. I AM NOT SAYING. NOT SAYING IS NOT LYING. I CHECKED. IT IS VERY UNCOMFORTABLE.'),
+            BY('Right. Candling, then.', 'think'),
             N('The snoring stops. You both freeze. It starts again.'),
           ],
         },
@@ -495,10 +496,11 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
               then: [
                 N('You climb on the wagon step and hold up the painted egg. Byte reads the tally aloud, slowly, including the recurring.'),
                 KD('ONE IN TEN?', 'angry'),
-                N('The roof bells ring as children kick the wheels. Dashwood’s smile finally goes, and something small looks out from behind it.'),
+                N('Nobody shouts. The children just go very quiet, and Dashwood’s smile finally goes, and something small looks out from behind it.'),
                 DA('It was a poem. It was only ever a poem.', 'sad'),
                 N('He drives off before dark. He leaves his spare trestle, a crate of eggs and the parrot, who refuses to get on.'),
                 JP('I CANNOT LIE. I DID NOT WANT TO GO.'),
+                N('On his way out, Dashwood presses the painted egg into Pip’s hands. He says nothing, and neither does she.'),
               ],
             },
             {
@@ -512,6 +514,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
                 N('He paints out the 3 on his poster and paints in a 10. Then, after a long look, he adds: STILL WORTH IT.'),
                 PI('I’m keeping one egg. I want to see what comes out. I don’t mind if it’s plain.', 'happy'),
                 N('He leaves the valley the next morning with a lighter crate. The parrot stays, by mutual and very honest agreement.'),
+                N('On his way out, Dashwood presses the painted egg into Pip’s hands. He says nothing, and neither does she.'),
               ],
             },
             {
@@ -524,6 +527,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
                 N('It takes most of an afternoon and most of your Shells. Byte negotiates. Byte enjoys it far too much.'),
                 DA('Paint the stripes once a year. She likes a polish. And never, ever let her near a goat.', 'sad'),
                 N('He walks off down the lane with his hands in his pockets, whistling, lighter than he came.'),
+                N('On his way out, Dashwood presses the painted egg into Pip’s hands. He says nothing, and neither does she.'),
               ],
             },
           ],
@@ -533,6 +537,8 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
           lines: [
             N('Byte nails up a slate and chalks it in big, honest numbers: PLAIN 9 IN 10. SPARKLY 1 IN 10. LEGENDARY: NO.'),
             N('Underneath, smaller: ALL OF THEM ARE WARM.'),
+            N('Under that, smaller still, because Byte can’t help himself: (exact).'),
+            JP('ACCURATE.'),
             PI('Those are worse odds. Why do I like it better?', 'think'),
             BY('Because you know where you are. Knowing where you are is the second-best feeling there is. After winning.', 'happy'),
             N('The children queue anyway. Some buy. Some just come to read the board.'),
@@ -551,7 +557,6 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
         BY('Statistically, that’s the only certain thing he ever sold.', 'soft'),
         N('Jackpot hops onto your shoulder. He ticks. He weighs about as much as a teapot.'),
         JP('I WOULD LIKE TO LIVE WITH YOU. I CANNOT LIE. I HAVE WANTED TO SAY THAT FOR A WHILE.'),
-        N('Dashwood pressed the painted egg into Pip’s hands on his way out.'),
         N('Pip carries the painted egg home in her hat. A week later it hatches, brown as a boot.'),
         N('She loves it beyond all reason.'),
       ],
@@ -599,7 +604,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
       'and costs 150. In every route the stall ends up the player’s: “exposed” → Dashwood’s spare trestle; “refunded” → ' +
       'Byte builds a plain trestle; “bought” → the striped wagon itself is the stall (cosmetic variant). Jackpot stays in ' +
       'every route, and Dashwood leaves the real sparkly egg in every route. Pip ends up with the painted egg in every ' +
-      'route: Dashwood presses it into her hands on his way out, as s15-complete says (it hatches off-screen into an ' +
+      'route: Dashwood presses it into her hands on his way out, shown at the end of every s15-verdict branch (it hatches off-screen into an ' +
       'ordinary brown Nubbin; she is a valley child, not a Keeper). ' +
       'REWARDS at s15-complete. The Odds Board shows true per-egg odds for the stall’s stock (e.g. plain 90%, sparkly 10%).',
   },
@@ -642,6 +647,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
             N('Over the gate a banner says WORK IS PLAY! In the middle of the yard, three Nubbins run inside a big wooden wheel.'),
             N('Wires run from the wheel to every shed. Every bulb in the yard flickers in time with their feet.'),
             BK('Welcome! Brisk Hollins. Pleased as punch. Output’s up nine per cent this month. I’m no Circuit man, mind. Mine get Sundays.', 'happy'),
+            CL('One day off in seven. For a wheel.', 'think'),
             N('A big Power Nubbin trundles past with a log three times his size on his back, humming. His hat says LUG in pencil.'),
             BK('That’s Lug. Best worker I’ve got. Can’t stop him. Tried once. He sulked for a week.', 'happy'),
             N('Behind the log pile, out of the sun, sit five Nubbins whose colours have worn grey at the edges, like a flag left out all summer.'),
@@ -694,6 +700,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
             N('The choppers chop on their breaks too. They like the thunk.'),
             N('One chops the same stump all day, very happily, for no reason.'),
             N('The wheel runners step out the moment Brisk turns his back, and sit under the bench with their eyes shut.'),
+            N('The wheel, it turns out, is wired backwards: the faster they run, the dimmer the sheds. Sparks underlines this twice, for Brisk.'),
             N('The five tired ones never once choose work. They lie in a patch of sun and watch the river go by.'),
             N('And Lug, on his breaks, carries offcuts. Not to the stack. Out to the bank, behind the reeds, one at a time.'),
             N('You follow him. In the reeds stands a little lean-to of planks and bark, roofed with moss.'),
@@ -721,6 +728,7 @@ export const SIDE_STORIES_NEW_1: Quest[] = [
             CL('And every Nubbin gets a card, under the job it picked. And breaks. With fruit.', 'soft'),
             BK('And the ones who don’t want a job at all? What then? What’s a yard for?', 'shock'),
             N('Nobody answers. Brisk puts up another banner. REST IS A KIND OF WORK?? It has two question marks.'),
+            SP('Two. He’s not sure about the second one either.', 'think'),
           ],
         },
         done: {

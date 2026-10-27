@@ -1144,6 +1144,7 @@ export const SIDE_STORIES_NEW_3_VARIANTS: Scene[] = [
       N('The snowfield is crusted on top and soft beneath. Every step goes through with a crunch like biting toast.'),
       MA('Lovely, isn’t it? That wind. Takes your face right off.', 'happy'),
       N('Sable is light enough not to break the crust. She leaves a line of small prints, neat as stitches.'),
+      MA('She’s going left. I said right. I think she’s agreeing with me, in a different direction.', 'think'),
       MA('She’s not stopping. Is she always like this?'),
       Y('Only when it matters.'),
     ],

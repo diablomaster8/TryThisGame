@@ -29,6 +29,8 @@ _There is frost on the grass round her. In summer!_
 _Night. Sable creeps out. She takes one bite._  
 _Then a thin grey Nubbin comes. One ear is torn._  
 _He pushes Sable aside. He pulls the fruit away._  
+_The fruit is bigger than his head._  
+_He drags it anyway. Bump, bump, bump._  
 _He sees your lantern. He presses his cheek on the warm glass._  
 _He is shaking. Shiver, shiver._  
 **Wisp**: Hsss! Hers! Not yours!  
@@ -54,8 +56,9 @@ _Whoosh. He’s gone._
 #### `sprout:s2-missing` · [main](../../../side/S02.md#s2-missing)
 
 _Next day, more things go missing. Warm things._  
-**Fern**: My left glove is gone! The right one is here.  
-_Your sock. A candle. The tea cosy. Gran’s warm egg stone._  
+**Fern**: My left glove is gone! My right hand is warm. My left is cold!  
+_Fern waves her cold left hand. Brrr._  
+_Your sock. A candle. The tea cosy. Gran Hazel’s warm egg stone._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count the missing things on your fingers.)_  
@@ -87,7 +90,7 @@ _It rains all day and all night. Pitter-patter._
 _The stream is big and brown and loud._  
 _Behind the cottage is a soggy nest._  
 _Fern’s glove. The sock. The tea cosy. All wet._  
-_Wisp sits on a log, shaking. He holds Gran’s egg stone._  
+_Wisp sits on a log, shaking. He holds Gran Hazel’s egg stone._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): shivering helps a cold body warm up  
 > **Clover**: Bodies shake when they’re cold. Shivering helps them warm up.  
@@ -106,11 +109,13 @@ _Wisp sits on a log, shaking. He holds Gran’s egg stone._
     - **Wisp**: Hsss. Hands!
     - **Clover**: He’s scared of hands. But look. He’s warm now.
     - He is warm. But he is still shaking.
+    - Clover gives him a pear. Munch, munch, gulp.
 - **Get a blanket. Let Clover lift him.**
     - Clover wraps him up like a loaf of bread.
     - He bites her, right through the blanket. Ouch!
     - **Clover**: Ow. That’s fair. He’s scared.
     - He is warm now. But he is still shaking.
+    - Clover gives him a pear. Munch, munch, gulp.
 
 #### `sprout:s2-number` · [main](../../../side/S02.md#s2-number)
 
@@ -135,10 +140,10 @@ _Night in Luna’s garden. The moonflowers are open._
 _Wisp sits close to Sable. He whispers to her._  
 **Wisp**: hands are scary. come away. come to the dark.  
 _Sable looks at Wisp. Then at your window._  
-**Luna**: Wisp wants Sable to leave the Grove. I want Sable safe.  
+**Luna**: Wisp wants Sable to leave the Grove.  
 _Clover comes in her dressing gown, with fruit._  
 **Clover**: Wisp is cold and scared. Kind people feed scared Nubbins.  
-**Luna**: I care about Sable. Somebody has to.  
+**Luna**: I care about Sable. I want Sable safe.  
 **Clover**: And Wisp has nobody at all.  
 
 > **Lesson** (sel, CASEL: Relationship skills, notice): friends can disagree and both be kind  
@@ -176,7 +181,8 @@ _Two grey Nubbins slept there. Wisp has the egg stone._
 
 **Moss**: He’ll never give that stone back.  
 **Moss**: Feed them before you feed yourself. Hazel’s first rule.  
-**Moss**: She never said “only the good ones”. I checked.  
+**Moss**: Hazel never said, feed only the nice ones.  
+**Moss**: I asked her. Twice.  
 **Moss**: Grey ones remember who fed them.  
 
 #### `sprout:s2-complete-sable` · [main](../../../side/S02.md#s2-complete-sable)
@@ -215,6 +221,7 @@ _Then she comes back. She eats all her fruit._
 **Luna**: She’s eating. That’s good. I still feel sad.  
 **Clover**: I was cross yesterday. I’m not cross now.  
 **Clover**: I hung a blanket on the hedge. Just in case Wisp is cold.  
-**Moss**: Sensible things are not always warm things.  
+**Moss**: It was a good idea. It still feels sad.  
+**Moss**: Both can be true.  
 
 **Notes:** Sprout leaves out “drive him off” in s2-night (defaultChoice spared). The s2-complete-driven variant is still written, gently, in case a save carries wisp = driven.

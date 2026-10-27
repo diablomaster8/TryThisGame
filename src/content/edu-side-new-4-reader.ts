@@ -41,6 +41,7 @@ const TI = say('tilly');
 const GO = say('gordon');
 const WR = say('wren');
 const CK = say('clank');
+const GB = say('granny-brock');
 
 // ---------------------------------------------------------------- builders
 type LessonIn = Omit<Lesson, 'id'>;
@@ -233,6 +234,8 @@ const S14_SCENES: EduScene[] = [
       BY('And is there a tax on paying the tax?', 'think'),
       N('Tilly’s eyes go very wide and very bright.'),
       TI('…Yes. Thanks, Byte. Thanks SO much.', 'happy'),
+      PX('Twenty years married, and Byte still hands people ideas.'),
+      BY('You married someone who asks questions. It was in the vows.', 'think'),
     ],
     [
       {
@@ -309,7 +312,7 @@ const S14_SCENES: EduScene[] = [
             best: true,
             reply: [
               N('Yes! A tenth of 20 is 2. Add them up: 200 + 20 + 2 = 222 bits. Two Shells, and then two, and two.'),
-              BY('And the next tax is a tenth of a bit, and the next a tenth of that. More twos. Forever.'),
+              BY('And the next tax is a tenth of a bit, and the next a tenth of that. More twos, forever. That’s called recurring.'),
             ],
           },
           { label: '10', reply: [N('That would be halving. Byte’s rule is a tenth: 20 shared into ten parts is 2. So the next tax is 2 bits.')] },
@@ -348,7 +351,7 @@ const S14_SCENES: EduScene[] = [
     's14-sparks',
     [
       N('The morning of the last session, Sparks is waiting at your gate, quietly. You didn’t know Sparks had a quiet setting.'),
-      SP('The dragon in that corner’s got bigger. She redraws it every night. Last night it got a cardigan.', 'sad'),
+      SP('The dragon in that corner’s got bigger. She colours it in again every night. Last night it got a cardigan.', 'sad'),
       SP('It’s Hazel. Obviously it’s Hazel.'),
       SP('Hazel went off at the end of the winter. She left Tilly a note, with just “Tilly” on the front. She won’t open it. It’s in her welly.'),
       SP('She won’t say the name. Just “the dragon”.'),
@@ -621,6 +624,7 @@ const S14_COMPLETE: EduScene = scene(
     TI('Session over. Everyone gets snacks. That’s a rule. It was always a rule.', 'soft'),
     N('The snacks are crisps, Fern’s slightly burnt biscuits, and a bowl of grapes the Nubbins have already found.'),
     N('Tilly eats with the dragon in her lap. She doesn’t let go of it once.'),
+    N('Now and then Tilly pats her left welly, to check the note is still there. It is.'),
     TI('The Grey Grandmother isn’t a boss any more. She’s a character. She lives in the game and you can visit her.'),
     TI('And Byte gets all his hit points back. For the tea towel.'),
     BY('Thank you. I’d like that in writing. Actually—', 'happy'),
@@ -637,7 +641,7 @@ const S14_COMPLETE: EduScene = scene(
       domain: 'literacy',
       skill: 'spelling “allowed”, and the homophone “aloud”',
       kind: 'ask',
-      after: 10,
+      after: 11,
       prompt: [N('Tilly wrote ALOWED. Which spelling means “it’s OK, she’s let in”?')],
       options: [
         {
@@ -657,7 +661,7 @@ const S14_COMPLETE: EduScene = scene(
       domain: 'art',
       skill: 'making your own story place on a map',
       kind: 'do',
-      after: 12,
+      after: 13,
       lines: [
         N('Tilly turned a sad corner into a story place. Make one of your own.'),
         N('Draw a corner of a map. Label it “HERE BE…” and finish it with someone or something you love or miss.'),
@@ -912,6 +916,7 @@ const S20_SCENES: EduScene[] = [
     's20-intel',
     [
       N('Zip comes back with snow on his eyebrows and something urgent to say, which he says by running round you nine times.'),
+      WR('Nine. Same as me. Nobody’s counting Zip’s.', 'think'),
       N('You read it in his tracks. Their wall is magnificent. Behind it, there is almost nobody.'),
       N('Three of their children have gone home: one lost a mitten, one lost a boot, and one just wanted his tea.'),
       N('Zip’s tracks say ten were here this morning. Of the seven left, four are busy patting the wall.'),
@@ -925,7 +930,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'a two-step take-away problem',
         standard: '3.OA.D.8',
         kind: 'ask',
-        after: 3,
+        after: 4,
         prompt: [
           N('Zip’s tracks say: their fort started with 10 children. 3 went home. 4 more are busy patting the wall.'),
           N('How many are left to defend it?'),
@@ -946,7 +951,7 @@ const S20_SCENES: EduScene[] = [
         skill: 'fair play: using a chance or waiting (think question)',
         standard: 'D2.Civ.8.K-2',
         kind: 'ask',
-        after: 6,
+        after: 7,
         prompt: [N('Their fort is thin right now. Is it fair to attack while three of them are missing?')],
         options: [
           {
@@ -1147,6 +1152,10 @@ const S20_SCENES: EduScene[] = [
       WR('Commander? Which fort won?'),
       N('The blizzard blows all afternoon. Pixel teaches the shelter a song with forty-one verses, one for each page of the rules.'),
       N('At last the wind drops, as suddenly as it came. Somebody pokes a hole in the roof. It is night.'),
+      N('Through the hole comes a ladle, then a flask, then an upside-down face: Granny Brock, from the cottage by the Common.'),
+      GB('Soup. Somebody hit my bell this morning.'),
+      GO('That was me.', 'happy'),
+      GB('I know. Eat.'),
     ],
     [
       {
@@ -1413,7 +1422,8 @@ const S21_SCENES: EduScene[] = [
       FE('He watered Mustard. He watered my cat. In fairness, Mustard was in the beans. And he is a bit bean-coloured.', 'think'),
       CK('Cats are plants that run! I looked it up! In my head!'),
       N('Behind her, Fern’s one good apple tree has been pruned. Carefully. Thoroughly. Into the shape of a duck.'),
-      FE('That’s the wrong tree. The ones I’m keeping alive, badly, have never looked better. That one was my good one.', 'sad'),
+      FE('That was my good tree. The three I’m keeping alive, badly, Clank never touched. He has a gift.', 'sad'),
+      CK('Announcement: it is a DUCK!', 'happy'),
       N('Then you notice the western hill. The small old shape that is always on top of it isn’t there.'),
       CK('Also! I rescued a little old one! He was stranded up the hill! For HOURS! He wasn’t even MOVING!', 'happy'),
       N('Speeding round the pond at what can only be called full kettle is Clank.'),
@@ -1446,7 +1456,7 @@ const S21_SCENES: EduScene[] = [
         skill: 'helping by asking first',
         standard: 'CASEL: Social awareness',
         kind: 'notice',
-        after: 6,
+        after: 7,
         lines: [
           N('Clank really wanted to help. But helping works best when you ask first: “Would you like me to…?”'),
           N('Then you help with what the person actually needs. Fern needed the beans watered. Not the cat.'),
@@ -1461,8 +1471,8 @@ const S21_SCENES: EduScene[] = [
       N('You catch up with Clank at the cottage. So does the step.'),
       N('Clank goes over the edge. The little grey one leaves his hands, turns once in the air, and lands on his feet, as if he’d planned the morning.'),
       CK('Announcement… I have found the step again.', 'sad'),
-      N('The little grey one looks at you for a long time. It’s the look of something very old that has been carried round a pond like a pie.'),
-      N('Then he turns and walks back up the hill, very dignified. It takes him the rest of the morning. He doesn’t look back once.'),
+      N('The little grey one looks at you for a long time. It’s the look of someone very old who has been carried round a pond like a pie.'),
+      N('Then the little grey one walks back up the hill, very dignified, while Clank watches. It takes all morning, and the little grey one doesn’t look back once.'),
       PX('That’s two.'),
     ],
     [
@@ -1507,7 +1517,10 @@ const S21_SCENES: EduScene[] = [
       BY('Two falls down the step. Fourteen announcements of best friendship. One of them to a bucket.'),
       BY('He’s a kettle on a wheel who wants to help. That is exactly how accidents introduce themselves.', 'think'),
       BY('Next time it’s a Nubbin he waters. Or drops. Pixel should switch Clank off. Tonight. Before he hurts someone.'),
-      PX('Twenty years married, and you still want everything switched off at night.'),
+      PX('Pixel is standing right here, Byte.'),
+      BY('Noted. You’re in the log too. Line six. “Wife: encouraging Clank.”', 'think'),
+      PX('I was encouraging Clank to stay off the step.'),
+      BY('Line seven. “Unsuccessfully.”'),
       N('Behind you, a small whistle starts to rise, and stops halfway.'),
       N('Clank is at the top of the cottage step. He has heard all of it. His chimney-light has gone very dim.'),
       N('He reverses. He goes off the step backwards, lands in the thyme, and doesn’t announce anything at all.'),
@@ -1533,7 +1546,7 @@ const S21_SCENES: EduScene[] = [
         domain: 'science',
         skill: 'what makes something alive; can a robot be a friend (think question)',
         kind: 'ask',
-        after: 11,
+        after: 14,
         prompt: [N('Byte didn’t know Clank could mind. What do you think? Is Clank alive? Can a robot be a real friend?')],
         options: [
           {

@@ -25,6 +25,16 @@
  *   s12-solo     (hum | alone | gaps)       s12-complete, the hive's dusk tune
  *   s10-racer    (fast | slow)              s10-cheer, how your runner finishes
  *   s13-rats     (fed | crept)              s13-sluice, Tobin on the rats' cheese rind
+ *   s16-tired    (grove | morale | wild)    s16-week, the five a week on; s10-step, Hazel's first evening
+ *   s17-approach (wait | sneak)             s17-hatching, how soon Nightjar makes room
+ *   s18-entry    (free | shells)            s18-complete, the door on opening day
+ *   s19-with     (moss)                     s19-sit, Moss waiting beside you
+ *   s20-cry      (fort | mittens | gordon)  s20-counters, your battle cry in round three
+ *   s20-merge    (gate | carried)           s20-count, Tilly on how the forts became one
+ *   s20-round2   (waited | pressed)         s24-badges, a badge Tilly earned (if s14Done)
+ *   s14-lair     (rolled | asked)           s24-stowaway-knows, Tilly's greeting (replaces "sat")
+ *   s21-lesson   (step | sit)               s27-carry-clank, Clank at the foot of the ladder
+ *   s21-byte     (fair | unfair)            s28-logged (and -unverified, -none), Byte's columns
  */
 import type { Line } from '../config/story';
 import type { CampaignState } from './types';
@@ -40,6 +50,8 @@ interface BandText {
 export interface PayoffSwaps {
   insertAfter(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
   insertBefore(anchor: string | BandText, text: BandText, who?: string, mood?: Line['mood']): void;
+  /** Replace the text of the line starting with this band's anchor (speaker and mood stay). */
+  swapText(anchor: BandText, text: BandText): void;
 }
 
 type Payoff = (c: CampaignState, s: PayoffSwaps) => void;
@@ -128,8 +140,9 @@ const S3_SHOWN: Record<string, BandText> = {
 
 const S4_SWIM: Record<string, BandText> = {
   with: {
-    main: 'You waded in after your Nubbins once, in spring, and came out blue. Wear the socks.',
-    sprout: 'You jumped in the cold water once. Wear warm socks!',
+    // SR-20261026-1169: no socks here; Marina's two-pairs gag comes three lines later.
+    main: 'You waded in after your Nubbins once, in spring, and came out blue. I’ve been waiting to bring that up.',
+    sprout: 'You jumped in the cold water once. You went blue!',
   },
   trust: {
     main: 'You stayed on the bank once and let your Nubbin swim. Up there you trust the rope the same way.',
@@ -328,6 +341,184 @@ const S13_RATS: Record<string, BandText> = {
     main: 'One of them’s still on your boot. It’s decided it’s guarding you now.',
     sprout: 'One rat is still on your boot! Now it guards you.',
   },
+};
+
+/** SR-20261026-1141: what became of S16's five tired Nubbins, a week on in the Workyard. */
+const S16_WEEK: Record<string, { text: BandText; who: string; mood?: Line['mood'] }> = {
+  grove: {
+    who: 'brisk',
+    mood: 'happy',
+    text: {
+      main: 'Lug walks down to your pond every evening to check on the five. Carries nothing. Comes back humming.',
+      sprout: 'Lug visits your pond every evening. He comes back humming.',
+      reader:
+        'Lug walks down to your pond every evening to see the five. He carries nothing. He comes back humming.',
+    },
+  },
+  morale: {
+    who: 'narrator',
+    text: {
+      main: 'The five lie in the hammock under a sign, MORALE OFFICERS, stacked like small lords. Morale is noticeably up.',
+      sprout: 'The five snooze in the hammock. Its label says: MORALE OFFICERS.',
+      reader:
+        'The five lie in the hammock under a sign: MORALE OFFICERS. They are stacked like small lords. Everyone is cheerful.',
+    },
+  },
+  wild: {
+    who: 'narrator',
+    text: {
+      main: 'Far up the river, five small shapes sit in the reeds in the sun. Brisk lifts a hand; one lifts a paw back, and he pretends it was the wind.',
+      sprout: 'Far up the river, five wild Nubbins sit in the sun. One waves!',
+      reader:
+        'Far up the river, five small shapes sit in the reeds in the sun. Brisk waves. One waves back, and he pretends it was the wind.',
+    },
+  },
+};
+
+/** SR-20261026-1141: the same five, as Hazel sees them on her first evening home. */
+const S16_HAZEL: Record<string, BandText> = {
+  grove: {
+    main: 'Five strays asleep by my pond, doing nothing at all, and doing it beautifully. You’ve kept them well.',
+    sprout: 'Five sleepy Nubbins by my pond. Good.',
+  },
+  morale: {
+    main: 'Coming down the river path I saw Brisk Hollins’s new sign. MORALE OFFICERS. Somebody taught that man sense. I suspect you.',
+    sprout: 'Brisk has a new sign. It says MORALE OFFICERS. I laughed.',
+  },
+  wild: {
+    main: 'Coming down the valley I passed five wild Nubbins in the reeds, belonging to nobody. They looked very pleased about it.',
+    sprout: 'I saw five wild Nubbins by the river. They looked happy.',
+  },
+};
+
+/**
+ * SR-20261026-1164: Nightjar remembers how you came up the cliff. It goes before the line
+ * where she shifts off the egg, so she makes room for you first and for the egg after.
+ */
+const S17_APPROACH: Record<string, BandText> = {
+  wait: {
+    main: 'Nightjar makes room for you on the ledge before you have even sat down. Owls remember faces, and yours waited.',
+    sprout: 'Nightjar makes room for you at once. She remembers you waited.',
+  },
+  sneak: {
+    main: 'Nightjar makes you wait a long time before she makes room. Owls remember faces, and yours tried to sneak up while she was out.',
+    sprout: 'Nightjar makes you wait a long time. She remembers you sneaking.',
+  },
+};
+
+/** SR-20261026-1189: the museum door, free or two Shells, on opening day. */
+const S18_ENTRY: Record<string, BandText> = {
+  free: {
+    main: 'By the door, Delve’s jar sits beside the guest book. Nobody has been seen putting anything in. Somehow it is half full.',
+    sprout: 'Delve’s jar sits by the door. Nobody puts anything in. It’s half full!',
+  },
+  shells: {
+    main: 'Children shorter than the door handle wave their free tickets like flags. Delve measures each one anyway.',
+    sprout: 'Small children get in free. Delve measures every one anyway.',
+  },
+};
+
+/** SR-20261026-1153: your fort's battle cry, back for round three (Gordon answers his). */
+const S20_CRY: Record<string, BandText> = {
+  fort: {
+    main: 'Then, all together: “FOR THE FORT!” Pixel nods: still classic.',
+    sprout: 'Then, all together: “FOR THE FORT!” Pixel nods.',
+  },
+  mittens: {
+    main: 'Then, all together: “FOR WREN’S NAN’S GOOD MITTENS!” Wren holds up both thumbs.',
+    sprout: 'Then, all together: “FOR WREN’S NAN’S MITTENS!” Wren holds up her thumbs.',
+  },
+  gordon: { main: 'Then, all together: “REMEMBER GORDON!”' },
+};
+
+/** SR-20261026-1154: how the forts became one shelter, in Tilly's (or Bodge's) words. */
+const S20_MERGE: Record<string, BandText> = {
+  gate: {
+    main: 'You kicked in your own wall. For us. I’m putting that in the rules.',
+    sprout: 'You kicked your own wall down. For us. That’s going in the rules.',
+  },
+  carried: {
+    main: 'You carried a whole wall across a war. In mittens. That’s showing off.',
+    sprout: 'You carried a whole wall here. In mittens. That’s showing off.',
+  },
+};
+
+/** SR-20261026-1152: S20's round two, as one of Tilly's home-made badges. */
+const S20_ROUND2: Record<string, { text: BandText; mood: Line['mood'] }> = {
+  waited: {
+    mood: 'happy',
+    text: {
+      main: 'And Honour. It’s worth one point. Pixel wrote it on page forty-two, so it counts.',
+      sprout: 'I nearly got Honour, at the snow fort. Pixel gave me one point.',
+    },
+  },
+  pressed: {
+    mood: 'think',
+    text: {
+      main: 'And Sore Loser. I made that one myself, after the snow fort. I’ve stopped wearing it. Mostly.',
+      sprout: 'I made a Sore Loser badge at the snow fort. I don’t wear it.',
+    },
+  },
+};
+
+/** SR-20261026-1151: how the Lair ended, in Tilly's greeting ("sat" keeps the written line). */
+const S14_LAIR: Record<string, BandText> = {
+  rolled: {
+    main: 'It’s you. From Keeps & Critters. You rolled the torn die. It still isn’t a number.',
+    sprout: 'It’s you! You rolled my torn die! It’s still not a number.',
+  },
+  asked: {
+    main: 'It’s you. From Keeps & Critters. You asked what the dragon wanted. I worked it out. Me.',
+    sprout: 'It’s you! You asked what my dragon wanted. I know now. Me.',
+  },
+};
+
+/** SR-20261026-1144: the shed lesson, as Clank holds Spindle's ladder. */
+const S21_LESSON: Record<string, BandText> = {
+  step: {
+    main: 'Announcement: you said everybody needs a hand with a step. A ladder is a lot of steps. I am the hand.',
+    sprout: 'You said everyone needs help with steps. I’ll be the help!',
+    reader:
+      'Announcement: you said everybody needs help with a step. A ladder is a lot of steps. I am the help.',
+  },
+  sit: {
+    main: 'Announcement: you said just being here is the whole thing. I have checked. It still is. Also, I am holding a ladder.',
+    sprout: 'You said just being here is enough. So I’m here. Holding a ladder!',
+    reader:
+      'Announcement: you said just being here was the whole thing. I checked. It still is. Also, I am holding a ladder.',
+  },
+};
+
+/** SR-20261026-1150: your verdict on Byte in S21, kept as a column in his log. */
+const S21_BYTE: Record<string, BandText> = {
+  fair: {
+    main: 'You told me once I had a point about Clank. I keep a column for points now. It’s short. That’s the idea.',
+    sprout: 'You said I was right about Clank. I keep a list of those.',
+    reader:
+      'You told me once that I had a point about Clank. Now I keep a column for points. It is short, on purpose.',
+  },
+  unfair: {
+    main: 'You told me once I wasn’t fair to Clank. I added a column. It says: days old, factor in.',
+    sprout: 'You said I wasn’t fair to Clank. Now I ask how old things are.',
+    reader:
+      'You told me once that I was not fair to Clank. So I added a column. It says: how many days old? Count that in.',
+  },
+};
+
+/** S28's three log scenes open on the same line; Byte's column goes straight after it. */
+const byteLog: Payoff = (c, s) => {
+  const t = by(c.flags['s21-byte'], S21_BYTE);
+  if (t)
+    s.insertAfter(
+      {
+        main: 'That night Byte writes it up.',
+        reader: 'That night Byte writes it up.',
+        sprout: 'That night, Byte writes in his notebook.',
+      },
+      t,
+      'byte',
+      'think',
+    );
 };
 
 export const CHOICE_PAYOFFS: Record<string, Payoff> = {
@@ -534,4 +725,144 @@ export const CHOICE_PAYOFFS: Record<string, Payoff> = {
     if (t)
       s.insertAfter('And the tide comes back whether you’re ready or not.', t, 'marina', 'soft');
   },
+  's16-week': (c, s) => {
+    // The reader band folds the first two lines into one, so every band names its anchor.
+    const t = by(c.flags['s16-tired'], S16_WEEK);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'The saws stop for fruit at eleven and at three.',
+          reader: 'A week later the Workyard is louder, and slower. The saws stop',
+          sprout: 'Someone has hung up a hammock!',
+        },
+        t.text,
+        t.who,
+        t.mood,
+      );
+  },
+  's10-step': (c, s) => {
+    const t = by(c.flags['s16-tired'], S16_HAZEL);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Sit. Not there. There. I like to see the pond.',
+          reader: 'Sit. Not there. There. I like to see the pond.',
+          sprout: 'Sit. There. I like to see the pond.',
+        },
+        t,
+        'hazel',
+        'happy',
+      );
+  },
+  's17-hatching': (c, s) => {
+    const t = by(c.flags['s17-approach'], S17_APPROACH);
+    if (t)
+      s.insertBefore(
+        {
+          main: 'The wind has dropped.',
+          reader: 'The wind has dropped.',
+          sprout: 'The egg is rocking.',
+        },
+        t,
+      );
+  },
+  's18-complete': (c, s) => {
+    const t = by(c.flags['s18-entry'], S18_ENTRY);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Children press their noses to the trilobite.',
+          reader: 'Children press their noses to the trilobite.',
+          sprout: 'Children press their noses on the trilobite',
+        },
+        t,
+      );
+  },
+  's19-sit': (c, s) => {
+    // SR-20261026-1190: s19-sit plays on every route; Moss is only there on his.
+    if (c.flags['s19-with'] === 'moss')
+      s.insertAfter(
+        {
+          main: 'You wait. Your feet go cold, then numb',
+          reader: 'Your feet go cold.',
+          sprout: 'You wait. Your feet get cold.',
+        },
+        {
+          main: 'Beside you, Moss does what he does when he is very still, which is look like a stone with opinions.',
+          sprout: 'Beside you, Moss sits still as a stone. A stone with opinions.',
+        },
+      );
+  },
+  's20-counters': (c, s) => {
+    const cry = c.flags['s20-cry'];
+    const t = by(cry, S20_CRY);
+    if (!t) return;
+    const anchor = {
+      main: 'Your fort answers with its battle cries.',
+      reader: 'Your fort answers with its battle cries.',
+      sprout: 'Your fort shouts back:',
+    };
+    // Each insert goes straight after the anchor, so Gordon's answer goes in first.
+    if (cry === 'gordon') s.insertAfter(anchor, { main: 'Still here.' }, 'gordon');
+    s.insertAfter(anchor, t);
+  },
+  's20-count': (c, s) => {
+    // Without S14 the other commander is Bodge, who plays Tilly's lines; these fit both.
+    const t = by(c.flags['s20-merge'], S20_MERGE);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'That’s my wall, in our roof.',
+          reader: 'That’s my wall, in our roof.',
+          sprout: 'That bit of the roof is mine.',
+        },
+        t,
+        'tilly',
+      );
+  },
+  's24-badges': (c, s) => {
+    // Tilly was the other commander at the snow fort only if S14 came first; else Bodge.
+    if (!c.flags.s14Done) return;
+    const t = by(c.flags['s20-round2'], S20_ROUND2);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'I need a badge. I’ve got Knots (Mostly)',
+          reader: 'I need a badge. I’ve got Knots (Mostly)',
+          // The sprout lesson counts four badges, so this goes after the list, not in it.
+          sprout: 'Knots. Brave at the Dentist.',
+        },
+        t.text,
+        'tilly',
+        t.mood,
+      );
+  },
+  's24-stowaway-knows': (c, s) => {
+    const t = by(c.flags['s14-lair'], S14_LAIR);
+    if (t)
+      s.swapText(
+        {
+          main: 'It’s you. From Keeps & Critters. You sat next to the dragon.',
+          sprout: 'It’s you! You played my dragon game!',
+        },
+        t,
+      );
+  },
+  's27-carry-clank': (c, s) => {
+    const t = by(c.flags['s21-lesson'], S21_LESSON);
+    if (t)
+      s.insertAfter(
+        {
+          main: 'Announcement! I cannot climb!',
+          reader: 'Announcement! I cannot climb!',
+          sprout: 'I can’t climb! I have one wheel!',
+        },
+        t,
+        'clank',
+        'happy',
+      );
+  },
+  's28-logged': byteLog,
+  's28-logged-unverified': byteLog,
+  's28-logged-none': byteLog,
 };

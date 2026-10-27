@@ -782,7 +782,7 @@ const S1_GLOSSARY: GlossaryEntry[] = [
 ];
 
 // ================================================================== S2 Wisp
-const S2_MOSS_RULE = M('Feed them before you feed yourself. She never said only the good ones. I checked. I was there.', 'soft');
+const S2_MOSS_RULE = M('Hazel’s first rule: feed them before you feed yourself. She never said “only the good ones”. I checked. I was there.', 'soft');
 
 const S2_SCENES: EduScene[] = [
   {
@@ -797,7 +797,7 @@ const S2_SCENES: EduScene[] = [
       LU('I saw her eat one piece last night. Then something else came out of the dark and took the rest.'),
       LU('Not shared. Took.'),
       Y('Another Nubbin?'),
-      LU('A grey one. Thinner than her. He moves like he’s always expecting a boot.', 'sad'),
+      LU('A grey one. Thinner than her. He flinches at every sound, as if somebody might kick him.', 'sad'),
       LU('Sit up tonight. Leave the fruit where you always do, and keep still. Still as a post.'),
       LU('He wants something here. I’d like to know what, before he takes it.'),
     ],
@@ -922,6 +922,7 @@ const S2_SCENES: EduScene[] = [
       CL('He was taught too. Somebody taught him.', 'soft'),
       LU('…I know. It doesn’t make him any quieter.', 'sad'),
       N('In the fork of the fruit tree, Wisp licks his torn ear and watches you, like something that has been right before.'),
+      N('Below him, Sable licks her own ear, then checks it for a tear. There isn’t one, and she looks quite put out.'),
     ],
     lessons: [
       {
@@ -1037,39 +1038,6 @@ const S2_SCENES: EduScene[] = [
         ],
         parentNote: 'Learned that wet materials lose their insulation because water carries heat away faster than air.',
       },
-      {
-        id: 'reader:s2-rain-l2',
-        domain: 'sel',
-        skill: 'seeing a moment from someone else’s side',
-        standard: 'CASEL: Social awareness',
-        kind: 'ask',
-        after: 9,
-        prompt: [N('Sable has seen hands pick up a Nubbin before, and it didn’t end well. How might she feel, watching now?')],
-        options: [
-          {
-            label: 'Scared, because last time hands meant something bad.',
-            best: true,
-            reply: [
-              LU('That’s what I think too. So whatever you do, do it gently. She’s learning what hands are for.', 'soft'),
-            ],
-          },
-          {
-            label: 'Happy that someone is helping.',
-            reply: [
-              LU('Maybe, a little, underneath. I hope so.', 'soft'),
-              LU('But last time she saw hands lift a Nubbin, it went badly. She’s probably scared. So be gentle where she can see.'),
-            ],
-          },
-          {
-            label: 'She doesn’t care.',
-            reply: [
-              LU('She’s watching very hard for someone who doesn’t care.', 'soft'),
-              LU('I think she’s scared. Last time hands lifted a Nubbin, it went badly. Be gentle where she can see.'),
-            ],
-          },
-        ],
-        parentNote: 'Imagined how a character might feel based on what has happened to her before.',
-      },
     ],
     choices: [
       {
@@ -1082,8 +1050,10 @@ const S2_SCENES: EduScene[] = [
           N('In the steam of the bathhouse his fur lifts and his eyes go sharp. He looks at your hands, and bites one, hard.'),
           W('Hsss. Hands. Hands, hands.', 'angry'),
           N('He scrambles to the warmest corner with the stone, and glares until his tail stops dripping.'),
+          N('He tucks the stone under his chin, like a very small and very cross violinist.'),
           CL('He’s warm now. Look at him. Warm right through.', 'soft'),
           N('He is. And he is still shaking.'),
+          N('Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.'),
         ],
       },
       {
@@ -1097,6 +1067,7 @@ const S2_SCENES: EduScene[] = [
           CL('Ow. Yes. All right. That’s fair.', 'sad'),
           N('He scrambles to the warmest corner with the stone. He is warm now, right through.'),
           N('And he is still shaking.'),
+          N('Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.'),
         ],
       },
     ],
@@ -1161,6 +1132,39 @@ const S2_SCENES: EduScene[] = [
         ],
         parentNote: 'Noticed how small details in a story can be clues to something bigger.',
       },
+      {
+        id: 'reader:s2-number-l3',
+        domain: 'sel',
+        skill: 'seeing a moment from someone else’s side',
+        standard: 'CASEL: Social awareness',
+        kind: 'ask',
+        after: 6,
+        prompt: [N('Sable watched you carry Wisp. Now she sniffs your hands. How might she feel about hands today?')],
+        options: [
+          {
+            label: 'Nervous, because hands once meant something bad.',
+            best: true,
+            reply: [
+              LU('That’s what I think too. She sniffed carefully, and she didn’t run. She’s learning what hands are for.', 'soft'),
+            ],
+          },
+          {
+            label: 'Happy that someone is helping.',
+            reply: [
+              LU('Maybe, a little, underneath. I hope so.', 'soft'),
+              LU('But hands hurt a Nubbin once, and she saw. She’s probably still nervous. So keep being gentle.'),
+            ],
+          },
+          {
+            label: 'She doesn’t care.',
+            reply: [
+              LU('She sniffed very carefully for someone who doesn’t care.', 'soft'),
+              LU('I think she’s nervous. Hands have hurt before. Keep being gentle where she can see.'),
+            ],
+          },
+        ],
+        parentNote: 'Imagined how a character might feel based on what has happened to her before.',
+      },
     ],
   },
   {
@@ -1175,11 +1179,11 @@ const S2_SCENES: EduScene[] = [
       W('come back to the dark. no hands there. the dark never threw anyone.', 'soft'),
       N('Sable doesn’t answer. She looks at Wisp, then at your window. She moves towards neither.'),
       LU('Moss says the cold leaves them half a voice. And he’s spending all of it talking her out of the Grove.', 'angry'),
-      N('Clover has crept up behind you in a dressing gown, holding a bag of fruit as if it might go off.'),
+      N('Clover has crept up behind you in a dressing gown, hugging a bag of fruit like a secret.'),
       CL('You don’t feed him because he’s earned it. You feed him because you’re you.', 'soft'),
       LU('He bit the hand that carried him, Clover.', 'angry'),
       CL('He was cold. I’d have bitten too.', 'soft'),
-      LU('She leaned on a shin this week. A shin. Do you know how far that is, for her?', 'think'),
+      LU('Sable leaned on a shin this week. A shin! Do you know how far that is, for her?', 'think'),
       LU('One more month of that voice in her ear and she’ll be back under a hedge. She won’t come out twice.'),
       LU('I’m not choosing against him. I’m choosing her. Somebody has to.', 'sad'),
       CL('And where does he go? Back to the dark. On his own. Talking to nobody.', 'sad'),
@@ -1217,18 +1221,18 @@ const S2_SCENES: EduScene[] = [
           },
           {
             label: 'No. Sable has to come first.',
-            reply: [LU('That’s a fair answer. Somebody has to put her first. It doesn’t mean you don’t care about him.', 'soft')],
+            reply: [LU('Somebody has to put Sable first. That doesn’t mean you don’t care about Wisp.', 'soft')],
           },
           {
             label: 'Let Sable choose. It’s her life too.',
             reply: [
-              LU('That’s a fair answer, and a brave one.', 'think'),
-              CL('I’d only wonder: is that a big choice to hand someone so small? It’s still a fair answer.', 'soft'),
+              LU('A brave answer.', 'think'),
+              CL('I’d only wonder: is that a big choice to hand someone so small?', 'soft'),
             ],
           },
           {
             label: 'I don’t know. They’re both right.',
-            reply: [N('That’s a fair answer. Sometimes two people are both right, and you still have to choose. That’s what makes it hard.')],
+            reply: [N('Both can be right. That’s what makes it hard.')],
           },
         ],
         parentNote: 'Thought about mercy and a hard choice between two good reasons; there was no wrong answer.',
@@ -1332,8 +1336,8 @@ const S2_SCENES: EduScene[] = [
         kind: 'notice',
         after: 5,
         lines: [
-          N('A theme is the big idea a story keeps coming back to.'),
-          N('This story keeps asking one question: who deserves kindness? Moss’s answer is in Hazel’s rule.'),
+          M('Every story keeps asking one thing. This one asks who deserves kindness. That’s called its theme.', 'soft'),
+          N('Moss’s answer is in Hazel’s rule.'),
         ],
         parentNote: 'Identified the theme of a story: who deserves kindness, and mercy.',
       },

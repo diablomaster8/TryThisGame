@@ -409,6 +409,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
                 N('He scrambles to the warmest corner with the stone, and glares until his tail stops dripping.'),
                 CL('He’s warm now. Look at him. Warm right through.', 'soft'),
                 N('He is. And he is still shaking.'),
+            N('Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.'),
               ],
             },
             {
@@ -422,6 +423,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
                 CL('Ow. Yes. All right. That’s fair.', 'sad'),
                 N('He scrambles to the warmest corner with the stone. He is warm now, right through.'),
                 N('And he is still shaking.'),
+            N('Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.'),
               ],
             },
           ],

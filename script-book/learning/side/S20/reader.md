@@ -114,6 +114,7 @@ _Zip vibrates in your mittens like a sneeze that hasn’t happened yet._
 #### `reader:s20-intel` · [main](../../../side/S20.md#s20-intel)
 
 _Zip comes back with snow on his eyebrows and something urgent to say, which he says by running round you nine times._  
+**Wren**: Nine. Same as me. Nobody’s counting Zip’s.  
 _You read it in his tracks. Their wall is magnificent. Behind it, there is almost nobody._  
 _Three of their children have gone home: one lost a mitten, one lost a boot, and one just wanted his tea._  
 _Zip’s tracks say ten were here this morning. Of the seven left, four are busy patting the wall._  
@@ -258,6 +259,10 @@ _The roof is sticks from both forts, leaning together in pointed pairs, with sno
 **Wren**: Commander? Which fort won?  
 _The blizzard blows all afternoon. Pixel teaches the shelter a song with forty-one verses, one for each page of the rules._  
 _At last the wind drops, as suddenly as it came. Somebody pokes a hole in the roof. It is night._  
+_Through the hole comes a ladle, then a flask, then an upside-down face: Granny Brock, from the cottage by the Common._  
+**Granny Brock**: Soup. Somebody hit my bell this morning.  
+**Gordon**: That was me.  
+**Granny Brock**: I know. Eat.  
 
 #### `reader:s20-complete` · [main](../../../side/S20.md#s20-complete)
 

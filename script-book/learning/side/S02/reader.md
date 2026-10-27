@@ -28,7 +28,7 @@ _There is frost on the grass round her, though it is nearly midsummer._
 > _For grown-ups: Explained the difference between sharing (a choice) and taking (no choice)._
 
 **You**: Another Nubbin?  
-**Luna**: A grey one. Thinner than her. He moves like he’s always expecting a boot.  
+**Luna**: A grey one. Thinner than her. He flinches at every sound, as if somebody might kick him.  
 **Luna**: Sit up tonight. Leave the fruit where you always do, and keep still. Still as a post.  
 **Luna**: He wants something here. I’d like to know what, before he takes it.  
 
@@ -90,6 +90,7 @@ _In the fork of the fruit tree, Wisp licks his torn ear and watches you, like so
 > Check: `edu:share:fruit:6-each`
 > _For grown-ups: Divided 12 into 2 equal groups of 6._
 
+_Below him, Sable licks her own ear, then checks it for a tear. There isn’t one, and she looks quite put out._  
 
 **Choices**
 
@@ -122,14 +123,6 @@ _He tries to stand, and his legs fold. He is too cold to hiss._
 **Luna**: If you carry him, he’ll fight. Hold him anyway. Hold him like you expected it.  
 _Across the yard, in the long grass, Sable is watching. She has seen hands pick up a Nubbin before._  
 
-> **Lesson** (sel, CASEL: Social awareness, ask): seeing a moment from someone else’s side  
-> _Sable has seen hands pick up a Nubbin before, and it didn’t end well. How might she feel, watching now?_  
-> - ✅ Scared, because last time hands meant something bad. → That’s what I think too. So whatever you do, do it gently. She’s learning what hands are for.
-> - Happy that someone is helping. → Maybe, a little, underneath. I hope so. But last time she saw hands lift a Nubbin, it went badly. She’s probably scared. So be gentle where she can see.
-> - She doesn’t care. → She’s watching very hard for someone who doesn’t care. I think she’s scared. Last time hands lifted a Nubbin, it went badly. Be gentle where she can see.
-> _For grown-ups: Imagined how a character might feel based on what has happened to her before._
-
-
 **Choices**
 
 - **Pick him up. Hold on.**
@@ -137,14 +130,17 @@ _Across the yard, in the long grass, Sable is watching. She has seen hands pick 
     - In the steam of the bathhouse his fur lifts and his eyes go sharp. He looks at your hands, and bites one, hard.
     - **Wisp**: Hsss. Hands. Hands, hands.
     - He scrambles to the warmest corner with the stone, and glares until his tail stops dripping.
+    - He tucks the stone under his chin, like a very small and very cross violinist.
     - **Clover**: He’s warm now. Look at him. Warm right through.
     - He is. And he is still shaking.
+    - Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.
 - **Fetch a blanket, and let Clover lift him.**
     - Clover wraps him up like a loaf and carries him in at a run, talking to him the whole way.
     - In the steam of the bathhouse his fur lifts and his eyes go sharp. He bites her, hard, through the blanket.
     - **Clover**: Ow. Yes. All right. That’s fair.
     - He scrambles to the warmest corner with the stone. He is warm now, right through.
     - And he is still shaking.
+    - Clover sets a pear by his paws. He eats it in three bites, still glaring at your hands.
 
 #### `reader:s2-number` · [main](../../../side/S02.md#s2-number)
 
@@ -170,6 +166,14 @@ _High on Wisp’s side, half washed off, is a number someone once painted on in 
 **Luna**: I’m going to ask around. Don’t tell Sable. I know that’s silly.  
 _When you come out, Sable is by the bathhouse door. She sniffs your hands very carefully, and doesn’t run._  
 
+> **Lesson** (sel, CASEL: Social awareness, ask): seeing a moment from someone else’s side  
+> _Sable watched you carry Wisp. Now she sniffs your hands. How might she feel about hands today?_  
+> - ✅ Nervous, because hands once meant something bad. → That’s what I think too. She sniffed carefully, and she didn’t run. She’s learning what hands are for.
+> - Happy that someone is helping. → Maybe, a little, underneath. I hope so. But hands hurt a Nubbin once, and she saw. She’s probably still nervous. So keep being gentle.
+> - She doesn’t care. → She sniffed very carefully for someone who doesn’t care. I think she’s nervous. Hands have hurt before. Keep being gentle where she can see.
+> _For grown-ups: Imagined how a character might feel based on what has happened to her before._
+
+
 #### `reader:s2-night` · [main](../../../side/S02.md#s2-night)
 
 _Night, from Luna’s garden. The moonflowers are open. Two grey shapes sit at the edge of the Grove._  
@@ -185,11 +189,11 @@ _Wisp is close to Sable, closer than he lets anyone get. Tonight his voice is al
 **Wisp**: come back to the dark. no hands there. the dark never threw anyone.  
 _Sable doesn’t answer. She looks at Wisp, then at your window. She moves towards neither._  
 **Luna**: Moss says the cold leaves them half a voice. And he’s spending all of it talking her out of the Grove.  
-_Clover has crept up behind you in a dressing gown, holding a bag of fruit as if it might go off._  
+_Clover has crept up behind you in a dressing gown, hugging a bag of fruit like a secret._  
 **Clover**: You don’t feed him because he’s earned it. You feed him because you’re you.  
 **Luna**: He bit the hand that carried him, Clover.  
 **Clover**: He was cold. I’d have bitten too.  
-**Luna**: She leaned on a shin this week. A shin. Do you know how far that is, for her?  
+**Luna**: Sable leaned on a shin this week. A shin! Do you know how far that is, for her?  
 **Luna**: One more month of that voice in her ear and she’ll be back under a hedge. She won’t come out twice.  
 **Luna**: I’m not choosing against him. I’m choosing her. Somebody has to.  
 **Clover**: And where does he go? Back to the dark. On his own. Talking to nobody.  
@@ -199,9 +203,9 @@ _Neither of them looks at you. They both very carefully don’t._
 > _Being kind to someone who hasn’t earned it is called mercy. Luna and Clover both love Sable._  
 > _Should you keep feeding someone who bit you? What do you think?_  
 > - Yes. Kindness shouldn’t depend on being thanked. → That’s a fair answer. It’s mine, too. He was taught to bite. Maybe he can be taught something else.
-> - No. Sable has to come first. → That’s a fair answer. Somebody has to put her first. It doesn’t mean you don’t care about him.
-> - Let Sable choose. It’s her life too. → That’s a fair answer, and a brave one. I’d only wonder: is that a big choice to hand someone so small? It’s still a fair answer.
-> - I don’t know. They’re both right. → That’s a fair answer. Sometimes two people are both right, and you still have to choose. That’s what makes it hard.
+> - No. Sable has to come first. → Somebody has to put Sable first. That doesn’t mean you don’t care about Wisp.
+> - Let Sable choose. It’s her life too. → A brave answer. I’d only wonder: is that a big choice to hand someone so small?
+> - I don’t know. They’re both right. → Both can be right. That’s what makes it hard.
 > _For grown-ups: Thought about mercy and a hard choice between two good reasons; there was no wrong answer._
 
 
@@ -243,13 +247,13 @@ _Wisp is curled in one of them, the egg stone between his paws. It has been cold
 > _For grown-ups: Explained that warm objects lose heat to cooler surroundings until they match._
 
 **Moss**: He’ll never give that back, you know. Not if he lives to be as old as me.  
-**Moss**: Feed them before you feed yourself. She never said only the good ones. I checked. I was there.  
+**Moss**: Hazel’s first rule: feed them before you feed yourself. She never said “only the good ones”. I checked. I was there.  
 _…_  
 **Moss**: Grey things remember who fed them. That’s all I’ll say. I’m old, and I’ve seen it go both ways.  
 
 > **Lesson** (literacy, RL.4.2, notice): theme: the big idea a story keeps returning to  
-> _A theme is the big idea a story keeps coming back to._  
-> _This story keeps asking one question: who deserves kindness? Moss’s answer is in Hazel’s rule._  
+> **Moss**: Every story keeps asking one thing. This one asks who deserves kindness. That’s called its theme.  
+> _Moss’s answer is in Hazel’s rule._  
 > _For grown-ups: Identified the theme of a story: who deserves kindness, and mercy._
 
 
@@ -268,7 +272,7 @@ _Wisp is still at the edge, the egg stone between his paws. He hasn’t come in.
 > - 8 → That would leave her only two. Generous, but not half. Half means two equal parts. Ten makes five and five. She gave five, and kept five.
 > _For grown-ups: Found one half of 10 by splitting it into two equal parts._
 
-**Moss**: Feed them before you feed yourself. She never said only the good ones. I checked. I was there.  
+**Moss**: Hazel’s first rule: feed them before you feed yourself. She never said “only the good ones”. I checked. I was there.  
 _…_  
 **Moss**: Grey things remember who fed them. That’s all I’ll say. I’m old, and I’ve seen it go both ways.  
 

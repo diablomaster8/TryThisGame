@@ -55,6 +55,7 @@ _A coiled shell near the top. A fern pressed flat in the red rock. And deep in t
 **Dusty**: …It’s quiet without the snoring.  
 _Back at the barn, Professor Delve reads each plaque aloud before he’ll let it go on the wall._  
 **Professor Delve**: “Trilobites were sea animals with jointed shells, relatives of insects and crabs. They lived for over 250 million years.”  
+**Professor Delve**: Relatives of insects. Distant ones. Very distant. I have seen the family tree, and I do not plan to visit.  
 **Professor Delve**: “Ferns have no flowers and no seeds. They spread by spores, which usually form under their leaves.”  
 **Professor Delve**: “Ammonites were sea animals related to squid and octopus. They died out about 66 million years ago.”  
 
@@ -194,7 +195,7 @@ _A Nubbin sniffs the rock that looks like burnt toast. It is still not toast._
 > - She’s in a hurry. → She’s lying in the grass all evening. Not much of a hurry! She cares a lot, and feels shy showing it, so she keeps it short.
 > _For grown-ups: Used a character’s actions to understand feelings she doesn’t say out loud._
 
-**Professor Delve**: A meteorite! Oh, that is wonderful. And it isn’t a moth. A very good day.  
+**Professor Delve**: A meteorite! It fell out of the sky and hasn’t a single wing on it. I could kiss it.  
 
 > **Lesson** (science, notice): what a meteorite is  
 > **Professor Delve**: A meteorite is a rock from space that falls all the way to the ground.  
@@ -202,6 +203,7 @@ _A Nubbin sniffs the rock that looks like burnt toast. It is still not toast._
 > **Professor Delve**: Many meteorites have iron metal inside. That’s why it feels so heavy for its size.  
 > _For grown-ups: Learned what a meteorite is, why it has a burnt crust, and why many feel heavy._
 
+**Nova**: Please don’t. It’s had a long walk.  
 **Nova**: Now. Find me north. Then you can have the other two exhibits as well.  
 
 #### `reader:s18-star-finds` · [main](../../../side/S18.md#s18-star-finds)

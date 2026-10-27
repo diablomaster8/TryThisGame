@@ -1475,6 +1475,7 @@ const S18_SCENES: EduScene[] = [
       DU('…It’s quiet without the snoring.', 'soft'),
       N('Back at the barn, Professor Delve reads each plaque aloud before he’ll let it go on the wall.'),
       DE('“Trilobites were sea animals with jointed shells, relatives of insects and crabs. They lived for over 250 million years.”'),
+      DE('Relatives of insects. Distant ones. Very distant. I have seen the family tree, and I do not plan to visit.', 'shock'),
       DE('“Ferns have no flowers and no seeds. They spread by spores, which usually form under their leaves.”'),
       DE('“Ammonites were sea animals related to squid and octopus. They died out about 66 million years ago.”'),
       DE('True, true and true. Wing one. Somebody check my nose for moths.', 'happy'),
@@ -1498,7 +1499,7 @@ const S18_SCENES: EduScene[] = [
         skill: 'what fossils tell us about the past',
         standard: '3-LS4-1',
         kind: 'ask',
-        after: 8,
+        after: 9,
         prompt: [
           DU('Trilobites and ammonites lived in the sea. But we dug them out of a cliff, on dry land.'),
           DU('What does that tell us?'),
@@ -1797,7 +1798,8 @@ const S18_SCENES: EduScene[] = [
       N('She drops a stone the size of a walnut into your palm: black, heavy for its size, with a crust like burnt toast.'),
       N('A Nubbin sniffs the rock that looks like burnt toast. It is still not toast.'),
       NO('I watched it come down over the moor, years back. Walked two days to find it. Carried it ever since.'),
-      DE('A meteorite! Oh, that is wonderful. And it isn’t a moth. A very good day.', 'happy'),
+      DE('A meteorite! It fell out of the sky and hasn’t a single wing on it. I could kiss it.', 'happy'),
+      NO('Please don’t. It’s had a long walk.'),
       NO('Now. Find me north. Then you can have the other two exhibits as well.'),
     ],
     [

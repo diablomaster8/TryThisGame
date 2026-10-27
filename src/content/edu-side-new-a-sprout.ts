@@ -2126,7 +2126,8 @@ const S18: EduQuest = quest(
         N('A black stone, heavy and bumpy. Like burnt toast.'),
         N('A Nubbin sniffs the rock that looks like toast. It is not toast!'),
         NO('It fell from the sky. I walked two days to find it.'),
-        DE('A rock from space! And it isn’t a moth!', 'happy'),
+        DE('A rock from space! It has no wings at all! I love it!', 'happy'),
+        NO('Be gentle with it. It walked a long way.'),
         NO('Now. Find me north.'),
       ],
       [

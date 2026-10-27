@@ -2,6 +2,15 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 17 fixes (2026-10-26)
+
+- **Works:** 57 of run 17's 58 recs fixed across PA4, PA5, LB and LK with their bands, and the
+  Hebrew line. PA4's Wisp, Clank, candy and friend beats and PA5's eight memories now actually
+  play (replacing variants, `GROVE_VALUE_ALIASES` and PA4's `lineLive`, with tests). LK's reader
+  counts ten crocodiles again; "arba" is glossed ar-BAH. Flag values no longer collide with Grove's.
+- **Partial:** SR-20261026-939: LK's renamed variants have no test, because no engine plays LK yet.
+- **Known bugs:** LB and LK are not wired into any sim engine (CV4); their variants wait for it.
+
 ## Story review run 16 fixes (2026-10-26)
 
 - **Works:** all 57 run-16 recs fixed across PA1 with its bands, PA2, PA3, the A30 bands and A31

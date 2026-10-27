@@ -83,6 +83,7 @@ _Zip wiggles in your mittens. Snow melts off his ears. Drip!_
 
 _Zip runs back. He has snow on his eyebrows._  
 _He runs round you nine times. That means: news!_  
+**Wren**: Nine! Same as me. Nobody counts Zip’s.  
 _Their wall is big. But behind it, hardly anyone._  
 _Five children were behind their wall. Then three went home!_  
 _One lost a mitten, one lost a boot, and one wanted his tea._  
@@ -196,6 +197,11 @@ _Inside it’s blue and snug. It smells of wet wool._
 **Wren**: Commander? Which fort won?  
 _The storm blows for hours. Pixel sings a song with forty-one verses._  
 _Then the wind stops. Someone pokes a hole, and it’s night!_  
+_A spoon pokes through the hole. Then a face, upside down!_  
+_It’s Granny Brock. She lives by the Common. She brings soup!_  
+**Granny Brock**: Soup. Somebody rang my bell this morning.  
+**Gordon**: That was me!  
+**Granny Brock**: I know. Eat.  
 
 #### `sprout:s20-complete` · [main](../../../side/S20.md#s20-complete)
 
