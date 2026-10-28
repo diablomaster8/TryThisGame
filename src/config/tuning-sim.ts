@@ -136,3 +136,17 @@ export const KEEPER_ACCEL = {
   facingTurnDegPerS: 900,
   pixelFacingHoldMs: 60,
 } as const;
+
+/**
+ * Soft body separation (MOVE-17): bodies are circles of these radii; an overlapping pair is
+ * eased apart by its overlap, at most `maxPush` units a second each, the Keeper taking only
+ * `keeperShare` of it. Never a hard block, so nothing can pin the Keeper in a crowd.
+ */
+export const BODIES = {
+  keeper: 0.35,
+  npc: 0.35,
+  child: 0.25,
+  adult: 0.3,
+  maxPush: 1.5,
+  keeperShare: 0.25,
+} as const;

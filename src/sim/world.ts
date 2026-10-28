@@ -33,6 +33,7 @@ import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
+import { separateBodies } from './separation';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -887,6 +888,7 @@ export function stepWorld(
     if (!offline) updateKeeper(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
+    separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
