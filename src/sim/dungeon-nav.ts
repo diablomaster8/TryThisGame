@@ -12,6 +12,7 @@ import { DUNGEON } from '../config/tuning';
 import { DUNGEON_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
 import { FLOOR, WATER, type Floor } from './dungeon';
+import { propCells } from './dungeon-props';
 import { keeperPerks } from './perks';
 import type { Nubbin, Vec2, World } from './types';
 
@@ -37,6 +38,8 @@ export function navMask(f: Floor, wet: boolean): Uint8Array {
       wetMask[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : 0;
     }
     for (const c of f.crossings) for (const q of c.cells) dry[q.y * f.cols + q.x] = 1;
+    // The landmark is solid (R0032): its cells are closed to the walker.
+    for (const i of propCells(f)) dry[i] = wetMask[i] = 0;
     m = { dry, wet: wetMask };
     masks.set(f, m);
   }
@@ -132,11 +135,13 @@ function plan(f: Floor, wet: boolean, start: number, goal: number, clearance: nu
   const hit = cache?.get(key);
   if (hit) return hit;
   const mask = navMask(f, wet);
-  const walk = (x: number, y: number) => open(f, mask, x, y);
   // The whole floor is the bound here: a Hollow floor is small enough to search outright.
   const opts = { maxExpansions: f.cols * f.rows };
   const sx = start % f.cols;
   const sy = (start - sx) / f.cols;
+  // A body may stand in a cell the props closed (beside the landmark, R0032): it can always
+  // walk out of its own cell.
+  const walk = (x: number, y: number) => (x === sx && y === sy) || open(f, mask, x, y);
   let reaches = true;
   let path = astar(f.cols, f.rows, walk, sx, sy, goal % f.cols, Math.floor(goal / f.cols), opts);
   if (!path) {

@@ -88,6 +88,11 @@ export const HOLLOW = {
   waypoints: { every: 2, reach: 1.2 },
   /** The Homing Acorn (R0150): a bundle in the cave-mouth shop, and the chance a find holds one. */
   acorns: { bundle: 5, price: 10, dropChance: 0.12 },
+  /**
+   * Solid set pieces (R0032): the landmark blocks this share of its clear radius (cells); nav
+   * closes cells within the block plus `navClearance` (world units).
+   */
+  props: { landmarkShare: 0.7, navClearance: 0.35 },
 } as const;
 
 export type HollowLevel = keyof typeof HOLLOW.v3.levels;

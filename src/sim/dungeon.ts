@@ -5,6 +5,7 @@ import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { forfeitBattleCmd } from './battle';
+import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
 import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
 import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
@@ -687,6 +688,7 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number): boolean {
       const q = cellCentre(f, near);
       p.x = q.x;
       p.z = q.z;
+      if (resolveProps(p, f, radius)) escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
       return true;
     }
   }
@@ -720,10 +722,20 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number): boolean {
       }
     }
   }
+  // Solid set pieces (R0032), then the walls once more so a prop never pushes into rock.
+  if (resolveProps(p, f, radius)) {
+    moved = true;
+    escapeProps(p, f, radius, (q) => wallsBlock(q, f, radius));
+  }
   return moved;
 }
 
 export function dungeonBlocked(p: Vec2, f: Floor, radius = 0.3): boolean {
+  return propBlocked(p, f, radius) || wallsBlock(p, f, radius);
+}
+
+/** Whether rock alone blocks a body of `radius` at `p`. */
+function wallsBlock(p: Vec2, f: Floor, radius: number): boolean {
   const c = cellOf(f, p);
   if (!isWalkable(f, c.x, c.y)) return true;
   for (let dy = -1; dy <= 1; dy++) {
