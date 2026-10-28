@@ -38,104 +38,39 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Lane D: WORLD (2026-10-28, branch lane/d, not pushed)
+## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
-Order: R0070 → R0071 → R0068 → R0069 → R0075, then R0076 onward where lane A's files allow.
+The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
+`docs/progress-archive.md`, and per-item status is in `recs-2026-10-27/STATUS.md`.
 
-**Works.** Region graph (`config/regions.ts`, `sim/regions.ts`): 13 regions with sizes, tiered
-POIs and paired exits; `travel` command; `regionEntered`, `regionDiscovered` and
-`travelRefused` events; only the Grove, the lane and the Hollow are built. Every quest
-resolves to an area (`content/where-map.ts`; content-check `noArea: 0`; report in
-`docs/content-index.md`). The drawn map (`ui/world-map.ts`, `render/map-paint.ts`, `world.css`)
-replaces the button grid in both renderers: ground, water, hills, buildings, a Keeper arrow
-with a view wedge, Nubbin dots with type icons, label chips with no overlaps at 375×812,
-pan, zoom, double-tap to centre, a "Travel here" sheet, and region tabs. Full 3D geometry
-level: `PERF_BUDGET`, governor `geoLevel` thins the grass and the shadow redraws. Chunk grid
-(`render/chunks.ts`), and Pixel skips off-screen sprites (793 → 44–138 drawn). Compass,
-rotate-button north pointer and corner minimap with an Off/On/Auto setting. Debug panel World
-line. `npm run probe:world` (Edge, phone, both modes, ~150 s) writes `docs/logs/world-perf.json`.
-
-**Stubbed.** The map sheet lists no quests here: quests are not loaded at run time. Region tabs
-other than the Grove list exits only. The compass objective tick is a hook (no tracked POI
-exists yet). The minimap draws in the Grove only. Grove exits to unbuilt regions are data only.
-No 3D chunk streaming yet (one 96 u field).
-
-**Known bugs and limits.** Full 3D still breaks the phone budget at 12 of 19 spots (up to 707
-calls and 4.0 M triangles) even at geometry level 3: creature and scenery LOD are in lane A's
-files. POI spacing uses straight lines, since the nav path is lane A's.
-
-**Assumptions.** The save version belongs to lane B, so `World.location` keeps its shape: the
-region is derived from it, and `regionsFound` and `settings.minimap` are optional fields read
-with defaults. The lane is reached through the neighbours' gardens (`visit:*`), and the Hollow
-Below through its own entrance. The compass shows all the time, not only with the debug panel.
-
-**Deferred.** These need lane A's files or work not built yet: R0072, R0073, R0074, R0078, R0079,
-R0080, R0081, R0084–R0102, and R0106 onward.
-
-## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
-
-Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0
-path on the ramp); then R0016, R0020, R0017 and R0023 here, with R0018 (3D occluder fade)
-and R0019 (Pixel x-ray) built in helper worktrees and merged. R0021 onward left for Pass 4.
-
-**What works**
-- Terraces (R0011): each hill is `ceil(h / 0.9)` tiers (2–5), steps 0.67–0.87, top tier
-  0.4 r across, built by `hillTerrace` in `sim/terrain.ts` (`TERRACES`, `TERRACE` in
-  `tuning-sim.ts`, `ramp: { from, to }` per hill in `GROVE.hills`). `hillHeight(x, z, soft)`
-  gives the drawn (eased 0.5 u inside each rim) or hard (upright) shelves; the 3D mesh and
-  grass sample the soft one, Pixel builds cylinders and `rampGeometry` sheets from the hard
-  one. The ramp climbs along the foot of each next tier, leg by leg, 1.2 u wide with
-  walkable banks. The Keeper is held at a cliff by `ledgeY` (a step may rise `stepUp` over its
-  feet or shelf) and slides round the ring; a jump clears one tier. Hill colliders are
-  `nubbinOnly` now (Nubbins keep off); hill 1's waterfall face is a solid segment. Nav treats
-  cliffs as walls between cells (`step`, sampled once; `astar` takes a `pass` option), so
-  120/120 random taps arrive and every hill top is reached by tap. Hill 0's worn path (3D
-  ribbon, Pixel dabs) follows `rampPath`; `hill-path` is the ramp foot. Edge, both modes:
-  ramp walk to Briar, a jump onto tier 0, a walk at the face stays at the foot.
-- Story props (R0016): `STORY_PROP_COLLIDERS` by kind in `grove-layout.ts` (shed and barn
-  walls, benches/chair/flat stone standable, shelf solid); live only while
-  `storyPropMask(world)` says the prop stands (in the collider and nav cache keys).
-- Ground feel (R0020): `KEEPER_ACCEL`; stick speed in ~0.12 s, stop in ≤ 0.11 s, a reversal
-  skids once (`keeperSkid`, Pixel dust), speed into walls is lost, tap walks ease in over
-  0.6 u. 3D turns at 900°/s, Pixel holds a new heading 60 ms.
-- Bodies (R0017): `sim/separation.ts` after the NPC step; overlap rate under 0.1% with 8
-  Nubbins (0.77% without), the Keeper walks through a crowd of 8, carried ones untouched.
-- Cameras (R0023): `CAMERA_FOLLOW`; Pixel follows the drawn ground (terrace, bench, bridge)
-  and holds through jumps, both lead by 0.6 u, 3D nods 0.06 u on landing (not under reduced
-  motion). Edge: Keeper at NDC y 0.05 (Pixel) / −0.11 (3D) after the climb.
-- 3D occluder fade (R0018, agent, 54a6b12): `render3d/occluders.ts`; Keeper visible 256/256
-  frames (4 buildings × 8 yaws × 8 ring spots) at desktop and phone.
-- Pixel x-ray (R0019, agent, 9fe216c): `sprite-batch.ts` draws marked quads again through a
-  `GreaterDepth` child mesh at 45%, tinted by the trim colour, with a 1-texel outline (1 extra
-  draw call, none when nothing is marked); the Keeper and the highlighted Nubbin are marked;
-  scenery and orchard quads nearer than the Keeper and over its head fade to 55%.
-  Sweep (Keeper on a 0.8–1 u ring, desk): trees 96/96, cottage and cave 64/64, but the same
-  without the x-ray: Pixel's older dither round the Keeper already clears these spots, so the
-  x-ray's own share is unproven (partial).
-
-**Stubbed or deferred**
-- Deferred to Pass 4: R0021 onward (jump/land frames, auto-hop, falls, jump unlocks, glide,
-  joystick, Nubbin heights...). Nubbins still never climb terraces (R0030).
-- R0017: NPCs do not pause and walk round when the Keeper blocks their target (they already
-  stop within 2.5 u of the Keeper). R0018: flat silhouette, not a 1 px outline; story-set
-  cabins and the visit garden not boxed. R0016: the garden door has no collider.
-- R0011's leftovers: no ledge-y camera avoidance (R0052); the outer ring props near hills
-  were checked only for the colliders' centres.
-
-**Known bugs and assumptions**
-- Assumption: "3 tiers" in R0011 became 2–5 so every step stays in the 0.6–0.9 band.
-- Ramp angles were picked by a scan clear of colliders and the stream; hill 1's ramp leaves
-  93–153° free for the waterfall. Moved off the terraces: the rock and its sprite at
-  (-13, 12) → (-10, 10), the log at (-24, 12) → (-26, 12.5), bush-3 at (-33, -36) →
-  (-31, -36.8). `flat-stone` marks moved in to 0.55 r, the crest tree to (1.2, 1.0).
-- A Nubbin can still walk up the first ramp leg (it is outside the hill's collider).
-- `ledgeY` uses the full height sum near hills (the tile cache smears a cliff over 0.25 u).
-- The terrain test skips mesh cells across a cliff face and allows 40 (was 20) samples off by
-  more than 0.05 u: the ramps' banks are steep for half-unit cells. Grass checksum updated.
-- Full-life timing test: 1.17–1.21 s alone (1.12–1.16 s before), 2.49 s in the final full
-  `npm test`; it once hit 3.04 s while helper agents' Edge sweeps loaded the machine. The
-  collider table's cache key is now a number (8936f4b), which won back about 50 ms.
-- R0019: the x-ray head point is a fixed y 1.7, so on a terrace the fade test aims low.
+- **A MOVE.** *Works:* jump and landing feel in both modes, pad mapping (X pet, B feed, Y
+  shake), auto-hop on tap paths, Fly-perk glide, the floating analogue joystick, Nubbin
+  steering, thrown bodies that bonk off solids, collider/nav/ground-y debug overlays and a
+  collision sweep. *Stubbed:* 3D knees on crouch, 3D wings, Keeper 2's jump, tap markers,
+  fall recovery (MOVE-31). *Known:* a thrown Nubbin can't land on a bench top.
+- **B DUNG.** *Works:* save v8; the boot veil and arrival grace; generator v3 with loops and
+  29 Rootways pieces; packs that chase and start encounters; five acts with boss rooms.
+  *Stubbed:* act tilesets and towns; a boss look; pack loot (Shells only). *Known:* the Pixel
+  view doesn't draw packs (needs `world-view.ts`); the standard tour band hits about 85%.
+- **C FIGHT.** *Works:* a seeded battle core (`src/sim/battle/`) runs the dojo and SL2's
+  party bout, with the party panel. *Stubbed:* the 3D dojo view (R0219), rival species, the
+  Hollow `encounter` wiring. *Known:* old `karateResult` trusts `won`; fast weak taps beat
+  tier 2 (R0280).
+- **D WORLD.** *Works:* the region graph (13 regions, paired exits, the `travel` command,
+  discovery events); every quest mapped to an area (`noArea: 0`); the drawn map with
+  "you are here", travel and region tabs; compass and minimap (Off/On/Auto); Full 3D
+  `PERF_BUDGET` with a governor `geoLevel`; the chunk grid and Pixel off-screen culling
+  (793 → ≤ 138 sprites); a World line in the debug panel; POI spacing and
+  `npm run probe:world`. *Stubbed:* quests in the map sheet, maps for non-Grove regions, the
+  compass objective tick, 3D streaming. *Known:* Full 3D is still over the phone budget at
+  most spots until creature and scenery LOD (R0078/R0079). The region is derived from
+  `location`.
+- **E LOOK.** *Works:* Chao crown, tip, eyes, head ratio, wings, mitts, waddle and mouths in
+  both modes; Moon adult hues; per-species 3D eyes; multi-head and ghost species; the
+  likeness test suite. *Stubbed:* crown spring bone, toon rim light, slit pupils, the
+  part-grow at evolution. *Known:* wing cream `#fff1c9` awaits Maor's OK.
+- **All lanes.** Under load, the full-life, `species-gen1a-art` sculpt and nav timing tests
+  can fail in a full run. Each passes when run alone; no budget was loosened.
 
 ## Standing approval (Maor, 2026-10-12)
 

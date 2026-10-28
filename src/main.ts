@@ -29,6 +29,7 @@ import { watchErrors } from './platform/error-watch';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
+import { HOLLOW_TEXT } from './config/strings';
 import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
 
@@ -245,6 +246,11 @@ function boot(
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
+  // A save that opens underground holds the floor still behind the veil (R0142).
+  if (!loading.done) {
+    game.send({ kind: 'setLoading', on: true });
+    if (game.world.location === 'dungeon') loading.setLabel(HOLLOW_TEXT.loading);
+  }
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });
     if (storyline) {
@@ -289,12 +295,17 @@ function boot(
   // The 3D Grove stays behind the veil until its creatures are sculpted (the safety window
   // counts from here, not from the downloads); the Pixel Grove lifts it on its first frame.
   if (scene3d) loading.restartClock();
+  let veilLifted = false;
 
   function fpsLoop(now: number): void {
     if (!document.hidden) fps.tick(now);
     if (scene3d && !loading.done) {
       const s = scene3d.loadState();
       loading.update(0.2 + 0.8 * s.progress, s.done);
+    }
+    if (loading.done && !veilLifted) {
+      veilLifted = true;
+      game?.send({ kind: 'setLoading', on: false });
     }
     requestAnimationFrame(fpsLoop);
   }

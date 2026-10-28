@@ -1,4 +1,5 @@
 import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { MOVE_TEXT } from '../config/strings-move';
 import { PLOTS, TOWN } from '../config/tuning';
 import { canMerge } from '../sim/partners';
 import { canBuySkill, SKILL_LIST } from '../sim/skills';
@@ -158,7 +159,8 @@ export class ProfilePanel {
     const perkList = el('div', 'shop-list');
     const rows: Array<[boolean, string, string | undefined]> = [
       [perks.wade, UI_TEXT.perkNames.wade, perks.from.swim],
-      [perks.glide, UI_TEXT.perkNames.glide, perks.from.fly],
+      // MOVE-27: the Fly perk is a hold-to-glide now.
+      [perks.glide, MOVE_TEXT.glidePerk, perks.from.fly],
       [perks.power, UI_TEXT.perkNames.power, perks.from.power],
       [perks.sprint, UI_TEXT.perkNames.sprint, perks.from.run],
     ];

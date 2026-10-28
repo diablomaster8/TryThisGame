@@ -1,7 +1,7 @@
 import { HOLLOW_MAP_TEXT as T } from '../config/strings';
 import { GROVE3D } from '../config/tuning';
 import { isGameKey } from '../input/keys';
-import { cellOf, exploredMask, exploredRooms, floorOf, WALL, WATER } from '../sim/dungeon';
+import { cellOf, exploredMask, exploredRooms, floorOfRun, WALL, WATER } from '../sim/dungeon';
 import type { World } from '../sim/types';
 import { button, el } from './dom';
 
@@ -66,7 +66,7 @@ export class HollowMap {
     this.toggle.hidden = !run;
     this.panel.hidden = !run || !this.open;
     if (!run || !this.open || !this.g) return;
-    const f = floorOf(run.seed, run.depth, run.genVersion);
+    const f = floorOfRun(run);
     const kc = cellOf(f, world.keeper.pos);
     const key = `${run.seed}:${run.depth}:${run.explored}:${kc.x},${kc.y}:${run.chestOpen}`;
     if (key === this.key) return;

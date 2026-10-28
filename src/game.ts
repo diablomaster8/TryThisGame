@@ -38,6 +38,9 @@ import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/t
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
 import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
+import { PERCH } from './config/tuning-move';
+import { DEBUG_OVERLAY, DebugOverlay } from './render/debug-colliders';
+import { standTopAt } from './sim/obstacles';
 import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
 import { terraceY } from './render/scene-stage';
@@ -98,6 +101,8 @@ export class Game {
   private readonly pending: Command[] = [];
   private rafId = 0;
   private running = false;
+  /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
+  readonly framePollers: Array<() => void> = [];
   /** While a minigame covers the screen the sim keeps going but the Grove is not drawn. */
   renderPaused = false;
   /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
@@ -385,6 +390,10 @@ export class Game {
   cameraLift = 0;
   /** The ground the cameras follow under the Keeper, and the look-ahead (MOVE-23). */
   private groundY = 0;
+  /** MOVE-26: the extra look height while the Keeper stands on a rock, eased. */
+  private perchLift = 0;
+  /** MOVE-38: the debug overlays, built the first time a toggle is turned on. */
+  private debugOverlay: DebugOverlay | null = null;
   private readonly ahead = { x: 0, z: 0 };
   private lastKp: { x: number; z: number } | null = null;
 
@@ -408,6 +417,16 @@ export class Game {
       else if (feet > this.groundY + F.airSlack) this.groundY = feet - F.airSlack;
       else if (feet < this.groundY - F.airSlack) this.groundY = feet;
     }
+    // MOVE-26: up on a rock (a standable top half a unit or more up), the look rises to open
+    // the view; it settles back once the Keeper steps down.
+    const top = w.location === 'grove' ? standTopAt(w, kp.x, kp.z) : -Infinity;
+    const perched =
+      k.grounded &&
+      Math.abs(k.y - top) < 0.05 &&
+      top - groveHeight(kp.x, kp.z) >= PERCH.minTop - 0.02;
+    const pr = reduce0(this.reduceMotion, dt, PERCH.rate);
+    this.perchLift += ((perched ? PERCH.lift : 0) - this.perchLift) * pr;
+    if (this.scene3d) this.scene3d.perchLift = this.perchLift;
     const s = dt / 1000;
     let vx = 0;
     let vz = 0;
@@ -553,6 +572,13 @@ export class Game {
 
   /** Run the catch-up for the gap since the save was written; call once the HUD is bound. */
   async catchUpOnLoad(): Promise<void> {
+    // MOVE-24: a phone that has never chosen gets Auto-hop on (tap-to-move is its main control).
+    if (
+      this.world.settings.autoHop === undefined &&
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(pointer: coarse)').matches
+    )
+      this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoHop: true } });
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
     await this.runCatchUp(gap, Date.now());
@@ -715,6 +741,7 @@ export class Game {
     this.lastFrameMs = nowMs;
 
     this.input.pollKeyboard();
+    for (const poll of this.framePollers) poll();
 
     // Sim steps.
     const steps = this.clock.advance(dt);
@@ -831,7 +858,7 @@ export class Game {
         ? this.world.location === 'grove'
           ? terraceY(subject.x, subject.z)
           : 0
-        : this.groundY;
+        : this.groundY + this.perchLift;
     const ty = reduce0(this.reduceMotion, dt, CAMERA_FOLLOW.groundRate);
     this.camera.target.y += (aimY - this.camera.target.y) * ty;
     // The Settings choice reaches both cameras and the Grove's idle motion at once.
@@ -840,6 +867,19 @@ export class Game {
     this.markReduceMotion();
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     this.camera.update(nowMs);
+    // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
+    if (
+      DEBUG_OVERLAY.colliders ||
+      DEBUG_OVERLAY.nav ||
+      DEBUG_OVERLAY.groundY ||
+      this.debugOverlay
+    ) {
+      const scene = this.scene3d?.scene ?? this.grove?.scene;
+      if (scene) {
+        this.debugOverlay ??= new DebugOverlay(scene);
+        this.debugOverlay.update(this.world, groveHeight);
+      }
+    }
 
     // K7 (package a1): the stage poses read the line on screen for its gesture.
     STAGE_LINE.line = this.storyLine;

@@ -5,6 +5,7 @@ import type { PartSlot } from '../sim/types';
 import { V, type Prim } from './sculpted';
 import { variant, type Slot } from './nubbin-variants';
 import type { PartSpec, SpeciesSpec } from './species';
+import { NUBBIN_SPEC } from './species-data';
 
 /**
  * Critter parts in 3D: the sculpted counterpart of the pixel drawer's `PART_STYLES`. Each part
@@ -360,6 +361,29 @@ export function partsModBody(parts: Record<PartSlot, string | null>): string {
   return PART_SLOTS.map((s) => parts[s] ?? '-').join(',');
 }
 
+/** How big a child's critter parts are against an adult's. */
+export const CHILD_PART_SCALE = 0.8;
+
+/** A part shrunk about its own pivot, joint and all. */
+function shrinkPart(p: PartSpec, k: number): PartSpec {
+  const at = (v: THREE.Vector3) => v.clone().sub(p.pivot).multiplyScalar(k).add(p.pivot);
+  const prim = (q: Prim): Prim => ({
+    ...q,
+    a: at(q.a),
+    ...(q.b ? { b: at(q.b) } : {}),
+    r: q.r * k,
+    ...(q.r2 !== undefined ? { r2: q.r2 * k } : {}),
+    ...(q.radii ? { radii: q.radii.clone().multiplyScalar(k) } : {}),
+  });
+  return {
+    ...p,
+    prims: p.prims.map(prim),
+    ...(p.joint
+      ? { joint: { ...p.joint, pivot: at(p.joint.pivot), prims: p.joint.prims.map(prim) } }
+      : {}),
+  };
+}
+
 /**
  * The spec with the critter parts put on: each named slot's parts replace what the slot held
  * (a back part also takes the wings off). Unknown ids are skipped.
@@ -369,10 +393,13 @@ export function withCritterParts(
   parts: Partial<Record<PartSlot, string>>,
 ): SpeciesSpec {
   const slots: Partial<Record<Slot, PartSpec[]>> = {};
+  // A child wears its parts smaller and softer (LOOK-66); children keep the base Nubbin's
+  // scale, which every adult form raises.
+  const k = base.scale <= NUBBIN_SPEC.scale ? CHILD_PART_SCALE : 1;
   for (const slot of PART_SLOTS) {
     const id = parts[slot];
     const built = id ? critterPart(base, slot, id) : null;
-    if (built) slots[slot] = built;
+    if (built) slots[slot] = k === 1 ? built : built.map((p) => shrinkPart(p, k));
   }
   if (!Object.keys(slots).length) return base;
   return variant(base, base.name, { slots, ...(slots.back ? { wings: null } : {}) });

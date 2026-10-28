@@ -22,6 +22,8 @@ export interface ChaoShape {
   tellType?: NubbinType | null;
   /** Extra height of the crown point, in px (the Normal second evolution's tell). */
   crownLift?: number;
+  /** Size of the critter parts; a child wears them smaller and softer (0.8). */
+  partScale?: number;
 }
 
 export const CHILD_SHAPE: ChaoShape = {
@@ -33,6 +35,7 @@ export const CHILD_SHAPE: ChaoShape = {
   handBonus: 0,
   tellType: null,
   crownLift: 0,
+  partScale: 0.8,
 };
 
 export interface ChaoPoseGeometry {

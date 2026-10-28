@@ -1,8 +1,18 @@
-import { DUNGEON, KEEPER, SCANS } from '../config/tuning';
+import { DUNGEON, HOLLOW, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
+import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
+import { actStartDepth } from '../config/dungeon-acts';
+import {
+  finishEncounter,
+  freshPacks,
+  stepPacks,
+  type EncounterOutcome,
+  type EncounterPack,
+} from './dungeon-encounters';
 import { nubbinWaypoint } from './dungeon-nav';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
@@ -139,7 +149,7 @@ export interface Floor {
   wildSpots: Array<{ cell: Cell; species: string }>;
   /** Ambient light level 0..1; floors get darker. */
   light: number;
-  /** The generator that made this floor (`DUNGEON.genVersion` for new floors). */
+  /** The generator that made this floor (`HOLLOW.genVersion` for new floors). */
   version: number;
   /** Index into `rooms` of the great chamber; -1 on version-1 floors. */
   greatRoom: number;
@@ -158,6 +168,38 @@ export interface Floor {
   crossings: Crossing[];
   nook: Nook | null;
   special: SpecialFloor;
+  /** How a version-3 floor was assembled from pieces (R0144); absent on older floors. */
+  layout?: FloorLayout;
+  /** The floor's monster packs (R0146); absent on floors without them. */
+  packs?: EncounterPack[];
+}
+
+/** A slot's job on a version-3 floor. */
+export type SlotRole = 'entry' | 'exit' | 'boss' | 'treasure' | 'hub' | 'corridor';
+
+export interface PlacedPiece {
+  id: string;
+  role: SlotRole;
+  /** Top-left cell and size after turning. */
+  at: Cell;
+  size: [number, number];
+  /** Quarter turns clockwise. */
+  turns: number;
+}
+
+export interface FloorLayout {
+  level: HollowLevel;
+  tileset: string;
+  /** In walk order: `pieces[0]` is the entry; `rooms[i]` is `pieces[i]`'s rectangle. */
+  pieces: PlacedPiece[];
+  /** Joined pieces, by index (the walk's tree plus its loops). */
+  links: Array<[number, number]>;
+  /** Pieces joined to three or more others. */
+  junctions: number;
+  /** The pieces' spawn spots (`S`), shrine sockets (`X`) and the boss's spot (`B`). */
+  spawns: Cell[];
+  shrines: Cell[];
+  boss: Cell | null;
 }
 
 export const WALL = 0;
@@ -460,6 +502,7 @@ export function scatterFinds(
   depth: number,
   floors: Cell[],
   special: Set<string>,
+  counts?: { loot: number; strays: number },
 ): void {
   const open = floors.filter(
     (c) =>
@@ -474,10 +517,9 @@ export function scatterFinds(
     open.splice(open.indexOf(c), 1);
     return c;
   };
-  const lootCount = Math.min(
-    DUNGEON.lootMax,
-    Math.round(DUNGEON.lootBase + DUNGEON.lootPerDepth * (depth - 1)),
-  );
+  const lootCount =
+    counts?.loot ??
+    Math.min(DUNGEON.lootMax, Math.round(DUNGEON.lootBase + DUNGEON.lootPerDepth * (depth - 1)));
   for (let i = 0; i < lootCount; i++) {
     const cell = pickOpen(3);
     if (!cell) break;
@@ -498,10 +540,12 @@ export function scatterFinds(
     else if (kind === 'critter') param = rng.pick(CRITTER_SPECIES).id;
     floor.loot.push({ id: `loot-${i}`, kind, cell, amount, param });
   }
-  const strayCount = Math.min(
-    DUNGEON.straysMax,
-    Math.round(DUNGEON.straysBase + DUNGEON.straysPerDepth * (depth - 1)),
-  );
+  const strayCount =
+    counts?.strays ??
+    Math.min(
+      DUNGEON.straysMax,
+      Math.round(DUNGEON.straysBase + DUNGEON.straysPerDepth * (depth - 1)),
+    );
   for (let i = 0; i < strayCount; i++) {
     const cell = pickOpen(7) ?? pickOpen(3);
     if (cell) floor.strayStarts.push(cell);
@@ -524,20 +568,32 @@ const cache = new Map<string, Floor>();
  * The floor for a run's seed and depth, generated once. `version` picks the generator: a
  * saved run passes the one its floor was made with (`DungeonRun.genVersion`).
  */
-export function floorOf(seed: number, depth: number, version: number = DUNGEON.genVersion): Floor {
+export function floorOf(seed: number, depth: number, version: number = HOLLOW.genVersion): Floor {
   const key = `${seed}:${depth}:${version}`;
   let f = cache.get(key);
   if (!f) {
-    f = version <= 1 ? generateV1(seed, depth) : generateV2(seed, depth);
+    f =
+      version <= 1
+        ? generateV1(seed, depth)
+        : version === 2
+          ? generateV2(seed, depth)
+          : generateV3(seed, depth, v3OptionsFor(depth));
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
   return f;
 }
 
+/** The floor a run stands on: its act's dungeon (R0145), or the endless Hollow by version. */
+export function floorOfRun(run: DungeonRun): Floor {
+  return run.act !== undefined
+    ? actFloor(run.seed, run.act, run.depth)
+    : floorOf(run.seed, run.depth, run.genVersion);
+}
+
 export function runFloor(world: World): Floor | null {
   const run = world.dungeon;
-  return run && world.location === 'dungeon' ? floorOf(run.seed, run.depth, run.genVersion) : null;
+  return run && world.location === 'dungeon' ? floorOfRun(run) : null;
 }
 
 // ---------------------------------------------------------------- explored mask
@@ -750,6 +806,9 @@ function populate(run: DungeonRun, f: Floor): void {
   run.pendingPos = null;
   run.fetch = {};
   run.explored = '';
+  if (f.packs) run.packs = freshPacks(f);
+  else delete run.packs;
+  delete run.encounter;
 }
 
 function placeParty(world: World, run: DungeonRun, f: Floor): void {
@@ -791,12 +850,20 @@ export function enterDungeon(
   rng: Rng,
   events: SimEvent[],
   story?: { seed: number; depth: number },
+  act?: number,
 ): boolean {
   if (world.location !== 'grove' || world.dungeon) return false;
   if (story) daily = false;
+  // An act's dungeon (R0145): only once it is open, never as today's shared cave.
+  if (act !== undefined && (story || !actOpen(world, act))) return false;
+  if (act !== undefined) daily = false;
   const today = dailySeed(world.lastWallMs);
   const seed = story ? story.seed : daily ? today.seed : rng.int(1, 2_000_000_000);
-  const depth = story ? Math.max(1, Math.round(story.depth)) : 1;
+  const depth = story
+    ? Math.max(1, Math.round(story.depth))
+    : act !== undefined
+      ? actStartDepth(act)
+      : 1;
   const party = choosePartyFor(world);
   const run: DungeonRun = {
     seed,
@@ -819,11 +886,15 @@ export function enterDungeon(
     fetch: {},
     haul: { shells: 0, items: 0 },
     startedMs: world.timeMs,
-    genVersion: DUNGEON.genVersion,
+    // Story floors keep the version-2 set pieces their scenes were written on.
+    genVersion: story ? 2 : HOLLOW.genVersion,
     explored: '',
+    ...(story ? { story: true as const } : {}),
+    ...(act !== undefined ? { act } : {}),
   };
-  const f = floorOf(seed, depth, run.genVersion);
+  const f = floorOfRun(run);
   populate(run, f);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   world.dungeon = run;
   world.location = 'dungeon';
   placeParty(world, run, f);
@@ -870,16 +941,49 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
 }
 
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
+  // The bottom of an act: the boss guards the way on; once it is beaten the way leads home
+  // with the haul, and the next act is open from the cave mouth (R0145).
+  if (run.act !== undefined && run.depth >= actBossDepth(run.act)) {
+    if (actProgress(world, run.act).bossDefeated) leaveDungeon(world, events);
+    else events.push({ kind: 'bossGuard' });
+    return;
+  }
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
-  run.genVersion = DUNGEON.genVersion;
-  const f = floorOf(run.seed, run.depth, run.genVersion);
+  run.genVersion = run.story ? 2 : HOLLOW.genVersion;
+  const f = floorOfRun(run);
   populate(run, f);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   placeParty(world, run, f);
+  if (run.act !== undefined) {
+    const p = actProgress(world, run.act);
+    p.deepest = Math.max(p.deepest, run.depth - actStartDepth(run.act) + 1);
+  }
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   if (run.daily && run.daily === world.hollow.dailyDay)
     world.hollow.dailyDepth = Math.max(world.hollow.dailyDepth, run.depth);
   events.push({ kind: 'descended', depth: run.depth, daily: run.daily !== null });
+}
+
+/**
+ * The boot veil is up (or has just lifted) over a floor (R0142). While it is up the floor
+ * holds still; when it lifts the arrival grace starts again, so the first thing the player
+ * sees is never a stray already making off with their Shells.
+ */
+export function setDungeonLoading(world: World, on: boolean): void {
+  const run = world.dungeon;
+  if (!run) return;
+  if (on) run.loading = true;
+  else if (run.loading) {
+    delete run.loading;
+    run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
+  }
+}
+
+/** The fight the floor was waiting on is over (R0146). */
+export function encounterDone(world: World, outcome: EncounterOutcome, events: SimEvent[]): void {
+  const f = runFloor(world);
+  if (f) finishEncounter(world, f, outcome, events);
 }
 
 /** Walk to the stairs or the chest and use it on arrival. */
@@ -1031,6 +1135,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const run = world.dungeon;
   const f = runFloor(world);
   if (!run || !f || dtMs > 1000) return;
+  if (run.loading) return;
+  const settling = world.timeMs < (run.graceUntilMs ?? 0);
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
@@ -1071,6 +1177,10 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   // Leaving or descending replaced the floor: the rest belongs to the old one.
   if (world.dungeon !== run || runFloor(world) !== f) return;
 
+  // Monster packs (R0146); a fight under way holds the rest of the floor still.
+  stepPacks(world, f, dtMs, rng, events, settling);
+  if (run.encounter || world.dungeon !== run || runFloor(world) !== f) return;
+
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.
   for (const s of run.strays) {
     s.cooldownMs = Math.max(0, s.cooldownMs - dtMs);
@@ -1083,7 +1193,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       s.target = c ? cellCentre(f, c) : null;
     }
     resolveDungeon(s.pos, f, 0.3);
-    if (!fleeing && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
+    if (!fleeing && !settling && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
       const shells = Math.min(world.inventory.shells, DUNGEON.straySnatch);
       world.inventory.shells -= shells;
       run.haul.shells = Math.max(0, run.haul.shells - shells);

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { BATTLE } from '../../src/config/tuning-battle';
 import { STORYLINE_LOGGED } from '../../src/content/storyline-logged';
 import { goalMet } from '../../src/sim/campaign';
 import { boutTier, loggedPartyIds } from '../../src/sim/storyline-rules-logged';
@@ -28,7 +29,8 @@ function toTheBoard(world: World, events: SimEvent[]): void {
   expect(goalMet(world, c(world))).toBe(false);
   const shells = world.inventory.shells;
   winBouts(world, events, 1);
-  expect(world.inventory.shells).toBe(shells + 5);
+  // The sim pays the tier prize, whatever the screen claims (recs FIGHT-02).
+  expect(world.inventory.shells).toBe(shells + BATTLE.prizes.party[0]);
   expect(toChapter(world, events, 3)).toBe(true);
   // The Night Grove is shut until rank two.
   applyCommand(world, { kind: 'storyArea', area: 'night' }, events);
