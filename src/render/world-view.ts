@@ -1809,9 +1809,11 @@ export function clipFor(n: Nubbin): string {
       return 'sleep';
     case 'eat':
       return 'eat';
-    // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle).
-    case 'sit':
-      return 'sit';
+    // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle); a low or hungry sitter is sad.
+    case 'sit': {
+      const mood = moodOf(n);
+      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
+    }
     case 'cry':
       return 'sad';
     case 'greet':
