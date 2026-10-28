@@ -364,6 +364,8 @@ export interface ChaoPose {
   lift: number;
   /** Squash: 1 = normal, <1 shorter. */
   squash: number;
+  /** The waddle's head rock, in px across the body (walk contact frames); 0 when unset. */
+  rock?: -1 | 0 | 1;
   legs: 'together' | 'stepA' | 'stepB' | 'tucked';
   arms: ArmPose;
   eyes: EyeState;
@@ -417,6 +419,8 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         arms: left ? 'swingA' : 'swingB',
         lift: passing ? -2 : contact ? 0 : -1,
         squash: contact ? 0.97 : passing ? 1.02 : 1,
+        // The waddle (LOOK-22): on each contact the head rocks a pixel away from the planted foot.
+        rock: phase === 0 ? 1 : phase === 3 ? -1 : 0,
       };
     }
     case 'happy':
@@ -1095,7 +1099,10 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
   const col = look.colors;
-  const L = layout(angle, pose, look.shape);
+  const L0 = layout(angle, pose, look.shape);
+  // The waddle rocks the head across the body; from the side it would read as a nod.
+  const rock = angle === 'side' ? 0 : (pose.rock ?? 0);
+  const L = rock ? { ...L0, headCx: L0.headCx + rock } : L0;
   const tail = partStyle(look.parts.tail);
   const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 

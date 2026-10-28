@@ -260,6 +260,8 @@ export interface SpeciesSpec {
     /** The toon mode's line colour for this mouth (a painted red 'o'); the outline colour by default. */
     line?: string;
   };
+  /** Body roll of the walk over the stance foot, radians (0.03 by default; the Chao waddle 0.12). */
+  waddle?: number;
   /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
   blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
@@ -1546,8 +1548,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const w = cycle * Math.PI * 2;
         hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
-        hips.rotation.z = s(w) * 0.03;
-        set('head', s(w * 2) * 0.03, 0, 0);
+        // The body rolls over the stance foot (the Chao waddle, LOOK-22) and the head counters it.
+        const roll = spec.waddle ?? 0.03;
+        hips.rotation.z = s(w) * roll;
+        set('head', s(w * 2) * 0.03, 0, -s(w) * roll * 0.43);
         if (legs.length) {
           hips.updateMatrix();
           hipsInv.copy(hips.matrix).invert();

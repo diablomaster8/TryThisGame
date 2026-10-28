@@ -4,6 +4,8 @@ import { sdf, type Prim } from '../../src/samples/sculpted';
 import { ALL_VARIANTS } from '../../src/samples/nubbin-variant-catalogue';
 import { paletteOf } from '../../src/samples/nubbin-variants';
 import type { SpeciesSpec } from '../../src/samples/species';
+import { CHILD_NEUTRAL, drawChao, lookOf, poseFor } from '../../src/render/sprites/chao';
+import { C } from '../../src/render/sprites/palette';
 
 /**
  * Likeness checks on the Chao-line 3D specs (LOOK-67): small data tests that catch the
@@ -57,5 +59,42 @@ describe('Chao likeness (3D specs)', () => {
       }
     }
     expect(bad).toEqual([]);
+  });
+});
+
+describe('Chao likeness (pixel)', () => {
+  it('rocks the head a pixel on the walk contact frames (the waddle)', () => {
+    expect(poseFor('walk', 0).rock).toBe(1);
+    expect(poseFor('walk', 3).rock).toBe(-1);
+    expect(poseFor('walk', 1).rock ?? 0).toBe(0);
+    const look = lookOf(CHILD_NEUTRAL);
+    const a = drawChao('front', { ...poseFor('walk', 0), rock: 0 }, look);
+    const b = drawChao('front', poseFor('walk', 0), look);
+    let diff = 0;
+    for (let y = 0; y < 32; y++)
+      for (let x = 0; x < 32; x++) if (a.get(x, y) !== b.get(x, y)) diff++;
+    expect(diff).toBeGreaterThan(4);
+  });
+
+  it('wears no belly patch or cheek blush at rest, and blushes when loved', () => {
+    const look = lookOf(CHILD_NEUTRAL);
+    const count = (c: number, pose: string) => {
+      const pc = drawChao('front', poseFor(pose as 'idle', 0), look);
+      let n = 0;
+      for (let y = 0; y < 32; y++) for (let x = 0; x < 32; x++) if (pc.get(x, y) === c) n++;
+      return n;
+    };
+    expect(count(C.roseLight, 'idle')).toBe(0);
+    expect(count(C.roseLight, 'love')).toBeGreaterThan(0);
+    const two = drawChao(
+      'front',
+      poseFor('idle', 0),
+      lookOf({ ...CHILD_NEUTRAL, bellyPatch: C.white }),
+    );
+    const plain = drawChao('front', poseFor('idle', 0), look);
+    let patch = 0;
+    for (let y = 0; y < 32; y++)
+      for (let x = 0; x < 32; x++) if (two.get(x, y) !== plain.get(x, y)) patch++;
+    expect(patch).toBeGreaterThan(10);
   });
 });

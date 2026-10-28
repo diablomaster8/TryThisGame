@@ -276,6 +276,8 @@ export const NUBBIN_SPEC: SpeciesSpec = {
     tongue: '#ff8aa0',
     pitch: 0,
   },
+  // The Chao waddle: about 7 degrees of body roll over the stance foot.
+  waddle: 0.12,
   blush: '#ffb3c6',
   // Pale cream-yellow, the same palette colour the pixel child wears (LOOK-13; Maor to
   // confirm the hue).
