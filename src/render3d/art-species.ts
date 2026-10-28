@@ -384,8 +384,10 @@ function tail(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
       break;
     case 'flame':
       prims = [
-        cap(at(0, 0, 0), at(0, 0.3, -0.45), 0.12, c.body!),
-        { ...cone(at(0, 0.32, -0.5), at(0, 0.75, -0.55), 0.2, 0.03, c.accent!), glow: 1 },
+        cap(at(0, 0, 0), at(0, 0.5, -0.45), 0.12, c.body!),
+        // A flame big enough to read from the game camera (LOOK-10), with a hot core.
+        { ...cone(at(0, 0.5, -0.5), at(0, 1.15, -0.58), 0.3, 0.03, c.accent!), glow: 1 },
+        { ...cone(at(0, 0.5, -0.42), at(0, 0.9, -0.5), 0.16, 0.02, '#ffe27a'), glow: 1 },
       ];
       break;
     case 'spiky':
@@ -635,7 +637,8 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
             x: 0.42,
             y: b.y + b.r.y * 0.45,
             z: -b.r.z * 0.85,
-            size: wings === 'small' ? 0.8 : 1.15,
+            // A big final form's bat wings span well past the body (Charizard, LOOK-10).
+            size: wings === 'small' ? 0.8 : wings === 'bat' && art.size >= 1.2 ? 1.6 : 1.15,
             color: wings === 'feather' ? c.belly! : c.accent!,
             shape:
               wings === 'bat'
