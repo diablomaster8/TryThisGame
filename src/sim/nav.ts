@@ -601,3 +601,12 @@ export function walkPath(world: World, from: Vec2, target: Vec2, who: Walker = '
   const planned = plan(g, from, target);
   return planned ? planned.points.slice(0, -1) : [];
 }
+
+/**
+ * MOVE-44: the corners still ahead on the Keeper's planned tap walk (the last is where it
+ * stops), or none when it walks straight. Read-only, for the path preview.
+ */
+export function keeperRoute(world: World): readonly Vec2[] {
+  const r = routes.get(world);
+  return r ? r.points.slice(r.i) : [];
+}

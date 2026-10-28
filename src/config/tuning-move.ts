@@ -130,3 +130,17 @@ export const BUSH = {
   shyChance: 0.3,
   shyRadius: 10,
 } as const;
+
+/**
+ * MOVE-44: after a tap, `dots` footprint dots along the walk's path fade over `dotsMs`; the
+ * target marker stays up to `markMs` or until the walk ends. Under reduced motion both go
+ * after `reducedMs`.
+ */
+export const TAP_PATH = {
+  dots: 5,
+  dotsMs: 600,
+  markMs: 2000,
+  reducedMs: 200,
+  /** The route is read again for this long after the tap, while the sim plans it. */
+  settleMs: 150,
+} as const;

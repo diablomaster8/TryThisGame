@@ -4,6 +4,7 @@ import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
 import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
+import { TapMarks3D } from './tap-marks';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -185,6 +186,8 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  /** MOVE-44: the tap walk's footprint dots and target ring. */
+  private readonly tapMarks: TapMarks3D;
   private readonly glow: MergedGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
@@ -234,6 +237,7 @@ export class Actors {
     // The emote ball frames: the plain set and the Shadow's plum one, one sprite material
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
+    this.tapMarks = new TapMarks3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -958,6 +962,7 @@ export class Actors {
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
     this.squashKeeper(keeper, nowMs);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
+    this.tapMarks.update(world, nowMs, this.calm);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

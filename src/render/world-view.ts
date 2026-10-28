@@ -14,6 +14,7 @@ import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
 import { BUSH, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { TapPath, type TapMark } from './tap-path';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -110,6 +111,8 @@ export class WorldView {
   private keeperDustMs = 0;
   /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
   private readonly bushShakes = new Map<string, number>();
+  /** MOVE-44: the tap walk's footprint dots and target marker. */
+  private readonly tapPath = new TapPath();
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
   /** Per-frame scratch sets, cleared and reused rather than allocated every frame. */
@@ -1064,6 +1067,27 @@ export class WorldView {
     const ky = kbase + off;
     // MOVE-21: the shadow lies on what the feet are over (bench, deck), shrinking with the gap.
     shadow(kx, Math.max(0, off - floor), kz, 0.45, kbase + floor + (floor > 0 ? 0.01 : 0));
+    // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
+    if (shadowRect && this.tapPath.update(world, nowMs)) {
+      const calm = this.particles.reduceMotion;
+      const mark = (m: TapMark, r: number, a: number) =>
+        batch.draw({
+          sheet: shadowSheet,
+          rect: shadowRect,
+          flip: false,
+          x: m.x,
+          y: m.y - paintedGround(m.x, m.z) + 0.01,
+          z: m.z,
+          mode: 'flat',
+          w: r * 2,
+          h: r * 2,
+          opacity: 0.45 * a,
+        });
+      const da = this.tapPath.dotAlpha(nowMs, calm);
+      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.09, da);
+      const ma = this.tapPath.markAlpha(nowMs, calm);
+      if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+    }
     const jclip = kpose?.clip || kHeld ? null : this.keeperJumpClip(world, nowMs, off - floor);
     const jrect = jclip ? ksheet.frames.get(frameKey(jclip, kview.angle, 0)) : undefined;
     const jscale = jrect && !this.particles.reduceMotion ? this.jumpScale(jclip) : null;
