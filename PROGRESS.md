@@ -38,6 +38,14 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Lane A: MOVE (2026-10-28, branch lane/a, not pushed)
+
+Plan: from R0021 in order. Here: R0021 jump/land feedback (both renderers, sound), R0022
+leftovers (pad Y shake, Keeper 2 jump keys, pet→X feed→B), R0024 auto-hop on tap paths,
+R0027 hold-to-glide, then R0025's Grove part and R0026 as time allows. Helper worktrees:
+R0028 analogue floating joystick (`lane/a-r28`, port 5191), R0029 Nubbin local avoidance
+(`lane/a-r29`, port 5192). Merged into lane/a.
+
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
 Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0

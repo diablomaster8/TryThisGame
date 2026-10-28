@@ -255,6 +255,9 @@ export function keeperJump(world: World, down: boolean): void {
   k.bufferMs = jumpTuning(world).bufferMs;
 }
 
+/** The highest the feet got since they left the ground, for the landing's fall height. */
+const peakY = new WeakMap<World, number>();
+
 /** Gravity, jumping and landing for one substep (MOVE-10/11). */
 function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEvent[]): void {
   const k = world.keeper;
@@ -267,6 +270,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.vy = 0;
       k.coyoteMs = tune.coyoteMs;
       k.airJumps = JUMP.airJumps;
+      peakY.set(world, k.y);
     } else {
       // Slopes, ramps and steps up to `stepUp` are followed.
       k.y = ground;
@@ -283,6 +287,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.grounded = false;
       k.coyoteMs = 0;
       k.bufferMs = 0;
+      if (fromGround) peakY.set(world, k.y);
       events.push({ kind: 'keeperJumped', air: !fromGround });
     }
   }
@@ -292,6 +297,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   const g = tune.gravity * (k.vy < 0 ? JUMP.fallGravityScale : 1);
   k.vy = Math.max(-JUMP.maxFall, k.vy - g * dt);
   k.y += k.vy * dt;
+  if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.y <= under) {
@@ -300,7 +306,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.vy = 0;
       k.grounded = true;
       k.airJumps = JUMP.airJumps;
-      events.push({ kind: 'keeperLanded' });
+      events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
     }
   }
 }

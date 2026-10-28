@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { KEEPER_JUMP_FX } from '../config/tuning-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -910,6 +911,11 @@ export function mountHud(
           playSound('pickup');
         } else if (e.kind === 'landed') {
           playSound('hit');
+        } else if (e.kind === 'keeperJumped') {
+          // MOVE-21: Lane A's jump sounds.
+          playSound(e.air ? 'hopAir' : 'hop');
+        } else if (e.kind === 'keeperLanded') {
+          playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));

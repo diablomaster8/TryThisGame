@@ -937,7 +937,8 @@ export type SimEvent =
   | { kind: 'landed'; nubbinId: string }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
-  | { kind: 'keeperLanded' }
+  /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
+  | { kind: 'keeperLanded'; fall: number }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
   | { kind: 'collected'; itemId: string }

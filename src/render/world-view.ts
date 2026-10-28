@@ -11,7 +11,9 @@ import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { keeperFooting } from '../sim/keeper';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
-import { KEEPER_WADE, KEEPER_ACCEL } from '../config/tuning-sim';
+import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
+import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D } from '../config/tuning';
@@ -121,6 +123,11 @@ export class WorldView {
   keeperAlpha: number | null = null;
   private keeperClipStart = 0;
   private keeperMoving = false;
+  /** MOVE-21: when the Keeper last left the ground and last landed (frame clock). */
+  private keeperJumpAt = -Infinity;
+  private keeperLandAt = -Infinity;
+  /** How long the land frame holds: longer after a big fall (MOVE-25's plop). */
+  private keeperLandMs: number = JUMP.landSquashMs;
   private shadowSheet: SpriteSheet | null = null;
   private readonly tmp = new Vector3();
 
@@ -237,6 +244,29 @@ export class WorldView {
     return { off: y - ground, floor };
   }
 
+  /**
+   * MOVE-21: the jump frame to draw, or null on the ground: land for a moment after
+   * touching down, crouch just after take-off while still near the floor, then rise, apex
+   * and fall by the vertical speed.
+   */
+  private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
+    const k = world.keeper;
+    if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
+    if (k.grounded) return null;
+    const fx = KEEPER_JUMP_FX;
+    if (nowMs - this.keeperJumpAt < fx.crouchMs && gap < fx.crouchGap) return 'jump-crouch';
+    if (k.vy > fx.apexVy) return 'jump-rise';
+    return k.vy < -fx.apexVy ? 'jump-fall' : 'jump-apex';
+  }
+
+  /** Squash and stretch for a jump frame: taller and thinner rising, shorter and wider landing. */
+  private jumpScale(clip: KeeperJumpClip | null): { w: number; h: number } | null {
+    const fx = KEEPER_JUMP_FX;
+    if (clip === 'jump-rise') return { w: 2 - fx.stretch, h: fx.stretch };
+    if (clip === 'jump-land') return { w: 2 - fx.squash, h: fx.squash };
+    return null;
+  }
+
   /** The Keeper's position as drawn this frame (between sim steps). */
   keeperDrawPos(world: World, alpha: number): Vec2 {
     // A scene that puts the Keeper on a mark draws them there (render/scene-stage.ts).
@@ -333,6 +363,12 @@ export class WorldView {
   onEvents(events: SimEvent[], nowMs: number): void {
     for (const e of events) {
       this.burstFor(e);
+      if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
+      else if (e.kind === 'keeperLanded') {
+        this.keeperLandAt = nowMs;
+        this.keeperLandMs =
+          e.fall > KEEPER_JUMP_FX.plopFall ? KEEPER_JUMP_FX.plopMs : JUMP.landSquashMs;
+      }
       if (e.kind === 'landed') {
         const v = this.nubbins.get(e.nubbinId);
         if (v) v.pop = { kind: 'squash', startMs: nowMs };
@@ -428,7 +464,9 @@ export class WorldView {
     const shadowSheet = this.shadowSheet;
     const shadowRect = shadowSheet.frames.get(frameKey('shadow', 'front', 0));
 
-    const shadow = (x: number, y: number, z: number, radius: number) => {
+    // `y` is the gap under the caster (it shrinks and fades the shadow); `at` is the height
+    // of the floor it falls on (a bench top, the bridge deck), 0 for the painted ground.
+    const shadow = (x: number, y: number, z: number, radius: number, at = 0) => {
       if (!shadowRect) return;
       const s = Math.max(0.35, 1 - y * 0.25);
       batch.draw({
@@ -436,7 +474,7 @@ export class WorldView {
         rect: shadowRect,
         flip: false,
         x,
-        y: 0,
+        y: at,
         z,
         mode: 'flat',
         w: radius * 2 * s,
@@ -981,11 +1019,19 @@ export class WorldView {
     const { off, floor } = kHeld ? { off: 0, floor: 0 } : this.keeperOffset(world, kx, kz, alpha);
     const kbase = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
     const ky = kbase + off;
-    shadow(kx, kbase + floor, kz, 0.45);
-    if (krect) {
+    // MOVE-21: the shadow lies on what the feet are over (bench, deck), shrinking with the gap.
+    shadow(kx, Math.max(0, off - floor), kz, 0.45, kbase + floor + (floor > 0 ? 0.01 : 0));
+    const jclip = kpose?.clip || kHeld ? null : this.keeperJumpClip(world, nowMs, off - floor);
+    const jrect = jclip ? ksheet.frames.get(frameKey(jclip, kview.angle, 0)) : undefined;
+    const jscale = jrect && !this.particles.reduceMotion ? this.jumpScale(jclip) : null;
+    const kdrawn = jrect ?? krect;
+    if (kdrawn) {
       batch.draw({
         sheet: ksheet,
-        rect: krect,
+        rect: kdrawn,
+        ...(jscale
+          ? { w: (kdrawn.w / NATIVE_PPU) * jscale.w, h: (kdrawn.h / NATIVE_PPU) * jscale.h }
+          : {}),
         flip: kview.flip,
         x: kx,
         y: ky,
@@ -1310,6 +1356,34 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperLanded':
+      case 'keeperJumped': {
+        // MOVE-21: a little dust each side on landing, a puff of sparkles under a double
+        // jump. Under reduced motion the frames stay and the particles go.
+        if (p.reduceMotion) break;
+        const k = this.keeperPrev;
+        const feet = Math.max(0.05, k.y - paintedGround(k.pos.x, k.pos.z) + 0.05);
+        if (e.kind === 'keeperLanded') {
+          const n = KEEPER_JUMP_FX.landDust;
+          for (const side of [-1, 1])
+            p.burst('dust', k.pos.x + side * 0.18, feet, k.pos.z, n, {
+              spread: 0.1,
+              speed: 0.5,
+              rise: 0.2,
+              lifeMs: 260,
+              size: 0.35,
+            });
+        } else if (e.air) {
+          p.burst('sparkle', k.pos.x, feet, k.pos.z, KEEPER_JUMP_FX.airSparkles, {
+            spread: 0.2,
+            speed: 0.4,
+            rise: -0.2,
+            lifeMs: 380,
+            size: 0.4,
+          });
+        }
+        break;
+      }
       case 'keeperSkid': {
         // A sharp turn at speed (MOVE-20): a puff of dust at the Keeper's heels.
         const k = this.keeperPrev.pos;
