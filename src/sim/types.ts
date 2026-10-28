@@ -1004,6 +1004,8 @@ export type SimEvent =
   | { kind: 'pickedUp'; nubbinId: string }
   | { kind: 'thrown'; nubbinId: string }
   | { kind: 'landed'; nubbinId: string }
+  // MOVE-30: a Nubbin hopped (up, down, over or for joy).
+  | { kind: 'nubbinHop'; nubbinId: string }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */

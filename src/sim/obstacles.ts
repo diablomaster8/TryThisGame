@@ -31,6 +31,8 @@ export type Walker = 'keeper' | 'nubbin' | 'hopper';
 
 /** Whether a Nubbin is spry enough to hop fences and logs. */
 export function nubbinWalker(n: Nubbin): Walker {
+  // MOVE-30: a Lazy Nubbin never jumps when there is a way round.
+  if (n.personality === 'lazy') return 'nubbin';
   const spry = Math.max(levelOf(n.stats.run.points), levelOf(n.stats.fly.points));
   return spry >= NUBBIN_HOP.stat ? 'hopper' : 'nubbin';
 }
@@ -301,5 +303,22 @@ export function standTopAt(world: World | null, x: number, z: number): number {
   for (const c of near(world, { x, z }, 0))
     if (c.flags.includes('standable') && contact(c, x, z, 0))
       best = Math.max(best, colliderTopY(c));
+  return best;
+}
+
+/**
+ * The top (over the ground) a Nubbin stands on at a point (MOVE-30): the highest hop or
+ * standable piece under it, no higher than `cap`, that Nubbins may cross, or 0 on open
+ * ground. A log or a fence
+ * gives a hop over it; a bench or a rock gives a perch.
+ */
+export function perchTopAt(world: World | null, x: number, z: number, cap = Infinity): number {
+  let best = 0;
+  for (const c of near(world, { x, z }, 0)) {
+    const f = c.flags;
+    if (f.includes('keeperOnly') || f.includes('soft')) continue;
+    if (!f.includes('hop') && !f.includes('standable')) continue;
+    if (c.top > best && c.top <= cap && contact(c, x, z, 0)) best = c.top;
+  }
   return best;
 }

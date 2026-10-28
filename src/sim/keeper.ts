@@ -1,9 +1,9 @@
 import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { footing, ledgeY, TERRACES, type Footing } from './terrain';
+import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
-import { AUTO_HOP, GLIDE, JUMP_PLAY, UNREACHABLE } from '../config/tuning-move';
+import { AUTO_HOP, GLIDE, JUMP_PLAY, KEEPER_SLOPE, UNREACHABLE } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -17,6 +17,7 @@ import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, pet, putDown, react } from './behavior';
+import { shyHopBack } from './nubbin-hop';
 import { addAffection, addHappiness, applyPet } from './needs';
 import { isFree } from './nubbin';
 import { giveHeartFruit } from './breeding';
@@ -376,6 +377,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.airJumps = JUMP.airJumps;
       glided.delete(world);
       events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
+      if (world.location === 'grove') shyHopBack(world, k.pos, events);
     }
   }
 }
@@ -478,6 +480,17 @@ function holdAtLedges(k: World['keeper'], px: number, pz: number): void {
   }
 }
 
+/**
+ * MOVE-41: the pace on a slope, walking from (x, z) along the unit heading (dx, dz): slower
+ * up, a little quicker down, on the hills only. Only on Grove ground; a jump keeps its pace.
+ */
+export function slopePace(x: number, z: number, dx: number, dz: number): number {
+  const r = KEEPER_SLOPE.probe;
+  const slope = (hillHeight(x + dx * r, z + dz * r) - hillHeight(x, z)) / r;
+  const f = 1 - KEEPER_SLOPE.up * Math.max(0, slope) + KEEPER_SLOPE.down * Math.max(0, -slope);
+  return Math.min(KEEPER_SLOPE.max, Math.max(KEEPER_SLOPE.min, f));
+}
+
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   const dt = dtMs / 1000;
@@ -505,7 +518,10 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       KEEPER.speed *
       Math.min(1, len) *
       keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
-      soft;
+      soft *
+      (k.grounded && !dungeonFloor && world.location === 'grove'
+        ? slopePace(k.pos.x, k.pos.z, nx, nz)
+        : 1);
     const v = accelerate(world, nx * speed, nz * speed, dt, events);
     k.pos.x += v.x * dt;
     k.pos.z += v.z * dt;
@@ -605,6 +621,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
               keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
               soft *
               ease *
+              (k.grounded && !dungeonFloor && world.location === 'grove'
+                ? slopePace(k.pos.x, k.pos.z, (to.x - k.pos.x) / td, (to.z - k.pos.z) / td)
+                : 1) *
               dt,
           );
           let dx = (to.x - k.pos.x) / td;

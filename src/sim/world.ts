@@ -69,7 +69,8 @@ import { joinTeam, stepTeams } from './teams';
 export function hatchSpeed(world: World): number {
   return hasSkill(world, 'warmHands') ? 1.1 : 1;
 }
-import { nubbinWalker, resolve } from './obstacles';
+import { resolve } from './obstacles';
+import { resolveNubbin } from './nubbin-hop';
 import { courseById, prizeFor } from './race';
 import { collideThrown } from './throw-collide';
 import {
@@ -919,7 +920,7 @@ export function stepWorld(
         updateBehavior(n, world, dtMs, rng, events);
         // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
         if (n.behavior.state === 'thrown') collideThrown(world, n, events);
-        resolve(n.pos, world, 0.3, nubbinWalker(n));
+        resolveNubbin(n, world);
       }
     }
     // Keeper actions happen only in live play: catch-up never walks to or acts on a saved

@@ -1,7 +1,8 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
+import { hillHeight } from '../sim/terrain';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -740,6 +741,14 @@ export class Actors {
       rig.group.position.set(p.x, this.keeperGround(p.x, p.z) + lift, p.z);
       rig.face(facing);
       rig.animate(gaitTime(rig, p.x, p.z, t, dt, pose === 'walk'));
+      // MOVE-41: walking up a hill the Keeper leans into it (forward), a little back going down.
+      if (pose === 'walk' && lift === 0 && this.location === 'grove') {
+        const r = KEEPER_SLOPE.probe;
+        const dx = Math.sin(facing) * r;
+        const dz = Math.cos(facing) * r;
+        const rise = hillHeight(p.x + dx, p.z + dz) - hillHeight(p.x, p.z);
+        rig.group.rotation.x += Math.atan2(rise, r) * KEEPER_SLOPE.lean;
+      }
     } else if (k.stand) placeStand(k.stand, p.x, this.ground(p.x, p.z), p.z, t);
   }
 

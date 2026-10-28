@@ -34,6 +34,9 @@ import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
+import { clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
+import { perchTopAt } from './obstacles';
+import { NUBBIN_JUMP } from '../config/tuning';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
 import type { BehaviorState, Flavor, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
@@ -374,6 +377,19 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     };
     return;
   }
+  // MOVE-30: a Mischievous Nubbin climbs a bench or a rock it can reach, and sits up there.
+  if (n.personality === 'mischievous' && nubbinWalker(n) === 'hopper') {
+    if (n.y > 0.2 && rng.chance(0.6)) {
+      setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs));
+      return;
+    }
+    const spot = rng.chance(NUBBIN_JUMP.perchChance) ? perchSpot(world, n) : null;
+    if (spot) {
+      setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
+      n.behavior.target = spot;
+      return;
+    }
+  }
   // Personality only shifts the odds of idle choices.
   const m = idleMultipliers(n.personality);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
@@ -488,7 +504,7 @@ export function updateBehavior(
   const b = n.behavior;
 
   if (b.state === 'thrown') {
-    updateThrown(n, dtMs, now, events);
+    updateThrown(n, world, dtMs, now, events);
     return;
   }
   if (!isFree(n)) return;
@@ -714,6 +730,7 @@ export function updateBehavior(
       chooseIdle(n, world, rng, now);
   }
 
+  stepHop(n, world, events);
   if (!inPond(n.pos) && b.state !== 'swim') clampToWorld(n.pos);
 }
 
@@ -736,15 +753,23 @@ export function startThrow(n: Nubbin, vel: Vec2, now: number, events: SimEvent[]
   events.push({ kind: 'thrown', nubbinId: n.id });
 }
 
-function updateThrown(n: Nubbin, dtMs: number, now: number, events: SimEvent[]): void {
+function updateThrown(
+  n: Nubbin,
+  world: World,
+  dtMs: number,
+  now: number,
+  events: SimEvent[],
+): void {
   const dt = dtMs / 1000;
   n.vel.y -= THROW.gravity * dt;
   n.pos.x += n.vel.x * dt;
   n.pos.z += n.vel.z * dt;
   n.y += n.vel.y * dt;
   clampToWorld(n.pos);
-  if (n.y <= 0) {
-    n.y = 0;
+  // MOVE-30: it can come down on a bench or a rock top it falls onto.
+  const floor = n.vel.y < 0 ? perchTopAt(world, n.pos.x, n.pos.z) : 0;
+  if (n.y <= floor) {
+    n.y = landingTop(n, world);
     n.vel = { x: 0, y: 0, z: 0 };
     events.push({ kind: 'landed', nubbinId: n.id });
     // Back on the ground first, so the reaction below replaces 'thrown' rather than
@@ -765,6 +790,7 @@ export function putDown(
   reaction: Reaction = 'confused',
 ): void {
   n.y = 0;
+  clearHop(n);
   n.vel = { x: 0, y: 0, z: 0 };
   setState(n, 'sit', now, 0);
   if (n.stage === 'egg') return;
