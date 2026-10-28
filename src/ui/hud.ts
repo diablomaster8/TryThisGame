@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { ACTS } from '../config/dungeon-acts';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -10,6 +11,7 @@ import {
   UI_TEXT,
   DUNGEON_TEXT,
   HOLLOW_TEXT,
+  ACT_TEXT,
 } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
@@ -1062,6 +1064,12 @@ export function mountHud(
           toast(HOLLOW_TEXT.partyGiggles);
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
+        } else if (e.kind === 'bossGuard') {
+          toast(HOLLOW_TEXT.bossGuard);
+        } else if (e.kind === 'bossBeaten') {
+          const act = ACTS[e.act];
+          toast(HOLLOW_TEXT.bossBeaten(act ? (ACT_TEXT[act.id]?.boss ?? '') : ''));
+          playSound('buy');
         } else if (e.kind === 'wildScanned') {
           toast(DUNGEON_TEXT.wildScanned(keyLabel(e.species)));
         } else if (e.kind === 'located') {

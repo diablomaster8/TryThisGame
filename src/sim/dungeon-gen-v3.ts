@@ -26,7 +26,7 @@ import {
   type SpecialFloor,
 } from './dungeon';
 import { dressFloor } from './dungeon-gen';
-import { placePacks } from './dungeon-encounters';
+import { bossPack, placePacks } from './dungeon-encounters';
 import {
   piecesFor,
   rotateRows,
@@ -453,6 +453,9 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
   };
   flood(startI, 0);
   let nextId = 1;
+  const from = new Int32Array(cols * rows);
+  const seenAt = new Int32Array(cols * rows);
+  let stamp = 0;
   for (let i = 0; i < cells.length; i++) {
     if (cells[i] === WALL || comp[i]! >= 0) continue;
     const pocket = flood(i, nextId++);
@@ -464,9 +467,11 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       continue;
     }
     // Tunnel from the pocket to the nearest open cell already joined, around the pieces.
-    const from = new Int32Array(cols * rows).fill(-2);
+    // One search buffer for every pocket: `seenAt` marks what this pocket's search touched.
+    stamp++;
     const queue: number[] = [];
     for (const j of pocket) {
+      seenAt[j] = stamp;
       from[j] = -1;
       queue.push(j);
     }
@@ -480,7 +485,8 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
         const ny = y + dy;
         if (!inner(nx, ny)) continue;
         const n = ny * cols + nx;
-        if (from[n] !== -2) continue;
+        if (seenAt[n] === stamp) continue;
+        seenAt[n] = stamp;
         if (cells[n] !== WALL && comp[n] === 0) {
           from[n] = j;
           hit = n;
@@ -667,5 +673,9 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
   };
   floor.layout = layout;
   floor.packs = placePacks(floor, rng, depth, rng.int(level.packs[0], level.packs[1]));
+  if (opts.boss) {
+    const at = boss ?? floor.stairsDown;
+    if (at) floor.packs.push(bossPack(floor, rng, depth, at));
+  }
   return floor;
 }

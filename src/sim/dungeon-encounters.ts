@@ -13,6 +13,7 @@
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
+import { actProgress } from './dungeon-acts';
 import type { Rng } from './rng';
 import { isCommonSpecies, SPECIES } from './species';
 import { levelOf } from './stats';
@@ -134,6 +135,28 @@ export function placePacks(f: Floor, rng: Rng, depth: number, count: number): En
     });
   }
   return out;
+}
+
+/**
+ * An act's boss (R0145): one big foe on the boss room's spot that guards the way on, never
+ * fled from, and with a long leash. Its own look and phased fight come with DUNG-20.
+ */
+export function bossPack(f: Floor, rng: Rng, depth: number, at: Cell): EncounterPack {
+  const foes = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
+  return {
+    id: 'pack-boss',
+    cell: at,
+    room: f.rooms.findIndex(
+      (r) => at.x >= r.x && at.y >= r.y && at.x < r.x + r.w && at.y < r.y + r.h,
+    ),
+    family: 'boss',
+    tier: 1 + Math.floor((depth - 1) / 3),
+    members: [{ species: rng.pick(foes).id, level: depth * 2 + E.bossLevels, mods: [] }],
+    kind: 'boss',
+    aggroRadius: E.bossAggro,
+    leash: E.bossLeash,
+    reward: 'pack-boss',
+  };
 }
 
 /** The run's live packs for a floor, all at home and idle. */
@@ -272,6 +295,10 @@ export function finishEncounter(
     world.inventory.shells += shells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    if (spec.kind === 'boss' && run.act !== undefined) {
+      actProgress(world, run.act).bossDefeated = true;
+      events.push({ kind: 'bossBeaten', act: run.act });
+    }
     return;
   }
   pack.state = 'home';

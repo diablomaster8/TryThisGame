@@ -562,10 +562,19 @@ export interface DungeonRun {
   packs?: DungeonPack[];
   /** A fight under way with this pack: the floor holds still until it is answered. */
   encounter?: { packId: string };
+  /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
+  act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
+}
+
+/** How far the Keeper has got in one act of the Hollow (R0145). */
+export interface ActProgress {
+  bossDefeated: boolean;
+  /** Deepest level of the act dungeon reached, 1-based; 0 before the first visit. */
+  deepest: number;
 }
 
 /** A monster pack's live state on the current floor (R0146); its make-up is on the floor. */
@@ -761,7 +770,14 @@ export interface World {
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
-  hollow: { runs: number; best: number; dailyDay: string; dailyDepth: number };
+  hollow: {
+    runs: number;
+    best: number;
+    dailyDay: string;
+    dailyDepth: number;
+    /** Progress through the five acts, by `ACTS` index (R0145; save version 8). */
+    acts: ActProgress[];
+  };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
   /** Festival banner shown for this season already. */
@@ -919,6 +935,7 @@ export type Command =
   | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
+  | { kind: 'enterAct'; act: number }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
@@ -1067,6 +1084,8 @@ export type SimEvent =
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
   | { kind: 'partyGiggles'; packId: string }
   | { kind: 'packFled'; packId: string }
+  | { kind: 'bossGuard' }
+  | { kind: 'bossBeaten'; act: number }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 

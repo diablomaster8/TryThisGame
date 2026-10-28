@@ -38,6 +38,10 @@ export const HOLLOW = {
     winMax: 0.95,
     rewardShells: 6,
     rewardPerTier: 4,
+    /** An act boss: levels over its depth, notice radius and leash (cells). */
+    bossLevels: 6,
+    bossAggro: 6,
+    bossLeash: 30,
   },
   /**
    * Generator version 3 (R0143, R0144): authored pieces on a grid of slots, a branching

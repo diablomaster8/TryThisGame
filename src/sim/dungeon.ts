@@ -4,6 +4,8 @@ import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
+import { actStartDepth } from '../config/dungeon-acts';
 import {
   finishEncounter,
   freshPacks,
@@ -582,9 +584,16 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
   return f;
 }
 
+/** The floor a run stands on: its act's dungeon (R0145), or the endless Hollow by version. */
+export function floorOfRun(run: DungeonRun): Floor {
+  return run.act !== undefined
+    ? actFloor(run.seed, run.act, run.depth)
+    : floorOf(run.seed, run.depth, run.genVersion);
+}
+
 export function runFloor(world: World): Floor | null {
   const run = world.dungeon;
-  return run && world.location === 'dungeon' ? floorOf(run.seed, run.depth, run.genVersion) : null;
+  return run && world.location === 'dungeon' ? floorOfRun(run) : null;
 }
 
 // ---------------------------------------------------------------- explored mask
@@ -841,12 +850,20 @@ export function enterDungeon(
   rng: Rng,
   events: SimEvent[],
   story?: { seed: number; depth: number },
+  act?: number,
 ): boolean {
   if (world.location !== 'grove' || world.dungeon) return false;
   if (story) daily = false;
+  // An act's dungeon (R0145): only once it is open, never as today's shared cave.
+  if (act !== undefined && (story || !actOpen(world, act))) return false;
+  if (act !== undefined) daily = false;
   const today = dailySeed(world.lastWallMs);
   const seed = story ? story.seed : daily ? today.seed : rng.int(1, 2_000_000_000);
-  const depth = story ? Math.max(1, Math.round(story.depth)) : 1;
+  const depth = story
+    ? Math.max(1, Math.round(story.depth))
+    : act !== undefined
+      ? actStartDepth(act)
+      : 1;
   const party = choosePartyFor(world);
   const run: DungeonRun = {
     seed,
@@ -873,8 +890,9 @@ export function enterDungeon(
     genVersion: story ? 2 : HOLLOW.genVersion,
     explored: '',
     ...(story ? { story: true as const } : {}),
+    ...(act !== undefined ? { act } : {}),
   };
-  const f = floorOf(seed, depth, run.genVersion);
+  const f = floorOfRun(run);
   populate(run, f);
   run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   world.dungeon = run;
@@ -923,13 +941,24 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
 }
 
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
+  // The bottom of an act: the boss guards the way on; once it is beaten the way leads home
+  // with the haul, and the next act is open from the cave mouth (R0145).
+  if (run.act !== undefined && run.depth >= actBossDepth(run.act)) {
+    if (actProgress(world, run.act).bossDefeated) leaveDungeon(world, events);
+    else events.push({ kind: 'bossGuard' });
+    return;
+  }
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
   run.genVersion = run.story ? 2 : HOLLOW.genVersion;
-  const f = floorOf(run.seed, run.depth, run.genVersion);
+  const f = floorOfRun(run);
   populate(run, f);
   run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   placeParty(world, run, f);
+  if (run.act !== undefined) {
+    const p = actProgress(world, run.act);
+    p.deepest = Math.max(p.deepest, run.depth - actStartDepth(run.act) + 1);
+  }
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   if (run.daily && run.daily === world.hollow.dailyDay)
     world.hollow.dailyDepth = Math.max(world.hollow.dailyDepth, run.depth);

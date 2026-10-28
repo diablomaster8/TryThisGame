@@ -189,7 +189,7 @@ export function createWorld(seed: number, wallMs: number): World {
     night: false,
     tank: { runs: 0, best: 0 },
     dungeon: null,
-    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 },
+    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] },
     neighbours: {},
     festivalSeen: '',
     atlasFestivals: [],
@@ -648,6 +648,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'setLoading':
       setDungeonLoading(world, cmd.on);
+      return;
+    case 'enterAct':
+      withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
       return;
     case 'encounterDone':
       encounterDone(world, cmd.outcome, events);
