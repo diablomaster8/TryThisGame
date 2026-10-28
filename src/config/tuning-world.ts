@@ -51,3 +51,13 @@ export const WORLD_LOD = {
   /** Share of grass tufts drawn at geometry level 0..3. */
   grass: [1, 0.6, 0.35, 0.2],
 } as const;
+
+/** WORLD-10/11: walking pace and how far apart points of interest may be, in walking seconds. */
+export const WORLD_WALK = {
+  /** The Keeper's phone walking speed, units per second, used to turn distance into time. */
+  speed: 3.2,
+  /** A region's longest crossing should take this long (rooms and the kids' area are exempt). */
+  crossS: { min: 20, max: 50 },
+  /** POI ladder: the 90th-percentile walk to the nearest POI of each tier, at most. */
+  tierS: { micro: 8, minor: 15, major: 30 },
+} as const;

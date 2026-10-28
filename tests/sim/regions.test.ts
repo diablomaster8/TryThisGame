@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { REGIONS, REGION_ORDER } from '../../src/config/regions';
-import { LANDMARKS, SIM } from '../../src/config/tuning';
+import { LANDMARKS, SIM, WORLD_WALK } from '../../src/config/tuning';
 import { regionOf, regionsFound, travelBlock } from '../../src/sim/regions';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -76,5 +76,51 @@ describe('region graph (WORLD-04)', () => {
     const back = deserialize(serialize(world, 0)).world;
     expect(regionOf(back.location)).toBe('lane');
     expect(regionsFound(back)).toEqual(['grove', 'lane']);
+  });
+});
+
+describe('the first open-world graph (WORLD-10)', () => {
+  const ids = Object.keys(REGIONS) as Array<keyof typeof REGIONS>;
+
+  it('reaches every region but the Learning Grove’s from the Grove', () => {
+    const seen = new Set<string>(['grove']);
+    const queue = ['grove' as keyof typeof REGIONS];
+    while (queue.length) {
+      for (const e of REGIONS[queue.shift()!].exits) {
+        if (seen.has(e.to)) continue;
+        seen.add(e.to);
+        queue.push(e.to);
+      }
+    }
+    expect(ids.filter((id) => !seen.has(id))).toEqual(['little-grove']);
+  });
+
+  it('gives every exit a way back, arriving inside the region', () => {
+    for (const id of ids) {
+      for (const e of REGIONS[id].exits) {
+        expect(
+          REGIONS[e.to].exits.some((b) => b.to === id),
+          `${e.id} has no return`,
+        ).toBe(true);
+        const s = REGIONS[e.to].size;
+        expect(Math.abs(e.arrive.x) <= s.w / 2 && Math.abs(e.arrive.z) <= s.h / 2, e.id).toBe(true);
+      }
+    }
+  });
+
+  it('keeps crossings within 20–50 s and the world about six Groves big', () => {
+    const exempt = ['hollow', 'caves', 'little-grove'];
+    let area = 0;
+    for (const id of ids) {
+      const s = REGIONS[id].size;
+      if (exempt.includes(id)) continue;
+      area += s.w * s.h;
+      const t = Math.max(s.w, s.h) / WORLD_WALK.speed;
+      expect(t, id).toBeGreaterThanOrEqual(WORLD_WALK.crossS.min);
+      expect(t, id).toBeLessThanOrEqual(WORLD_WALK.crossS.max);
+    }
+    const grove = REGIONS.grove.size.w * REGIONS.grove.size.h;
+    expect(area / grove).toBeGreaterThan(5);
+    expect(area / grove).toBeLessThan(8);
   });
 });

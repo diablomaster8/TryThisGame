@@ -61,20 +61,43 @@ export interface RegionDef {
   season: 'world' | Season;
 }
 
-/** A not-yet-built region: named for quests and the map, never entered. */
+/** An exit as a 4-unit square centred on (x, z), arriving at (ax, az) in the other region. */
+function way(
+  id: string,
+  to: RegionId,
+  at: [number, number],
+  arrive: [number, number],
+  kind: RegionExit['kind'] = 'seamless',
+  facing = 0,
+): RegionExit {
+  return {
+    id,
+    rect: { x: at[0] - 2, z: at[1] - 2, w: 4, h: 4 },
+    to,
+    arrive: { x: arrive[0], z: arrive[1] },
+    facing,
+    kind,
+  };
+}
+
+/**
+ * A not-yet-built region: named for quests and the map, never entered. Sizes and exits
+ * follow WORLD-10's first graph; POI positions wait for each region's layout.
+ */
 function future(
   id: RegionId,
   biome: Biome,
-  size: number,
+  size: [number, number],
   pois: readonly string[],
+  exits: readonly RegionExit[],
   extra: Partial<RegionDef> = {},
 ): RegionDef {
   return {
     id,
-    size: { w: size, h: size },
+    size: { w: size[0], h: size[1] },
     biome,
     built: false,
-    exits: [],
+    exits,
     pois: pois.map((p) => ({ id: p, x: 0, z: 0 })),
     kidsSafe: false,
     audience: 'all',
@@ -109,6 +132,12 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
         facing: 0,
         kind: 'stairs',
       },
+      // WORLD-10: the ways out to the regions not built yet (taking one is refused until then).
+      way('grove-marsh', 'shore', [12, 46], [-66, 0], 'seamless', N / 2),
+      way('grove-wood', 'wood', [-28, -46], [0, 52], 'gate', N),
+      way('grove-ridge', 'ridge', [46, -24], [0, 44], 'seamless', N),
+      way('grove-sun', 'sunlands', [-46, -6], [0, 36], 'gate', N),
+      way('grove-moon', 'moonlands', [-46, 6], [0, 36], 'gate', N),
     ],
     pois: [
       { id: 'bridge', x: 9.6, z: -4.2, landmark: 'bridge' },
@@ -139,18 +168,19 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
   },
   lane: {
     id: 'lane',
-    size: { w: 40, h: 40 },
+    size: { w: 24, h: 120 },
     biome: 'meadow',
     built: true,
     exits: [
       {
         id: 'lane-gate',
-        rect: { x: -2, z: -2, w: 4, h: 3 },
+        rect: { x: -2, z: -60, w: 4, h: 4 },
         to: 'grove',
-        arrive: { x: 0, z: 4 },
-        facing: 0,
+        arrive: { x: 0, z: 21 },
+        facing: N,
         kind: 'gate',
       },
+      way('lane-village', 'village', [0, 58], [0, -30], 'seamless', 0),
     ],
     pois: [
       { id: 'hazel-house', x: 0, z: 0 },
@@ -187,16 +217,83 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     clock: 'fixed',
     season: 'world',
   },
-  village: future('village', 'meadow', 64, ['square', 'stalls', 'mill', 'inn', 'kettleby']),
-  shore: future('shore', 'beach', 96, ['beach', 'rock-pools', 'stilt-village', 'lagoon', 'bay']),
-  wood: future('wood', 'forest', 96, ['clearing', 'deep-wood', 'old-oak', 'woodcutter']),
-  ridge: future('ridge', 'alpine', 80, ['track', 'lookout', 'hut']),
-  peaks: future('peaks', 'alpine', 64, ['summit', 'pass', 'snowfield']),
-  caves: future('caves', 'cave', 48, ['mouth', 'lake', 'crystals']),
-  ruins: future('ruins', 'ruin', 64, ['temple', 'stones', 'archive'], { audience: 'main' }),
-  sunlands: future('sunlands', 'sun', 64, ['dais']),
-  moonlands: future('moonlands', 'moon', 64, ['dais']),
-  'little-grove': future('little-grove', 'meadow', 32, ['sandpit', 'swings'], { kidsSafe: true }),
+  village: future(
+    'village',
+    'meadow',
+    [80, 64],
+    ['square', 'stalls', 'mill', 'inn', 'kettleby'],
+    [way('village-lane', 'lane', [0, -30], [0, 56], 'seamless', N)],
+  ),
+  shore: future(
+    'shore',
+    'beach',
+    [140, 48],
+    ['beach', 'rock-pools', 'stilt-village', 'lagoon', 'bay'],
+    [way('shore-marsh', 'grove', [-68, 0], [12, 43], 'seamless', N)],
+  ),
+  wood: future(
+    'wood',
+    'forest',
+    [112, 112],
+    ['clearing', 'deep-wood', 'old-oak', 'old-mill', 'woodcutter'],
+    [
+      way('wood-trail', 'grove', [0, 54], [-28, -43], 'gate', 0),
+      way('wood-ruins', 'ruins', [54, 0], [-34, 0], 'gate', N / 2),
+    ],
+  ),
+  ridge: future(
+    'ridge',
+    'alpine',
+    [64, 96],
+    ['track', 'lookout', 'hut'],
+    [
+      way('ridge-stair', 'grove', [0, 46], [43, -24], 'seamless', -N / 2),
+      way('ridge-peaks', 'peaks', [0, -46], [0, 30], 'door', N),
+    ],
+  ),
+  peaks: future(
+    'peaks',
+    'alpine',
+    [64, 64],
+    ['summit', 'pass', 'snowfield'],
+    [
+      way('peaks-ridge', 'ridge', [0, 30], [0, -43], 'door', 0),
+      way('peaks-ice', 'caves', [20, -20], [0, 0], 'stairs', 0),
+    ],
+  ),
+  caves: future(
+    'caves',
+    'cave',
+    [48, 48],
+    ['mouth', 'lake', 'crystals'],
+    [way('caves-ice', 'peaks', [0, 0], [20, -17], 'stairs', 0)],
+  ),
+  ruins: future(
+    'ruins',
+    'ruin',
+    [72, 72],
+    ['temple', 'stones', 'archive'],
+    [way('ruins-wood', 'wood', [-34, 0], [51, 0], 'gate', -N / 2)],
+    { audience: 'main' },
+  ),
+  sunlands: future(
+    'sunlands',
+    'sun',
+    [80, 80],
+    ['dais'],
+    [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', 0)],
+  ),
+  moonlands: future(
+    'moonlands',
+    'moon',
+    [80, 80],
+    ['dais'],
+    [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', 0)],
+  ),
+  // Reached only from the Learning Grove, so it has no road to the rest of the world.
+  'little-grove': future('little-grove', 'meadow', [40, 40], ['sandpit', 'swings'], [], {
+    kidsSafe: true,
+  }),
 };
 
 /** Region ids in display order (the map's tab strip). */
