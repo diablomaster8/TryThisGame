@@ -4,6 +4,7 @@ import { fenceSpots } from '../render/scenery';
 import type { Tex } from '../samples/aaa-kit';
 import type { TownUnlocks } from '../sim/town';
 import { bevelBox, buildingMaterial } from './building-kit';
+import { occluders } from './occluders';
 
 /**
  * The village bits of the home Grove that the pixel view draws in `world-view.ts`: the
@@ -70,7 +71,10 @@ export class Village {
       s.visible = false;
       this.group.add(s);
       this.stalls.push(s);
+      const gy = ground(x, z);
+      occluders.add('village', x, z, 1.3, 0.8, gy, gy + 2.4, gy + 1.7);
     }
+    occluders.patch(this.group);
     // Fence posts along the main path, one instanced mesh. On today's layout the gate
     // sits by the pond and `fenceSpots` is empty, so neither view draws any.
     const spots = fenceSpots();
