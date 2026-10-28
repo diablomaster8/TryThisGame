@@ -18,6 +18,7 @@ export const LOAD_SAFETY_MS = GROVE3D.loadSafetyMs;
 export class LoadingBar {
   private readonly veil: HTMLDivElement;
   private readonly fill: HTMLSpanElement;
+  private readonly label: HTMLDivElement;
   private finished = false;
   private startMs = performance.now();
   private shown = 0;
@@ -31,12 +32,19 @@ export class LoadingBar {
     this.veil.setAttribute('aria-valuemax', '100');
     const label = document.createElement('div');
     label.textContent = UI_TEXT.loading3d;
+    this.label = label;
     const bar = document.createElement('div');
     bar.className = 'load-bar';
     this.fill = document.createElement('span');
     bar.appendChild(this.fill);
     this.veil.append(label, bar);
     parent.appendChild(this.veil);
+  }
+
+  /** Say what is loading: a save that opens underground is not "Shaping the Grove" (R0142). */
+  setLabel(text: string): void {
+    this.label.textContent = text;
+    this.veil.setAttribute('aria-label', text);
   }
 
   get done(): boolean {

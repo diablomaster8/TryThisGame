@@ -38,6 +38,16 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Lane B: DUNG, the Hollow Below (2026-10-28, branch lane/b, not pushed)
+
+Plan (R0142–R0146 first, R-number order, PM merges): R0142 hold the Hollow's sim behind
+the veil and an 8 s arrival grace; a v2 snapshot test pins the old generator (DUNG-67) before
+anything moves; R0143/R0144 generator version 3 (`sim/dungeon-gen-v3.ts`, authored ASCII
+pieces in `sim/dungeon-pieces/`, three levels in `config/tuning-dungeon.ts`), sharing v2's
+dressing; R0146 encounter packs on `DungeonRun.packs` with a local `startEncounter` stub
+(`sim/dungeon-encounters.ts`) until lane C's `sim/battle/` lands; R0145 the five-act table,
+progress in `world.hollow.acts` and the one save bump of this pass (v7 → v8).
+
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
 Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0

@@ -556,6 +556,10 @@ export interface DungeonRun {
    * Read it through `exploredMask` in sim/dungeon.ts.
    */
   explored: string;
+  /** Strays and packs leave the Keeper be until this sim time (R0142). */
+  graceUntilMs?: number;
+  /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
+  loading?: true;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -896,6 +900,7 @@ export type Command =
   | { kind: 'enterDungeon'; daily: boolean }
   | { kind: 'leaveDungeon' }
   | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
+  | { kind: 'setLoading'; on: boolean }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };

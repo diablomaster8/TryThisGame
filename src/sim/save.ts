@@ -266,6 +266,8 @@ export function validateWorld(w: World): World {
     // Runs saved before the version-2 floors keep the floor they were standing on.
     w.dungeon.genVersion ??= 1;
     w.dungeon.explored ??= '';
+    // The veil's hold belongs to the session that set it; the next boot sets its own.
+    delete w.dungeon.loading;
   }
   w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 };
   // A save written underground without its run: back to the Grove.

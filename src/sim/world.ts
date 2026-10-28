@@ -46,7 +46,15 @@ import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
-import { dungeonGo, enterDungeon, feedStray, inParty, leaveDungeon, stepDungeon } from './dungeon';
+import {
+  dungeonGo,
+  enterDungeon,
+  feedStray,
+  inParty,
+  leaveDungeon,
+  setDungeonLoading,
+  stepDungeon,
+} from './dungeon';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -636,6 +644,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'dungeonGo':
       dungeonGo(world, cmd.to, events);
+      return;
+    case 'setLoading':
+      setDungeonLoading(world, cmd.on);
       return;
     case 'feedStray':
       feedStray(world, cmd.id, events);

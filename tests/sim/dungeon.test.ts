@@ -224,6 +224,7 @@ describe('a run', () => {
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'enterDungeon', daily: false }, events);
     const run = world.dungeon!;
+    run.graceUntilMs = 0; // past the arrival grace (R0142)
     expect(run.strays.length).toBeGreaterThan(0);
     const s = run.strays[0]!;
     world.keeper.pos = { x: s.pos.x + 0.3, z: s.pos.z };

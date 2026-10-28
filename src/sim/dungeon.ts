@@ -1,4 +1,4 @@
-import { DUNGEON, KEEPER, SCANS } from '../config/tuning';
+import { DUNGEON, HOLLOW, KEEPER, SCANS } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
@@ -824,6 +824,7 @@ export function enterDungeon(
   };
   const f = floorOf(seed, depth, run.genVersion);
   populate(run, f);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   world.dungeon = run;
   world.location = 'dungeon';
   placeParty(world, run, f);
@@ -875,11 +876,27 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   run.genVersion = DUNGEON.genVersion;
   const f = floorOf(run.seed, run.depth, run.genVersion);
   populate(run, f);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   placeParty(world, run, f);
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   if (run.daily && run.daily === world.hollow.dailyDay)
     world.hollow.dailyDepth = Math.max(world.hollow.dailyDepth, run.depth);
   events.push({ kind: 'descended', depth: run.depth, daily: run.daily !== null });
+}
+
+/**
+ * The boot veil is up (or has just lifted) over a floor (R0142). While it is up the floor
+ * holds still; when it lifts the arrival grace starts again, so the first thing the player
+ * sees is never a stray already making off with their Shells.
+ */
+export function setDungeonLoading(world: World, on: boolean): void {
+  const run = world.dungeon;
+  if (!run) return;
+  if (on) run.loading = true;
+  else if (run.loading) {
+    delete run.loading;
+    run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
+  }
 }
 
 /** Walk to the stairs or the chest and use it on arrival. */
@@ -1031,6 +1048,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const run = world.dungeon;
   const f = runFloor(world);
   if (!run || !f || dtMs > 1000) return;
+  if (run.loading) return;
+  const settling = world.timeMs < (run.graceUntilMs ?? 0);
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
@@ -1083,7 +1102,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       s.target = c ? cellCentre(f, c) : null;
     }
     resolveDungeon(s.pos, f, 0.3);
-    if (!fleeing && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
+    if (!fleeing && !settling && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
       const shells = Math.min(world.inventory.shells, DUNGEON.straySnatch);
       world.inventory.shells -= shells;
       run.haul.shells = Math.max(0, run.haul.shells - shells);
