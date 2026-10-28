@@ -71,9 +71,23 @@ export function paintSection(f: TrackFrame, kind: SectionKind | 'runup', x0: num
       return paintClimb(f, a, b);
     case 'stretch':
       return paintStretch(f, a, b);
+    case 'hurdles':
+      return paintRun(f, a, b);
     default:
       return paintRun(f, a, b);
   }
+}
+
+/** A little picket fence standing on a lane's baseline: five pickets and a rail. */
+export function paintPicketFence(ctx: CanvasRenderingContext2D, cx: number, baseY: number): void {
+  const x = Math.round(cx) - 4;
+  const y = Math.round(baseY) - 7;
+  ctx.fillStyle = color(C.cream);
+  for (let i = 0; i < 5; i++) ctx.fillRect(x + i * 2, y + (i === 2 ? 0 : 1), 1, i === 2 ? 8 : 7);
+  ctx.fillStyle = color(C.wood);
+  ctx.fillRect(x - 1, y + 3, 10, 1);
+  ctx.fillStyle = color(C.bark);
+  ctx.fillRect(x, y + 7, 9, 1);
 }
 
 /** Lane rows: the band between two baselines, for striping. */
