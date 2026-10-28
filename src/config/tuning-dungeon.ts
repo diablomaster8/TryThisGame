@@ -79,6 +79,15 @@ export const HOLLOW = {
     /** The endless Hollow's level by depth: up to `small` floors, then up to `standard`. */
     deepLevels: { small: 3, standard: 9 },
   },
+  /** Levels kept per run so going back finds them as left (R0151). */
+  levels: { keep: 12 },
+  /**
+   * Waypoint stones (R0148): on level 1 of every act and every `every` levels after, never on
+   * the boss level; `reach` is how close (world units) counts as standing on one.
+   */
+  waypoints: { every: 2, reach: 1.2 },
+  /** The Homing Acorn (R0150): a bundle in the cave-mouth shop, and the chance a find holds one. */
+  acorns: { bundle: 5, price: 10, dropChance: 0.12 },
 } as const;
 
 export type HollowLevel = keyof typeof HOLLOW.v3.levels;

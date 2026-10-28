@@ -51,6 +51,13 @@ import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
 import {
+  buyAcorns,
+  portalReturn,
+  rerollActs,
+  useAcorn,
+  waypointTravel,
+} from './dungeon-travel';
+import {
   dungeonGo,
   encounterDone,
   enterDungeon,
@@ -195,7 +202,18 @@ export function createWorld(seed: number, wallMs: number): World {
     night: false,
     tank: { runs: 0, best: 0 },
     dungeon: null,
-    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] },
+    hollow: {
+      runs: 0,
+      best: 0,
+      dailyDay: '',
+      dailyDepth: 0,
+      acts: [],
+      actSeeds: [],
+      rerollDay: '',
+      waypoints: [],
+      acorns: 0,
+      portal: null,
+    },
     neighbours: {},
     festivalSeen: '',
     atlasFestivals: [],
@@ -666,6 +684,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'enterAct':
       withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
+      return;
+    // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
+    case 'waypointTravel':
+      withRng(world, (rng) => waypointTravel(world, cmd.id, rng, events));
+      return;
+    case 'rerollActs':
+      rerollActs(world, events);
+      return;
+    case 'buyAcorns':
+      buyAcorns(world, events);
+      return;
+    case 'useAcorn':
+      useAcorn(world, events);
+      return;
+    case 'portalReturn':
+      portalReturn(world, events);
       return;
     case 'encounterDone':
       encounterDone(world, cmd.outcome, events);

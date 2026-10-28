@@ -800,6 +800,7 @@ export class Game {
         } else if (
           e.kind === 'dungeonEntered' ||
           e.kind === 'descended' ||
+          e.kind === 'levelChanged' ||
           e.kind === 'dungeonLeft'
         )
           this.syncDungeon();

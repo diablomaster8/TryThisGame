@@ -24,6 +24,39 @@ export const HOLLOW_TEXT = {
   actCleared: 'Boss beaten',
   bossGuard: 'Something big sits on the way on. It will have to be beaten first.',
   bossBeaten: (name: string) => `${name} is beaten! The way to the next Hollow is open.`,
+  /** Waypoint stones (R0148). */
+  waypointsTitle: 'Waypoints',
+  waypointsHelp: 'Mossy stones that remember the way. Walk onto one to wake it; travel is free.',
+  waypointButton: '◆ Waypoint',
+  waypointLevel: (level: number) => `Level ${level}`,
+  waypointAwake: '✓ Awake',
+  waypointAsleep: '○ Not found yet',
+  waypointHere: 'You are here',
+  waypointActivated: 'A waypoint stone hums awake. You can travel back here any time.',
+  waypointArrived: 'The moss glows, and here you are.',
+  waypointsNone: 'No waypoint stones awake yet. The first sits near the top of each Hollow.',
+  /** New paths (R0149). */
+  newPaths: 'New paths',
+  newPathsHelp: 'Redraw every Hollow’s tunnels. Once a day; bosses beaten stay beaten.',
+  newPathsDone: 'The tunnels shift and settle. New paths wait below.',
+  newPathsLater: 'The tunnels have shifted once today already.',
+  /** The Homing Acorn (R0150). */
+  acornsTitle: 'Homing Acorns',
+  acornsHelp: (count: number, bundle: number, price: number) =>
+    `Plant one to fall up home and come back later. You have ${count}. ${bundle} for ${price} Shells.`,
+  acornsBuy: 'Buy',
+  acornsBought: (count: number) => `${count} Homing Acorns in your pocket.`,
+  acornsShort: 'Not enough Shells for a bundle of acorns.',
+  acornFound: 'Tucked in the find: a Homing Acorn!',
+  acornButton: (count: number, free: boolean) => (free ? '🌰 Acorn (free)' : `🌰 Acorn ×${count}`),
+  acornPortal: (free: boolean) =>
+    free
+      ? 'Grandma’s acorn sprouts, and everyone falls up through a swirl of leaves. Home!'
+      : 'The acorn sprouts, and everyone falls up through a swirl of leaves. Home!',
+  portalTitle: 'Acorn portal',
+  portalHelp: (level: string) => `Your acorn still glows at ${level}. Step back through.`,
+  portalGo: 'Step through',
+  portalReturned: 'Back through the acorn, right where you left off.',
 } as const;
 
 /** The acts' names, a line each, and their bosses (R0145), by `ActId`. */

@@ -578,6 +578,30 @@ export interface DungeonRun {
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
+  /**
+   * Levels left behind on this run, by level id (R0151): what was taken, beaten, opened and
+   * seen, so going back finds them as they were. At most `HOLLOW.levels.keep`, oldest out.
+   */
+  levels?: Record<string, LevelState>;
+  /** This run's free Homing Acorn ("Grandma's acorn", R0150) is spent. */
+  acornUsed?: true;
+}
+
+/** A Hollow level as the Keeper left it (R0151). */
+export interface LevelState {
+  taken: string[];
+  packsCleared: string[];
+  chestOpen: boolean;
+  explored: string;
+  /** Shrines come with DUNG-19; the slot is here so levels never need migrating. */
+  shrinesUsed: string[];
+}
+
+/** An open Homing Acorn portal (R0150): the run waits, frozen, until the Keeper steps back. */
+export interface HollowPortal {
+  levelId: string;
+  cell: { x: number; y: number };
+  run: DungeonRun;
 }
 
 /** How far the Keeper has got in one act of the Hollow (R0145). */
@@ -793,6 +817,16 @@ export interface World {
     dailyDepth: number;
     /** Progress through the five acts, by `ACTS` index (R0145; save version 8). */
     acts: ActProgress[];
+    /** Each act's floor seed, set on first entry (R0149; save version 9); 0 = not yet. */
+    actSeeds: number[];
+    /** The real day of the last "New paths" reroll, '' before any. */
+    rerollDay: string;
+    /** Waypoints activated for good, by id like `rootways.1` (R0148). */
+    waypoints: string[];
+    /** Homing Acorns carried (R0150). */
+    acorns: number;
+    /** The open acorn portal, if any. */
+    portal: HollowPortal | null;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -958,6 +992,12 @@ export type Command =
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'enterAct'; act: number }
+  // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
+  | { kind: 'waypointTravel'; id: string }
+  | { kind: 'rerollActs' }
+  | { kind: 'buyAcorns' }
+  | { kind: 'useAcorn' }
+  | { kind: 'portalReturn' }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
@@ -1125,6 +1165,15 @@ export type SimEvent =
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
+  /** The run moved to another level without descending (climbing, a waypoint, a portal). */
+  | { kind: 'levelChanged'; depth: number }
+  | { kind: 'waypointActivated'; id: string }
+  | { kind: 'waypointArrived'; id: string }
+  | { kind: 'actsRerolled'; ok: boolean }
+  | { kind: 'acornsBought'; ok: boolean; count: number }
+  | { kind: 'acornFound' }
+  | { kind: 'acornPortal'; free: boolean }
+  | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 

@@ -5,6 +5,8 @@ import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { forfeitBattleCmd } from './battle';
+import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
+import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
 import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
 import { actStartDepth } from '../config/dungeon-acts';
 import {
@@ -790,7 +792,8 @@ function choosePartyFor(world: World): string[] {
   return party;
 }
 
-function populate(run: DungeonRun, f: Floor): void {
+/** A floor's strays, wild creatures and packs, fresh; nothing taken, seen or opened. */
+export function populate(run: DungeonRun, f: Floor): void {
   run.strays = f.strayStarts.map((c, i): DungeonStray => ({
     id: `stray-${i}`,
     pos: cellCentre(f, c),
@@ -814,18 +817,19 @@ function populate(run: DungeonRun, f: Floor): void {
   delete run.encounter;
 }
 
-function placeParty(world: World, run: DungeonRun, f: Floor): void {
+/** The Keeper on `cell` (the stairs up unless told), the party sat on open cells around. */
+export function placeParty(world: World, run: DungeonRun, f: Floor, cell: Cell = f.stairsUp): void {
   const k = world.keeper;
-  const at = cellCentre(f, f.stairsUp);
+  const at = cellCentre(f, cell);
   k.pos = { x: at.x, z: at.z };
-  revealAround(run, f, f.stairsUp);
+  revealAround(run, f, cell);
   k.moveTarget = null;
   k.intent = null;
-  const spots = openAround(f, f.stairsUp, run.party.length + 1);
+  const spots = openAround(f, cell, run.party.length + 1);
   run.party.forEach((id, i) => {
     const n = world.nubbins.find((x) => x.id === id);
     if (!n) return;
-    const c = spots[i] ?? f.stairsUp;
+    const c = spots[i] ?? cell;
     const p = cellCentre(f, c);
     n.pos = { x: p.x, z: p.z };
     n.behavior.target = null;
@@ -861,7 +865,14 @@ export function enterDungeon(
   if (act !== undefined && (story || !actOpen(world, act))) return false;
   if (act !== undefined) daily = false;
   const today = dailySeed(world.lastWallMs);
-  const seed = story ? story.seed : daily ? today.seed : rng.int(1, 2_000_000_000);
+  // An act's floors are the same every visit until a reroll (R0149).
+  const seed = story
+    ? story.seed
+    : daily
+      ? today.seed
+      : act !== undefined
+        ? actSeed(world, act, rng)
+        : rng.int(1, 2_000_000_000);
   const depth = story
     ? Math.max(1, Math.round(story.depth))
     : act !== undefined
@@ -917,6 +928,21 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
   const live = world.battle;
   if (run.encounter && live && !live.result && live.context.kind === 'encounter')
     if (live.context.source === HOLLOW_BATTLE_SOURCE) forfeitBattleCmd(world, events);
+  returnHome(world, run);
+  world.hollow.runs += 1;
+  world.hollow.best = Math.max(world.hollow.best, run.depth);
+  events.push({
+    kind: 'dungeonLeft',
+    depth: run.depth,
+    shells: run.haul.shells,
+    items: run.haul.items,
+  });
+  events.push({ kind: 'located', location: 'grove' });
+  return true;
+}
+
+/** Back up to the Grove where everyone was before the Hollow; the run itself is left alone. */
+export function returnHome(world: World, run: DungeonRun): void {
   world.location = 'grove';
   world.dungeon = null;
   const k = world.keeper;
@@ -935,16 +961,6 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
       n.behavior.untilMs = world.timeMs + 1500;
     }
   });
-  world.hollow.runs += 1;
-  world.hollow.best = Math.max(world.hollow.best, run.depth);
-  events.push({
-    kind: 'dungeonLeft',
-    depth: run.depth,
-    shells: run.haul.shells,
-    items: run.haul.items,
-  });
-  events.push({ kind: 'located', location: 'grove' });
-  return true;
 }
 
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
@@ -955,11 +971,13 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
     else events.push({ kind: 'bossGuard' });
     return;
   }
+  rememberLevel(run);
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
   run.genVersion = run.story ? 2 : HOLLOW.genVersion;
   const f = floorOfRun(run);
   populate(run, f);
+  restoreLevel(run);
   run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   placeParty(world, run, f);
   if (run.act !== undefined) {
@@ -1051,7 +1069,10 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
   run.pendingPos = null;
   world.keeper.moveTarget = null;
   if (pending === 'up') {
-    leaveDungeon(world, events);
+    // Inside an act the stairs up climb a level; from its top they lead home.
+    if (run.act !== undefined && !run.story && run.depth > actStartDepth(run.act))
+      goToLevel(world, run, run.depth - 1, 'down', events);
+    else leaveDungeon(world, events);
   } else if (pending === 'down') {
     descend(world, run, events);
   } else if (pending === 'chest') {
@@ -1098,6 +1119,10 @@ function takeLoot(
 ): void {
   run.taken.push(loot.id);
   run.haul.items += 1;
+  if (acornInFind(run, loot.id)) {
+    world.hollow.acorns += 1;
+    events.push({ kind: 'acornFound' });
+  }
   const inv = world.inventory;
   let amount = loot.amount;
   let kind = loot.kind;
@@ -1181,6 +1206,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     if (dist(k.pos, cellCentre(f, l.cell)) <= DUNGEON.pickupRadius)
       takeLoot(world, run, l, null, rng, events);
   }
+  stepWaypoint(world, run, f, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     w.scanned = true;

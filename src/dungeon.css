@@ -10,3 +10,55 @@
 .hollow-bout .modal-head h2::before {
   content: '❗ ';
 }
+
+/* Waypoints (R0148): the ◆ rows, and a second of leaf-green sparkle on travel. */
+.waypoint-row.awake strong {
+  color: #b9f0a8;
+}
+
+.waypoint-sparkle {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(185, 240, 168, 0.85), rgba(40, 80, 40, 0.9));
+  opacity: 0;
+}
+
+.waypoint-sparkle.on {
+  animation: waypoint-sparkle 1s ease-in-out;
+}
+
+@keyframes waypoint-sparkle {
+  0% {
+    opacity: 0;
+  }
+  35%,
+  65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waypoint-sparkle.on {
+    animation: waypoint-fade 1s steps(2, jump-none);
+  }
+  @keyframes waypoint-fade {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+}
+
+/* The underground bar's acorn and waypoint buttons keep thumb size on a phone. */
+.hollow-bar .hollow-extra {
+  min-height: 44px;
+  min-width: 44px;
+}

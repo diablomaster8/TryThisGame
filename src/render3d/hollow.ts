@@ -9,6 +9,7 @@ import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './holl
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
+import { HollowWaypoint } from './hollow-waypoint';
 import { HollowRock } from './hollow-rock';
 
 /**
@@ -46,6 +47,7 @@ export class Hollow {
   private readonly dress: HollowDress;
   private readonly atmos = new HollowAtmos();
   private readonly pop = new HollowPop();
+  private readonly waypoint = new HollowWaypoint();
   /** In build order: rock, dress, light, air (`update` runs them in this order too). */
   private readonly mods: HollowModule[];
   /**
@@ -80,7 +82,7 @@ export class Hollow {
     this.dress.useLights(this.light_);
     // A lit sconce re-bakes the floor's light.
     this.light_.rebake = () => this.rock.rebake();
-    this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop];
+    this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop, this.waypoint];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
     const pool = new THREE.BufferGeometry();

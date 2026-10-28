@@ -1120,6 +1120,24 @@ export function mountHud(
           const act = ACTS[e.act];
           toast(HOLLOW_TEXT.bossBeaten(act ? (ACT_TEXT[act.id]?.boss ?? '') : ''));
           playSound('buy');
+          // Lane B round 2: waypoints, new paths and the Homing Acorn.
+        } else if (e.kind === 'waypointActivated') {
+          toast(HOLLOW_TEXT.waypointActivated);
+          playSound('pickup');
+        } else if (e.kind === 'waypointArrived') {
+          toast(HOLLOW_TEXT.waypointArrived);
+        } else if (e.kind === 'actsRerolled') {
+          toast(e.ok ? HOLLOW_TEXT.newPathsDone : HOLLOW_TEXT.newPathsLater);
+        } else if (e.kind === 'acornsBought') {
+          toast(e.ok ? HOLLOW_TEXT.acornsBought(g.world.hollow.acorns) : HOLLOW_TEXT.acornsShort);
+          if (e.ok) playSound('buy');
+        } else if (e.kind === 'acornFound') {
+          toast(HOLLOW_TEXT.acornFound);
+        } else if (e.kind === 'acornPortal') {
+          toast(HOLLOW_TEXT.acornPortal(e.free));
+          playSound('pickup');
+        } else if (e.kind === 'portalReturned') {
+          toast(HOLLOW_TEXT.portalReturned);
         } else if (e.kind === 'wildScanned') {
           toast(DUNGEON_TEXT.wildScanned(keyLabel(e.species)));
         } else if (e.kind === 'located') {
