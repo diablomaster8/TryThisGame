@@ -5,8 +5,16 @@ import { ALL_VARIANTS } from '../../src/samples/nubbin-variant-catalogue';
 import { CHILD, NEUTRAL_ADULT, paletteOf } from '../../src/samples/nubbin-variants';
 import { CHILD_PART_SCALE, withCritterParts } from '../../src/samples/nubbin-critter-parts';
 import type { SpeciesSpec } from '../../src/samples/species';
-import { CHILD_NEUTRAL, drawChao, lookOf, poseFor } from '../../src/render/sprites/chao';
-import { C } from '../../src/render/sprites/palette';
+import {
+  CHARACTER_LOOKS,
+  CHILD_NEUTRAL,
+  drawChao,
+  lookOf,
+  poseFor,
+} from '../../src/render/sprites/chao';
+import { C, color } from '../../src/render/sprites/palette';
+import { LINEUP_LOOKS } from '../../src/samples/nubbin-variants-lineup';
+import { NUBBIN_SPEC } from '../../src/samples/species-data';
 
 /**
  * Likeness checks on the Chao-line 3D specs (LOOK-67): small data tests that catch the
@@ -124,5 +132,45 @@ describe('child critter parts (LOOK-66)', () => {
       s.parts.filter((p) => p.name.startsWith('ear')).flatMap((p) => p.prims)[0]!;
     const r = (q: Prim) => q.radii?.x ?? q.r;
     expect(r(size(child)) / r(size(adult))).toBeCloseTo(CHILD_PART_SCALE);
+  });
+});
+
+describe('likeness suite (LOOK-67)', () => {
+  it('keeps the Chao head 1.25-1.45x the body width', () => {
+    // Power forms widen the body on purpose (their tell), so they are left out.
+    for (const v of ALL_VARIANTS.filter((x) => x.family !== 'special' && !x.id.includes('power'))) {
+      const head = v.spec.head.prims.find((p) => p.tag === 'head');
+      const body = v.spec.torso.prims.find((p) => p.tag === 'belly');
+      if (!head?.radii || !body?.radii) continue;
+      const k = head.radii.x / body.radii.x;
+      expect(k, v.id).toBeGreaterThanOrEqual(1.25);
+      expect(k, v.id).toBeLessThanOrEqual(1.45);
+    }
+  });
+
+  it('gives the child the same wing and tip colour in pixel and 3D', () => {
+    // CIE76 colour difference in Lab (D65).
+    const lab = (hex: string) => {
+      const c = new THREE.Color(hex); // linear RGB
+      const x = (c.r * 0.4124 + c.g * 0.3576 + c.b * 0.1805) / 0.95047;
+      const y = c.r * 0.2126 + c.g * 0.7152 + c.b * 0.0722;
+      const z = (c.r * 0.0193 + c.g * 0.1192 + c.b * 0.9505) / 1.08883;
+      const f = (t: number) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116);
+      return [116 * f(y) - 16, 500 * (f(x) - f(y)), 200 * (f(y) - f(z))] as const;
+    };
+    const dE = (a: string, b: string) => {
+      const p = lab(a);
+      const q = lab(b);
+      return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
+    };
+    expect(dE(color(CHILD_NEUTRAL.wing), NUBBIN_SPEC.wings!.color)).toBeLessThanOrEqual(8);
+    const tip = NUBBIN_SPEC.head.prims.find((p) => p.tag === 'tip')!.color;
+    expect(dE(color(CHILD_NEUTRAL.tip), tip)).toBeLessThanOrEqual(8);
+  });
+
+  it('has every character look in both modes', () => {
+    const pixel = Object.keys(CHARACTER_LOOKS).sort();
+    const sculpted = LINEUP_LOOKS.map((v) => v.id).sort();
+    expect(pixel).toEqual(sculpted);
   });
 });
