@@ -59,6 +59,8 @@ import { resolve } from './obstacles';
 import { courseById, prizeFor } from './race';
 import {
   eduResetSession,
+  eduStartBreak,
+  eduEndBreak,
   eduResult,
   eduSetAge,
   eduSetGame,
@@ -119,7 +121,7 @@ export function createWorld(seed: number, wallMs: number): World {
     keeper: createKeeper(GROVE.keeperStart),
     inventory: {
       shells: 0,
-      fruit: 0,
+      fruit: EGG.startFruit,
       critters: {},
       essences: {},
       hats: [],
@@ -330,9 +332,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         addTrust(n, TRUST.throw, events);
         noteCampaign(world, 'throw', n.id);
         startThrow(n, cmd.vel, now, events);
+      } else if (speed < THROW.placeMaxSpeed) {
+        // A gentle place costs nothing: moving a Nubbin somewhere nicer must not hurt it.
+        putDown(n, now, events, 'happy');
       } else {
-        if (n.stage !== 'egg') applyDrop(n);
-        addTrust(n, TRUST.drop, events);
+        if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
+        addTrust(n, TRUST.drop * THROW.dropScale, events);
         putDown(n, now, events);
       }
       return;
@@ -554,6 +559,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       });
       n.behavior.state = 'fetch';
       n.behavior.sinceMs = now;
+      delete n.behavior.progress;
       n.behavior.untilMs = now + 20_000;
       n.behavior.itemId = toy.id;
       n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
@@ -739,6 +745,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduResetSession':
       eduResetSession(world);
       return;
+    case 'eduStartBreak':
+      eduStartBreak(world);
+      return;
+    case 'eduEndBreak':
+      eduEndBreak(world);
+      return;
     case 'setPartner':
       setPartner(world, cmd.slot, cmd.nubbinId);
       return;
@@ -830,6 +842,7 @@ export function stepWorld(
   dtMs: number,
   wallMs?: number,
   offline = false,
+  countPlay = true,
 ): SimEvent[] {
   const events: SimEvent[] = [];
   world.timeMs += dtMs;
@@ -875,7 +888,7 @@ export function stepWorld(
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
     stepKeeper2(world, dtMs);
-    stepEdu(world, dtMs);
+    stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
     stepSlips(world, dtMs, events);
     stepPartners(world, dtMs, events);
     stepCurfew(world, dtMs, wallMs, events);

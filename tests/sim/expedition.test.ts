@@ -158,7 +158,7 @@ describe('shop', () => {
       { kind: 'buy', item: 'hat' },
       { kind: 'buy', item: 'toy' },
     ]);
-    expect(w.inventory.fruit).toBe(1);
+    expect(w.inventory.fruit).toBe(EGG.startFruit + 1);
     expect(w.inventory.hats).toHaveLength(1);
     expect(w.items.filter((i) => i.kind === 'toy')).toHaveLength(1);
     expect(w.inventory.shells).toBe(100 - SHOP.fruit - SHOP.hat - SHOP.toy);

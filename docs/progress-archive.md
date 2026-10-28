@@ -2,6 +2,80 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Story review run 22 fixes (2026-10-27)
+
+- **Works:** 57 of run 22's 58 recs fixed across S22–S29 and S3's two bands, with the S24–S28 bands
+  synced. S24's bird, nest, lights and tick variants now play; S25's spring coda and Moss line queue
+  after S25; S24's cage choice gets an answer; new tested payoffs for S22's chimney, S26's bulbs,
+  hello and plot, and S27's sold path.
+- **Partial:** SR-20261027-1249: Byte's barks and Granny Brock's knock play once (no bark system or
+  green-door prop yet); the proposed orphan-scene check in content-check is not written.
+- **Known bugs:** c12-wall-garden's Learning Grove lessons never play when it is spliced into c12-open.
+
+## Play review fixes (2026-10-25, branch fix/r1025-merge)
+
+- **How it was done.** Eleven agents worked on their own branches of origin/main (`fix/r1025-{sim,story,dlg,ui,px,3d,pkA,pkB,dig,boot,txt}`), with the rules in `Test Des/fx-rules.md`. Each re-checked its items first, because the review had run 334 commits behind. The branches were merged in worktree `wt-fx-merge`, origin/main was merged in up to 8df7b8b, and a headless replay (pixel desktop, 3D phone) passes every key check.
+- **Assumption (Keeper identity).** All ten trainers always spawn, including the one picked. The player's avatar is Hazel's grandchild in both renderers and in the "You" portrait: a copper mop, freckles and the picked role's outfit colours. Switching Keeper changes only the outfit, the side and the egg line.
+- **Story.**
+  - Pacing:
+    - STORY `breatherMs` 60 s between unrelated scenes, `sideGapMs` 20 s between side stories, FUN `offerGapMs` 240 s.
+    - `goalMinMs` 90 s now holds the next chapter, not the closing.
+    - A closing answers its goal within `closingSettleMs` 4 s, unless a side story opened in that chapter still needs the time (S31).
+    - `sceneTime` waits for the hour that a scene's text names.
+  - Seasons follow the chapters (`STORY.chapterSeasons`).
+  - Scene guests: Corvin and visitors spawn for their scene (`scene-cast.ts`).
+  - No scene starts underground, during minigames or under the loading veil.
+  - Meet Ori starts with Ori. The Toy Story plush lines are filtered.
+  - No fun quest moves in chapters 9 to 11.
+- **Dialogue and guidance.**
+  - Skip, which still stops at real choices; hidden in the sprout band.
+  - Panels close when a scene starts, and focus moves to the dialogue.
+  - An objective chip, plus a "New goal" toast.
+  - The Learning Grove "Hear the story" prompt.
+  - Seeded portraits for every speaker without a look (`render/portraits.ts`), so no one borrows Fern's face.
+- **UI.**
+  - Labelled phone action bar.
+  - The Hollow bar measures the top bar.
+  - Toast queue and dedupe (`tuning-ui.ts`).
+  - Race results show standings, prize and a stat tip.
+  - Title blurbs, with the graphics picker on top.
+  - Touch hint.
+  - The cards are now dialogs. Font sizes are in rem.
+- **Sim.**
+  - A frozen `awaitingKeeper` Nubbin stops sampling happiness.
+  - `freeSpot`/`unstickKeeper` frees a Keeper wedged in a blocker; the well's fast-travel spot sat inside its collider.
+  - Steering round obstacles, and a `cantReach` event.
+  - Story Nubbins can't be fused or re-received.
+  - Race rivals never take a roster name.
+  - New Hollow floors are pinned at least 2× the old cave.
+- **Creatures.**
+  - All 151 Gen-1 Pokémon: `species-gen1a.ts` (#1–76, plus Crobat, Bellossom, Politoed) and `species-gen1b.ts` (#77–151, with legendaries rare through `eggWeight`). `skyfang-grown` is now an alias of `skyfang`.
+  - The digital line's Versions 2–5 (`species-digi2.ts`, 70 digital species), and the Ver.1 chart fixed.
+  - New kit parts in both renderers.
+  - The collection book lists ids, not array indices.
+  - Rare species stay out of the Hollow.
+- **Renderers.**
+  - Pixel: painted race sections and fly gap, the Expedition ridge, readable lanes, second-evolution and jewel colours, love/tumble clips, SheetCache LRU.
+  - 3D: the grandchild avatar, calm bursts under reduced motion, sculpt backoff, portrait Expedition framing, the X4122 and X3595 shader warnings fixed, decor painted with the kit.
+- **Boot.**
+  - `loadOnce` retries; a boot error card with one automatic reload.
+  - Service worker updates wait for the next load; the first visit's chunks are cached for offline play.
+  - The veil goes up from slot pick.
+  - woff fallbacks dropped (−12.7 MB in dist).
+- **Content.**
+  - Holme/Holmes, and Byte seated in q76.
+  - Campaign narration split to two sentences a line.
+  - c1/c4 clarity fixes, the Learning Grove fixes, and LJ1 varied from LH1.
+  - Stroke-guided tracing for every taught kana and Hebrew letter (`ui/hebrew-strokes.ts`).
+- **Gate.** 909 tests pass, 11 skipped. Lint and build pass. content-check `problems: 0` (3 long note strings). Script book in sync.
+- **Known gaps.**
+  - Ver.2–5 champion slot order is from memory.
+  - Gen-1 four-legged species still use biped plans and could move to the new `quad` plan.
+  - Klee One is not subset.
+  - side-story content still loads eagerly.
+  - Results depend on time zone.
+  - Not yet checked on real phones.
+
 ## Story review run 21 fixes (2026-10-26)
 
 - **Works:** all 53 of run 21's recs fixed across S14–S21 and S2's two bands, with the S2, S14,

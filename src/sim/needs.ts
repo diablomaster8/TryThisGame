@@ -63,9 +63,9 @@ export function applyPet(n: Nubbin): void {
   addAffection(n, NEEDS.petAffection);
 }
 
-export function applyDrop(n: Nubbin): void {
-  addHappiness(n, NEEDS.dropHappiness);
-  addAffection(n, NEEDS.dropAffection);
+export function applyDrop(n: Nubbin, scale = 1): void {
+  addHappiness(n, NEEDS.dropHappiness * scale);
+  addAffection(n, NEEDS.dropAffection * scale);
 }
 
 export function applyFruit(n: Nubbin): void {

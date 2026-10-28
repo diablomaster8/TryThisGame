@@ -99,7 +99,7 @@ describe('S1 The Hundred Days', () => {
 
   it('starts with one egg as the partner, its span stretched to the hundred days', () => {
     const { world } = storylineWorld('hundred');
-    expect(world.nubbins.length).toBe(1);
+    expect(world.nubbins.length).toBe(3); // the two starter eggs stay, plus the partner
     const p = partner(world);
     expect(p.stage).toBe('egg');
     expect(world.partners[0]).toBe(p.id);

@@ -151,14 +151,14 @@ export class EduPrompt {
     private readonly game: () => Game | null,
     private readonly openers: { journal: () => void; play: () => void },
   ) {
-    this.root = el('div', 'edu-prompt');
+    this.root = el('div', 'edu-entry');
     this.root.hidden = true;
-    const card = el('div', 'edu-prompt-card');
+    const card = el('div', 'edu-entry-card');
     card.setAttribute('role', 'dialog');
     card.setAttribute('aria-label', EDU_PROMPT_TEXT.title);
     const big = (icon: string, label: string, onPress: () => void): HTMLButtonElement => {
-      const b = button('', onPress, 'btn edu-prompt-btn');
-      b.append(el('span', 'edu-prompt-icon', icon), el('strong', undefined, label));
+      const b = button('', onPress, 'btn edu-entry-btn');
+      b.append(el('span', 'edu-entry-icon', icon), el('strong', undefined, label));
       return b;
     };
     card.append(
@@ -168,7 +168,7 @@ export class EduPrompt {
         this.hide();
         this.openers.play();
       }),
-      button(EDU_PROMPT_TEXT.look, () => this.hide(), 'btn btn-small edu-prompt-look'),
+      button(EDU_PROMPT_TEXT.look, () => this.hide(), 'btn btn-small edu-entry-look'),
     );
     this.root.appendChild(card);
     parent.appendChild(this.root);
@@ -230,6 +230,6 @@ export class EduPrompt {
     this.root.hidden = false;
     this.lastInput = performance.now();
     if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(EDU_PROMPT_TEXT.say);
-    this.root.querySelector<HTMLButtonElement>('.edu-prompt-btn')?.focus({ preventScroll: true });
+    this.root.querySelector<HTMLButtonElement>('.edu-entry-btn')?.focus({ preventScroll: true });
   }
 }

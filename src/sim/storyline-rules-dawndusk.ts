@@ -4,20 +4,26 @@ import type { CampaignState, SimEvent, World } from './types';
 
 /**
  * SL4 "Dawn & Dusk" (content/storyline-dawndusk.ts): one rule per half. The oldest grown
- * Nubbin reverts to an egg when chapter 3 opens; naming the real cause puts it back if it
+ * Nubbin that was not already an adult when the line began reverts to an egg when chapter 3 opens; naming the real cause puts it back if it
  * is still that egg. The ending reads the cause and whether the other half was finished
  * first (`dd-other-done`, passed in by the title screen).
  */
 function revert(world: World, c: CampaignState, events: SimEvent[]): void {
-  const target = degenerationTarget(world);
+  const before = typeof c.flags['dd-before'] === 'string' ? c.flags['dd-before'] : '';
+  const target = degenerationTarget(world, new Set(before ? before.split(',') : []));
   if (target && degenerate(world, target, events)) c.flags['dd-reverted'] = target.id;
 }
 
 for (const side of ['dawn', 'dusk'] as const) {
   registerStorylineRule({
     id: side,
-    setup: (_world, c) => {
+    setup: (world, c) => {
       c.flags.side = side;
+      // Nubbins already grown up when the line starts are the player's own: never the one reverted.
+      c.flags['dd-before'] = world.nubbins
+        .filter((n) => n.stage === 'adult')
+        .map((n) => n.id)
+        .join(',');
     },
     onChapter: (world, c, n, events) => {
       if (n === 3) revert(world, c, events);

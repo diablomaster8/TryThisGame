@@ -32,6 +32,9 @@ export function createEdu(age: EduAge, band: EduBand = 'sprout'): EduState {
     progress,
     stickers: 0,
     playedMs: 0,
+    breakUntilMs: 0,
+    todayMs: 0,
+    todayKey: '',
     band,
     storyLanguage: 'learning',
     lessons: {},
@@ -101,9 +104,50 @@ export function gamesForBand(band: EduBand): readonly EduGameId[] {
   return band === 'reader' ? EDU_READER_GAMES : EDU_GAMES;
 }
 
-/** Track live play time toward the break screen. */
-export function stepEdu(world: World, dtMs: number): void {
-  if (world.edu) world.edu.playedMs += dtMs;
+/** Local YYYY-MM-DD for a wall-clock time. */
+export function dayKey(wallMs: number): string {
+  const d = new Date(wallMs);
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
+/**
+ * Track live play time toward the break screen. Catch-up, a hidden tab and debug time
+ * scales pass `skip`: that time is not play. A new day starts the day's count again.
+ */
+export function stepEdu(world: World, dtMs: number, wallMs?: number, skip = false): void {
+  const e = world.edu;
+  if (!e || skip) return;
+  if (wallMs !== undefined) {
+    const key = dayKey(wallMs);
+    if (e.todayKey !== key) {
+      e.todayKey = key;
+      e.todayMs = 0;
+      e.playedMs = 0;
+    }
+  }
+  e.playedMs += dtMs;
+  e.todayMs += dtMs;
+}
+
+/** True while the break is locking play. */
+export function eduBreakActive(world: World, nowMs: number): boolean {
+  return !!world.edu && world.edu.breakUntilMs > nowMs;
+}
+
+/** Start the break: play is locked for the break length and the session count restarts. */
+export function eduStartBreak(world: World): void {
+  const e = world.edu;
+  if (!e) return;
+  e.breakUntilMs = world.lastWallMs + EDU.breakMinutes * 60_000;
+  e.playedMs = 0;
+}
+
+/** A grown-up's "more time": the break ends now. */
+export function eduEndBreak(world: World): void {
+  if (!world.edu) return;
+  world.edu.breakUntilMs = 0;
+  world.edu.playedMs = 0;
 }
 
 export function eduBreakDue(world: World): boolean {

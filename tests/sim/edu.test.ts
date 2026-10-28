@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { EDU, EDU_AGES, EDU_GAMES, EDU_RECOMMENDED } from '../../src/config/edu';
 import { countSyllables, makeRound, starsFor } from '../../src/minigames/edu/games';
-import { eduBreakDue, enabledGames, recommendedGames } from '../../src/sim/edu';
+import { eduBreakActive, eduBreakDue, enabledGames, recommendedGames } from '../../src/sim/edu';
 import { Rng } from '../../src/sim/rng';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent } from '../../src/sim/types';
@@ -109,5 +109,47 @@ describe('Learning Grove (educational mode)', () => {
     expect(countSyllables('cat')).toBe(1);
     expect(countSyllables('apple')).toBe(2);
     expect(countSyllables('umbrella')).toBe(3);
+  });
+});
+
+describe('the break is enforced (KIDS-07)', () => {
+  it('starts a timed break, keeps it across a save round trip, and a grown-up can end it', () => {
+    const world = createWorld(1, 5_000);
+    const events: SimEvent[] = [];
+    applyCommand(world, { kind: 'eduStart', age: 6 }, events);
+    applyCommand(world, { kind: 'eduStartBreak' }, events);
+    const until = world.edu!.breakUntilMs;
+    expect(until).toBe(5_000 + EDU.breakMinutes * 60_000);
+    expect(eduBreakActive(world, 6_000)).toBe(true);
+    const back = deserialize(serialize(world, 0)).world;
+    expect(back.edu?.breakUntilMs).toBe(until);
+    expect(eduBreakActive(back, until - 1)).toBe(true);
+    expect(eduBreakActive(back, until)).toBe(false);
+    applyCommand(world, { kind: 'eduEndBreak' }, events);
+    expect(eduBreakActive(world, 6_000)).toBe(false);
+  });
+
+  it('does not count catch-up, hidden or fast-clock steps as play', () => {
+    const world = createWorld(1, 0);
+    applyCommand(world, { kind: 'eduStart', age: 6 }, []);
+    for (let i = 0; i < 2 * 60 * 60 * 10; i++) stepWorld(world, 100, undefined, true);
+    expect(world.edu?.playedMs).toBe(0);
+    for (let i = 0; i < 100; i++) stepWorld(world, 100, 1_000, false, false);
+    expect(world.edu?.playedMs).toBe(0);
+    for (let i = 0; i < 10; i++) stepWorld(world, 100, 1_000);
+    expect(world.edu?.playedMs).toBe(1000);
+    expect(world.edu?.todayMs).toBe(1000);
+  });
+
+  it('migrates a version-5 save with edu state', () => {
+    const world = createWorld(1, 0);
+    applyCommand(world, { kind: 'eduStart', age: 6 }, []);
+    const old = JSON.parse(serialize(world, 0)) as { version: number; world: { edu: object } };
+    old.version = 5;
+    for (const k of ['breakUntilMs', 'todayMs', 'todayKey'])
+      delete (old.world.edu as Record<string, unknown>)[k];
+    const migrated = deserialize(JSON.stringify(old)).world;
+    expect(migrated.edu?.breakUntilMs).toBe(0);
+    expect(migrated.edu?.todayKey).toBe('');
   });
 });

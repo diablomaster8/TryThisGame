@@ -99,6 +99,9 @@ export function startStoryline(
   if (!s) return false;
   c.storyline = id;
   Object.assign(c.flags, flags);
+  // Counters are global; the line reads the change since it began (`counter` subtracts `base:`).
+  for (const k of Object.keys(c.flags))
+    if (k.startsWith('n:')) c.flags[`base:${k.slice(2)}`] = Number(c.flags[k]);
   world.campaign = c;
   storylineRule(id)?.setup?.(world, c, events);
   beginStoryChapter(world, c, 1, events);

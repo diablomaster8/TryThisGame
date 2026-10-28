@@ -90,9 +90,10 @@ describe('S2 Logged In', () => {
 
   it('starts with three starter eggs as the party on the Day server', () => {
     const { world } = storylineWorld('logged', 'byte');
-    expect(world.nubbins.length).toBe(3);
-    expect(loggedPartyIds(c(world))).toEqual(world.nubbins.map((n) => n.id));
-    expect(world.partners[0]).toBe(world.nubbins[0]!.id);
+    expect(world.nubbins.length).toBe(5); // the two starter eggs stay, plus the party
+    const party = world.nubbins.slice(2);
+    expect(loggedPartyIds(c(world))).toEqual(party.map((n) => n.id));
+    expect(world.partners[0]).toBe(party[0]!.id);
     expect(world.unlocks.moonGrove).toBe(true);
     expect(world.grove).toBe('sun');
     expect(journalView(world, c(world), false)?.areas).toEqual(['day', 'night']);

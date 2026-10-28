@@ -46,6 +46,8 @@ export const EDU = {
   starsPerSticker: 9,
   /** Default and allowed session length in minutes before the break screen. */
   sessionMinutes: 25,
+  /** How long the break screen locks play, in minutes. */
+  breakMinutes: 10,
   sessionRange: [10, 60] as const,
   /** Timers are never shown under this age; above it only a gentle progress dot. */
   noTimerUnderAge: 5,

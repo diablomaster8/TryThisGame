@@ -60,7 +60,7 @@ import { DungeonMenu } from './dungeon';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
-import { eduBreakDue } from '../sim/edu';
+import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
@@ -73,6 +73,7 @@ import { langWord } from '../sim/lang';
 import { visitingTrainer } from '../sim/neighbourhood';
 import { loadArcade, loadAtlas, loadMultiverse, loadNeopia } from '../sim/atlas';
 import { currentSlot, storageAvailable } from '../platform/storage';
+import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
@@ -106,6 +107,21 @@ export function mountHud(
     'btn btn-icon',
   );
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
+  // Learning Grove: sound on/off stays one tap away for a child, outside the grown-up gate.
+  const soundBtn = button(
+    '🔊',
+    () => {
+      const g = game();
+      if (!g?.world.edu) return;
+      const on = !g.world.settings.sound;
+      g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
+      setSoundEnabled(on);
+      setMusicEnabled(on);
+    },
+    'btn btn-icon',
+  );
+  soundBtn.hidden = true;
+  soundBtn.setAttribute('aria-label', UI_TEXT.sound);
   const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
   keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
   keeperBtn.title = UI_TEXT.trainers;
@@ -160,7 +176,7 @@ export function mountHud(
     [keeperBtn, '☀', UI_FX_TEXT.actionLabels.keeper],
     [settingsBtn, '⚙', UI_FX_TEXT.actionLabels.settings],
   ]);
-  top.append(logo, shells, fruit, groveBtn, actions);
+  top.append(logo, shells, fruit, groveBtn, soundBtn, actions);
   root.appendChild(top);
 
   // Run: a toggle on screen, or hold Shift on a keyboard.
@@ -322,7 +338,12 @@ export function mountHud(
     play: () => edu.open(),
   });
   const grownUps = new GrownUpPanel(root, game, toast);
-  const breakScreen = new BreakScreen(root, game, () => grownUps.open());
+  const breakScreen = new BreakScreen(
+    root,
+    game,
+    () => askGrownUp(root, toast),
+    () => grownUps.open(),
+  );
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
   const tank = new TankScreen(root);
@@ -718,8 +739,17 @@ export function mountHud(
         festivalsFor = g;
         announceFestivals(g, toast);
       }
-      if (isEdu && eduBreakDue(g.world) && !breakScreen.isOpen() && !edu.isOpen())
-        breakScreen.show();
+      soundBtn.hidden = !isEdu;
+      if (isEdu) soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      if (isEdu) {
+        const now = Date.now();
+        if (!eduBreakActive(g.world, now) && eduBreakDue(g.world))
+          g.send({ kind: 'eduStartBreak' });
+        if (eduBreakActive(g.world, now)) {
+          breakScreen.show();
+          breakScreen.update(now);
+        } else if (breakScreen.isOpen()) breakScreen.hide();
+      }
       placingChip.hidden = !g.placing;
       {
         // r1025 items 3 and 4: off during scenes, minigames, panels and notices.
@@ -824,6 +854,7 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
           playSound('hatch');
+          armPersistRequest();
         } else if (e.kind === 'evolved') {
           celebration.show(e);
           playSound('evolve');

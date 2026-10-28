@@ -6,6 +6,7 @@ import {
   clearSlot,
   currentSlot,
   readGraphicsPref,
+  restoreFromMirror,
   setSaveSlot,
   storylineFinished,
   takeResumeSlot,
@@ -58,72 +59,76 @@ document.addEventListener('visibilitychange', () => {
 
 const params = new URLSearchParams(location.search);
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
-if (params.has('sprites')) {
-  mountSpriteGallery(app);
-} else if (params.has('style3d')) {
-  // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
-  const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
-  void import('./samples/three-styles').then(
-    (m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!),
-    showUpdateNotice,
-  );
-} else if (params.has('retro3d')) {
-  // Console-era 3D samples (`?retro3d=1..5`).
-  const i = Math.max(1, Math.min(5, Number(params.get('retro3d')) || 1));
-  void import('./samples/retro-styles').then(
-    (m) => m.mountRetroSample(canvas, m.RETRO_STYLES[i - 1]!),
-    showUpdateNotice,
-  );
-} else if (params.has('aaa')) {
-  // The HD-port direction at a AAA finish (`?aaa=1..3`: noon, golden hour, after rain).
-  const i = Math.max(1, Math.min(3, Number(params.get('aaa')) || 1));
-  void import('./samples/aaa-styles').then(
-    (m) => m.mountAaaSample(canvas, m.MOODS[i - 1]!),
-    showUpdateNotice,
-  );
-} else if (params.has('edu') && import.meta.env.DEV) {
-  // Straight into a fresh Learning Grove at the given age, erasing the slot: dev builds only.
-  // `?slot=2` picks a slot. On the built site an `?edu` link opens the title (below).
-  const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
-  clearSlot(slot);
-  setSaveSlot(slot);
-  // `?edu=7` and up is a Grove Readers save (the minigames stay at age 6).
-  const age = Number(params.get('edu')) || 4;
-  startGame(null, {
-    age: Math.max(3, Math.min(6, age)) as EduAge,
-    band: age >= 7 ? 'reader' : 'sprout',
-  });
-} else if (params.has('free')) {
-  // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
-  setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
-  startGame(null);
-} else if ((resumeSlot = takeResumeSlot())) {
-  // Graphics changed in Settings: the reload comes straight back to the slot in play.
-  setSaveSlot(resumeSlot);
-  startGame(null);
-} else {
-  // Fetch the campaign and side-story chunks while the title is up.
-  // A failure here is retried, and reported, when the game starts.
-  loadStoryScripts().catch(() => undefined);
-  // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
-  const focus = params.has('edu') ? ('edu' as const) : undefined;
-  showTitle(
-    hudRoot,
-    (choice) => {
-      if (choice.fresh) clearSlot(choice.slot);
-      setSaveSlot(choice.slot);
-      startGame(
-        (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh
-          ? choice.trainer
-          : null,
-        choice.slot.mode === 'edu' && choice.fresh && choice.age
-          ? { age: choice.age, band: choice.band ?? 'sprout' }
-          : undefined,
-        choice.fresh ? (choice.storyline ?? null) : null,
-      );
-    },
-    focus,
-  );
+// A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.
+void restoreFromMirror().then(route);
+function route(): void {
+  if (params.has('sprites')) {
+    mountSpriteGallery(app);
+  } else if (params.has('style3d')) {
+    // Art-direction samples for a full-3D Grove (`?style3d=1..5`).
+    const i = Math.max(1, Math.min(5, Number(params.get('style3d')) || 1));
+    void import('./samples/three-styles').then(
+      (m) => m.mountStyleSample(canvas, m.STYLES[i - 1]!),
+      showUpdateNotice,
+    );
+  } else if (params.has('retro3d')) {
+    // Console-era 3D samples (`?retro3d=1..5`).
+    const i = Math.max(1, Math.min(5, Number(params.get('retro3d')) || 1));
+    void import('./samples/retro-styles').then(
+      (m) => m.mountRetroSample(canvas, m.RETRO_STYLES[i - 1]!),
+      showUpdateNotice,
+    );
+  } else if (params.has('aaa')) {
+    // The HD-port direction at a AAA finish (`?aaa=1..3`: noon, golden hour, after rain).
+    const i = Math.max(1, Math.min(3, Number(params.get('aaa')) || 1));
+    void import('./samples/aaa-styles').then(
+      (m) => m.mountAaaSample(canvas, m.MOODS[i - 1]!),
+      showUpdateNotice,
+    );
+  } else if (params.has('edu') && import.meta.env.DEV) {
+    // Straight into a fresh Learning Grove at the given age, erasing the slot: dev builds only.
+    // `?slot=2` picks a slot. On the built site an `?edu` link opens the title (below).
+    const slot = { mode: 'edu' as const, index: Number(params.get('slot')) || 1 };
+    clearSlot(slot);
+    setSaveSlot(slot);
+    // `?edu=7` and up is a Grove Readers save (the minigames stay at age 6).
+    const age = Number(params.get('edu')) || 4;
+    startGame(null, {
+      age: Math.max(3, Math.min(6, age)) as EduAge,
+      band: age >= 7 ? 'reader' : 'sprout',
+    });
+  } else if (params.has('free')) {
+    // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
+    setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
+    startGame(null);
+  } else if ((resumeSlot = takeResumeSlot())) {
+    // Graphics changed in Settings: the reload comes straight back to the slot in play.
+    setSaveSlot(resumeSlot);
+    startGame(null);
+  } else {
+    // Fetch the campaign and side-story chunks while the title is up.
+    // A failure here is retried, and reported, when the game starts.
+    loadStoryScripts().catch(() => undefined);
+    // An old or shared `?edu` link lands on the Learning Grove slots and erases nothing.
+    const focus = params.has('edu') ? ('edu' as const) : undefined;
+    showTitle(
+      hudRoot,
+      (choice) => {
+        if (choice.fresh) clearSlot(choice.slot);
+        setSaveSlot(choice.slot);
+        startGame(
+          (choice.slot.mode === 'campaign' || choice.storyline) && choice.fresh
+            ? choice.trainer
+            : null,
+          choice.slot.mode === 'edu' && choice.fresh && choice.age
+            ? { age: choice.age, band: choice.band ?? 'sprout' }
+            : undefined,
+          choice.fresh ? (choice.storyline ?? null) : null,
+        );
+      },
+      focus,
+    );
+  }
 }
 
 /** A fresh Learning Grove: the minigames' age and the story's band. */

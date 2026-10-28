@@ -108,6 +108,16 @@ export class Dialogue {
         return;
       }
       if ((e.target as HTMLElement).closest('.dialogue-choices, .edu-gloss')) return;
+      // FUN-01: a do beat waits on its button; a tap anywhere else points at it.
+      const doBtn = this.choices.querySelector<HTMLElement>(
+        '.edu-count:not(:disabled), .btn-primary.edu-option',
+      );
+      if (doBtn) {
+        doBtn.classList.remove('edu-pulse');
+        void doBtn.offsetWidth;
+        doBtn.classList.add('edu-pulse');
+        return;
+      }
       this.advance();
     });
     window.addEventListener('keydown', (e) => {

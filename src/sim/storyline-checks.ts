@@ -30,7 +30,7 @@ function cmp(value: number, spec: string | undefined): boolean {
 
 /** The counter the runner keeps for an event kind. */
 export function counter(c: CampaignState, kind: string): number {
-  return Number(c.flags[`n:${kind}`] ?? 0);
+  return Number(c.flags[`n:${kind}`] ?? 0) - Number(c.flags[`base:${kind}`] ?? 0);
 }
 
 /** The storyline's partner: the flagged one, else the first partner slot. */

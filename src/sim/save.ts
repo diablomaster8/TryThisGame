@@ -7,7 +7,7 @@ import { GRADES, STAT_KEYS, type Grade, type World } from './types';
 import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 
-export const SAVE_VERSION = 5;
+export const SAVE_VERSION = 6;
 
 export interface SaveFile {
   version: number;
@@ -82,6 +82,17 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
     const world = data.world as Record<string, unknown> | undefined;
     const campaign = world?.campaign as Record<string, unknown> | null | undefined;
     if (campaign) campaign.storyline ??= null;
+    return data;
+  },
+  // 5 to 6: the Learning Grove break is enforced across reloads (KIDS-07).
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const edu = world?.edu as Record<string, unknown> | null | undefined;
+    if (edu) {
+      edu.breakUntilMs ??= 0;
+      edu.todayMs ??= 0;
+      edu.todayKey ??= '';
+    }
     return data;
   },
 ];
@@ -245,7 +256,10 @@ export function validateWorld(w: World): World {
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;
   if (w.edu) {
-    w.edu.playedMs = 0;
+    w.edu.playedMs ??= 0;
+    w.edu.breakUntilMs ??= 0;
+    w.edu.todayMs ??= 0;
+    w.edu.todayKey ??= '';
     w.edu.childName ??= '';
     w.edu.stickers ??= 0;
     // CV2: saves from before the language switch were Little Sprouts.

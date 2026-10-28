@@ -805,6 +805,11 @@ export const EGG = {
   shakeBonusMs: 15 * SECOND,
   /** Minimum gap between shakes that count. */
   shakeCooldownMs: 250,
+  /** A first hatch starts a little hungry so Feed works at once (TECH-01); a rebirth hatches full. */
+  hatchHunger: 0.7,
+  hatchEnergy: 1,
+  /** Fruit in hand at the start, so the first Feed works without a tree trip (TECH-01). */
+  startFruit: 2,
 } as const;
 
 export const NEEDS = {
@@ -980,6 +985,17 @@ export const BEHAVIOR = {
   walkSpeed: 1.4,
   swimSpeed: 0.8,
   arriveRadius: 0.25,
+  /** SOUL-01: a toy counts as reached within this distance; it rolls, so the walk re-aims
+   * each step. */
+  toyReach: 0.7,
+  /** A walk to a toy, fruit or ball gives up after this long (or 1.5× the walk time from where it
+   * started, if longer) without arriving ... */
+  approachTimeoutMs: 6 * SECOND,
+  /** ... or when the distance has not dropped by progressMin within progressWindowMs. */
+  progressMin: 0.2,
+  progressWindowMs: 2 * SECOND,
+  /** A toy or fruit given up on is not picked again for this long. */
+  skipItemMs: 30 * SECOND,
   /** How long each state lasts, min and max, in ms. */
   wanderMs: [2 * SECOND, 6 * SECOND] as const,
   sitMs: [3 * SECOND, 8 * SECOND] as const,
@@ -1017,6 +1033,13 @@ export const KEEPER = {
 export const THROW = {
   /** Release speeds above this count as a throw; slower is a put-down. */
   minSpeed: 3,
+  /** Releases slower than this are a gentle place: no penalty (TECH-02). Between this and
+   * minSpeed is a drop, at dropScale of the full drop penalty. */
+  placeMaxSpeed: 1.5,
+  dropScale: 0.5,
+  /** Release velocity is read from this last stretch of the drag, so a pointer held still
+   * this long before letting go reads as speed 0. */
+  placeStillMs: 120,
   maxSpeed: 12,
   gravity: 24,
   /** Upward speed added to a throw. */

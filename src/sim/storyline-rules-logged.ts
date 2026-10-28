@@ -47,9 +47,9 @@ registerStorylineRule({
         egg.name = uniqueName(world, egg.name, rng);
         return egg;
       });
-      world.nubbins = eggs;
-      world.selected = null;
-      world.keeper.carrying = null;
+      // The party joins the roster; the player's Nubbins stay (it may run past the cap).
+      world.nubbins.push(...eggs);
+      c.flags.cast = eggs.map((e) => e.id).join(',');
       c.flags.party = eggs.map((e) => e.id).join(',');
       setPartner(world, 0, eggs[0]!.id);
       setPartner(world, 1, eggs[1]!.id);

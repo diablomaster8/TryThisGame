@@ -442,7 +442,7 @@ export class GameInput {
   }
 
   private releaseVelocity(now: number): Vec2 {
-    const recent = this.samples.filter((s) => now - s.t <= 120);
+    const recent = this.samples.filter((s) => now - s.t <= THROW.placeStillMs);
     const first = recent[0];
     const last = recent[recent.length - 1];
     if (!first || !last || last.t === first.t) return { x: 0, z: 0 };

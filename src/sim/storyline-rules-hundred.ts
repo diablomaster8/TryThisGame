@@ -72,14 +72,13 @@ registerStorylineRule({
   id: 'hundred',
   areas: [...HUNDRED_AREAS],
   setup: (world, c) => {
-    // One egg, and nothing else in the roster. Its adult span runs the hundred days.
+    // One egg joins the roster; the player's Nubbins stay. Its adult span runs the hundred days.
     withRng(world, (rng) => {
       const egg = createEgg(newId(world, 'nub'), { x: 0, z: 2 }, rng, 'plain');
       egg.name = uniqueName(world, egg.name, rng);
       egg.spanScale = STORYLINES.hundredSpanScale;
-      world.nubbins = [egg];
-      world.selected = null;
-      world.keeper.carrying = null;
+      world.nubbins.push(egg);
+      c.flags.cast = egg.id;
       c.flags.partnerId = egg.id;
       setPartner(world, 0, egg.id);
     });

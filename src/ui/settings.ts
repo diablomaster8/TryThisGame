@@ -1,6 +1,7 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
+import { persisted } from '../platform/persist';
 import { TRAINERS } from '../sim/trainers';
 import type { Game } from '../game';
 import {
@@ -274,6 +275,12 @@ export class SettingsMenu {
     this.unreadableBtn.hidden = true;
     saves.append(this.unreadableBtn);
     body.appendChild(saves);
+    const warn = el('p', 'help', UI_TEXT.mayClearStorage);
+    warn.hidden = true;
+    body.appendChild(warn);
+    void persisted().then((p) => {
+      warn.hidden = p !== false;
+    });
   }
 
   open(): void {

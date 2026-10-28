@@ -23,9 +23,12 @@ export function isDegenerated(n: Nubbin): boolean {
  * The oldest grown Nubbin, the one the mystery takes first. Eternals never age, so the
  * mystery passes them by (an Eternal egg or child would break the Eternal rules).
  */
-export function degenerationTarget(world: World): Nubbin | undefined {
+export function degenerationTarget(
+  world: World,
+  spared: ReadonlySet<string> = new Set(),
+): Nubbin | undefined {
   return world.nubbins
-    .filter((n) => (n.stage === 'adult' || n.stage === 'child') && !n.eternal)
+    .filter((n) => (n.stage === 'adult' || n.stage === 'child') && !n.eternal && !spared.has(n.id))
     .sort((a, b) => b.ageMs - a.ageMs)[0];
 }
 

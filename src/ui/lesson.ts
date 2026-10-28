@@ -31,7 +31,7 @@ export function renderLineText(
   const words = glossary && glossary.size > 0 ? glossaryPattern(glossary) : null;
   for (const p of parts) {
     if (p.prompt) {
-      box.appendChild(el('span', 'edu-prompt', p.text));
+      box.appendChild(el('span', 'edu-aside', p.text));
       continue;
     }
     if (!words || !glossary) {

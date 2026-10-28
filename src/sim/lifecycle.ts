@@ -187,6 +187,10 @@ export function hatch(n: Nubbin, events: SimEvent[], nowMs = 0): void {
   n.stage = 'child';
   n.stageMs = 0;
   n.hatchRemainingMs = 0;
+  if (n.rebirths === 0) {
+    n.needs.hunger = EGG.hatchHunger;
+    n.needs.energy = EGG.hatchEnergy;
+  }
   n.behavior.state = 'react';
   n.behavior.sinceMs = nowMs;
   // A reborn Nubbin greets the Keeper with a heart; a new one is simply happy.

@@ -12,17 +12,19 @@ import { eduContent } from '../sim/story-scenes';
 import { TRAINERS } from '../sim/trainers';
 import { button, el } from './dom';
 
-/** The picker's story button: starts Hazel's Grove the first time, then points at the journal. */
+/** The picker's story button: starts Hazel's Grove the first time, then plays the next scene or says what is next. */
 export function storyPickButton(
   g: Game,
   close: () => void,
-  toast: (text: string) => void,
+  openNext: () => void,
 ): HTMLButtonElement {
   const b = button(
     '',
     () => {
       if (g.world.campaign) {
-        toast(EDU_STORY_TEXT.storyContinue);
+        // A queued scene plays as soon as the picker is gone; otherwise say what is next.
+        close();
+        if (g.world.campaign.queue.length === 0) openNext();
         return;
       }
       // The Learning Grove has no Keeper menu; the story starts with the first Keeper.

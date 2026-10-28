@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { BEHAVIOR, EGG, GROVE, SIM } from '../../src/config/tuning';
+import { BEHAVIOR, EGG, GROVE, SIM, UI } from '../../src/config/tuning';
 import {
   deserialize,
   SAVE_VERSION,
@@ -41,6 +41,12 @@ describe('world', () => {
     const events = run(w, steps);
     expect(events.filter((e) => e.kind === 'hatched')).toHaveLength(2);
     expect(w.nubbins.every((n) => n.stage === 'child')).toBe(true);
+  });
+
+  it('a new hatchling can be fed straight away (TECH-01)', () => {
+    const w = createWorld(5, 0);
+    run(w, EGG.hatchMs / SIM.stepMs);
+    expect(w.nubbins.every((n) => n.needs.hunger < UI.feedFullAt)).toBe(true);
   });
 
   it('shaking a held egg speeds hatching', () => {
@@ -106,7 +112,7 @@ describe('world', () => {
     n.needs.hunger = 0.2;
     applyCommand(w, { kind: 'debugGive', what: 'fruit', amount: 1 }, []);
     run(w, 100, [{ kind: 'feed', nubbinId: n.id }]);
-    expect(w.inventory.fruit).toBe(0);
+    expect(w.inventory.fruit).toBe(EGG.startFruit);
     expect(n.needs.hunger).toBeGreaterThan(0.6);
   });
 
@@ -146,6 +152,27 @@ describe('world', () => {
     expect(['wander', 'sit', 'greet', 'swim', 'findFood', 'react', 'nap', 'cry']).toContain(
       n.behavior.state,
     );
+  });
+
+  it('a still release is free, a slow one a half drop, a fast one a throw (TECH-02)', () => {
+    const w = createWorld(9, 0);
+    run(w, EGG.hatchMs / SIM.stepMs + 5);
+    const n = w.nubbins[0]!;
+    const release = (x: number) => {
+      run(w, 1, [{ kind: 'grab', nubbinId: n.id }]);
+      run(w, 2);
+      const before = { happiness: n.needs.happiness, trust: n.trust };
+      applyCommand(w, { kind: 'release', vel: { x, z: 0 } }, []);
+      return before;
+    };
+    let before = release(0);
+    expect(n.needs.happiness).toBe(before.happiness);
+    expect(n.trust).toBe(before.trust);
+    before = release(2);
+    expect(n.needs.happiness).toBeLessThan(before.happiness);
+    expect(n.trust).toBeLessThan(before.trust);
+    release(5);
+    expect(n.behavior.state).toBe('thrown');
   });
 
   it('trees drop fruit and hungry Nubbins go eat it', () => {

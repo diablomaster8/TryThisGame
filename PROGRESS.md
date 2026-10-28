@@ -36,71 +36,55 @@ default renderer is not changed; passes 1 and 2 are on `main`, deployed since 20
 accepted by Maor). Maor, 2026-10-21: daily refreshes and free daily gifts are allowed; only
 repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play review of
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
-branch `fix/r1025-merge`, not pushed until Maor OKs (below).
+branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Play review fixes (2026-10-25, branch fix/r1025-merge)
+## Pass 0 hotfixes (2026-10-27, branch pass/0, not pushed)
 
-- **How it was done.** Eleven agents worked on their own branches of origin/main (`fix/r1025-{sim,story,dlg,ui,px,3d,pkA,pkB,dig,boot,txt}`), with the rules in `Test Des/fx-rules.md`. Each re-checked its items first, because the review had run 334 commits behind. The branches were merged in worktree `wt-fx-merge`, origin/main was merged in up to 8df7b8b, and a headless replay (pixel desktop, 3D phone) passes every key check.
-- **Assumption (Keeper identity).** All ten trainers always spawn, including the one picked. The player's avatar is Hazel's grandchild in both renderers and in the "You" portrait: a copper mop, freckles and the picked role's outfit colours. Switching Keeper changes only the outfit, the side and the egg line.
-- **Story.**
-  - Pacing:
-    - STORY `breatherMs` 60 s between unrelated scenes, `sideGapMs` 20 s between side stories, FUN `offerGapMs` 240 s.
-    - `goalMinMs` 90 s now holds the next chapter, not the closing.
-    - A closing answers its goal within `closingSettleMs` 4 s, unless a side story opened in that chapter still needs the time (S31).
-    - `sceneTime` waits for the hour that a scene's text names.
-  - Seasons follow the chapters (`STORY.chapterSeasons`).
-  - Scene guests: Corvin and visitors spawn for their scene (`scene-cast.ts`).
-  - No scene starts underground, during minigames or under the loading veil.
-  - Meet Ori starts with Ori. The Toy Story plush lines are filtered.
-  - No fun quest moves in chapters 9 to 11.
-- **Dialogue and guidance.**
-  - Skip, which still stops at real choices; hidden in the sprout band.
-  - Panels close when a scene starts, and focus moves to the dialogue.
-  - An objective chip, plus a "New goal" toast.
-  - The Learning Grove "Hear the story" prompt.
-  - Seeded portraits for every speaker without a look (`render/portraits.ts`), so no one borrows Fern's face.
-- **UI.**
-  - Labelled phone action bar.
-  - The Hollow bar measures the top bar.
-  - Toast queue and dedupe (`tuning-ui.ts`).
-  - Race results show standings, prize and a stat tip.
-  - Title blurbs, with the graphics picker on top.
-  - Touch hint.
-  - The cards are now dialogs. Font sizes are in rem.
-- **Sim.**
-  - A frozen `awaitingKeeper` Nubbin stops sampling happiness.
-  - `freeSpot`/`unstickKeeper` frees a Keeper wedged in a blocker; the well's fast-travel spot sat inside its collider.
-  - Steering round obstacles, and a `cantReach` event.
-  - Story Nubbins can't be fused or re-received.
-  - Race rivals never take a roster name.
-  - New Hollow floors are pinned at least 2× the old cave.
-- **Creatures.**
-  - All 151 Gen-1 Pokémon: `species-gen1a.ts` (#1–76, plus Crobat, Bellossom, Politoed) and `species-gen1b.ts` (#77–151, with legendaries rare through `eggWeight`). `skyfang-grown` is now an alias of `skyfang`.
-  - The digital line's Versions 2–5 (`species-digi2.ts`, 70 digital species), and the Ver.1 chart fixed.
-  - New kit parts in both renderers.
-  - The collection book lists ids, not array indices.
-  - Rare species stay out of the Hollow.
-- **Renderers.**
-  - Pixel: painted race sections and fly gap, the Expedition ridge, readable lanes, second-evolution and jewel colours, love/tumble clips, SheetCache LRU.
-  - 3D: the grandchild avatar, calm bursts under reduced motion, sculpt backoff, portrait Expedition framing, the X4122 and X3595 shader warnings fixed, decor painted with the kit.
-- **Boot.**
-  - `loadOnce` retries; a boot error card with one automatic reload.
-  - Service worker updates wait for the next load; the first visit's chunks are cached for offline play.
-  - The veil goes up from slot pick.
-  - woff fallbacks dropped (−12.7 MB in dist).
-- **Content.**
-  - Holme/Holmes, and Byte seated in q76.
-  - Campaign narration split to two sentences a line.
-  - c1/c4 clarity fixes, the Learning Grove fixes, and LJ1 varied from LH1.
-  - Stroke-guided tracing for every taught kana and Hebrew letter (`ui/hebrew-strokes.ts`).
-- **Gate.** 909 tests pass, 11 skipped. Lint and build pass. content-check `problems: 0` (3 long note strings). Script book in sync.
-- **Known gaps.**
-  - Ver.2–5 champion slot order is from memory.
-  - Gen-1 four-legged species still use biped plans and could move to the new `quad` plan.
-  - Klee One is not subset.
-  - side-story content still loads eagerly.
-  - Results depend on time zone.
-  - Not yet checked on real phones.
+The ten **live bug** items from `recs-2026-10-27`, as one hotfix commit. Plan: check each still
+reproduces on 9c01019, fix it hotfix-sized, and leave the larger parts to their passes.
+- **Works:**
+  - FUN-01 (+KIDS-01): the r1025 entry overlay's `.edu-prompt` (absolute, full-screen) hit every
+    sprout prompt span and minigame prompt. The overlay is now `.edu-entry*`, the dialogue's
+    bracketed prompt is `.edu-aside`, do buttons are ≥44 px, and a box tap pulses the do button.
+  - TECH-01: a first hatch starts at `EGG.hatchHunger` 0.7 (a rebirth hatches full), and a new
+    world starts with `EGG.startFruit` 2, since a fresh Free Grove had 0 fruit.
+  - TECH-02: a release under `THROW.placeMaxSpeed` 1.5 is a free place (happy bubble). From 1.5 to
+    3 it's a drop at half penalty (`dropScale`), and ≥3 is a throw.
+  - TECH-03: `navigator.storage.persist()` is asked once, at the first gesture after a hatch
+    (`grove.persist` key). Every save is mirrored to IndexedDB (`grove-saves`/`slots`), and boot
+    restores a newer or missing copy. Settings > Saves warns when storage isn't persisted.
+  - SOUL-01: play re-aims at the toy and arrives within `toyReach` 0.7, and the play timer starts
+    on arrival. Walks to a toy, fruit or ball give up on a timeout (6 s, or 1.5× the walk time for
+    far fruit) or on no progress (0.2 in 2 s). A given-up item is skipped for 30 s.
+  - CAMP-02: the Hundred Days and Logged In setups add their Nubbins instead of replacing the
+    roster (cast ids in `c.flags.cast`). Dawn & Dusk's revert spares Nubbins already grown at
+    the start (`dd-before`).
+  - CAMP-03: `counter()` reads the change since `startStoryline` (`base:<kind>` snapshot).
+  - KIDS-07: save v6 adds `breakUntilMs`, `todayMs` and `todayKey`. Play counts only live, visible
+    ×1 time and survives reloads within a day. The break card has no dismiss, only a gated
+    "Grown-up: a little longer", and stays locked across a reload.
+  - KIDS-04: Story closes the picker, then plays a queued scene or opens a spoken "What's next"
+    card (`ui/next-card.ts`). It never shows the journal toast.
+  - KIDS-06: the edu Settings button was already gated on main. This pass adds a kid-safe 🔊/🔇
+    HUD toggle.
+- **Partial / stubbed:**
+  - TECH-01: no first-hatch 🍎 bubble or objective chip line.
+  - TECH-02: no ground ring and no 200 ms lowering.
+  - TECH-03: no 7-day backup offer, and the IndexedDB code has no unit test (no fake-indexeddb).
+  - CAMP-02/03 wait on CAMP-01 for `Nubbin.home`, the region filter, `lineCastMax`, the bring-home
+    choice and the checker's flag-namespace rule. A line's cast may push the roster past its cap
+    (that blocks new eggs, it doesn't break anything).
+  - KIDS-06: the duplicate edu fieldset is still there (behind the same gate), there's no jsdom
+    test (the repo has no DOM test environment), and the toggle is a button, not a big slider.
+  - KIDS-07: a 😴 card instead of a sleeping Nubbin, and no goodnight ritual (KIDS-36).
+  - KIDS-04: no `goalIcon`/`goalSay` content fields and no "Show me" (KIDS-05).
+- **Assumptions:**
+  - SOUL-01's "≤10 s walking" can't hold for fruit up to 30 units away, so fruit walks are bounded
+    at 1.5× their walk time instead.
+  - TECH-01 is checked with `debugHatchNow` in the Edge driver. Hatch timing is unchanged.
+- **Checks:** lint, 1092 tests and build pass. A headless Edge run (Pixel and Full 3D, at 1280×800
+  and 375×812) passed 18/18 checks each time, covering every item above, with no console errors.
+- **Known bugs:** none new.
 
 ## Story review run 24 fixes (2026-10-27)
 
@@ -127,16 +111,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (below).
   route their variants. content-check warns on unread fun-quest flags and on lessons that run ahead.
 - **Partial:** SR-20261027-1304: 91 Q1–Q65 choice flags are still read nowhere (the new warning lists them).
 - **Known bugs:** none new.
-
-## Story review run 22 fixes (2026-10-27)
-
-- **Works:** 57 of run 22's 58 recs fixed across S22–S29 and S3's two bands, with the S24–S28 bands
-  synced. S24's bird, nest, lights and tick variants now play; S25's spring coda and Moss line queue
-  after S25; S24's cage choice gets an answer; new tested payoffs for S22's chimney, S26's bulbs,
-  hello and plot, and S27's sold path.
-- **Partial:** SR-20261027-1249: Byte's barks and Granny Brock's knock play once (no bark system or
-  green-door prop yet); the proposed orphan-scene check in content-check is not written.
-- **Known bugs:** c12-wall-garden's Learning Grove lessons never play when it is spliced into c12-open.
 
 ## Standing approval (Maor, 2026-10-12)
 

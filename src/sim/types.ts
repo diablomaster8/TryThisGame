@@ -93,6 +93,11 @@ export interface Behavior {
   /** Item id being sought or eaten. */
   itemId: string | null;
   reaction: Reaction | null;
+  /** SOUL-01: the best distance to the walk target so far, when it was reached, and the start. */
+  progress?: { d: number; atMs: number; d0: number };
+  /** SOUL-01: a toy or fruit this Nubbin gave up walking to, skipped until skipItemUntilMs. */
+  skipItemId?: string;
+  skipItemUntilMs?: number;
 }
 
 export interface Nubbin {
@@ -394,6 +399,12 @@ export interface EduState {
   stickers: number;
   /** Live play time this session, toward the break screen. */
   playedMs: number;
+  /** Wall-clock ms until which the break screen locks play; 0 when no break is running. */
+  breakUntilMs: number;
+  /** Live play ms counted today, kept across reloads (KIDS-07). */
+  todayMs: number;
+  /** The local date `todayMs` belongs to, YYYY-MM-DD; empty before the first count. */
+  todayKey: string;
   /** Which educational text the story plays in (CV2): Little Sprouts or Grove Readers. */
   band: EduBand;
   /** The grown-up's "Story language" switch: the band's text, or the main text with childLines. */
@@ -849,6 +860,8 @@ export type Command =
   | { kind: 'eduSetName'; name: string }
   | { kind: 'eduResult'; game: EduGameId; stars: number }
   | { kind: 'eduResetSession' }
+  | { kind: 'eduStartBreak' }
+  | { kind: 'eduEndBreak' }
   // The Digimon-inspired ten
   | { kind: 'setPartner'; slot: 0 | 1; nubbinId: string | null }
   | { kind: 'merge' }

@@ -8,6 +8,7 @@
  */
 import { SAVE_SAFETY } from '../config/tuning';
 import type { SideWorld } from '../sim/side-saves';
+import { mirrorDelete, mirrorReadAll, mirrorWrite, newerCopy } from './save-mirror';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
@@ -68,7 +69,39 @@ export function hasSave(slot: SaveSlot): boolean {
   }
 }
 
+function mirrorKey(slot: SaveSlot): string {
+  return `${slot.mode}:${Math.max(1, Math.min(SLOTS_PER_MODE, Math.floor(slot.index) || 1))}`;
+}
+
+/**
+ * Once at boot, before any slot is read: puts back any IndexedDB copy that is newer than
+ * (or missing from) localStorage, which a browser may have cleared. Never throws.
+ */
+export async function restoreFromMirror(): Promise<number> {
+  let restored = 0;
+  try {
+    for (const { key, json } of await mirrorReadAll()) {
+      const [mode, idx] = key.split(':');
+      const index = Number(idx);
+      if (!mode || !(mode in LEGACY_KEYS) || !Number.isInteger(index)) continue;
+      try {
+        const lsKey = slotKey({ mode: mode as SaveMode, index });
+        if (newerCopy(localStorage.getItem(lsKey), json) === 'mirror') {
+          localStorage.setItem(lsKey, json);
+          restored += 1;
+        }
+      } catch {
+        // Blocked localStorage: nothing to restore into.
+      }
+    }
+  } catch {
+    // No mirror.
+  }
+  return restored;
+}
+
 export function clearSlot(slot: SaveSlot): boolean {
+  mirrorDelete(mirrorKey(slot));
   try {
     localStorage.removeItem(slotKey(slot));
     return true;
@@ -83,6 +116,7 @@ export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
     const json = localStorage.getItem(slotKey(from));
     if (json === null) return false;
     localStorage.setItem(slotKey(to), json);
+    mirrorWrite(mirrorKey(to), json);
     return true;
   } catch {
     return false;
@@ -169,6 +203,7 @@ export function readSave(): string | null {
 export function writeSave(json: string): boolean {
   try {
     localStorage.setItem(SAVE_KEY, json);
+    mirrorWrite(mirrorKey(current), json);
     return true;
   } catch {
     return false;
@@ -176,6 +211,7 @@ export function writeSave(json: string): boolean {
 }
 
 export function clearSave(): boolean {
+  mirrorDelete(mirrorKey(current));
   try {
     localStorage.removeItem(SAVE_KEY);
     return true;

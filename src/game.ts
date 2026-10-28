@@ -670,7 +670,9 @@ export class Game {
     } else if (steps > 0 || this.pending.length > 0) {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
-      for (let i = 0; i < steps; i++) events.push(...stepWorld(this.world, SIM.stepMs, wall));
+      const playCounts = this.clock.timeScale === 1 && !document.hidden;
+      for (let i = 0; i < steps; i++)
+        events.push(...stepWorld(this.world, SIM.stepMs, wall, false, playCounts));
       // Far behind (very high time scale, slow device): live play keeps the live rules, so
       // the backlog runs as fine steps on later frames and only what is past
       // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.

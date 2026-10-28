@@ -1336,7 +1336,7 @@ button,
 
 /* Sprout: the grown-up's bracketed prompts, set apart from the read-aloud text by weight
    and style as well as colour (narration is already italic). */
-.edu-prompt {
+.edu-aside {
   font-style: normal;
   font-weight: 700;
   color: #9fd3ff;
@@ -1398,6 +1398,22 @@ button,
   font-weight: 700;
 }
 
+/* FUN-01: the do card's buttons sit in their own row below the line, never under it; a tap
+   on the box during a do beat pulses the button to point at it. */
+.dialogue-choices .edu-option {
+  min-height: 44px;
+}
+
+.edu-pulse {
+  animation: edu-pulse 200ms ease-out;
+}
+
+@keyframes edu-pulse {
+  50% {
+    transform: scale(1.08);
+  }
+}
+
 .edu-notes {
   margin: 4px 0 8px;
   padding-left: 18px;
@@ -1429,7 +1445,8 @@ button,
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dialogue-next {
+  .dialogue-next,
+  .edu-pulse {
     animation: none;
   }
 }
@@ -3015,7 +3032,7 @@ select {
   }
 }
 
-.edu-prompt {
+.edu-entry {
   position: absolute;
   inset: 0;
   z-index: 14;
@@ -3025,7 +3042,7 @@ select {
   pointer-events: auto;
 }
 
-.edu-prompt-card {
+.edu-entry-card {
   display: grid;
   gap: 14px;
   width: min(420px, calc(100% - 32px));
@@ -3038,12 +3055,12 @@ select {
     inset -2px -2px 0 var(--px-dark);
 }
 
-.edu-prompt-card h2 {
+.edu-entry-card h2 {
   margin: 0;
   font-size: 22px;
 }
 
-.edu-prompt-btn {
+.edu-entry-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3052,14 +3069,66 @@ select {
   font-size: 24px;
 }
 
-.edu-prompt-icon {
+.edu-entry-icon {
   font-size: 40px;
   line-height: 1;
 }
 
-.edu-prompt-look {
+.edu-entry-look {
   justify-self: center;
   min-height: 44px;
 }
 
 /* ---------- end r1025 dialogue & guidance ---------- */
+
+/* The break: a calm full-screen card; play is locked until it ends (KIDS-07). */
+.edu-break {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 10, 26, 0.92);
+  pointer-events: auto;
+}
+
+.edu-break-card {
+  box-sizing: border-box;
+  width: min(380px, calc(100% - 24px));
+  padding: 20px;
+  text-align: center;
+  background: #1a1530;
+  border: 1px solid var(--hud-border);
+  border-radius: 14px;
+}
+
+.edu-break-ring {
+  --left: 0deg;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: conic-gradient(#8fd3a8 var(--left), rgba(255, 255, 255, 0.12) 0);
+  position: relative;
+}
+
+.edu-break-ring::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  background: #1a1530;
+}
+
+.edu-break-ring > * {
+  position: relative;
+}
+
+.edu-break-count {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}

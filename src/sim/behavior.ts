@@ -49,6 +49,7 @@ function setState(n: Nubbin, state: BehaviorState, now: number, durationMs: numb
   n.behavior.sinceMs = now;
   n.behavior.untilMs = now + durationMs;
   n.behavior.target = null;
+  delete n.behavior.progress;
   n.behavior.itemId = null;
   if (state !== 'react' && state !== 'pet') n.behavior.reaction = null;
 }
@@ -91,23 +92,60 @@ function randomPoint(rng: Rng, around: Vec2, radius: number): Vec2 {
 }
 
 /** Step toward `target`; returns true on arrival. */
-function walkToward(n: Nubbin, target: Vec2, speed: number, dtMs: number): boolean {
+function walkToward(
+  n: Nubbin,
+  target: Vec2,
+  speed: number,
+  dtMs: number,
+  reach: number = BEHAVIOR.arriveRadius,
+): boolean {
   const d = dist(n.pos, target);
-  if (d <= BEHAVIOR.arriveRadius) return true;
+  if (d <= reach) return true;
   const step = Math.min(d, speed * (dtMs / 1000));
   const dx = (target.x - n.pos.x) / d;
   const dz = (target.z - n.pos.z) / d;
   n.pos.x += dx * step;
   n.pos.z += dz * step;
   n.facing = Math.atan2(dx, dz);
-  return dist(n.pos, target) <= BEHAVIOR.arriveRadius;
+  return dist(n.pos, target) <= reach;
 }
 
-function nearestFruit(world: World, from: Vec2): string | null {
+/**
+ * SOUL-01: true when a walk that has not arrived should be given up. Colliders and crowding
+ * can keep a Nubbin from ever reaching its target, and walking states used to wait forever.
+ */
+function approachStalled(n: Nubbin, target: Vec2, now: number, far = false): boolean {
+  const b = n.behavior;
+  const d = dist(n.pos, target);
+  const d0 = b.progress?.d0 ?? d;
+  // Fruit (`far`) can be a long walk, so its time grows with the starting distance: walk
+  // speed is per second, so 1.5× the walk time is d0 / speed × 1500 ms. Toys get the flat cap.
+  const walkMs = far ? (d0 / BEHAVIOR.walkSpeed) * 1500 : 0;
+  const allowed = Math.max(BEHAVIOR.approachTimeoutMs, walkMs);
+  if (now - b.sinceMs > allowed) return true;
+  if (!b.progress || d < b.progress.d - BEHAVIOR.progressMin) {
+    b.progress = { d, atMs: now, d0 };
+    return false;
+  }
+  return now - b.progress.atMs > BEHAVIOR.progressWindowMs;
+}
+
+function skipItem(n: Nubbin, id: string, now: number): void {
+  n.behavior.skipItemId = id;
+  n.behavior.skipItemUntilMs = now + BEHAVIOR.skipItemMs;
+}
+
+/** The item this Nubbin gave up on recently, if any. */
+function skipping(n: Nubbin, now: number): string | null {
+  const b = n.behavior;
+  return b.skipItemId !== undefined && now < (b.skipItemUntilMs ?? 0) ? b.skipItemId : null;
+}
+
+function nearestFruit(world: World, from: Vec2, skip: string | null = null): string | null {
   let best: string | null = null;
   let bestD: number = BEHAVIOR.foodSearchRadius;
   for (const item of world.items) {
-    if (item.kind !== 'fruit' || item.y > 0.05) continue;
+    if (item.kind !== 'fruit' || item.y > 0.05 || item.id === skip) continue;
     const d = dist(from, item.pos);
     if (d < bestD) {
       bestD = d;
@@ -226,7 +264,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   const toy = nearestToy(world, n.pos);
-  if (toy && rng.chance(Math.min(1, BEHAVIOR.playChance * m.play))) {
+  if (toy && toy.id !== skipping(n, now) && rng.chance(Math.min(1, BEHAVIOR.playChance * m.play))) {
     setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
@@ -292,7 +330,7 @@ export function updateBehavior(
     return;
   }
   if (interruptible && b.state !== 'findFood' && isHungry(n)) {
-    const fruit = nearestFruit(world, n.pos);
+    const fruit = nearestFruit(world, n.pos, skipping(n, now));
     if (fruit) {
       setState(n, 'findFood', now, Infinity);
       b.itemId = fruit;
@@ -349,6 +387,9 @@ export function updateBehavior(
       if (walkToward(n, item.pos, BEHAVIOR.walkSpeed, dtMs)) {
         world.items = world.items.filter((i) => i.id !== item.id);
         eat(n, now, events, item.flavor);
+      } else if (approachStalled(n, item.pos, now, true)) {
+        skipItem(n, item.id, now);
+        chooseIdle(n, world, rng, now);
       }
       break;
     }
@@ -358,7 +399,19 @@ export function updateBehavior(
         chooseIdle(n, world, rng, now);
         break;
       }
-      if (b.target && !walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs)) break;
+      if (b.target) {
+        // Aim at where the toy is now, not where it was when play began.
+        b.target = { x: toy.pos.x, z: toy.pos.z };
+        if (!walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs, BEHAVIOR.toyReach)) {
+          if (approachStalled(n, b.target, now)) {
+            skipItem(n, toy.id, now);
+            chooseIdle(n, world, rng, now);
+          }
+          break;
+        }
+        // The play timer starts on arrival, so the walk does not eat it.
+        b.untilMs = now + (b.untilMs - b.sinceMs);
+      }
       b.target = null;
       // Bat the toy around a little; it rolls a short way.
       if (rng.chance(0.08)) {
@@ -407,8 +460,10 @@ export function updateBehavior(
       }
       if (b.target) {
         // Run to the ball, then carry it back to the Keeper.
-        if (walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.5, dtMs)) {
+        if (walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.5, dtMs, BEHAVIOR.toyReach)) {
           b.target = null;
+        } else if (approachStalled(n, b.target, now)) {
+          chooseIdle(n, world, rng, now);
         }
       } else {
         toy.pos.x = n.pos.x + Math.sin(n.facing) * 0.4;
@@ -491,12 +546,17 @@ function updateThrown(n: Nubbin, dtMs: number, now: number, events: SimEvent[]):
 }
 
 /** Dropping (gentle put-down) is kinder than throwing but still not welcome. */
-export function putDown(n: Nubbin, now: number, events: SimEvent[]): void {
+export function putDown(
+  n: Nubbin,
+  now: number,
+  events: SimEvent[],
+  reaction: Reaction = 'confused',
+): void {
   n.y = 0;
   n.vel = { x: 0, y: 0, z: 0 };
   setState(n, 'sit', now, 0);
   if (n.stage === 'egg') return;
-  react(n, 'confused', now, events);
+  react(n, reaction, now, events);
 }
 
 export function sampleAll(world: World): void {

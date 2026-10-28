@@ -16,7 +16,9 @@ import { enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
+import { speakLine } from './lesson';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
+import { NextCard } from './next-card';
 import { LangPanel, langProgress } from './lang';
 import { langCourses } from '../sim/lang';
 
@@ -37,6 +39,7 @@ export class EduScreen {
   private starsTotal = 0;
   private rng = Rng.fromSeed(Date.now());
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
+  private readonly next: NextCard;
 
   constructor(
     parent: HTMLElement,
@@ -45,6 +48,7 @@ export class EduScreen {
   ) {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
     this.lang = new LangPanel(parent, game_, toast);
+    this.next = new NextCard(parent);
     this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
     this.root = el('div', 'edu');
     this.root.hidden = true;
@@ -64,7 +68,16 @@ export class EduScreen {
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
     // The story first (CV2): it is always there, whatever games are switched on.
     const storyGrid = el('div', 'edu-grid');
-    storyGrid.appendChild(storyPickButton(g, () => this.close(), this.toast));
+    storyGrid.appendChild(
+      storyPickButton(
+        g,
+        () => this.close(),
+        () => {
+          const cur = this.game_();
+          if (cur) this.next.show(cur);
+        },
+      ),
+    );
     // Nova's postcard (CV3): the language courses, once their scripts have loaded.
     if (langCourses().length > 0) storyGrid.appendChild(this.lang.pickButton(() => this.close()));
     body.appendChild(storyGrid);
@@ -450,39 +463,80 @@ export class GrownUpPanel {
   }
 }
 
-/** The break screen after the session length; a grown-up can extend it. */
+/**
+ * The break screen after the session length: a calm card that locks play until the break
+ * ends. Only a grown-up (the sum gate) can end it early; a reload keeps it (`breakUntilMs`).
+ */
 export class BreakScreen {
-  private readonly dialog;
+  private readonly root: HTMLDivElement;
+  private readonly count: HTMLElement;
+  private readonly ring: HTMLElement;
+  private shown = false;
 
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
+    private readonly ask: () => Promise<boolean>,
     private readonly grownUps: () => void,
   ) {
-    this.dialog = modal(parent, EDU_TEXT.breakTitle, EDU_TEXT.breakDone);
-    this.dialog.body.appendChild(el('p', 'help', EDU_TEXT.breakBody));
-    this.dialog.body.appendChild(el('div', 'edu-big', '🌿'));
-    this.dialog.body.appendChild(
+    this.root = el('div', 'edu-break');
+    this.root.hidden = true;
+    this.root.setAttribute('role', 'dialog');
+    this.root.setAttribute('aria-modal', 'true');
+    const card = el('div', 'edu-break-card');
+    this.ring = el('div', 'edu-break-ring');
+    this.count = el('div', 'edu-break-count');
+    this.ring.appendChild(el('div', 'edu-big', '😴'));
+    card.append(
+      el('h2', undefined, EDU_TEXT.breakTitle),
+      this.ring,
+      this.count,
+      el('p', 'help', EDU_TEXT.breakBody),
       button(
         EDU_TEXT.breakMore,
         () => {
-          this.game()?.send({ kind: 'eduResetSession' });
-          this.dialog.hide();
-          this.grownUps();
+          void this.ask().then((ok) => {
+            if (!ok) return;
+            this.game()?.send({ kind: 'eduEndBreak' });
+            this.hide();
+            this.grownUps();
+          });
         },
         'btn btn-small',
       ),
     );
+    this.root.appendChild(card);
+    parent.appendChild(this.root);
   }
 
+  /** Show the card (once) and speak the line; `update` keeps the countdown. */
   show(): void {
-    if (this.dialog.isOpen()) return;
-    this.game()?.send({ kind: 'eduResetSession' });
-    this.dialog.show();
+    if (this.shown) return;
+    this.shown = true;
+    this.root.hidden = false;
+    const e = this.game()?.world.edu;
+    if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+  }
+
+  hide(): void {
+    this.shown = false;
+    this.root.hidden = true;
+  }
+
+  /** Per-frame: the time left on the ring. */
+  update(nowMs: number): void {
+    const e = this.game()?.world.edu;
+    if (!e || !this.shown) return;
+    const left = Math.max(0, e.breakUntilMs - nowMs);
+    const total = EDU.breakMinutes * 60_000;
+    const mins = Math.floor(left / 60_000);
+    const secs = Math.floor((left % 60_000) / 1000);
+    this.count.textContent = `${mins}:${String(secs).padStart(2, '0')}`;
+    this.ring.style.setProperty('--left', `${Math.round((1 - left / total) * 360)}deg`);
   }
 
   isOpen(): boolean {
-    return this.dialog.isOpen();
+    return this.shown;
   }
 }
 
