@@ -1,3 +1,4 @@
+import { waypointCell, waypointHere } from '../sim/dungeon-levels';
 import '../dungeon.css';
 import { HOLLOW_AUTOMAP_TEXT as A, HOLLOW_MAP_TEXT as T } from '../config/strings';
 import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
@@ -119,6 +120,11 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
   if (seen(f.chest)) out.push(at('chest', f.chest, run.chestOpen));
   const hooks = f as Floor & HookFloor;
   for (const k of HOOKS) for (const c of hooks[k] ?? []) if (seen(c)) out.push(at(k, c));
+  // The level's waypoint stone (R0148), once seen.
+  if (waypointHere(run)) {
+    const c = waypointCell(f);
+    if (seen(c)) out.push(at('waypoint', c));
+  }
   for (const id of run.party) {
     const n = world.nubbins.find((m) => m.id === id);
     if (n) out.push({ kind: 'party', ...cellPoint(f, n.pos) });
