@@ -2,6 +2,8 @@ import { UI_TEXT } from '../config/strings';
 import type { OrbitCamera } from '../render/camera';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOUCH_HINT } from '../config/tuning-ui';
+import { WORLD_TEXT } from '../config/strings-world';
+import { roseAngle } from './hud-world-math';
 
 /** On-screen rotate/zoom buttons (48px targets) for phones and as a desktop fallback. */
 export function mountCameraButtons(parent: HTMLElement, camera: OrbitCamera): HTMLDivElement {
@@ -22,6 +24,22 @@ export function mountCameraButtons(parent: HTMLElement, camera: OrbitCamera): HT
   make('↺', UI_TEXT.rotateLeft, () => camera.rotate(-1));
   make('↻', UI_TEXT.rotateRight, () => camera.rotate(1));
   make('⤢', UI_TEXT.zoomToggle, () => camera.toggleZoom());
+
+  // A tiny north pointer that turns with the camera (R0082).
+  const north = document.createElement('span');
+  north.className = 'cam-north';
+  north.setAttribute('role', 'img');
+  north.setAttribute('aria-label', WORLD_TEXT.rotateNorth);
+  const arm = document.createElement('span');
+  arm.className = 'cam-north-arm';
+  arm.textContent = `▲${WORLD_TEXT.compassN}`;
+  north.appendChild(arm);
+  bar.insertBefore(north, bar.firstChild);
+  const spin = (): void => {
+    arm.style.transform = `rotate(${roseAngle(camera.currentYaw)}rad)`;
+    requestAnimationFrame(spin);
+  };
+  requestAnimationFrame(spin);
 
   parent.appendChild(bar);
 
