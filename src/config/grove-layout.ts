@@ -205,6 +205,18 @@ function wildCollider(p: WildProp, i: number): Collider | null {
   };
 }
 
+/** MOVE-34: pairs of solids under a Keeper's width apart, joined so no sliver is left. */
+/** The joining bar's radius: thin, it only has to close the sliver. */
+const JOIN_R = 0.2;
+
+export const SLIVER_JOINS: ReadonlyArray<readonly [string, string]> = [
+  ['tree-1', 'lantern-4'],
+  ['cottage', 'cottage-lantern'],
+  ['rock-0', 'wild-14'],
+  ['stall-stall', 'stall-attendant'],
+  ['stall-stall', 'stall-festival'],
+];
+
 /** Every fixed collider in the home Grove; placed decor is added by the sim per world. */
 export const GROVE_COLLIDERS: readonly Collider[] = (() => {
   const out: Collider[] = [];
@@ -348,6 +360,29 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
     const c = wildCollider(p, i);
     if (c) add(c);
   });
+  // MOVE-34: solids standing closer than a Keeper can pass leave slivers that only trap
+  // taps; each such pair is joined by a thin bar from centre to centre, live only while
+  // both stand. It stops only the Keeper (and so the nav grid): a Nubbin walks straight
+  // and would wedge in the corner a bar makes (the layout lint in tests/sim/layout-lint.test.ts keeps this list complete).
+  for (const [a, b] of SLIVER_JOINS) {
+    const ca = out.find((c) => c.id === a);
+    const cb = out.find((c) => c.id === b);
+    if (!ca || !cb) continue;
+    const dx = cb.x - ca.x;
+    const dz = cb.z - ca.z;
+    const when = cb.when ?? ca.when;
+    add({
+      id: `join-${a}-${b}`,
+      x: (ca.x + cb.x) / 2,
+      z: (ca.z + cb.z) / 2,
+      // A segment runs along its local x, which the yaw turns to (cos, -sin).
+      yaw: Math.atan2(-dz, dx),
+      shape: { type: 'segment', len: Math.hypot(dx, dz), r: JOIN_R },
+      top: Math.min(ca.top, cb.top),
+      flags: ['keeperOnly'],
+      ...(when ? { when } : {}),
+    });
+  }
   return out;
 })();
 
