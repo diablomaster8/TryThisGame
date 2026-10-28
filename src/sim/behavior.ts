@@ -36,7 +36,7 @@ import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
 import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
 import { perchTopAt, softAt } from './obstacles';
-import { NUBBIN_JUMP } from '../config/tuning';
+import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
 import { BUSH } from '../config/tuning-move';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
@@ -372,9 +372,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     rng.chance(0.7)
   ) {
     setState(n, 'wander', now, 4000);
+    // MOVE-48: to its slot behind the Keeper, not onto the Keeper's own spot.
+    const k = world.keeper;
+    const a = k.facing + Math.PI + (world.partners[0] === n.id ? 1 : -1) * FOLLOW_SLOT.spread;
     n.behavior.target = {
-      x: world.keeper.pos.x + rng.float(-1.5, 1.5),
-      z: world.keeper.pos.z + rng.float(-1.5, 1.5),
+      x: k.pos.x + Math.sin(a) * FOLLOW_SLOT.slot + rng.float(-1.5, 1.5) * FOLLOW_SLOT.jitter,
+      z: k.pos.z + Math.cos(a) * FOLLOW_SLOT.slot + rng.float(-1.5, 1.5) * FOLLOW_SLOT.jitter,
     };
     return;
   }

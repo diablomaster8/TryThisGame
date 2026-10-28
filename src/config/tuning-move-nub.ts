@@ -64,3 +64,14 @@ export const NUBBIN_JUMP = {
   /** ...and backs off this far. */
   shyBack: 1.6,
 } as const;
+
+/**
+ * MOVE-48: a following partner makes for its slot behind the Keeper, `slot` units back and
+ * `spread` radians either side (partner 0 to the left, 1 to the right), never the Keeper's
+ * own spot. The old ±1.5 scatter is kept as a small `jitter` share so the draws match.
+ */
+export const FOLLOW_SLOT = {
+  slot: 0.9,
+  spread: 0.6,
+  jitter: 0.15,
+} as const;
