@@ -80,3 +80,6 @@ export const UNREACHABLE = { toastEveryMs: 20_000, standInReach: 0.45 } as const
 
 /** MOVE-38: the nav overlay shows cells within `navReach` of the Keeper, `dotPx` across. */
 export const DEBUG_OVERLAY_LOOK = { navReach: 12, dotPx: 4 } as const;
+
+/** MOVE-33: a thrown body's radius against solids, and how much sideways speed a bonk keeps. */
+export const THROWN_BONK = { radius: 0.25, restitution: 0.4 } as const;

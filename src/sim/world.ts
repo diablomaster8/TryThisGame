@@ -58,6 +58,7 @@ export function hatchSpeed(world: World): number {
 }
 import { nubbinWalker, resolve } from './obstacles';
 import { courseById, prizeFor } from './race';
+import { collideThrown } from './throw-collide';
 import {
   eduResetSession,
   eduStartBreak,
@@ -872,7 +873,12 @@ export function stepWorld(
         if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
         }
-        if (n.behavior.state === 'thrown') updateBehavior(n, world, dtMs, rng, events);
+        if (n.behavior.state === 'thrown') {
+          updateBehavior(n, world, dtMs, rng, events);
+          // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
+          if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+          else resolve(n.pos, world, 0.25, 'nubbin');
+        }
         continue;
       }
       decayNeeds(n, dtMs);
@@ -880,6 +886,8 @@ export function stepWorld(
       // Party members underground are moved by the Hollow step instead.
       if (world.nubbins.includes(n) && !inParty(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);
+        // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
+        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
         resolve(n.pos, world, 0.3, nubbinWalker(n));
       }
     }
