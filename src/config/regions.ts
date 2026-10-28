@@ -5,6 +5,7 @@
  * the rest are declared so quests, the map and streaming can name them before they exist.
  * A region with `built: false` can be named but never entered.
  */
+import { WOOD_POIS } from './region-wood';
 import type { Audience } from '../content/types';
 import type { Season } from '../sim/types';
 
@@ -244,6 +245,8 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       way('wood-trail', 'grove', [0, 54], [-28, -43], 'gate', 0),
       way('wood-ruins', 'ruins', [54, 0], [-34, 0], 'gate', N / 2),
     ],
+    // WORLD-25: laid out (`region-wood.ts`), not drawn yet.
+    { pois: WOOD_POIS },
   ),
   ridge: future(
     'ridge',

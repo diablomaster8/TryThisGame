@@ -7,13 +7,15 @@
  * Run: `npx tsx tests/tools/poi-spacing.ts`
  */
 import { WILD_PROPS } from '../../src/config/grove-layout';
+import { WOOD_MICRO } from '../../src/config/region-wood';
 import { REGIONS, REGION_ORDER, type PoiTier, type RegionId } from '../../src/config/regions';
 import { GROVE, WORLD_WALK } from '../../src/config/tuning';
 
 type Spot = { x: number; z: number };
 
-/** Micro spots (a tree, a rock, a bush to poke) are not POIs in the data; the Grove has them. */
+/** Micro spots (a tree, a rock, a bush to poke) are not POIs in the data; the Grove and Wood list theirs. */
 function microSpots(id: RegionId): Spot[] {
+  if (id === 'wood') return [...WOOD_MICRO];
   if (id !== 'grove') return [];
   return [...GROVE.trees, ...GROVE.rocks, ...WILD_PROPS];
 }

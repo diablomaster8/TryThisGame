@@ -12,6 +12,7 @@
  * per unit dropped for at most 1.2 s. So a double jump climbs one terrace level and a half,
  * not two (two levels are 1.8 u), and a glide drop is a short hop down, not a long sail.
  */
+import { WOOD_JUMPS } from './region-wood';
 import type { RegionId } from './regions';
 
 /** What each jump space may ask, with a margin under the physics. */
@@ -49,9 +50,7 @@ export interface JumpRoute {
 }
 
 /**
- * The routes per region. None is built yet: the Grove has no gap or ledge (its terraces have
- * ramps), and the first ones come with the Wood (WORLD-25): stepping stones over its stream
- * (gap 1.6), a ledge ladder up the lookout, a double-jump shortcut and a glide drop from the
- * lookout. Each is added here as it is built, and the check runs on it from then on.
+ * The routes per region. The Grove has none (its terraces have ramps); the first are the
+ * Wood's (WORLD-25), laid out with it in `region-wood.ts`.
  */
-export const JUMP_ROUTES: Partial<Record<RegionId, readonly JumpRoute[]>> = {};
+export const JUMP_ROUTES: Partial<Record<RegionId, readonly JumpRoute[]>> = { wood: WOOD_JUMPS };
