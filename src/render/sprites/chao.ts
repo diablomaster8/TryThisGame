@@ -556,6 +556,7 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       body: C.berry,
       shade: C.darkPlum,
       belly: C.white,
+      bellyPatch: C.white,
       tip: C.white,
       tipShade: C.pale,
       wing: C.berry,
@@ -572,6 +573,33 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       tip: C.white,
       tipShade: C.roseDeep,
       wing: C.white,
+    },
+  },
+  'look-quills': {
+    label: 'Quills look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: nearestIndex('#2c58e0'),
+      shade: C.nightBlue,
+      belly: nearestIndex('#f5c99a'),
+      bellyPatch: nearestIndex('#f5c99a'),
+      tip: C.white,
+      tipShade: C.pale,
+      wing: nearestIndex('#2c58e0'),
+      eye: C.teal,
+    },
+  },
+  'look-shade': {
+    label: 'Shade look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.darkPlum,
+      shade: C.ink,
+      belly: C.darkPlum,
+      tip: C.white,
+      tipShade: C.pale,
+      wing: C.darkPlum,
+      eye: C.ink,
     },
   },
   'look-dream': {
@@ -599,11 +627,18 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.ellipse(cx, top + 2, 8, 4.5, C.ink);
       pc.rect(cx - 8, top + 3, 17, 2, C.ink);
       pc.thinLine(cx - 4, top - 1, cx + 3, top - 1, C.darkPlum);
-      // Two bushy tails peeking out behind, drawn low on the sides.
-      pc.ellipse(cx - 9, L.bodyCy + 1, 3, 2, C.orange);
-      pc.ellipse(cx + 9, L.bodyCy + 1, 3, 2, C.orange);
-      pc.px(cx - 11, L.bodyCy + 1, C.white);
-      pc.px(cx + 11, L.bodyCy + 1, C.white);
+      // Twin fluffy tails fanned out behind, white at the tips (LOOK-28).
+      if (angle !== 'back' && angle !== 'backQuarter') {
+        pc.ellipse(cx + 9, L.bodyCy - 2, 2.5, 3.5, C.orange);
+        pc.ellipse(cx + 11, L.bodyCy + 1, 2.5, 3.5, C.orange);
+        pc.disc(cx + 10, L.bodyCy - 5, 1.3, C.white);
+        pc.disc(cx + 13, L.bodyCy - 1, 1.3, C.white);
+      } else {
+        pc.ellipse(cx - 2, L.bodyCy, 2.5, 3.5, C.orange);
+        pc.ellipse(cx + 2, L.bodyCy, 2.5, 3.5, C.orange);
+        pc.disc(cx - 3, L.bodyCy - 3, 1.3, C.white);
+        pc.disc(cx + 3, L.bodyCy - 3, 1.3, C.white);
+      }
       break;
     case 'look-echidna':
       // The line-up figure's white spikes, standing up round the crown.
@@ -611,6 +646,10 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
         pc.tri(cx + dx - 1.5, top + 3, cx + dx + 1.5, top + 3, cx + dx * 1.3, top - 3, C.white);
         pc.px(cx + dx * 1.3, top - 2, C.pale);
       }
+      // The line-up's huge white ears and the green dot on the white belly patch.
+      pc.ellipse(cx - L.headRx + 1, top + 4, 2, 3, C.white);
+      pc.ellipse(cx + L.headRx - 1, top + 4, 2, 3, C.white);
+      if (angle === 'front' || angle === 'frontQuarter') pc.px(L.bodyCx, L.bodyCy + 1, C.leaf);
       break;
     case 'look-rose':
       // A red headband with a bow.
@@ -620,11 +659,42 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.px(cx + 7, top, C.cream);
       break;
     case 'look-dream':
-      // A jester cap with two bells.
-      pc.tri(cx - 7, top + 2, cx + 1, top + 2, cx - 9, top - 6, C.roseDeep);
-      pc.tri(cx - 1, top + 2, cx + 7, top + 2, cx + 9, top - 6, C.moonPurple);
-      pc.disc(cx - 9, top - 6, 1.5, C.sunYellow);
-      pc.disc(cx + 9, top - 6, 1.5, C.sunYellow);
+      // The line-up figure: a gold horn on the onion dome, tiny ear points, a dark belly centre.
+      pc.tri(cx - 1.5, top + 2, cx + 1.5, top + 2, cx + 1, top - 4, C.sunYellow);
+      pc.px(cx, top, C.sunDeep);
+      pc.tri(cx - 7, top + 4, cx - 5, top + 4, cx - 7, top + 1, C.roseDeep);
+      pc.tri(cx + 5, top + 4, cx + 7, top + 4, cx + 7, top + 1, C.roseDeep);
+      if (angle === 'front' || angle === 'frontQuarter')
+        pc.ellipse(L.bodyCx, L.bodyCy + 1, 2, 1.6, C.moonPurple);
+      break;
+    case 'look-quills': {
+      // Five navy quills swept back round the crown.
+      const navy = nearestIndex('#2443c4');
+      for (const dx of [-7, -4, 0, 4, 7]) {
+        pc.tri(
+          cx + dx - 2,
+          top + 4,
+          cx + dx + 2,
+          top + 4,
+          cx + dx * 1.6,
+          top - 3 + Math.abs(dx) / 2,
+          navy,
+        );
+      }
+      break;
+    }
+    case 'look-shade':
+      // Tall pointed ears with grey insides, white spikes behind, a white collar with a lilac diamond.
+      for (const d of [-1, 1]) {
+        const ex = cx + d * 5;
+        pc.tri(ex - 2.5, top + 3, ex + 2.5, top + 3, ex + d, top - 6, C.darkPlum);
+        pc.tri(ex - 1, top + 2, ex + 1, top + 2, ex + d * 0.6, top - 3, nearestIndex('#8c8a96'));
+      }
+      pc.tri(cx - 1, top + 2, cx + 1, top + 2, cx, top - 4, C.white);
+      if (angle !== 'back') {
+        pc.rect(L.bodyCx - 4, L.headCy + L.headRy - 1, 9, 1, C.white);
+        pc.px(L.bodyCx, L.headCy + L.headRy, C.lavender);
+      }
       break;
     case 'straw':
       pc.rect(cx - 9, top + 1, 19, 2, C.cream);
