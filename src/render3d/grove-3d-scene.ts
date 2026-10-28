@@ -30,6 +30,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
 import { Hollow } from './hollow';
@@ -1415,6 +1416,9 @@ export class Grove3dScene {
       );
     } else CrownFade.setHole2(0, 0, 0);
     this.crowns.update(this.camera.position, targets, dt);
+    // R0018: houses, the windmill, the shed and stalls thin out too, and the Keeper shows through.
+    const hidden = occluders.update(this.camera.position, targets, 2, dt, this.reduceMotion);
+    occluders.ghost(hidden, hidden ? nearestChild(this.actors.group, kp.x, kp.z, 0.5) : null);
     if (this.location.startsWith('visit:'))
       this.visit.crowns.update(this.camera.position, this.keeperMarks, dt);
     this.halo.update(this.time.value);

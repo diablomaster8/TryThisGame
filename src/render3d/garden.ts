@@ -4,6 +4,7 @@ import type { DecorKind, Plant, TileKind, World } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
 import { KIT_SHARED, kitCabin, kitHouse, kitMaterials } from './kit-buildings';
 import { buildStoryProp } from './prop-kit';
+import { occluders } from './occluders';
 
 /**
  * The Keeper's own garden work in 3D: placed decor (fences, beds, benches, the statue,
@@ -377,12 +378,27 @@ export class Garden {
       disposeModel(c);
     }
     this.picks.length = 0;
+    occluders.clear('garden');
     for (const d of world.placed) {
       const m = decorModel(d.kind);
       m.position.set(d.pos.x, ground(d.pos.x, d.pos.z), d.pos.z);
       m.rotation.y = d.yaw ?? 0;
       this.group.add(m);
       const isBuilding = d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop';
+      if (isBuilding) {
+        const w = d.kind === 'nursery' ? 4.4 : d.kind === 'bathhouse' ? 5.6 : 5.8;
+        const h = w * 0.45;
+        this.occlude(
+          m.position.x,
+          m.position.y,
+          m.position.z,
+          d.yaw ?? 0,
+          w / 2 + 0.55,
+          w * 0.35 + 0.55,
+          h * 1.55 + 0.5,
+          h,
+        );
+      }
       this.picks.push([
         m,
         isBuilding ? 'building' : 'decor',
@@ -401,9 +417,28 @@ export class Garden {
       m.position.set(p.x, ground(p.x, p.z), p.z);
       this.group.add(m);
       const reach = p.kind === 'barn' ? 2 : p.kind === 'shed' ? 1.2 : 0.55;
+      if (p.kind === 'barn') this.occlude(p.x, m.position.y, p.z, 0, 2.1, 1.6, 4, 2.2);
+      else if (p.kind === 'shed') this.occlude(p.x, m.position.y, p.z, 0, 1.1, 0.9, 2.4, 1.4);
       this.picks.push([m, 'storyProp', p.id, reach]);
     }
     this.buildTiles(world, ground);
+    occluders.patch(this.group);
+  }
+
+  /** R0018: a placed building's box, turned by its yaw, for the camera-clear fade. */
+  private occlude(
+    x: number,
+    y: number,
+    z: number,
+    yaw: number,
+    hx: number,
+    hz: number,
+    height: number,
+    roofY: number,
+  ): void {
+    const c = Math.abs(Math.cos(yaw));
+    const s = Math.abs(Math.sin(yaw));
+    occluders.add('garden', x, z, c * hx + s * hz, s * hx + c * hz, y - 0.2, y + height, y + roofY);
   }
 
   /** Painted tiles: one instanced quad per tile kind, laid on the ground. */

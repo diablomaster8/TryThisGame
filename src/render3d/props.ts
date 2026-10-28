@@ -16,6 +16,7 @@ import { groveHeight } from './terrain';
 import { bridgeDeckTop } from '../sim/terrain';
 import { BRIDGE_YAW } from '../config/tuning-sim';
 import { addHull } from './toon-outline';
+import { occluders } from './occluders';
 
 /**
  * The Grove's dressing in 3D, placed from the same GROVE numbers the pixel scenery
@@ -441,6 +442,29 @@ export function buildGroveProps(
 
   // Grass over the meadow, placed in a worker (`grass.ts`).
   const grass = buildGroveGrass(scene, tex, time);
+
+  // R0018: the houses and the windmill thin out between the camera and the Keeper.
+  occluders.clear('props');
+  for (const hs of HOUSES) {
+    const at = b[hs.id];
+    const gy = groveHeight(at.x, at.z);
+    const ov = hs.style.overhang + 0.2;
+    occluders.add(
+      'props',
+      at.x,
+      at.z,
+      hs.w / 2 + ov,
+      hs.d / 2 + ov,
+      gy - 0.2,
+      gy + hs.h * (1 + hs.style.pitch) + 1,
+      gy + hs.h,
+    );
+  }
+  {
+    const wy = groveHeight(b.windmill.x, b.windmill.z);
+    occluders.add('props', b.windmill.x, b.windmill.z, 2.1, 2.1, wy - 0.2, wy + 7.4, wy + 5.1);
+  }
+  occluders.patch(group);
 
   return {
     group,
