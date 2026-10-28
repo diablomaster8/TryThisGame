@@ -38,6 +38,20 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Lane D: WORLD (2026-10-28, branch lane/d, not pushed)
+
+Plan: R0070 region graph (`config/regions.ts`, `sim/regions.ts`, `travel` command, discovery
+events) → R0071 quest areas (`content/where-map.ts`, content-check rule, per-region report) →
+R0068 drawn map (`ui/world-map.ts`, `render/map-paint.ts`, Grove tab first) → R0069 geometry
+budget (`config/tuning-world.ts` `PERF_BUDGET`, `governor.ts` `geoLevel`/`lodBias`) → R0075
+chunk grid (`render/chunks.ts`, pixel sprite culling) → later WORLD items that avoid lane A's
+files. Deferred from the start: R0072, R0073, R0074 and anything in actors, world-view,
+scenery, camera, keeper or terrain.
+
+Assumptions: the save version is lane B's, so `World.location` keeps its shape and the region
+is derived from it (`regionOf`); discovered regions are an optional `world.regionsFound`
+defaulted at read. Only built regions (grove, lane, hollow) can be travelled to.
+
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
 Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0

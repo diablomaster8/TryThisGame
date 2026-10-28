@@ -709,6 +709,8 @@ export interface World {
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
+  /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
+  regionsFound?: string[];
   /** Karate belts won per tier. */
   karate: { belt: number; wins: number; losses: number };
   plants: Plant[];
@@ -866,6 +868,8 @@ export type Command =
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
   | { kind: 'teleport'; pos: Vec2 }
+  // WORLD-04: walk out through a region exit (sub picks a place in the lane)
+  | { kind: 'travel'; exit: string; sub?: string }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -979,6 +983,9 @@ export type SimEvent =
   | { kind: 'received'; name: string; ok: boolean }
   | { kind: 'karate'; nubbinId: string; won: boolean; belt: number }
   | { kind: 'located'; location: Location }
+  | { kind: 'regionEntered'; region: string }
+  | { kind: 'regionDiscovered'; region: string }
+  | { kind: 'travelRefused'; exit: string; reason: string }
   | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
   /** A care walk got stuck and gave up (target: a Nubbin, tree or item id); the UI can toast it. */
   | { kind: 'cantReach'; targetId: string }
