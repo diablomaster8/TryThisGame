@@ -3,7 +3,14 @@ import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
-import { AUTO_HOP, GLIDE, JUMP_PLAY, KEEPER_SLOPE, UNREACHABLE } from '../config/tuning-move';
+import {
+  AUTO_HOP,
+  GLIDE,
+  JUMP_PLAY,
+  KEEPER_SLOPE,
+  RUN_MODE,
+  UNREACHABLE,
+} from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -491,6 +498,22 @@ export function slopePace(x: number, z: number, dx: number, dz: number): number 
   return Math.min(KEEPER_SLOPE.max, Math.max(KEEPER_SLOPE.min, f));
 }
 
+// MOVE-42: the tap target a walk was judged for, and whether it runs (Auto-run, long walks).
+const tapRuns = new WeakMap<World, { at: Vec2; run: boolean }>();
+
+/** Whether this tap walk runs: the Run toggle, or Auto-run on a walk over ten units. */
+function tapRunning(world: World, target: Vec2): boolean {
+  const k = world.keeper;
+  if (k.running) return true;
+  if (!world.settings.autoRun) return false;
+  let t = tapRuns.get(world);
+  if (!t || t.at !== target) {
+    t = { at: target, run: dist(k.pos, target) > RUN_MODE.autoRunOver };
+    tapRuns.set(world, t);
+  }
+  return t.run;
+}
+
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   const dt = dtMs / 1000;
@@ -506,7 +529,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const soft =
     (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
     (wet ? KEEPER_WADE.speed : 1) *
-    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1);
+    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1) *
+    // A running jump carries further (MOVE-42).
+    (going && !k.grounded && k.running ? RUN_MODE.airCarry : 1);
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {
@@ -618,7 +643,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           const step = Math.min(
             td,
             KEEPER.speed *
-              keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
+              keeperSpeedMultiplier(
+                world,
+                !k.intent && !!k.moveTarget && tapRunning(world, k.moveTarget),
+                KEEPER.runMultiplier,
+              ) *
               soft *
               ease *
               (k.grounded && !dungeonFloor && world.location === 'grove'

@@ -579,6 +579,13 @@ export class Game {
       window.matchMedia?.('(pointer: coarse)').matches
     )
       this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoHop: true } });
+    // MOVE-42: and Auto-run (long tap walks run), for the same reason.
+    if (
+      this.world.settings.autoRun === undefined &&
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(pointer: coarse)').matches
+    )
+      this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoRun: true } });
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
     await this.runCatchUp(gap, Date.now());

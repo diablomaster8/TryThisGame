@@ -13,7 +13,7 @@ import { keeperFooting, keeperGliding } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -1097,7 +1097,13 @@ export class WorldView {
       // Wading: rings on the water instead of dust.
       this.keeperDustMs = nowMs;
       this.particles.ripple(kx, kz);
-    } else if (moving && off >= -0.05 && off < 0.05 && nowMs - this.keeperDustMs > 260) {
+    } else if (
+      moving &&
+      off >= -0.05 &&
+      off < 0.05 &&
+      // Running kicks up dust about twice as often (MOVE-42).
+      nowMs - this.keeperDustMs > (k.running ? RUN_MODE.dustRunMs : RUN_MODE.dustWalkMs)
+    ) {
       this.keeperDustMs = nowMs;
       this.particles.burst('dust', kx, 0.05, kz, 1, {
         spread: 0.15,

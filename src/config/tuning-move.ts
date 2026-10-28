@@ -99,3 +99,17 @@ export const KEEPER_SLOPE = {
   probe: 0.6,
   lean: 0.3,
 } as const;
+
+/**
+ * MOVE-42: running as a mode. A running jump carries `airCarry`× further; tap walks longer
+ * than `autoRunOver` units run by themselves with Auto-run on (set on for a phone at its
+ * first launch); on a phone the Run toggle turns itself off after `idleResetMs` standing
+ * still; Pixel dust puffs every `dustRunMs` running (`dustWalkMs` walking).
+ */
+export const RUN_MODE = {
+  airCarry: 1.15,
+  autoRunOver: 10,
+  idleResetMs: 3000,
+  dustRunMs: 140,
+  dustWalkMs: 260,
+} as const;

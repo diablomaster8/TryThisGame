@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
 import { MOVE_TEXT } from '../config/strings-move';
@@ -202,6 +203,24 @@ export function mountHud(
     game()?.send({ kind: 'setRunning', running: on });
   }
   root.appendChild(runBtn);
+  // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
+  // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
+  if (window.matchMedia?.('(pointer: coarse)').matches) {
+    let stillMs = 0;
+    let last: { x: number; z: number } | null = null;
+    window.setInterval(() => {
+      const k = game()?.world.keeper;
+      if (!runOn || !k) {
+        stillMs = 0;
+        last = null;
+        return;
+      }
+      const moved = !last || Math.hypot(k.pos.x - last.x, k.pos.z - last.z) > 0.02;
+      last = { x: k.pos.x, z: k.pos.z };
+      stillMs = moved ? 0 : stillMs + 250;
+      if (stillMs >= RUN_MODE.idleResetMs) setRunning(false);
+    }, 250);
+  }
 
   // Jump (MOVE-14): a thumb button on touch screens, Space on a keyboard. It reacts on
   // pointerdown, with no click delay; holding it holds the jump higher. With something in

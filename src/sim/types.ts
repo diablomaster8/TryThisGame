@@ -293,6 +293,8 @@ export interface Settings {
   /** MOVE-24: tap walks hop logs and jump terraces. Unset: on in a Learning Grove, and set on
    * for a phone at its first launch. */
   autoHop?: boolean;
+  /** MOVE-42: tap walks over ten units run by themselves. Unset: off (a phone sets it on). */
+  autoRun?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
