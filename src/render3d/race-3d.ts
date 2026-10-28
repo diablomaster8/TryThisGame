@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { RACE_LOOK } from '../config/campaign-look';
 import { GROVE3D, RACE3D, READ3D } from '../config/tuning';
-import { SECTION_LABELS } from '../config/strings';
+import { sectionLabel } from '../config/strings-move-race';
 import type { RaceView } from '../minigames/race/view';
 import type { Rigged } from '../samples/species';
 import { variantById } from '../samples/nubbin-variant-catalogue';
@@ -38,6 +38,15 @@ interface Runner {
 
 /** Wait for the field this long after the stage is linked before stand-ins run. */
 const U = RACE3D.unitsPerTrack;
+
+/** Height of the hop over a hurdle, in world units, within half a track unit of it. */
+function hopHeight(race: RaceState, pos: number): number {
+  for (const h of race.hurdles) {
+    const d = Math.abs(pos - h);
+    if (d < 0.5) return 0.55 * Math.cos((d / 0.5) * (Math.PI / 2));
+  }
+  return 0;
+}
 
 /**
  * The races in Full 3D (G17): the sim's track laid along x with the lanes stacked away
@@ -223,6 +232,9 @@ export class Race3dView implements RaceView {
     const z = laneZ(r.lane);
     const trackY = trackHeight(this.spans, r.racer.pos);
     let y = racerY(section.kind, trackY, resting);
+    // A clean hop clears the fence; a stumbling racer stays low and goes dizzy.
+    const stumbling = r.racer.stumbleMs > 0;
+    if (r.racer.stumbleMs <= 0 && r.racer.finishedAtMs === null) y += hopHeight(race, r.racer.pos);
     const flying = section.kind === 'fly' && !resting;
     if (flying) y += Math.sin(nowMs / 260 + r.lane) * 0.12;
     const swimming = section.kind === 'swim';
@@ -242,11 +254,13 @@ export class Race3dView implements RaceView {
     rig.lift = flying ? y - trackY : 0;
     const pose = resting
       ? 'sleep'
-      : flying
-        ? 'happy'
-        : race.finished || r.racer.finishedAtMs !== null
-          ? 'idle'
-          : 'walk';
+      : stumbling
+        ? 'dizzy'
+        : flying
+          ? 'happy'
+          : race.finished || r.racer.finishedAtMs !== null
+            ? 'idle'
+            : 'walk';
     if (pose !== r.pose) {
       r.pose = pose;
       rig.setPose(pose);
@@ -367,6 +381,36 @@ export class Race3dView implements RaceView {
     }
   }
 
+  /** Little picket fences: one side-on panel per hurdle in every lane (instanced, two draws). */
+  private fences(stage: MiniStage, race: RaceState, lanes: number): void {
+    const count = race.hurdles.length * lanes;
+    if (count === 0) return;
+    const pickets = new THREE.InstancedMesh(
+      new THREE.BoxGeometry(0.09, 0.5, 0.07),
+      new THREE.MeshStandardMaterial({ color: '#fff1c9', roughness: 0.85 }),
+      count * 5,
+    );
+    const rails = new THREE.InstancedMesh(
+      new THREE.BoxGeometry(0.72, 0.06, 0.08),
+      new THREE.MeshStandardMaterial({ color: '#a06a3b', roughness: 0.9 }),
+      count * 2,
+    );
+    const m = new THREE.Matrix4();
+    let p = 0;
+    let r = 0;
+    for (const h of race.hurdles) {
+      const x = h * U;
+      const y = trackHeight(this.spans, h);
+      for (let lane = 0; lane < lanes; lane++) {
+        const z = laneZ(lane);
+        for (let i = 0; i < 5; i++)
+          pickets.setMatrixAt(p++, m.makeTranslation(x - 0.3 + i * 0.15, y + 0.26, z));
+        for (const dy of [0.18, 0.4]) rails.setMatrixAt(r++, m.makeTranslation(x, y + dy, z));
+      }
+    }
+    stage.scene.add(pickets, rails);
+  }
+
   private buildTrack(stage: MiniStage, race: RaceState): void {
     const lanes = race.racers.length;
     const zBack = laneZ(lanes - 1) - RACE3D.margin;
@@ -380,6 +424,7 @@ export class Race3dView implements RaceView {
         // A run is a dirt track with chalked lanes, not more field: on grass the runners
         // looked loose on the lawn beside the course (review C, item 20).
         case 'run':
+        case 'hurdles':
           stage.strip(x0, x1, zBack, zFront, 'dirt', { y: s.y0 });
           this.laneLines(stage, x0, x1, lanes, s.y0);
           break;
@@ -440,7 +485,7 @@ export class Race3dView implements RaceView {
         }
       }
       // The section's sign at its start, over the far lane.
-      const sign = stage.nameTag(SECTION_LABELS[s.kind], '#fff6d8', {
+      const sign = stage.nameTag(sectionLabel(s.kind), '#fff6d8', {
         width: 2.2,
         height: 0.5,
         fontPx: 48,
@@ -455,6 +500,7 @@ export class Race3dView implements RaceView {
       post.position.set(x0, Math.max(s.y0, s.y1) + RACE3D.signHeight / 2, zBack + 0.6);
       stage.scene.add(post);
     }
+    this.fences(stage, race, lanes);
     // Past the finish, and the line itself: checked posts across the lanes.
     const last = this.spans[this.spans.length - 1]!;
     const endX = race.length * U;
