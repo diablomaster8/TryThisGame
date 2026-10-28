@@ -506,6 +506,26 @@ export class Game {
       canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),
+      // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
+      pad: {
+        coop: () => this.world.coop.active,
+        nearNubbin: (within) => {
+          const k = this.world.keeper.pos;
+          let best: string | null = null;
+          let bestD = within;
+          for (const n of this.world.nubbins) {
+            const d = Math.hypot(n.pos.x - k.x, n.pos.z - k.z);
+            if (n.stage !== 'egg' && d <= bestD) {
+              bestD = d;
+              best = n.id;
+            }
+          }
+          return best;
+        },
+        holding: () => this.world.keeper.carrying !== null,
+        rotate: (dir) => this.camera.rotate(dir),
+        zoom: (dir) => (dir > 0 ? this.camera.zoomIn() : this.camera.zoomOut()),
+      },
     });
     this.markReduceMotion();
     // The save mirrors the device-wide renderer choice made on the title screen.
