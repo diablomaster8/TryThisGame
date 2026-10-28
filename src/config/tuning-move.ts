@@ -29,3 +29,17 @@ export const KEEPER_JUMP_FX = {
   ringQuads: 8,
   ringMs: 300,
 } as const;
+
+/**
+ * MOVE-24: auto-hop on tap-to-move paths. Nav joins rising up to `hopRise` (one jump) or
+ * `doubleRise` (a double jump) are open while the setting is on, and cells shut only by a
+ * hop or standable piece no taller than `hopRise` cost `hopCost`. The Keeper jumps when the
+ * ground `runUp` past its body (radius `body`) is higher than a step, or a hop piece is there.
+ */
+export const AUTO_HOP = {
+  runUp: 0.3,
+  body: 0.35,
+  hopRise: 0.85,
+  doubleRise: 1.55,
+  hopCost: 3,
+} as const;

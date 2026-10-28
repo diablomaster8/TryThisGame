@@ -289,6 +289,9 @@ export interface Settings {
   screenShake: boolean;
   /** Floatier, more forgiving jumps (MOVE-11); a Learning Grove save always has them. */
   gentleJumps: boolean;
+  /** MOVE-24: tap walks hop logs and jump terraces. Unset: on in a Learning Grove, and set on
+   * for a phone at its first launch. */
+  autoHop?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';

@@ -2,7 +2,8 @@ import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obst
 import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
-import { groveLeg } from './nav';
+import { autoHopOn, groveLeg } from './nav';
+import { AUTO_HOP } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -138,12 +139,21 @@ function careWalkStalled(world: World): boolean {
  * Walk around a solid thing instead of into it: when the straight step would end inside a
  * hill, tree or building, follow that obstacle's edge on the side nearer the target.
  */
-function steer(world: World, p: Vec2, to: Vec2, dx: number, dz: number): [number, number] {
+function steer(
+  world: World,
+  p: Vec2,
+  to: Vec2,
+  dx: number,
+  dz: number,
+  hop = false,
+): [number, number] {
   const look = KEEPER_UNSTICK.clearance + 0.1;
   const ax = p.x + dx * look;
   const az = p.z + dz * look;
   for (const c of obstacles(world)) {
     if (c.flags.includes('soft') || c.flags.includes('nubbinOnly')) continue;
+    // With Auto-hop a log, fence or bench is jumped, not walked round (MOVE-24).
+    if (hop && (c.flags.includes('hop') || c.flags.includes('standable'))) continue;
     // A target inside the obstacle itself is walked into and dropped, as before.
     if (contact(c, to.x, to.z, KEEPER_UNSTICK.clearance)) continue;
     const hit = contact(c, ax, az, KEEPER_UNSTICK.clearance);
@@ -253,6 +263,26 @@ export function keeperJump(world: World, down: boolean): void {
   if (k.carrying) return;
   k.jumpHeld = true;
   k.bufferMs = jumpTuning(world).bufferMs;
+}
+
+/**
+ * MOVE-24: a tap walk with Auto-hop on jumps by itself. Ahead of the body by the run-up, a
+ * rise of more than a step (a terrace face) or a hop piece the feet would not clear (a log,
+ * a fence) starts a jump; at the top of it, ground still above the feet asks for the double
+ * jump (two tiers). The planned path only goes this way when Auto-hop opened it (nav.ts).
+ */
+function autoHop(world: World, dx: number, dz: number): void {
+  const k = world.keeper;
+  if (k.carrying || k.bufferMs > 0) return;
+  const reach = AUTO_HOP.body + AUTO_HOP.runUp;
+  const ahead = { x: k.pos.x + dx * reach, z: k.pos.z + dz * reach };
+  const rise = keeperFooting(world, ahead.x, ahead.z, k.y + AUTO_HOP.doubleRise).y - k.y;
+  if (k.grounded) {
+    const piece =
+      blocked(ahead, world, 0.1, 'keeper', k.y) &&
+      !blocked(ahead, world, 0.1, 'keeper', k.y + AUTO_HOP.hopRise - JUMP.stepUp);
+    if (rise > JUMP.stepUp || piece) keeperJump(world, true);
+  } else if (k.vy <= 0 && k.airJumps > 0 && rise > 0) keeperJump(world, true);
 }
 
 /** The highest the feet got since they left the ground, for the landing's fall height. */
@@ -524,7 +554,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           let dx = (to.x - k.pos.x) / td;
           let dz = (to.z - k.pos.z) / td;
           // Steering stays as the local fallback on a straight leg.
-          if (to === target) [dx, dz] = steer(world, k.pos, target, dx, dz);
+          const hops = autoHopOn(world);
+          if (to === target) [dx, dz] = steer(world, k.pos, target, dx, dz, hops);
+          if (hops) autoHop(world, dx, dz);
           k.pos.x += dx * step;
           k.pos.z += dz * step;
           k.facing = Math.atan2(dx, dz);

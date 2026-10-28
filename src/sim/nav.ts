@@ -1,10 +1,11 @@
 import { GROVE, SIM } from '../config/tuning';
-import { GROVE_NAV } from '../config/tuning-sim';
+import { GROVE_NAV, JUMP } from '../config/tuning-sim';
+import { AUTO_HOP } from '../config/tuning-move';
 import { astar, cellLine, stringPull } from './astar';
 import { blocked, softAt } from './obstacles';
 import { keeperPerks } from './perks';
 import { storyPropMask } from './story-props';
-import { hillHeight } from './terrain';
+import { groveHeight, hillHeight } from './terrain';
 import { townUnlocks } from './town';
 import type { Vec2, World } from './types';
 
@@ -41,7 +42,11 @@ const cellCentre = (i: number): number => -HALF + (i + 0.5) * CELL;
 const cellOf = (v: number): number =>
   Math.max(0, Math.min(SIDE - 1, Math.floor((v + HALF) / CELL)));
 
-/** The walkability grid for this world now: 1 where the Keeper's centre may stand, 2 in a bush. */
+/**
+ * The walkability grid for this world now: 1 where the Keeper's centre may stand, 2 in a
+ * bush, 3 where only a hop or standable piece low enough to jump stands (MOVE-24: open only
+ * while Auto-hop is on).
+ */
 function grid(world: World): Grid {
   const wade = keeperPerks(world).wade;
   const key = gridKey(world, wade);
@@ -57,7 +62,12 @@ function grid(world: World): Grid {
       p.x = cellCentre(ix);
       if (Math.abs(p.x) > edge || Math.abs(p.z) > edge) continue;
       if (!wade && Math.hypot(p.x - pond.x, p.z - pond.z) < pond.r + 0.5) continue;
-      if (blocked(p, world, GROVE_NAV.clearance)) continue;
+      if (blocked(p, world, GROVE_NAV.clearance)) {
+        // Feet a jump up: hop and standable tops within reach no longer stop the walker.
+        const lift = groveHeight(p.x, p.z) + AUTO_HOP.hopRise - JUMP.stepUp;
+        if (!blocked(p, world, GROVE_NAV.clearance, 'keeper', lift)) mask[iz * SIDE + ix] = 3;
+        continue;
+      }
       // Bushes and beds are open but dear, so a path goes round them when it can.
       mask[iz * SIDE + ix] = softAt(p, world, 0) ? 2 : 1;
     }
@@ -76,14 +86,31 @@ function grid(world: World): Grid {
  */
 let joins: { east: Uint8Array; south: Uint8Array } | null = null;
 
-function smoothBetween(ax: number, az: number, bx: number, bz: number): boolean {
+/** Join levels: walk, one jump, a double jump, shut (MOVE-24). */
+const WALK = 1;
+const DOUBLE = 3;
+const HOP = 2;
+const SHUT = 9;
+
+/**
+ * How a walker gets between two points: walking when no sample-to-sample rise is a cliff,
+ * else by the whole rise (a jump, a double jump) or not at all.
+ */
+function joinBetween(ax: number, az: number, bx: number, bz: number): number {
   let last = hillHeight(ax, az, false);
+  let lo = last;
+  let hi = last;
+  let cliff = false;
   for (let i = 1; i <= 5; i++) {
     const y = hillHeight(ax + ((bx - ax) * i) / 5, az + ((bz - az) * i) / 5, false);
-    if (Math.abs(y - last) > GROVE_NAV.cliffJump) return false;
+    if (Math.abs(y - last) > GROVE_NAV.cliffJump) cliff = true;
+    lo = Math.min(lo, y);
+    hi = Math.max(hi, y);
     last = y;
   }
-  return true;
+  if (!cliff) return WALK;
+  const rise = hi - lo;
+  return rise <= AUTO_HOP.hopRise ? HOP : rise <= AUTO_HOP.doubleRise ? DOUBLE : SHUT;
 }
 
 function cellJoins(): { east: Uint8Array; south: Uint8Array } {
@@ -95,26 +122,29 @@ function cellJoins(): { east: Uint8Array; south: Uint8Array } {
       const x = cellCentre(ix);
       const z = cellCentre(iz);
       const c = iz * SIDE + ix;
-      east[c] = +smoothBetween(x, z, x + CELL, z);
-      south[c] = +smoothBetween(x, z, x, z + CELL);
+      east[c] = joinBetween(x, z, x + CELL, z);
+      south[c] = joinBetween(x, z, x, z + CELL);
     }
   joins = { east, south };
   return joins;
 }
 
-/** Whether a walker steps between neighbouring cells a and b without meeting a cliff. */
-function step(a: number, b: number): boolean {
+/**
+ * Whether a walker gets between neighbouring cells a and b: by walking (level WALK), or with
+ * Auto-hop also by a jump or a double jump up a terrace (level DOUBLE, MOVE-24).
+ */
+function step(a: number, b: number, level = WALK): boolean {
   const j = cellJoins();
   const lo = Math.min(a, b);
   const d = Math.abs(a - b);
-  if (d === 1) return j.east[lo] === 1;
-  if (d === SIDE) return j.south[lo] === 1;
+  if (d === 1) return j.east[lo]! <= level;
+  if (d === SIDE) return j.south[lo]! <= level;
   // A diagonal: open only when both ways round its corner are.
   const ax = a % SIDE;
   const bx = b % SIDE;
   const c1 = a - ax + bx;
   const c2 = b - bx + ax;
-  return step(a, c1) && step(c1, b) && step(a, c2) && step(c2, b);
+  return step(a, c1, level) && step(c1, b, level) && step(a, c2, level) && step(c2, b, level);
 }
 
 /**
@@ -126,7 +156,8 @@ function pockets(mask: Uint8Array): Int32Array {
   const queue = new Int32Array(SIDE * SIDE);
   let next = 0;
   for (let s = 0; s < mask.length; s++) {
-    if (mask[s] === 0 || label[s] !== 0) continue;
+    // Pockets are by walking: hop cells (3) join only while Auto-hop is on, in the search.
+    if (mask[s] === 0 || mask[s] === 3 || label[s] !== 0) continue;
     next++;
     let head = 0;
     let tail = 0;
@@ -136,7 +167,7 @@ function pockets(mask: Uint8Array): Int32Array {
       const c = queue[head++]!;
       const cx = c % SIDE;
       const visit = (n: number): void => {
-        if (mask[n] !== 0 && label[n] === 0 && step(c, n)) {
+        if (mask[n] !== 0 && mask[n] !== 3 && label[n] === 0 && step(c, n)) {
           label[n] = next;
           queue[tail++] = n;
         }
@@ -151,38 +182,48 @@ function pockets(mask: Uint8Array): Int32Array {
 }
 
 /** A* options: the expansion cap, and soft cells cost more to cross. */
-function search(mask: Uint8Array) {
+function search(mask: Uint8Array, level: number) {
+  const dear = (m: number | undefined): number =>
+    m === 2 ? GROVE_NAV.softCost : m === 3 ? AUTO_HOP.hopCost : 1;
   return {
     maxExpansions: GROVE_NAV.maxExpansions,
-    cost: (ix: number, iz: number) => (mask[iz * SIDE + ix] === 2 ? GROVE_NAV.softCost : 1),
-    pass: step,
+    cost: (ix: number, iz: number) => dear(mask[iz * SIDE + ix]),
+    pass: (a: number, b: number) => step(a, b, level),
   };
 }
 
-/** Whether cell (ix, iz) is open; the walker's own cell always is (it may hug a wall). */
-function opener(mask: Uint8Array, sx: number, sz: number) {
-  return (ix: number, iz: number): boolean =>
-    (ix === sx && iz === sz) ||
-    (ix >= 0 && iz >= 0 && ix < SIDE && iz < SIDE && mask[iz * SIDE + ix]! > 0);
+/**
+ * Whether cell (ix, iz) is open; the walker's own cell always is (it may hug a wall). Hop
+ * cells are open only at a hopping level.
+ */
+function opener(mask: Uint8Array, sx: number, sz: number, level = WALK) {
+  const top = level > WALK ? 3 : 2;
+  return (ix: number, iz: number): boolean => {
+    if (ix === sx && iz === sz) return true;
+    if (ix < 0 || iz < 0 || ix >= SIDE || iz >= SIDE) return false;
+    const m = mask[iz * SIDE + ix]!;
+    return m > 0 && m <= top;
+  };
 }
 
 /** A line walker over open cells that also refuses to cross a cliff between two of them. */
-function liner(mask: Uint8Array, sx: number, sz: number) {
-  const open = opener(mask, sx, sz);
+function liner(mask: Uint8Array, sx: number, sz: number, level = WALK) {
+  const open = opener(mask, sx, sz, level);
   let last = -1;
   return (ix: number, iz: number): boolean => {
     if (!open(ix, iz)) return false;
     const c = iz * SIDE + ix;
-    const ok = last < 0 || step(last, c);
+    const ok = last < 0 || step(last, c, level);
     last = c;
     return ok;
   };
 }
 
 /** A straight walk from a to b crosses only open cells. */
-function clear(mask: Uint8Array, a: Vec2, b: Vec2): boolean {
+function clear(mask: Uint8Array, a: Vec2, b: Vec2, level = WALK): boolean {
   const g = (v: number): number => (v + HALF) / CELL;
-  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), liner(mask, cellOf(a.x), cellOf(a.z)));
+  const walk = liner(mask, cellOf(a.x), cellOf(a.z), level);
+  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), walk);
 }
 
 /**
@@ -241,6 +282,7 @@ function entryCell(mask: Uint8Array, from: Vec2): number | null {
   const fx = cellOf(from.x);
   const fz = cellOf(from.z);
   if (mask[fz * SIDE + fx]! > 0) return fz * SIDE + fx;
+  // Shut (or only hoppable) here: the nearest walkable cell.
   let best: number | null = null;
   let bestD = Infinity;
   const r = GROVE_NAV.entrySearch;
@@ -248,7 +290,15 @@ function entryCell(mask: Uint8Array, from: Vec2): number | null {
     for (let dx = -r; dx <= r; dx++) {
       const x = fx + dx;
       const z = fz + dz;
-      if (x < 0 || z < 0 || x >= SIDE || z >= SIDE || mask[z * SIDE + x] === 0) continue;
+      if (
+        x < 0 ||
+        z < 0 ||
+        x >= SIDE ||
+        z >= SIDE ||
+        mask[z * SIDE + x] === 0 ||
+        mask[z * SIDE + x] === 3
+      )
+        continue;
       const d = Math.hypot(cellCentre(x) - from.x, cellCentre(z) - from.z);
       if (d < bestD) {
         bestD = d;
@@ -258,7 +308,7 @@ function entryCell(mask: Uint8Array, from: Vec2): number | null {
   return best;
 }
 
-function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
+function plan(g: Grid, from: Vec2, target: Vec2, level: number): Route | null {
   const mask = g.mask;
   const entry = entryCell(mask, from);
   if (entry === null) return null;
@@ -267,8 +317,8 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
   let gx = cellOf(target.x);
   let gz = cellOf(target.z);
   let end: Vec2 = { x: target.x, z: target.z };
-  const open = opener(mask, sx, sz);
-  let cells = open(gx, gz) && astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask));
+  const open = opener(mask, sx, sz, level);
+  let cells = open(gx, gz) && astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask, level));
   if (!cells) {
     // Shut in (inside a building, past a wall with no way round): make for the nearest
     // reachable cell instead, or give up at once when there is none worth walking to.
@@ -277,11 +327,11 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
     gx = near % SIDE;
     gz = (near - gx) / SIDE;
     end = { x: cellCentre(gx), z: cellCentre(gz) };
-    cells = astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask));
+    cells = astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask, level));
     if (!cells) return null;
   }
   const pulled = stringPull(cells, SIDE, (ax, az, bx, bz) =>
-    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, liner(mask, sx, sz)),
+    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, liner(mask, sx, sz, level)),
   );
   const shut = entry !== cellOf(from.z) * SIDE + cellOf(from.x);
   const points = pulled.slice(shut ? 0 : 1, -1).map((c) => {
@@ -300,15 +350,17 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
 export function groveLeg(world: World, from: Vec2, target: Vec2): GroveLeg | null {
   const g = grid(world);
   const mask = g.mask;
-  if (clear(mask, from, target) && mask[cellOf(target.z) * SIDE + cellOf(target.x)]! > 0) {
+  const level = autoHopOn(world) ? DOUBLE : WALK;
+  const goal = mask[cellOf(target.z) * SIDE + cellOf(target.x)]!;
+  if (clear(mask, from, target, level) && goal > 0 && goal <= (level > WALK ? 3 : 2)) {
     routes.delete(world);
     return { next: target, end: target };
   }
-  const key = g.key;
+  const key = g.key + '|' + level;
   const aim = cellOf(target.z) * SIDE + cellOf(target.x);
   let r = routes.get(world);
   if (!r || r.key !== key || r.aim !== aim) {
-    const fresh = plan(g, from, target);
+    const fresh = plan(g, from, target, level);
     if (!fresh) {
       routes.delete(world);
       return null;
@@ -322,18 +374,26 @@ export function groveLeg(world: World, from: Vec2, target: Vec2): GroveLeg | nul
   while (
     r.i < pts.length - 1 &&
     (Math.hypot(pts[r.i]!.x - from.x, pts[r.i]!.z - from.z) < GROVE_NAV.waypointReach ||
-      clear(mask, from, pts[r.i + 1]!))
+      clear(mask, from, pts[r.i + 1]!, level))
   )
     r.i++;
   // Pushed off the route (a Nubbin in the way, a slide along a wall): plan again from here.
-  if (!clear(mask, from, pts[r.i]!)) {
-    const fresh = plan(g, from, target);
+  if (!clear(mask, from, pts[r.i]!, level)) {
+    const fresh = plan(g, from, target, level);
     if (!fresh) return null;
     fresh.key = key;
     r = fresh;
     routes.set(world, r);
   }
   return { next: r.points[r.i]!, end: r.end };
+}
+
+/**
+ * MOVE-24: whether tap walks may hop logs and fences and jump up terraces. Unset follows
+ * the Learning Grove (on there); the game turns it on for a phone at first launch.
+ */
+export function autoHopOn(world: World): boolean {
+  return world.settings.autoHop ?? !!world.edu;
 }
 
 /** Forget the Keeper's route (a new tap, a teleport). */
