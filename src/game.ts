@@ -592,20 +592,16 @@ export class Game {
 
   /** Run the catch-up for the gap since the save was written; call once the HUD is bound. */
   async catchUpOnLoad(): Promise<void> {
-    // MOVE-24: a phone that has never chosen gets Auto-hop on (tap-to-move is its main control).
-    if (
-      this.world.settings.autoHop === undefined &&
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(pointer: coarse)').matches
-    )
-      this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoHop: true } });
-    // MOVE-42: and Auto-run (long tap walks run), for the same reason.
-    if (
-      this.world.settings.autoRun === undefined &&
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(pointer: coarse)').matches
-    )
-      this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoRun: true } });
+    // MOVE-24/42: a phone that has never chosen gets Auto-hop and Auto-run on (tap-to-move is
+    // its main control). One command: a second would spread the settings from before the first.
+    if (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches) {
+      const s = this.world.settings;
+      if (s.autoHop === undefined || s.autoRun === undefined)
+        this.send({
+          kind: 'setSettings',
+          settings: { ...s, autoHop: s.autoHop ?? true, autoRun: s.autoRun ?? true },
+        });
+    }
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
     await this.runCatchUp(gap, Date.now());
