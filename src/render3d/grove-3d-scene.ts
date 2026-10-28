@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, UI } from '../config/tuning';
+import { PERF_BUDGET, WORLD_LOD } from '../config/tuning-world';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
@@ -296,6 +297,38 @@ export class Grove3dScene {
   private readonly staging = new SceneStager();
 
   /** K48: the story stager this view follows (the stage inspector reads it). */
+  /** WORLD-03: the geometry level every LOD consumer reads (0 = full detail, up to 3). */
+  get lodBias(): number {
+    return this.governor.geoLevel;
+  }
+
+  /** WORLD-03: the draw budget this device is held to (phone-sized viewports get the small one). */
+  get perfBudget(): { calls: number; tris: number } {
+    return Math.min(window.innerWidth, window.innerHeight) < WORLD_LOD.phoneMaxPx
+      ? PERF_BUDGET.phone
+      : PERF_BUDGET.desktop;
+  }
+
+  /**
+   * WORLD-03: read the frame's calls and triangles after it is drawn and let the governor
+   * move the geometry level, then apply it. The grass is the first consumer: its tufts thin
+   * per level (`WORLD_LOD.grass`); a re-pour (a season or a tile change) is noticed by its
+   * count changing under us, and becomes the new full count.
+   */
+  private budgetGeometry(): void {
+    const info = this.renderer.info.render;
+    this.governor.sampleGeometry(info.calls, info.triangles, this.perfBudget);
+    if (!this.props.grass.ready) return;
+    const share = WORLD_LOD.grass[this.governor.geoLevel] ?? 1;
+    for (const m of this.props.grass.meshes) {
+      const d = m.userData as { full?: number; geoCount?: number };
+      if (m.count !== d.geoCount) d.full = m.count;
+      const want = Math.floor((d.full ?? m.count) * share);
+      if (m.count !== want) m.count = want;
+      d.geoCount = want;
+    }
+  }
+
   get storyStager(): SceneStager {
     return this.staging;
   }
@@ -1472,6 +1505,7 @@ export class Grove3dScene {
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
     this.composer.render();
+    this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
     if (this.frameMs.length > 120) this.frameMs.shift();
   }
@@ -1620,7 +1654,8 @@ export class Grove3dScene {
     // last CPU step): it is a second draw of every caster, and a frame late is not visible
     // at that frame rate.
     const shadows = this.renderer.shadowMap;
-    const strained = this.governor.ratio < this.governor.maxRatio || level > 0;
+    const strained =
+      this.governor.ratio < this.governor.maxRatio || level > 0 || this.governor.geoLevel > 0;
     if (this.caveShadowOff) {
       // Underground: clear the map once (nothing is on its layer), then never redraw it.
       shadows.autoUpdate = false;

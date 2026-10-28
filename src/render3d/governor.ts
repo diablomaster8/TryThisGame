@@ -1,4 +1,4 @@
-import { GROVE3D } from '../config/tuning';
+import { GROVE3D, PERF_BUDGET } from '../config/tuning';
 
 /**
  * The Full 3D frame-time governor (review C, item 6). It watches the time between frames
@@ -43,6 +43,15 @@ export class FrameGovernor {
   private trial: { fromRatio: number; fromMs: number } | null = null;
   /** The lowest scale worth using: raised when a step down did not help. */
   private floor: number;
+  /**
+   * WORLD-03: geometry savings in force (0 = none, up to `PERF_BUDGET.maxLevel`), raised when
+   * the frame draws more calls or triangles than the device's budget for `overFrames` in a row
+   * and lowered after a long run well under it. Every LOD consumer reads it as `lodBias`. It
+   * moves before the render scale: a vertex-bound phone has no other way out.
+   */
+  geoLevel = 0;
+  private geoOver = 0;
+  private geoUnder = 0;
   /** The render scale it wants now. */
   ratio: number;
   /** The most it will ever ask for: the device's ratio, capped. */
@@ -134,6 +143,31 @@ export class FrameGovernor {
     this.shedFloor = 0;
     this.sinceShedRestore = Infinity;
     this.settle();
+  }
+
+  /**
+   * Feed one frame's draw calls and triangles against a budget; returns the new geometry
+   * level when it changes, else null.
+   */
+  sampleGeometry(
+    calls: number,
+    tris: number,
+    budget: { calls: number; tris: number },
+  ): number | null {
+    const b = PERF_BUDGET;
+    const over = calls > budget.calls || tris > budget.tris;
+    const easy = calls < budget.calls * b.relaxShare && tris < budget.tris * b.relaxShare;
+    this.geoOver = over ? this.geoOver + 1 : 0;
+    this.geoUnder = easy ? this.geoUnder + 1 : 0;
+    if (this.geoOver >= b.overFrames && this.geoLevel < b.maxLevel) {
+      this.geoOver = 0;
+      return ++this.geoLevel;
+    }
+    if (this.geoUnder >= b.underFrames && this.geoLevel > 0) {
+      this.geoUnder = 0;
+      return --this.geoLevel;
+    }
+    return null;
   }
 
   /** Let the average settle at the new setting before judging it again. */

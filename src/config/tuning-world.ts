@@ -43,3 +43,11 @@ export const WORLD_STREAM = {
   /** Margin (world units) added to the camera's view box when picking chunks to draw. */
   viewMargin: 4,
 } as const;
+
+/** WORLD-03/12: what each geometry level keeps. */
+export const WORLD_LOD = {
+  /** Viewports narrower than this on their short side get the phone budget. */
+  phoneMaxPx: 768,
+  /** Share of grass tufts drawn at geometry level 0..3. */
+  grass: [1, 0.6, 0.35, 0.2],
+} as const;

@@ -228,5 +228,10 @@ function frameLine(g: Game): string {
   const r = g.pipeline.renderer.info.render;
   const size = g.pipeline.currentSize;
   const things = g.scene3d ? `nubbins ${g.world.nubbins.length}` : `sprites ${g.view.batch.drawn}`;
-  return `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}`;
+  return (
+    `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
+    (g.scene3d
+      ? `  lodBias ${g.scene3d.lodBias} budget ${g.scene3d.perfBudget.calls}/${g.scene3d.perfBudget.tris}`
+      : '')
+  );
 }
