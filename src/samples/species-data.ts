@@ -278,6 +278,8 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   },
   // The Chao waddle: about 7 degrees of body roll over the stance foot.
   waddle: 0.12,
+  // The Chao mouth opens wide: a big D when happy, a wail when crying (LOOK-65).
+  expressions: { happy: { gape: 0.55 }, sad: { gape: 0.45 } },
   blush: '#ffb3c6',
   // Pale cream-yellow, the same palette colour the pixel child wears (LOOK-13; Maor to
   // confirm the hue).

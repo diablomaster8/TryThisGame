@@ -356,7 +356,12 @@ export function shapeFor(
 }
 
 export type EyeState = 'open' | 'closed' | 'happy' | 'half' | 'dizzy' | 'wide';
-export type MouthState = 'smile' | 'flat' | 'open' | 'sad' | 'none';
+/**
+ * The Chao mouth set (LOOK-65): a smile, a big open D when happy, a small `o` when surprised,
+ * a wide wail when crying, a munch while eating, a pout (Mischievous), flat asleep.
+ */
+export type MouthState =
+  'smile' | 'flat' | 'open' | 'o' | 'wail' | 'munch' | 'pout' | 'sad' | 'none';
 export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB';
 
 export interface ChaoPose {
@@ -434,7 +439,14 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         legs: 'tucked',
       };
     case 'sad':
-      return { ...BASE, eyes: 'half', mouth: 'sad', headDrop: frame === 0 ? 1 : 2, squash: 0.96 };
+      // Crying: the sad mouth opens into a wail on the second frame.
+      return {
+        ...BASE,
+        eyes: 'half',
+        mouth: frame === 0 ? 'sad' : 'wail',
+        headDrop: frame === 0 ? 1 : 2,
+        squash: 0.96,
+      };
     case 'sleep':
       return {
         ...BASE,
@@ -447,7 +459,7 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
     case 'eat':
       return {
         ...BASE,
-        mouth: frame === 1 ? 'open' : 'smile',
+        mouth: frame === 1 ? 'munch' : 'smile',
         eyes: frame === 2 ? 'happy' : 'open',
         squash: frame === 1 ? 0.96 : 1,
       };
@@ -482,7 +494,7 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
       };
     case 'tumble':
       // Thrown: curled up, eyes wide, rolling a quarter turn a frame.
-      return { ...BASE, eyes: 'wide', mouth: 'open', arms: 'out', legs: 'tucked', spin: frame % 4 };
+      return { ...BASE, eyes: 'wide', mouth: 'o', arms: 'out', legs: 'tucked', spin: frame % 4 };
   }
 }
 
@@ -1036,8 +1048,37 @@ function drawFace(
       pc.px(mouthX, my, col.eye);
       break;
     case 'open':
+      // A big D: a flat top lip, a round bottom, the tongue inside.
+      if (angle === 'side') {
+        pc.rect(mouthX - 1, my, 3, 2, col.eye);
+        pc.px(mouthX, my + 1, C.berry);
+      } else {
+        pc.rect(mouthX - 2, my, 5, 2, col.eye);
+        pc.rect(mouthX - 1, my + 2, 3, 1, col.eye);
+        pc.px(mouthX, my + 1, C.rose);
+        pc.px(mouthX - 1, my + 1, C.berry);
+      }
+      break;
+    case 'o':
+      pc.px(mouthX, my, col.eye);
+      pc.px(mouthX - 1, my + 1, col.eye);
+      pc.px(mouthX + 1, my + 1, col.eye);
+      pc.px(mouthX, my + 2, col.eye);
+      break;
+    case 'wail':
+      // A wide trapezoid, the narrow edge on top.
+      pc.rect(mouthX - 1, my, 3, 1, col.eye);
+      pc.rect(mouthX - 2, my + 1, 5, 2, col.eye);
+      pc.px(mouthX, my + 2, C.berry);
+      break;
+    case 'munch':
       pc.rect(mouthX - 1, my, 3, 2, col.eye);
       pc.px(mouthX, my + 1, C.berry);
+      break;
+    case 'pout':
+      pc.px(mouthX - 1, my + 1, col.eye);
+      pc.px(mouthX, my + 1, col.eye);
+      pc.px(mouthX + 1, my, col.eye);
       break;
     case 'sad':
       pc.px(mouthX - 1, my + 1, col.eye);
