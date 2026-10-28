@@ -9,7 +9,8 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
-import { keeperFooting } from '../sim/keeper';
+import { keeperFooting, keeperGliding } from '../sim/keeper';
+import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
@@ -126,6 +127,8 @@ export class WorldView {
   /** MOVE-21: when the Keeper last left the ground and last landed (frame clock). */
   private keeperJumpAt = -Infinity;
   private keeperLandAt = -Infinity;
+  /** MOVE-27: the leaf the gliding Keeper holds out each side (the particle sheet's leaf). */
+  private leafSheet: SpriteSheet | null = null;
   /** How long the land frame holds: longer after a big fall (MOVE-25's plop). */
   private keeperLandMs: number = JUMP.landSquashMs;
   private shadowSheet: SpriteSheet | null = null;
@@ -257,6 +260,32 @@ export class WorldView {
     if (nowMs - this.keeperJumpAt < fx.crouchMs && gap < fx.crouchGap) return 'jump-crouch';
     if (k.vy > fx.apexVy) return 'jump-rise';
     return k.vy < -fx.apexVy ? 'jump-fall' : 'jump-apex';
+  }
+
+  /**
+   * MOVE-27: a leaf-wing out to each side of a gliding Keeper at shoulder height, beating
+   * slowly (held still under reduced motion).
+   */
+  private drawGlideLeaves(x: number, y: number, z: number, yaw: number, nowMs: number): void {
+    this.leafSheet ??= buildParticleSheet();
+    const sheet = this.leafSheet;
+    const rect = sheet.frames.get(frameKey('leaf', 'front', 0));
+    if (!rect) return;
+    const beat = this.particles.reduceMotion ? 0 : Math.sin(nowMs / 120) * 0.06;
+    for (const side of [-1, 1]) {
+      this.batch.draw({
+        sheet,
+        rect,
+        flip: side < 0,
+        x: x + Math.cos(yaw) * side * 0.32,
+        y: y + 0.85 + beat,
+        z: z - Math.sin(yaw) * side * 0.32,
+        mode: 'billboard',
+        w: 0.42,
+        h: 0.3,
+        tint: this.dim,
+      });
+    }
   }
 
   /** Squash and stretch for a jump frame: taller and thinner rising, shorter and wider landing. */
@@ -1041,6 +1070,7 @@ export class WorldView {
       });
       // The silhouette through whatever stands in front, in the Keeper's trim colour.
       batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
+      if (keeperGliding(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
     }
     const k2 = world.coop.active ? world.keeper2 : null;
     if (k2) {

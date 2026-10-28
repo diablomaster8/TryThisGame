@@ -3,7 +3,7 @@ import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { autoHopOn, groveLeg } from './nav';
-import { AUTO_HOP } from '../config/tuning-move';
+import { AUTO_HOP, GLIDE } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -281,8 +281,34 @@ function autoHop(world: World, dx: number, dz: number): void {
     const piece =
       blocked(ahead, world, 0.1, 'keeper', k.y) &&
       !blocked(ahead, world, 0.1, 'keeper', k.y + AUTO_HOP.hopRise - JUMP.stepUp);
-    if (rise > JUMP.stepUp || piece) keeperJump(world, true);
-  } else if (k.vy <= 0 && k.airJumps > 0 && rise > 0) keeperJump(world, true);
+    if (rise > JUMP.stepUp || piece) autoPress(world);
+  } else if (k.vy <= 0 && k.airJumps > 0 && rise > 0) autoPress(world);
+}
+
+/** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
+const autoPressed = new WeakSet<World>();
+
+function autoPress(world: World): void {
+  keeperJump(world, true);
+  autoPressed.add(world);
+}
+
+/** How long the Keeper has glided this time in the air (MOVE-27), transient. */
+const glided = new WeakMap<World, number>();
+
+/**
+ * MOVE-27: whether the Keeper is gliding now: in the air, falling, jump held, with the
+ * Fly perk, and within the glide's time. The renderers read it for the wing overlay.
+ */
+export function keeperGliding(world: World): boolean {
+  const k = world.keeper;
+  return (
+    !k.grounded &&
+    k.vy <= 0 &&
+    k.jumpHeld &&
+    (glided.get(world) ?? 0) < GLIDE.maxMs &&
+    keeperPerks(world).glide
+  );
 }
 
 /** The highest the feet got since they left the ground, for the landing's fall height. */
@@ -319,6 +345,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.bufferMs = 0;
       if (fromGround) peakY.set(world, k.y);
       events.push({ kind: 'keeperJumped', air: !fromGround });
+      if (autoPressed.delete(world)) k.jumpHeld = false;
     }
   }
   k.bufferMs = Math.max(0, k.bufferMs - dt * 1000);
@@ -326,6 +353,11 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   if (k.grounded) return;
   const g = tune.gravity * (k.vy < 0 ? JUMP.fallGravityScale : 1);
   k.vy = Math.max(-JUMP.maxFall, k.vy - g * dt);
+  if (k.vy < 0 && keeperGliding(world)) {
+    // The glide holds the fall to a drift for a while (MOVE-27).
+    k.vy = Math.max(k.vy, -GLIDE.maxFall);
+    glided.set(world, (glided.get(world) ?? 0) + dt * 1000);
+  }
   k.y += k.vy * dt;
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
@@ -336,6 +368,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.vy = 0;
       k.grounded = true;
       k.airJumps = JUMP.airJumps;
+      glided.delete(world);
       events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
     }
   }
@@ -452,7 +485,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     !dungeonFloor && (k.input.x !== 0 || k.input.z !== 0 || !!k.moveTarget || !!k.intent);
   const wet = going && k.grounded && keeperFooting(world, k.pos.x, k.pos.z, k.y).on === 'water';
   const soft =
-    (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) * (wet ? KEEPER_WADE.speed : 1);
+    (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
+    (wet ? KEEPER_WADE.speed : 1) *
+    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1);
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {

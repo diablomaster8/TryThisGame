@@ -5,4 +5,6 @@
 export const MOVE_TEXT = {
   autoHop: 'Auto-hop',
   autoHopHelp: 'Tap walks hop logs and fences and jump up terraces by themselves.',
+  /** The Fly perk's line in the garden's perk list (MOVE-27). */
+  glidePerk: 'Glide: hold jump to glide',
 } as const;

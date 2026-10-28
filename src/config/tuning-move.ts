@@ -43,3 +43,13 @@ export const AUTO_HOP = {
   doubleRise: 1.55,
   hopCost: 3,
 } as const;
+
+/**
+ * MOVE-27: the Fly perk's glide. Holding jump while falling caps the fall at `maxFall` u/s
+ * for up to `maxMs` per time in the air, and the Keeper moves `airSpeed` times faster.
+ */
+export const GLIDE = {
+  maxFall: 1.6,
+  maxMs: 1200,
+  airSpeed: 1.2,
+} as const;
