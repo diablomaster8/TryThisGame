@@ -460,6 +460,7 @@ export function scatterFinds(
   depth: number,
   floors: Cell[],
   special: Set<string>,
+  counts?: { loot: number; strays: number },
 ): void {
   const open = floors.filter(
     (c) =>
@@ -474,10 +475,9 @@ export function scatterFinds(
     open.splice(open.indexOf(c), 1);
     return c;
   };
-  const lootCount = Math.min(
-    DUNGEON.lootMax,
-    Math.round(DUNGEON.lootBase + DUNGEON.lootPerDepth * (depth - 1)),
-  );
+  const lootCount =
+    counts?.loot ??
+    Math.min(DUNGEON.lootMax, Math.round(DUNGEON.lootBase + DUNGEON.lootPerDepth * (depth - 1)));
   for (let i = 0; i < lootCount; i++) {
     const cell = pickOpen(3);
     if (!cell) break;
@@ -498,10 +498,12 @@ export function scatterFinds(
     else if (kind === 'critter') param = rng.pick(CRITTER_SPECIES).id;
     floor.loot.push({ id: `loot-${i}`, kind, cell, amount, param });
   }
-  const strayCount = Math.min(
-    DUNGEON.straysMax,
-    Math.round(DUNGEON.straysBase + DUNGEON.straysPerDepth * (depth - 1)),
-  );
+  const strayCount =
+    counts?.strays ??
+    Math.min(
+      DUNGEON.straysMax,
+      Math.round(DUNGEON.straysBase + DUNGEON.straysPerDepth * (depth - 1)),
+    );
   for (let i = 0; i < strayCount; i++) {
     const cell = pickOpen(7) ?? pickOpen(3);
     if (cell) floor.strayStarts.push(cell);

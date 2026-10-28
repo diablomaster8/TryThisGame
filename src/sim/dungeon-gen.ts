@@ -190,6 +190,63 @@ export function generateV2(seed: number, depth: number): Floor {
   const reach = reachFrom(start);
   for (let i = 0; i < cells.length; i++) if (!reach[i]) cells[i] = WALL;
 
+  return dressFloor({
+    rng,
+    seed,
+    depth,
+    cols,
+    rows,
+    cells,
+    rooms,
+    start,
+    great,
+    greatRoom,
+    mediums,
+    nookRoom,
+    special,
+    version: 2,
+  });
+}
+
+/** What the dressing needs from a generator's carved rock (versions 2 and 3). */
+export interface DressInput {
+  rng: Rng;
+  seed: number;
+  depth: number;
+  cols: number;
+  rows: number;
+  cells: Uint8Array;
+  /** Every room; `rooms[0]` holds the stairs up. */
+  rooms: Room[];
+  start: Cell;
+  /** The room the landmark stands in, and its index in `rooms`. */
+  great: Room;
+  greatRoom: number;
+  /** The last of these (when there are two or more) is sunk as the pool basin. */
+  mediums: Room[];
+  /** The chest's room. */
+  nookRoom: Room;
+  special: SpecialFloor;
+  version: number;
+  /** Stairs placed by the generator (version 3); otherwise found beside the landmark. */
+  stairsDown?: Cell | null;
+  /** Loot and stray counts (version 3); otherwise by depth. */
+  counts?: { loot: number; strays: number };
+}
+
+/**
+ * Dress carved rock as a floor: vistas, water and the basin pool, the landmark, the chest's
+ * nook, torches and crystals, crossings, the elevation and the finds. Version 2's order of
+ * random draws is kept exactly (`tests/sim/dungeon-v2-snapshot.test.ts`).
+ */
+export function dressFloor(o: DressInput): Floor {
+  const { rng, seed, depth, cols, rows, cells, rooms, start, great, greatRoom, mediums } = o;
+  const { nookRoom, special } = o;
+  const S = DUNGEON.special;
+  const inner = (x: number, y: number) => x > 1 && y > 1 && x < cols - 2 && y < rows - 2;
+  const open = (x: number, y: number) => {
+    if (inner(x, y)) cells[y * cols + x] = FLOOR;
+  };
   const floor: Floor = {
     cols,
     rows,
@@ -208,7 +265,7 @@ export function generateV2(seed: number, depth: number): Floor {
       Math.max(DUNGEON.lightMin, DUNGEON.lightBase - DUNGEON.lightPerDepth * (depth - 1)) +
         (special === 'glowworm' ? S.glowwormLight : 0),
     ),
-    version: 2,
+    version: o.version,
     greatRoom,
     elevation: new Float32Array(cols * rows),
     landmark: null,
@@ -303,7 +360,8 @@ export function generateV2(seed: number, depth: number): Floor {
       cells[y * cols + x] = pool ? WATER : FLOOR;
     }
   }
-  if (depth < DUNGEON.maxDepth) {
+  if (o.stairsDown !== undefined) floor.stairsDown = o.stairsDown;
+  else if (depth < DUNGEON.maxDepth) {
     const offsets = [
       [LM.stairsFrom, 0],
       [-LM.stairsFrom, 0],
@@ -476,7 +534,7 @@ export function generateV2(seed: number, depth: number): Floor {
       .filter((c): c is Cell => !!c)
       .map(key),
   );
-  scatterFinds(floor, rng, depth, floors, specialCells);
+  scatterFinds(floor, rng, depth, floors, specialCells, o.counts);
   return floor;
 }
 
