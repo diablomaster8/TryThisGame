@@ -80,6 +80,11 @@ export interface SpritePick {
  * through one SpriteBatch (one draw call); positions are interpolated between the last
  * two sim steps so movement is smooth at any frame rate.
  */
+/** MOVE-19: the Keeper's head height, the faded quads' alpha and the x-ray trim colours. */
+const KEEPER_HEAD_Y = 1.7;
+const OCCLUDER_ALPHA = 0.55;
+const KEEPER_XRAY = { sun: 0xffa43c, moon: 0xa78bfa };
+
 export class WorldView {
   private batchLazy: SpriteBatch | null = null;
   /**
@@ -187,6 +192,14 @@ export class WorldView {
       0.45,
       STAGE2.fadeRadius + spread / Math.max(1, camera.visibleHeight),
     );
+  }
+
+  /** The Keeper's head in NDC for the occluder fade; null when there is no Keeper to show. */
+  private keeperHeadNdc(world: World, camera: OrbitCamera, alpha: number): Vector3 | null {
+    if (this.staging?.active && this.staging.keeperHold) return null;
+    const p = this.keeperDrawPos(world, alpha);
+    const v = new Vector3(p.x, KEEPER_HEAD_Y, p.z).project(camera.camera);
+    return v.z > 1 ? null : v;
   }
 
   /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
@@ -436,6 +449,29 @@ export class WorldView {
       const corners = batch.lastCorners;
       buildings.setRect(id, corners ? rectOf(camera.camera, corners) : null);
     };
+    // MOVE-19: where the Keeper's head sits on screen, so a nearer building or canopy over it
+    // can thin to 55% (the x-ray pass shows the silhouette either way).
+    const headNdc = this.keeperHeadNdc(world, camera, alpha);
+    const kdFade = this.keeperDrawPos(world, alpha);
+    const hides = (d: Parameters<SpriteBatch['draw']>[0]): number => {
+      if (!headNdc || d.mode !== 'billboard') return 1;
+      // Nearer to the camera than the Keeper along the view direction.
+      if ((d.x - kdFade.x) * Math.sin(yaw) + (d.z - kdFade.z) * Math.cos(yaw) < 0.05) return 1;
+      let x0 = Infinity;
+      let x1 = -Infinity;
+      let y0 = Infinity;
+      let y1 = -Infinity;
+      for (const c of batch.quadCorners(d)) {
+        this.tmp.copy(c).project(camera.camera);
+        x0 = Math.min(x0, this.tmp.x);
+        x1 = Math.max(x1, this.tmp.x);
+        y0 = Math.min(y0, this.tmp.y);
+        y1 = Math.max(y1, this.tmp.y);
+      }
+      return headNdc.x >= x0 && headNdc.x <= x1 && headNdc.y >= y0 && headNdc.y <= y1
+        ? OCCLUDER_ALPHA
+        : 1;
+    };
     const run = this.location === 'dungeon' ? world.dungeon : null;
     const cave = run ? this.cave : null;
     const underground = cave !== null;
@@ -488,7 +524,8 @@ export class WorldView {
           w: s.size,
           h: (s.size * rect.h) / rect.w,
           tint: this.lightAt(s.x, s.z),
-        };
+        } as Parameters<SpriteBatch['draw']>[0];
+        if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) sprite.opacity = hides(sprite);
         const bid = s.pick?.kind === 'building' ? s.pick.id : s.kind === 'well' ? 'well' : null;
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
         else batch.draw(sprite, s.pick);
@@ -662,21 +699,20 @@ export class WorldView {
       const size = p.kind === 'tree' ? 1 + p.stage * 0.45 : 1.1;
       const sway = p.kind === 'tree' && p.stage >= 2 ? Math.sin(nowMs / 1500 + p.pos.x) * 0.02 : 0;
       const dry = p.water < 0.25 ? 0.8 : 1;
-      batch.draw(
-        {
-          sheet: props,
-          rect,
-          flip: false,
-          x: p.pos.x + sway,
-          y: 0,
-          z: p.pos.z,
-          mode: 'billboard',
-          w: size,
-          h: size,
-          tint: this.dim * dry,
-        },
-        { id: p.id, kind: 'plant' },
-      );
+      const plantDraw: Parameters<SpriteBatch['draw']>[0] = {
+        sheet: props,
+        rect,
+        flip: false,
+        x: p.pos.x + sway,
+        y: 0,
+        z: p.pos.z,
+        mode: 'billboard',
+        w: size,
+        h: size,
+        tint: this.dim * dry,
+      };
+      plantDraw.opacity = hides(plantDraw);
+      batch.draw(plantDraw, { id: p.id, kind: 'plant' });
     }
     // Wild visitors looking around their patch.
     for (const w of home && !bare ? world.wild : []) {
@@ -937,6 +973,8 @@ export class WorldView {
         mode: 'billboard',
         tint: this.dim,
       });
+      // The silhouette through whatever stands in front, in the Keeper's trim colour.
+      batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
     }
     const k2 = world.coop.active ? world.keeper2 : null;
     if (k2) {

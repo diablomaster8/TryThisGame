@@ -4,9 +4,12 @@ import {
   DynamicDrawUsage,
   Mesh,
   MeshBasicMaterial,
+  GreaterDepth,
+  ShaderMaterial,
   Vector2,
   Vector3,
   Vector4,
+  Color,
 } from 'three';
 import { CAMERA } from '../config/tuning';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -73,6 +76,13 @@ export class SpriteBatch {
   readonly mesh: Mesh<BufferGeometry, MeshBasicMaterial>;
 
   readonly quads: DrawnQuad[] = [];
+  /**
+   * The x-ray pass (MOVE-19): quads redrawn as a tinted silhouette wherever something nearer
+   * hides them. It is a child mesh over the same buffers, so it costs one extra draw call.
+   */
+  readonly xray: Mesh<BufferGeometry, ShaderMaterial>;
+  private xrayQuads: Array<{ index: number; color: Color }> = [];
+  private xrayTexel = { value: new Vector2(1 / 4096, 1 / 4096) };
   /** When set, the matching sprite is drawn with a bright halo behind it. */
   highlight: { kind: string; id: string } | null = null;
   private pulse = 0;
@@ -111,6 +121,11 @@ export class SpriteBatch {
     });
     this.mesh = new Mesh(geometry, material);
     this.mesh.frustumCulled = false;
+    this.xray = new Mesh(new BufferGeometry(), this.xrayMaterial());
+    this.xray.frustumCulled = false;
+    this.xray.renderOrder = 50;
+    this.xray.visible = false;
+    this.mesh.add(this.xray);
     material.onBeforeCompile = (shader) => {
       shader.uniforms.uDitherC = this.ditherCircle;
       shader.uniforms.uDitherR = this.ditherRadius;
@@ -149,6 +164,47 @@ export class SpriteBatch {
     };
   }
 
+  private xrayMaterial(): ShaderMaterial {
+    return new ShaderMaterial({
+      uniforms: { map: { value: this.atlas.texture }, uTexel: this.xrayTexel },
+      vertexShader: `attribute vec4 color; varying vec4 vColor; varying vec2 vUv;
+        void main() { vColor = color; vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+      fragmentShader: `uniform sampler2D map; uniform vec2 uTexel; varying vec4 vColor; varying vec2 vUv;
+        void main() {
+          float a = texture2D(map, vUv).a;
+          if (a < 0.5) discard;
+          float edge = 1.0;
+          edge = min(edge, step(0.5, texture2D(map, vUv + vec2(uTexel.x, 0.0)).a));
+          edge = min(edge, step(0.5, texture2D(map, vUv - vec2(uTexel.x, 0.0)).a));
+          edge = min(edge, step(0.5, texture2D(map, vUv + vec2(0.0, uTexel.y)).a));
+          edge = min(edge, step(0.5, texture2D(map, vUv - vec2(0.0, uTexel.y)).a));
+          gl_FragColor = vec4(vColor.rgb, edge > 0.5 ? vColor.a : min(1.0, vColor.a + 0.4));
+        }`,
+      transparent: true,
+      depthTest: true,
+      depthFunc: GreaterDepth,
+      depthWrite: false,
+      polygonOffset: true,
+      polygonOffsetFactor: -1,
+      polygonOffsetUnits: -4,
+    });
+  }
+
+  /**
+   * Mark the sprite just drawn for the x-ray pass: it is redrawn at 45% in `color` only
+   * where a nearer sprite or building hides it (MOVE-19).
+   */
+  markXray(color: number): void {
+    if (this.count === 0 || this.xrayQuads.length >= 4) return;
+    this.xrayQuads.push({ index: this.count - 1, color: new Color(color) });
+  }
+
+  /** The corners a sprite would be drawn with, without drawing it. */
+  quadCorners(d: SpriteDraw): [Vector3, Vector3, Vector3, Vector3] {
+    return this.cornersFor(d, d.w ?? d.rect.w / NATIVE_PPU, d.h ?? d.rect.h / NATIVE_PPU);
+  }
+
   private fillAttributes(geometry: BufferGeometry): void {
     for (let i = 0; i < this.capacity; i++) {
       const v = i * 4;
@@ -185,12 +241,15 @@ export class SpriteBatch {
     this.mesh.geometry.dispose();
     this.mesh.geometry = new BufferGeometry();
     this.fillAttributes(this.mesh.geometry);
+    this.xray.geometry.dispose();
+    this.xray.geometry = new BufferGeometry();
   }
 
   /** Start a frame. Billboards face a camera at `yaw` with the fixed `pitch`. */
   begin(yaw: number, pitch: number): void {
     this.count = 0;
     this.quads.length = 0;
+    this.xrayQuads.length = 0;
     this.frameDraws.length = 0;
     this.atlas.beginFrame();
     this.uvGeneration = this.atlas.generation;
@@ -272,6 +331,9 @@ export class SpriteBatch {
     for (let c = 0; c < 4; c++) this.colors.set([b, b, b, a], i * 16 + c * 4);
     this.dithers.fill(d.dither ?? 0, i * 4, i * 4 + 4);
     this.lastCorners = corners;
+    if (pick && pick.kind === 'nubbin' && this.highlight?.id === pick.id && !d.dither) {
+      this.markXray(0xfff3b0);
+    }
     if (pick) {
       this.quads.push({
         id: pick.id,
@@ -326,12 +388,43 @@ export class SpriteBatch {
 
   /** Finish the frame: upload and set the draw range. */
   end(): void {
+    this.endXray();
     const g = this.mesh.geometry;
     for (const name of ['position', 'uv', 'color', 'dither'] as const) {
       (g.getAttribute(name) as BufferAttribute).needsUpdate = true;
     }
     g.setDrawRange(0, this.count * 6);
     this.mesh.visible = this.count > 0;
+  }
+
+  /** Copy the marked quads after the real ones and point the x-ray mesh at just those. */
+  private endXray(): void {
+    const n = this.xrayQuads.length;
+    this.xray.visible = n > 0 && this.count > 0;
+    if (!this.xray.visible) return;
+    while (this.count + n > this.capacity) {
+      this.grow();
+    }
+    const g = this.mesh.geometry;
+    const xg = this.xray.geometry;
+    if (xg.getAttribute('position') !== g.getAttribute('position')) {
+      for (const name of ['position', 'uv', 'color'] as const) {
+        xg.setAttribute(name, g.getAttribute(name));
+      }
+      xg.setIndex(g.getIndex());
+    }
+    this.xrayQuads.forEach((q, k) => {
+      const from = q.index;
+      const to = this.count + k;
+      this.positions.copyWithin(to * 12, from * 12, from * 12 + 12);
+      this.uvs.copyWithin(to * 8, from * 8, from * 8 + 8);
+      for (let c = 0; c < 4; c++) {
+        this.colors.set([q.color.r, q.color.g, q.color.b, 0.45], to * 16 + c * 4);
+      }
+    });
+    this.xray.geometry.setDrawRange(this.count * 6, n * 6);
+    const img = this.atlas.texture.image as { width?: number; height?: number } | null;
+    this.xrayTexel.value.set(1 / (img?.width || 4096), 1 / (img?.height || 4096));
   }
 
   get drawn(): number {
@@ -341,6 +434,8 @@ export class SpriteBatch {
   dispose(): void {
     this.mesh.geometry.dispose();
     this.mesh.material.dispose();
+    this.xray.geometry.dispose();
+    this.xray.material.dispose();
     this.atlas.dispose();
   }
 }
