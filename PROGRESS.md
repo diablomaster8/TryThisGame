@@ -62,7 +62,11 @@ R0142–R0146 in R order; next open is R0147. Save version 7 → 8 (`world.hollo
   poof yet (3D uses a hop); pack loot is Shells only (DUNG-23).
 - **Known gaps.** Pixel view does not draw packs: it needs a call in `render/world-view.ts`
   (lane A's file). Standard-level full-clear tour is in 750–1,100 u on ~85% of seeds, not
-  95% (test allows 20 misses).
+  95% (test allows 20 misses). The 3D pack figures did not show in the Edge chase shots
+  (sim chase and fight checked; figures unverified).
+- **Checked.** Edge (`recs-2026-10-27/tools/lane-b.cjs`): 3D desktop and 375×812 pass all;
+  Pixel passes all but two driver artefacts (descent to depth 10 interrupted by pack fights;
+  the one-frame pixel veil is never caught showing its label). About 56 fps on floors 1 and 10.
 - **Assumptions.** The stairs band is measured against the farthest room, not the farthest
   cell (side caves wind on past every room). Tour bands per level: small 500–950, standard
   750–1,100, big 1,000–1,750 u (small opens an act, big closes it). Story floors stay on v2.
