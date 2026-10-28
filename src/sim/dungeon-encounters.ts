@@ -12,7 +12,13 @@
  */
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
-import { createBattle, type BattleContext, type BattleResult } from './battle';
+import {
+  combatantOf,
+  createBattle,
+  rivalLevel,
+  type BattleContext,
+  type BattleResult,
+} from './battle';
 import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
 import { actProgress } from './dungeon-acts';
@@ -236,9 +242,17 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
     if (mine) return live.result ? boutOutcome(live.result, spec.canFlee) : null;
     // The bout went missing (another fight replaced it): settle the old way.
   } else {
+    const tier = Math.max(1, Math.min(BATTLE.rivals.tierFloor.length, spec.tier));
+    // No foe outclasses a dojo rival of the same tier (lane C's `rivalLevel`): pack levels grow
+    // with depth, a fresh party's do not, and 2 on 2 at act I lost 35 of 39 on the round-2 core.
+    const party = spec.party.flatMap((id) => {
+      const n = world.nubbins.find((x) => x.id === id);
+      return n ? [combatantOf(n, world)] : [];
+    });
+    const cap = rivalLevel(party, tier) + E.boutLevelOver;
     const context: BattleContext = {
       kind: 'encounter',
-      tier: Math.max(1, Math.min(BATTLE.rivals.tierFloor.length, spec.tier)),
+      tier,
       ids: [...spec.party],
       source: HOLLOW_BATTLE_SOURCE,
       key: spec.packId,
@@ -246,7 +260,7 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
       // back: the battle core gives an outnumbered fresh party no chance (3 on 2 lost 27 of 27).
       foes: spec.members
         .slice(0, Math.max(1, spec.party.length + E.boutExtraFoes))
-        .map((m) => ({ species: m.species, level: m.level })),
+        .map((m) => ({ species: m.species, level: Math.min(m.level, cap) })),
     };
     const bout = createBattle(world, context, spec.seed);
     if (bout) {

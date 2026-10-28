@@ -72,6 +72,8 @@ export const HOLLOW = {
     bossLeash: 30,
     /** Pack members beyond the party's size that join a bout (the rest hang back). */
     boutExtraFoes: 0,
+    /** Levels a bout's foes may sit over a dojo rival of the same tier for this party. */
+    boutLevelOver: 0,
   },
   /**
    * Generator version 3 (R0143, R0144): authored pieces on a grid of slots, a branching
