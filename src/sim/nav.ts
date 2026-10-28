@@ -1,7 +1,9 @@
 import { GROVE, SIM } from '../config/tuning';
 import { GROVE_NAV } from '../config/tuning-sim';
+import { NUBBIN_STEER } from '../config/tuning-move-nub';
 import { astar, cellLine, stringPull } from './astar';
-import { blocked, softAt } from './obstacles';
+import { blocked, colliderReach, contact, obstacles, softAt, stops } from './obstacles';
+import type { Collider, Walker } from './obstacles';
 import { keeperPerks } from './perks';
 import { storyPropMask } from './story-props';
 import { hillHeight } from './terrain';
@@ -25,9 +27,16 @@ const SIDE = Math.round(GROVE.size / CELL);
 interface Grid {
   key: string;
   mask: Uint8Array;
-  /** Which connected pocket each open cell is in (0 for shut cells). */
-  label: Int32Array;
+  /**
+   * Which connected pocket each open cell is in (0 for shut cells); a Nubbin grid fills it
+   * in only when a plan first needs it.
+   */
+  label: Int32Array | null;
+  /** The cliff test between neighbouring cells, or null where there are no cliffs to meet. */
+  pass: Pass | null;
 }
+
+type Pass = (a: number, b: number) => boolean;
 
 const grids = new WeakMap<World, Grid>();
 
@@ -62,7 +71,7 @@ function grid(world: World): Grid {
       mask[iz * SIDE + ix] = softAt(p, world, 0) ? 2 : 1;
     }
   }
-  const g = { key, mask, label: pockets(mask) };
+  const g = { key, mask, label: pockets(mask), pass: step };
   grids.set(world, g);
   return g;
 }
@@ -121,7 +130,7 @@ function step(a: number, b: number): boolean {
  * Label the open cells by pocket with one flood fill per pocket, so "can I get there from
  * here" is a lookup. Four-way joins match A*'s, which never cuts a corner.
  */
-function pockets(mask: Uint8Array): Int32Array {
+function pockets(mask: Uint8Array, pass: Pass | null = step): Int32Array {
   const label = new Int32Array(SIDE * SIDE);
   const queue = new Int32Array(SIDE * SIDE);
   let next = 0;
@@ -136,7 +145,7 @@ function pockets(mask: Uint8Array): Int32Array {
       const c = queue[head++]!;
       const cx = c % SIDE;
       const visit = (n: number): void => {
-        if (mask[n] !== 0 && label[n] === 0 && step(c, n)) {
+        if (mask[n] !== 0 && label[n] === 0 && (!pass || pass(c, n))) {
           label[n] = next;
           queue[tail++] = n;
         }
@@ -151,11 +160,11 @@ function pockets(mask: Uint8Array): Int32Array {
 }
 
 /** A* options: the expansion cap, and soft cells cost more to cross. */
-function search(mask: Uint8Array) {
+function search(mask: Uint8Array, pass: Pass | null = step) {
   return {
     maxExpansions: GROVE_NAV.maxExpansions,
     cost: (ix: number, iz: number) => (mask[iz * SIDE + ix] === 2 ? GROVE_NAV.softCost : 1),
-    pass: step,
+    ...(pass ? { pass } : {}),
   };
 }
 
@@ -167,22 +176,23 @@ function opener(mask: Uint8Array, sx: number, sz: number) {
 }
 
 /** A line walker over open cells that also refuses to cross a cliff between two of them. */
-function liner(mask: Uint8Array, sx: number, sz: number) {
+function liner(mask: Uint8Array, sx: number, sz: number, pass: Pass | null = step) {
   const open = opener(mask, sx, sz);
+  if (!pass) return open;
   let last = -1;
   return (ix: number, iz: number): boolean => {
     if (!open(ix, iz)) return false;
     const c = iz * SIDE + ix;
-    const ok = last < 0 || step(last, c);
+    const ok = last < 0 || pass(last, c);
     last = c;
     return ok;
   };
 }
 
 /** A straight walk from a to b crosses only open cells. */
-function clear(mask: Uint8Array, a: Vec2, b: Vec2): boolean {
+function clear(mask: Uint8Array, a: Vec2, b: Vec2, pass: Pass | null = step): boolean {
   const g = (v: number): number => (v + HALF) / CELL;
-  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), liner(mask, cellOf(a.x), cellOf(a.z)));
+  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), liner(mask, cellOf(a.x), cellOf(a.z), pass));
 }
 
 /**
@@ -190,7 +200,8 @@ function clear(mask: Uint8Array, a: Vec2, b: Vec2): boolean {
  * rings round the target; null when none is within `GROVE_NAV.reachSearch` cells.
  */
 function nearestReachable(g: Grid, start: number, target: Vec2): number | null {
-  const want = g.label[start]!;
+  const label = g.label ?? (g.label = pockets(g.mask, g.pass));
+  const want = label[start]!;
   if (want === 0) return null;
   const tx = cellOf(target.x);
   const tz = cellOf(target.z);
@@ -204,7 +215,7 @@ function nearestReachable(g: Grid, start: number, target: Vec2): number | null {
         if (Math.max(Math.abs(dx), Math.abs(dz)) !== r) continue;
         const x = tx + dx;
         const z = tz + dz;
-        if (x < 0 || z < 0 || x >= SIDE || z >= SIDE || g.label[z * SIDE + x] !== want) continue;
+        if (x < 0 || z < 0 || x >= SIDE || z >= SIDE || label[z * SIDE + x] !== want) continue;
         const d = Math.hypot(cellCentre(x) - target.x, cellCentre(z) - target.z);
         if (d < bestD) {
           bestD = d;
@@ -268,7 +279,7 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
   let gz = cellOf(target.z);
   let end: Vec2 = { x: target.x, z: target.z };
   const open = opener(mask, sx, sz);
-  let cells = open(gx, gz) && astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask));
+  let cells = open(gx, gz) && astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask, g.pass));
   if (!cells) {
     // Shut in (inside a building, past a wall with no way round): make for the nearest
     // reachable cell instead, or give up at once when there is none worth walking to.
@@ -277,11 +288,11 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
     gx = near % SIDE;
     gz = (near - gx) / SIDE;
     end = { x: cellCentre(gx), z: cellCentre(gz) };
-    cells = astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask));
+    cells = astar(SIDE, SIDE, open, sx, sz, gx, gz, search(mask, g.pass));
     if (!cells) return null;
   }
   const pulled = stringPull(cells, SIDE, (ax, az, bx, bz) =>
-    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, liner(mask, sx, sz)),
+    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, liner(mask, sx, sz, g.pass)),
   );
   const shut = entry !== cellOf(from.z) * SIDE + cellOf(from.x);
   const points = pulled.slice(shut ? 0 : 1, -1).map((c) => {
@@ -339,4 +350,134 @@ export function groveLeg(world: World, from: Vec2, target: Vec2): GroveLeg | nul
 /** Forget the Keeper's route (a new tap, a teleport). */
 export function clearGroveRoute(world: World): void {
   routes.delete(world);
+}
+
+/*
+ * Nubbin paths (MOVE-29). Nubbins have their own grid: the hills are shut to them (they never
+ * climb), tree trunks are not (they walk under a canopy), a hopper clears fences and logs,
+ * and the pond is open, since every Nubbin may paddle. A Nubbin plans
+ * only for long walks or when something stands right in front of it; the walker keeps its
+ * route in transient state outside the save, and plans again every few seconds.
+ */
+
+// Keyed by the collider list itself: the obstacle table hands back the same list until
+// something is placed or a stall or story prop comes or goes, so every world with the same
+// Grove shares one grid per walker kind.
+const nubbinGrids = new WeakMap<readonly Collider[], Map<Walker, Grid>>();
+
+function nubbinGrid(world: World, who: Walker): Grid {
+  const list = obstacles(world);
+  let byWho = nubbinGrids.get(list);
+  if (!byWho) {
+    byWho = new Map();
+    nubbinGrids.set(list, byWho);
+  }
+  const cached = byWho.get(who);
+  if (cached) return cached;
+  // Open grass everywhere inside the edge, then each collider stamps the cells it reaches:
+  // shut where it stops this walker, dear where it is a bush and nothing stops it there.
+  const mask = new Uint8Array(SIDE * SIDE);
+  const edge = SIM.worldHalf;
+  const clearance = NUBBIN_STEER.clearance;
+  for (let iz = 0; iz < SIDE; iz++) {
+    if (Math.abs(cellCentre(iz)) > edge) continue;
+    for (let ix = 0; ix < SIDE; ix++)
+      if (Math.abs(cellCentre(ix)) <= edge) mask[iz * SIDE + ix] = 1;
+  }
+  for (const c of list) {
+    const stop = stops(c, who);
+    if (!stop && !c.flags.includes('soft')) continue;
+    const r = colliderReach(c) + clearance;
+    for (let iz = cellOf(c.z - r); iz <= cellOf(c.z + r); iz++)
+      for (let ix = cellOf(c.x - r); ix <= cellOf(c.x + r); ix++) {
+        const k = iz * SIDE + ix;
+        if (mask[k] === 0) continue;
+        if (stop) {
+          if (contact(c, cellCentre(ix), cellCentre(iz), clearance)) mask[k] = 0;
+        } else if (mask[k] === 1 && contact(c, cellCentre(ix), cellCentre(iz), 0)) mask[k] = 2;
+      }
+  }
+  // No cliffs: the hills are shut to Nubbins, so their terraces never come into it.
+  const g = { key: '', mask, label: null, pass: null };
+  byWho.set(who, g);
+  return g;
+}
+
+/** The longest run of shut cells, in cells, on the straight line from a to b. */
+function shutRun(mask: Uint8Array, a: Vec2, b: Vec2): number {
+  const g = (v: number): number => (v + HALF) / CELL;
+  let run = 0;
+  let worst = 0;
+  cellLine(g(a.x), g(a.z), g(b.x), g(b.z), (ix, iz) => {
+    const shut = ix < 0 || iz < 0 || ix >= SIDE || iz >= SIDE || mask[iz * SIDE + ix] === 0;
+    run = shut ? run + 1 : 0;
+    if (run > worst) worst = run;
+    return true;
+  });
+  // A shut target always needs a plan: the walk has to end somewhere it can stand.
+  return mask[cellOf(b.z) * SIDE + cellOf(b.x)] === 0 ? Infinity : worst;
+}
+
+/** A Nubbin's planned way to its target. The walker keeps it, outside the save. */
+export interface NubbinRoute {
+  /** The target the route was planned for; a target that drifts past `retarget` replans. */
+  tx: number;
+  tz: number;
+  points: Vec2[] | null;
+  i: number;
+  /** Plan again no sooner than this (sim ms). */
+  nextMs: number;
+}
+
+/**
+ * Where a walking Nubbin should head now on its way to `target`: the target itself on open
+ * ground, or the next corner of a planned path, kept in `walk.route`. `want` asks for a plan:
+ * 1 when a long blocker stands across the way (a long walk, a wall ahead), 2 when anything
+ * does (the walker found no clear heading at all); with 0 a route already planned is still
+ * followed. Plans are made at most every `NUBBIN_STEER.repathMs`.
+ */
+export function nubbinAim(
+  world: World,
+  walk: { route: NubbinRoute | null },
+  who: Walker,
+  from: Vec2,
+  target: Vec2,
+  want: 0 | 1 | 2,
+): Vec2 {
+  let r = walk.route;
+  if (r && Math.hypot(r.tx - target.x, r.tz - target.z) > NUBBIN_STEER.retarget) {
+    walk.route = r = null;
+  }
+  const now = world.timeMs;
+  if (want > 0 && (!r || now >= r.nextMs)) {
+    const g = nubbinGrid(world, who);
+    // A route still in view of its next corner (or a straight walk still clear) is kept:
+    // planning again only when the walker has been pushed off it keeps long walks cheap.
+    const ahead = r ? (r.points ? r.points[Math.min(r.i, r.points.length - 1)]! : target) : null;
+    if (r && ahead && clear(g.mask, from, ahead, null)) {
+      r.nextMs = now + NUBBIN_STEER.repathMs;
+    } else {
+      let points: Vec2[] | null = null;
+      // A rock or a lantern across the line is left to steering; only a long blocker (a
+      // house, a hill, a fence line) or a shut target is worth a path.
+      const small = want === 2 ? 0 : NUBBIN_STEER.smallBlock / CELL;
+      if (!clear(g.mask, from, target, null) && shutRun(g.mask, from, target) > small) {
+        const planned = plan(g, from, target);
+        // The last point is the target or the nearest reachable spot to it; aim past it at
+        // the target itself so arrival still works when the target is a little way inside.
+        points = planned ? planned.points.slice(0, -1) : null;
+        if (points && points.length === 0) points = null;
+      }
+      r = { tx: target.x, tz: target.z, points, i: 0, nextMs: now + NUBBIN_STEER.repathMs };
+      walk.route = r;
+    }
+  }
+  if (!r || !r.points) return target;
+  const pts = r.points;
+  while (
+    r.i < pts.length &&
+    Math.hypot(pts[r.i]!.x - from.x, pts[r.i]!.z - from.z) < GROVE_NAV.waypointReach
+  )
+    r.i++;
+  return r.i < pts.length ? pts[r.i]! : target;
 }

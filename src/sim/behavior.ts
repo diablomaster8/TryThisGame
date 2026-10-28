@@ -25,7 +25,13 @@ import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { FRIENDS, SLED } from '../config/tuning';
+import { FRIENDS, NUBBIN_STEER, SLED } from '../config/tuning';
+import { nubbinAim } from './nav';
+import type { NubbinRoute } from './nav';
+import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
+import type { Walker } from './obstacles';
+import { levelOf } from './stats';
+import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
 import type { Rng } from './rng';
@@ -91,8 +97,140 @@ function randomPoint(rng: Rng, around: Vec2, radius: number): Vec2 {
   return p;
 }
 
-/** Step toward `target`; returns true on arrival. */
+/**
+ * A target a Nubbin can stand on (MOVE-29): one inside a wall, a rock, a lantern or a hill,
+ * or in the pond for a Nubbin that does not swim (unless it is off for a `swim`), is drawn
+ * again up to `NUBBIN_STEER.resample` times.
+ */
+function standablePoint(
+  rng: Rng,
+  world: World,
+  n: Nubbin,
+  around: Vec2,
+  radius: number,
+  swim = false,
+): Vec2 {
+  const who = nubbinWalker(n);
+  const wet = !swim && !swimmer(n);
+  let p = randomPoint(rng, around, radius);
+  for (let i = 0; i < NUBBIN_STEER.resample; i++) {
+    if (!blocked(p, world, NUBBIN_STEER.radius, who) && !(wet && inPond(p))) break;
+    p = randomPoint(rng, around, radius);
+  }
+  // Still in something solid after every draw: step it out to the nearest edge instead.
+  resolve(p, world, NUBBIN_STEER.radius, who);
+  return p;
+}
+
+/** A Nubbin at home in the water: a Swim form, a strong Swim lean or a trained swimmer. */
+function swimmer(n: Nubbin): boolean {
+  return n.form?.type === 'swim' || n.typeLean.swim > 40 || levelOf(n.stats.swim.points) >= 10;
+}
+
+// Each walker's steering memory: which way it last turned aside, so it keeps to one side of
+// a wall instead of dithering, and how many more steps a clear look ahead of the same
+// heading still covers. Transient: keyed by the Nubbin object, never saved.
+interface Steering {
+  side: number;
+  skip: number;
+  ux: number;
+  uz: number;
+  route: NubbinRoute | null;
+  /** The walk `walkStalled` is watching (its state's start), its first and best distance. */
+  since: number;
+  d0: number;
+  bestD: number;
+  bestAt: number;
+}
+const steering = new WeakMap<Nubbin, Steering>();
+
+function steeringOf(n: Nubbin): Steering {
+  let st = steering.get(n);
+  if (!st) {
+    st = { side: 1, skip: 0, ux: 0, uz: 0, route: null, since: -1, d0: 0, bestD: 0, bestAt: 0 };
+    steering.set(n, st);
+  }
+  return st;
+}
+const probeAt: Vec2 = { x: 0, z: 0 };
+// Read once: walkToward runs for every walking Nubbin on every step.
+const BODY = NUBBIN_STEER.radius;
+const PROBE = NUBBIN_STEER.probe;
+const PROBE_EVERY = NUBBIN_STEER.probeEvery;
+const NAV_FAR = NUBBIN_STEER.navFar;
+/** The direction `steer` chose, as a unit vector. */
+const way: Vec2 = { x: 0, z: 0 };
+/** The turns tried when blocked, nearest first, as [cos, sin]. */
+const TURNS = NUBBIN_STEER.turnsDeg.map((deg) => {
+  const a = (deg * Math.PI) / 180;
+  return [Math.cos(a), Math.sin(a)] as const;
+});
+
+/** Whether a probe at (x, z) meets something solid (2), only a bush (1) or nothing (0). */
+function probe(world: World, who: Walker, x: number, z: number): number {
+  probeAt.x = x;
+  probeAt.z = z;
+  return wayAt(probeAt, world, BODY, who);
+}
+
+/**
+ * Which way a walking Nubbin heads along the unit direction (ux, uz) (MOVE-29): straight
+ * when the way ahead is open, else the nearer of ±35° and then ±70° that is, keeping to the
+ * side it turned last. Writes the choice to `way` and returns what was straight ahead: 0
+ * nothing, 1 a bush, 2 something solid (3 when solid and no turn was clear either, and the
+ * walker goes straight on for `resolve` to slide it). A clear look ahead is trusted for the
+ * next few steps of the same heading, so a walk on open ground probes now and then.
+ */
+function steer(
+  world: World,
+  n: Nubbin,
+  st: Steering,
+  ux: number,
+  uz: number,
+  ahead: number,
+): number {
+  way.x = ux;
+  way.z = uz;
+  // Within about 3° of the heading the last clear probe looked along.
+  if (st.skip > 0 && ux * st.ux + uz * st.uz > 0.9986) {
+    st.skip--;
+    return 0;
+  }
+  st.ux = ux;
+  st.uz = uz;
+  const who = nubbinWalker(n);
+  const sx = n.pos.x;
+  const sz = n.pos.z;
+  const straight = probe(world, who, sx + ux * ahead, sz + uz * ahead);
+  if (straight === 0) {
+    st.skip = PROBE_EVERY - 1;
+    return 0;
+  }
+  st.skip = 0;
+  for (const [c, s0] of TURNS) {
+    for (let k = 0, side = st.side; k < 2; k++, side = -side) {
+      const s = s0 * side;
+      // The heading turned by the angle: (x, z) = (sin h, cos h) rotated.
+      const vx = ux * c + uz * s;
+      const vz = uz * c - ux * s;
+      if (probe(world, who, sx + vx * ahead, sz + vz * ahead) === 0) {
+        st.side = side;
+        way.x = vx;
+        way.z = vz;
+        return straight;
+      }
+    }
+  }
+  return straight === 2 ? 3 : 1;
+}
+
+/**
+ * Step toward `target`; returns true on arrival. A walk looks ahead and turns aside from
+ * walls and bushes, and long walks or walks behind something solid follow a planned path
+ * (MOVE-29); `resolve` in the world step still pushes out whatever slips through.
+ */
 function walkToward(
+  world: World,
   n: Nubbin,
   target: Vec2,
   speed: number,
@@ -100,14 +238,62 @@ function walkToward(
   reach: number = BEHAVIOR.arriveRadius,
 ): boolean {
   const d = dist(n.pos, target);
-  if (d <= reach) return true;
+  const st = steeringOf(n);
+  if (d <= reach) {
+    st.route = null;
+    return true;
+  }
+  const ahead = Math.min(PROBE, Math.max(d - reach, 0.05));
+  // Short walks on open ground never touch the planner.
+  let aim =
+    st.route || d > NAV_FAR
+      ? nubbinAim(world, st, nubbinWalker(n), n.pos, target, d > NAV_FAR ? 1 : 0)
+      : target;
+  let ax = aim.x - n.pos.x;
+  let az = aim.z - n.pos.z;
+  let l = Math.hypot(ax, az) || 1;
+  const met = steer(world, n, st, ax / l, az / l, ahead);
+  if (met >= 2) {
+    // Something solid stands in the way: ask for a path round it, planned at most every few
+    // seconds and only past a long blocker, or past any when no heading was clear.
+    const next = nubbinAim(world, st, nubbinWalker(n), n.pos, target, met === 3 ? 2 : 1);
+    if (next !== aim) {
+      aim = next;
+      ax = aim.x - n.pos.x;
+      az = aim.z - n.pos.z;
+      l = Math.hypot(ax, az) || 1;
+      steer(world, n, st, ax / l, az / l, ahead);
+    }
+  }
   const step = Math.min(d, speed * (dtMs / 1000));
-  const dx = (target.x - n.pos.x) / d;
-  const dz = (target.z - n.pos.z) / d;
-  n.pos.x += dx * step;
-  n.pos.z += dz * step;
-  n.facing = Math.atan2(dx, dz);
+  n.pos.x += way.x * step;
+  n.pos.z += way.z * step;
+  n.facing = Math.atan2(way.x, way.z);
   return dist(n.pos, target) <= reach;
+}
+
+/**
+ * `approachStalled` for a walk to a perform spot (a sled run, a bath), with the progress
+ * kept in the transient steering state: adding and deleting `behavior.progress` on every
+ * walk would turn the behaviour object into a slow dictionary for the rest of the session.
+ */
+function walkStalled(n: Nubbin, target: Vec2, now: number): boolean {
+  const st = steeringOf(n);
+  const d = dist(n.pos, target);
+  if (st.since !== n.behavior.sinceMs) {
+    st.since = n.behavior.sinceMs;
+    st.d0 = st.bestD = d;
+    st.bestAt = now;
+    return false;
+  }
+  const allowed = Math.max(BEHAVIOR.approachTimeoutMs, (st.d0 / BEHAVIOR.walkSpeed) * 1500);
+  if (now - st.since > allowed) return true;
+  if (d < st.bestD - BEHAVIOR.progressMin) {
+    st.bestD = d;
+    st.bestAt = now;
+    return false;
+  }
+  return now - st.bestAt > BEHAVIOR.progressWindowMs;
 }
 
 /**
@@ -196,7 +382,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     const swimmer = n.form?.type === 'swim' || n.typeLean.swim > 40;
     if (swimmer && rng.chance(0.6)) {
       setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
-      n.behavior.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
+      n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
       return;
     }
     if (!swimmer && rng.chance(0.8)) {
@@ -225,10 +411,17 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   // Snow: a slide down the hill.
   if (world.weather.kind === 'snow' && rng.chance(SLED.chance)) {
-    const hill = rng.pick([...GROVE.hills]);
+    // The run starts at the foot of the nearest hill's ramp (MOVE-29): Nubbins never climb,
+    // and the old spot beside a random hill could sit in a rock or the stream.
+    let t = TERRACES[0]!;
+    for (const h of TERRACES) if (dist(n.pos, h) < dist(n.pos, t)) t = h;
+    const leg = t.ramp[0]!;
+    const r = leg.rOut + NUBBIN_STEER.sledFoot;
+    const foot = { x: t.x + Math.cos(leg.a0) * r, z: t.z + Math.sin(leg.a0) * r };
+    resolve(foot, world, NUBBIN_STEER.radius, nubbinWalker(n));
     setState(n, 'perform', now, SLED.durationMs);
     n.behavior.itemId = 'sled';
-    n.behavior.target = { x: hill.x + hill.r + 0.8, z: hill.z + 0.5 };
+    n.behavior.target = foot;
     addHappiness(n, 3);
     return;
   }
@@ -272,7 +465,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   if (n.stage !== 'egg' && rng.chance(Math.min(1, BEHAVIOR.swimChance * m.swim))) {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
-    n.behavior.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
+    n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
   }
   if (rng.chance(Math.min(1, BEHAVIOR.sitChance * m.sit))) {
@@ -280,7 +473,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));
-  n.behavior.target = randomPoint(rng, n.pos, 5);
+  n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
 }
 
 /** One sim step for a free (not held, not egg) Nubbin. */
@@ -310,7 +503,7 @@ export function updateBehavior(
     if (dist(n.pos, seat) > BEHAVIOR.arriveRadius) {
       if (b.state !== 'wander') setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
       b.target = seat;
-      walkToward(n, seat, BEHAVIOR.walkSpeed, dtMs);
+      walkToward(world, n, seat, BEHAVIOR.walkSpeed, dtMs);
     } else if (b.state !== 'sit') {
       setState(n, 'sit', now, BEHAVIOR.wanderMs[1]);
     }
@@ -355,17 +548,17 @@ export function updateBehavior(
     case 'wander':
     case 'avoid': {
       const speed = b.state === 'avoid' ? BEHAVIOR.walkSpeed * 1.6 : BEHAVIOR.walkSpeed;
-      if (!b.target || walkToward(n, b.target, speed, dtMs) || now >= b.untilMs) {
+      if (!b.target || walkToward(world, n, b.target, speed, dtMs) || now >= b.untilMs) {
         chooseIdle(n, world, rng, now);
       }
       break;
     }
     case 'swim': {
       if (b.target && !inPond(n.pos)) {
-        walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs);
+        walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs);
       } else if (b.target) {
-        if (walkToward(n, b.target, BEHAVIOR.swimSpeed, dtMs)) {
-          b.target = randomPoint(rng, GROVE.pond, GROVE.pond.r - 0.8);
+        if (walkToward(world, n, b.target, BEHAVIOR.swimSpeed, dtMs)) {
+          b.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
         }
         // Swimming is training: a little Swim and a little Swim lean.
         addPoints(n.stats.swim, (dtMs / 1000) * 0.5);
@@ -374,7 +567,8 @@ export function updateBehavior(
       if (now >= b.untilMs) {
         // Leave the water before doing anything else.
         setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
-        b.target = randomPoint(rng, { x: GROVE.pond.x, z: GROVE.pond.z + GROVE.pond.r + 2 }, 2);
+        const shore = { x: GROVE.pond.x, z: GROVE.pond.z + GROVE.pond.r + 2 };
+        b.target = standablePoint(rng, world, n, shore, 2);
       }
       break;
     }
@@ -384,7 +578,7 @@ export function updateBehavior(
         chooseIdle(n, world, rng, now);
         break;
       }
-      if (walkToward(n, item.pos, BEHAVIOR.walkSpeed, dtMs)) {
+      if (walkToward(world, n, item.pos, BEHAVIOR.walkSpeed, dtMs)) {
         world.items = world.items.filter((i) => i.id !== item.id);
         eat(n, now, events, item.flavor);
       } else if (approachStalled(n, item.pos, now, true)) {
@@ -402,7 +596,7 @@ export function updateBehavior(
       if (b.target) {
         // Aim at where the toy is now, not where it was when play began.
         b.target = { x: toy.pos.x, z: toy.pos.z };
-        if (!walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs, BEHAVIOR.toyReach)) {
+        if (!walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs, BEHAVIOR.toyReach)) {
           if (approachStalled(n, b.target, now)) {
             skipItem(n, toy.id, now);
             chooseIdle(n, world, rng, now);
@@ -442,12 +636,16 @@ export function updateBehavior(
       break;
     }
     case 'shelter': {
-      if (b.target) walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs);
+      if (b.target) walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs);
       if (world.weather.kind !== 'rain' || now >= b.untilMs) chooseIdle(n, world, rng, now);
       break;
     }
     case 'court': {
-      if (!b.target || walkToward(n, b.target, BEHAVIOR.walkSpeed, dtMs) || now >= b.untilMs) {
+      if (
+        !b.target ||
+        walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs) ||
+        now >= b.untilMs
+      ) {
         chooseIdle(n, world, rng, now);
       }
       break;
@@ -460,7 +658,7 @@ export function updateBehavior(
       }
       if (b.target) {
         // Run to the ball, then carry it back to the Keeper.
-        if (walkToward(n, b.target, BEHAVIOR.walkSpeed * 1.5, dtMs, BEHAVIOR.toyReach)) {
+        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.5, dtMs, BEHAVIOR.toyReach)) {
           b.target = null;
         } else if (approachStalled(n, b.target, now)) {
           chooseIdle(n, world, rng, now);
@@ -469,7 +667,7 @@ export function updateBehavior(
         toy.pos.x = n.pos.x + Math.sin(n.facing) * 0.4;
         toy.pos.z = n.pos.z + Math.cos(n.facing) * 0.4;
         if (
-          walkToward(n, world.keeper.pos, BEHAVIOR.walkSpeed * 1.3, dtMs) ||
+          walkToward(world, n, world.keeper.pos, BEHAVIOR.walkSpeed * 1.3, dtMs) ||
           dist(n.pos, world.keeper.pos) < 1.4
         ) {
           addHappiness(n, BEHAVIOR.playHappiness);
@@ -478,11 +676,25 @@ export function updateBehavior(
       }
       break;
     }
+    case 'perform': {
+      // A sled run or a bath has a spot: walk there first, and the act's timer starts on
+      // arrival (MOVE-29; the spot used to be set and never walked to).
+      if (b.target) {
+        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) {
+          b.untilMs = now + (b.untilMs - b.sinceMs);
+          b.target = null;
+        } else if (walkStalled(n, b.target, now)) {
+          b.target = null;
+        }
+        break;
+      }
+      if (now >= b.untilMs) chooseIdle(n, world, rng, now);
+      break;
+    }
     case 'eat':
     case 'sit':
     case 'greet':
     case 'cry':
-    case 'perform':
     case 'pet':
     case 'react': {
       if (now >= b.untilMs) {

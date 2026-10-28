@@ -68,6 +68,11 @@ function blocks(c: Collider, who: Walker, feetY?: number): boolean {
   return !(who === 'hopper' && f.includes('hop'));
 }
 
+/** Whether a collider stops a walker on the ground (a Nubbin's path grid, MOVE-29). */
+export function stops(c: Collider, who: Walker): boolean {
+  return blocks(c, who);
+}
+
 /** How far a collider reaches from its centre (the grid, the placement check). */
 export function colliderReach(c: Collider): number {
   const s = c.shape;
@@ -263,6 +268,21 @@ export function resolve(
     moved = true;
   }
   return moved;
+}
+
+/**
+ * What a walker of `radius` at the point would meet, in one pass (MOVE-29, a Nubbin's look
+ * ahead): 2 for anything that stops it, 1 for only a soft piece, 0 for nothing.
+ */
+export function wayAt(p: Vec2, world: World | null, radius: number, who: Walker): number {
+  let soft = 0;
+  for (const c of near(world, p, radius)) {
+    if (soft === 1 && !blocks(c, who)) continue;
+    if (!contact(c, p.x, p.z, radius)) continue;
+    if (blocks(c, who)) return 2;
+    if (c.flags.includes('soft')) soft = 1;
+  }
+  return soft;
 }
 
 /** The soft piece (a bush, a bed, a thicket) the Keeper is pushing through, if any. */
