@@ -2,6 +2,24 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Fun-quest choice payoffs (2026-10-27)
+
+- **Works:** every Q1–Q65 fun-quest choice now changes something: 80 flags pay off with a later line in
+  main and both bands (src/sim/fun-payoffs-*.ts, merged into CHOICE_PAYOFFS via payoff-kit.ts, 111
+  new test cases), and 10 are named as flavour in their quest notes. Closes SR-20261027-1304.
+- **Partial:** Python's quests have no set order, so a later-quest payoff shows only if the earlier
+  quest came first; otherwise the scene plays as written.
+- **Known bugs:** none new.
+
+## Story review run 23 fixes (2026-10-27)
+
+- **Works:** 54 of run 23's 55 recs fixed across the Sunny, Python, Bean and Avatar fun quests, S30,
+  S31 and the campaign reader band part 2. Fun-quest choices now pay off: FUN_PACK_RULES routes
+  Q04, Q06, Q09, Q27 and Q32–Q45, Avatar's Q46–Q48 and Q55 go through choice-payoffs, and S30/S31
+  route their variants. content-check warns on unread fun-quest flags and on lessons that run ahead.
+- **Partial:** SR-20261027-1304: 91 Q1–Q65 choice flags are still read nowhere (the new warning lists them).
+- **Known bugs:** none new.
+
 ## Story review run 22 fixes (2026-10-27)
 
 - **Works:** 57 of run 22's 58 recs fixed across S22–S29 and S3's two bands, with the S24–S28 bands

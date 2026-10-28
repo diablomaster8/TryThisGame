@@ -40,14 +40,45 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Pass 1: MOVE collision foundations (2026-10-27, branch pass/1, not pushed)
 
-Plan (recs-2026-10-27, R0001 upward). R0001 (stream wade) and R0002 (bridge deck) need the
-sim heights and the jump, so this pass lays those foundations first and leaves both for Pass 2:
-- R0004 + R0005 + R0006: `config/grove-layout.ts`, one collider table (circle, oriented box,
-  segment) with tops and flags; `sim/obstacles.ts` resolves all three shapes through a 4 u grid.
-- R0007: per-kind decor colliders and a placement yaw; R0003: `canPlaceAt` rejects overlaps.
-- R0008: Grove tap-to-move on a 0.5 u A* grid (`sim/nav.ts`); R0009: Hollow A* (agent).
-- R0010: `sim/terrain.ts` `groundAt`, the height model moved into the sim (agent).
-- Deferred to Pass 2: R0001, R0002, R0011–R0015 (terraces, jump, phone button, substep), P1+.
+R0001 (stream wade) and R0002 (bridge deck) need sim heights and the jump, so this pass laid
+those foundations first (R0003–R0010) and left both for Pass 2.
+
+**What works**
+- `config/grove-layout.ts` is the one table of Grove solids (R0004): hills, fruit and wild
+  trees, houses as boxes the size of the 3D walls, the well, the windmill footing, rocks, all
+  five lanterns, the cave lips, the stalls (only once unlocked) and the 66 wild props, which
+  the pixel `SCENERY` and the 3D stalls now read. A test checks drawn ↔ collider both ways.
+- `sim/obstacles.ts` resolves circles, oriented boxes and segments through a 4 u grid (R0005);
+  walkers are `keeper`, `nubbin` or `hopper` (Run or Fly 20+). Bushes, beds and thickets are
+  soft: the Keeper walks through at half speed and eases out once it stops (R0006).
+- Decor collides by kind from `DECOR.colliders` (R0007); pieces turn in eighths (the
+  placing chip's ↻ Turn button, saved as `placed[].yaw`); fences join end to end; a 4×4 pen
+  holds a Nubbin for 10 sim minutes, a Run-20 Nubbin hops it.
+- `placeRefusal` (R0003) keeps pieces off colliders, the pond and stream, the bridge, story
+  props, visitor homes, egg spots and anyone standing there, with a toast saying why.
+- `sim/nav.ts` (R0008): 0.5 u grid with pocket labels, A* (shared `sim/astar.ts`), string
+  pulling; 120/120 random taps arrive, median path ratio ≤ 1.10, plan p95 about 2 ms alone.
+  Shut-in taps walk to the nearest reachable point; care walks with nothing in reach say
+  `cantReach` at once.
+- Hollow A* (R0009, `sim/dungeon-nav.ts`): 360/360 taps arrive; the party plans its own paths.
+- `sim/terrain.ts` (R0010): the 3D height model and the pixel tier table now live in the sim;
+  `groundAt` returns y and surface; the 3D mesh is unchanged.
+
+**Stubbed or deferred**
+- Deferred to Pass 2: R0001, R0002, R0011–R0015 (terraces, jump, phone button, substep),
+  then P1+ from R0016.
+- `hop` and `standable` pieces block the Keeper until the jump lands (MOVE-10).
+- No red placement ghost: a refused piece toasts its reason instead. No R key for turning.
+- Story props (shed, benches, chair) still have no colliders: that is R0016.
+- `sweep.ts` was not rerun; the Vitest sweeps stand in for it.
+
+**Known bugs and assumptions**
+- Pixel decor is a front-facing billboard, so a turned fence collides along its turn but is
+  drawn square to the camera. 3D draws the turn.
+- The windmill collides as its round footing (r 1.95), not a box; the cottage box leaves out
+  the roof overhang, so the Keeper can tuck under the eaves.
+- Hollow tap paths avoid water without the Swim perk (DUNG-01's ×1.5 water cost not used).
+- The nav timing test asserts median < 1.5 ms and p95 < 10 ms so a loaded CI runner passes.
 
 ## Pass 0 hotfixes (2026-10-27, branch pass/0, not pushed)
 
@@ -103,24 +134,6 @@ reproduces on 9c01019, fix it hotfix-sized, and leave the larger parts to their 
   goodbye, a water-safety lesson before S4's wade-in, Marina's rule five back in S4, S6's notes named
   as Ash's name, and quizzes moved out of S8's reunion.
 - **Partial:** none.
-- **Known bugs:** none new.
-
-## Fun-quest choice payoffs (2026-10-27)
-
-- **Works:** every Q1–Q65 fun-quest choice now changes something: 80 flags pay off with a later line in
-  main and both bands (src/sim/fun-payoffs-*.ts, merged into CHOICE_PAYOFFS via payoff-kit.ts, 111
-  new test cases), and 10 are named as flavour in their quest notes. Closes SR-20261027-1304.
-- **Partial:** Python's quests have no set order, so a later-quest payoff shows only if the earlier
-  quest came first; otherwise the scene plays as written.
-- **Known bugs:** none new.
-
-## Story review run 23 fixes (2026-10-27)
-
-- **Works:** 54 of run 23's 55 recs fixed across the Sunny, Python, Bean and Avatar fun quests, S30,
-  S31 and the campaign reader band part 2. Fun-quest choices now pay off: FUN_PACK_RULES routes
-  Q04, Q06, Q09, Q27 and Q32–Q45, Avatar's Q46–Q48 and Q55 go through choice-payoffs, and S30/S31
-  route their variants. content-check warns on unread fun-quest flags and on lessons that run ahead.
-- **Partial:** SR-20261027-1304: 91 Q1–Q65 choice flags are still read nowhere (the new warning lists them).
 - **Known bugs:** none new.
 
 ## Standing approval (Maor, 2026-10-12)
