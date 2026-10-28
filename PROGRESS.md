@@ -38,6 +38,15 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Lane E: LOOK creature looks (2026-10-28, branch lane/e, not pushed)
+
+Plan: the R0370–R0441 items whose files are only `src/render/sprites/`, `src/samples/`,
+`src/render3d/art-species*.ts` and `tests/render/`, in R order. Chao line first (R0371 tip,
+R0372 eyes, R0373 proportions, R0380 crown, R0381 marks, R0382 wings, R0384 feet, R0418 Moon,
+R0390 rock, R0433 mouths, R0434 child parts, R0435 likeness tests); a helper agent on
+`lane/e-pocket` takes R0376 multi-heads and R0416 ghosts. Deferred: R0370 and every item
+that needs `render3d/actors.ts`, `looks*`, `dress*` or `render/world-view.ts`.
+
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
 Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0
