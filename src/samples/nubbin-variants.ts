@@ -608,7 +608,7 @@ export const SUN_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Sun)', {
 /** The Moon adult, Normal type: black and purple, a hooked crown, spikes, bat wings. */
 export const MOON_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Moon)', {
   colors: {
-    body: '#2b2440',
+    body: '#3a2f58',
     tip: '#e85a7a',
     pad: '#9e2b3f',
     belly: '#4a4063',

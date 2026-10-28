@@ -34,6 +34,8 @@ export interface ChaoColors {
   tell?: number;
   /** The belly patch colour, set only on a look that wears one (two-tone); unset is no patch. */
   bellyPatch?: number;
+  /** A one-pixel rim on the head's lit (upper-left) side, the Moon forms' type hue. */
+  rim?: number;
 }
 
 export const CHILD_NEUTRAL: ChaoColors = {
@@ -105,17 +107,27 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
         return base;
     }
   }
+  // Moon forms (LOOK-48): a lighter shade than ink, and the type hue on the tip, hands and
+  // feet and as a one-pixel rim on the head's lit side, so the five read apart at dusk.
+  const moon = (body: number, shade: number, tip: number, tipShade: number): ChaoColors => ({
+    ...base,
+    body,
+    shade,
+    tip,
+    tipShade,
+    rim: tip,
+  });
   switch (type) {
     case 'swim':
-      return { ...base, body: C.deepGreen, shade: C.ink };
+      return moon(C.tealDeep, C.deepGreen, C.teal, C.tealDeep);
     case 'fly':
-      return { ...base, body: C.moonPurple, shade: C.darkPlum };
+      return moon(C.moonPurple, C.darkPlum, C.violet, C.violetDeep);
     case 'run':
-      return { ...base, body: C.nightBlue, shade: C.ink };
+      return moon(C.nightBlue, C.darkPlum, C.deepWater, C.skyDeep);
     case 'power':
-      return { ...base, body: C.berry, shade: C.darkPlum };
+      return moon(C.berry, C.darkPlum, C.rose, C.roseDeep);
     default:
-      return base;
+      return { ...base, rim: C.dusk };
   }
 }
 
@@ -1142,6 +1154,14 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
   pc.px(L.headCx - 3, L.headCy - 4, col.belly);
   pc.px(L.headCx - 4, L.headCy - 3, col.belly);
+  if (col.rim !== undefined && angle !== 'back') {
+    // Just inside the outline, from the brow round to the crown's foot.
+    for (let a = 2.8; a <= 4.5; a += 0.22) {
+      const x = Math.round(L.headCx + Math.cos(a) * (L.headRx - 1));
+      const y = Math.round(L.headCy + Math.sin(a) * (L.headRy - 1));
+      pc.px(x, y, col.rim);
+    }
+  }
   if (look.shiny) {
     // Shiny: a sparkle on the head and the body.
     pc.px(L.headCx + 3, L.headCy - 5, C.white);
