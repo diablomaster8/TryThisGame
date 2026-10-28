@@ -1088,7 +1088,7 @@ export class WorldView {
           opacity: 0.45 * a,
         });
       const da = this.tapPath.dotAlpha(nowMs, calm);
-      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.09, da);
+      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
     }

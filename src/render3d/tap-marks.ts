@@ -26,7 +26,7 @@ export class TapMarks3D {
     });
     this.ringMat = this.dotMat.clone();
     this.dots = new THREE.InstancedMesh(
-      flat(new THREE.CircleGeometry(0.09, 10)),
+      flat(new THREE.CircleGeometry(0.12, 10)),
       this.dotMat,
       TAP_PATH.dots,
     );
