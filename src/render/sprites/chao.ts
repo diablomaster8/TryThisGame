@@ -318,13 +318,19 @@ export function shadowColors(base: ChaoColors): ChaoColors {
 }
 
 /** Silhouette by type. Second evolutions add a lighter touch of their type. */
+/** A part slot's style at the look's part size (smaller on a child, LOOK-66). */
+function partFor(look: ChaoLook, id: string | null): PartStyle | null {
+  const s = partStyle(id);
+  return s && { ...s, k: look.shape.partScale ?? 1 };
+}
+
 export function shapeFor(
   type: NubbinType | null,
   second: NubbinType | null,
   eternal = false,
 ): ChaoShape {
   if (!type) return CHILD_SHAPE;
-  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1 };
+  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1, partScale: 1 };
   const apply = (t: NubbinType, k: number) => {
     switch (t) {
       case 'swim':
@@ -694,7 +700,7 @@ function drawWings(
   front: boolean,
 ): void {
   const raise = pose.wings === 1 ? 3 : 0;
-  const back = partStyle(look.parts.back);
+  const back = partFor(look, look.parts.back);
   if (back) {
     drawBack(pc, angle, L, back, raise, front);
     return;
@@ -896,7 +902,7 @@ function drawArms(
   look: ChaoLook,
 ): void {
   const col = look.colors;
-  const part = partStyle(look.parts.arms);
+  const part = partFor(look, look.parts.arms);
   const shoulderY = L.bodyCy - L.bodyRy + 2;
   const hand = (x: number, y: number, dir: 1 | -1, sx: number) => {
     if (part) {
@@ -1144,7 +1150,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // The waddle rocks the head across the body; from the side it would read as a nod.
   const rock = angle === 'side' ? 0 : (pose.rock ?? 0);
   const L = rock ? { ...L0, headCx: L0.headCx + rock } : L0;
-  const tail = partStyle(look.parts.tail);
+  const tail = partFor(look, look.parts.tail);
   const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 
   // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
@@ -1220,7 +1226,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   if (look.gem) drawGemFacets(pc, L, col);
 
-  const ears = partStyle(look.parts.ears);
+  const ears = partFor(look, look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);
   if (look.hat) {
     if (look.hatDye) {

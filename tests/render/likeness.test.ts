@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import * as THREE from 'three';
 import { sdf, type Prim } from '../../src/samples/sculpted';
 import { ALL_VARIANTS } from '../../src/samples/nubbin-variant-catalogue';
-import { paletteOf } from '../../src/samples/nubbin-variants';
+import { CHILD, NEUTRAL_ADULT, paletteOf } from '../../src/samples/nubbin-variants';
+import { CHILD_PART_SCALE, withCritterParts } from '../../src/samples/nubbin-critter-parts';
 import type { SpeciesSpec } from '../../src/samples/species';
 import { CHILD_NEUTRAL, drawChao, lookOf, poseFor } from '../../src/render/sprites/chao';
 import { C } from '../../src/render/sprites/palette';
@@ -96,5 +97,32 @@ describe('Chao likeness (pixel)', () => {
     for (let y = 0; y < 32; y++)
       for (let x = 0; x < 32; x++) if (two.get(x, y) !== plain.get(x, y)) patch++;
     expect(patch).toBeGreaterThan(10);
+  });
+});
+
+describe('child critter parts (LOOK-66)', () => {
+  it('draws the same part smaller on a child than on its adult form', () => {
+    const parts = { ears: 'rabbit-ears', tail: null, arms: null, back: null };
+    const ink = (pc: { get(x: number, y: number): number }) => {
+      let n = 0;
+      for (let y = 0; y < 14; y++) for (let x = 0; x < 32; x++) if (pc.get(x, y) === C.pale) n++;
+      return n;
+    };
+    const child = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL, null, null, parts));
+    const adult = drawChao(
+      'front',
+      poseFor('idle', 0),
+      lookOf(CHILD_NEUTRAL, 'normal', null, parts),
+    );
+    expect(ink(child)).toBeLessThan(ink(adult));
+  });
+
+  it('shrinks a child spec’s sculpted parts about their pivots', () => {
+    const child = withCritterParts(CHILD, { ears: 'rabbit-ears' });
+    const adult = withCritterParts(NEUTRAL_ADULT, { ears: 'rabbit-ears' });
+    const size = (s: SpeciesSpec) =>
+      s.parts.filter((p) => p.name.startsWith('ear')).flatMap((p) => p.prims)[0]!;
+    const r = (q: Prim) => q.radii?.x ?? q.r;
+    expect(r(size(child)) / r(size(adult))).toBeCloseTo(CHILD_PART_SCALE);
   });
 });
