@@ -27,8 +27,6 @@ export interface Layout {
 
 /** Body and head placement per plan, in the format's units (a Nubbin stands about 3.1). */
 function layout(plan: CreatureSpec['plan']): Layout {
-  const kit = kitLayout(plan);
-  if (kit) return kit;
   switch (plan) {
     case 'round':
       return {
@@ -539,7 +537,7 @@ function eyeProfile(
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
   const chain = art.plan === 'serpent' ? serpentChain(art) : null;
-  const L = chain ? chain.layout : layout(art.plan);
+  const L = chain ? chain.layout : (kitLayout(art) ?? layout(art.plan));
   // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
   // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {

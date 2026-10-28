@@ -8,6 +8,7 @@ import {
   kitAnchors,
   type KitExtra,
   type KitPlan,
+  type QuadOpts,
 } from './creature-kit-digi';
 import {
   drawGas,
@@ -110,6 +111,8 @@ export interface CreatureSpec {
   heads?: HeadsSpec;
   /** The serpent plan's body chain (`creature-serpent.ts`, LOOK-05). */
   serpent?: SerpentOpts;
+  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
+  quad?: QuadOpts;
 }
 
 export const CREATURE_SIZE = 32;

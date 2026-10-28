@@ -386,6 +386,19 @@ In 3D the neck is sculpted into the torso and each lying segment is a part named
 bone under bone (`render3d/art-serpent.ts`); the walk is a travelling yaw wave on the gait clock.
 With the `boulders` part, every segment is a rock (Onix).
 
+## Generated species: the quad plan
+
+A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-digi.ts` `quadOf`, LOOK-06), read
+by both renderers. Babies (size under 0.95) keep a head a third bigger.
+
+| Field     | What it does                                                                                  |
+| --------- | --------------------------------------------------------------------------------------------- |
+| `stance`  | `dog` (default), `horse`, `toad` (low and wide), `seal` (flippers, no legs), `sit` (Snorlax). |
+| `legLen`  | Leg length, 0.4–1.0 (dog 0.6, horse 0.9).                                                     |
+| `neck`    | How far the head stands up and forward on a neck, 0–0.6.                                      |
+| `snout`   | Muzzle length, 0–0.5.                                                                         |
+| `tailSet` | `high` or `low`; read by neither renderer yet.                                                |
+
 ## Where it is seen
 
 `?aaa=1&creature=1..5` on the AAA stage; `&creature=variant:<id>` stages one Nubbin variant and `&creature=variants&family=child|first|second|special|colour|templates` lines up a family (`&filter=<id part>`, `&max=<n>`, rows of eight), cycling through the poses every few seconds;

@@ -59,6 +59,10 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     tail: 'spiky',
     eyes: 'big',
     marks: ['stripes'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.5, snout: 0.2 },
   }),
   thunderbug: spec(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.lilacGrey, C.ember), {
     plan: 'tall',

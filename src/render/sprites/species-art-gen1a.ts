@@ -52,26 +52,36 @@ const ROCK = pal(C.lilacGrey, C.dusk, C.pale, C.ink, C.dusk);
 export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   // ---- seed line ----
   bulblet: spec(SEED, {
-    plan: 'round',
     size: 0.85,
     ears: 'catTips',
     eyes: 'cute',
     marks: ['spots'],
     addons: [ex('bulb', C.leaf, C.forest)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'toad', legLen: 0.4, snout: 0.25 },
   }),
   budback: spec(SEED, {
     ears: 'catTips',
     eyes: 'cute',
     marks: ['spots', 'belly'],
     addons: [ex('bud', C.blush, C.leaf)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'toad', legLen: 0.42 },
   }),
   bloomback: spec(SEED, {
     size: 1.25,
     ears: 'catTips',
     eyes: 'angry',
     marks: ['spots', 'belly'],
-    arms: 'long',
     addons: [ex('bloom', C.blush, C.sunYellow)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'toad', legLen: 0.45, snout: 0.2 },
   }),
   // ---- cinder line ----
   cinderkit: spec(CINDER, {
@@ -197,12 +207,15 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   }),
   // ---- two-stage lines ----
   nibbler: spec(pal(C.violet, C.moonPurple, C.cream, C.ember, C.violet), {
-    plan: 'round',
     size: 0.85,
     ears: 'roundBig',
     tail: 'long',
     eyes: 'cute',
     addons: [ex('buckTeeth', C.white), ex('whiskers', C.ink)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.4, snout: 0.3, tailSet: 'low' },
   }),
   gnawmaw: spec(pal(C.sand, C.wood, C.cream, C.ember, C.bark), {
     size: 1.1,
@@ -211,6 +224,10 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     eyes: 'angry',
     marks: ['belly'],
     addons: [ex('buckTeeth', C.white), ex('whiskers', C.ink)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.45, snout: 0.35, tailSet: 'low' },
   }),
   scrapwing: spec(pal(C.bark, C.darkBark, C.cream, C.ember, C.blush), {
     plan: 'round',
@@ -265,13 +282,16 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   }),
   // ---- thorn lines ----
   thornbelle: spec(THORN_F, {
-    plan: 'round',
     size: 0.85,
     ears: 'roundBig',
     crest: 'horn',
     tail: 'stub',
     eyes: 'cute',
     marks: ['spots'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.45, snout: 0.2 },
   }),
   thornmaid: spec(THORN_F, {
     ears: 'roundBig',
@@ -292,7 +312,6 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     addons: [ex('backSpikes', C.deepWater)],
   }),
   thornbeau: spec(THORN_M, {
-    plan: 'round',
     size: 0.85,
     ears: 'tallPointed',
     crest: 'horn',
@@ -300,6 +319,10 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     eyes: 'cute',
     marks: ['spots'],
     addons: [ex('backSpikes', C.violet)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.45, snout: 0.25 },
   }),
   thornlad: spec(pal(C.violet, C.moonPurple, C.lavender, C.ember, C.pale), {
     ears: 'tallPointed',
@@ -308,6 +331,10 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     eyes: 'angry',
     marks: ['spots'],
     addons: [ex('backSpikes', C.moonPurple)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.55, snout: 0.3 },
   }),
   thornking: spec(pal(C.violet, C.moonPurple, C.cream, C.ember, C.pale), {
     size: 1.25,
@@ -321,20 +348,26 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
   }),
   // ---- fox line ----
   kindlefox: spec(pal(C.ember, C.berry, C.cream, C.bark, C.orange), {
-    plan: 'round',
     size: 0.85,
     ears: 'tallPointed',
     crest: 'forelock',
     eyes: 'cute',
     addons: [ex('foxTails', C.ember, C.orange, 6)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.55, neck: 0.2, snout: 0.3 },
   }),
   blazebrush: spec(pal(C.cream, C.sand, C.white, C.ember, C.orange), {
     size: 1.15,
     ears: 'tallPointed',
     crest: 'forelock',
-    legs: 'long',
     eyes: 'angry',
     addons: [ex('foxTails', C.cream, C.orange, 9), ex('mane', C.white)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.8, neck: 0.35, snout: 0.35 },
   }),
   // ---- dusk line ----
   duskflit: spec(DUSK, {
@@ -451,9 +484,12 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     size: 1.1,
     ears: 'catTips',
     tail: 'long',
-    legs: 'long',
     eyes: 'angry',
     addons: [ex('coin', C.ember, C.sunYellow), ex('whiskers', C.ink)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.75, neck: 0.25, snout: 0.15 },
   }),
   muddleduck: spec(PSY, {
     plan: 'round',
@@ -493,15 +529,22 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     eyes: 'cute',
     marks: ['stripes'],
     addons: [ex('mane', C.cream)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.55, snout: 0.3 },
   }),
   blazehound: spec(pal(C.orange, C.ember, C.cream, C.ink, C.ink), {
     size: 1.25,
     ears: 'round',
     tail: 'curl',
-    legs: 'long',
     eyes: 'angry',
     marks: ['stripes'],
     addons: [ex('mane', C.cream)],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.85, neck: 0.35, snout: 0.3 },
   }),
   // ---- swirl line ----
   swirlet: spec(pal(C.water, C.deepWater, C.white, C.ink, C.ink), {
