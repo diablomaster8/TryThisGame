@@ -1,0 +1,211 @@
+/* The open world's UI (lane D): the drawn map. Imported by ui/world-map.ts. */
+
+.wm-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+
+.wm-tab {
+  flex: 0 0 auto;
+  min-height: 44px;
+}
+
+.wm-fog {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.wm-view {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #3f7a3e;
+  touch-action: none;
+  user-select: none;
+}
+
+.wm-view[hidden] {
+  display: none;
+}
+
+.wm-ground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  image-rendering: pixelated;
+}
+
+.wm-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.wm-lines line {
+  stroke: rgba(30, 24, 16, 0.75);
+  stroke-width: 1.5;
+}
+
+.wm-lines .wm-pin {
+  fill: #fff6dc;
+  stroke: #2a2116;
+  stroke-width: 1.5;
+}
+
+.wm-lines .wm-pin.wm-unfound {
+  fill: rgba(255, 255, 255, 0.4);
+  stroke: rgba(42, 33, 22, 0.5);
+}
+
+.wm-chips,
+.wm-dots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.wm-chip {
+  position: absolute;
+  pointer-events: auto;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 96px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid #2a2116;
+  background: #fff6dc;
+  color: #2a2116;
+  font: inherit;
+  font-size: 0.6875rem;
+  line-height: 1.15;
+  text-align: center;
+  cursor: pointer;
+}
+
+.wm-chip[hidden] {
+  display: none;
+}
+
+.wm-unfound {
+  background: rgba(255, 246, 220, 0.45);
+  border-style: dashed;
+  border-color: rgba(42, 33, 22, 0.55);
+  color: rgba(42, 33, 22, 0.8);
+  font-size: 1rem;
+}
+
+.wm-mark {
+  border-style: dashed;
+}
+
+.wm-exit {
+  background: #2f4a6b;
+  color: #fff;
+  border-color: #1b2c40;
+}
+
+.wm-dot {
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+}
+
+.wm-t-normal {
+  background: #c9b458;
+}
+.wm-t-swim {
+  background: #3b82c4;
+}
+.wm-t-fly {
+  background: #8e6cc9;
+}
+.wm-t-run {
+  background: #4aa35a;
+}
+.wm-t-power {
+  background: #c4553b;
+}
+
+.wm-keeper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.wm-keeper[hidden] {
+  display: none;
+}
+
+.wm-arrow,
+.wm-cone {
+  position: absolute;
+  transform-origin: 0 0;
+}
+
+.wm-arrow::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: -10px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 20px solid #ffdf3a;
+  filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000);
+}
+
+/* The camera's view: a soft wedge pointing where the camera looks (up when rotation is 0). */
+.wm-cone::before {
+  content: '';
+  position: absolute;
+  left: -28px;
+  top: -44px;
+  border-left: 28px solid transparent;
+  border-right: 28px solid transparent;
+  border-top: 44px solid rgba(255, 255, 255, 0.28);
+}
+
+.wm-centre {
+  margin-top: 6px;
+  min-height: 44px;
+}
+
+.wm-sheet {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(255, 246, 220, 0.9);
+  color: #2a2116;
+}
+
+.wm-sheet[hidden],
+.wm-elsewhere[hidden] {
+  display: none;
+}
+
+.wm-travel,
+.wm-exit-btn {
+  min-height: 44px;
+}
+
+.wm-elsewhere .wm-exit-btn {
+  display: block;
+  margin-top: 6px;
+}

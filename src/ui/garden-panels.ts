@@ -1,23 +1,11 @@
-import {
-  NAMES,
-  SPECIES_LABELS,
-  STORY_U4_TEXT,
-  TEN_TEXT,
-  TITLE_CARD_TEXT,
-  TRAINER_LABELS,
-  UI_TEXT,
-} from '../config/strings';
-import { markAt } from '../config/stage-marks';
-import { STAGE_SET_HIDES, type StageSet } from '../config/stage-sets';
-import { CG4_U4 } from '../config/tuning-u4';
-import { GROVE, PLOTS, TOWN } from '../config/tuning';
+import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { PLOTS, TOWN } from '../config/tuning';
 import { canMerge } from '../sim/partners';
 import { canBuySkill, SKILL_LIST } from '../sim/skills';
 import { TEAM_LIST, teamBoard } from '../sim/teams';
 import { townUnlocks } from '../sim/town';
 import type { Game } from '../game';
 import { ACHIEVEMENT_LIST, titlesEarned } from '../sim/achievements';
-import { landmarkList } from '../sim/landmarks';
 import { visitingTrainer } from '../sim/neighbourhood';
 import { keeperPerks } from '../sim/perks';
 import { rosterCap } from '../sim/roster';
@@ -456,96 +444,5 @@ export class NeighbourhoodPanel {
   }
 }
 
-export class MapPanel {
-  private readonly dialog;
-  private readonly list: HTMLDivElement;
-  private readonly campaign: HTMLParagraphElement;
-
-  constructor(
-    parent: HTMLElement,
-    private readonly game: () => Game | null,
-    private readonly toast: (text: string) => void,
-  ) {
-    this.dialog = modal(parent, UI_TEXT.map, UI_TEXT.close);
-    this.dialog.body.appendChild(el('p', 'help', UI_TEXT.mapHelp));
-    this.campaign = el('p', 'help map-campaign-title');
-    this.dialog.body.appendChild(this.campaign);
-    this.list = el('div', 'map-grid');
-    this.dialog.body.appendChild(this.list);
-  }
-
-  open(): void {
-    this.refresh();
-    this.dialog.show();
-  }
-
-  close(): void {
-    this.dialog.hide();
-  }
-
-  isOpen(): boolean {
-    return this.dialog.isOpen();
-  }
-
-  refresh(): void {
-    const g = this.game();
-    if (!g) return;
-    const w = g.world;
-    this.list.innerHTML = '';
-    const names = UI_TEXT.landmarkNames as Record<string, string>;
-    // K33: while a separate campaign runs, the Grove's own icons that its set takes away
-    // (the well, the cottage, the dojo, the school) go, and the set's places are added.
-    const story = w.campaign?.storyline ?? null;
-    const set = (story ? (CG4_U4.map.setOf as Record<string, StageSet>)[story] : undefined) ?? null;
-    const hidden: readonly string[] = set ? STAGE_SET_HIDES[set] : [];
-    this.campaign.hidden = !set;
-    this.campaign.textContent = story
-      ? STORY_U4_TEXT.mapCampaign(TITLE_CARD_TEXT.campaigns[story] ?? story)
-      : '';
-    const half = GROVE.size / 2;
-    const cells = CG4_U4.map.cells;
-    const place = (b: HTMLElement, x: number, z: number): void => {
-      // Lay the buttons out roughly where the spots are.
-      b.style.gridColumn = String(Math.round(((x + half) / GROVE.size) * cells) + 1);
-      b.style.gridRow = String(Math.round(((z + half) / GROVE.size) * cells) + 1);
-      this.list.appendChild(b);
-    };
-    for (const id of set ? CG4_U4.map.marks[set] : []) {
-      const m = markAt('grove', id);
-      if (!m) continue;
-      const b = button(
-        `◆ ${STORY_U4_TEXT.landmarks[id] ?? id}`,
-        () => {
-          if (w.location !== 'grove') {
-            this.toast(UI_TEXT.notFromHere);
-            return;
-          }
-          g.send({ kind: 'teleport', pos: { x: m.x, z: m.z } });
-          this.toast(UI_TEXT.travelled);
-          this.close();
-        },
-        'btn btn-small btn-primary map-campaign',
-      );
-      place(b, m.x, m.z);
-    }
-    for (const l of landmarkList()) {
-      if (hidden.includes(l.id)) continue;
-      const found = w.landmarks[l.id] !== undefined;
-      const b = button(
-        found ? `📍 ${names[l.id] ?? l.id}` : '?',
-        () => {
-          if (w.location !== 'grove') {
-            this.toast(UI_TEXT.notFromHere);
-            return;
-          }
-          g.send({ kind: 'teleport', pos: { x: l.x, z: l.z } });
-          this.toast(UI_TEXT.travelled);
-          this.close();
-        },
-        `btn btn-small${found ? ' btn-primary' : ''}`,
-      );
-      b.disabled = !found;
-      place(b, l.x, l.z);
-    }
-  }
-}
+/** The drawn map (WORLD-02) lives in its own file; the HUD still imports it from here. */
+export { WorldMapPanel as MapPanel } from './world-map';
