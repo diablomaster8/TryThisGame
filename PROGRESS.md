@@ -38,6 +38,14 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 2 · Lane E (LOOK, 2026-10-28, branch r2/e)
+
+Plan, in R order: R0370 sit (map live `sit` to the existing sit pose in both renderers; pixel
+legs-out frames), R0374 serpent and R0375 quad body plans, R0377 Greymon helmet, R0378 3D
+colour, R0379 signature extras, R0383 arms, R0386 emote balls, R0387 neck outline, then R0388,
+the crown spring (R0380) and the R0406/R0418/R0435 leftovers as far as one pass allows. R0385
+is deferred (needs `actors.ts`). Stage review hook: `&creature=variants&ids=art:<species id>`.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in

@@ -1659,6 +1659,7 @@ export class WorldView {
         const stand: Record<string, string> = {
           flap: 'walk',
           swim: 'walk',
+          sit: 'idle',
           love: 'happy',
           tumble: 'surprised',
         };
@@ -1674,7 +1675,7 @@ export class WorldView {
         clip === 'sit'
           ? npose?.clip === 'sit'
             ? npose.frame
-            : 0
+            : Math.floor((nowMs - v.clipStartMs) / 600) % 2
           : def
             ? frameAt(def, nowMs - v.clipStartMs)
             : 0;
@@ -1808,6 +1809,9 @@ export function clipFor(n: Nubbin): string {
       return 'sleep';
     case 'eat':
       return 'eat';
+    // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle).
+    case 'sit':
+      return 'sit';
     case 'cry':
       return 'sad';
     case 'greet':

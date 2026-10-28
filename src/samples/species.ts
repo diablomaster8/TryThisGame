@@ -1632,7 +1632,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const lie = Math.max(0, bellyY - footY - 0.03);
         const drop = Math.max(0, lie - poseCtx.seat);
         // Chin up a touch: a seated body looks out, not down at its feet.
-        set('head', (-0.12 + s(t * 0.9) * 0.03) * ease, s(t * 0.5) * 0.06, 0);
+        // LOOK-20: a slow head sway of about 8 degrees each way.
+        set('head', (-0.12 + s(t * 0.9) * 0.03) * ease, s(t * 0.5) * 0.14, 0);
         if (spider || hover) {
           hips.position.y = spec.hipY - (hover ? 0 : 0.25 * ease);
         } else if (quad) {
@@ -1645,8 +1646,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           // Upright, leaning back a little onto the seat, the legs straight out in front (a
           // knee bend folds a short Nubbin leg under the body and reads as lying down).
           hips.rotation.x = -0.18 * ease;
-          set('legL', -1.45 * ease, 0, 0.22 * ease);
-          set('legR', -1.45 * ease, 0, -0.22 * ease);
+          set('legL', -1.48 * ease, 0, 0.22 * ease);
+          set('legR', -1.48 * ease, 0, -0.22 * ease);
           for (const leg of legs) bendKnee(leg, (pose === 'kneel' ? 1.4 : 0) * ease);
           set('armL', -0.15 * ease, 0, 0.45 * ease);
           set('armR', -0.15 * ease, 0, -0.45 * ease);

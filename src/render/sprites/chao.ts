@@ -377,7 +377,8 @@ export interface ChaoPose {
   squash: number;
   /** The waddle's head rock, in px across the body (walk contact frames); 0 when unset. */
   rock?: -1 | 0 | 1;
-  legs: 'together' | 'stepA' | 'stepB' | 'tucked';
+  /** `out`: seated, the legs straight out in front with the soles to the camera (LOOK-20). */
+  legs: 'together' | 'stepA' | 'stepB' | 'tucked' | 'out';
   arms: ArmPose;
   eyes: EyeState;
   mouth: MouthState;
@@ -904,7 +905,7 @@ function drawLegs(
   L: Layout,
   col: ChaoColors,
 ): void {
-  if (L.legLength <= 0 || pose.waterline) return;
+  if (L.legLength <= 0 || pose.waterline || pose.legs === 'out') return;
   const a = pose.legs === 'stepA' ? -1 : pose.legs === 'stepB' ? 1 : 0;
   const top = L.bodyCy + L.bodyRy - 2;
   if (angle === 'side') {
@@ -937,6 +938,10 @@ function drawFeet(
   col: ChaoColors,
 ): void {
   if (pose.waterline) return;
+  if (pose.legs === 'out') {
+    drawSitFeet(pc, angle, L, col);
+    return;
+  }
   const y = L.feetY;
   const foot = (cx: number, dy = 0) => {
     pc.ellipse(cx, y + dy, 2.5, 1.5, col.body);
@@ -961,6 +966,42 @@ function drawFeet(
       foot(L.bodyCx + 2 - a * 2, 0);
       break;
     }
+  }
+}
+
+/**
+ * LOOK-20, the Chao sit: the legs reach straight out in front, heels on the ground. From the
+ * front the two yellow soles face the camera; from the side the legs run forward with the toes up.
+ */
+function drawSitFeet(pc: PixelCanvas, angle: DrawnAngle, L: Layout, col: ChaoColors): void {
+  const y = L.bodyCy + L.bodyRy - 1;
+  const sole = (cx: number) => {
+    pc.ellipse(cx, y, 2.5, 2, col.body);
+    pc.ellipse(cx, y, 1.3, 1.1, col.tip);
+  };
+  switch (angle) {
+    case 'front':
+      sole(L.bodyCx - 3);
+      sole(L.bodyCx + 3);
+      break;
+    case 'frontQuarter':
+      sole(L.bodyCx - 1);
+      sole(L.bodyCx + 4);
+      break;
+    case 'side': {
+      const toe = L.bodyCx + L.bodyRx + 2;
+      pc.rect(L.bodyCx, y - 1, toe - L.bodyCx, 2, col.shade);
+      pc.ellipse(toe, y - 1, 1.5, 2.2, col.body);
+      pc.px(toe, y - 3, col.tip);
+      pc.px(toe + 1, y - 2, col.tip);
+      break;
+    }
+    case 'backQuarter':
+      // The far foot's heel just shows past the body.
+      pc.ellipse(L.bodyCx - L.bodyRx, y, 1.5, 1, col.body);
+      break;
+    case 'back':
+      break;
   }
 }
 
@@ -1216,7 +1257,12 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
   const col = look.colors;
-  const L0 = layout(angle, pose, look.shape);
+  // Seated (LOOK-20): the body comes down until its bottom rests at the ground line.
+  const L0 = layout(
+    angle,
+    pose.legs === 'out' ? { ...pose, lift: pose.lift + look.shape.legLength - 1 } : pose,
+    look.shape,
+  );
   // The waddle rocks the head across the body; from the side it would read as a nod.
   const rock = angle === 'side' ? 0 : (pose.rock ?? 0);
   const L = rock ? { ...L0, headCx: L0.headCx + rock } : L0;
@@ -1397,12 +1443,12 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
       frameKey('held', angle, 0),
       drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
-    // K1 (campaign graphics 4, package a1): sitting awake, the feet tucked under a settled
-    // body, eyes open (the sleep frames shut them), with a slow breath over two frames.
+    // K1 and LOOK-20: sitting awake on its bottom, the legs straight out in front, eyes open
+    // (the sleep frames shut them), with a slow breath over two frames.
     for (let f = 0; f < 2; f++)
       atlas.add(
         frameKey('sit', angle, f),
-        drawChao(angle, { ...BASE, legs: 'tucked', lift: 2, squash: f === 0 ? 0.94 : 0.92 }, look),
+        drawChao(angle, { ...BASE, legs: 'out', squash: f === 0 ? 1 : 0.95 }, look),
       );
   }
   return atlas.build();

@@ -90,6 +90,9 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       return 'sleep';
     case 'eat':
       return 'eat';
+    // LOOK-20: the Chao sit, legs out (the rig's stock `sit`).
+    case 'sit':
+      return 'sit';
     case 'play':
     case 'greet':
     case 'court':
