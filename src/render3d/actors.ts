@@ -1,5 +1,6 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
+import { KEEPER_ACCEL } from '../config/tuning-sim';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -307,6 +308,8 @@ export class Actors {
   stager: SceneStager | null = null;
   /** A story scene's drawn facing for the held Keeper (H7), or null for the sim's. */
   keeperFace: number | null = null;
+  /** The Keeper's drawn heading, turned toward the sim's at `facingTurnDegPerS`. */
+  private keeperTurn: number | null = null;
 
   /** Call right before each of the Keeper's own fine steps (MOVE-15). */
   snapshotKeeper(world: World): void {
@@ -891,7 +894,14 @@ export class Actors {
         : this.keeperMoving
           ? 'walk'
           : (kCue ?? 'idle');
-    this.driveKeeper(this.keeper!, kPose, kp, this.keeperFace ?? keeper.facing, t, dt);
+    // The Keeper turns to a new heading at a brisk rate rather than snapping (MOVE-20); a
+    // staged facing is set at once.
+    const want = this.keeperFace ?? keeper.facing;
+    const turn = ((KEEPER_ACCEL.facingTurnDegPerS * Math.PI) / 180) * dt;
+    const from = this.keeperFace !== null || this.keeperTurn === null ? want : this.keeperTurn;
+    const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
+    this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
+    this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

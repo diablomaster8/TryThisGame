@@ -118,3 +118,21 @@ export const TERRACE = {
   rampBank: 0.6,
   landing: 1.0,
 } as const;
+
+/**
+ * The Keeper's ground feel (MOVE-20): speed builds toward the stick at `accel` and falls at
+ * `decel` (units/s²), a turn of more than `skidDeg` uses `turnAccel` and skids, the air
+ * steers at `airAccelScale` of it. Full walking speed comes in about 0.12 s, so it never
+ * slides. A tap walk eases in over its last `arriveEase` units. The renderers turn the
+ * drawn facing at `facingTurnDegPerS` (3D) or after `pixelFacingHoldMs` on a new heading.
+ */
+export const KEEPER_ACCEL = {
+  accel: 28,
+  decel: 34,
+  turnAccel: 40,
+  airAccelScale: 0.8,
+  skidDeg: 120,
+  arriveEase: 0.6,
+  facingTurnDegPerS: 900,
+  pixelFacingHoldMs: 60,
+} as const;

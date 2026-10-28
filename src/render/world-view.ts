@@ -11,7 +11,7 @@ import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { keeperFooting } from '../sim/keeper';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
-import { KEEPER_WADE } from '../config/tuning-sim';
+import { KEEPER_WADE, KEEPER_ACCEL } from '../config/tuning-sim';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D } from '../config/tuning';
@@ -188,6 +188,26 @@ export class WorldView {
       STAGE2.fadeRadius + spread / Math.max(1, camera.visibleHeight),
     );
   }
+
+  /**
+   * The Keeper's facing as drawn (MOVE-20): Pixel's eight angles switch to a new heading only
+   * once it has held for `pixelFacingHoldMs`, so a wobbly stick does not flicker the sprite.
+   */
+  private keeperHeading(facing: number, nowMs: number): number {
+    const h = this.heading;
+    if (h.shown === null || Math.abs(facing - h.want) > 1e-6) {
+      if (h.shown === null) h.shown = facing;
+      h.want = facing;
+      h.sinceMs = nowMs;
+    }
+    if (nowMs - h.sinceMs >= KEEPER_ACCEL.pixelFacingHoldMs) h.shown = h.want;
+    return h.shown;
+  }
+  private heading: { shown: number | null; want: number; sinceMs: number } = {
+    shown: null,
+    want: 0,
+    sinceMs: 0,
+  };
 
   /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
   private keeperOffset(
@@ -908,7 +928,7 @@ export class WorldView {
       (c) => ksheet.frames.has(frameKey(c, 'front', 0)),
       moving,
     );
-    const kview = viewAngle(kpose?.face ?? kface ?? k.facing, yaw);
+    const kview = viewAngle(kpose?.face ?? kface ?? this.keeperHeading(k.facing, nowMs), yaw);
     const krect = ksheet.frames.get(
       kpose?.clip
         ? frameKey(kpose.clip, kview.angle, kpose.frame)
@@ -1252,6 +1272,18 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperSkid': {
+        // A sharp turn at speed (MOVE-20): a puff of dust at the Keeper's heels.
+        const k = this.keeperPrev.pos;
+        p.burst('dust', k.x, 0.05, k.z, 4, {
+          spread: 0.2,
+          speed: 0.6,
+          rise: 0.3,
+          lifeMs: 320,
+          size: 0.45,
+        });
+        break;
+      }
       case 'landed': {
         const v = at(e.nubbinId);
         if (v)

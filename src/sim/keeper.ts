@@ -6,6 +6,7 @@ import { groveLeg } from './nav';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
+  KEEPER_ACCEL,
   KEEPER_MOTION,
   KEEPER_SOFT,
   KEEPER_UNSTICK,
@@ -205,7 +206,8 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     k.input.x === 0 &&
     k.input.z === 0 &&
     k.grounded &&
-    k.bufferMs <= 0;
+    k.bufferMs <= 0 &&
+    !moving(world);
   if (idle) {
     keeperSubstep(world, ((n - done) * dtMs) / n, events);
     return;
@@ -303,6 +305,68 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   }
 }
 
+/** The Keeper's ground velocity (MOVE-20): transient, so it is never saved. */
+const vel = new WeakMap<World, Vec2>();
+/** Worlds whose Keeper is mid-skid, so a reversal sends one skid, not one per substep. */
+const skidding = new WeakSet<World>();
+
+function velOf(world: World): Vec2 {
+  let v = vel.get(world);
+  if (!v) {
+    v = { x: 0, z: 0 };
+    vel.set(world, v);
+  }
+  return v;
+}
+
+function moving(world: World): boolean {
+  const v = vel.get(world);
+  return !!v && (v.x !== 0 || v.z !== 0);
+}
+
+/** Drop the Keeper's ground speed (a tap walk, a teleport). */
+function halt(world: World): void {
+  const v = vel.get(world);
+  if (v) v.x = v.z = 0;
+}
+
+/**
+ * Move the Keeper's velocity toward (wx, wz) (MOVE-20): at `accel`, or `decel` when the
+ * stick is let go, or `turnAccel` with one skid event when the new heading is more than
+ * `skidDeg` off the way it is going. In the air it steers at `airAccelScale` of that.
+ */
+function accelerate(world: World, wx: number, wz: number, dt: number, events: SimEvent[]): Vec2 {
+  const A = KEEPER_ACCEL;
+  const v = velOf(world);
+  const want = Math.hypot(wx, wz);
+  const have = Math.hypot(v.x, v.z);
+  let rate: number = want === 0 ? A.decel : A.accel;
+  const reverse =
+    want > 0 &&
+    have > 1e-6 &&
+    (v.x * wx + v.z * wz) / (want * have) < Math.cos((A.skidDeg * Math.PI) / 180);
+  if (reverse) {
+    rate = A.turnAccel;
+    if (!skidding.has(world) && have > KEEPER.speed * 0.5 && world.keeper.grounded) {
+      skidding.add(world);
+      events.push({ kind: 'keeperSkid' });
+    }
+  } else skidding.delete(world);
+  if (!world.keeper.grounded) rate *= A.airAccelScale;
+  const dx = wx - v.x;
+  const dz = wz - v.z;
+  const d = Math.hypot(dx, dz);
+  const most = rate * dt;
+  if (d <= most) {
+    v.x = wx;
+    v.z = wz;
+  } else {
+    v.x += (dx / d) * most;
+    v.z += (dz / d) * most;
+  }
+  return v;
+}
+
 /**
  * Keep a walking Keeper off a terrace cliff it cannot step up (MOVE-09): a step may rise at
  * most `stepUp` over its feet, or over the shelf it already stands on (part way down a
@@ -359,10 +423,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     const len = Math.hypot(k.input.x, k.input.z);
     const nx = k.input.x / len;
     const nz = k.input.z / len;
-    k.pos.x +=
-      nx * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt;
-    k.pos.z +=
-      nz * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt;
+    const speed =
+      KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft;
+    const v = accelerate(world, nx * speed, nz * speed, dt, events);
+    k.pos.x += v.x * dt;
+    k.pos.z += v.z * dt;
     k.facing = Math.atan2(nx, nz);
     k.moveTarget = null;
     k.intent = null;
@@ -373,9 +438,16 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.pos.x = s.x;
       k.pos.z = s.z;
     }
+  } else if (!k.moveTarget && !k.intent && moving(world)) {
+    // Let go of the stick: the Keeper slows to a stop over a few hundredths of a second.
+    const v = accelerate(world, 0, 0, dt, events);
+    k.pos.x += v.x * dt;
+    k.pos.z += v.z * dt;
   } else {
     let target = k.moveTarget;
     if (k.intent) target = intentTarget(world, k.intent);
+    // A tap walk keeps its own pace; any speed left from the stick is dropped.
+    halt(world);
     if (k.intent && !target) k.intent = null;
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
@@ -433,11 +505,14 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           if (!k.intent && leg.end !== target) k.moveTarget = leg.end;
           const to = leg.next;
           const td = Math.max(dist(k.pos, to), 1e-6);
+          // It eases in over the last stretch to where it stops (MOVE-20).
+          const ease = Math.max(0.35, Math.min(1, dist(k.pos, leg.end) / KEEPER_ACCEL.arriveEase));
           const step = Math.min(
             td,
             KEEPER.speed *
               keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
               soft *
+              ease *
               dt,
           );
           let dx = (to.x - k.pos.x) / td;
@@ -486,6 +561,17 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // Still inside something (two blockers, or a blocker and the shore, pushing in turn):
     // step out to the nearest free spot so no position can trap the Keeper.
     unstickKeeper(world);
+    // Speed into a wall, a cliff or the shore is lost, so a Keeper let go there does not
+    // slide on, and one that jumps from a wall starts from still.
+    if (moving(world)) {
+      const v = velOf(world);
+      const gx = (k.pos.x - fromX) / dt;
+      const gz = (k.pos.z - fromZ) / dt;
+      if (Math.hypot(gx, gz) < Math.hypot(v.x, v.z)) {
+        v.x = gx;
+        v.z = gz;
+      }
+    }
   }
   stepVertical(world, dt, !!dungeonFloor, events);
 

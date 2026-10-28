@@ -195,9 +195,10 @@ describe('vertical state (MOVE-10)', () => {
     sub(w, 60);
     expect(w.keeper.pos.z).toBeLessThan(bench.z - 0.3);
     expect(w.keeper.y).toBeLessThan(top - 0.3);
-    // Jump, steer over the seat, let go of the stick and land on it.
+    // Jump, steer over the seat, let go of the stick and land on it. It carries on a
+    // little as it slows (MOVE-20), so it lets go a step short of the middle.
     jump(w, true);
-    for (let i = 0; i < 60 && w.keeper.pos.z < bench.z - 0.05; i++) sub(w, 1);
+    for (let i = 0; i < 60 && w.keeper.pos.z < bench.z - 0.25; i++) sub(w, 1);
     w.keeper.input = { x: 0, z: 0 };
     untilLanded(w);
     expect(w.keeper.y).toBeCloseTo(top, 3);
@@ -350,15 +351,19 @@ describe('the stream (MOVE-13)', () => {
     expect(f.sink).toBeLessThanOrEqual(KEEPER_WADE.maxSink + 1e-9);
     // Along the stream, so it stays in the water.
     const along = { x: (b.x - a.x) / len, z: (b.z - a.z) / len };
+    // Up to speed first (MOVE-20), then measured.
     w.keeper.input = along;
+    sub(w, 12);
     const p0 = { ...w.keeper.pos };
     sub(w, 6);
     const wet = Math.hypot(w.keeper.pos.x - p0.x, w.keeper.pos.z - p0.z);
     const d = bare();
     standAt(d, START);
     d.keeper.input = along;
+    sub(d, 12);
+    const q0 = { ...d.keeper.pos };
     sub(d, 6);
-    const dry = Math.hypot(d.keeper.pos.x - START.x, d.keeper.pos.z - START.z);
+    const dry = Math.hypot(d.keeper.pos.x - q0.x, d.keeper.pos.z - q0.z);
     expect(wet / dry).toBeCloseTo(KEEPER_WADE.speed, 2);
   });
 
