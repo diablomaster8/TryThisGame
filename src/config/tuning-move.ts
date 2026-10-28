@@ -53,3 +53,18 @@ export const GLIDE = {
   maxMs: 1200,
   airSpeed: 1.2,
 } as const;
+
+/**
+ * MOVE-26: what a jump does in the Grove. Within `trunkReach` of a fruit tree's centre in
+ * the air, the tree shakes (once per `treeCooldownMs`). Over a sitting Nubbin, within
+ * `leapReach` and at least `leapClear` above its ground, it giggles: `leapHappiness`, a
+ * heart, once per `leapCooldownMs` for that Nubbin.
+ */
+export const JUMP_PLAY = {
+  trunkReach: 0.85,
+  treeCooldownMs: 3000,
+  leapReach: 0.5,
+  leapClear: 0.4,
+  leapHappiness: 2,
+  leapCooldownMs: 10_000,
+} as const;

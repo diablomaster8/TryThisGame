@@ -3,7 +3,7 @@ import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { autoHopOn, groveLeg } from './nav';
-import { AUTO_HOP, GLIDE } from '../config/tuning-move';
+import { AUTO_HOP, GLIDE, JUMP_PLAY } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -647,6 +647,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     }
   }
   stepVertical(world, dt, !!dungeonFloor, events);
+  if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
 
   // A carried Nubbin rides above the Keeper's head.
   if (k.carrying) {
@@ -660,6 +661,58 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.carrying = null;
     }
   }
+}
+
+/** Per world: when each tree was last jumped into and each Nubbin last leapt over (MOVE-26). */
+const playCooldowns = new WeakMap<World, Map<string, number>>();
+
+/**
+ * What a jump does on its way (MOVE-26), checked only while the Keeper is in the air: a
+ * jump into a fruit tree's trunk shakes it, as a tap does; a jump over a sitting Nubbin is
+ * a leapfrog that makes it giggle. Each has its own cooldown per tree or Nubbin.
+ */
+function jumpPlay(world: World, events: SimEvent[]): void {
+  const k = world.keeper;
+  const P = JUMP_PLAY;
+  let seen = playCooldowns.get(world);
+  const ready = (id: string, ms: number): boolean => {
+    const at = seen?.get(id);
+    return at === undefined || world.timeMs - at >= ms;
+  };
+  const mark = (id: string): void => {
+    if (!seen) playCooldowns.set(world, (seen = new Map()));
+    seen.set(id, world.timeMs);
+  };
+  for (const t of world.trees) {
+    if (dist(k.pos, t.pos) > P.trunkReach || !ready(t.id, P.treeCooldownMs)) continue;
+    mark(t.id);
+    shakeTreeNow(world, t, events);
+  }
+  for (const n of world.nubbins) {
+    if (n.behavior.state !== 'sit' || !isFree(n)) continue;
+    if (dist(k.pos, n.pos) > P.leapReach || k.y - footing(n.pos.x, n.pos.z).y < P.leapClear)
+      continue;
+    if (!ready(n.id, P.leapCooldownMs)) continue;
+    mark(n.id);
+    addHappiness(n, P.leapHappiness);
+    react(n, 'love', world.timeMs, events);
+  }
+}
+
+/** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */
+function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
+  tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
+  events.push({ kind: 'treeShaken', treeId: tree.id });
+  // Wood now and then, and a Power-type friend shakes fruit loose at once.
+  withRng(world, (rng) => {
+    if (rng.chance(GATHER.woodChance)) {
+      world.inventory.wood += 1;
+      events.push({ kind: 'gathered', what: 'wood', count: 1 });
+    }
+    if (keeperPerks(world).power) {
+      for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
+    }
+  });
 }
 
 function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): void {
@@ -698,19 +751,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     }
     case 'shakeTree': {
       const tree = world.trees.find((t) => t.id === intent.treeId);
-      if (!tree) return;
-      tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
-      events.push({ kind: 'treeShaken', treeId: tree.id });
-      // Wood now and then, and a Power-type friend shakes fruit loose at once.
-      withRng(world, (rng) => {
-        if (rng.chance(GATHER.woodChance)) {
-          world.inventory.wood += 1;
-          events.push({ kind: 'gathered', what: 'wood', count: 1 });
-        }
-        if (keeperPerks(world).power) {
-          for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
-        }
-      });
+      if (tree) shakeTreeNow(world, tree, events);
       return;
     }
     case 'collect': {
