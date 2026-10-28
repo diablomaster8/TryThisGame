@@ -3,7 +3,8 @@
  * stick walks from an 8 u grid in 8 directions never put the Keeper's centre inside
  * anything that stops it, and 200 seeded taps arrive (at the target, or at the stand-in
  * for a shut-in one) at least 99% of the time. The Hollow's taps are swept in
- * `dungeon-nav.test.ts`.
+ * `dungeon-nav.test.ts`. About 3 s alone; the 20 s timeouts only keep it steady when the
+ * machine is busy.
  */
 import { describe, expect, it } from 'vitest';
 import { SIM } from '../../src/config/tuning';
@@ -54,7 +55,7 @@ describe('collision sweep (MOVE-39)', () => {
         }
       }
     expect(inside).toEqual([]);
-  });
+  }, 20_000);
 
   it('99% of 200 seeded taps arrive', () => {
     const rng = new Rng(2710);
@@ -80,5 +81,5 @@ describe('collision sweep (MOVE-39)', () => {
         );
     }
     expect(arrived, stuck.join('; ')).toBeGreaterThanOrEqual(198);
-  });
+  }, 20_000);
 });
