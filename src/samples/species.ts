@@ -265,6 +265,11 @@ export interface SpeciesSpec {
   };
   /** Body roll of the walk over the stance foot, radians (0.03 by default; the Chao waddle 0.12). */
   waddle?: number;
+  /**
+   * Where the arms rest, as an extra roll down and pitch forward from the sculpt, radians
+   * (LOOK-14: the Chao's stubby arms hang by the belly; the walk swings them half as low).
+   */
+  armRest?: { roll: number; pitch: number };
   /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
   blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
@@ -1309,6 +1314,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   let gesture: GestureName | null = null;
   let gestureAt = 0;
   const quad = spec.gait === 'quadruped';
+  const ar = spec.armRest ?? { roll: 0, pitch: 0 };
   const spider = spec.gait === 'spider';
   const hover = spec.gait === 'hover';
   // Eight legs: leg1..leg4 on each side, leg1 at the front. Lifting is a turn about z
@@ -1473,8 +1479,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           for (const n of ['legFL', 'legFR', 'legBL', 'legBR']) set(n, 0, 0, 0);
           set('tail', s(t * 1.3) * 0.12, s(t * 2.6) * 0.45, 0);
         } else {
-          set('armL', 0, 0, s(t * 1.6) * 0.08);
-          set('armR', 0, 0, -s(t * 1.6 + 1) * 0.08);
+          set('armL', ar.pitch, 0, ar.roll + s(t * 1.6) * 0.08);
+          set('armR', ar.pitch, 0, -ar.roll - s(t * 1.6 + 1) * 0.08);
           set('legL', 0, 0, 0);
           set('legR', 0, 0, 0);
         }
@@ -1578,8 +1584,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           }
           if (quad) set('tail', 0.15, s(w * 0.5) * 0.3, 0);
           else if (!spider) {
-            set('armL', -s(w) * 0.4, 0, 0.15);
-            set('armR', s(w) * 0.4, 0, -0.15);
+            set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+            set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
           }
         } else if (spider) {
           // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
@@ -1596,8 +1602,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         } else {
           set('legL', s(w) * legSwing, 0, 0);
           set('legR', -s(w) * legSwing, 0, 0);
-          set('armL', -s(w) * 0.4, 0, 0.15);
-          set('armR', s(w) * 0.4, 0, -0.15);
+          set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+          set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
         }
         mouthOpen = 0.1;
         break;

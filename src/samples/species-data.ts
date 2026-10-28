@@ -278,6 +278,8 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   },
   // The Chao waddle: about 7 degrees of body roll over the stance foot.
   waddle: 0.12,
+  // LOOK-14: the arms hang 55 degrees down and a little forward, beside the lower belly.
+  armRest: { roll: 0.38, pitch: -0.26 },
   // The Chao mouth opens wide: a big D when happy, a wail when crying (LOOK-65).
   expressions: { happy: { gape: 0.55 }, sad: { gape: 0.45 } },
   blush: '#ffb3c6',
