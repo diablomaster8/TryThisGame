@@ -61,7 +61,10 @@ describe('Hollow encounters on the battle core', () => {
     if (b.context.kind !== 'encounter') return;
     expect(b.context.source).toBe(HOLLOW_BATTLE_SOURCE);
     expect(b.context.key).toBe(id);
-    const members = runFloor(world)!.packs!.find((p) => p.id === id)!.members;
+    // Up to the party's size of the pack join in; the rest hang back.
+    const members = runFloor(world)!
+      .packs!.find((p) => p.id === id)!
+      .members.slice(0, world.dungeon!.party.length);
     expect(b.context.foes).toEqual(members.map((m) => ({ species: m.species, level: m.level })));
     expect(b.sides[1].map((c) => c.species)).toEqual(members.map((m) => m.species));
     // Asked again every step, the handler never starts a second bout.

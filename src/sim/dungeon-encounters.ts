@@ -242,8 +242,11 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
       ids: [...spec.party],
       source: HOLLOW_BATTLE_SOURCE,
       key: spec.packId,
-      // Champion mods are not fought yet (DUNG-15 with lane C).
-      foes: spec.members.map((m) => ({ species: m.species, level: m.level })),
+      // Champion mods are not fought yet (DUNG-15 with lane C). The rest of a bigger pack hangs
+      // back: the battle core gives an outnumbered fresh party no chance (3 on 2 lost 27 of 27).
+      foes: spec.members
+        .slice(0, Math.max(1, spec.party.length + E.boutExtraFoes))
+        .map((m) => ({ species: m.species, level: m.level })),
     };
     const bout = createBattle(world, context, spec.seed);
     if (bout) {
