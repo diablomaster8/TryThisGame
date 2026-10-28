@@ -306,18 +306,37 @@ export function standTopAt(world: World | null, x: number, z: number): number {
   return best;
 }
 
+// The pieces a Nubbin can hop onto or over, with how far each reaches, per collider table:
+// a short list scanned with a squared-distance test, as this runs on every walking step.
+const perches = new WeakMap<readonly Collider[], { c: Collider; r2: number }[]>();
+
+function perchList(world: World | null): { c: Collider; r2: number }[] {
+  const all = obstacles(world);
+  let list = perches.get(all);
+  if (!list) {
+    list = all
+      .filter((c) => {
+        const f = c.flags;
+        if (f.includes('keeperOnly') || f.includes('soft')) return false;
+        return f.includes('hop') || f.includes('standable');
+      })
+      .map((c) => ({ c, r2: colliderReach(c) ** 2 }));
+    perches.set(all, list);
+  }
+  return list;
+}
+
 /**
  * The top (over the ground) a Nubbin stands on at a point (MOVE-30): the highest hop or
  * standable piece under it, no higher than `cap`, that Nubbins may cross, or 0 on open
- * ground. A log or a fence
- * gives a hop over it; a bench or a rock gives a perch.
+ * ground. A log or a fence gives a hop over it; a bench or a rock gives a perch.
  */
 export function perchTopAt(world: World | null, x: number, z: number, cap = Infinity): number {
   let best = 0;
-  for (const c of near(world, { x, z }, 0)) {
-    const f = c.flags;
-    if (f.includes('keeperOnly') || f.includes('soft')) continue;
-    if (!f.includes('hop') && !f.includes('standable')) continue;
+  for (const { c, r2 } of perchList(world)) {
+    const dx = c.x - x;
+    const dz = c.z - z;
+    if (dx * dx + dz * dz > r2) continue;
     if (c.top > best && c.top <= cap && contact(c, x, z, 0)) best = c.top;
   }
   return best;

@@ -39,12 +39,14 @@ function climbCap(n: Nubbin): number {
 }
 
 /**
- * Push a free Nubbin out of what stops it. A bench or rock top it can climb does not stop
- * it (it hops up in `stepHop`), and one already up on a top stays there.
+ * Push a free Nubbin out of what stops it. One up on a top (or on its way up) is not pushed
+ * off anything it can climb; on the ground it is the plain push, which runs every step.
  */
 export function resolveNubbin(n: Nubbin, world: World | null): boolean {
-  const lift = Math.max(n.y, climbCap(n));
-  const feetY = lift > 0.05 ? groveHeight(n.pos.x, n.pos.z) + lift - JUMP.stepUp : undefined;
+  const feetY =
+    n.y > 0.05
+      ? groveHeight(n.pos.x, n.pos.z) + Math.max(n.y, climbCap(n)) - JUMP.stepUp
+      : undefined;
   return resolve(n.pos, world, 0.3, nubbinWalker(n), feetY);
 }
 
@@ -61,7 +63,12 @@ interface Hop {
   joys: number;
   /** A hop is under way. */
   live: boolean;
+  /** `climbCap`, refreshed every `CAP_EVERY` walking steps (levels change slowly). */
+  cap: number;
+  capIn: number;
 }
+
+const CAP_EVERY = 50;
 
 const hops = new WeakMap<Nubbin, Hop>();
 
@@ -78,6 +85,8 @@ function hopOf(n: Nubbin): Hop {
       nextJoy: 0,
       joys: 0,
       live: false,
+      cap: 0,
+      capIn: 0,
     };
     hops.set(n, h);
   }
@@ -123,7 +132,11 @@ export function stepHop(n: Nubbin, world: World, events: SimEvent[]): void {
     h.last.x = n.pos.x;
     h.last.z = n.pos.z;
     // Too high to reach: it stays on the ground (the steering walks it round).
-    const top = perchTopAt(world, n.pos.x, n.pos.z, climbCap(n));
+    if (--h.capIn <= 0) {
+      h.cap = climbCap(n);
+      h.capIn = CAP_EVERY;
+    }
+    const top = perchTopAt(world, n.pos.x, n.pos.z, h.cap);
     if (top !== h.on) {
       h.on = top;
       startHop(n, h, top, nubbinJump(n) * NUBBIN_JUMP.arc, now, events);
