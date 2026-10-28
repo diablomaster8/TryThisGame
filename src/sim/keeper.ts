@@ -295,10 +295,15 @@ function autoHop(world: World, dx: number, dz: number): void {
 }
 
 /**
- * MOVE-35: stand-in targets for shut-in taps. A nav cell is open a little closer to a wall
- * than the Keeper's body fits, so these count as reached from a little further off.
+ * MOVE-35: stand-in targets for shut-in taps, each with the tap it stands in for. A nav cell
+ * is open a little closer to a wall than the Keeper's body fits, so these count as reached
+ * from a little further off.
  */
-const standIns = new WeakSet<Vec2>();
+const standIns = new WeakMap<Vec2, Vec2>();
+/** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
+const tapRecheck = new WeakMap<World, number>();
+/** How often (ms) a stand-in walk looks again at its real tap. */
+const RECHECK_MS = 1000;
 
 /** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
 const autoPressed = new WeakSet<World>();
@@ -491,6 +496,8 @@ function holdAtLedges(k: World['keeper'], px: number, pz: number): void {
 /**
  * MOVE-41: the pace on a slope, walking from (x, z) along the unit heading (dx, dz): slower
  * up, a little quicker down, on the hills only. Only on Grove ground; a jump keeps its pace.
+ * Stick and keyboard walks only: a tap walk keeps its planned pace, since a slower climb
+ * can carry it into a spot the nav grid and the ledges disagree about (near 28, -33).
  */
 export function slopePace(x: number, z: number, dx: number, dz: number): number {
   const r = KEEPER_SLOPE.probe;
@@ -641,11 +648,28 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         // In the Grove the Keeper follows a planned path round what stands in the way
         // (nav.ts). A target with nothing reachable near it is refused at once; a shut-in
         // tap walks to the nearest reachable point and stops there.
+        // A stand-in walk that has come down off a rim or a tier looks again, now and then, at
+        // the tap it stands in for, and heads there once it can.
+        const tapped = !k.intent ? standIns.get(target) : undefined;
+        if (tapped && world.timeMs - (tapRecheck.get(world) ?? -Infinity) >= RECHECK_MS) {
+          tapRecheck.set(world, world.timeMs);
+          const back = groveLeg(world, k.pos, tapped);
+          if (back && dist(back.end, tapped) < 1e-3) target = k.moveTarget = tapped;
+        }
         const leg = groveLeg(world, k.pos, target);
-        if (!leg || (k.intent && dist(leg.end, target) > reach)) {
+        // A walk to a stand-in that is itself out of reach from here (the Keeper slid onto
+        // another tier on the way) has got as close as it can: stop, rather than dither
+        // between fresh stand-ins for ever.
+        const stuck =
+          !!leg &&
+          !k.intent &&
+          standIns.has(target) &&
+          dist(leg.end, target) > UNREACHABLE.standInReach;
+        if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
-          else events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
+          else if (!stuck)
+            events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
           k.intent = null;
           k.moveTarget = null;
         } else {
@@ -653,7 +677,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
             // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
             // with a hint when a jump would get there.
             k.moveTarget = leg.end;
-            standIns.add(leg.end);
+            standIns.set(leg.end, standIns.get(target) ?? target);
             const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
             events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
           }
@@ -671,9 +695,6 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
               ) *
               soft *
               ease *
-              (k.grounded && !dungeonFloor && world.location === 'grove'
-                ? slopePace(k.pos.x, k.pos.z, (to.x - k.pos.x) / td, (to.z - k.pos.z) / td)
-                : 1) *
               dt,
           );
           let dx = (to.x - k.pos.x) / td;
