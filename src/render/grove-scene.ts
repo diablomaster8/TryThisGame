@@ -48,6 +48,7 @@ import {
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
+import { pixelTiers } from '../sim/terrain';
 import {
   floorWorldSize,
   paintCaveWallTexture,
@@ -432,11 +433,8 @@ export class GroveScene {
     GROVE.hills.forEach((h, hi) => {
       // Three tiers, each a little smaller; the cliff tile repeats by circumference so
       // the rocks keep their size on big and small hills.
-      const tiers: Array<[number, number, number]> = [
-        [h.r, h.h * 0.42, 0],
-        [h.r * 0.74, h.h * 0.34, h.h * 0.42],
-        [h.r * 0.5, h.h * 0.24, h.h * 0.76],
-      ];
+      // The tier numbers come from the sim, so the ground it stands on is the one drawn.
+      const tiers = pixelTiers(h);
       tiers.forEach(([r, height, y0], ti) => {
         const salt = hi * 10 + ti;
         const side = terraceSide(r, height, salt);

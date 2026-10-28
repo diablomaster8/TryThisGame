@@ -17,6 +17,7 @@ import { GROVE } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import { CG_C } from '../config/tuning-c';
 import type { SceneStage } from '../config/story';
+import { pixelTiers } from '../sim/terrain';
 import type { World } from '../sim/types';
 import { leafHinge, pennedSpots } from './corvin-layout';
 import type { Daylight } from './daylight';
@@ -55,7 +56,8 @@ let hillSheet: SpriteSheet | null = null;
 const state = { still: 0, glow: 0, gold: 0, open: [0, 0, 0] };
 
 const HILL = GROVE.hills[0];
-const TIER = [HILL.h * 0.42, HILL.h * 0.76, HILL.h] as const;
+// Terrace tops from the sim's tier table, so this matches what grove-scene.ts builds.
+const TIER = pixelTiers(HILL).map(([, height, base]) => base + height) as [number, number, number];
 
 /** The terrace top under (x, z) on the memorial hill, as the scene builds it. */
 function hillY(x: number, z: number): number {
