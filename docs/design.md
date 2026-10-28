@@ -153,6 +153,7 @@ While you're away, Nubbins feed themselves from the fruit trees, so being away d
   - **Prizes:** Shells and hats. Winning a tier unlocks the next one.
 - **Shop.** Sells fruit, eggs (with a chance of rare colors), hats and toys the Nubbins play with in the Grove.
 - **Roster.** Up to 8 Nubbins per Grove. Each one has a name, portrait, stats, age, rebirth count and alignment.
+- **Jump spaces (WORLD-21).** Places to jump are built to fixed numbers, so jumps feel fair rather than random. A single jump climbs one terrace level (0.9 u) and clears a 1.6 u gap at a walk or 2.0 u with a run-up; a double jump climbs 1.5 u and clears 2.6 u walking or 3.6 u running; the Fly perk's glide carries about 2.4 u per unit dropped. The kinds of space are stepping stones, ledge ladders, double-jump shortcuts (they only save time and never gate the story) and glide drops. Every jump route has a walking way round, for children and for the skip setting. The numbers and routes are in `src/config/region-jumps.ts`; a test checks them against the Keeper's real jump.
 
 ## Build plan
 
