@@ -98,8 +98,8 @@ export const WORLD_MEM = {
 
 /** WORLD-18: the walking lead on a portrait view (`walkLead` in `render/camera.ts`). */
 export const CAMERA_LEAD = {
-  /** Share of the view's width the camera aims ahead of a walking Keeper. */
-  share: 0.28,
+  /** Share of the view's width the camera aims ahead of a walking Keeper (the follow lag takes about 0.8 u back, so the Keeper sits 22–30% from the trailing edge). */
+  share: 0.32,
   /** World units the lead stays inside the view's half-width. */
   edge: 2,
 } as const;

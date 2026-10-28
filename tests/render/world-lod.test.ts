@@ -116,7 +116,7 @@ describe('walking lead (WORLD-18)', () => {
   it('leads by a share of a portrait view, keeps the base elsewhere, none while carrying', () => {
     const portrait = { visibleWidth: 11.75, visibleHeight: 25 };
     const lead = walkLead(portrait, 0.6, false);
-    expect(lead).toBeCloseTo(0.28 * 11.75);
+    expect(lead).toBeCloseTo(0.32 * 11.75);
     expect(lead).toBeLessThanOrEqual(11.75 / 2 - 2);
     expect(walkLead({ visibleWidth: 30, visibleHeight: 17 }, 0.6, false)).toBe(0.6);
     expect(walkLead(portrait, 0.6, true)).toBe(0);

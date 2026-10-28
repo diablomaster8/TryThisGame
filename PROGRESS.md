@@ -38,6 +38,31 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 2 · Lane D (2026-10-28, branch r2/d)
+
+Phone 3D perf first, then WORLD. Measured first: on a phone the scenery is about 150 draws
+and 25k triangles; the terrain (one 100k mesh), creature shadows, outline hulls and the
+creatures themselves are the rest. Probe (375×812, phone sculpt grid, Full 3D, mean of fresh
+frames, `?nolod` for before): 5/19 spots under budget before, 6/19 after; median 336 → 230
+calls, 855k → 380k triangles; worst 699 calls / 1.65 M → 558 / 920k. Pixel: ≤ 186 sprites.
+
+- *Works:* terrain drawn by view chunk (`render3d/chunks.ts`); creatures off screen stop
+  casting, small ones lose hulls and real shadows at geometry levels 2–3 (`render3d/lod.ts`);
+  device tier from the sculpt grid caps grass (2.9k instances on a phone); `WORLD_MEM` and a
+  memory readout; debug World row (teleport to POI, pin LOD, freeze streaming); portrait
+  walking lead (R0084); jump metrics checked against the real jump (R0087); the Wood laid out
+  as data with four jump routes (R0089); twelve world traces with a content check (R0090).
+- *Stubbed:* creature LOD (R0079, lane A/E files) is what the remaining 12 spots need, since
+  each rig is about 22 draws and 49k triangles; tree and building impostors (R0078) are not
+  built, as they would save under 5% today; the Wood is not drawn; trace props are not
+  tappable yet; no chunk-grid overlay; `WORLD_MEM` reads but releases nothing (one 3D region).
+- *Known:* the probe's numbers swing ±30 draws with where the Nubbins wander. A double jump
+  (1.70 u) can't climb two terrace levels and the glide carries 2.6 u per unit dropped, not
+  8 u per level (lane A's numbers). Round 1's probe measured the opening scene's camera at every
+  spot (fixed: it now clears dialogue and checks the aim).
+- *Assumptions:* the probe builds creatures on the phone grid (`?sculptRes=64`, dev only);
+  `?nolod` (dev only) gives the before numbers from the same build.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
