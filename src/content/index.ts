@@ -5,6 +5,7 @@
 export * from './types';
 export { READERS, READER_SPEAKERS } from './readers';
 export { RESULT_SETS } from './results';
+export { WORLD_TRACES, WORLD_TRACES_FLAGS, WORLD_TRACES_CHECKS } from './world-traces';
 export { QUESTS_PYTHON, QUESTS_PYTHON_VARIANTS } from './quests-python';
 export { QUESTS_BEAN, QUESTS_BEAN_VARIANTS } from './quests-bean';
 export {

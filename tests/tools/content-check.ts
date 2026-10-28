@@ -765,6 +765,34 @@ for (const q of allQuests) {
       problems.push(`${q.id}: poi ${a.poi} is not in region ${a.region}`);
   }
 }
+// 9. World traces (WORLD-26): narrator lines only, at most 100 characters and two sentences,
+// childLines keyed to a real line, and at least three in every region that has any.
+{
+  const perRegion = new Map<string, number>();
+  const ids = new Set<string>();
+  for (const t of C.WORLD_TRACES) {
+    if (ids.has(t.id)) problems.push(`dup trace id ${t.id}`);
+    ids.add(t.id);
+    if (!REGIONS[t.region]) problems.push(`${t.id}: unknown region ${t.region}`);
+    perRegion.set(t.region, (perRegion.get(t.region) ?? 0) + 1);
+    if (t.lines.length < 1 || t.lines.length > 2) problems.push(`${t.id}: 1–2 lines`);
+    t.lines.forEach((l, i) => {
+      if (l.who !== 'narrator') problems.push(`${t.id}#${i}: traces are the narrator's`);
+      for (const text of [l.text, t.childLines[`${t.id}#${i}`]]) {
+        if (text === undefined) continue;
+        if (text.length > 100) problems.push(`${t.id}#${i}: over 100 characters`);
+        if ((text.match(/[.!?](s|$)/g) ?? []).length > 2)
+          problems.push(`${t.id}#${i}: over two sentences`);
+      }
+    });
+    for (const k of Object.keys(t.childLines)) {
+      const [id, n] = k.split('#');
+      if (id !== t.id || !t.lines[Number(n)]) problems.push(`${t.id}: childLines key ${k}`);
+    }
+  }
+  for (const [region, n] of perRegion)
+    if (n < 3) problems.push(`traces: ${region} has ${n}, needs at least 3`);
+}
 console.log(
   JSON.stringify(
     {
