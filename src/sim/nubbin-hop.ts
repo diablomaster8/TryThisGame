@@ -209,3 +209,18 @@ export function perchSpot(world: World, n: Nubbin): Vec2 | null {
   }
   return best;
 }
+
+/** MOVE-43: the nearest wild bush for a Shy Nubbin to sit in, or null. */
+export function bushSpot(world: World, n: Nubbin, radius: number): Vec2 | null {
+  let best: Vec2 | null = null;
+  let bestD = radius;
+  for (const c of obstacles(world)) {
+    if (!c.flags.includes('soft') || !c.id.startsWith('wild-')) continue;
+    const d = Math.hypot(c.x - n.pos.x, c.z - n.pos.z);
+    if (d < bestD) {
+      bestD = d;
+      best = { x: c.x, z: c.z };
+    }
+  }
+  return best;
+}

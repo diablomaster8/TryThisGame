@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
 import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
+import { rustleWild } from './wild';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -956,6 +957,7 @@ export class Actors {
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
     this.squashKeeper(keeper, nowMs);
+    if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

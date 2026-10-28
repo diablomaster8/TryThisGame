@@ -113,3 +113,20 @@ export const RUN_MODE = {
   dustRunMs: 140,
   dustWalkMs: 260,
 } as const;
+
+/**
+ * MOVE-43: soft bushes. Walking into one rustles it (Pixel and 3D shake `shakeMs` at
+ * `shakeAmp` units, about 3× the wind) and sheds leaves `leafChance` of the time. Each bush
+ * may hide one shell, found once per save: the chance on a visit is `findPerHour` per sim
+ * hour since the bush was last looked in. A Shy Nubbin picks a bush to sit in `shyChance`
+ * of its idle choices (`shyRadius` units round it).
+ */
+export const BUSH = {
+  shakeMs: 400,
+  shakeAmp: 0.08,
+  leafChance: 0.1,
+  findPerHour: 0.02,
+  findShells: 1,
+  shyChance: 0.3,
+  shyRadius: 10,
+} as const;

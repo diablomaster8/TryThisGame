@@ -8,6 +8,7 @@ import * as THREE from 'three';
 import { GROVE } from '../config/tuning';
 import { WILD_PROPS, type WildProp } from '../config/grove-layout';
 import { WILD_3D as T } from '../config/tuning-move-wild';
+import { BUSH } from '../config/tuning-move';
 import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
@@ -75,6 +76,7 @@ function instanced(
 
 /** Bushes, logs and rocks as instanced meshes, added to `group`. */
 export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
+  bushRest.length = 0;
   const bushes: { m: THREE.Matrix4; c: THREE.Color }[] = [];
   const logs: typeof bushes = [];
   const rocks: typeof bushes = [];
@@ -103,6 +105,13 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
     const yaw = hash(i, 1) * Math.PI * 2;
     if (isBush(p)) {
       const r = p.size * T.bushRadius;
+      bushRest.push({
+        m: matrix(p.x, y + r * T.bushSquash * 0.55, p.z, yaw, r, r * T.bushSquash, r),
+        x: p.x,
+        z: p.z,
+        // The collider's radius (MOVE-03), plus the Keeper's half-width.
+        r: 0.3 * p.size + 0.2,
+      });
       bushes.push({
         m: matrix(p.x, y + r * T.bushSquash * 0.55, p.z, yaw, r, r * T.bushSquash, r),
         c: tint(T.bushColours[i % T.bushColours.length]!, i),
@@ -137,10 +146,50 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
   });
   const logMat = pbr(tex.bark, { scale: 0.8 });
   const rockMat = pbr(tex.rock, { scale: 0.6 });
+  bushMesh = instanced(blob, bushMat, bushes, 'wild-bushes');
+  bushShakes.clear();
   for (const m of [
-    instanced(blob, bushMat, bushes, 'wild-bushes'),
+    bushMesh,
     instanced(cyl, logMat, logs, 'wild-logs'),
     instanced(rockGeo, rockMat, rocks, 'wild-rocks'),
   ])
     if (m) group.add(m);
+}
+
+// MOVE-43: the bushes the Keeper rustles. The instanced mesh, each bush's resting matrix
+// and spot, and the shakes under way (by instance), filled when the ground is built.
+let bushMesh: THREE.InstancedMesh | null = null;
+const bushRest: { m: THREE.Matrix4; x: number; z: number; r: number }[] = [];
+const bushShakes = new Map<number, number>();
+const shakeM = new THREE.Matrix4();
+
+/**
+ * Shake a bush the Keeper walks into (once per entry), and run the shakes under way. Read
+ * from the Keeper's drawn spot each frame, so it needs no sim event; a few compares when
+ * nothing shakes. `calm` (reduced motion) never shakes.
+ */
+export function rustleWild(x: number, z: number, moving: boolean, nowMs: number, calm: boolean) {
+  if (!bushMesh || calm) return;
+  if (moving)
+    bushRest.forEach((b, k) => {
+      const inside = Math.hypot(b.x - x, b.z - z) < b.r;
+      if (inside && !bushShakes.has(k)) bushShakes.set(k, nowMs);
+    });
+  if (!bushShakes.size) return;
+  for (const [k, at] of bushShakes) {
+    const b = bushRest[k]!;
+    const t = (nowMs - at) / BUSH.shakeMs;
+    // Stay marked (still) while the Keeper is still inside, so one entry is one shake.
+    const inside = Math.hypot(b.x - x, b.z - z) < b.r;
+    if (t >= 1) {
+      bushMesh.setMatrixAt(k, b.m);
+      if (!inside) bushShakes.delete(k);
+      continue;
+    }
+    const off = Math.sin(t * Math.PI * 6) * BUSH.shakeAmp * (1 - t);
+    shakeM.copy(b.m);
+    shakeM.elements[12]! += off;
+    bushMesh.setMatrixAt(k, shakeM);
+  }
+  bushMesh.instanceMatrix.needsUpdate = true;
 }

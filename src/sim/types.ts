@@ -751,6 +751,8 @@ export interface World {
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
+  /** MOVE-43: bushes already searched (one find each per save) and when each was last looked in. */
+  bushFinds?: { found: string[]; checked: Record<string, number> };
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -1008,6 +1010,8 @@ export type SimEvent =
   | { kind: 'landed'; nubbinId: string }
   // MOVE-30: a Nubbin hopped (up, down, over or for joy).
   | { kind: 'nubbinHop'; nubbinId: string }
+  /** MOVE-43: the Keeper pushed into a bush; `leaves` sheds a few, `found` a hidden shell. */
+  | { kind: 'bushRustle'; id: string; x: number; z: number; leaves: boolean; found: boolean }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */

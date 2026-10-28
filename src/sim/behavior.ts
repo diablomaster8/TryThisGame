@@ -34,9 +34,10 @@ import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
-import { clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
-import { perchTopAt } from './obstacles';
+import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
+import { perchTopAt, softAt } from './obstacles';
 import { NUBBIN_JUMP } from '../config/tuning';
+import { BUSH } from '../config/tuning-move';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
 import type { BehaviorState, Flavor, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
@@ -387,6 +388,20 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     if (spot) {
       setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
       n.behavior.target = spot;
+      return;
+    }
+  }
+  // MOVE-43: a Shy Nubbin likes to sit tucked in a bush: it goes to one, then sits there.
+  if (n.personality === 'shy' && n.stage !== 'egg') {
+    const tucked = softAt(n.pos, world, 0);
+    if (tucked && rng.chance(0.7)) {
+      setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs));
+      return;
+    }
+    const bush = !tucked && rng.chance(BUSH.shyChance) ? bushSpot(world, n, BUSH.shyRadius) : null;
+    if (bush) {
+      setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
+      n.behavior.target = bush;
       return;
     }
   }

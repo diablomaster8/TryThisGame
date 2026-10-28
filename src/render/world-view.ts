@@ -13,7 +13,7 @@ import { keeperFooting, keeperGliding } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { BUSH, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -108,6 +108,8 @@ export class WorldView {
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
+  /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
+  private readonly bushShakes = new Map<string, number>();
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
   /** Per-frame scratch sets, cleared and reused rather than allocated every frame. */
@@ -393,7 +395,12 @@ export class WorldView {
     for (const e of events) {
       this.burstFor(e);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
-      else if (e.kind === 'keeperLanded') {
+      else if (e.kind === 'bushRustle') {
+        // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
+        if (!this.particles.reduceMotion) this.bushShakes.set(`${e.x},${e.z}`, nowMs);
+        if (e.leaves && !this.particles.reduceMotion)
+          this.particles.burst('leaf', e.x, 0.6, e.z, 4, { spread: 0.4, rise: 0.6, lifeMs: 900 });
+      } else if (e.kind === 'keeperLanded') {
         this.keeperLandAt = nowMs;
         this.keeperLandMs =
           e.fall > KEEPER_JUMP_FX.plopFall ? KEEPER_JUMP_FX.plopMs : JUMP.landSquashMs;
@@ -589,9 +596,16 @@ export class WorldView {
         const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
         if (!rect) continue;
         // K35: bushes take the wind's two-frame sway.
-        const sway =
+        let sway =
           (s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0) +
           (s.kind.startsWith('bush') ? windSway(s.x, nowMs) : 0);
+        // MOVE-43: a rustled bush shakes for a moment, fading out.
+        const shook = this.bushShakes.size ? this.bushShakes.get(`${s.x},${s.z}`) : undefined;
+        if (shook !== undefined) {
+          const t = (nowMs - shook) / BUSH.shakeMs;
+          if (t >= 1) this.bushShakes.delete(`${s.x},${s.z}`);
+          else sway += Math.sin(t * Math.PI * 6) * BUSH.shakeAmp * (1 - t);
+        }
         if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) {
           shadow(
             s.x + s.size * 0.08,

@@ -8,6 +8,7 @@ import {
   GLIDE,
   JUMP_PLAY,
   KEEPER_SLOPE,
+  BUSH,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -498,6 +499,26 @@ export function slopePace(x: number, z: number, dx: number, dz: number): number 
   return Math.min(KEEPER_SLOPE.max, Math.max(KEEPER_SLOPE.min, f));
 }
 
+// MOVE-43: the bush the Keeper is in, so only stepping into one rustles it.
+const inBush = new WeakMap<World, string>();
+
+/** Rustle a bush the Keeper has just pushed into; maybe shed leaves, maybe find its shell. */
+function rustleBush(world: World, bush: { id: string; x: number; z: number }, events: SimEvent[]) {
+  const finds = (world.bushFinds ??= { found: [], checked: {} });
+  const hours = (world.timeMs - (finds.checked[bush.id] ?? 0)) / 3_600_000;
+  finds.checked[bush.id] = world.timeMs;
+  const [leaves, lucky] = withRng(world, (r) => [
+    r.chance(BUSH.leafChance),
+    r.chance(Math.min(1, BUSH.findPerHour * hours)),
+  ]);
+  const found = lucky && !finds.found.includes(bush.id);
+  if (found) {
+    finds.found.push(bush.id);
+    world.inventory.shells += BUSH.findShells;
+  }
+  events.push({ kind: 'bushRustle', id: bush.id, x: bush.x, z: bush.z, leaves, found });
+}
+
 // MOVE-42: the tap target a walk was judged for, and whether it runs (Auto-run, long walks).
 const tapRuns = new WeakMap<World, { at: Vec2; run: boolean }>();
 
@@ -689,6 +710,14 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.intent = null;
     }
     holdAtLedges(k, fromX, fromZ);
+    // MOVE-43: stepping into a bush (on foot, not over it) rustles it.
+    if (going && k.grounded) {
+      const now = softAt(k.pos, world);
+      const was = inBush.get(world);
+      if (now && now.id !== was && now.id.startsWith('wild-')) rustleBush(world, now, events);
+      if (now) inBush.set(world, now.id);
+      else if (was) inBush.delete(world);
+    }
     // A soft piece does not stop the Keeper; once it stops walking it eases back out.
     const idle = !k.moveTarget && !k.intent && k.input.x === 0 && k.input.z === 0;
     const bush = idle ? softAt(k.pos, world) : null;

@@ -19,3 +19,8 @@ export const RUN_TEXT = {
   autoRun: 'Auto-run long walks',
   autoRunHelp: 'Tap walks longer than ten steps run by themselves.',
 } as const;
+
+/** MOVE-43: a one-time find in a bush. */
+export const BUSH_TEXT = {
+  found: 'Something was tucked in the bush: a shell!',
+} as const;

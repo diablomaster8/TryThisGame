@@ -2,7 +2,7 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import { MOVE_TEXT } from '../config/strings-move';
+import { BUSH_TEXT, MOVE_TEXT } from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -967,6 +967,10 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'bushRustle' && e.found) {
+          // MOVE-43: a bush's one-time find.
+          playSound('pickup');
+          toast(BUSH_TEXT.found);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');
