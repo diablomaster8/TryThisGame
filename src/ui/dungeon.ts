@@ -87,7 +87,8 @@ export class DungeonMenu {
   refresh(world: World): void {
     const run = world.location === 'dungeon' ? world.dungeon : null;
     this.bar.hidden = !run;
-    this.map.refresh(world);
+    // The overlay map turns with the camera (R0154).
+    this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     if (!run) return;
     this.barText.textContent = `${DUNGEON_TEXT.floor(run.depth)} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
   }

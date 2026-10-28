@@ -10,3 +10,25 @@
 .hollow-bout .modal-head h2::before {
   content: '❗ ';
 }
+
+/*
+ * The automap over the cave (R0154): full screen, behind the rest of the HUD, never taking
+ * a tap. Its opacity is set from tuning in hollow-map.ts. It hides with the floor bar while
+ * a story line is up.
+ */
+.hollow-automap {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+.hollow-automap[hidden],
+.hollow-map-canvas[hidden] {
+  display: none;
+}
+.dialogue-open .hollow-automap,
+.story-queued .hollow-automap {
+  visibility: hidden;
+}

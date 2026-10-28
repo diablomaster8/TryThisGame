@@ -54,3 +54,26 @@ export const ACT_TEXT: Record<string, { name: string; blurb: string; boss: strin
     boss: 'The Hushkeeper',
   },
 };
+
+/**
+ * The automap (R0154): the map button's three states, the full-screen overlay's label, and
+ * the legend's names. `HOLLOW_MAP_TEXT` in strings.ts keeps the corner map's older words.
+ */
+export const HOLLOW_AUTOMAP_TEXT = {
+  /** The button's label for the state the map is in now; a tap moves to the next one. */
+  button: { off: 'Map: off', corner: 'Map: corner', overlay: 'Map: over the cave' },
+  /** Shown as the button's tooltip on desktop. */
+  keys: 'Map (M corner, Tab over the cave)',
+  overlay: (floor: number) => `Map of floor ${floor}, over the cave`,
+  you: 'You',
+  party: 'Party',
+  up: 'Stairs up',
+  down: 'Stairs down',
+  chest: 'Chest',
+  waypoint: 'Waypoint',
+  portal: 'Portal',
+  shrine: 'Shrine',
+  unique: 'Someone special',
+  quest: 'Quest',
+  way: 'Show me the way',
+} as const;
