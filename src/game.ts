@@ -9,7 +9,7 @@ import {
   watchOtherTabs,
   writeSave,
 } from './platform/storage';
-import { OrbitCamera, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
+import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
 import { daylightAt, localHour } from './render/daylight';
 import { litLanterns } from './sim/campaign';
 import { GroveScene } from './render/grove-scene';
@@ -438,7 +438,8 @@ export class Game {
     const speed = Math.hypot(vx, vz);
     // A teleport is not a walk; nor is anything during a scene.
     const norm = staged || speed > KEEPER.speed * 4 ? 0 : Math.min(1, speed / KEEPER.speed);
-    const want = speed > 1e-6 ? (F.lookAhead * norm) / speed : 0;
+    const lead = walkLead(this.camera, F.lookAhead, k.carrying !== null);
+    const want = speed > 1e-6 ? (lead * norm) / speed : 0;
     const e = reduce0(this.reduceMotion, dt, F.lookAheadRate);
     this.ahead.x += (vx * want - this.ahead.x) * e;
     this.ahead.z += (vz * want - this.ahead.z) * e;

@@ -1,5 +1,6 @@
 import { MathUtils, OrthographicCamera, Vector3 } from 'three';
 import { CAMERA, RENDER } from '../config/tuning';
+import { CAMERA_LEAD } from '../config/tuning-world';
 
 // ---------- pure helpers (unit tested) ----------
 
@@ -21,6 +22,26 @@ export function shortestAngleDelta(from: number, to: number): number {
 }
 
 /** Visible world height for an orthographic camera at a given pixels-per-unit zoom. */
+/**
+ * WORLD-18: how far ahead of a walking Keeper the camera aims, in world units. A portrait
+ * phone shows under 12 units across, so the shared look-ahead (`base`, MOVE-23) leaves under
+ * two seconds of what is coming; there the lead is a share of the view's width, kept a margin
+ * inside its edge. Landscape and desktop views keep `base`; carrying a Nubbin, nothing leads.
+ */
+export function walkLead(
+  view: { readonly visibleWidth: number; readonly visibleHeight: number },
+  base: number,
+  carrying: boolean,
+): number {
+  if (carrying) return 0;
+  if (view.visibleWidth >= view.visibleHeight) return base;
+  const lead = Math.min(
+    CAMERA_LEAD.share * view.visibleWidth,
+    view.visibleWidth / 2 - CAMERA_LEAD.edge,
+  );
+  return Math.max(base, lead);
+}
+
 export function computeViewHeight(
   targetHeight: number = RENDER.targetHeight,
   pixelsPerUnit: number,
