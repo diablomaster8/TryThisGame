@@ -1,12 +1,13 @@
 import { SPEAKERS } from '../config/story';
 import { STORY } from '../config/tuning';
 import { clampToWorld } from './behavior';
+import { walkPath } from './nav';
 import { spawnNpc } from './npcs';
 import { resolve } from './obstacles';
 import { sceneById, sideStory } from './story-scenes';
 import { sceneOwner } from './story-state';
 import { TRAINERS } from './trainers';
-import type { CampaignState, Npc, Season, World } from './types';
+import type { CampaignState, Npc, Season, Vec2, World } from './types';
 
 /**
  * Who stands in the Grove while Hazel's Grove plays (review 2026-10-24, item 3), and the
@@ -78,4 +79,15 @@ export function syncSceneGuests(world: World, c: CampaignState): void {
     npc.target = null;
     npc.guest = true;
   });
+}
+
+/**
+ * Corners a staged walk-on takes from `from` to `to` (R0036): empty when the straight line
+ * crosses no solid, or the place has no Grove colliders (the Hollow, Corvin's garden).
+ * Computed here, once per walk at scene start; the stagers only read the result.
+ */
+export function walkOnRoute(world: World, from: Vec2, to: Vec2): Vec2[] {
+  const loc = world.location;
+  if (loc !== 'grove' && !loc.startsWith('visit:')) return [];
+  return walkPath(world, from, to, 'keeper');
 }
