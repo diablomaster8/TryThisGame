@@ -944,6 +944,8 @@ export type SimEvent =
   | { kind: 'keeperLanded'; fall: number }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
+  /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
+  | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string }

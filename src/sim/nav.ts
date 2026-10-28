@@ -396,6 +396,15 @@ export function autoHopOn(world: World): boolean {
   return world.settings.autoHop ?? !!world.edu;
 }
 
+/**
+ * MOVE-35: whether the target cell would be reached with Auto-hop's jumps (a terrace top,
+ * the far side of a fence). Plans once, on a refused tap only.
+ */
+export function hopReaches(world: World, from: Vec2, target: Vec2): boolean {
+  const r = plan(grid(world), from, target, DOUBLE);
+  return !!r && Math.hypot(r.end.x - target.x, r.end.z - target.z) < CELL;
+}
+
 /** Forget the Keeper's route (a new tap, a teleport). */
 export function clearGroveRoute(world: World): void {
   routes.delete(world);

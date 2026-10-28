@@ -28,7 +28,9 @@ export type SoundName =
   | 'hop'
   | 'hopAir'
   | 'pat'
-  | 'plop';
+  | 'plop'
+  // MOVE-35: a soft bonk when a tap cannot be reached.
+  | 'bonk';
 
 export type SongName =
   | 'title'
@@ -870,6 +872,9 @@ export function playSound(name: SoundName): void {
         break;
       case 'pat':
         tone(180, 0, 45, 'triangle', 0.05, 120);
+        break;
+      case 'bonk':
+        tone(220, 0, 70, 'triangle', 0.05, 150);
         break;
       case 'plop':
         tone(260, 0, 70, 'sine', 0.06, 160);

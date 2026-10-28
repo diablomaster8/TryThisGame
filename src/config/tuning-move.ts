@@ -71,3 +71,9 @@ export const JUMP_PLAY = {
 
 /** MOVE-26: on a standable top at least `minTop` up, the camera looks `lift` higher. */
 export const PERCH = { minTop: 0.5, lift: 0.4, rate: 3 } as const;
+
+/**
+ * MOVE-35: the "Can't get there" toast shows at most once per `toastEveryMs`; a shut-in
+ * tap's stand-in point counts as reached within `standInReach`.
+ */
+export const UNREACHABLE = { toastEveryMs: 20_000, standInReach: 0.45 } as const;

@@ -2,8 +2,8 @@ import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obst
 import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
-import { autoHopOn, groveLeg } from './nav';
-import { AUTO_HOP, GLIDE, JUMP_PLAY } from '../config/tuning-move';
+import { autoHopOn, groveLeg, hopReaches } from './nav';
+import { AUTO_HOP, GLIDE, JUMP_PLAY, UNREACHABLE } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -285,6 +285,12 @@ function autoHop(world: World, dx: number, dz: number): void {
   } else if (k.vy <= 0 && k.airJumps > 0 && rise > 0) autoPress(world);
 }
 
+/**
+ * MOVE-35: stand-in targets for shut-in taps. A nav cell is open a little closer to a wall
+ * than the Keeper's body fits, so these count as reached from a little further off.
+ */
+const standIns = new WeakSet<Vec2>();
+
 /** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
 const autoPressed = new WeakSet<World>();
 
@@ -533,7 +539,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       // On land the Keeper walks up to arm's length; from the shore, a swimming Nubbin is
       // within reach however far out it is.
       const reach = !k.intent
-        ? KEEPER.arriveRadius
+        ? standIns.has(raw!)
+          ? UNREACHABLE.standInReach
+          : KEEPER.arriveRadius
         : target !== raw
           ? KEEPER.interactRadius + GROVE.pond.r
           : KEEPER.interactRadius;
@@ -574,10 +582,19 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         const leg = groveLeg(world, k.pos, target);
         if (!leg || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
+          // MOVE-35: a plain tap with nowhere reachable near it says so.
+          else events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
           k.intent = null;
           k.moveTarget = null;
         } else {
-          if (!k.intent && leg.end !== target) k.moveTarget = leg.end;
+          if (!k.intent && leg.end !== target) {
+            // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
+            // with a hint when a jump would get there.
+            k.moveTarget = leg.end;
+            standIns.add(leg.end);
+            const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
+            events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
+          }
           const to = leg.next;
           const td = Math.max(dist(k.pos, to), 1e-6);
           // It eases in over the last stretch to where it stops (MOVE-20).

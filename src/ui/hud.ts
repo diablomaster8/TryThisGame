@@ -1,5 +1,6 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
-import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
+import { MOVE_TEXT } from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -84,6 +85,9 @@ import { TRAINER_LABELS as TL } from '../config/strings';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, ObjectiveChip } from './objective';
+
+/** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
+let lastUnreachableToast = -Infinity;
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -937,6 +941,14 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'moveUnreachable') {
+          // MOVE-35: a gentle bonk every time, the words at most once a while.
+          playSound('bonk');
+          const now = performance.now();
+          if (now - lastUnreachableToast >= UNREACHABLE.toastEveryMs) {
+            lastUnreachableToast = now;
+            toast(e.jump ? MOVE_TEXT.jumpUpThere : MOVE_TEXT.cantGoThere);
+          }
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));
