@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DUNGEON, SIM } from '../../src/config/tuning';
-import { bestAllyAction } from '../../src/sim/battle';
+import { bestAllyAction, combatantOf, rivalLevel } from '../../src/sim/battle';
 import { cellCentre, runFloor } from '../../src/sim/dungeon';
 import { boutOutcome, HOLLOW_BATTLE_SOURCE } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
@@ -65,7 +65,19 @@ describe('Hollow encounters on the battle core', () => {
     const members = runFloor(world)!
       .packs!.find((p) => p.id === id)!
       .members.slice(0, world.dungeon!.party.length);
-    expect(b.context.foes).toEqual(members.map((m) => ({ species: m.species, level: m.level })));
+    // No foe above a dojo rival of the same tier for this party.
+    const cap = rivalLevel(
+      world.dungeon!.party.map((pid) =>
+        combatantOf(
+          world.nubbins.find((n) => n.id === pid)!,
+          world,
+        ),
+      ),
+      b.context.tier,
+    );
+    expect(b.context.foes).toEqual(
+      members.map((m) => ({ species: m.species, level: Math.min(m.level, cap) })),
+    );
     expect(b.sides[1].map((c) => c.species)).toEqual(members.map((m) => m.species));
     // Asked again every step, the handler never starts a second bout.
     step(world, 1000);
