@@ -15,6 +15,8 @@ import {
 import { C, color } from '../../src/render/sprites/palette';
 import { LINEUP_LOOKS } from '../../src/samples/nubbin-variants-lineup';
 import { NUBBIN_SPEC } from '../../src/samples/species-data';
+import { SPECIES_ART } from '../../src/render/sprites/species-art';
+import { artSpec } from '../../src/render3d/art-species';
 
 /**
  * Likeness checks on the Chao-line 3D specs (LOOK-67): small data tests that catch the
@@ -172,5 +174,22 @@ describe('likeness suite (LOOK-67)', () => {
     const pixel = Object.keys(CHARACTER_LOOKS).sort();
     const sculpted = LINEUP_LOOKS.map((v) => v.id).sort();
     expect(pixel).toEqual(sculpted);
+  });
+});
+
+describe('species eyes in 3D (LOOK-40)', () => {
+  it('gives each pixel eye type its own 3D eye', () => {
+    const byType = new Map<string, string>();
+    for (const [id, art] of Object.entries(SPECIES_ART)) {
+      if (art.irisColor || byType.has(art.eyes)) continue;
+      const e = artSpec(id, art).eyes;
+      byType.set(art.eyes, JSON.stringify([e.style, e.lid, e.irisScale, e.tall, e.roll]));
+    }
+    expect(byType.size).toBeGreaterThanOrEqual(5);
+    expect(new Set(byType.values()).size).toBe(byType.size);
+  });
+
+  it('keeps a species iris colour where it is part of the likeness', () => {
+    expect(artSpec('dinolet', SPECIES_ART.dinolet!).eyes.iris).toBe('#58a838');
   });
 });

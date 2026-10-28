@@ -168,6 +168,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     gen1b: ['ghostHands', 'grin', 'float'],
   }),
   spookgrin: spec(pal(C.violet, C.moonPurple, C.lavender, C.violet, C.ember), {
+    irisColor: '#d8202a',
     size: 1.1,
     ears: 'catTips',
     crest: 'spikesTop',
@@ -536,6 +537,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- the psychic pair ----
   psyclone: spec(pal(C.pale, C.lilacGrey, C.violet, C.violet, C.violet), {
+    irisColor: '#7a3ac0',
     plan: 'tall',
     size: 1.15,
     ears: 'catTips',

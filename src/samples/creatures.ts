@@ -655,6 +655,9 @@ function chaoIrisTexture(color: string): THREE.CanvasTexture {
   return t;
 }
 
+/** How an eye is drawn: the creature-collector default, or a Chao, bead or cute eye. */
+export type EyeStyle = 'anime' | 'chao' | 'dot' | 'cute';
+
 /** The movable pieces of one eye, for blinks and expressions. */
 export interface EyeRig {
   group: THREE.Group;
@@ -692,11 +695,17 @@ export function eye(
   irisScale = 0.8,
   pitch = 0,
   tall = 1.2,
-  /** `chao`: a solid dark oval with two white glints and no sclera (LOOK-02); `side` puts the big glint outward. */
-  style: 'anime' | 'chao' = 'anime',
+  /**
+   * `chao`: a solid dark oval with two white glints and no sclera (LOOK-02); `dot`: a small
+   * black bead with one glint; `cute`: a big flat dark iris in a thin white rim with two
+   * glints (LOOK-40). `side` puts the big glint outward.
+   */
+  style: EyeStyle = 'anime',
   side = 1,
 ): EyeRig {
-  const chao = style === 'chao';
+  const flatIris = style !== 'anime';
+  const noSclera = style === 'chao' || style === 'dot';
+  const twoGlints = style === 'chao' || style === 'cute';
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.set(pitch, yaw, 0);
@@ -710,7 +719,7 @@ export function eye(
       new THREE.SphereGeometry(r, 36, 28),
       // A Chao eye has no white: the dome takes the iris colour so no rim of sclera shows.
       flat(
-        chao
+        noSclera
           ? new THREE.MeshPhysicalMaterial({ color: iris, roughness: 0.45, envMapIntensity: 0.25 })
           : glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 }),
       ),
@@ -769,14 +778,14 @@ export function eye(
     domeDisc(r * irisScale, tall * 0.96, 0, -r * 0.02, r * 0.012),
     // A Chao eye is a matte painted oval: no clearcoat mirror of the sky over it.
     new THREE.MeshPhysicalMaterial({
-      ...(chao ? { envMapIntensity: 0.25 } : {}),
-      map: chao ? chaoIrisTexture(iris) : irisTexture(iris),
+      ...(flatIris ? { envMapIntensity: 0.25 } : {}),
+      map: flatIris ? chaoIrisTexture(iris) : irisTexture(iris),
       emissive: '#ffffff',
-      emissiveMap: chao ? chaoIrisTexture(iris) : irisTexture(iris),
+      emissiveMap: flatIris ? chaoIrisTexture(iris) : irisTexture(iris),
       emissiveIntensity: 0.3,
       transparent: true,
-      roughness: chao ? 0.45 : 0.05,
-      clearcoat: chao ? 0 : 1,
+      roughness: flatIris ? 0.45 : 0.05,
+      clearcoat: flatIris ? 0 : 1,
       clearcoatRoughness: 0.04,
     }),
   );
@@ -795,15 +804,17 @@ export function eye(
     opacity: 0.92,
   });
   const gloss = new THREE.Mesh(
-    chao
+    twoGlints
       ? domeDisc(r * 0.32, 1, side * r * 0.35, r * 0.38 * tall, r * 0.02)
-      : domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
+      : style === 'dot'
+        ? domeDisc(r * 0.24, 1, side * r * 0.28, r * 0.3 * tall, r * 0.02)
+        : domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
     glossMat,
   );
   gloss.castShadow = false;
   g.add(gloss);
   const glints: THREE.Mesh[] = [];
-  if (chao) {
+  if (twoGlints) {
     const small = new THREE.Mesh(
       domeDisc(r * 0.12, 1, -side * r * 0.32, -r * 0.18 * tall, r * 0.025),
       glossMat,
@@ -880,7 +891,7 @@ export function eye(
   brow.userData.baseY = r * tall * 1.1;
   brow.userData.r = r;
   brow.castShadow = false;
-  if (chao) brow.visible = false;
+  if (style !== 'anime') brow.visible = false;
   parent.add(g);
   return {
     group: g,

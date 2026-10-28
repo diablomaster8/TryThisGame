@@ -14,6 +14,7 @@ import {
   toonMaterial,
   type Creature,
   type EyeRig,
+  type EyeStyle,
   type Shade,
   type SurfaceOpts,
 } from './creatures';
@@ -240,8 +241,10 @@ export interface SpeciesSpec {
     tall?: number;
     /** `false` leaves the brow ridge off (the line-up's figures have none). */
     brow?: boolean;
-    /** `chao`: solid dark ovals with two white glints, no sclera and no brows (the Chao line). */
-    style?: 'anime' | 'chao';
+    /** `chao`: solid dark ovals with two glints, no sclera, no brows; `dot`, `cute` (LOOK-40). */
+    style?: EyeStyle;
+    /** Roll of each eye, outer end up, radians: a slanted angry eye (LOOK-40). */
+    roll?: number;
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
   };
@@ -1010,6 +1013,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     );
     r.group.rotateY(side * e.yaw);
     r.group.rotateX(e.pitch ?? 0);
+    if (e.roll) r.group.rotateZ(side * e.roll);
     lids.push(r.lid);
     r.brow.userData.side = side;
     if (e.brow === false) r.brow.visible = false;

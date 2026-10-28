@@ -92,6 +92,8 @@ export interface CreatureSpec {
   arms: Arms;
   legs: Legs;
   eyes: Eyes;
+  /** The 3D iris colour where it is part of the likeness (Agumon green, Gengar red); the eye colour otherwise. */
+  irisColor?: string;
   marks: Mark[];
   /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
   extras?: readonly KitExtra[];
