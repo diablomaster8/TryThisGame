@@ -40,12 +40,34 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Lane E: LOOK creature looks (2026-10-28, branch lane/e, not pushed)
 
-Plan: the R0370–R0441 items whose files are only `src/render/sprites/`, `src/samples/`,
-`src/render3d/art-species*.ts` and `tests/render/`, in R order. Chao line first (R0371 tip,
-R0372 eyes, R0373 proportions, R0380 crown, R0381 marks, R0382 wings, R0384 feet, R0418 Moon,
-R0390 rock, R0433 mouths, R0434 child parts, R0435 likeness tests); a helper agent on
-`lane/e-pocket` takes R0376 multi-heads and R0416 ghosts. Deferred: R0370 and every item
-that needs `render3d/actors.ts`, `looks*`, `dress*` or `render/world-view.ts`.
+Chao-line, pocket and digital looks from the R0370–R0441 list, only in `src/render/sprites/`,
+`src/samples/`, `src/render3d/art-species*.ts` and `tests/render/`. Helper branch
+`lane/e-pocket` (R0376, R0416) is merged in. Screenshots: `docs/samples/lane-e/`.
+
+**What works.** 3D Chao: a yellow tip egg on a crown swept back in two cones, kept clear of
+every mark (R0371, R0380 shape); solid dark Chao eyes with two glints, no sclera or brows,
+matte (`eyes.style: 'chao'`, R0372); head 0.82 wide on a 0.6 torso, 1.37x (R0373); belly,
+blush and star now opt-in (`NUBBIN_EXTRA_MARKS`), blush only while petted in both modes, belly
+patch only on two-tone eggs (`ChaoColors.bellyPatch` in pixel, R0381); cream leaf wings past
+the shoulders with idle flutter bursts, one colour in both modes (R0382); nub feet and mitts
+(R0384); Moon adults lifted with a type hue on crown, tip, hands and feet, pixel rim (R0418);
+the waddle (`waddle` field, pixel head rock, R0390); Chao mouths (R0433); children's critter
+parts at 0.8 (R0434); pixel character looks matched to the line-up plus Quills and Shade
+(R0396); per-species 3D eyes (`dot`, `cute`, angry roll, `irisColor`, R0406); multi-head
+species with equal heads on necks (R0376) and floating ghosts with gas (R0416).
+`tests/render/likeness.test.ts` is the likeness suite (R0435).
+
+**Stubbed / left.** The crown spring bone (R0380 rig); the per-band toon rim light (R0418);
+personality scaling of the waddle and the 0.8→1 part grow at evolution (need
+`render3d/actors.ts`); slit pupils (R0406); the likeness test's `quad` plan check (no
+reference table yet). Deferred: R0370 sit pose and the other actors/looks/dress/world-view
+items, R0388 type silhouettes, R0405 Gen-1 top 20, R0436 likeness data.
+
+**Known bugs / assumptions.** Wing colour `#fff1c9` (palette cream) awaits Maor's OK. Pixel
+character looks follow the 3D line-up figures where the item text disagreed (echidna ears and
+belly patch, dream horn instead of a jester cap). Torso x radius 0.6, not 0.56, to land the
+head at 1.3–1.4x. Unused leftovers: `sideHeads` and the `trio` addon. Under load,
+`species-gen1a-art` sculpt and `nav` timing tests can time out; both pass alone.
 
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
