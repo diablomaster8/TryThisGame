@@ -48,6 +48,7 @@ import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
 import {
   dungeonGo,
+  encounterDone,
   enterDungeon,
   feedStray,
   inParty,
@@ -647,6 +648,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'setLoading':
       setDungeonLoading(world, cmd.on);
+      return;
+    case 'encounterDone':
+      encounterDone(world, cmd.outcome, events);
       return;
     case 'feedStray':
       feedStray(world, cmd.id, events);

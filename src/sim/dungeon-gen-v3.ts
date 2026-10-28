@@ -26,6 +26,7 @@ import {
   type SpecialFloor,
 } from './dungeon';
 import { dressFloor } from './dungeon-gen';
+import { placePacks } from './dungeon-encounters';
 import {
   piecesFor,
   rotateRows,
@@ -665,5 +666,6 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
     boss,
   };
   floor.layout = layout;
+  floor.packs = placePacks(floor, rng, depth, rng.int(level.packs[0], level.packs[1]));
   return floor;
 }

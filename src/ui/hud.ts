@@ -9,6 +9,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
   DUNGEON_TEXT,
+  HOLLOW_TEXT,
 } from '../config/strings';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
@@ -1053,6 +1054,14 @@ export function mountHud(
           toast(e.ok && e.name ? DUNGEON_TEXT.strayFed(e.name) : DUNGEON_TEXT.strayNeedsFruit);
         } else if (e.kind === 'strayStartled') {
           toast(DUNGEON_TEXT.strayStartled(e.shells));
+        } else if (e.kind === 'packBeaten') {
+          // Monster packs (lane B, R0146).
+          toast(HOLLOW_TEXT.packBeaten(e.shells));
+          playSound('buy');
+        } else if (e.kind === 'partyGiggles') {
+          toast(HOLLOW_TEXT.partyGiggles);
+        } else if (e.kind === 'packFled') {
+          toast(HOLLOW_TEXT.packFled);
         } else if (e.kind === 'wildScanned') {
           toast(DUNGEON_TEXT.wildScanned(keyLabel(e.species)));
         } else if (e.kind === 'located') {

@@ -558,10 +558,25 @@ export interface DungeonRun {
   explored: string;
   /** Strays and packs leave the Keeper be until this sim time (R0142). */
   graceUntilMs?: number;
+  /** The floor's monster packs as they stand now (R0146); absent on floors without packs. */
+  packs?: DungeonPack[];
+  /** A fight under way with this pack: the floor holds still until it is answered. */
+  encounter?: { packId: string };
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
+}
+
+/** A monster pack's live state on the current floor (R0146); its make-up is on the floor. */
+export interface DungeonPack {
+  id: string;
+  pos: Vec2;
+  /** Ambling near home, chasing the Keeper, walking back, or beaten (gone home for good). */
+  state: 'idle' | 'chase' | 'home' | 'beaten';
+  target: Vec2 | null;
+  /** When it noticed the Keeper (the "!" beat); -1 before. */
+  noticedMs: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -903,6 +918,7 @@ export type Command =
   | { kind: 'leaveDungeon' }
   | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
   | { kind: 'setLoading'; on: boolean }
+  | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
@@ -1046,6 +1062,11 @@ export type SimEvent =
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null }
   | { kind: 'strayStartled'; shells: number }
+  | { kind: 'packNoticed'; packId: string }
+  | { kind: 'encounterStarted'; packId: string }
+  | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
+  | { kind: 'partyGiggles'; packId: string }
+  | { kind: 'packFled'; packId: string }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 

@@ -14,6 +14,31 @@ export const HOLLOW = {
    * kept for the pixel samples). Saved runs keep the version their floor was made with.
    */
   genVersion: 3,
+  /** Monster packs on version-3 floors (R0146). Radii and spacing in cells. */
+  packs: {
+    minFromEntry: 8,
+    spacing: 6,
+    members: [2, 4] as const,
+    championFrom: 3,
+    championChance: 0.15,
+    aggroRadius: 5,
+    leash: 12,
+    wander: 3,
+    /** World units per second; the chase is a share of the Keeper's walking speed. */
+    wanderSpeed: 0.9,
+    chaseSpeed: 0.8,
+    /** The "!" beat before a chase starts, and how close counts as a bump (world units). */
+    noticeMs: 600,
+    contact: 0.9,
+    fleeGraceMs: 3000,
+    /** The auto-resolve stub: a member's weight on top of its level, the win-chance clamp. */
+    memberBase: 4,
+    winBias: 0.15,
+    winMin: 0.25,
+    winMax: 0.95,
+    rewardShells: 6,
+    rewardPerTier: 4,
+  },
   /**
    * Generator version 3 (R0143, R0144): authored pieces on a grid of slots, a branching
    * walk between them, cave rock roughened around them. The three dungeon levels set the

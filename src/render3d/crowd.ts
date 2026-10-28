@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { npcLookOf, storyId } from '../config/npc-looks';
-import { GROVE3D, READ3D } from '../config/tuning';
+import { GROVE3D, HOLLOW, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
@@ -247,6 +247,32 @@ export function crowdFor(
         pose: s.target ? 'walk' : 'idle',
         sad: !s.target,
       });
+    // Monster packs (lane B, R0146): up to three of a pack's members in a huddle; a hop is
+    // the beat of surprise when one notices the Keeper. Beaten packs have gone home.
+    for (const p of run.packs ?? []) {
+      if (p.state === 'beaten') continue;
+      const spec = floor.packs?.find((q) => q.id === p.id);
+      if (!spec) continue;
+      const moving =
+        p.state !== 'idle' ||
+        (p.target !== null && Math.hypot(p.target.x - p.pos.x, p.target.z - p.pos.z) > 0.1);
+      const facing = p.target ? Math.atan2(p.target.x - p.pos.x, p.target.z - p.pos.z) : 0;
+      const surprised = p.state === 'chase' && world.timeMs - p.noticedMs < HOLLOW.packs.noticeMs;
+      spec.members.slice(0, 3).forEach((m, i) => {
+        const a = facing + Math.PI + (i - 1) * 0.9;
+        const r = i === 0 ? 0 : 0.55;
+        out.push({
+          id: `:`,
+          kind: 'ambient',
+          look: artLook(m.species),
+          x: p.pos.x + Math.sin(a) * r,
+          z: p.pos.z + Math.cos(a) * r,
+          facing,
+          pose: moving ? 'walk' : 'idle',
+          hop: surprised,
+        });
+      });
+    }
     // The floor's wild one keeps to its nook until the Keeper creeps up on it, then is gone
     // (the pixel view stops drawing it once scanned).
     for (const w of run.wild)

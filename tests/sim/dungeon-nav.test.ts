@@ -98,6 +98,8 @@ describe('Hollow tap-to-move', () => {
       const ev: SimEvent[] = [];
       for (const n of world.nubbins) hatch(n, ev, 0);
       applyCommand(world, { kind: 'enterDungeon', daily: false }, ev);
+      // Monster packs (R0146) would start fights mid-walk; this checks the walking only.
+      world.dungeon!.packs = [];
       const f = runFloor(world)!;
       const rng = new Rng(seed * 7919);
       const reach = dryReach(f, cellOf(f, world.keeper.pos));

@@ -4,6 +4,13 @@ import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import {
+  finishEncounter,
+  freshPacks,
+  stepPacks,
+  type EncounterOutcome,
+  type EncounterPack,
+} from './dungeon-encounters';
 import { nubbinWaypoint } from './dungeon-nav';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
@@ -161,6 +168,8 @@ export interface Floor {
   special: SpecialFloor;
   /** How a version-3 floor was assembled from pieces (R0144); absent on older floors. */
   layout?: FloorLayout;
+  /** The floor's monster packs (R0146); absent on floors without them. */
+  packs?: EncounterPack[];
 }
 
 /** A slot's job on a version-3 floor. */
@@ -788,6 +797,9 @@ function populate(run: DungeonRun, f: Floor): void {
   run.pendingPos = null;
   run.fetch = {};
   run.explored = '';
+  if (f.packs) run.packs = freshPacks(f);
+  else delete run.packs;
+  delete run.encounter;
 }
 
 function placeParty(world: World, run: DungeonRun, f: Floor): void {
@@ -937,6 +949,12 @@ export function setDungeonLoading(world: World, on: boolean): void {
     delete run.loading;
     run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
   }
+}
+
+/** The fight the floor was waiting on is over (R0146). */
+export function encounterDone(world: World, outcome: EncounterOutcome, events: SimEvent[]): void {
+  const f = runFloor(world);
+  if (f) finishEncounter(world, f, outcome, events);
 }
 
 /** Walk to the stairs or the chest and use it on arrival. */
@@ -1129,6 +1147,10 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   }
   // Leaving or descending replaced the floor: the rest belongs to the old one.
   if (world.dungeon !== run || runFloor(world) !== f) return;
+
+  // Monster packs (R0146); a fight under way holds the rest of the floor still.
+  stepPacks(world, f, dtMs, rng, events, settling);
+  if (run.encounter || world.dungeon !== run || runFloor(world) !== f) return;
 
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.
   for (const s of run.strays) {
