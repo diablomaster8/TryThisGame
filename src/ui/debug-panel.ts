@@ -1,3 +1,4 @@
+import { worldLine } from './world-debug';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -230,8 +231,6 @@ function frameLine(g: Game): string {
   const things = g.scene3d ? `nubbins ${g.world.nubbins.length}` : `sprites ${g.view.batch.drawn}`;
   return (
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
-    (g.scene3d
-      ? `  lodBias ${g.scene3d.lodBias} budget ${g.scene3d.perfBudget.calls}/${g.scene3d.perfBudget.tris}`
-      : '')
+    `\n${worldLine(g)}`
   );
 }
