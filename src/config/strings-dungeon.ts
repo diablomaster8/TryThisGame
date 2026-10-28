@@ -10,6 +10,12 @@ export const HOLLOW_TEXT = {
     `The pack poofs into sparkles and scurries home. +${shells} Shells`,
   partyGiggles: 'Your party gets the giggles and sits down. Back to the stairs, everything kept.',
   packFled: 'You slip away; the pack wanders home.',
+  /** The pack fight's panel, on the battle core. */
+  boutTitle: 'A pack!',
+  boutBackOff: 'Back off',
+  boutFoes: 'The pack',
+  boutWon: 'The whole pack has toddled home.',
+  boutEnded: 'Everyone backs off and catches their breath.',
   /** The acts' cave-mouth menu (R0145). */
   actsTitle: 'The five Hollows',
   deepHollow: 'The Deep Hollow',

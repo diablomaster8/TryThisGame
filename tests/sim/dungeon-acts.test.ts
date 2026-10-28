@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { ACTS, actStartDepth } from '../../src/config/dungeon-acts';
 import { SIM } from '../../src/config/tuning';
 import { runFloor } from '../../src/sim/dungeon';
 import { actBossDepth, actOpen } from '../../src/sim/dungeon-acts';
+import { autoResolve, setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
 import { deserialize, MIGRATIONS, SAVE_VERSION, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -34,7 +35,10 @@ function takeStairs(world: World): SimEvent[] {
 }
 
 describe('the five acts (R0145)', () => {
+  afterEach(() => setEncounterHandler(null));
+
   it('play through, each boss opening the next act, with the auto-resolve stub', () => {
+    setEncounterHandler(autoResolve);
     const world = keeperWorld();
     for (let act = 0; act < ACTS.length; act++) {
       // The next act stays shut until this one's boss is beaten.

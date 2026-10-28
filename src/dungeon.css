@@ -1,0 +1,12 @@
+/*
+ * The Hollow Below's own screens (lane B). Loaded by the dungeon UI modules, not by
+ * style.css. The pack fight reuses the battle rows from battle.css and sits above the floor's
+ * toasts, so the fight never hides behind them.
+ */
+.hollow-bout {
+  z-index: 40;
+}
+
+.hollow-bout .modal-head h2::before {
+  content: '❗ ';
+}

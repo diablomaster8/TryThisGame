@@ -4,10 +4,13 @@ import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import { forfeitBattleCmd } from './battle';
 import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
 import { actStartDepth } from '../config/dungeon-acts';
 import {
+  boutOutcome,
   finishEncounter,
+  HOLLOW_BATTLE_SOURCE,
   freshPacks,
   stepPacks,
   type EncounterOutcome,
@@ -910,6 +913,10 @@ export function enterDungeon(
 export function leaveDungeon(world: World, events: SimEvent[]): boolean {
   const run = world.dungeon;
   if (!run || world.location !== 'dungeon') return false;
+  // Walking out of a fight gives it up: the bout ends with no prize and nothing on record.
+  const live = world.battle;
+  if (run.encounter && live && !live.result && live.context.kind === 'encounter')
+    if (live.context.source === HOLLOW_BATTLE_SOURCE) forfeitBattleCmd(world, events);
   world.location = 'grove';
   world.dungeon = null;
   const k = world.keeper;
@@ -986,11 +993,30 @@ export function encounterDone(world: World, outcome: EncounterOutcome, events: S
   if (f) finishEncounter(world, f, outcome, events);
 }
 
+/**
+ * The battle core's hook (lane C): a Hollow bout that just ended (`battleEnd` among `fresh`)
+ * finishes its encounter, so the floor moves again and the pack poofs, goes home or wins.
+ */
+export function hollowBattleEnded(world: World, fresh: SimEvent[], events: SimEvent[]): void {
+  const run = world.dungeon;
+  const enc = run?.encounter;
+  const f = runFloor(world);
+  if (!enc || !f) return;
+  for (const e of fresh) {
+    if (e.kind !== 'battleEnd' || e.source !== HOLLOW_BATTLE_SOURCE || e.key !== enc.packId)
+      continue;
+    const boss = f.packs?.find((p) => p.id === enc.packId)?.kind === 'boss';
+    const outcome = boutOutcome({ winner: e.winner, reason: e.reason }, !boss);
+    finishEncounter(world, f, outcome, events, outcome === 'won' ? e.shells : 0);
+    return;
+  }
+}
+
 /** Walk to the stairs or the chest and use it on arrival. */
 export function dungeonGo(world: World, to: 'up' | 'down' | 'chest', events: SimEvent[]): void {
   const run = world.dungeon;
   const f = runFloor(world);
-  if (!run || !f) return;
+  if (!run || !f || run.encounter) return;
   const cell = to === 'up' ? f.stairsUp : to === 'down' ? f.stairsDown : f.chest;
   if (!cell || (to === 'chest' && run.chestOpen)) return;
   const at = cellCentre(f, cell);
@@ -1136,6 +1162,13 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const f = runFloor(world);
   if (!run || !f || dtMs > 1000) return;
   if (run.loading) return;
+  // A fight holds the floor still, the Keeper too (the bout panel is up).
+  if (run.encounter) {
+    world.keeper.moveTarget = null;
+    world.keeper.intent = null;
+    run.pending = null;
+    run.pendingPos = null;
+  }
   const settling = world.timeMs < (run.graceUntilMs ?? 0);
   const dt = dtMs / 1000;
   const k = world.keeper;

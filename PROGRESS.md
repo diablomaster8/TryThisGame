@@ -38,6 +38,13 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 2 · Lane B (DUNG, 2026-10-28, branch r2/b)
+
+Plan: wire Hollow packs to lane C's battle core (`sim/battle/`); then R0148–R0151 in the sim
+(waypoints, stable act seeds with a daily reroll, the Homing Acorn, saved floor state: one save
+bump v8 → v9); subagents on R0147 (outdoor zones) and R0153/R0154 (fog of war, automap); R0032
+(solid set pieces) if it fits. R0031 and R0152 later.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in

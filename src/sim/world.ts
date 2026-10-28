@@ -54,6 +54,7 @@ import {
   dungeonGo,
   encounterDone,
   enterDungeon,
+  hollowBattleEnded,
   feedStray,
   inParty,
   leaveDungeon,
@@ -254,6 +255,9 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
+  // Lane B: a Hollow bout that just ended finishes its encounter on the floor.
+  if (world.dungeon?.encounter && events.length > start)
+    hollowBattleEnded(world, events.slice(start), events);
   // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the

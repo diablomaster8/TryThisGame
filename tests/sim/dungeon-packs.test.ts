@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { DUNGEON, HOLLOW, SIM } from '../../src/config/tuning';
 import { cellCentre, cellDist, floorOf, runFloor } from '../../src/sim/dungeon';
 import { generateV3 } from '../../src/sim/dungeon-gen-v3';
-import { setEncounterHandler } from '../../src/sim/dungeon-encounters';
+import { autoResolve, setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
 import { deserialize, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -88,7 +88,8 @@ describe('monster packs (R0146)', () => {
     expect(world.dungeon!.encounter).toBeUndefined();
   });
 
-  it('the default stub resolves a bump by itself, seeded', () => {
+  it('the auto-resolve stub (no fighters to hand) resolves a bump by itself, seeded', () => {
+    setEncounterHandler(autoResolve);
     const a = underground(31);
     const b = underground(31);
     nearPack(a, 0.5);

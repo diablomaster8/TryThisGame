@@ -65,6 +65,7 @@ import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
+import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
@@ -388,6 +389,8 @@ export function mountHud(
   );
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
+  const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
   const atlas = new StoryShelf(root, game, dialogue, toast, {
     which: 'atlas',
@@ -579,6 +582,7 @@ export function mountHud(
       { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
       { isOpen: () => journal.isOpen(), close: () => journal.close() },
       { isOpen: () => partyBout.isOpen(), close: () => partyBout.close() },
+      { isOpen: () => hollowBout.isOpen(), close: () => hollowBout.close() },
       { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
       { isOpen: () => karate.isOpen(), close: () => karate.close() },
       { isOpen: () => book.isOpen(), close: () => book.close() },
@@ -678,6 +682,7 @@ export function mountHud(
       else if (neoGate.isOpen()) neoGate.close();
       else if (dungeon.isOpen()) dungeon.close();
       else if (partyBout.isOpen()) partyBout.close();
+      else if (hollowBout.isOpen()) hollowBout.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
       // Nothing open: Esc leaves a neighbour's Grove.
@@ -864,6 +869,7 @@ export function mountHud(
       g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
       // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
       g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
+      hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
@@ -910,6 +916,7 @@ export function mountHud(
         !pocket.isOpen &&
         // The Hollow's party bout, photo mode and the story worlds are play of their own.
         !partyBout.isOpen() &&
+        !hollowBout.isOpen() &&
         !photo.isOpen() &&
         !atlas.isOpen() &&
         !cabinet.isOpen()

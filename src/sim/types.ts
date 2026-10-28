@@ -567,7 +567,11 @@ export interface DungeonRun {
   /** The floor's monster packs as they stand now (R0146); absent on floors without packs. */
   packs?: DungeonPack[];
   /** A fight under way with this pack: the floor holds still until it is answered. */
-  encounter?: { packId: string };
+  /**
+   * A fight in progress; `bout` is `world.battleRuns` once the battle core took it on, so an
+   * old bout with the same key is never mistaken for this one.
+   */
+  encounter?: { packId: string; bout?: number };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
