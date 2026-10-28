@@ -38,6 +38,16 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 2 · Lane C (FIGHT, branch r2/c, 2026-10-28)
+
+Plan: rebuild the turn resolver on moves. R0222 derived stats (HP/Bonk/Splash/Guard/Zip/
+Flutter/Puff) for every mode; R0223 one damage formula; R0224 grade traits; R0225 type loop +
+Sun/Moon layer and a help card; R0226 Puff; R0227 cosy statuses and moods; R0228 ~60 moves as
+data with sources; R0229 four slots (optional `Nubbin.battle`, default on load, no save bump)
+and a slot editor in the stats sheet; R0230 choose-all-then-resolve by priority and Zip. The
+`battleStart`/`battleAct`/`battleEnd` entry point stays as it is (`strike`/`guard`/`rally`
+remain accepted). R0219 only if time allows.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in

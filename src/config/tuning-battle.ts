@@ -4,16 +4,99 @@
  * stats are the old karate maths, now shared by every mode (recs FIGHT-01, FIGHT-04).
  */
 export const BATTLE = {
-  /** Derived stats: HP from Stamina, strike power from Power, dodge from Run. */
+  /**
+   * Derived stats from the five care stats (recs FIGHT-10), L = level 0–99:
+   * HP = 30 + 1.5·L(stamina) + 0.5·L(power); Bonk = 10 + L(power);
+   * Splash = 10 + 0.7·L(swim) + 0.3·L(stamina); Guard = 10 + 0.5·L(stamina) + 0.5·L(power);
+   * Zip = 10 + L(run); Flutter = min(0.2, 0.002·L(fly)); Puff max = 6 + ⌊L(stamina)/20⌋.
+   */
   derive: {
-    hp: 100,
-    hpPerStamina: 1.2,
-    power: 10,
-    powerPerLevel: 0.9,
-    dodgePerRun: 0.004,
-    dodgeCap: 0.35,
+    hp: 30,
+    hpPerStamina: 1.5,
+    hpPerPower: 0.5,
+    bonk: 10,
+    bonkPerPower: 1,
+    splash: 10,
+    splashPerSwim: 0.7,
+    splashPerStamina: 0.3,
+    guard: 10,
+    guardPerStamina: 0.5,
+    guardPerPower: 0.5,
+    zip: 10,
+    zipPerRun: 1,
+    flutterPerFly: 0.002,
+    flutterCap: 0.2,
+    puffMax: 6,
+    puffPerStamina: 1 / 20,
+    /** Children fight at this share of every stat, Eternals at the second; Shadows at 1. */
+    child: 0.85,
+    eternal: 1.1,
     /** The `thickSkin` skill. */
     thickSkinHp: 10,
+  },
+  /** One damage formula (recs FIGHT-11). */
+  damage: {
+    /** dmg = power × (A + soak)/(D + soak) × scale × type × align × stab × crit × spread. */
+    soak: 20,
+    scale: 0.35,
+    stab: 1.2,
+    critChance: 1 / 16,
+    crit: 1.5,
+    spread: [0.9, 1.1] as const,
+    /** A non-crit hit never takes more than this share of the target's max HP. */
+    capShare: 0.6,
+    /** Moves a level-3 lesson has polished hit this much harder. */
+    lessonBoost: 1.25,
+  },
+  /** The type loop and the Sun/Moon layer (recs FIGHT-13). */
+  chart: {
+    strong: 1.5,
+    weak: 0.67,
+    /** A Sun move on a Moon-band target, or the reverse. */
+    across: 1.25,
+    /** A Sun move on a Sun target, a Moon move on a Moon target. */
+    same: 0.9,
+  },
+  /** One shared energy bar (recs FIGHT-14). */
+  puff: {
+    start: 3,
+    regen: 2,
+    /** "Catch your breath": Puff gained and the Guard boost for the turn. */
+    breath: 4,
+    breathGuard: 1.3,
+    /** Below this share of needs.energy a Nubbin starts "Yawny" with this much Puff. */
+    yawnyEnergy: 0.3,
+    yawnyStart: 1,
+  },
+  /** Cosy statuses (recs FIGHT-15). Turn ranges are inclusive. */
+  status: {
+    drowsy: { turns: [1, 3] as const },
+    dizzy: { turns: [2, 4] as const, chance: 0.33, selfShare: 1 / 8 },
+    soggy: { turns: [3, 3] as const, zip: 0.7 },
+    giggly: { turns: [3, 3] as const, chance: 0.25 },
+    /** A burn that food cures; without battle items yet it also wears off. */
+    peckish: { turns: [4, 6] as const, share: 1 / 16 },
+    sticky: { turns: [2, 2] as const },
+    /** Mood stages are ±1 per move, at most ±2, ×1.25 per stage. */
+    moodStep: 1.25,
+    moodMax: 2,
+    /** A personality that resists a status or mood halves its chance. */
+    resist: 0.5,
+    /** Mischievous Nubbins land statuses this much more often. */
+    mischief: 1.1,
+  },
+  /** Grade traits (recs FIGHT-12): A grades get these odds of the S effect. */
+  traits: {
+    halfChance: 0.5,
+    /** Run A "Head Start" adds this priority on turn 1; Run S always goes first. */
+    headStartA: 0.5,
+    headStartS: 5,
+  },
+  /** Turn order (recs FIGHT-18): priority, then Zip × this spread, then a seeded tiebreak. */
+  order: {
+    zipSpread: [0.95, 1.05] as const,
+    /** Catch your breath (and later switching and items) goes first. */
+    breathPriority: 3,
   },
   /**
    * Rival strength follows the party (recs FIGHT-06): level = clamp(party average + offset,
@@ -31,21 +114,20 @@ export const BATTLE = {
     /** Foes dodge less than a Nubbin of the same level. */
     dodgeShare: 0.8,
     dodgeCap: 0.3,
-    /** Party-bout foes start a little softer than a dojo rival. */
-    foePower: 8,
+    /** Party-bout foes start a little softer than a dojo rival: a share of every stat. */
+    foeShare: 0.8,
     foeHpShare: 0.8,
   },
   /** The turn-based party bout (SL2 "Logged In"). */
   turn: {
     /** At most this many foes; never more than the party has members, so the odds stay even. */
     foesPerTier: 3,
-    /** A struck guard takes this share. */
-    guardFactor: 0.5,
-    /** Rally heals every standing ally by this share of max HP. */
+    /** "Huddle" (the old Rally) heals every standing ally by this share of max HP. */
     rallyHeal: 0.15,
-    /** Seeded spread on a strike. */
-    hitSpread: [0.8, 1.2] as const,
+    /** Higher-tier rivals catch their breath this often when a move is affordable. */
     foeGuardChance: 0.15,
+    /** And use a status or mood move this often when they have one. */
+    foeStatusChance: 0.3,
     /** Turns before a bout is called a draw, so a guard-only bout still ends. */
     maxRounds: 60,
     /** Foe-name slots in `strings-battle.ts`. */
@@ -54,6 +136,10 @@ export const BATTLE = {
   /** The timed dojo bout. */
   karate: {
     tiers: 3,
+    /** The timed bout scales the derived HP up so it lasts as long as the old dojo bout. */
+    hpScale: 3.3,
+    /** A guarded strike (old turn guard) takes this share. */
+    guardFactor: 0.5,
     /** A tap this close to the bar's centre (0 centre, 1 edge) is a strong strike. */
     sweetSpot: 0.18,
     strong: 1.6,

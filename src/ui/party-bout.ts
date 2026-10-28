@@ -1,29 +1,44 @@
 import '../battle.css';
-import { BATTLE_TEXT, combatantName, formatEvent } from '../config/strings-battle';
+import {
+  BATTLE_TEXT,
+  combatantName,
+  formatEvent,
+  moodWord,
+  moveName,
+  STATUS_TEXT,
+} from '../config/strings-battle';
 import { NAMES } from '../config/strings';
 import type { Game } from '../game';
 import {
+  canChoose,
+  moveOf,
+  MOOD_STATS,
   prizeFor,
   standing,
+  zipOf,
   type BattleAction,
   type BattleState,
   type Combatant,
 } from '../sim/battle';
+import { openTypeHelp } from './battle-help';
 import { button, el, modal } from './dom';
 
 /**
  * SL2's (Logged In) party bout panel, on the battle core: the sim owns the bout in
  * `world.battle` and pays the prize; this panel only sends `battleStart`, `battleAct` and
- * `battleForfeit` and draws what the sim holds. Strike asks "Who?" and turns the foe rows into
- * big tap targets (recs FIGHT-08); one foe left is picked for you. Nobody is knocked down: a
- * tuckered ally naps under a leaf, a tuckered foe toddles home.
+ * `battleForfeit` and draws what the sim holds. Each ally picks Bonk, a slotted move (with its
+ * Puff cost), Huddle or Catch your breath; a move aimed at one foe asks "Who?" and turns the
+ * foe rows into big tap targets (recs FIGHT-08); one foe left is picked for you. Rows show
+ * Puff pips, statuses and moods as an icon and a word. Nobody is knocked down: a tuckered
+ * ally naps under a leaf, a tuckered foe toddles home.
  */
 export class PartyBoutPanel {
   private readonly dialog;
   private readonly body: HTMLDivElement;
   /** `world.battleRuns` when this panel asked for its bout; the bout is ours once it moves on. */
   private runsAtStart = -1;
-  private picking = false;
+  /** The move waiting for a target ('bonk' for Strike), or null. */
+  private picking: string | null = null;
   /** The state signature an action was sent from; buttons wait until the sim has moved on. */
   private waitingOn: string | null = null;
   private drawn = '';
@@ -63,7 +78,7 @@ export class PartyBoutPanel {
       return;
     }
     this.runsAtStart = g.world.battleRuns ?? 0;
-    this.picking = false;
+    this.picking = null;
     this.waitingOn = null;
     this.drawn = '';
     this.announced = false;
@@ -103,7 +118,7 @@ export class PartyBoutPanel {
     const s = this.bout();
     const sig = s ? `${s.log.length}:${s.turn}:${s.active}:${s.result ? 1 : 0}` : 'none';
     if (this.waitingOn !== null && sig !== this.waitingOn) this.waitingOn = null;
-    const view = `${sig}:${this.picking ? 1 : 0}:${this.waitingOn ?? ''}`;
+    const view = `${sig}:${this.picking ?? ''}:${this.waitingOn ?? ''}`;
     if (view !== this.drawn) {
       this.drawn = view;
       this.render(s);
@@ -118,15 +133,23 @@ export class PartyBoutPanel {
   private send(s: BattleState, action: BattleAction): void {
     const g = this.game();
     if (!g || s.result || this.waitingOn !== null) return;
-    this.picking = false;
+    this.picking = null;
     this.waitingOn = `${s.log.length}:${s.turn}:${s.active}:0`;
     g.send({ kind: 'battleAct', action });
   }
 
-  private strike(s: BattleState): void {
+  private actionFor(move: string, target?: string): BattleAction {
+    const t = target === undefined ? {} : { target };
+    return move === 'bonk' ? { k: 'strike', ...t } : { k: 'move', move, ...t };
+  }
+
+  /** A move aimed at one foe asks who, unless only one is left; the rest go straight. */
+  private use(s: BattleState, move: string): void {
     const up = s.sides[1].filter(standing);
-    if (up.length === 1) this.send(s, { k: 'strike', target: up[0]!.id });
-    else this.picking = true;
+    const single = moveOf(move).target === 'foe';
+    if (!single || up.length === 1)
+      this.send(s, this.actionFor(move, single ? up[0]!.id : undefined));
+    else this.picking = move;
     this.drawn = '';
   }
 
@@ -140,7 +163,7 @@ export class PartyBoutPanel {
     const out = !standing(c);
     const pickable = foe && this.picking && !out && !s.result;
     const node: HTMLElement = pickable
-      ? button('', () => this.send(s, { k: 'strike', target: c.id }), 'battle-row foe')
+      ? button('', () => this.send(s, this.actionFor(this.picking!, c.id)), 'battle-row foe')
       : el('div', `battle-row${foe ? ' foe' : ''}`);
     const active = !foe && ix === s.active && !s.result;
     if (active) node.classList.add('active');
@@ -159,6 +182,16 @@ export class PartyBoutPanel {
         ? BATTLE_TEXT.wentHome
         : `${BATTLE_TEXT.tuckered} ${BATTLE_TEXT.zzz}`
       : `${BATTLE_TEXT.hp} ${c.hp}/${c.maxHp}${c.guard ? ` · ${BATTLE_TEXT.guarding}` : ''}`;
+    if (!out) {
+      // Puff pips, then any status and moods, each as an icon and a word.
+      const pips = el('span', 'battle-puff', '●'.repeat(c.puff) + '○'.repeat(c.puffMax - c.puff));
+      pips.setAttribute('aria-label', `${BATTLE_TEXT.puff} ${c.puff}/${c.puffMax}`);
+      nameBox.appendChild(pips);
+      const marks: string[] = [];
+      if (c.major) marks.push(`${STATUS_TEXT[c.major.id].icon} ${STATUS_TEXT[c.major.id].name}`);
+      for (const st of MOOD_STATS) if (c.moods[st]) marks.push(moodWord(st, c.moods[st]!));
+      if (marks.length) nameBox.appendChild(el('span', 'battle-marks', marks.join(' · ')));
+    }
     node.append(el('span', 'battle-icon', icon), nameBox, el('span', 'battle-tag', tag));
     node.setAttribute('aria-label', `${name}, ${tag}`);
     return node;
@@ -168,6 +201,14 @@ export class PartyBoutPanel {
     this.body.innerHTML = '';
     if (!s) return;
     this.body.appendChild(el('p', 'help', BATTLE_TEXT.round(s.turn, s.context.tier)));
+    if (!s.result) {
+      // Who goes next, roughly: by Zip (priority and the dice can still change it).
+      const order = [...s.sides[0], ...s.sides[1]]
+        .filter(standing)
+        .sort((a, b) => zipOf(b) - zipOf(a))
+        .map((c) => combatantName(c));
+      this.body.appendChild(el('p', 'battle-order', `${BATTLE_TEXT.next}: ${order.join(' › ')}`));
+    }
     const side = (title: string, list: Combatant[]) => {
       this.body.appendChild(el('div', 'btn-name', title));
       const box = el('div', 'battle-side');
@@ -181,7 +222,7 @@ export class PartyBoutPanel {
     const lines = s.log
       .map((e) => formatEvent(e, (id) => names.get(id) ?? id))
       .filter((l): l is string => l !== null)
-      .slice(-3);
+      .slice(-4);
     const log = el('div', 'help battle-log');
     for (const l of lines) log.appendChild(el('p', undefined, l));
     this.body.appendChild(log);
@@ -196,21 +237,34 @@ export class PartyBoutPanel {
       row.appendChild(
         button(
           BATTLE_TEXT.cancel,
-          () => ((this.picking = false), (this.drawn = '')),
+          () => ((this.picking = null), (this.drawn = '')),
           'btn btn-small',
         ),
       );
     } else {
       const busy = this.waitingOn !== null;
-      for (const move of ['strike', 'guard', 'rally'] as const) {
-        const b = button(
-          BATTLE_TEXT.moves[move] ?? move,
-          () => (move === 'strike' ? this.strike(s) : this.send(s, { k: move })),
-          'btn btn-small',
-        );
-        b.disabled = busy;
+      const me = s.sides[0][s.active];
+      const add = (label: string, cost: number, ok: boolean, press: () => void): void => {
+        const b = button('', press, 'btn btn-small battle-move');
+        b.append(el('span', undefined, label), el('small', undefined, BATTLE_TEXT.cost(cost)));
+        b.disabled = busy || !ok;
+        if (!ok) b.title = BATTLE_TEXT.needPuff;
         row.appendChild(b);
+      };
+      if (me) {
+        for (const id of ['bonk', ...me.moves])
+          add(moveName(id), moveOf(id).puff, canChoose(s, me, this.actionFor(id)), () =>
+            this.use(s, id),
+          );
+        const huddle = canChoose(s, me, { k: 'rally' });
+        add(BATTLE_TEXT.moves.rally!, moveOf('huddle').puff, huddle, () =>
+          this.send(s, { k: 'rally' }),
+        );
+        add(BATTLE_TEXT.moves.guard!, 0, true, () => this.send(s, { k: 'guard' }));
       }
+      row.appendChild(
+        button(BATTLE_TEXT.help, () => openTypeHelp(this.dialog.body), 'btn btn-small'),
+      );
     }
     this.body.appendChild(row);
   }
