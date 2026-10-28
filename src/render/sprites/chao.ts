@@ -42,7 +42,8 @@ export const CHILD_NEUTRAL: ChaoColors = {
   belly: C.pale,
   tip: C.sunYellow,
   tipShade: C.orange,
-  wing: C.blush,
+  // The same pale cream the 3D child wears (LOOK-13).
+  wing: C.cream,
   eye: C.ink,
   glint: C.white,
   outline: C.darkPlum,
@@ -55,7 +56,7 @@ export const CHILD_SUN: ChaoColors = {
   belly: C.white,
   tip: C.sunYellow,
   tipShade: C.sunYellow,
-  wing: C.cream,
+  wing: C.white,
 };
 
 export const CHILD_MOON: ChaoColors = {

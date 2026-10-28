@@ -277,7 +277,9 @@ export const NUBBIN_SPEC: SpeciesSpec = {
     pitch: 0,
   },
   blush: '#ffb3c6',
-  wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' },
+  // Pale cream-yellow, the same palette colour the pixel child wears (LOOK-13; Maor to
+  // confirm the hue).
+  wings: { x: 0.52, y: 1.2, z: -0.5, size: 1.15, color: '#fff1c9' },
   ball: { y: 3.5, color: nubbinTip },
   notes:
     'Shape pass 2026-10-15 against the Palworld roster screenshot (toes, mitts, crisp crown); ' +

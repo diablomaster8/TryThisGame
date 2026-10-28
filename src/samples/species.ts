@@ -520,6 +520,21 @@ const BLOB_CLEARANCE = 0.05;
 const BLOB_UPRIGHT = new THREE.Quaternion();
 
 let blobTexture: THREE.CanvasTexture | null = null;
+/** How far the wings splay out of the back plane, radians (35 degrees). */
+const WING_SPLAY = 0.61;
+
+/**
+ * The idle wing flutter: seconds into the current burst of three 12 Hz beats, or 0 between
+ * bursts. Bursts come every 4 to 7 s, the gap varying from burst to burst.
+ */
+export function idleFlutter(t: number): number {
+  // One burst per 5.5 s window, shifted up to 1.5 s by a hash of the window: gaps of 4-7 s.
+  const n = Math.floor(t / 5.5);
+  const h = Math.sin(n * 12.9898) * 43758.5453;
+  const into = t - (n * 5.5 + 1.5 * (h - Math.floor(h)));
+  return into >= 0 && into < 0.25 ? Math.max(1e-3, into) : 0;
+}
+
 /** A soft radial shadow, painted once. */
 function shadowBlob(): THREE.CanvasTexture {
   if (blobTexture) return blobTexture;
@@ -1066,22 +1081,29 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         shape.quadraticCurveTo(0.2 * dx * k, 0.35 * k, 0.08 * dx * k, 0.05 * k);
         shape.lineTo(0, 0);
       } else {
-        shape.quadraticCurveTo(0.46 * dx * k, 0.5 * k, 0.16 * dx * k, 1.0 * k);
-        shape.quadraticCurveTo(-0.18 * dx * k, 0.55 * k, 0, 0);
+        // A rounded leaf with a scalloped trailing edge, two arcs (LOOK-13): the Chao wing.
+        shape.quadraticCurveTo(0.5 * dx * k, 0.42 * k, 0.24 * dx * k, 0.98 * k);
+        shape.quadraticCurveTo(0.12 * dx * k, 0.66 * k, -0.02 * dx * k, 0.72 * k);
+        shape.quadraticCurveTo(0.02 * dx * k, 0.4 * k, -0.12 * dx * k, 0.38 * k);
+        shape.quadraticCurveTo(-0.1 * dx * k, 0.14 * k, 0, 0);
       }
       const pivot = new THREE.Group();
       pivot.position.set(dx * w.x, w.y - spec.hipY, w.z);
-      pivot.rotation.y = -dx * 0.5;
+      // Splayed 35 degrees out of the back plane, so the tips peek past the shoulders.
+      pivot.rotation.y = -dx * WING_SPLAY;
+      // The Chao leaf leans outward too, so it reads beside the shoulders, not behind the head.
+      if (w.shape === undefined) pivot.rotation.z = -dx * 0.75;
       pivot.add(
         new THREE.Mesh(
           new THREE.ShapeGeometry(shape, 18),
           new THREE.MeshPhysicalMaterial({
             color: w.color,
             transparent: true,
-            opacity: 0.8,
+            // The Chao leaf is an opaque painted wing; the fairy, feather and bat ones see through.
+            opacity: w.shape === undefined ? 1 : 0.8,
             side: THREE.DoubleSide,
             roughness: 0.2,
-            transmission: 0.3,
+            transmission: w.shape === undefined ? 0 : 0.3,
           }),
         ),
       );
@@ -1903,7 +1925,14 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
               ? 0.08
               : 0.35;
       const rate = pose === 'flap' ? 28 : 9;
-      w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + s(t * rate + i) * flap * (i === 0 ? -1 : 1);
+      const side = i === 0 ? -1 : 1;
+      let beat = s(t * rate + i) * flap;
+      if (pose === 'idle' && spec.wings?.shape === undefined) {
+        // At rest a Chao's wings keep still, then flutter: 3 beats at 12 Hz every 4-7 s.
+        const burst = idleFlutter(t);
+        beat = burst > 0 ? Math.sin(burst * Math.PI * 2 * 12) * 0.55 : s(t * 1.3 + i) * 0.04;
+      }
+      w.rotation.y = -side * WING_SPLAY + beat * side;
     });
     if (ball && ballMat) {
       ball.position.y =

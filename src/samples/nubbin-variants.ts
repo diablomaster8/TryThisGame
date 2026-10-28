@@ -27,7 +27,7 @@ export const NUBBIN_COLORS = {
   iris: '#141a3a',
   lip: '#6a3a5a',
   tongue: '#ff8aa0',
-  wing: '#f6faff',
+  wing: '#fff1c9',
   sheen: '#dff2ff',
 } as const;
 export type NubbinColors = Record<keyof typeof NUBBIN_COLORS, string>;
@@ -524,10 +524,10 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
   if (o.wings === null) delete spec.wings;
   else if (o.wings)
     spec.wings = {
-      x: 0.42,
-      y: 1.15,
-      z: -0.6,
-      size: 1,
+      x: 0.52,
+      y: 1.2,
+      z: -0.5,
+      size: 1.15,
       color: palette.wing,
       ...spec.wings,
       ...o.wings,
@@ -599,7 +599,7 @@ export const SUN_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Sun)', {
   },
   crown: 'tall',
   ball: { shape: 'halo', color: '#ffd94a', glow: '#c08a10' },
-  wings: { shape: 'feather', size: 1.35 },
+  wings: { shape: 'feather', size: 1.6 },
   scale: 0.86,
   surface: { sheen: 0.9 },
   notes: 'Sun adult template: tuned by eye against the child on the stage, 2026-10-15.',
@@ -623,7 +623,7 @@ export const MOON_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Moon)', {
   },
   crown: 'hook',
   ball: { shape: 'spikes', color: '#9e2b3f', glow: '#e0562e' },
-  wings: { shape: 'bat', size: 1.25 },
+  wings: { shape: 'bat', size: 1.5 },
   scale: 0.86,
   eyes: { lid: 0.2 },
   surface: { sheen: 0.5, roughness: 0.55 },
