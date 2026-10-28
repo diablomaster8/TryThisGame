@@ -45,6 +45,9 @@ function inked(g: CanvasRenderingContext2D, color: string, width: number): void 
   g.stroke();
 }
 
+/** The neutral ball's saturated yellow, its highlight and rim (LOOK-17). */
+const BALL = { base: '#ffd800', light: '#fff7a8', rim: '#d6a400' };
+
 function shine(g: CanvasRenderingContext2D, x: number, y: number, r: number): void {
   g.beginPath();
   g.ellipse(x, y, r, r * 0.7, -0.6, 0, Math.PI * 2);
@@ -57,11 +60,25 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
   const cy = S / 2 + (frame === 1 ? 6 : 0);
   g.beginPath();
   switch (shape) {
-    case 'ball':
+    case 'ball': {
       g.arc(cx, cy, 26, 0, Math.PI * 2);
-      paint(g, tint, cy, 26);
+      if (tint !== hex(C.sunYellow)) {
+        paint(g, tint, cy, 26);
+        shine(g, cx - 9, cy - 10, 7);
+        break;
+      }
+      const grad = g.createRadialGradient(cx - 9, cy - 11, 2, cx, cy, 30);
+      grad.addColorStop(0, BALL.light);
+      grad.addColorStop(0.5, BALL.base);
+      grad.addColorStop(1, BALL.rim);
+      g.fillStyle = grad;
+      g.fill();
+      round(g, 7);
+      g.strokeStyle = OUTLINE;
+      g.stroke();
       shine(g, cx - 9, cy - 10, 7);
       break;
+    }
     case 'heart':
       g.moveTo(cx, cy + 32);
       g.bezierCurveTo(cx - 44, cy + 4, cx - 40, cy - 30, cx - 18, cy - 30);
@@ -105,12 +122,16 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       paint(g, tint, cy + 30, 8);
       break;
     case 'halo':
+      // A pale cyan-white ring with a gold rim, tipped toward the camera (LOOK-17).
       g.ellipse(cx, cy, 40, 17, 0, 0, Math.PI * 2);
-      inked(g, hex(C.sunYellow), 12);
-      g.beginPath();
-      g.ellipse(cx, cy - 2, 34, 12, 0, Math.PI * 1.1, Math.PI * 1.9);
-      round(g, 4);
-      g.strokeStyle = hex(C.cream);
+      round(g, 20);
+      g.strokeStyle = OUTLINE;
+      g.stroke();
+      round(g, 14);
+      g.strokeStyle = '#e0a820';
+      g.stroke();
+      round(g, 8);
+      g.strokeStyle = '#cfefff';
       g.stroke();
       break;
     case 'spiky': {
@@ -123,10 +144,18 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
         else g.lineTo(x, y);
       }
       g.closePath();
-      paint(g, hex(C.plum), cy, 40);
+      // Eight spikes on a deep purple core, each tipped red (LOOK-17).
+      paint(g, '#3a1a4a', cy, 40);
+      for (let i = 0; i < 16; i += 2) {
+        const a = (i / 16) * Math.PI * 2 - Math.PI / 2;
+        g.beginPath();
+        g.arc(cx + Math.cos(a) * 34, cy + Math.sin(a) * 34, 6, 0, Math.PI * 2);
+        g.fillStyle = '#c8304a';
+        g.fill();
+      }
       g.beginPath();
       g.arc(cx, cy, 20, 0, Math.PI * 2);
-      paint(g, hex(C.moonPurple), cy, 20);
+      paint(g, '#4a2460', cy, 20);
       shine(g, cx - 7, cy - 8, 5);
       break;
     }

@@ -32,8 +32,10 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
   const cy = 6 + bob;
   switch (shape) {
     case 'ball':
-      pc.disc(cx, cy, 2.6, tint);
-      pc.px(cx - 1, cy - 1, C.white);
+      // The neutral ball is a saturated yellow with a darker rim (LOOK-17); a tinted sheet keeps its tint.
+      pc.disc(cx, cy, 2.6, tint === C.sunYellow ? C.sunDeep : tint);
+      pc.disc(cx - 0.3, cy - 0.3, 2.1, tint);
+      pc.px(cx - 1, cy - 1, tint === C.sunYellow ? C.sunLight : C.white);
       break;
     case 'heart':
       pc.disc(cx - 1.5, cy - 1, 1.8, C.rose);
@@ -67,14 +69,15 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.rect(cx - 1, cy + 3, 1, 1, tint);
       break;
     case 'halo':
-      pc.ellipse(cx, cy, 4, 1.8, C.sunYellow);
-      pc.ellipse(cx, cy, 2.4, 0.9, C.cream);
-      pc.erase(cx, cy);
-      pc.erase(cx - 1, cy);
-      pc.erase(cx + 1, cy);
+      // A ring, not a disc (LOOK-17): a gold rim round a pale cyan band, open in the middle.
+      pc.ellipse(cx, cy, 4.5, 2, C.sunDeep);
+      pc.ellipse(cx, cy, 3.8, 1.4, C.skyLight);
+      for (let x = -2; x <= 2; x++) pc.erase(cx + x, cy);
+      for (let x = -1; x <= 1; x++) pc.erase(cx + x, cy - 1);
       break;
     case 'spiky':
-      pc.disc(cx, cy, 2.4, C.moonPurple);
+      // A deep purple core with eight red-tipped spikes (LOOK-17).
+      pc.disc(cx, cy, 2.4, C.darkPlum);
       for (const [dx, dy] of [
         [0, -4],
         [4, 0],
@@ -85,9 +88,10 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
         [3, 3],
         [-3, 3],
       ] as const) {
-        pc.line(cx, cy, cx + dx, cy + dy, C.darkPlum);
+        pc.line(cx, cy, cx + dx, cy + dy, C.plum);
+        pc.px(cx + dx, cy + dy, C.berry);
       }
-      pc.px(cx - 1, cy - 1, C.lavender);
+      pc.px(cx - 1, cy - 1, C.violet);
       break;
     case 'zz':
       pc.line(cx - 2, cy - 3, cx + 1, cy - 3, C.pale);

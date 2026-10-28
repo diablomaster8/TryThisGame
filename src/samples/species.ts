@@ -300,7 +300,14 @@ export interface SpeciesSpec {
    * The Chao emote ball, if the species has one: a plain ball, a flat halo ring or a
    * spiked ball; `glow` tints its emissive and its light (warm gold by default).
    */
-  ball?: { y: number; color: string; shape?: 'ball' | 'halo' | 'spikes'; glow?: string };
+  ball?: {
+    y: number;
+    color: string;
+    shape?: 'ball' | 'halo' | 'spikes';
+    glow?: string;
+    /** The spikes' own colour (the Moon ball's red tips, LOOK-17); the ball's otherwise. */
+    tip?: string;
+  };
   /** Hip height: the body bobs from here. */
   hipY: number;
   /**
@@ -1127,11 +1134,22 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   let ballMat: THREE.MeshPhysicalMaterial | null = null;
   if (spec.ball) {
     const glow = new THREE.Color(spec.ball.glow ?? '#9a7010');
-    ballMat = glossy(spec.ball.color, { emissive: glow, emissiveIntensity: 1.4 });
+    // The plain ball is satin, not mirror-glossy: a clearcoat reflects the pale sky over the
+    // whole small sphere and turns the yellow cream (LOOK-17).
+    const satin = !spec.ball.shape || spec.ball.shape === 'ball';
+    ballMat = glossy(spec.ball.color, {
+      emissive: glow,
+      emissiveIntensity: 1.4,
+      ...(satin ? { roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.4 } : {}),
+    });
+    // Under the toon look it is banded like the body; left physical, the toon stage's light
+    // washes it to cream.
+    if (TOON.on && satin) toonMaterial(ballMat);
     if (spec.ball.shape === 'halo') {
       // A flat ring, lying level over the crown.
       ball = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.045, 12, 36), ballMat);
-      ball.rotation.x = Math.PI / 2;
+      // Tipped 15 degrees toward the camera so it reads as a ring from the game view (LOOK-17).
+      ball.rotation.x = Math.PI / 2 - 0.26;
     } else if (spec.ball.shape === 'spikes') {
       // A smaller ball with eight short spikes around it.
       const g = new THREE.Group();
@@ -1141,7 +1159,12 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const dirs = [V(0, 1, 0), V(0, -1, 0), V(1, 0, 0), V(-1, 0, 0), V(0, 0, 1), V(0, 0, -1)];
       dirs.push(V(0.7, 0.7, 0), V(-0.7, 0.7, 0));
       for (const d of dirs) {
-        const m = new THREE.Mesh(spike, ballMat);
+        const m = new THREE.Mesh(
+          spike,
+          spec.ball.tip
+            ? glossy(spec.ball.tip, { emissive: glow, emissiveIntensity: 0.4 })
+            : ballMat,
+        );
         m.quaternion.setFromUnitVectors(V(0, 1, 0), d.normalize());
         g.add(m);
       }
@@ -1952,7 +1975,12 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     if (ball && ballMat) {
       ball.position.y =
         spec.ball!.y - headOrigin.y + s(t * 1.6) * 0.08 + (pose === 'happy' ? 0.15 : 0);
-      ballMat.emissiveIntensity = (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
+      // The plain ball glows only a little, so it keeps its saturated colour (LOOK-17); the halo
+      // and spikes shine.
+      const plain = !spec.ball!.shape || spec.ball!.shape === 'ball';
+      ballMat.emissiveIntensity = plain
+        ? (pose === 'sleep' ? 0.15 : 0.25) + s(t * 2.4) * 0.06
+        : (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
     }
     if (hover) {
       hips.position.y +=
