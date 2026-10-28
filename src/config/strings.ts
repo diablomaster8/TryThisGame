@@ -1548,3 +1548,4 @@ export const STORY_U4_TEXT = {
   tally: (n: number) => `Day ${n}`,
 } as const;
 export * from './strings-move';
+export * from './strings-move-joy';
