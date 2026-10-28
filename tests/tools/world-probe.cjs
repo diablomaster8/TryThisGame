@@ -15,7 +15,13 @@ const { chromium } = require(
   process.env.PLAYWRIGHT_CORE || 'C:/Users/God/AppData/Local/Temp/node_modules/playwright-core',
 );
 const EDGE = process.env.EDGE || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
-const URL = process.env.PROBE_URL || 'http://localhost:5173/?debug';
+// A phone builds its creatures on the 64 grid (`SCULPT_RES.steps`); headless desktop Edge would
+// pick 104 and triple their triangles, so the probe asks for the phone's grid (0: let it pick).
+const SCULPT = process.env.PROBE_SCULPT ?? '64';
+const URL =
+  (process.env.PROBE_URL || 'http://localhost:5173/?debug') +
+  (Number(SCULPT) > 0 ? `&sculptRes=${SCULPT}` : '') +
+  (process.env.PROBE_NOLOD ? '&nolod' : '');
 const ROOT = path.join(__dirname, '..', '..');
 const tuning = fs.readFileSync(path.join(ROOT, 'src/config/tuning-world.ts'), 'utf8');
 const m = /phone: \{ calls: ([\d_]+), tris: ([\d_]+)/.exec(tuning);
@@ -42,6 +48,42 @@ const SPOTS = [
   ['cornerSW', -44, 44],
   ['cornerSE', 44, 44],
 ];
+
+/**
+ * Close whatever dialogue is up (the opening, a discovery card): a story scene stages the
+ * camera, and while one is open the view ignores the Keeper. Done once the box has stayed
+ * closed for a second.
+ */
+async function clearDialogue(page) {
+  const open = () => page.evaluate(() => !!document.querySelector('.dialogue')?.offsetParent);
+  let shut = 0;
+  for (let i = 0; i < 200 && shut < 4; i++) {
+    if (!(await open())) {
+      shut++;
+      await page.waitForTimeout(250);
+      continue;
+    }
+    shut = 0;
+    const ch = page.locator('.btn-choice:visible');
+    const sk = page.locator('.dialogue :text("Skip"):visible');
+    if (await ch.count())
+      await ch
+        .first()
+        .click()
+        .catch(() => {});
+    else if (await sk.count())
+      await sk
+        .first()
+        .click()
+        .catch(() => {});
+    else
+      await page
+        .locator('.dialogue-box')
+        .click({ force: true })
+        .catch(() => {});
+    await page.waitForTimeout(150);
+  }
+}
 
 async function probe(TAG) {
   const browser = await chromium.launch({
@@ -74,39 +116,7 @@ async function probe(TAG) {
     timeout: 240000,
   });
   await page.waitForTimeout(TAG === '3d' ? 8000 : 2500);
-  for (let i = 0; i < 150; i++) {
-    const vis = await page.evaluate(() => !!document.querySelector('.dialogue')?.offsetParent);
-    if (!vis) break;
-    const ch = page.locator('.btn-choice:visible');
-    if (await ch.count()) await ch.first().click();
-    else
-      await page
-        .locator('.dialogue-box')
-        .click({ force: true })
-        .catch(() => {});
-    await page.waitForTimeout(120);
-  }
-  await page.waitForTimeout(800);
-  for (let i = 0; i < 40; i++) {
-    const sk = page.locator('button:visible', { hasText: 'Skip' });
-    const vis = await page.evaluate(() => !!document.querySelector('.dialogue')?.offsetParent);
-    if (!vis) {
-      await page.waitForTimeout(500);
-      if (!(await page.evaluate(() => !!document.querySelector('.dialogue')?.offsetParent))) break;
-      continue;
-    }
-    if (await sk.count())
-      await sk
-        .first()
-        .click()
-        .catch(() => {});
-    else
-      await page
-        .locator('.dialogue-box')
-        .click({ force: true })
-        .catch(() => {});
-    await page.waitForTimeout(300);
-  }
+  await clearDialogue(page);
   for (const id of await page.evaluate(() =>
     window.grove.world.nubbins.filter((n) => n.stage === 'egg').map((n) => n.id),
   ))
@@ -114,20 +124,64 @@ async function probe(TAG) {
   const rows = [];
   for (const [name, x, z] of SPOTS) {
     await page.evaluate(([x, z]) => window.grove.send({ kind: 'teleport', pos: { x, z } }), [x, z]);
-    await page.waitForTimeout(2500);
+    // Software GL can take most of a second per 3D frame: wait for fresh frames after the
+    // teleport (the first few settle the camera), not only a fixed time.
+    await page.waitForTimeout(500);
+    await clearDialogue(page);
+    // The camera eases after the Keeper: wait until it aims near them.
+    await page
+      .waitForFunction(
+        () => {
+          const g = window.grove;
+          const k = g.world.keeper.pos;
+          return Math.hypot(g.camera.target.x - k.x, g.camera.target.z - k.z) < 6;
+        },
+        null,
+        { timeout: 30000 },
+      )
+      .catch(() => {});
+    const f0 = await page.evaluate(() => window.grove.scene3d?.geoFrames ?? 0);
+    await page.waitForTimeout(1500);
+    await page
+      .waitForFunction(
+        (f) => !window.grove.scene3d || window.grove.scene3d.geoFrames >= f,
+        f0 + 24,
+        {
+          timeout: 90000,
+        },
+      )
+      .catch(() => {});
     rows.push({
       mode: TAG,
       spot: name,
-      ...(await page.evaluate(() => {
+      ...(await page.evaluate((f0) => {
         const g = window.grove;
         const r = g.pipeline.renderer.info;
         const s = g.scene3d;
+        // Instances drawn: every visible instanced mesh's count (WORLD-14 caps them).
+        const instances = (root) => {
+          let n = 0;
+          root.traverseVisible((o) => {
+            if (o.isInstancedMesh) n += o.count;
+          });
+          return n;
+        };
         const heap = performance.memory
           ? Math.round(performance.memory.usedJSHeapSize / 1e6)
           : null;
+        // 3D: the mean and the worst of the last 60 frames (a shadow redraw lands on some
+        // frames only); the budget is judged on the mean.
+        const fresh = s ? Math.min(60, s.geoFrames - f0 - 4) : 0;
+        const geo = s ? s.frameGeo.slice(-Math.max(1, fresh)) : [];
+        const mean = (i) => Math.round(geo.reduce((a, f) => a + f[i], 0) / geo.length);
+        const max = (i) => Math.max(...geo.map((f) => f[i]));
         return {
-          calls: r.render.calls,
-          tris: r.render.triangles,
+          calls: s ? mean(0) : r.render.calls,
+          tris: s ? mean(1) : r.render.triangles,
+          maxCalls: s ? max(0) : null,
+          maxTris: s ? max(1) : null,
+          inView: s ? s.creatureLod.inView : null,
+          instances: s ? instances(s.scene) : null,
           sprites: s ? null : g.view.batch.drawn,
           culled: s ? null : g.view.batch.culled,
           geometries: r.memory.geometries,
@@ -135,8 +189,15 @@ async function probe(TAG) {
           heapMB: heap,
           lod: s ? s.lodBias : null,
           gov: s ? `${s.governor.ratio}/cpu${s.governor.cpuLevel}` : null,
+          frames: s ? fresh : null,
+          aimOff: Math.round(
+            Math.hypot(
+              g.camera.target.x - g.world.keeper.pos.x,
+              g.camera.target.z - g.world.keeper.pos.z,
+            ),
+          ),
         };
-      })),
+      }, f0)),
     });
   }
   await browser.close();
@@ -147,7 +208,7 @@ async function probe(TAG) {
   const t0 = Date.now();
   const all = [];
   const errors = {};
-  for (const mode of ['px', '3d']) {
+  for (const mode of (process.env.PROBE_MODES || 'px,3d').split(',')) {
     const r = await probe(mode);
     all.push(...r.rows);
     errors[mode] = r.errors;

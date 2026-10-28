@@ -1,4 +1,4 @@
-import { worldLine } from './world-debug';
+import { worldControls, worldLine } from './world-debug';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -168,6 +168,8 @@ export class DebugPanel {
       overlays.appendChild(row);
     }
     this.root.appendChild(overlays);
+
+    this.root.appendChild(worldControls(game));
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);

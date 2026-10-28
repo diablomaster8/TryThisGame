@@ -50,6 +50,8 @@ export class FrameGovernor {
    * moves before the render scale: a vertex-bound phone has no other way out.
    */
   geoLevel = 0;
+  /** WORLD-46: a geometry level the debug panel pins (null: the budget decides). */
+  forcedGeo: number | null = null;
   private geoOver = 0;
   private geoUnder = 0;
   /** The render scale it wants now. */
@@ -155,6 +157,10 @@ export class FrameGovernor {
     budget: { calls: number; tris: number },
   ): number | null {
     const b = PERF_BUDGET;
+    if (this.forcedGeo !== null) {
+      if (this.geoLevel === this.forcedGeo) return null;
+      return (this.geoLevel = this.forcedGeo);
+    }
     const over = calls > budget.calls || tris > budget.tris;
     const easy = calls < budget.calls * b.relaxShare && tris < budget.tris * b.relaxShare;
     this.geoOver = over ? this.geoOver + 1 : 0;

@@ -5,7 +5,13 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, UI } from '../config/tuning';
-import { PERF_BUDGET, WORLD_LOD } from '../config/tuning-world';
+import {
+  PERF_BUDGET,
+  WORLD_LOD,
+  WORLD_TIER,
+  tierForRes,
+  type DeviceTier,
+} from '../config/tuning-world';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
@@ -33,6 +39,8 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { CreatureLod } from './lod';
+import { TerrainChunks } from './chunks';
 import { nearestChild, occluders } from './occluders';
 import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
@@ -194,6 +202,9 @@ const FOCUS_EVENTS = new Set<SimEvent['kind']>([
 const GRADE_SATURATION = 1.15;
 /** Bloom's HDR threshold above ground: above the lit scene, or the frame washes white. */
 const BLOOM_THRESHOLD = 2.8;
+/** Dev builds with `?nolod` skip the WORLD-09/12 culling, for the perf probe's before row. */
+const NO_LOD = import.meta.env.DEV && new URLSearchParams(location.search).has('nolod');
+
 /** A layer nothing is put on: the sun's shadow camera looks at it underground. */
 const EMPTY_LAYER = 31;
 export class Grove3dScene {
@@ -296,6 +307,16 @@ export class Grove3dScene {
   private lastMs = 0;
   /** Frame times, for the report: the last 120 frames' render durations in ms. */
   readonly frameMs: number[] = [];
+  /** WORLD-14: the device tier, from the sculpt grid (`setSculptRes`); caps the grass. */
+  tier: DeviceTier = 'desktop';
+  /** WORLD-03/12: creature shadow casting and outline hulls under the draw budget. */
+  readonly creatureLod = new CreatureLod();
+  /** WORLD-09: the ground's index cut to the chunks in view. */
+  readonly terrainChunks = new TerrainChunks();
+  /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
+  readonly frameGeo: Array<[number, number]> = [];
+  /** Frames drawn since boot, so the probe can wait for fresh ones after a teleport. */
+  geoFrames = 0;
   /** Story scenes: who is framed, who holds still, the hour asked for (staging.ts). */
   private readonly staging = new SceneStager();
 
@@ -321,8 +342,11 @@ export class Grove3dScene {
   private budgetGeometry(): void {
     const info = this.renderer.info.render;
     this.governor.sampleGeometry(info.calls, info.triangles, this.perfBudget);
+    this.frameGeo.push([info.calls, info.triangles]);
+    this.geoFrames++;
+    if (this.frameGeo.length > 120) this.frameGeo.shift();
     if (!this.props.grass.ready) return;
-    const share = WORLD_LOD.grass[this.governor.geoLevel] ?? 1;
+    const share = (WORLD_LOD.grass[this.governor.geoLevel] ?? 1) * WORLD_TIER.grass[this.tier];
     for (const m of this.props.grass.meshes) {
       const d = m.userData as { full?: number; geoCount?: number };
       if (m.count !== d.geoCount) d.full = m.count;
@@ -927,11 +951,16 @@ export class Grove3dScene {
    */
   setSculptRes(res: number): void {
     this.actors.pool.quality = qualityForRes(res);
+    this.tier = tierForRes(res);
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
   pickSculptRes(): number {
-    return pickSculptRes();
+    // Dev builds take `?sculptRes=64` so a desktop probe can build what a phone would.
+    const forced = import.meta.env.DEV
+      ? Number(new URLSearchParams(location.search).get('sculptRes'))
+      : 0;
+    return forced > 0 ? forced : pickSculptRes();
   }
 
   /** Start the opening creatures before the first frame (the frame builds the trees too). */
@@ -1532,6 +1561,15 @@ export class Grove3dScene {
     if (hold) return;
     this.governRenderScale(this.composer, interval);
     this.dof.tick(interval);
+    if (!NO_LOD) {
+      this.terrainChunks.update(this.terrain.mesh, this.camera);
+      this.creatureLod.update(
+        this.actors.group.children.filter((c) => !(c as THREE.Mesh).isMesh),
+        this.camera,
+        this.governor.geoLevel,
+        this.canvas.clientHeight,
+      );
+    }
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
     this.composer.render();

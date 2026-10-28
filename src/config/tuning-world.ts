@@ -50,6 +50,58 @@ export const WORLD_LOD = {
   phoneMaxPx: 768,
   /** Share of grass tufts drawn at geometry level 0..3. */
   grass: [1, 0.6, 0.35, 0.2],
+  /** World units a terrain chunk's box grows by before the view test (shadows from hills). */
+  terrainMargin: 6,
+  /** Creatures (`render3d/lod.ts`). */
+  creature: {
+    /** World units added to a rig's bounding sphere for the longest shadow it throws. */
+    shadowReach: 4,
+    /** From level 2, a creature shorter than this on screen (CSS px) loses its outline hull. */
+    hullMinPx: 90,
+    /** Share around the threshold a creature keeps its state in, against flicker. */
+    band: 0.15,
+  },
+} as const;
+
+/**
+ * WORLD-14: the device tier, read from the sculpt grid the first-run benchmark picked
+ * (`settings.sculptRes`, `SCULPT_RES.steps`), so no second benchmark runs. Each tier caps the
+ * share of the instanced ground cover it draws at geometry level 0; the levels thin from there.
+ */
+export const WORLD_TIER = {
+  /** The finest sculpt grid that still counts as each tier. */
+  minRes: { desktop: 80, phone: 64 },
+  /** Share of grass tufts per tier (desktop 18k across both passes, so a phone draws 9k). */
+  grass: { desktop: 1, phone: 0.5, slow: 0.25 },
+} as const;
+
+export type DeviceTier = keyof typeof WORLD_TIER.grass;
+
+export function tierForRes(res: number): DeviceTier {
+  return res >= WORLD_TIER.minRes.desktop
+    ? 'desktop'
+    : res >= WORLD_TIER.minRes.phone
+      ? 'phone'
+      : 'slow';
+}
+
+/**
+ * WORLD-15: what one region may hold, per device. The debug panel shows the live counts
+ * against them and marks one that is over. On 2026-10-28 the Grove on a phone held about 540
+ * geometries and a 200 MB heap, over the phone line (not yet broken down by owner),
+ * so these are the target a new region is built to, not yet a limit that releases anything.
+ */
+export const WORLD_MEM = {
+  phone: { gpuTexMB: 96, geometries: 350, heapMB: 180 },
+  desktop: { gpuTexMB: 384, geometries: 1200, heapMB: 600 },
+} as const;
+
+/** WORLD-18: the walking lead on a portrait view (`walkLead` in `render/camera.ts`). */
+export const CAMERA_LEAD = {
+  /** Share of the view's width the camera aims ahead of a walking Keeper. */
+  share: 0.28,
+  /** World units the lead stays inside the view's half-width. */
+  edge: 2,
 } as const;
 
 /** WORLD-10/11: walking pace and how far apart points of interest may be, in walking seconds. */
