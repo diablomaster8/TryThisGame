@@ -38,6 +38,13 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 2 · Lane A (MOVE, 2026-10-28, branch r2/a)
+
+*Plan:* R0030 Nubbin hops from stats, R0041 slopes, R0042 run mode, R0043 soft bushes,
+R0044 path dots, R0045 Pixel raised depth, R0046 surface prints, R0048 greet distance (the
+Hollow part is lane B's), R0049 pad drives Keeper 1. Helpers in their own worktrees: R0036 NPC
+nav (`r2/a-npc`), R0037 3D wild props (`r2/a-wild`), R0047 hurdles (`r2/a-race`).
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
