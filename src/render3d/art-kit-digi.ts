@@ -197,6 +197,55 @@ export function patchKitSpec(
   const cream = color(C.cream);
   for (const x of extras) {
     switch (x) {
+      case 'dinoSnout':
+        // Greymon's long muzzle (LOOK-08), with a paler jaw.
+        head.push(
+          ell(V(0, h.y - h.r.y * 0.25, fz + 0.12), V(h.r.x * 0.5, h.r.y * 0.38, 0.42), c.body!),
+          ell(V(0, h.y - h.r.y * 0.45, fz + 0.1), V(h.r.x * 0.42, h.r.y * 0.2, 0.38), c.belly!),
+        );
+        break;
+      case 'skullHelmet': {
+        // The brown skull cap over the top of the head, two horns curving forward, a nose horn.
+        const bark = color(C.bark);
+        head.push(
+          ell(
+            V(0, h.y + h.r.y * 0.6, h.z - 0.02),
+            V(h.r.x * 1.08, h.r.y * 0.48, h.r.z * 1.08),
+            bark,
+          ),
+        );
+        for (const s of [-1, 1])
+          head.push(
+            cone(
+              V(s * h.r.x * 0.72, h.y + h.r.y * 0.7, h.z - 0.05),
+              V(s * h.r.x * 1.1, h.y + h.r.y * 1.45, h.z + 0.3),
+              0.14,
+              0.03,
+              cream,
+            ),
+          );
+        head.push(
+          cone(
+            V(0, h.y + h.r.y * 0.05, fz + 0.2),
+            V(0, h.y + h.r.y * 0.4, fz + 0.38),
+            0.1,
+            0.02,
+            cream,
+          ),
+        );
+        break;
+      }
+      case 'ribs':
+        // SkullGreymon's rib cage: bone hoops round the chest.
+        for (let i = 0; i < 3; i++)
+          torso.push({
+            kind: 'torus',
+            a: V(0, b.y + 0.25 - i * 0.25, 0.05),
+            r: b.r.x * 1.0,
+            r2: 0.06,
+            color: color(C.white),
+          });
+        break;
       case 'beak':
         head.push(
           cone(V(0, h.y - 0.12, fz - 0.15), V(0, h.y - 0.25, fz + 0.38), 0.2, 0.03, c.accent2!),

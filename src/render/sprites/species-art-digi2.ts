@@ -127,7 +127,10 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     legs: 'none',
     eyes: 'angry',
   }),
+  // SkullGreymon: a bone-white skeleton with a rib cage and a long snout.
   bonesaur: spec(pal(C.pale, C.lilacGrey, C.white, C.lilacGrey, C.ember, C.ember), {
+    plan: 'tall',
+    extras: ['dinoSnout', 'ribs'],
     size: 1.25,
     crest: 'twinHorns',
     tail: 'long',

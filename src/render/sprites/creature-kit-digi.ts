@@ -57,7 +57,10 @@ export type KitExtra =
   | 'drill'
   | 'propeller'
   | 'sideHeads'
-  | 'monoEye';
+  | 'monoEye'
+  | 'skullHelmet'
+  | 'dinoSnout'
+  | 'ribs';
 
 interface Base {
   angle: DrawnAngle;
@@ -280,6 +283,57 @@ export function drawKitExtras(
   const fx = a.headCx + a.headRx;
   for (const x of extras) {
     switch (x) {
+      case 'dinoSnout': {
+        // Greymon's long muzzle (LOOK-08): out front from the side, a pale jaw from the front.
+        if (behind || a.back) break;
+        if (side) {
+          pc.ellipse(fx - 1, ey + 2, 3.5, 2.4, col.body);
+          pc.line(fx - 3, ey + 3, fx + 2, ey + 3, col.shade);
+          pc.px(fx + 1, ey + 1, col.outline);
+        } else {
+          pc.ellipse(a.headCx + (a.face > 0 ? 2 : 0), ey + 3, a.headRx * 0.55, 2.2, col.belly);
+          pc.line(a.headCx - 2, ey + 3, a.headCx + 2, ey + 3, col.shade);
+        }
+        break;
+      }
+      case 'skullHelmet': {
+        // The brown skull cap over the top of the head, two side horns and a nose horn.
+        if (behind) break;
+        const bark = C.bark;
+        const horn = C.cream;
+        pc.ellipse(a.headCx - (side ? 1 : 0), top + 2.5, a.headRx + 0.5, 3, bark);
+        pc.line(a.headCx - a.headRx + 1, top + 4, a.headCx + a.headRx - 1, top + 4, C.darkBark);
+        if (side) {
+          pc.tri(a.headCx - 3, top + 1, a.headCx, top + 1, a.headCx - 5, top - 5, horn);
+          if (!a.back) pc.tri(fx - 2, top + 5, fx, top + 6, fx + 1, top + 1, horn);
+        } else {
+          for (const d of [-1, 1] as const)
+            pc.tri(
+              a.headCx + d * (a.headRx - 2),
+              top + 2,
+              a.headCx + d * (a.headRx - 4),
+              top + 1,
+              a.headCx + d * (a.headRx + 2),
+              top - 5,
+              horn,
+            );
+          if (!a.back)
+            pc.tri(a.headCx - 1, top + 6, a.headCx + 1, top + 6, a.headCx, top + 2, horn);
+        }
+        break;
+      }
+      case 'ribs':
+        // SkullGreymon's rib cage: bone bars across the chest.
+        if (behind || a.back) break;
+        for (let i = 0; i < 3; i++)
+          pc.line(
+            a.bodyCx - a.bodyRx + 2,
+            a.bodyCy - 2 + i * 2,
+            a.bodyCx + a.bodyRx - 2,
+            a.bodyCy - 2 + i * 2,
+            C.white,
+          );
+        break;
       case 'mane':
         // A ring of mane behind the head from the front, over it from the back.
         if (behind === a.back) break;
