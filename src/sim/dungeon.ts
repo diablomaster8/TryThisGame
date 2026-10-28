@@ -3,6 +3,7 @@ import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
+import { nubbinWaypoint } from './dungeon-nav';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
 import { noteScan } from './scans';
@@ -1134,8 +1135,10 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     if (fetching) target = cellCentre(f, fetching.cell);
     else if (dist(n.pos, k.pos) > DUNGEON.followDistance) target = k.pos;
     if (target) {
-      walkToward(n.pos, target, DUNGEON.nubbinSpeed, dt);
-      n.facing = Math.atan2(target.x - n.pos.x, target.z - n.pos.z);
+      // Round the rock by a path, not a straight line that snags on corners (R0009).
+      const wp = nubbinWaypoint(n, f, target) ?? n.pos;
+      if (dist(n.pos, wp) > 1e-6) n.facing = Math.atan2(wp.x - n.pos.x, wp.z - n.pos.z);
+      walkToward(n.pos, wp, DUNGEON.nubbinSpeed, dt);
       n.behavior.target = target;
       if (n.behavior.state !== 'wander') {
         n.behavior.state = 'wander';

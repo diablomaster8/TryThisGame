@@ -1,5 +1,6 @@
 import { blocked, contact, obstacles, resolve, softAt } from './obstacles';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
+import { keeperWaypoint } from './dungeon-nav';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import { KEEPER_SOFT, KEEPER_UNSTICK } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
@@ -213,6 +214,26 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
         events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
         k.intent = null;
         k.moveTarget = null;
+      } else if (dungeonFloor) {
+        // Underground the Keeper follows an A* path round the rock (dungeon-nav.ts). No
+        // waypoint means it already stands as near as it can get: a plain tap ends there,
+        // a care walk is left to give up through careWalkStalled.
+        const wp = keeperWaypoint(world, dungeonFloor, target);
+        if (!wp) {
+          if (!k.intent) k.moveTarget = null;
+        } else {
+          const wd = dist(k.pos, wp);
+          const speed =
+            KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier);
+          if (wd > 1e-6) {
+            const dx = (wp.x - k.pos.x) / wd;
+            const dz = (wp.z - k.pos.z) / wd;
+            const step = Math.min(wd, speed * dt);
+            k.pos.x += dx * step;
+            k.pos.z += dz * step;
+            k.facing = Math.atan2(dx, dz);
+          }
+        }
       } else {
         const step = Math.min(
           d,

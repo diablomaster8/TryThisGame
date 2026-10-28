@@ -20,3 +20,14 @@ export const KEEPER_SOFT = {
   slow: 0.5,
   push: 0.2,
 } as const;
+
+/** Hollow pathfinding (R0009): A* over the floor's cells, string-pulled into legs. */
+export const DUNGEON_NAV = {
+  /** A waypoint counts as passed inside this distance (world units). */
+  waypointReach: 0.3,
+  /** Half-width of the Keeper's and a Nubbin's body for sight-line tests (world units). */
+  keeperClearance: 0.35,
+  nubbinClearance: 0.3,
+  /** Planned paths kept per floor, oldest dropped first. */
+  cacheSize: 48,
+} as const;
