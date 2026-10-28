@@ -368,6 +368,8 @@ export class WorldMapPanel {
       if (!found) node.setAttribute('aria-label', WORLD_TEXT.notFound);
     }
     for (const e of REGIONS.grove.exits) {
+      // Ways to regions not built yet lead nowhere, so the map keeps quiet about them.
+      if (!REGIONS[e.to].built) continue;
       const to = WORLD_TEXT.regions[e.to];
       add(
         `exit:${e.id}`,
