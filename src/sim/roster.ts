@@ -21,7 +21,7 @@ export function mossOnHill(world: World, id: string): boolean {
 export function mossSeat(world: World): Vec2 {
   const hill = GROVE.hills[0];
   const seat = { x: hill.x + 2.5, z: hill.z - 2.5 };
-  resolve(seat, world, 0.3, true);
+  resolve(seat, world, 0.3, 'nubbin');
   return seat;
 }
 

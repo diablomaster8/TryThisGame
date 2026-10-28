@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { STALL_SPOTS } from '../config/grove-layout';
 import { fenceSpots } from '../render/scenery';
 import type { Tex } from '../samples/aaa-kit';
 import type { TownUnlocks } from '../sim/town';
@@ -13,11 +14,9 @@ import { bevelBox, buildingMaterial } from './building-kit';
  * on the counter, bevelled and toon-lit like the houses (art pass 2). Nothing here is
  * tappable, as in the pixel view.
  */
-const STALLS: ReadonlyArray<readonly [number, number, keyof TownUnlocks]> = [
-  [-12, 17.5, 'stall'],
-  [-9.5, 18.5, 'attendant'],
-  [-14.5, 18.8, 'festival'],
-];
+const STALLS: ReadonlyArray<readonly [number, number, keyof TownUnlocks]> = STALL_SPOTS.map(
+  (s) => [s.x, s.z, s.when] as const,
+);
 
 const GOODS = ['#ff9a3a', '#8fd262', '#f2d34c', '#e04a6a'];
 

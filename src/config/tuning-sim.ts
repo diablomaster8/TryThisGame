@@ -14,3 +14,9 @@ export const KEEPER_UNSTICK = {
   searchStep: 0.25,
   searchMax: 16,
 } as const;
+
+/** Bushes, flowerbeds and thickets (MOVE-03/04): the Keeper's speed in one, and how much of the overlap is eased back out each step. */
+export const KEEPER_SOFT = {
+  slow: 0.5,
+  push: 0.2,
+} as const;

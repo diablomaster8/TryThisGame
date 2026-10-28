@@ -38,6 +38,17 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Pass 1: MOVE collision foundations (2026-10-27, branch pass/1, not pushed)
+
+Plan (recs-2026-10-27, R0001 upward). R0001 (stream wade) and R0002 (bridge deck) need the
+sim heights and the jump, so this pass lays those foundations first and leaves both for Pass 2:
+- R0004 + R0005 + R0006: `config/grove-layout.ts`, one collider table (circle, oriented box,
+  segment) with tops and flags; `sim/obstacles.ts` resolves all three shapes through a 4 u grid.
+- R0007: per-kind decor colliders and a placement yaw; R0003: `canPlaceAt` rejects overlaps.
+- R0008: Grove tap-to-move on a 0.5 u A* grid (`sim/nav.ts`); R0009: Hollow A* (agent).
+- R0010: `sim/terrain.ts` `groundAt`, the height model moved into the sim (agent).
+- Deferred to Pass 2: R0001, R0002, R0011–R0015 (terraces, jump, phone button, substep), P1+.
+
 ## Pass 0 hotfixes (2026-10-27, branch pass/0, not pushed)
 
 The ten **live bug** items from `recs-2026-10-27`, as one hotfix commit. Plan: check each still

@@ -55,7 +55,7 @@ import { joinTeam, stepTeams } from './teams';
 export function hatchSpeed(world: World): number {
   return hasSkill(world, 'warmHands') ? 1.1 : 1;
 }
-import { resolve } from './obstacles';
+import { nubbinWalker, resolve } from './obstacles';
 import { courseById, prizeFor } from './race';
 import {
   eduResetSession,
@@ -580,7 +580,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       buyDecor(world, cmd.decor, events);
       return;
     case 'placeDecor':
-      placeDecor(world, cmd.decor, cmd.pos, events);
+      placeDecor(world, cmd.decor, cmd.pos, events, cmd.yaw ?? 0);
       return;
     case 'removeDecor':
       removeDecor(world, cmd.id);
@@ -870,7 +870,7 @@ export function stepWorld(
       // Party members underground are moved by the Hollow step instead.
       if (world.nubbins.includes(n) && !inParty(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);
-        resolve(n.pos, world, 0.3, true);
+        resolve(n.pos, world, 0.3, nubbinWalker(n));
       }
     }
     // Keeper actions happen only in live play: catch-up never walks to or acts on a saved

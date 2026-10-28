@@ -1392,6 +1392,21 @@ export const DECOR = {
     thicket: 18,
   } as const,
   maxPlaced: 60,
+  /**
+   * What each piece does to walkers (MOVE-04). Fences block Nubbins under Run or Fly 20,
+   * which hop them; benches and rock piles can be stood on once the Keeper jumps; beds and
+   * thickets are soft, so the Keeper pushes through slowly and Nubbins go round. Path tiles
+   * have no entry: they are walked on.
+   */
+  colliders: {
+    fence: { shape: { type: 'segment', len: 1.0, r: 0.08 }, top: 0.6, flags: ['hop'] },
+    bench: { shape: { type: 'box', hw: 0.55, hd: 0.18 }, top: 0.44, flags: ['standable'] },
+    statue: { shape: { type: 'circle', r: 0.35 }, top: 1.8, flags: ['solid'] },
+    lanternSmall: { shape: { type: 'circle', r: 0.12 }, top: 1.0, flags: ['solid'] },
+    flowerbed: { shape: { type: 'box', hw: 0.5, hd: 0.3 }, top: 0.3, flags: ['soft'] },
+    rockPile: { shape: { type: 'circle', r: 0.45 }, top: 0.6, flags: ['hop', 'standable'] },
+    thicket: { shape: { type: 'circle', r: 0.55 }, top: 0.9, flags: ['soft'] },
+  } satisfies Record<string, { shape: ColliderShape; top: number; flags: readonly ColliderFlag[] }>,
 } as const;
 
 export const VISITS = {
@@ -1836,6 +1851,7 @@ export const STORY = {
 } as const;
 
 import type { StoryPropDef } from '../sim/story-props';
+import type { ColliderFlag, ColliderShape } from './grove-layout';
 
 /** Fun quests Q1-Q65 (sim/fun-quests.ts): how they offer themselves. */
 export const FUN = {

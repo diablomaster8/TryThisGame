@@ -4,7 +4,7 @@ import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim
 
 /** What a ground tap places while a panel is in placing mode. */
 export type Placing =
-  | { mode: 'decor'; kind: DecorKind }
+  | { mode: 'decor'; kind: DecorKind; yaw?: number }
   | { mode: 'tile'; tile: TileKind }
   | { mode: 'plant'; plantKind: 'tree' | 'crop'; flavor: Flavor }
   | { mode: 'toy'; toy: ToyKind }
@@ -411,7 +411,12 @@ export class GameInput {
         if (placing && hit.ground) {
           const pos = hit.ground;
           if (placing.mode === 'decor')
-            this.host.send({ kind: 'placeDecor', decor: placing.kind, pos });
+            this.host.send({
+              kind: 'placeDecor',
+              decor: placing.kind,
+              pos,
+              ...(placing.yaw ? { yaw: placing.yaw } : {}),
+            });
           else if (placing.mode === 'tile')
             this.host.send({ kind: 'paintTile', pos, tile: placing.tile });
           else if (placing.mode === 'plant') {

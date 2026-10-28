@@ -352,7 +352,7 @@ export class Garden {
     if (!home || nowMs - this.checkedMs < 500) return;
     this.checkedMs = nowMs;
     const sig = [
-      world.placed.map((d) => `${d.id}:${d.pos.x},${d.pos.z}`).join('|'),
+      world.placed.map((d) => `${d.id}:${d.pos.x},${d.pos.z},${d.yaw ?? 0}`).join('|'),
       world.plants
         .map(
           (p) =>
@@ -380,6 +380,7 @@ export class Garden {
     for (const d of world.placed) {
       const m = decorModel(d.kind);
       m.position.set(d.pos.x, ground(d.pos.x, d.pos.z), d.pos.z);
+      m.rotation.y = d.yaw ?? 0;
       this.group.add(m);
       const isBuilding = d.kind === 'nursery' || d.kind === 'bathhouse' || d.kind === 'workshop';
       this.picks.push([

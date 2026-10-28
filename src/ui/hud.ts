@@ -52,6 +52,7 @@ import { STORY_TEXT } from '../config/story';
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
+import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -445,8 +446,19 @@ export function mountHud(
   const placingChip = el('div', 'placing-chip');
   placingChip.hidden = true;
   const placingText = el('span');
+  // Decor turns in eighths before it goes down, so fence runs can go any way (MOVE-04).
+  const rotateBtn = button(
+    `↻ ${UI_TEXT.rotatePiece}`,
+    () => {
+      const g = game();
+      const p = g?.placing;
+      if (g && p?.mode === 'decor') g.placing = { ...p, yaw: snapYaw((p.yaw ?? 0) + Math.PI / 4) };
+    },
+    'btn btn-small',
+  );
   placingChip.append(
     placingText,
+    rotateBtn,
     button(
       UI_TEXT.donePlacing,
       () => {
@@ -791,6 +803,7 @@ export function mountHud(
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
+      rotateBtn.hidden = g.placing?.mode !== 'decor';
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
       if (c) dialogue.dropStale(c.queue);
@@ -981,6 +994,8 @@ export function mountHud(
         } else if (e.kind === 'decorPlaced') {
           toast(UI_TEXT.decorPlaced);
           playSound('pickup');
+        } else if (e.kind === 'decorRefused') {
+          toast(UI_TEXT.decorRefused[e.reason]);
         } else if (e.kind === 'firstSeen') {
           toast(UI_TEXT.firstSeen(keyLabel(e.key)));
         } else if (e.kind === 'received') {

@@ -1,4 +1,5 @@
 // Every player-facing name and piece of text. All names are working titles.
+import type { PlaceRefusal } from '../sim/types';
 import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 
 import { DIGI2_LABELS } from './strings-digi2';
@@ -566,6 +567,17 @@ export const UI_TEXT = {
   placing: (name: string) => `Placing ${name} · tap the grass`,
   donePlacing: 'Done',
   decorPlaced: 'Placed.',
+  /** Why a piece won't go where the Keeper tapped (MOVE-05). */
+  decorRefused: {
+    water: 'Too wet there.',
+    edge: 'Too close to the edge of the Grove.',
+    solid: 'Something is already there.',
+    path: 'That would block the bridge.',
+    someone: 'Someone is standing there.',
+    spot: 'That spot is kept clear.',
+  } satisfies Record<PlaceRefusal, string>,
+  /** Turns the piece being placed by an eighth. */
+  rotatePiece: 'Turn',
   decorPickedUp: 'Picked up.',
   // Photo
   photo: 'Photo',

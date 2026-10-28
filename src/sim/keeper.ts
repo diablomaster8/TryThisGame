@@ -1,7 +1,7 @@
-import { blocked, obstacles, resolve } from './obstacles';
+import { blocked, contact, obstacles, resolve, softAt } from './obstacles';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
-import { KEEPER_UNSTICK } from '../config/tuning-sim';
+import { KEEPER_SOFT, KEEPER_UNSTICK } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
@@ -121,16 +121,14 @@ function steer(world: World, p: Vec2, to: Vec2, dx: number, dz: number): [number
   const ax = p.x + dx * look;
   const az = p.z + dz * look;
   for (const c of obstacles(world)) {
-    const min = c.r + KEEPER_UNSTICK.clearance;
-    if ((ax - c.x) ** 2 + (az - c.z) ** 2 >= min * min) continue;
+    if (c.flags.includes('soft')) continue;
     // A target inside the obstacle itself is walked into and dropped, as before.
-    if ((to.x - c.x) ** 2 + (to.z - c.z) ** 2 < min * min) continue;
-    const rx = p.x - c.x;
-    const rz = p.z - c.z;
-    const len = Math.hypot(rx, rz) || 1;
-    // The two tangents; keep the one that still heads toward the target.
-    const tx = -rz / len;
-    const tz = rx / len;
+    if (contact(c, to.x, to.z, KEEPER_UNSTICK.clearance)) continue;
+    const hit = contact(c, ax, az, KEEPER_UNSTICK.clearance);
+    if (!hit) continue;
+    // The two tangents of the surface; keep the one that still heads toward the target.
+    const tx = -hit.nz;
+    const tz = hit.nx;
     return tx * dx + tz * dz >= 0 ? [tx, tz] : [-tx, -tz];
   }
   return [dx, dz];
@@ -166,6 +164,8 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
   const k = world.keeper;
   const dt = dtMs / 1000;
   const dungeonFloor = runFloor(world);
+  // Pushing through a bush or a flowerbed is slow going (MOVE-03).
+  const soft = !dungeonFloor && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1;
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {
@@ -173,9 +173,9 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     const nx = k.input.x / len;
     const nz = k.input.z / len;
     k.pos.x +=
-      nx * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt;
+      nx * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt;
     k.pos.z +=
-      nz * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt;
+      nz * KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt;
     k.facing = Math.atan2(nx, nz);
     k.moveTarget = null;
     k.intent = null;
@@ -216,7 +216,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
       } else {
         const step = Math.min(
           d,
-          KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * dt,
+          KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt,
         );
         let dx = (target.x - k.pos.x) / d;
         let dz = (target.z - k.pos.z) / d;
@@ -242,6 +242,13 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     if (resolve(k.pos, world) && k.moveTarget && blocked(k.moveTarget, world, 0.3)) {
       k.moveTarget = null;
       k.intent = null;
+    }
+    // A soft piece does not stop the Keeper; it eases it back out a little each step.
+    const bush = softAt(k.pos, world);
+    const out = bush && contact(bush, k.pos.x, k.pos.z, KEEPER_UNSTICK.clearance);
+    if (out) {
+      k.pos.x += out.nx * out.depth * KEEPER_SOFT.push;
+      k.pos.z += out.nz * out.depth * KEEPER_SOFT.push;
     }
     clampToWorld(k.pos);
     // Still inside something (two blockers, or a blocker and the shore, pushing in turn):

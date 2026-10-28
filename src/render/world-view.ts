@@ -1,3 +1,4 @@
+import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { Y_STATE } from './dress-y-state';
@@ -466,13 +467,8 @@ export class WorldView {
       const unlocks = townUnlocks(world);
       const stall = scenery.frames.get(frameKey('stall', 'front', 0));
       if (stall) {
-        const spots: Array<[number, number, boolean]> = [
-          [-12, 17.5, unlocks.stall],
-          [-9.5, 18.5, unlocks.attendant],
-          [-14.5, 18.8, unlocks.festival],
-        ];
-        for (const [sx, sz, on] of spots) {
-          if (!on) continue;
+        for (const { x: sx, z: sz, when } of STALL_SPOTS) {
+          if (!unlocks[when]) continue;
           shadow(sx, 0, sz, 0.9);
           batch.draw({
             sheet: scenery,

@@ -477,10 +477,15 @@ export type DecorKind =
   | 'rockPile'
   | 'thicket';
 
+/** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
+export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
+
 export interface PlacedDecor {
   id: string;
   kind: DecorKind;
   pos: Vec2;
+  /** Turn about the vertical, radians (fences and benches face the way they were placed). */
+  yaw?: number;
 }
 
 /** The home Grove, the story places, or a neighbour's Grove (`visit:<trainer>`). */
@@ -799,7 +804,7 @@ export type Command =
   | { kind: 'startLesson'; nubbinId: string; lesson: LessonId }
   | { kind: 'payService'; service: 'doctor' | 'fortune'; nubbinId: string }
   | { kind: 'buyDecor'; decor: DecorKind }
-  | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2 }
+  | { kind: 'placeDecor'; decor: DecorKind; pos: Vec2; yaw?: number }
   | { kind: 'removeDecor'; id: string }
   | {
       kind: 'karateResult';
@@ -945,6 +950,7 @@ export type SimEvent =
   | { kind: 'visitor'; trainer: string; gift: 'shells' | 'fruit' | 'egg' | 'heartFruit' | null }
   | { kind: 'lanternNight' }
   | { kind: 'decorPlaced'; id: string; decor: DecorKind }
+  | { kind: 'decorRefused'; decor: DecorKind; reason: PlaceRefusal }
   | { kind: 'decorBought'; decor: DecorKind; ok: boolean }
   | { kind: 'firstSeen'; key: string }
   | { kind: 'traded'; name: string }
