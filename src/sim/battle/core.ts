@@ -9,6 +9,7 @@ import type { Nubbin, SimEvent, World } from '../types';
 import { combatantOf, rivalLevel, rivalOf } from './derive';
 import { end } from './damage';
 import { karateAct, karateClock } from './karate';
+import { setSlots, syncMoves } from './moves-sources';
 import { battleSeedFor, grantRewards } from './rewards';
 import { turnAct } from './turn';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
@@ -45,17 +46,17 @@ export function createBattle(
     const fighter = partyOf(world, [context.nubbinId])[0];
     if (!fighter) return null;
     mode = 'karate';
-    allies = [combatantOf(fighter, world)];
+    allies = [scaleForDojo(combatantOf(fighter, world))];
     const lv = rivalLevel(allies, tier);
-    const opts = { power: BATTLE.derive.power, hpShare: 1 };
-    foes = [rivalOf(0, lv, tier, allies, DEFAULT_RIVAL, tier - 1, opts, rng)];
+    const opts = { share: 1, hpShare: 1 };
+    foes = [scaleForDojo(rivalOf(0, lv, tier, allies, DEFAULT_RIVAL, tier - 1, opts, rng), tier)];
   } else {
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     const party = partyOf(world, context.ids);
     if (party.length === 0) return null;
     allies = party.map((n) => combatantOf(n, world));
     const lv = rivalLevel(allies, tier);
-    const opts = { power: BATTLE.rivals.foePower, hpShare: BATTLE.rivals.foeHpShare };
+    const opts = { share: BATTLE.rivals.foeShare, hpShare: BATTLE.rivals.foeHpShare };
     const T = BATTLE.turn;
     const specs =
       context.kind === 'encounter'
@@ -78,8 +79,10 @@ export function createBattle(
       ),
     );
   }
+  const log: BattleState['log'] = [];
+  for (const c of allies) if (c.yawny && mode === 'turn') log.push({ k: 'yawny', who: c.id });
   return {
-    v: 1,
+    v: 2,
     mode,
     seed,
     rngState: rng.state,
@@ -87,16 +90,31 @@ export function createBattle(
     turn: 1,
     active: 0,
     phase: 'choose',
-    log: [],
+    choices: {},
+    log,
     result: null,
     context,
     ...(mode === 'karate' ? { karate: karateClock(tier) } : {}),
   };
 }
 
+/**
+ * The timed dojo bout keeps its old length: HP is scaled up (tier 1 rivals already follow
+ * the fighter's HP, so they are scaled once, through it).
+ */
+function scaleForDojo(c: Combatant, tier = 0): Combatant {
+  if (tier !== 1) c.hp = c.maxHp = Math.round(c.maxHp * BATTLE.karate.hpScale);
+  return c;
+}
+
 /** Applies one action. Returns false (and changes nothing) when it does not apply. */
 export function battleAct(s: BattleState, a: BattleAction): boolean {
   if (s.result) return false;
+  // A turn bout saved before moves existed has none of their stats: call it a draw.
+  if (s.v !== 2 && s.mode === 'turn') {
+    end(s, { k: 'end', winner: null, reason: 'time' });
+    return true;
+  }
   const rng = new Rng(s.rngState);
   const ok = s.mode === 'karate' ? karateAct(s, rng, a) : turnAct(s, rng, a);
   s.rngState = rng.state;
@@ -122,6 +140,18 @@ export function actBattleCmd(world: World, action: BattleAction, events: SimEven
   const s = world.battle;
   if (!s || !battleAct(s, action)) return;
   if (s.result) grantRewards(world, s, events);
+}
+
+/** The stats sheet's slot editor (recs FIGHT-17). */
+export function setSlotsCmd(world: World, nubbinId: string, slots: (string | null)[]): void {
+  const n = world.nubbins.find((x) => x.id === nubbinId);
+  if (n && n.stage !== 'egg') setSlots(n, slots);
+}
+
+/** Once a sim second: new moves from parts, lessons and forms join the kit. */
+export function stepBattleMoves(world: World, dtMs: number, events: SimEvent[]): void {
+  if (Math.floor(world.timeMs / 1000) === Math.floor((world.timeMs - dtMs) / 1000)) return;
+  for (const n of world.nubbins) syncMoves(n, events);
 }
 
 export function forfeitBattleCmd(world: World, events: SimEvent[]): void {

@@ -1,8 +1,11 @@
+import { BATTLE } from '../../config/tuning-battle';
 import type { Rng } from '../rng';
-import type { BattleEvent, BattleState, Combatant } from './types';
+import { moodMult } from './status';
+import { alignMult, typeMult } from './types-chart';
+import type { BattleEvent, BattleState, Combatant, MoveDef } from './types';
 
 /**
- * One strike, shared by every mode: the target may slip it (dodge), a guard takes a share, and
+ * One strike of the timed dojo bout: the target may slip it (dodge), a guard takes a share, and
  * a combatant whose HP reaches 0 is tuckered out (never "down" or "knocked out"). The caller
  * picks the multiplier; this file owns the order the dice are rolled in, which replays rely on.
  */
@@ -28,6 +31,67 @@ export function strikeOn(
   s.log.push({ k: 'hit', by: by.id, to: to.id, dmg, strong, guarded });
   if (to.hp === 0) s.log.push({ k: 'tuckered', who: to.id, side: to.side });
   return dmg;
+}
+
+/** STAB: the user's type, or a Normal user's second type ("Adaptable"). */
+export function stabOf(by: Combatant, move: MoveDef): number {
+  const own = move.type === by.type || (by.type === 'normal' && move.type === by.second);
+  return own ? BATTLE.damage.stab : 1;
+}
+
+/**
+ * One damage formula (recs FIGHT-11):
+ * max(1, round(power × (A+20)/(D+20) × 0.35 × type × align × stab × crit × rng(0.9,1.1))),
+ * A and D being Bonk/Guard for a bonk move and Splash/Splash for a splash move, with moods
+ * and a caught breath on top. A non-crit hit never takes more than 60% of max HP. Rolls: the
+ * crit first, then the spread.
+ */
+export function moveDamage(
+  rng: Rng,
+  by: Combatant,
+  to: Combatant,
+  move: MoveDef,
+): { dmg: number; eff: number; crit: boolean } {
+  const K = BATTLE.damage;
+  const bonk = move.kind === 'bonk';
+  const a = (bonk ? by.bonk * moodMult(by, 'bonk') : by.splash) + K.soak;
+  const guard = to.guard ? BATTLE.puff.breathGuard : 1;
+  const d = (bonk ? to.def * moodMult(to, 'guard') : to.splash) * guard + K.soak;
+  const eff = to.eternal ? 1 : typeMult(move.type, to.type);
+  const boost = by.boosted.includes(move.id) ? K.lessonBoost : 1;
+  const crit = rng.chance(K.critChance);
+  const raw =
+    move.power *
+    boost *
+    (a / d) *
+    K.scale *
+    eff *
+    alignMult(move.align, to.band, to.eternal) *
+    stabOf(by, move) *
+    (crit ? K.crit : 1) *
+    rng.float(...K.spread);
+  let dmg = Math.max(1, Math.round(raw));
+  if (!crit) dmg = Math.min(dmg, Math.max(1, Math.floor(to.maxHp * K.capShare)));
+  return { dmg, eff, crit };
+}
+
+/**
+ * Takes HP off; Stamina S "Second Wind" (A: on a coin flip) keeps one HP, once a bout.
+ * Logs the tuck-in when HP reaches 0.
+ */
+export function hurt(s: BattleState, rng: Rng, to: Combatant, dmg: number): number {
+  let left = to.hp - dmg;
+  const sw = to.traits.find((t) => t.id === 'secondWind');
+  if (left <= 0 && to.hp > 1 && sw && !to.used.includes('secondWind')) {
+    to.used.push('secondWind');
+    if (sw.full || rng.chance(BATTLE.traits.halfChance)) {
+      left = 1;
+      s.log.push({ k: 'trait', who: to.id, id: 'secondWind' });
+    }
+  }
+  to.hp = Math.max(0, left);
+  if (to.hp === 0) s.log.push({ k: 'tuckered', who: to.id, side: to.side });
+  return to.hp;
 }
 
 export const standing = (c: Combatant): boolean => c.hp > 0;

@@ -54,22 +54,26 @@ describe('party bouts', () => {
     expect(battleAct(weak, { k: 'strike' })).toBe(false);
   });
 
-  it('turns pass round the party, then the foes act; guard halves a hit; rally heals', () => {
+  it('everyone chooses, then the turn resolves; a breath goes first; Huddle heals', () => {
     const b = bout(partyWorld(3000), 2, 5);
     expect(b.active).toBe(0);
     battleAct(b, { k: 'guard' });
-    expect(b.sides[0][0]!.guard || b.log.some((e) => e.k === 'hit' && e.guarded)).toBe(true);
+    // Choosing resolves nothing yet (recs FIGHT-18).
+    expect(b.log.some((e) => e.k === 'guard')).toBe(false);
     expect(b.active).toBe(1);
     expect(b.turn).toBe(1);
     battleAct(b, { k: 'strike' });
-    // Both moved: the foes have acted and a new round began.
+    // Both chose: the turn resolved, the breath first of all, and a new turn began.
+    const first = b.log.findIndex((e) => e.k === 'turnStart');
+    expect(b.log[first + 1]).toMatchObject({ k: 'guard', by: b.sides[0][0]!.id });
+    expect(b.log.some((e) => e.k === 'turnEnd' && e.n === 1)).toBe(true);
     expect(b.turn).toBe(2);
     expect(b.active).toBe(0);
     const hurt = b.sides[0].find((p) => p.hp < p.maxHp && standing(p));
     if (hurt) {
-      const before = hurt.hp;
       battleAct(b, { k: 'rally' });
-      expect(hurt.hp).toBeGreaterThan(before);
+      battleAct(b, { k: 'guard' });
+      expect(b.log.some((e) => e.k === 'rally' && e.heal > 0)).toBe(true);
     }
   });
 

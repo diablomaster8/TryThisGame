@@ -5,7 +5,8 @@
  * - Pure: `createBattle(world, context, seed)`, `battleAct(state, action)`,
  *   `battleForfeit(state)`, `replay(start, actions)`.
  * - World commands (the live bout in `world.battle`): `battleStart {context}`,
- *   `battleAct {action}`, `battleForfeit`. A finished bout is paid once from the tier tables
+ *   `battleAct {action}`, `battleForfeit`, `battleSlots {nubbinId, slots}`. Actions: `strike`
+ *   (Bonk), `guard` (catch your breath), `rally` (Huddle) and `move {move, target}`. A finished bout is paid once from the tier tables
  *   and emits `battleEnd {context, source, key, winner, reason, shells}`.
  * - Other systems (the Hollow, story beats) start a bout with an `encounter` context naming
  *   their `source`, a `key` and their foes, and match the `battleEnd` event.
@@ -17,9 +18,33 @@ export {
   battleForfeit,
   createBattle,
   forfeitBattleCmd,
+  setSlotsCmd,
   startBattleCmd,
+  stepBattleMoves,
 } from './core';
-export { combatantOf, combatLevels, rivalLevel } from './derive';
+export {
+  combatantOf,
+  combatLevels,
+  deriveStats,
+  rivalLevel,
+  statMult,
+  traitsOf,
+  typeOf,
+} from './derive';
+export { MOVES, moveById, moveOf } from './moves';
+export {
+  battleOf,
+  bestFour,
+  peekBattle,
+  setSlots,
+  slottedMoves,
+  sourcesOf,
+  syncMoves,
+} from './moves-sources';
+export { alignMult, beats, LOOP, typeMult } from './types-chart';
+export { canChoose, hasMove, moveIdOf } from './turn';
+export { zipOf } from './status';
+export { MOOD_STATS, STATUS_IDS } from './types';
 export { barAt, barOffsetAt } from './karate';
 export { bestAllyAction } from './ai';
 export { standing } from './damage';

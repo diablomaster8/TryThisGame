@@ -1,5 +1,13 @@
 import { BATTLE } from '../config/tuning-battle';
-import { actBattleCmd, forfeitBattleCmd, karatePrize, partyPrize, startBattleCmd } from './battle';
+import {
+  actBattleCmd,
+  forfeitBattleCmd,
+  karatePrize,
+  partyPrize,
+  setSlotsCmd,
+  startBattleCmd,
+  stepBattleMoves,
+} from './battle';
 import { recordKarate } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
@@ -641,6 +649,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'battleAct':
       actBattleCmd(world, cmd.action, events);
       return;
+    case 'battleSlots':
+      setSlotsCmd(world, cmd.nubbinId, cmd.slots);
+      return;
     case 'battleForfeit':
       forfeitBattleCmd(world, events);
       return;
@@ -986,6 +997,8 @@ export function stepWorld(
   stepScans(world, dtMs, events);
   stepSkillPoints(world, events);
   stepTeams(world, events);
+  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
+  if (!offline) stepBattleMoves(world, dtMs, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

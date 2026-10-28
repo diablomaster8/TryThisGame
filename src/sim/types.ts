@@ -1,4 +1,4 @@
-import type { BattleAction, BattleContext, BattleState } from './battle/types';
+import type { BattleAction, BattleContext, BattleState, NubbinBattle } from './battle/types';
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -199,6 +199,8 @@ export interface Nubbin {
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
   karateRecord: Record<string, unknown>;
+  /** Lane C: known moves and the four slots (sim/battle/moves-sources.ts); set on first use. */
+  battle?: NubbinBattle;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -843,6 +845,7 @@ export type Command =
   | { kind: 'battleStart'; context: BattleContext }
   | { kind: 'battleAct'; action: BattleAction }
   | { kind: 'battleForfeit' }
+  | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1016,6 +1019,7 @@ export type SimEvent =
       reason: 'tuckered' | 'forfeit' | 'time';
       shells: number;
     }
+  | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';

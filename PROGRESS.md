@@ -56,6 +56,25 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - *Known:* a fresh pair loses to three or more foes every time (hence the cap; balance is lane C's);
   a chasing pack can slip out of 3D sight for a moment (aggro 5 cells, sight 4).
 
+## Round 2 · Lane C (FIGHT, branch r2/c, 2026-10-28)
+
+R0222–R0230 on the battle core. *Works:* derived stats (HP/Bonk/Splash/Guard/Zip/Flutter/
+Puff, child ×0.85, Eternal ×1.1) for every mode; one bounded damage formula; A/S grade
+traits; the type loop + Sun/Moon layer and a help card; Puff (3 start, +2 a turn, Yawny 1);
+six statuses and four mood stats with icon + word; 62 moves as data with sources; four slots
+on `Nubbin.battle` (optional, filled on first use, no save bump), a Bout card on the stats
+sheet (stats, traits, 64 px slot tiles) and a "learned a move" toast; choose-all-then-resolve
+turns by priority and Zip with a "Next up" strip. The entry point is unchanged (`strike`,
+`guard` = catch your breath, `rally` = Huddle, plus `move {move, target}`). *Stubbed:* Peckish
+also wears off (no battle items yet); Sticky only blocks switching (none yet); Heavy Hugger has
+no effect outside tactics; the karate record is not folded into `battle`; R0219 (3D view)
+not started. *Known:* a v1 turn bout in an old save is closed as a draw; on a phone the last
+move row sits under Leave until scrolled (FIGHT-25). *Assumptions:* finals share a signature
+by family and type (10, not 20); catching a breath has priority +3 like switching; Huddle
+(the old Rally) is a basic move for everyone at 3 Puff; personality resistance halves the
+chance; move names live in `config/strings-battle-moves.ts`, re-exported by
+`strings-battle.ts`; moves are synced once a sim second in live play only.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
