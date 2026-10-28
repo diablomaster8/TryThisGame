@@ -9,7 +9,18 @@ import {
   type KitExtra,
   type KitPlan,
 } from './creature-kit-digi';
-import { drawGen1b, type Gen1bPart } from './creature-gen1b';
+import {
+  drawGas,
+  drawGen1b,
+  drawHeads,
+  headScale,
+  headSlots,
+  headTall,
+  GHOST_LIFT,
+  type Gen1bPart,
+  type HeadSlot,
+  type HeadsSpec,
+} from './creature-gen1b';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 import { drawExtras, type Extra } from './creature-extras';
@@ -86,6 +97,8 @@ export interface CreatureSpec {
   extras?: readonly KitExtra[];
   /** Extra parts for the later first-generation pocket species (`creature-gen1b.ts`). */
   gen1b?: Gen1bPart[];
+  /** More than one head, all drawn alike (`creature-gen1b.ts`, `HeadsSpec`). */
+  heads?: HeadsSpec;
 }
 
 export const CREATURE_SIZE = 32;
@@ -106,11 +119,14 @@ export interface Anchors {
   face: number;
   back: boolean;
   plan: BodyPlan;
+  /** Every head of a many-headed species, the main one (at headCx, headCy) first. */
+  heads?: HeadSlot[];
 }
 
 function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors {
   const s = spec.size;
-  const feetY = 30 + pose.lift;
+  // Ghosts ride above the ground row; the world's shadow stays on the ground under them.
+  const feetY = 30 + pose.lift - (spec.gen1b?.includes('float') ? GHOST_LIFT : 0);
   const face = angle === 'front' ? 0 : angle === 'frontQuarter' ? 0.5 : angle === 'side' ? 1 : 0;
   const back = angle === 'back' || angle === 'backQuarter';
   const dir: 1 | -1 = -1;
@@ -179,7 +195,16 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
     }
   }
   const headCx = 16 + (angle === 'side' ? -1 : 0);
-  return {
+  const many = spec.heads && spec.heads.count > 1 ? spec.heads : null;
+  if (many) {
+    // Equal heads: shrink the main one to the shared size; the slots then place it.
+    const k = headScale(many);
+    headRx = Math.round(headRx * k);
+    const tall = headTall(many);
+    headRy = Math.round(tall ? headRx * tall * pose.squash : headRy * k);
+    if (bodyRx === 0) headCy = feetY - headRy - (spec.legs === 'none' ? 0 : 2) + pose.headDrop;
+  }
+  const base: Anchors = {
     headCx,
     headCy,
     headRx,
@@ -194,6 +219,10 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
     back,
     plan: spec.plan,
   };
+  if (!many) return base;
+  const heads = headSlots(base, many);
+  const main = heads[0]!;
+  return { ...base, headCx: main.x, headCy: main.y, heads };
 }
 
 // ---------- feature drawers ----------
@@ -706,6 +735,8 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawTail(pc, a, spec, true);
   drawKitExtras(pc, a, spec, true);
   drawGen1b(pc, a, spec, pose, 'behind');
+  const face = (at: Anchors, sub: CreatureSpec) => drawFace(pc, at, sub, pose);
+  drawHeads(pc, a, spec, pose, false, face);
   if (spec.plan === 'biped' || spec.plan === 'tall' || spec.plan === 'round')
     drawArmsLegs(pc, a, spec, pose);
   drawBody(pc, a, spec, pose);
@@ -718,6 +749,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawWings(pc, a, spec, pose, false);
   drawTail(pc, a, spec, false);
   drawGen1b(pc, a, spec, pose, 'front');
+  drawHeads(pc, a, spec, pose, true, face);
   drawExtras(pc, a, spec, pose, false);
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
@@ -729,6 +761,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
     pc.px(a.headCx + a.headRx - 2, cy, C.rose);
   }
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
+  drawGas(pc, a, spec);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 

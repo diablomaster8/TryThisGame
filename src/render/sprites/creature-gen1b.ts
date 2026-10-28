@@ -1,6 +1,6 @@
 import type { ChaoPose } from './chao';
 import type { Anchors, CreatureSpec } from './creature';
-import { C } from './palette';
+import { C, shadeOf } from './palette';
 import type { PixelCanvas } from './pixel-canvas';
 
 /**
@@ -21,9 +21,6 @@ export type Gen1bPart =
   | 'pincers'
   | 'bigPincer'
   | 'scythes'
-  | 'twin'
-  | 'triple'
-  | 'cluster'
   | 'star5'
   | 'star10'
   | 'gem'
@@ -45,6 +42,9 @@ export type Gen1bPart =
   | 'barbels'
   | 'boulders'
   | 'floatHands'
+  | 'ghostHands'
+  | 'gas'
+  | 'float'
   | 'grin'
   | 'pincerHead';
 
@@ -107,29 +107,6 @@ function upperEllipse(
     const w = rx * Math.sqrt(1 - k * k);
     pc.rect(cx - w, y, w * 2, 0.5, col);
   }
-}
-
-/** A small extra head with bead eyes (and a beak when the species has one). */
-function miniHead(
-  pc: PixelCanvas,
-  a: Anchors,
-  spec: CreatureSpec,
-  x: number,
-  y: number,
-  rx: number,
-  ry: number,
-  fill = spec.colors.body,
-): void {
-  const col = spec.colors;
-  // Its own rim, so it reads as a separate head where it meets the main one.
-  pc.ellipse(x, y, rx + 0.5, ry + 0.5, col.outline);
-  pc.ellipse(x, y, rx, ry, fill);
-  pc.ellipse(x + 1, y + 1, rx - 1, ry - 1, col.shade);
-  pc.ellipse(x, y, rx - 1, ry - 1, fill);
-  if (a.back) return;
-  pc.px(x - 1.5, y - 0.5, col.eye);
-  pc.px(x + 1.5, y - 0.5, col.eye);
-  if (spec.gen1b?.includes('beak')) pc.tri(x - 1.5, y + 1, x + 1.5, y + 1, x, y + 3.5, col.accent);
 }
 
 function star(pc: PixelCanvas, a: Anchors, turn: number, reach: number, col: number): void {
@@ -220,35 +197,6 @@ export function drawGen1b(
         for (const dx of [-4, 0, 4]) pc.disc(a.bodyCx + dx, cy - 3, 1.3, col.accent2);
         break;
       }
-      case 'twin':
-      case 'triple':
-      case 'cluster':
-        // The egg clutch sits behind the main egg; extra heads overlap it from in front.
-        if (layer !== (part === 'cluster' || a.back ? 'behind' : 'front')) break;
-        if (part === 'cluster') {
-          for (const [dx, dy] of [
-            [-8, 3],
-            [8, 3],
-            [-6, -5],
-            [6, -5],
-            [0, -8],
-          ] as const)
-            miniHead(pc, a, spec, a.headCx + dx, a.headCy + dy, 3.6, 4);
-        } else {
-          const k = part === 'triple' ? 0.65 : 0.75;
-          const rx = Math.round(a.headRx * k);
-          const ry = Math.round(a.headRy * k);
-          const sides = part === 'twin' ? [side ? -1 : 1] : [-1, 1];
-          // A standing body carries its extra heads up on necks; a floating one beside it.
-          const necks = part === 'triple' && a.bodyRx > 0;
-          for (const d of sides) {
-            const x = a.headCx + d * (a.headRx + (necks ? 3 : 1));
-            const y = necks ? a.headCy - 3 : a.headCy - 1;
-            if (necks) pc.line(a.bodyCx + d * 2, a.bodyCy - a.bodyRy + 1, x, y + ry - 1, col.body);
-            miniHead(pc, a, spec, x, y, rx, ry);
-          }
-        }
-        break;
       case 'fishTail': {
         if (!behindPass(layer, a)) break;
         const rx = a.bodyRx || a.headRx;
@@ -456,6 +404,21 @@ export function drawGen1b(
           pc.px(x + d * 4, y + 1, col.body);
         }
         break;
+      case 'ghostHands':
+        // Big detached hands, held off the body: a palm, three fingers and a thumb.
+        if (layer !== 'front') break;
+        for (const [hx, y, d] of handsAt(a)) {
+          // Held low and out, clear of the round head, as if they were never attached.
+          const free = a.bodyRx === 0;
+          const out = a.face >= 1 ? a.headRx * 0.7 + 2.5 : a.headRx * 0.8 + 3.8;
+          const x = free ? a.headCx + d * out : hx;
+          const hy = free ? a.headCy + a.headRy * 0.6 : y - 1;
+          pc.disc(x, hy, 3.2, col.shade);
+          pc.disc(x - d * 0.5, hy - 0.5, 2.7, col.body);
+          for (const fy of [-1.7, 0.2, 2]) pc.disc(x + d * 2.5, hy + fy, 1.05, col.body);
+          pc.disc(x - d * 0.6, hy - 3, 1, col.body);
+        }
+        break;
       case 'palm':
         if (layer !== 'front') break;
         for (const [dx, h] of [
@@ -527,4 +490,290 @@ export function drawGen1b(
         break;
     }
   }
+}
+
+// ---------------------------------------------------------------- many heads
+
+/**
+ * A species with more than one head (R0376): every head is drawn at the same size on its
+ * own neck, fanned over an arc, instead of one main head with small knobs. The first head
+ * is the main one (the creature drawer gives it the eyes and the kit's head parts); the
+ * rest are drawn here. `render3d/art-species-gen1b.ts` reads the same record.
+ */
+export interface HeadsSpec {
+  /** Heads in all, the main one included. */
+  count: number;
+  /** Neck length, 0 (heads side by side on the body or each other) to 1 (long necks). */
+  neck: number;
+  /** The arc the heads fan across, in degrees. */
+  spread: number;
+  /** Size of each head against the main one (index 0 is the main head, 1). */
+  sizes: readonly number[];
+  /** `full`: the species' own eyes and mouth on every head; `simple`: bead eyes. */
+  faces: 'full' | 'simple';
+  /** A clutch of separate eggs (one per head, no shared body) instead of an arc. */
+  cluster?: boolean;
+  /** The heads poke up out of a dirt mound. */
+  mound?: boolean;
+  /** The extra heads are the ends of snake-necked arms, jaws open. */
+  arms?: boolean;
+}
+
+/** One head as drawn: its centre and radii, whether it sits in front of the main head, its neck. */
+export interface HeadSlot {
+  x: number;
+  y: number;
+  rx: number;
+  ry: number;
+  front: boolean;
+  /** Where the neck leaves the body; null when the head sits straight on. */
+  neck: [number, number] | null;
+}
+
+/** Shrink on the main head so equal heads fit the frame (and the 3D figure stays its size). */
+export function headScale(h: HeadsSpec): number {
+  if (h.arms) return 1;
+  if (h.cluster) return 0.68;
+  if (h.mound) return 0.75;
+  if (h.count >= 3) return h.neck >= 0.5 ? 0.5 : 0.62;
+  return 0.78;
+}
+
+/** Height over width of each head when it is not the kit's round head: eggs, burrowers. */
+export function headTall(h: HeadsSpec): number | null {
+  return h.cluster ? 1.15 : h.mound ? 1.4 : null;
+}
+
+/** Arc angles in radians, main head first: the middle one for an odd count, else the left. */
+export function headAngles(h: HeadsSpec): number[] {
+  const sp = (h.spread * Math.PI) / 180;
+  const step = h.count > 1 ? sp / (h.count - 1) : 0;
+  const t = Array.from({ length: h.count }, (_, i) => -sp / 2 + i * step);
+  return t.sort((p, q) => Math.abs(p) - Math.abs(q) || p - q);
+}
+
+/** Egg offsets of a clutch, in head radii: x, y (down), and whether in front of the main egg. */
+export const CLUTCH: ReadonlyArray<readonly [number, number, boolean]> = [
+  [0, 0, true],
+  [-1.85, 0.15, true],
+  [1.85, 0.15, true],
+  // The top egg first, so the middle pair overlap it and keep their faces in view.
+  [0, -2.75, false],
+  [-0.95, -1.5, false],
+  [0.95, -1.5, false],
+];
+
+/**
+ * Where every head goes, the main one first, from anchors whose head is already shrunk by
+ * `headScale`. Side views squeeze the arc, since the heads then line up in depth.
+ */
+export function headSlots(a: Anchors, h: HeadsSpec): HeadSlot[] {
+  const kx = a.face >= 1 ? 0.3 : a.face > 0 ? 0.75 : 1;
+  const flip = a.back ? -1 : 1;
+  const r = a.headRx;
+  const size = (i: number) => (h.sizes[i] ?? 1) / (h.sizes[0] ?? 1);
+  const out: HeadSlot[] = [];
+  if (h.cluster) {
+    CLUTCH.slice(0, h.count).forEach(([dx, dy, front], i) =>
+      out.push({
+        x: a.headCx + dx * r * kx * flip,
+        y: a.headCy + dy * a.headRy,
+        rx: r * size(i),
+        ry: a.headRy * size(i),
+        front,
+        neck: null,
+      }),
+    );
+    return out;
+  }
+  if (h.arms) {
+    out.push({ x: a.headCx, y: a.headCy, rx: r, ry: a.headRy, front: false, neck: null });
+    for (let i = 1; i < h.count; i++) {
+      const d = (i % 2 ? -1 : 1) * flip;
+      const rx = r * size(i) * 0.55;
+      const sx = a.bodyCx + d * (a.bodyRx - 1) * kx;
+      const sy = a.bodyCy - a.bodyRy + 3;
+      out.push({
+        x: a.bodyCx + d * (a.bodyRx + rx - 0.5) * Math.max(kx, 0.5),
+        y: a.bodyCy - a.bodyRy - 1,
+        rx,
+        ry: rx * 0.75,
+        // From the side the far arm hides behind the body.
+        front: a.face < 1 || d > 0,
+        neck: [sx, sy],
+      });
+    }
+    return out;
+  }
+  const th = headAngles(h);
+  const sp = (h.spread * Math.PI) / 180;
+  const step = h.count > 1 ? sp / (h.count - 1) : 0;
+  const touch = step > 0 ? (0.92 * r) / Math.sin(step / 2) : 0;
+  const body = a.bodyRx > 0;
+  const ox = body ? a.bodyCx : a.headCx;
+  const oy = body ? a.bodyCy - a.bodyRy + 1 : a.headCy + touch;
+  let R = touch;
+  if (body) R = Math.min(Math.max(touch, oy - a.headCy + h.neck * 6), oy - a.headRy - 0.5);
+  th.forEach((t, i) => {
+    const s = size(i);
+    out.push({
+      x: ox + Math.sin(t) * R * kx * flip,
+      y: oy - Math.cos(t) * R,
+      rx: r * s,
+      ry: a.headRy * s,
+      front: i === 0,
+      neck: body && h.neck > 0 ? [ox + Math.sin(t) * 2 * kx * flip, oy + 1] : null,
+    });
+  });
+  // Heads side by side on no body rest on the ground: lift the set until the lowest touches.
+  const low = Math.max(...out.map((o) => o.y + o.ry));
+  if (!body && low > a.feetY) for (const o of out) o.y -= low - a.feetY;
+  return out;
+}
+
+/** Parts that belong to a head and so are drawn on every head with a full face. */
+const HEAD_PARTS: readonly Gen1bPart[] = ['beak', 'cyclops', 'magnets', 'grin', 'snout'];
+
+function neckLine(
+  pc: PixelCanvas,
+  from: [number, number],
+  to: [number, number],
+  bend: number,
+  fill: number,
+  rim: number,
+): void {
+  // A soft curve through a control point pushed sideways by `bend`.
+  const [x0, y0] = from;
+  const [x1, y1] = to;
+  const cx = (x0 + x1) / 2 + bend;
+  const cy = (y0 + y1) / 2;
+  for (const [r, c] of [
+    [1.9, rim],
+    [1.3, fill],
+  ] as const)
+    for (let k = 0; k <= 1.001; k += 0.08) {
+      const x = (1 - k) * (1 - k) * x0 + 2 * (1 - k) * k * cx + k * k * x1;
+      const y = (1 - k) * (1 - k) * y0 + 2 * (1 - k) * k * cy + k * k * y1;
+      pc.disc(x, y, r, c);
+    }
+}
+
+/** The zigzag cracks on a clutch egg's crown. */
+export function eggCracks(
+  pc: PixelCanvas,
+  s: { x: number; y: number; rx: number; ry: number },
+): void {
+  const y = s.y - s.ry * 0.55;
+  pc.thinLine(s.x - s.rx * 0.6, y, s.x - s.rx * 0.2, y + 1, C.darkPlum);
+  pc.thinLine(s.x - s.rx * 0.2, y + 1, s.x + s.rx * 0.2, y - 0.5, C.darkPlum);
+  pc.thinLine(s.x + s.rx * 0.2, y - 0.5, s.x + s.rx * 0.6, y + 0.5, C.darkPlum);
+}
+
+/**
+ * Draw the extra heads (not the main one) that sit behind (`front` false) or in front of
+ * the main head, each with its neck and face. `face` is the creature drawer's own face
+ * routine, so a `full` head looks exactly like the main one.
+ */
+export function drawHeads(
+  pc: PixelCanvas,
+  a: Anchors,
+  spec: CreatureSpec,
+  pose: ChaoPose,
+  front: boolean,
+  face: (at: Anchors, sub: CreatureSpec) => void,
+): void {
+  const h = spec.heads;
+  const slots = a.heads;
+  if (!h || !slots) return;
+  const col = spec.colors;
+  const sub: CreatureSpec = {
+    ...spec,
+    gen1b: (spec.gen1b ?? []).filter((p) => HEAD_PARTS.includes(p)),
+  };
+  slots.forEach((s, i) => {
+    if (i === 0 || s.front !== front) return;
+    const at: Anchors = { ...a, headCx: s.x, headCy: s.y, headRx: s.rx, headRy: s.ry };
+    const tint = h.arms ? (i % 2 ? col.accent : col.accent2) : col.body;
+    const bend = h.arms ? (s.x < a.bodyCx ? -3 : 3) : 0;
+    if (s.neck) neckLine(pc, s.neck, [s.x, s.y + s.ry * 0.5], bend, tint, col.outline);
+    pc.ellipse(s.x, s.y, s.rx + 0.5, s.ry + 0.5, col.outline);
+    pc.ellipse(s.x, s.y, s.rx, s.ry, tint);
+    pc.ellipse(s.x + 1, s.y + 1, s.rx - 1, s.ry - 1, shadeOf(tint));
+    pc.ellipse(s.x, s.y, s.rx - 1, s.ry - 1, tint);
+    if (h.arms) {
+      // A snake's head: open jaws facing out, a fang, one eye.
+      const d = s.x < a.bodyCx ? -1 : 1;
+      const jx = s.x + d * (s.rx - 0.5);
+      pc.tri(jx - d * 2.5, s.y + 0.5, jx + d * 1.5, s.y - 1.5, jx + d * 1.5, s.y + 2.5, C.berry);
+      pc.px(jx, s.y - 0.5, C.white);
+      pc.px(jx, s.y + 1.5, C.white);
+      if (!a.back) {
+        pc.px(s.x - d * 0.5, s.y - s.ry * 0.5, C.white);
+        pc.dot(s.x - d * 0.3, s.y - s.ry * 0.5, col.eye);
+      }
+      return;
+    }
+    if (h.cluster && !a.back) eggCracks(pc, s);
+    if (h.faces === 'full') {
+      face(at, sub);
+      drawGen1b(pc, at, sub, pose, 'front');
+      // A kit nose (the burrowers') goes on every head, as on the main one.
+      const nose = spec.addons?.find((e) => e.kind === 'nose');
+      if (nose && !a.back) {
+        const nx = a.face >= 1 ? s.x + s.rx - 1 : s.x + (a.face > 0 ? 2 : 0);
+        pc.ellipse(nx, s.y + 2.5, 1.6, 1.2, nose.c ?? col.accent);
+      }
+    } else if (!a.back) {
+      pc.px(s.x - 1.5, s.y - 0.5, col.eye);
+      pc.px(s.x + 1.5, s.y - 0.5, col.eye);
+    }
+  });
+  if (front && h.cluster && !a.back && slots[0]) eggCracks(pc, slots[0]);
+  if (front && h.mound) {
+    // The dirt the heads pop out of, over their lower edges.
+    const y = a.feetY;
+    upperEllipse(pc, a.bodyCx, y + 1, 15, 4, y + 1, C.sandDeep);
+    upperEllipse(pc, a.bodyCx, y + 1.5, 14, 3, y + 1.5, C.sand);
+    for (const [dx, dy] of [
+      [-9, -1],
+      [-3, -2.5],
+      [4, -1.5],
+      [10, -0.5],
+    ] as const)
+      pc.px(a.bodyCx + dx, y + dy * 0.6, C.sandDeep);
+  }
+}
+
+// ---------------------------------------------------------------- ghosts
+
+/** How far a floating ghost's frame rides above the ground row, in design pixels. */
+export const GHOST_LIFT = 3;
+
+/**
+ * The gas round a ghost's head (R0416): a dithered ring out to 1.5 times the head's
+ * radius, dense next to the head and thinning outward. It is drawn after the outline
+ * pass and only into empty pixels, so it sits behind the figure and gets no outline of
+ * its own (an outlined dither would read as noise).
+ */
+export function drawGas(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
+  if (!spec.gen1b?.includes('gas')) return;
+  const col = spec.colors;
+  const cx = a.headCx;
+  const cy = a.headCy;
+  for (let y = cy - a.headRy * 1.5; y <= cy + a.headRy * 1.5; y += 0.5)
+    for (let x = cx - a.headRx * 1.5; x <= cx + a.headRx * 1.5; x += 0.5) {
+      const k = Math.hypot((x - cx) / a.headRx, (y - cy) / a.headRy);
+      if (k < 0.9 || k > 1.5) continue;
+      const i = Math.floor(x * 2);
+      const j = Math.floor(y * 2);
+      if (pc.getFine(i, j) !== -1) continue;
+      const t = (k - 0.9) / 0.6;
+      const on =
+        t < 0.35
+          ? (i + j) % 2 === 0
+          : t < 0.7
+            ? i % 2 === 0 && j % 2 === 0
+            : i % 4 === 0 && j % 4 === (i % 8 === 0 ? 0 : 2);
+      if (on) pc.dot(x, y, t < 0.35 ? col.accent : col.accent2);
+    }
 }
