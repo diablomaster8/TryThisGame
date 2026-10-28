@@ -15,6 +15,7 @@ import {
   HOLLOW_TEXT,
   ACT_TEXT,
 } from '../config/strings';
+import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -974,6 +975,12 @@ export function mountHud(
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
           playSound('sad');
+        } else if (e.kind === 'moveLearned') {
+          // Lane C: a new move (recs FIGHT-17); the stats sheet's Bout card swaps it in.
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          const name = n?.name ?? NAMES.creature;
+          const say = e.slotted ? BOUT_TEXT_SHEET.learned : BOUT_TEXT_SHEET.swapIn;
+          toast(say(name, moveName(e.move)));
         } else if (e.kind === 'eternal') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));

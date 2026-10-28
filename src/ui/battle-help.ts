@@ -48,7 +48,9 @@ export function openTypeHelp(parent: HTMLElement): HTMLElement {
   card.appendChild(el('div', 'btn-name', TYPE_HELP.title));
   card.appendChild(wheel());
   for (const line of typeHelpLines()) card.appendChild(el('p', 'help', line));
-  card.appendChild(button(TYPE_HELP.close, () => card.remove(), 'btn btn-small btn-primary'));
+  const close = button(TYPE_HELP.close, () => card.remove(), 'btn btn-small btn-primary');
+  card.appendChild(close);
   parent.appendChild(card);
+  close.focus();
   return card;
 }

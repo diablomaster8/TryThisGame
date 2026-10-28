@@ -208,14 +208,21 @@ button.battle-row:focus-visible {
 
 /* The type wheel help card (recs FIGHT-13). */
 .type-help {
-  position: absolute;
-  inset: 8px;
-  z-index: 5;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  box-sizing: border-box;
   overflow: auto;
-  padding: 12px;
+  padding: 14px;
+  border: 2px solid rgba(255, 241, 201, 0.4);
   border-radius: 12px;
-  background: var(--hud-bg, #2a2433);
-  color: var(--hud-fg);
+  background: #2a2433;
+  color: #fff1c9;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
 }
 
 .type-wheel {
@@ -288,4 +295,53 @@ button.battle-row:focus-visible {
   top: 18%;
   left: 22%;
   transform: rotate(315deg);
+}
+
+/* The stats sheet's Bout card (recs FIGHT-10, FIGHT-12, FIGHT-17). */
+.bout-card {
+  margin-top: 10px;
+}
+
+.bout-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 0.85em;
+}
+
+.bout-slots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(64px, 1fr));
+  gap: 6px;
+}
+
+.bout-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  padding: 4px;
+  font-size: 0.8em;
+  line-height: 1.1;
+}
+
+.bout-slot.picked {
+  outline: 3px solid #ffe08a;
+  outline-offset: 1px;
+}
+
+.bout-slot small {
+  font-size: 0.7em;
+  color: #9fd3ff;
+}
+
+.bout-known {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.bout-chip {
+  min-height: 44px;
 }

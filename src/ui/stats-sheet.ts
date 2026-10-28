@@ -27,6 +27,7 @@ import {
 
 const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 import type { Game } from '../game';
+import { BattleCard } from './battle-card';
 import { button, el, meter } from './dom';
 
 /**
@@ -56,6 +57,8 @@ export class StatsSheet {
   private more!: HTMLDivElement;
   private heartBtn!: HTMLButtonElement;
   private catchBtn!: HTMLButtonElement;
+  /** Lane C: the Bout card (battle stats, traits, move slots). */
+  private readonly bout: BattleCard;
 
   constructor(
     parent: HTMLElement,
@@ -195,7 +198,9 @@ export class StatsSheet {
     this.giveList = el('div', 'sheet-give-list');
     this.give.append(this.giveTitle, this.giveList);
 
+    this.bout = new BattleCard(game);
     this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.life, this.give);
+    this.root.appendChild(this.bout.root);
     parent.appendChild(this.root);
   }
 
@@ -314,6 +319,7 @@ export class StatsSheet {
     }
     this.shownPoints = { id: n.id, points };
     this.refreshGive(world, n);
+    this.bout.refresh(n);
 
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;

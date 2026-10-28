@@ -965,8 +965,8 @@ export function stepWorld(
   stepScans(world, dtMs, events);
   stepSkillPoints(world, events);
   stepTeams(world, events);
-  // Lane C: new moves join the kit (sim/battle/moves-sources.ts).
-  stepBattleMoves(world, dtMs, events);
+  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
+  if (!offline) stepBattleMoves(world, dtMs, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

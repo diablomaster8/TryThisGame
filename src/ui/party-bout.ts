@@ -262,9 +262,7 @@ export class PartyBoutPanel {
         );
         add(BATTLE_TEXT.moves.guard!, 0, true, () => this.send(s, { k: 'guard' }));
       }
-      row.appendChild(
-        button(BATTLE_TEXT.help, () => openTypeHelp(this.dialog.body), 'btn btn-small'),
-      );
+      row.appendChild(button(BATTLE_TEXT.help, () => openTypeHelp(document.body), 'btn btn-small'));
     }
     this.body.appendChild(row);
   }

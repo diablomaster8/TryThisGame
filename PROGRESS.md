@@ -40,13 +40,22 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 2 · Lane C (FIGHT, branch r2/c, 2026-10-28)
 
-Plan: rebuild the turn resolver on moves. R0222 derived stats (HP/Bonk/Splash/Guard/Zip/
-Flutter/Puff) for every mode; R0223 one damage formula; R0224 grade traits; R0225 type loop +
-Sun/Moon layer and a help card; R0226 Puff; R0227 cosy statuses and moods; R0228 ~60 moves as
-data with sources; R0229 four slots (optional `Nubbin.battle`, default on load, no save bump)
-and a slot editor in the stats sheet; R0230 choose-all-then-resolve by priority and Zip. The
-`battleStart`/`battleAct`/`battleEnd` entry point stays as it is (`strike`/`guard`/`rally`
-remain accepted). R0219 only if time allows.
+R0222–R0230 on the battle core. *Works:* derived stats (HP/Bonk/Splash/Guard/Zip/Flutter/
+Puff, child ×0.85, Eternal ×1.1) for every mode; one bounded damage formula; A/S grade
+traits; the type loop + Sun/Moon layer and a help card; Puff (3 start, +2 a turn, Yawny 1);
+six statuses and four mood stats with icon + word; 62 moves as data with sources; four slots
+on `Nubbin.battle` (optional, filled on first use, no save bump), a Bout card on the stats
+sheet (stats, traits, 64 px slot tiles) and a "learned a move" toast; choose-all-then-resolve
+turns by priority and Zip with a "Next up" strip. The entry point is unchanged (`strike`,
+`guard` = catch your breath, `rally` = Huddle, plus `move {move, target}`). *Stubbed:* Peckish
+also wears off (no battle items yet); Sticky only blocks switching (none yet); Heavy Hugger has
+no effect outside tactics; the karate record is not folded into `battle`; R0219 (3D view)
+not started. *Known:* a v1 turn bout in an old save is closed as a draw; on a phone the last
+move row sits under Leave until scrolled (FIGHT-25). *Assumptions:* finals share a signature
+by family and type (10, not 20); catching a breath has priority +3 like switching; Huddle
+(the old Rally) is a basic move for everyone at 3 Puff; personality resistance halves the
+chance; move names live in `config/strings-battle-moves.ts`, re-exported by
+`strings-battle.ts`; moves are synced once a sim second in live play only.
 
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
