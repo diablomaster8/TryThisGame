@@ -8,7 +8,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 7;
+export const SAVE_VERSION = 8;
 
 export interface SaveFile {
   version: number;
@@ -108,6 +108,13 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       k.vy = 0;
       k.grounded = true;
     }
+    return data;
+  },
+  // 7 to 8: the Hollow's five acts (R0145): no act begun, no boss beaten.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const hollow = world?.hollow as Record<string, unknown> | undefined;
+    if (hollow && !Array.isArray(hollow.acts)) hollow.acts = [];
     return data;
   },
 ];
@@ -266,8 +273,11 @@ export function validateWorld(w: World): World {
     // Runs saved before the version-2 floors keep the floor they were standing on.
     w.dungeon.genVersion ??= 1;
     w.dungeon.explored ??= '';
+    // The veil's hold belongs to the session that set it; the next boot sets its own.
+    delete w.dungeon.loading;
   }
-  w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 };
+  w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] };
+  if (!Array.isArray(w.hollow.acts)) w.hollow.acts = [];
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;

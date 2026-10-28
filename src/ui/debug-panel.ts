@@ -6,6 +6,8 @@ import { NUBBIN_TYPES, STAT_KEYS } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
 import { button, el } from './dom';
 import { StageInspector } from './stage-inspector';
+import { MOVE_TEXT } from '../config/strings-move';
+import { DEBUG_OVERLAY } from '../render/debug-colliders';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -150,6 +152,21 @@ export class DebugPanel {
       ),
     );
     this.root.appendChild(force);
+
+    // MOVE-38: collision overlays, drawn by whichever renderer is on.
+    const overlays = el('div', 'debug-row');
+    for (const key of ['colliders', 'nav', 'groundY'] as const) {
+      const row = el('label', 'check-row');
+      const box = el('input');
+      box.type = 'checkbox';
+      box.checked = DEBUG_OVERLAY[key];
+      box.addEventListener('change', () => {
+        DEBUG_OVERLAY[key] = box.checked;
+      });
+      row.append(box, el('span', undefined, MOVE_TEXT.debugOverlay[key]));
+      overlays.appendChild(row);
+    }
+    this.root.appendChild(overlays);
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DUNGEON, SIM } from '../../src/config/tuning';
+import { DUNGEON, HOLLOW, SIM } from '../../src/config/tuning';
 import {
   cellAt,
   cellCentre,
@@ -115,8 +115,9 @@ describe('floor generator versions', () => {
   });
 
   it('makes new floors with the current generator, the same every time for a seed', () => {
-    expect(DUNGEON.genVersion).toBe(2);
-    expect(floorOf(77, 2)).toBe(floorOf(77, 2, 2));
+    // New floors come from version 3 now (R0143); version 2 stays deterministic for saved runs.
+    expect(HOLLOW.genVersion).toBe(3);
+    expect(floorOf(77, 2)).toBe(floorOf(77, 2, 3));
     for (const seed of SEEDS.slice(0, 8)) {
       for (const d of [1, 7]) {
         const a = generateV2(seed, d);
@@ -351,7 +352,7 @@ describe('the explored mask (item 40)', () => {
     applyCommand(world, { kind: 'enterDungeon', daily: false }, events);
     const run = world.dungeon!;
     const f = runFloor(world)!;
-    expect(f.version).toBe(2);
+    expect(f.version).toBe(HOLLOW.genVersion);
     expect(isExplored(run, f, f.stairsUp.x, f.stairsUp.y)).toBe(true);
     expect(isExplored(run, f, f.chest.x, f.chest.y)).toBe(false);
     const seenAtStart = exploredMask(run, f).reduce((a, b) => a + b, 0);
@@ -380,7 +381,7 @@ describe('the explored mask (item 40)', () => {
 });
 
 describe('saves from before version 2', () => {
-  it('keep the old floor they were on, and the next floor down is version 2', () => {
+  it('keep the old floor they were on, and the next floor down is the current version', () => {
     const world = hatchedWorld(31);
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'enterDungeon', daily: false }, events);
@@ -409,7 +410,7 @@ describe('saves from before version 2', () => {
     back.keeper.pos = { ...cellCentre(f, f.stairsDown!) };
     step(back, 200);
     expect(run.depth).toBe(2);
-    expect(run.genVersion).toBe(DUNGEON.genVersion);
-    expect(runFloor(back)).toBe(floorOf(seed, 2, 2));
+    expect(run.genVersion).toBe(HOLLOW.genVersion);
+    expect(runFloor(back)).toBe(floorOf(seed, 2, HOLLOW.genVersion));
   });
 });

@@ -131,7 +131,9 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
         z: GROVE.bridge.z - side * BRIDGE_DECK.railOffset * Math.sin(BRIDGE_YAW),
       })),
     ];
-    for (const c of GROVE_COLLIDERS) expect(near(c.x, c.z, drawn), c.id).toBe(true);
+    // A sliver join (MOVE-34) bridges two drawn things and is not drawn itself.
+    for (const c of GROVE_COLLIDERS)
+      if (!c.id.startsWith('join-')) expect(near(c.x, c.z, drawn), c.id).toBe(true);
     expect(WILD_PROPS.length).toBeGreaterThan(50);
   });
 

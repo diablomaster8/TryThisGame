@@ -14,6 +14,7 @@ import {
   toonMaterial,
   type Creature,
   type EyeRig,
+  type EyeStyle,
   type Shade,
   type SurfaceOpts,
 } from './creatures';
@@ -240,6 +241,10 @@ export interface SpeciesSpec {
     tall?: number;
     /** `false` leaves the brow ridge off (the line-up's figures have none). */
     brow?: boolean;
+    /** `chao`: solid dark ovals with two glints, no sclera, no brows; `dot`, `cute` (LOOK-40). */
+    style?: EyeStyle;
+    /** Roll of each eye, outer end up, radians: a slanted angry eye (LOOK-40). */
+    roll?: number;
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
   };
@@ -258,6 +263,10 @@ export interface SpeciesSpec {
     /** The toon mode's line colour for this mouth (a painted red 'o'); the outline colour by default. */
     line?: string;
   };
+  /** Body roll of the walk over the stance foot, radians (0.03 by default; the Chao waddle 0.12). */
+  waddle?: number;
+  /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
+  blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
   expressions?: Partial<Record<PoseName, Partial<Expression>>>;
   /**
@@ -516,6 +525,21 @@ const BLOB_CLEARANCE = 0.05;
 const BLOB_UPRIGHT = new THREE.Quaternion();
 
 let blobTexture: THREE.CanvasTexture | null = null;
+/** How far the wings splay out of the back plane, radians (35 degrees). */
+const WING_SPLAY = 0.61;
+
+/**
+ * The idle wing flutter: seconds into the current burst of three 12 Hz beats, or 0 between
+ * bursts. Bursts come every 4 to 7 s, the gap varying from burst to burst.
+ */
+export function idleFlutter(t: number): number {
+  // One burst per 5.5 s window, shifted up to 1.5 s by a hash of the window: gaps of 4-7 s.
+  const n = Math.floor(t / 5.5);
+  const h = Math.sin(n * 12.9898) * 43758.5453;
+  const into = t - (n * 5.5 + 1.5 * (h - Math.floor(h)));
+  return into >= 0 && into < 0.25 ? Math.max(1e-3, into) : 0;
+}
+
 /** A soft radial shadow, painted once. */
 function shadowBlob(): THREE.CanvasTexture {
   if (blobTexture) return blobTexture;
@@ -979,6 +1003,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       e.irisScale,
       0,
       e.tall ?? 1.2,
+      e.style ?? 'anime',
+      side,
     );
     r.group.position.copy(at.pos).sub(faceOrigin);
     r.group.quaternion.setFromUnitVectors(
@@ -987,6 +1013,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     );
     r.group.rotateY(side * e.yaw);
     r.group.rotateX(e.pitch ?? 0);
+    if (e.roll) r.group.rotateZ(side * e.roll);
     lids.push(r.lid);
     r.brow.userData.side = side;
     if (e.brow === false) r.brow.visible = false;
@@ -1004,6 +1031,29 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       .sub(faceOrigin);
     bead.castShadow = false;
     facePart.add(bead);
+  }
+  // Cheek blush that shows only while petted, scaled in over 150 ms (LOOK-12): a Chao has
+  // no blush at rest.
+  const blushes: THREE.Mesh[] = [];
+  if (spec.blush) {
+    const mat = new THREE.MeshBasicMaterial({
+      color: spec.blush,
+      transparent: true,
+      opacity: 0.8,
+      depthWrite: false,
+    });
+    for (const side of [-1, 1]) {
+      const at = onSurface(facePrims, headBlend, V(side * (e.x + 0.12), e.y - e.r * 1.1, e.z));
+      const m = new THREE.Mesh(new THREE.SphereGeometry(e.r * 0.42, 16, 10), mat);
+      m.position.copy(at.pos).addScaledVector(at.normal, -0.01).sub(faceOrigin);
+      m.quaternion.setFromUnitVectors(forward, at.normal);
+      m.userData.base = new THREE.Vector3(1, 0.55, 0.25);
+      m.scale.setScalar(0.001);
+      m.visible = false;
+      m.castShadow = false;
+      facePart.add(m);
+      blushes.push(m);
+    }
   }
   const mouthAt = onSurface(facePrims, headBlend, V(spec.mouth.x, spec.mouth.y, spec.mouth.z));
   const mouth = buildMouth(facePart, {
@@ -1037,22 +1087,29 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         shape.quadraticCurveTo(0.2 * dx * k, 0.35 * k, 0.08 * dx * k, 0.05 * k);
         shape.lineTo(0, 0);
       } else {
-        shape.quadraticCurveTo(0.46 * dx * k, 0.5 * k, 0.16 * dx * k, 1.0 * k);
-        shape.quadraticCurveTo(-0.18 * dx * k, 0.55 * k, 0, 0);
+        // A rounded leaf with a scalloped trailing edge, two arcs (LOOK-13): the Chao wing.
+        shape.quadraticCurveTo(0.5 * dx * k, 0.42 * k, 0.24 * dx * k, 0.98 * k);
+        shape.quadraticCurveTo(0.12 * dx * k, 0.66 * k, -0.02 * dx * k, 0.72 * k);
+        shape.quadraticCurveTo(0.02 * dx * k, 0.4 * k, -0.12 * dx * k, 0.38 * k);
+        shape.quadraticCurveTo(-0.1 * dx * k, 0.14 * k, 0, 0);
       }
       const pivot = new THREE.Group();
       pivot.position.set(dx * w.x, w.y - spec.hipY, w.z);
-      pivot.rotation.y = -dx * 0.5;
+      // Splayed 35 degrees out of the back plane, so the tips peek past the shoulders.
+      pivot.rotation.y = -dx * WING_SPLAY;
+      // The Chao leaf leans outward too, so it reads beside the shoulders, not behind the head.
+      if (w.shape === undefined) pivot.rotation.z = -dx * 0.75;
       pivot.add(
         new THREE.Mesh(
           new THREE.ShapeGeometry(shape, 18),
           new THREE.MeshPhysicalMaterial({
             color: w.color,
             transparent: true,
-            opacity: 0.8,
+            // The Chao leaf is an opaque painted wing; the fairy, feather and bat ones see through.
+            opacity: w.shape === undefined ? 1 : 0.8,
             side: THREE.DoubleSide,
             roughness: 0.2,
-            transmission: 0.3,
+            transmission: w.shape === undefined ? 0 : 0.3,
           }),
         ),
       );
@@ -1495,8 +1552,10 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const w = cycle * Math.PI * 2;
         hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
-        hips.rotation.z = s(w) * 0.03;
-        set('head', s(w * 2) * 0.03, 0, 0);
+        // The body rolls over the stance foot (the Chao waddle, LOOK-22) and the head counters it.
+        const roll = spec.waddle ?? 0.03;
+        hips.rotation.z = s(w) * roll;
+        set('head', s(w * 2) * 0.03, 0, -s(w) * roll * 0.43);
         if (legs.length) {
           hips.updateMatrix();
           hipsInv.copy(hips.matrix).invert();
@@ -1874,7 +1933,14 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
               ? 0.08
               : 0.35;
       const rate = pose === 'flap' ? 28 : 9;
-      w.rotation.y = -(i === 0 ? -1 : 1) * 0.5 + s(t * rate + i) * flap * (i === 0 ? -1 : 1);
+      const side = i === 0 ? -1 : 1;
+      let beat = s(t * rate + i) * flap;
+      if (pose === 'idle' && spec.wings?.shape === undefined) {
+        // At rest a Chao's wings keep still, then flutter: 3 beats at 12 Hz every 4-7 s.
+        const burst = idleFlutter(t);
+        beat = burst > 0 ? Math.sin(burst * Math.PI * 2 * 12) * 0.55 : s(t * 1.3 + i) * 0.04;
+      }
+      w.rotation.y = -side * WING_SPLAY + beat * side;
     });
     if (ball && ballMat) {
       ball.position.y =
@@ -2011,6 +2077,16 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const r = e.brow.userData.r as number;
       e.brow.rotation.z = Math.PI / 2 + ex.brow * k * side;
       e.brow.position.y = (e.brow.userData.baseY as number) + ex.browLift * k * r;
+    }
+    if (blushes.length) {
+      const want = pose === 'pet' ? 1 : 0;
+      for (const b of blushes) {
+        const s = b.userData.s as number | undefined;
+        const now = (s ?? 0) + (want - (s ?? 0)) * Math.min(1, fdt / 0.15);
+        b.userData.s = now;
+        b.visible = now > 0.02;
+        b.scale.copy(b.userData.base as THREE.Vector3).multiplyScalar(Math.max(0.001, now));
+      }
     }
     // The irises: each eye takes the look point in its own frame, so the pair converge on
     // a near point by themselves; with nothing to look at they drift in a slow wander.

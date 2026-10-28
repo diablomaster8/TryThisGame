@@ -49,7 +49,16 @@ import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
-import { dungeonGo, enterDungeon, feedStray, inParty, leaveDungeon, stepDungeon } from './dungeon';
+import {
+  dungeonGo,
+  encounterDone,
+  enterDungeon,
+  feedStray,
+  inParty,
+  leaveDungeon,
+  setDungeonLoading,
+  stepDungeon,
+} from './dungeon';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -61,6 +70,7 @@ export function hatchSpeed(world: World): number {
 }
 import { nubbinWalker, resolve } from './obstacles';
 import { courseById, prizeFor } from './race';
+import { collideThrown } from './throw-collide';
 import {
   eduResetSession,
   eduStartBreak,
@@ -183,7 +193,7 @@ export function createWorld(seed: number, wallMs: number): World {
     night: false,
     tank: { runs: 0, best: 0 },
     dungeon: null,
-    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0 },
+    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] },
     neighbours: {},
     festivalSeen: '',
     atlasFestivals: [],
@@ -646,6 +656,15 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'dungeonGo':
       dungeonGo(world, cmd.to, events);
       return;
+    case 'setLoading':
+      setDungeonLoading(world, cmd.on);
+      return;
+    case 'enterAct':
+      withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
+      return;
+    case 'encounterDone':
+      encounterDone(world, cmd.outcome, events);
+      return;
     case 'feedStray':
       feedStray(world, cmd.id, events);
       return;
@@ -881,7 +900,12 @@ export function stepWorld(
         if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
         }
-        if (n.behavior.state === 'thrown') updateBehavior(n, world, dtMs, rng, events);
+        if (n.behavior.state === 'thrown') {
+          updateBehavior(n, world, dtMs, rng, events);
+          // MOVE-33: a thrown egg bounces off walls and never comes to rest inside one.
+          if (n.behavior.state === 'thrown') collideThrown(world, n, events);
+          else resolve(n.pos, world, 0.25, 'nubbin');
+        }
         continue;
       }
       decayNeeds(n, dtMs);
@@ -889,6 +913,8 @@ export function stepWorld(
       // Party members underground are moved by the Hollow step instead.
       if (world.nubbins.includes(n) && !inParty(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);
+        // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
+        if (n.behavior.state === 'thrown') collideThrown(world, n, events);
         resolve(n.pos, world, 0.3, nubbinWalker(n));
       }
     }

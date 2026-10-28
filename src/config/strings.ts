@@ -1547,4 +1547,7 @@ export const STORY_U4_TEXT = {
   /** The Hundred Days' tally label for screen readers. */
   tally: (n: number) => `Day ${n}`,
 } as const;
+export * from './strings-dungeon';
+export * from './strings-move';
+export * from './strings-move-joy';
 export * from './strings-battle';

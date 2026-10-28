@@ -2,7 +2,8 @@ import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obst
 import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
-import { groveLeg } from './nav';
+import { autoHopOn, groveLeg, hopReaches } from './nav';
+import { AUTO_HOP, GLIDE, JUMP_PLAY, UNREACHABLE } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -138,12 +139,21 @@ function careWalkStalled(world: World): boolean {
  * Walk around a solid thing instead of into it: when the straight step would end inside a
  * hill, tree or building, follow that obstacle's edge on the side nearer the target.
  */
-function steer(world: World, p: Vec2, to: Vec2, dx: number, dz: number): [number, number] {
+function steer(
+  world: World,
+  p: Vec2,
+  to: Vec2,
+  dx: number,
+  dz: number,
+  hop = false,
+): [number, number] {
   const look = KEEPER_UNSTICK.clearance + 0.1;
   const ax = p.x + dx * look;
   const az = p.z + dz * look;
   for (const c of obstacles(world)) {
     if (c.flags.includes('soft') || c.flags.includes('nubbinOnly')) continue;
+    // With Auto-hop a log, fence or bench is jumped, not walked round (MOVE-24).
+    if (hop && (c.flags.includes('hop') || c.flags.includes('standable'))) continue;
     // A target inside the obstacle itself is walked into and dropped, as before.
     if (contact(c, to.x, to.z, KEEPER_UNSTICK.clearance)) continue;
     const hit = contact(c, ax, az, KEEPER_UNSTICK.clearance);
@@ -255,6 +265,61 @@ export function keeperJump(world: World, down: boolean): void {
   k.bufferMs = jumpTuning(world).bufferMs;
 }
 
+/**
+ * MOVE-24: a tap walk with Auto-hop on jumps by itself. Ahead of the body by the run-up, a
+ * rise of more than a step (a terrace face) or a hop piece the feet would not clear (a log,
+ * a fence) starts a jump; at the top of it, ground still above the feet asks for the double
+ * jump (two tiers). The planned path only goes this way when Auto-hop opened it (nav.ts).
+ */
+function autoHop(world: World, dx: number, dz: number): void {
+  const k = world.keeper;
+  if (k.carrying || k.bufferMs > 0) return;
+  const reach = AUTO_HOP.body + AUTO_HOP.runUp;
+  const ahead = { x: k.pos.x + dx * reach, z: k.pos.z + dz * reach };
+  const rise = keeperFooting(world, ahead.x, ahead.z, k.y + AUTO_HOP.doubleRise).y - k.y;
+  if (k.grounded) {
+    const piece =
+      blocked(ahead, world, 0.1, 'keeper', k.y) &&
+      !blocked(ahead, world, 0.1, 'keeper', k.y + AUTO_HOP.hopRise - JUMP.stepUp);
+    if (rise > JUMP.stepUp || piece) autoPress(world);
+  } else if (k.vy <= 0 && k.airJumps > 0 && rise > 0) autoPress(world);
+}
+
+/**
+ * MOVE-35: stand-in targets for shut-in taps. A nav cell is open a little closer to a wall
+ * than the Keeper's body fits, so these count as reached from a little further off.
+ */
+const standIns = new WeakSet<Vec2>();
+
+/** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
+const autoPressed = new WeakSet<World>();
+
+function autoPress(world: World): void {
+  keeperJump(world, true);
+  autoPressed.add(world);
+}
+
+/** How long the Keeper has glided this time in the air (MOVE-27), transient. */
+const glided = new WeakMap<World, number>();
+
+/**
+ * MOVE-27: whether the Keeper is gliding now: in the air, falling, jump held, with the
+ * Fly perk, and within the glide's time. The renderers read it for the wing overlay.
+ */
+export function keeperGliding(world: World): boolean {
+  const k = world.keeper;
+  return (
+    !k.grounded &&
+    k.vy <= 0 &&
+    k.jumpHeld &&
+    (glided.get(world) ?? 0) < GLIDE.maxMs &&
+    keeperPerks(world).glide
+  );
+}
+
+/** The highest the feet got since they left the ground, for the landing's fall height. */
+const peakY = new WeakMap<World, number>();
+
 /** Gravity, jumping and landing for one substep (MOVE-10/11). */
 function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEvent[]): void {
   const k = world.keeper;
@@ -267,6 +332,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.vy = 0;
       k.coyoteMs = tune.coyoteMs;
       k.airJumps = JUMP.airJumps;
+      peakY.set(world, k.y);
     } else {
       // Slopes, ramps and steps up to `stepUp` are followed.
       k.y = ground;
@@ -283,7 +349,9 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.grounded = false;
       k.coyoteMs = 0;
       k.bufferMs = 0;
+      if (fromGround) peakY.set(world, k.y);
       events.push({ kind: 'keeperJumped', air: !fromGround });
+      if (autoPressed.delete(world)) k.jumpHeld = false;
     }
   }
   k.bufferMs = Math.max(0, k.bufferMs - dt * 1000);
@@ -291,7 +359,13 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   if (k.grounded) return;
   const g = tune.gravity * (k.vy < 0 ? JUMP.fallGravityScale : 1);
   k.vy = Math.max(-JUMP.maxFall, k.vy - g * dt);
+  if (k.vy < 0 && keeperGliding(world)) {
+    // The glide holds the fall to a drift for a while (MOVE-27).
+    k.vy = Math.max(k.vy, -GLIDE.maxFall);
+    glided.set(world, (glided.get(world) ?? 0) + dt * 1000);
+  }
   k.y += k.vy * dt;
+  if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.y <= under) {
@@ -300,7 +374,8 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.vy = 0;
       k.grounded = true;
       k.airJumps = JUMP.airJumps;
-      events.push({ kind: 'keeperLanded' });
+      glided.delete(world);
+      events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
     }
   }
 }
@@ -416,15 +491,21 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     !dungeonFloor && (k.input.x !== 0 || k.input.z !== 0 || !!k.moveTarget || !!k.intent);
   const wet = going && k.grounded && keeperFooting(world, k.pos.x, k.pos.z, k.y).on === 'water';
   const soft =
-    (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) * (wet ? KEEPER_WADE.speed : 1);
+    (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
+    (wet ? KEEPER_WADE.speed : 1) *
+    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1);
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {
     const len = Math.hypot(k.input.x, k.input.z);
     const nx = k.input.x / len;
     const nz = k.input.z / len;
+    // The stick's length (up to 1) is the pace: a light touch walks slowly.
     const speed =
-      KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft;
+      KEEPER.speed *
+      Math.min(1, len) *
+      keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
+      soft;
     const v = accelerate(world, nx * speed, nz * speed, dt, events);
     k.pos.x += v.x * dt;
     k.pos.z += v.z * dt;
@@ -458,7 +539,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       // On land the Keeper walks up to arm's length; from the shore, a swimming Nubbin is
       // within reach however far out it is.
       const reach = !k.intent
-        ? KEEPER.arriveRadius
+        ? standIns.has(raw!)
+          ? UNREACHABLE.standInReach
+          : KEEPER.arriveRadius
         : target !== raw
           ? KEEPER.interactRadius + GROVE.pond.r
           : KEEPER.interactRadius;
@@ -499,10 +582,19 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         const leg = groveLeg(world, k.pos, target);
         if (!leg || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
+          // MOVE-35: a plain tap with nowhere reachable near it says so.
+          else events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
           k.intent = null;
           k.moveTarget = null;
         } else {
-          if (!k.intent && leg.end !== target) k.moveTarget = leg.end;
+          if (!k.intent && leg.end !== target) {
+            // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
+            // with a hint when a jump would get there.
+            k.moveTarget = leg.end;
+            standIns.add(leg.end);
+            const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
+            events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
+          }
           const to = leg.next;
           const td = Math.max(dist(k.pos, to), 1e-6);
           // It eases in over the last stretch to where it stops (MOVE-20).
@@ -518,7 +610,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           let dx = (to.x - k.pos.x) / td;
           let dz = (to.z - k.pos.z) / td;
           // Steering stays as the local fallback on a straight leg.
-          if (to === target) [dx, dz] = steer(world, k.pos, target, dx, dz);
+          const hops = autoHopOn(world);
+          if (to === target) [dx, dz] = steer(world, k.pos, target, dx, dz, hops);
+          if (hops) autoHop(world, dx, dz);
           k.pos.x += dx * step;
           k.pos.z += dz * step;
           k.facing = Math.atan2(dx, dz);
@@ -574,6 +668,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     }
   }
   stepVertical(world, dt, !!dungeonFloor, events);
+  if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
 
   // A carried Nubbin rides above the Keeper's head.
   if (k.carrying) {
@@ -587,6 +682,58 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.carrying = null;
     }
   }
+}
+
+/** Per world: when each tree was last jumped into and each Nubbin last leapt over (MOVE-26). */
+const playCooldowns = new WeakMap<World, Map<string, number>>();
+
+/**
+ * What a jump does on its way (MOVE-26), checked only while the Keeper is in the air: a
+ * jump into a fruit tree's trunk shakes it, as a tap does; a jump over a sitting Nubbin is
+ * a leapfrog that makes it giggle. Each has its own cooldown per tree or Nubbin.
+ */
+function jumpPlay(world: World, events: SimEvent[]): void {
+  const k = world.keeper;
+  const P = JUMP_PLAY;
+  let seen = playCooldowns.get(world);
+  const ready = (id: string, ms: number): boolean => {
+    const at = seen?.get(id);
+    return at === undefined || world.timeMs - at >= ms;
+  };
+  const mark = (id: string): void => {
+    if (!seen) playCooldowns.set(world, (seen = new Map()));
+    seen.set(id, world.timeMs);
+  };
+  for (const t of world.trees) {
+    if (dist(k.pos, t.pos) > P.trunkReach || !ready(t.id, P.treeCooldownMs)) continue;
+    mark(t.id);
+    shakeTreeNow(world, t, events);
+  }
+  for (const n of world.nubbins) {
+    if (n.behavior.state !== 'sit' || !isFree(n)) continue;
+    if (dist(k.pos, n.pos) > P.leapReach || k.y - footing(n.pos.x, n.pos.z).y < P.leapClear)
+      continue;
+    if (!ready(n.id, P.leapCooldownMs)) continue;
+    mark(n.id);
+    addHappiness(n, P.leapHappiness);
+    react(n, 'love', world.timeMs, events);
+  }
+}
+
+/** Shake a fruit tree: the next fruit comes sooner, now and then wood, and Power drops fruit. */
+function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEvent[]): void {
+  tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
+  events.push({ kind: 'treeShaken', treeId: tree.id });
+  // Wood now and then, and a Power-type friend shakes fruit loose at once.
+  withRng(world, (rng) => {
+    if (rng.chance(GATHER.woodChance)) {
+      world.inventory.wood += 1;
+      events.push({ kind: 'gathered', what: 'wood', count: 1 });
+    }
+    if (keeperPerks(world).power) {
+      for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
+    }
+  });
 }
 
 function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): void {
@@ -625,19 +772,7 @@ function performIntent(world: World, intent: KeeperIntent, events: SimEvent[]): 
     }
     case 'shakeTree': {
       const tree = world.trees.find((t) => t.id === intent.treeId);
-      if (!tree) return;
-      tree.fruitTimerMs = Math.max(0, tree.fruitTimerMs - TREES.shakeBonusMs);
-      events.push({ kind: 'treeShaken', treeId: tree.id });
-      // Wood now and then, and a Power-type friend shakes fruit loose at once.
-      withRng(world, (rng) => {
-        if (rng.chance(GATHER.woodChance)) {
-          world.inventory.wood += 1;
-          events.push({ kind: 'gathered', what: 'wood', count: 1 });
-        }
-        if (keeperPerks(world).power) {
-          for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
-        }
-      });
+      if (tree) shakeTreeNow(world, tree, events);
       return;
     }
     case 'collect': {

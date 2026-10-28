@@ -1,4 +1,5 @@
 import { V } from './sculpted';
+import { NUBBIN_EXTRA_MARKS } from './species-data';
 import { CHILD, variant, type NubbinColors, type NubbinVariant } from './nubbin-variants';
 
 /**
@@ -118,6 +119,8 @@ const TWO_TONE = EGG_COLOURS.map((c, i) => {
     `Nubbin (${cap(c.name)}, two-tone)`,
     twoTone(c, next),
     `Egg colour ${c.name} with the belly and tips of ${next.name}.`,
+    // The belly patch is the two-tone signature, so these keep it (LOOK-12).
+    { hints: NUBBIN_EXTRA_MARKS.belly.map((m) => ({ ...m, color: next.body })) },
   );
 });
 

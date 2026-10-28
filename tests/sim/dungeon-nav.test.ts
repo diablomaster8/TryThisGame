@@ -6,6 +6,7 @@ import { hatch } from '../../src/sim/lifecycle';
 import { Rng } from '../../src/sim/rng';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
+import { bfs } from './dungeon-measure';
 
 function grid(rows: string[]) {
   const width = rows[0]!.length;
@@ -97,6 +98,8 @@ describe('Hollow tap-to-move', () => {
       const ev: SimEvent[] = [];
       for (const n of world.nubbins) hatch(n, ev, 0);
       applyCommand(world, { kind: 'enterDungeon', daily: false }, ev);
+      // Monster packs (R0146) would start fights mid-walk; this checks the walking only.
+      world.dungeon!.packs = [];
       const f = runFloor(world)!;
       const rng = new Rng(seed * 7919);
       const reach = dryReach(f, cellOf(f, world.keeper.pos));
@@ -106,9 +109,12 @@ describe('Hollow tap-to-move', () => {
         const goal = cellCentre(f, cell);
         applyCommand(world, { kind: 'moveKeeperTo', pos: goal }, ev);
         taps++;
-        // Generous: three times the straight-line time plus a few seconds of detour.
+        // Generous: twice the walk (by cells, so a mazy version-3 floor is not short-changed),
+        // at least three times the straight line, plus a few seconds of detour.
         const d = Math.hypot(goal.x - world.keeper.pos.x, goal.z - world.keeper.pos.z);
-        const budget = ((d * 3) / KEEPER.speed) * 1000 + 4000;
+        const here = cellOf(f, world.keeper.pos);
+        const walk = bfs(f, here)[cell.y * f.cols + cell.x]! * DUNGEON.cell;
+        const budget = (Math.max(d * 3, walk * 2) / KEEPER.speed) * 1000 + 4000;
         for (let ms = 0; ms < budget && world.keeper.moveTarget; ms += SIM.stepMs) {
           stepWorld(world, SIM.stepMs);
           for (const id of world.dungeon?.party ?? []) {
@@ -133,5 +139,6 @@ describe('Hollow tap-to-move', () => {
     }
     expect(arrived).toBe(taps);
     expect(worstStallMs).toBeLessThan(2000);
-  });
+    // Version-3 floors are bigger and mazier: the walks take longer to simulate.
+  }, 30_000);
 });

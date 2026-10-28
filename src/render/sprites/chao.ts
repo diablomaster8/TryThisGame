@@ -32,6 +32,10 @@ export interface ChaoColors {
   outline: number;
   /** A second evolution's tell colour (see `ChaoShape.tellType`); unset otherwise. */
   tell?: number;
+  /** The belly patch colour, set only on a look that wears one (two-tone); unset is no patch. */
+  bellyPatch?: number;
+  /** A one-pixel rim on the head's lit (upper-left) side, the Moon forms' type hue. */
+  rim?: number;
 }
 
 export const CHILD_NEUTRAL: ChaoColors = {
@@ -40,7 +44,8 @@ export const CHILD_NEUTRAL: ChaoColors = {
   belly: C.pale,
   tip: C.sunYellow,
   tipShade: C.orange,
-  wing: C.blush,
+  // The same pale cream the 3D child wears (LOOK-13).
+  wing: C.cream,
   eye: C.ink,
   glint: C.white,
   outline: C.darkPlum,
@@ -53,7 +58,7 @@ export const CHILD_SUN: ChaoColors = {
   belly: C.white,
   tip: C.sunYellow,
   tipShade: C.sunYellow,
-  wing: C.cream,
+  wing: C.white,
 };
 
 export const CHILD_MOON: ChaoColors = {
@@ -102,17 +107,27 @@ export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): Cha
         return base;
     }
   }
+  // Moon forms (LOOK-48): a lighter shade than ink, and the type hue on the tip, hands and
+  // feet and as a one-pixel rim on the head's lit side, so the five read apart at dusk.
+  const moon = (body: number, shade: number, tip: number, tipShade: number): ChaoColors => ({
+    ...base,
+    body,
+    shade,
+    tip,
+    tipShade,
+    rim: tip,
+  });
   switch (type) {
     case 'swim':
-      return { ...base, body: C.deepGreen, shade: C.ink };
+      return moon(C.tealDeep, C.deepGreen, C.teal, C.tealDeep);
     case 'fly':
-      return { ...base, body: C.moonPurple, shade: C.darkPlum };
+      return moon(C.moonPurple, C.darkPlum, C.violet, C.violetDeep);
     case 'run':
-      return { ...base, body: C.nightBlue, shade: C.ink };
+      return moon(C.nightBlue, C.darkPlum, C.deepWater, C.skyDeep);
     case 'power':
-      return { ...base, body: C.berry, shade: C.darkPlum };
+      return moon(C.berry, C.darkPlum, C.rose, C.roseDeep);
     default:
-      return base;
+      return { ...base, rim: C.dusk };
   }
 }
 
@@ -233,7 +248,7 @@ export function variantColors(
   }
   // A two-tone may be a plain colour or a jewel, as in 3D.
   const t = tone ? (VARIANT_COLORS[tone] ?? JEWEL_COLORS[tone]) : undefined;
-  if (t) out = { ...out, belly: t.body, tip: t.body, tipShade: t.shade };
+  if (t) out = { ...out, belly: t.body, bellyPatch: t.body, tip: t.body, tipShade: t.shade };
   if (shiny) out = { ...out, outline: C.white, glint: C.cream, wing: C.white };
   return out;
 }
@@ -303,13 +318,19 @@ export function shadowColors(base: ChaoColors): ChaoColors {
 }
 
 /** Silhouette by type. Second evolutions add a lighter touch of their type. */
+/** A part slot's style at the look's part size (smaller on a child, LOOK-66). */
+function partFor(look: ChaoLook, id: string | null): PartStyle | null {
+  const s = partStyle(id);
+  return s && { ...s, k: look.shape.partScale ?? 1 };
+}
+
 export function shapeFor(
   type: NubbinType | null,
   second: NubbinType | null,
   eternal = false,
 ): ChaoShape {
   if (!type) return CHILD_SHAPE;
-  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1 };
+  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1, partScale: 1 };
   const apply = (t: NubbinType, k: number) => {
     switch (t) {
       case 'swim':
@@ -341,7 +362,12 @@ export function shapeFor(
 }
 
 export type EyeState = 'open' | 'closed' | 'happy' | 'half' | 'dizzy' | 'wide';
-export type MouthState = 'smile' | 'flat' | 'open' | 'sad' | 'none';
+/**
+ * The Chao mouth set (LOOK-65): a smile, a big open D when happy, a small `o` when surprised,
+ * a wide wail when crying, a munch while eating, a pout (Mischievous), flat asleep.
+ */
+export type MouthState =
+  'smile' | 'flat' | 'open' | 'o' | 'wail' | 'munch' | 'pout' | 'sad' | 'none';
 export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB';
 
 export interface ChaoPose {
@@ -349,6 +375,8 @@ export interface ChaoPose {
   lift: number;
   /** Squash: 1 = normal, <1 shorter. */
   squash: number;
+  /** The waddle's head rock, in px across the body (walk contact frames); 0 when unset. */
+  rock?: -1 | 0 | 1;
   legs: 'together' | 'stepA' | 'stepB' | 'tucked';
   arms: ArmPose;
   eyes: EyeState;
@@ -402,6 +430,8 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         arms: left ? 'swingA' : 'swingB',
         lift: passing ? -2 : contact ? 0 : -1,
         squash: contact ? 0.97 : passing ? 1.02 : 1,
+        // The waddle (LOOK-22): on each contact the head rocks a pixel away from the planted foot.
+        rock: phase === 0 ? 1 : phase === 3 ? -1 : 0,
       };
     }
     case 'happy':
@@ -415,7 +445,14 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         legs: 'tucked',
       };
     case 'sad':
-      return { ...BASE, eyes: 'half', mouth: 'sad', headDrop: frame === 0 ? 1 : 2, squash: 0.96 };
+      // Crying: the sad mouth opens into a wail on the second frame.
+      return {
+        ...BASE,
+        eyes: 'half',
+        mouth: frame === 0 ? 'sad' : 'wail',
+        headDrop: frame === 0 ? 1 : 2,
+        squash: 0.96,
+      };
     case 'sleep':
       return {
         ...BASE,
@@ -428,7 +465,7 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
     case 'eat':
       return {
         ...BASE,
-        mouth: frame === 1 ? 'open' : 'smile',
+        mouth: frame === 1 ? 'munch' : 'smile',
         eyes: frame === 2 ? 'happy' : 'open',
         squash: frame === 1 ? 0.96 : 1,
       };
@@ -463,7 +500,7 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
       };
     case 'tumble':
       // Thrown: curled up, eyes wide, rolling a quarter turn a frame.
-      return { ...BASE, eyes: 'wide', mouth: 'open', arms: 'out', legs: 'tucked', spin: frame % 4 };
+      return { ...BASE, eyes: 'wide', mouth: 'o', arms: 'out', legs: 'tucked', spin: frame % 4 };
   }
 }
 
@@ -519,6 +556,7 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       body: C.berry,
       shade: C.darkPlum,
       belly: C.white,
+      bellyPatch: C.white,
       tip: C.white,
       tipShade: C.pale,
       wing: C.berry,
@@ -535,6 +573,33 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
       tip: C.white,
       tipShade: C.roseDeep,
       wing: C.white,
+    },
+  },
+  'look-quills': {
+    label: 'Quills look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: nearestIndex('#2c58e0'),
+      shade: C.nightBlue,
+      belly: nearestIndex('#f5c99a'),
+      bellyPatch: nearestIndex('#f5c99a'),
+      tip: C.white,
+      tipShade: C.pale,
+      wing: nearestIndex('#2c58e0'),
+      eye: C.teal,
+    },
+  },
+  'look-shade': {
+    label: 'Shade look',
+    colors: {
+      ...CHILD_NEUTRAL,
+      body: C.darkPlum,
+      shade: C.ink,
+      belly: C.darkPlum,
+      tip: C.white,
+      tipShade: C.pale,
+      wing: C.darkPlum,
+      eye: C.ink,
     },
   },
   'look-dream': {
@@ -562,11 +627,18 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.ellipse(cx, top + 2, 8, 4.5, C.ink);
       pc.rect(cx - 8, top + 3, 17, 2, C.ink);
       pc.thinLine(cx - 4, top - 1, cx + 3, top - 1, C.darkPlum);
-      // Two bushy tails peeking out behind, drawn low on the sides.
-      pc.ellipse(cx - 9, L.bodyCy + 1, 3, 2, C.orange);
-      pc.ellipse(cx + 9, L.bodyCy + 1, 3, 2, C.orange);
-      pc.px(cx - 11, L.bodyCy + 1, C.white);
-      pc.px(cx + 11, L.bodyCy + 1, C.white);
+      // Twin fluffy tails fanned out behind, white at the tips (LOOK-28).
+      if (angle !== 'back' && angle !== 'backQuarter') {
+        pc.ellipse(cx + 9, L.bodyCy - 2, 2.5, 3.5, C.orange);
+        pc.ellipse(cx + 11, L.bodyCy + 1, 2.5, 3.5, C.orange);
+        pc.disc(cx + 10, L.bodyCy - 5, 1.3, C.white);
+        pc.disc(cx + 13, L.bodyCy - 1, 1.3, C.white);
+      } else {
+        pc.ellipse(cx - 2, L.bodyCy, 2.5, 3.5, C.orange);
+        pc.ellipse(cx + 2, L.bodyCy, 2.5, 3.5, C.orange);
+        pc.disc(cx - 3, L.bodyCy - 3, 1.3, C.white);
+        pc.disc(cx + 3, L.bodyCy - 3, 1.3, C.white);
+      }
       break;
     case 'look-echidna':
       // The line-up figure's white spikes, standing up round the crown.
@@ -574,6 +646,10 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
         pc.tri(cx + dx - 1.5, top + 3, cx + dx + 1.5, top + 3, cx + dx * 1.3, top - 3, C.white);
         pc.px(cx + dx * 1.3, top - 2, C.pale);
       }
+      // The line-up's huge white ears and the green dot on the white belly patch.
+      pc.ellipse(cx - L.headRx + 1, top + 4, 2, 3, C.white);
+      pc.ellipse(cx + L.headRx - 1, top + 4, 2, 3, C.white);
+      if (angle === 'front' || angle === 'frontQuarter') pc.px(L.bodyCx, L.bodyCy + 1, C.leaf);
       break;
     case 'look-rose':
       // A red headband with a bow.
@@ -583,11 +659,42 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.px(cx + 7, top, C.cream);
       break;
     case 'look-dream':
-      // A jester cap with two bells.
-      pc.tri(cx - 7, top + 2, cx + 1, top + 2, cx - 9, top - 6, C.roseDeep);
-      pc.tri(cx - 1, top + 2, cx + 7, top + 2, cx + 9, top - 6, C.moonPurple);
-      pc.disc(cx - 9, top - 6, 1.5, C.sunYellow);
-      pc.disc(cx + 9, top - 6, 1.5, C.sunYellow);
+      // The line-up figure: a gold horn on the onion dome, tiny ear points, a dark belly centre.
+      pc.tri(cx - 1.5, top + 2, cx + 1.5, top + 2, cx + 1, top - 4, C.sunYellow);
+      pc.px(cx, top, C.sunDeep);
+      pc.tri(cx - 7, top + 4, cx - 5, top + 4, cx - 7, top + 1, C.roseDeep);
+      pc.tri(cx + 5, top + 4, cx + 7, top + 4, cx + 7, top + 1, C.roseDeep);
+      if (angle === 'front' || angle === 'frontQuarter')
+        pc.ellipse(L.bodyCx, L.bodyCy + 1, 2, 1.6, C.moonPurple);
+      break;
+    case 'look-quills': {
+      // Five navy quills swept back round the crown.
+      const navy = nearestIndex('#2443c4');
+      for (const dx of [-7, -4, 0, 4, 7]) {
+        pc.tri(
+          cx + dx - 2,
+          top + 4,
+          cx + dx + 2,
+          top + 4,
+          cx + dx * 1.6,
+          top - 3 + Math.abs(dx) / 2,
+          navy,
+        );
+      }
+      break;
+    }
+    case 'look-shade':
+      // Tall pointed ears with grey insides, white spikes behind, a white collar with a lilac diamond.
+      for (const d of [-1, 1]) {
+        const ex = cx + d * 5;
+        pc.tri(ex - 2.5, top + 3, ex + 2.5, top + 3, ex + d, top - 6, C.darkPlum);
+        pc.tri(ex - 1, top + 2, ex + 1, top + 2, ex + d * 0.6, top - 3, nearestIndex('#8c8a96'));
+      }
+      pc.tri(cx - 1, top + 2, cx + 1, top + 2, cx, top - 4, C.white);
+      if (angle !== 'back') {
+        pc.rect(L.bodyCx - 4, L.headCy + L.headRy - 1, 9, 1, C.white);
+        pc.px(L.bodyCx, L.headCy + L.headRy, C.lavender);
+      }
       break;
     case 'straw':
       pc.rect(cx - 9, top + 1, 19, 2, C.cream);
@@ -663,7 +770,7 @@ function drawWings(
   front: boolean,
 ): void {
   const raise = pose.wings === 1 ? 3 : 0;
-  const back = partStyle(look.parts.back);
+  const back = partFor(look, look.parts.back);
   if (back) {
     drawBack(pc, angle, L, back, raise, front);
     return;
@@ -865,7 +972,7 @@ function drawArms(
   look: ChaoLook,
 ): void {
   const col = look.colors;
-  const part = partStyle(look.parts.arms);
+  const part = partFor(look, look.parts.arms);
   const shoulderY = L.bodyCy - L.bodyRy + 2;
   const hand = (x: number, y: number, dir: 1 | -1, sx: number) => {
     if (part) {
@@ -995,11 +1102,11 @@ function drawFace(
     default:
       return;
   }
-  // Soft cheeks.
-  if (angle === 'front') {
+  // Soft cheeks, only while loved (a Chao wears no blush at rest, LOOK-12).
+  if (pose.blush && angle === 'front') {
     pc.ellipse(L.headCx - 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
     pc.ellipse(L.headCx + 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
-  } else if (angle === 'frontQuarter') {
+  } else if (pose.blush && angle === 'frontQuarter') {
     pc.ellipse(L.headCx - 3.5, eyeY + 2.6, 1.2, 0.7, C.roseLight);
   }
   const my = eyeY + 4;
@@ -1017,8 +1124,37 @@ function drawFace(
       pc.px(mouthX, my, col.eye);
       break;
     case 'open':
+      // A big D: a flat top lip, a round bottom, the tongue inside.
+      if (angle === 'side') {
+        pc.rect(mouthX - 1, my, 3, 2, col.eye);
+        pc.px(mouthX, my + 1, C.berry);
+      } else {
+        pc.rect(mouthX - 2, my, 5, 2, col.eye);
+        pc.rect(mouthX - 1, my + 2, 3, 1, col.eye);
+        pc.px(mouthX, my + 1, C.rose);
+        pc.px(mouthX - 1, my + 1, C.berry);
+      }
+      break;
+    case 'o':
+      pc.px(mouthX, my, col.eye);
+      pc.px(mouthX - 1, my + 1, col.eye);
+      pc.px(mouthX + 1, my + 1, col.eye);
+      pc.px(mouthX, my + 2, col.eye);
+      break;
+    case 'wail':
+      // A wide trapezoid, the narrow edge on top.
+      pc.rect(mouthX - 1, my, 3, 1, col.eye);
+      pc.rect(mouthX - 2, my + 1, 5, 2, col.eye);
+      pc.px(mouthX, my + 2, C.berry);
+      break;
+    case 'munch':
       pc.rect(mouthX - 1, my, 3, 2, col.eye);
       pc.px(mouthX, my + 1, C.berry);
+      break;
+    case 'pout':
+      pc.px(mouthX - 1, my + 1, col.eye);
+      pc.px(mouthX, my + 1, col.eye);
+      pc.px(mouthX + 1, my, col.eye);
       break;
     case 'sad':
       pc.px(mouthX - 1, my + 1, col.eye);
@@ -1080,8 +1216,11 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
   const col = look.colors;
-  const L = layout(angle, pose, look.shape);
-  const tail = partStyle(look.parts.tail);
+  const L0 = layout(angle, pose, look.shape);
+  // The waddle rocks the head across the body; from the side it would read as a nod.
+  const rock = angle === 'side' ? 0 : (pose.rock ?? 0);
+  const L = rock ? { ...L0, headCx: L0.headCx + rock } : L0;
+  const tail = partFor(look, look.parts.tail);
   const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 
   // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
@@ -1103,10 +1242,12 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx, L.bodyRy, col.body);
     pc.ellipse(L.bodyCx + 1, L.bodyCy + 1, L.bodyRx - 1, L.bodyRy - 1, col.shade);
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx - 1, L.bodyRy - 1, col.body);
-    if (angle === 'front' || angle === 'frontQuarter') {
+    // A belly patch only where a look asks for one: the two-tone eggs' signature. A Chao's
+    // belly is its body colour (LOOK-12).
+    if (col.bellyPatch !== undefined && (angle === 'front' || angle === 'frontQuarter')) {
       const bx = L.bodyCx + (angle === 'frontQuarter' ? 1 : 0);
-      pc.ellipse(bx, L.bodyCy + 1, 3, 2.5, col.belly);
-      pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.belly));
+      pc.ellipse(bx, L.bodyCy + 1, 3, 2.5, col.bellyPatch);
+      pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.bellyPatch));
     }
     drawFeet(pc, angle, pose, L, col);
   } else {
@@ -1137,6 +1278,14 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   pc.ellipse(L.headCx, L.headCy, L.headRx - 1, L.headRy - 1, col.body);
   pc.px(L.headCx - 3, L.headCy - 4, col.belly);
   pc.px(L.headCx - 4, L.headCy - 3, col.belly);
+  if (col.rim !== undefined && angle !== 'back') {
+    // Just inside the outline, from the brow round to the crown's foot.
+    for (let a = 2.8; a <= 4.5; a += 0.22) {
+      const x = Math.round(L.headCx + Math.cos(a) * (L.headRx - 1));
+      const y = Math.round(L.headCy + Math.sin(a) * (L.headRy - 1));
+      pc.px(x, y, col.rim);
+    }
+  }
   if (look.shiny) {
     // Shiny: a sparkle on the head and the body.
     pc.px(L.headCx + 3, L.headCy - 5, C.white);
@@ -1147,7 +1296,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
 
   if (look.gem) drawGemFacets(pc, L, col);
 
-  const ears = partStyle(look.parts.ears);
+  const ears = partFor(look, look.parts.ears);
   if (ears) drawEars(pc, angle, L, ears);
   if (look.hat) {
     if (look.hatDye) {

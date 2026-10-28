@@ -290,6 +290,9 @@ export interface Settings {
   screenShake: boolean;
   /** Floatier, more forgiving jumps (MOVE-11); a Learning Grove save always has them. */
   gentleJumps: boolean;
+  /** MOVE-24: tap walks hop logs and jump terraces. Unset: on in a Learning Grove, and set on
+   * for a phone at its first launch. */
+  autoHop?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -557,6 +560,36 @@ export interface DungeonRun {
    * Read it through `exploredMask` in sim/dungeon.ts.
    */
   explored: string;
+  /** Strays and packs leave the Keeper be until this sim time (R0142). */
+  graceUntilMs?: number;
+  /** The floor's monster packs as they stand now (R0146); absent on floors without packs. */
+  packs?: DungeonPack[];
+  /** A fight under way with this pack: the floor holds still until it is answered. */
+  encounter?: { packId: string };
+  /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
+  act?: number;
+  /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
+  story?: true;
+  /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
+  loading?: true;
+}
+
+/** How far the Keeper has got in one act of the Hollow (R0145). */
+export interface ActProgress {
+  bossDefeated: boolean;
+  /** Deepest level of the act dungeon reached, 1-based; 0 before the first visit. */
+  deepest: number;
+}
+
+/** A monster pack's live state on the current floor (R0146); its make-up is on the floor. */
+export interface DungeonPack {
+  id: string;
+  pos: Vec2;
+  /** Ambling near home, chasing the Keeper, walking back, or beaten (gone home for good). */
+  state: 'idle' | 'chase' | 'home' | 'beaten';
+  target: Vec2 | null;
+  /** When it noticed the Keeper (the "!" beat); -1 before. */
+  noticedMs: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -745,7 +778,14 @@ export interface World {
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
-  hollow: { runs: number; best: number; dailyDay: string; dailyDepth: number };
+  hollow: {
+    runs: number;
+    best: number;
+    dailyDay: string;
+    dailyDepth: number;
+    /** Progress through the five acts, by `ACTS` index (R0145; save version 8). */
+    acts: ActProgress[];
+  };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
   /** Festival banner shown for this season already. */
@@ -905,6 +945,9 @@ export type Command =
   | { kind: 'enterDungeon'; daily: boolean }
   | { kind: 'leaveDungeon' }
   | { kind: 'dungeonGo'; to: 'up' | 'down' | 'chest' }
+  | { kind: 'setLoading'; on: boolean }
+  | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
+  | { kind: 'enterAct'; act: number }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
@@ -957,9 +1000,12 @@ export type SimEvent =
   | { kind: 'landed'; nubbinId: string }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
-  | { kind: 'keeperLanded' }
+  /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
+  | { kind: 'keeperLanded'; fall: number }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
+  /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
+  | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string }
@@ -1059,6 +1105,13 @@ export type SimEvent =
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null }
   | { kind: 'strayStartled'; shells: number }
+  | { kind: 'packNoticed'; packId: string }
+  | { kind: 'encounterStarted'; packId: string }
+  | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
+  | { kind: 'partyGiggles'; packId: string }
+  | { kind: 'packFled'; packId: string }
+  | { kind: 'bossGuard' }
+  | { kind: 'bossBeaten'; act: number }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 

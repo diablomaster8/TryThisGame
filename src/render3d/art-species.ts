@@ -501,6 +501,39 @@ function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] 
 }
 
 /** A sculpted species from the pixel drawer's recipe. */
+/**
+ * Each pixel eye type as its own 3D eye (LOOK-40), so species stop sharing one dome: a black
+ * bead for `dot`, a flat dark iris with glints for `cute`, a narrow iris under a lid slanted
+ * 25 degrees for `angry`, a sclera-forward eye for `big`, a shut arc for `closed`.
+ */
+function eyeProfile(
+  art: CreatureSpec,
+  eye: string,
+): Pick<SpeciesSpec['eyes'], 'iris' | 'lid' | 'irisScale' | 'tall' | 'style' | 'roll' | 'brow'> {
+  const iris = art.irisColor ?? eye;
+  switch (art.eyes) {
+    case 'dot':
+      return { iris: '#141414', lid: 0, irisScale: 1, tall: 1.3, style: 'dot', brow: false };
+    case 'cute':
+      return {
+        iris: art.irisColor ?? '#1a1420',
+        lid: 0.08,
+        irisScale: 0.86,
+        tall: 1.2,
+        style: 'cute',
+        brow: false,
+      };
+    case 'angry':
+      return { iris, lid: 0.38, irisScale: 0.62, tall: 1.0, roll: 0.44 };
+    case 'big':
+      return { iris, lid: 0.1, irisScale: 0.6, tall: 1.12 };
+    case 'closed':
+      return { iris, lid: 0.97, irisScale: 0.8, tall: 1.05 };
+    default:
+      return { iris, lid: 0.1, irisScale: 0.8, tall: 1.05 };
+  }
+}
+
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const L = layout(art.plan);
   const c: Record<string, string> = {
@@ -542,7 +575,12 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   torso.push(...extra.torso);
   headPrims.push(...extra.head);
   const pivotY = Math.min(h.y - h.r.y * 0.55, b.y + b.r.y * 0.9);
-  const eyeR = art.eyes === 'big' || art.eyes === 'cute' || art.eyes === 'stalk' ? 0.25 : 0.19;
+  const eyeR =
+    art.eyes === 'big' || art.eyes === 'cute' || art.eyes === 'stalk'
+      ? 0.25
+      : art.eyes === 'dot'
+        ? 0.13
+        : 0.19;
   const wings = art.wings === 'none' ? null : art.wings;
   const spec: SpeciesSpec = patchKitSpec(art, L, c, {
     name,
@@ -574,13 +612,10 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       y: h.y + 0.04,
       z: h.z + h.r.z * 0.9,
       r: eyeR,
-      iris: c.eye === '#0d0a1a' ? '#2a2440' : c.eye!,
+      ...eyeProfile(art, c.eye === '#0d0a1a' ? '#2a2440' : c.eye!),
       lidColor: c.body!,
       yaw: 0,
-      lid: art.eyes === 'angry' ? 0.35 : art.eyes === 'closed' ? 0.85 : 0.1,
-      irisScale: art.eyes === 'dot' ? 0.95 : 0.8,
       pitch: 0,
-      tall: art.eyes === 'cute' ? 1.18 : 1.05,
     },
     mouth: {
       x: 0,
@@ -611,5 +646,5 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
-  return art.gen1b ? applyGen1b3d(spec, art, L, c) : spec;
+  return art.gen1b || art.heads ? applyGen1b3d(spec, art, L, c) : spec;
 }

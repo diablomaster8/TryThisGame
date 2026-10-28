@@ -435,7 +435,8 @@ export const SPECIES_ART_GEN1A: Record<string, CreatureSpec> = {
     size: 0.8,
     arms: 'none',
     legs: 'none',
-    addons: [ex('trio', C.blush), ex('nose', C.blush)],
+    addons: [ex('nose', C.blush)],
+    heads: { count: 3, neck: 0, spread: 60, sizes: [1, 1, 1], faces: 'full', mound: true },
   }),
   coinpaw: spec(CAT, {
     plan: 'round',

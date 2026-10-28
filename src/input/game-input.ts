@@ -101,7 +101,7 @@ export class GameInput {
   private reversals: number[] = [];
   private lastInput: Vec2 = { x: 0, z: 0 };
   private lastInput2: Vec2 = { x: 0, z: 0 };
-  private padHeld = { a: false, b: false };
+  private padHeld = { x: false, b: false, y: false };
 
   constructor(
     private readonly surface: HTMLElement,
@@ -191,11 +191,15 @@ export class GameInput {
       const ay = pad.axes[1] ?? 0;
       if (Math.abs(ax) > 0.25) right += ax;
       if (Math.abs(ay) > 0.25) fwd -= ay;
-      const a = pad.buttons[0]?.pressed ?? false;
+      // MOVE-22: X pets, B feeds and Y shakes what the Keeper holds; A is kept for the second
+      // Keeper's jump (MOVE-54).
+      const px = pad.buttons[2]?.pressed ?? false;
       const b = pad.buttons[1]?.pressed ?? false;
-      pet = a && !this.padHeld.a;
+      const y = pad.buttons[3]?.pressed ?? false;
+      pet = px && !this.padHeld.x;
       feed = b && !this.padHeld.b;
-      this.padHeld = { a, b };
+      if (y && !this.padHeld.y) this.host.send({ kind: 'shakeHeld' });
+      this.padHeld = { x: px, b, y };
     }
     const len = Math.hypot(fwd, right);
     if (len > 1) {

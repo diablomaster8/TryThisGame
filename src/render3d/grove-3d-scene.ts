@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, UI } from '../config/tuning';
+import { KEEPER_JUMP_FX } from '../config/tuning-move';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
@@ -287,6 +288,8 @@ export class Grove3dScene {
   /** When the Keeper last landed, and the nod the camera target carries now (MOVE-23). */
   private landDipAt = -Infinity;
   private lastDip = 0;
+  /** MOVE-26: extra look height while the Keeper stands on a rock (set by the game). */
+  perchLift = 0;
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
@@ -696,6 +699,33 @@ export class Grove3dScene {
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
       if (e.kind === 'keeperLanded' && !this.reduceMotion) this.landDipAt = now;
+      if (e.kind === 'keeperLanded' || e.kind === 'keeperJumped') {
+        // MOVE-21: the body squashes on landing; a ring of dust (or, for a double jump, a
+        // puff of sparkles) at the feet. Reduced motion keeps the frames, drops the bits.
+        if (e.kind === 'keeperLanded') this.actors.keeperLanded(now, e.fall);
+        if (this.reduceMotion || (e.kind === 'keeperJumped' && !e.air)) continue;
+        const p = this.actors.keeperPosition();
+        const at = new THREE.Vector3(p.x, this.actors.keeperFeetY() + 0.05, p.z);
+        const fx = KEEPER_JUMP_FX;
+        if (e.kind === 'keeperLanded')
+          b.burst(
+            'dust',
+            at,
+            fx.ringQuads,
+            { spread: 0.35, speed: 1.1, rise: 0.15, lifeMs: fx.ringMs },
+            now,
+          );
+        else
+          b.burst(
+            'sparkle',
+            at,
+            fx.airSparkles,
+            { spread: 0.25, speed: 0.5, rise: -0.3, lifeMs: 420 },
+            now,
+          );
+
+        continue;
+      }
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);
@@ -1321,7 +1351,7 @@ export class Grove3dScene {
     this.yawOffset += (dyaw * b - this.yawOffset) * (cut ? 1 : ease(4));
     const tx = THREE.MathUtils.lerp(orbit.target.x, s.x, b);
     const tz = THREE.MathUtils.lerp(orbit.target.z, s.z, b);
-    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b;
+    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b + this.perchLift * (1 - b);
     this.camTarget.x = tx;
     this.camTarget.z = tz;
     this.camTarget.y += (ty - this.camTarget.y) * (snap || cut ? 1 : 1 - Math.exp(-6 * dt));

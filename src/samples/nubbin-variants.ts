@@ -1,6 +1,6 @@
 import type * as THREE from 'three';
 import type { NubbinType } from '../sim/types';
-import { V, type Prim } from './sculpted';
+import { sdf, V, type Prim } from './sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from './species';
 import { NUBBIN_SPEC } from './species-data';
 
@@ -24,10 +24,10 @@ export const NUBBIN_COLORS = {
   blush: '#ffb3c6',
   star: '#fff4b0',
   crownShade: '#5f9ee8',
-  iris: '#2a4fd0',
+  iris: '#141a3a',
   lip: '#6a3a5a',
   tongue: '#ff8aa0',
-  wing: '#f6faff',
+  wing: '#fff1c9',
   sheen: '#dff2ff',
 } as const;
 export type NubbinColors = Record<keyof typeof NUBBIN_COLORS, string>;
@@ -146,6 +146,7 @@ function recolor(spec: SpeciesSpec, from: NubbinColors, to: NubbinColors): void 
   spec.mouth.lip = swap(spec.mouth.lip);
   spec.mouth.tongue = swap(spec.mouth.tongue);
   if (spec.wings) spec.wings.color = swap(spec.wings.color);
+  if (spec.blush) spec.blush = swap(spec.blush);
   if (spec.ball) spec.ball.color = swap(spec.ball.color);
   if (spec.surface.sheenColor) spec.surface.sheenColor = swap(spec.surface.sheenColor);
 }
@@ -163,12 +164,16 @@ export function crownPrims(kind: CrownKind, body: string, tip: string): Prim[] {
     tag: 'crown',
     blend: 0.14,
   });
+  // The tip is a small upright egg with a crisp join, so the crown's shade never reaches
+  // it and it reads as the band's tip colour from every side (LOOK-01).
   const dot = (a: THREE.Vector3, r: number): Prim => ({
-    kind: 'sphere',
+    kind: 'ellipsoid',
     a,
-    r,
+    radii: V(r * 1.3, r * 1.6, r * 1.3),
+    r: 0,
     color: tip,
     tag: 'tip',
+    blend: 0.03,
   });
   const bend = (a: THREE.Vector3, b: THREE.Vector3): Prim => ({
     kind: 'capsule',
@@ -181,7 +186,12 @@ export function crownPrims(kind: CrownKind, body: string, tip: string): Prim[] {
   });
   switch (kind) {
     case 'point':
-      return [cone(V(0, 3.05, 0), 0.42, 0.05), dot(V(0, 3.06, 0), 0.1)];
+      // Swept back in two cones, as the child's (species-data.ts).
+      return [
+        cone(V(0, 2.78, -0.1), 0.42, 0.2),
+        { ...cone(V(0, 3.0, -0.3), 0.2, 0.05), a: V(0, 2.78, -0.1), blend: 0.1 },
+        dot(V(0, 3.02, -0.32), 0.1),
+      ];
     case 'tall':
       // Slimmer and higher: the Sun adult's spire.
       return [cone(V(0, 3.2, 0), 0.36, 0.04), dot(V(0, 3.2, 0), 0.08)];
@@ -436,7 +446,10 @@ function applyType(
         }
       for (const part of spec.parts)
         for (const p of part.prims) {
-          if (p.tag === 'hand') p.r *= 1 + 0.4 * k;
+          if (p.tag === 'hand') {
+            p.r *= 1 + 0.4 * k;
+            p.radii?.multiplyScalar(1 + 0.4 * k);
+          }
           if (p.tag === 'arm') p.r *= 1 + 0.25 * k;
         }
       break;
@@ -479,6 +492,24 @@ function scaleHead(spec: SpeciesSpec, k: number): void {
   if (spec.ball) spec.ball.y = o.y + (spec.ball.y - o.y) * k;
 }
 
+/**
+ * Drops a crown-shade mark that would paint over a tip: a new crown (a fin, a stub) moves
+ * the tip into the shade the base crown laid down, and the tip must keep its colour
+ * (LOOK-01; tests/render/likeness.test.ts).
+ */
+function clearTips(spec: SpeciesSpec, shade: string): void {
+  const tips = spec.head.prims.filter((p) => p.tag === 'tip');
+  if (tips.length === 0) return;
+  const reach = (t: Prim) => Math.max(t.r, t.radii?.x ?? 0, t.radii?.y ?? 0, t.radii?.z ?? 0);
+  spec.marks = spec.marks.filter(
+    (m) =>
+      m.color !== shade ||
+      tips.every(
+        (t) => sdf(t.a, { ...m, r: m.r ?? 0, tag: 'mark' }) >= reach(t) + (m.soft ?? 0.06),
+      ),
+  );
+}
+
 // ---- the helper ----
 
 export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): SpeciesSpec {
@@ -493,10 +524,10 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
   if (o.wings === null) delete spec.wings;
   else if (o.wings)
     spec.wings = {
-      x: 0.42,
-      y: 1.15,
-      z: -0.6,
-      size: 1,
+      x: 0.52,
+      y: 1.2,
+      z: -0.5,
+      size: 1.15,
       color: palette.wing,
       ...spec.wings,
       ...o.wings,
@@ -514,6 +545,7 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
   if (o.mouth) spec.mouth = { ...spec.mouth, ...o.mouth };
   if (o.notes !== undefined) spec.notes = o.notes;
   o.patch?.(spec);
+  clearTips(spec, palette.crownShade);
   PALETTES.set(spec, palette);
   return spec;
 }
@@ -528,7 +560,7 @@ export const CHILD_SUN = variant(NUBBIN_SPEC, 'Nubbin (Sun-leaning)', {
   colors: { body: '#d9ecff', belly: '#ffffff', crownShade: '#bfe0ff', wing: '#fffaf0' },
   ball: { glow: '#c09a20' },
   hints: [
-    { kind: 'capsule', a: V(0, 2.3, 0), b: V(0, 2.5, 0), r: 0.5, color: '#fff8e0', soft: 0.2 },
+    { kind: 'capsule', a: V(0, 2.22, 0), b: V(0, 2.36, 0), r: 0.46, color: '#fff8e0', soft: 0.12 },
   ],
   notes: 'Child hint of the Sun band: colour only, the shape stays the child shape.',
 });
@@ -546,7 +578,7 @@ export const CHILD_MOON = variant(NUBBIN_SPEC, 'Nubbin (Moon-leaning)', {
   },
   ball: { color: '#9e2b3f', glow: '#6a1830' },
   hints: [
-    { kind: 'capsule', a: V(0, 2.3, 0), b: V(0, 2.5, 0), r: 0.5, color: '#4a4063', soft: 0.2 },
+    { kind: 'capsule', a: V(0, 2.22, 0), b: V(0, 2.36, 0), r: 0.46, color: '#4a4063', soft: 0.12 },
   ],
   notes: 'Child hint of the Moon band: colour only, the shape stays the child shape.',
 });
@@ -561,13 +593,13 @@ export const SUN_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Sun)', {
     blush: '#ffd6e0',
     star: '#fffbe6',
     crownShade: '#bfe0ff',
-    iris: '#2e5ca8',
+    iris: '#1a2450',
     wing: '#fffaf0',
     sheen: '#ffffff',
   },
   crown: 'tall',
   ball: { shape: 'halo', color: '#ffd94a', glow: '#c08a10' },
-  wings: { shape: 'feather', size: 1.35 },
+  wings: { shape: 'feather', size: 1.6 },
   scale: 0.86,
   surface: { sheen: 0.9 },
   notes: 'Sun adult template: tuned by eye against the child on the stage, 2026-10-15.',
@@ -576,7 +608,7 @@ export const SUN_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Sun)', {
 /** The Moon adult, Normal type: black and purple, a hooked crown, spikes, bat wings. */
 export const MOON_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Moon)', {
   colors: {
-    body: '#2b2440',
+    body: '#3a2f58',
     tip: '#e85a7a',
     pad: '#9e2b3f',
     belly: '#4a4063',
@@ -591,7 +623,7 @@ export const MOON_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Moon)', {
   },
   crown: 'hook',
   ball: { shape: 'spikes', color: '#9e2b3f', glow: '#e0562e' },
-  wings: { shape: 'bat', size: 1.25 },
+  wings: { shape: 'bat', size: 1.5 },
   scale: 0.86,
   eyes: { lid: 0.2 },
   surface: { sheen: 0.5, roughness: 0.55 },

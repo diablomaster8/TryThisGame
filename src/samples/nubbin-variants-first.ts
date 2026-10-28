@@ -45,11 +45,22 @@ export const TYPE_LABEL: Record<NubbinType, string> = {
   power: 'Power',
 };
 
+/** The Moon forms' type hues: Swim teal, Fly violet, Run navy-blue, Power crimson. */
+const MOON_HUE: Partial<Record<NubbinType, string>> = {
+  swim: '#1fa89a',
+  fly: '#8a4ae0',
+  run: '#2a5ae0',
+  power: '#d82040',
+};
 const WHITE = '#ffffff';
 const BLACK = '#000000';
 
 /** The colours and tell accent one band gives a hue: Neutral wears it, Sun lightens, Moon deepens. */
-export function bandColors(band: Band, hue: Hue): Pick<VariantOverrides, 'colors' | 'accent'> {
+export function bandColors(
+  band: Band,
+  hue: Hue,
+  type: NubbinType = 'normal',
+): Pick<VariantOverrides, 'colors' | 'accent'> {
   const { body, shade, belly } = hue;
   switch (band) {
     case 'neutral':
@@ -60,11 +71,15 @@ export function bandColors(band: Band, hue: Hue): Pick<VariantOverrides, 'colors
         accent: mixHex(body, WHITE, 0.1),
         colors: { tip: mixHex(body, WHITE, 0.25), pad: body, crownShade: mixHex(body, WHITE, 0.5) },
       };
-    case 'moon':
+    case 'moon': {
+      // The type hue at about 70% saturation on the crown, tip, hands and feet, so five near-
+      // black adults read apart at dusk (LOOK-48).
+      const tint = mixHex(MOON_HUE[type] ?? body, '#6a6070', 0.3);
       return {
-        accent: mixHex(body, BLACK, 0.25),
-        colors: { tip: mixHex(body, BLACK, 0.15), pad: shade, crownShade: '#0d0a1a' },
+        accent: tint,
+        colors: { tip: tint, pad: mixHex(tint, BLACK, 0.3), crownShade: tint },
       };
+    }
   }
 }
 
@@ -80,7 +95,7 @@ function build(band: Band, type: NubbinType): NubbinVariant {
   if (type === 'normal') return { id, family: 'first', spec: base };
   const spec = variant(base, `Nubbin (${BAND_LABEL[band]} ${TYPE_LABEL[type]})`, {
     type,
-    ...bandColors(band, TYPE_COLORS[type]),
+    ...bandColors(band, TYPE_COLORS[type], type),
     ...(band === 'moon' ? { eyes: { lid: 0.3 } } : {}),
     notes: `First evolution, ${BAND_LABEL[band]} ${TYPE_LABEL[type]}: ${NOTES[band]}.`,
   });
