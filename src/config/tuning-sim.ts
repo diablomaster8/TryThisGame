@@ -31,3 +31,21 @@ export const DUNGEON_NAV = {
   /** Planned paths kept per floor, oldest dropped first. */
   cacheSize: 48,
 } as const;
+
+/** Grove tap-to-move pathfinding (R0008): a 0.5 u grid over the field. */
+export const GROVE_NAV = {
+  /** Grid cell size (world units). */
+  cell: 0.5,
+  /** Cells closer than this to a collider are shut (the Keeper's body radius). */
+  clearance: 0.3,
+  /** A waypoint counts as passed inside this distance (world units). */
+  waypointReach: 0.3,
+  /** Bound on expanded cells per plan: a long walk round the pond fits well inside. */
+  maxExpansions: 20000,
+  /** How far (cells) to look for an open cell when the walker stands in a shut one. */
+  entrySearch: 12,
+  /** Cost of crossing a bush or bed cell, against 1 for open grass. */
+  softCost: 4,
+  /** How far round a shut-in target (cells) to look for a reachable stand-in. */
+  reachSearch: 24,
+} as const;

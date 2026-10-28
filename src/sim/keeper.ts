@@ -1,6 +1,7 @@
 import { blocked, contact, obstacles, resolve, softAt } from './obstacles';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
+import { groveLeg } from './nav';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import { KEEPER_SOFT, KEEPER_UNSTICK } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
@@ -235,16 +236,33 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
           }
         }
       } else {
-        const step = Math.min(
-          d,
-          KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft * dt,
-        );
-        let dx = (target.x - k.pos.x) / d;
-        let dz = (target.z - k.pos.z) / d;
-        if (!dungeonFloor) [dx, dz] = steer(world, k.pos, target, dx, dz);
-        k.pos.x += dx * step;
-        k.pos.z += dz * step;
-        k.facing = Math.atan2(dx, dz);
+        // In the Grove the Keeper follows a planned path round what stands in the way
+        // (nav.ts). A target with nothing reachable near it is refused at once; a shut-in
+        // tap walks to the nearest reachable point and stops there.
+        const leg = groveLeg(world, k.pos, target);
+        if (!leg || (k.intent && dist(leg.end, target) > reach)) {
+          if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
+          k.intent = null;
+          k.moveTarget = null;
+        } else {
+          if (!k.intent && leg.end !== target) k.moveTarget = leg.end;
+          const to = leg.next;
+          const td = Math.max(dist(k.pos, to), 1e-6);
+          const step = Math.min(
+            td,
+            KEEPER.speed *
+              keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
+              soft *
+              dt,
+          );
+          let dx = (to.x - k.pos.x) / td;
+          let dz = (to.z - k.pos.z) / td;
+          // Steering stays as the local fallback on a straight leg.
+          if (to === target) [dx, dz] = steer(world, k.pos, target, dx, dz);
+          k.pos.x += dx * step;
+          k.pos.z += dz * step;
+          k.facing = Math.atan2(dx, dz);
+        }
       }
     }
   }
@@ -264,8 +282,9 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
       k.moveTarget = null;
       k.intent = null;
     }
-    // A soft piece does not stop the Keeper; it eases it back out a little each step.
-    const bush = softAt(k.pos, world);
+    // A soft piece does not stop the Keeper; once it stops walking it eases back out.
+    const idle = !k.moveTarget && !k.intent && k.input.x === 0 && k.input.z === 0;
+    const bush = idle ? softAt(k.pos, world) : null;
     const out = bush && contact(bush, k.pos.x, k.pos.z, KEEPER_UNSTICK.clearance);
     if (out) {
       k.pos.x += out.nx * out.depth * KEEPER_SOFT.push;
