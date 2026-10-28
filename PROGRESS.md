@@ -40,10 +40,21 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 2 · Lane B (DUNG, 2026-10-28, branch r2/b)
 
-Plan: wire Hollow packs to lane C's battle core (`sim/battle/`); then R0148–R0151 in the sim
-(waypoints, stable act seeds with a daily reroll, the Homing Acorn, saved floor state: one save
-bump v8 → v9); subagents on R0147 (outdoor zones) and R0153/R0154 (fog of war, automap); R0032
-(solid set pieces) if it fits. R0031 and R0152 later.
+- *Works:* Hollow packs fight on lane C's battle core (`battleHandler`, a `battleEnd` hook in
+  `applyCommand`, the self-opening `ui/dungeon-bout.ts`; at most the party's size of a pack joins).
+  Save v9: act seeds with a daily "New paths" reroll (R0149), waypoint stones with a travel panel
+  (R0148), the Homing Acorn portal home and back with one free acorn a run (R0150), remembered
+  levels and stairs up that climb inside an act (R0151). The landmark is solid to bodies and nav
+  (R0032). Fog of war in both renderers and the Tab/🗺 automap overlay (R0153, R0154).
+- *Stubbed:* outdoor zones (R0147) and towns (R0152) not started; Pixel doesn't draw the waypoint
+  stone, fog the sprites, or draw packs (all need `render/world-view.ts` `drawCave`, lane A); no
+  Grove-side portal sprite; acorns are bought at the cave mouth, not the shop screen; cart and arch
+  posts still walk-through (their placement lives in `render3d/hollow-dress-set.ts`).
+- *Assumptions:* waypoints on act level 1 and every 2nd level, never the boss level; ids are
+  `<act>.<level>`; the acorn always lands in the Grove; a forfeit or draw flees a pack and loses to
+  a boss; crystals stay soft (solid ones walled walkers out of one-cell nooks).
+- *Known:* a fresh pair loses to three or more foes every time (hence the cap; balance is lane C's);
+  a chasing pack can slip out of 3D sight for a moment (aggro 5 cells, sight 4).
 
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
