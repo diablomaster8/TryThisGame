@@ -13,6 +13,7 @@ import {
 } from '../sim/dungeon';
 import { CaveLamps } from './cave-lamps';
 import { caveShed } from './cave-shed';
+import { fogged } from './hollow-fog';
 import {
   CELL,
   cellHash,
@@ -363,14 +364,19 @@ export class HollowLight implements HollowModule {
       blending: THREE.AdditiveBlending,
       fog: false,
     } as const;
-    this.haloMat = new THREE.MeshBasicMaterial({ map: this.glowTex, ...additive, opacity: 1 });
-    this.flameMat = new THREE.MeshBasicMaterial({ map: this.flameTex, ...additive });
-    this.cookieMat = new THREE.MeshBasicMaterial({
-      map: this.glowTex,
-      color: CFG.cookie.color,
-      ...additive,
-      opacity: CFG.cookie.groundOpacity,
-    });
+    // Fog-aware (R0153): a torch under the fog of war must not glow through it.
+    this.haloMat = fogged(
+      new THREE.MeshBasicMaterial({ map: this.glowTex, ...additive, opacity: 1 }),
+    );
+    this.flameMat = fogged(new THREE.MeshBasicMaterial({ map: this.flameTex, ...additive }));
+    this.cookieMat = fogged(
+      new THREE.MeshBasicMaterial({
+        map: this.glowTex,
+        color: CFG.cookie.color,
+        ...additive,
+        opacity: CFG.cookie.groundOpacity,
+      }),
+    );
     // The first cut of the governor's ladder: the halos and the wall wash go.
     caveShed.register({
       name: 'particles',
