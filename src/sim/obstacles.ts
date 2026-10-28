@@ -112,14 +112,16 @@ function cellOf(v: number): number {
 // step, so the cached path must not allocate.
 const FIXED = buildTable(GROVE_COLLIDERS.filter((c) => !c.when));
 let cachedPlaced: World['placed'] | null = null;
-let cachedKey = '';
+let cachedKey = -1;
 let cached: Table = FIXED;
 
 function table(world: World | null): Table {
   if (!world) return FIXED;
   const u = townUnlocks(world);
   const props = storyPropMask(world);
-  const key = `${world.placed.length}|${+u.stall}${+u.attendant}${+u.festival}|${props}`;
+  // A number, not a string: this runs for every walker on every step.
+  const key =
+    (props * 8 + +u.stall + 2 * +u.attendant + 4 * +u.festival) * 100000 + world.placed.length;
   if (world.placed === cachedPlaced && key === cachedKey) return cached;
   const list: Collider[] = GROVE_COLLIDERS.filter((c) => !c.when || u[c.when]);
   for (const d of world.placed) {
