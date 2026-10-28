@@ -1,5 +1,7 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { ACTS } from '../config/dungeon-acts';
+import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
+import { MOVE_TEXT } from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -35,6 +37,8 @@ import { AwayScreen } from './away-screen';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
+import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
+import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
 import { RacesMenu } from './races';
 import { holdRenderWhile } from './render-hold';
@@ -84,6 +88,9 @@ import { TRAINER_LABELS as TL } from '../config/strings';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, ObjectiveChip } from './objective';
+
+/** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
+let lastUnreachableToast = -Infinity;
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -505,6 +512,19 @@ export function mountHud(
   homeBtn.hidden = true;
   root.appendChild(homeBtn);
   let joystick: Joystick | null = null;
+  // The first touch offers the floating joystick once, in a toast (R0028).
+  const offerJoystick = (e: PointerEvent): void => {
+    if (e.pointerType !== 'touch') return;
+    window.removeEventListener('pointerdown', offerJoystick, true);
+    try {
+      if (localStorage.getItem(JOYSTICK_TUNING.offerKey)) return;
+      localStorage.setItem(JOYSTICK_TUNING.offerKey, '1');
+    } catch {
+      /* storage blocked: offer it this session only */
+    }
+    if (!game()?.world.settings.joystick) toast(JOYSTICK_TEXT.offer, UI.toastLongMs);
+  };
+  window.addEventListener('pointerdown', offerJoystick, true);
   // The Grove whose festivals were last checked against the side saves.
   let festivalsFor: unknown = null;
   if (import.meta.env.DEV) {
@@ -674,7 +694,13 @@ export function mountHud(
       shells.textContent = `🐚 ${g.world.inventory.shells}`;
       fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
       setActionGlyph(keeperBtn, g.world.keeper.alignment === 'sun' ? '☀' : '☾');
-      joystick ??= new Joystick(root, g.camera, (cmd) => g.send(cmd));
+      if (!joystick) {
+        joystick = new Joystick(root, g.camera, (cmd) => g.send(cmd), {
+          set: setRunning,
+          isOn: () => runOn,
+        });
+        g.framePollers.push(() => joystick?.poll());
+      }
       joystick.setVisible(g.world.settings.joystick);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
       groveBtn.hidden = !anyUnlocked;
@@ -913,6 +939,19 @@ export function mountHud(
           playSound('pickup');
         } else if (e.kind === 'landed') {
           playSound('hit');
+        } else if (e.kind === 'keeperJumped') {
+          // MOVE-21: Lane A's jump sounds.
+          playSound(e.air ? 'hopAir' : 'hop');
+        } else if (e.kind === 'keeperLanded') {
+          playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'moveUnreachable') {
+          // MOVE-35: a gentle bonk every time, the words at most once a while.
+          playSound('bonk');
+          const now = performance.now();
+          if (now - lastUnreachableToast >= UNREACHABLE.toastEveryMs) {
+            lastUnreachableToast = now;
+            toast(e.jump ? MOVE_TEXT.jumpUpThere : MOVE_TEXT.cantGoThere);
+          }
         } else if (e.kind === 'secondEvolved') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.secondEvolved(n?.name ?? NAMES.creature, TYPE_LABELS[e.second]));

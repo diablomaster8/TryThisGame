@@ -289,6 +289,9 @@ export interface Settings {
   screenShake: boolean;
   /** Floatier, more forgiving jumps (MOVE-11); a Learning Grove save always has them. */
   gentleJumps: boolean;
+  /** MOVE-24: tap walks hop logs and jump terraces. Unset: on in a Learning Grove, and set on
+   * for a phone at its first launch. */
+  autoHop?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -977,9 +980,12 @@ export type SimEvent =
   | { kind: 'landed'; nubbinId: string }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
-  | { kind: 'keeperLanded' }
+  /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
+  | { kind: 'keeperLanded'; fall: number }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
+  /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
+  | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string }

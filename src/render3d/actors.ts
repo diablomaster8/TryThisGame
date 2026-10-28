@@ -1,6 +1,7 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
-import { KEEPER_ACCEL } from '../config/tuning-sim';
+import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
+import { KEEPER_JUMP_FX } from '../config/tuning-move';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -172,6 +173,10 @@ export class Actors {
    */
   keeperAlpha: number | null = null;
   private keeperMoving = false;
+  /** MOVE-21: when the Keeper last landed, and its body's scale before this frame's squash. */
+  private keeperLandAt = -Infinity;
+  private keeperLandDur: number = JUMP.landSquashMs * 2;
+  private keeperSquash: { o: THREE.Object3D; base: THREE.Vector3 } | null = null;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
@@ -547,6 +552,19 @@ export class Actors {
     this.rippleMat.opacity = 0.5 * (1 - k);
   }
 
+  /** The floor under the Keeper's feet (a bench top, the deck), drawn this frame. */
+  keeperFeetY(): number {
+    return this.keeperFeet;
+  }
+
+  /** MOVE-21: the Keeper touched down (its body squashes for a beat). */
+  keeperLanded(nowMs: number, fall = 0): void {
+    this.keeperLandAt = nowMs;
+    // A long fall lands with a slower plop (MOVE-25).
+    this.keeperLandDur =
+      fall > KEEPER_JUMP_FX.plopFall ? KEEPER_JUMP_FX.plopMs : JUMP.landSquashMs * 2;
+  }
+
   /** Start a squash (a landing flattens) or a pop (a hatch or evolution stretches up). */
   pop(id: string, kind: 'squash' | 'pop', nowMs: number): void {
     this.pops.set(id, { kind, startMs: nowMs });
@@ -646,10 +664,11 @@ export class Actors {
    */
   private keeperGround(x: number, z: number): number {
     // In the Grove the Keeper stands where the sim stands it (MOVE-10/12/13): on the
-    // bridge deck, on a bench, sunk to the stream bed; plus the jump.
+    // bridge deck, on a bench, sunk to the stream bed. The jump is the rig's
+    // `lift` (MOVE-21), so the contact shadow stays down on this floor and shrinks.
     if (this.location === 'grove' && this.world)
-      return keeperFooting(this.world, x, z, this.keeperFeet + this.keeperLift).y + this.keeperLift;
-    return this.ground(x, z) + this.keeperLift;
+      return keeperFooting(this.world, x, z, this.keeperFeet + this.keeperLift).y;
+    return this.ground(x, z);
   }
 
   /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
@@ -709,17 +728,38 @@ export class Actors {
     facing: number,
     t: number,
     dt: number,
+    lift = 0,
   ): void {
     const rig = k.rig;
     if (rig) {
+      rig.lift = lift;
       if (pose !== (rig.group.userData.pose as PoseName | undefined)) {
         rig.group.userData.pose = pose;
         rig.setPose(pose);
       }
-      rig.group.position.set(p.x, this.keeperGround(p.x, p.z), p.z);
+      rig.group.position.set(p.x, this.keeperGround(p.x, p.z) + lift, p.z);
       rig.face(facing);
       rig.animate(gaitTime(rig, p.x, p.z, t, dt, pose === 'walk'));
     } else if (k.stand) placeStand(k.stand, p.x, this.ground(p.x, p.z), p.z, t);
+  }
+
+  /**
+   * MOVE-21: the Keeper's rig stretches tall on the way up and squashes for a beat on
+   * landing (1.1 / 0.92), about its feet. None under reduced motion.
+   */
+  private squashKeeper(keeper: World['keeper'], nowMs: number): void {
+    const o = this.keeper?.rig?.group;
+    if (!o || this.calm || this.keeperHold) return;
+    const fx = KEEPER_JUMP_FX;
+    const land = (nowMs - this.keeperLandAt) / this.keeperLandDur;
+    let sh = 1;
+    if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
+    else if (!keeper.grounded && keeper.vy > fx.apexVy)
+      sh = 1 + (fx.rigStretch - 1) * Math.min(1, keeper.vy / 6);
+    if (sh === 1) return;
+    const sw = 1 / Math.sqrt(sh);
+    this.keeperSquash = { o, base: o.scale.clone() };
+    o.scale.set(o.scale.x * sw, o.scale.y * sh, o.scale.z * sw);
   }
 
   /**
@@ -872,6 +912,10 @@ export class Actors {
     this.glow.keep(live);
 
     // The Keeper.
+    if (this.keeperSquash) {
+      this.keeperSquash.o.scale.copy(this.keeperSquash.base);
+      this.keeperSquash = null;
+    }
     const kp = this.keeperDrawPos(world, alpha);
     // The jump's height over whatever the Keeper is over, on the Keeper's own clock.
     if (this.keeperHold) this.keeperLift = 0;
@@ -901,7 +945,8 @@ export class Actors {
     const from = this.keeperFace !== null || this.keeperTurn === null ? want : this.keeperTurn;
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
-    this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt);
+    this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
+    this.squashKeeper(keeper, nowMs);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

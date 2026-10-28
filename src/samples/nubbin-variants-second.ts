@@ -31,7 +31,7 @@ function build(band: Band, type: NubbinType, second: NubbinType): NubbinVariant 
         : tell;
   const spec = variant(firstSpec(band, type), name, {
     second,
-    ...bandColors(band, hue),
+    ...bandColors(band, hue, type),
     accent,
     notes: `Second evolution: ${BAND_LABEL[band]} ${TYPE_LABEL[type]} with a ${TYPE_LABEL[second]} touch, derived from first-${band}-${type}.`,
   });

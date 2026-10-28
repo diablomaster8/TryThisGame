@@ -465,7 +465,19 @@ export const KEEPER_STAGE_CLIPS = {
   'g-down': 1,
   'g-chest': 1,
 } as const;
-export type KeeperClip = 'idle' | 'walk' | keyof typeof KEEPER_STAGE_CLIPS;
+/**
+ * MOVE-21: the jump's five held frames, on the player's sheets only: crouch (the push-off),
+ * rise (legs straight, arms up), apex (arms high), fall (legs tucked) and land (knees bent).
+ */
+export const KEEPER_JUMP_CLIPS = [
+  'jump-crouch',
+  'jump-rise',
+  'jump-apex',
+  'jump-fall',
+  'jump-land',
+] as const;
+export type KeeperJumpClip = (typeof KEEPER_JUMP_CLIPS)[number];
+export type KeeperClip = 'idle' | 'walk' | keyof typeof KEEPER_STAGE_CLIPS | KeeperJumpClip;
 
 /**
  * K1: the legs of a seated or kneeling figure, drawn where the standing legs would be. The
@@ -528,6 +540,48 @@ function drawLowLegs(
  * K7 and K39: the arms of a gesture or the item-get; false for the stock arms. Each has its
  * own shape (arms out, one arm pointing, hands to the chest, both arms up), not a colour.
  */
+/**
+ * MOVE-21: the jump's arms. Rise and apex lift them beside the head (apex higher), fall
+ * holds them out for balance, crouch and land swing them low and back. Returns false for
+ * none of these, so the plain arms draw.
+ */
+function drawJumpArms(
+  pc: PixelCanvas,
+  jump: string,
+  angle: DrawnAngle,
+  tx: number,
+  tw: number,
+  armY: number,
+  col: KeeperColors,
+): boolean {
+  const up = jump === 'apex' ? 5 : jump === 'rise' ? 3 : 0;
+  if (up) {
+    if (angle === 'side') {
+      pc.rect(16, armY - up, 2, 5, col.shirt);
+      pc.px(16.5, armY - up - 1, col.skin);
+    } else {
+      pc.rect(tx - 2, armY - up, 2, 5, col.shirt);
+      pc.rect(tx + tw, armY - up, 2, 5, col.shirt);
+      pc.px(tx - 2, armY - up - 1, col.skin);
+      pc.px(tx + tw + 1, armY - up - 1, col.skin);
+    }
+    return true;
+  }
+  if (jump === 'fall' || jump === 'land') {
+    if (angle === 'side') {
+      pc.rect(13, armY + 1, 5, 2, col.shirt);
+      pc.px(12, armY + 1, col.skin);
+    } else {
+      pc.rect(tx - 4, armY + 1, 4, 2, col.shirt);
+      pc.rect(tx + tw, armY + 1, 4, 2, col.shirt);
+      pc.px(tx - 5, armY + 1, col.skin);
+      pc.px(tx + tw + 4, armY + 1, col.skin);
+    }
+    return true;
+  }
+  return false;
+}
+
 function drawPoseArms(
   pc: PixelCanvas,
   clip: KeeperClip,
@@ -623,17 +677,21 @@ function drawKeeper(
 ): PixelCanvas {
   const pc = new PixelCanvas(KEEPER_SIZE, KEEPER_SIZE);
   const sitting = clip === 'sit';
+  const jump = clip.startsWith('jump-') ? clip.slice(5) : null;
   const kneeling = clip === 'kneel';
   const low = sitting || kneeling;
   // K7: a nod and a look down drop the head; a shrug sinks it between the shoulders.
   const headDrop = clip === 'g-down' ? 2 : clip === 'g-nod' || clip === 'g-shrug' ? 1 : 0;
   // Walk: six frames, contact → push-off → passing for each foot.
   const phase = clip === 'walk' ? frame % 6 : 0;
+  // A jump bends the knees (crouch, land), straightens them (rise) or tucks the feet (fall).
+  const legLen =
+    jump === 'rise' ? 6 : jump === 'crouch' || jump === 'land' || jump === 'fall' ? 3 : 5;
   const bob = (clip === 'walk' && (phase === 2 || phase === 5) ? -1 : 0) + (low ? 3 : 0);
   const breathe =
     (clip === 'idle' && frame % 8 >= 2 && frame % 8 <= 5) || (sitting && frame % 2 === 1) ? 1 : 0;
   const blink = (clip === 'idle' && frame % 8 === 7) || clip === 'g-nod' || clip === 'g-down';
-  const feetY = 30;
+  const feetY = jump === 'fall' ? 28 : 30;
   const step = clip === 'walk' ? ([2, 1, 0, -2, -1, 0][phase] ?? 0) : 0;
 
   const pantsShade = shadeOf(col.pants);
@@ -642,21 +700,21 @@ function drawKeeper(
 
   // Legs / boots, with a seam and a lit sole. Hazel's grandchild is a child: shorter legs,
   // a shorter body and a bigger head.
-  const legY = feetY - (kid ? 4 : 5) + bob;
+  const legY = feetY - (kid ? legLen - 1 : legLen) + bob;
   if (low) {
     drawLowLegs(pc, angle, kneeling, legY, col);
   } else if (angle === 'side') {
-    pc.rect(14 + step, legY, 3, 5, col.pants);
-    pc.rect(15 - step, legY, 3, 5, col.pants);
-    pc.thinLine(16.5 + step, legY, 16.5 + step, legY + 4, pantsShade);
+    pc.rect(14 + step, legY, 3, legLen, col.pants);
+    pc.rect(15 - step, legY, 3, legLen, col.pants);
+    pc.thinLine(16.5 + step, legY, 16.5 + step, legY + legLen - 1, pantsShade);
     pc.rect(13 + step, feetY - 1, 4, 2, col.boots);
     pc.rect(15 - step, feetY - 1, 4, 2, col.boots);
     pc.thinLine(13 + step, feetY - 1, 16.5 + step, feetY - 1, bootLight);
   } else {
-    pc.rect(12, legY + (step > 0 ? 0 : 1), 3, 5 - (step > 0 ? 0 : 1), col.pants);
-    pc.rect(17, legY + (step < 0 ? 0 : 1), 3, 5 - (step < 0 ? 0 : 1), col.pants);
-    pc.thinLine(14.5, legY + 1, 14.5, legY + 4, pantsShade);
-    pc.thinLine(19.5, legY + 1, 19.5, legY + 4, pantsShade);
+    pc.rect(12, legY + (step > 0 ? 0 : 1), 3, legLen - (step > 0 ? 0 : 1), col.pants);
+    pc.rect(17, legY + (step < 0 ? 0 : 1), 3, legLen - (step < 0 ? 0 : 1), col.pants);
+    pc.thinLine(14.5, legY + 1, 14.5, legY + legLen - 1, pantsShade);
+    pc.thinLine(19.5, legY + 1, 19.5, legY + legLen - 1, pantsShade);
     pc.rect(11, feetY - 1, 5, 2, col.boots);
     pc.rect(16, feetY - 1, 5, 2, col.boots);
     pc.thinLine(11, feetY - 1, 15, feetY - 1, bootLight);
@@ -703,7 +761,9 @@ function drawKeeper(
 
   // Arms with cuffs and hands.
   const armY = torsoTop + 1;
-  if (drawPoseArms(pc, clip, angle, tx, tw, armY, col)) {
+  if (jump && drawJumpArms(pc, jump, angle, tx, tw, armY, col)) {
+    // MOVE-21: arms up on the way up, out on the way down.
+  } else if (drawPoseArms(pc, clip, angle, tx, tw, armY, col)) {
     // K7, K39: the gesture's arms are drawn.
   } else if (angle === 'side') {
     pc.rect(16 + swing, armY + 1, 2, 5, col.shirt);
@@ -795,6 +855,11 @@ export function buildKeeperSheet(col: KeeperColors, look?: NpcLook, kid = false)
       }
     }
   }
+  // The jump frames are only drawn for the player (no NPC look): NPCs never jump.
+  if (!look)
+    for (const clip of KEEPER_JUMP_CLIPS)
+      for (const angle of DRAWN_ANGLES)
+        atlas.add(frameKey(clip, angle, 0), drawKeeper(angle, clip, 0, col, look, undefined, kid));
   for (const [clip, frames] of Object.entries(KEEPER_STAGE_CLIPS) as Array<[KeeperClip, number]>)
     for (const angle of DRAWN_ANGLES)
       for (let f = 0; f < frames; f++)

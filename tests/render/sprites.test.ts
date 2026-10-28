@@ -111,7 +111,7 @@ describe('drawChao', () => {
     expect(count(front, C.ink)).toBeGreaterThan(8);
     // The back has no eyes; a stray outline pixel or two is fine.
     expect(count(back, C.ink)).toBeLessThan(count(front, C.ink) - 6);
-    expect(count(back, C.blush)).toBeGreaterThan(count(front, C.blush)); // wings
+    expect(count(back, NEUTRAL.colors.wing)).toBeGreaterThan(count(front, NEUTRAL.colors.wing)); // wings
   });
 
   it('is deterministic', () => {

@@ -2,6 +2,71 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
+
+Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0
+path on the ramp); then R0016, R0020, R0017 and R0023 here, with R0018 (3D occluder fade)
+and R0019 (Pixel x-ray) built in helper worktrees and merged. R0021 onward left for Pass 4.
+
+**What works**
+- Terraces (R0011): each hill is `ceil(h / 0.9)` tiers (2–5), steps 0.67–0.87, top tier
+  0.4 r across, built by `hillTerrace` in `sim/terrain.ts` (`TERRACES`, `TERRACE` in
+  `tuning-sim.ts`, `ramp: { from, to }` per hill in `GROVE.hills`). `hillHeight(x, z, soft)`
+  gives the drawn (eased 0.5 u inside each rim) or hard (upright) shelves; the 3D mesh and
+  grass sample the soft one, Pixel builds cylinders and `rampGeometry` sheets from the hard
+  one. The ramp climbs along the foot of each next tier, leg by leg, 1.2 u wide with
+  walkable banks. The Keeper is held at a cliff by `ledgeY` (a step may rise `stepUp` over its
+  feet or shelf) and slides round the ring; a jump clears one tier. Hill colliders are
+  `nubbinOnly` now (Nubbins keep off); hill 1's waterfall face is a solid segment. Nav treats
+  cliffs as walls between cells (`step`, sampled once; `astar` takes a `pass` option), so
+  120/120 random taps arrive and every hill top is reached by tap. Hill 0's worn path (3D
+  ribbon, Pixel dabs) follows `rampPath`; `hill-path` is the ramp foot. Edge, both modes:
+  ramp walk to Briar, a jump onto tier 0, a walk at the face stays at the foot.
+- Story props (R0016): `STORY_PROP_COLLIDERS` by kind in `grove-layout.ts` (shed and barn
+  walls, benches/chair/flat stone standable, shelf solid); live only while
+  `storyPropMask(world)` says the prop stands (in the collider and nav cache keys).
+- Ground feel (R0020): `KEEPER_ACCEL`; stick speed in ~0.12 s, stop in ≤ 0.11 s, a reversal
+  skids once (`keeperSkid`, Pixel dust), speed into walls is lost, tap walks ease in over
+  0.6 u. 3D turns at 900°/s, Pixel holds a new heading 60 ms.
+- Bodies (R0017): `sim/separation.ts` after the NPC step; overlap rate under 0.1% with 8
+  Nubbins (0.77% without), the Keeper walks through a crowd of 8, carried ones untouched.
+- Cameras (R0023): `CAMERA_FOLLOW`; Pixel follows the drawn ground (terrace, bench, bridge)
+  and holds through jumps, both lead by 0.6 u, 3D nods 0.06 u on landing (not under reduced
+  motion). Edge: Keeper at NDC y 0.05 (Pixel) / −0.11 (3D) after the climb.
+- 3D occluder fade (R0018, agent, 54a6b12): `render3d/occluders.ts`; Keeper visible 256/256
+  frames (4 buildings × 8 yaws × 8 ring spots) at desktop and phone.
+- Pixel x-ray (R0019, agent, 9fe216c): `sprite-batch.ts` draws marked quads again through a
+  `GreaterDepth` child mesh at 45%, tinted by the trim colour, with a 1-texel outline (1 extra
+  draw call, none when nothing is marked); the Keeper and the highlighted Nubbin are marked;
+  scenery and orchard quads nearer than the Keeper and over its head fade to 55%.
+  Sweep (Keeper on a 0.8–1 u ring, desk): trees 96/96, cottage and cave 64/64, but the same
+  without the x-ray: Pixel's older dither round the Keeper already clears these spots, so the
+  x-ray's own share is unproven (partial).
+
+**Stubbed or deferred**
+- Deferred to Pass 4: R0021 onward (jump/land frames, auto-hop, falls, jump unlocks, glide,
+  joystick, Nubbin heights...). Nubbins still never climb terraces (R0030).
+- R0017: NPCs do not pause and walk round when the Keeper blocks their target (they already
+  stop within 2.5 u of the Keeper). R0018: flat silhouette, not a 1 px outline; story-set
+  cabins and the visit garden not boxed. R0016: the garden door has no collider.
+- R0011's leftovers: no ledge-y camera avoidance (R0052); the outer ring props near hills
+  were checked only for the colliders' centres.
+
+**Known bugs and assumptions**
+- Assumption: "3 tiers" in R0011 became 2–5 so every step stays in the 0.6–0.9 band.
+- Ramp angles were picked by a scan clear of colliders and the stream; hill 1's ramp leaves
+  93–153° free for the waterfall. Moved off the terraces: the rock and its sprite at
+  (-13, 12) → (-10, 10), the log at (-24, 12) → (-26, 12.5), bush-3 at (-33, -36) →
+  (-31, -36.8). `flat-stone` marks moved in to 0.55 r, the crest tree to (1.2, 1.0).
+- A Nubbin can still walk up the first ramp leg (it is outside the hill's collider).
+- `ledgeY` uses the full height sum near hills (the tile cache smears a cliff over 0.25 u).
+- The terrain test skips mesh cells across a cliff face and allows 40 (was 20) samples off by
+  more than 0.05 u: the ramps' banks are steep for half-unit cells. Grass checksum updated.
+- Full-life timing test: 1.17–1.21 s alone (1.12–1.16 s before), 2.49 s in the final full
+  `npm test`; it once hit 3.04 s while helper agents' Edge sweeps loaded the machine. The
+  collider table's cache key is now a number (8936f4b), which won back about 50 ms.
+- R0019: the x-ray head point is a fixed y 1.7, so on a terrace the fade test aims low.
+
 ## Pass 2: MOVE jump, bridge and stream (2026-10-27, branch pass/2, not pushed)
 
 Plan: the jump core first (R0012, R0013, R0015), since the bridge, the stream and the fence

@@ -22,7 +22,15 @@ export type SoundName =
   | 'cheer'
   | 'win'
   | 'sad'
-  | 'drip';
+  | 'drip'
+  // MOVE-21/25: the Keeper's jump (a boop), double jump (a higher bip), landing (a pat) and
+  // a long fall's soft plop (a "hup").
+  | 'hop'
+  | 'hopAir'
+  | 'pat'
+  | 'plop'
+  // MOVE-35: a soft bonk when a tap cannot be reached.
+  | 'bonk';
 
 export type SongName =
   | 'title'
@@ -855,6 +863,22 @@ export function playSound(name: SoundName): void {
       case 'sad':
         tone(440, 0, 160, 'triangle', 0.06, 330);
         tone(330, 180, 240, 'triangle', 0.06, 220);
+        break;
+      case 'hop':
+        tone(420, 0, 90, 'sine', 0.05, 640);
+        break;
+      case 'hopAir':
+        tone(700, 0, 80, 'sine', 0.05, 1050);
+        break;
+      case 'pat':
+        tone(180, 0, 45, 'triangle', 0.05, 120);
+        break;
+      case 'bonk':
+        tone(220, 0, 70, 'triangle', 0.05, 150);
+        break;
+      case 'plop':
+        tone(260, 0, 70, 'sine', 0.06, 160);
+        tone(520, 90, 90, 'sine', 0.05, 660);
         break;
     }
   } catch {
