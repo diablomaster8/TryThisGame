@@ -58,7 +58,7 @@ describe('nubbin variants', () => {
     expect(flipper?.kind).toBe('ellipsoid');
     expect(flipper?.color).toBe('#112233');
     const fly = variant(CHILD, 'Fly', { type: 'fly' });
-    expect(fly.wings!.size).toBeCloseTo(1.7);
+    expect(fly.wings!.size).toBeCloseTo(CHILD.wings!.size * 1.7);
     const run = variant(CHILD, 'Run', { type: 'run' });
     expect(run.head.prims.filter((p) => p.tag === 'quill').length).toBe(3);
     expect(run.head.prims.some((p) => p.tag === 'crown')).toBe(false);

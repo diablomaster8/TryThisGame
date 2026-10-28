@@ -12,6 +12,8 @@ export interface PartStyle {
   shape: string;
   color: number;
   accent: number;
+  /** Size of the drawing; a child wears its parts at 0.8 (LOOK-66). */
+  k?: number;
 }
 
 export const PART_STYLES: Record<string, PartStyle> = {
@@ -59,6 +61,7 @@ export function partStyle(id: string | null): PartStyle | null {
 // ---------- ears (on the head, drawn after the head, before the face) ----------
 
 export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartStyle): void {
+  const k = s.k ?? 1;
   const top = L.headCy - L.headRy;
   const left = L.headCx - L.headRx + 2;
   const right = L.headCx + L.headRx - 2;
@@ -78,34 +81,34 @@ export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartS
   for (const [x, y] of spots) {
     switch (s.shape) {
       case 'round':
-        pc.disc(x, y, 2.4, s.color);
+        pc.disc(x, y, 2.4 * k, s.color);
         pc.px(x, y, s.accent);
         break;
       case 'long':
-        pc.ellipse(x, y - 4, 1.6, 5, s.color);
-        pc.ellipse(x, y - 4, 0.8, 3, s.accent);
+        pc.ellipse(x, y - 4 * k, 1.6 * k, 5 * k, s.color);
+        pc.ellipse(x, y - 4 * k, 0.8 * k, 3 * k, s.accent);
         break;
       case 'pointed':
-        pc.tri(x - 2, y + 1, x + 2, y + 1, x, y - 4, s.color);
-        pc.px(x, y - 1, s.accent);
+        pc.tri(x - 2 * k, y + k, x + 2 * k, y + k, x, y - 4 * k, s.color);
+        pc.px(x, y - k, s.accent);
         break;
       case 'horn':
-        pc.disc(x, y, 2.2, s.color);
+        pc.disc(x, y, 2.2 * k, s.color);
         pc.px(x, y, s.accent);
-        pc.px(x - 1, y - 1, s.accent);
-        pc.px(x + 1, y + 1, s.accent);
+        pc.px(x - k, y - k, s.accent);
+        pc.px(x + k, y + k, s.accent);
         break;
       case 'crest':
         if (x !== spots[0]?.[0] && spots.length > 1) break; // one crest only
         for (let i = -1; i <= 1; i++) {
-          pc.line(L.headCx, top - 1, L.headCx + i * 3, top - 5 - Math.abs(i), s.color);
-          pc.px(L.headCx + i * 3, top - 5 - Math.abs(i), s.accent);
+          pc.line(L.headCx, top - k, L.headCx + i * 3, top - 5 * k - Math.abs(i), s.color);
+          pc.px(L.headCx + i * 3, top - 5 * k - Math.abs(i), s.accent);
         }
         break;
       case 'tuft':
         if (x !== spots[0]?.[0] && spots.length > 1) break;
-        pc.disc(L.headCx - 1, top - 1, 2.2, s.color);
-        pc.disc(L.headCx + 2, top - 2, 1.6, s.accent);
+        pc.disc(L.headCx - 1, top - k, 2.2 * k, s.color);
+        pc.disc(L.headCx + 2, top - 2 * k, 1.6 * k, s.accent);
         break;
     }
   }
@@ -114,6 +117,7 @@ export function drawEars(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartS
 // ---------- tail (behind the body from the front, in front from the back) ----------
 
 export function drawTail(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartStyle): void {
+  const k = s.k ?? 1;
   // Anchor: the lower back of the body.
   let x = L.bodyCx;
   const y = L.bodyCy + 2;
@@ -142,29 +146,29 @@ export function drawTail(pc: PixelCanvas, angle: DrawnAngle, L: Layout, s: PartS
   }
   switch (s.shape) {
     case 'puff':
-      pc.disc(x + dir * 2, y, 2.4, s.color);
-      pc.px(x + dir * 2 - 1, y - 1, s.accent);
+      pc.disc(x + dir * 2 * k, y, 2.4 * k, s.color);
+      pc.px(x + dir * 2 * k - 1, y - k, s.accent);
       break;
     case 'stub':
-      pc.tri(x, y - 2, x, y + 2, x + dir * 4, y, s.color);
-      pc.px(x + dir * 2, y, s.accent);
+      pc.tri(x, y - 2 * k, x, y + 2 * k, x + dir * 4 * k, y, s.color);
+      pc.px(x + dir * 2 * k, y, s.accent);
       break;
     case 'fin':
-      pc.tri(x, y - 1, x + dir * 5, y - 4, x + dir * 5, y + 3, s.color);
-      pc.px(x + dir * 3, y, s.accent);
+      pc.tri(x, y - k, x + dir * 5 * k, y - 4 * k, x + dir * 5 * k, y + 3 * k, s.color);
+      pc.px(x + dir * 3 * k, y, s.accent);
       break;
     case 'long': {
-      pc.line(x, y, x + dir * 4, y + 1, s.color);
-      pc.line(x + dir * 4, y + 1, x + dir * 7, y - 3, s.color);
-      pc.line(x + dir * 7, y - 3, x + dir * 7, y - 6, s.color);
-      pc.px(x + dir * 5, y - 1, s.accent);
-      pc.px(x + dir * 7, y - 5, s.accent);
+      pc.line(x, y, x + dir * 4 * k, y + k, s.color);
+      pc.line(x + dir * 4 * k, y + k, x + dir * 7 * k, y - 3 * k, s.color);
+      pc.line(x + dir * 7 * k, y - 3 * k, x + dir * 7 * k, y - 6 * k, s.color);
+      pc.px(x + dir * 5 * k, y - k, s.accent);
+      pc.px(x + dir * 7 * k, y - 5 * k, s.accent);
       break;
     }
     case 'bushy':
-      pc.ellipse(x + dir * 4, y - 1, 3.5, 2.6, s.color);
-      pc.line(x + dir * 2, y - 3, x + dir * 2, y + 1, s.accent);
-      pc.line(x + dir * 6, y - 3, x + dir * 6, y + 1, s.accent);
+      pc.ellipse(x + dir * 4 * k, y - k, 3.5 * k, 2.6 * k, s.color);
+      pc.line(x + dir * 2 * k, y - 3 * k, x + dir * 2 * k, y + k, s.accent);
+      pc.line(x + dir * 6 * k, y - 3 * k, x + dir * 6 * k, y + k, s.accent);
       break;
   }
 }
@@ -180,23 +184,24 @@ export function drawArmPart(
   dir: 1 | -1,
   s: PartStyle,
 ): void {
+  const k = s.k ?? 1;
   switch (s.shape) {
     case 'flipper':
       pc.line(sx, sy, hx, hy, s.color);
-      pc.ellipse(hx + dir, hy + 1, 2.6, 1.4, s.color);
-      pc.px(hx + dir, hy + 1, s.accent);
+      pc.ellipse(hx + dir, hy + k, 2.6 * k, 1.4 * k, s.color);
+      pc.px(hx + dir, hy + k, s.accent);
       break;
     case 'paw':
       pc.line(sx, sy, hx, hy, s.color);
-      pc.disc(hx, hy, 2.2, s.color);
-      pc.px(hx, hy + 1, s.accent);
+      pc.disc(hx, hy, 2.2 * k, s.color);
+      pc.px(hx, hy + k, s.accent);
       pc.px(hx + dir, hy, s.accent);
       break;
     case 'big':
       pc.line(sx, sy, hx, hy, s.color);
-      pc.line(sx, sy + 1, hx, hy + 1, s.color);
-      pc.disc(hx + dir, hy + 1, 2.8, s.color);
-      pc.px(hx + dir, hy + 1, s.accent);
+      pc.line(sx, sy + k, hx, hy + k, s.color);
+      pc.disc(hx + dir, hy + k, 2.8 * k, s.color);
+      pc.px(hx + dir, hy + k, s.accent);
       break;
   }
 }
@@ -211,6 +216,7 @@ export function drawBack(
   raise: number,
   frontLayer: boolean,
 ): void {
+  const k = s.k ?? 1;
   const y = L.headCy + L.headRy - 2 - raise;
   const showBehind = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
   if (showBehind === frontLayer) return;
@@ -219,13 +225,21 @@ export function drawBack(
       for (let i = 0; i < 3; i++) {
         const ex = cx + dir * (size + i * 2);
         const ey = y - size - 2 + i * 3;
-        pc.line(cx, y + 1, ex, ey, s.color);
-        pc.disc(ex, ey, 1.2, s.accent);
+        pc.line(cx, y + k, ex, ey, s.color);
+        pc.disc(ex, ey, 1.2 * k, s.accent);
         pc.px(ex, ey, C.ink);
       }
     } else {
-      pc.tri(cx, y + 2, cx + dir * (size + 1), y - size, cx + dir * (size + 3), y + 3, s.color);
-      pc.line(cx + dir, y + 1, cx + dir * (size + 1), y - size + 2, s.accent);
+      pc.tri(
+        cx,
+        y + 2 * k,
+        cx + dir * (size + 1) * k,
+        y - size,
+        cx + dir * (size + 3) * k,
+        y + 3 * k,
+        s.color,
+      );
+      pc.line(cx + dir, y + k, cx + dir * (size + 1) * k, y - size + 2, s.accent);
     }
   };
   const big = 5;
