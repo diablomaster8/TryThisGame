@@ -347,7 +347,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     arms: 'none',
     marks: [],
   }),
-  dinolet: spec(pal(C.sunYellow, C.orange, C.cream, C.ember, C.white), {
+  dinolet: spec(pal(C.orange, C.sunDeep, C.cream, C.ember, C.white), {
     irisColor: '#58a838',
     tail: 'long',
     arms: 'claws',

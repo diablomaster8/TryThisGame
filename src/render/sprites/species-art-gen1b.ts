@@ -167,7 +167,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     eyes: 'angry',
     gen1b: ['ghostHands', 'grin', 'float'],
   }),
-  spookgrin: spec(pal(C.violet, C.moonPurple, C.lavender, C.violet, C.ember), {
+  spookgrin: spec(pal(C.violetDeep, C.moonPurple, C.lavender, C.violet, C.ember), {
     irisColor: '#d8202a',
     size: 1.1,
     ears: 'catTips',

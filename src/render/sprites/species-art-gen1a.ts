@@ -33,7 +33,8 @@ const spec = (colors: CreaturePalette, over: Partial<CreatureSpec>): CreatureSpe
   ...over,
 });
 
-const SEED = pal(C.teal, C.tealDeep, C.mint, C.ember, C.forest);
+// A mint body, after the reference's blue-green (LOOK-09); the bulb keeps the forest green.
+const SEED = pal(C.mint, C.teal, C.tealLight, C.ember, C.forest);
 const CINDER = pal(C.orange, C.ember, C.cream, C.ember, C.sunYellow);
 const PUP = pal(C.shallows, C.water, C.cream, C.bark, C.sand);
 const THORN_F = pal(C.shallows, C.water, C.pale, C.ember, C.pale);

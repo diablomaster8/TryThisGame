@@ -6,6 +6,7 @@ import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
 import { applyGen1b3d } from './art-species-gen1b';
+import { vivid } from './art-species-colour';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -536,12 +537,14 @@ function eyeProfile(
 
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const L = layout(art.plan);
+  // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
+  // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {
-    body: color(art.colors.body),
-    shade: color(art.colors.shade),
-    belly: color(art.colors.belly),
-    accent: color(art.colors.accent),
-    accent2: color(art.colors.accent2),
+    body: vivid(color(art.colors.body)),
+    shade: vivid(color(art.colors.shade)),
+    belly: vivid(color(art.colors.belly)),
+    accent: vivid(color(art.colors.accent)),
+    accent2: vivid(color(art.colors.accent2)),
     eye: color(art.colors.eye),
     outline: color(art.colors.outline),
   };
@@ -592,8 +595,9 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       detail: 'smooth',
       amount: 0.1,
       bump: 0.15,
-      roughness: art.arms === 'metal' ? 0.4 : 0.62,
-      sheen: 0.5,
+      // Sheen is what milked the colours; kept low, with a satin roughness (LOOK-09).
+      roughness: art.arms === 'metal' ? 0.4 : 0.5,
+      sheen: 0.25,
       sheenColor: c.belly!,
     },
     torso: { prims: torso, box: boxOf(torso) },
