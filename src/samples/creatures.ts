@@ -711,7 +711,7 @@ export function eye(
       // A Chao eye has no white: the dome takes the iris colour so no rim of sclera shows.
       flat(
         chao
-          ? glossy(iris, { roughness: 0.08 })
+          ? new THREE.MeshPhysicalMaterial({ color: iris, roughness: 0.45, envMapIntensity: 0.25 })
           : glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 }),
       ),
     ),
@@ -767,14 +767,16 @@ export function eye(
   };
   const disc = new THREE.Mesh(
     domeDisc(r * irisScale, tall * 0.96, 0, -r * 0.02, r * 0.012),
+    // A Chao eye is a matte painted oval: no clearcoat mirror of the sky over it.
     new THREE.MeshPhysicalMaterial({
+      ...(chao ? { envMapIntensity: 0.25 } : {}),
       map: chao ? chaoIrisTexture(iris) : irisTexture(iris),
       emissive: '#ffffff',
       emissiveMap: chao ? chaoIrisTexture(iris) : irisTexture(iris),
       emissiveIntensity: 0.3,
       transparent: true,
-      roughness: 0.05,
-      clearcoat: 1,
+      roughness: chao ? 0.45 : 0.05,
+      clearcoat: chao ? 0 : 1,
       clearcoatRoughness: 0.04,
     }),
   );
@@ -803,7 +805,7 @@ export function eye(
   const glints: THREE.Mesh[] = [];
   if (chao) {
     const small = new THREE.Mesh(
-      domeDisc(r * 0.12, 1, -side * r * 0.3, -r * 0.34 * tall, r * 0.02),
+      domeDisc(r * 0.12, 1, -side * r * 0.32, -r * 0.18 * tall, r * 0.025),
       glossMat,
     );
     small.castShadow = false;

@@ -107,7 +107,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   name: 'Nubbin',
   scale: 0.78,
   gait: 'biped',
-  hipY: 0.74,
+  hipY: 0.66,
   // Quick short steps on jointed legs (1.2 leg lengths a cycle, a light jog), so a child keeps
   // up with BEHAVIOR.walkSpeed without the cadence cap sliding its feet.
   stride: { length: 1.2, period: 0.5, duty: 0.5 },
@@ -124,25 +124,26 @@ export const NUBBIN_SPEC: SpeciesSpec = {
     prims: [
       {
         kind: 'ellipsoid',
-        a: V(0, 0.74, 0),
-        radii: V(0.72, 0.7, 0.68),
+        // The head is the bigger mass, 1.3-1.4x the body's width (LOOK-03).
+        a: V(0, 0.66, 0),
+        radii: V(0.6, 0.58, 0.56),
         r: 0,
         color: nubbinBody,
         tag: 'belly',
       },
       // A neck stub that sits inside the head, so the join stays soft when the head turns.
-      { kind: 'sphere', a: V(0, 1.4, 0), r: 0.3, color: nubbinBody, tag: 'neck' },
+      { kind: 'sphere', a: V(0, 1.3, 0), r: 0.28, color: nubbinBody, tag: 'neck' },
     ],
     box: [V(-1.0, 0, -1.0), V(1.0, 1.8, 1.0)],
   },
   head: {
     name: 'head',
-    pivot: V(0, 1.45, 0),
+    pivot: V(0, 1.34, 0),
     prims: [
       {
         kind: 'ellipsoid',
-        a: V(0, 1.92, 0),
-        radii: V(0.74, 0.68, 0.7),
+        a: V(0, 1.84, 0),
+        radii: V(0.82, 0.74, 0.78),
         r: 0,
         color: nubbinBody,
         tag: 'head',
@@ -153,7 +154,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         kind: 'cone',
         a: V(0, 2.35, 0),
         b: V(0, 2.78, -0.1),
-        r: 0.42,
+        r: 0.46,
         r2: 0.2,
         color: nubbinBody,
         tag: 'crown',
@@ -179,17 +180,17 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         blend: 0.03,
       },
     ],
-    box: [V(-1.0, 1.1, -1.0), V(1.0, 3.3, 1.0)],
+    box: [V(-1.1, 1.0, -1.1), V(1.1, 3.3, 1.1)],
   },
   parts: [
     {
       name: 'armL',
-      pivot: V(-0.6, 1.02, 0.1),
+      pivot: V(-0.48, 0.96, 0.1),
       prims: [
         {
           kind: 'capsule',
-          a: V(-0.6, 1.02, 0.1),
-          b: V(-1.0, 0.76, 0.2),
+          a: V(-0.48, 0.96, 0.1),
+          b: V(-0.88, 0.7, 0.2),
           r: 0.15,
           color: nubbinBody,
           tag: 'arm',
@@ -197,7 +198,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         // One round mitt, no fingers (LOOK-15).
         {
           kind: 'ellipsoid',
-          a: V(-1.03, 0.73, 0.22),
+          a: V(-0.91, 0.67, 0.22),
           radii: V(0.16, 0.18, 0.16),
           r: 0,
           color: nubbinTip,
@@ -209,12 +210,12 @@ export const NUBBIN_SPEC: SpeciesSpec = {
     },
     {
       name: 'armR',
-      pivot: V(0.6, 1.02, 0.1),
+      pivot: V(0.48, 0.96, 0.1),
       prims: [
         {
           kind: 'capsule',
-          a: V(0.6, 1.02, 0.1),
-          b: V(1.0, 0.76, 0.2),
+          a: V(0.48, 0.96, 0.1),
+          b: V(0.88, 0.7, 0.2),
           r: 0.15,
           color: nubbinBody,
           tag: 'arm',
@@ -222,7 +223,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         // One round mitt, no fingers (LOOK-15).
         {
           kind: 'ellipsoid',
-          a: V(1.03, 0.73, 0.22),
+          a: V(0.91, 0.67, 0.22),
           radii: V(0.16, 0.18, 0.16),
           r: 0,
           color: nubbinTip,
