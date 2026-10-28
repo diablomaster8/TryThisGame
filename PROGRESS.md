@@ -40,17 +40,37 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Lane D: WORLD (2026-10-28, branch lane/d, not pushed)
 
-Plan: R0070 region graph (`config/regions.ts`, `sim/regions.ts`, `travel` command, discovery
-events) → R0071 quest areas (`content/where-map.ts`, content-check rule, per-region report) →
-R0068 drawn map (`ui/world-map.ts`, `render/map-paint.ts`, Grove tab first) → R0069 geometry
-budget (`config/tuning-world.ts` `PERF_BUDGET`, `governor.ts` `geoLevel`/`lodBias`) → R0075
-chunk grid (`render/chunks.ts`, pixel sprite culling) → later WORLD items that avoid lane A's
-files. Deferred from the start: R0072, R0073, R0074 and anything in actors, world-view,
-scenery, camera, keeper or terrain.
+Order: R0070 → R0071 → R0068 → R0069 → R0075, then R0076 onward where lane A's files allow.
 
-Assumptions: the save version is lane B's, so `World.location` keeps its shape and the region
-is derived from it (`regionOf`); discovered regions are an optional `world.regionsFound`
-defaulted at read. Only built regions (grove, lane, hollow) can be travelled to.
+**Works.** Region graph (`config/regions.ts`, `sim/regions.ts`): 13 regions with sizes, tiered
+POIs and paired exits; `travel` command; `regionEntered`, `regionDiscovered` and
+`travelRefused` events; only the Grove, the lane and the Hollow are built. Every quest
+resolves to an area (`content/where-map.ts`; content-check `noArea: 0`; report in
+`docs/content-index.md`). The drawn map (`ui/world-map.ts`, `render/map-paint.ts`, `world.css`)
+replaces the button grid in both renderers: ground, water, hills, buildings, a Keeper arrow
+with a view wedge, Nubbin dots with type icons, label chips with no overlaps at 375×812,
+pan, zoom, double-tap to centre, a "Travel here" sheet, and region tabs. Full 3D geometry
+level: `PERF_BUDGET`, governor `geoLevel` thins the grass and the shadow redraws. Chunk grid
+(`render/chunks.ts`), and Pixel skips off-screen sprites (793 → 44–138 drawn). Compass,
+rotate-button north pointer and corner minimap with an Off/On/Auto setting. Debug panel World
+line. `npm run probe:world` (Edge, phone, both modes, ~150 s) writes `docs/logs/world-perf.json`.
+
+**Stubbed.** The map sheet lists no quests here: quests are not loaded at run time. Region tabs
+other than the Grove list exits only. The compass objective tick is a hook (no tracked POI
+exists yet). The minimap draws in the Grove only. Grove exits to unbuilt regions are data only.
+No 3D chunk streaming yet (one 96 u field).
+
+**Known bugs and limits.** Full 3D still breaks the phone budget at 12 of 19 spots (up to 707
+calls and 4.0 M triangles) even at geometry level 3: creature and scenery LOD are in lane A's
+files. POI spacing uses straight lines, since the nav path is lane A's.
+
+**Assumptions.** The save version belongs to lane B, so `World.location` keeps its shape: the
+region is derived from it, and `regionsFound` and `settings.minimap` are optional fields read
+with defaults. The lane is reached through the neighbours' gardens (`visit:*`), and the Hollow
+Below through its own entrance. The compass shows all the time, not only with the debug panel.
+
+**Deferred.** These need lane A's files or work not built yet: R0072, R0073, R0074, R0078, R0079,
+R0080, R0081, R0084–R0102, and R0106 onward.
 
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
