@@ -50,10 +50,16 @@ is deferred (needs `actors.ts`). Stage review hook: `&creature=variants&ids=art:
   sad. R0378 3D art colours are more vivid (art-colour.test.ts). R0374 serpents: a disc chain in
   pixel that slithers a disc per walk frame, and a 3D spine of `seg` parts with a yaw wave (3D
   2.6x long). R0375: 27 four-legged species on plan `quad` with stances in both modes.
-- *Stubbed:* `quad.tailSet` is read by neither renderer; the kit file is not renamed.
+  R0377 Greymon line: skull helmet, dino snout and ribs kit extras. R0379 3D signature parts
+  sized for the game camera. R0383 `armRest` hangs the Nubbin's 3D arms by the belly. R0386
+  yellow ball, halo ring, red-tipped Moon spikes. R0387 the toon ramp's black band is now a
+  deep shade (0.28), so no neck collar.
+- *Stubbed:* `quad.tailSet` is read by neither renderer; the kit file is not renamed. Band-tinted
+  heart/swirl bubbles, the `&silhouette` overlay, Greymon's lean and single metal arm.
 - *Known:* pixel serpents reach only 1.0–1.6x long (a raised head in a 32 px frame); Lapras's
   shell reads as a dish in pixel; quad foot slide not measured. The two timing tests fail when
   five lanes load the machine and pass alone.
+  R0387 lifts every toon creature's shadow side a little (for Maor to eyeball).
 
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
