@@ -77,3 +77,6 @@ export const PERCH = { minTop: 0.5, lift: 0.4, rate: 3 } as const;
  * tap's stand-in point counts as reached within `standInReach`.
  */
 export const UNREACHABLE = { toastEveryMs: 20_000, standInReach: 0.45 } as const;
+
+/** MOVE-38: the nav overlay shows cells within `navReach` of the Keeper, `dotPx` across. */
+export const DEBUG_OVERLAY_LOOK = { navReach: 12, dotPx: 4 } as const;

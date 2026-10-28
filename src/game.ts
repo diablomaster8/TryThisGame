@@ -39,6 +39,7 @@ import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
 import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
 import { PERCH } from './config/tuning-move';
+import { DEBUG_OVERLAY, DebugOverlay } from './render/debug-colliders';
 import { standTopAt } from './sim/obstacles';
 import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
@@ -388,6 +389,8 @@ export class Game {
   private groundY = 0;
   /** MOVE-26: the extra look height while the Keeper stands on a rock, eased. */
   private perchLift = 0;
+  /** MOVE-38: the debug overlays, built the first time a toggle is turned on. */
+  private debugOverlay: DebugOverlay | null = null;
   private readonly ahead = { x: 0, z: 0 };
   private lastKp: { x: number; z: number } | null = null;
 
@@ -861,6 +864,19 @@ export class Game {
     this.markReduceMotion();
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     this.camera.update(nowMs);
+    // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
+    if (
+      DEBUG_OVERLAY.colliders ||
+      DEBUG_OVERLAY.nav ||
+      DEBUG_OVERLAY.groundY ||
+      this.debugOverlay
+    ) {
+      const scene = this.scene3d?.scene ?? this.grove?.scene;
+      if (scene) {
+        this.debugOverlay ??= new DebugOverlay(scene);
+        this.debugOverlay.update(this.world, groveHeight);
+      }
+    }
 
     // K7 (package a1): the stage poses read the line on screen for its gesture.
     STAGE_LINE.line = this.storyLine;

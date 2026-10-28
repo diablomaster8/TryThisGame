@@ -10,4 +10,6 @@ export const MOVE_TEXT = {
   /** MOVE-35: a tap the Keeper cannot reach, and the hint when a jump would. */
   cantGoThere: "Can't get there from here",
   jumpUpThere: "Can't walk up there. Try a jump!",
+  /** MOVE-38: the debug panel's overlay toggles. */
+  debugOverlay: { colliders: 'Show colliders', nav: 'Show nav grid', groundY: 'Show ground y' },
 } as const;

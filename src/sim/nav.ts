@@ -409,3 +409,24 @@ export function hopReaches(world: World, from: Vec2, target: Vec2): boolean {
 export function clearGroveRoute(world: World): void {
   routes.delete(world);
 }
+
+/**
+ * MOVE-38, for the debug overlay only: the grid's cells (0 shut, 1 open, 2 soft, 3 hop)
+ * with its size, and the Keeper's current route, if any. Reads; changes nothing.
+ */
+export function navDebug(world: World): {
+  mask: Uint8Array;
+  side: number;
+  cell: number;
+  half: number;
+  route: readonly Vec2[];
+} {
+  const r = routes.get(world);
+  return {
+    mask: grid(world).mask,
+    side: SIDE,
+    cell: CELL,
+    half: HALF,
+    route: r ? r.points.slice(r.i) : [],
+  };
+}
