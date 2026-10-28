@@ -205,7 +205,9 @@ export const TOON_OUTLINE = { color: '#1a1026', width: 0.025 };
  * The two bands on the light's dot product: where the lit band ends, and how bright each
  * band is against the stage's sun. Lights behind the surface give nothing.
  */
-const TOON_BAND = { edge: 0.3, lit: 0.95, shade: 0.62 };
+// `deep` is the side away from the sun: a third band, not black, so a head's underside reads as a
+// soft crease over the body instead of a dark collar (LOOK-18).
+const TOON_BAND = { edge: 0.3, lit: 0.95, shade: 0.62, deep: 0.28 };
 
 /**
  * Patch a physical shader into the toon ramp: direct light in two bands, no specular, and
@@ -219,7 +221,7 @@ export function toonShader(
   if (rim > 0 && shader.uniforms) shader.uniforms.uNightRim = NIGHT_RIM;
   const physical = THREE.ShaderChunk.lights_physical_pars_fragment.replace(
     'vec3 irradiance = dotNL * directLight.color;',
-    `vec3 irradiance = ( dotNL <= 0.0 ? 0.0 : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
+    `vec3 irradiance = ( dotNL <= 0.0 ? ${TOON_BAND.deep.toFixed(3)} : dotNL < ${TOON_BAND.edge.toFixed(3)} ? ${TOON_BAND.shade.toFixed(3)} : ${TOON_BAND.lit.toFixed(3)} ) * directLight.color;`,
   );
   // The rim: a light band where the surface turns away from the eye, stepped like the
   // bands so it reads as paint, not as a glow. It is lit by the fill, so it dims at night.
@@ -299,6 +301,8 @@ export function outline(
   color = TOON_OUTLINE.color,
 ): void {
   const mat = new THREE.MeshBasicMaterial({ color, side: THREE.BackSide });
+  // The hull thins to 40% on down-facing surfaces (a head's underside over the body), so the
+  // neck reads as a crease, not a black collar (LOOK-18).
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uWidth = { value: width };
     shader.vertexShader = shader.vertexShader
@@ -306,7 +310,7 @@ export function outline(
       .replace(
         '#include <project_vertex>',
         `vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );
-        mvPosition.xyz += normalize( normalMatrix * normal ) * uWidth;
+        mvPosition.xyz += normalize( normalMatrix * normal ) * uWidth * mix( 1.0, 0.4, smoothstep( -0.3, -0.7, normal.y ) );
         gl_Position = projectionMatrix * mvPosition;`,
       );
   };
