@@ -50,13 +50,7 @@ import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
-import {
-  buyAcorns,
-  portalReturn,
-  rerollActs,
-  useAcorn,
-  waypointTravel,
-} from './dungeon-travel';
+import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
 import {
   dungeonGo,
   encounterDone,
