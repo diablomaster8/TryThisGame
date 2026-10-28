@@ -21,6 +21,7 @@
  *   prefix them with their line id (`mv-cw`, `np-`, `s2-`).
  */
 import type { Choice, Line, Scene } from '../config/story';
+import type { RegionId, StoryArea } from '../config/regions';
 
 /**
  * Who a quest is for.
@@ -60,6 +61,12 @@ export interface Reward {
   description: string;
 }
 
+/** A region (with an optional point of interest in it) or a story area that is no region. */
+export interface QuestArea {
+  region: RegionId | StoryArea;
+  poi?: string;
+}
+
 export interface Quest {
   id: string;
   /** Number in its list (Q1–Q65, S1–S10, NP1–NP13, IM1…). */
@@ -69,7 +76,13 @@ export interface Quest {
   source: string;
   audience: Audience;
   /** Where and when the quest offers itself. */
-  trigger: { where: string; when: string };
+  trigger: {
+    /** Flavour text for the place; see `area` for where the quest really sits. */
+    where: string;
+    when: string;
+    /** Where the quest sits on the map. Optional: `areaOf` falls back to WHERE_MAP. */
+    area?: QuestArea;
+  };
   /** Codes of quests or flags that must be complete first. */
   requires?: string[];
   speakers: Speaker[];

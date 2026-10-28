@@ -10,89 +10,10 @@ import { BEETLE_SPEAKERS } from '../../src/content/storyline-beetle';
 import { DAWNDUSK_SPEAKERS } from '../../src/content/storyline-dawndusk';
 import { HUNDRED_SPEAKERS } from '../../src/content/storyline-hundred';
 import { LOGGED_SPEAKERS } from '../../src/content/storyline-logged';
+import { packs } from './quest-packs';
+import { areaOf } from '../../src/content/where-map';
+import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 
-const packs: Record<string, Quest[]> = {
-  python: C.QUESTS_PYTHON,
-  bean: C.QUESTS_BEAN,
-  sunny: C.QUESTS_SUNNY,
-  avatar: C.QUESTS_AVATAR,
-  sideMain: C.SIDE_STORIES_MAIN,
-  sideFun: C.SIDE_STORIES_FUN,
-  sideFun2: C.SIDE_STORIES_FUN_2,
-  new1: C.SIDE_STORIES_NEW_1,
-  new2: C.SIDE_STORIES_NEW_2,
-  new3: C.SIDE_STORIES_NEW_3,
-  new4: C.SIDE_STORIES_NEW_4,
-  npLine: C.NEOPIA_LINE,
-  npQuests: C.NEOPIA_QUESTS,
-  im: C.MV_IRONMAN,
-  ca: C.MV_CAP,
-  ff: C.MV_DOOM,
-  ul: C.MV_ULTRON,
-  mk: C.MV_MOONKNIGHT,
-  sp: C.MV_SPAWN,
-  langHe: C.LANG_HEBREW,
-  langJa: C.LANG_JAPANESE,
-  db: C.MV_DRAGONBALL,
-  ts: C.MV_TOYSTORY,
-  eg: C.MV_ENDGAMES,
-  // Part L and Part M (only those with Learning Grove versions are in eduPacks; of the Arcade, PA1 since 2026-10-17)
-  s23: C.SIDE_STORY_S23,
-  s24: C.SIDE_STORY_S24,
-  s25: C.SIDE_STORY_S25,
-  s26: C.SIDE_STORY_S26,
-  s27: C.SIDE_STORY_S27,
-  s28: C.SIDE_STORY_S28,
-  s29: C.SIDE_STORY_S29,
-  s30: C.SIDE_STORY_S30,
-  s31: C.SIDE_STORY_S31,
-  a01: C.ATLAS_A01,
-  a02: C.ATLAS_A02,
-  a03: C.ATLAS_A03,
-  a04: C.ATLAS_A04,
-  a05: C.ATLAS_A05,
-  a06: C.ATLAS_A06,
-  a07: C.ATLAS_A07,
-  a08: C.ATLAS_A08,
-  a09: C.ATLAS_A09,
-  a10: C.ATLAS_A10,
-  a11: C.ATLAS_A11,
-  a12: C.ATLAS_A12,
-  a13: C.ATLAS_A13,
-  a14: C.ATLAS_A14,
-  a15: C.ATLAS_A15,
-  a16: C.ATLAS_A16,
-  a17: C.ATLAS_A17,
-  a18: C.ATLAS_A18,
-  a19: C.ATLAS_A19,
-  a20: C.ATLAS_A20,
-  a21: C.ATLAS_A21,
-  a22: C.ATLAS_A22,
-  a23: C.ATLAS_A23,
-  a24: C.ATLAS_A24,
-  a25: C.ATLAS_A25,
-  a26: C.ATLAS_A26,
-  a27: C.ATLAS_A27,
-  a28: C.ATLAS_A28,
-  a29: C.ATLAS_A29,
-  a30: C.ATLAS_A30,
-  a31: C.ATLAS_A31,
-  alice: C.QUESTS_ALICE,
-  holmes: C.QUESTS_HOLMES,
-  hodja: C.QUESTS_HODJA,
-  pa1: C.ARCADE_PA1,
-  pa2: C.ARCADE_PA2,
-  pa3: C.ARCADE_PA3,
-  pa4: C.ARCADE_PA4,
-  pa5: C.ARCADE_PA5,
-  // Learning Grove lines (edu versions built in, so they are in eduPacks)
-  lb: C.LINE_LB,
-  lk: C.LINE_LK,
-  // Plan G12 expansions (post-ending, main audience; never in eduPacks)
-  e1: C.EXPANSION_E1,
-  e2: C.EXPANSION_E2,
-  e3: C.EXPANSION_E3,
-};
 const problems: string[] = [];
 const questIds = new Set<string>(),
   sceneIds = new Map<string, string>(),
@@ -828,6 +749,22 @@ warnings.push(...aheadWarn);
       `unread fun-quest choice flags: ${unread.length} (e.g. ${unread.slice(0, 20).join(', ')})`,
     );
 }
+// Every quest sits on the map: a region (with a real poi if one is given) or a story area.
+let noArea = 0;
+for (const q of allQuests) {
+  const a = areaOf(q);
+  if (!a) {
+    noArea++;
+    problems.push(`${q.id}: no area (add "${q.trigger.where}" to src/content/where-map.ts)`);
+  } else if ((STORY_AREAS as readonly string[]).includes(a.region)) {
+    if (a.poi) problems.push(`${q.id}: story area ${a.region} takes no poi (${a.poi})`);
+  } else {
+    const region = REGIONS[a.region as keyof typeof REGIONS];
+    if (!region) problems.push(`${q.id}: unknown region ${a.region}`);
+    else if (a.poi && !region.pois.some((p) => p.id === a.poi))
+      problems.push(`${q.id}: poi ${a.poi} is not in region ${a.region}`);
+  }
+}
 console.log(
   JSON.stringify(
     {
@@ -840,6 +777,7 @@ console.log(
       readings,
       results,
       warnings: warnings.length,
+      noArea,
       problems: problems.length,
     },
     null,
