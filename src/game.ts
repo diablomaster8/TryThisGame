@@ -41,6 +41,7 @@ import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
 import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
 import { terraceY } from './render/scene-stage';
+import { SpriteCuller } from './render/chunks';
 
 /** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
 function reduce0(reduce: boolean, dtMs: number, rate: number): number {
@@ -89,6 +90,8 @@ export class Game {
    * allocates them.
    */
   readonly view = new WorldView();
+  /** WORLD-09: skips pixel sprites that are surely off screen. */
+  private readonly culler = new SpriteCuller();
   readonly picker: Picker;
   readonly input: GameInput;
   readonly cameraControls: CameraControls;
@@ -853,6 +856,8 @@ export class Game {
         this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
         this.updateDaylight(nowMs);
+        this.culler.update(this.camera);
+        this.view.batch.cull = this.culler.visible;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
         this.lowRes.render(this.grove.scene, this.camera.camera);
       }

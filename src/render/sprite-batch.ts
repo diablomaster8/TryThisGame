@@ -196,7 +196,7 @@ export class SpriteBatch {
    * where a nearer sprite or building hides it (MOVE-19).
    */
   markXray(color: number): void {
-    if (this.count === 0 || this.xrayQuads.length >= 4) return;
+    if (this.lastCulled || this.count === 0 || this.xrayQuads.length >= 4) return;
     this.xrayQuads.push({ index: this.count - 1, color: new Color(color) });
   }
 
@@ -246,7 +246,16 @@ export class SpriteBatch {
   }
 
   /** Start a frame. Billboards face a camera at `yaw` with the fixed `pitch`. */
+  /**
+   * WORLD-09: when set, sprites it calls surely off screen are skipped (not drawn, not
+   * pickable); `culled` counts them per frame for the debug panel and the perf probe.
+   */
+  cull: ((d: SpriteDraw, w: number, h: number) => boolean) | null = null;
+  culled = 0;
+  private lastCulled = false;
+
   begin(yaw: number, pitch: number): void {
+    this.culled = 0;
     this.count = 0;
     this.quads.length = 0;
     this.xrayQuads.length = 0;
@@ -286,6 +295,13 @@ export class SpriteBatch {
     },
   ): void {
     this.lastCorners = null;
+    this.lastCulled =
+      this.cull !== null &&
+      !this.cull(d, d.w ?? d.rect.w / NATIVE_PPU, d.h ?? d.rect.h / NATIVE_PPU);
+    if (this.lastCulled) {
+      this.culled++;
+      return;
+    }
     // Placing may evict and repack; then the quads already drawn this frame re-ask their UVs.
     if (!this.atlas.place(d.sheet)) return;
     if (this.atlas.generation !== this.uvGeneration) this.refreshUvs();
