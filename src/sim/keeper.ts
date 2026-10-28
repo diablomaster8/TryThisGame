@@ -423,8 +423,12 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     const len = Math.hypot(k.input.x, k.input.z);
     const nx = k.input.x / len;
     const nz = k.input.z / len;
+    // The stick's length (up to 1) is the pace: a light touch walks slowly.
     const speed =
-      KEEPER.speed * keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) * soft;
+      KEEPER.speed *
+      Math.min(1, len) *
+      keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
+      soft;
     const v = accelerate(world, nx * speed, nz * speed, dt, events);
     k.pos.x += v.x * dt;
     k.pos.z += v.z * dt;

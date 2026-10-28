@@ -95,6 +95,8 @@ export class Game {
   private readonly pending: Command[] = [];
   private rafId = 0;
   private running = false;
+  /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
+  readonly framePollers: Array<() => void> = [];
   /** While a minigame covers the screen the sim keeps going but the Grove is not drawn. */
   renderPaused = false;
   /** Debug: force an hour (0..24) instead of the real clock; null = real time. */
@@ -712,6 +714,7 @@ export class Game {
     this.lastFrameMs = nowMs;
 
     this.input.pollKeyboard();
+    for (const poll of this.framePollers) poll();
 
     // Sim steps.
     const steps = this.clock.advance(dt);
