@@ -368,6 +368,24 @@ hip bones, shares geometry per item kind and materials per colour, and skips the
 rig's dress signature (on `userData`) has not changed. The pool stamps `userData.lookKey` on
 each rig so the Dresser knows the body under the clothes.
 
+## Generated species: the serpent plan
+
+The pocket and digital lines are generated from the pixel recipe (`render/sprites/species-art*.ts`,
+`render3d/art-species.ts`). A recipe with `plan: 'serpent'` may carry a `serpent` block, read by
+both renderers (LOOK-05):
+
+| Field      | What it does                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------ |
+| `segments` | Discs (pixel) and spine nodes (3D), 7–10; 8 by default.                                          |
+| `taper`    | The tail's radius as a share of the neck's; 0.35 by default.                                     |
+| `rise`     | How many segments stand up under the head; 2 by default (Gyarados 4, Airdramon 5).               |
+| `belly`    | A belly stripe in the belly colour.                                                              |
+| `fin`      | A dorsal fin in the accent colour on segments 2 and 5 (Gyarados).                                |
+
+In 3D the neck is sculpted into the torso and each lying segment is a part named `seg<i>`, re-hung
+bone under bone (`render3d/art-serpent.ts`); the walk is a travelling yaw wave on the gait clock.
+With the `boulders` part, every segment is a rock (Onix).
+
 ## Where it is seen
 
 `?aaa=1&creature=1..5` on the AAA stage; `&creature=variant:<id>` stages one Nubbin variant and `&creature=variants&family=child|first|second|special|colour|templates` lines up a family (`&filter=<id part>`, `&max=<n>`, rows of eight), cycling through the poses every few seconds;

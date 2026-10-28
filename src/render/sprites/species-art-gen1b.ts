@@ -179,6 +179,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- rock snake ----
   boulderwyrm: spec(pal(C.lilacGrey, C.dusk, C.pale, C.dusk, C.plum), {
     plan: 'serpent',
+    serpent: { segments: 8, taper: 0.55, rise: 2 },
     size: 1.2,
     crest: 'horn',
     eyes: 'angry',
@@ -406,6 +407,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   stormwyrm: spec(pal(C.water, C.deepWater, C.cream, C.white, C.cream), {
     plan: 'serpent',
+    serpent: { segments: 9, rise: 4, belly: true, fin: true },
     size: 1.25,
     ears: 'fins',
     crest: 'twinHorns',
@@ -509,6 +511,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- ribbon wyrms ----
   wyrmlet: spec(pal(C.skyLight, C.water, C.white, C.white, C.white), {
     plan: 'serpent',
+    serpent: { segments: 9, taper: 0.3, belly: true },
     size: 0.9,
     ears: 'fins',
     eyes: 'cute',
@@ -518,6 +521,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   ribbonwyrm: spec(pal(C.water, C.deepWater, C.white, C.white, C.white), {
     plan: 'serpent',
+    serpent: { segments: 10, taper: 0.3, rise: 3, belly: true },
     size: 1.1,
     ears: 'fins',
     crest: 'horn',

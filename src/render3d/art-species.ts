@@ -7,6 +7,7 @@ import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
 import { applyGen1b3d } from './art-species-gen1b';
 import { vivid } from './art-species-colour';
+import { serpentChain, serpentSpec } from './art-serpent';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -536,7 +537,9 @@ function eyeProfile(
 }
 
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
-  const L = layout(art.plan);
+  // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
+  const chain = art.plan === 'serpent' ? serpentChain(art) : null;
+  const L = chain ? chain.layout : layout(art.plan);
   // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
   // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {
@@ -563,12 +566,9 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
         'shell',
       ),
     );
-  if (art.plan === 'serpent')
-    torso.push(
-      cap(V(0, b.y, 0.2), V(0, h.y - h.r.y * 0.6, h.z * 0.6), 0.32, c.body!, 'neck'),
-      cap(V(0, 0.32, -0.7), V(0.6, 0.28, -1.1), 0.24, c.body!),
-    );
-  else if (art.plan === 'stalk')
+  if (art.plan === 'serpent') {
+    // The spine replaces the torso below (serpentSpec).
+  } else if (art.plan === 'stalk')
     torso.push(...[-1, 1].map((s) => ell(V(s * 0.42, 0.12, 0.05), V(0.36, 0.08, 0.2), c.accent!)));
   else torso.push(sphere(V(0, b.y + b.r.y * 0.85, h.z * 0.5), 0.28, c.body!, 'neck'));
   const feature = headFeatures(art, L, c);
@@ -650,5 +650,6 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
-  return art.gen1b || art.heads ? applyGen1b3d(spec, art, L, c) : spec;
+  const shaped = chain ? serpentSpec(spec, art, chain, c, (p) => boxOf(p)) : spec;
+  return art.gen1b || art.heads ? applyGen1b3d(shaped, art, L, c) : shaped;
 }

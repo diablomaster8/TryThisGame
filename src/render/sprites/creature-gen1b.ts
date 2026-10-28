@@ -178,6 +178,17 @@ export function drawGen1b(
       case 'boulders': {
         // A chain of rocks over the coils, so the body reads as boulders.
         if (layer !== 'mid') break;
+        // On the serpent chain (LOOK-05) every disc is a boulder, ringed so each one reads.
+        if (a.serpent) {
+          const rocks = [...a.serpent.discs].filter((q) => q.z >= 0).sort((p, q) => p.z - q.z);
+          for (const q of rocks) {
+            pc.disc(q.x, q.y, q.r + 0.4, col.outline);
+            pc.disc(q.x, q.y, q.r - 0.2, col.body);
+            pc.disc(q.x + 0.7, q.y + 0.7, q.r - 1, col.shade);
+            pc.disc(q.x - 0.4, q.y - 0.4, q.r - 1.3, col.body);
+          }
+          break;
+        }
         const d = side ? -1 : 1;
         [3.4, 3.8, 3.2].forEach((r, i) => {
           const x = a.bodyCx + d * (i - 1) * 6;

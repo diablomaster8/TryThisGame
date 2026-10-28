@@ -405,7 +405,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   skyserpent: spec(pal(C.water, C.deepWater, C.shallows, C.white, C.ember), {
     plan: 'serpent',
     size: 1.15,
-    wings: 'bat',
+    serpent: { rise: 5, belly: true },
+    wings: 'feather',
     crest: 'twinHorns',
     eyes: 'angry',
     legs: 'none',
@@ -414,8 +415,9 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   seaserpent: spec(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.deepWater), {
     plan: 'serpent',
     size: 1.15,
+    serpent: { segments: 9, rise: 3, belly: true },
     ears: 'fins',
-    crest: 'horn',
+    crest: 'helmet',
     eyes: 'angry',
     legs: 'none',
     arms: 'none',

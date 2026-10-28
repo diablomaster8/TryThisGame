@@ -377,6 +377,8 @@ export interface ChaoPose {
   squash: number;
   /** The waddle's head rock, in px across the body (walk contact frames); 0 when unset. */
   rock?: -1 | 0 | 1;
+  /** The walk frame, 0..5, for bodies that move by a wave instead of steps (the serpent). */
+  step?: number;
   /** `out`: seated, the legs straight out in front with the soles to the camera (LOOK-20). */
   legs: 'together' | 'stepA' | 'stepB' | 'tucked' | 'out';
   arms: ArmPose;
@@ -433,6 +435,7 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
         squash: contact ? 0.97 : passing ? 1.02 : 1,
         // The waddle (LOOK-22): on each contact the head rocks a pixel away from the planted foot.
         rock: phase === 0 ? 1 : phase === 3 ? -1 : 0,
+        step: phase,
       };
     }
     case 'happy':

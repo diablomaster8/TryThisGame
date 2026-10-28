@@ -310,6 +310,8 @@ export function applyGen1b3d(
         }
         break;
       case 'boulders':
+        // A serpent's boulders are its spine segments (art-serpent.ts).
+        if (art.plan === 'serpent') break;
         for (const [x, y, z, r] of [
           [0.55, 0.42, -0.85, 0.42],
           [0.95, 0.55, -1.35, 0.36],
