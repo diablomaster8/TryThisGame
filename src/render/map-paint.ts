@@ -17,6 +17,7 @@ export function toMapPx(v: number): number {
 
 const HILL = [92, 74, 52];
 const ROOF = [146, 70, 52];
+const WATER = [58, 120, 186];
 
 function blendDisc(
   p: GroundPixels,
@@ -46,6 +47,21 @@ function blendDisc(
 /** Paint the Grove's map: the ground, then a contour ring per hill and a roof per building. */
 export function paintGroveMap(tiles: Record<string, TileKind>, season: GroundSeason): GroundPixels {
   const p = paintGround(7, tiles, MAP_PPU, season);
+  // The 3D and pixel water are drawn apart from the ground, so the map paints its own.
+  blendDisc(p, GROVE.pond.x, GROVE.pond.z, GROVE.pond.r, WATER, 0.9);
+  for (const line of [GROVE.river.inflow, GROVE.river.outflow]) {
+    for (let i = 1; i < line.length; i++) {
+      const a = line[i - 1]!;
+      const b = line[i]!;
+      const n = Math.ceil(Math.hypot(b.x - a.x, b.z - a.z) / 0.5);
+      for (let s = 0; s <= n; s++) {
+        const t = s / n;
+        const x = a.x + (b.x - a.x) * t;
+        const z = a.z + (b.z - a.z) * t;
+        blendDisc(p, x, z, GROVE.river.width / 2, WATER, 0.9);
+      }
+    }
+  }
   for (const h of GROVE.hills) {
     blendDisc(p, h.x, h.z, h.r, HILL, 0.18);
     blendDisc(p, h.x, h.z, h.r, HILL, 0.55, true);

@@ -101,7 +101,21 @@ export function layoutChips(
       pick = c;
       break;
     }
-    // Nowhere free: clamp the first choice into the view (it may overlap; the check catches it).
+    // Nothing near is free: take the nearest free spot anywhere in the view, and only if the
+    // view is full, clamp the first choice in (it may overlap; the phone check catches it).
+    if (!pick) {
+      let best = Infinity;
+      for (let y = 0; y + b.h <= viewH; y += 6) {
+        for (let x = 0; x + b.w <= viewW; x += 6) {
+          const d = Math.hypot(x + b.w / 2 - b.ax, y + b.h / 2 - b.ay);
+          if (d >= best) continue;
+          const r = { x, y, w: b.w, h: b.h };
+          if (placed.some((p) => overlaps(p, r))) continue;
+          best = d;
+          pick = { x, y };
+        }
+      }
+    }
     pick ??= {
       x: Math.min(Math.max(0, cands[0]!.x), viewW - b.w),
       y: Math.min(Math.max(0, cands[0]!.y), viewH - b.h),
@@ -439,6 +453,7 @@ export class WorldMapPanel {
     this.canvas.style.height = `${span}px`;
     this.canvas.style.transform = `translate(${this.panX}px, ${this.panY}px)`;
     for (const c of this.chips) {
+      c.node.hidden = false;
       c.node.style.left = '0px';
       c.node.style.top = '0px';
       c.w = c.node.offsetWidth;
