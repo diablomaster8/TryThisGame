@@ -40,10 +40,31 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 2 · Lane A (MOVE, 2026-10-28, branch r2/a)
 
-*Plan:* R0030 Nubbin hops from stats, R0041 slopes, R0042 run mode, R0043 soft bushes,
-R0044 path dots, R0045 Pixel raised depth, R0046 surface prints, R0048 greet distance (the
-Hollow part is lane B's), R0049 pad drives Keeper 1. Helpers in their own worktrees: R0036 NPC
-nav (`r2/a-npc`), R0037 3D wild props (`r2/a-wild`), R0047 hurdles (`r2/a-race`).
+Items R0030 and R0036–R0049 (R0031/R0032 are lane B's). Per-item status is in `recs-2026-10-27/STATUS.md`.
+
+- *Works:* Nubbins hop from Run and Fly onto rock and bench tops and over logs. Cheerful ones
+  hop for joy, Mischievous ones climb, Lazy ones walk round, and Shy ones hop back from a
+  landing Keeper and sit in bushes. A thrown Nubbin can land on a top (the R0033 leftover).
+  NPC wandering and staged walk-ons route round solids. Full 3D draws the wild trees, bushes,
+  logs and rocks. Hill slopes slow the climb to about 0.8× and lean the 3D Keeper forward.
+  Running jumps carry further. Auto-run runs long tap walks (on at a phone's first launch),
+  and the phone Run toggle turns itself off after 3 s still. Bushes rustle in both modes and
+  hide a one-time shell. Tap walks show path dots and a target marker at the right height.
+  Footfalls follow the surface (deck tok, stone tap, grass tuft). Races have a hurdles section
+  with cheer timing. Partners follow from slots behind the Keeper. With co-op off, a gamepad
+  drives Keeper 1.
+- *Stubbed:* the Pixel lean frame on ramps, wider 3D arm swing when running, a Fly adult's
+  flap animation on a hop, 3D leaf bursts and 3D prints, pad glyph prompts, the Hollow half of
+  R0048 (lane B's files), and NPCs pausing for the Keeper (they already stop within 2.5 u).
+- *Known:* the slope numbers are 2.0/0.6, not the rec's 0.35/0.1, because the ramps are
+  gentle. They apply to stick and keyboard walks only. A slower tap climb reached a pocket near
+  (28, -33) where the nav grid and the ledges disagree, and the Keeper dithered there; that
+  pocket is still open. Stand-in walks now recheck their real tap each second and stop rather
+  than dither. Hopper Nubbins still pass under tops they can't reach (the R0029 rule). The race
+  menu lists only tier-1 sections. Hops cost the full-life test about 6%.
+- *Assumptions:* a child's hop uses ×0.6; a joy hop's timing comes from the Nubbin's seed,
+  not the rng, so no other random draw moves. A bush's find is one shell (there is no ladybird
+  critter).
 
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
