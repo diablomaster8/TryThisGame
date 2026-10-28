@@ -40,13 +40,33 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Lane B: DUNG, the Hollow Below (2026-10-28, branch lane/b, not pushed)
 
-Plan (R0142–R0146 first, R-number order, PM merges): R0142 hold the Hollow's sim behind
-the veil and an 8 s arrival grace; a v2 snapshot test pins the old generator (DUNG-67) before
-anything moves; R0143/R0144 generator version 3 (`sim/dungeon-gen-v3.ts`, authored ASCII
-pieces in `sim/dungeon-pieces/`, three levels in `config/tuning-dungeon.ts`), sharing v2's
-dressing; R0146 encounter packs on `DungeonRun.packs` with a local `startEncounter` stub
-(`sim/dungeon-encounters.ts`) until lane C's `sim/battle/` lands; R0145 the five-act table,
-progress in `world.hollow.acts` and the one save bump of this pass (v7 → v8).
+R0142–R0146 in R order; next open is R0147. Save version 7 → 8 (`world.hollow.acts`).
+
+- **Works.** R0142: the boot veil holds the floor still (`setLoading` from main.ts, never
+  saved), says "Lighting the Hollow…" underground, and an 8 s arrival grace follows every
+  entry, descent and veil lift. R0143/R0144: generator v3 (`sim/dungeon-gen-v3.ts`) on a
+  12-cell slot grid: a branching walk with 1–3 loops, 29 authored Rootways pieces
+  (`sim/dungeon-pieces/`, turned to fit, ≤ 3 of one per floor), tunnels between sockets,
+  cave rock as one-tunnel side caves, v2's dressing shared through `dressFloor`; levels small,
+  standard, big in `config/tuning-dungeon.ts`; new non-story runs use v3 (`HOLLOW.genVersion`),
+  v1/v2 pinned by a snapshot test. R0146: packs (`sim/dungeon-encounters.ts`) notice, chase at
+  0.8× and leash; a bump hands a 9×7 board to `EncounterHandler` (default: a seeded
+  auto-resolve stub; lane C swaps in with `setEncounterHandler`, or answers later with the
+  `encounterDone` command); win = poof and Shells, loss = giggles and back to the stairs with
+  the haul. Packs drawn in Full 3D (`render3d/crowd.ts`). R0145: `config/dungeon-acts.ts`
+  (five acts, 3–4 levels), boss room and boss pack on each act's last level, the boss gates
+  the way on and opens the next act, act list in the cave-mouth menu.
+- **Stubbed.** Fights (auto-resolve until FIGHT). Acts II–V use the Rootways pieces (their
+  tilesets are not drawn); no act towns, outdoor zones or side dungeons (DUNG-07, -12); the
+  boss is one big pack with no look or phases of its own (DUNG-20); no "!" emote or sparkle
+  poof yet (3D uses a hop); pack loot is Shells only (DUNG-23).
+- **Known gaps.** Pixel view does not draw packs: it needs a call in `render/world-view.ts`
+  (lane A's file). Standard-level full-clear tour is in 750–1,100 u on ~85% of seeds, not
+  95% (test allows 20 misses).
+- **Assumptions.** The stairs band is measured against the farthest room, not the farthest
+  cell (side caves wind on past every room). Tour bands per level: small 500–950, standard
+  750–1,100, big 1,000–1,750 u (small opens an act, big closes it). Story floors stay on v2.
+  The endless v3 Hollow has no sealed bottom. Packs only on v3 floors.
 
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
