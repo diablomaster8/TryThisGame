@@ -6,8 +6,9 @@ import { npcHome } from './npcs';
 import { GRADES, STAT_KEYS, type Grade, type World } from './types';
 import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
+import { footing } from './terrain';
 
-export const SAVE_VERSION = 6;
+export const SAVE_VERSION = 7;
 
 export interface SaveFile {
   version: number;
@@ -92,6 +93,20 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       edu.breakUntilMs ??= 0;
       edu.todayMs ??= 0;
       edu.todayKey ??= '';
+    }
+    return data;
+  },
+  // 6 to 7: the Keeper stands at a height and can jump (MOVE-10); feet on the ground.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const k = world?.keeper as Record<string, unknown> | undefined;
+    const pos = k?.pos as { x?: unknown; z?: unknown } | undefined;
+    if (k) {
+      const x = typeof pos?.x === 'number' ? pos.x : 0;
+      const z = typeof pos?.z === 'number' ? pos.z : 0;
+      k.y = footing(x, z).y;
+      k.vy = 0;
+      k.grounded = true;
     }
     return data;
   },
@@ -200,6 +215,7 @@ export function validateWorld(w: World): World {
   w.settings.graphics ??= 'pixel';
   w.settings.sculptRes ??= null;
   w.settings.screenShake ??= true;
+  w.settings.gentleJumps ??= false;
   w.settings.particles ??= 'full';
   w.settings.reducedMotion ??= 'system';
   w.inventory.heartFruit ??= 0;
@@ -363,6 +379,14 @@ export function validateWorld(w: World): World {
     w.keeper.carrying = null;
   w.keeper.running ??= false;
   w.keeper.input = { x: 0, z: 0 };
+  // A jump belongs to the session that saved it: a load starts with the feet down.
+  if (!isNum(w.keeper.y)) w.keeper.y = footing(w.keeper.pos.x, w.keeper.pos.z).y;
+  w.keeper.vy = 0;
+  w.keeper.grounded = true;
+  w.keeper.airJumps = 0;
+  w.keeper.coyoteMs = 0;
+  w.keeper.bufferMs = 0;
+  w.keeper.jumpHeld = false;
   return w;
 }
 

@@ -8,7 +8,10 @@ import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
-import { cellCentre, type Cell, type Floor } from '../sim/dungeon';
+import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { keeperFooting } from '../sim/keeper';
+import { deckY, groveHeight, WATER_LEVEL } from '../sim/terrain';
+import { KEEPER_WADE } from '../config/tuning-sim';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
 import { GROVE, GROVE3D } from '../config/tuning';
@@ -106,6 +109,11 @@ export class WorldView {
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
+  /**
+   * The share of the Keeper's own fine step drawn this frame (MOVE-15), set by game.ts;
+   * null draws the Keeper on the sim step's alpha like everyone else.
+   */
+  keeperAlpha: number | null = null;
   private keeperClipStart = 0;
   private keeperMoving = false;
   private shadowSheet: SpriteSheet | null = null;
@@ -133,8 +141,14 @@ export class WorldView {
         v.y = i.y;
       }
     }
+    this.snapshotKeeper(world);
+  }
+
+  /** Call right before each of the Keeper's own fine steps (MOVE-15). */
+  snapshotKeeper(world: World): void {
     this.keeperPrev.pos.x = world.keeper.pos.x;
     this.keeperPrev.pos.z = world.keeper.pos.z;
+    this.keeperPrev.y = world.keeper.y;
   }
 
   /** Time of day: sprite dimming and the ambient particle layer. */
@@ -175,14 +189,30 @@ export class WorldView {
     );
   }
 
+  /** How far the drawn Keeper's feet are off the painted ground (up a jump, down a wade). */
+  private keeperOffset(
+    world: World,
+    x: number,
+    z: number,
+    alpha: number,
+  ): { off: number; floor: number } {
+    const y = lerp(this.keeperPrev.y, world.keeper.y, this.keeperAlpha ?? alpha);
+    if (runFloor(world)) return { off: Math.max(0, y), floor: 0 };
+    const ground = paintedGround(x, z);
+    // What the feet stand on or are over: the shadow sits there.
+    const floor = Math.max(0, keeperFooting(world, x, z, y).y - ground);
+    return { off: y - ground, floor };
+  }
+
   /** The Keeper's position as drawn this frame (between sim steps). */
   keeperDrawPos(world: World, alpha: number): Vec2 {
     // A scene that puts the Keeper on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.keeperHold : null;
     if (held) return { x: held.x, z: held.z };
+    const a = this.keeperAlpha ?? alpha;
     return {
-      x: lerp(this.keeperPrev.pos.x, world.keeper.pos.x, alpha),
-      z: lerp(this.keeperPrev.pos.z, world.keeper.pos.z, alpha),
+      x: lerp(this.keeperPrev.pos.x, world.keeper.pos.x, a),
+      z: lerp(this.keeperPrev.pos.z, world.keeper.pos.z, a),
     };
   }
 
@@ -890,8 +920,12 @@ export class WorldView {
     );
     // A Keeper held on a hill mark stands (or sits) on the terrace, as held NPCs do.
     const kHeld = this.staging?.active && this.staging.keeperHold && this.location === 'grove';
-    const ky = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
-    shadow(kx, ky, kz, 0.45);
+    // The Keeper's height off the flat painted ground (MOVE-10/13): a jump lifts it, a
+    // bench raises it, and the stream sinks its feet under the ground plane, which hides them.
+    const { off, floor } = kHeld ? { off: 0, floor: 0 } : this.keeperOffset(world, kx, kz, alpha);
+    const kbase = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
+    const ky = kbase + off;
+    shadow(kx, kbase + floor, kz, 0.45);
     if (krect) {
       batch.draw({
         sheet: ksheet,
@@ -925,7 +959,11 @@ export class WorldView {
         });
       }
     }
-    if (moving && nowMs - this.keeperDustMs > 260) {
+    if (moving && off < -0.05 && nowMs - this.keeperDustMs > KEEPER_WADE.rippleMs) {
+      // Wading: rings on the water instead of dust.
+      this.keeperDustMs = nowMs;
+      this.particles.ripple(kx, kz);
+    } else if (moving && off >= -0.05 && off < 0.05 && nowMs - this.keeperDustMs > 260) {
       this.keeperDustMs = nowMs;
       this.particles.burst('dust', kx, 0.05, kz, 1, {
         spread: 0.15,
@@ -1564,6 +1602,15 @@ export class WorldView {
     this.sheets.dispose();
     this.particles.dispose();
   }
+}
+
+/**
+ * The ground the pixel view paints, in the sim's heights: the bridge deck, else the land or
+ * the water's surface. Pixel draws all of it flat, so the Keeper is drawn by how far its
+ * feet are from this.
+ */
+function paintedGround(x: number, z: number): number {
+  return deckY(x, z) ?? Math.max(groveHeight(x, z), WATER_LEVEL);
 }
 
 function lerp(a: number, b: number, t: number): number {

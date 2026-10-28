@@ -235,6 +235,19 @@ export interface Keeper {
   intent: KeeperIntent | null;
   /** Running: faster movement (Shift, or the Run toggle). */
   running: boolean;
+  /** Height of the feet (MOVE-10): the ground under them when grounded. */
+  y: number;
+  /** Vertical speed, units per second; up is positive. */
+  vy: number;
+  grounded: boolean;
+  /** Jumps left before landing (the double jump). */
+  airJumps: number;
+  /** Time left to jump after walking off a ledge (coyote time), ms. */
+  coyoteMs: number;
+  /** Time left on a jump pressed just before landing (the buffer), ms. */
+  bufferMs: number;
+  /** The jump button is down: a held jump rises higher. */
+  jumpHeld: boolean;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -274,6 +287,8 @@ export interface Settings {
   sfxVolume: number;
   textSpeed: 'slow' | 'normal' | 'fast' | 'instant';
   screenShake: boolean;
+  /** Floatier, more forgiving jumps (MOVE-11); a Learning Grove save always has them. */
+  gentleJumps: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -750,6 +765,8 @@ export type Command =
   | { kind: 'grab'; nubbinId: string }
   | { kind: 'drag'; pos: Vec2 }
   | { kind: 'shakeHeld' }
+  /** The jump button pressed or let go (MOVE-10); with something held it shakes instead. */
+  | { kind: 'jump'; down: boolean }
   | { kind: 'release'; vel: Vec2 }
   | { kind: 'switchKeeper'; alignment: KeeperAlignment }
   | { kind: 'setTrainer'; id: string }
@@ -918,6 +935,9 @@ export type SimEvent =
   | { kind: 'pickedUp'; nubbinId: string }
   | { kind: 'thrown'; nubbinId: string }
   | { kind: 'landed'; nubbinId: string }
+  /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
+  | { kind: 'keeperJumped'; air: boolean }
+  | { kind: 'keeperLanded' }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string }

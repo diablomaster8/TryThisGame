@@ -1,4 +1,5 @@
 import { DECOR, GROVE, LANTERN_POSTS } from './tuning';
+import { BRIDGE_DECK, BRIDGE_YAW } from './tuning-sim';
 
 /**
  * The one table of placed solids in the home Grove (MOVE-01). The sim builds its colliders
@@ -271,6 +272,22 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
       flags: ['solid'],
     }),
   );
+  // The bridge's rails (MOVE-12): one each side of the deck, along its length and open at
+  // both ends, so the deck is walked end to end and never stepped off sideways.
+  for (const side of [-1, 1]) {
+    const c = Math.cos(BRIDGE_YAW);
+    const s = Math.sin(BRIDGE_YAW);
+    const off = side * BRIDGE_DECK.railOffset;
+    add({
+      id: `bridge-rail-${side < 0 ? 'w' : 'e'}`,
+      x: GROVE.bridge.x + off * c,
+      z: GROVE.bridge.z - off * s,
+      yaw: BRIDGE_YAW - Math.PI / 2,
+      shape: { type: 'segment', len: BRIDGE_DECK.hd * 2, r: BRIDGE_DECK.railR },
+      top: BRIDGE_DECK.railTop,
+      flags: ['solid'],
+    });
+  }
   // Lantern posts are thin but solid: nobody walks through one (review D, play-test).
   for (const p of LANTERN_POSTS)
     add({ id: p.id, x: p.x, z: p.z, yaw: 0, shape: circle(0.3), top: 1.6, flags: ['solid'] });

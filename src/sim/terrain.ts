@@ -8,6 +8,7 @@
  * (whose `raster.ts` imports three), kept bit-identical so the 3D mesh does not move.
  */
 import { GROVE, GROVE3D } from '../config/tuning';
+import { BRIDGE_DECK, BRIDGE_YAW, JUMP, KEEPER_WADE } from '../config/tuning-sim';
 import type { World } from './types';
 
 export type GroundSurface = 'grass' | 'path' | 'water' | 'deck' | 'stone';
@@ -209,9 +210,15 @@ const STONE_HEIGHT = 7.5;
  * Stone and path follow the 3D terrain's own rock and dirt blends at their midpoints.
  */
 export function groundAt(world: World | null, x: number, z: number): Ground {
-  // The world is not read yet. The bridge deck (R0002, surface 'deck') and the tops of
-  // standable colliders (sim/obstacles.ts) plug in here, checked before the terrain below.
+  // The world is not read yet; the tops of standable colliders come in through `keeperFooting`.
   void world;
+  const deck = deckY(x, z);
+  if (deck !== null) return { y: deck, surface: 'deck' };
+  return terrainAt(x, z);
+}
+
+/** The terrain alone, with no deck: its height and what it is made of. */
+function terrainAt(x: number, z: number): Ground {
   const bed = groveHeight(x, z);
   if (bed < WATER_LEVEL) return { y: WATER_LEVEL, surface: 'water' };
   const e = 0.25;
@@ -221,6 +228,78 @@ export function groundAt(world: World | null, x: number, z: number): Ground {
   if (slope > STONE_SLOPE || bed > STONE_HEIGHT) return { y: bed, surface: 'stone' };
   if (pathDistance(x, z) < (GROVE3D.pathWidth + 1.9) / 2) return { y: bed, surface: 'path' };
   return { y: bed, surface: 'grass' };
+}
+
+/** Where the 3D planks sit: `lift` above the stream bed under the bridge's centre. */
+export function bridgeDeckTop(): number {
+  return groveHeight(GROVE.bridge.x, GROVE.bridge.z) + BRIDGE_DECK.lift;
+}
+
+/**
+ * The plank top under (x, z), or null off the bridge (MOVE-12). The deck is a box at the
+ * bridge's yaw; over its last `ramp` units at each end it slopes to the bank, so a walker
+ * steps on and off without a lip.
+ */
+export function deckY(x: number, z: number): number | null {
+  const b = GROVE.bridge;
+  const dx = x - b.x;
+  const dz = z - b.z;
+  const c = Math.cos(BRIDGE_YAW);
+  const s = Math.sin(BRIDGE_YAW);
+  const lx = dx * c - dz * s;
+  const lz = dx * s + dz * c;
+  const D = BRIDGE_DECK;
+  if (Math.abs(lx) > D.hw || Math.abs(lz) > D.hd) return null;
+  const top = bridgeDeckTop();
+  const t = (D.hd - Math.abs(lz)) / D.ramp;
+  if (t >= 1) return top;
+  // The bank at this end, straight out along the deck's line.
+  const end = Math.sign(lz) * D.hd;
+  const bank = groveHeight(b.x + lx * c + end * s, b.z - lx * s + end * c);
+  return bank + (top - bank) * t;
+}
+
+/**
+ * Where the Keeper's feet rest at (x, z), reached from feet at `fromY`: the highest surface
+ * no more than a step above them (the deck, the terrain, or what `extra` adds: the tops of
+ * standable things). In water the feet sink to the bed, at most `maxSink` under the surface
+ * (MOVE-13); `sink` says how far, so the renderers can draw the water line.
+ */
+export function footing(
+  x: number,
+  z: number,
+  fromY = Infinity,
+  extra: (x: number, z: number) => number = () => -Infinity,
+): Footing {
+  const bed = groveHeight(x, z);
+  let y = bed;
+  let on: Footing['on'] = 'land';
+  let sink = 0;
+  if (bed < WATER_LEVEL) {
+    y = Math.max(bed, WATER_LEVEL - KEEPER_WADE.maxSink);
+    on = 'water';
+    sink = WATER_LEVEL - y;
+  }
+  const deck = deckY(x, z);
+  if (deck !== null && deck <= fromY + JUMP.stepUp && deck > y) {
+    y = deck;
+    on = 'deck';
+    sink = 0;
+  }
+  const top = extra(x, z);
+  if (top <= fromY + JUMP.stepUp && top > y) {
+    y = top;
+    on = 'deck';
+    sink = 0;
+  }
+  return { y, on, sink };
+}
+
+/** What `footing` finds: the height, whether it is land, water or something built, and how deep in water. */
+export interface Footing {
+  y: number;
+  on: 'land' | 'water' | 'deck';
+  sink: number;
 }
 
 /**

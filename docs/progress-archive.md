@@ -2,6 +2,62 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Pass 0 hotfixes (2026-10-27, branch pass/0, not pushed)
+
+The ten **live bug** items from `recs-2026-10-27`, as one hotfix commit. Plan: check each still
+reproduces on 9c01019, fix it hotfix-sized, and leave the larger parts to their passes.
+- **Works:**
+  - FUN-01 (+KIDS-01): the r1025 entry overlay's `.edu-prompt` (absolute, full-screen) hit every
+    sprout prompt span and minigame prompt. The overlay is now `.edu-entry*`, the dialogue's
+    bracketed prompt is `.edu-aside`, do buttons are ≥44 px, and a box tap pulses the do button.
+  - TECH-01: a first hatch starts at `EGG.hatchHunger` 0.7 (a rebirth hatches full), and a new
+    world starts with `EGG.startFruit` 2, since a fresh Free Grove had 0 fruit.
+  - TECH-02: a release under `THROW.placeMaxSpeed` 1.5 is a free place (happy bubble). From 1.5 to
+    3 it's a drop at half penalty (`dropScale`), and ≥3 is a throw.
+  - TECH-03: `navigator.storage.persist()` is asked once, at the first gesture after a hatch
+    (`grove.persist` key). Every save is mirrored to IndexedDB (`grove-saves`/`slots`), and boot
+    restores a newer or missing copy. Settings > Saves warns when storage isn't persisted.
+  - SOUL-01: play re-aims at the toy and arrives within `toyReach` 0.7, and the play timer starts
+    on arrival. Walks to a toy, fruit or ball give up on a timeout (6 s, or 1.5× the walk time for
+    far fruit) or on no progress (0.2 in 2 s). A given-up item is skipped for 30 s.
+  - CAMP-02: the Hundred Days and Logged In setups add their Nubbins instead of replacing the
+    roster (cast ids in `c.flags.cast`). Dawn & Dusk's revert spares Nubbins already grown at
+    the start (`dd-before`).
+  - CAMP-03: `counter()` reads the change since `startStoryline` (`base:<kind>` snapshot).
+  - KIDS-07: save v6 adds `breakUntilMs`, `todayMs` and `todayKey`. Play counts only live, visible
+    ×1 time and survives reloads within a day. The break card has no dismiss, only a gated
+    "Grown-up: a little longer", and stays locked across a reload.
+  - KIDS-04: Story closes the picker, then plays a queued scene or opens a spoken "What's next"
+    card (`ui/next-card.ts`). It never shows the journal toast.
+  - KIDS-06: the edu Settings button was already gated on main. This pass adds a kid-safe 🔊/🔇
+    HUD toggle.
+- **Partial / stubbed:**
+  - TECH-01: no first-hatch 🍎 bubble or objective chip line.
+  - TECH-02: no ground ring and no 200 ms lowering.
+  - TECH-03: no 7-day backup offer, and the IndexedDB code has no unit test (no fake-indexeddb).
+  - CAMP-02/03 wait on CAMP-01 for `Nubbin.home`, the region filter, `lineCastMax`, the bring-home
+    choice and the checker's flag-namespace rule. A line's cast may push the roster past its cap
+    (that blocks new eggs, it doesn't break anything).
+  - KIDS-06: the duplicate edu fieldset is still there (behind the same gate), there's no jsdom
+    test (the repo has no DOM test environment), and the toggle is a button, not a big slider.
+  - KIDS-07: a 😴 card instead of a sleeping Nubbin, and no goodnight ritual (KIDS-36).
+  - KIDS-04: no `goalIcon`/`goalSay` content fields and no "Show me" (KIDS-05).
+- **Assumptions:**
+  - SOUL-01's "≤10 s walking" can't hold for fruit up to 30 units away, so fruit walks are bounded
+    at 1.5× their walk time instead.
+  - TECH-01 is checked with `debugHatchNow` in the Edge driver. Hatch timing is unchanged.
+- **Checks:** lint, 1092 tests and build pass. A headless Edge run (Pixel and Full 3D, at 1280×800
+  and 375×812) passed 18/18 checks each time, covering every item above, with no console errors.
+- **Known bugs:** none new.
+
+## Story review run 24 fixes (2026-10-27)
+
+- **Works:** all 57 of run 24's recs fixed in the S4–S8 sprout and reader bands: plain words at S5's
+  goodbye, a water-safety lesson before S4's wade-in, Marina's rule five back in S4, S6's notes named
+  as Ash's name, and quizzes moved out of S8's reunion.
+- **Partial:** none.
+- **Known bugs:** none new.
+
 ## Fun-quest choice payoffs (2026-10-27)
 
 - **Works:** every Q1–Q65 fun-quest choice now changes something: 80 flags pay off with a later line in

@@ -49,3 +49,52 @@ export const GROVE_NAV = {
   /** How far round a shut-in target (cells) to look for a reachable stand-in. */
   reachSearch: 24,
 } as const;
+
+/**
+ * The Keeper's jump (MOVE-10/11). Heights in units, times in ms. A held jump rises to
+ * `height`; letting go on the way up cuts the rise to `shortHopScale`. Each air jump sets
+ * vy afresh. At these numbers the air time is about half a second: a running jump or a
+ * double jump clears the 2.2 u stream. The Learning Grove and the Gentle jumps setting
+ * use `kidFloat` over the top.
+ */
+export const JUMP = {
+  gravity: 26,
+  fallGravityScale: 1.5,
+  maxFall: 14,
+  height: 0.95,
+  shortHopScale: 0.55,
+  doubleHeight: 0.75,
+  airJumps: 1,
+  coyoteMs: 120,
+  bufferMs: 150,
+  /** Share of the walking speed the Keeper can steer with in the air. */
+  airControl: 0.8,
+  /** A walking Keeper steps up or down this much without a jump. */
+  stepUp: 0.35,
+  landSquashMs: 90,
+  kidFloat: { gravity: 20, coyoteMs: 200, bufferMs: 250 },
+} as const;
+
+/** The Keeper moves on its own fine clock (MOVE-15): this many substeps a second. */
+export const KEEPER_MOTION = { hz: 60 } as const;
+
+/** Wading the stream (MOVE-13): feet sink to the bed, at most `maxSink` under the water. */
+export const KEEPER_WADE = { maxSink: 0.35, speed: 0.55, rippleMs: 300 } as const;
+
+/**
+ * The plank bridge over the inflow (MOVE-12): a deck `hw` × `hd` (half sizes, across and
+ * along) whose plank tops sit `lift` above the stream bed at its centre and ramp down to
+ * the banks over the last `ramp` units; posted rails `railOffset` off the centre line.
+ */
+/** The bridge's yaw: the path it carries runs from (1, 4) towards (-5, 14). */
+export const BRIDGE_YAW = Math.atan2(14 - 4, -5 - 1) + Math.PI / 2;
+
+export const BRIDGE_DECK = {
+  hw: 1.0,
+  hd: 1.9,
+  lift: 0.64,
+  ramp: 0.4,
+  railOffset: 0.8,
+  railR: 0.08,
+  railTop: 0.9,
+} as const;

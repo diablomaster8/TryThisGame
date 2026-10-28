@@ -1542,6 +1542,29 @@ button,
   pointer-events: auto;
 }
 
+/* Jump (MOVE-14): above the camera buttons, in the right thumb's reach. Keyboards use Space. */
+.jump-btn {
+  position: absolute;
+  right: calc(var(--safe-right) + 18px);
+  bottom: calc(var(--hud-bottom) + 84px);
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  font-size: 2rem;
+  line-height: 1;
+  padding: 0;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .jump-btn {
+    display: none;
+  }
+}
+
 .run-btn {
   position: absolute;
   left: calc(var(--safe-left) + 12px);
@@ -2413,6 +2436,7 @@ select {
 /* A story line is up: the Run and camera buttons would show through the dialogue box, and
    the Hollow's floor bar and minimap would cover the scene's top-left (cg4 review). */
 .dialogue-open .run-btn,
+.dialogue-open .jump-btn,
 .dialogue-open .camera-buttons,
 .dialogue-open .hollow-bar,
 .story-queued .hollow-bar {

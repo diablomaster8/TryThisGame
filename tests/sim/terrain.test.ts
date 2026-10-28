@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { GROVE } from '../../src/config/tuning';
 import { Rng } from '../../src/sim/rng';
 import {
+  deckY,
   groundAt,
   pixelTierHeight,
   pixelTiers,
@@ -33,6 +34,8 @@ describe('sim terrain', () => {
       const v = rng.int(0, row * row - 1);
       const x = mesh.position[v * 3]!;
       const z = mesh.position[v * 3 + 2]!;
+      // The bridge deck stands over the terrain (R0002), checked below.
+      if (deckY(x, z) !== null) continue;
       worst = Math.max(worst, Math.abs(groundAt(null, x, z).y - drawn(mesh.position[v * 3 + 1]!)));
     }
     expect(worst).toBeLessThan(0.05);
@@ -61,6 +64,7 @@ describe('sim terrain', () => {
         fx + fz <= 1
           ? a + (d - a) * fx + (b - a) * fz
           : c + (b - c) * (1 - fx) + (d - c) * (1 - fz);
+      if (deckY(gx * cell - half, gz * cell - half) !== null) continue;
       const e = Math.abs(groundAt(null, gx * cell - half, gz * cell - half).y - drawn(tri));
       worst = Math.max(worst, e);
       if (e > 0.05) over++;

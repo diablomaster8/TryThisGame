@@ -38,6 +38,55 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Pass 2: MOVE jump, bridge and stream (2026-10-27, branch pass/2, not pushed)
+
+Plan: the jump core first (R0012, R0013, R0015), since the bridge, the stream and the fence
+jump stand on it; then R0002, R0001, R0014 with R0022. R0011 and R0016+ left for Pass 3.
+
+**What works**
+- The Keeper has a height (R0012): `y`, `vy`, `grounded`, `airJumps`, coyote and buffer
+  timers, `jumpHeld`; save v7 migrates v6 with the feet on the ground. Command
+  `{ kind: 'jump', down }`; events `keeperJumped` / `keeperLanded`. Hop and standable
+  colliders block only below `top − stepUp` (`colliderTopY`); walls, trunks and rails
+  always block. Benches and logs can be landed on (`standTopAt`); fences are jumped (the
+  R0007 leftover).
+- `JUMP` (R0013, in `tuning-sim.ts`): held apex 0.95, double 0.75, short hop, coyote 120 ms,
+  buffer 150 ms, fall ×1.5; `kidFloat` in a Learning Grove or with the new Gentle jumps
+  setting. Table-driven tests at both tunings (`tests/sim/jump.test.ts`, 22 tests).
+- 60 Hz Keeper substeps (R0015): `updateKeeper` runs 6 per sim step; game.ts runs them
+  between steps on its own accumulator (`stepKeeperMotion`, never more than a step ahead);
+  both renderers interpolate the Keeper on that clock (`keeperAlpha`, `snapshotKeeper`).
+  Same command log → same positions however the substeps split. Edge: Space to y rising
+  6–16 ms.
+- Bridge (R0002): `deckY` deck box at `BRIDGE_YAW` with 0.4 u ramps; 3D planks placed from
+  `bridgeDeckTop()`; two solid rail segments in `grove-layout.ts`. Feet within 0.000 u of
+  the planks in Edge, both modes; a sideways walk stops at the rail.
+- Stream (R0001): feet sink to the bed (max 0.35 under the surface), 0.55× speed while
+  wading, a running jump clears it dry. Pixel sinks the sprite under the painted ground and
+  rings ripples every 300 ms instead of dust; 3D stands the rig on the sim footing.
+- Phone jump button (R0014): 76 px round, above the camera buttons, `touch-action: none`,
+  jumps on pointerdown, hidden on fine pointers and under dialogue. Space jumps, X shakes;
+  with an egg or Nubbin in hand Space and the button shake (🥚) instead (R0022).
+
+**Stubbed or deferred**
+- Deferred to Pass 3: R0011 (terraces, XL), R0016 onward; from R0014 the Left-handed
+  setting, moving ⤢ into More, gamepad A; from R0022 pad Y and Keeper 2's keys; from R0012
+  `lastSafe` (R0025), `keeper2Jump` (R0054) and ceilings (no overhangs exist yet).
+- `airControl` and `landSquashMs` are in `JUMP` but unused until R0020/R0021.
+- No 3D ripples or splash sound for the wading Keeper; no jump animation (R0021).
+
+**Known bugs and assumptions**
+- The drawn stream bed is only about 0.15–0.2 u under the water, so the wade reads
+  ankle-deep, not knee-deep; deepening it means changing the 3D mesh (left alone).
+- Coyote and buffer are ms counters on the Keeper (`coyoteMs`, `bufferMs`), not absolute
+  times: substeps are finer than `world.timeMs`.
+- The rails also stop a Keeper wading along the stream under the bridge (pilings).
+- The full-life timing test ran 3.09 s once under full-suite load before the idle Keeper
+  skipped its pace lookups; alone it is 1.26 s.
+- Pixel draws the rails' line nowhere: its bridge is a flat painted plank sprite.
+- The dev server for the Edge checks ran from Bash: the browser pane reads another
+  folder's launch.json.
+
 ## Pass 1: MOVE collision foundations (2026-10-27, branch pass/1, not pushed)
 
 R0001 (stream wade) and R0002 (bridge deck) need sim heights and the jump, so this pass laid
@@ -79,62 +128,6 @@ those foundations first (R0003–R0010) and left both for Pass 2.
   the roof overhang, so the Keeper can tuck under the eaves.
 - Hollow tap paths avoid water without the Swim perk (DUNG-01's ×1.5 water cost not used).
 - The nav timing test asserts median < 1.5 ms and p95 < 10 ms so a loaded CI runner passes.
-
-## Pass 0 hotfixes (2026-10-27, branch pass/0, not pushed)
-
-The ten **live bug** items from `recs-2026-10-27`, as one hotfix commit. Plan: check each still
-reproduces on 9c01019, fix it hotfix-sized, and leave the larger parts to their passes.
-- **Works:**
-  - FUN-01 (+KIDS-01): the r1025 entry overlay's `.edu-prompt` (absolute, full-screen) hit every
-    sprout prompt span and minigame prompt. The overlay is now `.edu-entry*`, the dialogue's
-    bracketed prompt is `.edu-aside`, do buttons are ≥44 px, and a box tap pulses the do button.
-  - TECH-01: a first hatch starts at `EGG.hatchHunger` 0.7 (a rebirth hatches full), and a new
-    world starts with `EGG.startFruit` 2, since a fresh Free Grove had 0 fruit.
-  - TECH-02: a release under `THROW.placeMaxSpeed` 1.5 is a free place (happy bubble). From 1.5 to
-    3 it's a drop at half penalty (`dropScale`), and ≥3 is a throw.
-  - TECH-03: `navigator.storage.persist()` is asked once, at the first gesture after a hatch
-    (`grove.persist` key). Every save is mirrored to IndexedDB (`grove-saves`/`slots`), and boot
-    restores a newer or missing copy. Settings > Saves warns when storage isn't persisted.
-  - SOUL-01: play re-aims at the toy and arrives within `toyReach` 0.7, and the play timer starts
-    on arrival. Walks to a toy, fruit or ball give up on a timeout (6 s, or 1.5× the walk time for
-    far fruit) or on no progress (0.2 in 2 s). A given-up item is skipped for 30 s.
-  - CAMP-02: the Hundred Days and Logged In setups add their Nubbins instead of replacing the
-    roster (cast ids in `c.flags.cast`). Dawn & Dusk's revert spares Nubbins already grown at
-    the start (`dd-before`).
-  - CAMP-03: `counter()` reads the change since `startStoryline` (`base:<kind>` snapshot).
-  - KIDS-07: save v6 adds `breakUntilMs`, `todayMs` and `todayKey`. Play counts only live, visible
-    ×1 time and survives reloads within a day. The break card has no dismiss, only a gated
-    "Grown-up: a little longer", and stays locked across a reload.
-  - KIDS-04: Story closes the picker, then plays a queued scene or opens a spoken "What's next"
-    card (`ui/next-card.ts`). It never shows the journal toast.
-  - KIDS-06: the edu Settings button was already gated on main. This pass adds a kid-safe 🔊/🔇
-    HUD toggle.
-- **Partial / stubbed:**
-  - TECH-01: no first-hatch 🍎 bubble or objective chip line.
-  - TECH-02: no ground ring and no 200 ms lowering.
-  - TECH-03: no 7-day backup offer, and the IndexedDB code has no unit test (no fake-indexeddb).
-  - CAMP-02/03 wait on CAMP-01 for `Nubbin.home`, the region filter, `lineCastMax`, the bring-home
-    choice and the checker's flag-namespace rule. A line's cast may push the roster past its cap
-    (that blocks new eggs, it doesn't break anything).
-  - KIDS-06: the duplicate edu fieldset is still there (behind the same gate), there's no jsdom
-    test (the repo has no DOM test environment), and the toggle is a button, not a big slider.
-  - KIDS-07: a 😴 card instead of a sleeping Nubbin, and no goodnight ritual (KIDS-36).
-  - KIDS-04: no `goalIcon`/`goalSay` content fields and no "Show me" (KIDS-05).
-- **Assumptions:**
-  - SOUL-01's "≤10 s walking" can't hold for fruit up to 30 units away, so fruit walks are bounded
-    at 1.5× their walk time instead.
-  - TECH-01 is checked with `debugHatchNow` in the Edge driver. Hatch timing is unchanged.
-- **Checks:** lint, 1092 tests and build pass. A headless Edge run (Pixel and Full 3D, at 1280×800
-  and 375×812) passed 18/18 checks each time, covering every item above, with no console errors.
-- **Known bugs:** none new.
-
-## Story review run 24 fixes (2026-10-27)
-
-- **Works:** all 57 of run 24's recs fixed in the S4–S8 sprout and reader bands: plain words at S5's
-  goodbye, a water-safety lesson before S4's wade-in, Marina's rule five back in S4, S6's notes named
-  as Ash's name, and quizzes moved out of S8's reunion.
-- **Partial:** none.
-- **Known bugs:** none new.
 
 ## Standing approval (Maor, 2026-10-12)
 

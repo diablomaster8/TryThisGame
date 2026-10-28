@@ -659,6 +659,14 @@ export class Grove3dScene {
     this.actors.snapshot(world);
   }
 
+  snapshotKeeper(world: World): void {
+    this.actors.snapshotKeeper(world);
+  }
+
+  set keeperAlpha(a: number | null) {
+    this.actors.keeperAlpha = a;
+  }
+
   keeperDrawPos(world: World, alpha: number): Vec2 {
     return this.actors.keeperDrawPos(world, alpha);
   }

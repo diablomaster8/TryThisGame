@@ -36,6 +36,8 @@ import { catchUpInChunks } from './sim/offline';
 import { deserialize, serialize } from './sim/save';
 import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
+import { stepKeeperMotion } from './sim/keeper';
+import { KEEPER_MOTION } from './config/tuning-sim';
 import { STAGE_LINE } from './render/stage-pose';
 
 export interface GameHooks {
@@ -351,6 +353,8 @@ export class Game {
   /** Decorating: the piece a ground tap places, or null. */
   placing: Placing = null;
   private lastFrameMs = 0;
+  /** Time banked toward the Keeper's next fine step (MOVE-15). */
+  private keeperAccMs = 0;
   private lastSaveMs = 0;
   private storageOk = true;
   /**
@@ -677,6 +681,26 @@ export class Game {
       // the backlog runs as fine steps on later frames and only what is past
       // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
       this.clock.capBacklog(SIM.maxLiveBacklogMs);
+    }
+    // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
+    // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
+    const kview = this.scene3d ?? this.view;
+    if (this.catchingUp || this.clock.timeScale !== 1) {
+      this.keeperAccMs = 0;
+      kview.keeperAlpha = null;
+    } else {
+      const sub = 1000 / KEEPER_MOTION.hz;
+      this.keeperAccMs += dt;
+      while (this.keeperAccMs >= sub) {
+        kview.snapshotKeeper(this.world);
+        if (!stepKeeperMotion(this.world, events)) {
+          // A whole sim step ahead already: wait for the sim and draw where it stands.
+          this.keeperAccMs = sub;
+          break;
+        }
+        this.keeperAccMs -= sub;
+      }
+      kview.keeperAlpha = Math.min(1, this.keeperAccMs / sub);
     }
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);

@@ -216,17 +216,21 @@ export class GameInput {
     const key = e.key.toLowerCase();
     // A key let go always clears, wherever focus went in between, so none sticks.
     if (e.type !== 'keydown') {
+      // Letting go of Space ends a held jump: a tap is a short hop (MOVE-11).
+      if (key === ' ' && this.keys.has(key)) this.host.send({ kind: 'jump', down: false });
       this.keys.delete(key);
       return;
     }
     if (!isGameKey(e)) return;
-    // Space on a focused button presses the button; it shakes the held egg only otherwise.
+    // Space on a focused button presses the button (dialogue advances that way and never
+    // jumps). Otherwise Space jumps, or shakes what the Keeper holds (MOVE-22); X only shakes.
     if (key === ' ' && isControlTarget(e.target)) return;
     this.keys.add(key);
     if (key === ' ' && !e.repeat) {
-      this.host.send({ kind: 'shakeHeld' });
+      this.host.send({ kind: 'jump', down: true });
       e.preventDefault();
     }
+    if (key === 'x' && !e.repeat) this.host.send({ kind: 'shakeHeld' });
     if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   };

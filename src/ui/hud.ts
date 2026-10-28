@@ -190,6 +190,33 @@ export function mountHud(
     game()?.send({ kind: 'setRunning', running: on });
   }
   root.appendChild(runBtn);
+
+  // Jump (MOVE-14): a thumb button on touch screens, Space on a keyboard. It reacts on
+  // pointerdown, with no click delay; holding it holds the jump higher. With something in
+  // hand it shakes that instead, and says so (MOVE-22).
+  const jumpBtn = el('button', 'btn jump-btn');
+  jumpBtn.type = 'button';
+  jumpBtn.setAttribute('aria-label', UI_TEXT.jump);
+  jumpBtn.textContent = '⤒';
+  let jumpPointer: number | null = null;
+  jumpBtn.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    jumpPointer = e.pointerId;
+    try {
+      jumpBtn.setPointerCapture(e.pointerId);
+    } catch {
+      // A pointer already gone cannot be captured; its release still ends the jump.
+    }
+    game()?.send({ kind: 'jump', down: true });
+  });
+  const jumpUp = (e: PointerEvent): void => {
+    if (e.pointerId !== jumpPointer) return;
+    jumpPointer = null;
+    game()?.send({ kind: 'jump', down: false });
+  };
+  jumpBtn.addEventListener('pointerup', jumpUp);
+  jumpBtn.addEventListener('pointercancel', jumpUp);
+  root.appendChild(jumpBtn);
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !e.repeat && !isTypingTarget(e.target)) setRunning(true);
   });
@@ -650,6 +677,12 @@ export function mountHud(
       groveBtn.hidden = !anyUnlocked;
       groveBtn.textContent = GROVE_LABELS[g.world.grove];
       const carrying = g.world.keeper.carrying;
+      const shakes = !!carrying || g.world.nubbins.some((n) => n.behavior.state === 'held');
+      const jumpGlyph = shakes ? '🥚' : '⤒';
+      if (jumpBtn.textContent !== jumpGlyph) {
+        jumpBtn.textContent = jumpGlyph;
+        jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      }
       carry.hidden = !carrying;
       if (carrying) {
         const n = g.world.nubbins.find((x) => x.id === carrying);

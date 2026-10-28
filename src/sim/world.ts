@@ -5,7 +5,7 @@ import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
-import { createKeeper, keeperPutDown, updateKeeper } from './keeper';
+import { createKeeper, keeperJump, keeperPutDown, updateKeeper } from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
@@ -99,6 +99,7 @@ export function defaultSettings(): Settings {
     sfxVolume: 0.8,
     textSpeed: 'normal',
     screenShake: true,
+    gentleJumps: false,
     particles: 'full',
     reducedMotion: 'system',
     jukebox: null,
@@ -310,6 +311,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.y = THROW.holdHeight;
       return;
     }
+    case 'jump':
+      // With an egg or a Nubbin in hand the jump button shakes it (MOVE-22).
+      if (cmd.down && (heldNubbin(world) || k.carrying)) {
+        applyCommand(world, { kind: 'shakeHeld' }, events);
+        return;
+      }
+      keeperJump(world, cmd.down);
+      return;
     case 'shakeHeld': {
       const n = heldNubbin(world) ?? (k.carrying ? findNubbin(world, k.carrying) : undefined);
       if (!n) return;

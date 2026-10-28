@@ -13,6 +13,8 @@ import {
 import { treeOf, type GroveTree } from './crowns';
 import { buildGroveGrass, type GroveGrass } from './grass';
 import { groveHeight } from './terrain';
+import { bridgeDeckTop } from '../sim/terrain';
+import { BRIDGE_YAW } from '../config/tuning-sim';
 import { addHull } from './toon-outline';
 
 /**
@@ -352,8 +354,9 @@ export function buildGroveProps(
   // true, on two stringers, with posted rails.
   {
     const br = GROVE.bridge;
-    const yaw = Math.atan2(14 - 4, -5 - 1) + Math.PI / 2;
-    const y = groveHeight(br.x, br.z) + 0.55;
+    const yaw = BRIDGE_YAW;
+    // The deck the sim walks on (sim/terrain.ts): plank tops sit 0.09 above this frame.
+    const y = bridgeDeckTop() - 0.09;
     const m4 = new THREE.Matrix4().compose(
       new THREE.Vector3(br.x, y, br.z),
       new THREE.Quaternion().setFromEuler(new THREE.Euler(0, yaw, 0)),

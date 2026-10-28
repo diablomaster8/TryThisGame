@@ -1,3 +1,4 @@
+import { BRIDGE_DECK, BRIDGE_YAW } from '../../src/config/tuning-sim';
 import { describe, expect, it } from 'vitest';
 import { GROVE, SIM } from '../../src/config/tuning';
 import { GROVE_COLLIDERS, WILD_PROPS } from '../../src/config/grove-layout';
@@ -114,6 +115,11 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
       { x: 4, z: -3 },
       { x: 9, z: 7 },
       { x: -8, z: -6 },
+      // The bridge rails (R0002), either side of the deck.
+      ...[-1, 1].map((side) => ({
+        x: GROVE.bridge.x + side * BRIDGE_DECK.railOffset * Math.cos(BRIDGE_YAW),
+        z: GROVE.bridge.z - side * BRIDGE_DECK.railOffset * Math.sin(BRIDGE_YAW),
+      })),
     ];
     for (const c of GROVE_COLLIDERS) expect(near(c.x, c.z, drawn), c.id).toBe(true);
     expect(WILD_PROPS.length).toBeGreaterThan(50);

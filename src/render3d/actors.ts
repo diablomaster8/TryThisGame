@@ -14,7 +14,7 @@ import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { GROVE, GROVE3D, LIFECYCLE, READ3D, THROW } from '../config/tuning';
+import { GROVE3D, LIFECYCLE, READ3D, THROW } from '../config/tuning';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
@@ -25,6 +25,8 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
+import { keeperFooting } from '../sim/keeper';
+import { runFloor } from '../sim/dungeon';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -156,6 +158,18 @@ export class Actors {
   /** The world of the last frame, so the loading bar can count every Nubbin to be drawn. */
   private world: World | null = null;
   private keeperPrev: Vec2 = { x: 0, z: 0 };
+  private keeperPrevY = 0;
+  /**
+   * The Keeper's height off what it stands over this frame (a jump, MOVE-10), and that
+   * surface's height, so each foot can still follow the ground under it.
+   */
+  private keeperLift = 0;
+  private keeperFeet = 0;
+  /**
+   * The share of the Keeper's own fine step drawn this frame (MOVE-15), set by game.ts;
+   * null draws the Keeper on the sim step's alpha like everyone else.
+   */
+  keeperAlpha: number | null = null;
   private keeperMoving = false;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
@@ -280,8 +294,7 @@ export class Actors {
         v.prev.y = i.y;
       }
     }
-    this.keeperPrev.x = world.keeper.pos.x;
-    this.keeperPrev.z = world.keeper.pos.z;
+    this.snapshotKeeper(world);
     const k2 = world.coop.active ? world.keeper2 : null;
     this.keeper2Prev = k2 ? { x: k2.pos.x, z: k2.pos.z } : null;
   }
@@ -295,11 +308,19 @@ export class Actors {
   /** A story scene's drawn facing for the held Keeper (H7), or null for the sim's. */
   keeperFace: number | null = null;
 
+  /** Call right before each of the Keeper's own fine steps (MOVE-15). */
+  snapshotKeeper(world: World): void {
+    this.keeperPrev.x = world.keeper.pos.x;
+    this.keeperPrev.z = world.keeper.pos.z;
+    this.keeperPrevY = world.keeper.y;
+  }
+
   keeperDrawPos(world: World, alpha: number): Vec2 {
     if (this.keeperHold) return { x: this.keeperHold.x, z: this.keeperHold.z };
+    const a = this.keeperAlpha ?? alpha;
     return {
-      x: lerp(this.keeperPrev.x, world.keeper.pos.x, alpha),
-      z: lerp(this.keeperPrev.z, world.keeper.pos.z, alpha),
+      x: lerp(this.keeperPrev.x, world.keeper.pos.x, a),
+      z: lerp(this.keeperPrev.z, world.keeper.pos.z, a),
     };
   }
 
@@ -621,9 +642,11 @@ export class Actors {
    * perk) the Keeper wades: it stands on the bed, at most `wadeDepth` under the water.
    */
   private keeperGround(x: number, z: number): number {
-    if (this.location === 'grove' && Math.hypot(x - GROVE.pond.x, z - GROVE.pond.z) < GROVE.pond.r)
-      return Math.max(groveHeight(x, z), WATER_LEVEL - GROVE3D.wadeDepth);
-    return this.ground(x, z);
+    // In the Grove the Keeper stands where the sim stands it (MOVE-10/12/13): on the
+    // bridge deck, on a bench, sunk to the stream bed; plus the jump.
+    if (this.location === 'grove' && this.world)
+      return keeperFooting(this.world, x, z, this.keeperFeet + this.keeperLift).y + this.keeperLift;
+    return this.ground(x, z) + this.keeperLift;
   }
 
   /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
@@ -847,6 +870,13 @@ export class Actors {
 
     // The Keeper.
     const kp = this.keeperDrawPos(world, alpha);
+    // The jump's height over whatever the Keeper is over, on the Keeper's own clock.
+    if (this.keeperHold) this.keeperLift = 0;
+    else {
+      const ky = lerp(this.keeperPrevY, keeper.y, this.keeperAlpha ?? alpha);
+      this.keeperFeet = runFloor(world) ? 0 : keeperFooting(world, kp.x, kp.z, ky).y;
+      this.keeperLift = Math.max(0, ky - this.keeperFeet);
+    }
     const kMoving =
       Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004 ||
       !!this.stager?.walking.has('you');

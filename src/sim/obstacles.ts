@@ -1,6 +1,8 @@
 import { decorCollider, GROVE_COLLIDERS, NUBBIN_HOP } from '../config/grove-layout';
 import type { Collider } from '../config/grove-layout';
+import { JUMP } from '../config/tuning-sim';
 import { levelOf } from './stats';
+import { groveHeight } from './terrain';
 import { townUnlocks } from './town';
 import type { Nubbin, Vec2, World } from './types';
 
@@ -27,9 +29,34 @@ export function nubbinWalker(n: Nubbin): Walker {
   return spry >= NUBBIN_HOP.stat ? 'hopper' : 'nubbin';
 }
 
-function blocks(c: Collider, who: Walker): boolean {
+// Where each collider's top sits in the world: its `top` over the ground at its centre.
+const topCache = new WeakMap<Collider, number>();
+
+/** The absolute height of a collider's top (MOVE-10). */
+export function colliderTopY(c: Collider): number {
+  let y = topCache.get(c);
+  if (y === undefined) {
+    y = groveHeight(c.x, c.z) + c.top;
+    topCache.set(c, y);
+  }
+  return y;
+}
+
+/**
+ * Whether a collider stops a walker whose feet are at `feetY` (undefined: on the ground,
+ * where everything that blocks does). Only hop and standable pieces can be cleared from
+ * above: a jumping Keeper passes over a fence or lands on a bench once its feet are within
+ * a step of the top. Walls, trunks and rails stop it at any height.
+ */
+function blocks(c: Collider, who: Walker, feetY?: number): boolean {
   const f = c.flags;
   if (f.includes('soft')) return false;
+  if (
+    feetY !== undefined &&
+    (f.includes('hop') || f.includes('standable')) &&
+    colliderTopY(c) <= feetY + JUMP.stepUp
+  )
+    return false;
   if (who === 'keeper') return true;
   if (f.includes('keeperOnly')) return false;
   return !(who === 'hopper' && f.includes('hop'));
@@ -190,9 +217,15 @@ function toWorld(out: Contact, cos: number, sin: number): Contact {
 }
 
 /** True when a walker of `radius` at the point overlaps anything that stops it. */
-export function blocked(p: Vec2, world: World | null, radius = 0, who: Walker = 'keeper'): boolean {
+export function blocked(
+  p: Vec2,
+  world: World | null,
+  radius = 0,
+  who: Walker = 'keeper',
+  feetY?: number,
+): boolean {
   for (const c of near(world, p, radius))
-    if (blocks(c, who) && contact(c, p.x, p.z, radius)) return true;
+    if (blocks(c, who, feetY) && contact(c, p.x, p.z, radius)) return true;
   return false;
 }
 
@@ -205,10 +238,11 @@ export function resolve(
   world: World | null,
   radius = 0.35,
   who: Walker = 'keeper',
+  feetY?: number,
 ): boolean {
   let moved = false;
   for (const c of near(world, p, radius)) {
-    if (!blocks(c, who)) continue;
+    if (!blocks(c, who, feetY)) continue;
     const hit = contact(c, p.x, p.z, radius);
     if (!hit) continue;
     p.x += hit.nx * hit.depth;
@@ -223,4 +257,16 @@ export function softAt(p: Vec2, world: World | null, radius = 0.35): Collider | 
   for (const c of near(world, p, radius))
     if (c.flags.includes('soft') && contact(c, p.x, p.z, radius)) return c;
   return null;
+}
+
+/**
+ * The highest standable top (a bench, a log, a flat stone) under the point, or -Infinity
+ * (MOVE-10). `footing` takes it only when the feet are within a step of it.
+ */
+export function standTopAt(world: World | null, x: number, z: number): number {
+  let best = -Infinity;
+  for (const c of near(world, { x, z }, 0))
+    if (c.flags.includes('standable') && contact(c, x, z, 0))
+      best = Math.max(best, colliderTopY(c));
+  return best;
 }

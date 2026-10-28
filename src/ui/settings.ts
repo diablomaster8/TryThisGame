@@ -42,6 +42,7 @@ export class SettingsMenu {
   private readonly matureInputs = new Map<MatureContent, HTMLInputElement>();
   private readonly textSpeed: HTMLSelectElement;
   private readonly shake: HTMLInputElement;
+  private readonly gentle: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -215,6 +216,18 @@ export class SettingsMenu {
     );
     shakeRow.append(this.shake, shText);
     body.appendChild(shakeRow);
+    // Gentle jumps (MOVE-11): floatier, with more time to press. A Learning Grove has them.
+    const gentleRow = el('label', 'check-row');
+    this.gentle = el('input');
+    this.gentle.type = 'checkbox';
+    this.gentle.addEventListener('change', () => this.apply());
+    const gText = el('span');
+    gText.append(
+      el('strong', undefined, UI_TEXT.gentleJumps),
+      el('small', undefined, UI_TEXT.gentleJumpsHelp),
+    );
+    gentleRow.append(this.gentle, gText);
+    body.appendChild(gentleRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -305,6 +318,7 @@ export class SettingsMenu {
     this.sfxVol.value = String(Math.round(g.world.settings.sfxVolume * 100));
     this.textSpeed.value = g.world.settings.textSpeed;
     this.shake.checked = g.world.settings.screenShake;
+    this.gentle.checked = g.world.settings.gentleJumps;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -421,6 +435,7 @@ export class SettingsMenu {
       sfxVolume: Number(this.sfxVol.value) / 100,
       textSpeed: this.textSpeed.value as Settings['textSpeed'],
       screenShake: this.shake.checked,
+      gentleJumps: this.gentle.checked,
       particles: this.particles.value as Settings['particles'],
       reducedMotion: this.reduced.value as Settings['reducedMotion'],
       graphics: this.graphics.value === '3d' ? '3d' : 'pixel',
