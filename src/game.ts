@@ -1,5 +1,5 @@
 import { Vector3 } from 'three';
-import { CAMERA, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
+import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -37,7 +37,15 @@ import { deserialize, serialize } from './sim/save';
 import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
-import { KEEPER_MOTION } from './config/tuning-sim';
+import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
+import { deckY, groveHeight, hillHeight } from './sim/terrain';
+import { runFloor } from './sim/dungeon';
+import { terraceY } from './render/scene-stage';
+
+/** The share of the way an eased value moves this frame at `rate`/s (all of it under reduced motion). */
+function reduce0(reduce: boolean, dtMs: number, rate: number): number {
+  return reduce ? 1 : 1 - Math.exp((-rate * dtMs) / 1000);
+}
 import { STAGE_LINE } from './render/stage-pose';
 
 export interface GameHooks {
@@ -372,6 +380,47 @@ export class Game {
   catchingUp = false;
   /** Fraction of the view to lift the Keeper by, while a bottom sheet covers the lower part. */
   cameraLift = 0;
+  /** The ground the cameras follow under the Keeper, and the look-ahead (MOVE-23). */
+  private groundY = 0;
+  private readonly ahead = { x: 0, z: 0 };
+  private lastKp: { x: number; z: number } | null = null;
+
+  /**
+   * Track the Keeper's ground height and look-ahead for the camera (MOVE-23). On the ground
+   * the camera follows the floor the Keeper is drawn on (a terrace, a bench, the bridge);
+   * through a jump it holds, unless the Keeper climbs well past where it took off.
+   */
+  private followKeeper(kp: { x: number; z: number }, dt: number, staged: boolean): void {
+    const w = this.world;
+    const k = w.keeper;
+    const F = CAMERA_FOLLOW;
+    if (w.location !== 'grove' || runFloor(w)) this.groundY = 0;
+    else {
+      // The height Pixel draws the feet at; 3D keeps its own ground under the orbit target.
+      const feet =
+        deckY(kp.x, kp.z) !== null
+          ? 0
+          : Math.max(0, k.y - groveHeight(kp.x, kp.z) + hillHeight(kp.x, kp.z));
+      if (k.grounded) this.groundY = feet;
+      else if (feet > this.groundY + F.airSlack) this.groundY = feet - F.airSlack;
+      else if (feet < this.groundY - F.airSlack) this.groundY = feet;
+    }
+    const s = dt / 1000;
+    let vx = 0;
+    let vz = 0;
+    if (this.lastKp && s > 0) {
+      vx = (kp.x - this.lastKp.x) / s;
+      vz = (kp.z - this.lastKp.z) / s;
+    }
+    this.lastKp = { x: kp.x, z: kp.z };
+    const speed = Math.hypot(vx, vz);
+    // A teleport is not a walk; nor is anything during a scene.
+    const norm = staged || speed > KEEPER.speed * 4 ? 0 : Math.min(1, speed / KEEPER.speed);
+    const want = speed > 1e-6 ? (F.lookAhead * norm) / speed : 0;
+    const e = reduce0(this.reduceMotion, dt, F.lookAheadRate);
+    this.ahead.x += (vx * want - this.ahead.x) * e;
+    this.ahead.z += (vz * want - this.ahead.z) * e;
+  }
   /** Share of the view's width the camera aims right of the Keeper (the docked desktop sheet). */
   cameraSide = 0;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
@@ -758,12 +807,30 @@ export class Game {
     // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
     // on the right third leaves it in sight.
     const side = this.cameraSide * this.camera.visibleWidth;
-    const aimX = subject.x + Math.sin(yaw) * lift + Math.cos(yaw) * side;
-    const aimZ = subject.z + Math.cos(yaw) * lift - Math.sin(yaw) * side;
+    this.followKeeper(kp, dt, !!staged || !!focused);
+    const aimX =
+      subject.x +
+      Math.sin(yaw) * lift +
+      Math.cos(yaw) * side +
+      (staged || focused ? 0 : this.ahead.x);
+    const aimZ =
+      subject.z +
+      Math.cos(yaw) * lift -
+      Math.sin(yaw) * side +
+      (staged || focused ? 0 : this.ahead.z);
     const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
     const t = staged && this.reduceMotion ? 1 : 1 - Math.exp((-rate * dt) / 1000);
     this.camera.target.x += (aimX - this.camera.target.x) * t;
     this.camera.target.z += (aimZ - this.camera.target.z) * t;
+    // Up and down with the ground under the Keeper, or the mark a scene frames (MOVE-23).
+    const aimY =
+      staged || focused
+        ? this.world.location === 'grove'
+          ? terraceY(subject.x, subject.z)
+          : 0
+        : this.groundY;
+    const ty = reduce0(this.reduceMotion, dt, CAMERA_FOLLOW.groundRate);
+    this.camera.target.y += (aimY - this.camera.target.y) * ty;
     // The Settings choice reaches both cameras and the Grove's idle motion at once.
     const reduce = this.reduceMotion;
     this.camera.reduceMotion = reduce;

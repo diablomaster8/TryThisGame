@@ -150,3 +150,18 @@ export const BODIES = {
   maxPush: 1.5,
   keeperShare: 0.25,
 } as const;
+
+/**
+ * How the cameras follow the Keeper up and down (MOVE-23): toward the ground under its feet
+ * at `groundRate`/s, holding through a jump unless the feet climb `airSlack` past the last
+ * ground; a look-ahead of `lookAhead` units at full speed, eased at `lookAheadRate`/s; and in
+ * 3D a `landDip` nod on landing, over `landDipMs` (none under reduced motion).
+ */
+export const CAMERA_FOLLOW = {
+  groundRate: 3,
+  airSlack: 1.2,
+  lookAhead: 0.6,
+  lookAheadRate: 2,
+  landDip: 0.06,
+  landDipMs: 220,
+} as const;

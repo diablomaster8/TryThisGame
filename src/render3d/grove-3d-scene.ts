@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 import { GROVE3D, READ3D, UI } from '../config/tuning';
+import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
@@ -283,6 +284,9 @@ export class Grove3dScene {
   private lampsOn = false;
   private readonly camPos = new THREE.Vector3(0, 6, 12);
   private readonly camTarget = new THREE.Vector3(0, 1, 0);
+  /** When the Keeper last landed, and the nod the camera target carries now (MOVE-23). */
+  private landDipAt = -Infinity;
+  private lastDip = 0;
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
@@ -690,6 +694,8 @@ export class Grove3dScene {
     for (const e of events) {
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
+      // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
+      if (e.kind === 'keeperLanded' && !this.reduceMotion) this.landDipAt = now;
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);
@@ -1319,6 +1325,10 @@ export class Grove3dScene {
     this.camTarget.x = tx;
     this.camTarget.z = tz;
     this.camTarget.y += (ty - this.camTarget.y) * (snap || cut ? 1 : 1 - Math.exp(-6 * dt));
+    const dipT = (this.lastMs - this.landDipAt) / CAMERA_FOLLOW.landDipMs;
+    const dip = dipT >= 0 && dipT < 1 ? CAMERA_FOLLOW.landDip * Math.sin(dipT * Math.PI) : 0;
+    this.camTarget.y -= dip - this.lastDip;
+    this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
     const cave = this.location === 'dungeon';
     const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
