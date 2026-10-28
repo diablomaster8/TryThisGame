@@ -41,4 +41,17 @@ export const WORLD_TEXT = {
   regionFound: (name: string) => `New place: ${name}`,
   /** The Nubbin markers' labels, for screen readers (the dot also shows the type's icon). */
   nubbinDot: (name: string) => `${name} is here`,
+  /** R0082: the compass rose and its rim ticks. */
+  compassLabel: 'Compass. North is marked N. Opens the map',
+  compassN: 'N',
+  compassHome: 'Home',
+  compassUnknown: 'An undiscovered place is near',
+  compassObjective: 'Your goal',
+  /** The tiny north pointer on the rotate buttons. */
+  rotateNorth: 'North',
+  /** R0083: the corner minimap and its setting. */
+  minimapLabel: 'Minimap. Tap to open the map',
+  minimapSetting: 'Minimap',
+  minimapLevels: { off: 'Off', on: 'On', auto: 'Auto' } as Record<string, string>,
+  minimapHelp: 'Auto shows it in the Grove on screens tall enough to spare the room.',
 } as const;

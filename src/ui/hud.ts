@@ -81,6 +81,8 @@ import { TRAINER_LABELS as TL } from '../config/strings';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, ObjectiveChip } from './objective';
+import { mountCompass } from './compass';
+import { mountMinimap } from './minimap';
 
 /**
  * The HUD: top bar (logo, shells, fruit, settings), carry chip, toasts, and the panels.
@@ -353,6 +355,8 @@ export function mountHud(
   const profile = new ProfilePanel(root, game);
   const neighbourhood = new NeighbourhoodPanel(root, game, toast);
   const map = new MapPanel(root, game, toast);
+  mountCompass(root, game, () => map.open());
+  mountMinimap(root, game, () => map.open());
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(

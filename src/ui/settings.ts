@@ -23,6 +23,7 @@ import { askGrownUp } from './grown-up-gate';
 import { storySettings } from './edu-story';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
+import { mountMinimapSetting } from './minimap';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -46,6 +47,7 @@ export class SettingsMenu {
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
+  private syncMinimap: (g: Game) => void = () => undefined;
   private readonly joystick: HTMLInputElement;
   private readonly jukebox: HTMLSelectElement;
   private readonly ambience: HTMLInputElement;
@@ -232,6 +234,7 @@ export class SettingsMenu {
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
     body.appendChild(el('div', 'help', UI_TEXT.graphicsHelp));
+    this.syncMinimap = mountMinimapSetting(body, this.game);
     // Jukebox and ambience.
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
@@ -322,6 +325,7 @@ export class SettingsMenu {
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
+    this.syncMinimap(g);
     this.joystick.checked = g.world.settings.joystick;
     this.jukebox.value = g.world.settings.jukebox ?? '';
     this.ambience.checked = g.world.settings.ambience;
