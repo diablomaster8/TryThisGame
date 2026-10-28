@@ -110,13 +110,18 @@ const GROVE_MARKS: Record<string, StageMark> = {
   'stream-lantern': byPost('lantern-2'),
   'wall-lantern': byPost('lantern-1'),
   'grass-lantern': byPost('lantern-4'),
-  // The memorial hill (GROVE.hills[0]); the path climbs from the east.
-  'hill-path': { x: HILL.x + HILL.r + 1, z: HILL.z + 1, yaw: W },
-  // On the second terrace (0.62 r out), where package c draws the stone itself.
+  // The memorial hill (GROVE.hills[0]): the foot of its ramp, which climbs from the south
+  // round by the east (MOVE-09; GROVE.hills[0].ramp starts at 260 degrees).
+  'hill-path': {
+    x: HILL.x + (HILL.r + 0.6) * Math.cos((252 * PI) / 180),
+    z: HILL.z + (HILL.r + 0.6) * Math.sin((252 * PI) / 180),
+    yaw: E,
+  },
+  // On the second terrace (0.55 r out, clear of its cliff's eased edge), where package c draws the stone itself.
   // Moss's seat: the flat stone itself.
-  'flat-stone': seated({ x: HILL.x + HILL.r * 0.61, z: HILL.z + 0.68, yaw: W }, 0.12),
+  'flat-stone': seated({ x: HILL.x + HILL.r * 0.55, z: HILL.z + 0.68, yaw: W }, 0.12),
   // Beside it on the same terrace, where the Keeper sits down next to Moss (c4-open).
-  'flat-stone-beside': seated({ x: HILL.x + HILL.r * 0.61, z: HILL.z + 1.6, yaw: W }, 0.12),
+  'flat-stone-beside': seated({ x: HILL.x + HILL.r * 0.55, z: HILL.z + 1.6, yaw: W }, 0.12),
   'hill-top': { x: HILL.x, z: HILL.z, yaw: S },
   briar: { x: HILL.x - 1, z: HILL.z - 1.5, yaw: S },
   // The falls: the pool at the foot, the ledge behind the water.

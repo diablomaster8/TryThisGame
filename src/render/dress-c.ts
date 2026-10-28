@@ -17,7 +17,7 @@ import { GROVE } from '../config/tuning';
 import { markAt } from '../config/stage-marks';
 import { CG_C } from '../config/tuning-c';
 import type { SceneStage } from '../config/story';
-import { pixelTiers } from '../sim/terrain';
+import { hillHeight, rampPath, TERRACES } from '../sim/terrain';
 import type { World } from '../sim/types';
 import { leafHinge, pennedSpots } from './corvin-layout';
 import type { Daylight } from './daylight';
@@ -56,13 +56,9 @@ let hillSheet: SpriteSheet | null = null;
 const state = { still: 0, glow: 0, gold: 0, open: [0, 0, 0] };
 
 const HILL = GROVE.hills[0];
-// Terrace tops from the sim's tier table, so this matches what grove-scene.ts builds.
-const TIER = pixelTiers(HILL).map(([, height, base]) => base + height) as [number, number, number];
-
-/** The terrace top under (x, z) on the memorial hill, as the scene builds it. */
+/** The terrace top under (x, z), as the scene builds it from the sim's shelves (MOVE-09). */
 function hillY(x: number, z: number): number {
-  const d = Math.hypot(x - HILL.x, z - HILL.z) / HILL.r;
-  return d < 0.5 ? TIER[2] : d < 0.74 ? TIER[1] : d < 1 ? TIER[0] : 0;
+  return hillHeight(x, z, false);
 }
 
 function seq(seed: number): () => number {
@@ -367,8 +363,8 @@ export const dressC: PixelDressing = {
         draw('halo', s.x, -1.2, s.z - 0.4, { w: 3.6, opacity: 0.7 * state.glow });
       }
     } else if (flags.location === 'grove' && hazelHill(flags)) {
-      // The worn path: dabs of earth along the spline, each on its own terrace.
-      const pts = CG_C.hill.path;
+      // The worn path: dabs of earth up the middle of the ramp, each on the ground under it.
+      const pts = rampPath(TERRACES[0]!);
       for (let i = 0; i < pts.length - 1; i++) {
         const [x0, z0] = pts[i]!;
         const [x1, z1] = pts[i + 1]!;
@@ -385,11 +381,13 @@ export const dressC: PixelDressing = {
       const stone = props.frames.get(frameKey('prop-flatStone', 'front', 0));
       if (fs && stone) {
         const ang = Math.atan2(fs.z - HILL.z, fs.x - HILL.x);
-        const x = HILL.x + Math.cos(ang) * HILL.r * 0.62;
-        const z = HILL.z + Math.sin(ang) * HILL.r * 0.62;
-        draw('', x, TIER[1], z, { w: 1.5, sheet: props, rect: stone });
+        const x = HILL.x + Math.cos(ang) * HILL.r * 0.55;
+        const z = HILL.z + Math.sin(ang) * HILL.r * 0.55;
+        draw('', x, hillY(x, z), z, { w: 1.5, sheet: props, rect: stone });
       }
-      draw('hawthorn', HILL.x + CG_C.hill.crest.dx, TIER[2] - 0.1, HILL.z + CG_C.hill.crest.dz, {
+      const cx = HILL.x + CG_C.hill.crest.dx;
+      const cz = HILL.z + CG_C.hill.crest.dz;
+      draw('hawthorn', cx, hillY(cx, cz) - 0.1, cz, {
         w: 3.6,
       });
       const briar = markAt('grove', 'briar');

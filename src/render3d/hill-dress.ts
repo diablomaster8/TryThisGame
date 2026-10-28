@@ -6,6 +6,7 @@ import { CG_C } from '../config/tuning-c';
 import { bevelBox } from './building-kit';
 import { elderMemorialFlower } from './memorial';
 import { groveHeight } from './terrain';
+import { rampPath, TERRACES } from '../sim/terrain';
 
 /**
  * The memorial hill and the ledge behind the falls in 3D (campaign graphics H7, H5), shown
@@ -153,7 +154,10 @@ const stoneMat = (): THREE.MeshStandardMaterial =>
 
 export function buildHillDress(): HillDress {
   const group = new THREE.Group();
-  const pts = CG_C.hill.path.map(([dx, dz]) => new THREE.Vector3(HILL.x + dx, 0, HILL.z + dz));
+  // The worn path runs up the middle of the hill's ramp (MOVE-09), the way the Keeper walks.
+  const pts = rampPath(TERRACES[0]!).map(
+    ([dx, dz]) => new THREE.Vector3(HILL.x + dx, 0, HILL.z + dz),
+  );
   group.add(pathRibbon(pts, CG_C.hill.pathWidth), pathStones(pts, CG_C.hill.pathWidth));
   const fs = markAt('grove', 'flat-stone');
   if (fs) {

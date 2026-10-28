@@ -32,20 +32,10 @@ export const CG_C = {
     width: 2.8,
   },
   hill: {
-    /** The worn path up hill[0]: waypoints as [dx, dz] from its centre. */
-    path: [
-      [7.4, 1.0],
-      [5.6, 3.6],
-      [2.8, 4.7],
-      [-0.4, 3.9],
-      [-2.0, 1.6],
-      [-2.8, -0.6],
-      [-1.8, -2.6],
-      [-0.4, -1.4],
-    ] as ReadonlyArray<readonly [number, number]>,
+    /** The worn path up hill[0] follows its ramp (`rampPath`, MOVE-09); this is its width. */
     pathWidth: 0.9,
     /** The flat stone halfway up (the `flat-stone` mark) and the crest tree at the top. */
-    crest: { dx: 1.5, dz: 1.3 },
+    crest: { dx: 1.2, dz: 1.0 },
     /** Briar's flower: scale over the plain memorial flower, and the stone ring. */
     briar: { scale: 1.7, ring: 9, ringR: 0.62 },
   },

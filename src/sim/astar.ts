@@ -17,6 +17,12 @@ export interface AStarOptions {
   maxExpansions?: number;
   /** Cost multiplier for entering a cell, at least 1 so the heuristic stays admissible. */
   cost?: (ix: number, iz: number) => number;
+  /**
+   * Whether a step from one cell to a neighbour (flat indices) is allowed at all, for walls
+   * that run between cells rather than filling them (a terrace cliff). A diagonal step needs
+   * it for both orthogonal neighbours too.
+   */
+  pass?: (from: number, to: number) => boolean;
 }
 
 /** Default bound on expanded cells: a little under a 96 × 72 Hollow floor. */
@@ -127,6 +133,7 @@ export function astar(
   const gen = generation;
   const maxExp = opts.maxExpansions ?? ASTAR_MAX_EXPANSIONS;
   const cost = opts.cost;
+  const pass = opts.pass;
   heapN = 0;
   g[start] = 0;
   parent[start] = -1;
@@ -153,6 +160,11 @@ export function astar(
       const n = nz * width + nx;
       if (closed[n] === gen || !walkable(nx, nz)) continue;
       if (d >= 4 && (!walkable(nx, cz) || !walkable(cx, nz))) continue;
+      if (
+        pass &&
+        (!pass(c, n) || (d >= 4 && (!pass(c, cz * width + nx) || !pass(c, nz * width + cx))))
+      )
+        continue;
       const ng = gc + STEP[d]! * (cost ? cost(nx, nz) : 1);
       if (stamp[n] === gen && ng >= g[n]!) continue;
       stamp[n] = gen;

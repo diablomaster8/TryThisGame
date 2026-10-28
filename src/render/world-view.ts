@@ -10,7 +10,7 @@ import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { keeperFooting } from '../sim/keeper';
-import { deckY, groveHeight, WATER_LEVEL } from '../sim/terrain';
+import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE } from '../config/tuning-sim';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -1605,12 +1605,12 @@ export class WorldView {
 }
 
 /**
- * The ground the pixel view paints, in the sim's heights: the bridge deck, else the land or
- * the water's surface. Pixel draws all of it flat, so the Keeper is drawn by how far its
- * feet are from this.
+ * The ground the pixel view paints flat, in the sim's heights: the bridge deck, else the land
+ * (less the hills, which Pixel builds as real terraces, MOVE-09) or the water's surface. The
+ * Keeper is drawn by how far its feet are from this, so on a hill it stands on the shelf.
  */
 function paintedGround(x: number, z: number): number {
-  return deckY(x, z) ?? Math.max(groveHeight(x, z), WATER_LEVEL);
+  return deckY(x, z) ?? Math.max(groveHeight(x, z) - hillHeight(x, z), WATER_LEVEL);
 }
 
 function lerp(a: number, b: number, t: number): number {

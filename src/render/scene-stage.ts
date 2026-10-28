@@ -1,4 +1,5 @@
 import { GROVE, MARK_FIT, READ3D, STAGE4 } from '../config/tuning';
+import { hillHeight } from '../sim/terrain';
 import { fitTiers, type FitPoint } from './stage-fit';
 import { SCENE_STAGES } from '../config/scene-stages';
 import { DAWN_HOUR, DUSK_HOUR } from '../config/scene-stages-dawndusk';
@@ -77,15 +78,12 @@ export function hourOf(lines: readonly Line[]): number | null {
 }
 
 /**
- * The pixel Grove's terrace top under (x, z): each hill is three tiers (render/grove-scene.ts),
- * so a figure drawn on a hill mark stands on it rather than inside it. 0 off the hills.
+ * The pixel Grove's terrace top under (x, z): the sim's hard shelves and ramps, which
+ * render/grove-scene.ts draws (MOVE-09), so a figure drawn on a hill mark stands on it
+ * rather than inside it. 0 off the hills.
  */
 export function terraceY(x: number, z: number): number {
-  for (const h of GROVE.hills) {
-    const d = Math.hypot(x - h.x, z - h.z) / h.r;
-    if (d < 1) return d < 0.5 ? h.h : d < 0.74 ? h.h * 0.76 : h.h * 0.42;
-  }
-  return 0;
+  return hillHeight(x, z, false);
 }
 
 /** Which visiting Keepers are drawn at a location: the pixel and 3D views' shared rule. */

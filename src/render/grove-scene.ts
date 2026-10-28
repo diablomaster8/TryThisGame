@@ -43,12 +43,13 @@ import {
   paintGrassTopTexture,
   paintWaterfallTexture,
   poolShape,
+  rampGeometry,
   terraceSide,
   terraceTop,
 } from './paint/terrain';
 import { BUILDINGS } from './scenery';
 import { cellAt, WALL, type Floor } from '../sim/dungeon';
-import { pixelTiers } from '../sim/terrain';
+import { pixelTiers, TERRACES } from '../sim/terrain';
 import {
   floorWorldSize,
   paintCaveWallTexture,
@@ -430,10 +431,18 @@ export class GroveScene {
     });
     this.tintable.push(cliffMat);
     this.disposables.push(cliffTex, cliffMat);
+    // The ramps (MOVE-09): a worn, sandier grass so the way up reads from afar.
+    const rampMat = new MeshLambertMaterial({
+      map: hillTex,
+      color: new Color(0xe6d2a0),
+      side: DoubleSide,
+    });
+    this.tintable.push(rampMat);
+    this.disposables.push(rampMat);
     GROVE.hills.forEach((h, hi) => {
-      // Three tiers, each a little smaller; the cliff tile repeats by circumference so
-      // the rocks keep their size on big and small hills.
-      // The tier numbers come from the sim, so the ground it stands on is the one drawn.
+      // Two to five tiers, each a little smaller; the cliff tile repeats by circumference
+      // so the rocks keep their size on big and small hills. The tiers and the ramp come
+      // from the sim (MOVE-09), so the ground it stands on is the one drawn.
       const tiers = pixelTiers(h);
       tiers.forEach(([r, height, y0], ti) => {
         const salt = hi * 10 + ti;
@@ -449,6 +458,16 @@ export class GroveScene {
         this.groveGroup.add(sideMesh, topMesh);
         this.pickables.push(sideMesh, topMesh);
         this.disposables.push(side, top);
+      });
+      const terrace = TERRACES[hi]!;
+      terrace.ramp.forEach((_, li) => {
+        const geo = rampGeometry(terrace, li);
+        const ramp = new Mesh(geo, rampMat);
+        ramp.position.set(h.x, 0, h.z);
+        ramp.userData.pick = { kind: 'ground', id: 'hill' };
+        this.groveGroup.add(ramp);
+        this.pickables.push(ramp);
+        this.disposables.push(geo);
       });
     });
 

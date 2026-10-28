@@ -1,5 +1,5 @@
 import { DECOR, GROVE, LANTERN_POSTS } from './tuning';
-import { BRIDGE_DECK, BRIDGE_YAW } from './tuning-sim';
+import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
 
 /**
  * The one table of placed solids in the home Grove (MOVE-01). The sim builds its colliders
@@ -28,8 +28,10 @@ export type ColliderShape =
  * of `NUBBIN_HOP.stat` or more (the Keeper's jump comes with MOVE-10); `standable` has a top
  * a jumper can land on (MOVE-10). Until the jump lands, hop and standable pieces block the
  * Keeper like any solid.
+ * `nubbinOnly` blocks Nubbins but not the Keeper: the hills, whose terraces the Keeper climbs
+ * by their ramps or jumps (MOVE-09), stopped at each cliff by `ledgeY` instead.
  */
-export type ColliderFlag = 'solid' | 'keeperOnly' | 'soft' | 'hop' | 'standable';
+export type ColliderFlag = 'solid' | 'keeperOnly' | 'nubbinOnly' | 'soft' | 'hop' | 'standable';
 
 export interface Collider {
   id: string;
@@ -89,7 +91,7 @@ export const WILD_PROPS: readonly WildProp[] = [
   { art: 'rock-2', x: -6, z: 9.8, size: 1.0 },
   { art: 'rock-1', x: 6, z: -9, size: 1.4 },
   { art: 'rock-2', x: 13, z: -5, size: 1.0 },
-  { art: 'rock-1', x: -13, z: 12, size: 1.3 },
+  { art: 'rock-1', x: -10, z: 10, size: 1.3 },
   // ---- the outer ring (the field grew to 96 units) ----
   // The north wood: a stand of wild trees between the cave hill and the north edge.
   { art: 'wild-1', x: -30, z: -30, size: 7.0 },
@@ -101,7 +103,7 @@ export const WILD_PROPS: readonly WildProp[] = [
   { art: 'wild-3', x: -8, z: -36, size: 6.4 },
   { art: 'wild-4', x: 10, z: -40, size: 6.0 },
   { art: 'wild-1', x: -14, z: -42, size: 6.4 },
-  { art: 'bush-3', x: -33, z: -36, size: 2.4 },
+  { art: 'bush-3', x: -31, z: -36.8, size: 2.4 },
   { art: 'bush-1', x: -22, z: -28, size: 2.2 },
   { art: 'bush-2', x: -12, z: -30, size: 2.2 },
   { art: 'log', x: -30, z: -20, size: 2.4 },
@@ -134,7 +136,7 @@ export const WILD_PROPS: readonly WildProp[] = [
   { art: 'wild-2', x: -22, z: 30, size: 6.4 },
   { art: 'bush-1', x: -26, z: 24, size: 2.4 },
   { art: 'bush-2', x: -36, z: 14, size: 2.2 },
-  { art: 'log', x: -24, z: 12, size: 2.4 },
+  { art: 'log', x: -26, z: 12.5, size: 2.4 },
   { art: 'rock-1', x: -28, z: 8, size: 1.5 },
   { art: 'bush-3', x: -30, z: 42, size: 2.4 },
 ];
@@ -216,9 +218,28 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
       yaw: 0,
       shape: circle(h.r + 0.25),
       top: h.h,
-      flags: ['solid'],
+      flags: ['nubbinOnly'],
     }),
   );
+  // Hill 1's waterfall face is never climbed: a solid band down the cascade's line, from
+  // part way across the top to the foot, at the full height of the hill.
+  {
+    const h = GROVE.hills[1];
+    const f = GROVE.river.inflow[0];
+    const phi = Math.atan2(f.z - h.z, f.x - h.x);
+    const r0 = h.r * TERRACE.topFactor * 0.5;
+    const r1 = h.r + 0.3;
+    const mid = (r0 + r1) / 2;
+    add({
+      id: 'waterfall-face',
+      x: h.x + Math.cos(phi) * mid,
+      z: h.z + Math.sin(phi) * mid,
+      yaw: -phi,
+      shape: { type: 'segment', len: r1 - r0, r: GROVE.waterfall.width / 2 },
+      top: h.h,
+      flags: ['solid'],
+    });
+  }
   GROVE.trees.forEach((t, i) =>
     add({
       id: `tree-${i + 1}`,

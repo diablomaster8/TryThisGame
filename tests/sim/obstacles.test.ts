@@ -71,10 +71,12 @@ describe('collider shapes (MOVE-02)', () => {
   it('pushes a point out of a hill along the edge', () => {
     const h = GROVE.hills[0]!;
     const p = { x: h.x + 1, z: h.z };
-    expect(blocked(p, null)).toBe(true);
-    expect(resolve(p, null)).toBe(true);
+    // Nubbins keep off the hills; the Keeper climbs them (MOVE-09), held at each cliff by the terrain.
+    expect(blocked(p, null, 0.35, 'keeper')).toBe(false);
+    expect(blocked(p, null, 0.35, 'nubbin')).toBe(true);
+    expect(resolve(p, null, 0.35, 'nubbin')).toBe(true);
     expect(Math.hypot(p.x - h.x, p.z - h.z)).toBeGreaterThanOrEqual(h.r + 0.25 - 1e-9);
-    expect(resolve(p, null)).toBe(false);
+    expect(resolve(p, null, 0.35, 'nubbin')).toBe(false);
   });
 
   it("holds the Keeper off the cottage's back corner (the 3D cottage-corner bug)", () => {
@@ -115,6 +117,14 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
       { x: 4, z: -3 },
       { x: 9, z: 7 },
       { x: -8, z: -6 },
+      // Hill 1's waterfall face (R0011), on the cascade's line down the hill.
+      ...(() => {
+        const h = GROVE.hills[1]!;
+        const f = GROVE.river.inflow[0]!;
+        const len = Math.hypot(f.x - h.x, f.z - h.z);
+        const mid = (h.r * 0.2 + h.r + 0.3) / 2;
+        return [{ x: h.x + ((f.x - h.x) / len) * mid, z: h.z + ((f.z - h.z) / len) * mid }];
+      })(),
       // The bridge rails (R0002), either side of the deck.
       ...[-1, 1].map((side) => ({
         x: GROVE.bridge.x + side * BRIDGE_DECK.railOffset * Math.cos(BRIDGE_YAW),

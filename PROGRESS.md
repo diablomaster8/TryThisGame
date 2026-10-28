@@ -38,6 +38,13 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
+
+Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0
+path on the ramp); then R0016 story-prop colliders, R0020 accel/decel, R0017 body
+separation. R0018 (3D occluder fade) and R0019 (Pixel x-ray) run in parallel in helper
+worktrees and merge in. R0021 and later are left for Pass 4 unless time allows.
+
 ## Pass 2: MOVE jump, bridge and stream (2026-10-27, branch pass/2, not pushed)
 
 Plan: the jump core first (R0012, R0013, R0015), since the bridge, the stream and the fence

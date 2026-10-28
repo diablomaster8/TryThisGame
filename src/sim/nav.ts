@@ -3,6 +3,7 @@ import { GROVE_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
 import { blocked, softAt } from './obstacles';
 import { keeperPerks } from './perks';
+import { hillHeight } from './terrain';
 import { townUnlocks } from './town';
 import type { Vec2, World } from './types';
 
@@ -66,6 +67,56 @@ function grid(world: World): Grid {
 }
 
 /**
+ * The terrace cliffs as walls between cells (MOVE-09), worked out once: the hills never
+ * move. Between each cell and its east and south neighbours the hard ground is sampled a
+ * tenth of a unit apart; a jump bigger than `GROVE_NAV.cliffJump` between two samples is a
+ * cliff and shuts that join. Ramps and their banks slope and stay open, and so do the narrow
+ * shelves of the tall outer hills, which a band of shut cells would pinch closed.
+ */
+let joins: { east: Uint8Array; south: Uint8Array } | null = null;
+
+function smoothBetween(ax: number, az: number, bx: number, bz: number): boolean {
+  let last = hillHeight(ax, az, false);
+  for (let i = 1; i <= 5; i++) {
+    const y = hillHeight(ax + ((bx - ax) * i) / 5, az + ((bz - az) * i) / 5, false);
+    if (Math.abs(y - last) > GROVE_NAV.cliffJump) return false;
+    last = y;
+  }
+  return true;
+}
+
+function cellJoins(): { east: Uint8Array; south: Uint8Array } {
+  if (joins) return joins;
+  const east = new Uint8Array(SIDE * SIDE);
+  const south = new Uint8Array(SIDE * SIDE);
+  for (let iz = 0; iz < SIDE; iz++)
+    for (let ix = 0; ix < SIDE; ix++) {
+      const x = cellCentre(ix);
+      const z = cellCentre(iz);
+      const c = iz * SIDE + ix;
+      east[c] = +smoothBetween(x, z, x + CELL, z);
+      south[c] = +smoothBetween(x, z, x, z + CELL);
+    }
+  joins = { east, south };
+  return joins;
+}
+
+/** Whether a walker steps between neighbouring cells a and b without meeting a cliff. */
+function step(a: number, b: number): boolean {
+  const j = cellJoins();
+  const lo = Math.min(a, b);
+  const d = Math.abs(a - b);
+  if (d === 1) return j.east[lo] === 1;
+  if (d === SIDE) return j.south[lo] === 1;
+  // A diagonal: open only when both ways round its corner are.
+  const ax = a % SIDE;
+  const bx = b % SIDE;
+  const c1 = a - ax + bx;
+  const c2 = b - bx + ax;
+  return step(a, c1) && step(c1, b) && step(a, c2) && step(c2, b);
+}
+
+/**
  * Label the open cells by pocket with one flood fill per pocket, so "can I get there from
  * here" is a lookup. Four-way joins match A*'s, which never cuts a corner.
  */
@@ -84,7 +135,7 @@ function pockets(mask: Uint8Array): Int32Array {
       const c = queue[head++]!;
       const cx = c % SIDE;
       const visit = (n: number): void => {
-        if (mask[n] !== 0 && label[n] === 0) {
+        if (mask[n] !== 0 && label[n] === 0 && step(c, n)) {
           label[n] = next;
           queue[tail++] = n;
         }
@@ -103,6 +154,7 @@ function search(mask: Uint8Array) {
   return {
     maxExpansions: GROVE_NAV.maxExpansions,
     cost: (ix: number, iz: number) => (mask[iz * SIDE + ix] === 2 ? GROVE_NAV.softCost : 1),
+    pass: step,
   };
 }
 
@@ -113,10 +165,23 @@ function opener(mask: Uint8Array, sx: number, sz: number) {
     (ix >= 0 && iz >= 0 && ix < SIDE && iz < SIDE && mask[iz * SIDE + ix]! > 0);
 }
 
+/** A line walker over open cells that also refuses to cross a cliff between two of them. */
+function liner(mask: Uint8Array, sx: number, sz: number) {
+  const open = opener(mask, sx, sz);
+  let last = -1;
+  return (ix: number, iz: number): boolean => {
+    if (!open(ix, iz)) return false;
+    const c = iz * SIDE + ix;
+    const ok = last < 0 || step(last, c);
+    last = c;
+    return ok;
+  };
+}
+
 /** A straight walk from a to b crosses only open cells. */
 function clear(mask: Uint8Array, a: Vec2, b: Vec2): boolean {
   const g = (v: number): number => (v + HALF) / CELL;
-  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), opener(mask, cellOf(a.x), cellOf(a.z)));
+  return cellLine(g(a.x), g(a.z), g(b.x), g(b.z), liner(mask, cellOf(a.x), cellOf(a.z)));
 }
 
 /**
@@ -215,7 +280,7 @@ function plan(g: Grid, from: Vec2, target: Vec2): Route | null {
     if (!cells) return null;
   }
   const pulled = stringPull(cells, SIDE, (ax, az, bx, bz) =>
-    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, open),
+    cellLine(ax + 0.5, az + 0.5, bx + 0.5, bz + 0.5, liner(mask, sx, sz)),
   );
   const shut = entry !== cellOf(from.z) * SIDE + cellOf(from.x);
   const points = pulled.slice(shut ? 0 : 1, -1).map((c) => {

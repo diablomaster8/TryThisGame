@@ -1,5 +1,5 @@
 import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { footing, type Footing } from './terrain';
+import { footing, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { groveLeg } from './nav';
@@ -142,7 +142,7 @@ function steer(world: World, p: Vec2, to: Vec2, dx: number, dz: number): [number
   const ax = p.x + dx * look;
   const az = p.z + dz * look;
   for (const c of obstacles(world)) {
-    if (c.flags.includes('soft')) continue;
+    if (c.flags.includes('soft') || c.flags.includes('nubbinOnly')) continue;
     // A target inside the obstacle itself is walked into and dropped, as before.
     if (contact(c, to.x, to.z, KEEPER_UNSTICK.clearance)) continue;
     const hit = contact(c, ax, az, KEEPER_UNSTICK.clearance);
@@ -303,9 +303,47 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   }
 }
 
+/**
+ * Keep a walking Keeper off a terrace cliff it cannot step up (MOVE-09): a step may rise at
+ * most `stepUp` over its feet, or over the shelf it already stands on (part way down a
+ * soft cliff edge the feet sit below the shelf). Every cliff is a ring round its hill's
+ * centre, so a blocked step slides round the ring (the step less its part toward the
+ * centre), else along an axis, else stays put.
+ * A jump lifts the feet, so a jump clears a tier.
+ */
+function holdAtLedges(k: World['keeper'], px: number, pz: number): void {
+  if (k.pos.x === px && k.pos.z === pz) return;
+  const lift = Math.max(k.y, ledgeY(px, pz)) + JUMP.stepUp;
+  if (ledgeY(k.pos.x, k.pos.z) <= lift) return;
+  const t = TERRACES.find((h) => Math.hypot(px - h.x, pz - h.z) < h.reach);
+  if (t) {
+    const d = Math.hypot(px - t.x, pz - t.z) || 1;
+    const nx = (px - t.x) / d;
+    const nz = (pz - t.z) / d;
+    const mx = k.pos.x - px;
+    const mz = k.pos.z - pz;
+    const inward = Math.min(0, mx * nx + mz * nz);
+    const sx = px + mx - inward * nx;
+    const sz = pz + mz - inward * nz;
+    if (ledgeY(sx, sz) <= lift) {
+      k.pos.x = sx;
+      k.pos.z = sz;
+      return;
+    }
+  }
+  if (ledgeY(k.pos.x, pz) <= lift) k.pos.z = pz;
+  else if (ledgeY(px, k.pos.z) <= lift) k.pos.x = px;
+  else {
+    k.pos.x = px;
+    k.pos.z = pz;
+  }
+}
+
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   const dt = dtMs / 1000;
+  const fromX = k.pos.x;
+  const fromZ = k.pos.z;
   const dungeonFloor = runFloor(world);
   // Pushing through a bush or a flowerbed is slow going (MOVE-03), and so is wading the
   // stream (MOVE-13); a jump over either keeps its pace.
@@ -433,6 +471,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.moveTarget = null;
       k.intent = null;
     }
+    holdAtLedges(k, fromX, fromZ);
     // A soft piece does not stop the Keeper; once it stops walking it eases back out.
     const idle = !k.moveTarget && !k.intent && k.input.x === 0 && k.input.z === 0;
     const bush = idle ? softAt(k.pos, world) : null;

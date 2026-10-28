@@ -48,6 +48,9 @@ export const GROVE_NAV = {
   softCost: 4,
   /** How far round a shut-in target (cells) to look for a reachable stand-in. */
   reachSearch: 24,
+  /** A rise between hill samples 0.1 u apart bigger than this shuts the join (MOVE-09): well under
+   * `JUMP.stepUp`, so a planned path never meets a step the Keeper cannot take.  */
+  cliffJump: 0.2,
 } as const;
 
 /**
@@ -97,4 +100,21 @@ export const BRIDGE_DECK = {
   railOffset: 0.8,
   railR: 0.08,
   railTop: 0.9,
+} as const;
+
+/**
+ * The hill terraces (MOVE-09). Each hill is `ceil(h / maxStep)` tiers (at least two), so
+ * every step is under a jump's height; the top tier is `topFactor` of the hill's radius
+ * across. A cliff's soft toon edge runs `edge` units in from its rim. The ramp is a band
+ * `rampWidth` wide that climbs along the foot of each next tier in turn, with a level
+ * `landing` (arc units) at its top end; its outer side and far end are walkable banks
+ * `rampBank` wide.
+ */
+export const TERRACE = {
+  maxStep: 0.9,
+  topFactor: 0.4,
+  edge: 0.5,
+  rampWidth: 1.2,
+  rampBank: 0.6,
+  landing: 1.0,
 } as const;

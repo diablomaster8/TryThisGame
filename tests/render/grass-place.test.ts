@@ -7,6 +7,7 @@ import { placeGrass } from '../../src/samples/grass-place';
 // placement is a choice, not an accident. It was the page-side loop's meadow (checked tuft for
 // tuft) until 2026-10-18, when the field's edge started to fray into the painted ground; on
 // 2026-10-19 the waterfall's cascade down the hill was kept clear (art pass 2).
+// On 2026-10-28 the hills became terraces with ramps (R0011), so the tufts on them moved.
 describe('grass placement', () => {
   it('places the same meadow as before the worker move', () => {
     const p = placeGrass(groveGrassField());
@@ -15,6 +16,6 @@ describe('grass placement', () => {
     let h = 0;
     for (const a of [...p.matrices, ...p.colours])
       for (const v of a) h = (h * 31 + Math.round(v * 1e4)) | 0;
-    expect(h).toBe(1582240373);
+    expect(h).toBe(399026252);
   });
 });

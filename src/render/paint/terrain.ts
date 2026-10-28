@@ -8,6 +8,8 @@ import {
   type CanvasTexture,
 } from 'three';
 import { GROVE } from '../../config/tuning';
+import { TERRACE } from '../../config/tuning-sim';
+import { hillHeight, type Terrace } from '../../sim/terrain';
 import { fbm, ridged, warped } from './noise';
 import { hex, mix, Raster, shade } from './raster';
 import { pondRadius } from './shore';
@@ -101,12 +103,17 @@ export function terraceRadius(r: number, angle: number, salt: number): number {
   return r * (1 + 0.16 * (n - 0.5) * 2);
 }
 
-/** The side wall of a terrace: a ring whose radius wanders, with UVs for the cliff tile. */
+/**
+ * The side wall of a terrace: a ring with UVs for the cliff tile. Its foot stands on the
+ * sim's rim (MOVE-09) and it leans in to its top over the cliff's eased edge, so figures
+ * stand on the drawn shelves; `wobble` lets other rings wander round the circle.
+ */
 export function terraceSide(
   r: number,
   height: number,
   salt: number,
   segments = 40,
+  wobble = false,
 ): BufferGeometry {
   const positions: number[] = [];
   const uvs: number[] = [];
@@ -115,8 +122,8 @@ export function terraceSide(
   const repeat = Math.max(2, Math.round((2 * Math.PI * r) / 3));
   for (let i = 0; i <= segments; i++) {
     const a = (i / segments) * Math.PI * 2;
-    const rb = terraceRadius(r, a, salt);
-    const rt = rb * 0.94;
+    const rb = wobble ? terraceRadius(r, a, salt) : r;
+    const rt = wobble ? rb * 0.94 : r - TERRACE.edge / 2;
     const cx = Math.cos(a);
     const cz = Math.sin(a);
     positions.push(cx * rt, height, cz * rt, cx * rb, 0, cz * rb);
@@ -136,11 +143,11 @@ export function terraceSide(
 }
 
 /** The grass top of a terrace, following the same wandering outline. */
-export function terraceTop(r: number, salt: number, segments = 40): ShapeGeometry {
+export function terraceTop(r: number, salt: number, segments = 40, wobble = false): ShapeGeometry {
   const shape = new Shape();
   for (let i = 0; i < segments; i++) {
     const a = (i / segments) * Math.PI * 2;
-    const rr = terraceRadius(r, a, salt) * 0.94;
+    const rr = wobble ? terraceRadius(r, a, salt) * 0.94 : r - TERRACE.edge / 2;
     if (i === 0) shape.moveTo(Math.cos(a) * rr, -Math.sin(a) * rr);
     else shape.lineTo(Math.cos(a) * rr, -Math.sin(a) * rr);
   }
@@ -150,6 +157,45 @@ export function terraceTop(r: number, salt: number, segments = 40): ShapeGeometr
   const uv = geo.getAttribute('uv');
   for (let i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) / 4, pos.getY(i) / 4);
   uv.needsUpdate = true;
+  return geo;
+}
+
+/**
+ * One leg of a hill's ramp (MOVE-09) as a sheet in the hill's own frame: the band and its
+ * banks, sampled on the sim's hard ground so Pixel feet stand on it, a hair proud of the
+ * shelf below so the shelf never shows through.
+ */
+export function rampGeometry(t: Terrace, leg: number): BufferGeometry {
+  const l = t.ramp[leg]!;
+  const bankEnd = Math.min(l.rOut + TERRACE.rampBank, l.rim);
+  const fade = TERRACE.rampBank / ((l.rIn + l.rOut) / 2);
+  const span = l.a1 - l.a0 + fade;
+  const along = Math.max(8, Math.ceil((span * (l.rIn + l.rOut)) / 2 / 0.35));
+  const across = Math.max(2, Math.ceil((bankEnd - l.rIn) / 0.3));
+  const positions: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
+  for (let i = 0; i <= along; i++) {
+    const a = l.a0 + (span * i) / along;
+    for (let j = 0; j <= across; j++) {
+      const d = l.rIn + 0.02 + ((bankEnd - 0.02 - l.rIn - 0.02) * j) / across;
+      const x = Math.cos(a) * d;
+      const z = Math.sin(a) * d;
+      positions.push(x, hillHeight(t.x + x, t.z + z, false) + 0.015, z);
+      uvs.push(x / 4, z / 4);
+    }
+  }
+  const row = across + 1;
+  for (let i = 0; i < along; i++)
+    for (let j = 0; j < across; j++) {
+      const p = i * row + j;
+      indices.push(p, p + 1, p + row, p + 1, p + row + 1, p + row);
+    }
+  const geo = new BufferGeometry();
+  geo.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3));
+  geo.setAttribute('uv', new BufferAttribute(new Float32Array(uvs), 2));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
   return geo;
 }
 

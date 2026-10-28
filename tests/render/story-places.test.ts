@@ -1,3 +1,4 @@
+import { rampPath, TERRACES } from '../../src/sim/terrain';
 import { describe, expect, it } from 'vitest';
 import { markAt } from '../../src/config/stage-marks';
 import { GROVE } from '../../src/config/tuning';
@@ -86,10 +87,11 @@ describe('the memorial hill (H7)', () => {
   const hill = GROVE.hills[0];
 
   it('winds its path from the hill path mark up to the crest', () => {
-    const [x0, z0] = CG_C.hill.path[0]!;
+    const path = rampPath(TERRACES[0]!);
+    const [x0, z0] = path[0]!;
     const start = markAt('grove', 'hill-path')!;
     expect(Math.hypot(hill.x + x0 - start.x, hill.z + z0 - start.z)).toBeLessThan(1.5);
-    const [x1, z1] = CG_C.hill.path[CG_C.hill.path.length - 1]!;
+    const [x1, z1] = path[path.length - 1]!;
     expect(Math.hypot(x1, z1)).toBeLessThan(hill.r * 0.5);
   });
 

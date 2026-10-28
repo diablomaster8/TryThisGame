@@ -57,7 +57,7 @@ function blocks(c: Collider, who: Walker, feetY?: number): boolean {
     colliderTopY(c) <= feetY + JUMP.stepUp
   )
     return false;
-  if (who === 'keeper') return true;
+  if (who === 'keeper') return !f.includes('nubbinOnly');
   if (f.includes('keeperOnly')) return false;
   return !(who === 'hopper' && f.includes('hop'));
 }
