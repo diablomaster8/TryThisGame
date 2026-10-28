@@ -56,6 +56,7 @@ import {
   paintFloorTexture,
   vistaCells,
 } from './paint/dungeon';
+import { FogField } from './paint/dungeon-fog';
 import {
   makeBarkTexture,
   makeLeafTexture,
@@ -190,6 +191,8 @@ export class GroveScene {
   private dungeonTorches: Array<{ x: number; z: number }> = [];
   private dungeonParts: Array<{ dispose(): void }> = [];
   private dungeonPickables: Object3D[] = [];
+  /** The Hollow's fog of war (R0153): the game refills it each frame underground. */
+  readonly dungeonFog = new FogField();
   private cliffMat: MeshLambertMaterial | null = null;
   /** Reduced motion: the torch lamps do not flicker. */
   private holdStill = false;
@@ -883,10 +886,11 @@ export class GroveScene {
       if (!(child instanceof PointLight)) this.dungeonGroup.remove(child);
     }
     this.dungeonTorches = [];
+    this.dungeonFog.setFloor(floor);
     if (!floor) return;
     const { w, h } = floorWorldSize(floor);
     const tex = paintFloorTexture(floor, depth);
-    const mat = new MeshLambertMaterial({ map: tex });
+    const mat = this.dungeonFog.patch(new MeshLambertMaterial({ map: tex }));
     const geo = new PlaneGeometry(w, h, 1, 1);
     const plane = new Mesh(geo, mat);
     plane.rotation.x = -Math.PI / 2;
@@ -993,6 +997,7 @@ export class GroveScene {
       emissiveMap: tex,
     });
     this.patchCaveCut(topMat);
+    this.dungeonFog.patch(topMat);
     const topGeo = new BufferGeometry();
     topGeo.setAttribute('position', new Float32BufferAttribute(tops, 3));
     topGeo.setAttribute('uv', new Float32BufferAttribute(topUv, 2));
@@ -1009,6 +1014,7 @@ export class GroveScene {
       side: DoubleSide,
     });
     this.patchCaveCut(faceMat);
+    this.dungeonFog.patch(faceMat);
     const sideGeo = new BufferGeometry();
     sideGeo.setAttribute('position', new Float32BufferAttribute(sides, 3));
     sideGeo.setAttribute('uv', new Float32BufferAttribute(sideUv, 2));

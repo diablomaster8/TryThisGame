@@ -894,6 +894,11 @@ export class Game {
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
+        // Fog of war (R0153): the Hollow floor's materials read this each frame.
+        this.grove.dungeonFog.update(
+          this.world.location === 'dungeon' ? this.world.dungeon : null,
+          this.world.keeper.pos,
+        );
         this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
         this.updateDaylight(nowMs);

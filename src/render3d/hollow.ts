@@ -7,6 +7,7 @@ import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
+import { HollowFog } from './hollow-fog';
 import { HollowLight, lightBaker } from './hollow-light';
 import { HollowPop } from './hollow-pop';
 import { HollowWaypoint } from './hollow-waypoint';
@@ -48,7 +49,9 @@ export class Hollow {
   private readonly atmos = new HollowAtmos();
   private readonly pop = new HollowPop();
   private readonly waypoint = new HollowWaypoint();
-  /** In build order: rock, dress, light, air (`update` runs them in this order too). */
+  /** Fog of war (R0153); first, so the others read this frame's fog. */
+  private readonly fog = new HollowFog();
+  /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
   private readonly mods: HollowModule[];
   /**
    * One hidden mesh per program kind a floor uses (plain, flat-shaded and plain
@@ -82,7 +85,7 @@ export class Hollow {
     this.dress.useLights(this.light_);
     // A lit sconce re-bakes the floor's light.
     this.light_.rebake = () => this.rock.rebake();
-    this.mods = [this.rock, this.dress, this.light_, this.atmos, this.pop, this.waypoint];
+    this.mods = [this.fog, this.rock, this.dress, this.light_, this.atmos, this.pop, this.waypoint];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
     const pool = new THREE.BufferGeometry();
@@ -174,6 +177,8 @@ export class Hollow {
     let best: { kind: 'stairs' | 'chest' | 'loot'; id: string; d: number } | null = null;
     for (const [c, kind, id, r] of this.dress.picks) {
       if (kind === 'loot' && run?.taken.includes(id)) continue;
+      // A find still under the fog cannot be tapped (R0153).
+      if (kind === 'loot' && !this.fog.seen(run, this.dress.lootCell(id))) continue;
       sphere.center.copy(c);
       sphere.radius = r;
       if (!ray.intersectSphere(sphere, hit)) continue;
