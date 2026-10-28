@@ -46,6 +46,15 @@ colour, R0379 signature extras, R0383 arms, R0386 emote balls, R0387 neck outlin
 the crown spring (R0380) and the R0406/R0418/R0435 leftovers as far as one pass allows. R0385
 is deferred (needs `actors.ts`). Stage review hook: `&creature=variants&ids=art:<species id>`.
 
+- *Works:* R0370 live `sit` is the legs-out sit in both modes, and a low or hungry sitter stays
+  sad. R0378 3D art colours are more vivid (art-colour.test.ts). R0374 serpents: a disc chain in
+  pixel that slithers a disc per walk frame, and a 3D spine of `seg` parts with a yaw wave (3D
+  2.6x long). R0375: 27 four-legged species on plan `quad` with stances in both modes.
+- *Stubbed:* `quad.tailSet` is read by neither renderer; the kit file is not renamed.
+- *Known:* pixel serpents reach only 1.0–1.6x long (a raised head in a 32 px frame); Lapras's
+  shell reads as a dish in pixel; quad foot slide not measured. The two timing tests fail when
+  five lanes load the machine and pass alone.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
