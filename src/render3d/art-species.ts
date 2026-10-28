@@ -611,5 +611,5 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
-  return art.gen1b ? applyGen1b3d(spec, art, L, c) : spec;
+  return art.gen1b || art.heads ? applyGen1b3d(spec, art, L, c) : spec;
 }

@@ -87,7 +87,12 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- magnets ----
   clinkbolt: spec(MAGNET, { ...ORB, size: 0.75, gen1b: ['magnets', 'cyclops'] }),
-  clinktrio: spec(MAGNET, { ...ORB, size: 0.95, gen1b: ['triple', 'magnets', 'cyclops'] }),
+  clinktrio: spec(MAGNET, {
+    ...ORB,
+    size: 0.95,
+    gen1b: ['magnets', 'cyclops'],
+    heads: { count: 3, neck: 0, spread: 130, sizes: [1, 1, 1], faces: 'full' },
+  }),
   // ---- leek duck ----
   leekbill: spec(STRUT, {
     size: 0.95,
@@ -97,7 +102,14 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     gen1b: ['beak', 'leek'],
   }),
   // ---- running birds ----
-  twinstrut: spec(STRUT, { ...ORB, size: 0.8, legs: 'long', gen1b: ['twin', 'beak'] }),
+  twinstrut: spec(STRUT, {
+    size: 0.9,
+    arms: 'none',
+    legs: 'long',
+    marks: ['belly'],
+    gen1b: ['beak'],
+    heads: { count: 2, neck: 1, spread: 40, sizes: [1, 1], faces: 'full' },
+  }),
   tristrut: spec(STRUT, {
     size: 1.1,
     legs: 'long',
@@ -105,7 +117,8 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'stub',
     marks: ['belly'],
     eyes: 'angry',
-    gen1b: ['triple', 'beak'],
+    gen1b: ['beak'],
+    heads: { count: 3, neck: 1, spread: 100, sizes: [1, 1, 1], faces: 'full' },
   }),
   // ---- floe seals ----
   floepup: spec(SEAL, { ...ORB, size: 0.9, crest: 'horn', gen1b: ['fishTail'] }),
@@ -220,13 +233,21 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   seedclutch: spec(pal(C.blush, C.rose, C.cream, C.ink, C.rose), {
     ...ORB,
     size: 0.7,
-    gen1b: ['cluster'],
+    heads: {
+      count: 6,
+      neck: 0,
+      spread: 0,
+      sizes: [1, 1, 1, 1, 1, 1],
+      faces: 'full',
+      cluster: true,
+    },
   }),
   palmtrio: spec(pal(C.sand, C.sandDeep, C.cream, C.leaf, C.bark), {
     plan: 'tall',
     size: 1.2,
     eyes: 'angry',
-    gen1b: ['triple', 'palm', 'lowerHalf'],
+    gen1b: ['palm', 'lowerHalf'],
+    heads: { count: 3, neck: 0.3, spread: 150, sizes: [1, 1, 1], faces: 'full' },
   }),
   // ---- bone keepers ----
   bonecap: spec(BONE, { size: 0.9, tail: 'stub', marks: ['belly'], gen1b: ['skull', 'bone'] }),
@@ -251,7 +272,8 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     size: 1.05,
     eyes: 'angry',
     marks: ['spots'],
-    gen1b: ['twin', 'aura'],
+    gen1b: ['aura'],
+    heads: { count: 2, neck: 0, spread: 60, sizes: [1, 0.8], faces: 'full' },
   }),
   // ---- horned rocks ----
   rockhorn: spec(RHINO, {

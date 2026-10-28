@@ -438,7 +438,7 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     tail: 'long',
     arms: 'none',
     eyes: 'angry',
-    extras: ['sideHeads'],
+    heads: { count: 3, neck: 1, spread: 0, sizes: [1, 0.9, 0.9], faces: 'simple', arms: true },
   }),
   gloopmound: spec(pal(C.bark, C.darkBark, C.wood, C.leaf, C.sprout), {
     plan: 'slug',
