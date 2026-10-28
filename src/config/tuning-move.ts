@@ -144,3 +144,13 @@ export const TAP_PATH = {
   /** The route is read again for this long after the tap, while the sim plans it. */
   settleMs: 150,
 } as const;
+
+/**
+ * MOVE-46: footfalls by surface. A step sounds every `stride` units walked: a hollow tok on
+ * a deck or a bench, a light tap on stone, nothing on grass and paths. Pixel's grass gives
+ * a green tuft every `tuftEvery`th puff instead of dust.
+ */
+export const FOOTFALL = {
+  stride: 0.7,
+  tuftEvery: 2,
+} as const;

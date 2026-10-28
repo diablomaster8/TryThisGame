@@ -30,7 +30,10 @@ export type SoundName =
   | 'pat'
   | 'plop'
   // MOVE-35: a soft bonk when a tap cannot be reached.
-  | 'bonk';
+  | 'bonk'
+  // MOVE-46: footsteps on a deck (a hollow tok) and on stone (a light tap).
+  | 'stepDeck'
+  | 'stepStone';
 
 export type SongName =
   | 'title'
@@ -875,6 +878,12 @@ export function playSound(name: SoundName): void {
         break;
       case 'bonk':
         tone(220, 0, 70, 'triangle', 0.05, 150);
+        break;
+      case 'stepDeck':
+        tone(210, 0, 40, 'triangle', 0.035, 170);
+        break;
+      case 'stepStone':
+        tone(1400, 0, 18, 'triangle', 0.012);
         break;
       case 'plop':
         tone(260, 0, 70, 'sine', 0.06, 160);

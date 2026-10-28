@@ -5,6 +5,7 @@ import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
+import { Footfall } from '../render/footfall';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -188,6 +189,8 @@ export class Actors {
   private readonly highlight: THREE.Mesh;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
+  /** MOVE-46: footstep sounds by surface (3D draws no prints). */
+  private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
@@ -963,6 +966,7 @@ export class Actors {
     this.squashKeeper(keeper, nowMs);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
+    this.footfall.step(world, kp.x, kp.z);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

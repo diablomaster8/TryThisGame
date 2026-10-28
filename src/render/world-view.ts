@@ -13,8 +13,9 @@ import { keeperFooting, keeperGliding } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { BUSH, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { BUSH, FOOTFALL, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -113,6 +114,9 @@ export class WorldView {
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
   private readonly tapPath = new TapPath();
+  /** MOVE-46: the Keeper's footfalls, by surface. */
+  private readonly footfall = new Footfall();
+  private tufts = 0;
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
   /** Per-frame scratch sets, cleared and reused rather than allocated every frame. */
@@ -1131,6 +1135,9 @@ export class WorldView {
         });
       }
     }
+    // MOVE-46: the step's surface; a deck or a bench top leaves no dust, grass a tuft.
+    this.footfall.step(world, kx, kz);
+    const underfoot = this.footfall.surface;
     if (moving && off < -0.05 && nowMs - this.keeperDustMs > KEEPER_WADE.rippleMs) {
       // Wading: rings on the water instead of dust.
       this.keeperDustMs = nowMs;
@@ -1143,13 +1150,23 @@ export class WorldView {
       nowMs - this.keeperDustMs > (k.running ? RUN_MODE.dustRunMs : RUN_MODE.dustWalkMs)
     ) {
       this.keeperDustMs = nowMs;
-      this.particles.burst('dust', kx, 0.05, kz, 1, {
-        spread: 0.15,
-        speed: 0.3,
-        rise: 0.4,
-        lifeMs: 420,
-        size: 0.4,
-      });
+      if (underfoot === 'grass') {
+        if (++this.tufts % FOOTFALL.tuftEvery === 0)
+          this.particles.burst('leaf', kx, 0.05, kz, 1, {
+            spread: 0.1,
+            speed: 0.2,
+            rise: 0.3,
+            lifeMs: 360,
+            size: 0.3,
+          });
+      } else if (underfoot !== 'deck')
+        this.particles.burst('dust', kx, 0.05, kz, 1, {
+          spread: 0.15,
+          speed: 0.3,
+          rise: 0.4,
+          lifeMs: 420,
+          size: 0.4,
+        });
     }
 
     this.onDraw?.(world, nowMs);
