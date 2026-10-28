@@ -2029,3 +2029,4 @@ export * from './tuning-e4';
 export * from './tuning-u4';
 export * from './tuning-move';
 export * from './tuning-move-joy';
+export * from './tuning-move-nub';
