@@ -362,8 +362,10 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
   });
   // MOVE-34: solids standing closer than a Keeper can pass leave slivers that only trap
   // taps; each such pair is joined by a thin bar from centre to centre, live only while
-  // both stand. It stops only the Keeper (and so the nav grid): a Nubbin walks straight
-  // and would wedge in the corner a bar makes (the layout lint in tests/sim/layout-lint.test.ts keeps this list complete).
+  // both stand (tests/sim/layout-lint.test.ts keeps the list complete). It stops only the
+  // Keeper (and so the nav grid): a Nubbin walks straight and would wedge in the corner a
+  // bar makes. A bar to a hop or standable piece is jumped like it, so a rock top stays
+  // standable.
   for (const [a, b] of SLIVER_JOINS) {
     const ca = out.find((c) => c.id === a);
     const cb = out.find((c) => c.id === b);
@@ -379,7 +381,9 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
       yaw: Math.atan2(-dz, dx),
       shape: { type: 'segment', len: Math.hypot(dx, dz), r: JOIN_R },
       top: Math.min(ca.top, cb.top),
-      flags: ['keeperOnly'],
+      flags: [ca, cb].some((c) => c.flags.includes('hop') || c.flags.includes('standable'))
+        ? ['keeperOnly', 'hop']
+        : ['keeperOnly'],
       ...(when ? { when } : {}),
     });
   }

@@ -6,7 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { GROVE_COLLIDERS, SLIVER_JOINS, type Collider } from '../../src/config/grove-layout';
 import { GROVE, SIM } from '../../src/config/tuning';
-import { colliderReach, contact } from '../../src/sim/obstacles';
+import { colliderReach, colliderTopY, contact } from '../../src/sim/obstacles';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 const POND: Collider = {
@@ -105,5 +105,16 @@ describe('layout lint (MOVE-34)', () => {
     let s = 0;
     for (; s < 400 && w.keeper.moveTarget; s++) stepWorld(w, SIM.stepMs);
     expect(s).toBeLessThan(60);
+  });
+  it('a join leaves a standable rock standable (the Keeper stays on top)', () => {
+    const rock = GROVE_COLLIDERS.find((c) => c.id === 'wild-14')!;
+    const w = createWorld(1, 0);
+    w.nubbins = [];
+    w.keeper.pos = { x: rock.x, z: rock.z };
+    w.keeper.y = colliderTopY(rock);
+    w.keeper.grounded = true;
+    for (let s = 0; s < 10; s++) stepWorld(w, SIM.stepMs);
+    expect(Math.hypot(w.keeper.pos.x - rock.x, w.keeper.pos.z - rock.z)).toBeLessThan(0.05);
+    expect(w.keeper.y).toBeCloseTo(colliderTopY(rock), 2);
   });
 });
