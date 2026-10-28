@@ -1,7 +1,6 @@
-import { mergedLevels } from '../sim/partners';
-import { hasSkill } from '../sim/skills';
 import { NAMES, UI_TEXT } from '../config/strings';
-import { KARATE } from '../config/tuning';
+import { BATTLE_TEXT, combatantName } from '../config/strings-battle';
+import { BATTLE } from '../config/tuning-battle';
 import type { Game } from '../game';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
@@ -9,7 +8,16 @@ import type { SpriteSheet } from '../render/sprites/atlas';
 import { drawShadowText, drawText } from '../render/sprites/font';
 import { C, color } from '../render/sprites/palette';
 import { playSound } from '../platform/audio';
-import { barOffset, createBout, prizeForBout, stepBout, strike, type Bout } from '../sim/karate';
+import {
+  barAt,
+  barOffsetAt,
+  battleAct,
+  battleSeedFor,
+  createBattle,
+  prizeFor,
+  type BattleContext,
+  type BattleState,
+} from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 
@@ -59,7 +67,7 @@ export class KarateMenu {
       el('small', undefined, `${g.world.karate.wins} wins · ${g.world.karate.losses} losses`),
     );
     const tiers = el('div', 'race-tiers');
-    for (let tier = 1; tier <= KARATE.tiers; tier++) {
+    for (let tier = 1; tier <= BATTLE.karate.tiers; tier++) {
       const b = button(UI_TEXT.tierLabel(tier), () => this.start(tier), 'btn btn-small');
       b.disabled = tier > g.world.karate.belt + 1;
       if (tier <= g.world.karate.belt) b.classList.add('active');
@@ -69,6 +77,11 @@ export class KarateMenu {
     this.list.appendChild(row);
   }
 
+  /**
+   * The bout runs twice from one seed: here, for drawing at frame rate, and in the sim
+   * (`world.battle`), which gets the same taps and decides the result and the prize. The rival's
+   * strikes fall at fixed times, so both copies agree whatever the frame rate.
+   */
   private start(tier: number): void {
     const g = this.game();
     if (!g) return;
@@ -77,43 +90,51 @@ export class KarateMenu {
       this.toast(UI_TEXT.expeditionNeedsNubbin);
       return;
     }
+    const context: BattleContext = { kind: 'karate', tier, nubbinId: fighter.id };
+    const bout = createBattle(g.world, context, battleSeedFor(g.world, context));
+    if (!bout) {
+      this.toast(UI_TEXT.expeditionNeedsNubbin);
+      return;
+    }
     this.close();
+    g.send({ kind: 'battleStart', context });
     g.renderPaused = true;
-    const seed = Date.now() % 2147483647;
-    const bout = createBout(
-      fighter,
-      tier,
-      seed,
-      mergedLevels(g.world, fighter) ?? undefined,
-      hasSkill(g.world, 'thickSkin') ? 10 : 0,
-    );
     this.screen.start(
       bout,
       fighter,
       g.view.sheets.forNubbin(fighter),
       g.view.sheets.rival('moon', 'power'),
-      (won) => {
+      (action) => g.send({ kind: 'battleAct', action }),
+      (s) => {
         g.renderPaused = false;
-        if (won === null) {
+        if (!s?.result) {
+          g.send({ kind: 'battleForfeit' });
           this.toast(UI_TEXT.karateLeft);
           return;
         }
-        const shells = prizeForBout(tier, won);
-        g.send({
-          kind: 'karateResult',
-          nubbinId: fighter.id,
-          won,
-          tier,
-          shells,
-          rival: { name: bout.rival.name, species: 'chao' },
-        });
-        this.toast(won ? UI_TEXT.karateWon(fighter.name) : UI_TEXT.karateLost(fighter.name));
+        const w = s.result.winner;
+        this.toast(
+          w === 0
+            ? BATTLE_TEXT.karateWon(fighter.name)
+            : w === 1
+              ? BATTLE_TEXT.karateLost(fighter.name)
+              : BATTLE_TEXT.karateDraw(fighter.name),
+        );
       },
     );
   }
 }
 
-/** The bout on a 2D canvas: two fighters side-on, HP bars, the swinging timing bar. */
+type Act = { k: 'tap'; atMs: number } | { k: 'advance'; toMs: number };
+
+/** How long the nap or the walk home plays before the results card. */
+const OUTRO_MS = 1800;
+
+/**
+ * The bout on a 2D canvas: two fighters side-on, HP bars, the swinging timing bar. When it
+ * ends, the tuckered fighter either naps under a leaf (ours) or waves and toddles home (the
+ * rival) before the results card shows.
+ */
 export class KarateScreen {
   private readonly root: HTMLDivElement;
   private readonly canvas: HTMLCanvasElement;
@@ -123,12 +144,17 @@ export class KarateScreen {
   private readonly quitBtn: HTMLButtonElement;
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
-  private bout: Bout | null = null;
+  private bout: BattleState | null = null;
   private player: { name: string; sheet: SpriteSheet } | null = null;
   private rivalSheet: SpriteSheet | null = null;
-  private onDone: ((won: boolean | null) => void) | null = null;
+  private onAct: ((a: Act) => void) | null = null;
+  private onDone: ((s: BattleState | null) => void) | null = null;
   private rafId = 0;
   private lastMs = 0;
+  /** Bout time on this screen's clock. */
+  private boutMs = 0;
+  /** Frame time when the result came in, for the outro. */
+  private endedAt = 0;
   private viewW = 320;
 
   constructor(parent: HTMLElement) {
@@ -139,6 +165,7 @@ export class KarateScreen {
     if (!ctx) throw new Error('2D canvas context unavailable');
     this.ctx = ctx;
     this.hud = el('div', 'expedition-hud');
+    this.hud.setAttribute('aria-live', 'off');
     this.strikeBtn = button(UI_TEXT.strike, () => this.strike(), 'btn btn-primary cheer');
     this.quitBtn = button('✕', () => this.finish(), 'btn btn-icon quit');
     this.quitBtn.title = UI_TEXT.quitMinigame;
@@ -175,38 +202,50 @@ export class KarateScreen {
   }
 
   start(
-    bout: Bout,
+    bout: BattleState,
     player: Nubbin,
     playerSheet: SpriteSheet,
     rivalSheet: SpriteSheet,
-    onDone: (won: boolean | null) => void,
+    onAct: (a: Act) => void,
+    onDone: (s: BattleState | null) => void,
   ): void {
     this.bout = bout;
     this.player = { name: player.name, sheet: playerSheet };
     this.rivalSheet = rivalSheet;
+    this.onAct = onAct;
     this.onDone = onDone;
     this.results.hidden = true;
     this.results.remove();
     this.root.hidden = false;
     this.resize();
     this.lastMs = 0;
+    this.boutMs = 0;
+    this.endedAt = 0;
     this.rafId = requestAnimationFrame(this.frame);
   }
 
+  private act(a: Act): void {
+    if (!this.bout) return;
+    battleAct(this.bout, a);
+    this.onAct?.(a);
+  }
+
   private strike(): void {
-    if (!this.bout || this.bout.finished) return;
-    strike(this.bout);
-    playSound(this.bout.lastHit?.dodged ? 'tap' : 'hit');
+    const b = this.bout;
+    if (!b || b.result) return;
+    this.act({ k: 'tap', atMs: Math.round(this.boutMs) });
+    playSound(b.karate?.lastHit?.dodged ? 'tap' : 'hit');
   }
 
   private finish(): void {
     // A bout left before it ended is abandoned, not lost.
-    const won = this.bout?.finished ? (this.bout.won ?? false) : null;
+    const s = this.bout?.result ? this.bout : null;
     cancelAnimationFrame(this.rafId);
     this.root.hidden = true;
     this.bout = null;
-    this.onDone?.(won);
+    this.onDone?.(s);
     this.onDone = null;
+    this.onAct = null;
   }
 
   resize(): void {
@@ -223,38 +262,69 @@ export class KarateScreen {
   /** For tests and console driving. */
   frame = (nowMs: number): void => {
     const b = this.bout;
-    if (!b) return;
+    if (!b || !b.karate) return;
     const dt = this.lastMs === 0 ? 0 : Math.min(100, nowMs - this.lastMs);
     this.lastMs = nowMs;
-    stepBout(b, dt);
+    if (!b.result) {
+      this.boutMs += dt;
+      battleAct(b, { k: 'advance', toMs: Math.round(this.boutMs) });
+      // The sim learns the end time once, so its copy finishes on the same strike.
+      if (b.result) this.onAct?.({ k: 'advance', toMs: b.karate.timeMs });
+    }
+    if (b.result && this.endedAt === 0) {
+      this.endedAt = nowMs;
+      playSound(b.result.winner === 0 ? 'win' : 'sad');
+    }
+    const me = b.sides[0][0]!;
+    const rival = b.sides[1][0]!;
     this.draw(b, nowMs);
-    this.hud.textContent = `${b.player.name} ${Math.ceil(b.player.hp)} · ${b.rival.name} ${Math.ceil(b.rival.hp)}`;
-    this.strikeBtn.disabled = b.finished;
-    if (b.finished && this.results.hidden) {
+    this.hud.textContent = BATTLE_TEXT.status(
+      combatantName(me),
+      Math.ceil(me.hp),
+      combatantName(rival),
+      Math.ceil(rival.hp),
+    );
+    this.strikeBtn.disabled = !!b.result;
+    if (b.result && this.results.hidden && nowMs - this.endedAt >= this.outroMs()) {
       this.resultsBody.innerHTML = '';
+      const w = b.result.winner;
+      const name = this.player?.name ?? combatantName(me);
       this.resultsBody.appendChild(
         el(
           'p',
           'celebrate-form',
-          b.won ? UI_TEXT.karateWon(b.player.name) : UI_TEXT.karateLost(b.player.name),
+          w === 0
+            ? BATTLE_TEXT.karateWon(name)
+            : w === 1
+              ? BATTLE_TEXT.karateLost(name)
+              : BATTLE_TEXT.karateDraw(name),
         ),
       );
       this.resultsBody.appendChild(
-        el('p', undefined, `+${prizeForBout(b.tier, b.won ?? false)} ${NAMES.currency}`),
+        el('p', undefined, BATTLE_TEXT.prize(prizeFor(b.context, b.result), NAMES.currency)),
       );
       this.root.appendChild(this.results);
       this.results.hidden = false;
-      playSound(b.won ? 'win' : 'sad');
     }
-    if (!b.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
+    if (!b.result || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
 
-  private draw(b: Bout, nowMs: number): void {
+  private outroMs(): number {
+    return document.documentElement.classList.contains('reduce-motion') ||
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+      ? 300
+      : OUTRO_MS;
+  }
+
+  private draw(b: BattleState, nowMs: number): void {
+    const clock = b.karate!;
     const ctx = this.ctx;
     ctx.setTransform(PX, 0, 0, PX, 0, 0);
     ctx.imageSmoothingEnabled = false;
     const W = this.viewW;
     const H = VIEW_H;
+    const me = b.sides[0][0]!;
+    const rival = b.sides[1][0]!;
     // Dojo floor and wall.
     ctx.fillStyle = color(C.sand);
     ctx.fillRect(0, 0, W, H);
@@ -265,18 +335,28 @@ export class KarateScreen {
     ctx.fillStyle = color(C.sandDeep);
     ctx.fillRect(0, 150, W, H - 150);
     const floorY = 150;
-    // Fighters.
-    const hit = b.lastHit && b.timeMs - b.lastHit.atMs < 220 ? b.lastHit : null;
-    const drawFighter = (
-      sheet: SpriteSheet | null,
-      x: number,
-      flip: boolean,
-      who: 'player' | 'rival',
-    ) => {
+    // After the bout: 0..1 through the outro.
+    const outro = b.result ? Math.min(1, (nowMs - this.endedAt) / this.outroMs()) : 0;
+    const last = clock.lastHit;
+    const hit = !b.result && last && clock.timeMs - last.atMs < 220 ? last : null;
+    const drawFighter = (sheet: SpriteSheet | null, x: number, flip: boolean, who: 0 | 1) => {
       if (!sheet) return;
+      const tuckered = (who === 0 ? me : rival).hp <= 0;
       const attacking = hit?.who === who;
       const struck = hit && hit.who !== who && !hit.dodged;
-      const clip: ClipName = attacking ? 'happy' : struck ? 'sad' : 'idle';
+      // Ours naps; the rival waves, then walks home off the right edge.
+      const walking = tuckered && who === 1 && outro > 0.3;
+      const clip: ClipName = tuckered
+        ? who === 0
+          ? 'sleep'
+          : walking
+            ? 'walk'
+            : 'happy'
+        : attacking
+          ? 'happy'
+          : struck
+            ? 'sad'
+            : 'idle';
       const f = frameAt(CLIPS[clip], nowMs);
       const rect =
         sheet.frames.get(frameKey(clip, 'side', f)) ??
@@ -285,11 +365,14 @@ export class KarateScreen {
       const image = sheet.texture.image as HTMLCanvasElement;
       const w = rect.w / PX;
       const h = rect.h / PX;
-      const lunge = attacking ? (who === 'player' ? 10 : -10) : 0;
-      const dx = Math.round(x + lunge - w / 2);
+      const lunge = attacking ? (who === 0 ? 10 : -10) : 0;
+      const home = walking ? ((outro - 0.3) / 0.7) * (W - x + w) : 0;
+      const dx = Math.round(x + lunge + home - w / 2);
       const dy = floorY - h + 2;
+      // Walking home it faces the way it goes.
+      const faceLeft = walking ? false : flip;
       ctx.save();
-      if (flip) {
+      if (faceLeft) {
         ctx.translate(dx + w, dy);
         ctx.scale(-1, 1);
         ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, 0, 0, w, h);
@@ -297,12 +380,21 @@ export class KarateScreen {
         ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, w, h);
       }
       ctx.restore();
-      if (hit && hit.who !== who && hit.dodged)
-        drawText(ctx, 'MISS', x, dy - 12, color(C.pale), 1, 'center');
+      if (tuckered && who === 0) {
+        // A leaf blanket drifts down and settles over the napper.
+        const ly = Math.round(dy - 20 + Math.min(1, outro * 1.5) * (h * 0.55 + 20));
+        ctx.fillStyle = color(C.leaf);
+        ctx.fillRect(Math.round(x - w * 0.35), ly, Math.round(w * 0.7), 4);
+        ctx.fillRect(Math.round(x - w * 0.25), ly - 2, Math.round(w * 0.5), 2);
+        drawText(ctx, BATTLE_TEXT.zzz, x + w * 0.4, dy - 10, color(C.cream), 1, 'center');
+      } else if (tuckered && who === 1 && !walking) {
+        drawText(ctx, BATTLE_TEXT.bye, dx + w / 2, dy - 12, color(C.cream), 1, 'center');
+      } else if (hit && hit.who !== who && hit.dodged)
+        drawText(ctx, BATTLE_TEXT.miss, x, dy - 12, color(C.pale), 1, 'center');
       else if (struck)
         drawText(
           ctx,
-          hit!.strong ? 'POW!' : 'hit',
+          hit!.strong ? BATTLE_TEXT.pow : BATTLE_TEXT.hitWord,
           x,
           dy - 12,
           color(hit!.strong ? C.ember : C.cream),
@@ -310,8 +402,8 @@ export class KarateScreen {
           'center',
         );
     };
-    drawFighter(this.player?.sheet ?? null, W * 0.32, false, 'player');
-    drawFighter(this.rivalSheet, W * 0.68, true, 'rival');
+    drawFighter(this.player?.sheet ?? null, W * 0.32, false, 0);
+    drawFighter(this.rivalSheet, W * 0.68, true, 1);
     // HP bars.
     const bar = (x: number, y: number, w: number, frac: number, fg: number) => {
       ctx.fillStyle = color(C.darkPlum);
@@ -319,22 +411,31 @@ export class KarateScreen {
       ctx.fillStyle = color(fg);
       ctx.fillRect(x + 1, y + 1, Math.round((w - 2) * Math.max(0, frac)), 6);
     };
-    bar(10, 10, W * 0.4 - 10, b.player.hp / b.player.maxHp, C.leaf);
-    bar(W * 0.6, 10, W * 0.4 - 10, b.rival.hp / b.rival.maxHp, C.rose);
-    drawShadowText(ctx, b.player.name, 10, 20, color(C.cream), color(C.darkPlum));
-    drawShadowText(ctx, b.rival.name, W - 10, 20, color(C.cream), color(C.darkPlum), 1, 'right');
+    bar(10, 10, W * 0.4 - 10, me.hp / me.maxHp, C.leaf);
+    bar(W * 0.6, 10, W * 0.4 - 10, rival.hp / rival.maxHp, C.rose);
+    drawShadowText(ctx, combatantName(me), 10, 20, color(C.cream), color(C.darkPlum));
+    drawShadowText(
+      ctx,
+      combatantName(rival),
+      W - 10,
+      20,
+      color(C.cream),
+      color(C.darkPlum),
+      1,
+      'right',
+    );
     // Timing bar: a sweet spot in the middle.
     const bx = W * 0.2;
     const bw = W * 0.6;
     const by = H - 30;
     ctx.fillStyle = color(C.darkPlum);
     ctx.fillRect(bx, by, bw, 10);
-    const sweet = KARATE.sweetSpot;
+    const sweet = BATTLE.karate.sweetSpot;
     ctx.fillStyle = color(C.sunYellow);
     ctx.fillRect(bx + (bw * (1 - sweet)) / 2, by + 1, bw * sweet, 8);
-    const px = bx + b.bar * bw;
-    ctx.fillStyle = color(barOffset(b) <= sweet ? C.white : C.skyLight);
+    const px = bx + barAt(clock, clock.timeMs) * bw;
+    ctx.fillStyle = color(barOffsetAt(clock, clock.timeMs) <= sweet ? C.white : C.skyLight);
     ctx.fillRect(Math.round(px) - 1, by - 3, 3, 16);
-    drawText(ctx, 'TAP IN THE MIDDLE', W / 2, by - 12, color(C.cream), 1, 'center');
+    drawText(ctx, BATTLE_TEXT.tapMiddle, W / 2, by - 12, color(C.cream), 1, 'center');
   }
 }

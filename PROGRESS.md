@@ -38,6 +38,34 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Lane C: FIGHT core (2026-10-28, branch lane/c, not pushed)
+
+Plan (recs R0213–R0221, then R0220 onward): one pure battle core in `src/sim/battle/`
+(`types`, `derive` with `combatantOf`, `damage`, `turn` for party bouts, `karate` for the timed
+bout, `ai`, `rewards` with `battleSeedFor` and `grantRewards`, `replay`, `index`). The sim owns
+`world.battle` through `battleStart`, `battleAct` and `battleForfeit`; the old result commands
+stay one release but their `shells` are ignored. Numbers in `config/tuning-battle.ts`, text and
+`formatEvent` in `config/strings-battle.ts` ("tuckered out", foes go home). The party panel picks
+targets. Deferred to lane A: R0219 (3D battle view) and anything in `render3d/actors.ts`.
+
+- **Works:** `src/sim/battle/` (`core`, `derive`, `damage`, `turn`, `karate`, `ai`, `rewards`,
+  `replay`, `index`), pure and seeded; `world.battle` and `world.battleRuns` are optional fields
+  (no save bump). The dojo and SL2's party bout both run on it: the dojo screen plays a local copy
+  for drawing and sends its taps, the sim replays them and pays from `BATTLE.prizes`. Rivals follow
+  the party's level (tier 1 at 80% of party HP, "Sprout" foes that never guard and hit at random;
+  party foes never outnumber the party). Party panel: Strike asks "Who?" and the foe rows become
+  48 px buttons. A tuckered ally naps under a leaf, a tuckered foe waves and toddles home (dojo
+  canvas outro, panel rows). `src/sim/karate.ts` and `src/sim/party-bout.ts` are gone.
+- **Stubbed:** R0219 (3D battle view, waits for lane A): the dojo still draws pixel sheets in Full
+  3D. Rival species is always `chao`. Bout lines are English only (rival names have he/ja).
+  Encounter context (for lane B) is built and tested in the core but nothing starts one yet.
+- **Known bugs / leftovers:** the old `karateResult` command still trusts `won` (its Shells are
+  recomputed from the tier); remove it next release. Old dead strings in `strings.ts`
+  (`karateLost` "knocked down", `BOUT_TEXT.down`) are left for the shared-file rule. Tapping fast
+  (weak strikes) still beats tier 2 rivals; R0280 (timing bar) is the fix.
+- **Assumptions:** party-bout foes number min(3, party size); a forfeit pays nothing and records no
+  dojo loss; a draw (round 60, or 2 minutes in the dojo) pays nothing.
+
 ## Pass 3: MOVE terraces, props, bodies, motion (2026-10-28, branch pass/3, not pushed)
 
 Plan: R0011 terraces first (sim height model, cliff gate, nav, Pixel and 3D meshes, hill-0

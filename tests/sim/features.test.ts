@@ -4,7 +4,7 @@ import { breed, canBreed, giveHeartFruit, stepBreeding } from '../../src/sim/bre
 import { allKeys, formKey, noteSeen } from '../../src/sim/collection';
 import { dayKey, isLanternNight, stepDaily } from '../../src/sim/daily';
 import { buyDecor, placeDecor, removeDecor } from '../../src/sim/decorate';
-import { createBout, stepBout, strike } from '../../src/sim/karate';
+import { battleAct, createBattle } from '../../src/sim/battle';
 import { canTakeLesson, fortune, lessonLevel, startLesson } from '../../src/sim/kindergarten';
 import { hatch } from '../../src/sim/lifecycle';
 import { Rng } from '../../src/sim/rng';
@@ -103,23 +103,25 @@ describe('kindergarten', () => {
 
 describe('karate', () => {
   it('a bout ends with a winner; strikes in the sweet spot hit harder', () => {
-    const { a } = grownWorld();
-    a.stats.power.points = 5000;
-    const bout = createBout(a, 1, 7);
-    let guard = 0;
-    while (!bout.finished && guard++ < 400) {
-      stepBout(bout, 100);
-      if (Math.abs(bout.bar - 0.5) < 0.09) strike(bout);
-    }
-    expect(bout.finished).toBe(true);
-    expect(bout.won).toBe(true);
+    const { world } = grownWorld();
+    world.nubbins[0]!.stats.power.points = 5000;
+    const bout = createBattle(
+      world,
+      { kind: 'karate', tier: 1, nubbinId: world.nubbins[0]!.id },
+      7,
+    )!;
+    // Tap each time the bar crosses the centre.
+    const every = 1000 / bout.karate!.barSpeed;
+    for (let k = 1; k < 400 && !bout.result; k++) battleAct(bout, { k: 'tap', atMs: k * every });
+    expect(bout.result?.winner).toBe(0);
   });
 
   it('the rival strikes back on a clock', () => {
-    const { a } = grownWorld();
-    const bout = createBout(a, 3, 2);
-    for (let i = 0; i < 40; i++) stepBout(bout, 100);
-    expect(bout.player.hp).toBeLessThan(bout.player.maxHp);
+    const { world, a } = grownWorld();
+    world.karate.belt = 2;
+    const bout = createBattle(world, { kind: 'karate', tier: 3, nubbinId: a.id }, 2)!;
+    battleAct(bout, { k: 'advance', toMs: 4000 });
+    expect(bout.sides[0][0]!.hp).toBeLessThan(bout.sides[0][0]!.maxHp);
   });
 });
 

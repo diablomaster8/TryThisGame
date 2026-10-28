@@ -1,3 +1,6 @@
+import { BATTLE } from '../config/tuning-battle';
+import { actBattleCmd, forfeitBattleCmd, karatePrize, partyPrize, startBattleCmd } from './battle';
+import { recordKarate } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -596,30 +599,36 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       removeDecor(world, cmd.id);
       return;
     case 'karateResult': {
-      const n = findNubbin(world, cmd.nubbinId);
-      world.inventory.shells += Math.max(0, cmd.shells);
-      if (cmd.won) {
-        world.karate.wins += 1;
-        world.karate.belt = Math.max(world.karate.belt, cmd.tier);
-        if (cmd.rival) addRecruit(world, cmd.rival.name, cmd.rival.species, events);
-      } else world.karate.losses += 1;
-      if (n) {
-        n.karate ??= { wins: 0, losses: 0, belt: 0 };
-        if (cmd.won) n.karate.wins += 1;
-        else n.karate.losses += 1;
-        n.karate.belt = Math.max(n.karate.belt, cmd.won ? cmd.tier : 0);
-        events.push({ kind: 'karate', nubbinId: n.id, won: cmd.won, belt: n.karate.belt });
-      }
+      // Lane C: kept one release for old screens and story tests. The Shells come from the
+      // tier, never the screen (recs FIGHT-02); `battleStart` also checks the belt.
+      if (!Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > BATTLE.karate.tiers) return;
+      world.battleRuns = (world.battleRuns ?? 0) + 1;
+      world.inventory.shells += karatePrize(cmd.tier, cmd.won);
+      recordKarate(world, cmd.nubbinId, cmd.won, cmd.tier, cmd.rival ?? null, events);
       return;
     }
+    // Lane C: the battle core keeps the live bout in world.battle.
+    case 'battleStart':
+      startBattleCmd(world, cmd.context, events);
+      return;
+    case 'battleAct':
+      actBattleCmd(world, cmd.action, events);
+      return;
+    case 'battleForfeit':
+      forfeitBattleCmd(world, events);
+      return;
     case 'fuse': {
       const [a, b] = world.partners;
       if (a && b) fuse(world, a, b, events);
       return;
     }
     case 'partyBoutResult': {
-      if (cmd.won) world.inventory.shells += cmd.shells;
-      events.push({ kind: 'partyBout', won: cmd.won, tier: cmd.tier, shells: cmd.shells });
+      // Lane C: the prize comes from the tier, never the screen (recs FIGHT-02).
+      if (!Number.isInteger(cmd.tier) || cmd.tier < 1 || cmd.tier > BATTLE.prizes.party.length)
+        return;
+      const shells = cmd.won ? partyPrize(cmd.tier, true) : 0;
+      world.inventory.shells += shells;
+      events.push({ kind: 'partyBout', won: cmd.won, tier: cmd.tier, shells });
       return;
     }
     case 'receiveNubbin':

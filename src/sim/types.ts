@@ -1,3 +1,4 @@
+import type { BattleAction, BattleContext, BattleState } from './battle/types';
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -692,6 +693,10 @@ export interface World {
   races: Record<string, number>;
   /** Race results recorded, so each attempt's seed is fixed until it is run (review C, 28). */
   raceRuns: number;
+  /** Lane C: the live bout (sim/battle), absent when none; old saves have neither field. */
+  battle?: BattleState;
+  /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
+  battleRuns?: number;
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -752,6 +757,10 @@ export interface World {
 // ---------- commands (input → sim) ----------
 
 export type Command =
+  // Lane C: the battle core (sim/battle/index.ts).
+  | { kind: 'battleStart'; context: BattleContext }
+  | { kind: 'battleAct'; action: BattleAction }
+  | { kind: 'battleForfeit' }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -903,6 +912,17 @@ export type Command =
 // ---------- events (sim → render/ui) ----------
 
 export type SimEvent =
+  // Lane C: the battle core (sim/battle/rewards.ts).
+  | { kind: 'battleStart'; context: BattleContext['kind'] }
+  | {
+      kind: 'battleEnd';
+      context: BattleContext['kind'];
+      source: string;
+      key: string;
+      winner: 0 | 1 | null;
+      reason: 'tuckered' | 'forfeit' | 'time';
+      shells: number;
+    }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';

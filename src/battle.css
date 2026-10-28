@@ -1,0 +1,170 @@
+/*
+ * The battle screens (lane C). Rows of combatants with HP bars, foe rows that turn into big
+ * tap targets while you pick who to strike, a tuckered ally napping under a leaf and a foe
+ * toddling home. Loaded by the battle UI modules, not by style.css.
+ */
+.battle-side {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 10px;
+}
+
+.battle-row {
+  display: grid;
+  grid-template-columns: 1.6em 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 4px 10px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: rgba(255, 241, 201, 0.06);
+  color: var(--hud-fg);
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.battle-row.active {
+  border-color: rgba(255, 241, 201, 0.55);
+}
+
+.battle-row .battle-icon {
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.battle-row .battle-name {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.battle-hp {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.battle-hp > span {
+  display: block;
+  height: 100%;
+  background: #7fcf6a;
+  transition: width 0.3s ease-out;
+}
+
+.battle-row.foe .battle-hp > span {
+  background: #e98a8a;
+}
+
+.battle-row .battle-tag {
+  font-size: 0.85em;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* Picking a target: foe rows become buttons. */
+button.battle-row {
+  cursor: pointer;
+  border-color: rgba(255, 220, 120, 0.7);
+  background: rgba(255, 220, 120, 0.14);
+  animation: battle-pick 1.2s ease-in-out infinite;
+}
+
+button.battle-row:focus-visible {
+  outline: 3px solid #ffe08a;
+  outline-offset: 2px;
+}
+
+@keyframes battle-pick {
+  50% {
+    background: rgba(255, 220, 120, 0.26);
+  }
+}
+
+/* A tuckered ally naps where it lay; a leaf blanket drifts down onto it. */
+.battle-row.tuckered {
+  opacity: 0.7;
+}
+
+.battle-row.tuckered .battle-icon {
+  animation: battle-leaf 1.4s ease-out both;
+}
+
+@keyframes battle-leaf {
+  from {
+    transform: translateY(-14px) rotate(-30deg);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* A tuckered foe yawns, waves and toddles off home. */
+.battle-row.gone {
+  opacity: 0.45;
+}
+
+.battle-row.gone .battle-icon {
+  animation: battle-home 1.6s ease-in both;
+}
+
+@keyframes battle-home {
+  0% {
+    transform: none;
+  }
+  30% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+
+.battle-prompt {
+  font-weight: bold;
+  margin: 6px 0;
+}
+
+.battle-log {
+  min-height: 3.6em;
+  margin: 6px 0;
+}
+
+.battle-log p {
+  margin: 2px 0;
+}
+
+.battle-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.battle-moves .btn {
+  flex: 1 1 30%;
+  min-height: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .battle-row .battle-icon,
+  button.battle-row,
+  .battle-hp > span {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.reduce-motion .battle-row .battle-icon,
+.reduce-motion button.battle-row,
+.reduce-motion .battle-hp > span {
+  animation: none !important;
+  transition: none !important;
+}
