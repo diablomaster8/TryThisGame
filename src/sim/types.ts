@@ -558,6 +558,8 @@ export interface DungeonRun {
   explored: string;
   /** Strays and packs leave the Keeper be until this sim time (R0142). */
   graceUntilMs?: number;
+  /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
+  story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
 }

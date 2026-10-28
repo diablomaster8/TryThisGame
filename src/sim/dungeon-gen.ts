@@ -47,7 +47,7 @@ function overlaps(a: Room, b: Room, gap: number): boolean {
   );
 }
 
-function centreOf(r: Room): Cell {
+export function centreOf(r: Room): Cell {
   return { x: Math.floor(r.x + r.w / 2), y: Math.floor(r.y + r.h / 2) };
 }
 
@@ -232,6 +232,10 @@ export interface DressInput {
   stairsDown?: Cell | null;
   /** Loot and stray counts (version 3); otherwise by depth. */
   counts?: { loot: number; strays: number };
+  /** Cells a step up (version 3 pieces' `^`). */
+  raised?: Cell[];
+  /** Where finds may lie (version 3 thins them out in the side caves); otherwise anywhere. */
+  findsAt?: (c: Cell) => boolean;
 }
 
 /**
@@ -515,6 +519,7 @@ export function dressFloor(o: DressInput): Floor {
   floor.elevation = elevate(floor, {
     basin,
     flat: [floor.stairsUp, floor.stairsDown, floor.chest, gc].filter((c): c is Cell => !!c),
+    ...(o.raised ? { raised: o.raised } : {}),
     nookRoom,
     seed,
   });
@@ -534,7 +539,8 @@ export function dressFloor(o: DressInput): Floor {
       .filter((c): c is Cell => !!c)
       .map(key),
   );
-  scatterFinds(floor, rng, depth, floors, specialCells, o.counts);
+  const findCells = o.findsAt ? floors.filter(o.findsAt) : floors;
+  scatterFinds(floor, rng, depth, findCells, specialCells, o.counts);
   return floor;
 }
 
@@ -545,7 +551,7 @@ export function dressFloor(o: DressInput): Floor {
  */
 function elevate(
   f: Floor,
-  o: { basin: Room | null; flat: Cell[]; nookRoom: Room; seed: number },
+  o: { basin: Room | null; flat: Cell[]; nookRoom: Room; seed: number; raised?: Cell[] },
 ): Float32Array {
   const E = DUNGEON.elev;
   const { cols, rows, cells } = f;
@@ -565,6 +571,8 @@ function elevate(
     ground[y * cols + x] = h;
     fixed[y * cols + x] = 1;
   };
+  // A piece's raised shelves (version 3) sit a step up; the basin and the flats win over them.
+  for (const c of o.raised ?? []) pin(c.x, c.y, E.step);
   if (o.basin) {
     const b = o.basin;
     for (let y = b.y; y < b.y + b.h; y++)

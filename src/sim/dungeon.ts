@@ -1,8 +1,9 @@
-import { DUNGEON, HOLLOW, KEEPER, SCANS } from '../config/tuning';
+import { DUNGEON, HOLLOW, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
+import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { nubbinWaypoint } from './dungeon-nav';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
@@ -139,7 +140,7 @@ export interface Floor {
   wildSpots: Array<{ cell: Cell; species: string }>;
   /** Ambient light level 0..1; floors get darker. */
   light: number;
-  /** The generator that made this floor (`DUNGEON.genVersion` for new floors). */
+  /** The generator that made this floor (`HOLLOW.genVersion` for new floors). */
   version: number;
   /** Index into `rooms` of the great chamber; -1 on version-1 floors. */
   greatRoom: number;
@@ -158,6 +159,36 @@ export interface Floor {
   crossings: Crossing[];
   nook: Nook | null;
   special: SpecialFloor;
+  /** How a version-3 floor was assembled from pieces (R0144); absent on older floors. */
+  layout?: FloorLayout;
+}
+
+/** A slot's job on a version-3 floor. */
+export type SlotRole = 'entry' | 'exit' | 'boss' | 'treasure' | 'hub' | 'corridor';
+
+export interface PlacedPiece {
+  id: string;
+  role: SlotRole;
+  /** Top-left cell and size after turning. */
+  at: Cell;
+  size: [number, number];
+  /** Quarter turns clockwise. */
+  turns: number;
+}
+
+export interface FloorLayout {
+  level: HollowLevel;
+  tileset: string;
+  /** In walk order: `pieces[0]` is the entry; `rooms[i]` is `pieces[i]`'s rectangle. */
+  pieces: PlacedPiece[];
+  /** Joined pieces, by index (the walk's tree plus its loops). */
+  links: Array<[number, number]>;
+  /** Pieces joined to three or more others. */
+  junctions: number;
+  /** The pieces' spawn spots (`S`), shrine sockets (`X`) and the boss's spot (`B`). */
+  spawns: Cell[];
+  shrines: Cell[];
+  boss: Cell | null;
 }
 
 export const WALL = 0;
@@ -526,11 +557,16 @@ const cache = new Map<string, Floor>();
  * The floor for a run's seed and depth, generated once. `version` picks the generator: a
  * saved run passes the one its floor was made with (`DungeonRun.genVersion`).
  */
-export function floorOf(seed: number, depth: number, version: number = DUNGEON.genVersion): Floor {
+export function floorOf(seed: number, depth: number, version: number = HOLLOW.genVersion): Floor {
   const key = `${seed}:${depth}:${version}`;
   let f = cache.get(key);
   if (!f) {
-    f = version <= 1 ? generateV1(seed, depth) : generateV2(seed, depth);
+    f =
+      version <= 1
+        ? generateV1(seed, depth)
+        : version === 2
+          ? generateV2(seed, depth)
+          : generateV3(seed, depth, v3OptionsFor(depth));
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -821,8 +857,10 @@ export function enterDungeon(
     fetch: {},
     haul: { shells: 0, items: 0 },
     startedMs: world.timeMs,
-    genVersion: DUNGEON.genVersion,
+    // Story floors keep the version-2 set pieces their scenes were written on.
+    genVersion: story ? 2 : HOLLOW.genVersion,
     explored: '',
+    ...(story ? { story: true as const } : {}),
   };
   const f = floorOf(seed, depth, run.genVersion);
   populate(run, f);
@@ -875,7 +913,7 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
 function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
-  run.genVersion = DUNGEON.genVersion;
+  run.genVersion = run.story ? 2 : HOLLOW.genVersion;
   const f = floorOf(run.seed, run.depth, run.genVersion);
   populate(run, f);
   run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;

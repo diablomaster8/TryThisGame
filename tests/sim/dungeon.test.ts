@@ -69,10 +69,12 @@ describe('floors', () => {
     for (const l of a.loot) expect(cellAt(a, l.cell.x, l.cell.y)).toBe(FLOOR);
   });
 
-  it('grow and darken with depth, and the bottom floor has no way down', () => {
+  it('grow and darken with depth, and the bottom version-2 floor has no way down', () => {
     expect(floorSize(3).cols).toBeGreaterThan(floorSize(1).cols);
     expect(floorOf(5, 4).light).toBeLessThan(floorOf(5, 1).light);
-    expect(floorOf(5, DUNGEON.maxDepth).stairsDown).toBeNull();
+    // Version 2 seals the bottom; the version-3 endless Hollow goes on (acts end in bosses).
+    expect(floorOf(5, DUNGEON.maxDepth, 2).stairsDown).toBeNull();
+    expect(floorOf(5, DUNGEON.maxDepth).stairsDown).not.toBeNull();
     expect(floorOf(5, 5).loot.length).toBeGreaterThan(floorOf(5, 1).loot.length);
   });
 

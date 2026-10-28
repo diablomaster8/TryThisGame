@@ -9,4 +9,47 @@ export const HOLLOW = {
    * and packs leave the Keeper be for this long (R0142).
    */
   arrivalGraceMs: 8000,
+  /**
+   * The generator new floors use (`DUNGEON.genVersion` in tuning.ts is the older setting,
+   * kept for the pixel samples). Saved runs keep the version their floor was made with.
+   */
+  genVersion: 3,
+  /**
+   * Generator version 3 (R0143, R0144): authored pieces on a grid of slots, a branching
+   * walk between them, cave rock roughened around them. The three dungeon levels set the
+   * size; acts pick a level per floor (R0145), the endless Hollow by depth (`deepLevels`).
+   */
+  v3: {
+    /** Cells per macro slot; a piece is at most `slot - 2` across, leaving a gap for tunnels. */
+    slot: 12,
+    /** Cells kept as rock around the slot grid. */
+    margin: 2,
+    /** Chance the walk branches from an earlier slot instead of carrying on from its tip. */
+    branchChance: 0.35,
+    loops: [1, 3] as const,
+    /** Chance a plain slot gets a corridor piece rather than a room. */
+    corridorChance: 0.35,
+    /** No piece more often than this on one floor. */
+    maxRepeats: 3,
+    treasureRooms: [2, 3] as const,
+    /** Where the stairs down sit, as a share of the farthest walk from the stairs up. */
+    stairsBand: [0.55, 0.75] as const,
+    /** The walk picks the exit leaf nearest this share of the slot walk (tuned to land the stairs in the band). */
+    exitAim: 1,
+    /** The cave rock around the pieces (open chance per level below): passes, smallest pocket. */
+    caPasses: 4,
+    minPocket: 6,
+    tunnelWidth: 2,
+    /** Share of side-cave cells that may hold a find (the rest lie in rooms and tunnels). */
+    caveFinds: 0.12,
+    levels: {
+      small: { cols: 64, rows: 48, rooms: [8, 10], poi: [22, 28], packs: [3, 4], caFill: 0.78 },
+      standard: { cols: 80, rows: 60, rooms: [10, 14], poi: [28, 36], packs: [4, 6], caFill: 0.6 },
+      big: { cols: 96, rows: 72, rooms: [14, 18], poi: [36, 44], packs: [6, 8], caFill: 0.58 },
+    },
+    /** The endless Hollow's level by depth: up to `small` floors, then up to `standard`. */
+    deepLevels: { small: 3, standard: 9 },
+  },
 } as const;
+
+export type HollowLevel = keyof typeof HOLLOW.v3.levels;
