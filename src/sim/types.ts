@@ -298,6 +298,8 @@ export interface Settings {
   ambience: boolean;
   /** How the Grove is drawn: the pixel-art scene or the full-3D scene. */
   graphics: GraphicsMode;
+  /** The corner minimap: off, on, or auto; an older save has none, which reads as auto. */
+  minimap?: 'off' | 'on' | 'auto';
   /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
