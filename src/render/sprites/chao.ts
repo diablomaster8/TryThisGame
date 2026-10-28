@@ -32,6 +32,8 @@ export interface ChaoColors {
   outline: number;
   /** A second evolution's tell colour (see `ChaoShape.tellType`); unset otherwise. */
   tell?: number;
+  /** The belly patch colour, set only on a look that wears one (two-tone); unset is no patch. */
+  bellyPatch?: number;
 }
 
 export const CHILD_NEUTRAL: ChaoColors = {
@@ -233,7 +235,7 @@ export function variantColors(
   }
   // A two-tone may be a plain colour or a jewel, as in 3D.
   const t = tone ? (VARIANT_COLORS[tone] ?? JEWEL_COLORS[tone]) : undefined;
-  if (t) out = { ...out, belly: t.body, tip: t.body, tipShade: t.shade };
+  if (t) out = { ...out, belly: t.body, bellyPatch: t.body, tip: t.body, tipShade: t.shade };
   if (shiny) out = { ...out, outline: C.white, glint: C.cream, wing: C.white };
   return out;
 }
@@ -995,11 +997,11 @@ function drawFace(
     default:
       return;
   }
-  // Soft cheeks.
-  if (angle === 'front') {
+  // Soft cheeks, only while loved (a Chao wears no blush at rest, LOOK-12).
+  if (pose.blush && angle === 'front') {
     pc.ellipse(L.headCx - 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
     pc.ellipse(L.headCx + 6, eyeY + 2.6, 1.2, 0.7, C.roseLight);
-  } else if (angle === 'frontQuarter') {
+  } else if (pose.blush && angle === 'frontQuarter') {
     pc.ellipse(L.headCx - 3.5, eyeY + 2.6, 1.2, 0.7, C.roseLight);
   }
   const my = eyeY + 4;
@@ -1103,10 +1105,12 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx, L.bodyRy, col.body);
     pc.ellipse(L.bodyCx + 1, L.bodyCy + 1, L.bodyRx - 1, L.bodyRy - 1, col.shade);
     pc.ellipse(L.bodyCx, L.bodyCy, L.bodyRx - 1, L.bodyRy - 1, col.body);
-    if (angle === 'front' || angle === 'frontQuarter') {
+    // A belly patch only where a look asks for one: the two-tone eggs' signature. A Chao's
+    // belly is its body colour (LOOK-12).
+    if (col.bellyPatch !== undefined && (angle === 'front' || angle === 'frontQuarter')) {
       const bx = L.bodyCx + (angle === 'frontQuarter' ? 1 : 0);
-      pc.ellipse(bx, L.bodyCy + 1, 3, 2.5, col.belly);
-      pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.belly));
+      pc.ellipse(bx, L.bodyCy + 1, 3, 2.5, col.bellyPatch);
+      pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.bellyPatch));
     }
     drawFeet(pc, angle, pose, L, col);
   } else {

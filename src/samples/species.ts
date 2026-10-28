@@ -240,6 +240,8 @@ export interface SpeciesSpec {
     tall?: number;
     /** `false` leaves the brow ridge off (the line-up's figures have none). */
     brow?: boolean;
+    /** `chao`: solid dark ovals with two white glints, no sclera and no brows (the Chao line). */
+    style?: 'anime' | 'chao';
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
   };
@@ -258,6 +260,8 @@ export interface SpeciesSpec {
     /** The toon mode's line colour for this mouth (a painted red 'o'); the outline colour by default. */
     line?: string;
   };
+  /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
+  blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
   expressions?: Partial<Record<PoseName, Partial<Expression>>>;
   /**
@@ -979,6 +983,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       e.irisScale,
       0,
       e.tall ?? 1.2,
+      e.style ?? 'anime',
+      side,
     );
     r.group.position.copy(at.pos).sub(faceOrigin);
     r.group.quaternion.setFromUnitVectors(
@@ -1004,6 +1010,29 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       .sub(faceOrigin);
     bead.castShadow = false;
     facePart.add(bead);
+  }
+  // Cheek blush that shows only while petted, scaled in over 150 ms (LOOK-12): a Chao has
+  // no blush at rest.
+  const blushes: THREE.Mesh[] = [];
+  if (spec.blush) {
+    const mat = new THREE.MeshBasicMaterial({
+      color: spec.blush,
+      transparent: true,
+      opacity: 0.8,
+      depthWrite: false,
+    });
+    for (const side of [-1, 1]) {
+      const at = onSurface(facePrims, headBlend, V(side * (e.x + 0.12), e.y - e.r * 1.1, e.z));
+      const m = new THREE.Mesh(new THREE.SphereGeometry(e.r * 0.42, 16, 10), mat);
+      m.position.copy(at.pos).addScaledVector(at.normal, -0.01).sub(faceOrigin);
+      m.quaternion.setFromUnitVectors(forward, at.normal);
+      m.userData.base = new THREE.Vector3(1, 0.55, 0.25);
+      m.scale.setScalar(0.001);
+      m.visible = false;
+      m.castShadow = false;
+      facePart.add(m);
+      blushes.push(m);
+    }
   }
   const mouthAt = onSurface(facePrims, headBlend, V(spec.mouth.x, spec.mouth.y, spec.mouth.z));
   const mouth = buildMouth(facePart, {
@@ -2011,6 +2040,16 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const r = e.brow.userData.r as number;
       e.brow.rotation.z = Math.PI / 2 + ex.brow * k * side;
       e.brow.position.y = (e.brow.userData.baseY as number) + ex.browLift * k * r;
+    }
+    if (blushes.length) {
+      const want = pose === 'pet' ? 1 : 0;
+      for (const b of blushes) {
+        const s = b.userData.s as number | undefined;
+        const now = (s ?? 0) + (want - (s ?? 0)) * Math.min(1, fdt / 0.15);
+        b.userData.s = now;
+        b.visible = now > 0.02;
+        b.scale.copy(b.userData.base as THREE.Vector3).multiplyScalar(Math.max(0.001, now));
+      }
     }
     // The irises: each eye takes the look point in its own frame, so the pair converge on
     // a near point by themselves; with nothing to look at they drift in a slow wander.

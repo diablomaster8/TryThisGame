@@ -3,7 +3,7 @@ import { stripes } from './creatures';
 import { V } from './sculpted';
 import { namedRule } from './sculpt-rules';
 import { digits, tuftRow } from './species-kit';
-import type { SpeciesSpec } from './species';
+import type { Mark, SpeciesSpec } from './species';
 
 /**
  * Two species written in the description format: the Nubbin (the Chao-faithful hero,
@@ -15,7 +15,7 @@ const nubbinTip = '#ffd94a';
 
 /**
  * One stubby leg with a knee: a thigh from the hip to a knee ball, and a shin on its own
- * bone under it ending in the yellow-tipped foot with three toes. The knee sits a touch
+ * bone under it ending in the yellow-tipped foot, a smooth nub. The knee sits a touch
  * forward of the hip so the leg bends like a standing toddler's, and the walk plants the
  * feet.
  */
@@ -39,29 +39,69 @@ function nubbinLeg(side: -1 | 1): SpeciesSpec['parts'][number] {
       prims: [
         { kind: 'sphere', a: knee, r: 0.165, color: nubbinBody, tag: 'leg' },
         { kind: 'capsule', a: knee, b: ankle, r: 0.15, color: nubbinBody, tag: 'leg' },
+        // A smooth rounded nub, no toes: Chao feet (LOOK-15).
         {
           kind: 'ellipsoid',
-          a: V(x, 0.15, 0.24),
-          radii: V(0.25, 0.15, 0.34),
+          a: V(x, 0.12, 0.26),
+          radii: V(0.2, 0.12, 0.26),
           r: 0,
           color: nubbinTip,
           tag: 'foot',
+          blend: 0.08,
         },
-        ...digits(V(x, 0.11, 0.48), {
-          count: 3,
-          spread: 0.3,
-          length: 0.16,
-          r: 0.075,
-          color: nubbinTip,
-          pad: { color: '#e8b830', r: 0.14 },
-          tag: 'foot',
-        }),
       ],
       box: [V(x - 0.45, -0.1, -0.2), V(x + 0.45, 0.5, 0.8)],
       resolution: 48,
     },
   };
 }
+
+/**
+ * The marks a Chao does not wear (LOOK-12), kept for the looks that want them: blush under
+ * each eye, a pale heart on the belly (the two-tone eggs' signature) and a star on the brow.
+ */
+export const NUBBIN_EXTRA_MARKS: Record<'blush' | 'belly' | 'star', Mark[]> = {
+  blush: [
+    {
+      kind: 'ellipsoid',
+      a: V(-0.4, 1.76, 0.56),
+      radii: V(0.13, 0.075, 0.1),
+      color: '#ffb3c6',
+      soft: 0.1,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.4, 1.76, 0.56),
+      radii: V(0.13, 0.075, 0.1),
+      color: '#ffb3c6',
+      soft: 0.1,
+    },
+  ],
+  belly: [
+    {
+      kind: 'ellipsoid',
+      a: V(-0.18, 0.95, 0.56),
+      radii: V(0.22, 0.2, 0.2),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0.18, 0.95, 0.56),
+      radii: V(0.22, 0.2, 0.2),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+    {
+      kind: 'ellipsoid',
+      a: V(0, 0.72, 0.62),
+      radii: V(0.3, 0.3, 0.18),
+      color: '#e4f3ff',
+      soft: 0.08,
+    },
+  ],
+  star: [{ kind: 'sphere', a: V(0, 2.42, 0.6), r: 0.09, color: '#fff4b0', soft: 0.03 }],
+};
 
 export const NUBBIN_SPEC: SpeciesSpec = {
   name: 'Nubbin',
@@ -107,17 +147,37 @@ export const NUBBIN_SPEC: SpeciesSpec = {
         color: nubbinBody,
         tag: 'head',
       },
+      // The point sweeps back as a Chao's does: a base cone out of the dome, then a thinner
+      // tip cone leaning further back, capped by the yellow tip (LOOK-01, LOOK-11).
       {
         kind: 'cone',
         a: V(0, 2.35, 0),
-        b: V(0, 3.05, 0),
+        b: V(0, 2.78, -0.1),
         r: 0.42,
-        r2: 0.05,
+        r2: 0.2,
         color: nubbinBody,
         tag: 'crown',
         blend: 0.14,
       },
-      { kind: 'sphere', a: V(0, 3.06, 0), r: 0.1, color: nubbinTip, tag: 'tip' },
+      {
+        kind: 'cone',
+        a: V(0, 2.78, -0.1),
+        b: V(0, 3.0, -0.3),
+        r: 0.2,
+        r2: 0.05,
+        color: nubbinBody,
+        tag: 'crown',
+        blend: 0.1,
+      },
+      {
+        kind: 'ellipsoid',
+        a: V(0, 3.02, -0.32),
+        radii: V(0.13, 0.16, 0.13),
+        r: 0,
+        color: nubbinTip,
+        tag: 'tip',
+        blend: 0.03,
+      },
     ],
     box: [V(-1.0, 1.1, -1.0), V(1.0, 3.3, 1.0)],
   },
@@ -134,17 +194,15 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           color: nubbinBody,
           tag: 'arm',
         },
-        { kind: 'sphere', a: V(-1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
-        ...digits(V(-1.03, 0.7, 0.24), {
-          count: 3,
-          spread: 0.2,
-          length: 0.2,
-          r: 0.07,
+        // One round mitt, no fingers (LOOK-15).
+        {
+          kind: 'ellipsoid',
+          a: V(-1.03, 0.73, 0.22),
+          radii: V(0.16, 0.18, 0.16),
+          r: 0,
           color: nubbinTip,
-          style: 'mitt',
-          dir: V(-0.35, -0.45, 0.8),
           tag: 'hand',
-        }),
+        },
       ],
       box: [V(-1.4, 0.4, -0.3), V(-0.2, 1.4, 0.6)],
       resolution: 56,
@@ -161,17 +219,15 @@ export const NUBBIN_SPEC: SpeciesSpec = {
           color: nubbinBody,
           tag: 'arm',
         },
-        { kind: 'sphere', a: V(1.03, 0.73, 0.22), r: 0.19, color: nubbinTip, tag: 'hand' },
-        ...digits(V(1.03, 0.7, 0.24), {
-          count: 3,
-          spread: 0.2,
-          length: 0.2,
-          r: 0.07,
+        // One round mitt, no fingers (LOOK-15).
+        {
+          kind: 'ellipsoid',
+          a: V(1.03, 0.73, 0.22),
+          radii: V(0.16, 0.18, 0.16),
+          r: 0,
           color: nubbinTip,
-          style: 'mitt',
-          dir: V(0.35, -0.45, 0.8),
           tag: 'hand',
-        }),
+        },
       ],
       box: [V(0.2, 0.4, -0.3), V(1.4, 1.4, 0.6)],
       resolution: 56,
@@ -181,58 +237,33 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   ],
   shade: { top: 1.1, bottom: 0.72, yMax: 3.1 },
   marks: [
-    // Blush under each eye, a pale heart on the belly and a star on the brow: deliberate, not noise.
+    // The crown darkens toward the point, stopping short of the yellow tip so it never
+    // paints over it (tests/render/likeness.test.ts checks).
     {
-      kind: 'ellipsoid',
-      a: V(-0.4, 1.76, 0.56),
-      radii: V(0.13, 0.075, 0.1),
-      color: '#ffb3c6',
-      soft: 0.1,
+      kind: 'capsule',
+      a: V(0, 2.5, -0.02),
+      b: V(0, 2.6, -0.04),
+      r: 0.2,
+      color: '#5f9ee8',
+      soft: 0.12,
     },
-    {
-      kind: 'ellipsoid',
-      a: V(0.4, 1.76, 0.56),
-      radii: V(0.13, 0.075, 0.1),
-      color: '#ffb3c6',
-      soft: 0.1,
-    },
-    {
-      kind: 'ellipsoid',
-      a: V(-0.18, 0.95, 0.56),
-      radii: V(0.22, 0.2, 0.2),
-      color: '#e4f3ff',
-      soft: 0.08,
-    },
-    {
-      kind: 'ellipsoid',
-      a: V(0.18, 0.95, 0.56),
-      radii: V(0.22, 0.2, 0.2),
-      color: '#e4f3ff',
-      soft: 0.08,
-    },
-    {
-      kind: 'ellipsoid',
-      a: V(0, 0.72, 0.62),
-      radii: V(0.3, 0.3, 0.18),
-      color: '#e4f3ff',
-      soft: 0.08,
-    },
-    { kind: 'sphere', a: V(0, 2.42, 0.6), r: 0.09, color: '#fff4b0', soft: 0.03 },
-    // The crown darkens toward the point.
-    { kind: 'capsule', a: V(0, 2.75, 0), b: V(0, 3.1, 0), r: 0.22, color: '#5f9ee8', soft: 0.35 },
   ],
+  // Chao eyes (LOOK-02): tall solid dark ovals with two glints, no sclera, no brows; the
+  // moods are carried by the lids alone.
   eyes: {
-    x: 0.29,
+    x: 0.31,
     y: 2.02,
     z: 0.62,
-    r: 0.25,
-    iris: '#2a4fd0',
+    r: 0.28,
+    iris: '#141a3a',
     lidColor: nubbinBody,
     yaw: 0,
     lid: 0.12,
-    irisScale: 0.8,
+    irisScale: 1.0,
     pitch: 0,
-    tall: 1.12,
+    tall: 1.3,
+    brow: false,
+    style: 'chao',
   },
   mouth: {
     x: 0,
@@ -244,6 +275,7 @@ export const NUBBIN_SPEC: SpeciesSpec = {
     tongue: '#ff8aa0',
     pitch: 0,
   },
+  blush: '#ffb3c6',
   wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' },
   ball: { y: 3.5, color: nubbinTip },
   notes:

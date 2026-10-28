@@ -619,6 +619,42 @@ function irisTexture(color: string): THREE.CanvasTexture {
   return t;
 }
 
+/**
+ * A Chao eye's iris: one flat colour that fills the eye, no rings and no painted glints
+ * (the glints are their own discs). A light iris (the Moon forms' red-orange) keeps a dark
+ * pupil so it still reads as an eye.
+ */
+function chaoIrisTexture(color: string): THREE.CanvasTexture {
+  const key = `chao:${color}`;
+  const cached = irisCache.get(key);
+  if (cached) return cached;
+  const s = 64;
+  const r = new Raster(s, s, null);
+  r.tracking = true;
+  const base = hex(color);
+  const light = base[0] * 0.3 + base[1] * 0.59 + base[2] * 0.11 > 0.25;
+  const c = s / 2;
+  for (let y = 0; y < s; y++)
+    for (let x = 0; x < s; x++) {
+      const d = Math.hypot(x - c, y - c) / c;
+      if (d > 1) continue;
+      // A faint lift toward the bottom, as the line-up's eyes have.
+      const k = 0.85 + THREE.MathUtils.clamp((y - c) / c, 0, 1) * 0.3;
+      let col: RGB = [Math.min(1, base[0] * k), Math.min(1, base[1] * k), Math.min(1, base[2] * k)];
+      if (light) {
+        const pupil = THREE.MathUtils.clamp((0.42 - d) / 0.05, 0, 1);
+        col = [col[0] * (1 - pupil * 0.9), col[1] * (1 - pupil * 0.9), col[2] * (1 - pupil * 0.85)];
+      }
+      r.set(x, y, col);
+    }
+  r.tracking = false;
+  const t = r.toTexture(false);
+  t.magFilter = THREE.LinearFilter;
+  t.minFilter = THREE.LinearFilter;
+  irisCache.set(key, t);
+  return t;
+}
+
 /** The movable pieces of one eye, for blinks and expressions. */
 export interface EyeRig {
   group: THREE.Group;
@@ -656,7 +692,11 @@ export function eye(
   irisScale = 0.8,
   pitch = 0,
   tall = 1.2,
+  /** `chao`: a solid dark oval with two white glints and no sclera (LOOK-02); `side` puts the big glint outward. */
+  style: 'anime' | 'chao' = 'anime',
+  side = 1,
 ): EyeRig {
+  const chao = style === 'chao';
   const g = new THREE.Group();
   g.position.set(x, y, z);
   g.rotation.set(pitch, yaw, 0);
@@ -668,7 +708,12 @@ export function eye(
     g,
     new THREE.Mesh(
       new THREE.SphereGeometry(r, 36, 28),
-      flat(glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 })),
+      // A Chao eye has no white: the dome takes the iris colour so no rim of sclera shows.
+      flat(
+        chao
+          ? glossy(iris, { roughness: 0.08 })
+          : glossy('#fbfbff', { roughness: 0.06, emissive: '#ffffff', emissiveIntensity: 0.1 }),
+      ),
     ),
     0,
     0,
@@ -723,9 +768,9 @@ export function eye(
   const disc = new THREE.Mesh(
     domeDisc(r * irisScale, tall * 0.96, 0, -r * 0.02, r * 0.012),
     new THREE.MeshPhysicalMaterial({
-      map: irisTexture(iris),
+      map: chao ? chaoIrisTexture(iris) : irisTexture(iris),
       emissive: '#ffffff',
-      emissiveMap: irisTexture(iris),
+      emissiveMap: chao ? chaoIrisTexture(iris) : irisTexture(iris),
       emissiveIntensity: 0.3,
       transparent: true,
       roughness: 0.05,
@@ -741,12 +786,30 @@ export function eye(
   irisGroup.add(disc);
   g.add(irisGroup);
   // The catchlight: a bold white spot high on the eye, slightly over the iris edge.
+  // A Chao eye has two: a big one upper-outer and a small one lower-inner.
+  const glossMat = new THREE.MeshBasicMaterial({
+    color: '#ffffff',
+    transparent: true,
+    opacity: 0.92,
+  });
   const gloss = new THREE.Mesh(
-    domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
-    new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.92 }),
+    chao
+      ? domeDisc(r * 0.32, 1, side * r * 0.35, r * 0.38 * tall, r * 0.02)
+      : domeDisc(r * 0.17, 0.8, -r * 0.34, r * 0.4, r * 0.02),
+    glossMat,
   );
   gloss.castShadow = false;
   g.add(gloss);
+  const glints: THREE.Mesh[] = [];
+  if (chao) {
+    const small = new THREE.Mesh(
+      domeDisc(r * 0.12, 1, -side * r * 0.3, -r * 0.34 * tall, r * 0.02),
+      glossMat,
+    );
+    small.castShadow = false;
+    g.add(small);
+    glints.push(small);
+  }
   // The liner: a thin dark line where the top lid meets the eye.
   const liner = add(
     g,
@@ -815,6 +878,7 @@ export function eye(
   brow.userData.baseY = r * tall * 1.1;
   brow.userData.r = r;
   brow.castShadow = false;
+  if (chao) brow.visible = false;
   parent.add(g);
   return {
     group: g,
@@ -823,7 +887,7 @@ export function eye(
     arc,
     brow,
     iris: irisGroup,
-    ball: [white, disc, gloss, liner, lidMesh, lowerWrap],
+    ball: [white, disc, gloss, ...glints, liner, lidMesh, lowerWrap],
   };
 }
 
