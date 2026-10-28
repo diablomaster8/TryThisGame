@@ -38,6 +38,8 @@ import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/t
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
 import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
+import { PERCH } from './config/tuning-move';
+import { standTopAt } from './sim/obstacles';
 import { deckY, groveHeight, hillHeight } from './sim/terrain';
 import { runFloor } from './sim/dungeon';
 import { terraceY } from './render/scene-stage';
@@ -382,6 +384,8 @@ export class Game {
   cameraLift = 0;
   /** The ground the cameras follow under the Keeper, and the look-ahead (MOVE-23). */
   private groundY = 0;
+  /** MOVE-26: the extra look height while the Keeper stands on a rock, eased. */
+  private perchLift = 0;
   private readonly ahead = { x: 0, z: 0 };
   private lastKp: { x: number; z: number } | null = null;
 
@@ -405,6 +409,16 @@ export class Game {
       else if (feet > this.groundY + F.airSlack) this.groundY = feet - F.airSlack;
       else if (feet < this.groundY - F.airSlack) this.groundY = feet;
     }
+    // MOVE-26: up on a rock (a standable top half a unit or more up), the look rises to open
+    // the view; it settles back once the Keeper steps down.
+    const top = w.location === 'grove' ? standTopAt(w, kp.x, kp.z) : -Infinity;
+    const perched =
+      k.grounded &&
+      Math.abs(k.y - top) < 0.05 &&
+      top - groveHeight(kp.x, kp.z) >= PERCH.minTop - 0.02;
+    const pr = reduce0(this.reduceMotion, dt, PERCH.rate);
+    this.perchLift += ((perched ? PERCH.lift : 0) - this.perchLift) * pr;
+    if (this.scene3d) this.scene3d.perchLift = this.perchLift;
     const s = dt / 1000;
     let vx = 0;
     let vz = 0;
@@ -835,7 +849,7 @@ export class Game {
         ? this.world.location === 'grove'
           ? terraceY(subject.x, subject.z)
           : 0
-        : this.groundY;
+        : this.groundY + this.perchLift;
     const ty = reduce0(this.reduceMotion, dt, CAMERA_FOLLOW.groundRate);
     this.camera.target.y += (aimY - this.camera.target.y) * ty;
     // The Settings choice reaches both cameras and the Grove's idle motion at once.

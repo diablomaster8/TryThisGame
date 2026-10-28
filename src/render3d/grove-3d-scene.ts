@@ -288,6 +288,8 @@ export class Grove3dScene {
   /** When the Keeper last landed, and the nod the camera target carries now (MOVE-23). */
   private landDipAt = -Infinity;
   private lastDip = 0;
+  /** MOVE-26: extra look height while the Keeper stands on a rock (set by the game). */
+  perchLift = 0;
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
@@ -1349,7 +1351,7 @@ export class Grove3dScene {
     this.yawOffset += (dyaw * b - this.yawOffset) * (cut ? 1 : ease(4));
     const tx = THREE.MathUtils.lerp(orbit.target.x, s.x, b);
     const tz = THREE.MathUtils.lerp(orbit.target.z, s.z, b);
-    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b;
+    const ty = ground(tx, tz) + GROVE3D.lookHeight + s.lookUp * b + this.perchLift * (1 - b);
     this.camTarget.x = tx;
     this.camTarget.z = tz;
     this.camTarget.y += (ty - this.camTarget.y) * (snap || cut ? 1 : 1 - Math.exp(-6 * dt));
