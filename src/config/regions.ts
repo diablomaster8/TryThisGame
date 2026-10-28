@@ -38,12 +38,16 @@ export interface RegionExit {
   unlock?: string;
 }
 
+export type PoiTier = 'micro' | 'minor' | 'major';
+
 export interface PoiDef {
   id: string;
   x: number;
   z: number;
   /** A landmark id in `LANDMARKS` when the POI is one (found by walking up to it). */
   landmark?: string;
+  /** WORLD-11: how big a draw it is; spacing is tested per tier (`tests/tools/poi-spacing.ts`). */
+  tier?: PoiTier;
 }
 
 export interface RegionDef {
@@ -140,26 +144,26 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       way('grove-moon', 'moonlands', [-46, 6], [0, 36], 'gate', N),
     ],
     pois: [
-      { id: 'bridge', x: 9.6, z: -4.2, landmark: 'bridge' },
-      { id: 'well', x: 3, z: 10, landmark: 'well' },
-      { id: 'falls', x: 12.4, z: -10.4, landmark: 'falls' },
-      { id: 'cottage', x: -7, z: 12, landmark: 'cottage' },
-      { id: 'dojo', x: 18, z: -2, landmark: 'dojo' },
-      { id: 'school', x: -3, z: -16, landmark: 'school' },
-      { id: 'old-tree', x: -8, z: -3, landmark: 'oldTree' },
-      { id: 'south-bend', x: 11, z: 20, landmark: 'southBend' },
-      { id: 'west-hill', x: -12, z: 13, landmark: 'westHill' },
-      { id: 'north-wood', x: -28, z: -30, landmark: 'northWood' },
-      { id: 'east-ridge', x: 30, z: -24, landmark: 'eastRidge' },
-      { id: 'south-marsh', x: 6, z: 38, landmark: 'southMarsh' },
-      { id: 'west-meadow', x: -32, z: 16, landmark: 'westMeadow' },
-      { id: 'far-orchard', x: 26, z: 34, landmark: 'farOrchard' },
-      { id: 'pond', x: 7, z: 6 },
-      { id: 'windmill', x: -16, z: -5 },
-      { id: 'gate', x: 0, z: 23 },
-      { id: 'cave-mouth', x: -12.4, z: -13.6 },
-      { id: 'kitchen-garden', x: -4, z: 18 },
-      { id: 'stalls', x: 6, z: 18 },
+      { id: 'bridge', x: 9.6, z: -4.2, landmark: 'bridge', tier: 'major' },
+      { id: 'well', x: 3, z: 10, landmark: 'well', tier: 'major' },
+      { id: 'falls', x: 12.4, z: -10.4, landmark: 'falls', tier: 'major' },
+      { id: 'cottage', x: -7, z: 12, landmark: 'cottage', tier: 'major' },
+      { id: 'dojo', x: 18, z: -2, landmark: 'dojo', tier: 'major' },
+      { id: 'school', x: -3, z: -16, landmark: 'school', tier: 'major' },
+      { id: 'old-tree', x: -8, z: -3, landmark: 'oldTree', tier: 'major' },
+      { id: 'south-bend', x: 11, z: 20, landmark: 'southBend', tier: 'major' },
+      { id: 'west-hill', x: -12, z: 13, landmark: 'westHill', tier: 'major' },
+      { id: 'north-wood', x: -28, z: -30, landmark: 'northWood', tier: 'major' },
+      { id: 'east-ridge', x: 30, z: -24, landmark: 'eastRidge', tier: 'major' },
+      { id: 'south-marsh', x: 6, z: 38, landmark: 'southMarsh', tier: 'major' },
+      { id: 'west-meadow', x: -32, z: 16, landmark: 'westMeadow', tier: 'major' },
+      { id: 'far-orchard', x: 26, z: 34, landmark: 'farOrchard', tier: 'major' },
+      { id: 'pond', x: 7, z: 6, tier: 'minor' },
+      { id: 'windmill', x: -16, z: -5, tier: 'minor' },
+      { id: 'gate', x: 0, z: 23, tier: 'minor' },
+      { id: 'cave-mouth', x: -12.4, z: -13.6, tier: 'minor' },
+      { id: 'kitchen-garden', x: -4, z: 18, tier: 'minor' },
+      { id: 'stalls', x: 6, z: 18, tier: 'minor' },
     ],
     kidsSafe: true,
     audience: 'all',
