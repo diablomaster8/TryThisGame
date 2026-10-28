@@ -72,3 +72,16 @@ export function storyPropMeets(id: string, checkTokens: string[]): boolean {
   const def = STORY_PROPS.find((p) => p.id === id);
   return def !== undefined && def.meets.some((m) => checkTokens.includes(m));
 }
+
+/**
+ * The props standing now as bits in `STORY_PROPS` order, for the collider table's cache key
+ * (MOVE-16): it is asked for every walker on every step, so it must not allocate.
+ */
+export function storyPropMask(world: World): number {
+  const c = world.campaign;
+  if (!c || c.chapter === 0 || world.location !== 'grove') return 0;
+  let mask = 0;
+  for (let i = 0; i < STORY_PROPS.length; i++)
+    if (standing(world, c, STORY_PROPS[i]!.id)) mask |= 1 << i;
+  return mask;
+}

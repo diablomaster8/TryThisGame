@@ -1,7 +1,13 @@
-import { decorCollider, GROVE_COLLIDERS, NUBBIN_HOP } from '../config/grove-layout';
+import {
+  decorCollider,
+  GROVE_COLLIDERS,
+  NUBBIN_HOP,
+  STORY_PROP_COLLIDERS,
+} from '../config/grove-layout';
 import type { Collider } from '../config/grove-layout';
 import { JUMP } from '../config/tuning-sim';
 import { levelOf } from './stats';
+import { storyPropMask } from './story-props';
 import { groveHeight } from './terrain';
 import { townUnlocks } from './town';
 import type { Nubbin, Vec2, World } from './types';
@@ -100,8 +106,9 @@ function cellOf(v: number): number {
   return Math.max(0, Math.min(SIDE - 1, Math.floor((v + HALF) / CELL)));
 }
 
-// The fixed table never changes; stalls and placed decor are added per world and cached
-// until something is placed or the village grows. This runs for every walker on every sim
+// The fixed table never changes; stalls, placed decor and the story props standing now are
+// added per world and cached until something is placed, the village grows or a prop comes
+// or goes (MOVE-16). This runs for every walker on every sim
 // step, so the cached path must not allocate.
 const FIXED = buildTable(GROVE_COLLIDERS.filter((c) => !c.when));
 let cachedPlaced: World['placed'] | null = null;
@@ -111,13 +118,17 @@ let cached: Table = FIXED;
 function table(world: World | null): Table {
   if (!world) return FIXED;
   const u = townUnlocks(world);
-  const key = `${world.placed.length}|${+u.stall}${+u.attendant}${+u.festival}`;
+  const props = storyPropMask(world);
+  const key = `${world.placed.length}|${+u.stall}${+u.attendant}${+u.festival}|${props}`;
   if (world.placed === cachedPlaced && key === cachedKey) return cached;
   const list: Collider[] = GROVE_COLLIDERS.filter((c) => !c.when || u[c.when]);
   for (const d of world.placed) {
     const c = decorCollider(d.id, d.kind, d.pos.x, d.pos.z, d.yaw ?? 0);
     if (c) list.push(c);
   }
+  STORY_PROP_COLLIDERS.forEach((c, i) => {
+    if (c && props & (1 << i)) list.push(c);
+  });
   cachedPlaced = world.placed;
   cachedKey = key;
   cached = list.length === FIXED.list.length ? FIXED : buildTable(list);

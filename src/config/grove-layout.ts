@@ -1,4 +1,5 @@
-import { DECOR, GROVE, LANTERN_POSTS } from './tuning';
+import { DECOR, GROVE, LANTERN_POSTS, STORY_PROPS } from './tuning';
+import type { StoryPropKind } from '../sim/story-props';
 import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
 
 /**
@@ -384,3 +385,26 @@ export function decorCollider(
   if (!spec) return null;
   return { id, x, z, yaw, shape: spec.shape, top: spec.top, flags: spec.flags };
 }
+
+/**
+ * The story props' colliders (MOVE-16), by kind, the size of what both renderers draw:
+ * the shed and the barn are walls, the benches, Corvin's chair and the flat stone can be
+ * stood on, the sunrise shelf is a solid little stand. The trowel, the register, the hand
+ * lantern and the garden door have none. Only a prop standing now collides
+ * (`storyPropStands`, sim/story-props.ts).
+ */
+const STORY_PROP_SHAPES: Partial<Record<StoryPropKind, Pick<Collider, 'shape' | 'top' | 'flags'>>> =
+  {
+    shed: { shape: { type: 'box', hw: 1.2, hd: 1.0 }, top: 1.6, flags: ['solid'] },
+    barn: { shape: { type: 'box', hw: 1.9, hd: 1.4 }, top: 3.4, flags: ['solid'] },
+    oldBench: { shape: { type: 'box', hw: 0.6, hd: 0.2 }, top: 0.45, flags: ['hop', 'standable'] },
+    chair: { shape: circle(0.3), top: 0.45, flags: ['hop', 'standable'] },
+    shelf: { shape: { type: 'box', hw: 0.5, hd: 0.15 }, top: 1.0, flags: ['solid'] },
+    flatStone: { shape: circle(0.5), top: 0.15, flags: ['standable'] },
+  };
+
+/** Each story prop's collider, in `STORY_PROPS` order (null for one that has none). */
+export const STORY_PROP_COLLIDERS: ReadonlyArray<Collider | null> = STORY_PROPS.map((p) => {
+  const s = STORY_PROP_SHAPES[p.kind];
+  return s ? { id: `story-${p.id}`, x: p.x, z: p.z, yaw: 0, ...s } : null;
+});

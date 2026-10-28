@@ -3,6 +3,7 @@ import { GROVE_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
 import { blocked, softAt } from './obstacles';
 import { keeperPerks } from './perks';
+import { storyPropMask } from './story-props';
 import { hillHeight } from './terrain';
 import { townUnlocks } from './town';
 import type { Vec2, World } from './types';
@@ -33,7 +34,7 @@ const grids = new WeakMap<World, Grid>();
 function gridKey(world: World, wade: boolean): string {
   const u = townUnlocks(world);
   const placed = world.placed.map((d) => `${d.id}${d.yaw ?? 0}`).join(',');
-  return `${+wade}${+u.stall}${+u.attendant}${+u.festival}|${placed}`;
+  return `${+wade}${+u.stall}${+u.attendant}${+u.festival}|${storyPropMask(world)}|${placed}`;
 }
 
 const cellCentre = (i: number): number => -HALF + (i + 0.5) * CELL;
