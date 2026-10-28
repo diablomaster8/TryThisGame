@@ -157,7 +157,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     ...ORB,
     size: 0.8,
     eyes: 'angry',
-    gen1b: ['aura', 'grin'],
+    gen1b: ['gas', 'grin', 'float'],
   }),
   spookhand: spec(pal(C.violet, C.moonPurple, C.lavender, C.violet, C.ink), {
     ...ORB,
@@ -165,7 +165,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     crest: 'spikesTop',
     tail: 'stub',
     eyes: 'angry',
-    gen1b: ['floatHands', 'grin'],
+    gen1b: ['ghostHands', 'grin', 'float'],
   }),
   spookgrin: spec(pal(C.violet, C.moonPurple, C.lavender, C.violet, C.ember), {
     size: 1.1,

@@ -42,6 +42,9 @@ export type Gen1bPart =
   | 'barbels'
   | 'boulders'
   | 'floatHands'
+  | 'ghostHands'
+  | 'gas'
+  | 'float'
   | 'grin'
   | 'pincerHead';
 
@@ -401,6 +404,21 @@ export function drawGen1b(
           pc.px(x + d * 4, y + 1, col.body);
         }
         break;
+      case 'ghostHands':
+        // Big detached hands, held off the body: a palm, three fingers and a thumb.
+        if (layer !== 'front') break;
+        for (const [hx, y, d] of handsAt(a)) {
+          // Held low and out, clear of the round head, as if they were never attached.
+          const free = a.bodyRx === 0;
+          const out = a.face >= 1 ? a.headRx * 0.7 + 2.5 : a.headRx * 0.8 + 3.8;
+          const x = free ? a.headCx + d * out : hx;
+          const hy = free ? a.headCy + a.headRy * 0.6 : y - 1;
+          pc.disc(x, hy, 3.2, col.shade);
+          pc.disc(x - d * 0.5, hy - 0.5, 2.7, col.body);
+          for (const fy of [-1.7, 0.2, 2]) pc.disc(x + d * 2.5, hy + fy, 1.05, col.body);
+          pc.disc(x - d * 0.6, hy - 3, 1, col.body);
+        }
+        break;
       case 'palm':
         if (layer !== 'front') break;
         for (const [dx, h] of [
@@ -724,4 +742,38 @@ export function drawHeads(
     ] as const)
       pc.px(a.bodyCx + dx, y + dy * 0.6, C.sandDeep);
   }
+}
+
+// ---------------------------------------------------------------- ghosts
+
+/** How far a floating ghost's frame rides above the ground row, in design pixels. */
+export const GHOST_LIFT = 3;
+
+/**
+ * The gas round a ghost's head (R0416): a dithered ring out to 1.5 times the head's
+ * radius, dense next to the head and thinning outward. It is drawn after the outline
+ * pass and only into empty pixels, so it sits behind the figure and gets no outline of
+ * its own (an outlined dither would read as noise).
+ */
+export function drawGas(pc: PixelCanvas, a: Anchors, spec: CreatureSpec): void {
+  if (!spec.gen1b?.includes('gas')) return;
+  const col = spec.colors;
+  const cx = a.headCx;
+  const cy = a.headCy;
+  for (let y = cy - a.headRy * 1.5; y <= cy + a.headRy * 1.5; y += 0.5)
+    for (let x = cx - a.headRx * 1.5; x <= cx + a.headRx * 1.5; x += 0.5) {
+      const k = Math.hypot((x - cx) / a.headRx, (y - cy) / a.headRy);
+      if (k < 0.9 || k > 1.5) continue;
+      const i = Math.floor(x * 2);
+      const j = Math.floor(y * 2);
+      if (pc.getFine(i, j) !== -1) continue;
+      const t = (k - 0.9) / 0.6;
+      const on =
+        t < 0.35
+          ? (i + j) % 2 === 0
+          : t < 0.7
+            ? i % 2 === 0 && j % 2 === 0
+            : i % 4 === 0 && j % 4 === (i % 8 === 0 ? 0 : 2);
+      if (on) pc.dot(x, y, t < 0.35 ? col.accent : col.accent2);
+    }
 }

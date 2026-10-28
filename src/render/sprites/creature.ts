@@ -10,11 +10,13 @@ import {
   type KitPlan,
 } from './creature-kit-digi';
 import {
+  drawGas,
   drawGen1b,
   drawHeads,
   headScale,
   headSlots,
   headTall,
+  GHOST_LIFT,
   type Gen1bPart,
   type HeadSlot,
   type HeadsSpec,
@@ -123,7 +125,8 @@ export interface Anchors {
 
 function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors {
   const s = spec.size;
-  const feetY = 30 + pose.lift;
+  // Ghosts ride above the ground row; the world's shadow stays on the ground under them.
+  const feetY = 30 + pose.lift - (spec.gen1b?.includes('float') ? GHOST_LIFT : 0);
   const face = angle === 'front' ? 0 : angle === 'frontQuarter' ? 0.5 : angle === 'side' ? 1 : 0;
   const back = angle === 'back' || angle === 'backQuarter';
   const dir: 1 | -1 = -1;
@@ -758,6 +761,7 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
     pc.px(a.headCx + a.headRx - 2, cy, C.rose);
   }
   pc.finish(spec.colors.outline, [spec.colors.eye, C.white]);
+  drawGas(pc, a, spec);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 

@@ -562,6 +562,10 @@ export function applyGen1b3d(
       case 'scythes':
       case 'fishTail':
         break; // handled below, on the arm and tail parts
+      case 'gas':
+      case 'float':
+      case 'ghostHands':
+        break; // handled below, as parts and extras hooks
       default:
         break;
     }
@@ -708,11 +712,29 @@ export function applyGen1b3d(
     });
     if (H.cluster) allMarks.push(...eggCracks3d(mainAt, R0, c));
   } else headPrims = [...headPrims, ...halo];
+  // A ghost's hands (R0416): big, apart from the body, each its own part so it can drift.
+  const handNames: string[] = [];
+  if (parts.includes('ghostHands'))
+    for (const s of [-1, 1]) {
+      const at = V(s * (Math.max(b.r.x, h.r.x * 0.8) + 0.95), b.y + 0.45, 0.3);
+      const prims: Prim[] = [
+        sphere(at, 0.35, c.body!, 0.03),
+        sphere(at.clone().add(V(s * 0.05, 0.32, 0.06)), 0.12, c.body!, 0.03),
+        ...[-0.17, 0, 0.17].map((y) =>
+          sphere(at.clone().add(V(s * 0.33, y, 0.04)), 0.13, c.body!, 0.03),
+        ),
+      ];
+      const name = s < 0 ? 'ghostL' : 'ghostR';
+      handNames.push(name);
+      newParts.push({ name, pivot: at.clone(), prims, box: boxOf(prims), resolution: 48 });
+    }
+  let dropY = 0;
   // A ball with no arms or legs is all head, as in the pixel view: the round plan's little
   // body tucks inside it and the whole figure drops until the ball (or the lowest of its
   // heads) rests on the ground.
   if (orb) {
     const dy = 0.02 - low;
+    dropY = dy;
     const down = (v: THREE.Vector3) => V(v.x, v.y + dy, v.z);
     const move = (p: Prim): Prim => ({ ...p, a: down(p.a), ...(p.b ? { b: down(p.b) } : {}) });
     const body = spec.torso.prims[0]!;
@@ -747,7 +769,8 @@ export function applyGen1b3d(
       ),
     );
   }
-  const extra = bobbers.length
+  const hooks: ExtrasHook[] = [];
+  const bob = bobbers.length
     ? (rig: RigContext) => {
         // Each head bobs on its own neck, out of step with the others.
         const heads = bobbers.map((b) => ({
@@ -769,6 +792,13 @@ export function applyGen1b3d(
         };
       }
     : null;
+  if (bob) hooks.push(bob);
+  if (parts.includes('gas'))
+    hooks.push(
+      gasShell(V(mainAt.x, mainAt.y + dropY, mainAt.z).sub(headPivot), mainR.x * 1.5, c.accent!),
+    );
+  if (handNames.length) hooks.push(orbitHands(handNames));
+  const float = parts.includes('float');
   const yMax = Math.max(
     spec.shade.yMax,
     ...headPrims.map((p) => (p.b ?? p.a).y + 0.3),
@@ -785,7 +815,15 @@ export function applyGen1b3d(
     eyes,
     mouth,
     shade: { ...spec.shade, yMax },
-    ...(extra ? { extras: chainExtras(spec.extras, extra) } : {}),
+    ...(hooks.length
+      ? {
+          extras: hooks
+            .slice(1)
+            .reduce((all, hk) => chainExtras(all, hk), chainExtras(spec.extras, hooks[0]!)),
+        }
+      : {}),
+    // A ghost rides above the ground; the contact shadow fades with the height.
+    ...(float ? { gait: 'hover' as const, hover: GHOST_HOVER } : {}),
     // Necks widen the torso's box; keep the contact shadow the body's own size.
     ...(H ? { footprint: spec.footprint ?? spec.torso.box[1].x * 0.85 } : {}),
   };
@@ -828,4 +866,126 @@ function eggCracks3d(at: THREE.Vector3, R: THREE.Vector3, c: Colors): Mark[] {
     color: c.outline!,
     soft: 0,
   }));
+}
+
+/** How high a floating ghost rides, in body units (a Nubbin stands about 3.1). */
+const GHOST_HOVER = 0.75;
+/** How far a ghost's detached hands drift round their rest point, in body units. */
+const HAND_ORBIT = 0.1;
+
+/** A soft white puff for the gas ring: alpha only, tinted by the material. */
+function gasTexture(): THREE.DataTexture {
+  const n = 32;
+  const data = new Uint8Array(n * n * 4);
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) {
+      const r = Math.hypot(x + 0.5 - n / 2, y + 0.5 - n / 2) / (n / 2);
+      // A soft round puff, gone at the rim.
+      const a = r >= 1 ? 0 : (1 - r * r) ** 2;
+      const i = (y * n + x) * 4;
+      data[i] = data[i + 1] = data[i + 2] = 255;
+      data[i + 3] = Math.round(Math.min(1, a) * 255);
+    }
+  const tex = new THREE.DataTexture(data, n, n);
+  tex.magFilter = THREE.LinearFilter;
+  tex.minFilter = THREE.LinearFilter;
+  tex.needsUpdate = true;
+  return tex;
+}
+
+/**
+ * The gas round a ghost's head (R0416): a ring of eight soft puffs, merged into one mesh
+ * (one draw call), alpha-blended with no depth write (additive washed out to white over
+ * the bright grass). The ring always
+ * faces the camera and sits a little behind the head's centre, so it haloes the
+ * silhouette from any side without crossing the face; it turns and breathes slowly.
+ */
+function gasShell(at: THREE.Vector3, radius: number, tint: string): ExtrasHook {
+  return (rig) => {
+    const head = rig.bones.head;
+    if (!head) return;
+    const pos: number[] = [];
+    const uvs: number[] = [];
+    const index: number[] = [];
+    const puff = radius * 0.42;
+    const ring = radius - puff * 0.75;
+    for (let i = 0; i < 8; i++) {
+      const t = (i / 8) * Math.PI * 2;
+      const cx = Math.cos(t) * ring;
+      const cy = Math.sin(t) * ring;
+      const base = pos.length / 3;
+      for (const [x, y] of [
+        [-1, -1],
+        [1, -1],
+        [1, 1],
+        [-1, 1],
+      ] as const) {
+        pos.push(cx + x * puff, cy + y * puff, 0);
+        uvs.push((x + 1) / 2, (y + 1) / 2);
+      }
+      index.push(base, base + 1, base + 2, base, base + 2, base + 3);
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    geo.setIndex(index);
+    const mat = new THREE.MeshBasicMaterial({
+      map: gasTexture(),
+      color: new THREE.Color(tint),
+      transparent: true,
+      opacity: 0.8,
+      depthWrite: false,
+      fog: false,
+    });
+    const gas = new THREE.Mesh(geo, mat);
+    gas.renderOrder = 2;
+    gas.frustumCulled = false;
+    head.add(gas);
+    const centre = new THREE.Vector3();
+    const scale = new THREE.Vector3();
+    const toCam = new THREE.Vector3();
+    const q = new THREE.Quaternion();
+    const spinQ = new THREE.Quaternion();
+    const zAxis = new THREE.Vector3(0, 0, 1);
+    let spin = 0;
+    let breath = 1;
+    // Billboard at draw time: the renderer builds the model-view matrix right after this.
+    gas.onBeforeRender = (_r, _s, camera) => {
+      head.getWorldScale(scale);
+      centre.copy(at);
+      head.localToWorld(centre);
+      toCam.setFromMatrixPosition(camera.matrixWorld).sub(centre).normalize();
+      centre.addScaledVector(toCam, -radius * 0.35 * scale.x);
+      q.copy(camera.quaternion).multiply(spinQ.setFromAxisAngle(zAxis, spin));
+      gas.matrixWorld.compose(centre, q, scale.multiplyScalar(breath));
+    };
+    return (t) => {
+      spin = t * 0.35;
+      breath = 1 + Math.sin(t * 1.7) * 0.05;
+      mat.opacity = 0.75 + Math.sin(t * 2.3) * 0.12;
+    };
+  };
+}
+
+/** A ghost's detached hands drift in small circles, each out of step with the other. */
+function orbitHands(names: readonly string[]): ExtrasHook {
+  return (rig) => {
+    const hands = names.map((n, i) => ({
+      g: rig.bones[n],
+      at: rig.bones[n]?.position.clone() ?? new THREE.Vector3(),
+      s: i % 2 ? 1 : -1,
+    }));
+    return (t) => {
+      for (const h of hands) {
+        if (!h.g) continue;
+        const w = Math.PI * 2 * (t * 0.6 + (h.s > 0 ? 0.5 : 0));
+        h.g.position.set(
+          h.at.x + Math.cos(w) * HAND_ORBIT * h.s,
+          h.at.y + Math.sin(w) * HAND_ORBIT,
+          h.at.z + Math.sin(w) * HAND_ORBIT * 0.5,
+        );
+        h.g.rotation.z = Math.sin(w) * 0.15 * h.s;
+      }
+    };
+  };
 }
