@@ -217,6 +217,12 @@ function tickEggshell(n: Nubbin, dtMs: number, world: World, offline: boolean): 
     delete n.shellMs;
     return;
   }
+  // Only a child wears its shell: a story Nubbin hatched straight into an adult drops it.
+  if (n.stage !== 'child') {
+    n.hat = null;
+    delete n.shellMs;
+    return;
+  }
   if (!world.inventory.hats.includes(shell)) world.inventory.hats.push(shell);
   if (offline) return;
   n.shellMs = (n.shellMs ?? 0) - dtMs;

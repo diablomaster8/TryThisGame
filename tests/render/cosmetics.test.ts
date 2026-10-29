@@ -115,6 +115,16 @@ describe('the eggshell hat', () => {
     expect(world.inventory.hats).toContain('shell:sky');
   });
 
+  it('a Nubbin hatched straight into an adult (a story one) drops the shell unkept', () => {
+    const world = createWorld(8, 0);
+    const n = createEgg('nub-y', { x: 0, z: 0 }, new Rng(5), 'mint');
+    hatch(n, []);
+    n.stage = 'adult';
+    advanceStage(n, 100, [], world);
+    expect(n.hat).toBeNull();
+    expect(world.inventory.hats).not.toContain('shell:mint');
+  });
+
   it('a hatchling already wearing a hat keeps it, and other lines get no shell', () => {
     const a = { ...createEgg('a', { x: 0, z: 0 }, new Rng(4), 'rose'), hat: 'crown' };
     hatch(a, []);
