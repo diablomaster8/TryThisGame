@@ -1,5 +1,6 @@
 import { BATTLE } from '../../config/tuning-battle';
 import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
+import { BATTLE_R5 } from '../../config/tuning-battle-r5';
 import type { Rng } from '../rng';
 import { chooseAction, levelFor, replacementFor } from './ai';
 import { addCalm, calmGain } from './befriend';
@@ -48,7 +49,7 @@ const timingOf = (a: BattleAction): Timing | undefined =>
 function timingFits(s: BattleState, a: BattleAction, id: string): boolean {
   const t = timingOf(a);
   if (t === undefined) return true;
-  if (t !== 'sweet' && t !== 'plain') return false;
+  if (t !== 'sweet' && t !== 'plain' && t !== 'steady') return false;
   if (t === 'sweet' && s.gentle) return false;
   return moveOf(id).kind === 'bonk';
 }
@@ -255,7 +256,9 @@ function useMove(
     }
   }
   // The dojo's swing is Bonk only; the timing ring (FIGHT-87) is any Bonk-kind move.
-  const ring = timing !== undefined && def.kind === 'bonk';
+  // "Steady hands" (FIGHT-79) has no ring: a fixed ×1.1 and no swing line.
+  const steady = timing === 'steady' && def.kind === 'bonk';
+  const ring = timing !== undefined && !steady && def.kind === 'bonk';
   const sweet = (swing && def.id === 'bonk') || (ring && timing === 'sweet');
   if ((swing && def.id === 'bonk') || ring) s.log.push({ k: 'swing', by: c.id, sweet });
   // Doubles: a move that lands on more than one foe deals ×0.75 to each.
@@ -290,7 +293,8 @@ function useMove(
     }
     const roll = (): ReturnType<typeof moveDamage> => moveDamage(rng, c, to, def);
     const { dmg: raw0, eff, crit } = stalemate(s) ? softGuard(to, roll) : roll();
-    const mult = fieldMult(s, c, def) * (sweet ? BATTLE.swing.sweet : 1) * spread;
+    const mult =
+      fieldMult(s, c, def) * (sweet ? BATTLE.swing.sweet : steady ? BATTLE_R5.steady : 1) * spread;
     const dmg = mult === 1 ? raw0 : Math.max(1, Math.round(raw0 * mult));
     s.log.push({
       k: 'hit',

@@ -5,6 +5,7 @@
  * `config/strings-battle.ts` turns into a name, and the log holds events, not sentences.
  */
 import type { AlignmentBand, NubbinType, Personality } from '../types';
+import type { BoutSpoils } from './rewards';
 
 /** Which side: 0 is the Keeper's, 1 the rivals'. */
 export type SideIx = 0 | 1;
@@ -183,7 +184,26 @@ export type BattleContext = BattleContextKind & BattleFormat;
 export interface BattleFormat {
   doubles?: boolean;
   mode?: 'atb';
+  /**
+   * The pre-bout sheet's difficulty override (recs FIGHT-86): `gentle` is kid mode, `spicy` is
+   * Champion AI with rewards ×1.25. Absent = the Keeper's usual choice (Gentle bouts on or off).
+   */
+  difficulty?: BoutDifficulty;
+  /**
+   * A skipped story bout (recs FIGHT-71): resolved at once by `autoResolve`, never shown, and
+   * allowed only for story bouts while Settings → Bouts says "Skip story bouts".
+   */
+  auto?: true;
 }
+
+export type BoutDifficulty = 'gentle' | 'normal' | 'spicy';
+
+/** Debug panel battle tools (recs FIGHT-80): an action, so a replay repeats them too. */
+export type BattleDebugOp =
+  | { op: 'hp'; who: string; hp: number }
+  | { op: 'status'; who: string; id: StatusId | null }
+  | { op: 'win' }
+  | { op: 'lose' };
 
 export type BattleContextKind =
   | { kind: 'karate'; tier: number; nubbinId: string }
@@ -236,13 +256,16 @@ export type BattleAction =
   /** ATB: the Keeper calls out an order (to one ally by id, else the first on the field). */
   | { k: 'order'; cmd: AtbCommand; who?: string }
   /** ATB: stop or restart the clock (the hidden tab, or the Item sheet being open). */
-  | { k: 'pause'; why: AtbPause; on: boolean };
+  | { k: 'pause'; why: AtbPause; on: boolean }
+  /** The debug panel's battle tools (recs FIGHT-80); never sent by the battle screen. */
+  | { k: 'debug'; set: BattleDebugOp };
 
 /**
  * The optional timing ring on a Bonk-kind move (recs FIGHT-87): `sweet` hits ×1.2, `plain` is
- * a missed or skipped tap (×1). Kept on the action, so a replay repeats it.
+ * a missed or skipped tap (×1). `steady` is the "Steady hands" setting (FIGHT-79): no ring, a
+ * fixed ×1.1. Kept on the action, so a replay repeats it.
  */
-export type Timing = 'sweet' | 'plain';
+export type Timing = 'sweet' | 'plain' | 'steady';
 
 /** The four ATB command buttons (recs FIGHT-40). */
 export type AtbCommand = 'go' | 'careful' | 'switch' | 'back';
@@ -382,4 +405,6 @@ export interface BattleState {
   doubles?: boolean;
   /** The ATB "Command" bout (recs FIGHT-40): `mode` stays 'turn' so records and views work. */
   atb?: AtbClock;
+  /** What the finished bout gave (the `battleSpoils` event's copy), for the results card. */
+  spoils?: BoutSpoils;
 }

@@ -1,5 +1,6 @@
 import { foeName } from '../../config/strings-battle';
 import { BATTLE, BATTLE_ONCE, BATTLE_PROGRESS } from '../../config/tuning-battle';
+import { BATTLE_R5 } from '../../config/tuning-battle-r5';
 import { hashSeed } from '../rng';
 import { addRecruit } from '../town';
 import { Rng } from '../rng';
@@ -49,7 +50,10 @@ export function prizeFor(c: BattleContext, r: BattleResult, gentle = false): num
   // A gentle bout's play-fight hug pays half (recs FIGHT-24).
   const share = gentle ? BATTLE.gentle.prizeShare : 1;
   const base = basePrize(c, r, won);
-  return Math.round(base * share);
+  // Spicy pays more for the Champion AI (FIGHT-86); a skipped story bout pays half (FIGHT-71).
+  const spicy = c.difficulty === 'spicy' && c.kind !== 'karate' ? BATTLE_R5.spicyPrize : 1;
+  const auto = c.auto ? BATTLE_R5.autoPrize : 1;
+  return Math.round(base * share * spicy * auto);
 }
 
 function basePrize(c: BattleContext, r: BattleResult, won: boolean): number {
@@ -323,4 +327,6 @@ function settleSpoils(world: World, s: BattleState, shells: number, events: SimE
   spoils.hat = firstWinHat(world, s.context, won);
   spoils.cards = collectMoveCards(world, party);
   events.push({ kind: 'battleSpoils', spoils });
+  // Kept on the bout too, so the results card can read it without the event stream.
+  s.spoils = spoils;
 }

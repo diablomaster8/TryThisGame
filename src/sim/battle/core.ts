@@ -19,6 +19,9 @@ import { foeLooks } from './foes';
 import { inflict } from './status';
 import type { BattlePrefs } from '../types';
 import { turnAct } from './turn';
+import { autoResolve, skippable } from './auto';
+import { debugAct } from './debug';
+import { noteSeen } from './seen';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -59,7 +62,12 @@ export function createBattle(
     allies = [scaleForDojo(combatantOf(fighter, world))];
     const lv = rivalLevel(allies, tier);
     const opts = { share: 1, hpShare: 1 };
-    foes = [scaleForDojo(rivalOf(0, lv, tier, allies, rivalSpecies(world, context, 0, 1), tier - 1, opts, rng), tier)];
+    foes = [
+      scaleForDojo(
+        rivalOf(0, lv, tier, allies, rivalSpecies(world, context, 0, 1), tier - 1, opts, rng),
+        tier,
+      ),
+    ];
   } else {
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
@@ -168,7 +176,12 @@ function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
     if (g) s.gimmick = g;
     if (c.champion) s.foeBag = { fruit: 2 };
   }
-  if (world.edu || world.battlePrefs?.gentle) {
+  // Kid mode is always gentle; otherwise the pre-bout sheet's override (FIGHT-86) wins over
+  // the Keeper's usual choice (Gentle bouts, or Settings → Bouts on Gentle).
+  const usual = !!world.battlePrefs?.gentle || world.settings?.bouts === 'gentle';
+  const gentle = c.kind !== 'karate' && c.difficulty ? c.difficulty === 'gentle' : usual;
+  if (c.kind !== 'karate' && c.difficulty === 'spicy' && !world.edu) s.ai = 'champion';
+  if (world.edu || gentle) {
     s.gentle = world.edu ? (world.edu.band === 'sprout' ? 'sprout' : 'reader') : 'all';
   }
   const bag = bagFrom(world);
@@ -202,6 +215,7 @@ export function battleAct(s: BattleState, a: BattleAction): boolean {
     end(s, { k: 'end', winner: null, reason: 'time' });
     return true;
   }
+  if (a.k === 'debug') return debugAct(s, a.set);
   const rng = new Rng(s.rngState);
   const ok =
     s.mode === 'karate' ? karateAct(s, rng, a) : s.atb ? atbAct(s, rng, a) : turnAct(s, rng, a);
@@ -217,6 +231,11 @@ export function battleForfeit(s: BattleState): void {
 // ---------- world commands ----------
 
 export function startBattleCmd(world: World, context: BattleContext, events: SimEvent[]): void {
+  // A skipped story bout (FIGHT-71) never reaches the screen; asked for any other way, refused.
+  if (context.auto) {
+    if (world.settings?.bouts === 'skip' && skippable(context)) autoResolve(world, context, events);
+    return;
+  }
   const s = createBattle(world, context, battleSeedFor(world, context));
   if (!s) return;
   world.battleRuns = (world.battleRuns ?? 0) + 1;
@@ -226,7 +245,9 @@ export function startBattleCmd(world: World, context: BattleContext, events: Sim
 
 export function actBattleCmd(world: World, action: BattleAction, events: SimEvent[]): void {
   const s = world.battle;
+  const last = s?.log[s.log.length - 1];
   if (!s || !battleAct(s, action)) return;
+  noteSeen(world, s, last ? s.log.indexOf(last) + 1 : 0);
   if (s.result) grantRewards(world, s, events);
 }
 
@@ -242,7 +263,9 @@ export function stepBattleMoves(world: World, dtMs: number, events: SimEvent[]):
   // this during offline catch-up, so a closed game never fights.
   const b = world.battle;
   if (b?.atb && !b.result) {
+    const last = b.log[b.log.length - 1];
     stepAtb(b, dtMs);
+    noteSeen(world, b, last ? b.log.indexOf(last) + 1 : 0);
     if (b.result) grantRewards(world, b, events);
   }
   if (Math.floor(world.timeMs / 1000) === Math.floor((world.timeMs - dtMs) / 1000)) return;

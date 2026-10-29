@@ -352,6 +352,13 @@ export interface Settings {
    * a benchmark the first time the 3D mode opens; null until then.
    */
   sculptRes: number | null;
+  /**
+   * Lane C round 5: Settings → Bouts (recs FIGHT-71). `play` (unset), `gentle` (kid-mode bouts)
+   * or `skip` (story bouts resolve without the battle screen). Optional; no save bump.
+   */
+  bouts?: 'play' | 'gentle' | 'skip';
+  /** Lane C round 5: "Steady hands" (FIGHT-79), a fixed ×1.1 in place of the timing ring. */
+  steadyHands?: boolean;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -836,6 +843,11 @@ export interface World {
    * keepsakes, move cards for the Collection book). No save bump.
    */
   battleOnce?: BattleOnceState;
+  /**
+   * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
+   * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
+   */
+  battleSeen?: { pairs: string[] };
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
