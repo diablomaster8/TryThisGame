@@ -101,3 +101,14 @@ describe('R0308 sprout toasts', () => {
     expect(sproutToast('Kiki hatched!')).toBe('Kiki hatched!');
   });
 });
+
+describe('R0310 sound words', () => {
+  it('cuts a read-aloud line after "Creak!" and plays the creak there', async () => {
+    const { soundChunks } = await import('../../src/ui/lesson');
+    const c = soundChunks('Creak! It opens. Splash goes the frog.');
+    expect(c[0]).toEqual({ text: 'Creak!', sound: 'creak' });
+    expect(c[1]!.sound).toBe('splash');
+    expect(c.map((x) => x.text).join('')).toBe('Creak! It opens. Splash goes the frog.');
+    expect(soundChunks('No sounds here.')).toEqual([{ text: 'No sounds here.', sound: null }]);
+  });
+});

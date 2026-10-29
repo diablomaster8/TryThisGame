@@ -168,3 +168,13 @@ body.line-shake-big #app {
     animation: none;
   }
 }
+
+/* R0310 (FUN-21): a sprout sound word in a bubbly face, so the child spots it to join in. */
+.edu-sound {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #e8a33c;
+  text-shadow: 1px 1px 0 #6b3d10;
+  transform: rotate(-3deg);
+}

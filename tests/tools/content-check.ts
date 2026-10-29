@@ -568,6 +568,9 @@ for (const band of C.EDU_BANDS) {
 
 // ---- lint (2026-10-14): rules that the review found broken. Problems fail the check; warnings are for a human.
 const warnings: string[] = [];
+/** R0320: openers a sprout wrong-answer reply must not start with. */
+const SPROUT_WRONG_OPENER =
+  /^[“"‘']?(No\b|Nope|Wrong|That’s not|That's not|Not quite|Try again|Oops, no)/i;
 const norm = (t: string): string =>
   t
     .toLowerCase()
@@ -645,6 +648,16 @@ for (const x of allTexts)
     )
   )
     warnings.push(`timer? ${x.id}: ${x.text}`);
+// R0320 (FUN-31): a sprout wrong answer opens with a silly picture, never a "No" (warning).
+for (const e of [
+  ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
+  ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
+  ...C.EDU_VARIANTS.sprout,
+])
+  for (const l of e.lessons)
+    for (const o of l.kind === 'ask' && l.options?.some((x) => x.best) ? l.options : [])
+      if (!o.best && SPROUT_WRONG_OPENER.test(o.reply[0]?.text ?? ''))
+        warnings.push(`sprout-wrong-opener ${e.id} ${l.id}: ${o.reply[0]!.text}`);
 // 5. Line caps (warnings): sprout ≤ 14 words, reader ≤ 30 words (EDU-STYLE).
 for (const e of eduTexts) {
   const w = e.text.split(/\s+/).length;

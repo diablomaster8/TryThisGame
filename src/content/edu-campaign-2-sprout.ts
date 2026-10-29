@@ -706,7 +706,7 @@ const CH7: EduScene[] = [
           },
           {
             label: 'A cold, still stone',
-            reply: [MOSS('No. That makes them still, not well.'), MOSS('They need food, water and a home.')],
+            reply: [MOSS('A Nubbin on a cold stone? Brr! Still as a pebble, and about as happy.'), MOSS('They need food, water and a home.')],
           },
           {
             label: 'Nothing at all',
