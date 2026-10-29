@@ -1,5 +1,5 @@
 import { EXPEDITION } from '../../config/tuning';
-import { CRITTER_SPECIES } from '../../sim/critters';
+import { WILD_CRITTERS } from '../../sim/critters';
 import { Rng } from '../../sim/rng';
 import type { NubbinType, Rewards } from '../../sim/types';
 
@@ -125,7 +125,7 @@ function spawnPattern(run: RunState, x: number): void {
   if (special < EXPEDITION.critterChance) {
     // A bubble carrying a critter, floating at jump height.
     const t = add('critter', 0, ground - 58, 18, 18);
-    t.species = rng.pick(CRITTER_SPECIES).id;
+    t.species = rng.pick(WILD_CRITTERS).id;
     return;
   }
   if (special < EXPEDITION.critterChance + EXPEDITION.essenceChance) {

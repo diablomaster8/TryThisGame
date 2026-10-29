@@ -1,5 +1,6 @@
 import { buildShinyGlintSheet } from './shiny-glint';
-import type { KeeperAlignment, Nubbin, PartSlot } from '../../sim/types';
+import type { KeeperAlignment, Nubbin } from '../../sim/types';
+import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childHint } from '../../sim/alignment';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
@@ -33,8 +34,6 @@ import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 import { SHEET_CACHE } from '../../config/tuning-px';
-
-const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
 
 /**
  * C6: a copy of `src` through a stone-grey ramp. Every pixel keeps its lightness and loses
@@ -145,7 +144,12 @@ export class SheetCache {
     if (n.stage === 'cocoon') return cocoonKey(n);
     const sh = n.shadow ? 'sh' : '-';
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
-    const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
+    // Each filled slot carries its size step (LOOK-36): a level crossing a step redraws.
+    const steps = partSteps(n);
+    const parts = ALL_PART_SLOTS.map((s) => {
+      const id = n.parts[s];
+      return id ? `${id}@${steps[s] ?? 1}` : '-';
+    }).join(',');
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
@@ -169,6 +173,7 @@ export class SheetCache {
       const build = (look: ChaoLook): SpriteSheet =>
         buildChaoSheet({
           ...look,
+          partSteps: partSteps(n),
           gem,
           finish: n.shadow ? null : (n.finish ?? null),
           scarf: n.scarf ?? null,
@@ -221,13 +226,13 @@ export class SheetCache {
               true,
               n.hat,
               n.shiny || n.heirloom,
+              n.eternal,
             ),
           );
         }
         const colors =
           look?.colors ??
           variantColors(
-              n.eternal,
             // A second evolution blends its colours toward the second type, as in 3D.
             n.form.second
               ? secondColors(n.form.band, n.form.type, n.form.second)

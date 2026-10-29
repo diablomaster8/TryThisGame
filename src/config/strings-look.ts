@@ -29,3 +29,18 @@ export const eggshellLabel = (colour: string): string => `Eggshell (${colour})`;
 
 /** The shop's hat row note: what the hat of the day is. */
 export const shopHatNote = (label: string): string => `Today: ${label}`;
+
+/** The critters added in R0402 (wild, then the Hollow's two rare ones). */
+export const MORE_CRITTER_LABELS: Record<string, string> = {
+  bonefish: 'Bonefish',
+  turtle: 'Turtle',
+  swallow: 'Swallow',
+  bat: 'Bat',
+  deer: 'Deer',
+  monkey: 'Monkey',
+  unicorn: 'Unicorn',
+  wolf: 'Wolf',
+  koala: 'Koala',
+  phoenix: 'Phoenix',
+  dragon: 'Dragon',
+};

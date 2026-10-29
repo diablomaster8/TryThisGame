@@ -1,11 +1,23 @@
-import type { DyeColor, NubbinType, PartSlot } from '../../sim/types';
+import type { AnyPartSlot, DyeColor, NubbinParts, NubbinType } from '../../sim/types';
+import { PART_SIZE } from '../../config/tuning-look';
 import { CLIPS, frameKey, type ClipName } from './animations';
-import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { drawEternalSign } from './eternal-sign';
+import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
-import { C, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
-import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
+import { C, color, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
+import {
+  drawArmPart,
+  drawBack,
+  drawEars,
+  drawFacePart,
+  drawHorn,
+  drawLegPart,
+  drawTail,
+  partStyle,
+  type PartStyle,
+} from './parts';
+import { partStepScale, type PartStep } from './part-size';
 import { PixelCanvas } from './pixel-canvas';
 import { drawCosmetic } from './cosmetic-pixel';
 import { ditherGlass, metalColors } from './finish-pixel';
@@ -334,10 +346,26 @@ export function shadowColors(base: ChaoColors): ChaoColors {
 }
 
 /** Silhouette by type. Second evolutions add a lighter touch of their type. */
-/** A part slot's style at the look's part size (smaller on a child, LOOK-66). */
-function partFor(look: ChaoLook, id: string | null): PartStyle | null {
-  const s = partStyle(id);
-  return s && { ...s, k: look.shape.partScale ?? 1 };
+/**
+ * A part slot's style at the look's part size: smaller on a child (LOOK-66), bigger with
+ * the critter's stat (LOOK-36). A Sun or Moon adult's parts lean 30% toward its body colour.
+ */
+function partFor(look: ChaoLook, slot: AnyPartSlot): PartStyle | null {
+  const s = partStyle(look.parts[slot] ?? null);
+  if (!s) return null;
+  const step = look.partSteps?.[slot];
+  const k = (look.shape.partScale ?? 1) * (step === undefined ? 1 : partStepScale(step));
+  const band = look.shape.band;
+  if (band !== 'sun' && band !== 'moon') return { ...s, k };
+  const body = look.colors.body;
+  return { ...s, k, color: towardBody(s.color, body), accent: towardBody(s.accent, body) };
+}
+
+/** A palette colour moved toward the body's, kept off itself so the lean shows. */
+function towardBody(c: number, body: number): number {
+  if (c === body) return c;
+  const mixed = mixHex(color(c), color(body), PART_SIZE.bandTint);
+  return nearestIndex(mixed, mixed === color(c) ? [] : [c]);
 }
 
 /** The first evolution's silhouette by type (LOOK-19); Swim keeps its side fins too. */
@@ -363,6 +391,7 @@ export function shapeFor(
     partScale: 1,
     ...(band ? { band } : {}),
   };
+  if (eternal && band) s.eternalBand = band;
   // The first type's silhouette tell, strong enough to sort the 15 by outline alone.
   if (!eternal) Object.assign(s, FIRST_TELLS[type]);
   const apply = (t: NubbinType, k: number) => {
@@ -391,7 +420,6 @@ export function shapeFor(
     if (second !== type) apply(second, 0.5);
     s.tellType = second;
     if (second === 'normal') s.crownLift = 2;
-  if (eternal && band) s.eternalBand = band;
   }
   return s;
 }
@@ -432,6 +460,10 @@ export interface ChaoPose {
   spin?: number;
   /** Tear drops running from the eyes (the cry clip's second frame). */
   tears?: boolean;
+  /** LOOK-23: the waterline this many px higher (the paddle keeps only the head out). */
+  waterRise?: number;
+  /** LOOK-23: kick splashes behind the body (the crawl). */
+  kick?: boolean;
 }
 
 const BASE: ChaoPose = {
@@ -460,10 +492,6 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
     }
     case 'walk': {
       // Six frames: contact, push-off and passing for each foot. The passing frames
-  /** LOOK-23: the waterline this many px higher (the paddle keeps only the head out). */
-  waterRise?: number;
-  /** LOOK-23: kick splashes behind the body (the crawl). */
-  kick?: boolean;
       // lift the body and stretch it a touch; contact frames squash it.
       const phase = frame % 6;
       const contact = phase === 0 || phase === 3;
@@ -571,34 +599,6 @@ export function cryPose(frame: number): ChaoPose {
 /** The cry clip's timing, beside the stock clips (`CLIPS`). */
 export const CRY_CLIP = { frames: 2, ms: 260, loop: true } as const;
 
-export interface ChaoLook {
-  colors: ChaoColors;
-  shape: ChaoShape;
-  parts: Record<PartSlot, string | null>;
-  /** Hat id from the shop, or null. */
-  hat?: string | null;
-  /** The metal or glass egg finish (LOOK-31). */
-  finish?: 'metal' | 'glass' | null;
-  /** Extra sparkles. */
-  shiny?: boolean;
-  /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
-  gem?: boolean;
-  /** Accessories: a dyed scarf, glasses, a dyed hat. */
-  scarf?: DyeColor | null;
-  glasses?: boolean;
-  hatDye?: DyeColor | null;
-}
-
-/** Palette colour for each dye, and its shade. */
-export const DYE_COLORS: Record<DyeColor, number> = {
-  rose: C.rose,
-  sky: C.water,
-  mint: C.mint,
-  gold: C.sunYellow,
-  violet: C.violet,
-  ember: C.ember,
-};
-
 /** LOOK-23: the paddle and crawl clips beside the stock `swim` (the breaststroke). */
 export const SWIM_CLIPS: Record<string, { frames: number; ms: number; loop: boolean }> = {
   paddle: { frames: 2, ms: 150, loop: true },
@@ -629,6 +629,36 @@ export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
         kick: true,
       };
 }
+
+export interface ChaoLook {
+  colors: ChaoColors;
+  shape: ChaoShape;
+  parts: NubbinParts;
+  /** Each filled part slot's size step by its stat (LOOK-36); absent draws at step size 1. */
+  partSteps?: Partial<Record<AnyPartSlot, PartStep>>;
+  /** Hat id from the shop, or null. */
+  hat?: string | null;
+  /** The metal or glass egg finish (LOOK-31). */
+  finish?: 'metal' | 'glass' | null;
+  /** Extra sparkles. */
+  shiny?: boolean;
+  /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
+  gem?: boolean;
+  /** Accessories: a dyed scarf, glasses, a dyed hat. */
+  scarf?: DyeColor | null;
+  glasses?: boolean;
+  hatDye?: DyeColor | null;
+}
+
+/** Palette colour for each dye, and its shade. */
+export const DYE_COLORS: Record<DyeColor, number> = {
+  rose: C.rose,
+  sky: C.water,
+  mint: C.mint,
+  gold: C.sunYellow,
+  violet: C.violet,
+  ember: C.ember,
+};
 
 /**
  * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
@@ -854,7 +884,7 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
   }
 }
 
-export const NO_PARTS: Record<PartSlot, string | null> = {
+export const NO_PARTS: NubbinParts = {
   ears: null,
   tail: null,
   arms: null,
@@ -872,11 +902,12 @@ function drawWings(
   front: boolean,
 ): void {
   const raise = pose.wings === 1 ? 3 : 0;
-  const back = partFor(look, look.parts.back);
-  if (back) {
-    drawBack(pc, angle, L, back, raise, front);
-    return;
-  }
+  // A wings part (R0401) or a back part takes the little wings off; both can be worn.
+  const back = partFor(look, 'back');
+  const wings = partFor(look, 'wings');
+  if (back) drawBack(pc, angle, L, back, raise, front);
+  if (wings) drawBack(pc, angle, L, wings, raise, front);
+  if (back || wings) return;
   // Default wings sit behind the shoulders. From the front they peek out at the sides;
   // from the back they are the main feature.
   const col = look.colors;
@@ -1307,7 +1338,7 @@ function drawArms(
   look: ChaoLook,
 ): void {
   const col = look.colors;
-  const part = partFor(look, look.parts.arms);
+  const part = partFor(look, 'arms');
   const shoulderY = L.bodyCy - L.bodyRy + 2;
   const hand = (x: number, y: number, dir: 1 | -1, sx: number, onFace = false) => {
     if (part) {
@@ -1592,7 +1623,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // The waddle rocks the head across the body; from the side it would read as a nod.
   const rock = angle === 'side' ? 0 : (pose.rock ?? 0);
   const L = rock ? { ...L0, headCx: L0.headCx + rock } : L0;
-  const tail = partFor(look, look.parts.tail);
+  const tail = partFor(look, 'tail');
   const fromFront = angle === 'front' || angle === 'frontQuarter' || angle === 'side';
 
   // A second evolution's tell takes its own colour: fins, wings, legs, hands or crown tip.
@@ -1607,6 +1638,8 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);
   if (tail && fromFront) drawTail(pc, angle, L, tail);
+  const horn = partFor(look, 'horn');
+  if (horn) drawHorn(pc, angle, L, horn, false);
   if (look.shape.dorsal) drawDorsal(pc, angle, L, col, false);
   if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'behind');
 
@@ -1624,6 +1657,11 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.bellyPatch));
     }
     drawFeet(pc, angle, pose, L, col);
+    const legs = partFor(look, 'legs');
+    if (legs && !pose.waterline && pose.legs !== 'out') {
+      const step = pose.legs === 'stepA' ? -1 : pose.legs === 'stepB' ? 1 : 0;
+      drawLegPart(pc, angle, L, legs, step, pose.legs === 'tucked');
+    }
     if (look.shape.dorsal) drawDorsal(pc, angle, L, col, true);
     if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'body');
   } else {
@@ -1673,8 +1711,9 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   drawHeadTells(pc, angle, L, col, look.shape);
   if (look.gem) drawGemFacets(pc, L, col);
 
-  const ears = partFor(look, look.parts.ears);
+  const ears = partFor(look, 'ears');
   if (ears) drawEars(pc, angle, L, ears);
+  if (horn) drawHorn(pc, angle, L, horn, true);
   if (look.hat) {
     if (look.hatDye) {
       // Draw the hat aside, swap its main colours for the dye, then lay it on.
@@ -1713,7 +1752,10 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // Crying fists rub the eyes, so they go on after the face.
   const rubbing = pose.arms === 'rubA' || pose.arms === 'rubB';
   if (fromFront && !rubbing) drawArms(pc, angle, pose, L, armLook);
+  const face = partFor(look, 'face');
+  if (face) drawFacePart(pc, angle, L, face, false);
   drawFace(pc, angle, pose, L, col, look.shiny);
+  if (face) drawFacePart(pc, angle, L, face, true);
   if (fromFront && rubbing) drawArms(pc, angle, pose, L, armLook);
   if (pose.tears) drawTears(pc, angle, L, 2.4 + look.shape.handBonus);
   if (look.glasses && angle !== 'back' && angle !== 'backQuarter') {
@@ -1761,6 +1803,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.headCx + (angle === 'side' ? 3 : 4), cy, C.rose);
   }
 
+  if (look.shape.eternalBand) drawEternalSign(pc, angle, L, look.shape.eternalBand);
   pc.finish(col.outline, [col.eye, col.glint, C.white]);
   if (look.finish === 'glass') ditherGlass(pc, [col.outline, col.eye, col.glint, C.white, C.ink]);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
@@ -1800,6 +1843,9 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
     // LOOK-21: crying, distinct from sad: seated, fists rubbing the eyes in turn, wailing.
     for (let f = 0; f < 2; f++)
       atlas.add(frameKey('cry', angle, f), drawChao(angle, cryPose(f), look));
+    for (const style of ['paddle', 'crawl'] as const)
+      for (let f = 0; f < 2; f++)
+        atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
   }
   return atlas.build();
 }
@@ -1809,7 +1855,7 @@ export function lookOf(
   colors: ChaoColors,
   type: NubbinType | null = null,
   second: NubbinType | null = null,
-  parts: Record<PartSlot, string | null> = NO_PARTS,
+  parts: NubbinParts = NO_PARTS,
   eternal = false,
   hat: string | null = null,
   shiny = false,
@@ -1817,9 +1863,5 @@ export function lookOf(
 ): ChaoLook {
   return { colors, shape: shapeFor(type, second, eternal, band), parts, hat, shiny };
 }
-  if (look.shape.eternalBand) drawEternalSign(pc, angle, L, look.shape.eternalBand);
 
 export type { PartStyle };
-    for (const style of ['paddle', 'crawl'] as const)
-      for (let f = 0; f < 2; f++)
-        atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));

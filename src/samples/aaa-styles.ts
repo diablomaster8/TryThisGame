@@ -29,9 +29,22 @@ import {
 } from './aaa-kit';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
 import { outline, TOON, type Creature } from './creatures';
-import { ALL_POSES, buildSpecies, POSES, type PoseName, type Rigged } from './species';
+import {
+  ALL_POSES,
+  buildSpecies,
+  POSES,
+  type PoseName,
+  type Rigged,
+  type SpeciesSpec,
+} from './species';
 import { ROSTER } from './species-roster';
 import { artSheet, sheetVariants, variantById } from './nubbin-variant-catalogue';
+import {
+  parsePartSteps,
+  parsePartsMod,
+  partsTinted,
+  withCritterParts,
+} from './nubbin-critter-parts';
 import { sheetLabels, sheetTurns, silhouette } from './contact-sheet-3d';
 import { NUBBIN_SPEC } from './species-data';
 import {
@@ -481,7 +494,19 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const sheetEntries = (
     creatureParam === 'variants' ? sheetVariants(query) : artSheetOn ? artSheet(query) : null
   )?.flatMap((v) => turns.map((t, k) => ({ v, t, k })));
-  const sheet = sheetEntries?.map((e) => e.v.spec) ?? null;
+  // `&parts=<ids>` puts critter parts on every staged Nubbin, in the look key's `~parts:` form
+  // (eight slots, `id@step` sizes, `|t` for the band tint; LOOK-34/36).
+  const partsParam = query.get('parts');
+  const withParts = (spec: SpeciesSpec): SpeciesSpec =>
+    partsParam
+      ? withCritterParts(
+          spec,
+          parsePartsMod(partsParam),
+          parsePartSteps(partsParam),
+          partsTinted(partsParam),
+        )
+      : spec;
+  const sheet = sheetEntries?.map((e) => withParts(e.v.spec)) ?? null;
   const oneVariant = creatureParam?.startsWith('variant:')
     ? variantById(creatureParam.slice('variant:'.length))
     : null;
@@ -544,7 +569,8 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     if (creatureIndex > 0 || oneVariant) {
       // One creature on the stage, framed close, facing the camera.
       creature = buildSpecies(
-        oneVariant?.spec ?? ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!,
+        (oneVariant && withParts(oneVariant.spec)) ??
+          ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!,
       );
       (creature as Rigged).ground = groundHeight;
       creature.group.userData.baseY = groundHeight(0, 0);

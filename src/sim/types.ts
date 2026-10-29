@@ -47,6 +47,16 @@ export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
 
+/**
+ * R0401: the part slots added after the first four (legs, a horn on the forehead, a face
+ * piece such as a beak, and wings apart from the back). They are optional on a Nubbin, so
+ * saves from before them load unchanged.
+ */
+export type ExtraPartSlot = 'legs' | 'horn' | 'face' | 'wings';
+export type AnyPartSlot = PartSlot | ExtraPartSlot;
+export type NubbinParts = Record<PartSlot, string | null> &
+  Partial<Record<ExtraPartSlot, string | null>>;
+
 export type BehaviorState =
   | 'wander'
   | 'findFood'
@@ -167,7 +177,7 @@ export interface Nubbin {
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
-  parts: Record<PartSlot, string | null>;
+  parts: NubbinParts;
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;

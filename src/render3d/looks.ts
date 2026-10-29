@@ -10,7 +10,12 @@ import {
   SHINY_FINISH,
 } from '../samples/nubbin-variants-colour';
 import { withGemFinish } from '../samples/gem-finish';
-import { parsePartsMod, withCritterParts } from '../samples/nubbin-critter-parts';
+import {
+  parsePartSteps,
+  parsePartsMod,
+  partsTinted,
+  withCritterParts,
+} from '../samples/nubbin-critter-parts';
 import {
   KEEPER_MOON,
   KEEPER_MOON_SPEC,
@@ -276,7 +281,13 @@ export function specForKey(key: string): SpeciesSpec {
     );
     if (colour.length) spec = tint(spec, baseKey, colour);
     const parts = mod('parts:');
-    if (parts) spec = withCritterParts(spec, parsePartsMod(parts));
+    if (parts)
+      spec = withCritterParts(
+        spec,
+        parsePartsMod(parts),
+        parsePartSteps(parts),
+        partsTinted(parts),
+      );
     if (mods.includes('shadow')) spec = ashen(spec);
     if (mods.includes('weathered')) spec = weathered(spec);
     cache.set(key, spec);

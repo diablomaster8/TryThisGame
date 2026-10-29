@@ -16,7 +16,7 @@ import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
-import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
+import { WILD_CRITTERS, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
   keeperJump,
@@ -547,7 +547,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       } else if (cmd.what === 'critter') {
         withRng(world, (rng) => {
           for (let i = 0; i < cmd.amount; i++) {
-            const s = rng.pick(CRITTER_SPECIES).id;
+            const s = rng.pick(WILD_CRITTERS).id;
             world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
           }
         });

@@ -26,8 +26,8 @@ import { TRAINERS } from '../sim/trainers';
 import { speciesByFamily, type SpeciesStage } from '../sim/species';
 import type { PixelCanvas } from '../render/sprites/pixel-canvas';
 import { buildPropSheet } from '../render/sprites/props';
-import { CRITTER_SPECIES, partId } from '../sim/critters';
-import { NUBBIN_TYPES, type PartSlot } from '../sim/types';
+import { ALL_CRITTERS, partId } from '../sim/critters';
+import { NUBBIN_TYPES, type NubbinParts } from '../sim/types';
 
 /**
  * Developer page at `?sprites`: every look, scaled up, so the art can be checked without
@@ -225,17 +225,26 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     }
   }
 
-  for (const species of CRITTER_SPECIES) {
-    const parts: Record<PartSlot, string | null> = {
-      ears: null,
-      tail: null,
-      arms: null,
-      back: null,
-    };
+  for (const species of ALL_CRITTERS) {
+    const parts: NubbinParts = { ...NO_PARTS };
     for (const slot of species.parts) parts[slot] = partId(species.id, slot);
     chao(
       `Critter parts: ${species.id} (${species.parts.join(' + ')})`,
       lookOf(CHILD_NEUTRAL, null, null, parts),
+      idleAngles,
+    );
+  }
+  // LOOK-34/36: penguin, parrot and boar mixed on a Moon adult, at the smallest and largest step.
+  const mixed: NubbinParts = { ...NO_PARTS };
+  for (const id of ['penguin', 'parrot', 'boar'])
+    for (const slot of ALL_CRITTERS.find((c) => c.id === id)?.parts ?? [])
+      mixed[slot] = partId(id, slot);
+  for (const step of [0, 2] as const) {
+    const look = lookOf(adultColors('moon', 'run'), 'run', null, mixed, false, null, false, 'moon');
+    const steps = Object.fromEntries(Object.keys(mixed).map((k) => [k, step]));
+    chao(
+      `Critter parts mixed, Moon Run, size step ${step}`,
+      { ...look, partSteps: steps },
       idleAngles,
     );
   }
@@ -267,15 +276,6 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       ),
     );
   }
-  for (const kind of ['evolve', 'rebirth', 'depart'] as const) {
-    sheet(`Cocoon: ${kind}`, buildCocoonSheet(kind), [
-      frameKey('idle', 'front', 0),
-      frameKey('idle', 'front', 1),
-    ]);
-  }
-  const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
-  for (const t of TRAINERS) {
-    sheet(`Keeper: ${t.id} (${t.band})`, buildKeeperSheet(t.look), keeperKeys(['idle']));
   // LOOK-25: the cocoons in a Nubbin's own shape: evolving by band (a child), then an adult's.
   const childMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL));
   const adultMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL, 'fly'));
@@ -292,6 +292,15 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       [frameKey('idle', 'front', 0), frameKey('idle', 'front', 1)],
     );
   }
+  for (const kind of ['evolve', 'rebirth', 'depart'] as const) {
+    sheet(`Cocoon: ${kind}`, buildCocoonSheet(kind), [
+      frameKey('idle', 'front', 0),
+      frameKey('idle', 'front', 1),
+    ]);
+  }
+  const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
+  for (const t of TRAINERS) {
+    sheet(`Keeper: ${t.id} (${t.band})`, buildKeeperSheet(t.look), keeperKeys(['idle']));
   }
   for (const [id, art] of Object.entries(SPECIES_ART)) {
     const row = heading(`Species: ${id}`);
