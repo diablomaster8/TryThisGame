@@ -204,3 +204,12 @@ export const WORLD_BEACON = {
   /** An on-screen target within this share of the screen's half-size shows no arrow. */
   onScreen: 0.92,
 } as const;
+
+/**
+ * R0101 (WORLD-43): the regions that offer their own quests. A quest whose region is not
+ * listed is offered from the Grove, the hub, until that region can be walked to (the lane
+ * is drawn only as Corvin's story set today). Add a region here when it opens.
+ */
+export const WORLD_QUESTS = {
+  ownOffers: ['grove', 'hollow'] as readonly string[],
+} as const;

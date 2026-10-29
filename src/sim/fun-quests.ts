@@ -2,6 +2,7 @@ import type { Quest } from '../content/types';
 import { FUN, STORY } from '../config/tuning';
 import { isFunQuestCode, questAvailable } from './audience';
 import { FUN_PACK_RULES } from './fun-pack-rules';
+import { offeredHere } from './quest-areas';
 import { hasRoom } from './roster';
 import { levelOf } from './stats';
 import { isAfternoon, isMorning, isNight, type StoryRule } from './side-rule-kit';
@@ -154,6 +155,8 @@ export function funQuestOpens(world: World, c: CampaignState, quest: Quest): boo
   // and chapter 1 is over.
   if (c.chapter <= 1 || c.stats.hatched < 1) return false;
   if (!questAvailable(quest, audienceContext(world), c.chapter)) return false;
+  // R0101: offered only in its own region (sim/quest-areas.ts).
+  if (!offeredHere(world, quest)) return false;
   const rule = parseWhen(quest.trigger.when);
   if (rule.chapter !== null && c.chapter < rule.chapter) return false;
   if (!followsMet(c, quest, rule)) return false;
