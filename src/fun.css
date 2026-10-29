@@ -596,3 +596,197 @@ body.line-shake-big #app {
     transition: none;
   }
 }
+/* R0296 (FUN-07): the Keepers' routine prop gags, one loop each. */
+.routine-prop,
+.routine-soot {
+  position: fixed;
+  z-index: 27;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 22px;
+  line-height: 1;
+}
+.dialogue-open .routine-prop,
+.dialogue-open .routine-soot {
+  display: none;
+}
+.routine-prop[data-gag='guilty'] {
+  animation: gag-guilty 4s infinite;
+}
+.routine-prop[data-gag='proud'] {
+  animation: gag-proud 5s infinite;
+}
+.routine-prop[data-gag='flash'] {
+  animation: gag-flash 12s infinite;
+}
+.routine-prop[data-gag='hold'] {
+  animation: gag-hold 1.2s infinite;
+  transform-origin: 50% 100%;
+}
+.routine-prop[data-gag='slop'] {
+  animation: gag-slop 3s infinite;
+  transform-origin: 50% 100%;
+}
+.routine-prop[data-gag='spoons']::after {
+  content: '';
+  animation: gag-spoons 6s infinite;
+}
+.routine-prop[data-gag='wander'] {
+  animation: gag-wander 7s infinite;
+}
+.routine-prop[data-gag='scarf'] {
+  transform: translate(-50%, -100%) scaleX(var(--scarf, 1));
+  transform-origin: 0 50%;
+}
+.routine-prop[data-gag='scarecrow'] {
+  animation: gag-scarecrow 3s infinite;
+}
+.routine-prop[data-gag='zzz'] {
+  animation: gag-zzz 2.5s infinite;
+}
+.routine-prop[data-gag='upside'] {
+  transform: translate(-50%, -100%) rotate(180deg);
+}
+.routine-prop[data-gag='upside']::after {
+  content: '❓';
+  display: inline-block;
+  transform: rotate(180deg);
+  font-size: 14px;
+}
+.routine-soot {
+  width: 18px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(30, 24, 20, 0.85);
+  font-size: 0;
+  animation: gag-soot 12s infinite;
+}
+@keyframes gag-guilty {
+  0%,
+  60% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  70% {
+    transform: translate(-30%, -100%) rotate(-15deg);
+  }
+  90% {
+    transform: translate(-30%, -100%) rotate(-15deg) scale(0.85);
+  }
+}
+@keyframes gag-proud {
+  0%,
+  80% {
+    transform: translate(-50%, -100%);
+  }
+  90% {
+    transform: translate(-50%, -130%);
+  }
+}
+@keyframes gag-flash {
+  0%,
+  30% {
+    filter: none;
+    transform: translate(-50%, -100%);
+  }
+  32% {
+    filter: brightness(3) drop-shadow(0 0 8px #8cf);
+    transform: translate(-50%, -100%) scale(1.6);
+  }
+  36% {
+    filter: grayscale(1) brightness(0.4);
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    filter: grayscale(1) brightness(0.4);
+  }
+}
+@keyframes gag-soot {
+  0%,
+  32% {
+    opacity: 0;
+  }
+  34%,
+  115% {
+    opacity: 1;
+  }
+}
+@keyframes gag-hold {
+  0%,
+  100% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -125%);
+  }
+}
+@keyframes gag-slop {
+  0%,
+  50% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  60% {
+    transform: translate(-50%, -100%) rotate(30deg);
+  }
+  70% {
+    transform: translate(-50%, -100%) rotate(-10deg);
+  }
+}
+@keyframes gag-spoons {
+  0%,
+  40% {
+    content: '';
+  }
+  45%,
+  100% {
+    content: '🥄';
+  }
+}
+@keyframes gag-wander {
+  0%,
+  20% {
+    margin-left: 0;
+  }
+  60% {
+    margin-left: 46px;
+  }
+  70% {
+    margin-left: 46px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+@keyframes gag-scarecrow {
+  0%,
+  60% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  70% {
+    transform: translate(-50%, -100%) rotate(-25deg);
+  }
+  80% {
+    transform: translate(-50%, -100%) rotate(20deg);
+  }
+}
+@keyframes gag-zzz {
+  0% {
+    opacity: 0;
+    margin-top: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .routine-prop,
+  .routine-soot {
+    animation: none !important;
+  }
+  .routine-prop[data-gag='spoons']::after {
+    content: '🥄';
+  }
+}

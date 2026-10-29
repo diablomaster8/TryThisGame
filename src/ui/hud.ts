@@ -66,6 +66,7 @@ import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { AmbientBubbles, BarkBubble } from './bark-bubble';
+import { RoutineProps } from './routine-props';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
@@ -820,6 +821,9 @@ export function mountHud(
         g.framePollers.push(() => hopCourse.update(g.world));
         g.framePollers.push(() => barkBubble.update(g, performance.now()));
         g.framePollers.push(() => ambientBubbles.update(g, performance.now()));
+        // R0296: the routine stations' prop gags beside the Keepers.
+        const routineProps = new RoutineProps(root);
+        g.framePollers.push(() => routineProps.update(g));
       }
       carry.hidden = !carrying;
       if (carrying) {
