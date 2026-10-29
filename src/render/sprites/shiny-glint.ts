@@ -24,33 +24,39 @@ export const SHINY_GLINT = {
 /** The head box the cell covers, for a head grown by `grow`. */
 const cellOf = (grow: number) => ({ w: 2 * (8 + grow) + 1, h: 2 * (7 + grow) + 1 });
 
+/** One sweep frame for a head grown by `grow`, from the front-ish views or the side. */
+export function drawShinyGlintFrame(grow: number, view: 'front' | 'side', f: number): PixelCanvas {
+  const cell = cellOf(grow);
+  // Inset a pixel inside the head's outline, so the streak never runs off the silhouette.
+  const rx = (view === 'side' ? 7 + grow : 8 + grow) - 1.5;
+  const ry = 7 + grow - 1.5;
+  const cx = (cell.w - 1) / 2;
+  const cy = (cell.h - 1) / 2;
+  const pc = new PixelCanvas(cell.w, cell.h);
+  // The '/' diagonal: x + y is constant along it; the sweep moves it left to right across
+  // the upper head, where light would catch.
+  const k = Math.round(cx + cy - rx * 0.9 + (f * rx * 1.5) / (SHINY_GLINT.frames - 1));
+  for (let y = 0; y < cell.h; y++) {
+    for (let x = 0; x < cell.w; x++) {
+      const dx = (x - cx) / rx;
+      const dy = (y - cy) / ry;
+      // Above the eyes (they sit a pixel under the head's middle), so the face stays clear.
+      if (dx * dx + dy * dy > 1 || y > cy - 2) continue;
+      const d = x + y - k;
+      if (d === 0 || d === 1) pc.px(x, y, C.white);
+      else if (d === 2) pc.px(x, y, C.cream);
+    }
+  }
+  return pc;
+}
+
 /** The sweep sheet for one head size: frames `shiny:front|side:<0..3>`. */
 export function buildShinyGlintSheet(grow: number): SpriteSheet {
   const cell = cellOf(grow);
   const atlas = new AtlasBuilder(cell.w, cell.h, SHINY_GLINT.frames);
   for (const view of ['front', 'side'] as const) {
-    // Inset a pixel inside the head's outline, so the streak never runs off the silhouette.
-    const rx = (view === 'side' ? 7 + grow : 8 + grow) - 1.5;
-    const ry = 7 + grow - 1.5;
-    const cx = (cell.w - 1) / 2;
-    const cy = (cell.h - 1) / 2;
-    for (let f = 0; f < SHINY_GLINT.frames; f++) {
-      const pc = new PixelCanvas(cell.w, cell.h);
-      // The '/' diagonal: x + y is constant along it; the sweep moves it left to right
-      // across the upper head, where light would catch.
-      const k = Math.round(cx + cy - rx * 0.9 + (f * rx * 1.5) / (SHINY_GLINT.frames - 1));
-      for (let y = 0; y < cell.h; y++) {
-        for (let x = 0; x < cell.w; x++) {
-          const dx = (x - cx) / rx;
-          const dy = (y - cy) / ry;
-          if (dx * dx + dy * dy > 1 || y > cy + ry * 0.2) continue;
-          const d = x + y - k;
-          if (d === 0 || d === 1) pc.px(x, y, C.white);
-          else if (d === 2) pc.px(x, y, C.cream);
-        }
-      }
-      atlas.add(frameKey('shiny', view, f), pc);
-    }
+    for (let f = 0; f < SHINY_GLINT.frames; f++)
+      atlas.add(frameKey('shiny', view, f), drawShinyGlintFrame(grow, view, f));
   }
   return atlas.build();
 }
