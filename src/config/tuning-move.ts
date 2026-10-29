@@ -208,6 +208,8 @@ export const LOOKOUT = {
   wellReach: 0.7,
   vistaRange: 20,
   wellShells: 1,
+  /** The look ends once the Keeper is this far from where it looked from. */
+  leaveDist: 1,
   /** Things only seen from up high: a glint, a critter in the reeds. */
   vistas: [
     { id: 'pond-reeds', x: 12, z: 10, shells: 0, critter: 'otter' },
