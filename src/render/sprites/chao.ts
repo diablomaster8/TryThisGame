@@ -387,7 +387,8 @@ export type EyeState = 'open' | 'closed' | 'happy' | 'half' | 'dizzy' | 'wide';
  */
 export type MouthState =
   'smile' | 'flat' | 'open' | 'o' | 'wail' | 'munch' | 'pout' | 'sad' | 'none';
-export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB';
+/** `rubA`/`rubB`: both fists at the eyes, crying (LOOK-21); the A hand presses higher. */
+export type ArmPose = 'down' | 'up' | 'out' | 'swingA' | 'swingB' | 'rubA' | 'rubB';
 
 export interface ChaoPose {
   /** Whole-body vertical offset in px (negative = up). */
@@ -413,6 +414,8 @@ export interface ChaoPose {
   blush?: boolean;
   /** Quarter turns clockwise, applied to the finished frame (the tumble roll). */
   spin?: number;
+  /** Tear drops running from the eyes (the cry clip's second frame). */
+  tears?: boolean;
 }
 
 const BASE: ChaoPose = {
@@ -526,6 +529,27 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
       return { ...BASE, eyes: 'wide', mouth: 'o', arms: 'out', legs: 'tucked', spin: frame % 4 };
   }
 }
+
+/**
+ * The cry clip (LOOK-21): the sit base (legs out), both fists at the eyes, the A hand
+ * pressing higher each frame, the mouth a wail, and tears in the second frame. Reduced
+ * motion keeps the pose; the world view holds frame 0 then.
+ */
+export function cryPose(frame: number): ChaoPose {
+  return {
+    ...BASE,
+    legs: 'out',
+    arms: frame % 2 === 0 ? 'rubA' : 'rubB',
+    eyes: 'closed',
+    mouth: 'wail',
+    headDrop: 1,
+    squash: frame % 2 === 0 ? 0.97 : 0.95,
+    ...(frame % 2 === 1 ? { tears: true } : {}),
+  };
+}
+
+/** The cry clip's timing, beside the stock clips (`CLIPS`). */
+export const CRY_CLIP = { frames: 2, ms: 260, loop: true } as const;
 
 export interface ChaoLook {
   colors: ChaoColors;
@@ -1194,6 +1218,34 @@ function drawSitFeet(pc: PixelCanvas, angle: DrawnAngle, L: Layout, col: ChaoCol
   }
 }
 
+/** The eye on one side of the face (`dir` −1 is the drawn left), as the face drawer places them. */
+function eyeXs(angle: DrawnAngle, L: Layout, dir: 1 | -1): [number, number] {
+  const y = L.headCy + 1;
+  switch (angle) {
+    case 'side':
+      return [L.headCx + 4, y];
+    case 'frontQuarter':
+      return [dir < 0 ? L.headCx - 1 : L.headCx + 5, y];
+    default:
+      return [L.headCx + dir * 4, y];
+  }
+}
+
+/** Two light-blue drops running down and out from each eye (LOOK-21). */
+function drawTears(pc: PixelCanvas, angle: DrawnAngle, L: Layout, fist: number): void {
+  if (angle === 'back' || angle === 'backQuarter') return;
+  const sides: (1 | -1)[] = angle === 'side' ? [1] : [-1, 1];
+  for (const dir of sides) {
+    const [ex, ey] = eyeXs(angle, L, dir);
+    // Just outside the fist, arcing out and down.
+    const x = ex + dir * Math.ceil(fist + 1);
+    pc.px(x, ey - 1, C.white);
+    pc.px(x, ey, C.skyLight);
+    pc.px(x + dir, ey + 1, C.skyLight);
+    pc.px(x + dir, ey + 3, C.shallows);
+  }
+}
+
 function drawArms(
   pc: PixelCanvas,
   angle: DrawnAngle,
@@ -1204,12 +1256,14 @@ function drawArms(
   const col = look.colors;
   const part = partFor(look, look.parts.arms);
   const shoulderY = L.bodyCy - L.bodyRy + 2;
-  const hand = (x: number, y: number, dir: 1 | -1, sx: number) => {
+  const hand = (x: number, y: number, dir: 1 | -1, sx: number, onFace = false) => {
     if (part) {
       drawArmPart(pc, sx, shoulderY, x, y, dir, part);
       return;
     }
     pc.line(sx, shoulderY, x, y, col.shade);
+    // A fist over the face needs its own rim, or it melts into the head.
+    if (onFace) pc.disc(x, y, 2.4 + look.shape.handBonus, col.shade);
     pc.disc(x, y, 1.6 + look.shape.handBonus, col.body);
     pc.px(x, y + 1, col.tip);
     pc.px(x + 1, y, col.tip);
@@ -1234,13 +1288,29 @@ function drawArms(
         hx = sx + dir * 2;
         hy = shoulderY + 4;
         break;
+      case 'rubA':
+      case 'rubB': {
+        // A fist pressed to the eye on this hand's side.
+        const [ex] = eyeXs(angle, L, dir);
+        hx = ex;
+        hy = L.headCy + (posePick === 'rubA' ? 1 : 2);
+        break;
+      }
       default:
         break;
     }
-    hand(hx, hy, dir, sx);
+    hand(hx, hy, dir, sx, posePick === 'rubA' || posePick === 'rubB');
   };
   const mirror = (p: ArmPose): ArmPose =>
-    p === 'swingA' ? 'swingB' : p === 'swingB' ? 'swingA' : p;
+    p === 'swingA'
+      ? 'swingB'
+      : p === 'swingB'
+        ? 'swingA'
+        : p === 'rubA'
+          ? 'rubB'
+          : p === 'rubB'
+            ? 'rubA'
+            : p;
   switch (angle) {
     case 'front':
       armAt(L.bodyCx - L.bodyRx + 1, -1, pose.arms);
@@ -1573,8 +1643,12 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.dot(L.headCx + 3, ny + 3.5, shadeOf(sc));
   }
 
-  if (fromFront) drawArms(pc, angle, pose, L, armLook);
+  // Crying fists rub the eyes, so they go on after the face.
+  const rubbing = pose.arms === 'rubA' || pose.arms === 'rubB';
+  if (fromFront && !rubbing) drawArms(pc, angle, pose, L, armLook);
   drawFace(pc, angle, pose, L, col);
+  if (fromFront && rubbing) drawArms(pc, angle, pose, L, armLook);
+  if (pose.tears) drawTears(pc, angle, L, 2.4 + look.shape.handBonus);
   if (look.glasses && angle !== 'back' && angle !== 'backQuarter') {
     const ey = L.headCy + 1;
     const xs =
@@ -1644,6 +1718,9 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
         frameKey('sit', angle, f),
         drawChao(angle, { ...BASE, legs: 'out', squash: f === 0 ? 1 : 0.95 }, look),
       );
+    // LOOK-21: crying, distinct from sad: seated, fists rubbing the eyes in turn, wailing.
+    for (let f = 0; f < 2; f++)
+      atlas.add(frameKey('cry', angle, f), drawChao(angle, cryPose(f), look));
   }
   return atlas.build();
 }
