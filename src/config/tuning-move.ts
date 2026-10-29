@@ -272,3 +272,13 @@ export const POND_DIP = {
   findChance: 0.35,
   findShells: 2,
 } as const;
+
+/** MOVE-27: the 3D glide wings: leaf size, shoulder height, colour and a slow beat. */
+export const GLIDE_WINGS = {
+  length: 0.9,
+  width: 0.35,
+  shoulder: 1.05,
+  colour: 0x8fd16a,
+  beatHz: 2.2,
+  beat: 0.35,
+} as const;

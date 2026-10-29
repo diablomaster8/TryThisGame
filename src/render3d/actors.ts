@@ -31,7 +31,8 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperDip, keeperFooting, keeperMantle, keeperRoll } from '../sim/keeper';
+import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
+import { GlideWings } from './glide-wings';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -193,6 +194,8 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  /** MOVE-27: the glide's leaf wings. */
+  private readonly wings: GlideWings;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
@@ -262,6 +265,7 @@ export class Actors {
     this.highlight.visible = false;
     this.group.add(this.highlight);
     this.sparkCloud = new QuadCloud(this.group, 96);
+    this.wings = new GlideWings(this.group);
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
@@ -984,6 +988,9 @@ export class Actors {
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
     this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
+    // MOVE-27: leaf wings while the Fly perk's glide holds the fall.
+    const ky3 = this.keeperGround(kp.x, kp.z) + this.keeperLift;
+    this.wings.update(keeperGliding(world), kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);
