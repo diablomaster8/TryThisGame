@@ -1,3 +1,4 @@
+import { buildShinyGlintSheet } from './shiny-glint';
 import type { KeeperAlignment, Nubbin, PartSlot } from '../../sim/types';
 import { childHint } from '../../sim/alignment';
 import { sheetFromImage, type SpriteSheet } from './atlas';
@@ -327,6 +328,11 @@ export class SheetCache {
     return this.get(shadow ? 'emotes:shadow' : 'emotes', () =>
       buildEmoteSheet(shadow ? C.plum : undefined),
     );
+  }
+
+  /** The shiny sweep over the head, one small sheet per head size (LOOK-30). */
+  shinyGlint(grow: number): SpriteSheet {
+    return this.get(`shiny-glint:${grow}`, () => buildShinyGlintSheet(grow));
   }
 
   dispose(): void {

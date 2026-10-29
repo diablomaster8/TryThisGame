@@ -46,6 +46,7 @@ import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
 import { pixelPose } from './stage-pose';
+import { glintPlace, glintShape } from './sprites/shiny-glint';
 
 interface Snapshot {
   pos: Vec2;
@@ -1825,7 +1826,38 @@ export class WorldView {
         },
         { id: n.id, kind: 'nubbin' },
       );
+      // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
+      // laid on the head in the sprite's own plane, a hair toward the camera.
+      const cam = PIXEL_VIEW.camera;
+      if ((n.shiny || n.heirloom) && n.species === 'chao' && n.stage !== 'egg' && cam) {
+        const shape = glintShape(n);
+        const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
+        const g = glintPlace(key, shape, nowMs, phase);
+        const gs = this.sheets.shinyGlint(shape.grow);
+        const grect = g ? gs.frames.get(g.key) : undefined;
+        if (g && grect) {
+          const W = (rect.w / NATIVE_PPU) * sw;
+          const H = (rect.h / NATIVE_PPU) * sh;
+          const m = cam.matrixWorld.elements;
+          const r = (flip ? -g.right : g.right) * W;
+          const u = g.up * H;
+          this.batch.draw({
+            sheet: gs,
+            rect: grect,
+            flip,
+            x: x + Math.cos(yaw) * r + m[4]! * u + m[8]! * 0.04,
+            y: y + m[5]! * u + m[9]! * 0.04,
+            z: z - Math.sin(yaw) * r + m[6]! * u + m[10]! * 0.04,
+            mode: 'billboard',
+            opacity,
+            tint: this.dim,
+            w: g.w * W,
+            h: g.h * H,
+          });
+        }
+      }
     }
+
 
     // Footstep dust and swimming ripples.
     const inPond = n.behavior.state === 'swim';

@@ -1393,6 +1393,7 @@ function drawFace(
   pose: ChaoPose,
   L: Layout,
   col: ChaoColors,
+  star = false,
 ): void {
   if (angle === 'back') return;
   const eyeY = L.headCy + 1;
@@ -1407,7 +1408,20 @@ function drawFace(
         pc.ellipse(cx, eyeY, rx, ry, col.eye);
         pc.ellipse(cx + 0.15, eyeY + 0.7, rx * 0.62, ry * 0.55, iris);
         pc.ellipse(cx + 0.15, eyeY + 0.9, rx * 0.32, ry * 0.3, col.eye);
-        pc.ellipse(cx - (narrow ? 0.2 : 0.6), eyeY - 1.4, narrow ? 0.4 : 0.55, 0.75, col.glint);
+        const gx = cx - (narrow ? 0.2 : 0.6);
+        if (star) {
+          // LOOK-30: a shiny's big catchlight is a four-point star, not a round one.
+          for (const [dx, dy] of [
+            [0, 0],
+            [-0.5, 0],
+            [0.5, 0],
+            [0, -0.5],
+            [0, 0.5],
+            [0, -1],
+            [0, 1],
+          ])
+            pc.dot(gx + dx!, eyeY - 1.4 + dy!, C.white);
+        } else pc.ellipse(gx, eyeY - 1.4, narrow ? 0.4 : 0.55, 0.75, col.glint);
         pc.dot(cx + (narrow ? 0.3 : 0.6), eyeY + 1.3, col.glint);
         break;
       }
@@ -1699,7 +1713,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // Crying fists rub the eyes, so they go on after the face.
   const rubbing = pose.arms === 'rubA' || pose.arms === 'rubB';
   if (fromFront && !rubbing) drawArms(pc, angle, pose, L, armLook);
-  drawFace(pc, angle, pose, L, col);
+  drawFace(pc, angle, pose, L, col, look.shiny);
   if (fromFront && rubbing) drawArms(pc, angle, pose, L, armLook);
   if (pose.tears) drawTears(pc, angle, L, 2.4 + look.shape.handBonus);
   if (look.glasses && angle !== 'back' && angle !== 'backQuarter') {
