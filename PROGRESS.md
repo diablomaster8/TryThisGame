@@ -38,25 +38,12 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
+## Round 5 · Lane E LOOK (2026-10-29, branch r5/e)
 
-- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
-  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
-  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
-  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
-  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
-  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
-  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
-  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
-  each pet action plays its own beat and toast in both modes.
-- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
-  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
-  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
-- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
-  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
-- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
-  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
-  instead of wading.
+- *Plan:* R0392 flights (a pure seeded `flightY` in the sim, like `shroomHopY`, read by both
+  renderers; Pixel `glide` frame); R0293 sprite side (gag frames and a gag look table, the sim
+  state stays lane A's); R0410 signature idles; R0409 48 px canvas for big species; R0411
+  collection keys and tabs; then round-4 partials and open LOOK items in R order as time allows.
 
 ## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
 

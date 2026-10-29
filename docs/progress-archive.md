@@ -2,6 +2,26 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
+
+- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
+  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
+  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
+  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
+  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
+  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
+  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
+  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
+  each pet action plays its own beat and toast in both modes.
+- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
+  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
+  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
+- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
+  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
+- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
+  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
+  instead of wading.
+
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
 - *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
