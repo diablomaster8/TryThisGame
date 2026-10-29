@@ -1144,6 +1144,12 @@ export function mountHud(
           toast(HOLLOW_TEXT.partyGiggles);
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
+        } else if (e.kind === 'strayShooed') {
+          // Lane B round 3: strays as a chase (R0162).
+          const n = e.by ? g.world.nubbins.find((x) => x.id === e.by) : undefined;
+          toast(HOLLOW_TEXT.strayShooed(n?.name ?? ''));
+        } else if (e.kind === 'trailShell') {
+          playSound('pickup');
         } else if (e.kind === 'hollowFell') {
           // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
           toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);

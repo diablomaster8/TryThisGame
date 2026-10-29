@@ -13,6 +13,8 @@ export const HOLLOW_TEXT = {
   /** Hollow platforming (R0031): a step into a gap or deep water, and straight back. */
   fellChasm: 'Whoops! A soft bounce, and you are back on the ledge. Jump to cross.',
   fellWater: 'Splash! Too deep to wade. Find the stones, or jump.',
+  /** Strays (R0162). */
+  strayShooed: (name: string) => `${name || 'Your Nubbin'} chases the stray off, puffing.`,
   /** The pack fight's panel, on the battle core. */
   boutTitle: 'A pack!',
   boutBackOff: 'Back off',
@@ -111,5 +113,6 @@ export const HOLLOW_AUTOMAP_TEXT = {
   shrine: 'Shrine',
   unique: 'Someone special',
   quest: 'Quest',
+  stray: 'Stray',
   way: 'Show me the way',
 } as const;

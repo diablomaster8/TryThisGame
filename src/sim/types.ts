@@ -526,6 +526,14 @@ export interface DungeonStray {
   target: Vec2 | null;
   /** Fleeing after a snatch while this counts down. */
   cooldownMs: number;
+  /**
+   * R0162: snatches on this floor (at most `HOLLOW.strays.maxSnatches`), Shells still to drop
+   * as a trail while it flees, seen once (shown on the automap), shooed off for good.
+   */
+  snatches?: number;
+  carrying?: number;
+  seen?: boolean;
+  shooed?: boolean;
 }
 
 /** A wild creature in a nook; walking up to it fills its scan. */
@@ -550,6 +558,8 @@ export interface DungeonRun {
   taken: string[];
   chestOpen: boolean;
   strays: DungeonStray[];
+  /** R0162: single Shells a fleeing stray dropped, waiting to be picked up. */
+  shellTrail?: Array<{ id: string; x: number; z: number }>;
   wild: DungeonWild[];
   /** 'up', 'down', 'chest' or 'stray:<id>': used on arrival at `pendingPos`. */
   pending: string | null;
@@ -1170,6 +1180,9 @@ export type SimEvent =
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null }
   | { kind: 'strayStartled'; shells: number }
+  /** R0162: a party Nubbin chased a stray off; or the Keeper picked up a dropped Shell. */
+  | { kind: 'strayShooed'; by: string | null }
+  | { kind: 'trailShell' }
   /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
   | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
   | { kind: 'packNoticed'; packId: string }

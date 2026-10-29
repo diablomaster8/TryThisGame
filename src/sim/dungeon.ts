@@ -6,6 +6,7 @@ import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
+import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -1095,6 +1096,8 @@ export function feedStray(world: World, id: string, events: SimEvent[]): void {
   const s = run.strays.find((x) => x.id === id);
   if (!s) return;
   if (world.inventory.fruit < 1) {
+    // No fruit: a party Nubbin chases it off instead, if one has the energy (R0162).
+    if (shooStray(world, run, id, events)) return;
     events.push({ kind: 'strayFed', ok: false, name: null });
     return;
   }
@@ -1295,16 +1298,20 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       s.target = c ? cellCentre(f, c) : null;
     }
     resolveDungeon(s.pos, f, 0.3, 'all');
-    if (!fleeing && !settling && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
-      const shells = Math.min(world.inventory.shells, DUNGEON.straySnatch);
-      world.inventory.shells -= shells;
-      run.haul.shells = Math.max(0, run.haul.shells - shells);
-      s.cooldownMs = DUNGEON.strayCooldownMs;
+    // R0162: the snatched Shells drop as a trail behind it; twice a floor at most.
+    stepStray(world, run, f, s, dtMs);
+    if (
+      !fleeing &&
+      maySnatch(s, settling) &&
+      dist(s.pos, k.pos) < 0.9 &&
+      world.inventory.shells > 0
+    ) {
+      snatch(world, run, s, events);
       const away = randomOpenCell(f, rng, null, 0);
       s.target = away ? cellCentre(f, away) : null;
-      events.push({ kind: 'strayStartled', shells });
     }
   }
+  pickTrail(world, run, events);
 
   // The party: fetch loot nearby, otherwise keep close to the Keeper.
   run.party = run.party.filter((id) => world.nubbins.some((n) => n.id === id));

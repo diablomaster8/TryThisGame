@@ -37,6 +37,11 @@ export const HOLLOW = {
     hopDistance: 4.5,
   },
   /**
+   * Strays (R0162): snatches per stray per floor, a dropped Shell every `dropEveryMs` while
+   * it flees, the energy a party Nubbin spends to shoo one, how near counts as seeing one.
+   */
+  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 10, seeRadius: 7 },
+  /**
    * Fog of war (R0153): brightness of cells never seen, seen but out of sight, and in sight.
    * The sight radius is `DUNGEON.explore.radius` plus these bonuses (cells); the outdoor
    * zones and the Light role will fill them in later, so both stay 0 for now.

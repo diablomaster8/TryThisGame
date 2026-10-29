@@ -38,7 +38,17 @@ import { screenBearing } from './hud-world-math';
 export type MapMode = 'off' | 'corner' | 'overlay';
 
 export type MarkKind =
-  'you' | 'party' | 'up' | 'down' | 'chest' | 'waypoint' | 'portal' | 'shrine' | 'unique' | 'quest';
+  | 'you'
+  | 'party'
+  | 'up'
+  | 'down'
+  | 'chest'
+  | 'waypoint'
+  | 'portal'
+  | 'shrine'
+  | 'unique'
+  | 'quest'
+  | 'stray';
 
 export type MarkShape =
   | 'ringDot'
@@ -50,7 +60,8 @@ export type MarkShape =
   | 'capsule'
   | 'sparkle'
   | 'star'
-  | 'bang';
+  | 'bang'
+  | 'cross';
 
 /** Each marker's shape, colour and legend line. */
 export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: string }> = {
@@ -64,6 +75,7 @@ export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: st
   shrine: { shape: 'sparkle', icon: '✦', color: '#fff0a0' },
   unique: { shape: 'star', icon: '★', color: '#ff9a6a' },
   quest: { shape: 'bang', icon: '!', color: '#ffe14d' },
+  stray: { shape: 'cross', icon: '✕', color: '#c8a8ff' },
 };
 
 /** The marker kinds a floor may carry before the sim has them (the hooks). */
@@ -126,6 +138,8 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
     const c = waypointCell(f);
     if (seen(c)) out.push(at('waypoint', c));
   }
+  // Strays once seen (R0162), where they are now.
+  for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {
     const n = world.nubbins.find((m) => m.id === id);
     if (n) out.push({ kind: 'party', ...cellPoint(f, n.pos) });
@@ -221,6 +235,22 @@ export function drawMark(g: Ctx2D, kind: MarkKind, x: number, y: number, r: numb
         [0.5, 0.6],
         [0, 1],
         [-0.5, 0.6],
+      ]);
+      break;
+    case 'cross':
+      poly([
+        [-1, -0.7],
+        [-0.7, -1],
+        [0, -0.3],
+        [0.7, -1],
+        [1, -0.7],
+        [0.3, 0],
+        [1, 0.7],
+        [0.7, 1],
+        [0, 0.3],
+        [-0.7, 1],
+        [-1, 0.7],
+        [-0.3, 0],
       ]);
       break;
     case 'sparkle':
