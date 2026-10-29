@@ -1,4 +1,4 @@
-import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obstacles';
+import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
 import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
@@ -9,6 +9,7 @@ import {
   JUMP_PLAY,
   KEEPER_SLOPE,
   BUSH,
+  MANTLE,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -331,6 +332,83 @@ export function keeperGliding(world: World): boolean {
   );
 }
 
+/** A climb onto a lip the jump fell short of (MOVE-50): transient, never saved. */
+interface Mantle {
+  from: number;
+  to: number;
+  ms: number;
+  /** Where the feet start and end across the lip (a piece's edge is stepped over). */
+  x0: number;
+  z0: number;
+  x1: number;
+  z1: number;
+}
+const mantles = new WeakMap<World, Mantle>();
+
+/** MOVE-50: how far through a mantle the Keeper is (0..1), or null when not mantling. */
+export function keeperMantle(world: World): number | null {
+  const m = mantles.get(world);
+  return m ? Math.min(1, m.ms / MANTLE.ms) : null;
+}
+
+/** Land at the end of a fall or a mantle: on the ground, air jumps and glide reset. */
+function land(world: World, fall: number, events: SimEvent[]): void {
+  const k = world.keeper;
+  k.vy = 0;
+  k.grounded = true;
+  k.airJumps = JUMP.airJumps;
+  glided.delete(world);
+  events.push({ kind: 'keeperLanded', fall });
+  if (world.location === 'grove') shyHopBack(world, k.pos, events);
+}
+
+/**
+ * MOVE-50: in the air, a body pressed against a standable piece (a bench, a rock, a hay
+ * bale) whose top the jump's own arc will not lift the feet onto, but which is within a
+ * step of them, is mantled onto. Houses and walls are never standable, so never mantled.
+ */
+function grabLip(world: World): boolean {
+  const k = world.keeper;
+  if (k.carrying || (k.input.x === 0 && k.input.z === 0 && !k.moveTarget && !k.intent))
+    return false;
+  const lip = lipAt(world, k.pos, 0.4, k.y, MANTLE.minRise, JUMP.stepUp);
+  if (!lip) return false;
+  const arc = k.vy > 0 ? (k.vy * k.vy) / (2 * jumpTuning(world).gravity) : 0;
+  if (k.y + arc >= lip.top) return false;
+  // Only toward the lip: the way the Keeper faces must point at it.
+  const dx = lip.x - k.pos.x;
+  const dz = lip.z - k.pos.z;
+  if (Math.sin(k.facing) * dx + Math.cos(k.facing) * dz <= 0) return false;
+  mantles.set(world, {
+    from: k.y,
+    to: lip.top,
+    ms: 0,
+    x0: k.pos.x,
+    z0: k.pos.z,
+    x1: lip.x,
+    z1: lip.z,
+  });
+  k.vy = 0;
+  halt(world);
+  return true;
+}
+
+/** One substep of a mantle: the feet ease up to the lip, then land on it. */
+function stepMantle(world: World, dtMs: number, events: SimEvent[]): void {
+  const m = mantles.get(world)!;
+  const k = world.keeper;
+  m.ms += dtMs;
+  const t = Math.min(1, m.ms / MANTLE.ms);
+  const e = t * t * (3 - 2 * t);
+  k.y = m.from + (m.to - m.from) * e;
+  k.pos.x = m.x0 + (m.x1 - m.x0) * e;
+  k.pos.z = m.z0 + (m.z1 - m.z0) * e;
+  if (t < 1) return;
+  mantles.delete(world);
+  k.y = m.to;
+  land(world, 0, events);
+}
+
 /** The highest the feet got since they left the ground, for the landing's fall height. */
 const peakY = new WeakMap<World, number>();
 
@@ -383,15 +461,24 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.y <= under) {
-    k.y = under;
-    if (k.vy <= 0) {
+    // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
+    const arc = k.vy > 0 ? (k.vy * k.vy) / (2 * tune.gravity) : 0;
+    if (!dungeon && under - k.y > MANTLE.minRise && k.y + arc < under) {
+      mantles.set(world, {
+        from: k.y,
+        to: under,
+        ms: 0,
+        x0: k.pos.x,
+        z0: k.pos.z,
+        x1: k.pos.x,
+        z1: k.pos.z,
+      });
       k.vy = 0;
-      k.grounded = true;
-      k.airJumps = JUMP.airJumps;
-      glided.delete(world);
-      events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
-      if (world.location === 'grove') shyHopBack(world, k.pos, events);
+      halt(world);
+      return;
     }
+    k.y = under;
+    if (k.vy <= 0) land(world, Math.max(0, (peakY.get(world) ?? k.y) - k.y), events);
   }
 }
 
@@ -544,6 +631,12 @@ function tapRunning(world: World, target: Vec2): boolean {
 
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
+  // A mantle takes the Keeper's whole substep: no walking, no gravity (MOVE-50).
+  if (mantles.has(world)) {
+    stepMantle(world, dtMs, events);
+    rideCarried(world);
+    return;
+  }
   const dt = dtMs / 1000;
   const fromX = k.pos.x;
   const fromZ = k.pos.z;
@@ -765,10 +858,18 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       }
     }
   }
+  if (!dungeonFloor && !k.grounded && grabLip(world)) {
+    rideCarried(world);
+    return;
+  }
   stepVertical(world, dt, !!dungeonFloor, events);
   if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
+  rideCarried(world);
+}
 
-  // A carried Nubbin rides above the Keeper's head.
+/** A carried Nubbin rides above the Keeper's head. */
+function rideCarried(world: World): void {
+  const k = world.keeper;
   if (k.carrying) {
     const n = findNubbin(world, k.carrying);
     if (n && n.behavior.state === 'carried') {

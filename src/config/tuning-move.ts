@@ -154,3 +154,11 @@ export const FOOTFALL = {
   stride: 0.7,
   tuftEvery: 2,
 } as const;
+
+/**
+ * MOVE-50: a jump that comes up short of a lip (its arc would not lift the feet onto it)
+ * climbs the rest in a mantle of `ms`, when the lip is more than `minRise` over the feet.
+ * The reach is the step allowance (`JUMP.stepUp`, 0.35 u), as before, now with a climb to
+ * see instead of a pop: a 0.95 jump mantles onto a 1.2 lip and falls back from a 1.4 one.
+ */
+export const MANTLE = { ms: 250, minRise: 0.12 } as const;

@@ -31,7 +31,7 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperFooting } from '../sim/keeper';
+import { keeperFooting, keeperMantle } from '../sim/keeper';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -770,13 +770,15 @@ export class Actors {
    * MOVE-21: the Keeper's rig stretches tall on the way up and squashes for a beat on
    * landing (1.1 / 0.92), about its feet. None under reduced motion.
    */
-  private squashKeeper(keeper: World['keeper'], nowMs: number): void {
+  private squashKeeper(keeper: World['keeper'], nowMs: number, mantle: number | null): void {
     const o = this.keeper?.rig?.group;
     if (!o || this.calm || this.keeperHold) return;
     const fx = KEEPER_JUMP_FX;
     const land = (nowMs - this.keeperLandAt) / this.keeperLandDur;
     let sh = 1;
-    if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
+    // A mantle (MOVE-50) tucks the body down and up again as it climbs over the lip.
+    if (mantle !== null) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * mantle);
+    else if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
     else if (!keeper.grounded && keeper.vy > fx.apexVy)
       sh = 1 + (fx.rigStretch - 1) * Math.min(1, keeper.vy / 6);
     if (sh === 1) return;
@@ -969,7 +971,7 @@ export class Actors {
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
-    this.squashKeeper(keeper, nowMs);
+    this.squashKeeper(keeper, nowMs, keeperMantle(world));
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);

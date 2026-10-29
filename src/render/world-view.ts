@@ -9,7 +9,7 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
-import { keeperFooting, keeperGliding } from '../sim/keeper';
+import { keeperFooting, keeperGliding, keeperMantle } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
@@ -266,6 +266,8 @@ export class WorldView {
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
     if (k.grounded) return null;
     const fx = KEEPER_JUMP_FX;
+    // A mantle (MOVE-50) scrambles up with the knees tucked: the crouch frame.
+    if (keeperMantle(world) !== null) return 'jump-crouch';
     if (nowMs - this.keeperJumpAt < fx.crouchMs && gap < fx.crouchGap) return 'jump-crouch';
     if (k.vy > fx.apexVy) return 'jump-rise';
     return k.vy < -fx.apexVy ? 'jump-fall' : 'jump-apex';

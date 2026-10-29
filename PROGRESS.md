@@ -38,6 +38,15 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
+
+Plan, in R order: R0050 mantle (sim + both renderers' pose), R0051 jump-button states,
+R0052 3D camera lift/pull-in over hills (fit-shot side, one call in the scene), R0053
+"Camera follows walking" (Pixel), R0054 Keeper 2 on the shared motion, R0055 "Look around"
+on tops, R0056 `reach` on story props, R0057 spring mushroom and hay bale (3D look in a new
+file), R0058 one-time hop chip (+ one Moss line), R0059 camera-side arrival, R0060 and R0067
+deferred (Hollow files, lane B), R0063–R0066 as far as they fit, then the MOVE partials.
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
