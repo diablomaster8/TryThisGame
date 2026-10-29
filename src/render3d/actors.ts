@@ -27,6 +27,7 @@ import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
+import { flightY } from '../sim/flight';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
 import { isMerged } from '../sim/partners';
@@ -877,10 +878,13 @@ export class Actors {
       const held = this.nubbinHolds?.get(n.id);
       const x = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
       const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
+      // LOOK-24: a strong flier on a flight leg flies (drawn only, sim/flight.ts).
+      const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
       // MOVE-57: a Nubbin at play on a spring mushroom bounces on its cap (drawn only).
       const y =
         lerp(a.prev.y, n.y, alpha) +
-        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0);
+        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+        (fly?.y ?? 0);
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
@@ -905,6 +909,8 @@ export class Actors {
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        if (fly) pose = 'flap';
+        a.rig.glide = fly?.phase === 'glide';
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);

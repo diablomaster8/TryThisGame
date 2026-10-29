@@ -44,6 +44,8 @@ import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
 import { SWIM_CLIPS } from './sprites/chao';
+import { flightY } from '../sim/flight';
+import { FLIGHT } from '../config/tuning-look';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
@@ -1784,11 +1786,14 @@ export class WorldView {
     const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;
     const x = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
     const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
+    // LOOK-24: a strong flier on a flight leg is drawn in the air; the shadow shrinks below.
+    const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
     // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
     const y =
       lerp(v.prev.y, n.y, alpha) +
       (held && this.location === 'grove' ? terraceY(x, z) : 0) +
-      (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0);
+      (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+      (fly?.y ?? 0);
 
     let key: string;
     let flip = false;
@@ -1823,6 +1828,7 @@ export class WorldView {
           ? 'sit'
           : 'sleep'
         : clipFor(n);
+      if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
       const view = viewAngle(hf ?? npose?.face ?? n.facing, yaw);
@@ -1844,6 +1850,7 @@ export class WorldView {
           paddle: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
           crawl: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
           flap: 'walk',
+          glide: sheet.frames.has(frameKey('flap', view.angle, 0)) ? 'flap' : 'walk',
           swim: 'walk',
           sit: 'idle',
           love: 'happy',
@@ -1856,7 +1863,10 @@ export class WorldView {
         v.clipStartMs = nowMs;
       }
       flip = view.flip;
-      const def = CLIPS[clip as ClipName] ?? SWIM_CLIPS[clip];
+      const def =
+        fly && clip === 'flap'
+          ? { frames: 2, ms: 500 / FLIGHT.flapHz, loop: true }
+          : (CLIPS[clip as ClipName] ?? SWIM_CLIPS[clip]);
       const frame =
         clip === 'sit'
           ? npose?.clip === 'sit'

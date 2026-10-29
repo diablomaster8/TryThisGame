@@ -80,3 +80,19 @@ export const PART_SIZE = {
   /** Sun and Moon adults' parts move this far toward the body colour. */
   bandTint: 0.3,
 };
+
+/** LOOK-24: short flights for strong fliers (`sim/flight.ts`). */
+export const FLIGHT = {
+  /** An adult at or above this Fly level takes some wander legs in the air. */
+  minLevel: 50,
+  /** The share of its wander legs that are flights. */
+  chance: 0.35,
+  /** Cruise height, world units. */
+  height: 0.6,
+  riseMs: 400,
+  glideMs: 600,
+  /** Cruise speed as a multiple of the walk. */
+  speed: 1.4,
+  /** Wing beats per second while climbing and cruising. */
+  flapHz: 10,
+} as const;

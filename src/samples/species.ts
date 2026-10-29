@@ -383,6 +383,8 @@ export interface Rigged extends Creature {
    */
   /** LOOK-23: set by the stage: the swim pose's stroke (a crawl when unset). */
   swimStyle?: 'paddle' | 'breast' | 'crawl';
+  /** LOOK-24: set by the stage: the flap pose glides, wings and arms held out still. */
+  glide?: boolean;
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1862,7 +1864,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       case 'flap': {
         // Flying along: lifted off the grass and leaning into it, the arms beating with
         // the wings' fast flutter (below), the legs trailing.
-        const w = t * 16;
+        const w = rig.glide ? Math.PI / 2 : t * 16;
         const ease = smooth(Math.min(1, dt / 0.4));
         hips.position.y = spec.hipY + (0.35 + s(w) * 0.04) * ease;
         hips.rotation.x = 0.22 * ease;
@@ -1992,6 +1994,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const rate = pose === 'flap' ? 28 : 9;
       const side = i === 0 ? -1 : 1;
       let beat = s(t * rate + i) * flap;
+      if (pose === 'flap' && rig.glide) beat = flap;
       if (pose === 'idle' && spec.wings?.shape === undefined) {
         // At rest a Chao's wings keep still, then flutter: 3 beats at 12 Hz every 4-7 s.
         const burst = idleFlutter(t);

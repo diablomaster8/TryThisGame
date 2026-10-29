@@ -40,6 +40,8 @@ import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
 import { BUSH, JUMP_TOYS } from '../config/tuning-move';
 import { FRUIT_BONK } from '../config/tuning-fun';
 import { springBounce } from './decorate';
+import { fliesLeg } from './flight';
+import { FLIGHT } from '../config/tuning-look';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
 import type {
@@ -712,7 +714,11 @@ export function updateBehavior(
   switch (b.state) {
     case 'wander':
     case 'avoid': {
-      const speed = b.state === 'avoid' ? BEHAVIOR.walkSpeed * 1.6 : BEHAVIOR.walkSpeed;
+      // LOOK-24: a flight leg cruises faster than a walk (sim/flight.ts).
+      const speed =
+        b.state === 'avoid'
+          ? BEHAVIOR.walkSpeed * 1.6
+          : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1);
       if (!b.target || walkToward(world, n, b.target, speed, dtMs) || now >= b.untilMs) {
         chooseIdle(n, world, rng, now);
       }
