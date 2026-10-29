@@ -244,3 +244,23 @@ describe('R0319 goal chip', () => {
     expect(howToHint(c(world))).toBe('✓ ✓ Tap the Nubbin, then Pet (3/3)');
   });
 });
+
+describe('R0322 tap toy', () => {
+  it('the hiccup and sneeze beats show a face and change nothing else', async () => {
+    const { createWorld } = await import('../../src/sim/world');
+    const world = createWorld(5, 0);
+    const n = world.nubbins[0]!;
+    n.stage = 'child';
+    const needs = JSON.stringify(n.needs);
+    const stats = JSON.stringify(n.stats);
+    const ev: SimEvent[] = [];
+    applyCommand(world, { kind: 'tapToy', nubbinId: n.id, beat: 'hiccup' }, ev);
+    applyCommand(world, { kind: 'tapToy', nubbinId: n.id, beat: 'sneeze' }, ev);
+    const faces = ev
+      .filter((e) => e.kind === 'reaction')
+      .map((e) => e.kind === 'reaction' && e.reaction);
+    expect(faces).toEqual(['surprised', 'dizzy']);
+    expect(JSON.stringify(n.needs)).toBe(needs);
+    expect(JSON.stringify(n.stats)).toBe(stats);
+  });
+});

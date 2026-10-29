@@ -66,3 +66,10 @@ export const FERN_STONE = { id: 'fern-stone', x: 3.1, z: 21.2, maxStones: 12, pi
  * chapter `fromChapter`, one more every `racesPer` races entered, `cap` at most.
  */
 export const BYTE_WATCHES = { fromChapter: 5, start: 4, racesPer: 3, cap: 12 } as const;
+
+/**
+ * R0322 (FUN-33): tapping a Nubbin over and over is a noise toy: taps within `gapMs` of the
+ * last climb `semitones` each; at `hiccupAt` it hiccups three times, at `sneezeAt` it
+ * sneezes and its crown spins (a dizzy face), then the run starts again.
+ */
+export const TAP_TOY = { gapMs: 1500, semitones: 2, hiccupAt: 5, sneezeAt: 8 } as const;

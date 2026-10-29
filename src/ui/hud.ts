@@ -63,6 +63,7 @@ import { BarkBubble } from './bark-bubble';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
+import { tapToy } from './tap-toy';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -1468,6 +1469,9 @@ export function mountHud(
         toast(UI_TEXT.decorPickedUp);
         return;
       }
+      // R0322: repeated taps on a Nubbin squeak up the scale (ui/tap-toy.ts).
+      if (id && g && g.world.nubbins.some((n) => n.id === id))
+        tapToy(g, id, sheet.selectedId, performance.now());
       if (id) sheet.open(id);
       else sheet.close();
     },

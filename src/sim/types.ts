@@ -976,6 +976,8 @@ export type Command =
   | { kind: 'debugHatchNow'; nubbinId: string }
   | { kind: 'campaignStart' }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
+  /** R0322: the tap toy's beats (a surprised face for hiccups, a dizzy one for the sneeze). */
+  | { kind: 'tapToy'; nubbinId: string; beat: 'hiccup' | 'sneeze' }
   /** R0304 (FUN-15): a story line's hands-on beat was played (the gate, the cup). */
   | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }

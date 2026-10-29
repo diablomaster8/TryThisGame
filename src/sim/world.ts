@@ -975,6 +975,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // R0313: except Fern's stone, a running gag of its own.
       tapFernStone(world, cmd.prop, events);
       return;
+    case 'tapToy': {
+      // R0322: a face only; the tap toy never touches needs or stats.
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n && n.stage !== 'egg' && n.stage !== 'cocoon')
+        react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
+      return;
+    }
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
