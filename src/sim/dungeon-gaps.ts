@@ -274,16 +274,23 @@ export function platformFloor(
   let nooks = 0;
   if (deep) {
     const goal = rng.int(G.nooks[0], G.nooks[1]);
+    // Walking reach before the next cut; refreshed only when a cut is kept.
+    let walkBefore: Uint8Array | null = null;
     for (const cut of all) {
       if (nooks >= goal) break;
       if (near(cut)) continue;
-      const walkBefore = reachMask(f, f.stairsUp, false);
+      const before = (walkBefore ??= reachMask(f, f.stairsUp, false));
       apply(cut, CHASM);
+      // Cheap first: a cut that leaves no small pocket on either side is no nook.
+      if (!smallPocket(f, cut, G.nookCells[1])) {
+        apply(cut, FLOOR);
+        continue;
+      }
       const walk = reachMask(f, f.stairsUp, false);
       const pocket: number[] = [];
       for (let i = 0; i < walk.length; i++)
-        if (walkBefore[i] && !walk[i] && f.cells[i] === FLOOR) pocket.push(i);
-      const keyLost = keys.some((c) => walkBefore[c.y * f.cols + c.x] && !walk[c.y * f.cols + c.x]);
+        if (before[i] && !walk[i] && f.cells[i] === FLOOR) pocket.push(i);
+      const keyLost = keys.some((c) => before[c.y * f.cols + c.x] && !walk[c.y * f.cols + c.x]);
       if (
         keyLost ||
         pocket.length < G.nookCells[0] ||
@@ -295,6 +302,7 @@ export function platformFloor(
       }
       used.add(cut);
       f.gaps.push({ cells: cut, nook: true });
+      walkBefore = null;
       nooks++;
       const inPocket = new Set(pocket);
       if (!f.loot.some((l) => inPocket.has(l.cell.y * f.cols + l.cell.x))) {
@@ -355,4 +363,40 @@ export function platformFloor(
 /** How many of a floor's side pockets need a jump (the test reads this). */
 export function jumpNooks(f: Floor): number {
   return (f.gaps ?? []).filter((g) => g.nook).length;
+}
+
+/**
+ * Whether a cut (already applied) leaves a pocket of at most `limit` dry cells on one side,
+ * walking only, that the stairs are not in: a bounded flood from each cell beside the cut.
+ */
+function smallPocket(f: Floor, cut: Cell[], limit: number): boolean {
+  const seen = new Set<number>();
+  const start = f.stairsUp.y * f.cols + f.stairsUp.x;
+  for (const c of cut)
+    for (const [dx, dy] of FOUR) {
+      const s = (c.y + dy) * f.cols + c.x + dx;
+      if (f.cells[s] !== FLOOR || seen.has(s)) continue;
+      const queue = [s];
+      seen.add(s);
+      let small = true;
+      for (let q = 0; q < queue.length; q++) {
+        const i = queue[q]!;
+        if (i === start || queue.length > limit) {
+          small = false;
+          break;
+        }
+        const x = i % f.cols;
+        for (const [ex, ey] of FOUR) {
+          const nx = x + ex;
+          const ny = (i - x) / f.cols + ey;
+          if (nx < 0 || ny < 0 || nx >= f.cols || ny >= f.rows) continue;
+          const j = ny * f.cols + nx;
+          if (f.cells[j] !== FLOOR || seen.has(j)) continue;
+          seen.add(j);
+          queue.push(j);
+        }
+      }
+      if (small) return true;
+    }
+  return false;
 }

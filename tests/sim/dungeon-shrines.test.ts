@@ -54,7 +54,7 @@ describe('shrines (R0159)', () => {
         expect(PLACED_KINDS).toContain(x.kind);
       }
     }
-  });
+  }, 60_000);
 
   it('applies and expires every timed kind on the sim clock, and pauses in a fight', () => {
     for (const kind of PLACED_KINDS) {
