@@ -5,7 +5,7 @@ import { floorOf } from '../../src/sim/dungeon';
 import { Rng } from '../../src/sim/rng';
 import { damageWith, moveDamage } from '../../src/sim/battle/damage';
 import { moveById } from '../../src/sim/battle/moves';
-import '../../src/sim/battle/tactics/ai';
+import { aiTurn as suggestHook } from '../../src/sim/battle/tactics/ai';
 import {
   createTactics,
   hitMult,
@@ -327,6 +327,21 @@ describe('ranged arcs and lines (R0250)', () => {
     expect(s60.log.some((e) => e.k === 'combo')).toBe(true);
     expect(unitOf(s60, 'f')!.c.hp).toBeLessThanOrEqual(hp);
     expect(tacticsAct(mk(59), { k: 'together', with: 'b', x: 1, y: 0 })).toBe(false);
+  });
+
+  it('the AI calls Together! when a friend at 60 stands beside it', () => {
+    const open = mapFromRows(['.....', '.....', '.....']);
+    const a = unit('a', 0, { x: 0, y: 0 }, { type: 'run' });
+    const b = unit('b', 0, { x: 1, y: 1 }, { type: 'power' });
+    a.friends = { b: 90 };
+    const s = bout(open, [a, b], [unit('f', 1, { x: 1, y: 0 })], { ai: ['champion', null] });
+    s.active = 'a';
+    s.acted = false;
+    s.moved = false;
+    unitOf(s, 'a')!.c.puff = 8;
+    unitOf(s, 'b')!.c.puff = 8;
+    suggestHook(s);
+    expect(s.log.some((e) => e.k === 'combo')).toBe(true);
   });
 
   it('a champion species carries an extra grid move', () => {

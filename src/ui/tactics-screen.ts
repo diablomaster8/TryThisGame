@@ -8,7 +8,9 @@ import {
   formatTactics,
 } from '../config/strings-tactics';
 import type { Game } from '../game';
+import type { Flashes, TacticsBoardView } from '../minigames/tactics/board-view';
 import { TacticsPixelView, type Overlays } from '../minigames/tactics/pixel-view';
+import { selectMinigameView } from '../render3d/minigame-layout';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import {
   activeUnit,
@@ -31,7 +33,7 @@ import {
   type TacticsState,
   type TUnit,
 } from '../sim/battle/tactics';
-import { moveById } from '../sim/battle/moves';
+import { moveById } from '../sim/battle/tactics/engine';
 import type { Cell } from '../sim/battle/tactics/types';
 import { button, el } from './dom';
 import { TacticsBar } from './tactics-bar';
@@ -54,14 +56,16 @@ export class TacticsScreen {
   private readonly log = el('div', 'tactics-log');
   private readonly tileCard = el('div', 'tactics-tile');
   private readonly end = el('div', 'tactics-end');
-  private readonly view: TacticsPixelView;
+  /** The Pixel board, or the Full 3D one once its chunk lands (FIGHT-62). */
+  private view: TacticsBoardView;
   private readonly bar: TacticsBar;
   private mode: Mode = 'busy';
   private tile: Cell | null = null;
   private move: string | null = null;
   private turnKey = '';
   private seenLog = 0;
-  private hurtAt = new Map<string, number>();
+  private want3d = true;
+  private readonly flashes: Flashes = { hurt: new Map(), pile: new Map() };
   private raf = 0;
   private press: { id: number; x: number; y: number; at: number; timer: number } | null = null;
   private touches = new Map<number, { x: number; y: number }>();
@@ -93,6 +97,7 @@ export class TacticsScreen {
     );
     top.append(this.strip, this.chip, tools);
     this.view = new TacticsPixelView(this.canvas);
+    this.use3d();
     this.root.append(top, this.canvas, this.log, this.tileCard, this.end);
     this.tileCard.hidden = true;
     this.end.hidden = true;
@@ -126,6 +131,7 @@ export class TacticsScreen {
 
   close(): void {
     cancelAnimationFrame(this.raf);
+    this.view.dispose();
     const g = this.game();
     if (g) g.renderPaused = false;
     window.removeEventListener('keydown', this.keys);
@@ -187,6 +193,48 @@ export class TacticsScreen {
     if (!s || !this.tile) return;
     const mate = togetherMates(s, this.tile)[0];
     if (mate) this.act({ k: 'together', with: mate, ...this.tile });
+  }
+
+  /**
+   * In Full 3D (and once the Grove's 3D scene has loaded) the board is drawn by the 3D view
+   * into the game canvas under this screen, which goes see-through; the low-res canvas stays
+   * as the input surface. Until the chunk lands, and if it fails, the Pixel board draws.
+   */
+  private use3d(): void {
+    const g = this.game();
+    const scene3d = g?.scene3d;
+    if (!g || !scene3d || g.graphics !== '3d') {
+      this.want3d = false;
+      return;
+    }
+    // The 3D scene may still be loading when a bout opens; the frame loop asks again.
+    if (selectMinigameView(g.graphics, scene3d.loadState().done) !== '3d') return;
+    this.want3d = false;
+    void import('../render3d/tactics-3d').then(
+      (mod) => {
+        if (!this.root.isConnected) return;
+        const pixel = this.view;
+        const v = new mod.Tactics3dView(
+          scene3d,
+          this.canvas,
+          (id) => this.game()?.world.nubbins.find((n) => n.id === id) ?? null,
+          () => {
+            const w = this.game()?.world;
+            return w ? { keeper: w.keeper, trainer: w.trainer } : null;
+          },
+        );
+        v.rot = pixel.rot;
+        v.zoom = pixel.zoom;
+        this.view = v;
+        pixel.dispose();
+        this.root.classList.add('three');
+        this.canvas.getContext('2d')?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        const s = this.state();
+        const u = s && activeUnit(s);
+        if (s && u) v.centreOn(s, u);
+      },
+      () => undefined,
+    );
   }
 
   private turn(d: number): void {
@@ -412,6 +460,7 @@ export class TacticsScreen {
     const g = this.game();
     if (!g) return null;
     try {
+      if (u.keeper) return g.view.sheets.keeper(g.world.trainer, g.world.keeper.alignment);
       const n = u.c.nubbinId ? g.world.nubbins.find((x) => x.id === u.c.nubbinId) : null;
       return n ? g.view.sheets.forNubbin(n) : g.view.sheets.species(u.c.species);
     } catch {
@@ -443,7 +492,8 @@ export class TacticsScreen {
       }
     }
     if (this.mode === 'busy' && u?.c.side === 0) this.mode = 'idle';
-    this.view.draw(s, this.overlays(s, u), now, this.sheetFor, this.hurtAt);
+    if (this.want3d) this.use3d();
+    this.view.draw(s, this.overlays(s, u), now, this.sheetFor, this.flashes);
     const shown = s.result ? 'busy' : this.mode;
     if (shown !== this.shown) this.bar.show((this.shown = shown));
     this.bar.state({
@@ -460,7 +510,8 @@ export class TacticsScreen {
     if (s.log.length < this.seenLog) this.seenLog = 0;
     if (s.log.length === this.seenLog) return;
     for (const e of s.log.slice(this.seenLog)) {
-      if (e.k === 'hit') this.hurtAt.set(e.to, now);
+      if (e.k === 'hit') this.flashes.hurt.set(e.to, now);
+      if (e.k === 'pileOn') this.flashes.pile.set(e.to, now);
       const line = formatTactics(e, (id) => this.nameOf(s, id));
       if (line) this.lines.push(line);
     }

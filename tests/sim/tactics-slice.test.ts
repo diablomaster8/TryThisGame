@@ -43,7 +43,9 @@ describe('rumble room slice (R0257)', () => {
     expect(s).toBeDefined();
     const m = mapOf(s);
     expect(m.w).toBe(10);
-    expect(s.units.filter((u) => u.c.side === 0)).toHaveLength(3);
+    // Three Nubbins and the Keeper's piece (R0266), which never counts as a fighter.
+    expect(s.units.filter((u) => u.c.side === 0 && !u.keeper)).toHaveLength(3);
+    expect(s.units.filter((u) => u.keeper)).toHaveLength(1);
     expect(s.units.filter((u) => u.c.side === 1)).toHaveLength(3);
     expect(s.objective).toEqual({ kind: 'calmBoss', target: 'foe-0' });
     const kinds = new Set<number>();
