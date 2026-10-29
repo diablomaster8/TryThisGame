@@ -17,6 +17,7 @@ import {
 import type { GraphicsMode, Nubbin } from '../../sim/types';
 import { button, dialogFocus, el } from '../../ui/dom';
 import { RaceWatch, standingsList } from '../../ui/race-results';
+import '../../fun.css';
 import { UI_FX_TEXT } from '../../config/strings-ui';
 import { RacePixelView } from './pixel-view';
 import type { RaceView } from './view';
@@ -62,6 +63,9 @@ export class RaceScreen {
   /** Watches the race for the results card's standings and tip. */
   private watch: RaceWatch | null = null;
   private readonly resultsFocus: ReturnType<typeof dialogFocus>;
+
+  /** R0314: lines for the bottom of the results card (Byte's stopwatches), set before `start`. */
+  footer: string[] = [];
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition race');
@@ -271,6 +275,7 @@ export class RaceScreen {
     this.resultsBody.appendChild(standingsList(race));
     const tip = this.watch?.tip();
     if (tip) this.resultsBody.appendChild(el('p', 'race-tip', tip));
+    for (const line of this.footer) this.resultsBody.appendChild(el('p', 'race-footer', line));
     playSound(placement <= 3 ? 'win' : 'sad');
     this.root.appendChild(this.results);
     this.results.hidden = false;

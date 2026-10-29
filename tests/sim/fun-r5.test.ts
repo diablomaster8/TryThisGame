@@ -152,3 +152,18 @@ describe('R0313 Fern stone', () => {
     expect(lines.some((l) => l.text.includes('twelve stones'))).toBe(true);
   });
 });
+
+describe('R0314 Byte stopwatches', () => {
+  it('starts at four in chapter 5 and reaches seven after nine races', async () => {
+    const { byteWatches, noteByteRace } = await import('../../src/sim/byte-watches');
+    const { world } = campaignWorld('byte');
+    c(world).chapter = 4;
+    expect(byteWatches(c(world))).toBeNull();
+    c(world).chapter = 5;
+    expect(byteWatches(c(world))).toBe(4);
+    for (let i = 0; i < 9; i++) noteByteRace(c(world));
+    expect(byteWatches(c(world))).toBe(7);
+    for (let i = 0; i < 60; i++) noteByteRace(c(world));
+    expect(byteWatches(c(world))).toBe(12);
+  });
+});

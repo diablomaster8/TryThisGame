@@ -1,5 +1,6 @@
 import { hasRoom, mossSeat } from './roster';
 import { CHAPTERS, LINE_ACT_FLAGS, type Choice } from '../config/story';
+import { noteByteRace } from './byte-watches';
 import { GROVE, STORY, TRUST } from '../config/tuning';
 import { endingScenes, followUps, openingFor, walkScene } from './campaign-routes';
 import { hatch } from './lifecycle';
@@ -376,6 +377,7 @@ export function noteCampaign(
       break;
     case 'raceEntered':
       noteSideRace(c);
+      noteByteRace(c);
       break;
     case 'expedition':
       c.stats.expeditions += 1;

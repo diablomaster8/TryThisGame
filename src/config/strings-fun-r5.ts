@@ -161,3 +161,17 @@ export const FERN_STONE_TEXT = {
   sprout: ['Hello, stone!', 'A stone with a face! Hee hee!', 'Fern’s stones! Count them!'],
   count: (n: number) => (n === 1 ? 'One stone.' : `${n} stones.`),
 } as const;
+
+/** R0314 (FUN-25): the race card's footer, with Byte's word at the milestones. */
+export const BYTE_WATCH_TEXT = {
+  footer: (n: number) => `Byte’s stopwatches: ${n}`,
+  retired: 'Byte has retired two stopwatches. They were tired.',
+  milestones: {
+    5: 'Byte: “Five. One of them is for emergencies.”',
+    6: 'Byte: “Six. I time the fifth one with the sixth.”',
+    7: 'Byte: “I’ve started naming them.”',
+    9: 'Byte: “Nine. Gerald runs fast. I’ve had words with him.”',
+    11: 'Byte: “Eleven. I need a bigger coat.”',
+  } as Record<number, string>,
+  sprout: (n: number) => `Count Byte’s stopwatches! ${'⏱'.repeat(n)}`,
+} as const;

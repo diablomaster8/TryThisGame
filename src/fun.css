@@ -225,3 +225,11 @@ body.line-shake-big #app {
 .hatch-card-row .btn {
   min-height: 44px;
 }
+
+/* R0314 (FUN-25): Byte's stopwatch count under the race results. */
+.race-footer {
+  margin: 4px 0 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+  font-style: italic;
+}

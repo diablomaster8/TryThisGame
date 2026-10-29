@@ -4,7 +4,10 @@
  * no mechanics, read aloud when read-aloud is on); R0311 gives pet-sheet actions a physical
  * line. Text lives in `config/strings-fun-r5.ts`.
  */
+import { BYTE_WATCHES } from '../config/tuning';
+import { byteWatches } from '../sim/byte-watches';
 import {
+  BYTE_WATCH_TEXT,
   EDU_TOASTS,
   FERN_STONE_TEXT,
   PET_LINES,
@@ -96,4 +99,22 @@ export function fernStoneLine(world: World, line: number, stones: number): strin
   const t = FERN_STONE_TEXT;
   const pool = toastBand(world) === 'sprout' ? t.sprout : t.main;
   return `${pool[line % pool.length]!} ${t.count(stones)}`;
+}
+
+/**
+ * R0314: the race card's footer lines for the race just run (it is not counted yet, so the
+ * count is read one race ahead). Byte speaks when the count has just risen; past the cap the
+ * card says two were retired. Empty before chapter 5.
+ */
+export function byteFooter(world: World): string[] {
+  const c = world.campaign;
+  const now = byteWatches(c, 1);
+  if (now === null || !c) return [];
+  const before = byteWatches(c, 0) ?? now;
+  const t = BYTE_WATCH_TEXT;
+  if (toastBand(world) === 'sprout') return [t.sprout(now)];
+  const out = [t.footer(now)];
+  if (now > before && t.milestones[now]) out.push(t.milestones[now]);
+  else if (before === BYTE_WATCHES.cap && now === before) out.push(t.retired);
+  return out;
 }

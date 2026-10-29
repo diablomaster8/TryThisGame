@@ -60,3 +60,9 @@ export const SLIP_WARN = { leadMs: 60_000, earlyMs: 15 * 60_000 } as const;
  * number, up to 12). `pick` is the tap radius.
  */
 export const FERN_STONE = { id: 'fern-stone', x: 3.1, z: 21.2, maxStones: 12, pick: 0.6 } as const;
+
+/**
+ * R0314 (FUN-25): Byte's stopwatches, a running gag on the race results card: `start` from
+ * chapter `fromChapter`, one more every `racesPer` races entered, `cap` at most.
+ */
+export const BYTE_WATCHES = { fromChapter: 5, start: 4, racesPer: 3, cap: 12 } as const;
