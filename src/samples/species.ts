@@ -385,6 +385,8 @@ export interface Rigged extends Creature {
   swimStyle?: 'paddle' | 'breast' | 'crawl';
   /** LOOK-24: set by the stage: the flap pose glides, wings and arms held out still. */
   glide?: boolean;
+  /** LOOK-22: set by the stage: the walk's waddle roll scaled by personality (1 when unset). */
+  waddleScale?: number;
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1589,7 +1591,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
         // The body rolls over the stance foot (the Chao waddle, LOOK-22) and the head counters it.
-        const roll = spec.waddle ?? 0.03;
+        const roll = (spec.waddle ?? 0.03) * (rig.waddleScale ?? 1);
         hips.rotation.z = s(w) * roll;
         set('head', s(w * 2) * 0.03, 0, -s(w) * roll * 0.43);
         if (legs.length) {

@@ -96,3 +96,6 @@ export const FLIGHT = {
   /** Wing beats per second while climbing and cruising. */
   flapHz: 10,
 } as const;
+
+/** LOOK-22: the 3D walk's waddle roll by personality (children, without one, keep 1). */
+export const PERSONA_WADDLE = { cheerful: 1.3, shy: 0.7, mischievous: 1.15, lazy: 1.45 } as const;
