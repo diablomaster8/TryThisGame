@@ -1,5 +1,5 @@
 /**
- * The outdoor field's 16×16 tiles (R0147, DUNG-07), stitched over a seeded biome noise by
+ * The outdoor field's 16Ã—16 tiles (R0147, DUNG-07), stitched over a seeded biome noise by
  * `sim/dungeon-outdoor.ts` and turned in quarter turns. `#` is a tree, boulder or cliff,
  * `~` water, `.` open ground. Edges stay mostly open so tiles meet; the field's road is
  * carved over them afterwards, so nothing has to line up.

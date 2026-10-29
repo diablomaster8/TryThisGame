@@ -1269,7 +1269,7 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
-  | { kind: 'dungeonEntered'; depth: number; daily: boolean }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
   | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {

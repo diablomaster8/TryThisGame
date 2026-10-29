@@ -167,6 +167,7 @@ export const HOLLOW_ZONE_TEXT = {
   side: (act: string, n: number) => `${act} · Side cave ${n}`,
   enterTownHelp: 'Start at the camp: stash, vendor and friends, then out across the fields.',
   mouthButton: '⛰ Enter the cave',
+  campEntered: 'Lanterns, a kettle, friendly faces. The camp at the Hollow mouth.',
   acornCamp: 'The acorn sprouts, and everyone falls up through a swirl of leaves, into camp.',
   portalBack: '🌰 Back through the acorn',
   townWaypoint: 'Camp',

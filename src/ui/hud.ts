@@ -1185,7 +1185,7 @@ export function mountHud(
         } else if (e.kind === 'traded') {
           toast(UI_TEXT.traded(e.name));
         } else if (e.kind === 'dungeonEntered') {
-          toast(DUNGEON_TEXT.entered(e.daily));
+          toast(e.camp ? HOLLOW_ZONE_TEXT.campEntered : DUNGEON_TEXT.entered(e.daily));
         } else if (e.kind === 'descended') {
           toast(DUNGEON_TEXT.descended(e.depth));
           playSound('pickup');

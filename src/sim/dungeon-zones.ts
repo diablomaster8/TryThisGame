@@ -86,6 +86,8 @@ export function goToZone(
 /** From the cave mouth: into act `act`'s camp, at the road home. */
 export function enterTown(world: World, act: number, rng: Rng, events: SimEvent[]): boolean {
   if (!enterDungeon(world, false, rng, events, undefined, act)) return false;
+  // The arrival is a camp, not the dark (the HUD's greeting reads this).
+  for (const e of events) if (e.kind === 'dungeonEntered') e.camp = true;
   goToZone(world, world.dungeon!, 'town', 'up', events, undefined, false);
   return true;
 }

@@ -40,12 +40,25 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
 
-- *Plan:* R0147 and R0152 first, as zones of an act run (`run.zone`): the act town (an authored
-  40×30 hub: waypoint, stash, vendor, crafting table, gamble stall, hire board, quest-giver,
-  the road home) and the act's outdoor field (128×96 from 16×16 tiles, cave mouths to side
-  caves, the act gate, packs, wildlife, shrines). Both are ordinary Hollow floors, so both
-  renderers draw them; service props and the outdoor look are new. Then R0060/R0067 and the
-  rest in R-number order as far as fits.
+- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
+  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
+  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
+  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
+  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
+  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
+  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
+  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
+  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
+  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
+- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
+  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
+  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
+  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
+- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
+  that level.
+- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
+  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
+  (underground ground is flat in `keeper.ts`, lane A).
 
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
@@ -66,32 +79,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   head after 10 min). Grove line only. The registry's "show what you get" shop option was
   taken over per-id SKUs (no `ShopItem` change).
 
-## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
-
-*Plan:* R0031 (Hollow platforming, generator version 4), then the sim-side items that fit one
-pass: R0162, R0158, R0155, R0159, R0161. R0147 (outdoor zones, XL) and R0152 (act towns, L)
-stay deferred to a pass of their own: both need new maps in both renderers. *Assumptions:*
-gap rules count run depth, not the level inside an act; a saved version-3 run keeps its flat
-floor and its packs (`floorOf`/`actFloor` take the run's `genVersion`); difficulty is Cosy
-until DUNG-36; Act IV's ice also appears in endless depths 16–20.
-
-- *Works:* version-4 floors (`sim/dungeon-gaps.ts`): chasm cuts and deep water, a walking
-  bypass on floors 1–2, 3–5 jump-only nooks with a find from floor 3, stepping stones with
-  water gaps; a Keeper standing in a gap or deep water pops back to dry ground, party Nubbins
-  hop over (`dungeon-falls.ts`); 3D pit with a blue glow, Pixel and automap chasm cells.
-  Strays drop a Shell trail, snatch twice a floor, can be shooed, show on the automap
-  (`dungeon-strays.ts`). Packs by density with treasure guards and an 80/15/5 mix; ten cosy
-  champion modifiers as data (`config/dungeon-foes.ts`, `dungeon-density.ts`); 3D plates and
-  a bout-panel plate. Shrines with timed buffs, a buff ring and 3D stones
-  (`dungeon-shrines.ts`, `ui/dungeon-buffs.ts`). Traps on raised tiles in both renderers,
-  re-arming, none in the Learning Grove, scouts (`dungeon-traps.ts`).
-- *Stubbed:* terrace ledges are still ramps (Keeper ground underground is 0 in `keeper.ts`,
-  lane A). Bouncy and sticky speed need lane A to multiply by `hollowSpeed(world)`. Snuggly
-  power and the modifiers' effects wait for lane C. Pixel draws no packs, plates, strays'
-  trail or shrine stones (`world-view.ts`, lane A). No uniques (R0156), so 0 per level; Lucky
-  Clover waits for loot tables (R0163); Gem shrine waits for charms.
-- *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
-  timeout, not a game budget) because the new generator sweeps run beside it.
 ## Round 3 · Lane C (2026-10-28, branch r3/c)
 
 - *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
