@@ -105,6 +105,13 @@ describe('Hollow tap-to-move', () => {
       // Monster packs (R0146) would start fights mid-walk; this checks the walking only.
       world.dungeon!.packs = [];
       const f = runFloor(world)!;
+      // And traps (R0161) would stop or slide the Keeper: hold them all sprung.
+      world.dungeon!.trapsSprung = (f.traps ?? []).map((t) => ({
+        id: t.id,
+        kind: t.kind,
+        leftMs: 1e12,
+        slowMs: 0,
+      }));
       const rng = new Rng(seed * 7919);
       // A tap on a solid set piece (R0032) is not a spot anyone can stand on.
       const reach = dryReach(f, cellOf(f, world.keeper.pos)).filter(
