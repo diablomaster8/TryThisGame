@@ -47,6 +47,7 @@ import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
+import { stepPropReach } from './prop-reach';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -976,6 +977,8 @@ export function stepWorld(
     // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
     // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
     if (!offline) updateKeeper(world, dtMs, events);
+    // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
+    if (!offline) stepPropReach(world);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);

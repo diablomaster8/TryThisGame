@@ -216,3 +216,10 @@ export const LOOKOUT = {
     { id: 'far-meadow', x: -24, z: 18, shells: 2, critter: null },
   ],
 } as const;
+
+/**
+ * MOVE-56: story props met by walking up to them, by prop id: standing within this many
+ * units meets the prop's step as a tap does (the tap still works). The waterfall shelf
+ * stone the rec names is not a story prop yet, so only the flat stone has one.
+ */
+export const STORY_PROP_REACH: Readonly<Record<string, number>> = { 'flat-stone': 1.2 };
