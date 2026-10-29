@@ -234,3 +234,6 @@ export const AWAY_SHORT = {
   headlines: 3,
   more: (n: number) => `+${n} more`,
 } as const;
+
+/** R0323 (FUN-34): the join-in button on a sprout refrain line. */
+export const SAY_IT_TEXT = { button: 'Say it!', label: 'Say the words with them' } as const;

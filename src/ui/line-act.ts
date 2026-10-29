@@ -5,9 +5,9 @@
  * takes about three seconds. The cup is one tap (or Leave it). Keys work too: Enter or Space
  * pushes the gate. Lives in the dialogue's choice row, so the line cannot advance past it.
  */
-import { LINE_ACT_TEXT } from '../config/strings-fun';
+import { LINE_ACT_TEXT, SAY_IT_TEXT } from '../config/strings-fun';
 import type { LineAct } from '../config/story';
-import { playSound } from '../platform/audio';
+import { playSound, type SoundName } from '../platform/audio';
 import { button, el } from './dom';
 
 /** Fill `row` with the act's controls; `done(played)` runs once, when it is over. */
@@ -127,4 +127,21 @@ export function renderLineAct(
     }
   });
   gate.focus({ preventScroll: true });
+}
+
+/**
+ * R0323 (FUN-34): the round "Say it!" button on a sprout refrain line. A tap plays the
+ * refrain's sound and lights a star; it never advances the line.
+ */
+export function sayItButton(sound: SoundName): HTMLButtonElement {
+  const b = button(`⭐ ${SAY_IT_TEXT.button}`, () => undefined, 'btn say-it');
+  b.setAttribute('aria-label', SAY_IT_TEXT.label);
+  b.addEventListener('click', (e) => {
+    e.stopPropagation();
+    playSound(sound);
+    b.classList.remove('said');
+    void b.offsetWidth;
+    b.classList.add('said');
+  });
+  return b;
 }

@@ -31,7 +31,8 @@ import { DIALOGUE_TEXT } from '../config/strings-dlg';
 import { TYPE_TIMING } from '../config/tuning-fun';
 import { pauseAfter, voiceOf } from './type-timing';
 import { playBlip, playSound } from '../platform/audio';
-import { renderLineAct } from './line-act';
+import { renderLineAct, sayItButton } from './line-act';
+import { refrainOf } from '../config/edu-refrains';
 import '../fun.css';
 
 /**
@@ -529,6 +530,11 @@ export class Dialogue {
     const g = this.game();
     if (!line || !g) return;
     const key = `${this.scene ?? ''}:${this.index}:${line.text}`;
+    // R0323: a sprout refrain line gets a Say it! button beside the words.
+    if (textBandOf(g.world) === 'sprout') {
+      const refrain = refrainOf(line.text, line.refrain);
+      if (refrain) this.text.append(sayItButton(refrain.sound));
+    }
     if (line.act && this.actShown !== key && this.choices.childElementCount === 0) {
       this.actShown = key;
       const scene = this.scene;

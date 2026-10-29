@@ -264,3 +264,16 @@ describe('R0322 tap toy', () => {
     expect(JSON.stringify(n.stats)).toBe(stats);
   });
 });
+
+describe('R0323 Say it!', () => {
+  it('registers twenty refrains and finds the ones in sprout chapter 1', async () => {
+    const { REFRAINS, refrainOf } = await import('../../src/config/edu-refrains');
+    const { EDU_CAMPAIGN_1_SPROUT } = await import('../../src/content/edu-campaign-1-sprout');
+    expect(Object.keys(REFRAINS).length).toBeGreaterThanOrEqual(20);
+    expect(refrainOf('The gate is stuck. Lift and push! Lift and push!')?.sound).toBe('creak');
+    const lines = EDU_CAMPAIGN_1_SPROUT.scenes.flatMap((s) => s.lines);
+    const hits = lines.filter((l) => refrainOf(l.text, l.refrain));
+    expect(hits.length).toBeGreaterThan(3);
+    expect(refrainOf('Hello there.')).toBeNull();
+  });
+});

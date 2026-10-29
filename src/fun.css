@@ -264,3 +264,28 @@ body.line-shake-big #app {
   font-size: 0.9em;
   opacity: 0.85;
 }
+
+/* R0323 (FUN-34): the sprout band's round join-in button. */
+.say-it {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 999px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.say-it.said {
+  animation: say-it-pop 0.4s ease-out;
+  background: #ffe28a;
+}
+@keyframes say-it-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .say-it.said { animation: none; }
+}
