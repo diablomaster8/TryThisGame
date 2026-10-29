@@ -11,6 +11,14 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
+import { BATTLE } from '../config/tuning-battle';
+import {
+  combatantOf,
+  createBattle,
+  rivalLevel,
+  type BattleContext,
+  type BattleResult,
+} from './battle';
 import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
 import { actProgress } from './dungeon-acts';
@@ -67,7 +75,12 @@ export interface EncounterSpec {
   terrain: string;
   canFlee: boolean;
   seed: number;
+  /** The pack's tier (1 up, by depth); the battle core clamps it to its own tiers. */
+  tier: number;
 }
+
+/** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
+export const HOLLOW_BATTLE_SOURCE = 'hollow';
 
 export type EncounterOutcome = 'won' | 'lost' | 'fled';
 
@@ -79,6 +92,7 @@ export type EncounterHandler = (
   world: World,
   spec: EncounterSpec,
   rng: Rng,
+  events: SimEvent[],
 ) => EncounterOutcome | null;
 
 const E = HOLLOW.packs;
@@ -200,11 +214,71 @@ export const autoResolve: EncounterHandler = (world, spec, rng) => {
   return rng.chance(p) ? 'won' : 'lost';
 };
 
-let handler: EncounterHandler = autoResolve;
+/** What a finished Hollow bout means for the floor. A boss can't be fled, so giving up loses. */
+export function boutOutcome(result: BattleResult, canFlee: boolean): EncounterOutcome {
+  if (result.winner === 0) return 'won';
+  if (result.winner === 1 && result.reason !== 'forfeit') return 'lost';
+  // A forfeit, or a draw at the round limit: everyone backs off.
+  return canFlee ? 'fled' : 'lost';
+}
 
-/** Swap the fight in (lane C) or back to the stub (null). */
+/**
+ * The real fight (lane C's battle core): starts a turn bout with the pack as foes, seeded from
+ * the encounter, and answers later through the `battleEnd` hook (`hollowBattleEnded`). Asked
+ * again every step while the fight is on, so it starts a bout only once. With nobody able to
+ * fight (an empty or unhatched party) it falls back to the auto-resolve stub.
+ */
+export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
+  const enc = world.dungeon?.encounter;
+  if (!enc) return null;
+  const live = world.battle;
+  if (enc.bout !== undefined) {
+    const mine =
+      live &&
+      live.context.kind === 'encounter' &&
+      live.context.source === HOLLOW_BATTLE_SOURCE &&
+      live.context.key === spec.packId &&
+      (world.battleRuns ?? 0) === enc.bout;
+    if (mine) return live.result ? boutOutcome(live.result, spec.canFlee) : null;
+    // The bout went missing (another fight replaced it): settle the old way.
+  } else {
+    const tier = Math.max(1, Math.min(BATTLE.rivals.tierFloor.length, spec.tier));
+    // No foe outclasses a dojo rival of the same tier (lane C's `rivalLevel`): pack levels grow
+    // with depth, a fresh party's do not, and 2 on 2 at act I lost 35 of 39 on the round-2 core.
+    const party = spec.party.flatMap((id) => {
+      const n = world.nubbins.find((x) => x.id === id);
+      return n ? [combatantOf(n, world)] : [];
+    });
+    const cap = rivalLevel(party, tier) + E.boutLevelOver;
+    const context: BattleContext = {
+      kind: 'encounter',
+      tier,
+      ids: [...spec.party],
+      source: HOLLOW_BATTLE_SOURCE,
+      key: spec.packId,
+      // Champion mods are not fought yet (DUNG-15 with lane C). The rest of a bigger pack hangs
+      // back: the battle core gives an outnumbered fresh party no chance (3 on 2 lost 27 of 27).
+      foes: spec.members
+        .slice(0, Math.max(1, spec.party.length + E.boutExtraFoes))
+        .map((m) => ({ species: m.species, level: Math.min(m.level, cap) })),
+    };
+    const bout = createBattle(world, context, spec.seed);
+    if (bout) {
+      world.battleRuns = (world.battleRuns ?? 0) + 1;
+      world.battle = bout;
+      enc.bout = world.battleRuns;
+      events.push({ kind: 'battleStart', context: 'encounter' });
+      return null;
+    }
+  }
+  return autoResolve(world, spec, rng, events);
+};
+
+let handler: EncounterHandler = battleHandler;
+
+/** Swap a test handler in, or back to the real fight (null). */
 export function setEncounterHandler(h: EncounterHandler | null): void {
-  handler = h ?? autoResolve;
+  handler = h ?? battleHandler;
 }
 
 export function encounterSpec(
@@ -234,7 +308,9 @@ export function encounterSpec(
     arena: { x0, y0, w, h, cells, elevation },
     terrain: f.layout?.tileset ?? 'rootways',
     canFlee: pack.kind !== 'boss',
-    seed: (run.seed * 31 + run.depth * 7919 + Number(pack.id.slice(5)) * 101) >>> 0,
+    // The boss's id has no number; it must still get its own seed.
+    seed: (run.seed * 31 + run.depth * 7919 + (Number(pack.id.slice(5)) || 97) * 101) >>> 0,
+    tier: pack.tier,
   };
 }
 
@@ -247,7 +323,8 @@ function askHandler(world: World, f: Floor, rng: Rng, events: SimEvent[]): void 
     delete run.encounter;
     return;
   }
-  const outcome = handler(world, encounterSpec(world, f, pack, cellOf(f, world.keeper.pos)), rng);
+  const spec = encounterSpec(world, f, pack, cellOf(f, world.keeper.pos));
+  const outcome = handler(world, spec, rng, events);
   if (outcome) finishEncounter(world, f, outcome, events);
 }
 
@@ -278,6 +355,7 @@ export function finishEncounter(
   f: Floor,
   outcome: EncounterOutcome,
   events: SimEvent[],
+  boutShells = 0,
 ): void {
   const run = world.dungeon;
   if (!run?.encounter) return;
@@ -289,10 +367,13 @@ export function finishEncounter(
   if (outcome === 'won') {
     pack.state = 'beaten';
     pack.target = null;
-    const shells =
+    // The battle core already paid its prize; the pack's reward tops it up, never doubles it.
+    const shells = Math.max(
+      boutShells,
       (E.rewardShells + spec.tier * E.rewardPerTier + run.depth * 2) *
-      (spec.kind === 'normal' ? 1 : 2);
-    world.inventory.shells += shells;
+        (spec.kind === 'normal' ? 1 : 2),
+    );
+    world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
     if (spec.kind === 'boss' && run.act !== undefined) {

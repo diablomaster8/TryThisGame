@@ -2,7 +2,8 @@ import { RACE_LOOK } from '../../config/campaign-look';
 import { drawBib, drawStoryTrack } from '../../render/dress-f-race';
 import { drawShadowText, FONT_H, measureText } from '../../render/sprites/font';
 import { PX } from '../../render/sprites/pixel-canvas';
-import { NAMES, SECTION_LABELS, UI_TEXT } from '../../config/strings';
+import { NAMES, UI_TEXT } from '../../config/strings';
+import { HURDLE_TEXT, sectionLabel } from '../../config/strings-move-race';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import { C, color } from '../../render/sprites/palette';
@@ -11,10 +12,26 @@ import { sectionAt, type RaceState, type Racer } from '../../sim/race';
 import type { Nubbin } from '../../sim/types';
 import { el } from '../../ui/dom';
 import { buildExpeditionArt, type ExpeditionArt } from '../expedition/art';
-import { paintForeground, paintSection, skyBands, SKY_STOPS, type TrackFrame } from './pixel-track';
+import {
+  paintForeground,
+  paintPicketFence,
+  paintSection,
+  skyBands,
+  SKY_STOPS,
+  type TrackFrame,
+} from './pixel-track';
 import type { RaceView } from './view';
 
 const PX_PER_UNIT = 22;
+
+/** How high a racer hops while it is within half a unit of a hurdle (pixels of the low-res view). */
+function hopLift(race: RaceState, pos: number): number {
+  for (const h of race.hurdles) {
+    const d = Math.abs(pos - h);
+    if (d < 0.5) return Math.round(7 * Math.cos((d / 0.5) * (Math.PI / 2)));
+  }
+  return 0;
+}
 
 const reduceMotion = (): boolean =>
   document.documentElement.classList.contains('reduce-motion') ||
@@ -213,10 +230,16 @@ export class RacePixelView implements RaceView {
       paintSection(frame, s.kind, x0, x1);
       // The label stays whole while its section scrolls past the left edge, until the
       // section's own end pushes it off ("IM" for SWIM at 375 px, review 2026-10-21, 22).
-      const label = SECTION_LABELS[s.kind];
+      const label = sectionLabel(s.kind);
       labels.push({ text: label, x: Math.min(Math.max(x0 + 5, 4), x1 - measureText(label) - 4) });
       ctx.fillStyle = color(C.darkPlum);
       ctx.fillRect(x0, bandTop - 8, 2, bandBottom - bandTop + 8);
+    }
+    // The hurdles: a picket fence across every lane at each one.
+    for (const h of race.hurdles) {
+      const hx = h * PX_PER_UNIT - camX;
+      if (hx < -8 || hx > W + 8) continue;
+      for (const ly of laneY) paintPicketFence(ctx, hx, ly + 5);
     }
     const fx = Math.round(trackPx - camX);
     if (fx < W) paintSection(frame, 'runup', fx, W);
@@ -263,13 +286,15 @@ export class RacePixelView implements RaceView {
       if (!rect) continue;
       const image = sheet.texture.image as HTMLCanvasElement;
       const sx = Math.round(pos * PX_PER_UNIT - camX - rect.w / (2 * PX));
+      // A clean hop clears the fence; a racer that stumbled stays low and goes dizzy.
+      const hop = done || r.stumbleMs > 0 ? 0 : hopLift(race, pos);
       const lift = done
         ? 0
         : section.kind === 'fly' && !resting
           ? 18
           : section.kind === 'climb'
             ? 6
-            : 0;
+            : hop;
       const sy = Math.round(laneY[lane]! - rect.h / PX + 4 - lift);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, sx, sy, rect.w / PX, rect.h / PX);
       if (RACE_LOOK.story && !r.isPlayer)
@@ -287,6 +312,15 @@ export class RacePixelView implements RaceView {
         sx,
         player: r.isPlayer,
       });
+      if (!done && race.timeMs < r.dizzyUntilMs)
+        drawShadowText(
+          ctx,
+          HURDLE_TEXT.dizzyEmote,
+          sx + rect.w / PX - 8,
+          sy - 4,
+          color(C.sunYellow),
+          color(C.darkPlum),
+        );
       if (resting)
         drawShadowText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale), color(C.darkPlum));
       if (r.isPlayer) this.drawStamina(r, sx + 4, sy + rect.h / PX + 1);

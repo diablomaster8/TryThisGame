@@ -4,6 +4,7 @@ import { GROVE3D, HOLLOW, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
+import { actorShown } from '../sim/dungeon-sight';
 import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/neighbourhood';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
@@ -236,21 +237,24 @@ export function crowdFor(
       });
   const run = world.dungeon;
   if (underground && run && floor) {
+    // Fog of war (R0153): live actors draw only while in the Keeper's sight.
+    const shown = (p: Vec2) => actorShown(run, floor, world.keeper.pos, p);
     for (const s of run.strays)
-      out.push({
-        id: s.id,
-        kind: 'stray',
-        look: SHADOW_LOOK(GROVE3D.nubbinHeight),
-        x: s.pos.x,
-        z: s.pos.z,
-        facing: s.target ? Math.atan2(s.target.x - s.pos.x, s.target.z - s.pos.z) : 0,
-        pose: s.target ? 'walk' : 'idle',
-        sad: !s.target,
-      });
+      if (shown(s.pos))
+        out.push({
+          id: s.id,
+          kind: 'stray',
+          look: SHADOW_LOOK(GROVE3D.nubbinHeight),
+          x: s.pos.x,
+          z: s.pos.z,
+          facing: s.target ? Math.atan2(s.target.x - s.pos.x, s.target.z - s.pos.z) : 0,
+          pose: s.target ? 'walk' : 'idle',
+          sad: !s.target,
+        });
     // Monster packs (lane B, R0146): up to three of a pack's members in a huddle; a hop is
     // the beat of surprise when one notices the Keeper. Beaten packs have gone home.
     for (const p of run.packs ?? []) {
-      if (p.state === 'beaten') continue;
+      if (p.state === 'beaten' || !shown(p.pos)) continue;
       const spec = floor.packs?.find((q) => q.id === p.id);
       if (!spec) continue;
       const moving =
@@ -276,7 +280,7 @@ export function crowdFor(
     // The floor's wild one keeps to its nook until the Keeper creeps up on it, then is gone
     // (the pixel view stops drawing it once scanned).
     for (const w of run.wild)
-      if (!w.scanned)
+      if (!w.scanned && shown(w.pos))
         out.push({
           id: w.id,
           kind: 'wild',

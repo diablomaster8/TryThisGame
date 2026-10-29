@@ -507,6 +507,26 @@ export class Game {
       canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),
+      // MOVE-49: a gamepad drives Keeper 1 when co-op is off.
+      pad: {
+        coop: () => this.world.coop.active,
+        nearNubbin: (within) => {
+          const k = this.world.keeper.pos;
+          let best: string | null = null;
+          let bestD = within;
+          for (const n of this.world.nubbins) {
+            const d = Math.hypot(n.pos.x - k.x, n.pos.z - k.z);
+            if (n.stage !== 'egg' && d <= bestD) {
+              bestD = d;
+              best = n.id;
+            }
+          }
+          return best;
+        },
+        holding: () => this.world.keeper.carrying !== null,
+        rotate: (dir) => this.camera.rotate(dir),
+        zoom: (dir) => (dir > 0 ? this.camera.zoomIn() : this.camera.zoomOut()),
+      },
     });
     this.markReduceMotion();
     // The save mirrors the device-wide renderer choice made on the title screen.
@@ -573,13 +593,16 @@ export class Game {
 
   /** Run the catch-up for the gap since the save was written; call once the HUD is bound. */
   async catchUpOnLoad(): Promise<void> {
-    // MOVE-24: a phone that has never chosen gets Auto-hop on (tap-to-move is its main control).
-    if (
-      this.world.settings.autoHop === undefined &&
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(pointer: coarse)').matches
-    )
-      this.send({ kind: 'setSettings', settings: { ...this.world.settings, autoHop: true } });
+    // MOVE-24/42: a phone that has never chosen gets Auto-hop and Auto-run on (tap-to-move is
+    // its main control). One command: a second would spread the settings from before the first.
+    if (typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches) {
+      const s = this.world.settings;
+      if (s.autoHop === undefined || s.autoRun === undefined)
+        this.send({
+          kind: 'setSettings',
+          settings: { ...s, autoHop: s.autoHop ?? true, autoRun: s.autoRun ?? true },
+        });
+    }
     const gap = this.pendingGapMs;
     this.pendingGapMs = 0;
     await this.runCatchUp(gap, Date.now());
@@ -801,6 +824,7 @@ export class Game {
         } else if (
           e.kind === 'dungeonEntered' ||
           e.kind === 'descended' ||
+          e.kind === 'levelChanged' ||
           e.kind === 'dungeonLeft'
         )
           this.syncDungeon();
@@ -894,6 +918,11 @@ export class Game {
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
+        // Fog of war (R0153): the Hollow floor's materials read this each frame.
+        this.grove.dungeonFog.update(
+          this.world.location === 'dungeon' ? this.world.dungeon : null,
+          this.world.keeper.pos,
+        );
         this.grove.update(nowMs, reduce);
         this.grove.setGrove(this.world.grove);
         this.updateDaylight(nowMs);

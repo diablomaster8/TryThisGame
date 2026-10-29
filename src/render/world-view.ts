@@ -13,7 +13,9 @@ import { keeperFooting, keeperGliding } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { BUSH, FOOTFALL, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { TapPath, type TapMark } from './tap-path';
+import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
@@ -108,6 +110,13 @@ export class WorldView {
   private caveLights: Array<{ x: number; z: number; r: number }> = [];
   private readonly strayPrev = new Map<string, Vec2>();
   private keeperDustMs = 0;
+  /** MOVE-43: bushes the Keeper rustled, by spot, and when. */
+  private readonly bushShakes = new Map<string, number>();
+  /** MOVE-44: the tap walk's footprint dots and target marker. */
+  private readonly tapPath = new TapPath();
+  /** MOVE-46: the Keeper's footfalls, by surface. */
+  private readonly footfall = new Footfall();
+  private tufts = 0;
   private readonly nubbins = new Map<string, NubbinView>();
   private readonly items = new Map<string, Snapshot>();
   /** Per-frame scratch sets, cleared and reused rather than allocated every frame. */
@@ -393,7 +402,12 @@ export class WorldView {
     for (const e of events) {
       this.burstFor(e);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
-      else if (e.kind === 'keeperLanded') {
+      else if (e.kind === 'bushRustle') {
+        // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
+        if (!this.particles.reduceMotion) this.bushShakes.set(`${e.x},${e.z}`, nowMs);
+        if (e.leaves && !this.particles.reduceMotion)
+          this.particles.burst('leaf', e.x, 0.6, e.z, 4, { spread: 0.4, rise: 0.6, lifeMs: 900 });
+      } else if (e.kind === 'keeperLanded') {
         this.keeperLandAt = nowMs;
         this.keeperLandMs =
           e.fall > KEEPER_JUMP_FX.plopFall ? KEEPER_JUMP_FX.plopMs : JUMP.landSquashMs;
@@ -589,9 +603,16 @@ export class WorldView {
         const rect = litKey ?? scenery.frames.get(frameKey(s.kind, 'front', 0));
         if (!rect) continue;
         // K35: bushes take the wind's two-frame sway.
-        const sway =
+        let sway =
           (s.sway ? Math.sin(nowMs / 1400 + s.x) * s.sway : 0) +
           (s.kind.startsWith('bush') ? windSway(s.x, nowMs) : 0);
+        // MOVE-43: a rustled bush shakes for a moment, fading out.
+        const shook = this.bushShakes.size ? this.bushShakes.get(`${s.x},${s.z}`) : undefined;
+        if (shook !== undefined) {
+          const t = (nowMs - shook) / BUSH.shakeMs;
+          if (t >= 1) this.bushShakes.delete(`${s.x},${s.z}`);
+          else sway += Math.sin(t * Math.PI * 6) * BUSH.shakeAmp * (1 - t);
+        }
         if (!s.kind.startsWith('rock') && !s.kind.startsWith('log')) {
           shadow(
             s.x + s.size * 0.08,
@@ -1050,6 +1071,27 @@ export class WorldView {
     const ky = kbase + off;
     // MOVE-21: the shadow lies on what the feet are over (bench, deck), shrinking with the gap.
     shadow(kx, Math.max(0, off - floor), kz, 0.45, kbase + floor + (floor > 0 ? 0.01 : 0));
+    // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
+    if (shadowRect && this.tapPath.update(world, nowMs)) {
+      const calm = this.particles.reduceMotion;
+      const mark = (m: TapMark, r: number, a: number) =>
+        batch.draw({
+          sheet: shadowSheet,
+          rect: shadowRect,
+          flip: false,
+          x: m.x,
+          y: m.y - paintedGround(m.x, m.z) + 0.01,
+          z: m.z,
+          mode: 'flat',
+          w: r * 2,
+          h: r * 2,
+          opacity: 0.45 * a,
+        });
+      const da = this.tapPath.dotAlpha(nowMs, calm);
+      if (da > 0) for (const d of this.tapPath.dots) mark(d, 0.13, da * 1.4);
+      const ma = this.tapPath.markAlpha(nowMs, calm);
+      if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
+    }
     const jclip = kpose?.clip || kHeld ? null : this.keeperJumpClip(world, nowMs, off - floor);
     const jrect = jclip ? ksheet.frames.get(frameKey(jclip, kview.angle, 0)) : undefined;
     const jscale = jrect && !this.particles.reduceMotion ? this.jumpScale(jclip) : null;
@@ -1093,19 +1135,38 @@ export class WorldView {
         });
       }
     }
+    // MOVE-46: the step's surface; a deck or a bench top leaves no dust, grass a tuft.
+    this.footfall.step(world, kx, kz);
+    const underfoot = this.footfall.surface;
     if (moving && off < -0.05 && nowMs - this.keeperDustMs > KEEPER_WADE.rippleMs) {
       // Wading: rings on the water instead of dust.
       this.keeperDustMs = nowMs;
       this.particles.ripple(kx, kz);
-    } else if (moving && off >= -0.05 && off < 0.05 && nowMs - this.keeperDustMs > 260) {
+    } else if (
+      moving &&
+      off >= -0.05 &&
+      off < 0.05 &&
+      // Running kicks up dust about twice as often (MOVE-42).
+      nowMs - this.keeperDustMs > (k.running ? RUN_MODE.dustRunMs : RUN_MODE.dustWalkMs)
+    ) {
       this.keeperDustMs = nowMs;
-      this.particles.burst('dust', kx, 0.05, kz, 1, {
-        spread: 0.15,
-        speed: 0.3,
-        rise: 0.4,
-        lifeMs: 420,
-        size: 0.4,
-      });
+      if (underfoot === 'grass') {
+        if (++this.tufts % FOOTFALL.tuftEvery === 0)
+          this.particles.burst('leaf', kx, 0.05, kz, 1, {
+            spread: 0.1,
+            speed: 0.2,
+            rise: 0.3,
+            lifeMs: 360,
+            size: 0.3,
+          });
+      } else if (underfoot !== 'deck')
+        this.particles.burst('dust', kx, 0.05, kz, 1, {
+          spread: 0.15,
+          speed: 0.3,
+          rise: 0.4,
+          lifeMs: 420,
+          size: 0.4,
+        });
     }
 
     this.onDraw?.(world, nowMs);
@@ -1659,6 +1720,7 @@ export class WorldView {
         const stand: Record<string, string> = {
           flap: 'walk',
           swim: 'walk',
+          sit: 'idle',
           love: 'happy',
           tumble: 'surprised',
         };
@@ -1674,7 +1736,7 @@ export class WorldView {
         clip === 'sit'
           ? npose?.clip === 'sit'
             ? npose.frame
-            : 0
+            : Math.floor((nowMs - v.clipStartMs) / 600) % 2
           : def
             ? frameAt(def, nowMs - v.clipStartMs)
             : 0;
@@ -1808,6 +1870,11 @@ export function clipFor(n: Nubbin): string {
       return 'sleep';
     case 'eat':
       return 'eat';
+    // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle); a low or hungry sitter is sad.
+    case 'sit': {
+      const mood = moodOf(n);
+      return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
+    }
     case 'cry':
       return 'sad';
     case 'greet':

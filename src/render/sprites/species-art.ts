@@ -347,7 +347,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     arms: 'none',
     marks: [],
   }),
-  dinolet: spec(pal(C.sunYellow, C.orange, C.cream, C.ember, C.white), {
+  dinolet: spec(pal(C.orange, C.sunDeep, C.cream, C.ember, C.white), {
     irisColor: '#58a838',
     tail: 'long',
     arms: 'claws',
@@ -364,13 +364,16 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     legs: 'stub',
     marks: ['belly'],
   }),
-  hornsaur: spec(pal(C.orange, C.ember, C.cream, C.sand, C.wood), {
-    crest: 'helmet',
+  // Greymon (LOOK-08): an upright dinosaur, orange with blue-grey stripes, under a brown
+  // skull helmet with three horns.
+  hornsaur: spec(pal(C.orange, C.ember, C.cream, C.sand, C.deepWater, C.ink, C.deepWater), {
+    plan: 'tall',
+    extras: ['skullHelmet', 'dinoSnout'],
     tail: 'long',
     arms: 'claws',
     eyes: 'angry',
     size: 1.2,
-    marks: ['stripes'],
+    marks: ['stripes', 'belly'],
   }),
   redsaur: spec(pal(C.ember, C.berry, C.cream, C.sunYellow, C.wood), {
     tail: 'long',
@@ -405,7 +408,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   skyserpent: spec(pal(C.water, C.deepWater, C.shallows, C.white, C.ember), {
     plan: 'serpent',
     size: 1.15,
-    wings: 'bat',
+    serpent: { rise: 5, belly: true },
+    wings: 'feather',
     crest: 'twinHorns',
     eyes: 'angry',
     legs: 'none',
@@ -414,20 +418,23 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   seaserpent: spec(pal(C.water, C.deepWater, C.shallows, C.sunYellow, C.deepWater), {
     plan: 'serpent',
     size: 1.15,
+    serpent: { segments: 9, rise: 3, belly: true },
     ears: 'fins',
-    crest: 'horn',
+    crest: 'helmet',
     eyes: 'angry',
     legs: 'none',
     arms: 'none',
   }),
-  ironsaur: spec(pal(C.water, C.deepWater, C.cream, C.sand, C.lilacGrey), {
-    crest: 'helmet',
+  // MetalGreymon: Greymon's body and helmet with a metal arm, a chest plate and bat wings.
+  ironsaur: spec(pal(C.orange, C.ember, C.lilacGrey, C.sand, C.deepWater, C.ink, C.deepWater), {
+    plan: 'tall',
+    extras: ['skullHelmet', 'dinoSnout'],
     wings: 'bat',
     tail: 'long',
     arms: 'metal',
     eyes: 'angry',
     size: 1.25,
-    marks: ['stripes'],
+    marks: ['stripes', 'chest'],
   }),
   beanbot: spec(pal(C.lilacGrey, C.dusk, C.pale, C.sunYellow, C.plum), {
     plan: 'round',

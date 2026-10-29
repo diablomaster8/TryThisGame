@@ -265,6 +265,11 @@ export interface SpeciesSpec {
   };
   /** Body roll of the walk over the stance foot, radians (0.03 by default; the Chao waddle 0.12). */
   waddle?: number;
+  /**
+   * Where the arms rest, as an extra roll down and pitch forward from the sculpt, radians
+   * (LOOK-14: the Chao's stubby arms hang by the belly; the walk swings them half as low).
+   */
+  armRest?: { roll: number; pitch: number };
   /** Cheek blush colour, shown only while petted (the Chao line has none at rest). */
   blush?: string;
   /** Per-pose face overrides: how far the lids close, the squint, the brow, the arc. */
@@ -295,7 +300,14 @@ export interface SpeciesSpec {
    * The Chao emote ball, if the species has one: a plain ball, a flat halo ring or a
    * spiked ball; `glow` tints its emissive and its light (warm gold by default).
    */
-  ball?: { y: number; color: string; shape?: 'ball' | 'halo' | 'spikes'; glow?: string };
+  ball?: {
+    y: number;
+    color: string;
+    shape?: 'ball' | 'halo' | 'spikes';
+    glow?: string;
+    /** The spikes' own colour (the Moon ball's red tips, LOOK-17); the ball's otherwise. */
+    tip?: string;
+  };
   /** Hip height: the body bobs from here. */
   hipY: number;
   /**
@@ -1122,11 +1134,22 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   let ballMat: THREE.MeshPhysicalMaterial | null = null;
   if (spec.ball) {
     const glow = new THREE.Color(spec.ball.glow ?? '#9a7010');
-    ballMat = glossy(spec.ball.color, { emissive: glow, emissiveIntensity: 1.4 });
+    // The plain ball is satin, not mirror-glossy: a clearcoat reflects the pale sky over the
+    // whole small sphere and turns the yellow cream (LOOK-17).
+    const satin = !spec.ball.shape || spec.ball.shape === 'ball';
+    ballMat = glossy(spec.ball.color, {
+      emissive: glow,
+      emissiveIntensity: 1.4,
+      ...(satin ? { roughness: 0.5, clearcoat: 0.2, clearcoatRoughness: 0.4 } : {}),
+    });
+    // Under the toon look it is banded like the body; left physical, the toon stage's light
+    // washes it to cream.
+    if (TOON.on && satin) toonMaterial(ballMat);
     if (spec.ball.shape === 'halo') {
       // A flat ring, lying level over the crown.
       ball = new THREE.Mesh(new THREE.TorusGeometry(0.24, 0.045, 12, 36), ballMat);
-      ball.rotation.x = Math.PI / 2;
+      // Tipped 15 degrees toward the camera so it reads as a ring from the game view (LOOK-17).
+      ball.rotation.x = Math.PI / 2 - 0.26;
     } else if (spec.ball.shape === 'spikes') {
       // A smaller ball with eight short spikes around it.
       const g = new THREE.Group();
@@ -1136,7 +1159,12 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const dirs = [V(0, 1, 0), V(0, -1, 0), V(1, 0, 0), V(-1, 0, 0), V(0, 0, 1), V(0, 0, -1)];
       dirs.push(V(0.7, 0.7, 0), V(-0.7, 0.7, 0));
       for (const d of dirs) {
-        const m = new THREE.Mesh(spike, ballMat);
+        const m = new THREE.Mesh(
+          spike,
+          spec.ball.tip
+            ? glossy(spec.ball.tip, { emissive: glow, emissiveIntensity: 0.4 })
+            : ballMat,
+        );
         m.quaternion.setFromUnitVectors(V(0, 1, 0), d.normalize());
         g.add(m);
       }
@@ -1309,6 +1337,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   let gesture: GestureName | null = null;
   let gestureAt = 0;
   const quad = spec.gait === 'quadruped';
+  const ar = spec.armRest ?? { roll: 0, pitch: 0 };
   const spider = spec.gait === 'spider';
   const hover = spec.gait === 'hover';
   // Eight legs: leg1..leg4 on each side, leg1 at the front. Lifting is a turn about z
@@ -1473,8 +1502,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           for (const n of ['legFL', 'legFR', 'legBL', 'legBR']) set(n, 0, 0, 0);
           set('tail', s(t * 1.3) * 0.12, s(t * 2.6) * 0.45, 0);
         } else {
-          set('armL', 0, 0, s(t * 1.6) * 0.08);
-          set('armR', 0, 0, -s(t * 1.6 + 1) * 0.08);
+          set('armL', ar.pitch, 0, ar.roll + s(t * 1.6) * 0.08);
+          set('armR', ar.pitch, 0, -ar.roll - s(t * 1.6 + 1) * 0.08);
           set('legL', 0, 0, 0);
           set('legR', 0, 0, 0);
         }
@@ -1578,8 +1607,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           }
           if (quad) set('tail', 0.15, s(w * 0.5) * 0.3, 0);
           else if (!spider) {
-            set('armL', -s(w) * 0.4, 0, 0.15);
-            set('armR', s(w) * 0.4, 0, -0.15);
+            set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+            set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
           }
         } else if (spider) {
           // Alternating tetrapod: legs 1 and 3 on one side step with 2 and 4 on the other.
@@ -1596,8 +1625,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         } else {
           set('legL', s(w) * legSwing, 0, 0);
           set('legR', -s(w) * legSwing, 0, 0);
-          set('armL', -s(w) * 0.4, 0, 0.15);
-          set('armR', s(w) * 0.4, 0, -0.15);
+          set('armL', -s(w) * 0.4 + ar.pitch * 0.5, 0, 0.15 + ar.roll * 0.5);
+          set('armR', s(w) * 0.4 + ar.pitch * 0.5, 0, -0.15 - ar.roll * 0.5);
         }
         mouthOpen = 0.1;
         break;
@@ -1632,7 +1661,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         const lie = Math.max(0, bellyY - footY - 0.03);
         const drop = Math.max(0, lie - poseCtx.seat);
         // Chin up a touch: a seated body looks out, not down at its feet.
-        set('head', (-0.12 + s(t * 0.9) * 0.03) * ease, s(t * 0.5) * 0.06, 0);
+        // LOOK-20: a slow head sway of about 8 degrees each way.
+        set('head', (-0.12 + s(t * 0.9) * 0.03) * ease, s(t * 0.5) * 0.14, 0);
         if (spider || hover) {
           hips.position.y = spec.hipY - (hover ? 0 : 0.25 * ease);
         } else if (quad) {
@@ -1645,8 +1675,8 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           // Upright, leaning back a little onto the seat, the legs straight out in front (a
           // knee bend folds a short Nubbin leg under the body and reads as lying down).
           hips.rotation.x = -0.18 * ease;
-          set('legL', -1.45 * ease, 0, 0.22 * ease);
-          set('legR', -1.45 * ease, 0, -0.22 * ease);
+          set('legL', -1.48 * ease, 0, 0.22 * ease);
+          set('legR', -1.48 * ease, 0, -0.22 * ease);
           for (const leg of legs) bendKnee(leg, (pose === 'kneel' ? 1.4 : 0) * ease);
           set('armL', -0.15 * ease, 0, 0.45 * ease);
           set('armR', -0.15 * ease, 0, -0.45 * ease);
@@ -1945,7 +1975,12 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
     if (ball && ballMat) {
       ball.position.y =
         spec.ball!.y - headOrigin.y + s(t * 1.6) * 0.08 + (pose === 'happy' ? 0.15 : 0);
-      ballMat.emissiveIntensity = (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
+      // The plain ball glows only a little, so it keeps its saturated colour (LOOK-17); the halo
+      // and spikes shine.
+      const plain = !spec.ball!.shape || spec.ball!.shape === 'ball';
+      ballMat.emissiveIntensity = plain
+        ? (pose === 'sleep' ? 0.15 : 0.25) + s(t * 2.4) * 0.06
+        : (pose === 'sleep' ? 0.5 : 1.3) + s(t * 2.4) * 0.4;
     }
     if (hover) {
       hips.position.y +=

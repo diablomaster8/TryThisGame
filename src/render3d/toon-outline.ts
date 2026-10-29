@@ -31,6 +31,9 @@ HULL.onBeforeCompile = (shader) => {
       // at distance d is 2 d / projectionMatrix[1][1].
       float depth = max( -mvPosition.z, 0.0 );
       float w = min( uWidth * 2.0 * depth / projectionMatrix[ 1 ][ 1 ], uMaxWorld );
+      // LOOK-18: thin the hull to 40% where the surface faces down (a head's underside over
+      // the body), so the neck reads as a crease, not a black collar; the outer line keeps its width.
+      w *= mix( 1.0, 0.4, smoothstep( -0.3, -0.7, normal.y ) );
       mvPosition.xyz += normalize( normalMatrix * normal ) * w;
       gl_Position = projectionMatrix * mvPosition;`,
     );

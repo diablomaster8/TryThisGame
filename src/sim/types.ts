@@ -1,4 +1,4 @@
-import type { BattleAction, BattleContext, BattleState } from './battle/types';
+import type { BattleAction, BattleContext, BattleState, NubbinBattle } from './battle/types';
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -199,6 +199,8 @@ export interface Nubbin {
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
   karateRecord: Record<string, unknown>;
+  /** Lane C: known moves and the four slots (sim/battle/moves-sources.ts); set on first use. */
+  battle?: NubbinBattle;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -293,6 +295,8 @@ export interface Settings {
   /** MOVE-24: tap walks hop logs and jump terraces. Unset: on in a Learning Grove, and set on
    * for a phone at its first launch. */
   autoHop?: boolean;
+  /** MOVE-42: tap walks over ten units run by themselves. Unset: off (a phone sets it on). */
+  autoRun?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -567,13 +571,41 @@ export interface DungeonRun {
   /** The floor's monster packs as they stand now (R0146); absent on floors without packs. */
   packs?: DungeonPack[];
   /** A fight under way with this pack: the floor holds still until it is answered. */
-  encounter?: { packId: string };
+  /**
+   * A fight in progress; `bout` is `world.battleRuns` once the battle core took it on, so an
+   * old bout with the same key is never mistaken for this one.
+   */
+  encounter?: { packId: string; bout?: number };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
   story?: true;
   /** Set while the boot veil is up: the floor holds still (R0142). Never saved. */
   loading?: true;
+  /**
+   * Levels left behind on this run, by level id (R0151): what was taken, beaten, opened and
+   * seen, so going back finds them as they were. At most `HOLLOW.levels.keep`, oldest out.
+   */
+  levels?: Record<string, LevelState>;
+  /** This run's free Homing Acorn ("Grandma's acorn", R0150) is spent. */
+  acornUsed?: true;
+}
+
+/** A Hollow level as the Keeper left it (R0151). */
+export interface LevelState {
+  taken: string[];
+  packsCleared: string[];
+  chestOpen: boolean;
+  explored: string;
+  /** Shrines come with DUNG-19; the slot is here so levels never need migrating. */
+  shrinesUsed: string[];
+}
+
+/** An open Homing Acorn portal (R0150): the run waits, frozen, until the Keeper steps back. */
+export interface HollowPortal {
+  levelId: string;
+  cell: { x: number; y: number };
+  run: DungeonRun;
 }
 
 /** How far the Keeper has got in one act of the Hollow (R0145). */
@@ -749,6 +781,8 @@ export interface World {
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
+  /** MOVE-43: bushes already searched (one find each per save) and when each was last looked in. */
+  bushFinds?: { found: string[]; checked: Record<string, number> };
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -789,6 +823,16 @@ export interface World {
     dailyDepth: number;
     /** Progress through the five acts, by `ACTS` index (R0145; save version 8). */
     acts: ActProgress[];
+    /** Each act's floor seed, set on first entry (R0149; save version 9); 0 = not yet. */
+    actSeeds: number[];
+    /** The real day of the last "New paths" reroll, '' before any. */
+    rerollDay: string;
+    /** Waypoints activated for good, by id like `rootways.1` (R0148). */
+    waypoints: string[];
+    /** Homing Acorns carried (R0150). */
+    acorns: number;
+    /** The open acorn portal, if any. */
+    portal: HollowPortal | null;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -805,6 +849,7 @@ export type Command =
   | { kind: 'battleStart'; context: BattleContext }
   | { kind: 'battleAct'; action: BattleAction }
   | { kind: 'battleForfeit' }
+  | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -954,6 +999,12 @@ export type Command =
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'enterAct'; act: number }
+  // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
+  | { kind: 'waypointTravel'; id: string }
+  | { kind: 'rerollActs' }
+  | { kind: 'buyAcorns' }
+  | { kind: 'useAcorn' }
+  | { kind: 'portalReturn' }
   | { kind: 'feedStray'; id: string }
   | { kind: 'atlasFestival'; id: string }
   | { kind: 'recruit'; name: string; species: string };
@@ -972,6 +1023,7 @@ export type SimEvent =
       reason: 'tuckered' | 'forfeit' | 'time';
       shells: number;
     }
+  | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';
@@ -1004,6 +1056,10 @@ export type SimEvent =
   | { kind: 'pickedUp'; nubbinId: string }
   | { kind: 'thrown'; nubbinId: string }
   | { kind: 'landed'; nubbinId: string }
+  // MOVE-30: a Nubbin hopped (up, down, over or for joy).
+  | { kind: 'nubbinHop'; nubbinId: string }
+  /** MOVE-43: the Keeper pushed into a bush; `leaves` sheds a few, `found` a hidden shell. */
+  | { kind: 'bushRustle'; id: string; x: number; z: number; leaves: boolean; found: boolean }
   /** The Keeper left the ground (MOVE-10); `air` for a double jump. */
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
@@ -1121,6 +1177,15 @@ export type SimEvent =
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
+  /** The run moved to another level without descending (climbing, a waypoint, a portal). */
+  | { kind: 'levelChanged'; depth: number }
+  | { kind: 'waypointActivated'; id: string }
+  | { kind: 'waypointArrived'; id: string }
+  | { kind: 'actsRerolled'; ok: boolean }
+  | { kind: 'acornsBought'; ok: boolean; count: number }
+  | { kind: 'acornFound' }
+  | { kind: 'acornPortal'; free: boolean }
+  | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 

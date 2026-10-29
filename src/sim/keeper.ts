@@ -1,9 +1,17 @@
 import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { footing, ledgeY, TERRACES, type Footing } from './terrain';
+import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
-import { AUTO_HOP, GLIDE, JUMP_PLAY, UNREACHABLE } from '../config/tuning-move';
+import {
+  AUTO_HOP,
+  GLIDE,
+  JUMP_PLAY,
+  KEEPER_SLOPE,
+  BUSH,
+  RUN_MODE,
+  UNREACHABLE,
+} from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
 import {
   JUMP,
@@ -17,6 +25,7 @@ import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, pet, putDown, react } from './behavior';
+import { shyHopBack } from './nubbin-hop';
 import { addAffection, addHappiness, applyPet } from './needs';
 import { isFree } from './nubbin';
 import { giveHeartFruit } from './breeding';
@@ -286,10 +295,15 @@ function autoHop(world: World, dx: number, dz: number): void {
 }
 
 /**
- * MOVE-35: stand-in targets for shut-in taps. A nav cell is open a little closer to a wall
- * than the Keeper's body fits, so these count as reached from a little further off.
+ * MOVE-35: stand-in targets for shut-in taps, each with the tap it stands in for. A nav cell
+ * is open a little closer to a wall than the Keeper's body fits, so these count as reached
+ * from a little further off.
  */
-const standIns = new WeakSet<Vec2>();
+const standIns = new WeakMap<Vec2, Vec2>();
+/** When a stand-in walk last asked whether its real tap had come within reach (sim ms). */
+const tapRecheck = new WeakMap<World, number>();
+/** How often (ms) a stand-in walk looks again at its real tap. */
+const RECHECK_MS = 1000;
 
 /** Worlds whose pending jump came from Auto-hop: it jumps full height but is not "held". */
 const autoPressed = new WeakSet<World>();
@@ -376,6 +390,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       k.airJumps = JUMP.airJumps;
       glided.delete(world);
       events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
+      if (world.location === 'grove') shyHopBack(world, k.pos, events);
     }
   }
 }
@@ -478,6 +493,55 @@ function holdAtLedges(k: World['keeper'], px: number, pz: number): void {
   }
 }
 
+/**
+ * MOVE-41: the pace on a slope, walking from (x, z) along the unit heading (dx, dz): slower
+ * up, a little quicker down, on the hills only. Only on Grove ground; a jump keeps its pace.
+ * Stick and keyboard walks only: a tap walk keeps its planned pace, since a slower climb
+ * can carry it into a spot the nav grid and the ledges disagree about (near 28, -33).
+ */
+export function slopePace(x: number, z: number, dx: number, dz: number): number {
+  const r = KEEPER_SLOPE.probe;
+  const slope = (hillHeight(x + dx * r, z + dz * r) - hillHeight(x, z)) / r;
+  const f = 1 - KEEPER_SLOPE.up * Math.max(0, slope) + KEEPER_SLOPE.down * Math.max(0, -slope);
+  return Math.min(KEEPER_SLOPE.max, Math.max(KEEPER_SLOPE.min, f));
+}
+
+// MOVE-43: the bush the Keeper is in, so only stepping into one rustles it.
+const inBush = new WeakMap<World, string>();
+
+/** Rustle a bush the Keeper has just pushed into; maybe shed leaves, maybe find its shell. */
+function rustleBush(world: World, bush: { id: string; x: number; z: number }, events: SimEvent[]) {
+  const finds = (world.bushFinds ??= { found: [], checked: {} });
+  const hours = (world.timeMs - (finds.checked[bush.id] ?? 0)) / 3_600_000;
+  finds.checked[bush.id] = world.timeMs;
+  const [leaves, lucky] = withRng(world, (r) => [
+    r.chance(BUSH.leafChance),
+    r.chance(Math.min(1, BUSH.findPerHour * hours)),
+  ]);
+  const found = lucky && !finds.found.includes(bush.id);
+  if (found) {
+    finds.found.push(bush.id);
+    world.inventory.shells += BUSH.findShells;
+  }
+  events.push({ kind: 'bushRustle', id: bush.id, x: bush.x, z: bush.z, leaves, found });
+}
+
+// MOVE-42: the tap target a walk was judged for, and whether it runs (Auto-run, long walks).
+const tapRuns = new WeakMap<World, { at: Vec2; run: boolean }>();
+
+/** Whether this tap walk runs: the Run toggle, or Auto-run on a walk over ten units. */
+function tapRunning(world: World, target: Vec2): boolean {
+  const k = world.keeper;
+  if (k.running) return true;
+  if (!world.settings.autoRun) return false;
+  let t = tapRuns.get(world);
+  if (!t || t.at !== target) {
+    t = { at: target, run: dist(k.pos, target) > RUN_MODE.autoRunOver };
+    tapRuns.set(world, t);
+  }
+  return t.run;
+}
+
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
   const dt = dtMs / 1000;
@@ -493,7 +557,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const soft =
     (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
     (wet ? KEEPER_WADE.speed : 1) *
-    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1);
+    (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1) *
+    // A running jump carries further (MOVE-42).
+    (going && !k.grounded && k.running ? RUN_MODE.airCarry : 1);
 
   // Direct input wins over tap targets.
   if (k.input.x !== 0 || k.input.z !== 0) {
@@ -505,7 +571,10 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       KEEPER.speed *
       Math.min(1, len) *
       keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
-      soft;
+      soft *
+      (k.grounded && !dungeonFloor && world.location === 'grove'
+        ? slopePace(k.pos.x, k.pos.z, nx, nz)
+        : 1);
     const v = accelerate(world, nx * speed, nz * speed, dt, events);
     k.pos.x += v.x * dt;
     k.pos.z += v.z * dt;
@@ -579,11 +648,28 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         // In the Grove the Keeper follows a planned path round what stands in the way
         // (nav.ts). A target with nothing reachable near it is refused at once; a shut-in
         // tap walks to the nearest reachable point and stops there.
+        // A stand-in walk that has come down off a rim or a tier looks again, now and then, at
+        // the tap it stands in for, and heads there once it can.
+        const tapped = !k.intent ? standIns.get(target) : undefined;
+        if (tapped && world.timeMs - (tapRecheck.get(world) ?? -Infinity) >= RECHECK_MS) {
+          tapRecheck.set(world, world.timeMs);
+          const back = groveLeg(world, k.pos, tapped);
+          if (back && dist(back.end, tapped) < 1e-3) target = k.moveTarget = tapped;
+        }
         const leg = groveLeg(world, k.pos, target);
-        if (!leg || (k.intent && dist(leg.end, target) > reach)) {
+        // A walk to a stand-in that is itself out of reach from here (the Keeper slid onto
+        // another tier on the way) has got as close as it can: stop, rather than dither
+        // between fresh stand-ins for ever.
+        const stuck =
+          !!leg &&
+          !k.intent &&
+          standIns.has(target) &&
+          dist(leg.end, target) > UNREACHABLE.standInReach;
+        if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
-          else events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
+          else if (!stuck)
+            events.push({ kind: 'moveUnreachable', nearest: { ...k.pos }, jump: false });
           k.intent = null;
           k.moveTarget = null;
         } else {
@@ -591,7 +677,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
             // MOVE-35: the tap is shut in; walk to the nearest reachable point and say so,
             // with a hint when a jump would get there.
             k.moveTarget = leg.end;
-            standIns.add(leg.end);
+            standIns.set(leg.end, standIns.get(target) ?? target);
             const jump = !autoHopOn(world) && hopReaches(world, k.pos, target);
             events.push({ kind: 'moveUnreachable', nearest: { ...leg.end }, jump });
           }
@@ -602,7 +688,11 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           const step = Math.min(
             td,
             KEEPER.speed *
-              keeperSpeedMultiplier(world, k.running, KEEPER.runMultiplier) *
+              keeperSpeedMultiplier(
+                world,
+                !k.intent && !!k.moveTarget && tapRunning(world, k.moveTarget),
+                KEEPER.runMultiplier,
+              ) *
               soft *
               ease *
               dt,
@@ -641,6 +731,14 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.intent = null;
     }
     holdAtLedges(k, fromX, fromZ);
+    // MOVE-43: stepping into a bush (on foot, not over it) rustles it.
+    if (going && k.grounded) {
+      const now = softAt(k.pos, world);
+      const was = inBush.get(world);
+      if (now && now.id !== was && now.id.startsWith('wild-')) rustleBush(world, now, events);
+      if (now) inBush.set(world, now.id);
+      else if (was) inBush.delete(world);
+    }
     // A soft piece does not stop the Keeper; once it stops walking it eases back out.
     const idle = !k.moveTarget && !k.intent && k.input.x === 0 && k.input.z === 0;
     const bush = idle ? softAt(k.pos, world) : null;

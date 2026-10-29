@@ -24,7 +24,7 @@ import { storySettings } from './edu-story';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import { mountMinimapSetting } from './minimap';
-import { MOVE_TEXT } from '../config/strings-move';
+import { MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
@@ -48,6 +48,7 @@ export class SettingsMenu {
   private readonly gentle: HTMLInputElement;
   /** MOVE-24: Auto-hop on tap walks. */
   private readonly autoHop: HTMLInputElement;
+  private readonly autoRun: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -246,6 +247,18 @@ export class SettingsMenu {
     );
     hopRow.append(this.autoHop, hText);
     body.appendChild(hopRow);
+    // Auto-run (MOVE-42): long tap walks run by themselves.
+    const runRow = el('label', 'check-row');
+    this.autoRun = el('input');
+    this.autoRun.type = 'checkbox';
+    this.autoRun.addEventListener('change', () => this.apply());
+    const rText = el('span');
+    rText.append(
+      el('strong', undefined, RUN_TEXT.autoRun),
+      el('small', undefined, RUN_TEXT.autoRunHelp),
+    );
+    runRow.append(this.autoRun, rText);
+    body.appendChild(runRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -339,6 +352,7 @@ export class SettingsMenu {
     this.shake.checked = g.world.settings.screenShake;
     this.gentle.checked = g.world.settings.gentleJumps;
     this.autoHop.checked = autoHopOn(g.world);
+    this.autoRun.checked = !!g.world.settings.autoRun;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -472,6 +486,8 @@ export class SettingsMenu {
     // MOVE-24: set only once the box differs from what the Grove does now, so an unset
     // choice keeps following the Learning Grove.
     if (this.autoHop.checked !== autoHopOn(g.world)) settings.autoHop = this.autoHop.checked;
+    if (this.autoRun.checked !== !!g.world.settings.autoRun)
+      settings.autoRun = this.autoRun.checked;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

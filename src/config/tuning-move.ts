@@ -83,3 +83,74 @@ export const DEBUG_OVERLAY_LOOK = { navReach: 12, dotPx: 4 } as const;
 
 /** MOVE-33: a thrown body's radius against solids, and how much sideways speed a bonk keeps. */
 export const THROWN_BONK = { radius: 0.25, restitution: 0.4 } as const;
+
+/**
+ * MOVE-41: slopes slow the climb and speed the descent a little. Pace is
+ * `1 − up·rise + down·fall` (rise/run of the hills along the motion, over `probe` units),
+ * clamped to `[min, max]`. The rec's 0.35/0.1 assumed steeper ramps: the terrace ramps rise
+ * only 0.08–0.27 per unit, so 2.0/0.6 gives the asked ~0.8× climb. The ground's gentle roll
+ * is left out. The 3D rig leans `lean` of the slope angle into it.
+ */
+export const KEEPER_SLOPE = {
+  up: 2.0,
+  down: 0.6,
+  min: 0.65,
+  max: 1.1,
+  probe: 0.6,
+  lean: 0.3,
+} as const;
+
+/**
+ * MOVE-42: running as a mode. A running jump carries `airCarry`× further; tap walks longer
+ * than `autoRunOver` units run by themselves with Auto-run on (set on for a phone at its
+ * first launch); on a phone the Run toggle turns itself off after `idleResetMs` standing
+ * still; Pixel dust puffs every `dustRunMs` running (`dustWalkMs` walking).
+ */
+export const RUN_MODE = {
+  airCarry: 1.15,
+  autoRunOver: 10,
+  idleResetMs: 3000,
+  dustRunMs: 140,
+  dustWalkMs: 260,
+} as const;
+
+/**
+ * MOVE-43: soft bushes. Walking into one rustles it (Pixel and 3D shake `shakeMs` at
+ * `shakeAmp` units, about 3× the wind) and sheds leaves `leafChance` of the time. Each bush
+ * may hide one shell, found once per save: the chance on a visit is `findPerHour` per sim
+ * hour since the bush was last looked in. A Shy Nubbin picks a bush to sit in `shyChance`
+ * of its idle choices (`shyRadius` units round it).
+ */
+export const BUSH = {
+  shakeMs: 400,
+  shakeAmp: 0.08,
+  leafChance: 0.1,
+  findPerHour: 0.02,
+  findShells: 1,
+  shyChance: 0.3,
+  shyRadius: 10,
+} as const;
+
+/**
+ * MOVE-44: after a tap, `dots` footprint dots along the walk's path fade over `dotsMs`; the
+ * target marker stays up to `markMs` or until the walk ends. Under reduced motion both go
+ * after `reducedMs`.
+ */
+export const TAP_PATH = {
+  dots: 5,
+  dotsMs: 600,
+  markMs: 2000,
+  reducedMs: 200,
+  /** The route is read again for this long after the tap, while the sim plans it. */
+  settleMs: 150,
+} as const;
+
+/**
+ * MOVE-46: footfalls by surface. A step sounds every `stride` units walked: a hollow tok on
+ * a deck or a bench, a light tap on stone, nothing on grass and paths. Pixel's grass gives
+ * a green tuft every `tuftEvery`th puff instead of dust.
+ */
+export const FOOTFALL = {
+  stride: 0.7,
+  tuftEvery: 2,
+} as const;

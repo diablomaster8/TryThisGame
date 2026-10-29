@@ -8,6 +8,7 @@ import {
   kitAnchors,
   type KitExtra,
   type KitPlan,
+  type QuadOpts,
 } from './creature-kit-digi';
 import {
   drawGas,
@@ -21,6 +22,13 @@ import {
   type HeadSlot,
   type HeadsSpec,
 } from './creature-gen1b';
+import {
+  drawSerpentBody,
+  serpentBodyAnchors,
+  serpentLayout,
+  type SerpentLayout,
+  type SerpentOpts,
+} from './creature-serpent';
 import { C, shadeOf } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 import { drawExtras, type Extra } from './creature-extras';
@@ -101,6 +109,10 @@ export interface CreatureSpec {
   gen1b?: Gen1bPart[];
   /** More than one head, all drawn alike (`creature-gen1b.ts`, `HeadsSpec`). */
   heads?: HeadsSpec;
+  /** The serpent plan's body chain (`creature-serpent.ts`, LOOK-05). */
+  serpent?: SerpentOpts;
+  /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
+  quad?: QuadOpts;
 }
 
 export const CREATURE_SIZE = 32;
@@ -123,6 +135,8 @@ export interface Anchors {
   plan: BodyPlan;
   /** Every head of a many-headed species, the main one (at headCx, headCy) first. */
   heads?: HeadSlot[];
+  /** The serpent plan's discs and head, already laid out for this angle and step. */
+  serpent?: SerpentLayout;
 }
 
 function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors {
@@ -166,14 +180,24 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
       headCy = feetY - headRy - 1 + pose.headDrop;
       bodyCy = feetY - 1;
       break;
-    case 'serpent':
-      headRx = Math.round(5.5 * s);
-      headRy = Math.round(5 * s * pose.squash);
-      bodyRx = Math.round(8 * s);
-      bodyRy = Math.round(5 * s);
-      bodyCy = feetY - bodyRy;
-      headCy = bodyCy - bodyRy - headRy + 4 + pose.headDrop;
-      break;
+    case 'serpent': {
+      // The body chain sets the head and body anchors; see creature-serpent.ts.
+      const l = serpentLayout(face, back, spec, feetY, pose.squash, pose.headDrop, pose.step ?? 0);
+      const b = serpentBodyAnchors(l);
+      return {
+        headCx: Math.round(l.headCx),
+        headCy: Math.round(l.headCy),
+        headRx: l.headRx,
+        headRy: l.headRy,
+        ...b,
+        feetY,
+        dir,
+        face,
+        back,
+        plan: spec.plan,
+        serpent: l,
+      };
+    }
     case 'slug':
       headRx = Math.round(9 * s);
       headRy = Math.round(5 * s * pose.squash);
@@ -691,15 +715,9 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
         pc.ellipse(a.headCx, a.headCy - 1, a.headRx - 4, a.headRy - 4, col.accent2);
       return;
     }
-    case 'serpent': {
-      // A coil: two humps behind the head.
-      const d = a.face >= 1 ? -1 : 1;
-      pc.ellipse(a.bodyCx + d * 4, a.bodyCy + 1, a.bodyRx - 2, a.bodyRy, col.body);
-      pc.ellipse(a.bodyCx - d * 5, a.bodyCy + 2, a.bodyRx - 3, a.bodyRy - 1, col.shade);
-      pc.ellipse(a.bodyCx + d * 1, a.bodyCy + 2, 3, a.bodyRy - 2, col.belly);
-      blob(a.headCx, a.headCy, a.headRx, a.headRy);
+    case 'serpent':
+      if (a.serpent) drawSerpentBody(pc, a, spec, a.serpent, blob);
       return;
-    }
     case 'slug': {
       pc.ellipse(a.headCx, a.headCy, a.headRx, a.headRy, col.body);
       pc.ellipse(a.headCx + 1, a.headCy + 1, a.headRx - 1, a.headRy - 1, col.shade);

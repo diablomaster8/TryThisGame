@@ -18,6 +18,8 @@ export interface Walk {
   to: Vec2;
   /** The travel direction, `atan2(dx, dz)`. */
   yaw: number;
+  /** Corners between `from` and `to` when the straight line crosses a solid (sim-planned). */
+  via?: Vec2[];
   /** The facing on arrival (the mark's, or toward whom the entry names). */
   endFace: number;
   startMs: number;
@@ -30,6 +32,8 @@ export interface WalkPose {
   x: number;
   z: number;
   walking: boolean;
+  /** The heading of the leg being walked; set only on a routed walk. */
+  yaw?: number;
 }
 
 /** Where a `from` mark stands: the stage-marks table (the lane marks are in it). */
@@ -44,6 +48,19 @@ export function walkMs(dist: number): number {
   return Math.max(w.minMs, Math.min(w.maxMs, (dist / w.speed) * 1000));
 }
 
+/** The corners of a walk, start to end. */
+export function walkPoints(w: Pick<Walk, 'from' | 'to' | 'via'>): Vec2[] {
+  return [w.from, ...(w.via ?? []), w.to];
+}
+
+/** Total length of a walk along its corners. */
+export function walkLength(w: Pick<Walk, 'from' | 'to' | 'via'>): number {
+  const p = walkPoints(w);
+  let d = 0;
+  for (let i = 1; i < p.length; i++) d += Math.hypot(p[i]!.x - p[i - 1]!.x, p[i]!.z - p[i - 1]!.z);
+  return d;
+}
+
 /** The walker's place at `nowMs`; under reduced motion it is on its mark from the start. */
 export function walkPose(w: Walk, nowMs: number, reduce: boolean): WalkPose {
   const t = (nowMs - w.startMs) / w.durMs;
@@ -51,13 +68,33 @@ export function walkPose(w: Walk, nowMs: number, reduce: boolean): WalkPose {
   const k = Math.max(0, t);
   // A little ease at each end, so a figure does not leap into its stride.
   const e = k * k * (3 - 2 * k);
-  return {
-    x: w.from.x + (w.to.x - w.from.x) * e,
-    z: w.from.z + (w.to.z - w.from.z) * e,
-    walking: k > 0,
-  };
+  if (!w.via?.length) {
+    return {
+      x: w.from.x + (w.to.x - w.from.x) * e,
+      z: w.from.z + (w.to.z - w.from.z) * e,
+      walking: k > 0,
+    };
+  }
+  // Along the corners: the eased share of the whole length, found leg by leg.
+  const pts = walkPoints(w);
+  let left = e * walkLength(w);
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1]!;
+    const b = pts[i]!;
+    const len = Math.hypot(b.x - a.x, b.z - a.z);
+    if (left <= len || i === pts.length - 1) {
+      const f = len > 0 ? Math.min(1, left / len) : 1;
+      return {
+        x: a.x + (b.x - a.x) * f,
+        z: a.z + (b.z - a.z) * f,
+        walking: k > 0,
+        yaw: Math.atan2(b.x - a.x, b.z - a.z),
+      };
+    }
+    left -= len;
+  }
+  return { x: w.to.x, z: w.to.z, walking: false };
 }
-
 export type GroundType = 'snow' | 'mud' | 'sand';
 
 /**

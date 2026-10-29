@@ -168,3 +168,180 @@ button.battle-row:focus-visible {
   animation: none !important;
   transition: none !important;
 }
+
+/* Moves (recs FIGHT-14 to FIGHT-17): Puff pips, status words, move buttons with their cost. */
+.battle-puff {
+  font-size: 0.7em;
+  letter-spacing: 1px;
+  color: #9fd3ff;
+}
+
+.battle-marks,
+.battle-order {
+  font-size: 0.8em;
+  opacity: 0.9;
+}
+
+.battle-order {
+  margin: 0 0 6px;
+}
+
+.battle-moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.battle-move {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 88px;
+  min-height: 48px;
+  line-height: 1.1;
+}
+
+.battle-move small {
+  font-size: 0.72em;
+  opacity: 0.8;
+}
+
+/* The type wheel help card (recs FIGHT-13). */
+.type-help {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: min(360px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 14px;
+  border: 2px solid rgba(255, 241, 201, 0.4);
+  border-radius: 12px;
+  background: #2a2433;
+  color: #fff1c9;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+}
+
+.type-wheel {
+  position: relative;
+  width: 220px;
+  height: 160px;
+  margin: 6px auto;
+}
+
+.type-wheel .type-spot {
+  position: absolute;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.type-spot-0 {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.type-spot-1 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.type-spot-2 {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.type-spot-3 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.type-mid {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.type-wheel .type-arrow {
+  position: absolute;
+  opacity: 0.7;
+}
+
+.type-arrow-0 {
+  top: 18%;
+  right: 22%;
+  transform: rotate(45deg);
+}
+
+.type-arrow-1 {
+  bottom: 18%;
+  right: 22%;
+  transform: rotate(135deg);
+}
+
+.type-arrow-2 {
+  bottom: 18%;
+  left: 22%;
+  transform: rotate(225deg);
+}
+
+.type-arrow-3 {
+  top: 18%;
+  left: 22%;
+  transform: rotate(315deg);
+}
+
+/* The stats sheet's Bout card (recs FIGHT-10, FIGHT-12, FIGHT-17). */
+.bout-card {
+  margin-top: 10px;
+}
+
+.bout-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 0.85em;
+}
+
+.bout-slots {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(64px, 1fr));
+  gap: 6px;
+}
+
+.bout-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
+  padding: 4px;
+  font-size: 0.8em;
+  line-height: 1.1;
+}
+
+.bout-slot.picked {
+  outline: 3px solid #ffe08a;
+  outline-offset: 1px;
+}
+
+.bout-slot small {
+  font-size: 0.7em;
+  color: #9fd3ff;
+}
+
+.bout-known {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.bout-chip {
+  min-height: 44px;
+}

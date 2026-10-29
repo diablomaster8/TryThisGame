@@ -12,6 +12,7 @@ import { DUNGEON } from '../config/tuning';
 import { DUNGEON_NAV } from '../config/tuning-sim';
 import { astar, cellLine, stringPull } from './astar';
 import { FLOOR, WATER, type Floor } from './dungeon';
+import { propCells, propOnLine } from './dungeon-props';
 import { keeperPerks } from './perks';
 import type { Nubbin, Vec2, World } from './types';
 
@@ -20,6 +21,8 @@ const CELL = DUNGEON.cell;
 interface Masks {
   dry: Uint8Array;
   wet: Uint8Array;
+  sightDry: Uint8Array;
+  sightWet: Uint8Array;
 }
 
 // Floors are cached and immutable once generated, so their masks and paths can be too.
@@ -37,10 +40,31 @@ export function navMask(f: Floor, wet: boolean): Uint8Array {
       wetMask[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : 0;
     }
     for (const c of f.crossings) for (const q of c.cells) dry[q.y * f.cols + q.x] = 1;
-    m = { dry, wet: wetMask };
+    // Sight lines read rock only and test the landmark as its true circle (`sightLine`).
+    const sightDry = dry.slice();
+    const sightWet = wetMask.slice();
+    // The landmark is solid (R0032): its cells are closed to the planner.
+    for (const i of propCells(f)) dry[i] = wetMask[i] = 0;
+    m = { dry, wet: wetMask, sightDry, sightWet };
     masks.set(f, m);
   }
   return wet ? m.wet : m.dry;
+}
+
+/**
+ * The rock-only mask, for straight-line checks: a walker standing in a cell the landmark's
+ * padding closed must still see its way out, or it re-plans toward its own cell every step
+ * and the collider holds it there.
+ */
+function sightMask(f: Floor, wet: boolean): Uint8Array {
+  navMask(f, wet);
+  const m = masks.get(f)!;
+  return wet ? m.sightWet : m.sightDry;
+}
+
+/** A straight walk from a to b that rock and the landmark both leave clear. */
+function sightLine(f: Floor, wet: boolean, a: Vec2, b: Vec2, clearance: number): boolean {
+  return clearLine(f, sightMask(f, wet), a, b, clearance) && !propOnLine(f, a, b, clearance);
 }
 
 function open(f: Floor, mask: Uint8Array, x: number, y: number): boolean {
@@ -132,11 +156,13 @@ function plan(f: Floor, wet: boolean, start: number, goal: number, clearance: nu
   const hit = cache?.get(key);
   if (hit) return hit;
   const mask = navMask(f, wet);
-  const walk = (x: number, y: number) => open(f, mask, x, y);
   // The whole floor is the bound here: a Hollow floor is small enough to search outright.
   const opts = { maxExpansions: f.cols * f.rows };
   const sx = start % f.cols;
   const sy = (start - sx) / f.cols;
+  // A body may stand in a cell the props closed (beside the landmark, R0032): it can always
+  // walk out of its own cell.
+  const walk = (x: number, y: number) => (x === sx && y === sy) || open(f, mask, x, y);
   let reaches = true;
   let path = astar(f.cols, f.rows, walk, sx, sy, goal % f.cols, Math.floor(goal / f.cols), opts);
   if (!path) {
@@ -206,7 +232,7 @@ export function nextWaypoint(
 ): Vec2 | null {
   const mask = navMask(f, wet);
   const goal = cellIndexOf(f, target);
-  if (mask[goal] === 1 && clearLine(f, mask, pos, target, clearance)) {
+  if (mask[goal] === 1 && sightLine(f, wet, pos, target, clearance)) {
     route.goal = -1;
     return target;
   }
@@ -218,12 +244,12 @@ export function nextWaypoint(
   while (
     route.i < pts.length - 1 &&
     (Math.hypot(pts[route.i]!.x - pos.x, pts[route.i]!.z - pos.z) < DUNGEON_NAV.waypointReach ||
-      clearLine(f, mask, pos, pts[route.i + 1]!, clearance))
+      sightLine(f, wet, pos, pts[route.i + 1]!, clearance))
   ) {
     route.i++;
   }
   // Pushed off the route (a shove, a slide along a wall): plan again from here.
-  if (!clearLine(f, mask, pos, pts[route.i]!, 0)) {
+  if (!sightLine(f, wet, pos, pts[route.i]!, 0)) {
     replan(route, f, pos, target, wet, clearance);
   }
   const wp = route.points[route.i]!;

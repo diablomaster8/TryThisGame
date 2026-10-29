@@ -8,6 +8,8 @@ import { COLOUR_VARIANTS } from './nubbin-variants-colour';
 import { FIRST_VARIANTS } from './nubbin-variants-first';
 import { SECOND_VARIANTS } from './nubbin-variants-second';
 import { SPECIAL_VARIANTS } from './nubbin-variants-special';
+import { speciesArt } from '../render/sprites/species-art';
+import { artSpec } from '../render3d/art-species';
 
 /**
  * Every Nubbin variant by family, for the stage's `&creature=variants` sheet and
@@ -25,7 +27,14 @@ export const VARIANT_FAMILIES: Record<VariantFamily, NubbinVariant[]> = {
 export const ALL_VARIANTS: NubbinVariant[] = Object.values(VARIANT_FAMILIES).flat();
 
 export const variantById = (id: string): NubbinVariant | null =>
-  ALL_VARIANTS.find((v) => v.id === id) ?? TEMPLATES.find((v) => v.id === id) ?? null;
+  ALL_VARIANTS.find((v) => v.id === id) ?? TEMPLATES.find((v) => v.id === id) ?? artVariant(id);
+
+/** `art:<species id>`: a pocket or digital species on the stage, for the likeness reviews. */
+function artVariant(id: string): NubbinVariant | null {
+  if (!id.startsWith('art:')) return null;
+  const art = speciesArt(id.slice(4));
+  return art ? { id, family: 'child', spec: artSpec(id.slice(4), art) } : null;
+}
 
 /** The specs a `&creature=variants` sheet lines up: one family, filtered and capped. */
 export function sheetVariants(query: URLSearchParams): NubbinVariant[] {

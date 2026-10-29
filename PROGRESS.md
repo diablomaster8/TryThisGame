@@ -38,64 +38,35 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 2 · Lane D (2026-10-28, branch r2/d)
+## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
-Phone 3D perf first, then WORLD. Measured first: on a phone the scenery is about 150 draws
-and 25k triangles; the terrain (one 100k mesh), creature shadows, outline hulls and the
-creatures themselves are the rest. Probe (375×812, phone sculpt grid, Full 3D, mean of fresh
-frames, `?nolod` for before): 5/19 spots under budget before, 6/19 after; median 336 → 230
-calls, 855k → 380k triangles; worst 699 calls / 1.65 M → 558 / 920k. Pixel: ≤ 186 sprites.
+The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
+`docs/progress-archive.md`; per-item status in `recs-2026-10-27/STATUS.md`.
 
-- *Works:* terrain drawn by view chunk (`render3d/chunks.ts`); creatures off screen stop
-  casting, small ones lose hulls and real shadows at geometry levels 2–3 (`render3d/lod.ts`);
-  device tier from the sculpt grid caps grass (2.9k instances on a phone); `WORLD_MEM` and a
-  memory readout; debug World row (teleport to POI, pin LOD, freeze streaming); portrait
-  walking lead (R0084); jump metrics checked against the real jump (R0087); the Wood laid out
-  as data with four jump routes (R0089); twelve world traces with a content check (R0090).
-- *Stubbed:* creature LOD (R0079, lane A/E files) is what the remaining 12 spots need, since
-  each rig is about 22 draws and 49k triangles; tree and building impostors (R0078) are not
-  built, as they would save under 5% today; the Wood is not drawn; trace props are not
-  tappable yet; no chunk-grid overlay; `WORLD_MEM` reads but releases nothing (one 3D region).
-- *Known:* the probe's numbers swing ±30 draws with where the Nubbins wander. A double jump
-  (1.70 u) can't climb two terrace levels and the glide carries 2.6 u per unit dropped, not
-  8 u per level (lane A's numbers). Round 1's probe measured the opening scene's camera at every
-  spot (fixed: it now clears dialogue and checks the aim).
-- *Assumptions:* the probe builds creatures on the phone grid (`?sculptRes=64`, dev only);
-  `?nolod` (dev only) gives the before numbers from the same build.
-
-## Lanes A–E (2026-10-28, merged on lane/d, one push)
-
-The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
-`docs/progress-archive.md`, and per-item status is in `recs-2026-10-27/STATUS.md`.
-
-- **A MOVE.** *Works:* jump and landing feel in both modes, pad mapping (X pet, B feed, Y
-  shake), auto-hop on tap paths, Fly-perk glide, the floating analogue joystick, Nubbin
-  steering, thrown bodies that bonk off solids, collider/nav/ground-y debug overlays and a
-  collision sweep. *Stubbed:* 3D knees on crouch, 3D wings, Keeper 2's jump, tap markers,
-  fall recovery (MOVE-31). *Known:* a thrown Nubbin can't land on a bench top.
-- **B DUNG.** *Works:* save v8; the boot veil and arrival grace; generator v3 with loops and
-  29 Rootways pieces; packs that chase and start encounters; five acts with boss rooms.
-  *Stubbed:* act tilesets and towns; a boss look; pack loot (Shells only). *Known:* the Pixel
-  view doesn't draw packs (needs `world-view.ts`); the standard tour band hits about 85%.
-- **C FIGHT.** *Works:* a seeded battle core (`src/sim/battle/`) runs the dojo and SL2's
-  party bout, with the party panel. *Stubbed:* the 3D dojo view (R0219), rival species, the
-  Hollow `encounter` wiring. *Known:* old `karateResult` trusts `won`; fast weak taps beat
-  tier 2 (R0280).
-- **D WORLD.** *Works:* the region graph (13 regions, paired exits, the `travel` command,
-  discovery events); every quest mapped to an area (`noArea: 0`); the drawn map with
-  "you are here", travel and region tabs; compass and minimap (Off/On/Auto); Full 3D
-  `PERF_BUDGET` with a governor `geoLevel`; the chunk grid and Pixel off-screen culling
-  (793 → ≤ 138 sprites); a World line in the debug panel; POI spacing and
-  `npm run probe:world`. *Stubbed:* quests in the map sheet, maps for non-Grove regions, the
-  compass objective tick, 3D streaming. *Known:* Full 3D is still over the phone budget at
-  most spots until creature and scenery LOD (R0078/R0079). The region is derived from
-  `location`.
-- **E LOOK.** *Works:* Chao crown, tip, eyes, head ratio, wings, mitts, waddle and mouths in
-  both modes; Moon adult hues; per-species 3D eyes; multi-head and ghost species; the
-  likeness test suite. *Stubbed:* crown spring bone, toon rim light, slit pupils, the
-  part-grow at evolution. *Known:* wing cream `#fff1c9` awaits Maor's OK.
-- **All lanes.** Under load, the full-life, `species-gen1a-art` sculpt and nav timing tests
-  can fail in a full run. Each passes when run alone; no budget was loosened.
+- **A MOVE.** *Works:* Nubbin hops onto tops by stat and personality, thrown Nubbins land on
+  tops, NPC routing round solids, 3D wild props, slope slowdown, auto-run, path dots, surface
+  footfalls, race hurdles, partner slots. *Stubbed:* Pixel ramp lean, 3D flap on hops, pad
+  glyphs. *Known:* a nav/ledge pocket near (28, -33); hops cost the full-life test about 6%.
+- **B DUNG.** *Works:* Hollow packs fight on the battle core; save v9 (act seeds with a daily
+  reroll, waypoints, the Homing Acorn, remembered levels); solid landmark; fog and automap.
+  *Stubbed:* outdoor zones and towns; Pixel waypoint stones, fog and packs (need
+  `world-view.ts`). *Known:* a fresh pair loses to three or more foes (pack size capped).
+- **C FIGHT.** *Works:* derived battle stats, one damage formula, grade traits, the type loop,
+  Puff, statuses and moods, 62 moves as data, four slots per Nubbin, choose-then-resolve turns.
+  *Stubbed:* battle items, the 3D dojo view (R0219). *Known:* old turn bouts close as draws; on
+  a phone the last move row sits under Leave until scrolled.
+- **D WORLD.** *Works:* 3D terrain drawn by view chunk; creature shadows and hulls culled by
+  view and geometry level; grass by device tier; memory readout and debug World row; portrait
+  walking lead; jump metrics checked against the real jump; the Wood laid out as data; twelve
+  world traces. Phone 3D probe: 6/19 spots under budget (5 before). *Stubbed:* creature LOD
+  (R0079) is what the other spots need; the Wood and the traces are not drawn. *Known:* a double
+  jump can't climb two terrace levels.
+- **E LOOK.** *Works:* the legs-out sit, more vivid 3D colours, serpents and 27 four-legged
+  species in both modes, Greymon kit extras, signature parts sized for the game camera, arm
+  rest, toon ramp without the black collar. *Stubbed:* `quad.tailSet`, band-tinted bubbles.
+  *Known:* pixel serpents reach only 1.0–1.6× long.
+- **All lanes.** Under load the full-life, sculpt and nav timing tests can fail in a full run;
+  each passes alone. No budget was loosened.
 
 ## Standing approval (Maor, 2026-10-12)
 

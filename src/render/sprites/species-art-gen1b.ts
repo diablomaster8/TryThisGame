@@ -57,26 +57,33 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     ears: 'catTips',
     crest: 'flame',
     tail: 'flame',
-    legs: 'long',
     eyes: 'big',
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'horse', legLen: 0.85 },
   }),
   blazesteed: spec(PONY, {
-    plan: 'tall',
     size: 1.15,
     ears: 'catTips',
     crest: 'flame',
     tail: 'flame',
-    legs: 'long',
     eyes: 'angry',
+    plan: 'quad',
     arms: 'none',
+    legs: 'none',
+    quad: { stance: 'horse', legLen: 1.0, neck: 0.6 },
   }),
   // ---- dawdle line ----
   dawdlet: spec(SLOW, {
-    plan: 'round',
     size: 0.9,
     ears: 'round',
     tail: 'long',
     marks: ['chest'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.4, snout: 0.3, tailSet: 'low' },
   }),
   dawdleshell: spec(pal(C.blush, C.rose, C.cream, C.lilacGrey, C.pale), {
     size: 1.15,
@@ -121,14 +128,24 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     heads: { count: 3, neck: 1, spread: 100, sizes: [1, 1, 1], faces: 'full' },
   }),
   // ---- floe seals ----
-  floepup: spec(SEAL, { ...ORB, size: 0.9, crest: 'horn', gen1b: ['fishTail'] }),
+  floepup: spec(SEAL, {
+    ...ORB,
+    size: 0.9,
+    crest: 'horn',
+    gen1b: ['fishTail'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'seal' },
+  }),
   floeglide: spec(SEAL, {
-    plan: 'serpent',
     size: 1.15,
     crest: 'horn',
-    legs: 'none',
-    arms: 'none',
     gen1b: ['fishTail'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'seal', neck: 0.35 },
   }),
   // ---- sludge ----
   gloplet: spec(SLUDGE, { plan: 'slug', size: 0.9, marks: ['spots'], gen1b: ['floatHands'] }),
@@ -167,7 +184,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     eyes: 'angry',
     gen1b: ['ghostHands', 'grin', 'float'],
   }),
-  spookgrin: spec(pal(C.violet, C.moonPurple, C.lavender, C.violet, C.ember), {
+  spookgrin: spec(pal(C.violetDeep, C.moonPurple, C.lavender, C.violet, C.ember), {
     irisColor: '#d8202a',
     size: 1.1,
     ears: 'catTips',
@@ -179,6 +196,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- rock snake ----
   boulderwyrm: spec(pal(C.lilacGrey, C.dusk, C.pale, C.dusk, C.plum), {
     plan: 'serpent',
+    serpent: { segments: 8, taper: 0.55, rise: 2 },
     size: 1.2,
     crest: 'horn',
     eyes: 'angry',
@@ -283,6 +301,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'club',
     eyes: 'angry',
     marks: ['stripes'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.5, snout: 0.35 },
   }),
   drillhorn: spec(RHINO, {
     size: 1.2,
@@ -394,6 +416,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'spiky',
     eyes: 'angry',
     marks: ['belly'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.7, neck: 0.2, snout: 0.3 },
   }),
   // ---- carp and sea dragon ----
   flopfish: spec(pal(C.orange, C.ember, C.cream, C.cream, C.sunYellow), {
@@ -406,6 +432,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   stormwyrm: spec(pal(C.water, C.deepWater, C.cream, C.white, C.cream), {
     plan: 'serpent',
+    serpent: { segments: 9, rise: 4, belly: true, fin: true },
     size: 1.25,
     ears: 'fins',
     crest: 'twinHorns',
@@ -416,26 +443,30 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- rare ones ----
   ferrysong: spec(pal(C.water, C.deepWater, C.cream, C.lilacGrey, C.pale), {
-    plan: 'serpent',
     size: 1.15,
     ears: 'catTips',
     crest: 'horn',
     eyes: 'cute',
-    legs: 'none',
-    arms: 'none',
     marks: ['belly'],
     gen1b: ['backShell'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'seal', neck: 0.6, snout: 0.1 },
   }),
   copyblob: spec(pal(C.lavender, C.violet, C.lavender, C.violet, C.violet), {
     plan: 'slug',
     size: 1.05,
   }),
   snoozelump: spec(pal(C.deepWater, C.nightBlue, C.cream, C.cream, C.white), {
-    plan: 'round',
     size: 1.2,
     ears: 'catTips',
     eyes: 'closed',
     marks: ['chest'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { stance: 'sit', legLen: 0.45, snout: 0.1 },
   }),
   // ---- the fluff kit and its three stones ----
   fluffkit: spec(pal(C.wood, C.bark, C.cream, C.rose, C.cream), {
@@ -444,12 +475,20 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'ball',
     eyes: 'big',
     gen1b: ['ruff'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.55, snout: 0.2 },
   }),
   tidefox: spec(pal(C.skyLight, C.water, C.white, C.deepWater, C.deepWater), {
     size: 1.05,
     ears: 'fins',
     eyes: 'big',
     gen1b: ['ruff', 'fishTail'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.6, snout: 0.25 },
   }),
   sparkfox: spec(pal(C.sunYellow, C.orange, C.white, C.sunYellow, C.white), {
     size: 1.05,
@@ -458,6 +497,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'spiky',
     eyes: 'big',
     gen1b: ['spikeRuff'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.65, snout: 0.25 },
   }),
   flarefox: spec(pal(C.orange, C.ember, C.sunLight, C.sunYellow, C.cream), {
     size: 1.05,
@@ -466,6 +509,10 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     tail: 'ball',
     eyes: 'big',
     gen1b: ['ruff'],
+    plan: 'quad',
+    arms: 'none',
+    legs: 'none',
+    quad: { legLen: 0.6, snout: 0.25 },
   }),
   facetbird: spec(pal(C.blush, C.rose, C.water, C.water, C.white), {
     size: 0.95,
@@ -509,6 +556,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- ribbon wyrms ----
   wyrmlet: spec(pal(C.skyLight, C.water, C.white, C.white, C.white), {
     plan: 'serpent',
+    serpent: { segments: 9, taper: 0.3, belly: true },
     size: 0.9,
     ears: 'fins',
     eyes: 'cute',
@@ -518,6 +566,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   ribbonwyrm: spec(pal(C.water, C.deepWater, C.white, C.white, C.white), {
     plan: 'serpent',
+    serpent: { segments: 10, taper: 0.3, rise: 3, belly: true },
     size: 1.1,
     ears: 'fins',
     crest: 'horn',

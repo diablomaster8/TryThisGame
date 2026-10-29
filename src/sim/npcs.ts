@@ -1,4 +1,6 @@
-import { resolve } from './obstacles';
+import { NPC_MOVE } from '../config/tuning-move-npc';
+import { nubbinAim, type NubbinRoute } from './nav';
+import { blocked, resolve, wayAt } from './obstacles';
 import { GROVE, KEEPER } from '../config/tuning';
 import { clampToWorld } from './behavior';
 import type { Rng } from './rng';
@@ -101,6 +103,113 @@ export function removeNpc(world: World, trainer: string): void {
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
+/** A wandering visitor's walk: the planned route (kept outside the save) and its pauses. */
+interface NpcWalk {
+  route: NubbinRoute | null;
+  /** The path request for the next aim: 1 on a fresh target, 2 after being stuck, then 0. */
+  want: 0 | 1 | 2;
+  pauseMs: number;
+  /** Already waited once for the Keeper this stretch, so it goes round next. */
+  yielded: boolean;
+  stuckMs: number;
+  gaveUp: boolean;
+}
+const walkOf = new WeakMap<Npc, NpcWalk>();
+const probeAt: Vec2 = { x: 0, z: 0 };
+
+/**
+ * A spot near home a visitor can stand on: out of every solid and the pond (R0036), redrawn
+ * a few times, else null and it waits.
+ */
+function wanderTarget(world: World, npc: Npc, rng: Rng): Vec2 | null {
+  for (let i = 0; i < NPC_MOVE.resample; i++) {
+    const a = rng.float(0, Math.PI * 2);
+    const r = rng.float(0.5, 2.5);
+    const t = { x: npc.home.x + Math.cos(a) * r, z: npc.home.z + Math.sin(a) * r };
+    if (dist(t, GROVE.pond) < GROVE.pond.r + 1) continue;
+    clampToWorld(t);
+    if (!blocked(t, world, NPC_MOVE.radius, 'keeper')) return t;
+  }
+  return null;
+}
+
+/** Whether a probe at (x, z) is open ground and clear of the Keeper. */
+function open(world: World, x: number, z: number, withKeeper: boolean): boolean {
+  probeAt.x = x;
+  probeAt.z = z;
+  if (wayAt(probeAt, world, NPC_MOVE.radius, 'keeper') === 2) return false;
+  return !(withKeeper && dist(probeAt, world.keeper.pos) < NPC_MOVE.keeperBlock);
+}
+
+/**
+ * One step of a wander: aim at the next corner of a planned path (planned once per target,
+ * the Nubbins' grid), look ahead, turn aside for a solid, and stop 600 ms when the Keeper
+ * is in the way before walking round.
+ */
+function walkStep(world: World, npc: Npc, d: number, dt: number, dtMs: number): void {
+  const st = walkOf.get(npc) ?? {
+    route: null,
+    want: 0,
+    pauseMs: 0,
+    yielded: false,
+    stuckMs: 0,
+    gaveUp: false,
+  };
+  walkOf.set(npc, st);
+  if (st.pauseMs > 0) {
+    st.pauseMs -= dtMs;
+    return;
+  }
+  const target = npc.target!;
+  const aim = nubbinAim(world, st, 'keeper', npc.pos, target, d > NPC_MOVE.pathFar ? st.want : 0);
+  st.want = 0;
+  const h0 = Math.atan2(aim.x - npc.pos.x, aim.z - npc.pos.z);
+  const step = Math.min(d, KEEPER.speed * 0.4 * dt);
+  const ahead = Math.min(NPC_MOVE.probe, d);
+  const at = (h: number, withKeeper: boolean): boolean =>
+    open(world, npc.pos.x + Math.sin(h) * ahead, npc.pos.z + Math.cos(h) * ahead, withKeeper);
+  let heading = h0;
+  if (!at(h0, true)) {
+    if (at(h0, false) && !st.yielded) {
+      // Only the Keeper is in the way: wait a beat, then go round.
+      st.pauseMs = NPC_MOVE.keeperPauseMs;
+      st.yielded = true;
+      return;
+    }
+    let found = false;
+    for (const deg of NPC_MOVE.turnsDeg)
+      for (const s of [1, -1]) {
+        const h = h0 + s * ((deg * Math.PI) / 180);
+        if (!found && at(h, true)) {
+          heading = h;
+          found = true;
+        }
+      }
+    if (!found) {
+      st.pauseMs = 1000;
+      st.want = 2;
+      st.route = null;
+      return;
+    }
+  } else st.yielded = false;
+  const before = { x: npc.pos.x, z: npc.pos.z };
+  npc.pos.x += Math.sin(heading) * step;
+  npc.pos.z += Math.cos(heading) * step;
+  resolve(npc.pos, world, NPC_MOVE.radius, 'keeper');
+  npc.facing = heading;
+  // Pressed against something with no way on: plan again, then give the spot up.
+  if (dist(before, npc.pos) < step * 0.3) {
+    st.stuckMs += dtMs;
+    if (st.stuckMs > NPC_MOVE.stuckMs) {
+      st.stuckMs = 0;
+      st.route = null;
+      st.want = 2;
+      if (st.gaveUp) npc.target = null;
+      st.gaveUp = !st.gaveUp;
+    }
+  } else st.stuckMs = 0;
+}
+
 /** Visiting Keepers potter about near their spot and turn to face the player when close. */
 export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
   const dt = dtMs / 1000;
@@ -119,27 +228,25 @@ export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
         npc.target = null;
         npc.waitMs = rng.float(3000, 9000);
       } else {
-        const step = Math.min(d, KEEPER.speed * 0.4 * dt);
-        const dx = (npc.target.x - npc.pos.x) / d;
-        const dz = (npc.target.z - npc.pos.z) / d;
-        npc.pos.x += dx * step;
-        npc.pos.z += dz * step;
-        resolve(npc.pos, world);
-        npc.facing = Math.atan2(dx, dz);
+        walkStep(world, npc, d, dt, dtMs);
       }
     } else {
       npc.waitMs -= dtMs;
       if (npc.waitMs <= 0) {
-        const a = rng.float(0, Math.PI * 2);
-        const r = rng.float(0.5, 2.5);
-        const t = { x: npc.home.x + Math.cos(a) * r, z: npc.home.z + Math.sin(a) * r };
-        // Keep out of the pond.
-        if (dist(t, GROVE.pond) < GROVE.pond.r + 1) {
+        const t = wanderTarget(world, npc, rng);
+        if (!t) {
           npc.waitMs = 1000;
           continue;
         }
-        clampToWorld(t);
         npc.target = t;
+        walkOf.set(npc, {
+          route: null,
+          want: 1,
+          pauseMs: 0,
+          yielded: false,
+          stuckMs: 0,
+          gaveUp: false,
+        });
       }
     }
   }

@@ -39,6 +39,9 @@ import {
 } from './hollow-dress-geo';
 import { buildSet, type GlowSpot, type GlyphSpot } from './hollow-dress-set';
 import { paintedWater, type PaintedWater } from './water';
+import { fogged } from './hollow-fog';
+import { lootShown } from '../sim/dungeon-sight';
+import type { DungeonRun } from '../sim/types';
 
 export { pathBaker } from './hollow-dress-path';
 
@@ -101,21 +104,23 @@ export class HollowDress implements HollowModule {
   readonly water: PaintedWater;
   readonly picks: HollowPick[] = [];
   /** The kit materials: merged set pieces, instanced pieces, and the loot's kind selector. */
-  private readonly kit = kitMaterial();
-  private readonly kitInst = kitMaterial();
-  private readonly lootMat = kitMaterial(true);
-  private readonly bubbleMat = new THREE.MeshStandardMaterial({
-    color: '#9ad0ff',
-    emissive: '#9ad0ff',
-    emissiveIntensity: 0.5,
-    roughness: 0.1,
-    transparent: true,
-    opacity: 0.45,
-    depthWrite: false,
-  });
+  private readonly kit = fogged(kitMaterial());
+  private readonly kitInst = fogged(kitMaterial());
+  private readonly lootMat = fogged(kitMaterial(true));
+  private readonly bubbleMat = fogged(
+    new THREE.MeshStandardMaterial({
+      color: '#9ad0ff',
+      emissive: '#9ad0ff',
+      emissiveIntensity: 0.5,
+      roughness: 0.1,
+      transparent: true,
+      opacity: 0.45,
+      depthWrite: false,
+    }),
+  );
   private readonly decalMat: THREE.MeshStandardMaterial;
   private readonly glyphMat: THREE.MeshBasicMaterial;
-  private readonly glowMat = glowMaterial();
+  private readonly glowMat = fogged(glowMaterial());
   private readonly chasmMat: THREE.MeshBasicMaterial;
   private readonly fallMat: THREE.MeshBasicMaterial;
   /** What `dispose` takes out; `own` geometries are freed, shared ones kept. */
@@ -128,8 +133,10 @@ export class HollowDress implements HollowModule {
   private lastT = 0;
   // Per-floor state the frame reads.
   private loot: THREE.InstancedMesh | null = null;
+  private floor: Floor | null = null;
   private lootAt: Array<{
     id: string;
+    cell: { x: number; y: number };
     p: THREE.Vector3;
     y0: number;
     seed: number;
@@ -158,17 +165,28 @@ export class HollowDress implements HollowModule {
   private readonly c = new THREE.Color();
 
   constructor(tex: Tex) {
-    this.stone = stoneMaterial(tex);
+    // Every material here is fog-aware (R0153), so unseen props stay dark.
+    this.stone = fogged(stoneMaterial(tex));
     this.water = paintedWater(0, 0.55);
-    this.decalMat = decalMaterial(decalAtlas());
-    this.glyphMat = glyphMaterial(glyphAtlas());
-    this.chasmMat = new THREE.MeshBasicMaterial({ map: chasmTexture(), side: THREE.DoubleSide });
-    this.fallMat = new THREE.MeshBasicMaterial({
-      map: fallTexture(),
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide,
-    });
+    fogged(this.water.material);
+    this.decalMat = fogged(decalMaterial(decalAtlas()));
+    this.glyphMat = fogged(glyphMaterial(glyphAtlas()));
+    this.chasmMat = fogged(
+      new THREE.MeshBasicMaterial({ map: chasmTexture(), side: THREE.DoubleSide }),
+    );
+    this.fallMat = fogged(
+      new THREE.MeshBasicMaterial({
+        map: fallTexture(),
+        transparent: true,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+      }),
+    );
+  }
+
+  /** The cell a find lies on, for the pick's fog test; off-floor when unknown. */
+  lootCell(id: string): { x: number; y: number } {
+    return this.lootAt.find((l) => l.id === id)?.cell ?? { x: -1, y: -1 };
   }
 
   /** The light module, for item 44's sconces (see `SconceApi`). */
@@ -229,6 +247,7 @@ export class HollowDress implements HollowModule {
   }
 
   build(f: Floor, ctx: HollowCtx): void {
+    this.floor = f;
     this.group = ctx.group;
     this.sky = ctx.sky;
     this.ctx = ctx;
@@ -524,6 +543,7 @@ export class HollowDress implements HollowModule {
       const crit = l.kind === 'critter';
       return {
         id: l.id,
+        cell: l.cell,
         p: new THREE.Vector3(p.x, cellTop(f, l.cell) + 0.25, p.z),
         y0: cellTop(f, l.cell) + 0.25,
         seed: p.x,
@@ -540,7 +560,7 @@ export class HollowDress implements HollowModule {
       this.put(b, false);
     }
     this.lidOpen = null;
-    this.placeLoot(0, [], false, true);
+    this.placeLoot(0, null, true);
   }
 
   private buildPicks(f: Floor): void {
@@ -585,6 +605,7 @@ export class HollowDress implements HollowModule {
   }
 
   dispose(): void {
+    this.floor = null;
     for (const o of this.objs) {
       o.removeFromParent();
       if (o instanceof THREE.InstancedMesh) o.dispose();
@@ -611,7 +632,7 @@ export class HollowDress implements HollowModule {
     const dt = Math.min(0.1, Math.max(0, t - this.lastT));
     this.lastT = t;
     const still = this.ctx?.reduceMotion ?? false;
-    this.placeLoot(t, run.taken, run.chestOpen, still);
+    this.placeLoot(t, run, still);
     this.breathe(t, still);
     this.fadeGlyphs(keeper, dt);
     this.touch(t, keeper, fr.party);
@@ -620,12 +641,16 @@ export class HollowDress implements HollowModule {
     if (this.sky) this.water.update(t, this.sky.sun, this.sky.hemi);
   }
 
-  private placeLoot(t: number, taken: readonly string[], open: boolean, still: boolean): void {
+  /** `run` is null while building: nothing taken, the chest shut, the fog not read yet. */
+  private placeLoot(t: number, run: DungeonRun | null, still: boolean): void {
     const im = this.loot;
     if (!im) return;
+    const open = run?.chestOpen ?? false;
+    const f = this.floor;
     const L = GROVE3D.cave.dress.loot;
     this.lootAt.forEach((l, i) => {
-      const gone = taken.includes(l.id);
+      // Taken, or still under the fog of war (R0153): a find shows once its cell is seen.
+      const gone = !!run && (run.taken.includes(l.id) || (!!f && !lootShown(run, f, l.cell)));
       const bob = still ? 0 : Math.sin(t * 2 + l.seed) * L.bob;
       // The pick follows the bob (the tap sphere is this same vector).
       l.p.y = l.y0 + bob;

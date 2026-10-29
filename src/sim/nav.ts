@@ -588,3 +588,25 @@ export function nubbinAim(
     r.i++;
   return r.i < pts.length ? pts[r.i]! : target;
 }
+
+/**
+ * Corners for a one-off walk from `from` to `target` over the Nubbin grid (R0036): empty
+ * when the straight line is clear, else the planned corners without the start or the target.
+ * Staged walk-ons and wandering visitors share it; it plans once per call, so callers ask
+ * on a target change only.
+ */
+export function walkPath(world: World, from: Vec2, target: Vec2, who: Walker = 'keeper'): Vec2[] {
+  const g = nubbinGrid(world, who);
+  if (clear(g.mask, from, target, null)) return [];
+  const planned = plan(g, from, target);
+  return planned ? planned.points.slice(0, -1) : [];
+}
+
+/**
+ * MOVE-44: the corners still ahead on the Keeper's planned tap walk (the last is where it
+ * stops), or none when it walks straight. Read-only, for the path preview.
+ */
+export function keeperRoute(world: World): readonly Vec2[] {
+  const r = routes.get(world);
+  return r ? r.points.slice(r.i) : [];
+}

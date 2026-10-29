@@ -39,7 +39,8 @@ left out, and an example as it appears in a spec.
 | `wings`       | Translucent wings that flutter: position of the right root (mirrored for the left), `size`, `color` and `shape` (`fairy` by default, a rounded `feather` lobe, a scalloped `bat` wing).                                                                                                                                                                                                                                                                                   | none                                    | `wings: { x: 0.42, y: 1.15, z: -0.6, size: 1, color: '#f6faff' }`                      |
 | `blush`       | Cheek blush colour, scaled in over 150 ms only while petted (the Chao line). | none | `blush: '#ffb3c6'` |
 | `waddle`      | Walk body roll over the stance foot, radians; the head counter-rolls 0.43 of it. | 0.03 | `waddle: 0.12` |
-| `ball`        | The emote ball over the head, with its own light: height, colour, `shape` (a plain `ball`, a flat `halo` ring, a `spikes` ball) and `glow`, the emissive tint that also colours its light (warm gold by default).                                                                                                                                                                                                                                                         | none                                    | `ball: { y: 3.5, color: '#ffd94a', shape: 'halo', glow: '#c08a10' }`                   |
+| `armRest`     | Extra arm roll down and pitch forward at rest, radians; the walk uses half. | none | `armRest: { roll: 0.38, pitch: -0.26 }` |
+| `ball`        | The emote ball over the head, with its own light: height, colour, `shape` (a plain `ball`, a flat `halo` ring, a `spikes` ball) and `glow`, the emissive tint that also colours its light (warm gold by default). `tip` colours the spikes on their own (the Moon ball's red tips, LOOK-17).                                                                                                                                                                                                                                                         | none                                    | `ball: { y: 3.5, color: '#ffd94a', shape: 'halo', glow: '#c08a10' }`                   |
 | `hipY`        | Hip height: the body bobs, crouches and squashes from here.                                                                                                                                                                                                                                                                                                                                                                                                               | required                                | `hipY: 0.98`                                                                           |
 | `stride`      | The walk step: `length` scales how far the body moves per cycle (jointed legs: 1 is one leg length, and the hips crouch as far as the step needs; unjointed legs: it widens the hip swing), `period` is the cycle in seconds, `duty` the planted share of it for jointed feet (below 0.5 the figure jogs, and crouches less). The Grove speeds the cycle up to the sim's speed (`render3d/gait.ts`, at most `GROVE3D.maxCadence`), so longer steps mean a calmer cadence. | `{ length: 1, period: 0.8, duty: 0.6 }` | `stride: { length: 2.2, period: 0.7, duty: 0.45 }` (the Keeper)                        |
 | `footprint`   | Radius of the contact shadow and of the slope probes.                                                                                                                                                                                                                                                                                                                                                                                                                     | 0.85 × the torso box's half-width       | `footprint: 1.1`                                                                       |
@@ -367,6 +368,37 @@ accessory) is not in the key: `render3d/dress.ts` `Dresser` hangs plain meshes o
 hip bones, shares geometry per item kind and materials per colour, and skips the work when a
 rig's dress signature (on `userData`) has not changed. The pool stamps `userData.lookKey` on
 each rig so the Dresser knows the body under the clothes.
+
+## Generated species: the serpent plan
+
+The pocket and digital lines are generated from the pixel recipe (`render/sprites/species-art*.ts`,
+`render3d/art-species.ts`). A recipe with `plan: 'serpent'` may carry a `serpent` block, read by
+both renderers (LOOK-05):
+
+| Field      | What it does                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------ |
+| `segments` | Discs (pixel) and spine nodes (3D), 7–10; 8 by default.                                          |
+| `taper`    | The tail's radius as a share of the neck's; 0.35 by default.                                     |
+| `rise`     | How many segments stand up under the head; 2 by default (Gyarados 4, Airdramon 5).               |
+| `belly`    | A belly stripe in the belly colour.                                                              |
+| `fin`      | A dorsal fin in the accent colour on segments 2 and 5 (Gyarados).                                |
+
+In 3D the neck is sculpted into the torso and each lying segment is a part named `seg<i>`, re-hung
+bone under bone (`render3d/art-serpent.ts`); the walk is a travelling yaw wave on the gait clock.
+With the `boulders` part, every segment is a rock (Onix).
+
+## Generated species: the quad plan
+
+A recipe with `plan: 'quad'` may carry a `quad` block (`creature-kit-digi.ts` `quadOf`, LOOK-06), read
+by both renderers. Babies (size under 0.95) keep a head a third bigger.
+
+| Field     | What it does                                                                                  |
+| --------- | --------------------------------------------------------------------------------------------- |
+| `stance`  | `dog` (default), `horse`, `toad` (low and wide), `seal` (flippers, no legs), `sit` (Snorlax). |
+| `legLen`  | Leg length, 0.4–1.0 (dog 0.6, horse 0.9).                                                     |
+| `neck`    | How far the head stands up and forward on a neck, 0–0.6.                                      |
+| `snout`   | Muzzle length, 0–0.5.                                                                         |
+| `tailSet` | `high` or `low`; read by neither renderer yet.                                                |
 
 ## Where it is seen
 

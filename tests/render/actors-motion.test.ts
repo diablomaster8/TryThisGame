@@ -32,7 +32,7 @@ describe('poseFor (3D poses by the pixel view rule)', () => {
     const hungry = nubbin('sit');
     hungry.needs.hunger = 0.1;
     expect(poseFor(hungry, false, false)).toBe('sad');
-    expect(poseFor(nubbin('sit'), false, false)).toBe('idle');
+    expect(poseFor(nubbin('sit'), false, false)).toBe('sit');
     // A low Nubbin on the move walks, as the pixel view's walk clip does.
     expect(poseFor(low, true, false)).toBe('walk');
   });

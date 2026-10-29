@@ -278,13 +278,16 @@ export const NUBBIN_SPEC: SpeciesSpec = {
   },
   // The Chao waddle: about 7 degrees of body roll over the stance foot.
   waddle: 0.12,
+  // LOOK-14: the arms hang 55 degrees down and a little forward, beside the lower belly.
+  armRest: { roll: 0.38, pitch: -0.26 },
   // The Chao mouth opens wide: a big D when happy, a wail when crying (LOOK-65).
   expressions: { happy: { gape: 0.55 }, sad: { gape: 0.45 } },
   blush: '#ffb3c6',
   // Pale cream-yellow, the same palette colour the pixel child wears (LOOK-13; Maor to
   // confirm the hue).
   wings: { x: 0.52, y: 1.2, z: -0.5, size: 1.15, color: '#fff1c9' },
-  ball: { y: 3.5, color: nubbinTip },
+  // The neutral ball: a saturated yellow with a darker glow (LOOK-17).
+  ball: { y: 3.5, color: '#ffd800', glow: '#d6a400' },
   notes:
     'Shape pass 2026-10-15 against the Palworld roster screenshot (toes, mitts, crisp crown); ' +
     'eyes and petting against the All Pet Animations video (docs/samples/look-nubbin.jpg, ' +

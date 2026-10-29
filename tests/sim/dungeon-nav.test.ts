@@ -2,11 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { DUNGEON, KEEPER, SIM } from '../../src/config/tuning';
 import { astar, gridLineOfSight, stringPull } from '../../src/sim/astar';
 import { cellAt, cellCentre, cellOf, FLOOR, runFloor, type Floor } from '../../src/sim/dungeon';
+import { propBlocked } from '../../src/sim/dungeon-props';
 import { hatch } from '../../src/sim/lifecycle';
 import { Rng } from '../../src/sim/rng';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import { bfs } from './dungeon-measure';
+
+/** The Keeper's body in the Hollow (keeper.ts resolves with this radius). */
+const KEEPER_RADIUS = 0.35;
 
 function grid(rows: string[]) {
   const width = rows[0]!.length;
@@ -102,7 +106,10 @@ describe('Hollow tap-to-move', () => {
       world.dungeon!.packs = [];
       const f = runFloor(world)!;
       const rng = new Rng(seed * 7919);
-      const reach = dryReach(f, cellOf(f, world.keeper.pos));
+      // A tap on a solid set piece (R0032) is not a spot anyone can stand on.
+      const reach = dryReach(f, cellOf(f, world.keeper.pos)).filter(
+        (c) => !propBlocked(cellCentre(f, c), f, KEEPER_RADIUS),
+      );
       const stall = new Map<string, { at: { x: number; z: number }; ms: number }>();
       for (let t = 0; t < 30; t++) {
         const cell = reach[rng.int(0, reach.length - 1)]!;

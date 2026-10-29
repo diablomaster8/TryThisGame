@@ -28,3 +28,50 @@ export const NUBBIN_STEER = {
   /** How far beyond the outer edge of a hill's first ramp leg the sled run starts (units). */
   sledFoot: 0.4,
 } as const;
+
+/**
+ * Nubbin hops and jumps (MOVE-30). Height (units) is `base + run·perRun + fly·perFly` per
+ * level, ×`child` for a child; Fly at `airJumpFly` or more gives one flap in the air, which
+ * reaches `flapExtra` higher. Hops are idle-only: personality picks how often, never stats.
+ */
+export const NUBBIN_JUMP = {
+  base: 0.35,
+  perRun: 0.006,
+  perFly: 0.004,
+  child: 0.6,
+  airJumpFly: 40,
+  flapExtra: 0.3,
+  /** One hop up, down or over, start to finish (ms). */
+  hopMs: 300,
+  /** The arc over the straight line between the two heights, as a share of the jump. */
+  arc: 0.35,
+  /** A happy hop on the spot, as a share of the jump. */
+  happyArc: 0.6,
+  /** Happiness at or above which a Nubbin hops for joy. */
+  happyAt: 30,
+  /** Seconds between happy hops, by personality (none: never on its own). */
+  happyEvery: {
+    cheerful: [8, 20],
+    mischievous: [30, 60],
+    none: [30, 60],
+  } as Readonly<Record<string, readonly [number, number]>>,
+  /** A Mischievous Nubbin picks a bench or rock to climb this often when idle. */
+  perchChance: 0.35,
+  /** How far (units) it looks for one. */
+  perchRadius: 8,
+  /** A Shy Nubbin hops back from a Keeper landing this close (units)... */
+  shyRadius: 2.5,
+  /** ...and backs off this far. */
+  shyBack: 1.6,
+} as const;
+
+/**
+ * MOVE-48: a following partner makes for its slot behind the Keeper, `slot` units back and
+ * `spread` radians either side (partner 0 to the left, 1 to the right), never the Keeper's
+ * own spot. The old ±1.5 scatter is kept as a small `jitter` share so the draws match.
+ */
+export const FOLLOW_SLOT = {
+  slot: 0.9,
+  spread: 0.6,
+  jitter: 0.15,
+} as const;

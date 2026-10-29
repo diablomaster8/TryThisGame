@@ -1,6 +1,7 @@
 import type * as THREE from 'three';
 import type { CreatureSpec } from '../render/sprites/creature';
 import { C, color } from '../render/sprites/palette';
+import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-digi';
 import { V, type Prim } from '../samples/sculpted';
 import type { PartSpec, SpeciesSpec } from '../samples/species';
 import type { Layout } from './art-species';
@@ -12,14 +13,26 @@ import type { Layout } from './art-species';
  * art-species.ts asks `kitLayout` first and hands its finished spec to `patchKitSpec`.
  */
 
-export function kitLayout(plan: CreatureSpec['plan']): Layout | null {
-  if (plan === 'quad')
+export function kitLayout(art: CreatureSpec): Layout | null {
+  const plan = art.plan;
+  if (plan === 'quad') {
+    // The stance sets the legs, neck and body width (LOOK-06); a dog is the old layout.
+    const q = quadOf(art);
+    const legs = q.legLen;
+    const by = q.stance === 'seal' ? 0.5 : 0.35 + legs;
+    const wide = q.stance === 'toad' ? 1.25 : q.stance === 'seal' ? 1.15 : 1;
+    const baby = art.size < QUAD_BABY_SIZE ? 1.3 : 1;
     return {
-      body: { y: 0.95, r: V(0.6, 0.5, 0.95) },
-      head: { y: 1.8, z: 0.95, r: V(0.58, 0.54, 0.58) },
-      hipY: 0.95,
-      legLen: 0.6,
+      body: { y: by, r: V(0.6 * wide, 0.5, 0.95) },
+      head: {
+        y: by + 0.85 + q.neck * 0.9 + (q.stance === 'sit' ? 0.3 : 0),
+        z: 0.95 + q.neck * 0.35,
+        r: V(0.58, 0.54, 0.58).multiplyScalar(baby),
+      },
+      hipY: by,
+      legLen: legs,
     };
+  }
   if (plan === 'fish')
     return {
       body: { y: 0.9, r: V(0.85, 0.72, 1.25) },
@@ -107,9 +120,11 @@ export function patchKitSpec(
   let eyes = spec.eyes;
   if (art.plan === 'quad') {
     gait = 'quadruped';
+    const q = quadOf(art);
     const x = b.r.x * 0.6;
     const zs = b.r.z * 0.55;
     const legTop = b.y - b.r.y * 0.3;
+    const legR = q.stance === 'toad' ? 0.22 : q.stance === 'horse' ? 0.14 : 0.17;
     for (const [name, sx, sz] of [
       ['legFL', -1, 1],
       ['legFR', 1, 1],
@@ -117,11 +132,51 @@ export function patchKitSpec(
       ['legBR', 1, -1],
     ] as const) {
       const p = V(sx * x, legTop, sz * zs);
-      parts.push(
-        part(name, p, [
-          cap(p, V(sx * x, 0.2, sz * zs + 0.04), 0.17, c.body!),
-          ell(V(sx * x, 0.12, sz * zs + 0.1), V(0.2, 0.12, 0.26), c.shade!),
-        ]),
+      let prims: Prim[];
+      if (q.stance === 'seal') {
+        // Flippers: wide flat paddles at the chest, a smaller pair at the tail.
+        const at = V(sx * (b.r.x + 0.1), 0.1, sz * zs);
+        prims = [ell(at, V(sz > 0 ? 0.32 : 0.22, 0.07, sz > 0 ? 0.26 : 0.18), c.shade!)];
+      } else if (q.stance === 'sit' && sz < 0) {
+        // Seated: the hind legs fold into haunches on the ground.
+        prims = [ell(V(sx * (x + 0.1), 0.28, sz * zs), V(0.3, 0.26, 0.4), c.body!)];
+      } else
+        prims = [
+          cap(p, V(sx * x, 0.2, sz * zs + 0.04), legR, c.body!),
+          ell(V(sx * x, 0.12, sz * zs + 0.1), V(legR + 0.03, 0.12, legR + 0.09), c.shade!),
+        ];
+      parts.push(part(name, p, prims));
+    }
+    // Seated, the chest stands up over the front legs and the rump settles back.
+    if (q.stance === 'sit')
+      torso.push(
+        sphere(V(0, b.y + 0.3, zs * 0.7), b.r.x * 0.9, c.body!),
+        sphere(V(0, b.y - 0.15, -zs), b.r.x * 1.05, c.body!),
+      );
+    // The neck, when the head stands up on one (a horse, Lapras).
+    if (q.neck > 0.15)
+      torso.push(
+        cap(
+          V(0, b.y + b.r.y * 0.4, b.r.z * 0.6),
+          V(0, h.y - h.r.y * 0.5, h.z - 0.1),
+          0.26,
+          c.body!,
+        ),
+      );
+    // The muzzle, out in front of the face, with a paler underside.
+    if (q.snout > 0) {
+      const sz = 0.18 + q.snout * 0.55;
+      head.push(
+        ell(
+          V(0, h.y - h.r.y * 0.3, fz - 0.12 + sz * 0.5),
+          V(h.r.x * 0.55, h.r.y * 0.4, sz),
+          c.body!,
+        ),
+        ell(
+          V(0, h.y - h.r.y * 0.48, fz - 0.15 + sz * 0.5),
+          V(h.r.x * 0.45, h.r.y * 0.22, sz * 0.9),
+          c.belly!,
+        ),
       );
     }
   }
@@ -142,6 +197,55 @@ export function patchKitSpec(
   const cream = color(C.cream);
   for (const x of extras) {
     switch (x) {
+      case 'dinoSnout':
+        // Greymon's long muzzle (LOOK-08), with a paler jaw.
+        head.push(
+          ell(V(0, h.y - h.r.y * 0.25, fz + 0.12), V(h.r.x * 0.5, h.r.y * 0.38, 0.42), c.body!),
+          ell(V(0, h.y - h.r.y * 0.45, fz + 0.1), V(h.r.x * 0.42, h.r.y * 0.2, 0.38), c.belly!),
+        );
+        break;
+      case 'skullHelmet': {
+        // The brown skull cap over the top of the head, two horns curving forward, a nose horn.
+        const bark = color(C.bark);
+        head.push(
+          ell(
+            V(0, h.y + h.r.y * 0.6, h.z - 0.02),
+            V(h.r.x * 1.08, h.r.y * 0.48, h.r.z * 1.08),
+            bark,
+          ),
+        );
+        for (const s of [-1, 1])
+          head.push(
+            cone(
+              V(s * h.r.x * 0.72, h.y + h.r.y * 0.7, h.z - 0.05),
+              V(s * h.r.x * 1.1, h.y + h.r.y * 1.45, h.z + 0.3),
+              0.14,
+              0.03,
+              cream,
+            ),
+          );
+        head.push(
+          cone(
+            V(0, h.y + h.r.y * 0.05, fz + 0.2),
+            V(0, h.y + h.r.y * 0.4, fz + 0.38),
+            0.1,
+            0.02,
+            cream,
+          ),
+        );
+        break;
+      }
+      case 'ribs':
+        // SkullGreymon's rib cage: bone hoops round the chest.
+        for (let i = 0; i < 3; i++)
+          torso.push({
+            kind: 'torus',
+            a: V(0, b.y + 0.25 - i * 0.25, 0.05),
+            r: b.r.x * 1.0,
+            r2: 0.06,
+            color: color(C.white),
+          });
+        break;
       case 'beak':
         head.push(
           cone(V(0, h.y - 0.12, fz - 0.15), V(0, h.y - 0.25, fz + 0.38), 0.2, 0.03, c.accent2!),

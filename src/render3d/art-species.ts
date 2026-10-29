@@ -6,6 +6,8 @@ import { V, type Prim } from '../samples/sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from '../samples/species';
 import { kitLayout, patchKitSpec } from './art-kit-digi';
 import { applyGen1b3d } from './art-species-gen1b';
+import { vivid } from './art-species-colour';
+import { serpentChain, serpentSpec } from './art-serpent';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -25,8 +27,6 @@ export interface Layout {
 
 /** Body and head placement per plan, in the format's units (a Nubbin stands about 3.1). */
 function layout(plan: CreatureSpec['plan']): Layout {
-  const kit = kitLayout(plan);
-  if (kit) return kit;
   switch (plan) {
     case 'round':
       return {
@@ -384,8 +384,10 @@ function tail(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
       break;
     case 'flame':
       prims = [
-        cap(at(0, 0, 0), at(0, 0.3, -0.45), 0.12, c.body!),
-        { ...cone(at(0, 0.32, -0.5), at(0, 0.75, -0.55), 0.2, 0.03, c.accent!), glow: 1 },
+        cap(at(0, 0, 0), at(0, 0.5, -0.45), 0.12, c.body!),
+        // A flame big enough to read from the game camera (LOOK-10), with a hot core.
+        { ...cone(at(0, 0.5, -0.5), at(0, 1.15, -0.58), 0.3, 0.03, c.accent!), glow: 1 },
+        { ...cone(at(0, 0.5, -0.42), at(0, 0.9, -0.5), 0.16, 0.02, '#ffe27a'), glow: 1 },
       ];
       break;
     case 'spiky':
@@ -535,13 +537,17 @@ function eyeProfile(
 }
 
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
-  const L = layout(art.plan);
+  // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
+  const chain = art.plan === 'serpent' ? serpentChain(art) : null;
+  const L = chain ? chain.layout : (kitLayout(art) ?? layout(art.plan));
+  // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
+  // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {
-    body: color(art.colors.body),
-    shade: color(art.colors.shade),
-    belly: color(art.colors.belly),
-    accent: color(art.colors.accent),
-    accent2: color(art.colors.accent2),
+    body: vivid(color(art.colors.body)),
+    shade: vivid(color(art.colors.shade)),
+    belly: vivid(color(art.colors.belly)),
+    accent: vivid(color(art.colors.accent)),
+    accent2: vivid(color(art.colors.accent2)),
     eye: color(art.colors.eye),
     outline: color(art.colors.outline),
   };
@@ -560,12 +566,9 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
         'shell',
       ),
     );
-  if (art.plan === 'serpent')
-    torso.push(
-      cap(V(0, b.y, 0.2), V(0, h.y - h.r.y * 0.6, h.z * 0.6), 0.32, c.body!, 'neck'),
-      cap(V(0, 0.32, -0.7), V(0.6, 0.28, -1.1), 0.24, c.body!),
-    );
-  else if (art.plan === 'stalk')
+  if (art.plan === 'serpent') {
+    // The spine replaces the torso below (serpentSpec).
+  } else if (art.plan === 'stalk')
     torso.push(...[-1, 1].map((s) => ell(V(s * 0.42, 0.12, 0.05), V(0.36, 0.08, 0.2), c.accent!)));
   else torso.push(sphere(V(0, b.y + b.r.y * 0.85, h.z * 0.5), 0.28, c.body!, 'neck'));
   const feature = headFeatures(art, L, c);
@@ -592,8 +595,9 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       detail: 'smooth',
       amount: 0.1,
       bump: 0.15,
-      roughness: art.arms === 'metal' ? 0.4 : 0.62,
-      sheen: 0.5,
+      // Sheen is what milked the colours; kept low, with a satin roughness (LOOK-09).
+      roughness: art.arms === 'metal' ? 0.4 : 0.5,
+      sheen: 0.25,
       sheenColor: c.belly!,
     },
     torso: { prims: torso, box: boxOf(torso) },
@@ -633,7 +637,8 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
             x: 0.42,
             y: b.y + b.r.y * 0.45,
             z: -b.r.z * 0.85,
-            size: wings === 'small' ? 0.8 : 1.15,
+            // A big final form's bat wings span well past the body (Charizard, LOOK-10).
+            size: wings === 'small' ? 0.8 : wings === 'bat' && art.size >= 1.2 ? 1.6 : 1.15,
             color: wings === 'feather' ? c.belly! : c.accent!,
             shape:
               wings === 'bat'
@@ -646,5 +651,6 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
       : {}),
     notes: 'Generated from the pixel creature recipe by render3d/art-species.ts.',
   });
-  return art.gen1b || art.heads ? applyGen1b3d(spec, art, L, c) : spec;
+  const shaped = chain ? serpentSpec(spec, art, chain, c, (p) => boxOf(p)) : spec;
+  return art.gen1b || art.heads ? applyGen1b3d(shaped, art, L, c) : shaped;
 }

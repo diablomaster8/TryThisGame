@@ -82,19 +82,27 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       ? { y: h.y - h.r.y * 0.3, z: h.z - h.r.z * 0.85, s: h.r.x }
       : { y: b.y + b.r.y * 0.45, z: -b.r.z * 0.9, s: b.r.x };
   switch (e.kind) {
-    case 'bulb':
-      T.push(sphere(V(0, m.y + m.s * 0.35, m.z - m.s * 0.15), Math.max(0.45, m.s * 0.78), c));
+    case 'bulb': {
+      // Big and high on the back, at the head's base, so it shows over the shoulders from the
+      // game camera's front three-quarter look-down (LOOK-10).
+      const r = Math.max(0.5, h.r.x * 1.05);
+      const quad = art.plan === 'quad';
+      const at = quad
+        ? V(0, Math.max(b.y + b.r.y * 0.7 + r * 0.45, h.y - h.r.y * 0.9), -b.r.z * 0.25)
+        : V(0, m.y + m.s * 0.35, m.z - m.s * 0.15);
+      T.push(sphere(at, quad ? r : Math.max(0.45, m.s * 0.78), c));
       for (const s of sides)
         T.push(
           cap(
-            V(s * m.s * 0.28, m.y - m.s * 0.1, m.z - m.s * 0.75),
-            V(s * m.s * 0.28, m.y + m.s * 0.95, m.z - m.s * 0.45),
+            V(s * r * 0.3, at.y - r * 0.55, at.z - r * 0.6),
+            V(s * r * 0.3, at.y + r * 0.6, at.z - r * 0.3),
             0.05,
             c2,
             0.03,
           ),
         );
       break;
+    }
     case 'bud': {
       const by = m.y + m.s * 0.55;
       T.push(ell(V(0, by, m.z - 0.1), V(0.32, 0.45, 0.32), c));
@@ -121,8 +129,18 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       break;
     }
     case 'backShell':
-      T.push(ell(V(0, b.y, backZ * 0.45), V(b.r.x * 1.06, b.r.y * 1.02, b.r.z * 0.8), c));
-      T.push(ell(V(0, b.y, -0.05), V(b.r.x * 1.14, b.r.y * 1.04, 0.14), c2, 0.04));
+      // A full dome on the back, a rim that shows round the sides from the front, and a
+      // cream plastron on the belly (LOOK-10).
+      T.push(ell(V(0, b.y, backZ * 0.55), V(b.r.x * 1.14, b.r.y * 1.1, b.r.z * 0.8), c));
+      T.push(ell(V(0, b.y, -0.05), V(b.r.x * 1.32, b.r.y * 1.08, 0.18), c2, 0.04));
+      T.push(
+        ell(
+          V(0, b.y - b.r.y * 0.05, b.r.z * 0.72),
+          V(b.r.x * 0.68, b.r.y * 0.82, 0.22),
+          color(C.cream),
+          0.03,
+        ),
+      );
       break;
     case 'cannons':
       // Over the shoulders, beside the head, pointing forward.
@@ -170,13 +188,19 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       break;
     case 'foxTails': {
       const n = e.n ?? 6;
+      // A 120° fan behind, each tail 0.9 of the body's length, the tips curled up (LOOK-10).
       const root = V(0, b.y - b.r.y * 0.2, backZ * 0.85);
+      const len = Math.max(1.2, b.r.z * 1.8);
       for (let i = 0; i < n; i++) {
-        const t = -1.2 + (2.4 * (i + 0.5)) / n;
-        const end = V(Math.sin(t) * 1.15, m.y + 0.3 + Math.cos(t) * 0.55, m.z - 0.7);
-        T.push(cap(root, end, 0.13, body, 0.06));
+        const t = -1.05 + (2.1 * (i + 0.5)) / n;
+        const mid = root.clone().add(V(Math.sin(t) * len * 0.4, len * 0.25, -len * 0.35));
+        const end = root
+          .clone()
+          .add(V(Math.sin(t) * len * 0.75, len * 0.55, -len * 0.55 * Math.cos(t)));
+        T.push(cap(root, mid, 0.14, body, 0.06));
+        T.push(cap(mid, end, 0.16, body, 0.06));
         T.push(sphere(end, 0.2, body, 0.05));
-        T.push(sphere(end.clone().add(V(Math.sin(t) * 0.14, 0.1, -0.1)), 0.13, c2, 0.03));
+        T.push(sphere(end.clone().add(V(Math.sin(t) * 0.1, 0.16, 0.08)), 0.14, c2, 0.03));
       }
       break;
     }
