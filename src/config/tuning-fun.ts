@@ -98,3 +98,10 @@ export const CHATTER_TUNE = {
   replyMs: 2500,
   cooldownMs: 120_000,
 } as const;
+
+/**
+ * R0299 (FUN-10): a wandering Nubbin is sometimes distracted (a butterfly, a cloud) and
+ * walks into a tree trunk it would normally pass under: a bonk, dizzy stars, then on.
+ * `perMille` of wander walks are distracted; `reach` is how far it looks for a trunk.
+ */
+export const SLAPSTICK = { perMille: 100, reach: 7, radius: 0.25 } as const;
