@@ -214,9 +214,9 @@ function devilTail(color: string, tip: string): PartSpec[] {
 function orbitMotes(color: string): NonNullable<SpeciesSpec['extras']> {
   return (rig) => {
     const geos = [0, 1, 2].map((i) => {
-      const g = new THREE.SphereGeometry(0.09, 10, 8);
+      const g = new THREE.SphereGeometry(0.15, 10, 8);
       const a = (i / 3) * Math.PI * 2;
-      g.translate(Math.cos(a) * 1.35, 2.3 + (i - 1) * 0.18, Math.sin(a) * 1.35);
+      g.translate(Math.cos(a) * 1.5, 2.2 + (i - 1) * 0.18, Math.sin(a) * 1.35);
       return g;
     });
     const mesh = new THREE.Mesh(
@@ -311,7 +311,7 @@ const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
     const dome = spec.head.prims.find((p) => p.tag === 'head')!;
     dome.a.set(0, 2.0, 0);
     dome.radii!.set(0.95, 0.85, 0.9);
-    spec.extras = orbitMotes('#fff0a8');
+    spec.extras = orbitMotes('#ffe838');
     const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
     belly.radii!.set(0.86, 0.66, 0.72);
     spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };
