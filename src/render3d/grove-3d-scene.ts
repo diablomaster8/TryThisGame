@@ -8,6 +8,7 @@ import { GROVE3D, READ3D, UI } from '../config/tuning';
 import {
   PERF_BUDGET,
   WORLD_LOD,
+  WORLD_MEM,
   WORLD_TIER,
   tierForRes,
   type DeviceTier,
@@ -312,6 +313,9 @@ export class Grove3dScene {
   tier: DeviceTier = 'desktop';
   /** WORLD-03/12: creature shadow casting and outline hulls under the draw budget. */
   readonly creatureLod = new CreatureLod();
+  private readonly onHidden = (): void => {
+    if (document.hidden) this.actors.pool.trim();
+  };
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
@@ -449,6 +453,8 @@ export class Grove3dScene {
     };
     this.creatureLod.compile = this.actors.pool.compile;
     this.creatureLod.impostors = new CreatureImpostors(this.scene);
+    // R0081: a hidden tab gives back the spare rigs and coarse surfaces (iOS kills hungry ones).
+    document.addEventListener('visibilitychange', this.onHidden);
     const pool = this.actors.pool;
     this.creatureLod.low = {
       state: (key, res) => pool.lowState(key, res),
@@ -960,6 +966,7 @@ export class Grove3dScene {
   setSculptRes(res: number): void {
     this.actors.pool.quality = qualityForRes(res);
     this.tier = tierForRes(res);
+    this.actors.pool.spareCap = WORLD_MEM.poolSpares[this.tier];
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
@@ -1764,6 +1771,7 @@ export class Grove3dScene {
 
   dispose(): void {
     this.dressings.dispose();
+    document.removeEventListener('visibilitychange', this.onHidden);
     this.creatureLod.impostors?.dispose();
     this.actors.dispose();
     this.bursts.dispose();

@@ -118,6 +118,12 @@ export function tierForRes(res: number): DeviceTier {
 export const WORLD_MEM = {
   phone: { gpuTexMB: 96, geometries: 350, heapMB: 180 },
   desktop: { gpuTexMB: 384, geometries: 1200, heapMB: 600 },
+  /**
+   * R0081: spare rigs the creature pool keeps per device tier. A spare is about 50 geometries
+   * and their materials; 12 of them (`GROVE3D.poolSpares`) were most of a phone's geometry
+   * overrun. Fewer spares only means a rebuild (from cached surfaces) when a look comes back.
+   */
+  poolSpares: { desktop: 12, phone: 4, slow: 2 },
 } as const;
 
 /** WORLD-18: the walking lead on a portrait view (`walkLead` in `render/camera.ts`). */

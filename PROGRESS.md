@@ -38,6 +38,11 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 3 · Lane D (2026-10-28, branch r3/d)
+
+Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature
+LOD R0079, finish R0078/R0081), then WORLD in R order from R0074 (deferring lane A's files).
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in

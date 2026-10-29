@@ -153,6 +153,8 @@ export class CreaturePool {
    * rigs at once and compiles in parallel; after it lifts, one rig a frame again.
    */
   burst = true;
+  /** R0081: spare rigs kept at most (the scene sets it by device tier, `WORLD_MEM.poolSpares`). */
+  spareCap: number = GROVE3D.poolSpares;
   /** Surfaces the warm looks need, and how many have landed: the loading bar. */
   private warmSurfaces = 0;
   private landed = 0;
@@ -279,7 +281,7 @@ export class CreaturePool {
     // Never while the loading veil is up: every warm look is about to be needed.
     if (this.burst) return;
     const spares = [...this.free.entries()].map(([k, l]) => [k, l.length] as const);
-    for (const key of evictionOrder(spares, this.used, GROVE3D.poolSpares)) this.discard(key);
+    for (const key of evictionOrder(spares, this.used, this.spareCap)) this.discard(key);
     const looks = [...this.ready.keys()]
       .filter((k) => !this.free.has(k))
       .map((k) => [k, 1] as const);
@@ -380,6 +382,16 @@ export class CreaturePool {
       moved.min.distanceTo(part.boundingBox!.min) + moved.max.distanceTo(part.boundingBox!.max);
     if (off > 1e-3) return null;
     return src.clone().translate(dx, dy, dz);
+  }
+
+  /**
+   * R0081: let go of what can be rebuilt (the page is hidden, and a phone may kill a hidden tab
+   * that holds on to memory): every spare rig and every coarse-grid surface. The surfaces
+   * the rigs in the scene were built from stay, so nothing on screen needs a march to come back.
+   */
+  trim(): void {
+    for (const key of [...this.free.keys()]) this.discard(key);
+    for (const key of [...this.low.keys()]) this.dropLow(key);
   }
 
   /** Whether a look's surfaces are back, so `acquire` can build it. */

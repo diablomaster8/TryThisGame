@@ -212,6 +212,9 @@ export function setProxy(p: CreatureProxy, on: boolean): void {
   if (!on) p.hull.visible = false;
   if (!on) setFar(p, false);
   for (const part of p.parts) {
+    // R0081: a part drawn by the stand-in gives its GPU buffers back (its arrays stay, and three
+    // uploads them again if the rig comes near). The hull shares the part's geometry.
+    if (on) part.geometry.dispose();
     part.layers.set(on ? HIDDEN_LAYER : 0);
     for (const c of part.children) if (c.userData.hull) c.layers.set(on ? HIDDEN_LAYER : 0);
   }
