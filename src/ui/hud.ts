@@ -60,6 +60,7 @@ import { chapterTitle } from '../sim/storyline';
 import { STORY_TEXT } from '../config/story';
 import { KindergartenMenu } from './kindergarten';
 import { KarateMenu } from './karate';
+import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placingLabel } from './decorate';
@@ -505,6 +506,17 @@ export function mountHud(
       ),
     );
   }
+  // Lane C: the Learning Grove gets the dojo as gentle play-fights (recs FIGHT-24).
+  moreList.appendChild(
+    button(
+      BATTLE_SCREEN_TEXT.playFight,
+      () => {
+        more.hide();
+        karate.open();
+      },
+      'btn btn-wide edu-only',
+    ),
+  );
   more.body.appendChild(moreList);
   // Placing chip while decorating.
   const placingChip = el('div', 'placing-chip');

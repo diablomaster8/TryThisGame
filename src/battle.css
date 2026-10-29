@@ -345,3 +345,289 @@ button.battle-row:focus-visible {
 .bout-chip {
   min-height: 44px;
 }
+
+/* ---------- the battle screen (recs FIGHT-25, FIGHT-30) ---------- */
+
+.battle-screen {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: 100%;
+  align-items: stretch;
+  justify-content: stretch;
+  z-index: 40;
+  background: #1b1430;
+  color: #fff6e0;
+}
+.bs-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  padding-top: max(6px, env(safe-area-inset-top));
+}
+.bs-top .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+.bs-round {
+  flex: 1;
+  text-align: center;
+  font-size: 14px;
+}
+.bs-stage {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+.bs-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+.bs-card {
+  position: absolute;
+  max-width: 58%;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(27, 20, 48, 0.82);
+  font-size: 13px;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.bs-card.foe {
+  top: 8px;
+  left: 12px;
+}
+.bs-card.ally {
+  right: 12px;
+  bottom: 8px;
+}
+.bs-name {
+  font-weight: 700;
+}
+.bs-hp {
+  height: 8px;
+  margin: 3px 0;
+  border-radius: 4px;
+  background: #3a2c55;
+  overflow: hidden;
+}
+.bs-hp span {
+  display: block;
+  height: 100%;
+  background: #7bd96a;
+}
+.bs-card.foe .bs-hp span {
+  background: #f28c8c;
+}
+.bs-marks,
+.bs-calm {
+  font-size: 12px;
+  opacity: 0.9;
+}
+.bs-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 45vh;
+  padding: 6px 12px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom));
+  background: #241a3d;
+}
+.bs-log {
+  margin: 0;
+  min-height: 1.4em;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #fff6e0;
+  color: #241a3d;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bs-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+}
+.bs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.bs-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 72px;
+  padding: 6px 10px;
+  text-align: left;
+}
+.bs-tile small {
+  font-size: 12px;
+  opacity: 0.85;
+}
+.bs-tile-name {
+  font-weight: 700;
+}
+.bs-wide {
+  min-height: 56px;
+  align-items: center;
+}
+.bs-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.bs-act,
+.bs-big {
+  min-height: 56px;
+}
+.bs-prompt,
+.bs-hint {
+  margin: 0;
+  font-size: 13px;
+}
+.bs-glow {
+  outline: 3px solid #ffd76a;
+  box-shadow: 0 0 12px #ffd76a;
+}
+.bs-swing {
+  position: relative;
+  overflow: hidden;
+}
+.bs-swing-dot {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 50%;
+  width: 6px;
+  margin-left: -3px;
+  background: #fff;
+}
+.bs-swing::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 41%;
+  width: 18%;
+  background: rgba(255, 215, 106, 0.4);
+}
+.gentle-sprout .bs-tile {
+  min-height: 96px;
+  font-size: 20px;
+  align-items: center;
+}
+.bs-confirm,
+.bs-results {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 24px 16px max(24px, env(safe-area-inset-bottom));
+  background: rgba(13, 10, 26, 0.86);
+  z-index: 2;
+}
+.bs-confirm[hidden],
+.bs-results[hidden] {
+  display: none;
+}
+.bs-confirm .btn {
+  width: min(100%, 360px);
+}
+.bs-results-card {
+  width: min(100%, 420px);
+  padding: 16px;
+  border-radius: 12px;
+  background: #241a3d;
+  text-align: center;
+}
+.bs-results-card .btn {
+  width: 100%;
+}
+
+/* Landscape: the stage on the left, the actions on the right. */
+@media (orientation: landscape) and (min-width: 600px) {
+  .battle-screen {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: 60% 40%;
+  }
+  .bs-top {
+    grid-column: 1 / 3;
+  }
+  .bs-panel {
+    max-height: none;
+    justify-content: flex-end;
+  }
+}
+
+/* The party sheet and the dojo menu. */
+.bs-pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.bs-pick-row {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 10px;
+  min-height: 64px;
+  text-align: left;
+}
+.bs-pick-row .bs-portrait {
+  grid-row: 1 / 3;
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+}
+.bs-pick-row small {
+  grid-column: 2;
+}
+.bs-pick-at {
+  grid-row: 1 / 3;
+  grid-column: 3;
+  min-width: 28px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.bs-pick-row[aria-pressed='true'] {
+  outline: 3px solid #ffd76a;
+}
+.bs-tiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+.bs-tier {
+  min-height: 48px;
+  min-width: 88px;
+}
+.bs-ribbons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.bs-ribbon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  text-align: left;
+}
+.bs-ribbon-icon {
+  font-size: 20px;
+}
