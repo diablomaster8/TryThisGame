@@ -23,10 +23,12 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { gearGlyph, gearName } from './dungeon-gear';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
   TRAP_TEXT,
+  GEAR_TEXT,
   RUMBLE_TEXT,
   UNIQUE_RESULT_TEXT,
   UNIQUE_TEXT,
@@ -1278,6 +1280,8 @@ export function mountHud(
             toast(`${RUMBLE_TEXT.won(p)} ${what}`);
             playSound('buy');
           }
+        } else if (e.kind === 'gearFound') {
+          toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
         } else if (e.kind === 'strayAsk') {
           toast(RUMBLE_TEXT.strayAsk);
         } else if (e.kind === 'strayCalmed') {

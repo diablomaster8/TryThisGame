@@ -160,3 +160,32 @@
 .town-stash .btn {
   min-height: 44px;
 }
+
+/* Hollow gear (R0164): one row per piece, the tier's shape before its name. */
+.hollow-gear-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.hollow-gear-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 6px;
+}
+.hollow-gear-glyph {
+  font-size: 1.2em;
+}
+.hollow-gear-stats {
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.hollow-gear-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.hollow-gear-buttons .btn {
+  min-height: 44px;
+}

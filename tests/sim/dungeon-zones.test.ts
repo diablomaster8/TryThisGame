@@ -301,7 +301,7 @@ describe('camp services', () => {
 
 describe('save version 10', () => {
   it('migrates a version-9 save to an empty stash', () => {
-    expect(SAVE_VERSION).toBe(10);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(10);
     const world = keeperWorld();
     const old = JSON.parse(serialize(world, 0)) as {
       version: number;

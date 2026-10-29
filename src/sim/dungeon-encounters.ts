@@ -24,7 +24,8 @@ import {
 import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
 import { actProgress } from './dungeon-acts';
-import type { Rng } from './rng';
+import { Rng } from './rng';
+import { rollDrops } from './gear';
 import { isCommonSpecies, SPECIES } from './species';
 import { levelOf } from './stats';
 import type { DungeonPack, DungeonRun, SimEvent, Vec2, World } from './types';
@@ -397,6 +398,9 @@ export function finishEncounter(
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    // R0163: the pack's drop table, seeded by the run, the level and the pack.
+    const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
+    rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);
     if (spec.unique) uniqueBeaten(world, run, spec, events);
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;

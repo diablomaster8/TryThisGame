@@ -11,7 +11,8 @@ import { WaypointPanel } from './waypoint-panel';
 import { HOLLOW } from '../config/tuning';
 import { campPortalHere, canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
 import { parseLevelId } from '../sim/dungeon-levels';
-import { HOLLOW_ZONE_TEXT, RUMBLE_TEXT } from '../config/strings';
+import { GEAR_TEXT, HOLLOW_ZONE_TEXT, RUMBLE_TEXT } from '../config/strings';
+import { GearPanel } from './dungeon-gear';
 import { serviceHere } from '../sim/dungeon-towns';
 import { mouthHere } from '../sim/dungeon-zones';
 import { TownPanel } from './dungeon-town';
@@ -45,6 +46,8 @@ export class DungeonMenu {
   /** R0281: the stray's choice, shown while a stray asks. */
   private readonly calmBtn: HTMLButtonElement;
   private readonly snackBtn: HTMLButtonElement;
+  /** R0164: the gear panel. */
+  private readonly gear: GearPanel;
   /** Who comes along (R0168). */
   private readonly party: PartyPicker;
 
@@ -143,6 +146,8 @@ export class DungeonMenu {
     this.calmBtn.hidden = this.snackBtn.hidden = true;
     this.bar.append(this.serviceBtn, this.mouthBtn, this.portalBtn);
     this.bar.append(this.calmBtn, this.snackBtn);
+    this.gear = new GearPanel(parent, game);
+    this.bar.append(button(GEAR_TEXT.button, () => this.gear.open(), 'btn btn-small hollow-extra'));
     // The minimap: its button sits in the bar, its panel is the bar's last row.
     this.map = new HollowMap(this.bar);
     this.bar.insertBefore(this.map.toggle, this.map.panel);
@@ -165,10 +170,13 @@ export class DungeonMenu {
     this.dialog.hide();
     this.waypoints.close();
     this.town.close();
+    this.gear.close();
   }
 
   isOpen(): boolean {
-    return this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen();
+    return (
+      this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen() || this.gear.isOpen()
+    );
   }
 
   /** Called every frame by the HUD: the underground bar follows the run. */

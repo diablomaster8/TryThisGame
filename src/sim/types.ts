@@ -835,6 +835,8 @@ export interface World {
   battleRuns?: number;
   /** Lane C: the live grid-tactics bout (recs FIGHT-65), absent when none; no save bump. */
   tactics?: TacticsState;
+  /** Lane B round 5: Hollow gear (R0163, R0164), made by `ensureGear` in sim/gear.ts; save v11. */
+  gear?: GearState;
   /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
@@ -1117,6 +1119,9 @@ export type Command =
   | { kind: 'townQuest' }
   // Lane B round 5: the stray's choice (R0281).
   | { kind: 'strayCalm'; id: string }
+  // Lane B round 5: Hollow gear (R0164).
+  | { kind: 'equipGear'; itemId: string; nubbinId: string | null }
+  | { kind: 'unequipGear'; itemId: string }
   | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
@@ -1363,6 +1368,7 @@ export type SimEvent =
     }
   | { kind: 'strayAsk'; id: string }
   | { kind: 'strayCalmed'; ok: boolean; shells: number }
+  | { kind: 'gearFound'; item: GearItem }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -1377,4 +1383,25 @@ export interface AwayReport {
   simulatedMs: number;
   mode: OfflineMode;
   events: SimEvent[];
+}
+
+/** A piece of Hollow gear (R0163, R0164); bases, rarities and affixes in `config/dungeon-loot.ts`. */
+export interface GearItem {
+  id: string;
+  base: string;
+  slot: string;
+  rarity: string;
+  level: number;
+  affixes: Array<{ id: string; value: number }>;
+}
+
+/** What the Keeper carries and who wears what (lane B round 5). */
+export interface GearState {
+  items: GearItem[];
+  /** The Keeper's slots, by slot: item ids. */
+  keeper: Record<string, string>;
+  /** Each Nubbin's slots, by Nubbin id then slot. */
+  nubbins: Record<string, Record<string, string>>;
+  /** The next item number. */
+  next: number;
 }

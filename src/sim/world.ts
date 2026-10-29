@@ -104,6 +104,7 @@ import {
   stepDungeon,
 } from './dungeon';
 import { calmStray } from './dungeon-strays';
+import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -758,6 +759,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     // Lane B round 5: the stray's choice (R0281).
     case 'strayCalm':
       calmStray(world, cmd.id, events);
+      return;
+    case 'equipGear':
+      equipGear(world, cmd.itemId, cmd.nubbinId);
+      return;
+    case 'unequipGear':
+      unequipGear(world, cmd.itemId);
       return;
     case 'stash':
       useStash(world, cmd.amount, events);

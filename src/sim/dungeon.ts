@@ -16,6 +16,7 @@ import {
   strayBoutLive,
 } from './dungeon-strays';
 import { rumbleEnded, stepRumble } from './dungeon-rumble';
+import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
 import { forfeitBattleCmd } from './battle';
@@ -708,8 +709,8 @@ export function exploredRooms(run: DungeonRun, f: Floor): boolean[] {
 }
 
 /** Mark the cells round a cell seen. Writes the save string only when something changed. */
-export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
-  const r = DUNGEON.explore.radius + shrineSight(run);
+export function revealAround(run: DungeonRun, f: Floor, c: Cell, extra = 0): void {
+  const r = DUNGEON.explore.radius + shrineSight(run) + extra;
   const mask = exploredMask(run, f);
   let changed = false;
   for (let dy = -r; dy <= r; dy++) {
@@ -1220,7 +1221,8 @@ function takeLoot(
   switch (loot.kind) {
     case 'shells':
       // A Sunny shrine finds a quarter more (R0159).
-      amount = Math.round(amount * shrineShells(run));
+      // Gloves and Sunny gear add a few to every handful (R0164).
+      amount = Math.round(amount * shrineShells(run) + gearStat(world, 'shells'));
       inv.shells += amount;
       run.haul.shells += amount;
       break;
@@ -1292,13 +1294,13 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
-  revealAround(run, f, cellOf(f, k.pos));
+  revealAround(run, f, cellOf(f, k.pos), Math.floor(gearStat(world, 'explore')));
   stepFall(world, run, f, events);
 
   // Anything the Keeper walks over.
   for (const l of f.loot) {
     if (!available(l)) continue;
-    if (dist(k.pos, cellCentre(f, l.cell)) <= DUNGEON.pickupRadius)
+    if (dist(k.pos, cellCentre(f, l.cell)) <= DUNGEON.pickupRadius + gearStat(world, 'pickup'))
       takeLoot(world, run, l, null, rng, events);
   }
   stepWaypoint(world, run, f, events);
