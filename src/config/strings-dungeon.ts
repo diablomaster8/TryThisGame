@@ -297,3 +297,12 @@ export const UNIQUE_RESULT_TEXT = {
     `${name}, beaten for the first time! +${shells} Shells`,
   again: (name: string) => `${name} goes home to sulk.`,
 };
+
+/** The cave-mouth party picker (R0168). */
+export const HOLLOW_PARTY_TEXT = {
+  title: 'Who comes along',
+  recommended: 'Recommended',
+  help: (n: number) => `Tap to choose up to ${n}. The pick is kept for next time.`,
+  tired: '💤 Tired',
+  energy: (pct: number) => `Energy ${pct}%`,
+};

@@ -81,6 +81,7 @@ import { stepCurfew } from './curfew';
 import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
 import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
+import { setHollowParty } from './dungeon-party';
 import {
   dungeonGo,
   encounterDone,
@@ -240,6 +241,7 @@ export function createWorld(seed: number, wallMs: number): World {
       portal: null,
       camp: { shells: 0, items: {}, questsPaid: [] },
       uniquesBeaten: [],
+      lastParty: [],
     },
     neighbours: {},
     festivalSeen: '',
@@ -735,6 +737,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'townQuest':
       townQuest(world, events);
+      return;
+    case 'setHollowParty':
+      setHollowParty(world, cmd.ids);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

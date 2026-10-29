@@ -224,6 +224,8 @@ export const HOLLOW_ZONES = {
   stash: { maxShells: 99_999 },
   /** The vendor's fruit, for feeding strays; Shells each. */
   vendor: { fruitPrice: 6 },
+  /** The cave-mouth party picker (R0168): energy (0..1) below this shows as tired. */
+  party: { tired: 0.25 },
   /** The quest-giver's one-time reward per act for beating its boss (Shells). */
   questReward: [60, 90, 120, 160, 220],
   /**

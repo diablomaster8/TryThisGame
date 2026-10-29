@@ -850,7 +850,8 @@ function canJoin(n: Nubbin): boolean {
 function choosePartyFor(world: World): string[] {
   const party: string[] = [];
   if (world.keeper.carrying) party.push(world.keeper.carrying);
-  for (const id of world.partners) {
+  // The party picked at the cave mouth (R0168), then partners, then anyone.
+  for (const id of [...world.hollow.lastParty, ...world.partners]) {
     const n = id ? world.nubbins.find((x) => x.id === id) : undefined;
     if (n && canJoin(n) && !party.includes(n.id) && party.length < DUNGEON.partySize)
       party.push(n.id);
@@ -1430,6 +1431,11 @@ export function lootOnFloor(world: World): Array<FloorLoot & { pos: Vec2 }> {
 }
 
 /** Who would come along right now, by name, for the menu. */
+/** The ids of who would come along now. */
+export function partyIds(world: World): string[] {
+  return choosePartyFor(world);
+}
+
 export function partyPreview(world: World): string[] {
   return choosePartyFor(world).map((id) => world.nubbins.find((n) => n.id === id)?.name ?? id);
 }

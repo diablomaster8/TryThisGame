@@ -2,7 +2,7 @@ import { ACTS } from '../config/dungeon-acts';
 import { ACT_TEXT, DUNGEON_TEXT, HOLLOW_TEXT, UI_TEXT } from '../config/strings';
 import { actOpen } from '../sim/dungeon-acts';
 import type { Game } from '../game';
-import { partyPreview } from '../sim/dungeon';
+import { partyIds } from '../sim/dungeon';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { HollowMap } from './hollow-map';
@@ -15,6 +15,7 @@ import { HOLLOW_ZONE_TEXT } from '../config/strings';
 import { serviceHere } from '../sim/dungeon-towns';
 import { mouthHere } from '../sim/dungeon-zones';
 import { TownPanel } from './dungeon-town';
+import { PartyPicker } from './dungeon-party';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -39,6 +40,8 @@ export class DungeonMenu {
   private readonly town: TownPanel;
   private readonly serviceBtn: HTMLButtonElement;
   private readonly mouthBtn: HTMLButtonElement;
+  /** Who comes along (R0168). */
+  private readonly party: PartyPicker;
 
   constructor(
     parent: HTMLElement,
@@ -48,6 +51,8 @@ export class DungeonMenu {
     this.dialog.body.appendChild(el('p', 'help', DUNGEON_TEXT.help));
     this.info = el('div', 'shop-note');
     this.dialog.body.appendChild(this.info);
+    this.party = new PartyPicker(game);
+    this.dialog.body.appendChild(this.party.root);
     const list = el('div', 'shop-list');
     for (const [label, help, daily] of [
       [DUNGEON_TEXT.today, DUNGEON_TEXT.todayHelp, true],
@@ -117,8 +122,9 @@ export class DungeonMenu {
     const g = this.game();
     if (!g) return;
     if (g.world.location !== 'grove') return;
-    const names = partyPreview(g.world);
-    this.info.textContent = `${DUNGEON_TEXT.best(g.world.hollow.best, g.world.hollow.runs)} · ${DUNGEON_TEXT.party(names)}`;
+    // Who comes along is the picker's cards now (R0168).
+    this.info.textContent = DUNGEON_TEXT.best(g.world.hollow.best, g.world.hollow.runs);
+    this.party.render(g.world, partyIds(g.world));
     this.listActs(g.world);
     this.listTravel(g.world);
     this.dialog.show();

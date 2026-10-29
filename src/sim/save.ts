@@ -138,6 +138,7 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
     if (hollow) {
       hollow.camp = { shells: 0, items: {}, questsPaid: [] };
       hollow.uniquesBeaten = [];
+      hollow.lastParty = [];
     }
     return data;
   },
@@ -312,6 +313,7 @@ export function validateWorld(w: World): World {
   w.hollow.camp.items ??= {};
   if (!Array.isArray(w.hollow.camp.questsPaid)) w.hollow.camp.questsPaid = [];
   if (!Array.isArray(w.hollow.uniquesBeaten)) w.hollow.uniquesBeaten = [];
+  if (!Array.isArray(w.hollow.lastParty)) w.hollow.lastParty = [];
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;

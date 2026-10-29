@@ -909,6 +909,8 @@ export interface World {
     camp: { shells: number; items: Record<string, number>; questsPaid: number[] };
     /** Named uniques beaten at least once (R0156; save version 10), by `UNIQUES` id. */
     uniquesBeaten: string[];
+    /** The party picked at the cave mouth (R0168; save version 10), Nubbin ids. */
+    lastParty: string[];
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1092,6 +1094,7 @@ export type Command =
   | { kind: 'stash'; amount: number }
   | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
   | { kind: 'townQuest' }
+  | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
