@@ -456,14 +456,16 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
     k.vy = Math.max(k.vy, -GLIDE.maxFall);
     glided.set(world, (glided.get(world) ?? 0) + dt * 1000);
   }
+  const before = k.y;
   k.y += k.vy * dt;
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.y <= under) {
     // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
+    // The feet were under it before this substep's move, so a fast fall onto flat ground is a landing.
     const arc = k.vy > 0 ? (k.vy * k.vy) / (2 * tune.gravity) : 0;
-    if (!dungeon && under - k.y > MANTLE.minRise && k.y + arc < under) {
+    if (!dungeon && under - before > MANTLE.minRise && k.y + arc < under) {
       mantles.set(world, {
         from: k.y,
         to: under,
