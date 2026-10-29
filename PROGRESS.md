@@ -38,6 +38,33 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
+
+- *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
+  which stays untouched (R0243 map, R0244 field map, R0245 path, R0246 CT, R0247 facing,
+  R0248 jobs, R0249 terrain, R0250 range and combos, R0251 objectives, R0252 AI), then the
+  R0257 slice as `world.tactics` behind a debug-panel button, then a Pixel view and phone bar
+  (R0253, R0255) in new files. R0254, R0256, R0219, R0239 later.
+- *Works:* `sim/battle/tactics/` (pure, seeded, JSON state, map as base64): Hollow-room and
+  open-field maps (cottage, trees, lanterns blocked; `config/battle-maps.ts` overrides), Move
+  and Jump from Run/Fly, deep water for swimmers, CT turns with Move (before or after the Act,
+  undoable until it), Act, Wait and facing, charged moves, facing/height factors shared by
+  preview and hit, 7 jobs plus Sunny/Moony layers and the Keeper aura, 8 terrains, arcs and
+  line shots, 11 "Together!" combos at friendship 60, 8 objectives, Sprout/Keeper/Champion AI
+  (0.4 ms a decision, Champion 40/40 over Sprout). The rumble room (R0257): debug panel →
+  "Rumble room (3v3 tactics)", a 10×10 Hollow crop, calm the Old Shadow, Shells and a crystal;
+  kept in `world.tactics` (optional, no save bump) and reopened after a reload. Pixel iso
+  board (`minigames/tactics/pixel-view.ts`, also over Full 3D) and the one-thumb bar
+  (`ui/tactics-bar.ts`, `ui/tactics-screen.ts`, `tactics.css`). The turn-mode API is unchanged
+  (`moveDamage` now calls `damageWith`, same dice order).
+- *Stubbed:* no move animations (the log line and a hurt flash only); the AI never calls a
+  combo; Copycat and Doodle Decoy act as plain moves on the grid (Decoy is greyed out); fused
+  partners are not one 2-tile unit; lane B's rumble-room flag (see the hand-over note).
+- *Known bugs / assumptions:* the AI's 8 ms cap is an evaluation count (2500), not a clock, so
+  replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
+  units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
+  dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
+
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
 - *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
@@ -83,25 +110,6 @@ until DUNG-36; Act IV's ice also appears in endless depths 16–20.
   Clover waits for loot tables (R0163); Gem shrine waits for charms.
 - *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
   timeout, not a game budget) because the new generator sweeps run beside it.
-## Round 3 · Lane C (2026-10-28, branch r3/c)
-
-- *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
-  priority +3 (the incoming one takes the queued hit), a pick after a tuck-in, all tuckered is
-  a snack-break loss; the last party is kept in `world.battlePrefs`. Items from the inventory
-  (fruit, toys; flavoured fruit from the new optional `inventory.pocketFruit`), paid only on a
-  result. Wild foes have Calm and come home as children (or fill the scan and leave Shells);
-  Shadow strays take no HP. The ten Keepers' Circuit: fixed teams per save, field rules,
-  ribbons, hats, skill points, Champion rematches. Sprout/Keeper/Champion AI plus personality.
-  Gentle bouts (Learning Grove or the dojo switch) never lose. One full-screen battle screen
-  with playback, phone layout, party sheet and Power swing. Arena colliders (MOVE-62) and the
-  reserved grid data (MOVE-61, `docs/tactics-grid.md`).
-- *Stubbed:* the Circuit's 10 pre/post scenes and the chapter 5 goal alternative; the
-  Learning Grove "Play-fight Day" scenes; he/ja bout lines; nothing fills `pocketFruit` yet;
-  the Gentle switch lives in the dojo menu, not Settings; old `party` bouts stay all-at-once
-  (no screen opens them now); encounters are singles only when the caller asks.
-- *Known:* Champion beats Keeper 70.6% in the 500-bout mirror test, just over the 70% bar;
-  the battle screen draws pixel sheets in Full 3D (R0219); the full-life and 8-Nubbin timing
-  tests fail in a loaded full run and pass alone (1.6 s, 1.4 s).
 ## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
 
 Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `EXTRA=./r3a-extra.cjs node
