@@ -207,9 +207,19 @@ export function hatch(n: Nubbin, events: SimEvent[], nowMs = 0): void {
 }
 
 /**
- * Lane E, R0394: the eggshell is the Keeper's to keep (it goes into the hat box the first
- * tick a world is at hand, so the Roster lists it) and comes off the head after
- * `EGGSHELL.wearMs` of live play. Catch-up never counts down: the player should see it.
+ * Lane E, R0394: put a hatchling's eggshell in the hat box, so the Roster lists it. Live
+ * hatching calls this at once (`world.ts`); a shell from any other hatch goes in when it
+ * comes off.
+ */
+export function keepEggshell(n: Nubbin, world: World): void {
+  const shell = n.hat && eggshellColour(n.hat) !== null ? n.hat : null;
+  if (shell && n.shellMs !== undefined && !world.inventory.hats.includes(shell))
+    world.inventory.hats.push(shell);
+}
+
+/**
+ * Lane E, R0394: the eggshell comes off the head after `EGGSHELL.wearMs` of live play and
+ * stays in the hat box. Catch-up never counts down: the player should see it.
  */
 function tickEggshell(n: Nubbin, dtMs: number, world: World, offline: boolean): void {
   const shell = n.hat && eggshellColour(n.hat) !== null ? n.hat : null;
@@ -223,10 +233,10 @@ function tickEggshell(n: Nubbin, dtMs: number, world: World, offline: boolean): 
     delete n.shellMs;
     return;
   }
-  if (!world.inventory.hats.includes(shell)) world.inventory.hats.push(shell);
   if (offline) return;
   n.shellMs = (n.shellMs ?? 0) - dtMs;
   if (n.shellMs > 0) return;
+  keepEggshell(n, world);
   n.hat = null;
   delete n.shellMs;
 }

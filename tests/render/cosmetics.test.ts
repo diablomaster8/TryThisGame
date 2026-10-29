@@ -18,7 +18,7 @@ import { createEgg, JEWEL_EGG_COLORS } from '../../src/sim/nubbin';
 import { lookPrizesFor } from '../../src/sim/race';
 import { Rng } from '../../src/sim/rng';
 import { buy, shopHat } from '../../src/sim/shop';
-import { createWorld } from '../../src/sim/world';
+import { createWorld, stepWorld } from '../../src/sim/world';
 import type { Rigged } from '../../src/samples/species';
 
 /** The cosmetics registry (LOOK-32), the eggshell (LOOK-26) and the hero looks (LOOK-27). */
@@ -105,7 +105,8 @@ describe('the eggshell hat', () => {
     hatch(n, []);
     expect(n.hat).toBe('shell:sky');
     advanceStage(n, 1000, [], world, true);
-    expect(world.inventory.hats).toContain('shell:sky');
+    // A catch-up or story hatch: into the hat box when it comes off, not before.
+    expect(world.inventory.hats).not.toContain('shell:sky');
     // Catch-up never counts it down.
     advanceStage(n, EGGSHELL.wearMs * 2, [], world, true);
     expect(n.hat).toBe('shell:sky');
@@ -113,6 +114,17 @@ describe('the eggshell hat', () => {
     expect(n.hat).toBeNull();
     expect(n.shellMs).toBeUndefined();
     expect(world.inventory.hats).toContain('shell:sky');
+  });
+
+  it('a live hatch puts the shell in the hat box at once', () => {
+    const world = createWorld(9, 0);
+    world.inventory.shells = 10_000;
+    const n = createEgg('nub-z', { x: 0, z: 0 }, new Rng(6), 'gold');
+    n.hatchRemainingMs = 0;
+    world.nubbins.push(n);
+    stepWorld(world, 100);
+    expect(n.hat).toBe('shell:gold');
+    expect(world.inventory.hats).toContain('shell:gold');
   });
 
   it('a Nubbin hatched straight into an adult (a story one) drops the shell unkept', () => {

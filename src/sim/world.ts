@@ -62,7 +62,14 @@ import { stepHopLesson } from './hop-lesson';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
-import { advanceStage, evolve, hatch, holdEndOfLife, secondEvolve } from './lifecycle';
+import {
+  advanceStage,
+  evolve,
+  hatch,
+  holdEndOfLife,
+  keepEggshell,
+  secondEvolve,
+} from './lifecycle';
 import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
@@ -980,6 +987,8 @@ export function stepWorld(
         }
         if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
+          // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
+          keepEggshell(n, world);
         }
         if (n.behavior.state === 'thrown') {
           updateBehavior(n, world, dtMs, rng, events);
