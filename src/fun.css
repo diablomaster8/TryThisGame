@@ -95,3 +95,8 @@ body.line-shake-big #app {
     transform: translate(3px, -1px);
   }
 }
+
+/* R0063: the hop course chip sits below the toasts, which share the top of the screen. */
+.hop-lesson-chip.hop-course-chip {
+  top: calc(var(--safe-top, 0px) + 112px);
+}

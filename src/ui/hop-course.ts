@@ -6,6 +6,7 @@
  * course still runs and simply forgets.
  */
 import '../move.css';
+import '../fun.css';
 import { HOP_COURSE_TEXT } from '../config/strings-move';
 import { HOP_COURSE } from '../config/tuning-move';
 import { currentSlot, slotKey } from '../platform/storage';
