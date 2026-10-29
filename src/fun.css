@@ -255,3 +255,12 @@ body.line-shake-big #app {
   min-height: 56px;
   width: 100%;
 }
+
+/* R0318 (FUN-29): a tip under the loading bar. */
+.load-tip {
+  max-width: min(420px, calc(100vw - 32px));
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 0.9em;
+  opacity: 0.85;
+}

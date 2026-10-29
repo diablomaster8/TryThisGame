@@ -197,3 +197,33 @@ describe('R0316 away diary', () => {
     expect(quiet).toHaveLength(1);
   });
 });
+
+describe('R0318 tips', () => {
+  it('has 60 tips, a third of each kind, with valid gates', async () => {
+    const { TIPS } = await import('../../src/config/tips');
+    expect(TIPS).toHaveLength(60);
+    for (const k of ['joke', 'howto', 'lore'] as const)
+      expect(TIPS.filter((t) => t.kind === k)).toHaveLength(20);
+    for (const t of TIPS) {
+      expect(t.text.length, t.text).toBeLessThanOrEqual(110);
+      if (t.minChapter !== undefined) expect(t.minChapter).toBeGreaterThanOrEqual(1);
+      if (t.minChapter !== undefined) expect(t.minChapter).toBeLessThanOrEqual(12);
+      for (const b of t.bands ?? []) expect(['main', 'reader', 'sprout']).toContain(b);
+      if (t.mature) expect(['teen', 'adult']).toContain(t.mature);
+      if (t.bands?.includes('sprout')) expect(t.text.split(/\s+/).length).toBeLessThanOrEqual(12);
+    }
+  });
+
+  it('never repeats a tip twice running and hides later chapters', async () => {
+    const { nextTip, tipsFor } = await import('../../src/ui/tips');
+    const { world } = campaignWorld('fern');
+    c(world).chapter = 1;
+    expect(tipsFor(world).every((t) => (t.minChapter ?? 0) <= 1)).toBe(true);
+    let prev = '';
+    for (let i = 0; i < 50; i++) {
+      const t = nextTip(world, i);
+      expect(t).not.toBe(prev);
+      prev = t;
+    }
+  });
+});

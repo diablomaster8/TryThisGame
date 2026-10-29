@@ -62,6 +62,7 @@ import { HopCourseChip } from './hop-course';
 import { BarkBubble } from './bark-bubble';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
+import { nextTip } from './tips';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -319,6 +320,8 @@ export function mountHud(
     }
     sheet.close();
     g.renderPaused = true;
+    // R0318: a tip while the stage loads.
+    expedition.loadTip = nextTip(g.world);
     expedition.start(
       runner,
       g.view.sheets.forNubbin(runner),

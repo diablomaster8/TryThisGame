@@ -66,6 +66,8 @@ export class RaceScreen {
 
   /** R0314: lines for the bottom of the results card (Byte's stopwatches), set before `start`. */
   footer: string[] = [];
+  /** R0318: a tip under "Setting the stage…", set before `start`. */
+  tip = '';
 
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition race');
@@ -252,7 +254,9 @@ export class RaceScreen {
     const place = this.livePlacement(race);
     this.hud.textContent = live
       ? `${UI_TEXT.place(place)}  ·  ${Math.floor(race.timeMs / 1000)}s`
-      : UI_TEXT.stageLoading;
+      : this.tip
+        ? `${UI_TEXT.stageLoading} ${this.tip}`
+        : UI_TEXT.stageLoading;
     this.cheerBtn.disabled = !live || !cheerReady(race) || race.finished;
   }
 
