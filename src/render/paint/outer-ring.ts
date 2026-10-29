@@ -282,6 +282,10 @@ function boardwalk(): Raster {
 
 function laneGate(): Raster {
   const r = canvas(72, 66);
+  // A worn stone threshold between the posts, so the gate is tappable at its foot too.
+  r.rect(9, 58, 54, 7, hex('#8a8290'));
+  r.rect(9, 58, 54, 1, hex('#c4bcc6'));
+  for (let x = 12; x < 62; x += 9) r.rect(x, 59, 1, 6, hex('#6a6270'));
   post(r, 8, 65, 54, 3, 681);
   post(r, 64, 65, 54, 3, 682);
   // A crossbeam with a little roof of shingles, a hanging sign and a lantern.
