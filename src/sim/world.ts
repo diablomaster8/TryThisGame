@@ -37,6 +37,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
+import { fastTravel } from './travel';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -885,6 +886,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);
       return;
+    case 'fastTravel':
+      fastTravel(world, cmd, events);
+      break;
     case 'teleport':
       teleport(world, cmd.pos);
       return;

@@ -966,6 +966,8 @@ export type Command =
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
+  // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
+  | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1110,6 +1112,8 @@ export type SimEvent =
   | { kind: 'regionEntered'; region: string }
   | { kind: 'regionDiscovered'; region: string }
   | { kind: 'travelRefused'; exit: string; reason: string }
+  /** R0074: a fast-travel trip arrived (the renderer plays the iris). */
+  | { kind: 'travelled'; from: Vec2; to: Vec2 }
   | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
   /** A care walk got stuck and gave up (target: a Nubbin, tree or item id); the UI can toast it. */
   | { kind: 'cantReach'; targetId: string }

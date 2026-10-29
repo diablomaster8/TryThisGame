@@ -313,6 +313,8 @@ export class Grove3dScene {
   tier: DeviceTier = 'desktop';
   /** WORLD-03/12: creature shadow casting and outline hulls under the draw budget. */
   readonly creatureLod = new CreatureLod();
+  /** R0074: cut the camera on the next frame (a fast-travel trip). */
+  private travelCut = false;
   private readonly onHidden = (): void => {
     if (document.hidden) this.actors.pool.trim();
   };
@@ -766,6 +768,7 @@ export class Grove3dScene {
       return s ? s.feet.lerp(s.head, k) : null;
     };
     for (const e of events) {
+      if (e.kind === 'travelled') this.travelCut = true;
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
@@ -1387,7 +1390,9 @@ export class Grove3dScene {
     // A key moment frames its Nubbin instead, and a story scene its speakers (bugs 10, 11).
     const ground = this.location === 'grove' ? standHeight : () => 0;
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
-    const snap = dt === 0 || this.reduceMotion;
+    // R0074: after a fast-travel trip the camera cuts to the new place behind the iris.
+    const snap = dt === 0 || this.reduceMotion || this.travelCut;
+    this.travelCut = false;
     // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);

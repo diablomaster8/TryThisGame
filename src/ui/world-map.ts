@@ -21,6 +21,7 @@ import { landmarkList } from '../sim/landmarks';
 import { regionOf, regionsFound, travelBlock } from '../sim/regions';
 import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
+import { playIris } from './travel-iris';
 
 interface Chip {
   key: string;
@@ -350,7 +351,7 @@ export class WorldMapPanel {
       if (!m) continue;
       const name = STORY_U4_TEXT.landmarks[id] ?? id;
       add(`mark:${id}`, m.x, m.z, `◆ ${name}`, 'wm-mark', () =>
-        this.openSheet(name, m.x, m.z, true),
+        this.openSheet(name, m.x, m.z, true, { pos: { x: m.x, z: m.z } }),
       );
     }
     for (const l of landmarkList()) {
@@ -363,7 +364,10 @@ export class WorldMapPanel {
         l.z,
         found ? `📍 ${name}` : '?',
         found ? 'wm-found' : 'wm-unfound',
-        () => (found ? this.openSheet(name, l.x, l.z, true) : this.openSheet('?', l.x, l.z, false)),
+        () =>
+          found
+            ? this.openSheet(name, l.x, l.z, true, { poi: l.id })
+            : this.openSheet('?', l.x, l.z, false),
       );
       if (!found) node.setAttribute('aria-label', WORLD_TEXT.notFound);
     }
@@ -383,7 +387,13 @@ export class WorldMapPanel {
   }
 
   /** The sheet for a tapped spot: its name, travel, and what asks there. */
-  private openSheet(name: string, x: number, z: number, found: boolean): void {
+  private openSheet(
+    name: string,
+    x: number,
+    z: number,
+    found: boolean,
+    to: { poi?: string; pos?: { x: number; z: number } } = { pos: { x, z } },
+  ): void {
     const g = this.game();
     if (!g) return;
     this.sheet.innerHTML = '';
@@ -397,6 +407,11 @@ export class WorldMapPanel {
       WORLD_TEXT.travelHere,
       () => {
         const w = g.world;
+        // R0074: never in the middle of a story scene.
+        if (document.documentElement.classList.contains('dialogue-open')) {
+          this.toast(WORLD_TEXT.travelBusy);
+          return;
+        }
         const where = regionOf(w.location);
         if (w.location === 'grove') {
           // Already home.
@@ -406,9 +421,9 @@ export class WorldMapPanel {
           this.toast(UI_TEXT.notFromHere);
           return;
         }
-        g.send({ kind: 'teleport', pos: { x, z } });
-        this.toast(UI_TEXT.travelled);
         this.close();
+        playIris(() => g.send({ kind: 'fastTravel', ...to }));
+        this.toast(UI_TEXT.travelled);
       },
       'btn btn-primary wm-travel',
     );

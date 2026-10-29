@@ -815,7 +815,11 @@ export class Game {
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
+        else if (e.kind === 'travelled') {
+          // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
+          this.camera.target.x = e.to.x;
+          this.camera.target.z = e.to.z;
+        } else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
         else if (e.kind === 'endOfLifeFocus')
           this.focus = { id: e.nubbinId, untilMs: nowMs + CAMERA.focusMs };
         else if (e.kind === 'lanternLit') {

@@ -24,6 +24,8 @@ export const WORLD_TEXT = {
   mapHelp: 'Drag to look around, pinch or scroll to zoom, double-tap to find yourself.',
   youAreHere: 'You are here',
   travelHere: 'Travel here',
+  /** R0074: the map's travel button while a story scene is open. */
+  travelBusy: 'Not now. Finish what is happening here first.',
   notFound: 'Not found yet. Walk up to it to add it to the map.',
   exitTo: (name: string) => `To ${name}`,
   regionNotDrawn: (name: string) =>

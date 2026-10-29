@@ -126,6 +126,12 @@ export const WORLD_MEM = {
   poolSpares: { desktop: 12, phone: 4, slow: 2 },
 } as const;
 
+/** R0074: the fast-travel transition (`ui/travel-iris.ts`): iris, or cross-fade with reduced motion. */
+export const WORLD_TRAVEL = {
+  irisMs: 350,
+  fadeMs: 150,
+} as const;
+
 /** WORLD-18: the walking lead on a portrait view (`walkLead` in `render/camera.ts`). */
 export const CAMERA_LEAD = {
   /** Share of the view's width the camera aims ahead of a walking Keeper (the follow lag takes about 0.8 u back, so the Keeper sits 22–30% from the trailing edge). */
