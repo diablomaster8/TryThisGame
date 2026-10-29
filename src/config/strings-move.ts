@@ -77,3 +77,9 @@ export const HOP_COURSE_TEXT = {
   hatGot: 'You won the Hop Hat!',
   medals: { gold: 'gold', silver: 'silver', bronze: 'bronze' },
 } as const;
+
+/** R0302 (FUN-13): the voice blips setting. */
+export const BLIP_TEXT = {
+  label: 'Voice blips',
+  help: 'A soft tick in each speaker’s voice as their words type out.',
+} as const;

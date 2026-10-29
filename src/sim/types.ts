@@ -325,6 +325,8 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
+  voiceBlips?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';

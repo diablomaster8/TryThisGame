@@ -985,6 +985,19 @@ let cricketGain: GainNode | null = null;
 let birdTimer = 0;
 let currentScene: AmbienceScene | null = null;
 
+/**
+ * R0302 (FUN-13): one typewriter blip in a speaker's voice. Quiet, short, and silent with
+ * SFX off or before the first tap unlocks sound.
+ */
+export function playBlip(hz: number, wave: OscillatorType, ms: number): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    tone(hz, 0, ms, wave, 0.018);
+  } catch {
+    // A blip is never worth an error.
+  }
+}
+
 /** R0301: a short filtered noise burst (the sneeze's "choo"). */
 function burst(startMs: number, durMs: number, gain: number, cutoff: number): void {
   if (!ctx || !sfxBus) return;

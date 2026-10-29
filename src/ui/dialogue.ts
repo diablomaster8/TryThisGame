@@ -28,6 +28,9 @@ import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
 import { drawKeeperFrame, grandchildLook } from '../render/sprites/keeper';
 import { CREATURE_SPEAKERS, creatureLook } from '../render/portraits';
 import { DIALOGUE_TEXT } from '../config/strings-dlg';
+import { TYPE_TIMING } from '../config/tuning-fun';
+import { pauseAfter, voiceOf } from './type-timing';
+import { playBlip } from '../platform/audio';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -441,9 +444,30 @@ export class Dialogue {
       this.finishText();
       return;
     }
+    // R0302: punctuation holds a beat, and the speaker ticks in their own voice.
+    const voice = g.world.settings.voiceBlips === false ? null : voiceOf(chorus ? 'narrator' : who);
+    let holdUntil = 0;
+    let typed = 0;
     this.typing = window.setInterval(
       () => {
-        this.shown = Math.min(this.fullText.length, this.shown + (speed === 'fast' ? 4 : 2));
+        const now = performance.now();
+        if (now < holdUntil) return;
+        const step = speed === 'fast' ? 4 : 2;
+        for (let k = 0; k < step && this.shown < this.fullText.length; k++) {
+          this.shown += 1;
+          typed += 1;
+          if (
+            voice &&
+            typed % TYPE_TIMING.blipEvery === 0 &&
+            /\S/.test(this.fullText[this.shown - 1]!)
+          )
+            playBlip(voice.hz, voice.wave, voice.ms);
+          const hold = pauseAfter(this.fullText, this.shown);
+          if (hold > 0) {
+            holdUntil = now + hold;
+            break;
+          }
+        }
         this.text.textContent = this.fullText.slice(0, this.shown);
         if (this.shown >= this.fullText.length) {
           clearInterval(this.typing);
