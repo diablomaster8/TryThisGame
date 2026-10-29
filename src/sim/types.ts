@@ -854,6 +854,10 @@ export interface World {
   placed: PlacedDecor[];
   /** Collection book: species ids and Chao form keys, with the sim time first seen. */
   seen: Record<string, number>;
+  /** Lane E, R0411: the name of the Nubbin that first showed each book key (absent: unknown). */
+  seenBy?: Record<string, string>;
+  /** Lane E, R0411: book tabs completed, each rewarded once. */
+  bookTabs?: string[];
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;

@@ -157,6 +157,8 @@ describe('digital line, Versions 1 to 5', () => {
     const keys = allKeys();
     for (const s of SPECIES) if (s.id !== 'chao') expect(keys, s.id).toContain(s.id);
     expect(keys.some((k) => /^\d+$/.test(k))).toBe(false);
-    expect(keys).toHaveLength(1 + 15 + 3 + SPECIES.length - 1);
+    // LOOK-55 added second evolutions, colours, looks, parts and hats after these.
+    const forms = keys.filter((k) => !k.includes(':') || /^chao:[a-z]+(:[a-z]+)?$/.test(k));
+    expect(forms).toHaveLength(1 + 15 + 3 + SPECIES.length - 1);
   });
 });

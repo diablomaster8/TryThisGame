@@ -40,7 +40,7 @@ import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
-import { stepCollection } from './collection';
+import { noteNubbin, stepCollection } from './collection';
 import { stepDaily } from './daily';
 import { receiveNubbin, tradeAway } from './share';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
@@ -524,6 +524,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
       n.hat = cmd.hat;
+      // Lane E, R0411: the book notes the hat or look.
+      noteNubbin(world, n, events);
       return;
     }
     case 'setSettings': {
