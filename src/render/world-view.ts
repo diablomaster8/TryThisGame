@@ -31,6 +31,8 @@ import { visibleStoryProps } from '../sim/story-props';
 import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
+import { EmoteSprings } from './emote-spring';
+import { EMOTE_SPRING } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -101,6 +103,8 @@ export class WorldView {
   }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  /** LOOK-16: each Nubbin's emote ball on its spring. */
+  private readonly emoteSprings = new EmoteSprings();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
   private darkness = 0;
@@ -1849,14 +1853,30 @@ export class WorldView {
       const emotes = this.sheets.emotes(n.shadow);
       const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
       if (erect) {
+        // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+        // rounded to whole native pixels, and squashes on a landing or pops on a new shape.
+        const back = EMOTE_SPRING.backPixel;
+        const ball = this.emoteSprings.step(
+          n.id,
+          x - Math.sin(n.facing) * back,
+          y + 2.15,
+          z - Math.cos(n.facing) * back,
+          emote,
+          nowMs,
+          EMOTE_SPRING.clampPixel,
+          1 / NATIVE_PPU,
+          v.pop?.kind === 'squash' ? v.pop.startMs : null,
+        );
         this.batch.draw({
           sheet: emotes,
           rect: erect,
           flip: false,
-          x,
-          y: y + 2.15,
-          z,
+          x: ball.x,
+          y: ball.y,
+          z: ball.z,
           mode: 'billboard',
+          w: (erect.w / NATIVE_PPU) * ball.sx,
+          h: (erect.h / NATIVE_PPU) * ball.sy,
         });
       }
     }

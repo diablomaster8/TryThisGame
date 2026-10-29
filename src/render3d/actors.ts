@@ -16,6 +16,8 @@ import type { Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
+import { EmoteSprings } from '../render/emote-spring';
+import { EMOTE_SPRING } from '../config/tuning-look';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -189,6 +191,8 @@ export class Actors {
   private keeperLandDur: number = JUMP.landSquashMs * 2;
   private keeperSquash: { o: THREE.Object3D; base: THREE.Vector3 } | null = null;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
+  /** LOOK-16: each Nubbin's emote ball on its spring. */
+  private readonly emoteSprings = new EmoteSprings();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
@@ -941,13 +945,30 @@ export class Actors {
           // Over the top of the creature, never inside it: the head bone sits low in the
           // head, and 0.48 above it left the ball buried (the depth test hid it).
           const top = Math.max(this.tmp.y + 0.48, gy + y + tall + 0.3);
-          a.emote.position.set(this.tmp.x, top + Math.sin(t * 2) * 0.03, this.tmp.z);
+          // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+          // squashing on a landing and popping when its shape changes.
+          const back = EMOTE_SPRING.back3d;
+          const pop = this.pops.get(n.id);
+          const ball = this.emoteSprings.step(
+            n.id,
+            this.tmp.x - Math.sin(n.facing) * back,
+            top + Math.sin(t * 2) * 0.03,
+            this.tmp.z - Math.cos(n.facing) * back,
+            shape,
+            nowMs,
+            EMOTE_SPRING.clamp3d,
+            0,
+            pop?.kind === 'squash' ? pop.startMs : null,
+          );
+          a.emote.position.set(ball.x, ball.y, ball.z);
+          a.emote.scale.set(0.5 * ball.sx, 0.5 * ball.sy, 1);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
     this.glow.keep(live);
+    this.emoteSprings.keep(live);
 
     // The Keeper.
     if (this.keeperSquash) {
