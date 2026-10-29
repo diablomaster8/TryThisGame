@@ -99,6 +99,10 @@ interface Sample {
  * the Keeper relative to the camera. Two-finger gestures belong to CameraControls; when
  * a second pointer appears any drag is dropped gently.
  */
+/** MOVE-54: the second Keeper's jump keys, and the name the held set keeps them under. */
+const JUMP2 = '#keeper2-jump';
+const key2Jump = (e: KeyboardEvent): boolean => e.key === 'Enter' || e.code === 'Numpad0';
+
 export class GameInput {
   private readonly abort = new AbortController();
   private readonly keys = new Set<string>();
@@ -118,7 +122,7 @@ export class GameInput {
   private reversals: number[] = [];
   private lastInput: Vec2 = { x: 0, z: 0 };
   private lastInput2: Vec2 = { x: 0, z: 0 };
-  private padHeld = { x: false, b: false, y: false };
+  private padHeld = { x: false, b: false, y: false, a: false };
   /** MOVE-49: Keeper 1's pad buttons as last seen, so each press acts once. */
   private pad1Held: boolean[] = [];
 
@@ -233,7 +237,10 @@ export class GameInput {
       pet = px && !this.padHeld.x;
       feed = b && !this.padHeld.b;
       if (y && !this.padHeld.y) this.host.send({ kind: 'shakeHeld' });
-      this.padHeld = { x: px, b, y };
+      // MOVE-54: A is the second Keeper's jump, held for a higher one.
+      const a = pad.buttons[0]?.pressed ?? false;
+      if (a !== this.padHeld.a) this.host.send({ kind: 'keeper2Jump', down: a });
+      this.padHeld = { x: px, b, y, a };
     }
     const len = Math.hypot(fwd, right);
     if (len > 1) {
@@ -294,6 +301,10 @@ export class GameInput {
     if (e.type !== 'keydown') {
       // Letting go of Space ends a held jump: a tap is a short hop (MOVE-11).
       if (key === ' ' && this.keys.has(key)) this.host.send({ kind: 'jump', down: false });
+      if (key2Jump(e) && this.keys.has(JUMP2)) {
+        this.keys.delete(JUMP2);
+        this.host.send({ kind: 'keeper2Jump', down: false });
+      }
       this.keys.delete(key);
       return;
     }
@@ -301,6 +312,14 @@ export class GameInput {
     // Space on a focused button presses the button (dialogue advances that way and never
     // jumps). Otherwise Space jumps, or shakes what the Keeper holds (MOVE-22); X only shakes.
     if (key === ' ' && isControlTarget(e.target)) return;
+    // MOVE-54: Enter or Numpad 0 is the second Keeper's jump (not on a focused button).
+    if (key2Jump(e)) {
+      if (!isControlTarget(e.target) && !e.repeat) {
+        this.keys.add(JUMP2);
+        this.host.send({ kind: 'keeper2Jump', down: true });
+      }
+      return;
+    }
     this.keys.add(key);
     if (key === ' ' && !e.repeat) {
       this.host.send({ kind: 'jump', down: true });

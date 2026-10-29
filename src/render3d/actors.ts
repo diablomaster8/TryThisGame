@@ -802,7 +802,9 @@ export class Actors {
     const prev = this.keeper2Prev ?? k2.pos;
     const p = { x: lerp(prev.x, k2.pos.x, alpha), z: lerp(prev.z, k2.pos.z, alpha) };
     const moving = k2.input.x !== 0 || k2.input.z !== 0;
-    this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt);
+    // MOVE-54: its own height (a jump, a bench), as a lift over the ground it is drawn on.
+    const lift = k2.y - this.keeperGround(p.x, p.z);
+    this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt, lift);
   }
 
   update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {

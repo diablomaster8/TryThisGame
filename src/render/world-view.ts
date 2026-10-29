@@ -1123,14 +1123,20 @@ export class WorldView {
       const clip2: ClipName = moving2 ? 'walk' : 'idle';
       const view2 = viewAngle(k2.facing, yaw);
       const rect2 = sheet2.frames.get(frameKey(clip2, view2.angle, frameAt(CLIPS[clip2], nowMs)));
-      shadow(k2.pos.x, 0, k2.pos.z, 0.45);
+      // MOVE-54: Keeper 2 jumps and stands on tops as Keeper 1 does; its feet are its own height.
+      const g2 = runFloor(world) ? 0 : paintedGround(k2.pos.x, k2.pos.z);
+      const off2 = k2.y - g2;
+      const floor2 = runFloor(world)
+        ? 0
+        : Math.max(0, keeperFooting(world, k2.pos.x, k2.pos.z, k2.y).y - g2);
+      shadow(k2.pos.x, Math.max(0, off2 - floor2), k2.pos.z, 0.45, floor2);
       if (rect2) {
         batch.draw({
           sheet: sheet2,
           rect: rect2,
           flip: view2.flip,
           x: k2.pos.x,
-          y: 0,
+          y: off2,
           z: k2.pos.z,
           mode: 'billboard',
           tint: this.dim,

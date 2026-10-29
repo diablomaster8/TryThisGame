@@ -34,7 +34,7 @@ import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
 import { feedWild, stepHabitats } from './habitats';
 import { neighbourGift, visit } from './neighbourhood';
 import { dye, wearGlasses } from './accessories';
-import { keeper2Act, setCoop, stepKeeper2 } from './coop';
+import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { stepFriendships } from './friendships';
@@ -882,6 +882,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'keeper2Act':
       keeper2Act(world, cmd.action, events);
       return;
+    case 'keeper2Jump':
+      keeper2Jump(world, cmd.down);
+      return;
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);
       return;
@@ -981,7 +984,7 @@ export function stepWorld(
     stepCampaign(world, dtMs, events);
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
-    stepKeeper2(world, dtMs);
+    stepKeeper2(world, dtMs, events);
     stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
     stepSlips(world, dtMs, events);
     stepPartners(world, dtMs, events);

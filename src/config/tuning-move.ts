@@ -193,3 +193,6 @@ export const CAMERA_FOLLOW_WALK = {
   wobbleDeg: 25,
   offDeg: 60,
 } as const;
+
+/** MOVE-54: the two Keepers' bodies (radius) keep apart while their feet are this close in height. */
+export const KEEPER2 = { body: 0.35, sepHeight: 1.2 } as const;

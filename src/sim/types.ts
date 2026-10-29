@@ -965,6 +965,8 @@ export type Command =
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
+  // MOVE-54: Keeper 2's jump, pressed and let go.
+  | { kind: 'keeper2Jump'; down: boolean }
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
