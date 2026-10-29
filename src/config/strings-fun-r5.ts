@@ -261,3 +261,36 @@ export const PEEKABOO_TEXT = {
     teapot: 'A teapot! Silly teapot!',
   } as Record<string, string>,
 } as const;
+
+/** R0294 (FUN-05): the micro-games' words. Never a fail screen: a miss is a joke. */
+export const MICRO_TEXT = {
+  balance: {
+    title: 'Keep it steady',
+    help: 'Drag left and right to keep the stack upright.',
+    plop: 'Plop. Everything is on the grass. Stack it again.',
+    done: 'Delivered. Only slightly squashed.',
+  },
+  hunt: {
+    title: 'Have a look round',
+    help: 'Tap things to look behind them. Three of them hide something.',
+    found: (n: number) => `Found ${n} of 3.`,
+    decoys: [
+      'A beetle, deeply offended.',
+      'Nothing. Some fluff.',
+      'A sock. Nobody knows whose.',
+      'A frog, who was here first.',
+      'An old apple core. Lovely.',
+      'Cobwebs, and a very surprised spider.',
+    ],
+    done: 'All three. Well spotted.',
+  },
+  catch: {
+    title: 'Catch them',
+    help: 'Tap a lane to move the basket under it.',
+    caught: (n: number) => `${n} of 5 in the basket.`,
+    miss: 'Bonk. It rolls away. Another is coming.',
+    done: 'Basket full.',
+  },
+  finish: 'Done',
+  skip: 'Skip this',
+} as const;

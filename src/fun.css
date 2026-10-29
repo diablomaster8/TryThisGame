@@ -363,3 +363,96 @@ body.line-shake-big #app {
   font-size: 0.85em;
   pointer-events: none;
 }
+
+/* R0294 (FUN-05): the micro-games. */
+.micro-stage {
+  position: relative;
+  margin: 10px auto;
+  width: min(320px, 100%);
+  touch-action: none;
+  user-select: none;
+}
+.micro-status {
+  text-align: center;
+  min-height: 2.4em;
+}
+.micro-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.micro-row .btn {
+  min-height: 44px;
+}
+.micro-go {
+  min-height: 56px;
+}
+.micro-tray {
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 6px solid #8a5a2b;
+}
+.micro-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  transform-origin: 50% 100%;
+  font-size: 40px;
+  line-height: 1.05;
+}
+.micro-stack.micro-fallen {
+  opacity: 0.3;
+}
+.micro-bar {
+  height: 10px;
+  margin-top: 8px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.micro-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #6cbf5a;
+}
+.micro-hunt {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.micro-spot {
+  min-height: 72px;
+  font-size: 36px;
+}
+.micro-spot.micro-decoy {
+  opacity: 0.55;
+}
+.micro-catch {
+  position: relative;
+  height: 240px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.micro-lane {
+  height: 100%;
+  min-height: 44px;
+  opacity: 0.35;
+}
+.micro-basket,
+.micro-fall {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 36px;
+  pointer-events: none;
+}
+.micro-basket {
+  bottom: 4px;
+  transition: left 0.12s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .micro-basket { transition: none; }
+}
