@@ -114,3 +114,51 @@ export const TRAVEL_TEXT = {
   goBeacon: 'Go to the objective',
   walkHere: 'Walk here',
 } as const;
+
+/** R0107: the landmark name card and the Journal's Places page (`ui/landmark-card.ts`). */
+export const PLACES_TEXT = {
+  cardMs: 2000,
+  fastTravel: 'Fast travel unlocked',
+  paid: (shells: number, badge: string) => `+${shells} Shells: ${badge}`,
+  tab: 'Places',
+  count: (found: number, of: number) => `${found} of ${of} places found in the Grove.`,
+  counts: (traces: { found: number; of: number }, finds: { found: number; of: number }) =>
+    [
+      traces.of ? `Traces ${traces.found}/${traces.of}` : '',
+      finds.of ? `Keepsakes ${finds.found}/${finds.of}` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ') || 'Nothing hidden here. Probably.',
+  art: {
+    bridge: '🌉',
+    well: '🪣',
+    falls: '💧',
+    cottage: '🏡',
+    dojo: '🥋',
+    school: '🏫',
+    oldTree: '🌳',
+    southBend: '🌊',
+    westHill: '⛰️',
+    northWood: '🌲',
+    eastRidge: '🗻',
+    southMarsh: '🪷',
+    westMeadow: '🌾',
+    farOrchard: '🍎',
+  },
+  lines: {
+    bridge: 'Old planks, new nails. It creaks in a friendly way.',
+    well: 'Drop a shell in and listen. It always answers late.',
+    falls: 'The water never stops talking. Nobody minds.',
+    cottage: 'Hazel’s door. The latch knows your hand already.',
+    dojo: 'Mats rolled, a gong polished. Somebody bows to it daily.',
+    school: 'Chalk dust and small chairs. The bell is mostly decorative.',
+    oldTree: 'Older than the cottage, and it knows it.',
+    southBend: 'The stream turns here to look back at the Grove.',
+    westHill: 'The first flower grew up here. Others followed.',
+    northWood: 'Moss on everything, including the silence.',
+    eastRidge: 'On a clear day you can see something gold to the east.',
+    southMarsh: 'Frogs hold opinions here, loudly.',
+    westMeadow: 'Hay, crows, and a scarecrow with excellent posture.',
+    farOrchard: 'Apples, bees and a press that smells of autumn.',
+  },
+} as const;

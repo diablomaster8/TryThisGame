@@ -117,6 +117,7 @@ import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
+import { mountLandmarkCard } from './landmark-card';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 
@@ -435,6 +436,8 @@ export function mountHud(
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
   mountBeacon(root, game, () => map.open());
+  // R0107: the landmark name card.
+  const landmarkCard = mountLandmarkCard(root);
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -1422,9 +1425,7 @@ export function mountHud(
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
         } else if (e.kind === 'landmarkFound') {
-          toast(
-            UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),
-          );
+          landmarkCard(e.id, events);
           playSound('pickup');
         } else if (e.kind === 'festival') {
           // The calendar's festival waits for any story scene to finish, so "Autumn harvest"

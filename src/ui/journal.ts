@@ -17,6 +17,8 @@ import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
 import { TraceGame } from './trace';
 import { endingKey, getShots, thumbKey } from './u4-store';
+import { PLACES_TEXT } from '../config/strings-world';
+import { renderPlaces } from './landmark-card';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -53,7 +55,7 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'paths' | 'endings' = 'chapter';
+  private page: 'chapter' | 'paths' | 'endings' | 'places' = 'chapter';
 
   constructor(
     parent: HTMLElement,
@@ -127,6 +129,8 @@ export class Journal {
       ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
       ['paths', STORY_TEXT.paths],
       ['endings', STORY_U4_TEXT.endingsTab],
+      // R0107: the landmarks found, with their traces and keepsakes (`ui/landmark-card.ts`).
+      ['places', PLACES_TEXT.tab],
     ] as const) {
       const b = button(
         label,
@@ -140,7 +144,8 @@ export class Journal {
       tabs.appendChild(b);
     }
     this.body.appendChild(tabs);
-    if (this.page === 'paths') this.renderPaths(view);
+    if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
+    else if (this.page === 'paths') this.renderPaths(view);
     else if (this.page === 'endings') this.renderEndings(view);
     else this.renderChapter(g, view);
   }
