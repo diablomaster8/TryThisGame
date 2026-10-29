@@ -127,3 +127,22 @@ export const PET_LINES: Record<string, Record<ToastBand, readonly string[]>> = {
     sprout: ['{n} is shy. Not yet.', '{n} needs a little time.', 'Slowly! {n} is shy.'],
   },
 };
+
+/**
+ * R0312 (FUN-23): the hatch card that replaces the stacked toasts. The eggshell stays on the
+ * newborn's head as a hat (lane E); the card says so, and offers the first pet.
+ */
+export const HATCH_CARD_TEXT = {
+  hatched: (names: string[]) =>
+    names.length === 1
+      ? `${names[0]} hatched!`
+      : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]} hatched!`,
+  shell: (names: string[]) =>
+    names.length === 1
+      ? 'There is a bit of shell on their head.'
+      : 'They are both wearing a bit of shell.',
+  sprout: 'Pop! A baby! It has a shell hat!',
+  firstInBook: 'First Nubbin in your book.',
+  pet: 'Pet',
+  close: 'Close',
+} as const;

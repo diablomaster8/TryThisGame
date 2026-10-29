@@ -61,6 +61,7 @@ import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { BarkBubble } from './bark-bubble';
 import { bandToaster, slipNudge } from './fun-toasts';
+import { HatchCard } from './hatch-card';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -273,6 +274,8 @@ export function mountHud(
   const hopCourse = new HopCourseChip(root);
   // R0295: the Keepers' speech bubbles.
   const barkBubble = new BarkBubble(root);
+  // R0312: a hatch is one card (ui/hatch-card.ts).
+  const hatchCard = new HatchCard(root, game);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -1014,7 +1017,7 @@ export function mountHud(
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
+          hatchCard.add(n, n?.name ?? NAMES.creature);
           playSound('hatch');
           armPersistRequest();
         } else if (e.kind === 'evolved') {
@@ -1198,7 +1201,7 @@ export function mountHud(
         } else if (e.kind === 'decorRefused') {
           toast(UI_TEXT.decorRefused[e.reason]);
         } else if (e.kind === 'firstSeen') {
-          toast(UI_TEXT.firstSeen(keyLabel(e.key)));
+          if (!hatchCard.foldFirstSeen(e.key)) toast(UI_TEXT.firstSeen(keyLabel(e.key)));
         } else if (e.kind === 'received') {
           toast(e.ok ? UI_TEXT.received(e.name) : UI_TEXT.receiveFull);
         } else if (e.kind === 'traded') {

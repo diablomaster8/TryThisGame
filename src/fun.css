@@ -178,3 +178,50 @@ body.line-shake-big #app {
   text-shadow: 1px 1px 0 #6b3d10;
   transform: rotate(-3deg);
 }
+
+/* R0312 (FUN-23): the hatch card, one per hatch moment, in place of the stacked toasts. */
+.hatch-card {
+  position: fixed;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 64px);
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(340px, calc(100vw - 32px));
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--panel, #fffaf0);
+  color: var(--ink, #2b2118);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+.hatch-card-pics {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.hatch-card-pic {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+.hatch-card-title {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+.hatch-card-sub,
+.hatch-card-note {
+  margin: 2px 0;
+  font-size: 0.9em;
+}
+.hatch-card-note:empty {
+  display: none;
+}
+.hatch-card-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.hatch-card-row .btn {
+  min-height: 44px;
+}
