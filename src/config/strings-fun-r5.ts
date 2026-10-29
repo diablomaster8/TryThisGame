@@ -51,3 +51,79 @@ export const EDU_TOASTS = {
   /** Most words a sprout toast may have; a longer one keeps its first sentence or is dropped. */
   maxWords: 8,
 } as const;
+
+/**
+ * R0311 (FUN-22): pet-sheet actions in the Nubbin's own physical voice, three a band, picked
+ * in turn so the same one never shows twice running. `{n}` is the name. No parentheses.
+ * Lane E's per-personality lines (R0298) take the main band's success toasts once merged;
+ * these cover the refusal, the sprout band and the plain fallback.
+ */
+export const PET_LINES: Record<string, Record<ToastBand, readonly string[]>> = {
+  tickle: {
+    main: [
+      '{n}’s foot thumps like a happy rabbit.',
+      '{n} wriggles so hard they nearly roll away.',
+      '{n} squeaks, then holds very still in case you do it again.',
+    ],
+    reader: ['{n} giggles and wriggles.', '{n}’s foot goes thump, thump!', '{n} squeaks with joy.'],
+    sprout: ['Hee hee! {n} giggles!', 'Wiggle wiggle! {n} laughs!', '{n} squeaks! Again!'],
+  },
+  hug: {
+    main: [
+      '{n} melts into the hug.',
+      '{n} hugs back with both stubby arms, which reach about halfway.',
+      '{n} goes soft and heavy, like warm bread.',
+    ],
+    reader: ['{n} melts into the hug.', '{n} hugs you back.', '{n} snuggles in close.'],
+    sprout: ['Squish! A big hug!', '{n} hugs you back!', 'Cuddle! {n} is happy!'],
+  },
+  groom: {
+    main: [
+      '{n} fluffs up to nearly twice the size.',
+      '{n} leans into the brush and closes both eyes.',
+      '{n} shakes out every tuft and looks newly invented.',
+    ],
+    reader: ['{n} fluffs up, all shiny.', '{n} leans into the brush.', '{n} looks very smart now.'],
+    sprout: ['Fluff fluff! So soft!', '{n} is all shiny!', 'Brush brush! Fluffy {n}!'],
+  },
+  tuckIn: {
+    main: [
+      '{n} turns round three times and settles.',
+      '{n} is asleep before you’ve finished.',
+      '{n} yawns a yawn bigger than their head.',
+    ],
+    reader: ['{n} curls up and yawns.', '{n} falls asleep fast.', '{n} snuggles down.'],
+    sprout: ['Shh! {n} is sleepy.', 'Yawn! Night night, {n}!', '{n} curls up. Shh!'],
+  },
+  praise: {
+    main: [
+      '{n} stands a little taller. The crown helps.',
+      '{n} looks round to check everyone heard that.',
+      '{n} glows like they’ve swallowed a lantern.',
+    ],
+    reader: ['{n} stands up tall and proud.', '{n} beams at you.', '{n} looks very pleased.'],
+    sprout: ['Good {n}! So proud!', '{n} stands up tall!', 'Yay, {n}!'],
+  },
+  highFive: {
+    main: [
+      'The high five lands on {n}’s own forehead. Thrilled anyway.',
+      '{n} slaps your palm and inspects their paw for damage.',
+      '{n} high-fives the air just beside your hand. Close enough.',
+    ],
+    reader: [
+      'Slap! {n} high-fives you.',
+      '{n} misses, then tries again.',
+      '{n} gives a tiny high five.',
+    ],
+    sprout: ['Slap! High five!', '{n} high-fives! Yay!', 'Clap! Tiny paw!'],
+  },
+  refused: {
+    main: [
+      '{n} flinches away. Not yet.',
+      '{n} edges back and watches your hands.',
+      '{n} isn’t ready for that. Sit with them a while.',
+    ],
+    reader: ['{n} steps back. Not yet.', '{n} needs time first.', '{n} is a bit shy still.'],
+    sprout: ['{n} is shy. Not yet.', '{n} needs a little time.', 'Slowly! {n} is shy.'],
+  },
+};

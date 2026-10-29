@@ -112,3 +112,19 @@ describe('R0310 sound words', () => {
     expect(soundChunks('No sounds here.')).toEqual([{ text: 'No sounds here.', sound: null }]);
   });
 });
+
+describe('R0311 pet lines', () => {
+  it('twenty tickles show three texts, none with parentheses; sprout lines are short', async () => {
+    const { petVoice } = await import('../../src/ui/fun-toasts');
+    const { UI_TEXT } = await import('../../src/config/strings');
+    const { PET_LINES } = await import('../../src/config/strings-fun-r5');
+    const seen = new Set<string>();
+    for (let i = 0; i < 20; i++) seen.add(petVoice(UI_TEXT.interacted('Kiki', 'tickle'), 'main')!);
+    expect(seen.size).toBeGreaterThanOrEqual(3);
+    for (const s of seen) expect(s).not.toMatch(/[()]/);
+    expect(petVoice(UI_TEXT.interacted('Kiki', 'highFive'), 'main', 0)).toContain('Kiki');
+    expect(petVoice(UI_TEXT.interactRefused('Kiki'), 'sprout', 0)).toBe('Kiki is shy. Not yet.');
+    for (const set of Object.values(PET_LINES))
+      for (const l of set.sprout) expect(l.split(/\s+/).length).toBeLessThanOrEqual(6);
+  });
+});
