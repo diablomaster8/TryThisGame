@@ -15,6 +15,8 @@ import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
 import { acornInFind, goToLevel, stepWaypoint } from './dungeon-travel';
 import { actBossDepth, actFloor, actOpen, actProgress } from './dungeon-acts';
 import { actStartDepth } from '../config/dungeon-acts';
+import type { ServiceKind } from '../config/dungeon-zones';
+import { zoneFloor, zoneStairs } from './dungeon-zones';
 import {
   boutOutcome,
   finishEncounter,
@@ -197,6 +199,23 @@ export interface Floor {
   shrines?: Shrine[];
   /** Traps (R0161, version 4). */
   traps?: Trap[];
+  /** An act's camp, field or side cave (R0152, R0147); absent on dungeon levels. */
+  zone?: 'town' | 'field' | 'side';
+  /** A camp's services. */
+  services?: Service[];
+  /** A field's cave mouths onto its side caves, by side-cave index. */
+  mouths?: Cell[];
+  /** Where an authored waypoint stone stands (camps and fields). */
+  stone?: Cell;
+  /** The act a camp, field or side cave belongs to, by `ACTS` index. */
+  act?: number;
+}
+
+/** A camp service (R0152): who keeps it is a trainer id, `local`, or '' for the stash. */
+export interface Service {
+  kind: ServiceKind;
+  cell: Cell;
+  keeper: string;
 }
 
 /** A slot's job on a version-3 floor. */
@@ -616,6 +635,8 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
 
 /** The floor a run stands on: its act's dungeon (R0145), or the endless Hollow by version. */
 export function floorOfRun(run: DungeonRun): Floor {
+  const zone = zoneFloor(run);
+  if (zone) return zone;
   return run.act !== undefined
     ? actFloor(run.seed, run.act, run.depth, run.genVersion)
     : floorOf(run.seed, run.depth, run.genVersion);
@@ -829,7 +850,8 @@ function canJoin(n: Nubbin): boolean {
 function choosePartyFor(world: World): string[] {
   const party: string[] = [];
   if (world.keeper.carrying) party.push(world.keeper.carrying);
-  for (const id of world.partners) {
+  // The party picked at the cave mouth (R0168), then partners, then anyone.
+  for (const id of [...world.hollow.lastParty, ...world.partners]) {
     const n = id ? world.nubbins.find((x) => x.id === id) : undefined;
     if (n && canJoin(n) && !party.includes(n.id) && party.length < DUNGEON.partySize)
       party.push(n.id);
@@ -1119,6 +1141,8 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
   run.pending = null;
   run.pendingPos = null;
   world.keeper.moveTarget = null;
+  // Camps, fields and side caves have their own ways in and out (R0147, R0152).
+  if ((pending === 'up' || pending === 'down') && zoneStairs(world, run, pending, events)) return;
   if (pending === 'up') {
     // Inside an act the stairs up climb a level; from its top they lead home.
     if (run.act !== undefined && !run.story && run.depth > actStartDepth(run.act))
@@ -1407,6 +1431,11 @@ export function lootOnFloor(world: World): Array<FloorLoot & { pos: Vec2 }> {
 }
 
 /** Who would come along right now, by name, for the menu. */
+/** The ids of who would come along now. */
+export function partyIds(world: World): string[] {
+  return choosePartyFor(world);
+}
+
 export function partyPreview(world: World): string[] {
   return choosePartyFor(world).map((id) => world.nubbins.find((n) => n.id === id)?.name ?? id);
 }

@@ -66,7 +66,7 @@ _You miss him. You pull on your boots._
 
 #### `sprout:s19-marina` · [main](../../../side/S19.md#s19-marina)
 
-_Marina is in a rock pool, breaking the ice. She’s very happy._  
+_Crack! Marina is in a rock pool, breaking the ice. She’s very happy._  
 **Marina**: The high pass? In winter? Lovely! It’s freezing up there. I love it.  
 **Marina**: All our water comes down from that snow. I know the way.  
 **Marina**: Boots. A rope. Two pairs of socks.  
@@ -213,12 +213,12 @@ _The waterfall is frozen white. It doesn’t move at all._
 > **Lesson** (science, 2-ESS2-3, ask): very cold water turns to ice  
 > _Why is the waterfall white and still?_  
 > - ✅ It got so cold, the water froze into ice → Yes! When water gets very cold, it turns into ice.
-> - It got tired → Waterfalls don’t get tired! It got so cold, the water turned into ice.
+> - It got tired → A tired waterfall? Snore! Did it go to sleep? Waterfalls don’t get tired! It got so cold, the water turned into ice.
 > _For grown-ups: Explained a frozen waterfall: very cold water turns into ice._
 
 _You wait. Your feet get cold._  
 _Grrrrr! Your tummy is very loud in all this quiet._  
-_Up on the edge, Marina coughs. A very polite cough._  
+_Up on the edge, Marina goes achoo! A very polite one._  
 _You keep waiting._  
 
 #### `sprout:s19-question` · [main](../../../side/S19.md#s19-question)
@@ -427,7 +427,7 @@ _Marina’s eyes are red. She has been crying a bit._
 _That night, the lantern by the long grass feels warm to stand by._  
 _You put the red pebble on the windowsill._  
 _By morning, five Nubbins are asleep in a heap under it. Snore!_  
-_One wakes up and licks the red pebble. Not supper!_  
+_One wakes up and licks the red pebble. Slurp! Not supper!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count the sleepy Nubbins: one, two, three, four, five.)_  

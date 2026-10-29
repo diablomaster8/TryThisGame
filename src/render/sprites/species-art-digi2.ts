@@ -1,5 +1,6 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
+import { ex } from './creature-extras';
 
 /**
  * Art recipes for the digital line's Versions 2 to 5 (sim/species-digi2.ts), read by both
@@ -94,11 +95,12 @@ export const DIGI2_ART: Record<string, CreatureSpec> = {
     eyes: 'angry',
     marks: ['eyeMask'],
   }),
+  // Yukidarumon: a snowman in a yellow bucket hat with a red band, in blue mitts (LOOK-41).
   snowlump: spec(pal(C.white, C.pale, C.white, C.water, C.deepWater, C.ink, C.deepWater), {
     plan: 'tall',
     size: 1.2,
-    ears: 'stubs',
-    arms: 'long',
+    arms: 'boxing',
+    addons: [ex('bucketHat', C.sunYellow, C.ember)],
     eyes: 'dot',
   }),
   cinderhawk: spec(pal(C.ember, C.berry, C.orange, C.sunYellow, C.sunYellow), {

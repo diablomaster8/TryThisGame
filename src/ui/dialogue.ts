@@ -31,6 +31,9 @@ import { DIALOGUE_TEXT } from '../config/strings-dlg';
 import { TYPE_TIMING } from '../config/tuning-fun';
 import { pauseAfter, voiceOf } from './type-timing';
 import { playBlip, playSound } from '../platform/audio';
+import { renderLineAct, sayItButton } from './line-act';
+import { refrainOf } from '../config/edu-refrains';
+import '../fun.css';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -75,6 +78,8 @@ export class Dialogue {
   private hooks: DialogueHooks = {};
   /** True while a chapter postcard holds the first line back (N1). */
   private held = false;
+  /** R0304: the line whose act was last put up, so a re-render never shows it twice. */
+  private actShown = '';
 
   constructor(
     parent: HTMLElement,
@@ -113,7 +118,7 @@ export class Dialogue {
       if ((e.target as HTMLElement).closest('.dialogue-choices, .edu-gloss')) return;
       // FUN-01: a do beat waits on its button; a tap anywhere else points at it.
       const doBtn = this.choices.querySelector<HTMLElement>(
-        '.edu-count:not(:disabled), .btn-primary.edu-option',
+        '.edu-count:not(:disabled), .btn-primary.edu-option, .line-act-btn',
       );
       if (doBtn) {
         doBtn.classList.remove('edu-pulse');
@@ -253,6 +258,7 @@ export class Dialogue {
 
   private start(sceneId: string, scene: PlayScene): void {
     this.scene = sceneId;
+    this.actShown = '';
     this.playing = scene;
     this.lessonsDone.clear();
     this.inLesson = false;
@@ -512,6 +518,42 @@ export class Dialogue {
         for (const id of ids) g?.send({ kind: 'langWord', word: id, how: 'heard' });
       },
     );
+    this.lineExtras();
+  }
+
+  /**
+   * R0304: a line's hands-on beat waits in the choice row once its text is whole (once per
+   * line), and R0323: a sprout refrain line offers its Say it! button.
+   */
+  private lineExtras(): void {
+    const line = this.lines[this.index];
+    const g = this.game();
+    if (!line || !g) return;
+    const key = `${this.scene ?? ''}:${this.index}:${line.text}`;
+    // R0323: a sprout refrain line gets a Say it! button beside the words.
+    if (textBandOf(g.world) === 'sprout') {
+      const refrain = refrainOf(line.text, line.refrain);
+      if (refrain) this.text.append(sayItButton(refrain.sound));
+    }
+    if (line.act && this.actShown !== key && this.choices.childElementCount === 0) {
+      this.actShown = key;
+      const scene = this.scene;
+      const act = line.act;
+      this.next.hidden = true;
+      renderLineAct(
+        this.choices,
+        act,
+        textBandOf(g.world) === 'sprout',
+        g.reduceMotion,
+        (played) => {
+          this.choices.innerHTML = '';
+          this.next.hidden = false;
+          if (played && scene && !this.external) g.send({ kind: 'lineAct', scene, act });
+          this.advance();
+        },
+      );
+      this.syncSkip();
+    }
   }
 
   /** A lesson written to play after the current main line, not yet played. */

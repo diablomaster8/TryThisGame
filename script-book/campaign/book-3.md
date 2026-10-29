@@ -2,7 +2,7 @@
 
 ## Chapter 9: Corvin’s Garden
 
-Goal: Go up the valley to Corvin’s garden, and decide what to do. (`corvinChoice`) · Hint: The choice is made in the scene. Whatever you choose, something comes home with you.
+Goal: Go up the valley to Corvin’s garden, and decide what to do. (`corvinChoice`) · Hint: The choice is made in the scene; something comes home either way.
 
 #### <a id="c9-open"></a>Opening `c9-open`
 
@@ -270,7 +270,7 @@ _Three days to the longest night._
 
 ## Chapter 10: The Long Night
 
-Goal: Light all four lanterns at dusk, and keep them burning through the longest night. (`lanternsAgain`) · Hint: Tap each lantern post to light it, and relight any the cold puts out. How often you petted Moss before tonight matters now.
+Goal: Keep all four lanterns lit through the longest night. (`lanternsAgain`) · Hint: Tap each lantern post, and relight any the cold puts out.
 
 #### <a id="c10-open"></a>Opening `c10-open`
 
@@ -811,7 +811,7 @@ _It is her. Of course it is her._
 
 ## Chapter 11: Hazel
 
-Goal: Talk with three different Keepers. Then sit with Hazel. (`threeFriends`) · Hint: Walk up to the Keepers and tap them. They stayed all night; they’ll stay a little longer.
+Goal: Talk with three different Keepers. Then sit with Hazel. (`threeFriends`) · Hint: Walk up to a Keeper and tap them; they stayed all night.
 
 #### <a id="c11-open"></a>Opening `c11-open`
 
@@ -961,7 +961,7 @@ _You don’t say anything. You are getting good at it._
 
 ## Chapter 12: Keepers
 
-Goal: Decide what the Grove will be. (`finalChoice`) · Hint: The choice is made in the scene. The ending is chosen by everything you did. See the Paths page.
+Goal: Decide what the Grove will be. (`finalChoice`) · Hint: The choice is made in the scene; see the Paths page.
 
 #### <a id="c12-open"></a>Opening `c12-open`
 

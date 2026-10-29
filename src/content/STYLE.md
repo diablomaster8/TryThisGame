@@ -50,3 +50,26 @@ small Chao-like creatures; the player is a Keeper). Read this whole guide before
   brief's rating. Adult-rated packs may be crude, boozy and violent as the brief allows.
 - Speaker names: use the in-game names the brief gives. Put the real source character in
   `basedOn` only.
+
+## Joke density (R0309)
+
+A gag is a line meant to get a smile; mark it `gag: true`. Targets by scene type, measured
+by `npx tsx tests/tools/content-check.ts --comedy` (it lists the 20 thinnest scenes per type):
+
+| Scene type | Target | Notes |
+| --- | --- | --- |
+| Campaign everyday (ch 1–8, 12) | 1 per 4–6 lines | Never in Moss's tales; the first line after a grave beat may be dry relief |
+| Campaign turning points (ch 9–11, deaths, partings) | 0–1 per scene | Relief only, one gentle line late |
+| Side stories (main register) | 1 per 5 lines | |
+| Fun quests | 1 per 2–3 lines | Plus 1 physical gag per step |
+| Sunny / Multiverse (adult) | 1 per 2–3 lines | Plus 1 running-gag hit per quest |
+| Neopia | 1 per 3 lines | |
+| Atlas / Arcade | 1 per 6 lines | Respect the source's tone; Nubbin business is the gag |
+| UI toasts | ≥1 in 4 carries a voice | Never on errors or saves |
+| Item, critter, hat descriptions | 100% have a dry tag | |
+
+## Goal chips (R0319)
+
+A chapter's `goalText` is one sentence of 60 characters or fewer, and its `hint` one sentence
+of 70 or fewer that names the exact button label. A longer how-to goes in `howTo`, a list of
+short steps the chip reveals one at a time as each is done. The checker enforces the caps.

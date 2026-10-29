@@ -21,6 +21,7 @@ export interface BattlePrefs {
 }
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
+import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
 
 export interface Vec2 {
@@ -48,6 +49,16 @@ export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
+
+/**
+ * R0401: the part slots added after the first four (legs, a horn on the forehead, a face
+ * piece such as a beak, and wings apart from the back). They are optional on a Nubbin, so
+ * saves from before them load unchanged.
+ */
+export type ExtraPartSlot = 'legs' | 'horn' | 'face' | 'wings';
+export type AnyPartSlot = PartSlot | ExtraPartSlot;
+export type NubbinParts = Record<PartSlot, string | null> &
+  Partial<Record<ExtraPartSlot, string | null>>;
 
 export type BehaviorState =
   | 'wander'
@@ -176,7 +187,7 @@ export interface Nubbin {
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
-  parts: Record<PartSlot, string | null>;
+  parts: NubbinParts;
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
@@ -347,6 +358,10 @@ export interface Settings {
   graphics: GraphicsMode;
   /** The corner minimap: off, on, or auto; an older save has none, which reads as auto. */
   minimap?: 'off' | 'on' | 'auto';
+  /** R0073: zoom out to the survey step while running; unset: on for a phone. */
+  surveyWhenRunning?: boolean;
+  /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */
+  hideBarWhileWalking?: boolean;
   /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
@@ -657,7 +672,14 @@ export interface DungeonRun {
   levels?: Record<string, LevelState>;
   /** This run's free Homing Acorn ("Grandma's acorn", R0150) is spent. */
   acornUsed?: true;
+  /** Above ground in the act (R0147, R0152): its camp, its fields, or a side cave. */
+  zone?: DungeonZone;
+  /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
+  side?: number;
 }
+
+/** An act's places above its dungeon (lane B round 4). */
+export type DungeonZone = 'town' | 'field' | 'side';
 
 /** A Hollow level as the Keeper left it (R0151). */
 export interface LevelState {
@@ -883,6 +905,8 @@ export interface World {
   /** Painted tiles by "x,z" at half-unit snaps. */
   tiles: Record<string, TileKind>;
   achievements: Record<string, number>;
+  /** R0315: small counts the joke badges read (fruit bonks, tickles, skids). Optional, no save bump. */
+  funCounts?: Record<string, number>;
   /** Keeper title shown on the profile. */
   title: string | null;
   quests: Quest[];
@@ -927,6 +951,15 @@ export interface World {
     acorns: number;
     /** The open acorn portal, if any. */
     portal: HollowPortal | null;
+    /**
+     * The act camps (R0152; save version 10): Shells in the stash chest, a slot for stashed
+     * items (gear, DUNG-23), and the acts whose quest reward was paid.
+     */
+    camp: { shells: number; items: Record<string, number>; questsPaid: number[] };
+    /** Named uniques beaten at least once (R0156; save version 10), by `UNIQUES` id. */
+    uniquesBeaten: string[];
+    /** The party picked at the cave mouth (R0168; save version 10), Nubbin ids. */
+    lastParty: string[];
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -998,6 +1031,10 @@ export type Command =
   | { kind: 'debugHatchNow'; nubbinId: string }
   | { kind: 'campaignStart' }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
+  /** R0322: the tap toy's beats (a surprised face for hiccups, a dizzy one for the sneeze). */
+  | { kind: 'tapToy'; nubbinId: string; beat: 'hiccup' | 'sneeze' }
+  /** R0304 (FUN-15): a story line's hands-on beat was played (the gate, the cup). */
+  | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
   | { kind: 'debugChapter'; chapter: number }
@@ -1109,6 +1146,13 @@ export type Command =
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'enterAct'; act: number }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'enterTown'; act: number }
+  | { kind: 'enterMouth' }
+  | { kind: 'stash'; amount: number }
+  | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
+  | { kind: 'townQuest' }
+  | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1295,6 +1339,12 @@ export type SimEvent =
   | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
   | { kind: 'townGrew'; unlock: string; prosperity: number }
   | { kind: 'slip'; nubbinId: string; slip: SlipKind }
+  /** R0307: a slip is a minute away (a new save only): the HUD says what helps. */
+  | { kind: 'slipSoon'; nubbinId: string; slip: SlipKind }
+  /** R0296 / R0297: a Keeper says a routine or chatter line in a bubble (no gameplay effect). */
+  | { kind: 'npcBark'; npcId: string; text: string; station?: string }
+  /** R0313: Fern's stone was tapped (the `line`-th tap; the cairn has `stones`). */
+  | { kind: 'fernStone'; line: number; stones: number }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }
@@ -1306,7 +1356,7 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
-  | { kind: 'dungeonEntered'; depth: number; daily: boolean }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
   | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
@@ -1341,18 +1391,33 @@ export type SimEvent =
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'stashMoved'; amount: number }
+  | { kind: 'townBought'; item: 'fruit' }
+  | { kind: 'townQuestPaid'; act: number; shells: number }
+  | { kind: 'sideCaveEntered'; index: number }
+  | { kind: 'uniqueBeaten'; id: string; bonus: number }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
   | { kind: 'acornFound' }
-  | { kind: 'acornPortal'; free: boolean }
+  | { kind: 'acornPortal'; free: boolean; camp?: true }
   | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
+
+/** R0316 (FUN-27): counts the catch-up keeps, by Nubbin id. */
+export interface AwayTally {
+  ate: Record<string, number>;
+  naps: Record<string, number>;
+  rained: boolean;
+}
 
 export interface AwayReport {
   elapsedMs: number;
   simulatedMs: number;
   mode: OfflineMode;
   events: SimEvent[];
+  /** R0316: what the Nubbins got up to, for the away screen's diary lines. */
+  tally?: AwayTally;
 }

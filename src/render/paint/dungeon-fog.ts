@@ -1,3 +1,4 @@
+import { openSky } from '../cave-bands';
 import {
   ClampToEdgeWrapping,
   DataTexture,
@@ -56,7 +57,8 @@ export class FogField {
   /** Per frame: refill from the run's mask when it or the Keeper's cell changed. */
   update(run: DungeonRun | null, keeper: Vec2): void {
     const f = this.floor;
-    if (!run || !f) {
+    // Camps and fields lie under the open sky: no fog of war (R0147).
+    if (!run || !f || openSky(f)) {
       this.uniforms.uFogOn.value = 0;
       return;
     }

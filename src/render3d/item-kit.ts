@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { EGG_PALETTES } from '../render/sprites/egg';
 import { C, color } from '../render/sprites/palette';
 import { EGG_COLOURS, JEWELS } from '../samples/nubbin-variants-colour';
+import { bandOf } from '../sim/alignment';
 import { isJewel } from '../sim/nubbin';
 import { speciesOf, type Family } from '../sim/species';
 import type { Item, Nubbin, ToyKind } from '../sim/types';
@@ -34,12 +35,41 @@ const FAMILY_PLAIN: Partial<Record<Family, { shell: string; cap: string; spot: s
   digi: { shell: color(C.lilacGrey), cap: color(C.pale), spot: color(C.plum) },
 };
 
-/** A cocoon's colours by kind, as the pixel cocoons: lavender, a warm glow, or pale. */
+/**
+ * A cocoon's colours, as the pixel cocoons (LOOK-25): an evolving one tinted by the band it
+ * is heading for (Sun white with a cyan glow, Moon dusk purple, Neutral pale mint), rebirth
+ * warm pink, departure soft grey-lilac.
+ */
 const COCOON: Record<string, { color: string; emissive: string }> = {
   evolve: { color: '#d8c8f0', emissive: '#8a70c0' },
-  rebirth: { color: '#ffe6a0', emissive: '#f0a030' },
-  depart: { color: '#ece8f2', emissive: '#a8a0c0' },
+  'evolve:sun': { color: '#ffffff', emissive: '#7fd8f0' },
+  'evolve:moon': { color: '#8a6ab8', emissive: '#4a2a78' },
+  'evolve:neutral': { color: '#c8f0dc', emissive: '#60b090' },
+  rebirth: { color: '#ffb8d8', emissive: '#ff7aa8' },
+  depart: { color: '#d8d0e4', emissive: '#a8a0c0' },
 };
+
+/** A wrapped Chao turned on a lathe: a round bottom, a waist, a wider head and the point. */
+const COCOON_PROFILE: [number, number][] = [
+  [0, -0.5],
+  [0.2, -0.48],
+  [0.3, -0.38],
+  [0.32, -0.2],
+  [0.27, -0.02],
+  [0.36, 0.12],
+  [0.42, 0.25],
+  [0.38, 0.36],
+  [0.26, 0.44],
+  [0.1, 0.5],
+  [0.04, 0.6],
+  [0, 0.62],
+];
+
+/** The cocoon colour key: the kind, and for an evolving one the band it is heading for. */
+function cocoonColourKey(n: Nubbin): string {
+  const kind = n.cocoonKind ?? 'evolve';
+  return kind === 'evolve' ? `evolve:${bandOf(n.alignment)}` : kind;
+}
 
 /** The egg family of a Nubbin (the Chao line when the species is unknown). */
 export function eggFamily(n: Pick<Nubbin, 'species'>): Family {
@@ -167,9 +197,15 @@ export class ItemKit {
   }
 
   private cocoon(n: Nubbin): THREE.Mesh {
-    const shape = EGG_SHAPES.chao;
-    const geo = this.geo('cocoon', () => new THREE.LatheGeometry(eggProfile(shape), 24));
-    const c = COCOON[n.cocoonKind ?? 'evolve'] ?? COCOON.evolve!;
+    const geo = this.geo(
+      'cocoon',
+      () =>
+        new THREE.LatheGeometry(
+          COCOON_PROFILE.map(([r, y]) => new THREE.Vector2(r, y)),
+          24,
+        ),
+    );
+    const c = COCOON[cocoonColourKey(n)] ?? COCOON.evolve!;
     // Its own material: a departing cocoon fades and a rebirth one shimmers (see Actors).
     const mesh = new THREE.Mesh(
       geo,
@@ -183,7 +219,8 @@ export class ItemKit {
         transparent: true,
       }),
     );
-    mesh.userData.half = shape.half;
+    // The lathe's foot is half a unit below its origin.
+    mesh.userData.half = 0.5;
     mesh.userData.ownMaterial = true;
     return mesh;
   }
@@ -254,7 +291,7 @@ export class ItemKit {
 /** The key that decides when a Nubbin's shell must be rebuilt. */
 export function shellKey(n: Nubbin): string {
   return n.stage === 'cocoon'
-    ? `shell:cocoon:${n.cocoonKind ?? 'evolve'}`
+    ? `shell:cocoon:${cocoonColourKey(n)}`
     : `shell:egg:${eggFamily(n)}:${n.eggColor}`;
 }
 

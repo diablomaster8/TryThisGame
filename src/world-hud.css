@@ -1,0 +1,98 @@
+/* Lane D HUD pieces: bar tuck (R0106), objective arrow (R0100), Learning Grove Home (R0099). */
+
+.walk-tuck-handle {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 600px), (max-height: 500px) and (pointer: coarse) {
+  .actionbar,
+  .objective-chip {
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+  .walk-tucked {
+    --hud-bottom: calc(var(--safe-bottom) + 14px);
+  }
+  .walk-tucked .actionbar {
+    transform: translateY(calc(100% - 12px));
+  }
+  .walk-tucked .objective-words {
+    display: none;
+  }
+  /* The handle: a 12 px strip to see, a 44 px strip to tap, along the bottom edge. */
+  .walk-tucked .walk-tuck-handle:not([hidden]) {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(var(--safe-bottom) + 44px);
+    z-index: 30;
+    border: 0;
+    padding: 0;
+    background: linear-gradient(
+      to top,
+      var(--px-bg) 0 calc(var(--safe-bottom) + 12px),
+      transparent 0
+    );
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
+/* Reduced motion: the bar fades instead of sliding. */
+@media (prefers-reduced-motion: reduce) {
+  .walk-tucked .actionbar {
+    transform: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+.reduce-motion .walk-tucked .actionbar {
+  transform: none;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* R0100: the objective's edge arrow (ui/beacon-arrow.ts): a 44 px round chip on the edge. */
+.beacon-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 13;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffd84a;
+  background: rgba(13, 10, 26, 0.8);
+  color: #ffd84a;
+  padding: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.beacon-arrow-point {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1px;
+  font-size: 13px;
+}
+.beacon-arrow-star {
+  font-size: 16px;
+  line-height: 40px;
+}
+
+/* R0099: the sprout band's Home button, big and thumb-high on the left. */
+.edu-home {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 124px);
+  z-index: 12;
+  min-width: 64px;
+  min-height: 52px;
+  font-size: 18px;
+  pointer-events: auto;
+}

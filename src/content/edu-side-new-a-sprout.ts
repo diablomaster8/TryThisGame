@@ -107,7 +107,7 @@ const S11: EduQuest = quest(
     sc(
       's11-fern',
       [
-        N('Fern is at your gate. It is very early.'),
+        N('Creak! Fern is at your gate. It is very early.'),
         N('She holds out a plum. It has black spots.'),
         FE('Don’t touch it. Just look.', 'sad'),
         N('She tips her hand. Squish! The plum goes soft and dusty.'),
@@ -125,8 +125,8 @@ const S11: EduQuest = quest(
           prompt: [N('Fern is worried. What could help her?')],
           options: [
             opt('Tell a friend about it', [FE('You’re right. Telling someone helps. And I just told you!', 'happy')], true),
-            opt('Keep it a secret', [FE('Secrets make worries feel bigger. Telling you helps already.', 'soft')]),
-            opt('Pretend it isn’t there', [FE('I tried that. The plums are still spotty! Telling helps more.', 'think')]),
+            opt('Keep it a secret', [FE('Keep it a secret? Pop! The worry grows like a balloon.', 'soft'), FE('Secrets make worries feel bigger. Telling you helps already.', 'soft')]),
+            opt('Pretend it isn’t there', [FE('Pretend it isn’t there? Hee! The plum would still sit there, spotty.', 'think'), FE('I tried that. The plums are still spotty! Telling helps more.', 'think')]),
           ],
           parentNote: 'Talked about what helps a worried friend: telling someone they trust.',
         },
@@ -164,7 +164,7 @@ const S11: EduQuest = quest(
         FE('All of them? There are forty trees!', 'shock'),
         CL('Wait. We don’t know what it is yet.', 'soft'),
         EM('I waited once, and I lost my Ash.', 'sad'),
-        N('Fern sits down on a box. She is very quiet.'),
+        N('Fern sits down on a box. Creak! She is very quiet.'),
       ],
       [
         {
@@ -179,7 +179,7 @@ const S11: EduQuest = quest(
           ],
           options: [
             opt('More well trees', [CL('Yes! Lots and lots of well trees. Only three poorly ones.', 'happy')], true),
-            opt('More poorly trees', [CL('Let’s look again. Only three are poorly. Lots more are well!')]),
+            opt('More poorly trees', [CL('More poorly trees? Pop, pop! Count again: only three.'), CL('Let’s look again. Only three are poorly. Lots more are well!')]),
           ],
           parentNote: 'Compared two groups and saw that the big group of healthy trees had more.',
         },
@@ -188,7 +188,7 @@ const S11: EduQuest = quest(
     sc(
       's11-lens',
       [
-        N('Byte runs up. He has a magnifying glass on a string.'),
+        N('Thump, thump! Byte runs up. He has a magnifying glass on a string.'),
         BY('Nobody burns anything till we look properly.', 'think'),
         EM('You have till sunset. Then I’m doing it.', 'angry'),
         BY('This glass makes little things look big.'),
@@ -273,7 +273,7 @@ const S11: EduQuest = quest(
     sc(
       's11-beetle',
       [
-        N('Got it! A tiny grey beetle in the jar.'),
+        N('Got it! Plop! A tiny grey beetle in the jar.'),
         N('It is no bigger than a lentil.'),
         BY('It’s covered in black dust. That’s the poorly stuff!', 'shock'),
         BY('The black dust rides on the beetle. Like a bus!', 'happy'),
@@ -306,7 +306,7 @@ const S11: EduQuest = quest(
       's11-dusk',
       [
         N('The sun goes down. Bats fly over the stream.'),
-        N('A light comes through the hedge. It’s Ember, with a burning torch.'),
+        N('Swish! A light comes through the hedge. It’s Ember, with a burning torch.'),
         EM('I’m sorry, Fern. I can’t wait.', 'sad'),
         EM('I waited once, for Ash. I waited too long.', 'sad'),
         N('Ember’s face looks cross. But inside, she is scared.'),
@@ -323,8 +323,8 @@ const S11: EduQuest = quest(
           prompt: [N('Ember looks cross. What is she really feeling?')],
           options: [
             opt('Scared', [CL('Yes. Ember is scared of losing the trees. Scared can look cross.', 'soft')], true),
-            opt('Happy', [CL('Look at her face. Not happy. She’s scared. Scared can look cross.', 'soft')]),
-            opt('Silly', [CL('Not silly. She’s scared. Sometimes scared looks cross.', 'soft')]),
+            opt('Happy', [CL('Happy, with a burning torch and a frown? Hee!', 'soft'), CL('Look at her face. Not happy. She’s scared. Scared can look cross.', 'soft')]),
+            opt('Silly', [CL('Silly? Pfft! There are no funny faces here.', 'soft'), CL('Not silly. She’s scared. Sometimes scared looks cross.', 'soft')]),
           ],
           parentNote: 'Noticed that a person who looks cross may really be feeling scared.',
         },
@@ -361,7 +361,7 @@ const S11: EduQuest = quest(
     sc(
       's11-ladybirds',
       [
-        N('Clover opens her jar.'),
+        N('Clover opens her jar. Pop!'),
         N('Out come ladybirds! Hundreds of them, red as berries.'),
         CL('Ladybirds eat tiny bugs that hurt plants. Gardeners love them.', 'happy'),
         CL('Off you go, ladybirds! Gobble up the beetle eggs!', 'happy'),
@@ -391,6 +391,7 @@ const S11: EduQuest = quest(
         N('A week later, the orchard is quiet and green.'),
         N('Three old stumps. Lots and lots of happy trees.'),
         N('In the middle stands Grudge, full of sour purple plums.'),
+        N('Plop! A sour plum falls from Grudge.'),
         FE('The beetles don’t like Grudge. Too bitter for them!', 'happy'),
         FE('This was Hazel’s. A little knife for joining trees.', 'soft'),
         FE('It’s sharp. We’ll use it together, you and me.'),
@@ -422,8 +423,8 @@ const S11: EduQuest = quest(
           prompt: [FE('Who should help when we use something sharp?', 'think')],
           options: [
             opt('A grown-up', [FE('Yes. Sharp things need a grown-up. Then everyone stays safe.', 'happy')], true),
-            opt('Nobody', [FE('Ouch, no! Sharp things can cut. A grown-up helps every time.', 'soft')]),
-            opt('A Nubbin', [FE('Ha! Nubbins have no hands for knives. A grown-up helps.', 'happy')]),
+            opt('Nobody', [FE('Nobody? A knife on its own? Ouch, that is no good!', 'soft'), FE('Ouch, no! Sharp things can cut. A grown-up helps every time.', 'soft')]),
+            opt('A Nubbin', [FE('A Nubbin with a knife? Hee, hee! Its stubby hands would drop it.', 'happy'), FE('Ha! Nubbins have no hands for knives. A grown-up helps.', 'happy')]),
           ],
           parentNote: 'Learned that a grown-up always helps when something sharp is used.',
         },
@@ -460,7 +461,7 @@ const S15: EduQuest = quest(
     sc(
       's15-wagon',
       [
-        N('A wagon rolls down the lane. Ting-a-ling! Bells on the roof!'),
+        N('A wagon rolls down the lane. Ding-a-ling! Bells on the roof!'),
         N('A man in a yellow waistcoat sits on top. That’s Dashwood Prance.'),
         N('A brass parrot sits on his shoulder. Tick, tick, tick.'),
         DA('Mystery Eggs! Every egg a winner!', 'happy'),
@@ -481,8 +482,8 @@ const S15: EduQuest = quest(
           prompt: [PI('Egg, egg, I love an egg!', 'happy'), PI('What rhymes with egg?', 'think')],
           options: [
             opt('leg', [PI('Yes! Egg, leg. They rhyme!', 'happy')], true),
-            opt('bell', [PI('Bell rhymes with shell! Egg rhymes with leg.')]),
-            opt('wagon', [PI('Egg… wagon. No! Egg rhymes with leg.', 'happy')]),
+            opt('bell', [PI('An egg and a bell? Ding, dong! They sound a little alike.'), PI('Bell rhymes with shell! Egg rhymes with leg.')]),
+            opt('wagon', [PI('Egg and wagon? Rattle, rattle! They don’t sound the same.', 'happy'), PI('Egg… wagon. No! Egg rhymes with leg.', 'happy')]),
           ],
           parentNote: 'Listened for a rhyme: egg and leg.',
         },
@@ -524,7 +525,7 @@ const S15: EduQuest = quest(
         N('By lunchtime, Byte’s card is full.'),
         BY('Lots and lots of plain eggs. Only three sparkly ones.', 'think'),
         BY('That’s not one in three. The sign is wrong.'),
-        N('Pip sits on the bridge with four plain eggs.'),
+        N('Plop! Pip sits on the bridge with four plain eggs.'),
         N('She is trying hard to be brave.'),
         PI('The plain ones are nice too. They’re warm.', 'sad'),
       ],
@@ -538,7 +539,7 @@ const S15: EduQuest = quest(
           prompt: [BY('Plain eggs or sparkly eggs: which are there more of?', 'think')],
           options: [
             opt('Plain eggs', [BY('Yes! Many more plain eggs than sparkly ones.', 'happy')], true),
-            opt('Sparkly eggs', [BY('Look again. Only three sparkly. Lots and lots of plain. More plain!')]),
+            opt('Sparkly eggs', [BY('More sparkly eggs? Ooh, a glitter storm! Look again.'), BY('Look again. Only three sparkly. Lots and lots of plain. More plain!')]),
           ],
           parentNote: 'Compared two groups and saw there were more plain eggs than sparkly ones.',
         },
@@ -552,7 +553,7 @@ const S15: EduQuest = quest(
         N('Jackpot sits in the window. Tick, tick, tick.'),
         BY('Don’t touch the wagon. All the bells will ring!'),
         N('There are stepping stones by the stream.'),
-        N('One stone wobbles. One stone is a frog! Ribbit!'),
+        N('One stone wobbles. One stone is a frog! Ribbit! Splash!'),
       ],
       [
         {
@@ -581,7 +582,7 @@ const S15: EduQuest = quest(
         BY('And the big sign?', 'think'),
         JP('HE SAYS THE SIGN IS A POEM. A POEM IS NOT A NUMBER.'),
         JP('ALSO THE SPECIAL EGG IS NOT SPECIAL. OOPS.'),
-        N('The snoring stops. You freeze! Then it starts again.'),
+        N('The snoring stops. Creak! You freeze! Then it starts again.'),
       ],
       [
         {
@@ -593,7 +594,7 @@ const S15: EduQuest = quest(
           prompt: [BY('The sign says something that isn’t true. Is that fair?', 'think')],
           options: [
             opt('No, it isn’t fair', [BY('Right. The truth is fair. Then people can choose.', 'happy')], true),
-            opt('Yes, it’s fine', [BY('Hmm. Pip spent her Shells because of that sign. Not fair to Pip.', 'soft')]),
+            opt('Yes, it’s fine', [BY('A sign that fibs is fine? Hmm. Pip’s Shells are gone.', 'soft'), BY('Hmm. Pip spent her Shells because of that sign. Not fair to Pip.', 'soft')]),
           ],
           parentNote: 'Talked about why telling the truth is fair to other people.',
         },
@@ -606,7 +607,7 @@ const S15: EduQuest = quest(
         DA('Lovely, isn’t she? Hold her for one Shell a minute!', 'happy'),
         BY('Here are three Shells. Three minutes, please.', 'think'),
         N('Under the bridge, it is dim and green.'),
-        N('Byte lights a little lantern.'),
+        N('Pop! Byte lights a little lantern.'),
         BY('Light behind an egg shows what’s inside. Hazel taught us.'),
       ],
       [
@@ -655,7 +656,7 @@ const S15: EduQuest = quest(
       's15-verdict',
       [
         N('Dashwood sees the glitter on your hands.'),
-        N('He sits down on the wagon step.'),
+        N('He sits down on the wagon step. Creak!'),
         DA('When I was little, I bought a golden egg.', 'soft'),
         DA('I carried it home in my hat. I loved it.', 'soft'),
         DA('It hatched brown. It had been painted.', 'think'),
@@ -673,8 +674,8 @@ const S15: EduQuest = quest(
           prompt: [BY('The sign wasn’t true. How can we make it fair?', 'think')],
           options: [
             opt('Tell the truth, kindly', [BY('Yes. Kind and true. That fixes things best.', 'happy')], true),
-            opt('Shout at Dashwood', [BY('Shouting makes people sad and cross. Kind and true works better.', 'soft')]),
-            opt('Do nothing', [BY('Then Pip loses her Shells. Let’s be kind and true.', 'soft')]),
+            opt('Shout at Dashwood', [BY('Shout at Dashwood? Shouty-shout! All the wagon bells would jangle.', 'soft'), BY('Shouting makes people sad and cross. Kind and true works better.', 'soft')]),
+            opt('Do nothing', [BY('Do nothing? Then four plain eggs sit sadly in Pip’s lap.', 'soft'), BY('Then Pip loses her Shells. Let’s be kind and true.', 'soft')]),
           ],
           parentNote: 'Thought about how to make an unfair thing fair by being truthful and kind.',
         },
@@ -723,7 +724,7 @@ const S15: EduQuest = quest(
     sc(
       's15-odds-board',
       [
-        N('Byte puts up a board. He writes in big chalk letters.'),
+        N('Thump! Byte puts up a board. He writes in big chalk letters.'),
         N('PLAIN: 9 IN 10. SPARKLY: 1 IN 10.'),
         N('Underneath, smaller: ALL OF THEM ARE WARM.'),
         PI('Why do I like this board better?', 'think'),
@@ -753,7 +754,7 @@ const S15: EduQuest = quest(
         N('You unwrap it. It glows all over, like a pearl!'),
         JP('THAT ONE IS REAL. I CHECKED. TWICE.'),
         N('A card says: For the Keeper. This one really is a winner.'),
-        N('Jackpot hops onto your shoulder. Tick, tick.'),
+        N('Jackpot hops onto your shoulder. Boing! Tick, tick.'),
         JP('I WOULD LIKE TO LIVE WITH YOU. I CANNOT LIE.'),
         N('Dashwood gave Pip the painted egg as he left.'),
         N('Pip takes the painted egg home in her hat.'),
@@ -822,7 +823,7 @@ const S16: EduQuest = quest(
         SP('Job up the river! A sawmill needs lights!', 'happy'),
         SP('I need someone to hold the ladder and say “wow”.'),
         CL('I’m not good with ladders. I’m good at not falling off.', 'think'),
-        N('You can hear the saws far away. Bzzz! Like wasps.'),
+        N('You can hear the saws far away. Buzz! Like wasps.'),
         SP('Brisk says his Nubbins love it there. He wrote it twice!'),
         CL('Twice is a lot.', 'think'),
       ],
@@ -845,7 +846,7 @@ const S16: EduQuest = quest(
         N('The Workyard! Sheds, logs and lots of busy Nubbins.'),
         N('Each one wears a tiny yellow hard hat.'),
         N('A sign says: WORK IS PLAY!'),
-        N('Three Nubbins run inside a big wooden wheel. Round and round.'),
+        N('Squeak, squeak! Three Nubbins run inside a big wooden wheel. Round and round.'),
         BK('Welcome! I’m Brisk Hollins! My Nubbins love working!', 'happy'),
         N('A big Nubbin carries a log on his back. He hums. That’s Lug.'),
         BK('Lug’s my best worker. I can’t stop him!', 'happy'),
@@ -862,8 +863,8 @@ const S16: EduQuest = quest(
           prompt: [CL('What does a tired body need?', 'think')],
           options: [
             opt('Rest', [CL('Yes. Rest helps a tired body feel better.', 'happy')], true),
-            opt('More work', [CL('More work makes tired bodies more tired. Rest helps.', 'soft')]),
-            opt('Run faster', [CL('Running makes us puff! A tired body needs rest.', 'soft')]),
+            opt('More work', [CL('More work? Puff, huff! The tired ones would flop flat.', 'soft'), CL('More work makes tired bodies more tired. Rest helps.', 'soft')]),
+            opt('Run faster', [CL('Run faster? Puff, puff! A tired body would flop.', 'soft'), CL('Running makes us puff! A tired body needs rest.', 'soft')]),
           ],
           parentNote: 'Learned that when our bodies are tired, they need rest.',
         },
@@ -873,7 +874,7 @@ const S16: EduQuest = quest(
       's16-shadow',
       [
         BK('Tired? Nonsense! Look at my chart!', 'happy'),
-        N('His chart line goes up so high it runs off the paper!'),
+        N('Whoosh! His chart line goes up so high it runs off the paper!'),
         CL('That chart is about logs. I’m asking about Nubbins.', 'think'),
         SP('Brisk, what do they do when nobody’s watching?', 'think'),
         N('Brisk opens his mouth. Then he shuts it. He doesn’t know!'),
@@ -922,7 +923,7 @@ const S16: EduQuest = quest(
       's16-notes',
       [
         N('By sunset, your clipboard is full.'),
-        N('The choppers chop even on their breaks. They like the thunk!'),
+        N('The choppers chop even on their breaks. They like the thump!'),
         N('The wheel runners sneak out and hide under the bench.'),
         N('The five tired ones just lie in the sun.'),
         N('And Lug carries little planks out to the reeds.'),
@@ -941,8 +942,8 @@ const S16: EduQuest = quest(
           prompt: [CL('How do the tired Nubbins feel in their little house?', 'think')],
           options: [
             opt('Safe and cosy', [CL('Yes. Lug made them feel safe. That’s real kindness.', 'happy')], true),
-            opt('Cross', [CL('I don’t think so. They’re snoozing! They feel safe and cosy.', 'soft')]),
-            opt('Scared', [CL('Look how they snuggle. They feel safe. Lug was kind.', 'soft')]),
+            opt('Cross', [CL('Cross faces, all snoring? Hee, hee!', 'soft'), CL('I don’t think so. They’re snoozing! They feel safe and cosy.', 'soft')]),
+            opt('Scared', [CL('Scared, and snuggled in a heap? Hee, no!', 'soft'), CL('Look how they snuggle. They feel safe. Lug was kind.', 'soft')]),
           ],
           parentNote: 'Noticed a kind act and thought about how it made others feel.',
         },
@@ -954,7 +955,7 @@ const S16: EduQuest = quest(
         N('You show Brisk the clipboard. And Lug’s little house.'),
         BK('I thought they loved it. They were always so busy.', 'sad'),
         BK('Busy isn’t the same as happy, is it?', 'think'),
-        N('He takes down WORK IS PLAY. He puts up a new sign.'),
+        N('Creak! He takes down WORK IS PLAY. He puts up a new sign.'),
         N('It says: WORK IS… OFTEN PLAY!'),
         SP('That’s worse.', 'think'),
         BK('I know. I’m working on it.', 'sad'),
@@ -1006,7 +1007,7 @@ const S16: EduQuest = quest(
     sc(
       's16-question',
       [
-        N('Brisk walks you to the river path.'),
+        N('Brisk walks you to the river path. Splish, splash!'),
         BK('Can I ask you something, Keeper?', 'think'),
         BK('Your Nubbins fetch you apples. Do you ask them first?', 'think'),
         N('You think about your Nubbins. They bring you apples. They look happy.'),
@@ -1023,8 +1024,8 @@ const S16: EduQuest = quest(
           prompt: [BK('Before a friend helps you, what can you say?', 'think')],
           options: [
             opt('“Would you like to help?”', [BK('Yes! Ask first. Then they can say yes, or no thank you.', 'happy')], true),
-            opt('“Do it now!”', [BK('That’s a bit bossy, isn’t it? Asking first is kinder.', 'soft')]),
-            opt('Say nothing', [BK('Then they never get to choose. Ask first!', 'soft')]),
+            opt('“Do it now!”', [BK('“Do it now!” Squeak! That sounds like a bossy trumpet.', 'soft'), BK('That’s a bit bossy, isn’t it? Asking first is kinder.', 'soft')]),
+            opt('Say nothing', [BK('Say nothing? Shh… and nobody gets a say.', 'soft'), BK('Then they never get to choose. Ask first!', 'soft')]),
           ],
           parentNote: 'Practised asking before someone helps, so they can choose yes or no.',
         },
@@ -1067,7 +1068,7 @@ const S16: EduQuest = quest(
       [
         N('A week later, the Workyard is louder. And slower.'),
         N('Everybody stops for fruit, morning and afternoon.'),
-        N('Someone has hung up a hammock!'),
+        N('Someone has hung up a hammock! Creak, creak!'),
         N('The new sign says: ASK FIRST.'),
         BK('Fewer logs. But the lights stay on! The water wheel does it.', 'happy'),
         SP('I knew it. I said so. Loudly.', 'happy'),
@@ -1092,7 +1093,7 @@ const S16: EduQuest = quest(
       's16-complete',
       [
         BK('Here! Every Keeper needs a hard hat.', 'happy'),
-        N('A yellow hard hat, just your size.'),
+        N('Plop! A yellow hard hat, just your size.'),
         N('On the brim, in Lug’s pencil: KEEPER.'),
         BK('Try the Fair Roster at the Grove. Let them pick.', 'soft'),
         N('Back home, you hang the roster by the door.'),
@@ -1111,8 +1112,8 @@ const S16: EduQuest = quest(
           prompt: [SP('KEEPER! What sound does KEEPER start with?', 'think')],
           options: [
             opt('“k”, like kite', [SP('Yes! K-k-keeper. Like kite and kitten!', 'happy')], true),
-            opt('“s”, like sun', [SP('Listen: k-k-keeper. It starts with k, like kite!')]),
-            opt('“m”, like Moss', [SP('M is for Moss! Keeper starts with k-k-k.')]),
+            opt('“s”, like sun', [SP('Keeper in a sun hat? Hee, hee! Listen: k, k, kite.'), SP('Listen: k-k-keeper. It starts with k, like kite!')]),
+            opt('“m”, like Moss', [SP('Keeper like Moss? Hee! Moss starts with mmm.'), SP('M is for Moss! Keeper starts with k-k-k.')]),
           ],
           parentNote: 'Heard the first sound “k” in the word “Keeper”.',
         },
@@ -1168,7 +1169,7 @@ const S12: EduQuest = quest(
           prompt: [LU('It’s just one beetle. Should it say “I” or “we”?', 'think')],
           options: [
             opt('“I”', [LU('Yes! One on your own says “I”. Lots together say “we”.', 'happy')], true),
-            opt('“We”', [LU('“We” is for lots together. One on its own says “I”.')]),
+            opt('“We”', [LU('“We” for one tiny bee? Buzz! That’s a lonely we.'), LU('“We” is for lots together. One on its own says “I”.')]),
           ],
           parentNote: 'Learned that we say “I” about one person and “we” about a group.',
         },
@@ -1237,7 +1238,7 @@ const S12: EduQuest = quest(
       [
         N('Next morning, Pixel is at the wall. She has a tuning fork.'),
         PX('I tune my lantern clock to this wall. It always hums one note.'),
-        N('She taps the fork. It sings. The wall sings back, a bit lower.'),
+        N('She taps the fork. Ding! It sings. The wall sings back, a bit lower.'),
         PX('It’s gone flat! Walls don’t do that!', 'shock'),
         TH('Sorry. It’s our Queen-Mother. She is getting quieter.', 'sad'),
         TH('Soon, half of us will fly away to a new home.'),
@@ -1268,7 +1269,7 @@ const S12: EduQuest = quest(
         QM('I am the middle of the hum. It’s a bit lonely here.', 'sad'),
         QM('Soon, half will go. The little one must choose.', 'soft'),
         QM('Go, or stay. Don’t choose for it. Let it choose.', 'happy'),
-        N('Solo makes a tiny sound. Like a question.'),
+        N('Solo makes a tiny sound. Peep? Like a question.'),
       ],
       [
         {
@@ -1280,8 +1281,8 @@ const S12: EduQuest = quest(
           prompt: [N('The Queen-Mother feels lonely. What helps when someone is lonely?')],
           options: [
             opt('A friend to talk to', [QM('Yes. You’re here, talking to me. I feel less lonely already.', 'soft')], true),
-            opt('Being told to cheer up', [QM('That doesn’t help much. A friend who listens helps most.', 'soft')]),
-            opt('Going away', [QM('Then I’d feel lonelier! A friend nearby helps.', 'soft')]),
+            opt('Being told to cheer up', [QM('“Cheer up!” Pop! It doesn’t pop the sad feeling.', 'soft'), QM('That doesn’t help much. A friend who listens helps most.', 'soft')]),
+            opt('Going away', [QM('Going away? Whoosh! Then I’d be even lonelier.', 'soft'), QM('Then I’d feel lonelier! A friend nearby helps.', 'soft')]),
           ],
           parentNote: 'Thought about what helps a lonely friend: company and listening.',
         },
@@ -1292,6 +1293,7 @@ const S12: EduQuest = quest(
       [
         N('Solo won’t go into the wall. So you go to Luna’s garden.'),
         N('It is night. The paths shine a little in the dark.'),
+        N('Pop! A night flower opens beside you.'),
         SO('In the hum, I’m warm all over. Nothing is scary.', 'soft'),
         SO('Out here, the dark is big. I feel scared.', 'sad'),
         SO('But I want to see what happens next. Is that greedy?', 'think'),
@@ -1308,8 +1310,8 @@ const S12: EduQuest = quest(
           prompt: [LU('Some animals wake up at night. Which one?', 'think')],
           options: [
             opt('An owl', [LU('Yes! Lots of owls wake up at night. So do moths and bats.', 'happy')], true),
-            opt('A butterfly', [LU('Butterflies rest at night. Owls, moths and bats wake up!')]),
-            opt('A hen', [LU('Hens go to bed at night! Owls, moths and bats wake up.', 'happy')]),
+            opt('A butterfly', [LU('A butterfly at night? Snore! It’s fast asleep.'), LU('Butterflies rest at night. Owls, moths and bats wake up!')]),
+            opt('A hen', [LU('A hen at midnight? Cluck! She’s snug in bed.', 'happy'), LU('Hens go to bed at night! Owls, moths and bats wake up.', 'happy')]),
           ],
           parentNote: 'Learned that some animals, like owls, moths and bats, are awake at night.',
         },
@@ -1337,7 +1339,7 @@ const S12: EduQuest = quest(
           prompt: [PX('Lots fly out. Now, are there more or fewer in the wall?', 'think')],
           options: [
             opt('Fewer', [PX('Yes! When some go away, there are fewer left.', 'happy')], true),
-            opt('More', [PX('They flew away, so there are fewer. Fewer left behind.')]),
+            opt('More', [PX('More? Buzz, buzz! Some flew away, so there are fewer.'), PX('They flew away, so there are fewer. Fewer left behind.')]),
           ],
           parentNote: 'Understood that when some of a group leave, fewer are left.',
         },
@@ -1373,7 +1375,7 @@ const S12: EduQuest = quest(
       's12-settled',
       [
         N('The fork leads you over the stream to Hazel’s crooked tree.'),
-        N('The swarm hangs from a branch, like a big buzzing pear.'),
+        N('The swarm hangs from a branch, like a big pear. Buzz, buzz!'),
         PX('It was never one note! It’s hundreds of tiny hums together!', 'shock'),
         TH('We are a new we. Solo, will you come in?', 'soft'),
         SO('Keeper. I don’t know what to do.', 'sad'),
@@ -1390,8 +1392,8 @@ const S12: EduQuest = quest(
           prompt: [N('Solo can’t decide. What helps when you can’t decide?')],
           options: [
             opt('Take your time, with a friend', [SO('Slowly. With you here. Yes. That helps.', 'soft')], true),
-            opt('Hurry up and pick!', [SO('Hurrying makes my wings wobble. Slowly, with a friend, helps.', 'sad')]),
-            opt('Let someone else pick', [SO('The Queen-Mother said I must choose. With a friend beside me.', 'think')]),
+            opt('Hurry up and pick!', [SO('Hurry up! Zoom, wobble! My wings go all wibbly.', 'sad'), SO('Hurrying makes my wings wobble. Slowly, with a friend, helps.', 'sad')]),
+            opt('Let someone else pick', [SO('Let someone else pick? Pfft! It’s my choice.', 'think'), SO('The Queen-Mother said I must choose. With a friend beside me.', 'think')]),
           ],
           parentNote: 'Thought about making a hard choice: slowly, with a friend beside you.',
         },
@@ -1525,7 +1527,7 @@ const S17: EduQuest = quest(
           prompt: [LU('Conkers fall in autumn. What else falls off trees in autumn?', 'think')],
           options: [
             opt('Leaves', [LU('Yes! Leaves fall in autumn. Crunch, crunch!', 'happy')], true),
-            opt('Snowflakes', [LU('Snow comes later, in winter. In autumn, leaves fall. Crunch!')]),
+            opt('Snowflakes', [LU('Snowflakes in autumn? Whee, a snowball fight! Too soon.'), LU('Snow comes later, in winter. In autumn, leaves fall. Crunch!')]),
           ],
           parentNote: 'Named signs of autumn: conkers and falling leaves.',
         },
@@ -1535,7 +1537,7 @@ const S17: EduQuest = quest(
       's17-clues',
       [
         N('On the fence: a big grey feather. As long as your arm!'),
-        N('On the roof: tiny scratches. Something landed very gently.'),
+        N('On the roof: tiny scratches. Creak! Something landed very gently.'),
         N('The dip in the straw is still warm.'),
         LU('That’s an owl feather. A really big owl.', 'shock'),
         NO('Two badgers in a coat, with an owl feather!', 'happy'),
@@ -1611,7 +1613,7 @@ const S17: EduQuest = quest(
         N('She lifts an egg very gently in her feet.'),
         N('She turns her head nearly all the way round. She looks at you.'),
         NJ('Hoo-oo.', 'soft'),
-        N('Then she flies off to the cliffs, holding the egg.'),
+        N('Whoosh! Then she flies off to the cliffs, holding the egg.'),
         NO('…I’m crossing off the badgers.', 'shock'),
         LU('That’s Nightjar. Hazel told me about her.', 'soft'),
         LU('The biggest owl in the valley. And the saddest.'),
@@ -1647,8 +1649,8 @@ const S17: EduQuest = quest(
           prompt: [LU('How do we meet a shy animal?', 'think')],
           options: [
             opt('Slowly and quietly', [LU('Yes. Slow and quiet, so she isn’t scared.', 'soft')], true),
-            opt('Run up fast', [LU('That might scare her. Slow and quiet is kinder.', 'soft')]),
-            opt('Shout hello', [LU('Loud sounds scare shy animals. Slow and quiet is better.', 'soft')]),
+            opt('Run up fast', [LU('Run up fast? Thump, thump! She’d fly off in a flap.', 'soft'), LU('That might scare her. Slow and quiet is kinder.', 'soft')]),
+            opt('Shout hello', [LU('Shout hello? Boom! The owl would jump off her branch.', 'soft'), LU('Loud sounds scare shy animals. Slow and quiet is better.', 'soft')]),
           ],
           parentNote: 'Thought about how to be gentle and calm around a shy animal.',
         },
@@ -1728,6 +1730,7 @@ const S17: EduQuest = quest(
         LU('One at a time, then. Let her watch each one go.', 'soft'),
         NO('That’s four climbs. In the dark!', 'shock'),
         LU('That’s four climbs. In the dark.', 'happy'),
+        N('Creak! The ladder bends a little.'),
         N('Nightjar watches the first egg all the way down.'),
       ],
       [
@@ -1749,7 +1752,7 @@ const S17: EduQuest = quest(
     sc(
       's17-wild',
       [
-        N('Morning. Four eggs are back in the nursery.'),
+        N('Morning. Four eggs are back in the nursery. Peep, peep!'),
         N('One egg is still under Nightjar. It’s small and speckled.'),
         NO('That’s a wild egg. Its mummy never came back.', 'think'),
         LU('Let’s leave it with her. She can keep it warm.', 'soft'),
@@ -1766,7 +1769,7 @@ const S17: EduQuest = quest(
           prompt: [LU('How might Nightjar feel, with a baby egg to keep warm?', 'think')],
           options: [
             opt('Happier', [LU('Yes. Caring for someone can help a sad heart.', 'soft')], true),
-            opt('Cross', [LU('Look how gently she sits. I think she feels happier.', 'soft')]),
+            opt('Cross', [LU('Cross? Nightjar looks as cosy as a pillow.', 'soft'), LU('Look how gently she sits. I think she feels happier.', 'soft')]),
           ],
           parentNote: 'Imagined how caring for someone small can help a sad heart feel better.',
         },
@@ -1798,7 +1801,7 @@ const S17: EduQuest = quest(
     sc(
       's17-feathers',
       [
-        N('Some weeks later, a grey feather is on your windowsill.'),
+        N('Some weeks later, a grey feather lands on your windowsill. Swish!'),
         N('The next night, there’s another one.'),
         LU('She’s calling you! The little egg must be hatching.', 'soft'),
         LU('Go after dark. Just go and sit.'),
@@ -1814,8 +1817,8 @@ const S17: EduQuest = quest(
           prompt: [N('One feather, then one more. How many feathers now?')],
           options: [
             opt('2', [LU('Yes! One and one more make two.', 'happy')], true),
-            opt('3', [LU('Let’s count: one… two. Two feathers!')]),
-            opt('1', [LU('One, and one more… two feathers!')]),
+            opt('3', [LU('Three feathers? Fluff, fluff! Let’s count them on fingers.'), LU('Let’s count: one… two. Two feathers!')]),
+            opt('1', [LU('Only one feather? Swish! One and one more makes two.'), LU('One, and one more… two feathers!')]),
           ],
           parentNote: 'Added one more to one to make two.',
         },
@@ -1842,8 +1845,8 @@ const S17: EduQuest = quest(
           prompt: [LU('A baby owl has a special name. What is it?', 'think')],
           options: [
             opt('An owlet', [LU('Yes! A baby owl is an owlet.', 'happy')], true),
-            opt('A kitten', [LU('A kitten is a baby cat. A baby owl is an owlet!')]),
-            opt('A puppy', [LU('A puppy is a baby dog. A baby owl is an owlet!')]),
+            opt('A kitten', [LU('A kitten in an owl’s nest? Crack… miaow! Silly!'), LU('A kitten is a baby cat. A baby owl is an owlet!')]),
+            opt('A puppy', [LU('A puppy in an egg? Crack… woof! That would be silly!'), LU('A puppy is a baby dog. A baby owl is an owlet!')]),
           ],
           parentNote: 'Learned the name for a baby owl: an owlet.',
         },
@@ -1921,7 +1924,7 @@ const S18: EduQuest = quest(
         DE('Four rooms. Twelve treasures. And every sign must be true!', 'think'),
         N('A little brown moth lands on his nose.'),
         DE('Oh! A mo… a mo… a MOTH!', 'shock'),
-        N('Professor Delve faints, very neatly, into the barrow.'),
+        N('Professor Delve faints, very neatly. Plop! Into the barrow.'),
         DE('I’m all right. I’m just lying down.', 'sad'),
         N('Dusty is at the door, holding a trowel.'),
         DU('I heard “fossils”. My hands want a job. Can I help?', 'soft'),
@@ -1936,8 +1939,8 @@ const S18: EduQuest = quest(
           prompt: [N('Delve and Dusty start with the same sound. Which one?')],
           options: [
             opt('“d”, like dig', [DU('D-d-Dusty. D-d-Delve. And d for dig!', 'happy')], true),
-            opt('“m”, like mole', [DU('Mole starts with m. Delve and Dusty start with d-d-d!')]),
-            opt('“s”, like sun', [DU('Listen: d-d-Dusty, d-d-Delve. They start with d!')]),
+            opt('“m”, like mole', [DU('Delve starting like mole? Hee! He’d be Melve!'), DU('Mole starts with m. Delve and Dusty start with d-d-d!')]),
+            opt('“s”, like sun', [DU('Sun in Dusty’s name? Hee! Listen: d, d, Dusty.'), DU('Listen: d-d-Dusty, d-d-Delve. They start with d!')]),
           ],
           parentNote: 'Heard the same first sound, “d”, in two names.',
         },
@@ -1949,7 +1952,7 @@ const S18: EduQuest = quest(
         N('The cliff has stripes, like a cake. Lots of layers.'),
         DU('Deeper is older. Like blankets on a bed.', 'think'),
         N('Fossils are signs of plants and animals from long ago, kept in stone.'),
-        N('You find a curly shell, a flat fern and a little stone bug.'),
+        N('Plop! You find a curly shell, a flat fern and a little stone bug.'),
         DU('My Nubbin was called Fossil. Like these! She always slept while I dug.', 'happy'),
         DU('Fossil died, not long ago. She was my best friend.', 'soft'),
         DU('It’s very quiet without her snoring.', 'soft'),
@@ -1969,7 +1972,7 @@ const S18: EduQuest = quest(
           prompt: [DU('When you make a bed, which blanket goes on first?', 'think')],
           options: [
             opt('The bottom one', [DU('Yes! Bottom first. So the bottom rock is the oldest.', 'happy')], true),
-            opt('The top one', [DU('The top one goes on last! Bottom first. The bottom rock is oldest.')]),
+            opt('The top one', [DU('Top rock first? Wobble, thump! The tower would tumble.'), DU('The top one goes on last! Bottom first. The bottom rock is oldest.')]),
           ],
           parentNote: 'Used first and last to see why the deepest layer of rock is the oldest.',
         },
@@ -1991,7 +1994,7 @@ const S18: EduQuest = quest(
     sc(
       's18-night',
       [
-        N('Luna hangs a white sheet between two trees.'),
+        N('Swish! Luna hangs a white sheet between two trees.'),
         N('A lantern shines on it. It glows like a sail.'),
         LU('A moth trap. Nobody gets hurt. We look, we draw, they go home.', 'soft'),
         DE('I shall watch from far away. Very far away.', 'think'),
@@ -2037,7 +2040,7 @@ const S18: EduQuest = quest(
           prompt: [LU('Why is the moth so hard to see on the bark?', 'think')],
           options: [
             opt('Its colours match the bark', [LU('Yes! Its colours match. It hides in plain sight.', 'happy')], true),
-            opt('It’s invisible', [LU('Not invisible! Its colours just match the bark. That’s how it hides.')]),
+            opt('It’s invisible', [LU('Invisible? Pop! Then Luna couldn’t draw it.'), LU('Not invisible! Its colours just match the bark. That’s how it hides.')]),
             opt('It’s asleep', [LU('Maybe! But mostly its colours match the bark. That’s how it hides.')]),
           ],
           parentNote: 'Learned that some animals hide because their colours match where they rest.',
@@ -2051,7 +2054,7 @@ const S18: EduQuest = quest(
         MA('Rule one. Turn a stone, then turn it back the same way.', 'think'),
         MA('That stone is somebody’s roof.'),
         MA('And the tide always comes back. Even if you’re not ready!', 'happy'),
-        N('A little crab walks past Professor Delve’s boot.'),
+        N('A little crab walks past Professor Delve’s boot. Pitter, patter!'),
         DE('Not a moth! What a good day.', 'happy'),
       ],
       [
@@ -2065,7 +2068,7 @@ const S18: EduQuest = quest(
           options: [
             opt('It’s a little animal’s home', [MA('Yes. Little crabs live under there. We keep their homes safe.', 'soft')], true),
             opt('So it looks nice', [MA('It does look nice! But mostly, it’s somebody’s home.')]),
-            opt('It doesn’t matter', [MA('It does! Little animals live under it. It’s their home.', 'soft')]),
+            opt('It doesn’t matter', [MA('It doesn’t matter? Squish! Not to a crab whose roof you moved.', 'soft'), MA('It does! Little animals live under it. It’s their home.', 'soft')]),
           ],
           parentNote: 'Learned to put stones back in rock pools to look after the animals that live there.',
         },
@@ -2076,7 +2079,7 @@ const S18: EduQuest = quest(
       [
         N('You find an orange sea star. One arm is short. It’s growing back!'),
         N('You find a limpet, stuck tight to its rock.'),
-        N('And a hermit crab, moving into a bigger shell!'),
+        N('And a hermit crab. Pop! It moves into a bigger shell!'),
         DE('A sea star can grow back an arm it lost.', 'happy'),
         DE('A hermit crab moves to a bigger shell when it grows.'),
         MA('Look, it left its old shell. A smaller crab might want it.', 'think'),
@@ -2124,7 +2127,7 @@ const S18: EduQuest = quest(
         NO('Clear night. Best sky in the valley.'),
         NO('I brought you something. It’s a rock. It’s not a big thing.', 'think'),
         N('A black stone, heavy and bumpy. Like burnt toast.'),
-        N('A Nubbin sniffs the rock that looks like toast. It is not toast!'),
+        N('A Nubbin sniffs the rock that looks like toast. Achoo! It is not toast!'),
         NO('It fell from the sky. I walked two days to find it.'),
         DE('A rock from space! It has no wings at all! I love it!', 'happy'),
         NO('Be gentle with it. It walked a long way.'),
@@ -2140,8 +2143,8 @@ const S18: EduQuest = quest(
           prompt: [N('Nova gives you a present. What can you say?')],
           options: [
             opt('“Thank you!”', [NO('…You’re welcome. Shh. Look at the stars.', 'happy'), N('Nova smiles at the sky. Just a little.')], true),
-            opt('“Is that all?”', [N('That might hurt Nova’s feelings. “Thank you” is kinder.')]),
-            opt('Say nothing', [N('A “thank you” lets Nova know you love it.')]),
+            opt('“Is that all?”', [N('“Is that all?” Ouch! That would pop Nova’s happy bubble.'), N('That might hurt Nova’s feelings. “Thank you” is kinder.')]),
+            opt('Say nothing', [N('Say nothing? Shh… Nova would wonder what you think.'), N('A “thank you” lets Nova know you love it.')]),
           ],
           parentNote: 'Practised saying thank you for a present.',
         },
@@ -2195,7 +2198,7 @@ const S18: EduQuest = quest(
           prompt: [N('How can we remember someone we love?')],
           options: [
             opt('Tell stories about them', [DU('Yes. Telling stories keeps her close.', 'soft')], true),
-            opt('Hide all their things away', [DU('Then I might forget. I want to see her card and remember.', 'soft')]),
+            opt('Hide all their things away', [DU('Hide it all in a drawer? Squeak! I might forget.', 'soft'), DU('Then I might forget. I want to see her card and remember.', 'soft')]),
           ],
           parentNote: 'Talked about remembering someone who died by sharing stories about them.',
         },
@@ -2253,8 +2256,8 @@ const S18: EduQuest = quest(
           prompt: [DE('Two Shells for you. Two Shells for a friend. How many?', 'think')],
           options: [
             opt('4', [DE('Yes! Two and two make four.', 'happy')], true),
-            opt('3', [DE('Let’s count on fingers: one, two… three, four. Four!')]),
-            opt('2', [DE('That’s just one visit. Two and two more make four!')]),
+            opt('3', [DE('Three? Hop, hop, hop! One more jump makes four.'), DE('Let’s count on fingers: one, two… three, four. Four!')]),
+            opt('2', [DE('Two? Hee! Two and two more make four.'), DE('That’s just one visit. Two and two more make four!')]),
           ],
           parentNote: 'Added two and two to make four.',
         },
@@ -2283,7 +2286,7 @@ const S18: EduQuest = quest(
       's18-complete',
       [
         N('Opening day! Half the valley comes.'),
-        N('Children press their noses on the trilobite case.'),
+        N('Children press their noses on the trilobite case. Squeak!'),
         N('Sparks reads every sign out loud. Very loud.'),
         DE('You did this, Curator. That means you look after the museum. Well done!', 'happy'),
         N('He gives you his old magnifying glass, on a ribbon.'),

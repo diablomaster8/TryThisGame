@@ -11,6 +11,8 @@ import {
 import { EDU_TEXT, NAMES } from '../config/strings';
 import type { Game } from '../game';
 import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames/edu/games';
+import { Peekaboo } from '../minigames/micro/peekaboo';
+import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
 import { enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
@@ -40,6 +42,7 @@ export class EduScreen {
   private rng = Rng.fromSeed(Date.now());
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
   private readonly next: NextCard;
+  private readonly peek: Peekaboo;
 
   constructor(
     parent: HTMLElement,
@@ -49,6 +52,8 @@ export class EduScreen {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
     this.lang = new LangPanel(parent, game_, toast);
     this.next = new NextCard(parent);
+    // R0321: the sprout band's peekaboo.
+    this.peek = new Peekaboo(parent, game_);
     this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
     this.root = el('div', 'edu');
     this.root.hidden = true;
@@ -80,6 +85,24 @@ export class EduScreen {
     );
     // Nova's postcard (CV3): the language courses, once their scripts have loaded.
     if (langCourses().length > 0) storyGrid.appendChild(this.lang.pickButton(() => this.close()));
+    // R0321 (FUN-32): "Where's Kiki?" for the 3–6 band, once a Nubbin is out of its egg.
+    const hider = g.world.edu.band === 'sprout' ? Peekaboo.pickNubbin(g) : null;
+    if (hider) {
+      const b = button(
+        '',
+        () => {
+          this.picker.hide();
+          this.peek.open();
+        },
+        'btn edu-pick',
+      );
+      b.append(
+        el('span', 'edu-pick-icon', '🙈'),
+        el('strong', undefined, PEEKABOO_TEXT.pick(hider.name)),
+        el('small', undefined, PEEKABOO_TEXT.blurb),
+      );
+      storyGrid.appendChild(b);
+    }
     body.appendChild(storyGrid);
     const games = enabledGames(g.world);
     if (games.length === 0) {

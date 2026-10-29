@@ -114,3 +114,49 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* The cave-mouth party picker (lane B round 4, R0168). */
+.hollow-party-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.hollow-party-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.hollow-party-card {
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  text-align: left;
+  font: inherit;
+}
+.hollow-party-card.on {
+  border-color: #ffd27a;
+  background: rgba(255, 210, 122, 0.12);
+}
+.hollow-party-card.tired {
+  opacity: 0.6;
+}
+.town-line {
+  font-style: italic;
+}
+.town-stash {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.town-stash .btn {
+  min-height: 44px;
+}

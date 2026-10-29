@@ -433,6 +433,22 @@ export function choiceToSend(scene: PlayScene, picked: string | null): string | 
 
 /** The line swaps the scene notes ask for, by scene: each works from the campaign flags. */
 const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
+  // R0304 (FUN-15): the cup turned the right way up in c1-letter comes back at the close.
+  'c12-close': (c, s) => {
+    // R0313 (FUN-24): Fern's cairn, the running gag, gets its last stone.
+    s.insertAt(4, {
+      main: 'Fern’s cairn by the signpost has twelve stones now. She says the top one is the best, as she always does.',
+      reader:
+        'Fern’s cairn by the signpost has twelve stones now. She says the top one is the best.',
+      sprout: 'Fern’s stones! One, two… twelve! Hee hee!',
+    });
+    if (!c.flags['c1-cup-turned']) return;
+    s.insertAt(3, {
+      main: 'The soup comes in Hazel’s cup, the one you turned the right way up. Nobody has turned it back.',
+      reader: 'The soup comes in Gran’s cup, the right way up. Nobody has turned it back.',
+      sprout: 'The soup is in Gran’s cup. The right way up!',
+    });
+  },
   'c10-wisp': (c, s) => {
     // The bearer is written neutrally; name whoever carried the stone. The sprout band has
     // no bearer line, so only a line that is the bearer's is rewritten.

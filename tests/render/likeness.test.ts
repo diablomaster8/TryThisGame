@@ -194,4 +194,41 @@ describe('species eyes in 3D (LOOK-40)', () => {
   it('keeps a species iris colour where it is part of the likeness', () => {
     expect(artSpec('dinolet', SPECIES_ART.dinolet!).eyes.iris).toBe('#58a838');
   });
+
+  it('gives the snakes and the Charmander line slit pupils in both modes', () => {
+    for (const id of ['coilet', 'hoodcoil', 'cinderkit', 'cinderclaw', 'cinderwing']) {
+      expect(SPECIES_ART[id]!.pupil).toBe('slit');
+      expect(artSpec(id, SPECIES_ART[id]!).eyes.pupil).toBe('slit');
+    }
+    expect(artSpec('zapkin', SPECIES_ART.zapkin!).eyes.pupil).toBeUndefined();
+  });
+});
+
+describe('Gen-1 likeness fixes (LOOK-39)', () => {
+  it('swims Magikarp, Goldeen and Seaking on the fish plan', () => {
+    for (const id of ['flopfish', 'silkfin', 'hornfin']) expect(SPECIES_ART[id]!.plan).toBe('fish');
+  });
+
+  it('makes Snorlax and Gengar wider in both modes', () => {
+    for (const id of ['snoozelump', 'spookgrin']) {
+      const art = SPECIES_ART[id]!;
+      const plain = { ...art };
+      delete plain.girth;
+      const w = (s: typeof art) => artSpec(id, s).torso.prims[0]!;
+      expect(art.girth).toBeGreaterThan(1.2);
+      expect(JSON.stringify(w(art))).not.toBe(JSON.stringify(w(plain)));
+    }
+  });
+});
+
+describe('digital-line likeness fixes (LOOK-41)', () => {
+  it('dresses Yukidarumon in a bucket hat and mitts, and paints Monzaemon a chest heart', () => {
+    const snow = SPECIES_ART.snowlump!;
+    expect(snow.addons?.map((e) => e.kind)).toContain('bucketHat');
+    expect(snow.arms).toBe('boxing');
+    expect(SPECIES_ART.hugbear!.addons?.map((e) => e.kind)).toContain('heart');
+    const marks = artSpec('hugbear', SPECIES_ART.hugbear!).marks;
+    const plain = artSpec('hugbear', { ...SPECIES_ART.hugbear!, addons: [] }).marks;
+    expect(marks.length).toBe(plain.length + 3);
+  });
 });

@@ -12,24 +12,30 @@ import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
-import type { Location, Nubbin, Vec2, World } from '../sim/types';
+import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
+import { EmoteSprings } from '../render/emote-spring';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
+import { swimStyle } from '../render/swim-style';
+import { cocoonPulse } from '../render/sprites/cocoon';
+import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
+import { FernCairn3D } from './fern-cairn-3d';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
-import { flaps, swimsStroke } from '../sim/stats';
+import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
@@ -61,6 +67,8 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** FUN-09: the pet-action beat playing this frame, or null. */
+  beat: PetBeatPose | null;
   /** The scale a squash or pop was laid over this frame, put back before the next. */
   squash: { o: THREE.Object3D; base: THREE.Vector3 } | null;
   prev: Snapshot;
@@ -76,7 +84,6 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
  * How far a body in the pond sinks, as a fraction of its scale (the sculpt is about 3
  * units tall): a swimmer to the shoulders, a wader (no stroke yet) only to the belly.
  */
-const GROVE3D_SINK = 1.1;
 const GROVE3D_WADE = 0.6;
 
 /**
@@ -113,7 +120,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'cry':
       return 'sad';
     case 'swim':
-      return swimsStroke(n) ? 'swim' : 'walk';
+      // LOOK-23: everyone in the pond swims its own stroke (the stage sets the style).
+      return 'swim';
     case 'thrown':
       return 'tumble';
     case 'react':
@@ -192,6 +200,10 @@ export class Actors {
   private keeperLandDur: number = JUMP.landSquashMs * 2;
   private keeperSquash: { o: THREE.Object3D; base: THREE.Vector3 } | null = null;
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
+  /** LOOK-16: each Nubbin's emote ball on its spring. */
+  private readonly emoteSprings = new EmoteSprings();
+  /** FUN-09: each Nubbin's pet-action beat. */
+  private readonly petBeats = new PetBeats();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
@@ -242,6 +254,8 @@ export class Actors {
 
   /** MOVE-63: the hop course's flags and ghost. */
   private readonly hopCourse: HopCourse3D;
+  /** R0313: Fern's cairn by the signpost. */
+  private readonly fernCairn: FernCairn3D;
 
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
@@ -257,6 +271,7 @@ export class Actors {
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
+    this.fernCairn = new FernCairn3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -404,13 +419,13 @@ export class Actors {
 
   /** What a ray passes through first: a Nubbin, an item, a memorial or the crowd. */
   pick(ray: THREE.Ray): {
-    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
     id: string;
     d: number;
   } | null {
     const sphere = new THREE.Sphere();
     type Hit = {
-      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
       id: string;
       d: number;
     };
@@ -437,6 +452,9 @@ export class Actors {
     for (const [id, i] of this.items) test('item', id, i.mesh, 0.4, 0.1);
     for (const [id, m] of this.memorials)
       test('memorial', id, m, 0.45, READ3D.memorial.height * 0.75);
+    const fd = this.fernCairn.pick(ray, this.tmp);
+    const fb = best as Hit | null;
+    if (fd !== null && (!fb || fd < fb.d)) best = { kind: 'storyProp', id: FERN_STONE.id, d: fd };
     const c = this.crowd.pick(ray);
     const b = best as Hit | null;
     if (c && c.kind !== 'ambient' && (!b || c.d < b.d)) return { kind: c.kind, id: c.id, d: c.d };
@@ -457,6 +475,11 @@ export class Actors {
       });
       this.emoteMats.set(`${shadow ? 'shadow:' : ''}${frameKey(shape, 'front', Number(f))}`, mat);
     }
+  }
+
+  /** FUN-09: a pet action landed; its beat plays from the Nubbin's next frame. */
+  petBeat(id: string, action: Interaction, ok: boolean, nowMs: number): void {
+    this.petBeats.queue(id, action, ok, nowMs);
   }
 
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
@@ -485,6 +508,7 @@ export class Actors {
       flight: null,
       ripple: null,
       squash: null,
+      beat: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
@@ -831,6 +855,7 @@ export class Actors {
     this.world = world;
     noteJumpToyWorld(world, this.calm);
     this.hopCourse.update(world, alpha, nowMs, this.calm);
+    this.fernCairn.update(world, this.ground);
     this.pool.frame();
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);
@@ -884,6 +909,10 @@ export class Actors {
         if (st && st.partner?.id === n.id)
           pose = st.walking.has(n.id) ? 'walk' : (st.partnerPose() ?? 'idle');
         else if (st?.walking.has(n.id)) pose = 'walk';
+        // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
+        const beat = this.petBeats.frame(n, nowMs);
+        if (beat?.pose3d && !held) pose = beat.pose3d;
+        a.beat = beat;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
@@ -891,20 +920,35 @@ export class Actors {
         // In the pond: a swimmer with the stroke sinks to the shoulders, feet free of the
         // bed; any other Nubbin wades, sunk only to the belly.
         const inWater = n.behavior.state === 'swim' && groveHeight(x, z) < WATER_LEVEL - 0.15;
-        const sink = inWater ? o.scale.y * (pose === 'swim' ? GROVE3D_SINK : GROVE3D_WADE) : 0;
+        // LOOK-23: the stroke and how deep it sits come from the Swim level; in the
+        // shallows, too shallow to swim, the body wades on its walk.
+        const style = swimStyle(n);
+        a.rig.swimStyle = style;
+        if (pose === 'swim' && !inWater) {
+          pose = moving ? 'walk' : 'idle';
+          if (pose !== a.pose) {
+            a.pose = pose;
+            a.rig.setPose(pose);
+          }
+        }
+        const sink = inWater
+          ? o.scale.y * (pose === 'swim' ? SWIM_STYLE.sink[style] : GROVE3D_WADE)
+          : 0;
         o.position.set(x, gy + y - sink, z);
         const footY = gy + y - sink;
         // A body in the water stands on a flat floor at its sunk height; a held or thrown
         // body is lifted off the real ground so its shadow blob stays down there under it.
         a.rig.ground = inWater ? () => footY : this.ground;
         a.rig.lift = inWater ? 0 : Math.max(0, y);
+        // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
+        if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         this.tumble(a, n, o, nowMs);
-        this.ripple(a, inWater, x, z, t);
+        this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
       } else if (a.stand) {
         placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {
@@ -912,6 +956,8 @@ export class Actors {
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
         else {
           o.rotation.y = t * 0.4;
+          // LOOK-25: the cocoon breathes, 1 to 1.03 at 0.8 Hz.
+          o.scale.setScalar(cocoonPulse(nowMs));
           // As the pixel cocoon: a departing one fades as it closes, a rebirth one shimmers.
           (a.shell.material as THREE.MeshPhysicalMaterial).opacity =
             n.cocoonKind === 'depart'
@@ -922,6 +968,15 @@ export class Actors {
         }
       }
       this.squash(a, n.id, o, nowMs);
+      if (a.beat && a.rig) {
+        // FUN-09: the beat's squash and nudge, put back next frame with the other squashes.
+        if (!a.squash) a.squash = { o, base: o.scale.clone() };
+        o.scale.x *= a.beat.sw;
+        o.scale.y *= a.beat.sh;
+        o.scale.z *= a.beat.sw;
+        o.position.y += a.beat.dy * 0.9;
+        o.position.x += a.beat.dx * 0.9;
+      }
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
       // The emote ball over the head: the same choice the pixel view makes, a reaction
@@ -953,13 +1008,30 @@ export class Actors {
           // Over the top of the creature, never inside it: the head bone sits low in the
           // head, and 0.48 above it left the ball buried (the depth test hid it).
           const top = Math.max(this.tmp.y + 0.48, gy + y + tall + 0.3);
-          a.emote.position.set(this.tmp.x, top + Math.sin(t * 2) * 0.03, this.tmp.z);
+          // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+          // squashing on a landing and popping when its shape changes.
+          const back = EMOTE_SPRING.back3d;
+          const pop = this.pops.get(n.id);
+          const ball = this.emoteSprings.step(
+            n.id,
+            this.tmp.x - Math.sin(n.facing) * back,
+            top + Math.sin(t * 2) * 0.03,
+            this.tmp.z - Math.cos(n.facing) * back,
+            shape,
+            nowMs,
+            EMOTE_SPRING.clamp3d,
+            0,
+            pop?.kind === 'squash' ? pop.startMs : null,
+          );
+          a.emote.position.set(ball.x, ball.y, ball.z);
+          a.emote.scale.set(0.5 * ball.sx, 0.5 * ball.sy, 1);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
     this.glow.keep(live);
+    this.emoteSprings.keep(live);
 
     // The Keeper.
     if (this.keeperSquash) {

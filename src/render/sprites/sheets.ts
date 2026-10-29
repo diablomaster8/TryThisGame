@@ -1,4 +1,6 @@
-import type { KeeperAlignment, Nubbin, PartSlot } from '../../sim/types';
+import { buildShinyGlintSheet } from './shiny-glint';
+import type { KeeperAlignment, Nubbin } from '../../sim/types';
+import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childHint } from '../../sim/alignment';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
@@ -20,7 +22,8 @@ import {
 import { speciesOf } from '../../sim/species';
 import { isJewel } from '../../sim/nubbin';
 import { buildCreatureSheet } from './creature';
-import { buildCocoonSheet, buildEggSheet } from './egg';
+import { buildEggSheet } from './egg';
+import { buildCocoonFor, cocoonKey } from './cocoon';
 import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
@@ -31,8 +34,6 @@ import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 import { SHEET_CACHE } from '../../config/tuning-px';
-
-const SLOTS: PartSlot[] = ['ears', 'tail', 'arms', 'back'];
 
 /**
  * C6: a copy of `src` through a stone-grey ramp. Every pixel keeps its lightness and loses
@@ -140,10 +141,15 @@ export class SheetCache {
 
   private static baseKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
-    if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
+    if (n.stage === 'cocoon') return cocoonKey(n);
     const sh = n.shadow ? 'sh' : '-';
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
-    const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
+    // Each filled slot carries its size step (LOOK-36): a level crossing a step redraws.
+    const steps = partSteps(n);
+    const parts = ALL_PART_SLOTS.map((s) => {
+      const id = n.parts[s];
+      return id ? `${id}@${steps[s] ?? 1}` : '-';
+    }).join(',');
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
@@ -167,6 +173,7 @@ export class SheetCache {
       const build = (look: ChaoLook): SpriteSheet =>
         buildChaoSheet({
           ...look,
+          partSteps: partSteps(n),
           gem,
           finish: n.shadow ? null : (n.finish ?? null),
           scarf: n.scarf ?? null,
@@ -175,7 +182,7 @@ export class SheetCache {
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
-      if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
+      if (n.stage === 'cocoon') return buildCocoonFor(n);
       // Other families use the generic creature drawer; their look is the species.
       const art = family !== 'chao' ? speciesArt(n.species) : undefined;
       if (art) {
@@ -215,10 +222,11 @@ export class SheetCache {
               'normal',
               null,
               { ...n.parts },
-              // Eternal Moon has no great wings in the line-up, only icy shoulder spikes.
-              n.eternal !== 'moon',
+              // LOOK-37: every Eternal carries great wings now (the Moon's are its bat wings).
+              true,
               n.hat,
               n.shiny || n.heirloom,
+              n.eternal,
             ),
           );
         }
@@ -325,6 +333,11 @@ export class SheetCache {
     return this.get(shadow ? 'emotes:shadow' : 'emotes', () =>
       buildEmoteSheet(shadow ? C.plum : undefined),
     );
+  }
+
+  /** The shiny sweep over the head, one small sheet per head size (LOOK-30). */
+  shinyGlint(grow: number): SpriteSheet {
+    return this.get(`shiny-glint:${grow}`, () => buildShinyGlintSheet(grow));
   }
 
   dispose(): void {

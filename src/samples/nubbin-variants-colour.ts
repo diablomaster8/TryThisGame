@@ -1,6 +1,8 @@
 import { V } from './sculpted';
 import { NUBBIN_EXTRA_MARKS } from './species-data';
 import { CHILD, variant, type NubbinColors, type NubbinVariant } from './nubbin-variants';
+import { withGemFinish, type GemFinish } from './gem-finish';
+import type { SpeciesSpec } from './species';
 
 /**
  * The colour family of the Nubbin: the egg colours, their two-tone and glossy versions, and
@@ -103,7 +105,7 @@ const entry = (
 });
 
 export const SHINY_FINISH = {
-  surface: { roughness: 0.3, clearcoat: 0.6, sheen: 1, sheenColor: '#ffffff' },
+  surface: { roughness: 0.3, clearcoat: 1, sheen: 1, sheenColor: '#ffffff' },
   ball: { glow: '#e0c060' },
   // A small pale star on the brow, the one hint mark a shiny wears.
   hints: [{ kind: 'sphere' as const, a: V(0, 2.42, 0.6), r: 0.11, color: '#ffffff', soft: 0.02 }],
@@ -121,8 +123,48 @@ export const JEWEL_FINISH = {
   bump: 1,
 };
 
+/**
+ * A jewel's every role in its gem palette (LOOK-29): the pads, wings and sheen too, so no
+ * default yellow or cream part is left on a monotone figure.
+ */
+export const gemRoles = (g: { body: string; crownShade: string; belly: string; tip?: string }) => ({
+  tip: g.tip ?? g.belly,
+  pad: g.belly,
+  wing: g.belly,
+  sheen: g.tip ?? g.belly,
+  star: g.tip ?? g.belly,
+});
+
+/**
+ * Which finish a Nubbin wears in 3D (`gem-finish.ts`): a jewel's gem, a metal for gold eggs
+ * and silver jewels, shiny's sweep. Null for a plain egg.
+ */
+export function gemFinishFor(
+  gem: { name: string; tip?: string; belly: string } | undefined,
+  egg: string,
+  shiny: boolean,
+): GemFinish | null {
+  const metal = gem?.name === 'silver' || (!gem && egg === 'gold');
+  if (!gem && !metal && !shiny) return null;
+  return {
+    jewel: !!gem && !metal,
+    metal,
+    shiny,
+    ...(gem ? { rim: gem.tip ?? gem.belly } : {}),
+  };
+}
+
+const finish = (f: GemFinish | null) =>
+  f ? { patch: (s: SpeciesSpec) => withGemFinish(s, f) } : {};
+
 const PLAIN = EGG_COLOURS.map((c) =>
-  entry(`colour-${c.name}`, `Nubbin (${cap(c.name)})`, plain(c), `Egg colour ${c.name}.`),
+  entry(
+    `colour-${c.name}`,
+    `Nubbin (${cap(c.name)})`,
+    plain(c),
+    `Egg colour ${c.name}.`,
+    finish(gemFinishFor(undefined, c.name, false)),
+  ),
 );
 
 const TWO_TONE = EGG_COLOURS.map((c, i) => {
@@ -143,7 +185,7 @@ const SHINY = EGG_COLOURS.map((c) =>
     `Nubbin (${cap(c.name)}, shiny)`,
     plain(c),
     `Egg colour ${c.name} with a glossy finish and a pale star on the brow.`,
-    SHINY_FINISH,
+    { ...SHINY_FINISH, ...finish(gemFinishFor(undefined, c.name, true)) },
   ),
 );
 
@@ -151,9 +193,13 @@ const JEWEL = JEWELS.map((j) =>
   entry(
     `jewel-${j.name}`,
     `Nubbin (${cap(j.name)})`,
-    { body: j.body, crownShade: j.crownShade, belly: j.belly, tip: j.tip },
+    { body: j.body, crownShade: j.crownShade, belly: j.belly, ...gemRoles(j) },
     `Gemstone finish in ${j.name}: cut facets and a hard gloss over the plain child shape.`,
-    { surface: JEWEL_FINISH, eyes: { iris: j.crownShade } },
+    {
+      surface: JEWEL_FINISH,
+      eyes: { iris: j.crownShade },
+      ...finish(gemFinishFor(j, j.name, false)),
+    },
   ),
 );
 

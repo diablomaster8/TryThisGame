@@ -90,8 +90,8 @@ _Then it slides onto the pond. The candle is still lit!_
 > **Lesson** (literacy, RL.K.3, ask): first, next, last  
 > **Moss**: Tell me the boat’s trip. Where did it go first?  
 > - ✅ Past the stepping stones → Yes! First the stones. Next the reeds. Last, the pond!
-> - Round the reeds → That came next. First it passed the stones. Then the reeds. Then the pond.
-> - Onto the pond → That came last! First the stones, next the reeds, last the pond.
+> - Round the reeds → Round the reeds already? Whoosh! Not yet, little leaf! That came next. First it passed the stones. Then the reeds. Then the pond.
+> - Onto the pond → Onto the pond already? Splash! Little leaf, wait your turn! That came last! First the stones, next the reeds, last the pond.
 > _For grown-ups: Retold a short journey in order using first, next and last._
 
 _Your Nubbin sits down, plop, in surprise._  
@@ -121,7 +121,7 @@ _Byte looks down. It is! Byte goes very quiet._
 > Check: `edu:listen:sounds:quiet`
 > _For grown-ups: Practised sitting still and listening carefully, then named a sound they heard._
 
-_Shh. Gurgle! That is Byte’s tummy. Byte goes even quieter._  
+_Shh. Gurgle! Hic! That is Byte’s tummy. Byte goes quieter._  
 **You**: What did Hush listen to?  
 **Moss**: Everything. Come on. Mind the step.  
 
@@ -138,15 +138,15 @@ _The lantern by the old wall burns low and quiet._
 > **Lesson** (sel, CASEL: Social awareness, ask): helping a sad friend by staying with them  
 > **Moss**: If a friend feels sad, what could you do?  
 > - ✅ Sit beside them and stay → Yes. That’s what Hush did. Staying close helps.
-> - Leave them on their own → They might feel lonely then. Hush would sit beside them. Staying helps.
-> - Tell them to stop being sad → Sad feelings don’t stop when we’re told. Sitting with them helps more.
+> - Leave them on their own → Left alone in the cold? Brrr! They would shiver. They might feel lonely then. Hush would sit beside them. Staying helps.
+> - Tell them to stop being sad → “Stop being sad!” Poof… the sad stays right where it is. Sad feelings don’t stop when we’re told. Sitting with them helps more.
 > _For grown-ups: Thought about how to help a sad friend: staying close and keeping them company._
 
 **Moss**: Hush called it keeping. Keeping a friend company.  
 
 #### `sprout:s1-pond-ask` · [main](../../../side/S01.md#s1-pond-ask)
 
-_Moss is by the pond, at his own post._  
+_Moss is by the pond, at his own post. Plop! A frog hops in._  
 **Moss**: My lantern. I like this one best.  
 **Moss**: Sit beside me. Closer. There.  
 
@@ -191,7 +191,7 @@ _A young Hazel sits by the frozen pond. Her coat is too big!_
 
 _You look at the last post, by the long grass._  
 **Moss**: Not that one. Not yet.  
-_Down the lane, children skip and sing._  
+_Down the lane, children skip and sing. Whee!_  
 _“Cinder held them close and tight, / kept them warm one winter night;”_  
 _“when the morning came to call, / they did not move at all.”_  
 
@@ -199,8 +199,8 @@ _“when the morning came to call, / they did not move at all.”_
 > _(Say the rhyme again together.)_  
 > **Moss**: Which word sounds like “tight”?  
 > - ✅ night → Yes! Tight, night. They rhyme!
-> - cold → Cold and tight don’t sound alike. Tight… night! Those rhyme.
-> - snow → Snow rhymes with go. Tight rhymes with night!
+> - cold → Tight rhymes with cold? Brrr! Those two don’t match. Cold and tight don’t sound alike. Tight… night! Those rhyme.
+> - snow → Tight and snow? Splat! A snowball lands in the rhyme! Snow rhymes with go. Tight rhymes with night!
 > _For grown-ups: Listened to a skipping rhyme and picked out a rhyming pair (tight, night)._
 
 **Moss**: The children know the words.  
@@ -224,7 +224,7 @@ _You carry him gently. He is light as a leaf._
 > _For grown-ups: Learned that sunlight warms the ground and shade is cooler._
 
 **Cinder**: Out of the sun, you silly things! I’ve got you!  
-**Moss**: That night, snow came. In summer! It did not stop.  
+**Moss**: That night, snow came. Whoosh! In summer! It did not stop.  
 **Moss**: Cinder was scared. She hugged her Nubbins close.  
 **Moss**: She would not let go. Not even to let them play.  
 **Moss**: The Nubbins could not run. They were not happy.  
@@ -234,14 +234,14 @@ _You carry him gently. He is light as a leaf._
 > **Lesson** (sel, CASEL: Relationship skills, ask): gentle hugs, and asking first  
 > **Moss**: How should we hug a small friend?  
 > - ✅ Gently, and only if they want a hug → Yes. Gentle hugs, and we ask first.
-> - As tight as we can → Tight hugs can hurt small friends. Gentle is best. And we ask first.
+> - As tight as we can → A squeeze as tight as a bear? Squeak! Little friends need room. Tight hugs can hurt small friends. Gentle is best. And we ask first.
 > _For grown-ups: Talked about gentle hugs and asking first, through Cinder’s love that held too tight._
 
 
 #### `sprout:s1-complete` · [main](../../../side/S01.md#s1-complete)
 
 **Moss**: There. Now two of us remember her warm.  
-_Moss pushes something to your boot. An acorn on a string!_  
+_Moss pushes something to your boot. Plop! An acorn on a string!_  
 **Moss**: Hazel gave me that, long ago. Now it’s yours.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): an acorn is a seed that grows into an oak tree  

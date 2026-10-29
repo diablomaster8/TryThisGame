@@ -29,9 +29,23 @@ import {
 } from './aaa-kit';
 import { sculptedKeeper, sculptedNubbin } from './sculpted';
 import { outline, TOON, type Creature } from './creatures';
-import { ALL_POSES, buildSpecies, POSES, type PoseName, type Rigged } from './species';
+import {
+  ALL_POSES,
+  buildSpecies,
+  POSES,
+  type PoseName,
+  type Rigged,
+  type SpeciesSpec,
+} from './species';
 import { ROSTER } from './species-roster';
-import { sheetVariants, variantById } from './nubbin-variant-catalogue';
+import { artSheet, sheetVariants, variantById } from './nubbin-variant-catalogue';
+import {
+  parsePartSteps,
+  parsePartsMod,
+  partsTinted,
+  withCritterParts,
+} from './nubbin-critter-parts';
+import { sheetLabels, sheetTurns, silhouette } from './contact-sheet-3d';
 import { NUBBIN_SPEC } from './species-data';
 import {
   KEEPER_MOON_SPEC,
@@ -472,7 +486,27 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   const creatureParam = query.get('creature');
   // `&creature=variants` lines up a family of Nubbin variants (`&family=child|first|second|
   // special|colour`, `&filter=<id part>`, `&max=<n>`); `&creature=variant:<id>` stages one.
-  const sheet = creatureParam === 'variants' ? sheetVariants(query).map((v) => v.spec) : null;
+  // `&creature=art` lines up pocket or digital species for likeness reviews (`&family=`,
+  // `&stage=`, `&max=`, `&offset=`, `&ids=art:a,art:b`; `&angles`, `&silhouette`), read left
+  // to right in list order with each id labelled (see `contact-sheet-3d.ts`).
+  const artSheetOn = creatureParam === 'art';
+  const turns = artSheetOn ? sheetTurns(query) : [0];
+  const sheetEntries = (
+    creatureParam === 'variants' ? sheetVariants(query) : artSheetOn ? artSheet(query) : null
+  )?.flatMap((v) => turns.map((t, k) => ({ v, t, k })));
+  // `&parts=<ids>` puts critter parts on every staged Nubbin, in the look key's `~parts:` form
+  // (eight slots, `id@step` sizes, `|t` for the band tint; LOOK-34/36).
+  const partsParam = query.get('parts');
+  const withParts = (spec: SpeciesSpec): SpeciesSpec =>
+    partsParam
+      ? withCritterParts(
+          spec,
+          parsePartsMod(partsParam),
+          parsePartSteps(partsParam),
+          partsTinted(partsParam),
+        )
+      : spec;
+  const sheet = sheetEntries?.map((e) => withParts(e.v.spec)) ?? null;
   const oneVariant = creatureParam?.startsWith('variant:')
     ? variantById(creatureParam.slice('variant:'.length))
     : null;
@@ -504,10 +538,12 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       c.ground = groundHeight;
       // Back rows sit half a column across, so they show between the figures in front.
       const row = Math.floor(i / cols);
-      const x = ((i % cols) - (cols - 1) / 2 + (row % 2) * 0.5) * 2.45;
+      const across = ((i % cols) - (cols - 1) / 2 + (row % 2) * 0.5) * 2.45;
+      // The camera looks along +z, so x runs right to left on screen: an art sheet mirrors it.
+      const x = artSheetOn ? -across : across;
       const z = row * 3.2;
       c.group.userData.baseY = groundHeight(x, z);
-      place(c.group, x, z, Math.PI - 0.5 + turn);
+      place(c.group, x, z, Math.PI - 0.5 + turn + (sheetEntries?.[i]?.t ?? 0));
       cast.push(c);
     });
   }
@@ -533,7 +569,8 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     if (creatureIndex > 0 || oneVariant) {
       // One creature on the stage, framed close, facing the camera.
       creature = buildSpecies(
-        oneVariant?.spec ?? ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!,
+        (oneVariant && withParts(oneVariant.spec)) ??
+          ROSTER[Math.min(creatureIndex, ROSTER.length) - 1]!,
       );
       (creature as Rigged).ground = groundHeight;
       creature.group.userData.baseY = groundHeight(0, 0);
@@ -552,7 +589,15 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
 
   // The toon outline goes on after the figures are measured and placed, so the hulls
   // never count toward the feet or the footprint.
-  if (toon) for (const c of new Set([...cast, creature, keeper, nub])) if (c) outline(c.group);
+  const silhouetteOn = artSheetOn && query.has('silhouette');
+  if (toon && !silhouetteOn)
+    for (const c of new Set([...cast, creature, keeper, nub])) if (c) outline(c.group);
+  if (silhouetteOn)
+    silhouette(
+      scene,
+      renderer,
+      cast.map((c) => c.group),
+    );
 
   // The stage on `window.groveStage`, so a console can measure the creatures in place
   // (foot height, tilt, shadow) instead of guessing from a screenshot.
@@ -569,6 +614,16 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     0.1,
     400,
   );
+  const labels = artSheetOn
+    ? sheetLabels(
+        canvas,
+        camera,
+        cast
+          .map((c, i) => ({ group: c.group, entry: sheetEntries?.[i] }))
+          .filter((f) => f.entry?.k === 0)
+          .map((f) => ({ group: f.group, label: f.entry!.v.id.replace(/^art:/, '') })),
+      )
+    : null;
   const q = new URLSearchParams(location.search);
   const composer = new EffectComposer(renderer);
   const renderPass = new RenderPass(scene, camera);
@@ -578,7 +633,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
   ssao.minDistance = 0.0008;
   ssao.maxDistance = 0.08;
   // The toon mode is flat by design: no occlusion, bloom, depth of field or grade.
-  if (!q.has('nossao') && !toon) composer.addPass(ssao);
+  if (!q.has('nossao') && !toon && !silhouetteOn) composer.addPass(ssao);
   // The sun disc is thousands of times brighter than the ground: clamp the frame before
   // bloom so only lamps, catchlights and the sky's rim glow, not the whole picture.
   composer.addPass(new ShaderPass(CLAMP));
@@ -593,14 +648,14 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     aperture: closeup ? 0.00012 : 0.0001,
     maxblur: 0.007,
   });
-  if (!q.has('nodof') && !toon) composer.addPass(bokeh);
+  if (!q.has('nodof') && !toon && !silhouetteOn) composer.addPass(bokeh);
   composer.addPass(new OutputPass());
   const grade = new ShaderPass(GRADE);
   grade.uniforms.uTint!.value.set(
     mood === 'golden' ? '#ffe9d0' : mood === 'rain' ? '#dfe8f0' : '#ffffff',
   );
   grade.uniforms.uSaturation!.value = mood === 'rain' ? 0.92 : creature || lineup ? 1.05 : 1.2;
-  if (!toon) composer.addPass(grade);
+  if (!toon && !silhouetteOn) composer.addPass(grade);
   const smaa = new SMAAPass();
   composer.addPass(smaa);
 
@@ -840,6 +895,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
       }
       p.needsUpdate = true;
     }
+    labels?.update();
     composer.render();
     raf = requestAnimationFrame(loop);
   };
@@ -850,6 +906,7 @@ export function mountAaaSample(canvas: HTMLCanvasElement, mood: Mood): () => voi
     composer.dispose();
     renderer.dispose();
     unmountReference?.();
+    labels?.dispose();
     TOON.on = false;
   };
 }

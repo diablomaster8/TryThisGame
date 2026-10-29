@@ -159,3 +159,153 @@ export const TRAP_TEXT = {
   >,
   spotted: 'Your scout points: ! A trap just ahead.',
 };
+
+/** Act towns and outdoor fields (R0152, R0147). Never shown in story worlds. */
+export const HOLLOW_ZONE_TEXT = {
+  town: (act: string) => `${act} · Camp`,
+  field: (act: string) => `${act} · Fields`,
+  side: (act: string, n: number) => `${act} · Side cave ${n}`,
+  enterTownHelp: 'Start at the camp: stash, vendor and friends, then out across the fields.',
+  mouthButton: '⛰ Enter the cave',
+  campEntered: 'Lanterns, a kettle, friendly faces. The camp at the Hollow mouth.',
+  acornCamp: 'The acorn sprouts, and everyone falls up through a swirl of leaves, into camp.',
+  portalBack: '🌰 Back through the acorn',
+  townWaypoint: 'Camp',
+  fieldWaypoint: 'Fields',
+  services: {
+    stash: 'Stash chest',
+    vendor: 'Vendor',
+    craft: 'Crafting table',
+    gamble: 'Gamble stall',
+    hire: 'Hire board',
+    quest: 'Quest',
+  } as Record<string, string>,
+  talk: (who: string) => `Talk to ${who}`,
+  open: (what: string) => `Open the ${what.toLowerCase()}`,
+  stashTitle: 'Stash chest',
+  stashHelp: 'Shells in the stash are safe from sticky-fingered strays.',
+  stashHeld: (stash: number, purse: number) => `In the stash: ${stash} Shells · On you: ${purse}`,
+  stashIn: (n: number) => `Put in ${n}`,
+  stashOut: (n: number) => `Take out ${n}`,
+  stashAll: 'All',
+  vendorFruit: (price: number) => `Fruit · ${price} Shells`,
+  vendorFruitHelp: 'For coaxing strays home.',
+  bought: 'Bought.',
+  questDone: (shells: number) => `A job well done. Here's ${shells} Shells for your trouble.`,
+  questPaid: 'Nothing more for now. Thank you again.',
+  /** Services whose systems come later (DUNG-33, -34, -38). */
+  soon: 'Not open yet. Come back when the Hollow has more to offer.',
+};
+
+/**
+ * What each act camp's people say, by service. `{boss}` is the act boss's name. Kept short:
+ * a line each, the camp's own voice.
+ */
+export const HOLLOW_TOWN_LINES: Record<string, Record<string, string>> = {
+  rootways: {
+    vendor:
+      'Fresh fruit, and acorns that know the way home. Pie is not for sale. Pie is for later.',
+    craft: 'Bring me bits and I will make them better bits. Once I have finished this table.',
+    gamble: 'Pick a cup, any cup. Not yet, though. The cups are still drying.',
+    hire: 'Sometimes a friend wants to come along. Their names go up here.',
+    quest: 'Something big grumbles at the bottom of the Rootways. Quiet it, and come and tell me.',
+  },
+  cloister: {
+    vendor: 'Everything here is dusted daily. Mostly by me.',
+    craft: 'The old monks mended everything. So can we.',
+    gamble: 'A riddle for a Shell? Later. I am still writing the riddles.',
+    hire: 'Names of willing helpers. In my best handwriting.',
+    quest: 'The Topiary Knight trims anything that wanders past. Show it some manners.',
+  },
+  sandglass: {
+    vendor: 'Water, fruit, shade. The three things worth having out here.',
+    craft: 'These glyphs are just instructions. Badly commented ones.',
+    gamble: 'Sand runs one way. Luck runs both. Not open yet.',
+    hire: 'Guides, porters, and one very keen beetle.',
+    quest: 'Fluffhotep sleeps under the big dune. Wake it gently, then win.',
+  },
+  frostbell: {
+    vendor: 'Warm fruit. Do not ask how. It is a trade secret.',
+    craft: 'Ice is only water that is waiting. Give me time.',
+    gamble: 'Guess which hole the fish is in. Soon.',
+    hire: 'The lake is wide. Better crossed with company.',
+    quest: 'Yeti Spaghetti tangles the far shore. Untangle it.',
+  },
+  gloom: {
+    vendor: 'A little light, a little fruit. Enough to be going on with.',
+    craft: 'Even here, things can be mended.',
+    gamble: 'In the dark, every card is a surprise. Not yet.',
+    hire: 'Nobody should walk down there alone.',
+    quest: 'The Hushkeeper keeps everything quiet. Too quiet. Go and say hello.',
+  },
+};
+
+/** Each camp's local (the one face not from the Grove). */
+export const HOLLOW_LOCALS: Record<string, string> = {
+  rootways: 'Old Tansy',
+  cloister: 'Brother Wick',
+  sandglass: 'Saffi',
+  frostbell: 'Ilka',
+  gloom: 'Mothwen',
+};
+
+/**
+ * The named uniques (R0156): a short name (22 characters at most) and a caption shown when the
+ * bout starts. Foes do not speak: the caption says what they do.
+ */
+export const UNIQUE_TEXT: Record<string, { name: string; line: string }> = {
+  'sir-snorts': {
+    name: 'Sir Snorts-a-Lot',
+    line: 'Sir Snorts-a-Lot paws the moss and snorts. Twice.',
+  },
+  mumblemoss: {
+    name: 'Old Mumblemoss',
+    line: 'Old Mumblemoss grumbles, and a small cloud follows.',
+  },
+  'captain-crumbs': {
+    name: 'Captain Crumbs',
+    line: 'Captain Crumbs raises a biscuit like a shield.',
+  },
+  willowby: {
+    name: 'The Weeping Willowby',
+    line: 'The Weeping Willowby droops. It would like a hug.',
+  },
+  snapdragon: { name: 'Sister Snapdragon', line: 'Sister Snapdragon snaps her petals, very fast.' },
+  'count-compost': {
+    name: 'Count Compost',
+    line: 'Count Compost bows. Something smells of old leaves.',
+  },
+  'dune-buggy': { name: 'Dune Buggy', line: 'Dune Buggy zips a circle in the sand. Vroom.' },
+  'sandy-claws': { name: 'Sandy Claws', line: 'Sandy Claws clacks both claws and bounces.' },
+  'sphinx-kitten': {
+    name: 'The Sphinx-ish Kitten',
+    line: 'The Kitten sits very still and looks wise.',
+  },
+  'brr-nadette': { name: 'Brr-nadette', line: 'Brr-nadette shivers glitter everywhere.' },
+  'sir-shivers': { name: 'Sir Shivers', line: 'Sir Shivers bounces to keep warm.' },
+  'icicle-choir': {
+    name: 'The Icicle Choir',
+    line: 'The Icicle Choir hums one long, chilly note.',
+  },
+  'hush-one': { name: 'Hush the Elder', line: 'A grey echo of a Nubbin. It looks cold.' },
+  'hush-two': { name: 'Hush the Middle', line: 'Another grey echo. It copies how you stand.' },
+  'hush-three': {
+    name: 'Hush the Least',
+    line: 'The smallest echo. Warm it, and it might colour back.',
+  },
+};
+
+export const UNIQUE_RESULT_TEXT = {
+  firstWin: (name: string, shells: number) =>
+    `${name}, beaten for the first time! +${shells} Shells`,
+  again: (name: string) => `${name} goes home to sulk.`,
+};
+
+/** The cave-mouth party picker (R0168). */
+export const HOLLOW_PARTY_TEXT = {
+  title: 'Who comes along',
+  recommended: 'Recommended',
+  help: (n: number) => `Tap to choose up to ${n}. The pick is kept for next time.`,
+  tired: '💤 Tired',
+  energy: (pct: number) => `Energy ${pct}%`,
+};

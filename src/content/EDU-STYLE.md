@@ -239,3 +239,20 @@ your scope gets a version. Keep choice ids identical to the original's; give `de
 a band leaves a choice out. Export `CHECKS` listing every `edu:` check string you use.
 
 Validate with the single-file tsc command in `STYLE.md` until it prints nothing.
+
+## Joke density and sound words (R0309, R0310)
+
+- **Sprout:** at least one silly beat (`gag: true`) and one sound word per scene, ideally on
+  an action the child sees (`plop`, `splash`, `creak`, `achoo`, `munch`, `slurp`, `whoosh`;
+  the full list is `src/config/edu-sounds.ts`, and read-aloud plays each one's sound). A
+  join-in refrain every two scenes; mark it `refrain: '<id>'` (R0323, ids in
+  `src/config/edu-refrains.ts`).
+- **Reader:** one gag per five lines; keep the main game's jokes.
+- `npx tsx tests/tools/content-check.ts --comedy` reports both.
+
+## Wrong answers in the sprout band (R0320)
+
+A wrong-answer reply opens with a playful picture built from the child's own answer, then
+gives the fact: "A puppy in an egg? Crack… woof! That would be silly! Puppies grow inside
+their mum." Never open with "No", "Wrong", "That's not" or "Try again": the reply honours the
+answer. The checker warns (`sprout-wrong-opener`) on any that do.

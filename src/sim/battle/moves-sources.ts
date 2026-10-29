@@ -54,6 +54,18 @@ export const CRITTER_MOVE: Record<string, string> = {
   sheep: 'woolly-wall',
   raccoon: 'pocket-snack',
   skunk: 'pong',
+  // Lane E, R0402: the newer critters teach a fitting move from the set above.
+  bonefish: 'splash-back',
+  turtle: 'woolly-wall',
+  swallow: 'dive-hug',
+  bat: 'fan-dazzle',
+  deer: 'zoomies',
+  monkey: 'copycat',
+  unicorn: 'pounce',
+  wolf: 'snuffle-charge',
+  koala: 'bear-hug',
+  phoenix: 'dive-hug',
+  dragon: 'chest-drum',
 };
 
 /** The critter behind a part id such as "rabbit-ears". */

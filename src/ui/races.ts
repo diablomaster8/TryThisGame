@@ -5,6 +5,8 @@ import { RaceScreen } from '../minigames/race/screen';
 import { COURSES, createRace, lookPrizesFor, raceSeedFor } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
+import { byteFooter } from './fun-toasts';
+import { nextTip } from './tips';
 
 /** Pick a course and tier, then run the race with the selected (or first grown) Nubbin. */
 export class RacesMenu {
@@ -89,6 +91,8 @@ export class RacesMenu {
     const hatRoll = ((seed * 9301 + 49297) % 233280) / 233280;
     g.renderPaused = true;
     const sheets = g.view.sheets;
+    this.screen.footer = byteFooter(g.world);
+    this.screen.tip = nextTip(g.world);
     this.screen.start(
       race,
       runner,

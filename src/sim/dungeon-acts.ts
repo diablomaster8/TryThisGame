@@ -9,6 +9,7 @@ import { ACTS, actStartDepth } from '../config/dungeon-acts';
 import type { Floor } from './dungeon';
 import { generateV3 } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
+import { placeUniques } from './dungeon-uniques';
 import type { ActProgress, World } from './types';
 
 const cache = new Map<string, Floor>();
@@ -28,13 +29,17 @@ export function actFloor(seed: number, act: number, depth: number, version = 3):
       tileset: def.tileset,
       boss: level === def.levels.length - 1,
     });
-    if (version >= 4)
-      platformFloor(f, seed, depth, {
+    if (version >= 4) {
+      const band = {
         act,
         level,
         boss: level === def.levels.length - 1,
         difficulty: 'cosy',
-      });
+      } as const;
+      platformFloor(f, seed, depth, band);
+      // The act's named uniques (R0156).
+      placeUniques(f, act, level + 1, band);
+    }
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
