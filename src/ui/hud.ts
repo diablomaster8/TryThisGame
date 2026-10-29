@@ -48,6 +48,7 @@ import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
+import { JumpButtonLook } from './jump-states';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -230,7 +231,9 @@ export function mountHud(
   const jumpBtn = el('button', 'btn jump-btn');
   jumpBtn.type = 'button';
   jumpBtn.setAttribute('aria-label', UI_TEXT.jump);
-  jumpBtn.textContent = '⤒';
+  // MOVE-51: the hold ring, the air-jump pip and the glide feather.
+  const jumpLook = new JumpButtonLook(jumpBtn);
+  let jumpPolled = false;
   let jumpPointer: number | null = null;
   jumpBtn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
@@ -737,9 +740,11 @@ export function mountHud(
       const carrying = g.world.keeper.carrying;
       const shakes = !!carrying || g.world.nubbins.some((n) => n.behavior.state === 'held');
       const jumpGlyph = shakes ? '🥚' : '⤒';
-      if (jumpBtn.textContent !== jumpGlyph) {
-        jumpBtn.textContent = jumpGlyph;
-        jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      jumpLook.setGlyph(jumpGlyph);
+      jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      if (!jumpPolled) {
+        jumpPolled = true;
+        g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {

@@ -162,3 +162,6 @@ export const FOOTFALL = {
  * see instead of a pop: a 0.95 jump mantles onto a 1.2 lip and falls back from a 1.4 one.
  */
 export const MANTLE = { ms: 250, minRise: 0.12 } as const;
+
+/** MOVE-51: the jump button's hold ring fills over `ringMs`, about a held jump's rise. */
+export const JUMP_BUTTON = { ringMs: 280 } as const;

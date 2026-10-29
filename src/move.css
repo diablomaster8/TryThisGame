@@ -1,0 +1,72 @@
+/* Lane A (MOVE) styles that are not the joystick's (move-joy.css). */
+
+/* MOVE-51: the jump button's states. The ring fills by --jump-hold while the button is held;
+   the pip is the air jump (hollow once spent); the feather is the Fly perk's glide. */
+.jump-btn {
+  --jump-hold: 0;
+}
+
+.jump-btn .jump-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: conic-gradient(
+    #f2d34c calc(var(--jump-hold) * 360deg),
+    transparent calc(var(--jump-hold) * 360deg)
+  );
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 64%);
+  mask: radial-gradient(circle, transparent 62%, #000 64%);
+}
+
+.jump-btn .jump-glyph {
+  position: relative;
+}
+
+.jump-btn .jump-pip {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #f2d34c;
+  border: 2px solid #3b2a14;
+  pointer-events: none;
+}
+
+.jump-btn .jump-pip.spent {
+  background: transparent;
+  border-color: rgb(255 255 255 / 0.7);
+}
+
+.jump-btn .jump-feather {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.jump-btn .jump-feather.gliding {
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+.jump-btn .jump-pip[hidden],
+.jump-btn .jump-feather[hidden] {
+  display: none;
+}
+
+/* With something in hand the button shakes it: greyed, so it does not read as a jump. */
+.jump-btn.jump-shake {
+  filter: grayscale(0.85);
+  opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jump-btn .jump-feather.gliding {
+    transform: none;
+  }
+}
