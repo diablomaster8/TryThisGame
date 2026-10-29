@@ -17,7 +17,8 @@ import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './cre
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
-import { EMOTE_SPRING } from '../config/tuning-look';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
+import { swimStyle } from '../render/swim-style';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -28,7 +29,7 @@ import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
 import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
-import { flaps, swimsStroke } from '../sim/stats';
+import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
@@ -75,7 +76,6 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
  * How far a body in the pond sinks, as a fraction of its scale (the sculpt is about 3
  * units tall): a swimmer to the shoulders, a wader (no stroke yet) only to the belly.
  */
-const GROVE3D_SINK = 1.1;
 const GROVE3D_WADE = 0.6;
 
 /**
@@ -112,7 +112,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'cry':
       return 'sad';
     case 'swim':
-      return swimsStroke(n) ? 'swim' : 'walk';
+      // LOOK-23: everyone in the pond swims its own stroke (the stage sets the style).
+      return 'swim';
     case 'thrown':
       return 'tumble';
     case 'react':
@@ -883,7 +884,20 @@ export class Actors {
         // In the pond: a swimmer with the stroke sinks to the shoulders, feet free of the
         // bed; any other Nubbin wades, sunk only to the belly.
         const inWater = n.behavior.state === 'swim' && groveHeight(x, z) < WATER_LEVEL - 0.15;
-        const sink = inWater ? o.scale.y * (pose === 'swim' ? GROVE3D_SINK : GROVE3D_WADE) : 0;
+        // LOOK-23: the stroke and how deep it sits come from the Swim level; in the
+        // shallows, too shallow to swim, the body wades on its walk.
+        const style = swimStyle(n);
+        a.rig.swimStyle = style;
+        if (pose === 'swim' && !inWater) {
+          pose = moving ? 'walk' : 'idle';
+          if (pose !== a.pose) {
+            a.pose = pose;
+            a.rig.setPose(pose);
+          }
+        }
+        const sink = inWater
+          ? o.scale.y * (pose === 'swim' ? SWIM_STYLE.sink[style] : GROVE3D_WADE)
+          : 0;
         o.position.set(x, gy + y - sink, z);
         const footY = gy + y - sink;
         // A body in the water stands on a flat floor at its sunk height; a held or thrown
@@ -896,7 +910,7 @@ export class Actors {
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         this.tumble(a, n, o, nowMs);
-        this.ripple(a, inWater, x, z, t);
+        this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
       } else if (a.stand) {
         placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {

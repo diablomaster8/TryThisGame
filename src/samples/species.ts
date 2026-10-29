@@ -379,6 +379,8 @@ export interface Rigged extends Creature {
    * Set by the stage: a world point the creature attends to (the Keeper's hand). The
    * `pet` pose turns and leans the head toward it; null looks straight ahead.
    */
+  /** LOOK-23: set by the stage: the swim pose's stroke (a crawl when unset). */
+  swimStyle?: 'paddle' | 'breast' | 'crawl';
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1892,7 +1894,29 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
           set('legFR', -0.3 - s(w) * 0.8, 0, 0);
           set('legBL', 0.3 - s(w) * 0.5, 0, 0);
           set('legBR', 0.3 + s(w) * 0.5, 0, 0);
+        } else if (!spider && rig.swimStyle === 'paddle') {
+          // LOOK-23: a dog-paddle, upright with only the head out, hands fluttering in front.
+          hips.rotation.x = 0.15 * ease;
+          hips.rotation.z = s(w * 2) * 0.05;
+          set('head', -0.15 * ease, 0, s(w * 2) * 0.06);
+          set('armL', -1.3 + s(w * 3) * 0.45, 0, 0.3);
+          set('armR', -1.3 - s(w * 3) * 0.45, 0, -0.3);
+          set('legL', 0.2 + s(w * 3) * 0.3, 0, 0);
+          set('legR', 0.2 - s(w * 3) * 0.3, 0, 0);
+        } else if (!spider && rig.swimStyle === 'breast') {
+          // A breaststroke: shoulders out, both arms sweeping wide together, a frog kick.
+          const sweep = s(w * 0.8);
+          hips.rotation.x = 0.5 * ease;
+          hips.rotation.z = 0;
+          hips.position.y = spec.hipY + Math.max(0, sweep) * 0.04;
+          set('head', -0.35 * ease, 0, 0);
+          set('armL', -1.2 + sweep * 0.3, 0, 0.5 + sweep * 0.7);
+          set('armR', -1.2 + sweep * 0.3, 0, -0.5 - sweep * 0.7);
+          set('legL', 0.4 - sweep * 0.3, 0, 0.3 + sweep * 0.3);
+          set('legR', 0.4 - sweep * 0.3, 0, -0.3 - sweep * 0.3);
         } else if (!spider) {
+          // The crawl: flat in the water, overarm strokes in turn, a fast flutter kick.
+          hips.rotation.x = 1.0 * ease;
           set('armL', -(w % (Math.PI * 2)), 0, 0.2);
           set('armR', -((w + Math.PI) % (Math.PI * 2)), 0, -0.2);
           set('legL', 0.3 + s(w * 2) * 0.35, 0, 0);

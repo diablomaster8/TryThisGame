@@ -6,7 +6,7 @@ import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
 import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
-import { flaps, swimsStroke } from '../sim/stats';
+import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
@@ -32,7 +32,9 @@ import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
-import { EMOTE_SPRING } from '../config/tuning-look';
+import { swimClip, swimStyle } from './swim-style';
+import { SWIM_CLIPS } from './sprites/chao';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -1751,6 +1753,9 @@ export class WorldView {
       // without love or tumble falls back to happy or surprised.
       if (!sheet.frames.has(frameKey(clip, view.angle, 0))) {
         const stand: Record<string, string> = {
+          // LOOK-23: a sheet without the paddle or crawl swims its stock stroke, or walks.
+          paddle: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
+          crawl: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
           flap: 'walk',
           swim: 'walk',
           sit: 'idle',
@@ -1764,7 +1769,7 @@ export class WorldView {
         v.clipStartMs = nowMs;
       }
       flip = view.flip;
-      const def = CLIPS[clip as ClipName];
+      const def = CLIPS[clip as ClipName] ?? SWIM_CLIPS[clip];
       const frame =
         clip === 'sit'
           ? npose?.clip === 'sit'
@@ -1842,9 +1847,17 @@ export class WorldView {
         lifeMs: 450,
         size: 0.3,
       });
-    } else if (inPond && nowMs - v.lastRippleMs > 650) {
+    } else if (inPond && nowMs - v.lastRippleMs > SWIM_STYLE.strokeMs[swimStyle(n)]) {
+      // LOOK-23: every stroke sends a ring and two to four splash drops.
       v.lastRippleMs = nowMs;
       this.particles.ripple(x, z);
+      this.particles.burst('splash', x, 0.1, z, 2 + (Math.floor(nowMs / 97) % 3), {
+        spread: 0.2,
+        speed: 0.4,
+        rise: 0.7,
+        lifeMs: 380,
+        size: 0.25,
+      });
     }
 
     if (v.bubble && nowMs < v.bubble.untilMs) emote = v.bubble.shape;
@@ -1911,8 +1924,8 @@ export function clipFor(n: Nubbin): string {
       // Strong fliers flap their wings as they go.
       return flaps(n) ? 'flap' : 'walk';
     case 'swim':
-      // Strong swimmers swim a stroke; everyone else wades through the shallows.
-      return swimsStroke(n) ? 'swim' : 'walk';
+      // LOOK-23: each swims its own stroke: a paddle, a breaststroke or a crawl.
+      return swimClip(n);
     // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
     case 'shelter':

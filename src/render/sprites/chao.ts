@@ -458,6 +458,10 @@ export function poseFor(clip: ClipName, frame: number): ChaoPose {
     }
     case 'walk': {
       // Six frames: contact, push-off and passing for each foot. The passing frames
+  /** LOOK-23: the waterline this many px higher (the paddle keeps only the head out). */
+  waterRise?: number;
+  /** LOOK-23: kick splashes behind the body (the crawl). */
+  kick?: boolean;
       // lift the body and stretch it a touch; contact frames squash it.
       const phase = frame % 6;
       const contact = phase === 0 || phase === 3;
@@ -592,6 +596,37 @@ export const DYE_COLORS: Record<DyeColor, number> = {
   violet: C.violet,
   ember: C.ember,
 };
+
+/** LOOK-23: the paddle and crawl clips beside the stock `swim` (the breaststroke). */
+export const SWIM_CLIPS: Record<string, { frames: number; ms: number; loop: boolean }> = {
+  paddle: { frames: 2, ms: 150, loop: true },
+  crawl: { frames: 2, ms: 210, loop: true },
+};
+
+/** A weak swimmer's dog-paddle (head only out, hands fluttering) or a strong one's crawl. */
+export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
+  return style === 'paddle'
+    ? {
+        ...BASE,
+        waterline: true,
+        waterRise: 4,
+        arms: frame === 0 ? 'up' : 'out',
+        eyes: 'wide',
+        mouth: 'open',
+        lift: frame === 1 ? -1 : 0,
+      }
+    : {
+        ...BASE,
+        waterline: true,
+        waterRise: -1,
+        arms: frame === 0 ? 'swingA' : 'swingB',
+        eyes: 'open',
+        mouth: 'smile',
+        headDrop: 1,
+        lift: 1,
+        kick: true,
+      };
+}
 
 /**
  * Character looks: the Chao that dressed up as other heroes. Each is a palette plus a
@@ -1688,9 +1723,20 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   if (tail && !fromFront) drawTail(pc, angle, L, tail);
 
   if (pose.waterline) {
-    pc.line(L.bodyCx - 7, L.bodyCy - 1, L.bodyCx + 7, L.bodyCy - 1, C.shallows);
-    pc.px(L.bodyCx - 8, L.bodyCy, C.white);
-    pc.px(L.bodyCx + 8, L.bodyCy, C.white);
+    const wy = L.bodyCy - 1 - (pose.waterRise ?? 0);
+    // LOOK-23: a raised waterline hides the body under a dithered sheet of water.
+    for (let y = wy + 1; y <= Math.min(L.bodyCy + 2, wy + 6); y++)
+      for (let x = L.bodyCx - 7; x <= L.bodyCx + 7; x++)
+        if (y > L.bodyCy - 1 || (x + y) % 2 === 0) pc.px(x, y, C.shallows);
+    pc.line(L.bodyCx - 7, wy, L.bodyCx + 7, wy, C.shallows);
+    pc.px(L.bodyCx - 8, wy + 1, C.white);
+    pc.px(L.bodyCx + 8, wy + 1, C.white);
+    if (pose.kick) {
+      const kx = angle === 'side' ? L.bodyCx - 9 : L.bodyCx + 5;
+      pc.px(kx, wy - 1, C.white);
+      pc.px(kx + 1, wy - 2, C.white);
+      pc.px(kx + 2, wy, C.white);
+    }
   }
 
   if (pose.blush && angle !== 'back' && angle !== 'backQuarter') {
@@ -1757,3 +1803,6 @@ export function lookOf(
 }
 
 export type { PartStyle };
+    for (const style of ['paddle', 'crawl'] as const)
+      for (let f = 0; f < 2; f++)
+        atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
