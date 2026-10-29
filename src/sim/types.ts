@@ -789,6 +789,8 @@ export interface World {
   lookouts?: string[];
   /** MOVE-58: the one-time hop lesson: shown once near a log or the stream, done on the first clear. */
   hopLesson?: 'shown' | 'done';
+  /** MOVE-59: the view's yaw (radians), sent by the UI as a hint for care walks; never a rule. */
+  viewYaw?: number;
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -973,6 +975,8 @@ export type Command =
   | { kind: 'keeper2Jump'; down: boolean }
   // MOVE-55: look around from a lookout.
   | { kind: 'lookAround' }
+  // MOVE-59: the camera's yaw, so care walks stop where the Nubbin stays in view.
+  | { kind: 'viewYaw'; yaw: number }
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }

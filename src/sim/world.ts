@@ -891,6 +891,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'lookAround':
       lookAround(world, events);
       return;
+    case 'viewYaw':
+      if (Number.isFinite(cmd.yaw)) world.viewYaw = cmd.yaw;
+      return;
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);
       return;

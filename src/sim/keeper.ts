@@ -10,6 +10,7 @@ import {
   KEEPER_SLOPE,
   BUSH,
   MANTLE,
+  CARE_APPROACH,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -200,6 +201,37 @@ function intentTarget(world: World, intent: KeeperIntent): Vec2 | null {
     case 'collect':
       return world.items.find((i) => i.id === intent.itemId)?.pos ?? null;
   }
+}
+
+/** MOVE-59: care walks whose spot in view proved out of reach (they walk to the Nubbin). */
+const noApproach = new WeakSet<KeeperIntent>();
+
+/**
+ * MOVE-59: where a care walk to a Nubbin stops, so the Nubbin stays in view: just inside
+ * reach, on the far side of it from the camera (the Nubbin is drawn in front of the Keeper)
+ * and turned `side` off straight behind, whichever side is nearer the Keeper. Null when the
+ * view's yaw is not known, the target is not a Nubbin, or the spot is in water or a solid
+ * (the walk then goes to the Nubbin as before).
+ */
+function careApproach(world: World, intent: KeeperIntent, n: Vec2): Vec2 | null {
+  if (intent.kind === 'shakeTree' || intent.kind === 'collect') return null;
+  const yaw = world.viewYaw;
+  if (yaw === undefined || noApproach.has(intent)) return null;
+  const k = world.keeper;
+  const r = KEEPER.interactRadius - CARE_APPROACH.inset;
+  const side = (CARE_APPROACH.sideDeg * Math.PI) / 180;
+  // The camera sits toward (sin yaw, cos yaw) from what it looks at; behind is the other way.
+  let best: Vec2 | null = null;
+  let bestD = Infinity;
+  for (const s of [-side, side]) {
+    const a = yaw + Math.PI + s;
+    const p = { x: n.x + Math.sin(a) * r, z: n.z + Math.cos(a) * r };
+    if (blocked(p, world, 0.3, 'keeper', k.y) || keeperFooting(world, p.x, p.z).on === 'water')
+      continue;
+    const d = dist(p, k.pos);
+    if (d < bestD) [best, bestD] = [p, d];
+  }
+  return best;
 }
 
 /** One fine Keeper step, in ms (MOVE-15). */
@@ -690,7 +722,12 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     k.pos.z += v.z * dt;
   } else {
     let target = k.moveTarget;
-    if (k.intent) target = intentTarget(world, k.intent);
+    // MOVE-59: a care walk to a Nubbin stands where the Nubbin stays in view (careApproach).
+    let around: Vec2 | null = null;
+    if (k.intent) {
+      target = intentTarget(world, k.intent);
+      if (target && !dungeonFloor) around = careApproach(world, k.intent, target);
+    }
     // A tap walk keeps its own pace; any speed left from the stick is dropped.
     halt(world);
     if (k.intent && !target) k.intent = null;
@@ -698,6 +735,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // and a Nubbin in the water is reached from there.
     const raw = target;
     if (target && !dungeonFloor && !keeperPerks(world).wade) target = shoreline(target);
+    if (around) target = around;
     if (target) {
       const d = dist(k.pos, target);
       // On land the Keeper walks up to arm's length; from the shore, a swimming Nubbin is
@@ -706,11 +744,15 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         ? standIns.has(raw!)
           ? UNREACHABLE.standInReach
           : KEEPER.arriveRadius
-        : target !== raw
-          ? KEEPER.interactRadius + GROVE.pond.r
-          : KEEPER.interactRadius;
+        : around
+          ? CARE_APPROACH.arrive
+          : target !== raw
+            ? KEEPER.interactRadius + GROVE.pond.r
+            : KEEPER.interactRadius;
       if (d <= reach) {
         if (k.intent) {
+          // MOVE-59: turn to the Nubbin on arrival.
+          if (around && raw) k.facing = Math.atan2(raw.x - k.pos.x, raw.z - k.pos.z);
           performIntent(world, k.intent, events);
           k.intent = null;
         }
@@ -760,7 +802,10 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           !k.intent &&
           standIns.has(target) &&
           dist(leg.end, target) > UNREACHABLE.standInReach;
-        if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
+        if (around && k.intent && (!leg || dist(leg.end, target) > reach)) {
+          // MOVE-59: the spot in view cannot be reached: walk to the Nubbin as before.
+          noApproach.add(k.intent);
+        } else if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
           else if (!stuck)

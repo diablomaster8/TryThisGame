@@ -230,3 +230,9 @@ export const STORY_PROP_REACH: Readonly<Record<string, number>> = { 'flat-stone'
  * one (sampled at `samples` points from take-off to landing) completes it for good.
  */
 export const HOP_LESSON = { near: 3, samples: 8 } as const;
+
+/**
+ * MOVE-59: a care walk to a Nubbin stops `inset` inside arm's reach, behind the Nubbin from
+ * the camera and `sideDeg` round to one side, within `arrive` of that spot, then turns to it.
+ */
+export const CARE_APPROACH = { inset: 0.2, sideDeg: 35, arrive: 0.3 } as const;

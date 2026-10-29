@@ -531,8 +531,12 @@ export class Game {
         zoom: (dir) => (dir > 0 ? this.camera.zoomIn() : this.camera.zoomOut()),
       },
     });
-    // MOVE-53: Camera follows walking, never while a dialogue is up.
     this.framePollers.push(() => {
+      // MOVE-59: the sim keeps the view's yaw as a hint for where care walks stop.
+      const yaw = this.camera.currentYaw;
+      if (this.world.viewYaw === undefined || Math.abs(yaw - this.world.viewYaw) > 0.01)
+        this.send({ kind: 'viewYaw', yaw });
+      // MOVE-53: Camera follows walking, never while a dialogue is up.
       const talking = document.documentElement.classList.contains('dialogue-open');
       this.walkFollow.update(this.world, this.camera, performance.now(), talking);
     });
