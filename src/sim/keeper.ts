@@ -381,10 +381,12 @@ export function keeperRoll(world: World): number | null {
 
 /**
  * MOVE-64: start a roll the way the Keeper faces (or along `dir`): on the ground, empty-
- * handed, not mid-mantle, and past the cooldown. Nearby Nubbins giggle.
+ * handed, not mid-mantle, and past the cooldown. Nearby Nubbins giggle. Never underground:
+ * the Hollow's walker has no roll step, so a roll there would eat the jump at a chasm lip.
  */
 export function keeperStartRoll(world: World, events: SimEvent[], dir?: Vec2): boolean {
   const k = world.keeper;
+  if (runFloor(world)) return false;
   if (!k.grounded || k.carrying || mantles.has(world) || rolls.has(world)) return false;
   if (world.timeMs - (rolledAt.get(world) ?? -Infinity) < ROLL.cooldownMs) return false;
   let dx = dir ? dir.x : Math.sin(k.facing);
