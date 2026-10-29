@@ -1314,7 +1314,7 @@ export type SimEvent =
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
   | { kind: 'acornFound' }
-  | { kind: 'acornPortal'; free: boolean }
+  | { kind: 'acornPortal'; free: boolean; camp?: true }
   | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };

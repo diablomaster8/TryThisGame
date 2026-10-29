@@ -23,7 +23,13 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
-import { SHRINE_TEXT, TRAP_TEXT, UNIQUE_RESULT_TEXT, UNIQUE_TEXT } from '../config/strings-dungeon';
+import {
+  HOLLOW_ZONE_TEXT,
+  SHRINE_TEXT,
+  TRAP_TEXT,
+  UNIQUE_RESULT_TEXT,
+  UNIQUE_TEXT,
+} from '../config/strings-dungeon';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -1252,7 +1258,7 @@ export function mountHud(
         } else if (e.kind === 'acornFound') {
           toast(HOLLOW_TEXT.acornFound);
         } else if (e.kind === 'acornPortal') {
-          toast(HOLLOW_TEXT.acornPortal(e.free));
+          toast(e.camp ? HOLLOW_ZONE_TEXT.acornCamp : HOLLOW_TEXT.acornPortal(e.free));
           playSound('pickup');
         } else if (e.kind === 'portalReturned') {
           toast(HOLLOW_TEXT.portalReturned);

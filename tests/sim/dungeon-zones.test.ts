@@ -215,6 +215,45 @@ describe('getting about an act above ground', () => {
   });
 });
 
+describe('the acorn into a camp (R0150 with R0152)', () => {
+  it('from Act II an acorn lands at the camp, and the camp portal goes back to the same floor', () => {
+    const world = keeperWorld();
+    world.hollow.acts = [{ bossDefeated: true, deepest: 3 }];
+    send(world, { kind: 'enterAct', act: 1 });
+    const run = world.dungeon!;
+    const f = runFloor(world)!;
+    const taken = f.loot[0]!.id;
+    run.taken.push(taken);
+    run.packs![0]!.state = 'beaten';
+    const spot = cellCentre(f, f.loot[1]!.cell);
+    world.keeper.pos = { ...spot };
+    const events = send(world, { kind: 'useAcorn' });
+    expect(events.some((e) => e.kind === 'acornPortal' && e.camp)).toBe(true);
+    expect(world.location).toBe('dungeon');
+    expect(world.dungeon!.zone).toBe('town');
+    expect(world.hollow.portal).not.toBeNull();
+    // A camp is safe already: no acorn there.
+    expect(send(world, { kind: 'useAcorn' })).toEqual([]);
+    world.inventory.shells = 50;
+    send(world, { kind: 'portalReturn' });
+    const back = world.dungeon!;
+    expect(back.zone).toBeUndefined();
+    expect(back.act).toBe(1);
+    expect(back.taken).toContain(taken);
+    expect(back.packs![0]!.state).toBe('beaten');
+    expect(runFloor(world)).toBe(f);
+    expect(world.hollow.portal).toBeNull();
+    expect(Math.hypot(world.keeper.pos.x - spot.x, world.keeper.pos.z - spot.z)).toBeLessThan(1);
+  });
+
+  it('Act I still falls up to the Grove', () => {
+    const world = keeperWorld();
+    send(world, { kind: 'enterAct', act: 0 });
+    send(world, { kind: 'useAcorn' });
+    expect(world.location).toBe('grove');
+  });
+});
+
 describe('camp services', () => {
   function standAt(world: World, kind: string): void {
     const f = runFloor(world)!;

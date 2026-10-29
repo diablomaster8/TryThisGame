@@ -9,7 +9,7 @@ import { HollowMap } from './hollow-map';
 import { BuffRing } from './dungeon-buffs';
 import { WaypointPanel } from './waypoint-panel';
 import { HOLLOW } from '../config/tuning';
-import { canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
+import { campPortalHere, canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
 import { parseLevelId } from '../sim/dungeon-levels';
 import { HOLLOW_ZONE_TEXT } from '../config/strings';
 import { serviceHere } from '../sim/dungeon-towns';
@@ -40,6 +40,8 @@ export class DungeonMenu {
   private readonly town: TownPanel;
   private readonly serviceBtn: HTMLButtonElement;
   private readonly mouthBtn: HTMLButtonElement;
+  /** In a camp with an acorn portal open into its act (R0150). */
+  private readonly portalBtn: HTMLButtonElement;
   /** Who comes along (R0168). */
   private readonly party: PartyPicker;
 
@@ -111,7 +113,13 @@ export class DungeonMenu {
       'btn btn-small btn-primary hollow-extra',
     );
     this.mouthBtn.hidden = true;
-    this.bar.append(this.serviceBtn, this.mouthBtn);
+    this.portalBtn = button(
+      HOLLOW_ZONE_TEXT.portalBack,
+      () => this.game()?.send({ kind: 'portalReturn' }),
+      'btn btn-small btn-primary hollow-extra',
+    );
+    this.portalBtn.hidden = true;
+    this.bar.append(this.serviceBtn, this.mouthBtn, this.portalBtn);
     // The minimap: its button sits in the bar, its panel is the bar's last row.
     this.map = new HollowMap(this.bar);
     this.bar.insertBefore(this.map.toggle, this.map.panel);
@@ -149,13 +157,14 @@ export class DungeonMenu {
     this.buffs.refresh(run);
     this.town.refresh(world);
     if (!run) {
-      this.serviceBtn.hidden = this.mouthBtn.hidden = true;
+      this.serviceBtn.hidden = this.mouthBtn.hidden = this.portalBtn.hidden = true;
       return;
     }
     const service = serviceHere(world);
     this.serviceBtn.hidden = !service;
     if (service) this.serviceBtn.textContent = TownPanel.label(world, service);
     this.mouthBtn.hidden = mouthHere(world) === null;
+    this.portalBtn.hidden = !campPortalHere(world);
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;
     this.acornBtn.textContent = HOLLOW_TEXT.acornButton(world.hollow.acorns, free);

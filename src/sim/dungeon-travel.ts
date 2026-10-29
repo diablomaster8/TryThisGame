@@ -161,6 +161,8 @@ export function canUseAcorn(world: World): boolean {
   const run = world.dungeon;
   if (!run || world.location !== 'dungeon' || run.story || run.encounter || run.loading)
     return false;
+  // A camp is already the safe place an acorn would take you to (R0152).
+  if (run.zone === 'town') return false;
   return !run.acornUsed || world.hollow.acorns > 0;
 }
 
@@ -179,7 +181,16 @@ export function useAcorn(world: World, events: SimEvent[]): boolean {
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   run.pending = null;
   run.pendingPos = null;
-  world.hollow.portal = { levelId: levelIdOf(run), cell: cellOf(f, world.keeper.pos), run };
+  const cell = cellOf(f, world.keeper.pos);
+  // From Acts II to V the acorn lands at the act's camp (R0150 with R0152); the run behind the
+  // portal is a frozen copy, and the camp visit carries on from the live one.
+  if (run.act !== undefined && run.act >= 1) {
+    world.hollow.portal = { levelId: levelIdOf(run), cell, run: frozenCopy(run) };
+    goToZone(world, run, 'town', 'waypoint', events);
+    events.push({ kind: 'acornPortal', free, camp: true });
+    return true;
+  }
+  world.hollow.portal = { levelId: levelIdOf(run), cell, run };
   returnHome(world, run);
   events.push({ kind: 'acornPortal', free });
   events.push({ kind: 'located', location: 'grove' });
@@ -188,6 +199,7 @@ export function useAcorn(world: World, events: SimEvent[]): boolean {
 
 /** Step back through the acorn portal: the run carries on where it was left. */
 export function portalReturn(world: World, events: SimEvent[]): boolean {
+  if (campPortalHere(world)) return campPortalBack(world, events);
   const portal = world.hollow.portal;
   if (!portal || world.location !== 'grove' || world.dungeon) return false;
   const run = portal.run;
@@ -212,5 +224,46 @@ export function portalReturn(world: World, events: SimEvent[]): boolean {
   events.push({ kind: 'portalReturned' });
   events.push({ kind: 'levelChanged', depth: run.depth });
   events.push({ kind: 'located', location: 'dungeon' });
+  return true;
+}
+
+// ---------------------------------------------------------------- the camp end of a portal
+
+/** A run as plain data, so the copy behind the portal never shares state with the live one. */
+function frozenCopy(run: DungeonRun): DungeonRun {
+  return JSON.parse(JSON.stringify(run)) as DungeonRun;
+}
+
+/** Whether the Keeper is in the camp of the act an open acorn portal leads back into. */
+export function campPortalHere(world: World): boolean {
+  const run = world.dungeon;
+  const portal = world.hollow.portal;
+  return (
+    world.location === 'dungeon' &&
+    !!run &&
+    run.zone === 'town' &&
+    !!portal &&
+    portal.run.act === run.act &&
+    !run.encounter &&
+    !run.loading
+  );
+}
+
+/** Back through the portal from the camp: the frozen run resumes, haul and all. */
+function campPortalBack(world: World, events: SimEvent[]): boolean {
+  const camp = world.dungeon!;
+  const portal = world.hollow.portal!;
+  rememberLevel(camp);
+  const run = portal.run;
+  run.haul = camp.haul;
+  run.levels = camp.levels ?? {};
+  if (camp.acornUsed) run.acornUsed = true;
+  world.hollow.portal = null;
+  world.dungeon = run;
+  const f = floorOfRun(run);
+  placeParty(world, run, f, portal.cell);
+  run.graceUntilMs = world.timeMs + HOLLOW.arrivalGraceMs;
+  events.push({ kind: 'portalReturned' });
+  events.push({ kind: 'levelChanged', depth: run.depth });
   return true;
 }
