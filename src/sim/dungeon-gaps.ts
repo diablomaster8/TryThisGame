@@ -12,6 +12,7 @@
  */
 import { HOLLOW } from '../config/tuning';
 import { cellDist, CHASM, FLOOR, WALL, WATER, type Cell, type Floor } from './dungeon';
+import { densityPacks, endlessBand, type FoeBand } from './dungeon-density';
 import { waypointCell } from './dungeon-levels';
 import { propCells } from './dungeon-props';
 import { Rng } from './rng';
@@ -221,7 +222,12 @@ export function busyCells(f: Floor): Set<number> {
  * Make `f` (a fresh version-3 floor) a version-4 one. Deterministic per seed and depth.
  * Mutates and returns the floor.
  */
-export function platformFloor(f: Floor, seed: number, depth: number): Floor {
+export function platformFloor(
+  f: Floor,
+  seed: number,
+  depth: number,
+  band: FoeBand = endlessBand(depth),
+): Floor {
   const rng = new Rng((seed ^ 0x5eed_9a95 ^ (depth * 0x9e37)) >>> 0);
   const deep = depth >= G.nookFromDepth;
   f.version = 4;
@@ -236,7 +242,10 @@ export function platformFloor(f: Floor, seed: number, depth: number): Floor {
     });
   }
   ford(f, deep, f.fords);
-  if (depth < G.fromDepth) return f;
+  if (depth < G.fromDepth) {
+    densityPacks(f, seed, depth, band);
+    return f;
+  }
 
   const busy = busyCells(f);
   const all = candidates(f, busy);
@@ -335,6 +344,8 @@ export function platformFloor(f: Floor, seed: number, depth: number): Floor {
       }
       if (lo < Infinity) f.elevation[c.y * f.cols + c.x] = lo;
     }
+  // Packs by the version-4 density rules, on the final ground (R0158).
+  densityPacks(f, seed, depth, band);
   return f;
 }
 

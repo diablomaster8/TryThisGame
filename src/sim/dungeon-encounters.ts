@@ -12,6 +12,7 @@
  */
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
+import type { ChampionModId } from '../config/dungeon-foes';
 import {
   combatantOf,
   createBattle,
@@ -28,8 +29,8 @@ import { levelOf } from './stats';
 import type { DungeonPack, DungeonRun, SimEvent, Vec2, World } from './types';
 
 export type PackKind = 'normal' | 'champion' | 'elite' | 'unique' | 'boss';
-/** Champion modifiers arrive with DUNG-15; the slot is here so packs never need migrating. */
-export type ChampionMod = string;
+/** Champion modifiers (R0155, `config/dungeon-foes.ts`); older saves hold none. */
+export type ChampionMod = ChampionModId;
 export type LootTableId = 'pack-normal' | 'pack-champion' | 'pack-boss';
 export type FoeFamilyId = string;
 
@@ -53,6 +54,8 @@ export interface EncounterPack {
   aggroRadius: number;
   leash: number;
   reward: LootTableId;
+  /** A treasure room's champion guard (R0158), not part of the floor's kind mix. */
+  guard?: boolean;
 }
 
 /** What the dungeon hands the fight: the foes and a 9×7 window of the floor as the board. */

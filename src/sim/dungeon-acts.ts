@@ -28,7 +28,13 @@ export function actFloor(seed: number, act: number, depth: number, version = 3):
       tileset: def.tileset,
       boss: level === def.levels.length - 1,
     });
-    if (version >= 4) platformFloor(f, seed, depth);
+    if (version >= 4)
+      platformFloor(f, seed, depth, {
+        act,
+        level,
+        boss: level === def.levels.length - 1,
+        difficulty: 'cosy',
+      });
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }

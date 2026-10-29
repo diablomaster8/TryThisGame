@@ -7,6 +7,7 @@ import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
 import { HollowChasm } from './hollow-chasm';
 import { HollowTrail } from './hollow-trail';
+import { HollowPlates } from './hollow-plates';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowFog } from './hollow-fog';
@@ -55,6 +56,8 @@ export class Hollow {
   private readonly chasm = new HollowChasm();
   /** Dropped stray Shells (R0162). */
   private readonly trail = new HollowTrail();
+  /** Name plates over champion, elite and boss packs (R0155). */
+  private readonly plates = new HollowPlates();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
   private readonly fog = new HollowFog();
   /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
@@ -101,6 +104,7 @@ export class Hollow {
       this.pop,
       this.waypoint,
       this.trail,
+      this.plates,
     ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);

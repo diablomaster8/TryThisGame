@@ -15,6 +15,14 @@ export const HOLLOW_TEXT = {
   fellWater: 'Splash! Too deep to wade. Find the stones, or jump.',
   /** Strays (R0162). */
   strayShooed: (name: string) => `${name || 'Your Nubbin'} chases the stray off, puffing.`,
+  /** Pack plates (R0155): the words after the plate's shape. */
+  plate: {
+    normal: '',
+    champion: 'Champion pack',
+    elite: 'Elite',
+    unique: 'Someone special',
+    boss: 'Boss',
+  },
   /** The pack fight's panel, on the battle core. */
   boutTitle: 'A pack!',
   boutBackOff: 'Back off',

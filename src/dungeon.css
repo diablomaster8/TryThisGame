@@ -84,3 +84,10 @@
 .story-queued .hollow-automap {
   visibility: hidden;
 }
+
+/* R0155: a special pack's plate on the bout panel (shape and words, colour only backs it up). */
+.hollow-bout .hollow-plate {
+  margin: 4px 0;
+  font-weight: 600;
+  color: #ffd27a;
+}
