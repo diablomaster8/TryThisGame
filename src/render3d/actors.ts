@@ -28,6 +28,7 @@ import { WATER_LEVEL, groveHeight } from './terrain';
 import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
+import { signatureAt } from '../render/signature';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
 import { isMerged } from '../sim/partners';
@@ -880,6 +881,11 @@ export class Actors {
       const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
       // LOOK-24: a strong flier on a flight leg flies (drawn only, sim/flight.ts).
       const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
+      // LOOK-44: an idle favourite plays its signature beat (render/signature.ts).
+      const sig =
+        held || fly || n.stage === 'egg' || n.stage === 'cocoon'
+          ? null
+          : signatureAt(n.id, n.species, nowMs, this.calm);
       // MOVE-57: a Nubbin at play on a spring mushroom bounces on its cap (drawn only).
       const y =
         lerp(a.prev.y, n.y, alpha) +
@@ -910,6 +916,8 @@ export class Actors {
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
         if (fly) pose = 'flap';
+        const sigOn = !!sig && pose === 'idle';
+        if (sigOn) pose = sig!.pose3d;
         a.rig.glide = fly?.phase === 'glide';
         if (pose !== a.pose) {
           a.pose = pose;
@@ -940,6 +948,7 @@ export class Actors {
         a.rig.lift = inWater ? 0 : Math.max(0, y);
         // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
+        if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;

@@ -45,6 +45,7 @@ import { cocoonPulse } from './sprites/cocoon';
 import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
+import { signatureAt } from './signature';
 import { FLIGHT } from '../config/tuning-look';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -1788,12 +1789,18 @@ export class WorldView {
     const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
     // LOOK-24: a strong flier on a flight leg is drawn in the air; the shadow shrinks below.
     const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
+    // LOOK-44: an idle favourite plays its signature beat now and then (render/signature.ts).
+    const sig =
+      !held && !fly && n.stage !== 'egg' && n.stage !== 'cocoon' && clipFor(n) === 'idle'
+        ? signatureAt(n.id, n.species, nowMs, this.particles.reduceMotion)
+        : null;
     // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
     const y =
       lerp(v.prev.y, n.y, alpha) +
       (held && this.location === 'grove' ? terraceY(x, z) : 0) +
       (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
-      (fly?.y ?? 0);
+      (fly?.y ?? 0) +
+      (sig?.dy ?? 0);
 
     let key: string;
     let flip = false;
@@ -1876,6 +1883,10 @@ export class WorldView {
             ? frameAt(def, nowMs - v.clipStartMs)
             : 0;
       key = frameKey(clip, view.angle, frame);
+      if (sig && sheet.frames.has(frameKey(sig.clip, view.angle, sig.frame))) {
+        key = frameKey(sig.clip, view.angle, sig.frame);
+        flip = flip !== sig.flip;
+      }
       emote = emoteFor(n);
       // K40: the partner's ball follows the line's mood.
       if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
@@ -1897,8 +1908,14 @@ export class WorldView {
           lifeMs: 700,
         });
     }
+    if (sig?.burst)
+      this.particles.burst(sig.burst, x, Math.max(0, y) + (sig.burstAt ?? 0.5) * 1.4, z, 2, {
+        spread: 0.35,
+        rise: 0.6,
+        lifeMs: 600,
+      });
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
-    shadow(x, y, z, 0.55);
+    shadow(x, Math.max(0, y), z, 0.55);
     if (rect) {
       // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
       let sw = 1;
@@ -1908,6 +1925,10 @@ export class WorldView {
       if (beat) {
         sw *= beat.sw;
         sh *= beat.sh;
+      }
+      if (sig) {
+        sw *= sig.sw;
+        sh *= sig.sh;
       }
       if (v.pop) {
         const dur = v.pop.kind === 'squash' ? 260 : 420;
