@@ -563,6 +563,11 @@ export interface DungeonRun {
   /** R0159: shrines used on this level, and the shrine buffs still running (paused in fights). */
   shrinesUsed?: string[];
   buffs?: Array<{ kind: string; leftMs: number }>;
+  /** R0161: traps sprung and waiting to re-arm (sticky ones slow for `slowMs`), and spotted. */
+  trapsSprung?: Array<{ id: string; kind: string; leftMs: number; slowMs: number }>;
+  trapsSpotted?: string[];
+  /** Set while the Learning Grove is on: no traps are shown or sprung. */
+  noTraps?: boolean;
   wild: DungeonWild[];
   /** 'up', 'down', 'chest' or 'stray:<id>': used on arrival at `pendingPos`. */
   pending: string | null;
@@ -1189,6 +1194,9 @@ export type SimEvent =
   /** R0159: a shrine used, and a shrine buff run out. */
   | { kind: 'shrineUsed'; shrine: string }
   | { kind: 'shrineFaded'; shrine: string }
+  /** R0161: a trap sprung under the Keeper, and one a scouting Nubbin spotted. */
+  | { kind: 'trapSprung'; trap: string }
+  | { kind: 'trapSpotted'; trap: string }
   /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
   | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
   | { kind: 'packNoticed'; packId: string }

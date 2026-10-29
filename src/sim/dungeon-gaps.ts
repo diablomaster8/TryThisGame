@@ -14,6 +14,7 @@ import { HOLLOW } from '../config/tuning';
 import { cellDist, CHASM, FLOOR, WALL, WATER, type Cell, type Floor } from './dungeon';
 import { densityPacks, endlessBand, type FoeBand } from './dungeon-density';
 import { placeShrines } from './dungeon-shrines';
+import { placeTraps } from './dungeon-traps';
 import { waypointCell } from './dungeon-levels';
 import { propCells } from './dungeon-props';
 import { Rng } from './rng';
@@ -245,6 +246,7 @@ export function platformFloor(
   ford(f, deep, f.fords);
   if (depth < G.fromDepth) {
     placeShrines(f, seed, depth);
+    placeTraps(f, seed, depth, band.act);
     densityPacks(f, seed, depth, band);
     return f;
   }
@@ -354,8 +356,10 @@ export function platformFloor(
       }
       if (lo < Infinity) f.elevation[c.y * f.cols + c.x] = lo;
     }
-  // Shrines (R0159), then packs by the version-4 density rules on the final ground (R0158).
+  // Shrines (R0159) and traps (R0161), then packs by the version-4 density rules on the final
+  // ground (R0158).
   placeShrines(f, seed, depth);
+  placeTraps(f, seed, depth, band.act);
   densityPacks(f, seed, depth, band);
   return f;
 }

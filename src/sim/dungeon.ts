@@ -8,6 +8,7 @@ import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
 import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
+import { stepTraps, type Trap } from './dungeon-traps';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -194,6 +195,8 @@ export interface Floor {
   fords?: Cell[];
   /** Shrines (R0159, version 4). */
   shrines?: Shrine[];
+  /** Traps (R0161, version 4). */
+  traps?: Trap[];
 }
 
 /** A slot's job on a version-3 floor. */
@@ -1262,6 +1265,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   }
   stepWaypoint(world, run, f, events);
   stepShrines(world, run, f, dtMs, events);
+  stepTraps(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     w.scanned = true;

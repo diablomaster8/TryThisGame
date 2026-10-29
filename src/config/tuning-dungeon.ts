@@ -45,6 +45,23 @@ export const HOLLOW = {
    * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
    * walking onto one, each buff's seconds (0 is instant), and the effect sizes.
    */
+  /**
+   * Traps (R0161): per level, cells from the stairs and apart, re-arm time, the scout's Run
+   * level and reach, and each trap's size.
+   */
+  traps: {
+    perLevel: [2, 5] as const,
+    fromStairs: 5,
+    spacing: 6,
+    rearmMs: 20_000,
+    scoutRun: 30,
+    scoutCells: 3,
+    whoopeeHop: 4,
+    stickySlow: 0.4,
+    stickyMs: 3000,
+    leafCells: 3,
+    bellReach: 20,
+  },
   shrines: {
     perLevel: [1, 3] as const,
     fromStairs: 6,

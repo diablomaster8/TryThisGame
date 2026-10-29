@@ -142,3 +142,20 @@ export const SHRINE_TEXT = {
   ring: 'Shrine buffs',
   left: (name: string, s: number) => `${name}, ${s} seconds left`,
 };
+
+/** Traps (R0161): what each does when sprung, its tile icon, and a scout's spot. */
+export const TRAP_TEXT = {
+  sprung: {
+    whoopee: 'Pfrrt! A whoopee tile. Everyone goes a bit pink.',
+    sticky: 'A sticky puddle! Your boots squelch for a moment.',
+    leaves: 'Whoosh! A leaf pile slides you back.',
+    sneeze: 'A sneeze mushroom! Achoo, achoo.',
+    bell: 'A bell wire tinkles. Something comes to have a look.',
+    ice: 'Wheee! Ice underfoot.',
+  } as Record<string, string>,
+  icon: { whoopee: '◠', sticky: '◉', leaves: '❦', sneeze: '✲', bell: '♪', ice: '❄' } as Record<
+    string,
+    string
+  >,
+  spotted: 'Your scout points: ! A trap just ahead.',
+};

@@ -17,7 +17,7 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
-import { SHRINE_TEXT } from '../config/strings-dungeon';
+import { SHRINE_TEXT, TRAP_TEXT } from '../config/strings-dungeon';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -1159,6 +1159,11 @@ export function mountHud(
         } else if (e.kind === 'shrineFaded') {
           const k = SHRINE_TEXT.kinds[e.shrine];
           if (k) toast(SHRINE_TEXT.faded(k.name));
+        } else if (e.kind === 'trapSprung') {
+          // Lane B round 3: traps (R0161).
+          toast(TRAP_TEXT.sprung[e.trap] ?? '');
+        } else if (e.kind === 'trapSpotted') {
+          toast(TRAP_TEXT.spotted);
         } else if (e.kind === 'hollowFell') {
           // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
           toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);

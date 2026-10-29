@@ -9,6 +9,7 @@ import { HollowChasm } from './hollow-chasm';
 import { HollowTrail } from './hollow-trail';
 import { HollowPlates } from './hollow-plates';
 import { HollowShrines } from './hollow-shrines';
+import { HollowTraps } from './hollow-traps';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowFog } from './hollow-fog';
@@ -61,6 +62,8 @@ export class Hollow {
   private readonly plates = new HollowPlates();
   /** Shrines (R0159). */
   private readonly shrines = new HollowShrines();
+  /** Trap tiles (R0161). */
+  private readonly traps = new HollowTraps();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
   private readonly fog = new HollowFog();
   /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
@@ -109,6 +112,7 @@ export class Hollow {
       this.trail,
       this.plates,
       this.shrines,
+      this.traps,
     ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
