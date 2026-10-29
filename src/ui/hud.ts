@@ -59,6 +59,7 @@ import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
+import { BarkBubble } from './bark-bubble';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -269,6 +270,8 @@ export function mountHud(
   const hopLesson = new HopLessonChip(root);
   // MOVE-63: the hop course's chip, toasts and side save.
   const hopCourse = new HopCourseChip(root);
+  // R0295: the Keepers' speech bubbles.
+  const barkBubble = new BarkBubble(root);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -785,6 +788,7 @@ export function mountHud(
         g.framePollers.push(() => lookout.update(g.world, performance.now()));
         g.framePollers.push(() => hopLesson.update(g.world));
         g.framePollers.push(() => hopCourse.update(g.world));
+        g.framePollers.push(() => barkBubble.update(g, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1124,7 +1128,9 @@ export function mountHud(
         } else if (e.kind === 'talked') {
           const npc = g.world.npcs.find((x) => x.id === e.npcId);
           const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
-          toast(STORY_TEXT.talkedTo(name));
+          // R0295: the Keeper's own line in a bubble over their head.
+          if (e.bark) barkBubble.show(e.npcId, name, e.bark, performance.now());
+          else toast(STORY_TEXT.talkedTo(name));
         } else if (e.kind === 'interacted') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;

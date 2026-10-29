@@ -16,6 +16,7 @@ import {
   stepSideStories,
 } from './side-stories';
 import { noteSceneWords } from './lang';
+import { pickBark } from './barks';
 import { sceneById, sceneFor } from './story-scenes';
 import { campaignSeason, ensureTrainers, syncSceneGuests } from './scene-cast';
 import {
@@ -715,7 +716,9 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       c.stats.talks += 1;
       c.friendship[npc.trainer] = (c.friendship[npc.trainer] ?? 0) + 1;
       c.flags[`talked:${c.chapter}:${npc.trainer}`] = true;
-      events.push({ kind: 'talked', npcId: npc.id });
+      // R0295: the Keeper says something of their own (content/barks.ts).
+      const bark = withRng(world, (rng) => pickBark(world, npc.trainer, c.chapter, rng));
+      events.push({ kind: 'talked', npcId: npc.id, ...(bark ? { bark } : {}) });
       world.keeper.facing = Math.atan2(
         npc.pos.x - world.keeper.pos.x,
         npc.pos.z - world.keeper.pos.z,

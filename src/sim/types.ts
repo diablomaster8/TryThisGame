@@ -1184,7 +1184,8 @@ export type SimEvent =
   | { kind: 'degenerated'; nubbinId: string; name: string }
   | { kind: 'restored'; nubbinId: string; name: string }
   | { kind: 'keepsake'; id: string; quest: string }
-  | { kind: 'talked'; npcId: string }
+  // R0295: `bark`, the line the Keeper says back (content/barks.ts).
+  | { kind: 'talked'; npcId: string; bark?: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }
   | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }
