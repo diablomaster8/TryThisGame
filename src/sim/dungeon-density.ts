@@ -9,6 +9,7 @@
  * modifier on every member, a few are elites whose leader carries two or three.
  */
 import {
+  actFamilies,
   CHAMPION_MODS,
   DENSITY,
   type ChampionModId,
@@ -19,7 +20,6 @@ import { cellDist, FLOOR, hashString, type Cell, type Floor } from './dungeon';
 import type { EncounterPack, PackKind, PackMember } from './dungeon-encounters';
 import { waypointCell } from './dungeon-levels';
 import { Rng } from './rng';
-import { isCommonSpecies, SPECIES } from './species';
 
 const E = HOLLOW.packs;
 
@@ -71,7 +71,8 @@ function inRoom(f: Floor, i: number, c: Cell): boolean {
 export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBand): void {
   const rng = new Rng((seed ^ 0x9ac4_5e11 ^ (depth * 0x2f1d)) >>> 0);
   const boss = (f.packs ?? []).filter((p) => p.kind === 'boss');
-  const foes = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
+  // The act's own foe families (R0157); one pick each, so the seeded order is unchanged.
+  const fams = actFamilies(band.act);
   const wp = waypointCell(f);
   const dry: Cell[] = [];
   for (let y = 0; y < f.rows; y++)
@@ -94,7 +95,8 @@ export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBan
     !quiet.has(roomOf(c)) &&
     ![...out, ...boss].some((p) => cellDist(p.cell, c) < spacing);
   const make = (c: Cell, kind: PackKind): EncounterPack => {
-    const family = rng.pick(foes).id;
+    const fam = rng.pick(fams);
+    const family = fam.id;
     const [lo, hi] = DENSITY.size[band.difficulty];
     const size = rng.int(lo, hi);
     const wild = band.difficulty === 'wild' ? DENSITY.mods.wildBonus : 0;
@@ -112,7 +114,7 @@ export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBan
     const members: PackMember[] = [];
     for (let m = 0; m < size; m++)
       members.push({
-        species: m === 0 || rng.chance(0.7) ? family : rng.pick(foes).id,
+        species: m === 0 || rng.chance(0.7) ? fam.look : rng.pick(fams).look,
         level: Math.max(1, level + rng.int(0, 1)),
         // A champion pack shares its modifier; an elite's leader carries the set.
         mods: m === 0 ? [...leaderMods] : kind === 'elite' ? [familyMod(family)] : [...packMods],
@@ -128,6 +130,7 @@ export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBan
       aggroRadius: E.aggroRadius,
       leash: E.leash,
       reward: kind === 'normal' ? 'pack-normal' : 'pack-champion',
+      ...(fam.grey ? { grey: true as const } : {}),
     };
   };
 
