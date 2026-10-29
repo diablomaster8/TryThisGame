@@ -4,6 +4,7 @@ import {
   forfeitBattleCmd,
   karatePrize,
   partyPrize,
+  setBattlePrefsCmd,
   setSlotsCmd,
   startBattleCmd,
   stepBattleMoves,
@@ -655,6 +656,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'battleForfeit':
       forfeitBattleCmd(world, events);
+      return;
+    case 'battlePrefs':
+      setBattlePrefsCmd(world, cmd.prefs);
       return;
     case 'fuse': {
       const [a, b] = world.partners;

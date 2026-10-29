@@ -1,4 +1,21 @@
-import type { BattleAction, BattleContext, BattleState, NubbinBattle } from './battle/types';
+import type {
+  BattleAction,
+  BattleContext,
+  BattleEndReason,
+  BattleState,
+  NubbinBattle,
+} from './battle/types';
+import type { CircuitState } from './battle/circuit';
+
+/** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
+export interface BattlePrefs {
+  /** The last party picked, by Nubbin id (1–3). */
+  party?: string[];
+  /** Settings → "Gentle bouts" for anyone (always on in the Learning Grove). */
+  gentle?: boolean;
+  /** The battle playback speed. */
+  speed?: 1 | 2;
+}
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -342,6 +359,8 @@ export interface Inventory {
   twine: number;
   /** Story rewards kept: items, cosmetics, memories and unlocks, by reward id. */
   keepsakes: string[];
+  /** Lane C: flavoured fruit pocketed for bouts (FIGHT-20); absent in older saves. */
+  pocketFruit?: Partial<Record<Flavor, number>>;
 }
 
 /** Stat fruit and seeds: one per stat, plus Sun and Moon fruit that nudge alignment. */
@@ -764,6 +783,10 @@ export interface World {
   battle?: BattleState;
   /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
   battleRuns?: number;
+  /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
+  battlePrefs?: BattlePrefs;
+  /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
+  circuit?: CircuitState;
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -850,6 +873,7 @@ export type Command =
   | { kind: 'battleAct'; action: BattleAction }
   | { kind: 'battleForfeit' }
   | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
+  | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1020,9 +1044,12 @@ export type SimEvent =
       source: string;
       key: string;
       winner: 0 | 1 | null;
-      reason: 'tuckered' | 'forfeit' | 'time';
+      reason: BattleEndReason;
       shells: number;
     }
+  | { kind: 'circuitRibbon'; trainer: string; champion: boolean }
+  /** A wild foe came home: as a new child (`child`, its id), or as a full scan and a gift. */
+  | { kind: 'befriended'; species: string; child: string | null; gift: number }
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {

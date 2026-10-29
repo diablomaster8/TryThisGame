@@ -533,7 +533,9 @@ describe('turn order (recs FIGHT-18)', () => {
       me.zip = 1;
       me.moves = ['belly-slide'];
       for (const c of s.sides[1]) c.zip = 999;
+      // The foes bonk (a Sprout's breath would go first at priority +3).
       s.choices = { [me.id]: { k: 'move', move: 'belly-slide' } };
+      for (const c of s.sides[1]) s.choices[c.id] = { k: 'strike' };
       expect(turnOrder(s, Rng.fromSeed(seed))[0]!.c.id).toBe(me.id);
     }
   });
