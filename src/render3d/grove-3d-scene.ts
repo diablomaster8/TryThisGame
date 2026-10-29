@@ -39,6 +39,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
 import { nearestChild, occluders } from './occluders';
@@ -445,6 +446,13 @@ export class Grove3dScene {
     this.actors.pool.compile = (o) => {
       const sets = new Set([this.lightSet(), ...this.warmed]);
       return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
+    };
+    this.creatureLod.compile = this.actors.pool.compile;
+    this.creatureLod.impostors = new CreatureImpostors(this.scene);
+    const pool = this.actors.pool;
+    this.creatureLod.low = {
+      state: (key, res) => pool.lowState(key, res),
+      surface: (key, part) => pool.lowSurface(key, part),
     };
     this.actors.ground = standHeight;
     // The lantern posts thin like trunks when in the way, and NPCs are drawn clear of them.
@@ -1572,6 +1580,8 @@ export class Grove3dScene {
     }
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
+    // R0079: the far creatures' cells, after the reset so their draws count in the frame.
+    if (!NO_LOD) this.creatureLod.impostors?.render(this.renderer, this.scene, this.camera);
     this.composer.render();
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
@@ -1754,6 +1764,7 @@ export class Grove3dScene {
 
   dispose(): void {
     this.dressings.dispose();
+    this.creatureLod.impostors?.dispose();
     this.actors.dispose();
     this.bursts.dispose();
     this.sky.dispose();
