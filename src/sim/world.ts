@@ -16,7 +16,15 @@ import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuni
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
-import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
+import {
+  clampToWorld,
+  fruitOnHead,
+  putDown,
+  react,
+  sampleAll,
+  startThrow,
+  updateBehavior,
+} from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
@@ -60,6 +68,7 @@ import { separateBodies } from './separation';
 import { lookAround } from './lookout';
 import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
+import { stepHopCourse } from './hop-course';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -1032,6 +1041,8 @@ export function stepWorld(
     if (!offline) stepPropReach(world);
     // MOVE-58: the one-time hop lesson.
     if (!offline) stepHopLesson(world, events);
+    // MOVE-63: the hop course's flags and timer.
+    if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);
@@ -1104,6 +1115,8 @@ export function dropFruit(world: World, tree: Tree, rng: Rng, events: SimEvent[]
   };
   world.items.push(item);
   events.push({ kind: 'fruitDropped', treeId: tree.id, itemId: item.id });
+  // R0300: a Nubbin under the tree may get it on the head.
+  fruitOnHead(world, item, tree.pos, events);
   return item;
 }
 

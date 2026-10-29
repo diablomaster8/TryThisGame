@@ -13,13 +13,20 @@ import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } fro
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { BUSH, FOOTFALL, KEEPER_JUMP_FX, POND_DIP, RUN_MODE } from '../config/tuning-move';
+import {
+  BUSH,
+  FOOTFALL,
+  JUMP_TOYS,
+  KEEPER_JUMP_FX,
+  POND_DIP,
+  RUN_MODE,
+} from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
 import type { Daylight } from './daylight';
-import { GROVE, GROVE3D } from '../config/tuning';
+import { GROVE, GROVE3D, SIM } from '../config/tuning';
 import { CaveAmbience, landmarkSprites } from './cave-ambience';
 import { placeDecorations } from './decor';
 import { fenceSpots, SCENERY } from './scenery';
@@ -37,6 +44,10 @@ import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
+import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
+import { hopFlagsShown, hopGhostAt } from './hop-course-view';
+import { springBouncedAt } from '../sim/decorate';
+import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
@@ -750,6 +761,34 @@ export class WorldView {
         );
         continue;
       }
+      if (d.kind === 'springShroom' || d.kind === 'hayBale') {
+        // MOVE-57: the jump toys come from their own little sheet; the mushroom squashes.
+        const toys = jumpToySheet();
+        const trect = toys.frames.get(d.kind);
+        if (!trect) continue;
+        const size = JUMP_TOY_SIZE[d.kind];
+        const sq =
+          d.kind === 'springShroom'
+            ? shroomSquash(d.id, springBouncedAt(world, d.id), nowMs, this.particles.reduceMotion) *
+              JUMP_TOYS.squash
+            : 0;
+        batch.draw(
+          {
+            sheet: toys,
+            rect: trect,
+            flip: false,
+            x: d.pos.x,
+            y: 0,
+            z: d.pos.z,
+            mode: 'billboard',
+            w: size * (1 + sq * 0.5),
+            h: size * (1 - sq),
+            tint: this.dim,
+          },
+          { id: d.id, kind: 'decor' },
+        );
+        continue;
+      }
       const rect = props.frames.get(frameKey(d.kind, 'front', 0));
       if (!rect) continue;
       const flat = d.kind === 'pathTile';
@@ -766,6 +805,42 @@ export class WorldView {
         },
         { id: d.id, kind: 'decor' },
       );
+    }
+    // MOVE-63: the hop course's flags and the best run's ghost.
+    if (home && !bare) {
+      const toys = jumpToySheet();
+      for (const f of hopFlagsShown(world)) {
+        const rect = toys.frames.get(f.kind === 'start' ? 'flagStart' : 'flag');
+        if (!rect) continue;
+        batch.draw({
+          sheet: toys,
+          rect,
+          flip: false,
+          x: f.x,
+          y: Math.max(0, keeperFooting(world, f.x, f.z).y - paintedGround(f.x, f.z)),
+          z: f.z,
+          mode: 'billboard',
+          w: 1.2,
+          h: 1.2,
+          opacity: f.kind === 'after' ? 0.45 : 1,
+          tint: this.dim,
+        });
+      }
+      const gh = hopGhostAt(world, world.timeMs - (1 - alpha) * SIM.stepMs);
+      const grect = toys.frames.get('ghost');
+      if (gh && grect)
+        batch.draw({
+          sheet: toys,
+          rect: grect,
+          flip: false,
+          x: gh.x,
+          y: Math.max(0, gh.y - paintedGround(gh.x, gh.z)),
+          z: gh.z,
+          mode: 'billboard',
+          w: 1.1,
+          h: 1.1,
+          opacity: 0.5,
+        });
     }
     // The side stories' props: the trowel on the step, the door in the Old Wall...
     for (const p of home && !bare ? visibleStoryProps(world) : []) {
@@ -1695,7 +1770,10 @@ export class WorldView {
     const x = held?.x ?? lerp(v.prev.pos.x, n.pos.x, alpha);
     const z = held?.z ?? lerp(v.prev.pos.z, n.pos.z, alpha);
     // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
-    const y = lerp(v.prev.y, n.y, alpha) + (held && this.location === 'grove' ? terraceY(x, z) : 0);
+    const y =
+      lerp(v.prev.y, n.y, alpha) +
+      (held && this.location === 'grove' ? terraceY(x, z) : 0) +
+      (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0);
 
     let key: string;
     let flip = false;

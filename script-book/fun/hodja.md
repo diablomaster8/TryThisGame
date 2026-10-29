@@ -8,7 +8,7 @@
 
 ### Step 1: Help the Hodja down from his donkey.
 
-Hint: Walk up to the donkey by the pond and use Talk on the rider. · check: `talk:hodja:dismount`
+Hint: The rider sits on the donkey by the pond. Say hello, then tap Do it in the Journal. · check: `talk:hodja:dismount`
 
 #### <a id="q86-intro"></a>Scene `q86-intro`
 
@@ -38,7 +38,7 @@ _He lands on both feet, wobbles, and pats his turban back into the middle of his
 
 ### Step 2: Give the donkey water and a place under the big tree.
 
-Hint: Fill a bucket at the pond and use Give on the donkey, then lead it to the shade. · check: `give:item:water:hodja-donkey`
+Hint: The donkey wants water and shade. Tap Do it in the Journal; your Nubbin fetches the water in its cupped hands. · check: `give:item:water:hodja-donkey`
 
 #### <a id="q86-water"></a>Scene `q86-water`
 

@@ -57,3 +57,29 @@ export const HAND_TEXT = {
   left: 'Left-handed',
   leftHelp: 'Jump and camera buttons on the left, Run and the touch pad on the right.',
 } as const;
+
+/** MOVE-57: the jump toys' names in the decor shop. */
+export const JUMP_TOY_NAMES = {
+  springShroom: 'Spring mushroom',
+  hayBale: 'Hay bale',
+} as const;
+
+/** MOVE-63: the hop course's chip, toasts and hat. */
+export const HOP_COURSE_TEXT = {
+  hat: 'Hop Hat',
+  started: 'Hop course! Touch the flags in order.',
+  flag: (n: number, of: number) => `Flag ${n} of ${of}`,
+  time: (ms: number) => `${(ms / 1000).toFixed(1)} s`,
+  finished: (ms: number, medal: string) => `Course done in ${(ms / 1000).toFixed(1)} s · ${medal}`,
+  best: (ms: number) => `Best ${(ms / 1000).toFixed(1)} s`,
+  newBest: 'A new best! Your ghost will race you next time.',
+  gaveUp: 'The hop course waits for another day.',
+  hatGot: 'You won the Hop Hat!',
+  medals: { gold: 'gold', silver: 'silver', bronze: 'bronze' },
+} as const;
+
+/** R0302 (FUN-13): the voice blips setting. */
+export const BLIP_TEXT = {
+  label: 'Voice blips',
+  help: 'A soft tick in each speaker’s voice as their words type out.',
+} as const;

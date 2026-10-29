@@ -578,3 +578,4 @@ export {
   STORYLINE_DAWNDUSK_FLAGS,
   STORYLINE_DAWNDUSK_CHECKS,
 } from './storyline-dawndusk';
+export { BARKS, QUIET_CHAPTERS } from './barks';

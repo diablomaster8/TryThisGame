@@ -10,6 +10,7 @@ import { StageInspector } from './stage-inspector';
 import { MOVE_TEXT } from '../config/strings-move';
 import { DEBUG_OVERLAY } from '../render/debug-colliders';
 import { TACTICS_TEXT } from '../config/strings-tactics';
+import { COMIC_SOUNDS, playSound } from '../platform/audio';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -182,6 +183,12 @@ export class DebugPanel {
     this.root.appendChild(overlays);
 
     this.root.appendChild(worldControls(game));
+
+    // R0301: the comic sound palette, one button each, for an ear test.
+    const comic = el('div', 'debug-row');
+    for (const name of COMIC_SOUNDS)
+      comic.appendChild(button(name, () => playSound(name), 'btn btn-small'));
+    this.root.appendChild(comic);
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);

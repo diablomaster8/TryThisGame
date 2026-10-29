@@ -2063,7 +2063,7 @@ const Q20 = quest(
     },
     'q20-s2': {
       goal: 'Photograph Mr Arbour’s board from the meadow.',
-      hint: 'Open Photo mode, zoom in on the far ridge, and take the picture with the board in frame.',
+      hint: 'Find the far ridge with the board in view. Then tap Do it in the Journal.',
     },
   },
   [

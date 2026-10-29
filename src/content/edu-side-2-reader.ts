@@ -1998,7 +1998,7 @@ const S9: EduQuest = {
   goals: {
     's9-step1': {
       goal: 'Take the old trowel to Hazel.',
-      hint: 'She’s on the cottage step. Give it to her from your bag.',
+      hint: 'The old trowel lies by the cottage step, and Hazel is right there. Tap the trowel.',
     },
     's9-step2': {
       goal: 'Go down to the gate at dusk tomorrow.',
