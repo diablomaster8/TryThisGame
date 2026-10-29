@@ -65,7 +65,7 @@ export function worldLine(g: Game): string {
     `${t.frozen ? ' frozen' : ''}  lod ${s.lodBias}${s.governor.forcedGeo !== null ? ' pinned' : ''}` +
     ` ${s.tier} budget ${s.perfBudget.calls}/${s.perfBudget.tris}` +
     `\ninst ${(inst / 1000).toFixed(1)}k  creatures ${cr.inView} in view, ${cr.casting} casting,` +
-    ` ${cr.hulls} outlined` +
+    ` ${cr.hulls} outlined, ${cr.proxied} merged, ${cr.far} far` +
     `\nmem tex ${of(textureMb(s.scene), cap.gpuTexMB)}MB geo ${of(mem.geometries, cap.geometries)}` +
     ` heap ${heapMb === null ? '?' : of(heapMb, cap.heapMB)}MB` +
     `  gov ${s.governor.ratio}/cpu${s.governor.cpuLevel}/shed${s.governor.shedLevel}`

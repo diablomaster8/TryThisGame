@@ -1,5 +1,9 @@
 import { WalkFollow } from './render/camera-follow';
 import { Vector3 } from 'three';
+import { REGIONS, regionHour } from './config/regions';
+import { regionOf } from './sim/regions';
+import { COLLECT } from './config/region-collectibles';
+import { openHere } from './sim/collectibles';
 import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
@@ -329,7 +333,8 @@ export class Game {
     }
     const wk = resolveStage(this.world)?.stage.weather ? 'clear' : this.world.weather.kind;
     const blending = this.hourBlend !== null;
-    const clock = this.hourOverride ?? localHour();
+    const clock =
+      this.hourOverride ?? regionHour(REGIONS[regionOf(this.world.location)].clock, localHour());
     const hour = this.scene3d ? clock : this.stagedHour(clock, nowMs);
     if (!blending && !this.hourBlend && nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
@@ -827,7 +832,11 @@ export class Game {
         if (e.kind === 'landed' && shake) this.camera.shake(0.18);
         else if (e.kind === 'treeShaken' && shake) this.camera.shake(0.08);
         else if (e.kind === 'weather' || e.kind === 'located') this.lastDaylightMs = -Infinity;
-        else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
+        else if (e.kind === 'travelled') {
+          // R0074: the iris hides the jump; the follow starts at the new place, not across the map.
+          this.camera.target.x = e.to.x;
+          this.camera.target.z = e.to.z;
+        } else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
         else if (e.kind === 'endOfLifeFocus')
           this.focus = { id: e.nubbinId, untilMs: nowMs + CAMERA.focusMs };
         else if (e.kind === 'lanternLit') {
@@ -945,7 +954,24 @@ export class Game {
       }
     }
 
+    // R0091: findable collectibles twinkle near the Keeper, in either renderer.
+    this.glintKeepsakes(nowMs);
+
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
+  }
+
+  /** R0091: when the last twinkle was, and the next one over each collectible in reach. */
+  private glintMs = 0;
+  private glintKeepsakes(nowMs: number): void {
+    if (nowMs - this.glintMs < COLLECT.sparkleEveryMs) return;
+    this.glintMs = nowMs;
+    const k = this.world.keeper.pos;
+    const near = openHere(this.world).filter(
+      (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
+    );
+    if (!near.length) return;
+    if (this.scene3d) this.scene3d.glint(near, nowMs);
+    else this.view.particles.glint(near);
   }
 }
 

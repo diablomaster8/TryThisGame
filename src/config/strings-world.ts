@@ -24,6 +24,21 @@ export const WORLD_TEXT = {
   mapHelp: 'Drag to look around, pinch or scroll to zoom, double-tap to find yourself.',
   youAreHere: 'You are here',
   travelHere: 'Travel here',
+  /** R0091: one-time collectibles, by kind (singular, plural), and their toasts. */
+  keepsake: {
+    petal: ['Pressed petal', 'Petals'],
+    postcard: ['Lost postcard', 'Postcards'],
+    key: ['Old key', 'Keys'],
+  },
+  keepsakeFound: (name: string, got: number, of: number) => `${name} found (${got}/${of}).`,
+  keepsakeSet: {
+    petal: 'Every petal pressed. A new flowerbed waits in your decorations.',
+    postcard: 'Every postcard home. A flower hat is yours.',
+    key: 'The old key turns somewhere. Its lock is still a mystery.',
+  },
+  keepsakeTally: (name: string, got: number, of: number) => `${name} ${got}/${of}`,
+  /** R0074: the map's travel button while a story scene is open. */
+  travelBusy: 'Not now. Finish what is happening here first.',
   notFound: 'Not found yet. Walk up to it to add it to the map.',
   exitTo: (name: string) => `To ${name}`,
   regionNotDrawn: (name: string) =>

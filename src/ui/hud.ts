@@ -73,6 +73,7 @@ import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
+import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
@@ -1331,6 +1332,10 @@ export function mountHud(
             toast(UI_TEXT.neighbourGiftGot(TL[e.trainer]?.name ?? e.trainer, e.shells));
             playSound('buy');
           } else toast(UI_TEXT.giftTaken);
+        } else if (e.kind === 'keepsakeFound' || e.kind === 'collectionSetDone') {
+          // R0091: one-time collectibles and their sets.
+          toast(keepsakeToast(e, game()?.world));
+          playSound('pickup');
         } else if (e.kind === 'landmarkFound') {
           toast(
             UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),

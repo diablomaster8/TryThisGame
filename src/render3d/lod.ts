@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { WORLD_LOD } from '../config/tuning-world';
+import type { CreatureImpostors } from './impostor-creature';
+import { buildProxy, setFar, setProxy, type CreatureProxy } from './lod-proxy';
 
 /**
  * WORLD-03/12: what the Full 3D Grove gives up, creature by creature, when a frame is over
@@ -19,15 +21,28 @@ import { WORLD_LOD } from '../config/tuning-world';
  *   the same height also stops casting: its contact blob (every rig has one) keeps it on
  *   the ground. A creature keeps its state inside a band around each threshold, so one
  *   walking at the edge does not flicker.
+ * - R0079: past `proxyFrom` units a rig is drawn as its merged stand-in (`lod-proxy.ts`): one
+ *   draw for the body, one for its hull and one shadow caster, instead of two dozen each.
+ *   Past `hullMaxDist` no creature keeps its hull. Stand-ins are built one a frame, as rigs
+ *   first need one, and shown once their programs are linked.
  */
 interface RigState {
   casters: THREE.Mesh[];
   hulls: THREE.Mesh[];
   /** Local bounding radius at scale 1, measured once. */
   radius: number;
+  /** Height of the bounds' middle above the root at scale 1, measured once. */
+  lift: number;
   casting: boolean;
   hulled: boolean;
+  /** Drawn as its stand-in. */
+  proxied: boolean;
 }
+
+/** Each rig's stand-in (kept with the rig, which the pool reuses), or null for none. */
+const proxies = new WeakMap<THREE.Object3D, CreatureProxy | null>();
+/** Stand-ins whose shaders are still linking. */
+const linking = new WeakSet<CreatureProxy>();
 
 const sphere = new THREE.Sphere();
 const frustum = new THREE.Frustum();
@@ -45,6 +60,24 @@ export class CreatureLod {
   casting = 0;
   hulls = 0;
   inView = 0;
+  /** The far tier's atlas (the scene sets it); null keeps far rigs as stand-ins. */
+  impostors: CreatureImpostors | null = null;
+  /** Rigs drawn as impostors after the last update. */
+  far = 0;
+  /** Rigs drawn as stand-ins after the last update. */
+  proxied = 0;
+  /** Compiles a stand-in's programs before it is first shown (the scene sets it). */
+  compile: ((o: THREE.Object3D) => Promise<unknown>) | null = null;
+  /**
+   * The pool's coarse-grid surfaces (`CreaturePool.lowState` and `lowSurface`), so a
+   * stand-in is built on the middle distance's sculpt grid. Null: the rig's own geometry.
+   */
+  low: {
+    state(key: string, res: number): 'ready' | 'pending' | 'none';
+    surface(key: string, part: THREE.BufferGeometry): THREE.BufferGeometry | null;
+  } | null = null;
+  /** Stand-ins built this frame. */
+  private built = 0;
 
   private state(root: THREE.Object3D): RigState {
     let s = this.rigs.get(root);
@@ -53,7 +86,7 @@ export class CreatureLod {
     const hulls: THREE.Mesh[] = [];
     root.traverse((o) => {
       const m = o as THREE.Mesh;
-      if (!m.isMesh) return;
+      if (!m.isMesh || m.userData.lodProxy) return;
       if (m.userData.hull) hulls.push(m);
       else if (m.castShadow) casters.push(m);
     });
@@ -61,7 +94,8 @@ export class CreatureLod {
     root.updateWorldMatrix(false, true);
     box.setFromObject(root, true);
     const radius = box.isEmpty() ? 1.5 : box.getBoundingSphere(sphere).radius / scale;
-    s = { casters, hulls, radius, casting: true, hulled: true };
+    const lift = box.isEmpty() ? radius : (sphere.center.y - root.getWorldPosition(at).y) / scale;
+    s = { casters, hulls, radius, casting: true, hulled: true, proxied: false, lift };
     this.rigs.set(root, s);
     return s;
   }
@@ -84,7 +118,8 @@ export class CreatureLod {
       : 0;
     const cfg = WORLD_LOD.creature;
     this.seen.clear();
-    this.casting = this.hulls = this.inView = 0;
+    this.casting = this.hulls = this.inView = this.proxied = this.far = 0;
+    this.built = 0;
     for (const root of roots) {
       if (!root.visible) continue;
       const s = this.state(root);
@@ -101,9 +136,12 @@ export class CreatureLod {
       const px = focal ? (2 * r * focal) / depth : Infinity;
       const min = level >= 3 ? Infinity : level >= 2 ? cfg.hullMinPx : 0;
       const band = s.hulled ? 1 - cfg.band : 1 + cfg.band;
-      const hull = px >= min * band;
+      const hull =
+        px >= min * band && depth < cfg.hullMaxDist * (s.hulled ? 1 + cfg.band : 1 - cfg.band);
+      const proxy = this.proxyFor(root, depth, s);
       const castMin = level >= 3 ? cfg.hullMinPx : 0;
-      const cast = near && px >= castMin * (s.casting ? 1 - cfg.band : 1 + cfg.band);
+      const keep = s.casting ? 1 - cfg.band : 1 + cfg.band;
+      const cast = near && px >= castMin * keep && depth < cfg.shadowMaxDist / keep;
       if (cast !== s.casting) {
         s.casting = cast;
         for (const m of s.casters) m.castShadow = cast;
@@ -112,7 +150,19 @@ export class CreatureLod {
         s.hulled = hull;
         for (const m of s.hulls) m.visible = hull;
       }
-      if (!cast || !hull) this.changed.add(root);
+      if (proxy) {
+        proxy.mesh.castShadow = cast;
+        proxy.mesh.visible = proxy.on && (near || cast);
+        proxy.hull.visible = proxy.on && hull && onScreen;
+        if (proxy.on) this.proxied++;
+        if (this.farTier(root, proxy, depth, s)) {
+          proxy.mesh.castShadow = false;
+          proxy.mesh.visible = true;
+          proxy.hull.visible = false;
+          this.far++;
+        }
+      }
+      if (!cast || !hull || s.proxied) this.changed.add(root);
       if (cast) this.casting++;
       if (hull && onScreen) this.hulls++;
     }
@@ -131,9 +181,66 @@ export class CreatureLod {
     const s = this.rigs.get(root);
     this.changed.delete(root);
     if (!s) return;
+    this.impostors?.leave(root);
+    const p = proxies.get(root);
+    if (p) setProxy(p, false);
+    s.proxied = false;
     if (!s.casting) for (const m of s.casters) m.castShadow = true;
     if (!s.hulled) for (const m of s.hulls) m.visible = true;
     s.casting = s.hulled = true;
+  }
+
+  /**
+   * The rig's stand-in, switched for `depth` (null when it has none). Built on first need, one
+   * a frame, and held off until its programs are linked.
+   */
+  private proxyFor(root: THREE.Object3D, depth: number, s: RigState): CreatureProxy | null {
+    const cfg = WORLD_LOD.creature;
+    const want = depth > cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+    let p = proxies.get(root);
+    if (p === undefined) {
+      const key = root.userData.lookKey as string | undefined;
+      if (!key) return null;
+      // Asked even while the rig is near, so its coarse grid is marched before it walks off.
+      const low = this.low?.state(key, cfg.proxyRes) ?? 'none';
+      if (!want || this.built > 0 || low === 'pending') return null;
+      this.built++;
+      const swap = low === 'ready' ? this.low : null;
+      p = buildProxy(root, swap ? (part) => swap.surface(key, part.geometry) : undefined);
+      proxies.set(root, p);
+      if (p && this.compile) {
+        const proxy = p;
+        linking.add(proxy);
+        proxy.mesh.visible = proxy.hull.visible = true;
+        const done = () => linking.delete(proxy);
+        this.compile(proxy.mesh).then(done, done);
+        proxy.mesh.visible = proxy.hull.visible = false;
+      }
+    }
+    if (!p) return null;
+    const on = want && !linking.has(p);
+    setProxy(p, on);
+    setFar(p, on && depth > cfg.hullMaxDist * (p.far ? 1 - cfg.band : 1 + cfg.band));
+    s.proxied = on;
+    return p;
+  }
+
+  /** Whether the rig is drawn as an impostor now (entering or leaving the tier as `depth` says). */
+  private farTier(root: THREE.Object3D, proxy: CreatureProxy, depth: number, s: RigState): boolean {
+    const imp = this.impostors;
+    if (!imp) return false;
+    const cfg = WORLD_LOD.creature;
+    const was = imp.has(root);
+    const far = proxy.on && depth > cfg.impostorFrom * (was ? 1 - cfg.band : 1 + cfg.band);
+    if (far && !was) {
+      // Everything it draws goes to the impostor layer: the stand-in on, its hull off.
+      proxy.mesh.visible = true;
+      proxy.hull.visible = false;
+      const k = root.scale.x || 1;
+      return imp.enter(root, s.lift * k, s.radius * k * cfg.impostor.margin);
+    }
+    if (!far && was) imp.leave(root);
+    return far;
   }
 
   /** Give every rig back its casters and hulls (leaving the Grove, or disposing). */
