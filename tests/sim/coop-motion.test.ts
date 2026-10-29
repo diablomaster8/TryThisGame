@@ -16,7 +16,7 @@ function coop(): World {
 }
 
 const steps = (w: World, n: number, ev: SimEvent[] = []): SimEvent[] => {
-  for (let i = 0; i < n; i++) stepWorld(w, 100, ev);
+  for (let i = 0; i < n; i++) ev.push(...stepWorld(w, 100));
   return ev;
 };
 
