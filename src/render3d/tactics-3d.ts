@@ -31,6 +31,7 @@ import {
 import type { Keeper, Nubbin, NubbinType } from '../sim/types';
 import { keeperLook, nubbinLook, type Look } from './creature-pool';
 import type { Grove3dScene } from './grove-3d-scene';
+import { CreatureLod } from './lod';
 import { MiniStage } from './minigame-stage';
 
 const V = TACTICS.view3d;
@@ -117,6 +118,8 @@ export class Tactics3dView implements TacticsBoardView {
   private readonly v2 = new THREE.Vector2();
   private calls: number | null = null;
   private disposed = false;
+  /** The Grove's creature LOD: from this far every rig is its merged coarse stand-in. */
+  private readonly lod = new CreatureLod();
 
   constructor(
     host: Grove3dScene,
@@ -131,6 +134,12 @@ export class Tactics3dView implements TacticsBoardView {
     // Phone budget (180 draws, 450k triangles): no shadow pass. Every rig carries its own
     // contact blob, and the tiles are flat-shaded blocks that read without cast shadows.
     this.stage.sky.sun.castShadow = false;
+    const pool = this.stage.pool;
+    this.lod.low = {
+      state: (key, res) => pool.lowState(key, res),
+      surface: (key, part) => pool.lowSurface(key, part),
+    };
+    this.lod.compile = (o) => this.stage.compile([o]);
   }
 
   /** World position of a tile's top centre. */
@@ -219,6 +228,8 @@ export class Tactics3dView implements TacticsBoardView {
     this.stage.scene.add(this.overlay);
     this.focus.set(0, V.base, 0);
     this.stage.sky.set(V.hour, daylightAt(V.hour), 'clear', this.focus);
+    // The long lens stands ~50 units off: the Grove's distance fog would wash the board out.
+    this.stage.scene.fog = null;
     this.ready = false;
     void this.stage.compile().then(() => {
       if (!this.disposed) this.ready = true;
@@ -254,6 +265,10 @@ export class Tactics3dView implements TacticsBoardView {
     this.stage.pool.frame();
     this.overlays(s, m, o);
     this.placeUnits(s, m, now, flashes);
+    // Phone budget: hulls go and far rigs become one-draw stand-ins (level 3, as a busy Grove).
+    const roots: THREE.Object3D[] = [];
+    for (const v of this.units.values()) if (v.rig && !v.compiling) roots.push(v.rig.group);
+    this.lod.update(roots, this.stage.camera, 3, this.stage.renderer.domElement.clientHeight);
     this.stage.render(now, (x, z) => this.groundAt(m, x, z));
     this.calls = this.stage.renderer.info.render.calls;
   }
@@ -275,7 +290,8 @@ export class Tactics3dView implements TacticsBoardView {
     const w = Math.max(1, size.x);
     const h = Math.max(1, size.y);
     const aspect = w / h;
-    const radius = (Math.max(m.w, m.h) * 0.6 + V.margin) * V.tile;
+    // Turned 45°, the board is as wide as its diagonal: half of it is about 0.72 of a side.
+    const radius = (Math.max(m.w, m.h) * 0.72 + V.margin) * V.tile;
     const half = Math.tan((V.fovDeg * Math.PI) / 360);
     let dist = radius / (half * Math.min(1, aspect));
     if (this.zoom === 2) dist *= 0.55;
@@ -472,6 +488,8 @@ export class Tactics3dView implements TacticsBoardView {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    // Rigs go back to the pool whole: no stand-in left on, every hull and caster back.
+    this.lod.update([], this.stage.camera, 0, 1);
     this.clearBoard();
     this.units.clear();
     this.stage.camera.clearViewOffset();
