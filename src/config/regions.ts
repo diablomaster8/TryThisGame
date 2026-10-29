@@ -62,7 +62,13 @@ export interface RegionDef {
   /** Safe for the Learning Grove: no hazards, no strangers, nothing past `all`. */
   kidsSafe: boolean;
   audience: Audience;
-  clock: 'real' | 'fixed' | { offsetH: number };
+  /**
+   * R0092 (WORLD-29): the hour a region is drawn at. `real` follows the device clock, `fixed`
+   * is a cave's own dark (its renderer lights it), `{ fixed }` holds one hour (the Moon lands'
+   * night, the Sun lands' noon) and `{ offsetH }` shifts the real hour (the peaks' early dusk).
+   * Only the picture: the sim's needs and the curfew keep the Grove's real clock.
+   */
+  clock: 'real' | 'fixed' | { offsetH: number } | { fixed: number };
   season: 'world' | Season;
 }
 
@@ -267,6 +273,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
       way('peaks-ridge', 'ridge', [0, 30], [0, -43], 'door', 0),
       way('peaks-ice', 'caves', [20, -20], [0, 0], 'stairs', 0),
     ],
+    { clock: { offsetH: 2 } },
   ),
   caves: future(
     'caves',
@@ -274,6 +281,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [48, 48],
     ['mouth', 'lake', 'crystals'],
     [way('caves-ice', 'peaks', [0, 0], [20, -17], 'stairs', 0)],
+    { clock: 'fixed' },
   ),
   ruins: future(
     'ruins',
@@ -289,6 +297,7 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [80, 80],
     ['dais'],
     [way('sun-gate', 'grove', [0, 38], [-43, -6], 'gate', 0)],
+    { clock: { fixed: 12 } },
   ),
   moonlands: future(
     'moonlands',
@@ -296,12 +305,20 @@ export const REGIONS: Readonly<Record<RegionId, RegionDef>> = {
     [80, 80],
     ['dais'],
     [way('moon-gate', 'grove', [0, 38], [-43, 6], 'gate', 0)],
+    { clock: { fixed: 22 } },
   ),
   // Reached only from the Learning Grove, so it has no road to the rest of the world.
   'little-grove': future('little-grove', 'meadow', [40, 40], ['sandpit', 'swings'], [], {
     kidsSafe: true,
   }),
 };
+
+/** R0092: the hour a region is drawn at, from the device's real hour (0..24). */
+export function regionHour(clock: RegionDef['clock'], realHour: number): number {
+  if (typeof clock === 'string') return realHour;
+  if ('fixed' in clock) return clock.fixed;
+  return (((realHour + clock.offsetH) % 24) + 24) % 24;
+}
 
 /** Region ids in display order (the map's tab strip). */
 export const REGION_ORDER: readonly RegionId[] = [

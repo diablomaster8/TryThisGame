@@ -1,4 +1,6 @@
 import { Vector3 } from 'three';
+import { REGIONS, regionHour } from './config/regions';
+import { regionOf } from './sim/regions';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
 import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
@@ -328,7 +330,8 @@ export class Game {
     }
     const wk = resolveStage(this.world)?.stage.weather ? 'clear' : this.world.weather.kind;
     const blending = this.hourBlend !== null;
-    const clock = this.hourOverride ?? localHour();
+    const clock =
+      this.hourOverride ?? regionHour(REGIONS[regionOf(this.world.location)].clock, localHour());
     const hour = this.scene3d ? clock : this.stagedHour(clock, nowMs);
     if (!blending && !this.hourBlend && nowMs - this.lastDaylightMs < 3000) return;
     this.lastDaylightMs = nowMs;
