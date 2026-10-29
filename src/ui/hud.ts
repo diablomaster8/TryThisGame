@@ -23,7 +23,13 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
-import { SHRINE_TEXT, TRAP_TEXT } from '../config/strings-dungeon';
+import {
+  HOLLOW_ZONE_TEXT,
+  SHRINE_TEXT,
+  TRAP_TEXT,
+  UNIQUE_RESULT_TEXT,
+  UNIQUE_TEXT,
+} from '../config/strings-dungeon';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -88,6 +94,8 @@ import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
+import { petToast } from '../config/strings-look';
+import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
@@ -111,6 +119,10 @@ import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
+import { mountWalkTuck } from './walk-tuck';
+import { mountBeacon } from './beacon-arrow';
+import { OUTER_TEXT } from '../config/strings';
+import { outerTapOf } from '../config/outer-ring';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -432,6 +444,8 @@ export function mountHud(
   const map = new MapPanel(root, game, toast);
   mountCompass(root, game, () => map.open());
   mountMinimap(root, game, () => map.open());
+  mountWalkTuck(root, game);
+  mountBeacon(root, game, () => map.open());
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -1156,7 +1170,14 @@ export function mountHud(
         } else if (e.kind === 'interacted') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
-          toast(e.ok ? UI_TEXT.interacted(name, e.action) : UI_TEXT.interactRefused(name));
+          // FUN-09: each action and personality has its own line.
+          toast(
+            e.ok && n
+              ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
+              : e.ok
+                ? UI_TEXT.interacted(name, e.action)
+                : UI_TEXT.interactRefused(name),
+          );
           if (e.ok) playSound('pet');
         } else if (e.kind === 'called') {
           toast(UI_TEXT.called(e.count));
@@ -1216,7 +1237,7 @@ export function mountHud(
         } else if (e.kind === 'traded') {
           toast(UI_TEXT.traded(e.name));
         } else if (e.kind === 'dungeonEntered') {
-          toast(DUNGEON_TEXT.entered(e.daily));
+          toast(e.camp ? HOLLOW_ZONE_TEXT.campEntered : DUNGEON_TEXT.entered(e.daily));
         } else if (e.kind === 'descended') {
           toast(DUNGEON_TEXT.descended(e.depth));
           playSound('pickup');
@@ -1263,6 +1284,12 @@ export function mountHud(
         } else if (e.kind === 'hollowFell') {
           // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
           toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);
+        } else if (e.kind === 'uniqueBeaten') {
+          // Lane B round 4: a named unique beaten (R0156).
+          const name = UNIQUE_TEXT[e.id]?.name ?? '';
+          toast(
+            e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
+          );
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {
@@ -1283,7 +1310,7 @@ export function mountHud(
         } else if (e.kind === 'acornFound') {
           toast(HOLLOW_TEXT.acornFound);
         } else if (e.kind === 'acornPortal') {
-          toast(HOLLOW_TEXT.acornPortal(e.free));
+          toast(e.camp ? HOLLOW_ZONE_TEXT.acornCamp : HOLLOW_TEXT.acornPortal(e.free));
           playSound('pickup');
         } else if (e.kind === 'portalReturned') {
           toast(HOLLOW_TEXT.portalReturned);
@@ -1461,6 +1488,8 @@ export function mountHud(
         else if (which === 'host') g.send({ kind: 'neighbourGift' });
         else if (which === 'windmill') toast(UI_TEXT.windmillTap);
         else if (which === 'cave') dungeon.open();
+        // R0072: an outer-ring piece answers with its line.
+        else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
         return;
       }
       if (id?.startsWith('plant:') && g) {

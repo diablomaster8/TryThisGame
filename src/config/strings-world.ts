@@ -5,6 +5,8 @@
 import type { RegionId } from './regions';
 
 export const WORLD_TEXT = {
+  /** R0099: the sprout band's button that walks the Keeper home. */
+  eduHome: 'Home',
   regions: {
     grove: 'The Grove',
     lane: 'The lane',
@@ -69,4 +71,32 @@ export const WORLD_TEXT = {
   minimapSetting: 'Minimap',
   minimapLevels: { off: 'Off', on: 'On', auto: 'Auto' } as Record<string, string>,
   minimapHelp: 'Auto shows it in the Grove on screens tall enough to spare the room.',
+} as const;
+
+/** R0072: what each outer-ring place's tappable piece says (`config/outer-ring.ts`). */
+export const OUTER_TEXT = {
+  tap: {
+    fairyRing:
+      'A ring of mushrooms, perfectly round, that nobody planted. Nubbins walk round it, never through.',
+    trail:
+      'The trail into the Wood starts here. The sign has been repainted so often it is mostly paint.',
+    telescope:
+      'You squint east. Past the ridge, something gold catches the light: the way to the Sun lands.',
+    stiltLane: 'The lane runs south along the stream to the stilt village. Mind the planks.',
+    scarecrow: 'The scarecrow wears an old hat of Hazel’s. The crows seem to find it reassuring.',
+    hive: 'A steady hum. The bees are busy, and would like you to be busy somewhere else.',
+  },
+} as const;
+
+/** R0073 and R0106: the two phone-room settings (`ui/world-settings.ts`). */
+export const WORLD_SETTINGS_TEXT = {
+  surveyWhenRunning: {
+    label: 'Zoom out when running',
+    help: 'After two seconds of running the view pulls back to show the land around you.',
+  },
+  hideBarWhileWalking: {
+    label: 'Hide bar while walking',
+    help: 'The bottom bar tucks away while you walk, and comes back when you stop or tap its edge.',
+  },
+  handle: 'Show the menu bar',
 } as const;

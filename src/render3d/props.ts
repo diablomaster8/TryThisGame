@@ -18,6 +18,7 @@ import { BRIDGE_YAW } from '../config/tuning-sim';
 import { addHull } from './toon-outline';
 import { occluders } from './occluders';
 import { buildWildGround, buildWildTrees, compactTree } from './wild';
+import { buildOuterRing } from './outer-ring';
 
 /**
  * The Grove's dressing in 3D, placed from the same GROVE numbers the pixel scenery
@@ -467,6 +468,7 @@ export function buildGroveProps(
   }
   occluders.patch(group);
   buildWildGround(group, tex);
+  buildOuterRing(group, tex, pickables);
 
   return {
     group,

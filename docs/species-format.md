@@ -156,6 +156,7 @@ follow `lookAt` when the stage sets it.
 | `brow`      | `false` leaves the brow ridge off (the line-up figures have none).       | on       | `brow: false`                                  |
 | `style`     | `chao` solid dark oval, two glints, no sclera or brows; `dot` bead; `cute` flat iris, thin rim. | `anime`  | `style: 'chao'` |
 | `roll`      | Roll of each eye, outer end up, radians (a slanted angry eye).            | 0        | `roll: 0.44` |
+| `pupil`     | `slit`: a narrow upright pupil in the iris (Ekans, Arbok, Charmander's line). | `round`  | `pupil: 'slit'` |
 | `extra`     | Small bead eyes set in the skin (a spider's row): `{ x, y, z, r }` each. | none     | `extra: [{ x: 0.5, y: 0.7, z: 1.4, r: 0.07 }]` |
 
 ## Mouth

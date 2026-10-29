@@ -54,6 +54,10 @@ const SPOTS = process.env.PROBE_SPOTS
   ? ALL_SPOTS.filter((s) => process.env.PROBE_SPOTS.split(',').includes(s[0]))
   : ALL_SPOTS;
 const BREAKDOWN = !!process.env.PROBE_BREAKDOWN;
+// PROBE_SURVEY=1 probes at the survey zoom (R0073, zoom index -1) instead of the phone default.
+const SURVEY = !!process.env.PROBE_SURVEY;
+// PROBE_BREAKDOWN=all prints every category, not only the top 14.
+const ALL_CATS = process.env.PROBE_BREAKDOWN === 'all';
 
 /**
  * Close whatever dialogue is up (the opening, a discovery card): a story scene stages the
@@ -127,6 +131,7 @@ async function probe(TAG) {
     window.grove.world.nubbins.filter((n) => n.stage === 'egg').map((n) => n.id),
   ))
     await page.evaluate((id) => window.grove.send({ kind: 'debugHatchNow', nubbinId: id }), id);
+  if (SURVEY) await page.evaluate(() => window.grove.camera.setZoom(-1));
   const rows = [];
   for (const [name, x, z] of SPOTS) {
     await page.evaluate(([x, z]) => window.grove.send({ kind: 'teleport', pos: { x, z } }), [x, z]);
@@ -211,7 +216,8 @@ async function probe(TAG) {
         : null;
     if (cats) {
       console.log(`-- ${name}: category, calls, tris (per frame)`);
-      for (const c of cats.filter((c, i) => i < 14 || c[2] > 20000)) console.log('   ', c.join('	'));
+      for (const c of cats.filter((c, i) => ALL_CATS || i < 14 || c[2] > 20000))
+        console.log('   ', c.join('	'));
     }
     rows.push({
       mode: TAG,

@@ -1,5 +1,6 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
+import { ex } from './creature-extras';
 
 /**
  * Art recipes for the second half of the first-generation pocket line (`sim/species-gen1b.ts`),
@@ -37,6 +38,8 @@ const spec = (colors: CreaturePalette, over: Partial<CreatureSpec>): CreatureSpe
 
 /** Floating balls and blobs: no arms, no legs. */
 const ORB = { plan: 'round', arms: 'none', legs: 'none' } as const;
+/** The fish plan (LOOK-39): Magikarp, Goldeen and Seaking swim side-on instead of rolling as orbs. */
+const FISH = { plan: 'fish', arms: 'none', legs: 'none' } as const;
 
 const PONY = pal(C.cream, C.sand, C.white, C.orange, C.sunYellow);
 const SLOW = pal(C.blush, C.rose, C.cream, C.rose, C.cream);
@@ -187,11 +190,13 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   spookgrin: spec(pal(C.violetDeep, C.moonPurple, C.lavender, C.violet, C.ember), {
     irisColor: '#d8202a',
     size: 1.1,
+    girth: 1.3,
     ears: 'catTips',
     crest: 'spikesTop',
     tail: 'stub',
     eyes: 'angry',
     gen1b: ['grin'],
+    addons: [ex('backSpikes', C.violetDeep)],
   }),
   // ---- rock snake ----
   boulderwyrm: spec(pal(C.lilacGrey, C.dusk, C.pale, C.dusk, C.plum), {
@@ -297,7 +302,8 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- horned rocks ----
   rockhorn: spec(RHINO, {
     size: 0.95,
-    crest: 'horn',
+    // Rhyhorn and Rhydon carry the horn on the snout, not the brow (LOOK-39).
+    extras: ['drill'],
     tail: 'club',
     eyes: 'angry',
     marks: ['stripes'],
@@ -308,7 +314,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   drillhorn: spec(RHINO, {
     size: 1.2,
-    crest: 'horn',
+    extras: ['drill'],
     tail: 'long',
     arms: 'claws',
     eyes: 'angry',
@@ -359,7 +365,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- horned fish ----
   silkfin: spec(KOI, {
-    ...ORB,
+    ...FISH,
     size: 0.85,
     ears: 'fins',
     crest: 'horn',
@@ -368,7 +374,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
     gen1b: ['fishTail'],
   }),
   hornfin: spec(pal(C.orange, C.ember, C.white, C.ember, C.cream), {
-    ...ORB,
+    ...FISH,
     size: 1.1,
     ears: 'fins',
     crest: 'horn',
@@ -423,7 +429,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   // ---- carp and sea dragon ----
   flopfish: spec(pal(C.orange, C.ember, C.cream, C.cream, C.sunYellow), {
-    ...ORB,
+    ...FISH,
     size: 0.85,
     ears: 'fins',
     crest: 'spikesTop',
@@ -457,16 +463,19 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   copyblob: spec(pal(C.lavender, C.violet, C.lavender, C.violet, C.violet), {
     plan: 'slug',
     size: 1.05,
+    eyes: 'dot',
   }),
-  snoozelump: spec(pal(C.deepWater, C.nightBlue, C.cream, C.cream, C.white), {
-    size: 1.2,
+  // Snorlax: a vast round sitter, dark blue-teal with a cream belly and a cream lower face,
+  // small pointed ears, shut eyes, the soles showing (LOOK-39).
+  snoozelump: spec(pal(C.skyDeep, C.nightBlue, C.cream, C.cream, C.sandLight), {
+    size: 1.25,
+    girth: 1.35,
     ears: 'catTips',
     eyes: 'closed',
-    marks: ['chest'],
-    plan: 'quad',
-    arms: 'none',
-    legs: 'none',
-    quad: { stance: 'sit', legLen: 0.45, snout: 0.1 },
+    marks: ['belly'],
+    arms: 'stub',
+    legs: 'stub',
+    addons: [ex('snout', C.cream), ex('pads', C.sandLight)],
   }),
   // ---- the fluff kit and its three stones ----
   fluffkit: spec(pal(C.wood, C.bark, C.cream, C.rose, C.cream), {
@@ -588,8 +597,9 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   psyclone: spec(pal(C.pale, C.lilacGrey, C.violet, C.violet, C.violet), {
     irisColor: '#7a3ac0',
     plan: 'tall',
-    size: 1.15,
-    ears: 'catTips',
+    size: 1.3,
+    girth: 0.8,
+    ears: 'stubs',
     tail: 'long',
     arms: 'long',
     legs: 'long',

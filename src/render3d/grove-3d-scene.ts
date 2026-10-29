@@ -1,3 +1,4 @@
+import { openSky } from '../render/cave-bands';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -9,6 +10,7 @@ import {
   PERF_BUDGET,
   WORLD_LOD,
   WORLD_MEM,
+  WORLD_SURVEY,
   WORLD_TIER,
   tierForRes,
   type DeviceTier,
@@ -48,6 +50,7 @@ import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
+import { FarTrees } from './far-trees';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
@@ -289,6 +292,10 @@ export class Grove3dScene {
   /** Rain, snow, fireflies and falling leaves. */
   private readonly weather: GroveWeather;
   private treesBuilt = false;
+  /** Round 4: far trees drawn in shared batches (see far-trees.ts). */
+  farTrees: FarTrees | null = null;
+  /** R0073: the orbit is at the survey zoom this frame. */
+  private surveyNow = false;
   private readonly treeAt = new Map<string, Vec2>();
   private readonly crowns = new CrownFade();
   private readonly holeSize = new THREE.Vector2();
@@ -633,7 +640,8 @@ export class Grove3dScene {
     const visiting = place.startsWith('visit:') ? place.slice('visit:'.length) : null;
     this.visit.show(visiting, this.tex);
     this.story.show(place);
-    const cave = place === 'dungeon' || place === 'hollow';
+    // An act's camp and fields are a Hollow floor under the open sky (lane B, R0147).
+    const cave = (place === 'dungeon' && !openSky(this.floor)) || place === 'hollow';
     this.dungeonFloor.visible =
       !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
     this.actors.ground = grove ? standHeight : () => 0;
@@ -849,6 +857,9 @@ export class Grove3dScene {
           this.lastMs,
         );
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      } else if (e.kind === 'interacted') {
+        // FUN-09 (lane E): each pet action plays its own beat.
+        this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
       } else if (e.kind === 'reaction') {
         this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
         const head = up(e.nubbinId, 1.05);
@@ -1024,8 +1035,9 @@ export class Grove3dScene {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
     for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
-    for (const t of buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time))
-      this.crowns.add(t);
+    const trees = buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time);
+    for (const t of trees) this.crowns.add(t);
+    this.farTrees = new FarTrees(this.world3d, trees, this.time);
     this.actors.warm(world);
   }
 
@@ -1043,7 +1055,9 @@ export class Grove3dScene {
       z: orbit.target.z,
       yaw: orbit.currentYaw,
       pitchDeg: GROVE3D.pitchDeg,
-      distance: GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0],
+      distance: orbit.survey
+        ? WORLD_SURVEY.distance3d
+        : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]),
       points: [],
       lookUp: 0,
     };
@@ -1460,10 +1474,13 @@ export class Grove3dScene {
     this.camTarget.y -= dip - this.lastDip;
     this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
+    this.surveyNow = orbit.survey;
     const cave = this.location === 'dungeon';
     const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
     const baseDist =
-      (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]) *
+      (orbit.survey
+        ? WORLD_SURVEY.distance3d
+        : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0])) *
       (cave ? READ3D.hollow.distanceK : 1);
     const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
@@ -1570,6 +1587,7 @@ export class Grove3dScene {
       );
     } else CrownFade.setHole2(0, 0, 0);
     this.crowns.update(this.camera.position, targets, dt);
+    this.farTrees?.update(this.camera, targets);
     // R0018: houses, the windmill, the shed and stalls thin out too, and the Keeper shows through.
     const hidden = occluders.update(this.camera.position, targets, 2, dt, this.reduceMotion);
     occluders.ghost(hidden, hidden ? nearestChild(this.actors.group, kp.x, kp.z, 0.5) : null);
@@ -1625,7 +1643,16 @@ export class Grove3dScene {
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
     // R0079: the far creatures' cells, after the reset so their draws count in the frame.
-    if (!NO_LOD) this.creatureLod.impostors?.render(this.renderer, this.scene, this.camera);
+    const imp = NO_LOD ? null : this.creatureLod.impostors;
+    if (imp) {
+      // Fewer cell redraws at the survey zoom and on phones (round 4 merge: phone calls).
+      imp.perFrame = this.surveyNow
+        ? WORLD_SURVEY.impostorPerFrame
+        : this.tier === 'desktop'
+          ? WORLD_LOD.creature.impostor.perFrame
+          : WORLD_LOD.creature.impostor.perFramePhone;
+      imp.render(this.renderer, this.scene, this.camera);
+    }
     this.composer.render();
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);

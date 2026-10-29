@@ -298,3 +298,18 @@ describe('R0321 peekaboo', () => {
     expect(peekRound(1, 0)).toEqual(peekRound(1, 0));
   });
 });
+
+describe('R0311 with lane E pet lines', () => {
+  it('one toast per tickle, varied in the main band; short lines in sprout; hiccups untouched', async () => {
+    const { petVoice } = await import('../../src/ui/fun-toasts');
+    const { petToast } = await import('../../src/config/strings-look');
+    const seen = new Set<string>();
+    for (let i = 0; i < 20; i++)
+      seen.add(petVoice(petToast('Kiki', 'tickle', 'shy'), 'main') ?? '');
+    expect(seen.size).toBeGreaterThanOrEqual(3);
+    expect([...seen].every((s) => s.includes('Kiki') && !/[()]/.test(s))).toBe(true);
+    expect(seen.has(petToast('Kiki', 'tickle', 'shy'))).toBe(true);
+    expect(petVoice(petToast('Kiki', 'hug', null), 'sprout', 0)).toBe('Squish! A big hug!');
+    expect(petVoice(petToast('Kiki', 'hiccup', 'lazy'), 'main')).toBeNull();
+  });
+});

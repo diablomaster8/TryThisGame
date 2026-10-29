@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { READ3D } from '../config/tuning';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 /**
  * The memorial flower a departed Nubbin leaves on the hill, in 3D (review 2026-10-21,
@@ -90,6 +91,40 @@ function makeKit(): Kit {
   };
 }
 
+/**
+ * Round 4 phone perf: the flower's stem, leaves, petals and heart baked into one geometry per
+ * material, once for the page (every flower is the same shape), so a flower is three draws and
+ * its glow card instead of eleven. Null when a merge fails; then flowers keep their parts.
+ */
+let baked: Array<{ geo: THREE.BufferGeometry; mat: THREE.Material; shadow: boolean }> | null = null;
+let bakeTried = false;
+
+function bake(parts: THREE.Group): void {
+  bakeTried = true;
+  parts.updateMatrixWorld(true);
+  const by = new Map<THREE.Material, THREE.BufferGeometry[]>();
+  let ok = true;
+  parts.traverse((o) => {
+    const m = o as THREE.Mesh;
+    if (!m.isMesh || o.userData.billboard) return;
+    const mat = m.material as THREE.Material;
+    const g = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
+    g.applyMatrix4(m.matrixWorld);
+    for (const key of Object.keys(g.attributes))
+      if (key !== 'position' && key !== 'normal') g.deleteAttribute(key);
+    if (!g.attributes.normal) ok = false;
+    by.set(mat, [...(by.get(mat) ?? []), g]);
+  });
+  const out: NonNullable<typeof baked> = [];
+  for (const [mat, geos] of by) {
+    const geo = ok ? mergeGeometries(geos) : null;
+    for (const g of geos) g.dispose();
+    if (!geo) return;
+    out.push({ geo, mat, shadow: mat === kit!.green });
+  }
+  baked = out;
+}
+
 /** A memorial flower standing at its foot (the group's origin). */
 export function memorialFlower(): THREE.Group {
   kit ??= makeKit();
@@ -129,7 +164,18 @@ export function memorialFlower(): THREE.Group {
   glow.renderOrder = 2;
   glow.userData.billboard = true;
   g.add(glow);
-  return g;
+  if (!bakeTried) bake(g);
+  if (!baked) return g;
+  const flat = new THREE.Group();
+  flat.name = 'memorial';
+  for (const b of baked) {
+    const mesh = new THREE.Mesh(b.geo, b.mat);
+    mesh.castShadow = b.shadow;
+    flat.add(mesh);
+  }
+  // The glow card stays the last child: `updateMemorials` turns it to the camera.
+  flat.add(glow);
+  return flat;
 }
 
 /** Breathe every flower's glow and turn the glow cards to the camera. */

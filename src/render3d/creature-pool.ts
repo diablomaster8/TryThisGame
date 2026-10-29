@@ -19,6 +19,7 @@ import { variantById } from '../samples/nubbin-variant-catalogue';
 import type { Keeper, Nubbin, World } from '../sim/types';
 import { speciesArt } from '../render/sprites/species-art';
 import { partsModBody } from '../samples/nubbin-critter-parts';
+import { partSteps } from '../render/sprites/part-size';
 import { specForKey, tintMods } from './looks';
 import { SculptFarm } from './sculpt-farm';
 import { qualityForRes } from './sculpt-res';
@@ -57,7 +58,9 @@ export function characterLook(n: Pick<Nubbin, 'hat'>): string | null {
 export function nubbinLook(n: Nubbin): Look {
   const height = n.stage === 'adult' ? GROVE3D.adultHeight : GROVE3D.nubbinHeight;
   const look = characterLook(n);
-  const parts = partsModBody(n.parts);
+  // LOOK-36: each part carries its size step, and a Sun or Moon adult's parts lean to its body.
+  const band = n.stage === 'adult' && !n.eternal ? n.form?.band : undefined;
+  const parts = partsModBody(n.parts, partSteps(n), band === 'sun' || band === 'moon');
   const tints =
     tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) + (parts ? `~parts:${parts}` : '');
   const over = look ? `~look:${look}` : '';

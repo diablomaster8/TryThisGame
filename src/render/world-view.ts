@@ -1,3 +1,4 @@
+import { openSky } from './cave-bands';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
@@ -6,7 +7,7 @@ import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
 import { DUNGEON, EGG, FERN_STONE, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
-import { flaps, swimsStroke } from '../sim/stats';
+import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
@@ -39,6 +40,12 @@ import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
+import { EmoteSprings } from './emote-spring';
+import { swimClip, swimStyle } from './swim-style';
+import { cocoonPulse } from './sprites/cocoon';
+import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
+import { SWIM_CLIPS } from './sprites/chao';
+import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
@@ -53,6 +60,7 @@ import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
 import { pixelPose } from './stage-pose';
+import { glintPlace, glintShape } from './sprites/shiny-glint';
 
 interface Snapshot {
   pos: Vec2;
@@ -113,6 +121,10 @@ export class WorldView {
   }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  /** LOOK-16: each Nubbin's emote ball on its spring. */
+  private readonly emoteSprings = new EmoteSprings();
+  /** FUN-09: each Nubbin's pet-action beat. */
+  private readonly petBeats = new PetBeats();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
   private darkness = 0;
@@ -383,7 +395,8 @@ export class WorldView {
   setDaylight(d: Daylight, reduceMotion: boolean): void {
     this.daylight = d;
     const hollow = this.location === 'hollow';
-    const underground = this.location === 'dungeon';
+    // An act's camp and fields are under the open sky (lane B, R0147): daylight, not the cave.
+    const underground = this.location === 'dungeon' && !openSky(this.cave);
     this.darkness = hollow
       ? Math.max(0.6, d.darkness)
       : underground
@@ -435,6 +448,8 @@ export class WorldView {
         const v = this.nubbins.get(e.nubbinId);
         if (v) v.pop = { kind: 'pop', startMs: nowMs };
       }
+      // FUN-09: each pet action queues its own beat over the sim's reaction.
+      if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -1848,6 +1863,9 @@ export class WorldView {
       // without love or tumble falls back to happy or surprised.
       if (!sheet.frames.has(frameKey(clip, view.angle, 0))) {
         const stand: Record<string, string> = {
+          // LOOK-23: a sheet without the paddle or crawl swims its stock stroke, or walks.
+          paddle: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
+          crawl: sheet.frames.has(frameKey('swim', view.angle, 0)) ? 'swim' : 'walk',
           flap: 'walk',
           swim: 'walk',
           sit: 'idle',
@@ -1861,7 +1879,7 @@ export class WorldView {
         v.clipStartMs = nowMs;
       }
       flip = view.flip;
-      const def = CLIPS[clip as ClipName];
+      const def = CLIPS[clip as ClipName] ?? SWIM_CLIPS[clip];
       const frame =
         clip === 'sit'
           ? npose?.clip === 'sit'
@@ -1876,12 +1894,34 @@ export class WorldView {
       if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
     }
 
+    // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
+    const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
+    if (beat?.clip) {
+      const angle = key.split(':')[1] ?? 'front';
+      const bkey = frameKey(beat.clip, angle, beat.frame ?? Math.floor(nowMs / 180) % 2);
+      if (sheet.frames.has(bkey)) key = bkey;
+    }
+    if (beat?.fresh) {
+      const kind = PET_BEAT_BURST[beat.kind];
+      if (kind)
+        this.particles.burst(kind, x, y + 1.6, z, kind === 'dust' ? 6 : 3, {
+          spread: 0.4,
+          rise: 0.8,
+          lifeMs: 700,
+        });
+    }
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
     shadow(x, y, z, 0.55);
     if (rect) {
       // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
       let sw = 1;
       let sh = 1;
+      // LOOK-25: a cocoon breathes, 1 to 1.03 at 0.8 Hz.
+      if (n.stage === 'cocoon') sw = sh = cocoonPulse(nowMs);
+      if (beat) {
+        sw *= beat.sw;
+        sh *= beat.sh;
+      }
       if (v.pop) {
         const dur = v.pop.kind === 'squash' ? 260 : 420;
         const t = (nowMs - v.pop.startMs) / dur;
@@ -1902,8 +1942,9 @@ export class WorldView {
           sheet,
           rect,
           flip,
-          x,
-          y,
+          x: x + (beat?.dx ?? 0) * 2,
+          // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
+          y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z,
           mode: 'billboard',
           opacity,
@@ -1913,6 +1954,36 @@ export class WorldView {
         },
         { id: n.id, kind: 'nubbin' },
       );
+      // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
+      // laid on the head in the sprite's own plane, a hair toward the camera.
+      const cam = PIXEL_VIEW.camera;
+      if ((n.shiny || n.heirloom) && n.species === 'chao' && n.stage !== 'egg' && cam) {
+        const shape = glintShape(n);
+        const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
+        const g = glintPlace(key, shape, nowMs, phase);
+        const gs = this.sheets.shinyGlint(shape.grow);
+        const grect = g ? gs.frames.get(g.key) : undefined;
+        if (g && grect) {
+          const W = (rect.w / NATIVE_PPU) * sw;
+          const H = (rect.h / NATIVE_PPU) * sh;
+          const m = cam.matrixWorld.elements;
+          const r = (flip ? -g.right : g.right) * W;
+          const u = g.up * H;
+          this.batch.draw({
+            sheet: gs,
+            rect: grect,
+            flip,
+            x: x + Math.cos(yaw) * r + m[4]! * u + m[8]! * 0.04,
+            y: y + m[5]! * u + m[9]! * 0.04,
+            z: z - Math.sin(yaw) * r + m[6]! * u + m[10]! * 0.04,
+            mode: 'billboard',
+            opacity,
+            tint: this.dim,
+            w: g.w * W,
+            h: g.h * H,
+          });
+        }
+      }
     }
 
     // Footstep dust and swimming ripples.
@@ -1939,9 +2010,17 @@ export class WorldView {
         lifeMs: 450,
         size: 0.3,
       });
-    } else if (inPond && nowMs - v.lastRippleMs > 650) {
+    } else if (inPond && nowMs - v.lastRippleMs > SWIM_STYLE.strokeMs[swimStyle(n)]) {
+      // LOOK-23: every stroke sends a ring and two to four splash drops.
       v.lastRippleMs = nowMs;
       this.particles.ripple(x, z);
+      this.particles.burst('splash', x, 0.1, z, 2 + (Math.floor(nowMs / 97) % 3), {
+        spread: 0.2,
+        speed: 0.4,
+        rise: 0.7,
+        lifeMs: 380,
+        size: 0.25,
+      });
     }
 
     if (v.bubble && nowMs < v.bubble.untilMs) emote = v.bubble.shape;
@@ -1950,14 +2029,30 @@ export class WorldView {
       const emotes = this.sheets.emotes(n.shadow);
       const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
       if (erect) {
+        // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+        // rounded to whole native pixels, and squashes on a landing or pops on a new shape.
+        const back = EMOTE_SPRING.backPixel;
+        const ball = this.emoteSprings.step(
+          n.id,
+          x - Math.sin(n.facing) * back,
+          y + 2.15,
+          z - Math.cos(n.facing) * back,
+          emote,
+          nowMs,
+          EMOTE_SPRING.clampPixel,
+          1 / NATIVE_PPU,
+          v.pop?.kind === 'squash' ? v.pop.startMs : null,
+        );
         this.batch.draw({
           sheet: emotes,
           rect: erect,
           flip: false,
-          x,
-          y: y + 2.15,
-          z,
+          x: ball.x,
+          y: ball.y,
+          z: ball.z,
           mode: 'billboard',
+          w: (erect.w / NATIVE_PPU) * ball.sx,
+          h: (erect.h / NATIVE_PPU) * ball.sy,
         });
       }
     }
@@ -1992,8 +2087,8 @@ export function clipFor(n: Nubbin): string {
       // Strong fliers flap their wings as they go.
       return flaps(n) ? 'flap' : 'walk';
     case 'swim':
-      // Strong swimmers swim a stroke; everyone else wades through the shallows.
-      return swimsStroke(n) ? 'swim' : 'walk';
+      // LOOK-23: each swims its own stroke: a paddle, a breaststroke or a crawl.
+      return swimClip(n);
     // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
     case 'shelter':

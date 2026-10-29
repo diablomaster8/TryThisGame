@@ -57,10 +57,9 @@ describe('poseFor (3D poses by the pixel view rule)', () => {
     expect(poseFor(nubbin('wander', { fly: 3000 }), true, false)).toBe('walk');
   });
 
-  it('strokes only for a swimming adult; the rest wade', () => {
+  it('swims for every Nubbin in the pond; the stage picks the stroke (LOOK-23)', () => {
     expect(poseFor(nubbin('swim', { adult: true, swim: 3000 }), true, false)).toBe('swim');
-    expect(poseFor(nubbin('swim', { adult: true }), true, false)).toBe('walk');
-    expect(poseFor(nubbin('swim', { swim: 3000 }), true, false)).toBe('walk');
+    expect(poseFor(nubbin('swim', { swim: 300 }), true, false)).toBe('swim');
   });
 });
 

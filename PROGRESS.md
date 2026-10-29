@@ -72,6 +72,76 @@ Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixe
   main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
   skip the wander pick), so seeded replays differ from before but stay deterministic.
 
+## Round 4 · Lane D (2026-10-29, branch r4/d)
+
+Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
+R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
+
+- **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
+  flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
+  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
+  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
+  north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
+  R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
+  when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
+  R0100 the objective beacon, edge arrow, compass tick and minimap star (`sim/beacon.ts`).
+  R0101 fun quests offered only in their region (`sim/quest-areas.ts`). R0106 the bar tucks
+  while walking on phones. Probe: `PROBE_BREAKDOWN=all`, `PROBE_SURVEY=1`.
+- **Stubbed:** R0072 orchard trees are not droppable, the boardwalk is not walkable, the
+  telescope answers with a line (no camera pan), no fairy-ring chime. R0073 the Keeper and
+  NPCs are not tokenised (Nubbins are, 1.5×), tokens' hit area is about 24 CSS px, not 44.
+  R0099 no kid-safe signposts or glowing trail; entrances outside the fence are not hidden
+  sprites. R0100 only Hazel chapter 1 and the Grove suggestions have places (CAMP fills
+  `OBJECTIVE_POIS`). R0101 no offer-on-entering or signpost offers; regions open for their
+  own offers are listed in `WORLD_QUESTS.ownOffers` (grove, hollow). R0095–R0098 not started.
+- **Known bugs / assumptions:** triangles at the busy middle spots swing with where the
+  Nubbins wander: heart 408–472k and bridge 399–464k across runs (budget 450k; creatures are
+  ~350k of it), so one of them is often just over. At the survey zoom southBend reads 177 calls;
+  the near zoom (index 1) at the heart reads about 530k triangles, over 450k (pre-existing,
+  not probed by default). The lane counts as built but only as Corvin's set, so its quests
+  stay offered from the Grove. The pixel chip and the "Tap to walk" hint overlap (pre-existing).
+
+## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
+
+- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
+  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
+  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
+  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
+  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
+  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
+  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
+  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
+  each pet action plays its own beat and toast in both modes.
+- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
+  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
+  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
+- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
+  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
+- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
+  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
+  instead of wading.
+
+## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
+
+- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
+  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
+  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
+  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
+  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
+  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
+  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
+  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
+  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
+  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
+- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
+  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
+  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
+  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
+- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
+  that level.
+- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
+  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
+  (underground ground is flat in `keeper.ts`, lane A).
 ## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
 
 - *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
@@ -99,24 +169,6 @@ Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixe
   units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
   dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
 
-## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
-
-- *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
-  and body slots, each drawn in both modes from data (`render/sprites/cosmetic-pixel.ts`,
-  `render3d/dress.ts` `registryItem`); the shop sells a hat of the day. Hatchlings wear their
-  eggshell for 10 live minutes and keep it in the hat box. Quills (Sun Keeper) and Shade (Moon
-  Keeper) are tier-3 race prizes with 3D accessories. First evolutions carry type tells in both
-  modes (Pixel sorts by outline: `first-tells.test.ts`). A pixel cry clip. Nine more egg colours,
-  three jewels, and metal and glass finishes in Pixel.
-- *Stubbed:* the cry clip is not shown yet: `world-view.ts` and `actors.ts` still map `cry`
-  to `sad` (lane A), and there are no 3D tears. One worn cosmetic at a time (`n.hat`); the
-  per-slot `wear` field needs lane B's save. No 3D egg finish (`creature-pool.ts`, lane D).
-  Normal's fuller crown and Run's lean are Pixel only. Pixel serpents still 1.0–1.6× long.
-- *Known:* Pixel metal is subtle at 32 px. New egg colours show raw ids in the Roster
-  (`EGG_COLOR_LABELS` lives in `strings.ts`).
-- *Assumptions:* keeping the eggshell is automatic (into the hat box on hatch; it leaves the
-  head after 10 min). Grove line only. The registry's "show what you get" shop option was
-  taken over per-id SKUs (no `ShopItem` change).
 
 ## Standing approval (Maor, 2026-10-12)
 

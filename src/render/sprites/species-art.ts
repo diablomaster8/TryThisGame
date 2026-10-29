@@ -1,5 +1,6 @@
 import type { CreaturePalette, CreatureSpec } from './creature';
 import { C } from './palette';
+import { ex } from './creature-extras';
 import { DIGI2_ART } from './species-art-digi2';
 import { GEN1B_ART } from './species-art-gen1b';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
@@ -452,6 +453,8 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
     arms: 'long',
     marks: ['belly'],
     crest: 'bow',
+    // Monzaemon's pink heart on the chest (LOOK-41).
+    addons: [ex('heart', C.rose)],
   }),
   // ---- digital line, Versions 2 to 5 ----
   ...DIGI2_ART,

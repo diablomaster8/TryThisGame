@@ -5,6 +5,7 @@ import { UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { actOpen } from '../sim/dungeon-acts';
 import { hasWaypoint, levelIdOf } from '../sim/dungeon-levels';
+import { HOLLOW_ZONE_TEXT } from '../config/strings';
 import { button, el, modal } from './dom';
 
 /**
@@ -49,9 +50,18 @@ export class WaypointPanel {
     ACTS.forEach((act, i) => {
       if (!actOpen(w, i)) return;
       this.list.appendChild(el('h3', undefined, ACT_TEXT[act.id]?.name ?? act.id));
-      for (let level = 1; level <= act.levels.length; level++) {
-        if (!hasWaypoint(i, level)) continue;
-        const id = levelIdOf({ act: i, depth: actStartDepth(i) + level - 1 });
+      // The camp and the fields first (R0152, R0147), then the act's levels.
+      const ids: Array<[string, string]> = [
+        [`${act.id}.town`, HOLLOW_ZONE_TEXT.townWaypoint],
+        [`${act.id}.field`, HOLLOW_ZONE_TEXT.fieldWaypoint],
+      ];
+      for (let level = 1; level <= act.levels.length; level++)
+        if (hasWaypoint(i, level))
+          ids.push([
+            levelIdOf({ act: i, depth: actStartDepth(i) + level - 1 }),
+            HOLLOW_TEXT.waypointLevel(level),
+          ]);
+      for (const [id, label] of ids) {
         const on = awake.includes(id);
         const row = el('div', `shop-row waypoint-row${on ? ' awake' : ''}`);
         const info = el('div');
@@ -61,16 +71,10 @@ export class WaypointPanel {
             : on
               ? HOLLOW_TEXT.waypointAwake
               : HOLLOW_TEXT.waypointAsleep;
-        info.append(
-          el('strong', undefined, `◆ ${HOLLOW_TEXT.waypointLevel(level)}`),
-          el('small', undefined, note),
-        );
+        info.append(el('strong', undefined, `◆ ${label}`), el('small', undefined, note));
         const go = button(HOLLOW_TEXT.portalGo, () => this.travel(id), 'btn btn-small btn-primary');
         go.textContent = '➜';
-        go.setAttribute(
-          'aria-label',
-          `${ACT_TEXT[act.id]?.name ?? ''} ${HOLLOW_TEXT.waypointLevel(level)}`,
-        );
+        go.setAttribute('aria-label', `${ACT_TEXT[act.id]?.name ?? ''} ${label}`);
         go.disabled = !on || id === here;
         row.append(info, go);
         this.list.appendChild(row);

@@ -91,9 +91,12 @@ export function fogAt(run: DungeonRun, f: Floor, keeper: Vec2, p: Vec2): FogStat
 
 /** Live actors (strays, packs, wild ones) draw only in sight; loot and props once seen. */
 export function actorShown(run: DungeonRun, f: Floor, keeper: Vec2, p: Vec2): boolean {
+  // Under the open sky (camps and fields, R0147) there is no fog of war.
+  if (f.zone === 'town' || f.zone === 'field') return true;
   return fogAt(run, f, keeper, p) === FOG_VISIBLE;
 }
 
 export function lootShown(run: DungeonRun, f: Floor, c: Cell): boolean {
+  if (f.zone === 'town' || f.zone === 'field') return true;
   return isExplored(run, f, c.x, c.y);
 }

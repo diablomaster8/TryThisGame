@@ -1,6 +1,7 @@
 import { DECOR, GROVE, LANTERN_POSTS, STORY_PROPS } from './tuning';
 import type { StoryPropKind } from '../sim/story-props';
 import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
+import { outerColliders } from './outer-ring';
 import { JUMP_TOYS } from './tuning-move';
 
 /**
@@ -361,6 +362,8 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
     const c = wildCollider(p, i);
     if (c) add(c);
   });
+  // R0072: the outer ring's places (config/outer-ring.ts).
+  for (const c of outerColliders()) add(c);
   // MOVE-34: solids standing closer than a Keeper can pass leave slivers that only trap
   // taps; each such pair is joined by a thin bar from centre to centre, live only while
   // both stand (tests/sim/layout-lint.test.ts keeps the list complete). It stops only the

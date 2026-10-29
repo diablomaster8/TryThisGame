@@ -293,9 +293,10 @@ export function drawGen1b(
         const rx = a.bodyRx > 0 ? Math.max(3, a.bodyRx - 2) : 4;
         pc.ellipse(cx, cy, rx, 3, col.belly);
         if (part === 'pouchBaby') {
-          pc.disc(cx, cy - 2, 2.4, col.body);
-          pc.px(cx - 1, cy - 2, col.eye);
-          pc.px(cx + 1, cy - 2, col.eye);
+          // The baby peeks out 1.3x bigger than a bead, so it reads at a glance (LOOK-39).
+          pc.disc(cx, cy - 3, 3.1, col.body);
+          pc.px(cx - 1, cy - 3, col.eye);
+          pc.px(cx + 1, cy - 3, col.eye);
         } else {
           pc.ellipse(cx, cy - 1, 1.8, 2.2, C.white);
         }

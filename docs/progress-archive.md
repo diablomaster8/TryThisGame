@@ -26,6 +26,24 @@ Plan: the Hollow roll bug first, then R0057, R0063, R0066, then FUN R0290–R030
   Hat is a `prize` entry in `config/cosmetics.ts`; the hat is the run's only Grove write;
   fruit can land on heads from any drop, shaken or not; the mushroom's Nubbin bounce is
   drawn only (the sim keeps `y` at 0).
+## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
+
+- *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
+  and body slots, each drawn in both modes from data (`render/sprites/cosmetic-pixel.ts`,
+  `render3d/dress.ts` `registryItem`); the shop sells a hat of the day. Hatchlings wear their
+  eggshell for 10 live minutes and keep it in the hat box. Quills (Sun Keeper) and Shade (Moon
+  Keeper) are tier-3 race prizes with 3D accessories. First evolutions carry type tells in both
+  modes (Pixel sorts by outline: `first-tells.test.ts`). A pixel cry clip. Nine more egg colours,
+  three jewels, and metal and glass finishes in Pixel.
+- *Stubbed:* the cry clip is not shown yet: `world-view.ts` and `actors.ts` still map `cry`
+  to `sad` (lane A), and there are no 3D tears. One worn cosmetic at a time (`n.hat`); the
+  per-slot `wear` field needs lane B's save. No 3D egg finish (`creature-pool.ts`, lane D).
+  Normal's fuller crown and Run's lean are Pixel only. Pixel serpents still 1.0–1.6× long.
+- *Known:* Pixel metal is subtle at 32 px. New egg colours show raw ids in the Roster
+  (`EGG_COLOR_LABELS` lives in `strings.ts`).
+- *Assumptions:* keeping the eggshell is automatic (into the hat box on hatch; it leaves the
+  head after 10 min). Grove line only. The registry's "show what you get" shop option was
+  taken over per-id SKUs (no `ShopItem` change).
 
 ## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
 

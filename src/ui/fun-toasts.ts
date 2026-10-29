@@ -15,6 +15,7 @@ import {
   type ToastBand,
 } from '../config/strings-fun-r5';
 import { UI_TEXT, NAMES } from '../config/strings';
+import { PET_TOASTS } from '../config/strings-look';
 import type { Game } from '../game';
 import type { SlipKind, World } from '../sim/types';
 import { speakLine } from './lesson';
@@ -75,23 +76,60 @@ export function bandToaster(
 const petTurn = new Map<string, number>();
 
 /**
- * R0311: a pet-sheet toast in the Nubbin's own physical voice ("liked that (tickle)" and the
- * refusal become one of three lines for the band, taken in turn). Null when `text` is not a
- * pet toast. `turn` overrides the rotation (tests).
+ * Lane E's per-action, per-personality pet lines (R0298, `PET_TOASTS`) as patterns, so this
+ * wrapper knows which action a success toast was for. Beats that describe a state of their
+ * own (hiccups, a Nubbin too awake to tuck in) are left exactly as lane E wrote them.
+ */
+const escapeRe = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const LANE_E_PETS: Array<{ re: RegExp; key: string }> = Object.entries(PET_TOASTS).flatMap(
+  ([beat, set]) =>
+    beat === 'hiccup' || beat === 'wideAwake'
+      ? []
+      : Object.values(set).map((tpl) => ({
+          re: new RegExp(`^${escapeRe(tpl).replace('\\{n\\}', '(.+)')}$`),
+          key: beat,
+        })),
+);
+
+/**
+ * R0311: a pet-sheet toast in the Nubbin's own physical voice. One toast per action, never
+ * two: the refusal and the plain "liked that (tickle)" become one of three lines for the
+ * band; a success toast from lane E's personality lines stays one of four in the main band
+ * (theirs, then our three, in turn) and becomes our short line in the reader and sprout
+ * bands. Null when `text` is not a pet toast. `turn` overrides the rotation (tests).
  */
 export function petVoice(text: string, band: ToastBand, turn?: number): string | null {
   const liked = /^(.+) liked that \((.+)\)\.$/.exec(text);
   const refused = /^(.+) flinches away\. Not yet\.$/.exec(text);
-  const m = liked ?? refused;
-  if (!m) return null;
-  const key = refused
-    ? 'refused'
-    : Object.keys(PET_LINES).find((k) => k.toLowerCase() === m[2]!.replace(/\s/g, ''));
+  let name: string | undefined;
+  let key: string | undefined;
+  let personal = false;
+  if (refused) {
+    name = refused[1];
+    key = 'refused';
+  } else if (liked) {
+    name = liked[1];
+    key = Object.keys(PET_LINES).find((k) => k.toLowerCase() === liked[2]!.replace(/\s/g, ''));
+  } else {
+    for (const p of LANE_E_PETS) {
+      const m = p.re.exec(text);
+      if (!m) continue;
+      name = m[1];
+      key = p.key;
+      personal = true;
+      break;
+    }
+  }
   const lines = key ? PET_LINES[key]?.[band] : undefined;
-  if (!lines?.length) return null;
+  if (!name || !lines?.length) return null;
   const n = turn ?? petTurn.get(`${key}:${band}`) ?? 0;
   petTurn.set(`${key}:${band}`, n + 1);
-  return lines[n % lines.length]!.replaceAll('{n}', m[1]!);
+  if (personal && band === 'main') {
+    const k = n % (lines.length + 1);
+    return k === 0 ? text : lines[k - 1]!.replaceAll('{n}', name);
+  }
+  return lines[n % lines.length]!.replaceAll('{n}', name);
 }
 
 /** R0313: Fern's stone's line for the `line`-th tap, with the cairn's count. */

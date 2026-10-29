@@ -25,7 +25,7 @@ import {
   startThrow,
   updateBehavior,
 } from './behavior';
-import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
+import { WILD_CRITTERS, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
   keeperJump,
@@ -56,6 +56,7 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -90,6 +91,9 @@ import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
 import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
+import { enterMouth, enterTown } from './dungeon-zones';
+import { townBuy, townQuest, useStash } from './dungeon-towns';
+import { setHollowParty } from './dungeon-party';
 import {
   dungeonGo,
   encounterDone,
@@ -247,6 +251,9 @@ export function createWorld(seed: number, wallMs: number): World {
       waypoints: [],
       acorns: 0,
       portal: null,
+      camp: { shells: 0, items: {}, questsPaid: [] },
+      uniquesBeaten: [],
+      lastParty: [],
     },
     neighbours: {},
     festivalSeen: '',
@@ -558,7 +565,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       } else if (cmd.what === 'critter') {
         withRng(world, (rng) => {
           for (let i = 0; i < cmd.amount; i++) {
-            const s = rng.pick(CRITTER_SPECIES).id;
+            const s = rng.pick(WILD_CRITTERS).id;
             world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
           }
         });
@@ -742,6 +749,25 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'enterAct':
       withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
+      return;
+    // Lane B round 4: act camps and fields (R0147, R0152).
+    case 'enterTown':
+      withRng(world, (rng) => enterTown(world, cmd.act, rng, events));
+      return;
+    case 'enterMouth':
+      enterMouth(world, events);
+      return;
+    case 'stash':
+      useStash(world, cmd.amount, events);
+      return;
+    case 'townBuy':
+      townBuy(world, cmd.item, events);
+      return;
+    case 'townQuest':
+      townQuest(world, events);
+      return;
+    case 'setHollowParty':
+      setHollowParty(world, cmd.ids);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1078,6 +1104,7 @@ export function stepWorld(
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

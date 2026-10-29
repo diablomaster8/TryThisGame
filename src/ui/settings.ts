@@ -24,6 +24,7 @@ import { storySettings } from './edu-story';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import { mountMinimapSetting } from './minimap';
+import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 
@@ -57,6 +58,7 @@ export class SettingsMenu {
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
   private syncMinimap: (g: Game) => void = () => undefined;
+  private syncWorld: (g: Game) => void = () => undefined;
   private readonly joystick: HTMLInputElement;
   private readonly jukebox: HTMLSelectElement;
   private readonly ambience: HTMLInputElement;
@@ -301,6 +303,7 @@ export class SettingsMenu {
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
     body.appendChild(el('div', 'help', UI_TEXT.graphicsHelp));
     this.syncMinimap = mountMinimapSetting(body, this.game);
+    this.syncWorld = mountWorldSettings(body, this.game);
     // Jukebox and ambience.
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
@@ -397,6 +400,7 @@ export class SettingsMenu {
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
     this.syncMinimap(g);
+    this.syncWorld(g);
     this.joystick.checked = g.world.settings.joystick;
     this.jukebox.value = g.world.settings.jukebox ?? '';
     this.ambience.checked = g.world.settings.ambience;
