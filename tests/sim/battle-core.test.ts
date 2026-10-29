@@ -236,7 +236,11 @@ describe('one set of derived stats (recs FIGHT-09)', () => {
       },
       1,
     )!;
-    for (const s of [k, p, e]) expect(s.sides[0][0]).toEqual(base);
+    for (const s of [p, e]) expect(s.sides[0][0]).toEqual(base);
+    // The timed dojo bout only scales HP up so it lasts as long as before.
+    const dojo = k.sides[0][0]!;
+    expect({ ...dojo, hp: base.hp, maxHp: base.maxHp }).toEqual(base);
+    expect(dojo.maxHp).toBe(Math.round(base.maxHp * BATTLE.karate.hpScale));
     // The merge is in: Stamina comes from the partner.
     expect(base.maxHp).toBeGreaterThan(BATTLE.derive.hp + 20);
   });

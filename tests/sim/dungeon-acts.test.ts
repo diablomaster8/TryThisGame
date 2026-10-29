@@ -1,8 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 import { ACTS, actStartDepth } from '../../src/config/dungeon-acts';
 import { SIM } from '../../src/config/tuning';
 import { runFloor } from '../../src/sim/dungeon';
 import { actBossDepth, actOpen } from '../../src/sim/dungeon-acts';
+import { autoResolve, setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
 import { deserialize, MIGRATIONS, SAVE_VERSION, serialize } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -34,7 +35,10 @@ function takeStairs(world: World): SimEvent[] {
 }
 
 describe('the five acts (R0145)', () => {
+  afterEach(() => setEncounterHandler(null));
+
   it('play through, each boss opening the next act, with the auto-resolve stub', () => {
+    setEncounterHandler(autoResolve);
     const world = keeperWorld();
     for (let act = 0; act < ACTS.length; act++) {
       // The next act stays shut until this one's boss is beaten.
@@ -97,7 +101,7 @@ describe('the five acts (R0145)', () => {
   });
 
   it('migrates a version-7 save to no acts begun', () => {
-    expect(SAVE_VERSION).toBe(8);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(8);
     const world = keeperWorld();
     const old = JSON.parse(serialize(world, 0)) as {
       version: number;
@@ -106,7 +110,7 @@ describe('the five acts (R0145)', () => {
     old.version = 7;
     delete (old.world.hollow as Record<string, unknown>).acts;
     const back = deserialize(JSON.stringify(old));
-    expect(back.version).toBe(8);
+    expect(back.version).toBe(SAVE_VERSION);
     expect(back.world.hollow.acts).toEqual([]);
     expect(MIGRATIONS.length).toBe(SAVE_VERSION - 1);
   });

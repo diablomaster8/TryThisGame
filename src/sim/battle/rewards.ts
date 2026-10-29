@@ -3,6 +3,7 @@ import { BATTLE } from '../../config/tuning-battle';
 import { hashSeed } from '../rng';
 import { addRecruit } from '../town';
 import type { SimEvent, World } from '../types';
+import { battleOf } from './moves-sources';
 import type { BattleContext, BattleResult, BattleState } from './types';
 
 /**
@@ -89,6 +90,16 @@ export function grantRewards(world: World, s: BattleState, events: SimEvent[]): 
     );
   } else if (c.kind === 'party' && r.reason !== 'forfeit') {
     events.push({ kind: 'partyBout', won, tier: c.tier, shells });
+  }
+  // Each Nubbin keeps its own turn-bout record (recs FIGHT-17).
+  if (s.mode === 'turn' && r.reason !== 'forfeit' && r.winner !== null) {
+    for (const ally of s.sides[0]) {
+      const n = world.nubbins.find((x) => x.id === ally.nubbinId);
+      if (!n) continue;
+      const b = battleOf(n);
+      if (won) b.wins += 1;
+      else b.losses += 1;
+    }
   }
   events.push({
     kind: 'battleEnd',

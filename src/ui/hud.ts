@@ -16,6 +16,7 @@ import {
   HOLLOW_TEXT,
   ACT_TEXT,
 } from '../config/strings';
+import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -66,6 +67,7 @@ import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
+import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { EDU_TEXT } from '../config/strings';
@@ -407,6 +409,8 @@ export function mountHud(
   );
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
+  const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);
   const atlas = new StoryShelf(root, game, dialogue, toast, {
     which: 'atlas',
@@ -598,6 +602,7 @@ export function mountHud(
       { isOpen: () => trainers.isOpen(), close: () => trainers.close() },
       { isOpen: () => journal.isOpen(), close: () => journal.close() },
       { isOpen: () => partyBout.isOpen(), close: () => partyBout.close() },
+      { isOpen: () => hollowBout.isOpen(), close: () => hollowBout.close() },
       { isOpen: () => kindergarten.isOpen(), close: () => kindergarten.close() },
       { isOpen: () => karate.isOpen(), close: () => karate.close() },
       { isOpen: () => book.isOpen(), close: () => book.close() },
@@ -697,6 +702,7 @@ export function mountHud(
       else if (neoGate.isOpen()) neoGate.close();
       else if (dungeon.isOpen()) dungeon.close();
       else if (partyBout.isOpen()) partyBout.close();
+      else if (hollowBout.isOpen()) hollowBout.close();
       else if (more.isOpen()) more.hide();
       else if (!sheet.root.hidden) sheet.close();
       // Nothing open: Esc leaves a neighbour's Grove.
@@ -883,6 +889,7 @@ export function mountHud(
       g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
       // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
       g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
+      hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
@@ -929,6 +936,7 @@ export function mountHud(
         !pocket.isOpen &&
         // The Hollow's party bout, photo mode and the story worlds are play of their own.
         !partyBout.isOpen() &&
+        !hollowBout.isOpen() &&
         !photo.isOpen() &&
         !atlas.isOpen() &&
         !cabinet.isOpen()
@@ -997,6 +1005,12 @@ export function mountHud(
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
           playSound('sad');
+        } else if (e.kind === 'moveLearned') {
+          // Lane C: a new move (recs FIGHT-17); the stats sheet's Bout card swaps it in.
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          const name = n?.name ?? NAMES.creature;
+          const say = e.slotted ? BOUT_TEXT_SHEET.learned : BOUT_TEXT_SHEET.swapIn;
+          toast(say(name, moveName(e.move)));
         } else if (e.kind === 'eternal') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(UI_TEXT.eternal(n?.name ?? NAMES.creature));
@@ -1136,6 +1150,24 @@ export function mountHud(
           const act = ACTS[e.act];
           toast(HOLLOW_TEXT.bossBeaten(act ? (ACT_TEXT[act.id]?.boss ?? '') : ''));
           playSound('buy');
+          // Lane B round 2: waypoints, new paths and the Homing Acorn.
+        } else if (e.kind === 'waypointActivated') {
+          toast(HOLLOW_TEXT.waypointActivated);
+          playSound('pickup');
+        } else if (e.kind === 'waypointArrived') {
+          toast(HOLLOW_TEXT.waypointArrived);
+        } else if (e.kind === 'actsRerolled') {
+          toast(e.ok ? HOLLOW_TEXT.newPathsDone : HOLLOW_TEXT.newPathsLater);
+        } else if (e.kind === 'acornsBought') {
+          toast(e.ok ? HOLLOW_TEXT.acornsBought(g.world.hollow.acorns) : HOLLOW_TEXT.acornsShort);
+          if (e.ok) playSound('buy');
+        } else if (e.kind === 'acornFound') {
+          toast(HOLLOW_TEXT.acornFound);
+        } else if (e.kind === 'acornPortal') {
+          toast(HOLLOW_TEXT.acornPortal(e.free));
+          playSound('pickup');
+        } else if (e.kind === 'portalReturned') {
+          toast(HOLLOW_TEXT.portalReturned);
         } else if (e.kind === 'wildScanned') {
           toast(DUNGEON_TEXT.wildScanned(keyLabel(e.species)));
         } else if (e.kind === 'located') {

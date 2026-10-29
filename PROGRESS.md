@@ -66,6 +66,46 @@ Items R0030 and R0036–R0049 (R0031/R0032 are lane B's). Per-item status is in 
   not the rng, so no other random draw moves. A bush's find is one shell (there is no ladybird
   critter).
 
+## Round 2 · Lane B (DUNG, 2026-10-28, branch r2/b)
+
+- *Works:* Hollow packs fight on lane C's battle core (`battleHandler`, a `battleEnd` hook in
+  `applyCommand`, the self-opening `ui/dungeon-bout.ts`; at most the party's size of a pack joins).
+  Save v9: act seeds with a daily "New paths" reroll (R0149), waypoint stones with a travel panel
+  (R0148), the Homing Acorn portal home and back with one free acorn a run (R0150), remembered
+  levels and stairs up that climb inside an act (R0151). The landmark is solid to bodies and nav
+  (R0032). Fog of war in both renderers and the Tab/🗺 automap overlay (R0153, R0154).
+- *Stubbed:* outdoor zones (R0147) and towns (R0152) not started; Pixel doesn't draw the waypoint
+  stone, fog the sprites, or draw packs (all need `render/world-view.ts` `drawCave`, lane A); no
+  Grove-side portal sprite; acorns are bought at the cave mouth, not the shop screen; cart and arch
+  posts still walk-through (their placement lives in `render3d/hollow-dress-set.ts`).
+- *Assumptions:* waypoints on act level 1 and every 2nd level, never the boss level; ids are
+  `<act>.<level>`; the acorn always lands in the Grove; a forfeit or draw flees a pack and loses to
+  a boss; crystals stay soft (solid ones walled walkers out of one-cell nooks).
+- *Known:* a fresh pair loses to three or more foes every time (hence the cap; balance is lane C's);
+  a chasing pack can slip out of 3D sight for a moment (aggro 5 cells, sight 4). Where the
+  landmark nearly meets rock its padded nav cells shut a squeezable gap: about 1 in 11 taps from
+  its rim stops short (`tests/sim/dungeon-props.test.ts`). Hollow bout foes are capped at a dojo
+  rival's level for the party (`HOLLOW.packs.boutLevelOver`).
+
+## Round 2 · Lane C (FIGHT, branch r2/c, 2026-10-28)
+
+R0222–R0230 on the battle core. *Works:* derived stats (HP/Bonk/Splash/Guard/Zip/Flutter/
+Puff, child ×0.85, Eternal ×1.1) for every mode; one bounded damage formula; A/S grade
+traits; the type loop + Sun/Moon layer and a help card; Puff (3 start, +2 a turn, Yawny 1);
+six statuses and four mood stats with icon + word; 62 moves as data with sources; four slots
+on `Nubbin.battle` (optional, filled on first use, no save bump), a Bout card on the stats
+sheet (stats, traits, 64 px slot tiles) and a "learned a move" toast; choose-all-then-resolve
+turns by priority and Zip with a "Next up" strip. The entry point is unchanged (`strike`,
+`guard` = catch your breath, `rally` = Huddle, plus `move {move, target}`). *Stubbed:* Peckish
+also wears off (no battle items yet); Sticky only blocks switching (none yet); Heavy Hugger has
+no effect outside tactics; the karate record is not folded into `battle`; R0219 (3D view)
+not started. *Known:* a v1 turn bout in an old save is closed as a draw; on a phone the last
+move row sits under Leave until scrolled (FIGHT-25). *Assumptions:* finals share a signature
+by family and type (10, not 20); catching a breath has priority +3 like switching; Huddle
+(the old Rally) is a basic move for everyone at 3 Puff; personality resistance halves the
+chance; move names live in `config/strings-battle-moves.ts`, re-exported by
+`strings-battle.ts`; moves are synced once a sim second in live play only.
+
 ## Lanes A–E (2026-10-28, merged on lane/d, one push)
 
 The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in

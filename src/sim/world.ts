@@ -1,5 +1,13 @@
 import { BATTLE } from '../config/tuning-battle';
-import { actBattleCmd, forfeitBattleCmd, karatePrize, partyPrize, startBattleCmd } from './battle';
+import {
+  actBattleCmd,
+  forfeitBattleCmd,
+  karatePrize,
+  partyPrize,
+  setSlotsCmd,
+  startBattleCmd,
+  stepBattleMoves,
+} from './battle';
 import { recordKarate } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
@@ -50,10 +58,12 @@ import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
+import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
 import {
   dungeonGo,
   encounterDone,
   enterDungeon,
+  hollowBattleEnded,
   feedStray,
   inParty,
   leaveDungeon,
@@ -195,7 +205,18 @@ export function createWorld(seed: number, wallMs: number): World {
     night: false,
     tank: { runs: 0, best: 0 },
     dungeon: null,
-    hollow: { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] },
+    hollow: {
+      runs: 0,
+      best: 0,
+      dailyDay: '',
+      dailyDepth: 0,
+      acts: [],
+      actSeeds: [],
+      rerollDay: '',
+      waypoints: [],
+      acorns: 0,
+      portal: null,
+    },
     neighbours: {},
     festivalSeen: '',
     atlasFestivals: [],
@@ -255,6 +276,9 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
+  // Lane B: a Hollow bout that just ended finishes its encounter on the floor.
+  if (world.dungeon?.encounter && events.length > start)
+    hollowBattleEnded(world, events.slice(start), events);
   // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
@@ -626,6 +650,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'battleAct':
       actBattleCmd(world, cmd.action, events);
       return;
+    case 'battleSlots':
+      setSlotsCmd(world, cmd.nubbinId, cmd.slots);
+      return;
     case 'battleForfeit':
       forfeitBattleCmd(world, events);
       return;
@@ -663,6 +690,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'enterAct':
       withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
+      return;
+    // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
+    case 'waypointTravel':
+      withRng(world, (rng) => waypointTravel(world, cmd.id, rng, events));
+      return;
+    case 'rerollActs':
+      rerollActs(world, events);
+      return;
+    case 'buyAcorns':
+      buyAcorns(world, events);
+      return;
+    case 'useAcorn':
+      useAcorn(world, events);
+      return;
+    case 'portalReturn':
+      portalReturn(world, events);
       return;
     case 'encounterDone':
       encounterDone(world, cmd.outcome, events);
@@ -955,6 +998,8 @@ export function stepWorld(
   stepScans(world, dtMs, events);
   stepSkillPoints(world, events);
   stepTeams(world, events);
+  // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
+  if (!offline) stepBattleMoves(world, dtMs, events);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

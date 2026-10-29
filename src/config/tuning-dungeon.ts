@@ -14,6 +14,34 @@ export const HOLLOW = {
    * kept for the pixel samples). Saved runs keep the version their floor was made with.
    */
   genVersion: 3,
+  /**
+   * Fog of war (R0153): brightness of cells never seen, seen but out of sight, and in sight.
+   * The sight radius is `DUNGEON.explore.radius` plus these bonuses (cells); the outdoor
+   * zones and the Light role will fill them in later, so both stay 0 for now.
+   */
+  fog: {
+    hidden: 0.1,
+    remembered: 0.55,
+    visible: 1,
+    sightBonus: { outdoor: 0, light: 0 },
+  },
+  /**
+   * The automap (R0154): the full-screen overlay's opacity, its size in CSS px per cell
+   * (clamped to fit the screen), and how far the stairs chevron sits from the Keeper.
+   */
+  automap: {
+    overlayAlpha: 0.5,
+    cellPx: { min: 4, max: 9 },
+    /** The share of the shorter screen side the overlay map may span at most. */
+    fitShare: 0.9,
+    chevronPx: 34,
+    /** Markers' half-size in CSS px, and the party dot's radius. */
+    markPx: 6,
+    partyPx: 3.5,
+    /** Phone layout breakpoint for the corner panel starting collapsed (CSS px). */
+    phoneW: 700,
+    phoneH: 500,
+  },
   /** Monster packs on version-3 floors (R0146). Radii and spacing in cells. */
   packs: {
     minFromEntry: 8,
@@ -42,6 +70,10 @@ export const HOLLOW = {
     bossLevels: 6,
     bossAggro: 6,
     bossLeash: 30,
+    /** Pack members beyond the party's size that join a bout (the rest hang back). */
+    boutExtraFoes: 0,
+    /** Levels a bout's foes may sit over a dojo rival of the same tier for this party. */
+    boutLevelOver: 0,
   },
   /**
    * Generator version 3 (R0143, R0144): authored pieces on a grid of slots, a branching
@@ -79,6 +111,20 @@ export const HOLLOW = {
     /** The endless Hollow's level by depth: up to `small` floors, then up to `standard`. */
     deepLevels: { small: 3, standard: 9 },
   },
+  /** Levels kept per run so going back finds them as left (R0151). */
+  levels: { keep: 12 },
+  /**
+   * Waypoint stones (R0148): on level 1 of every act and every `every` levels after, never on
+   * the boss level; `reach` is how close (world units) counts as standing on one.
+   */
+  waypoints: { every: 2, reach: 1.2 },
+  /** The Homing Acorn (R0150): a bundle in the cave-mouth shop, and the chance a find holds one. */
+  acorns: { bundle: 5, price: 10, dropChance: 0.12 },
+  /**
+   * Solid set pieces (R0032): the landmark blocks this share of its clear radius (cells); nav
+   * closes cells within the block plus `navClearance` (world units).
+   */
+  props: { landmarkShare: 0.7, navClearance: 0.35 },
 } as const;
 
 export type HollowLevel = keyof typeof HOLLOW.v3.levels;
