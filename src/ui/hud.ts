@@ -383,6 +383,11 @@ export function mountHud(
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
   const debug = debugEnabled ? new DebugPanel(root, game, () => sheet.selectedId) : null;
+  // Lane C: reopen a rumble saved mid-battle or started elsewhere (recs FIGHT-65), on demand.
+  window.setInterval(() => {
+    const t = game()?.world.tactics;
+    if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
+  }, 1000);
   const celebration = new Celebration(root, game);
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);

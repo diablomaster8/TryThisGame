@@ -9,6 +9,7 @@ import { button, el } from './dom';
 import { StageInspector } from './stage-inspector';
 import { MOVE_TEXT } from '../config/strings-move';
 import { DEBUG_OVERLAY } from '../render/debug-colliders';
+import { TACTICS_TEXT } from '../config/strings-tactics';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -153,6 +154,17 @@ export class DebugPanel {
       ),
     );
     this.root.appendChild(force);
+
+    // Lane C: the grid-tactics rumble room (recs FIGHT-65); the screen loads on demand.
+    const rumble = el('div', 'debug-row');
+    rumble.appendChild(
+      button(
+        TACTICS_TEXT.start,
+        () => void import('./tactics-screen').then((m) => m.startTacticsDebug(parent, game)),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(rumble);
 
     // MOVE-38: collision overlays, drawn by whichever renderer is on.
     const overlays = el('div', 'debug-row');
