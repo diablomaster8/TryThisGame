@@ -41,3 +41,9 @@ export const VOICES: Record<string, BlipVoice | null> = {
   dusty: { hz: 260, wave: 'triangle', ms: 36 },
   nova: { hz: 560, wave: 'triangle', ms: 26 },
 };
+
+/**
+ * R0306 (FUN-17): no fun quest before this chapter's closing scene has played, so the Grove's
+ * own voice lands before the first joke from another register. After it, `FUN.offerGapMs`.
+ */
+export const FUN_FIRST_OFFER = { afterChapter: 2 } as const;

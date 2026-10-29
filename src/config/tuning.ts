@@ -1858,11 +1858,6 @@ export const FUN = {
   /** One at a time, and never in a chapter's first story day (the campaign speaks first). */
   maxOpen: 1,
   offerAfterMs: 120_000,
-  /**
-   * R0306 (FUN-17): no fun quest before this chapter's closing scene has played, so the
-   * Grove's own voice lands before the first joke from another register.
-   */
-  firstOfferAfterChapter: 2,
   /** After a fun quest opens, the next one is not offered for this long (no stacking). */
   offerGapMs: 240_000,
   /** Market days, as JavaScript weekdays (Wednesday and Saturday). */

@@ -1,5 +1,5 @@
 import type { Quest } from '../content/types';
-import { FUN, STORY } from '../config/tuning';
+import { FUN, FUN_FIRST_OFFER, STORY } from '../config/tuning';
 import { CHAPTERS } from '../config/story';
 import { isFunQuestCode, questAvailable } from './audience';
 import { FUN_PACK_RULES } from './fun-pack-rules';
@@ -149,9 +149,9 @@ function followsMet(c: CampaignState, quest: Quest, rule: WhenRule): boolean {
   );
 }
 
-/** R0306: the first fun quest waits for chapter `FUN.firstOfferAfterChapter`'s closing scene. */
+/** R0306: the first fun quest waits for chapter `FUN_FIRST_OFFER.afterChapter`'s closing scene. */
 export function firstOfferOpen(c: CampaignState): boolean {
-  const after = FUN.firstOfferAfterChapter;
+  const after = FUN_FIRST_OFFER.afterChapter;
   if (c.storyline || c.chapter > after) return true;
   const closing = CHAPTERS[after - 1]?.closing;
   return c.chapter === after && !!closing && c.seen.includes(closing);
