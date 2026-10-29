@@ -12,6 +12,7 @@
  * in the read-aloud band. Everything here reads the world and sends commands.
  */
 import { EDU_PROMPT_TEXT, OBJECTIVE_TEXT } from '../config/strings-dlg';
+import { goalDoneLine } from '../config/strings-fun';
 import { EDU_PROMPT } from '../config/tuning-dlg';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
@@ -80,7 +81,10 @@ export function objectiveOf(g: Game): Objective | null {
       return {
         key: `story:${c.storyline ?? 'hazel'}:${view.n}`,
         goal: edu?.goalText ?? view.goalText,
-        hint: met ? OBJECTIVE_TEXT.done : (edu?.hint ?? view.hint),
+        // R0305: the breather after a goal, in voice, one line per chapter.
+        hint: met
+          ? goalDoneLine(c.chapter, textBandOf(g.world) === 'sprout')
+          : (edu?.hint ?? view.hint),
         story: true,
       };
     }
