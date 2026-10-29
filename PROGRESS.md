@@ -38,6 +38,26 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 3 · Lane C (2026-10-28, branch r3/c)
+
+- *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
+  priority +3 (the incoming one takes the queued hit), a pick after a tuck-in, all tuckered is
+  a snack-break loss; the last party is kept in `world.battlePrefs`. Items from the inventory
+  (fruit, toys; flavoured fruit from the new optional `inventory.pocketFruit`), paid only on a
+  result. Wild foes have Calm and come home as children (or fill the scan and leave Shells);
+  Shadow strays take no HP. The ten Keepers' Circuit: fixed teams per save, field rules,
+  ribbons, hats, skill points, Champion rematches. Sprout/Keeper/Champion AI plus personality.
+  Gentle bouts (Learning Grove or the dojo switch) never lose. One full-screen battle screen
+  with playback, phone layout, party sheet and Power swing. Arena colliders (MOVE-62) and the
+  reserved grid data (MOVE-61, `docs/tactics-grid.md`).
+- *Stubbed:* the Circuit's 10 pre/post scenes and the chapter 5 goal alternative; the
+  Learning Grove "Play-fight Day" scenes; he/ja bout lines; nothing fills `pocketFruit` yet;
+  the Gentle switch lives in the dojo menu, not Settings; old `party` bouts stay all-at-once
+  (no screen opens them now); encounters are singles only when the caller asks.
+- *Known:* Champion beats Keeper 70.6% in the 500-bout mirror test, just over the 70% bar;
+  the battle screen draws pixel sheets in Full 3D (R0219); the full-life and 8-Nubbin timing
+  tests fail in a loaded full run and pass alone (1.6 s, 1.4 s).
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
