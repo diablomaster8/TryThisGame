@@ -27,6 +27,7 @@ import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
   TRAP_TEXT,
+  RUMBLE_TEXT,
   UNIQUE_RESULT_TEXT,
   UNIQUE_TEXT,
 } from '../config/strings-dungeon';
@@ -1261,6 +1262,26 @@ export function mountHud(
           toast(
             e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
           );
+        } else if (e.kind === 'rumbleRoom') {
+          // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
+          const p = RUMBLE_TEXT.prefix[e.prefix] ?? '';
+          if (e.phase === 'start') toast(RUMBLE_TEXT.start(p));
+          else if (e.phase === 'lost') toast(RUMBLE_TEXT.lost);
+          else {
+            const l = e.loot;
+            const what =
+              l?.kind === 'hat'
+                ? RUMBLE_TEXT.loot.hat(l.param)
+                : l?.kind === 'critter'
+                  ? RUMBLE_TEXT.loot.critter(l.param)
+                  : RUMBLE_TEXT.loot.shells(l?.amount ?? 0);
+            toast(`${RUMBLE_TEXT.won(p)} ${what}`);
+            playSound('buy');
+          }
+        } else if (e.kind === 'strayAsk') {
+          toast(RUMBLE_TEXT.strayAsk);
+        } else if (e.kind === 'strayCalmed') {
+          toast(e.ok ? RUMBLE_TEXT.calmed(e.shells) : RUMBLE_TEXT.calmFailed);
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {

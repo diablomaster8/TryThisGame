@@ -103,6 +103,7 @@ import {
   setDungeonLoading,
   stepDungeon,
 } from './dungeon';
+import { calmStray } from './dungeon-strays';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -312,9 +313,8 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
-  // Lane B: a Hollow bout that just ended finishes its encounter on the floor.
-  if (world.dungeon?.encounter && events.length > start)
-    hollowBattleEnded(world, events.slice(start), events);
+  // Lane B: a Hollow bout that just ended finishes its encounter, calm bout or rumble room.
+  if (world.dungeon && events.length > start) hollowBattleEnded(world, events.slice(start), events);
   // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
@@ -754,6 +754,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'enterMouth':
       enterMouth(world, events);
+      return;
+    // Lane B round 5: the stray's choice (R0281).
+    case 'strayCalm':
+      calmStray(world, cmd.id, events);
       return;
     case 'stash':
       useStash(world, cmd.amount, events);

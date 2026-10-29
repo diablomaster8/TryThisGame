@@ -309,3 +309,26 @@ export const HOLLOW_PARTY_TEXT = {
   tired: '💤 Tired',
   energy: (pct: number) => `Energy ${pct}%`,
 };
+
+/** Rumble rooms (R0257, R0282) and the stray's choice (R0281). */
+export const RUMBLE_TEXT = {
+  prefix: {
+    fluffy: 'Extra Fluffy',
+    speedy: 'Speedy',
+    sticky: 'Sticky Paws',
+  } as Record<string, string>,
+  start: (prefix: string) => `A rumble room! A champion pack, ${prefix}, wants a play-fight.`,
+  won: (prefix: string) => `The ${prefix} pack flops over, giggling. A chest pops open.`,
+  lost: 'The pack bounces you out of the room. Step back in when you are ready.',
+  loot: {
+    hat: (hat: string) => `In the chest: a ${hat} hat!`,
+    critter: (species: string) => `In the chest: a ${species} in a bubble!`,
+    shells: (n: number) => `In the chest: ${n} Shells.`,
+  },
+  door: 'Rumble room',
+  strayAsk: 'A Shadow stray tugs at your pocket. Calm it, or toss it a snack?',
+  calm: '🤝 Calm it (bout)',
+  snack: '🍎 Toss a snack',
+  calmed: (shells: number) => `The stray calms down and gives back ${shells} Shells, and some.`,
+  calmFailed: 'The stray wriggles free with your Shells.',
+};

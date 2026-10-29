@@ -59,7 +59,8 @@ export class HollowBoutPanel {
   /** A bout the Hollow just started and nobody has shown yet. */
   private fresh(): number {
     const w = this.game()?.world;
-    const bout = w?.dungeon?.encounter?.bout;
+    // A pack's bout, or a stray's calm bout (R0281).
+    const bout = w?.dungeon?.encounter?.bout ?? w?.dungeon?.strayBout?.bout;
     if (!w || bout === undefined || bout === this.shown || w.battle?.result) return -1;
     return bout === (w.battleRuns ?? 0) ? bout : -1;
   }

@@ -646,6 +646,15 @@ export interface DungeonRun {
   zone?: DungeonZone;
   /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
   side?: number;
+  /**
+   * Rumble rooms (R0257, R0282): level ids whose room is won, and the one the Keeper must
+   * step out of before it starts again (after a loss, or a start nobody could fight).
+   */
+  rumble?: { done: string[]; wait?: string };
+  /** R0281: a stray that bumped the Keeper waits this long for Calm or a snack. */
+  strayAsk?: { id: string; leftMs: number };
+  /** R0281: the calm bout under way (`bout` is `world.battleRuns` when it began). */
+  strayBout?: { id: string; bout: number; shells: number };
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1106,6 +1115,8 @@ export type Command =
   | { kind: 'stash'; amount: number }
   | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
   | { kind: 'townQuest' }
+  // Lane B round 5: the stray's choice (R0281).
+  | { kind: 'strayCalm'; id: string }
   | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
@@ -1343,6 +1354,15 @@ export type SimEvent =
   | { kind: 'townQuestPaid'; act: number; shells: number }
   | { kind: 'sideCaveEntered'; index: number }
   | { kind: 'uniqueBeaten'; id: string; bonus: number }
+  // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
+  | {
+      kind: 'rumbleRoom';
+      phase: 'start' | 'won' | 'lost';
+      prefix: string;
+      loot: { kind: 'hat' | 'critter' | 'shells'; param: string; amount: number } | null;
+    }
+  | { kind: 'strayAsk'; id: string }
+  | { kind: 'strayCalmed'; ok: boolean; shells: number }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }

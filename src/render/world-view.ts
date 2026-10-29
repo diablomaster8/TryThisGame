@@ -10,6 +10,7 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { rumbleOpen } from '../sim/dungeon-rumble';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
@@ -1377,6 +1378,26 @@ export class WorldView {
         },
         { id: 'chest', kind: 'chest' },
       );
+    }
+    // Lane B round 5: a rumble room's doorway glows until it is won (R0282).
+    const door = crystal ? rumbleOpen(run, f) : null;
+    if (door && crystal) {
+      const glow = this.particles.reduceMotion ? 1.4 : 1.4 + 0.25 * Math.sin(nowMs / 260);
+      for (const c of door.door) {
+        const p = cellCentre(f, c);
+        batch.draw({
+          sheet,
+          rect: crystal,
+          flip: false,
+          x: p.x,
+          y: 0.02,
+          z: p.z,
+          mode: 'flat',
+          w: cell * 0.8,
+          h: cell * 0.8,
+          tint: glow,
+        });
+      }
     }
     // Loot bobs gently until someone walks over it.
     for (const l of f.loot) {

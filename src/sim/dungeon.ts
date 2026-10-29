@@ -6,7 +6,16 @@ import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
-import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
+import {
+  maySnatch,
+  pickTrail,
+  shooStray,
+  stepStray,
+  stepStrayAsk,
+  strayBoutEnded,
+  strayBoutLive,
+} from './dungeon-strays';
+import { rumbleEnded, stepRumble } from './dungeon-rumble';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
 import { forfeitBattleCmd } from './battle';
@@ -1088,6 +1097,9 @@ export function encounterDone(world: World, outcome: EncounterOutcome, events: S
  */
 export function hollowBattleEnded(world: World, fresh: SimEvent[], events: SimEvent[]): void {
   const run = world.dungeon;
+  // Round 5: the stray's calm bout (R0281) and the rumble rooms' tactics bouts (R0257).
+  if (run?.strayBout) strayBoutEnded(world, fresh, events);
+  if (run && fresh.some((e) => e.kind === 'tacticsEnd')) rumbleEnded(world, fresh, events);
   const enc = run?.encounter;
   const f = runFloor(world);
   if (!enc || !f) return;
@@ -1123,6 +1135,7 @@ export function feedStray(world: World, id: string, events: SimEvent[]): void {
   if (!run || !f) return;
   const s = run.strays.find((x) => x.id === id);
   if (!s) return;
+  if (run.strayAsk?.id === id) delete run.strayAsk;
   if (world.inventory.fruit < 1) {
     // No fruit: a party Nubbin chases it off instead, if one has the energy (R0162).
     if (shooStray(world, run, id, events)) return;
@@ -1267,8 +1280,9 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const f = runFloor(world);
   if (!run || !f || dtMs > 1000) return;
   if (run.loading) return;
-  // A fight holds the floor still, the Keeper too (the bout panel is up).
-  if (run.encounter) {
+  // A fight holds the floor still, the Keeper too (the bout panel or the tactics board is up).
+  const held = !!run.encounter || strayBoutLive(world, run, events) || !!world.tactics;
+  if (held) {
     world.keeper.moveTarget = null;
     world.keeper.intent = null;
     run.pending = null;
@@ -1321,12 +1335,24 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
 
   // Monster packs (R0146); a fight under way holds the rest of the floor still.
   stepPacks(world, f, dtMs, rng, events, settling);
-  if (run.encounter || world.dungeon !== run || runFloor(world) !== f) return;
+  if (run.encounter || held || world.dungeon !== run || runFloor(world) !== f) return;
+  // Rumble rooms (R0257, R0282): walking in starts a tactics bout on this very room.
+  if (!settling) stepRumble(world, run, f, events);
+  if (world.tactics) return;
 
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.
-  for (const s of run.strays) {
+  for (const s of [...run.strays]) {
     s.cooldownMs = Math.max(0, s.cooldownMs - dtMs);
     const fleeing = s.cooldownMs > 0;
+    // R0281: a stray that bumped the Keeper holds still and asks before it snatches.
+    const touching =
+      !fleeing && maySnatch(s, settling) && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0;
+    if (stepStrayAsk(world, run, s, touching, dtMs, events)) continue;
+    if (s.cooldownMs > 0 && !fleeing) {
+      // It just snatched after asking: off it runs.
+      const away = randomOpenCell(f, rng, null, 0);
+      s.target = away ? cellCentre(f, away) : null;
+    }
     if (
       !s.target ||
       walkToward(s.pos, s.target, fleeing ? DUNGEON.strayFleeSpeed : DUNGEON.straySpeed, dt)
@@ -1337,16 +1363,6 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     resolveDungeon(s.pos, f, 0.3, 'all');
     // R0162: the snatched Shells drop as a trail behind it; twice a floor at most.
     stepStray(world, run, f, s, dtMs);
-    if (
-      !fleeing &&
-      maySnatch(s, settling) &&
-      dist(s.pos, k.pos) < 0.9 &&
-      world.inventory.shells > 0
-    ) {
-      snatch(world, run, s, events);
-      const away = randomOpenCell(f, rng, null, 0);
-      s.target = away ? cellCentre(f, away) : null;
-    }
   }
   pickTrail(world, run, events);
 
