@@ -86,3 +86,15 @@ export const NPC_ROUTINE = {
   arrive: 1.2,
   potter: 1.2,
 } as const;
+
+/**
+ * R0297 (FUN-08): two Keepers within `radius` of each other, neither having spoken for
+ * `quietMs`, swap a two-line exchange; the second line follows after `replyMs`. Each pair
+ * then waits `cooldownMs`. Checked once a sim second.
+ */
+export const CHATTER_TUNE = {
+  radius: 2,
+  quietMs: 4000,
+  replyMs: 2500,
+  cooldownMs: 120_000,
+} as const;

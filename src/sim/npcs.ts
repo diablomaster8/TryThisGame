@@ -3,6 +3,7 @@ import { nubbinAim, type NubbinRoute } from './nav';
 import { blocked, resolve, wayAt } from './obstacles';
 import { GROVE, KEEPER, NPC_ROUTINE } from '../config/tuning';
 import { routineArrived, routineTarget } from './npc-routines';
+import { stepChatter } from './npc-chatter';
 import { clampToWorld } from './behavior';
 import type { Rng } from './rng';
 import type { TrainerLook } from './trainers';
@@ -280,6 +281,8 @@ export function stepNpcs(world: World, dtMs: number, rng: Rng, events: SimEvent[
       }
     }
   }
+  // R0297: Keepers passing close swap a line or two.
+  stepChatter(world, dtMs, scene, events);
 }
 
 export function npcNear(world: World, id: string, radius = 3): Npc | undefined {

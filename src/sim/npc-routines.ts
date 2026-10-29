@@ -2,6 +2,7 @@ import { NPC_ROUTINE } from '../config/tuning';
 import { STORY } from '../config/tuning';
 import { ROUTINES, type RoutineStation } from '../content/routines';
 import { blocked } from './obstacles';
+import { noteNpcSaid } from './npc-chatter';
 import { hashSeed, Rng } from './rng';
 import type { Npc, SimEvent, Vec2, World } from './types';
 
@@ -116,4 +117,5 @@ export function routineArrived(world: World, npc: Npc, events: SimEvent[]): void
   const lines = cur.station.lines;
   const text = `${cur.station.icon} ${lines[n % lines.length]!}`;
   events.push({ kind: 'npcBark', npcId: npc.id, text, station: cur.station.id });
+  noteNpcSaid(world, npc.id);
 }

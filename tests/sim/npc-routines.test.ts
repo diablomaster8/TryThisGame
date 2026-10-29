@@ -50,3 +50,32 @@ describe('Keeper routines', () => {
     }
   }, 30_000);
 });
+
+describe('Keeper chatter', () => {
+  it('a 10-minute soak has five or more exchanges, and no pair repeats a line', async () => {
+    const { CHATTER } = await import('../../src/content/chatter');
+    const { world } = campaignWorld('fern');
+    c(world).chapter = 7;
+    ensureTrainers(world);
+    world.keeper.pos = { x: 30, z: -30 };
+    const said: Array<{ npc: string; text: string }> = [];
+    const steps = (600 * 1000) / SIM.stepMs;
+    for (let i = 0; i < steps; i++) {
+      c(world).queue = [];
+      for (const n of world.nubbins) {
+        n.needs.hunger = 1;
+        n.needs.energy = 1;
+      }
+      for (const e of stepWorld(world, SIM.stepMs))
+        if (e.kind === 'npcBark' && !e.station) said.push({ npc: e.npcId, text: e.text });
+    }
+    // Each exchange is two lines.
+    expect(said.length / 2).toBeGreaterThanOrEqual(5);
+    const texts = said.map((s) => s.text);
+    expect(new Set(texts).size).toBe(texts.length);
+    for (const [key, list] of Object.entries(CHATTER)) {
+      expect(key.split('|').sort().join('|')).toBe(key);
+      expect(list.length, key).toBeGreaterThanOrEqual(4);
+    }
+  }, 60_000);
+});
