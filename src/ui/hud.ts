@@ -60,6 +60,7 @@ import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { BarkBubble } from './bark-bubble';
+import { bandToaster, slipNudge } from './fun-toasts';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -363,7 +364,8 @@ export function mountHud(
   // Read out politely by screen readers; each toast is added as a new node.
   toasts.setAttribute('role', 'status');
   toasts.setAttribute('aria-live', 'polite');
-  const toast = makeToaster(toasts);
+  // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
+  const toast = bandToaster(makeToaster(toasts), game);
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -1340,10 +1342,10 @@ export function mountHud(
           toast(TEN_TEXT.townGrew(TEN_TEXT.unlockNames[e.unlock] ?? e.unlock));
           playSound('win');
         } else if (e.kind === 'slip') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            TEN_TEXT.slipToast(n?.name ?? NAMES.creature, TEN_TEXT.slipNames[e.slip] ?? e.slip),
-          );
+          // R0307: say what helps; the "(A slip.)" tag is on the stats sheet only.
+          toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'slipSoon') {
+          toast(slipNudge(g.world, e.nubbinId, e.slip));
         } else if (e.kind === 'wellRaised') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(TEN_TEXT.wellRaised(n?.name ?? NAMES.creature));

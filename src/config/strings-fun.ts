@@ -53,3 +53,5 @@ export const LINE_ACT_TEXT = {
     done: 'You set it right way up. For whoever comes next.',
   },
 } as const;
+
+export * from './strings-fun-r5';

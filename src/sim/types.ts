@@ -1271,6 +1271,8 @@ export type SimEvent =
   | { kind: 'recruited'; name: string; role: TownRole; prosperity: number }
   | { kind: 'townGrew'; unlock: string; prosperity: number }
   | { kind: 'slip'; nubbinId: string; slip: SlipKind }
+  /** R0307: a slip is a minute away (a new save only): the HUD says what helps. */
+  | { kind: 'slipSoon'; nubbinId: string; slip: SlipKind }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }

@@ -47,3 +47,9 @@ export const VOICES: Record<string, BlipVoice | null> = {
  * own voice lands before the first joke from another register. After it, `FUN.offerGapMs`.
  */
 export const FUN_FIRST_OFFER = { afterChapter: 2 } as const;
+
+/**
+ * R0307 (FUN-18): while every Nubbin in the save is younger than `earlyMs`, a need about to
+ * become a slip is announced `leadMs` before it is logged, so a new Keeper learns what helps.
+ */
+export const SLIP_WARN = { leadMs: 60_000, earlyMs: 15 * 60_000 } as const;
