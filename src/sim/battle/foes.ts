@@ -51,7 +51,8 @@ function dress(rng: Rng, species: string, tier: number): FoeLook {
   for (let i = 0; i < Math.max(0, tier - 1); i++) {
     const c = rng.pick(CRITTER_SPECIES);
     const slot = rng.pick(c.parts);
-    parts[slot] = `${c.id}-${slot}`;
+    // Only the four body slots dress a rival; the newer extra slots (legs...) stay bare.
+    if (slot in parts) parts[slot as PartSlot] = `${c.id}-${slot}`;
   }
   const band = tier <= 1 ? 'neutral' : rng.pick(BANDS);
   const eggColor = rng.pick(EGG_COLORS);
