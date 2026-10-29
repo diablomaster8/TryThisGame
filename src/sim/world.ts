@@ -10,6 +10,7 @@ import {
   stepBattleMoves,
 } from './battle';
 import { recordKarate } from './battle/rewards';
+import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -680,6 +681,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'battlePrefs':
       setBattlePrefsCmd(world, cmd.prefs);
+      return;
+    // Lane C: the grid-tactics rumble (recs FIGHT-65), kept in world.tactics.
+    case 'tacticsStart':
+      startRumble(world, events, {
+        ...(cmd.depth !== undefined ? { depth: cmd.depth } : {}),
+        ...(cmd.ids ? { ids: cmd.ids } : {}),
+      });
+      return;
+    case 'tacticsAct':
+      rumbleAct(world, cmd.action, events);
+      return;
+    case 'tacticsForfeit':
+      rumbleForfeit(world, events);
+      return;
+    case 'tacticsClose':
+      rumbleClose(world);
       return;
     case 'fuse': {
       const [a, b] = world.partners;

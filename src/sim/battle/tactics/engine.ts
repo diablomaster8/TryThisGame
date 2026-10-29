@@ -1,7 +1,7 @@
 /**
  * The grid-tactics engine (recs FIGHT-53 and the rules of FIGHT-52 to FIGHT-58): pure and
  * seeded like the turn mode. Every unit gains Zip/10 CT a tick; at 100 it takes a turn of an
- * optional Move (undoable until it acts), an optional Act and a Wait with a facing, and keeps
+ * optional Move (before or after the Act; undoable until it acts), an optional Act and a Wait with a facing, and keeps
  * 20 CT for each it skipped. Charged moves land after their ticks on whoever stands there.
  * Damage is the turn mode's formula (`damageWith`) times the grid factor from `hitMult`, which
  * the preview shares, so the number shown is the number dealt for the same roll. The status
@@ -333,9 +333,7 @@ export function canDo(s: TacticsState, a: TacticsAction): boolean {
   const m = mapOf(s);
   switch (a.k) {
     case 'move':
-      return (
-        !s.moved && !s.acted && canEnd(reachOf(s, u), a.x, a.y) && !(a.x === u.x && a.y === u.y)
-      );
+      return !s.moved && canEnd(reachOf(s, u), a.x, a.y) && !(a.x === u.x && a.y === u.y);
     case 'undo':
       return s.moved && !s.acted && s.snap !== null;
     case 'act': {

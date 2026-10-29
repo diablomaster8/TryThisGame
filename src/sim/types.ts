@@ -7,6 +7,7 @@ import type {
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
 import type { NubbinCombat } from './battle/tactics/grid';
+import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
 
 /** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
 export interface BattlePrefs {
@@ -812,6 +813,8 @@ export interface World {
   battle?: BattleState;
   /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
   battleRuns?: number;
+  /** Lane C: the live grid-tactics bout (recs FIGHT-65), absent when none; no save bump. */
+  tactics?: TacticsState;
   /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
@@ -913,6 +916,11 @@ export type Command =
   | { kind: 'battleForfeit' }
   | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  | { kind: 'tacticsAct'; action: TacticsAction }
+  | { kind: 'tacticsForfeit' }
+  | { kind: 'tacticsClose' }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1087,6 +1095,17 @@ export type Command =
 export type SimEvent =
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; source: string; key: string }
+  | {
+      kind: 'tacticsEnd';
+      source: string;
+      key: string;
+      winner: TacticsResult['winner'];
+      reason: TacticsResult['reason'];
+      shells: number;
+      essence: NubbinType | null;
+    }
   | {
       kind: 'battleEnd';
       context: BattleContext['kind'];
