@@ -266,3 +266,34 @@ export const BATTLE = {
   logCap: 200,
 } as const;
 export { TACTICS } from './tuning-tactics';
+
+/**
+ * Lane C round 5 (recs FIGHT-70, -73, -74, -90): shared content rules, what a bout feeds back
+ * into care, the one-time rewards and how rivals are picked. Kept as its own block so the
+ * balance numbers above can change without touching it.
+ */
+export const BATTLE_CONTENT = {
+  /** One turn of a status lasts this many CT ticks on the grid (FIGHT-70). */
+  ctPerTurn: 10,
+  /** A turn move's priority +1 is worth this much CT on the grid for its user. */
+  ctPerPriority: 10,
+} as const;
+
+export const BATTLE_PROGRESS = {
+  /** Stat points per use of a move (before the grade multiplier). */
+  perUse: 4,
+  /** At most this many raw points to any one stat from one bout. */
+  capPerStat: 60,
+  /** Energy a bout costs (0..1), a little less than the gym's 0.15. */
+  energyCost: 0.1,
+  happyWin: 3,
+  happyLoss: 1,
+  /** A child with this many more bout wins than losses leans Cheerful; the reverse, Shy. */
+  leanGap: 3,
+} as const;
+
+export const BATTLE_ONCE = {
+  /** The hat the first win at each tier gives, by tier (one-time). */
+  // Existing registry hats for now; a dedicated prize hat per tier is a cosmetics-lane job.
+  firstWinHats: ['party', 'top-hat', 'halo-band'] as const,
+} as const;

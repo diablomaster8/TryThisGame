@@ -6,6 +6,7 @@ import type {
   NubbinBattle,
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
+import type { BattleOnceState, BoutSpoils } from './battle/rewards';
 import type { NubbinCombat } from './battle/tactics/grid';
 import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
 
@@ -164,7 +165,14 @@ export interface Nubbin {
   alignment: number;
   personality: Personality | null;
   /** How it was treated as a child; decides the personality at evolution. */
-  childCare: { pets: number; throws: number; feeds: number };
+  childCare: {
+    pets: number;
+    throws: number;
+    feeds: number;
+    /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
+    boutWins?: number;
+    boutLosses?: number;
+  };
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
@@ -823,6 +831,11 @@ export interface World {
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
   circuit?: CircuitState;
+  /**
+   * Lane C round 5 (recs FIGHT-74): one-time bout rewards already given (first win per tier,
+   * keepsakes, move cards for the Collection book). No save bump.
+   */
+  battleOnce?: BattleOnceState;
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -1123,6 +1136,8 @@ export type SimEvent =
   /** A wild foe came home: as a new child (`child`, its id), or as a full scan and a gift. */
   | { kind: 'befriended'; species: string; child: string | null; gift: number }
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
+  /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
+  | { kind: 'battleSpoils'; spoils: BoutSpoils }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';
