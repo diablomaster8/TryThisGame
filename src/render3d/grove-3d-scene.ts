@@ -9,6 +9,7 @@ import {
   PERF_BUDGET,
   WORLD_LOD,
   WORLD_MEM,
+  WORLD_SURVEY,
   WORLD_TIER,
   tierForRes,
   type DeviceTier,
@@ -292,6 +293,8 @@ export class Grove3dScene {
   private treesBuilt = false;
   /** Round 4: far trees drawn in shared batches (see far-trees.ts). */
   farTrees: FarTrees | null = null;
+  /** R0073: the orbit is at the survey zoom this frame. */
+  private surveyNow = false;
   private readonly treeAt = new Map<string, Vec2>();
   private readonly crowns = new CrownFade();
   private readonly holeSize = new THREE.Vector2();
@@ -1047,7 +1050,9 @@ export class Grove3dScene {
       z: orbit.target.z,
       yaw: orbit.currentYaw,
       pitchDeg: GROVE3D.pitchDeg,
-      distance: GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0],
+      distance: orbit.survey
+        ? WORLD_SURVEY.distance3d
+        : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]),
       points: [],
       lookUp: 0,
     };
@@ -1464,10 +1469,13 @@ export class Grove3dScene {
     this.camTarget.y -= dip - this.lastDip;
     this.lastDip = dip;
     const yaw = orbit.currentYaw + this.yawOffset;
+    this.surveyNow = orbit.survey;
     const cave = this.location === 'dungeon';
     const basePitch = cave ? READ3D.hollow.pitchDeg : GROVE3D.pitchDeg;
     const baseDist =
-      (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]) *
+      (orbit.survey
+        ? WORLD_SURVEY.distance3d
+        : (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0])) *
       (cave ? READ3D.hollow.distanceK : 1);
     const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
     const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
@@ -1630,7 +1638,13 @@ export class Grove3dScene {
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
     // R0079: the far creatures' cells, after the reset so their draws count in the frame.
-    if (!NO_LOD) this.creatureLod.impostors?.render(this.renderer, this.scene, this.camera);
+    const imp = NO_LOD ? null : this.creatureLod.impostors;
+    if (imp) {
+      imp.perFrame = this.surveyNow
+        ? WORLD_SURVEY.impostorPerFrame
+        : WORLD_LOD.creature.impostor.perFrame;
+      imp.render(this.renderer, this.scene, this.camera);
+    }
     this.composer.render();
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);

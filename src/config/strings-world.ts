@@ -85,3 +85,15 @@ export const OUTER_TEXT = {
     hive: 'A steady hum. The bees are busy, and would like you to be busy somewhere else.',
   },
 } as const;
+
+/** R0073 and R0106: the two phone-room settings (`ui/world-settings.ts`). */
+export const WORLD_SETTINGS_TEXT = {
+  surveyWhenRunning: {
+    label: 'Zoom out when running',
+    help: 'After two seconds of running the view pulls back to show the land around you.',
+  },
+  hideBarWhileWalking: {
+    label: 'Hide bar while walking',
+    help: 'The bottom bar tucks away while you walk, and comes back when you stop or tap its edge.',
+  },
+} as const;

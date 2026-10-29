@@ -1,6 +1,7 @@
 import { MathUtils, OrthographicCamera, Vector3 } from 'three';
 import { CAMERA, RENDER } from '../config/tuning';
-import { CAMERA_LEAD } from '../config/tuning-world';
+import { CAMERA_LEAD, WORLD_SURVEY } from '../config/tuning-world';
+import { SPRITE_TOKENS } from './sprite-batch';
 
 // ---------- pure helpers (unit tested) ----------
 
@@ -80,6 +81,7 @@ interface Tween {
 
 /** Pixels per unit of zoom step `index`: the player's steps, then the story step (CAMERA). */
 export function zoomPixelsPerUnit(index: number): number {
+  if (index < 0) return WORLD_SURVEY.pixelsPerUnit;
   return (
     CAMERA.pixelsPerUnit[index] ??
     (index >= CAMERA.pixelsPerUnit.length ? CAMERA.storyPixelsPerUnit : CAMERA.pixelsPerUnit[0])
@@ -181,7 +183,7 @@ export class OrbitCamera {
   /** Go to zoom step `index`; only a story shot (`story`) may reach the story step. */
   setZoom(index: number, nowMs: number = performance.now(), story = false): void {
     const top = CAMERA.pixelsPerUnit.length - (story ? 0 : 1);
-    const clamped = MathUtils.clamp(Math.round(index), 0, top);
+    const clamped = MathUtils.clamp(Math.round(index), -1, top);
     if (clamped === this.zoomIndex) return;
     this.zoomIndex = clamped;
     const to = computeViewHeight(this.frameHeight, this.pixelsPerUnit);
@@ -243,22 +245,71 @@ export class OrbitCamera {
   }
 
   zoomIn(nowMs?: number): void {
+    this.runFrom = null;
     this.setZoom(this.zoomIndex + 1, nowMs);
   }
 
   zoomOut(nowMs?: number): void {
+    this.runFrom = null;
     this.setZoom(this.zoomIndex - 1, nowMs);
   }
 
+  /** The zoom button: nearer each press, and from the nearest round to the survey step. */
   toggleZoom(nowMs?: number): void {
-    this.setZoom(
-      (Math.min(this.zoomIndex, CAMERA.pixelsPerUnit.length - 1) + 1) % CAMERA.pixelsPerUnit.length,
-      nowMs,
-    );
+    const last = CAMERA.pixelsPerUnit.length - 1;
+    const at = Math.min(this.zoomIndex, last);
+    this.setZoom(at >= last ? -1 : at + 1, nowMs);
+  }
+
+  /** R0073: true at the survey step (zoom index -1). */
+  get survey(): boolean {
+    return this.zoomIndex < 0;
+  }
+
+  /** The player's zoom while running pulled the view out to the survey step, or null. */
+  private runFrom: number | null = null;
+
+  /**
+   * R0073: "Zoom out when running". `on` while the Keeper has run long enough: go to the
+   * survey step, remembering the player's; off again: back to it. A zoom the player picks
+   * meanwhile is kept (it clears the memory).
+   */
+  autoSurvey(on: boolean, nowMs?: number): void {
+    if (on) {
+      if (this.runFrom !== null || this.zoomIndex < 0 || this.heldFrom !== null) return;
+      this.runFrom = this.zoomIndex;
+      this.setZoom(-1, nowMs);
+      return;
+    }
+    if (this.runFrom === null) return;
+    const back = this.runFrom;
+    this.runFrom = null;
+    if (this.zoomIndex < 0) this.setZoom(back, nowMs);
+  }
+
+  private runSince: number | null = null;
+  private stopSince: number | null = null;
+
+  /**
+   * R0073: each frame, whether "Zoom out when running" wants the survey step now (the Keeper
+   * running and moving, the setting on): after `WORLD_SURVEY.runMs` of it the view pulls
+   * out, and `backMs` after it stops it goes back.
+   */
+  runTick(running: boolean, nowMs: number): void {
+    if (running) {
+      this.stopSince = null;
+      this.runSince ??= nowMs;
+      if (nowMs - this.runSince >= WORLD_SURVEY.runMs) this.autoSurvey(true, nowMs);
+      return;
+    }
+    this.runSince = null;
+    this.stopSince ??= nowMs;
+    if (nowMs - this.stopSince >= WORLD_SURVEY.backMs) this.autoSurvey(false, nowMs);
   }
 
   /** Advance tweens and re-apply the pose (the target may have moved). Call once per frame. */
   update(nowMs: number): void {
+    SPRITE_TOKENS.scale = this.zoomIndex < 0 ? WORLD_SURVEY.tokenScale : 1;
     if (this.yawTween) {
       const t = MathUtils.clamp((nowMs - this.yawTween.startMs) / CAMERA.snapMs, 0, 1);
       this.yaw = MathUtils.lerp(this.yawTween.from, this.yawTween.to, easeOutCubic(t));

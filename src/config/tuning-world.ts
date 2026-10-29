@@ -155,3 +155,21 @@ export const WORLD_WALK = {
   /** POI ladder: the 90th-percentile walk to the nearest POI of each tier, at most. */
   tierS: { micro: 8, minor: 15, major: 30 },
 } as const;
+
+/**
+ * R0073 (WORLD-07): the survey zoom, a third step past the far one (zoom index -1), so a
+ * portrait phone sees the field instead of a corridor. Pixel: 8 px a unit (half the far
+ * step, so the art stays on whole pixels); Nubbins and eggs are drawn `tokenScale` times
+ * larger there so they stay findable and tappable. 3D: the orbit pulls back to `distance3d`.
+ * "Zoom out when running" enters it after `runMs` of running (phones, unless switched off)
+ * and leaves `backMs` after the run stops.
+ */
+export const WORLD_SURVEY = {
+  pixelsPerUnit: 8,
+  distance3d: 26,
+  tokenScale: 1.5,
+  runMs: 2000,
+  backMs: 800,
+  /** Impostor cells redrawn a frame at the survey zoom (they are small there). */
+  impostorPerFrame: 1,
+} as const;
