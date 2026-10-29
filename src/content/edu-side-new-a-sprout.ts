@@ -2286,7 +2286,7 @@ const S18: EduQuest = quest(
       's18-complete',
       [
         N('Opening day! Half the valley comes.'),
-        N('Squeak! Children press their noses on the trilobite case.'),
+        N('Children press their noses on the trilobite case. Squeak!'),
         N('Sparks reads every sign out loud. Very loud.'),
         DE('You did this, Curator. That means you look after the museum. Well done!', 'happy'),
         N('He gives you his old magnifying glass, on a ribbon.'),

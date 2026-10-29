@@ -236,7 +236,7 @@ _He looks at his hat. His hat looks worried._
 #### `sprout:s18-complete` · [main](../../../side/S18.md#s18-complete)
 
 _Opening day! Half the valley comes._  
-_Squeak! Children press their noses on the trilobite case._  
+_Children press their noses on the trilobite case. Squeak!_  
 
 > **Lesson** (social-studies, D2.His.2.K-2, notice): museums keep things from long ago  
 > **Professor Delve**: A museum keeps old things safe.  
