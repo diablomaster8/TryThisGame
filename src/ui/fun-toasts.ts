@@ -4,7 +4,13 @@
  * no mechanics, read aloud when read-aloud is on); R0311 gives pet-sheet actions a physical
  * line. Text lives in `config/strings-fun-r5.ts`.
  */
-import { EDU_TOASTS, PET_LINES, SLIP_NUDGE, type ToastBand } from '../config/strings-fun-r5';
+import {
+  EDU_TOASTS,
+  FERN_STONE_TEXT,
+  PET_LINES,
+  SLIP_NUDGE,
+  type ToastBand,
+} from '../config/strings-fun-r5';
 import { UI_TEXT, NAMES } from '../config/strings';
 import type { Game } from '../game';
 import type { SlipKind, World } from '../sim/types';
@@ -83,4 +89,11 @@ export function petVoice(text: string, band: ToastBand, turn?: number): string |
   const n = turn ?? petTurn.get(`${key}:${band}`) ?? 0;
   petTurn.set(`${key}:${band}`, n + 1);
   return lines[n % lines.length]!.replaceAll('{n}', m[1]!);
+}
+
+/** R0313: Fern's stone's line for the `line`-th tap, with the cairn's count. */
+export function fernStoneLine(world: World, line: number, stones: number): string {
+  const t = FERN_STONE_TEXT;
+  const pool = toastBand(world) === 'sprout' ? t.sprout : t.main;
+  return `${pool[line % pool.length]!} ${t.count(stones)}`;
 }

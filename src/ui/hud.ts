@@ -60,7 +60,7 @@ import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { BarkBubble } from './bark-bubble';
-import { bandToaster, slipNudge } from './fun-toasts';
+import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
@@ -1349,6 +1349,9 @@ export function mountHud(
           toast(slipNudge(g.world, e.nubbinId, e.slip));
         } else if (e.kind === 'slipSoon') {
           toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'fernStone') {
+          toast(fernStoneLine(g.world, e.line, e.stones));
+          playSound('pop');
         } else if (e.kind === 'wellRaised') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(TEN_TEXT.wellRaised(n?.name ?? NAMES.creature));

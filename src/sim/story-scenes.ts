@@ -435,6 +435,13 @@ export function choiceToSend(scene: PlayScene, picked: string | null): string | 
 const SWAPS: Record<string, (c: CampaignState, s: Swapper) => void> = {
   // R0304 (FUN-15): the cup turned the right way up in c1-letter comes back at the close.
   'c12-close': (c, s) => {
+    // R0313 (FUN-24): Fern's cairn, the running gag, gets its last stone.
+    s.insertAt(4, {
+      main: 'Fern’s cairn by the signpost has twelve stones now. She says the top one is the best, as she always does.',
+      reader:
+        'Fern’s cairn by the signpost has twelve stones now. She says the top one is the best.',
+      sprout: 'Fern’s stones! One, two… twelve! Hee hee!',
+    });
     if (!c.flags['c1-cup-turned']) return;
     s.insertAt(3, {
       main: 'The soup comes in Hazel’s cup, the one you turned the right way up. Nobody has turned it back.',

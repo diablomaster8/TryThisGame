@@ -3,7 +3,7 @@ import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { Y_STATE } from './dress-y-state';
 import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
-import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
+import { DUNGEON, EGG, FERN_STONE, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
@@ -35,6 +35,7 @@ import { windSway } from './wind-px';
 import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
+import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
@@ -858,6 +859,28 @@ export class WorldView {
           tint: this.lightAt(p.x, p.z),
         },
         { id: p.id, kind: 'storyProp' },
+      );
+    }
+    // R0313: Fern's cairn by the signpost, one stone a chapter, the faced one on top.
+    const cairn = home && !bare ? fernStones(world) : 0;
+    const faced = props.frames.get(frameKey('prop-fernStone', 'front', 0));
+    const flat = props.frames.get(frameKey('prop-flatStone', 'front', 0));
+    for (let i = 0; i < cairn && faced && flat; i++) {
+      const top = i === cairn - 1;
+      batch.draw(
+        {
+          sheet: props,
+          rect: top ? faced! : flat!,
+          flip: false,
+          x: FERN_STONE.x + ((i * 37) % 7) * 0.02 - 0.06,
+          y: i * 0.13,
+          z: FERN_STONE.z,
+          mode: 'billboard',
+          w: top ? 0.42 : 0.5 - i * 0.02,
+          h: top ? 0.32 : 0.2,
+          tint: this.lightAt(FERN_STONE.x, FERN_STONE.z),
+        },
+        { id: FERN_STONE.id, kind: 'storyProp' },
       );
     }
     for (const m of home && !bare ? world.memorials : []) {

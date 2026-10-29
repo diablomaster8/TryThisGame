@@ -20,7 +20,7 @@ describe('R0304 line acts', () => {
     c(world).flags['c1-cup-turned'] = true;
     const after = sceneFor(world, 'c12-close')!.lines;
     expect(after.length).toBe(before + 1);
-    expect(after[4]!.text).toContain('right way up');
+    expect(after.some((l) => l.text.includes('right way up'))).toBe(true);
   });
 
   it('an act a scene does not have sets nothing', () => {
@@ -126,5 +126,29 @@ describe('R0311 pet lines', () => {
     expect(petVoice(UI_TEXT.interactRefused('Kiki'), 'sprout', 0)).toBe('Kiki is shy. Not yet.');
     for (const set of Object.values(PET_LINES))
       for (const l of set.sprout) expect(l.split(/\s+/).length).toBeLessThanOrEqual(6);
+  });
+});
+
+describe('R0313 Fern stone', () => {
+  it('the cairn count is the chapter number, and a tap gives a line and notes the chapter', async () => {
+    const { fernStones, fernStoneChapters } = await import('../../src/sim/fern-stone');
+    const { world } = campaignWorld('fern');
+    for (const ch of [1, 5, 12]) {
+      c(world).chapter = ch;
+      expect(fernStones(world)).toBe(ch);
+    }
+    c(world).chapter = 1;
+    const ev: SimEvent[] = [];
+    applyCommand(world, { kind: 'storyProp', prop: 'fern-stone' }, ev);
+    const e = ev.find((x) => x.kind === 'fernStone');
+    expect(e && e.kind === 'fernStone' && e.stones).toBe(1);
+    expect(fernStoneChapters(world)).toBe(1);
+  });
+
+  it('the finale counts the twelve stones', async () => {
+    const { sceneFor } = await import('../../src/sim/story-scenes');
+    const { world } = campaignWorld('fern');
+    const lines = sceneFor(world, 'c12-close')!.lines;
+    expect(lines.some((l) => l.text.includes('twelve stones'))).toBe(true);
   });
 });

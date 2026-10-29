@@ -1273,6 +1273,8 @@ export type SimEvent =
   | { kind: 'slip'; nubbinId: string; slip: SlipKind }
   /** R0307: a slip is a minute away (a new save only): the HUD says what helps. */
   | { kind: 'slipSoon'; nubbinId: string; slip: SlipKind }
+  /** R0313: Fern's stone was tapped (the `line`-th tap; the cairn has `stones`). */
+  | { kind: 'fernStone'; line: number; stones: number }
   | { kind: 'trained'; nubbinId: string; stat: StatKey; points: number; rested: boolean }
   | { kind: 'merged'; a: string; b: string }
   | { kind: 'unmerged'; a: string; b: string }

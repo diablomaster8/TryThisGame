@@ -84,6 +84,7 @@ import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -971,6 +972,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
+      // R0313: except Fern's stone, a running gag of its own.
+      tapFernStone(world, cmd.prop, events);
       return;
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);

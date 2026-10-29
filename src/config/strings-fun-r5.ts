@@ -146,3 +146,18 @@ export const HATCH_CARD_TEXT = {
   pet: 'Pet',
   close: 'Close',
 } as const;
+
+/** R0313 (FUN-24): what Fern's stone "says" when tapped, in turn. Sprout: short and silly. */
+export const FERN_STONE_TEXT = {
+  name: 'Fern’s stone',
+  main: [
+    'A good stone. Fern tried four.',
+    'The stone looks back at you. It has two dots for eyes and no opinions.',
+    'Fern says this one is the best stone in the valley. She has checked.',
+    'The cairn has grown. Fern says the top one is the best. She always says that.',
+    'A stone with a face. It has been watching the gate all day.',
+    'You straighten the top stone. Fern will straighten it back.',
+  ],
+  sprout: ['Hello, stone!', 'A stone with a face! Hee hee!', 'Fern’s stones! Count them!'],
+  count: (n: number) => (n === 1 ? 'One stone.' : `${n} stones.`),
+} as const;

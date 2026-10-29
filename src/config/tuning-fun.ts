@@ -53,3 +53,10 @@ export const FUN_FIRST_OFFER = { afterChapter: 2 } as const;
  * become a slip is announced `leadMs` before it is logged, so a new Keeper learns what helps.
  */
 export const SLIP_WARN = { leadMs: 60_000, earlyMs: 15 * 60_000 } as const;
+
+/**
+ * R0313 (FUN-24): Fern's stone, a running gag: the stone from the letter sits by the signpost
+ * with a face, and Fern adds one a chapter (the cairn has as many stones as the chapter
+ * number, up to 12). `pick` is the tap radius.
+ */
+export const FERN_STONE = { id: 'fern-stone', x: 3.1, z: 21.2, maxStones: 12, pick: 0.6 } as const;
