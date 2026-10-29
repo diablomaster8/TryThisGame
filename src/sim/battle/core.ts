@@ -15,6 +15,7 @@ import { setSlots, syncMoves } from './moves-sources';
 import { battleSeedFor, grantRewards } from './rewards';
 import { CIRCUIT_GIMMICK, circuitOpen, circuitTeam } from './circuit';
 import { bagFrom } from './items';
+import { foeLooks } from './foes';
 import { inflict } from './status';
 import type { BattlePrefs } from '../types';
 import { turnAct } from './turn';
@@ -58,7 +59,7 @@ export function createBattle(
     allies = [scaleForDojo(combatantOf(fighter, world))];
     const lv = rivalLevel(allies, tier);
     const opts = { share: 1, hpShare: 1 };
-    foes = [scaleForDojo(rivalOf(0, lv, tier, allies, DEFAULT_RIVAL, tier - 1, opts, rng), tier)];
+    foes = [scaleForDojo(rivalOf(0, lv, tier, allies, rivalSpecies(world, context, 0, 1), tier - 1, opts, rng), tier)];
   } else {
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
@@ -117,6 +118,11 @@ export function createBattle(
 }
 
 /** Foes for a turn bout: by context (recs FIGHT-19, -22, -29). */
+/** A rival's real species from the context's pool (FIGHT-90), the base Nubbin if none. */
+function rivalSpecies(world: World, context: BattleContext, i: number, n: number): string {
+  return foeLooks(world, context, n)[i]?.species ?? DEFAULT_RIVAL;
+}
+
 function foeSpecs(
   world: World,
   context: Exclude<BattleContext, { kind: 'karate' }>,
@@ -139,10 +145,10 @@ function foeSpecs(
         name: FOE_NAME_BASE + i,
       }));
     case 'dojo':
-      return [{ species: DEFAULT_RIVAL, level: lv }];
+      return [{ species: rivalSpecies(world, context, 0, 1), level: lv }];
     case 'party':
-      return Array.from({ length: Math.min(T.foesPerTier, partySize) }, () => ({
-        species: DEFAULT_RIVAL,
+      return Array.from({ length: Math.min(T.foesPerTier, partySize) }, (_, i) => ({
+        species: rivalSpecies(world, context, i, Math.min(T.foesPerTier, partySize)),
         level: lv,
       }));
   }
