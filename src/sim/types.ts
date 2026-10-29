@@ -1146,6 +1146,11 @@ export type SimEvent =
   | { kind: 'keeperRolled' }
   // MOVE-57: a spring mushroom bounced the Keeper (or a Nubbin, `nubbinId`) off its cap.
   | { kind: 'springBounced'; id: string; nubbinId?: string }
+  // MOVE-63: the hop course: a run starts, a flag is touched (1-based count so far), a run
+  // ends (its time, the ghost as x, y, z triples every 100 ms, and whether the hat came now).
+  | { kind: 'hopCourse'; stage: 'start' | 'gaveUp' }
+  | { kind: 'hopCourse'; stage: 'flag'; flag: number }
+  | { kind: 'hopCourse'; stage: 'finish'; ms: number; ghost: number[]; hat: boolean }
   // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
   | { kind: 'keeperDipped'; shells: number }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).

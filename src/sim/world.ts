@@ -59,6 +59,7 @@ import { separateBodies } from './separation';
 import { lookAround } from './lookout';
 import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
+import { stepHopCourse } from './hop-course';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -1015,6 +1016,8 @@ export function stepWorld(
     if (!offline) stepPropReach(world);
     // MOVE-58: the one-time hop lesson.
     if (!offline) stepHopLesson(world, events);
+    // MOVE-63: the hop course's flags and timer.
+    if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);

@@ -23,6 +23,7 @@ import { WATER_LEVEL, groveHeight } from './terrain';
 import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
 import { noteJumpToyWorld } from './jump-toys';
+import { HopCourse3D } from './hop-course-3d';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
@@ -239,6 +240,9 @@ export class Actors {
   private caveFloor: Floor | null = null;
   private caveGround: (x: number, z: number) => number = () => 0;
 
+  /** MOVE-63: the hop course's flags and ghost. */
+  private readonly hopCourse: HopCourse3D;
+
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
     this.group.name = 'actors';
@@ -252,6 +256,7 @@ export class Actors {
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
+    this.hopCourse = new HopCourse3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -825,6 +830,7 @@ export class Actors {
     const keeper = world.keeper;
     this.world = world;
     noteJumpToyWorld(world, this.calm);
+    this.hopCourse.update(world, alpha, nowMs, this.calm);
     this.pool.frame();
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);

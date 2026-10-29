@@ -58,6 +58,7 @@ import { button, el } from './dom';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
+import { HopCourseChip } from './hop-course';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -266,6 +267,8 @@ export function mountHud(
   root.appendChild(jumpBtn);
   // MOVE-58: the one-time hop lesson's chip.
   const hopLesson = new HopLessonChip(root);
+  // MOVE-63: the hop course's chip, toasts and side save.
+  const hopCourse = new HopCourseChip(root);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -781,6 +784,7 @@ export function mountHud(
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
         g.framePollers.push(() => lookout.update(g.world, performance.now()));
         g.framePollers.push(() => hopLesson.update(g.world));
+        g.framePollers.push(() => hopCourse.update(g.world));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1016,6 +1020,8 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'hopCourse') {
+          hopCourse.onEvent(e, toast);
         } else if (e.kind === 'springBounced' && !e.nubbinId) {
           // MOVE-57: the Keeper off a spring mushroom (a Nubbin's bounces stay quiet).
           playSound('boing');

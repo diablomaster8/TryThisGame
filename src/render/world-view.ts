@@ -45,6 +45,7 @@ import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
+import { hopFlagsShown, hopGhostAt } from './hop-course-view';
 import { springBouncedAt } from '../sim/decorate';
 import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
@@ -804,6 +805,42 @@ export class WorldView {
         },
         { id: d.id, kind: 'decor' },
       );
+    }
+    // MOVE-63: the hop course's flags and the best run's ghost.
+    if (home && !bare) {
+      const toys = jumpToySheet();
+      for (const f of hopFlagsShown(world)) {
+        const rect = toys.frames.get(f.kind === 'start' ? 'flagStart' : 'flag');
+        if (!rect) continue;
+        batch.draw({
+          sheet: toys,
+          rect,
+          flip: false,
+          x: f.x,
+          y: Math.max(0, keeperFooting(world, f.x, f.z).y - paintedGround(f.x, f.z)),
+          z: f.z,
+          mode: 'billboard',
+          w: 1.2,
+          h: 1.2,
+          opacity: f.kind === 'after' ? 0.45 : 1,
+          tint: this.dim,
+        });
+      }
+      const gh = hopGhostAt(world, world.timeMs - (1 - alpha) * SIM.stepMs);
+      const grect = toys.frames.get('ghost');
+      if (gh && grect)
+        batch.draw({
+          sheet: toys,
+          rect: grect,
+          flip: false,
+          x: gh.x,
+          y: Math.max(0, gh.y - paintedGround(gh.x, gh.z)),
+          z: gh.z,
+          mode: 'billboard',
+          w: 1.1,
+          h: 1.1,
+          opacity: 0.5,
+        });
     }
     // The side stories' props: the trowel on the step, the door in the Old Wall...
     for (const p of home && !bare ? visibleStoryProps(world) : []) {
