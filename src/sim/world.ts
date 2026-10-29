@@ -47,6 +47,7 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -1039,6 +1040,7 @@ export function stepWorld(
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

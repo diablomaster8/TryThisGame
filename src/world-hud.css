@@ -1,4 +1,4 @@
-/* Lane D HUD pieces: the bar tucked while walking (R0106) and the objective arrow (R0100). */
+/* Lane D HUD pieces: bar tuck (R0106), objective arrow (R0100), Learning Grove Home (R0099). */
 
 .walk-tuck-handle {
   display: none;
@@ -83,4 +83,16 @@
 .beacon-arrow-star {
   font-size: 16px;
   line-height: 40px;
+}
+
+/* R0099: the sprout band's Home button, big and thumb-high on the left. */
+.edu-home {
+  position: absolute;
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 124px);
+  z-index: 12;
+  min-width: 64px;
+  min-height: 52px;
+  font-size: 18px;
+  pointer-events: auto;
 }

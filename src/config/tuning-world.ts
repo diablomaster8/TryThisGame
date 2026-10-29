@@ -213,3 +213,19 @@ export const WORLD_BEACON = {
 export const WORLD_QUESTS = {
   ownOffers: ['grove', 'hollow'] as readonly string[],
 } as const;
+
+/**
+ * R0099 (WORLD-40): the Learning Grove's fenced play area (`sim/little-grove.ts`): 40 x 40 round
+ * the cottage, the pond and the near fruit trees, with the Hollow's mouth (z -13.6) outside.
+ * `margin` keeps everyone a step in from the fence; `home` is where the Home button walks to.
+ */
+export const LITTLE_GROVE = {
+  minX: -20,
+  maxX: 20,
+  minZ: -12,
+  maxZ: 28,
+  margin: 0.6,
+  /** Picket spacing of the drawn fence, in world units. */
+  picket: 1.2,
+  home: { x: -7, z: 18 },
+} as const;

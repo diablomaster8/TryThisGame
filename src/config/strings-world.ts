@@ -5,6 +5,8 @@
 import type { RegionId } from './regions';
 
 export const WORLD_TEXT = {
+  /** R0099: the sprout band's button that walks the Keeper home. */
+  eduHome: 'Home',
   regions: {
     grove: 'The Grove',
     lane: 'The lane',

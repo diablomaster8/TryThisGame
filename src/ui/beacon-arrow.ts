@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 import '../world-hud.css';
-import { WORLD_BEACON } from '../config/tuning-world';
+import { LITTLE_GROVE, WORLD_BEACON } from '../config/tuning-world';
 import { WORLD_TEXT } from '../config/strings-world';
 import type { Game } from '../game';
 import { Beacon } from '../render/beacon';
+import { buildEduFence } from '../render/edu-fence';
 import { terraceY } from '../render/scene-stage';
 import { objectivePoi } from '../sim/beacon';
 import type { Vec2 } from '../sim/types';
@@ -35,6 +36,18 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
   arrow.addEventListener('click', openMap);
   root.appendChild(arrow);
   const beacons = new WeakMap<THREE.Object3D, Beacon>();
+  // R0099: the Learning Grove's fence, one per scene, shown while the Learning Grove is on.
+  const fences = new WeakMap<THREE.Object3D, THREE.Mesh>();
+  // R0099: the sprout band's Home button walks the Keeper back to the cottage.
+  const home = document.createElement('button');
+  home.type = 'button';
+  home.className = 'btn edu-home';
+  home.textContent = `🏠 ${WORLD_TEXT.eduHome}`;
+  home.hidden = true;
+  home.addEventListener('click', () =>
+    game()?.send({ kind: 'moveKeeperTo', pos: { ...LITTLE_GROVE.home } }),
+  );
+  root.appendChild(home);
   let shown: Beacon | null = null;
   const v = new THREE.Vector3();
   const frame = (): void => {
@@ -45,6 +58,16 @@ export function mountBeacon(root: HTMLElement, game: () => Game | null, openMap:
     const at = g && o ? objectivePoi(g.world, o.key) : null;
     OBJECTIVE_TARGET.pos = at;
     const scene = g ? (g.scene3d?.scene ?? g.grove?.scene ?? null) : null;
+    const kids = !!g?.world.edu && g.world.location === 'grove';
+    home.hidden = !kids || g?.world.edu?.band !== 'sprout';
+    if (scene && kids && !fences.has(scene)) {
+      const ground = g?.scene3d ? terraceY : () => 0;
+      const f = buildEduFence(ground);
+      scene.add(f);
+      fences.set(scene, f);
+    }
+    const fence = scene ? fences.get(scene) : undefined;
+    if (fence) fence.visible = kids;
     const camera: THREE.Camera | null = g ? (g.scene3d?.camera ?? g.camera.camera) : null;
     let b = scene ? (beacons.get(scene) ?? null) : null;
     if (scene && !b && at) {
