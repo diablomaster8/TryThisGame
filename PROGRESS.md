@@ -38,24 +38,25 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
+## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
 
-- *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
-  and body slots, each drawn in both modes from data (`render/sprites/cosmetic-pixel.ts`,
-  `render3d/dress.ts` `registryItem`); the shop sells a hat of the day. Hatchlings wear their
-  eggshell for 10 live minutes and keep it in the hat box. Quills (Sun Keeper) and Shade (Moon
-  Keeper) are tier-3 race prizes with 3D accessories. First evolutions carry type tells in both
-  modes (Pixel sorts by outline: `first-tells.test.ts`). A pixel cry clip. Nine more egg colours,
-  three jewels, and metal and glass finishes in Pixel.
-- *Stubbed:* the cry clip is not shown yet: `world-view.ts` and `actors.ts` still map `cry`
-  to `sad` (lane A), and there are no 3D tears. One worn cosmetic at a time (`n.hat`); the
-  per-slot `wear` field needs lane B's save. No 3D egg finish (`creature-pool.ts`, lane D).
-  Normal's fuller crown and Run's lean are Pixel only. Pixel serpents still 1.0–1.6× long.
-- *Known:* Pixel metal is subtle at 32 px. New egg colours show raw ids in the Roster
-  (`EGG_COLOR_LABELS` lives in `strings.ts`).
-- *Assumptions:* keeping the eggshell is automatic (into the hat box on hatch; it leaves the
-  head after 10 min). Grove line only. The registry's "show what you get" shop option was
-  taken over per-id SKUs (no `ShopItem` change).
+- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
+  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
+  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
+  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
+  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
+  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
+  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
+  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
+  each pet action plays its own beat and toast in both modes.
+- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
+  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
+  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
+- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
+  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
+- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
+  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
+  instead of wading.
 
 ## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
 
