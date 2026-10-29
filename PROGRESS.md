@@ -45,7 +45,8 @@ R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
 
 - **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
   flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
-  198→162, cornerSE 183→141 calls; all 19 now ≤ 175 calls). R0072 the outer ring's five places, 34 pieces plus 6
+  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
+  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
   north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
   R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
   when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
