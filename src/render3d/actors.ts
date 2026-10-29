@@ -1,7 +1,7 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX, KEEPER_SLOPE, ROLL } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
@@ -31,7 +31,7 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperFooting, keeperMantle, keeperRoll } from '../sim/keeper';
+import { keeperDip, keeperFooting, keeperMantle, keeperRoll } from '../sim/keeper';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -957,6 +957,9 @@ export class Actors {
       const ky = lerp(this.keeperPrevY, keeper.y, this.keeperAlpha ?? alpha);
       this.keeperFeet = runFloor(world) ? 0 : keeperFooting(world, kp.x, kp.z, ky).y;
       this.keeperLift = Math.max(0, ky - this.keeperFeet);
+      // MOVE-65: a pond dip sinks the rig under the water and back.
+      const dip = keeperDip(world);
+      if (dip !== null) this.keeperLift -= POND_DIP.depth * Math.sin(Math.PI * dip);
     }
     const kMoving =
       Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004 ||

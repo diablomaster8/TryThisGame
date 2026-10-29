@@ -2,7 +2,13 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import { BUSH_TEXT, HOP_LESSON_TEXT, LOOKOUT_TEXT, MOVE_TEXT } from '../config/strings-move';
+import {
+  BUSH_TEXT,
+  HOP_LESSON_TEXT,
+  LOOKOUT_TEXT,
+  MOVE_TEXT,
+  POND_TEXT,
+} from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -996,6 +1002,10 @@ export function mountHud(
           // MOVE-43: a bush's one-time find.
           playSound('pickup');
           toast(BUSH_TEXT.found);
+        } else if (e.kind === 'keeperDipped' && e.shells > 0) {
+          // MOVE-65: a pond spot's one-time find.
+          playSound('pickup');
+          toast(POND_TEXT.found(e.shells));
         } else if (e.kind === 'hopLesson' && e.stage === 'done') {
           // MOVE-58: the first clear.
           toast(HOP_LESSON_TEXT.done);

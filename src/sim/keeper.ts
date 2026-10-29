@@ -12,6 +12,7 @@ import {
   MANTLE,
   CARE_APPROACH,
   ROLL,
+  POND_DIP,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -469,6 +470,37 @@ export function keeperMantle(world: World): number | null {
   return m ? Math.min(1, m.ms / MANTLE.ms) : null;
 }
 
+/** MOVE-65: a dip under the pond under way (its time), transient. */
+const dips = new WeakMap<World, { ms: number }>();
+
+/** MOVE-65: how far through a pond dip the Keeper is (0..1), or null. Drawn only. */
+export function keeperDip(world: World): number | null {
+  const d = dips.get(world);
+  return d ? Math.min(1, d.ms / POND_DIP.ms) : null;
+}
+
+/**
+ * MOVE-65: a jump into the pond with the Swim perk and the button let go dips under. The
+ * dip is only drawn (the feet stay on the bed); the pond's sector it is in may give its
+ * one-time shell.
+ */
+function startDip(world: World, events: SimEvent[]): void {
+  const k = world.keeper;
+  const p = GROVE.pond;
+  const a = Math.atan2(k.pos.x - p.x, k.pos.z - p.z);
+  const sector = Math.floor(((a + Math.PI) / (2 * Math.PI)) * POND_DIP.spots) % POND_DIP.spots;
+  const spot = `pond-${sector}`;
+  dips.set(world, { ms: 0 });
+  const found = (world.pondFinds ??= []);
+  let shells = 0;
+  if (!found.includes(spot) && withRng(world, (r) => r.chance(POND_DIP.findChance))) {
+    found.push(spot);
+    shells = POND_DIP.findShells;
+    world.inventory.shells += shells;
+  }
+  events.push({ kind: 'keeperDipped', shells });
+}
+
 /** Land at the end of a fall or a mantle: on the ground, air jumps and glide reset. */
 function land(world: World, fall: number, events: SimEvent[]): void {
   const k = world.keeper;
@@ -477,6 +509,16 @@ function land(world: World, fall: number, events: SimEvent[]): void {
   k.airJumps = JUMP.airJumps;
   glided.delete(world);
   events.push({ kind: 'keeperLanded', fall });
+  // MOVE-65: into the pond with the Swim perk and the button let go: a dip.
+  if (
+    fall >= POND_DIP.minFall &&
+    !k.jumpHeld &&
+    world.location === 'grove' &&
+    Math.hypot(k.pos.x - GROVE.pond.x, k.pos.z - GROVE.pond.z) < GROVE.pond.r &&
+    keeperFooting(world, k.pos.x, k.pos.z, k.y).on === 'water' &&
+    keeperPerks(world).wade
+  )
+    startDip(world, events);
   if (world.location === 'grove') shyHopBack(world, k.pos, events);
 }
 
@@ -533,6 +575,12 @@ const peakY = new WeakMap<World, number>();
 /** Gravity, jumping and landing for one substep (MOVE-10/11). */
 function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEvent[]): void {
   const k = world.keeper;
+  const dip = dips.get(world);
+  if (dip) {
+    // A dip ends with its time, or at once on a jump or on leaving the water.
+    dip.ms += dt * 1000;
+    if (dip.ms >= POND_DIP.ms || k.bufferMs > 0 || !k.grounded) dips.delete(world);
+  }
   const tune = jumpTuning(world);
   const ground = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.grounded) {

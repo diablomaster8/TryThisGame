@@ -256,3 +256,19 @@ export const ROLL = {
   /** The 3D rig squashes by this much at the middle of a roll (a ball, then out again). */
   tuck: 0.35,
 } as const;
+
+/**
+ * MOVE-65: with the Swim perk, a jump that lands in the pond with the button let go dips
+ * under for `ms` (drawn `depth` units down at the middle, with bubbles every `bubbleMs`);
+ * held, it floats. Each of the pond's `spots` sectors may hide one shell, found on a dip
+ * there with chance `findChance`, once per save. Never a timer, never drowning.
+ */
+export const POND_DIP = {
+  ms: 1500,
+  depth: 0.7,
+  bubbleMs: 200,
+  minFall: 0.2,
+  spots: 6,
+  findChance: 0.35,
+  findShells: 2,
+} as const;

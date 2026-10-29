@@ -46,3 +46,8 @@ export const HOP_LESSON_TEXT = {
   stream: 'Try hopping over the stream! (Space / ⤒)',
   done: 'What a hop!',
 } as const;
+
+/** MOVE-65: a pond dip's one-time find. */
+export const POND_TEXT = {
+  found: (n: number) => `Something glints on the pond bed: ${n} shells!`,
+} as const;

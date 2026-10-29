@@ -9,11 +9,11 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
-import { keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
+import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { BUSH, FOOTFALL, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { BUSH, FOOTFALL, KEEPER_JUMP_FX, POND_DIP, RUN_MODE } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -1071,8 +1071,15 @@ export class WorldView {
     // The Keeper's height off the flat painted ground (MOVE-10/13): a jump lifts it, a
     // bench raises it, and the stream sinks its feet under the ground plane, which hides them.
     const { off, floor } = kHeld ? { off: 0, floor: 0 } : this.keeperOffset(world, kx, kz, alpha);
+    // MOVE-65: a pond dip sinks the drawn Keeper under the water and sends up bubble rings.
+    const dip = keeperDip(world);
+    const dipBy = dip === null ? 0 : POND_DIP.depth * Math.sin(Math.PI * dip);
+    if (dip !== null && nowMs - this.keeperDustMs > POND_DIP.bubbleMs) {
+      this.keeperDustMs = nowMs;
+      this.particles.ripple(kx + Math.sin(nowMs) * 0.15, kz + Math.cos(nowMs * 1.3) * 0.15);
+    }
     const kbase = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
-    const ky = kbase + off;
+    const ky = kbase + off - dipBy;
     // MOVE-21: the shadow lies on what the feet are over (bench, deck), shrinking with the gap.
     shadow(kx, Math.max(0, off - floor), kz, 0.45, kbase + floor + (floor > 0 ? 0.01 : 0));
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.

@@ -791,6 +791,8 @@ export interface World {
   hopLesson?: 'shown' | 'done';
   /** MOVE-59: the view's yaw (radians), sent by the UI as a hint for care walks; never a rule. */
   viewYaw?: number;
+  /** MOVE-65: pond spots already searched on a dip (one shell each, once per save). */
+  pondFinds?: string[];
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -1082,6 +1084,8 @@ export type SimEvent =
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.
   | { kind: 'keeperRolled' }
+  // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
+  | { kind: 'keeperDipped'; shells: number }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
   | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
   | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
