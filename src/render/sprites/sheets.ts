@@ -10,6 +10,7 @@ import {
   CHARACTER_LOOKS,
   eternalColors,
   lookOf,
+  NO_PARTS,
   secondColors,
   shadowColors,
   variantColors,
@@ -241,6 +242,7 @@ export class SheetCache {
             false,
             n.hat,
             n.shiny || n.heirloom,
+            n.form.band,
           ),
         );
       }
@@ -263,7 +265,16 @@ export class SheetCache {
   rival(band: 'sun' | 'moon' | 'neutral', type: string): SpriteSheet {
     return this.get(`rival:${band}:${type}`, () =>
       buildChaoSheet(
-        lookOf(adultColors(band, type), type as 'swim' | 'fly' | 'run' | 'power' | 'normal'),
+        lookOf(
+          adultColors(band, type),
+          type as 'swim' | 'fly' | 'run' | 'power' | 'normal',
+          null,
+          NO_PARTS,
+          false,
+          null,
+          false,
+          band,
+        ),
       ),
     );
   }

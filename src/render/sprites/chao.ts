@@ -325,27 +325,45 @@ function partFor(look: ChaoLook, id: string | null): PartStyle | null {
   return s && { ...s, k: look.shape.partScale ?? 1 };
 }
 
+/** The first evolution's silhouette by type (LOOK-19); Swim keeps its side fins too. */
+const FIRST_TELLS: Record<NubbinType, Partial<ChaoShape>> = {
+  swim: { crownKind: 'fin', dorsal: true },
+  fly: { tufts: true, wingsUp: true },
+  run: { crownKind: 'quills', bodyNarrow: 1, lean: 1 },
+  power: { horns: true },
+  normal: { crownKind: 'full' },
+};
+
 export function shapeFor(
   type: NubbinType | null,
   second: NubbinType | null,
   eternal = false,
+  band: 'sun' | 'moon' | 'neutral' | null = null,
 ): ChaoShape {
   if (!type) return CHILD_SHAPE;
-  const s: ChaoShape = { ...CHILD_SHAPE, grow: 1, wingScale: eternal ? 2.2 : 1, partScale: 1 };
+  const s: ChaoShape = {
+    ...CHILD_SHAPE,
+    grow: 1,
+    wingScale: eternal ? 2.2 : 1,
+    partScale: 1,
+    ...(band ? { band } : {}),
+  };
+  // The first type's silhouette tell, strong enough to sort the 15 by outline alone.
+  if (!eternal) Object.assign(s, FIRST_TELLS[type]);
   const apply = (t: NubbinType, k: number) => {
     switch (t) {
       case 'swim':
         s.headFins = Math.max(s.headFins, k === 1 ? 2 : 1);
         break;
       case 'fly':
-        s.wingScale = Math.max(s.wingScale, k === 1 ? 1.8 : 1.35);
+        s.wingScale = Math.max(s.wingScale, k === 1 ? 2.2 : 1.35);
         break;
       case 'run':
         s.legLength = Math.max(s.legLength, k === 1 ? 3 : 2);
         break;
       case 'power':
         s.bodyWiden = Math.max(s.bodyWiden, k === 1 ? 1 : 0);
-        s.handBonus = Math.max(s.handBonus, k === 1 ? 1.2 : 0.6);
+        s.handBonus = Math.max(s.handBonus, k === 1 ? 1.8 : 0.6);
         break;
       default:
         break;
@@ -786,10 +804,13 @@ function drawWings(
   // from the back they are the main feature.
   const col = look.colors;
   const scale = look.shape.wingScale;
-  const y = L.headCy + L.headRy - 2 - raise;
+  // Fly's great wings stand up behind the head rather than at the shoulders (LOOK-19).
+  const y = (look.shape.wingsUp ? L.headCy - 1 : L.headCy + L.headRy - 2) - raise;
   const wing = (cx: number, dir: 1 | -1, big: boolean) => {
-    const w = Math.round((big ? 4 : 3) * scale);
-    const h = Math.round((big ? 4 : 3) * scale);
+    // Raised wings grow up more than out, so they stand tall behind the head in the frame.
+    const up = look.shape.wingsUp ? 1 : 0;
+    const w = Math.round((big ? 4 : 3) * scale * (up ? 0.55 : 1));
+    const h = Math.round((big ? 4 : 3) * scale * (up ? 1.1 : 1));
     pc.tri(cx, y + 2, cx + dir * w, y - h, cx + dir * (w + 1), y + 2, col.wing);
     pc.px(cx + dir * 2, y, col.belly);
     if (scale > 1.2) pc.line(cx + dir, y + 1, cx + dir * (w - 1), y - h + 2, col.belly);
@@ -872,6 +893,168 @@ function drawCrown(
       break;
     }
   }
+}
+
+/** Where the plain crown point's tip sits, per angle (dx from the head, dy from its top). */
+const CROWN_TIP: Record<DrawnAngle, [number, number]> = {
+  front: [1, -4],
+  frontQuarter: [-3, -4],
+  side: [-7, -3],
+  backQuarter: [-4, -3],
+  back: [0, -3],
+};
+
+/** A crown spike as base-left, base-right and tip, relative to the head's top centre. */
+type Spike = readonly [number, number, number, number, number, number];
+
+/** The Swim fin (a flat crescent swept back) and the three Run quills, per angle. */
+const TYPE_CROWNS: Record<'fin' | 'quills', Record<DrawnAngle, readonly Spike[]>> = {
+  fin: {
+    front: [[-1.5, 2, 1.5, 2, 0.5, -5]],
+    frontQuarter: [[-3, 2, 1, 2, -5, -4]],
+    side: [
+      [2, 2, -5, 3, -11, -3],
+      [1, 0, -4, 0, -10, -3],
+    ],
+    backQuarter: [[-3, 2, 1, 2, -5, -3]],
+    back: [[-1.5, 2, 1.5, 2, 0, -4]],
+  },
+  quills: {
+    front: [
+      [-5, 3, -2, 2, -7, -2],
+      [2, 2, 5, 3, 7, -2],
+      [-2, 2, 2, 2, 0, -5],
+    ],
+    frontQuarter: [
+      [-6, 3, -3, 2, -9, -1],
+      [0, 2, 3, 3, 3, -3],
+      [-4, 2, 0, 2, -6, -4],
+    ],
+    side: [
+      [-4, 5, -1, 4, -9, 5],
+      [-4, 3, 0, 2, -10, 1],
+      [-3, 1, 1, 1, -9, -3],
+    ],
+    backQuarter: [
+      [-6, 3, -3, 2, -9, -1],
+      [0, 2, 3, 3, 3, -3],
+      [-4, 2, 0, 2, -6, -3],
+    ],
+    back: [
+      [-5, 3, -2, 2, -7, -2],
+      [2, 2, 5, 3, 7, -2],
+      [-2, 2, 2, 2, 0, -4],
+    ],
+  },
+};
+
+/**
+ * The crown with the first evolution's tell (LOOK-19): the plain point, a fuller point
+ * (Normal), the Swim fin or the Run quills, then the band's tip: Sun rounds it into a
+ * ball, Moon adds a spike either side.
+ */
+function drawCrownFor(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  pose: ChaoPose,
+  L: Layout,
+  col: ChaoColors,
+  shape: ChaoShape,
+): void {
+  const kind = shape.crownKind ?? 'point';
+  const top = L.headCy - L.headRy;
+  const d = pose.headDrop;
+  const hx = L.headCx;
+  let tip: [number, number];
+  if (kind === 'fin' || kind === 'quills') {
+    const spikes = TYPE_CROWNS[kind][angle];
+    spikes.forEach(([ax, ay, bx, by, tx, ty], i) => {
+      // The Swim crescent's inner blade is its shade.
+      const c = kind === 'fin' && i > 0 ? col.shade : col.body;
+      pc.tri(hx + ax, top + ay, hx + bx, top + by, hx + tx, top + ty + d, c);
+      pc.px(hx + tx, top + ty + d, col.tip);
+    });
+    const main = spikes[spikes.length - 1]!;
+    tip = [hx + main[4], top + main[5] + d];
+  } else {
+    const [dx, dy] = CROWN_TIP[angle];
+    if (kind === 'full') {
+      // A fuller point: wider at the foot and two pixels taller under the usual one.
+      pc.tri(hx - 4, top + 2, hx + 4, top + 2, hx + dx, top + dy - 2 + d, col.body);
+      pc.px(hx + dx, top + dy - 2 + d, col.tip);
+      pc.px(hx + dx, top + dy - 1 + d, col.tip);
+    }
+    drawCrown(pc, angle, pose, L, col);
+    tip = [hx + dx, top + dy + (kind === 'full' ? -2 : 0) + d];
+  }
+  const [tx, ty] = tip;
+  if (shape.band === 'sun') {
+    pc.disc(tx, ty, 1.4, col.tip);
+    pc.px(tx - 0.5, ty - 0.5, C.white);
+  } else if (shape.band === 'moon') {
+    pc.tri(hx - 3, top + 2, hx - 1, top + 1, hx - 5, top - 2 + d, col.body);
+    pc.tri(hx + 1, top + 1, hx + 3, top + 2, hx + 5, top - 2 + d, col.body);
+    pc.px(hx - 5, top - 2 + d, col.tip);
+    pc.px(hx + 5, top - 2 + d, col.tip);
+  }
+}
+
+/** Power's horn nubs on the brow and Fly's feather tufts at the temples (LOOK-19). */
+function drawHeadTells(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  col: ChaoColors,
+  shape: ChaoShape,
+): void {
+  const top = L.headCy - L.headRy;
+  const side = angle === 'side';
+  if (shape.horns) {
+    const xs = side ? [L.headCx + 2] : [L.headCx - L.headRx + 3, L.headCx + L.headRx - 3];
+    for (const x of xs) {
+      const out = side ? 0.5 : x < L.headCx ? -1 : 1;
+      pc.tri(x - 1.5, top + 3, x + 1.5, top + 3, x + out * 1.5, top - 1, col.tip);
+    }
+  }
+  if (shape.tufts) {
+    const y = Math.round(L.headCy - L.headRy * 0.4);
+    const xs = side
+      ? [L.headCx - L.headRx + 1]
+      : [L.headCx - L.headRx + 1, L.headCx + L.headRx - 1];
+    for (const x of xs) {
+      const out = side || x < L.headCx ? -1 : 1;
+      pc.tri(x, y + 1, x, y - 2, x + out * 3, y - 4, col.belly);
+    }
+  }
+}
+
+/** Swim's back fin and fish-tail stub (LOOK-19): behind the body from the side, on it from behind. */
+function drawDorsal(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  col: ChaoColors,
+  onBack: boolean,
+): void {
+  const back = angle === 'back' || angle === 'backQuarter';
+  if (back !== onBack || angle === 'front') return;
+  if (back) {
+    pc.tri(
+      L.bodyCx - 1.5,
+      L.bodyCy - 1,
+      L.bodyCx + 1.5,
+      L.bodyCy - 1,
+      L.bodyCx,
+      L.bodyCy - 6,
+      col.tip,
+    );
+    const y = L.bodyCy + L.bodyRy;
+    pc.tri(L.bodyCx - 3, y + 1, L.bodyCx + 3, y + 1, L.bodyCx, y - 2, col.shade);
+    return;
+  }
+  const bx = L.bodyCx - L.bodyRx;
+  pc.tri(bx + 1, L.bodyCy - 2, bx + 4, L.bodyCy - 4, bx - 2, L.bodyCy - 7, col.tip);
+  pc.tri(bx + 1, L.bodyCy + 2, bx - 3, L.bodyCy, bx - 3, L.bodyCy + 4, col.shade);
 }
 
 /** Swim types: small fins on the sides of the head. */
@@ -1287,6 +1470,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);
   if (tail && fromFront) drawTail(pc, angle, L, tail);
+  if (look.shape.dorsal) drawDorsal(pc, angle, L, col, false);
   if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'behind');
 
   // Legs and body.
@@ -1303,6 +1487,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.bellyPatch));
     }
     drawFeet(pc, angle, pose, L, col);
+    if (look.shape.dorsal) drawDorsal(pc, angle, L, col, true);
     if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'body');
   } else {
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
@@ -1311,7 +1496,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   if (angle === 'back' || angle === 'backQuarter') drawArms(pc, angle, pose, L, armLook);
 
   // Head.
-  drawCrown(pc, angle, pose, crownL, crownCol);
+  drawCrownFor(pc, angle, pose, crownL, crownCol, look.shape);
   drawHeadFins(
     pc,
     angle,
@@ -1348,6 +1533,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
   }
 
+  drawHeadTells(pc, angle, L, col, look.shape);
   if (look.gem) drawGemFacets(pc, L, col);
 
   const ears = partFor(look, look.parts.ears);
@@ -1471,8 +1657,9 @@ export function lookOf(
   eternal = false,
   hat: string | null = null,
   shiny = false,
+  band: 'sun' | 'moon' | 'neutral' | null = null,
 ): ChaoLook {
-  return { colors, shape: shapeFor(type, second, eternal), parts, hat, shiny };
+  return { colors, shape: shapeFor(type, second, eternal, band), parts, hat, shiny };
 }
 
 export type { PartStyle };

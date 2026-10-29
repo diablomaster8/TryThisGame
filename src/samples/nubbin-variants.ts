@@ -370,6 +370,25 @@ export function horns(color: string, k = 1): Prim[] {
   }));
 }
 
+/** A flat fin blade (thin across, tall and long), for the Swim back fin and tail stub. */
+function finBlade(a: THREE.Vector3, radii: THREE.Vector3, color: string): Prim {
+  return { kind: 'ellipsoid', a, radii, r: 0, color, tag: 'fin', blend: 0.05 };
+}
+
+/** Two feather tufts at the temples, the Fly tell beside the great wings. */
+export function templeTufts(color: string): Prim[] {
+  return [-1, 1].map((dx) => ({
+    kind: 'cone',
+    a: V(dx * 0.68, 2.05, 0.05),
+    b: V(dx * 1.05, 2.42, -0.05),
+    r: 0.1,
+    r2: 0.02,
+    color,
+    tag: 'tuft',
+    blend: 0.06,
+  }));
+}
+
 /** Flipper arms in place of the mitts, the Swim tell. */
 export function flipperArms(body: string, accent: string): PartSpec[] {
   return [-1, 1].map((dx) => ({
@@ -422,12 +441,27 @@ function applyType(
       if (k >= 1) setCrown(spec, 'fin', accent, palette.tip);
       setSlot(spec, 'ears', headFins(accent, 0.55 + 0.45 * k));
       if (k >= 1) setSlot(spec, 'arms', flipperArms(palette.body, accent));
+      // A fin ridge on the back and a fish-tail stub (LOOK-19).
+      if (k >= 1) {
+        spec.torso.prims.push(
+          finBlade(V(0, 1.28, -0.5), V(0.05, 0.3, 0.24), accent),
+          finBlade(V(0, 0.78, -0.64), V(0.05, 0.17, 0.22), accent),
+        );
+        spec.torso.box[0].z = Math.min(spec.torso.box[0].z, -1.0);
+      }
       break;
     case 'fly':
       if (k >= 1) setCrown(spec, 'tall', palette.body, accent);
       if (spec.wings) {
-        spec.wings.size *= 1 + 0.7 * k;
+        // Great wings standing up behind the head: 2.2× at full strength (LOOK-19).
+        spec.wings.size *= 1 + 1.2 * k;
+        spec.wings.y += 0.3 * k;
         spec.wings.color = mixHex(accent, '#ffffff', 0.45);
+      }
+      if (k >= 1) {
+        head.prims.push(...templeTufts(mixHex(accent, '#ffffff', 0.45)));
+        head.box[0].x = Math.min(head.box[0].x, -1.3);
+        head.box[1].x = Math.max(head.box[1].x, 1.3);
       }
       break;
     case 'run':
@@ -435,6 +469,8 @@ function applyType(
       head.prims.push(...quills(accent, k));
       head.box[0].z = Math.min(head.box[0].z, -1.4);
       lift(spec, 0.24 * k);
+      // A leaner runner's body (×0.88 wide at full strength).
+      for (const p of spec.torso.prims) if (p.radii) p.radii.x *= 1 - 0.12 * k;
       break;
     case 'power':
       if (k >= 1) setCrown(spec, 'stub', palette.body, palette.tip);
@@ -447,8 +483,8 @@ function applyType(
       for (const part of spec.parts)
         for (const p of part.prims) {
           if (p.tag === 'hand') {
-            p.r *= 1 + 0.4 * k;
-            p.radii?.multiplyScalar(1 + 0.4 * k);
+            p.r *= 1 + 0.5 * k;
+            p.radii?.multiplyScalar(1 + 0.5 * k);
           }
           if (p.tag === 'arm') p.r *= 1 + 0.25 * k;
         }

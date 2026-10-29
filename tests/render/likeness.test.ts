@@ -144,7 +144,9 @@ describe('likeness suite (LOOK-67)', () => {
       const head = v.spec.head.prims.find((p) => p.tag === 'head');
       const body = v.spec.torso.prims.find((p) => p.tag === 'belly');
       if (!head?.radii || !body?.radii) continue;
-      const k = head.radii.x / body.radii.x;
+      // Run forms lean the body to ×0.88 on purpose (LOOK-19), so their head reads wider.
+      const lean = v.id.includes('run') ? 0.88 : 1;
+      const k = (head.radii.x / body.radii.x) * lean;
       expect(k, v.id).toBeGreaterThanOrEqual(1.25);
       expect(k, v.id).toBeLessThanOrEqual(1.45);
     }

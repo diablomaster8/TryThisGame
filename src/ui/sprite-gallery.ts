@@ -14,6 +14,7 @@ import {
   VARIANT_COLORS,
   variantColors,
   type ChaoLook,
+  NO_PARTS,
 } from '../render/sprites/chao';
 import { buildCocoonSheet, buildEggSheet, EGG_PALETTES } from '../render/sprites/egg';
 import { buildEmoteSheet, EMOTE_SHAPES } from '../render/sprites/emote';
@@ -112,11 +113,11 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
 
   for (const band of ['neutral', 'sun', 'moon'] as const) {
     for (const type of NUBBIN_TYPES) {
-      chao(`Adult ${band} ${type}`, lookOf(adultColors(band, type), type), [
-        ...idleAngles,
-        ['walk', 'side', 1],
-        ['flap', 'front', 1],
-      ]);
+      chao(
+        `Adult ${band} ${type}`,
+        lookOf(adultColors(band, type), type, null, NO_PARTS, false, null, false, band),
+        [...idleAngles, ['walk', 'side', 1], ['flap', 'front', 1]],
+      );
     }
   }
 

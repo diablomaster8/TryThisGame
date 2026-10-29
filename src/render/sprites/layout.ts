@@ -24,6 +24,20 @@ export interface ChaoShape {
   crownLift?: number;
   /** Size of the critter parts; a child wears them smaller and softer (0.8). */
   partScale?: number;
+  /**
+   * The first evolution's silhouette tell (LOOK-19): the crown's shape (a swept Swim fin,
+   * split Run quills, a fuller Normal point; the plain point otherwise), Power's horn nubs,
+   * Fly's temple tufts and raised wings, Swim's back fin and tail stub, Run's narrower body
+   * (px off each side) and forward lean (px, side views), and the band's crown tip.
+   */
+  crownKind?: 'point' | 'fin' | 'quills' | 'full';
+  horns?: boolean;
+  tufts?: boolean;
+  wingsUp?: boolean;
+  dorsal?: boolean;
+  bodyNarrow?: number;
+  lean?: number;
+  band?: 'sun' | 'moon' | 'neutral' | null;
 }
 
 export const CHILD_SHAPE: ChaoShape = {
@@ -65,14 +79,21 @@ export function layout(angle: DrawnAngle, pose: ChaoPoseGeometry, shape: ChaoSha
   const headRy = Math.round((7 + g) * pose.squash);
   const headRx = angle === 'side' ? 7 + g : 8 + g;
   const headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
+  // Run leans into its stride: the head rides ahead of the body from the side.
+  const lean =
+    angle === 'side'
+      ? (shape.lean ?? 0)
+      : angle === 'frontQuarter'
+        ? Math.round((shape.lean ?? 0) / 2)
+        : 0;
   return {
-    headCx: 16,
+    headCx: 16 + lean,
     headCy,
     headRx,
     headRy,
     bodyCx: angle === 'side' ? 15 : 16,
     bodyCy,
-    bodyRx: (angle === 'side' ? 5 : 6) + g + shape.bodyWiden,
+    bodyRx: (angle === 'side' ? 5 : 6) + g + shape.bodyWiden - (shape.bodyNarrow ?? 0),
     bodyRy,
     feetY,
     legLength: shape.legLength,

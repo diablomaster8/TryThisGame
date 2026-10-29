@@ -58,7 +58,9 @@ describe('nubbin variants', () => {
     expect(flipper?.kind).toBe('ellipsoid');
     expect(flipper?.color).toBe('#112233');
     const fly = variant(CHILD, 'Fly', { type: 'fly' });
-    expect(fly.wings!.size).toBeCloseTo(CHILD.wings!.size * 1.7);
+    expect(fly.wings!.size).toBeCloseTo(CHILD.wings!.size * 2.2);
+    expect(fly.head.prims.filter((p) => p.tag === 'tuft').length).toBe(2);
+    expect(swim.torso.prims.filter((p) => p.tag === 'fin').length).toBe(2);
     const run = variant(CHILD, 'Run', { type: 'run' });
     expect(run.head.prims.filter((p) => p.tag === 'quill').length).toBe(3);
     expect(run.head.prims.some((p) => p.tag === 'crown')).toBe(false);
