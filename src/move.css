@@ -129,6 +129,12 @@
   right: calc(var(--safe-right) + 12px);
 }
 
+/* The carry bar stays above Run, so it moves right with it, clear of the jump button. */
+.left-handed .carry {
+  left: auto;
+  right: calc(var(--safe-right) + 8px);
+}
+
 .left-handed .joystick-zone {
   left: auto;
   right: 0;
