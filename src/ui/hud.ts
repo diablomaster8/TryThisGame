@@ -1144,6 +1144,9 @@ export function mountHud(
           toast(HOLLOW_TEXT.partyGiggles);
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
+        } else if (e.kind === 'hollowFell') {
+          // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
+          toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {

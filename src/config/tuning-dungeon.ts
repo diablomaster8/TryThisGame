@@ -13,7 +13,29 @@ export const HOLLOW = {
    * The generator new floors use (`DUNGEON.genVersion` in tuning.ts is the older setting,
    * kept for the pixel samples). Saved runs keep the version their floor was made with.
    */
-  genVersion: 3,
+  genVersion: 4,
+  /**
+   * Hollow platforming (R0031, version 4 floors): deep water and chasm cuts. Gaps start at
+   * `fromDepth`, every gap has a walking bypass before `nookFromDepth`, and from there up to
+   * `nooks` side pockets sit behind a jump with a find in each. A single jump clears one
+   * cell, the double jump `maxJump`. Stepping stones leave water gaps from `stonesFromDepth`.
+   */
+  gaps: {
+    fromDepth: 2,
+    nookFromDepth: 3,
+    stonesFromDepth: 3,
+    maxJump: 2,
+    maxWidth: 3,
+    cuts: { shallow: [2, 3] as const, deep: [3, 5] as const },
+    nooks: [4, 6] as const,
+    nookCells: [3, 90] as const,
+    spacing: 5,
+    keepClear: 3,
+    fixups: 40,
+    /** A Keeper at or under this height counts as standing (a fall); a Nubbin this far off hops a gap. */
+    standHeight: 0.05,
+    hopDistance: 4.5,
+  },
   /**
    * Fog of war (R0153): brightness of cells never seen, seen but out of sight, and in sight.
    * The sight radius is `DUNGEON.explore.radius` plus these bonuses (cells); the outdoor

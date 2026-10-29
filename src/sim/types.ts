@@ -1170,6 +1170,8 @@ export type SimEvent =
   | { kind: 'chestOpened'; shells: number; egg: boolean }
   | { kind: 'strayFed'; ok: boolean; name: string | null }
   | { kind: 'strayStartled'; shells: number }
+  /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
+  | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
   | { kind: 'packNoticed'; packId: string }
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }

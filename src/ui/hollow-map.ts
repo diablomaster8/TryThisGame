@@ -5,6 +5,7 @@ import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
 import { isGameKey } from '../input/keys';
 import {
   cellOf,
+  CHASM,
   exploredMask,
   exploredRooms,
   floorOfRun,
@@ -549,6 +550,16 @@ export class HollowMap {
           );
           if (!edge) continue;
           g.fillStyle = '#3a3258';
+        } else if (c === CHASM) {
+          // A gap (R0031): near-black with a pale slash, so it reads by shape as well as tone.
+          g.fillStyle = '#120e22';
+          g.fillRect(x * s, y * s, s, s);
+          g.strokeStyle = '#6f8fd0';
+          g.beginPath();
+          g.moveTo(x * s, (y + 1) * s);
+          g.lineTo((x + 1) * s, y * s);
+          g.stroke();
+          continue;
         } else if (c === WATER) g.fillStyle = inRoom[i] ? '#3d86ad' : '#2f6a8a';
         else g.fillStyle = inRoom[i] ? '#7a6bc0' : '#4a4378';
         g.fillRect(x * s, y * s, s, s);

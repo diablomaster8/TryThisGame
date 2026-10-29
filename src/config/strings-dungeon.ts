@@ -10,6 +10,9 @@ export const HOLLOW_TEXT = {
     `The pack poofs into sparkles and scurries home. +${shells} Shells`,
   partyGiggles: 'Your party gets the giggles and sits down. Back to the stairs, everything kept.',
   packFled: 'You slip away; the pack wanders home.',
+  /** Hollow platforming (R0031): a step into a gap or deep water, and straight back. */
+  fellChasm: 'Whoops! A soft bounce, and you are back on the ledge. Jump to cross.',
+  fellWater: 'Splash! Too deep to wade. Find the stones, or jump.',
   /** The pack fight's panel, on the battle core. */
   boutTitle: 'A pack!',
   boutBackOff: 'Back off',

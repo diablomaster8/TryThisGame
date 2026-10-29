@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
 import type { CaveBand } from '../render/cave-bands';
-import { cellAt, cellCentre, FLOOR, WALL, type Cell, type Floor } from '../sim/dungeon';
+import { cellAt, cellCentre, FLOOR, WALL, WATER, type Cell, type Floor } from '../sim/dungeon';
 import { CELL, cellHash } from './hollow-ctx';
 import { BOX, CONE, CYL, DISC, Kit, OCT, PRISM, ROCK, SPHERE, TORUS } from './hollow-dress-kit';
 import { across, cellPoint, cellTop, deckHeight, mainPath, STONE_TOP } from './hollow-dress-path';
@@ -430,6 +430,8 @@ function crossings(f: Floor, kit: Kit, out: SetOut): void {
     const b = cellPoint(f, cr.to);
     if (cr.kind === 'stones') {
       cr.cells.forEach((c, i) => {
+        // Version 4 (R0031): the water between stones is a gap to jump, with no stone in it.
+        if (f.version >= 4 && cellAt(f, c.x, c.y) === WATER) return;
         const p = cellCentre(f, c);
         const top = cellTop(f, c) + STONE_TOP;
         const s = 0.62 + cellHash(c.x, c.y, 7) * 0.18;

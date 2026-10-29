@@ -38,6 +38,25 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
+
+*Plan:* R0031 first (Hollow platforming, generator version 4). Then the sim-side items that
+fit one pass with good quality: R0162 strays, R0158 pack density, R0155 champion mods,
+R0159 shrines, R0161 traps. R0147 (outdoor zones, XL) and R0152 (act towns, L) stay
+deferred to a pass of their own: both need new maps in both renderers. *Assumptions:* gap
+rules count `depth` (run depth), not the level inside an act; a saved version-3 run keeps
+its flat floor (`actFloor` and `floorOf` take the run's `genVersion`).
+
+- *Works:* R0031: `CHASM` cells and deep water on version-4 floors (`sim/dungeon-gaps.ts`);
+  shallow floors keep a walking way round every gap, from floor 3 the stairs may need the
+  double jump and 3–5 side pockets sit behind a jump with a find; stepping stones leave
+  water gaps; 500-seed test. A Keeper standing in a gap or deep water pops back to the last
+  dry cell (`sim/dungeon-falls.ts`, toast); party Nubbins hop a gap to the Keeper. 3D pit
+  with a soft blue glow (`render3d/hollow-chasm.ts`), Pixel and automap chasm cells.
+- *Stubbed:* terrace ledges are still ramps: the Keeper's ground underground is 0 in
+  `keeper.ts` (lane A); `dungeonGroundAt` would be the hook. No poof sprite on a fall.
+- *Known bugs:* none yet.
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in

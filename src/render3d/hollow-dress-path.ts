@@ -267,3 +267,20 @@ export function across(
   while (right < max && cellAt(f, c.x + px * (right + 1), c.y + py * (right + 1)) !== WALL) right++;
   return { left, right };
 }
+
+const crossingCells = new WeakMap<Floor, Set<number>>();
+
+/**
+ * Whether a cell shows water: a water cell, or (version 4, R0031) a crossing's deck or stone,
+ * which the sim made dry ground but which still stands in the pool it crosses.
+ */
+export function looksWet(f: Floor, x: number, y: number): boolean {
+  if (cellAt(f, x, y) === WATER) return true;
+  if (f.version < 4 || f.crossings.length === 0) return false;
+  let s = crossingCells.get(f);
+  if (!s) {
+    s = new Set(f.crossings.flatMap((cr) => cr.cells.map((c) => c.y * f.cols + c.x)));
+    crossingCells.set(f, s);
+  }
+  return s.has(y * f.cols + x);
+}

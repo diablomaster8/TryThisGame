@@ -1,6 +1,6 @@
 import { RepeatWrapping, type CanvasTexture } from 'three';
 import { DUNGEON, GROVE3D } from '../../config/tuning';
-import { cellAt, FLOOR, WALL, WATER, type Floor } from '../../sim/dungeon';
+import { cellAt, CHASM, FLOOR, WALL, WATER, type Floor } from '../../sim/dungeon';
 import { bandFor } from '../cave-bands';
 import { frameKey } from '../sprites/animations';
 import type { SpriteSheet } from '../sprites/atlas';
@@ -210,7 +210,14 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
         floorMask[py * width + px] = 1;
         const dWall = field(toWall, cx, cy);
         let c: RGB;
-        if (cell === WATER) {
+        if (cell === CHASM) {
+          // A gap to jump (R0031): rock lip at the far edge, falling to a soft blue glow.
+          const fy = cy - Math.floor(cy);
+          const lip = cellAt(f, Math.floor(cx), Math.floor(cy) - 1) !== CHASM ? fy : 1;
+          c = mix(chasmA, chasmB, 0.4 + grain * 0.3);
+          c = mix(c, hex('#4f86c6'), clamp01((lip - 0.35) * 1.6) * 0.7);
+          if (lip < 0.3) c = shade(mix(rockA, rockB, grain), 0.55 + lip);
+        } else if (cell === WATER) {
           c = mix(waterA, waterB, fbm(px / 12, py / 12, 2, 7));
           if (fbm(px / 9 + py / 50, py / 5, 2, 8) > 0.7) c = mix(c, hex('#9ad0ff'), 0.5);
         } else {

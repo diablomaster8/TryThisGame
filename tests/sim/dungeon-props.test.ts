@@ -3,10 +3,12 @@ import { DUNGEON, KEEPER, SIM } from '../../src/config/tuning';
 import {
   cellCentre,
   cellOf,
+  FLOOR,
   floorOf,
   isWalkable,
   resolveDungeon,
   runFloor,
+  WATER,
   type Floor,
 } from '../../src/sim/dungeon';
 import { navMask } from '../../src/sim/dungeon-nav';
@@ -92,10 +94,10 @@ describe('solid Hollow set pieces (R0032)', () => {
       expect(cells.length).toBeGreaterThan(0);
       const mask = navMask(f, true);
       for (const i of cells) expect(mask[i]).toBe(0);
-      // Reach over the plain walkable cells, then over the nav mask with the landmark shut.
-      const plain = new Uint8Array(f.cols * f.rows);
-      for (let y = 0; y < f.rows; y++)
-        for (let x = 0; x < f.cols; x++) plain[y * f.cols + x] = isWalkable(f, x, y) ? 1 : 0;
+      // Reach over the nav mask with the landmark open, then with it shut. (Version 4 chasms
+      // stay closed both times: the walker never steps into one, R0031.)
+      const plain = mask.slice();
+      for (const i of cells) plain[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : 0;
       const before = reach(f, plain, f.stairsUp);
       const after = reach(f, mask, f.stairsUp);
       for (const c of [f.stairsDown, f.chest]) {
