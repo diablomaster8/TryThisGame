@@ -227,3 +227,20 @@ describe('R0318 tips', () => {
     }
   });
 });
+
+describe('R0319 goal chip', () => {
+  it('ticks chapter 2 how-to steps off live, then falls back to the hint', async () => {
+    const { noteHowTo, howToHint } = await import('../../src/ui/objective');
+    const { world } = campaignWorld('fern');
+    c(world).chapter = 2;
+    noteHowTo(world, 'nothing');
+    expect(howToHint(c(world))).toBe('Tap a tree to shake it (1/3)');
+    noteHowTo(world, 'treeShaken');
+    expect(howToHint(c(world))).toBe('✓ Tap the fruit (2/3)');
+    noteHowTo(world, 'ate');
+    expect(howToHint(c(world))).toBeNull();
+    c(world).chapter = 1;
+    noteHowTo(world, 'hatched');
+    expect(howToHint(c(world))).toBe('✓ ✓ Tap the Nubbin, then Pet (3/3)');
+  });
+});

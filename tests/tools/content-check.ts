@@ -202,6 +202,13 @@ if (ns !== '1,2,3,4,5,6,7,8,9,10,11,12') problems.push(`campaign: chapters ${ns}
 for (const c of C.CAMPAIGN_CHAPTERS)
   for (const id of [c.opening, c.closing])
     if (!campIds.has(id)) problems.push(`campaign: ch${c.n} missing scene ${id}`);
+// R0319 (FUN-30): the goal chip stays within two lines on a phone.
+for (const c of C.CAMPAIGN_CHAPTERS) {
+  if (c.goalText.length > 60) problems.push(`chip: ch${c.n} goalText over 60 characters`);
+  if (c.hint.length > 70) problems.push(`chip: ch${c.n} hint over 70 characters`);
+  for (const s of c.howTo ?? [])
+    if (s.text.length > 40) problems.push(`chip: ch${c.n} howTo step over 40: ${s.text}`);
+}
 const endIds = [
   'hazels-grove',
   'eternal-dawn',

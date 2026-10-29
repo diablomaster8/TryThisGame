@@ -39,7 +39,7 @@ export const BOOK2_CHAPTERS: Chapter[] = [
     opening: 'c5-open',
     goal: 'winRace',
     goalText: 'Win a race, any course, any tier.',
-    hint: 'Open Races from the top bar. A grown Nubbin with trained stats does best.',
+    hint: 'Open Races from the top bar; a grown, trained Nubbin does best.',
     closing: 'c5-close',
   },
   {
@@ -57,7 +57,7 @@ export const BOOK2_CHAPTERS: Chapter[] = [
     opening: 'c7-open',
     goal: 'sableTrust45',
     goalText: 'Bring Sable’s trust to 45.',
-    hint: 'Feeding and petting raise trust. Hunger and throws destroy it. Shadow Nubbins heal slowly.',
+    hint: 'Choose Feed and Pet to raise Sable’s trust; never throw her.',
     closing: 'c7-close',
   },
   {
@@ -66,7 +66,7 @@ export const BOOK2_CHAPTERS: Chapter[] = [
     opening: 'c8-open',
     goal: 'notebook',
     goalText: 'Walk the Hollow and find Hazel’s notebook.',
-    hint: 'The Hollow is dark; follow the fireflies to a flat stone and tap the notebook. The Expedition from the top bar runs through the Hollow now too.',
+    hint: 'Follow the fireflies to a flat stone and tap the notebook.',
     closing: 'c8-close',
   },
 ];

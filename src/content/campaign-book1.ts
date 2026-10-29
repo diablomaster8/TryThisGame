@@ -14,8 +14,13 @@ export const BOOK1_CHAPTERS: Chapter[] = [
     title: 'The Letter',
     opening: 'c1-letter',
     goal: 'firstHatch',
-    goalText: 'Hatch your first egg and pet the Nubbin that comes out.',
-    hint: 'The eggs are in the long grass. Hold one and shake it to hurry it along. Tap a Nubbin and choose Pet.',
+    goalText: 'Hatch an egg, then pet the Nubbin.',
+    hint: 'Pick up an egg in the long grass and shake it.',
+    howTo: [
+      { text: 'Shake an egg to hurry it', on: 'eggShaken' },
+      { text: 'Wait for the crack', on: 'hatched' },
+      { text: 'Tap the Nubbin, then Pet', on: 'reaction' },
+    ],
     closing: 'c1-close',
   },
   {
@@ -23,8 +28,13 @@ export const BOOK1_CHAPTERS: Chapter[] = [
     title: 'Shells and Promises',
     opening: 'c2-open',
     goal: 'feedTwice',
-    goalText: 'Collect fruit from the trees and feed a Nubbin by hand, twice.',
-    hint: 'Tap a tree to shake it. Tap fruit to pick it up. Tap a Nubbin and choose Feed.',
+    goalText: 'Feed a Nubbin by hand, twice.',
+    hint: 'Tap a tree, tap the fruit, then tap a Nubbin and choose Feed.',
+    howTo: [
+      { text: 'Tap a tree to shake it', on: 'treeShaken' },
+      { text: 'Tap the fruit', on: 'collected' },
+      { text: 'Tap a Nubbin, then Feed', on: 'ate' },
+    ],
     closing: 'c2-corvin',
   },
   {
@@ -33,7 +43,7 @@ export const BOOK1_CHAPTERS: Chapter[] = [
     opening: 'c3-open',
     goal: 'sableTrust20',
     goalText: 'Win a little of Sable’s trust (20).',
-    hint: 'Sable runs when you come close. Leave fruit nearby, be patient, pet her when she lets you. Never throw her.',
+    hint: 'Leave fruit near Sable, then choose Pet when she lets you.',
     closing: 'c3-close',
   },
   {
@@ -42,7 +52,7 @@ export const BOOK1_CHAPTERS: Chapter[] = [
     opening: 'c4-open',
     goal: 'lanternsAndMoss',
     goalText: 'Pet Moss on the hill and light all four lanterns.',
-    hint: 'Tap a lantern post to light it. Moss sits on the western hill. The fourth post only flickers, but it counts.',
+    hint: 'Moss sits on the western hill; tap each lantern post to light it.',
     closing: 'c4-close',
   },
 ];

@@ -197,7 +197,18 @@ export interface Chapter {
   goal: string;
   goalText: string;
   hint: string;
+  /**
+   * R0319 (FUN-30): a longer how-to, one short step at a time; the chip shows the next step
+   * and ticks it off when the step's event (a sim event kind) happens.
+   */
+  howTo?: readonly ChapterStep[];
   closing: string;
+}
+
+/** R0319: one how-to step and the sim event that completes it. */
+export interface ChapterStep {
+  text: string;
+  on: string;
 }
 
 export const SPEAKERS: Record<string, { name: string; kind: 'keeper' | 'nubbin' | 'other' }> = {

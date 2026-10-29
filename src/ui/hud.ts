@@ -107,7 +107,7 @@ import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
-import { EduPrompt, ObjectiveChip } from './objective';
+import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 
@@ -1017,6 +1017,8 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       for (const e of events) {
+        // R0319: the chip's how-to steps tick off on their events.
+        noteHowTo(g.world, e.kind);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
