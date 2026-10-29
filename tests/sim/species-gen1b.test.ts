@@ -136,6 +136,9 @@ describe('first-generation pocket line, #77 to #151', () => {
     for (const s of GEN1B_SPECIES) expect(keys, s.id).toContain(s.id);
     expect(keys).toContain('zapling');
     expect(keys.some((k) => /^\d+$/.test(k))).toBe(false);
-    expect(keys.length).toBe(19 + SPECIES.length - 1);
+    // LOOK-55: the forms and species come first; colours, looks, parts and hats follow.
+    expect(keys.filter((k) => !k.includes(':') || /^chao:[a-z]+(:[a-z]+)?$/.test(k)).length).toBe(
+      19 + SPECIES.length - 1,
+    );
   });
 });
