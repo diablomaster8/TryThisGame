@@ -674,7 +674,7 @@ Sets on completion: `{"lj5Done":true}`
 
 ### Step 1: Ask Hana why she is sitting by the stream.
 
-Hint: Hana is sitting by the stream. Tap her and choose Talk. · check: `talk:hana:toro-nagashi`
+Hint: Hana is sitting by the stream. Tap her to talk. · check: `talk:hana:toro-nagashi`
 
 #### <a id="lj6-s1"></a>Scene `lj6-s1`
 

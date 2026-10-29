@@ -21,6 +21,79 @@ Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh se
   head after 10 min). Grove line only. The registry's "show what you get" shop option was
   taken over per-id SKUs (no `ShopItem` change).
 
+## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
+
+*Plan:* R0031 (Hollow platforming, generator version 4), then the sim-side items that fit one
+pass: R0162, R0158, R0155, R0159, R0161. R0147 (outdoor zones, XL) and R0152 (act towns, L)
+stay deferred to a pass of their own: both need new maps in both renderers. *Assumptions:*
+gap rules count run depth, not the level inside an act; a saved version-3 run keeps its flat
+floor and its packs (`floorOf`/`actFloor` take the run's `genVersion`); difficulty is Cosy
+until DUNG-36; Act IV's ice also appears in endless depths 16–20.
+
+- *Works:* version-4 floors (`sim/dungeon-gaps.ts`): chasm cuts and deep water, a walking
+  bypass on floors 1–2, 3–5 jump-only nooks with a find from floor 3, stepping stones with
+  water gaps; a Keeper standing in a gap or deep water pops back to dry ground, party Nubbins
+  hop over (`dungeon-falls.ts`); 3D pit with a blue glow, Pixel and automap chasm cells.
+  Strays drop a Shell trail, snatch twice a floor, can be shooed, show on the automap
+  (`dungeon-strays.ts`). Packs by density with treasure guards and an 80/15/5 mix; ten cosy
+  champion modifiers as data (`config/dungeon-foes.ts`, `dungeon-density.ts`); 3D plates and
+  a bout-panel plate. Shrines with timed buffs, a buff ring and 3D stones
+  (`dungeon-shrines.ts`, `ui/dungeon-buffs.ts`). Traps on raised tiles in both renderers,
+  re-arming, none in the Learning Grove, scouts (`dungeon-traps.ts`).
+- *Stubbed:* terrace ledges are still ramps (Keeper ground underground is 0 in `keeper.ts`,
+  lane A). Bouncy and sticky speed need lane A to multiply by `hollowSpeed(world)`. Snuggly
+  power and the modifiers' effects wait for lane C. Pixel draws no packs, plates, strays'
+  trail or shrine stones (`world-view.ts`, lane A). No uniques (R0156), so 0 per level; Lucky
+  Clover waits for loot tables (R0163); Gem shrine waits for charms.
+- *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
+  timeout, not a game budget) because the new generator sweeps run beside it.
+## Round 3 · Lane C (2026-10-28, branch r3/c)
+
+- *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
+  priority +3 (the incoming one takes the queued hit), a pick after a tuck-in, all tuckered is
+  a snack-break loss; the last party is kept in `world.battlePrefs`. Items from the inventory
+  (fruit, toys; flavoured fruit from the new optional `inventory.pocketFruit`), paid only on a
+  result. Wild foes have Calm and come home as children (or fill the scan and leave Shells);
+  Shadow strays take no HP. The ten Keepers' Circuit: fixed teams per save, field rules,
+  ribbons, hats, skill points, Champion rematches. Sprout/Keeper/Champion AI plus personality.
+  Gentle bouts (Learning Grove or the dojo switch) never lose. One full-screen battle screen
+  with playback, phone layout, party sheet and Power swing. Arena colliders (MOVE-62) and the
+  reserved grid data (MOVE-61, `docs/tactics-grid.md`).
+- *Stubbed:* the Circuit's 10 pre/post scenes and the chapter 5 goal alternative; the
+  Learning Grove "Play-fight Day" scenes; he/ja bout lines; nothing fills `pocketFruit` yet;
+  the Gentle switch lives in the dojo menu, not Settings; old `party` bouts stay all-at-once
+  (no screen opens them now); encounters are singles only when the caller asks.
+- *Known:* Champion beats Keeper 70.6% in the 500-bout mirror test, just over the 70% bar;
+  the battle screen draws pixel sheets in Full 3D (R0219); the full-life and 8-Nubbin timing
+  tests fail in a loaded full run and pass alone (1.6 s, 1.4 s).
+
+## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
+
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `EXTRA=./r3a-extra.cjs node
+laneA.cjs <pixel|3d> <desk|phone> 5181`; all four configurations pass, no console errors.
+
+- *Works:* mantle onto a lip a jump just misses (R0050); jump button hold ring, air-jump pip,
+  glide feather, greyed Shake (R0051); 3D orbit tilts or pulls in when a hill blocks the
+  Keeper (R0052, `render3d/hill-clear.ts`, one call in the scene); Camera follows walking
+  setting (R0053); co-op Keeper 2 on Keeper 1's motion (jump on Enter, Numpad 0, pad A; the
+  two keep apart; R0054, R0022's leftover); Look around on rock tops and the well, one-time
+  finds (R0055); walking to the flat stone meets S24's step (R0056); one-time hop lesson chip
+  and a Moss line (R0058); care walks stop with the Nubbin in view (R0059); roll (R0064); Swim
+  perk pond dip with one-time shells (R0065); Left-handed setting (R0014); 3D glide wings (R0027).
+- *Stubbed:* R0057 (needs `DecorKind` entries in `strings.ts`, lane E's sprites and lane D's
+  `garden.ts`); R0060 and R0067 (Hollow files, lane B); R0063 hop course; R0066 navmesh;
+  3D roll dust and dip bubbles (they need the scene's burst system, lane D); the waterfall
+  shelf stone has no story prop yet, so only the flat stone has a reach.
+- *Known bugs:* at the 24° pitch hills block the orbit rarely (12 of 1,024 sweep cases, one
+  5° step each), so R0052 seldom shows. In the Edge run, a Nubbin standing beside the Keeper
+  once pushed it off the well rim before the chip came up.
+- *Assumptions:* the mantle keeps the old reach (`JUMP.stepUp`, 0.35 u) and only makes the
+  climb visible; the big rocks are now standable (needed for R0055's "big rock at (-7, 9)");
+  the well counts as a lookout from its rim rather than as a standable top (standing on it
+  would put the Keeper over the hole); vistas give their find on the look (no walk-to marker);
+  Pixel's pitch is fixed, so Look around only zooms out; `world.viewYaw` is a UI hint the sim
+  uses for care-walk stops and the pulled-down roll, never for rules.
+
 ## Round 3 · Lane D (2026-10-28, branch r3/d)
 
 Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature

@@ -147,3 +147,36 @@ export const DENSITY = {
 } as const;
 
 export type Difficulty = keyof typeof DENSITY.size;
+
+/**
+ * The named uniques (R0156, DUNG-16): three per act, each with a fixed place (an act level,
+ * 1-based, never the boss's), fixed modifiers, a few minions and a one-time first-win bonus
+ * in Shells. Names and captions are in `UNIQUE_TEXT` (strings-dungeon.ts); the look is a
+ * foe species picked from the id, so it is the same in every seed.
+ */
+export interface UniqueDef {
+  id: string;
+  act: number;
+  level: number;
+  mods: readonly ChampionModId[];
+  minions: number;
+  bonus: number;
+}
+
+export const UNIQUES: readonly UniqueDef[] = [
+  { id: 'sir-snorts', act: 0, level: 1, mods: ['zoomy', 'bigBiceps'], minions: 1, bonus: 40 },
+  { id: 'mumblemoss', act: 0, level: 2, mods: ['grumpyCloud'], minions: 2, bonus: 40 },
+  { id: 'captain-crumbs', act: 0, level: 2, mods: ['snackThief'], minions: 2, bonus: 40 },
+  { id: 'willowby', act: 1, level: 1, mods: ['sticky'], minions: 1, bonus: 60 },
+  { id: 'snapdragon', act: 1, level: 2, mods: ['zoomy', 'sparkly'], minions: 2, bonus: 60 },
+  { id: 'count-compost', act: 1, level: 2, mods: ['grumpyCloud', 'bossy'], minions: 2, bonus: 60 },
+  { id: 'dune-buggy', act: 2, level: 1, mods: ['zoomy'], minions: 2, bonus: 80 },
+  { id: 'sandy-claws', act: 2, level: 2, mods: ['bouncy', 'bigBiceps'], minions: 1, bonus: 80 },
+  { id: 'sphinx-kitten', act: 2, level: 3, mods: ['hiding', 'copycat'], minions: 1, bonus: 80 },
+  { id: 'brr-nadette', act: 3, level: 1, mods: ['sticky', 'sparkly'], minions: 2, bonus: 100 },
+  { id: 'sir-shivers', act: 3, level: 2, mods: ['bouncy'], minions: 2, bonus: 100 },
+  { id: 'icicle-choir', act: 3, level: 3, mods: ['copycat', 'bossy'], minions: 3, bonus: 100 },
+  { id: 'hush-one', act: 4, level: 1, mods: ['hiding'], minions: 1, bonus: 130 },
+  { id: 'hush-two', act: 4, level: 2, mods: ['hiding', 'copycat'], minions: 1, bonus: 130 },
+  { id: 'hush-three', act: 4, level: 2, mods: ['hiding', 'grumpyCloud'], minions: 2, bonus: 130 },
+];

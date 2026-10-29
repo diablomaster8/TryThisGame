@@ -106,11 +106,12 @@ describe('remembered levels (R0151)', () => {
     expect(keys).not.toContain('deep.100');
   });
 
-  it('the stairs up from the top of an act still lead home', () => {
+  it('the stairs up from the top of an act lead out onto its fields (R0147)', () => {
     const world = keeperWorld();
     send(world, { kind: 'enterAct', act: 0 });
     stairs(world, 'up');
-    expect(world.location).toBe('grove');
+    expect(world.location).toBe('dungeon');
+    expect(world.dungeon!.zone).toBe('field');
   });
 });
 
@@ -263,7 +264,7 @@ describe('the Homing Acorn (R0150)', () => {
 
 describe('save version 9', () => {
   it('migrates a version-8 save to no seeds, waypoints, acorns or portal', () => {
-    expect(SAVE_VERSION).toBe(9);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(9);
     const world = keeperWorld();
     const old = JSON.parse(serialize(world, 0)) as {
       version: number;

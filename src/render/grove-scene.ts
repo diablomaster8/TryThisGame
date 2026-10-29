@@ -1,3 +1,4 @@
+import { openSky } from './cave-bands';
 import {
   CircleGeometry,
   Color,
@@ -193,6 +194,8 @@ export class GroveScene {
   private dungeonPickables: Object3D[] = [];
   /** The Hollow's fog of war (R0153): the game refills it each frame underground. */
   readonly dungeonFog = new FogField();
+  /** The Hollow floor showing is an act's camp or field, under the open sky (lane B). */
+  private openAir = false;
   private cliffMat: MeshLambertMaterial | null = null;
   /** Reduced motion: the torch lamps do not flicker. */
   private holdStill = false;
@@ -803,9 +806,11 @@ export class GroveScene {
   private applyLight(): void {
     const d = this.daylight;
     const kind = this.groveKind;
+    // An act's camp and fields light as the open Grove does (lane B, R0147).
+    const open = this.location === 'dungeon' && this.openAir;
     // A gradient sky per phase (cached), with clouds by day.
     const key =
-      this.location === 'hollow' || this.location === 'dungeon'
+      this.location === 'hollow' || (this.location === 'dungeon' && !open)
         ? 'night'
         : kind === 'sun' && d.phase === 'day'
           ? 'sun'
@@ -820,7 +825,7 @@ export class GroveScene {
       this.disposables.push(sky);
     }
     this.scene.background = sky;
-    const place = this.location;
+    const place = open ? 'grove' : this.location;
     const rain = this.weather === 'rain' ? 0.75 : this.weather === 'snow' ? 1.1 : 1;
     // Exposure for the sRGB output: full lift by day, easing to the night value with darkness.
     const gain =
@@ -887,6 +892,10 @@ export class GroveScene {
     }
     this.dungeonTorches = [];
     this.dungeonFog.setFloor(floor);
+    if (this.openAir !== openSky(floor)) {
+      this.openAir = openSky(floor);
+      this.applyLight();
+    }
     if (!floor) return;
     const { w, h } = floorWorldSize(floor);
     const tex = paintFloorTexture(floor, depth);
@@ -1005,7 +1014,7 @@ export class GroveScene {
     const topMesh = new Mesh(topGeo, topMat);
     this.dungeonGroup.add(topMesh);
     // The strata face of this depth band's rock, kept readable by a little emissive.
-    const faceTex = paintCaveWallTexture(depth);
+    const faceTex = paintCaveWallTexture(depth, floor);
     const faceMat = new MeshLambertMaterial({
       map: faceTex,
       color: new Color('#ffffff'),

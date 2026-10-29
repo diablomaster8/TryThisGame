@@ -52,6 +52,23 @@ export function moveDamage(
   to: Combatant,
   move: MoveDef,
 ): { dmg: number; eff: number; crit: boolean } {
+  const crit = rng.chance(BATTLE.damage.critChance);
+  return { ...damageWith(by, to, move, crit, rng.float(...BATTLE.damage.spread)), crit };
+}
+
+/**
+ * The formula above with both dice already rolled, so the tactics preview (recs FIGHT-54)
+ * shows exactly what a resolved hit with the same roll does. `mult` is the grid's facing,
+ * height, terrain and job factor; 1 leaves the turn mode exactly as it was.
+ */
+export function damageWith(
+  by: Combatant,
+  to: Combatant,
+  move: MoveDef,
+  crit: boolean,
+  roll: number,
+  mult = 1,
+): { dmg: number; eff: number } {
   const K = BATTLE.damage;
   const bonk = move.kind === 'bonk';
   const a = (bonk ? by.bonk * moodMult(by, 'bonk') : by.splash) + K.soak;
@@ -59,7 +76,6 @@ export function moveDamage(
   const d = (bonk ? to.def * moodMult(to, 'guard') : to.splash) * guard + K.soak;
   const eff = to.eternal ? 1 : typeMult(move.type, to.type);
   const boost = by.boosted.includes(move.id) ? K.lessonBoost : 1;
-  const crit = rng.chance(K.critChance);
   const raw =
     move.power *
     boost *
@@ -69,10 +85,11 @@ export function moveDamage(
     alignMult(by.alignAs?.align ?? move.align, to.band, to.eternal) *
     stabOf(by, move) *
     (crit ? K.crit : 1) *
-    rng.float(...K.spread);
+    roll *
+    mult;
   let dmg = Math.max(1, Math.round(raw));
   if (!crit) dmg = Math.min(dmg, Math.max(1, Math.floor(to.maxHp * K.capShare)));
-  return { dmg, eff, crit };
+  return { dmg, eff };
 }
 
 /**

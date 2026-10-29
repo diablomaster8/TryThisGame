@@ -1,5 +1,6 @@
 import { HAT_LABELS } from './strings';
 import { COSMETIC_LABELS, eggshellLabel } from './strings-look';
+import { HOP_COURSE_TEXT } from './strings-move';
 import type { C } from '../render/sprites/palette';
 
 /**
@@ -114,6 +115,28 @@ export const COSMETICS: readonly Cosmetic[] = [
   bespoke('look-dream', 'prize', 'race'),
   bespoke('look-quills', 'prize', 'race'),
   bespoke('look-shade', 'prize', 'race'),
+  // MOVE-63 (lane A): the hop course's one-time prize, a leaf-green cap with a spring on top.
+  {
+    ...item(
+      'hop-hat',
+      'hat',
+      'prize',
+      [
+        ['ellipse', 0, -2, 7, 4, 'leaf'],
+        ['rect', -8, 1, 16, 2, 'leafDeep'],
+        ['line', 0, -6, 0, -9, 'greyLight'],
+        ['disc', 0, -10, 2, 'sunYellow'],
+      ],
+      [
+        ['dome', 'leaf', [0, 0, 0], [0.62, 0.42, 0.62]],
+        ['cyl', 'leafDeep', [0, -0.02, 0.18], [0.66, 0.04, 0.5]],
+        ['cyl', 'greyLight', [0, 0.52, 0], [0.04, 0.2, 0.04]],
+        ['sphere', 'sunYellow', [0, 0.72, 0], 0.12],
+      ],
+    ),
+    source: 'race',
+    label: HOP_COURSE_TEXT.hat,
+  },
   item(
     'pot',
     'hat',

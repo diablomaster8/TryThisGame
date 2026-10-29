@@ -134,7 +134,7 @@ const Q21 = quest(
     },
     'q21-s3': {
       goal: 'Carry Bear back down to Mr. Tweed.',
-      hint: 'He is still sulking on his rock by the pond. Hand him the bear with Give.',
+      hint: 'He is still sulking on his rock by the pond. Take him the bear, then tap Do it in the Journal.',
     },
   },
   [
@@ -1325,7 +1325,7 @@ const Q25 = quest(
   {
     'q25-s1': {
       goal: 'Get Mr. Tweed off the ledge: talk him down, or let a brave Swim Nubbin show him how.',
-      hint: 'Call up to him with Talk to coax him down one step at a time, or take a strong swimmer to the ledge and tap Dive.',
+      hint: 'Coax him down one step at a time. Tap Do it in the Journal and keep your voice calm.',
     },
     'q25-s2': {
       goal: 'Build a low diving board at the pond with Mr. Tweed.',
@@ -1752,7 +1752,7 @@ const Q27 = quest(
     },
     'q27-s2': {
       goal: 'Take a Photo mode picture that matches the Founders’ Portrait.',
-      hint: 'Use the self-timer in Photo mode and sit in the empty chair. The outline turns green when everyone’s pose lines up.',
+      hint: 'Everyone in the picture, empty chair too. Tap Do it in the Journal and hold your pose.',
     },
     'q27-s3': {
       goal: 'Hang the frame back on its hook before the Warden walks in.',
@@ -2298,7 +2298,7 @@ const Q29 = quest(
     },
     'q29-s3': {
       goal: 'Give the egg back to Odette at the gate, safe and sound.',
-      hint: 'Odette waits at your gate at sunset. Carry the egg to her and choose Give.',
+      hint: 'Odette waits at your gate at sunset. Carry the egg to her, then tap Do it in the Journal.',
     },
   },
   [

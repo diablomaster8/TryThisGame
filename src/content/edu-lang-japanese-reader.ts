@@ -2038,7 +2038,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
     band: 'reader',
     title: 'Floating Lanterns',
     goals: {
-      'lj6-step1': { goal: 'Ask Hana why she is sitting by the stream.', hint: 'Hana is sitting by the stream. Tap her and choose Talk.' },
+      'lj6-step1': { goal: 'Ask Hana why she is sitting by the stream.', hint: 'Hana is sitting by the stream. Tap her to talk.' },
       'lj6-step2': { goal: 'Help Hana make ojiichan’s lantern, and make one of your own if you like.', hint: 'Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana.' },
       'lj6-step3': { goal: 'Float ojiichan’s lantern with Hana at dusk. Later, join her review party.', hint: 'Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage.' },
     },

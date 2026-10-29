@@ -1,3 +1,4 @@
+import type { ColliderFlag, ColliderShape } from './grove-layout';
 /**
  * Lane A (MOVE) numbers that are not sim rules: how a jump looks and sounds in both
  * renderers. The sim's own jump numbers stay in `tuning-sim.ts` (`JUMP`).
@@ -283,4 +284,62 @@ export const GLIDE_WINGS = {
   colour: 0x8fd16a,
   beatHz: 2.2,
   beat: 0.35,
+} as const;
+
+/**
+ * MOVE-57: the jump toys, bought and placed like decor. Landing on a spring mushroom bounces
+ * `bounce` times the jump's height and squashes it for `squashMs`; a hay bale is a plain
+ * standable block. Nubbins play on a mushroom like a toy (`nubbinChance` of a play pick when
+ * one is within `nubbinReach`), hopping `nubbinHop` u every `nubbinHopMs`.
+ */
+export const JUMP_TOYS = {
+  prices: { springShroom: 40, hayBale: 25 },
+  colliders: {
+    springShroom: {
+      shape: { type: 'circle', r: 0.4 },
+      top: 0.35,
+      flags: ['hop', 'standable'],
+    },
+    hayBale: { shape: { type: 'box', hw: 0.5, hd: 0.35 }, top: 0.6, flags: ['hop', 'standable'] },
+  } satisfies Record<string, { shape: ColliderShape; top: number; flags: readonly ColliderFlag[] }>,
+  bounce: 2.2,
+  squashMs: 320,
+  squash: 0.4,
+  nubbinChance: 0.5,
+  nubbinReach: 8,
+  nubbinHop: 0.7,
+  nubbinHopMs: 600,
+  nubbinHappiness: 6,
+} as const;
+
+/**
+ * MOVE-63: the hop course. The start flag, then twelve flags in order across the big rocks,
+ * the hill tops and both banks of the stream, the last one back at the start. A flag counts
+ * when the Keeper is within `touch` of it with the feet at its footing (so a rock flag needs
+ * the rock top). A run gives up after `giveUpMs`. Medal times are in ms; any finish is
+ * bronze. The ghost is one sample a sim step (100 ms), at most `ghostMax` of them.
+ */
+export const HOP_COURSE = {
+  start: { x: -2, z: 3 },
+  flags: [
+    { x: -7, z: 9 },
+    { x: -10, z: 10 },
+    { x: -18, z: 13 },
+    { x: -18, z: -15 },
+    { x: 6, z: -9 },
+    { x: 16, z: -16 },
+    { x: 13, z: -5 },
+    { x: 20, z: 4 },
+    { x: 12.2, z: 16.2 },
+    { x: 6.8, z: 16.6 },
+    { x: 0, z: 14 },
+    { x: -2, z: 3 },
+  ],
+  touch: 1.0,
+  feetSlack: 0.25,
+  giveUpMs: 240_000,
+  gold: 75_000,
+  silver: 105_000,
+  ghostMax: 2400,
+  hat: 'hop-hat',
 } as const;

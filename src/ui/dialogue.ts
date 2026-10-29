@@ -28,6 +28,9 @@ import { buildFaceSheet, expressionOf, faceKey } from '../render/sprites/faces';
 import { drawKeeperFrame, grandchildLook } from '../render/sprites/keeper';
 import { CREATURE_SPEAKERS, creatureLook } from '../render/portraits';
 import { DIALOGUE_TEXT } from '../config/strings-dlg';
+import { TYPE_TIMING } from '../config/tuning-fun';
+import { pauseAfter, voiceOf } from './type-timing';
+import { playBlip, playSound } from '../platform/audio';
 
 /**
  * The story dialogue box: portrait, name, typewriter text, tap to advance, choices.
@@ -435,15 +438,41 @@ export class Dialogue {
     const speed = g.world.settings.textSpeed;
     const reduce = speed === 'instant' || g.reduceMotion;
     if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
+    // R0303: a line's sound cue plays however the text appears.
+    if (line.sfx) playSound(line.sfx);
     // Half-typed Hebrew would sit unisolated, so a line with script appears whole.
     if (reduce || hasScript(this.fullText)) {
       this.shown = this.fullText.length;
       this.finishText();
       return;
     }
+    // R0302: punctuation holds a beat, and the speaker ticks in their own voice.
+    const voice = g.world.settings.voiceBlips === false ? null : voiceOf(chorus ? 'narrator' : who);
+    let holdUntil = 0;
+    let typed = 0;
+    // R0303: the line's stage directions: a held beat, a sound cue and a screen nudge.
+    if (line.beat) holdUntil = performance.now() + line.beat;
+    if (line.shake && !g.reduceMotion) nudgeScreen(line.shake);
     this.typing = window.setInterval(
       () => {
-        this.shown = Math.min(this.fullText.length, this.shown + (speed === 'fast' ? 4 : 2));
+        const now = performance.now();
+        if (now < holdUntil) return;
+        const step = speed === 'fast' ? 4 : 2;
+        for (let k = 0; k < step && this.shown < this.fullText.length; k++) {
+          this.shown += 1;
+          typed += 1;
+          if (
+            voice &&
+            typed % TYPE_TIMING.blipEvery === 0 &&
+            /\S/.test(this.fullText[this.shown - 1]!)
+          )
+            playBlip(voice.hz, voice.wave, voice.ms);
+          const hold = pauseAfter(this.fullText, this.shown);
+          if (hold > 0) {
+            holdUntil = now + hold;
+            break;
+          }
+        }
         this.text.textContent = this.fullText.slice(0, this.shown);
         if (this.shown >= this.fullText.length) {
           clearInterval(this.typing);
@@ -685,3 +714,12 @@ function creatureClip(mood: Mood): 'happy' | 'sad' | 'idle' {
 
 /** Nubbins have no surprised or puzzled face: the emote ball's mark says it instead. */
 const MOOD_MARK: Partial<Record<Mood, string>> = { shock: '!', think: '?' };
+
+/** R0303: a little screen nudge for a line's `shake`, as a class on the page body. */
+function nudgeScreen(size: 'small' | 'big'): void {
+  const cls = size === 'big' ? 'line-shake-big' : 'line-shake';
+  document.body.classList.remove('line-shake', 'line-shake-big');
+  void document.body.offsetWidth;
+  document.body.classList.add(cls);
+  window.setTimeout(() => document.body.classList.remove(cls), 400);
+}

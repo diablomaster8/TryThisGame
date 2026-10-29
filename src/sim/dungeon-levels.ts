@@ -16,19 +16,29 @@ import { HOLLOW } from '../config/tuning';
 import { cellDist, FLOOR, type Cell, type Floor } from './dungeon';
 import type { Rng } from './rng';
 import type { DungeonRun, LevelState, World } from './types';
+import { zoneLevelId } from './dungeon-zones';
 
 // ---------------------------------------------------------------- level ids
 
 /** The id of the level a run stands on. */
-export function levelIdOf(run: Pick<DungeonRun, 'act' | 'depth'>): string {
+export function levelIdOf(run: Pick<DungeonRun, 'act' | 'depth' | 'zone' | 'side'>): string {
   if (run.act === undefined) return `deep.${run.depth}`;
+  const zone = zoneLevelId(run);
+  if (zone) return zone;
   return `${ACTS[run.act]!.id}.${run.depth - actStartDepth(run.act) + 1}`;
 }
 
-/** An act level id back into its act index and run depth; null for anything else. */
-export function parseLevelId(id: string): { act: number; level: number; depth: number } | null {
+/**
+ * An act level id back into its act index and run depth; null for anything else. A camp or
+ * field id (`rootways.town`) gives level 0, the act's top depth and its `zone`.
+ */
+export function parseLevelId(
+  id: string,
+): { act: number; level: number; depth: number; zone?: 'town' | 'field' } | null {
   const [name, n] = id.split('.');
   const act = ACTS.findIndex((a) => a.id === name);
+  if (act >= 0 && (n === 'town' || n === 'field'))
+    return { act, level: 0, depth: actStartDepth(act), zone: n };
   const level = Number(n);
   if (act < 0 || !Number.isInteger(level) || level < 1 || level > ACTS[act]!.levels.length)
     return null;
@@ -98,8 +108,12 @@ export function hasWaypoint(act: number, level: number): boolean {
 }
 
 /** The waypoint id of the level the run is on, or null when it has none. */
-export function waypointHere(run: Pick<DungeonRun, 'act' | 'depth' | 'story'>): string | null {
+export function waypointHere(
+  run: Pick<DungeonRun, 'act' | 'depth' | 'story' | 'zone' | 'side'>,
+): string | null {
   if (run.act === undefined || run.story) return null;
+  // Camps and fields have a stone; side caves do not.
+  if (run.zone) return run.zone === 'side' ? null : levelIdOf(run);
   const level = run.depth - actStartDepth(run.act) + 1;
   return hasWaypoint(run.act, level) ? levelIdOf(run) : null;
 }
@@ -112,6 +126,7 @@ const stoneCache = new WeakMap<Floor, Cell>();
  * so the same floor always puts it in the same place.
  */
 export function waypointCell(f: Floor): Cell {
+  if (f.stone) return f.stone;
   const hit = stoneCache.get(f);
   if (hit) return hit;
   const busy = new Set(f.loot.map((l) => l.cell.y * f.cols + l.cell.x));

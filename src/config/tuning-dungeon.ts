@@ -198,3 +198,54 @@ export const HOLLOW = {
 } as const;
 
 export type HollowLevel = keyof typeof HOLLOW.v3.levels;
+
+/**
+ * Act towns and outdoor fields (R0152, R0147, lane B round 4). A town is an authored 40×30
+ * hub; a field is a 128×96 meadow stitched from 16×16 tiles between the town and the act's
+ * dungeon gate, with cave mouths onto one-level side caves.
+ */
+export const HOLLOW_ZONES = {
+  field: {
+    cols: 128,
+    rows: 96,
+    tile: 16,
+    /** Cave mouths onto side caves, and monster packs (sparser than below ground). */
+    mouths: [2, 3],
+    packs: [10, 14],
+    wildlife: [6, 8],
+    shrines: [1, 2],
+    loot: 10,
+    /** The road is this many cells wide. */
+    road: 2,
+  },
+  /** How close (world units) the Keeper must stand to use a service or a cave mouth. */
+  reach: 1.6,
+  /** Stash: Shells kept safe from strays; the most it holds. */
+  stash: { maxShells: 99_999 },
+  /** The vendor's fruit, for feeding strays; Shells each. */
+  vendor: { fruitPrice: 6 },
+  /** The cave-mouth party picker (R0168): energy (0..1) below this shows as tired. */
+  party: { tired: 0.25 },
+  /** The quest-giver's one-time reward per act for beating its boss (Shells). */
+  questReward: [60, 90, 120, 160, 220],
+  /**
+   * The open-sky colour band for camps and fields, in place of the cave's depth band
+   * (`bandForFloor`, render/cave-bands.ts): grass for the floor, hedge for the rock.
+   */
+  openBand: {
+    from: 1,
+    name: 'open sky',
+    background: '#8cc0dc',
+    hemiSky: '#d6eaff',
+    hemiGround: '#6f8a4a',
+    key: '#fff1d6',
+    torch: '#ffc070',
+    grade: '#fff8ee',
+    rock: '#5d7a3c',
+    moss: '#74b04a',
+    crystal: '#c4ecff',
+    floor: '#6e9a48',
+    rim: '#a6cc6a',
+    glow: '#ffd890',
+  },
+} as const;

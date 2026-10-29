@@ -161,7 +161,7 @@ export const BOOK1_SCENES: Scene[] = [
       text: 'HEY. New Keeper. Don’t move. There’s a lantern post behind you and I’ve nearly fixed it.',
       mood: 'shock',
     },
-    { who: 'narrator', text: 'There is a crackle, a small blue flash, and the smell of burnt hair.' },
+    { who: 'narrator', text: 'There is a crackle, a small blue flash, and the smell of burnt hair.', sfx: 'pop', shake: 'small', gag: true },
     {
       who: 'sparks',
       text: 'Fixed it. Mostly. The hair grows back, before you ask. I’m Sparks. I run the fast ones. Yours is cute. Is it fast? It looks fast.',
@@ -169,7 +169,7 @@ export const BOOK1_SCENES: Scene[] = [
     },
     { who: 'fern', text: 'It is three minutes old, Sparks.' },
     { who: 'sparks', text: 'Potential, Fern. I’m talking about potential.' },
-    { who: 'narrator', text: 'Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose and fizzles out in the grass.' },
+    { who: 'narrator', text: 'Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose and fizzles out in the grass.', beat: 400, sfx: 'sneeze', gag: true },
     { who: 'sparks', text: 'Did you SEE that? It likes me. It’s caught it off me.', mood: 'happy' },
     { who: 'fern', text: 'That isn’t how anything works.' },
     {
@@ -216,7 +216,7 @@ export const BOOK1_SCENES: Scene[] = [
     { who: 'sparks', text: 'That’s the bit I’m bad at. I go “eat it, eat it, EAT IT”.' },
     { who: 'marina', text: 'We know.' },
     { who: 'narrator', text: 'Your Nubbin comes the last bit. It takes the plum, very politely.' },
-    { who: 'narrator', text: 'Then it takes Sparks’s thumb, very politely, and holds on.' },
+    { who: 'narrator', text: 'Then it takes Sparks’s thumb, very politely, and holds on.', beat: 300, sfx: 'squeak', gag: true },
     { who: 'sparks', text: 'FLAT. I said FLAT. I didn’t do it FLAT.', mood: 'shock' },
     { who: 'marina', text: 'Rule four. Don’t be Sparks.', mood: 'happy' },
     { who: 'narrator', text: 'The plum is warm from the tree and splits in your fingers. Your Nubbin eats your half too, and looks at you as if you offered.' },

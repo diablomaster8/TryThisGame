@@ -86,7 +86,7 @@ export const QUESTS_HODJA: Quest[] = [
       {
         id: 'q86-s1',
         goal: 'Help the Hodja down from his donkey.',
-        hint: 'Walk up to the donkey by the pond and use Talk on the rider.',
+        hint: 'The rider sits on the donkey by the pond. Say hello, then tap Do it in the Journal.',
         check: 'talk:hodja:dismount',
         scene: {
           id: 'q86-intro',
@@ -145,7 +145,7 @@ export const QUESTS_HODJA: Quest[] = [
       {
         id: 'q86-s2',
         goal: 'Give the donkey water and a place under the big tree.',
-        hint: 'Fill a bucket at the pond and use Give on the donkey, then lead it to the shade.',
+        hint: 'The donkey wants water and shade. Tap Do it in the Journal; your Nubbin fetches the water in its cupped hands.',
         check: 'give:item:water:hodja-donkey',
         scene: {
           id: 'q86-water',

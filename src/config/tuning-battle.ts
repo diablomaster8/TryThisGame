@@ -265,3 +265,4 @@ export const BATTLE = {
   /** Kept in the save so a bout log stays small. */
   logCap: 200,
 } as const;
+export { TACTICS } from './tuning-tactics';

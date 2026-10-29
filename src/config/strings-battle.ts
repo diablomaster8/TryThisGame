@@ -327,3 +327,4 @@ export function formatRound3(e: BattleEvent, name: (id: string) => string): stri
       return null;
   }
 }
+export * from './strings-tactics';
