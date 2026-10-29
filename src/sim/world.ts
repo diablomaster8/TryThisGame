@@ -16,7 +16,14 @@ import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
-import { createKeeper, keeperJump, keeperPutDown, updateKeeper } from './keeper';
+import {
+  createKeeper,
+  keeperJump,
+  keeperPutDown,
+  keeperStartRoll,
+  rollAsked,
+  updateKeeper,
+} from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
@@ -360,6 +367,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         applyCommand(world, { kind: 'shakeHeld' }, events);
         return;
       }
+      // MOVE-64: a running jump with the stick pulled toward the camera is a roll.
+      if (cmd.down && rollAsked(world) && keeperStartRoll(world, events)) return;
       keeperJump(world, cmd.down);
       return;
     case 'shakeHeld': {
@@ -890,6 +899,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'lookAround':
       lookAround(world, events);
+      return;
+    case 'roll':
+      keeperStartRoll(world, events, cmd.dir);
       return;
     case 'viewYaw':
       if (Number.isFinite(cmd.yaw)) world.viewYaw = cmd.yaw;

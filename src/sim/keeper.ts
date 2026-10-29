@@ -11,6 +11,7 @@ import {
   BUSH,
   MANTLE,
   CARE_APPROACH,
+  ROLL,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -259,6 +260,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     k.input.z === 0 &&
     k.grounded &&
     k.bufferMs <= 0 &&
+    !rolls.has(world) &&
     !moving(world);
   if (idle) {
     keeperSubstep(world, ((n - done) * dtMs) / n, events);
@@ -362,6 +364,90 @@ export function keeperGliding(world: World): boolean {
     (glided.get(world) ?? 0) < GLIDE.maxMs &&
     keeperPerks(world).glide
   );
+}
+
+/** MOVE-64: a roll under way (its heading and time), and when the last one ended. */
+const rolls = new WeakMap<World, { dx: number; dz: number; ms: number }>();
+const rolledAt = new WeakMap<World, number>();
+/** Per Nubbin, when it last giggled at a roll (sim ms). */
+const giggledAt = new WeakMap<Nubbin, number>();
+
+/** MOVE-64: how far through a roll the Keeper is (0..1), or null when not rolling. */
+export function keeperRoll(world: World): number | null {
+  const r = rolls.get(world);
+  return r ? Math.min(1, r.ms / ROLL.ms) : null;
+}
+
+/**
+ * MOVE-64: start a roll the way the Keeper faces (or along `dir`): on the ground, empty-
+ * handed, not mid-mantle, and past the cooldown. Nearby Nubbins giggle.
+ */
+export function keeperStartRoll(world: World, events: SimEvent[], dir?: Vec2): boolean {
+  const k = world.keeper;
+  if (!k.grounded || k.carrying || mantles.has(world) || rolls.has(world)) return false;
+  if (world.timeMs - (rolledAt.get(world) ?? -Infinity) < ROLL.cooldownMs) return false;
+  let dx = dir ? dir.x : Math.sin(k.facing);
+  let dz = dir ? dir.z : Math.cos(k.facing);
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-6) return false;
+  dx /= len;
+  dz /= len;
+  k.facing = Math.atan2(dx, dz);
+  k.moveTarget = null;
+  k.intent = null;
+  rolls.set(world, { dx, dz, ms: 0 });
+  events.push({ kind: 'keeperRolled' });
+  if (world.location !== 'grove') return true;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || !isFree(n)) continue;
+    if (Math.hypot(n.pos.x - k.pos.x, n.pos.z - k.pos.z) > ROLL.giggleReach) continue;
+    if (world.timeMs - (giggledAt.get(n) ?? -Infinity) < ROLL.giggleCooldownMs) continue;
+    giggledAt.set(n, world.timeMs);
+    react(n, 'happy', world.timeMs, events);
+  }
+  return true;
+}
+
+/**
+ * One substep of a roll: along its heading at roll speed, through the same solids and
+ * ledges as a walk. False once it has ended (its time is up, it ran off an edge, or a jump
+ * cancels it): the substep then goes on as usual, so the jump happens at once.
+ */
+function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
+  const r = rolls.get(world)!;
+  const k = world.keeper;
+  const speed = ROLL.dist / (ROLL.ms / 1000);
+  if (k.bufferMs > 0 || !k.grounded || r.ms >= ROLL.ms) {
+    rolls.delete(world);
+    rolledAt.set(world, world.timeMs);
+    // A cancelled roll keeps some of its speed into the jump.
+    const v = velOf(world);
+    const carry = r.ms < ROLL.ms ? ROLL.carry : 0;
+    v.x = r.dx * speed * carry;
+    v.z = r.dz * speed * carry;
+    return false;
+  }
+  const dt = dtMs / 1000;
+  r.ms += dtMs;
+  const fromX = k.pos.x;
+  const fromZ = k.pos.z;
+  k.pos.x += r.dx * speed * dt;
+  k.pos.z += r.dz * speed * dt;
+  const floor = runFloor(world);
+  if (floor) resolveDungeon(k.pos, floor, 0.35);
+  else {
+    resolve(k.pos, world, 0.35, 'keeper', k.y);
+    holdAtLedges(k, fromX, fromZ);
+    if (!keeperPerks(world).wade) {
+      const s = shoreline(k.pos);
+      k.pos.x = s.x;
+      k.pos.z = s.z;
+    }
+    clampToWorld(k.pos);
+    unstickKeeper(world);
+  }
+  stepVertical(world, dt, !!floor, events);
+  return true;
 }
 
 /** A climb onto a lip the jump fell short of (MOVE-50): transient, never saved. */
@@ -665,6 +751,11 @@ function tapRunning(world: World, target: Vec2): boolean {
 
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
+  // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).
+  if (rolls.has(world) && stepRoll(world, dtMs, events)) {
+    rideCarried(world);
+    return;
+  }
   // A mantle takes the Keeper's whole substep: no walking, no gravity (MOVE-50).
   if (mantles.has(world)) {
     stepMantle(world, dtMs, events);
@@ -1126,4 +1217,16 @@ export function keeperPutDown(world: World, events: SimEvent[]): void {
   n.pos.x = k.pos.x + Math.sin(k.facing) * 0.8;
   n.pos.z = k.pos.z + Math.cos(k.facing) * 0.8;
   putDown(n, world.timeMs, events);
+}
+
+/**
+ * MOVE-64: whether a jump press asks for a roll instead: running, on the ground, with the
+ * stick pulled toward the camera (the view's yaw is the UI's hint; none known, no roll).
+ */
+export function rollAsked(world: World): boolean {
+  const k = world.keeper;
+  const yaw = world.viewYaw;
+  const len = Math.hypot(k.input.x, k.input.z);
+  if (!k.running || !k.grounded || yaw === undefined || len < 0.5) return false;
+  return (k.input.x * Math.sin(yaw) + k.input.z * Math.cos(yaw)) / len > ROLL.downDot;
 }

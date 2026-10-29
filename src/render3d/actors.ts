@@ -1,7 +1,7 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, KEEPER_SLOPE, ROLL } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
@@ -31,7 +31,7 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperFooting, keeperMantle } from '../sim/keeper';
+import { keeperFooting, keeperMantle, keeperRoll } from '../sim/keeper';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -770,7 +770,12 @@ export class Actors {
    * MOVE-21: the Keeper's rig stretches tall on the way up and squashes for a beat on
    * landing (1.1 / 0.92), about its feet. None under reduced motion.
    */
-  private squashKeeper(keeper: World['keeper'], nowMs: number, mantle: number | null): void {
+  private squashKeeper(
+    keeper: World['keeper'],
+    nowMs: number,
+    mantle: number | null,
+    roll: number | null,
+  ): void {
     const o = this.keeper?.rig?.group;
     if (!o || this.calm || this.keeperHold) return;
     const fx = KEEPER_JUMP_FX;
@@ -778,6 +783,8 @@ export class Actors {
     let sh = 1;
     // A mantle (MOVE-50) tucks the body down and up again as it climbs over the lip.
     if (mantle !== null) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * mantle);
+    // A roll (MOVE-64) tucks the body into a ball and out again.
+    else if (roll !== null) sh = 1 - ROLL.tuck * Math.sin(Math.PI * roll);
     else if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
     else if (!keeper.grounded && keeper.vy > fx.apexVy)
       sh = 1 + (fx.rigStretch - 1) * Math.min(1, keeper.vy / 6);
@@ -973,7 +980,7 @@ export class Actors {
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
-    this.squashKeeper(keeper, nowMs, keeperMantle(world));
+    this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);

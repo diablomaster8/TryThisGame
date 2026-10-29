@@ -9,7 +9,7 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
-import { keeperFooting, keeperGliding, keeperMantle } from '../sim/keeper';
+import { keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
@@ -264,6 +264,8 @@ export class WorldView {
   private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
     const k = world.keeper;
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
+    // A roll (MOVE-64) tucks into the crouch frame all the way along.
+    if (keeperRoll(world) !== null) return 'jump-crouch';
     if (k.grounded) return null;
     const fx = KEEPER_JUMP_FX;
     // A mantle (MOVE-50) scrambles up with the knees tucked: the crouch frame.
@@ -1455,6 +1457,7 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperRolled':
       case 'keeperLanded':
       case 'keeperJumped': {
         // MOVE-21: a little dust each side on landing, a puff of sparkles under a double
@@ -1462,6 +1465,17 @@ export class WorldView {
         if (p.reduceMotion) break;
         const k = this.keeperPrev;
         const feet = Math.max(0.05, k.y - paintedGround(k.pos.x, k.pos.z) + 0.05);
+        if (e.kind === 'keeperRolled') {
+          // MOVE-64: a puff of dust where the roll starts.
+          p.burst('dust', k.pos.x, feet, k.pos.z, KEEPER_JUMP_FX.landDust * 2, {
+            spread: 0.25,
+            speed: 0.6,
+            rise: 0.15,
+            lifeMs: 300,
+            size: 0.35,
+          });
+          break;
+        }
         if (e.kind === 'keeperLanded') {
           const n = KEEPER_JUMP_FX.landDust;
           for (const side of [-1, 1])

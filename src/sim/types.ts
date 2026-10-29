@@ -977,6 +977,8 @@ export type Command =
   | { kind: 'lookAround' }
   // MOVE-59: the camera's yaw, so care walks stop where the Nubbin stays in view.
   | { kind: 'viewYaw'; yaw: number }
+  // MOVE-64: roll the way the Keeper faces, or along `dir`.
+  | { kind: 'roll'; dir?: Vec2 }
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
@@ -1078,6 +1080,8 @@ export type SimEvent =
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
+  // MOVE-64: the Keeper starts a roll.
+  | { kind: 'keeperRolled' }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
   | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
   | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }

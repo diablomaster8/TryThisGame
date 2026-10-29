@@ -236,3 +236,23 @@ export const HOP_LESSON = { near: 3, samples: 8 } as const;
  * the camera and `sideDeg` round to one side, within `arrive` of that spot, then turns to it.
  */
 export const CARE_APPROACH = { inset: 0.2, sideDeg: 35, arrive: 0.3 } as const;
+
+/**
+ * MOVE-64: the Keeper's roll: `dist` units in `ms`, `cooldownMs` before the next. A jump
+ * pressed mid-roll cancels into the jump, keeping `carry` of the roll's speed. Free
+ * Nubbins within `giggleReach` giggle, each at most once per `giggleCooldownMs`. Keyboards
+ * roll on a direction tapped twice within `doubleTapMs`; a running jump with the stick
+ * pulled toward the camera (more than `downDot` of the way) rolls instead.
+ */
+export const ROLL = {
+  dist: 2.0,
+  ms: 350,
+  cooldownMs: 600,
+  carry: 0.6,
+  giggleReach: 2.5,
+  giggleCooldownMs: 8000,
+  doubleTapMs: 250,
+  downDot: 0.7,
+  /** The 3D rig squashes by this much at the middle of a roll (a ball, then out again). */
+  tuck: 0.35,
+} as const;

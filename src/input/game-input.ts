@@ -1,3 +1,4 @@
+import { ROLL } from '../config/tuning-move';
 import { INPUT, THROW } from '../config/tuning';
 import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
@@ -99,6 +100,18 @@ interface Sample {
  * the Keeper relative to the camera. Two-finger gestures belong to CameraControls; when
  * a second pointer appears any drag is dropped gently.
  */
+/** MOVE-64: each move key's screen way, as [forward, right]. */
+const ROLL_KEYS: Readonly<Record<string, readonly [number, number]>> = {
+  w: [1, 0],
+  arrowup: [1, 0],
+  s: [-1, 0],
+  arrowdown: [-1, 0],
+  d: [0, 1],
+  arrowright: [0, 1],
+  a: [0, -1],
+  arrowleft: [0, -1],
+};
+
 /** MOVE-54: the second Keeper's jump keys, and the name the held set keeps them under. */
 const JUMP2 = '#keeper2-jump';
 const key2Jump = (e: KeyboardEvent): boolean => e.key === 'Enter' || e.code === 'Numpad0';
@@ -257,6 +270,25 @@ export class GameInput {
     if (feed) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   }
 
+  /** MOVE-64: when each move key was last pressed, for the double tap that rolls. */
+  private readonly lastTap = new Map<string, number>();
+
+  /** MOVE-64: a move key tapped twice within `ROLL.doubleTapMs` rolls that way on screen. */
+  private rollTap(key: string): void {
+    const way = ROLL_KEYS[key];
+    if (!way) return;
+    const now = performance.now();
+    const last = this.lastTap.get(key);
+    this.lastTap.set(key, now);
+    if (last === undefined || now - last > ROLL.doubleTapMs) return;
+    this.lastTap.delete(key);
+    const yaw = this.host.camera.currentYaw;
+    const [fwd, right] = way;
+    const x = -Math.sin(yaw) * fwd + Math.cos(yaw) * right;
+    const z = -Math.cos(yaw) * fwd - Math.sin(yaw) * right;
+    this.host.send({ kind: 'roll', dir: { x, z } });
+  }
+
   /** MOVE-49: the first gamepad, when it drives Keeper 1 (co-op off), else null. */
   private soloPad(): Gamepad | null {
     if (!this.host.pad || this.host.pad.coop()) return null;
@@ -326,6 +358,7 @@ export class GameInput {
       e.preventDefault();
     }
     if (key === 'x' && !e.repeat) this.host.send({ kind: 'shakeHeld' });
+    if (!e.repeat) this.rollTap(key);
     if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   };
