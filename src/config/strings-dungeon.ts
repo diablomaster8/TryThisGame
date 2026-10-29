@@ -10,6 +10,19 @@ export const HOLLOW_TEXT = {
     `The pack poofs into sparkles and scurries home. +${shells} Shells`,
   partyGiggles: 'Your party gets the giggles and sits down. Back to the stairs, everything kept.',
   packFled: 'You slip away; the pack wanders home.',
+  /** Hollow platforming (R0031): a step into a gap or deep water, and straight back. */
+  fellChasm: 'Whoops! A soft bounce, and you are back on the ledge. Jump to cross.',
+  fellWater: 'Splash! Too deep to wade. Find the stones, or jump.',
+  /** Strays (R0162). */
+  strayShooed: (name: string) => `${name || 'Your Nubbin'} chases the stray off, puffing.`,
+  /** Pack plates (R0155): the words after the plate's shape. */
+  plate: {
+    normal: '',
+    champion: 'Champion pack',
+    elite: 'Elite',
+    unique: 'Someone special',
+    boss: 'Boss',
+  },
   /** The pack fight's panel, on the battle core. */
   boutTitle: 'A pack!',
   boutBackOff: 'Back off',
@@ -108,5 +121,41 @@ export const HOLLOW_AUTOMAP_TEXT = {
   shrine: 'Shrine',
   unique: 'Someone special',
   quest: 'Quest',
+  stray: 'Stray',
   way: 'Show me the way',
 } as const;
+
+/** Shrines (R0159): each kind's name, icon and what it does, plus the buff ring's labels. */
+export const SHRINE_TEXT = {
+  kinds: {
+    sunny: { name: 'Sunny shrine', icon: '☀', does: 'A quarter more Shells from finds' },
+    bouncy: { name: 'Bouncy shrine', icon: '➶', does: 'A spring in your step' },
+    snuggly: { name: 'Snuggly shrine', icon: '♥', does: 'A happy party, a little stronger' },
+    lucky: { name: 'Lucky Clover', icon: '☘', does: 'Better finds for a while' },
+    picnic: { name: 'Picnic shrine', icon: '🧺', does: 'Everyone fed and rested' },
+    glowy: { name: 'Glowy shrine', icon: '✺', does: 'You can see further' },
+    gem: { name: 'Gem shrine', icon: '◆', does: 'A charm grows brighter' },
+    secret: { name: 'Secret shrine', icon: '⌖', does: 'The whole level is on your map' },
+  } as Record<string, { name: string; icon: string; does: string }>,
+  used: (name: string, does: string) => `${name}! ${does}.`,
+  faded: (name: string) => `The ${name}'s glow fades.`,
+  ring: 'Shrine buffs',
+  left: (name: string, s: number) => `${name}, ${s} seconds left`,
+};
+
+/** Traps (R0161): what each does when sprung, its tile icon, and a scout's spot. */
+export const TRAP_TEXT = {
+  sprung: {
+    whoopee: 'Pfrrt! A whoopee tile. Everyone goes a bit pink.',
+    sticky: 'A sticky puddle! Your boots squelch for a moment.',
+    leaves: 'Whoosh! A leaf pile slides you back.',
+    sneeze: 'A sneeze mushroom! Achoo, achoo.',
+    bell: 'A bell wire tinkles. Something comes to have a look.',
+    ice: 'Wheee! Ice underfoot.',
+  } as Record<string, string>,
+  icon: { whoopee: '◠', sticky: '◉', leaves: '❦', sneeze: '✲', bell: '♪', ice: '❄' } as Record<
+    string,
+    string
+  >,
+  spotted: 'Your scout points: ! A trap just ahead.',
+};

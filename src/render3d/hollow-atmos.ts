@@ -3,6 +3,7 @@ import { GROVE3D } from '../config/tuning';
 import { playSound } from '../platform/audio';
 import { elevationAt, WALL, WATER, type Floor } from '../sim/dungeon';
 import { caveShed } from './cave-shed';
+import { looksWet } from './hollow-dress-path';
 import {
   CELL,
   cellHash,
@@ -151,7 +152,7 @@ export class HollowAtmos implements HollowModule {
         const v = f.cells[y * f.cols + x];
         if (v === WALL) continue;
         cells.push([x, y]);
-        if (v === WATER) wet.push([x, y]);
+        if (looksWet(f, x, y)) wet.push([x, y]);
         else if (!open(x - 1, y) || !open(x + 1, y) || !open(x, y - 1) || !open(x, y + 1))
           foot.push([x, y]);
       }

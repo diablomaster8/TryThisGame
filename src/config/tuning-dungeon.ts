@@ -13,7 +13,77 @@ export const HOLLOW = {
    * The generator new floors use (`DUNGEON.genVersion` in tuning.ts is the older setting,
    * kept for the pixel samples). Saved runs keep the version their floor was made with.
    */
-  genVersion: 3,
+  genVersion: 4,
+  /**
+   * Hollow platforming (R0031, version 4 floors): deep water and chasm cuts. Gaps start at
+   * `fromDepth`, every gap has a walking bypass before `nookFromDepth`, and from there up to
+   * `nooks` side pockets sit behind a jump with a find in each. A single jump clears one
+   * cell, the double jump `maxJump`. Stepping stones leave water gaps from `stonesFromDepth`.
+   */
+  gaps: {
+    fromDepth: 2,
+    nookFromDepth: 3,
+    stonesFromDepth: 3,
+    maxJump: 2,
+    maxWidth: 3,
+    cuts: { shallow: [2, 3] as const, deep: [3, 5] as const },
+    nooks: [4, 6] as const,
+    nookCells: [3, 90] as const,
+    spacing: 5,
+    keepClear: 3,
+    fixups: 40,
+    /** A Keeper at or under this height counts as standing (a fall); a Nubbin this far off hops a gap. */
+    standHeight: 0.05,
+    hopDistance: 4.5,
+  },
+  /**
+   * Strays (R0162): snatches per stray per floor, a dropped Shell every `dropEveryMs` while
+   * it flees, the energy a party Nubbin spends to shoo one, how near counts as seeing one.
+   */
+  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 10, seeRadius: 7 },
+  /**
+   * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
+   * walking onto one, each buff's seconds (0 is instant), and the effect sizes.
+   */
+  /**
+   * Traps (R0161): per level, cells from the stairs and apart, re-arm time, the scout's Run
+   * level and reach, and each trap's size.
+   */
+  traps: {
+    perLevel: [2, 5] as const,
+    fromStairs: 5,
+    spacing: 6,
+    rearmMs: 20_000,
+    scoutRun: 30,
+    scoutCells: 3,
+    whoopeeHop: 4,
+    stickySlow: 0.4,
+    stickyMs: 3000,
+    leafCells: 3,
+    bellReach: 20,
+  },
+  shrines: {
+    perLevel: [1, 3] as const,
+    fromStairs: 6,
+    spacing: 8,
+    reach: 0.9,
+    seconds: {
+      sunny: 120,
+      bouncy: 90,
+      snuggly: 120,
+      lucky: 120,
+      picnic: 0,
+      glowy: 180,
+      gem: 0,
+      secret: 0,
+    },
+    sunny: 0.25,
+    bouncy: 0.3,
+    snugglyHappy: 15,
+    snugglyPower: 0.1,
+    luckyMagicFind: 50,
+    glowySight: 4,
+  },
   /**
    * Fog of war (R0153): brightness of cells never seen, seen but out of sight, and in sight.
    * The sight radius is `DUNGEON.explore.radius` plus these bonuses (cells); the outdoor

@@ -1,4 +1,4 @@
-/* global require, process, console, __dirname, window, document, performance */
+/* global require, process, console, __dirname, window, document, performance, setTimeout */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * WORLD-45: the world perf probe. Boots slot 1 at the phone viewport in headless Edge, in Pixel
@@ -27,7 +27,7 @@ const tuning = fs.readFileSync(path.join(ROOT, 'src/config/tuning-world.ts'), 'u
 const m = /phone: \{ calls: ([\d_]+), tris: ([\d_]+)/.exec(tuning);
 const BUDGET = { calls: Number(m[1].replace(/_/g, '')), tris: Number(m[2].replace(/_/g, '')) };
 const PIXEL_SPRITES = 500;
-const SPOTS = [
+const ALL_SPOTS = [
   ['heart', 0, 4],
   ['bridge', 9.6, -4.2],
   ['well', 3, 10],
@@ -48,6 +48,12 @@ const SPOTS = [
   ['cornerSW', -44, 44],
   ['cornerSE', 44, 44],
 ];
+// PROBE_SPOTS=heart,cornerSE probes only those; PROBE_BREAKDOWN=1 adds each spot's draw calls
+// and triangles by category (creature, its hulls, shadow pass, scenery groups).
+const SPOTS = process.env.PROBE_SPOTS
+  ? ALL_SPOTS.filter((s) => process.env.PROBE_SPOTS.split(',').includes(s[0]))
+  : ALL_SPOTS;
+const BREAKDOWN = !!process.env.PROBE_BREAKDOWN;
 
 /**
  * Close whatever dialogue is up (the opening, a discovery card): a story scene stages the
@@ -151,6 +157,62 @@ async function probe(TAG) {
         },
       )
       .catch(() => {});
+    const cats =
+      BREAKDOWN && TAG === '3d'
+        ? await page.evaluate(async () => {
+            const g = window.grove;
+            const r = g.pipeline.renderer;
+            const rigs = g.scene3d.creatureLod.rigs;
+            // What a draw belongs to: the shadow pass, a creature rig (hull or body), or the
+            // first named ancestor (or the geometry's type) for scenery.
+            const cat = (scene, geo, obj, cam) =>
+              (cam && cam.isOrthographicCamera && scene ? 'ortho:' : '') + cat0(scene, geo, obj);
+            const cat0 = (scene, geo, obj) => {
+              let o = obj;
+              let named = '';
+              while (o) {
+                if (rigs.has(o))
+                  return (
+                    (scene ? '' : 'shadow:') + (obj.userData.hull ? 'creature-hull' : 'creature')
+                  );
+                if (!named && o.name) named = o.name;
+                if (!named && o.userData && o.userData.cat) named = o.userData.cat;
+                o = o.parent;
+              }
+              return (
+                (scene ? '' : 'shadow:') +
+                (named || (obj.isInstancedMesh ? 'inst:' : '') + geo.type)
+              );
+            };
+            const acc = {};
+            const orig = r.renderBufferDirect;
+            r.renderBufferDirect = function (camera, scene, geo, mat, obj, group) {
+              const k = cat(scene, geo, obj, camera);
+              const n =
+                (group
+                  ? group.count
+                  : geo.index
+                    ? geo.index.count
+                    : (geo.attributes.position?.count ?? 0)) / 3;
+              const t = Math.round(n * (obj.isInstancedMesh ? obj.count : 1));
+              const a = (acc[k] = acc[k] || [0, 0]);
+              a[0]++;
+              a[1] += t;
+              return orig.call(this, camera, scene, geo, mat, obj, group);
+            };
+            const f0 = g.scene3d.geoFrames;
+            while (g.scene3d.geoFrames < f0 + 10) await new Promise((res) => setTimeout(res, 100));
+            r.renderBufferDirect = orig;
+            const fr = g.scene3d.geoFrames - f0;
+            return Object.entries(acc)
+              .map(([k, [c, t]]) => [k, Math.round(c / fr), Math.round(t / fr)])
+              .sort((a, b) => b[1] - a[1]);
+          })
+        : null;
+    if (cats) {
+      console.log(`-- ${name}: category, calls, tris (per frame)`);
+      for (const c of cats.filter((c, i) => i < 14 || c[2] > 20000)) console.log('   ', c.join('	'));
+    }
     rows.push({
       mode: TAG,
       spot: name,
@@ -181,6 +243,8 @@ async function probe(TAG) {
           maxCalls: s ? max(0) : null,
           maxTris: s ? max(1) : null,
           inView: s ? s.creatureLod.inView : null,
+          far: s ? s.creatureLod.far : null,
+          proxied: s ? s.creatureLod.proxied : null,
           instances: s ? instances(s.scene) : null,
           sprites: s ? null : g.view.batch.drawn,
           culled: s ? null : g.view.batch.culled,

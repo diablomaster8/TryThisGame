@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { DUNGEON, GROVE3D } from '../config/tuning';
-import { cellAt, cellCentre, isWalkable, WALL, type Floor } from '../sim/dungeon';
+import { cellAt, cellCentre, CHASM, isWalkable, WALL, type Floor } from '../sim/dungeon';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
@@ -623,7 +623,8 @@ export class HollowRock implements HollowModule {
     };
     for (let cy = 0; cy < f.rows; cy++)
       for (let cx = 0; cx < f.cols; cx++) {
-        if (vistas.has(cy * f.cols + cx)) continue;
+        // Vistas get a lip, chasms a pit (hollow-chasm.ts): no floor over either.
+        if (vistas.has(cy * f.cols + cx) || cellAt(f, cx, cy) === CHASM) continue;
         let near = false;
         for (let dy = -1; dy <= 1 && !near; dy++)
           for (let dx = -1; dx <= 1 && !near; dx++)

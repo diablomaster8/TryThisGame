@@ -2,6 +2,55 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 3 · Lane D (2026-10-28, branch r3/d)
+
+Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature
+LOD R0079, finish R0078/R0081), then WORLD in R order from R0074 (deferring lane A's files).
+
+- *Works:* creature LOD (R0079): past 8 u a rig is one skinned stand-in on the 48 grid
+  (`render3d/lod-proxy.ts`), past 20 u a cell in a 4 MB atlas drawn as one instanced quad
+  (`impostor-creature.ts`, 2 cells redrawn a frame); hulls stop at 14 u, sun shadows at 20 u.
+  Kit trees are 3 draws, not 9. Phone probe 6/19 → 16/19 under budget, median 314 → 161 calls,
+  414k → 336k tris; 8 Nubbins at the heart: creatures 38 draws, 245k tris. Spare rigs capped by
+  tier, trimmed when hidden, parts behind a stand-in free their buffers (geo 466 → 271). Fast
+  travel with iris, carry and partners (R0074); Grove collectibles (R0091); per-region hour
+  (R0092) and seeded per-region weather (R0094). `PROBE_BREAKDOWN=1 PROBE_SPOTS=…` on the probe.
+- *Stubbed:* postcard unlocks and the old key's secret (R0091); region hours and weather only
+  show once a second region is drawn; R0093 signposts (need lane A's pixel files).
+- *Known:* far creatures animate at 7.5 fps; at westHill, farOrchard and cornerSE the draws
+  sit at 186–228, spread over many small scenery kits. Assumption: the iris centres on the
+  view's middle (the camera keeps the Keeper there), not on the Keeper's exact pixel.
+
+## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
+
+The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
+`docs/progress-archive.md`; per-item status in `recs-2026-10-27/STATUS.md`.
+
+- **A MOVE.** *Works:* Nubbin hops onto tops by stat and personality, thrown Nubbins land on
+  tops, NPC routing round solids, 3D wild props, slope slowdown, auto-run, path dots, surface
+  footfalls, race hurdles, partner slots. *Stubbed:* Pixel ramp lean, 3D flap on hops, pad
+  glyphs. *Known:* a nav/ledge pocket near (28, -33); hops cost the full-life test about 6%.
+- **B DUNG.** *Works:* Hollow packs fight on the battle core; save v9 (act seeds with a daily
+  reroll, waypoints, the Homing Acorn, remembered levels); solid landmark; fog and automap.
+  *Stubbed:* outdoor zones and towns; Pixel waypoint stones, fog and packs (need
+  `world-view.ts`). *Known:* a fresh pair loses to three or more foes (pack size capped).
+- **C FIGHT.** *Works:* derived battle stats, one damage formula, grade traits, the type loop,
+  Puff, statuses and moods, 62 moves as data, four slots per Nubbin, choose-then-resolve turns.
+  *Stubbed:* battle items, the 3D dojo view (R0219). *Known:* old turn bouts close as draws; on
+  a phone the last move row sits under Leave until scrolled.
+- **D WORLD.** *Works:* 3D terrain drawn by view chunk; creature shadows and hulls culled by
+  view and geometry level; grass by device tier; memory readout and debug World row; portrait
+  walking lead; jump metrics checked against the real jump; the Wood laid out as data; twelve
+  world traces. Phone 3D probe: 6/19 spots under budget (5 before). *Stubbed:* creature LOD
+  (R0079) is what the other spots need; the Wood and the traces are not drawn. *Known:* a double
+  jump can't climb two terrace levels.
+- **E LOOK.** *Works:* the legs-out sit, more vivid 3D colours, serpents and 27 four-legged
+  species in both modes, Greymon kit extras, signature parts sized for the game camera, arm
+  rest, toon ramp without the black collar. *Stubbed:* `quad.tailSet`, band-tinted bubbles.
+  *Known:* pixel serpents reach only 1.0–1.6× long.
+- **All lanes.** Under load the full-life, sculpt and nav timing tests can fail in a full run;
+  each passes alone. No budget was loosened.
+
 ## Round 2 · Lane D (2026-10-28, branch r2/d)
 
 Phone 3D perf first, then WORLD. Measured first: on a phone the scenery is about 150 draws

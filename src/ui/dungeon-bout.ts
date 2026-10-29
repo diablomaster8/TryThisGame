@@ -5,6 +5,8 @@ import { HOLLOW_TEXT } from '../config/strings-dungeon';
 import type { Game } from '../game';
 import { standing, type BattleAction, type BattleState, type Combatant } from '../sim/battle';
 import { HOLLOW_BATTLE_SOURCE } from '../sim/dungeon-encounters';
+import { runFloor } from '../sim/dungeon';
+import { championMod, PLATE_GLYPH } from '../config/dungeon-foes';
 import { button, el, modal } from './dom';
 
 /**
@@ -141,6 +143,12 @@ export class HollowBoutPanel {
   private render(s: BattleState): void {
     this.body.innerHTML = '';
     this.body.appendChild(el('p', 'help', BATTLE_TEXT.round(s.turn, s.context.tier)));
+    // A champion, elite or boss pack's plate, shape and words (R0155).
+    const plate = packPlate(
+      this.game(),
+      s.context.kind === 'encounter' ? s.context.key : undefined,
+    );
+    if (plate) this.body.appendChild(el('p', 'hollow-plate', plate));
     const side = (title: string, list: Combatant[]) => {
       this.body.appendChild(el('div', 'btn-name', title));
       const box = el('div', 'battle-side');
@@ -193,4 +201,15 @@ export class HollowBoutPanel {
     }
     this.body.appendChild(row);
   }
+}
+
+/** "◆ Champion pack · » Zoomy" for the pack a bout is with, or null for a plain one. */
+function packPlate(g: Game | null, key: string | undefined): string | null {
+  const f = g ? runFloor(g.world) : null;
+  const pack = f?.packs?.find((p) => p.id === key);
+  if (!pack || !PLATE_GLYPH[pack.kind]) return null;
+  const mods = (pack.members[0]?.mods ?? []).map(
+    (m) => `${championMod(m).icon} ${championMod(m).name}`,
+  );
+  return [`${PLATE_GLYPH[pack.kind]} ${HOLLOW_TEXT.plate[pack.kind]}`, ...mods].join(' · ');
 }

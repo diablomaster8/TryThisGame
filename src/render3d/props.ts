@@ -17,7 +17,7 @@ import { bridgeDeckTop } from '../sim/terrain';
 import { BRIDGE_YAW } from '../config/tuning-sim';
 import { addHull } from './toon-outline';
 import { occluders } from './occluders';
-import { buildWildGround, buildWildTrees } from './wild';
+import { buildWildGround, buildWildTrees, compactTree } from './wild';
 
 /**
  * The Grove's dressing in 3D, placed from the same GROVE numbers the pixel scenery
@@ -511,7 +511,10 @@ export function buildGroveTrees(
 ): GroveTree[] {
   const made: GroveTree[] = [];
   trees.forEach((t, i) => {
-    const parts = buildTree(scene, tex, t.pos.x, t.pos.z, 1.05, i + 1, groveHeight, time);
+    const parts = compactTree(
+      scene,
+      buildTree(scene, tex, t.pos.x, t.pos.z, 1.05, i + 1, groveHeight, time),
+    );
     const trunk = parts[0];
     if (trunk) pick(trunk, 'tree', t.id, pickables);
     const tree = treeOf(parts);

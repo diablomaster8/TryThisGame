@@ -65,7 +65,7 @@ export class FogField {
     const key = `${run.explored.length}:${run.explored}:${kc.x},${kc.y}`;
     if (key === this.key) return;
     this.key = key;
-    fogBytes(exploredMask(run, f), f.cols, f.rows, kc, sightRadius(), HOLLOW.fog, this.bytes);
+    fogBytes(exploredMask(run, f), f.cols, f.rows, kc, sightRadius(run), HOLLOW.fog, this.bytes);
     this.uniforms.uFogTex.value.needsUpdate = true;
   }
 

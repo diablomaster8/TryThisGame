@@ -9,11 +9,11 @@ import { moodOf } from '../sim/needs';
 import { flaps, swimsStroke } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
-import { keeperFooting, keeperGliding } from '../sim/keeper';
+import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
-import { BUSH, FOOTFALL, KEEPER_JUMP_FX, RUN_MODE } from '../config/tuning-move';
+import { BUSH, FOOTFALL, KEEPER_JUMP_FX, POND_DIP, RUN_MODE } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -264,8 +264,12 @@ export class WorldView {
   private keeperJumpClip(world: World, nowMs: number, gap: number): KeeperJumpClip | null {
     const k = world.keeper;
     if (nowMs - this.keeperLandAt < this.keeperLandMs) return 'jump-land';
+    // A roll (MOVE-64) tucks into the crouch frame all the way along.
+    if (keeperRoll(world) !== null) return 'jump-crouch';
     if (k.grounded) return null;
     const fx = KEEPER_JUMP_FX;
+    // A mantle (MOVE-50) scrambles up with the knees tucked: the crouch frame.
+    if (keeperMantle(world) !== null) return 'jump-crouch';
     if (nowMs - this.keeperJumpAt < fx.crouchMs && gap < fx.crouchGap) return 'jump-crouch';
     if (k.vy > fx.apexVy) return 'jump-rise';
     return k.vy < -fx.apexVy ? 'jump-fall' : 'jump-apex';
@@ -1067,8 +1071,15 @@ export class WorldView {
     // The Keeper's height off the flat painted ground (MOVE-10/13): a jump lifts it, a
     // bench raises it, and the stream sinks its feet under the ground plane, which hides them.
     const { off, floor } = kHeld ? { off: 0, floor: 0 } : this.keeperOffset(world, kx, kz, alpha);
+    // MOVE-65: a pond dip sinks the drawn Keeper under the water and sends up bubble rings.
+    const dip = keeperDip(world);
+    const dipBy = dip === null ? 0 : POND_DIP.depth * Math.sin(Math.PI * dip);
+    if (dip !== null && nowMs - this.keeperDustMs > POND_DIP.bubbleMs) {
+      this.keeperDustMs = nowMs;
+      this.particles.ripple(kx + Math.sin(nowMs) * 0.15, kz + Math.cos(nowMs * 1.3) * 0.15);
+    }
     const kbase = (kHeld ? terraceY(kx, kz) : 0) + (kpose?.lift ?? 0);
-    const ky = kbase + off;
+    const ky = kbase + off - dipBy;
     // MOVE-21: the shadow lies on what the feet are over (bench, deck), shrinking with the gap.
     shadow(kx, Math.max(0, off - floor), kz, 0.45, kbase + floor + (floor > 0 ? 0.01 : 0));
     // MOVE-44: after a tap, dots along the path and a marker on the ground at the target.
@@ -1121,14 +1132,20 @@ export class WorldView {
       const clip2: ClipName = moving2 ? 'walk' : 'idle';
       const view2 = viewAngle(k2.facing, yaw);
       const rect2 = sheet2.frames.get(frameKey(clip2, view2.angle, frameAt(CLIPS[clip2], nowMs)));
-      shadow(k2.pos.x, 0, k2.pos.z, 0.45);
+      // MOVE-54: Keeper 2 jumps and stands on tops as Keeper 1 does; its feet are its own height.
+      const g2 = runFloor(world) ? 0 : paintedGround(k2.pos.x, k2.pos.z);
+      const off2 = k2.y - g2;
+      const floor2 = runFloor(world)
+        ? 0
+        : Math.max(0, keeperFooting(world, k2.pos.x, k2.pos.z, k2.y).y - g2);
+      shadow(k2.pos.x, Math.max(0, off2 - floor2), k2.pos.z, 0.45, floor2);
       if (rect2) {
         batch.draw({
           sheet: sheet2,
           rect: rect2,
           flip: view2.flip,
           x: k2.pos.x,
-          y: 0,
+          y: off2,
           z: k2.pos.z,
           mode: 'billboard',
           tint: this.dim,
@@ -1447,6 +1464,7 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperRolled':
       case 'keeperLanded':
       case 'keeperJumped': {
         // MOVE-21: a little dust each side on landing, a puff of sparkles under a double
@@ -1454,6 +1472,17 @@ export class WorldView {
         if (p.reduceMotion) break;
         const k = this.keeperPrev;
         const feet = Math.max(0.05, k.y - paintedGround(k.pos.x, k.pos.z) + 0.05);
+        if (e.kind === 'keeperRolled') {
+          // MOVE-64: a puff of dust where the roll starts.
+          p.burst('dust', k.pos.x, feet, k.pos.z, KEEPER_JUMP_FX.landDust * 2, {
+            spread: 0.25,
+            speed: 0.6,
+            rise: 0.15,
+            lifeMs: 300,
+            size: 0.35,
+          });
+          break;
+        }
         if (e.kind === 'keeperLanded') {
           const n = KEEPER_JUMP_FX.landDust;
           for (const side of [-1, 1])

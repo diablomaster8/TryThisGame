@@ -1,5 +1,6 @@
 import {
   Box3,
+  Vector3,
   type BufferGeometry,
   type Light,
   type Material,
@@ -20,6 +21,7 @@ import { speciesArt } from '../render/sprites/species-art';
 import { partsModBody } from '../samples/nubbin-critter-parts';
 import { specForKey, tintMods } from './looks';
 import { SculptFarm } from './sculpt-farm';
+import { qualityForRes } from './sculpt-res';
 import { stubOnce } from './stubs';
 
 /**
@@ -120,6 +122,10 @@ export class CreaturePool {
   /** Marched surfaces by look key, once the workers have them. */
   private readonly ready = new Map<string, BufferGeometry[]>();
   private readonly asked = new Set<string>();
+  /** R0079: coarse-grid surfaces by look key, for the stand-ins, and the looks asked for. */
+  private readonly low = new Map<string, BufferGeometry[]>();
+  private readonly lowAsked = new Set<string>();
+  private lowQ = 1;
   /** Looks whose sculpt failed: how often, and not to ask again before `untilMs`. */
   private readonly failed = new Map<string, { n: number; untilMs: number }>();
   /** When each look key was last asked for or handed back, for eviction by recency. */
@@ -147,6 +153,8 @@ export class CreaturePool {
    * rigs at once and compiles in parallel; after it lifts, one rig a frame again.
    */
   burst = true;
+  /** R0081: spare rigs kept at most (the scene sets it by device tier, `WORLD_MEM.poolSpares`). */
+  spareCap: number = GROVE3D.poolSpares;
   /** Surfaces the warm looks need, and how many have landed: the loading bar. */
   private warmSurfaces = 0;
   private landed = 0;
@@ -185,7 +193,12 @@ export class CreaturePool {
     try {
       rig = buildSpecies(
         specForKey(look.key),
-        geos.map((g) => g.clone()),
+        // Each part's surface index, so its stand-in can take the coarse grid (`lowSurface`).
+        geos.map((g, i) => {
+          const c = g.clone();
+          c.userData.surf = i;
+          return c;
+        }),
       );
     } finally {
       Object.assign(TOON, was);
@@ -268,7 +281,7 @@ export class CreaturePool {
     // Never while the loading veil is up: every warm look is about to be needed.
     if (this.burst) return;
     const spares = [...this.free.entries()].map(([k, l]) => [k, l.length] as const);
-    for (const key of evictionOrder(spares, this.used, GROVE3D.poolSpares)) this.discard(key);
+    for (const key of evictionOrder(spares, this.used, this.spareCap)) this.discard(key);
     const looks = [...this.ready.keys()]
       .filter((k) => !this.free.has(k))
       .map((k) => [k, 1] as const);
@@ -278,6 +291,7 @@ export class CreaturePool {
       for (const g of this.ready.get(key) ?? []) g.dispose();
       this.farm.forget(key, this.quality);
       this.ready.delete(key);
+      this.dropLow(key);
       this.asked.delete(key);
       this.used.delete(key);
     }
@@ -320,6 +334,66 @@ export class CreaturePool {
     this.farm.saveSoon();
   }
 
+  /**
+   * R0079: whether a look's coarse-grid surfaces (sculpt grid `res`) are back for its
+   * stand-in: `none` when the rig's own grid is that coarse already. The first ask starts
+   * the march in the workers.
+   */
+  lowState(key: string, res: number): 'ready' | 'pending' | 'none' {
+    const q = qualityForRes(res);
+    if (q >= this.quality) return 'none';
+    if (this.low.has(key)) return 'ready';
+    if (!this.lowAsked.has(key)) {
+      this.lowAsked.add(key);
+      this.lowQ = q;
+      this.farm.surfaces(key, q).then(
+        (geos) => {
+          if (this.lowAsked.has(key)) this.low.set(key, geos);
+        },
+        () => this.lowAsked.delete(key),
+      );
+    }
+    return 'pending';
+  }
+
+  /**
+   * The coarse-grid version of a rig part's surface (see `lowState`), placed as the part's
+   * own geometry is. Null when the part is not a plain moved copy of its surface.
+   */
+  lowSurface(key: string, part: BufferGeometry): BufferGeometry | null {
+    const i = part.userData.surf as number | undefined;
+    const low = this.low.get(key);
+    if (i === undefined || !low) return null;
+    const full = this.ready.get(key)?.[i];
+    const src = low[i];
+    if (!full || !src) return null;
+    // The part is its surface moved to the pivot (`buildSpecies`): find the move from the first
+    // vertex and check it against the bounds, so a part built any other way keeps its own.
+    const a = part.attributes.position!;
+    const b = full.attributes.position!;
+    if (a.count !== b.count) return null;
+    const dx = a.getX(0) - b.getX(0);
+    const dy = a.getY(0) - b.getY(0);
+    const dz = a.getZ(0) - b.getZ(0);
+    part.computeBoundingBox();
+    full.computeBoundingBox();
+    const moved = full.boundingBox!.clone().translate(new Vector3(dx, dy, dz));
+    const off =
+      moved.min.distanceTo(part.boundingBox!.min) + moved.max.distanceTo(part.boundingBox!.max);
+    if (off > 1e-3) return null;
+    return src.clone().translate(dx, dy, dz);
+  }
+
+  /**
+   * R0081: let go of what can be rebuilt (the page is hidden, and a phone may kill a hidden tab
+   * that holds on to memory): every spare rig and every coarse-grid surface. The surfaces
+   * the rigs in the scene were built from stay, so nothing on screen needs a march to come back.
+   */
+  trim(): void {
+    for (const key of [...this.free.keys()]) this.discard(key);
+    for (const key of [...this.low.keys()]) this.dropLow(key);
+  }
+
   /** Whether a look's surfaces are back, so `acquire` can build it. */
   isReady(key: string): boolean {
     return this.ready.has(key) || (this.free.get(key)?.length ?? 0) > 0;
@@ -342,6 +416,13 @@ export class CreaturePool {
     for (const geos of this.ready.values()) for (const g of geos) g.dispose();
     this.ready.clear();
     this.asked.clear();
+    for (const key of [...this.low.keys()]) this.dropLow(key);
+  }
+
+  private dropLow(key: string): void {
+    for (const g of this.low.get(key) ?? []) g.dispose();
+    if (this.low.delete(key)) this.farm.forget(key, this.lowQ);
+    this.lowAsked.delete(key);
   }
 
   private request(key: string): void {

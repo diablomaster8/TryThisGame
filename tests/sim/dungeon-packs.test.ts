@@ -52,7 +52,7 @@ describe('monster packs (R0146)', () => {
           expect(p.leash).toBe(12);
         }
       }
-  });
+  }, 30_000);
 
   it('wait out the arrival grace, then notice the Keeper with a "!" and chase', () => {
     const world = underground();

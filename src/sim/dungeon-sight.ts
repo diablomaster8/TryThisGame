@@ -1,6 +1,7 @@
 import { DUNGEON, HOLLOW } from '../config/tuning';
 import type { Cell, Floor } from './dungeon';
 import { cellOf, exploredMask, isExplored } from './dungeon';
+import { shrineSight } from './dungeon-shrines';
 import type { DungeonRun, Vec2 } from './types';
 
 /**
@@ -16,10 +17,10 @@ export const FOG_REMEMBERED = 1;
 export const FOG_VISIBLE = 2;
 export type FogState = typeof FOG_HIDDEN | typeof FOG_REMEMBERED | typeof FOG_VISIBLE;
 
-/** The sight radius in cells. Never wider than the explore radius until the bonuses land. */
-export function sightRadius(): number {
+/** The sight radius in cells; a Glowy shrine (R0159) widens it for a while. */
+export function sightRadius(run: DungeonRun | null = null): number {
   const b = HOLLOW.fog.sightBonus;
-  return DUNGEON.explore.radius + b.outdoor + b.light;
+  return DUNGEON.explore.radius + b.outdoor + b.light + shrineSight(run);
 }
 
 /** The "in sight" rule: within `r` cells of the Keeper's cell, on the same disc the mask uses. */
@@ -77,7 +78,15 @@ export function fogBytes(
 /** The fog state at a world position on the run's floor, seen from the Keeper's position. */
 export function fogAt(run: DungeonRun, f: Floor, keeper: Vec2, p: Vec2): FogState {
   const c = cellOf(f, p);
-  return fogState(exploredMask(run, f), f.cols, f.rows, cellOf(f, keeper), sightRadius(), c.x, c.y);
+  return fogState(
+    exploredMask(run, f),
+    f.cols,
+    f.rows,
+    cellOf(f, keeper),
+    sightRadius(run),
+    c.x,
+    c.y,
+  );
 }
 
 /** Live actors (strays, packs, wild ones) draw only in sight; loot and props once seen. */

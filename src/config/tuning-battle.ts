@@ -97,6 +97,99 @@ export const BATTLE = {
     zipSpread: [0.95, 1.05] as const,
     /** Catch your breath (and later switching and items) goes first. */
     breathPriority: 3,
+    /** Swapping in a benched Nubbin and using an item go first too (FIGHT-19, FIGHT-20). */
+    swapPriority: 3,
+    itemPriority: 3,
+  },
+  /** Battle items from the inventory (recs FIGHT-20). */
+  items: {
+    /** Plain fruit heals this share of max HP and cures Peckish. */
+    fruitHeal: 0.3,
+    /** A Sun or Moon fruit lends its alignment to the holder's moves this many turns. */
+    alignTurns: 3,
+    /** A thrown toy: the foe skips this many turns playing with it (once per foe). */
+    toySkip: 1,
+    /** At most this many items per side per turn. */
+    perTurn: 2,
+  },
+  /** Befriending wild foes (recs FIGHT-21): Calm 0..100. */
+  befriend: {
+    max: 100,
+    /** Calm += base + low × (1 − hp/maxHp) + treat, for a snack or a gentle move. */
+    base: 15,
+    low: 25,
+    /** A flavoured fruit offered as a snack is a better treat than plain fruit. */
+    treatFlavour: 10,
+    /** A toy thrown at a wild foe. */
+    toy: 20,
+    /** Bonking a wild foe. */
+    bonk: -5,
+    /** A tuckered wild foe goes home and fills this much of its scan. */
+    tuckeredScan: 25,
+    /** No room on the roster: the thank-you gift. */
+    giftShells: 30,
+  },
+  /** The three AI levels (recs FIGHT-23) and the personality overlay. */
+  ai: {
+    sprout: { breath: 0.2 },
+    keeper: { funPick: 0.15, switchChance: 0.3, badMatchup: 1.5 },
+    /**
+     * Snacks under this HP share; swaps from a matchup this bad (off: it did not help in the
+     * mirror test); judges each choice over this many rolls; a non-hit must beat the best hit
+     * by `margin`; the score weighs the foe's HP by `aggression`, a standing one by `upWorth`,
+     * a status and each mood stage by their worths.
+     */
+    champion: {
+      itemBelow: 0.4,
+      swapAt: 99,
+      samples: 3,
+      depth: 1,
+      margin: 0.1,
+      aggression: 5,
+      upWorth: 0.6,
+      puffWorth: 0,
+      statusWorth: 0.5,
+      moodWorth: 0.1,
+    },
+    personality: {
+      cheerfulAllyBelow: 0.5,
+      shyGuardBelow: 0.4,
+      mischiefStatus: 0.15,
+      lazyBreath: 0.1,
+    },
+  },
+  /** Gentle bouts (recs FIGHT-24). */
+  gentle: {
+    /** The bout ends in a play-fight hug after this many turns if nobody is tuckered. */
+    hugAfter: 8,
+    /** Prizes are this share of the usual. */
+    prizeShare: 0.5,
+    /** The free cuddle fruit heals this share. */
+    cuddleHeal: 0.3,
+  },
+  /** The dojo's Power swing (recs FIGHT-28): a Bonk with a sweet-spot tap hits this hard. */
+  swing: { sweet: 1.2 },
+  /** The future tactical grid (recs MOVE-61): tiles of 1 unit, height levels of 0.5. */
+  grid: { tile: 1, level: 0.5, jumpBase: 1, jumpPer: 30, moveBase: 3, movePer: 25 },
+  /** The battle stage in the open Grove (recs MOVE-62): units. */
+  arena: {
+    radius: 10,
+    /** A combatant's body and a thrown move's radius. */
+    body: 0.4,
+    thrown: 0.2,
+    /** Sweeps move in steps this long, so nothing tunnels through a thin fence. */
+    step: 0.1,
+  },
+  /** The Grove Circuit (recs FIGHT-22). */
+  circuit: {
+    /** Rematch teams are this many levels above the tier-3 level for the party. */
+    championBonus: 8,
+    gimmickBoost: 1.1,
+    /** Dusty's team starts Drowsy this often. */
+    napChance: 0.5,
+    prize: [60, 120, 200] as const,
+    championPrize: 300,
+    skillPoints: 1,
   },
   /**
    * Rival strength follows the party (recs FIGHT-06): level = clamp(party average + offset,

@@ -1,8 +1,9 @@
 import * as THREE from 'three';
 import { GROVE3D } from '../config/tuning';
-import { cellAt, WATER, type Floor } from '../sim/dungeon';
+import type { Floor } from '../sim/dungeon';
 import type { DungeonLootKind } from '../sim/types';
 import { CELL } from './hollow-ctx';
+import { looksWet } from './hollow-dress-path';
 import { BALL, BOX, CONE, CYL, Kit, prim, ROCK, SPHERE } from './hollow-dress-kit';
 
 /**
@@ -143,7 +144,7 @@ export const FLAT = () => prim('flat', () => new THREE.PlaneGeometry(1, 1).rotat
  * touches dry ground, so foam rings the shore.
  */
 export function poolGeometry(f: Floor): THREE.BufferGeometry | null {
-  const wet = (x: number, y: number) => cellAt(f, x, y) === WATER;
+  const wet = (x: number, y: number) => looksWet(f, x, y);
   const top = (x: number, y: number) => f.elevation[y * f.cols + x] ?? 0;
   const corners = new Map<number, number>();
   const pos: number[] = [];

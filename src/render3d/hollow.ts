@@ -5,6 +5,11 @@ import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
 import type { CaveLamps } from './cave-lamps';
 import { HollowAtmos } from './hollow-atmos';
+import { HollowChasm } from './hollow-chasm';
+import { HollowTrail } from './hollow-trail';
+import { HollowPlates } from './hollow-plates';
+import { HollowShrines } from './hollow-shrines';
+import { HollowTraps } from './hollow-traps';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowFog } from './hollow-fog';
@@ -49,6 +54,16 @@ export class Hollow {
   private readonly atmos = new HollowAtmos();
   private readonly pop = new HollowPop();
   private readonly waypoint = new HollowWaypoint();
+  /** Chasm pits (R0031). */
+  private readonly chasm = new HollowChasm();
+  /** Dropped stray Shells (R0162). */
+  private readonly trail = new HollowTrail();
+  /** Name plates over champion, elite and boss packs (R0155). */
+  private readonly plates = new HollowPlates();
+  /** Shrines (R0159). */
+  private readonly shrines = new HollowShrines();
+  /** Trap tiles (R0161). */
+  private readonly traps = new HollowTraps();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
   private readonly fog = new HollowFog();
   /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
@@ -85,7 +100,20 @@ export class Hollow {
     this.dress.useLights(this.light_);
     // A lit sconce re-bakes the floor's light.
     this.light_.rebake = () => this.rock.rebake();
-    this.mods = [this.fog, this.rock, this.dress, this.light_, this.atmos, this.pop, this.waypoint];
+    this.mods = [
+      this.fog,
+      this.rock,
+      this.chasm,
+      this.dress,
+      this.light_,
+      this.atmos,
+      this.pop,
+      this.waypoint,
+      this.trail,
+      this.plates,
+      this.shrines,
+      this.traps,
+    ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
     const pool = new THREE.BufferGeometry();

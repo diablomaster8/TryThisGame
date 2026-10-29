@@ -11,10 +11,17 @@ import { end } from './damage';
 import { karateAct, karateClock } from './karate';
 import { setSlots, syncMoves } from './moves-sources';
 import { battleSeedFor, grantRewards } from './rewards';
+import { CIRCUIT_GIMMICK, circuitOpen, circuitTeam } from './circuit';
+import { bagFrom } from './items';
+import { inflict } from './status';
+import type { BattlePrefs } from '../types';
 import { turnAct } from './turn';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
+const T = BATTLE.turn;
+/** Logged In's digital foes: a Power, a Swim and a Fly line (FIGHT-29). */
+const LOGGED_FOES = ['dinolet', 'croaklet', 'skyserpent'];
 
 function partyOf(world: World, ids: string[]): Nubbin[] {
   const out: Nubbin[] = [];
@@ -52,36 +59,35 @@ export function createBattle(
     foes = [scaleForDojo(rivalOf(0, lv, tier, allies, DEFAULT_RIVAL, tier - 1, opts, rng), tier)];
   } else {
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
-    const party = partyOf(world, context.ids);
+    if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
+      return null;
+    if (context.kind === 'dojo' && tier > world.karate.belt + 1) return null;
+    const party = partyOf(world, context.ids).slice(0, context.kind === 'encounter' ? 6 : 3);
     if (party.length === 0) return null;
     allies = party.map((n) => combatantOf(n, world));
     const lv = rivalLevel(allies, tier);
     const opts = { share: BATTLE.rivals.foeShare, hpShare: BATTLE.rivals.foeHpShare };
-    const T = BATTLE.turn;
-    const specs =
-      context.kind === 'encounter'
-        ? context.foes.slice(0, 6).map((f) => ({ species: f.species, level: f.level }))
-        : Array.from({ length: Math.min(T.foesPerTier, party.length) }, () => ({
-            species: DEFAULT_RIVAL,
-            level: lv,
-          }));
+    const specs = foeSpecs(world, context, lv, party.length);
     if (specs.length === 0) return null;
-    foes = specs.map((f, i) =>
-      rivalOf(
+    foes = specs.map((f, i) => {
+      const c = rivalOf(
         i,
         Math.max(0, Math.min(99, Math.round(f.level))),
         tier,
         allies,
         f.species,
-        FOE_NAME_BASE + ((tier + i) % T.foeNames),
+        f.name ?? FOE_NAME_BASE + ((tier + i) % T.foeNames),
         opts,
         rng,
-      ),
-    );
+      );
+      if (f.wild || f.shadow) c.calm = 0;
+      if (f.shadow) c.shadow = true;
+      return c;
+    });
   }
   const log: BattleState['log'] = [];
   for (const c of allies) if (c.yawny && mode === 'turn') log.push({ k: 'yawny', who: c.id });
-  return {
+  const state: BattleState = {
     v: 2,
     mode,
     seed,
@@ -96,6 +102,70 @@ export function createBattle(
     context,
     ...(mode === 'karate' ? { karate: karateClock(tier) } : {}),
   };
+  if (mode === 'turn') dressTurnBout(world, state, rng);
+  state.rngState = rng.state;
+  return state;
+}
+
+/** Foes for a turn bout: by context (recs FIGHT-19, -22, -29). */
+function foeSpecs(
+  world: World,
+  context: Exclude<BattleContext, { kind: 'karate' }>,
+  lv: number,
+  partySize: number,
+): { species: string; level: number; name?: number; wild?: boolean; shadow?: boolean }[] {
+  switch (context.kind) {
+    case 'encounter':
+      return context.foes.slice(0, 6).map((f) => ({ ...f }));
+    case 'circuit': {
+      const team = circuitTeam(world, context.trainer, !!context.champion);
+      const level = context.champion ? Math.min(99, lv + BATTLE.circuit.championBonus) : lv;
+      return team.map((species) => ({ species, level }));
+    }
+    case 'story':
+      // Logged In: Glitch, Proxy and Null, digital foes whose type follows their place.
+      return LOGGED_FOES.slice(0, 3).map((species, i) => ({
+        species,
+        level: lv,
+        name: FOE_NAME_BASE + i,
+      }));
+    case 'dojo':
+      return [{ species: DEFAULT_RIVAL, level: lv }];
+    case 'party':
+      return Array.from({ length: Math.min(T.foesPerTier, partySize) }, () => ({
+        species: DEFAULT_RIVAL,
+        level: lv,
+      }));
+  }
+}
+
+/** Singles, the AI level, gentle bouts, the bag and a Circuit Keeper's field rule. */
+function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
+  const c = s.context;
+  // The old all-at-once party bout keeps its format; the new kinds are singles.
+  const singles = c.kind === 'encounter' ? !!c.singles : c.kind !== 'karate' && c.kind !== 'party';
+  if (singles) s.lead = [0, 0];
+  if (c.kind === 'circuit') {
+    s.ai = c.champion ? 'champion' : c.tier >= 3 ? 'champion' : 'keeper';
+    const g = CIRCUIT_GIMMICK[c.trainer];
+    if (g) s.gimmick = g;
+    if (c.champion) s.foeBag = { fruit: 2 };
+  }
+  if (world.edu || world.battlePrefs?.gentle) {
+    s.gentle = world.edu ? (world.edu.band === 'sprout' ? 'sprout' : 'reader') : 'all';
+  }
+  const bag = bagFrom(world);
+  if (Object.keys(bag).length) s.bag = bag;
+  if (s.gimmick === 'shuffle')
+    for (const a of s.sides[0]) {
+      for (let i = a.moves.length - 1; i > 0; i--) {
+        const j = rng.int(0, i);
+        [a.moves[i], a.moves[j]] = [a.moves[j]!, a.moves[i]!];
+      }
+    }
+  if (s.gimmick === 'naps')
+    for (const f of s.sides[1])
+      if (rng.chance(BATTLE.circuit.napChance)) inflict(s, rng, f, f, 'drowsy', 1);
 }
 
 /**
@@ -159,4 +229,17 @@ export function forfeitBattleCmd(world: World, events: SimEvent[]): void {
   if (!s) return;
   battleForfeit(s);
   grantRewards(world, s, events);
+}
+
+/** Settings and the party sheet: the last party, Gentle bouts, the playback speed. */
+export function setBattlePrefsCmd(world: World, prefs: Partial<BattlePrefs>): void {
+  const p = (world.battlePrefs ??= {});
+  if (prefs.party) {
+    const ids = partyOf(world, prefs.party)
+      .map((n) => n.id)
+      .slice(0, 3);
+    if (ids.length) p.party = ids;
+  }
+  if (prefs.gentle !== undefined) p.gentle = prefs.gentle;
+  if (prefs.speed === 1 || prefs.speed === 2) p.speed = prefs.speed;
 }

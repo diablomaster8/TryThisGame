@@ -24,7 +24,7 @@ import { storySettings } from './edu-story';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import { mountMinimapSetting } from './minimap';
-import { MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
+import { CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
@@ -49,6 +49,8 @@ export class SettingsMenu {
   /** MOVE-24: Auto-hop on tap walks. */
   private readonly autoHop: HTMLInputElement;
   private readonly autoRun: HTMLInputElement;
+  private readonly camFollow: HTMLInputElement;
+  private readonly leftHand: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -259,6 +261,30 @@ export class SettingsMenu {
     );
     runRow.append(this.autoRun, rText);
     body.appendChild(runRow);
+    // Camera follows walking (MOVE-53), off unless chosen.
+    const camRow = el('label', 'check-row');
+    this.camFollow = el('input');
+    this.camFollow.type = 'checkbox';
+    this.camFollow.addEventListener('change', () => this.apply());
+    const fText = el('span');
+    fText.append(
+      el('strong', undefined, CAMERA_TEXT.follow),
+      el('small', undefined, CAMERA_TEXT.followHelp),
+    );
+    camRow.append(this.camFollow, fText);
+    body.appendChild(camRow);
+    // Left-handed (MOVE-14): the thumb buttons and the pad swap sides.
+    const handRow = el('label', 'check-row');
+    this.leftHand = el('input');
+    this.leftHand.type = 'checkbox';
+    this.leftHand.addEventListener('change', () => this.apply());
+    const lText = el('span');
+    lText.append(
+      el('strong', undefined, HAND_TEXT.left),
+      el('small', undefined, HAND_TEXT.leftHelp),
+    );
+    handRow.append(this.leftHand, lText);
+    body.appendChild(handRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -353,6 +379,8 @@ export class SettingsMenu {
     this.gentle.checked = g.world.settings.gentleJumps;
     this.autoHop.checked = autoHopOn(g.world);
     this.autoRun.checked = !!g.world.settings.autoRun;
+    this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
+    this.leftHand.checked = !!g.world.settings.leftHanded;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -488,6 +516,10 @@ export class SettingsMenu {
     if (this.autoHop.checked !== autoHopOn(g.world)) settings.autoHop = this.autoHop.checked;
     if (this.autoRun.checked !== !!g.world.settings.autoRun)
       settings.autoRun = this.autoRun.checked;
+    if (this.camFollow.checked !== !!g.world.settings.cameraFollowsWalk)
+      settings.cameraFollowsWalk = this.camFollow.checked;
+    if (this.leftHand.checked !== !!g.world.settings.leftHanded)
+      settings.leftHanded = this.leftHand.checked;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

@@ -218,6 +218,112 @@ export function formatEvent(e: BattleEvent, name: (id: string) => string): strin
       return null;
     case 'end':
       return null;
+    default:
+      return formatRound3(e, name);
   }
-  return null;
+}
+
+/** The full-screen battle screen, the party sheet, the dojo and the Circuit (round 3). */
+export const BATTLE_SCREEN_TEXT = {
+  back: '‹ Back',
+  leaveAsk: 'Leave the bout? Nothing is won or lost.',
+  leaveYes: 'Leave',
+  leaveNo: 'Stay',
+  swap: 'Swap',
+  item: 'Item',
+  breath: 'Breath',
+  hug: 'Hug',
+  speed: (n: number) => `×${n}`,
+  speedLabel: 'Playback speed',
+  pickNext: 'Who goes next?',
+  swapTitle: 'Swap in',
+  itemTitle: 'Use an item',
+  noItems: 'Nothing in your bag.',
+  onWho: (item: string) => `${item}: on who?`,
+  calm: 'Calm',
+  calmIcon: '🕊',
+  waiting: 'Watching…',
+  yourTurn: (name: string) => `What will ${name} do?`,
+  tapToSkip: 'Tap to skip',
+  matchGood: '×1.5',
+  matchPoor: '×0.67',
+  results: 'Bout over',
+  won: 'You win!',
+  lost: "Everyone's tuckered out. Snack break!",
+  hugged: 'A play-fight hug! Everyone had fun.',
+  friends: 'They decided to come home with you!',
+  draw: 'A long bout. Call it a draw.',
+  newFriend: (name: string) => `${name} came home with you.`,
+  calmed: (name: string, calm: number) => `${name}: Calm ${calm}/100`,
+  backToGrove: 'Back to the Grove',
+  /** Gentle bouts: the glowing move's hint. */
+  hint: (move: string, word: string) => `Try ${move}! ${word}`,
+  hintWord: {
+    swim: 'Swim soaks Fly!',
+    fly: 'Fly flies over Run!',
+    run: 'Run outruns Power!',
+    power: 'Power out-splashes Swim!',
+    normal: 'A good bonk!',
+  } as Record<string, string>,
+  swingTap: 'Tap in the middle for a Power swing!',
+  swingSweet: 'Power swing!',
+  items: {
+    fruit: { icon: '🍎', name: 'Fruit' },
+    'fruit:swim': { icon: '🫐', name: 'Swim fruit' },
+    'fruit:fly': { icon: '🍐', name: 'Fly fruit' },
+    'fruit:run': { icon: '🍊', name: 'Run fruit' },
+    'fruit:power': { icon: '🍓', name: 'Power fruit' },
+    'fruit:stamina': { icon: '🍑', name: 'Stamina fruit' },
+    'fruit:sun': { icon: '☀', name: 'Sun fruit' },
+    'fruit:moon': { icon: '🌙', name: 'Moon fruit' },
+    toy: { icon: '🧸', name: 'Toy' },
+  } as Record<string, { icon: string; name: string }>,
+  // The party sheet (recs FIGHT-19).
+  partyTitle: 'Pick your party',
+  partyHelp: 'Up to three. The first one starts.',
+  partyGo: 'Start the bout',
+  partyNone: 'Pick at least one.',
+  battleLevel: (n: number) => `Lv ${n}`,
+  // The dojo (recs FIGHT-28).
+  dojoTitle: 'Dojo bouts',
+  dojoHelp: 'Turn-based singles. Win a tier to earn its belt.',
+  circuit: 'Grove Circuit',
+  circuitHelp: 'Win a ribbon from each Keeper. Tier by tier.',
+  champion: 'Champion',
+  mirror: 'Mirror match',
+  ribbon: '🎀',
+  noRibbon: '○',
+  ribbons: (n: number) => `Ribbons ${n}/10`,
+  playFight: '🤗 Play-fight',
+  gentle: 'Gentle bouts',
+  gentleHelp: 'Foes go easy, nobody is tuckered, every move is free.',
+} as const;
+
+/** Event lines for the new events (FIGHT-19 to FIGHT-24). */
+export function formatRound3(e: BattleEvent, name: (id: string) => string): string | null {
+  const T = BATTLE_SCREEN_TEXT;
+  switch (e.k) {
+    case 'swap':
+      return `${name(e.to)} swaps in for ${name(e.from)}!`;
+    case 'item': {
+      const it = T.items[e.item];
+      return e.by === e.to
+        ? `${name(e.by)} has a ${it?.name.toLowerCase() ?? e.item}.`
+        : `${name(e.by)} gives ${name(e.to)} a ${it?.name.toLowerCase() ?? e.item}.`;
+    }
+    case 'calm':
+      return e.delta >= 0 ? `${name(e.to)} looks calmer.` : `${name(e.to)} looks wary.`;
+    case 'befriend':
+      return `${name(e.who)} decides to come home with you!`;
+    case 'play':
+      return `${name(e.who)} is busy playing with the toy.`;
+    case 'cuddle':
+      return `${name(e.who)} needs a cuddle. A free fruit! (+${e.heal})`;
+    case 'swing':
+      return e.sweet ? T.swingSweet : null;
+    case 'unhurt':
+      return `${name(e.to)} isn't hurt. Maybe try kindness?`;
+    default:
+      return null;
+  }
 }

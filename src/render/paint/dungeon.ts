@@ -1,6 +1,6 @@
 import { RepeatWrapping, type CanvasTexture } from 'three';
 import { DUNGEON, GROVE3D } from '../../config/tuning';
-import { cellAt, FLOOR, WALL, WATER, type Floor } from '../../sim/dungeon';
+import { cellAt, CHASM, FLOOR, WALL, WATER, type Floor } from '../../sim/dungeon';
 import { bandFor } from '../cave-bands';
 import { frameKey } from '../sprites/animations';
 import type { SpriteSheet } from '../sprites/atlas';
@@ -197,6 +197,7 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
     }
     return m;
   };
+  const trapCells = new Set((f.traps ?? []).map((t) => t.cell.y * f.cols + t.cell.x));
   const floorMask = new Uint8Array(width * height);
   for (let py = 0; py < height; py++) {
     for (let px = 0; px < width; px++) {
@@ -210,7 +211,14 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
         floorMask[py * width + px] = 1;
         const dWall = field(toWall, cx, cy);
         let c: RGB;
-        if (cell === WATER) {
+        if (cell === CHASM) {
+          // A gap to jump (R0031): rock lip at the far edge, falling to a soft blue glow.
+          const fy = cy - Math.floor(cy);
+          const lip = cellAt(f, Math.floor(cx), Math.floor(cy) - 1) !== CHASM ? fy : 1;
+          c = mix(chasmA, chasmB, 0.4 + grain * 0.3);
+          c = mix(c, hex('#4f86c6'), clamp01((lip - 0.35) * 1.6) * 0.7);
+          if (lip < 0.3) c = shade(mix(rockA, rockB, grain), 0.55 + lip);
+        } else if (cell === WATER) {
           c = mix(waterA, waterB, fbm(px / 12, py / 12, 2, 7));
           if (fbm(px / 9 + py / 50, py / 5, 2, 8) > 0.7) c = mix(c, hex('#9ad0ff'), 0.5);
         } else {
@@ -230,6 +238,14 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
           if (nearWater || (damp > 0.64 && dWall < 1.1)) c = mix(c, moss, 0.45 + grain * 0.3);
           if (hash(px >> 1, py >> 1, 11) < 0.01) c = mix(c, hex('#b8b0c0'), 0.8);
           c = shade(c, terrace(cx, cy));
+          // A trap (R0161): a slightly raised pale tile, lit top-left, shadowed bottom-right.
+          if (trapCells.has(Math.floor(cy) * f.cols + Math.floor(cx))) {
+            const fx = cx - Math.floor(cx);
+            const fy = cy - Math.floor(cy);
+            if (fx > 0.12 && fx < 0.88 && fy > 0.12 && fy < 0.88) c = mix(c, hex('#d8d0c0'), 0.45);
+            else if (fx >= 0.88 || fy >= 0.88) c = shade(c, 0.6);
+            else c = mix(c, white, 0.25);
+          }
         }
         r.set(px, py, c);
       } else if (

@@ -4,6 +4,7 @@ import {
   forfeitBattleCmd,
   karatePrize,
   partyPrize,
+  setBattlePrefsCmd,
   setSlotsCmd,
   startBattleCmd,
   stepBattleMoves,
@@ -16,7 +17,14 @@ import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
 import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
-import { createKeeper, keeperJump, keeperPutDown, updateKeeper } from './keeper';
+import {
+  createKeeper,
+  keeperJump,
+  keeperPutDown,
+  keeperStartRoll,
+  rollAsked,
+  updateKeeper,
+} from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
 import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
@@ -34,9 +42,11 @@ import { claimQuest, noteQuest, queueQuestEvents, stepQuests } from './quests';
 import { feedWild, stepHabitats } from './habitats';
 import { neighbourGift, visit } from './neighbourhood';
 import { dye, wearGlasses } from './accessories';
-import { keeper2Act, setCoop, stepKeeper2 } from './coop';
+import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
+import { fastTravel } from './travel';
+import { stepCollectibles } from './collectibles';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -46,6 +56,9 @@ import { noteCampaignEvents } from './storyline';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
+import { lookAround } from './lookout';
+import { stepPropReach } from './prop-reach';
+import { stepHopLesson } from './hop-lesson';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -357,6 +370,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         applyCommand(world, { kind: 'shakeHeld' }, events);
         return;
       }
+      // MOVE-64: a running jump with the stick pulled toward the camera is a roll.
+      if (cmd.down && rollAsked(world) && keeperStartRoll(world, events)) return;
       keeperJump(world, cmd.down);
       return;
     case 'shakeHeld': {
@@ -656,6 +671,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'battleForfeit':
       forfeitBattleCmd(world, events);
       return;
+    case 'battlePrefs':
+      setBattlePrefsCmd(world, cmd.prefs);
+      return;
     case 'fuse': {
       const [a, b] = world.partners;
       if (a && b) fuse(world, a, b, events);
@@ -882,9 +900,24 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'keeper2Act':
       keeper2Act(world, cmd.action, events);
       return;
+    case 'keeper2Jump':
+      keeper2Jump(world, cmd.down);
+      return;
+    case 'lookAround':
+      lookAround(world, events);
+      return;
+    case 'roll':
+      keeperStartRoll(world, events, cmd.dir);
+      return;
+    case 'viewYaw':
+      if (Number.isFinite(cmd.yaw)) world.viewYaw = cmd.yaw;
+      return;
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);
       return;
+    case 'fastTravel':
+      fastTravel(world, cmd, events);
+      break;
     case 'teleport':
       teleport(world, cmd.pos);
       return;
@@ -969,6 +1002,10 @@ export function stepWorld(
     // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
     // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
     if (!offline) updateKeeper(world, dtMs, events);
+    // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
+    if (!offline) stepPropReach(world);
+    // MOVE-58: the one-time hop lesson.
+    if (!offline) stepHopLesson(world, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);
@@ -981,7 +1018,7 @@ export function stepWorld(
     stepCampaign(world, dtMs, events);
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
-    stepKeeper2(world, dtMs);
+    stepKeeper2(world, dtMs, events);
     stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
     stepSlips(world, dtMs, events);
     stepPartners(world, dtMs, events);
@@ -992,6 +1029,7 @@ export function stepWorld(
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
+  stepCollectibles(world, events);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

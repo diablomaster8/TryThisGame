@@ -5,6 +5,7 @@ import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
 import { isGameKey } from '../input/keys';
 import {
   cellOf,
+  CHASM,
   exploredMask,
   exploredRooms,
   floorOfRun,
@@ -37,7 +38,17 @@ import { screenBearing } from './hud-world-math';
 export type MapMode = 'off' | 'corner' | 'overlay';
 
 export type MarkKind =
-  'you' | 'party' | 'up' | 'down' | 'chest' | 'waypoint' | 'portal' | 'shrine' | 'unique' | 'quest';
+  | 'you'
+  | 'party'
+  | 'up'
+  | 'down'
+  | 'chest'
+  | 'waypoint'
+  | 'portal'
+  | 'shrine'
+  | 'unique'
+  | 'quest'
+  | 'stray';
 
 export type MarkShape =
   | 'ringDot'
@@ -49,7 +60,8 @@ export type MarkShape =
   | 'capsule'
   | 'sparkle'
   | 'star'
-  | 'bang';
+  | 'bang'
+  | 'cross';
 
 /** Each marker's shape, colour and legend line. */
 export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: string }> = {
@@ -63,6 +75,7 @@ export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: st
   shrine: { shape: 'sparkle', icon: '✦', color: '#fff0a0' },
   unique: { shape: 'star', icon: '★', color: '#ff9a6a' },
   quest: { shape: 'bang', icon: '!', color: '#ffe14d' },
+  stray: { shape: 'cross', icon: '✕', color: '#c8a8ff' },
 };
 
 /** The marker kinds a floor may carry before the sim has them (the hooks). */
@@ -125,6 +138,11 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
     const c = waypointCell(f);
     if (seen(c)) out.push(at('waypoint', c));
   }
+  // Shrines (R0159), dimmed once used.
+  for (const s of f.shrines ?? [])
+    if (seen(s.cell)) out.push(at('shrine', s.cell, run.shrinesUsed?.includes(s.id) ?? false));
+  // Strays once seen (R0162), where they are now.
+  for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {
     const n = world.nubbins.find((m) => m.id === id);
     if (n) out.push({ kind: 'party', ...cellPoint(f, n.pos) });
@@ -220,6 +238,22 @@ export function drawMark(g: Ctx2D, kind: MarkKind, x: number, y: number, r: numb
         [0.5, 0.6],
         [0, 1],
         [-0.5, 0.6],
+      ]);
+      break;
+    case 'cross':
+      poly([
+        [-1, -0.7],
+        [-0.7, -1],
+        [0, -0.3],
+        [0.7, -1],
+        [1, -0.7],
+        [0.3, 0],
+        [1, 0.7],
+        [0.7, 1],
+        [0, 0.3],
+        [-0.7, 1],
+        [-1, 0.7],
+        [-0.3, 0],
       ]);
       break;
     case 'sparkle':
@@ -549,6 +583,16 @@ export class HollowMap {
           );
           if (!edge) continue;
           g.fillStyle = '#3a3258';
+        } else if (c === CHASM) {
+          // A gap (R0031): near-black with a pale slash, so it reads by shape as well as tone.
+          g.fillStyle = '#120e22';
+          g.fillRect(x * s, y * s, s, s);
+          g.strokeStyle = '#6f8fd0';
+          g.beginPath();
+          g.moveTo(x * s, (y + 1) * s);
+          g.lineTo((x + 1) * s, y * s);
+          g.stroke();
+          continue;
         } else if (c === WATER) g.fillStyle = inRoom[i] ? '#3d86ad' : '#2f6a8a';
         else g.fillStyle = inRoom[i] ? '#7a6bc0' : '#4a4378';
         g.fillRect(x * s, y * s, s, s);

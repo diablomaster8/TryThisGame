@@ -115,9 +115,10 @@ describe('floor generator versions', () => {
   });
 
   it('makes new floors with the current generator, the same every time for a seed', () => {
-    // New floors come from version 3 now (R0143); version 2 stays deterministic for saved runs.
-    expect(HOLLOW.genVersion).toBe(3);
-    expect(floorOf(77, 2)).toBe(floorOf(77, 2, 3));
+    // New floors come from version 4 now (R0031, version 3 plus platforming); version 2 stays
+    // deterministic for saved runs.
+    expect(HOLLOW.genVersion).toBe(4);
+    expect(floorOf(77, 2)).toBe(floorOf(77, 2, 4));
     for (const seed of SEEDS.slice(0, 8)) {
       for (const d of [1, 7]) {
         const a = generateV2(seed, d);

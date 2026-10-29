@@ -1,3 +1,4 @@
+import { ROLL } from '../config/tuning-move';
 import { INPUT, THROW } from '../config/tuning';
 import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
@@ -99,6 +100,22 @@ interface Sample {
  * the Keeper relative to the camera. Two-finger gestures belong to CameraControls; when
  * a second pointer appears any drag is dropped gently.
  */
+/** MOVE-64: each move key's screen way, as [forward, right]. */
+const ROLL_KEYS: Readonly<Record<string, readonly [number, number]>> = {
+  w: [1, 0],
+  arrowup: [1, 0],
+  s: [-1, 0],
+  arrowdown: [-1, 0],
+  d: [0, 1],
+  arrowright: [0, 1],
+  a: [0, -1],
+  arrowleft: [0, -1],
+};
+
+/** MOVE-54: the second Keeper's jump keys, and the name the held set keeps them under. */
+const JUMP2 = '#keeper2-jump';
+const key2Jump = (e: KeyboardEvent): boolean => e.key === 'Enter' || e.code === 'Numpad0';
+
 export class GameInput {
   private readonly abort = new AbortController();
   private readonly keys = new Set<string>();
@@ -118,7 +135,7 @@ export class GameInput {
   private reversals: number[] = [];
   private lastInput: Vec2 = { x: 0, z: 0 };
   private lastInput2: Vec2 = { x: 0, z: 0 };
-  private padHeld = { x: false, b: false, y: false };
+  private padHeld = { x: false, b: false, y: false, a: false };
   /** MOVE-49: Keeper 1's pad buttons as last seen, so each press acts once. */
   private pad1Held: boolean[] = [];
 
@@ -233,7 +250,10 @@ export class GameInput {
       pet = px && !this.padHeld.x;
       feed = b && !this.padHeld.b;
       if (y && !this.padHeld.y) this.host.send({ kind: 'shakeHeld' });
-      this.padHeld = { x: px, b, y };
+      // MOVE-54: A is the second Keeper's jump, held for a higher one.
+      const a = pad.buttons[0]?.pressed ?? false;
+      if (a !== this.padHeld.a) this.host.send({ kind: 'keeper2Jump', down: a });
+      this.padHeld = { x: px, b, y, a };
     }
     const len = Math.hypot(fwd, right);
     if (len > 1) {
@@ -248,6 +268,25 @@ export class GameInput {
     }
     if (pet) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (feed) this.host.send({ kind: 'keeper2Act', action: 'feed' });
+  }
+
+  /** MOVE-64: when each move key was last pressed, for the double tap that rolls. */
+  private readonly lastTap = new Map<string, number>();
+
+  /** MOVE-64: a move key tapped twice within `ROLL.doubleTapMs` rolls that way on screen. */
+  private rollTap(key: string): void {
+    const way = ROLL_KEYS[key];
+    if (!way) return;
+    const now = performance.now();
+    const last = this.lastTap.get(key);
+    this.lastTap.set(key, now);
+    if (last === undefined || now - last > ROLL.doubleTapMs) return;
+    this.lastTap.delete(key);
+    const yaw = this.host.camera.currentYaw;
+    const [fwd, right] = way;
+    const x = -Math.sin(yaw) * fwd + Math.cos(yaw) * right;
+    const z = -Math.cos(yaw) * fwd - Math.sin(yaw) * right;
+    this.host.send({ kind: 'roll', dir: { x, z } });
   }
 
   /** MOVE-49: the first gamepad, when it drives Keeper 1 (co-op off), else null. */
@@ -294,6 +333,10 @@ export class GameInput {
     if (e.type !== 'keydown') {
       // Letting go of Space ends a held jump: a tap is a short hop (MOVE-11).
       if (key === ' ' && this.keys.has(key)) this.host.send({ kind: 'jump', down: false });
+      if (key2Jump(e) && this.keys.has(JUMP2)) {
+        this.keys.delete(JUMP2);
+        this.host.send({ kind: 'keeper2Jump', down: false });
+      }
       this.keys.delete(key);
       return;
     }
@@ -301,12 +344,21 @@ export class GameInput {
     // Space on a focused button presses the button (dialogue advances that way and never
     // jumps). Otherwise Space jumps, or shakes what the Keeper holds (MOVE-22); X only shakes.
     if (key === ' ' && isControlTarget(e.target)) return;
+    // MOVE-54: Enter or Numpad 0 is the second Keeper's jump (not on a focused button).
+    if (key2Jump(e)) {
+      if (!isControlTarget(e.target) && !e.repeat) {
+        this.keys.add(JUMP2);
+        this.host.send({ kind: 'keeper2Jump', down: true });
+      }
+      return;
+    }
     this.keys.add(key);
     if (key === ' ' && !e.repeat) {
       this.host.send({ kind: 'jump', down: true });
       e.preventDefault();
     }
     if (key === 'x' && !e.repeat) this.host.send({ kind: 'shakeHeld' });
+    if (!e.repeat) this.rollTap(key);
     if (key === 'u' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (key === 'o' && !e.repeat) this.host.send({ kind: 'keeper2Act', action: 'feed' });
   };

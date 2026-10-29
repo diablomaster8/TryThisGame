@@ -76,7 +76,8 @@ describe('Hollow encounters on the battle core', () => {
       b.context.tier,
     );
     expect(b.context.foes).toEqual(
-      members.map((m) => ({ species: m.species, level: Math.min(m.level, cap) })),
+      // Wildlife, so lane C's befriending can take them home.
+      members.map((m) => ({ species: m.species, level: Math.min(m.level, cap), wild: true })),
     );
     expect(b.sides[1].map((c) => c.species)).toEqual(members.map((m) => m.species));
     // Asked again every step, the handler never starts a second bout.

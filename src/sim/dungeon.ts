@@ -4,6 +4,11 @@ import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
+import { platformFloor } from './dungeon-gaps';
+import { hopAcross, stepFall } from './dungeon-falls';
+import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
+import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
+import { stepTraps, type Trap } from './dungeon-traps';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -111,6 +116,12 @@ export interface Vista {
  * rope bridge from end to end), 'stones' for the short ones (a stone on each water cell).
  * Water is walkable in the sim either way; this is the picture of how you cross.
  */
+/** A chasm cut across a passage (R0031): `cells` in order across it. */
+export interface Gap {
+  cells: Cell[];
+  nook: boolean;
+}
+
 export interface Crossing {
   kind: 'bridge' | 'stones';
   from: Cell;
@@ -142,7 +153,7 @@ export interface FloorLoot {
 export interface Floor {
   cols: number;
   rows: number;
-  /** 0 wall, 1 floor, 2 water. */
+  /** 0 wall, 1 floor, 2 water, 3 chasm (version 4). */
   cells: Uint8Array;
   rooms: Room[];
   stairsUp: Cell;
@@ -178,6 +189,14 @@ export interface Floor {
   layout?: FloorLayout;
   /** The floor's monster packs (R0146); absent on floors without them. */
   packs?: EncounterPack[];
+  /** Chasm cuts (R0031, version 4); `nook` marks a cut that puts a side pocket behind a jump. */
+  gaps?: Gap[];
+  /** Water cells the generator dried so every part of the floor can be reached (version 4). */
+  fords?: Cell[];
+  /** Shrines (R0159, version 4). */
+  shrines?: Shrine[];
+  /** Traps (R0161, version 4). */
+  traps?: Trap[];
 }
 
 /** A slot's job on a version-3 floor. */
@@ -211,6 +230,8 @@ export interface FloorLayout {
 export const WALL = 0;
 export const FLOOR = 1;
 export const WATER = 2;
+/** A gap in the floor (R0031, version 4): jump it or walk round. Never stood on. */
+export const CHASM = 3;
 
 const CELL = DUNGEON.cell;
 
@@ -284,7 +305,8 @@ export function elevationAt(f: Floor, p: Vec2): number {
     [0, 1, (1 - tx) * ty],
     [1, 1, tx * ty],
   ] as const) {
-    if (!isWalkable(f, x0 + dx, y0 + dy) || w <= 0) continue;
+    const v = cellAt(f, x0 + dx, y0 + dy);
+    if (v === WALL || v === CHASM || w <= 0) continue;
     sum += (f.elevation[(y0 + dy) * f.cols + x0 + dx] ?? 0) * w;
     weight += w;
   }
@@ -583,7 +605,9 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
         ? generateV1(seed, depth)
         : version === 2
           ? generateV2(seed, depth)
-          : generateV3(seed, depth, v3OptionsFor(depth));
+          : version === 3
+            ? generateV3(seed, depth, v3OptionsFor(depth))
+            : platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth);
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -593,7 +617,7 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
 /** The floor a run stands on: its act's dungeon (R0145), or the endless Hollow by version. */
 export function floorOfRun(run: DungeonRun): Floor {
   return run.act !== undefined
-    ? actFloor(run.seed, run.act, run.depth)
+    ? actFloor(run.seed, run.act, run.depth, run.genVersion)
     : floorOf(run.seed, run.depth, run.genVersion);
 }
 
@@ -655,7 +679,7 @@ export function exploredRooms(run: DungeonRun, f: Floor): boolean[] {
 
 /** Mark the cells round a cell seen. Writes the save string only when something changed. */
 export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
-  const r = DUNGEON.explore.radius;
+  const r = DUNGEON.explore.radius + shrineSight(run);
   const mask = exploredMask(run, f);
   let changed = false;
   for (let dy = -r; dy <= r; dy++) {
@@ -677,13 +701,26 @@ export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
 
 // ---------------------------------------------------------------- collision
 
+/**
+ * What a body treats as solid (R0031): rock only (the Keeper, who may jump a gap or fall
+ * in one), rock and chasms (swimmers), or rock, chasms and deep water.
+ */
+export type Solid = 'rock' | 'chasm' | 'all';
+
+function blocks(f: Floor, x: number, y: number, solid: Solid): boolean {
+  const v = cellAt(f, x, y);
+  if (v === WALL) return true;
+  if (solid === 'rock') return false;
+  return v === CHASM || (solid === 'all' && v === WATER && f.version >= 4);
+}
+
 /** Push a circle out of the wall cells around it. Returns true when it moved. */
-export function resolveDungeon(p: Vec2, f: Floor, radius: number): boolean {
+export function resolveDungeon(p: Vec2, f: Floor, radius: number, solid: Solid = 'rock'): boolean {
   let moved = false;
   const c = cellOf(f, p);
-  if (!isWalkable(f, c.x, c.y)) {
+  if (blocks(f, c.x, c.y, solid)) {
     // Inside rock (a tap landed there, or a load): step to the nearest open cell.
-    const near = nearestOpen(f, c);
+    const near = nearestOpen(f, c, solid);
     if (near) {
       const q = cellCentre(f, near);
       p.x = q.x;
@@ -697,7 +734,7 @@ export function resolveDungeon(p: Vec2, f: Floor, radius: number): boolean {
       for (let dx = -1; dx <= 1; dx++) {
         const cx = c.x + dx;
         const cy = c.y + dy;
-        if (isWalkable(f, cx, cy)) continue;
+        if (!blocks(f, cx, cy, solid)) continue;
         const x0 = (cx - f.cols / 2) * CELL;
         const z0 = (cy - f.rows / 2) * CELL;
         const qx = Math.max(x0, Math.min(x0 + CELL, p.x));
@@ -753,12 +790,12 @@ function wallsBlock(p: Vec2, f: Floor, radius: number): boolean {
   return false;
 }
 
-function nearestOpen(f: Floor, c: Cell): Cell | null {
+function nearestOpen(f: Floor, c: Cell, solid: Solid = 'rock'): Cell | null {
   for (let r = 1; r < 8; r++) {
     for (let dy = -r; dy <= r; dy++) {
       for (let dx = -r; dx <= r; dx++) {
         if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-        if (isWalkable(f, c.x + dx, c.y + dy)) return { x: c.x + dx, y: c.y + dy };
+        if (!blocks(f, c.x + dx, c.y + dy, solid)) return { x: c.x + dx, y: c.y + dy };
       }
     }
   }
@@ -1065,6 +1102,8 @@ export function feedStray(world: World, id: string, events: SimEvent[]): void {
   const s = run.strays.find((x) => x.id === id);
   if (!s) return;
   if (world.inventory.fruit < 1) {
+    // No fruit: a party Nubbin chases it off instead, if one has the energy (R0162).
+    if (shooStray(world, run, id, events)) return;
     events.push({ kind: 'strayFed', ok: false, name: null });
     return;
   }
@@ -1091,7 +1130,10 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     if (run.chestOpen) return;
     run.chestOpen = true;
     const rng = Rng.fromSeed((run.seed + run.depth * 101 + world.nubbins.length) >>> 0);
-    const shells = rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10;
+    const shells = Math.round(
+      (rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10) *
+        shrineShells(run),
+    );
     world.inventory.shells += shells;
     run.haul.shells += shells;
     const egg = rng.chance(DUNGEON.chestEggChance + run.depth * 0.03) && hasRoom(world);
@@ -1140,6 +1182,8 @@ function takeLoot(
   let kind = loot.kind;
   switch (loot.kind) {
     case 'shells':
+      // A Sunny shrine finds a quarter more (R0159).
+      amount = Math.round(amount * shrineShells(run));
       inv.shells += amount;
       run.haul.shells += amount;
       break;
@@ -1211,6 +1255,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
   revealAround(run, f, cellOf(f, k.pos));
+  stepFall(world, run, f, events);
 
   // Anything the Keeper walks over.
   for (const l of f.loot) {
@@ -1219,6 +1264,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       takeLoot(world, run, l, null, rng, events);
   }
   stepWaypoint(world, run, f, events);
+  stepShrines(world, run, f, dtMs, events);
+  stepTraps(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     w.scanned = true;
@@ -1263,17 +1310,21 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       const c = randomOpenCell(f, rng, cellOf(f, s.pos), fleeing ? 10 : 5);
       s.target = c ? cellCentre(f, c) : null;
     }
-    resolveDungeon(s.pos, f, 0.3);
-    if (!fleeing && !settling && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0) {
-      const shells = Math.min(world.inventory.shells, DUNGEON.straySnatch);
-      world.inventory.shells -= shells;
-      run.haul.shells = Math.max(0, run.haul.shells - shells);
-      s.cooldownMs = DUNGEON.strayCooldownMs;
+    resolveDungeon(s.pos, f, 0.3, 'all');
+    // R0162: the snatched Shells drop as a trail behind it; twice a floor at most.
+    stepStray(world, run, f, s, dtMs);
+    if (
+      !fleeing &&
+      maySnatch(s, settling) &&
+      dist(s.pos, k.pos) < 0.9 &&
+      world.inventory.shells > 0
+    ) {
+      snatch(world, run, s, events);
       const away = randomOpenCell(f, rng, null, 0);
       s.target = away ? cellCentre(f, away) : null;
-      events.push({ kind: 'strayStartled', shells });
     }
   }
+  pickTrail(world, run, events);
 
   // The party: fetch loot nearby, otherwise keep close to the Keeper.
   run.party = run.party.filter((id) => world.nubbins.some((n) => n.id === id));
@@ -1339,8 +1390,9 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       n.behavior.untilMs = world.timeMs + 500;
       n.facing = Math.atan2(k.pos.x - n.pos.x, k.pos.z - n.pos.z);
     }
-    resolveDungeon(n.pos, f, 0.3);
+    resolveDungeon(n.pos, f, 0.3, 'chasm');
   }
+  hopAcross(world, run, f);
   void KEEPER;
 }
 

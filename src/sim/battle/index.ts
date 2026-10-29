@@ -18,6 +18,7 @@ export {
   battleForfeit,
   createBattle,
   forfeitBattleCmd,
+  setBattlePrefsCmd,
   setSlotsCmd,
   startBattleCmd,
   stepBattleMoves,
@@ -46,7 +47,18 @@ export { canChoose, hasMove, moveIdOf } from './turn';
 export { zipOf } from './status';
 export { MOOD_STATS, STATUS_IDS } from './types';
 export { barAt, barOffsetAt } from './karate';
-export { bestAllyAction } from './ai';
-export { standing } from './damage';
+export { bestAllyAction, chooseAction, levelFor } from './ai';
+export { bench, puffCost, swapIn } from './turn';
+export { bagFrom, BATTLE_ITEMS, itemsLeft } from './items';
+export { calmGain } from './befriend';
+export {
+  CIRCUIT_GIMMICK,
+  CIRCUIT_TIERS,
+  circuitOf,
+  circuitOpen,
+  circuitTeam,
+  circuitTier,
+} from './circuit';
+export { onField, standing } from './damage';
 export { battleSeedFor, contextKey, karatePrize, partyPrize, prizeFor } from './rewards';
 export { replay } from './replay';

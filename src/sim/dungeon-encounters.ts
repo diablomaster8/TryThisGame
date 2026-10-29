@@ -12,6 +12,7 @@
  */
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
+import type { ChampionModId } from '../config/dungeon-foes';
 import {
   combatantOf,
   createBattle,
@@ -28,8 +29,8 @@ import { levelOf } from './stats';
 import type { DungeonPack, DungeonRun, SimEvent, Vec2, World } from './types';
 
 export type PackKind = 'normal' | 'champion' | 'elite' | 'unique' | 'boss';
-/** Champion modifiers arrive with DUNG-15; the slot is here so packs never need migrating. */
-export type ChampionMod = string;
+/** Champion modifiers (R0155, `config/dungeon-foes.ts`); older saves hold none. */
+export type ChampionMod = ChampionModId;
 export type LootTableId = 'pack-normal' | 'pack-champion' | 'pack-boss';
 export type FoeFamilyId = string;
 
@@ -53,6 +54,8 @@ export interface EncounterPack {
   aggroRadius: number;
   leash: number;
   reward: LootTableId;
+  /** A treasure room's champion guard (R0158), not part of the floor's kind mix. */
+  guard?: boolean;
 }
 
 /** What the dungeon hands the fight: the foes and a 9×7 window of the floor as the board. */
@@ -216,7 +219,8 @@ export const autoResolve: EncounterHandler = (world, spec, rng) => {
 
 /** What a finished Hollow bout means for the floor. A boss can't be fled, so giving up loses. */
 export function boutOutcome(result: BattleResult, canFlee: boolean): EncounterOutcome {
-  if (result.winner === 0) return 'won';
+  // A hug or a befriending (lane C, round 3) ends with the party on top too: the pack goes home.
+  if (result.winner === 0 || result.reason === 'hug' || result.reason === 'friends') return 'won';
   if (result.winner === 1 && result.reason !== 'forfeit') return 'lost';
   // A forfeit, or a draw at the round limit: everyone backs off.
   return canFlee ? 'fled' : 'lost';
@@ -260,7 +264,8 @@ export const battleHandler: EncounterHandler = (world, spec, rng, events) => {
       // back: the battle core gives an outnumbered fresh party no chance (3 on 2 lost 27 of 27).
       foes: spec.members
         .slice(0, Math.max(1, spec.party.length + E.boutExtraFoes))
-        .map((m) => ({ species: m.species, level: Math.min(m.level, cap) })),
+        // Hollow foes are wildlife: they can be befriended (lane C, FIGHT-21).
+        .map((m) => ({ species: m.species, level: Math.min(m.level, cap), wild: true })),
     };
     const bout = createBattle(world, context, spec.seed);
     if (bout) {

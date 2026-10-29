@@ -39,7 +39,9 @@ export function navMask(f: Floor, wet: boolean): Uint8Array {
       dry[i] = f.cells[i] === FLOOR ? 1 : 0;
       wetMask[i] = f.cells[i] === FLOOR || f.cells[i] === WATER ? 1 : 0;
     }
-    for (const c of f.crossings) for (const q of c.cells) dry[q.y * f.cols + q.x] = 1;
+    // Version 4 (R0031) makes a crossing's decks and stones real floor and its gaps deep water.
+    if (f.version < 4)
+      for (const c of f.crossings) for (const q of c.cells) dry[q.y * f.cols + q.x] = 1;
     // Sight lines read rock only and test the landmark as its true circle (`sightLine`).
     const sightDry = dry.slice();
     const sightWet = wetMask.slice();

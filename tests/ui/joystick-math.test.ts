@@ -60,4 +60,8 @@ describe('floating pad', () => {
     expect(inPadZone(200, 300, 400, 60)).toBe(false);
     expect(inPadZone(100, 40, 400, 60)).toBe(false);
   });
+  it('is the right 45% for a left-handed player (MOVE-14)', () => {
+    expect(inPadZone(300, 300, 400, 60, true)).toBe(true);
+    expect(inPadZone(100, 300, 400, 60, true)).toBe(false);
+  });
 });
