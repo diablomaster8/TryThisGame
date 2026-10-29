@@ -277,3 +277,24 @@ describe('R0323 Say it!', () => {
     expect(refrainOf('Hello there.')).toBeNull();
   });
 });
+
+describe('R0321 peekaboo', () => {
+  it('deals 3, 4 then 5 spots with the Nubbin always behind one', async () => {
+    const { peekRound } = await import('../../src/minigames/micro/peekaboo-round');
+    for (const seed of [1, 2, 3, 99]) {
+      for (const [n, count] of [
+        [0, 3],
+        [1, 4],
+        [2, 5],
+        [6, 5],
+      ] as const) {
+        const r = peekRound(seed, n);
+        expect(r.spots).toHaveLength(count);
+        expect(new Set(r.spots).size).toBe(count);
+        expect(r.hidden).toBeGreaterThanOrEqual(0);
+        expect(r.hidden).toBeLessThan(count);
+      }
+    }
+    expect(peekRound(1, 0)).toEqual(peekRound(1, 0));
+  });
+});

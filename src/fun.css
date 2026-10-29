@@ -289,3 +289,70 @@ body.line-shake-big #app {
 @media (prefers-reduced-motion: reduce) {
   .say-it.said { animation: none; }
 }
+
+/* R0321 (FUN-32): peekaboo. The Nubbin sits behind its spot with the crown showing. */
+.peek-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.peek-cell {
+  position: relative;
+  width: 88px;
+  height: 104px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.peek-nubbin {
+  position: absolute;
+  left: 12px;
+  bottom: 30px;
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  transition: transform 0.35s ease-out;
+}
+.peek-found .peek-nubbin {
+  transform: translateY(-34px) scale(1.15);
+  z-index: 2;
+}
+.peek-spot {
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 80px;
+  font-size: 52px;
+  line-height: 1;
+  padding: 0;
+}
+.peek-decoy {
+  position: absolute;
+  top: 0;
+  font-size: 34px;
+  z-index: 2;
+  animation: peek-pop 0.3s ease-out;
+}
+.peek-line {
+  text-align: center;
+  font-size: 1.2em;
+  min-height: 2.4em;
+}
+.peek-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.peek-row .btn {
+  min-height: 56px;
+}
+@keyframes peek-pop {
+  from { transform: scale(0.4); }
+  to { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peek-nubbin { transition: none; }
+  .peek-decoy { animation: none; }
+}

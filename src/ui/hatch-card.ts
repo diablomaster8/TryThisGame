@@ -92,33 +92,37 @@ export class HatchCard {
     this.root.hidden = true;
   }
 
-  /** The newborn's idle front frame (as the roster draws it). */
   private portrait(g: Game, n: Nubbin): HTMLCanvasElement {
-    const c = el('canvas', 'hatch-card-pic');
-    c.width = 64;
-    c.height = 64;
-    try {
-      const sheet = g.view.sheets.forNubbin(n);
-      const rect =
-        sheet.frames.get(frameKey('idle', 'front', 0)) ?? sheet.frames.values().next().value;
-      const ctx = c.getContext('2d');
-      if (ctx && rect) {
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(
-          sheet.texture.image as HTMLCanvasElement,
-          rect.x,
-          rect.y,
-          rect.w,
-          rect.h,
-          0,
-          0,
-          64,
-          64,
-        );
-      }
-    } catch {
-      // A portrait is a nicety; the card still names the newborn.
-    }
-    return c;
+    return nubbinPortrait(g, n, 'hatch-card-pic');
   }
+}
+
+/** A Nubbin's idle front frame on a 64 px canvas (as the roster draws it). */
+export function nubbinPortrait(g: Game, n: Nubbin, className: string): HTMLCanvasElement {
+  const c = el('canvas', className);
+  c.width = 64;
+  c.height = 64;
+  try {
+    const sheet = g.view.sheets.forNubbin(n);
+    const rect =
+      sheet.frames.get(frameKey('idle', 'front', 0)) ?? sheet.frames.values().next().value;
+    const ctx = c.getContext('2d');
+    if (ctx && rect) {
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(
+        sheet.texture.image as HTMLCanvasElement,
+        rect.x,
+        rect.y,
+        rect.w,
+        rect.h,
+        0,
+        0,
+        64,
+        64,
+      );
+    }
+  } catch {
+    // A portrait is a nicety; the card still names the newborn.
+  }
+  return c;
 }

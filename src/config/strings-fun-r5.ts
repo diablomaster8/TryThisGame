@@ -237,3 +237,27 @@ export const AWAY_SHORT = {
 
 /** R0323 (FUN-34): the join-in button on a sprout refrain line. */
 export const SAY_IT_TEXT = { button: 'Say it!', label: 'Say the words with them' } as const;
+
+/**
+ * R0321 (FUN-32): "Where's Kiki?", the sprout band's peekaboo. Spots and decoys are drawn
+ * with emoji so a pre-reader knows them at a glance; every line is read aloud.
+ */
+export const PEEKABOO_TEXT = {
+  pick: (name: string) => `Where’s ${name}?`,
+  blurb: 'Find your Nubbin! Peekaboo!',
+  ask: (name: string, spot: string) => `Where’s ${name}? Is ${name} behind the ${spot}?`,
+  found: (name: string) => `Boo! There’s ${name}! Hee hee!`,
+  again: 'Hide again!',
+  done: 'Back to the Grove',
+  spots: { tree: 'tree', bush: 'bush', rock: 'rock', house: 'house', flower: 'flower' } as Record<
+    string,
+    string
+  >,
+  decoys: {
+    frog: 'A frog! Ribbit! Not here!',
+    sock: 'A sock! Whose sock is that?',
+    stone: 'Fern’s stone says: Not me!',
+    snail: 'A sleepy snail. Shh!',
+    teapot: 'A teapot! Silly teapot!',
+  } as Record<string, string>,
+} as const;
