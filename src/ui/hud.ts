@@ -118,6 +118,7 @@ import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
+import { villageTap } from './village-tap';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 
@@ -1470,6 +1471,8 @@ export function mountHud(
         else if (which === 'cave') dungeon.open();
         // R0072: an outer-ring piece answers with its line.
         else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
+        // R0095: the village square's buildings and recruits.
+        else villageTap(which, g.world, { shop: () => shop.open(), gym: () => gym.open() }, toast);
         return;
       }
       if (id?.startsWith('plant:') && g) {

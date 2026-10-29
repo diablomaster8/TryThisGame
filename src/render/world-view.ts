@@ -37,6 +37,7 @@ import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
 import { townUnlocks } from '../sim/town';
+import { drawVillage } from './region-village';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
@@ -689,6 +690,8 @@ export class WorldView {
           });
         }
       }
+      // R0095: the village square at the lane's end (`render/region-village.ts`).
+      drawVillage(batch, world, scenery, shadow, (x, z) => this.lightAt(x, z));
       // Lantern posts: painted, lit at dusk or when the Keeper lights them, tappable.
       for (const l of this.lanterns()) {
         const lrect = scenery.frames.get(

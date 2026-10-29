@@ -162,3 +162,27 @@ export const PLACES_TEXT = {
     farOrchard: 'Apples, bees and a press that smells of autumn.',
   },
 } as const;
+
+/** R0095: the village square's taps (`ui/village-tap.ts`). */
+export const VILLAGE_TEXT = {
+  buildings: {
+    stall: 'The stall',
+    gym: 'The gym',
+    attendant: 'The bathhouse',
+    fortune: 'The fortune tent',
+    festival: 'The festival stage',
+  },
+  lines: {
+    attendant: 'Warm water, folded towels, and a sign: "No splashing. (Some splashing.)"',
+    fortune: 'The fortune teller squints at the crystal ball. "You will tap on this tent again."',
+    festival: 'The stage is swept and ready. Someone has practised a bow, badly, on purpose.',
+  },
+  recruitLine: {
+    stall: (name: string) => `${name} straightens the fruit and pretends not to watch you.`,
+    gym: (name: string) => `${name} does a very serious stretch. Then another.`,
+    attendant: (name: string) => `${name} is carrying towels nobody asked for.`,
+    fortune: (name: string) => `${name} predicts lunch. It is right.`,
+    festival: (name: string) => `${name} is hanging bunting a little crooked, with great pride.`,
+    guard: (name: string) => `${name} keeps watch. Mostly over the fountain.`,
+  },
+} as const;

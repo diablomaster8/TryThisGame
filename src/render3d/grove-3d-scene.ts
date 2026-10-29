@@ -71,6 +71,7 @@ import { STAGE4 } from '../config/tuning-f4';
 import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';
+import { VillageSquare } from './village-square';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
@@ -270,6 +271,8 @@ export class Grove3dScene {
   private readonly props: GroveProps;
   /** The square's stalls and the path's fence posts. */
   private readonly village: Village;
+  /** R0095: the village square at the lane's end. */
+  private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
   private readonly dungeonFloor: THREE.Mesh;
@@ -467,6 +470,7 @@ export class Grove3dScene {
     this.pickables.push(...this.props.pickables);
     this.lamps = new LampPool(this.world3d, GROVE3D.nightLamps);
     this.village = new Village(this.world3d, this.tex, groveHeight);
+    this.villageSquare = new VillageSquare(this.world3d, this.tex, groveHeight, this.pickables);
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
@@ -1407,6 +1411,7 @@ export class Grove3dScene {
     this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
+    this.villageSquare.update(world, home);
     this.garden.update(world, standHeight, nowMs, home);
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Last frame's camera is close enough to judge which walls stand in the way.
