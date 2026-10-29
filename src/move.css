@@ -85,3 +85,25 @@
 .dialogue-open .lookout-chip {
   display: none;
 }
+
+/* MOVE-58: the one-time hop lesson chip, top centre, clear of the side buttons. */
+.hop-lesson-chip {
+  position: absolute;
+  top: calc(var(--safe-top, 0px) + 64px);
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(320px, calc(100vw - 32px));
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgb(40 32 20 / 0.82);
+  color: #fff7d6;
+  border: 2px solid #f2d34c;
+  font-size: 0.95rem;
+  text-align: center;
+  pointer-events: none;
+}
+
+.hop-lesson-chip[hidden],
+.dialogue-open .hop-lesson-chip {
+  display: none;
+}

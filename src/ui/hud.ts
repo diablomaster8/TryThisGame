@@ -2,7 +2,7 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import { BUSH_TEXT, LOOKOUT_TEXT, MOVE_TEXT } from '../config/strings-move';
+import { BUSH_TEXT, HOP_LESSON_TEXT, LOOKOUT_TEXT, MOVE_TEXT } from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -50,6 +50,7 @@ import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
+import { HopLessonChip } from './hop-lesson-chip';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -254,6 +255,8 @@ export function mountHud(
   jumpBtn.addEventListener('pointerup', jumpUp);
   jumpBtn.addEventListener('pointercancel', jumpUp);
   root.appendChild(jumpBtn);
+  // MOVE-58: the one-time hop lesson's chip.
+  const hopLesson = new HopLessonChip(root);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -753,6 +756,7 @@ export function mountHud(
         jumpPolled = true;
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
         g.framePollers.push(() => lookout.update(g.world, performance.now()));
+        g.framePollers.push(() => hopLesson.update(g.world));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -992,6 +996,9 @@ export function mountHud(
           // MOVE-43: a bush's one-time find.
           playSound('pickup');
           toast(BUSH_TEXT.found);
+        } else if (e.kind === 'hopLesson' && e.stage === 'done') {
+          // MOVE-58: the first clear.
+          toast(HOP_LESSON_TEXT.done);
         } else if (e.kind === 'lookoutFind') {
           // MOVE-55: a lookout's one-time find.
           playSound('pickup');

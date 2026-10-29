@@ -223,3 +223,10 @@ export const LOOKOUT = {
  * stone the rec names is not a story prop yet, so only the flat stone has one.
  */
 export const STORY_PROP_REACH: Readonly<Record<string, number>> = { 'flat-stone': 1.2 };
+
+/**
+ * MOVE-58: the one-time hop lesson. Within `near` units of a log or a fence (a hop piece) or
+ * of the stream's edge, a chip suggests a hop; the first jump that carries the Keeper over
+ * one (sampled at `samples` points from take-off to landing) completes it for good.
+ */
+export const HOP_LESSON = { near: 3, samples: 8 } as const;

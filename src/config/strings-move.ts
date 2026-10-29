@@ -39,3 +39,10 @@ export const LOOKOUT_TEXT = {
   critter: 'From up here you spot a critter in the reeds. It comes home with you.',
   nothing: 'A fine view. Nothing new to spot from here.',
 } as const;
+
+/** MOVE-58: the one-time hop lesson chip. */
+export const HOP_LESSON_TEXT = {
+  chip: 'Try hopping over the log! (Space / ⤒)',
+  stream: 'Try hopping over the stream! (Space / ⤒)',
+  done: 'What a hop!',
+} as const;

@@ -48,6 +48,7 @@ import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
 import { lookAround } from './lookout';
 import { stepPropReach } from './prop-reach';
+import { stepHopLesson } from './hop-lesson';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -979,6 +980,8 @@ export function stepWorld(
     if (!offline) updateKeeper(world, dtMs, events);
     // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
     if (!offline) stepPropReach(world);
+    // MOVE-58: the one-time hop lesson.
+    if (!offline) stepHopLesson(world, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);

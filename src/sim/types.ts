@@ -787,6 +787,8 @@ export interface World {
   bushFinds?: { found: string[]; checked: Record<string, number> };
   /** MOVE-55: lookout finds already made (vista ids and "well"), each once per save. */
   lookouts?: string[];
+  /** MOVE-58: the one-time hop lesson: shown once near a log or the stream, done on the first clear. */
+  hopLesson?: 'shown' | 'done';
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -1075,6 +1077,8 @@ export type SimEvent =
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
   | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
   | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
+  // MOVE-58: the hop lesson's chip shows (near what), or the first clear completes it.
+  | { kind: 'hopLesson'; stage: 'shown' | 'done'; near: 'log' | 'stream' | null }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
   /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
