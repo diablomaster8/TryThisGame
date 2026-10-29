@@ -541,10 +541,21 @@ function eyeProfile(
   }
 }
 
+/** A layout made wider by the species girth (LOOK-39): the body fully, the head more gently. */
+function widen(L: Layout, girth: number | undefined): Layout {
+  if (!girth) return L;
+  const head = 1 + (girth - 1) * 0.6;
+  return {
+    ...L,
+    body: { ...L.body, r: L.body.r.clone().multiply(V(girth, 1, girth)) },
+    head: { ...L.head, r: L.head.r.clone().multiply(V(head, 1, head)) },
+  };
+}
+
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
   const chain = art.plan === 'serpent' ? serpentChain(art) : null;
-  const L = chain ? chain.layout : (kitLayout(art) ?? layout(art.plan));
+  const L = widen(chain ? chain.layout : (kitLayout(art) ?? layout(art.plan)), art.girth);
   // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
   // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {

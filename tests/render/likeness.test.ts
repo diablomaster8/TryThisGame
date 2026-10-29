@@ -203,3 +203,20 @@ describe('species eyes in 3D (LOOK-40)', () => {
     expect(artSpec('zapkin', SPECIES_ART.zapkin!).eyes.pupil).toBeUndefined();
   });
 });
+
+describe('Gen-1 likeness fixes (LOOK-39)', () => {
+  it('swims Magikarp, Goldeen and Seaking on the fish plan', () => {
+    for (const id of ['flopfish', 'silkfin', 'hornfin']) expect(SPECIES_ART[id]!.plan).toBe('fish');
+  });
+
+  it('makes Snorlax and Gengar wider in both modes', () => {
+    for (const id of ['snoozelump', 'spookgrin']) {
+      const art = SPECIES_ART[id]!;
+      const plain = { ...art };
+      delete plain.girth;
+      const w = (s: typeof art) => artSpec(id, s).torso.prims[0]!;
+      expect(art.girth).toBeGreaterThan(1.2);
+      expect(JSON.stringify(w(art))).not.toBe(JSON.stringify(w(plain)));
+    }
+  });
+});

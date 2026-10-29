@@ -104,6 +104,8 @@ export interface CreatureSpec {
   irisColor?: string;
   /** The pupil's shape: round (default) or a narrow upright slit (the snakes, Charmander's line). */
   pupil?: 'round' | 'slit';
+  /** Width over the plan's default, body and (more gently) head: a squat Gengar, a vast Snorlax. */
+  girth?: number;
   marks: Mark[];
   /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
   extras?: readonly KitExtra[];
@@ -221,6 +223,10 @@ function anchors(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): Anchors
       bodyCy = feetY - bodyRy + 1 - (spec.legs === 'long' ? 4 : spec.legs === 'none' ? 0 : 1);
       headCy = bodyCy - bodyRy - headRy + 3 + pose.headDrop;
     }
+  }
+  if (spec.girth) {
+    bodyRx = Math.round(bodyRx * spec.girth);
+    headRx = Math.round(headRx * (1 + (spec.girth - 1) * 0.6));
   }
   const headCx = 16 + (angle === 'side' ? -1 : 0);
   const many = spec.heads && spec.heads.count > 1 ? spec.heads : null;
