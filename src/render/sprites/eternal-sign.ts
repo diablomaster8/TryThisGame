@@ -49,8 +49,16 @@ export function drawEternalSign(
   const turn = ['front', 'frontQuarter', 'side', 'backQuarter', 'back'].indexOf(angle);
   for (let i = 0; i < 3; i++) {
     const a = (i / 3) * Math.PI * 2 + turn * 0.6;
-    const x = Math.round(L.headCx + Math.cos(a) * (L.headRx + 3));
-    const y = Math.round(L.headCy + 2 + Math.sin(a) * 3);
-    pc.px(x, y, i === 0 ? C.white : C.sunLight);
+    // Up round the crown, clear of the wings, each a small gold cross with a white heart.
+    const x = Math.round(L.headCx + Math.cos(a) * (L.headRx + 2));
+    const y = Math.round(L.headCy - L.headRy + 1 + Math.sin(a) * 2);
+    for (const [dx, dy] of [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ] as const)
+      pc.px(x + dx, y + dy, C.sunYellow);
+    pc.px(x, y, C.white);
   }
 }

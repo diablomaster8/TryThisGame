@@ -201,7 +201,7 @@ export function buildCocoonSheet(
           top = Math.min(top, y);
           // Shade the lower-right edge, then wind diagonal threads round the body.
           const edge = !at(x + 2, y) || !at(x, y + 2) || !at(x + 1, y + 1);
-          const thread = (y * 3 - x + f * 2) % 9 === 0;
+          const thread = (x + y + f * 2) % 5 === 0;
           pc.px(x, y, thread ? pal.thread : edge ? pal.shade : pal.body);
         }
       for (let x = 0; x < EGG_SIZE; x++)

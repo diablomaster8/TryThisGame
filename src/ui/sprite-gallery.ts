@@ -11,6 +11,7 @@ import {
   eternalColors,
   lookOf,
   poseFor,
+  swimPose,
   VARIANT_COLORS,
   variantColors,
   type ChaoLook,
@@ -89,7 +90,9 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
                   legs: 'tucked' as const,
                   arms: 'out' as const,
                 }
-              : poseFor(clip as ClipName, f);
+              : clip === 'paddle' || clip === 'crawl'
+                ? swimPose(clip, f)
+                : poseFor(clip as ClipName, f);
       cell(row, drawChao(angle, pose, look), frameKey(clip, angle, f));
     }
   };
@@ -190,10 +193,19 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     chao(`Hat: ${hat}`, lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat), idleAngles);
   }
 
+  // LOOK-23: the three strokes, paddle, breaststroke and crawl.
+  chao('Swim: paddle, breaststroke, crawl', lookOf(CHILD_NEUTRAL), [
+    ['paddle', 'front', 0],
+    ['paddle', 'side', 1],
+    ['swim', 'front', 0],
+    ['crawl', 'front', 0],
+    ['crawl', 'side', 1],
+  ]);
+
   for (const band of ['sun', 'moon', 'neutral'] as const) {
     chao(
       `Eternal ${band} (Chaos form)`,
-      lookOf(eternalColors(band), 'normal', null, undefined, true),
+      lookOf(eternalColors(band), 'normal', null, undefined, true, null, false, band),
       [...idleAngles, ['flap', 'front', 1], ['happy', 'front', 0]],
     );
   }
@@ -264,6 +276,22 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
   const keeperKeys = (clips: ClipName[]) => clipFrames(clips).map(([c, a, f]) => frameKey(c, a, f));
   for (const t of TRAINERS) {
     sheet(`Keeper: ${t.id} (${t.band})`, buildKeeperSheet(t.look), keeperKeys(['idle']));
+  // LOOK-25: the cocoons in a Nubbin's own shape: evolving by band (a child), then an adult's.
+  const childMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL));
+  const adultMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL, 'fly'));
+  for (const [kind, band] of [
+    ['evolve', 'sun'],
+    ['evolve', 'moon'],
+    ['evolve', 'neutral'],
+    ['rebirth', null],
+    ['depart', null],
+  ] as const) {
+    sheet(
+      `Cocoon: ${kind} ${band ?? ''}`,
+      buildCocoonSheet(kind, band, kind === 'evolve' ? childMask : adultMask),
+      [frameKey('idle', 'front', 0), frameKey('idle', 'front', 1)],
+    );
+  }
   }
   for (const [id, art] of Object.entries(SPECIES_ART)) {
     const row = heading(`Species: ${id}`);
