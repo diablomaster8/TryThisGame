@@ -96,3 +96,12 @@
   font-size: 18px;
   pointer-events: auto;
 }
+
+/* R0102: with Travel assist on, the chip sits over a visible beacon as its tap handle. */
+.beacon-arrow.beacon-arrow-on .beacon-arrow-point {
+  display: none;
+}
+.travel-select {
+  min-height: 44px;
+  margin-left: auto;
+}

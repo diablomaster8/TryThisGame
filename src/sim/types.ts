@@ -354,6 +354,11 @@ export interface Settings {
   /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */
   hideBarWhileWalking?: boolean;
   /**
+   * R0102: Travel assist: walk, auto-walk to a tapped beacon or pin, or skip there. Unset:
+   * auto-walk in a Learning Grove, walk otherwise (`travelMode`).
+   */
+  travel?: 'walk' | 'auto' | 'skip';
+  /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
    */
@@ -1081,6 +1086,8 @@ export type Command =
   | { kind: 'travel'; exit: string; sub?: string }
   // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
+  // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
+  | { kind: 'travelAssist'; pos: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }

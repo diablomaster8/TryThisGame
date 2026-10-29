@@ -205,6 +205,8 @@ export const WORLD_BEACON = {
   inset: { side: 34, top: 150, bottom: 190 },
   /** An on-screen target within this share of the screen's half-size shows no arrow. */
   onScreen: 0.92,
+  /** R0102: with Travel assist on, a beacon on screen farther than this (units) gets a tap chip. */
+  assistFrom: 4,
 } as const;
 
 /**

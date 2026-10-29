@@ -100,3 +100,17 @@ export const WORLD_SETTINGS_TEXT = {
   },
   handle: 'Show the menu bar',
 } as const;
+
+/** R0102: the Travel assist setting (`ui/world-settings.ts`) and what the beacon chip says. */
+export const TRAVEL_TEXT = {
+  label: 'Travel assist',
+  help: 'What tapping a quest beacon or a map pin does.',
+  modes: { walk: 'Walk', auto: 'Auto-walk', skip: 'Skip' },
+  modeHelp: {
+    walk: 'You walk there yourself; the beacon opens the Map.',
+    auto: 'The Keeper runs there. Tap anywhere to stop.',
+    skip: 'Hop straight there.',
+  },
+  goBeacon: 'Go to the objective',
+  walkHere: 'Walk here',
+} as const;
