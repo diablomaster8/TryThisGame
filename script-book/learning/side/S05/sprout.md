@@ -9,7 +9,7 @@
 
 #### `sprout:s5-list` · [main](../../../side/S05.md#s5-list)
 
-_Dusty is at the gate with a very old Nubbin._  
+_Thump, thump! Dusty is at the gate with a very old Nubbin._  
 _She is the colour of sand. She blinks very slowly._  
 **Dusty**: This is Fossil. I dug her egg out of a cliff!  
 **Dusty**: Fossil is very old now. She is fading.  
@@ -20,7 +20,7 @@ _She is the colour of sand. She blinks very slowly._
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): being gentle with someone old and frail  
 > **Dusty**: How do we carry a very old Nubbin?  
 > - ✅ Gently, with both hands → That’s it. Slow and gentle.
-> - Fast, swinging her about → Oh, that would hurt her. Gently, with both hands.
+> - Fast, swinging her about → Swing her about? Whee! She’d get as dizzy as a spinning top. Oh, that would hurt her. Gently, with both hands.
 > _For grown-ups: Thought about being gentle and careful with someone old._
 
 **Dusty**: One, the cliff. Two, Hazel’s first tree. Three, the water.  
@@ -43,7 +43,7 @@ _The cliff has stripes. Brown, red, grey, brown._
 > _(Say the stripes together: brown, red, grey, brown.)_  
 > **Dusty**: Which colour comes after red?  
 > - ✅ Grey → Yes! Brown, red, grey, brown.
-> - Brown → Brown comes first and last. After red comes grey.
+> - Brown → Brown after red? The cliff would look like toast! Brown comes first and last. After red comes grey.
 > _For grown-ups: Read a colour sequence and said which colour came next._
 
 **Dusty**: I dug Fossil’s egg out with a big, strong trowel!  
@@ -73,7 +73,7 @@ _Next to it, pressed in the stone, is a very old fern._
 
 **Dusty**: Shake it once. Only once!  
 _Fossil falls asleep on the way. Zzz._  
-_She wakes up just as you get there!_  
+_She wakes up just as you get there. Pop! Eyes open!_  
 
 #### `sprout:s5-tree` · [main](../../../side/S05.md#s5-tree)
 
@@ -86,7 +86,7 @@ _It misses every mouth. Plop! It lands in Fossil’s lap._
 > **Lesson** (maths, K.CC.C.6, ask): more and fewer  
 > **Dusty**: Lots of mouths. One fruit. Is there one for everyone?  
 > - ✅ No, not enough → Right. More mouths than fruit. Fewer fruit than mouths!
-> - Yes, one each → Count them: lots of mouths, only one fruit. Not enough to go round!
+> - Yes, one each → One each? Munch, munch! That would be a very hungry queue. Count them: lots of mouths, only one fruit. Not enough to go round!
 > _For grown-ups: Compared groups to see that there were fewer fruits than mouths._
 
 **Dusty**: Hazel gave her one of these when she hatched.  
@@ -97,7 +97,7 @@ _Fossil eats a little. She gives the rest to Dusty._
 
 **Dusty**: Last wish: the water. She can’t swim alone now.  
 **Dusty**: Marina taught her. She swam sideways!  
-_Marina is at the pond, with a towel. What a surprise!_  
+_Splish, splash! Marina is at the pond, with a towel._  
 **Marina**: I was just passing. With a towel.  
 
 > **Lesson** (health, CASEL: Responsible decision-making, notice): always swim with a helper nearby  
@@ -118,7 +118,7 @@ _Marina is at the pond, with a towel. What a surprise!_
 
 #### `sprout:s5-water` · [main](../../../side/S05.md#s5-water)
 
-_Fossil goes into the water. She floats!_  
+_Splash! Fossil goes into the water. She floats!_  
 _Then, very slowly, she kicks. She goes sideways, like a crab!_  
 _(Wiggle your hand sideways, like Fossil.)_  
 **Dusty**: Look! Her sideways swim!  
@@ -181,7 +181,7 @@ _Fossil gives you a baby fern, curled up tight._
 > **Lesson** (science, K-LS1-1, ask): what a plant needs to grow  
 > **Dusty**: What does a little fern need to grow?  
 > - ✅ Soil, water and light → Yes. Soil, water and light. And time.
-> - A box in the dark → In a dark box it won’t grow. It needs soil, water and light.
+> - A box in the dark → A fern in a dark box? Squeak! It would grumble in the dark. In a dark box it won’t grow. It needs soil, water and light.
 > _For grown-ups: Learned that plants need soil, water and light to grow._
 
 **Dusty**: And take my old trowel. For digging.  

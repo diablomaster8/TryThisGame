@@ -23,8 +23,8 @@ _And there is snow!_
 > **Pixel**: It goes round and round, like a pattern.  
 > **Pixel**: Speedy, Splashy, Sturdy, Speedy, Splashy… what comes next?  
 > - ✅ Sturdy → Sturdy! Then the pattern goes round again.
-> - Speedy → Speedy comes after Sturdy. Listen: Speedy, Splashy, STURDY.
-> - Gordon → Ha! Gordon isn’t in the pattern. Speedy, Splashy, Sturdy!
+> - Speedy → Speedy next? Zoom! Wait your turn, Speedy. Speedy comes after Sturdy. Listen: Speedy, Splashy, STURDY.
+> - Gordon → Gordon in the pattern? Hee, hee! He’s not a snowball. Ha! Gordon isn’t in the pattern. Speedy, Splashy, Sturdy!
 > _For grown-ups: Continued a repeating pattern of three._
 
 _Bonk! A snowball hits a small boy called Gordon._  
@@ -53,11 +53,11 @@ _Every time you point at Wren, she salutes._
 > _Wren is cross. She has been asked nine times!_  
 > _What could you say to Wren?_  
 > - ✅ “Sorry, Wren. Thank you for helping!” → Oh! You’re welcome, commander. Sorry and thank you make friends feel good.
-> - “Faster, Wren!” → Hmm. Wren is only little. Let’s try: sorry, Wren, and thank you! Oh! You’re welcome, commander.
+> - “Faster, Wren!” → “Faster, Wren!” Squeak! Little Wren would run out of puff. Hmm. Wren is only little. Let’s try: sorry, Wren, and thank you! Oh! You’re welcome, commander.
 > _For grown-ups: Chose kind words, sorry and thank you, for a helper who felt cross._
 
 **Pixel**: Rule: don’t hit the snowman. He has feelings. He’s called Derek.  
-_The whistle blows. Your wall is short and fat and lumpy._  
+_The whistle blows. Peep! Your wall is short and fat and lumpy._  
 _Their wall is tall and thin, with pointy bits on top._  
 **Tilly**: I put everyone on snow from the start!  
 **Pixel**: Round one: a draw. Both of them are walls.  
@@ -71,7 +71,7 @@ _Zip wiggles in your mittens. Snow melts off his ears. Drip!_
 > **Lesson** (science, 2-ESS2-3, ask): snow is frozen water and melts when warm  
 > **Pixel**: Why does the snow melt on your mitten?  
 > - ✅ My hand is warm → Yes! Snow is frozen water. Warm it up, and it turns back into water.
-> - Zip is magic → Zip is fast, not magic! Your warm hand melts the snow back into water.
+> - Zip is magic → Zip is magic? Pop! No wand needed, only a warm hand. Zip is fast, not magic! Your warm hand melts the snow back into water.
 > _For grown-ups: Explained that snow is frozen water that melts when it gets warm._
 
 **Pixel**: Send Zip round their fort. Count what they’ve got.  
@@ -91,8 +91,8 @@ _One lost a mitten, one lost a boot, and one wanted his tea._
 > **Lesson** (maths, K.OA.A.2, ask): take away within 5  
 > **Pixel**: Five children were behind their wall. Three went home. How many are left?  
 > - ✅ 2 → Two! Five take away three leaves two. (Show five fingers. Fold three down. Two left!)
-> - 3 → Three went home. Let’s use fingers: show five, fold three down… two left!
-> - 5 → Some went home, so there are fewer now. Five take away three leaves two.
+> - 3 → Three left? Pop! Let’s check on our fingers. Three went home. Let’s use fingers: show five, fold three down… two left!
+> - 5 → Five left? Whee! Hold on, some went home. Some went home, so there are fewer now. Five take away three leaves two.
 > _For grown-ups: Took three away from five, using fingers, to find two._
 
 **Tilly**: We’re FINE! We have LOADS of people!  
@@ -118,7 +118,7 @@ _One lost a mitten, one lost a boot, and one wanted his tea._
 
 **Pixel**: Round three. The last one.  
 **Pixel**: Look at what they send. Send what beats it.  
-_Over the ditch, big children roll big snowballs. Sturdy ones!_  
+_Over the ditch, big children roll big snowballs. Thump! Sturdy ones!_  
 **Tilly**: GIVE UP OR GET ROLLED!  
 _Your fort shouts back: “FOR DEREK!” “I’M BRAVE, NOT COLD!”_  
 _Above the hill, the sky goes dark grey, like a pigeon._  
@@ -135,7 +135,7 @@ _Nobody looks at it. Only Pixel._
 
 #### `sprout:s20-blizzard` · [main](../../../side/S20.md#s20-blizzard)
 
-_You’re nearly at their flag. Then the snow goes sideways!_  
+_You’re nearly at their flag. Whoosh! Then the snow goes sideways!_  
 _White everywhere. You can’t see their fort. You can’t see yours._  
 **Pixel**: STOP! Everybody stop! This is a real blizzard!  
 
@@ -154,7 +154,7 @@ _But it’s too small for everybody._
 #### `sprout:s20-merge` · [main](../../../side/S20.md#s20-merge)
 
 _Through the snow you can see children from both forts._  
-_They stand about, like dropped gloves._  
+_They stand about, like dropped gloves. Plop!_  
 **Pixel**: Referee’s rule…  
 **Pixel**: I don’t have one. You’ve got a wall. They’ve got snow.  
 **Tilly**: Is this a trick?  
@@ -190,7 +190,7 @@ _They stand about, like dropped gloves._
 
 **Pixel**: …Everyone. Even Gordon.  
 _The small one who cried was Wren. She lost a mitten._  
-_Pixel finds it. It was on Wren’s head!_  
+_Pixel finds it. Pop! It was on Wren’s head!_  
 **Gordon**: I got hit by a whole sky!  
 _Inside it’s blue and snug. It smells of wet wool._  
 **Tilly**: That bit of the roof is mine.  
@@ -220,7 +220,7 @@ _Both forts lie in one fort, looking up._
 **You**: So we knew how to build fast. When the storm came, we did!  
 **Tilly**: …That’s a really good answer.  
 _Up at the cottage, someone in a blanket waves from the window._  
-_Everybody waves back._  
+_Everybody waves back. Whee!_  
 **Pixel**: Prizes! A commander’s hat. It’s a tea cosy.  
 
 **Notes:** S20 sprout. COUSIN VARIANT: every tilly line here is written to work for either cousin (no Tax Toad and no whistle), so if s14Done is false, play the same lines with speaker bodge, with one narration replacement: sprout:s20-declaration#2 → (narrator) “Sparks’s other cousin, Bodge, has come for the holidays.” (#3, “And there is snow!”, stays). No other narration names the cousin. The s20-complete window glimpse is Hazel, never named. SUN AND MOON: s20-declaration names no flags, so it fits either variant. All choices kept, including “press” (it is a friendly snowball game).
