@@ -19,6 +19,7 @@ import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
+import { cocoonPulse } from '../render/sprites/cocoon';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -918,6 +919,8 @@ export class Actors {
         if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
         else {
           o.rotation.y = t * 0.4;
+          // LOOK-25: the cocoon breathes, 1 to 1.03 at 0.8 Hz.
+          o.scale.setScalar(cocoonPulse(nowMs));
           // As the pixel cocoon: a departing one fades as it closes, a rebirth one shimmers.
           (a.shell.material as THREE.MeshPhysicalMaterial).opacity =
             n.cocoonKind === 'depart'

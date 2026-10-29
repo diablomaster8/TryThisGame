@@ -33,6 +33,7 @@ import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
+import { cocoonPulse } from './sprites/cocoon';
 import { SWIM_CLIPS } from './sprites/chao';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -1791,6 +1792,8 @@ export class WorldView {
       let sw = 1;
       let sh = 1;
       if (v.pop) {
+      // LOOK-25: a cocoon breathes, 1 to 1.03 at 0.8 Hz.
+      if (n.stage === 'cocoon') sw = sh = cocoonPulse(nowMs);
         const dur = v.pop.kind === 'squash' ? 260 : 420;
         const t = (nowMs - v.pop.startMs) / dur;
         if (t >= 1) v.pop = null;

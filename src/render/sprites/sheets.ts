@@ -20,7 +20,8 @@ import {
 import { speciesOf } from '../../sim/species';
 import { isJewel } from '../../sim/nubbin';
 import { buildCreatureSheet } from './creature';
-import { buildCocoonSheet, buildEggSheet } from './egg';
+import { buildEggSheet } from './egg';
+import { buildCocoonFor, cocoonKey } from './cocoon';
 import { speciesArt } from './species-art';
 import { buildEmoteSheet } from './emote';
 import { keeperOutfit, trainerLook } from '../keeper-look';
@@ -140,7 +141,7 @@ export class SheetCache {
 
   private static baseKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
-    if (n.stage === 'cocoon') return `cocoon:${n.cocoonKind ?? 'evolve'}`;
+    if (n.stage === 'cocoon') return cocoonKey(n);
     const sh = n.shadow ? 'sh' : '-';
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
     const parts = SLOTS.map((s) => n.parts[s] ?? '-').join(',');
@@ -175,7 +176,7 @@ export class SheetCache {
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
-      if (n.stage === 'cocoon') return buildCocoonSheet(n.cocoonKind ?? 'evolve');
+      if (n.stage === 'cocoon') return buildCocoonFor(n);
       // Other families use the generic creature drawer; their look is the species.
       const art = family !== 'chao' ? speciesArt(n.species) : undefined;
       if (art) {
