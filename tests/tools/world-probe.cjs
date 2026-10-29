@@ -54,6 +54,8 @@ const SPOTS = process.env.PROBE_SPOTS
   ? ALL_SPOTS.filter((s) => process.env.PROBE_SPOTS.split(',').includes(s[0]))
   : ALL_SPOTS;
 const BREAKDOWN = !!process.env.PROBE_BREAKDOWN;
+// PROBE_BREAKDOWN=all prints every category, not only the top 14.
+const ALL_CATS = process.env.PROBE_BREAKDOWN === 'all';
 
 /**
  * Close whatever dialogue is up (the opening, a discovery card): a story scene stages the
@@ -211,7 +213,8 @@ async function probe(TAG) {
         : null;
     if (cats) {
       console.log(`-- ${name}: category, calls, tris (per frame)`);
-      for (const c of cats.filter((c, i) => i < 14 || c[2] > 20000)) console.log('   ', c.join('	'));
+      for (const c of cats.filter((c, i) => ALL_CATS || i < 14 || c[2] > 20000))
+        console.log('   ', c.join('	'));
     }
     rows.push({
       mode: TAG,

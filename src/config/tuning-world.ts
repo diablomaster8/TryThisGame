@@ -52,6 +52,12 @@ export const WORLD_LOD = {
   grass: [1, 0.6, 0.35, 0.2],
   /** World units a terrain chunk's box grows by before the view test (shadows from hills). */
   terrainMargin: 6,
+  /**
+   * Round 4 (phone perf): a tree at least `farFrom` units from the camera, and farther than the
+   * Keeper by its crown's reach plus `farMargin` (so it can never need its own fade), is drawn
+   * in the shared far batch (`render3d/far-trees.ts`). `farBand` is the hysteresis.
+   */
+  farTrees: { farFrom: 16, farMargin: 3, farBand: 2 },
   /** Creatures (`render3d/lod.ts`). */
   creature: {
     /** World units added to a rig's bounding sphere for the longest shadow it throws. */

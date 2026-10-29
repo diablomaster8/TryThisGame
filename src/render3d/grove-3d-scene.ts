@@ -48,6 +48,7 @@ import { Garden, useBuildingKit } from './garden';
 import { Halo } from './halo';
 import { Hollow } from './hollow';
 import { buildGroveProps, buildGroveTrees, type GroveProps } from './props';
+import { FarTrees } from './far-trees';
 import { GroveTextures } from './grove-textures';
 import { GroveSky } from './sky';
 import { StorySets } from './story-sets';
@@ -289,6 +290,8 @@ export class Grove3dScene {
   /** Rain, snow, fireflies and falling leaves. */
   private readonly weather: GroveWeather;
   private treesBuilt = false;
+  /** Round 4: far trees drawn in shared batches (see far-trees.ts). */
+  farTrees: FarTrees | null = null;
   private readonly treeAt = new Map<string, Vec2>();
   private readonly crowns = new CrownFade();
   private readonly holeSize = new THREE.Vector2();
@@ -1024,8 +1027,9 @@ export class Grove3dScene {
     if (this.treesBuilt) return;
     this.treesBuilt = true;
     for (const t of world.trees) this.treeAt.set(t.id, { x: t.pos.x, z: t.pos.z });
-    for (const t of buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time))
-      this.crowns.add(t);
+    const trees = buildGroveTrees(this.world3d, this.tex, world.trees, this.pickables, this.time);
+    for (const t of trees) this.crowns.add(t);
+    this.farTrees = new FarTrees(this.world3d, trees, this.time);
     this.actors.warm(world);
   }
 
@@ -1570,6 +1574,7 @@ export class Grove3dScene {
       );
     } else CrownFade.setHole2(0, 0, 0);
     this.crowns.update(this.camera.position, targets, dt);
+    this.farTrees?.update(this.camera, targets);
     // R0018: houses, the windmill, the shed and stalls thin out too, and the Keeper shows through.
     const hidden = occluders.update(this.camera.position, targets, 2, dt, this.reduceMotion);
     occluders.ghost(hidden, hidden ? nearestChild(this.actors.group, kp.x, kp.z, 0.5) : null);
