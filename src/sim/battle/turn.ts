@@ -1,4 +1,5 @@
 import { BATTLE } from '../../config/tuning-battle';
+import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
 import type { Rng } from '../rng';
 import { chooseAction, levelFor, replacementFor } from './ai';
 import { addCalm, calmGain } from './befriend';
@@ -7,7 +8,7 @@ import { itemFits, itemsLeft, useItem } from './items';
 import { moveOf } from './moves';
 import { BASIC_MOVES } from './moves-sources';
 import { canAct, cure, inflict, moodMult, shiftMood, tickStatus, zipOf } from './status';
-import type { BattleAction, BattleState, Combatant, MoveDef, SideIx } from './types';
+import type { BattleAction, BattleState, Combatant, MoveDef, SideIx, Timing } from './types';
 
 /**
  * The turn-based resolver (party bouts, dojo singles, story and Circuit bouts, encounters),
@@ -36,6 +37,21 @@ export function moveIdOf(a: BattleAction): string | null {
 
 const targetOf = (a: BattleAction): string | undefined =>
   a.k === 'strike' || a.k === 'move' || a.k === 'item' ? a.target : undefined;
+
+const timingOf = (a: BattleAction): Timing | undefined =>
+  a.k === 'strike' || a.k === 'move' ? a.timing : undefined;
+
+/**
+ * The timing ring's flag (recs FIGHT-87) is only for a Bonk-kind move, only one of the two
+ * values, and never a sweet hit in a gentle bout (the ring is off in kid mode).
+ */
+function timingFits(s: BattleState, a: BattleAction, id: string): boolean {
+  const t = timingOf(a);
+  if (t === undefined) return true;
+  if (t !== 'sweet' && t !== 'plain') return false;
+  if (t === 'sweet' && s.gentle) return false;
+  return moveOf(id).kind === 'bonk';
+}
 
 export function hasMove(c: Combatant, id: string): boolean {
   return BASIC_MOVES.includes(id) || c.moves.includes(id);
@@ -78,13 +94,19 @@ export function canChoose(s: BattleState, c: Combatant, a: BattleAction): boolea
   const id = moveIdOf(a);
   if (id === null || !hasMove(c, id)) return false;
   if (puffCost(s, c, id) > c.puff) return false;
+  if (!timingFits(s, a, id)) return false;
   const t = targetOf(a);
   if (t === undefined) return true;
   const def = moveOf(id);
-  const pool = def.target === 'ally' ? s.sides[c.side] : s.sides[c.side === 0 ? 1 : 0];
+  const own = def.target === 'ally' || passable(s, def);
+  const pool = own ? s.sides[c.side] : s.sides[c.side === 0 ? 1 : 0];
   const to = pool.find((x) => x.id === t);
   return !!to && onField(s, to);
 }
+
+/** Doubles: a plain self-support move (a mood or a heal) may be passed to the partner. */
+const passable = (s: BattleState, def: MoveDef): boolean =>
+  !!s.doubles && def.target === 'self' && def.kind === 'support' && !def.special;
 
 function priorityOf(s: BattleState, c: Combatant, a: BattleAction): number {
   let p =
@@ -122,8 +144,10 @@ function pickTargets(s: BattleState, c: Combatant, def: MoveDef, want?: string):
   const own = s.sides[c.side].filter((x) => onField(s, x));
   const opp = s.sides[c.side === 0 ? 1 : 0].filter((x) => onField(s, x));
   switch (def.target) {
-    case 'self':
-      return [c];
+    case 'self': {
+      const pal = passable(s, def) ? own.find((x) => x.id === want) : undefined;
+      return [pal ?? c];
+    }
     case 'allAllies':
       return own;
     case 'ally':
@@ -132,9 +156,34 @@ function pickTargets(s: BattleState, c: Combatant, def: MoveDef, want?: string):
       return opp;
     case 'foe': {
       const t = opp.find((x) => x.id === want) ?? opp[0];
-      return t ? [t] : [];
+      if (!t) return [];
+      // Doubles (FIGHT-60): a ring-shaped move hits the foe and its partner.
+      if (s.doubles && def.grid.aoe === 'ring1') return [t, ...opp.filter((x) => x !== t)];
+      return [t];
     }
   }
+}
+
+/**
+ * What the UI's "Who?" pick offers for `moveId` (recs FIGHT-60): the foes or allies on the field
+ * to choose from (`pick: 'none'` when the move needs no target), and whether it is a spread hit
+ * that lands on both foes at ×0.75.
+ */
+export function whoChoices(
+  s: BattleState,
+  actorId: string,
+  moveId: string,
+): { pick: 'none' | 'foe' | 'ally'; ids: string[]; spread: boolean } {
+  const me = [...s.sides[0], ...s.sides[1]].find((c) => c.id === actorId);
+  if (!me) return { pick: 'none', ids: [], spread: false };
+  const def = moveOf(moveId);
+  const own = s.sides[me.side].filter((x) => onField(s, x)).map((x) => x.id);
+  const opp = s.sides[me.side === 0 ? 1 : 0].filter((x) => onField(s, x)).map((x) => x.id);
+  const wide = def.target === 'allFoes' || (def.target === 'foe' && def.grid.aoe === 'ring1');
+  const spread = !!s.doubles && wide && def.kind !== 'support' && opp.length > 1;
+  if (def.target === 'foe') return { pick: 'foe', ids: opp, spread };
+  if (def.target === 'ally' || passable(s, def)) return { pick: 'ally', ids: own, spread: false };
+  return { pick: 'none', ids: [], spread };
 }
 
 function lands(rng: Rng, by: Combatant, to: Combatant, def: MoveDef): boolean {
@@ -147,7 +196,8 @@ function effects(s: BattleState, rng: Rng, by: Combatant, to: Combatant, def: Mo
   if (def.status && to.hp > 0) inflict(s, rng, by, to, def.status.id, def.status.chance);
   const md = def.mood;
   if (md) {
-    const who = md.who === 'self' ? by : to;
+    // A self move passed to the partner (doubles) lifts the partner; elsewhere `to` is `by`.
+    const who = md.who === 'self' && def.target !== 'self' ? by : to;
     if (who.hp > 0) shiftMood(s, rng, by, who, md.stat, md.delta, md.chance);
   }
   if (def.heal && def.kind === 'support' && to.hp > 0) {
@@ -172,6 +222,7 @@ function useMove(
   id: string,
   want?: string,
   swing = false,
+  timing?: Timing,
 ): void {
   let def = moveOf(id);
   if (puffCost(s, c, def.id) > c.puff) def = moveOf('bonk');
@@ -203,8 +254,13 @@ function useMove(
       return;
     }
   }
-  const sweet = swing && def.id === 'bonk';
-  if (swing && def.id === 'bonk') s.log.push({ k: 'swing', by: c.id, sweet });
+  // The dojo's swing is Bonk only; the timing ring (FIGHT-87) is any Bonk-kind move.
+  const ring = timing !== undefined && def.kind === 'bonk';
+  const sweet = (swing && def.id === 'bonk') || (ring && timing === 'sweet');
+  if ((swing && def.id === 'bonk') || ring) s.log.push({ k: 'swing', by: c.id, sweet });
+  // Doubles: a move that lands on more than one foe deals ×0.75 to each.
+  const foesHit = targets.filter((x) => x.side !== c.side).length;
+  const spread = s.doubles && foesHit > 1 ? BATTLE_DOUBLES.spread : 1;
   for (const to of targets) {
     if (def.kind === 'support') {
       effects(s, rng, c, to, def);
@@ -232,19 +288,20 @@ function useMove(
       s.log.push({ k: 'unhurt', to: to.id });
       continue;
     }
-    const hit = moveDamage(rng, c, to, def);
-    const mult = fieldMult(s, c, def) * (sweet ? BATTLE.swing.sweet : 1);
-    const dmg = mult === 1 ? hit.dmg : Math.max(1, Math.round(hit.dmg * mult));
+    const roll = (): ReturnType<typeof moveDamage> => moveDamage(rng, c, to, def);
+    const { dmg: raw0, eff, crit } = stalemate(s) ? softGuard(to, roll) : roll();
+    const mult = fieldMult(s, c, def) * (sweet ? BATTLE.swing.sweet : 1) * spread;
+    const dmg = mult === 1 ? raw0 : Math.max(1, Math.round(raw0 * mult));
     s.log.push({
       k: 'hit',
       by: c.id,
       to: to.id,
       dmg,
-      strong: hit.eff > 1,
+      strong: eff > 1,
       guarded: to.guard,
       move: def.id,
-      eff: hit.eff,
-      crit: hit.crit,
+      eff,
+      crit,
     });
     hurt(s, rng, to, dmg);
     if (to.calm !== undefined && to.side !== c.side) addCalm(s, to, BATTLE.befriend.bonk);
@@ -259,7 +316,26 @@ function useMove(
   }
 }
 
-function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction): void {
+/**
+ * Past turn 40 every Guard stat counts at ×0.5 (FIGHT-81), so two walls still finish. The
+ * Hollow's and story beats' encounters keep their old rules exactly, so their replays hold.
+ */
+const stalemate = (s: BattleState): boolean =>
+  s.turn > BATTLE_STALEMATE.afterTurn && s.context.kind !== 'encounter';
+
+/** Runs `f` with `to`'s Guard softened; the stat is put back whatever happens. */
+function softGuard<T>(to: Combatant, f: () => T): T {
+  const keep = to.def;
+  to.def = keep * BATTLE_STALEMATE.guardMult;
+  try {
+    return f();
+  } finally {
+    to.def = keep;
+  }
+}
+
+/** Carries out one combatant's action; shared by the turn resolver and the ATB clock. */
+export function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction): void {
   // A swap is a free action: it happens whatever the status.
   if (a.k === 'swap') {
     swapIn(s, c.side, a.to);
@@ -277,7 +353,10 @@ function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction): void 
     const to = a.target === undefined ? c : all.find((x) => x.id === a.target);
     if (to && itemFits(c, a.item, to) && itemsLeft(s, c.side, a.item) > 0)
       useItem(s, rng, c, a.item, to);
-  } else useMove(s, rng, c, moveIdOf(a) ?? 'bonk', targetOf(a), a.k === 'strike' && !!a.swing);
+  } else {
+    const swing = a.k === 'strike' && !!a.swing;
+    useMove(s, rng, c, moveIdOf(a) ?? 'bonk', targetOf(a), swing, timingOf(a));
+  }
 }
 
 function nextAlly(s: BattleState, from: number): number {
@@ -355,7 +434,7 @@ export function resolveTurn(s: BattleState, rng: Rng): void {
 
 export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
   if (s.result || s.mode !== 'turn') return false;
-  if (a.k === 'tap' || a.k === 'advance') return false;
+  if (a.k === 'tap' || a.k === 'advance' || a.k === 'order' || a.k === 'pause') return false;
   if (s.phase === 'replace') {
     if (a.k !== 'swap' || !swapIn(s, 0, a.to)) return false;
     s.phase = 'choose';
