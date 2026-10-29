@@ -3,8 +3,8 @@
  * content maps either to a real command the game already has (talk, sit, race...) or to one
  * of eight small, never-failable micro-games, so "Do it" is no longer a bare button. This
  * module is pure: the mapping and each game's seeded setup. The games themselves live in
- * `minigames/micro/`. Kinds marked built in `MICRO_BUILT` play now; the others still show
- * the plain button until their pass.
+ * `minigames/micro/`. All eight kinds play since round 6; `MICRO_BUILT` stays as the switch
+ * a future kind would sit behind.
  */
 import { Rng } from './rng';
 
@@ -12,7 +12,16 @@ export type MicroKind =
   'balance' | 'hunt' | 'escort' | 'catch' | 'climb' | 'puzzle' | 'survive' | 'explore';
 
 /** The micro-games playable in this build. */
-export const MICRO_BUILT: ReadonlySet<MicroKind> = new Set<MicroKind>(['balance', 'hunt', 'catch']);
+export const MICRO_BUILT: ReadonlySet<MicroKind> = new Set<MicroKind>([
+  'balance',
+  'hunt',
+  'catch',
+  'escort',
+  'climb',
+  'puzzle',
+  'survive',
+  'explore',
+]);
 
 /** Verbs a micro-game stands in for. */
 const MICRO_VERBS: Record<MicroKind, readonly string[]> = {
@@ -164,4 +173,88 @@ export function balanceSetup(seed: number): BalanceSetup {
   const rng = new Rng(seed * 69069 + 3);
   const stack = rng.int(3, 5);
   return { stack, wobble: 0.5 + stack * 0.12 };
+}
+
+export interface EscortSetup {
+  /** Where along the path (0..1) the dawdler stops to look at something. */
+  stops: number[];
+}
+
+export interface ClimbSetup {
+  /** Taps to the top, and the beat in ms the taps follow. */
+  steps: number;
+  beatMs: number;
+}
+
+export interface PuzzleSetup {
+  /** Pieces to place; `order` is the shuffled order the tray shows them in. */
+  pieces: number;
+  order: number[];
+}
+
+export interface SurviveSetup {
+  /** Swings per round (0 left, 1 right, 2 high), three rounds. */
+  swings: number[][];
+}
+
+export interface ExploreSetup {
+  /** A 5×5 field: the start and the marked spot, as [col, row]. */
+  start: [number, number];
+  goal: [number, number];
+}
+
+function shuffled(rng: Rng, n: number): number[] {
+  const order = Array.from({ length: n }, (_, i) => i);
+  for (let i = n - 1; i > 0; i--) {
+    const j = rng.int(0, i);
+    [order[i], order[j]] = [order[j]!, order[i]!];
+  }
+  return order;
+}
+
+/** Escort: three stops along the path, spread so no two bunch up. */
+export function escortSetup(seed: number): EscortSetup {
+  const rng = new Rng(seed * 22695477 + 1);
+  return { stops: [0.15 + rng.next() * 0.15, 0.4 + rng.next() * 0.15, 0.65 + rng.next() * 0.2] };
+}
+
+/** Climb: six to eight taps on a steady beat. */
+export function climbSetup(seed: number): ClimbSetup {
+  const rng = new Rng(seed * 1103515245 + 12345);
+  return { steps: rng.int(6, 8), beatMs: 900 + rng.int(0, 3) * 100 };
+}
+
+/** Puzzle: three to five pieces, never shown already in order. */
+export function puzzleSetup(seed: number): PuzzleSetup {
+  const rng = new Rng(seed * 134775813 + 5);
+  const pieces = rng.int(3, 5);
+  let order = shuffled(rng, pieces);
+  if (order.every((v, i) => v === i)) order = [...order.slice(1), order[0]!];
+  return { pieces, order };
+}
+
+/** Survive: three rounds of three swings. */
+export function surviveSetup(seed: number): SurviveSetup {
+  const rng = new Rng(seed * 214013 + 2531011);
+  return { swings: [0, 1, 2].map(() => [rng.int(0, 2), rng.int(0, 2), rng.int(0, 2)]) };
+}
+
+/** Explore: start in the bottom row, the spot at least four steps away. */
+export function exploreSetup(seed: number): ExploreSetup {
+  const rng = new Rng(seed * 16807 + 9);
+  const start: [number, number] = [rng.int(0, 4), 4];
+  let goal: [number, number] = [rng.int(0, 4), rng.int(0, 1)];
+  if (Math.abs(goal[0] - start[0]) + Math.abs(goal[1] - start[1]) < 4) goal = [4 - start[0], 0];
+  return { start, goal };
+}
+
+/**
+ * Whether Do it skips the micro-game (the accessibility switch). Unset: on in the Little
+ * Sprouts band, off everywhere else.
+ */
+export function microSkipped(world: {
+  settings: { microSkip?: boolean };
+  edu: { band: string } | null;
+}): boolean {
+  return world.settings.microSkip ?? world.edu?.band === 'sprout';
 }

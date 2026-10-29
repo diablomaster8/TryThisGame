@@ -45,7 +45,8 @@ import { readGroveSaves, readSide, writeSide, type SideSave } from '../platform/
 import type { Dialogue } from './dialogue';
 import { button, el, modal } from './dom';
 import { MicroScreen } from '../minigames/micro/micro-screen';
-import { MICRO_BUILT, microFor } from '../sim/micro';
+import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
+import { DO_IT_BY, doItLabel } from '../config/strings-fun-r6';
 import { hashSeed } from '../sim/rng';
 
 /** A fresh read-only snapshot of the side saves and every Grove save on this device. */
@@ -215,18 +216,23 @@ export class StoryShelf {
       if (next.kind === 'act') {
         this.body.appendChild(el('p', undefined, next.goal));
         this.body.appendChild(el('p', 'help', next.hint));
+        // R0294 (FUN-05): every check verb plays its micro-game first, unless the Skip
+        // switch is on. R0369 (FUN-80): the button names the verb, with an aside.
+        const step = next.quest.steps.find((s) => s.goal === next.goal);
+        const kind = step ? microFor(step.check) : null;
+        const by = DO_IT_BY[kind ?? 'real'];
+        const w = this.game()?.world;
+        const skip = w ? microSkipped(w) : false;
+        this.body.appendChild(el('p', 'help micro-aside', by.aside));
         this.body.appendChild(
           button(
-            ATLAS_TEXT.doIt,
+            doItLabel(kind),
             () => {
               const act = (): void => {
                 this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
                 this.refresh();
               };
-              // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
-              const step = next.quest.steps.find((s) => s.goal === next.goal);
-              const kind = step ? microFor(step.check) : null;
-              if (kind && MICRO_BUILT.has(kind)) {
+              if (kind && !skip && MICRO_BUILT.has(kind)) {
                 const seed = Math.abs(hashSeed(`${line.id}:${step!.id}`));
                 this.micro.open(kind, next.goal, seed, this.game()?.reduceMotion ?? false, act);
               } else act();

@@ -1,4 +1,6 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
+import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { persisted } from '../platform/persist';
@@ -54,6 +56,8 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** R0294: skip the quest micro-games. */
+  private readonly microSkip: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -298,6 +302,18 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
+    const microRow = el('label', 'check-row');
+    this.microSkip = el('input');
+    this.microSkip.type = 'checkbox';
+    this.microSkip.addEventListener('change', () => this.apply());
+    const microText = el('span');
+    microText.append(
+      el('strong', undefined, MICRO_SKIP_TEXT.label),
+      el('small', undefined, MICRO_SKIP_TEXT.help),
+    );
+    microRow.append(this.microSkip, microText);
+    body.appendChild(microRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -396,6 +412,7 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.microSkip.checked = microSkipped(g.world);
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -538,6 +555,8 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    if (this.microSkip.checked !== microSkipped(g.world))
+      settings.microSkip = this.microSkip.checked;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

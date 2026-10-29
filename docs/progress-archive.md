@@ -2,6 +2,40 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
+
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. R0317 (lane E) and R0326 (lane B) skipped.
+
+- *Works:* the opening's stuck gate is played (hold, push, sticks once, gives) and the cup
+  sets `c1-cup-turned`, which adds a line to c12-close (R0304, `Line.act`, `ui/line-act.ts`);
+  no fun quest before chapter 2's closing (R0306); slip toasts say what helps, with a minute's
+  warning in a new save (R0307); sprout toasts icon-first, no mechanics, read aloud (R0308,
+  `ui/fun-toasts.ts` wraps the toaster); `content-check --comedy` and book 1's 74 gags tagged
+  (R0309); sound words read with their sounds, a bubbly face, ~70% of non-grave campaign and
+  S1–S22 sprout scenes covered (R0310); pet toasts in three physical lines per band (R0311);
+  one hatch card with Pet (R0312); Fern's cairn by the signpost in both modes, one stone a
+  chapter, tappable, finale line (R0313); Byte's stopwatches on the race card (R0314); 25 joke
+  badges, titles in `config/strings-badges.ts`, Silly filter (R0315); a seeded away diary,
+  three headlines then "+N more" (R0316); 60 gated tips on the veil and stage loaders (R0318);
+  chip caps in the checker, chapter 1–2 how-to steps tick live (R0319); sprout wrong replies
+  open with a silly picture, checker warning (R0320); sprout peekaboo under Play (R0321); tap
+  squeak toy (R0322); Say it! on 21 refrains (R0323); Keeper routines, three stations a story
+  day with lines and prop icons (R0296); 90 chatter exchanges for 15 pairs (R0297); R0294's
+  verb map covers every check, with balance, hunt and catch playable from the Atlas and Journal.
+- *Stubbed:* R0294's escort, climb, puzzle, survive and explore games (the button stays) and
+  the Skip-this setting; R0296's prop sprites (soot face, guilty sapling: the bubble icon is
+  the gag for now); R0313's Journal Friends line and side-story callback; R0316's 30 s
+  highlight of changed Nubbins; R0321's shy-Nubbin peekaboo idles; R0310 outside campaign and
+  S1–S22 (17.7% of all sprout scenes); R0318's Atlas loader; R0322's crown spin is a dizzy face.
+- *Known bugs:* none found. Timing tests (full life, nav, 8 Nubbins) fail under a loaded
+  machine; alone see the round's report. `TEN_TEXT.slipToast` in `strings.ts` is now unused.
+- *Assumptions:* routines and chatter state is not saved (read from the clock, kept beside the
+  world); joke-badge counts in optional `world.funCounts` (no save bump); the cup and gate
+  flags live in campaign flags; R0311 leaves lane E's per-personality lines (R0298) as the
+  main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
+  skip the wander pick), so seeded replays differ from before but stay deterministic.
+
 ## Round 4 · Lane A (MOVE + FUN, 2026-10-29, branch r4/a)
 
 Plan: the Hollow roll bug first, then R0057, R0063, R0066, then FUN R0290–R0305 in order

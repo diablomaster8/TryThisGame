@@ -282,12 +282,20 @@ body.line-shake-big #app {
   background: #ffe28a;
 }
 @keyframes say-it-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.18); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .say-it.said { animation: none; }
+  .say-it.said {
+    animation: none;
+  }
 }
 
 /* R0321 (FUN-32): peekaboo. The Nubbin sits behind its spot with the crown showing. */
@@ -349,12 +357,20 @@ body.line-shake-big #app {
   min-height: 56px;
 }
 @keyframes peek-pop {
-  from { transform: scale(0.4); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .peek-nubbin { transition: none; }
-  .peek-decoy { animation: none; }
+  .peek-nubbin {
+    transition: none;
+  }
+  .peek-decoy {
+    animation: none;
+  }
 }
 
 /* R0296 / R0297: the Keepers' ambient lines, quieter than a tapped Keeper's. */
@@ -454,5 +470,129 @@ body.line-shake-big #app {
   transition: left 0.12s ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .micro-basket { transition: none; }
+  .micro-basket {
+    transition: none;
+  }
+}
+/* R0294 (FUN-05), round 6: escort, climb, puzzle, survive and explore. */
+.micro-path {
+  position: relative;
+  height: 90px;
+  border-bottom: 6px dashed #8a5a2b;
+}
+.micro-walker,
+.micro-flag {
+  position: absolute;
+  bottom: 4px;
+  font-size: 40px;
+}
+.micro-flag {
+  right: 0;
+}
+.micro-call {
+  display: block;
+  margin: 10px auto 0;
+  min-height: 56px;
+  min-width: 140px;
+}
+.micro-wall {
+  position: relative;
+  height: 200px;
+  width: 90px;
+  margin: 0 auto;
+  background: repeating-linear-gradient(0deg, #9b8565 0 18px, #85704f 18px 20px);
+  border-radius: 6px;
+}
+.micro-climber {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 36px;
+  transition: bottom 0.15s ease-out;
+}
+.micro-ring {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 8px auto 0;
+  border: 6px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+.micro-ring.micro-ring-on {
+  border-color: #f2c14e;
+}
+.micro-slots,
+.micro-pieces,
+.micro-guards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.micro-slot,
+.micro-piece,
+.micro-guard {
+  min-width: 56px;
+  min-height: 56px;
+  font-size: 20px;
+}
+.micro-slot {
+  border-style: dashed;
+}
+.micro-piece.micro-held {
+  outline: 3px solid #f2c14e;
+}
+.micro-ring-fight {
+  position: relative;
+  height: 120px;
+}
+.micro-foe,
+.micro-me {
+  position: absolute;
+  bottom: 10px;
+  font-size: 44px;
+}
+.micro-foe {
+  left: 15%;
+}
+.micro-foe[data-side='1'] {
+  left: auto;
+  right: 15%;
+}
+.micro-foe[data-side='2'] {
+  left: 45%;
+  bottom: 70px;
+}
+.micro-me {
+  left: 45%;
+}
+.micro-me.micro-wobble {
+  animation: micro-wobble 0.5s;
+}
+@keyframes micro-wobble {
+  25% {
+    transform: rotate(-12deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+.micro-field {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.micro-cell {
+  min-height: 48px;
+  font-size: 24px;
+  padding: 0;
+}
+.micro-cell.micro-near {
+  outline: 2px solid #6cbf5a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .micro-climber {
+    transition: none;
+  }
 }
