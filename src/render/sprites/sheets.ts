@@ -216,8 +216,8 @@ export class SheetCache {
               'normal',
               null,
               { ...n.parts },
-              // Eternal Moon has no great wings in the line-up, only icy shoulder spikes.
-              n.eternal !== 'moon',
+              // LOOK-37: every Eternal carries great wings now (the Moon's are its bat wings).
+              true,
               n.hat,
               n.shiny || n.heirloom,
             ),
@@ -226,6 +226,7 @@ export class SheetCache {
         const colors =
           look?.colors ??
           variantColors(
+              n.eternal,
             // A second evolution blends its colours toward the second type, as in 3D.
             n.form.second
               ? secondColors(n.form.band, n.form.type, n.form.second)

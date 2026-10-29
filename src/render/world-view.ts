@@ -1814,7 +1814,8 @@ export class WorldView {
           rect,
           flip,
           x,
-          y,
+          // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
+          y: n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y,
           z,
           mode: 'billboard',
           opacity,

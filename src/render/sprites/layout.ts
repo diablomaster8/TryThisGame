@@ -38,6 +38,8 @@ export interface ChaoShape {
   bodyNarrow?: number;
   lean?: number;
   band?: 'sun' | 'moon' | 'neutral' | null;
+  /** LOOK-37: an Eternal's band, for its Chaos-tier signature (halo, devil tail, motes). */
+  eternalBand?: 'sun' | 'moon' | 'neutral';
 }
 
 export const CHILD_SHAPE: ChaoShape = {

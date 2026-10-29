@@ -1,4 +1,7 @@
+import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { V } from './sculpted';
+import type { PartSpec, SpeciesSpec } from './species';
 import {
   CHILD,
   MOON_ADULT,
@@ -86,9 +89,11 @@ const ETERNAL_MOON = variant(MOON_ADULT, 'Nubbin (Eternal Moon)', {
   crown: [-1, 1].map((dx) =>
     cone(V(dx * 0.72, 2.45, -0.05), V(dx * 0.85, 2.85, -0.1), 0.13, 0.02, MOON_ICE, 'horn', 0.04),
   ),
-  wings: null,
+  // LOOK-37 (R0404): the Chaos-tier signature, bat wings at 2.2 and a spade-tipped tail.
+  wings: { shape: 'bat', size: 2.2 },
   ball: { shape: 'spikes', color: '#2a1a60', glow: '#7a4fc0' },
   slots: {
+    tail: devilTail(MOON_BODY, MOON_ICE),
     arms: [
       gloveArm(-1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
       gloveArm(1, MOON_BODY, MOON_BODY, { y: 1.2, reach: 1.0, hand: 0.3 }),
@@ -150,6 +155,82 @@ const NEUTRAL_LIME = '#7ee02c';
 const NEUTRAL_BELLY = '#d2e640';
 const NEUTRAL_SALMON = '#f0707c';
 const NEUTRAL_TIP = '#f0a070';
+
+/**
+ * LOOK-37 (R0404): a devil tail, a chain of four capsules curling down and up behind the
+ * hips, ending in a spade.
+ */
+function devilTail(color: string, tip: string): PartSpec[] {
+  const pts = [
+    V(0, 0.55, -0.6),
+    V(0, 0.4, -1.0),
+    V(0, 0.5, -1.4),
+    V(0, 0.78, -1.62),
+    V(0, 1.05, -1.66),
+  ];
+  return [
+    {
+      name: 'tail',
+      pivot: V(0, 0.55, -0.6),
+      prims: [
+        ...pts.slice(1).map((b, i) => ({
+          kind: 'capsule' as const,
+          a: pts[i]!,
+          b,
+          r: 0.1 - i * 0.012,
+          color,
+          tag: 'tail',
+          blend: 0.06,
+        })),
+        {
+          kind: 'ellipsoid' as const,
+          a: V(0, 1.17, -1.66),
+          r: 0.2,
+          radii: V(0.2, 0.18, 0.06),
+          color: tip,
+          tag: 'tail',
+          blend: 0.02,
+        },
+        {
+          kind: 'cone' as const,
+          a: V(0, 1.25, -1.66),
+          b: V(0, 1.45, -1.66),
+          r: 0.12,
+          r2: 0.01,
+          color: tip,
+          tag: 'tail',
+        },
+      ],
+      box: [V(-0.5, 0.1, -2.0), V(0.5, 1.6, -0.2)],
+      resolution: 44,
+    },
+  ];
+}
+
+/**
+ * LOOK-37 (R0404): three glowing motes in a slow orbit round the Eternal Neutral's head, one
+ * merged mesh (one draw call) turned as a whole.
+ */
+function orbitMotes(color: string): NonNullable<SpeciesSpec['extras']> {
+  return (rig) => {
+    const geos = [0, 1, 2].map((i) => {
+      const g = new THREE.SphereGeometry(0.09, 10, 8);
+      const a = (i / 3) * Math.PI * 2;
+      g.translate(Math.cos(a) * 1.35, 2.3 + (i - 1) * 0.18, Math.sin(a) * 1.35);
+      return g;
+    });
+    const mesh = new THREE.Mesh(
+      mergeGeometries(geos),
+      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.85 }),
+    );
+    for (const g of geos) g.dispose();
+    mesh.castShadow = false;
+    rig.root.add(mesh);
+    return (t) => {
+      mesh.rotation.y = t * 0.6;
+    };
+  };
+}
 
 const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
   // Flat lime green with a yellow-green belly and salmon hands and feet, as in the line-up.
@@ -230,6 +311,7 @@ const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
     const dome = spec.head.prims.find((p) => p.tag === 'head')!;
     dome.a.set(0, 2.0, 0);
     dome.radii!.set(0.95, 0.85, 0.9);
+    spec.extras = orbitMotes('#fff0a8');
     const belly = spec.torso.prims.find((p) => p.tag === 'belly')!;
     belly.radii!.set(0.86, 0.66, 0.72);
     spec.shade = { top: 1.0, bottom: 0.94, yMax: 3.5 };

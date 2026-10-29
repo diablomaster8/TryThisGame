@@ -1,6 +1,7 @@
 import type { DyeColor, NubbinType, PartSlot } from '../../sim/types';
 import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
+import { drawEternalSign } from './eternal-sign';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
 import { C, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
@@ -390,6 +391,7 @@ export function shapeFor(
     if (second !== type) apply(second, 0.5);
     s.tellType = second;
     if (second === 'normal') s.crownLift = 2;
+  if (eternal && band) s.eternalBand = band;
   }
   return s;
 }
@@ -1801,6 +1803,7 @@ export function lookOf(
 ): ChaoLook {
   return { colors, shape: shapeFor(type, second, eternal, band), parts, hat, shiny };
 }
+  if (look.shape.eternalBand) drawEternalSign(pc, angle, L, look.shape.eternalBand);
 
 export type { PartStyle };
     for (const style of ['paddle', 'crawl'] as const)

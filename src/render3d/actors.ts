@@ -905,6 +905,8 @@ export class Actors {
         // body is lifted off the real ground so its shadow blob stays down there under it.
         a.rig.ground = inWater ? () => footY : this.ground;
         a.rig.lift = inWater ? 0 : Math.max(0, y);
+        // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
+        if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
