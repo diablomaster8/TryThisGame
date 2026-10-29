@@ -23,7 +23,7 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
-import { SHRINE_TEXT, TRAP_TEXT } from '../config/strings-dungeon';
+import { SHRINE_TEXT, TRAP_TEXT, UNIQUE_RESULT_TEXT, UNIQUE_TEXT } from '../config/strings-dungeon';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -1226,6 +1226,12 @@ export function mountHud(
         } else if (e.kind === 'hollowFell') {
           // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
           toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);
+        } else if (e.kind === 'uniqueBeaten') {
+          // Lane B round 4: a named unique beaten (R0156).
+          const name = UNIQUE_TEXT[e.id]?.name ?? '';
+          toast(
+            e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
+          );
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {

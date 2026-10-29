@@ -10,6 +10,7 @@
  * which may answer at once or later through the `encounterDone` command. The default is
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
+import { uniqueBeaten } from './dungeon-uniques';
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
 import type { ChampionModId } from '../config/dungeon-foes';
@@ -56,6 +57,8 @@ export interface EncounterPack {
   reward: LootTableId;
   /** A treasure room's champion guard (R0158), not part of the floor's kind mix. */
   guard?: boolean;
+  /** A named unique (R0156), by `UNIQUES` id. */
+  unique?: string;
 }
 
 /** What the dungeon hands the fight: the foes and a 9×7 window of the floor as the board. */
@@ -381,6 +384,7 @@ export function finishEncounter(
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    if (spec.unique) uniqueBeaten(world, run, spec, events);
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;
       events.push({ kind: 'bossBeaten', act: run.act });

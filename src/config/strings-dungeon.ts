@@ -245,3 +245,55 @@ export const HOLLOW_LOCALS: Record<string, string> = {
   frostbell: 'Ilka',
   gloom: 'Mothwen',
 };
+
+/**
+ * The named uniques (R0156): a short name (22 characters at most) and a caption shown when the
+ * bout starts. Foes do not speak: the caption says what they do.
+ */
+export const UNIQUE_TEXT: Record<string, { name: string; line: string }> = {
+  'sir-snorts': {
+    name: 'Sir Snorts-a-Lot',
+    line: 'Sir Snorts-a-Lot paws the moss and snorts. Twice.',
+  },
+  mumblemoss: {
+    name: 'Old Mumblemoss',
+    line: 'Old Mumblemoss grumbles, and a small cloud follows.',
+  },
+  'captain-crumbs': {
+    name: 'Captain Crumbs',
+    line: 'Captain Crumbs raises a biscuit like a shield.',
+  },
+  willowby: {
+    name: 'The Weeping Willowby',
+    line: 'The Weeping Willowby droops. It would like a hug.',
+  },
+  snapdragon: { name: 'Sister Snapdragon', line: 'Sister Snapdragon snaps her petals, very fast.' },
+  'count-compost': {
+    name: 'Count Compost',
+    line: 'Count Compost bows. Something smells of old leaves.',
+  },
+  'dune-buggy': { name: 'Dune Buggy', line: 'Dune Buggy zips a circle in the sand. Vroom.' },
+  'sandy-claws': { name: 'Sandy Claws', line: 'Sandy Claws clacks both claws and bounces.' },
+  'sphinx-kitten': {
+    name: 'The Sphinx-ish Kitten',
+    line: 'The Kitten sits very still and looks wise.',
+  },
+  'brr-nadette': { name: 'Brr-nadette', line: 'Brr-nadette shivers glitter everywhere.' },
+  'sir-shivers': { name: 'Sir Shivers', line: 'Sir Shivers bounces to keep warm.' },
+  'icicle-choir': {
+    name: 'The Icicle Choir',
+    line: 'The Icicle Choir hums one long, chilly note.',
+  },
+  'hush-one': { name: 'Hush the Elder', line: 'A grey echo of a Nubbin. It looks cold.' },
+  'hush-two': { name: 'Hush the Middle', line: 'Another grey echo. It copies how you stand.' },
+  'hush-three': {
+    name: 'Hush the Least',
+    line: 'The smallest echo. Warm it, and it might colour back.',
+  },
+};
+
+export const UNIQUE_RESULT_TEXT = {
+  firstWin: (name: string, shells: number) =>
+    `${name}, beaten for the first time! +${shells} Shells`,
+  again: (name: string) => `${name} goes home to sulk.`,
+};

@@ -907,6 +907,8 @@ export interface World {
      * items (gear, DUNG-23), and the acts whose quest reward was paid.
      */
     camp: { shells: number; items: Record<string, number>; questsPaid: number[] };
+    /** Named uniques beaten at least once (R0156; save version 10), by `UNIQUES` id. */
+    uniquesBeaten: string[];
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1304,6 +1306,7 @@ export type SimEvent =
   | { kind: 'townBought'; item: 'fruit' }
   | { kind: 'townQuestPaid'; act: number; shells: number }
   | { kind: 'sideCaveEntered'; index: number }
+  | { kind: 'uniqueBeaten'; id: string; bonus: number }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }

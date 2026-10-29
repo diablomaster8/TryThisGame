@@ -239,6 +239,7 @@ export function createWorld(seed: number, wallMs: number): World {
       acorns: 0,
       portal: null,
       camp: { shells: 0, items: {}, questsPaid: [] },
+      uniquesBeaten: [],
     },
     neighbours: {},
     festivalSeen: '',

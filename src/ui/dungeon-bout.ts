@@ -7,6 +7,7 @@ import { standing, type BattleAction, type BattleState, type Combatant } from '.
 import { HOLLOW_BATTLE_SOURCE } from '../sim/dungeon-encounters';
 import { runFloor } from '../sim/dungeon';
 import { championMod, PLATE_GLYPH } from '../config/dungeon-foes';
+import { UNIQUE_TEXT } from '../config/strings-dungeon';
 import { button, el, modal } from './dom';
 
 /**
@@ -211,5 +212,8 @@ function packPlate(g: Game | null, key: string | undefined): string | null {
   const mods = (pack.members[0]?.mods ?? []).map(
     (m) => `${championMod(m).icon} ${championMod(m).name}`,
   );
+  // A named unique (R0156): its name, and a caption of what it does (foes never speak).
+  const u = pack.unique ? UNIQUE_TEXT[pack.unique] : undefined;
+  if (u) return [`${PLATE_GLYPH.unique} ${u.name}`, ...mods, u.line].join(' · ');
   return [`${PLATE_GLYPH[pack.kind]} ${HOLLOW_TEXT.plate[pack.kind]}`, ...mods].join(' · ');
 }

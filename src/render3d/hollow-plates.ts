@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { championMod, PLATE_GLYPH } from '../config/dungeon-foes';
+import { UNIQUE_TEXT } from '../config/strings-dungeon';
 import { elevationAt, type Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
 import { disposeObjects, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
@@ -22,7 +23,12 @@ export class HollowPlates implements HollowModule {
       if (!glyph) continue;
       const mods = p.members[0]?.mods ?? [];
       const words = mods.map((m) => `${championMod(m).icon} ${championMod(m).name}`).join('  ');
-      const sprite = plate(`${glyph} ${words}`.trim(), COLOUR[p.kind] ?? '#fff');
+      // A named unique (R0156) shows its name before its modifiers.
+      const name = p.unique ? (UNIQUE_TEXT[p.unique]?.name ?? '') : '';
+      const sprite = plate(
+        [glyph, name, words].filter(Boolean).join(' '),
+        COLOUR[p.kind] ?? '#fff',
+      );
       sprite.name = 'hollow-plate';
       sprite.visible = false;
       ctx.group.add(sprite);
