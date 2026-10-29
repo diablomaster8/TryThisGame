@@ -50,10 +50,10 @@ export const GEM_LOOK = {
   /** A new twinkle every this many seconds; each lives three times as long. */
   twinkle: 0.7,
   /** Twinkle star half-length, as a share of the body's radius direction. */
-  star: 0.12,
+  star: 0.15,
   /** Shiny: one sweep every this many seconds, and the band's brightness. */
   sweep: 3,
-  band: 0.55,
+  band: 0.7,
   /** The shader clock held under reduced motion (band mid-body, stars full). */
   stillAt: 1.05,
 };

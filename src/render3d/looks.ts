@@ -1,7 +1,15 @@
 import { Color } from 'three';
 import type { SpeciesSpec } from '../samples/species';
 import { cloneSpec, paletteOf, variant, type NubbinColors } from '../samples/nubbin-variants';
-import { EGG_COLOURS, JEWEL_FINISH, JEWELS, SHINY_FINISH } from '../samples/nubbin-variants-colour';
+import {
+  EGG_COLOURS,
+  gemFinishFor,
+  gemRoles,
+  JEWEL_FINISH,
+  JEWELS,
+  SHINY_FINISH,
+} from '../samples/nubbin-variants-colour';
+import { withGemFinish } from '../samples/gem-finish';
 import { parsePartsMod, withCritterParts } from '../samples/nubbin-critter-parts';
 import {
   KEEPER_MOON,
@@ -102,9 +110,11 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
   const colors: Partial<NubbinColors> = {};
   let shiny = false;
   let gem: Gem | undefined;
+  let eggName = '';
   for (const m of mods) {
     if (m.startsWith('egg:')) {
       const name = m.slice(4);
+      eggName = name;
       gem = jewel(name);
       const c = eggColour(name) ?? gem;
       if (!c) continue;
@@ -113,7 +123,12 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
       colors.belly = c.belly;
       if (c.tip) colors.tip = c.tip;
       if (c.pad) colors.pad = c.pad;
-      if (gem) continue;
+      if (gem) {
+        // A jewel is one gem through and through (LOOK-29): pads, wings and sheen too, so
+        // no default yellow or cream role is left showing.
+        Object.assign(colors, gemRoles(gem));
+        continue;
+      }
       // Sun forms keep a white belly, Moon forms a dark crown shade.
       if (band === 'sun') colors.belly = '#ffffff';
       if (band === 'moon') colors.crownShade = '#2a1a3a';
@@ -125,8 +140,11 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
       colors.pad = t.crownShade;
     } else if (m === 'shiny') shiny = true;
   }
+  const finish = gemFinishFor(gem, eggName, shiny);
   return variant(base, `${base.name} (tinted)`, {
     colors: byRole(base, colors),
+    // Painted in the body's shader, so it reads under the toon ramp (LOOK-29, LOOK-30).
+    ...(finish ? { patch: (s: SpeciesSpec) => withGemFinish(s, finish) } : {}),
     ...(shiny ? SHINY_FINISH : {}),
     ...(gem || shiny
       ? { surface: { ...(shiny ? SHINY_FINISH.surface : {}), ...(gem ? JEWEL_FINISH : {}) } }
