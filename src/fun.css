@@ -61,3 +61,37 @@
     animation: none;
   }
 }
+
+/* R0303: a line's screen nudge (dialogue.ts adds the class; reduced motion never does). */
+body.line-shake #app,
+body.line-shake-big #app {
+  animation: line-shake 360ms ease-out;
+}
+
+body.line-shake-big #app {
+  animation-name: line-shake-big;
+}
+
+@keyframes line-shake {
+  25% {
+    transform: translate(2px, -1px);
+  }
+  50% {
+    transform: translate(-2px, 1px);
+  }
+  75% {
+    transform: translate(1px, 0);
+  }
+}
+
+@keyframes line-shake-big {
+  20% {
+    transform: translate(5px, -3px);
+  }
+  45% {
+    transform: translate(-5px, 2px);
+  }
+  70% {
+    transform: translate(3px, -1px);
+  }
+}
