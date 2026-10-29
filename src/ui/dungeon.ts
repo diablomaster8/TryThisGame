@@ -15,6 +15,7 @@ import { GEAR_TEXT, HOLLOW_ZONE_TEXT, RUMBLE_TEXT } from '../config/strings';
 import { GearPanel } from './dungeon-gear';
 import { serviceHere } from '../sim/dungeon-towns';
 import { mouthHere } from '../sim/dungeon-zones';
+import { calmers } from '../sim/dungeon-strays';
 import { TownPanel } from './dungeon-town';
 import { PartyPicker } from './dungeon-party';
 
@@ -197,7 +198,8 @@ export class DungeonMenu {
     if (service) this.serviceBtn.textContent = TownPanel.label(world, service);
     this.mouthBtn.hidden = mouthHere(world) === null;
     this.portalBtn.hidden = !campPortalHere(world);
-    this.calmBtn.hidden = this.snackBtn.hidden = !run.strayAsk;
+    this.snackBtn.hidden = !run.strayAsk;
+    this.calmBtn.hidden = !run.strayAsk || !calmers(world, run).length;
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;
     this.acornBtn.textContent = HOLLOW_TEXT.acornButton(world.hollow.acorns, free);

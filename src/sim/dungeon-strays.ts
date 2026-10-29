@@ -131,16 +131,26 @@ export function stepStrayAsk(
   return true;
 }
 
+/**
+ * Who can calm a stray: the party's hatched Nubbins, else (a party left at home, or all eggs)
+ * any hatched Nubbin, as lane C's rumble slice picks. Empty when nobody can.
+ */
+export function calmers(world: World, run: DungeonRun): string[] {
+  const ok = (id: string) => {
+    const n = world.nubbins.find((x) => x.id === id);
+    return !!n && n.stage !== 'egg' && n.stage !== 'cocoon';
+  };
+  const party = run.party.filter(ok);
+  return party.length ? party : world.nubbins.map((n) => n.id).filter(ok);
+}
+
 /** Calm it: a singles, befriend-only bout against the stray (lane C's turn core). */
 export function calmStray(world: World, id: string, events: SimEvent[]): boolean {
   const run = world.dungeon;
   const s = run?.strays.find((x) => x.id === id);
   if (!run || !s || run.strayBout || run.encounter || (world.battle && !world.battle.result))
     return false;
-  const ids = run.party.filter((pid) => {
-    const n = world.nubbins.find((x) => x.id === pid);
-    return !!n && n.stage !== 'egg' && n.stage !== 'cocoon';
-  });
+  const ids = calmers(world, run);
   if (!ids.length) return false;
   const context: BattleContext = {
     kind: 'encounter',

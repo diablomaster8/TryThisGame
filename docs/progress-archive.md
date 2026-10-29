@@ -2,6 +2,27 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
+
+- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
+  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
+  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
+  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
+  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
+  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
+  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
+  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
+  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
+  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
+- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
+  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
+  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
+  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
+- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
+  that level.
+- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
+  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
+  (underground ground is flat in `keeper.ts`, lane A).
 ## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
 
 *Plan:* R0031 (Hollow platforming, generator version 4), then the sim-side items that fit one

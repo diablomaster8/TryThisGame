@@ -38,27 +38,29 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
+## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
 
-- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
-  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
-  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
-  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
-  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
-  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
-  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
-  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
-  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
-  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
-- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
-  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
-  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
-  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
-- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
-  that level.
-- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
-  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
-  (underground ground is flat in `keeper.ts`, lane A).
+- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
+  mark a room the stairs can go around (200-seed test); walking in calls lane C's
+  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
+  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
+  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
+  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
+  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
+  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
+  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
+  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
+  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
+- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
+  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
+  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
+  to the satchel); R0160 boss arenas and R0165+ not started.
+- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
+  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
+- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
+  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
+  add it as a child when the roster has room).
+
 ## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
 
 - *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
