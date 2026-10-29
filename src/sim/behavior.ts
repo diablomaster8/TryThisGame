@@ -920,6 +920,18 @@ function updateThrown(
   n.pos.z += n.vel.z * dt;
   n.y += n.vel.y * dt;
   clampToWorld(n.pos);
+  // R0299 (FUN-10): a throw into a trunk or a wall (the Keeper's solids, since Nubbins
+  // walk through trunks) stops dead there ("splat") and drops
+  // straight down. Only the throw's own landing penalty applies; the splat adds no harm.
+  if (
+    world.location === 'grove' &&
+    (n.vel.x !== 0 || n.vel.z !== 0) &&
+    resolve(n.pos, world, 0.3, 'keeper', n.y)
+  ) {
+    n.vel.x = 0;
+    n.vel.z = 0;
+    events.push({ kind: 'bonked', nubbinId: n.id, by: 'obstacle' });
+  }
   // MOVE-30: it can come down on a bench or a rock top it falls onto.
   const floor = n.vel.y < 0 ? perchTopAt(world, n.pos.x, n.pos.z) : 0;
   if (n.y <= floor) {
