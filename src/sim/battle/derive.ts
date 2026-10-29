@@ -102,7 +102,7 @@ function secondOf(n: Nubbin, type: NubbinType): NubbinType | null {
   return best;
 }
 
-interface Shell {
+export interface Shell {
   id: string;
   side: SideIx;
   nubbinId: string | null;
@@ -111,7 +111,7 @@ interface Shell {
   species: string;
 }
 
-function fromStats(
+export function fromStats(
   base: Shell,
   st: DerivedStats,
   extra: Partial<Combatant> & Pick<Combatant, 'type' | 'band' | 'moves'>,
