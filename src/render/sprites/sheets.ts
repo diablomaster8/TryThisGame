@@ -147,7 +147,7 @@ export class SheetCache {
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
-    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}`;
+    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -168,6 +168,7 @@ export class SheetCache {
         buildChaoSheet({
           ...look,
           gem,
+          finish: n.shadow ? null : (n.finish ?? null),
           scarf: n.scarf ?? null,
           glasses: !!n.glasses,
           hatDye: n.hatDye ?? null,

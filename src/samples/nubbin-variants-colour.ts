@@ -36,6 +36,16 @@ export const EGG_COLOURS: EggColour[] = [
   { name: 'violet', body: '#9b5de5', crownShade: '#5b3a8f', belly: '#cdb1f0' },
   { name: 'frost', body: '#bfe0ff', crownShade: '#6aa8e0', belly: '#ffffff' },
   { name: 'ember', body: '#e0562e', crownShade: '#9e2b3f', belly: '#ffe08a' },
+  // LOOK-31: the rest of the egg palette.
+  { name: 'yellow', body: '#ffe86a', crownShade: '#e0b030', belly: '#fff6c8' },
+  { name: 'white', body: '#f4f4fa', crownShade: '#b8bccc', belly: '#ffffff', tip: '#9ab8e0' },
+  { name: 'brown', body: '#9a6438', crownShade: '#5e3a1e', belly: '#e0c098' },
+  { name: 'grey', body: '#a8acb8', crownShade: '#62667a', belly: '#e4e6ee' },
+  { name: 'black', body: '#34303e', crownShade: '#16141c', belly: '#5e5868', tip: '#8a8498' },
+  { name: 'orange', body: '#ff9a2e', crownShade: '#c85a14', belly: '#ffe0a8' },
+  { name: 'lime', body: '#a8e04a', crownShade: '#5e9a22', belly: '#e8ffb8' },
+  { name: 'red', body: '#e03a30', crownShade: '#8e1a1e', belly: '#ffb0a0' },
+  { name: 'pearl', body: '#fff4e8', crownShade: '#e8c0c8', belly: '#ffffff', tip: '#c8e0ff' },
 ];
 
 export interface Jewel {
@@ -54,6 +64,9 @@ export const JEWELS: Jewel[] = [
   { name: 'topaz', body: '#e8a020', crownShade: '#a06010', belly: '#ffe08a', tip: '#fff4c0' },
   { name: 'garnet', body: '#8a1030', crownShade: '#4a0818', belly: '#e05070', tip: '#ffb0c0' },
   { name: 'onyx', body: '#1a1a24', crownShade: '#0a0a10', belly: '#4a4a5a', tip: '#9a9aa8' },
+  { name: 'silver', body: '#c8ccd8', crownShade: '#6a7080', belly: '#f0f2f8', tip: '#ffffff' },
+  { name: 'aquamarine', body: '#5ad0d8', crownShade: '#1e7a8a', belly: '#b0f0f4', tip: '#e8ffff' },
+  { name: 'peridot', body: '#a0d040', crownShade: '#5a8a1a', belly: '#d8f4a0', tip: '#f4ffd8' },
 ];
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

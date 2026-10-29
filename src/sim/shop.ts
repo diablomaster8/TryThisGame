@@ -1,5 +1,5 @@
 import { hasRoom, rosterNubbins } from './roster';
-import { BREEDING, GROVE, LOOK_SHOP, PARTNERS, SHOP } from '../config/tuning';
+import { BREEDING, EGG_FINISH, GROVE, LOOK_SHOP, PARTNERS, SHOP } from '../config/tuning';
 import { SHOP_COSMETICS } from '../config/cosmetics';
 import { shopDiscount } from './town';
 import { EGG_COLORS, JEWEL_EGG_COLORS, createEgg, isJewel } from './nubbin';
@@ -106,6 +106,9 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       if (rare && !isJewel(color)) {
         if (rng.chance(SHOP.twoToneChance)) egg.tone = rng.pick(colours.filter((c) => c !== color));
         if (rng.chance(SHOP.shinyChance)) egg.shiny = true;
+        // LOOK-31: the metal and glass finishes, rarer still.
+        if (rng.chance(EGG_FINISH.metalChance)) egg.finish = 'metal';
+        else if (rng.chance(EGG_FINISH.glassChance)) egg.finish = 'glass';
       }
       egg.name = uniqueName(world, egg.name, rng);
       world.nubbins.push(egg);

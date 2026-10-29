@@ -29,7 +29,7 @@ describe('jewel looks', () => {
       }
       bodies.add(`${j.body}:${j.shade}`);
     }
-    expect(bodies.size).toBe(7);
+    expect(bodies.size).toBe(JEWEL_EGG_COLORS.length);
     for (const name of JEWEL_EGG_COLORS) expect(EGG_PALETTES[name]).toBeDefined();
   });
 

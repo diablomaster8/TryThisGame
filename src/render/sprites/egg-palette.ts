@@ -20,6 +20,15 @@ export const PLAIN_EGG_PALETTES: Record<string, EggPalette> = {
   mint: { shell: C.mint, shade: C.teal, cap: C.cream, spot: C.pale },
   gold: { shell: C.sunYellow, shade: C.orange, cap: C.cream, spot: C.white },
   violet: { shell: C.lavender, shade: C.violet, cap: C.pale, spot: C.white },
+  yellow: { shell: C.sunLight, shade: C.sunYellow, cap: C.white, spot: C.cream },
+  white: { shell: C.white, shade: C.pale, cap: C.greyLight, spot: C.pale },
+  brown: { shell: C.wood, shade: C.bark, cap: C.sand, spot: C.sandLight },
+  grey: { shell: C.greyLight, shade: C.lilacGrey, cap: C.white, spot: C.pale },
+  black: { shell: C.dusk, shade: C.darkPlum, cap: C.plum, spot: C.lilacGrey },
+  orange: { shell: C.orange, shade: C.ember, cap: C.sunLight, spot: C.cream },
+  lime: { shell: C.sprout, shade: C.leaf, cap: C.leafLight, spot: C.white },
+  red: { shell: C.ember, shade: C.berry, cap: C.roseLight, spot: C.blush },
+  pearl: { shell: C.cream, shade: C.roseLight, cap: C.white, spot: C.skyLight },
 };
 
 /** One egg colour's palette: a plain colour, else a jewel's stone, else the plain egg. */

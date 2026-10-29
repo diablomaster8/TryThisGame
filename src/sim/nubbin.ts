@@ -5,7 +5,24 @@ import type { Rng } from './rng';
 import { rollStats } from './stats';
 import type { Nubbin, NubbinType, Vec2 } from './types';
 
-export const EGG_COLORS = ['plain', 'sky', 'rose', 'mint', 'gold', 'violet'] as const;
+export const EGG_COLORS = [
+  'plain',
+  'sky',
+  'rose',
+  'mint',
+  'gold',
+  'violet',
+  // Lane E, R0399: the rest of the SA2-style egg palette.
+  'yellow',
+  'white',
+  'brown',
+  'grey',
+  'black',
+  'orange',
+  'lime',
+  'red',
+  'pearl',
+] as const;
 
 /**
  * Jewel eggs: the gemstone Nubbins, only from the shop at `SHOP.jewelEggChance`. Kept apart
@@ -19,10 +36,23 @@ export const JEWEL_EGG_COLORS = [
   'topaz',
   'garnet',
   'onyx',
+  'silver',
+  'aquamarine',
+  'peridot',
 ] as const;
 
 export const isJewel = (colour: string): boolean =>
   (JEWEL_EGG_COLORS as readonly string[]).includes(colour);
+
+// Lane E, R0399: an egg's finish. Shiny is the long-standing `shiny` flag; metal and glass
+// live in the optional `finish` field, so a save without it loads as plain (or shiny).
+export const EGG_FINISHES = ['plain', 'shiny', 'metal', 'glass'] as const;
+export type EggFinish = (typeof EGG_FINISHES)[number];
+
+/** The finish a Nubbin wears: its `finish` field, else shiny or plain from the old flag. */
+export function finishOf(n: Pick<Nubbin, 'shiny' | 'finish'>): EggFinish {
+  return n.finish ?? (n.shiny ? 'shiny' : 'plain');
+}
 
 export function createEgg(
   id: string,

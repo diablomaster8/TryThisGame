@@ -7,6 +7,7 @@ import { C, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
 import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
 import { PixelCanvas } from './pixel-canvas';
 import { drawCosmetic } from './cosmetic-pixel';
+import { ditherGlass, metalColors } from './finish-pixel';
 
 /**
  * The Nubbin, drawn Chao-faithfully from memory: a big round head that is most of the
@@ -201,6 +202,16 @@ export const VARIANT_COLORS: Record<string, { body: number; shade: number; belly
   // Seasonal eggs: winter frost and autumn ember.
   frost: { body: C.skyLight, shade: C.skyDeep, belly: C.white },
   ember: { body: C.ember, shade: C.berry, belly: C.sunLight },
+  // LOOK-31: the rest of the egg palette.
+  yellow: { body: C.sunLight, shade: C.sunYellow, belly: C.cream },
+  white: { body: C.white, shade: C.greyLight, belly: C.pale },
+  brown: { body: C.wood, shade: C.bark, belly: C.sandLight },
+  grey: { body: C.greyLight, shade: C.greyDeep, belly: C.pale },
+  black: { body: C.dusk, shade: C.darkPlum, belly: C.plum },
+  orange: { body: C.orange, shade: C.ember, belly: C.sunLight },
+  lime: { body: C.sprout, shade: C.leaf, belly: C.leafLight },
+  red: { body: C.ember, shade: C.berry, belly: C.roseLight },
+  pearl: { body: C.cream, shade: C.roseLight, belly: C.white },
 };
 
 /**
@@ -219,6 +230,9 @@ export const JEWEL_COLORS: Record<
   topaz: { body: C.orange, shade: C.sunDeep, belly: C.sunLight, tip: C.cream },
   garnet: { body: C.berry, shade: C.darkPlum, belly: C.rose, tip: C.blush },
   onyx: { body: C.darkPlum, shade: C.ink, belly: C.plum, tip: C.lilacGrey },
+  silver: { body: C.greyLight, shade: C.greyDeep, belly: C.white, tip: C.white },
+  aquamarine: { body: C.shallows, shade: C.tealDeep, belly: C.skyLight, tip: C.white },
+  peridot: { body: C.leafLight, shade: C.leafDeep, belly: C.sprout, tip: C.cream },
 };
 
 /**
@@ -557,6 +571,8 @@ export interface ChaoLook {
   parts: Record<PartSlot, string | null>;
   /** Hat id from the shop, or null. */
   hat?: string | null;
+  /** The metal or glass egg finish (LOOK-31). */
+  finish?: 'metal' | 'glass' | null;
   /** Extra sparkles. */
   shiny?: boolean;
   /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
@@ -1515,7 +1531,7 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 /** Draw one frame into a fresh 32×32 canvas. */
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
-  const col = look.colors;
+  const col = look.finish === 'metal' ? metalColors(look.colors) : look.colors;
   // Seated (LOOK-20): the body comes down until its bottom rests at the ground line.
   const L0 = layout(
     angle,
@@ -1684,6 +1700,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   }
 
   pc.finish(col.outline, [col.eye, col.glint, C.white]);
+  if (look.finish === 'glass') ditherGlass(pc, [col.outline, col.eye, col.glint, C.white, C.ink]);
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 

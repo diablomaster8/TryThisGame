@@ -122,6 +122,8 @@ export interface Nubbin {
   lineage: string;
   /** Rare: extra highlights and a bright outline. */
   shiny: boolean;
+  /** Lane E, R0399: a metal or glass egg finish (`sim/nubbin.ts` `finishOf`); absent is plain. */
+  finish?: 'metal' | 'glass';
   /** Two-tone: a second colour for the belly and tips, or null. */
   tone: string | null;
   pos: Vec2;
