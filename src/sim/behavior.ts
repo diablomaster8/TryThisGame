@@ -38,6 +38,7 @@ import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop
 import { perchTopAt, softAt } from './obstacles';
 import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
 import { BUSH, JUMP_TOYS } from '../config/tuning-move';
+import { FRUIT_BONK } from '../config/tuning-fun';
 import { springBounce } from './decorate';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
@@ -368,6 +369,43 @@ function nearestToy(world: World, from: Vec2): Item | null {
     }
   }
   return best;
+}
+
+// R0300: when each Nubbin last had fruit land on its head (sim ms); transient.
+const bonkedAt = new WeakMap<Nubbin, number>();
+
+/**
+ * R0300 (FUN-11): a fruit shaken from a tree lands on the head of a free Nubbin standing
+ * under it (the nearest, once per cooldown). The fruit drops beside it; a hungry Nubbin
+ * eats it there and then, a full one looks up at the tree in outrage. No harm, no stats.
+ */
+export function fruitOnHead(world: World, fruit: Item, tree: Vec2, events: SimEvent[]): void {
+  const now = world.timeMs;
+  let best: Nubbin | null = null;
+  let bestD: number = FRUIT_BONK.reach;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || !isFree(n) || n.y > 0) continue;
+    if (now - (bonkedAt.get(n) ?? -Infinity) < FRUIT_BONK.cooldownMs) continue;
+    const s = n.behavior.state;
+    if (s === 'nap' || s === 'held' || s === 'carried' || s === 'thrown') continue;
+    const d = Math.hypot(n.pos.x - tree.x, n.pos.z - tree.z);
+    if (d < bestD) {
+      best = n;
+      bestD = d;
+    }
+  }
+  if (!best) return;
+  bonkedAt.set(best, now);
+  fruit.pos = { x: best.pos.x + 0.3, z: best.pos.z };
+  events.push({ kind: 'bonked', nubbinId: best.id, by: 'fruit' });
+  if (isHungry(best)) {
+    setState(best, 'findFood', now, FRUIT_BONK.eatMs);
+    best.behavior.itemId = fruit.id;
+    best.behavior.target = { ...fruit.pos };
+  } else {
+    best.facing = Math.atan2(tree.x - best.pos.x, tree.z - best.pos.z);
+    react(best, 'surprised', now, events);
+  }
 }
 
 /** MOVE-57: the nearest placed spring mushroom within reach, in the home Grove only. */

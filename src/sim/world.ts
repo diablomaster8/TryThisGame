@@ -15,7 +15,15 @@ import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuni
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
-import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
+import {
+  clampToWorld,
+  fruitOnHead,
+  putDown,
+  react,
+  sampleAll,
+  startThrow,
+  updateBehavior,
+} from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
@@ -1090,6 +1098,8 @@ export function dropFruit(world: World, tree: Tree, rng: Rng, events: SimEvent[]
   };
   world.items.push(item);
   events.push({ kind: 'fruitDropped', treeId: tree.id, itemId: item.id });
+  // R0300: a Nubbin under the tree may get it on the head.
+  fruitOnHead(world, item, tree.pos, events);
   return item;
 }
 

@@ -1024,6 +1024,9 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'bonked') {
+          // R0300/R0299: a fruit on the head, or a walk into a tree.
+          playSound('bonk');
         } else if (e.kind === 'hopCourse') {
           hopCourse.onEvent(e, toast);
         } else if (e.kind === 'springBounced' && !e.nubbinId) {

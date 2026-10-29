@@ -1146,6 +1146,8 @@ export type SimEvent =
   | { kind: 'keeperRolled' }
   // MOVE-57: a spring mushroom bounced the Keeper (or a Nubbin, `nubbinId`) off its cap.
   | { kind: 'springBounced'; id: string; nubbinId?: string }
+  // R0300/R0299 (FUN-11/10): something landed on a Nubbin's head, or it walked into a thing.
+  | { kind: 'bonked'; nubbinId: string; by: 'fruit' | 'obstacle' }
   // MOVE-63: the hop course: a run starts, a flag is touched (1-based count so far), a run
   // ends (its time, the ghost as x, y, z triples every 100 ms, and whether the hat came now).
   | { kind: 'hopCourse'; stage: 'start' | 'gaveUp' }
