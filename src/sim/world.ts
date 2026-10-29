@@ -1055,7 +1055,7 @@ export function stepWorld(
     // MOVE-63: the hop course's flags and timer.
     if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
-    stepNpcs(world, dtMs, rng);
+    stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);

@@ -59,7 +59,7 @@ import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
-import { BarkBubble } from './bark-bubble';
+import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
@@ -276,6 +276,8 @@ export function mountHud(
   const hopCourse = new HopCourseChip(root);
   // R0295: the Keepers' speech bubbles.
   const barkBubble = new BarkBubble(root);
+  // R0296 / R0297: the Keepers' routine lines and passing chatter.
+  const ambientBubbles = new AmbientBubbles(root, barkBubble);
   // R0312: a hatch is one card (ui/hatch-card.ts).
   const hatchCard = new HatchCard(root, game);
   // MOVE-55: the "Look around" chip on a lookout.
@@ -803,6 +805,7 @@ export function mountHud(
         g.framePollers.push(() => hopLesson.update(g.world));
         g.framePollers.push(() => hopCourse.update(g.world));
         g.framePollers.push(() => barkBubble.update(g, performance.now()));
+        g.framePollers.push(() => ambientBubbles.update(g, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1355,6 +1358,10 @@ export function mountHud(
           toast(slipNudge(g.world, e.nubbinId, e.slip));
         } else if (e.kind === 'slipSoon') {
           toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'npcBark') {
+          const npc = g.world.npcs.find((x) => x.id === e.npcId);
+          const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
+          ambientBubbles.show(e.npcId, name, e.text, performance.now());
         } else if (e.kind === 'fernStone') {
           toast(fernStoneLine(g.world, e.line, e.stones));
           playSound('pop');

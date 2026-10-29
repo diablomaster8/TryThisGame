@@ -1,11 +1,12 @@
 import { NPC_MOVE } from '../config/tuning-move-npc';
 import { nubbinAim, type NubbinRoute } from './nav';
 import { blocked, resolve, wayAt } from './obstacles';
-import { GROVE, KEEPER } from '../config/tuning';
+import { GROVE, KEEPER, NPC_ROUTINE } from '../config/tuning';
+import { routineArrived, routineTarget } from './npc-routines';
 import { clampToWorld } from './behavior';
 import type { Rng } from './rng';
 import type { TrainerLook } from './trainers';
-import type { Npc, Vec2, World } from './types';
+import type { Npc, SimEvent, Vec2, World } from './types';
 
 /** Looks for story Keepers who are not playable trainers (palette indices, see trainers.ts). */
 export const EXTRA_LOOKS: Record<string, TrainerLook> = {
@@ -121,11 +122,11 @@ const probeAt: Vec2 = { x: 0, z: 0 };
  * A spot near home a visitor can stand on: out of every solid and the pond (R0036), redrawn
  * a few times, else null and it waits.
  */
-function wanderTarget(world: World, npc: Npc, rng: Rng): Vec2 | null {
+function wanderTarget(world: World, npc: Npc, rng: Rng, centre: Vec2 = npc.home): Vec2 | null {
   for (let i = 0; i < NPC_MOVE.resample; i++) {
     const a = rng.float(0, Math.PI * 2);
-    const r = rng.float(0.5, 2.5);
-    const t = { x: npc.home.x + Math.cos(a) * r, z: npc.home.z + Math.sin(a) * r };
+    const r = rng.float(0.5, centre === npc.home ? 2.5 : NPC_ROUTINE.potter);
+    const t = { x: centre.x + Math.cos(a) * r, z: centre.z + Math.sin(a) * r };
     if (dist(t, GROVE.pond) < GROVE.pond.r + 1) continue;
     clampToWorld(t);
     if (!blocked(t, world, NPC_MOVE.radius, 'keeper')) return t;
@@ -211,7 +212,7 @@ function walkStep(world: World, npc: Npc, d: number, dt: number, dtMs: number): 
 }
 
 /** Visiting Keepers potter about near their spot and turn to face the player when close. */
-export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
+export function stepNpcs(world: World, dtMs: number, rng: Rng, events: SimEvent[] = []): void {
   const dt = dtMs / 1000;
   // While a story scene is up the cast holds its places, turned to the Keeper (review D, 11).
   const scene = (world.campaign?.queue.length ?? 0) > 0;
@@ -224,16 +225,45 @@ export function stepNpcs(world: World, dtMs: number, rng: Rng): void {
     }
     if (npc.target) {
       const d = dist(npc.pos, npc.target);
-      if (d < 0.2) {
+      // R0296: near enough to a routine station counts as there (its spot can sit by a solid).
+      const spot = routineTarget(world, npc);
+      const atStation =
+        spot !== null &&
+        npc.target.x === spot.x &&
+        npc.target.z === spot.z &&
+        d < NPC_ROUTINE.arrive;
+      // The day moved on to the next station while pottering: head there instead.
+      if (spot && !atStation && npc.target !== spot && dist(npc.pos, spot) > NPC_ROUTINE.near) {
+        if (npc.target.x !== spot.x || npc.target.z !== spot.z) {
+          npc.target = spot;
+          walkOf.set(npc, {
+            route: null,
+            want: 1,
+            pauseMs: 0,
+            yielded: false,
+            stuckMs: 0,
+            gaveUp: false,
+          });
+          continue;
+        }
+      }
+      if (d < 0.2 || atStation) {
         npc.target = null;
         npc.waitMs = rng.float(3000, 9000);
+        // Arriving at a routine station says its line.
+        if (spot && dist(npc.pos, spot) < NPC_ROUTINE.near) routineArrived(world, npc, events);
       } else {
         walkStep(world, npc, d, dt, dtMs);
       }
     } else {
       npc.waitMs -= dtMs;
       if (npc.waitMs <= 0) {
-        const t = wanderTarget(world, npc, rng);
+        // R0296: off to the routine's station, else potter round it (or round home).
+        const spot = routineTarget(world, npc);
+        const t =
+          spot && dist(npc.pos, spot) > NPC_ROUTINE.near
+            ? spot
+            : wanderTarget(world, npc, rng, spot ?? npc.home);
         if (!t) {
           npc.waitMs = 1000;
           continue;

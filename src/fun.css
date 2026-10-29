@@ -356,3 +356,10 @@ body.line-shake-big #app {
   .peek-nubbin { transition: none; }
   .peek-decoy { animation: none; }
 }
+
+/* R0296 / R0297: the Keepers' ambient lines, quieter than a tapped Keeper's. */
+.bark-bubble.bark-ambient {
+  opacity: 0.92;
+  font-size: 0.85em;
+  pointer-events: none;
+}

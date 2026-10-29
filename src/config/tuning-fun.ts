@@ -73,3 +73,16 @@ export const BYTE_WATCHES = { fromChapter: 5, start: 4, racesPer: 3, cap: 12 } a
  * sneezes and its crown spins (a dizzy face), then the run starts again.
  */
 export const TAP_TOY = { gapMs: 1500, semitones: 2, hiccupAt: 5, sneezeAt: 8 } as const;
+
+/**
+ * R0296 (FUN-07): Keeper routines: stations a story day (one a third of the day), the body
+ * radius used to find open ground at a station, and how close counts as "there" (a Keeper
+ * potters within `near` of it and walks back when further).
+ */
+export const NPC_ROUTINE = {
+  perDay: 3,
+  radius: 0.35,
+  near: 1.6,
+  arrive: 1.2,
+  potter: 1.2,
+} as const;
