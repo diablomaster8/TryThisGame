@@ -40,12 +40,37 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
 
-*Plan:* in R order, R0304 gate beat, R0306 first fun quest after ch 2, R0307 slip nudges,
-R0308 sprout toasts, R0309 comedy report, R0310 sprout sound words, R0311 pet toasts,
-R0312 hatch card (lane E owns the cap), R0313 Fern's stone, R0314 Byte's stopwatches,
-R0315 silly badges, R0316 away diary, R0318 tips, R0319 chip caps, R0320 sprout wrong
-replies, R0321 peekaboo, R0322 tap squeaks, R0323 Say it!, then R0296/R0297 routines and
-chatter, then R0294 as far as fits. Skipped: R0317 (lane E), R0326 (lane B).
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. R0317 (lane E) and R0326 (lane B) skipped.
+
+- *Works:* the opening's stuck gate is played (hold, push, sticks once, gives) and the cup
+  sets `c1-cup-turned`, which adds a line to c12-close (R0304, `Line.act`, `ui/line-act.ts`);
+  no fun quest before chapter 2's closing (R0306); slip toasts say what helps, with a minute's
+  warning in a new save (R0307); sprout toasts icon-first, no mechanics, read aloud (R0308,
+  `ui/fun-toasts.ts` wraps the toaster); `content-check --comedy` and book 1's 74 gags tagged
+  (R0309); sound words read with their sounds, a bubbly face, ~70% of non-grave campaign and
+  S1–S22 sprout scenes covered (R0310); pet toasts in three physical lines per band (R0311);
+  one hatch card with Pet (R0312); Fern's cairn by the signpost in both modes, one stone a
+  chapter, tappable, finale line (R0313); Byte's stopwatches on the race card (R0314); 25 joke
+  badges, titles in `config/strings-badges.ts`, Silly filter (R0315); a seeded away diary,
+  three headlines then "+N more" (R0316); 60 gated tips on the veil and stage loaders (R0318);
+  chip caps in the checker, chapter 1–2 how-to steps tick live (R0319); sprout wrong replies
+  open with a silly picture, checker warning (R0320); sprout peekaboo under Play (R0321); tap
+  squeak toy (R0322); Say it! on 21 refrains (R0323); Keeper routines, three stations a story
+  day with lines and prop icons (R0296); 90 chatter exchanges for 15 pairs (R0297); R0294's
+  verb map covers every check, with balance, hunt and catch playable from the Atlas and Journal.
+- *Stubbed:* R0294's escort, climb, puzzle, survive and explore games (the button stays) and
+  the Skip-this setting; R0296's prop sprites (soot face, guilty sapling: the bubble icon is
+  the gag for now); R0313's Journal Friends line and side-story callback; R0316's 30 s
+  highlight of changed Nubbins; R0321's shy-Nubbin peekaboo idles; R0310 outside campaign and
+  S1–S22 (17.7% of all sprout scenes); R0318's Atlas loader; R0322's crown spin is a dizzy face.
+- *Known bugs:* none found. Timing tests (full life, nav, 8 Nubbins) fail under a loaded
+  machine; alone see the round's report. `TEN_TEXT.slipToast` in `strings.ts` is now unused.
+- *Assumptions:* routines and chatter state is not saved (read from the clock, kept beside the
+  world); joke-badge counts in optional `world.funCounts` (no save bump); the cup and gate
+  flags live in campaign flags; R0311 leaves lane E's per-personality lines (R0298) as the
+  main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
+  skip the wander pick), so seeded replays differ from before but stay deterministic.
 
 ## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
 
@@ -92,33 +117,6 @@ chatter, then R0294 as far as fits. Skipped: R0317 (lane E), R0326 (lane B).
 - *Assumptions:* keeping the eggshell is automatic (into the hat box on hatch; it leaves the
   head after 10 min). Grove line only. The registry's "show what you get" shop option was
   taken over per-id SKUs (no `ShopItem` change).
-
-## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
-
-*Plan:* R0031 (Hollow platforming, generator version 4), then the sim-side items that fit one
-pass: R0162, R0158, R0155, R0159, R0161. R0147 (outdoor zones, XL) and R0152 (act towns, L)
-stay deferred to a pass of their own: both need new maps in both renderers. *Assumptions:*
-gap rules count run depth, not the level inside an act; a saved version-3 run keeps its flat
-floor and its packs (`floorOf`/`actFloor` take the run's `genVersion`); difficulty is Cosy
-until DUNG-36; Act IV's ice also appears in endless depths 16–20.
-
-- *Works:* version-4 floors (`sim/dungeon-gaps.ts`): chasm cuts and deep water, a walking
-  bypass on floors 1–2, 3–5 jump-only nooks with a find from floor 3, stepping stones with
-  water gaps; a Keeper standing in a gap or deep water pops back to dry ground, party Nubbins
-  hop over (`dungeon-falls.ts`); 3D pit with a blue glow, Pixel and automap chasm cells.
-  Strays drop a Shell trail, snatch twice a floor, can be shooed, show on the automap
-  (`dungeon-strays.ts`). Packs by density with treasure guards and an 80/15/5 mix; ten cosy
-  champion modifiers as data (`config/dungeon-foes.ts`, `dungeon-density.ts`); 3D plates and
-  a bout-panel plate. Shrines with timed buffs, a buff ring and 3D stones
-  (`dungeon-shrines.ts`, `ui/dungeon-buffs.ts`). Traps on raised tiles in both renderers,
-  re-arming, none in the Learning Grove, scouts (`dungeon-traps.ts`).
-- *Stubbed:* terrace ledges are still ramps (Keeper ground underground is 0 in `keeper.ts`,
-  lane A). Bouncy and sticky speed need lane A to multiply by `hollowSpeed(world)`. Snuggly
-  power and the modifiers' effects wait for lane C. Pixel draws no packs, plates, strays'
-  trail or shrine stones (`world-view.ts`, lane A). No uniques (R0156), so 0 per level; Lucky
-  Clover waits for loot tables (R0163); Gem shrine waits for charms.
-- *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
-  timeout, not a game budget) because the new generator sweeps run beside it.
 
 ## Standing approval (Maor, 2026-10-12)
 
