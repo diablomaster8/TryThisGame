@@ -173,3 +173,14 @@ export const WORLD_SURVEY = {
   /** Impostor cells redrawn a frame at the survey zoom (they are small there). */
   impostorPerFrame: 1,
 } as const;
+
+/** R0106 (WORLD-48): the bottom bar tucking away while walking on a phone (`ui/walk-tuck.ts`). */
+export const WORLD_TUCK = {
+  /** Moving this long (ms) with no panel open tucks the bar. */
+  walkMs: 1000,
+  /** Standing still this long (ms) brings it back. */
+  backMs: 800,
+  /** How often the Keeper's position is checked (ms), and the least step that counts as moving. */
+  pollMs: 150,
+  minStep: 0.02,
+} as const;

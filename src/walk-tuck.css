@@ -1,0 +1,56 @@
+/* R0106: the bottom bar tucked away while walking on a phone (ui/walk-tuck.ts). */
+
+.walk-tuck-handle {
+  display: none;
+}
+
+@media (orientation: portrait) and (max-width: 600px), (max-height: 500px) and (pointer: coarse) {
+  .actionbar,
+  .objective-chip {
+    transition:
+      transform 0.25s ease,
+      opacity 0.25s ease;
+  }
+  .walk-tucked {
+    --hud-bottom: calc(var(--safe-bottom) + 14px);
+  }
+  .walk-tucked .actionbar {
+    transform: translateY(calc(100% - 12px));
+  }
+  .walk-tucked .objective-words {
+    display: none;
+  }
+  /* The handle: a 12 px strip to see, a 44 px strip to tap, along the bottom edge. */
+  .walk-tucked .walk-tuck-handle:not([hidden]) {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: calc(var(--safe-bottom) + 44px);
+    z-index: 30;
+    border: 0;
+    padding: 0;
+    background: linear-gradient(
+      to top,
+      var(--px-bg) 0 calc(var(--safe-bottom) + 12px),
+      transparent 0
+    );
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
+/* Reduced motion: the bar fades instead of sliding. */
+@media (prefers-reduced-motion: reduce) {
+  .walk-tucked .actionbar {
+    transform: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+.reduce-motion .walk-tucked .actionbar {
+  transform: none;
+  opacity: 0;
+  pointer-events: none;
+}

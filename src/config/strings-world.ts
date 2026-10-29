@@ -96,4 +96,5 @@ export const WORLD_SETTINGS_TEXT = {
     label: 'Hide bar while walking',
     help: 'The bottom bar tucks away while you walk, and comes back when you stop or tap its edge.',
   },
+  handle: 'Show the menu bar',
 } as const;
