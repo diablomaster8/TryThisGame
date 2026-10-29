@@ -34,6 +34,10 @@ import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
 import { idleMultipliers } from './personality';
+import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
+import { perchTopAt, softAt } from './obstacles';
+import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
+import { BUSH } from '../config/tuning-move';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
 import type { BehaviorState, Flavor, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
@@ -368,11 +372,41 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     rng.chance(0.7)
   ) {
     setState(n, 'wander', now, 4000);
+    // MOVE-48: to its slot behind the Keeper, not onto the Keeper's own spot.
+    const k = world.keeper;
+    const a = k.facing + Math.PI + (world.partners[0] === n.id ? 1 : -1) * FOLLOW_SLOT.spread;
     n.behavior.target = {
-      x: world.keeper.pos.x + rng.float(-1.5, 1.5),
-      z: world.keeper.pos.z + rng.float(-1.5, 1.5),
+      x: k.pos.x + Math.sin(a) * FOLLOW_SLOT.slot + rng.float(-1.5, 1.5) * FOLLOW_SLOT.jitter,
+      z: k.pos.z + Math.cos(a) * FOLLOW_SLOT.slot + rng.float(-1.5, 1.5) * FOLLOW_SLOT.jitter,
     };
     return;
+  }
+  // MOVE-30: a Mischievous Nubbin climbs a bench or a rock it can reach, and sits up there.
+  if (n.personality === 'mischievous' && nubbinWalker(n) === 'hopper') {
+    if (n.y > 0.2 && rng.chance(0.6)) {
+      setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs));
+      return;
+    }
+    const spot = rng.chance(NUBBIN_JUMP.perchChance) ? perchSpot(world, n) : null;
+    if (spot) {
+      setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
+      n.behavior.target = spot;
+      return;
+    }
+  }
+  // MOVE-43: a Shy Nubbin likes to sit tucked in a bush: it goes to one, then sits there.
+  if (n.personality === 'shy' && n.stage !== 'egg') {
+    const tucked = softAt(n.pos, world, 0);
+    if (tucked && rng.chance(0.7)) {
+      setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs));
+      return;
+    }
+    const bush = !tucked && rng.chance(BUSH.shyChance) ? bushSpot(world, n, BUSH.shyRadius) : null;
+    if (bush) {
+      setState(n, 'wander', now, BEHAVIOR.wanderMs[1]);
+      n.behavior.target = bush;
+      return;
+    }
   }
   // Personality only shifts the odds of idle choices.
   const m = idleMultipliers(n.personality);
@@ -488,7 +522,7 @@ export function updateBehavior(
   const b = n.behavior;
 
   if (b.state === 'thrown') {
-    updateThrown(n, dtMs, now, events);
+    updateThrown(n, world, dtMs, now, events);
     return;
   }
   if (!isFree(n)) return;
@@ -714,6 +748,7 @@ export function updateBehavior(
       chooseIdle(n, world, rng, now);
   }
 
+  stepHop(n, world, events);
   if (!inPond(n.pos) && b.state !== 'swim') clampToWorld(n.pos);
 }
 
@@ -736,15 +771,23 @@ export function startThrow(n: Nubbin, vel: Vec2, now: number, events: SimEvent[]
   events.push({ kind: 'thrown', nubbinId: n.id });
 }
 
-function updateThrown(n: Nubbin, dtMs: number, now: number, events: SimEvent[]): void {
+function updateThrown(
+  n: Nubbin,
+  world: World,
+  dtMs: number,
+  now: number,
+  events: SimEvent[],
+): void {
   const dt = dtMs / 1000;
   n.vel.y -= THROW.gravity * dt;
   n.pos.x += n.vel.x * dt;
   n.pos.z += n.vel.z * dt;
   n.y += n.vel.y * dt;
   clampToWorld(n.pos);
-  if (n.y <= 0) {
-    n.y = 0;
+  // MOVE-30: it can come down on a bench or a rock top it falls onto.
+  const floor = n.vel.y < 0 ? perchTopAt(world, n.pos.x, n.pos.z) : 0;
+  if (n.y <= floor) {
+    n.y = landingTop(n, world);
     n.vel = { x: 0, y: 0, z: 0 };
     events.push({ kind: 'landed', nubbinId: n.id });
     // Back on the ground first, so the reaction below replaces 'thrown' rather than
@@ -765,6 +808,7 @@ export function putDown(
   reaction: Reaction = 'confused',
 ): void {
   n.y = 0;
+  clearHop(n);
   n.vel = { x: 0, y: 0, z: 0 };
   setState(n, 'sit', now, 0);
   if (n.stage === 'egg') return;

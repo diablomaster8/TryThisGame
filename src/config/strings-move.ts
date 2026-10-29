@@ -13,3 +13,14 @@ export const MOVE_TEXT = {
   /** MOVE-38: the debug panel's overlay toggles. */
   debugOverlay: { colliders: 'Show colliders', nav: 'Show nav grid', groundY: 'Show ground y' },
 } as const;
+
+/** MOVE-42: the Auto-run setting. */
+export const RUN_TEXT = {
+  autoRun: 'Auto-run long walks',
+  autoRunHelp: 'Tap walks longer than ten steps run by themselves.',
+} as const;
+
+/** MOVE-43: a one-time find in a bush. */
+export const BUSH_TEXT = {
+  found: 'Something was tucked in the bush: a shell!',
+} as const;

@@ -1,4 +1,5 @@
 import { RACE } from '../config/tuning';
+import { HURDLES } from '../config/tuning-move-race';
 import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
 import type { Nubbin, StatKey, World } from './types';
@@ -9,7 +10,7 @@ import { STAT_KEYS } from './types';
  * one-dimensional track; stamina drains with effort and runs dry into a short rest.
  * Pure and seeded so results are testable; the screen only draws it.
  */
-export type SectionKind = 'swim' | 'fly' | 'run' | 'climb' | 'stretch';
+export type SectionKind = 'swim' | 'fly' | 'run' | 'climb' | 'stretch' | 'hurdles';
 
 export interface Section {
   kind: SectionKind;
@@ -19,6 +20,8 @@ export interface Section {
 export interface Course {
   id: string;
   sections: Section[];
+  /** A different section list for a tier (tier 2 and 3 courses may swap in hurdles). */
+  tierSections?: Partial<Record<number, Section[]>>;
 }
 
 export const COURSES: readonly Course[] = [
@@ -31,6 +34,15 @@ export const COURSES: readonly Course[] = [
       { kind: 'fly', length: 6 },
       { kind: 'stretch', length: 10 },
     ],
+    tierSections: {
+      2: [
+        { kind: 'run', length: 14 },
+        { kind: 'swim', length: 8 },
+        { kind: 'hurdles', length: 8 },
+        { kind: 'fly', length: 6 },
+        { kind: 'stretch', length: 10 },
+      ],
+    },
   },
   {
     id: 'cliffs',
@@ -42,6 +54,16 @@ export const COURSES: readonly Course[] = [
       { kind: 'stretch', length: 8 },
       { kind: 'run', length: 8 },
     ],
+    tierSections: {
+      3: [
+        { kind: 'run', length: 8 },
+        { kind: 'climb', length: 8 },
+        { kind: 'fly', length: 8 },
+        { kind: 'climb', length: 6 },
+        { kind: 'stretch', length: 8 },
+        { kind: 'hurdles', length: 8 },
+      ],
+    },
   },
   {
     id: 'lagoon',
@@ -76,7 +98,33 @@ export function statFor(kind: SectionKind): StatKey {
       return 'power';
     case 'stretch':
       return 'stamina';
+    case 'hurdles':
+      return 'run';
   }
+}
+
+/** The skill a racer brings to a hurdles section: run and fly blended. */
+export function hurdleSkill(levels: Record<StatKey, number>): number {
+  return levels.run * HURDLES.runShare + levels.fly * HURDLES.flyShare;
+}
+
+/** Chance of a clean jump at a hurdle for a racer with these levels. */
+export function hurdleCleanChance(levels: Record<StatKey, number>): number {
+  return Math.min(HURDLES.maxClean, HURDLES.baseClean + HURDLES.perSkill * hurdleSkill(levels));
+}
+
+/** Track positions of every hurdle on a course, in order. */
+export function hurdlePositions(course: Course): number[] {
+  const out: number[] = [];
+  let start = 0;
+  for (const s of course.sections) {
+    if (s.kind === 'hurdles') {
+      const n = Math.max(1, Math.floor(s.length / HURDLES.spacing));
+      for (let i = 0; i < n; i++) out.push(start + ((i + 0.5) * s.length) / n);
+    }
+    start += s.length;
+  }
+  return out;
 }
 
 export function sectionAt(
@@ -110,6 +158,12 @@ export interface Racer {
   /** Visual hints for the screen. */
   look: { band: 'sun' | 'moon' | 'neutral'; type: StatKey | 'normal' };
   isPlayer: boolean;
+  /** Hurdles: how many are behind this racer, how many it cleared, and the stumble clock. */
+  hurdleNext: number;
+  hurdlesCleared: number;
+  stumbleMs: number;
+  /** The race time until which the dizzy emote shows (-1: none). */
+  dizzyUntilMs: number;
 }
 
 export interface RaceState {
@@ -120,6 +174,11 @@ export interface RaceState {
   racers: Racer[];
   cheerUntilMs: number;
   cheerReadyAtMs: number;
+  /** When the player last cheered (-1: never), for the hurdle timing bonus. */
+  lastCheerMs: number;
+  /** Track positions of the course's hurdles, and the roll that decides each jump. */
+  hurdles: number[];
+  hurdleRng: Rng;
   finished: boolean;
   /** Final placements by racer id once finished. */
   placements: string[];
@@ -174,6 +233,10 @@ export function createRace(
       finishedAtMs: null,
       look: { band: player.form?.band ?? 'neutral', type: player.form?.type ?? 'normal' },
       isPlayer: true,
+      hurdleNext: 0,
+      hurdlesCleared: 0,
+      stumbleMs: 0,
+      dizzyUntilMs: -1,
     },
   ];
   const count = rng.int(minRivals, maxRivals);
@@ -203,16 +266,24 @@ export function createRace(
         type: favourite === 'stamina' ? 'normal' : favourite,
       },
       isPlayer: false,
+      hurdleNext: 0,
+      hurdlesCleared: 0,
+      stumbleMs: 0,
+      dizzyUntilMs: -1,
     });
   }
+  const resolved: Course = { ...course, sections: course.tierSections?.[tier] ?? course.sections };
   return {
-    course,
+    course: resolved,
     tier,
-    length: courseLength(course),
+    length: courseLength(resolved),
     timeMs: 0,
     racers,
     cheerUntilMs: -1,
     cheerReadyAtMs: 0,
+    lastCheerMs: -1,
+    hurdles: hurdlePositions(resolved),
+    hurdleRng: Rng.fromSeed(hashSeed(`hurdles:${seed}`)),
     finished: false,
     placements: [],
   };
@@ -223,6 +294,7 @@ export function cheer(race: RaceState): boolean {
   if (race.finished || race.timeMs < race.cheerReadyAtMs) return false;
   race.cheerUntilMs = race.timeMs + RACE.cheerMs;
   race.cheerReadyAtMs = race.timeMs + RACE.cheerCooldownMs;
+  race.lastCheerMs = race.timeMs;
   return true;
 }
 
@@ -241,12 +313,35 @@ export function stepRace(race: RaceState, dtMs: number): void {
       if (r.restMs <= 0) r.stamina = r.staminaMax * RACE.restRefill;
       continue;
     }
+    if (r.stumbleMs > 0) {
+      // A clipped fence: a short stall, no fall, and stamina holds.
+      r.stumbleMs -= dtMs;
+      continue;
+    }
     const { section } = sectionAt(race.course, r.pos);
-    const stat = statFor(section.kind);
-    const level = r.levels[stat];
+    const level =
+      section.kind === 'hurdles' ? hurdleSkill(r.levels) : r.levels[statFor(section.kind)];
     let speed = RACE.baseSpeed + (RACE.statSpeedBonus * level) / 99;
     if (r.isPlayer && race.timeMs < race.cheerUntilMs) speed *= RACE.cheerBoost;
+    const before = r.pos;
     r.pos += speed * dt;
+    // Each hurdle passed this step is one timing roll; a cheer just before it is always clean.
+    while (r.hurdleNext < race.hurdles.length && race.hurdles[r.hurdleNext]! <= r.pos) {
+      const at = race.hurdles[r.hurdleNext]!;
+      r.hurdleNext++;
+      const crossMs = race.timeMs - (dtMs * (r.pos - at)) / Math.max(1e-9, r.pos - before);
+      const cheered =
+        r.isPlayer &&
+        race.lastCheerMs >= 0 &&
+        crossMs >= race.lastCheerMs &&
+        crossMs - race.lastCheerMs <= HURDLES.cheerWindowMs;
+      const roll = race.hurdleRng.next();
+      if (cheered || roll < hurdleCleanChance(r.levels)) r.hurdlesCleared++;
+      else {
+        r.stumbleMs = HURDLES.stumbleMs;
+        r.dizzyUntilMs = race.timeMs + HURDLES.dizzyMs;
+      }
+    }
     const drain = section.kind === 'stretch' ? RACE.stretchDrain : 1;
     r.stamina -= dt * drain;
     if (r.stamina <= 0) {

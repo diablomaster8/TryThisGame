@@ -17,8 +17,9 @@ import {
 } from '../config/story';
 import { sceneFor, type PlayScene } from '../sim/story-scenes';
 import { storylineOf } from '../sim/storyline';
+import { walkOnRoute } from '../sim/scene-cast';
 import type { GroveKind, Location, Vec2, World } from '../sim/types';
-import { fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
+import { walkLength, fromSpot, partnerEmote, walkMs, walkPose, type Walk } from './walk-on';
 import { CG4_A2 } from '../config/tuning-a2';
 import { PKG_A2_FROM } from '../config/scene-stages-pkg-a2';
 
@@ -691,7 +692,8 @@ export class SceneStager {
         if (f && Math.hypot(f.x - to.x, f.z - to.z) > 0.05)
           endFace = Math.atan2(f.x - to.x, f.z - to.z);
       }
-      this.walks.push({
+      const via = walkOnRoute(world, from, { x: to.x, z: to.z });
+      const walk: Walk = {
         kind,
         key,
         from,
@@ -699,9 +701,11 @@ export class SceneStager {
         yaw: Math.atan2(to.x - from.x, to.z - from.z),
         endFace,
         startMs: nowMs + CG4_A2.walk.leadMs,
-        durMs: walkMs(dist),
+        durMs: walkMs(via.length ? walkLength({ from, to, via }) : dist),
         done: false,
-      });
+      };
+      if (via.length) walk.via = via;
+      this.walks.push(walk);
     }
     this.stepWalks(nowMs);
   }
@@ -716,16 +720,21 @@ export class SceneStager {
     for (const w of this.walks) {
       if (w.done) continue;
       const p = walkPose(w, nowMs, reduce);
-      const face = p.walking ? w.yaw : w.endFace;
+      const yaw = p.yaw ?? w.yaw;
+      const face = p.walking ? yaw : w.endFace;
       // Before the lead-in the figure waits at its start mark (not yet "walking").
       const waiting = !reduce && nowMs < w.startMs;
       const at = waiting ? w.from : { x: p.x, z: p.z };
       if (nowMs >= w.startMs + w.durMs || reduce) w.done = true;
       if (p.walking) {
         this.walking.add(w.key);
-        this.walkers.push({ key: w.key, x: at.x, z: at.z, yaw: w.yaw });
+        this.walkers.push({ key: w.key, x: at.x, z: at.z, yaw });
       } else this.walking.delete(w.key);
-      const f = waiting ? w.yaw : face;
+      const f = waiting
+        ? w.via?.[0]
+          ? Math.atan2(w.via[0].x - w.from.x, w.via[0].z - w.from.z)
+          : w.yaw
+        : face;
       switch (w.kind) {
         case 'npc':
           this.holds.set(w.key, at);

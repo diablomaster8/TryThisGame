@@ -2,6 +2,40 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Lanes A–E (2026-10-28, merged on lane/d, one push)
+
+The 2026-10-27 recommendations were worked by five lanes at once. Full write-ups are in
+`docs/progress-archive.md`, and per-item status is in `recs-2026-10-27/STATUS.md`.
+
+- **A MOVE.** *Works:* jump and landing feel in both modes, pad mapping (X pet, B feed, Y
+  shake), auto-hop on tap paths, Fly-perk glide, the floating analogue joystick, Nubbin
+  steering, thrown bodies that bonk off solids, collider/nav/ground-y debug overlays and a
+  collision sweep. *Stubbed:* 3D knees on crouch, 3D wings, Keeper 2's jump, tap markers,
+  fall recovery (MOVE-31). *Known:* a thrown Nubbin can't land on a bench top.
+- **B DUNG.** *Works:* save v8; the boot veil and arrival grace; generator v3 with loops and
+  29 Rootways pieces; packs that chase and start encounters; five acts with boss rooms.
+  *Stubbed:* act tilesets and towns; a boss look; pack loot (Shells only). *Known:* the Pixel
+  view doesn't draw packs (needs `world-view.ts`); the standard tour band hits about 85%.
+- **C FIGHT.** *Works:* a seeded battle core (`src/sim/battle/`) runs the dojo and SL2's
+  party bout, with the party panel. *Stubbed:* the 3D dojo view (R0219), rival species, the
+  Hollow `encounter` wiring. *Known:* old `karateResult` trusts `won`; fast weak taps beat
+  tier 2 (R0280).
+- **D WORLD.** *Works:* the region graph (13 regions, paired exits, the `travel` command,
+  discovery events); every quest mapped to an area (`noArea: 0`); the drawn map with
+  "you are here", travel and region tabs; compass and minimap (Off/On/Auto); Full 3D
+  `PERF_BUDGET` with a governor `geoLevel`; the chunk grid and Pixel off-screen culling
+  (793 → ≤ 138 sprites); a World line in the debug panel; POI spacing and
+  `npm run probe:world`. *Stubbed:* quests in the map sheet, maps for non-Grove regions, the
+  compass objective tick, 3D streaming. *Known:* Full 3D is still over the phone budget at
+  most spots until creature and scenery LOD (R0078/R0079). The region is derived from
+  `location`.
+- **E LOOK.** *Works:* Chao crown, tip, eyes, head ratio, wings, mitts, waddle and mouths in
+  both modes; Moon adult hues; per-species 3D eyes; multi-head and ghost species; the
+  likeness test suite. *Stubbed:* crown spring bone, toon rim light, slit pupils, the
+  part-grow at evolution. *Known:* wing cream `#fff1c9` awaits Maor's OK.
+- **All lanes.** Under load, the full-life, `species-gen1a-art` sculpt and nav timing tests
+  can fail in a full run. Each passes when run alone; no budget was loosened.
+
 ## Lane D: WORLD (2026-10-28, branch lane/d, not pushed)
 
 Order: R0070 → R0071 → R0068 → R0069 → R0075, then R0076 onward where lane A's files allow.

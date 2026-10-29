@@ -10,6 +10,12 @@ export const HOLLOW_TEXT = {
     `The pack poofs into sparkles and scurries home. +${shells} Shells`,
   partyGiggles: 'Your party gets the giggles and sits down. Back to the stairs, everything kept.',
   packFled: 'You slip away; the pack wanders home.',
+  /** The pack fight's panel, on the battle core. */
+  boutTitle: 'A pack!',
+  boutBackOff: 'Back off',
+  boutFoes: 'The pack',
+  boutWon: 'The whole pack has toddled home.',
+  boutEnded: 'Everyone backs off and catches their breath.',
   /** The acts' cave-mouth menu (R0145). */
   actsTitle: 'The five Hollows',
   deepHollow: 'The Deep Hollow',
@@ -18,6 +24,39 @@ export const HOLLOW_TEXT = {
   actCleared: 'Boss beaten',
   bossGuard: 'Something big sits on the way on. It will have to be beaten first.',
   bossBeaten: (name: string) => `${name} is beaten! The way to the next Hollow is open.`,
+  /** Waypoint stones (R0148). */
+  waypointsTitle: 'Waypoints',
+  waypointsHelp: 'Mossy stones that remember the way. Walk onto one to wake it; travel is free.',
+  waypointButton: '◆ Waypoint',
+  waypointLevel: (level: number) => `Level ${level}`,
+  waypointAwake: '✓ Awake',
+  waypointAsleep: '○ Not found yet',
+  waypointHere: 'You are here',
+  waypointActivated: 'A waypoint stone hums awake. You can travel back here any time.',
+  waypointArrived: 'The moss glows, and here you are.',
+  waypointsNone: 'No waypoint stones awake yet. The first sits near the top of each Hollow.',
+  /** New paths (R0149). */
+  newPaths: 'New paths',
+  newPathsHelp: 'Redraw every Hollow’s tunnels. Once a day; bosses beaten stay beaten.',
+  newPathsDone: 'The tunnels shift and settle. New paths wait below.',
+  newPathsLater: 'The tunnels have shifted once today already.',
+  /** The Homing Acorn (R0150). */
+  acornsTitle: 'Homing Acorns',
+  acornsHelp: (count: number, bundle: number, price: number) =>
+    `Plant one to fall up home and come back later. You have ${count}. ${bundle} for ${price} Shells.`,
+  acornsBuy: 'Buy',
+  acornsBought: (count: number) => `${count} Homing Acorns in your pocket.`,
+  acornsShort: 'Not enough Shells for a bundle of acorns.',
+  acornFound: 'Tucked in the find: a Homing Acorn!',
+  acornButton: (count: number, free: boolean) => (free ? '🌰 Acorn (free)' : `🌰 Acorn ×${count}`),
+  acornPortal: (free: boolean) =>
+    free
+      ? 'Grandma’s acorn sprouts, and everyone falls up through a swirl of leaves. Home!'
+      : 'The acorn sprouts, and everyone falls up through a swirl of leaves. Home!',
+  portalTitle: 'Acorn portal',
+  portalHelp: (level: string) => `Your acorn still glows at ${level}. Step back through.`,
+  portalGo: 'Step through',
+  portalReturned: 'Back through the acorn, right where you left off.',
 } as const;
 
 /** The acts' names, a line each, and their bosses (R0145), by `ActId`. */
@@ -48,3 +87,26 @@ export const ACT_TEXT: Record<string, { name: string; blurb: string; boss: strin
     boss: 'The Hushkeeper',
   },
 };
+
+/**
+ * The automap (R0154): the map button's three states, the full-screen overlay's label, and
+ * the legend's names. `HOLLOW_MAP_TEXT` in strings.ts keeps the corner map's older words.
+ */
+export const HOLLOW_AUTOMAP_TEXT = {
+  /** The button's label for the state the map is in now; a tap moves to the next one. */
+  button: { off: 'Map: off', corner: 'Map: corner', overlay: 'Map: over the cave' },
+  /** Shown as the button's tooltip on desktop. */
+  keys: 'Map (M corner, Tab over the cave)',
+  overlay: (floor: number) => `Map of floor ${floor}, over the cave`,
+  you: 'You',
+  party: 'Party',
+  up: 'Stairs up',
+  down: 'Stairs down',
+  chest: 'Chest',
+  waypoint: 'Waypoint',
+  portal: 'Portal',
+  shrine: 'Shrine',
+  unique: 'Someone special',
+  quest: 'Quest',
+  way: 'Show me the way',
+} as const;

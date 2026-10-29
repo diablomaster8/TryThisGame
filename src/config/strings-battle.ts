@@ -1,4 +1,8 @@
-import type { BattleEvent, Combatant } from '../sim/battle/types';
+import type { BattleEvent, Combatant, MoodStat, StatusId, TraitId } from '../sim/battle/types';
+import type { NubbinType } from '../sim/types';
+import { moveName } from './strings-battle-moves';
+
+export { BATTLE_MOVE_TEXT, moveName } from './strings-battle-moves';
 
 /**
  * Every player-facing word of the battle screens, kept apart from `strings.ts` so the combat
@@ -51,7 +55,17 @@ export const BATTLE_TEXT = {
   guarding: 'guarding',
   tuckered: 'tuckered out',
   wentHome: 'went home',
-  moves: { strike: 'Strike', guard: 'Guard', rally: 'Rally' } as Record<string, string>,
+  moves: { strike: 'Bonk', guard: 'Catch your breath', rally: 'Huddle' } as Record<string, string>,
+  puff: 'Puff',
+  /** A move button: its name and Puff cost. */
+  cost: (n: number) => (n === 0 ? 'free' : `${n} Puff`),
+  needPuff: 'Not enough Puff',
+  yawny: 'Yawny',
+  next: 'Next up',
+  help: 'Types',
+  bigOne: 'Big one!',
+  strongHit: "It's a good match-up!",
+  weakHit: "It's a poor match-up.",
   who: 'Who? Tap a foe.',
   cancel: 'Back',
   partyWon: 'The party wins! Everyone on their side has toddled home.',
@@ -73,17 +87,129 @@ export const BATTLE_TEXT = {
   status: (a: string, ahp: number, b: string, bhp: number) => `${a} ${ahp} · ${b} ${bhp}`,
 } as const;
 
+/** Statuses: an icon and a word each, never colour alone (recs FIGHT-15). */
+export const STATUS_TEXT: Record<StatusId, { icon: string; name: string }> = {
+  drowsy: { icon: '💤', name: 'Drowsy' },
+  dizzy: { icon: '💫', name: 'Dizzy' },
+  soggy: { icon: '💧', name: 'Soggy' },
+  giggly: { icon: '😆', name: 'Giggly' },
+  peckish: { icon: '🍎', name: 'Peckish' },
+  sticky: { icon: '🍯', name: 'Sticky' },
+};
+
+/** Moods by stat and direction. */
+export const MOOD_TEXT: Record<MoodStat, { up: string; down: string; icon: string }> = {
+  bonk: { up: 'Pumped', down: 'Sulky', icon: '💪' },
+  guard: { up: 'Puffed up', down: 'Flustered', icon: '🛡' },
+  zip: { up: 'Zoomy', down: 'Dawdly', icon: '💨' },
+  acc: { up: 'Sharp-eyed', down: 'Shy-eyed', icon: '👀' },
+};
+
+export function moodWord(stat: MoodStat, stage: number): string {
+  const t = MOOD_TEXT[stat];
+  return `${t.icon} ${stage > 0 ? t.up : t.down}${Math.abs(stage) > 1 ? ' ×2' : ''}`;
+}
+
+/** Grade traits (recs FIGHT-12): the S name, and what the A version is called. */
+export const TRAIT_TEXT: Record<TraitId, { name: string; blurb: string }> = {
+  slippery: { name: 'Slippery', blurb: 'The first status on it slides off.' },
+  featherlight: { name: 'Featherlight', blurb: 'Floats over moves along the ground.' },
+  headStart: { name: 'Head Start', blurb: 'Acts first on the first turn.' },
+  heavyHugger: { name: 'Heavy Hugger', blurb: 'Hugs push foes back further (tactics bouts).' },
+  secondWind: { name: 'Second Wind', blurb: 'Once a bout, keeps going on 1 HP.' },
+};
+export const TRAIT_HALF = (name: string): string => `${name} (half)`;
+
+/** The Bout row on the stats sheet. */
+export const BOUT_TEXT_SHEET = {
+  title: 'Bout',
+  level: 'Lv',
+  hp: 'HP',
+  bonk: 'Bonk',
+  splash: 'Splash',
+  guard: 'Guard',
+  zip: 'Zip',
+  flutter: 'Flutter',
+  puff: 'Puff',
+  traits: 'Traits',
+  noTraits: 'No traits yet: an A or S grade gives one.',
+  slots: 'Moves',
+  known: 'Known moves',
+  pick: 'Tap a slot, then a move.',
+  empty: 'empty',
+  record: (w: number, l: number) => `Bouts won ${w} · lost ${l}`,
+  learned: (name: string, move: string) => `${name} learned ${move}!`,
+  swapIn: (name: string, move: string) =>
+    `${name} learned ${move}! Swap it in from the stats sheet.`,
+};
+
+/** The type wheel help card (recs FIGHT-13): built from the loop so the words match the maths. */
+export const TYPE_WORDS: Record<NubbinType, { icon: string; name: string; verb: string }> = {
+  swim: { icon: '🌊', name: 'Swim', verb: 'soaks' },
+  fly: { icon: '🪶', name: 'Fly', verb: 'flies over' },
+  run: { icon: '👟', name: 'Run', verb: 'outruns' },
+  power: { icon: '💪', name: 'Power', verb: 'out-splashes' },
+  normal: { icon: '⭐', name: 'Normal', verb: '' },
+};
+export const TYPE_HELP = {
+  title: 'Who beats who',
+  beats: (a: NubbinType, b: NubbinType) =>
+    `${TYPE_WORDS[a].icon} ${TYPE_WORDS[a].name} ${TYPE_WORDS[a].verb} ${TYPE_WORDS[b].icon} ${TYPE_WORDS[b].name}`,
+  normal: '⭐ Normal is steady: it hits everyone the same and is hit the same.',
+  even: 'Swim and Run, and Fly and Power, are evenly matched.',
+  sunMoon: '☀ Sun moves land harder on Moon Nubbins, and 🌙 Moon moves on Sun ones.',
+  eternal: 'Eternals take the same from everything.',
+  close: 'Got it',
+};
+
 /** One log event as a line, or null for events the log does not show. */
 export function formatEvent(e: BattleEvent, name: (id: string) => string): string | null {
   switch (e.k) {
-    case 'hit':
-      return `${name(e.by)} bonks ${name(e.to)} for ${e.dmg}${e.guarded ? ' (guarded)' : ''}.`;
+    case 'hit': {
+      const tail = e.crit
+        ? ` ${BATTLE_TEXT.bigOne}`
+        : (e.eff ?? 1) > 1
+          ? ` ${BATTLE_TEXT.strongHit}`
+          : (e.eff ?? 1) < 1
+            ? ` ${BATTLE_TEXT.weakHit}`
+            : '';
+      return `${name(e.to)} takes ${e.dmg}${e.guarded ? ' (braced)' : ''}.${tail}`;
+    }
     case 'miss':
-      return `${name(e.to)} slips aside.`;
+      return e.float ? `${name(e.to)} floats right over it.` : `${name(e.to)} slips aside.`;
     case 'guard':
-      return `${name(e.by)} guards.`;
+      return `${name(e.by)} catches their breath.`;
     case 'rally':
-      return `${name(e.by)} rallies the party.`;
+      return `${name(e.by)} feels better (+${e.heal}).`;
+    case 'use':
+      return `${name(e.by)} uses ${moveName(e.move)}!`;
+    case 'status':
+      return e.on
+        ? `${name(e.to)} is ${STATUS_TEXT[e.id].icon} ${STATUS_TEXT[e.id].name}.`
+        : `${name(e.to)} is no longer ${STATUS_TEXT[e.id].name}.`;
+    case 'shrug':
+      return `${name(e.to)} shrugs it off.`;
+    case 'mood':
+      return `${name(e.to)} feels ${moodWord(e.stat, e.delta)}.`;
+    case 'skip':
+      return e.why === 'drowsy'
+        ? `${name(e.who)} is dozing. ${BATTLE_TEXT.zzz}`
+        : `${name(e.who)} can't stop giggling!`;
+    case 'boing':
+      return `${name(e.who)} spins round and bonks themself. Boing!`;
+    case 'peckish':
+      return `${name(e.who)}'s tummy rumbles.`;
+    case 'trait':
+      return `${name(e.who)}: ${TRAIT_TEXT[e.id].name}!`;
+    case 'decoy':
+      return e.by === e.to
+        ? `${name(e.by)} draws a doodle of themself.`
+        : `${name(e.by)} bonks the doodle instead!`;
+    case 'yawny':
+      return `${name(e.who)} is ${BATTLE_TEXT.yawny.toLowerCase()} and starts with little Puff.`;
+    case 'turnStart':
+    case 'turnEnd':
+      return null;
     case 'tuckered':
       return e.side === 0
         ? `${name(e.who)} is tuckered out and naps under a leaf.`
@@ -93,4 +219,5 @@ export function formatEvent(e: BattleEvent, name: (id: string) => string): strin
     case 'end':
       return null;
   }
+  return null;
 }

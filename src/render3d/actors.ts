@@ -1,7 +1,11 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
+import { hillHeight } from '../sim/terrain';
+import { rustleWild } from './wild';
+import { TapMarks3D } from './tap-marks';
+import { Footfall } from '../render/footfall';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
@@ -189,6 +193,10 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  /** MOVE-44: the tap walk's footprint dots and target ring. */
+  private readonly tapMarks: TapMarks3D;
+  /** MOVE-46: footstep sounds by surface (3D draws no prints). */
+  private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
@@ -238,6 +246,7 @@ export class Actors {
     // The emote ball frames: the plain set and the Shadow's plum one, one sprite material
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
+    this.tapMarks = new TapMarks3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -746,6 +755,14 @@ export class Actors {
       rig.group.position.set(p.x, this.keeperGround(p.x, p.z) + lift, p.z);
       rig.face(facing);
       rig.animate(gaitTime(rig, p.x, p.z, t, dt, pose === 'walk'));
+      // MOVE-41: walking up a hill the Keeper leans into it (forward), a little back going down.
+      if (pose === 'walk' && lift === 0 && this.location === 'grove') {
+        const r = KEEPER_SLOPE.probe;
+        const dx = Math.sin(facing) * r;
+        const dz = Math.cos(facing) * r;
+        const rise = hillHeight(p.x + dx, p.z + dz) - hillHeight(p.x, p.z);
+        rig.group.rotation.x += Math.atan2(rise, r) * KEEPER_SLOPE.lean;
+      }
     } else if (k.stand) placeStand(k.stand, p.x, this.ground(p.x, p.z), p.z, t);
   }
 
@@ -953,6 +970,9 @@ export class Actors {
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
     this.squashKeeper(keeper, nowMs);
+    if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
+    this.tapMarks.update(world, nowMs, this.calm);
+    this.footfall.step(world, kp.x, kp.z);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);

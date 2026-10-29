@@ -4,6 +4,7 @@ import type { CaveBand } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
+import { fogged } from './hollow-fog';
 
 /**
  * What the four Hollow modules (`hollow-rock`, `-light`, `-dress`, `-atmos`) share: the
@@ -83,7 +84,8 @@ export const mat = (color: string, o: THREE.MeshStandardMaterialParameters = {})
   const key = `${color}|${JSON.stringify(o)}`;
   let m = MATS.get(key);
   if (!m) {
-    m = new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
+    // Only the Hollow uses this cache, so every one is fog-aware (R0153).
+    m = fogged(new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o }));
     MATS.set(key, m);
   }
   return m;

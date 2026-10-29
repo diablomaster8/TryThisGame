@@ -69,7 +69,24 @@ export interface InputHost {
   send(cmd: Command): void;
   /** Called on a tap that selected or deselected something. */
   onSelect(id: string | null): void;
+  /**
+   * MOVE-49: what a gamepad driving Keeper 1 needs (co-op off): whether co-op is on, the
+   * nearest Nubbin within reach, whether something is held, and the camera's steps.
+   */
+  pad?: {
+    coop(): boolean;
+    nearNubbin(within: number): string | null;
+    holding(): boolean;
+    rotate(dir: 1 | -1): void;
+    zoom(dir: 1 | -1): void;
+  };
 }
+
+/** MOVE-49: standard-mapping buttons. */
+const PAD = { a: 0, b: 1, x: 2, y: 3, lb: 4, rb: 5, rt: 7, up: 12, down: 13 } as const;
+/** Stick dead zone, and the reach (units) for X's pet. */
+const PAD_DEAD = 0.25;
+const PAD_REACH = 1.4;
 
 interface Sample {
   pos: Vec2;
@@ -102,6 +119,8 @@ export class GameInput {
   private lastInput: Vec2 = { x: 0, z: 0 };
   private lastInput2: Vec2 = { x: 0, z: 0 };
   private padHeld = { x: false, b: false, y: false };
+  /** MOVE-49: Keeper 1's pad buttons as last seen, so each press acts once. */
+  private pad1Held: boolean[] = [];
 
   constructor(
     private readonly surface: HTMLElement,
@@ -163,6 +182,21 @@ export class GameInput {
     if (this.keys.has('s') || this.keys.has('arrowdown')) fwd -= 1;
     if (this.keys.has('d') || this.keys.has('arrowright')) right += 1;
     if (this.keys.has('a') || this.keys.has('arrowleft')) right -= 1;
+    // MOVE-49: with co-op off, the first gamepad drives Keeper 1.
+    const pad = this.soloPad();
+    if (pad) {
+      const ax = pad.axes[0] ?? 0;
+      const ay = pad.axes[1] ?? 0;
+      // MOVE-28's curve: past the dead zone the push eases in, so a light tilt walks.
+      const len = Math.hypot(ax, ay);
+      if (len > PAD_DEAD) {
+        const k = Math.min(1, (len - PAD_DEAD) / (1 - PAD_DEAD));
+        const pace = (k * k * (3 - 2 * k)) / len;
+        right += ax * pace;
+        fwd -= ay * pace;
+      }
+      this.padButtons(pad);
+    }
     const yaw = this.host.camera.currentYaw;
     // Camera forward on the ground is -(sin yaw, cos yaw); right is (cos yaw, -sin yaw).
     const x = -Math.sin(yaw) * fwd + Math.cos(yaw) * right;
@@ -185,7 +219,7 @@ export class GameInput {
     let pet = false;
     let feed = false;
     const pads = typeof navigator.getGamepads === 'function' ? navigator.getGamepads() : [];
-    const pad = pads?.[0];
+    const pad = this.soloPad() ? null : pads?.[0];
     if (pad) {
       const ax = pad.axes[0] ?? 0;
       const ay = pad.axes[1] ?? 0;
@@ -214,6 +248,44 @@ export class GameInput {
     }
     if (pet) this.host.send({ kind: 'keeper2Act', action: 'pet' });
     if (feed) this.host.send({ kind: 'keeper2Act', action: 'feed' });
+  }
+
+  /** MOVE-49: the first gamepad, when it drives Keeper 1 (co-op off), else null. */
+  private soloPad(): Gamepad | null {
+    if (!this.host.pad || this.host.pad.coop()) return null;
+    const pads = typeof navigator.getGamepads === 'function' ? navigator.getGamepads() : [];
+    return pads?.[0] ?? null;
+  }
+
+  /**
+   * MOVE-49: Keeper 1's pad buttons. A jumps (held higher), B puts down or backs out, X pets
+   * the nearest Nubbin in reach, Y shakes, RB runs while held, LB and RT turn the camera,
+   * and the D-pad's up and down zoom.
+   */
+  private padButtons(pad: Gamepad): void {
+    const host = this.host.pad!;
+    const now = (i: number) => pad.buttons[i]?.pressed ?? false;
+    const was = (i: number) => this.pad1Held[i] ?? false;
+    const press = (i: number) => now(i) && !was(i);
+    const lift = (i: number) => !now(i) && was(i);
+    if (press(PAD.a)) this.host.send({ kind: 'jump', down: true });
+    if (lift(PAD.a)) this.host.send({ kind: 'jump', down: false });
+    if (press(PAD.b)) {
+      if (host.holding()) this.host.send({ kind: 'putDown' });
+      else window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    }
+    if (press(PAD.x)) {
+      const id = host.nearNubbin(PAD_REACH);
+      if (id) this.host.send({ kind: 'pet', nubbinId: id });
+    }
+    if (press(PAD.y)) this.host.send({ kind: 'shakeHeld' });
+    if (press(PAD.rb)) this.host.send({ kind: 'setRunning', running: true });
+    if (lift(PAD.rb)) this.host.send({ kind: 'setRunning', running: false });
+    if (press(PAD.lb)) host.rotate(-1);
+    if (press(PAD.rt)) host.rotate(1);
+    if (press(PAD.up)) host.zoom(1);
+    if (press(PAD.down)) host.zoom(-1);
+    this.pad1Held = pad.buttons.map((b) => b.pressed);
   }
 
   private readonly onKey = (e: KeyboardEvent): void => {

@@ -17,6 +17,7 @@ import { bridgeDeckTop } from '../sim/terrain';
 import { BRIDGE_YAW } from '../config/tuning-sim';
 import { addHull } from './toon-outline';
 import { occluders } from './occluders';
+import { buildWildGround, buildWildTrees } from './wild';
 
 /**
  * The Grove's dressing in 3D, placed from the same GROVE numbers the pixel scenery
@@ -465,6 +466,7 @@ export function buildGroveProps(
     occluders.add('props', b.windmill.x, b.windmill.z, 2.1, 2.1, wy - 0.2, wy + 7.4, wy + 5.1);
   }
   occluders.patch(group);
+  buildWildGround(group, tex);
 
   return {
     group,
@@ -519,5 +521,6 @@ export function buildGroveTrees(
     for (const p of tree.inner) p.userData.halo = { kind: 'tree', id: t.id };
     made.push(tree);
   });
+  made.push(...buildWildTrees(scene, tex, time));
   return made;
 }

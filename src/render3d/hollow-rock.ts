@@ -3,6 +3,7 @@ import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, isWalkable, WALL, type Floor } from '../sim/dungeon';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
+import { fogged } from './hollow-fog';
 import {
   CELL,
   WALL_H,
@@ -492,8 +493,9 @@ export class HollowRock implements HollowModule {
       strata: { value: new THREE.Vector4(2.4, 0.5, 1.6, 0.72) },
       fungusAmt: { value: 0 },
     };
-    this.rock = rockMaterial(tex, this.u);
-    this.earth = floorMaterial(tex, torchFlicker);
+    // Fog-aware (R0153): unseen rock and floor stay dark, so the layout never shows early.
+    this.rock = fogged(rockMaterial(tex, this.u));
+    this.earth = fogged(floorMaterial(tex, torchFlicker));
     this.depth = wallDepthMaterial(this.u);
     // The governor drops the triplanar blend to the one cheap projection (item 9).
     caveShed.register({ name: 'triplanar', apply: (shed) => (this.u.tri.value = shed ? 0 : 1) });

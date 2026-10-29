@@ -8,7 +8,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 8;
+export const SAVE_VERSION = 9;
 
 export interface SaveFile {
   version: number;
@@ -115,6 +115,19 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
     const world = data.world as Record<string, unknown> | undefined;
     const hollow = world?.hollow as Record<string, unknown> | undefined;
     if (hollow && !Array.isArray(hollow.acts)) hollow.acts = [];
+    return data;
+  },
+  // 8 to 9: stable act floors, waypoints and the Homing Acorn (R0148–R0151): none yet.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const hollow = world?.hollow as Record<string, unknown> | undefined;
+    if (hollow) {
+      hollow.actSeeds = [];
+      hollow.rerollDay = '';
+      hollow.waypoints = [];
+      hollow.acorns = 0;
+      hollow.portal = null;
+    }
     return data;
   },
 ];
@@ -276,8 +289,14 @@ export function validateWorld(w: World): World {
     // The veil's hold belongs to the session that set it; the next boot sets its own.
     delete w.dungeon.loading;
   }
-  w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] };
+  w.hollow ??= { runs: 0, best: 0, dailyDay: '', dailyDepth: 0, acts: [] } as never;
   if (!Array.isArray(w.hollow.acts)) w.hollow.acts = [];
+  if (!Array.isArray(w.hollow.actSeeds)) w.hollow.actSeeds = [];
+  w.hollow.rerollDay ??= '';
+  if (!Array.isArray(w.hollow.waypoints)) w.hollow.waypoints = [];
+  w.hollow.acorns ??= 0;
+  w.hollow.portal ??= null;
+  if (w.hollow.portal) delete w.hollow.portal.run.loading;
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;
