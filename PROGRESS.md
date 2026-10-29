@@ -38,6 +38,15 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
+
+- *Plan:* R0147 and R0152 first, as zones of an act run (`run.zone`): the act town (an authored
+  40×30 hub: waypoint, stash, vendor, crafting table, gamble stall, hire board, quest-giver,
+  the road home) and the act's outdoor field (128×96 from 16×16 tiles, cave mouths to side
+  caves, the act gate, packs, wildlife, shrines). Both are ordinary Hollow floors, so both
+  renderers draw them; service props and the outdoor look are new. Then R0060/R0067 and the
+  rest in R-number order as far as fits.
+
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
 - *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back

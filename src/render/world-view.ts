@@ -1,3 +1,4 @@
+import { openSky } from './cave-bands';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
@@ -371,7 +372,8 @@ export class WorldView {
   setDaylight(d: Daylight, reduceMotion: boolean): void {
     this.daylight = d;
     const hollow = this.location === 'hollow';
-    const underground = this.location === 'dungeon';
+    // An act's camp and fields are under the open sky (lane B, R0147): daylight, not the cave.
+    const underground = this.location === 'dungeon' && !openSky(this.cave);
     this.darkness = hollow
       ? Math.max(0.6, d.darkness)
       : underground

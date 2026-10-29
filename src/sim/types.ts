@@ -637,7 +637,14 @@ export interface DungeonRun {
   levels?: Record<string, LevelState>;
   /** This run's free Homing Acorn ("Grandma's acorn", R0150) is spent. */
   acornUsed?: true;
+  /** Above ground in the act (R0147, R0152): its camp, its fields, or a side cave. */
+  zone?: DungeonZone;
+  /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
+  side?: number;
 }
+
+/** An act's places above its dungeon (lane B round 4). */
+export type DungeonZone = 'town' | 'field' | 'side';
 
 /** A Hollow level as the Keeper left it (R0151). */
 export interface LevelState {
@@ -895,6 +902,11 @@ export interface World {
     acorns: number;
     /** The open acorn portal, if any. */
     portal: HollowPortal | null;
+    /**
+     * The act camps (R0152; save version 10): Shells in the stash chest, a slot for stashed
+     * items (gear, DUNG-23), and the acts whose quest reward was paid.
+     */
+    camp: { shells: number; items: Record<string, number>; questsPaid: number[] };
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1072,6 +1084,12 @@ export type Command =
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'enterAct'; act: number }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'enterTown'; act: number }
+  | { kind: 'enterMouth' }
+  | { kind: 'stash'; amount: number }
+  | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
+  | { kind: 'townQuest' }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1281,6 +1299,11 @@ export type SimEvent =
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'stashMoved'; amount: number }
+  | { kind: 'townBought'; item: 'fruit' }
+  | { kind: 'townQuestPaid'; act: number; shells: number }
+  | { kind: 'sideCaveEntered'; index: number }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }

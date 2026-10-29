@@ -8,7 +8,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 9;
+export const SAVE_VERSION = 10;
 
 export interface SaveFile {
   version: number;
@@ -128,6 +128,13 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       hollow.acorns = 0;
       hollow.portal = null;
     }
+    return data;
+  },
+  // 9 to 10: the act camps (R0152): an empty stash, no quest reward paid.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const hollow = world?.hollow as Record<string, unknown> | undefined;
+    if (hollow) hollow.camp = { shells: 0, items: {}, questsPaid: [] };
     return data;
   },
 ];
@@ -297,6 +304,9 @@ export function validateWorld(w: World): World {
   w.hollow.acorns ??= 0;
   w.hollow.portal ??= null;
   if (w.hollow.portal) delete w.hollow.portal.run.loading;
+  w.hollow.camp ??= { shells: 0, items: {}, questsPaid: [] };
+  w.hollow.camp.items ??= {};
+  if (!Array.isArray(w.hollow.camp.questsPaid)) w.hollow.camp.questsPaid = [];
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;

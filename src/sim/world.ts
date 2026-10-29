@@ -79,6 +79,8 @@ import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
 import { stepCurfew } from './curfew';
 import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from './dungeon-travel';
+import { enterMouth, enterTown } from './dungeon-zones';
+import { townBuy, townQuest, useStash } from './dungeon-towns';
 import {
   dungeonGo,
   encounterDone,
@@ -236,6 +238,7 @@ export function createWorld(seed: number, wallMs: number): World {
       waypoints: [],
       acorns: 0,
       portal: null,
+      camp: { shells: 0, items: {}, questsPaid: [] },
     },
     neighbours: {},
     festivalSeen: '',
@@ -715,6 +718,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'enterAct':
       withRng(world, (rng) => enterDungeon(world, false, rng, events, undefined, cmd.act));
+      return;
+    // Lane B round 4: act camps and fields (R0147, R0152).
+    case 'enterTown':
+      withRng(world, (rng) => enterTown(world, cmd.act, rng, events));
+      return;
+    case 'enterMouth':
+      enterMouth(world, events);
+      return;
+    case 'stash':
+      useStash(world, cmd.amount, events);
+      return;
+    case 'townBuy':
+      townBuy(world, cmd.item, events);
+      return;
+    case 'townQuest':
+      townQuest(world, events);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

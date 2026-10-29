@@ -11,6 +11,10 @@ import { WaypointPanel } from './waypoint-panel';
 import { HOLLOW } from '../config/tuning';
 import { canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
 import { parseLevelId } from '../sim/dungeon-levels';
+import { HOLLOW_ZONE_TEXT } from '../config/strings';
+import { serviceHere } from '../sim/dungeon-towns';
+import { mouthHere } from '../sim/dungeon-zones';
+import { TownPanel } from './dungeon-town';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -31,6 +35,10 @@ export class DungeonMenu {
   private readonly waypoints: WaypointPanel;
   private readonly stoneBtn: HTMLButtonElement;
   private readonly acornBtn: HTMLButtonElement;
+  /** Act camps and fields (R0152, R0147): the service at hand and the cave mouth. */
+  private readonly town: TownPanel;
+  private readonly serviceBtn: HTMLButtonElement;
+  private readonly mouthBtn: HTMLButtonElement;
 
   constructor(
     parent: HTMLElement,
@@ -89,6 +97,16 @@ export class DungeonMenu {
       'btn btn-small hollow-extra',
     );
     this.bar.append(this.stoneBtn, this.acornBtn);
+    this.town = new TownPanel(parent, game);
+    this.serviceBtn = button('', () => this.town.open(), 'btn btn-small btn-primary hollow-extra');
+    this.serviceBtn.hidden = true;
+    this.mouthBtn = button(
+      HOLLOW_ZONE_TEXT.mouthButton,
+      () => this.game()?.send({ kind: 'enterMouth' }),
+      'btn btn-small btn-primary hollow-extra',
+    );
+    this.mouthBtn.hidden = true;
+    this.bar.append(this.serviceBtn, this.mouthBtn);
     // The minimap: its button sits in the bar, its panel is the bar's last row.
     this.map = new HollowMap(this.bar);
     this.bar.insertBefore(this.map.toggle, this.map.panel);
@@ -109,10 +127,11 @@ export class DungeonMenu {
   close(): void {
     this.dialog.hide();
     this.waypoints.close();
+    this.town.close();
   }
 
   isOpen(): boolean {
-    return this.dialog.isOpen() || this.waypoints.isOpen();
+    return this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen();
   }
 
   /** Called every frame by the HUD: the underground bar follows the run. */
@@ -122,13 +141,30 @@ export class DungeonMenu {
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     this.buffs.refresh(run);
-    if (!run) return;
+    this.town.refresh(world);
+    if (!run) {
+      this.serviceBtn.hidden = this.mouthBtn.hidden = true;
+      return;
+    }
+    const service = serviceHere(world);
+    this.serviceBtn.hidden = !service;
+    if (service) this.serviceBtn.textContent = TownPanel.label(world, service);
+    this.mouthBtn.hidden = mouthHere(world) === null;
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;
     this.acornBtn.textContent = HOLLOW_TEXT.acornButton(world.hollow.acorns, free);
     this.acornBtn.disabled = !canUseAcorn(world);
     this.acornBtn.hidden = !!run.story;
-    this.barText.textContent = `${DUNGEON_TEXT.floor(run.depth)} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
+    const actName = run.act !== undefined ? (ACT_TEXT[ACTS[run.act]!.id]?.name ?? '') : '';
+    const place =
+      run.zone === 'town'
+        ? HOLLOW_ZONE_TEXT.town(actName)
+        : run.zone === 'field'
+          ? HOLLOW_ZONE_TEXT.field(actName)
+          : run.zone === 'side'
+            ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
+            : DUNGEON_TEXT.floor(run.depth);
+    this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
   }
 
   private listActs(world: World): void {
@@ -145,7 +181,8 @@ export class DungeonMenu {
         DUNGEON_TEXT.go,
         () => {
           this.close();
-          this.game()?.send({ kind: 'enterAct', act: i });
+          // An act starts at its camp (R0152); waypoints still go straight down.
+          this.game()?.send({ kind: 'enterTown', act: i });
         },
         'btn btn-small btn-primary',
       );
@@ -170,8 +207,11 @@ export class DungeonMenu {
     const portal = world.hollow.portal;
     if (portal) {
       const at = parseLevelId(portal.levelId);
+      const actName = at ? (ACT_TEXT[ACTS[at.act]!.id]?.name ?? '') : '';
       const name = at
-        ? `${ACT_TEXT[ACTS[at.act]!.id]?.name ?? ''}, ${HOLLOW_TEXT.waypointLevel(at.level)}`
+        ? at.zone
+          ? (at.zone === 'town' ? HOLLOW_ZONE_TEXT.town : HOLLOW_ZONE_TEXT.field)(actName)
+          : `${actName}, ${HOLLOW_TEXT.waypointLevel(at.level)}`
         : DUNGEON_TEXT.floor(portal.run.depth);
       row(HOLLOW_TEXT.portalTitle, HOLLOW_TEXT.portalHelp(name), HOLLOW_TEXT.portalGo, () => {
         this.close();

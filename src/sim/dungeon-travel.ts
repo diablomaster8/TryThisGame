@@ -34,6 +34,7 @@ import {
   waypointHere,
 } from './dungeon-levels';
 import type { Rng } from './rng';
+import { goToZone } from './dungeon-zones';
 import type { DungeonRun, SimEvent, World } from './types';
 
 /**
@@ -49,6 +50,9 @@ export function goToLevel(
   remember = true,
 ): void {
   if (remember) rememberLevel(run);
+  // A dungeon level is never a camp, field or side cave (R0147, R0152).
+  delete run.zone;
+  delete run.side;
   run.depth = depth;
   run.genVersion = run.story ? 2 : HOLLOW.genVersion;
   const f = floorOfRun(run);
@@ -114,11 +118,13 @@ export function waypointTravel(world: World, id: string, rng: Rng, events: SimEv
       run.act = to.act;
       run.seed = actSeed(world, to.act, rng);
     }
-    goToLevel(world, run, to.depth, 'waypoint', events, false);
+    if (to.zone) goToZone(world, run, to.zone, 'waypoint', events, undefined, false);
+    else goToLevel(world, run, to.depth, 'waypoint', events, false);
   } else {
     if (world.location !== 'grove' || run) return false;
     if (!enterDungeon(world, false, rng, events, undefined, to.act)) return false;
-    goToLevel(world, world.dungeon!, to.depth, 'waypoint', events, false);
+    if (to.zone) goToZone(world, world.dungeon!, to.zone, 'waypoint', events, undefined, false);
+    else goToLevel(world, world.dungeon!, to.depth, 'waypoint', events, false);
   }
   events.push({ kind: 'waypointArrived', id });
   return true;
