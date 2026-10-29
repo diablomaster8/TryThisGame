@@ -34,9 +34,13 @@ import {
   type TUnit,
 } from '../sim/battle/tactics';
 import { moveById } from '../sim/battle/tactics/engine';
+import { KEEPER_UNIT } from '../sim/battle/tactics/keeper-unit';
 import type { Cell } from '../sim/battle/tactics/types';
 import { button, el } from './dom';
 import { TacticsBar } from './tactics-bar';
+
+/** The bar's id for the Keeper's Whistle. */
+const WHISTLE = 'keeper-whistle';
 
 type Mode = 'idle' | 'move' | 'moveSheet' | 'aim' | 'preview' | 'face' | 'busy';
 
@@ -65,6 +69,8 @@ export class TacticsScreen {
   private turnKey = '';
   private seenLog = 0;
   private want3d = true;
+  /** The first friend picked for the Keeper's Whistle. */
+  private whistleA: string | null = null;
   private readonly flashes: Flashes = { hurt: new Map(), pile: new Map() };
   private raf = 0;
   private press: { id: number; x: number; y: number; at: number; timer: number } | null = null;
@@ -161,13 +167,16 @@ export class TacticsScreen {
     const u = s && activeUnit(s);
     if (!s || !u) return;
     if (m === 'moveSheet') {
-      this.bar.moves(
-        movesOf(u).map((id) => ({
+      // The Keeper's Whistle (FIGHT-66) is an act, not a move: two taps on two friends.
+      const whistle = u.keeper ? [{ id: WHISTLE, puff: 0, ok: !s.acted }] : [];
+      this.bar.moves([
+        ...movesOf(u).map((id) => ({
           id,
           puff: moveById(id)?.puff ?? 0,
           ok: !s.acted && (moveById(id)?.puff ?? 99) <= u.c.puff,
         })),
-      );
+        ...whistle,
+      ]);
     }
     this.mode = m;
     this.tile = null;
@@ -176,6 +185,7 @@ export class TacticsScreen {
 
   private pickMove(id: string): void {
     this.move = id;
+    this.whistleA = null;
     this.mode = 'aim';
   }
 
@@ -313,6 +323,13 @@ export class TacticsScreen {
     if (this.mode === 'move') {
       if (this.tile && this.tile.x === c.x && this.tile.y === c.y) this.go();
       else if (canDo(s, { k: 'move', ...c })) this.tile = c;
+    } else if (this.mode === 'aim' && this.move === WHISTLE) {
+      const v = s.units.find((w) => w.x === c.x && w.y === c.y);
+      if (!v || v.keeper || v.c.side !== u.c.side) return;
+      if (!this.whistleA || this.whistleA === v.c.id) {
+        this.whistleA = v.c.id;
+        this.tile = c;
+      } else this.act({ k: 'whistle', a: this.whistleA, b: v.c.id });
     } else if (this.mode === 'aim' || this.mode === 'preview') {
       const def = this.move ? moveById(this.move) : null;
       if (def && canAim(mapOf(s), u, c, gridOf(def), u.jump, u.job === 'glider')) {
@@ -441,6 +458,15 @@ export class TacticsScreen {
       o.move = r.tiles.slice(1);
       if (this.tile) o.path = routeTo(m, r, this.tile.x, this.tile.y);
     }
+    if (this.mode === 'aim' && this.move === WHISTLE)
+      o.aim = s.units
+        .filter(
+          (w) =>
+            !w.keeper &&
+            w.c.side === u.c.side &&
+            Math.abs(w.x - u.x) + Math.abs(w.y - u.y) <= KEEPER_UNIT.whistleRange,
+        )
+        .map((w) => ({ x: w.x, y: w.y }));
     if ((this.mode === 'aim' || this.mode === 'preview') && this.move) {
       const def = moveById(this.move);
       if (def) {

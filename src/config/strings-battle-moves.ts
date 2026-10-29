@@ -126,6 +126,7 @@ export const BATTLE_MOVE_TEXT: Record<string, { name: string; blurb: string }> =
   'moon-hush': { name: 'Moon Hush', blurb: 'A long hush. Foes nearby may go Dizzy.' },
   'keeper-snack': { name: 'Snack toss', blurb: 'A snack from your pocket: heals a quarter.' },
   'keeper-cheer': { name: 'Cheer', blurb: 'Friends beside you get Pumped.' },
+  'keeper-whistle': { name: 'Whistle', blurb: 'Two friends within four tiles swap places.' },
 };
 
 export function moveName(id: string): string {
