@@ -69,6 +69,7 @@ import { Village } from './village';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
+import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 
 /**
@@ -302,6 +303,8 @@ export class Grove3dScene {
   private lastDip = 0;
   /** MOVE-26: extra look height while the Keeper stands on a rock (set by the game). */
   perchLift = 0;
+  /** MOVE-52: the orbit's tilt and pull-in round hills (hill-clear.ts). */
+  private readonly hillClear = new HillClear();
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
@@ -1427,8 +1430,22 @@ export class Grove3dScene {
     const baseDist =
       (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]) *
       (cave ? READ3D.hollow.distanceK : 1);
-    const pitch = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
-    const dist = THREE.MathUtils.lerp(baseDist, s.distance, b);
+    const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
+    const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
+    // MOVE-52: a hill between the camera and the Keeper tilts the orbit up or pulls it in;
+    // staged shots frame themselves, so their share of the blend takes none of it.
+    const hc = this.hillClear;
+    hc.update(
+      this.camTarget,
+      yaw,
+      pitch0,
+      dist0,
+      groveHeight,
+      dt,
+      this.location === 'grove' && b < 1,
+    );
+    const pitch = pitch0 + hc.lift * (1 - b);
+    const dist = dist0 * (1 - (1 - hc.k) * (1 - b));
     if (s.kind === 'stage' && b > 0 && !s.fitted) {
       // H8: the dialogue box covers the bottom of the frame, so slide the rig toward the
       // camera along the ground until the subjects sit `boxLift` of the frame higher.

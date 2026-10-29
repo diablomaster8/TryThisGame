@@ -165,3 +165,21 @@ export const MANTLE = { ms: 250, minRise: 0.12 } as const;
 
 /** MOVE-51: the jump button's hold ring fills over `ringMs`, about a held jump's rise. */
 export const JUMP_BUTTON = { ringMs: 280 } as const;
+
+/**
+ * MOVE-52: the 3D orbit camera keeps its line to the Keeper clear of the hills. The ray from
+ * the look point to the camera is sampled every `step` units; ground within `margin` of it
+ * blocks. The camera tilts up to `maxPitchDeg` more (in `pitchSteps`), then pulls in to
+ * `minDist` of its distance. It moves out of the way in about `inMs` and eases back over
+ * `outMs`.
+ */
+export const HILL_CLEAR = {
+  step: 0.5,
+  margin: 0.25,
+  maxPitchDeg: 15,
+  pitchSteps: 3,
+  minDist: 0.7,
+  distSteps: 2,
+  inMs: 120,
+  outMs: 500,
+} as const;
