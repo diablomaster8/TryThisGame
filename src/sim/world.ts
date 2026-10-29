@@ -959,6 +959,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'campaignStart':
     case 'sceneDone':
+    case 'lineAct':
     case 'talk':
     case 'lightLantern':
     case 'debugChapter':

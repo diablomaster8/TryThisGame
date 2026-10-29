@@ -60,7 +60,7 @@ const CH1: EduScene[] = [
   scene(
     'c1-letter',
     [
-      N('The gate is stuck. Lift and push! Lift and push!'),
+      { ...N('The gate is stuck. Lift and push! Lift and push!'), act: 'gate', refrain: 'lift-push' },
       N('Creak! It opens. This is Gran’s Grove. But Gran is not here.'),
       N('On the signpost is a letter. Your name is on the front!'),
       HAZEL('“I’ve gone to help some lost Nubbins. Don’t make a fuss.”', 'soft'),

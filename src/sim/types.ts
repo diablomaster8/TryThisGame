@@ -20,6 +20,7 @@ export interface BattlePrefs {
 }
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
+import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
 
 export interface Vec2 {
@@ -973,6 +974,8 @@ export type Command =
   | { kind: 'debugHatchNow'; nubbinId: string }
   | { kind: 'campaignStart' }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
+  /** R0304 (FUN-15): a story line's hands-on beat was played (the gate, the cup). */
+  | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
   | { kind: 'debugChapter'; chapter: number }

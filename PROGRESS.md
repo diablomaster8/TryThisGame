@@ -38,6 +38,15 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
+
+*Plan:* in R order, R0304 gate beat, R0306 first fun quest after ch 2, R0307 slip nudges,
+R0308 sprout toasts, R0309 comedy report, R0310 sprout sound words, R0311 pet toasts,
+R0312 hatch card (lane E owns the cap), R0313 Fern's stone, R0314 Byte's stopwatches,
+R0315 silly badges, R0316 away diary, R0318 tips, R0319 chip caps, R0320 sprout wrong
+replies, R0321 peekaboo, R0322 tap squeaks, R0323 Say it!, then R0296/R0297 routines and
+chatter, then R0294 as far as fits. Skipped: R0317 (lane E), R0326 (lane B).
+
 ## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
 
 - *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
@@ -64,31 +73,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
   units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
   dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
-
-## Round 4 · Lane A (MOVE + FUN, 2026-10-29, branch r4/a)
-
-Plan: the Hollow roll bug first, then R0057, R0063, R0066, then FUN R0290–R0305 in order
-(R0293, R0298 to lane E). Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver:
-`EXTRA=./r4a-extra.cjs node laneA.cjs <pixel|3d> <desk|phone> 5181`; all four pass.
-
-- *Works:* no roll underground, so a chasm lip faced toward the camera jumps; spring mushroom
-  (bounce 2.2×, squash, boing, Nubbins play on it) and hay bale in the decor shop (R0057);
-  hop course: 12 flags, timer chip, ghost, Hop Hat once, best time in a per-slot side save
-  `<slot key>.hop` (R0063); Q1 asks for a placed flower bed (R0291); hint-verb check in
-  content-check and 25 hints rewritten (R0292); Keeper barks in a bubble (R0295,
-  `content/barks.ts`); a throw splats on trunks and walls (R0299); fruit on heads (R0300);
-  comic sounds plus a debug row (R0301); typewriter beats and voice blips, with a setting
-  (R0302); `beat`, `sfx`, `shake`, `gag` on script lines (R0303); goal-done chip per chapter (R0305).
-- *Stubbed:* R0066 navmesh (deferred, field still 96 u); R0294 micro-games, R0296 routines,
-  R0297 chatter, R0304 gate beat (not started); R0292's Do-it-honest pass over the other
-  unmet-verb hints; R0299 walking bonks; R0303 stage-actor reactions and the spark particle;
-  R0305's comic micro-moment (waits on R0293); barks have no separate edu lists (all lines are `all`).
-- *Known bugs:* none found. Under a loaded machine the full-life and 8-Nubbin timing tests
-  failed once in the full suite; alone they take 2.1 s and 1.8 s (main: 1.8–1.9 s).
-- *Assumptions:* the course opens once the hop lesson is done (no new saved field); the Hop
-  Hat is a `prize` entry in `config/cosmetics.ts`; the hat is the run's only Grove write;
-  fruit can land on heads from any drop, shaken or not; the mushroom's Nubbin bounce is
-  drawn only (the sim keeps `y` at 0).
 
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 

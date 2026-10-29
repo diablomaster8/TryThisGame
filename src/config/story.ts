@@ -27,7 +27,21 @@ export interface Line {
   sfx?: LineSfx;
   shake?: 'small' | 'big';
   gag?: true;
+  /**
+   * R0304 (FUN-15): an interactive beat after this line: the scene waits for the player to
+   * play it (`gate`: hold to lift, push twice; `cup`: one tap). It can never fail; a played
+   * act may set the flag in `LINE_ACT_FLAGS`.
+   */
+  act?: LineAct;
+  /** R0323 (FUN-34): a sprout join-in refrain on this line (an id in `config/edu.ts`). */
+  refrain?: string;
 }
+
+/** R0304: the interactive beats a line can wait on. */
+export type LineAct = 'gate' | 'cup';
+
+/** R0304: the flag a played act sets (the cup turned over is a callback for chapter 12). */
+export const LINE_ACT_FLAGS: Partial<Record<LineAct, string>> = { cup: 'c1-cup-turned' };
 
 /** R0303: the sounds a line may cue (a subset of the game's sound names). */
 export type LineSfx =
@@ -41,7 +55,8 @@ export type LineSfx =
   | 'hiccup'
   | 'gulp'
   | 'raspberry'
-  | 'giggle';
+  | 'giggle'
+  | 'creak';
 
 export type LineGesture = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 

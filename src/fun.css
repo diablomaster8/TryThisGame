@@ -100,3 +100,71 @@ body.line-shake-big #app {
 .hop-lesson-chip.hop-course-chip {
   top: calc(var(--safe-top, 0px) + 112px);
 }
+
+/* R0304 (FUN-15): the opening's hands-on beats (the stuck gate, the cup). */
+.line-act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.line-act-hint {
+  margin: 0;
+  text-align: center;
+}
+.line-act-btn {
+  min-height: 56px;
+  min-width: 160px;
+  touch-action: none;
+}
+.gate-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.18s ease-out;
+}
+.gate-art {
+  display: inline-flex;
+  gap: 3px;
+  padding: 4px 5px;
+  border-top: 4px solid #6b4a2b;
+  border-bottom: 4px solid #6b4a2b;
+}
+.gate-slat {
+  width: 6px;
+  height: 26px;
+  background: #a87a4a;
+  border-radius: 2px;
+}
+.gate-btn.lifted {
+  transform: translateY(-6px);
+}
+.gate-btn.stuck {
+  animation: gate-stuck 0.35s ease-out;
+}
+.gate-btn.open .gate-art {
+  transform: perspective(120px) rotateY(-60deg);
+  transition: transform 0.5s ease-out;
+}
+@keyframes gate-stuck {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-2deg);
+  }
+  60% {
+    transform: translateX(4px) rotate(1deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-btn,
+  .gate-btn.open .gate-art {
+    transition: none;
+  }
+  .gate-btn.stuck {
+    animation: none;
+  }
+}
