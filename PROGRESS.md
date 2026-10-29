@@ -38,32 +38,34 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
+## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
 
-- *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
-  which stays untouched (R0243 map, R0244 field map, R0245 path, R0246 CT, R0247 facing,
-  R0248 jobs, R0249 terrain, R0250 range and combos, R0251 objectives, R0252 AI), then the
-  R0257 slice as `world.tactics` behind a debug-panel button, then a Pixel view and phone bar
-  (R0253, R0255) in new files. R0254, R0256, R0219, R0239 later.
-- *Works:* `sim/battle/tactics/` (pure, seeded, JSON state, map as base64): Hollow-room and
-  open-field maps (cottage, trees, lanterns blocked; `config/battle-maps.ts` overrides), Move
-  and Jump from Run/Fly, deep water for swimmers, CT turns with Move (before or after the Act,
-  undoable until it), Act, Wait and facing, charged moves, facing/height factors shared by
-  preview and hit, 7 jobs plus Sunny/Moony layers and the Keeper aura, 8 terrains, arcs and
-  line shots, 11 "Together!" combos at friendship 60, 8 objectives, Sprout/Keeper/Champion AI
-  (0.4 ms a decision, Champion 40/40 over Sprout). The rumble room (R0257): debug panel →
-  "Rumble room (3v3 tactics)", a 10×10 Hollow crop, calm the Old Shadow, Shells and a crystal;
-  kept in `world.tactics` (optional, no save bump) and reopened after a reload. Pixel iso
-  board (`minigames/tactics/pixel-view.ts`, also over Full 3D) and the one-thumb bar
-  (`ui/tactics-bar.ts`, `ui/tactics-screen.ts`, `tactics.css`). The turn-mode API is unchanged
-  (`moveDamage` now calls `damageWith`, same dice order).
-- *Stubbed:* no move animations (the log line and a hurt flash only); the AI never calls a
-  combo; Copycat and Doodle Decoy act as plain moves on the grid (Decoy is greyed out); fused
-  partners are not one 2-tile unit; lane B's rumble-room flag (see the hand-over note).
-- *Known bugs / assumptions:* the AI's 8 ms cap is an evaluation count (2500), not a clock, so
-  replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
-  units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
-  dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
+- *Plan:* finish R0248 (job on the stats sheet), R0250 (AI combos, pile-on flash), R0253
+  (draw count) and R0254 (Full 3D board, new `render3d/tactics-3d.ts`, instanced tiles,
+  disposed on exit); then R0258–R0283 in order, skipping R0256, R0257's Hollow hand-off, R0260,
+  R0269, R0271, R0275, R0276, R0281, R0282 (other lanes). Sim items go to helpers with their
+  own files; shared files get self-contained blocks only. No save bump.
+- *Works:* Full 3D tactics board (`render3d/tactics-3d.ts` on a `MiniStage`: instanced tiles per
+  kind, one overlay set, pool rigs through the Grove's `CreatureLod`; 56 draws, 216k tris at
+  375×812; memory flat over 10 bouts), job on the stats sheet, AI "Together!" combos, pile-on
+  jostle, 8 grid-only charged moves (line4, scatter3, landing; Keeper+ AI steps out), the
+  Keeper's untargetable piece (Snack toss, Cheer, Whistle; in the rumble room). Turn mode:
+  shared move content lint and `tests/tools/battle-table.ts`, bout points by move used, one-time
+  rewards (`world.battleOnce`, `battleSpoils`), seeded quips (en/he/ja), real rival species,
+  doubles, timing flag (sweet/plain/steady), balance harness, Command mode (ATB, obedience,
+  gags, hidden-tab pause), pre-bout sheet (party, mode, Gentle/Normal/Spicy), Settings → Bouts
+  with Skip (`autoResolve`), inspect card and seen matchups, aria-live log, Steady hands,
+  keyboard play, Debug → Battle (replay paste).
+- *Stubbed:* Pixel board still 1 + units `drawImage` a frame (R0253 wants ≤3 WebGL draws);
+  champion-pack prefixes and rumble chest; doubles stage draws one combatant a side; bout lean
+  not read by `decidePersonality` (lane A); move cards not in the Collection book (lane E).
+- *Known bugs / assumptions:* a Command-mode replay stamps orders at send time but they apply on
+  the next step, so exactness isn't guaranteed (turn bouts are exact). The 60-point cap is per
+  stat per bout. First-win hats reuse shop hats. Snack toss uses 3 packed snacks, not the
+  inventory. Balance: Champion runs 30 bouts (2,000 doesn't fit 3 s); Sprout's median is ~32
+  turns, so it isn't asserted. Stalemate guard skips encounters (Hollow replays unchanged).
+  `battle-screen.ts` is ~1,075 lines (split next). No axe-core installed, so no axe run.
+  Lane B hand-over: side-session note `r5-lane-c-handover.md`.
 
 ## Round 4 · Lane A (MOVE + FUN, 2026-10-29, branch r4/a)
 

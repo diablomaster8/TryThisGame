@@ -2,6 +2,33 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
+
+- *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
+  which stays untouched (R0243 map, R0244 field map, R0245 path, R0246 CT, R0247 facing,
+  R0248 jobs, R0249 terrain, R0250 range and combos, R0251 objectives, R0252 AI), then the
+  R0257 slice as `world.tactics` behind a debug-panel button, then a Pixel view and phone bar
+  (R0253, R0255) in new files. R0254, R0256, R0219, R0239 later.
+- *Works:* `sim/battle/tactics/` (pure, seeded, JSON state, map as base64): Hollow-room and
+  open-field maps (cottage, trees, lanterns blocked; `config/battle-maps.ts` overrides), Move
+  and Jump from Run/Fly, deep water for swimmers, CT turns with Move (before or after the Act,
+  undoable until it), Act, Wait and facing, charged moves, facing/height factors shared by
+  preview and hit, 7 jobs plus Sunny/Moony layers and the Keeper aura, 8 terrains, arcs and
+  line shots, 11 "Together!" combos at friendship 60, 8 objectives, Sprout/Keeper/Champion AI
+  (0.4 ms a decision, Champion 40/40 over Sprout). The rumble room (R0257): debug panel →
+  "Rumble room (3v3 tactics)", a 10×10 Hollow crop, calm the Old Shadow, Shells and a crystal;
+  kept in `world.tactics` (optional, no save bump) and reopened after a reload. Pixel iso
+  board (`minigames/tactics/pixel-view.ts`, also over Full 3D) and the one-thumb bar
+  (`ui/tactics-bar.ts`, `ui/tactics-screen.ts`, `tactics.css`). The turn-mode API is unchanged
+  (`moveDamage` now calls `damageWith`, same dice order).
+- *Stubbed:* no move animations (the log line and a hurt flash only); the AI never calls a
+  combo; Copycat and Doodle Decoy act as plain moves on the grid (Decoy is greyed out); fused
+  partners are not one 2-tile unit; lane B's rumble-room flag (see the hand-over note).
+- *Known bugs / assumptions:* the AI's 8 ms cap is an evaluation count (2500), not a clock, so
+  replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
+  units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
+  dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
+
 ## Round 3 · Lane C (2026-10-28, branch r3/c)
 
 - *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
