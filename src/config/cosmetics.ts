@@ -445,13 +445,16 @@ function eggshell(colour: string): Cosmetic {
     rarity: 'common',
     source: 'hatch',
     px: [
-      ['ellipse', 0, 0, 5, 3.5, 'egg.shell'],
-      ['ellipse', 2, 0.5, 2.5, 2.5, 'egg.shade'],
-      ['ellipse', -0.5, -0.5, 3.5, 3, 'egg.shell'],
-      ['ellipse', 0, -2.5, 2.5, 1, 'egg.cap'],
-      ...[-5, -3, -1, 1, 3].map((x) => ['tri', x, 2, x + 2, 2, x + 1, 4, 'egg.shell'] as const),
-      ['px', -2, -2, 'white'],
-      ['px', 2, 0, 'egg.spot'],
+      // The broken rim first, in the shade, so its teeth read against the head.
+      ...[-6, -3, 0, 3].map((x) => ['tri', x, 0, x + 3, 0, x + 1.5, 4.5, 'egg.shade'] as const),
+      ...[-6, -3, 0, 3].map(
+        (x) => ['tri', x + 0.5, 0, x + 2.5, 0, x + 1.5, 3.5, 'egg.shell'] as const,
+      ),
+      ['ellipse', 0, -1, 6, 3.5, 'egg.shade'],
+      ['ellipse', -0.5, -1.5, 5.5, 3, 'egg.shell'],
+      ['ellipse', 0, -3, 2.5, 1, 'egg.cap'],
+      ['px', -3, -2, 'white'],
+      ['px', 2, -1, 'egg.spot'],
     ],
     mesh: [
       ['dome', 'egg.shell', [0, -0.3, 0], [0.66, 0.5, 0.66]],

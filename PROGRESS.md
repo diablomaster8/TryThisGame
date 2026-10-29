@@ -38,6 +38,14 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
+
+Plan: R0374 check (done on main; pixel length capped by the 32 px frame), then R0400 (cosmetics
+registry, data-drawn in both modes) ahead of R0394 (eggshell hat) and R0395 (Quills and Shade
+won and worn), then R0388 (first-evolution tells), R0389 (cry pose, Pixel; 3D needs actors.ts),
+R0399 (egg colours and finishes). Deferred: R0385, R0390 personality, R0391, R0392, R0393
+(actors.ts), R0397, R0398 (creature-pool.ts, lane D).
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
