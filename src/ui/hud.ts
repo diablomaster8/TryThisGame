@@ -750,6 +750,10 @@ export function mountHud(
         g.framePollers.push(() => joystick?.poll());
       }
       joystick.setVisible(g.world.settings.joystick);
+      // MOVE-14: Left-handed mirrors the thumb buttons and the pad.
+      const lefty = !!g.world.settings.leftHanded;
+      joystick.leftHanded = lefty;
+      document.documentElement.classList.toggle('left-handed', lefty);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
       groveBtn.hidden = !anyUnlocked;
       groveBtn.textContent = GROVE_LABELS[g.world.grove];

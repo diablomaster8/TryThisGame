@@ -299,6 +299,8 @@ export interface Settings {
   autoRun?: boolean;
   /** MOVE-53: the Pixel view turns toward a steady sideways walk. Unset: off. */
   cameraFollowsWalk?: boolean;
+  /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
+  leftHanded?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';

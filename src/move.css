@@ -107,3 +107,29 @@
 .dialogue-open .hop-lesson-chip {
   display: none;
 }
+
+/* MOVE-14: Left-handed: the jump, look and camera buttons go left, Run and the pad right. */
+.left-handed .jump-btn {
+  right: auto;
+  left: calc(var(--safe-left) + 18px);
+}
+
+.left-handed .lookout-chip {
+  right: auto;
+  left: calc(var(--safe-left) + 12px);
+}
+
+.left-handed .camera-buttons {
+  right: auto;
+  left: calc(var(--safe-left) + 12px);
+}
+
+.left-handed .run-btn {
+  left: auto;
+  right: calc(var(--safe-right) + 12px);
+}
+
+.left-handed .joystick-zone {
+  left: auto;
+  right: 0;
+}

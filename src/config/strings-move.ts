@@ -51,3 +51,9 @@ export const HOP_LESSON_TEXT = {
 export const POND_TEXT = {
   found: (n: number) => `Something glints on the pond bed: ${n} shells!`,
 } as const;
+
+/** MOVE-14: the Left-handed setting. */
+export const HAND_TEXT = {
+  left: 'Left-handed',
+  leftHelp: 'Jump and camera buttons on the left, Run and the touch pad on the right.',
+} as const;
