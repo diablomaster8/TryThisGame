@@ -59,6 +59,57 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
   straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
   (underground ground is flat in `keeper.ts`, lane A).
+## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
+
+- *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
+  which stays untouched (R0243 map, R0244 field map, R0245 path, R0246 CT, R0247 facing,
+  R0248 jobs, R0249 terrain, R0250 range and combos, R0251 objectives, R0252 AI), then the
+  R0257 slice as `world.tactics` behind a debug-panel button, then a Pixel view and phone bar
+  (R0253, R0255) in new files. R0254, R0256, R0219, R0239 later.
+- *Works:* `sim/battle/tactics/` (pure, seeded, JSON state, map as base64): Hollow-room and
+  open-field maps (cottage, trees, lanterns blocked; `config/battle-maps.ts` overrides), Move
+  and Jump from Run/Fly, deep water for swimmers, CT turns with Move (before or after the Act,
+  undoable until it), Act, Wait and facing, charged moves, facing/height factors shared by
+  preview and hit, 7 jobs plus Sunny/Moony layers and the Keeper aura, 8 terrains, arcs and
+  line shots, 11 "Together!" combos at friendship 60, 8 objectives, Sprout/Keeper/Champion AI
+  (0.4 ms a decision, Champion 40/40 over Sprout). The rumble room (R0257): debug panel →
+  "Rumble room (3v3 tactics)", a 10×10 Hollow crop, calm the Old Shadow, Shells and a crystal;
+  kept in `world.tactics` (optional, no save bump) and reopened after a reload. Pixel iso
+  board (`minigames/tactics/pixel-view.ts`, also over Full 3D) and the one-thumb bar
+  (`ui/tactics-bar.ts`, `ui/tactics-screen.ts`, `tactics.css`). The turn-mode API is unchanged
+  (`moveDamage` now calls `damageWith`, same dice order).
+- *Stubbed:* no move animations (the log line and a hurt flash only); the AI never calls a
+  combo; Copycat and Doodle Decoy act as plain moves on the grid (Decoy is greyed out); fused
+  partners are not one 2-tile unit; lane B's rumble-room flag (see the hand-over note).
+- *Known bugs / assumptions:* the AI's 8 ms cap is an evaluation count (2500), not a clock, so
+  replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
+  units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
+  dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
+
+## Round 4 · Lane A (MOVE + FUN, 2026-10-29, branch r4/a)
+
+Plan: the Hollow roll bug first, then R0057, R0063, R0066, then FUN R0290–R0305 in order
+(R0293, R0298 to lane E). Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver:
+`EXTRA=./r4a-extra.cjs node laneA.cjs <pixel|3d> <desk|phone> 5181`; all four pass.
+
+- *Works:* no roll underground, so a chasm lip faced toward the camera jumps; spring mushroom
+  (bounce 2.2×, squash, boing, Nubbins play on it) and hay bale in the decor shop (R0057);
+  hop course: 12 flags, timer chip, ghost, Hop Hat once, best time in a per-slot side save
+  `<slot key>.hop` (R0063); Q1 asks for a placed flower bed (R0291); hint-verb check in
+  content-check and 25 hints rewritten (R0292); Keeper barks in a bubble (R0295,
+  `content/barks.ts`); a throw splats on trunks and walls (R0299); fruit on heads (R0300);
+  comic sounds plus a debug row (R0301); typewriter beats and voice blips, with a setting
+  (R0302); `beat`, `sfx`, `shake`, `gag` on script lines (R0303); goal-done chip per chapter (R0305).
+- *Stubbed:* R0066 navmesh (deferred, field still 96 u); R0294 micro-games, R0296 routines,
+  R0297 chatter, R0304 gate beat (not started); R0292's Do-it-honest pass over the other
+  unmet-verb hints; R0299 walking bonks; R0303 stage-actor reactions and the spark particle;
+  R0305's comic micro-moment (waits on R0293); barks have no separate edu lists (all lines are `all`).
+- *Known bugs:* none found. Under a loaded machine the full-life and 8-Nubbin timing tests
+  failed once in the full suite; alone they take 2.1 s and 1.8 s (main: 1.8–1.9 s).
+- *Assumptions:* the course opens once the hop lesson is done (no new saved field); the Hop
+  Hat is a `prize` entry in `config/cosmetics.ts`; the hat is the run's only Grove write;
+  fruit can land on heads from any drop, shaken or not; the mushroom's Nubbin bounce is
+  drawn only (the sim keeps `y` at 0).
 
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
@@ -79,51 +130,6 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   head after 10 min). Grove line only. The registry's "show what you get" shop option was
   taken over per-id SKUs (no `ShopItem` change).
 
-## Round 3 · Lane C (2026-10-28, branch r3/c)
-
-- *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
-  priority +3 (the incoming one takes the queued hit), a pick after a tuck-in, all tuckered is
-  a snack-break loss; the last party is kept in `world.battlePrefs`. Items from the inventory
-  (fruit, toys; flavoured fruit from the new optional `inventory.pocketFruit`), paid only on a
-  result. Wild foes have Calm and come home as children (or fill the scan and leave Shells);
-  Shadow strays take no HP. The ten Keepers' Circuit: fixed teams per save, field rules,
-  ribbons, hats, skill points, Champion rematches. Sprout/Keeper/Champion AI plus personality.
-  Gentle bouts (Learning Grove or the dojo switch) never lose. One full-screen battle screen
-  with playback, phone layout, party sheet and Power swing. Arena colliders (MOVE-62) and the
-  reserved grid data (MOVE-61, `docs/tactics-grid.md`).
-- *Stubbed:* the Circuit's 10 pre/post scenes and the chapter 5 goal alternative; the
-  Learning Grove "Play-fight Day" scenes; he/ja bout lines; nothing fills `pocketFruit` yet;
-  the Gentle switch lives in the dojo menu, not Settings; old `party` bouts stay all-at-once
-  (no screen opens them now); encounters are singles only when the caller asks.
-- *Known:* Champion beats Keeper 70.6% in the 500-bout mirror test, just over the 70% bar;
-  the battle screen draws pixel sheets in Full 3D (R0219); the full-life and 8-Nubbin timing
-  tests fail in a loaded full run and pass alone (1.6 s, 1.4 s).
-## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
-
-Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `EXTRA=./r3a-extra.cjs node
-laneA.cjs <pixel|3d> <desk|phone> 5181`; all four configurations pass, no console errors.
-
-- *Works:* mantle onto a lip a jump just misses (R0050); jump button hold ring, air-jump pip,
-  glide feather, greyed Shake (R0051); 3D orbit tilts or pulls in when a hill blocks the
-  Keeper (R0052, `render3d/hill-clear.ts`, one call in the scene); Camera follows walking
-  setting (R0053); co-op Keeper 2 on Keeper 1's motion (jump on Enter, Numpad 0, pad A; the
-  two keep apart; R0054, R0022's leftover); Look around on rock tops and the well, one-time
-  finds (R0055); walking to the flat stone meets S24's step (R0056); one-time hop lesson chip
-  and a Moss line (R0058); care walks stop with the Nubbin in view (R0059); roll (R0064); Swim
-  perk pond dip with one-time shells (R0065); Left-handed setting (R0014); 3D glide wings (R0027).
-- *Stubbed:* R0057 (needs `DecorKind` entries in `strings.ts`, lane E's sprites and lane D's
-  `garden.ts`); R0060 and R0067 (Hollow files, lane B); R0063 hop course; R0066 navmesh;
-  3D roll dust and dip bubbles (they need the scene's burst system, lane D); the waterfall
-  shelf stone has no story prop yet, so only the flat stone has a reach.
-- *Known bugs:* at the 24° pitch hills block the orbit rarely (12 of 1,024 sweep cases, one
-  5° step each), so R0052 seldom shows. In the Edge run, a Nubbin standing beside the Keeper
-  once pushed it off the well rim before the chip came up.
-- *Assumptions:* the mantle keeps the old reach (`JUMP.stepUp`, 0.35 u) and only makes the
-  climb visible; the big rocks are now standable (needed for R0055's "big rock at (-7, 9)");
-  the well counts as a lookout from its rim rather than as a standable top (standing on it
-  would put the Keeper over the hole); vistas give their find on the look (no walk-to marker);
-  Pixel's pitch is fixed, so Look around only zooms out; `world.viewYaw` is a UI hint the sim
-  uses for care-walk stops and the pulled-down roll, never for rules.
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -836,7 +836,7 @@ _Dumpling smiles. Then droops. Then yawns. Then hides._
 
 ## LJ6. Floating Lanterns
 
-- `lj6-step1`: Sit with Hana by the stream. · _Hana is sitting by the stream. Tap her and choose Talk._
+- `lj6-step1`: Sit with Hana by the stream. · _Hana is sitting by the stream. Tap her to talk._
 - `lj6-step2`: Help Hana make a lantern for her grandpa. · _Fold a lantern at Fern’s table. You can make one too. A grown-up can help write the name._
 - `lj6-step3`: Float Hana’s lantern with her at dusk. Later, join the party! · _Go to the stream in the evening. Luna lights the lanterns. The party is back at the cottage._
 

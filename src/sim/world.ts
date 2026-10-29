@@ -10,12 +10,21 @@ import {
   stepBattleMoves,
 } from './battle';
 import { recordKarate } from './battle/rewards';
+import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
-import { clampToWorld, putDown, react, sampleAll, startThrow, updateBehavior } from './behavior';
+import {
+  clampToWorld,
+  fruitOnHead,
+  putDown,
+  react,
+  sampleAll,
+  startThrow,
+  updateBehavior,
+} from './behavior';
 import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
@@ -59,6 +68,7 @@ import { separateBodies } from './separation';
 import { lookAround } from './lookout';
 import { stepPropReach } from './prop-reach';
 import { stepHopLesson } from './hop-lesson';
+import { stepHopCourse } from './hop-course';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -687,6 +697,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'battlePrefs':
       setBattlePrefsCmd(world, cmd.prefs);
       return;
+    // Lane C: the grid-tactics rumble (recs FIGHT-65), kept in world.tactics.
+    case 'tacticsStart':
+      startRumble(world, events, {
+        ...(cmd.depth !== undefined ? { depth: cmd.depth } : {}),
+        ...(cmd.ids ? { ids: cmd.ids } : {}),
+      });
+      return;
+    case 'tacticsAct':
+      rumbleAct(world, cmd.action, events);
+      return;
+    case 'tacticsForfeit':
+      rumbleForfeit(world, events);
+      return;
+    case 'tacticsClose':
+      rumbleClose(world);
+      return;
     case 'fuse': {
       const [a, b] = world.partners;
       if (a && b) fuse(world, a, b, events);
@@ -1040,6 +1066,8 @@ export function stepWorld(
     if (!offline) stepPropReach(world);
     // MOVE-58: the one-time hop lesson.
     if (!offline) stepHopLesson(world, events);
+    // MOVE-63: the hop course's flags and timer.
+    if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng);
     separateBodies(world, dtMs);
@@ -1112,6 +1140,8 @@ export function dropFruit(world: World, tree: Tree, rng: Rng, events: SimEvent[]
   };
   world.items.push(item);
   events.push({ kind: 'fruitDropped', treeId: tree.id, itemId: item.id });
+  // R0300: a Nubbin under the tree may get it on the head.
+  fruitOnHead(world, item, tree.pos, events);
   return item;
 }
 

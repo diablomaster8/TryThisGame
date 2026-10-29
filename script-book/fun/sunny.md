@@ -35,7 +35,7 @@ _He stuffs the fluff into the mittens with a fork. Some of it goes in his mouth.
 
 ### Step 2: Film Corky’s advert in Photo mode while the mittened Nubbin pads across the set.
 
-Hint: Open Photo mode in the pub and take the shot when Corky points and the Nubbin is on the bedsheet. · check: `photo:scene:nubbin-mittens-advert`
+Hint: Wait until Corky points and the Nubbin is on the bedsheet, then tap Do it in the Journal. That is the shot. · check: `photo:scene:nubbin-mittens-advert`
 
 #### <a id="q31-advert"></a>Scene `q31-advert`
 
@@ -788,7 +788,7 @@ _On the far bank, the goose is sitting on Fitz’s egg. It plans to keep it._
 
 ### Step 1: Talk Rook, Dabney, Mags and Fitz back into rehearsal before they walk out.
 
-Hint: Find each of them around the pub and choose Talk; every one of them wants to hear that their part matters most. · check: `talk:gang:4`
+Hint: Find each of them round the pub; every one wants to hear their part matters most. Then tap Do it in the Journal. · check: `talk:gang:4`
 
 #### <a id="q37-casting"></a>Scene `q37-casting`
 

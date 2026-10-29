@@ -2,8 +2,8 @@
 
 ## Q1. Two Shrubberies
 
-- `q01-s1`: Make a shrubbery and give it to the three hoods. · _The Workshop makes one from reeds and wood. Then use Give._
-- `q01-s2`: Make a second shrubbery, a bit higher, with a tiny path. · _Make another shrubbery and a path. Put them next to the first one._
+- `q01-s1`: Bring the three hoods a shrubbery. · _Buy a flower bed. Put it down. That is a shrubbery!_
+- `q01-s2`: Make a second shrubbery, a bit higher, with a tiny path. · _Put down one more flower bed and a path stone._
 
 #### `sprout:q01-intro` · [main](../../../fun/python.md#q01-intro)
 
@@ -2249,7 +2249,7 @@ _The sleeping Keeper wakes, sees your hat, and goes back to sleep._
 ## Q20. The Pointy Tree
 
 - `q20-s1`: Find and tap one of every kind of tree in your Grove. · _One tree for each fruit, and the palm by the sea._
-- `q20-s2`: Take a photo of Mr Arbour’s board from the meadow. · _Use Photo mode. Zoom in on the far hill._
+- `q20-s2`: Take a photo of Mr Arbour’s board from the meadow. · _Look at the far hill. Then tap Do it._
 
 #### `sprout:q20-intro` · [main](../../../fun/python.md#q20-intro)
 

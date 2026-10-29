@@ -7,6 +7,7 @@ import type {
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
 import type { NubbinCombat } from './battle/tactics/grid';
+import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
 
 /** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
 export interface BattlePrefs {
@@ -325,6 +326,8 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
+  voiceBlips?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -530,7 +533,9 @@ export type DecorKind =
   | 'bathhouse'
   | 'workshop'
   | 'rockPile'
-  | 'thicket';
+  | 'thicket'
+  | 'springShroom'
+  | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
 export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
@@ -819,6 +824,8 @@ export interface World {
   battle?: BattleState;
   /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
   battleRuns?: number;
+  /** Lane C: the live grid-tactics bout (recs FIGHT-65), absent when none; no save bump. */
+  tactics?: TacticsState;
   /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
@@ -929,6 +936,11 @@ export type Command =
   | { kind: 'battleForfeit' }
   | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  | { kind: 'tacticsAct'; action: TacticsAction }
+  | { kind: 'tacticsForfeit' }
+  | { kind: 'tacticsClose' }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1110,6 +1122,17 @@ export type Command =
 export type SimEvent =
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; source: string; key: string }
+  | {
+      kind: 'tacticsEnd';
+      source: string;
+      key: string;
+      winner: TacticsResult['winner'];
+      reason: TacticsResult['reason'];
+      shells: number;
+      essence: NubbinType | null;
+    }
   | {
       kind: 'battleEnd';
       context: BattleContext['kind'];
@@ -1165,6 +1188,15 @@ export type SimEvent =
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.
   | { kind: 'keeperRolled' }
+  // MOVE-57: a spring mushroom bounced the Keeper (or a Nubbin, `nubbinId`) off its cap.
+  | { kind: 'springBounced'; id: string; nubbinId?: string }
+  // R0300/R0299 (FUN-11/10): something landed on a Nubbin's head, or it walked into a thing.
+  | { kind: 'bonked'; nubbinId: string; by: 'fruit' | 'obstacle' }
+  // MOVE-63: the hop course: a run starts, a flag is touched (1-based count so far), a run
+  // ends (its time, the ghost as x, y, z triples every 100 ms, and whether the hat came now).
+  | { kind: 'hopCourse'; stage: 'start' | 'gaveUp' }
+  | { kind: 'hopCourse'; stage: 'flag'; flag: number }
+  | { kind: 'hopCourse'; stage: 'finish'; ms: number; ghost: number[]; hat: boolean }
   // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
   | { kind: 'keeperDipped'; shells: number }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
@@ -1198,7 +1230,8 @@ export type SimEvent =
   | { kind: 'degenerated'; nubbinId: string; name: string }
   | { kind: 'restored'; nubbinId: string; name: string }
   | { kind: 'keepsake'; id: string; quest: string }
-  | { kind: 'talked'; npcId: string }
+  // R0295: `bark`, the line the Keeper says back (content/barks.ts).
+  | { kind: 'talked'; npcId: string; bark?: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }
   | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }

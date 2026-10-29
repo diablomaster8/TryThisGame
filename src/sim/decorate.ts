@@ -1,8 +1,8 @@
 import { decorCollider } from '../config/grove-layout';
-import { DECOR, GROVE, STORY_PROPS } from '../config/tuning';
+import { DECOR, GROVE, JUMP_TOYS, STORY_PROPS } from '../config/tuning';
 import { colliderReach, contact, obstacles } from './obstacles';
 import { riverDistance } from './terrain';
-import type { DecorKind, PlaceRefusal, SimEvent, Vec2, World } from './types';
+import type { DecorKind, PlaceRefusal, PlacedDecor, SimEvent, Vec2, World } from './types';
 import { newId } from './world';
 
 /** Garden decorating: buy pieces in the shop, place them on the grass, pick them up again. */
@@ -13,10 +13,49 @@ export const DECOR_KINDS: readonly DecorKind[] = [
   'statue',
   'pathTile',
   'lanternSmall',
+  'springShroom',
+  'hayBale',
 ];
 
+/** MOVE-57: the jump toys, whose numbers live in `JUMP_TOYS` rather than `DECOR`. */
+export type JumpToyKind = keyof typeof JUMP_TOYS.prices;
+
+export function isJumpToy(kind: DecorKind): kind is JumpToyKind {
+  return kind in JUMP_TOYS.prices;
+}
+
 export function decorPrice(kind: DecorKind): number {
-  return DECOR.prices[kind];
+  return isJumpToy(kind) ? JUMP_TOYS.prices[kind] : DECOR.prices[kind];
+}
+
+// MOVE-57: when each spring mushroom last bounced someone (sim ms), for the squash.
+const bounced = new WeakMap<World, Map<string, number>>();
+
+/** MOVE-57: a spring mushroom bounces someone off its cap: note it for the squash. */
+export function springBounce(
+  world: World,
+  shroom: PlacedDecor,
+  events: SimEvent[],
+  nubbinId?: string,
+): void {
+  let m = bounced.get(world);
+  if (!m) bounced.set(world, (m = new Map()));
+  m.set(shroom.id, world.timeMs);
+  events.push({ kind: 'springBounced', id: shroom.id, ...(nubbinId ? { nubbinId } : {}) });
+}
+
+/** MOVE-57: when the mushroom last bounced someone (sim ms), or -Infinity. */
+export function springBouncedAt(world: World, id: string): number {
+  return bounced.get(world)?.get(id) ?? -Infinity;
+}
+
+/** MOVE-57: the placed spring mushroom whose cap the point is on, if any. */
+export function springShroomAt(world: World, x: number, z: number): PlacedDecor | null {
+  if (world.location !== 'grove') return null;
+  const r = JUMP_TOYS.colliders.springShroom.shape.r;
+  for (const d of world.placed)
+    if (d.kind === 'springShroom' && Math.hypot(d.pos.x - x, d.pos.z - z) <= r) return d;
+  return null;
 }
 
 export function buyDecor(world: World, kind: DecorKind, events: SimEvent[]): boolean {

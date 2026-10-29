@@ -125,12 +125,12 @@ const Q01 = quest(
   'Two Shrubberies',
   {
     'q01-s1': {
-      goal: 'Make a shrubbery at the Workshop and give it to the hooded three.',
-      hint: 'The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give.',
+      goal: 'Bring the hooded three a shrubbery.',
+      hint: 'Buy a flower bed in the Decorate shop and place it. The hoods will call it a shrubbery.',
     },
     'q01-s2': {
       goal: 'Make a second shrubbery, a little higher, with a beetle-sized path, and place it by the first.',
-      hint: 'Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool.',
+      hint: 'Place a second flower bed and a path stone beside the first one.',
     },
   },
   [
@@ -1990,7 +1990,7 @@ const Q08 = quest(
     },
     'q08-s2': {
       goal: 'Harvest a crop from the aqueduct beds and take it to the committee.',
-      hint: 'Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall.',
+      hint: 'Ripe crops glow. Tap to harvest. Take it to Reggie, then tap Do it in the Journal.',
     },
   },
   [

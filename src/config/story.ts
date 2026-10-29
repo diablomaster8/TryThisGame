@@ -18,7 +18,30 @@ export interface Line {
    * a nod, a shrug, a pointing arm, eyes down or a hand to the chest.
    */
   gesture?: LineGesture;
+  /**
+   * R0303 (FUN-14): comic stage directions, render only and never read by the sim. `beat`
+   * holds this many ms before the line types; `sfx` plays a sound as it starts; `shake`
+   * nudges the screen (never under reduced motion); `gag` marks a punchline for counting.
+   */
+  beat?: number;
+  sfx?: LineSfx;
+  shake?: 'small' | 'big';
+  gag?: true;
 }
+
+/** R0303: the sounds a line may cue (a subset of the game's sound names). */
+export type LineSfx =
+  | 'boing'
+  | 'bonk'
+  | 'squeak'
+  | 'slideDown'
+  | 'slideUp'
+  | 'pop'
+  | 'sneeze'
+  | 'hiccup'
+  | 'gulp'
+  | 'raspberry'
+  | 'giggle';
 
 export type LineGesture = 'nod' | 'shrug' | 'point' | 'down' | 'chest';
 

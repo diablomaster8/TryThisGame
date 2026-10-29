@@ -2,7 +2,7 @@
 
 ## S9. The Gate That Sticks
 
-- `s9-step1`: Take the old trowel to Hazel. · _She’s on the cottage step. Give it to her from your bag._
+- `s9-step1`: Take the old trowel to Hazel. · _The old trowel lies by the cottage step, and Hazel is right there. Tap the trowel._
 - `s9-step2`: Go down to the gate at dusk tomorrow. · _Corvin comes at sundown. Stand by the gate. You don’t need to open it._
 - `s9-step3`: Be at the gate at first light, before the others come. · _Chapter 12 begins at dawn. Go to the gate before anything else._
 

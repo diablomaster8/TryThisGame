@@ -1,6 +1,7 @@
 import { DECOR, GROVE, LANTERN_POSTS, STORY_PROPS } from './tuning';
 import type { StoryPropKind } from '../sim/story-props';
 import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
+import { JUMP_TOYS } from './tuning-move';
 
 /**
  * The one table of placed solids in the home Grove (MOVE-01). The sim builds its colliders
@@ -398,6 +399,11 @@ const PLACED_WIDTH: Partial<Record<string, number>> = {
 };
 
 /** The collider a placed piece of decor gets, or null for a walk-on piece (path tiles). */
+// Placed decor's colliders: the garden pieces and the jump toys (MOVE-57).
+const DECOR_SPECS: Partial<
+  Record<string, { shape: ColliderShape; top: number; flags: readonly ColliderFlag[] }>
+> = { ...DECOR.colliders, ...JUMP_TOYS.colliders };
+
 export function decorCollider(
   id: string,
   kind: string,
@@ -417,10 +423,7 @@ export function decorCollider(
       flags: ['solid'],
     };
   }
-  const specs: Partial<
-    Record<string, { shape: ColliderShape; top: number; flags: readonly ColliderFlag[] }>
-  > = DECOR.colliders;
-  const spec = specs[kind];
+  const spec = DECOR_SPECS[kind];
   if (!spec) return null;
   return { id, x, z, yaw, shape: spec.shape, top: spec.top, flags: spec.flags };
 }

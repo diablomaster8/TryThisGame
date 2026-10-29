@@ -64,6 +64,8 @@ import { button, el } from './dom';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
+import { HopCourseChip } from './hop-course';
+import { BarkBubble } from './bark-bubble';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -272,6 +274,10 @@ export function mountHud(
   root.appendChild(jumpBtn);
   // MOVE-58: the one-time hop lesson's chip.
   const hopLesson = new HopLessonChip(root);
+  // MOVE-63: the hop course's chip, toasts and side save.
+  const hopCourse = new HopCourseChip(root);
+  // R0295: the Keepers' speech bubbles.
+  const barkBubble = new BarkBubble(root);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -389,6 +395,11 @@ export function mountHud(
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
   const debug = debugEnabled ? new DebugPanel(root, game, () => sheet.selectedId) : null;
+  // Lane C: reopen a rumble saved mid-battle or started elsewhere (recs FIGHT-65), on demand.
+  window.setInterval(() => {
+    const t = game()?.world.tactics;
+    if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
+  }, 1000);
   const celebration = new Celebration(root, game);
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);
@@ -787,6 +798,8 @@ export function mountHud(
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
         g.framePollers.push(() => lookout.update(g.world, performance.now()));
         g.framePollers.push(() => hopLesson.update(g.world));
+        g.framePollers.push(() => hopCourse.update(g.world));
+        g.framePollers.push(() => barkBubble.update(g, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1022,6 +1035,14 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'bonked') {
+          // R0300/R0299: a fruit on the head, or a walk into a tree.
+          playSound('bonk');
+        } else if (e.kind === 'hopCourse') {
+          hopCourse.onEvent(e, toast);
+        } else if (e.kind === 'springBounced' && !e.nubbinId) {
+          // MOVE-57: the Keeper off a spring mushroom (a Nubbin's bounces stay quiet).
+          playSound('boing');
         } else if (e.kind === 'bushRustle' && e.found) {
           // MOVE-43: a bush's one-time find.
           playSound('pickup');
@@ -1121,7 +1142,9 @@ export function mountHud(
         } else if (e.kind === 'talked') {
           const npc = g.world.npcs.find((x) => x.id === e.npcId);
           const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
-          toast(STORY_TEXT.talkedTo(name));
+          // R0295: the Keeper's own line in a bubble over their head.
+          if (e.bark) barkBubble.show(e.npcId, name, e.bark, performance.now());
+          else toast(STORY_TEXT.talkedTo(name));
         } else if (e.kind === 'interacted') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
