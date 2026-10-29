@@ -79,7 +79,7 @@ export function densityPacks(f: Floor, seed: number, depth: number, band: FoeBan
   // Rooms nothing may stand in: the chest nook and any room with a shrine socket.
   const quiet = new Set<number>();
   if (f.nook) quiet.add(f.nook.room);
-  for (const s of f.layout?.shrines ?? [])
+  for (const s of [...(f.layout?.shrines ?? []), ...(f.shrines ?? []).map((x) => x.cell)])
     f.rooms.forEach((_, i) => {
       if (inRoom(f, i, s)) quiet.add(i);
     });

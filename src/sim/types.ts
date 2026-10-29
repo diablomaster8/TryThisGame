@@ -560,6 +560,9 @@ export interface DungeonRun {
   strays: DungeonStray[];
   /** R0162: single Shells a fleeing stray dropped, waiting to be picked up. */
   shellTrail?: Array<{ id: string; x: number; z: number }>;
+  /** R0159: shrines used on this level, and the shrine buffs still running (paused in fights). */
+  shrinesUsed?: string[];
+  buffs?: Array<{ kind: string; leftMs: number }>;
   wild: DungeonWild[];
   /** 'up', 'down', 'chest' or 'stray:<id>': used on arrival at `pendingPos`. */
   pending: string | null;
@@ -1183,6 +1186,9 @@ export type SimEvent =
   /** R0162: a party Nubbin chased a stray off; or the Keeper picked up a dropped Shell. */
   | { kind: 'strayShooed'; by: string | null }
   | { kind: 'trailShell' }
+  /** R0159: a shrine used, and a shrine buff run out. */
+  | { kind: 'shrineUsed'; shrine: string }
+  | { kind: 'shrineFaded'; shrine: string }
   /** R0031: the Keeper stood in a Hollow chasm or deep water and popped back to dry ground. */
   | { kind: 'hollowFell'; water: boolean; from: Vec2; to: Vec2 }
   | { kind: 'packNoticed'; packId: string }

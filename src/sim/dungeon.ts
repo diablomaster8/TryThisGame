@@ -7,6 +7,7 @@ import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
 import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
+import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -191,6 +192,8 @@ export interface Floor {
   gaps?: Gap[];
   /** Water cells the generator dried so every part of the floor can be reached (version 4). */
   fords?: Cell[];
+  /** Shrines (R0159, version 4). */
+  shrines?: Shrine[];
 }
 
 /** A slot's job on a version-3 floor. */
@@ -673,7 +676,7 @@ export function exploredRooms(run: DungeonRun, f: Floor): boolean[] {
 
 /** Mark the cells round a cell seen. Writes the save string only when something changed. */
 export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
-  const r = DUNGEON.explore.radius;
+  const r = DUNGEON.explore.radius + shrineSight(run);
   const mask = exploredMask(run, f);
   let changed = false;
   for (let dy = -r; dy <= r; dy++) {
@@ -1124,7 +1127,10 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     if (run.chestOpen) return;
     run.chestOpen = true;
     const rng = Rng.fromSeed((run.seed + run.depth * 101 + world.nubbins.length) >>> 0);
-    const shells = rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10;
+    const shells = Math.round(
+      (rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10) *
+        shrineShells(run),
+    );
     world.inventory.shells += shells;
     run.haul.shells += shells;
     const egg = rng.chance(DUNGEON.chestEggChance + run.depth * 0.03) && hasRoom(world);
@@ -1173,6 +1179,8 @@ function takeLoot(
   let kind = loot.kind;
   switch (loot.kind) {
     case 'shells':
+      // A Sunny shrine finds a quarter more (R0159).
+      amount = Math.round(amount * shrineShells(run));
       inv.shells += amount;
       run.haul.shells += amount;
       break;
@@ -1253,6 +1261,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       takeLoot(world, run, l, null, rng, events);
   }
   stepWaypoint(world, run, f, events);
+  stepShrines(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     w.scanned = true;

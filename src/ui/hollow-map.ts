@@ -138,6 +138,9 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
     const c = waypointCell(f);
     if (seen(c)) out.push(at('waypoint', c));
   }
+  // Shrines (R0159), dimmed once used.
+  for (const s of f.shrines ?? [])
+    if (seen(s.cell)) out.push(at('shrine', s.cell, run.shrinesUsed?.includes(s.id) ?? false));
   // Strays once seen (R0162), where they are now.
   for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {

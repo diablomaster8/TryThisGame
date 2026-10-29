@@ -91,3 +91,26 @@
   font-weight: 600;
   color: #ffd27a;
 }
+
+/* R0159: the shrine buff ring on the Hollow bar. */
+.hollow-buffs {
+  display: inline-flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.hollow-buff {
+  min-width: 44px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid #ffd27a;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+.hollow-bar .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

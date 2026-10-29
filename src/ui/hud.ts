@@ -17,6 +17,7 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { SHRINE_TEXT } from '../config/strings-dungeon';
 import type { Game, GameHooks } from '../game';
 import type { AwayReport, GroveKind, SimEvent } from '../sim/types';
 import { ExpeditionScreen } from '../minigames/expedition/screen';
@@ -1150,6 +1151,14 @@ export function mountHud(
           toast(HOLLOW_TEXT.strayShooed(n?.name ?? ''));
         } else if (e.kind === 'trailShell') {
           playSound('pickup');
+        } else if (e.kind === 'shrineUsed') {
+          // Lane B round 3: shrines (R0159).
+          const k = SHRINE_TEXT.kinds[e.shrine];
+          if (k) toast(SHRINE_TEXT.used(k.name, k.does));
+          playSound('buy');
+        } else if (e.kind === 'shrineFaded') {
+          const k = SHRINE_TEXT.kinds[e.shrine];
+          if (k) toast(SHRINE_TEXT.faded(k.name));
         } else if (e.kind === 'hollowFell') {
           // Lane B round 3: a Hollow fall pops the Keeper back (R0031).
           toast(e.water ? HOLLOW_TEXT.fellWater : HOLLOW_TEXT.fellChasm);

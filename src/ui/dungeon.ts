@@ -6,6 +6,7 @@ import { partyPreview } from '../sim/dungeon';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { HollowMap } from './hollow-map';
+import { BuffRing } from './dungeon-buffs';
 import { WaypointPanel } from './waypoint-panel';
 import { HOLLOW } from '../config/tuning';
 import { canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
@@ -22,6 +23,8 @@ export class DungeonMenu {
   private readonly bar: HTMLDivElement;
   private readonly barText: HTMLSpanElement;
   private readonly map: HollowMap;
+  /** Shrine buffs (R0159). */
+  private readonly buffs = new BuffRing();
   private readonly acts: HTMLDivElement;
   /** Waypoints, the acorn portal, new paths and acorns (lane B round 2). */
   private readonly travel: HTMLDivElement;
@@ -65,6 +68,8 @@ export class DungeonMenu {
     this.barText = el('span');
     this.bar.append(
       this.barText,
+      this.buffs.root,
+      this.buffs.announcer,
       button(
         DUNGEON_TEXT.leave,
         () => this.game()?.send({ kind: 'leaveDungeon' }),
@@ -116,6 +121,7 @@ export class DungeonMenu {
     this.bar.hidden = !run;
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
+    this.buffs.refresh(run);
     if (!run) return;
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;

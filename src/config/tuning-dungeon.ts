@@ -42,6 +42,32 @@ export const HOLLOW = {
    */
   strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 10, seeRadius: 7 },
   /**
+   * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
+   * walking onto one, each buff's seconds (0 is instant), and the effect sizes.
+   */
+  shrines: {
+    perLevel: [1, 3] as const,
+    fromStairs: 6,
+    spacing: 8,
+    reach: 0.9,
+    seconds: {
+      sunny: 120,
+      bouncy: 90,
+      snuggly: 120,
+      lucky: 120,
+      picnic: 0,
+      glowy: 180,
+      gem: 0,
+      secret: 0,
+    },
+    sunny: 0.25,
+    bouncy: 0.3,
+    snugglyHappy: 15,
+    snugglyPower: 0.1,
+    luckyMagicFind: 50,
+    glowySight: 4,
+  },
+  /**
    * Fog of war (R0153): brightness of cells never seen, seen but out of sight, and in sight.
    * The sight radius is `DUNGEON.explore.radius` plus these bonuses (cells); the outdoor
    * zones and the Light role will fill them in later, so both stay 0 for now.

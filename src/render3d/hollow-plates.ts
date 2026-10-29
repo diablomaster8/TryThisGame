@@ -69,7 +69,7 @@ const COLOUR: Partial<Record<string, string>> = {
 };
 
 /** A rounded label on a canvas, as a sprite about 0.3 world units tall. */
-function plate(text: string, colour: string): THREE.Sprite {
+export function plate(text: string, colour: string): THREE.Sprite {
   const px = 28;
   const c = document.createElement('canvas');
   const g = c.getContext('2d')!;
