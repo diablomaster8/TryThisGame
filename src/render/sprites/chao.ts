@@ -1855,6 +1855,42 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
     for (const style of ['paddle', 'crawl'] as const)
       for (let f = 0; f < 2; f++)
         atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
+    // FUN-04 gags (render/gag-looks.ts): a shy peek (ducked, then eyes up over the hands), a
+    // wave (one beat up, one out) and a clap.
+    for (let f = 0; f < 2; f++) {
+      atlas.add(
+        frameKey('peek', angle, f),
+        drawChao(
+          angle,
+          f === 0
+            ? { ...BASE, squash: 0.8, eyes: 'closed', mouth: 'flat', arms: 'up', legs: 'tucked' }
+            : { ...BASE, squash: 0.9, eyes: 'wide', mouth: 'none', arms: 'up', legs: 'tucked' },
+          look,
+        ),
+      );
+      atlas.add(
+        frameKey('wave', angle, f),
+        drawChao(
+          angle,
+          { ...BASE, eyes: 'happy', mouth: 'open', arms: f === 0 ? 'up' : 'swingA', lift: -f },
+          look,
+        ),
+      );
+      atlas.add(
+        frameKey('clap', angle, f),
+        drawChao(
+          angle,
+          {
+            ...BASE,
+            eyes: 'happy',
+            mouth: 'open',
+            arms: f === 0 ? 'out' : 'up',
+            squash: f ? 0.97 : 1,
+          },
+          look,
+        ),
+      );
+    }
     atlas.add(
       frameKey('glide', angle, 0),
       drawChao(angle, { ...BASE, wings: 2, legs: 'tucked', arms: 'out', lift: -2 }, look),
