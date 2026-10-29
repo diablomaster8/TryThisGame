@@ -8,7 +8,7 @@
 
 ### Step 1: Collect 4 dandelion fluff and bring it to Corky at Puddle’s Pub.
 
-Hint: Dandelions grow along the stream bank; shake one gently and catch the fluff before it blows away. · check: `deliver:dandelion-fluff:4`
+Hint: Corky says the fluff is “around”. Tap Do it in the Journal and keep the pile steady; fluff has no sense of balance. · check: `deliver:dandelion-fluff:4`
 
 #### <a id="q31-intro"></a>Scene `q31-intro`
 
@@ -262,7 +262,7 @@ _Variant within Q32; it has no single parent scene._
 
 ### Step 1: Drink a carton of Fight Milk at the bar.
 
-Hint: Take the carton from the bar and choose Drink. Stay near a bench; you’ll want one. · check: `use:item:fight-milk`
+Hint: Take the carton from the bar, then tap Do it in the Journal. Stay near a bench; you’ll want one. · check: `use:item:fight-milk`
 
 #### <a id="q33-pitch"></a>Scene `q33-pitch`
 
@@ -299,7 +299,7 @@ _The world tilts gently to the left and stays there. You have hiccups that taste
 
 ### Step 2: Get Dabney, Mags and Fitz to each drink a carton of Fight Milk.
 
-Hint: Carry cartons to each of them and choose Offer. Fitz says yes to anything; Dabney needs persuading. · check: `give:fight-milk:gang:3`
+Hint: Tap Do it in the Journal to hand round the cartons. Fitz says yes to anything; Dabney needs persuading. · check: `give:fight-milk:gang:3`
 
 #### <a id="q33-testers"></a>Scene `q33-testers`
 

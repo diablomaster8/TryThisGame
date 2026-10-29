@@ -5,7 +5,7 @@
 - `s3-step1`: Ask a Sun friend and a Moon friend about the big race. · _Sun: Fern, Marina, Sparks, Clover, Pixel. Moon: Luna, Ember, Byte, Dusty, Nova. Ask one from each side._
 - `s3-step2`: Help Sparks and Byte make the old race pictures. · _Go to Sparks’s workshop. Rock the tray when Byte counts._
 - `s3-step3`: Show the pictures to Fern and to Ember. · _Fern is in her orchard. Ember is by the race fence in the evening._
-- `s3-step4`: Call everyone to a big meeting at the pond. · _Later on, tap the pond and choose Call a Moot. All ten friends will come._
+- `s3-step4`: Call everyone to a big meeting at the pond. · _Later on, go to the pond and tap Do it. All ten friends come._
 
 #### `sprout:s3-stands` · [main](../../../side/S03.md#s3-stands)
 

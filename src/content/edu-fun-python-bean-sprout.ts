@@ -812,7 +812,7 @@ const Q05 = quest(
     },
     'q05-s2': {
       goal: 'Take the Hand Melon to the ledge. Count to three, then toss it gently.',
-      hint: 'Tap Count on each beat: one, two, three. Then throw.',
+      hint: 'Tap Do it. Count with the beat: one, two, three!',
     },
   },
   [
@@ -1536,7 +1536,7 @@ const Q10 = quest(
   {
     'q10-s1': {
       goal: 'Offer Harrow less than he asks for the brass bell.',
-      hint: 'Tap the bell and choose Haggle. Start with a small number.',
+      hint: 'Tap Do it. Say a small number. A very small one.',
     },
     'q10-s2': {
       goal: 'Haggle with Harrow for three rounds.',
@@ -2418,7 +2418,7 @@ const Q16 = quest(
   {
     'q16-s1': {
       goal: 'Pay Byte 5 Shells for an argument.',
-      hint: 'Tap Byte’s booth and choose Pay.',
+      hint: 'Bring 5 Shells. Then tap Do it.',
     },
     'q16-s2': {
       goal: 'Win the argument before the sand runs out.',
@@ -2708,7 +2708,7 @@ const Q18 = quest(
   {
     'q18-s1': {
       goal: 'Peel the banana before the Nubbin can wave it.',
-      hint: 'When the banana goes up, tap Peel.',
+      hint: 'When the banana goes up, tap Do it.',
     },
     'q18-s2': {
       goal: 'Catch every raspberry in the bowl.',

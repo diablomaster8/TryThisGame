@@ -1415,7 +1415,7 @@ Sets on completion: `{"pa4-17":true}`
 
 ### Step 1: Call back your friends, and your Nubbin, through the dark.
 
-Hint: Press SAVE on each friend in turn. When your Nubbin goes quiet, keep calling its name. · check: `minigame:mercy:pa4-asriel`
+Hint: Tap Do it in the Journal and stand firm, one friend at a time. When your Nubbin goes quiet, keep calling its name. · check: `minigame:mercy:pa4-asriel`
 
 #### <a id="pa4-18-dark"></a>Scene `pa4-18-dark`
 

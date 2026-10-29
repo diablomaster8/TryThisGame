@@ -1221,7 +1221,7 @@ const Q05 = quest(
     },
     'q05-s2': {
       goal: 'Take the Hand Melon to the ledge, count to exactly three, and toss it.',
-      hint: 'Tap Count once per beat and throw on three. Too many or too few and it fizzles; Sparks will make another.',
+      hint: 'Tap Do it in the Journal and keep the beat: one, two, three, throw. Sparks has made spare melons.',
     },
   },
   [
@@ -2522,7 +2522,7 @@ const Q10 = quest(
   {
     'q10-s1': {
       goal: 'Offer Harrow less than he is asking for the brass bell.',
-      hint: 'Tap the bell and choose Haggle instead of Buy. Start low. Lower than feels polite.',
+      hint: 'Tap Do it in the Journal and offer a low price. Harrow pretends to be shocked.',
     },
     'q10-s2': {
       goal: 'Haggle with Harrow through three full rounds.',

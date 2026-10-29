@@ -2,7 +2,7 @@
 
 ## S15. Lucky Eggs
 
-- `s15-step1`: Help Byte count what comes out of the Mystery Eggs. · _Stand by the wagon. Each time an egg opens, tap PLAIN or SPARKLY._
+- `s15-step1`: Help Byte count what comes out of the Mystery Eggs. · _Stand by the wagon and tap Do it. Plain egg or sparkly egg?_
 - `s15-step2`: Tiptoe to the wagon and talk to Jackpot the parrot. · _Dashwood is having a nap. Go along the stream stones. Don’t touch the wagon, or the bells ring!_
 - `s15-step3`: Shine a light through the special egg to see inside. · _Go somewhere dim, like under the bridge. Hold the egg in front of the lantern._
 - `s15-step4`: Make an honest egg stall with Byte. · _Put the stall by the bridge or by your gate. Byte writes the true numbers on the board._

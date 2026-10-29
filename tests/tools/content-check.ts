@@ -839,6 +839,38 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
       });
   }
 }
+// ---- hint buttons (R0292, round 6): "press X", "choose X", "use X" or "tap X" names a button.
+// X must be a Grove button, a choice label or speaker name in the same file, or the hint
+// sends the player looking for something that is not there. A warning, for a writer to judge.
+{
+  const dir = new URL('../../src/content/', import.meta.url);
+  const grove = new Set(
+    'Do Pet Feed Swim Say Throw Wear Dress Karate Races Cheer Play Buy Sell Shake Walk Race Read Journal Atlas Map Settings Shop Workshop Craft Hug Tickle Praise Groom Sit Talk Sniff Gran Tobin Mirabel'.split(
+      ' ',
+    ),
+  );
+  const files = readdirSync(dir).filter((f) => f.endsWith('.ts'));
+  // Anyone who speaks anywhere in the content is a person you can tap, not a button.
+  const people = new Set<string>();
+  for (const f of files)
+    for (const m of readFileSync(new URL(f, dir), 'utf8').matchAll(
+      /\bwho: '([a-z][\w-]*)'|\b(?:name|speaker): '([A-Z][a-z]+)/g,
+    ))
+      people.add((m[1] ?? m[2]!).toLowerCase());
+  for (const f of files) {
+    const text = readFileSync(new URL(f, dir), 'utf8');
+    text.split('\n').forEach((line, i) => {
+      const m = /\bhint: '([^']*)'/.exec(line);
+      if (!m) return;
+      for (const b of m[1]!.matchAll(/\b(?:press|choose|use|tap|select) ([A-Z][A-Za-z]+)\b/gi)) {
+        const w = b[1]!;
+        if (w === w.toLowerCase() || grove.has(w) || people.has(w.toLowerCase())) continue;
+        const known = new RegExp(`(label|text): '${w}\\b`);
+        if (!known.test(text)) warnings.push(`hint-button? ${f}:${i + 1}: ${w}`);
+      }
+    });
+  }
+}
 console.log(
   JSON.stringify(
     {

@@ -8,7 +8,7 @@
 
 ### Step 1: Greet Hana at the gate in Japanese.
 
-Hint: Tap Hana and choose Greet. Say “konnichiwa”, and bow if you like. · check: `lang:ja:greet:hana`
+Hint: Tap Hana at the gate. Say “konnichiwa”, and bow if you like. · check: `lang:ja:greet:hana`
 
 #### <a id="lj1-s1"></a>Scene `lj1-s1`
 

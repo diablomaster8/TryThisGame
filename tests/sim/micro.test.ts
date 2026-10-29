@@ -36,6 +36,11 @@ describe('micro-interaction kit', () => {
     expect(microFor('collect:shells:5')).toBe('catch');
     expect(microFor('karate:round')).toBe('survive');
     expect(microFor('talk:fern')).toBeNull();
+    // R0292: the content's minigame checks play a micro-game by their second token.
+    expect(microFor('minigame:sneak:s17-luna-garden')).toBe('escort');
+    expect(microFor('minigame:mercy:pa4-toriel')).toBe('survive');
+    expect(microFor('minigame:count:hand-melon:3')).toBe('hunt');
+    expect(microFor('minigame:wiggle:pumpkin:3-beat')).toBe('climb');
   });
 
   it('seeds each game the same way twice, never with an impossible setup', () => {

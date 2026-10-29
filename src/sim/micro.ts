@@ -121,9 +121,29 @@ export function checkVerbs(check: string): string[] {
     .filter((v) => v.length > 0);
 }
 
+/**
+ * A `minigame:` check names a game the Grove never built (88 of them in the content, R0292).
+ * Its second token says what kind of thing it was meant to be; anything unmatched is a
+ * beat-and-timing game, which the climb's rhythm tap stands in for.
+ */
+const MINIGAME_KINDS: ReadonlyArray<[RegExp, MicroKind]> = [
+  [/sneak|chase|follow|lead|escort|korin/, 'escort'],
+  [/mercy|survive|cover|storm|trap|doom|haggle|straight-face/, 'survive'],
+  [/find|stargaze|rock-pool|dig|moth|search|spot|count/, 'hunt'],
+  [/collect|catch|clean|relay|gather|\beat\b/, 'catch'],
+  [/shuffle|puzzle|tiles|build|trial|tea|brew/, 'puzzle'],
+  [/hand-over|carry|unstick|cushion|balance/, 'balance'],
+  [/walk|crossing|explore|giant/, 'explore'],
+];
+
 /** The micro-game for a check, or null when a real command answers it (or it is unknown). */
 export function microFor(check: string): MicroKind | null {
-  return VERB_TO_KIND.get(checkVerb(check)) ?? null;
+  const verb = checkVerb(check);
+  if (verb === 'minigame') {
+    const rest = check.trim().toLowerCase().slice('minigame:'.length);
+    return MINIGAME_KINDS.find(([re]) => re.test(rest))?.[1] ?? 'climb';
+  }
+  return VERB_TO_KIND.get(verb) ?? null;
 }
 
 /** Whether every verb of this check is answered: by a micro-game or by a real command. */

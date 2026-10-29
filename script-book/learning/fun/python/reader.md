@@ -616,7 +616,7 @@ _Beside it someone has left a fruit and a note in chalk: “Thank you for the no
 ## Q5. The Rabbit at the Ledge
 
 - `q05-s1`: Ask Sparks to build something that can win over the rabbit. · _Sparks is in the Workshop. Bring one sun fruit; Sparks will need it._
-- `q05-s2`: Take the Hand Melon to the ledge, count to exactly three, and toss it. · _Tap Count once per beat and throw on three. Too many or too few and it fizzles; Sparks will make another._
+- `q05-s2`: Take the Hand Melon to the ledge, count to exactly three, and toss it. · _Tap Do it in the Journal and keep the beat: one, two, three, throw. Sparks has made spare melons._
 
 #### `reader:q05-intro` · [main](../../../fun/python.md#q05-intro)
 
@@ -1401,7 +1401,7 @@ _From now on, if you call “Follow me”, every Nubbin in the Grove will trail 
 
 ## Q10. Haggle
 
-- `q10-s1`: Offer Harrow less than he is asking for the brass bell. · _Tap the bell and choose Haggle instead of Buy. Start low. Lower than feels polite._
+- `q10-s1`: Offer Harrow less than he is asking for the brass bell. · _Tap Do it in the Journal and offer a low price. Harrow pretends to be shocked._
 - `q10-s2`: Haggle with Harrow through three full rounds. · _Each round, offer something between your last number and his. Agree too fast and he starts again._
 
 #### `reader:q10-intro` · [main](../../../fun/python.md#q10-intro)
@@ -2263,7 +2263,7 @@ _As you leave, you hear him greet the next customer with great cheer: “Just ou
 
 ## Q16. The Argument Booth
 
-- `q16-s1`: Pay Byte 5 Shells for an argument. · _Tap Byte’s booth and choose Pay. You need 5 Shells._
+- `q16-s1`: Pay Byte 5 Shells for an argument. · _Bring 5 Shells and tap Do it in the Journal. Byte counts them twice._
 - `q16-s2`: Win the argument before the sand runs out. · _Saying the opposite back only feeds him. Point out that he isn’t giving any reasons._
 
 #### `reader:q16-intro` · [main](../../../fun/python.md#q16-intro)
@@ -2561,7 +2561,7 @@ _Your Power Nubbins can now knock fruit down from afar with the herring. You als
 
 ## Q18. Fruit Defence Class
 
-- `q18-s1`: Disarm the Nubbin with the banana. · _When the Nubbin swings the banana, tap Peel at the top of the swing._
+- `q18-s1`: Disarm the Nubbin with the banana. · _Tap Do it in the Journal when the banana is at the top of its swing._
 - `q18-s2`: Catch every raspberry in the bowl. · _Slide the bowl left and right under the falling raspberries: five waves of eight. Missing three restarts the drill._
 - `q18-s3`: Toss the pineapple to your Nubbin from across the clearing. · _Hold the pineapple, aim at your Nubbin and tap Throw. Your Nubbin will run to meet it._
 

@@ -516,7 +516,7 @@ _Beside it: a fruit and a note. “Thank you. From the wall.”_
 ## Q5. The Rabbit on the Ledge
 
 - `q05-s1`: Ask Sparks to make something to win the rabbit’s friendship. · _Sparks is in the Workshop. Bring one sun fruit._
-- `q05-s2`: Take the Hand Melon to the ledge. Count to three, then toss it gently. · _Tap Count on each beat: one, two, three. Then throw._
+- `q05-s2`: Take the Hand Melon to the ledge. Count to three, then toss it gently. · _Tap Do it. Count with the beat: one, two, three!_
 
 #### `sprout:q05-intro` · [main](../../../fun/python.md#q05-intro)
 
@@ -1144,7 +1144,7 @@ _Now, if you call “Follow me!”, every Nubbin parades behind you._
 
 ## Q10. Haggle
 
-- `q10-s1`: Offer Harrow less than he asks for the brass bell. · _Tap the bell and choose Haggle. Start with a small number._
+- `q10-s1`: Offer Harrow less than he asks for the brass bell. · _Tap Do it. Say a small number. A very small one._
 - `q10-s2`: Haggle with Harrow for three rounds. · _Each time, offer a number in the middle._
 
 #### `sprout:q10-intro` · [main](../../../fun/python.md#q10-intro)
@@ -1790,7 +1790,7 @@ _As you go, he calls to the next customer: “Sorry! All gone!”_
 
 ## Q16. The Argument Booth
 
-- `q16-s1`: Pay Byte 5 Shells for an argument. · _Tap Byte’s booth and choose Pay._
+- `q16-s1`: Pay Byte 5 Shells for an argument. · _Bring 5 Shells. Then tap Do it._
 - `q16-s2`: Win the argument before the sand runs out. · _Don’t just say “no” back. Ask Byte for reasons._
 
 #### `sprout:q16-intro` · [main](../../../fun/python.md#q16-intro)
@@ -2006,7 +2006,7 @@ _Now your Power Nubbins can knock fruit down with the big fish!_
 
 ## Q18. Fruit Class
 
-- `q18-s1`: Peel the banana before the Nubbin can wave it. · _When the banana goes up, tap Peel._
+- `q18-s1`: Peel the banana before the Nubbin can wave it. · _When the banana goes up, tap Do it._
 - `q18-s2`: Catch every raspberry in the bowl. · _Slide the bowl left and right under the berries._
 - `q18-s3`: Toss the pineapple to your Nubbin. · _Aim at your Nubbin and tap Throw. Gently!_
 

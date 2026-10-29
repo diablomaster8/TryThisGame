@@ -899,7 +899,7 @@ const S3: EduQuest = quest(
     },
     's3-step4': {
       goal: 'Call everyone to a big meeting at the pond.',
-      hint: 'Later on, tap the pond and choose Call a Moot. All ten friends will come.',
+      hint: 'Later on, go to the pond and tap Do it. All ten friends come.',
     },
   },
   [
