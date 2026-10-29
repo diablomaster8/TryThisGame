@@ -300,9 +300,9 @@ export const QUESTS_PYTHON: Quest[] = [
     steps: [
       {
         id: 'q01-s1',
-        goal: 'Craft a shrubbery at the Workshop and give it to the hooded three.',
-        hint: 'The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give.',
-        check: 'give:item:shrubbery:tall-hood',
+        goal: 'Bring the hooded three a shrubbery.',
+        hint: 'The Decorate shop sells a flower bed for 15 shells. Place one anywhere; to a hood, that is a shrubbery.',
+        check: 'place:decor:flowerbed:shrubbery',
         scene: {
           id: 'q01-intro',
           lines: [
@@ -353,7 +353,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q01-s2',
         goal: 'Make a second shrubbery, a little higher, with a small path, and place it by the first.',
-        hint: 'Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool.',
+        hint: 'Place a second flower bed beside the first, and a path stone. Higher is a matter of opinion.',
         check: 'place:decor:terraced-shrubbery:waterfall-path',
         scene: {
           id: 'q01-second',

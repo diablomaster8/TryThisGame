@@ -2,8 +2,8 @@
 
 ## Q1. Two Shrubberies
 
-- `q01-s1`: Make a shrubbery at the Workshop and give it to the hooded three. · _The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give._
-- `q01-s2`: Make a second shrubbery, a little higher, with a beetle-sized path, and place it by the first. · _Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool._
+- `q01-s1`: Bring the hooded three a shrubbery. · _Buy a flower bed in the Decorate shop and place it. The hoods will call it a shrubbery._
+- `q01-s2`: Make a second shrubbery, a little higher, with a beetle-sized path, and place it by the first. · _Place a second flower bed and a path stone beside the first one._
 
 #### `reader:q01-intro` · [main](../../../fun/python.md#q01-intro)
 

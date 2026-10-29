@@ -6,9 +6,9 @@
 
 **Cast:** The Tall Hood (The head Knight Who Says Ni (Monty Python and the Holy Grail)), The Hooded Three (The Knights Who Say Ni (Monty Python and the Holy Grail))
 
-### Step 1: Craft a shrubbery at the Workshop and give it to the hooded three.
+### Step 1: Bring the hooded three a shrubbery.
 
-Hint: The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give. · check: `give:item:shrubbery:tall-hood`
+Hint: The Decorate shop sells a flower bed for 15 shells. Place one anywhere; to a hood, that is a shrubbery. · check: `place:decor:flowerbed:shrubbery`
 
 #### <a id="q01-intro"></a>Scene `q01-intro`
 
@@ -41,7 +41,7 @@ _They chant once more, softly, as a kind of thank-you. The bird does not come ba
 
 ### Step 2: Make a second shrubbery, a little higher, with a small path, and place it by the first.
 
-Hint: Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool. · check: `place:decor:terraced-shrubbery:waterfall-path`
+Hint: Place a second flower bed beside the first, and a path stone. Higher is a matter of opinion. · check: `place:decor:terraced-shrubbery:waterfall-path`
 
 #### <a id="q01-second"></a>Scene `q01-second`
 

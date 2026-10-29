@@ -2,8 +2,8 @@
 
 ## Q1. Two Shrubberies
 
-- `q01-s1`: Make a shrubbery and give it to the three hoods. · _The Workshop makes one from reeds and wood. Then use Give._
-- `q01-s2`: Make a second shrubbery, a bit higher, with a tiny path. · _Make another shrubbery and a path. Put them next to the first one._
+- `q01-s1`: Bring the three hoods a shrubbery. · _Buy a flower bed. Put it down. That is a shrubbery!_
+- `q01-s2`: Make a second shrubbery, a bit higher, with a tiny path. · _Put down one more flower bed and a path stone._
 
 #### `sprout:q01-intro` · [main](../../../fun/python.md#q01-intro)
 

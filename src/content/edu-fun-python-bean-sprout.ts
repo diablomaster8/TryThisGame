@@ -151,12 +151,12 @@ const Q01 = quest(
   'Two Shrubberies',
   {
     'q01-s1': {
-      goal: 'Make a shrubbery and give it to the three hoods.',
-      hint: 'The Workshop makes one from reeds and wood. Then use Give.',
+      goal: 'Bring the three hoods a shrubbery.',
+      hint: 'Buy a flower bed. Put it down. That is a shrubbery!',
     },
     'q01-s2': {
       goal: 'Make a second shrubbery, a bit higher, with a tiny path.',
-      hint: 'Make another shrubbery and a path. Put them next to the first one.',
+      hint: 'Put down one more flower bed and a path stone.',
     },
   },
   [
