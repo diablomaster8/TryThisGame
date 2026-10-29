@@ -313,6 +313,21 @@ export class Grove3dScene {
   tier: DeviceTier = 'desktop';
   /** WORLD-03/12: creature shadow casting and outline hulls under the draw budget. */
   readonly creatureLod = new CreatureLod();
+  /** R0091: a twinkle over each findable collectible near the Keeper (the Game calls it). */
+  glint(points: ReadonlyArray<{ x: number; z: number }>, nowMs: number): void {
+    if (this.location !== 'grove') return;
+    for (const p of points) {
+      const at = new THREE.Vector3(p.x, standHeight(p.x, p.z) + 0.35, p.z);
+      this.bursts.burst(
+        'sparkle',
+        at,
+        2,
+        { spread: 0.25, speed: 0.2, rise: 0.4, lifeMs: 900 },
+        nowMs,
+      );
+    }
+  }
+
   /** R0074: cut the camera on the next frame (a fast-travel trip). */
   private travelCut = false;
   private readonly onHidden = (): void => {

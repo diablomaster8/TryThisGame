@@ -38,6 +38,7 @@ import { keeper2Act, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel } from './travel';
+import { stepCollectibles } from './collectibles';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -996,6 +997,7 @@ export function stepWorld(
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
+  stepCollectibles(world, events);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

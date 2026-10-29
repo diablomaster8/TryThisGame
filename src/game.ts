@@ -1,4 +1,6 @@
 import { Vector3 } from 'three';
+import { COLLECT } from './config/region-collectibles';
+import { openHere } from './sim/collectibles';
 import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
@@ -937,7 +939,24 @@ export class Game {
       }
     }
 
+    // R0091: findable collectibles twinkle near the Keeper, in either renderer.
+    this.glintKeepsakes(nowMs);
+
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
+  }
+
+  /** R0091: when the last twinkle was, and the next one over each collectible in reach. */
+  private glintMs = 0;
+  private glintKeepsakes(nowMs: number): void {
+    if (nowMs - this.glintMs < COLLECT.sparkleEveryMs) return;
+    this.glintMs = nowMs;
+    const k = this.world.keeper.pos;
+    const near = openHere(this.world).filter(
+      (c) => Math.hypot(c.x - k.x, c.z - k.z) <= COLLECT.sparkleRadius,
+    );
+    if (!near.length) return;
+    if (this.scene3d) this.scene3d.glint(near, nowMs);
+    else this.view.particles.glint(near);
   }
 }
 

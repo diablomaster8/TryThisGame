@@ -343,3 +343,11 @@
   pointer-events: none;
   z-index: 60;
 }
+
+/* R0091: the region's collectible counts under the map's tabs. */
+.wm-keepsakes {
+  margin: 0 0 6px;
+  font-size: 0.85em;
+  opacity: 0.85;
+  padding: 2px 4px;
+}

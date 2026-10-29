@@ -22,6 +22,7 @@ import { regionOf, regionsFound, travelBlock } from '../sim/regions';
 import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { playIris } from './travel-iris';
+import { keepsakeLine } from './collection';
 
 interface Chip {
   key: string;
@@ -262,6 +263,10 @@ export class WorldMapPanel {
       b.setAttribute('aria-label', WORLD_TEXT.unknownRegion);
       this.tabs.appendChild(b);
     }
+    // R0091: the shown region's one-time collectibles.
+    const old = this.tabs.nextElementSibling;
+    if (old?.classList.contains('wm-keepsakes')) old.remove();
+    this.tabs.after(el('p', 'wm-keepsakes', keepsakeLine(w, this.tab)));
   }
 
   private drawElsewhere(g: Game): void {
