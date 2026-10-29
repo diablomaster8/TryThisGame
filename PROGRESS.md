@@ -40,22 +40,30 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 3 · Lane B DUNG (2026-10-28, branch r3/b)
 
-*Plan:* R0031 first (Hollow platforming, generator version 4). Then the sim-side items that
-fit one pass with good quality: R0162 strays, R0158 pack density, R0155 champion mods,
-R0159 shrines, R0161 traps. R0147 (outdoor zones, XL) and R0152 (act towns, L) stay
-deferred to a pass of their own: both need new maps in both renderers. *Assumptions:* gap
-rules count `depth` (run depth), not the level inside an act; a saved version-3 run keeps
-its flat floor (`actFloor` and `floorOf` take the run's `genVersion`).
+*Plan:* R0031 (Hollow platforming, generator version 4), then the sim-side items that fit one
+pass: R0162, R0158, R0155, R0159, R0161. R0147 (outdoor zones, XL) and R0152 (act towns, L)
+stay deferred to a pass of their own: both need new maps in both renderers. *Assumptions:*
+gap rules count run depth, not the level inside an act; a saved version-3 run keeps its flat
+floor and its packs (`floorOf`/`actFloor` take the run's `genVersion`); difficulty is Cosy
+until DUNG-36; Act IV's ice also appears in endless depths 16–20.
 
-- *Works:* R0031: `CHASM` cells and deep water on version-4 floors (`sim/dungeon-gaps.ts`);
-  shallow floors keep a walking way round every gap, from floor 3 the stairs may need the
-  double jump and 3–5 side pockets sit behind a jump with a find; stepping stones leave
-  water gaps; 500-seed test. A Keeper standing in a gap or deep water pops back to the last
-  dry cell (`sim/dungeon-falls.ts`, toast); party Nubbins hop a gap to the Keeper. 3D pit
-  with a soft blue glow (`render3d/hollow-chasm.ts`), Pixel and automap chasm cells.
-- *Stubbed:* terrace ledges are still ramps: the Keeper's ground underground is 0 in
-  `keeper.ts` (lane A); `dungeonGroundAt` would be the hook. No poof sprite on a fall.
-- *Known bugs:* none yet.
+- *Works:* version-4 floors (`sim/dungeon-gaps.ts`): chasm cuts and deep water, a walking
+  bypass on floors 1–2, 3–5 jump-only nooks with a find from floor 3, stepping stones with
+  water gaps; a Keeper standing in a gap or deep water pops back to dry ground, party Nubbins
+  hop over (`dungeon-falls.ts`); 3D pit with a blue glow, Pixel and automap chasm cells.
+  Strays drop a Shell trail, snatch twice a floor, can be shooed, show on the automap
+  (`dungeon-strays.ts`). Packs by density with treasure guards and an 80/15/5 mix; ten cosy
+  champion modifiers as data (`config/dungeon-foes.ts`, `dungeon-density.ts`); 3D plates and
+  a bout-panel plate. Shrines with timed buffs, a buff ring and 3D stones
+  (`dungeon-shrines.ts`, `ui/dungeon-buffs.ts`). Traps on raised tiles in both renderers,
+  re-arming, none in the Learning Grove, scouts (`dungeon-traps.ts`).
+- *Stubbed:* terrace ledges are still ramps (Keeper ground underground is 0 in `keeper.ts`,
+  lane A). Bouncy and sticky speed need lane A to multiply by `hollowSpeed(world)`. Snuggly
+  power and the modifiers' effects wait for lane C. Pixel draws no packs, plates, strays'
+  trail or shrine stones (`world-view.ts`, lane A). No uniques (R0156), so 0 per level; Lucky
+  Clover waits for loot tables (R0163); Gem shrine waits for charms.
+- *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
+  timeout, not a game budget) because the new generator sweeps run beside it.
 
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
