@@ -75,6 +75,17 @@ export class Particles {
   }
 
   /** A burst of `n` particles from a point. */
+  /** R0091: a twinkle over each findable collectible near the Keeper (the Game calls it). */
+  glint(points: ReadonlyArray<{ x: number; z: number }>): void {
+    for (const p of points)
+      this.burst('sparkle', p.x, 0.35, p.z, 2, {
+        spread: 0.25,
+        speed: 0.2,
+        rise: 0.4,
+        lifeMs: 900,
+      });
+  }
+
   burst(
     kind: ParticleKind,
     x: number,

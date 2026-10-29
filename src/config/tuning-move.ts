@@ -154,3 +154,133 @@ export const FOOTFALL = {
   stride: 0.7,
   tuftEvery: 2,
 } as const;
+
+/**
+ * MOVE-50: a jump that comes up short of a lip (its arc would not lift the feet onto it)
+ * climbs the rest in a mantle of `ms`, when the lip is more than `minRise` over the feet.
+ * The reach is the step allowance (`JUMP.stepUp`, 0.35 u), as before, now with a climb to
+ * see instead of a pop: a 0.95 jump mantles onto a 1.2 lip and falls back from a 1.4 one.
+ */
+export const MANTLE = { ms: 250, minRise: 0.12 } as const;
+
+/** MOVE-51: the jump button's hold ring fills over `ringMs`, about a held jump's rise. */
+export const JUMP_BUTTON = { ringMs: 280 } as const;
+
+/**
+ * MOVE-52: the 3D orbit camera keeps its line to the Keeper clear of the hills. The ray from
+ * the look point to the camera is sampled every `step` units; ground within `margin` of it
+ * blocks. The camera tilts up to `maxPitchDeg` more (in `pitchSteps`), then pulls in to
+ * `minDist` of its distance. It moves out of the way in about `inMs` and eases back over
+ * `outMs`.
+ */
+export const HILL_CLEAR = {
+  step: 0.5,
+  margin: 0.25,
+  maxPitchDeg: 15,
+  pitchSteps: 3,
+  minDist: 0.7,
+  distSteps: 2,
+  inMs: 120,
+  outMs: 500,
+} as const;
+
+/**
+ * MOVE-53: Camera follows walking. After `steadyMs` walking within `wobbleDeg` of one way,
+ * more than `offDeg` off the camera's forward, the view turns one step toward it.
+ */
+export const CAMERA_FOLLOW_WALK = {
+  steadyMs: 3000,
+  wobbleDeg: 25,
+  offDeg: 60,
+} as const;
+
+/** MOVE-54: the two Keepers' bodies (radius) keep apart while their feet are this close in height. */
+export const KEEPER2 = { body: 0.35, sepHeight: 1.2 } as const;
+
+/**
+ * MOVE-55: lookouts. Standing on a standable top at least `minTop` up, or at the well's rim
+ * (within `wellReach` of its edge), for `dwellMs` offers "Look around". Looking finds each
+ * vista within `vistaRange` once per save; the well's own find is a shell at the bottom.
+ */
+export const LOOKOUT = {
+  minTop: 0.4,
+  dwellMs: 1500,
+  wellReach: 0.7,
+  vistaRange: 20,
+  wellShells: 1,
+  /** The look ends once the Keeper is this far from where it looked from. */
+  leaveDist: 1,
+  /** Things only seen from up high: a glint, a critter in the reeds. */
+  vistas: [
+    { id: 'pond-reeds', x: 12, z: 10, shells: 0, critter: 'otter' },
+    { id: 'hill-glint', x: -4, z: -6, shells: 2, critter: null },
+    { id: 'falls-glint', x: 14, z: -12, shells: 3, critter: null },
+    { id: 'far-meadow', x: -24, z: 18, shells: 2, critter: null },
+  ],
+} as const;
+
+/**
+ * MOVE-56: story props met by walking up to them, by prop id: standing within this many
+ * units meets the prop's step as a tap does (the tap still works). The waterfall shelf
+ * stone the rec names is not a story prop yet, so only the flat stone has one.
+ */
+export const STORY_PROP_REACH: Readonly<Record<string, number>> = { 'flat-stone': 1.2 };
+
+/**
+ * MOVE-58: the one-time hop lesson. Within `near` units of a log or a fence (a hop piece) or
+ * of the stream's edge, a chip suggests a hop; the first jump that carries the Keeper over
+ * one (sampled at `samples` points from take-off to landing) completes it for good.
+ */
+export const HOP_LESSON = { near: 3, samples: 8 } as const;
+
+/**
+ * MOVE-59: a care walk to a Nubbin stops `inset` inside arm's reach, behind the Nubbin from
+ * the camera and `sideDeg` round to one side, within `arrive` of that spot, then turns to it.
+ */
+export const CARE_APPROACH = { inset: 0.2, sideDeg: 35, arrive: 0.3 } as const;
+
+/**
+ * MOVE-64: the Keeper's roll: `dist` units in `ms`, `cooldownMs` before the next. A jump
+ * pressed mid-roll cancels into the jump, keeping `carry` of the roll's speed. Free
+ * Nubbins within `giggleReach` giggle, each at most once per `giggleCooldownMs`. Keyboards
+ * roll on a direction tapped twice within `doubleTapMs`; a running jump with the stick
+ * pulled toward the camera (more than `downDot` of the way) rolls instead.
+ */
+export const ROLL = {
+  dist: 2.0,
+  ms: 350,
+  cooldownMs: 600,
+  carry: 0.6,
+  giggleReach: 2.5,
+  giggleCooldownMs: 8000,
+  doubleTapMs: 250,
+  downDot: 0.7,
+  /** The 3D rig squashes by this much at the middle of a roll (a ball, then out again). */
+  tuck: 0.35,
+} as const;
+
+/**
+ * MOVE-65: with the Swim perk, a jump that lands in the pond with the button let go dips
+ * under for `ms` (drawn `depth` units down at the middle, with bubbles every `bubbleMs`);
+ * held, it floats. Each of the pond's `spots` sectors may hide one shell, found on a dip
+ * there with chance `findChance`, once per save. Never a timer, never drowning.
+ */
+export const POND_DIP = {
+  ms: 1500,
+  depth: 0.7,
+  bubbleMs: 200,
+  minFall: 0.2,
+  spots: 6,
+  findChance: 0.35,
+  findShells: 2,
+} as const;
+
+/** MOVE-27: the 3D glide wings: leaf size, shoulder height, colour and a slow beat. */
+export const GLIDE_WINGS = {
+  length: 0.9,
+  width: 0.35,
+  shoulder: 1.05,
+  colour: 0x8fd16a,
+  beatHz: 2.2,
+  beat: 0.35,
+} as const;

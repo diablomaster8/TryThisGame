@@ -63,6 +63,14 @@ export function stickState(centre: Pt, thumb: Pt): { centre: Pt; knob: Pt; vec: 
 }
 
 /** True when a touch at (x, y) lands in the pad zone: left share of the screen, under the top bar. */
-export function inPadZone(x: number, y: number, width: number, topBarBottom: number): boolean {
-  return x <= width * J.zoneWidth && y > topBarBottom;
+export function inPadZone(
+  x: number,
+  y: number,
+  width: number,
+  topBarBottom: number,
+  leftHanded = false,
+): boolean {
+  // MOVE-14: a left-handed player's pad is on the right, the jump on the left.
+  const inSide = leftHanded ? x >= width * (1 - J.zoneWidth) : x <= width * J.zoneWidth;
+  return inSide && y > topBarBottom;
 }

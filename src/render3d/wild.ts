@@ -12,6 +12,62 @@ import { BUSH } from '../config/tuning-move';
 import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+/**
+ * R0079/WORLD perf: a kit tree is nine draws (trunk, three branches, five fruit) beside its
+ * crown, and each again in the shadow pass. The branches are baked into the trunk (they
+ * thin with it when it stands in the way) and the fruit into one mesh, so a tree is three.
+ * Returns the parts in the kit's order: trunk first, then the crown, then the fruit.
+ */
+export function compactTree(scene: THREE.Object3D, parts: THREE.Object3D[]): THREE.Object3D[] {
+  const trunk = parts[0] as THREE.Mesh | undefined;
+  if (!trunk?.isMesh) return parts;
+  const isCyl = (o: THREE.Object3D): o is THREE.Mesh =>
+    o !== trunk && o instanceof THREE.Mesh && o.geometry instanceof THREE.CylinderGeometry;
+  const isFruit = (o: THREE.Object3D): o is THREE.Mesh =>
+    o instanceof THREE.Mesh && o.geometry instanceof THREE.SphereGeometry;
+  const fold = (meshes: THREE.Mesh[], into: THREE.Matrix4): THREE.BufferGeometry | null => {
+    const geos = meshes.map((m) => {
+      m.updateMatrix();
+      return m.geometry.clone().applyMatrix4(new THREE.Matrix4().multiplyMatrices(into, m.matrix));
+    });
+    const out = mergeGeometries(geos);
+    for (const g of geos) g.dispose();
+    return out;
+  };
+  const drop = (m: THREE.Mesh) => {
+    scene.remove(m);
+    m.geometry.dispose();
+    (m.material as THREE.Material).dispose();
+  };
+  const branches = parts.filter(isCyl);
+  trunk.updateMatrix();
+  const toTrunk = trunk.matrix.clone().invert();
+  const wood = fold([trunk, ...branches], toTrunk);
+  if (wood) {
+    trunk.geometry.dispose();
+    trunk.geometry = wood;
+    for (const b of branches) drop(b);
+  }
+  const fruit = parts.filter(isFruit);
+  let bunch: THREE.Mesh | null = null;
+  const fruitGeo = fruit.length > 1 ? fold(fruit, new THREE.Matrix4()) : null;
+  if (fruitGeo) {
+    bunch = new THREE.Mesh(fruitGeo, fruit[0]!.material);
+    bunch.castShadow = fruit[0]!.castShadow;
+    bunch.receiveShadow = fruit[0]!.receiveShadow;
+    for (const f of fruit) {
+      scene.remove(f);
+      f.geometry.dispose();
+      if (f.material !== bunch.material) (f.material as THREE.Material).dispose();
+    }
+    scene.add(bunch);
+  }
+  const gone = new Set<THREE.Object3D>([...(wood ? branches : []), ...(bunch ? fruit : [])]);
+  const kept = parts.filter((o) => !gone.has(o));
+  return bunch ? [...kept, bunch] : kept;
+}
 
 const isTree = (p: WildProp) => p.art.startsWith('wild');
 const isBush = (p: WildProp) => p.art.startsWith('bush');
@@ -50,7 +106,7 @@ export function buildWildTrees(
       }
       return !fruit;
     });
-    const tree = treeOf(bare, p.size * T.treeScalePerSize);
+    const tree = treeOf(compactTree(scene, bare), p.size * T.treeScalePerSize);
     if (tree) made.push(tree);
   });
   return made;

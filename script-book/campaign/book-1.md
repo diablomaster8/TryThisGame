@@ -292,6 +292,7 @@ _…_
 **Moss**: She didn’t vanish. Hazel has never vanished in her life. She leaves notes.  
 **Moss**: She went past the falls, into the Hollow, to find the ones that got lost. She said she’d be back for the lanterns.  
 **Moss**: She has never missed a Lantern Night. Not in forty years. Not with a broken ankle. Not the year of the floods.  
+**Moss** _(happy)_: Hazel used to clear that stream in one go. Slow hands, quick feet. People forget that.  
 **You**: Then I’ll go and get her.  
 **Moss** _(soft)_: Not yet. She asked me to tell you that, if you asked. She said you would ask.  
 **Moss**: There are things that are hers to tell. I am old, but I am not so old I would take them from her.  

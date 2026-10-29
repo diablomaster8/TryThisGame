@@ -60,6 +60,30 @@ export const WORLD_LOD = {
     hullMinPx: 90,
     /** Share around the threshold a creature keeps its state in, against flicker. */
     band: 0.15,
+    /** R0079: camera distance (world units) past which a rig is drawn as its merged stand-in. */
+    proxyFrom: 8,
+    /** R0079: the stand-in's sculpt grid (one of `SCULPT_RES.steps`). */
+    proxyRes: 48,
+    /** R0079: past this camera distance no creature keeps its outline hull. */
+    hullMaxDist: 14,
+    /**
+     * R0079: past this camera distance a creature casts no sun shadow; its contact blob keeps it
+     * on the ground. A stand-in's shadow costs its whole mesh again in the shadow pass.
+     */
+    shadowMaxDist: 20,
+    /** R0079: past this camera distance a creature is an impostor (`impostor-creature.ts`). */
+    impostorFrom: 20,
+    impostor: {
+      /** The shared atlas and each creature's cell, in pixels (64 cells, 4 MB). */
+      atlasPx: 1024,
+      cellPx: 128,
+      /** Cells drawn again each frame at most, stalest first (a cell is a rig's whole draw). */
+      perFrame: 2,
+      /** Frames a cell is kept before it is drawn again: far poses step at 60 / 8 = 7.5 fps. */
+      minAge: 8,
+      /** The cell's half-size over the rig's bounding radius. */
+      margin: 1.05,
+    },
   },
 } as const;
 
@@ -94,6 +118,18 @@ export function tierForRes(res: number): DeviceTier {
 export const WORLD_MEM = {
   phone: { gpuTexMB: 96, geometries: 350, heapMB: 180 },
   desktop: { gpuTexMB: 384, geometries: 1200, heapMB: 600 },
+  /**
+   * R0081: spare rigs the creature pool keeps per device tier. A spare is about 50 geometries
+   * and their materials; 12 of them (`GROVE3D.poolSpares`) were most of a phone's geometry
+   * overrun. Fewer spares only means a rebuild (from cached surfaces) when a look comes back.
+   */
+  poolSpares: { desktop: 12, phone: 4, slow: 2 },
+} as const;
+
+/** R0074: the fast-travel transition (`ui/travel-iris.ts`): iris, or cross-fade with reduced motion. */
+export const WORLD_TRAVEL = {
+  irisMs: 350,
+  fadeMs: 150,
 } as const;
 
 /** WORLD-18: the walking lead on a portrait view (`walkLead` in `render/camera.ts`). */

@@ -341,3 +341,30 @@ export function perchTopAt(world: World | null, x: number, z: number, cap = Infi
   }
   return best;
 }
+
+/**
+ * MOVE-50: a standable top the Keeper's body touches (within `radius`) whose top sits above
+ * the feet by more than `minRise` and at most `reach`: the lip a short jump can mantle onto.
+ * Returns the point a step onto it (the feet over the top), or null.
+ */
+export function lipAt(
+  world: World | null,
+  p: Vec2,
+  radius: number,
+  feetY: number,
+  minRise: number,
+  reach: number,
+): { x: number; z: number; top: number } | null {
+  for (const c of near(world, p, radius)) {
+    if (!c.flags.includes('standable') || c.flags.includes('nubbinOnly')) continue;
+    const top = colliderTopY(c);
+    if (top - feetY <= minRise || top - feetY > reach) continue;
+    const hit = contact(c, p.x, p.z, radius);
+    if (!hit) continue;
+    // Step in past the edge until the feet stand on it.
+    const x = p.x - hit.nx * (radius - hit.depth + 0.15);
+    const z = p.z - hit.nz * (radius - hit.depth + 0.15);
+    if (standTopAt(world, x, z) >= top - 1e-6) return { x, z, top };
+  }
+  return null;
+}

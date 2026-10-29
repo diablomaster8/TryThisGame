@@ -1,7 +1,7 @@
 import { memorialSpot } from '../render/memorial-spot';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
-import { KEEPER_JUMP_FX, KEEPER_SLOPE } from '../config/tuning-move';
+import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-move';
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
@@ -31,7 +31,8 @@ import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
 import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
-import { keeperFooting } from '../sim/keeper';
+import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
+import { GlideWings } from './glide-wings';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -193,6 +194,8 @@ export class Actors {
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
   private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
+  /** MOVE-27: the glide's leaf wings. */
+  private readonly wings: GlideWings;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
@@ -262,6 +265,7 @@ export class Actors {
     this.highlight.visible = false;
     this.group.add(this.highlight);
     this.sparkCloud = new QuadCloud(this.group, 96);
+    this.wings = new GlideWings(this.group);
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
@@ -770,13 +774,22 @@ export class Actors {
    * MOVE-21: the Keeper's rig stretches tall on the way up and squashes for a beat on
    * landing (1.1 / 0.92), about its feet. None under reduced motion.
    */
-  private squashKeeper(keeper: World['keeper'], nowMs: number): void {
+  private squashKeeper(
+    keeper: World['keeper'],
+    nowMs: number,
+    mantle: number | null,
+    roll: number | null,
+  ): void {
     const o = this.keeper?.rig?.group;
     if (!o || this.calm || this.keeperHold) return;
     const fx = KEEPER_JUMP_FX;
     const land = (nowMs - this.keeperLandAt) / this.keeperLandDur;
     let sh = 1;
-    if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
+    // A mantle (MOVE-50) tucks the body down and up again as it climbs over the lip.
+    if (mantle !== null) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * mantle);
+    // A roll (MOVE-64) tucks the body into a ball and out again.
+    else if (roll !== null) sh = 1 - ROLL.tuck * Math.sin(Math.PI * roll);
+    else if (land >= 0 && land < 1) sh = 1 - (1 - fx.rigSquash) * Math.sin(Math.PI * land);
     else if (!keeper.grounded && keeper.vy > fx.apexVy)
       sh = 1 + (fx.rigStretch - 1) * Math.min(1, keeper.vy / 6);
     if (sh === 1) return;
@@ -800,7 +813,9 @@ export class Actors {
     const prev = this.keeper2Prev ?? k2.pos;
     const p = { x: lerp(prev.x, k2.pos.x, alpha), z: lerp(prev.z, k2.pos.z, alpha) };
     const moving = k2.input.x !== 0 || k2.input.z !== 0;
-    this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt);
+    // MOVE-54: its own height (a jump, a bench), as a lift over the ground it is drawn on.
+    const lift = k2.y - this.keeperGround(p.x, p.z);
+    this.driveKeeper(this.keeper2, moving ? 'walk' : 'idle', p, k2.facing, t, dt, lift);
   }
 
   update(world: World, alpha: number, nowMs: number, dt: number, cameraPos: THREE.Vector3): void {
@@ -946,6 +961,9 @@ export class Actors {
       const ky = lerp(this.keeperPrevY, keeper.y, this.keeperAlpha ?? alpha);
       this.keeperFeet = runFloor(world) ? 0 : keeperFooting(world, kp.x, kp.z, ky).y;
       this.keeperLift = Math.max(0, ky - this.keeperFeet);
+      // MOVE-65: a pond dip sinks the rig under the water and back.
+      const dip = keeperDip(world);
+      if (dip !== null) this.keeperLift -= POND_DIP.depth * Math.sin(Math.PI * dip);
     }
     const kMoving =
       Math.hypot(keeper.pos.x - this.keeperPrev.x, keeper.pos.z - this.keeperPrev.z) > 0.004 ||
@@ -969,7 +987,10 @@ export class Actors {
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
     this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
-    this.squashKeeper(keeper, nowMs);
+    this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
+    // MOVE-27: leaf wings while the Fly perk's glide holds the fall.
+    const ky3 = this.keeperGround(kp.x, kp.z) + this.keeperLift;
+    this.wings.update(keeperGliding(world), kp.x, ky3, kp.z, this.keeperTurn, t, this.calm);
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);

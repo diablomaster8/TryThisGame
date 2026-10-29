@@ -2,7 +2,13 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import { BUSH_TEXT, MOVE_TEXT } from '../config/strings-move';
+import {
+  BUSH_TEXT,
+  HOP_LESSON_TEXT,
+  LOOKOUT_TEXT,
+  MOVE_TEXT,
+  POND_TEXT,
+} from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -48,6 +54,9 @@ import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
+import { JumpButtonLook } from './jump-states';
+import { LookoutChip } from './lookout-chip';
+import { HopLessonChip } from './hop-lesson-chip';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -65,6 +74,7 @@ import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placingLabel } from './decorate';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
+import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
@@ -231,7 +241,9 @@ export function mountHud(
   const jumpBtn = el('button', 'btn jump-btn');
   jumpBtn.type = 'button';
   jumpBtn.setAttribute('aria-label', UI_TEXT.jump);
-  jumpBtn.textContent = '⤒';
+  // MOVE-51: the hold ring, the air-jump pip and the glide feather.
+  const jumpLook = new JumpButtonLook(jumpBtn);
+  let jumpPolled = false;
   let jumpPointer: number | null = null;
   jumpBtn.addEventListener('pointerdown', (e) => {
     e.preventDefault();
@@ -251,6 +263,14 @@ export function mountHud(
   jumpBtn.addEventListener('pointerup', jumpUp);
   jumpBtn.addEventListener('pointercancel', jumpUp);
   root.appendChild(jumpBtn);
+  // MOVE-58: the one-time hop lesson's chip.
+  const hopLesson = new HopLessonChip(root);
+  // MOVE-55: the "Look around" chip on a lookout.
+  const lookout = new LookoutChip(
+    root,
+    (cmd) => game()?.send(cmd),
+    () => game()?.camera ?? null,
+  );
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !e.repeat && !isTypingTarget(e.target)) setRunning(true);
   });
@@ -743,15 +763,23 @@ export function mountHud(
         g.framePollers.push(() => joystick?.poll());
       }
       joystick.setVisible(g.world.settings.joystick);
+      // MOVE-14: Left-handed mirrors the thumb buttons and the pad.
+      const lefty = !!g.world.settings.leftHanded;
+      joystick.leftHanded = lefty;
+      document.documentElement.classList.toggle('left-handed', lefty);
       const anyUnlocked = g.world.unlocks.sunGrove || g.world.unlocks.moonGrove;
       groveBtn.hidden = !anyUnlocked;
       groveBtn.textContent = GROVE_LABELS[g.world.grove];
       const carrying = g.world.keeper.carrying;
       const shakes = !!carrying || g.world.nubbins.some((n) => n.behavior.state === 'held');
       const jumpGlyph = shakes ? '🥚' : '⤒';
-      if (jumpBtn.textContent !== jumpGlyph) {
-        jumpBtn.textContent = jumpGlyph;
-        jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      jumpLook.setGlyph(jumpGlyph);
+      jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      if (!jumpPolled) {
+        jumpPolled = true;
+        g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
+        g.framePollers.push(() => lookout.update(g.world, performance.now()));
+        g.framePollers.push(() => hopLesson.update(g.world));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -991,6 +1019,25 @@ export function mountHud(
           // MOVE-43: a bush's one-time find.
           playSound('pickup');
           toast(BUSH_TEXT.found);
+        } else if (e.kind === 'keeperDipped' && e.shells > 0) {
+          // MOVE-65: a pond spot's one-time find.
+          playSound('pickup');
+          toast(POND_TEXT.found(e.shells));
+        } else if (e.kind === 'hopLesson' && e.stage === 'done') {
+          // MOVE-58: the first clear.
+          toast(HOP_LESSON_TEXT.done);
+        } else if (e.kind === 'lookoutFind') {
+          // MOVE-55: a lookout's one-time find.
+          playSound('pickup');
+          toast(
+            e.id === 'well'
+              ? LOOKOUT_TEXT.well
+              : e.critter
+                ? LOOKOUT_TEXT.critter
+                : LOOKOUT_TEXT.shells(e.shells),
+          );
+        } else if (e.kind === 'lookedAround' && !e.found) {
+          toast(LOOKOUT_TEXT.nothing);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');
@@ -1297,6 +1344,10 @@ export function mountHud(
             toast(UI_TEXT.neighbourGiftGot(TL[e.trainer]?.name ?? e.trainer, e.shells));
             playSound('buy');
           } else toast(UI_TEXT.giftTaken);
+        } else if (e.kind === 'keepsakeFound' || e.kind === 'collectionSetDone') {
+          // R0091: one-time collectibles and their sets.
+          toast(keepsakeToast(e, game()?.world));
+          playSound('pickup');
         } else if (e.kind === 'landmarkFound') {
           toast(
             UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),
