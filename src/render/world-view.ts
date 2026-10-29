@@ -34,6 +34,7 @@ import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
+import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
 import { SWIM_CLIPS } from './sprites/chao';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
@@ -109,6 +110,8 @@ export class WorldView {
   readonly particles = new Particles();
   /** LOOK-16: each Nubbin's emote ball on its spring. */
   private readonly emoteSprings = new EmoteSprings();
+  /** FUN-09: each Nubbin's pet-action beat. */
+  private readonly petBeats = new PetBeats();
   private readonly decor = placeDecorations();
   private readonly fences = fenceSpots();
   private darkness = 0;
@@ -431,6 +434,8 @@ export class WorldView {
         const v = this.nubbins.get(e.nubbinId);
         if (v) v.pop = { kind: 'pop', startMs: nowMs };
       }
+      // FUN-09: each pet action queues its own beat over the sim's reaction.
+      if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -1786,15 +1791,35 @@ export class WorldView {
       if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
     }
 
+    // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
+    const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
+    if (beat?.clip) {
+      const angle = key.split(':')[1] ?? 'front';
+      const bkey = frameKey(beat.clip, angle, beat.frame ?? Math.floor(nowMs / 180) % 2);
+      if (sheet.frames.has(bkey)) key = bkey;
+    }
+    if (beat?.fresh) {
+      const kind = PET_BEAT_BURST[beat.kind];
+      if (kind)
+        this.particles.burst(kind, x, y + 1.6, z, kind === 'dust' ? 6 : 3, {
+          spread: 0.4,
+          rise: 0.8,
+          lifeMs: 700,
+        });
+    }
     const rect = sheet.frames.get(key) ?? sheet.frames.values().next().value;
     shadow(x, y, z, 0.55);
     if (rect) {
       // Squash and stretch at draw time: a landing flattens, a hatch or evolution pops.
       let sw = 1;
       let sh = 1;
-      if (v.pop) {
       // LOOK-25: a cocoon breathes, 1 to 1.03 at 0.8 Hz.
       if (n.stage === 'cocoon') sw = sh = cocoonPulse(nowMs);
+      if (beat) {
+        sw *= beat.sw;
+        sh *= beat.sh;
+      }
+      if (v.pop) {
         const dur = v.pop.kind === 'squash' ? 260 : 420;
         const t = (nowMs - v.pop.startMs) / dur;
         if (t >= 1) v.pop = null;
@@ -1814,9 +1839,9 @@ export class WorldView {
           sheet,
           rect,
           flip,
-          x,
+          x: x + (beat?.dx ?? 0) * 2,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
-          y: n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y,
+          y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z,
           mode: 'billboard',
           opacity,
@@ -1857,7 +1882,6 @@ export class WorldView {
         }
       }
     }
-
 
     // Footstep dust and swimming ripples.
     const inPond = n.behavior.state === 'swim';

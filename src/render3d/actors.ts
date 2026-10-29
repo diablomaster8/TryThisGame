@@ -12,7 +12,7 @@ import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
-import type { Location, Nubbin, Vec2, World } from '../sim/types';
+import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
 import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './creature-pool';
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
@@ -20,6 +20,7 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
+import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -62,6 +63,8 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** FUN-09: the pet-action beat playing this frame, or null. */
+  beat: PetBeatPose | null;
   /** The scale a squash or pop was laid over this frame, put back before the next. */
   squash: { o: THREE.Object3D; base: THREE.Vector3 } | null;
   prev: Snapshot;
@@ -195,6 +198,8 @@ export class Actors {
   private readonly emoteMats = new Map<string, THREE.SpriteMaterial>();
   /** LOOK-16: each Nubbin's emote ball on its spring. */
   private readonly emoteSprings = new EmoteSprings();
+  /** FUN-09: each Nubbin's pet-action beat. */
+  private readonly petBeats = new PetBeats();
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
@@ -458,6 +463,11 @@ export class Actors {
     }
   }
 
+  /** FUN-09: a pet action landed; its beat plays from the Nubbin's next frame. */
+  petBeat(id: string, action: Interaction, ok: boolean, nowMs: number): void {
+    this.petBeats.queue(id, action, ok, nowMs);
+  }
+
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
   react(id: string, shape: EmoteShape, untilMs: number): void {
     this.bubbles.set(id, { shape, untilMs });
@@ -484,6 +494,7 @@ export class Actors {
       flight: null,
       ripple: null,
       squash: null,
+      beat: null,
       prev: { pos: { x: n.pos.x, z: n.pos.z }, y: n.y },
       pose: 'idle',
       emote,
@@ -878,6 +889,10 @@ export class Actors {
         if (st && st.partner?.id === n.id)
           pose = st.walking.has(n.id) ? 'walk' : (st.partnerPose() ?? 'idle');
         else if (st?.walking.has(n.id)) pose = 'walk';
+        // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
+        const beat = this.petBeats.frame(n, nowMs);
+        if (beat?.pose3d && !held) pose = beat.pose3d;
+        a.beat = beat;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
@@ -933,6 +948,15 @@ export class Actors {
         }
       }
       this.squash(a, n.id, o, nowMs);
+      if (a.beat && a.rig) {
+        // FUN-09: the beat's squash and nudge, put back next frame with the other squashes.
+        if (!a.squash) a.squash = { o, base: o.scale.clone() };
+        o.scale.x *= a.beat.sw;
+        o.scale.y *= a.beat.sh;
+        o.scale.z *= a.beat.sw;
+        o.position.y += a.beat.dy * 0.9;
+        o.position.x += a.beat.dx * 0.9;
+      }
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
       // The emote ball over the head: the same choice the pixel view makes, a reaction

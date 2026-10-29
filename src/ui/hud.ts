@@ -82,6 +82,8 @@ import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
 import { TankScreen } from '../minigames/tank/screen';
 import { TEN_TEXT, STAT_LABELS } from '../config/strings';
+import { petToast } from '../config/strings-look';
+import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
@@ -1119,7 +1121,14 @@ export function mountHud(
         } else if (e.kind === 'interacted') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
-          toast(e.ok ? UI_TEXT.interacted(name, e.action) : UI_TEXT.interactRefused(name));
+          // FUN-09: each action and personality has its own line.
+          toast(
+            e.ok && n
+              ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
+              : e.ok
+                ? UI_TEXT.interacted(name, e.action)
+                : UI_TEXT.interactRefused(name),
+          );
           if (e.ok) playSound('pet');
         } else if (e.kind === 'called') {
           toast(UI_TEXT.called(e.count));
