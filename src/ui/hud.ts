@@ -105,6 +105,8 @@ import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
+import { OUTER_TEXT } from '../config/strings';
+import { outerTapOf } from '../config/outer-ring';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -1417,6 +1419,8 @@ export function mountHud(
         else if (which === 'host') g.send({ kind: 'neighbourGift' });
         else if (which === 'windmill') toast(UI_TEXT.windmillTap);
         else if (which === 'cave') dungeon.open();
+        // R0072: an outer-ring piece answers with its line.
+        else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
         return;
       }
       if (id?.startsWith('plant:') && g) {

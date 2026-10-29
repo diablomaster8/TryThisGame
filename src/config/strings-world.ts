@@ -70,3 +70,18 @@ export const WORLD_TEXT = {
   minimapLevels: { off: 'Off', on: 'On', auto: 'Auto' } as Record<string, string>,
   minimapHelp: 'Auto shows it in the Grove on screens tall enough to spare the room.',
 } as const;
+
+/** R0072: what each outer-ring place's tappable piece says (`config/outer-ring.ts`). */
+export const OUTER_TEXT = {
+  tap: {
+    fairyRing:
+      'A ring of mushrooms, perfectly round, that nobody planted. Nubbins walk round it, never through.',
+    trail:
+      'The trail into the Wood starts here. The sign has been repainted so often it is mostly paint.',
+    telescope:
+      'You squint east. Past the ridge, something gold catches the light: the way to the Sun lands.',
+    stiltLane: 'The lane runs south along the stream to the stilt village. Mind the planks.',
+    scarecrow: 'The scarecrow wears an old hat of Hazel’s. The crows seem to find it reassuring.',
+    hive: 'A steady hum. The bees are busy, and would like you to be busy somewhere else.',
+  },
+} as const;
