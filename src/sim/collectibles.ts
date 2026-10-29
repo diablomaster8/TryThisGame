@@ -34,9 +34,16 @@ export function tally(
   return { got: Math.min(got, of), of };
 }
 
+/** Where the Keeper stood at the last look, per world: a still Keeper picks up nothing new. */
+const lastAt = new WeakMap<World, { x: number; z: number }>();
+
 /** Pick up whatever the Keeper stands on. */
 export function stepCollectibles(world: World, events: SimEvent[]): void {
+  if (world.location !== 'grove') return;
   const k = world.keeper.pos;
+  const at = lastAt.get(world);
+  if (at && at.x === k.x && at.z === k.z) return;
+  lastAt.set(world, { x: k.x, z: k.z });
   for (const c of openHere(world)) {
     if (Math.hypot(c.x - k.x, c.z - k.z) > COLLECT.pickRadius) continue;
     const got = (world.collected ??= {});

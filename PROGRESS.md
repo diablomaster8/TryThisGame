@@ -43,6 +43,20 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature
 LOD R0079, finish R0078/R0081), then WORLD in R order from R0074 (deferring lane A's files).
 
+- *Works:* creature LOD (R0079): past 8 u a rig is one skinned stand-in on the 48 grid
+  (`render3d/lod-proxy.ts`), past 20 u a cell in a 4 MB atlas drawn as one instanced quad
+  (`impostor-creature.ts`, 2 cells redrawn a frame); hulls stop at 14 u, sun shadows at 20 u.
+  Kit trees are 3 draws, not 9. Phone probe 6/19 → 16/19 under budget, median 314 → 161 calls,
+  414k → 336k tris; 8 Nubbins at the heart: creatures 38 draws, 245k tris. Spare rigs capped by
+  tier, trimmed when hidden, parts behind a stand-in free their buffers (geo 466 → 271). Fast
+  travel with iris, carry and partners (R0074); Grove collectibles (R0091); per-region hour
+  (R0092) and seeded per-region weather (R0094). `PROBE_BREAKDOWN=1 PROBE_SPOTS=…` on the probe.
+- *Stubbed:* postcard unlocks and the old key's secret (R0091); region hours and weather only
+  show once a second region is drawn; R0093 signposts (need lane A's pixel files).
+- *Known:* far creatures animate at 7.5 fps; at westHill, farOrchard and cornerSE the draws
+  sit at 186–228, spread over many small scenery kits. Assumption: the iris centres on the
+  view's middle (the camera keeps the Keeper there), not on the Keeper's exact pixel.
+
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
 The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
