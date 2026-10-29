@@ -1,5 +1,6 @@
 import { hasRoom, rosterNubbins } from './roster';
-import { BREEDING, GROVE, PARTNERS, SHOP } from '../config/tuning';
+import { BREEDING, GROVE, LOOK_SHOP, PARTNERS, SHOP } from '../config/tuning';
+import { SHOP_COSMETICS } from '../config/cosmetics';
 import { shopDiscount } from './town';
 import { EGG_COLORS, JEWEL_EGG_COLORS, createEgg, isJewel } from './nubbin';
 import type { Rng } from './rng';
@@ -9,6 +10,20 @@ import { newId, uniqueName } from './world';
 import { eggPriceMultiplier, rareEggMultiplier, seasonalEggColor } from './seasons';
 
 export const HAT_IDS = ['straw', 'crown', 'beanie', 'flower', 'bucket'] as const;
+
+/**
+ * The hat on sale today (LOOK-32): the registry's shop wearables in turn, a new one each
+ * day, skipping ones already owned, so the shop shows what you get instead of a lucky dip.
+ */
+export function shopHat(world: World): string {
+  const ids = SHOP_COSMETICS;
+  const day = Math.floor(world.timeMs / LOOK_SHOP.hatDayMs);
+  for (let k = 0; k < ids.length; k++) {
+    const id = ids[(day + k) % ids.length]!;
+    if (!world.inventory.hats.includes(id)) return id;
+  }
+  return ids[day % ids.length]!;
+}
 
 export function priceOf(item: ShopItem): number {
   switch (item) {
@@ -97,7 +112,7 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       break;
     }
     case 'hat':
-      world.inventory.hats.push(rng.pick(HAT_IDS));
+      world.inventory.hats.push(shopHat(world));
       break;
     case 'toy': {
       const toys = world.items.filter((i) => i.kind === 'toy').length;

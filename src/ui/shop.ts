@@ -1,7 +1,8 @@
-import { NAMES, SHOP_ITEMS, UI_TEXT } from '../config/strings';
+import { NAMES, SHOP_ITEMS, UI_TEXT, shopHatNote } from '../config/strings';
+import { cosmeticLabel } from '../config/cosmetics';
 import type { Game } from '../game';
 import { rosterCap } from '../sim/roster';
-import { priceOf, rosterCount } from '../sim/shop';
+import { priceOf, rosterCount, shopHat } from '../sim/shop';
 import type { ShopItem } from '../sim/types';
 import { button, el, modal } from './dom';
 
@@ -64,7 +65,7 @@ export class ShopMenu {
           row.note.textContent = `${rosterCount(g.world)}/${rosterCap(g.world)}`;
           break;
         case 'hat':
-          row.note.textContent = `×${inv.hats.length}`;
+          row.note.textContent = shopHatNote(cosmeticLabel(shopHat(g.world)));
           break;
         case 'toy':
           row.note.textContent = `×${g.world.items.filter((i) => i.kind === 'toy').length}`;

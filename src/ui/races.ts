@@ -2,7 +2,7 @@ import { mergedLevels } from '../sim/partners';
 import { COURSE_LABELS, NAMES, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { RaceScreen } from '../minigames/race/screen';
-import { COURSES, createRace, raceSeedFor } from '../sim/race';
+import { COURSES, createRace, lookPrizesFor, raceSeedFor } from '../sim/race';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 
@@ -115,6 +115,7 @@ export class RacesMenu {
       },
       g.graphics,
       g.scene3d,
+      lookPrizesFor(g.world.keeper.alignment),
     );
   }
 }

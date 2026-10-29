@@ -6,6 +6,7 @@ import { CHILD_SHAPE, layout, type ChaoShape, type Layout } from './layout';
 import { C, lightOf, mixHex, nearestIndex, shadeOf } from './palette';
 import { drawArmPart, drawBack, drawEars, drawTail, partStyle, type PartStyle } from './parts';
 import { PixelCanvas } from './pixel-canvas';
+import { drawCosmetic } from './cosmetic-pixel';
 
 /**
  * The Nubbin, drawn Chao-faithfully from memory: a big round head that is most of the
@@ -752,6 +753,8 @@ function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): vo
       pc.thinLine(cx - 5, top - 2.5, cx + 5, top - 2.5, C.tealLight);
       break;
     default:
+      // Registry wearables (`config/cosmetics.ts`) draw from their shape lists.
+      drawCosmetic(pc, angle, L, hat, 'over');
       break;
   }
 }
@@ -1284,6 +1287,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   // Back layer: wings/back part and tail behind the body for front-ish views.
   drawWings(pc, angle, pose, L, wingLook, false);
   if (tail && fromFront) drawTail(pc, angle, L, tail);
+  if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'behind');
 
   // Legs and body.
   drawLegs(pc, angle, pose, L, tellType === 'run' ? { ...col, shade: tell } : col);
@@ -1299,6 +1303,7 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       pc.ellipse(bx - 0.5, L.bodyCy + 0.5, 1.8, 1.3, lightOf(col.bellyPatch));
     }
     drawFeet(pc, angle, pose, L, col);
+    if (look.hat) drawCosmetic(pc, angle, L, look.hat, 'body');
   } else {
     pc.ellipse(L.bodyCx, L.bodyCy - 1, L.bodyRx, 2, col.body);
   }

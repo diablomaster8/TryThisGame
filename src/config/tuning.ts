@@ -2034,3 +2034,4 @@ export * from './tuning-move';
 export * from './tuning-move-joy';
 export * from './tuning-move-nub';
 export * from './tuning-battle';
+export * from './tuning-look';

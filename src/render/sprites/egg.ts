@@ -2,22 +2,15 @@ import { frameKey } from './animations';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { isJewel } from '../../sim/nubbin';
 import { JEWEL_COLORS } from './chao';
+import { PLAIN_EGG_PALETTES, type EggPalette } from './egg-palette';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 
 export const EGG_SIZE = 32;
 
-/** Egg colours by name. 'plain' is the Chao's default pale egg with a soft blue cap. */
-export const EGG_PALETTES: Record<
-  string,
-  { shell: number; shade: number; cap: number; spot: number }
-> = {
-  plain: { shell: C.pale, shade: C.lilacGrey, cap: C.shallows, spot: C.white },
-  sky: { shell: C.shallows, shade: C.water, cap: C.white, spot: C.pale },
-  rose: { shell: C.blush, shade: C.rose, cap: C.white, spot: C.pale },
-  mint: { shell: C.mint, shade: C.teal, cap: C.cream, spot: C.pale },
-  gold: { shell: C.sunYellow, shade: C.orange, cap: C.cream, spot: C.white },
-  violet: { shell: C.lavender, shade: C.violet, cap: C.pale, spot: C.white },
+/** Egg colours by name: the plain colours (`egg-palette.ts`) and the jewel eggs. */
+export const EGG_PALETTES: Record<string, EggPalette> = {
+  ...PLAIN_EGG_PALETTES,
   // The jewel eggs, from the same stones as the Nubbins inside (`JEWEL_COLORS`).
   ...Object.fromEntries(
     Object.entries(JEWEL_COLORS).map(([name, j]) => [
@@ -61,8 +54,6 @@ export function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): Pi
   pc.finish(C.darkPlum, [C.white]);
   return pc;
 }
-
-type EggPalette = { shell: number; shade: number; cap: number; spot: number };
 
 /** The ordinary egg: a soft shell with a coloured cap and spots (stripes for the digital line). */
 function drawShell(

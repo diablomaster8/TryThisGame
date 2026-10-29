@@ -1552,3 +1552,4 @@ export * from './strings-dungeon';
 export * from './strings-move';
 export * from './strings-move-joy';
 export * from './strings-battle';
+export * from './strings-look';

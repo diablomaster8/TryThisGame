@@ -1,4 +1,5 @@
 import {
+  BoxGeometry,
   CapsuleGeometry,
   ConeGeometry,
   CylinderGeometry,
@@ -14,10 +15,12 @@ import {
 import type { Rigged } from '../samples/species';
 import { bellyOf, headDome } from '../samples/nubbin-critter-parts';
 import { DYE_COLORS } from '../render/sprites/chao';
-import { C, color, shadeOf } from '../render/sprites/palette';
+import { C, color, nearestIndex, shadeOf } from '../render/sprites/palette';
 import type { DyeColor, Nubbin } from '../sim/types';
 import { specForKey } from './looks';
 import { stubOnce } from './stubs';
+import { cosmetic, eggshellColour, type CosmeticColour } from '../config/cosmetics';
+import { eggPalette } from '../render/sprites/egg-palette';
 
 /**
  * What a Nubbin wears on top of its sculpted body in Full 3D: the hat (with its dye), the
@@ -36,7 +39,7 @@ import { stubOnce } from './stubs';
  */
 
 /** Unit geometries, scaled per piece. */
-type GeoKind = 'cyl' | 'sphere' | 'dome' | 'cone' | 'torus' | 'ring' | 'capsule';
+type GeoKind = 'cyl' | 'sphere' | 'dome' | 'cone' | 'torus' | 'ring' | 'capsule' | 'box';
 
 const GEOMETRY: Record<GeoKind, () => BufferGeometry> = {
   cyl: () => new CylinderGeometry(1, 1, 1, 24),
@@ -46,6 +49,7 @@ const GEOMETRY: Record<GeoKind, () => BufferGeometry> = {
   torus: () => new TorusGeometry(1, 0.15, 8, 28),
   ring: () => new TorusGeometry(1, 0.09, 6, 24),
   capsule: () => new CapsuleGeometry(0.5, 1, 4, 10),
+  box: () => new BoxGeometry(1, 1, 1),
 };
 
 type V3 = readonly [number, number, number];
@@ -59,9 +63,12 @@ interface Piece {
   rot?: V3;
 }
 
-/** Where an item hangs: on the top of the dome (head bone) or the back of the belly (hips). */
+/**
+ * Where an item hangs: on the top of the dome, before the eyes or round the bottom of the dome
+ * (head bone), or on the back or round the middle of the belly (hips).
+ */
 interface Item {
-  at: 'top' | 'tail';
+  at: 'top' | 'tail' | 'face' | 'neck' | 'body';
   pieces: Piece[];
 }
 
@@ -85,6 +92,9 @@ function spike(pos: V3, rot: V3, len: number, r: number, col: number, tip: numbe
   const end: V3 = [pos[0] + dir.x * len, pos[1] + dir.y * len, pos[2] + dir.z * len];
   return [p('cone', col, mid, [r, len, r], rot), p('sphere', tip, end, r * 0.55)];
 }
+
+const NAVY = nearestIndex('#2443c4');
+const SHADE_GREY = nearestIndex('#8c8a96');
 
 /**
  * The hats, in the units of the base Nubbin's head (dome half-width 0.74), with the origin on
@@ -188,10 +198,55 @@ const HATS: Record<string, Item> = {
       ...spike([0.2, 0.05, 0], [0, 0, -0.8], 0.6, 0.2, C.moonPurple, C.sunYellow),
     ],
   },
+  // Quills and Shade (LOOK-27), the same shapes as the pixel drawer's.
+  'look-quills': {
+    at: 'top',
+    pieces: [-0.5, -0.25, 0, 0.25, 0.5].flatMap((x) =>
+      spike(
+        [x, -0.28 + Math.abs(x) * 0.2, -0.28],
+        [-1.15, 0, -x * 1.1],
+        0.62 - Math.abs(x) * 0.2,
+        0.13,
+        NAVY,
+        NAVY,
+      ),
+    ),
+  },
+  'look-shade': {
+    at: 'top',
+    pieces: [
+      ...[-1, 1].flatMap((d) => [
+        p('cone', C.darkPlum, [d * 0.42, 0.02, 0], [0.2, 0.62, 0.13], [0, 0, -d * 0.25]),
+        p('cone', SHADE_GREY, [d * 0.4, 0.0, 0.06], [0.11, 0.4, 0.06], [0, 0, -d * 0.25]),
+      ]),
+      ...spike([0, -0.1, -0.3], [-0.6, 0, 0], 0.45, 0.1, C.white, C.white),
+    ],
+  },
 };
 
-/** The hat ids the Dresser draws (every one the pixel drawer has). */
+/** The hat ids the Dresser draws by hand (every one the pixel drawer has). */
 export const DRESS_HATS: readonly string[] = Object.keys(HATS);
+
+const SLOT_AT = { hat: 'top', face: 'face', neck: 'neck', back: 'tail', body: 'body' } as const;
+
+/**
+ * A registry wearable (`config/cosmetics.ts`) built from its mesh list, in the same palette
+ * colours as its pixel shapes; the eggshell takes its egg's colours. Null when it has none.
+ */
+export function registryItem(id: string): Item | null {
+  const c = cosmetic(id);
+  if (!c || c.bespoke || !c.mesh) return null;
+  const shell = eggshellColour(id);
+  const egg = eggPalette(shell ?? 'plain');
+  const col = (k: CosmeticColour): number =>
+    k.startsWith('egg.')
+      ? egg[k.slice(4) as 'shell' | 'shade' | 'cap' | 'spot']
+      : C[k as keyof typeof C];
+  return {
+    at: SLOT_AT[c.slot],
+    pieces: c.mesh.map(([geo, k, pos, scale, rot]) => p(geo, col(k), pos, scale, rot)),
+  };
+}
 
 /** The dye swaps the hat's main colours for the dye and its warm shades for the dye's shade. */
 const DYE_MAIN = new Set<number>([C.cream, C.sunYellow, C.teal, C.rose, C.violet]);
@@ -220,6 +275,9 @@ interface Anchors {
   /** The scarf: the ring's centre and radius in head-bone space. */
   neck: Vector3;
   neckR: number;
+  /** The belly's centre in hip-bone space, and its width over the base Nubbin's head. */
+  waist: Vector3;
+  waistS: number;
 }
 
 function anchorsFor(key: string): Anchors {
@@ -242,6 +300,8 @@ function anchorsFor(key: string): Anchors {
     eyeTall: e.tall ?? 1.2,
     neck: new Vector3(d.c.x - P.x, d.c.y - d.ry * 0.86 - P.y, d.c.z - P.z),
     neckR: d.rx * 0.56,
+    waist: new Vector3(b.c.x, b.c.y - spec.hipY, b.c.z),
+    waistS: b.rx / 0.74,
   };
 }
 
@@ -265,7 +325,8 @@ export class Dresser {
     let hat = dressable ? n.hat : null;
     // A child with a character look already wears the look's whole figure.
     if (hat?.startsWith('look-') && n.stage !== 'adult') hat = null;
-    if (hat && !HATS[hat]) {
+    const item = hat ? (HATS[hat] ?? registryItem(hat)) : null;
+    if (hat && !item) {
       stubOnce(`hat:${hat}`, 'no 3D hat; drawn bare');
       hat = null;
     }
@@ -282,13 +343,20 @@ export class Dresser {
     if (!head || !hips) return;
     const at = (ud.dressAt ??= anchorsFor(ud.lookKey ?? 'nubbin'));
     const groups: Group[] = [];
-    if (hat) {
-      const item = HATS[hat]!;
+    if (hat && item) {
       const g = this.build(item.pieces, (c) => dyed(c, dye));
       if (item.at === 'top') {
         g.position.copy(at.top);
         g.scale.set(at.s, at.sy, at.s);
         head.add(g);
+      } else if (item.at === 'face' || item.at === 'neck') {
+        g.position.copy(item.at === 'neck' ? at.neck : at.eye).setX(0);
+        g.scale.setScalar(at.s);
+        head.add(g);
+      } else if (item.at === 'body') {
+        g.position.copy(at.waist);
+        g.scale.setScalar(at.waistS);
+        hips.add(g);
       } else {
         g.position.copy(at.tail);
         g.scale.setScalar(at.s);

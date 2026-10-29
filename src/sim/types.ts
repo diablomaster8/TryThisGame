@@ -149,6 +149,8 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: Record<PartSlot, string | null>;
   hat: string | null;
+  /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
+  shellMs?: number;
   rebirths: number;
   /** Grades raised at evolution, kept across rebirths. */
   gradeUpgrades: Partial<Record<StatKey, number>>;

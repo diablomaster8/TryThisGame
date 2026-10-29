@@ -387,3 +387,12 @@ export function prizeFor(placement: number, tier: number): number {
   const base = RACE.prizes[placement - 1];
   return base ? base * tier : 0;
 }
+
+// Lane E, R0395: the tier-3 character-look prizes. The four shared looks, plus Quills for
+// a Sun Keeper and Shade for a Moon Keeper (the two hero looks follow the Keeper's side).
+const SHARED_LOOK_PRIZES = ['look-fox', 'look-echidna', 'look-rose', 'look-dream'] as const;
+
+/** The looks a tier-3 win can pay, for the active Keeper. */
+export function lookPrizesFor(keeper: 'sun' | 'moon'): readonly string[] {
+  return [...SHARED_LOOK_PRIZES, keeper === 'sun' ? 'look-quills' : 'look-shade'];
+}

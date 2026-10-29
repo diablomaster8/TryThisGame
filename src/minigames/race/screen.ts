@@ -52,6 +52,8 @@ export class RaceScreen {
   private onDone: ((outcome: RaceOutcome) => void) | null = null;
   private outcome: RaceOutcome | null = null;
   private hatRoll = 0;
+  /** The tier-3 look prizes for this race (the Keeper picks the hero look). */
+  private looks: readonly string[] = LOOK_PRIZES;
   /** Counts starts, so a 3D view that lands after the player left is not shown. */
   private starts = 0;
   /** True while the 3D chunk and stage are on their way; the race waits at the line. */
@@ -118,7 +120,9 @@ export class RaceScreen {
     onDone: (outcome: RaceOutcome) => void,
     graphics: GraphicsMode = 'pixel',
     scene3d: Grove3dScene | null = null,
+    looks: readonly string[] = LOOK_PRIZES,
   ): void {
+    this.looks = looks;
     const starts = ++this.starts;
     this.race = race;
     this.onDone = onDone;
@@ -253,9 +257,8 @@ export class RaceScreen {
     const shells = prizeFor(placement, race.tier);
     let hat: string | null = null;
     if (placement === 1 && this.hatRoll < RACE.hatChanceOnWin) {
-      const lookIndex = Math.floor((this.hatRoll / RACE.hatChanceOnWin) * LOOK_PRIZES.length);
-      hat =
-        race.tier === 3 ? (LOOK_PRIZES[lookIndex] ?? null) : (HAT_PRIZES[race.tier - 1] ?? null);
+      const lookIndex = Math.floor((this.hatRoll / RACE.hatChanceOnWin) * this.looks.length);
+      hat = race.tier === 3 ? (this.looks[lookIndex] ?? null) : (HAT_PRIZES[race.tier - 1] ?? null);
     }
     this.outcome = { placement, shells, hat };
     this.resultsBody.innerHTML = '';
@@ -284,4 +287,11 @@ export class RaceScreen {
 
 /** Hat prizes by tier (index 0 = tier 1); tier 3 pays a character look. */
 export const HAT_PRIZES = ['straw', 'beanie', 'look-fox'] as const;
-export const LOOK_PRIZES = ['look-fox', 'look-echidna', 'look-rose', 'look-dream'] as const;
+export const LOOK_PRIZES = [
+  'look-fox',
+  'look-echidna',
+  'look-rose',
+  'look-dream',
+  'look-quills',
+  'look-shade',
+] as const;

@@ -1,4 +1,5 @@
-import { BEHAVIOR, EGG, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config/tuning';
+import { BEHAVIOR, EGG, EGGSHELL, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from '../config/tuning';
+import { eggshellColour, eggshellId } from '../config/cosmetics';
 import { bandOf, roundAlignment, winningType } from './alignment';
 import { lifetimeHappiness } from './needs';
 import { decidePersonality } from './personality';
@@ -40,6 +41,7 @@ export function advanceStage(
     n.stageMs += dtMs;
     return; // hatching is driven by hatchRemainingMs in world.ts
   }
+  if (n.shellMs !== undefined && world) tickEggshell(n, dtMs, world, offline);
   // The baby step above needs the child stage timer, which hatch() resets.
   if (n.awaitingKeeper) {
     // Frozen at the end of its life until live play runs the check, once the away screen
@@ -196,7 +198,31 @@ export function hatch(n: Nubbin, events: SimEvent[], nowMs = 0): void {
   // A reborn Nubbin greets the Keeper with a heart; a new one is simply happy.
   n.behavior.reaction = n.rebirths > 0 ? 'love' : 'happy';
   n.behavior.untilMs = nowMs + BEHAVIOR.reactMs * 2;
+  // Lane E, R0394: a Grove-line hatchling wears the top of its eggshell as a hat.
+  if (n.species === 'chao' && !n.hat) {
+    n.hat = eggshellId(n.eggColor);
+    n.shellMs = EGGSHELL.wearMs;
+  }
   events.push({ kind: 'hatched', nubbinId: n.id });
+}
+
+/**
+ * Lane E, R0394: the eggshell is the Keeper's to keep (it goes into the hat box the first
+ * tick a world is at hand, so the Roster lists it) and comes off the head after
+ * `EGGSHELL.wearMs` of live play. Catch-up never counts down: the player should see it.
+ */
+function tickEggshell(n: Nubbin, dtMs: number, world: World, offline: boolean): void {
+  const shell = n.hat && eggshellColour(n.hat) !== null ? n.hat : null;
+  if (!shell) {
+    delete n.shellMs;
+    return;
+  }
+  if (!world.inventory.hats.includes(shell)) world.inventory.hats.push(shell);
+  if (offline) return;
+  n.shellMs = (n.shellMs ?? 0) - dtMs;
+  if (n.shellMs > 0) return;
+  n.hat = null;
+  delete n.shellMs;
 }
 
 /** The highest-level stat that is not already S, or null. Ties go to the first in STAT_KEYS. */

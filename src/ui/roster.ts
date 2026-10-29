@@ -1,7 +1,6 @@
 import {
   EGG_COLOR_LABELS,
   formatDuration,
-  HAT_LABELS,
   NAMES,
   PERSONALITY_LABELS,
   SPECIES_LABELS,
@@ -11,6 +10,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { cosmeticLabel } from '../config/cosmetics';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import { bandOf, childHint } from '../sim/alignment';
@@ -91,7 +91,7 @@ export class RosterMenu {
       none.value = '';
       hatSelect.appendChild(none);
       for (const hat of new Set(g.world.inventory.hats)) {
-        const o = el('option', undefined, HAT_LABELS[hat] ?? hat);
+        const o = el('option', undefined, cosmeticLabel(hat));
         o.value = hat;
         hatSelect.appendChild(o);
       }
