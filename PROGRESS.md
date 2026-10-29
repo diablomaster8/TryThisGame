@@ -54,7 +54,10 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   `<act>.<level>`; the acorn always lands in the Grove; a forfeit or draw flees a pack and loses to
   a boss; crystals stay soft (solid ones walled walkers out of one-cell nooks).
 - *Known:* a fresh pair loses to three or more foes every time (hence the cap; balance is lane C's);
-  a chasing pack can slip out of 3D sight for a moment (aggro 5 cells, sight 4).
+  a chasing pack can slip out of 3D sight for a moment (aggro 5 cells, sight 4). Where the
+  landmark nearly meets rock its padded nav cells shut a squeezable gap: about 1 in 11 taps from
+  its rim stops short (`tests/sim/dungeon-props.test.ts`). Hollow bout foes are capped at a dojo
+  rival's level for the party (`HOLLOW.packs.boutLevelOver`).
 
 ## Round 2 · Lane C (FIGHT, branch r2/c, 2026-10-28)
 

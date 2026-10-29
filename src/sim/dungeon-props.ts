@@ -84,6 +84,23 @@ export function escapeProps(p: Vec2, f: Floor, radius: number, walls: (q: Vec2) 
   }
 }
 
+/**
+ * Whether walking straight from a to b brings a body of `radius` into a prop. A body already
+ * touching one may still walk away from it: only the stretch that comes closer counts.
+ */
+export function propOnLine(f: Floor, a: Vec2, b: Vec2, radius: number): boolean {
+  const dx = b.x - a.x;
+  const dz = b.z - a.z;
+  const len2 = dx * dx + dz * dz;
+  return floorProps(f).some((c) => {
+    const t =
+      len2 < 1e-9 ? 0 : Math.max(0, Math.min(1, ((c.x - a.x) * dx + (c.z - a.z) * dz) / len2));
+    const d = Math.hypot(a.x + dx * t - c.x, a.z + dz * t - c.z);
+    const start = Math.hypot(a.x - c.x, a.z - c.z);
+    return d < Math.min(c.r + radius, start) - 1e-3;
+  });
+}
+
 /** Whether a body of `radius` at `p` overlaps a prop. */
 export function propBlocked(p: Vec2, f: Floor, radius: number): boolean {
   return floorProps(f).some((c) => Math.hypot(p.x - c.x, p.z - c.z) < c.r + radius);

@@ -1,9 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { DUNGEON } from '../../src/config/tuning';
-import { floorOf, isWalkable, resolveDungeon, type Floor } from '../../src/sim/dungeon';
+import { DUNGEON, KEEPER, SIM } from '../../src/config/tuning';
+import {
+  cellCentre,
+  cellOf,
+  floorOf,
+  isWalkable,
+  resolveDungeon,
+  runFloor,
+  type Floor,
+} from '../../src/sim/dungeon';
 import { navMask } from '../../src/sim/dungeon-nav';
-import { floorProps, propCells } from '../../src/sim/dungeon-props';
+import { floorProps, propBlocked, propCells } from '../../src/sim/dungeon-props';
+import { hatch } from '../../src/sim/lifecycle';
 import { Rng } from '../../src/sim/rng';
+import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // R0032: the landmark is solid and closes its nav cells.
 
@@ -95,4 +105,60 @@ describe('solid Hollow set pieces (R0032)', () => {
       }
     }
   });
+});
+
+describe('walking away from the landmark (R0032)', () => {
+  it('a Keeper on the rim walks off it to a cell two away', () => {
+    let tries = 0;
+    const stuck: string[] = [];
+    for (let seed = 1; seed <= 60 && tries < 200; seed++) {
+      const world = createWorld(seed, 0);
+      for (const n of world.nubbins) hatch(n, [], 0);
+      applyCommand(world, { kind: 'enterDungeon', daily: false }, []);
+      for (let d = 0; d < 1 + (seed % 5); d++) {
+        applyCommand(world, { kind: 'dungeonGo', to: 'down' }, []);
+        const r = world.dungeon!;
+        if (r.pendingPos) world.keeper.pos = { ...r.pendingPos };
+        for (let t = 0; t < 300; t += SIM.stepMs) stepWorld(world, SIM.stepMs);
+      }
+      const f = runFloor(world);
+      const lm = f && floorProps(f)[0];
+      if (!f || !lm) continue;
+      // Packs and strays stay out of it: this is about the walk.
+      world.dungeon!.packs = [];
+      world.dungeon!.strays = [];
+      for (let k = 0; k < 16; k++) {
+        const a = (k / 16) * Math.PI * 2;
+        const p = { x: lm.x + Math.cos(a) * (lm.r + 0.37), z: lm.z + Math.sin(a) * (lm.r + 0.37) };
+        resolveDungeon(p, f, 0.35);
+        const c = cellOf(f, p);
+        if (!isWalkable(f, c.x, c.y)) continue;
+        for (const [dx, dy] of [
+          [2, 0],
+          [-2, 0],
+          [0, 2],
+          [0, -2],
+        ] as const) {
+          const tc = { x: c.x + dx, y: c.y + dy };
+          if (!isWalkable(f, tc.x, tc.y) || !isWalkable(f, c.x + dx / 2, c.y + dy / 2)) continue;
+          const to = cellCentre(f, tc);
+          if (propBlocked(to, f, 0.35)) continue;
+          world.keeper.pos = { ...p };
+          world.keeper.moveTarget = null;
+          applyCommand(world, { kind: 'moveKeeperTo', pos: to }, []);
+          for (let t = 0; t < 3000 && world.keeper.moveTarget; t += SIM.stepMs)
+            stepWorld(world, SIM.stepMs);
+          tries++;
+          const left = Math.hypot(world.keeper.pos.x - to.x, world.keeper.pos.z - to.z);
+          if (left > KEEPER.arriveRadius + 0.05) stuck.push(`${seed}:${k}`);
+          break;
+        }
+      }
+    }
+    expect(tries).toBeGreaterThan(100);
+    // Known (PROGRESS): where the landmark nearly meets rock, its padded nav cells shut a gap
+    // a body could squeeze through, so 18 of these 200 walks stop short. Before sight lines
+    // read the true circle, most of them did.
+    expect(stuck.length).toBeLessThanOrEqual(20);
+  }, 30_000);
 });
