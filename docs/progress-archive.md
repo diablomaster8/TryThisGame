@@ -2,6 +2,33 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
+
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `EXTRA=./r3a-extra.cjs node
+laneA.cjs <pixel|3d> <desk|phone> 5181`; all four configurations pass, no console errors.
+
+- *Works:* mantle onto a lip a jump just misses (R0050); jump button hold ring, air-jump pip,
+  glide feather, greyed Shake (R0051); 3D orbit tilts or pulls in when a hill blocks the
+  Keeper (R0052, `render3d/hill-clear.ts`, one call in the scene); Camera follows walking
+  setting (R0053); co-op Keeper 2 on Keeper 1's motion (jump on Enter, Numpad 0, pad A; the
+  two keep apart; R0054, R0022's leftover); Look around on rock tops and the well, one-time
+  finds (R0055); walking to the flat stone meets S24's step (R0056); one-time hop lesson chip
+  and a Moss line (R0058); care walks stop with the Nubbin in view (R0059); roll (R0064); Swim
+  perk pond dip with one-time shells (R0065); Left-handed setting (R0014); 3D glide wings (R0027).
+- *Stubbed:* R0057 (needs `DecorKind` entries in `strings.ts`, lane E's sprites and lane D's
+  `garden.ts`); R0060 and R0067 (Hollow files, lane B); R0063 hop course; R0066 navmesh;
+  3D roll dust and dip bubbles (they need the scene's burst system, lane D); the waterfall
+  shelf stone has no story prop yet, so only the flat stone has a reach.
+- *Known bugs:* at the 24° pitch hills block the orbit rarely (12 of 1,024 sweep cases, one
+  5° step each), so R0052 seldom shows. In the Edge run, a Nubbin standing beside the Keeper
+  once pushed it off the well rim before the chip came up.
+- *Assumptions:* the mantle keeps the old reach (`JUMP.stepUp`, 0.35 u) and only makes the
+  climb visible; the big rocks are now standable (needed for R0055's "big rock at (-7, 9)");
+  the well counts as a lookout from its rim rather than as a standable top (standing on it
+  would put the Keeper over the hole); vistas give their find on the look (no walk-to marker);
+  Pixel's pitch is fixed, so Look around only zooms out; `world.viewYaw` is a UI hint the sim
+  uses for care-walk stops and the pulled-down roll, never for rules.
+
 ## Round 3 · Lane D (2026-10-28, branch r3/d)
 
 Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature
