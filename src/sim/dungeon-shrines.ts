@@ -12,6 +12,7 @@
  */
 import { HOLLOW } from '../config/tuning';
 import { cellCentre, cellDist, exploredMask, FLOOR, type Cell, type Floor } from './dungeon';
+import { propBlocked } from './dungeon-props';
 import { Rng } from './rng';
 import type { DungeonRun, SimEvent, World } from './types';
 
@@ -43,8 +44,9 @@ export function placeShrines(f: Floor, seed: number, depth: number): void {
   const want = rng.int(S.perLevel[0], S.perLevel[1]);
   const out: Shrine[] = [];
   const dry = (c: Cell) => f.cells[c.y * f.cols + c.x] === FLOOR;
+  const standable = (c: Cell) => dry(c) && !propBlocked(cellCentre(f, c), f, S.reach);
   const free = (c: Cell) =>
-    dry(c) &&
+    standable(c) &&
     cellDist(c, f.stairsUp) >= S.fromStairs &&
     cellDist(c, f.chest) >= 2 &&
     (!f.stairsDown || cellDist(c, f.stairsDown) >= 2) &&
@@ -52,11 +54,20 @@ export function placeShrines(f: Floor, seed: number, depth: number): void {
     out.every((s) => cellDist(s.cell, c) >= S.spacing);
   const add = (c: Cell) =>
     out.push({ id: `shrine-${out.length}`, cell: c, kind: rng.pick(PLACED_KINDS) });
-  // The great chamber's shrine landmark is a real one, on a dry cell beside its middle.
+  // The great chamber's shrine landmark is a real one: its stone is solid (R0032), so the
+  // shrine to step on sits just in front of it, on the nearest dry cell clear of the block.
   if (f.landmark?.kind === 'shrine') {
     const c = f.landmark.cell;
-    const beside = [c, { x: c.x, y: c.y + 2 }, { x: c.x + 2, y: c.y }, { x: c.x, y: c.y - 2 }];
-    const at = beside.find(dry);
+    const r = Math.ceil(f.landmark.radius * HOLLOW.props.landmarkShare) + 1;
+    const beside = [0, 1, 2].flatMap((k) =>
+      [
+        { x: c.x, y: c.y + r + k },
+        { x: c.x + r + k, y: c.y },
+        { x: c.x - r - k, y: c.y },
+        { x: c.x, y: c.y - r - k },
+      ].filter((q) => q.x >= 0 && q.y >= 0 && q.x < f.cols && q.y < f.rows),
+    );
+    const at = beside.find(standable);
     if (at) add(at);
   }
   const sockets = (f.layout?.shrines ?? []).slice();

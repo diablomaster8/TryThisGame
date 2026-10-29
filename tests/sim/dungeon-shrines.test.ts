@@ -11,6 +11,7 @@ import {
   type ShrineKind,
 } from '../../src/sim/dungeon-shrines';
 import { sightRadius } from '../../src/sim/dungeon-sight';
+import { propBlocked } from '../../src/sim/dungeon-props';
 import { battleHandler, setEncounterHandler } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
 import type { SimEvent } from '../../src/sim/types';
@@ -52,6 +53,8 @@ describe('shrines (R0159)', () => {
       for (const x of list) {
         expect(f.cells[x.cell.y * f.cols + x.cell.x]).toBe(FLOOR);
         expect(PLACED_KINDS).toContain(x.kind);
+        // Never inside a solid set piece: the Keeper can step onto every one.
+        expect(propBlocked(cellCentre(f, x.cell), f, S.reach)).toBe(false);
       }
     }
   }, 60_000);

@@ -12,6 +12,7 @@
  */
 import { HOLLOW } from '../config/tuning';
 import { cellAt, cellCentre, cellDist, cellOf, FLOOR, type Cell, type Floor } from './dungeon';
+import { propBlocked } from './dungeon-props';
 import { shrineSpeed } from './dungeon-shrines';
 import { Rng } from './rng';
 import { levelOf } from './stats';
@@ -55,6 +56,7 @@ export function placeTraps(f: Floor, seed: number, depth: number, act: number | 
   for (let t = 0; out.length < want && t < 400; t++) {
     const c = { x: rng.int(1, f.cols - 2), y: rng.int(1, f.rows - 2) };
     if (!solidAround(c)) continue;
+    if (propBlocked(cellCentre(f, c), f, 0.5)) continue;
     if (cellDist(c, f.stairsUp) < T.fromStairs) continue;
     if (busy.some((b) => cellDist(b, c) < 2)) continue;
     if (out.some((o) => cellDist(o.cell, c) < T.spacing)) continue;
