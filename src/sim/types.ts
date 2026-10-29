@@ -6,6 +6,7 @@ import type {
   NubbinBattle,
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
+import type { NubbinCombat } from './battle/tactics/grid';
 
 /** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
 export interface BattlePrefs {
@@ -218,6 +219,8 @@ export interface Nubbin {
   karateRecord: Record<string, unknown>;
   /** Lane C: known moves and the four slots (sim/battle/moves-sources.ts); set on first use. */
   battle?: NubbinBattle;
+  /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
+  combat?: NubbinCombat;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';

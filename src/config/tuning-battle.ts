@@ -169,6 +169,17 @@ export const BATTLE = {
   },
   /** The dojo's Power swing (recs FIGHT-28): a Bonk with a sweet-spot tap hits this hard. */
   swing: { sweet: 1.2 },
+  /** The future tactical grid (recs MOVE-61): tiles of 1 unit, height levels of 0.5. */
+  grid: { tile: 1, level: 0.5, jumpBase: 1, jumpPer: 30, moveBase: 3, movePer: 25 },
+  /** The battle stage in the open Grove (recs MOVE-62): units. */
+  arena: {
+    radius: 10,
+    /** A combatant's body and a thrown move's radius. */
+    body: 0.4,
+    thrown: 0.2,
+    /** Sweeps move in steps this long, so nothing tunnels through a thin fence. */
+    step: 0.1,
+  },
   /** The Grove Circuit (recs FIGHT-22). */
   circuit: {
     /** Rematch teams are this many levels above the tier-3 level for the party. */
