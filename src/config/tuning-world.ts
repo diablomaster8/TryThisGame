@@ -57,7 +57,7 @@ export const WORLD_LOD = {
    * Keeper by its crown's reach plus `farMargin` (so it can never need its own fade), is drawn
    * in the shared far batch (`render3d/far-trees.ts`). `farBand` is the hysteresis.
    */
-  farTrees: { farFrom: 16, farMargin: 3, farBand: 2 },
+  farTrees: { farFrom: 16, farMargin: 1, farBand: 2 },
   /** Creatures (`render3d/lod.ts`). */
   creature: {
     /** World units added to a rig's bounding sphere for the longest shadow it throws. */
@@ -85,6 +85,8 @@ export const WORLD_LOD = {
       cellPx: 128,
       /** Cells drawn again each frame at most, stalest first (a cell is a rig's whole draw). */
       perFrame: 2,
+      /** Round 4: on a phone or slower tier, one cell a frame (far poses step at 3.75 fps). */
+      perFramePhone: 1,
       /** Frames a cell is kept before it is drawn again: far poses step at 60 / 8 = 7.5 fps. */
       minAge: 8,
       /** The cell's half-size over the rig's bounding radius. */

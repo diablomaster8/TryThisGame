@@ -1645,9 +1645,12 @@ export class Grove3dScene {
     // R0079: the far creatures' cells, after the reset so their draws count in the frame.
     const imp = NO_LOD ? null : this.creatureLod.impostors;
     if (imp) {
+      // Fewer cell redraws at the survey zoom and on phones (round 4 merge: phone calls).
       imp.perFrame = this.surveyNow
         ? WORLD_SURVEY.impostorPerFrame
-        : WORLD_LOD.creature.impostor.perFrame;
+        : this.tier === 'desktop'
+          ? WORLD_LOD.creature.impostor.perFrame
+          : WORLD_LOD.creature.impostor.perFramePhone;
       imp.render(this.renderer, this.scene, this.camera);
     }
     this.composer.render();

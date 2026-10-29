@@ -64,7 +64,7 @@ export class Beacon {
         ...glow,
         map: beamTexture(),
         blending: THREE.AdditiveBlending,
-        side: THREE.DoubleSide,
+        // One side: a double-sided transparent mesh is drawn twice.
       }),
     );
     this.ring = new THREE.Mesh(

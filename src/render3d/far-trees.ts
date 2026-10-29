@@ -236,7 +236,8 @@ export class FarTrees {
     for (const e of this.entries) {
       const d = Math.hypot(e.x - camera.x, e.z - camera.z);
       const need = Math.max(t.farFrom, reach + e.tree.rx + t.farMargin);
-      e.far = d > need + (e.far ? -t.farBand : t.farBand);
+      // The band only ever adds distance, so a batched tree is never inside `need`.
+      e.far = e.far ? d > need : d > need + t.farBand;
       // A far tree out of view (grown by the shadow it may throw in) is not drawn at all.
       sphere.center.set(e.x, e.tree.centre.y, e.z);
       sphere.radius = Math.max(e.tree.rx, e.tree.ry) + WORLD_LOD.terrainMargin;
