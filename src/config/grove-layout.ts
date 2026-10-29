@@ -303,7 +303,7 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
       yaw: 0,
       shape: circle(k.r),
       top: 0.6,
-      flags: ['solid'],
+      flags: ['standable'],
     }),
   );
   // The bridge's rails (MOVE-12): one each side of the deck, along its length and open at

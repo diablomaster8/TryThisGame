@@ -1,4 +1,4 @@
-import { blocked, contact, obstacles, resolve, softAt, standTopAt } from './obstacles';
+import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
 import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
@@ -9,6 +9,10 @@ import {
   JUMP_PLAY,
   KEEPER_SLOPE,
   BUSH,
+  MANTLE,
+  CARE_APPROACH,
+  ROLL,
+  POND_DIP,
   RUN_MODE,
   UNREACHABLE,
 } from '../config/tuning-move';
@@ -201,6 +205,37 @@ function intentTarget(world: World, intent: KeeperIntent): Vec2 | null {
   }
 }
 
+/** MOVE-59: care walks whose spot in view proved out of reach (they walk to the Nubbin). */
+const noApproach = new WeakSet<KeeperIntent>();
+
+/**
+ * MOVE-59: where a care walk to a Nubbin stops, so the Nubbin stays in view: just inside
+ * reach, on the far side of it from the camera (the Nubbin is drawn in front of the Keeper)
+ * and turned `side` off straight behind, whichever side is nearer the Keeper. Null when the
+ * view's yaw is not known, the target is not a Nubbin, or the spot is in water or a solid
+ * (the walk then goes to the Nubbin as before).
+ */
+function careApproach(world: World, intent: KeeperIntent, n: Vec2): Vec2 | null {
+  if (intent.kind === 'shakeTree' || intent.kind === 'collect') return null;
+  const yaw = world.viewYaw;
+  if (yaw === undefined || noApproach.has(intent)) return null;
+  const k = world.keeper;
+  const r = KEEPER.interactRadius - CARE_APPROACH.inset;
+  const side = (CARE_APPROACH.sideDeg * Math.PI) / 180;
+  // The camera sits toward (sin yaw, cos yaw) from what it looks at; behind is the other way.
+  let best: Vec2 | null = null;
+  let bestD = Infinity;
+  for (const s of [-side, side]) {
+    const a = yaw + Math.PI + s;
+    const p = { x: n.x + Math.sin(a) * r, z: n.z + Math.cos(a) * r };
+    if (blocked(p, world, 0.3, 'keeper', k.y) || keeperFooting(world, p.x, p.z).on === 'water')
+      continue;
+    const d = dist(p, k.pos);
+    if (d < bestD) [best, bestD] = [p, d];
+  }
+  return best;
+}
+
 /** One fine Keeper step, in ms (MOVE-15). */
 const SUB_MS = 1000 / KEEPER_MOTION.hz;
 /** Fine steps game.ts has already run inside the coming sim step, per world; not saved. */
@@ -226,6 +261,7 @@ export function updateKeeper(world: World, dtMs: number, events: SimEvent[]): vo
     k.input.z === 0 &&
     k.grounded &&
     k.bufferMs <= 0 &&
+    !rolls.has(world) &&
     !moving(world);
   if (idle) {
     keeperSubstep(world, ((n - done) * dtMs) / n, events);
@@ -331,12 +367,220 @@ export function keeperGliding(world: World): boolean {
   );
 }
 
+/** MOVE-64: a roll under way (its heading and time), and when the last one ended. */
+const rolls = new WeakMap<World, { dx: number; dz: number; ms: number }>();
+const rolledAt = new WeakMap<World, number>();
+/** Per Nubbin, when it last giggled at a roll (sim ms). */
+const giggledAt = new WeakMap<Nubbin, number>();
+
+/** MOVE-64: how far through a roll the Keeper is (0..1), or null when not rolling. */
+export function keeperRoll(world: World): number | null {
+  const r = rolls.get(world);
+  return r ? Math.min(1, r.ms / ROLL.ms) : null;
+}
+
+/**
+ * MOVE-64: start a roll the way the Keeper faces (or along `dir`): on the ground, empty-
+ * handed, not mid-mantle, and past the cooldown. Nearby Nubbins giggle.
+ */
+export function keeperStartRoll(world: World, events: SimEvent[], dir?: Vec2): boolean {
+  const k = world.keeper;
+  if (!k.grounded || k.carrying || mantles.has(world) || rolls.has(world)) return false;
+  if (world.timeMs - (rolledAt.get(world) ?? -Infinity) < ROLL.cooldownMs) return false;
+  let dx = dir ? dir.x : Math.sin(k.facing);
+  let dz = dir ? dir.z : Math.cos(k.facing);
+  const len = Math.hypot(dx, dz);
+  if (len < 1e-6) return false;
+  dx /= len;
+  dz /= len;
+  k.facing = Math.atan2(dx, dz);
+  k.moveTarget = null;
+  k.intent = null;
+  rolls.set(world, { dx, dz, ms: 0 });
+  events.push({ kind: 'keeperRolled' });
+  if (world.location !== 'grove') return true;
+  for (const n of world.nubbins) {
+    if (n.stage === 'egg' || n.stage === 'cocoon' || !isFree(n)) continue;
+    if (Math.hypot(n.pos.x - k.pos.x, n.pos.z - k.pos.z) > ROLL.giggleReach) continue;
+    if (world.timeMs - (giggledAt.get(n) ?? -Infinity) < ROLL.giggleCooldownMs) continue;
+    giggledAt.set(n, world.timeMs);
+    react(n, 'happy', world.timeMs, events);
+  }
+  return true;
+}
+
+/**
+ * One substep of a roll: along its heading at roll speed, through the same solids and
+ * ledges as a walk. False once it has ended (its time is up, it ran off an edge, or a jump
+ * cancels it): the substep then goes on as usual, so the jump happens at once.
+ */
+function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
+  const r = rolls.get(world)!;
+  const k = world.keeper;
+  const speed = ROLL.dist / (ROLL.ms / 1000);
+  if (k.bufferMs > 0 || !k.grounded || r.ms >= ROLL.ms) {
+    rolls.delete(world);
+    rolledAt.set(world, world.timeMs);
+    // A cancelled roll keeps some of its speed into the jump.
+    const v = velOf(world);
+    const carry = r.ms < ROLL.ms ? ROLL.carry : 0;
+    v.x = r.dx * speed * carry;
+    v.z = r.dz * speed * carry;
+    return false;
+  }
+  const dt = dtMs / 1000;
+  r.ms += dtMs;
+  const fromX = k.pos.x;
+  const fromZ = k.pos.z;
+  k.pos.x += r.dx * speed * dt;
+  k.pos.z += r.dz * speed * dt;
+  const floor = runFloor(world);
+  if (floor) resolveDungeon(k.pos, floor, 0.35);
+  else {
+    resolve(k.pos, world, 0.35, 'keeper', k.y);
+    holdAtLedges(k, fromX, fromZ);
+    if (!keeperPerks(world).wade) {
+      const s = shoreline(k.pos);
+      k.pos.x = s.x;
+      k.pos.z = s.z;
+    }
+    clampToWorld(k.pos);
+    unstickKeeper(world);
+  }
+  stepVertical(world, dt, !!floor, events);
+  return true;
+}
+
+/** A climb onto a lip the jump fell short of (MOVE-50): transient, never saved. */
+interface Mantle {
+  from: number;
+  to: number;
+  ms: number;
+  /** Where the feet start and end across the lip (a piece's edge is stepped over). */
+  x0: number;
+  z0: number;
+  x1: number;
+  z1: number;
+}
+const mantles = new WeakMap<World, Mantle>();
+
+/** MOVE-50: how far through a mantle the Keeper is (0..1), or null when not mantling. */
+export function keeperMantle(world: World): number | null {
+  const m = mantles.get(world);
+  return m ? Math.min(1, m.ms / MANTLE.ms) : null;
+}
+
+/** MOVE-65: a dip under the pond under way (its time), transient. */
+const dips = new WeakMap<World, { ms: number }>();
+
+/** MOVE-65: how far through a pond dip the Keeper is (0..1), or null. Drawn only. */
+export function keeperDip(world: World): number | null {
+  const d = dips.get(world);
+  return d ? Math.min(1, d.ms / POND_DIP.ms) : null;
+}
+
+/**
+ * MOVE-65: a jump into the pond with the Swim perk and the button let go dips under. The
+ * dip is only drawn (the feet stay on the bed); the pond's sector it is in may give its
+ * one-time shell.
+ */
+function startDip(world: World, events: SimEvent[]): void {
+  const k = world.keeper;
+  const p = GROVE.pond;
+  const a = Math.atan2(k.pos.x - p.x, k.pos.z - p.z);
+  const sector = Math.floor(((a + Math.PI) / (2 * Math.PI)) * POND_DIP.spots) % POND_DIP.spots;
+  const spot = `pond-${sector}`;
+  dips.set(world, { ms: 0 });
+  const found = (world.pondFinds ??= []);
+  let shells = 0;
+  if (!found.includes(spot) && withRng(world, (r) => r.chance(POND_DIP.findChance))) {
+    found.push(spot);
+    shells = POND_DIP.findShells;
+    world.inventory.shells += shells;
+  }
+  events.push({ kind: 'keeperDipped', shells });
+}
+
+/** Land at the end of a fall or a mantle: on the ground, air jumps and glide reset. */
+function land(world: World, fall: number, events: SimEvent[]): void {
+  const k = world.keeper;
+  k.vy = 0;
+  k.grounded = true;
+  k.airJumps = JUMP.airJumps;
+  glided.delete(world);
+  events.push({ kind: 'keeperLanded', fall });
+  // MOVE-65: into the pond with the Swim perk and the button let go: a dip.
+  if (
+    fall >= POND_DIP.minFall &&
+    !k.jumpHeld &&
+    world.location === 'grove' &&
+    Math.hypot(k.pos.x - GROVE.pond.x, k.pos.z - GROVE.pond.z) < GROVE.pond.r &&
+    keeperFooting(world, k.pos.x, k.pos.z, k.y).on === 'water' &&
+    keeperPerks(world).wade
+  )
+    startDip(world, events);
+  if (world.location === 'grove') shyHopBack(world, k.pos, events);
+}
+
+/**
+ * MOVE-50: in the air, a body pressed against a standable piece (a bench, a rock, a hay
+ * bale) whose top the jump's own arc will not lift the feet onto, but which is within a
+ * step of them, is mantled onto. Houses and walls are never standable, so never mantled.
+ */
+function grabLip(world: World): boolean {
+  const k = world.keeper;
+  if (k.carrying || (k.input.x === 0 && k.input.z === 0 && !k.moveTarget && !k.intent))
+    return false;
+  const lip = lipAt(world, k.pos, 0.4, k.y, MANTLE.minRise, JUMP.stepUp);
+  if (!lip) return false;
+  const arc = k.vy > 0 ? (k.vy * k.vy) / (2 * jumpTuning(world).gravity) : 0;
+  if (k.y + arc >= lip.top) return false;
+  // Only toward the lip: the way the Keeper faces must point at it.
+  const dx = lip.x - k.pos.x;
+  const dz = lip.z - k.pos.z;
+  if (Math.sin(k.facing) * dx + Math.cos(k.facing) * dz <= 0) return false;
+  mantles.set(world, {
+    from: k.y,
+    to: lip.top,
+    ms: 0,
+    x0: k.pos.x,
+    z0: k.pos.z,
+    x1: lip.x,
+    z1: lip.z,
+  });
+  k.vy = 0;
+  halt(world);
+  return true;
+}
+
+/** One substep of a mantle: the feet ease up to the lip, then land on it. */
+function stepMantle(world: World, dtMs: number, events: SimEvent[]): void {
+  const m = mantles.get(world)!;
+  const k = world.keeper;
+  m.ms += dtMs;
+  const t = Math.min(1, m.ms / MANTLE.ms);
+  const e = t * t * (3 - 2 * t);
+  k.y = m.from + (m.to - m.from) * e;
+  k.pos.x = m.x0 + (m.x1 - m.x0) * e;
+  k.pos.z = m.z0 + (m.z1 - m.z0) * e;
+  if (t < 1) return;
+  mantles.delete(world);
+  k.y = m.to;
+  land(world, 0, events);
+}
+
 /** The highest the feet got since they left the ground, for the landing's fall height. */
 const peakY = new WeakMap<World, number>();
 
 /** Gravity, jumping and landing for one substep (MOVE-10/11). */
 function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEvent[]): void {
   const k = world.keeper;
+  const dip = dips.get(world);
+  if (dip) {
+    // A dip ends with its time, or at once on a jump or on leaving the water.
+    dip.ms += dt * 1000;
+    if (dip.ms >= POND_DIP.ms || k.bufferMs > 0 || !k.grounded) dips.delete(world);
+  }
   const tune = jumpTuning(world);
   const ground = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.grounded) {
@@ -378,20 +622,31 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
     k.vy = Math.max(k.vy, -GLIDE.maxFall);
     glided.set(world, (glided.get(world) ?? 0) + dt * 1000);
   }
+  const before = k.y;
   k.y += k.vy * dt;
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
   if (k.y <= under) {
-    k.y = under;
-    if (k.vy <= 0) {
+    // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
+    // The feet were under it before this substep's move, so a fast fall onto flat ground is a landing.
+    const arc = k.vy > 0 ? (k.vy * k.vy) / (2 * tune.gravity) : 0;
+    if (!dungeon && under - before > MANTLE.minRise && k.y + arc < under) {
+      mantles.set(world, {
+        from: k.y,
+        to: under,
+        ms: 0,
+        x0: k.pos.x,
+        z0: k.pos.z,
+        x1: k.pos.x,
+        z1: k.pos.z,
+      });
       k.vy = 0;
-      k.grounded = true;
-      k.airJumps = JUMP.airJumps;
-      glided.delete(world);
-      events.push({ kind: 'keeperLanded', fall: Math.max(0, (peakY.get(world) ?? k.y) - k.y) });
-      if (world.location === 'grove') shyHopBack(world, k.pos, events);
+      halt(world);
+      return;
     }
+    k.y = under;
+    if (k.vy <= 0) land(world, Math.max(0, (peakY.get(world) ?? k.y) - k.y), events);
   }
 }
 
@@ -544,6 +799,17 @@ function tapRunning(world: World, target: Vec2): boolean {
 
 function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const k = world.keeper;
+  // A roll moves the Keeper itself until it ends or a jump cancels it (MOVE-64).
+  if (rolls.has(world) && stepRoll(world, dtMs, events)) {
+    rideCarried(world);
+    return;
+  }
+  // A mantle takes the Keeper's whole substep: no walking, no gravity (MOVE-50).
+  if (mantles.has(world)) {
+    stepMantle(world, dtMs, events);
+    rideCarried(world);
+    return;
+  }
   const dt = dtMs / 1000;
   const fromX = k.pos.x;
   const fromZ = k.pos.z;
@@ -595,7 +861,12 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     k.pos.z += v.z * dt;
   } else {
     let target = k.moveTarget;
-    if (k.intent) target = intentTarget(world, k.intent);
+    // MOVE-59: a care walk to a Nubbin stands where the Nubbin stays in view (careApproach).
+    let around: Vec2 | null = null;
+    if (k.intent) {
+      target = intentTarget(world, k.intent);
+      if (target && !dungeonFloor) around = careApproach(world, k.intent, target);
+    }
     // A tap walk keeps its own pace; any speed left from the stick is dropped.
     halt(world);
     if (k.intent && !target) k.intent = null;
@@ -603,6 +874,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // and a Nubbin in the water is reached from there.
     const raw = target;
     if (target && !dungeonFloor && !keeperPerks(world).wade) target = shoreline(target);
+    if (around) target = around;
     if (target) {
       const d = dist(k.pos, target);
       // On land the Keeper walks up to arm's length; from the shore, a swimming Nubbin is
@@ -611,11 +883,15 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
         ? standIns.has(raw!)
           ? UNREACHABLE.standInReach
           : KEEPER.arriveRadius
-        : target !== raw
-          ? KEEPER.interactRadius + GROVE.pond.r
-          : KEEPER.interactRadius;
+        : around
+          ? CARE_APPROACH.arrive
+          : target !== raw
+            ? KEEPER.interactRadius + GROVE.pond.r
+            : KEEPER.interactRadius;
       if (d <= reach) {
         if (k.intent) {
+          // MOVE-59: turn to the Nubbin on arrival.
+          if (around && raw) k.facing = Math.atan2(raw.x - k.pos.x, raw.z - k.pos.z);
           performIntent(world, k.intent, events);
           k.intent = null;
         }
@@ -665,7 +941,10 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
           !k.intent &&
           standIns.has(target) &&
           dist(leg.end, target) > UNREACHABLE.standInReach;
-        if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
+        if (around && k.intent && (!leg || dist(leg.end, target) > reach)) {
+          // MOVE-59: the spot in view cannot be reached: walk to the Nubbin as before.
+          noApproach.add(k.intent);
+        } else if (!leg || stuck || (k.intent && dist(leg.end, target) > reach)) {
           if (k.intent) events.push({ kind: 'cantReach', targetId: intentTargetId(k.intent) });
           // MOVE-35: a plain tap with nowhere reachable near it says so.
           else if (!stuck)
@@ -765,10 +1044,18 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       }
     }
   }
+  if (!dungeonFloor && !k.grounded && grabLip(world)) {
+    rideCarried(world);
+    return;
+  }
   stepVertical(world, dt, !!dungeonFloor, events);
   if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
+  rideCarried(world);
+}
 
-  // A carried Nubbin rides above the Keeper's head.
+/** A carried Nubbin rides above the Keeper's head. */
+function rideCarried(world: World): void {
+  const k = world.keeper;
   if (k.carrying) {
     const n = findNubbin(world, k.carrying);
     if (n && n.behavior.state === 'carried') {
@@ -978,4 +1265,16 @@ export function keeperPutDown(world: World, events: SimEvent[]): void {
   n.pos.x = k.pos.x + Math.sin(k.facing) * 0.8;
   n.pos.z = k.pos.z + Math.cos(k.facing) * 0.8;
   putDown(n, world.timeMs, events);
+}
+
+/**
+ * MOVE-64: whether a jump press asks for a roll instead: running, on the ground, with the
+ * stick pulled toward the camera (the view's yaw is the UI's hint; none known, no roll).
+ */
+export function rollAsked(world: World): boolean {
+  const k = world.keeper;
+  const yaw = world.viewYaw;
+  const len = Math.hypot(k.input.x, k.input.z);
+  if (!k.running || !k.grounded || yaw === undefined || len < 0.5) return false;
+  return (k.input.x * Math.sin(yaw) + k.input.z * Math.cos(yaw)) / len > ROLL.downDot;
 }

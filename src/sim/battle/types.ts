@@ -59,7 +59,43 @@ export interface Combatant {
   decoy: number;
   /** Started the bout tired (needs.energy low): Puff 1. */
   yawny: boolean;
+  /** A wild foe's Calm, 0..100 (recs FIGHT-21); absent for anyone who can't be befriended. */
+  calm?: number;
+  /** A Shadow stray in the Hollow: it takes no HP, only Calm. */
+  shadow?: boolean;
+  /** Decided to come home with the Keeper: off the field, not tuckered. */
+  friend?: boolean;
+  /** Has already played with a thrown toy this bout (once per foe). */
+  toyed?: boolean;
+  /** Turns left playing with a toy instead of acting. */
+  playing?: number;
+  /** A Sun or Moon fruit: its moves count as that alignment for a few turns (FIGHT-20). */
+  alignAs?: { align: 'sun' | 'moon'; turns: number };
 }
+
+/** How a side picks its moves (recs FIGHT-23). */
+export type AiLevel = 'sprout' | 'keeper' | 'champion';
+
+/**
+ * A battle item (recs FIGHT-20), taken from `world.inventory`: plain fruit, a flavoured
+ * fruit (`fruit:<flavour>`) or a toy. Nothing is spent until the bout ends.
+ */
+export type BattleItemId =
+  | 'fruit'
+  | 'fruit:swim'
+  | 'fruit:fly'
+  | 'fruit:run'
+  | 'fruit:power'
+  | 'fruit:stamina'
+  | 'fruit:sun'
+  | 'fruit:moon'
+  | 'toy';
+
+/** A Circuit Keeper's field rule (recs FIGHT-22). */
+export type Gimmick = 'puddle' | 'night' | 'shuffle' | 'naps';
+
+/** Gentle bouts (recs FIGHT-24): the Learning Grove's two bands, or the Settings switch. */
+export type GentleBand = 'sprout' | 'reader' | 'all';
 
 export type StatusId = 'drowsy' | 'dizzy' | 'soggy' | 'giggly' | 'peckish' | 'sticky';
 export const STATUS_IDS: readonly StatusId[] = [
@@ -141,6 +177,12 @@ export interface NubbinBattle {
 export type BattleContext =
   | { kind: 'karate'; tier: number; nubbinId: string }
   | { kind: 'party'; tier: number; ids: string[] }
+  /** The turn-based dojo singles (recs FIGHT-28): one Nubbin, or a party of up to three. */
+  | { kind: 'dojo'; tier: number; ids: string[] }
+  /** A story's own bout (FIGHT-29): Logged In's 3v3 against the digital foes. */
+  | { kind: 'story'; storyline: 'logged'; tier: number; ids: string[] }
+  /** A Grove Circuit match against one of the ten Keepers (FIGHT-22). */
+  | { kind: 'circuit'; trainer: string; champion?: boolean; tier: number; ids: string[] }
   /**
    * A bout another system starts (the Hollow, a story beat): it names its source and a key the
    * caller can match on the `battleEnd` event, and lists its foes by species and level.
@@ -151,7 +193,13 @@ export type BattleContext =
       ids: string[];
       source: string;
       key: string;
-      foes: { species: string; level: number }[];
+      /**
+       * `wild` foes can be befriended (Calm, FIGHT-21); `shadow` strays take Calm only, never
+       * HP. Both optional, so older callers are unchanged.
+       */
+      foes: { species: string; level: number; wild?: boolean; shadow?: boolean }[];
+      /** One active per side with the rest benched (FIGHT-19); off by default for encounters. */
+      singles?: boolean;
     };
 
 export type BattleMode = 'turn' | 'karate';
@@ -159,13 +207,17 @@ export type BattleMode = 'turn' | 'karate';
 /** What a combatant (or the Keeper, for the timed bout) does. */
 export type BattleAction =
   /** Bonk, the 0-Puff move everyone has. */
-  | { k: 'strike'; target?: string }
+  | { k: 'strike'; target?: string; swing?: boolean }
   /** Catch your breath: +4 Puff and Guard ×1.3 this turn. */
   | { k: 'guard' }
   /** Huddle: heal the side a little. */
   | { k: 'rally' }
   /** Any move the combatant has, by id. */
   | { k: 'move'; move: string; target?: string }
+  /** Singles: bring a benched Nubbin in (priority +3), or pick the next after a tuck-in. */
+  | { k: 'swap'; to: string }
+  /** Use a battle item on an ally (fruit) or a foe (a toy, or a snack offered to a wild one). */
+  | { k: 'item'; item: BattleItemId; target?: string }
   /** Timed bout: a tap at bout time `atMs`. */
   | { k: 'tap'; atMs: number }
   /** Timed bout: let the clock run to `toMs` (the rival keeps striking). */
@@ -205,9 +257,24 @@ export type BattleEvent =
   /** HP reached 0: an ally naps under a leaf blanket, a rival yawns and toddles home. */
   | { k: 'tuckered'; who: string; side: SideIx }
   | { k: 'round'; n: number }
+  | { k: 'swap'; side: SideIx; from: string; to: string }
+  | { k: 'item'; by: string; item: BattleItemId; to: string }
+  /** A wild foe's Calm moved. */
+  | { k: 'calm'; to: string; calm: number; delta: number }
+  /** A wild foe decided to come home with the Keeper. */
+  | { k: 'befriend'; who: string }
+  /** Played with a toy instead of acting. */
+  | { k: 'play'; who: string }
+  /** Gentle bouts: at 1 HP the Keeper gives a cuddle and a free fruit. */
+  | { k: 'cuddle'; who: string; heal: number }
+  /** The Power swing on a Bonk: the timing bar's sweet spot hits ×1.2. */
+  | { k: 'swing'; by: string; sweet: boolean }
+  /** A Shadow stray can't be hurt, only calmed. */
+  | { k: 'unhurt'; to: string }
   | { k: 'end'; winner: SideIx | null; reason: BattleEndReason };
 
-export type BattleEndReason = 'tuckered' | 'forfeit' | 'time';
+/** `hug` ends a gentle bout; `friends` when every foe was befriended. */
+export type BattleEndReason = 'tuckered' | 'forfeit' | 'time' | 'hug' | 'friends';
 
 export interface BattleResult {
   /** null for a draw (the round or time limit). */
@@ -236,7 +303,22 @@ export interface BattleState {
   turn: number;
   /** Index into side 0 of the ally choosing next (turn mode). */
   active: number;
-  phase: 'choose' | 'done';
+  /** `replace`: singles, our active one is tuckered and a benched one must come in. */
+  phase: 'choose' | 'replace' | 'done';
+  /** Singles (recs FIGHT-19): the index of each side's active combatant; absent = all fight. */
+  lead?: [number, number];
+  /** How the rivals choose; absent = by tier (Sprout at tier 1, else Keeper). */
+  ai?: AiLevel;
+  /** Gentle bouts (kid mode, FIGHT-24). */
+  gentle?: GentleBand;
+  /** Items the Keeper may use (a snapshot of the inventory at the start) and those used. */
+  bag?: Partial<Record<BattleItemId, number>>;
+  spent?: Partial<Record<BattleItemId, number>>;
+  /** A Champion rival's own snacks (FIGHT-23); never from the Keeper's inventory. */
+  foeBag?: Partial<Record<BattleItemId, number>>;
+  foeSpent?: Partial<Record<BattleItemId, number>>;
+  /** A Circuit Keeper's field rule. */
+  gimmick?: Gimmick;
   /** Turn mode: what each ally chose this turn, by combatant id (resolved after the last). */
   choices?: Record<string, BattleAction>;
   log: BattleEvent[];

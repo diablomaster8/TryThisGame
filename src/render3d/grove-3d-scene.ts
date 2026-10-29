@@ -8,6 +8,7 @@ import { GROVE3D, READ3D, UI } from '../config/tuning';
 import {
   PERF_BUDGET,
   WORLD_LOD,
+  WORLD_MEM,
   WORLD_TIER,
   tierForRes,
   type DeviceTier,
@@ -39,6 +40,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
 import { nearestChild, occluders } from './occluders';
@@ -69,6 +71,7 @@ import { Village } from './village';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
+import { HillClear } from './hill-clear';
 import { buildGroveWater, type GroveWater } from './water';
 
 /**
@@ -302,6 +305,8 @@ export class Grove3dScene {
   private lastDip = 0;
   /** MOVE-26: extra look height while the Keeper stands on a rock (set by the game). */
   perchLift = 0;
+  /** MOVE-52: the orbit's tilt and pull-in round hills (hill-clear.ts). */
+  private readonly hillClear = new HillClear();
   private readonly dofSpot = new THREE.Vector3();
   private readonly raycaster = new THREE.Raycaster();
   private lastMs = 0;
@@ -311,6 +316,26 @@ export class Grove3dScene {
   tier: DeviceTier = 'desktop';
   /** WORLD-03/12: creature shadow casting and outline hulls under the draw budget. */
   readonly creatureLod = new CreatureLod();
+  /** R0091: a twinkle over each findable collectible near the Keeper (the Game calls it). */
+  glint(points: ReadonlyArray<{ x: number; z: number }>, nowMs: number): void {
+    if (this.location !== 'grove') return;
+    for (const p of points) {
+      const at = new THREE.Vector3(p.x, standHeight(p.x, p.z) + 0.35, p.z);
+      this.bursts.burst(
+        'sparkle',
+        at,
+        2,
+        { spread: 0.25, speed: 0.2, rise: 0.4, lifeMs: 900 },
+        nowMs,
+      );
+    }
+  }
+
+  /** R0074: cut the camera on the next frame (a fast-travel trip). */
+  private travelCut = false;
+  private readonly onHidden = (): void => {
+    if (document.hidden) this.actors.pool.trim();
+  };
   /** WORLD-09: the ground's index cut to the chunks in view. */
   readonly terrainChunks = new TerrainChunks();
   /** WORLD-03: the last 120 frames' draw calls and triangles, for the perf probe. */
@@ -445,6 +470,15 @@ export class Grove3dScene {
     this.actors.pool.compile = (o) => {
       const sets = new Set([this.lightSet(), ...this.warmed]);
       return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
+    };
+    this.creatureLod.compile = this.actors.pool.compile;
+    this.creatureLod.impostors = new CreatureImpostors(this.scene);
+    // R0081: a hidden tab gives back the spare rigs and coarse surfaces (iOS kills hungry ones).
+    document.addEventListener('visibilitychange', this.onHidden);
+    const pool = this.actors.pool;
+    this.creatureLod.low = {
+      state: (key, res) => pool.lowState(key, res),
+      surface: (key, part) => pool.lowSurface(key, part),
     };
     this.actors.ground = standHeight;
     // The lantern posts thin like trunks when in the way, and NPCs are drawn clear of them.
@@ -752,6 +786,7 @@ export class Grove3dScene {
       return s ? s.feet.lerp(s.head, k) : null;
     };
     for (const e of events) {
+      if (e.kind === 'travelled') this.travelCut = true;
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
@@ -952,6 +987,7 @@ export class Grove3dScene {
   setSculptRes(res: number): void {
     this.actors.pool.quality = qualityForRes(res);
     this.tier = tierForRes(res);
+    this.actors.pool.spareCap = WORLD_MEM.poolSpares[this.tier];
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
@@ -1372,7 +1408,9 @@ export class Grove3dScene {
     // A key moment frames its Nubbin instead, and a story scene its speakers (bugs 10, 11).
     const ground = this.location === 'grove' ? standHeight : () => 0;
     // Reduced motion: the camera cuts to where it is going instead of gliding there.
-    const snap = dt === 0 || this.reduceMotion;
+    // R0074: after a fast-travel trip the camera cuts to the new place behind the iris.
+    const snap = dt === 0 || this.reduceMotion || this.travelCut;
+    this.travelCut = false;
     // A story scene cuts in at once: the render pauses behind the dialogue box soon after.
     this.staging.speaker = this.storySpeaker;
     const stageCut = this.staging.update(world, nowMs);
@@ -1427,8 +1465,22 @@ export class Grove3dScene {
     const baseDist =
       (GROVE3D.distance[orbit.currentZoomIndex] ?? GROVE3D.distance[0]) *
       (cave ? READ3D.hollow.distanceK : 1);
-    const pitch = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
-    const dist = THREE.MathUtils.lerp(baseDist, s.distance, b);
+    const pitch0 = THREE.MathUtils.degToRad(THREE.MathUtils.lerp(basePitch, s.pitchDeg, b));
+    const dist0 = THREE.MathUtils.lerp(baseDist, s.distance, b);
+    // MOVE-52: a hill between the camera and the Keeper tilts the orbit up or pulls it in;
+    // staged shots frame themselves, so their share of the blend takes none of it.
+    const hc = this.hillClear;
+    hc.update(
+      this.camTarget,
+      yaw,
+      pitch0,
+      dist0,
+      groveHeight,
+      dt,
+      this.location === 'grove' && b < 1,
+    );
+    const pitch = pitch0 + hc.lift * (1 - b);
+    const dist = dist0 * (1 - (1 - hc.k) * (1 - b));
     if (s.kind === 'stage' && b > 0 && !s.fitted) {
       // H8: the dialogue box covers the bottom of the frame, so slide the rig toward the
       // camera along the ground until the subjects sit `boxLift` of the frame higher.
@@ -1572,6 +1624,8 @@ export class Grove3dScene {
     }
     // One reset per frame with `autoReset` off, so the debug panel sums every composer pass.
     this.renderer.info.reset();
+    // R0079: the far creatures' cells, after the reset so their draws count in the frame.
+    if (!NO_LOD) this.creatureLod.impostors?.render(this.renderer, this.scene, this.camera);
     this.composer.render();
     this.budgetGeometry();
     this.frameMs.push(performance.now() - t0);
@@ -1754,6 +1808,8 @@ export class Grove3dScene {
 
   dispose(): void {
     this.dressings.dispose();
+    document.removeEventListener('visibilitychange', this.onHidden);
+    this.creatureLod.impostors?.dispose();
     this.actors.dispose();
     this.bursts.dispose();
     this.sky.dispose();

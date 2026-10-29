@@ -64,36 +64,70 @@ until DUNG-36; Act IV's ice also appears in endless depths 16–20.
   Clover waits for loot tables (R0163); Gem shrine waits for charms.
 - *Known bugs:* none open. The pack-placement sweep now has its own 30 s timeout (a vitest
   timeout, not a game budget) because the new generator sweeps run beside it.
+## Round 3 · Lane C (2026-10-28, branch r3/c)
 
-## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
+- *Works:* dojo, story (Logged In) and Circuit bouts are singles with a bench: Swap at
+  priority +3 (the incoming one takes the queued hit), a pick after a tuck-in, all tuckered is
+  a snack-break loss; the last party is kept in `world.battlePrefs`. Items from the inventory
+  (fruit, toys; flavoured fruit from the new optional `inventory.pocketFruit`), paid only on a
+  result. Wild foes have Calm and come home as children (or fill the scan and leave Shells);
+  Shadow strays take no HP. The ten Keepers' Circuit: fixed teams per save, field rules,
+  ribbons, hats, skill points, Champion rematches. Sprout/Keeper/Champion AI plus personality.
+  Gentle bouts (Learning Grove or the dojo switch) never lose. One full-screen battle screen
+  with playback, phone layout, party sheet and Power swing. Arena colliders (MOVE-62) and the
+  reserved grid data (MOVE-61, `docs/tactics-grid.md`).
+- *Stubbed:* the Circuit's 10 pre/post scenes and the chapter 5 goal alternative; the
+  Learning Grove "Play-fight Day" scenes; he/ja bout lines; nothing fills `pocketFruit` yet;
+  the Gentle switch lives in the dojo menu, not Settings; old `party` bouts stay all-at-once
+  (no screen opens them now); encounters are singles only when the caller asks.
+- *Known:* Champion beats Keeper 70.6% in the 500-bout mirror test, just over the 70% bar;
+  the battle screen draws pixel sheets in Full 3D (R0219); the full-life and 8-Nubbin timing
+  tests fail in a loaded full run and pass alone (1.6 s, 1.4 s).
+## Round 3 · Lane A (MOVE, 2026-10-28, branch r3/a)
 
-The 2026-10-27 recommendations, round 2, five lanes at once. Full write-ups are in
-`docs/progress-archive.md`; per-item status in `recs-2026-10-27/STATUS.md`.
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `EXTRA=./r3a-extra.cjs node
+laneA.cjs <pixel|3d> <desk|phone> 5181`; all four configurations pass, no console errors.
 
-- **A MOVE.** *Works:* Nubbin hops onto tops by stat and personality, thrown Nubbins land on
-  tops, NPC routing round solids, 3D wild props, slope slowdown, auto-run, path dots, surface
-  footfalls, race hurdles, partner slots. *Stubbed:* Pixel ramp lean, 3D flap on hops, pad
-  glyphs. *Known:* a nav/ledge pocket near (28, -33); hops cost the full-life test about 6%.
-- **B DUNG.** *Works:* Hollow packs fight on the battle core; save v9 (act seeds with a daily
-  reroll, waypoints, the Homing Acorn, remembered levels); solid landmark; fog and automap.
-  *Stubbed:* outdoor zones and towns; Pixel waypoint stones, fog and packs (need
-  `world-view.ts`). *Known:* a fresh pair loses to three or more foes (pack size capped).
-- **C FIGHT.** *Works:* derived battle stats, one damage formula, grade traits, the type loop,
-  Puff, statuses and moods, 62 moves as data, four slots per Nubbin, choose-then-resolve turns.
-  *Stubbed:* battle items, the 3D dojo view (R0219). *Known:* old turn bouts close as draws; on
-  a phone the last move row sits under Leave until scrolled.
-- **D WORLD.** *Works:* 3D terrain drawn by view chunk; creature shadows and hulls culled by
-  view and geometry level; grass by device tier; memory readout and debug World row; portrait
-  walking lead; jump metrics checked against the real jump; the Wood laid out as data; twelve
-  world traces. Phone 3D probe: 6/19 spots under budget (5 before). *Stubbed:* creature LOD
-  (R0079) is what the other spots need; the Wood and the traces are not drawn. *Known:* a double
-  jump can't climb two terrace levels.
-- **E LOOK.** *Works:* the legs-out sit, more vivid 3D colours, serpents and 27 four-legged
-  species in both modes, Greymon kit extras, signature parts sized for the game camera, arm
-  rest, toon ramp without the black collar. *Stubbed:* `quad.tailSet`, band-tinted bubbles.
-  *Known:* pixel serpents reach only 1.0–1.6× long.
-- **All lanes.** Under load the full-life, sculpt and nav timing tests can fail in a full run;
-  each passes alone. No budget was loosened.
+- *Works:* mantle onto a lip a jump just misses (R0050); jump button hold ring, air-jump pip,
+  glide feather, greyed Shake (R0051); 3D orbit tilts or pulls in when a hill blocks the
+  Keeper (R0052, `render3d/hill-clear.ts`, one call in the scene); Camera follows walking
+  setting (R0053); co-op Keeper 2 on Keeper 1's motion (jump on Enter, Numpad 0, pad A; the
+  two keep apart; R0054, R0022's leftover); Look around on rock tops and the well, one-time
+  finds (R0055); walking to the flat stone meets S24's step (R0056); one-time hop lesson chip
+  and a Moss line (R0058); care walks stop with the Nubbin in view (R0059); roll (R0064); Swim
+  perk pond dip with one-time shells (R0065); Left-handed setting (R0014); 3D glide wings (R0027).
+- *Stubbed:* R0057 (needs `DecorKind` entries in `strings.ts`, lane E's sprites and lane D's
+  `garden.ts`); R0060 and R0067 (Hollow files, lane B); R0063 hop course; R0066 navmesh;
+  3D roll dust and dip bubbles (they need the scene's burst system, lane D); the waterfall
+  shelf stone has no story prop yet, so only the flat stone has a reach.
+- *Known bugs:* at the 24° pitch hills block the orbit rarely (12 of 1,024 sweep cases, one
+  5° step each), so R0052 seldom shows. In the Edge run, a Nubbin standing beside the Keeper
+  once pushed it off the well rim before the chip came up.
+- *Assumptions:* the mantle keeps the old reach (`JUMP.stepUp`, 0.35 u) and only makes the
+  climb visible; the big rocks are now standable (needed for R0055's "big rock at (-7, 9)");
+  the well counts as a lookout from its rim rather than as a standable top (standing on it
+  would put the Keeper over the hole); vistas give their find on the look (no walk-to marker);
+  Pixel's pitch is fixed, so Look around only zooms out; `world.viewYaw` is a UI hint the sim
+  uses for care-walk stops and the pulled-down roll, never for rules.
+
+## Round 3 · Lane D (2026-10-28, branch r3/d)
+
+Plan: phone 3D perf first (break the draws down per category, merge the wild props, creature
+LOD R0079, finish R0078/R0081), then WORLD in R order from R0074 (deferring lane A's files).
+
+- *Works:* creature LOD (R0079): past 8 u a rig is one skinned stand-in on the 48 grid
+  (`render3d/lod-proxy.ts`), past 20 u a cell in a 4 MB atlas drawn as one instanced quad
+  (`impostor-creature.ts`, 2 cells redrawn a frame); hulls stop at 14 u, sun shadows at 20 u.
+  Kit trees are 3 draws, not 9. Phone probe 6/19 → 16/19 under budget, median 314 → 161 calls,
+  414k → 336k tris; 8 Nubbins at the heart: creatures 38 draws, 245k tris. Spare rigs capped by
+  tier, trimmed when hidden, parts behind a stand-in free their buffers (geo 466 → 271). Fast
+  travel with iris, carry and partners (R0074); Grove collectibles (R0091); per-region hour
+  (R0092) and seeded per-region weather (R0094). `PROBE_BREAKDOWN=1 PROBE_SPOTS=…` on the probe.
+- *Stubbed:* postcard unlocks and the old key's secret (R0091); region hours and weather only
+  show once a second region is drawn; R0093 signposts (need lane A's pixel files).
+- *Known:* far creatures animate at 7.5 fps; at westHill, farOrchard and cornerSE the draws
+  sit at 186–228, spread over many small scenery kits. Assumption: the iris centres on the
+  view's middle (the camera keeps the Keeper there), not on the Keeper's exact pixel.
 
 ## Standing approval (Maor, 2026-10-12)
 

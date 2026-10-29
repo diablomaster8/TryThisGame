@@ -51,6 +51,9 @@ export class Joystick {
     window.addEventListener('blur', () => this.release());
   }
 
+  /** MOVE-14: the Left-handed setting puts the pad on the right. */
+  leftHanded = false;
+
   setVisible(on: boolean): void {
     this.enabled = on;
     this.zone.hidden = !on;
@@ -94,7 +97,7 @@ export class Joystick {
     // Touch and pen only: a mouse keeps its clicks (and WASD).
     if (e.pointerType === 'mouse') return;
     const top = document.querySelector('.topbar')?.getBoundingClientRect().bottom ?? 0;
-    if (!inPadZone(e.clientX, e.clientY, window.innerWidth, top)) return;
+    if (!inPadZone(e.clientX, e.clientY, window.innerWidth, top, this.leftHanded)) return;
     this.pointerId = e.pointerId;
     try {
       this.zone.setPointerCapture(e.pointerId);

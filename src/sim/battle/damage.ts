@@ -66,7 +66,7 @@ export function moveDamage(
     (a / d) *
     K.scale *
     eff *
-    alignMult(move.align, to.band, to.eternal) *
+    alignMult(by.alignAs?.align ?? move.align, to.band, to.eternal) *
     stabOf(by, move) *
     (crit ? K.crit : 1) *
     rng.float(...K.spread);
@@ -81,6 +81,13 @@ export function moveDamage(
  */
 export function hurt(s: BattleState, rng: Rng, to: Combatant, dmg: number): number {
   let left = to.hp - dmg;
+  // Gentle bouts: the Keeper's side never drops below 1 HP; at 1 a cuddle and a free fruit.
+  if (s.gentle && to.side === 0 && left <= 1) {
+    const heal = Math.round(to.maxHp * BATTLE.gentle.cuddleHeal);
+    to.hp = Math.min(to.maxHp, 1 + heal);
+    s.log.push({ k: 'cuddle', who: to.id, heal });
+    return to.hp;
+  }
   const sw = to.traits.find((t) => t.id === 'secondWind');
   if (left <= 0 && to.hp > 1 && sw && !to.used.includes('secondWind')) {
     to.used.push('secondWind');
@@ -94,14 +101,20 @@ export function hurt(s: BattleState, rng: Rng, to: Combatant, dmg: number): numb
   return to.hp;
 }
 
-export const standing = (c: Combatant): boolean => c.hp > 0;
+/** Still in the bout: not tuckered, and not gone home with the Keeper as a new friend. */
+export const standing = (c: Combatant): boolean => c.hp > 0 && !c.friend;
+
+/** On the field: standing and, in singles, its side's active one (recs FIGHT-19). */
+export const onField = (s: BattleState, c: Combatant): boolean =>
+  standing(c) && (!s.lead || s.sides[c.side][s.lead[c.side]] === c);
 
 /** Ends the bout when a side has nobody standing. */
 export function settle(s: BattleState): void {
   if (s.result) return;
   const foesUp = s.sides[1].some(standing);
   const alliesUp = s.sides[0].some(standing);
-  if (!foesUp) end(s, { k: 'end', winner: 0, reason: 'tuckered' });
+  const friends = s.sides[1].some((c) => c.friend);
+  if (!foesUp) end(s, { k: 'end', winner: 0, reason: friends ? 'friends' : 'tuckered' });
   else if (!alliesUp) end(s, { k: 'end', winner: 1, reason: 'tuckered' });
 }
 

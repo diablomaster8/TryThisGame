@@ -506,6 +506,7 @@ export const BOOK1_SCENES: Scene[] = [
     },
     { who: 'moss', text: 'She went past the falls, into the Hollow, to find the ones that got lost. She said she’d be back for the lanterns.' },
     { who: 'moss', text: 'She has never missed a Lantern Night. Not in forty years. Not with a broken ankle. Not the year of the floods.' },
+    { who: 'moss', text: 'Hazel used to clear that stream in one go. Slow hands, quick feet. People forget that.', mood: 'happy' },
     { who: 'you', text: 'Then I’ll go and get her.' },
     { who: 'moss', text: 'Not yet. She asked me to tell you that, if you asked. She said you would ask.', mood: 'soft' },
     { who: 'moss', text: 'There are things that are hers to tell. I am old, but I am not so old I would take them from her.' },

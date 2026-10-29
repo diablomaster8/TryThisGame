@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { BATTLE } from '../../src/config/tuning-battle';
 import { STORYLINE_LOGGED } from '../../src/content/storyline-logged';
+import { bestAllyAction } from '../../src/sim/battle';
 import { goalMet } from '../../src/sim/campaign';
 import { boutTier, loggedPartyIds } from '../../src/sim/storyline-rules-logged';
 import { journalView } from '../../src/sim/storyline';
@@ -8,9 +9,42 @@ import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
 import { c, settle, storylineWorld, toChapter } from './storyline-driver';
 
+/**
+ * One Logged In bout on the battle core (recs FIGHT-29): a 3v3 story bout against the digital
+ * foes. The foes are made easy (or our side weak) so the outcome is the one asked for.
+ */
+function fightBout(world: World, events: SimEvent[], won: boolean): void {
+  const tier = boutTier(c(world));
+  const ids = loggedPartyIds(c(world));
+  applyCommand(
+    world,
+    { kind: 'battleStart', context: { kind: 'story', storyline: 'logged', tier, ids } },
+    events,
+  );
+  const s = world.battle!;
+  expect(s.context.kind).toBe('story');
+  expect(s.sides[1].length).toBe(3);
+  for (const x of won ? s.sides[1] : s.sides[0]) {
+    x.hp = 1;
+    x.flutter = 0;
+    x.traits = [];
+  }
+  if (won) for (const x of s.sides[0]) x.hp = x.maxHp = 9999;
+  let guard = 0;
+  while (!s.result && guard++ < 100)
+    applyCommand(
+      world,
+      {
+        kind: 'battleAct',
+        action: won || s.phase === 'replace' ? bestAllyAction(s) : { k: 'guard' },
+      },
+      events,
+    );
+  expect(s.result?.winner).toBe(won ? 0 : 1);
+}
+
 function winBouts(world: World, events: SimEvent[], n: number): void {
-  for (let i = 0; i < n; i++)
-    applyCommand(world, { kind: 'partyBoutResult', won: true, tier: 1, shells: 5 }, events);
+  for (let i = 0; i < n; i++) fightBout(world, events, true);
 }
 
 function toTheBoard(world: World, events: SimEvent[]): void {
@@ -25,7 +59,8 @@ function toTheBoard(world: World, events: SimEvent[]): void {
   });
   expect(boutTier(c(world))).toBe(1);
   // A lost bout counts for nothing; a won one does.
-  applyCommand(world, { kind: 'partyBoutResult', won: false, tier: 1, shells: 5 }, events);
+  fightBout(world, events, false);
+  expect(events.some((e) => e.kind === 'partyBout' && !e.won)).toBe(true);
   expect(goalMet(world, c(world))).toBe(false);
   const shells = world.inventory.shells;
   winBouts(world, events, 1);

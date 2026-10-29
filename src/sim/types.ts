@@ -1,4 +1,22 @@
-import type { BattleAction, BattleContext, BattleState, NubbinBattle } from './battle/types';
+import type {
+  BattleAction,
+  BattleContext,
+  BattleEndReason,
+  BattleState,
+  NubbinBattle,
+} from './battle/types';
+import type { CircuitState } from './battle/circuit';
+import type { NubbinCombat } from './battle/tactics/grid';
+
+/** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
+export interface BattlePrefs {
+  /** The last party picked, by Nubbin id (1–3). */
+  party?: string[];
+  /** Settings → "Gentle bouts" for anyone (always on in the Learning Grove). */
+  gentle?: boolean;
+  /** The battle playback speed. */
+  speed?: 1 | 2;
+}
 import type { EduAge, EduGameId } from '../config/edu';
 import type { EduBand } from '../content/types';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -201,6 +219,8 @@ export interface Nubbin {
   karateRecord: Record<string, unknown>;
   /** Lane C: known moves and the four slots (sim/battle/moves-sources.ts); set on first use. */
   battle?: NubbinBattle;
+  /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
+  combat?: NubbinCombat;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -297,6 +317,10 @@ export interface Settings {
   autoHop?: boolean;
   /** MOVE-42: tap walks over ten units run by themselves. Unset: off (a phone sets it on). */
   autoRun?: boolean;
+  /** MOVE-53: the Pixel view turns toward a steady sideways walk. Unset: off. */
+  cameraFollowsWalk?: boolean;
+  /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
+  leftHanded?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -342,6 +366,8 @@ export interface Inventory {
   twine: number;
   /** Story rewards kept: items, cosmetics, memories and unlocks, by reward id. */
   keepsakes: string[];
+  /** Lane C: flavoured fruit pocketed for bouts (FIGHT-20); absent in older saves. */
+  pocketFruit?: Partial<Record<Flavor, number>>;
 }
 
 /** Stat fruit and seeds: one per stat, plus Sun and Moon fruit that nudge alignment. */
@@ -782,6 +808,10 @@ export interface World {
   battle?: BattleState;
   /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
   battleRuns?: number;
+  /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
+  battlePrefs?: BattlePrefs;
+  /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
+  circuit?: CircuitState;
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -801,6 +831,14 @@ export interface World {
   location: Location;
   /** MOVE-43: bushes already searched (one find each per save) and when each was last looked in. */
   bushFinds?: { found: string[]; checked: Record<string, number> };
+  /** MOVE-55: lookout finds already made (vista ids and "well"), each once per save. */
+  lookouts?: string[];
+  /** MOVE-58: the one-time hop lesson: shown once near a log or the stream, done on the first clear. */
+  hopLesson?: 'shown' | 'done';
+  /** MOVE-59: the view's yaw (radians), sent by the UI as a hint for care walks; never a rule. */
+  viewYaw?: number;
+  /** MOVE-65: pond spots already searched on a dip (one shell each, once per save). */
+  pondFinds?: string[];
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -818,6 +856,8 @@ export interface World {
   plots: number;
   wild: WildVisitor[];
   landmarks: Record<string, number>;
+  /** R0091: one-time collectibles picked up, id → sim time (absent in older saves). */
+  collected?: Record<string, number>;
   coop: CoopState;
   keeper2: Keeper | null;
   edu: EduState | null;
@@ -868,6 +908,7 @@ export type Command =
   | { kind: 'battleAct'; action: BattleAction }
   | { kind: 'battleForfeit' }
   | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
+  | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -981,9 +1022,19 @@ export type Command =
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
+  // MOVE-54: Keeper 2's jump, pressed and let go.
+  | { kind: 'keeper2Jump'; down: boolean }
+  // MOVE-55: look around from a lookout.
+  | { kind: 'lookAround' }
+  // MOVE-59: the camera's yaw, so care walks stop where the Nubbin stays in view.
+  | { kind: 'viewYaw'; yaw: number }
+  // MOVE-64: roll the way the Keeper faces, or along `dir`.
+  | { kind: 'roll'; dir?: Vec2 }
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
+  // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
+  | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1038,9 +1089,12 @@ export type SimEvent =
       source: string;
       key: string;
       winner: 0 | 1 | null;
-      reason: 'tuckered' | 'forfeit' | 'time';
+      reason: BattleEndReason;
       shells: number;
     }
+  | { kind: 'circuitRibbon'; trainer: string; champion: boolean }
+  /** A wild foe came home: as a new child (`child`, its id), or as a full scan and a gift. */
+  | { kind: 'befriended'; species: string; child: string | null; gift: number }
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
@@ -1082,6 +1136,15 @@ export type SimEvent =
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
+  // MOVE-64: the Keeper starts a roll.
+  | { kind: 'keeperRolled' }
+  // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
+  | { kind: 'keeperDipped'; shells: number }
+  // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
+  | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
+  | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
+  // MOVE-58: the hop lesson's chip shows (near what), or the first clear completes it.
+  | { kind: 'hopLesson'; stage: 'shown' | 'done'; near: 'log' | 'stream' | null }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
   /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */
@@ -1128,6 +1191,11 @@ export type SimEvent =
   | { kind: 'regionEntered'; region: string }
   | { kind: 'regionDiscovered'; region: string }
   | { kind: 'travelRefused'; exit: string; reason: string }
+  /** R0091: a one-time collectible was picked up, and a region's set of a kind finished. */
+  | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
+  | { kind: 'collectionSetDone'; region: string; what: 'petal' | 'postcard' | 'key' }
+  /** R0074: a fast-travel trip arrived (the renderer plays the iris). */
+  | { kind: 'travelled'; from: Vec2; to: Vec2 }
   | { kind: 'interacted'; nubbinId: string; action: Interaction; ok: boolean }
   /** A care walk got stuck and gave up (target: a Nubbin, tree or item id); the UI can toast it. */
   | { kind: 'cantReach'; targetId: string }

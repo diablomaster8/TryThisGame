@@ -96,6 +96,22 @@ export function outlinesOn(): boolean {
   return HULL.visible;
 }
 
+/**
+ * R0079: the hull for a creature's merged stand-in (`lod-proxy.ts`), a skinned mesh: the same
+ * line, pushed out along the skinned normal, since the stand-in's parts move by bone.
+ */
+export const SKINNED_HULL = new THREE.MeshBasicMaterial({
+  color: TOON_OUTLINE.color,
+  side: THREE.BackSide,
+});
+SKINNED_HULL.onBeforeCompile = (shader, renderer) => {
+  HULL.onBeforeCompile(shader, renderer);
+  shader.vertexShader = shader.vertexShader
+    .replace('smoothstep( -0.3, -0.7, normal.y )', 'smoothstep( -0.3, -0.7, objectNormal.y )')
+    .replace('normalize( normalMatrix * normal )', 'normalize( normalMatrix * objectNormal )');
+};
+SKINNED_HULL.customProgramCacheKey = () => 'grove-toon-hull-skinned';
+
 function triangles(m: THREE.Mesh): number {
   const g = m.geometry;
   return (g.index ? g.index.count : (g.attributes.position?.count ?? 0)) / 3;

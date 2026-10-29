@@ -67,7 +67,9 @@ describe('battle core (recs FIGHT-01)', () => {
 
   it('is pure sim: no Math.random, DOM or three in src/sim/battle', () => {
     const dir = join(__dirname, '../../src/sim/battle');
-    for (const f of readdirSync(dir)) {
+    // Every file, the tactics/ folder included.
+    for (const f of readdirSync(dir, { recursive: true }) as string[]) {
+      if (!f.endsWith('.ts')) continue;
       const src = readFileSync(join(dir, f), 'utf8');
       expect(src, f).not.toMatch(/Math\.random|document\.|window\.|from 'three'/);
     }

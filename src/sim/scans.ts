@@ -1,4 +1,6 @@
 import { SCANS } from '../config/tuning';
+import { BATTLE } from '../config/tuning-battle';
+import { hatch } from './lifecycle';
 import { createEgg } from './nubbin';
 import { neighbourGarden } from './neighbourhood';
 import type { Rng } from './rng';
@@ -54,4 +56,32 @@ export function convertScan(world: World, species: string, rng: Rng, events: Sim
   world.nubbins.push(egg);
   events.push({ kind: 'converted', species, nubbinId: egg.id });
   return true;
+}
+
+/**
+ * A wild foe befriended in a bout (recs FIGHT-21). With room on the roster it comes home as a
+ * child of its species, through the same path as converting a full scan; without room its
+ * scan fills and it leaves a thank-you gift of Shells. Called when the bout is paid; the
+ * Hollow needs no call of its own, only `wild`/`shadow` on its encounter foes.
+ */
+export function befriendWild(world: World, species: string, rng: Rng, events: SimEvent[]): void {
+  const before = world.scans[species] ?? 0;
+  if (before < SCANS.full) {
+    world.scans[species] = SCANS.full;
+    if (species !== 'chao') events.push({ kind: 'scanFull', species });
+  }
+  if (hasRoom(world)) {
+    const mark = events.length;
+    convertScan(world, species, rng, events);
+    const made = events.slice(mark).find((e) => e.kind === 'converted');
+    const n = made?.kind === 'converted' ? world.nubbins.find((x) => x.id === made.nubbinId) : null;
+    if (n) {
+      hatch(n, events, world.timeMs);
+      events.push({ kind: 'befriended', species, child: n.id, gift: 0 });
+      return;
+    }
+  }
+  const gift = BATTLE.befriend.giftShells;
+  world.inventory.shells += gift;
+  events.push({ kind: 'befriended', species, child: null, gift });
 }

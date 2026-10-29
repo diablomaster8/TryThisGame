@@ -12,7 +12,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 
 | Storyline | Script | Little Sprouts | Grove Readers |
 | --- | --- | --- | --- |
-| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (494) |  |  |
+| The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (495) |  |  |
 | The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (580) |  |  |
 | The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1152) |  |  |
 | The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (75) |  |  |
