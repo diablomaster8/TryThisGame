@@ -4,7 +4,7 @@
 
 - `q21-s1`: Mr. Tweed has lost his bear. Follow his pointing down to the pond and look for a clue. · _Search the reeds on the near side of the pond. Clues sparkle faintly when you are close._
 - `q21-s2`: Follow the little wild Nubbin up the western hill and find where it took the bear. · _Wild Nubbins nest in the long grass near the top. Walk slowly: if you run, it will hide._
-- `q21-s3`: Carry Bear back down to Mr. Tweed. · _He is still sulking on his rock by the pond. Hand him the bear with Give._
+- `q21-s3`: Carry Bear back down to Mr. Tweed. · _He is still sulking on his rock by the pond. Take him the bear, then tap Do it in the Journal._
 
 #### `reader:q21-intro` · [main](../../../fun/bean.md#q21-intro)
 
@@ -588,7 +588,7 @@ _It is not a very good circle. He holds it up to Buttons anyway, both arms, and 
 
 ## Q25. The High Dive
 
-- `q25-s1`: Get Mr. Tweed off the ledge: talk him down, or let a brave Swim Nubbin show him how. · _Call up to him with Talk to coax him down one step at a time, or take a strong swimmer to the ledge and tap Dive._
+- `q25-s1`: Get Mr. Tweed off the ledge: talk him down, or let a brave Swim Nubbin show him how. · _Coax him down one step at a time. Tap Do it in the Journal and keep your voice calm._
 - `q25-s2`: Build a low diving board at the pond with Mr. Tweed. · _Set the plank on the flat rock at the pond’s edge, then hammer it in with three taps._
 
 #### `reader:q25-ledge` · [main](../../../fun/bean.md#q25-ledge)
@@ -811,7 +811,7 @@ _He tips his hat to you. The blanket is yours now. The Nubbins have decided._
 ## Q27. The Ruined Portrait
 
 - `q27-s1`: Bring three Nubbins into the hall and line them up like the Nubbins in the portrait. · _Carry or call Nubbins into the hall. Mr. Tweed’s chalk crosses on the floor show where each one sits._
-- `q27-s2`: Take a Photo mode picture that matches the Founders’ Portrait. · _Use the self-timer in Photo mode and sit in the empty chair. The outline turns green when everyone’s pose lines up._
+- `q27-s2`: Take a Photo mode picture that matches the Founders’ Portrait. · _Everyone in the picture, empty chair too. Tap Do it in the Journal and hold your pose._
 - `q27-s3`: Hang the frame back on its hook before the Warden walks in. · _Tap the hook to hang the frame, then tap it again to straighten it. Two quick taps._
 
 #### `reader:q27-hall` · [main](../../../fun/bean.md#q27-hall)
@@ -1127,7 +1127,7 @@ _He ends up in the doorway holding the teapot, beaming at everyone. He forgets t
 
 - `q29-s1`: Put Odette’s egg down somewhere flat in your garden. · _Set the egg on flat ground near your cottage. Not on the slope. Definitely not on the slope._
 - `q29-s2`: Catch the runaway egg before it reaches the stream. · _Get ahead of it and wait on the path: tapping it from behind only makes it faster. Mr. Tweed’s hat counts as a catch._
-- `q29-s3`: Give the egg back to Odette at the gate, safe and sound. · _Odette waits at your gate at sunset. Carry the egg to her and choose Give._
+- `q29-s3`: Give the egg back to Odette at the gate, safe and sound. · _Odette waits at your gate at sunset. Carry the egg to her, then tap Do it in the Journal._
 
 #### `reader:q29-handover` · [main](../../../fun/bean.md#q29-handover)
 

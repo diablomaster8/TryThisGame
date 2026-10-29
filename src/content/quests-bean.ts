@@ -151,7 +151,7 @@ export const QUESTS_BEAN: Quest[] = [
       {
         id: 'q21-s3',
         goal: 'Bring Bear back down to Mr. Tweed.',
-        hint: 'Mr. Tweed is still on his rock by the pond. Hand him the bear with Give.',
+        hint: 'Mr. Tweed is still on his rock by the pond. Take him the bear, then tap Do it in the Journal.',
         check: 'give:item:tweed-bear:mr-tweed',
         scene: {
           id: 'q21-carry',
@@ -619,7 +619,7 @@ export const QUESTS_BEAN: Quest[] = [
       {
         id: 'q25-s1',
         goal: 'Get Mr. Tweed off the ledge: coax him down, or let a brave Swim Nubbin show him how.',
-        hint: 'Call up to him with Talk to coax him down a step at a time, or take a strong swimmer to the ledge and tap Dive.',
+        hint: 'Coax him down a step at a time. Tap Do it in the Journal and keep your voice very calm.',
         check: 'rescue:mr-tweed:waterfall-ledge',
         scene: {
           id: 'q25-ledge',
@@ -885,7 +885,7 @@ export const QUESTS_BEAN: Quest[] = [
       {
         id: 'q27-s2',
         goal: 'Take a Photo mode shot that matches the Founders’ Portrait.',
-        hint: 'Use the self-timer in Photo mode and sit in the empty chair. The outline turns green when the poses line up.',
+        hint: 'Everyone in the picture, empty chair included. Tap Do it in the Journal and hold the pose.',
         check: 'photo:match:founders-portrait',
         scene: {
           id: 'q27-pose',
@@ -1171,7 +1171,7 @@ export const QUESTS_BEAN: Quest[] = [
       {
         id: 'q29-s3',
         goal: 'Give the egg back to Odette at the gate, safe and sound.',
-        hint: 'Odette waits at your gate at sunset. Carry the egg to her and choose Give.',
+        hint: 'Odette waits at your gate at sunset. Carry the egg to her, then tap Do it in the Journal.',
         check: 'give:item:visiting-egg:odette',
         scene: {
           id: 'q29-afternoon',

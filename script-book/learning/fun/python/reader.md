@@ -1067,7 +1067,7 @@ _Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the
 ## Q8. The Aqueduct Committee
 
 - `q08-s1`: Build an aqueduct from the falls to your crops. · _Craft aqueduct sections at the Workshop from stone and wood, then lay them from the top of the falls down to the crop beds._
-- `q08-s2`: Harvest a crop from the aqueduct beds and take it to the committee. · _Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall._
+- `q08-s2`: Harvest a crop from the aqueduct beds and take it to the committee. · _Ripe crops glow. Tap to harvest. Take it to Reggie, then tap Do it in the Journal._
 
 #### `reader:q08-intro` · [main](../../../fun/python.md#q08-intro)
 
@@ -2866,7 +2866,7 @@ _The sleeping Keeper wakes, sees you in the top hat, and goes straight back to s
 ## Q20. The Larch Lesson
 
 - `q20-s1`: Find and tap one of every kind of tree in the Grove. · _Your Grove has one tree for each fruit, plus the palm on the coast. Keep a tally: your journal ticks each one off._
-- `q20-s2`: Photograph Mr Arbour’s board from the meadow. · _Open Photo mode, zoom in on the far ridge, and take the picture with the board in frame._
+- `q20-s2`: Photograph Mr Arbour’s board from the meadow. · _Find the far ridge with the board in view. Then tap Do it in the Journal._
 
 #### `reader:q20-intro` · [main](../../../fun/python.md#q20-intro)
 

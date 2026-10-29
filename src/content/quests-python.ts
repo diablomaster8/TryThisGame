@@ -1337,7 +1337,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q08-s2',
         goal: 'Harvest a crop from the aqueduct beds and take it to the committee.',
-        hint: 'Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall.',
+        hint: 'Ripe crops glow. Tap to harvest, take it to Reggie in the Keepers’ Hall, then tap Do it in the Journal.',
         check: 'give:item:crop:reggie',
         scene: {
           id: 'q08-invite',
@@ -1712,7 +1712,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q11-s1',
         goal: 'Pick fresh mint for Mr Crisp.',
-        hint: 'Mint grows in a small patch by the pond. Tap the top leaves, then Give them to Mr Crisp.',
+        hint: 'Mint grows in a small patch by the pond. Bring Mr Crisp the top leaves, then tap Do it in the Journal.',
         check: 'give:item:mint-leaves:mr-crisp',
         scene: {
           id: 'q11-intro',
@@ -3025,7 +3025,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q20-s2',
         goal: 'Photograph Mr Arbour’s board from the meadow.',
-        hint: 'Open Photo mode, zoom in on the far ridge and take the picture with the board in frame.',
+        hint: 'Find the far ridge with the board in view, squint a little, then tap Do it in the Journal.',
         check: 'photo:subject:larch-board:far-ridge',
         scene: {
           id: 'q20-far',

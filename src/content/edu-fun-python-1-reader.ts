@@ -1990,7 +1990,7 @@ const Q08 = quest(
     },
     'q08-s2': {
       goal: 'Harvest a crop from the aqueduct beds and take it to the committee.',
-      hint: 'Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall.',
+      hint: 'Ripe crops glow. Tap to harvest. Take it to Reggie, then tap Do it in the Journal.',
     },
   },
   [

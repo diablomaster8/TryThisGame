@@ -793,6 +793,23 @@ for (const q of allQuests) {
   for (const [region, n] of perRegion)
     if (n < 3) problems.push(`traces: ${region} has ${n}, needs at least 3`);
 }
+// ---- hint verbs (R0292): a hint names only verbs and modes the game has. There is no Give
+// or Talk button (you tap a person) and no Photo mode; a step the game cannot see says
+// "tap Do it in the Journal" instead.
+{
+  const dir = new URL('../../src/content/', import.meta.url);
+  const bad =
+    /\b(use|choose|with|tap) (Give|Talk|Inspect)\b|Photo mode|\bthen Give\b|\bGive (it|them) to\b/;
+  for (const f of readdirSync(dir)) {
+    if (!f.endsWith('.ts')) continue;
+    readFileSync(new URL(f, dir), 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        const m = /\bhint: '([^']*)'/.exec(line);
+        if (m && bad.test(m[1]!)) problems.push(`hint-verb ${f}:${i + 1}: ${m[1]}`);
+      });
+  }
+}
 console.log(
   JSON.stringify(
     {

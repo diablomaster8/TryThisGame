@@ -3033,7 +3033,7 @@ const Q20 = quest(
     },
     'q20-s2': {
       goal: 'Take a photo of Mr Arbour’s board from the meadow.',
-      hint: 'Use Photo mode. Zoom in on the far hill.',
+      hint: 'Look at the far hill. Then tap Do it.',
     },
   },
   [
@@ -3176,7 +3176,7 @@ const Q21 = quest(
     },
     'q21-s3': {
       goal: 'Bring Bear back to Mr. Tweed.',
-      hint: 'He’s on his rock by the pond. Use Give.',
+      hint: 'He is on his rock by the pond. Take him the bear. Tap Do it.',
     },
   },
   [
@@ -3743,7 +3743,7 @@ const Q25 = quest(
   {
     'q25-s1': {
       goal: 'Help Mr. Tweed down from the high ledge.',
-      hint: 'Talk him down step by step, or ask a Swim Nubbin to show him.',
+      hint: 'Help him down, step by step. Tap Do it.',
     },
     'q25-s2': {
       goal: 'Build a low diving board at the pond.',
@@ -4290,7 +4290,7 @@ const Q29 = quest(
     },
     'q29-s3': {
       goal: 'Give the egg back to Odette at sunset.',
-      hint: 'Odette waits at your gate. Carry the egg and use Give.',
+      hint: 'Odette waits at your gate. Take her the egg. Tap Do it.',
     },
   },
   [

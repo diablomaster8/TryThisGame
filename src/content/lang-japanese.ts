@@ -1086,7 +1086,7 @@ const LJ6: Quest = {
     {
       id: 'lj6-step1',
       goal: 'Ask Hana why she is sitting by the stream.',
-      hint: 'Hana is sitting by the stream. Tap her and choose Talk.',
+      hint: 'Hana is sitting by the stream. Tap her to talk.',
       check: 'talk:hana:toro-nagashi',
       scene: {
         id: 'lj6-s1',

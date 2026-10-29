@@ -2249,7 +2249,7 @@ _The sleeping Keeper wakes, sees your hat, and goes back to sleep._
 ## Q20. The Pointy Tree
 
 - `q20-s1`: Find and tap one of every kind of tree in your Grove. · _One tree for each fruit, and the palm by the sea._
-- `q20-s2`: Take a photo of Mr Arbour’s board from the meadow. · _Use Photo mode. Zoom in on the far hill._
+- `q20-s2`: Take a photo of Mr Arbour’s board from the meadow. · _Look at the far hill. Then tap Do it._
 
 #### `sprout:q20-intro` · [main](../../../fun/python.md#q20-intro)
 
