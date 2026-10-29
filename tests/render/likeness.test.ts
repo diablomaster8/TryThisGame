@@ -194,4 +194,12 @@ describe('species eyes in 3D (LOOK-40)', () => {
   it('keeps a species iris colour where it is part of the likeness', () => {
     expect(artSpec('dinolet', SPECIES_ART.dinolet!).eyes.iris).toBe('#58a838');
   });
+
+  it('gives the snakes and the Charmander line slit pupils in both modes', () => {
+    for (const id of ['coilet', 'hoodcoil', 'cinderkit', 'cinderclaw', 'cinderwing']) {
+      expect(SPECIES_ART[id]!.pupil).toBe('slit');
+      expect(artSpec(id, SPECIES_ART[id]!).eyes.pupil).toBe('slit');
+    }
+    expect(artSpec('zapkin', SPECIES_ART.zapkin!).eyes.pupil).toBeUndefined();
+  });
 });

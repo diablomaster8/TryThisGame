@@ -511,8 +511,12 @@ function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] 
 function eyeProfile(
   art: CreatureSpec,
   eye: string,
-): Pick<SpeciesSpec['eyes'], 'iris' | 'lid' | 'irisScale' | 'tall' | 'style' | 'roll' | 'brow'> {
+): Pick<
+  SpeciesSpec['eyes'],
+  'iris' | 'lid' | 'irisScale' | 'tall' | 'style' | 'roll' | 'brow' | 'pupil'
+> {
   const iris = art.irisColor ?? eye;
+  const slit = art.pupil === 'slit' ? { pupil: 'slit' as const } : {};
   switch (art.eyes) {
     case 'dot':
       return { iris: '#141414', lid: 0, irisScale: 1, tall: 1.3, style: 'dot', brow: false };
@@ -524,15 +528,16 @@ function eyeProfile(
         tall: 1.2,
         style: 'cute',
         brow: false,
+        ...slit,
       };
     case 'angry':
-      return { iris, lid: 0.38, irisScale: 0.62, tall: 1.0, roll: 0.44 };
+      return { iris, lid: 0.38, irisScale: 0.62, tall: 1.0, roll: 0.44, ...slit };
     case 'big':
-      return { iris, lid: 0.1, irisScale: 0.6, tall: 1.12 };
+      return { iris, lid: 0.1, irisScale: 0.6, tall: 1.12, ...slit };
     case 'closed':
       return { iris, lid: 0.97, irisScale: 0.8, tall: 1.05 };
     default:
-      return { iris, lid: 0.1, irisScale: 0.8, tall: 1.05 };
+      return { iris, lid: 0.1, irisScale: 0.8, tall: 1.05, ...slit };
   }
 }
 

@@ -243,6 +243,8 @@ export interface SpeciesSpec {
     brow?: boolean;
     /** `chao`: solid dark ovals with two glints, no sclera, no brows; `dot`, `cute` (LOOK-40). */
     style?: EyeStyle;
+    /** `slit`: a narrow upright pupil (LOOK-40); round when absent. */
+    pupil?: 'round' | 'slit';
     /** Roll of each eye, outer end up, radians: a slanted angry eye (LOOK-40). */
     roll?: number;
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
@@ -1019,6 +1021,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       e.tall ?? 1.2,
       e.style ?? 'anime',
       side,
+      e.pupil ?? 'round',
     );
     r.group.position.copy(at.pos).sub(faceOrigin);
     r.group.quaternion.setFromUnitVectors(

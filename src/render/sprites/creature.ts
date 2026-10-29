@@ -102,6 +102,8 @@ export interface CreatureSpec {
   eyes: Eyes;
   /** The 3D iris colour where it is part of the likeness (Agumon green, Gengar red); the eye colour otherwise. */
   irisColor?: string;
+  /** The pupil's shape: round (default) or a narrow upright slit (the snakes, Charmander's line). */
+  pupil?: 'round' | 'slit';
   marks: Mark[];
   /** Extra head and body pieces from the digital-line kit (creature-kit-digi.ts). */
   extras?: readonly KitExtra[];
@@ -535,6 +537,7 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
   if (a.back) return;
   const col = spec.colors;
   const ey = a.headCy + (spec.plan === 'round' ? 0 : 1);
+  const slit = spec.pupil === 'slit';
   const eyeAt = (cx: number, narrow: boolean) => {
     if (pose.eyes === 'closed' || spec.eyes === 'closed') {
       pc.line(cx - 1, ey + 1, cx + 1, ey + 1, col.eye);
@@ -560,7 +563,7 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
         pc.ellipse(cx, ey, rx, ry, col.eye);
         // Iris, pupil and two glints on the fine grid.
         pc.ellipse(cx + 0.15, ey + 0.6, rx * 0.6, ry * 0.55, shadeOf(col.accent));
-        pc.ellipse(cx + 0.15, ey + 0.8, rx * 0.3, ry * 0.3, col.eye);
+        pc.ellipse(cx + 0.15, ey + 0.8, rx * (slit ? 0.12 : 0.3), ry * (slit ? 0.5 : 0.3), col.eye);
         pc.ellipse(cx - (narrow ? 0.2 : 0.6), ey - 1.2, narrow ? 0.4 : 0.55, 0.7, C.white);
         pc.dot(cx + 0.5, ey + 1.1, C.white);
         break;
@@ -569,6 +572,7 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
         const rx = narrow ? 0.9 : 1.3;
         pc.ellipse(cx, ey, rx, 1.8, col.eye);
         pc.ellipse(cx + 0.1, ey + 0.5, rx * 0.55, 1.0, shadeOf(col.accent));
+        if (slit) pc.ellipse(cx + 0.1, ey + 0.5, 0.15, 0.85, col.eye);
         pc.ellipse(cx - 0.4, ey - 0.9, 0.45, 0.6, C.white);
         break;
       }
@@ -577,7 +581,7 @@ function drawFace(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
         const rx = narrow ? 1.1 : 1.7;
         pc.ellipse(cx, ey + 0.5, rx, 1.4, col.eye);
         pc.ellipse(cx + 0.2, ey + 0.7, rx * 0.55, 0.9, shadeOf(col.accent));
-        pc.ellipse(cx + 0.2, ey + 0.8, rx * 0.25, 0.5, col.eye);
+        pc.ellipse(cx + 0.2, ey + 0.8, rx * (slit ? 0.1 : 0.25), slit ? 0.8 : 0.5, col.eye);
         pc.dot(cx - 0.6, ey, C.white);
         pc.thinLine(cx - rx - 0.5, ey - 0.6, cx + rx * 0.6, ey - 1.6, col.outline);
         break;
