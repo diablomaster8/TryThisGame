@@ -184,3 +184,23 @@ export const WORLD_TUCK = {
   pollMs: 150,
   minStep: 0.02,
 } as const;
+
+/**
+ * R0100 (WORLD-42): the objective beacon (`render/beacon.ts`) and its edge arrow
+ * (`ui/beacon-arrow.ts`). The beam is unfogged, so it reads from `seenFrom` units away.
+ */
+export const WORLD_BEACON = {
+  beamRadius: 0.35,
+  beamHeight: 26,
+  ringRadius: 1.1,
+  starSize: 1.6,
+  starHeight: 6,
+  balloonRadius: 0.7,
+  balloonHeight: 3.6,
+  /** Beyond this the beacon is not drawn (the arrow and the compass still point). */
+  seenFrom: 60,
+  /** The arrow chip keeps this far (CSS px) inside the screen edges, clear of the HUD bands. */
+  inset: { side: 34, top: 150, bottom: 190 },
+  /** An on-screen target within this share of the screen's half-size shows no arrow. */
+  onScreen: 0.92,
+} as const;

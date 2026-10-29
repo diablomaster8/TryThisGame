@@ -111,3 +111,32 @@ export function minimapVisible(
   if (sprout || !inGrove || mode === 'off') return false;
   return mode === 'on' || viewportHeight >= autoMinHeight;
 }
+
+/** R0100: the objective arrow chip, from the target's projected NDC (`ui/beacon-arrow.ts`). */
+/** Where on screen (CSS px) the arrow sits and its angle (radians, 0 = right, clockwise). */
+export function edgeArrow(
+  ndc: { x: number; y: number; behind: boolean },
+  w: number,
+  h: number,
+  inset: { side: number; top: number; bottom: number },
+): { x: number; y: number; angle: number } {
+  // Toward the target from the screen's middle; behind the camera the direction flips.
+  let dx = ndc.x * (w / 2);
+  let dy = -ndc.y * (h / 2);
+  if (ndc.behind) {
+    dx = -dx;
+    dy = -dy;
+  }
+  if (Math.abs(dx) < 1e-6 && Math.abs(dy) < 1e-6) dy = 1;
+  const cx = w / 2;
+  const cy = h / 2;
+  const left = inset.side - cx;
+  const right = w - inset.side - cx;
+  const top = inset.top - cy;
+  const bottom = h - inset.bottom - cy;
+  // Scale the direction until it meets the inset rectangle.
+  const kx = dx > 0 ? right / dx : dx < 0 ? left / dx : Infinity;
+  const ky = dy > 0 ? bottom / dy : dy < 0 ? top / dy : Infinity;
+  const k = Math.min(kx, ky);
+  return { x: cx + dx * k, y: cy + dy * k, angle: Math.atan2(dy, dx) };
+}

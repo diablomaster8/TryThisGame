@@ -106,6 +106,7 @@ import { EduPrompt, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
+import { mountBeacon } from './beacon-arrow';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 
@@ -414,6 +415,7 @@ export function mountHud(
   mountCompass(root, game, () => map.open());
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
+  mountBeacon(root, game, () => map.open());
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(

@@ -1,4 +1,4 @@
-/* R0106: the bottom bar tucked away while walking on a phone (ui/walk-tuck.ts). */
+/* Lane D HUD pieces: the bar tucked while walking (R0106) and the objective arrow (R0100). */
 
 .walk-tuck-handle {
   display: none;
@@ -53,4 +53,34 @@
   transform: none;
   opacity: 0;
   pointer-events: none;
+}
+
+/* R0100: the objective's edge arrow (ui/beacon-arrow.ts): a 44 px round chip on the edge. */
+.beacon-arrow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 13;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffd84a;
+  background: rgba(13, 10, 26, 0.8);
+  color: #ffd84a;
+  padding: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.beacon-arrow-point {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 1px;
+  font-size: 13px;
+}
+.beacon-arrow-star {
+  font-size: 16px;
+  line-height: 40px;
 }

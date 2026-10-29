@@ -1,4 +1,4 @@
-import '../walk-tuck.css';
+import '../world-hud.css';
 import { WORLD_TUCK } from '../config/tuning-world';
 import { WORLD_SETTINGS_TEXT } from '../config/strings-world';
 import type { Game } from '../game';
@@ -8,7 +8,7 @@ import { isPhoneScreen, phoneDefault } from './world-settings';
  * R0106 (WORLD-48): on a phone, the bottom bar tucks away while the Keeper walks, so the
  * world has the screen. After `WORLD_TUCK.walkMs` of moving with no panel open, the root gets
  * `walk-tucked`: the bar slides down to a thin handle (a fade under reduced motion, see
- * `walk-tuck.css`) and the objective chip shrinks to its label. Everything comes back
+ * `world-hud.css`) and the objective chip shrinks to its label. Everything comes back
  * `WORLD_TUCK.backMs` after the Keeper stops, when a panel opens, or at a tap on the handle
  * (which also holds the bar out until the next stop). The setting is "Hide bar while walking".
  */
