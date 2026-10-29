@@ -302,7 +302,8 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   // ---- horned rocks ----
   rockhorn: spec(RHINO, {
     size: 0.95,
-    crest: 'horn',
+    // Rhyhorn and Rhydon carry the horn on the snout, not the brow (LOOK-39).
+    extras: ['drill'],
     tail: 'club',
     eyes: 'angry',
     marks: ['stripes'],
@@ -313,7 +314,7 @@ export const GEN1B_ART: Record<string, CreatureSpec> = {
   }),
   drillhorn: spec(RHINO, {
     size: 1.2,
-    crest: 'horn',
+    extras: ['drill'],
     tail: 'long',
     arms: 'claws',
     eyes: 'angry',
