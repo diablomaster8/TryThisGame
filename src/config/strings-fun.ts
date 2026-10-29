@@ -55,3 +55,4 @@ export const LINE_ACT_TEXT = {
 } as const;
 
 export * from './strings-fun-r5';
+export * from './strings-badges';

@@ -859,6 +859,8 @@ export interface World {
   /** Painted tiles by "x,z" at half-unit snaps. */
   tiles: Record<string, TileKind>;
   achievements: Record<string, number>;
+  /** R0315: small counts the joke badges read (fruit bonks, tickles, skids). Optional, no save bump. */
+  funCounts?: Record<string, number>;
   /** Keeper title shown on the profile. */
   title: string | null;
   quests: Quest[];

@@ -233,3 +233,12 @@ body.line-shake-big #app {
   opacity: 0.85;
   font-style: italic;
 }
+
+/* R0315 (FUN-26): the profile's Silly filter. */
+.badge-grid.silly-only .badge:not([data-silly]) {
+  display: none;
+}
+.badge-filter {
+  min-height: 44px;
+  margin-bottom: 6px;
+}

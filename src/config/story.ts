@@ -41,7 +41,10 @@ export interface Line {
 export type LineAct = 'gate' | 'cup';
 
 /** R0304: the flag a played act sets (the cup turned over is a callback for chapter 12). */
-export const LINE_ACT_FLAGS: Partial<Record<LineAct, string>> = { cup: 'c1-cup-turned' };
+export const LINE_ACT_FLAGS: Partial<Record<LineAct, string>> = {
+  cup: 'c1-cup-turned',
+  gate: 'c1-gate-pushed',
+};
 
 /** R0303: the sounds a line may cue (a subset of the game's sound names). */
 export type LineSfx =
