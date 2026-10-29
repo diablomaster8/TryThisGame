@@ -13,6 +13,7 @@ import { LOGGED_SPEAKERS } from '../../src/content/storyline-logged';
 import { packs } from './quest-packs';
 import { areaOf } from '../../src/content/where-map';
 import { REGIONS, STORY_AREAS } from '../../src/config/regions';
+import { comedyReport } from './comedy-report';
 
 const problems: string[] = [];
 const questIds = new Set<string>(),
@@ -839,3 +840,5 @@ console.log(
 );
 console.log(problems.slice(0, 60).join('\n'));
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
+// R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
+if (process.argv.includes('--comedy')) console.log(comedyReport());
