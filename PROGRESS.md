@@ -40,11 +40,22 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
-Plan: R0374 check (done on main; pixel length capped by the 32 px frame), then R0400 (cosmetics
-registry, data-drawn in both modes) ahead of R0394 (eggshell hat) and R0395 (Quills and Shade
-won and worn), then R0388 (first-evolution tells), R0389 (cry pose, Pixel; 3D needs actors.ts),
-R0399 (egg colours and finishes). Deferred: R0385, R0390 personality, R0391, R0392, R0393
-(actors.ts), R0397, R0398 (creature-pool.ts, lane D).
+- *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back
+  and body slots, each drawn in both modes from data (`render/sprites/cosmetic-pixel.ts`,
+  `render3d/dress.ts` `registryItem`); the shop sells a hat of the day. Hatchlings wear their
+  eggshell for 10 live minutes and keep it in the hat box. Quills (Sun Keeper) and Shade (Moon
+  Keeper) are tier-3 race prizes with 3D accessories. First evolutions carry type tells in both
+  modes (Pixel sorts by outline: `first-tells.test.ts`). A pixel cry clip. Nine more egg colours,
+  three jewels, and metal and glass finishes in Pixel.
+- *Stubbed:* the cry clip is not shown yet: `world-view.ts` and `actors.ts` still map `cry`
+  to `sad` (lane A), and there are no 3D tears. One worn cosmetic at a time (`n.hat`); the
+  per-slot `wear` field needs lane B's save. No 3D egg finish (`creature-pool.ts`, lane D).
+  Normal's fuller crown and Run's lean are Pixel only. Pixel serpents still 1.0–1.6× long.
+- *Known:* Pixel metal is subtle at 32 px. New egg colours show raw ids in the Roster
+  (`EGG_COLOR_LABELS` lives in `strings.ts`).
+- *Assumptions:* keeping the eggshell is automatic (into the hat box on hatch; it leaves the
+  head after 10 min). Grove line only. The registry's "show what you get" shop option was
+  taken over per-id SKUs (no `ShopItem` change).
 
 ## Round 2 · Lanes A–E (2026-10-28, merged on r2/d, one push)
 
