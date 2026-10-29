@@ -29,3 +29,21 @@ describe('R0304 line acts', () => {
     expect(c(world).flags['c1-cup-turned']).toBeUndefined();
   });
 });
+
+describe('R0306 first fun quest', () => {
+  it('waits for chapter 2 closing, then opens', async () => {
+    const { firstOfferOpen, funQuests, funQuestOpens } = await import('../../src/sim/fun-quests');
+    const { CHAPTERS } = await import('../../src/config/story');
+    const { world } = campaignWorld('fern');
+    const camp = c(world);
+    camp.chapter = 2;
+    camp.stats.hatched = 2;
+    expect(firstOfferOpen(camp)).toBe(false);
+    expect(funQuests().some((q) => funQuestOpens(world, camp, q))).toBe(false);
+    camp.seen.push(CHAPTERS[1]!.closing);
+    expect(firstOfferOpen(camp)).toBe(true);
+    camp.chapter = 3;
+    camp.seen = [];
+    expect(firstOfferOpen(camp)).toBe(true);
+  });
+});

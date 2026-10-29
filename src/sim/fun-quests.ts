@@ -1,5 +1,6 @@
 import type { Quest } from '../content/types';
 import { FUN, STORY } from '../config/tuning';
+import { CHAPTERS } from '../config/story';
 import { isFunQuestCode, questAvailable } from './audience';
 import { FUN_PACK_RULES } from './fun-pack-rules';
 import { hasRoom } from './roster';
@@ -148,11 +149,20 @@ function followsMet(c: CampaignState, quest: Quest, rule: WhenRule): boolean {
   );
 }
 
+/** R0306: the first fun quest waits for chapter `FUN.firstOfferAfterChapter`'s closing scene. */
+export function firstOfferOpen(c: CampaignState): boolean {
+  const after = FUN.firstOfferAfterChapter;
+  if (c.storyline || c.chapter > after) return true;
+  const closing = CHAPTERS[after - 1]?.closing;
+  return c.chapter === after && !!closing && c.seen.includes(closing);
+}
+
 /** Whether `quest` offers itself now. Once open (or done) it is never offered again. */
 export function funQuestOpens(world: World, c: CampaignState, quest: Quest): boolean {
   // The opening is the Keeper's own: nothing interrupts it before the first egg hatches
   // and chapter 1 is over.
   if (c.chapter <= 1 || c.stats.hatched < 1) return false;
+  if (!firstOfferOpen(c)) return false;
   if (!questAvailable(quest, audienceContext(world), c.chapter)) return false;
   const rule = parseWhen(quest.trigger.when);
   if (rule.chapter !== null && c.chapter < rule.chapter) return false;
