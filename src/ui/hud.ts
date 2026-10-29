@@ -2,7 +2,7 @@ import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
-import { BUSH_TEXT, MOVE_TEXT } from '../config/strings-move';
+import { BUSH_TEXT, LOOKOUT_TEXT, MOVE_TEXT } from '../config/strings-move';
 import { ACHIEVEMENT_LIST } from '../sim/achievements';
 import { SKILL_LIST } from '../sim/skills';
 import {
@@ -49,6 +49,7 @@ import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
 import { JumpButtonLook } from './jump-states';
+import { LookoutChip } from './lookout-chip';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -253,6 +254,12 @@ export function mountHud(
   jumpBtn.addEventListener('pointerup', jumpUp);
   jumpBtn.addEventListener('pointercancel', jumpUp);
   root.appendChild(jumpBtn);
+  // MOVE-55: the "Look around" chip on a lookout.
+  const lookout = new LookoutChip(
+    root,
+    (cmd) => game()?.send(cmd),
+    () => game()?.camera ?? null,
+  );
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !e.repeat && !isTypingTarget(e.target)) setRunning(true);
   });
@@ -745,6 +752,7 @@ export function mountHud(
       if (!jumpPolled) {
         jumpPolled = true;
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
+        g.framePollers.push(() => lookout.update(g.world, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -984,6 +992,18 @@ export function mountHud(
           // MOVE-43: a bush's one-time find.
           playSound('pickup');
           toast(BUSH_TEXT.found);
+        } else if (e.kind === 'lookoutFind') {
+          // MOVE-55: a lookout's one-time find.
+          playSound('pickup');
+          toast(
+            e.id === 'well'
+              ? LOOKOUT_TEXT.well
+              : e.critter
+                ? LOOKOUT_TEXT.critter
+                : LOOKOUT_TEXT.shells(e.shells),
+          );
+        } else if (e.kind === 'lookedAround' && !e.found) {
+          toast(LOOKOUT_TEXT.nothing);
         } else if (e.kind === 'moveUnreachable') {
           // MOVE-35: a gentle bonk every time, the words at most once a while.
           playSound('bonk');

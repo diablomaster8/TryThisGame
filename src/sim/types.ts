@@ -785,6 +785,8 @@ export interface World {
   location: Location;
   /** MOVE-43: bushes already searched (one find each per save) and when each was last looked in. */
   bushFinds?: { found: string[]; checked: Record<string, number> };
+  /** MOVE-55: lookout finds already made (vista ids and "well"), each once per save. */
+  lookouts?: string[];
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
   /** Karate belts won per tier. */
@@ -967,6 +969,8 @@ export type Command =
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
   // MOVE-54: Keeper 2's jump, pressed and let go.
   | { kind: 'keeper2Jump'; down: boolean }
+  // MOVE-55: look around from a lookout.
+  | { kind: 'lookAround' }
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
@@ -1068,6 +1072,9 @@ export type SimEvent =
   | { kind: 'keeperJumped'; air: boolean }
   /** `fall`: how far the feet dropped from the top of the arc (MOVE-21). */
   | { kind: 'keeperLanded'; fall: number }
+  // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
+  | { kind: 'lookoutFind'; id: string; shells: number; critter: string | null }
+  | { kind: 'lookedAround'; at: 'top' | 'well'; found: boolean }
   /** A sharp turn at speed (MOVE-20): the renderers kick up a puff of skid dust. */
   | { kind: 'keeperSkid' }
   /** MOVE-35: a tap target the Keeper cannot reach; it walks to `nearest`. `jump`: a jump would. */

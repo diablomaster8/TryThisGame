@@ -70,3 +70,18 @@
     transform: none;
   }
 }
+
+/* MOVE-55: the "Look around" chip, above the jump button on the right thumb's side. */
+.lookout-chip {
+  position: absolute;
+  right: calc(var(--safe-right) + 12px);
+  bottom: calc(var(--hud-bottom) + 172px);
+  min-height: 44px;
+  padding: 0 14px;
+  pointer-events: auto;
+}
+
+.lookout-chip[hidden],
+.dialogue-open .lookout-chip {
+  display: none;
+}

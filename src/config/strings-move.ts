@@ -30,3 +30,12 @@ export const CAMERA_TEXT = {
   follow: 'Camera follows walking',
   followHelp: 'After a few seconds walking toward the side of the view, it turns to face that way.',
 } as const;
+
+/** MOVE-55: the lookout chip and what it finds. */
+export const LOOKOUT_TEXT = {
+  chip: '🔭 Look around',
+  well: 'You spot something shiny at the bottom of the well: a shell!',
+  shells: (n: number) => `From up here you spot a glint: ${n} shells!`,
+  critter: 'From up here you spot a critter in the reeds. It comes home with you.',
+  nothing: 'A fine view. Nothing new to spot from here.',
+} as const;

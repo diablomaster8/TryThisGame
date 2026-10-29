@@ -46,6 +46,7 @@ import { noteCampaignEvents } from './storyline';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
+import { lookAround } from './lookout';
 import { addRewards, buy } from './shop';
 import { SPECIES } from './species';
 import { DEFAULT_TRAINER, rollEggSpecies, TRAINERS, trainerOf } from './trainers';
@@ -884,6 +885,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'keeper2Jump':
       keeper2Jump(world, cmd.down);
+      return;
+    case 'lookAround':
+      lookAround(world, events);
       return;
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);

@@ -196,3 +196,23 @@ export const CAMERA_FOLLOW_WALK = {
 
 /** MOVE-54: the two Keepers' bodies (radius) keep apart while their feet are this close in height. */
 export const KEEPER2 = { body: 0.35, sepHeight: 1.2 } as const;
+
+/**
+ * MOVE-55: lookouts. Standing on a standable top at least `minTop` up, or at the well's rim
+ * (within `wellReach` of its edge), for `dwellMs` offers "Look around". Looking finds each
+ * vista within `vistaRange` once per save; the well's own find is a shell at the bottom.
+ */
+export const LOOKOUT = {
+  minTop: 0.4,
+  dwellMs: 1500,
+  wellReach: 0.7,
+  vistaRange: 20,
+  wellShells: 1,
+  /** Things only seen from up high: a glint, a critter in the reeds. */
+  vistas: [
+    { id: 'pond-reeds', x: 12, z: 10, shells: 0, critter: 'otter' },
+    { id: 'hill-glint', x: -4, z: -6, shells: 2, critter: null },
+    { id: 'falls-glint', x: 14, z: -12, shells: 3, critter: null },
+    { id: 'far-meadow', x: -24, z: 18, shells: 2, critter: null },
+  ],
+} as const;
