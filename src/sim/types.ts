@@ -1332,9 +1332,18 @@ export type SimEvent =
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };
 
+/** R0316 (FUN-27): counts the catch-up keeps, by Nubbin id. */
+export interface AwayTally {
+  ate: Record<string, number>;
+  naps: Record<string, number>;
+  rained: boolean;
+}
+
 export interface AwayReport {
   elapsedMs: number;
   simulatedMs: number;
   mode: OfflineMode;
   events: SimEvent[];
+  /** R0316: what the Nubbins got up to, for the away screen's diary lines. */
+  tally?: AwayTally;
 }

@@ -167,3 +167,33 @@ describe('R0314 Byte stopwatches', () => {
     expect(byteWatches(c(world))).toBe(12);
   });
 });
+
+describe('R0316 away diary', () => {
+  it('a 2-hour capped catch-up gives two or more diary lines that differ by seed', async () => {
+    const { createWorld } = await import('../../src/sim/world');
+    const { catchUp } = await import('../../src/sim/offline');
+    const { awayDiary } = await import('../../src/sim/away-diary');
+    const diaries: string[][] = [];
+    for (const seed of [11, 12, 13, 14]) {
+      const { world } = campaignWorld('fern');
+      c(world).chapter = 3;
+      for (const n of world.nubbins) n.stage = 'child';
+      world.settings.offlineAging = { mode: 'capped', capHours: 8, allowOfflineDepartures: false };
+      const report = catchUp(world, 2 * 3_600_000, 0);
+      const lines = awayDiary(report, world, 'main', seed);
+      expect(lines.length).toBeGreaterThanOrEqual(2);
+      for (const l of lines) expect(l).not.toMatch(/depart|gone|left us|\{/i);
+      diaries.push(lines);
+    }
+    expect(new Set(diaries.map((d) => d.join('|'))).size).toBeGreaterThan(1);
+    // Nothing to tell: one quiet line instead of "Everyone was quiet."
+    const empty = createWorld(3, 0);
+    const quiet = awayDiary(
+      { elapsedMs: 1, simulatedMs: 0, mode: 'off', events: [] },
+      empty,
+      'sprout',
+      1,
+    );
+    expect(quiet).toHaveLength(1);
+  });
+});

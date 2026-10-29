@@ -242,3 +242,16 @@ body.line-shake-big #app {
   min-height: 44px;
   margin-bottom: 6px;
 }
+
+/* R0316 (FUN-27, TECH-76): the away screen's diary lines and its one tall button. */
+.away-diary {
+  font-style: italic;
+  list-style: '✎ ';
+}
+.away-more {
+  opacity: 0.8;
+}
+.away-go {
+  min-height: 56px;
+  width: 100%;
+}

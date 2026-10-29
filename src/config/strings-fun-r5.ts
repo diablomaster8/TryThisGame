@@ -175,3 +175,62 @@ export const BYTE_WATCH_TEXT = {
   } as Record<number, string>,
   sprout: (n: number) => `Count Byte’s stopwatches! ${'⏱'.repeat(n)}`,
 } as const;
+
+/**
+ * R0316 (FUN-27): the away screen's diary. Each template reads only counts and the weather;
+ * none mentions a departure. `{n}` is a Nubbin's name, `{k}` a count. Sprout lines are six
+ * words or fewer. `quiet` replaces the old "Everyone was quiet."
+ */
+export const AWAY_DIARY: Record<
+  'ate' | 'napped' | 'pond' | 'fern' | 'rain' | 'quiet',
+  Record<ToastBand, readonly string[]>
+> = {
+  ate: {
+    main: [
+      '{n} ate {k} fruit. {n} would like you to know it was {j}.',
+      '{n} ate {k} fruit and is now mostly fruit.',
+    ],
+    reader: ['{n} ate {k} fruit. Yum!', '{n} had {k} fruit and a big burp.'],
+    sprout: ['{n} ate lots of fruit! Munch!', 'Munch, munch! {n} ate fruit!'],
+  },
+  napped: {
+    main: [
+      '{n} napped {k} times, each one as if for the first time.',
+      '{n} had {k} naps and would like a word about the light.',
+    ],
+    reader: ['{n} had {k} naps. Snore!', '{n} napped {k} times in the shade.'],
+    sprout: ['{n} had a nap. Zzz!', 'Shh! {n} napped.'],
+  },
+  pond: {
+    main: [
+      '{n} spent an hour watching the pond. The pond did not do anything.',
+      '{n} watched a beetle for a long time. The beetle won.',
+    ],
+    reader: ['{n} watched the pond for an hour.', '{n} watched a beetle. It was a good beetle.'],
+    sprout: ['{n} watched the pond. Plop!', '{n} saw a beetle!'],
+  },
+  fern: {
+    main: [
+      'Fern says the pear tree is fine. The pear tree has not commented.',
+      'Fern came by and straightened her stone. It had not moved.',
+    ],
+    reader: ['Fern came by to check the pear tree.', 'Fern said hello to her stone.'],
+    sprout: ['Fern waved at the trees!', 'Fern said hello, stone!'],
+  },
+  rain: {
+    main: ['It rained. {n} has opinions about it.', 'It rained. The pond is pleased with itself.'],
+    reader: ['It rained. Everyone hid under the trees.', 'Drip, drip! It rained all over.'],
+    sprout: ['Drip, drip! It rained.', 'Splash! A rainy day.'],
+  },
+  quiet: {
+    main: ['Nothing much happened. {n} supervised.', 'A quiet spell. {n} kept an eye on things.'],
+    reader: ['A quiet time. {n} kept watch.', 'Nothing much happened. That was nice.'],
+    sprout: ['A quiet, cosy time.', '{n} kept watch. Shh!'],
+  },
+};
+
+/** R0316 (TECH-76): the away screen stays short: three headlines, then a count. */
+export const AWAY_SHORT = {
+  headlines: 3,
+  more: (n: number) => `+${n} more`,
+} as const;
