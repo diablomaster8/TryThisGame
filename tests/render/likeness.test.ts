@@ -220,3 +220,15 @@ describe('Gen-1 likeness fixes (LOOK-39)', () => {
     }
   });
 });
+
+describe('digital-line likeness fixes (LOOK-41)', () => {
+  it('dresses Yukidarumon in a bucket hat and mitts, and paints Monzaemon a chest heart', () => {
+    const snow = SPECIES_ART.snowlump!;
+    expect(snow.addons?.map((e) => e.kind)).toContain('bucketHat');
+    expect(snow.arms).toBe('boxing');
+    expect(SPECIES_ART.hugbear!.addons?.map((e) => e.kind)).toContain('heart');
+    const marks = artSpec('hugbear', SPECIES_ART.hugbear!).marks;
+    const plain = artSpec('hugbear', { ...SPECIES_ART.hugbear!, addons: [] }).marks;
+    expect(marks.length).toBe(plain.length + 3);
+  });
+});

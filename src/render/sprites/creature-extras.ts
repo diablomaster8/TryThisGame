@@ -47,6 +47,7 @@ export type ExtraKind =
   | 'coin'
   // head
   | 'cap'
+  | 'bucketHat'
   | 'leafTuft'
   | 'bigFlower'
   | 'flowers'
@@ -57,6 +58,7 @@ export type ExtraKind =
   // body
   | 'swirl'
   | 'gems'
+  | 'heart'
   | 'belt'
   | 'pads'
   | 'plates'
@@ -491,6 +493,15 @@ function drawOne(
       pc.disc(x, top + 2.5, 1.2, c);
       break;
     }
+    case 'bucketHat': {
+      // A snowman's bucket hat (Yukidarumon, LOOK-41): a flat brim, a straight crown, a band.
+      const w = Math.max(4, Math.round(a.headRx * 0.75));
+      // Sunk into the crown of the head, so a tall species keeps the hat inside its frame.
+      pc.rect(a.headCx - w, Math.max(0, top - 2), w * 2, 5, c);
+      pc.rect(a.headCx - w, top + 1, w * 2, 2, c2);
+      pc.ellipse(a.headCx, top + 3, a.headRx + 1, 1.3, c);
+      break;
+    }
     case 'cap': {
       const ry = a.headRy * 0.8 + 1;
       const cy = a.headCy - 1 - ry * 0.55;
@@ -604,6 +615,15 @@ function drawOne(
       if (v !== 'side') pc.disc(a.headCx, a.headCy + a.headRy - 2, 1, c);
       break;
     }
+    case 'heart':
+      // A heart on the chest (Monzaemon, LOOK-41), seen from the front and the quarter.
+      if (v === 'front' || v === 'quarter') {
+        const hx = tx + (v === 'quarter' ? 1 : 0);
+        pc.disc(hx - 1.2, ty - 1, 1.5, c);
+        pc.disc(hx + 1.2, ty - 1, 1.5, c);
+        pc.tri(hx - 2.6, ty - 0.6, hx + 2.6, ty - 0.6, hx, ty + 2.4, c);
+      }
+      break;
     case 'belt':
       if (hasBody)
         pc.rect(a.bodyCx - a.bodyRx + 1, a.bodyCy + a.bodyRy - 4, a.bodyRx * 2 - 2, 2, c);

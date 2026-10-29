@@ -499,6 +499,27 @@ function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] 
         break;
     }
   }
+  // A chest heart (Monzaemon, LOOK-41) is paint, after the belly so it shows on top of it.
+  const heart = art.addons?.find((e) => e.kind === 'heart');
+  if (heart) {
+    const hc = vivid(color(heart.c ?? art.colors.accent));
+    const z = b.r.z * 0.85;
+    for (const s of [-1, 1])
+      out.push({
+        kind: 'ellipsoid',
+        a: V(s * 0.1, b.y + 0.08, z),
+        radii: V(0.11, 0.11, 0.3),
+        color: hc,
+        soft: 0.01,
+      });
+    out.push({
+      kind: 'ellipsoid',
+      a: V(0, b.y - 0.07, z),
+      radii: V(0.08, 0.15, 0.3),
+      color: hc,
+      soft: 0.01,
+    });
+  }
   return out;
 }
 
