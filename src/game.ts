@@ -1,3 +1,4 @@
+import { WalkFollow } from './render/camera-follow';
 import { Vector3 } from 'three';
 import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
@@ -110,6 +111,8 @@ export class Game {
   private lastDaylightMs = -Infinity;
   /** The pixel view's story stager (render/scene-stage.ts); Full 3D keeps its own. */
   private readonly stager = new SceneStager();
+  /** MOVE-53: the view turns toward a steady sideways walk when the setting is on. */
+  private readonly walkFollow = new WalkFollow();
   /** K48: the points the pixel story fit last kept (K3), for the stage inspector. */
   stageFitKept: FitPoint[] = [];
 
@@ -527,6 +530,11 @@ export class Game {
         rotate: (dir) => this.camera.rotate(dir),
         zoom: (dir) => (dir > 0 ? this.camera.zoomIn() : this.camera.zoomOut()),
       },
+    });
+    // MOVE-53: Camera follows walking, never while a dialogue is up.
+    this.framePollers.push(() => {
+      const talking = document.documentElement.classList.contains('dialogue-open');
+      this.walkFollow.update(this.world, this.camera, performance.now(), talking);
     });
     this.markReduceMotion();
     // The save mirrors the device-wide renderer choice made on the title screen.

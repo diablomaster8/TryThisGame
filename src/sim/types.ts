@@ -297,6 +297,8 @@ export interface Settings {
   autoHop?: boolean;
   /** MOVE-42: tap walks over ten units run by themselves. Unset: off (a phone sets it on). */
   autoRun?: boolean;
+  /** MOVE-53: the Pixel view turns toward a steady sideways walk. Unset: off. */
+  cameraFollowsWalk?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';

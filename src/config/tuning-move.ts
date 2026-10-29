@@ -183,3 +183,13 @@ export const HILL_CLEAR = {
   inMs: 120,
   outMs: 500,
 } as const;
+
+/**
+ * MOVE-53: Camera follows walking. After `steadyMs` walking within `wobbleDeg` of one way,
+ * more than `offDeg` off the camera's forward, the view turns one step toward it.
+ */
+export const CAMERA_FOLLOW_WALK = {
+  steadyMs: 3000,
+  wobbleDeg: 25,
+  offDeg: 60,
+} as const;

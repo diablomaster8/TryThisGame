@@ -24,3 +24,9 @@ export const RUN_TEXT = {
 export const BUSH_TEXT = {
   found: 'Something was tucked in the bush: a shell!',
 } as const;
+
+/** MOVE-53: the Camera follows walking setting. */
+export const CAMERA_TEXT = {
+  follow: 'Camera follows walking',
+  followHelp: 'After a few seconds walking toward the side of the view, it turns to face that way.',
+} as const;
