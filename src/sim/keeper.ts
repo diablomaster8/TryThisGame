@@ -2,11 +2,13 @@ import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from 
 import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
+import { springBounce, springShroomAt } from './decorate';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
 import {
   AUTO_HOP,
   GLIDE,
   JUMP_PLAY,
+  JUMP_TOYS,
   KEEPER_SLOPE,
   BUSH,
   MANTLE,
@@ -648,7 +650,14 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
       return;
     }
     k.y = under;
-    if (k.vy <= 0) land(world, Math.max(0, (peakY.get(world) ?? k.y) - k.y), events);
+    // MOVE-57: a spring mushroom's cap throws the Keeper back up, higher than a jump.
+    const shroom = k.vy <= 0 && !dungeon ? springShroomAt(world, k.pos.x, k.pos.z) : null;
+    if (shroom) {
+      k.vy = Math.sqrt(2 * tune.gravity * JUMP.height * JUMP_TOYS.bounce);
+      k.airJumps = JUMP.airJumps;
+      peakY.set(world, k.y);
+      springBounce(world, shroom, events);
+    } else if (k.vy <= 0) land(world, Math.max(0, (peakY.get(world) ?? k.y) - k.y), events);
   }
 }
 

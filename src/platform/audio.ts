@@ -33,7 +33,9 @@ export type SoundName =
   | 'bonk'
   // MOVE-46: footsteps on a deck (a hollow tok) and on stone (a light tap).
   | 'stepDeck'
-  | 'stepStone';
+  | 'stepStone'
+  // MOVE-57: a spring mushroom's boing.
+  | 'boing';
 
 export type SongName =
   | 'title'
@@ -878,6 +880,10 @@ export function playSound(name: SoundName): void {
         break;
       case 'bonk':
         tone(220, 0, 70, 'triangle', 0.05, 150);
+        break;
+      case 'boing':
+        tone(160, 0, 90, 'sine', 0.06, 440);
+        tone(440, 80, 180, 'sine', 0.04, 300);
         break;
       case 'stepDeck':
         tone(210, 0, 40, 'triangle', 0.035, 170);

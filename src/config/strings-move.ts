@@ -57,3 +57,9 @@ export const HAND_TEXT = {
   left: 'Left-handed',
   leftHelp: 'Jump and camera buttons on the left, Run and the touch pad on the right.',
 } as const;
+
+/** MOVE-57: the jump toys' names in the decor shop. */
+export const JUMP_TOY_NAMES = {
+  springShroom: 'Spring mushroom',
+  hayBale: 'Hay bale',
+} as const;

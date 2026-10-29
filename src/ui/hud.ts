@@ -1016,6 +1016,9 @@ export function mountHud(
           playSound(e.air ? 'hopAir' : 'hop');
         } else if (e.kind === 'keeperLanded') {
           playSound(e.fall > KEEPER_JUMP_FX.plopFall ? 'plop' : 'pat');
+        } else if (e.kind === 'springBounced' && !e.nubbinId) {
+          // MOVE-57: the Keeper off a spring mushroom (a Nubbin's bounces stay quiet).
+          playSound('boing');
         } else if (e.kind === 'bushRustle' && e.found) {
           // MOVE-43: a bush's one-time find.
           playSound('pickup');

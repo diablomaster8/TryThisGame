@@ -37,10 +37,21 @@ import { idleMultipliers } from './personality';
 import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
 import { perchTopAt, softAt } from './obstacles';
 import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
-import { BUSH } from '../config/tuning-move';
+import { BUSH, JUMP_TOYS } from '../config/tuning-move';
+import { springBounce } from './decorate';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
-import type { BehaviorState, Flavor, Item, Nubbin, Reaction, SimEvent, Vec2, World } from './types';
+import type {
+  BehaviorState,
+  Flavor,
+  Item,
+  Nubbin,
+  PlacedDecor,
+  Reaction,
+  SimEvent,
+  Vec2,
+  World,
+} from './types';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -359,6 +370,75 @@ function nearestToy(world: World, from: Vec2): Item | null {
   return best;
 }
 
+/** MOVE-57: the nearest placed spring mushroom within reach, in the home Grove only. */
+function nearestShroom(world: World, from: Vec2): PlacedDecor | null {
+  if (world.location !== 'grove') return null;
+  let best: PlacedDecor | null = null;
+  let bestD: number = JUMP_TOYS.nubbinReach;
+  for (const d of world.placed) {
+    if (d.kind !== 'springShroom') continue;
+    const dist = Math.hypot(d.pos.x - from.x, d.pos.z - from.z);
+    if (dist < bestD) {
+      best = d;
+      bestD = dist;
+    }
+  }
+  return best;
+}
+
+/**
+ * MOVE-57: walk to the mushroom, then bounce on its cap until the play time is up, and hop
+ * off the front with a little happiness.
+ */
+function playOnShroom(
+  n: Nubbin,
+  world: World,
+  shroom: PlacedDecor,
+  rng: Rng,
+  dtMs: number,
+  now: number,
+  events: SimEvent[],
+): void {
+  const b = n.behavior;
+  if (b.target) {
+    if (!walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs, BEHAVIOR.toyReach + 0.3)) {
+      if (approachStalled(n, b.target, now)) {
+        skipItem(n, shroom.id, now);
+        chooseIdle(n, world, rng, now);
+      }
+      return;
+    }
+    b.untilMs = now + (b.untilMs - b.sinceMs);
+    b.target = null;
+    n.pos = { x: shroom.pos.x, z: shroom.pos.z };
+  }
+  if (now >= b.untilMs) {
+    n.pos = {
+      x: shroom.pos.x + Math.sin(n.facing) * 0.8,
+      z: shroom.pos.z + Math.cos(n.facing) * 0.8,
+    };
+    clampToWorld(n.pos);
+    addHappiness(n, JUMP_TOYS.nubbinHappiness);
+    chooseIdle(n, world, rng, now);
+    return;
+  }
+  if (now % JUMP_TOYS.nubbinHopMs < dtMs) springBounce(world, shroom, events, n.id);
+}
+
+/**
+ * MOVE-57: how high a Nubbin bouncing on a spring mushroom is above the ground at sim time
+ * `t` (the renderers pass an in-between time), or null when it isn't on one. The bounce is
+ * drawn only: the sim keeps the Nubbin's `y` at 0 so nothing else ever sees it airborne.
+ */
+export function shroomHopY(world: World, n: Nubbin, t: number): number | null {
+  const b = n.behavior;
+  if (b.state !== 'play' || b.target || !b.itemId) return null;
+  if (!world.placed.some((d) => d.id === b.itemId && d.kind === 'springShroom')) return null;
+  const hop = JUMP_TOYS.nubbinHopMs;
+  const p = (((t % hop) + hop) % hop) / hop;
+  return JUMP_TOYS.colliders.springShroom.top + JUMP_TOYS.nubbinHop * 4 * p * (1 - p);
+}
+
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Curfew: late at night they would rather sleep.
   if (world.night && n.needs.energy < 0.9 && rng.chance(CURFEW.napChance)) {
@@ -497,6 +577,19 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
   }
+  // MOVE-57: a spring mushroom nearby is a toy too. No mushroom, no roll of the dice, so a
+  // Grove without one plays out exactly as before.
+  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
+  if (
+    shroom &&
+    shroom.id !== skipping(n, now) &&
+    rng.chance(Math.min(1, BEHAVIOR.playChance * m.play * JUMP_TOYS.nubbinChance))
+  ) {
+    setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
+    n.behavior.itemId = shroom.id;
+    n.behavior.target = { x: shroom.pos.x, z: shroom.pos.z };
+    return;
+  }
   if (n.stage !== 'egg' && rng.chance(Math.min(1, BEHAVIOR.swimChance * m.swim))) {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
     n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
@@ -622,6 +715,11 @@ export function updateBehavior(
       break;
     }
     case 'play': {
+      const shroom = world.placed.find((d) => d.id === b.itemId && d.kind === 'springShroom');
+      if (shroom) {
+        playOnShroom(n, world, shroom, rng, dtMs, now, events);
+        break;
+      }
       const toy = world.items.find((i) => i.id === b.itemId);
       if (!toy) {
         chooseIdle(n, world, rng, now);
