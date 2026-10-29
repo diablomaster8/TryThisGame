@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CRITTERS, EGG, ESSENCES, LIFECYCLE, SIM } from '../../src/config/tuning';
-import { CRITTER_SPECIES, giveCritter, giveEssence, mainStatOf } from '../../src/sim/critters';
+import { WILD_CRITTERS, giveCritter, giveEssence, mainStatOf } from '../../src/sim/critters';
 import { winningType } from '../../src/sim/alignment';
 import { secondTypeFor, upgradeCandidate } from '../../src/sim/lifecycle';
 import { createEgg } from '../../src/sim/nubbin';
@@ -25,10 +25,14 @@ function run(world: World, steps: number, cmds: Command[] = []): SimEvent[] {
 }
 
 describe('critters', () => {
-  it('has 15 species, 3 per type', () => {
-    expect(CRITTER_SPECIES).toHaveLength(15);
+  it('has 24 wild species, 3 or more per type, each setting 2 to 4 slots', () => {
+    expect(WILD_CRITTERS).toHaveLength(24);
     for (const type of ['swim', 'fly', 'run', 'power', 'normal'] as const) {
-      expect(CRITTER_SPECIES.filter((s) => s.type === type)).toHaveLength(3);
+      expect(WILD_CRITTERS.filter((s) => s.type === type).length).toBeGreaterThanOrEqual(3);
+    }
+    for (const s of WILD_CRITTERS) {
+      expect(s.parts.length, s.id).toBeGreaterThanOrEqual(2);
+      expect(s.parts.length, s.id).toBeLessThanOrEqual(4);
     }
   });
 
@@ -51,13 +55,13 @@ describe('critters', () => {
     giveCritter(n, 'rabbit', Rng.fromSeed(1), []);
     giveCritter(n, 'penguin', Rng.fromSeed(2), []);
     expect(n.parts.ears).toBe('rabbit-ears');
-    expect(n.parts.tail).toBe('penguin-tail');
+    expect(n.parts.legs).toBe('penguin-legs');
     expect(n.parts.arms).toBe('penguin-arms');
     const w = createWorld(1, 0);
     w.nubbins = [n];
     run(w, Math.ceil((LIFECYCLE.childMs + LIFECYCLE.cocoonMs) / SIM.stepMs) + 2);
     expect(n.stage).toBe('adult');
-    expect(n.parts.tail).toBe('penguin-tail');
+    expect(n.parts.legs).toBe('penguin-legs');
   });
 
   it('normal critters train Stamina and nudge lean toward Normal', () => {

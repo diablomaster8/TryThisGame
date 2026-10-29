@@ -1007,7 +1007,7 @@ _Dumpling beams. Then droops. Then yawns enormously. Then hides behind the teapo
 
 ## LJ6. Floating Lanterns
 
-- `lj6-step1`: Ask Hana why she is sitting by the stream. · _Hana is sitting by the stream. Tap her and choose Talk._
+- `lj6-step1`: Ask Hana why she is sitting by the stream. · _Hana is sitting by the stream. Tap her to talk._
 - `lj6-step2`: Help Hana make ojiichan’s lantern, and make one of your own if you like. · _Use a wooden base so it floats. Write any name, in any language. Hana can help with hiragana._
 - `lj6-step3`: Float ojiichan’s lantern with Hana at dusk. Later, join her review party. · _Luna lights the lanterns. Set yours on the water gently, or just watch. The party is back at the cottage._
 

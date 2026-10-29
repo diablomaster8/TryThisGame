@@ -5,6 +5,7 @@ import type { Tex } from '../samples/aaa-kit';
 import { KIT_SHARED, kitCabin, kitHouse, kitMaterials } from './kit-buildings';
 import { buildStoryProp } from './prop-kit';
 import { occluders } from './occluders';
+import { jumpToyModel } from './jump-toys';
 
 /**
  * The Keeper's own garden work in 3D: placed decor (fences, beds, benches, the statue,
@@ -111,6 +112,9 @@ export function building(width: number, roof: THREE.Material): THREE.Group {
 }
 
 export function decorModel(kind: DecorKind): THREE.Group {
+  // MOVE-57: the jump toys' models live in render3d/jump-toys.ts (lane A).
+  const toy = jumpToyModel(kind);
+  if (toy) return toy;
   const g = new THREE.Group();
   switch (kind) {
     case 'fence':

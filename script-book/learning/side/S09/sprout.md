@@ -2,7 +2,7 @@
 
 ## S9. The Gate That Sticks
 
-- `s9-step1`: Take the old trowel to Gran. · _She is on the cottage step. Give it to her from your bag._
+- `s9-step1`: Take the old trowel to Gran. · _The trowel is by the cottage step. Tap it!_
 - `s9-step2`: Go to the gate at sunset tomorrow. · _Corvin comes when the Sun goes down. Just stand by the gate._
 - `s9-step3`: Be at the gate first thing in the morning. · _When the new day starts, go to the gate before anything else._
 

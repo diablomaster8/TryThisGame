@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { bandFor } from '../render/cave-bands';
+import { bandFor, bandForFloor } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
 import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
@@ -10,6 +10,7 @@ import { HollowTrail } from './hollow-trail';
 import { HollowPlates } from './hollow-plates';
 import { HollowShrines } from './hollow-shrines';
 import { HollowTraps } from './hollow-traps';
+import { HollowTown } from './hollow-town';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
 import { HollowFog } from './hollow-fog';
@@ -64,6 +65,8 @@ export class Hollow {
   private readonly shrines = new HollowShrines();
   /** Trap tiles (R0161). */
   private readonly traps = new HollowTraps();
+  /** Act camps and fields: stalls, keepers and cave mouths (R0152, R0147). */
+  private readonly town = new HollowTown();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
   private readonly fog = new HollowFog();
   /** In build order: fog, rock, dress, light, air (`update` runs them in this order too). */
@@ -113,6 +116,7 @@ export class Hollow {
       this.plates,
       this.shrines,
       this.traps,
+      this.town,
     ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);
     const wallSample = new THREE.Mesh(box, this.rock.rock);
@@ -168,7 +172,7 @@ export class Hollow {
     this.floor = f;
     // The band is set before any module builds (rock tint, torch and crystal colour).
     this.ctx.depth = depth;
-    this.ctx.band = bandFor(depth);
+    this.ctx.band = bandForFloor(f, depth);
     for (const m of this.mods) m.dispose();
     this.ctx.bakers.length = 0;
     if (f) this.ctx.bakers.push(lightBaker(f, this.ctx));
@@ -188,7 +192,7 @@ export class Hollow {
     const depth = run?.depth ?? this.ctx.depth;
     if (depth !== this.ctx.depth) {
       this.ctx.depth = depth;
-      this.ctx.band = bandFor(depth);
+      this.ctx.band = bandForFloor(this.floor, depth);
     }
     this.ctx.reduceMotion = this.lamps.reduceMotion;
     const fr: HollowFrame = { on, run, camera, party };

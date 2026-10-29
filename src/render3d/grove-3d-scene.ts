@@ -1,3 +1,4 @@
+import { openSky } from '../render/cave-bands';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -639,7 +640,8 @@ export class Grove3dScene {
     const visiting = place.startsWith('visit:') ? place.slice('visit:'.length) : null;
     this.visit.show(visiting, this.tex);
     this.story.show(place);
-    const cave = place === 'dungeon' || place === 'hollow';
+    // An act's camp and fields are a Hollow floor under the open sky (lane B, R0147).
+    const cave = (place === 'dungeon' && !openSky(this.floor)) || place === 'hollow';
     this.dungeonFloor.visible =
       !grove && !visiting && !this.story.showing && !(place === 'dungeon' && this.floor);
     this.actors.ground = grove ? standHeight : () => 0;
@@ -855,6 +857,9 @@ export class Grove3dScene {
           this.lastMs,
         );
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      } else if (e.kind === 'interacted') {
+        // FUN-09 (lane E): each pet action plays its own beat.
+        this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
       } else if (e.kind === 'reaction') {
         this.actors.react(e.nubbinId, bubbleFor(e.reaction), this.lastMs + UI.bubbleMs);
         const head = up(e.nubbinId, 1.05);

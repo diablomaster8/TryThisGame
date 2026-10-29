@@ -1,6 +1,7 @@
 import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, WALL, type Floor } from '../sim/dungeon';
 import type { Particles } from './particles';
+import { zoneSprites } from './paint/dungeon-town';
 
 /**
  * The air of the pixel Hollow (item 39): dust motes drifting near the Keeper, drips falling
@@ -105,7 +106,7 @@ export class CaveAmbience {
  */
 export function landmarkSprites(f: Floor): Array<{ key: string; x: number; z: number; r: number }> {
   const lm = f.landmark;
-  if (!lm) return [];
+  if (!lm) return zoneSprites(f);
   const c = cellCentre(f, lm.cell);
   if (lm.kind !== 'mushroomRing') return [{ key: `lm-${lm.kind}`, x: c.x, z: c.z, r: 0.9 }];
   const out: Array<{ key: string; x: number; z: number; r: number }> = [];

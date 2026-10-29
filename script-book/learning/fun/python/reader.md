@@ -2,8 +2,8 @@
 
 ## Q1. Two Shrubberies
 
-- `q01-s1`: Make a shrubbery at the Workshop and give it to the hooded three. · _The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give._
-- `q01-s2`: Make a second shrubbery, a little higher, with a beetle-sized path, and place it by the first. · _Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool._
+- `q01-s1`: Bring the hooded three a shrubbery. · _Buy a flower bed in the Decorate shop and place it. The hoods will call it a shrubbery._
+- `q01-s2`: Make a second shrubbery, a little higher, with a beetle-sized path, and place it by the first. · _Place a second flower bed and a path stone beside the first one._
 
 #### `reader:q01-intro` · [main](../../../fun/python.md#q01-intro)
 
@@ -1067,7 +1067,7 @@ _Byte stops, watches the leaf-crowned Nubbin take a very small bow, and sips the
 ## Q8. The Aqueduct Committee
 
 - `q08-s1`: Build an aqueduct from the falls to your crops. · _Craft aqueduct sections at the Workshop from stone and wood, then lay them from the top of the falls down to the crop beds._
-- `q08-s2`: Harvest a crop from the aqueduct beds and take it to the committee. · _Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall._
+- `q08-s2`: Harvest a crop from the aqueduct beds and take it to the committee. · _Ripe crops glow. Tap to harvest. Take it to Reggie, then tap Do it in the Journal._
 
 #### `reader:q08-intro` · [main](../../../fun/python.md#q08-intro)
 
@@ -2866,7 +2866,7 @@ _The sleeping Keeper wakes, sees you in the top hat, and goes straight back to s
 ## Q20. The Larch Lesson
 
 - `q20-s1`: Find and tap one of every kind of tree in the Grove. · _Your Grove has one tree for each fruit, plus the palm on the coast. Keep a tally: your journal ticks each one off._
-- `q20-s2`: Photograph Mr Arbour’s board from the meadow. · _Open Photo mode, zoom in on the far ridge, and take the picture with the board in frame._
+- `q20-s2`: Photograph Mr Arbour’s board from the meadow. · _Find the far ridge with the board in view. Then tap Do it in the Journal._
 
 #### `reader:q20-intro` · [main](../../../fun/python.md#q20-intro)
 

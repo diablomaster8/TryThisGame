@@ -1,8 +1,8 @@
-import { NAMES, UI_TEXT } from '../config/strings';
+import { JUMP_TOY_NAMES, NAMES, UI_TEXT } from '../config/strings';
 import { RECIPES, TOYS } from '../config/tuning';
 import type { Game } from '../game';
 import { canCraft, hasWorkshop, type RecipeId } from '../sim/craft';
-import { DECOR_KINDS, decorPrice } from '../sim/decorate';
+import { DECOR_KINDS, decorPrice, isJumpToy } from '../sim/decorate';
 import type { Placing } from '../input/game-input';
 import { FLAVORS, type DecorKind, type DyeColor, type TileKind, type ToyKind } from '../sim/types';
 import { button, el, modal } from './dom';
@@ -127,11 +127,11 @@ export class DecorateMenu {
       buy.disabled = g.world.inventory.shells < price;
       const place = button(
         UI_TEXT.placeDecor,
-        () => this.place({ mode: 'decor', kind }, UI_TEXT.decorNames[kind]),
+        () => this.place({ mode: 'decor', kind }, decorName(kind)),
         'btn btn-small btn-primary',
       );
       place.disabled = owned <= 0;
-      this.list.appendChild(this.row(UI_TEXT.decorNames[kind], `×${owned}`, buy, place));
+      this.list.appendChild(this.row(decorName(kind), `×${owned}`, buy, place));
     }
   }
 
@@ -252,12 +252,17 @@ export class DecorateMenu {
   }
 }
 
+/** A piece's shop name; the jump toys' names live with the movement text (MOVE-57). */
+function decorName(kind: DecorKind): string {
+  return isJumpToy(kind) ? JUMP_TOY_NAMES[kind] : UI_TEXT.decorNames[kind];
+}
+
 /** The chip label while placing. */
 export function placingLabel(p: Placing): string {
   if (!p) return '';
   switch (p.mode) {
     case 'decor':
-      return UI_TEXT.decorNames[p.kind];
+      return decorName(p.kind);
     case 'tile':
       return UI_TEXT.tileNames[p.tile];
     case 'plant':

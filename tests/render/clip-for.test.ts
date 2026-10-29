@@ -55,9 +55,9 @@ describe('clipFor', () => {
     expect(clipFor(n)).toBe('happy');
   });
 
-  it('swims only for a strong swimmer; the rest wade', () => {
+  it('swims a paddle, breaststroke or crawl by Swim level (LOOK-23)', () => {
+    expect(clipFor(inState(nubbin('child', 0, 5), 'swim'))).toBe('paddle');
     expect(clipFor(inState(nubbin('adult', 0, swimmer), 'swim'))).toBe('swim');
-    expect(clipFor(inState(nubbin('adult', 0, swimmer - 1), 'swim'))).toBe('walk');
-    expect(clipFor(inState(nubbin('child', 0, 99), 'swim'))).toBe('walk');
+    expect(clipFor(inState(nubbin('adult', 0, 80), 'swim'))).toBe('crawl');
   });
 });

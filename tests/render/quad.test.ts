@@ -13,7 +13,7 @@ import { blitScaled, encodePng, solid } from '../tools/png';
 
 const QUADS = Object.keys(SPECIES_ART).filter((id) => SPECIES_ART[id]!.plan === 'quad');
 const LISTED =
-  'bulblet budback bloomback kindlefox blazebrush blazepup blazehound emberfoal blazesteed rockhorn stampbull fluffkit tidefox sparkfox flarefox gemcat thornbelle thornbeau thornlad nibbler gnawmaw dawdlet floepup floeglide ferrysong snoozelump voltkit'.split(
+  'bulblet budback bloomback kindlefox blazebrush blazepup blazehound emberfoal blazesteed rockhorn stampbull fluffkit tidefox sparkfox flarefox gemcat thornbelle thornbeau thornlad nibbler gnawmaw dawdlet floepup floeglide ferrysong voltkit'.split(
     ' ',
   );
 
@@ -39,8 +39,8 @@ describe('quad plan', () => {
     for (const id of LISTED) expect(QUADS, id).toContain(id);
   });
 
-  it('is longer than tall from the side, seated Snorlax aside', () => {
-    for (const id of QUADS.filter((q) => q !== 'snoozelump')) {
+  it('is longer than tall from the side', () => {
+    for (const id of QUADS) {
       const b = bounds(drawCreature('side', poseFor('idle', 0), SPECIES_ART[id]!));
       expect(b.w / b.h, id).toBeGreaterThan(0.85);
     }

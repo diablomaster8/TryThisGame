@@ -4,7 +4,7 @@
 
 - `q21-s1`: Look for a clue by the pond. · _Search the reeds by the pond. Clues sparkle._
 - `q21-s2`: Follow the little wild Nubbin up the hill. · _It nests in the long grass on the western hill. Walk slowly!_
-- `q21-s3`: Bring Bear back to Mr. Tweed. · _He’s on his rock by the pond. Use Give._
+- `q21-s3`: Bring Bear back to Mr. Tweed. · _He is on his rock by the pond. Take him the bear. Tap Do it._
 
 #### `sprout:q21-intro` · [main](../../../fun/bean.md#q21-intro)
 
@@ -423,7 +423,7 @@ _It’s a wobbly circle. Buttons claps anyway._
 
 ## Q25. The High Ledge
 
-- `q25-s1`: Help Mr. Tweed down from the high ledge. · _Talk him down step by step, or ask a Swim Nubbin to show him._
+- `q25-s1`: Help Mr. Tweed down from the high ledge. · _Help him down, step by step. Tap Do it._
 - `q25-s2`: Build a low diving board at the pond. · _Put the plank on the flat rock. Tap three times to hammer it._
 
 #### `sprout:q25-ledge` · [main](../../../fun/bean.md#q25-ledge)
@@ -828,7 +828,7 @@ _Mr. Tweed beams in the doorway, holding the teapot._
 
 - `q29-s1`: Put Odette’s egg down somewhere flat. · _Find flat ground near your cottage. Not on the slope!_
 - `q29-s2`: Catch the rolling egg before it reaches the stream. · _Get in front of it and wait. Mr. Tweed’s hat can catch it._
-- `q29-s3`: Give the egg back to Odette at sunset. · _Odette waits at your gate. Carry the egg and use Give._
+- `q29-s3`: Give the egg back to Odette at sunset. · _Odette waits at your gate. Take her the egg. Tap Do it._
 
 #### `sprout:q29-handover` · [main](../../../fun/bean.md#q29-handover)
 

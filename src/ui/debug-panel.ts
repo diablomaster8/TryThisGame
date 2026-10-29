@@ -9,6 +9,8 @@ import { button, el } from './dom';
 import { StageInspector } from './stage-inspector';
 import { MOVE_TEXT } from '../config/strings-move';
 import { DEBUG_OVERLAY } from '../render/debug-colliders';
+import { TACTICS_TEXT } from '../config/strings-tactics';
+import { COMIC_SOUNDS, playSound } from '../platform/audio';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -154,6 +156,17 @@ export class DebugPanel {
     );
     this.root.appendChild(force);
 
+    // Lane C: the grid-tactics rumble room (recs FIGHT-65); the screen loads on demand.
+    const rumble = el('div', 'debug-row');
+    rumble.appendChild(
+      button(
+        TACTICS_TEXT.start,
+        () => void import('./tactics-screen').then((m) => m.startTacticsDebug(parent, game)),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(rumble);
+
     // MOVE-38: collision overlays, drawn by whichever renderer is on.
     const overlays = el('div', 'debug-row');
     for (const key of ['colliders', 'nav', 'groundY'] as const) {
@@ -170,6 +183,12 @@ export class DebugPanel {
     this.root.appendChild(overlays);
 
     this.root.appendChild(worldControls(game));
+
+    // R0301: the comic sound palette, one button each, for an ear test.
+    const comic = el('div', 'debug-row');
+    for (const name of COMIC_SOUNDS)
+      comic.appendChild(button(name, () => playSound(name), 'btn btn-small'));
+    this.root.appendChild(comic);
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);

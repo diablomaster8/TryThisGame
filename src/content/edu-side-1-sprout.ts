@@ -2934,7 +2934,7 @@ const S9: EduQuest = quest(
   {
     's9-step1': {
       goal: 'Take the old trowel to Gran.',
-      hint: 'She is on the cottage step. Give it to her from your bag.',
+      hint: 'The trowel is by the cottage step. Tap it!',
     },
     's9-step2': {
       goal: 'Go to the gate at sunset tomorrow.',

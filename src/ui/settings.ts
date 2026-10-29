@@ -25,7 +25,7 @@ import { EDU_AGES, type EduAge } from '../config/edu';
 import { EDU_TEXT } from '../config/strings';
 import { mountMinimapSetting } from './minimap';
 import { mountWorldSettings } from './world-settings';
-import { CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
+import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
@@ -52,6 +52,8 @@ export class SettingsMenu {
   private readonly autoRun: HTMLInputElement;
   private readonly camFollow: HTMLInputElement;
   private readonly leftHand: HTMLInputElement;
+  /** R0302: the voice blips. */
+  private readonly blips: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -287,6 +289,15 @@ export class SettingsMenu {
     );
     handRow.append(this.leftHand, lText);
     body.appendChild(handRow);
+    // R0302: the dialogue's voice blips.
+    const blipRow = el('label', 'check-row');
+    this.blips = el('input');
+    this.blips.type = 'checkbox';
+    this.blips.addEventListener('change', () => this.apply());
+    const bText = el('span');
+    bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
+    blipRow.append(this.blips, bText);
+    body.appendChild(blipRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -384,6 +395,7 @@ export class SettingsMenu {
     this.autoRun.checked = !!g.world.settings.autoRun;
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
+    this.blips.checked = g.world.settings.voiceBlips !== false;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -524,6 +536,8 @@ export class SettingsMenu {
       settings.cameraFollowsWalk = this.camFollow.checked;
     if (this.leftHand.checked !== !!g.world.settings.leftHanded)
       settings.leftHanded = this.leftHand.checked;
+    if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
+      settings.voiceBlips = this.blips.checked;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

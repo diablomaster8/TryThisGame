@@ -1438,7 +1438,7 @@ const LJ6: EduQuest = quest(
   {
     'lj6-step1': {
       goal: 'Sit with Hana by the stream.',
-      hint: 'Hana is sitting by the stream. Tap her and choose Talk.',
+      hint: 'Hana is sitting by the stream. Tap her to talk.',
     },
     'lj6-step2': {
       goal: 'Help Hana make a lantern for her grandpa.',

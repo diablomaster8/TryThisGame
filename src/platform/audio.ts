@@ -33,7 +33,36 @@ export type SoundName =
   | 'bonk'
   // MOVE-46: footsteps on a deck (a hollow tok) and on stone (a light tap).
   | 'stepDeck'
-  | 'stepStone';
+  | 'stepStone'
+  // MOVE-57: a spring mushroom's boing.
+  | 'boing'
+  // R0301 (FUN-12): the comic palette.
+  | 'squeak'
+  | 'slideDown'
+  | 'slideUp'
+  | 'pop'
+  | 'sneeze'
+  | 'hiccup'
+  | 'gulp'
+  | 'raspberry'
+  | 'giggle';
+
+/** R0301: the comic sounds, for the debug panel's test row. */
+export const COMIC_SOUNDS: readonly SoundName[] = [
+  'boing',
+  'bonk',
+  'squeak',
+  'slideDown',
+  'slideUp',
+  'pop',
+  'sneeze',
+  'hiccup',
+  'gulp',
+  'raspberry',
+  'giggle',
+];
+// R0301: comic sounds never pile up: at most one per 100 ms.
+let lastComicAt = -Infinity;
 
 export type SongName =
   | 'title'
@@ -815,8 +844,43 @@ export function playKindle(): void {
 
 export function playSound(name: SoundName): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
+  if (COMIC_SOUNDS.includes(name)) {
+    const now = ctx.currentTime * 1000;
+    if (now - lastComicAt < 100) return;
+    lastComicAt = now;
+  }
   try {
     switch (name) {
+      case 'squeak':
+        tone(900, 0, 90, 'sawtooth', 0.025, 1400);
+        break;
+      case 'slideDown':
+        tone(1200, 0, 600, 'sine', 0.05, 300);
+        break;
+      case 'slideUp':
+        tone(300, 0, 600, 'sine', 0.05, 1200);
+        break;
+      case 'pop':
+        tone(500, 0, 40, 'sine', 0.07, 1100);
+        break;
+      case 'sneeze':
+        // A little in-breath whistle, then the "choo".
+        tone(700, 0, 220, 'sine', 0.02, 1100);
+        burst(260, 140, 0.09, 1800);
+        break;
+      case 'hiccup':
+        tone(500, 0, 50, 'square', 0.04, 900);
+        break;
+      case 'gulp':
+        tone(320, 0, 70, 'sine', 0.06, 160);
+        tone(260, 70, 60, 'sine', 0.04, 130);
+        break;
+      case 'raspberry':
+        for (let i = 0; i < 6; i++) tone(110 + (i % 2) * 18, i * 45, 50, 'sawtooth', 0.025);
+        break;
+      case 'giggle':
+        for (let i = 0; i < 3; i++) tone(900 + i * 160, i * 90, 70, 'sine', 0.04, 1200 + i * 160);
+        break;
       case 'tap':
         tone(660, 0, 50, 'square', 0.04);
         break;
@@ -879,6 +943,10 @@ export function playSound(name: SoundName): void {
       case 'bonk':
         tone(220, 0, 70, 'triangle', 0.05, 150);
         break;
+      case 'boing':
+        tone(160, 0, 90, 'sine', 0.06, 440);
+        tone(440, 80, 180, 'sine', 0.04, 300);
+        break;
       case 'stepDeck':
         tone(210, 0, 40, 'triangle', 0.035, 170);
         break;
@@ -916,6 +984,36 @@ let rainGain: GainNode | null = null;
 let cricketGain: GainNode | null = null;
 let birdTimer = 0;
 let currentScene: AmbienceScene | null = null;
+
+/**
+ * R0302 (FUN-13): one typewriter blip in a speaker's voice. Quiet, short, and silent with
+ * SFX off or before the first tap unlocks sound.
+ */
+export function playBlip(hz: number, wave: OscillatorType, ms: number): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    tone(hz, 0, ms, wave, 0.018);
+  } catch {
+    // A blip is never worth an error.
+  }
+}
+
+/** R0301: a short filtered noise burst (the sneeze's "choo"). */
+function burst(startMs: number, durMs: number, gain: number, cutoff: number): void {
+  if (!ctx || !sfxBus) return;
+  const t0 = ctx.currentTime + startMs / 1000;
+  const src = ctx.createBufferSource();
+  src.buffer = noise(ctx);
+  const f = ctx.createBiquadFilter();
+  f.type = 'lowpass';
+  f.frequency.value = cutoff;
+  const g = ctx.createGain();
+  g.gain.setValueAtTime(gain, t0);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + durMs / 1000);
+  src.connect(f).connect(g).connect(sfxBus);
+  src.start(t0);
+  src.stop(t0 + durMs / 1000 + 0.02);
+}
 
 function noise(ac: AudioContext): AudioBuffer {
   if (noiseBuffer) return noiseBuffer;

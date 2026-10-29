@@ -73,7 +73,7 @@ _The bear has one chewed ear and, somehow, an air of great dignity._
 
 ### Step 3: Bring Bear back down to Mr. Tweed.
 
-Hint: Mr. Tweed is still on his rock by the pond. Hand him the bear with Give. · check: `give:item:tweed-bear:mr-tweed`
+Hint: Mr. Tweed is still on his rock by the pond. Take him the bear, then tap Do it in the Journal. · check: `give:item:tweed-bear:mr-tweed`
 
 #### <a id="q21-carry"></a>Scene `q21-carry`
 
@@ -359,7 +359,7 @@ _It is not a very good circle. He holds it up to Buttons anyway, both arms, and 
 
 ### Step 1: Get Mr. Tweed off the ledge: coax him down, or let a brave Swim Nubbin show him how.
 
-Hint: Call up to him with Talk to coax him down a step at a time, or take a strong swimmer to the ledge and tap Dive. · check: `rescue:mr-tweed:waterfall-ledge`
+Hint: Coax him down a step at a time. Tap Do it in the Journal and keep your voice very calm. · check: `rescue:mr-tweed:waterfall-ledge`
 
 #### <a id="q25-ledge"></a>Scene `q25-ledge`
 
@@ -528,7 +528,7 @@ _Mr. Tweed has drawn the plan on the floor in chalk: two chairs, three Nubbins, 
 
 ### Step 2: Take a Photo mode shot that matches the Founders’ Portrait.
 
-Hint: Use the self-timer in Photo mode and sit in the empty chair. The outline turns green when the poses line up. · check: `photo:match:founders-portrait`
+Hint: Everyone in the picture, empty chair included. Tap Do it in the Journal and hold the pose. · check: `photo:match:founders-portrait`
 
 #### <a id="q27-pose"></a>Scene `q27-pose`
 
@@ -735,7 +735,7 @@ _He holds the hat up, muddy and triumphant._
 
 ### Step 3: Give the egg back to Odette at the gate, safe and sound.
 
-Hint: Odette waits at your gate at sunset. Carry the egg to her and choose Give. · check: `give:item:visiting-egg:odette`
+Hint: Odette waits at your gate at sunset. Carry the egg to her, then tap Do it in the Journal. · check: `give:item:visiting-egg:odette`
 
 #### <a id="q29-afternoon"></a>Scene `q29-afternoon`
 

@@ -1,10 +1,11 @@
 import { RepeatWrapping, type CanvasTexture } from 'three';
 import { DUNGEON, GROVE3D } from '../../config/tuning';
 import { cellAt, CHASM, FLOOR, WALL, WATER, type Floor } from '../../sim/dungeon';
-import { bandFor } from '../cave-bands';
+import { bandFor, bandForFloor, openSky } from '../cave-bands';
 import { frameKey } from '../sprites/animations';
 import type { SpriteSheet } from '../sprites/atlas';
 import { RasterAtlas } from './atlas';
+import { townFrames } from './dungeon-town';
 import { fbm, ridged, vnoise, warped } from './noise';
 import { hash, hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
 
@@ -99,16 +100,19 @@ export function floorWorldSize(f: Floor): { w: number; h: number } {
 }
 
 export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
-  const band = bandFor(depth);
+  const band = bandForFloor(f, depth);
+  // Open-sky floors (camps, fields) are up to twice a big level's area and plain grass:
+  // painted at half the density, they load in a quarter of the time (R0147).
+  const ppu = openSky(f) ? DUNGEON_PPU / 2 : DUNGEON_PPU;
   const vista = vistaCells(f);
   const elev = f.elevation.length === f.cols * f.rows ? f.elevation : null;
-  const cellPx = CELL * DUNGEON_PPU;
+  const cellPx = CELL * ppu;
   const { w: W, h: H } = floorWorldSize(f);
-  const width = Math.round(W * DUNGEON_PPU);
-  const height = Math.round(H * DUNGEON_PPU);
+  const width = Math.round(W * ppu);
+  const height = Math.round(H * ppu);
   const r = new Raster(width, height, hex('#0b0810'));
   const { toWall, toFloor } = distanceFields(f);
-  const px2cell = 1 / (CELL * DUNGEON_PPU);
+  const px2cell = 1 / (CELL * ppu);
   const field = (arr: Float32Array, cx: number, cy: number): number => {
     // Bilinear read of a per-cell field at a fractional cell position (cell centres).
     const fx = Math.max(0, Math.min(f.cols - 1.001, cx - 0.5));
@@ -286,22 +290,22 @@ export function paintFloorTexture(f: Floor, depth = 1): CanvasTexture {
   // Light: ambient by depth, torches warm, crystals cool, the stairwell a faint daylight.
   const light = new Raster(width, height, [f.light, f.light, f.light * 1.25]);
   const at = (c: { x: number; y: number }, dx = 0.5, dy = 0.5): [number, number] => [
-    (c.x + dx) * CELL * DUNGEON_PPU,
-    (c.y + dy) * CELL * DUNGEON_PPU,
+    (c.x + dx) * CELL * ppu,
+    (c.y + dy) * CELL * ppu,
   ];
   const glowC = hex(band.glow);
   const points: Array<[number, number, number, RGB]> = [
     ...f.torches.map((t): [number, number, number, RGB] => [
       ...at(t, 0.5, 0.1),
-      DUNGEON.torchReach * DUNGEON_PPU,
+      DUNGEON.torchReach * ppu,
       glowC,
     ]),
     ...f.crystals.map((c): [number, number, number, RGB] => [
       ...at(c),
-      DUNGEON.crystalReach * DUNGEON_PPU,
+      DUNGEON.crystalReach * ppu,
       mix(crystalC, white, 0.1),
     ]),
-    [...at(f.stairsUp), 4.5 * DUNGEON_PPU, [0.7, 0.8, 1]],
+    [...at(f.stairsUp), 4.5 * ppu, [0.7, 0.8, 1]],
   ];
   for (const [lx, ly, rad, col] of points) {
     const flicker = 0.85 + hash(lx, ly, 20) * 0.3;
@@ -419,8 +423,9 @@ function paintLandmarkDecal(r: Raster, f: Floor, band: ReturnType<typeof bandFor
  * bottom. It covers `faceUnitsW` world units across and wraps sideways, so a long wall
  * reads as one run of layers; the top row is the top of the wall wherever it ends.
  */
-export function paintCaveWallTexture(depth: number): CanvasTexture {
-  const band = bandFor(depth);
+export function paintCaveWallTexture(depth: number, f?: Floor | null): CanvasTexture {
+  // Above ground (camps and fields) the walls are hedge and bank, in the open-sky band.
+  const band = bandForFloor(f, depth);
   const W = PX.faceW;
   const H = PX.faceH;
   const TAU = Math.PI * 2;
@@ -792,6 +797,8 @@ export function buildDungeonProps(): SpriteSheet {
   add('loot-essence', essence());
   add('loot-critter', critter());
   add('loot-egg', egg());
+  // Act camps and fields (R0152, R0147).
+  townFrames(add);
   void PPU;
   void FLOOR;
   return atlas.build();

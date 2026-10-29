@@ -14,7 +14,8 @@ import {
   variantColors,
 } from '../../src/render/sprites/chao';
 import { PART_STYLES } from '../../src/render/sprites/parts';
-import { CRITTER_SPECIES, partId } from '../../src/sim/critters';
+import { ALL_CRITTERS, partId } from '../../src/sim/critters';
+import type { NubbinParts } from '../../src/sim/types';
 import { C } from '../../src/render/sprites/palette';
 import { PixelCanvas, PX } from '../../src/render/sprites/pixel-canvas';
 
@@ -122,11 +123,8 @@ describe('drawChao', () => {
 
   it('every critter part has a style and changes the drawing', () => {
     const base = drawChao('front', poseFor('idle', 0), NEUTRAL);
-    for (const species of CRITTER_SPECIES) {
-      const parts = { ears: null, tail: null, arms: null, back: null } as Record<
-        'ears' | 'tail' | 'arms' | 'back',
-        string | null
-      >;
+    for (const species of ALL_CRITTERS) {
+      const parts: NubbinParts = { ears: null, tail: null, arms: null, back: null };
       for (const slot of species.parts) {
         const id = partId(species.id, slot);
         expect(PART_STYLES[id], id).toBeDefined();

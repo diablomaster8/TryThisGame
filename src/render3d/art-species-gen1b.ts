@@ -403,9 +403,10 @@ export function applyGen1b3d(
         torso.push(ell(V(0, b.y - 0.08, z), V(b.r.x * 0.6, b.r.y * 0.42, 0.22), c.belly!, 0.06));
         if (part === 'pouchBaby')
           torso.push(
-            sphere(V(0, b.y + 0.15, z + 0.12), 0.24, c.body!, 0.03),
-            sphere(V(-0.08, b.y + 0.18, z + 0.34), 0.04, c.eye!, 0.01),
-            sphere(V(0.08, b.y + 0.18, z + 0.34), 0.04, c.eye!, 0.01),
+            // 1.3x the first cut, so the baby reads at a glance (LOOK-39).
+            sphere(V(0, b.y + 0.2, z + 0.14), 0.31, c.body!, 0.03),
+            sphere(V(-0.1, b.y + 0.24, z + 0.43), 0.05, c.eye!, 0.01),
+            sphere(V(0.1, b.y + 0.24, z + 0.43), 0.05, c.eye!, 0.01),
           );
         else torso.push(ell(V(0, b.y + 0.05, z + 0.1), V(0.17, 0.22, 0.15), WHITE, 0.02));
         break;

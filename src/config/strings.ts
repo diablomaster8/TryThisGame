@@ -5,6 +5,7 @@ import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 import { DIGI2_LABELS } from './strings-digi2';
 
 import { GEN1A_LABELS } from './strings-gen1a';
+import { MORE_CRITTER_LABELS } from './strings-look';
 
 export const NAMES = {
   game: 'Grove',
@@ -90,6 +91,7 @@ export const CRITTER_LABELS: Record<string, string> = {
   sheep: 'Sheep',
   raccoon: 'Raccoon',
   skunk: 'Skunk',
+  ...MORE_CRITTER_LABELS,
 };
 
 export const ESSENCE_LABELS = {
@@ -1553,3 +1555,4 @@ export * from './strings-move';
 export * from './strings-move-joy';
 export * from './strings-battle';
 export * from './strings-look';
+export * from './strings-fun';

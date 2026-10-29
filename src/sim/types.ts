@@ -7,6 +7,7 @@ import type {
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
 import type { NubbinCombat } from './battle/tactics/grid';
+import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
 
 /** Lane C: battle options kept in the save (all optional; recs FIGHT-19, -24, -26). */
 export interface BattlePrefs {
@@ -46,6 +47,16 @@ export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
+
+/**
+ * R0401: the part slots added after the first four (legs, a horn on the forehead, a face
+ * piece such as a beak, and wings apart from the back). They are optional on a Nubbin, so
+ * saves from before them load unchanged.
+ */
+export type ExtraPartSlot = 'legs' | 'horn' | 'face' | 'wings';
+export type AnyPartSlot = PartSlot | ExtraPartSlot;
+export type NubbinParts = Record<PartSlot, string | null> &
+  Partial<Record<ExtraPartSlot, string | null>>;
 
 export type BehaviorState =
   | 'wander'
@@ -167,7 +178,7 @@ export interface Nubbin {
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
-  parts: Record<PartSlot, string | null>;
+  parts: NubbinParts;
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
@@ -325,6 +336,8 @@ export interface Settings {
   cameraFollowsWalk?: boolean;
   /** MOVE-14: the thumb buttons and the pad swap sides for a left hand. Unset: off. */
   leftHanded?: boolean;
+  /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
+  voiceBlips?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -534,7 +547,9 @@ export type DecorKind =
   | 'bathhouse'
   | 'workshop'
   | 'rockPile'
-  | 'thicket';
+  | 'thicket'
+  | 'springShroom'
+  | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
 export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
@@ -641,7 +656,14 @@ export interface DungeonRun {
   levels?: Record<string, LevelState>;
   /** This run's free Homing Acorn ("Grandma's acorn", R0150) is spent. */
   acornUsed?: true;
+  /** Above ground in the act (R0147, R0152): its camp, its fields, or a side cave. */
+  zone?: DungeonZone;
+  /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
+  side?: number;
 }
+
+/** An act's places above its dungeon (lane B round 4). */
+export type DungeonZone = 'town' | 'field' | 'side';
 
 /** A Hollow level as the Keeper left it (R0151). */
 export interface LevelState {
@@ -816,6 +838,8 @@ export interface World {
   battle?: BattleState;
   /** Lane C: bouts started, so each bout's seed is fixed until it is fought. */
   battleRuns?: number;
+  /** Lane C: the live grid-tactics bout (recs FIGHT-65), absent when none; no save bump. */
+  tactics?: TacticsState;
   /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
@@ -899,6 +923,15 @@ export interface World {
     acorns: number;
     /** The open acorn portal, if any. */
     portal: HollowPortal | null;
+    /**
+     * The act camps (R0152; save version 10): Shells in the stash chest, a slot for stashed
+     * items (gear, DUNG-23), and the acts whose quest reward was paid.
+     */
+    camp: { shells: number; items: Record<string, number>; questsPaid: number[] };
+    /** Named uniques beaten at least once (R0156; save version 10), by `UNIQUES` id. */
+    uniquesBeaten: string[];
+    /** The party picked at the cave mouth (R0168; save version 10), Nubbin ids. */
+    lastParty: string[];
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -917,6 +950,11 @@ export type Command =
   | { kind: 'battleForfeit' }
   | { kind: 'battleSlots'; nubbinId: string; slots: (string | null)[] }
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  | { kind: 'tacticsAct'; action: TacticsAction }
+  | { kind: 'tacticsForfeit' }
+  | { kind: 'tacticsClose' }
   | { kind: 'moveKeeperTo'; pos: Vec2 }
   | { kind: 'keeperInput'; input: Vec2 }
   | { kind: 'select'; id: string | null }
@@ -1076,6 +1114,13 @@ export type Command =
   | { kind: 'setLoading'; on: boolean }
   | { kind: 'encounterDone'; outcome: 'won' | 'lost' | 'fled' }
   | { kind: 'enterAct'; act: number }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'enterTown'; act: number }
+  | { kind: 'enterMouth' }
+  | { kind: 'stash'; amount: number }
+  | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
+  | { kind: 'townQuest' }
+  | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1091,6 +1136,17 @@ export type Command =
 export type SimEvent =
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
+  // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
+  | { kind: 'tacticsStart'; source: string; key: string }
+  | {
+      kind: 'tacticsEnd';
+      source: string;
+      key: string;
+      winner: TacticsResult['winner'];
+      reason: TacticsResult['reason'];
+      shells: number;
+      essence: NubbinType | null;
+    }
   | {
       kind: 'battleEnd';
       context: BattleContext['kind'];
@@ -1146,6 +1202,15 @@ export type SimEvent =
   | { kind: 'keeperLanded'; fall: number }
   // MOVE-64: the Keeper starts a roll.
   | { kind: 'keeperRolled' }
+  // MOVE-57: a spring mushroom bounced the Keeper (or a Nubbin, `nubbinId`) off its cap.
+  | { kind: 'springBounced'; id: string; nubbinId?: string }
+  // R0300/R0299 (FUN-11/10): something landed on a Nubbin's head, or it walked into a thing.
+  | { kind: 'bonked'; nubbinId: string; by: 'fruit' | 'obstacle' }
+  // MOVE-63: the hop course: a run starts, a flag is touched (1-based count so far), a run
+  // ends (its time, the ghost as x, y, z triples every 100 ms, and whether the hat came now).
+  | { kind: 'hopCourse'; stage: 'start' | 'gaveUp' }
+  | { kind: 'hopCourse'; stage: 'flag'; flag: number }
+  | { kind: 'hopCourse'; stage: 'finish'; ms: number; ghost: number[]; hat: boolean }
   // MOVE-65: the Keeper dips under the pond (shells: a one-time find there, or 0).
   | { kind: 'keeperDipped'; shells: number }
   // MOVE-55: a lookout's one-time find, and a look round (found: whether anything was).
@@ -1179,7 +1244,8 @@ export type SimEvent =
   | { kind: 'degenerated'; nubbinId: string; name: string }
   | { kind: 'restored'; nubbinId: string; name: string }
   | { kind: 'keepsake'; id: string; quest: string }
-  | { kind: 'talked'; npcId: string }
+  // R0295: `bark`, the line the Keeper says back (content/barks.ts).
+  | { kind: 'talked'; npcId: string; bark?: string }
   | { kind: 'courting'; nubbinId: string }
   | { kind: 'bred'; eggId: string; parents: [string, string] }
   | { kind: 'lessonStarted'; nubbinId: string; lesson: LessonId }
@@ -1250,7 +1316,7 @@ export type SimEvent =
   | { kind: 'missionDone'; team: TeamId; points: number }
   | { kind: 'raceWon'; nubbinId: string; course: string; tier: number }
   | { kind: 'tankDone'; shells: number; wood: number; stone: number; won: boolean }
-  | { kind: 'dungeonEntered'; depth: number; daily: boolean }
+  | { kind: 'dungeonEntered'; depth: number; daily: boolean; camp?: true }
   | { kind: 'dungeonLeft'; depth: number; shells: number; items: number }
   | { kind: 'descended'; depth: number; daily: boolean }
   | {
@@ -1285,11 +1351,17 @@ export type SimEvent =
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
+  // Lane B round 4: act camps and fields (R0147, R0152).
+  | { kind: 'stashMoved'; amount: number }
+  | { kind: 'townBought'; item: 'fruit' }
+  | { kind: 'townQuestPaid'; act: number; shells: number }
+  | { kind: 'sideCaveEntered'; index: number }
+  | { kind: 'uniqueBeaten'; id: string; bonus: number }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
   | { kind: 'acornFound' }
-  | { kind: 'acornPortal'; free: boolean }
+  | { kind: 'acornPortal'; free: boolean; camp?: true }
   | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
   | { kind: 'wellRaised'; nubbinId: string };

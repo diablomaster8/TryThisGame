@@ -10,6 +10,7 @@ import { SECOND_VARIANTS } from './nubbin-variants-second';
 import { SPECIAL_VARIANTS } from './nubbin-variants-special';
 import { speciesArt } from '../render/sprites/species-art';
 import { artSpec } from '../render3d/art-species';
+import { speciesByFamily, type Family, type SpeciesStage } from '../sim/species';
 
 /**
  * Every Nubbin variant by family, for the stage's `&creature=variants` sheet and
@@ -54,4 +55,22 @@ export function sheetVariants(query: URLSearchParams): NubbinVariant[] {
   const list =
     family === ('templates' as string) ? TEMPLATES : (VARIANT_FAMILIES[family] ?? CHILD_VARIANTS);
   return list.filter((v) => v.id.includes(filter)).slice(0, max);
+}
+
+/**
+ * The art species a `&creature=art` contact sheet lines up: `&family=pocket|digi`,
+ * `&stage=baby|grown|champion|final`, `&max=<n>` (16) and `&offset=<n>` page through them in
+ * species order; `&ids=art:a,art:b` picks exact ones (as `&creature=variants` does).
+ */
+export function artSheet(query: URLSearchParams): NubbinVariant[] {
+  // `sheetVariants` reverses `&ids` for the plain stage; an art sheet mirrors x instead.
+  if (query.get('ids')) return sheetVariants(query).reverse();
+  const family: Family = query.get('family') === 'digi' ? 'digi' : 'pocket';
+  const stage = (query.get('stage') ?? undefined) as SpeciesStage | undefined;
+  const max = Math.max(1, Number(query.get('max')) || 16);
+  const offset = Math.max(0, Number(query.get('offset')) || 0);
+  return speciesByFamily(family, stage)
+    .slice(offset, offset + max)
+    .map((s) => artVariant(`art:${s.id}`))
+    .filter((v): v is NubbinVariant => v !== null);
 }

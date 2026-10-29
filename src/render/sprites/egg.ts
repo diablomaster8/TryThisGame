@@ -126,49 +126,133 @@ export function buildEggSheet(colorName: string, family = 'chao'): SpriteSheet {
   return atlas.build();
 }
 
+type CocoonKind = 'evolve' | 'rebirth' | 'depart';
+type Band = 'sun' | 'moon' | 'neutral';
+
+/** A cocoon's palette (LOOK-25): band-tinted for evolving, warm pink for rebirth, grey-lilac to depart. */
+export function cocoonPalette(kind: CocoonKind, band: Band | null = null) {
+  if (kind === 'rebirth')
+    return {
+      body: C.roseLight,
+      shade: C.blush,
+      thread: C.white,
+      glint: C.white,
+      outline: C.roseDeep,
+    };
+  if (kind === 'depart')
+    return {
+      body: C.pale,
+      shade: C.lilacGrey,
+      thread: C.white,
+      glint: C.white,
+      outline: C.lilacGrey,
+    };
+  if (band === 'sun')
+    return {
+      body: C.white,
+      shade: C.pale,
+      thread: C.skyLight,
+      glint: C.shallows,
+      outline: C.shallows,
+    };
+  if (band === 'moon')
+    return {
+      body: C.violet,
+      shade: C.moonPurple,
+      thread: C.lavender,
+      glint: C.violetLight,
+      outline: C.darkPlum,
+    };
+  if (band === 'neutral')
+    return { body: C.tealLight, shade: C.mint, thread: C.white, glint: C.white, outline: C.teal };
+  return {
+    body: C.lavender,
+    shade: C.violet,
+    thread: C.pale,
+    glint: C.white,
+    outline: C.moonPurple,
+  };
+}
+
 /**
- * A cocoon: the Nubbin wrapped up before evolving (lavender), being reborn (a warm
- * glow) or moving on (pale and soft, faded by the view).
+ * A cocoon: the Nubbin wrapped up before evolving (tinted by where it is heading), being
+ * reborn (warm pink with petal motes rising) or moving on (soft grey-lilac, faded by the
+ * view). Given the Nubbin's own front frame as `mask`, the cocoon takes its silhouette,
+ * grown by one pixel (LOOK-25); without one it is the old egg-shaped wrap.
  */
-export function buildCocoonSheet(kind: 'evolve' | 'rebirth' | 'depart' = 'evolve'): SpriteSheet {
+export function buildCocoonSheet(
+  kind: CocoonKind = 'evolve',
+  band: Band | null = null,
+  mask: PixelCanvas | null = null,
+): SpriteSheet {
   const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 2);
-  const pal =
-    kind === 'rebirth'
-      ? { body: C.sunYellow, shade: C.orange, thread: C.cream, glint: C.white, outline: C.orange }
-      : kind === 'depart'
-        ? {
-            body: C.pale,
-            shade: C.lilacGrey,
-            thread: C.white,
-            glint: C.white,
-            outline: C.lilacGrey,
-          }
-        : {
-            body: C.lavender,
-            shade: C.violet,
-            thread: C.pale,
-            glint: C.white,
-            outline: C.moonPurple,
-          };
+  const pal = cocoonPalette(kind, band);
+  const inside = cocoonMask(mask);
   for (let f = 0; f < 2; f++) {
     const pc = new PixelCanvas(EGG_SIZE, EGG_SIZE);
     const cy = 19;
-    pc.ellipse(16, cy, 7, 10 - f * 0.5, pal.body);
-    pc.ellipse(18, cy + 2, 5, 7, pal.shade);
-    pc.ellipse(15.5, cy, 5.5, 8, pal.body);
-    for (let i = 0; i < 4; i++) pc.line(10, cy - 6 + i * 4, 22, cy - 8 + i * 4, pal.thread);
-    pc.px(13, cy - 6, pal.glint);
-    pc.px(12, cy - 5, pal.glint);
-    if (kind === 'rebirth') {
-      // Sparkles around a glowing cocoon.
-      const s = f === 0 ? 0 : 1;
-      pc.px(6 + s, cy - 8, C.white);
-      pc.px(26 - s, cy - 3, C.white);
-      pc.px(8, cy + 7 + s, C.cream);
-      pc.px(24 + s, cy + 9, C.cream);
+    if (inside) {
+      const at = (x: number, y: number) =>
+        x >= 0 && y >= 0 && x < EGG_SIZE && y < EGG_SIZE && inside[y * EGG_SIZE + x] === 1;
+      let top = EGG_SIZE;
+      for (let y = 0; y < EGG_SIZE; y++)
+        for (let x = 0; x < EGG_SIZE; x++) {
+          if (!at(x, y)) continue;
+          top = Math.min(top, y);
+          // Shade the lower-right edge, then wind diagonal threads round the body.
+          const edge = !at(x + 2, y) || !at(x, y + 2) || !at(x + 1, y + 1);
+          const thread = (x + y + f * 2) % 5 === 0;
+          pc.px(x, y, thread ? pal.thread : edge ? pal.shade : pal.body);
+        }
+      for (let x = 0; x < EGG_SIZE; x++)
+        if (at(x, top + 2) && at(x + 1, top + 2)) {
+          pc.px(x + 1, top + 2, pal.glint);
+          pc.px(x + 2, top + 3, pal.glint);
+          break;
+        }
+    } else {
+      pc.ellipse(16, cy, 7, 10 - f * 0.5, pal.body);
+      pc.ellipse(18, cy + 2, 5, 7, pal.shade);
+      pc.ellipse(15.5, cy, 5.5, 8, pal.body);
+      for (let i = 0; i < 4; i++) pc.line(10, cy - 6 + i * 4, 22, cy - 8 + i * 4, pal.thread);
+      pc.px(13, cy - 6, pal.glint);
+      pc.px(12, cy - 5, pal.glint);
     }
-    pc.finish(pal.outline, [C.white]);
+    if (kind === 'rebirth') {
+      // Petal motes rising round a warm cocoon.
+      const s = f === 0 ? 0 : 2;
+      pc.px(6, cy - 6 - s, C.blush);
+      pc.px(26, cy - 1 - s, C.white);
+      pc.px(8, cy + 6 - s, C.roseLight);
+      pc.px(24, cy + 7 - s, C.blush);
+    } else if (kind === 'evolve' && band === 'sun') {
+      // A cyan glint winking on the white wrap.
+      pc.px(f === 0 ? 9 : 23, cy - 7, C.shallows);
+    }
+    pc.finish(pal.outline, [C.white, pal.glint]);
     atlas.add(frameKey('idle', 'front', f), pc);
   }
   return atlas.build();
+}
+
+/** The mask's opaque design pixels grown by one (4-neighbour), or null with no mask. */
+function cocoonMask(mask: PixelCanvas | null): Uint8Array | null {
+  if (!mask) return null;
+  const n = EGG_SIZE;
+  const src = new Uint8Array(n * n);
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) if (mask.get(x, y) >= 0) src[y * n + x] = 1;
+  const out = src.slice();
+  for (let y = 0; y < n; y++)
+    for (let x = 0; x < n; x++) {
+      if (src[y * n + x]) continue;
+      if (
+        (x > 0 && src[y * n + x - 1]) ||
+        (x < n - 1 && src[y * n + x + 1]) ||
+        (y > 0 && src[(y - 1) * n + x]) ||
+        (y < n - 1 && src[(y + 1) * n + x])
+      )
+        out[y * n + x] = 1;
+    }
+  return out;
 }

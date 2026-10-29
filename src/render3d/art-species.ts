@@ -499,6 +499,27 @@ function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] 
         break;
     }
   }
+  // A chest heart (Monzaemon, LOOK-41) is paint, after the belly so it shows on top of it.
+  const heart = art.addons?.find((e) => e.kind === 'heart');
+  if (heart) {
+    const hc = vivid(color(heart.c ?? art.colors.accent));
+    const z = b.r.z * 0.85;
+    for (const s of [-1, 1])
+      out.push({
+        kind: 'ellipsoid',
+        a: V(s * 0.1, b.y + 0.08, z),
+        radii: V(0.11, 0.11, 0.3),
+        color: hc,
+        soft: 0.01,
+      });
+    out.push({
+      kind: 'ellipsoid',
+      a: V(0, b.y - 0.07, z),
+      radii: V(0.08, 0.15, 0.3),
+      color: hc,
+      soft: 0.01,
+    });
+  }
   return out;
 }
 
@@ -511,8 +532,12 @@ function marks(art: CreatureSpec, L: Layout, c: Record<string, string>): Mark[] 
 function eyeProfile(
   art: CreatureSpec,
   eye: string,
-): Pick<SpeciesSpec['eyes'], 'iris' | 'lid' | 'irisScale' | 'tall' | 'style' | 'roll' | 'brow'> {
+): Pick<
+  SpeciesSpec['eyes'],
+  'iris' | 'lid' | 'irisScale' | 'tall' | 'style' | 'roll' | 'brow' | 'pupil'
+> {
   const iris = art.irisColor ?? eye;
+  const slit = art.pupil === 'slit' ? { pupil: 'slit' as const } : {};
   switch (art.eyes) {
     case 'dot':
       return { iris: '#141414', lid: 0, irisScale: 1, tall: 1.3, style: 'dot', brow: false };
@@ -524,22 +549,34 @@ function eyeProfile(
         tall: 1.2,
         style: 'cute',
         brow: false,
+        ...slit,
       };
     case 'angry':
-      return { iris, lid: 0.38, irisScale: 0.62, tall: 1.0, roll: 0.44 };
+      return { iris, lid: 0.38, irisScale: 0.62, tall: 1.0, roll: 0.44, ...slit };
     case 'big':
-      return { iris, lid: 0.1, irisScale: 0.6, tall: 1.12 };
+      return { iris, lid: 0.1, irisScale: 0.6, tall: 1.12, ...slit };
     case 'closed':
       return { iris, lid: 0.97, irisScale: 0.8, tall: 1.05 };
     default:
-      return { iris, lid: 0.1, irisScale: 0.8, tall: 1.05 };
+      return { iris, lid: 0.1, irisScale: 0.8, tall: 1.05, ...slit };
   }
+}
+
+/** A layout made wider by the species girth (LOOK-39): the body fully, the head more gently. */
+function widen(L: Layout, girth: number | undefined): Layout {
+  if (!girth) return L;
+  const head = 1 + (girth - 1) * 0.6;
+  return {
+    ...L,
+    body: { ...L.body, r: L.body.r.clone().multiply(V(girth, 1, girth)) },
+    head: { ...L.head, r: L.head.r.clone().multiply(V(head, 1, head)) },
+  };
 }
 
 export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   // A serpent's layout comes from its spine (art-serpent.ts, LOOK-05).
   const chain = art.plan === 'serpent' ? serpentChain(art) : null;
-  const L = chain ? chain.layout : (kitLayout(art) ?? layout(art.plan));
+  const L = widen(chain ? chain.layout : (kitLayout(art) ?? layout(art.plan)), art.girth);
   // Pushed out in chroma once here, so every prim, mark and extra built from `c` matches its
   // pixel original under the stage's lights instead of going milky (LOOK-09).
   const c: Record<string, string> = {

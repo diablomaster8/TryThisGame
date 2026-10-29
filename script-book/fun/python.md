@@ -6,9 +6,9 @@
 
 **Cast:** The Tall Hood (The head Knight Who Says Ni (Monty Python and the Holy Grail)), The Hooded Three (The Knights Who Say Ni (Monty Python and the Holy Grail))
 
-### Step 1: Craft a shrubbery at the Workshop and give it to the hooded three.
+### Step 1: Bring the hooded three a shrubbery.
 
-Hint: The Workshop makes a shrubbery from reeds and wood. Carry it to the falls and use Give. · check: `give:item:shrubbery:tall-hood`
+Hint: The Decorate shop sells a flower bed for 15 shells. Place one anywhere; to a hood, that is a shrubbery. · check: `place:decor:flowerbed:shrubbery`
 
 #### <a id="q01-intro"></a>Scene `q01-intro`
 
@@ -41,7 +41,7 @@ _They chant once more, softly, as a kind of thank-you. The bird does not come ba
 
 ### Step 2: Make a second shrubbery, a little higher, with a small path, and place it by the first.
 
-Hint: Craft another shrubbery and a path tile, then place both beside the first with the Decorate tool. · check: `place:decor:terraced-shrubbery:waterfall-path`
+Hint: Place a second flower bed beside the first, and a path stone. Higher is a matter of opinion. · check: `place:decor:terraced-shrubbery:waterfall-path`
 
 #### <a id="q01-second"></a>Scene `q01-second`
 
@@ -768,7 +768,7 @@ _The crops do a small, grateful droop-then-perk. Your Nubbins jump about in the 
 
 ### Step 2: Harvest a crop from the aqueduct beds and take it to the committee.
 
-Hint: Ripe crops glow. Tap to harvest, then Give it to Reggie in the Keepers’ Hall. · check: `give:item:crop:reggie`
+Hint: Ripe crops glow. Tap to harvest, take it to Reggie in the Keepers’ Hall, then tap Do it in the Journal. · check: `give:item:crop:reggie`
 
 #### <a id="q08-invite"></a>Scene `q08-invite`
 
@@ -1030,7 +1030,7 @@ _From now on, any purchase in the shop can start with a bit of haggling, for up 
 
 ### Step 1: Pick fresh mint for Mr Crisp.
 
-Hint: Mint grows in a small patch by the pond. Tap the top leaves, then Give them to Mr Crisp. · check: `give:item:mint-leaves:mr-crisp`
+Hint: Mint grows in a small patch by the pond. Bring Mr Crisp the top leaves, then tap Do it in the Journal. · check: `give:item:mint-leaves:mr-crisp`
 
 #### <a id="q11-intro"></a>Scene `q11-intro`
 
@@ -1896,7 +1896,7 @@ _There is no larch. You check twice. You feel, absurdly, that you have let Mr Ar
 
 ### Step 2: Photograph Mr Arbour’s board from the meadow.
 
-Hint: Open Photo mode, zoom in on the far ridge and take the picture with the board in frame. · check: `photo:subject:larch-board:far-ridge`
+Hint: Find the far ridge with the board in view, squint a little, then tap Do it in the Journal. · check: `photo:subject:larch-board:far-ridge`
 
 #### <a id="q20-far"></a>Scene `q20-far`
 
