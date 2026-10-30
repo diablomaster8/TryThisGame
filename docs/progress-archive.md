@@ -2,6 +2,35 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 4 · Lane D (2026-10-29, branch r4/d)
+
+Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
+R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
+
+- **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
+  flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
+  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
+  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
+  north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
+  R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
+  when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
+  R0100 the objective beacon, edge arrow, compass tick and minimap star (`sim/beacon.ts`).
+  R0101 fun quests offered only in their region (`sim/quest-areas.ts`). R0106 the bar tucks
+  while walking on phones. Probe: `PROBE_BREAKDOWN=all`, `PROBE_SURVEY=1`.
+- **Stubbed:** R0072 orchard trees are not droppable, the boardwalk is not walkable, the
+  telescope answers with a line (no camera pan), no fairy-ring chime. R0073 the Keeper and
+  NPCs are not tokenised (Nubbins are, 1.5×), tokens' hit area is about 24 CSS px, not 44.
+  R0099 no kid-safe signposts or glowing trail; entrances outside the fence are not hidden
+  sprites. R0100 only Hazel chapter 1 and the Grove suggestions have places (CAMP fills
+  `OBJECTIVE_POIS`). R0101 no offer-on-entering or signpost offers; regions open for their
+  own offers are listed in `WORLD_QUESTS.ownOffers` (grove, hollow). R0095–R0098 not started.
+- **Known bugs / assumptions:** triangles at the busy middle spots swing with where the
+  Nubbins wander: heart 408–472k and bridge 399–464k across runs (budget 450k; creatures are
+  ~350k of it), so one of them is often just over. At the survey zoom southBend reads 177 calls;
+  the near zoom (index 1) at the heart reads about 530k triangles, over 450k (pre-existing,
+  not probed by default). The lane counts as built but only as Corvin's set, so its quests
+  stay offered from the Grove. The pixel chip and the "Tap to walk" hint overlap (pre-existing).
+
 ## Round 3 · Lane E LOOK (2026-10-28, branch r3/e)
 
 - *Works:* a cosmetics registry (`config/cosmetics.ts`): 24 wearables over hat, neck, back

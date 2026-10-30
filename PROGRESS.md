@@ -38,34 +38,31 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 4 · Lane D (2026-10-29, branch r4/d)
+## Round 5 · Lane D (2026-10-29, branch r5/d)
 
-Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
-R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
+Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
+R0095, R0096–R0098, R0102, R0107+; partials after. Skip R0085, R0086, R0088 (lane A).
 
-- **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
-  flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
-  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
-  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
-  north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
-  R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
-  when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
-  R0100 the objective beacon, edge arrow, compass tick and minimap star (`sim/beacon.ts`).
-  R0101 fun quests offered only in their region (`sim/quest-areas.ts`). R0106 the bar tucks
-  while walking on phones. Probe: `PROBE_BREAKDOWN=all`, `PROBE_SURVEY=1`.
-- **Stubbed:** R0072 orchard trees are not droppable, the boardwalk is not walkable, the
-  telescope answers with a line (no camera pan), no fairy-ring chime. R0073 the Keeper and
-  NPCs are not tokenised (Nubbins are, 1.5×), tokens' hit area is about 24 CSS px, not 44.
-  R0099 no kid-safe signposts or glowing trail; entrances outside the fence are not hidden
-  sprites. R0100 only Hazel chapter 1 and the Grove suggestions have places (CAMP fills
-  `OBJECTIVE_POIS`). R0101 no offer-on-entering or signpost offers; regions open for their
-  own offers are listed in `WORLD_QUESTS.ownOffers` (grove, hollow). R0095–R0098 not started.
-- **Known bugs / assumptions:** triangles at the busy middle spots swing with where the
-  Nubbins wander: heart 408–472k and bridge 399–464k across runs (budget 450k; creatures are
-  ~350k of it), so one of them is often just over. At the survey zoom southBend reads 177 calls;
-  the near zoom (index 1) at the heart reads about 530k triangles, over 450k (pre-existing,
-  not probed by default). The lane counts as built but only as Corvin's set, so its quests
-  stay offered from the Grove. The pixel chip and the "Tap to walk" hint overlap (pre-existing).
+- **Works:** creature triangle budget (`lod.ts` capFull, `WORLD_LOD.creature.fullTris`, phone
+  190k): nearest first, the rest step down to stand-ins or impostors. Cause of the swing: human
+  NPC and Keeper stand-ins are 35–69k tris (their coarse grid only halves two surfaces). Phone
+  sun shadow box ±22 u, near 25, far 95; far cells redraw every other frame; Grove rocks one
+  draw (undrawn copies keep taps and halos); lantern posts in their lantern's bucket; empty
+  recruit batch hidden. Probe 3D phone 19/19
+  under in two runs (farOrchard 186→176 calls; heart 410–485k→297–309k, bridge
+  410–482k→296–328k tris; 8 Nubbins at the heart 117–127 calls, 277–327k).
+  R0095 village square at the lane's end (Grove SW, `config/region-village.ts`): paving and
+  fountain, 0/2/5 buildings at prosperity 0/40/100, a dressing set per 20, recruits on
+  clock-driven role loops (`sim/village.ts`), taps answer (stall → shop, gym → menu), both
+  renderers. R0102 Travel assist (`settings.travel`, optional; unset = Auto-walk in a Learning
+  Grove, else Walk): the beacon chip and map pins run there or hop there. R0107 landmark name
+  card (2 s, fast-travel chip, says which badge paid Shells) and the Journal's Places tab.
+- **Stubbed:** village is a district of the Grove, not its own 80×64 region (needs WORLD-39);
+  recruits are role-coloured villager figures, not their species; Grove stalls stay as the
+  market. No camera hold on discovery (game.ts follow code). R0096–R0098, R0108 not started.
+- **Known bugs / assumptions:** the 3D stand-in cost is still high for human rigs (lane E's
+  pool); on desktop the creature budget is off (`Infinity`). The full-life timing test runs
+  3.1–3.6 s on this loaded machine on main too.
 
 ## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
 
