@@ -223,3 +223,43 @@ export const DOSSIER_TEXT = {
     'THE KEEPER (AND ASSOCIATE)',
   ],
 } as const;
+
+/**
+ * R0349 (FUN-60): flat system toasts get rotating variants (the first is the original).
+ * Placement toasts stay terse; errors and save notices are never varied.
+ */
+export const TOAST_VARIANTS: Readonly<Record<string, readonly string[]>> = {
+  'The sky clears.': [
+    'The sky clears.',
+    'The sky clears. Everyone pretends they weren’t hiding.',
+    'The rain stops. The Grove shakes itself like a dog.',
+    'Blue sky again. The puddles stay a while, on purpose.',
+  ],
+  'Snow is falling.': [
+    'Snow is falling.',
+    'Snow. Somebody is already trying to catch it on their tongue.',
+    'Snow is falling, very quietly, as if it might get told off.',
+  ],
+  'Something grew.': [
+    'Something grew.',
+    'The garden has done something on its own. Proud of it, too.',
+    'Something new is up out of the soil, blinking.',
+    'A plant has grown. It would like that noticed.',
+  ],
+  'Everyone was quiet.': [
+    'Everyone was quiet.',
+    'Nothing happened while you were gone. Everyone made sure of it.',
+    'A quiet spell. The Grove kept your place.',
+  ],
+  'Off you go.': ['Off you go.', 'Off you go. Mind the gate.', 'Away you go. The Grove will keep.'],
+};
+
+/** The next variant of a flat toast, never the same one twice running; else the text itself. */
+const lastVariant = new Map<string, number>();
+export function toastVariant(text: string): string {
+  const list = TOAST_VARIANTS[text];
+  if (!list) return text;
+  const next = ((lastVariant.get(text) ?? -1) + 1) % list.length;
+  lastVariant.set(text, next);
+  return list[next]!;
+}
