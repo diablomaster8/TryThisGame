@@ -1,9 +1,7 @@
-import {
-  BATTLES_CIRCUIT_VARIANTS,
-  BATTLES_PLAYDAY_VARIANTS,
-  BATTLES_STORY_LOGGED,
-  BATTLES_STORY_VARIANTS,
-} from '../content';
+// The two script files themselves, never the content barrel: the barrel would pull every
+// script into the eager bundle (TECH-41, 5 MB gzip on 2026-10-30).
+import { BATTLES_CIRCUIT_VARIANTS, BATTLES_PLAYDAY_VARIANTS } from '../content/battles-circuit';
+import { BATTLES_STORY_LOGGED, BATTLES_STORY_VARIANTS } from '../content/battles-story';
 import { eduContent, textBandOf } from '../sim/story-scenes';
 import type { Scene } from '../config/story';
 import { RESUME_TEXT, STORY_BOUT_TEXT } from '../config/strings-battle-r6';
