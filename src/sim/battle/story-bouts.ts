@@ -4,6 +4,7 @@ import type { NubbinType, SimEvent, World } from '../types';
 import type { BattleContext } from './types';
 import { QUIET_CHAPTERS } from './contexts';
 import { startBattleCmd } from './core';
+import { autoResolve } from './auto';
 import { circuitTeam } from './circuit';
 import { createTactics } from './tactics/engine';
 import { keeperSeed } from './tactics/keeper-unit';
@@ -103,7 +104,10 @@ function startTurnBout(
   events: SimEvent[],
 ): boolean {
   const before = world.battleRuns ?? 0;
-  startBattleCmd(world, storyTurnContext(world, id, party), events);
+  // Settings → Bouts on Skip (FIGHT-71) resolves it at once, counted as won (lane C r8).
+  if (world.settings?.bouts === 'skip')
+    autoResolve(world, storyTurnContext(world, id, party), events);
+  else startBattleCmd(world, storyTurnContext(world, id, party), events);
   return (world.battleRuns ?? 0) > before;
 }
 
