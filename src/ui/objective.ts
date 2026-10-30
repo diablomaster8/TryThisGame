@@ -17,6 +17,8 @@ import { EDU_PROMPT } from '../config/tuning-dlg';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
 import { isHungry } from '../sim/needs';
+import { wantsFirstFruit } from '../sim/first-feed';
+import { FIRST_FEED_TEXT } from '../config/strings-tech';
 import { journalView } from '../sim/storyline';
 import { textBandOf } from '../sim/story-scenes';
 import { TRAINERS } from '../sim/trainers';
@@ -55,6 +57,15 @@ export function groveSuggestion(world: World): Objective | null {
       key: 'grove:hatch',
       goal: OBJECTIVE_TEXT.hatch,
       hint: OBJECTIVE_TEXT.hatchHint,
+      story: false,
+    };
+  // TECH-01: a new hatchling's first fruit comes before any other suggestion.
+  const fresh = living.find(wantsFirstFruit);
+  if (fresh)
+    return {
+      key: 'grove:firstFruit',
+      goal: FIRST_FEED_TEXT.goal(fresh.name),
+      hint: FIRST_FEED_TEXT.hint,
       story: false,
     };
   const hungry = living.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && isHungry(n));

@@ -132,6 +132,7 @@ import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
+import { mountBackupOffer } from './backup-offer';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -471,6 +472,8 @@ export function mountHud(
   mountBeacon(root, game, () => map.open());
   // R0107: the landmark name card.
   const landmarkCard = mountLandmarkCard(root);
+  // TECH-03: a week in with no export, offer a backup file once.
+  mountBackupOffer(root, game);
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(

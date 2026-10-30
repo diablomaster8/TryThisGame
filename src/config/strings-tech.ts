@@ -1,0 +1,14 @@
+/** Player-facing text for the TECH items (lane D, round 7). Re-exported from `strings.ts`. */
+
+/** TECH-01: the objective chip for a new hatchling's first fruit. */
+export const FIRST_FEED_TEXT = {
+  goal: (name: string) => `🍎 ${name} is hungry: give it a fruit`,
+  hint: 'Tap your Nubbin, then Feed',
+} as const;
+
+/** TECH-03: the one-time backup offer. */
+export const BACKUP_OFFER_TEXT = {
+  line: 'A week of Grove! Save a backup file, in case this browser forgets.',
+  save: 'Save a backup file',
+  later: 'Not now',
+} as const;

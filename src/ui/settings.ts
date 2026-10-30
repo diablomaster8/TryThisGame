@@ -1,3 +1,4 @@
+import { noteBackupExported } from '../platform/backup-offer';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
@@ -612,6 +613,7 @@ export class SettingsMenu {
     if (!g) return;
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
     downloadText(`grove-save-${stamp}.json`, g.exportJson());
+    noteBackupExported();
   }
 
   /** The newest copy of a save that failed to load, as a file the player can keep. */

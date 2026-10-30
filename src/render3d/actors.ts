@@ -7,6 +7,7 @@ import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-m
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
+import { HeldRing3D } from './held-ring-3d';
 import { Footfall } from '../render/footfall';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
@@ -260,6 +261,8 @@ export class Actors {
   private readonly wings: GlideWings;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
+  /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
+  private readonly heldRing: HeldRing3D;
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
   private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
@@ -321,6 +324,7 @@ export class Actors {
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
+    this.heldRing = new HeldRing3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
     this.fernCairn = new FernCairn3D(this.group);
     this.highlight = new THREE.Mesh(
@@ -914,6 +918,7 @@ export class Actors {
     const keeper = world.keeper;
     this.world = world;
     noteJumpToyWorld(world, this.calm);
+    this.heldRing.update(world, nowMs, this.calm, this.ground);
     this.hopCourse.update(world, alpha, nowMs, this.calm);
     this.fernCairn.update(world, this.ground);
     this.pool.frame();
@@ -962,10 +967,12 @@ export class Actors {
           ? null
           : signatureAt(n.id, n.species, nowMs, this.calm);
       // MOVE-57: a Nubbin at play on a spring mushroom bounces on its cap (drawn only).
-      const y =
+      const y = Math.max(
         lerp(a.prev.y, n.y, alpha) +
-        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
-        (fly?.y ?? 0);
+          (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+          (fly?.y ?? 0),
+        this.heldRing.ring.lowerY(n.id, nowMs),
+      );
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
@@ -1380,6 +1387,7 @@ export class Actors {
     this.kit.dispose();
     this.rippleGeo.dispose();
     this.rippleMat.dispose();
+    this.heldRing.dispose();
     this.highlight.geometry.dispose();
     (this.highlight.material as THREE.Material).dispose();
     this.sparkCloud.dispose();
