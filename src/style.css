@@ -3431,3 +3431,29 @@ select {
   margin: 2px 0 0;
   padding-left: 18px;
 }
+
+/* R0579 (lane A r8): the roster's personality chip and filter row. */
+.roster-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.roster-filter-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.roster-filter-chip[aria-pressed='true'] {
+  outline: 2px solid currentColor;
+}
+.roster-personality {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9em;
+}
+.roster-personality.forming {
+  opacity: 0.7;
+}

@@ -117,3 +117,6 @@ export const RECENTLY_TEXT = {
   title: 'Recently',
   none: 'Nothing much yet. Give it time.',
 } as const;
+
+/** R0579: the roster's filter row. */
+export const ROSTER_FILTER_TEXT = { label: 'Show by personality', all: 'All' } as const;
