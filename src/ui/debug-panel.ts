@@ -1,4 +1,5 @@
 import { worldControls, worldLine } from './world-debug';
+import { debugIdleOdds } from '../sim/behavior';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -246,6 +247,15 @@ export class DebugPanel {
       `sim t ${Math.round(g.world.timeMs / 1000)} s  rng ${g.world.rngState}`,
       frameLine(g),
     ];
+    // R0524 (lane A r7): the live odds of the everyday idle pick for this Nubbin.
+    const odds = debugIdleOdds(g.world, n);
+    lines.splice(
+      -2,
+      0,
+      `idle ${Object.entries(odds)
+        .map(([k, v]) => `${k} ${Math.round(v * 100)}%`)
+        .join('  ')}`,
+    );
     this.values.textContent = lines.join('\n');
   }
 

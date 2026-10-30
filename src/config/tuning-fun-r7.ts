@@ -110,3 +110,24 @@ export const PERSONALITY_LEAN = {
   shyAfterMs: 15 * 60_000,
   childStrength: 0.5,
 } as const;
+
+export type IdleActionId = 'greet' | 'play' | 'shroom' | 'swim' | 'sit' | 'wander';
+
+/**
+ * R0524 (SOUL-05): the everyday idle choice's weights. Each eligible action's `base` is
+ * multiplied by the named personality multiplier (`PERSONALITY.multipliers`, a child's at
+ * half strength) and one is picked. These bases are the old cascade's shares with every
+ * action open (greet 0.35, then play 0.3, a mushroom half of play, swim 0.15, sit 0.3, and
+ * wander the rest), so the Grove plays as it did.
+ */
+export const IDLE_ACTIONS: Record<
+  IdleActionId,
+  { base: number; mult: 'greet' | 'play' | 'sit' | 'swim' | null }
+> = {
+  greet: { base: 0.35, mult: 'greet' },
+  play: { base: 0.195, mult: 'play' },
+  shroom: { base: 0.0683, mult: 'play' },
+  swim: { base: 0.058, mult: 'swim' },
+  sit: { base: 0.0986, mult: 'sit' },
+  wander: { base: 0.2301, mult: null },
+};
