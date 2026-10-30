@@ -18,3 +18,6 @@ export const HAPTICS_TEXT = {
   label: 'Vibration',
   help: 'A little buzz when you pet, hatch, throw and more.',
 } as const;
+
+/** TECH-17: the stats sheet's grow handle. */
+export const SHEET_TEXT = { grow: 'Make the sheet taller or shorter' } as const;

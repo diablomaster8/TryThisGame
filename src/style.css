@@ -3223,3 +3223,43 @@ select {
   opacity: 1;
   color: #e8a33c;
 }
+
+/* TECH-17: the stats sheet's header stays in view while its body scrolls, and a handle
+   grows a phone's short sheet to most of the screen and back. */
+.sheet-head {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  margin: -10px -12px 0;
+  padding: 10px 12px 6px;
+  background: rgba(13, 10, 26, 0.96);
+}
+.sheet-handle {
+  display: none;
+}
+@media (max-width: 719px) {
+  .sheet-handle {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 24px;
+    margin: -6px 0 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ns-resize;
+    touch-action: none;
+  }
+  .sheet-handle::before {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: 8px auto;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.45);
+  }
+  .sheet.sheet-tall {
+    max-height: 85%;
+  }
+}

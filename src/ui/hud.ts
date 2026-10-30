@@ -875,7 +875,8 @@ export function mountHud(
         const nubbinGags = new NubbinGags(root);
         g.framePollers.push(() => nubbinGags.update(g));
       }
-      carry.hidden = !carrying;
+      // TECH-17: the sheet covers the chip, so it hides while the sheet is open.
+      carry.hidden = !carrying || !sheet.root.hidden;
       if (carrying) {
         const n = g.world.nubbins.find((x) => x.id === carrying);
         carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
