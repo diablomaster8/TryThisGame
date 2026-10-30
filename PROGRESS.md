@@ -38,28 +38,32 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
+## Round 6 · Lane B DUNG (2026-10-29, branch r6/b)
 
-- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
-  mark a room the stairs can go around (200-seed test); walking in calls lane C's
-  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
-  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
-  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
-  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
-  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
-  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
-  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
-  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
-  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
-- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
-  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
-  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
-  to the satchel); R0160 boss arenas and R0165+ not started.
-- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
-  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
-- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
-  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
-  add it as a child when the roster has room).
+- *Works:* boss floors (R0160): every act's boss sits on its 'boss' piece (60/60 seeds); the
+  first win opens a big chest (a Legendary at the boss's level), shows the celebration card
+  and wakes the next act's camp waypoint; a boss loss rests the party fully. The haul sack
+  (R0175): gear finds ride in `run.sack` and bank at a waypoint, camp, acorn or home with a
+  "Bank it!" card; no path shrinks what is owned (test). Stash (R0174): satchel overflow lands
+  in `gear.stash`, listed rarest-first at the camp stash with Take. Tumble home (R0362): all
+  party energy 0 rolls everyone home, half the sack to the satchel, half to the stash. Mystery
+  Basket stall (R0176) at the camp vendor, odds within ±1% over 100k. Warm losses (R0180):
+  half energy, "Sneak past?" after 3 losses, pack looks away 60 s. Sleepy packs (R0203): ~20%
+  doze, walking by pays a tiptoe bonus, running wakes them, a Lazy Nubbin may yawn one awake.
+  End trip confirm (R0184); chest and stray seeds without the roster (R0186); today's results
+  on the cave-mouth menu and Journal (R0185 part, R0165 part); rolling stats in the debug
+  panel (R0211); Stray King and rotating stray lines (R0326); co-op `keepers: []` and a
+  replay test (R0209); `docs/hollow-design.md` (R0171). Save v12: `gear.stash`,
+  `hollow.bossChests`, `hollow.today`, `hollow.stats` (test).
+- *Stubbed:* boss `phases` are in the `EncounterSpec` but lane C's core ignores them; no
+  sealing arena door or anteroom (retry is from the stairs); no Zzz, tiptoe or crown art
+  (lane E); the Journal page has no request-board ties (adding templates needs strings.ts and
+  the no-chores cap) and today's floors are the daily seed, not a fixed 5-level act chain;
+  stash has no tabs or search; the floor-5 guardian (R0260) waits for lane C's r6 merge.
+- *Known:* the boss chest is Legendary until sets exist (R0172); a bout lost to the act boss
+  still teleports to the level's stairs up.
+- *Assumptions:* banked = satchel or stash; the tumble's "half" moves to the stash instead of
+  being lost; today's best time is the quickest daily trip to today's deepest level.
 
 ## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
 

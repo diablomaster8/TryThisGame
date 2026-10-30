@@ -2,6 +2,30 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
+
+- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
+  mark a room the stairs can go around (200-seed test); walking in calls lane C's
+  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
+  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
+  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
+  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
+  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
+  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
+  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
+  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
+  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
+- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
+  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
+  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
+  to the satchel); R0160 boss arenas and R0165+ not started.
+- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
+  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
+- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
+  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
+  add it as a child when the roster has room).
+
+
 ## Round 4 · Lane D (2026-10-29, branch r4/d)
 
 Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
