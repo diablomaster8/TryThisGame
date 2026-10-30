@@ -106,3 +106,60 @@ export const EXPEDITION_FUN_TEXT = {
     ],
   } as Record<string, readonly string[]>,
 } as const;
+
+/** R0325 (FUN-36): one quirk per rival, shown with its name in the standings. */
+export const RIVAL_QUIRKS: readonly string[] = [
+  'who stops to wave',
+  'who hums the whole way',
+  'who runs with its eyes shut',
+  'who has a lucky leaf',
+  'who bows at the start',
+  'who is mostly here for the snacks',
+  'who waves at its own shadow',
+  'who once beat a snail, narrowly',
+  'who claps for everyone',
+  'who sneezes at the gun',
+  'who brought a spare sock',
+  'who runs in a very straight line',
+  'who apologises to the hurdles',
+  'who is wearing its best face',
+  'who counts its steps out loud',
+  'who has never seen a butterfly',
+  'who has seen every butterfly',
+  'who naps between races',
+  'who trained on a hill, once',
+  'who thinks the finish line is lunch',
+  'who high-fives the finish post',
+  'who races its own reflection',
+  'who carries a pebble for luck',
+  'who is very serious about this',
+  'who giggles on the corners',
+  'who wobbles but never falls',
+  'who stops to smell everything',
+  'who would rather be swimming',
+  'who is secretly very fast',
+  'who is openly very slow',
+  'who does a little skip',
+  'who forgot which way to go',
+  'who knows exactly which way to go',
+  'who waves at the crowd of one',
+  'who fluffs up before the start',
+  'who likes the mud bit best',
+  'who blinks a lot in the sun',
+  'who is still thinking about breakfast',
+  'who has a cheer of its own',
+  'who never looks back, then does',
+];
+
+/** R0325: a rival's name with its quirk ("Pudding, who stops to wave"). */
+export function rivalLabel(name: string, quirk: number | undefined): string {
+  const q = quirk === undefined ? undefined : RIVAL_QUIRKS[quirk % RIVAL_QUIRKS.length];
+  return q ? `${name}, ${q}` : name;
+}
+
+/** R0325: the race's butterfly beats, for the track and the results. */
+export const RACE_GAG_TEXT = {
+  gaze: '🦋',
+  perk: '!',
+  tip: (name: string) => `${name} stopped to look at a butterfly. Worth it.`,
+} as const;

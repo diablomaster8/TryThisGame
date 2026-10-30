@@ -112,3 +112,16 @@ export const SLAPSTICK = {
   toddle: 3,
   toddleMs: 6000,
 } as const;
+
+/**
+ * R0325 (FUN-36): race gags. A Nubbin happier than `happyOver` has `chance` per section of
+ * stopping `gazeMs` to look at a butterfly; a cheer snaps it out with a "!" for `perkMs`.
+ * `quirks` is how many rival quirk lines there are (`RIVAL_QUIRKS`).
+ */
+export const RACE_GAGS = {
+  happyOver: 60,
+  chance: 0.05,
+  gazeMs: 400,
+  perkMs: 600,
+  quirks: 40,
+} as const;
