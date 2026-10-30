@@ -170,3 +170,15 @@ export const SNATCH = {
   /** The victim thinks this much less of it (friendship points). */
   friendshipCost: 15,
 } as const;
+
+/** R0559 (SOUL-42): a slip on its way shows as a call for attention. */
+export const CALLING = {
+  /** From this share of the slip's mark (`SLIPS.afterMs`). */
+  from: 0.5,
+  /** Within this of the Keeper it sits and tugs; farther, it walks over and stops short. */
+  nearKeeper: 2.5,
+  stopShort: 1.4,
+  walkMs: 6000,
+  tugMs: 3000,
+  rubMs: 2500,
+} as const;

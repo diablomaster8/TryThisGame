@@ -52,6 +52,7 @@ import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
 import { noticeFace } from './notice';
+import { soulEmote } from './soul-emotes';
 import { bigBubbles, emoteFocused, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
@@ -2369,6 +2370,9 @@ const HELD_CLIPS: Record<HeldMood, string> = {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
+  const own = soulEmote(n);
+  if (own) return own;
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';

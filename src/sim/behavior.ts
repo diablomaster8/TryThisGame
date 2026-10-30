@@ -55,6 +55,7 @@ import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
 import { peekAct } from './peek';
+import { callAct } from './calling';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
@@ -539,6 +540,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     rng.chance(CURFEW.napChance)
   ) {
     setState(n, 'nap', now, NEEDS.napMs * napScale(n));
+    return;
+  }
+  // R0559 (lane A r9): a slip on its way: it calls for attention (no rng drawn).
+  const call = callAct(n, world);
+  if (call) {
+    startAct(n, call, now);
     return;
   }
   // Partners keep near the Keeper.
