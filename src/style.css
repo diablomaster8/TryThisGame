@@ -3882,7 +3882,7 @@ body.edu-sprout .modal-head .btn-close {
 
 /* Lane E r8: R0680 the Learning Grove's Places picture menu. */
 .edu-places-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.edu-place {
+.edu-places-grid .edu-place.btn {
   min-height: 120px; display: flex; flex-direction: column; align-items: center;
   justify-content: center; gap: 6px; font-size: 18px; font-weight: 700;
 }
