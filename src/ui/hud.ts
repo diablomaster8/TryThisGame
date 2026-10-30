@@ -135,6 +135,7 @@ import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
+import { keysHintDone, watchKeysHint } from './keys-hint';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -485,6 +486,7 @@ export function mountHud(
   const landmarkCard = mountLandmarkCard(root);
   // TECH-03: a week in with no export, offer a backup file once.
   mountBackupOffer(root, game);
+  watchKeysHint();
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -962,7 +964,9 @@ export function mountHud(
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
-      if (keysHint && keysHint.hidden !== isEdu) keysHint.hidden = isEdu;
+      // TECH-60: gone for good once the keys have been used.
+      const keysOff = isEdu || keysHintDone();
+      if (keysHint && keysHint.hidden !== keysOff) keysHint.hidden = keysOff;
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
