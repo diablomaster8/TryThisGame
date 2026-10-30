@@ -328,3 +328,18 @@ export const RARITY_TEXT = {
   rare: 'Rare',
   legendary: 'Legendary',
 } as const;
+
+/** LOOK-53 (R0423): the birthmarks' names on the stats sheet. */
+export const BIRTHMARK_TEXT = {
+  line: (name: string) => `Birthmark: ${name}`,
+  kinds: {
+    spots: 'a few spots',
+    stripe: 'a stripe over the crown',
+    patch: 'a patch',
+    freckles: 'freckles',
+    star: 'little star',
+    moon: 'a crescent moon',
+    heart: 'a little heart',
+    notch: 'a nick in the crown',
+  } as Record<string, string>,
+};

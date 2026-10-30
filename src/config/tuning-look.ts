@@ -171,3 +171,9 @@ export const RARITY = {
   rareGlintMs: 4000,
   legendaryMoteMs: 1400,
 };
+
+export const BIRTHMARK = {
+  /** LOOK-53: the share of Chao-line Nubbins born with a mark, and of those a rare brow one. */
+  chance: 0.2,
+  rareChance: 0.03,
+};

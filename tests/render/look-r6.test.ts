@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { birthmarkKey, birthmarkOf } from '../../src/render/birthmark';
 import { rarityOf } from '../../src/render/rarity';
 import { cocoonShake, revealTurn } from '../../src/render/evolve-reveal';
 import { EVOLVE_REVEAL, LIFECYCLE } from '../../src/config/tuning';
@@ -271,5 +272,30 @@ describe('LOOK-58 rarity', () => {
     expect(rarityOf({ ...n, eggColor: 'plain', tone: null, shiny: false, eternal: 'sun' })).toBe(
       'legendary',
     );
+  });
+});
+
+describe('LOOK-53 birthmarks', () => {
+  it('marks about one in five Chao, a few rare ones, the same in both modes', () => {
+    let marked = 0;
+    let rare = 0;
+    for (let seed = 1; seed <= 2000; seed++) {
+      const m = birthmarkOf({ seed, species: 'chao', stage: 'child' });
+      if (m) marked++;
+      if (m && (m.kind === 'star' || m.kind === 'heart')) rare++;
+    }
+    expect(marked / 2000).toBeGreaterThan(0.16);
+    expect(marked / 2000).toBeLessThan(0.24);
+    expect(rare).toBeGreaterThan(20);
+    expect(rare).toBeLessThan(110);
+    expect(birthmarkOf({ seed: 5, species: 'zapkin', stage: 'child' })).toBeNull();
+    // A marked child's 3D key carries the mark, and the spec gains marks.
+    let seed = 1;
+    while (!birthmarkOf({ seed, species: 'chao', stage: 'child' })) seed++;
+    const n = { ...child(0), seed };
+    const key = nubbinLook(n).key;
+    expect(key).toContain('~mark:');
+    expect(specForKey(key).marks.length).toBeGreaterThan(specForKey('variant:child').marks.length);
+    expect(SheetCache.nubbinKey(n)).toContain(`:m${birthmarkKey(birthmarkOf(n))}`);
   });
 });

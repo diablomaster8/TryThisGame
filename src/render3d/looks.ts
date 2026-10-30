@@ -37,6 +37,7 @@ import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';
 import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS, WEATHERED } from '../config/npc-looks';
 import { CHILD_HINT } from '../config/tuning';
+import { withBirthmark } from './birthmark-3d';
 import { weathered } from './weathered';
 
 /**
@@ -308,6 +309,9 @@ export function specForKey(key: string): SpeciesSpec {
         parsePartSteps(parts),
         partsTinted(parts),
       );
+    // LOOK-53: the birthmark, painted on before the Shadow's grey so it greys with the rest.
+    const mark = mod('mark:');
+    if (mark) spec = withBirthmark(spec, mark);
     if (mods.includes('shadow')) spec = ashen(spec);
     if (mods.includes('weathered')) spec = weathered(spec);
     cache.set(key, spec);

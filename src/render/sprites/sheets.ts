@@ -2,6 +2,7 @@ import { buildShinyGlintSheet } from './shiny-glint';
 import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childLean, leanStep } from './child-hint';
+import { birthmarkKey, birthmarkOf } from '../birthmark';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
@@ -169,7 +170,7 @@ export class SheetCache {
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
-    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}`;
+    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -197,6 +198,7 @@ export class SheetCache {
           hatDye: n.hatDye ?? null,
           stars: Math.min(4, n.rebirths),
           wary: n.shadow && !n.bond,
+          mark: birthmarkOf(n),
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);

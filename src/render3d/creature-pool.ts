@@ -11,6 +11,7 @@ import {
 } from 'three';
 import { CHILD_HINT, GROVE3D } from '../config/tuning';
 import { childLean, leanStep } from '../render/sprites/child-hint';
+import { birthmarkKey, birthmarkOf } from '../render/birthmark';
 import { GRANDCHILD3D } from '../config/tuning-fx3d';
 import { buildSpecies, type Rigged } from '../samples/species';
 import { TOON } from '../samples/creatures';
@@ -62,8 +63,12 @@ export function nubbinLook(n: Nubbin): Look {
   // LOOK-36: each part carries its size step, and a Sun or Moon adult's parts lean to its body.
   const band = n.stage === 'adult' && !n.eternal ? n.form?.band : undefined;
   const parts = partsModBody(n.parts, partSteps(n), band === 'sun' || band === 'moon');
+  // LOOK-53: the birthmark from the seed, painted on the sculpt.
+  const mark = birthmarkKey(birthmarkOf(n));
   const tints =
-    tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) + (parts ? `~parts:${parts}` : '');
+    tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) +
+    (parts ? `~parts:${parts}` : '') +
+    (mark ? `~mark:${mark}` : '');
   const over = look ? `~look:${look}` : '';
   if (n.species !== 'chao') {
     // Other lines keep their own colours; only the Shadow's grey reaches them.

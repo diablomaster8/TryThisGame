@@ -21,6 +21,7 @@ import { partStepScale, type PartStep } from './part-size';
 import { PixelCanvas } from './pixel-canvas';
 import { drawCosmetic } from './cosmetic-pixel';
 import { ditherGlass, metalColors } from './finish-pixel';
+import type { Birthmark } from '../birthmark';
 
 /**
  * The Nubbin, drawn Chao-faithfully from memory: a big round head that is most of the
@@ -686,6 +687,8 @@ export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
 
 export interface ChaoLook {
   colors: ChaoColors;
+  /** LOOK-53: a birthmark from the Nubbin's seed (render/birthmark.ts); unset draws none. */
+  mark?: Birthmark | null;
   /** LOOK-64: a Shadow Nubbin not yet bonded: the head held a pixel low. */
   wary?: boolean;
   /** LOOK-54: rebirths, drawn as brow stars (1-3) or a ring (4+); unset draws none. */
@@ -1778,6 +1781,9 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
   }
 
+  // LOOK-53: the birthmark, on the facing views (the back views show the stripe and notch).
+  if (look.mark) drawBirthmark(pc, angle, L, col, look.mark);
+
   // LOOK-54: a gold star on the brow for each rebirth, three at most, a gold ring past that.
   const stars = look.stars ?? 0;
   if (stars > 0 && angle !== 'back' && angle !== 'backQuarter') {
@@ -1925,6 +1931,67 @@ export const HELD_POSES: readonly (readonly [string, number, ChaoPose])[] = [
   ['heldFlail', 0, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepA', arms: 'up' }],
   ['heldFlail', 1, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepB', arms: 'out', lift: -1 }],
 ];
+
+/** LOOK-53: stamp a birthmark, 1–4 fine pixels, on the head. */
+function drawBirthmark(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  col: ChaoColors,
+  m: Birthmark,
+): void {
+  const back = angle === 'back' || angle === 'backQuarter';
+  const top = L.headCy - L.headRy;
+  const s = angle === 'side' ? 1 : m.side;
+  const cheekX = L.headCx + s * (L.headRx - 3);
+  switch (m.kind) {
+    case 'stripe':
+      pc.line(L.headCx - 2, top + 1, L.headCx + 2, top + 1, col.shade);
+      return;
+    case 'notch':
+      pc.px(L.headCx + 1, top - 1, col.outline);
+      return;
+  }
+  if (back) return;
+  switch (m.kind) {
+    case 'spots':
+      pc.dot(cheekX, L.headCy + 1, col.shade);
+      pc.dot(cheekX - s, L.headCy + 2.5, col.shade);
+      pc.dot(cheekX + s * 0.5, L.headCy + 3, col.shade);
+      break;
+    case 'freckles':
+      for (const dx of [-2, -1, 1, 2]) pc.dot(L.headCx + dx, L.headCy + 2.5, col.shade);
+      break;
+    case 'patch':
+      pc.ellipse(L.headCx + s * 3, top + 3, 2, 1.5, col.shade);
+      break;
+    case 'moon':
+      pc.dot(cheekX, L.headCy + 1, C.cream);
+      pc.dot(cheekX, L.headCy + 2, C.cream);
+      pc.dot(cheekX + s * 0.5, L.headCy + 0.5, C.cream);
+      break;
+    case 'star':
+      for (const [dx, dy] of [
+        [0, 0],
+        [-0.5, 0],
+        [0.5, 0],
+        [0, -0.5],
+        [0, 0.5],
+      ] as const)
+        pc.dot(L.headCx + dx, top + 3 + dy, C.sunYellow);
+      break;
+    case 'heart':
+      for (const [dx, dy] of [
+        [-0.5, 0],
+        [0.5, 0],
+        [0, 0.5],
+        [-1, -0.5],
+        [1, -0.5],
+      ] as const)
+        pc.dot(L.headCx + dx, top + 3 + dy, C.rose);
+      break;
+  }
+}
 
 /** Every clip at every drawn angle, baked into one sheet. */
 export function buildChaoSheet(look: ChaoLook): SpriteSheet {
