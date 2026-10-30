@@ -77,3 +77,39 @@ describe('R0544 antics', () => {
     stepWorld(w, 100);
   });
 });
+
+describe('R0593 liveliness and R0575 catch-up', () => {
+  const rate = (l: 'calm' | 'normal' | 'lively'): number => {
+    const w = grove(5);
+    w.settings.liveliness = l;
+    let count = 0;
+    for (let t = 0; t < 20 * 600; t++) {
+      for (const n of w.nubbins) n.needs.hunger = n.needs.energy = 1;
+      for (const e of stepWorld(w, 100) as SimEvent[]) if (e.kind === 'antic') count++;
+    }
+    return count;
+  };
+
+  it('the antic rate scales roughly with the setting', () => {
+    const calm = rate('calm');
+    const normal = rate('normal');
+    const lively = rate('lively');
+    expect(calm).toBeLessThan(normal);
+    expect(lively).toBeGreaterThan(normal);
+    expect(lively / Math.max(1, calm)).toBeGreaterThan(1.8);
+  }, 60_000);
+
+  it('no soul acts start while catching up', () => {
+    const w = grove(8);
+    w.phase = 'dusk';
+    w.nubbins[2]!.moody = 'grumpy';
+    const acts = new Set<string>();
+    for (let t = 0; t < 5 * 600; t++) {
+      for (const n of w.nubbins) n.needs.hunger = n.needs.energy = 1;
+      stepWorld(w, 100, undefined, true);
+      for (const n of w.nubbins) if (n.behavior.itemId) acts.add(n.behavior.itemId.split(':')[0]!);
+    }
+    for (const a of ['fireflies', 'harrumph', 'prank', 'comfort', 'trip', 'chaseTail'])
+      expect(acts.has(a), a).toBe(false);
+  });
+});

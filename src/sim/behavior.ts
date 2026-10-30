@@ -60,6 +60,7 @@ import {
   idleAntic,
   isAntic,
   noteAteForAntics,
+  soulLive,
   walkAntic,
   type AnticKind,
 } from './antics';
@@ -653,13 +654,16 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   // R0544: the hiccups after a quick second fruit, or a child's tail chase.
-  const antic = idleAntic(n, now);
+  const antic = idleAntic(n, world, now);
   if (antic) {
     startAntic(n, antic, now);
     return;
   }
   // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
-  const own = alignAct(n, world, rng) ?? moodyAct(n, world, rng) ?? phaseAct(n, world, rng);
+  // R0575: none of these while catching up on time away; they are for watching.
+  const own = soulLive()
+    ? (alignAct(n, world, rng) ?? moodyAct(n, world, rng) ?? phaseAct(n, world, rng))
+    : null;
   if (own) {
     startAct(n, own, now);
     return;

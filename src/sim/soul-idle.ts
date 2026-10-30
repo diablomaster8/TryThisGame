@@ -13,6 +13,7 @@
  *   the rest shelter by the tree nearest the Keeper, and never more than half at once.
  */
 import { ALIGN_SOUL, GROVE, MOODY, PHASE_HOURS, PHASE_QUIRKS, RAIN_SOUL } from '../config/tuning';
+import { liveliness } from './antics';
 import { addHappiness } from './needs';
 import { leaningPersonality } from './personality';
 import type { Rng } from './rng';
@@ -93,7 +94,7 @@ export function phaseAct(n: Nubbin, world: World, rng: Rng): IdleAct | null {
   const phase = world.phase ?? 'day';
   if (phase === 'day' || n.stage === 'egg') return null;
   const p = n.personality ?? leaningPersonality(n);
-  const scale = p ? PHASE_QUIRKS.by[p][phase] : 1;
+  const scale = (p ? PHASE_QUIRKS.by[p][phase] : 1) * liveliness(world);
   const q = PHASE_QUIRKS;
   if (phase === 'dawn') {
     if (!rng.chance(q.dawnStretch * scale)) return null;
@@ -208,7 +209,7 @@ export function alignAct(n: Nubbin, world: World, rng: Rng): IdleAct | null {
     return { state: 'perform', ms: a.comfortMs, itemId: `comfort:${mark.id}`, target };
   }
   const mark = nearestOther(n, world, a.prankRadius, (o) => !sad(o));
-  if (!mark || !rng.chance(Math.min(1, a.prankChance * b.s))) return null;
+  if (!mark || !rng.chance(Math.min(1, a.prankChance * b.s * liveliness(world)))) return null;
   // From behind: the side away from the way it faces.
   const target = {
     x: mark.pos.x - Math.sin(mark.facing) * 0.9,

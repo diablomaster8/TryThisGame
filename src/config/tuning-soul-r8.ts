@@ -141,3 +141,6 @@ export const EMOTE_READ = {
   pop: 2,
   popMs: 300,
 } as const;
+
+/** R0593 (SOUL-76): Settings → Liveliness, scaling quirks and antics only. */
+export const LIVELINESS = { calm: 0.5, normal: 1, lively: 1.5 } as const;

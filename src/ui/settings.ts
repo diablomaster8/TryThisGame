@@ -1,5 +1,6 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
-import { BIG_BUBBLES_TEXT } from '../config/strings-soul-r8';
+import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
+import { livelinessOf } from '../sim/antics';
 import { bigBubbles } from '../render/emote-size';
 import { SLAPSTICK_TEXT } from '../config/strings-fun-r7';
 import { confirmModal } from './confirm';
@@ -68,6 +69,8 @@ export class SettingsMenu {
   private readonly slapstick: HTMLSelectElement;
   /** R0549 (lane A r8): Big mood bubbles. */
   private readonly bigBubbles: HTMLInputElement;
+  /** R0593 (lane A r8): Liveliness. */
+  private readonly liveliness: HTMLSelectElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
@@ -330,6 +333,9 @@ export class SettingsMenu {
     );
     bigRow.append(this.bigBubbles, bigText);
     body.appendChild(bigRow);
+    // R0593 (lane A r8): how lively the Grove is (quirks and antics only).
+    this.liveliness = select(LIVELINESS_TEXT.label, LIVELINESS_TEXT.levels);
+    body.appendChild(el('div', 'help', LIVELINESS_TEXT.help));
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
@@ -456,6 +462,7 @@ export class SettingsMenu {
     this.blips.checked = g.world.settings.voiceBlips !== false;
     this.slapstick.value = g.world.settings.slapstick ?? 'full';
     this.bigBubbles.checked = bigBubbles(g.world);
+    this.liveliness.value = livelinessOf(g.world);
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
@@ -605,6 +612,8 @@ export class SettingsMenu {
       settings.slapstick = this.slapstick.value as NonNullable<Settings['slapstick']>;
     if (this.bigBubbles.checked !== bigBubbles(g.world))
       settings.bigBubbles = this.bigBubbles.checked;
+    if (this.liveliness.value !== livelinessOf(g.world))
+      settings.liveliness = this.liveliness.value as NonNullable<Settings['liveliness']>;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.

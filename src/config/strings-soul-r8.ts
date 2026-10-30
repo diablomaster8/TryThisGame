@@ -79,3 +79,10 @@ export const BIG_BUBBLES_TEXT = {
   label: 'Big mood bubbles',
   help: 'Draw the ball over each Nubbin larger, easier to read on a small screen.',
 } as const;
+
+/** R0593: the Settings select for how lively the Grove is. */
+export const LIVELINESS_TEXT = {
+  label: 'Liveliness',
+  levels: { calm: 'Calm', normal: 'Normal', lively: 'Lively' },
+  help: 'How often Nubbins trip, sneeze, prank and potter about. Never changes their needs.',
+} as const;

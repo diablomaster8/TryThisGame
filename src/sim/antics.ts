@@ -9,7 +9,7 @@
  * the antics leaves every seeded day as it was. Nothing fires while the world is catching
  * up on time away (`setAnticsLive`, set by `stepWorld`).
  */
-import { ANTICS } from '../config/tuning';
+import { ANTICS, LIVELINESS } from '../config/tuning';
 import { hashSeed } from './rng';
 import type { Nubbin, SimEvent, World } from './types';
 
@@ -20,6 +20,24 @@ let live = true;
 /** Off during offline catch-up: antics are for watching. */
 export function setAnticsLive(on: boolean): void {
   live = on;
+}
+
+/** R0575: whether the soul acts may run now (false while catching up on time away). */
+export function soulLive(): boolean {
+  return live;
+}
+
+/**
+ * R0593 (SOUL-76): Settings → Liveliness scales the quirks and antics (never needs or stats):
+ * calm ×0.5, normal ×1, lively ×1.5. Unset is normal, and lively for the sprout band.
+ */
+export function livelinessOf(world: World): 'calm' | 'normal' | 'lively' {
+  return world.settings.liveliness ?? (world.edu?.band === 'sprout' ? 'lively' : 'normal');
+}
+
+/** The multiplier for the chosen liveliness. */
+export function liveliness(world: World): number {
+  return LIVELINESS[livelinessOf(world)];
 }
 
 /** A 0..1 roll for this Nubbin, this purpose and this whole second. */
@@ -55,15 +73,16 @@ function nearFlowers(n: Nubbin, world: World): boolean {
 /** A walking step: maybe a trip or a sneeze. Returns the antic to start, or null. */
 export function walkAntic(n: Nubbin, world: World, now: number, dtMs: number): AnticKind | null {
   if (!live || n.stage === 'egg' || !secondTick(now, dtMs)) return null;
-  if (roll(n, 'trip', now) < ANTICS.tripPerSecond) return 'trip';
+  const lively = liveliness(world);
+  if (roll(n, 'trip', now) < ANTICS.tripPerSecond * lively) return 'trip';
   const spring = world.season === 'spring' ? 2 : 1;
-  if (nearFlowers(n, world) && roll(n, 'sneeze', now) < ANTICS.sneezePerSecond * spring)
+  if (nearFlowers(n, world) && roll(n, 'sneeze', now) < ANTICS.sneezePerSecond * spring * lively)
     return 'sneeze';
   return null;
 }
 
 /** An idle choice: the hiccups if due, or a child's tail chase. */
-export function idleAntic(n: Nubbin, now: number): AnticKind | null {
+export function idleAntic(n: Nubbin, world: World, now: number): AnticKind | null {
   if (!live || n.stage === 'egg') return null;
   if (hiccupDue.has(n)) {
     hiccupDue.delete(n);
@@ -74,7 +93,7 @@ export function idleAntic(n: Nubbin, now: number): AnticKind | null {
     n.stage === 'child' &&
     p !== 'shy' &&
     p !== 'lazy' &&
-    roll(n, 'tail', now) < ANTICS.tailChance
+    roll(n, 'tail', now) < ANTICS.tailChance * liveliness(world)
   )
     return 'chaseTail';
   return null;
