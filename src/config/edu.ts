@@ -44,6 +44,10 @@ export const EDU = {
   shellsPerStar: 5,
   /** R0691: a sprout save's Nubbins are always reborn at end of life. */
   alwaysRebornSprout: true,
+  /** R0724: the warning comes this many minutes before the break. */
+  breakWarnMinutes: 2,
+  /** R0724: a round or scene still open may run this long past the break time. */
+  breakGraceMinutes: 3,
   /** A sticker every this many stars. */
   starsPerSticker: 9,
   /** Default and allowed session length in minutes before the break screen. */

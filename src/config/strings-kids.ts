@@ -16,6 +16,15 @@ export const KID_SHEET_TEXT = {
 export const BREAK_KID_TEXT = {
   done: 'All done for now',
   goodnight: 'Goodnight! See you next time.',
+  /** R0725: the break card's stretches, each with the Nubbin's pose (a sprite clip). */
+  stretches: [
+    { clip: 'happy', icon: '🙌', say: 'Reach up high, like your Nubbin! Up, up, up!' },
+    { clip: 'tumble', icon: '🦶', say: 'Now bend down and touch your toes.' },
+    { clip: 'love', icon: '〰️', say: 'Wiggle, wiggle, wiggle!' },
+    { clip: 'eat', icon: '🥤', say: 'Time for water! Have a little drink.' },
+  ] as readonly { clip: string; icon: string; say: string }[],
+  /** R0724: said once, two minutes before the break. */
+  soon: 'Two more minutes, then a rest!',
   /** Read aloud with the goodnight card; the name is the child's Nubbin. */
   goodnightSay: (name: string) => `${name} is fast asleep. Goodnight! See you next time.`,
   goodnightSayNone: 'The Grove is fast asleep. Goodnight! See you next time.',
@@ -112,4 +121,10 @@ export const EDU_REBORN_TEXT = {
   toggleHelp: 'At the end of its life a Nubbin is always reborn as an egg, never gone for good.',
   say: (name: string) =>
     `${name} was tired and slept in a glowing cocoon. And here is a new egg! ${name} is back!`,
+} as const;
+
+/** R0720: the Learning Grove's age screen. */
+export const AGE_PICK_TEXT = {
+  tagline: 'Read-aloud stories and gentle games',
+  reader: 'Reader',
 } as const;

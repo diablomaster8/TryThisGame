@@ -41,3 +41,24 @@ describe('Learning Grove end of life (R0691)', () => {
     expect(b.cocoonKind).toBe('rebirth');
   });
 });
+
+describe('the break warning (R0724)', () => {
+  it('warns from 23:00 of a 25-minute session and lets an open round finish', async () => {
+    const { eduBreakShouldStart, eduBreakSoon } = await import('../../src/sim/edu');
+    const { EDU } = await import('../../src/config/edu');
+    const w = createWorld(1, 0);
+    applyCommand(w, { kind: 'eduStart', age: 4 }, []);
+    const e = w.edu!;
+    e.sessionMinutes = 25;
+    e.playedMs = 22 * 60_000;
+    expect(eduBreakSoon(w)).toBe(false);
+    e.playedMs = 23 * 60_000;
+    expect(eduBreakSoon(w)).toBe(true);
+    e.playedMs = 25 * 60_000;
+    expect(eduBreakSoon(w)).toBe(false);
+    expect(eduBreakShouldStart(w, true)).toBe(false);
+    expect(eduBreakShouldStart(w, false)).toBe(true);
+    e.playedMs = (25 + EDU.breakGraceMinutes) * 60_000;
+    expect(eduBreakShouldStart(w, true)).toBe(true);
+  });
+});

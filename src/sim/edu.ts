@@ -179,3 +179,22 @@ export function eduAlwaysReborn(world: World): boolean {
   if (!e) return false;
   return e.band === 'sprout' ? EDU.alwaysRebornSprout : !!e.alwaysReborn;
 }
+
+/** R0724 (KIDS-56): the last two minutes before the break, when the Grove starts to yawn. */
+export function eduBreakSoon(world: World): boolean {
+  const e = world.edu;
+  if (!e) return false;
+  const left = e.sessionMinutes * 60_000 - e.playedMs;
+  return left > 0 && left <= EDU.breakWarnMinutes * 60_000;
+}
+
+/**
+ * R0724: start the break now? A round, scene or tracing still open gets to finish, up to
+ * `EDU.breakGraceMinutes` past time; then the break comes anyway.
+ */
+export function eduBreakShouldStart(world: World, busy: boolean): boolean {
+  const e = world.edu;
+  if (!e || !eduBreakDue(world)) return false;
+  if (!busy) return true;
+  return e.playedMs >= (e.sessionMinutes + EDU.breakGraceMinutes) * 60_000;
+}

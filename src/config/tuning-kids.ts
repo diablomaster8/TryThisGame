@@ -22,4 +22,6 @@ export const EDU_VOICE = {
   starMs: 280,
   /** R0731: hold the sprout band's 🏡 this long to leave a game. */
   leaveHoldMs: 600,
+  /** R0725: each break stretch lasts this long. */
+  stretchMs: 5000,
 } as const;

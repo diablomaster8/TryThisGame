@@ -61,6 +61,7 @@ import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { Guide } from './guide';
 import { kidToaster } from './kid-notice';
+import { BreakWarning } from './break-warning';
 import { speakLine } from './lesson';
 import { EDU_REBORN_TEXT } from '../config/strings-kids';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
@@ -112,7 +113,7 @@ import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
-import { eduBreakActive, eduBreakDue } from '../sim/edu';
+import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
@@ -514,6 +515,8 @@ export function mountHud(
     () => askGrownUp(root, toast),
     () => grownUps.open(),
   );
+  // R0724: the moon that fills in the last two minutes before a break.
+  const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
@@ -997,8 +1000,11 @@ export function mountHud(
       if (isEdu) soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
       if (isEdu) {
         const now = Date.now();
-        if (!eduBreakActive(g.world, now) && eduBreakDue(g.world))
+        // R0724: a round, scene or tracing still open finishes first (within a grace).
+        const midActivity = edu.isOpen() || dialogue.isOpen || journal.isTracing();
+        if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
           g.send({ kind: 'eduStartBreak' });
+        breakWarn.update(g);
         if (eduBreakActive(g.world, now)) {
           breakScreen.show();
           breakScreen.update(now);

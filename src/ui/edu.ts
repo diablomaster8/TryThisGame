@@ -746,6 +746,8 @@ export class BreakScreen {
   private readonly ring: HTMLElement;
   private readonly sleeper: HTMLElement;
   private readonly night: HTMLElement;
+  private steps = 0;
+  private stepTimer = 0;
   private shown = false;
 
   constructor(
@@ -797,9 +799,24 @@ export class BreakScreen {
     this.root.hidden = false;
     this.root.classList.remove('edu-break-goodnight');
     this.night.hidden = true;
-    this.drawSleeper();
+    // R0725: the Nubbin leads three stretches and a drink of water, then curls up asleep.
+    this.steps = 0;
+    this.nextStep();
+  }
+
+  /** One stretch, spoken, with the Nubbin in its pose; the last step is the sleep. */
+  private nextStep(): void {
     const e = this.game()?.world.edu;
-    if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+    const step = BREAK_KID_TEXT.stretches[this.steps];
+    if (!step || !this.shown) {
+      this.drawSleeper();
+      if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+      return;
+    }
+    this.steps++;
+    this.drawSleeper(step.clip, step.icon);
+    if (e?.readAloud) speakLine(step.say);
+    this.stepTimer = window.setTimeout(() => this.nextStep(), EDU_VOICE.stretchMs);
   }
 
   /**
@@ -808,6 +825,8 @@ export class BreakScreen {
    */
   private goodnight(): void {
     const g = this.game();
+    window.clearTimeout(this.stepTimer);
+    this.drawSleeper();
     this.root.classList.add('edu-break-goodnight');
     this.night.hidden = false;
     if (!g?.world.edu?.readAloud) return;
@@ -815,12 +834,18 @@ export class BreakScreen {
     speakLine(n ? BREAK_KID_TEXT.goodnightSay(n.name) : BREAK_KID_TEXT.goodnightSayNone);
   }
 
-  private drawSleeper(): void {
+  /** The Nubbin in a stretch pose (`clip`), or asleep when none is given. */
+  private drawSleeper(clip?: string, icon?: string): void {
     this.sleeper.textContent = '';
     const g = this.game();
     const n = g && sleeperOf(g);
     if (!g || !n) {
-      this.sleeper.appendChild(el('div', 'edu-big', '😴'));
+      this.sleeper.appendChild(el('div', 'edu-big', icon ?? '😴'));
+      return;
+    }
+    if (clip) {
+      this.sleeper.appendChild(clipPortrait(g, n, clip, 'edu-break-pic edu-break-stretch'));
+      if (icon) this.sleeper.appendChild(el('span', 'edu-break-zzz', icon));
       return;
     }
     this.sleeper.appendChild(sleepingPortrait(g, n));
@@ -830,6 +855,7 @@ export class BreakScreen {
   hide(): void {
     this.shown = false;
     this.root.hidden = true;
+    window.clearTimeout(this.stepTimer);
   }
 
   /** Per-frame: the time left on the ring. */
