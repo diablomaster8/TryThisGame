@@ -133,7 +133,7 @@ export const EDU_WORDS: ReadonlyArray<{ word: string; icon: string; rhyme: strin
   { word: 'tree', icon: '🌳', rhyme: 'ee' },
   { word: 'umbrella', icon: '☂️', rhyme: 'ella' },
   { word: 'van', icon: '🚐', rhyme: 'an' },
-  { word: 'whale', icon: '🐳', rhyme: 'ale' },
+  { word: 'whale', icon: '🐳', rhyme: 'ail' },
   { word: 'box', icon: '📦', rhyme: 'ox' },
   { word: 'yarn', icon: '🧶', rhyme: 'arn' },
   { word: 'zebra', icon: '🦓', rhyme: 'ebra' },
@@ -232,3 +232,17 @@ export const EDU_GUIDE_PLANS: Record<string, 'hatch-pet' | 'feed'> = {
   firstHatch: 'hatch-pet',
   feedTwice: 'feed',
 };
+
+/**
+ * R0684: a picture word's first sound, by how it sounds rather than how it is spelt: cat,
+ * cake, car and kite all start with "k", queen with "kw". The rhyme keys in `EDU_WORDS` are
+ * by sound the same way (snail, pail and whale share "ail").
+ */
+export function firstSound(word: string): string {
+  const w = word.toLowerCase();
+  if (w.startsWith('qu')) return 'kw';
+  if (w.startsWith('wh')) return 'w';
+  const c = w.charAt(0);
+  if (c === 'c') return /^c[eiy]/.test(w) ? 's' : 'k';
+  return c;
+}

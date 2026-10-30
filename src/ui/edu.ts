@@ -45,6 +45,7 @@ export class EduScreen {
   private roundNo = 0;
   private tries = 0;
   private starsTotal = 0;
+  private used = new Set<string>();
   private rng = Rng.fromSeed(Date.now());
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
   private readonly next: NextCard;
@@ -196,6 +197,8 @@ export class EduScreen {
     this.game = id;
     this.roundNo = 0;
     this.starsTotal = 0;
+    // R0684: no target twice in one session.
+    this.used = new Set();
     this.rng = Rng.fromSeed(Date.now());
     g.renderPaused = true;
     this.root.hidden = false;
@@ -213,7 +216,7 @@ export class EduScreen {
       this.finish();
       return;
     }
-    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band);
+    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band, this.used);
     this.renderRound();
   }
 
@@ -405,6 +408,17 @@ function renderOption(o: EduOption, large: boolean): HTMLElement {
     case 'picture':
       box.append(el('span', 'edu-icon', o.icon), el('span', 'edu-word', o.label));
       break;
+    case 'sum': {
+      // R0684: two groups and a plus, so the cue models a + b instead of showing the total.
+      const group = (n: number) => {
+        const icons = el('div', 'edu-icons');
+        for (let i = 0; i < n; i++) icons.appendChild(el('span', undefined, o.icon));
+        return icons;
+      };
+      box.classList.add('edu-sum');
+      box.append(group(o.a), el('span', 'edu-plus', '➕'), group(o.b));
+      break;
+    }
     case 'word':
       box.appendChild(el('span', 'edu-read', o.word));
       break;

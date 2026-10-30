@@ -12,6 +12,7 @@ import {
 import type { EduBand } from '../../content/types';
 import type { Rng } from '../../sim/rng';
 import { readerRhymeRound, readerSpellingRound, readerSumRound } from './reader-games';
+import { firstSound } from '../../config/edu';
 
 /**
  * Round generators for the six games. Pure and seeded, so they are testable; the
@@ -25,6 +26,8 @@ export type EduOption =
   | { kind: 'letter'; letter: string }
   | { kind: 'count'; icon: string; n: number; label: string }
   | { kind: 'number'; n: number }
+  /** R0684: a little sum shown as two groups with a plus between, never the total. */
+  | { kind: 'sum'; icon: string; a: number; b: number }
   | { kind: 'picture'; icon: string; label: string }
   /** A whole word to read, for the reader band. */
   | { kind: 'word'; word: string };
@@ -161,7 +164,7 @@ export function countingRound(age: EduAge, rng: Rng): EduRound {
     return {
       game: 'counting',
       prompt: `${a} ${icon} and ${b} more ${icon}. How many altogether?`,
-      cue: { kind: 'count', icon, n: right, label: '' },
+      cue: { kind: 'sum', icon, a, b },
       options,
       answer,
       teach: `${a} and ${b} make ${right}.`,
@@ -198,7 +201,7 @@ export function countingRound(age: EduAge, rng: Rng): EduRound {
     cue: { kind: 'count', icon, n: right, label: '' },
     options,
     answer,
-    teach: `There are ${right}. Count them: ${pool.slice(0, right).join(', ')}.`,
+    teach: `${countPhrase(right)}. Count them: ${pool.slice(0, right).join(', ')}.`,
   };
 }
 
@@ -294,15 +297,15 @@ export function soundRound(age: EduAge, rng: Rng): EduRound {
   if (age === 4 || (age >= 5 && rng.chance(0.4))) {
     // Same first sound.
     const w = rng.pick(EDU_WORDS);
-    const first = w.word.charAt(0);
-    const matches = EDU_WORDS.filter((x) => x !== w && x.word.charAt(0) === first);
+    const first = firstSound(w.word);
+    const matches = EDU_WORDS.filter((x) => x !== w && firstSound(x.word) === first);
     const right = matches.length > 0 ? rng.pick(matches) : undefined;
     if (right) {
       const others = pickDistinct(
         rng,
         EDU_WORDS,
         optionCount(age) - 1,
-        (x) => x.word.charAt(0) === first,
+        (x) => firstSound(x.word) === first,
       );
       const { options, answer } = shuffleWithAnswer(rng, mk(right), others.map(mk));
       return {
@@ -417,12 +420,39 @@ export function animalRound(age: EduAge, rng: Rng): EduRound {
   };
 }
 
+/**
+ * R0684: a round's target, so a session can avoid asking the same thing twice (the prompt and
+ * the right option together: "Which is the right spelling?" differs only by its answer).
+ */
+export function roundKey(r: EduRound): string {
+  return `${r.prompt}|${JSON.stringify(r.options[r.answer] ?? null)}`;
+}
+
+/**
+ * A round, retried a few times when `avoid` already holds its target. A small pool (counting
+ * to three) may still repeat once every target has been asked.
+ */
 export function makeRound(
   game: EduGameId,
   age: EduAge,
   rng: Rng,
   ownName?: string,
   band: EduBand = 'sprout',
+  avoid?: Set<string>,
+): EduRound {
+  let r = makeOne(game, age, rng, ownName, band);
+  for (let k = 0; avoid?.has(roundKey(r)) && k < 12; k++)
+    r = makeOne(game, age, rng, ownName, band);
+  avoid?.add(roundKey(r));
+  return r;
+}
+
+function makeOne(
+  game: EduGameId,
+  age: EduAge,
+  rng: Rng,
+  ownName: string | undefined,
+  band: EduBand,
 ): EduRound {
   // Readers (7–10) get reader-level rounds in the three games they are offered.
   if (band === 'reader') {
@@ -444,6 +474,11 @@ export function makeRound(
     case 'animals':
       return animalRound(age, rng);
   }
+}
+
+/** R0684: "There is 1", "There are 3". */
+export function countPhrase(n: number): string {
+  return n === 1 ? 'There is 1' : `There are ${n}`;
 }
 
 /** Stars for a round: 3 on the first try, 2 on the second, 1 after that. */

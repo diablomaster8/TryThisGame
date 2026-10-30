@@ -52,6 +52,8 @@ export function optionSay(o: EduOption): string {
       return countAloud(o.n);
     case 'word':
       return o.word;
+    case 'sum':
+      return `${numberWord(o.a)} and ${numberWord(o.b)} more`;
   }
 }
 

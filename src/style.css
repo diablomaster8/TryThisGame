@@ -3466,3 +3466,15 @@ body.edu-sprout .modal-head .btn-close {
     --hud-btn: 80px;
   }
 }
+
+/* Lane E r7, R0684: a sum cue, two groups with a plus between. */
+.edu-opt.edu-sum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.edu-plus {
+  font-size: 1.6rem;
+}
