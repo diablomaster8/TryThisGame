@@ -26,3 +26,11 @@ export const HELD_RING = {
   radius: 0.45,
   lift: 0.03,
 } as const;
+
+/** TECH-16: the shake gesture, read from clientX so every touch browser counts it. */
+export const SHAKE_GESTURE = {
+  /** A swing must travel this far (CSS px) before turning back counts as a reversal. */
+  minSwingPx: 12,
+  /** Reversals are counted over this window. */
+  windowMs: 1000,
+} as const;

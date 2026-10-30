@@ -1,4 +1,5 @@
 import { ROLL } from '../config/tuning-move';
+import { ShakeDetector } from './shake';
 import { INPUT, THROW } from '../config/tuning';
 import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
@@ -131,8 +132,8 @@ export class GameInput {
   private pressed: { kind: string; id: string } | null = null;
   private dragging: string | null = null;
   private samples: Sample[] = [];
-  private lastDx = 0;
-  private reversals: number[] = [];
+  /** TECH-16: the shake gesture, from clientX. */
+  readonly shake = new ShakeDetector();
   private lastInput: Vec2 = { x: 0, z: 0 };
   private lastInput2: Vec2 = { x: 0, z: 0 };
   private padHeld = { x: false, b: false, y: false, a: false };
@@ -384,8 +385,7 @@ export class GameInput {
     const hit = this.pickNear(e.clientX, e.clientY);
     this.pressed = hit && hit.kind !== 'ground' ? { kind: hit.kind, id: hit.id } : null;
     this.samples = [];
-    this.reversals = [];
-    this.lastDx = 0;
+    this.shake.reset(e.clientX);
   };
 
   private lastHoverMs = 0;
@@ -445,19 +445,8 @@ export class GameInput {
     while (this.samples.length > 8) this.samples.shift();
     this.host.send({ kind: 'drag', pos: ground });
 
-    // Shake: rapid horizontal reversals.
-    const mx = e.movementX || 0;
-    if (mx !== 0) {
-      if ((mx > 0 && this.lastDx < 0) || (mx < 0 && this.lastDx > 0)) {
-        this.reversals.push(now);
-        this.reversals = this.reversals.filter((t) => now - t < 1000);
-        if (this.reversals.length >= INPUT.shakeReversalsPerSecond) {
-          this.host.send({ kind: 'shakeHeld' });
-          this.reversals = [];
-        }
-      }
-      this.lastDx = mx;
-    }
+    // Shake: rapid horizontal reversals (TECH-16).
+    if (this.shake.feed(e.clientX, now)) this.host.send({ kind: 'shakeHeld' });
   };
 
   private readonly onUp = (e: PointerEvent): void => {
