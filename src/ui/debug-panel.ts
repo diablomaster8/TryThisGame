@@ -1,4 +1,5 @@
 import { worldControls, worldLine } from './world-debug';
+import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
@@ -197,6 +198,10 @@ export class DebugPanel {
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);
+    // R0553 (lane A r7): start the behaviour histogram afresh.
+    this.root.appendChild(
+      button('Reset behaviour histogram', () => resetBehaviourHistogram(), 'btn btn-small'),
+    );
     this.inspector = new StageInspector(this.root, game);
     story.appendChild(button('Stage inspector', () => this.inspector.toggle(), 'btn btn-small'));
 
@@ -247,6 +252,8 @@ export class DebugPanel {
       `sim t ${Math.round(g.world.timeMs / 1000)} s  rng ${g.world.rngState}`,
       frameLine(g),
     ];
+    // R0553 (lane A r7): what this Nubbin has been doing over the last 5 sim minutes.
+    lines.splice(-2, 0, behaviourHistogram(g.world, n));
     // R0524 (lane A r7): the live odds of the everyday idle pick for this Nubbin.
     const odds = debugIdleOdds(g.world, n);
     lines.splice(
