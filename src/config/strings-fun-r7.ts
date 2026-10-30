@@ -7,3 +7,9 @@
 export const PLACE_TEXT = {
   fits: 'Fits here',
 } as const;
+
+/** R0343: the Grove Readers' opt-in read-aloud, in the grown-up area. */
+export const READ_TEXT = {
+  toMeLabel: 'Read to me (Grove Readers)',
+  toMeHelp: 'Off by default. Speaks each story line too, for a reader who likes to listen along.',
+} as const;

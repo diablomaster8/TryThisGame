@@ -939,6 +939,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadAloud':
       if (world.edu) world.edu.readAloud = cmd.on;
       return;
+    case 'eduSetReadToMe':
+      if (world.edu) world.edu.readToMe = cmd.on;
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;

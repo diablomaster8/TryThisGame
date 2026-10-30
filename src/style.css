@@ -3229,3 +3229,9 @@ select {
   border-color: #e0524a;
   color: #ffd6d2;
 }
+
+/* R0342 (lane A r7): the word being read aloud, lit like a karaoke line. */
+::highlight(read-aloud) {
+  background-color: rgba(242, 211, 76, 0.55);
+  color: inherit;
+}

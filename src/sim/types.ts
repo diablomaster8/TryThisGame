@@ -509,6 +509,8 @@ export interface EduState {
   lessons: Record<string, { best: boolean | null }>;
   /** Little Sprouts: speak each line with the device's voice (once sound is on). */
   readAloud: boolean;
+  /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
+  readToMe?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -1205,6 +1207,8 @@ export type Command =
   | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
   | { kind: 'eduLesson'; id: string; best: boolean | null }
   | { kind: 'eduSetReadAloud'; on: boolean }
+  /** R0343: the Grove Readers' opt-in read-aloud. */
+  | { kind: 'eduSetReadToMe'; on: boolean }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
