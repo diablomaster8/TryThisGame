@@ -3171,3 +3171,24 @@ select {
 .wardrobe .wardrobe-item.locked {
   filter: grayscale(1) brightness(0.7);
 }
+
+/* LOOK-62: the evolution's white flash (never under reduced motion). */
+.evolve-flash {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 50;
+  animation: evolve-flash ease-out forwards;
+}
+@keyframes evolve-flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}

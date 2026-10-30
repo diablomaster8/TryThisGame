@@ -153,3 +153,12 @@ export const PHOTO_COMEDY = {
   /** How near (metres) a Nubbin must be to photobomb. */
   bombRange: 6,
 };
+
+export const EVOLVE_REVEAL = {
+  /** LOOK-62: the evolving cocoon shakes for its last 1.2 s. */
+  shakeMs: 1200,
+  /** The new form spins one full turn over this long after it lands. */
+  spinMs: 700,
+  /** The white flash's length (none under reduced motion). */
+  flashMs: 450,
+};

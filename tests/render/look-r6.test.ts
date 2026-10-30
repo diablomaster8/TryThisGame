@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { cocoonShake, revealTurn } from '../../src/render/evolve-reveal';
+import { EVOLVE_REVEAL, LIFECYCLE } from '../../src/config/tuning';
 import { photoComedy, wrapCaption } from '../../src/ui/photo-comedy';
 import { measureText } from '../../src/render/sprites/font';
 import type { World } from '../../src/sim/types';
@@ -236,5 +238,22 @@ describe('FUN-39 photo comedy', () => {
         expect(measureText(line)).toBeLessThanOrEqual(148);
     }
     expect(bombs).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('LOOK-62 evolution reveal', () => {
+  it('shakes the evolving cocoon only at the end, and spins the new form one turn', () => {
+    const c = { stage: 'cocoon' as const, cocoonKind: 'evolve' as const, stageMs: 0 };
+    expect(cocoonShake(c, 100)).toBe(0);
+    let moved = false;
+    for (let t = 0; t < 400; t += 17)
+      if (cocoonShake({ ...c, stageMs: LIFECYCLE.cocoonMs - 600 }, t) !== 0) moved = true;
+    expect(moved).toBe(true);
+    expect(
+      cocoonShake({ ...c, cocoonKind: 'depart' as const, stageMs: LIFECYCLE.cocoonMs - 600 }, 50),
+    ).toBe(0);
+    expect(revealTurn(1000, 1000 + EVOLVE_REVEAL.spinMs / 2, false)).toBeGreaterThan(Math.PI);
+    expect(revealTurn(1000, 1000 + EVOLVE_REVEAL.spinMs + 1, false)).toBe(0);
+    expect(revealTurn(1000, 1100, true)).toBe(0);
   });
 });

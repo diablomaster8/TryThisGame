@@ -127,6 +127,7 @@ import { mountBeacon } from './beacon-arrow';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
+import { evolveFlash } from '../render/evolve-reveal';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -1053,6 +1054,7 @@ export function mountHud(
           armPersistRequest();
         } else if (e.kind === 'evolved') {
           celebration.show(e);
+          evolveFlash(g.camera.reduceMotion);
           playSound('evolve');
         } else if (e.kind === 'reaction' && e.reaction === 'love') {
           playSound('pet');

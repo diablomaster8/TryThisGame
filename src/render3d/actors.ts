@@ -31,6 +31,7 @@ import { BondGlow } from './bond-glow';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { gagAt } from '../render/gag-play';
+import { cocoonShake, revealTurn } from '../render/evolve-reveal';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -74,6 +75,8 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** LOOK-62: the landing turn laid on the rig's yaw this frame, taken off the next. */
+  revealYaw?: number;
   /** FUN-04: the emote of the gag playing this frame, or null. */
   gagEmote?: EmoteShape | null;
   /** FUN-09: the pet-action beat playing this frame, or null. */
@@ -936,6 +939,10 @@ export class Actors {
       live.add(n.id);
       const a = this.ensureNubbin(n);
       this.unsquash(a);
+      if (a.revealYaw && a.rig) {
+        a.rig.group.rotation.y -= a.revealYaw;
+        a.revealYaw = 0;
+      }
       this.tryRig(a);
       // A scene that seats Moss or Sable on a mark draws them there (scene-stage.ts).
       const held = this.nubbinHolds?.get(n.id);
@@ -1037,6 +1044,14 @@ export class Actors {
         this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
+        // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
+        const pp = this.pops.get(n.id);
+        const turn =
+          n.stage === 'adult' && pp?.kind === 'pop' ? revealTurn(pp.startMs, nowMs, this.calm) : 0;
+        if (turn) {
+          o.rotation.y += turn;
+          a.revealYaw = turn;
+        }
         if (n.shadow && !n.bond && n.species === 'chao' && (pose === 'idle' || pose === 'walk'))
           waryPosture(a.rig);
         this.tumble(a, n, o, nowMs);
@@ -1059,6 +1074,8 @@ export class Actors {
         } else {
           updateCracks(a.shell, 0);
           o.rotation.y = t * 0.4;
+          // LOOK-62: the evolving cocoon shakes through its last 1.2 s.
+          o.rotation.z = cocoonShake(n, nowMs) * 0.12;
           // LOOK-25: the cocoon breathes, 1 to 1.03 at 0.8 Hz.
           o.scale.setScalar(cocoonPulse(nowMs));
           // As the pixel cocoon: a departing one fades as it closes, a rebirth one shimmers.

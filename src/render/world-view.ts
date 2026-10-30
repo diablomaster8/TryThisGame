@@ -66,6 +66,7 @@ import { STAGE2 } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT } from '../config/tuning';
 import { heldMood, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
+import { cocoonShake, revealTurn } from './evolve-reveal';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -1885,7 +1886,12 @@ export class WorldView {
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
-      const view = viewAngle(hf ?? npose?.face ?? n.facing, yaw);
+      // LOOK-62: a newly evolved form spins one turn as it lands.
+      const turn =
+        n.stage === 'adult' && v.pop?.kind === 'pop'
+          ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
+          : 0;
+      const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -2042,7 +2048,8 @@ export class WorldView {
           sheet,
           rect,
           flip,
-          x: x + (beat?.dx ?? 0) * 2,
+          // LOOK-62: the evolving cocoon shakes in its last moments.
+          x: x + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
           y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z,
