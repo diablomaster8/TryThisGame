@@ -1,6 +1,8 @@
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
-import { HAPTICS_TEXT } from '../config/strings-tech';
+import { BUG_TEXT, HAPTICS_TEXT } from '../config/strings-tech';
+import { bugReport } from '../platform/bug-log';
+import { groveBytes, storageQuota } from '../platform/storage-use';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
@@ -418,11 +420,46 @@ export class SettingsMenu {
     void persisted().then((p) => {
       warn.hidden = p !== false;
     });
+    // TECH-56: how much the Grove keeps here; TECH-33: a local bug report to paste.
+    this.storageLine = el('p', 'help');
+    body.appendChild(this.storageLine);
+    const bug = el('div', 'settings-actions');
+    bug.append(button(BUG_TEXT.copy, () => void this.copyBugReport()));
+    body.appendChild(bug);
+  }
+
+  private readonly storageLine: HTMLParagraphElement;
+
+  private refreshStorageLine(): void {
+    const kb = Math.round(groveBytes() / 1024);
+    this.storageLine.textContent = BUG_TEXT.storage(kb, null);
+    void storageQuota().then((q) => {
+      if (q !== null) this.storageLine.textContent = BUG_TEXT.storage(kb, Math.round(q / 1048576));
+    });
+  }
+
+  private async copyBugReport(): Promise<void> {
+    const g = this.game();
+    if (!g) return;
+    const text = bugReport({
+      renderer: g.world.settings.graphics,
+      settings: g.world.settings,
+      save: g.exportJson(),
+    });
+    try {
+      await navigator.clipboard.writeText(text);
+      this.toast(BUG_TEXT.copied);
+    } catch {
+      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+      downloadText(`grove-bug-${stamp}.json`, text);
+      this.toast(BUG_TEXT.saved);
+    }
   }
 
   open(): void {
     const g = this.game();
     if (!g) return;
+    this.refreshStorageLine();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);

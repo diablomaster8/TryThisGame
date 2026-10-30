@@ -134,6 +134,7 @@ import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
+import { noteEventKinds } from '../platform/bug-log';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -1105,6 +1106,7 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      noteEventKinds(events);
       // TECH-15: a buzz for the moments that have one.
       for (const e of events) {
         const h = hapticFor(e);

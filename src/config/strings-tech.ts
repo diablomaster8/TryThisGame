@@ -21,3 +21,12 @@ export const HAPTICS_TEXT = {
 
 /** TECH-17: the stats sheet's grow handle. */
 export const SHEET_TEXT = { grow: 'Make the sheet taller or shorter' } as const;
+
+/** TECH-33 and TECH-56: the bug report and the storage line in Settings > Saves. */
+export const BUG_TEXT = {
+  copy: 'Copy bug report',
+  copied: 'Bug report copied. Paste it wherever you report the bug.',
+  saved: 'Bug report saved as a file.',
+  storage: (kb: number, ofMb: number | null) =>
+    ofMb === null ? `Storage used: ${kb} kB` : `Storage used: ${kb} kB of about ${ofMb} MB`,
+} as const;

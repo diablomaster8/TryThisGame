@@ -59,21 +59,21 @@ export function groveSuggestion(world: World): Objective | null {
       hint: OBJECTIVE_TEXT.hatchHint,
       story: false,
     };
-  // TECH-01: a new hatchling's first fruit comes before any other suggestion.
-  const fresh = living.find(wantsFirstFruit);
-  if (fresh)
-    return {
-      key: 'grove:firstFruit',
-      goal: FIRST_FEED_TEXT.goal(fresh.name),
-      hint: FIRST_FEED_TEXT.hint,
-      story: false,
-    };
   const hungry = living.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && isHungry(n));
   if (hungry)
     return {
       key: 'grove:hungry',
       goal: OBJECTIVE_TEXT.hungry(hungry.name),
       hint: OBJECTIVE_TEXT.hungryHint,
+      story: false,
+    };
+  // TECH-01: a new hatchling's first fruit once no Nubbin is truly hungry.
+  const fresh = living.find(wantsFirstFruit);
+  if (fresh)
+    return {
+      key: 'grove:firstFruit',
+      goal: FIRST_FEED_TEXT.goal(fresh.name),
+      hint: FIRST_FEED_TEXT.hint,
       story: false,
     };
   return null;
