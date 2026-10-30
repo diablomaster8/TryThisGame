@@ -128,6 +128,8 @@ import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
+import { festivalGagDue } from '../sim/festival-gags';
+import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
@@ -792,6 +794,9 @@ export function mountHud(
 
   /** A season's festival toast, held until no story scene is on or waiting. */
   let heldFestival: string | null = null;
+  // R0359: festival vignettes started this visit, so one is never started twice while its
+  // `festivalGagSeen` waits for the next sim step.
+  const festivalGagsStarted = new Set<string>();
   // Periodic refresh of live panels.
   let refreshTimer = 0;
   function refreshLoop(): void {
@@ -1009,6 +1014,21 @@ export function mountHud(
         toast(heldFestival);
         playSound('win');
         heldFestival = null;
+      }
+      // R0359: the season's festival vignette, once per save, when nothing else is up.
+      const gag = heldFestival ? null : festivalGagDue(g.world);
+      if (
+        gag &&
+        !festivalGagsStarted.has(gag) &&
+        !(next && dialogue.shouldPlay(next)) &&
+        !dialogue.isOpen &&
+        !away.isOpen &&
+        !g.catchingUp
+      ) {
+        festivalGagsStarted.add(gag);
+        dialogue.playScene(FESTIVAL_GAGS[gag], {}, () =>
+          game()?.send({ kind: 'festivalGagSeen', season: gag }),
+        );
       }
       if (
         dialogue.shouldPlay(next) &&

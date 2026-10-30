@@ -845,6 +845,17 @@ for (const q of allQuests) {
   for (const [region, n] of perRegion)
     if (n < 3) problems.push(`gags: ${region} has ${n}, needs at least 3`);
 }
+// 9c. Festival gags (R0359): four narrator lines a season, phone-short, two sentences at most.
+for (const [season, scene] of Object.entries(C.FESTIVAL_GAGS)) {
+  if (scene.id !== `festival-gag-${season}`) problems.push(`festival gag ${season}: id ${scene.id}`);
+  if (scene.lines.length !== 4) problems.push(`${scene.id}: four lines`);
+  scene.lines.forEach((l, i) => {
+    if (l.who !== 'narrator') problems.push(`${scene.id}#${i}: festival gags are the narrator's`);
+    if (l.text.length > 100) problems.push(`${scene.id}#${i}: over 100 characters`);
+    if ((l.text.match(/[.!?](\s|$)/g) ?? []).length > 2)
+      problems.push(`${scene.id}#${i}: over two sentences`);
+  });
+}
 // ---- Keeper barks (R0295): known Keepers, sane chapter ranges, phone-short lines
 for (const [who, sets] of Object.entries(C.BARKS)) {
   if (!TRAINERS.some((t) => t.id === who)) problems.push(`barks: unknown Keeper ${who}`);

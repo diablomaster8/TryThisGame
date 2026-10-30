@@ -992,6 +992,8 @@ export interface World {
   neighbours: Record<string, { gifted: boolean }>;
   /** Festival banner shown for this season already. */
   festivalSeen: string;
+  /** R0359: seasons whose festival vignette has played, once per save (absent in older saves). */
+  festivalGags?: Season[];
   /** Atlas and Arcade festivals already announced in this Grove (sim/atlas.ts), by id. */
   atlasFestivals: string[];
 }
@@ -1145,6 +1147,8 @@ export type Command =
   // R0085: ride a Nubbin (null gets down) and cheer a lazy carrier on (`sim/ride.ts`)
   | { kind: 'ride'; nubbinId: string | null }
   | { kind: 'rideCheer' }
+  // R0359: a season's festival vignette has played (`sim/festival-gags.ts`)
+  | { kind: 'festivalGagSeen'; season: Season }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }

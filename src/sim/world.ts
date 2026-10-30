@@ -1,6 +1,7 @@
 import { BATTLE } from '../config/tuning-battle';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
 import { stepSwimTow } from './swim-tow';
+import { festivalGagSeen } from './festival-gags';
 import {
   actBattleCmd,
   forfeitBattleCmd,
@@ -1003,6 +1004,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'rideCheer':
       cheerRide(world);
+      return;
+    case 'festivalGagSeen':
+      festivalGagSeen(world, cmd.season);
       return;
     case 'teleport':
       teleport(world, cmd.pos);
