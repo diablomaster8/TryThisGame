@@ -38,60 +38,65 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 7 · Lane A MOVE/FUN/SOUL (2026-10-30, branch r7/a)
+## Round 8 · Lane A SOUL (2026-10-30, branch r8/a)
 
-Plan: finish the two MOVE live-bug partials, then the FUN items not started (R0342 on), then
-SOUL from R0521 in order, as many as could be done properly. New text in
-`config/strings-fun-r7.ts`, numbers in `config/tuning-fun-r7.ts` (one re-export line in
-`tuning.ts`). Edge: `node r7a.cjs <pixel|3d> <desk|phone> 5181` in `recs-2026-10-27/tools`,
-14/14 in all four, no console errors.
+Plan: SOUL items from R0521 on, picking the ones that could be done properly in both
+renderers, then round-7 partials. Text in `config/strings-soul-r8.ts`, numbers in
+`config/tuning-soul-r8.ts` (one re-export line in `tuning.ts`). New idle acts live in
+`sim/soul-idle.ts` and `sim/antics.ts` and run before the weighted pick in `chooseIdle`;
+their looks go through `PetBeats` (`render/soul-looks.ts`), so Pixel and Full 3D share one
+table. No save bump: every new field is optional. Edge: `node r8a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`, all pass in the four, no console errors.
 
 **Works**
-- MOVE: R0001 the stream wade is knee-deep (0.35 at the centre line, the bed hides the feet),
-  3D ripple rings round the Keeper (`render3d/wade-ripple.ts`) and a soft slosh step.
-  R0003 decor never squashes a crop or sapling (`crop` refusal); on a desktop the placing chip
-  turns red with the reason before the click (`placeHint`).
-- FUN: R0342 read-aloud per speaker (`VOICE_TTS`), shouted words lowercased with a pitch bump,
-  best voice picked once, karaoke word light (CSS highlights), a beat after "!".
-  R0343 "Read to me" opt-in for Grove Readers. R0344 `Line.id`/`Line.vo`, the VO exporter
-  (`tests/tools/vo-export.ts`) and `docs/vo-casting.md`. R0346 `docs/playtest-funny.md`.
-  R0348 canon keep-jokes table (`docs/canon.md`) checked by content-check; Gerald restored
-  in reader c4-close. R0350 Sable's refusals by trust band. R0351 the egg's own wobble, a
-  late hop, the third-shake foot (both renderers) and a muffled "hey". R0352/R0355 the idle
-  Keeper reads the letter, sits at 40 s, the nearest Nubbin sits beside it (rule-three
-  affection) and leans, dozes and snores a bubble; live play only (wall clock, ×1, visible,
-  no scene queued). R0353 Moss's dry reactions from chapter 4. R0354 the after-card turn,
-  wobble and sit with a quip per type. R0357 rename dialog with a silly-name button (sprout:
-  picture buttons). R0360 30+ dry sheet captions (main band). R0365 Slapstick setting
-  (full/gentle/off); screen shake now covers the story's nudges.
-- SOUL: R0522 personality chip with pixel icons, blurb and a tendencies card. R0523 a child's
-  leaning (the lock rule, at half strength in idle odds). R0524 the everyday idle pick is one
-  weighted table (`sim/idle-choice.ts`, `IDLE_ACTIONS`), odds in the debug panel. R0526 the
-  fortune uses the real rule. R0527 Learning Grove throws are a toss and catch, trust floor
-  30. R0530 every kind of care counts (`touches`, `tucks`). R0531 the lock line on the
-  evolution card. R0539 friends away fade slowly; a departed buddy's flower gets visits.
-  R0553 behaviour histogram in the debug panel and a distinctness test. R0578 the forming
-  meter.
+- R0536 favourite and disliked fruit rolled from `n.seed` (`sim/likes.ts`, cached); yum and
+  bleh beats, ±happiness only, a disliked fruit is left until starving, a favourite is worth
+  a 1.5× walk; the sheet shows ♥/✗ as "?" until seen, a first-taste toast. Plain is never
+  disliked, so hand-feeding never gets a face.
+- R0537 favourite toy ×3, boredom, ten-minute novelty (`sim/toy-soul.ts`); 120 min with two
+  toys gives play 17–23% for every personality, the favourite 86–93% of it.
+- R0532 Grumpy harrumphs with its back to the Keeper (puff emote), greets ×0.6, turns down
+  30% of high fives; Sleepy yawns, nods off standing, naps ×1.6; 30 min above +40 clears it
+  with a toast; a sheet chip says what softens it.
+- R0535 `world.phase` from the curfew's wall clock (same hours as `daylight.ts`, a test
+  checks every quarter hour); dawn stretch, dusk fireflies (≥10% of choices at 19:30, none
+  at noon), night stargazing.
+- R0534 rain by personality: stomps and raindrop-catching near the Keeper, shelter by the
+  tree nearest the Keeper, never more than half at once; sheltering huddles (sit, shiver)
+  instead of the sleep pose.
+- R0542 Sun adults comfort crying or sad Nubbins (19/20 seeds within 60 s), Moon ones say boo
+  from behind; children with a strong hint at half, ×1.5 in their own Grove.
+- R0544 trips, sneezes by flowers (×2 in spring), hiccups after two fruits in a minute, a
+  child's tail chase; hashed per second, so seeded days are unchanged; ≥15 antics of ≥3 kinds
+  in 30 min with six Nubbins. R0552 synth sounds for them and the soul moments.
+- R0551 pet and landing beats by personality (bounce, blush, wiggle, melt; wheee, teary,
+  tongue, flop). R0549 emote balls 1.5× at the far zoom or with Big mood bubbles (default on
+  in the Learning Grove), a reaction pops 2× for 300 ms; 27 CSS px on a 375×812 phone.
+- R0575 none of the new acts start during catch-up. R0593 Settings → Liveliness (calm,
+  normal, lively; sprouts default lively) scales antics, phase quirks and pranks.
+- R0563 a diary of the last five things and a "Recently" box on the sheet. R0579 roster
+  personality chips (a child's leaning faded) and a filter row with 44 px chips.
+- R0539 (r7 partial) a buddy away is missed (`n.missing`) and gets a reunion hug and a
+  toast when it comes back.
 
-**Stubbed / partial**
-- R0001 the 3D stream screenshot was taken mid-scene (staged); the sink is verified in sim.
-- R0003 no world-space ghost; the hint is the chip, desktop only (a phone tap still toasts).
-- R0344 ids are computed, not frozen into the script; no clip playback (no recordings).
-- R0345 not started (XL). R0346 no sessions logged yet. R0351 no upside-down squeak.
-- R0353 no pre-chapter-4 hill silhouette. R0364, R0366, R0361, R0356, R0367 not started.
-- R0527 no "hiding in the cottage" (the trust floor means it never runs).
-- R0539 no reunion hug for a returning stray. R0553: cheerful/mischievous and shy/lazy are
-  still under 0.25 apart (`it.fails` records it; needs SOUL-04/SOUL-10 quirks).
-- R0524's bases reproduce the old shares with every action open; seeded days moved, so
-  `pair-play` uses seed 23 and `dungeon-acts` (lane B's test) brings the boss to the Keeper's
-  dry spot after a fall.
+**Stubbed / not done**
+- R0542: no fruit sharing, tidying or hoarding yet. R0544: no clumsy/sneezy trait multipliers
+  (traits, R0528, not started), no fall-asleep-standing. R0552: no snore loop or chat voices.
+- R0551: picked-up variants are not done (the held moods from LOOK-50 still apply).
+- R0549: the selected Nubbin is not drawn bigger (the renderers do not know the selection).
+- R0535: the renderer still computes its own phase (from the same hours; a test pins them).
+- Not started: R0525, R0528, R0529, R0533, R0538, R0540, R0541, R0543, R0545–R0548, R0550,
+  R0554–R0562, R0564–R0574, R0576, R0577, R0580–R0592; FUN R0345, R0356, R0361, R0364,
+  R0366, R0367; round-7 partials R0344, R0346, R0527 (cottage hiding), R0553.
 
-**Known bugs**
-- Timing tests (lifecycle full life, nav, world 8-Nubbin hour, battle balance) fail under the
-  four-lane load and pass alone; budgets unchanged.
-- New save fields are optional with defaults (no version bump): `keeper.idleMs/sitWith/
-  sitBesideMs`, `nubbin.eggShakes`, `childCare.touches/tucks/lastCareMs`, `remembered`,
-  `edu.readToMe`, `settings.slapstick`.
+**Known bugs / notes**
+- Assumption: R0537's boredom fades 9 a minute, not the recommended 0.2 (which pins every
+  toy at the floor after a minute of play and drops play to 6–11%).
+- Tests moved on purpose: `features.test.ts` rain now accepts the rain games;
+  `clip-for.test.ts` shelter is a sit. Timing tests flake under the four-lane load and pass
+  alone; budgets untouched (the 8-Nubbin hour and full life measured equal to ce12521b).
+- Full 3D in headless Edge was often still on "Shaping the Grove" when shots were taken, so
+  the 3D looks were checked by the sim and the pose tests, not by eye.
 
 ## Round 7 · Lane C CAMP + FIGHT (2026-10-30, branch r7/c)
 

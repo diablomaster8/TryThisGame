@@ -3,6 +3,61 @@
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
 
+## Round 7 · Lane A MOVE/FUN/SOUL (2026-10-30, branch r7/a)
+
+Plan: finish the two MOVE live-bug partials, then the FUN items not started (R0342 on), then
+SOUL from R0521 in order, as many as could be done properly. New text in
+`config/strings-fun-r7.ts`, numbers in `config/tuning-fun-r7.ts` (one re-export line in
+`tuning.ts`). Edge: `node r7a.cjs <pixel|3d> <desk|phone> 5181` in `recs-2026-10-27/tools`,
+14/14 in all four, no console errors.
+
+**Works**
+- MOVE: R0001 the stream wade is knee-deep (0.35 at the centre line, the bed hides the feet),
+  3D ripple rings round the Keeper (`render3d/wade-ripple.ts`) and a soft slosh step.
+  R0003 decor never squashes a crop or sapling (`crop` refusal); on a desktop the placing chip
+  turns red with the reason before the click (`placeHint`).
+- FUN: R0342 read-aloud per speaker (`VOICE_TTS`), shouted words lowercased with a pitch bump,
+  best voice picked once, karaoke word light (CSS highlights), a beat after "!".
+  R0343 "Read to me" opt-in for Grove Readers. R0344 `Line.id`/`Line.vo`, the VO exporter
+  (`tests/tools/vo-export.ts`) and `docs/vo-casting.md`. R0346 `docs/playtest-funny.md`.
+  R0348 canon keep-jokes table (`docs/canon.md`) checked by content-check; Gerald restored
+  in reader c4-close. R0350 Sable's refusals by trust band. R0351 the egg's own wobble, a
+  late hop, the third-shake foot (both renderers) and a muffled "hey". R0352/R0355 the idle
+  Keeper reads the letter, sits at 40 s, the nearest Nubbin sits beside it (rule-three
+  affection) and leans, dozes and snores a bubble; live play only (wall clock, ×1, visible,
+  no scene queued). R0353 Moss's dry reactions from chapter 4. R0354 the after-card turn,
+  wobble and sit with a quip per type. R0357 rename dialog with a silly-name button (sprout:
+  picture buttons). R0360 30+ dry sheet captions (main band). R0365 Slapstick setting
+  (full/gentle/off); screen shake now covers the story's nudges.
+- SOUL: R0522 personality chip with pixel icons, blurb and a tendencies card. R0523 a child's
+  leaning (the lock rule, at half strength in idle odds). R0524 the everyday idle pick is one
+  weighted table (`sim/idle-choice.ts`, `IDLE_ACTIONS`), odds in the debug panel. R0526 the
+  fortune uses the real rule. R0527 Learning Grove throws are a toss and catch, trust floor
+  30. R0530 every kind of care counts (`touches`, `tucks`). R0531 the lock line on the
+  evolution card. R0539 friends away fade slowly; a departed buddy's flower gets visits.
+  R0553 behaviour histogram in the debug panel and a distinctness test. R0578 the forming
+  meter.
+
+**Stubbed / partial**
+- R0001 the 3D stream screenshot was taken mid-scene (staged); the sink is verified in sim.
+- R0003 no world-space ghost; the hint is the chip, desktop only (a phone tap still toasts).
+- R0344 ids are computed, not frozen into the script; no clip playback (no recordings).
+- R0345 not started (XL). R0346 no sessions logged yet. R0351 no upside-down squeak.
+- R0353 no pre-chapter-4 hill silhouette. R0364, R0366, R0361, R0356, R0367 not started.
+- R0527 no "hiding in the cottage" (the trust floor means it never runs).
+- R0539 no reunion hug for a returning stray. R0553: cheerful/mischievous and shy/lazy are
+  still under 0.25 apart (`it.fails` records it; needs SOUL-04/SOUL-10 quirks).
+- R0524's bases reproduce the old shares with every action open; seeded days moved, so
+  `pair-play` uses seed 23 and `dungeon-acts` (lane B's test) brings the boss to the Keeper's
+  dry spot after a fall.
+
+**Known bugs**
+- Timing tests (lifecycle full life, nav, world 8-Nubbin hour, battle balance) fail under the
+  four-lane load and pass alone; budgets unchanged.
+- New save fields are optional with defaults (no version bump): `keeper.idleMs/sitWith/
+  sitBesideMs`, `nubbin.eggShakes`, `childCare.touches/tucks/lastCareMs`, `remembered`,
+  `edu.readToMe`, `settings.slapstick`.
+
 ## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
 
 Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>
