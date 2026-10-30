@@ -147,6 +147,8 @@ import {
   clampRounds,
 } from './edu';
 import { eduSetLimits, eduUnlockLimits } from './edu-limits';
+/* Lane E r9 */
+import { eduSetTag } from './edu-session';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -160,6 +162,7 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
@@ -562,6 +565,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const n = findNubbin(world, cmd.nubbinId);
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
+      if (!mayWear(n, cmd.hat)) return; /* Lane E r9, R0424 */
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
@@ -995,6 +999,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadToMe':
       if (world.edu) world.edu.readToMe = cmd.on;
       return;
+    /* Lane E r9 */
+    case 'eduSetAutoAdvance':
+      if (world.edu) {
+        if (cmd.on) world.edu.autoAdvance = true;
+        else delete world.edu.autoAdvance;
+      }
+      return;
+    case 'langSkipWait':
+      if (world.edu) world.edu.langSkipAt = world.timeMs;
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;
@@ -1019,6 +1033,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetName':
       eduSetName(world, cmd.name);
+      return;
+    /* Lane E r9, R0696 */
+    case 'eduSetTag':
+      eduSetTag(world, cmd.icon, cmd.colour);
       return;
     case 'eduResult':
       eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);

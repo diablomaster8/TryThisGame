@@ -121,6 +121,7 @@ import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { StickerBook } from './sticker-book';
 import { EduPlaces } from './edu-places';
+import { SPROUT_HUD_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
@@ -172,6 +173,8 @@ import { festivalGagDue } from '../sim/festival-gags';
 import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
+import { commandTaps } from '../game'; /* Lane E r9 */
+import { REMEMBRANCE_TEXT } from '../config/strings-look-r9e'; /* Lane E r9 */
 import { evolveFlash } from '../render/evolve-reveal';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
@@ -453,6 +456,7 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
+  commandTaps.add((c) => curiosities.onCommand(c)); /* Lane E r9 */
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -1061,6 +1065,12 @@ export function mountHud(
       const sprout = isEdu && g.world.edu?.band === 'sprout';
       if (document.body.classList.contains('edu-sprout') !== sprout)
         document.body.classList.toggle('edu-sprout', sprout);
+      /* Lane E r9, R0679: the sprout's four picture buttons say what they open. */
+      setActionLabel(journalBtn, sprout ? SPROUT_HUD_TEXT.story : UI_FX_TEXT.actionLabels.journal);
+      setActionGlyph(rosterBtn, sprout ? '🐣' : '📋');
+      setActionLabel(rosterBtn, sprout ? SPROUT_HUD_TEXT.nubbins : UI_FX_TEXT.actionLabels.roster);
+      setActionGlyph(moreBtn, sprout ? '🗺' : '⋯');
+      setActionLabel(moreBtn, sprout ? SPROUT_HUD_TEXT.places : UI_FX_TEXT.actionLabels.more);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
@@ -1225,6 +1235,12 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      /* Lane E r9, R0424: a friend of a departed Nubbin keeps its flower. */
+      for (const e of events)
+        if (e.kind === 'remembrance') {
+          const who = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (who) toast(REMEMBRANCE_TEXT.given(who.name, e.friend));
+        }
       noteEventKinds(events);
       // TECH-15: a buzz for the moments that have one.
       for (const e of events) {
@@ -1821,6 +1837,7 @@ export function mountHud(
     },
     onSelect(id) {
       const g = game();
+      curiosities.onSelect(id); /* Lane E r9 */
       if (id?.startsWith('memorial:') && g) {
         const m = g.world.memorials.find((x) => x.id === id.slice('memorial:'.length));
         if (m) memorialCard.show(m);

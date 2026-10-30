@@ -198,6 +198,9 @@ export interface Nubbin {
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
   parts: NubbinParts;
   hat: string | null;
+  /* Lane E r9 */
+  /** R0424: names of departed bonded friends this Nubbin remembers (the remembrance hat). */
+  remembers?: string[];
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
   /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
@@ -576,6 +579,10 @@ export interface EduState {
   eggShelf?: { day: string; bought: number[] };
   /** Lane E r8, R0695: a grown-up's daily minutes, quiet hours and boot lock (sim/edu-limits.ts). */
   limits?: EduLimits;
+  /* Lane E r9 */
+  /** R0696 (KIDS-28): the child's animal icon and colour tag on the title (EDU_TAG). */
+  icon?: string;
+  tagColour?: string;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -601,6 +608,10 @@ export interface EduState {
   readAloud: boolean;
   /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
   readToMe?: boolean;
+  /** Lane E r9, R0730: Little Sprouts' story turns its own pages after the voice (grown-up switch, default off). */
+  autoAdvance?: boolean;
+  /** Lane E r9, R0737: the grown-up's "skip to Grove morning" for language visits (world time it was pressed). */
+  langSkipAt?: number;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -1391,6 +1402,9 @@ export type Command =
   | { kind: 'eduSetRounds'; rounds: number }
   /** R0343: the Grove Readers' opt-in read-aloud. */
   | { kind: 'eduSetReadToMe'; on: boolean }
+  /* Lane E r9: the read-aloud auto-advance switch, and skip to the next language visit. */
+  | { kind: 'eduSetAutoAdvance'; on: boolean }
+  | { kind: 'langSkipWait' }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1398,6 +1412,8 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
+  /* Lane E r9, R0696 */
+  | { kind: 'eduSetTag'; icon: string | null; colour: string | null }
   | {
       kind: 'eduResult';
       game: EduGameId;
@@ -1476,6 +1492,9 @@ export interface RideState {
 export type SimEvent =
   // Lane E (R0332): a curiosity found for the first time (sim/curiosities.ts).
   | { kind: 'curiosityFound'; id: string }
+  /* Lane E r9 */
+  // R0424: a bonded friend of a departed Nubbin may now wear the remembrance flower.
+  | { kind: 'remembrance'; nubbinId: string; friend: string }
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).

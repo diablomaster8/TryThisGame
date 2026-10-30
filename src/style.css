@@ -4144,3 +4144,207 @@ body.edu-sprout .modal-head .btn-close {
 .roster-personality.forming {
   opacity: 0.7;
 }
+
+/* Lane E r9 (kidsread), R0734 KIDS-66: co-play prompts as dashed grown-up chips under the line. */
+.edu-coplay-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.edu-coplay {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 6px 10px;
+  border: 2px dashed #9fd3ff;
+  border-radius: 10px;
+  background: rgba(159, 211, 255, 0.1);
+  font-size: 1em;
+  font-style: normal;
+  line-height: 1.35;
+}
+.edu-coplay-icon {
+  font-size: 1.2em;
+}
+.edu-coplay-label {
+  font-weight: 700;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9fd3ff;
+}
+.edu-coplay-text {
+  flex: 1 1 12em;
+}
+
+/* Lane E r9 (kidsread), R0736 KIDS-68: a language word stacked over its romanisation. */
+.lang-ruby {
+  ruby-position: under;
+  ruby-align: center;
+  cursor: pointer;
+  /* Room below for the romanisation, so it never sits on the next line's text. */
+  line-height: 2.4;
+  margin: 0 2px;
+}
+.lang-ruby .lang-roman {
+  font-size: 0.62em;
+  font-style: italic;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+}
+
+/* Lane E r9 (kidsread), R0730 KIDS-62: the story box's auto-advance toggle. */
+.dialogue-auto {
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  margin-bottom: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  font-size: 1.2rem;
+}
+body.edu-sprout .dialogue-auto {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}
+.dialogue-auto[aria-pressed='true'] {
+  outline: 2px solid currentColor;
+}
+
+/* Lane E r9 (kidsread), R0737 KIDS-69: Ori and Hana's next visit as a sun-and-moon clock. */
+.lang-wait {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(242, 211, 76, 0.12);
+}
+.lang-wait-clock {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+}
+
+/* Lane E r9: the Learning Grove's name-and-icon step and the ?kids picker (R0696, R0720). */
+.kids-tag-q {
+  font-weight: 700;
+  margin-top: 10px;
+}
+.kids-tag-name {
+  width: 100%;
+  max-width: 320px;
+  min-height: 48px;
+  font-size: 1.25rem;
+  padding: 6px 10px;
+  box-sizing: border-box;
+}
+.kids-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.kids-tag-colour,
+.kids-tag-icon {
+  min-width: 64px;
+  min-height: 64px;
+}
+.kids-tag-colour {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+}
+.kids-tag-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgb(255 255 255 / 70%);
+}
+.kids-tag-icon {
+  font-size: 2rem;
+}
+.kids-tag-row [aria-pressed='true'] {
+  outline: 4px solid #ffe27a;
+  outline-offset: 2px;
+}
+.kids-tag-row [aria-pressed='true']::after {
+  content: ' ✓';
+}
+.kids-tag-go {
+  min-height: 64px;
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+.title-slot-tagged {
+  border-left: 8px solid var(--tag);
+  padding-left: 4px;
+}
+.kids-pick-title {
+  text-align: center;
+  font-size: 1.6rem;
+}
+.kids-pick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin: 12px 0;
+}
+.kids-pick-tile {
+  width: var(--tile, 160px);
+  height: var(--tile, 160px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 6px solid var(--tag, #8bc28c);
+  border-radius: 24px;
+  font-size: 1.2rem;
+  overflow: hidden;
+}
+.kids-pick-icon {
+  font-size: 4rem;
+  line-height: 1;
+}
+.kids-pick-tile strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.kids-pick-grown {
+  display: block;
+  margin: 8px auto 0;
+}
+
+/*
+ * Lane E r9 (kidsread), R0678 KIDS-10: the sprout size sweep. Controls whose own rules are
+ * more specific than the r7 `body.edu-sprout .btn` floor (journal lines, offer cards, modal
+ * close, say-it, act buttons, word rows, the guide's home button) still came out at 44-56 px.
+ * The doubled class lifts this above those (0,3,0) rules but stays below the 72/80 px HUD rule.
+ * Inline word controls in the text (course words, glossary words) stay text-sized.
+ */
+body.edu-sprout.edu-sprout :is(.btn, button, [role='button']):not(.lang-word, .edu-gloss) {
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+}
+/* Text-only sheet actions get a picture in the sprout band (colour is never the only cue). */
+body.edu-sprout .sheet-actions .btn[data-guide='pet']::before {
+  content: '🤗 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='pickup']::before {
+  content: '🤲 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='feed']::before {
+  content: '🍎 ';
+}
+body.edu-sprout .sheet-actions .btn[data-guide='shake']::before {
+  content: '🌳 ';
+}

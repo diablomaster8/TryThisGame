@@ -45,6 +45,7 @@ import { FrameGovernor } from './governor';
 import { LampPool, type LampSource } from './lamp-pool';
 import { setOutlines } from './toon-outline';
 import { CrownFade } from './crowns';
+import { SignatureFx } from './signature-fx';
 import { CreatureImpostors } from './impostor-creature';
 import { CreatureLod } from './lod';
 import { TerrainChunks } from './chunks';
@@ -518,6 +519,7 @@ export class Grove3dScene {
       only: () => (this.staging.exclusive || LOOK_STATE.tale ? this.staging.castIds : null),
     };
     this.bursts = new Bursts(this.scene);
+    /* Lane E r9 */ this.actors.sigFx = new SignatureFx(this.bursts);
     // The garden's and the story's buildings wear the Grove's building kit (bug 15).
     useBuildingKit(this.tex);
     this.garden = new Garden(this.world3d);
@@ -989,6 +991,47 @@ export class Grove3dScene {
     const ctx = out.getContext('2d');
     if (ctx) {
       // The middle of the frame at the picture's shape.
+      const k = Math.min(src.width / w, src.height / h);
+      const sw = w * k;
+      const sh = h * k;
+      ctx.drawImage(src, (src.width - sw) / 2, (src.height - sh) / 2, sw, sh, 0, 0, w, h);
+    }
+    cam.position.copy(pos);
+    cam.quaternion.copy(quat);
+    this.composer.render();
+    return ctx ? out : null;
+  }
+
+  /* Lane E r9 */
+  /**
+   * R0441: the "With me" selfie, the Keeper from in front with the Nubbin in its arms (the
+   * carry pose), framed from the chest up, in the same one-frame way as `portrait`.
+   */
+  selfie(w: number, h: number): HTMLCanvasElement | null {
+    const spot = this.actors.keeperSpot();
+    if (!spot || !this.compiled) return null;
+    const cam = this.camera;
+    const pos = cam.position.clone();
+    const quat = cam.quaternion.clone();
+    const look = spot.feet.clone().lerp(spot.head, 0.62);
+    const tall = Math.max(0.8, spot.head.y - spot.feet.y);
+    const side = pos.clone().sub(look).setY(0);
+    if (side.lengthSq() < 1e-6) side.set(0, 0, 1);
+    side.normalize();
+    const dir = spot.front ? spot.front.clone().multiplyScalar(3).add(side).normalize() : side;
+    const dist = tall * 2.4 + 1.2;
+    cam.position
+      .copy(look)
+      .addScaledVector(dir, dist)
+      .setY(look.y + dist * 0.2);
+    cam.lookAt(look);
+    this.composer.render();
+    const src = this.renderer.domElement;
+    const out = document.createElement('canvas');
+    out.width = w;
+    out.height = h;
+    const ctx = out.getContext('2d');
+    if (ctx) {
       const k = Math.min(src.width / w, src.height / h);
       const sw = w * k;
       const sh = h * k;
