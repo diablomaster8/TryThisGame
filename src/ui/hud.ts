@@ -171,12 +171,13 @@ export function mountHud(
     'btn btn-icon',
   );
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
-  // Learning Grove: sound on/off stays one tap away for a child, outside the grown-up gate.
+  // Sound on/off stays one tap away, outside Settings and the Learning Grove's grown-up gate
+  // (TECH-23: for everyone now). A long press opens Settings for the volume sliders.
   const soundBtn = button(
     '🔊',
     () => {
       const g = game();
-      if (!g?.world.edu) return;
+      if (!g) return;
       const on = !g.world.settings.sound;
       g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
       setSoundEnabled(on);
@@ -184,8 +185,11 @@ export function mountHud(
     },
     'btn btn-icon',
   );
-  soundBtn.hidden = true;
   soundBtn.setAttribute('aria-label', UI_TEXT.sound);
+  soundBtn.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    if (!game()?.world.edu) settings.open();
+  });
   const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
   keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
   keeperBtn.title = UI_TEXT.trainers;
@@ -972,8 +976,8 @@ export function mountHud(
         festivalsFor = g;
         announceFestivals(g, toast);
       }
-      soundBtn.hidden = !isEdu;
-      if (isEdu) soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
       if (isEdu) {
         const now = Date.now();
         if (!eduBreakActive(g.world, now) && eduBreakDue(g.world))
