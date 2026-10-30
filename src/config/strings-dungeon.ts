@@ -424,7 +424,7 @@ export const HOLLOW_R6_TEXT = {
   /** R0176: the Mystery Basket stall. */
   basketTitle: 'Mystery Baskets',
   basketHelp: 'A covered basket for one slot. Never Plain: Shiny, Fancy, Legendary or Set.',
-  basketBuy: (slot: string, price: number) => `${slot} · ${price} Shells`,
+  basketBuy: (price: number) => `${price} Shells, opened on the spot`,
   basketOpened: (glyph: string, name: string) => `Out of the basket: ${glyph} ${name}!`,
   basketShort: 'Not enough Shells for that basket.',
   /** R0174: the stash. */

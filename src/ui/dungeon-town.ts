@@ -176,7 +176,7 @@ export class TownPanel {
       for (const slot of basketSlots())
         row(
           GEAR_TEXT.base[slot] ?? slot,
-          HOLLOW_R6_TEXT.basketBuy(GEAR_TEXT.base[slot] ?? slot, cost),
+          HOLLOW_R6_TEXT.basketBuy(cost),
           HOLLOW_TEXT.acornsBuy,
           () => this.send({ kind: 'gambleBasket', slot }),
           shells >= cost,
