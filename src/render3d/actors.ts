@@ -26,7 +26,8 @@ import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
-import { EYE_TRACK, HELD_REACT } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
+import { BondGlow } from './bond-glow';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { shroomHopY } from '../sim/behavior';
@@ -186,6 +187,14 @@ function heldSwing(rig: Rigged, mood: HeldMood, t: number): void {
   }
 }
 
+/** LOOK-64: a wary Shadow Nubbin's head low and arms tucked, over the idle or walk pose. */
+function waryPosture(rig: Rigged): void {
+  const b = rig.bones;
+  if (b.head) b.head.rotation.x += SHADOW_LOOK.headDrop;
+  if (b.armL) b.armL.rotation.z -= SHADOW_LOOK.armsIn;
+  if (b.armR) b.armR.rotation.z += SHADOW_LOOK.armsIn;
+}
+
 /** LOOK-52: the poses whose eyes follow the Keeper (not asleep, dizzy, crying or swimming). */
 const GLANCE_POSES: ReadonlySet<PoseName> = new Set<PoseName>(['idle', 'walk', 'happy', 'eat']);
 
@@ -245,6 +254,8 @@ export class Actors {
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
   private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
+  /** LOOK-64: the bonded Shadow Nubbins' warm rims. */
+  private readonly bondGlow: BondGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
   private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
@@ -312,6 +323,7 @@ export class Actors {
       }),
     );
     this.glow = new MergedGlow(this.group);
+    this.bondGlow = new BondGlow(this.group);
     this.highlight.rotation.x = -Math.PI / 2;
     this.highlight.visible = false;
     this.group.add(this.highlight);
@@ -1014,6 +1026,8 @@ export class Actors {
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
+        if (n.shadow && !n.bond && n.species === 'chao' && (pose === 'idle' || pose === 'walk'))
+          waryPosture(a.rig);
         this.tumble(a, n, o, nowMs);
         this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
       } else if (a.stand) {
@@ -1057,6 +1071,15 @@ export class Actors {
       }
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
+      // LOOK-64: a bonded Shadow Nubbin's warm rim, growing with its trust.
+      this.bondGlow.set(
+        n.id,
+        n.shadow && n.bond && a.rig
+          ? SHADOW_LOOK.rimMin + ((SHADOW_LOOK.rimMax - SHADOW_LOOK.rimMin) * n.trust) / 100
+          : 0,
+        o.position,
+        tall,
+      );
       // The emote ball over the head: the same choice the pixel view makes, a reaction
       // bubble over it for a moment, two frames flipping every 400 ms, plum for a Shadow.
       let bubble = this.bubbles.get(n.id);
@@ -1110,6 +1133,7 @@ export class Actors {
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
     this.glow.keep(live);
+    this.bondGlow.keep(live);
     this.emoteSprings.keep(live);
 
     // The Keeper.
@@ -1289,6 +1313,7 @@ export class Actors {
     this.memorials.clear();
     this.crowd.dispose();
     this.glow.dispose();
+    this.bondGlow.keep(new Set());
     this.pool.dispose();
     this.dresser.dispose();
     this.kit.dispose();

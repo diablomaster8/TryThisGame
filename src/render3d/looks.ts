@@ -206,7 +206,8 @@ function ashen(base: SpeciesSpec): SpeciesSpec {
   for (const part of spec.parts) prims.push(...part.prims, ...(part.joint?.prims ?? []));
   for (const p of prims) p.color = grey(p.color);
   for (const m of spec.marks) m.color = grey(m.color);
-  spec.eyes = { ...spec.eyes, iris: '#e0562e' };
+  // LOOK-64: the ember eyes carry a little light of their own, so the face reads at dusk.
+  spec.eyes = { ...spec.eyes, iris: '#e0562e', glow: 0.4 };
   if (spec.ball) spec.ball = { ...spec.ball, color: '#4a4058' };
   return spec;
 }

@@ -127,3 +127,12 @@ export const HELD_REACT = {
   dangleHz: 1.2,
   flailHz: 6,
 };
+
+export const SHADOW_LOOK = {
+  /** LOOK-64: a wary Shadow Nubbin's head tips down (radians) and its arms tuck in. */
+  headDrop: 0.18,
+  armsIn: 0.25,
+  /** A bonded one's warm rim: its opacity at no trust and at full trust. */
+  rimMin: 0.15,
+  rimMax: 0.6,
+};

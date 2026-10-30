@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { CHILD_NEUTRAL, shadowColors } from '../../src/render/sprites/chao';
 import { Group, type Mesh } from 'three';
 import { Dresser } from '../../src/render3d/dress';
 import type { Rigged } from '../../src/samples/species';
@@ -122,5 +123,18 @@ describe('LOOK-54 rebirth stars', () => {
     const k = (r: number) => SheetCache.nubbinKey({ ...n, rebirths: r });
     expect(k(2)).not.toBe(k(1));
     expect(k(4)).toBe(k(9));
+  });
+});
+
+describe('LOOK-64 Shadow face', () => {
+  it('lights the ember eyes and rims a bonded one in Pixel', () => {
+    expect(specForKey('variant:child~shadow').eyes.glow).toBe(0.4);
+    expect(shadowColors(CHILD_NEUTRAL, true).rim).toBeDefined();
+    expect(shadowColors(CHILD_NEUTRAL).rim).toBeUndefined();
+    const n = child(0);
+    n.shadow = true;
+    const wary = SheetCache.nubbinKey(n);
+    n.bond = true;
+    expect(SheetCache.nubbinKey(n)).not.toBe(wary);
   });
 });

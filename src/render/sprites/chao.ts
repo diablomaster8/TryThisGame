@@ -374,8 +374,12 @@ export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
   }
 }
 
-/** A Shadow Nubbin: ash-grey coat, dark ball, an ember glint in the eye. The grey stays. */
-export function shadowColors(base: ChaoColors): ChaoColors {
+/**
+ * A Shadow Nubbin: ash-grey coat, dark ball, an ember glint in the eye. The grey stays.
+ * LOOK-64: a bonded one (`bond`) keeps its grey but gains a warm one-pixel rim on the head's
+ * lit side: the grey stays, and can be loved.
+ */
+export function shadowColors(base: ChaoColors, bond = false): ChaoColors {
   return {
     ...base,
     body: C.dusk,
@@ -387,6 +391,7 @@ export function shadowColors(base: ChaoColors): ChaoColors {
     eye: C.ember,
     glint: C.roseLight,
     outline: C.ink,
+    ...(bond ? { rim: C.orange } : {}),
   };
 }
 
@@ -681,6 +686,8 @@ export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
 
 export interface ChaoLook {
   colors: ChaoColors;
+  /** LOOK-64: a Shadow Nubbin not yet bonded: the head held a pixel low. */
+  wary?: boolean;
   /** LOOK-54: rebirths, drawn as brow stars (1-3) or a ring (4+); unset draws none. */
   stars?: number;
   shape: ChaoShape;
@@ -1673,6 +1680,8 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 
 /** Draw one frame into a fresh 32×32 canvas. */
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
+  // LOOK-64: a wary Shadow Nubbin carries its head a pixel low in every frame.
+  if (look.wary) pose = { ...pose, headDrop: pose.headDrop + 1 };
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
   const col = look.finish === 'metal' ? metalColors(look.colors) : look.colors;
   // Seated (LOOK-20): the body comes down until its bottom rests at the ground line.

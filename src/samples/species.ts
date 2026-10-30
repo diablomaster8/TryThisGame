@@ -249,6 +249,8 @@ export interface SpeciesSpec {
     roll?: number;
     /** Extra small eyes (a spider's row), glossy beads set in the skin. */
     extra?: Array<{ x: number; y: number; z: number; r: number }>;
+    /** LOOK-64: the iris's own light (0.3 by default): a Shadow Nubbin's ember eyes read at dusk. */
+    glow?: number;
   };
   mouth: {
     x: number;
@@ -1031,6 +1033,13 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       side,
       e.pupil ?? 'round',
     );
+    if (e.glow !== undefined) {
+      const glow = e.glow;
+      r.iris.traverse((o) => {
+        const m = (o as THREE.Mesh).material as THREE.MeshStandardMaterial | undefined;
+        if (m && 'emissiveIntensity' in m) m.emissiveIntensity = glow;
+      });
+    }
     r.group.position.copy(at.pos).sub(faceOrigin);
     r.group.quaternion.setFromUnitVectors(
       forward,

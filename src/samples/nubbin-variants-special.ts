@@ -344,6 +344,7 @@ const ETERNAL_NEUTRAL = variant(NEUTRAL_ADULT, 'Nubbin (Eternal Neutral)', {
 });
 
 const SHADOW = variant(CHILD, 'Nubbin (Shadow)', {
+  eyes: { glow: 0.4 },
   colors: {
     body: '#7a6f8c',
     belly: '#c9c0d6',

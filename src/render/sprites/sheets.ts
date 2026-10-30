@@ -158,7 +158,7 @@ export class SheetCache {
   private static baseKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return cocoonKey(n);
-    const sh = n.shadow ? 'sh' : '-';
+    const sh = n.shadow ? (n.bond ? 'shb' : 'sh') : '-';
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
     // Each filled slot carries its size step (LOOK-36): a level crossing a step redraws.
     const steps = partSteps(n);
@@ -196,6 +196,7 @@ export class SheetCache {
           glasses: !!n.glasses,
           hatDye: n.hatDye ?? null,
           stars: Math.min(4, n.rebirths),
+          wary: n.shadow && !n.bond,
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
@@ -219,7 +220,7 @@ export class SheetCache {
           },
         });
       }
-      const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c) : c);
+      const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c, n.bond) : c);
       // A character look replaces the palette and adds its accessory as the hat.
       const look = n.hat ? CHARACTER_LOOKS[n.hat] : undefined;
       if (n.stage === 'adult' && n.form) {
