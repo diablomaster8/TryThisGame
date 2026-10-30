@@ -3923,3 +3923,34 @@ body.edu-sprout .modal-head .btn-close {
 .roster-personality.forming {
   opacity: 0.7;
 }
+
+/* ---- Lane D round 8 (platform) ---- */
+/* R0496 (TECH-55): the "a new Grove is ready" chip, under the top bar. */
+.update-ready {
+  position: absolute;
+  pointer-events: auto;
+  top: calc(var(--topbar-bottom, calc(var(--safe-top) + 52px)) + 6px);
+  left: 50%;
+  z-index: 15;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  max-width: min(420px, calc(100vw - 32px - var(--safe-left) - var(--safe-right)));
+  padding: 6px;
+  border: 2px solid #8fe0a8;
+  border-radius: 14px;
+  background: rgba(13, 10, 26, 0.92);
+  color: #fff7dc;
+}
+.update-ready[hidden] {
+  display: none;
+}
+.update-ready button {
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+}
+.update-ready-go {
+  flex: 1 1 auto;
+}
