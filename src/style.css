@@ -3964,3 +3964,29 @@ body.edu-sprout .modal-head .btn-close {
   opacity: 0.6;
   cursor: not-allowed;
 }
+/* R0518 (TECH-77): installed on a notched iPhone (black-translucent status bar, viewport-fit
+   cover) the page runs under the status bar and the home indicator. The HUD already offsets
+   by the --safe-* insets; the full-screen layers that centre a card did not, so a tall panel
+   reached the notch. They pad by the insets (zero, so unchanged, everywhere else). In phone
+   portrait the modal card already adds --safe-bottom itself, so the modal does not. */
+.modal {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal {
+    padding-bottom: 0;
+  }
+}
+.title,
+.pocket,
+.edu,
+.gym,
+.celebrate,
+.catching,
+.edu-entry,
+.edu-break {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+.dialogue-box {
+  width: min(640px, calc(100% - 24px - var(--safe-left) - var(--safe-right)));
+}
