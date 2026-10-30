@@ -47,7 +47,7 @@ _Yinsen hums while he files, the same four notes, over and over. Your Nubbins st
 
 ### Step 2: Carry the iron plates past the guards with your Power Nubbin.
 
-Hint: Move when the lamp turns away; a Nubbin with high Power carries two plates a trip. · check: `minigame:clear:mv-cave-plates`
+Hint: Tap Do it in the Journal and catch the plates as they come. Mind the lamp; it minds you. · check: `minigame:clear:mv-cave-plates`
 
 #### <a id="mv-im01-plates"></a>Scene `mv-im01-plates`
 

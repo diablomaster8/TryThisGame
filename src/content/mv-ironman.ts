@@ -153,7 +153,7 @@ export const MV_IRONMAN: Quest[] = [
       {
         id: 'mv-im01-s2',
         goal: 'Carry the iron plates past the guards with your Power Nubbin.',
-        hint: 'Move when the lamp turns away; a Nubbin with high Power carries two plates a trip.',
+        hint: 'Tap Do it in the Journal and catch the plates as they come. Mind the lamp; it minds you.',
         check: 'minigame:clear:mv-cave-plates',
         scene: {
           id: 'mv-im01-plates',
