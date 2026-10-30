@@ -315,3 +315,6 @@ export const SURFACE_PACE = {
   sand: 0.9,
   snow: 0.85,
 } as const;
+
+/** R0107 (WORLD-49): on finding a landmark the camera holds still for a beat (none in reduced motion). */
+export const LANDMARK_HOLD = { ms: 600 } as const;

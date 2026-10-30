@@ -4,7 +4,7 @@ import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
 import { COLLECT } from './config/region-collectibles';
 import { openHere } from './sim/collectibles';
-import { CAMERA, KEEPER, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
+import { CAMERA, KEEPER, LANDMARK_HOLD, PIXEL_STAGE, SIM, STAGE2, STAGE4 } from './config/tuning';
 import { GameInput, type Placing } from './input/game-input';
 import { CameraControls } from './input/camera-controls';
 import {
@@ -457,6 +457,8 @@ export class Game {
   cameraSide = 0;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
   private focus: { id: string; untilMs: number } | null = null;
+  /** R0107: the camera holds still until this time after a landmark is found. */
+  private landmarkHoldUntil = -Infinity;
   private hooks: GameHooks;
 
   constructor(
@@ -838,6 +840,9 @@ export class Game {
           this.camera.target.x = e.to.x;
           this.camera.target.z = e.to.z;
         } else if (e.kind === 'tilePainted') this.grove?.setTiles(this.world.tiles);
+        // R0107: a found landmark gets a beat: the view holds while the Keeper takes it in.
+        else if (e.kind === 'landmarkFound' && !this.reduceMotion)
+          this.landmarkHoldUntil = nowMs + LANDMARK_HOLD.ms;
         else if (e.kind === 'endOfLifeFocus')
           this.focus = { id: e.nubbinId, untilMs: nowMs + CAMERA.focusMs };
         else if (e.kind === 'lanternLit') {
@@ -896,7 +901,8 @@ export class Game {
       Math.sin(yaw) * side +
       (staged || focused ? 0 : this.ahead.z);
     const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
-    const t = staged && this.reduceMotion ? 1 : 1 - Math.exp((-rate * dt) / 1000);
+    const held = !staged && !focused && nowMs < this.landmarkHoldUntil;
+    const t = held ? 0 : staged && this.reduceMotion ? 1 : 1 - Math.exp((-rate * dt) / 1000);
     this.camera.target.x += (aimX - this.camera.target.x) * t;
     this.camera.target.z += (aimZ - this.camera.target.z) * t;
     // Up and down with the ground under the Keeper, or the mark a scene frames (MOVE-23).
