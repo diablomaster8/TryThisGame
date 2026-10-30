@@ -38,6 +38,41 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 9 · Lane C CAMP + FIGHT (2026-10-30, branch r9/c)
+
+- *Plan:* the CAMP/FIGHT partials, then the top new CAMP items, in four disjoint groups. 24 STATUS lines (10 done, 14 partial). Save stays **v13**; every new field is optional (`Nubbin.home`, offer `expiresMs`, `Combatant.mod`, `EncounterSpec.brave`).
+- *Works:*
+  - Journal: a Quests tab with search and chips; Errands block; an endings shelf per road; lines' minutes left. On phones, tabs sit in a sticky footer above Close, and a swipe down closes. It is a tablist with keys.
+  - Offer card: the giver's portrait, the offer window, Esc for Not now, focus returned. The bring-home prompt (`ui/line-cast-prompt.ts`) and the lineReward/questExpired toasts are wired.
+  - Sim:
+    - `scene-queue.ts`: owner priority. `spineBusy()` keeps Hazel first.
+    - `line-rewards.ts`: Shells, a keepsake and a Grove-change id per line.
+    - Offer windows (S12) and the Mature-content gate per quest.
+    - Caper cadence (`QUEST_CADENCE`).
+    - `rest.ts`: Rest until, run as ×100 on the live clock.
+    - `goal-target.ts`: Go there for spine goals and tracked quests.
+    - Settings > Saves shows save time, size and the IndexedDB mirror.
+  - Fight:
+    - Hollow foe mods take effect in bouts (`battle/hollow-mods.ts`), and Brave adds hit power (`tuning-battle-r9.ts`).
+    - The 3D idle row is at `?aaa=1&creature=idles`.
+    - `tests/tools/battle-balance-champion.ts [n]` runs the Champion balance check.
+  - `tests/sim/reachability.test.ts`: a bot in one Open world reaches 121 of 129 quests, the spine's end and all 5 lines' starts. Unreached ids are pinned in `KNOWN_UNREACHED`.
+- *Stubbed:*
+  - Lines are not on the objective chip.
+  - Grove-change props for line rewards are not placed in either renderer.
+  - Roster/renderer filters on `Nubbin.home`.
+  - Copycat, Snack Thief and Hiding mods.
+  - Rolling backups with Restore (CAMP-31).
+  - Go there from the journal and the beacon.
+  - Region waits.
+  - Endings shelf dates.
+- *Known bugs:*
+  - Q79–Q85's autumn chain can't finish: only chapter 8 is autumn, and the post-game is always spring.
+  - E3 is offered at `hollow/stairs`, but nothing starts underground (`campaign.ts` returns in the dungeon).
+  - The 2,000-bout Champion run fails the median, 15 turns vs 14.
+  - A `free` story with an offer window can be accepted from the board inside the window.
+- *Gate:* lint and build clean. `npm test` under load: 11 timing failures, all passing when their files are rerun alone. The 8-Nubbin hour test runs at 1.9 s here and on main. Smoke `recs-2026-10-27/tools/lane-c-r9.cjs` passes in Pixel and 3D at desktop and at 375×812, with 0 console errors.
+
 ## Round 8 · Lane C CAMP + FIGHT (2026-10-30, branch r8/c)
 
 - *Plan:* the offers the round-7 partials were waiting on (CAMP-10), then the small CAMP items
