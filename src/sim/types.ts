@@ -227,6 +227,8 @@ export interface Nubbin {
   karate: { wins: number; losses: number; belt: number };
   /** Friendship with other Nubbins, by id. */
   friends: Record<string, number>;
+  /** R0539: buddies who departed, newest last (at most three). Optional, no save bump. */
+  remembered?: Array<{ id: string; name: string; atMs: number }>;
   /** Accessories: a dyed scarf and glasses; a dyed hat. */
   scarf: DyeColor | null;
   glasses: boolean;

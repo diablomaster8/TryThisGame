@@ -2292,6 +2292,8 @@ export function clipFor(n: Nubbin): string {
     case 'pet':
     case 'court':
     case 'perform':
+      // R0539: a visit to a friend's flower is a quiet sit.
+      return n.behavior.itemId === 'visitFlower' && !n.behavior.target ? 'sit' : 'happy';
     case 'fetch':
       return 'happy';
     case 'held':
@@ -2340,7 +2342,7 @@ export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
   if (n.behavior.state === 'lesson') return 'question';
-  if (n.behavior.state === 'perform') return 'star';
+  if (n.behavior.state === 'perform') return n.behavior.itemId === 'visitFlower' ? 'heart' : 'star';
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';

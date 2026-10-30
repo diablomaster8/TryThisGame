@@ -26,7 +26,14 @@ import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { EDU_SOUL, FRIENDS, NUBBIN_STEER, PERSONALITY_LEAN, SLED } from '../config/tuning';
+import {
+  EDU_SOUL,
+  FRIENDS,
+  FRIENDS_AWAY,
+  NUBBIN_STEER,
+  PERSONALITY_LEAN,
+  SLED,
+} from '../config/tuning';
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
@@ -582,6 +589,16 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     n.behavior.itemId = 'sled';
     n.behavior.target = foot;
     addHappiness(n, 3);
+    return;
+  }
+  // R0539: now and then a Nubbin goes and sits a while by a departed buddy's flower.
+  const missed = n.remembered?.filter((r) => now - r.atMs < FRIENDS_AWAY.visitForMs).at(-1);
+  const flower = missed && world.memorials.find((m) => m.id === `memorial-${missed.id}`);
+  if (flower && world.location === 'grove' && rng.chance(FRIENDS_AWAY.visitChance)) {
+    setState(n, 'perform', now, FRIENDS_AWAY.visitMs);
+    n.behavior.itemId = 'visitFlower';
+    n.behavior.target = { x: flower.pos.x + 0.9, z: flower.pos.z + 0.3 };
+    clampToWorld(n.behavior.target);
     return;
   }
   // Buddies seek each other out for a chat.

@@ -138,3 +138,17 @@ export const IDLE_ACTIONS: Record<
  * `trustFloor`, which is above both the Shadow line and the running-away line.
  */
 export const EDU_SOUL = { tossHappiness: -3, trustFloor: 30 } as const;
+
+/**
+ * R0539 (SOUL-21): a friend who is away (a trip, a stray, a minigame) fades at `decayPerMinute`
+ * instead of being forgotten at once. A buddy who departs is remembered (up to `remember`),
+ * and for `visitForMs` its friend now and then (`visitChance` per idle pick) goes and sits
+ * by its flower for `visitMs`.
+ */
+export const FRIENDS_AWAY = {
+  decayPerMinute: 2,
+  remember: 3,
+  visitForMs: 48 * 60 * 60_000,
+  visitChance: 0.03,
+  visitMs: 6_000,
+} as const;

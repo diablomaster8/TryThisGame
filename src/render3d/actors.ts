@@ -137,10 +137,13 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       const mood = moodOf(n);
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
+    case 'perform':
+      // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
+      if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
+      return 'happy';
     case 'play':
     case 'greet':
     case 'court':
-    case 'perform':
     case 'fetch':
       return 'happy';
     case 'cry':
