@@ -38,6 +38,34 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 9 · Lane E LOOK + KIDS + FUN (2026-10-30, branch r9/e)
+
+- *Works:* **KIDS.** R0720/R0696 an age tile leads to a name, colour and animal step; edu
+  slots show the child's icon, name and colour edge, the Learning Grove lists first once one
+  exists, and `./?kids` (a manifest shortcut) is a picture-only picker. R0704 a session arc
+  (`eduPhase`: hello, main, care, second, wind-down, goodnight) drives the entry prompt, the
+  first prompt calls the Nubbins, and R0724 idle Nubbins yawn in the wind-down. R0730 optional
+  read-aloud auto-advance (`edu.autoAdvance`, off). R0734 co-play prompts as "For grown-ups"
+  chips. R0736 Hebrew and Japanese glosses as ruby under the word. R0737 a sun-and-moon clock
+  for Ori and Hana's next visit, plus a grown-up skip (`edu.langSkipAt`). R0678/R0679/R0677
+  more sprout 64 px fixes, HUD labels and choice icons. **LOOK.** R0380 3D crown spring; R0418
+  Moon-band rim and R0404 Eternal rims/eyes as uniforms (no new programs); R0398 3D shiny star
+  glint; R0410 3D signature particles in the shared burst cloud; R0405 a bird plan in both
+  modes plus Charizard, Gyarados, Lapras, Arcanine and Tauros; R0407 Angemon, an insect recipe,
+  Andromon, Etemon, Numemon/Sukamon; R0379 a flickering 3D tail flame, Charmander's flame seen
+  from the front, wings raised; R0435 the quad-plan reference check. **FUN.** R0358 field notes
+  for all 243 pocket and digital species; R0332 the last 8 curiosity triggers; R0338 the Q86
+  hint jokes; R0441 the "With me" photo selfie; R0424 a remembrance flower hat for bonded
+  friends; R0356 a pixel gate scene under the title logo; R0325 the 3D race butterfly.
+- *Stubbed:* the first Nubbin's portrait on kids tiles; the Story tile still opens the journal;
+  ~7.1k sprout choices still have no icon; the Run crown shape; the joyful race trip (needs sim);
+  Ponyta, the Bulbasaur line, Exeggutor, Doduo and Horsea likenesses; sprout field notes.
+- *Bugs / notes:* none known. No save version bump; the new fields (`edu.icon`, `tagColour`,
+  `autoAdvance`, `langSkipAt`, `Nubbin.remembers`) are optional. Open for Maor: the Eternal rim
+  and eye signatures (R0404). Smoke: `recs-2026-10-27/tools/lane-e-r9.cjs`, `lane-e-game-r9.cjs`
+  and `lane-e-r9-extra.cjs` (port 5189) in Pixel, Full 3D, desktop, 375×812 and reader: 0 console
+  errors. The selfie was reached but not seen with a hatched Nubbin.
+
 ## Round 8 · Lane E LOOK + KIDS (2026-10-30, branch r8/e)
 
 - *Works:* **KIDS.** R0682 a skills ladder per game (`EDU_LADDER`; counting climbs count to
