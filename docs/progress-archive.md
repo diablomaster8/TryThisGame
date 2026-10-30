@@ -58,6 +58,40 @@ SOUL from R0521 in order, as many as could be done properly. New text in
   sitBesideMs`, `nubbin.eggShakes`, `childCare.touches/tucks/lastCareMs`, `remembered`,
   `edu.readToMe`, `settings.slapstick`.
 
+## Round 6 · Lane E LOOK (2026-10-29, branch r6/e)
+
+- *Works:* the in-training Digimon hop (three a metre, stretch 1.15, squash 0.75; Pixel walk
+  frames, 3D `hop` spec field). The child hint fades in from |alignment| 0.2 to 0.5: ice white
+  and blue for Sun, dusky violet with a red tip for Moon (two Pixel steps, four 3D blends,
+  `render/sprites/child-hint.ts`). Eyes follow the Keeper within 5 m (3D irises; Pixel glance
+  frames by screen side). Held Nubbins hug (heart), dangle or flail (swirl) by affection, a
+  Moon adult squirms for a Sun Keeper (`render/held-mood.ts`). A gold brow star per rebirth,
+  a ring at 4+. Family egg patterns (Chao speckle band, pocket two-tone, digital big spots)
+  and a 3D egg that rocks when shaken and cracks at 20 s and 5 s (`render3d/egg-crack.ts`).
+  Shadow Nubbins: ember eyes glow 0.4 in 3D, the unbonded hold their head low, a bonded one
+  gets a warm rim (Pixel orange rim, 3D aura by trust, `render3d/bond-glow.ts`). Every line
+  wears the shop hats (Pikachu, Agumon and Snorlax tested).
+- *Stubbed:* the remembrance flower hat (R0424's second half); the egg's top lifting off;
+  Pixel glance on the creature drawer (Chao only); a hat dye on creatures; the Shadow's slower
+  walk; hats sit at the Chao's size on very big or very small creatures.
+- *Works (second half):* personality gags play in place every 40–90 s, children at half rate
+  and wobbly (`render/gag-play.ts`, both modes). A dry line for every shop item, critter,
+  essence and wearable (`FLAVOUR`, 67 lines). Hazel's field notes on the Grove line's book
+  pages. Photo mode: 3 in 20 photos are photobombed, 1 in 10 blinks (Try again or Keep it
+  anyway), every photo has a caption (`ui/photo-comedy.ts`). Fifteen curiosities, logged once
+  in `world.curiosities` (optional field), seven spotted in play (`ui/curiosities.ts`). A
+  wardrobe with an eight-view live preview on each roster row (`ui/wardrobe.ts`). The
+  evolution reveal: cocoon shake, white flash (none under reduced motion), landing spin. Four
+  rarity tiers with roster frames and Grove glints (`render/rarity.ts`). Birthmarks for about
+  one in five Chao, read from the seed, in both modes (`render/birthmark.ts`).
+- *Stubbed (second half):* gags that travel (ball push, stream float); field notes for the
+  pocket and digital lines; 8 of 15 curiosities have no in-game trigger yet (cup, lantern,
+  Fern's stone, robot, stopwatch, scarf, back to back, upside-down egg); 3D rare glint.
+- *Known:* the 3D hop ear flop is a head nod (the blobs' ears are sculpted into the head). The
+  glance frames drop the idle breath for that moment.
+- *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
+  stub feet tucked while hopping; the 3D bonded rim is an additive aura behind the body.
+
 ## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
 
 Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>

@@ -1,6 +1,6 @@
 import { hasRoom, rosterNubbins } from './roster';
 import { BREEDING, EGG_FINISH, GROVE, LOOK_SHOP, PARTNERS, SHOP } from '../config/tuning';
-import { SHOP_COSMETICS } from '../config/cosmetics';
+import { SHOP_COSMETICS, seasonHat } from '../config/cosmetics';
 import { shopDiscount } from './town';
 import { EGG_COLORS, JEWEL_EGG_COLORS, createEgg, isJewel } from './nubbin';
 import type { Rng } from './rng';
@@ -16,6 +16,9 @@ export const HAT_IDS = ['straw', 'crown', 'beanie', 'flower', 'bucket'] as const
  * day, skipping ones already owned, so the shop shows what you get instead of a lucky dip.
  */
 export function shopHat(world: World): string {
+  // LOOK-70: in its season, that season's hat comes first until it is owned.
+  const season = seasonHat(world.season);
+  if (season && !world.inventory.hats.includes(season)) return season;
   const ids = SHOP_COSMETICS;
   const day = Math.floor(world.timeMs / LOOK_SHOP.hatDayMs);
   for (let k = 0; k < ids.length; k++) {

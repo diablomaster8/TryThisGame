@@ -147,6 +147,7 @@ import {
   eduLesson,
   eduStart,
   stepEdu,
+  clampRounds,
 } from './edu';
 import {
   NUBBIN_TYPES,
@@ -943,6 +944,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'wearGlasses':
       wearGlasses(world, cmd.nubbinId, cmd.on);
       return;
+    case 'wearBelt': {
+      // Lane E r7, R0437: the belt is worn unless taken off; the field only exists when off.
+      const n = world.nubbins.find((x) => x.id === cmd.nubbinId);
+      if (!n) return;
+      if (cmd.on) delete n.hideBelt;
+      else n.hideBelt = true;
+      return;
+    }
     case 'eduStart':
       eduStart(world, cmd.age, events, cmd.band);
       return;
@@ -954,6 +963,17 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetReadAloud':
       if (world.edu) world.edu.readAloud = cmd.on;
+      return;
+    case 'eduSetRounds':
+      // Lane E r7, R0746.
+      if (world.edu) world.edu.roundsPerGame = clampRounds(cmd.rounds);
+      return;
+    case 'eduSetAlwaysReborn':
+      // Lane E r7, R0691: the field only exists when on.
+      if (world.edu) {
+        if (cmd.on) world.edu.alwaysReborn = true;
+        else delete world.edu.alwaysReborn;
+      }
       return;
     case 'eduSetReadToMe':
       if (world.edu) world.edu.readToMe = cmd.on;

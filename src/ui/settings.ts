@@ -28,9 +28,8 @@ import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
 import { button, el, modal } from './dom';
 import { askGrownUp } from './grown-up-gate';
-import { storySettings } from './edu-story';
-import { EDU_AGES, type EduAge } from '../config/edu';
-import { EDU_TEXT } from '../config/strings';
+import { KID_SHEET_TEXT } from '../config/strings-kids';
+import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
 import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
@@ -86,6 +85,7 @@ export class SettingsMenu {
   private readonly coopTrainer: HTMLSelectElement;
   /** Learning Grove only: the age and story band the age screen promises a grown-up can change. */
   private readonly eduBox: HTMLFieldSetElement;
+  private grownUpArea: () => void = () => undefined;
 
   constructor(
     private readonly parent: HTMLElement,
@@ -418,7 +418,7 @@ export class SettingsMenu {
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),
       button(UI_TEXT.importSave, () => void this.importSave()),
-      button(UI_TEXT.resetSave, () => this.reset(), 'btn btn-danger'),
+      button(UI_TEXT.resetSave, () => void this.reset(), 'btn btn-danger'),
     );
     this.unreadableBtn = button(UI_TEXT.exportUnreadable, () => this.exportUnreadable());
     this.unreadableBtn.hidden = true;
@@ -484,28 +484,28 @@ export class SettingsMenu {
     this.dialog.hide();
   }
 
-  /** The Learning Grove's age and story band (review 2026-10-21, bug 33). */
+  /**
+   * The Learning Grove's age, story band and read-aloud live in the grown-up area only
+   * (R0671): this was a second copy past a weaker path, so Settings links there instead.
+   */
   private renderEdu(g: Game): void {
     const box = this.eduBox;
     box.textContent = '';
-    const e = g.world.edu;
-    box.hidden = !e;
-    if (!e) return;
+    box.hidden = !g.world.edu;
+    if (!g.world.edu) return;
     box.appendChild(el('legend', undefined, UI_TEXT.eduSettingsTitle));
-    const ageRow = el('label', 'field-row');
-    const ageSel = el('select');
-    for (const a of EDU_AGES) {
-      const o = el('option', undefined, String(a));
-      o.value = String(a);
-      ageSel.appendChild(o);
-    }
-    ageSel.value = String(e.age);
-    ageSel.addEventListener('change', () =>
-      g.send({ kind: 'eduSetAge', age: Number(ageSel.value) as EduAge, resetGames: true }),
+    box.appendChild(el('p', 'help', KID_SHEET_TEXT.eduLink));
+    box.appendChild(
+      button(KID_SHEET_TEXT.eduLinkButton, () => {
+        this.close();
+        this.grownUpArea();
+      }),
     );
-    ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
-    box.appendChild(ageRow);
-    storySettings(box, g);
+  }
+
+  /** R0671: where the Learning Grove link goes (hud.ts wires the grown-up panel). */
+  setGrownUpArea(open: () => void): void {
+    this.grownUpArea = open;
   }
 
   /** A bad hours value does not linger in the field looking saved. */
@@ -708,16 +708,20 @@ export class SettingsMenu {
     });
   }
 
-  private reset(): void {
+  private async reset(): Promise<void> {
     const g = this.game();
     if (!g) return;
+    // R0671: a Learning Grove asks the grown-up gate before the confirm.
     const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.resetConfirm };
-    void confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }).then((ok) => {
-      if (!ok) return;
-      clearSave();
-      // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
-      g.replaceWorld(freshWorldLike(g.world, Date.now()));
-      this.close();
-    });
+    const go = await resetAllowed(
+      !!g.world.edu,
+      () => askGrownUp(this.parent, this.toast),
+      () => confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }),
+    );
+    if (!go || this.game() !== g) return;
+    clearSave();
+    // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
+    g.replaceWorld(freshWorldLike(g.world, Date.now()));
+    this.close();
   }
 }

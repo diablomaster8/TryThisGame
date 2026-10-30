@@ -60,6 +60,13 @@ import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
+import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
+import { Guide } from './guide';
+import { titleCardUp } from './title-card';
+import { kidToaster } from './kid-notice';
+import { BreakWarning } from './break-warning';
+import { speakLine } from './lesson';
+import { EDU_REBORN_TEXT } from '../config/strings-kids';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -119,7 +126,7 @@ import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
-import { eduBreakActive, eduBreakDue } from '../sim/edu';
+import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
@@ -178,8 +185,8 @@ export function mountHud(
   const settingsBtn = button(
     '⚙',
     () => {
-      if (!game()?.world.edu) settings.open();
-      else void askGrownUp(root, toast).then((ok) => ok && settings.open());
+      // R0671: a Learning Grove gets the kid-safe sound sheet; the rest is past the gate.
+      void routeSettingsTap(!!game()?.world.edu, settingsRoute);
     },
     'btn btn-icon',
   );
@@ -266,6 +273,8 @@ export function mountHud(
     game()?.send({ kind: 'setRunning', running: on });
   }
   root.appendChild(runBtn);
+  // R0679: what a sprout does not need (style.css hides these under `body.edu-sprout`).
+  for (const b of [runBtn, keeperBtn, shopBtn, groveBtn]) b.classList.add('sprout-hide');
   // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
   // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
   if (window.matchMedia?.('(pointer: coarse)').matches) {
@@ -417,7 +426,10 @@ export function mountHud(
   toasts.setAttribute('role', 'status');
   toasts.setAttribute('aria-live', 'polite');
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
-  const toast = bandToaster(makeToaster(toasts), game);
+  // R0693 (lane E r7): a sprout's notices wait until their activity closes (kid-notice.ts).
+  let kidBusy: () => boolean = () => false;
+  const kidNotices = kidToaster(bandToaster(makeToaster(toasts), game), game, () => kidBusy());
+  const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
 
@@ -441,6 +453,15 @@ export function mountHud(
 
   const sheet = new StatsSheet(root, game, toast);
   const settings = new SettingsMenu(root, game, toast);
+  // R0671: the kid-safe sheet and the route the ⚙ button takes (kid-sheet.ts).
+  const settingsRoute = {
+    openFull: () => settings.open(),
+    openQuick: () => kidSheet.open(),
+    ask: () => askGrownUp(root, toast),
+  };
+  const kidSheet = new KidSoundSheet(root, game, () => {
+    void routeSettingsTap(true, settingsRoute, true);
+  });
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
@@ -499,14 +520,21 @@ export function mountHud(
   const eduPrompt = new EduPrompt(root, game, {
     journal: () => journal.open(),
     play: () => edu.open(),
+    next: () => edu.showNext(),
   });
+  // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
+  const guide = new Guide(root, game, () => sheet.selectedId);
+  edu.onShowMe(() => guide.show());
   const grownUps = new GrownUpPanel(root, game, toast);
+  settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
     root,
     game,
     () => askGrownUp(root, toast),
     () => grownUps.open(),
   );
+  // R0724: the moon that fills in the last two minutes before a break.
+  const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
@@ -700,6 +728,7 @@ export function mountHud(
     };
   }
 
+  kidBusy = () => edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -707,6 +736,7 @@ export function mountHud(
     root,
     [
       { isOpen: () => settings.isOpen(), close: () => settings.close() },
+      { isOpen: () => kidSheet.isOpen(), close: () => kidSheet.close() },
       { isOpen: () => shop.isOpen(), close: () => shop.close() },
       { isOpen: () => races.isOpen(), close: () => races.close() },
       { isOpen: () => roster.isOpen(), close: () => roster.close() },
@@ -787,6 +817,7 @@ export function mountHud(
     if (e.key === 'Escape') {
       if (away.isOpen) away.hide();
       else if (settings.isOpen()) settings.close();
+      else if (kidSheet.isOpen()) kidSheet.close();
       else if (shop.isOpen()) shop.close();
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
@@ -963,6 +994,11 @@ export function mountHud(
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
       if (keysHint && keysHint.hidden !== isEdu) keysHint.hidden = isEdu;
+      // R0678 / R0679 (lane E r7): the sprout band's simple HUD of big picture buttons; the
+      // grown-up controls hide (style.css, `body.edu-sprout`). Readers keep the full HUD.
+      const sprout = isEdu && g.world.edu?.band === 'sprout';
+      if (document.body.classList.contains('edu-sprout') !== sprout)
+        document.body.classList.toggle('edu-sprout', sprout);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
@@ -982,8 +1018,11 @@ export function mountHud(
       if (isEdu) soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
       if (isEdu) {
         const now = Date.now();
-        if (!eduBreakActive(g.world, now) && eduBreakDue(g.world))
+        // R0724: a round, scene or tracing still open finishes first (within a grace).
+        const midActivity = edu.isOpen() || dialogue.isOpen || journal.isTracing();
+        if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
           g.send({ kind: 'eduStartBreak' });
+        breakWarn.update(g);
         if (eduBreakActive(g.world, now)) {
           breakScreen.show();
           breakScreen.update(now);
@@ -1003,7 +1042,10 @@ export function mountHud(
           journal.isTracing() ||
           g.catchingUp;
         eduPrompt.refresh(busy);
-        objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
+        guide.update(busy || eduPrompt.isOpen);
+        kidNotices.flush();
+        // R0729: the chip would repeat the chapter card while it is up.
+        objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (
@@ -1223,7 +1265,10 @@ export function mountHud(
           toast(e.cocoon === 'rebirth' ? UI_TEXT.cocoonRebirth(name) : UI_TEXT.cocoonDepart(name));
         } else if (e.kind === 'reborn') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
+          // R0691: a sprout hears a gentle line about the glowing cocoon and the new egg.
+          if (g.world.edu?.band === 'sprout' && g.world.edu.readAloud)
+            speakLine(EDU_REBORN_TEXT.say(n?.name ?? NAMES.creature));
+          else toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
           playSound('sad');
@@ -1572,7 +1617,8 @@ export function mountHud(
         } else if (e.kind === 'wildLeft') {
           toast(UI_TEXT.wildLeft);
         } else if (e.kind === 'eduResult') {
-          toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
+          // R0686: the results card shows the Shells and the sticker; no toast over a round.
+          if (!edu.isOpen()) toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
         } else if (e.kind === 'eduStarted') {
           toast(EDU_TEXT.playHelp);
         } else if (e.kind === 'recruited') {

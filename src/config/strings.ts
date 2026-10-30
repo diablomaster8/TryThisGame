@@ -1533,4 +1533,5 @@ export * from './strings-move-joy';
 export * from './strings-battle';
 export * from './strings-look';
 export * from './strings-fun';
+export * from './strings-kids';
 export * from './strings-camp';

@@ -100,6 +100,8 @@ export interface Choice {
   friendship?: Record<string, number>;
   /** Lines shown after picking, before the scene ends. */
   then?: Line[];
+  /** R0677: one emoji shown big on the sprout band's choice button (a number if absent). */
+  icon?: string;
 }
 
 export interface Scene {

@@ -168,3 +168,48 @@ export function eduLesson(world: World, id: string, best: boolean | null): void 
   if (!e || e.lessons[id]) return;
   e.lessons[id] = { best };
 }
+
+/**
+ * R0691 (KIDS-23): in a sprout save every end of life is a rebirth, so a young child who
+ * drifted away for a week never comes back to a Nubbin gone for good. A reader save does the
+ * same when a grown-up switched it on. The 10% carry-over and the Eternal rules are unchanged.
+ */
+export function eduAlwaysReborn(world: World): boolean {
+  const e = world.edu;
+  if (!e) return false;
+  return e.band === 'sprout' ? EDU.alwaysRebornSprout : !!e.alwaysReborn;
+}
+
+/** R0724 (KIDS-56): the last two minutes before the break, when the Grove starts to yawn. */
+export function eduBreakSoon(world: World): boolean {
+  const e = world.edu;
+  if (!e) return false;
+  const left = e.sessionMinutes * 60_000 - e.playedMs;
+  return left > 0 && left <= EDU.breakWarnMinutes * 60_000;
+}
+
+/**
+ * R0724: start the break now? A round, scene or tracing still open gets to finish, up to
+ * `EDU.breakGraceMinutes` past time; then the break comes anyway.
+ */
+export function eduBreakShouldStart(world: World, busy: boolean): boolean {
+  const e = world.edu;
+  if (!e || !eduBreakDue(world)) return false;
+  if (!busy) return true;
+  return e.playedMs >= (e.sessionMinutes + EDU.breakGraceMinutes) * 60_000;
+}
+
+/** R0746: a rounds count kept within what the grown-up area offers. */
+export function clampRounds(n: number): number {
+  return Math.max(EDU.minRounds, Math.min(EDU.maxRounds, Math.round(n) || EDU.roundsPerGame));
+}
+
+/**
+ * R0746 (KIDS-78): rounds per game. A grown-up's pick, or by age: 3 at age 3, 5 at 4–5,
+ * 6 at 6, and 8 for a reader.
+ */
+export function eduRounds(e: EduState): number {
+  if (e.roundsPerGame !== undefined) return clampRounds(e.roundsPerGame);
+  if (e.band === 'reader') return EDU.roundsReader;
+  return EDU.roundsByAge[e.age] ?? EDU.roundsPerGame;
+}

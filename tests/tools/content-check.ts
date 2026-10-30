@@ -949,6 +949,18 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
     });
   }
 }
+// R0677 (KIDS-09): sprout choices and ask options without an `icon` show a number instead.
+// Counted, not listed: the aim is 0, and a writer adds icons file by file.
+let sproutNoIcon = 0;
+for (const e of [
+  ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
+  ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
+  ...C.EDU_VARIANTS.sprout,
+]) {
+  for (const c of e.choices ?? []) if (!c.icon) sproutNoIcon++;
+  for (const l of e.lessons)
+    for (const o of l.kind === 'ask' ? (l.options ?? []) : []) if (!o.icon) sproutNoIcon++;
+}
 // R0348 (FUN-59): the reader band keeps the canon keep-jokes (the table in docs/canon.md),
 // matched by keywords in the reader version of each joke's scene.
 {
@@ -986,6 +998,7 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
 console.log(
   JSON.stringify(
     {
+      sproutNoIcon,
       quests,
       scenes,
       lines,

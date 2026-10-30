@@ -10,6 +10,7 @@ import { isAudioUnlocked, isSoundEnabled, playSound, type SoundName } from '../p
 import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
+import { sproutChoices } from './sprout-choices';
 import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
 import { READ_ALOUD } from '../config/tuning-fun-r7';
 
@@ -209,6 +210,7 @@ export function renderOptions(
   box: HTMLElement,
   lesson: Lesson,
   onPick: (option: LessonOption, best: boolean | null) => void,
+  readAloud = false,
 ): void {
   box.innerHTML = '';
   const options = lesson.options ?? [];
@@ -240,6 +242,8 @@ export function renderOptions(
     buttons.push(b);
     box.appendChild(b);
   }
+  // R0677: a sprout lesson's options are numbered pictures, read out as they appear.
+  if (lesson.id.startsWith('sprout:')) sproutChoices(buttons, options, readAloud);
 }
 
 /**

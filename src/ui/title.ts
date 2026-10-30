@@ -32,6 +32,8 @@ import { askGrownUp } from './grown-up-gate';
 import { EDU_AGES, type EduAge } from '../config/edu';
 import type { EduBand } from '../content/types';
 import { EDU_STORY_TEXT, EDU_TEXT, UI_TEXT } from '../config/strings';
+import { AGE_PICK_TEXT } from '../config/strings-kids';
+import { speakLine } from './lesson';
 import { UI_FX_TEXT } from '../config/strings-ui';
 
 export interface TitleChoice {
@@ -92,8 +94,14 @@ export function showTitle(
   playSong('title');
   const card = el('div', 'title-card');
   card.appendChild(el('div', 'title-logo', `🌿 ${NAMES.game}`));
-  card.appendChild(el('div', 'title-sub', STORY_TEXT.title));
-  card.appendChild(el('div', 'title-tag', STORY_TEXT.tagline));
+  const sub = el('div', 'title-sub', STORY_TEXT.title);
+  const tag = el('div', 'title-tag', STORY_TEXT.tagline);
+  card.append(sub, tag);
+  // R0720: the Learning Grove's age screen carries its own subtitle, not the campaign's.
+  const subtitle = (edu: boolean) => {
+    sub.textContent = edu ? EDU_TEXT.learningGrove : STORY_TEXT.title;
+    tag.textContent = edu ? AGE_PICK_TEXT.tagline : STORY_TEXT.tagline;
+  };
   // With storage blocked every slot reads empty: say why before the player starts (review C, 11).
   if (!storageAvailable()) {
     const notice = el('p', 'title-storage', UI_TEXT.storageBlockedTitle);
@@ -219,28 +227,39 @@ export function showTitle(
 
   const ageMenu = (slot: SaveSlot) => {
     menu.innerHTML = '';
+    subtitle(true);
     menu.appendChild(el('div', 'help', EDU_TEXT.chooseAge));
+    // R0720: four sprout tiles in a row, then one wide reader tile, so nothing wraps at 375 px.
     const row = el('div', 'title-ages');
     for (const age of EDU_AGES) {
-      row.appendChild(
-        button(
-          String(age),
-          () => finish({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
-          'btn title-age',
-        ),
-      );
-    }
-    // Grove Readers (7–10): the story in the reader band; the six games stay at their top age.
-    row.appendChild(
-      button(
-        EDU_STORY_TEXT.readerAges,
-        () => finish({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
+      const b = button(
+        '',
+        () => finish({ slot, fresh: true, trainer: null, age, band: 'sprout' }),
         'btn title-age',
-      ),
-    );
+      );
+      b.append(el('span', 'title-age-n', String(age)), el('span', 'title-age-badge', '🌱'));
+      row.appendChild(b);
+    }
     menu.appendChild(row);
+    // Grove Readers (7–10): the story in the reader band; the six games stay at their top age.
+    const reader = button(
+      '',
+      () => finish({ slot, fresh: true, trainer: null, age: 6, band: 'reader' }),
+      'btn title-age title-age-reader',
+    );
+    reader.append(
+      el('span', 'title-age-n', EDU_STORY_TEXT.readerAges),
+      el('span', undefined, `📚 ${AGE_PICK_TEXT.reader}`),
+    );
+    menu.appendChild(reader);
     menu.appendChild(el('div', 'help', EDU_TEXT.ageHelp));
-    menu.appendChild(backButton(mainMenu));
+    menu.appendChild(
+      backButton(() => {
+        subtitle(false);
+        mainMenu();
+      }),
+    );
+    speakLine(EDU_TEXT.chooseAge);
   };
 
   /** Dawn & Dusk: pick a half; the other opens once one half has reached an ending. */
