@@ -283,6 +283,8 @@ export class VillageSquare {
     }
     const recruits = villageRecruits(world);
     this.figures.count = recruits.length;
+    // An instanced mesh with no instances still costs a draw call.
+    this.figures.visible = recruits.length > 0;
     recruits.forEach((r, i) => {
       const y = this.ground(r.pos.x, r.pos.z);
       // A gentle walking bob.

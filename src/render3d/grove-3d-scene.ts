@@ -1003,6 +1003,17 @@ export class Grove3dScene {
     this.actors.pool.quality = qualityForRes(res);
     this.tier = tierForRes(res);
     this.actors.pool.spareCap = WORLD_MEM.poolSpares[this.tier];
+    this.creatureLod.fullTrisCap = WORLD_LOD.creature.fullTris[this.tier];
+    // Round 5: a phone draws a narrower sun shadow box (a portrait view is narrow, and every
+    // caster inside the box is drawn again into the shadow map).
+    const sc = this.sky.sun.shadow.camera;
+    const half = WORLD_LOD.shadowHalf[this.tier];
+    sc.left = sc.bottom = -half;
+    sc.right = sc.top = half;
+    // And a shallower one: the sun sits 60 u out (`sky.ts`), so casters far beyond the Keeper
+    // only throw shadows farther still, outside the box.
+    sc.far = WORLD_LOD.shadowFar[this.tier];
+    sc.updateProjectionMatrix();
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */

@@ -58,6 +58,10 @@ export const WORLD_LOD = {
    * in the shared far batch (`render3d/far-trees.ts`). `farBand` is the hysteresis.
    */
   farTrees: { farFrom: 16, farMargin: 1, farBand: 2 },
+  /** Round 5: half the sun shadow box, world units, by device tier (`grove-3d-scene.ts`). */
+  shadowHalf: { desktop: 30, phone: 22, slow: 18 },
+  /** Round 5: the sun shadow camera's far plane by device tier (the sun stands 60 u out). */
+  shadowFar: { desktop: 200, phone: 95, slow: 90 },
   /** Creatures (`render3d/lod.ts`). */
   creature: {
     /** World units added to a rig's bounding sphere for the longest shadow it throws. */
@@ -79,6 +83,13 @@ export const WORLD_LOD = {
     shadowMaxDist: 20,
     /** R0079: past this camera distance a creature is an impostor (`impostor-creature.ts`). */
     impostorFrom: 20,
+    /**
+     * Round 5: triangles all creatures in view may draw (whole, stand-ins, their hulls and
+     * shadows), by device tier; past it the farther ones step down a tier (`lod.ts` capFull).
+     */
+    fullTris: { desktop: Infinity, phone: 190_000, slow: 150_000 },
+    /** Round 5: an over-budget creature at least this far (units) goes to its impostor. */
+    capFarFrom: 10,
     impostor: {
       /** The shared atlas and each creature's cell, in pixels (64 cells, 4 MB). */
       atlasPx: 1024,

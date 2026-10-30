@@ -273,7 +273,11 @@ export function buildGroveProps(
     pick(tower, 'building', 'windmill', pickables);
   }
 
-  // Rocks: a lumpy icosahedron each, sunk a little into the slope.
+  // Rocks: a lumpy icosahedron each, sunk a little into the slope. Round 5 (phone perf): all
+  // drawn as one merged mesh (one draw and one shadow draw, not one each); every rock keeps
+  // an undrawn copy of itself for its tap and its halo.
+  const rockGeos: THREE.BufferGeometry[] = [];
+  const unseen = new THREE.MeshBasicMaterial({ visible: false });
   for (const [i, r] of GROVE.rocks.entries()) {
     const geo = new THREE.IcosahedronGeometry(r.r * 1.3, 1);
     const p = geo.attributes.position as THREE.BufferAttribute;
@@ -282,11 +286,21 @@ export function buildGroveProps(
       p.setXYZ(v, p.getX(v) * k, p.getY(v) * 0.75 * k, p.getZ(v) * k);
     }
     geo.computeVertexNormals();
-    const rock = shadowed(new THREE.Mesh(geo, pbr(tex.rock, { scale: 1.3 })));
+    const rock = new THREE.Mesh(geo, unseen);
     rock.position.set(r.x, groveHeight(r.x, r.z) + r.r * 0.5, r.z);
     rock.rotation.y = i * 1.3;
+    rock.updateMatrix();
+    rockGeos.push(geo.clone().applyMatrix4(rock.matrix));
     group.add(rock);
     pick(rock, 'decor', `rock-${i + 1}`, pickables);
+  }
+  if (rockGeos.length) {
+    const rocks = shadowed(
+      new THREE.Mesh(mergeGeometries(rockGeos, false)!, pbr(tex.rock, { scale: 1.3 })),
+    );
+    rocks.name = 'grove-rocks';
+    for (const g of rockGeos) g.dispose();
+    group.add(rocks);
   }
 
   // Lantern posts: a footing stone, a bevelled post, a framed glass box that glows when
@@ -304,9 +318,8 @@ export function buildGroveProps(
     own.material('timber', timber);
     own.material('roof', roof);
     own.material('stone', stone);
-    const post = new THREE.Mesh(postGeo, timber);
-    post.castShadow = post.receiveShadow = true;
-    post.position.set(x, y + 1.0, z);
+    // Round 5 (phone perf): the post goes in the lantern's own timber bucket, one draw less.
+    own.add('timber', postGeo.clone(), { x, y: y + 1.0, z });
     own.add('stone', bevelBox(0.42, 0.3, 0.42, 0.05), { x, y: y + 0.05, z });
     // No transmission: one transmissive object makes the renderer draw the whole scene a
     // second time into a refraction target every frame (review C, item 6).
@@ -335,10 +348,9 @@ export function buildGroveProps(
     ]);
     own.add('timber', new THREE.SphereGeometry(0.05, 8, 6), { x, y: y + 2.6, z });
     const light = new THREE.Vector3(x, y + 2.1, z);
-    group.add(post, box);
+    group.add(box);
     const id = `lantern-${i + 1}`;
     for (const part of own.flush(group).values()) pick(part, 'lantern', id, pickables);
-    pick(post, 'lantern', id, pickables);
     pick(box, 'lantern', id, pickables);
     lanterns.push({
       id,
