@@ -732,7 +732,9 @@ function gameBlurb(id: EduGameId, reader: boolean): string {
 
 /** The Nubbin the break card tucks in: the first hatched one, or none. */
 function sleeperOf(g: Game): Nubbin | undefined {
-  return g.world.nubbins.find((n) => n.stage !== 'egg');
+  // Sable is a guest; the card tucks in the child's own Nubbin.
+  const sable = g.world.campaign?.sableId;
+  return g.world.nubbins.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && n.id !== sable);
 }
 
 /** The Nubbin's front sleep frame (drawn at 64 px, shown larger); the idle frame if a sheet lacks one. */
