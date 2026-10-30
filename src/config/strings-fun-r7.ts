@@ -230,3 +230,17 @@ export const PERSONALITY_CHIP_TEXT = {
   none: 'Too soon to tell.',
   tends: 'Tends to:',
 } as const;
+
+/** R0531 (SOUL-13): the line on the evolution card when the personality locks in. */
+export const LOCKED_TEXT = {
+  grewUp: (name: string, word: string): string => `${name} grew up ${word}!`,
+  cause: {
+    pets: 'All those pets.',
+    touches: 'All those hugs and tickles.',
+    throws: 'All that flying through the air.',
+    feeds: 'All those snacks.',
+    tucks: 'All those early nights.',
+    quiet: 'All that quiet time on its own.',
+    mixed: 'A bit of everything, mostly kindness.',
+  },
+} as const;

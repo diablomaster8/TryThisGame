@@ -1,5 +1,5 @@
 import { NEEDS, PERSONALITY, PERSONALITY_LEAN } from '../config/tuning';
-import type { Interaction, Nubbin, Personality } from './types';
+import type { Interaction, Nubbin, Personality, PersonalityCause } from './types';
 
 /**
  * Personality is decided by how the Nubbin was treated as a child and locked in at
@@ -70,4 +70,21 @@ export function noteTouch(n: Nubbin, action: Interaction, now: number): void {
   c.lastCareMs = now;
   if (action === 'tuckIn') c.tucks = (c.tucks ?? 0) + 1;
   else c.touches = (c.touches ?? 0) + 1;
+}
+
+/** R0531 (SOUL-13): which care most shaped this personality, by the rule that decided it. */
+export function personalityCause(care: Nubbin['childCare'], p: Personality): PersonalityCause {
+  const touches = care.touches ?? 0;
+  const tucks = care.tucks ?? 0;
+  switch (p) {
+    case 'mischievous':
+      return 'throws';
+    case 'shy':
+      return 'quiet';
+    case 'lazy':
+      return care.feeds >= tucks ? 'feeds' : 'tucks';
+    case 'cheerful':
+      if (care.pets + touches < PERSONALITY.cheerfulPets) return 'mixed';
+      return care.pets >= touches ? 'pets' : 'touches';
+  }
 }

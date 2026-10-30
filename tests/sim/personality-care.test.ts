@@ -53,3 +53,16 @@ describe('R0530 every kind of care counts', () => {
     expect(n.personality).toBe('lazy');
   });
 });
+
+describe('R0531 the personality locks in, with a reason', () => {
+  it('evolving pushes personalityLocked with the care that shaped it', () => {
+    const w = createWorld(9, 0);
+    const n = w.nubbins[0]!;
+    hatch(n, [], 0);
+    n.childCare.pets = 11;
+    const events: Parameters<typeof evolve>[1] = [];
+    evolve(n, events, w);
+    const e = events.find((x) => x.kind === 'personalityLocked');
+    expect(e).toMatchObject({ personality: 'cheerful', cause: 'pets' });
+  });
+});

@@ -125,6 +125,12 @@ export class Celebration {
     }
   }
 
+  /** R0531: one more line on the card that is showing (the personality locking in). */
+  addLine(text: string): void {
+    if (this.root.hidden) return;
+    this.lines.appendChild(el('p', 'celebrate-personality', text));
+  }
+
   /** R0354: where the after-card line goes (the HUD's toast). */
   onQuip?: (line: string) => void;
 }

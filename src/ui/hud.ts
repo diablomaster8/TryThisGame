@@ -15,6 +15,7 @@ import { SKILL_LIST } from '../sim/skills';
 import {
   GROVE_LABELS,
   NAMES,
+  PERSONALITY_LABELS,
   SPECIES_LABELS,
   TRAINER_LABELS,
   TYPE_LABELS,
@@ -95,7 +96,7 @@ import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placeHint, placingLabel } from './decorate';
-import { MOSS_WATCH, PLACE_TEXT, SIT_TEXT } from '../config/strings-fun-r7';
+import { LOCKED_TEXT, MOSS_WATCH, PLACE_TEXT, SIT_TEXT } from '../config/strings-fun-r7';
 import { mossReaction } from './moss-watch';
 import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
@@ -1104,6 +1105,13 @@ export function mountHud(
         noteHowTo(g.world, e.kind);
         // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
         if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
+        // R0531: the personality locks in: a line on the evolution card, with the reason.
+        if (e.kind === 'personalityLocked') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          celebration.addLine(
+            `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
+          );
+        }
         // R0353: Moss saw that.
         const moss = mossReaction(g.world, e);
         if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());

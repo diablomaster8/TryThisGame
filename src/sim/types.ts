@@ -1395,6 +1395,13 @@ export type SimEvent =
   | { kind: 'eggShaken'; nubbinId: string; foot?: true }
   /** R0352: the idle Keeper sits down on the grass; a Nubbin has come to sit beside them. */
   | { kind: 'keeperSat' }
+  /** R0531: a personality locked in at evolution, and the care that most shaped it. */
+  | {
+      kind: 'personalityLocked';
+      nubbinId: string;
+      personality: Personality;
+      cause: PersonalityCause;
+    }
   | { kind: 'sitBeside'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
@@ -1618,3 +1625,7 @@ export interface GearState {
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
 }
+
+/** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
+export type PersonalityCause =
+  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';
