@@ -115,3 +115,23 @@ describe('R0549 selected bubble', () => {
     expect(emoteFocused('a')).toBe(false);
   });
 });
+
+describe('R0551 picked up by personality', () => {
+  it('a hug kicks, goes stiff, goes limp or just hugs; a shy one shows no heart', async () => {
+    const { heldEmote, heldStyle } = await import('../../src/render/held-mood');
+    const ps = ['cheerful', 'shy', 'lazy', 'mischievous'] as const;
+    expect(ps.map((p) => heldStyle({ personality: p }, 'hug'))).toEqual([
+      'kick',
+      'stiff',
+      'noodle',
+      null,
+    ]);
+    expect(heldStyle({ personality: 'cheerful' }, 'flail')).toBeNull();
+    const n = nub('a', 'shy', 0);
+    n.behavior.state = 'held';
+    n.needs.affection = 90;
+    expect(heldEmote(n)).toBeNull();
+    n.personality = 'cheerful';
+    expect(heldEmote(n)).toBe('heart');
+  });
+});

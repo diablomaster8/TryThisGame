@@ -73,7 +73,7 @@ import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
-import { heldMood, type HeldMood } from './held-mood';
+import { heldMood, heldStyle, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
 import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
@@ -2059,11 +2059,14 @@ export class WorldView {
       // LOOK-50: held, it hugs, dangles or flails by affection, with a heart or a swirl.
       if (clip === 'held') {
         const mood = heldMood(n, world.keeper.alignment);
+        // R0551 (lane A r9): a hug by personality: kicking legs, stiff, or limp as a noodle.
+        const style = heldStyle(n, mood);
         const hz = mood === 'flail' ? HELD_REACT.flailHz : HELD_REACT.dangleHz;
-        const hf = mood === 'hug' ? 0 : Math.floor((nowMs * hz * 2) / 1000) % 2;
-        const hk = frameKey(HELD_CLIPS[mood], view.angle, hf);
+        const swings = (mood !== 'hug' || style === 'kick') && !this.particles.reduceMotion;
+        const hf = swings ? Math.floor((nowMs * hz * 2) / 1000) % 2 : 0;
+        const hk = frameKey(HELD_CLIPS[style === 'noodle' ? 'dangle' : mood], view.angle, hf);
         if (sheet.frames.has(hk)) key = hk;
-        if (mood === 'hug') emote = 'heart';
+        if (mood === 'hug' && style !== 'stiff') emote = 'heart';
         else if (mood === 'flail') emote = 'spiral';
       }
       // K40: the partner's ball follows the line's mood.
