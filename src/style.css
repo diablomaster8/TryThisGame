@@ -3990,3 +3990,72 @@ body.edu-sprout .modal-head .btn-close {
 .dialogue-box {
   width: min(640px, calc(100% - 24px - var(--safe-left) - var(--safe-right)));
 }
+/* R0519 (TECH-78): the HUD under the player's colour and contrast preferences. The game is
+   dark by design, so native controls (selects, inputs, scrollbars) are told to match. */
+:root {
+  color-scheme: dark;
+}
+.meter-pct {
+  display: none;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+/* Windows high contrast: the system paints text and backgrounds, which can wipe out drawn
+   bars, translucent chips and emoji-only buttons. Give every control a real border, keep
+   the meter fill visible as a system colour, and show the meter's number. */
+@media (forced-colors: active) {
+  /* Important: chip-like buttons set their own thinner border at a higher specificity. */
+  button,
+  .btn,
+  [role='button'],
+  .objective-chip,
+  select,
+  input {
+    border: 2px solid ButtonText !important;
+  }
+  .chip,
+  .toast,
+  .modal-card,
+  .dialogue-box {
+    border: 2px solid CanvasText;
+  }
+  .meter-track {
+    border: 1px solid CanvasText;
+  }
+  .meter-fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+/* Asked for more contrast: solid panels instead of see-through ones, plain borders, a
+   strong focus ring and the meter numbers (the text also starts larger: ui/text-scale.ts). */
+@media (prefers-contrast: more) {
+  :root {
+    --hud-bg: #0d0a1a;
+    --hud-border: #fff1c9;
+  }
+  .toast,
+  .chip,
+  .backup-offer,
+  .update-ready {
+    background: #0d0a1a;
+    border-color: #fff1c9;
+  }
+  .meter-track {
+    background: #3a3358;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid #ffd84a;
+    outline-offset: 2px;
+  }
+}
