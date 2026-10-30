@@ -81,3 +81,18 @@ describe('TECH-03: the backup offer', () => {
     delete (globalThis as { localStorage?: unknown }).localStorage;
   });
 });
+
+describe('TECH-18: hatching in the arms', () => {
+  it('a held egg that is ready hatches within a second, with no command sent', async () => {
+    const { applyCommand } = await import('../../src/sim/world');
+    const w = createWorld(5, 0);
+    const egg = w.nubbins[0]!;
+    applyCommand(w, { kind: 'grab', nubbinId: egg.id }, []);
+    expect(egg.behavior.state).toBe('held');
+    egg.hatchRemainingMs = 0;
+    const before = egg.needs.affection;
+    for (let i = 0; i < 1000 / SIM.stepMs && egg.stage === 'egg'; i++) stepWorld(w, SIM.stepMs);
+    expect(egg.stage).toBe('child');
+    expect(egg.needs.affection).toBeGreaterThan(before);
+  });
+});

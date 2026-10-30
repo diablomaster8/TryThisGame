@@ -50,3 +50,9 @@ export const HAPTICS = {
   /** The egg shake buzzes at most this often. */
   shakeEveryMs: 120,
 } as const;
+
+/** TECH-18: an egg that hatches in the Keeper's arms. */
+export const EGG_HUG = {
+  /** The first-hug affection bonus. */
+  affection: 5,
+} as const;

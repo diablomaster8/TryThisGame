@@ -121,11 +121,6 @@ import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
 import { joinTeam, stepTeams } from './teams';
-
-/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
-export function hatchSpeed(world: World): number {
-  return hasSkill(world, 'warmHands') ? 1.1 : 1;
-}
 import { resolve } from './obstacles';
 import { resolveNubbin } from './nubbin-hop';
 import { courseById, prizeFor } from './race';
@@ -156,6 +151,12 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { hatchInArms } from './hatch-arms';
+
+/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
+export function hatchSpeed(world: World): number {
+  return hasSkill(world, 'warmHands') ? 1.1 : 1;
+}
 
 export function defaultSettings(): Settings {
   return {
@@ -1121,12 +1122,12 @@ export function stepWorld(
     // Iterate a copy: a departure removes its Nubbin from the list.
     for (const n of [...world.nubbins]) {
       if (n.stage === 'egg') {
-        if (!isHeld(n) && n.behavior.state !== 'thrown') {
-          n.hatchRemainingMs -= dtMs * hatchSpeed(world);
-        } else {
-          n.hatchRemainingMs -= dtMs * hatchSpeed(world); // eggs still incubate while carried
-        }
-        if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
+        // Eggs incubate on the ground, held and carried alike.
+        n.hatchRemainingMs -= dtMs * hatchSpeed(world);
+        // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
+        // hug; a thrown egg waits to land.
+        if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
+        if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
           // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
           keepEggshell(n, world);
