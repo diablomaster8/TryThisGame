@@ -540,14 +540,7 @@ export const UI_TEXT = {
   rebirthUnlikely: 'The cards are quiet about rebirth. More love, more joy.',
   // Karate
   karate: 'Karate',
-  karateHelp:
-    'Power lands the strike, Stamina takes the hit, Run slips it. Tap when the bar is in the middle.',
   belt: (n: number) => ['No belt', 'Yellow belt', 'Green belt', 'Black belt'][n] ?? 'Belt',
-  strike: 'Strike!',
-  karateWon: (name: string) => `${name} wins the bout!`,
-  karateLost: (name: string) => `${name} is knocked down. Train and try again.`,
-  karateLeft: 'Left the dojo. No result recorded.',
-  karateResults: 'Dojo results',
   // Collection
   collection: 'Collection book',
   collectionHelp: (seen: number, total: number) => `${seen} of ${total} seen.`,
@@ -1311,24 +1304,6 @@ export const STORYLINE_TEXT = {
   arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
   degenerated: (name: string) => `${name} has gone back to an egg.`,
   restored: (name: string) => `${name} is grown again, and remembers.`,
-} as const;
-
-/** SL2's (Logged In) party bouts (ui/party-bout.ts). */
-export const BOUT_TEXT = {
-  title: 'Party bout',
-  leave: 'Leave',
-  left: 'You left the bout.',
-  noParty: 'Nobody in the party has hatched yet.',
-  round: (n: number, tier: number) => `Round ${n} · Tier ${tier}`,
-  party: 'Your party',
-  foes: 'Their side',
-  hp: 'HP',
-  guarding: 'guarding',
-  down: 'down',
-  moves: { strike: 'Strike', guard: 'Guard', rally: 'Rally' } as Record<string, string>,
-  won: 'The party wins.',
-  lost: 'The party is down.',
-  done: 'Done',
 } as const;
 
 /** The side-story props, by id (sim/story-props.ts). */

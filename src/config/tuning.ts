@@ -1363,20 +1363,6 @@ export const SERVICES = {
   fortune: 20,
 } as const;
 
-export const KARATE = {
-  tiers: 3,
-  /** Rounds per bout and base HP. */
-  hp: 100,
-  /** Stat weights. */
-  powerPerLevel: 0.9,
-  staminaPerLevel: 1.2,
-  dodgePerRunLevel: 0.004,
-  prize: [25, 60, 120] as const,
-  rivalLevel: [12, 30, 60] as const,
-  /** A tap in the sweet spot of the timing bar lands a strong strike. */
-  sweetSpot: 0.18,
-} as const;
-
 export const DECOR = {
   prices: {
     fence: 10,
@@ -1930,18 +1916,6 @@ export const FUSION = {
   minAffection: 80,
   minTrust: 60,
   affectionGain: 10,
-} as const;
-
-/** S2's party bouts (sim/party-bout.ts). */
-export const PARTY_BOUT = {
-  foesPerTier: 3,
-  foeLevel: [8, 20, 40] as const,
-  foeNames: ['Glitch', 'Proxy', 'Null', 'Daemon', 'Cursor', 'Packet'] as const,
-  foeGuardChance: 0.15,
-  guardFactor: 0.5,
-  rallyHeal: 0.15,
-  logLines: 6,
-  prize: [20, 50, 110] as const,
 } as const;
 
 /**
