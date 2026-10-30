@@ -157,6 +157,12 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Hana's Hiragana, Japanese (LJ1–LJ6) | [main.md](lines/lang-japanese/main.md) (798) | [sprout.md](lines/lang-japanese/sprout.md) (1016) | [reader.md](lines/lang-japanese/reader.md) (1215) |
 | Hana's Hiragana: word list and script primer | [words.md](lines/lang-japanese/words.md) (110) |  |  |
 
+## Battles
+
+| Storyline | Script | Little Sprouts | Grove Readers |
+| --- | --- | --- | --- |
+| Battles: the Grove Circuit, Play-fight Day and the story battles | [main.md](battles/main.md) (320) | [sprout.md](battles/sprout.md) (62) | [reader.md](battles/reader.md) (61) |
+
 ## Extras
 
 | Storyline | Script |

@@ -31,6 +31,7 @@ import { EDU_S28_READER, EDU_S28_READER_VARIANTS } from './edu-s28-reader';
 import { EDU_S29_READER, EDU_S29_READER_VARIANTS } from './edu-s29-reader';
 import { EDU_S30_READER, EDU_S30_READER_VARIANTS } from './edu-s30-reader';
 import { EDU_S31_READER, EDU_S31_READER_VARIANTS } from './edu-s31-reader';
+import { EDU_BATTLE_READER_VARIANTS } from './edu-battle-reader';
 import { LINE_LB_EDU, LINE_LB_EDU_VARIANTS } from './lines-lb';
 import { LINE_LK_EDU, LINE_LK_EDU_VARIANTS } from './lines-lk';
 
@@ -82,6 +83,7 @@ export const EDU_READER: EduBandSet = {
     ...EDU_S29_READER_VARIANTS,
     ...EDU_S30_READER_VARIANTS,
     ...EDU_S31_READER_VARIANTS,
+    ...EDU_BATTLE_READER_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.reader,
     ...LINE_LK_EDU_VARIANTS.reader,
   ],
