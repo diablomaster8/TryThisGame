@@ -11,6 +11,7 @@ import {
   UI_TEXT,
 } from '../config/strings';
 import { SHEET_TEXT } from '../config/strings-tech';
+import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
 import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
@@ -407,7 +408,14 @@ export class StatsSheet {
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;
     this.petBtn.hidden = isEgg || n.stage === 'cocoon';
-    this.carryBtn.textContent = carried ? UI_TEXT.putDown : UI_TEXT.pickUp;
+    // TECH-17: a ready egg in hand says what putting it down does, in the button itself.
+    const hatchNow = carried && isEgg && n.hatchRemainingMs <= 0;
+    this.carryBtn.textContent = hatchNow
+      ? HATCH_BUTTON_TEXT.putDownToHatch
+      : carried
+        ? UI_TEXT.putDown
+        : UI_TEXT.pickUp;
+    this.carryBtn.classList.toggle('btn-primary', hatchNow);
     this.carryBtn.disabled = !carried && world.keeper.carrying !== null;
     this.feedBtn.hidden = isEgg || n.stage === 'cocoon';
     // A full Nubbin says so on the button, and a tap explains instead of spending fruit.

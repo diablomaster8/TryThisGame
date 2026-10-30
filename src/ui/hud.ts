@@ -158,6 +158,7 @@ import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
 import { keysHintDone, watchKeysHint } from './keys-hint';
+import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
 import { watchOnline } from './offline-chip';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
@@ -934,6 +935,11 @@ export function mountHud(
       if (carrying) {
         const n = g.world.nubbins.find((x) => x.id === carrying);
         carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
+        // TECH-17: a ready egg's Put down says it hatches.
+        const ready = n?.stage === 'egg' && n.hatchRemainingMs <= 0;
+        const label = ready ? HATCH_BUTTON_TEXT.putDownToHatch : UI_TEXT.putDown;
+        if (putDown.textContent !== label) putDown.textContent = label;
+        putDown.classList.toggle('btn-primary', ready);
       }
       if (!sheet.root.hidden) sheet.refresh();
       shop.refresh();
