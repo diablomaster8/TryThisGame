@@ -2010,3 +2010,4 @@ export * from './tuning-move-nub';
 export * from './tuning-battle';
 export * from './tuning-look';
 export * from './tuning-fun';
+export * from './tuning-camp';

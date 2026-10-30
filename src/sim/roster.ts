@@ -1,6 +1,7 @@
 import { EGG, GROVE, PLOTS } from '../config/tuning';
 import { resolve } from './obstacles';
 import { hasSkill } from './skills';
+import { lineCast } from './storyline-rules';
 import type { Nubbin, SimEvent, Vec2, World } from './types';
 
 /** How many Nubbins the Grove holds: the base roster plus bought plots. */
@@ -31,7 +32,11 @@ export function rosterNubbins(world: World): Nubbin[] {
 }
 
 export function hasRoom(world: World): boolean {
-  return rosterNubbins(world).length < rosterCap(world);
+  // R0594: Nubbins a running questline brought count toward its own cap, not the roster's.
+  const cast = new Set<string>();
+  for (const l of Object.values(world.lines ?? {}))
+    if (l.ending === null) for (const id of lineCast(l)) cast.add(id);
+  return rosterNubbins(world).filter((n) => !cast.has(n.id)).length < rosterCap(world);
 }
 
 /** The campaign's own Nubbins (Moss and Sable): the story needs them, so they are never traded. */

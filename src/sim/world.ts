@@ -70,6 +70,7 @@ import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
+import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -224,6 +225,7 @@ export function createWorld(seed: number, wallMs: number): World {
     strays: [],
     npcs: [],
     campaign: null,
+    lines: {},
     weather: createWeather(),
     season: seasonOf(new Date(wallMs)),
     placed: [],
@@ -341,6 +343,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     queueQuestEvents(world, events.slice(start));
     // The campaign counters (storyline goals, the expansions) see command events too.
     if (world.campaign) noteCampaignEvents(world, world.campaign, events.slice(start));
+    // Lane C r7 (R0596): and every questline running beside Hazel's Grove.
+    noteLineEvents(world, events.slice(start));
   }
 }
 
@@ -1074,6 +1078,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'storyAct':
       applyCampaignCommand(world, cmd, events);
       return;
+    case 'lineAbandon':
+      // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
+      abandonLine(world, cmd.line);
+      return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
       // R0313: except Fern's stone, a running gag of its own.
@@ -1176,7 +1184,9 @@ export function stepWorld(
       world.season = seasonOf(new Date(wallMs));
       stepDaily(world, wallMs, rng, events);
     }
+    stepLineQueue(world, dtMs, events);
     stepCampaign(world, dtMs, events);
+    stepStoryBook(world, dtMs, events);
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
     stepKeeper2(world, dtMs, events);
