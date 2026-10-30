@@ -4,7 +4,7 @@
  * memory against the region caps (WORLD-15), the governor's state and how many pixel sprites
  * were skipped off screen. Read-only; the panel refreshes it at its own pace. Below it, the
  * World controls: teleport to a Grove point of interest, pin the geometry level, and freeze
- * the terrain chunk set.
+ * the terrain chunk set, and the chunk grid overlay (R0104).
  */
 import type * as THREE from 'three';
 import { REGIONS } from '../config/regions';
@@ -13,6 +13,10 @@ import type { Game } from '../game';
 import { chunkOf } from '../render/chunks';
 import { regionOf } from '../sim/regions';
 import { button, el } from './dom';
+import { ChunkGrid } from '../render/debug-chunks';
+
+/** R0104: the chunk grid overlay while it is on (one per page). */
+let chunkGrid: ChunkGrid | null = null;
 
 /** GPU bytes of the textures the scene's materials use (mipmaps add a third), in MB. */
 function textureMb(scene: THREE.Object3D): number {
@@ -39,6 +43,8 @@ function textureMb(scene: THREE.Object3D): number {
 const of = (now: number, cap: number): string => `${now}/${cap}${now > cap ? '!' : ''}`;
 
 export function worldLine(g: Game): string {
+  // The grid's outline follows the Keeper at the panel's refresh pace.
+  chunkGrid?.mark(g.world.keeper.pos.x, g.world.keeper.pos.z);
   const k = g.world.keeper.pos;
   const c = chunkOf(k.x, k.z);
   const mem = g.pipeline.renderer.info.memory;
@@ -104,6 +110,24 @@ export function worldControls(game: () => Game | null): HTMLElement {
     },
     'btn btn-small',
   );
-  row.append(poi, lod, freeze);
+  // R0104: the 16 u chunk grid over the ground, the Keeper's chunk outlined.
+  const grid = button(
+    'Chunk grid',
+    () => {
+      const g = game();
+      const scene = g?.scene3d?.scene ?? g?.grove?.scene;
+      if (chunkGrid) {
+        chunkGrid.dispose();
+        chunkGrid = null;
+      } else if (scene) {
+        chunkGrid = new ChunkGrid();
+        scene.add(chunkGrid.group);
+        chunkGrid.mark(g!.world.keeper.pos.x, g!.world.keeper.pos.z);
+      }
+      grid.classList.toggle('active', !!chunkGrid);
+    },
+    'btn btn-small',
+  );
+  row.append(poi, lod, freeze, grid);
   return row;
 }
