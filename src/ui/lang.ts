@@ -14,6 +14,8 @@ import type { LangCourseId } from '../sim/types';
 import { clipFor, playWord } from '../platform/lang-audio';
 import { button, el, modal } from './dom';
 import { appendScriptText } from './lang-dom';
+/* Lane E r9 */
+import { langSkipRow, langWaitCard, langWaitLine, sayLangWait } from './lang-wait';
 
 /** Words the child's band shows: sprouts skip the reader-only words. */
 function bandWords(g: Game, course: LanguageCourse): VocabItem[] {
@@ -85,6 +87,15 @@ export class LangPanel {
     body.appendChild(el('p', 'lang-postcard', LANG_TEXT.postcardBody));
     for (const course of langCourses()) body.appendChild(this.courseCard(g, course));
     this.dialog.show();
+    /* Lane E r9, R0737: a sprout hears when Ori or Hana comes back. */
+    sayLangWait(
+      g,
+      langCourses()
+        .map((c) =>
+          langWaitLine(g, c.id as LangCourseId, c.quests, LANG_TEXT.friends[c.id] ?? c.title),
+        )
+        .filter((l): l is string => l !== null),
+    );
   }
 
   private courseCard(g: Game, course: LanguageCourse): HTMLElement {
@@ -100,15 +111,19 @@ export class LangPanel {
         LANG_TEXT.progress(questsDone(g, course), course.quests.length, learnedCount(g, course)),
       ),
     );
+    /* Lane E r9, R0737: between visits, the next one as a picture of the time. */
+    const wait = langWaitCard(g, id, course.quests, friend);
+    if (wait) card.appendChild(wait);
     const row = el('div', 'lang-actions');
     row.appendChild(
       button(
-        started ? LANG_TEXT.carryOn(friend) : LANG_TEXT.meet(friend),
+        // Lane E r9, R0678: every postcard button carries a picture too.
+        `🤝 ${started ? LANG_TEXT.carryOn(friend) : LANG_TEXT.meet(friend)}`,
         () => this.start(g, id),
         'btn btn-primary',
       ),
     );
-    row.appendChild(button(LANG_TEXT.words, () => this.words(g, course), 'btn'));
+    row.appendChild(button(`📝 ${LANG_TEXT.words}`, () => this.words(g, course), 'btn'));
     card.appendChild(row);
     return card;
   }
@@ -139,7 +154,7 @@ export class LangPanel {
       for (const w of met) list.appendChild(wordRow(g, w));
       body.appendChild(list);
     }
-    body.appendChild(button(LANG_TEXT.back, () => this.open(), 'btn'));
+    body.appendChild(button(`← ${LANG_TEXT.back}`, () => this.open(), 'btn'));
   }
 }
 
@@ -157,6 +172,12 @@ export function langProgress(body: HTMLElement, g: Game): void {
     body.appendChild(
       el('strong', undefined, `${course.title} (${LANG_TEXT.languages[course.id]})`),
     );
+    /* Lane E r9, R0737: the grown-up's skip to Grove morning, while a visit waits. */
+    const skip = langSkipRow(
+      g,
+      langWaitLine(g, course.id as LangCourseId, course.quests, '') !== null,
+    );
+    if (skip) body.appendChild(skip);
     const list = el('div', 'shop-list');
     for (const w of bandWords(g, course)) {
       const s = e.words[w.id];
