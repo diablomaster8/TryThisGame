@@ -55,13 +55,13 @@ describe('R0542 Sun and Moon garden behaviour', () => {
   });
 
   it('only a Sun Nubbin comforts; a Moon one pranks instead', () => {
-    const { w, kid } = scene(3);
     const all: SimEvent[] = [];
-    for (let t = 0; t < 3000; t++) {
-      kid.needs.hunger = 1;
-      kid.needs.energy = 1;
-      for (const n of w.nubbins) n.needs.hunger = n.needs.energy = 1;
-      all.push(...(stepWorld(w, 100) as SimEvent[]));
+    for (let s = 1; s <= 5; s++) {
+      const { w } = scene(s);
+      for (let t = 0; t < 3000; t++) {
+        for (const n of w.nubbins) n.needs.hunger = n.needs.energy = 1;
+        all.push(...(stepWorld(w, 100) as SimEvent[]));
+      }
     }
     expect(all.some((e) => e.kind === 'comforted' && e.nubbinId === 'moon')).toBe(false);
     expect(all.some((e) => e.kind === 'pranked' && e.nubbinId === 'moon')).toBe(true);

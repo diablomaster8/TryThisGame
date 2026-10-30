@@ -12,15 +12,25 @@ export type Taste = Flavor | 'plain';
 
 const TOYS: readonly ToyKind[] = ['ball', 'radio', 'blocks', 'mirror', 'tv'];
 
+type Likes = { fruit: Taste; dislike: Flavor; toy: ToyKind };
+
+/** Rolled once per seed: the sim asks for them every step a hungry Nubbin looks for fruit. */
+const cache = new Map<number, Likes>();
+
 /** The favourite fruit, the disliked one (never plain, never the favourite) and the toy. */
-export function likesOf(n: Pick<Nubbin, 'seed'>): { fruit: Taste; dislike: Flavor; toy: ToyKind } {
+export function likesOf(n: Pick<Nubbin, 'seed'>): Likes {
+  const hit = cache.get(n.seed);
+  if (hit) return hit;
+  if (cache.size > 512) cache.clear();
   const h = hashSeed(`likes:${n.seed}`);
   const all: Taste[] = [...FLAVORS, 'plain'];
   const fruit = all[h % all.length]!;
   const rest = FLAVORS.filter((f) => f !== fruit);
   const dislike = rest[(h >>> 8) % rest.length]!;
   const toy = TOYS[(h >>> 16) % TOYS.length]!;
-  return { fruit, dislike, toy };
+  const out = { fruit, dislike, toy };
+  cache.set(n.seed, out);
+  return out;
 }
 
 /** How this Nubbin takes a fruit of this flavour: its favourite, a dislike, or neither. */
