@@ -16,6 +16,8 @@ import { packs } from './quest-packs';
 import { areaOf } from '../../src/content/where-map';
 import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
+import { lineFlagProblems, ruleFlags } from './line-flags';
+import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
 
 const problems: string[] = [];
 const questIds = new Set<string>(),
@@ -251,6 +253,22 @@ for (const f of [
 ])
   if (!declaredFlags.has(f)) problems.push(`flag not declared in any FLAGS list: ${f}`);
 console.log(JSON.stringify({ campaignScenes: campIds.size, campLines, campWords }));
+// Lane C r7 (R0595): a questline's checks name only its own flags (Hazel's via spine:).
+{
+  const src = (f: string): Set<string> =>
+    ruleFlags(
+      readFileSync(new URL(`../../src/sim/storyline-rules-${f}.ts`, import.meta.url), 'utf8'),
+    );
+  const dd = src('dawndusk');
+  const rules = {
+    hundred: src('hundred'),
+    logged: src('logged'),
+    beetle: src('beetle'),
+    dawn: dd,
+    dusk: dd,
+  };
+  problems.push(...lineFlagProblems(STORYLINE_CONTENT, rules, new Set(C.CAMPAIGN_FLAGS)));
+}
 // ---- educational versions (the Learning Grove language switch)
 const styleMd = readFileSync(
   new URL('../../src/content/EDU-STYLE.md', import.meta.url),
@@ -864,7 +882,8 @@ for (const q of allQuests) {
 }
 // 9c. Festival gags (R0359): four narrator lines a season, phone-short, two sentences at most.
 for (const [season, scene] of Object.entries(C.FESTIVAL_GAGS)) {
-  if (scene.id !== `festival-gag-${season}`) problems.push(`festival gag ${season}: id ${scene.id}`);
+  if (scene.id !== `festival-gag-${season}`)
+    problems.push(`festival gag ${season}: id ${scene.id}`);
   if (scene.lines.length !== 4) problems.push(`${scene.id}: four lines`);
   scene.lines.forEach((l, i) => {
     if (l.who !== 'narrator') problems.push(`${scene.id}#${i}: festival gags are the narrator's`);
