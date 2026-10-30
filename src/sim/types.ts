@@ -1483,6 +1483,8 @@ export type SimEvent =
   | { kind: 'snatched'; nubbinId: string; victimId: string }
   /** R0560: another noticed a pet and wanted one too. */
   | { kind: 'jealous'; nubbinId: string; of: string }
+  /** R0542: a Sun Nubbin brought a hungry one a fruit. */
+  | { kind: 'sharedFruit'; nubbinId: string; markId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

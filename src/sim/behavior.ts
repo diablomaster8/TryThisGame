@@ -57,6 +57,7 @@ import { favouredToy, noteToyPlay } from './toy-soul';
 import { peekAct } from './peek';
 import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
+import { carryAct, carryArrive } from './carry-fruit';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
@@ -698,7 +699,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   // Lane A r9: a full belly's burp and nap (R0546), then a trait's own quirk (R0528).
-  const quirk = bellyAct(n) ?? traitAct(n, world, now);
+  const quirk = bellyAct(n) ?? traitAct(n, world, now) ?? carryAct(n, world, now);
   if (quirk) {
     startAct(n, quirk, now);
     return;
@@ -1077,13 +1078,26 @@ function stepBehavior(
       // A sled run or a bath has a spot: walk there first, and the act's timer starts on
       // arrival (MOVE-29; the spot used to be set and never walked to).
       if (b.target) {
-        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed * snatchSpeed(b.itemId), dtMs)) {
-          // R0545 (lane A r9): a snatch grabs and runs, or eats at the end of its run.
-          const snatch = snatchArrive(n, world, now, events, {
+        const arrived = walkToward(
+          world,
+          n,
+          b.target,
+          BEHAVIOR.walkSpeed * snatchSpeed(b.itemId),
+          dtMs,
+        );
+        // Lane A r9: a fruit carried off (R0545 snatch, R0542 share and hoard) is dealt with on
+        // arrival, or where the walk stalls, so a carried fruit is never lost.
+        const stalled = !arrived && walkStalled(n, b.target, now);
+        if (
+          (arrived || stalled) &&
+          (snatchArrive(n, world, now, events, {
             react: (who, r) => react(who, r, now, events),
             eat: (flavor) => eat(n, now, events, flavor),
-          });
-          if (snatch) break;
+          }) ||
+            carryArrive(n, world, now, events, (who, r) => react(who, r, now, events)))
+        )
+          break;
+        if (arrived) {
           // R0560: a jealous nudge shoves the petted one aside.
           nudgeArrive(n, world, (who, r) => react(who, r, now, events));
           b.untilMs = now + (b.untilMs - b.sinceMs);
@@ -1091,7 +1105,7 @@ function stepBehavior(
           // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).
           const hit = arriveAct(n, world, events);
           if (hit && isFree(hit.mark)) react(hit.mark, hit.reaction, now, events);
-        } else if (walkStalled(n, b.target, now)) {
+        } else if (stalled) {
           b.target = null;
         }
         break;

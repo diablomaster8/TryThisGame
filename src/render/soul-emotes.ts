@@ -16,6 +16,9 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'giggle') return 'note';
       if (id === 'burp') return 'puff';
       if (id.startsWith('snatch')) return 'spiky';
+      // R0542: sharing carries a heart over; hoarding is a spiky business.
+      if (id.startsWith('share')) return 'heart';
+      if (id.startsWith('hoard')) return 'spiky';
       // R0560: jealous: asking to be picked up too, or a cheeky nudge.
       if (id === 'askUp') return 'heart';
       if (id.startsWith('nudge:')) return 'spiky';
@@ -31,6 +34,7 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'callFruit') return 'exclaim';
       if (id === 'rubEyes') return 'zz';
       if (id === 'watchJealous') return 'puff';
+      if (id === 'hoardSit') return 'spiky';
       return null;
     default:
       return null;

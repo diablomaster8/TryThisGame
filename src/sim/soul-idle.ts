@@ -166,7 +166,7 @@ export function rainAct(
  * R0542 (SOUL-24): which band a Nubbin acts as and how strongly: an adult's form band in
  * full, a child with a strong hint at half, and ×1.5 in its own coloured Grove.
  */
-function bandStrength(n: Nubbin, world: World): { band: 'sun' | 'moon'; s: number } | null {
+export function bandStrength(n: Nubbin, world: World): { band: 'sun' | 'moon'; s: number } | null {
   let band: 'sun' | 'moon' | null = null;
   let s = 1;
   if (n.stage === 'adult' && n.form && n.form.band !== 'neutral') band = n.form.band;

@@ -196,3 +196,20 @@ export const JEALOUSY = {
   /** How far a nudge shoves the petted one. */
   shove: 0.3,
 } as const;
+
+/** R0542 (SOUL-24): a Sun Nubbin sharing a fruit, a Moon one hoarding one. */
+export const CARRY_FRUIT = {
+  /** Fruit it will fetch lies within this of it. */
+  fetchRadius: 8,
+  /** A Sun one shares with a Nubbin this near, this hungry, with no fruit this close. */
+  shareRadius: 10,
+  hungryBelow: 0.5,
+  noneWithin: 3,
+  /** Per idle choice, at full strength (a hinting child half, its own Grove ×1.5). */
+  shareChance: 0.6,
+  hoardChance: 0.05,
+  /** Each leg of the carry may take this long before it gives up. */
+  carryMs: 8000,
+  /** The hoarder sits on its stash this long. */
+  sitMs: 8000,
+} as const;
