@@ -103,3 +103,27 @@ describe('replay codes and postcards (recs FIGHT-100)', () => {
     expect(funniestMoment([])).toBeNull();
   });
 });
+
+describe('the Battle Book (recs FIGHT-84)', () => {
+  it('learning a move adds its page entry, counted as have / total', async () => {
+    const { battleBook } = await import('../../src/sim/battle/book');
+    const { collectMoveCards } = await import('../../src/sim/battle/rewards');
+    const w = one(52);
+    const before = battleBook(w);
+    expect(before.total).toBeGreaterThanOrEqual(55);
+    w.nubbins[0]!.battle = {
+      known: ['bubble-blow'],
+      slots: ['bubble-blow', null, null, null],
+      wins: 0,
+      losses: 0,
+      befriended: 0,
+      life: 0,
+    };
+    collectMoveCards(w);
+    const after = battleBook(w);
+    expect(after.moves.find((m) => m.id === 'bubble-blow')?.learned).toBe(true);
+    expect(after.learned).toBe(
+      before.learned + (before.moves.find((m) => m.id === 'bubble-blow')?.learned ? 0 : 1),
+    );
+  });
+});

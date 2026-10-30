@@ -631,3 +631,34 @@ button.battle-row:focus-visible {
 .bs-ribbon-icon {
   font-size: 20px;
 }
+
+/* Lane C round 6: the Battle Book in the Collection (FIGHT-84). */
+.book-battle h3 {
+  margin: 12px 0 4px;
+}
+.book-moves {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+}
+.book-move {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.book-move.learned {
+  outline: 2px solid rgba(255, 220, 120, 0.6);
+}
+.book-move.unknown {
+  opacity: 0.55;
+}
+.book-move-icon {
+  font-size: 18px;
+}
+/* Pass-and-play and Fusion burst buttons share the action row. */
+.bs-fuse {
+  font-weight: 700;
+}

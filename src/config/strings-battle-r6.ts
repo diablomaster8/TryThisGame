@@ -54,3 +54,21 @@ export const RESUME_TEXT = {
   draw: 'Call it a draw',
   later: 'Later',
 };
+
+/** The Battle Book in the Collection (FIGHT-84). */
+export const BOOK_TEXT = {
+  title: 'Battle Book',
+  moves: (have: number, of: number) => `Moves learned: ${have} / ${of}`,
+  seen: (have: number, of: number) => `Moves seen: ${have} / ${of}`,
+  befriended: (n: number) => `Foes befriended: ${n}`,
+  ribbons: (have: number, of: number) => `Circuit ribbons: ${have} / ${of}`,
+  belt: (name: string) => `Best Dojo Ladder belt: ${name}`,
+  keepsakes: 'Keepsakes',
+  noKeepsakes: 'None yet. Calm a big one.',
+  unknown: '???',
+  unknownBlurb: 'Not seen yet. It is out there, being a move.',
+  keepsakeNames: {
+    'good-game': 'Good game sticker',
+    'guardian-lantern': "The guardian's lantern",
+  } as Record<string, string>,
+};

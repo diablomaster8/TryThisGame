@@ -872,7 +872,11 @@ export interface World {
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
    */
-  battleSeen?: { pairs: string[] };
+  battleSeen?: {
+    pairs: string[];
+    /** Lane C round 6 (FIGHT-84): every move id seen used in a bout, for the Battle Book. */
+    moves?: string[];
+  };
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
