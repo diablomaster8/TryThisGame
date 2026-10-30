@@ -3259,3 +3259,11 @@ select {
   min-height: 52px;
   font-size: 26px;
 }
+
+/* R0360 (lane A r7): the stats sheet's dry caption under the name. */
+.sheet-caption {
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.85;
+  margin: -2px 0 6px;
+}

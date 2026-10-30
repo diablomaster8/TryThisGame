@@ -157,3 +157,44 @@ export const RENAME_TEXT = {
   pickTitle: 'Pick a hat:',
   pickName: 'Pick a name:',
 } as const;
+
+/**
+ * R0360 (FUN-71): the main band's dry caption under a Nubbin's name on the stats sheet. Each
+ * key has a rule in `ui/sheet-caption.ts` saying when it fits; one fitting line is picked per
+ * opening. Placeholders: {n} name, {pets} {feeds} {throws} childhood counts, {wins} {losses}
+ * karate, {friends}, {lives} rebirths plus one, {slips}, {stat} the best or worst stat's name.
+ */
+export const SHEET_CAPTIONS: Record<string, string> = {
+  swimsStone: 'Swims like a stone. A happy stone.',
+  swimsFish: 'Swims like a fish. Has met fish. Unimpressed.',
+  fliesNot: 'Fly grade: optimistic.',
+  fliesWell: 'Flies well. Lands eventually.',
+  runsSlow: 'Runs at the speed of a rumour on a quiet day.',
+  runsFast: 'Fast. Has never once been on time.',
+  strong: 'Can lift a bench. Will not be asked to.',
+  weak: 'Power: decorative.',
+  staminaHigh: 'Could keep going all day. Prefers not to.',
+  allE: 'A blank page. Full of promise, and crumbs.',
+  hasS: 'Has an S grade and knows it.',
+  fedLots: 'Has eaten {feeds} fruit. Has opinions on {feeds} of them, mostly the last one.',
+  pettedLots: 'Petted {pets} times. Counting.',
+  neverThrown: 'Thrown: never. Keep it that way.',
+  thrownSome: 'Thrown {throws} times. Has forgiven {throws} times, so far.',
+  karateWins: 'Karate: {wins} wins. Bows to no one, then bows anyway.',
+  karateLosses: 'Karate: {losses} losses. Calls them "lessons". Loudly.',
+  friendsMany: 'Has {friends} friends and remembers all their birthdays.',
+  friendsNone: 'Prefers its own company. Its own company agrees.',
+  reborn: 'On life number {lives}. Still not tidying up.',
+  slipsNone: 'No slips on record. Suspiciously well kept.',
+  slipsSome: '{slips} slips on record. Each one somebody else’s fault.',
+  cheerful: 'Cheerful in a way that is either lovely or a lot.',
+  shy: 'Shy. Will tell you about it later. Much later.',
+  mischievous: 'Up to something. Has been since Tuesday.',
+  lazy: 'Lazy, in the way of a cat in the one patch of sun.',
+  hatted: 'Wears the hat as though it was always theirs. It was not.',
+  glasses: 'The glasses are for reading. Nothing has been read.',
+  shadow: 'Grey, and taking its time about trust. Fair.',
+  eternal: 'Older than the trees, and dressed for it.',
+  child: 'Small, round, and mostly appetite.',
+  adult: 'Grown up, technically.',
+};

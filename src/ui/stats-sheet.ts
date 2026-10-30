@@ -12,6 +12,7 @@ import {
 } from '../config/strings';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
+import { sheetCaption } from './sheet-caption';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -69,6 +70,8 @@ export class StatsSheet {
   private readonly bout: BattleCard;
   /** R0357: the rename dialog, made on first use beside the sheet. */
   private renamer: RenameDialog | null = null;
+  /** R0360: the dry caption under the name. */
+  private readonly caption: HTMLDivElement;
   private readonly host: HTMLElement;
 
   constructor(
@@ -87,6 +90,8 @@ export class StatsSheet {
     const close = button('×', () => this.close(), 'btn btn-close');
     close.setAttribute('aria-label', UI_TEXT.close);
     head.append(this.name, this.subtitle, close);
+    this.caption = el('div', 'sheet-caption');
+    this.caption.hidden = true;
 
     const needs = el('div', 'sheet-needs');
     this.meters = {
@@ -213,7 +218,17 @@ export class StatsSheet {
     this.give.append(this.giveTitle, this.giveList);
 
     this.bout = new BattleCard(game);
-    this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.life, this.give);
+    this.root.append(
+      head,
+      this.caption,
+      needs,
+      stats,
+      this.actions,
+      this.more,
+      this.acc,
+      this.life,
+      this.give,
+    );
     this.root.appendChild(this.bout.root);
     parent.appendChild(this.root);
   }
@@ -279,6 +294,11 @@ export class StatsSheet {
   open(id: string): void {
     this.id = id;
     this.root.hidden = false;
+    // R0360: one dry caption per opening, in the main band.
+    const g = this.game();
+    const n = g?.world.nubbins.find((x) => x.id === id);
+    this.caption.textContent = (g && n && sheetCaption(g.world, n)) || '';
+    this.caption.hidden = !this.caption.textContent;
     this.refresh();
   }
 
