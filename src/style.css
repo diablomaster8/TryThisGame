@@ -3923,3 +3923,24 @@ body.edu-sprout .modal-head .btn-close {
 .roster-personality.forming {
   opacity: 0.7;
 }
+
+/* ---------- lane D r8: the shake meter (TECH-16) ---------- */
+
+/* Over the field, clear of the thumb that is shaking: the carry chip is not up during a drag. */
+.shake-meter {
+  position: absolute;
+  left: 50%;
+  top: 26%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 999px;
+  pointer-events: none;
+}
+.shake-meter.full {
+  background: rgba(242, 211, 76, 0.45);
+}

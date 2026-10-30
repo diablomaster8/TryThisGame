@@ -7,3 +7,13 @@
 export const HATCH_BUTTON_TEXT = {
   putDownToHatch: 'Put down to hatch ▼',
 } as const;
+
+/** TECH-16: the shake meter over the field while a held egg is shaken. */
+export const SHAKE_METER_TEXT = {
+  /** "Shake! ●●○○": filled dots for the swings so far, out of the swings a shake needs. */
+  meter: (done: number, of: number) => {
+    const n = Math.max(0, Math.min(of, Math.floor(done)));
+    return `Shake! ${'●'.repeat(n)}${'○'.repeat(of - n)}`;
+  },
+  aria: (done: number, of: number) => `Shake progress: ${Math.min(done, of)} of ${of}`,
+} as const;

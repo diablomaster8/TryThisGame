@@ -159,6 +159,7 @@ import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
 import { keysHintDone, watchKeysHint } from './keys-hint';
 import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
+import { ShakeMeter } from './shake-meter';
 import { watchOnline } from './offline-chip';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
@@ -929,6 +930,12 @@ export function mountHud(
         // R0329: the weather gags over the Nubbins.
         const nubbinGags = new NubbinGags(root);
         g.framePollers.push(() => nubbinGags.update(g));
+        // TECH-16: the shake meter while a held egg is dragged and shaken.
+        const shakeMeter = new ShakeMeter(root);
+        g.framePollers.push(() => {
+          const now = performance.now();
+          shakeMeter.update(g.world, g.input.shake.progress(now), now);
+        });
       }
       // TECH-17: the sheet covers the chip, so it hides while the sheet is open.
       carry.hidden = !carrying || !sheet.root.hidden;
