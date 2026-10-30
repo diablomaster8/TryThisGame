@@ -585,19 +585,23 @@ export class TacticsScreen {
             : OBJECTIVE_TEXT[s.objective.kind].fail;
     const depth = s.context.tier + 1;
     const ids = s.context.kind === 'encounter' ? [...s.context.ids] : [];
+    // Only the debug rumble retries from here: a Hollow, story or guardian bout belongs to
+    // whoever started it, so a loss there just closes (lane B's note, round 6).
+    const source = s.context.kind === 'encounter' ? s.context.source : 'rumble';
+    const retry = !won && (source === 'rumble' || source === 'debug');
     const row = el('div', 'tactics-card-buttons');
     row.append(
       button(
-        won ? T.close : T.retry,
+        won || !retry ? T.close : T.retry,
         () => {
           this.send({ kind: 'tacticsClose' });
-          if (!won) {
+          if (retry) {
             this.send({ kind: 'tacticsStart', depth, ids });
             this.seen = false;
             this.opened = performance.now();
           }
           this.end.hidden = true;
-          if (won) this.close();
+          if (!retry) this.close();
         },
         'btn tactics-btn',
       ),
