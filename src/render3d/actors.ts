@@ -1079,7 +1079,7 @@ export class Actors {
     // K1, K6, K7, K39 (package a1): the stage's pose, head turn and gesture for the Keeper.
     const kCue = this.keeper?.rig ? poseRig(this.keeper.rig, 'keeper') : null;
     // R0085: on a Nubbin's back the Keeper sits, smaller and raised (render/ride-pose.ts).
-    const kRide = this.keeperHold ? null : ridePose(world, null, nowMs, kMoving, this.calm);
+    const kRide = this.keeperHold ? null : ridePose(world, nowMs, kMoving, this.calm);
     const kPose: PoseName = kRide?.sits
       ? 'sit'
       : keeper.carrying

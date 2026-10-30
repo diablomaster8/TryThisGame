@@ -276,7 +276,10 @@ export const RIDE = {
   shyNear: 4,
   shySpeed: 0.7,
   /** The Keeper's seat: height above the carrier's feet, and the Keeper's scale on top. */
-  seatAdult: 0.55,
+  seatAdult: 0.7,
+  /** How far behind the carrier's middle the Keeper sits, and the gap to a towing child. */
+  seatBack: 0.2,
+  towGap: 0.45,
   seatChild: 0,
   keeperScale: 0.8,
   /** Side-hop sway the renderers draw (world units). */

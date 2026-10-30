@@ -188,7 +188,10 @@ describe('Swim tow (R0088)', () => {
     let towed = false;
     for (let t = 0; t < 8_000; t += SIM.stepMs) {
       stepWorld(world, SIM.stepMs);
-      if (deepAt(world.keeper.pos.x, world.keeper.pos.z) && n.behavior.state === 'swim') {
+      const k = world.keeper.pos;
+      // Facing east: the swimmer paddles ahead while there is water ahead of the Keeper.
+      if (deepAt(k.x, k.z) && deepAt(k.x + SWIM_TOW.lead, k.z)) {
+        expect(n.behavior.state).toBe('swim');
         towed = true;
         expect(n.pos.x).toBeGreaterThan(world.keeper.pos.x);
       }

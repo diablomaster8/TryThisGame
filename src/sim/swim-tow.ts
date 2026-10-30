@@ -1,6 +1,7 @@
 import { GROVE, SWIM_TOW } from '../config/tuning';
 import { isHeld } from './nubbin';
 import { levelOf } from './stats';
+import { groundAt } from './terrain';
 import type { Nubbin, SimEvent, World } from './types';
 
 /**
@@ -11,10 +12,13 @@ import type { Nubbin, SimEvent, World } from './types';
  * shore stays the limit and a hint says what would help. No drowning, no fail state.
  */
 
-/** Whether (x, z) is deep water: the pond. The stream stays shallow, wadeable by anyone. */
+/**
+ * Whether (x, z) is deep water: over water inside the pond. The painted bank wanders inside
+ * the pond's circle in places, so the ground decides. The stream stays shallow, wadeable by anyone.
+ */
 export function deepAt(x: number, z: number): boolean {
   const p = GROVE.pond;
-  return Math.hypot(x - p.x, z - p.z) < p.r;
+  return Math.hypot(x - p.x, z - p.z) < p.r && groundAt(null, x, z).surface === 'water';
 }
 
 function swims(n: Nubbin | undefined): n is Nubbin {
@@ -59,13 +63,17 @@ export function stepSwimTow(world: World): void {
   if (!deepAt(k.pos.x, k.pos.z)) return;
   const n = swimTower(world);
   if (!n) return;
+  const ax = k.pos.x + Math.sin(k.facing) * SWIM_TOW.lead;
+  const az = k.pos.z + Math.cos(k.facing) * SWIM_TOW.lead;
+  // Paddling ahead only while there is water ahead; at the bank it climbs out on its own.
+  if (world.ride?.nubbinId !== n.id && !deepAt(ax, az)) return;
   n.behavior.state = 'swim';
   n.behavior.untilMs = world.timeMs + 500;
   n.behavior.target = null;
   n.facing = k.facing;
   if (world.ride?.nubbinId === n.id) return;
-  n.pos.x = k.pos.x + Math.sin(k.facing) * SWIM_TOW.lead;
-  n.pos.z = k.pos.z + Math.cos(k.facing) * SWIM_TOW.lead;
+  n.pos.x = ax;
+  n.pos.z = az;
 }
 
 /** Pace in water at (x, z): a tower's stroke in deep water, else the wading pace given. */

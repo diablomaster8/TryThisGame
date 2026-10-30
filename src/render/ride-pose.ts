@@ -3,11 +3,13 @@ import { rider, rideSeat, rideTows } from '../sim/ride';
 import type { World } from '../sim/types';
 
 /**
- * How both renderers draw a ride (R0085): the Keeper sits on the carrier's back (scaled down
- * to fit a Chao-sized Nubbin), raised by the seat height, nudged toward the camera so it
- * draws in front of its carrier, swayed sideways during a Mischievous hop and bounced by a
- * Cheerful one. A child towing in a Learning Grove walks beside the Keeper hand in hand
- * instead, so the Keeper keeps walking and only steps aside. Reads the sim; never writes.
+ * How both renderers draw a ride (R0085): the Keeper sits on the carrier's back, scaled down to
+ * fit a Chao-sized Nubbin, raised by the seat height and set a little behind its middle along
+ * the heading. That one offset is what makes the piggyback read in Pixel too: facing the
+ * camera the carrier draws in front with the Keeper's head and shoulders above it, facing away
+ * the Keeper draws in front, over its back. A Mischievous hop sways the pair sideways and a
+ * Cheerful carrier bounces. A child towing in a Learning Grove walks hand in hand beside the
+ * Keeper instead, so the Keeper keeps walking and only steps aside. Reads the sim; never writes.
  */
 export interface RidePose {
   /** The Keeper sits (on a carrier) or walks (towed by the hand). */
@@ -21,7 +23,6 @@ export interface RidePose {
 
 export function ridePose(
   world: World,
-  yaw: number | null,
   nowMs: number,
   moving: boolean,
   reduceMotion: boolean,
@@ -30,20 +31,19 @@ export function ridePose(
   const n = rider(world);
   if (!seat || !n) return null;
   const f = world.keeper.facing;
-  // Across the heading (the hop sway, or the hand-hold gap for a tow), then toward the camera.
-  const across = rideTows(n) ? 0.45 : seat.sway;
-  // Pixel billboards sort by depth, so the Keeper steps a hair toward the camera; 3D has a z-buffer.
-  const toCam = rideTows(n) || yaw === null ? 0 : 0.12;
-  const cy = yaw ?? 0;
+  const tows = rideTows(n);
+  // Sideways: the hop sway, or the hand-hold gap for a tow. Back: onto the carrier's back.
+  const across = tows ? RIDE.towGap : seat.sway;
+  const back = tows ? 0 : RIDE.seatBack;
   const bounce =
     n.personality === 'cheerful' && moving && !reduceMotion
       ? Math.abs(Math.sin(nowMs / 140)) * RIDE.bounce
       : 0;
   return {
-    sits: !rideTows(n),
+    sits: !tows,
     lift: seat.lift + bounce,
-    dx: Math.cos(f) * across + Math.sin(cy) * toCam,
-    dz: -Math.sin(f) * across + Math.cos(cy) * toCam,
+    dx: Math.cos(f) * across - Math.sin(f) * back,
+    dz: -Math.sin(f) * across - Math.cos(f) * back,
     scale: seat.scale,
   };
 }

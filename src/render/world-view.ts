@@ -1178,8 +1178,8 @@ export class WorldView {
       moving,
     );
     const kview = viewAngle(kpose?.face ?? kface ?? this.keeperHeading(k.facing, nowMs), yaw);
-    // R0085: on a Nubbin's back the Keeper sits, smaller, raised and a hair toward the camera.
-    const kride = kpose ? null : ridePose(world, yaw, nowMs, moving, this.particles.reduceMotion);
+    // R0085: on a Nubbin's back the Keeper sits, smaller and raised (render/ride-pose.ts).
+    const kride = kpose ? null : ridePose(world, nowMs, moving, this.particles.reduceMotion);
     const krideRect = kride?.sits ? ksheet.frames.get(frameKey('sit', kview.angle, 0)) : undefined;
     const krect =
       krideRect ??
@@ -1250,8 +1250,9 @@ export class WorldView {
         mode: 'billboard',
         tint: this.dim,
       });
-      // The silhouette through whatever stands in front, in the Keeper's trim colour.
-      batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
+      // The silhouette through whatever stands in front, in the Keeper's trim colour; not
+      // through its own carrier on a ride (R0085).
+      if (!kride?.sits) batch.markXray(k.alignment === 'moon' ? KEEPER_XRAY.moon : KEEPER_XRAY.sun);
       if (keeperGliding(world)) this.drawGlideLeaves(kx, ky, kz, yaw, nowMs);
     }
     const k2 = world.coop.active ? world.keeper2 : null;
