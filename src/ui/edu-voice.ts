@@ -66,3 +66,8 @@ export function roundSpeech(r: EduRound, band: Band, readAloud: boolean): string
 export function replySpeech(shown: string, band: Band, readAloud: boolean): string[] {
   return band === 'sprout' && readAloud ? [spoken(shown)] : [];
 }
+
+/** R0681: a picker tile's stars, 0-3: the stars per round so far, rounded. */
+export function pickStars(plays: number, stars: number): number {
+  return plays > 0 ? Math.max(0, Math.min(3, Math.round(stars / plays))) : 0;
+}

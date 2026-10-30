@@ -53,3 +53,12 @@ describe('sprout choices (R0677)', () => {
       for (const c of s.choices ?? []) expect(c.icon, `${s.id} ${c.id}`).toBeTruthy();
   });
 });
+
+describe('game picker stars (R0681)', () => {
+  it('shows the stars per round so far, at most three', async () => {
+    const { pickStars } = await import('../../src/ui/edu-voice');
+    expect(pickStars(0, 0)).toBe(0);
+    expect(pickStars(5, 12)).toBe(2);
+    expect(pickStars(2, 6)).toBe(3);
+  });
+});

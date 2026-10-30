@@ -19,9 +19,9 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
-import { EDU_SAY_TEXT } from '../config/strings-kids';
+import { EDU_PICKER_TEXT, EDU_SAY_TEXT } from '../config/strings-kids';
 import { EDU_VOICE } from '../config/tuning-kids';
-import { optionSay, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
+import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
 import { frameKey } from '../render/sprites/animations';
 import type { Nubbin } from '../sim/types';
@@ -58,11 +58,12 @@ export class EduScreen {
     private readonly toast: (text: string) => void,
   ) {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
+    this.picker.root.classList.add('edu-picker');
     this.lang = new LangPanel(parent, game_, toast);
     this.next = new NextCard(parent, () => this.showMe());
     // R0321: the sprout band's peekaboo.
     this.peek = new Peekaboo(parent, game_);
-    this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
+    this.picker.body.appendChild(el('p', 'help edu-play-help', EDU_TEXT.playHelp));
     this.root = el('div', 'edu');
     this.root.hidden = true;
     this.card = el('div', 'edu-card');
@@ -79,6 +80,10 @@ export class EduScreen {
     if (!g?.world.edu) return;
     const body = this.picker.body;
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
+    // R0681: the help line is for grown-ups; a sprout hears the question instead.
+    const sprout = g.world.edu.band === 'sprout';
+    const help = body.querySelector<HTMLElement>('.edu-play-help');
+    if (help) help.hidden = sprout;
     // The story first (CV2): it is always there, whatever games are switched on.
     const storyGrid = el('div', 'edu-grid');
     storyGrid.appendChild(
@@ -118,18 +123,43 @@ export class EduScreen {
     } else {
       const grid = el('div', 'edu-grid');
       for (const id of games) {
-        const b = button('', () => this.start(id), 'btn edu-pick');
         const reader = g.world.edu.band === 'reader';
+        const name = gameName(id, reader);
+        // R0681: a sprout hears the game's name while its tile bounces, then it starts.
+        const b = button(
+          '',
+          () => (sprout ? this.launch(b, id, name) : this.start(id)),
+          'btn edu-pick',
+        );
         b.append(
           el('span', 'edu-pick-icon', EDU_TEXT.gameIcons[id]),
-          el('strong', undefined, gameName(id, reader)),
+          el('strong', undefined, name),
           el('small', undefined, gameBlurb(id, reader)),
         );
+        const p = g.world.edu.progress[id];
+        const earned = pickStars(p?.plays ?? 0, p?.stars ?? 0);
+        if (earned > 0) {
+          const row = el('span', 'edu-pick-stars', '⭐'.repeat(earned));
+          row.setAttribute('aria-label', EDU_PICKER_TEXT.stars(earned));
+          b.appendChild(row);
+        }
         grid.appendChild(b);
       }
       body.appendChild(grid);
     }
     this.picker.show();
+    if (sprout && g.world.edu.readAloud) speakLine(EDU_PICKER_TEXT.say);
+  }
+
+  /** R0681: say the game's name during a short bounce, then start it. */
+  private launch(b: HTMLButtonElement, id: EduGameId, name: string): void {
+    if (b.classList.contains('launching')) return;
+    b.classList.add('launching');
+    if (this.game_()?.world.edu?.readAloud) speakLine(name);
+    window.setTimeout(() => {
+      b.classList.remove('launching');
+      if (this.picker.isOpen()) this.start(id);
+    }, EDU_VOICE.launchMs);
   }
 
   close(): void {

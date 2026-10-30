@@ -86,3 +86,9 @@ export const SPROUT_CHOICE_TEXT = {
   /** The fallback icons, one per place. */
   numbers: ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'] as readonly string[],
 } as const;
+
+/** R0681: the game picker, spoken. */
+export const EDU_PICKER_TEXT = {
+  say: 'What shall we play?',
+  stars: (n: number) => `${n} of 3 stars`,
+} as const;

@@ -16,4 +16,6 @@ export const EDU_VOICE = {
   holdMs: 400,
   /** Each counted icon lights for this long, one after another. */
   countMs: 550,
+  /** R0681: a sprout's game tile bounces this long, saying its name, before it starts. */
+  launchMs: 600,
 } as const;
