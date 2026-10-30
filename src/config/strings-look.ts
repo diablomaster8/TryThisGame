@@ -303,3 +303,20 @@ export const CURIOSITY_TEXT: Record<string, string> = {
 export const CURIOSITY_UI = {
   found: (n: number, of: number) => `Curiosities found: ${n} of ${of}`,
 };
+
+/** LOOK-60 (R0428): the dress-up mirror. */
+export const WARDROBE_TEXT = {
+  title: 'Wardrobe',
+  open: '👒 Wardrobe',
+  help: 'Tap a hat to try it on. Wear keeps it.',
+  wear: 'Wear',
+  takeOff: 'Take it off',
+  none: 'Nothing',
+  wearing: (name: string, hat: string) => `${name} is wearing: ${hat}`,
+  trying: (hat: string) => `Trying on: ${hat}`,
+  locked: {
+    shop: 'From the shop',
+    race: 'Won in races',
+    hatch: 'From an egg',
+  } as Record<string, string>,
+};

@@ -18,6 +18,8 @@ import { rosterNubbins, storyNubbin } from '../sim/roster';
 import { levelOf } from '../sim/stats';
 import { STAT_KEYS, type Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
+import { Wardrobe } from './wardrobe';
+import { WARDROBE_TEXT } from '../config/strings-look';
 import { decodeNubbin, encodeNubbin } from '../sim/share';
 
 /**
@@ -25,6 +27,7 @@ import { decodeNubbin, encodeNubbin } from '../sim/share';
  * count, alignment as a word and an icon, personality, and a hat picker.
  */
 export class RosterMenu {
+  private readonly wardrobe: Wardrobe;
   private readonly dialog;
   private readonly list: HTMLDivElement;
   private readonly codeDialog: ReturnType<typeof modal>;
@@ -36,6 +39,7 @@ export class RosterMenu {
     private readonly onSelect: (id: string) => void,
   ) {
     this.dialog = modal(parent, UI_TEXT.roster, UI_TEXT.close);
+    this.wardrobe = new Wardrobe(parent, game, () => this.refresh());
     this.list = el('div', 'roster-list');
     this.dialog.body.appendChild(this.list);
     this.codeDialog = modal(parent, UI_TEXT.share, UI_TEXT.close);
@@ -100,6 +104,10 @@ export class RosterMenu {
         g.send({ kind: 'wearHat', nubbinId: n.id, hat: hatSelect.value || null });
       });
       actions.appendChild(hatSelect);
+      // LOOK-60: the dress-up mirror, with a live preview.
+      actions.appendChild(
+        button(WARDROBE_TEXT.open, () => this.wardrobe.open(n.id), 'btn btn-small'),
+      );
     }
     actions.appendChild(
       button(

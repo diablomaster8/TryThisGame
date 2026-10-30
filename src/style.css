@@ -3138,3 +3138,36 @@ select {
   font-size: 0.85em;
   opacity: 0.8;
 }
+
+/* LOOK-60: the dress-up mirror. */
+.wardrobe .wardrobe-mirror {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  background: radial-gradient(circle at 50% 80%, rgba(255, 241, 201, 0.5), transparent 60%);
+}
+.wardrobe .wardrobe-wear {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+}
+.wardrobe .wardrobe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+.wardrobe .wardrobe-item {
+  min-height: 44px;
+  min-width: 44px;
+}
+.wardrobe .wardrobe-item.on {
+  outline: 3px solid var(--accent, #f2d34c);
+}
+.wardrobe .wardrobe-item.locked {
+  filter: grayscale(1) brightness(0.7);
+}
