@@ -106,7 +106,7 @@ import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
-import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
+import { HAT_LABELS, HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
 import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
@@ -1327,6 +1327,10 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+        } else if (e.kind === 'picnicRest' || e.kind === 'picnicTent') {
+          // Lane B round 7: Gran's Picnic (R0204).
+          toast(HOLLOW_R7_TEXT[e.kind]);
+          if (e.kind === 'picnicRest') playSound('buy');
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
         } else if (e.kind === 'strayShooed') {

@@ -21,6 +21,7 @@ import { rumbleEnded, stepRumble } from './dungeon-rumble';
 import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
+import { stepPicnic } from './dungeon-picnic';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -1322,6 +1323,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   stepSack(world, run, events);
   stepShrines(world, run, f, dtMs, events);
   stepTraps(world, run, f, dtMs, events);
+  stepPicnic(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
     w.scanned = true;

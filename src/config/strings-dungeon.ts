@@ -452,3 +452,10 @@ export const HOLLOW_R6_TEXT = {
       `The Stray King! It doffs its bottle-cap crown and leaves you a gift: ${hat}.`,
   },
 };
+
+/** Lane B round 7 (2026-10-30). */
+export const HOLLOW_R7_TEXT = {
+  /** R0204: Gran's Picnic on the nook's rug, and the tent's note. */
+  picnicRest: "A picnic on Gran's rug. Everyone's rested and very pleased with themselves.",
+  picnicTent: "A snug tent. Safe to close the game here; you'll wake right where you are.",
+};

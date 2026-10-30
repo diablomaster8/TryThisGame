@@ -123,3 +123,40 @@ describe('aggro and leash (R0200)', () => {
     expect(swimFamily('no-such-family')).toBe(false);
   });
 });
+
+describe("Gran's Picnic (R0204)", () => {
+  it('rests the party once per level on the rug, and wakes a napper', () => {
+    const world = underground();
+    const run = world.dungeon!;
+    run.packs = [];
+    run.strays = [];
+    const f = runFloor(world)!;
+    expect(f.nook).toBeTruthy();
+    const party = run.party.map((id) => world.nubbins.find((n) => n.id === id)!);
+    for (const n of party) {
+      n.needs.energy = 0.2;
+      n.needs.happiness = 0;
+    }
+    party[0]!.behavior.state = 'nap';
+    const rug = cellCentre(f, f.nook!.rug[0]!);
+    const sit = (ms: number): SimEvent[] => {
+      const out: SimEvent[] = [];
+      for (let t = 0; t < ms; t += SIM.stepMs) {
+        world.keeper.pos = { ...rug };
+        world.keeper.moveTarget = null;
+        out.push(...stepWorld(world, SIM.stepMs));
+      }
+      return out;
+    };
+    expect(sit(4000).some((e) => e.kind === 'picnicRest')).toBe(false);
+    expect(sit(1500).filter((e) => e.kind === 'picnicRest')).toHaveLength(1);
+    for (const n of party) {
+      expect(n.needs.energy).toBeGreaterThan(0.99);
+      expect(n.needs.happiness).toBeGreaterThanOrEqual(HOLLOW_R7.picnic.happy - 1);
+      expect(n.behavior.state).not.toBe('nap');
+    }
+    for (const n of party) n.needs.energy = 0.2;
+    expect(sit(8000).some((e) => e.kind === 'picnicRest')).toBe(false);
+    expect(party[1]!.needs.energy).toBeLessThan(0.5);
+  });
+});

@@ -306,4 +306,6 @@ export const HOLLOW_R7 = {
   /** R0200: a pack chases this long after its "!" beat, then walks home with a "?" and won't
    * notice the Keeper again for `ignoreMs`. A Shy party Nubbin shrinks the notice radius. */
   aggro: { chaseMaxMs: 8000, askMs: 1500, ignoreMs: 3000, shyLess: 1 },
+  /** R0204: seconds on the nook's rug for Gran's Picnic, its happiness, levels remembered. */
+  picnic: { sitMs: 5000, happy: 10, keep: 40 },
 } as const;

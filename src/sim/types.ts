@@ -706,6 +706,12 @@ export interface DungeonRun {
   /** R0211: when the current level began, and fights on it. */
   levelStartMs?: number;
   levelFights?: number;
+  // Lane B round 7.
+  /** R0204: level ids whose picnic is had (newest last), the time on the rug so far, and the
+   * tent's "safe to close" note shown while the Keeper stands there. */
+  picnics?: string[];
+  picnicMs?: number;
+  tentNoted?: true;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1508,6 +1514,9 @@ export type SimEvent =
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
   | { kind: 'partyGiggles'; packId: string }
+  // Lane B round 7: Gran's Picnic (R0204).
+  | { kind: 'picnicRest' }
+  | { kind: 'picnicTent' }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
