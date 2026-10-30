@@ -45,10 +45,10 @@ export async function routeSettingsTap(
 export async function resetAllowed(
   edu: boolean,
   ask: () => Promise<boolean>,
-  confirm: () => boolean,
+  confirm: () => boolean | Promise<boolean>,
 ): Promise<boolean> {
   if (edu && !(await ask())) return false;
-  return confirm();
+  return await confirm();
 }
 
 export class KidSoundSheet {

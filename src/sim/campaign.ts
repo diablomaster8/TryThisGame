@@ -31,6 +31,7 @@ import {
   seen,
 } from './story-state';
 import './storyline-rules-index';
+import { applyLineCommand, lineSceneDone, sharesStory, startLine } from './story-book';
 import {
   applyStorylineCommand,
   startStoryline,
@@ -676,10 +677,16 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       startCampaign(world, events);
       return;
     case 'storylineStart':
-      startStoryline(world, freshState(world.timeMs), cmd.id, events, cmd.flags ?? {});
+      // R0596: in Hazel's Grove a line runs beside the spine; elsewhere it is the campaign.
+      if (sharesStory(world)) startLine(world, cmd.id, events, cmd.flags ?? {});
+      else startStoryline(world, freshState(world.timeMs), cmd.id, events, cmd.flags ?? {});
       return;
     case 'storyArea':
     case 'storyAct': {
+      if (cmd.line) {
+        applyLineCommand(world, cmd.line, cmd, events);
+        return;
+      }
       const c = world.campaign;
       if (c?.storyline) applyStorylineCommand(world, c, cmd, events);
       return;
@@ -694,6 +701,8 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         c.seenMs[cmd.scene] = world.timeMs;
       }
       noteSceneEnded(world, c, cmd.scene);
+      // R0596: a line's scene is the line's: its flags and choice never touch Hazel's.
+      if (lineSceneDone(world, cmd.scene, cmd.choice, events)) return;
       if (!scene) return;
       const before = { collector: collectorRoute(c) };
       if (scene.set) Object.assign(c.flags, scene.set);
@@ -755,6 +764,10 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       return;
     }
     case 'debugChapter': {
+      if (cmd.line) {
+        applyLineCommand(world, cmd.line, cmd, events);
+        return;
+      }
       const c = world.campaign;
       if (!c) return;
       if (c.storyline) {

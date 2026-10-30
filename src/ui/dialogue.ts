@@ -14,6 +14,7 @@ import {
 } from '../sim/story-scenes';
 import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from './lesson';
 import { sproutChoices } from './sprout-choices';
+import { WordLight } from './read-aloud';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
@@ -46,6 +47,8 @@ export class Dialogue {
   private readonly portrait: HTMLCanvasElement;
   private readonly name: HTMLDivElement;
   private readonly text: HTMLDivElement;
+  /** R0342: the karaoke light over the text while it is read aloud. */
+  private readonly wordLight: WordLight;
   private readonly choices: HTMLDivElement;
   private readonly next: HTMLDivElement;
   private readonly endCard: HTMLDivElement;
@@ -98,6 +101,7 @@ export class Dialogue {
     const body = el('div', 'dialogue-body');
     this.name = el('div', 'dialogue-name');
     this.text = el('div', 'dialogue-text');
+    this.wordLight = new WordLight(this.text);
     this.next = el('div', 'dialogue-next', '▼');
     this.choices = el('div', 'dialogue-choices');
     body.append(this.name, this.text, this.choices);
@@ -456,7 +460,16 @@ export class Dialogue {
     clearInterval(this.typing);
     const speed = g.world.settings.textSpeed;
     const reduce = speed === 'instant' || g.reduceMotion;
-    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
+    // R0342 / R0343: read-aloud in the speaker's own voice, lighting each word as it is said;
+    // the sprout band's switch, or the Grove Readers' opt-in.
+    this.wordLight.reset();
+    const band = textBandOf(g.world);
+    const e = g.world.edu;
+    if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
+      speakLine(line.text, {
+        speaker: chorus ? 'narrator' : who,
+        onWord: (w) => this.wordLight.light(w),
+      });
     // R0303: a line's sound cue plays however the text appears.
     if (line.sfx) playSound(line.sfx);
     // R0303 / R0368: the stage actor's reaction to the line (its own, or read from narration).
@@ -473,7 +486,8 @@ export class Dialogue {
     let typed = 0;
     // R0303: the line's stage directions: a held beat, a sound cue and a screen nudge.
     if (line.beat) holdUntil = performance.now() + line.beat;
-    if (line.shake && !g.reduceMotion) nudgeScreen(line.shake);
+    // R0365: the screen-shake switch covers the story's nudges too.
+    if (line.shake && !g.reduceMotion && g.world.settings.screenShake) nudgeScreen(line.shake);
     this.typing = window.setInterval(
       () => {
         const now = performance.now();

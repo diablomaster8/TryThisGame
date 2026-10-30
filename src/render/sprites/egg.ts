@@ -20,7 +20,7 @@ export const EGG_PALETTES: Record<string, EggPalette> = {
   ),
 };
 
-export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held';
+export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held' | 'foot';
 
 /** Egg looks by family: the pocket line's eggs cream over green, the digital line's grey with plum spots. */
 const FAMILY_EGGS: Record<string, { shell: number; shade: number; cap: number; spot: number }> = {
@@ -50,6 +50,12 @@ export function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): Pi
       pc.line(cx - 2, cy - 7, cx - 5, cy - 4, crack);
       pc.px(cx + 1, cy - 2, jewel ? C.white : C.ink);
     }
+  }
+  // R0351: the foot gag: a tiny child's foot, yellow at the toe, out of the bottom.
+  if (frame === 'foot') {
+    pc.ellipse(cx + 2, cy + 10, 2, 1.2, C.skyLight);
+    pc.px(cx + 4, cy + 10, C.sunYellow);
+    pc.px(cx + 3, cy + 11, C.sunYellow);
   }
   pc.finish(C.darkPlum, [C.white]);
   return pc;
@@ -138,8 +144,8 @@ function drawGem(pc: PixelCanvas, cx: number, cy: number, pal: EggPalette): void
 }
 
 export function buildEggSheet(colorName: string, family = 'chao'): SpriteSheet {
-  const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 6);
-  const frames: EggFrame[] = ['idle', 'wobbleL', 'wobbleR', 'crack1', 'crack2', 'held'];
+  const atlas = new AtlasBuilder(EGG_SIZE, EGG_SIZE, 7);
+  const frames: EggFrame[] = ['idle', 'wobbleL', 'wobbleR', 'crack1', 'crack2', 'held', 'foot'];
   for (const f of frames) atlas.add(frameKey(f, 'front', 0), drawEgg(f, colorName, family));
   return atlas.build();
 }

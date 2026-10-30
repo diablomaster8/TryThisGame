@@ -1,4 +1,5 @@
 import { LESSONS, SERVICES } from '../config/tuning';
+import { decidePersonality } from './personality';
 import { hasSkill } from './skills';
 
 /** Lessons cost less with the Teacher's pet skill. */
@@ -118,16 +119,8 @@ const FORTUNE_LINES = [
 export function fortune(n: Nubbin): Fortune {
   const band = n.form ? bandOf(n.alignment) : childHint(n.alignment);
   const type = winningType(n.typeLean);
-  const care = n.childCare;
-  const personality =
-    n.personality ??
-    (care.throws > care.pets
-      ? 'mischievous'
-      : care.pets > 6
-        ? 'cheerful'
-        : care.feeds > 6
-          ? 'lazy'
-          : 'shy');
+  // R0526 (SOUL-08): the reading uses the very rule that locks the personality at evolution.
+  const personality = n.personality ?? decidePersonality(n.childCare);
   const avg = n.happinessSamples === 0 ? n.needs.happiness : n.happinessSum / n.happinessSamples;
   const line = FORTUNE_LINES[(n.seed >>> 0) % FORTUNE_LINES.length]!;
   return {

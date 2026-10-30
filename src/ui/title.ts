@@ -1,3 +1,5 @@
+import { confirmModal } from './confirm';
+import { CAMP_TEXT } from '../config/strings';
 import {
   KEEPER_LOOK_BLURBS,
   KEEPER_LOOK_NAMES,
@@ -176,8 +178,10 @@ export function showTitle(
           const fresh = button(
             SLOT_TEXT.newHere,
             () => {
-              if (!confirm(SLOT_TEXT.newOverConfirm(index))) return;
-              grownUp(() => startNew(slot));
+              const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.newOverConfirm(index) };
+              void confirmModal({ ...ask, confirm: CAMP_TEXT.startOverYes, danger: true }).then(
+                (ok) => ok && grownUp(() => startNew(slot)),
+              );
             },
             'btn btn-small',
           );
@@ -185,11 +189,15 @@ export function showTitle(
           const erase = button(
             '✕',
             () => {
-              if (!confirm(SLOT_TEXT.eraseConfirm(index))) return;
-              grownUp(() => {
-                clearSlot(slot);
-                mainMenu();
-              });
+              const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.eraseConfirm(index) };
+              void confirmModal({ ...ask, confirm: CAMP_TEXT.eraseYes, danger: true }).then(
+                (ok) =>
+                  ok &&
+                  grownUp(() => {
+                    clearSlot(slot);
+                    mainMenu();
+                  }),
+              );
             },
             'btn btn-small btn-icon title-slot-erase',
           );

@@ -37,6 +37,66 @@ Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh se
 - *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
   stub feet tucked while hopping; the 3D bonded rim is an additive aura behind the body.
 
+## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
+
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. Skipped for other lanes: R0293, R0298, R0317,
+R0326, R0328, R0332, R0340, R0358, R0359, R0362, R0363.
+
+- *Works:* all eight micro-games (escort, climb, puzzle, survive, explore new), `minigame:`
+  checks mapped by token, per-verb Do-it labels, a Skip switch on for sprouts (R0294, R0369);
+  `hint-button?` checker warning at 0, STYLE.md Hints (R0292, R0339); routine prop gags over
+  Keepers, both modes (R0296); distracted walks bonk trunks (R0299); `Line.react` + inferred
+  narration reactions, chapter 1 spark (R0303, R0368); goal-met toddle and plop (R0305);
+  Journal cairn line + S2 callback (R0313); sprout wrong openers 0, sound words 25.2% of
+  scenes (R0320, R0310); Expedition spin, Shell scatter, quips, superlatives (R0324); race
+  butterfly stops, 40 rival quirks (R0325); voiced request board (R0327); weather gags
+  (R0329); pair play (R0330); Hazel's P.S. on chapter cards (R0334); Multiverse dossiers and
+  Neopian Times masthead (R0335); IM1 gags (R0337); grammar helpers (R0341); sarcasm check
+  (R0347); toast variants (R0349).
+- *Stubbed:* R0299's Keeper hop and splat art; R0303's 50-gag back-fill (one done, 215
+  inferred); R0310 at 25% (Atlas sprout files next); R0321's in-world hide (needs lane E's
+  R0293); R0325's 3D butterfly (pixel only) and joyful trip; R0334 not read aloud for sprouts;
+  R0369's 1.5 s mini animation (the micro-game plays instead).
+- *Known bugs:* none found.
+- *Assumptions:* gag state is render-side or hashed (no world-rng draws, no save fields; the
+  one new setting `microSkip?` is optional); R0341 edited templated strings in `strings.ts`
+  in place under the R0341 exception; `render3d/expedition-3d.ts` got the R0324 spin (lane
+  D/E-adjacent, two small blocks).
+## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
+
+- *Plan:* R0269–R0289 not started, then the partials (R0250, R0253, R0272, R0274, R0256,
+  R0217, R0218, R0234, R0236), C's share of R0260, R0333 if it fits. New sim files under
+  `sim/battle/`, text in `strings-battle-r6.ts`, numbers in `tuning-battle-r6.ts`; shared files
+  got self-contained blocks only. No save bump: new world fields are optional.
+- *Works:* Dojo Ladder (5 belts × 3 bouts on `karateRecord`, kept through rebirth, Black Belt
+  hat), Fusion burst in doubles (bond 80, 3 turns, splits at the fusing HP ratio), story-world
+  bouts in a cloned Grove (`world-bout.ts`, results to the side save only), pass-and-play
+  (`friendly`, share-code guests are copies, sticker only), the placement map
+  (`contexts.ts`), six story bouts wired to the scenes' choices (dojo "Story bouts" list,
+  `storyBout` command, `world.storyBouts`), the floor-5 guardian (`startGuardian`, keepsake),
+  Circuit pre/post scenes, Play-fight Day (first Gentle bouts, Learning Grove), chapter 5 goal
+  takes a ribbon, resume prompt and "Call it a draw", party needs held during a live bout
+  (live and offline), Battle Book in the Collection, battle/circuit/calm songs and per-type
+  hit sounds, personality idles (turn screen, Pixel and 3D boards, gallery row), 12 trial maps
+  with par hats and a BFS solver test, merged partners as one tall tactics unit, replay codes
+  and Save as postcard, dead karate/party-bout keys deleted, Neopia/Atlas `karate:survive:*`
+  steps as real survive bouts fought by copies (R0340), slapstick (5 % fumbles, the dizzy
+  spiral, pond pushes) and `docs/fight-design.md` (R0363). Edge: Pixel and 3D at desk and
+  375×812 all pass, 0 console errors, axe 0 issues on the battle screen, turn mode 55.8–56.6
+  fps and a 16×16 tactics board 56.5 fps at 4× CPU throttle.
+- *Stubbed:* Pixel board still 13 `drawImage` a frame (R0253 wants ≤3 via WebGL). Story bouts
+  are offered from the dojo list, not yet at their campaign beats; the skip-everything
+  8-endings replay was not run. The guardian waits on lane B to call `startGuardian` on floor
+  5. Fusion has a log line and no transform animation. Sprite gallery idles are Pixel only.
+  No Circuit race (R0333, lane A's races). Survive bosses use stand-in species (no Chia art)
+  and the NP1 bout was checked in the sim, not clicked through in Edge. Balance harness unchanged (Sprout median ~32).
+- *Known bugs / assumptions:* the trials modal is not on the HUD's panel stack (Escape
+  doesn't close it; use Close). "S-grade-only trait refresh" read as: the black belt clears the
+  moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
+  needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
+  Hand-over: side-session note `r6-lane-c-handover.md`.
+
 ## Round 5 · Lane D (2026-10-29, branch r5/d)
 
 Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:

@@ -58,7 +58,10 @@ export class BarkBubble {
   /** Per frame: follow the Keeper's head, and go after the time is up. */
   update(g: Game, nowMs: number): void {
     if (this.root.hidden) return;
-    const npc = g.world.npcs.find((n) => n.id === this.npcId);
+    // R0353: a bubble may hang over a Nubbin too (Moss's dry reactions).
+    const npc =
+      g.world.npcs.find((n) => n.id === this.npcId) ??
+      g.world.nubbins.find((n) => n.id === this.npcId);
     if (!npc || nowMs >= this.until) {
       this.root.hidden = true;
       return;

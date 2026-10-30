@@ -26,7 +26,14 @@ import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { FRIENDS, NUBBIN_STEER, SLED } from '../config/tuning';
+import {
+  EDU_SOUL,
+  FRIENDS,
+  FRIENDS_AWAY,
+  NUBBIN_STEER,
+  PERSONALITY_LEAN,
+  SLED,
+} from '../config/tuning';
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
@@ -34,7 +41,8 @@ import type { Walker } from './obstacles';
 import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
-import { idleMultipliers } from './personality';
+import { idleMultipliers, leaningPersonality } from './personality';
+import { idleOdds, idleWeights } from './idle-choice';
 import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
 import { perchTopAt, softAt } from './obstacles';
 import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
@@ -529,8 +537,11 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       return;
     }
   }
-  // Personality only shifts the odds of idle choices.
-  const m = idleMultipliers(n.personality);
+  // Personality only shifts the odds of idle choices; a child's leaning does, at half
+  // strength, until it locks at evolution (R0523).
+  const m = n.personality
+    ? idleMultipliers(n.personality)
+    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
   // Rain: most Nubbins head for a tree; swimmers would rather be in the pond.
   if (world.weather.kind === 'rain' && n.stage !== 'egg') {
@@ -580,6 +591,16 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     addHappiness(n, 3);
     return;
   }
+  // R0539: now and then a Nubbin goes and sits a while by a departed buddy's flower.
+  const missed = n.remembered?.filter((r) => now - r.atMs < FRIENDS_AWAY.visitForMs).at(-1);
+  const flower = missed && world.memorials.find((m) => m.id === `memorial-${missed.id}`);
+  if (flower && world.location === 'grove' && rng.chance(FRIENDS_AWAY.visitChance)) {
+    setState(n, 'perform', now, FRIENDS_AWAY.visitMs);
+    n.behavior.itemId = 'visitFlower';
+    n.behavior.target = { x: flower.pos.x + 0.9, z: flower.pos.z + 0.3 };
+    clampToWorld(n.behavior.target);
+    return;
+  }
   // Buddies seek each other out for a chat.
   const buddy = bestFriend(world, n);
   if (buddy && rng.chance(FRIENDS.chatChance * m.play)) {
@@ -606,42 +627,68 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
-  if (keeperNear && !isWary(n) && rng.chance(Math.min(1, BEHAVIOR.greetChance * m.greet))) {
+  // R0524: the everyday choice is one weighted pick (sim/idle-choice.ts), not a cascade.
+  const toy = nearestToy(world, n.pos);
+  const toyOk = !!toy && toy.id !== skipping(n, now);
+  // MOVE-57: a spring mushroom nearby is a toy too.
+  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
+  const shroomOk = !!shroom && shroom.id !== skipping(n, now);
+  const pick = rng.weighted(
+    idleWeights({
+      keeperNear,
+      wary: isWary(n),
+      toy: toyOk,
+      shroom: shroomOk,
+      canSwim: n.stage !== 'egg',
+      mult: m,
+    }) as Record<string, number>,
+  );
+  if (pick === 'greet') {
     setState(n, 'greet', now, BEHAVIOR.greetMs);
     n.facing = Math.atan2(world.keeper.pos.x - n.pos.x, world.keeper.pos.z - n.pos.z);
     return;
   }
-  const toy = nearestToy(world, n.pos);
-  if (toy && toy.id !== skipping(n, now) && rng.chance(Math.min(1, BEHAVIOR.playChance * m.play))) {
+  if (pick === 'play' && toy) {
     setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
   }
-  // MOVE-57: a spring mushroom nearby is a toy too. No mushroom, no roll of the dice, so a
-  // Grove without one plays out exactly as before.
-  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
-  if (
-    shroom &&
-    shroom.id !== skipping(n, now) &&
-    rng.chance(Math.min(1, BEHAVIOR.playChance * m.play * JUMP_TOYS.nubbinChance))
-  ) {
+  if (pick === 'shroom' && shroom) {
     setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
     n.behavior.itemId = shroom.id;
     n.behavior.target = { x: shroom.pos.x, z: shroom.pos.z };
     return;
   }
-  if (n.stage !== 'egg' && rng.chance(Math.min(1, BEHAVIOR.swimChance * m.swim))) {
+  if (pick === 'swim') {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
     n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
   }
-  if (rng.chance(Math.min(1, BEHAVIOR.sitChance * m.sit))) {
+  if (pick === 'sit') {
     setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs) * (n.personality === 'lazy' ? 1.5 : 1));
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));
   n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
+}
+
+/** R0524: the live odds of the everyday idle choice for the debug panel (no rng drawn). */
+export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
+  const m = n.personality
+    ? idleMultipliers(n.personality)
+    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  const now = world.timeMs;
+  const toy = nearestToy(world, n.pos);
+  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
+  return idleOdds({
+    keeperNear: dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius,
+    wary: isWary(n),
+    toy: !!toy && toy.id !== skipping(n, now),
+    shroom: !!shroom && shroom.id !== skipping(n, now),
+    canSwim: n.stage !== 'egg',
+    mult: m,
+  });
 }
 
 /** One sim step for a free (not held, not egg) Nubbin. */
@@ -951,8 +998,14 @@ function updateThrown(
     // being swallowed by the held/thrown guard in react().
     setState(n, 'sit', now, 0);
     if (n.stage !== 'egg') {
-      applyDrop(n);
-      react(n, 'dizzy', now, events);
+      // R0527: in the Learning Grove it lands on its feet and giggles.
+      if (world.edu) {
+        addHappiness(n, EDU_SOUL.tossHappiness);
+        react(n, 'happy', now, events);
+      } else {
+        applyDrop(n);
+        react(n, 'dizzy', now, events);
+      }
     }
   }
 }

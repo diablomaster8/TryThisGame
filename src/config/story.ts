@@ -41,6 +41,13 @@ export interface Line {
   act?: LineAct;
   /** R0323 (FUN-34): a sprout join-in refrain on this line (an id in `config/edu.ts`). */
   refrain?: string;
+  /**
+   * R0344 (FUN-55): a stable id for voice-over, frozen once written. Without it the VO
+   * exporter (`tests/tools/vo-export.ts`) keys the line as `<scene id>-<n>`.
+   */
+  id?: string;
+  /** R0344: the recorded take's clip name and a director's note, once VO exists. */
+  vo?: { take?: string; note?: string };
 }
 
 /** R0303: what a stage actor can do on a line: an emote over it, or a little particle burst. */

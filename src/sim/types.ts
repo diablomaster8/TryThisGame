@@ -184,6 +184,14 @@ export interface Nubbin {
     /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
     boutWins?: number;
     boutLosses?: number;
+    /**
+     * R0530 (SOUL-12): the other kind touches (tickle, hug, groom, praise, high five) and
+     * tuck-ins, each counted once per pet cooldown; absent = 0, no save bump.
+     */
+    touches?: number;
+    tucks?: number;
+    /** R0530: sim time the last touch or tuck-in was counted. */
+    lastCareMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
@@ -221,6 +229,8 @@ export interface Nubbin {
   karate: { wins: number; losses: number; belt: number };
   /** Friendship with other Nubbins, by id. */
   friends: Record<string, number>;
+  /** R0539: buddies who departed, newest last (at most three). Optional, no save bump. */
+  remembered?: Array<{ id: string; name: string; atMs: number }>;
   /** Accessories: a dyed scarf and glasses; a dyed hat. */
   scarf: DyeColor | null;
   glasses: boolean;
@@ -240,6 +250,8 @@ export interface Nubbin {
   spanScale?: number;
   lastPetMs: number;
   lastShakeMs: number;
+  /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
+  eggShakes?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -298,6 +310,11 @@ export interface Keeper {
   bufferMs: number;
   /** The jump button is down: a held jump rises higher. */
   jumpHeld: boolean;
+  /** R0352: ms the Keeper has stood quietly in the Grove (live play). Optional, no save bump. */
+  idleMs?: number;
+  /** R0352: the Nubbin coming to sit beside the sitting Keeper, and when it sat down (sim ms). */
+  sitWith?: string;
+  sitBesideMs?: number;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -350,6 +367,8 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
+  slapstick?: 'full' | 'gentle' | 'off';
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
@@ -515,6 +534,8 @@ export interface EduState {
   lessons: Record<string, { best: boolean | null }>;
   /** Little Sprouts: speak each line with the device's voice (once sound is on). */
   readAloud: boolean;
+  /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
+  readToMe?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -582,7 +603,7 @@ export type DecorKind =
   | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
-export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
+export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot' | 'crop';
 
 export interface PlacedDecor {
   id: string;
@@ -832,6 +853,11 @@ export interface CampaignState {
    * the breathing gap before the next unrelated scene (story-state.ts `resting`).
    */
   rest?: { atMs: number; owner: string } | null;
+  /**
+   * Lane C round 7 (R0601, CAMP-08): for a questline beside Hazel's Grove, how the Grove
+   * looked when it began (its recolour and partner slots), put back when the line ends.
+   */
+  restore?: { grove: GroveKind; partners: Array<string | null> };
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -930,6 +956,12 @@ export interface World {
   strays: Stray[];
   npcs: Npc[];
   campaign: CampaignState | null;
+  /**
+   * Lane C round 7 (R0596, CAMP-01): the questlines running beside Hazel's Grove in this
+   * world, by storyline id. Each has its own chapter, flags, counters and cast; their scenes
+   * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
+   */
+  lines: Record<string, CampaignState>;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1121,15 +1153,17 @@ export type Command =
   | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
-  | { kind: 'debugChapter'; chapter: number }
+  | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
-  | { kind: 'storyArea'; area: string }
+  | { kind: 'storyArea'; area: string; line?: string }
   /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
-  | { kind: 'storyAct'; label: string }
+  | { kind: 'storyAct'; label: string; line?: string }
+  /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
+  | { kind: 'lineAbandon'; line: string }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1217,6 +1251,8 @@ export type Command =
   | { kind: 'eduSetAlwaysReborn'; on: boolean }
   /** Lane E r7, R0746: rounds per game, 3-10. */
   | { kind: 'eduSetRounds'; rounds: number }
+  /** R0343: the Grove Readers' opt-in read-aloud. */
+  | { kind: 'eduSetReadToMe'; on: boolean }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1383,7 +1419,17 @@ export type SimEvent =
   | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
-  | { kind: 'eggShaken'; nubbinId: string }
+  | { kind: 'eggShaken'; nubbinId: string; foot?: true }
+  /** R0352: the idle Keeper sits down on the grass; a Nubbin has come to sit beside them. */
+  | { kind: 'keeperSat' }
+  /** R0531: a personality locked in at evolution, and the care that most shaped it. */
+  | {
+      kind: 'personalityLocked';
+      nubbinId: string;
+      personality: Personality;
+      cause: PersonalityCause;
+    }
+  | { kind: 'sitBeside'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1391,7 +1437,9 @@ export type SimEvent =
   | { kind: 'ranAway'; nubbinId: string; name: string }
   | { kind: 'strayReturned'; nubbinId: string; name: string }
   | { kind: 'scene'; scene: string }
-  | { kind: 'chapter'; chapter: number }
+  | { kind: 'chapter'; chapter: number; line?: string }
+  /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
+  | { kind: 'lineEnded'; line: string; ending: string }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
@@ -1606,3 +1654,7 @@ export interface GearState {
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
 }
+
+/** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
+export type PersonalityCause =
+  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';

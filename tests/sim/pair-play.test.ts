@@ -9,7 +9,8 @@ import { createWorld, stepWorld } from '../../src/sim/world';
 
 describe('Nubbins playing together', () => {
   it('a 10-minute soak with four Nubbins shows each pair-state', () => {
-    const w = createWorld(21, 0);
+    // A seed whose soak shows all three (the seeded day moved with R0524's idle table).
+    const w = createWorld(23, 0);
     while (w.nubbins.length < 4)
       w.nubbins.push(
         createEgg(

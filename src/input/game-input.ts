@@ -65,6 +65,8 @@ export interface InputHost {
   canGrab(id: string): boolean;
   /** The thing under the mouse (or just tapped), for a highlight; null clears it. */
   hover?(hit: { kind: string; id: string } | null): void;
+  /** R0003: the ground under the mouse while a piece is being placed, for the fit hint. */
+  placeHover?(pos: Vec2 | null): void;
   /** A sparkle burst where something was tapped. */
   sparkle?(pos: Vec2): void;
   send(cmd: Command): void;
@@ -398,6 +400,7 @@ export class GameInput {
     if (now - this.lastHoverMs < 50) return;
     this.lastHoverMs = now;
     const hit = this.pickNear(e.clientX, e.clientY);
+    if (this.host.placing?.()?.mode === 'decor') this.host.placeHover?.(hit?.ground ?? null);
     const tappable =
       hit && hit.kind !== 'ground' && hit.kind !== 'tree' ? hit : hit?.kind === 'tree' ? hit : null;
     this.host.hover?.(tappable ? { kind: tappable.kind, id: tappable.id } : null);

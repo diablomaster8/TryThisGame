@@ -12,6 +12,7 @@ import {
   currentSlot,
   readSave,
   watchOtherTabs,
+  claimSlot,
   writeSave,
 } from './platform/storage';
 import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
@@ -40,7 +41,7 @@ import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
 import { catchUpInChunks } from './sim/offline';
 import { deserialize, serialize } from './sim/save';
-import type { AwayReport, Command, GraphicsMode, SimEvent, World } from './sim/types';
+import type { AwayReport, Command, GraphicsMode, SimEvent, Vec2, World } from './sim/types';
 import { applyCommand, createWorld, findNubbin, stepWorld } from './sim/world';
 import { stepKeeperMotion } from './sim/keeper';
 import { CAMERA_FOLLOW, KEEPER_MOTION } from './config/tuning-sim';
@@ -377,6 +378,8 @@ export class Game {
 
   /** Decorating: the piece a ground tap places, or null. */
   placing: Placing = null;
+  /** R0003: the ground under the mouse while placing decor (desktop), for the fit hint. */
+  placeHoverAt: Vec2 | null = null;
   private lastFrameMs = 0;
   /** Time banked toward the Keeper's next fine step (MOVE-15). */
   private keeperAccMs = 0;
@@ -475,6 +478,12 @@ export class Game {
       this.holdSaves = true;
       this.hooks.onOtherTab();
     });
+    // Lane C r7 (R0658): and before anyone writes, a newer tab on this slot takes it over.
+    claimSlot(() => {
+      if (this.holdSaves) return;
+      this.holdSaves = true;
+      this.hooks.onOtherTab();
+    });
     // Loaded first so the Grove scene can paint the saved ground from its first frame.
     this.world = this.load();
     this.scene3d = graphics === '3d' ? scene3d : null;
@@ -515,6 +524,9 @@ export class Game {
       },
       sparkle: (pos) => (s3 ?? this.view).sparkle(pos.x, pos.z),
       placing: () => this.placing,
+      placeHover: (pos) => {
+        this.placeHoverAt = pos;
+      },
       canGrab: (id) => this.canGrab(id),
       send: (cmd) => this.send(cmd),
       onSelect: (id) => this.hooks.onSelect(id),

@@ -78,3 +78,19 @@ describe('rounds per game (R0746)', () => {
     expect(eduRounds(r.edu!)).toBe(8);
   });
 });
+
+describe('lane E r7 optional save fields', () => {
+  it('hideBelt, alwaysReborn and roundsPerGame survive a save and load at the current version', async () => {
+    const { serialize, deserialize, SAVE_VERSION } = await import('../../src/sim/save');
+    const w = createWorld(3, 0);
+    applyCommand(w, { kind: 'eduStart', age: 6, band: 'reader' }, []);
+    applyCommand(w, { kind: 'eduSetAlwaysReborn', on: true }, []);
+    applyCommand(w, { kind: 'eduSetRounds', rounds: 7 }, []);
+    applyCommand(w, { kind: 'wearBelt', nubbinId: w.nubbins[0]!.id, on: false }, []);
+    const file = deserialize(serialize(w, 0));
+    expect(file.version).toBe(SAVE_VERSION);
+    expect(file.world.edu?.alwaysReborn).toBe(true);
+    expect(file.world.edu?.roundsPerGame).toBe(7);
+    expect(file.world.nubbins[0]!.hideBelt).toBe(true);
+  });
+});

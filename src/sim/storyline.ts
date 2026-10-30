@@ -3,7 +3,7 @@ import type { Storyline, StorylineChapter } from '../content/types';
 import { STORY } from '../config/tuning';
 import { chapterDef, FINAL_CHAPTER, setLocation } from './campaign';
 import { actLabel, checkMet } from './storyline-checks';
-import { storylineRule, type StoryAction } from './storyline-rules';
+import { isSharedLine, storylineRule, type StoryAction } from './storyline-rules';
 import { sceneById, storylineById } from './story-scenes';
 import { queueScene, seen } from './story-state';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
@@ -87,13 +87,18 @@ export function storyFinalChapter(c: CampaignState): number {
   return s ? s.chapters.length : FINAL_CHAPTER;
 }
 
-/** Start storyline `id` in this world: fresh campaign state, the rule's setup, chapter 1. */
+/**
+ * Start storyline `id` in this world: fresh campaign state, the rule's setup, chapter 1.
+ * `shared` (R0596) runs it beside Hazel's Grove in `world.lines` instead of as the world's
+ * one campaign; its flags and counters are then its own from the start.
+ */
 export function startStoryline(
   world: World,
   c: CampaignState,
   id: string,
   events: SimEvent[],
   flags: Record<string, number | boolean | string> = {},
+  shared = false,
 ): boolean {
   const s = storylineById(id);
   if (!s) return false;
@@ -102,7 +107,8 @@ export function startStoryline(
   // Counters are global; the line reads the change since it began (`counter` subtracts `base:`).
   for (const k of Object.keys(c.flags))
     if (k.startsWith('n:')) c.flags[`base:${k.slice(2)}`] = Number(c.flags[k]);
-  world.campaign = c;
+  if (shared) world.lines[id] = c;
+  else world.campaign = c;
   storylineRule(id)?.setup?.(world, c, events);
   beginStoryChapter(world, c, 1, events);
   events.push({ kind: 'storylineStarted', id });
@@ -117,7 +123,8 @@ function beginStoryChapter(world: World, c: CampaignState, n: number, events: Si
   c.goalMetMs = null;
   for (const k of Object.keys(c.flags)) if (k.startsWith('act:')) delete c.flags[k];
   storylineRule(c.storyline ?? '')?.onChapter?.(world, c, n, events);
-  events.push({ kind: 'chapter', chapter: n });
+  if (isSharedLine(world, c)) events.push({ kind: 'chapter', chapter: n, line: c.storyline! });
+  else events.push({ kind: 'chapter', chapter: n });
 }
 
 function variantOf(c: CampaignState, id: string): string {
@@ -171,7 +178,9 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
   c.ending = ending;
   c.chapter = s.chapters.length + 1;
   queueScene(c, `end-${s.id}-${ending}`);
-  events.push({ kind: 'ending', ending: `${s.id}-${ending}` });
+  // R0600: a line beside Hazel's Grove ends on its own; only the spine's ending is the game's.
+  if (isSharedLine(world, c)) events.push({ kind: 'lineEnded', line: s.id, ending });
+  else events.push({ kind: 'ending', ending: `${s.id}-${ending}` });
 }
 
 /** Fold the step's events into the `n:<kind>` counters (both kinds of campaign read them). */

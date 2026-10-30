@@ -84,6 +84,11 @@ function term(world: World, c: CampaignState, text: string): boolean {
       return t.length > 2 ? String(c.flags[t[1]!]) === t[2] : Boolean(c.flags[t[1]!]);
     case 'act':
       return c.flags[`act:${t[1]}`] === true;
+    case 'spine': {
+      // R0595: Hazel's Grove's flags, read-only and by name, from a line beside it.
+      const f = world.campaign?.flags ?? {};
+      return t.length > 2 ? String(f[t[1]!]) === t[2] : Boolean(f[t[1]!]);
+    }
     case 'seen':
       return c.seen.includes(t[1]!);
     case 'count':

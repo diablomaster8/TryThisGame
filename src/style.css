@@ -3650,3 +3650,176 @@ body.edu-sprout .modal-head .btn-close {
   font-size: 1.4rem;
   white-space: nowrap;
 }
+
+/* R0003 (lane A r7): the placing chip turns red while the piece would not fit under the mouse. */
+.placing-chip.placing-bad {
+  border-color: #e0524a;
+  color: #ffd6d2;
+}
+
+/* R0342 (lane A r7): the word being read aloud, lit like a karaoke line. */
+::highlight(read-aloud) {
+  background-color: rgba(242, 211, 76, 0.55);
+  color: inherit;
+}
+
+/* R0357 (lane A r7): the rename dialog and its silly-name picture buttons. */
+.rename-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.rename-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  font: inherit;
+  padding: 0 8px;
+}
+.rename-picture-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.btn-picture {
+  min-width: 52px;
+  min-height: 52px;
+  font-size: 26px;
+}
+
+/* R0360 (lane A r7): the stats sheet's dry caption under the name. */
+.sheet-caption {
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.85;
+  margin: -2px 0 6px;
+}
+
+/* R0522 (lane A r7): the personality chip on the stats sheet. */
+.personality-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 44px;
+  margin: 0 0 6px;
+  padding: 4px 8px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+}
+.personality-chip.forming {
+  opacity: 0.7;
+  border-style: dashed;
+}
+.personality-chip:disabled {
+  cursor: default;
+}
+.personality-icon {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  image-rendering: pixelated;
+}
+.personality-word {
+  font-weight: bold;
+  flex: none;
+}
+.personality-blurb {
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.personality-card {
+  margin: -2px 0 8px;
+  padding: 4px 10px;
+  font-size: 0.9em;
+  border-left: 3px solid rgba(255, 255, 255, 0.25);
+}
+.personality-card ul {
+  margin: 2px 0 0;
+  padding-left: 18px;
+}
+
+/* R0578 (lane A r7): a child's personality-forming meter. */
+.personality-forming {
+  margin: 0 0 6px;
+}
+.forming-bars {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+.forming-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.forming-bar {
+  width: 14px;
+  height: 28px;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.forming-fill {
+  width: 100%;
+  background: #f2d34c;
+}
+.forming-label {
+  display: block;
+  opacity: 0.85;
+}
+.forming-hints {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  opacity: 0.85;
+}
+
+/* Lane C r7 (R0647): the in-game confirm card sits over every other panel. */
+.modal.confirm-modal {
+  position: fixed;
+  z-index: 1000;
+}
+.confirm-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.confirm-row .btn {
+  min-height: 44px;
+  flex: 1;
+}
+/* Lane C r7 (R0596): the journal's other roads. */
+.journal-line {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.journal-line .btn {
+  min-height: 44px;
+}
+/* Lane C r7 (R0624): the quiet backup chip after an ending, above the bottom controls. */
+.backup-chip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(26, 21, 48, 0.92);
+  color: #fff;
+  z-index: 50;
+  max-width: calc(100% - 32px);
+}
+.backup-chip .btn {
+  min-height: 44px;
+}

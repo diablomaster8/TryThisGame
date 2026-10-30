@@ -26,6 +26,8 @@ import { renderHollowPage } from './hollow-journal';
 import { HOLLOW_R6_TEXT } from '../config/strings';
 import { PLACES_TEXT } from '../config/strings-world';
 import { renderPlaces } from './landmark-card';
+import { renderLines } from './journal-lines';
+import { storyBoutJournal } from './battle-scenes';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -300,6 +302,15 @@ export class Journal {
       this.renderStoryActions(g, view);
     }
     if (!c.storyline) this.renderSideStories(g);
+    // Lane C r7 (R0275, R0596): a story bout at its beat, and the questlines beside Hazel's Grove.
+    if (!c.storyline) storyBoutJournal(g, this.body, () => this.close());
+    renderLines(
+      g,
+      this.body,
+      () => this.refresh(),
+      () => this.close(),
+      this.openers,
+    );
     this.renderMemories(g);
     // Sable and Moss at a glance.
     const list = el('div', 'journal-cast');

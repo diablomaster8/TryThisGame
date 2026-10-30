@@ -7,7 +7,10 @@ import {
   UI_TEXT,
 } from '../config/strings';
 import type { Game } from '../game';
-import type { SimEvent } from '../sim/types';
+import type { NubbinType, SimEvent } from '../sim/types';
+import { EVOLVE_QUIPS } from '../config/strings-fun-r7';
+import { startQuip } from '../render/evolve-quip';
+import { toastBand } from './fun-toasts';
 import { button, dialogFocus, el } from './dom';
 
 /**
@@ -19,6 +22,8 @@ export class Celebration {
   private readonly title: HTMLHeadingElement;
   private readonly lines: HTMLDivElement;
   private timer = 0;
+  /** R0354: the evolution shown, for its comic beat when the card closes. */
+  private evolved: { id: string; type: NubbinType } | null = null;
   private readonly focus: ReturnType<typeof dialogFocus>;
 
   get isOpen(): boolean {
@@ -62,6 +67,7 @@ export class Celebration {
           ? NAMES.alignmentMoon
           : NAMES.alignmentNeutral;
     this.title.textContent = UI_TEXT.evolvedTitle(name);
+    this.evolved = { id: e.nubbinId, type: e.type };
     this.lines.innerHTML = '';
     this.lines.appendChild(
       el(
@@ -91,6 +97,7 @@ export class Celebration {
 
   /** Lane B round 6 (R0160): the same card for a boss that runs home, with plain lines. */
   showLines(title: string, lines: string[]): void {
+    this.evolved = null;
     this.title.textContent = title;
     this.lines.innerHTML = '';
     for (const line of lines) this.lines.appendChild(el('p', undefined, line));
@@ -107,5 +114,23 @@ export class Celebration {
     this.root.hidden = true;
     this.focus.closed();
     this.root.remove();
+    // R0354: then the comic beat, and its line.
+    const ev = this.evolved;
+    this.evolved = null;
+    const g = this.game();
+    const n = ev && g?.world.nubbins.find((x) => x.id === ev.id);
+    if (ev && g && n) {
+      startQuip(ev.id, performance.now());
+      this.onQuip?.(EVOLVE_QUIPS[toastBand(g.world)][ev.type].replaceAll('{n}', n.name));
+    }
   }
+
+  /** R0531: one more line on the card that is showing (the personality locking in). */
+  addLine(text: string): void {
+    if (this.root.hidden) return;
+    this.lines.appendChild(el('p', 'celebrate-personality', text));
+  }
+
+  /** R0354: where the after-card line goes (the HUD's toast). */
+  onQuip?: (line: string) => void;
 }

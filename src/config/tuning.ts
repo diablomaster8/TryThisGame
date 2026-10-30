@@ -2011,3 +2011,5 @@ export * from './tuning-battle';
 export * from './tuning-look';
 export * from './tuning-fun';
 export * from './tuning-kids';
+export * from './tuning-fun-r7';
+export * from './tuning-camp';

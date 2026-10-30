@@ -1,4 +1,5 @@
 import { FRIENDS } from '../config/tuning';
+import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
 import { stepPairPlay } from './pair-play';
 import type { Nubbin, SimEvent, World } from './types';
 
@@ -46,10 +47,22 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
       }
     }
   }
-  // Friends who moved on are forgotten slowly.
+  // Friends who moved on are forgotten slowly (R0539): a friend away on a trip, a stray or
+  // a minigame fades a little each minute; a buddy who departed is remembered by name.
   for (const n of live) {
     for (const id of Object.keys(n.friends ?? {})) {
-      if (!world.nubbins.some((x) => x.id === id)) delete n.friends[id];
+      if (world.nubbins.some((x) => x.id === id)) continue;
+      const score = n.friends[id]!;
+      const flower = world.memorials.find((m) => m.id === `memorial-${id}`);
+      if (flower && score >= FRIENDS.buddyAt && !n.remembered?.some((r) => r.id === id)) {
+        n.remembered = [
+          ...(n.remembered ?? []),
+          { id, name: flower.name, atMs: world.timeMs },
+        ].slice(-FRIENDS_AWAY.remember);
+      }
+      const left = score - FRIENDS_AWAY.decayPerMinute * minutes;
+      if (left > 0 && !flower) n.friends[id] = left;
+      else delete n.friends[id];
     }
   }
 }

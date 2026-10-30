@@ -10,7 +10,11 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
+import { RenameDialog } from './rename-dialog';
+import { sheetCaption } from './sheet-caption';
+import { PersonalityChip } from './personality-chip';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -66,12 +70,20 @@ export class StatsSheet {
   private catchBtn!: HTMLButtonElement;
   /** Lane C: the Bout card (battle stats, traits, move slots). */
   private readonly bout: BattleCard;
+  /** R0357: the rename dialog, made on first use beside the sheet. */
+  private renamer: RenameDialog | null = null;
+  /** R0360: the dry caption under the name. */
+  private readonly caption: HTMLDivElement;
+  /** R0522: the personality chip (a child's leaning) and its card. */
+  private readonly personality = new PersonalityChip();
+  private readonly host: HTMLElement;
 
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void = () => undefined,
   ) {
+    this.host = parent;
     this.root = el('div', 'sheet');
     this.root.hidden = true;
 
@@ -82,6 +94,8 @@ export class StatsSheet {
     const close = button('×', () => this.close(), 'btn btn-close');
     close.setAttribute('aria-label', UI_TEXT.close);
     head.append(this.name, this.subtitle, close);
+    this.caption = el('div', 'sheet-caption');
+    this.caption.hidden = true;
 
     const needs = el('div', 'sheet-needs');
     this.meters = {
@@ -213,7 +227,20 @@ export class StatsSheet {
     this.give.append(this.giveTitle, this.giveList);
 
     this.bout = new BattleCard(game);
-    this.root.append(head, needs, stats, this.actions, this.more, this.acc, this.life, this.give);
+    this.root.append(
+      head,
+      this.caption,
+      this.personality.root,
+      this.personality.forming,
+      this.personality.details,
+      needs,
+      stats,
+      this.actions,
+      this.more,
+      this.acc,
+      this.life,
+      this.give,
+    );
     this.root.appendChild(this.bout.root);
     parent.appendChild(this.root);
   }
@@ -279,6 +306,11 @@ export class StatsSheet {
   open(id: string): void {
     this.id = id;
     this.root.hidden = false;
+    // R0360: one dry caption per opening, in the main band.
+    const g = this.game();
+    const n = g?.world.nubbins.find((x) => x.id === id);
+    this.caption.textContent = (g && n && sheetCaption(g.world, n)) || '';
+    this.caption.hidden = !this.caption.textContent;
     this.refresh();
   }
 
@@ -300,6 +332,8 @@ export class StatsSheet {
     }
     this.name.textContent = n.name;
     this.subtitle.textContent = subtitleFor(n, world);
+    this.personality.update(n);
+    this.personality.meter(n, toastBand(world) === 'sprout');
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);
@@ -420,10 +454,9 @@ export class StatsSheet {
   private rename(): void {
     const g = this.game();
     if (!g || !this.id) return;
-    const n = g.world.nubbins.find((x) => x.id === this.id);
-    if (!n) return;
-    const name = window.prompt(UI_TEXT.rename, n.name);
-    if (name && name.trim()) g.send({ kind: 'rename', nubbinId: this.id, name });
+    // R0357: a small dialog with a silly-name button, in place of the prompt box.
+    this.renamer ??= new RenameDialog(this.host, this.game);
+    this.renamer.open(this.id);
   }
 }
 

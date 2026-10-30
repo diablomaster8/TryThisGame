@@ -15,6 +15,7 @@ import { SKILL_LIST } from '../sim/skills';
 import {
   GROVE_LABELS,
   NAMES,
+  PERSONALITY_LABELS,
   SPECIES_LABELS,
   TRAINER_LABELS,
   TYPE_LABELS,
@@ -82,7 +83,7 @@ import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
-import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
+import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -101,7 +102,16 @@ import { KarateMenu } from './karate';
 import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
-import { DecorateMenu, placingLabel } from './decorate';
+import { DecorateMenu, placeHint, placingLabel } from './decorate';
+import {
+  GENTLE_HANDS,
+  LOCKED_TEXT,
+  MOSS_WATCH,
+  PLACE_TEXT,
+  SIT_TEXT,
+} from '../config/strings-fun-r7';
+import { mossReaction } from './moss-watch';
+import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -131,6 +141,9 @@ import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
+import { CAMP_TEXT } from '../config/strings';
+import { BackupNudge } from './backup-nudge';
+import { storylineById } from '../sim/story-scenes';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
@@ -457,6 +470,8 @@ export function mountHud(
     if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
   }, 1000);
   const celebration = new Celebration(root, game);
+  // R0354: the comic line after the evolution card.
+  celebration.onQuip = (line) => toast(line);
   // R0326: which comic stray line comes next.
   let strayLine = 0;
   const shop = new ShopMenu(root, game, toast);
@@ -1056,6 +1071,11 @@ export function mountHud(
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
+      // R0003: on a desktop the chip says, before the click, whether the piece fits there.
+      const fit = g.placing?.mode === 'decor' && g.placeHoverAt ? placeHint(g) : null;
+      placingChip.classList.toggle('placing-bad', !!fit && fit !== true);
+      if (fit && fit !== true) placingText.textContent = `✗ ${UI_TEXT.decorRefused[fit]}`;
+      else if (fit) placingText.textContent += ` · ✓ ${PLACE_TEXT.fits}`;
       rotateBtn.hidden = g.placing?.mode !== 'decor';
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
@@ -1125,15 +1145,37 @@ export function mountHud(
   }
   void refreshTimer;
 
+  // Lane C r7 (R0624): the Home Screen card and the backup chip.
+  const backupNudge = new BackupNudge(root, game);
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       const g = game();
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      backupNudge.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
+        // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
+        if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
+        // R0531: the personality locks in: a line on the evolution card, with the reason.
+        if (e.kind === 'personalityLocked') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          celebration.addLine(
+            `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
+          );
+        }
+        // R0527: in the Learning Grove a throw gets a picture hint.
+        if (e.kind === 'thrown' && g.world.edu) toast(GENTLE_HANDS);
+        // R0353: Moss saw that.
+        const moss = mossReaction(g.world, e);
+        if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());
+        // R0352: rule three, noticed once a Nubbin sits down beside the sitting Keeper.
+        if (e.kind === 'sitBeside') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (n) toast(SIT_TEXT[toastBand(g.world)].replaceAll('{n}', n.name));
+        }
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1233,6 +1275,15 @@ export function mountHud(
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
+        } else if (e.kind === 'chapter' && e.line) {
+          // Lane C r7 (R0596): a questline beside Hazel's Grove names itself.
+          const line = g.world.lines[e.line];
+          const title = line ? chapterTitle(line, e.chapter) : null;
+          const name = storylineById(e.line)?.title ?? e.line;
+          if (title !== null) toast(CAMP_TEXT.lineChapter(name, e.chapter, title));
+        } else if (e.kind === 'lineEnded') {
+          const s = storylineById(e.line);
+          toast(CAMP_TEXT.lineEnded(s?.title ?? e.line, s?.endings[e.ending]?.title ?? e.ending));
         } else if (e.kind === 'chapter') {
           const title = chapterTitle(g.world.campaign, e.chapter);
           if (title !== null) toast(STORY_TEXT.chapterStarted(e.chapter, title));
@@ -1278,12 +1329,15 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
           // FUN-09: each action and personality has its own line.
+          // R0350: a Shadow Nubbin still earning trust says how close it came.
+          const shy = n ? shyLine(n, e.ok, e.action, toastBand(g.world)) : null;
           toast(
-            e.ok && n
-              ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
-              : e.ok
-                ? UI_TEXT.interacted(name, e.action)
-                : UI_TEXT.interactRefused(name),
+            shy ??
+              (e.ok && n
+                ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
+                : e.ok
+                  ? UI_TEXT.interacted(name, e.action)
+                  : UI_TEXT.interactRefused(name)),
           );
           if (e.ok) playSound('pet');
         } else if (e.kind === 'called') {
