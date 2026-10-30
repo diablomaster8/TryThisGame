@@ -98,3 +98,10 @@ export const EDU_RESULTS_TEXT = {
   say: (stars: number, name: string) =>
     `You got ${stars} ${stars === 1 ? 'star' : 'stars'}! ${name} is so happy.`,
 } as const;
+
+/** R0711 / R0731: kind words for a miss, and the sprout band's hold-to-leave. */
+export const EDU_WRONG_TEXT = {
+  first: 'Hmm, not that one. Try another!',
+  leaveHold: 'Hold to go back to the Grove',
+  saved: 'Your stars are saved.',
+} as const;

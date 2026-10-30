@@ -3,12 +3,11 @@ import {
   EDU_AGES,
   EDU_COLOUR_HEX,
   EDU_DOMAIN,
-  EDU_GAMES,
   EDU_RECOMMENDED,
   type EduAge,
   type EduGameId,
 } from '../config/edu';
-import { EDU_TEXT, NAMES } from '../config/strings';
+import { EDU_STORY_TEXT, EDU_TEXT, NAMES } from '../config/strings';
 import type { Game } from '../game';
 import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames/edu/games';
 import { Peekaboo } from '../minigames/micro/peekaboo';
@@ -19,7 +18,12 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
-import { EDU_PICKER_TEXT, EDU_RESULTS_TEXT, EDU_SAY_TEXT } from '../config/strings-kids';
+import {
+  EDU_PICKER_TEXT,
+  EDU_RESULTS_TEXT,
+  EDU_SAY_TEXT,
+  EDU_WRONG_TEXT,
+} from '../config/strings-kids';
 import { EDU_VOICE } from '../config/tuning-kids';
 import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
@@ -73,7 +77,10 @@ export class EduScreen {
     parent.appendChild(this.root);
     // The game card is a dialog too: named, focused on start, Escape leaves the game.
     this.card.setAttribute('aria-label', EDU_TEXT.play);
-    this.gameFocus = dialogFocus(this.root, this.card, null, () => this.close());
+    // R0731: in the sprout band a stray Escape mid-round does not end the game.
+    this.gameFocus = dialogFocus(this.root, this.card, null, () => {
+      if (!(this.round && this.band() === 'sprout')) this.close();
+    });
   }
 
   /** The picker: one big button per switched-on game. */
@@ -232,7 +239,9 @@ export class EduScreen {
       el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, EDU.roundsPerGame)),
       // R0674: the prompt again, for every band.
       button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
-      button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
+      this.band() === 'sprout'
+        ? holdToLeave(() => this.close())
+        : button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
     );
     head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
@@ -289,9 +298,11 @@ export class EduScreen {
       );
       return;
     }
+    // R0711: a wrong pick wobbles and keeps its colour, with a small thought mark.
     btn.classList.add('wrong');
     btn.disabled = true;
-    playSound('tap');
+    btn.appendChild(el('span', 'edu-wrong-mark', '💭'));
+    playSound('bonk');
     if (this.tries >= EDU.triesBeforeShow) {
       // Show the answer; the round still counts, with one star.
       const right = this.card.querySelectorAll<HTMLButtonElement>('.edu-option')[r.answer];
@@ -305,7 +316,15 @@ export class EduScreen {
       );
       return;
     }
-    this.reply(this.tries === 1 ? EDU_TEXT.tryAgain : EDU_TEXT.almost);
+    // R0711: after the second miss the right answer pulses, a hint before it is shown.
+    if (this.tries >= 2)
+      this.card
+        .querySelectorAll<HTMLButtonElement>('.edu-option')
+        [r.answer]?.classList.add('edu-hint-pulse');
+    const sprout = this.band() === 'sprout';
+    this.reply(
+      this.tries === 1 ? (sprout ? EDU_WRONG_TEXT.first : EDU_TEXT.tryAgain) : EDU_TEXT.almost,
+    );
   }
 
   /**
@@ -401,6 +420,48 @@ function holdToHear(b: HTMLButtonElement, o: EduOption): void {
     true,
   );
   b.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+/**
+ * R0731: the sprout band's Leave, a 🏡 that needs a short hold (with a fill, as on the gate),
+ * so one stray tap does not end the game. The stars already won are kept either way.
+ */
+function holdToLeave(leave: () => void): HTMLButtonElement {
+  const b = button('', () => undefined, 'btn edu-leave-hold');
+  b.append(el('span', 'edu-leave-icon', '🏡'), el('span', 'edu-gate-fill'));
+  b.setAttribute('aria-label', EDU_WRONG_TEXT.leaveHold);
+  b.title = EDU_WRONG_TEXT.leaveHold;
+  let timer = 0;
+  const start = () => {
+    if (timer) return;
+    b.classList.add('holding');
+    timer = window.setTimeout(() => {
+      timer = 0;
+      b.classList.remove('holding');
+      speakLine(EDU_WRONG_TEXT.saved);
+      leave();
+    }, EDU_VOICE.leaveHoldMs);
+  };
+  const cancel = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+    b.classList.remove('holding');
+  };
+  b.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    start();
+  });
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const)
+    b.addEventListener(ev, cancel);
+  b.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
+      e.preventDefault();
+      start();
+    }
+  });
+  b.addEventListener('keyup', cancel);
+  b.addEventListener('contextmenu', (e) => e.preventDefault());
+  return b;
 }
 
 /** Light each counted icon in turn, in time with the counting voice. */
@@ -566,6 +627,9 @@ export class GrownUpPanel {
       setTimeout(() => this.renderPanel(), 100);
     });
     ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
+    // R0735: a reader's games stay at their top age; the band is the real choice for 7–10.
+    if (e.band === 'reader')
+      ageRow.replaceChildren(el('strong', undefined, EDU_STORY_TEXT.readerAges));
     this.body.appendChild(ageRow);
     // Name.
     const nameRow = el('label', 'field-row');
@@ -627,7 +691,8 @@ export class GrownUpPanel {
     this.body.appendChild(el('h3', undefined, EDU_TEXT.progressLabel));
     const list = el('div', 'shop-list');
     const byDomain = new Map<string, { plays: number; stars: number }>();
-    for (const id of EDU_GAMES) {
+    // R0735: only the games this band is offered, so a reader sees no empty Animals row.
+    for (const id of gamesForBand(e.band)) {
       const d = EDU_DOMAIN[id];
       const cur = byDomain.get(d) ?? { plays: 0, stars: 0 };
       cur.plays += e.progress[id]?.plays ?? 0;

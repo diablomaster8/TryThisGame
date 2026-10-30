@@ -20,4 +20,6 @@ export const EDU_VOICE = {
   launchMs: 600,
   /** R0686: the results card's stars pop in this far apart, one chime each. */
   starMs: 280,
+  /** R0731: hold the sprout band's 🏡 this long to leave a game. */
+  leaveHoldMs: 600,
 } as const;

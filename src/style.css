@@ -3550,3 +3550,57 @@ body.edu-sprout .modal-head .btn-close {
     animation: none;
   }
 }
+
+/* Lane E r7, R0711: a miss keeps its colour (disabled, not dimmed) and wobbles once. */
+.edu-option.wrong,
+.edu-option.wrong:disabled {
+  opacity: 1;
+  position: relative;
+  filter: none;
+  animation: edu-wobble 0.2s ease-in-out 2;
+}
+.edu-wrong-mark {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 1.1rem;
+}
+.edu-option.edu-hint-pulse:not(.wrong) {
+  animation: guide-pulse 1s ease-in-out infinite;
+  outline: 4px solid #ffd85a;
+}
+@keyframes edu-wobble {
+  25% {
+    transform: translateX(-4px) rotate(-1deg);
+  }
+  75% {
+    transform: translateX(4px) rotate(1deg);
+  }
+}
+.reduce-motion .edu-option.wrong,
+.reduce-motion .edu-option.edu-hint-pulse {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-option.wrong,
+  .edu-option.edu-hint-pulse {
+    animation: none;
+  }
+}
+/* R0731: the sprout band's hold-to-leave 🏡, filling as it is held. */
+.edu-leave-hold {
+  position: relative;
+  overflow: hidden;
+  min-width: 72px;
+  min-height: 72px;
+  font-size: 2rem;
+}
+.edu-leave-hold .edu-gate-fill {
+  transition-duration: 600ms;
+}
+.edu-leave-hold.holding .edu-gate-fill {
+  transform: scaleX(1);
+}
+.edu-leave-hold:not(.holding) .edu-gate-fill {
+  transition-duration: 0s;
+}
