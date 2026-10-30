@@ -173,6 +173,38 @@ export class DebugPanel {
     );
     this.root.appendChild(lines);
 
+    // Lane C r8 (R0644): the Open quest flow: switch flows, offer any quest, answer it.
+    const offers = el('div', 'debug-row');
+    offers.appendChild(el('span', undefined, 'Offers'));
+    const questId = Object.assign(el('input'), { type: 'text', value: 'q01' });
+    questId.setAttribute('aria-label', 'Quest id');
+    questId.style.width = '4.5em';
+    offers.appendChild(questId);
+    const flow = (f: 'open' | 'guided') => () => {
+      const g = this.game();
+      if (g) g.send({ kind: 'setSettings', settings: { ...g.world.settings, questFlow: f } });
+    };
+    offers.append(
+      button('Open', flow('open'), 'btn btn-small'),
+      button('Guided', flow('guided'), 'btn btn-small'),
+      button(
+        'Offer',
+        () => this.game()?.send({ kind: 'debugQuestOffer', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+      button(
+        'Accept',
+        () => this.game()?.send({ kind: 'questAccept', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+      button(
+        'Not now',
+        () => this.game()?.send({ kind: 'questDecline', id: questId.value.trim() }),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(offers);
+
     const force = el('div', 'debug-row');
     force.append(
       button(

@@ -1177,6 +1177,8 @@ export type Command =
   | { kind: 'questDecline'; id: string }
   | { kind: 'questShelve'; id: string }
   | { kind: 'questTrack'; id: string; on: boolean }
+  // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
+  | { kind: 'debugQuestOffer'; id: string }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */

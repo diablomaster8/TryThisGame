@@ -177,6 +177,26 @@ export function stepQuestOffers(
   }
 }
 
+/** R0644: QA's offer of any quest not yet begun, here and now (the debug panel). */
+export function debugOffer(world: World, id: string, events: SimEvent[]): boolean {
+  const c = world.campaign;
+  if (!openFlow(world) || !c || !sideStory(id) || declineRule(id) === 'never') return false;
+  if (campaignStatus(c, id) !== undefined) return false;
+  const book = questBook(world);
+  const area = book.here ?? QUEST_OFFERS.hubArea;
+  const prior = book.entries[id];
+  book.entries[id] = {
+    state: 'offered',
+    area,
+    offeredMs: world.timeMs,
+    acceptedMs: null,
+    declines: prior?.declines ?? 0,
+  };
+  book.offer = { quest: id, area, atMs: world.timeMs };
+  events.push({ kind: 'questOffered', quest: id, area });
+  return true;
+}
+
 function entryFor(world: World, id: string): QuestEntry {
   const book = questBook(world);
   return (book.entries[id] ??= {

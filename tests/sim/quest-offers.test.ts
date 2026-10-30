@@ -7,6 +7,8 @@ import { activeQuests, boardState, keeperArea, questBook } from '../../src/sim/q
 import { RUNNER_STORIES } from '../../src/sim/side-stories';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
+import { catchUp } from '../../src/sim/offline';
+import { deserialize, serialize, worldFingerprint } from '../../src/sim/save';
 import { c, campaignWorld, drive, playScenes, tick } from './campaign-driver';
 
 const POIS = REGIONS.grove.pois;
@@ -177,4 +179,34 @@ describe('the Open quest flow', () => {
     for (const id of ['s19', 's23']) expect(declined.has(id), id).toBe(false);
     for (const id of declined) expect(c(world).side[id] ?? c(world).fun[id]).toBeUndefined();
   }, 60_000);
+
+  it('nothing is offered in the quiet chapters (R0612)', () => {
+    const { world, events } = openAt(10);
+    for (const p of POIS) walkTo(world, events, p.id);
+    expect(events.some((e) => e.kind === 'questOffered')).toBe(false);
+    expect(events.some((e) => e.kind === 'areaEntered')).toBe(true);
+  });
+
+  it('the book survives a save and load, and catch-up offers nothing', () => {
+    const { world, events } = openAt(3);
+    walkTo(world, events, 'falls');
+    applyCommand(world, { kind: 'questDecline', id: 'q01' }, events);
+    applyCommand(world, { kind: 'questAccept', id: 'q02' }, events);
+    const back = deserialize(serialize(world, 1)).world;
+    // A second round trip changes nothing (the first may repair fields a live world lacks).
+    expect(worldFingerprint(deserialize(serialize(back, 1)).world)).toBe(worldFingerprint(back));
+    expect(back.questBook).toEqual(world.questBook);
+    const before = JSON.stringify(world.questBook?.entries);
+    const away = catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
+    expect(away.events.some((e) => e.kind === 'questOffered')).toBe(false);
+    expect(JSON.stringify(world.questBook?.entries)).toBe(before);
+  });
+
+  it('QA can put any quest on the card (R0644)', () => {
+    const { world, events } = openAt(3);
+    applyCommand(world, { kind: 'debugQuestOffer', id: 'q20' }, events);
+    expect(questBook(world).offer?.quest).toBe('q20');
+    applyCommand(world, { kind: 'debugQuestOffer', id: 's5' }, events);
+    expect(questBook(world).offer?.quest).toBe('q20');
+  });
 });
