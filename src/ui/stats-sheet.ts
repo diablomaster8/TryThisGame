@@ -11,6 +11,7 @@ import {
   UI_TEXT,
 } from '../config/strings';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
+import { RenameDialog } from './rename-dialog';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -66,12 +67,16 @@ export class StatsSheet {
   private catchBtn!: HTMLButtonElement;
   /** Lane C: the Bout card (battle stats, traits, move slots). */
   private readonly bout: BattleCard;
+  /** R0357: the rename dialog, made on first use beside the sheet. */
+  private renamer: RenameDialog | null = null;
+  private readonly host: HTMLElement;
 
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void = () => undefined,
   ) {
+    this.host = parent;
     this.root = el('div', 'sheet');
     this.root.hidden = true;
 
@@ -415,10 +420,9 @@ export class StatsSheet {
   private rename(): void {
     const g = this.game();
     if (!g || !this.id) return;
-    const n = g.world.nubbins.find((x) => x.id === this.id);
-    if (!n) return;
-    const name = window.prompt(UI_TEXT.rename, n.name);
-    if (name && name.trim()) g.send({ kind: 'rename', nubbinId: this.id, name });
+    // R0357: a small dialog with a silly-name button, in place of the prompt box.
+    this.renamer ??= new RenameDialog(this.host, this.game);
+    this.renamer.open(this.id);
   }
 }
 

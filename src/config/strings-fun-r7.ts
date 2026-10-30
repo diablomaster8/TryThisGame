@@ -84,3 +84,76 @@ export const EVOLVE_QUIPS = {
     power: '{n} lifts the bench. Oops!',
   },
 } as const;
+
+/**
+ * R0357 (FUN-68): the silly-name generator: a title and a name, at most 16 letters in all
+ * (the rename limit). The sprout band picks from the picture buttons instead. Every word is
+ * checked by `tests/sim/silly-names.test.ts` against a list of words that must never appear.
+ */
+export const SILLY_NAME_PARTS = {
+  titles: [
+    'Sir',
+    'Lady',
+    'Captain',
+    'Duke',
+    'Little',
+    'Major',
+    'Aunt',
+    'Uncle',
+    'Baron',
+    'Doctor',
+    'Queen',
+    'King',
+  ],
+  names: [
+    'Wobbles',
+    'Puddle',
+    'Crumb',
+    'Pickle',
+    'Muffin',
+    'Button',
+    'Noodle',
+    'Biscuit',
+    'Dumpling',
+    'Pebble',
+    'Teacup',
+    'Sprout',
+    'Turnip',
+    'Bumble',
+    'Waffle',
+    'Sock',
+    'Parsnip',
+    'Jellybean',
+    'Mittens',
+    'Toffee',
+    'Crumpet',
+    'Fidget',
+    'Pudding',
+    'Snorkel',
+  ],
+  /** The sprout band's picture buttons: an emoji and its word. */
+  pictureTitles: [
+    ['👑', 'King'],
+    ['👸', 'Queen'],
+    ['🎩', 'Sir'],
+    ['⚓', 'Captain'],
+  ],
+  pictureNames: [
+    ['🧁', 'Muffin'],
+    ['🥒', 'Pickle'],
+    ['🍪', 'Biscuit'],
+    ['💧', 'Puddle'],
+    ['🧦', 'Sock'],
+    ['🍜', 'Noodle'],
+  ],
+} as const;
+
+/** R0357: the rename dialog. */
+export const RENAME_TEXT = {
+  title: 'A new name',
+  silly: '🎲 Silly name',
+  ok: 'OK',
+  cancel: 'Cancel',
+  pickTitle: 'Pick a hat:',
+  pickName: 'Pick a name:',
+} as const;

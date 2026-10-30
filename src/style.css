@@ -3235,3 +3235,27 @@ select {
   background-color: rgba(242, 211, 76, 0.55);
   color: inherit;
 }
+
+/* R0357 (lane A r7): the rename dialog and its silly-name picture buttons. */
+.rename-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.rename-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  font: inherit;
+  padding: 0 8px;
+}
+.rename-picture-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.btn-picture {
+  min-width: 52px;
+  min-height: 52px;
+  font-size: 26px;
+}
