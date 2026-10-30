@@ -34,6 +34,7 @@ export class Footfall {
     this.surface = g !== 'water' && keeperFooting(world, x, z, k.y).on === 'deck' ? 'deck' : g;
     if (this.surface === 'deck') playSound('stepDeck');
     else if (this.surface === 'stone') playSound('stepStone');
+    else if (this.surface === 'water') playSound('stepWade');
     return this.surface;
   }
 }

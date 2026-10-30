@@ -53,6 +53,7 @@ import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { GlideWings } from './glide-wings';
+import { WadeRipple } from './wade-ripple';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -258,6 +259,7 @@ export class Actors {
   private readonly highlight: THREE.Mesh;
   /** MOVE-27: the glide's leaf wings. */
   private readonly wings: GlideWings;
+  private readonly wadeRipple: WadeRipple;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
@@ -341,6 +343,7 @@ export class Actors {
     this.group.add(this.highlight);
     this.sparkCloud = new QuadCloud(this.group, 96);
     this.wings = new GlideWings(this.group);
+    this.wadeRipple = new WadeRipple(this.group);
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
@@ -1241,6 +1244,13 @@ export class Actors {
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);
+    // R0001: rings round the knees while the Keeper wades the stream.
+    const wading =
+      this.location === 'grove' &&
+      this.keeperMoving &&
+      this.keeperLift < 0.05 &&
+      this.keeperFeet < WATER_LEVEL - 0.05;
+    this.wadeRipple.update(wading, kp.x, kp.z, nowMs, this.calm);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);
@@ -1379,6 +1389,7 @@ export class Actors {
     this.dresser.dispose();
     this.kit.dispose();
     this.rippleGeo.dispose();
+    this.wadeRipple.dispose();
     this.rippleMat.dispose();
     this.highlight.geometry.dispose();
     (this.highlight.material as THREE.Material).dispose();
