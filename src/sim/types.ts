@@ -258,6 +258,8 @@ export interface Nubbin {
   /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
   toyBoredom?: Record<string, { v: number; at: number }>;
   /** R0563: what it did lately (sim/diary.ts), newest last, at most five. */
+  /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
+  missing?: string[];
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
@@ -1444,6 +1446,8 @@ export type SimEvent =
   | { kind: 'pranked'; nubbinId: string; markId: string }
   /** R0551: a plain pet landed (the renderers play it by personality). */
   | { kind: 'petted'; nubbinId: string }
+  /** R0539: a missed buddy came back and the two hugged. */
+  | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }

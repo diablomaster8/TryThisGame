@@ -4,13 +4,17 @@
  * clearing for good (R0532). Pure apart from reading the world, for tests.
  */
 import { NAMES } from '../config/strings';
-import { MOODY_TEXT, TASTE_NAMES, TASTE_TOASTS } from '../config/strings-soul-r8';
+import { MOODY_TEXT, REUNION_TEXT, TASTE_NAMES, TASTE_TOASTS } from '../config/strings-soul-r8';
 import { likesOf } from '../sim/likes';
 import type { SoundName } from '../platform/audio';
 import type { SimEvent, World } from '../sim/types';
 import { toastBand } from './fun-toasts';
 
 export function soulToast(world: World, e: SimEvent): string | null {
+  if (e.kind === 'reunion') {
+    const nm = (id: string) => world.nubbins.find((x) => x.id === id)?.name ?? NAMES.creature;
+    return REUNION_TEXT[toastBand(world)].replaceAll('{a}', nm(e.a)).replaceAll('{b}', nm(e.b));
+  }
   if (e.kind !== 'fruitTaste' && e.kind !== 'moodyCleared' && e.kind !== 'highFiveRefused')
     return null;
   const n = world.nubbins.find((x) => x.id === e.nubbinId);

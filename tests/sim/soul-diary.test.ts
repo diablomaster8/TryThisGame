@@ -27,3 +27,25 @@ describe('R0563 diary', () => {
     expect(recently(a)[0]!.kind).toBe('sneeze');
   });
 });
+
+describe('R0539 reunion hug', () => {
+  it('a buddy away ten minutes is still a friend, and gets a hug on coming back', async () => {
+    const { stepWorld } = await import('../../src/sim/world');
+    const w = createWorld(4, 0);
+    const a = w.nubbins[0]!;
+    a.stage = 'child';
+    const b: Nubbin = structuredClone(a);
+    b.id = 'b';
+    a.friends = { b: 40 };
+    b.friends = { [a.id]: 40 };
+    w.nubbins = [a];
+    for (let t = 0; t < 10 * 600; t++) stepWorld(w, 100);
+    expect(a.friends.b ?? 0).toBeGreaterThan(0);
+    expect(a.missing).toEqual(['b']);
+    w.nubbins.push(b);
+    const ev = stepWorld(w, 100);
+    expect(ev).toContainEqual({ kind: 'reunion', a: a.id, b: 'b' });
+    expect(a.missing).toBeUndefined();
+    expect(a.behavior.reaction).toBe('love');
+  });
+});

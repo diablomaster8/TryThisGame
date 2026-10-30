@@ -1,6 +1,8 @@
 import { FRIENDS } from '../config/tuning';
 import { FRIENDS_AWAY } from '../config/tuning-fun-r7';
 import { stepPairPlay } from './pair-play';
+import { addHappiness } from './needs';
+import { isFree } from './nubbin';
 import type { Nubbin, SimEvent, World } from './types';
 
 /**
@@ -27,6 +29,7 @@ export function bestFriend(world: World, n: Nubbin): Nubbin | null {
 }
 
 export function stepFriendships(world: World, dtMs: number, events: SimEvent[]): void {
+  stepReunions(world, events);
   // R0330 (FUN-41): Nubbins near each other play together now and then.
   stepPairPlay(world, events);
   const minutes = dtMs / 60_000;
@@ -54,6 +57,9 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
       if (world.nubbins.some((x) => x.id === id)) continue;
       const score = n.friends[id]!;
       const flower = world.memorials.find((m) => m.id === `memorial-${id}`);
+      // Lane A r8 (R0539): a buddy away (not departed) is missed, for the hug when it is back.
+      if (!flower && score >= FRIENDS.buddyAt && !n.missing?.includes(id))
+        n.missing = [...(n.missing ?? []), id];
       if (flower && score >= FRIENDS.buddyAt && !n.remembered?.some((r) => r.id === id)) {
         n.remembered = [
           ...(n.remembered ?? []),
@@ -63,6 +69,41 @@ export function stepFriendships(world: World, dtMs: number, events: SimEvent[]):
       const left = score - FRIENDS_AWAY.decayPerMinute * minutes;
       if (left > 0 && !flower) n.friends[id] = left;
       else delete n.friends[id];
+    }
+  }
+}
+
+/**
+ * R0539 (lane A r8): a missed buddy back in the Grove (a stray home, a friend back from a
+ * trip) gets a reunion hug: both turn to each other with a heart and a little cheer.
+ */
+function stepReunions(world: World, events: SimEvent[]): void {
+  for (const n of world.nubbins) {
+    if (!n.missing?.length) continue;
+    const back = n.missing.filter((id) => world.nubbins.some((x) => x.id === id));
+    if (!back.length) continue;
+    n.missing = n.missing.filter((id) => !back.includes(id));
+    if (!n.missing.length) delete n.missing;
+    for (const id of back) {
+      const o = world.nubbins.find((x) => x.id === id)!;
+      if (n.stage === 'egg' || o.stage === 'egg') continue;
+      for (const [a, b] of [
+        [n, o],
+        [o, n],
+      ] as const) {
+        addHappiness(a, FRIENDS_AWAY.reunionHappiness);
+        if (!isFree(a)) continue;
+        a.behavior.state = 'react';
+        a.behavior.sinceMs = world.timeMs;
+        a.behavior.untilMs = world.timeMs + FRIENDS_AWAY.reunionMs;
+        a.behavior.target = null;
+        a.behavior.itemId = null;
+        a.behavior.reaction = 'love';
+        a.facing = Math.atan2(b.pos.x - a.pos.x, b.pos.z - a.pos.z);
+      }
+      events.push({ kind: 'reunion', a: n.id, b: o.id });
+      events.push({ kind: 'reaction', nubbinId: n.id, reaction: 'love' });
+      events.push({ kind: 'reaction', nubbinId: o.id, reaction: 'love' });
     }
   }
 }

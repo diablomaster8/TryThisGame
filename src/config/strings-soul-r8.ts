@@ -120,3 +120,10 @@ export const RECENTLY_TEXT = {
 
 /** R0579: the roster's filter row. */
 export const ROSTER_FILTER_TEXT = { label: 'Show by personality', all: 'All' } as const;
+
+/** R0539: a buddy back home. `{a}` ran over to `{b}`. */
+export const REUNION_TEXT = {
+  main: '{b} is back. {a} gets there first, for a long hug.',
+  reader: '{b} is back! {a} gives {b} a big hug.',
+  sprout: '🤗 {b} is back!',
+} as const;

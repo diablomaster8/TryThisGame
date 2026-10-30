@@ -151,4 +151,7 @@ export const FRIENDS_AWAY = {
   visitForMs: 48 * 60 * 60_000,
   visitChance: 0.03,
   visitMs: 6_000,
+  /** R0539 (lane A r8): the reunion hug for a buddy back home. */
+  reunionHappiness: 3,
+  reunionMs: 2000,
 } as const;
