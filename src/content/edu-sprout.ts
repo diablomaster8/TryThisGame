@@ -29,6 +29,7 @@ import { EDU_S28_SPROUT, EDU_S28_SPROUT_VARIANTS } from './edu-s28-sprout';
 import { EDU_S29_SPROUT, EDU_S29_SPROUT_VARIANTS } from './edu-s29-sprout';
 import { EDU_S30_SPROUT, EDU_S30_SPROUT_VARIANTS } from './edu-s30-sprout';
 import { EDU_S31_SPROUT, EDU_S31_SPROUT_VARIANTS } from './edu-s31-sprout';
+import { EDU_BATTLE_SPROUT_VARIANTS } from './edu-battle-sprout';
 import { LINE_LB_EDU, LINE_LB_EDU_VARIANTS } from './lines-lb';
 import { LINE_LK_EDU, LINE_LK_EDU_VARIANTS } from './lines-lk';
 
@@ -69,6 +70,7 @@ export const EDU_SPROUT: EduBandSet = {
     ...EDU_S29_SPROUT_VARIANTS,
     ...EDU_S30_SPROUT_VARIANTS,
     ...EDU_S31_SPROUT_VARIANTS,
+    ...EDU_BATTLE_SPROUT_VARIANTS,
     ...LINE_LB_EDU_VARIANTS.sprout,
     ...LINE_LK_EDU_VARIANTS.sprout,
   ],

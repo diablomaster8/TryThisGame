@@ -14,6 +14,10 @@ import {
 } from './battle';
 import { recordKarate } from './battle/rewards';
 import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
+import { startGuardian, storyBoutChoice } from './battle/story-bouts';
+import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
+import { trialClear } from './battle/tactics/trials';
+import { grantKeepsake } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -109,6 +113,9 @@ import {
   stepDungeon,
 } from './dungeon';
 import { calmStray } from './dungeon-strays';
+import { sneakPast } from './dungeon-sleepy';
+import { gambleBasket } from './dungeon-gamble';
+import { takeFromStash } from './dungeon-sack';
 import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -148,6 +155,7 @@ import {
   type Vec2,
   type World,
 } from './types';
+import { findCuriosity } from './curiosities';
 
 export function defaultSettings(): Settings {
   return {
@@ -259,6 +267,10 @@ export function createWorld(seed: number, wallMs: number): World {
       camp: { shells: 0, items: {}, questsPaid: [] },
       uniquesBeaten: [],
       lastParty: [],
+      // Lane B round 6 (save version 12).
+      bossChests: [],
+      today: { day: '', deepest: 0, bestMs: 0, finds: 0 },
+      stats: { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 },
     },
     neighbours: {},
     festivalSeen: '',
@@ -544,6 +556,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'confirmRift':
       confirmRift(world.settings);
       return;
+    // Lane E (R0332): a curiosity the UI spotted, logged once.
+    case 'curiosity':
+      findCuriosity(world, cmd.id, events);
+      return;
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n) n.name = cmd.name.trim().slice(0, 16) || n.name;
@@ -721,6 +737,28 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'tacticsClose':
       rumbleClose(world);
       return;
+    case 'trialClear':
+      trialClear(world, cmd.id, cmd.steps, events);
+      return;
+    case 'battleKeepsake':
+      if (cmd.id === 'playday-seen') grantKeepsake(world, cmd.id);
+      return;
+    case 'battleResume':
+      resumeBattleCmd(world);
+      return;
+    case 'battleDraw':
+      drawBattleCmd(world, events);
+      return;
+    case 'storyBout':
+      storyBoutChoice(world, cmd.id, cmd.fight, cmd.ids ?? [], events);
+      return;
+    case 'guardianStart':
+      startGuardian(world, events, {
+        depth: cmd.depth,
+        key: cmd.key,
+        ...(cmd.ids ? { ids: cmd.ids } : {}),
+      });
+      return;
     case 'fuse': {
       const [a, b] = world.partners;
       if (a && b) fuse(world, a, b, events);
@@ -784,6 +822,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'setHollowParty':
       setHollowParty(world, cmd.ids);
+      return;
+    // Lane B round 6: sneak past (R0180), the Mystery Basket (R0176), the stash (R0174).
+    case 'packSneak':
+      sneakPast(world, cmd.packId, events);
+      return;
+    case 'gambleBasket':
+      withRng(world, (rng) => gambleBasket(world, cmd.slot, rng, events));
+      return;
+    case 'stashTake':
+      takeFromStash(world, cmd.itemId);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1152,6 +1200,8 @@ export function stepWorld(
   stepTeams(world, events);
   // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
   if (!offline) stepBattleMoves(world, dtMs, events);
+  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
+  holdBattleNeeds(world);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

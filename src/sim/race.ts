@@ -1,5 +1,6 @@
 import { RACE } from '../config/tuning';
 import { HURDLES } from '../config/tuning-move-race';
+import { RACE_GAGS } from '../config/tuning-fun';
 import { hashSeed, Rng } from './rng';
 import { levelOf } from './stats';
 import type { Nubbin, StatKey, World } from './types';
@@ -164,6 +165,16 @@ export interface Racer {
   stumbleMs: number;
   /** The race time until which the dizzy emote shows (-1: none). */
   dizzyUntilMs: number;
+  /**
+   * R0325 (FUN-36): a happy Nubbin may stop to look at a butterfly: the track positions it
+   * will, until when it is gazing now, how often it did, and a cheer's "!" that snaps it out.
+   * A rival's quirk (an index into the quirk lines).
+   */
+  gazeAt?: number[];
+  gazeUntilMs?: number;
+  gazes?: number;
+  perkUntilMs?: number;
+  quirk?: number;
 }
 
 export interface RaceState {
@@ -237,8 +248,13 @@ export function createRace(
       hurdlesCleared: 0,
       stumbleMs: 0,
       dizzyUntilMs: -1,
+      gazeAt: butterflyStops(course, tier, player.needs.happiness, seed),
+      gazeUntilMs: -1,
+      gazes: 0,
     },
   ];
+  // R0325: the rivals' quirks come from their own dice, so the stat rolls are as before.
+  const quirks = Rng.fromSeed(hashSeed(`quirks:${seed}`));
   const count = rng.int(minRivals, maxRivals);
   // A rival never shares a name with one of the Keeper's own Nubbins (two racers called Pip).
   const avoid = new Set([player.name, ...taken].map((s) => s.trim().toLowerCase()));
@@ -270,6 +286,7 @@ export function createRace(
       hurdlesCleared: 0,
       stumbleMs: 0,
       dizzyUntilMs: -1,
+      quirk: quirks.int(0, RACE_GAGS.quirks - 1),
     });
   }
   const resolved: Course = { ...course, sections: course.tierSections?.[tier] ?? course.sections };
@@ -293,6 +310,12 @@ export function createRace(
 export function cheer(race: RaceState): boolean {
   if (race.finished || race.timeMs < race.cheerReadyAtMs) return false;
   race.cheerUntilMs = race.timeMs + RACE.cheerMs;
+  // R0325: a cheer snaps a gazing Nubbin out of it, with a "!".
+  const me = race.racers.find((r) => r.isPlayer);
+  if (me && (me.gazeUntilMs ?? -1) > race.timeMs) {
+    me.gazeUntilMs = race.timeMs;
+    me.perkUntilMs = race.timeMs + RACE_GAGS.perkMs;
+  }
   race.cheerReadyAtMs = race.timeMs + RACE.cheerCooldownMs;
   race.lastCheerMs = race.timeMs;
   return true;
@@ -316,6 +339,14 @@ export function stepRace(race: RaceState, dtMs: number): void {
     if (r.stumbleMs > 0) {
       // A clipped fence: a short stall, no fall, and stamina holds.
       r.stumbleMs -= dtMs;
+      continue;
+    }
+    // R0325: stopped to look at a butterfly.
+    if ((r.gazeUntilMs ?? -1) > race.timeMs) continue;
+    if (r.gazeAt && r.gazeAt.length > 0 && r.pos >= r.gazeAt[0]!) {
+      r.gazeAt.shift();
+      r.gazeUntilMs = race.timeMs + RACE_GAGS.gazeMs;
+      r.gazes = (r.gazes ?? 0) + 1;
       continue;
     }
     const { section } = sectionAt(race.course, r.pos);
@@ -395,4 +426,27 @@ const SHARED_LOOK_PRIZES = ['look-fox', 'look-echidna', 'look-rose', 'look-dream
 /** The looks a tier-3 win can pay, for the active Keeper. */
 export function lookPrizesFor(keeper: 'sun' | 'moon'): readonly string[] {
   return [...SHARED_LOOK_PRIZES, keeper === 'sun' ? 'look-quills' : 'look-shade'];
+}
+
+/**
+ * R0325 (FUN-36): where a happy Nubbin stops to look at a butterfly: above the happiness
+ * line, a small chance at each section after the first, a little way into it. Its own dice
+ * (from the race seed), so the race's other rolls are unchanged.
+ */
+export function butterflyStops(
+  course: Course,
+  tier: number,
+  happiness: number,
+  seed: number,
+): number[] {
+  if (happiness <= RACE_GAGS.happyOver) return [];
+  const sections = course.tierSections?.[tier] ?? course.sections;
+  const rng = Rng.fromSeed(hashSeed(`butterfly:${seed}`));
+  const out: number[] = [];
+  let at = 0;
+  sections.forEach((s, i) => {
+    if (i > 0 && rng.chance(RACE_GAGS.chance)) out.push(at + Math.min(3, s.length / 3));
+    at += s.length;
+  });
+  return out;
 }

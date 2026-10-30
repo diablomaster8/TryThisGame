@@ -22,6 +22,10 @@ import { turnAct } from './turn';
 import { autoResolve, skippable } from './auto';
 import { debugAct } from './debug';
 import { noteSeen } from './seen';
+import { ladderRival, ladderValid } from './ladder';
+import { fusionPair } from './fusion';
+import { worldFoes } from './world-bout';
+import { friendlyFoes } from './friendly';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -72,34 +76,46 @@ export function createBattle(
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
       return null;
-    if (context.kind === 'dojo' && tier > world.karate.belt + 1) return null;
+    if (context.kind === 'dojo' && !context.ladder && tier > world.karate.belt + 1) return null;
+    if (context.kind === 'dojo' && context.ladder && !ladderValid(world, context)) return null;
     // Doubles (FIGHT-60) is exactly two a side; anything less is not a doubles bout.
     const doubles = !!context.doubles;
-    const cap = doubles ? BATTLE_DOUBLES.slots : context.kind === 'encounter' ? 6 : 3;
+    const cap = doubles
+      ? BATTLE_DOUBLES.slots
+      : context.kind === 'encounter'
+        ? 6
+        : context.kind === 'dojo' && context.ladder
+          ? 1
+          : 3;
     const party = partyOf(world, context.ids).slice(0, cap);
     if (party.length === 0 || (doubles && party.length < BATTLE_DOUBLES.slots)) return null;
     allies = party.map((n) => combatantOf(n, world));
     const lv = rivalLevel(allies, tier);
     const opts = { share: BATTLE.rivals.foeShare, hpShare: BATTLE.rivals.foeHpShare };
-    let specs = foeSpecs(world, context, lv, party.length);
+    const own = context.kind === 'friendly' ? friendlyFoes(world, context) : null;
+    let specs: ReturnType<typeof foeSpecs> = own
+      ? own.map((c) => ({ species: c.species, level: c.level }))
+      : foeSpecs(world, context, lv, party.length);
     if (specs.length === 0) return null;
     // A lone dojo rival brings a partner of the same kind for doubles.
     if (doubles) specs = [...specs, ...specs].slice(0, BATTLE_DOUBLES.slots);
-    foes = specs.map((f, i) => {
-      const c = rivalOf(
-        i,
-        Math.max(0, Math.min(99, Math.round(f.level))),
-        tier,
-        allies,
-        f.species,
-        f.name ?? FOE_NAME_BASE + ((tier + i) % T.foeNames),
-        opts,
-        rng,
-      );
-      if (f.wild || f.shadow) c.calm = 0;
-      if (f.shadow) c.shadow = true;
-      return c;
-    });
+    foes =
+      own ??
+      specs.map((f, i) => {
+        const c = rivalOf(
+          i,
+          Math.max(0, Math.min(99, Math.round(f.level))),
+          tier,
+          allies,
+          f.species,
+          f.name ?? FOE_NAME_BASE + ((tier + i) % T.foeNames),
+          opts,
+          rng,
+        );
+        if (f.wild || f.shadow) c.calm = 0;
+        if (f.shadow) c.shadow = true;
+        return c;
+      });
   }
   const log: BattleState['log'] = [];
   for (const c of allies) if (c.yawny && mode === 'turn') log.push({ k: 'yawny', who: c.id });
@@ -140,6 +156,11 @@ function foeSpecs(
   switch (context.kind) {
     case 'encounter':
       return context.foes.slice(0, 6).map((f) => ({ ...f }));
+    case 'world':
+      return worldFoes(context, lv);
+    case 'friendly':
+      // Pass-and-play builds its own side from the slot or share codes (`friendly.ts`).
+      return [];
     case 'circuit': {
       const team = circuitTeam(world, context.trainer, !!context.champion);
       const level = context.champion ? Math.min(99, lv + BATTLE.circuit.championBonus) : lv;
@@ -152,8 +173,11 @@ function foeSpecs(
         level: lv,
         name: FOE_NAME_BASE + i,
       }));
-    case 'dojo':
-      return [{ species: rivalSpecies(world, context, 0, 1), level: lv }];
+    case 'dojo': {
+      // The Dojo Ladder (FIGHT-99) sends a rival a little above the fighter, more each belt.
+      const up = context.ladder ? ladderRival(world, context).level : 0;
+      return [{ species: rivalSpecies(world, context, 0, 1), level: lv + up }];
+    }
     case 'party':
       return Array.from({ length: Math.min(T.foesPerTier, partySize) }, (_, i) => ({
         species: rivalSpecies(world, context, i, Math.min(T.foesPerTier, partySize)),
@@ -168,8 +192,14 @@ function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
   // The old all-at-once party bout keeps its format; the new kinds are singles.
   const singles = c.kind === 'encounter' ? !!c.singles : c.kind !== 'karate' && c.kind !== 'party';
   // Doubles has no bench: both of each side's two are on the field.
-  if (c.kind !== 'karate' && c.doubles) s.doubles = true;
-  else if (singles) s.lead = [0, 0];
+  if (c.kind !== 'karate' && c.doubles) {
+    s.doubles = true;
+    // Fusion burst (FIGHT-95): the Keeper's partners, if both are here and close enough.
+    const pair = fusionPair(world, s.sides[0]);
+    if (pair) s.fusable = { pair, used: false };
+  } else if (singles) s.lead = [0, 0];
+  if (c.kind === 'dojo' && c.ladder) s.ai = ladderRival(world, c).ai;
+  if (c.kind === 'friendly') s.passPlay = { choosing: 0 };
   if (c.kind === 'circuit') {
     s.ai = c.champion ? 'champion' : c.tier >= 3 ? 'champion' : 'keeper';
     const g = CIRCUIT_GIMMICK[c.trainer];
@@ -232,6 +262,8 @@ export function battleForfeit(s: BattleState): void {
 
 export function startBattleCmd(world: World, context: BattleContext, events: SimEvent[]): void {
   // A skipped story bout (FIGHT-71) never reaches the screen; asked for any other way, refused.
+  // A story-world bout runs in a copy of the Grove (FIGHT-98), never in the Grove itself.
+  if (context.kind === 'world') return;
   if (context.auto) {
     if (world.settings?.bouts === 'skip' && skippable(context)) autoResolve(world, context, events);
     return;

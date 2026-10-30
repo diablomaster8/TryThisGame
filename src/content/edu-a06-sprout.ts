@@ -309,10 +309,10 @@ const A01: EduQuest = quest(
               true,
             ),
             o('Sleepy.', [
-              N('Not quite. Look at his scrunched face and his tight fists. Sinbad is cross.'),
+              N('A sleepy Sinbad? Snore! But look: tight fists, scrunched face. He is cross.'),
             ]),
             o('Silly.', [
-              N('Not quite. Silly people giggle. Sinbad is scrunched up and growly. He is cross.'),
+              N('A giggly Sinbad? Hee hee! But he is scrunched and growly. He is cross.'),
             ]),
           ],
           'Named a feeling (cross) from a face and body.',
@@ -1450,7 +1450,7 @@ const A06: EduQuest = quest(
         YS('Pepper! The cook has pepper. Giants sneeze like anyone.', 'think'),
         N('Your Nubbin carries the bag to the giant’s nose, very quietly.'),
         N('It tips the bag. The giant breathes in.'),
-        N('Atchoo! He sits up and his eye is full of tears.'),
+        N('Achoo! He sits up and his eye is full of tears.'),
         YS('Now! Everybody out!', 'shock'),
       ],
       [
@@ -1460,8 +1460,8 @@ const A06: EduQuest = quest(
           'a sneeze clears the nose',
           'K-LS1-1',
           [
-            N('Pepper tickles the nose. Then, atchoo! A sneeze blows the tickle out.'),
-            N('Your body does this by itself. Atchoo! (Do a pretend sneeze.)'),
+            N('Pepper tickles the nose. Then, achoo! A sneeze blows the tickle out.'),
+            N('Your body does this by itself. Achoo! (Do a pretend sneeze.)'),
           ],
           'Learned that a sneeze is the body clearing a tickle from the nose.',
         ),
@@ -1485,7 +1485,7 @@ const A06: EduQuest = quest(
       'a06-06-gate-done',
       [
         N('Behind you the giant sneezes, and sneezes, and sneezes.'),
-        N('Atchoo, atchoo, atchoo! Not one is aimed at anybody.'),
+        N('Achoo, achoo, achoo! Not one is aimed at anybody.'),
       ],
       [
         nt(
@@ -1494,8 +1494,8 @@ const A06: EduQuest = quest(
           'repeated sounds make a rhythm',
           'RL.2.4',
           [
-            N('Atchoo, atchoo, atchoo! Repeating a sound makes a beat.'),
-            N('Clap the beat with me: atchoo, atchoo, atchoo!'),
+            N('Achoo, achoo, achoo! Repeating a sound makes a beat.'),
+            N('Clap the beat with me: achoo, achoo, achoo!'),
           ],
           'Enjoyed a repeated sound and clapped its beat.',
         ),

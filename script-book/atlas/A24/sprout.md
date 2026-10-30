@@ -20,7 +20,7 @@ _There is a cave in the hills. A big flat rock sits above it._
 > _India is a big country. The wolves live in its hills._  
 > _(Point to the hills in the picture.) What is India?_  
 > - ✅ A country. → Yes! India is a big country with hills, jungle and cities.
-> - A tiny pond. → No, it is much bigger! India is a whole country.
+> - A tiny pond. → A tiny pond? Splash! India is much bigger, a whole country.
 > _For grown-ups: Learned that India is a big country, and that the story is set in its hills._
 
 **Father Wolf**: Who is at the door? A guest!  
@@ -142,7 +142,7 @@ _Your Nubbin curls up with the cubs and sleeps._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): a family is people who love and look after each other  
 > _Mother Wolf says a family looks after each other. What makes a family?_  
 > - ✅ People who love and look after you. → Yes! Families come in all shapes. Love makes them.
-> - People who look the same. → Not quite. Families can look very different. Love makes them.
+> - People who look the same. → A family of copies? Hee hee! Families can look very different. Love makes them.
 > _For grown-ups: Heard that a family is made by people loving and looking after one another._
 
 _You lie by the wall and hear everyone breathe. Soft and slow._  
@@ -209,7 +209,7 @@ _The wolves look at the baby. They decide he can stay._
 > _Baloo and Bagheera speak up for Mowgli._  
 > _Why is it good to have friends who speak up for you?_  
 > - ✅ They help when you cannot speak for yourself. → Yes! Good friends help each other.
-> - They make you do chores. → No. Good friends help and care.
+> - They make you do chores. → Friends making you do chores? Sweep, sweep! Good friends help and care.
 > _For grown-ups: Talked about friends speaking up for someone, and why fair groups listen to more than one voice._
 
 
@@ -401,7 +401,7 @@ _A creeper is a plant that climbs a tree._
 > _A creeper is a plant that climbs up a tree._  
 > _What does a creeper do?_  
 > - ✅ Climbs. → Yes! A creeper climbs and holds on.
-> - Swims. → No. A creeper climbs up trees.
+> - Swims. → A creeper that swims? Splash! A creeper climbs up trees.
 > _For grown-ups: Learned that a creeper is a plant that climbs._
 
 **Mowgli**: Can I go now?  
@@ -590,7 +590,7 @@ _The cobras sway softly. A spread hood says: keep back._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): if you see a wild snake: stay calm, step back, tell a grown-up  
 > _If you ever see a wild snake, what should you do?_  
 > - ✅ Stand still, step back, tell a grown-up. → Yes! Step back slowly and tell a grown-up.
-> - Pick it up. → No! Never touch a wild snake. Tell a grown-up.
+> - Pick it up. → Pick up a snake? Hiss! Never touch a wild snake. Tell a grown-up.
 > _For grown-ups: Practised what to do if you see a wild snake: stay calm, step back and tell a grown-up._
 
 _Outside, the moon hides behind a cloud._  
@@ -731,7 +731,7 @@ _Long ago, people learned to use fire. It gave them warmth and light._
 > _Long ago, fire helped people._  
 > _What does fire give us: warmth, or a cold wind?_  
 > - ✅ Warmth and light. → Yes! Fire gives warmth and light.
-> - A cold wind. → No! Fire is warm and bright.
+> - A cold wind. → A cold wind from the fire? Brrr! Fire is warm and bright.
 > _For grown-ups: Learned that long ago people used fire for warmth and light._
 
 
@@ -823,7 +823,7 @@ _Fire is useful, and it is serious. Matches are for grown-ups._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): fire safety: leave matches alone and tell a grown-up  
 > _If you find matches at home, what should you do?_  
 > - ✅ Leave them and tell a grown-up. → Yes! Matches are for grown-ups.
-> - Play with them. → No! Fire can be dangerous. Tell a grown-up.
+> - Play with them. → Play with fire? Whoosh! Fire can be dangerous. Tell a grown-up.
 > _For grown-ups: Practised fire safety: leaving matches alone and telling a grown-up._
 
 
@@ -848,7 +848,7 @@ _The wolves feel the heat. They scramble back, ears flat._
 > _The wolves feel the fire before they touch it._  
 > _What do we feel from a fire?_  
 > - ✅ Heat. → Yes! A fire is hot. We keep back.
-> - Cold. → No! A fire is hot, not cold.
+> - Cold. → A cold fire? Brr, shiver! A fire is hot, not cold.
 > _For grown-ups: Learned that a fire gives out heat we can feel from a distance._
 
 
@@ -1354,7 +1354,7 @@ _Mowgli has spread the striped coat on the stone._
 > _(Point to the moon.) Tonight the moon is full._  
 > _What shape is a full moon?_  
 > - ✅ A circle. → Yes! A full moon is a big round circle.
-> - A square. → No corners on the moon! A full moon is round, like a circle.
+> - A square. → A square moon? Bonk! A full moon is round, like a circle.
 > _For grown-ups: Learned that the Moon changes shape, and that a full moon is round._
 
 **Mowgli**: I said I would bring it. I keep my word.  
@@ -1896,7 +1896,7 @@ _Akela has died. His body stopped working, and it will not start again._
 > **Lesson** (sel, CASEL: Social awareness, ask): what died means, said plainly; feeling sad is okay  
 > _Akela has died. What does that mean?_  
 > - ✅ His body stopped working. → Yes. He will not wake up. It is all right to feel sad.
-> - He is asleep. → No. A sleeping body wakes up. A body that has died does not.
+> - He is asleep. → Asleep? A sleeping body wakes up. A body that has died does not.
 > _For grown-ups: Learned plainly what died means, and that feeling sad is a normal response._
 
 
@@ -2364,7 +2364,7 @@ _Your Nubbin paddles beside him._
 
 _By autumn Kotick swims like a seal born to it._  
 **Kotick**: The young ones are going up the beach. I want to see.  
-_Splash! Splosh!_  
+_Splash! Splash!_  
 _The waves go splash on the sand._  
 
 > **Lesson** (literacy, RF.K.2, do): a sound word: splash  

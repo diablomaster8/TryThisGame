@@ -4,6 +4,7 @@
  * no mechanics, read aloud when read-aloud is on); R0311 gives pet-sheet actions a physical
  * line. Text lives in `config/strings-fun-r5.ts`.
  */
+import { toastVariant } from '../config/strings-fun-r6';
 import { BYTE_WATCHES } from '../config/tuning';
 import { byteWatches } from '../sim/byte-watches';
 import {
@@ -63,7 +64,8 @@ export function bandToaster(
     // R0311: pet toasts get a physical line for the band first.
     if (world) text = petVoice(text, toastBand(world)) ?? text;
     if (!world || toastBand(world) !== 'sprout') {
-      toast(text, ms);
+      // R0349 (FUN-60): flat system toasts rotate through voiced variants.
+      toast(toastVariant(text), ms);
       return;
     }
     const shown = sproutToast(text);

@@ -24,6 +24,13 @@ export function pairSeen(world: World, moveType: string, foeType: string): boole
 export function noteSeen(world: World, s: BattleState, from: number): void {
   for (let i = Math.max(0, from); i < s.log.length; i++) {
     const e = s.log[i]!;
+    // The Battle Book's moves seen (FIGHT-84): any move either side used.
+    if (e.k === 'use' || (e.k === 'hit' && e.move)) {
+      const id = e.k === 'use' ? e.move : e.move!;
+      const book = (world.battleSeen ??= { pairs: [] });
+      const moves = (book.moves ??= []);
+      if (!moves.includes(id)) moves.push(id);
+    }
     if (e.k !== 'hit' || !e.move) continue;
     const by = s.sides[0].find((c) => c.id === e.by);
     const to = s.sides[1].find((c) => c.id === e.to);

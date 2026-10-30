@@ -384,3 +384,71 @@ export const GEAR_TEXT = {
   you: 'you',
   found: (glyph: string, name: string) => `Found: ${glyph} ${name}`,
 };
+
+/** Lane B round 6 (2026-10-29): boss floors, the sack, warm losses, sleepy packs, strays. */
+export const HOLLOW_R6_TEXT = {
+  /** R0160: the boss celebration card. */
+  bossTitle: (boss: string) => `${boss} runs home!`,
+  bossBody: 'It poofs into a shower of sparkles and scuttles off, looking sheepish.',
+  bossChest: (glyph: string, name: string) => `In the big chest: ${glyph} ${name}`,
+  bossNext: 'The next Hollow’s waypoint hums awake. The stairs up lead home.',
+  bossRetry: 'Back to the anteroom, everyone rested. Try again whenever you like.',
+  /** R0175: the haul card. */
+  banked: (n: number) => `Bank it! ${n} ${n === 1 ? 'find' : 'finds'} safely home.`,
+  sack: (n: number) => `🎒 Sack ×${n}`,
+  /** R0180: warm losses and sneaking past. */
+  giggles: 'Everyone got the giggles! A sparkle carries you back. Nothing lost.',
+  sneakAsk: 'This pack keeps winning. Sneak past?',
+  sneakYes: '🤫 Sneak past',
+  sneakDone: 'You tiptoe by. The pack pretends not to see you for a minute.',
+  /** R0203: sleepy packs. */
+  tiptoe: (shells: number) => `Tiptoe! The pack snores on. +${shells} Shells`,
+  woke: 'Your footsteps wake the pack. It blinks, then gives chase!',
+  yawned: (name: string) => `${name} yawns enormously. The pack wakes up, offended.`,
+  /** R0362: the tumble home. */
+  tumble: 'Everyone is out of puff. You roll up the stairs in a heap… splash! Home, damp.',
+  tumbleKept: (kept: number, stashed: number) =>
+    `Half the finds came too (${kept}); the other ${stashed} washed up in the stash.`,
+  /** R0184: End trip. */
+  endTrip: '🏠 End trip',
+  endConfirm: (n: number, depth: number) =>
+    n > 0
+      ? `End the trip? ${n} unbanked ${n === 1 ? 'find goes' : 'finds go'} home with you.`
+      : `End the trip from level ${depth}?`,
+  endYes: 'Yes, go home',
+  endNo: 'Keep exploring',
+  /** R0185: today's run results on the cave-mouth menu. */
+  today: (deepest: number, time: string, finds: number) =>
+    `Today: deepest ${deepest} · best time ${time} · finds ${finds}`,
+  todayNone: 'Today: no trips yet.',
+  /** R0176: the Mystery Basket stall. */
+  basketTitle: 'Mystery Baskets',
+  basketHelp: 'A covered basket for one slot. Never Plain: Shiny, Fancy, Legendary or Set.',
+  basketBuy: (price: number) => `${price} Shells, opened on the spot`,
+  basketOpened: (glyph: string, name: string) => `Out of the basket: ${glyph} ${name}!`,
+  basketShort: 'Not enough Shells for that basket.',
+  /** R0174: the stash. */
+  stashTitle: (n: number) => `Stash (${n})`,
+  stashTake: 'Take',
+  /** R0165: the Journal page. */
+  journalTitle: 'The Hollow',
+  journalBoss: (name: string, done: boolean) => `${done ? '✓' : '○'} ${name}`,
+  journalWaypoints: (n: number, total: number) => `Waypoints: ${n} of ${total}`,
+  journalUniques: (n: number, total: number) => `★ Named foes met: ${n} of ${total}`,
+  journalBest: (n: number) => `Deepest ever: level ${n}`,
+  /** R0326: the strays' comic routine, three lines per outcome, rotated. */
+  strayLines: {
+    snatch: [
+      (n: number) => `A stray pockets ${n} Shells and looks extremely casual.`,
+      (n: number) => `A stray tiptoes off with ${n} Shells, humming innocently.`,
+      (n: number) => `${n} Shells vanish. A stray wobbles away, overloaded.`,
+    ],
+    fed: [
+      (name: string) => `${name} nibbles the fruit, goes shy and delighted, and follows you home.`,
+      (name: string) => `${name} forgets all about Shells. Fruit is better. It joins you.`,
+      (name: string) => `${name} hugs the fruit, then your boot. A new friend for the Grove.`,
+    ],
+    king: (hat: string) =>
+      `The Stray King! It doffs its bottle-cap crown and leaves you a gift: ${hat}.`,
+  },
+};

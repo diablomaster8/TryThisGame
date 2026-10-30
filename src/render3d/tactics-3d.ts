@@ -8,6 +8,7 @@
  * (20°), 35° down like the Grove, and snaps in quarter turns. Everything is disposed when the
  * screen closes: the stage frees what it made and the rigs go back to the pool.
  */
+import { idleKind, idlePose, reducedMotion } from '../ui/battle-idle';
 import * as THREE from 'three';
 import { TACTICS } from '../config/tuning-tactics';
 import type { Flashes, Overlays, TacticsBoardView } from '../minigames/tactics/board-view';
@@ -399,6 +400,12 @@ export class Tactics3dView implements TacticsBoardView {
       const p = this.world(m, u.x, u.y);
       const pile = f.pile.get(u.c.id);
       if (pile !== undefined && now - pile < 450) p.x += Math.sin((now - pile) / 40) * 0.08;
+      // FIGHT-78: a personality idle while the board waits (pixels to world units, ~1/24).
+      if (standing(u.c) && !s.result) {
+        const idle = idlePose(idleKind(u.c), u.c.id, s.seed, now, reducedMotion());
+        p.x += idle.dx / 24;
+        p.y -= idle.dy / 24;
+      }
       const hurt = f.hurt.get(u.c.id);
       const d = DIR_VEC[u.face];
       if (view.stand) view.stand.position.set(p.x, p.y + view.stand.scale.y * 0.55, p.z);
@@ -406,6 +413,9 @@ export class Tactics3dView implements TacticsBoardView {
       if (rig && !view.compiling) {
         rig.group.position.copy(p);
         rig.group.visible = true;
+        // Merged partners (FIGHT-57) stand about two tiles tall.
+        const base = (rig.group.userData.baseScale ??= rig.group.scale.x) as number;
+        rig.group.scale.setScalar(base * (u.tall ? 1.8 : 1));
         rig.setPose(
           out
             ? 'sleep'
@@ -419,7 +429,7 @@ export class Tactics3dView implements TacticsBoardView {
         rig.animate(now / 1000);
       }
       const share = Math.max(0, u.c.hp / u.c.maxHp);
-      view.bar.group.position.set(p.x, p.y + 1.7, p.z);
+      view.bar.group.position.set(p.x, p.y + (u.tall ? 3 : 1.7), p.z);
       view.bar.fill.scale.x = 0.9 * share;
       view.bar.group.visible = !out;
     }

@@ -54,8 +54,9 @@ const serialises = (spec: SpeciesSpec) => {
 };
 
 function nubbin(over: Partial<Nubbin> = {}): Nubbin {
+  // Seed 1 carries no birthmark (LOOK-53), so the keys below stay bare.
   const n = createEgg('n1', { x: 0, z: 0 }, Rng.fromSeed(3));
-  return { ...n, stage: 'child', alignment: 0, ...over };
+  return { ...n, stage: 'child', alignment: 0, seed: 1, ...over };
 }
 
 const adultForm = (band: 'sun' | 'moon' | 'neutral', type: 'run' | 'swim' | 'normal') => ({

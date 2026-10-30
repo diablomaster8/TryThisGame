@@ -601,10 +601,21 @@ export function variant(base: SpeciesSpec, name: string, o: VariantOverrides): S
 /** The neutral child: the base itself, registered so the palette roles are known. */
 export const CHILD = variant(NUBBIN_SPEC, 'Nubbin', {});
 
-/** A child leaning Sun: paler, a brighter ball, a faint pale ring at the crown's base. */
+/**
+ * A child leaning Sun (LOOK-49): ice white going blue, the crown and hands sky blue instead of
+ * yellow, a gold sparkle in the ball, a faint pale ring at the crown's base.
+ */
 export const CHILD_SUN = variant(NUBBIN_SPEC, 'Nubbin (Sun-leaning)', {
-  colors: { body: '#d9ecff', belly: '#ffffff', crownShade: '#bfe0ff', wing: '#fffaf0' },
-  ball: { glow: '#c09a20' },
+  colors: {
+    body: '#e6f4ff',
+    belly: '#ffffff',
+    tip: '#bfe6ff',
+    pad: '#8fc4f0',
+    crownShade: '#9ccaf2',
+    wing: '#fffaf0',
+    star: '#ffe680',
+  },
+  ball: { glow: '#e0b030' },
   hints: [
     { kind: 'capsule', a: V(0, 2.22, 0), b: V(0, 2.36, 0), r: 0.46, color: '#fff8e0', soft: 0.12 },
   ],
@@ -614,7 +625,7 @@ export const CHILD_SUN = variant(NUBBIN_SPEC, 'Nubbin (Sun-leaning)', {
 /** A child leaning Moon: dusky body, a berry ball, a shadow ring under the crown. */
 export const CHILD_MOON = variant(NUBBIN_SPEC, 'Nubbin (Moon-leaning)', {
   colors: {
-    body: '#7a6f8c',
+    body: '#6a5a8a',
     belly: '#9a90ac',
     tip: '#e85a7a',
     pad: '#9e2b3f',

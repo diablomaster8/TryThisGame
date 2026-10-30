@@ -36,6 +36,8 @@ import {
 import type { Rng } from './rng';
 import { goToZone } from './dungeon-zones';
 import type { DungeonRun, SimEvent, World } from './types';
+import { bankSack } from './dungeon-sack';
+import { notePortal } from './dungeon-log';
 
 /**
  * Moves the run to `depth` and puts the party at the stairs up or down, the waypoint stone, or
@@ -178,6 +180,9 @@ export function useAcorn(world: World, events: SimEvent[]): boolean {
   const free = !run.acornUsed;
   if (free) run.acornUsed = true;
   else world.hollow.acorns -= 1;
+  // R0175, R0211: the sack banks through the portal.
+  bankSack(world, run, 'portal', events);
+  notePortal(world);
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   run.pending = null;
   run.pendingPos = null;

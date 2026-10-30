@@ -65,6 +65,11 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
+import { heldMood, type HeldMood } from './held-mood';
+import { gagAt } from './gag-play';
+import { cocoonShake, revealTurn } from './evolve-reveal';
+import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -1895,7 +1900,12 @@ export class WorldView {
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
-      const view = viewAngle(hf ?? npose?.face ?? n.facing, yaw);
+      // LOOK-62: a newly evolved form spins one turn as it lands.
+      const turn =
+        n.stage === 'adult' && v.pop?.kind === 'pop'
+          ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
+          : 0;
+      const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -1940,11 +1950,56 @@ export class WorldView {
             ? frameAt(def, nowMs - v.clipStartMs)
             : 0;
       key = frameKey(clip, view.angle, frame);
+      // LOOK-52: standing idle near the Keeper, the eyes glance its way across the screen
+      // (never on the blink frame).
+      const kp = world.keeper.pos;
+      const kdx = kp.x - n.pos.x;
+      const kdz = kp.z - n.pos.z;
+      if (
+        clip === 'idle' &&
+        frame % 8 !== 7 &&
+        !held &&
+        Math.hypot(kdx, kdz) < EYE_TRACK.range &&
+        sheet.frames.has(frameKey('glance', view.angle, 0))
+      ) {
+        const sx = kdx * Math.cos(yaw) - kdz * Math.sin(yaw);
+        if (Math.abs(sx) > EYE_TRACK.deadZone)
+          key = frameKey('glance', view.angle, sx > 0 !== view.flip ? 1 : 0);
+      }
       if (sig && sheet.frames.has(frameKey(sig.clip, view.angle, sig.frame))) {
         key = frameKey(sig.clip, view.angle, sig.frame);
         flip = flip !== sig.flip;
       }
+      // FUN-04: a content idle Nubbin plays its personality's comic gag now and then.
+      const mood = moodOf(n);
+      const gag =
+        !sig && !held && clip === 'idle'
+          ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
+          : null;
+      const gkey = gag ? frameKey(gag.look.clip, view.angle, gag.frame) : '';
+      const gagOn = !!gag && sheet.frames.has(gkey);
+      if (gagOn) key = gkey;
       emote = emoteFor(n);
+      if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
+      if (gagOn && gag.look.burst && gag.frame === 0 && (GAG_BURSTS.get(n.id) ?? 0) < nowMs - 900) {
+        GAG_BURSTS.set(n.id, nowMs);
+        const kind = gag.look.burst === 'notes' ? 'note' : gag.look.burst;
+        this.particles.burst(kind, x, Math.max(0, y) + 1.2, z, 2, {
+          spread: 0.35,
+          rise: 0.7,
+          lifeMs: 700,
+        });
+      }
+      // LOOK-50: held, it hugs, dangles or flails by affection, with a heart or a swirl.
+      if (clip === 'held') {
+        const mood = heldMood(n, world.keeper.alignment);
+        const hz = mood === 'flail' ? HELD_REACT.flailHz : HELD_REACT.dangleHz;
+        const hf = mood === 'hug' ? 0 : Math.floor((nowMs * hz * 2) / 1000) % 2;
+        const hk = frameKey(HELD_CLIPS[mood], view.angle, hf);
+        if (sheet.frames.has(hk)) key = hk;
+        if (mood === 'hug') emote = 'heart';
+        else if (mood === 'flail') emote = 'spiral';
+      }
       // K40: the partner's ball follows the line's mood.
       if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
     }
@@ -2002,12 +2057,26 @@ export class WorldView {
           }
         }
       }
+      const tier = n.stage === 'egg' ? 'common' : rarityOf(n);
+      const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
+      // LOOK-58: a legendary one sheds a soft mote now and then.
+      if (
+        tier === 'legendary' &&
+        !this.particles.reduceMotion &&
+        (nowMs + phase) % RARITY.legendaryMoteMs < 20
+      )
+        this.particles.burst('mote', x, Math.max(0, y) + 0.9, z, 1, {
+          spread: 0.5,
+          rise: 0.5,
+          lifeMs: 1200,
+        });
       this.batch.draw(
         {
           sheet,
           rect,
           flip,
-          x: x + (beat?.dx ?? 0) * 2,
+          // LOOK-62: the evolving cocoon shakes in its last moments.
+          x: x + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
           y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z,
@@ -2022,9 +2091,12 @@ export class WorldView {
       // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
       // laid on the head in the sprite's own plane, a hair toward the camera.
       const cam = PIXEL_VIEW.camera;
-      if ((n.shiny || n.heirloom) && n.species === 'chao' && n.stage !== 'egg' && cam) {
+      // LOOK-58: a rare or legendary one that is not shiny glints too, half as often (4 s).
+      const rareBeat =
+        (tier === 'rare' || tier === 'legendary') &&
+        Math.floor((nowMs + phase) / (RARITY.rareGlintMs / 2)) % 2 === 0;
+      if ((n.shiny || n.heirloom || rareBeat) && n.species === 'chao' && n.stage !== 'egg' && cam) {
         const shape = glintShape(n);
-        const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
         const g = glintPlace(key, shape, nowMs, phase);
         const gs = this.sheets.shinyGlint(shape.grow);
         const grect = g ? gs.frames.get(g.key) : undefined;
@@ -2202,6 +2274,16 @@ export function clipFor(n: Nubbin): string {
     }
   }
 }
+
+/** FUN-04: when each Nubbin last threw up its gag's particles (notes, dust, a splash). */
+const GAG_BURSTS = new Map<string, number>();
+
+/** LOOK-50: the baked frames for each way of being held. */
+const HELD_CLIPS: Record<HeldMood, string> = {
+  hug: 'heldHug',
+  dangle: 'heldDangle',
+  flail: 'heldFlail',
+};
 
 /** Resting emote shape by mood and alignment hint. */
 export function emoteFor(n: Nubbin): EmoteShape {

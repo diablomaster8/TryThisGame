@@ -317,7 +317,7 @@ const Q02_SCENES: EduScene[] = [
         [
           opt('Rain on the hills', [N('Yes! Rain falls on the hills and runs down.')], true),
           opt('A big tap', [
-            N('No tap! Rain falls on the hills, and the water runs down.'),
+            N('A tap on the hill? Silly! Rain falls there, and the water runs down.'),
             N('That is how a stream is born.'),
           ]),
         ],

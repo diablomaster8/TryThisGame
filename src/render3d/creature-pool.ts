@@ -9,7 +9,9 @@ import {
   type Object3D,
   type Texture,
 } from 'three';
-import { GROVE3D } from '../config/tuning';
+import { CHILD_HINT, GROVE3D } from '../config/tuning';
+import { childLean, leanStep } from '../render/sprites/child-hint';
+import { birthmarkKey, birthmarkOf } from '../render/birthmark';
 import { GRANDCHILD3D } from '../config/tuning-fx3d';
 import { buildSpecies, type Rigged } from '../samples/species';
 import { TOON } from '../samples/creatures';
@@ -61,8 +63,12 @@ export function nubbinLook(n: Nubbin): Look {
   // LOOK-36: each part carries its size step, and a Sun or Moon adult's parts lean to its body.
   const band = n.stage === 'adult' && !n.eternal ? n.form?.band : undefined;
   const parts = partsModBody(n.parts, partSteps(n), band === 'sun' || band === 'moon');
+  // LOOK-53: the birthmark from the seed, painted on the sculpt.
+  const mark = birthmarkKey(birthmarkOf(n));
   const tints =
-    tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) + (parts ? `~parts:${parts}` : '');
+    tintMods(look ? { ...n, eggColor: 'plain', tone: null } : n) +
+    (parts ? `~parts:${parts}` : '') +
+    (mark ? `~mark:${mark}` : '');
   const over = look ? `~look:${look}` : '';
   if (n.species !== 'chao') {
     // Other lines keep their own colours; only the Shadow's grey reaches them.
@@ -91,9 +97,13 @@ export function nubbinLook(n: Nubbin): Look {
     return { key: `nubbin${over}${tints}`, height };
   }
   if (look) return { key: `variant:${look}${tints}`, height };
-  const id = n.alignment > 0.25 ? 'child-sun' : n.alignment < -0.25 ? 'child-moon' : 'child';
+  // LOOK-49: the lean fades in with |alignment| (`childLean`); short of full it is a blend step.
+  const lean = childLean(n.alignment);
+  const id = lean.band === 'neutral' ? 'child' : `child-${lean.band}`;
+  const step = leanStep(lean, CHILD_HINT.steps3d);
+  const hint = step > 0 && step < CHILD_HINT.steps3d ? `~hint:${step}` : '';
   return variantById(id)
-    ? { key: `variant:${id}${tints}`, height }
+    ? { key: `variant:${id}${hint}${tints}`, height }
     : { key: `nubbin${tints}`, height };
 }
 

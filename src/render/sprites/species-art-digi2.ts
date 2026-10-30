@@ -39,7 +39,15 @@ const spec = (colors: CreaturePalette, over: Partial<CreatureSpec>): CreatureSpe
 
 /** A hatchling: a round blob without limbs. */
 const blobby = (colors: CreaturePalette, over: Partial<CreatureSpec>): CreatureSpec =>
-  spec(colors, { plan: 'round', size: 0.78, legs: 'none', arms: 'none', eyes: 'big', ...over });
+  spec(colors, {
+    plan: 'round',
+    size: 0.78,
+    legs: 'none',
+    arms: 'none',
+    eyes: 'big',
+    move: 'hop',
+    ...over,
+  });
 
 export const DIGI2_ART: Record<string, CreatureSpec> = {
   // ---- Ver.2 ----

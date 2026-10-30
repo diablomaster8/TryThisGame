@@ -111,7 +111,7 @@ _It is a hot day. The monkeys splash in the stream._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): streams come from rain on hills  
 > _Where does the stream’s water come from?_  
 > - ✅ Rain on the hills → Yes! Rain falls on the hills and runs down.
-> - A big tap → No tap! Rain falls on the hills, and the water runs down. That is how a stream is born.
+> - A big tap → A tap on the hill? Silly! Rain falls there, and the water runs down. That is how a stream is born.
 > _For grown-ups: Your child learned that streams are fed by rain running off hills._
 
 _So everyone goes to look. Everyone means everyone!_  

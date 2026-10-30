@@ -309,7 +309,7 @@ const SCENES: EduScene[] = [
     's30-party',
     [
       N('Dimple wins every race. She bounces round the cake eleven times!'),
-      N('Your Nubbin copies every bounce. Now it is very tired.'),
+      N('Your Nubbin copies every bounce. Boing, boing! Now it is very tired.'),
       SP('Look at her go! That’s a happy Nubbin!', 'happy'),
       EM('That’s not happy. That’s busy.', 'angry'),
       SP('What? I made a cake shaped like a cake!', 'shock'),
@@ -345,7 +345,7 @@ const SCENES: EduScene[] = [
     [
       N('Clover is on your step with a list.'),
       CL('These are Dimple’s five favourite things.', 'think'),
-      CL('One, the windowsill. Two, stamping in puddles.'),
+      CL('One, the windowsill. Two, stamping in puddles. Splash!'),
       CL('Three, chasing Sparks’s fast Nubbins.'),
       CL('Four, pulling Byte’s laces undone. He pretends to mind.', 'happy'),
       CL('Five, my humming at bedtime. Hmmmm.', 'soft'),
@@ -404,7 +404,7 @@ const SCENES: EduScene[] = [
       N('By the stream there is a big new hole. It is singing!'),
       N('That’s Dusty, at the bottom, singing a digging song.'),
       DU('Morning! Grand day for a hole! Hello, worm!', 'happy'),
-      N('Dimple jumps in and digs too. Scoop, scoop, scoop!'),
+      N('Dimple jumps in with a plop, and digs too. Scoop, scoop!'),
       N('Dusty digs faster. Dimple digs faster. Big grins.'),
       N('Your Nubbin throws mud about. Splat! Most of it lands on you.'),
       DU('Keep busy! Busy is good!', 'happy'),
@@ -464,7 +464,7 @@ const SCENES: EduScene[] = [
   sc(
     's30-luna',
     [
-      N('Tap, tap. It’s Luna. She is going to bed, and it’s morning!'),
+      N('Tap, tap, ding! It’s Luna. She is going to bed, and it’s morning!'),
       LU('I work in the garden at night. I sleep in the day.', 'think'),
       N('Luna yawns. A huge yawn. Your Nubbin yawns too.'),
       N('Then it falls asleep on your foot. Snore!'),
@@ -528,7 +528,7 @@ const SCENES: EduScene[] = [
   sc(
     's30-wall',
     [
-      N('Frost! The Grove is white and sparkly this morning.'),
+      N('Crunch! The Grove is white and sparkly with frost.'),
       N('Moss is by the old wall. There is frost on his back.'),
       N('A sparrow sits on Moss’s back. Moss lets the sparrow stay.'),
       M('Luna told me about Clover’s gold one.', 'think'),
@@ -630,7 +630,7 @@ const SCENES: EduScene[] = [
     [
       N('At night, frost covers the yard. Fidget gets very busy.'),
       N('She pushes every Nubbin into the shed. Push, push, push!'),
-      N('Then she drags a bucket against the door. Bump!'),
+      N('Then she drags a bucket against the door. Bonk!'),
       FI('…', 'shock'),
       N('Inside the shed, Dimple bounces and bounces off the walls.'),
       N('The others go very quiet.'),
@@ -694,7 +694,7 @@ const SCENES: EduScene[] = [
     's30-blanket',
     [
       N('Fidget looks at the blanket. She pushes the bucket. Shut! She sits.'),
-      N('Then a nose pokes out under the blanket. Drizzle!'),
+      N('Then, pop, a nose peeks out under the blanket. Drizzle!'),
       N('Then the fussy one. Then Flinch. Out they come.'),
       N('They go in and out all evening. Fidget counts them every time.'),
       CL('Shut and open. Both! Clever us.', 'happy'),
@@ -755,7 +755,7 @@ const SCENES: EduScene[] = [
   sc(
     's30-trail',
     [
-      N('Look! A cotton reel in the frost.'),
+      N('Crunch, crunch! Look! A cotton reel in the frost.'),
       N('Then a pine cone. Then half a wooden peg.'),
       N('The toys make a trail. It goes to the stripy cliff.'),
       DU('Dimple used to ride on Fossil to the cliff.', 'sad'),
@@ -1066,7 +1066,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
   sc(
     's30-wall-s1',
     [
-      N('Frost! The Grove is white and sparkly this morning.'),
+      N('Crunch! The Grove is white and sparkly with frost.'),
       N('Moss is by the old wall. There is frost on his back.'),
       N('A sparrow sits on Moss’s back. Moss lets the sparrow stay.'),
       M('Luna told me about Clover’s gold one.', 'think'),
@@ -1184,7 +1184,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
     [
       N('Drizzle is at home. So you climb down into the hole.'),
       N('You sit at the back, in the dust.'),
-      N('Dimple smiles big. She bounces and bounces at you.'),
+      N('Dimple smiles big. Boing, boing! She bounces at you.'),
       N('She does all her party tricks. You don’t stop her. You stay.'),
       CL('Should I come down?', 'shock'),
       DU('Wait. She’s nearly out of tricks.', 'soft'),
@@ -1363,7 +1363,7 @@ export const EDU_S30_SPROUT_VARIANTS: EduScene[] = [
       SP('I sat still! On the hill! With Dimple!', 'happy'),
       SP('Byte counted. I sat for nearly a whole minute!', 'happy'),
       SP('It was really nice. It was really hard. It was really nice.', 'soft'),
-      N('Sparks wriggles. Sitting still is tricky for her.'),
+      N('Sparks wriggles. Squeak! Sitting still is tricky for her.'),
     ],
     [
       {

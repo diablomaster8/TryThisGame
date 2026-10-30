@@ -1,3 +1,8 @@
+import { BATTLE_MOVE_TEXT, moveName } from '../config/strings-battle-moves';
+import { TYPE_WORDS } from '../config/strings-battle';
+import { BOOK_TEXT as BATTLE_BOOK_TEXT, LADDER_TEXT } from '../config/strings-battle-r6';
+import { battleBook } from '../sim/battle/book';
+import { moveOf } from '../sim/battle/moves';
 import {
   CRITTER_LABELS,
   EGG_COLOR_LABELS,
@@ -8,6 +13,8 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { CURIOSITY_UI, FLAVOUR, fieldNote } from '../config/strings-look';
+import { CURIOSITY_IDS, curiositiesFound } from '../sim/curiosities';
 import { BOOK_TEXT } from '../config/strings-look';
 import { cosmeticLabel } from '../config/cosmetics';
 import { canConvert } from '../sim/scans';
@@ -59,6 +66,14 @@ export function keyLabel(key: string): string {
   if (parts[1] === 'eternal') return `${NAMES.eternal} ${bandLabel(parts[2])}`;
   const first = `${bandLabel(parts[1])} ${typeLabel(parts[2])}`;
   return parts[3] ? BOOK_TEXT.second(first, typeLabel(parts[3])) : first;
+}
+
+/** FUN-28, FUN-69: a book entry's dry line (a hat, look or critter part) or Hazel's field note. */
+export function keyFlavour(key: string): string {
+  const parts = key.split(':');
+  if (parts[0] === 'hat' || parts[0] === 'look') return FLAVOUR.wear[parts[1] ?? ''] ?? '';
+  if (parts[0] === 'part') return FLAVOUR.critter[parts[1] ?? ''] ?? '';
+  return fieldNote(key);
 }
 
 /**
@@ -123,6 +138,8 @@ export class CollectionBook {
   private tab: BookTab = 'forms';
   private observer: IntersectionObserver | null = null;
   private spin = 0;
+  /** The Battle Book's pages (FIGHT-84), under the species. */
+  private readonly battle: HTMLDivElement;
 
   constructor(
     parent: HTMLElement,
@@ -133,7 +150,8 @@ export class CollectionBook {
     this.tabs = el('div', 'book-tabs');
     this.page = el('div', 'book-page');
     this.grid = el('div', 'book-grid');
-    this.dialog.body.append(this.summary, this.tabs, this.page, this.grid);
+    this.battle = el('div', 'book-battle');
+    this.dialog.body.append(this.summary, this.tabs, this.page, this.grid, this.battle);
   }
 
   open(): void {
@@ -207,6 +225,7 @@ export class CollectionBook {
     this.page.append(
       c,
       el('h3', undefined, keyLabel(key)),
+      ...(keyFlavour(key) ? [el('p', 'flavour', keyFlavour(key))] : []),
       ...(at !== undefined
         ? [el('p', 'help', BOOK_TEXT.firstSeen(formatDuration(world.timeMs - at)))]
         : []),
@@ -221,6 +240,9 @@ export class CollectionBook {
     const keys = allKeys();
     const seen = keys.filter((k) => world.seen[k] !== undefined).length;
     this.summary.textContent = UI_TEXT.collectionHelp(seen, keys.length);
+    // FUN-43: the hidden Curiosities line, once the first one is found.
+    const odd = curiositiesFound(world);
+    if (odd) this.summary.textContent += ` · ${CURIOSITY_UI.found(odd, CURIOSITY_IDS.length)}`;
     this.tabs.innerHTML = '';
     for (const tab of BOOK_TABS) {
       const p = tabProgress(world, tab);
@@ -293,6 +315,50 @@ export class CollectionBook {
       }
       this.grid.appendChild(cell);
     }
+    this.battleBook(g);
+  }
+
+  /** The Battle Book (FIGHT-84): counts, then each move's card, each with its type icon and blurb. */
+  private battleBook(g: Game): void {
+    const b = battleBook(g.world);
+    this.battle.innerHTML = '';
+    this.battle.appendChild(el('h3', undefined, BATTLE_BOOK_TEXT.title));
+    const belt = b.belt ? (LADDER_TEXT.belts[b.belt - 1] ?? '') : LADDER_TEXT.belt(0);
+    for (const line of [
+      BATTLE_BOOK_TEXT.moves(b.learned, b.total),
+      BATTLE_BOOK_TEXT.seen(b.seen, b.total),
+      BATTLE_BOOK_TEXT.befriended(b.befriended),
+      BATTLE_BOOK_TEXT.ribbons(b.ribbons, b.ribbonSlots),
+      BATTLE_BOOK_TEXT.belt(belt),
+    ])
+      this.battle.appendChild(el('p', 'help', line));
+    this.battle.appendChild(el('div', 'btn-name', BATTLE_BOOK_TEXT.keepsakes));
+    this.battle.appendChild(
+      el(
+        'p',
+        'help',
+        b.keepsakes.length
+          ? b.keepsakes.map((k) => BATTLE_BOOK_TEXT.keepsakeNames[k] ?? k).join(' · ')
+          : BATTLE_BOOK_TEXT.noKeepsakes,
+      ),
+    );
+    const grid = el('div', 'book-moves');
+    for (const m of b.moves) {
+      const def = moveOf(m.id);
+      const t = TYPE_WORDS[def.type];
+      const card = el('div', `book-move${m.seen ? '' : ' unknown'}${m.learned ? ' learned' : ''}`);
+      card.append(
+        el('span', 'book-move-icon', m.seen ? t.icon : '?'),
+        el('strong', undefined, m.seen ? moveName(m.id) : BATTLE_BOOK_TEXT.unknown),
+        el(
+          'small',
+          undefined,
+          m.seen ? (BATTLE_MOVE_TEXT[m.id]?.blurb ?? '') : BATTLE_BOOK_TEXT.unknownBlurb,
+        ),
+      );
+      grid.appendChild(card);
+    }
+    this.battle.appendChild(grid);
   }
 }
 

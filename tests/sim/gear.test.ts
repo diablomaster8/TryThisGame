@@ -127,13 +127,13 @@ describe('gear slots (R0164)', () => {
 
 describe('save version 11', () => {
   it('migrates a version-10 save to an empty satchel and keeps worn gear through a reload', () => {
-    expect(SAVE_VERSION).toBe(11);
+    expect(SAVE_VERSION).toBeGreaterThanOrEqual(11);
     const w = world();
     const old = JSON.parse(serialize(w, 0)) as { version: number; world: Record<string, unknown> };
     old.version = 10;
     delete old.world.gear;
     const back = deserialize(JSON.stringify(old)).world;
-    expect(back.gear).toEqual({ items: [], keeper: {}, nubbins: {}, next: 1 });
+    expect(back.gear).toEqual({ items: [], keeper: {}, nubbins: {}, next: 1, stash: [] });
     const it = piece(back, 'boots', 'boots', [{ id: 'bouncy', value: 0.04 }]);
     applyCommand(back, { kind: 'equipGear', itemId: it.id, nubbinId: null }, []);
     const again = deserialize(serialize(back, 0)).world;

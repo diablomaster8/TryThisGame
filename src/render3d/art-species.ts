@@ -624,6 +624,7 @@ export function artSpec(name: string, art: CreatureSpec): SpeciesSpec {
   const wings = art.wings === 'none' ? null : art.wings;
   const spec: SpeciesSpec = patchKitSpec(art, L, c, {
     name,
+    ...(art.move === 'hop' ? { hop: true } : {}),
     scale: 0.78,
     gait: 'biped',
     hipY: L.hipY,

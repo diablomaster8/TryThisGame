@@ -5,6 +5,10 @@
  */
 export const BATTLE_MOVE_TEXT: Record<string, { name: string; blurb: string }> = {
   bonk: { name: 'Bonk', blurb: 'A friendly head-bump. Costs no Puff.' },
+  'fusion-burst': {
+    name: 'Fusion Burst',
+    blurb: 'Two friends, one very confused body, one enormous shout.',
+  },
   huddle: { name: 'Huddle', blurb: 'Everyone squeezes in close and feels a bit better.' },
 
   wobble: { name: 'Wobble', blurb: 'A wobbly bump that can leave the foe Dizzy.' },

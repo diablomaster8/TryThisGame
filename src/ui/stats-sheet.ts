@@ -10,6 +10,8 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
+import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
 import { TEN_TEXT } from '../config/strings';
@@ -247,6 +249,8 @@ export class StatsSheet {
         },
         'btn btn-small',
       );
+      // FUN-28: the critter's dry line, on hover and for screen readers.
+      b.title = FLAVOUR.critter[species] ?? '';
       this.giveList.appendChild(b);
     }
     for (const [type, count] of essences) {
@@ -258,6 +262,7 @@ export class StatsSheet {
         },
         'btn btn-small',
       );
+      b.title = FLAVOUR.essence[t] ?? '';
       this.giveList.appendChild(b);
     }
   }
@@ -375,6 +380,9 @@ export class StatsSheet {
       lines.push(`${TEN_TEXT.slips}: ${n.slipCount} · ${recent.join(', ')}`);
     }
     if (n.ancestry.length > 0) lines.push(TEN_TEXT.ancestry(n.ancestry));
+    // LOOK-53: the birthmark, by name.
+    const mark = birthmarkOf(n);
+    if (mark) lines.push(BIRTHMARK_TEXT.line(BIRTHMARK_TEXT.kinds[mark.kind] ?? mark.kind));
     this.lifeText.textContent = lines.join(' · ');
   }
 

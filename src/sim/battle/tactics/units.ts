@@ -93,3 +93,27 @@ export function unitFromLevels(o: {
   if (o.at) seed.at = o.at;
   return seed;
 }
+
+/**
+ * The party's units (FIGHT-57): one per Nubbin, except that merged partners (`world.merge`)
+ * come as one two-tile-tall unit with the pair's merged stats (`mergedLevels`, already in the
+ * derived stats), named for both.
+ */
+export function partyUnits(world: World, ids: readonly string[]): UnitSeed[] {
+  const m = world.merge;
+  const both = !!m && ids.includes(m.a) && ids.includes(m.b);
+  const out: UnitSeed[] = [];
+  for (const id of ids) {
+    if (both && id === m!.b) continue;
+    const n = world.nubbins.find((x) => x.id === id);
+    if (!n) continue;
+    const seed = unitFromNubbin(n, world);
+    if (both && id === m!.a) {
+      const b = world.nubbins.find((x) => x.id === m!.b);
+      seed.tall = true;
+      seed.c.name = `${n.name} + ${b?.name ?? ''}`;
+    }
+    out.push(seed);
+  }
+  return out;
+}

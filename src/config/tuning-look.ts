@@ -99,3 +99,81 @@ export const FLIGHT = {
 
 /** LOOK-22: the 3D walk's waddle roll by personality (children, without one, keep 1). */
 export const PERSONA_WADDLE = { cheerful: 1.3, shy: 0.7, mischievous: 1.15, lazy: 1.45 } as const;
+
+export const CHILD_HINT = {
+  /**
+   * LOOK-49: a child's look leans toward its band from this |alignment| and is fully there
+   * at `to`, in even steps (Pixel's palette has room for two; 3D blends four).
+   */
+  from: 0.2,
+  to: 0.5,
+  steps3d: 4,
+};
+
+export const EYE_TRACK = {
+  /** LOOK-52: a Nubbin's eyes follow the Keeper within this many metres. */
+  range: 5,
+  /** Pixel: closer than this across the screen, the eyes stay centred. */
+  deadZone: 0.3,
+};
+
+export const HELD_REACT = {
+  /** LOOK-50: held, a Nubbin with this much affection or more hugs the Keeper's arm. */
+  hug: 60,
+  /** Under this it flails; between, it dangles with its legs swinging. */
+  flail: 20,
+  /** The dangle's leg swing (radians, ±15°) and rate (Hz); the flail's rate (Hz). */
+  dangleSwing: 0.26,
+  dangleHz: 1.2,
+  flailHz: 6,
+};
+
+export const SHADOW_LOOK = {
+  /** LOOK-64: a wary Shadow Nubbin's head tips down (radians) and its arms tuck in. */
+  headDrop: 0.18,
+  armsIn: 0.25,
+  /** A bonded one's warm rim: its opacity at no trust and at full trust. */
+  rimMin: 0.15,
+  rimMax: 0.6,
+};
+
+export const GAG_TIMING = {
+  /** FUN-04: a content adult plays a personality gag every 40–90 s (seeded per Nubbin). */
+  gapMs: [40_000, 90_000] as const,
+  /** How long one gag plays. */
+  playMs: 3200,
+  /** A child plays its leaning's gags at this share of the rate (half). */
+  childRate: 0.5,
+};
+
+export const PHOTO_COMEDY = {
+  /** FUN-39: a nearby Nubbin photobombs this share of photos, and the subject blinks in this. */
+  bombChance: 0.15,
+  blinkChance: 0.1,
+  /** How near (metres) a Nubbin must be to photobomb. */
+  bombRange: 6,
+};
+
+export const EVOLVE_REVEAL = {
+  /** LOOK-62: the evolving cocoon shakes for its last 1.2 s. */
+  shakeMs: 1200,
+  /** The new form spins one full turn over this long after it lands. */
+  spinMs: 700,
+  /** The white flash's length (none under reduced motion). */
+  flashMs: 450,
+};
+
+export const RARITY = {
+  /** LOOK-58: each tier's portrait frame colour (always shown with its icon and label too). */
+  frame: { common: '#9a93a8', uncommon: '#4f9c3f', rare: '#4a9be0', legendary: '#f2d34c' },
+  icon: { common: '·', uncommon: '◆', rare: '✦', legendary: '★' },
+  /** In the Grove: a rare one glints every this often; a legendary one sheds a soft mote. */
+  rareGlintMs: 4000,
+  legendaryMoteMs: 1400,
+};
+
+export const BIRTHMARK = {
+  /** LOOK-53: the share of Chao-line Nubbins born with a mark, and of those a rare brow one. */
+  chance: 0.2,
+  rareChance: 0.03,
+};

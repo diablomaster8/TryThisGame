@@ -536,7 +536,7 @@ _He wanders off in the grey morning, with the jar on his head._
 > **Lesson** (science, 1-PS4-1, ask): sounds are muffled inside a jar  
 > _Pooh talks inside the jar. Do his words sound loud and clear?_  
 > - ✅ No, they sound muffled and boomy → Yes! A jar changes how a voice sounds.
-> - Yes, loud and clear → Not quite. In a jar the voice sounds muffled and boomy.
+> - Yes, loud and clear → Clear in a jar? Bonk! A jar makes voices sound muffled and boomy.
 > _For grown-ups: Noticed that a voice sounds different inside a jar._
 
 **Pooh**: Mmff mmm mmff.  
@@ -1698,7 +1698,7 @@ _He runs to the other side. The cone comes out from under the bridge!_
 > **Lesson** (science, ask): which way a stream flows  
 > _Pooh drops the cone on one side. Where does it come out?_  
 > - ✅ On the other side, with the water → Yes! The stream carries things along, under the bridge.
-> - Back where it started → Not quite. A stream flows one way, and carries the cone with it.
+> - Back where it started → Back up the stream? Whoosh! Streams flow one way, and carry the cone along.
 > _For grown-ups: Noticed that a stream carries things in the direction it flows._
 
 _He drops two cones at once, a big one and a small one._  

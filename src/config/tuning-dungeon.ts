@@ -273,3 +273,30 @@ export const HOLLOW_ZONES = {
     glow: '#ffd890',
   },
 } as const;
+
+/** Lane B round 6 (2026-10-29): boss floors, the sack, warm losses, sleepy packs, the stall. */
+export const HOLLOW_R6 = {
+  /** R0160: a boss chest's guaranteed tier, and the energy a party retries a boss with. */
+  bossChestRarity: 'legendary' as const,
+  bossRetryEnergy: 100,
+  /** R0180: a lost fight leaves the party at least this much energy; "Sneak past?" after this
+   * many losses to one pack, and the pack leaves the Keeper be for `sneakMs`. */
+  lossEnergy: 50,
+  sneakAfter: 3,
+  sneakMs: 60_000,
+  /** R0203: share of normal packs asleep; cells within which a running Keeper wakes them; the
+   * tiptoe bonus; a Lazy party Nubbin's chance to yawn one awake. */
+  sleepyShare: 0.2,
+  wakeCells: 3,
+  tiptoeShells: 5,
+  lazyYawn: 0.1,
+  /** R0176: the Mystery Basket's price by act, and its odds (never Plain). */
+  basketPrice: [50, 120, 250, 250, 250] as const,
+  basketOdds: { shiny: 0.6, fancy: 0.3, legendary: 0.08, set: 0.02 } as const,
+  /** R0362: share of the sack that tumbles home with the party; the rest goes to the stash. */
+  tumbleKeep: 0.5,
+  /** R0326: one stray in this many is a Stray King with a bottle-cap crown and a hat. */
+  strayKingOneIn: 12,
+  /** R0211: levels kept in the rolling stats. */
+  statsKeep: 20,
+} as const;

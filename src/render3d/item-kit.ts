@@ -325,37 +325,30 @@ function eggTexture(family: Family, name: string): THREE.CanvasTexture {
   g.fill();
   g.fillStyle = spot;
   g.strokeStyle = spot;
-  if (family === 'digi') {
-    // Three bands round the egg, each tilted (a tilted ring is a sine wave in u).
-    g.lineWidth = 3;
-    for (const v of [0.34, 0.5, 0.66]) {
+  // LOOK-63, as the pixel eggs: the digital egg's few big spots, the pocket egg's two tones
+  // split at the waist with a band on the seam, the Chao egg's band of speckles.
+  const dot = (u: number, v: number, r: number) => {
+    for (const du of [-1, 0, 1]) {
       g.beginPath();
-      for (let x = 0; x <= W; x += 2) {
-        const y = H * (1 - v) + Math.sin((x / W) * Math.PI * 2) * 4;
-        if (x === 0) g.moveTo(x, y);
-        else g.lineTo(x, y);
-      }
-      g.stroke();
-    }
-  } else {
-    // Spots scattered round the egg: big and green on the pocket line, small on the Chao's.
-    const big = family === 'pocket';
-    const spots: Array<[number, number]> = [
-      [0.08, 0.55],
-      [0.27, 0.35],
-      [0.42, 0.62],
-      [0.6, 0.4],
-      [0.78, 0.58],
-      [0.92, 0.3],
-      [0.18, 0.2],
-      [0.68, 0.18],
-    ];
-    for (const [u, v] of spots) {
-      const r = big ? 4.5 : 2;
-      g.beginPath();
-      g.ellipse(u * W, H * (1 - v), r * 1.6, r, 0, 0, Math.PI * 2);
+      g.ellipse((u + du) * W, H * (1 - v), r * 1.6, r, 0, 0, Math.PI * 2);
       g.fill();
     }
+  };
+  if (family === 'digi') {
+    for (const [u, v, r] of [
+      [0.1, 0.55, 7],
+      [0.35, 0.36, 8],
+      [0.58, 0.62, 6],
+      [0.82, 0.42, 7.5],
+      [0.47, 0.78, 4.5],
+    ] as const)
+      dot(u, v, r);
+  } else if (family === 'pocket') {
+    g.fillRect(0, H * 0.5, W, H * 0.5);
+    g.fillStyle = `#${new THREE.Color(spot).multiplyScalar(0.7).getHexString()}`;
+    g.fillRect(0, H * 0.5 - 2, W, 4);
+  } else {
+    for (let i = 0; i < 8; i++) dot(i / 8 + 0.03, i % 2 ? 0.5 : 0.44, 2);
   }
   const tex = new THREE.CanvasTexture(cv);
   tex.colorSpace = THREE.SRGBColorSpace;

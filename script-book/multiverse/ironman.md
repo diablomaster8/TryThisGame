@@ -17,7 +17,9 @@ _A camp in the hills. Trucks, crates, men with rifles. Somewhere, a generator co
 _A guard shoves you into a cave lit by one bulb. Two men look up from a workbench._  
 **Ho Yinsen** _(think)_: More guests. Wong-Chu collects people now. Sit down, before they decide you are a problem.  
 **Tony Stark**: Ignore the wires. They’re keeping me alive. Long story. Short version: a landmine, some shrapnel, bad luck.  
-**Ho Yinsen**: A splinter of metal sits a finger’s width from his heart. The magnet holds it back. For now.  
+_A splinter of metal sits a finger’s width from his heart. The magnet in his chest holds it back._  
+_Your Nubbin reaches up and taps the magnet. Tink._  
+**Tony Stark**: Please don’t. That’s load-bearing.  
 **Tony Stark** _(sad)_: Tony Stark. I make weapons. Made. The man outside wants one, and he wants it this week.  
 **Wong-Chu** _(angry)_: Build me the weapon, Mr Stark. While you build, the doctor eats. So do your little animals.  
 _He leaves. By the door sits a crate of mortar shells, stencilled STARK INDUSTRIES._  
@@ -45,7 +47,7 @@ _Yinsen hums while he files, the same four notes, over and over. Your Nubbins st
 
 ### Step 2: Carry the iron plates past the guards with your Power Nubbin.
 
-Hint: Move when the lamp turns away; a Nubbin with high Power carries two plates a trip. · check: `minigame:clear:mv-cave-plates`
+Hint: Tap Do it in the Journal and catch the plates as they come. Mind the lamp; it minds you. · check: `minigame:clear:mv-cave-plates`
 
 #### <a id="mv-im01-plates"></a>Scene `mv-im01-plates`
 
@@ -53,6 +55,8 @@ _The iron is in the scrap yard past the guard post. The guards count everything 
 **Tony Stark**: Every plate has to look like weapon parts. Anything else, and they’ll know.  
 **Ho Yinsen**: Your Nubbin is strong. It can carry what I cannot, and it is small enough to be overlooked.  
 _Your Power Nubbin pats a plate twice its size, as if checking whether it is ripe._  
+_It tries the plate on its head, walks three steps and bongs into the wall. It tries again, slower._  
+**Ho Yinsen**: Good. Now it knows where the wall is. That is engineering.  
 _Night falls. The guards change every forty minutes. That is your window._  
 **Tony Stark**: Twelve plates. Six trips. Nobody gets shot. That’s the whole plan.  
 _Halfway across the yard, a torch swings round and lands on you._  

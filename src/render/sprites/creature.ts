@@ -1,7 +1,7 @@
 import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
-import { poseFor, type ChaoPose } from './chao';
+import { drawHat, HELD_POSES, poseFor, type ChaoPose } from './chao';
 import {
   drawKitBody,
   drawKitExtras,
@@ -117,6 +117,8 @@ export interface CreatureSpec {
   serpent?: SerpentOpts;
   /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
   quad?: QuadOpts;
+  /** LOOK-45: moves by hopping (the in-training blobs): the walk clip squashes and lifts, no legs. */
+  move?: 'hop';
 }
 
 export const CREATURE_SIZE = 32;
@@ -756,8 +758,13 @@ function drawBody(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: ChaoPos
   }
 }
 
-/** Draw one frame of a species into a fresh 32×32 canvas. */
-export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSpec): PixelCanvas {
+/** Draw one frame of a species into a fresh 32×32 canvas, wearing `hat` when given (LOOK-61). */
+export function drawCreature(
+  angle: DrawnAngle,
+  pose: ChaoPose,
+  spec: CreatureSpec,
+  hat: string | null = null,
+): PixelCanvas {
   const pc = new PixelCanvas(CREATURE_SIZE, CREATURE_SIZE);
   const a = anchors(angle, pose, spec);
   drawExtras(pc, a, spec, pose, true);
@@ -781,6 +788,9 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   drawGen1b(pc, a, spec, pose, 'front');
   drawHeads(pc, a, spec, pose, true, face);
   drawExtras(pc, a, spec, pose, false);
+  // LOOK-61: the shop hats sit on any line's head, from the same anchors as the Chao's.
+  if (hat && !hat.startsWith('look-') && !pose.waterline)
+    drawHat(pc, angle, { ...a, legLength: 0 }, hat);
   if (pose.waterline) {
     pc.line(a.headCx - 8, a.bodyCy - 1, a.headCx + 8, a.bodyCy - 1, C.shallows);
   }
@@ -795,13 +805,33 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
+/** LOOK-45: a hopper's walk, six frames: landed flat, crouch, up, apex, falling, touching down. */
+const HOP_FRAMES: readonly { lift: number; squash: number }[] = [
+  { lift: 0, squash: 0.8 },
+  { lift: -1, squash: 0.95 },
+  { lift: -3, squash: 1.12 },
+  { lift: -3, squash: 1.1 },
+  { lift: -2, squash: 1.02 },
+  { lift: 0, squash: 0.88 },
+];
+
+function clipPose(spec: CreatureSpec, clip: ClipName, f: number): ChaoPose {
+  const pose = poseFor(clip, f);
+  if (clip !== 'walk' || spec.move !== 'hop') return pose;
+  const h = HOP_FRAMES[f % HOP_FRAMES.length]!;
+  return { ...pose, ...h, legs: 'tucked', arms: 'down', rock: 0 };
+}
+
 /** Every clip at every drawn angle, baked into one sheet, with the same keys as the Chao. */
-export function buildCreatureSheet(spec: CreatureSpec): SpriteSheet {
+export function buildCreatureSheet(spec: CreatureSpec, hat: string | null = null): SpriteSheet {
   const atlas = new AtlasBuilder(CREATURE_SIZE, CREATURE_SIZE, 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
-        atlas.add(frameKey(clip, angle, f), drawCreature(angle, poseFor(clip, f), spec));
+        atlas.add(
+          frameKey(clip, angle, f),
+          drawCreature(angle, clipPose(spec, clip, f), spec, hat),
+        );
       }
     }
   }
@@ -809,11 +839,16 @@ export function buildCreatureSheet(spec: CreatureSpec): SpriteSheet {
   for (const angle of DRAWN_ANGLES) {
     atlas.add(
       frameKey('dizzy', angle, 0),
-      drawCreature(angle, { ...base, eyes: 'dizzy', mouth: 'sad', headDrop: 1 }, spec),
+      drawCreature(angle, { ...base, eyes: 'dizzy', mouth: 'sad', headDrop: 1 }, spec, hat),
     );
     atlas.add(
       frameKey('surprised', angle, 0),
-      drawCreature(angle, { ...base, eyes: 'wide', mouth: 'open', lift: -1, arms: 'up' }, spec),
+      drawCreature(
+        angle,
+        { ...base, eyes: 'wide', mouth: 'open', lift: -1, arms: 'up' },
+        spec,
+        hat,
+      ),
     );
     atlas.add(
       frameKey('held', angle, 0),
@@ -821,8 +856,12 @@ export function buildCreatureSheet(spec: CreatureSpec): SpriteSheet {
         angle,
         { ...base, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' },
         spec,
+        hat,
       ),
     );
+    // LOOK-50: held by affection: a hug, a two-frame dangle, a two-frame flail.
+    for (const [name, f, pose] of HELD_POSES)
+      atlas.add(frameKey(name, angle, f), drawCreature(angle, pose, spec, hat));
   }
   return atlas.build();
 }

@@ -1,14 +1,17 @@
 import { buildShinyGlintSheet } from './shiny-glint';
 import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
-import { childHint } from '../../sim/alignment';
+import { childLean, leanStep } from './child-hint';
+import { birthmarkKey, birthmarkOf } from '../birthmark';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
   buildChaoSheet,
   CHILD_MOON,
+  CHILD_MOON_FAINT,
   CHILD_NEUTRAL,
   CHILD_SUN,
+  CHILD_SUN_FAINT,
   CHARACTER_LOOKS,
   eternalColors,
   lookOf,
@@ -75,6 +78,20 @@ function weatherSheet(src: SpriteSheet): SpriteSheet {
  * same look share one texture. Hand-drawn sheets can later be registered under the
  * same keys through `register`.
  */
+/**
+ * LOOK-49: a child's palette by how far it leans (`childLean`): neutral, then a faint step,
+ * then the full Sun or Moon child past halfway.
+ */
+function childLook(alignment: number): { id: string; colors: ChaoColors } {
+  const lean = childLean(alignment);
+  const step = leanStep(lean, 2);
+  if (lean.band === 'sun')
+    return { id: `sun${step}`, colors: step > 1 ? CHILD_SUN : CHILD_SUN_FAINT };
+  if (lean.band === 'moon')
+    return { id: `moon${step}`, colors: step > 1 ? CHILD_MOON : CHILD_MOON_FAINT };
+  return { id: 'neutral', colors: CHILD_NEUTRAL };
+}
+
 export class SheetCache {
   private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
@@ -142,7 +159,7 @@ export class SheetCache {
   private static baseKey(n: Nubbin): string {
     if (n.stage === 'egg') return `egg:${n.eggColor}:${n.species}`;
     if (n.stage === 'cocoon') return cocoonKey(n);
-    const sh = n.shadow ? 'sh' : '-';
+    const sh = n.shadow ? (n.bond ? 'shb' : 'sh') : '-';
     if (n.species !== 'chao') return `species:${n.species}:${sh}`;
     // Each filled slot carries its size step (LOOK-36): a level crossing a step redraws.
     const steps = partSteps(n);
@@ -153,12 +170,12 @@ export class SheetCache {
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
-    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}`;
+    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
     }
-    return `child:${childHint(n.alignment)}:${parts}:${hat}:${variant}`;
+    return `child:${childLook(n.alignment).id}:${parts}:${hat}:${variant}`;
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
@@ -179,6 +196,9 @@ export class SheetCache {
           scarf: n.scarf ?? null,
           glasses: !!n.glasses,
           hatDye: n.hatDye ?? null,
+          stars: Math.min(4, n.rebirths),
+          wary: n.shadow && !n.bond,
+          mark: birthmarkOf(n),
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);
@@ -186,23 +206,26 @@ export class SheetCache {
       // Other families use the generic creature drawer; their look is the species.
       const art = family !== 'chao' ? speciesArt(n.species) : undefined;
       if (art) {
-        if (!n.shadow) return buildCreatureSheet(art);
+        if (!n.shadow) return buildCreatureSheet(art, n.hat);
         // Shadow: ash-grey coat and an ember eye, whatever the species.
-        return buildCreatureSheet({
-          ...art,
-          colors: {
-            ...art.colors,
-            body: C.dusk,
-            shade: C.darkPlum,
-            belly: C.lilacGrey,
-            accent: C.plum,
-            accent2: C.violet,
-            eye: C.ember,
-            outline: C.ink,
+        return buildCreatureSheet(
+          {
+            ...art,
+            colors: {
+              ...art.colors,
+              body: C.dusk,
+              shade: C.darkPlum,
+              belly: C.lilacGrey,
+              accent: C.plum,
+              accent2: C.violet,
+              eye: C.ember,
+              outline: C.ink,
+            },
           },
-        });
+          n.hat,
+        );
       }
-      const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c) : c);
+      const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c, n.bond) : c);
       // A character look replaces the palette and adds its accessory as the hat.
       const look = n.hat ? CHARACTER_LOOKS[n.hat] : undefined;
       if (n.stage === 'adult' && n.form) {
@@ -255,8 +278,8 @@ export class SheetCache {
           ),
         );
       }
-      const hint = childHint(n.alignment);
-      const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+      const hint = childLean(n.alignment).band;
+      const base = childLook(n.alignment).colors;
       const colors =
         look?.colors ?? variantColors(base, n.eggColor, n.shiny || n.heirloom, n.tone, hint);
       return build(

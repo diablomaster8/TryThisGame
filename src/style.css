@@ -3130,3 +3130,96 @@ select {
   font-size: 1.5rem;
   margin-bottom: 8px;
 }
+
+/* FUN-28: an item's dry line, under its help. */
+.flavour {
+  display: block;
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+/* LOOK-60: the dress-up mirror. */
+.wardrobe .wardrobe-mirror {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  background: radial-gradient(circle at 50% 80%, rgba(255, 241, 201, 0.5), transparent 60%);
+}
+.wardrobe .wardrobe-wear {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+}
+.wardrobe .wardrobe-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+.wardrobe .wardrobe-item {
+  min-height: 44px;
+  min-width: 44px;
+}
+.wardrobe .wardrobe-item.on {
+  outline: 3px solid var(--accent, #f2d34c);
+}
+.wardrobe .wardrobe-item.locked {
+  filter: grayscale(1) brightness(0.7);
+}
+
+/* LOOK-62: the evolution's white flash (never under reduced motion). */
+.evolve-flash {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  z-index: 50;
+  animation: evolve-flash ease-out forwards;
+}
+@keyframes evolve-flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* LOOK-58: a roster portrait framed in its rarity's colour, with an icon and a label. */
+.roster-row[class*='rarity-'] .roster-portrait {
+  border: 3px solid var(--rarity);
+  border-radius: 6px;
+}
+.rarity-chip {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  border: 2px solid var(--rarity);
+  font-size: 0.8em;
+  font-weight: bold;
+}
+/* The wardrobe opens over the roster: an opaque card so the list under it does not show. */
+.wardrobe .modal-card {
+  background: #140f26;
+}
+
+/* Lane B round 6: the Journal's Hollow page (R0165), the ★ grid of named foes met. */
+.hollow-journal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 18px;
+  opacity: 0.6;
+}
+.hollow-journal-grid .met {
+  opacity: 1;
+  color: #e8a33c;
+}

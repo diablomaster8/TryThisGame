@@ -2003,7 +2003,7 @@ const Q10: EduQuest = quest(
               true,
             ),
             opt('He got home', [
-              N('Try again. First he set off. Next, the trick. Last, he never got home.'),
+              N('Home for tea? Ding! First the trick. Last, he never got home.'),
             ]),
           ],
           'Put the events of a story in order: first, next, last.',

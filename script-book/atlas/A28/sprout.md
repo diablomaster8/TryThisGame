@@ -1382,7 +1382,7 @@ _That is why the spider is bald, and keeps to the grass._
 > **Lesson** (literacy, RL.K.3, ask): recalling why something happened in a story  
 > _In the story, why is the spider bald?_  
 > - ✅ The beans were very hot. → Yes! The hot beans in his hat did it.
-> - He got a haircut. → No haircut! The hot beans under his hat did it.
+> - He got a haircut. → A haircut? Snip, snip! The hot beans under his hat did it.
 > _For grown-ups: Recalled the cause in a “why” story: the hot beans made the spider bald._
 
 

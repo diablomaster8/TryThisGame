@@ -1,4 +1,5 @@
 import { NAMES, STAT_LABELS } from '../config/strings';
+import { RACE_GAG_TEXT, rivalLabel } from '../config/strings-fun-r6';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { sectionAt, statFor, type RaceState } from '../sim/race';
 import { el } from './dom';
@@ -33,6 +34,12 @@ export class RaceWatch {
       const list = this.sectionMs.get(r.id);
       if (list) list[index] = (list[index] ?? 0) + dtMs;
     }
+  }
+
+  /** R0325: a line when the player's Nubbin stopped for a butterfly, else null. */
+  butterfly(): string | null {
+    const me = this.race.racers.find((r) => r.isPlayer);
+    return me && (me.gazes ?? 0) > 0 ? RACE_GAG_TEXT.tip(me.name || NAMES.creature) : null;
   }
 
   /** The tip line for the player, or null when there is nobody to compare with. */
@@ -79,7 +86,9 @@ export function standingsList(race: RaceState): HTMLOListElement {
       el(
         'span',
         'race-standing-name',
-        r.isPlayer ? `★ ${r.name || NAMES.creature} (${UI_FX_TEXT.youMark})` : r.name,
+        r.isPlayer
+          ? `★ ${r.name || NAMES.creature} (${UI_FX_TEXT.youMark})`
+          : rivalLabel(r.name, r.quirk),
       ),
       el(
         'span',

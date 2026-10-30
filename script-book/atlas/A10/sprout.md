@@ -668,7 +668,7 @@ _The sea catches you like a hand. It sets you on the deck._
 > _What came last?_  
 > - ✅ The sea set them on the canoe → Yes! Last, the sea set them gently on the deck.
 > - They ate dinner → Not yet! Last, the sea set them on the canoe.
-> - They flew home → No flying home. The sea set them on the canoe.
+> - They flew home → They flew home? Flap, flap! Silly! The sea set them on the canoe.
 > _For grown-ups: Put events in order: climbed, jumped, landed on the canoe._
 
 
@@ -883,7 +883,7 @@ _A white bird crosses the red sky. It is in a hurry._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): some sea birds fly home to land at dusk  
 > _The bird flies home at dusk. Which way is land?_  
 > - ✅ The way the bird is flying → Yes! Follow the bird home, and you find land.
-> - The way the bird came from → Not quite. At dusk the bird is heading home to land.
+> - The way the bird came from → Back the way it came? Whoops! At dusk the bird flies home to land.
 > - Nobody can tell → We can! The bird is going home. So land is where it goes.
 > _For grown-ups: Learned that at dusk some sea birds fly home to land, which shows sailors where land is._
 

@@ -273,6 +273,22 @@ function frameLine(g: Game): string {
   const things = g.scene3d ? `nubbins ${g.world.nubbins.length}` : `sprites ${g.view.batch.drawn}`;
   return (
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
-    `\n${worldLine(g)}`
+    `\n${worldLine(g)}` +
+    hollowLine(g)
+  );
+}
+
+/** Lane B round 6 (R0211): the Hollow's rolling tuning numbers, underground only. */
+function hollowLine(g: Game): string {
+  const s = g.world.hollow.stats;
+  if (!s || g.world.location !== 'dungeon') return '';
+  const avg = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);
+  const picks = Object.entries(s.pickups)
+    .map(([k, v]) => `${k} ${v}`)
+    .join(' ');
+  return (
+    `\nhollow: level ${Math.round(avg(s.levelMs) / 1000)} s  fights ${avg(s.fights).toFixed(1)}` +
+    `  losses ${s.losses}  portals ${s.portals}  sack ${g.world.dungeon?.sack?.length ?? 0}` +
+    `\npickups ${picks}`
   );
 }

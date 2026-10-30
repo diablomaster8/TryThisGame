@@ -334,6 +334,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   // ---- digital line ----
   fuzzlet: spec(pal(C.ink, C.darkPlum, C.dusk, C.sunYellow, C.sunYellow, C.sunYellow), {
     plan: 'round',
+    move: 'hop',
     size: 0.8,
     eyes: 'big',
     legs: 'none',
@@ -341,6 +342,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   }),
   chompet: spec(pal(C.blush, C.rose, C.pale, C.ember, C.rose), {
     plan: 'round',
+    move: 'hop',
     size: 0.9,
     ears: 'tallPointed',
     eyes: 'big',

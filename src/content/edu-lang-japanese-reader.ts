@@ -1896,7 +1896,7 @@ export const EDU_LANG_JAPANESE_READER: EduQuest[] = [
     band: 'reader',
     title: 'Konnichiwa, Hana!',
     goals: {
-      'lj1-step1': { goal: 'Say hello to Hana at the gate in Japanese.', hint: 'Tap Hana and choose Greet. Say “konnichiwa” (こんにちは). A little bow is a nice touch.' },
+      'lj1-step1': { goal: 'Say hello to Hana at the gate in Japanese.', hint: 'Tap Hana at the gate. Say “konnichiwa” (こんにちは). A little bow is a nice touch.' },
       'lj1-step2': { goal: 'Teach three Nubbins to bow when you say “konnichiwa”.', hint: 'Tap a Nubbin and say こんにちは a few times. Nubbins learn by copying you.' },
       'lj1-step3': { goal: 'Say “oyasumi” (good night) to everyone before bed.', hint: 'At dusk, tap each Nubbin, Nova and Hana, and say おやすみ.' },
     },

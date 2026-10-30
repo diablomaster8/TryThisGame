@@ -16,6 +16,8 @@ import { formKey } from '../sim/collection';
 import type { Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 import { CHAPTER_PHOTO_EVENT, chapterShot, type ChapterShot } from './chapter-photo';
+import { PHOTO_TEXT } from '../config/strings-look';
+import { photoComedy, wrapCaption } from './photo-comedy';
 
 /** A framed snapshot of a Nubbin, drawn on the pixel grid, saved as a PNG. */
 export class PhotoMode {
@@ -37,6 +39,10 @@ export class PhotoMode {
     this.dialog.body.appendChild(this.canvas);
     this.save = button(UI_TEXT.savePhoto, () => this.download(), 'btn btn-primary');
     this.dialog.body.appendChild(this.save);
+    // FUN-39: after a blink, a retake next to the "keep it anyway" save.
+    this.retake = button(PHOTO_TEXT.retake, () => this.reshoot(), 'btn');
+    this.retake.hidden = true;
+    this.dialog.body.appendChild(this.retake);
     // A keepsake of the chapter just closed (N6): the offer card sends this event.
     this.switcher = button('', () => this.toggle(), 'btn');
     this.dialog.body.appendChild(this.switcher);
@@ -44,6 +50,9 @@ export class PhotoMode {
   }
 
   private readonly switcher: HTMLButtonElement;
+  private readonly retake: HTMLButtonElement;
+  /** FUN-39: how many Nubbin photos this session, the seed of each one's comedy. */
+  private shot = 0;
   private mode: 'nubbin' | 'chapter' = 'nubbin';
 
   /** Open on the last chapter photo, if there is one. */
@@ -138,6 +147,7 @@ export class PhotoMode {
       (id ? g.world.nubbins.find((x) => x.id === id) : undefined) ??
       g.world.nubbins.find((x) => x.stage !== 'egg');
     if (!n) return;
+    this.shot++;
     this.render(g, n);
     g.send({ kind: 'photoTaken', species: n.species });
     this.dialog.show();
@@ -151,10 +161,25 @@ export class PhotoMode {
     return this.dialog.isOpen();
   }
 
+  /** FUN-39: take the photo again after a blink. */
+  private reshoot(): void {
+    const g = this.game();
+    const n = this.nubbin(g);
+    if (!g || !n) return;
+    this.shot++;
+    this.render(g, n);
+  }
+
   private render(g: Game, n: Nubbin): void {
+    const fun = photoComedy(g.world, n, this.shot);
+    this.retake.hidden = !fun.blink;
+    this.save.textContent = fun.blink ? PHOTO_TEXT.keepAnyway : UI_TEXT.savePhoto;
+    if (fun.blink) this.help.textContent = PHOTO_TEXT.blinkHelp;
+    else if (this.mode === 'nubbin') this.help.textContent = UI_TEXT.photoHelp;
     const W = 160;
     // Tall enough that the four lines of the footer sit inside the frame (bug 19).
-    const H = 128;
+    // FUN-39: taller by the caption's lines.
+    const H = 128 + wrapCaption(fun.caption, W - 12).length * 9;
     const S = 3;
     this.canvas.width = W * S;
     this.canvas.height = H * S;
@@ -179,8 +204,10 @@ export class PhotoMode {
       ctx.imageSmoothingEnabled = false;
     } else {
       const sheet = g.view.sheets.forNubbin(n);
+      // FUN-39: a blink is the idle breath's shut-eye frame.
+      const pose = n.stage === 'egg' ? 'idle' : fun.blink ? 'idle' : 'happy';
       const rect =
-        sheet.frames.get(frameKey(n.stage === 'egg' ? 'idle' : 'happy', 'front', 0)) ??
+        sheet.frames.get(frameKey(pose, 'front', fun.blink ? 7 : 0)) ??
         sheet.frames.values().next().value;
       if (rect) {
         const image = sheet.texture.image as HTMLCanvasElement;
@@ -198,6 +225,8 @@ export class PhotoMode {
         );
       }
     }
+    // FUN-39: the photobomber leans in at the frame's edge, waving, half out of the picture.
+    if (fun.bomber) this.drawBomber(g, fun.bomber, fun.side, ctx, W, S);
     drawShadowText(ctx, n.name, W / 2, 84, color(C.darkPlum), color(C.cream), 1, 'center');
     const form = n.species === 'chao' ? keyLabel(formKey(n)) : keyLabel(n.species);
     drawText(ctx, form, W / 2, 95, color(C.plum), 1, 'center');
@@ -210,15 +239,61 @@ export class PhotoMode {
       1,
       'center',
     );
+    // FUN-39: the caption, wrapped to the frame, in the photo's own ink.
+    const cap = wrapCaption(fun.caption, W - 12);
+    cap.forEach((line, i) =>
+      drawText(ctx, line, W / 2, 115 + i * 9, color(C.darkPlum), 1, 'center'),
+    );
     drawText(
       ctx,
       `${NAMES.game} · ${new Date().toLocaleDateString()}`,
       W / 2,
-      114,
+      116 + cap.length * 9,
       color(C.lilacGrey),
       1,
       'center',
     );
+  }
+
+  /** Draw a photobomber at one edge of the photo window, cut off by the frame. */
+  private drawBomber(
+    g: Game,
+    b: Nubbin,
+    side: -1 | 1,
+    ctx: CanvasRenderingContext2D,
+    W: number,
+    S: number,
+  ): void {
+    const size = 48;
+    const x = side < 0 ? 6 - size * 0.35 : W - 6 - size * 0.65;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(6, 6, W - 12, 72);
+    ctx.clip();
+    const shot = g.scene3d?.portrait(b.id, size * S, size * S) ?? null;
+    if (shot) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(shot, x, 78 - size, size, size);
+    } else {
+      const sheet = g.view.sheets.forNubbin(b);
+      const rect =
+        sheet.frames.get(frameKey('wave', 'front', 1)) ??
+        sheet.frames.get(frameKey('happy', 'front', 0));
+      if (rect)
+        ctx.drawImage(
+          sheet.texture.image as HTMLCanvasElement,
+          rect.x,
+          rect.y,
+          rect.w,
+          rect.h,
+          x,
+          78 - size,
+          size,
+          size,
+        );
+    }
+    ctx.restore();
+    ctx.imageSmoothingEnabled = false;
   }
 
   private download(): void {

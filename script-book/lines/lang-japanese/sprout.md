@@ -2,7 +2,7 @@
 
 ## LJ1. Konnichiwa, Hana!
 
-- `lj1-step1`: Say hello to Hana at the gate. Say “konnichiwa”! · _Tap Hana and choose Greet. A little bow is lovely too._
+- `lj1-step1`: Say hello to Hana at the gate. Say “konnichiwa”! · _Tap Hana. Say hello. A little bow is lovely too._
 - `lj1-step2`: Teach three Nubbins to bow when you say “konnichiwa”. · _Tap a Nubbin and say “konnichiwa”. Say it a few times. Nubbins learn by copying._
 - `lj1-step3`: Say “oyasumi” (good night) to everyone. · _In the evening, tap each friend and choose Say, then “oyasumi”._
 

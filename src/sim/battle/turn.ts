@@ -1,3 +1,5 @@
+import { FUN_FUMBLE } from '../../config/tuning-battle-r6';
+import { fuse, tickFusion } from './fusion';
 import { BATTLE } from '../../config/tuning-battle';
 import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
 import { BATTLE_R5 } from '../../config/tuning-battle-r5';
@@ -351,6 +353,13 @@ export function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction)
     return;
   }
   if (!canAct(s, rng, c)) return;
+  if (c.laughing) {
+    // Slapstick (FUN-74): still laughing at a rival's fumble, so this turn is lost.
+    delete c.laughing;
+    s.log.push({ k: 'skip', who: c.id, why: 'giggly' });
+    return;
+  }
+  if ((a.k === 'strike' || a.k === 'move') && fumbles(s, c)) return;
   if (a.k === 'guard') catchBreath(s, c);
   else if (a.k === 'item') {
     const all = [...s.sides[0], ...s.sides[1]];
@@ -361,6 +370,23 @@ export function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction)
     const swing = a.k === 'strike' && !!a.swing;
     useMove(s, rng, c, moveIdOf(a) ?? 'bonk', targetOf(a), swing, timingOf(a));
   }
+}
+
+/**
+ * Slapstick (recs FUN-74): about one move in twenty fumbles, a comic trip that does no harm,
+ * and the nearest rival laughs so hard it loses its next action. Decided from a hash of the
+ * bout's seed, the turn and the combatant rather than the generator, so no other roll moves.
+ * Never in a gentle bout's Keeper side (kid mode stays kind) or a Command bout.
+ */
+function fumbles(s: BattleState, c: Combatant): boolean {
+  if (s.atb || (s.gentle && c.side === 0)) return false;
+  let h = 2166136261 ^ s.seed;
+  for (const ch of `${s.turn}:${c.id}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  if ((h >>> 0) % 1000 >= FUN_FUMBLE * 1000) return false;
+  s.log.push({ k: 'fumble', who: c.id });
+  const rival = s.sides[c.side === 0 ? 1 : 0].find((x) => onField(s, x));
+  if (rival) rival.laughing = true;
+  return true;
 }
 
 function nextAlly(s: BattleState, from: number): number {
@@ -421,6 +447,8 @@ export function resolveTurn(s: BattleState, rng: Rng): void {
     if (c.decoy > 0) c.decoy -= 1;
     if (c.alignAs && --c.alignAs.turns <= 0) delete c.alignAs;
   }
+  tickFusion(s);
+  if (s.result) return;
   s.log.push({ k: 'turnEnd', n: s.turn });
   s.choices = {};
   s.turn += 1;
@@ -445,6 +473,8 @@ export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
     s.active = s.lead![0];
     return true;
   }
+  if (a.k === 'fuse') return fuse(s);
+  if (s.passPlay?.choosing === 1) return secondKeeperAct(s, rng, a);
   const me = s.sides[0][s.active];
   if (!me || !onField(s, me) || !canChoose(s, me, a)) return false;
   s.choices = { ...(s.choices ?? {}), [me.id]: a };
@@ -453,6 +483,31 @@ export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
     s.active = next;
     return true;
   }
+  // Pass-and-play: the second Keeper picks for the other side before the turn resolves.
+  if (s.passPlay) {
+    const first = s.sides[1].findIndex((c) => onField(s, c));
+    if (first >= 0) {
+      s.passPlay.choosing = 1;
+      s.active = first;
+      return true;
+    }
+  }
+  resolveTurn(s, rng);
+  return true;
+}
+
+/** Pass-and-play (FIGHT-96): the second Keeper's pick for the active combatant on side 1. */
+function secondKeeperAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
+  if (a.k === 'swap' || a.k === 'item') return false;
+  const me = s.sides[1][s.active];
+  if (!me || !onField(s, me) || !canChoose(s, me, a)) return false;
+  s.choices = { ...(s.choices ?? {}), [me.id]: a };
+  for (let i = s.active + 1; i < s.sides[1].length; i++)
+    if (onField(s, s.sides[1][i]!)) {
+      s.active = i;
+      return true;
+    }
+  s.passPlay!.choosing = 0;
   resolveTurn(s, rng);
   return true;
 }

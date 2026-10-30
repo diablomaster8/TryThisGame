@@ -36,6 +36,8 @@ import { TRAINERS } from '../sim/trainers';
 import { artSpec } from './art-species';
 import { withNpcAccessories } from './npc-accessories';
 import { STORY_NPC_LOOKS, STORY_ONLY_LOOKS, WEATHERED } from '../config/npc-looks';
+import { CHILD_HINT } from '../config/tuning';
+import { withBirthmark } from './birthmark-3d';
 import { weathered } from './weathered';
 
 /**
@@ -164,6 +166,22 @@ function tint(base: SpeciesSpec, baseKey: string, mods: string[]): SpeciesSpec {
  * pixel view, the look's palette goes over the form's own shape (its type tells, crown, wings
  * and Eternal head stay), and the look's head accessory is worn as a hat by the `Dresser`.
  */
+/**
+ * LOOK-49: a Sun- or Moon-leaning child part of the way there: each palette role blended
+ * from the neutral child's toward the leaning child's by `k`.
+ */
+function leanBlend(base: SpeciesSpec, k: number): SpeciesSpec {
+  if (!(k > 0 && k < 1)) return base;
+  const from = paletteOf(NUBBIN_SPEC);
+  const to = paletteOf(base);
+  const a = new Color();
+  const b = new Color();
+  const colors: Partial<NubbinColors> = {};
+  for (const role of Object.keys(to) as (keyof NubbinColors)[])
+    colors[role] = `#${a.set(from[role]).lerp(b.set(to[role]), k).getHexString()}`;
+  return variant(base, `${base.name} (${Math.round(k * 100)}%)`, { colors });
+}
+
 function lookPalette(base: SpeciesSpec, lookId: string): SpeciesSpec {
   const look = variantById(lookId);
   if (!look) return base;
@@ -189,7 +207,8 @@ function ashen(base: SpeciesSpec): SpeciesSpec {
   for (const part of spec.parts) prims.push(...part.prims, ...(part.joint?.prims ?? []));
   for (const p of prims) p.color = grey(p.color);
   for (const m of spec.marks) m.color = grey(m.color);
-  spec.eyes = { ...spec.eyes, iris: '#e0562e' };
+  // LOOK-64: the ember eyes carry a little light of their own, so the face reads at dusk.
+  spec.eyes = { ...spec.eyes, iris: '#e0562e', glow: 0.4 };
   if (spec.ball) spec.ball = { ...spec.ball, color: '#4a4058' };
   return spec;
 }
@@ -274,6 +293,8 @@ export function specForKey(key: string): SpeciesSpec {
         );
       else if (!side) spec = dressed(spec, npc);
     }
+    const hint = mod('hint:');
+    if (hint) spec = leanBlend(spec, Number(hint) / CHILD_HINT.steps3d);
     const look = mod('look:');
     if (look) spec = lookPalette(spec, look);
     const colour = mods.filter(
@@ -288,6 +309,9 @@ export function specForKey(key: string): SpeciesSpec {
         parsePartSteps(parts),
         partsTinted(parts),
       );
+    // LOOK-53: the birthmark, painted on before the Shadow's grey so it greys with the rest.
+    const mark = mod('mark:');
+    if (mark) spec = withBirthmark(spec, mark);
     if (mods.includes('shadow')) spec = ashen(spec);
     if (mods.includes('weathered')) spec = weathered(spec);
     cache.set(key, spec);

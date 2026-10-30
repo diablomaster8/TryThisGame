@@ -377,7 +377,7 @@ _Then the crocodile holds on to the buffalo’s leg!_
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): saying thank you to helpers  
 > **Mak Cik Siti**: The buffalo helped. What do we do when someone helps us?  
 > - ✅ Say thank you! → Yes! Say thank you, and be kind back.
-> - Grab their leg. → No! That is what the crocodile did. We say thank you instead.
+> - Grab their leg. → Grab a leg? Snap! That is what the crocodile did. We say thank you instead.
 > _For grown-ups: Your child thought about thanking someone who helps, and being kind back._
 
 

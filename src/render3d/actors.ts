@@ -28,6 +28,13 @@ import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
+import { BondGlow } from './bond-glow';
+import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
+import { crackLevel, eggWobble, updateCracks } from './egg-crack';
+import { gagAt } from '../render/gag-play';
+import { cocoonShake, revealTurn } from '../render/evolve-reveal';
+import { rarityOf } from '../render/rarity';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -38,7 +45,7 @@ import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
-import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
+import { ItemKit, placeStand, shellKey } from './item-kit';
 import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
@@ -71,6 +78,10 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** LOOK-62: the landing turn laid on the rig's yaw this frame, taken off the next. */
+  revealYaw?: number;
+  /** FUN-04: the emote of the gag playing this frame, or null. */
+  gagEmote?: EmoteShape | null;
   /** FUN-09: the pet-action beat playing this frame, or null. */
   beat: PetBeatPose | null;
   /** The scale a squash or pop was laid over this frame, put back before the next. */
@@ -164,6 +175,38 @@ interface KeeperSlot {
 
 /** The tap sparkles' colour. */
 const SPARK = new THREE.Color('#fff2a8');
+/** LOOK-50: the pose for each way of being held. */
+const HELD_POSE3D: Record<HeldMood, PoseName> = { hug: 'love', dangle: 'idle', flail: 'surprised' };
+
+/**
+ * LOOK-50: the dangle swings the legs (±15°) and the flail beats arms and legs fast, laid on
+ * after the pose (which sets those bones afresh every frame, so nothing builds up).
+ */
+function heldSwing(rig: Rigged, mood: HeldMood, t: number): void {
+  if (mood === 'hug') return;
+  const b = rig.bones;
+  const flail = mood === 'flail';
+  const w = t * Math.PI * 2 * (flail ? HELD_REACT.flailHz : HELD_REACT.dangleHz);
+  const leg = flail ? 0.5 : HELD_REACT.dangleSwing;
+  if (b.legL) b.legL.rotation.x += Math.sin(w) * leg;
+  if (b.legR) b.legR.rotation.x -= Math.sin(w) * leg;
+  if (flail) {
+    if (b.armL) b.armL.rotation.z += 0.4 + Math.sin(w + 1) * 0.6;
+    if (b.armR) b.armR.rotation.z -= 0.4 + Math.sin(w + 2) * 0.6;
+  }
+}
+
+/** LOOK-64: a wary Shadow Nubbin's head low and arms tucked, over the idle or walk pose. */
+function waryPosture(rig: Rigged): void {
+  const b = rig.bones;
+  if (b.head) b.head.rotation.x += SHADOW_LOOK.headDrop;
+  if (b.armL) b.armL.rotation.z -= SHADOW_LOOK.armsIn;
+  if (b.armR) b.armR.rotation.z += SHADOW_LOOK.armsIn;
+}
+
+/** LOOK-52: the poses whose eyes follow the Keeper (not asleep, dizzy, crying or swimming). */
+const GLANCE_POSES: ReadonlySet<PoseName> = new Set<PoseName>(['idle', 'walk', 'happy', 'eat']);
+
 export class Actors {
   readonly group = new THREE.Group();
   readonly pool = takePool();
@@ -220,6 +263,10 @@ export class Actors {
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
   private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
+  /** LOOK-64: the bonded Shadow Nubbins' warm rims. */
+  private readonly bondGlow: BondGlow;
+  /** LOOK-58: the legendary ones' gold halos. */
+  private readonly rarityGlow: BondGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
   private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
@@ -287,6 +334,8 @@ export class Actors {
       }),
     );
     this.glow = new MergedGlow(this.group);
+    this.bondGlow = new BondGlow(this.group);
+    this.rarityGlow = new BondGlow(this.group);
     this.highlight.rotation.x = -Math.PI / 2;
     this.highlight.visible = false;
     this.group.add(this.highlight);
@@ -729,6 +778,9 @@ export class Actors {
     return this.ground(x, z);
   }
 
+  /** LOOK-52: where the Keeper's face is this frame. */
+  private readonly glanceAt = new THREE.Vector3();
+
   /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
   private keeperHand(rig: Rigged | null, keeper: World['keeper']): THREE.Vector3 {
     const elbow = rig?.bones.elbowR;
@@ -871,6 +923,11 @@ export class Actors {
     // The hand the petted Nubbin looks at: the Keeper's right hand when the rig is up,
     // else a point at chest height in front of the Keeper.
     const hand = this.keeperHand(rig, keeper);
+    // LOOK-52: the Keeper's face, which awake Nubbins within range follow with their eyes.
+    const head = rig?.bones.head;
+    if (head) head.getWorldPosition(this.glanceAt);
+    else
+      this.glanceAt.set(keeper.pos.x, this.ground(keeper.pos.x, keeper.pos.z) + 1.4, keeper.pos.z);
     let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
     this.crowd.update(
@@ -888,6 +945,10 @@ export class Actors {
       live.add(n.id);
       const a = this.ensureNubbin(n);
       this.unsquash(a);
+      if (a.revealYaw && a.rig) {
+        a.rig.group.rotation.y -= a.revealYaw;
+        a.revealYaw = 0;
+      }
       this.tryRig(a);
       // A scene that seats Moss or Sable on a mark draws them there (scene-stage.ts).
       const held = this.nubbinHolds?.get(n.id);
@@ -929,9 +990,22 @@ export class Actors {
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        // LOOK-50: held, it hugs (love), dangles (idle) or flails (surprised) by affection;
+        // the dangle's and flail's limb swing goes on after the pose below.
+        const hm =
+          isHeld(n) && pose === 'pet' && petting !== n.id ? heldMood(n, keeper.alignment) : null;
+        if (hm) pose = HELD_POSE3D[hm];
         if (fly) pose = 'flap';
         const sigOn = !!sig && pose === 'idle';
         if (sigOn) pose = sig!.pose3d;
+        // FUN-04: a content idle Nubbin plays its personality's gag (render/gag-play.ts).
+        const mood = moodOf(n);
+        const gag =
+          !sigOn && !held && pose === 'idle'
+            ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
+            : null;
+        if (gag) pose = gag.look.pose3d;
+        a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
         a.rig.glide = fly?.phase === 'glide';
         a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
         if (pose !== a.pose) {
@@ -965,19 +1039,49 @@ export class Actors {
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
-        a.rig.lookAt = pose === 'pet' ? hand : null;
+        a.rig.lookAt =
+          pose === 'pet'
+            ? hand
+            : GLANCE_POSES.has(pose) &&
+                Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
+              ? this.glanceAt
+              : null;
         if (n.behavior.state === 'pet' && near) petted = true;
-        if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
+        this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
+        if (hm) heldSwing(a.rig, hm, t);
+        // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
+        const pp = this.pops.get(n.id);
+        const turn =
+          n.stage === 'adult' && pp?.kind === 'pop' ? revealTurn(pp.startMs, nowMs, this.calm) : 0;
+        if (turn) {
+          o.rotation.y += turn;
+          a.revealYaw = turn;
+        }
+        if (n.shadow && !n.bond && n.species === 'chao' && (pose === 'idle' || pose === 'walk'))
+          waryPosture(a.rig);
         this.tumble(a, n, o, nowMs);
         this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
       } else if (a.stand) {
         placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {
         o.position.set(x, gy + ((o.userData.half as number | undefined) ?? 0.46) + y, z);
-        if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
-        else {
+        if (n.stage === 'egg') {
+          // LOOK-63: a shaken egg rocks and squashes; cracks run round it near hatching.
+          const wob = eggWobble(n, world.timeMs, nowMs, x);
+          o.rotation.z = wob.rz;
+          if (wob.squash !== 1) {
+            if (!a.squash) a.squash = { o, base: o.scale.clone() };
+            o.scale.y *= wob.squash;
+            o.scale.x *= 2 - wob.squash;
+            o.scale.z *= 2 - wob.squash;
+          }
+          updateCracks(a.shell, crackLevel(n));
+        } else {
+          updateCracks(a.shell, 0);
           o.rotation.y = t * 0.4;
+          // LOOK-62: the evolving cocoon shakes through its last 1.2 s.
+          o.rotation.z = cocoonShake(n, nowMs) * 0.12;
           // LOOK-25: the cocoon breathes, 1 to 1.03 at 0.8 Hz.
           o.scale.setScalar(cocoonPulse(nowMs));
           // As the pixel cocoon: a departing one fades as it closes, a rebirth one shimmers.
@@ -1001,6 +1105,25 @@ export class Actors {
       }
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
+      // LOOK-58: a legendary one (jewel, glass, Eternal) carries a soft gold halo that breathes.
+      this.rarityGlow.set(
+        n.id,
+        a.rig && n.stage !== 'egg' && rarityOf(n) === 'legendary'
+          ? 0.22 + (this.calm ? 0 : 0.1 * Math.sin(nowMs / 600))
+          : 0,
+        o.position,
+        tall,
+        '#fff3a6',
+      );
+      // LOOK-64: a bonded Shadow Nubbin's warm rim, growing with its trust.
+      this.bondGlow.set(
+        n.id,
+        n.shadow && n.bond && a.rig
+          ? SHADOW_LOOK.rimMin + ((SHADOW_LOOK.rimMax - SHADOW_LOOK.rimMin) * n.trust) / 100
+          : 0,
+        o.position,
+        tall,
+      );
       // The emote ball over the head: the same choice the pixel view makes, a reaction
       // bubble over it for a moment, two frames flipping every 400 ms, plum for a Shadow.
       let bubble = this.bubbles.get(n.id);
@@ -1013,6 +1136,8 @@ export class Actors {
           ? 'none'
           : (bubble?.shape ??
             (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
+            heldEmote(n, keeper.alignment) ??
+            a.gagEmote ??
             emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =
@@ -1053,6 +1178,8 @@ export class Actors {
     for (const id of [...this.nubbins.keys()]) if (!live.has(id)) this.drop(id);
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
     this.glow.keep(live);
+    this.bondGlow.keep(live);
+    this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
 
     // The Keeper.
@@ -1246,6 +1373,8 @@ export class Actors {
     this.memorials.clear();
     this.crowd.dispose();
     this.glow.dispose();
+    this.bondGlow.keep(new Set());
+    this.rarityGlow.keep(new Set());
     this.pool.dispose();
     this.dresser.dispose();
     this.kit.dispose();

@@ -631,3 +631,89 @@ button.battle-row:focus-visible {
 .bs-ribbon-icon {
   font-size: 20px;
 }
+
+/* Lane C round 6: the Battle Book in the Collection (FIGHT-84). */
+.book-battle h3 {
+  margin: 12px 0 4px;
+}
+.book-moves {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 6px;
+}
+.book-move {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.book-move.learned {
+  outline: 2px solid rgba(255, 220, 120, 0.6);
+}
+.book-move.unknown {
+  opacity: 0.55;
+}
+.book-move-icon {
+  font-size: 18px;
+}
+/* Pass-and-play and Fusion burst buttons share the action row. */
+.bs-fuse {
+  font-weight: 700;
+}
+
+/* Lane C round 6: the trial boards (FIGHT-97). */
+.trial-grid {
+  display: grid;
+  gap: 2px;
+  max-width: 420px;
+  margin: 6px auto;
+}
+.trial-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(14px, 4vw, 22px);
+  border-radius: 4px;
+  position: relative;
+}
+.trial-cell small {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 10px;
+}
+.t-floor {
+  background: rgba(200, 220, 160, 0.35);
+}
+.t-wall {
+  background: rgba(60, 50, 70, 0.6);
+}
+.t-water {
+  background: rgba(90, 150, 220, 0.5);
+}
+.trial-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-areas: '. n .' 'w . e' '. s .';
+  gap: 4px;
+  justify-content: center;
+  margin: 8px 0;
+}
+.trial-pad .btn {
+  min-height: 48px;
+}
+.trial-n {
+  grid-area: n;
+}
+.trial-e {
+  grid-area: e;
+}
+.trial-s {
+  grid-area: s;
+}
+.trial-w {
+  grid-area: w;
+}

@@ -9,6 +9,7 @@ import {
   TRUST,
   TYPE_LEAN,
 } from '../config/tuning';
+import { stepWanderGag } from './slapstick';
 import { isPartner } from './partners';
 import {
   addHappiness,
@@ -714,6 +715,8 @@ export function updateBehavior(
   switch (b.state) {
     case 'wander':
     case 'avoid': {
+      // R0299 (FUN-10): a distracted walk can end in a bonk against a trunk.
+      if (b.state === 'wander' && stepWanderGag(n, world, now, events)) break;
       // LOOK-24: a flight leg cruises faster than a walk (sim/flight.ts).
       const speed =
         b.state === 'avoid'

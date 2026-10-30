@@ -29,7 +29,7 @@ _A robin sits on top of the old wall post. Like a hat!_
 > - Green → Green is the ivy! The robin’s front is red-orange.
 > _For grown-ups: Looked closely at a robin and named its red-orange front and brown back._
 
-_Wherever you go, the robin goes too. Hop, hop, hop._  
+_Wherever you go, the robin goes too. Hop, hop, boing!_  
 **Fern**: That robin thinks you owe it something!  
 **Fern**: A robin followed me all spring once. For one raisin!  
 _Your Nubbin stares up at the robin. The robin stares back._  
@@ -46,14 +46,14 @@ _You keep very still. Still, still, still._
 > Check: `edu:hold:palm:still`
 > _For grown-ups: Practised keeping their body still and waiting, the way you do near a wild bird._
 
-_Peck! The robin takes the crumb. Back it goes to the post._  
+_Peck! Nom! The robin takes the crumb. Back it goes to the post._  
 _It hops onto the ivy. It looks back at you._  
 _Off it goes, down the lane. Your Nubbin follows it._  
 _And you follow your Nubbin!_  
 
 #### `sprout:s26-linnet` · [main](../../../side/S26.md#s26-linnet)
 
-_The robin leads you down the lane to Old Tobin’s cottage._  
+_Tweet! The robin leads you down the lane to Old Tobin’s cottage._  
 _A girl in her wheelchair is by the door. Her name is Linnet._  
 **Linnet**: Back wheels first, Grandad! Back. Wheels. First.  
 **Old Tobin**: Hello! I’m Tobin. I lit the lamps in this valley for years.  
@@ -96,7 +96,7 @@ _A girl in her wheelchair is by the door. Her name is Linnet._
 
 #### `sprout:s26-linnet-robin` · [main](../../../side/S26.md#s26-linnet-robin)
 
-_The robin lands on the lamp post. Right above Linnet’s head!_  
+_Plop! The robin lands on the lamp post, right above Linnet’s head!_  
 
 > **Lesson** (maths, K.G.A.1, ask): position words: above and below  
 > _Where is the robin?_  
@@ -125,7 +125,7 @@ _It scratches at a little heap of earth. Scratch, scratch!_
 > _They push the extra earth up. Pop! A molehill._  
 > _For grown-ups: Learned that moles dig tunnels and push up molehills, changing the ground around them._
 
-_Clink! Something hard is in the earth._  
+_Clink! Bonk! Something hard is in the earth._  
 _You dig with your fingers. It’s a big old key!_  
 _The lantern post feels warm. Something very old sleeps deep under it._  
 _You pat the earth back down. Let it sleep._  
@@ -192,7 +192,7 @@ _Everything is grey. Grey sticks. Grey roses. A stone bench._
 _Dusty comes with a spade._  
 **Dusty**: Since Fossil died, I haven’t wanted to dig anything.  
 _Dusty scratches a grey stick with a thumbnail. Scritch._  
-_Under the grey, it is green! Bright, wet green._  
+_Under the grey, it is green! Pop! Bright, wet green._  
 **Dusty**: Green inside means this one is alive.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): tell a living stem from a dead one  
@@ -210,7 +210,7 @@ _Under the grey, it is green! Bright, wet green._
 
 _Linnet is still at the top of the three steps._  
 **Linnet**: Three steps! Somebody built them and walked off.  
-_Sparks comes along with a coil of wire._  
+_Boing! Sparks bounces along with a coil of wire._  
 **Sparks**: Ooh, a hidden garden! Want me to lift you down?  
 **Dusty**: Or we could dig the steps into a slope. A ramp.  
 **You**: Linnet, what would you like?  
@@ -251,7 +251,7 @@ _Dusty cuts away the dead wood. You carry it out._
 _Linnet spots a rose that somebody has cut. Snip!_  
 **Linnet**: Somebody’s been in here! That cut is new.  
 **Dusty**: And they held the shears upside down!  
-_Everybody looks up at the top of the wall._  
+_Everybody looks up at the top of the wall. Creak!_  
 _Nobody is there. Just one little broken twig._  
 **Linnet**: We’ll watch at sunset. Then we’ll catch them!  
 
@@ -265,7 +265,7 @@ _Sunset. The sky goes orange, then dark blue._
 > - Breakfast → Not yet! First comes night. Breakfast is in the morning.
 > _For grown-ups: Talked about the pattern of sunset, night and morning._
 
-_Something small and green climbs over the wall. Slowly._  
+_Something small and green climbs over the wall. Squeak! Slowly._  
 _It has a rose twig in its mouth. It’s Moss!_  
 **Moss**: Good evening. I was cutting the roses.  
 **Linnet**: You did it upside down!  
@@ -276,7 +276,7 @@ _It has a rose twig in its mouth. It’s Moss!_
 
 #### `sprout:s26-earth-ask` · [main](../../../side/S26.md#s26-earth-ask)
 
-_Moss sits on the wall again._  
+_Moss sits on the wall again. Plop._  
 **Moss**: I’m not here. I’m part of the wall.  
 **Linnet**: Moss? Could I have a little patch of garden?  
 **Moss**: What would you do with it?  
@@ -313,10 +313,10 @@ _Linnet looks and looks. She is very fussy._
 
 - **The sunny corner by the wall.**
     - **Linnet**: Obviously. I was testing you!
-    - She marks it out with four sticks and string.
+    - Pop! She marks it out with four sticks and string.
 - **Under the old rose, by the green.**
     - **Linnet**: Next to the living one. Yes!
-    - She marks it out with four sticks and string.
+    - Pop! She marks it out with four sticks and string.
 - **Wherever you like. It’s yours.**
     - **Linnet**: Nobody’s ever said that to me.
     - She picks the sunny corner. Four sticks. One string.
@@ -325,7 +325,7 @@ _Linnet looks and looks. She is very fussy._
 
 _The evening light is golden._  
 _Moss climbs down off the wall, slowly._  
-_He sits on the stone bench. He has sat here before._  
+_He sits on the stone bench. Creak! He has sat here before._  
 **Moss**: This was Hush’s bench. Her roses. Her garden.  
 **Linnet**: Go on, then. Tell us about her.  
 **Moss**: My friend. The quiet one. She looked after sad hearts.  
@@ -363,7 +363,7 @@ _Linnet puts a white pebble on that spot. She doesn’t say a word._
 #### `sprout:s26-beds` · [main](../../../side/S26.md#s26-beds)
 
 _Autumn now. The leaves turn gold, then brown._  
-_Dusty builds wooden beds just the right height for Linnet’s hands._  
+_Bonk, bonk! Dusty builds wooden beds just right for Linnet’s hands._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): making places everyone can use  
 > _Why did Dusty make the beds this high?_  
@@ -396,7 +396,7 @@ _Linnet is the boss. She is very good at it._
 #### `sprout:s26-cheeks` · [main](../../../side/S26.md#s26-cheeks)
 
 _Your Nubbin carries bulbs. One in each cheek!_  
-_Puff, puff. Two bulbs at a time._  
+_Puff, puff. Pop! Two bulbs at a time._  
 
 > **Lesson** (maths, K.OA.A.1, do): add 2 and 2  
 > _(Your Nubbin carries two bulbs. Then two more.)_  
@@ -413,7 +413,7 @@ _It hides one under the bench. Pat, pat._
 
 #### `sprout:s26-tobin-finds` · [main](../../../side/S26.md#s26-tobin-finds)
 
-_One day, Tobin follows Linnet’s wheel tracks to the door._  
+_Squeak, squeak! One day, Tobin follows Linnet’s wheel tracks to the door._  
 **Old Tobin**: Linnet! Is that a SPADE?  
 **Old Tobin**: You’ll catch cold! You’ll tip over! Come away!  
 _Linnet’s happy face goes cross, all at once._  
@@ -453,7 +453,7 @@ _He sits and watches her until it’s dark._
 > - Shouting louder → Shouting didn’t help. Sitting and watching did.
 > _For grown-ups: Talked about how sitting and looking calmly can make a worry smaller._
 
-_On the way out, Tobin pats the old wall._  
+_On the way out, Tobin pats the old wall. Thump, thump._  
 **Old Tobin**: My old boss used to say: plant a rose where your worry sits.  
 **Old Tobin**: Then the worry has to stand up and find another seat!  
 
@@ -475,7 +475,7 @@ _Variant of `s26-tobin-bench`._
 _Tobin watches Linnet dig. She doesn’t tip._  
 **Old Tobin**: I kept a door shut once, for a long time. It got heavy.  
 _He sits and watches her until it’s dark._  
-_On the way out, Tobin pats the old wall._  
+_On the way out, Tobin pats the old wall. Thump, thump._  
 **Old Tobin**: My old boss used to say: plant a rose where your worry sits.  
 **Old Tobin**: Then the worry has to stand up and find another seat!  
 
@@ -486,10 +486,10 @@ _The Long Night is over. Now there is snow everywhere._
 > **Lesson** (science, 2-ESS2-3, ask): snow is frozen water and melts when warm  
 > _Snow is cold and white. What happens when snow gets warm?_  
 > - ✅ It melts into water → Yes! Snow is frozen water. Warm it up, and drip, drip!
-> - It turns into sand → No sand! Snow melts into water when it gets warm.
+> - It turns into sand → Snow into sand? Crunch! Snow melts into water when it gets warm.
 > _For grown-ups: Learned that snow is frozen water that melts when it warms up._
 
-_Tobin hurries up the lane. Two scarves! Wrong boots!_  
+_Tobin hurries up the lane. Squeak, squeak! Two scarves, wrong boots!_  
 **Old Tobin**: Linnet went out early! Her tracks go up the lane.  
 **Old Tobin**: My knees can’t manage the snow.  
 **Old Tobin**: Will you go and find her? Not bring her back. Just find her.  
@@ -538,7 +538,7 @@ _Snowdrops! Little white flowers, all round the bench._
 #### `sprout:s26-mum` · [main](../../../side/S26.md#s26-mum)
 
 _A few days later, a lady walks up the valley road._  
-_Her coat smells of the sea. She has a big bag._  
+_Her coat smells of the sea. Thump! Down goes her big bag._  
 **Linnet’s mum**: Hello! I’m Linnet’s mum. I work on the boats.  
 
 > **Lesson** (literacy, RF.K.2, do): first sounds: L  
@@ -583,7 +583,7 @@ _That evening, it’s just you, Linnet, the robin and the key._
 > _For grown-ups: Counted four keepers of the key, one finger for each._
 
 **Linnet**: You decide what happens to it.  
-_The key is big and black and heavy._  
+_The key is big and black and heavy. Thump!_  
 
 **Choices**
 
@@ -603,7 +603,7 @@ _The key is big and black and heavy._
 
 _Winter sun shines over the wall. The garden isn’t grey any more._  
 _Dusty hangs the ivy up like a curtain. The robin watches._  
-_Linnet wears the key on a string. It bangs when she races!_  
+_Linnet wears the key on a string. It goes bonk when she races!_  
 **Dusty**: I’m making a bench from the old steps. For your Grove.  
 
 > **Lesson** (science, K-ESS3-3, notice): old things can be used again  

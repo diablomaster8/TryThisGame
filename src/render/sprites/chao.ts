@@ -21,6 +21,7 @@ import { partStepScale, type PartStep } from './part-size';
 import { PixelCanvas } from './pixel-canvas';
 import { drawCosmetic } from './cosmetic-pixel';
 import { ditherGlass, metalColors } from './finish-pixel';
+import type { Birthmark } from '../birthmark';
 
 /**
  * The Nubbin, drawn Chao-faithfully from memory: a big round head that is most of the
@@ -66,7 +67,8 @@ export const CHILD_NEUTRAL: ChaoColors = {
   outline: C.darkPlum,
 };
 
-export const CHILD_SUN: ChaoColors = {
+/** The Sun adults' base (white with the type hue in the shade); the Sun child is its own below. */
+const SUN_BASE: ChaoColors = {
   ...CHILD_NEUTRAL,
   body: C.pale,
   shade: C.shallows,
@@ -76,7 +78,8 @@ export const CHILD_SUN: ChaoColors = {
   wing: C.white,
 };
 
-export const CHILD_MOON: ChaoColors = {
+/** The Moon adults' base; the Moon child is its own below. */
+const MOON_BASE: ChaoColors = {
   ...CHILD_NEUTRAL,
   body: C.plum,
   shade: C.darkPlum,
@@ -88,9 +91,52 @@ export const CHILD_MOON: ChaoColors = {
   glint: C.rose,
 };
 
+/**
+ * LOOK-49: the Sun-leaning child reads "going white and blue": an ice-white body, the crown
+ * and hands tinted sky blue instead of yellow. The faint step comes first (|alignment| from
+ * 0.2), the full one past halfway to 0.5 (`childLean`).
+ */
+export const CHILD_SUN: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.skyLight,
+  shade: C.shallows,
+  belly: C.white,
+  tip: C.shallows,
+  tipShade: C.water,
+  wing: C.white,
+};
+export const CHILD_SUN_FAINT: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  belly: C.white,
+  tip: C.sunLight,
+  tipShade: C.sunYellow,
+  wing: C.white,
+};
+
+/** LOOK-49: the Moon-leaning child, dusky violet with a red tip, and its faint step. */
+export const CHILD_MOON: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.greyDeep,
+  shade: C.plum,
+  belly: C.dusk,
+  tip: C.rose,
+  tipShade: C.berry,
+  wing: C.lavender,
+  glint: C.rose,
+};
+export const CHILD_MOON_FAINT: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.lilacGrey,
+  shade: C.dusk,
+  belly: C.pale,
+  tip: C.rose,
+  tipShade: C.berry,
+  wing: C.lavender,
+};
+
 /** Adult palettes by alignment band and type: the 15 first-evolution looks. */
 export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): ChaoColors {
-  const base = band === 'sun' ? CHILD_SUN : band === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+  const base = band === 'sun' ? SUN_BASE : band === 'moon' ? MOON_BASE : CHILD_NEUTRAL;
   // Hues after the neutral evolution chart (2026-10-15): Swim green, Fly pink, Run blue,
   // Power orange-red, Normal cyan; Sun forms stay pale with the hue in the shade, Moon
   // forms stay dark with the hue in the body.
@@ -329,8 +375,12 @@ export function eternalColors(band: 'sun' | 'moon' | 'neutral'): ChaoColors {
   }
 }
 
-/** A Shadow Nubbin: ash-grey coat, dark ball, an ember glint in the eye. The grey stays. */
-export function shadowColors(base: ChaoColors): ChaoColors {
+/**
+ * A Shadow Nubbin: ash-grey coat, dark ball, an ember glint in the eye. The grey stays.
+ * LOOK-64: a bonded one (`bond`) keeps its grey but gains a warm one-pixel rim on the head's
+ * lit side: the grey stays, and can be loved.
+ */
+export function shadowColors(base: ChaoColors, bond = false): ChaoColors {
   return {
     ...base,
     body: C.dusk,
@@ -342,6 +392,7 @@ export function shadowColors(base: ChaoColors): ChaoColors {
     eye: C.ember,
     glint: C.roseLight,
     outline: C.ink,
+    ...(bond ? { rim: C.orange } : {}),
   };
 }
 
@@ -464,6 +515,8 @@ export interface ChaoPose {
   waterRise?: number;
   /** LOOK-23: kick splashes behind the body (the crawl). */
   kick?: boolean;
+  /** LOOK-52: the eyes glance a fine pixel toward the frame's left (-1) or right (1). */
+  glance?: -1 | 1;
 }
 
 const BASE: ChaoPose = {
@@ -634,6 +687,12 @@ export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
 
 export interface ChaoLook {
   colors: ChaoColors;
+  /** LOOK-53: a birthmark from the Nubbin's seed (render/birthmark.ts); unset draws none. */
+  mark?: Birthmark | null;
+  /** LOOK-64: a Shadow Nubbin not yet bonded: the head held a pixel low. */
+  wary?: boolean;
+  /** LOOK-54: rebirths, drawn as brow stars (1-3) or a ring (4+); unset draws none. */
+  stars?: number;
   shape: ChaoShape;
   parts: NubbinParts;
   /** Each filled part slot's size step by its stat (LOOK-36); absent draws at step size 1. */
@@ -750,7 +809,7 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
 };
 
 /** Hats sit on the crown. Five styles plus the character accessories. */
-function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
+export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
   const top = L.headCy - L.headRy;
   const cx = L.headCx + (angle === 'side' ? -1 : 0);
   switch (hat) {
@@ -1446,6 +1505,9 @@ function drawFace(
       case 'wide': {
         const ry = pose.eyes === 'wide' ? 3 : 2.6;
         pc.ellipse(cx, eyeY, rx, ry, col.eye);
+        // LOOK-52: a glance slides the iris and catchlights one fine pixel toward the Keeper.
+        const g = (pose.glance ?? 0) * 0.5;
+        cx += g;
         pc.ellipse(cx + 0.15, eyeY + 0.7, rx * 0.62, ry * 0.55, iris);
         pc.ellipse(cx + 0.15, eyeY + 0.9, rx * 0.32, ry * 0.3, col.eye);
         const gx = cx - (narrow ? 0.2 : 0.6);
@@ -1621,6 +1683,8 @@ function drawGemFacets(pc: PixelCanvas, L: Layout, col: ChaoColors): void {
 
 /** Draw one frame into a fresh 32×32 canvas. */
 export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): PixelCanvas {
+  // LOOK-64: a wary Shadow Nubbin carries its head a pixel low in every frame.
+  if (look.wary) pose = { ...pose, headDrop: pose.headDrop + 1 };
   const pc = new PixelCanvas(CHAO_SIZE, CHAO_SIZE);
   const col = look.finish === 'metal' ? metalColors(look.colors) : look.colors;
   // Seated (LOOK-20): the body comes down until its bottom rests at the ground line.
@@ -1715,6 +1779,35 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.headCx + 4, L.headCy - 4, C.white);
     pc.px(L.headCx + 3, L.headCy - 3, C.white);
     pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
+  }
+
+  // LOOK-53: the birthmark, on the facing views (the back views show the stripe and notch).
+  if (look.mark) drawBirthmark(pc, angle, L, col, look.mark);
+
+  // LOOK-54: a gold star on the brow for each rebirth, three at most, a gold ring past that.
+  const stars = look.stars ?? 0;
+  if (stars > 0 && angle !== 'back' && angle !== 'backQuarter') {
+    const sx = L.headCx + (angle === 'side' ? 2 : angle === 'frontQuarter' ? 1 : 0);
+    const sy = L.headCy - L.headRy + 2.5;
+    if (stars > 3) {
+      for (let a = 0; a < 8; a++)
+        pc.dot(
+          sx + Math.cos((a * Math.PI) / 4) * 1.2,
+          sy + Math.sin((a * Math.PI) / 4),
+          C.sunYellow,
+        );
+    } else
+      for (let i = 0; i < stars; i++) {
+        const x = sx + (i - (stars - 1) / 2) * 2.5;
+        for (const [dx, dy] of [
+          [0, 0],
+          [-0.5, 0],
+          [0.5, 0],
+          [0, -0.5],
+          [0, 0.5],
+        ] as const)
+          pc.dot(x + dx, sy + dy, dx || dy ? C.sunYellow : C.sunLight);
+      }
   }
 
   drawHeadTells(pc, angle, L, col, look.shape);
@@ -1818,6 +1911,88 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
+/** LOOK-50: the held frames (shared with the creature drawer). */
+export const HELD_POSES: readonly (readonly [string, number, ChaoPose])[] = [
+  [
+    'heldHug',
+    0,
+    {
+      ...BASE,
+      eyes: 'happy',
+      mouth: 'smile',
+      legs: 'tucked',
+      arms: 'up',
+      blush: true,
+      squash: 0.97,
+    },
+  ],
+  ['heldDangle', 0, { ...BASE, mouth: 'flat', legs: 'stepA', lift: 1 }],
+  ['heldDangle', 1, { ...BASE, mouth: 'flat', legs: 'stepB', lift: 1 }],
+  ['heldFlail', 0, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepA', arms: 'up' }],
+  ['heldFlail', 1, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepB', arms: 'out', lift: -1 }],
+];
+
+/** LOOK-53: stamp a birthmark, 1–4 fine pixels, on the head. */
+function drawBirthmark(
+  pc: PixelCanvas,
+  angle: DrawnAngle,
+  L: Layout,
+  col: ChaoColors,
+  m: Birthmark,
+): void {
+  const back = angle === 'back' || angle === 'backQuarter';
+  const top = L.headCy - L.headRy;
+  const s = angle === 'side' ? 1 : m.side;
+  const cheekX = L.headCx + s * (L.headRx - 3);
+  switch (m.kind) {
+    case 'stripe':
+      pc.line(L.headCx - 2, top + 1, L.headCx + 2, top + 1, col.shade);
+      return;
+    case 'notch':
+      pc.px(L.headCx + 1, top - 1, col.outline);
+      return;
+  }
+  if (back) return;
+  switch (m.kind) {
+    case 'spots':
+      pc.dot(cheekX, L.headCy + 1, col.shade);
+      pc.dot(cheekX - s, L.headCy + 2.5, col.shade);
+      pc.dot(cheekX + s * 0.5, L.headCy + 3, col.shade);
+      break;
+    case 'freckles':
+      for (const dx of [-2, -1, 1, 2]) pc.dot(L.headCx + dx, L.headCy + 2.5, col.shade);
+      break;
+    case 'patch':
+      pc.ellipse(L.headCx + s * 3, top + 3, 2, 1.5, col.shade);
+      break;
+    case 'moon':
+      pc.dot(cheekX, L.headCy + 1, C.cream);
+      pc.dot(cheekX, L.headCy + 2, C.cream);
+      pc.dot(cheekX + s * 0.5, L.headCy + 0.5, C.cream);
+      break;
+    case 'star':
+      for (const [dx, dy] of [
+        [0, 0],
+        [-0.5, 0],
+        [0.5, 0],
+        [0, -0.5],
+        [0, 0.5],
+      ] as const)
+        pc.dot(L.headCx + dx, top + 3 + dy, C.sunYellow);
+      break;
+    case 'heart':
+      for (const [dx, dy] of [
+        [-0.5, 0],
+        [0.5, 0],
+        [0, 0.5],
+        [-1, -0.5],
+        [1, -0.5],
+      ] as const)
+        pc.dot(L.headCx + dx, top + 3 + dy, C.rose);
+      break;
+  }
+}
+
 /** Every clip at every drawn angle, baked into one sheet. */
 export function buildChaoSheet(look: ChaoLook): SpriteSheet {
   const atlas = new AtlasBuilder(CHAO_SIZE, CHAO_SIZE, 10);
@@ -1842,6 +2017,16 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
       frameKey('held', angle, 0),
       drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
+    // LOOK-50: held by affection: a hug, a two-frame dangle, a two-frame flail.
+    for (const [name, f, pose] of HELD_POSES)
+      atlas.add(frameKey(name, angle, f), drawChao(angle, pose, look));
+    // LOOK-52: the idle stance glancing left (frame 0) or right (1), for the facing views.
+    if (angle === 'front' || angle === 'frontQuarter')
+      for (const [f, glance] of [
+        [0, -1],
+        [1, 1],
+      ] as const)
+        atlas.add(frameKey('glance', angle, f), drawChao(angle, { ...BASE, glance }, look));
     // K1 and LOOK-20: sitting awake on its bottom, the legs straight out in front, eyes open
     // (the sleep frames shut them), with a slow breath over two frames.
     for (let f = 0; f < 2; f++)

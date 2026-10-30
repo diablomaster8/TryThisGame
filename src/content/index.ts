@@ -135,6 +135,18 @@ export {
   SIDE_STORY_S31_FLAGS,
   SIDE_STORY_S31_CHECKS,
 } from './side-stories-s31';
+export {
+  BATTLES_CIRCUIT_VARIANTS,
+  BATTLES_PLAYDAY_VARIANTS,
+  BATTLES_CIRCUIT_FLAGS,
+  BATTLES_CIRCUIT_CHECKS,
+} from './battles-circuit';
+export {
+  BATTLES_STORY_VARIANTS,
+  BATTLES_STORY_LOGGED,
+  BATTLES_STORY_FLAGS,
+  BATTLES_STORY_CHECKS,
+} from './battles-story';
 export { ATLAS_A01, ATLAS_A01_VARIANTS, ATLAS_A01_FLAGS, ATLAS_A01_CHECKS } from './atlas-a01';
 export { ATLAS_A02, ATLAS_A02_VARIANTS, ATLAS_A02_FLAGS, ATLAS_A02_CHECKS } from './atlas-a02';
 export { ATLAS_A03, ATLAS_A03_VARIANTS, ATLAS_A03_FLAGS, ATLAS_A03_CHECKS } from './atlas-a03';
@@ -272,6 +284,16 @@ export {
   EDU_S31_READER_VARIANTS,
   CHECKS as EDU_S31_READER_CHECKS,
 } from './edu-s31-reader';
+export {
+  EDU_BATTLE_SPROUT_VARIANTS,
+  EDU_BATTLE_SPROUT_CHECKS,
+  EDU_BATTLE_SPROUT_FLAGS,
+} from './edu-battle-sprout';
+export {
+  EDU_BATTLE_READER_VARIANTS,
+  EDU_BATTLE_READER_CHECKS,
+  EDU_BATTLE_READER_FLAGS,
+} from './edu-battle-reader';
 // Learning Grove versions of Pixel’s Arcade PA1 (wired in edu.ts; bare CHECKS renamed here)
 export {
   EDU_PA1_SPROUT,

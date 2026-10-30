@@ -72,6 +72,12 @@ export interface Combatant {
   playing?: number;
   /** A Sun or Moon fruit: its moves count as that alignment for a few turns (FIGHT-20). */
   alignAs?: { align: 'sun' | 'moon'; turns: number };
+  /** Slapstick (FUN-74): laughing at a rival's fumble, it loses its next action. */
+  laughing?: true;
+  /** Fusion burst (FIGHT-95): this half stepped into the fused combatant with this id. */
+  fusedInto?: string;
+  /** The fused combatant itself: its two halves, their HP when they fused, and turns left. */
+  fusion?: { of: [string, string]; hp: [number, number]; left: number };
 }
 
 /** How a side picks its moves (recs FIGHT-23). */
@@ -150,7 +156,7 @@ export interface MoveDef {
   /** Featherlight (Fly S) floats over these. */
   ground?: boolean;
   /** A move with its own rule. */
-  special?: 'copycat' | 'decoy' | 'snack';
+  special?: 'copycat' | 'decoy' | 'snack' | 'fusion';
   target: MoveTarget;
   /** For the tactics mode later (FIGHT-50+); unused in turn mode. */
   grid: {
@@ -209,9 +215,44 @@ export type BattleContextKind =
   | { kind: 'karate'; tier: number; nubbinId: string }
   | { kind: 'party'; tier: number; ids: string[] }
   /** The turn-based dojo singles (recs FIGHT-28): one Nubbin, or a party of up to three. */
-  | { kind: 'dojo'; tier: number; ids: string[] }
+  | {
+      kind: 'dojo';
+      tier: number;
+      ids: string[];
+      /** The Dojo Ladder (recs FIGHT-99): the belt being climbed, 1 (white) to 5 (black). */
+      ladder?: number;
+    }
   /** A story's own bout (FIGHT-29): Logged In's 3v3 against the digital foes. */
   | { kind: 'story'; storyline: 'logged'; tier: number; ids: string[] }
+  /**
+   * A bout inside a story world (FIGHT-98): fought by copies in a cloned Grove (`world-bout.ts`),
+   * its result kept only in that world's side save. Never started through `battleStart`.
+   */
+  | {
+      kind: 'world';
+      world: 'atlas' | 'arcade' | 'multiverse' | 'neopia';
+      /** The page, cartridge or line whose progress keeps the result. */
+      line: string;
+      key: string;
+      tier: number;
+      ids: string[];
+      /** The page's own foes; absent = the world's tone pack. */
+      foes?: { species: string; level: number }[];
+      /** A reward id for the line's rewards on a win. */
+      reward?: string;
+      /**
+       * A survive bout (FUN-51): standing after this many turns wins; a loss is a draw for the
+       * story. `boss` names the lone foe; `barks` are a guide's lines, one at each turn's start.
+       */
+      survive?: number;
+      boss?: string;
+      barks?: string[];
+    }
+  /**
+   * Pass-and-play (FIGHT-96): a second Keeper on the same device plays `foeIds` (the slot's
+   * own Nubbins) or `guests` (share codes, read-only copies). No prizes but a sticker.
+   */
+  | { kind: 'friendly'; tier: number; ids: string[]; foeIds?: string[]; guests?: string[] }
   /** A Grove Circuit match against one of the ten Keepers (FIGHT-22). */
   | { kind: 'circuit'; trainer: string; champion?: boolean; tier: number; ids: string[] }
   /**
@@ -257,6 +298,8 @@ export type BattleAction =
   | { k: 'order'; cmd: AtbCommand; who?: string }
   /** ATB: stop or restart the clock (the hidden tab, or the Item sheet being open). */
   | { k: 'pause'; why: AtbPause; on: boolean }
+  /** Doubles (FIGHT-95): two partners with a strong bond fuse for three turns, once a bout. */
+  | { k: 'fuse' }
   /** The debug panel's battle tools (recs FIGHT-80); never sent by the battle screen. */
   | { k: 'debug'; set: BattleDebugOp };
 
@@ -344,6 +387,12 @@ export type BattleEvent =
   | { k: 'order'; who: string; cmd: AtbCommand; obeyed: boolean }
   /** ATB: the personality gag on an ignored order. */
   | { k: 'gag'; who: string; gag: AtbGag }
+  /** Slapstick (FUN-74): a move fumbled, no harm done. */
+  | { k: 'fumble'; who: string }
+  /** A story world's guide calls out (FUN-51): plain text, kept in the bout's own log. */
+  | { k: 'bark'; text: string }
+  /** Fusion burst (FIGHT-95): a pair fused (`on`) or split again. */
+  | { k: 'fusion'; who: string; of: [string, string]; on: boolean }
   | { k: 'end'; winner: SideIx | null; reason: BattleEndReason };
 
 /** `hug` ends a gentle bout; `friends` when every foe was befriended. */
@@ -405,6 +454,10 @@ export interface BattleState {
   doubles?: boolean;
   /** The ATB "Command" bout (recs FIGHT-40): `mode` stays 'turn' so records and views work. */
   atb?: AtbClock;
+  /** Pass-and-play (FIGHT-96): both sides are played by hand; `choosing` is whose picks are next. */
+  passPlay?: { choosing: SideIx };
+  /** Fusion burst (FIGHT-95): the partner pair that may fuse, and whether it has. */
+  fusable?: { pair: [string, string]; used: boolean };
   /** What the finished bout gave (the `battleSpoils` event's copy), for the results card. */
   spoils?: BoutSpoils;
 }

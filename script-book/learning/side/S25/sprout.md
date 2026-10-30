@@ -22,7 +22,7 @@ _Pitter-patter. Warm rain on the roof._
 _The lamp in the loft is broken. Pixel will mend it after lunch._  
 _You climb the ladder. Up, up, up!_  
 _The loft smells of apples and dust._  
-_Your Nubbin climbs up too. Atchoo! Dusty!_  
+_Your Nubbin climbs up too. Achoo! Dusty!_  
 _Under the little window is a big box, called a trunk._  
 _On the trunk is a soft parcel, tied with string._  
 
@@ -83,7 +83,7 @@ _The knitted toy sits on the trunk. Nobody looks at it._
 
 #### `sprout:s25-sill` · [main](../../../side/S25.md#s25-sill)
 
-_Click! The lamp comes on. Tick, tick, tick._  
+_Click! Ding! The lamp comes on. Tick, tick, tick._  
 _Everyone goes down the ladder, talking about the moth._  
 _You put the toy and the book on the window seat._  
 _One week goes by. Then two weeks._  
@@ -103,7 +103,7 @@ _Far away on the hill, a little grey one is looking this way._
 
 _Variant of `s25-sill`._
 
-_Click! The lamp comes on. Tick, tick, tick._  
+_Click! Ding! The lamp comes on. Tick, tick, tick._  
 _Everyone goes down the ladder, talking about the moth._  
 _You put the toy and the book on the window seat._  
 _One week goes by. Then two weeks._  
@@ -160,7 +160,7 @@ _Then Moss talks to the toy, not to you._
 > _Moss says being Real is slow. What else grows slowly?_  
 > - ✅ A tree → Yes! A tree grows a tiny bit every year. Slowly, slowly.
 > - A splash → A splash is very quick! A tree grows slowly.
-> - A sneeze → Atchoo! A sneeze is quick. A tree grows slowly.
+> - A sneeze → Achoo! A sneeze is quick. A tree grows slowly.
 > _For grown-ups: Compared fast and slow changes: a tree grows slowly._
 
 **Moss**: It’s harder for someone prickly, who won’t let anyone close.  
@@ -175,7 +175,7 @@ _Later that week, Sable walks past the window._
 _She stops. She looks at the toy for a long time._  
 _Sable is shy and prickly. She never lets anyone close._  
 _She lies down near the toy and goes to sleep. She doesn’t take it._  
-_Then, one night, a big storm comes. Boom! Crash!_  
+_Then, one night, a big storm comes. Boom! Thump!_  
 _Your Nubbin can’t settle. Its ears are flat._  
 _It is scared of the loud bangs._  
 _Flash! The lightning lights up the toy on the windowsill._  
@@ -193,9 +193,9 @@ _Flash! The lightning lights up the toy on the windowsill._
 _Variant of `s25-storm`._
 
 _Later that week, your Nubbin finds the toy on the windowsill._  
-_It sniffs it. Atchoo! Then it runs off after a moth._  
+_It sniffs it. Achoo! Then it runs off after a moth._  
 _Not yet, then._  
-_Then, one night, a big storm comes. Boom! Crash!_  
+_Then, one night, a big storm comes. Boom! Thump!_  
 _Your Nubbin can’t settle. Its ears are flat._  
 _It is scared of the loud bangs._  
 _Flash! The lightning lights up the toy on the windowsill._  
@@ -220,7 +220,7 @@ _Your Nubbin climbs in. It curls all the way round the toy._
 > - A triangle → A triangle has three points. A curled-up Nubbin is round, like a circle.
 > _For grown-ups: Named a circle in a curled-up shape._
 
-_Boom! Thunder! Your Nubbin doesn’t even wake up._  
+_Boom! Thump! Your Nubbin doesn’t even wake up._  
 _In the morning, it is still holding the toy._  
 _From now on, the toy belongs to your Nubbin._  
 
@@ -244,7 +244,7 @@ _The toy is out in the Grove. It’s getting dark._
 #### `sprout:s25-lantern` · [main](../../../side/S25.md#s25-lantern)
 
 _You take a lantern. Its light shines in the dark._  
-_There! The toy is in the wet grass by the pond._  
+_There! The toy is in the wet grass. Plop, goes a frog._  
 
 > **Lesson** (science, 1-PS4-2, ask): we need light to see  
 > _It is dark outside. What helped you find the toy?_  
@@ -261,7 +261,7 @@ _It hugs the toy and falls asleep. Zzz._
 _You go to Fern’s house. The toy comes too._  
 _Your Nubbin puts the toy on Fern’s good chair._  
 **Fern**: Oh, not on the chair, love. It’s only a toy. Floor, please.  
-_Fern reaches for it. Your Nubbin squeaks, very loudly!_  
+_Fern reaches for it. Your Nubbin goes squeak, very loudly!_  
 _Your Nubbin stands in front of the toy. It looks at you._  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): reading how someone feels  
@@ -282,7 +282,7 @@ _Fern has her best cups out. And a tiny cup for the toy!_
 **Fern**: Sir, I said you were only a toy. That was wrong.  
 **Fern**: I am sorry. Very, very sorry.  
 _Your Nubbin thinks about it. Then it puts him on the cushion._  
-_It eats a biscuit for him._  
+_It eats a biscuit for him. Crunch!_  
 **Fern**: A good sorry says what you did. Then you make it right.  
 
 > **Lesson** (sel, CASEL: Relationship skills, do): saying sorry  
@@ -307,7 +307,7 @@ _The wild Nubbins live in the long grass._
 _Moss is sitting on a flat stone nearby._  
 **Moss**: Keep still. They’re shy. And a bit rude. They’re young.  
 _Your Nubbin puts the toy down in the grass._  
-_Rustle, rustle. Something is moving in the grass._  
+_Rustle, rustle. Squeak! Something moves in the grass._  
 
 #### `sprout:s25-wild` · [main](../../../side/S25.md#s25-wild)
 
@@ -323,7 +323,7 @@ _Sniff, sniff. They bounce away. They come back._
 _One wild Nubbin hops right over the toy. Boing! Then it waits._  
 _The toy does not hop. It is a toy._  
 **Moss**: That one thinks your toy can’t hop.  
-_Another one sniffs him. Atchoo!_  
+_Another one sniffs him. Achoo!_  
 **Moss**: That one says he smells of indoors. Of cushions.  
 _Then the wild ones are gone. Whoosh!_  
 _Your Nubbin hugs the toy tight._  
@@ -367,7 +367,7 @@ _Clank waves. Wave back to Clank!_
 
 _You find a page about clockwork toys. You read it out._  
 _The page says clockwork toys stay toys for ever._  
-_Clank’s whistle goes low and quiet._  
+_Clank’s whistle goes low and quiet. Peep._  
 
 > **Lesson** (literacy, RL.1.4, ask): words that show feelings  
 > _Clank’s whistle goes low. How does Clank feel?_  
@@ -401,7 +401,7 @@ _You tell Clank what Moss said._
 > **Lesson** (sel, CASEL: Social awareness, ask): being a good neighbour  
 > _A neighbour lives next door. What do good neighbours do?_  
 > - ✅ Wave and say hello → Yes! Good neighbours wave, say hello and help each other.
-> - Hide from each other → That’s not very friendly! Good neighbours wave and say hello.
+> - Hide from each other → Hiding behind a bush? Rustle! Good neighbours wave and say hello.
 > - Shout over the wall → Shouting isn’t kind. Good neighbours wave and say hello.
 > _For grown-ups: Talked about being a kind neighbour._
 
@@ -431,7 +431,7 @@ _Summer goes by. The toy gets carried everywhere._
 _Now he is grey and worn. His bobble has gone._  
 **Clover**: Oh, look at him! There’s a hole in his elbow!  
 **Clover**: I could knit you a new one.  
-_Your Nubbin looks at the new wool. Then it sits on the old toy!_  
+_Your Nubbin eyes the new wool. Then, plop, it sits on the old toy!_  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): old, loved things are precious  
 > _Why does your Nubbin want the old toy, not a new one?_  
@@ -455,12 +455,12 @@ _Your Nubbin watches every little stitch._
 > Check: `edu:count:stitches:5`
 > _For grown-ups: Counted five stitches, touching each one._
 
-_Snip! The elbow is mended._  
+_Snip, ding! The elbow is mended._  
 **Clover**: Mended isn’t the same as new. It’s better.  
 
 #### `sprout:s25-chill` · [main](../../../side/S25.md#s25-chill)
 
-_One morning, your Nubbin sneezes. Atchoo! Atchoo!_  
+_One morning, your Nubbin sneezes. Achoo! Achoo!_  
 _It feels hot. It doesn’t want its plum._  
 _Your Nubbin is poorly. You run to get help._  
 **Clover**: It’s a chill. Just a small cold. It will be all right.  
@@ -487,7 +487,7 @@ _Clover peeks in, again and again, all night._
 > _For grown-ups: Counted three knocks, one for each visit._
 
 _In the morning your Nubbin feels cool again. Hooray!_  
-_It is hungry. It eats two plums, and half of yours!_  
+_It is hungry. Munch, munch! It eats two plums, and half of yours!_  
 **Clover**: Told you! All better.  
 **Clover**: Now everything it slept on must be washed.  
 

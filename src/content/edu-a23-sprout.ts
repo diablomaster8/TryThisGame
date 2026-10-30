@@ -466,7 +466,7 @@ const Q2: EduQuest = quest(
           {
             id: 'fast',
             label: 'Grind it fast.',
-            then: [N('Puff! Yellow dust goes up your nose. Atchoo!'), RA('Polepole.')],
+            then: [N('Puff! Yellow dust goes up your nose. Achoo!'), RA('Polepole.')],
           },
           {
             id: 'taste',
@@ -2104,7 +2104,7 @@ const Q13: EduQuest = quest(
               ],
               true,
             ),
-            o('It was your fault', [N('No. It was not Simba’s fault. He was only a cub.')]),
+            o('It was your fault', [N('Simba’s fault? He was only a cub. It was never his fault.')]),
             o('Do not be sad', [
               N(
                 '“Do not be sad” does not help much. Kind, true words help more.',
