@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { hatch } from '../../src/sim/lifecycle';
 import type { SimEvent } from '../../src/sim/types';
+import { startToddle } from '../../src/sim/slapstick';
 import { createWorld, stepWorld } from '../../src/sim/world';
 
 // R0299 (FUN-10): distracted walks bonk into trunks now and then, with no harm done.
@@ -30,5 +31,18 @@ describe('walking bonks', () => {
     const bonks = ev.filter((e) => e.kind === 'bonked' && e.by === 'obstacle');
     expect(bonks.length).toBeGreaterThanOrEqual(2);
     expect(happyDrop).toBeLessThan(0.5);
+  });
+
+  it('goal met: the newest Nubbin toddles off and plops down within 10 s (R0305)', () => {
+    const w = createWorld(5, 0);
+    for (const n of w.nubbins) hatch(n, [], 0);
+    expect(startToddle(w, w.timeMs)).toBe(true);
+    const newest = [...w.nubbins].sort((a, b) => a.ageMs - b.ageMs)[0]!;
+    let plop = false;
+    for (let t = 0; t < 100 && !plop; t++)
+      plop = stepWorld(w, 100).some(
+        (e) => e.kind === 'reaction' && e.nubbinId === newest.id && e.reaction === 'dizzy',
+      );
+    expect(plop).toBe(true);
   });
 });

@@ -104,4 +104,11 @@ export const CHATTER_TUNE = {
  * walks into a tree trunk it would normally pass under: a bonk, dizzy stars, then on.
  * `perMille` of wander walks are distracted; `reach` is how far it looks for a trunk.
  */
-export const SLAPSTICK = { perMille: 100, reach: 7, radius: 0.25 } as const;
+export const SLAPSTICK = {
+  perMille: 100,
+  reach: 7,
+  radius: 0.25,
+  /** R0305: the goal-met "first steps": how far the newest Nubbin toddles, and its time. */
+  toddle: 3,
+  toddleMs: 6000,
+} as const;

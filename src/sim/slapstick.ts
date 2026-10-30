@@ -27,9 +27,11 @@ export function distractedWalk(n: Nubbin): boolean {
  * so the caller leaves it be).
  */
 export function stepWanderGag(n: Nubbin, world: World, now: number, events: SimEvent[]): boolean {
+  if (stepToddle(n, now, events)) return true;
   if (world.location !== 'grove' || n.stage === 'egg' || n.y > 0.05) return false;
   const b = n.behavior;
   let m = memos.get(n);
+  if (toddles.has(n)) return false;
   if (!m || m.since !== b.sinceMs) {
     const roll = (hashSeed(`${n.id}:${b.sinceMs}`) >>> 0) % 1000;
     m = { since: b.sinceMs, distracted: roll < SLAPSTICK.perMille };
@@ -56,6 +58,46 @@ export function stepWanderGag(n: Nubbin, world: World, now: number, events: SimE
   if (!m.distracted || !blocked(n.pos, world, SLAPSTICK.radius, 'keeper')) return false;
   m.distracted = false;
   events.push({ kind: 'bonked', nubbinId: n.id, by: 'obstacle' });
+  react(n, 'dizzy', now, events);
+  return true;
+}
+
+/**
+ * R0305 (FUN-16): when a chapter's goal is met, the newest Nubbin takes three wobbly
+ * "first steps" away from the Keeper and sits down hard on its bottom (dizzy stars), so
+ * the wait for the chapter's closing has something to watch. Returns whether it started.
+ */
+const toddles = new WeakMap<Nubbin, { x: number; z: number }>();
+
+export function startToddle(world: World, now: number): boolean {
+  if (world.location !== 'grove') return false;
+  const n = [...world.nubbins]
+    .filter((x) => x.stage !== 'egg' && x.behavior.state !== 'held' && x.y < 0.05)
+    .sort((a, b) => a.ageMs - b.ageMs)[0];
+  if (!n || n.behavior.state === 'thrown' || n.behavior.state === 'nap') return false;
+  const dx = n.pos.x - world.keeper.pos.x;
+  const dz = n.pos.z - world.keeper.pos.z;
+  const len = Math.hypot(dx, dz) || 1;
+  const step = SLAPSTICK.toddle;
+  const target = { x: n.pos.x + (dx / len) * step, z: n.pos.z + (dz / len) * step };
+  n.behavior.state = 'wander';
+  n.behavior.sinceMs = now;
+  n.behavior.untilMs = now + SLAPSTICK.toddleMs;
+  n.behavior.target = target;
+  n.behavior.itemId = null;
+  n.behavior.reaction = null;
+  delete n.behavior.progress;
+  toddles.set(n, target);
+  return true;
+}
+
+/** Each wander step: a toddler that got there (or ran out of time) plops down. */
+function stepToddle(n: Nubbin, now: number, events: SimEvent[]): boolean {
+  const t = toddles.get(n);
+  if (!t) return false;
+  const there = Math.hypot(n.pos.x - t.x, n.pos.z - t.z) < 0.5;
+  if (!there && now < n.behavior.untilMs - 50) return false;
+  toddles.delete(n);
   react(n, 'dizzy', now, events);
   return true;
 }
