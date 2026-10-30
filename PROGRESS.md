@@ -38,6 +38,33 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## HOT-2 · frame-rate spikes (lane D r7, 2026-10-30)
+
+Found with `game.spikes` (`platform/frame-spikes.ts`: laps per frame section, long frames
+keep their breakdown, debug panel line) and `recs-2026-10-27/tools/hot2-spikes.cjs` (7 phases of
+scripted play, Pixel/3D × desktop/375×812; `CHECK=1` fails >2% frames over 34 ms or >3 atlas
+repacks in a phase). Before and after were measured side by side on the same machine load.
+
+- **Cause 1 (Pixel, the big one):** the sprite atlas repacked and re-uploaded its 64 MB every
+  frame once eggs hatched (the sheets on screen filled ~66% of 4096², the repack dropped sheets
+  the frame drew again). Fixed in `render/sprites/mega-atlas.ts`: keep last frame's sheets,
+  first-fit shelves, a second page only when this frame's sheets overflow or dropped sheets
+  return (churn), sampled in the same draw call (u + 2). Pixel phone with 8 Nubbins
+  p95 219 → 20 ms, worst 302 → 117 ms, repacks 567 → 0; camera turns p95 187 → 19 ms;
+  desktop 8 Nubbins p95 293 → 19 ms.
+- **Cause 2 (3D):** shader programs linked mid-play at nightfall (4) and on a time jump with
+  hatching (10): rigs compiled hidden, NPC/dress parts added later, fogless impostor cells,
+  crack lines. Now linked ahead (`compilePiece`, `prelinkActors` in `grove-3d-scene.ts`):
+  0 new programs at nightfall, daybreak or x100. 3D desktop worst frame in the weather phase 239 → 89 ms,
+  many Nubbins 182 → 118 ms; p95 ~19 ms before and after.
+- **Cause 3:** the hatch card built a whole pixel sheet on the hatch frame; it paints idle now.
+- **Not causes:** autosave (0.12 ms, 20 kB with 8 Nubbins); weather changes alone.
+- **Left:** a hatch still costs one ~60–120 ms frame (new sheet or rig); the debug "give 30
+  fruit" costs ~130 ms (debug only); the second page costs 64 MB when it opens.
+- **Tests:** `tests/render/atlas-thrash.test.ts` (the logged sheet sizes: fails on the old
+  atlas with 60 repacks in 60 frames), churn and page tests in `mega-atlas.test.ts`,
+  `tests/ui/frame-spikes.test.ts`.
+
 ## Round 7 · Lane D (2026-10-30, branch r7/d)
 
 Plan: finish the three TECH live bugs, then WORLD from R0085 in order, then TECH R0445 on.
