@@ -38,57 +38,40 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 7 · Lane E LOOK + KIDS (2026-10-30, branch r7/e)
+## Round 8 · Lane E LOOK + KIDS (2026-10-30, branch r8/e)
 
-Plan: the three KIDS live bugs, then the cheap unstarted LOOK items, then KIDS from R0674 in
-order where a proper job fitted. Shared files got self-contained blocks only; no save version
-bump (new fields are optional: `Nubbin.hideBelt`, `EduState.alwaysReborn`, `roundsPerGame`).
-
-- *Works (KIDS):* in a Learning Grove ⚙ opens a kid-safe sound sheet (on/off, one big volume
-  slider) with no gate; its "Grown-up settings" asks the sum gate first, and Reset save asks the
-  gate before the confirm (`ui/kid-sheet.ts`, pure `routeSettingsTap`/`resetAllowed`). Settings
-  no longer copies the age/band/read-aloud switches; it links to the grown-up area. The break
-  card tucks in the child's own Nubbin asleep (never Sable), leads three spoken stretches and a
-  drink, and "All done for now" says goodnight and stays locked. A moon fills in the corner two
-  minutes before the break with one spoken warning, and a round, scene or tracing still open may
-  finish first (3 min grace, `eduBreakShouldStart`). Sprout chapter goals carry `goalIcon` and
-  `goalSay`; the What's next card shows and says them, and its "Show me" (and 20 s of no
-  progress) points a bouncing hand at the egg, Nubbin, tree or fruit and pulses Pick up, Shake,
-  Put down, Pet or Feed on the sheet (`ui/guide.ts`; a test follows only the hand from a fresh
-  age-4 world and hatches and pets within 90 s). The minigames read aloud for sprouts (prompt,
-  reply, score; emoji said as words), 🔊 replays for any band, holding an option says it and
-  counts icons. Story choices and lesson options in the sprout band are numbered picture rows,
-  72 px, read out as a set, said on a hold (`icon?` on `Choice`/`LessonOption`; chapter 1 has
-  icons, content-check counts the rest as `sproutNoIcon`). The picker speaks, shows stars per
-  game, bounces the tile while saying its name, fills a tablet in three columns. Sprout rounds:
-  rhymes and first sounds keyed by sound (`firstSound`, whale rhymes with snail), the sum cue is
-  two groups and a ➕, "There is 1", no repeat target in a session (`roundKey`, `avoid`).
-  Results card: the Nubbin cheering, stars popping with chimes, "+35 🐚", two 96 px picture
-  buttons, spoken praise; no reward toasts over a round, and a sprout's notices wait until the
-  activity closes (festivals dropped in edu, `ui/kid-notice.ts`). Misses keep their colour with
-  a 💭 and a wobble, the answer pulses after two; sprouts leave a game by holding 🏡. The sprout
-  HUD hides Run, Keeper, Shop, the Grove switch and the camera buttons and grows to 72/80 px
-  (`body.edu-sprout`). Sprout Nubbins are always reborn (reader: grown-up toggle). The age
-  picker has four 🌱 tiles and a wide Reader tile, its own subtitle, and speaks the question;
-  chapter cards are spoken and the chip hides under them; rounds per game by age (3/5/5/6,
-  reader 8) or a grown-up's pick.
-- *Works (LOOK):* Dojo Ladder belts worn round the middle in both renderers, white to black,
-  with a Wardrobe switch (`render/belt.ts`). One hat per real season (sprout cap, sun visor,
-  leaf crown, woolly hat) leads the shop in its season and is kept for good. A species listed
-  in `public/sprites/manifest.json` uses a hand-drawn sheet in Pixel, missing frames filled from
-  the nearest (`render/sprites/sprite-source.ts`, `docs/sprite-sheets.md`; proved in Edge with
-  a routed sheet).
-- *Stubbed:* the race headband (R0437); the seasonal free gift (R0438); glTF for 3D (R0439);
-  recorded animal and phoneme clips (R0675, not started); sprout icons for the other 7,220
-  choices and options; the reader age select stays hidden instead of offering 7–10; the
-  "Nubbins yawn" in the Grove before a break.
-- *Bugs / notes:* the smoke driver is `recs-2026-10-27/tools/lane-e-r7.cjs <pixel|3d> [phone]
-  [grove [sheet]]` on port 5193 (5185 is held by an old r2 server); 0 console errors in Pixel
-  and Full 3D, desktop and 375×812, Learning Grove and Grove. Timing tests (full life, nav,
-  world hour, battle budget) failed under the parallel lanes' load and passed alone.
-- *Merge:* origin/main ce12521b (lane C r7, save v13; lane A r7) merged in. Reset save keeps the
-  grown-up gate and now confirms with lane C's `confirmModal`; the three optional fields
-  round-trip through v13 (test in `tests/sim/lifecycle-edu.test.ts`).
+- *Works:* **KIDS.** R0682 a skills ladder per game (`EDU_LADDER`; counting climbs count to
+  3/5/10, more-or-fewer, sums to 5/10; others by age level): three first-try rights up a rung,
+  two shown answers down one, once a sitting, never for readers; the grown-up area says where
+  each game is. R0683 per-item mastery (`EduState.items`, `letter:G`, `count:7`…): weaker items
+  come up more (seeded weights, recency halved); a 26-letter grid and number/colour/shape strips,
+  green ✓ / amber dashed / grey. R0685 "My Book": 60 stickers on six pages in a fixed order (no
+  draws; a save's count names its stickers, so old saves need no migration), pixelated art, tap
+  to hear, swipe or ◀ ▶; the results card flies the new sticker into the book. R0680 ⋯ in a
+  Learning Grove opens Places, 120 px picture tiles (My Book, My Nubbins, Decorate, Photo,
+  Play-fight on; Kindergarten, Map, Beetle Run off), hold to hear, grown-up toggles. R0692 an
+  edu shop sells from a three-egg shelf that changes daily, each bought once, hatching exactly
+  that colour as a Nubbin (no rare/jewel/shine roll). R0695 limits: minutes a day, quiet hours
+  (local clock, across midnight), "Open straight into this Grove" (boot lock key
+  `grove.kidsLock`, `?title` skips it); a sleeping-Grove card with a gated 30-minute unlock.
+  R0703 tracing: misses stay grey 0.8 s then fade, a ghost finger on open and after two misses,
+  the stroke finishes itself after four, green start dot spoken, a 15 ms buzz, radius 20 at
+  3–4 / 16 at 5–6 / 14 readers. R0712 sprout letter and sound pictures show their words only
+  after the answer. R0713 age-4 Animals mixes name/sound/home; Sounds is phonics only. R0714
+  count cues in five-frames; after the answer each icon lights as its number is said. R0719
+  `{child}` / `{child's}` in Learning Grove lines (c1's letter), "Hello, Maya!" before the entry
+  question. **LOOK.** R0425 every saved photo goes to an IndexedDB album (24 newest, 12 kept),
+  persisting across reloads; a memorial card shows the Nubbin's newest photo. R0441 twelve
+  photo stickers (both modes, the 3D portrait included).
+- *Stubbed:* R0441's "With me" Keeper selfie; R0685's milestone stickers (the order is the
+  only rule); R0680's Glow Cave, Fun Run and Atlas tiles (those modes do not exist yet);
+  R0692's rare colours as sticker or story gifts; R0703's glyph clip on completion (needs
+  recorded clips); R0719's "how to say it" field; readers' rounds carry no mastery item.
+- *Bugs / notes:* none known. No save version bump: `skills`, `items`, `places`, `eggShelf`,
+  `limits` are optional EduState fields. Smoke: `recs-2026-10-27/tools/lane-e-r8.cjs` and
+  `lane-e-r8-photo.cjs` (port 5197) in Pixel, Full 3D, phone and reader: 0 console errors. With
+  `node_modules` as a junction, Vite 403s the Hebrew/Japanese font files unless `server.fs.allow`
+  covers the junction target (a local, uncommitted config did); not a game bug.
 
 ## Round 7 · Lane A MOVE/FUN/SOUL (2026-10-30, branch r7/a)
 
