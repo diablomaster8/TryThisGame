@@ -38,3 +38,42 @@ export const GUIDE_TEXT = {
   },
   nothing: 'Look around the Grove. Your Nubbin is waiting!',
 } as const;
+
+/** R0674: how the minigames sound when read aloud. */
+export const EDU_SAY_TEXT = {
+  hearAgain: 'Hear it again',
+  /** The counting icons, said as words in a prompt ("How many apples?"). */
+  emoji: {
+    '🍎': 'apples',
+    '⭐': 'stars',
+    '🐚': 'shells',
+    '🌼': 'flowers',
+    '🍄': 'mushrooms',
+    '🥚': 'eggs',
+  } as Record<string, string>,
+  numbers: [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
+    'twenty',
+  ] as readonly string[],
+  /** A letter said as itself, so "A" is not read as the word "a". */
+  letter: (l: string) => `the letter ${l}`,
+} as const;

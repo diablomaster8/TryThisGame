@@ -19,6 +19,9 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
+import { EDU_SAY_TEXT } from '../config/strings-kids';
+import { EDU_VOICE } from '../config/tuning-kids';
+import { optionSay, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
 import { frameKey } from '../render/sprites/animations';
 import type { Nubbin } from '../sim/types';
@@ -192,8 +195,11 @@ export class EduScreen {
     const head = el('div', 'edu-head');
     head.append(
       el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, EDU.roundsPerGame)),
+      // R0674: the prompt again, for every band.
+      button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
       button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
     );
+    head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
     c.appendChild(el('div', 'edu-prompt', r.prompt));
     if (r.cue) {
@@ -206,11 +212,27 @@ export class EduScreen {
       const b = button('', () => this.answer(i, b), 'btn edu-option');
       b.appendChild(renderOption(o, false));
       if (o.kind === 'colour') b.setAttribute('aria-label', o.label);
+      holdToHear(b, o);
       opts.appendChild(b);
     });
     c.appendChild(opts);
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
+    for (const line of roundSpeech(r, this.band(), this.readAloud())) speakLine(line);
+  }
+
+  private band(): Band {
+    return this.game_()?.world.edu?.band === 'reader' ? 'reader' : 'sprout';
+  }
+
+  private readAloud(): boolean {
+    return !!this.game_()?.world.edu?.readAloud;
+  }
+
+  /** R0674: the feedback line, shown and (for a sprout) said. */
+  private reply(text: string): void {
+    this.feedback.textContent = text;
+    for (const line of replySpeech(text, this.band(), this.readAloud())) speakLine(line);
   }
 
   private feedback: HTMLDivElement = el('div');
@@ -224,7 +246,7 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
-      this.feedback.textContent = `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`;
+      this.reply(`${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`);
       this.game_()?.send({ kind: 'eduResult', game: r.game, stars });
       this.tries = -1;
       this.card.appendChild(
@@ -239,7 +261,7 @@ export class EduScreen {
       // Show the answer; the round still counts, with one star.
       const right = this.card.querySelectorAll<HTMLButtonElement>('.edu-option')[r.answer];
       right?.classList.add('right');
-      this.feedback.textContent = `${EDU_TEXT.showAnswer} ${r.teach}`;
+      this.reply(`${EDU_TEXT.showAnswer} ${r.teach}`);
       this.starsTotal += 1;
       this.game_()?.send({ kind: 'eduResult', game: r.game, stars: 1 });
       this.tries = -1;
@@ -248,7 +270,7 @@ export class EduScreen {
       );
       return;
     }
-    this.feedback.textContent = this.tries === 1 ? EDU_TEXT.tryAgain : EDU_TEXT.almost;
+    this.reply(this.tries === 1 ? EDU_TEXT.tryAgain : EDU_TEXT.almost);
   }
 
   private finish(): void {
@@ -268,8 +290,62 @@ export class EduScreen {
     );
     c.appendChild(row);
     playSound('cheer');
-    this.toast(EDU_TEXT.finished(this.starsTotal, max));
+    // R0674 / R0693: a sprout hears the score; nobody gets a toast over the card.
+    for (const line of replySpeech(
+      EDU_TEXT.finished(this.starsTotal, max),
+      this.band(),
+      this.readAloud(),
+    ))
+      speakLine(line);
   }
+}
+
+/**
+ * R0674: holding an option for a moment says it ("red", "cow", "one, two, three"), and a
+ * counting option pulses each icon as it is counted. A tap still picks it: the hold cancels the
+ * click that would follow it.
+ */
+function holdToHear(b: HTMLButtonElement, o: EduOption): void {
+  let timer = 0;
+  let held = false;
+  const cancel = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+  };
+  b.addEventListener('pointerdown', () => {
+    held = false;
+    cancel();
+    timer = window.setTimeout(() => {
+      timer = 0;
+      held = true;
+      speakLine(optionSay(o));
+      if (o.kind === 'count') pulseCount(b);
+    }, EDU_VOICE.holdMs);
+  });
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const)
+    b.addEventListener(ev, cancel);
+  b.addEventListener(
+    'click',
+    (e) => {
+      if (!held) return;
+      held = false;
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    },
+    true,
+  );
+  b.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+/** Light each counted icon in turn, in time with the counting voice. */
+function pulseCount(b: HTMLElement): void {
+  const icons = [...b.querySelectorAll<HTMLElement>('.edu-icons > span')];
+  icons.forEach((s, i) =>
+    window.setTimeout(() => {
+      s.classList.add('edu-counted');
+      window.setTimeout(() => s.classList.remove('edu-counted'), EDU_VOICE.countMs);
+    }, i * EDU_VOICE.countMs),
+  );
 }
 
 function renderOption(o: EduOption, large: boolean): HTMLElement {

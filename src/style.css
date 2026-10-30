@@ -3347,3 +3347,19 @@ select {
 .reduce-motion .guide-pulse {
   animation: none;
 }
+
+/* Lane E r7, R0674: hear the prompt again, and the counted icon lighting up. */
+.edu-hear {
+  min-width: 72px;
+  min-height: 72px;
+  font-size: 2rem;
+}
+.edu-icons > span.edu-counted {
+  display: inline-block;
+  transform: scale(1.35);
+  filter: drop-shadow(0 0 4px #ffd85a);
+  transition: transform 0.12s ease-out;
+}
+.reduce-motion .edu-icons > span.edu-counted {
+  transform: none;
+}

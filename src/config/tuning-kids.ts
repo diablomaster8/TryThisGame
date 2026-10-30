@@ -9,3 +9,11 @@ export const EDU_GUIDE = {
   /** Lift above a target's feet, world units, so the hand points at its middle. */
   lift: { egg: 0.35, nubbin: 0.5, tree: 1.6, fruit: 0.2 },
 } as const;
+
+/** R0674 (KIDS-02): the minigames' voice. */
+export const EDU_VOICE = {
+  /** Hold an option this long to hear it said. */
+  holdMs: 400,
+  /** Each counted icon lights for this long, one after another. */
+  countMs: 550,
+} as const;
