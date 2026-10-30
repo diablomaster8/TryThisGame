@@ -870,6 +870,8 @@ export interface World {
   storyBouts?: Record<string, 'fight' | 'skip' | 'won'>;
   /** Lane C round 6 (FIGHT-64): a live bout's party needs, held until it ends. */
   battleHeld?: Record<string, { hunger: number; energy: number }>;
+  /** Lane C round 6 (FIGHT-97): each trial map's best steps and whether par was met. */
+  trials?: Record<string, { best: number; par: boolean }>;
   /**
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
@@ -994,6 +996,7 @@ export type Command =
   | { kind: 'guardianStart'; depth: number; key: string; ids?: string[] }
   /** Lane C round 6 (FIGHT-64): resume a loaded bout at its turn's start, or call a draw. */
   | { kind: 'battleResume' }
+  | { kind: 'trialClear'; id: string; steps: ('n' | 'e' | 's' | 'w')[] }
   | { kind: 'battleDraw' }
   | { kind: 'tacticsAct'; action: TacticsAction }
   | { kind: 'tacticsForfeit' }
@@ -1209,6 +1212,8 @@ export type SimEvent =
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
   | { kind: 'battleSpoils'; spoils: BoutSpoils }
+  /** Lane C round 6 (FIGHT-97): a trial map cleared, at par or not, and a first par. */
+  | { kind: 'trialCleared'; id: string; steps: number; par: boolean; first: boolean }
   /** Lane C round 6 (recs FIGHT-99): a Dojo Ladder bout won (`belt` set once all its bouts are). */
   | { kind: 'ladderStep'; nubbinId: string; belt: number; step: number; beltWon: boolean }
   | { kind: 'hatched'; nubbinId: string }

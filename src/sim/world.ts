@@ -13,6 +13,7 @@ import { recordKarate } from './battle/rewards';
 import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
 import { startGuardian, storyBoutChoice } from './battle/story-bouts';
 import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
+import { trialClear } from './battle/tactics/trials';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -716,6 +717,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'tacticsClose':
       rumbleClose(world);
+      return;
+    case 'trialClear':
+      trialClear(world, cmd.id, cmd.steps, events);
       return;
     case 'battleResume':
       resumeBattleCmd(world);

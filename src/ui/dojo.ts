@@ -13,7 +13,8 @@ import {
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
 import { playBattleScene, storyBoutRows } from './battle-scenes';
-import { FRIENDLY_TEXT, LADDER_TEXT } from '../config/strings-battle-r6';
+import { FRIENDLY_TEXT, LADDER_TEXT, TRIAL_TEXT } from '../config/strings-battle-r6';
+import { TrialsMenu } from './trials';
 import { BATTLE_R6 } from '../config/tuning-battle-r6';
 import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
 import { PartyPick } from './battle-party-pick';
@@ -35,9 +36,11 @@ export class DojoMenu {
   /** The Circuit's pre-bout scene has just played (FIGHT-22). */
   private sceneShown = false;
   private hadRibbon = false;
+  /** The trial boards (FIGHT-97), made on first use. */
+  private trials: TrialsMenu | null = null;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void,
     private readonly fighterPick: () => Nubbin | null,
@@ -96,6 +99,16 @@ export class DojoMenu {
     gb.setAttribute('aria-pressed', gentle ? 'true' : 'false');
     this.list.appendChild(gb);
     this.ladder(g);
+    this.list.appendChild(
+      button(
+        TRIAL_TEXT.menu,
+        () => {
+          this.dialog.hide();
+          (this.trials ??= new TrialsMenu(this.parent, this.game)).open();
+        },
+        'btn bs-tier',
+      ),
+    );
     this.friendly(g);
     storyBoutRows(
       g,

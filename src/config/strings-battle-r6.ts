@@ -72,3 +72,21 @@ export const BOOK_TEXT = {
     'guardian-lantern': "The guardian's lantern",
   } as Record<string, string>,
 };
+
+/** The trial map pack (FIGHT-97). */
+export const TRIAL_TEXT = {
+  title: 'Dojo trials',
+  menu: 'Trials: twelve puzzle boards',
+  help: 'Push boulders into water to make bridges, ring the bells in order, carry the flame. Meet par for a hat.',
+  par: (n: number) => `par ${n}`,
+  best: (n: number) => `best ${n}`,
+  steps: (n: number, par: number) => `Steps ${n} (par ${par})`,
+  open: 'gate open',
+  shut: 'gate shut',
+  atPar: 'At par! A hat for your trouble (the first time).',
+  cleared: (n: number) => `Through in ${n}. Par is a little tighter.`,
+  undo: 'Undo',
+  reset: 'Start again',
+  back: 'All trials',
+  dir: { n: 'Step north', e: 'Step east', s: 'Step south', w: 'Step west' },
+};
