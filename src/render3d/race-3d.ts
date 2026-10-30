@@ -22,6 +22,7 @@ import {
   type TagRect,
 } from './minigame-layout';
 import { MiniStage } from './minigame-stage';
+import { RaceButterfly } from './race-butterfly';
 import { channelGeometry, paintedWater, type PaintedWater } from './water';
 
 interface Runner {
@@ -72,6 +73,9 @@ export class Race3dView implements RaceView {
   private readonly anchors: { r: Runner; x: number; y: number; z: number }[] = [];
   private readonly at = new THREE.Vector3();
   private readonly v = new THREE.Vector3();
+  /** R0325 (FUN-36): the butterfly a gazing runner stopped for, and where it looks. */
+  private butterfly: RaceButterfly | null = null;
+  private readonly gaze = new THREE.Vector3();
 
   constructor(private readonly host: Grove3dScene) {
     // The 3D race keeps its HUD in the screen's own elements; this holds nothing yet.
@@ -88,6 +92,7 @@ export class Race3dView implements RaceView {
     this.camX = 0;
     stage.backdrop(RACE3D.backdrop.top, RACE3D.backdrop.bottom);
     this.buildTrack(stage, race);
+    /* Lane E r9 */ this.butterfly = new RaceButterfly(stage.scene);
     this.runners = race.racers.map((racer, lane) => {
       const look = racer.isPlayer ? nubbinLook(player) : rivalLook(racer);
       // The story race: Corvin's runners wear numbered bibs (campaign look M4).
@@ -135,6 +140,7 @@ export class Race3dView implements RaceView {
     this.stage?.dispose();
     for (const key of new Set(rivals)) this.host.pool.discard(key);
     this.stage = null;
+    this.butterfly = null;
     this.runners = [];
     this.spans = [];
     this.signs = [];
@@ -252,15 +258,28 @@ export class Race3dView implements RaceView {
         ? () => y
         : (gx) => trackHeight(this.spans, gx / U);
     rig.lift = flying ? y - trackY : 0;
+    // R0325 (FUN-36): stopped to watch a butterfly (eyes on it), or snapped out by a cheer.
+    const live = !race.finished && r.racer.finishedAtMs === null;
+    const gazing = live && race.timeMs < (r.racer.gazeUntilMs ?? -1);
+    const perked = live && race.timeMs < (r.racer.perkUntilMs ?? -1);
     const pose = resting
       ? 'sleep'
       : stumbling
         ? 'dizzy'
-        : flying
-          ? 'happy'
-          : race.finished || r.racer.finishedAtMs !== null
-            ? 'idle'
-            : 'walk';
+        : gazing
+          ? 'idle'
+          : perked && !flying
+            ? 'surprised'
+            : flying
+              ? 'happy'
+              : race.finished || r.racer.finishedAtMs !== null
+                ? 'idle'
+                : 'walk';
+    if (r.racer.isPlayer && this.butterfly) {
+      const face = gazing ? this.gaze.set(x + 0.45, y + r.look.height * 0.85, z + 0.2) : null;
+      const at = this.butterfly.update(face, nowMs, this.stage?.reduceMotion ?? false);
+      rig.lookAt = at ? at.clone() : null;
+    }
     if (pose !== r.pose) {
       r.pose = pose;
       rig.setPose(pose);

@@ -683,7 +683,8 @@ export const MOON_ADULT = variant(NUBBIN_SPEC, 'Nubbin (Moon)', {
   wings: { shape: 'bat', size: 1.5 },
   scale: 0.86,
   eyes: { lid: 0.2 },
-  surface: { sheen: 0.5, roughness: 0.55 },
+  // R0418 (LOOK-48): a purple toon rim on the Moon band only, so a dark adult keeps its edge.
+  surface: { sheen: 0.5, roughness: 0.55, bandRim: { color: '#8a6ad0', strength: 0.5 } },
   notes: 'Moon adult template: tuned by eye against the child on the stage, 2026-10-15.',
 });
 
