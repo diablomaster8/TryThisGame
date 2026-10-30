@@ -3242,8 +3242,9 @@ select {
     display: block;
     grid-column: 1 / -1;
     width: 100%;
-    min-height: 24px;
-    margin: -6px 0 2px;
+    /* A 44 px tap target; the negative top margin tucks it into the sheet's top padding. */
+    min-height: 44px;
+    margin: -14px 0 0;
     padding: 0;
     border: 0;
     background: none;
@@ -3255,7 +3256,7 @@ select {
     display: block;
     width: 44px;
     height: 5px;
-    margin: 8px auto;
+    margin: 18px auto;
     border-radius: 3px;
     background: rgba(255, 255, 255, 0.45);
   }
