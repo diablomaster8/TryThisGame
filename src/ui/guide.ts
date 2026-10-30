@@ -75,9 +75,7 @@ export function guideTarget(world: World, sheetFor: string | null): GuideTarget 
     // Before the story starts there is no pet count: a pet stamps `lastPetMs`, which starts
     // a cooldown before time 0. (Raised affection was the old sign, but an egg that hatches
     // in the Keeper's arms, TECH-18, gets a first-hug bonus without a pet.)
-    const petted = c
-      ? c.stats.pets >= 1
-      : hatched.some((n) => n.lastPetMs > -NEEDS.petCooldownMs);
+    const petted = c ? c.stats.pets >= 1 : hatched.some((n) => n.lastPetMs > -NEEDS.petCooldownMs);
     if (petted) return null;
     const n = nearest(hatched, from);
     return n ? atNubbin(n, sheetFor, 'pet') : null;

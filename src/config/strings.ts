@@ -445,8 +445,7 @@ export const UI_TEXT = {
   tierLabel: (tier: number) => `Tier ${tier}`,
   cheer: 'Cheer!',
   raceResults: 'Race results',
-  place: (p: number) =>
-    `${ordinal(p)} place`,
+  place: (p: number) => `${ordinal(p)} place`,
   wonHat: 'You won a hat!',
   tierUnlocked: 'Next tier unlocked!',
   // Roster

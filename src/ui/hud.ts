@@ -1185,7 +1185,8 @@ export function mountHud(
       // TECH-15: a buzz for the moments that have one.
       for (const e of events) {
         const h = hapticFor(e);
-        if (h) buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
+        if (h)
+          buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
       }
       backupNudge.onEvents(events);
       for (const e of events) {
