@@ -56,7 +56,7 @@ import { AwayScreen } from './away-screen';
 import { askResume, setBattleDialogue } from './battle-scenes';
 import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
-import { DebugPanel } from './debug-panel';
+import type { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
@@ -430,7 +430,12 @@ export function mountHud(
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
-  const debug = debugEnabled ? new DebugPanel(root, game, () => sheet.selectedId) : null;
+  // TECH-04: loaded only when enabled, so players never download it or its 3D stage inspector.
+  let debug: DebugPanel | null = null;
+  if (debugEnabled)
+    void import('./debug-panel').then((m) => {
+      debug = new m.DebugPanel(root, game, () => sheet.selectedId);
+    });
   // Lane C: reopen a rumble saved mid-battle or started elsewhere (recs FIGHT-65), on demand.
   window.setInterval(() => {
     const t = game()?.world.tactics;
@@ -657,7 +662,9 @@ export function mountHud(
       shop,
       expedition,
       sheet,
-      debug,
+      get debug() {
+        return debug;
+      },
       races,
       roster,
       dialogue,
