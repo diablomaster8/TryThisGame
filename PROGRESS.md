@@ -38,6 +38,44 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 7 · Lane B DUNG (2026-10-30, branch r7/b)
+
+- *Works:* packs telegraph and give up (R0200): a 0.6 s "!", a chase of at most 8 s or the
+  12-cell leash, then home with a "?" (3D) and 3 s of looking away; a Shy party Nubbin shrinks
+  the notice radius by a cell; only Swim families chase through water. Gran's Picnic (R0204):
+  5 s on the nook's rug tops the party's energy up, +10 happiness, wakes nappers, once per
+  level; the tent says it is safe to close. The Deep Hollow stops at floor 99 (R0205). Each
+  pack's bout carries a 9×7 tactics board cut from the floor (R0195, `dungeon-arena.ts`,
+  `EncounterSpec.board`): heights in steps, props, spawn sides, ≥ 60% walkable and joined
+  over 500 boards. A won or fled fight puts the Keeper and party back exactly (R0196), gives
+  3 s before the next notice, and the Hollow bar hides during any fight. No bare rooms
+  (R0201, `dungeon-rooms.ts`): bare rooms get a nursery nook (100% of rooms hold something);
+  roaming packs never sit in neighbouring rooms, never three in a row on the critical path.
+  Nursery nooks scan after 3 s of standing quietly, 1 s with a Shy friend; each act has its
+  own wild pool of 8 (R0198, `config/dungeon-wild.ts`). Tiers (R0179, `dungeon-tiers.ts`):
+  Cosy, Brisk (+35 foe levels, Fancy+ ×1.5) and Wild (+70, ×2.2, capped at 99), opened by
+  the last boss, picked at the cave mouth (🍵 🌬 🌪, 44 px), each with its own acts,
+  waypoints and boss chests, swapped in place. Keepsakes (R0206): a hat per act boss and
+  the "Keeper of the Hollow" cape, data cosmetics drawn by both renderers. Speed runs (R0187,
+  `dungeon-speed.ts`): a toggle, a ⏱ chip, a split toast per level with the gap to the best,
+  best act times per tier on the Journal page. Encounter cues (R0199): notice blip, poof,
+  rarity chimes, shrine hum, waypoint whoosh, a boss sting per act, muted until the first tap.
+- *Fixed:* Hollow energy writes were on a 0–100 scale against the 0–1 needs (stray shoo never
+  fired, loss and boss-retry rests were clamped by luck); an act boss could stand in a pool
+  the dressing laid over its mark (it now takes the nearest dry cell).
+- *Stubbed:* R0205's floor-99 generation is ~65 ms (target 25 ms, a perf job); the Deep
+  Hollow keeps 'big' floors past depth 9 so saved runs keep theirs. R0179 has no Bell Wire
+  trap chains or "Immune to Tickles"; `EncounterSpec.fight` (gentle/standard/tactics) waits
+  for lane C to read it. R0187 has no personal-best ghost line on the automap. R0195 has no
+  authored boss arenas. Save fields added optional, no version bump: `hollow.difficulty`,
+  `tiersOpen`, `tierSaves`, `speedRun`, `records`; run `difficulty`, `splits`, `picnics`,
+  `picnicMs`, `tentNoted`, `encounter.at`; pack `gaveUpMs`; wild `nook`, `quietMs`.
+- *Known:* the "?" on a pack that gives up is 3D only: the pixel view draws no packs at all
+  (a LOOK gap). Edge smoke `tools/r7-b.cjs` (tier picker, speed toggle, ⏱ chip, bar hidden in
+  a fight, keepsake worn): 13/13 in Pixel and 3D, desktop and 375×812, 0 errors, 60 fps.
+- *Not started:* R0166, R0167, R0172, R0173, R0177, R0178, R0181–R0183, R0188–R0194, R0197,
+  R0202, R0207, R0208, R0210, R0212; the older partials were not touched this round.
+
 ## Round 6 · Lane D (2026-10-29, branch r6/d)
 
 Plan: riding and the swim tow (R0085, R0088) first, then the cheap WORLD P2s, R0359, partials.
@@ -113,33 +151,6 @@ The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region an
   glance frames drop the idle breath for that moment.
 - *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
   stub feet tucked while hopping; the 3D bonded rim is an additive aura behind the body.
-
-## Round 6 · Lane B DUNG (2026-10-29, branch r6/b)
-
-- *Works:* boss floors (R0160): every act's boss sits on its 'boss' piece (60/60 seeds); the
-  first win opens a big chest (a Legendary at the boss's level), shows the celebration card
-  and wakes the next act's camp waypoint; a boss loss rests the party fully. The haul sack
-  (R0175): gear finds ride in `run.sack` and bank at a waypoint, camp, acorn or home with a
-  "Bank it!" card; no path shrinks what is owned (test). Stash (R0174): satchel overflow lands
-  in `gear.stash`, listed rarest-first at the camp stash with Take. Tumble home (R0362): all
-  party energy 0 rolls everyone home, half the sack to the satchel, half to the stash. Mystery
-  Basket stall (R0176) at the camp vendor, odds within ±1% over 100k. Warm losses (R0180):
-  half energy, "Sneak past?" after 3 losses, pack looks away 60 s. Sleepy packs (R0203): ~20%
-  doze, walking by pays a tiptoe bonus, running wakes them, a Lazy Nubbin may yawn one awake.
-  End trip confirm (R0184); chest and stray seeds without the roster (R0186); today's results
-  on the cave-mouth menu and Journal (R0185 part, R0165 part); rolling stats in the debug
-  panel (R0211); Stray King and rotating stray lines (R0326); co-op `keepers: []` and a
-  replay test (R0209); `docs/hollow-design.md` (R0171). Save v12: `gear.stash`,
-  `hollow.bossChests`, `hollow.today`, `hollow.stats` (test).
-- *Stubbed:* boss `phases` are in the `EncounterSpec` but lane C's core ignores them; no
-  sealing arena door or anteroom (retry is from the stairs); no Zzz, tiptoe or crown art
-  (lane E); the Journal page has no request-board ties (adding templates needs strings.ts and
-  the no-chores cap) and today's floors are the daily seed, not a fixed 5-level act chain;
-  stash has no tabs or search; the floor-5 guardian (R0260) waits for lane C's r6 merge.
-- *Known:* the boss chest is Legendary until sets exist (R0172); a bout lost to the act boss
-  still teleports to the level's stairs up.
-- *Assumptions:* banked = satchel or stash; the tumble's "half" moves to the stash instead of
-  being lost; today's best time is the quickest daily trip to today's deepest level.
 
 ## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
 

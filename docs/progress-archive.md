@@ -3,6 +3,33 @@
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
 
+## Round 6 · Lane B DUNG (2026-10-29, branch r6/b)
+
+- *Works:* boss floors (R0160): every act's boss sits on its 'boss' piece (60/60 seeds); the
+  first win opens a big chest (a Legendary at the boss's level), shows the celebration card
+  and wakes the next act's camp waypoint; a boss loss rests the party fully. The haul sack
+  (R0175): gear finds ride in `run.sack` and bank at a waypoint, camp, acorn or home with a
+  "Bank it!" card; no path shrinks what is owned (test). Stash (R0174): satchel overflow lands
+  in `gear.stash`, listed rarest-first at the camp stash with Take. Tumble home (R0362): all
+  party energy 0 rolls everyone home, half the sack to the satchel, half to the stash. Mystery
+  Basket stall (R0176) at the camp vendor, odds within ±1% over 100k. Warm losses (R0180):
+  half energy, "Sneak past?" after 3 losses, pack looks away 60 s. Sleepy packs (R0203): ~20%
+  doze, walking by pays a tiptoe bonus, running wakes them, a Lazy Nubbin may yawn one awake.
+  End trip confirm (R0184); chest and stray seeds without the roster (R0186); today's results
+  on the cave-mouth menu and Journal (R0185 part, R0165 part); rolling stats in the debug
+  panel (R0211); Stray King and rotating stray lines (R0326); co-op `keepers: []` and a
+  replay test (R0209); `docs/hollow-design.md` (R0171). Save v12: `gear.stash`,
+  `hollow.bossChests`, `hollow.today`, `hollow.stats` (test).
+- *Stubbed:* boss `phases` are in the `EncounterSpec` but lane C's core ignores them; no
+  sealing arena door or anteroom (retry is from the stairs); no Zzz, tiptoe or crown art
+  (lane E); the Journal page has no request-board ties (adding templates needs strings.ts and
+  the no-chores cap) and today's floors are the daily seed, not a fixed 5-level act chain;
+  stash has no tabs or search; the floor-5 guardian (R0260) waits for lane C's r6 merge.
+- *Known:* the boss chest is Legendary until sets exist (R0172); a bout lost to the act boss
+  still teleports to the level's stairs up.
+- *Assumptions:* banked = satchel or stash; the tumble's "half" moves to the stash instead of
+  being lost; today's best time is the quickest daily trip to today's deepest level.
+
 ## Round 5 · Lane D (2026-10-29, branch r5/d)
 
 Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
