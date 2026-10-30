@@ -25,3 +25,11 @@ export const EDU_VOICE = {
   /** R0725: each break stretch lasts this long. */
   stretchMs: 5000,
 } as const;
+
+/** R0695 (KIDS-27): the grown-up's limits. */
+export const EDU_LIMITS = {
+  /** Allowed minutes a day a grown-up can pick. */
+  dailyRange: [10, 180] as const,
+  /** A grown-up's unlock lasts this long. */
+  unlockMinutes: 30,
+} as const;

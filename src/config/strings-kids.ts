@@ -191,3 +191,25 @@ export const EDU_EGG_TEXT = {
   egg: (colour: string, gone: boolean) =>
     gone ? `A ${colour} egg, already bought today` : `A ${colour} egg. It hatches just like this.`,
 } as const;
+
+/** R0695: limits, quiet hours and the boot lock. */
+export const EDU_LIMITS_TEXT = {
+  title: 'The Grove is asleep',
+  why: {
+    daily: "That's all the playing for today. The Grove wakes up tomorrow.",
+    quiet: 'Shh, it is quiet time. The Grove is sleeping now.',
+  },
+  say: {
+    daily: "That's all for today! Your Nubbin is fast asleep. See you tomorrow!",
+    quiet: 'Shh! It is quiet time. Your Nubbin is fast asleep. Goodnight!',
+  },
+  unlock: 'Grown-up: play a little longer',
+  heading: 'Limits',
+  help: 'Leave a box empty for no limit. Missing a day never costs anything.',
+  none: 'none',
+  daily: 'Minutes a day',
+  quietFrom: 'Quiet from (hour, 0–23)',
+  quietTo: 'Quiet until (hour, 0–23)',
+  lock: 'Open straight into this Grove',
+  lockHelp: 'A reload skips the title. Turn it off here to reach the other games.',
+} as const;

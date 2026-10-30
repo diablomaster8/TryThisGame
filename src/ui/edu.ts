@@ -15,6 +15,7 @@ import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
 import { masteryReport } from './edu-mastery';
 import { placesSettings } from './edu-places';
+import { limitSettings } from './edu-limits';
 import { stickerArt } from './sticker-art';
 import { EDU_STICKERS } from '../config/edu-stickers';
 import { eduRounds, eduRung, eduWeigher, enabledGames, gamesForBand } from '../sim/edu';
@@ -770,6 +771,8 @@ export class GrownUpPanel {
         'btn btn-small',
       ),
     );
+    // R0695: daily minutes, quiet hours and the boot lock.
+    limitSettings(this.body, g);
     // R0680: which places the ⋯ Places menu shows.
     placesSettings(this.body, g);
     // Progress by domain.

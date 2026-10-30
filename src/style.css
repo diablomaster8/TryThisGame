@@ -3893,3 +3893,6 @@ body.edu-sprout .modal-head .btn-close {
 .edu-egg-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
 .edu-egg { min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 .edu-egg-art { width: 48px; height: 56px; image-rendering: pixelated; }
+
+/* Lane E r8: R0695 the limits card sits over games and menus. */
+.edu-limit { z-index: 40; }

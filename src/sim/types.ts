@@ -519,6 +519,8 @@ export interface EduState {
   places?: Partial<Record<EduPlaceId, boolean>>;
   /** Lane E r8, R0692: which of today's three shelf eggs were bought (sim/edu-eggs.ts). */
   eggShelf?: { day: string; bought: number[] };
+  /** Lane E r8, R0695: a grown-up's daily minutes, quiet hours and boot lock (sim/edu-limits.ts). */
+  limits?: EduLimits;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -557,6 +559,16 @@ export interface EduSkill {
   misses: number;
   /** The rung already moved this sitting (never more than once). */
   moved: boolean;
+}
+
+/** Lane E r8, R0695: a Learning Grove's limits; null = no limit. Hours are local, 0–23. */
+export interface EduLimits {
+  dailyMinutes: number | null;
+  quietFrom: number | null;
+  quietTo: number | null;
+  lockToSlot: boolean;
+  /** Wall-clock ms a grown-up's unlock lasts until. */
+  unlockUntilMs?: number;
 }
 
 /** Lane E r8, R0683: how often an item was asked, how often right first time, and when. */
@@ -1297,6 +1309,9 @@ export type Command =
   | { kind: 'eduResetSession' }
   /** Lane E r8, R0680: a grown-up opens or closes a place in the Places menu. */
   | { kind: 'eduSetPlace'; place: EduPlaceId; on: boolean }
+  /** Lane E r8, R0695. */
+  | { kind: 'eduSetLimits'; limits: Partial<Omit<EduLimits, 'unlockUntilMs'>> }
+  | { kind: 'eduUnlockLimits' }
   | { kind: 'eduStartBreak' }
   | { kind: 'eduEndBreak' }
   // The Digimon-inspired ten

@@ -146,6 +146,7 @@ import {
   stepEdu,
   clampRounds,
 } from './edu';
+import { eduSetLimits, eduUnlockLimits } from './edu-limits';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -1002,6 +1003,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduResult':
       eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
+      return;
+    case 'eduSetLimits':
+      // Lane E r8, R0695.
+      eduSetLimits(world, cmd.limits);
+      return;
+    case 'eduUnlockLimits':
+      eduUnlockLimits(world, world.lastWallMs);
       return;
     case 'eduSetPlace':
       // Lane E r8, R0680.

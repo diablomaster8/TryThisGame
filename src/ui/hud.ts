@@ -117,6 +117,7 @@ import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
 import { StickerBook } from './sticker-book';
 import { EduPlaces } from './edu-places';
+import { LimitCard, syncKidsLock } from './edu-limits';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
@@ -541,6 +542,8 @@ export function mountHud(
     () => askGrownUp(root, toast),
     () => grownUps.open(),
   );
+  // Lane E r8, R0695: the sleeping-Grove card a grown-up's limits put up.
+  const limitCard = new LimitCard(root, game, () => askGrownUp(root, toast));
   // R0724: the moon that fills in the last two minutes before a break.
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
@@ -752,7 +755,12 @@ export function mountHud(
     };
   }
 
-  kidBusy = () => edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
+  kidBusy = () =>
+    edu.isOpen() ||
+    dialogue.isOpen ||
+    breakScreen.isOpen() ||
+    limitCard.isOpen() ||
+    journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -1047,6 +1055,9 @@ export function mountHud(
         if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
           g.send({ kind: 'eduStartBreak' });
         breakWarn.update(g);
+        // Lane E r8, R0695.
+        limitCard.update(now);
+        syncKidsLock(g);
         if (eduBreakActive(g.world, now)) {
           breakScreen.show();
           breakScreen.update(now);
