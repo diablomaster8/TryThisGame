@@ -1,7 +1,8 @@
 import { CAMP_TEXT, STORYLINE_TEXT } from '../config/strings';
 import { STORY_TEXT } from '../config/story';
 import type { Game } from '../game';
-import { lineRefusal, sharesStory } from '../sim/story-book';
+import { activeLines, lineRefusal, quietSpine, sharesStory } from '../sim/story-book';
+import { confirmModal } from './confirm';
 import { journalView } from '../sim/storyline';
 import { storylines } from '../sim/story-scenes';
 import { button, el } from './dom';
@@ -26,6 +27,9 @@ export function renderLines(
   box.setAttribute('aria-label', CAMP_TEXT.linesHead);
   box.appendChild(el('div', 'btn-name', CAMP_TEXT.linesHead));
   box.appendChild(el('p', 'help', CAMP_TEXT.linesHelp));
+  // R0612: through Hazel's chapters 9 to 11 the running roads hold still.
+  if (quietSpine(g.world) && activeLines(g.world).length > 0)
+    box.appendChild(el('p', undefined, CAMP_TEXT.quiet));
   for (const s of all) {
     const line = g.world.lines[s.id];
     const card = el('div', 'journal-line');
@@ -81,7 +85,23 @@ export function renderLines(
           row.appendChild(b);
         }
         const leave = button(CAMP_TEXT.leave, () => ask(), 'btn btn-small');
-        row.appendChild(leave);
+        // R0643: start the road again; the Grove and the road's Nubbins stay as they are.
+        const restart = button(
+          CAMP_TEXT.restart,
+          () =>
+            void confirmModal({
+              title: s.title,
+              body: CAMP_TEXT.restartAsk(s.title),
+              confirm: CAMP_TEXT.restart,
+            }).then((ok) => {
+              if (!ok) return;
+              g.send({ kind: 'lineAbandon', line: s.id });
+              g.send({ kind: 'storylineStart', id: s.id });
+              refresh();
+            }),
+          'btn btn-small',
+        );
+        row.append(restart, leave);
         card.appendChild(row);
         // The ask lives in the card (R0647): no native confirm, and it reads in order.
         const ask = (): void => {

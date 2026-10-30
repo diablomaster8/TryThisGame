@@ -1,4 +1,6 @@
 import { worldControls, worldLine } from './world-debug';
+import { confirmModal } from './confirm';
+import { CAMP_TEXT } from '../config/strings';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -204,9 +206,13 @@ export class DebugPanel {
         UI_TEXT.debugReset,
         () => {
           const g = this.game();
-          if (!g || !window.confirm(UI_TEXT.resetConfirm)) return;
-          clearSave();
-          g.replaceWorld(freshWorldLike(g.world, Date.now()));
+          if (!g) return;
+          const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.resetConfirm };
+          void confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }).then((ok) => {
+            if (!ok) return;
+            clearSave();
+            g.replaceWorld(freshWorldLike(g.world, Date.now()));
+          });
         },
         'btn btn-small btn-danger',
       ),

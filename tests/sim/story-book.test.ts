@@ -9,6 +9,7 @@ import { lineRefusal } from '../../src/sim/story-book';
 import { deserialize, SAVE_VERSION, serialize, worldFingerprint } from '../../src/sim/save';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
+import { catchUp } from '../../src/sim/offline';
 import { c, campaignWorld, playScenes, tick } from './campaign-driver';
 
 registerStorylines(STORYLINE_CONTENT);
@@ -159,6 +160,44 @@ describe('every line keeps its hands off the Keeper', () => {
     // Its scenes left the queue with it; its Nubbins stay in the Grove.
     expect(c(world).queue.some((s) => s.startsWith('l-'))).toBe(false);
     expect(world.nubbins.length).toBeGreaterThanOrEqual(partners.length);
+  });
+});
+
+describe('away from the Grove (R0632)', () => {
+  it('a 7-day catch-up with two lines running is quick and plays no line chapter off-screen', () => {
+    const { world, events } = hazelAt(4);
+    applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
+    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
+    const chapters = [world.lines.hundred!.chapter, world.lines.beetle!.chapter];
+    const t0 = performance.now();
+    catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
+    expect(performance.now() - t0).toBeLessThan(3000);
+    expect([world.lines.hundred!.chapter, world.lines.beetle!.chapter]).toEqual(chapters);
+    // Whatever a line wanted to say waits in the queue for the Keeper.
+    for (const l of [world.lines.hundred!, world.lines.beetle!])
+      for (const id of l.queue) expect(c(world).queue).toContain(id);
+  });
+});
+
+describe('restarting a line (R0643)', () => {
+  it('resets only that line; the Grove and the other line are untouched', () => {
+    const { world, events } = hazelAt(4);
+    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
+    applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
+    applyCommand(world, { kind: 'debugChapter', chapter: 2, line: 'beetle' }, events);
+    play(world, events, 5);
+    const hundred = JSON.stringify(world.lines.hundred);
+    const spine = JSON.stringify({ ...c(world), queue: [], rest: null, seen: [], seenMs: {} });
+    const nubs = snapshot(world);
+    applyCommand(world, { kind: 'lineAbandon', line: 'beetle' }, events);
+    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
+    expect(world.lines.beetle!.chapter).toBe(1);
+    expect(world.lines.beetle!.seen).toEqual([]);
+    expect(JSON.stringify(world.lines.hundred)).toBe(hundred);
+    expect(JSON.stringify({ ...c(world), queue: [], rest: null, seen: [], seenMs: {} })).toBe(
+      spine,
+    );
+    expect(snapshot(world)).toEqual(nubs);
   });
 });
 

@@ -24,4 +24,15 @@ export const CAMP_TEXT = {
   } as Record<string, string>,
   lineChapter: (title: string, n: number, chapter: string) => `${title}, chapter ${n}: ${chapter}`,
   lineEnded: (title: string, ending: string) => `${title} is over: ${ending}.`,
+  restart: 'Start this road again',
+  restartAsk: (title: string) =>
+    `Start ${title} again from chapter 1? Its Nubbins stay in the Grove.`,
+  quiet: 'The valley holds its breath. The other roads wait.',
+  confirmClose: 'Close',
+  confirmCancel: 'Cancel',
+  confirmTitle: 'Are you sure?',
+  eraseYes: 'Erase',
+  startOverYes: 'Start over',
+  importYes: 'Replace it',
+  resetYes: 'Reset',
 } as const;

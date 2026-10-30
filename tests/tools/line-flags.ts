@@ -5,7 +5,8 @@
  * Hazel's flags are read through `spine:<flag>`, explicitly. Content-check runs this; a
  * Vitest test feeds it a broken storyline.
  */
-import type { Scene, Storyline } from '../../src/content/types';
+import type { Scene } from '../../src/config/story';
+import type { Storyline } from '../../src/content/types';
 
 /** The flags a storyline's scenes and choices set. */
 function sceneFlags(s: Storyline): Set<string> {

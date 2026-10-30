@@ -1,4 +1,6 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { confirmModal } from './confirm';
+import { CAMP_TEXT } from '../config/strings';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
@@ -657,22 +659,28 @@ export class SettingsMenu {
       return;
     }
     const slotName = `${modeName(slot.mode)}, ${SLOT_TEXT.slot(slot.index)}`;
-    if (!window.confirm(UI_TEXT.importConfirm(slotName))) return;
-    file.world.settings.matureContent = 'off';
-    file.world.settings.riftConfirmed = false;
-    g.replaceWorld(file.world);
-    this.close();
-    // Said plainly and long enough to read: the confirm() alone left no trace (bug 34).
-    this.toast(UI_TEXT.imported(slotName), UI.toastLongMs);
+    const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.importConfirm(slotName) };
+    void confirmModal({ ...ask, confirm: CAMP_TEXT.importYes, danger: true }).then((ok) => {
+      if (!ok) return;
+      file.world.settings.matureContent = 'off';
+      file.world.settings.riftConfirmed = false;
+      g.replaceWorld(file.world);
+      this.close();
+      // Said plainly and long enough to read: the confirm alone left no trace (bug 34).
+      this.toast(UI_TEXT.imported(slotName), UI.toastLongMs);
+    });
   }
 
   private reset(): void {
     const g = this.game();
     if (!g) return;
-    if (!window.confirm(UI_TEXT.resetConfirm)) return;
-    clearSave();
-    // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
-    g.replaceWorld(freshWorldLike(g.world, Date.now()));
-    this.close();
+    const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.resetConfirm };
+    void confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }).then((ok) => {
+      if (!ok) return;
+      clearSave();
+      // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
+      g.replaceWorld(freshWorldLike(g.world, Date.now()));
+      this.close();
+    });
   }
 }
