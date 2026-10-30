@@ -1003,6 +1003,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduResult':
       eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
       return;
+    case 'eduSetPlace':
+      // Lane E r8, R0680.
+      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
+      return;
     case 'eduResetSession':
       eduResetSession(world);
       return;

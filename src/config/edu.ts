@@ -319,3 +319,27 @@ export const EDU_MASTERY = {
   knownSeen: 3,
   knownShare: 0.75,
 };
+
+/**
+ * R0680 (KIDS-12): the Learning Grove's "Places" picture menu, which replaces the More list.
+ * `on` is the default before a grown-up changes it in "Places your child can visit"; `band`
+ * limits a place to one band. Names and spoken words are `EDU_PLACES_TEXT` (strings-kids).
+ */
+export type EduPlaceId =
+  'book' | 'collection' | 'decorate' | 'photo' | 'playFight' | 'kindergarten' | 'map' | 'beetle';
+
+export const PLACES_EDU: ReadonlyArray<{
+  id: EduPlaceId;
+  icon: string;
+  on: boolean;
+  band?: 'sprout' | 'reader';
+}> = [
+  { id: 'book', icon: '📔', on: true },
+  { id: 'collection', icon: '🥚', on: true },
+  { id: 'decorate', icon: '🪴', on: true },
+  { id: 'photo', icon: '📷', on: true },
+  { id: 'playFight', icon: '🤸', on: true },
+  { id: 'kindergarten', icon: '🏫', on: false },
+  { id: 'map', icon: '🗺', on: false },
+  { id: 'beetle', icon: '🪲', on: false },
+];

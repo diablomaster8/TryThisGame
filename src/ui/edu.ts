@@ -14,6 +14,9 @@ import { Peekaboo } from '../minigames/micro/peekaboo';
 import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
 import { masteryReport } from './edu-mastery';
+import { placesSettings } from './edu-places';
+import { stickerArt } from './sticker-art';
+import { EDU_STICKERS } from '../config/edu-stickers';
 import { eduRounds, eduRung, eduWeigher, enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
@@ -26,6 +29,7 @@ import {
   EDU_RESULTS_TEXT,
   EDU_SAY_TEXT,
   EDU_WRONG_TEXT,
+  STICKER_BOOK_TEXT,
 } from '../config/strings-kids';
 import { EDU_VOICE } from '../config/tuning-kids';
 import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
@@ -185,6 +189,13 @@ export class EduScreen {
     const g = this.game_();
     if (g) g.renderPaused = false;
   }
+
+  /** R0685: wire the results card's sticker to the sticker book (hud.ts). */
+  onOpenBook(fn: (fresh: string) => void): void {
+    this.openBook = fn;
+  }
+
+  private openBook: (fresh: string) => void = () => undefined;
 
   /** R0676: wire "Show me" to the guide (hud.ts). */
   onShowMe(fn: () => void): void {
@@ -390,14 +401,22 @@ export class EduScreen {
     card.appendChild(el('div', 'edu-results-shells', `+${this.starsTotal * EDU.shellsPerStar} 🐚`));
     const e = g?.world.edu;
     const newSticker = !!e && e.stickers > this.stickersAtStart;
-    if (e)
-      card.appendChild(
-        el(
-          'div',
-          newSticker ? 'edu-results-sticker' : 'help',
-          newSticker ? `🌟 ${EDU_TEXT.sticker}` : EDU_TEXT.stickers(e.stickers),
-        ),
+    // R0685: the new sticker flies into the book; a tap on the book opens it at that page.
+    const got = e && newSticker ? EDU_STICKERS[e.stickers - 1] : undefined;
+    if (e && got) {
+      const line = button(
+        '',
+        () => this.openBook(got.id),
+        'btn edu-results-sticker sticker-arrive',
       );
+      line.setAttribute('aria-label', STICKER_BOOK_TEXT.open);
+      const fly = el('span', `sticker sticker-${got.shape} sticker-fly`);
+      fly.style.setProperty('--sticker-bg', got.bg);
+      fly.appendChild(stickerArt(got));
+      line.append(fly, el('span', 'sticker-book-icon', '📔'));
+      card.appendChild(line);
+      card.appendChild(el('div', 'help', STICKER_BOOK_TEXT.arrived(got.say)));
+    } else if (e) card.appendChild(el('div', 'help', EDU_TEXT.stickers(e.stickers)));
     const row = el('div', 'edu-results-actions');
     const big = (icon: string, label: string, onPress: () => void, cls: string) => {
       const b = button('', onPress, `btn ${cls} edu-results-btn`);
@@ -412,9 +431,10 @@ export class EduScreen {
     c.appendChild(card);
     window.setTimeout(() => playSound('cheer'), calm ? 0 : count * EDU_VOICE.starMs);
     // R0674 / R0693: a sprout hears the praise; nobody gets a toast over the card.
-    const say = n
+    const praise = n
       ? EDU_RESULTS_TEXT.say(this.starsTotal, n.name)
       : EDU_TEXT.finished(this.starsTotal, max);
+    const say = got ? `${praise} ${STICKER_BOOK_TEXT.arrived(got.say)}` : praise;
     for (const line of replySpeech(say, this.band(), this.readAloud())) speakLine(line);
   }
 }
@@ -750,6 +770,8 @@ export class GrownUpPanel {
         'btn btn-small',
       ),
     );
+    // R0680: which places the ⋯ Places menu shows.
+    placesSettings(this.body, g);
     // Progress by domain.
     this.body.appendChild(el('h3', undefined, EDU_TEXT.progressLabel));
     const list = el('div', 'shop-list');
@@ -934,7 +956,7 @@ function gameBlurb(id: EduGameId, reader: boolean): string {
 }
 
 /** The Nubbin the break card tucks in: the first hatched one, or none. */
-function sleeperOf(g: Game): Nubbin | undefined {
+export function sleeperOf(g: Game): Nubbin | undefined {
   // Sable is a guest; the card tucks in the child's own Nubbin.
   const sable = g.world.campaign?.sableId;
   return g.world.nubbins.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && n.id !== sable);
@@ -946,7 +968,7 @@ function sleepingPortrait(g: Game, n: Nubbin): HTMLCanvasElement {
 }
 
 /** One front frame of a clip, falling back to idle; drawn at 64 px for CSS to scale. */
-function clipPortrait(g: Game, n: Nubbin, clip: string, cls: string): HTMLCanvasElement {
+export function clipPortrait(g: Game, n: Nubbin, clip: string, cls: string): HTMLCanvasElement {
   const c = el('canvas', cls);
   c.width = 64;
   c.height = 64;

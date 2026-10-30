@@ -115,6 +115,8 @@ import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
+import { StickerBook } from './sticker-book';
+import { EduPlaces } from './edu-places';
 import { GymMenu } from './gym';
 import { DungeonMenu } from './dungeon';
 import { HollowBoutPanel } from './dungeon-bout';
@@ -176,7 +178,12 @@ export function mountHud(
   const logo = button(NAMES.game, () => onLogoTap(), 'btn btn-logo');
   const shells = el('span', 'chip', '');
   const fruit = el('span', 'chip', '');
-  const moreBtn = button('⋯', () => more.show(), 'btn btn-icon');
+  // Lane E r8, R0680: a Learning Grove's ⋯ opens the Places picture menu instead.
+  const moreBtn = button(
+    '⋯',
+    () => (game()?.world.edu ? eduPlaces.open() : more.show()),
+    'btn btn-icon',
+  );
   moreBtn.setAttribute('aria-label', UI_TEXT.more);
   moreBtn.title = UI_TEXT.more;
   // In the Learning Grove, Settings (reset, import, aging) is for grown-ups: a sum first.
@@ -523,6 +530,9 @@ export function mountHud(
   // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
   const guide = new Guide(root, game, () => sheet.selectedId);
   edu.onShowMe(() => guide.show());
+  // Lane E r8, R0685: the sticker book, from the results card's sticker (and Places).
+  const stickerBook = new StickerBook(root, game);
+  edu.onOpenBook((fresh) => stickerBook.open(fresh));
   const grownUps = new GrownUpPanel(root, game, toast);
   settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
@@ -643,6 +653,22 @@ export function mountHud(
     ),
   );
   more.body.appendChild(moreList);
+  // Lane E r8, R0680: the Learning Grove's Places, each a big picture tile.
+  const eduPlaces = new EduPlaces(
+    root,
+    game,
+    {
+      book: () => stickerBook.open(),
+      collection: () => book.open(),
+      decorate: () => decorate.open(),
+      photo: () => photo.open(),
+      playFight: () => karate.open(),
+      kindergarten: () => kindergarten.open(),
+      map: () => map.open(),
+      beetle: () => startTank(),
+    },
+    () => grownUps.open(),
+  );
   // Placing chip while decorating.
   const placingChip = el('div', 'placing-chip');
   placingChip.hidden = true;

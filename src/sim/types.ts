@@ -20,7 +20,7 @@ export interface BattlePrefs {
   /** The battle playback speed. */
   speed?: 1 | 2;
 }
-import type { EduAge, EduGameId } from '../config/edu';
+import type { EduAge, EduGameId, EduPlaceId } from '../config/edu';
 import type { EduBand } from '../content/types';
 import type { LineAct } from '../config/story';
 // Game state types. Plain data only: everything here must survive JSON round-trips.
@@ -516,7 +516,7 @@ export interface EduState {
   /** Lane E r8, R0683: per-item mastery, by ids like `letter:G` or `count:7`. */
   items?: Record<string, EduItem>;
   /** Lane E r8, R0680: places a grown-up opened or closed (absent: `PLACES_EDU` default). */
-  places?: Record<string, boolean>;
+  places?: Partial<Record<EduPlaceId, boolean>>;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -1292,6 +1292,8 @@ export type Command =
       first?: boolean;
     }
   | { kind: 'eduResetSession' }
+  /** Lane E r8, R0680: a grown-up opens or closes a place in the Places menu. */
+  | { kind: 'eduSetPlace'; place: EduPlaceId; on: boolean }
   | { kind: 'eduStartBreak' }
   | { kind: 'eduEndBreak' }
   // The Digimon-inspired ten

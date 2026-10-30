@@ -151,3 +151,36 @@ export const EDU_MASTERY_TEXT = {
   ladderHeading: 'Where each game is up to',
   ladderRow: (say: string, rung: number, of: number) => `${say} (step ${rung} of ${of})`,
 } as const;
+
+/** R0685: the sticker book, "My Book". */
+export const STICKER_BOOK_TEXT = {
+  title: 'My Book',
+  close: 'Close',
+  prev: 'Page before',
+  next: 'Next page',
+  empty: 'A sticker still to come',
+  count: (have: number, of: number) => `${have} of ${of}`,
+  /** The results card's line when a sticker arrives; tap it to open the book. */
+  arrived: (say: string) => `A new sticker! ${say}`,
+  open: 'Open my book',
+} as const;
+
+/** R0680: the Learning Grove's Places menu: each place's name, said on a long press. */
+export const EDU_PLACES_TEXT = {
+  title: 'Places',
+  say: 'Where shall we go?',
+  names: {
+    book: 'My Book',
+    collection: 'My Nubbins',
+    decorate: 'Decorate',
+    photo: 'Take a photo',
+    playFight: 'Play-fight',
+    kindergarten: 'Kindergarten',
+    map: 'Map',
+    beetle: 'Beetle Run',
+  },
+  grownUps: 'Grown-ups',
+  /** The grown-up area's toggles. */
+  heading: 'Places your child can visit',
+  help: 'These show as big pictures when your child taps ⋯. The rest of the game stays hidden.',
+} as const;
