@@ -157,8 +157,8 @@ import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
-import { keysHintDone, watchKeysHint } from './keys-hint';
-import { HATCH_BUTTON_TEXT } from '../config/strings-r8d';
+import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
+import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT } from '../config/strings-r8d';
 import { ShakeMeter } from './shake-meter';
 import { watchOnline } from './offline-chip';
 import { villageTap } from './village-tap';
@@ -665,6 +665,20 @@ export function mountHud(
       'btn btn-wide edu-only',
     ),
   );
+  // TECH-60: the keys hint comes back from here, or from the "?" key.
+  moreList.appendChild(
+    button(
+      KEYS_HINT_TEXT.menu,
+      () => {
+        more.hide();
+        showKeysHintAgain();
+      },
+      'btn btn-wide not-edu keys-hint-again',
+    ),
+  );
+  window.addEventListener('keydown', (e) => {
+    if (isKeysHintKey(e) && !isTypingTarget(e.target) && !game()?.world.edu) showKeysHintAgain();
+  });
   more.body.appendChild(moreList);
   // Placing chip while decorating.
   const placingChip = el('div', 'placing-chip');

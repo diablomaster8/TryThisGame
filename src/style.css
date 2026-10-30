@@ -3944,3 +3944,10 @@ body.edu-sprout .modal-head .btn-close {
 .shake-meter.full {
   background: rgba(242, 211, 76, 0.45);
 }
+
+/* TECH-60: the keys hint's way back is for keyboards, like the hint itself. */
+@media (max-width: 600px), (hover: none), (pointer: coarse) {
+  .keys-hint-again {
+    display: none;
+  }
+}
