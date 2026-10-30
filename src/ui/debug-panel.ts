@@ -2,7 +2,7 @@ import { worldControls, worldLine } from './world-debug';
 import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
-import { CAMP_TEXT } from '../config/strings';
+import { CAMP_TEXT, QUALITY_TEXT } from '../config/strings';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -337,8 +337,15 @@ function frameLine(g: Game): string {
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
     `\n${worldLine(g)}` +
     hollowLine(g) +
-    spikeLine(g)
+    spikeLine(g) +
+    tierLine(g)
   );
+}
+
+/** TECH-09: the device tier and the signal that decided it. */
+function tierLine(g: Game): string {
+  return `
+${QUALITY_TEXT.debug(QUALITY_TEXT.tier[g.tier.tier], g.tier.why)}`;
 }
 
 /** HOT-2: frame times over the last minute or so, and what the longest frame spent them on. */

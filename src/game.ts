@@ -62,6 +62,8 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 }
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
+import { tierForRes } from './config/tuning-world';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -112,6 +114,8 @@ export class Game {
   private readonly pending: Command[] = [];
   /** HOT-2: frame times and the breakdown of long frames, for the debug panel and probes. */
   readonly spikes = new FrameSpikes();
+  /** TECH-09: this device's performance tier and what decided it (shown in the debug panel). */
+  readonly tier: TierReading;
   private rafId = 0;
   private running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
@@ -582,6 +586,18 @@ export class Game {
       // The sculpt grid is picked once per save by a quick benchmark, then kept.
       this.world.settings.sculptRes ??= this.scene3d.pickSculptRes();
       this.scene3d.setSculptRes(this.world.settings.sculptRes);
+    }
+    // TECH-09: the tier, from the GPU, memory and the sculpt benchmark (3D only); TECH-52 starts
+    // Full 3D at its settings.
+    {
+      const res = this.world.settings.sculptRes;
+      this.tier = readDeviceTier(
+        this.pipeline.renderer.getContext(),
+        this.scene3d && res !== null ? tierForRes(res) : undefined,
+        readQualityOverride(),
+      );
+    }
+    if (this.scene3d) {
       // Start reading the cache and marching now, while the rest of the page loads.
       this.scene3d.prewarm(this.world);
     }

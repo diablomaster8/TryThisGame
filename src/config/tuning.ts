@@ -2010,3 +2010,4 @@ export * from './tuning-kids';
 export * from './tuning-fun-r7';
 export * from './tuning-camp';
 export * from './tuning-soul-r8';
+export * from './tuning-r8d-perf';

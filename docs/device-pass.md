@@ -25,3 +25,13 @@ Run once under Graphics > Pixel art and once under Full 3D.
 ## Funny moments sheet
 
 Beside the device checks, run one comedy session per audience with `docs/playtest-funny.md` (R0346).
+
+## TECH-09: fps and heap per tier
+
+Budgets are in `docs/perf-budget.md`. For each device, note the tier the debug panel shows,
+then play two minutes in the Grove with 8 Nubbins and copy the panel's `frames p95` and
+Chrome's heap (Performance monitor, or `performance.memory.usedJSHeapSize`).
+
+| Device        | Tier | Renderer | p95 ms | Heap MB | Calls | Date |
+| ------------- | ---- | -------- | ------ | ------- | ----- | ---- |
+| (not yet run) |      |          |        |         |       |      |
