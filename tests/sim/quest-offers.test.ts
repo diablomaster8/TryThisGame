@@ -3,7 +3,13 @@ import { describe, expect, it } from 'vitest';
 import { REGIONS } from '../../src/config/regions';
 import { QUEST_OFFERS } from '../../src/config/tuning';
 import { FINAL_CHAPTER } from '../../src/sim/campaign';
-import { activeQuests, boardState, keeperArea, questBook } from '../../src/sim/quest-offers';
+import {
+  activeQuests,
+  boardState,
+  keeperArea,
+  questBook,
+  questProgress,
+} from '../../src/sim/quest-offers';
 import { RUNNER_STORIES } from '../../src/sim/side-stories';
 import type { SimEvent, World } from '../../src/sim/types';
 import { applyCommand } from '../../src/sim/world';
@@ -87,6 +93,11 @@ describe('the Open quest flow', () => {
     tick(world, events, 3);
     expect(c(world).fun.q01?.status).toBe('open');
     expect(questBook(world).tracked).toContain('q01');
+    // R0635: step 1 of its steps, three minutes a step.
+    const p = questProgress(world, 'q01')!;
+    expect(p.step).toBe(1);
+    expect(p.of).toBeGreaterThan(0);
+    expect(p.minutesLeft).toBe(p.of * QUEST_OFFERS.minutesPerStep);
   });
 
   it('an unanswered offer may come again after a while; a different area offers its own', () => {

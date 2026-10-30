@@ -296,3 +296,17 @@ export function questSize(quest: Quest): 'S' | 'M' | 'L' {
   const n = quest.steps.length;
   return n <= QUEST_OFFERS.size.s ? 'S' : n <= QUEST_OFFERS.size.m ? 'M' : 'L';
 }
+
+/** R0635: where a started quest stands, as step i of n, and the minutes left, or null. */
+export function questProgress(
+  world: World,
+  id: string,
+): { step: number; of: number; minutesLeft: number } | null {
+  const c = world.campaign;
+  const st = c?.side[id] ?? c?.fun[id];
+  const quest = sideStory(id);
+  if (!st || st.status !== 'open' || !quest) return null;
+  const of = quest.steps.length;
+  const step = Math.min(st.step + 1, of);
+  return { step, of, minutesLeft: Math.max(1, (of - st.step) * QUEST_OFFERS.minutesPerStep) };
+}

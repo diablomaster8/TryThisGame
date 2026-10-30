@@ -27,6 +27,8 @@ import { eduJournal } from './journal';
 import { speakLine } from './lesson';
 import { TRACK_TEXT } from '../config/strings-camp';
 import { sideStory } from '../sim/story-scenes';
+import { questProgress } from '../sim/quest-offers';
+import { OFFER_TEXT } from '../config/strings-camp';
 
 /**
  * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
@@ -43,7 +45,11 @@ export function trackedObjectives(world: World): Objective[] {
     out.push({
       key: `quest:${id}:${st!.step}`,
       goal: TRACK_TEXT.newGoal(quest.title, step.goal),
-      hint: step.hint,
+      // R0635: the step count rides with the hint.
+      hint: ((p) =>
+        p ? `${OFFER_TEXT.stepOf(p.step, p.of, p.minutesLeft)}. ${step.hint}` : step.hint)(
+        questProgress(world, id),
+      ),
       story: true,
     });
   }

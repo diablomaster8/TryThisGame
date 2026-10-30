@@ -85,6 +85,8 @@ export const OFFER_TEXT = {
   track: 'Pin',
   untrack: 'Unpin',
   empty: 'Nothing here yet.',
+  stepOf: (i: number, n: number, min: number) => `Step ${i} of ${n} · about ${min} min left`,
+  steps: (n: number) => (n === 1 ? '1 step' : `${n} steps`),
   flowLabel: 'Quests',
   flowHelp:
     'Open: stories wait where they happen, to take on or put off. Guided: they come to you.',
@@ -108,4 +110,14 @@ export const AWAY_STORIES_TEXT = {
   lineWaits: (title: string, n: number) => `${title}: chapter ${n} waits for you.`,
   lineOn: (title: string, n: number) => `${title}: chapter ${n}, as you left it.`,
   quests: (n: number) => (n === 1 ? 'One quest under way.' : `${n} quests under way.`),
+};
+
+/** Lane C round 8 (R0648): the title's slot cards name the lines a save holds. */
+export const SLOT_LINES_TEXT = {
+  glyph: { dawn: '☀', dusk: '☾', beetle: '⛏', hundred: '🌾', logged: '⌨' } as Record<
+    string,
+    string
+  >,
+  done: '✓',
+  stories: (n: number) => (n === 1 ? '1 story done' : `${n} stories done`),
 };

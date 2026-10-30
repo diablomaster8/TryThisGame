@@ -139,6 +139,25 @@ export interface SaveSummary {
   eduBand: string | null;
   /** Sim time lived in this Grove. */
   playMs: number;
+  /** Lane C r8 (R0648): the questlines beside Hazel's Grove, and side stories and capers done. */
+  lines?: Record<string, 'active' | 'done'>;
+  questsDone?: number;
+}
+
+/** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
+function storySummary(w: Record<string, unknown>): Pick<SaveSummary, 'lines' | 'questsDone'> {
+  const lines: Record<string, 'active' | 'done'> = {};
+  const raw = (w.lines ?? {}) as Record<string, { ending?: unknown } | null>;
+  if (raw && typeof raw === 'object')
+    for (const [id, l] of Object.entries(raw))
+      if (l && typeof l === 'object') lines[id] = typeof l.ending === 'string' ? 'done' : 'active';
+  const c = (w.campaign ?? null) as { side?: unknown; fun?: unknown } | null;
+  let questsDone = 0;
+  for (const store of [c?.side, c?.fun])
+    if (store && typeof store === 'object')
+      for (const st of Object.values(store as Record<string, { status?: unknown }>))
+        if (st?.status === 'done') questsDone += 1;
+  return { lines, questsDone };
 }
 
 /** Pure: a summary from a save's JSON, or null when it cannot be read. */
@@ -168,6 +187,7 @@ export function summarize(json: string): SaveSummary | null {
       eduAge: edu && typeof edu.age === 'number' ? edu.age : null,
       eduBand: edu && typeof edu.band === 'string' ? edu.band : null,
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
+      ...storySummary(w),
     };
   } catch {
     return null;

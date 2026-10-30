@@ -61,4 +61,6 @@ export const QUEST_OFFERS = {
   } as Readonly<Record<string, 'never' | 'lapse'>>,
   /** Steps per size chip on the offer card (R0606): up to `s` is S, up to `m` is M, else L. */
   size: { s: 3, m: 7 },
+  /** R0635: the rough minutes one quest step takes, for "about N min left". */
+  minutesPerStep: 3,
 } as const;
