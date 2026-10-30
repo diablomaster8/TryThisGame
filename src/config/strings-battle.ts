@@ -328,3 +328,150 @@ export function formatRound3(e: BattleEvent, name: (id: string) => string): stri
   }
 }
 export * from './strings-tactics';
+
+/**
+ * Round 5 comedy (recs FIGHT-75): spare lines for the events players see most, at least two
+ * per kind and three per personality for a tuck-in, so a long bout does not repeat itself.
+ * `{a}` is the one acting or tuckered, `{b}` the one it was aimed at. `sim/battle/lines.ts`
+ * picks one per log entry from the bout's seed, so a replay reads the same.
+ */
+export type QuipKind =
+  | 'miss'
+  | 'missFloat'
+  | 'boing'
+  | 'shrug'
+  | 'tuckered'
+  | 'tuckeredCheerful'
+  | 'tuckeredShy'
+  | 'tuckeredMischievous'
+  | 'tuckeredLazy'
+  | 'foeHome'
+  | 'wildHome';
+
+export const BATTLE_QUIPS: Record<BattleLang, Record<QuipKind, readonly string[]>> = {
+  en: {
+    miss: [
+      '{a} bonks the air with great confidence.',
+      '{b} was never there. {a} looks round, puzzled.',
+      '{a} misses by a whisker and pretends that was the plan.',
+    ],
+    missFloat: ['{b} floats right over it.', '{b} drifts up and over, humming.'],
+    boing: [
+      '{a} spins round and bonks themself. Boing!',
+      '{a} gets dizzy and walks into a friendly tree.',
+    ],
+    shrug: ['{a} shrugs it off.', '{a} has decided not to notice.'],
+    tuckered: [
+      '{a} is tuckered out and naps under a leaf.',
+      '{a} sits down hard, yawns, and that is that.',
+    ],
+    tuckeredCheerful: [
+      '{a} waves from the ground.',
+      '{a} lies on its back and smiles at the sky.',
+      '{a} is tuckered out but still waving both arms.',
+    ],
+    tuckeredShy: [
+      '{a} hides inside its own ears.',
+      '{a} curls up behind a leaf and peeks out.',
+      '{a} decides the grass needs a closer look. Lying down.',
+    ],
+    tuckeredMischievous: [
+      '{a} pretends to be tuckered. Then actually is.',
+      '{a} flops over with a wink. The wink turns into a snore.',
+      '{a} sneaks off for a nap and is caught snoring.',
+    ],
+    tuckeredLazy: [
+      '{a} was going to lie down anyway.',
+      '{a} lies down. It had been meaning to all day.',
+      "{a} declares it nap o'clock and obeys at once.",
+    ],
+    foeHome: [
+      '{a} remembers it left the kettle on.',
+      '{a} yawns, waves and toddles home.',
+      '{a} has to be home for tea. Bye!',
+    ],
+    wildHome: [
+      "{a}'s mother collects it, glaring at nobody in particular.",
+      '{a} scampers back to its burrow for a nap.',
+      '{a} trots home to tell everyone about you.',
+    ],
+  },
+  he: {
+    miss: ['{a} חובט באוויר בביטחון רב.', '{b} בכלל לא היה שם. {a} מסתכל סביב, מבולבל.'],
+    missFloat: ['{b} מרחף מעל זה.', '{b} עולה ועובר מעל, מזמזם.'],
+    boing: ['{a} מסתובב ונחבט בעצמו. בוינג!', '{a} מסוחרר ונתקל בעץ ידידותי.'],
+    shrug: ['{a} מושך בכתפיים.', '{a} החליט לא לשים לב.'],
+    tuckered: ['{a} עייף ונרדם מתחת לעלה.', '{a} מתיישב, מפהק, וזהו.'],
+    tuckeredCheerful: [
+      '{a} מנופף מהרצפה.',
+      '{a} שוכב על הגב ומחייך לשמיים.',
+      '{a} עייף, אבל עדיין מנופף בשתי הידיים.',
+    ],
+    tuckeredShy: [
+      '{a} מתחבא בתוך האוזניים של עצמו.',
+      '{a} מתכרבל מאחורי עלה ומציץ.',
+      '{a} מחליט שהדשא צריך מבט מקרוב. בשכיבה.',
+    ],
+    tuckeredMischievous: [
+      '{a} מעמיד פנים שהוא עייף. ואז באמת עייף.',
+      '{a} נופל עם קריצה. הקריצה הופכת לנחירה.',
+      '{a} מתגנב לתנומה ונתפס נוחר.',
+    ],
+    tuckeredLazy: [
+      '{a} בין כה וכה רצה לשכב.',
+      '{a} נשכב. הוא תכנן את זה כל היום.',
+      '{a} מכריז על שעת תנומה ומציית מיד.',
+    ],
+    foeHome: ['{a} נזכר שהשאיר את הקומקום דולק.', '{a} מפהק, מנופף והולך הביתה.'],
+    wildHome: ['אמא של {a} אוספת אותו, כועסת על אף אחד.', '{a} רץ חזרה למחילה לתנומה.'],
+  },
+  ja: {
+    miss: [
+      '{a}は じしんまんまんで くうきを ポカッ。',
+      '{b}は もう いなかった。{a}は きょろきょろ。',
+    ],
+    missFloat: ['{b}は ふわっと とびこえた。', '{b}は はなうたまじりに ふわり。'],
+    boing: [
+      '{a}は くるくる まわって じぶんに ポカッ。ボヨン!',
+      '{a}は ふらふらして きに ぶつかった。',
+    ],
+    shrug: ['{a}は へっちゃら。', '{a}は きにしない ことに した。'],
+    tuckered: [
+      '{a}は へとへと。はっぱの したで おひるね。',
+      '{a}は すわりこんで あくび。おしまい。',
+    ],
+    tuckeredCheerful: [
+      '{a}は じめんから てを ふっている。',
+      '{a}は あおむけで そらに にっこり。',
+      '{a}は へとへと。でも りょうてを ふっている。',
+    ],
+    tuckeredShy: [
+      '{a}は じぶんの みみの なかに かくれた。',
+      '{a}は はっぱの かげで まるくなって のぞいている。',
+      '{a}は くさを よく みたく なった。ねころんで。',
+    ],
+    tuckeredMischievous: [
+      '{a}は つかれた ふり。そして ほんとうに つかれた。',
+      '{a}は ウインクして たおれた。ウインクが いびきに なった。',
+      '{a}は こっそり おひるね。いびきで ばれた。',
+    ],
+    tuckeredLazy: [
+      '{a}は どうせ ねころぶ つもりだった。',
+      '{a}は ねころんだ。いちにちじゅう そう したかった。',
+      '{a}は おひるねの じかんを せんげんして すぐ ねた。',
+    ],
+    foeHome: [
+      '{a}は やかんを かけっぱなしだと おもいだした。',
+      '{a}は あくびして てを ふって かえっていった。',
+    ],
+    wildHome: [
+      '{a}の おかあさんが むかえに きた。だれにともなく にらんでいる。',
+      '{a}は すあなに かけもどって おひるね。',
+    ],
+  },
+};
+
+/** Fills `{a}` and `{b}` in a quip. */
+export function fillQuip(line: string, a: string, b = ''): string {
+  return line.replaceAll('{a}', a).replaceAll('{b}', b);
+}

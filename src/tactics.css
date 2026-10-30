@@ -186,3 +186,16 @@
     transition: none !important;
   }
 }
+/* Full 3D (FIGHT-62): the board is drawn in the game canvas underneath; the low-res canvas
+   stays as the see-through input surface. */
+.tactics-screen.three {
+  background: transparent;
+}
+.tactics-screen.three .tactics-canvas {
+  background: transparent;
+}
+/* The see-through 3D board would show the Grove's HUD between its strips; hide it, keeping
+   the frame counter, the debug panel and toasts (as the 3D minigames do). */
+#hud:has(> .tactics-screen.three) > :not(.tactics-screen):not(.fps):not(.debug):not(.toast) {
+  visibility: hidden;
+}

@@ -29,6 +29,7 @@ import { watchErrors } from './platform/error-watch';
 import { mountCameraButtons } from './ui/camera-buttons';
 import { FpsCounter } from './ui/fps';
 import { LoadingBar } from './ui/loading-bar';
+import { nextTip } from './ui/tips';
 import { HOLLOW_TEXT } from './config/strings';
 import { mountHud } from './ui/hud';
 import { mountSpriteGallery } from './ui/sprite-gallery';
@@ -250,6 +251,8 @@ function boot(
   if (!loading.done) {
     game.send({ kind: 'setLoading', on: true });
     if (game.world.location === 'dungeon') loading.setLabel(HOLLOW_TEXT.loading);
+    // R0318: a tip that suits this save.
+    loading.showTip(nextTip(game.world));
   }
   if (newCampaignTrainer) {
     game.send({ kind: 'setTrainer', id: newCampaignTrainer });

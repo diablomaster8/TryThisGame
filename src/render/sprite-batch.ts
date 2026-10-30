@@ -72,6 +72,12 @@ export interface DrawnQuad {
  * (a few dozen at most) and sampled from one mega atlas. Alpha comes from the vertex
  * colour so cocoons can fade without a second material.
  */
+/**
+ * R0073: Nubbins (and eggs) drawn this many times larger at the survey zoom (map tokens; the
+ * camera sets it). Their pick quads grow with them, so they stay tappable.
+ */
+export const SPRITE_TOKENS = { scale: 1 };
+
 export class SpriteBatch {
   readonly mesh: Mesh<BufferGeometry, MeshBasicMaterial>;
 
@@ -294,6 +300,10 @@ export class SpriteBatch {
         | 'storyProp';
     },
   ): void {
+    if (SPRITE_TOKENS.scale !== 1 && pick?.kind === 'nubbin') {
+      const k = SPRITE_TOKENS.scale;
+      d = { ...d, w: (d.w ?? d.rect.w / NATIVE_PPU) * k, h: (d.h ?? d.rect.h / NATIVE_PPU) * k };
+    }
     this.lastCorners = null;
     this.lastCulled =
       this.cull !== null &&

@@ -13,7 +13,7 @@
 import { uniqueBeaten } from './dungeon-uniques';
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
-import type { ChampionModId } from '../config/dungeon-foes';
+import { actFamilies, type ChampionModId } from '../config/dungeon-foes';
 import {
   combatantOf,
   createBattle,
@@ -24,7 +24,8 @@ import {
 import { cellCentre, cellDist, cellOf, FLOOR, WALL, type Cell, type Floor } from './dungeon';
 import { newRoute, nextWaypoint, type NavRoute } from './dungeon-nav';
 import { actProgress } from './dungeon-acts';
-import type { Rng } from './rng';
+import { Rng } from './rng';
+import { rollDrops } from './gear';
 import { isCommonSpecies, SPECIES } from './species';
 import { levelOf } from './stats';
 import type { DungeonPack, DungeonRun, SimEvent, Vec2, World } from './types';
@@ -57,6 +58,8 @@ export interface EncounterPack {
   reward: LootTableId;
   /** A treasure room's champion guard (R0158), not part of the floor's kind mix. */
   guard?: boolean;
+  /** An Act V Greyling pack (R0157): drawn colour-drained. */
+  grey?: true;
   /** A named unique (R0156), by `UNIQUES` id. */
   unique?: string;
 }
@@ -106,7 +109,13 @@ const E = HOLLOW.packs;
 // ---------------------------------------------------------------- placement
 
 /** Packs for a version-3 floor, away from the entry and from each other. */
-export function placePacks(f: Floor, rng: Rng, depth: number, count: number): EncounterPack[] {
+export function placePacks(
+  f: Floor,
+  rng: Rng,
+  depth: number,
+  count: number,
+  act?: number,
+): EncounterPack[] {
   const far = (c: Cell) => cellDist(c, f.stairsUp) >= E.minFromEntry;
   const open = (c: Cell) => f.cells[c.y * f.cols + c.x] === FLOOR;
   const spots: Cell[] = (f.layout?.spawns ?? []).filter((c) => open(c) && far(c));
@@ -120,6 +129,8 @@ export function placePacks(f: Floor, rng: Rng, depth: number, count: number): En
     for (let x = 0; x < f.cols; x++) if (open({ x, y }) && far({ x, y })) anywhere.push({ x, y });
   const roomOf = (c: Cell) =>
     f.rooms.findIndex((r) => c.x >= r.x && c.y >= r.y && c.x < r.x + r.w && c.y < r.y + r.h);
+  // An act's field packs are its foe families (R0157); the endless floors keep the babies.
+  const fams = act === undefined ? null : actFamilies(act);
   const foes = SPECIES.filter((s) => s.id !== 'chao' && s.stage === 'baby' && isCommonSpecies(s));
   const out: EncounterPack[] = [];
   const taken = (c: Cell) =>
@@ -132,12 +143,14 @@ export function placePacks(f: Floor, rng: Rng, depth: number, count: number): En
     const champion = depth >= E.championFrom && rng.chance(E.championChance);
     const tier = 1 + Math.floor((depth - 1) / 3);
     const size = rng.int(E.members[0], E.members[1]);
-    const family = rng.pick(foes).id;
+    const fam = fams ? rng.pick(fams) : null;
+    const family = fam ? fam.id : rng.pick(foes).id;
+    const look = (): string => (fams ? rng.pick(fams).look : rng.pick(foes).id);
     const members: PackMember[] = [];
     for (let m = 0; m < size; m++)
       members.push({
         // A pack is mostly one family, with the odd stray in it.
-        species: m === 0 || rng.chance(0.7) ? family : rng.pick(foes).id,
+        species: m === 0 || rng.chance(0.7) ? (fam ? fam.look : family) : look(),
         level: Math.max(1, depth * 2 + tier - 1 + rng.int(0, 2) + (champion ? 2 : 0)),
         mods: [],
       });
@@ -152,6 +165,7 @@ export function placePacks(f: Floor, rng: Rng, depth: number, count: number): En
       aggroRadius: E.aggroRadius,
       leash: E.leash,
       reward: champion ? 'pack-champion' : 'pack-normal',
+      ...(fam?.grey ? { grey: true as const } : {}),
     });
   }
   return out;
@@ -384,6 +398,9 @@ export function finishEncounter(
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    // R0163: the pack's drop table, seeded by the run, the level and the pack.
+    const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
+    rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);
     if (spec.unique) uniqueBeaten(world, run, spec, events);
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;

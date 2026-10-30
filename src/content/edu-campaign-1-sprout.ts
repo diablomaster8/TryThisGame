@@ -60,7 +60,7 @@ const CH1: EduScene[] = [
   scene(
     'c1-letter',
     [
-      N('The gate is stuck. Lift and push! Lift and push!'),
+      { ...N('The gate is stuck. Lift and push! Lift and push!'), act: 'gate', refrain: 'lift-push' },
       N('Creak! It opens. This is Gran’s Grove. But Gran is not here.'),
       N('On the signpost is a letter. Your name is on the front!'),
       HAZEL('“I’ve gone to help some lost Nubbins. Don’t make a fuss.”', 'soft'),
@@ -177,6 +177,7 @@ const CH1: EduScene[] = [
           {
             label: 'A puppy',
             reply: [
+              FERN('A puppy in an egg? Crack… woof! That would be silly!'),
               FERN('Puppies grow inside their mum. They are born, not hatched.'),
               FERN('Chicks hatch from eggs, like your Nubbin!', 'happy'),
             ],
@@ -184,6 +185,7 @@ const CH1: EduScene[] = [
           {
             label: 'A kitten',
             reply: [
+              FERN('A kitten in an egg? Crack… meow! What a surprise!'),
               FERN('Kittens grow inside their mum. They are born, not hatched.'),
               FERN('Chicks hatch from eggs, like your Nubbin!', 'happy'),
             ],
@@ -237,7 +239,7 @@ const CH2: EduScene[] = [
   scene(
     'c2-open',
     [
-      N('Morning. A lady comes up the lane. Slop, slop, goes her bucket.'),
+      N('Morning. A lady comes up the lane. Splash, splash, goes her bucket.'),
       MARINA('I’m Marina. I taught Gran’s Nubbins to swim!', 'happy'),
       MARINA('What’s Gran’s rule one?', 'think'),
       YOU('Feed them before you feed yourself.'),
@@ -287,7 +289,7 @@ const CH2: EduScene[] = [
     'c2-corvin',
     [
       N('Late afternoon. A man in a grey coat stands at the gate.'),
-      N('He doesn’t lift. He doesn’t push. The gate just opens for him!'),
+      N('He doesn’t lift. He doesn’t push. The gate opens for him. No creak!'),
       N('That’s odd. It never does that for you.'),
       CORVIN('I’m Corvin. I run the races up the valley. I knew your Gran.'),
       N('He shakes your hand. Brr! His hand is cold, like ice.'),
@@ -317,6 +319,7 @@ const CH2: EduScene[] = [
           {
             label: 'Sun',
             reply: [
+              N('Corvin in the sun? Brr, he’d melt!'),
               N('Sun starts with sss. Listen again: c-c-Corvin.'),
               N('C-c-cat starts the same way! Corvin, cold, cat.'),
             ],
@@ -324,6 +327,7 @@ const CH2: EduScene[] = [
           {
             label: 'Fish',
             reply: [
+              N('A fish called Corvin? Splish, splash!'),
               N('Fish starts with fff. Listen again: c-c-Corvin.'),
               N('C-c-cat starts the same way! Corvin, cold, cat.'),
             ],
@@ -368,7 +372,7 @@ const CH3: EduScene[] = [
     'c3-open',
     [
       N('Early summer. A warm night. You sit on the step.'),
-      N('Moths tap the window. In the reeds, a frog says croak, croak.'),
+      N('Moths tap the window. In the reeds, a frog goes plop!'),
       N('Something is at the edge of the long grass. A grey Nubbin!'),
       N('She is thin. One wing is hurt. When you breathe, she jumps.'),
       LUNA('Shh. Not yet.', 'soft'),
@@ -398,6 +402,7 @@ const CH3: EduScene[] = [
           {
             label: 'A hen',
             reply: [
+              LUNA('A hen up at midnight? Snore, snore! She’s asleep.'),
               LUNA('Hens sleep at night, up on a perch.'),
               LUNA('Owls are the night ones. Hoo, hoo!', 'happy'),
             ],
@@ -426,14 +431,16 @@ const CH3: EduScene[] = [
           {
             label: 'Silly',
             reply: [
-              LUNA('She jumps at every sound. That means scared, not silly.', 'soft'),
+              LUNA('Silly Sable? She’d be dancing a jig! Boing, boing!', 'soft'),
+              LUNA('She jumps at every sound. That means scared, not silly.'),
               LUNA('Quiet and kind helps.'),
             ],
           },
           {
             label: 'Sleepy',
             reply: [
-              LUNA('Her eyes are wide open. That means scared, not sleepy.', 'soft'),
+              LUNA('A sleepy Sable? Zzz… she’d be snoring on the grass!', 'soft'),
+              LUNA('Her eyes are wide open. That means scared, not sleepy.'),
               LUNA('Quiet and kind helps.'),
             ],
           },
@@ -467,7 +474,7 @@ const CH3: EduScene[] = [
       CLOVER('The grey won’t go away. But that doesn’t mean she’s broken.', 'soft'),
       CLOVER('She’s carrying something sad. We can help make it lighter.', 'soft'),
       N('Next morning, look! Frost on the grass where Sable slept. Only there.'),
-      N('And last night’s plums are gone. All of them!'),
+      N('And last night’s plums are gone. Munch, munch, all of them!'),
       N('On the sunny wall sits a little pile of plum stones.'),
       CLOVER('Someone’s taking her food! I’ll bring her in and knit her a blanket!', 'angry'),
       LUNA('No. She’ll come in her own time. That’s hers to choose.'),
@@ -495,6 +502,7 @@ const CH3: EduScene[] = [
           {
             label: 'Make it bigger',
             reply: [
+              CLOVER('Bigger frost? A frosty mountain on the grass! Hee, hee!'),
               CLOVER('The sun is warm, and warm melts ice.'),
               CLOVER('Watch. Drip, drip… the frost is gone!', 'happy'),
             ],
@@ -599,6 +607,7 @@ const CH4: EduScene[] = [
           {
             label: 'Sun',
             reply: [
+              MOSS('Me, a sun? Too sleepy to shine! Ha!'),
               MOSS('Sun starts with sss. Listen: mmm-Moss, mmm-moon.'),
               MOSS('Moon starts like me.', 'happy'),
             ],
@@ -606,6 +615,7 @@ const CH4: EduScene[] = [
           {
             label: 'Bee',
             reply: [
+              MOSS('Me, buzzing like a bee? Bzzz! What a sight!'),
               MOSS('Bee starts with b-b-b. Listen: mmm-Moss, mmm-moon.'),
               MOSS('Moon starts like me.', 'happy'),
             ],
@@ -693,11 +703,11 @@ const CH4: EduScene[] = [
           },
           {
             label: 'Lantern',
-            reply: [N('Keep, lantern. They don’t sound alike. Keep, sleep. Those rhyme! Listen…')],
+            reply: [N('Keep, lantern? Ha! Lantern is a long, wobbly word.'), N('They don’t sound alike. Keep, sleep. Those rhyme! Listen…')],
           },
           {
             label: 'Pond',
-            reply: [N('Keep, pond. They don’t sound alike. Keep, sleep. Those rhyme! Listen…')],
+            reply: [N('Keep, pond? Plop! Into the water it goes!'), N('They don’t sound alike. Keep, sleep. Those rhyme! Listen…')],
           },
         ],
         parentNote:
@@ -758,6 +768,7 @@ const CH4: EduScene[] = [
           {
             label: 'Sand',
             reply: [
+              MOSS('Cold water turning to sand? Crunch, crunch! A sandy pond!'),
               MOSS('Think of a puddle on a frosty morning. Hard and slippy.'),
               MOSS('Very cold water turns to ice. But not this warm pool.'),
             ],
@@ -854,7 +865,8 @@ const CH4: EduScene[] = [
           {
             label: 'The tightest squeeze ever',
             reply: [
-              MOSS('Too tight can hurt. A good hug is gentle.', 'soft'),
+              MOSS('The tightest squeeze ever? Squish! Like a bun in a fist!', 'soft'),
+              MOSS('Too tight can hurt. A good hug is gentle.'),
               MOSS('Anyone can say, “Too tight, please!”'),
             ],
           },
@@ -986,6 +998,7 @@ const CH4: EduScene[] = [
           {
             label: 'At bedtime',
             reply: [
+              MOSS('The sun, up at bedtime? It would keep everyone awake!'),
               MOSS('At bedtime the sun goes down.'),
               MOSS('In the morning, up it comes. Like now.', 'happy'),
             ],
@@ -1065,7 +1078,7 @@ const TRIGGERED: EduScene[] = [
       N('Look! Something grey sits at the edge of the long grass.'),
       N('It is watching you. You want to run to it!'),
       N('But remember Gran’s rule three: sit down and wait.'),
-      N('You put a plum in the grass. Then a second plum, just in case.'),
+      N('You put a plum down. Plop! Then a second, just in case.'),
       N('Then you sit a little way off.'),
       N('It looks at the plums. Then at you. It stays.', 'soft'),
     ],
@@ -1097,7 +1110,7 @@ const TRIGGERED: EduScene[] = [
   scene(
     't-sable-bonded',
     [
-      N('Sable climbs into your lap. All the way in!', 'happy'),
+      N('Plop! Sable climbs into your lap. All the way in!', 'happy'),
       N('She turns round, once, twice, and lies down.'),
       N('She lets out a big breath. Haaah. She feels safe.', 'soft'),
       LUNA('There. Grey and loved. Both at once.', 'soft'),
@@ -1124,6 +1137,7 @@ const TRIGGERED: EduScene[] = [
           {
             label: 'Moon',
             reply: [
+              LUNA('Sable on the moon? What a big jump!'),
               LUNA('Moon starts with mmm. Listen: sss-Sable, sss-sun.'),
               LUNA('Sun starts like Sable!', 'happy'),
             ],
@@ -1131,6 +1145,7 @@ const TRIGGERED: EduScene[] = [
           {
             label: 'Tree',
             reply: [
+              LUNA('Sable up a tree? She’d never come down!'),
               LUNA('Tree starts with t-t-t. Listen: sss-Sable, sss-sun.'),
               LUNA('Sun starts like Sable!', 'happy'),
             ],
@@ -1175,7 +1190,7 @@ const TRIGGERED: EduScene[] = [
       N('You put your hand on his head. He is dry and soft.'),
       N('Then, very slowly, he leans into your hand.'),
       N('Like a plant leaning towards a sunny window.'),
-      N('A tuft of grass grows on his head. You don’t mention it.'),
+      N('Pop! A tuft of grass grows on his head. You don’t mention it.'),
       N('At the bottom of the hill, you look back. He is watching you go.'),
     ],
     [
@@ -1200,7 +1215,7 @@ const TRIGGERED: EduScene[] = [
     [
       N('You stop to say hello to a Keeper friend.'),
       N('First, you talk about the weather.'),
-      N('Then a funny chat: whose Nubbin ate whose hat?'),
+      N('Then a funny chat: whose Nubbin ate whose hat? Hee hee!'),
       N('That was nice. A little chat helps.', 'happy'),
     ],
     [

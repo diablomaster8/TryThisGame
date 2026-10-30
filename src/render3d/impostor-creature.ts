@@ -69,6 +69,8 @@ void main() {
 
 export class CreatureImpostors {
   private readonly cfg = WORLD_LOD.creature.impostor;
+  /** Cells redrawn a frame now (R0073: fewer at the survey zoom, where they are small). */
+  perFrame: number = this.cfg.perFrame;
   private readonly cols = this.cfg.atlasPx / this.cfg.cellPx;
   readonly target = new THREE.WebGLRenderTarget(this.cfg.atlasPx, this.cfg.atlasPx, {
     depthBuffer: true,
@@ -191,7 +193,7 @@ export class CreatureImpostors {
     const due = list
       .filter((f) => f.root.visible && (!f.fresh || f.age >= this.cfg.minAge))
       .sort((a, b) => b.age - a.age)
-      .slice(0, this.cfg.perFrame);
+      .slice(0, this.perFrame);
     if (!due.length) return;
     // Draw the cells with the scene's lights but no sky, fog or shadow redraw.
     const prev = {

@@ -2,7 +2,7 @@
 
 ## Chapter 5: The Circuit
 
-Goal: Win a race, any course, any tier. (`winRace`) · Hint: Open Races from the top bar. A grown Nubbin with trained stats does best.
+Goal: Win a race, any course, any tier. (`winRace`) · Hint: Open Races from the top bar; a grown, trained Nubbin does best.
 
 #### <a id="c5-open"></a>Opening `c5-open`
 
@@ -236,7 +236,7 @@ _Down the hill, Dusty has nearly reached the gate._
 
 ## Chapter 7: What Fear Teaches
 
-Goal: Bring Sable’s trust to 45. (`sableTrust45`) · Hint: Feeding and petting raise trust. Hunger and throws destroy it. Shadow Nubbins heal slowly.
+Goal: Bring Sable’s trust to 45. (`sableTrust45`) · Hint: Choose Feed and Pet to raise Sable’s trust; never throw her.
 
 #### <a id="c7-open"></a>Opening `c7-open`
 
@@ -398,7 +398,7 @@ _Up on the hill, Moss watches, and then looks away, the way you look away from s
 
 ## Chapter 8: The Hollow
 
-Goal: Walk the Hollow and find Hazel’s notebook. (`notebook`) · Hint: The Hollow is dark; follow the fireflies to a flat stone and tap the notebook. The Expedition from the top bar runs through the Hollow now too.
+Goal: Walk the Hollow and find Hazel’s notebook. (`notebook`) · Hint: Follow the fireflies to a flat stone and tap the notebook.
 
 #### <a id="c8-open"></a>Opening `c8-open`
 

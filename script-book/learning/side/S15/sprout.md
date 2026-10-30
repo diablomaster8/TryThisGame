@@ -9,7 +9,7 @@
 
 #### `sprout:s15-wagon` · [main](../../../side/S15.md#s15-wagon)
 
-_A wagon rolls down the lane. Ting-a-ling! Bells on the roof!_  
+_A wagon rolls down the lane. Ding-a-ling! Bells on the roof!_  
 _A man in a yellow waistcoat sits on top. That’s Dashwood Prance._  
 _A brass parrot sits on his shoulder. Tick, tick, tick._  
 **Dashwood Prance**: Mystery Eggs! Every egg a winner!  
@@ -23,8 +23,8 @@ _A little girl from the village jingles her purse. That’s Pip._
 > **Pip**: Egg, egg, I love an egg!  
 > **Pip**: What rhymes with egg?  
 > - ✅ leg → Yes! Egg, leg. They rhyme!
-> - bell → Bell rhymes with shell! Egg rhymes with leg.
-> - wagon → Egg… wagon. No! Egg rhymes with leg.
+> - bell → An egg and a bell? Ding, dong! They sound a little alike. Bell rhymes with shell! Egg rhymes with leg.
+> - wagon → Egg and wagon? Rattle, rattle! They don’t sound the same. Egg… wagon. No! Egg rhymes with leg.
 > _For grown-ups: Listened for a rhyme: egg and leg._
 
 **Byte**: Is that true? Let’s count every egg and see.  
@@ -51,11 +51,11 @@ _By lunchtime, Byte’s card is full._
 > **Lesson** (maths, K.CC.C.6, ask): more and fewer  
 > **Byte**: Plain eggs or sparkly eggs: which are there more of?  
 > - ✅ Plain eggs → Yes! Many more plain eggs than sparkly ones.
-> - Sparkly eggs → Look again. Only three sparkly. Lots and lots of plain. More plain!
+> - Sparkly eggs → More sparkly eggs? Ooh, a glitter storm! Look again. Look again. Only three sparkly. Lots and lots of plain. More plain!
 > _For grown-ups: Compared two groups and saw there were more plain eggs than sparkly ones._
 
 **Byte**: That’s not one in three. The sign is wrong.  
-_Pip sits on the bridge with four plain eggs._  
+_Plop! Pip sits on the bridge with four plain eggs._  
 _She is trying hard to be brave._  
 **Pip**: The plain ones are nice too. They’re warm.  
 
@@ -74,7 +74,7 @@ _There are stepping stones by the stream._
 > Check: `edu:tiptoe:steps:5`
 > _For grown-ups: Controlled their body to take five slow, quiet tiptoe steps._
 
-_One stone wobbles. One stone is a frog! Ribbit!_  
+_One stone wobbles. One stone is a frog! Ribbit! Splash!_  
 
 #### `sprout:s15-jackpot` · [main](../../../side/S15.md#s15-jackpot)
 
@@ -89,10 +89,10 @@ _Byte holds up ten fingers. He folds down nine._
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): honesty: telling the truth is fair  
 > **Byte**: The sign says something that isn’t true. Is that fair?  
 > - ✅ No, it isn’t fair → Right. The truth is fair. Then people can choose.
-> - Yes, it’s fine → Hmm. Pip spent her Shells because of that sign. Not fair to Pip.
+> - Yes, it’s fine → A sign that fibs is fine? Hmm. Pip’s Shells are gone. Hmm. Pip spent her Shells because of that sign. Not fair to Pip.
 > _For grown-ups: Talked about why telling the truth is fair to other people._
 
-_The snoring stops. You freeze! Then it starts again._  
+_The snoring stops. Creak! You freeze! Then it starts again._  
 
 #### `sprout:s15-legendary` · [main](../../../side/S15.md#s15-legendary)
 
@@ -100,7 +100,7 @@ _Dashwood wakes up. He shines the special egg._
 **Dashwood Prance**: Lovely, isn’t she? Hold her for one Shell a minute!  
 **Byte**: Here are three Shells. Three minutes, please.  
 _Under the bridge, it is dim and green._  
-_Byte lights a little lantern._  
+_Pop! Byte lights a little lantern._  
 **Byte**: Light behind an egg shows what’s inside. Hazel taught us.  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, do): light can shine through thin things  
@@ -129,7 +129,7 @@ _Glitter gets on your fingers. It stays for days!_
 #### `sprout:s15-verdict` · [main](../../../side/S15.md#s15-verdict)
 
 _Dashwood sees the glitter on your hands._  
-_He sits down on the wagon step._  
+_He sits down on the wagon step. Creak!_  
 **Dashwood Prance**: When I was little, I bought a golden egg.  
 **Dashwood Prance**: I carried it home in my hat. I loved it.  
 **Dashwood Prance**: It hatched brown. It had been painted.  
@@ -140,8 +140,8 @@ _The children wait. Pip holds her four plain eggs._
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: putting things right, kindly  
 > **Byte**: The sign wasn’t true. How can we make it fair?  
 > - ✅ Tell the truth, kindly → Yes. Kind and true. That fixes things best.
-> - Shout at Dashwood → Shouting makes people sad and cross. Kind and true works better.
-> - Do nothing → Then Pip loses her Shells. Let’s be kind and true.
+> - Shout at Dashwood → Shout at Dashwood? Shouty-shout! All the wagon bells would jangle. Shouting makes people sad and cross. Kind and true works better.
+> - Do nothing → Do nothing? Then four plain eggs sit sadly in Pip’s lap. Then Pip loses her Shells. Let’s be kind and true.
 > _For grown-ups: Thought about how to make an unfair thing fair by being truthful and kind._
 
 
@@ -168,7 +168,7 @@ _The children wait. Pip holds her four plain eggs._
 
 #### `sprout:s15-odds-board` · [main](../../../side/S15.md#s15-odds-board)
 
-_Byte puts up a board. He writes in big chalk letters._  
+_Thump! Byte puts up a board. He writes in big chalk letters._  
 _PLAIN: 9 IN 10. SPARKLY: 1 IN 10._  
 
 > **Lesson** (maths, K.OA.A.1, do): 9 and 1 make 10  
@@ -188,7 +188,7 @@ _The last egg is wrapped in a red spotty hanky._
 _You unwrap it. It glows all over, like a pearl!_  
 **Jackpot**: THAT ONE IS REAL. I CHECKED. TWICE.  
 _A card says: For the Keeper. This one really is a winner._  
-_Jackpot hops onto your shoulder. Tick, tick._  
+_Jackpot hops onto your shoulder. Boing! Tick, tick._  
 **Jackpot**: I WOULD LIKE TO LIVE WITH YOU. I CANNOT LIE.  
 _Dashwood gave Pip the painted egg as he left._  
 _Pip takes the painted egg home in her hat._  

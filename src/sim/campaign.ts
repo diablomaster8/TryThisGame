@@ -1,5 +1,6 @@
 import { hasRoom, mossSeat } from './roster';
-import { CHAPTERS, type Choice } from '../config/story';
+import { CHAPTERS, LINE_ACT_FLAGS, type Choice } from '../config/story';
+import { noteByteRace } from './byte-watches';
 import { GROVE, STORY, TRUST } from '../config/tuning';
 import { endingScenes, followUps, openingFor, walkScene } from './campaign-routes';
 import { hatch } from './lifecycle';
@@ -376,6 +377,7 @@ export function noteCampaign(
       break;
     case 'raceEntered':
       noteSideRace(c);
+      noteByteRace(c);
       break;
     case 'expedition':
       c.stats.expeditions += 1;
@@ -707,6 +709,15 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
         noteSceneWords(world, lines, picked?.label ?? null, events);
       }
       for (const next of followUps(world, c, cmd.scene)) queueScene(c, next);
+      return;
+    }
+    case 'lineAct': {
+      // R0304: only an act the scene really has (in the version the player saw) sets its flag.
+      const c = world.campaign;
+      const flag = LINE_ACT_FLAGS[cmd.act];
+      const shown = sceneFor(world, cmd.scene);
+      if (!c || !flag || !shown?.lines.some((l) => l.act === cmd.act)) return;
+      c.flags[flag] = true;
       return;
     }
     case 'talk': {

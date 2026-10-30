@@ -18,7 +18,7 @@ _Gran Hazel is very poorly. The doctors can’t make her better._
 > _A year has twelve months. Gran has had fourteen._  
 > _Is fourteen more than twelve, or less?_  
 > - ✅ More → More! Two whole months more. I’m very pleased with myself.
-> - Less → Count on from twelve: thirteen, fourteen. Fourteen is more!
+> - Less → Less? Boing! The number hops up, not down. Count on from twelve: thirteen, fourteen. Fourteen is more!
 > _For grown-ups: Learned that a year has twelve months and compared fourteen with twelve._
 
 _Soon Gran will die. That means her body will stop working._  
@@ -46,7 +46,7 @@ _Soon Gran will die. That means her body will stop working._
 #### `sprout:s10-register` · [main](../../../side/S10.md#s10-register)
 
 _On the cover, under “Do not lend this to Byte”: NOTED. B._  
-_Gran reads your pages slowly. A finger under each line._  
+_Gran reads your pages slowly. Swish! A page turns._  
 **Gran Hazel**: Oh, what a funny name. I love it!  
 **Gran Hazel**: Write the weather too. You’ll want that, later.  
 _Under your last line, Gran writes one more._  
@@ -75,7 +75,7 @@ _“Keeper from this page on.” And then your name._
 
 **Sparks**: …Back row. Right.  
 **Gran Hazel**: Bring any Nubbin. Fast or slow. I don’t mind about winning.  
-**Sparks**: She does mind. She once threw a hat at the finish line!  
+**Sparks**: She does mind. Whoosh! She once threw a hat at the finish line!  
 **Gran Hazel**: It was a very small hat.  
 
 **Choices**
@@ -91,7 +91,7 @@ _The crowd roars! From the back row, one voice is loudest._
 _Sparks has lost her voice. She cheers with no sound!_  
 _In the back row sits a duck. A very sure duck._  
 **Gran Hazel**: Leave the duck. It paid for its seat!  
-_Your Nubbin crosses the line. Gran cheers with her mouth full of pie!_  
+_Your Nubbin crosses the line. Gran cheers, munch, munch, with a full mouth!_  
 _Win or lose, Gran stands up, beaming. Half a pie in her hand._  
 **Gran Hazel**: That one runs for you. That’s love. Never spend that.  
 _Then Gran sits down, all of a sudden. She is tired._  
@@ -146,7 +146,7 @@ _Gran holds your arm at the pond lantern._
 > _For grown-ups: Heard that waiting is hard, and that saying so is a first step to getting better at it._
 
 **Gran Hazel**: When the snow melted, Moss said, “You’ll do.” I sat right down!  
-**Gran Hazel**: Moss says I fell in the pond. I did not! I was paddling.  
+**Gran Hazel**: Moss says I fell in the pond. Splash! I did not! I was paddling.  
 **Gran Hazel**: Rule three. Moss taught it to me. Just by sitting.  
 
 #### `sprout:s10-lanterns` · [main](../../../side/S10.md#s10-lanterns)

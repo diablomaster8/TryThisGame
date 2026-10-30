@@ -19,8 +19,8 @@ _Pixel winds the nose. Wheee! He whistles like a happy kettle._
 > **Lesson** (literacy, RF.K.2, ask): first sounds: c  
 > **Clank**: Clank! C-c-clank! What else starts with that sound?  
 > - ✅ Cat → C-c-cat! Clank and cat start the same!
-> - Dog → D-d-dog starts with d. C-c-cat starts like Clank!
-> - Sun → S-s-sun starts with s. C-c-cat starts like Clank!
+> - Dog → A dog called Clank? Woof! Hee, hee! D-d-dog starts with d. C-c-cat starts like Clank!
+> - Sun → A sun called Clank? Whee, so bright! Hee, hee! S-s-sun starts with s. C-c-cat starts like Clank!
 > _For grown-ups: Heard the first sound of “Clank” and matched it with “cat”._
 
 **Clank**: You are my BEST FRIEND!  
@@ -32,14 +32,14 @@ _He rolls forward. Off the step. Bump! Into the herbs._
 #### `sprout:s21-tour` · [main](../../../side/S21.md#s21-tour)
 
 **Clank**: Announcement: this is a POND! This is a GATE! Best friend!  
-_Soon every Nubbin follows him in a line. Like ducklings!_  
+_Soon every Nubbin follows him in a line. Like ducklings! Peep, peep!_  
 _One climbs on his head. Then three more._  
 
 > **Lesson** (maths, K.OA.A.1, ask): add 3 more  
 > _One Nubbin, then three more. How many on Clank?_  
 > - ✅ 4 → FOUR! One and three more make four!
-> - 3 → Count them: one… then two, three, four. Four!
-> - 2 → More than that! One and three more make four.
+> - 3 → Three Nubbins? Peep! Count again, with fingers. Count them: one… then two, three, four. Four!
+> - 2 → Only two? Peep, peep! Two more are in the line. More than that! One and three more make four.
 > _For grown-ups: Added one and three more to make four._
 
 _He turns his light down low for them. They purr._  
@@ -58,7 +58,7 @@ _Mustard says MROWW. That means very, very cross._
 > **Lesson** (science, K-LS1-1, ask): what plants and animals need  
 > _Do cats need watering, like plants?_  
 > - ✅ No! Cats drink from a bowl → Right. Plants drink through their roots. Cats lap water from a bowl.
-> - Yes → Ha! No. Plants need watering. Cats drink from a bowl. And they hate baths.
+> - Yes → Water the cat? Splash! It would hiss like a kettle. Ha! No. Plants need watering. Cats drink from a bowl. And they hate baths.
 > _For grown-ups: Sorted out what plants need (watering) from what cats need (a drink from a bowl)._
 
 _Snip, snip, snip! Fern’s best apple tree is now a duck._  
@@ -70,7 +70,7 @@ _Round the pond zooms Clank, holding the little grey one like a pie._
 #### `sprout:s21-moss` · [main](../../../side/S21.md#s21-moss)
 
 _Clank reaches the cottage. And the step. Bump!_  
-_The little grey one flies out of his hands. He lands on his feet._  
+_The little grey one flies out. Whee! He lands on his feet._  
 **Clank**: Announcement… I found the step again.  
 _The little grey one gives you a long, long look._  
 _Then the little grey one walks back up the hill. Clank watches him go._  
@@ -79,7 +79,7 @@ _Then the little grey one walks back up the hill. Clank watches him go._
 > _Clank picked up the little grey one without asking. He didn’t like it._  
 > _What should we do before we pick someone up?_  
 > - ✅ Ask first → Yes! Always ask first. Then they can say yes or no.
-> - Just grab them → He didn’t like being grabbed. We always ask first, and listen.
+> - Just grab them → Just grab him? Whoosh! He’d be cross as a kettle. He didn’t like being grabbed. We always ask first, and listen.
 > _For grown-ups: Learned to ask before picking up a pet or a person, and to listen to the answer._
 
 **Pixel**: That’s two bumps.  
@@ -94,7 +94,7 @@ _Byte, Pixel’s husband, comes with a clipboard and a pencil behind each ear._
 **Byte**: Your clocks shout at me.  
 _Behind you, a little whistle starts, then stops._  
 _Clank heard. His light goes very dim._  
-_He rolls backwards, off the step. Bump. He doesn’t say a thing._  
+_He rolls backwards, off the step. Bump. Squeak. He doesn’t say a thing._  
 **Pixel**: …That’s three bumps.  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 3  
@@ -117,7 +117,7 @@ _Then he’s gone. A wheel-track leads to the lantern shed._
 
 #### `sprout:s21-shed` · [main](../../../side/S21.md#s21-shed)
 
-_The shed smells of old string. Clank is on a high shelf._  
+_Creak! The shed smells of old string. Clank is on a high shelf._  
 _He’s pretending to be a lantern. But lanterns don’t shake._  
 **Clank**: Announcement. I’m a lantern now. Nobody switches off a lantern.  
 **Clank**: I watered a cat. I made a duck tree. I zoomed the old one.  
@@ -147,7 +147,7 @@ _Click. Click. He looks for a word. He can’t find it._
 
 #### `sprout:s21-ramp` · [main](../../../side/S21.md#s21-ramp)
 
-_Next day, Byte comes with a plank and a saw._  
+_Next day, Byte comes with a plank and a saw. Buzz, buzz!_  
 **Byte**: I measured the step. It’s too tall for one wheel.  
 _Byte measures again. And again. Eleven times!_  
 **Byte**: Still too tall. I checked.  
@@ -156,8 +156,8 @@ _Byte measures again. And again. Eleven times!_
 > **Lesson** (science, K-2-ETS1-1, ask): solving a problem: a ramp helps wheels  
 > **Byte**: How can a wheel get down a step safely?  
 > - ✅ A ramp: a gentle slope → Yes. A ramp. The wheel rolls down slowly. No bump.
-> - Jump off → Bump! That’s what keeps happening. A gentle slope is better: a ramp.
-> - Fly → He hasn’t got wings. A ramp is a gentle slope he can roll down.
+> - Jump off → Jump off? Boing, bump! That keeps happening. Bump! That’s what keeps happening. A gentle slope is better: a ramp.
+> - Fly → Fly? Flap, flap! Clank has no wings. He hasn’t got wings. A ramp is a gentle slope he can roll down.
 > _For grown-ups: Worked out that a ramp solves the problem of a wheel and a step._
 
 **Byte**: All the Nubbins follow him everywhere. Eight out of eight. That matters.  
@@ -170,7 +170,7 @@ _The ramp is done. Small, smooth and safe._
 **Clank**: Announcement. I am going down.  
 **Clank**: Would somebody come with me? The first time?  
 _Byte holds one side. You hold the other._  
-_Down he goes. Slow as a snail. He reaches the bottom!_  
+_Down he goes. Slow as a snail. Whee! He reaches the bottom!_  
 **Clank**: I DID THE STEP! And I didn’t fall!  
 _He does a dance: forward, back, and a spin!_  
 
@@ -188,7 +188,7 @@ _Later, Byte says he didn’t. His shoelace has come undone._
 
 #### `sprout:s21-evening` · [main](../../../side/S21.md#s21-evening)
 
-_The afternoon turns gold. Clank sits by the ramp._  
+_The afternoon turns gold. Clank sits by the ramp. Squeak!_  
 
 > **Lesson** (science, 1-ESS1-1, notice): the sun is low in the evening  
 > _In the evening, the sun sits low in the sky._  
@@ -213,7 +213,7 @@ _One sits on his wheel. One curls up inside his glass tummy._
 > Check: `edu:count:nubbins:8`
 > _For grown-ups: Counted eight Nubbins snuggled on Clank._
 
-_One Nubbin licks Clank’s nose. Not supper!_  
+_Slurp! One Nubbin licks Clank’s nose. Not supper!_  
 **Clank**: Announcement.  
 **Clank**: I am being very still.  
 _He is. For a whole hour. You sit beside him._  

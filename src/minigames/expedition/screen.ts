@@ -39,6 +39,9 @@ export class ExpeditionScreen {
   private loading3d = false;
   private readonly abort = new AbortController();
 
+  /** R0318: a loading tip under "Setting the stage…", set before `start`. */
+  loadTip = '';
+
   constructor(parent: HTMLElement) {
     this.root = el('div', 'expedition');
     this.root.hidden = true;
@@ -226,7 +229,9 @@ export class ExpeditionScreen {
   private updateHud(run: RunState, live: boolean): void {
     this.hud.textContent = live
       ? `🐚 ${run.shells}  ·  ${Math.max(0, Math.ceil((EXPEDITION.durationMs - run.timeMs) / 1000))}s`
-      : UI_TEXT.stageLoading;
+      : this.loadTip
+        ? `${UI_TEXT.stageLoading} ${this.loadTip}`
+        : UI_TEXT.stageLoading;
   }
 
   private showResults(rewards: Rewards): void {

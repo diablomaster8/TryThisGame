@@ -4,12 +4,13 @@ import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
 import { Y_STATE } from './dress-y-state';
 import { LOOK_STATE, nubbinSits, storyId } from '../config/npc-looks';
-import { DUNGEON, EGG, LIFECYCLE, UI } from '../config/tuning';
+import { DUNGEON, EGG, FERN_STONE, LIFECYCLE, UI } from '../config/tuning';
 import { childHint } from '../sim/alignment';
 import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { rumbleOpen } from '../sim/dungeon-rumble';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
@@ -36,6 +37,7 @@ import { windSway } from './wind-px';
 import { neighbourGarden } from '../sim/neighbourhood';
 import { isMerged } from '../sim/partners';
 import { visibleStoryProps } from '../sim/story-props';
+import { fernStones } from '../sim/fern-stone';
 import { townUnlocks } from '../sim/town';
 import { Particles } from './particles';
 import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
@@ -878,6 +880,28 @@ export class WorldView {
         { id: p.id, kind: 'storyProp' },
       );
     }
+    // R0313: Fern's cairn by the signpost, one stone a chapter, the faced one on top.
+    const cairn = home && !bare ? fernStones(world) : 0;
+    const faced = props.frames.get(frameKey('prop-fernStone', 'front', 0));
+    const flat = props.frames.get(frameKey('prop-flatStone', 'front', 0));
+    for (let i = 0; i < cairn && faced && flat; i++) {
+      const top = i === cairn - 1;
+      batch.draw(
+        {
+          sheet: props,
+          rect: top ? faced! : flat!,
+          flip: false,
+          x: FERN_STONE.x + ((i * 37) % 7) * 0.02 - 0.06,
+          y: i * 0.13,
+          z: FERN_STONE.z,
+          mode: 'billboard',
+          w: top ? 0.42 : 0.5 - i * 0.02,
+          h: top ? 0.32 : 0.2,
+          tint: this.lightAt(FERN_STONE.x, FERN_STONE.z),
+        },
+        { id: FERN_STONE.id, kind: 'storyProp' },
+      );
+    }
     for (const m of home && !bare ? world.memorials : []) {
       if (flower) {
         const spot = memorialSpot(world, m);
@@ -1393,6 +1417,26 @@ export class WorldView {
         },
         { id: 'chest', kind: 'chest' },
       );
+    }
+    // Lane B round 5: a rumble room's doorway glows until it is won (R0282).
+    const door = crystal ? rumbleOpen(run, f) : null;
+    if (door && crystal) {
+      const glow = this.particles.reduceMotion ? 1.4 : 1.4 + 0.25 * Math.sin(nowMs / 260);
+      for (const c of door.door) {
+        const p = cellCentre(f, c);
+        batch.draw({
+          sheet,
+          rect: crystal,
+          flip: false,
+          x: p.x,
+          y: 0.02,
+          z: p.z,
+          mode: 'flat',
+          w: cell * 0.8,
+          h: cell * 0.8,
+          tint: glow,
+        });
+      }
     }
     // Loot bobs gently until someone walks over it.
     for (const l of f.loot) {

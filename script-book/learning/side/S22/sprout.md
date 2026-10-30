@@ -15,7 +15,7 @@ _Nova waits at the bottom with a rope and a bag of oatcakes._
 **Nova**: I asked you for help once. It went well. So here I am!  
 _Next to her sits a little shadow, the size of a cat._  
 _It looks just like Nova. Same hair. Same boots._  
-_It has a tiny rope too, and it trips on it. Flop!_  
+_It has a tiny rope too, and it trips on it. Thump!_  
 **Nova’s Worry**: What if you slip?  
 **Nova**: …You can see it? Nobody ever sees it!  
 **Nova**: It’s my Worry. It talks to me. It’s mostly right. Annoying!  
@@ -30,7 +30,7 @@ _It has a tiny rope too, and it trips on it. Flop!_
 
 #### `sprout:s22-scree` · [main](../../../side/S22.md#s22-scree)
 
-_The little stones slide under your feet. Clatter, clatter!_  
+_The little stones slide under your feet. Crunch, crunch!_  
 **Nova**: ♪ Little stones, little stones, sliding under my toes! ♪  
 **Nova**: ♪ I’m going up, but I’m sliding down, and that’s how it goes! ♪  
 _She sings it again. And again. And again!_  
@@ -67,7 +67,7 @@ _Far below, a big bird called a buzzard flies round and round._
 > **Lesson** (maths, K.G.A.1, ask): above and below  
 > _Is the buzzard above you, or below you?_  
 > - ✅ Below → Below! We’re higher than a bird. Wow.
-> - Above → Look down… it’s below us! We’re higher than the bird.
+> - Above → Above? Whee! We’d be up with the clouds. Look down… it’s below us! We’re higher than the bird.
 > _For grown-ups: Used “above” and “below” to say where the bird was._
 
 
@@ -129,13 +129,13 @@ _The Worry takes her hand. It gets smaller. Not gone. Smaller._
 > _(Ask: who could you tell a worry to? Wait for an answer.)_  
 > _For grown-ups: Saw a worry shrink when it was held gently, and named someone they could tell a worry to._
 
-_They cross together. Nova sings. A second voice joins in, very flat._  
+_They cross together. Nova sings. A second voice joins in, very flat. Hee, hee!_  
 **Nova**: You can SING?  
 **Nova’s Worry**: I always could. You never asked.  
 
 #### `sprout:s22-scramble` · [main](../../../side/S22.md#s22-scramble)
 
-_The last bit is a climb on hands and knees._  
+_Thump, thump! The last bit is a climb on hands and knees._  
 _Up here the air is very cold. The snow never melts._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): high up on a mountain it is colder  
@@ -148,7 +148,7 @@ _At the top is a point of rock, as big as a kitchen table._
 
 #### `sprout:s22-summit` · [main](../../../side/S22.md#s22-summit)
 
-_From the top of the Tooth, you can see everything!_  
+_Whee! From the top of the Tooth, you can see everything!_  
 _The waterfall, like a white thread. Marina’s pools, like coins._  
 _And the Grove: the pond, the cottage, four tiny lantern posts._  
 
@@ -167,7 +167,7 @@ _Nova sits down. The Worry sits next to her, holding her hand._
 
 #### `sprout:s22-complete` · [main](../../../side/S22.md#s22-complete)
 
-_Going down is quicker, and much more slippy._  
+_Whee! Going down is quicker, and much more slippy._  
 _Nova and the Worry sing all the way._  
 _At the bottom, Nova opens the bag of oatcakes._  
 _Squish! They are all flat._  
@@ -177,8 +177,8 @@ _The Worry looks at the sky._
 > **Lesson** (maths, K.CC.B.4, ask): one each: counting to share fairly  
 > **Nova**: Three of us: me, you, and my Worry. How many oatcakes do we need?  
 > - ✅ 3 → Three! One each. Fair and square.
-> - 2 → Let’s count: one for me, one for you, one for the Worry. Three!
-> - 5 → That’s extra! One each makes three.
+> - 2 → Two oatcakes? Crunch! One for me, one for you, one for the Worry. Let’s count: one for me, one for you, one for the Worry. Three!
+> - 5 → Five oatcakes? Munch, munch! That’s too many. That’s extra! One each makes three.
 > _For grown-ups: Matched one oatcake to each of three friends to share fairly._
 
 **Nova**: Keep the flag. And my spare boots. I won’t need spares.  

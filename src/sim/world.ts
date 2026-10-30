@@ -56,6 +56,7 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -84,6 +85,7 @@ import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -103,6 +105,8 @@ import {
   setDungeonLoading,
   stepDungeon,
 } from './dungeon';
+import { calmStray } from './dungeon-strays';
+import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -312,9 +316,8 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
-  // Lane B: a Hollow bout that just ended finishes its encounter on the floor.
-  if (world.dungeon?.encounter && events.length > start)
-    hollowBattleEnded(world, events.slice(start), events);
+  // Lane B: a Hollow bout that just ended finishes its encounter, calm bout or rumble room.
+  if (world.dungeon && events.length > start) hollowBattleEnded(world, events.slice(start), events);
   // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
@@ -757,6 +760,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'enterMouth':
       enterMouth(world, events);
       return;
+    // Lane B round 5: the stray's choice (R0281).
+    case 'strayCalm':
+      calmStray(world, cmd.id, events);
+      return;
+    case 'equipGear':
+      equipGear(world, cmd.itemId, cmd.nubbinId);
+      return;
+    case 'unequipGear':
+      unequipGear(world, cmd.itemId);
+      return;
     case 'stash':
       useStash(world, cmd.amount, events);
       return;
@@ -986,6 +999,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'campaignStart':
     case 'sceneDone':
+    case 'lineAct':
     case 'talk':
     case 'lightLantern':
     case 'debugChapter':
@@ -997,7 +1011,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
+      // R0313: except Fern's stone, a running gag of its own.
+      tapFernStone(world, cmd.prop, events);
       return;
+    case 'tapToy': {
+      // R0322: a face only; the tap toy never touches needs or stats.
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n && n.stage !== 'egg' && n.stage !== 'cocoon')
+        react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
+      return;
+    }
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
@@ -1071,7 +1094,7 @@ export function stepWorld(
     // MOVE-63: the hop course's flags and timer.
     if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
-    stepNpcs(world, dtMs, rng);
+    stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
@@ -1094,6 +1117,7 @@ export function stepWorld(
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

@@ -16,11 +16,11 @@ _Nova steps out of the trees._
 > **Lesson** (maths, K.CC.C.6, ask): more and fewer  
 > **Nova**: Nineteen Nubbins. Twelve bowls. Are there more Nubbins, or more bowls?  
 > - ✅ More Nubbins → Yes. Nineteen is more than twelve. Not enough bowls!
-> - More bowls → Twelve is fewer than nineteen. So there were more Nubbins than bowls.
+> - More bowls → More bowls than Nubbins? Clink, clink! Bowls would be left over! Twelve is fewer than nineteen. So there were more Nubbins than bowls.
 > _For grown-ups: Compared nineteen and twelve to see which is more._
 
 **Nova**: So she carried food further in.  
-_A firefly lands on the notebook. Blink, blink!_  
+_A firefly lands on the notebook. Plop! Blink, blink!_  
 _You blink back. The firefly flies off._  
 **Nova**: The fireflies go the same way every night.  
 **Nova**: Bring fruit. Walk slowly. Slower than that.  
@@ -35,7 +35,7 @@ _(Walk your fingers on your knee. Slow… slower… slower than that!)_
 
 #### `sprout:s8-ring` · [main](../../../side/S08.md#s8-ring)
 
-_The fireflies stop over a ring of old roots._  
+_Creak! The fireflies stop over a ring of old roots._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): fireflies make their own light  
 > **Nova**: Fireflies are little beetles. They make their own light!  
@@ -58,7 +58,7 @@ _You step towards the roots. Every grey head turns. Swish!_
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): respecting other people’s homes  
 > **Nova**: You visit a friend’s home. What do you do first?  
 > - ✅ Knock, and wait to be asked in → Yes. Knock and wait. That’s respect.
-> - Walk straight in → That might scare them. We knock and wait to be asked in.
+> - Walk straight in → Walk straight in? Stomp, stomp! They might hide behind a leaf. That might scare them. We knock and wait to be asked in.
 > _For grown-ups: Talked about knocking and waiting to be invited into someone’s home._
 
 **You**: How did Gran feed them?  
@@ -78,7 +78,7 @@ _The thin one’s ear folds at the tip. Like the Old Girl’s!_
 #### `sprout:s8-gap` · [main](../../../side/S08.md#s8-gap)
 
 _On the third night, the Old Girl stands up._  
-_She steps aside. There’s a gap, just for you!_  
+_She steps aside. Swish! There’s a gap, just for you!_  
 **Nova**: I sit by these roots whenever I pass. She never did that for me!  
 _The Old Girl’s ribbon is brown. A leaf is sewn on it._  
 _The leaf has five points and a curly stem._  
@@ -93,7 +93,7 @@ _You’ve seen that leaf before. On Fern’s gloves! On Fern’s gate!_
 
 #### `sprout:s8-fern-gate` · [main](../../../side/S08.md#s8-fern-gate)
 
-_Fern is at her gate, sewing a leaf on a glove._  
+_Creak! Fern is at her gate, sewing a leaf on a glove._  
 **Fern**: I put leaves on everything. Once I put one on a ribbon.  
 **Fern**: That was for Bramble, my Nubbin.  
 
@@ -101,8 +101,8 @@ _Fern is at her gate, sewing a leaf on a glove._
 > _(Say it slowly: b-b-Bramble.)_  
 > _Which word starts with “b” too?_  
 > - ✅ Ball → Yes! B-b-ball, b-b-Bramble.
-> - Fish → Fish starts with “fff”. Ball starts with “b”, like Bramble!
-> - Sun → Sun starts with “sss”. Ball starts with “b”, like Bramble!
+> - Fish → Fish for Bramble? Splash! A ball with fins? Hee! Fish starts with “fff”. Ball starts with “b”, like Bramble!
+> - Sun → Sun for “ball”? A sun bouncing down the lane! Boing! Sun starts with “sss”. Ball starts with “b”, like Bramble!
 > _For grown-ups: Matched the first sound “b” in Bramble and ball._
 
 **Fern**: At a race, long ago, she fell at the cliff bend.  
@@ -152,7 +152,7 @@ _Nobody moves._
 _Then Bramble walks out. Step by step. All the way to Fern._  
 _Bramble says nothing. She leans on Fern’s leg._  
 **Fern**: I’m sorry I stopped looking. I’m so sorry.  
-_Bramble sits down on Fern’s boots. Both boots! And she stays._  
+_Bramble sits down on Fern’s boots. Plop! Both boots! And she stays._  
 **Fern**: I’m going to cry now. Happy crying. Hold my gloves!  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): happy tears  
@@ -196,7 +196,7 @@ _Gran sits by the pond, holding a thin grey baby._
 **Gran Hazel**: Did she? Oh, Fern.  
 **Gran Hazel**: Take this little one home, love.  
 _At the ring, the little one sees her mum. She wiggles with joy!_  
-_Bramble washes her, ear to ear._  
+_Slurp! Bramble washes her, ear to ear._  
 
 > **Lesson** (science, 1-LS1-2, notice): animal parents look after their babies  
 > _Many animal mums and dads look after their babies._  
@@ -222,7 +222,7 @@ _Fern sits beside her. She has been there all morning._
 
 **Gran Hazel**: Take this little one home, love.  
 _At the ring, the little one sees her mum. She wiggles with joy!_  
-_Bramble washes her, ear to ear._  
+_Slurp! Bramble washes her, ear to ear._  
 _Then Bramble drops her old ribbon at your feet. A thank-you._  
 **Nova**: That’s you invited. Come any time. Bring soft fruit.  
 

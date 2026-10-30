@@ -13,7 +13,7 @@ _Sparks arrives with wire looped over both shoulders._
 **Sparks**: Job up the river! A sawmill needs lights!  
 **Sparks**: I need someone to hold the ladder and say “wow”.  
 **Clover**: I’m not good with ladders. I’m good at not falling off.  
-_You can hear the saws far away. Bzzz! Like wasps._  
+_You can hear the saws far away. Buzz! Like wasps._  
 
 > **Lesson** (literacy, RL.1.4, do): sound words  
 > _(Make the saw sound together: bzzzzz!)_  
@@ -29,7 +29,7 @@ _You can hear the saws far away. Bzzz! Like wasps._
 _The Workyard! Sheds, logs and lots of busy Nubbins._  
 _Each one wears a tiny yellow hard hat._  
 _A sign says: WORK IS PLAY!_  
-_Three Nubbins run inside a big wooden wheel. Round and round._  
+_Squeak, squeak! Three Nubbins run inside a big wooden wheel. Round and round._  
 **Brisk Hollins**: Welcome! I’m Brisk Hollins! My Nubbins love working!  
 _A big Nubbin carries a log on his back. He hums. That’s Lug._  
 **Brisk Hollins**: Lug’s my best worker. I can’t stop him!  
@@ -39,15 +39,15 @@ _Behind the logs sit five Nubbins. Their colours look faded._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): tired bodies need rest  
 > **Clover**: What does a tired body need?  
 > - ✅ Rest → Yes. Rest helps a tired body feel better.
-> - More work → More work makes tired bodies more tired. Rest helps.
-> - Run faster → Running makes us puff! A tired body needs rest.
+> - More work → More work? Puff, huff! The tired ones would flop flat. More work makes tired bodies more tired. Rest helps.
+> - Run faster → Run faster? Puff, puff! A tired body would flop. Running makes us puff! A tired body needs rest.
 > _For grown-ups: Learned that when our bodies are tired, they need rest._
 
 
 #### `sprout:s16-shadow` · [main](../../../side/S16.md#s16-shadow)
 
 **Brisk Hollins**: Tired? Nonsense! Look at my chart!  
-_His chart line goes up so high it runs off the paper!_  
+_Whoosh! His chart line goes up so high it runs off the paper!_  
 **Clover**: That chart is about logs. I’m asking about Nubbins.  
 **Sparks**: Brisk, what do they do when nobody’s watching?  
 _Brisk opens his mouth. Then he shuts it. He doesn’t know!_  
@@ -74,7 +74,7 @@ _Brisk opens his mouth. Then he shuts it. He doesn’t know!_
 #### `sprout:s16-notes` · [main](../../../side/S16.md#s16-notes)
 
 _By sunset, your clipboard is full._  
-_The choppers chop even on their breaks. They like the thunk!_  
+_The choppers chop even on their breaks. They like the thump!_  
 _The wheel runners sneak out and hide under the bench._  
 _The five tired ones just lie in the sun._  
 _And Lug carries little planks out to the reeds._  
@@ -86,8 +86,8 @@ _The five tired Nubbins are asleep inside._
 > **Lesson** (sel, CASEL: Social awareness, ask): noticing kindness and how others feel  
 > **Clover**: How do the tired Nubbins feel in their little house?  
 > - ✅ Safe and cosy → Yes. Lug made them feel safe. That’s real kindness.
-> - Cross → I don’t think so. They’re snoozing! They feel safe and cosy.
-> - Scared → Look how they snuggle. They feel safe. Lug was kind.
+> - Cross → Cross faces, all snoring? Hee, hee! I don’t think so. They’re snoozing! They feel safe and cosy.
+> - Scared → Scared, and snuggled in a heap? Hee, no! Look how they snuggle. They feel safe. Lug was kind.
 > _For grown-ups: Noticed a kind act and thought about how it made others feel._
 
 
@@ -96,7 +96,7 @@ _The five tired Nubbins are asleep inside._
 _You show Brisk the clipboard. And Lug’s little house._  
 **Brisk Hollins**: I thought they loved it. They were always so busy.  
 **Brisk Hollins**: Busy isn’t the same as happy, is it?  
-_He takes down WORK IS PLAY. He puts up a new sign._  
+_Creak! He takes down WORK IS PLAY. He puts up a new sign._  
 _It says: WORK IS… OFTEN PLAY!_  
 **Sparks**: That’s worse.  
 **Brisk Hollins**: I know. I’m working on it.  
@@ -129,7 +129,7 @@ _Then it sits in the sun. Nobody stops it!_
 
 #### `sprout:s16-question` · [main](../../../side/S16.md#s16-question)
 
-_Brisk walks you to the river path._  
+_Brisk walks you to the river path. Splish, splash!_  
 **Brisk Hollins**: Can I ask you something, Keeper?  
 **Brisk Hollins**: Your Nubbins fetch you apples. Do you ask them first?  
 _You think about your Nubbins. They bring you apples. They look happy._  
@@ -138,8 +138,8 @@ _You think about your Nubbins. They bring you apples. They look happy._
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking first; letting others say yes or no  
 > **Brisk Hollins**: Before a friend helps you, what can you say?  
 > - ✅ “Would you like to help?” → Yes! Ask first. Then they can say yes, or no thank you.
-> - “Do it now!” → That’s a bit bossy, isn’t it? Asking first is kinder.
-> - Say nothing → Then they never get to choose. Ask first!
+> - “Do it now!” → “Do it now!” Squeak! That sounds like a bossy trumpet. That’s a bit bossy, isn’t it? Asking first is kinder.
+> - Say nothing → Say nothing? Shh… and nobody gets a say. Then they never get to choose. Ask first!
 > _For grown-ups: Practised asking before someone helps, so they can choose yes or no._
 
 **Brisk Hollins**: Me neither. Now, the five tired ones. What shall I do?  
@@ -161,7 +161,7 @@ _You think about your Nubbins. They bring you apples. They look happy._
 
 _A week later, the Workyard is louder. And slower._  
 _Everybody stops for fruit, morning and afternoon._  
-_Someone has hung up a hammock!_  
+_Someone has hung up a hammock! Creak, creak!_  
 _The new sign says: ASK FIRST._  
 **Brisk Hollins**: Fewer logs. But the lights stay on! The water wheel does it.  
 
@@ -176,14 +176,14 @@ _Lug walks past with a log, humming. He just likes it._
 #### `sprout:s16-complete` · [main](../../../side/S16.md#s16-complete)
 
 **Brisk Hollins**: Here! Every Keeper needs a hard hat.  
-_A yellow hard hat, just your size._  
+_Plop! A yellow hard hat, just your size._  
 _On the brim, in Lug’s pencil: KEEPER._  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds: k  
 > **Sparks**: KEEPER! What sound does KEEPER start with?  
 > - ✅ “k”, like kite → Yes! K-k-keeper. Like kite and kitten!
-> - “s”, like sun → Listen: k-k-keeper. It starts with k, like kite!
-> - “m”, like Moss → M is for Moss! Keeper starts with k-k-k.
+> - “s”, like sun → Keeper in a sun hat? Hee, hee! Listen: k, k, kite. Listen: k-k-keeper. It starts with k, like kite!
+> - “m”, like Moss → Keeper like Moss? Hee! Moss starts with mmm. M is for Moss! Keeper starts with k-k-k.
 > _For grown-ups: Heard the first sound “k” in the word “Keeper”._
 
 **Brisk Hollins**: Try the Fair Roster at the Grove. Let them pick.  

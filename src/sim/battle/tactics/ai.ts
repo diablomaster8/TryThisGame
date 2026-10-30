@@ -10,12 +10,13 @@
 import { TACTICS } from '../../../config/tuning-tactics';
 import { Rng } from '../../rng';
 import { damageWith, standing } from '../damage';
-import { moveById } from '../moves';
+import { moveById } from './engine';
 import { zipOf } from '../status';
 import type { AiLevel, MoveDef } from '../types';
 import {
   activeUnit,
   affected,
+  chargeTiles,
   hitChance,
   hitMult,
   mapOf,
@@ -23,7 +24,10 @@ import {
   reachOf,
   setAiHook,
   tacticsAct,
+  togetherMates,
+  unitOf,
 } from './engine';
+import { comboFor, comboMove } from './combos';
 import { dirTo, DIRS } from './facing';
 import { heightAt, N4, tileAt } from './map';
 import { canAim, gridOf, manhattan } from './range';
@@ -44,7 +48,7 @@ const alive = (u: TUnit) => standing(u.c);
 /** Expected damage foes can do to `u` standing at each tile next turn, cached per decision. */
 function threatMap(s: TacticsState, u: TUnit): (c: Cell) => number {
   const bonk = moveById('bonk')!;
-  const foes = s.units.filter((e) => alive(e) && e.c.side !== u.c.side && !e.ward);
+  const foes = s.units.filter((e) => alive(e) && e.c.side !== u.c.side && !e.ward && !e.keeper);
   const per = foes.map((e) => ({ e, dmg: damageWith(e.c, u.c, bonk, false, 1).dmg }));
   const cache = new Map<number, number>();
   return (c) => {
@@ -107,9 +111,18 @@ function objectiveTile(s: TacticsState, u: TUnit): Cell | null {
 function options(s: TacticsState, u: TUnit, level: AiLevel): Option[] {
   const m = mapOf(s);
   const threat = threatMap(s, u);
-  const foes = s.units.filter((e) => alive(e) && e.c.side !== u.c.side && !e.ward);
+  const foes = s.units.filter((e) => alive(e) && e.c.side !== u.c.side && !e.ward && !e.keeper);
   const allies = s.units.filter((e) => alive(e) && e.c.side === u.c.side);
   const goal = objectiveTile(s, u);
+  // FIGHT-67: a Keeper or Champion sees the other side's dashed outlines and steps out of them.
+  const danger =
+    level === 'sprout'
+      ? new Set<string>()
+      : new Set(
+          chargeTiles(s)
+            .filter((c) => unitOf(s, c.by)?.c.side !== u.c.side)
+            .map((c) => `${c.x},${c.y}`),
+        );
   const near = (c: Cell) =>
     goal ? manhattan(c, goal) : foes.reduce((b, e) => Math.min(b, manhattan(c, e)), 99);
   const tiles = s.moved ? [{ x: u.x, y: u.y }] : [...reachOf(s, u).tiles];
@@ -128,6 +141,7 @@ function options(s: TacticsState, u: TUnit, level: AiLevel): Option[] {
     let base = -W.threat * (threat(t) / Math.max(1, u.c.hp)) + W.height * 0.25 * dh;
     base -= 0.02 * near(t);
     if (goal && t.x === goal.x && t.y === goal.y) base += W.objective;
+    if (danger.has(`${t.x},${t.y}`)) base -= W.charge;
     if (u.c.side === 1 && s.objective.kind === 'protectPlot' && tileAt(m, t.x, t.y) === TILE.plot)
       base += W.objective * 0.5;
     out.push({ tile: t, act: null, score: base });
@@ -148,6 +162,24 @@ function options(s: TacticsState, u: TUnit, level: AiLevel): Option[] {
             });
         }
       }
+      // "Together!" (FIGHT-57): a foe next to this tile and a friend at 60 beside it. The
+      // combo is scored like any move, plus a nudge so friends actually use it.
+      for (const f of foes) {
+        if (manhattan(t, f) !== 1) continue;
+        for (const mate of togetherMates(s, f)) {
+          evals++;
+          const partner = s.units.find((v) => v.c.id === mate)!;
+          const def = comboMove(comboFor(u.c.type, partner.c.type));
+          // A support combo (High Five) pumps both friends, which scoreMove can't see from the foe.
+          const sc = scoreMove(s, u, def, f, level) + W.combo + (def.kind === 'support' ? 0.3 : 0);
+          out.push({
+            tile: t,
+            act: { k: 'together', with: mate, x: f.x, y: f.y },
+            score: base + sc,
+          });
+        }
+      }
+
       // Lanterns: the Keeper's side relights, the foes blow them out (holdLanterns).
       if (s.objective.kind === 'holdLanterns')
         for (const d of N4) {

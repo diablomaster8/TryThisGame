@@ -11,7 +11,7 @@
 
 **Marina**: Come and see something.  
 _Marina’s rock pools step down like bowls._  
-_Half of them are dry. No water at all._  
+_Half of them are dry. Just a drip, drip._  
 **Marina**: The stream fills my pools. This summer it gives less.  
 **Marina**: And the water is cold. Cold, in July!  
 **Marina**: Hazel painted a line by the waterfall. Go and look.  
@@ -21,7 +21,7 @@ _Half of them are dry. No water at all._
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling: worried  
 > _Marina keeps looking and looking. How does she feel?_  
 > - ✅ Worried → Yes. I’m worried. A friend checking helps.
-> - Silly → Not silly. Worried. When we worry, a friend can help.
+> - Silly → Silly, like a hat made of water? Hee! Marina is worried. Not silly. Worried. When we worry, a friend can help.
 > _For grown-ups: Named the feeling worried, and heard that a friend’s help eases worry._
 
 **Marina**: Mind the moss on the rocks. Not that Moss! The slippy kind.  
@@ -35,7 +35,7 @@ _The water is a hand below the line._
 > **Lesson** (maths, K.MD.A.2, ask): higher and lower; measuring with a hand  
 > **Marina**: Is the water higher or lower than the line?  
 > - ✅ Lower → Yes. Lower, by a whole hand. (Show a hand’s width.)
-> - Higher → Look again. The line is up here. The water is down there. Lower!
+> - Higher → Higher? Whee! The water would float up in the sky. Look again. The line is up here. The water is down there. Lower!
 > _For grown-ups: Compared heights (higher, lower) and measured a gap with a hand._
 
 _Your Nubbin dips a paw in. Brr! It looks at you._  
@@ -69,7 +69,7 @@ _It kicks. It doesn’t sink!_
 
 #### `sprout:s4-dam` · [main](../../../side/S04.md#s4-dam)
 
-_Your swimmer comes back. Shake, shake! You get wet._  
+_Splash! Your swimmer comes back. Shake, shake! You get wet._  
 _In its fur: a grey thread and a bit of new cement._  
 _Up the stream is a new stone wall. It holds the water back._  
 
@@ -91,12 +91,12 @@ _There are swimming lanes, and a sign: NO SPLASHING._
 _By the falls, a thin ledge goes behind the water._  
 **Marina**: Back to the rock. Eyes on my heels. Stay close.  
 **Marina**: Rule five: don’t be me when I was little.  
-**Marina**: I ran on the wet rocks. Splat! Every time.  
+**Marina**: I ran on the wet rocks. Splat! Splash! Every time.  
 
 > **Lesson** (health, CASEL: Responsible decision-making, ask): staying close to a grown-up near water  
 > **Marina**: Near water, where do we stay?  
 > - ✅ Close to a grown-up → Yes. Close to me, all the way.
-> - Run on ahead → Not near water. Wet rocks are slippy. We stay close to a grown-up.
+> - Run on ahead → Run on ahead? Splat, splash! Wet rocks are slippy as soap. Not near water. Wet rocks are slippy. We stay close to a grown-up.
 > _For grown-ups: Talked about staying close to a grown-up near water._
 
 
@@ -164,7 +164,7 @@ _The waterfall sounds bigger now. Deep and full._
 > **Lesson** (music, ask): louder and quieter sounds  
 > **Marina**: Is the waterfall louder now, or quieter?  
 > - ✅ Louder → Yes! More water, more noise. Roar!
-> - Quieter → Listen again. More water is falling. It’s louder!
+> - Quieter → Quieter? Shh! Then you’d hear a mouse, not a waterfall. Listen again. More water is falling. It’s louder!
 > _For grown-ups: Listened and compared louder and quieter sounds._
 
 _The guard mumbles, “Got it. Thank you.” Then he snores again._  
@@ -191,7 +191,7 @@ _It’s an egg! A pearl-white egg!_
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): animals that hatch from eggs  
 > **Marina**: Lots of animals hatch from eggs. Which one does?  
 > - ✅ A duck → Yes! Ducklings hatch from eggs. So do Nubbins!
-> - A kitten → Kittens grow inside their mum, not in an egg. Ducks hatch from eggs!
+> - A kitten → A kitten in an egg? Crack… miaow! That would be silly! Kittens grow inside their mum, not in an egg. Ducks hatch from eggs!
 > _For grown-ups: Learned that some animals, like ducks, hatch from eggs._
 
 **Marina**: Oh, you beauty! It’s yours. You opened the gate.  

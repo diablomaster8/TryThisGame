@@ -204,7 +204,7 @@ const C9: EduScene[] = [
         [N('Your Nubbin is quiet when it naps.'), N('Is it quiet when it is sad, too?')],
         [
           opt('Yes. Quiet can be calm or sad', [N('Yes. Look at faces to tell which.'), N('A cosy face is calm. A droopy face is sad.')], true),
-          opt('No. Quiet is always happy', [N('Not always. Sometimes quiet is sad.'), N('Look at the face to tell.')]),
+          opt('No. Quiet is always happy', [N('Always happy and quiet? Like a statue with a smile!'), N('Sometimes quiet is sad.'), N('Look at the face to tell.')]),
         ],
         'Your child learned that being quiet can mean calm or sad, and that faces help us tell.',
       ),
@@ -223,7 +223,7 @@ const C9: EduScene[] = [
         [N('Look at the grey Nubbins. Heads down. Very still.'), N('How do you think they feel?')],
         [
           opt('Quiet and sad', [N('Yes. They are safe, but they are not happy.'), N('Safe is not the same as happy.')], true),
-          opt('Happy and playful', [N('Look again: no wiggles, no games. They look sad.'), N('Safe is not the same as happy.')]),
+          opt('Happy and playful', [N('Happy, playful Nubbins would wiggle and hop! Boing!'), N('Look again: no wiggles, no games. They look sad.'), N('Safe is not the same as happy.')]),
         ],
         'Your child read how someone feels from the way they look and move.',
       ),
@@ -283,7 +283,7 @@ const C9: EduScene[] = [
         [N('Corvin’s hands are freezing. What could help warm them?')],
         [
           opt('Gloves, or tucking them somewhere warm', [N('Yes! Gloves, pockets and armpits keep hands warm. Look, Corvin is trying it.')], true),
-          opt('Holding a snowball', [N('Brrr! A snowball makes hands colder. Gloves and warm pockets help.')]),
+          opt('Holding a snowball', [N('A snowball? Brrr! Corvin’s hands would turn to ice lollies!'), N('Gloves and warm pockets help.')]),
         ],
         'Your child thought about how to keep the body warm in cold weather.',
       ),
@@ -294,7 +294,7 @@ const C9: EduScene[] = [
     [
       N('Ember and Ash walk down the road. Corvin calls your name.'),
       CORVIN('Wait. Take this too.', 'think'),
-      N('He throws you a little tin. You catch it. Gasp!'),
+      N('He throws you a little tin. Thump! You catch it. Gasp!'),
       N('It is so cold! It is fuzzy with frost.'),
       CORVIN('It never helped anything that mattered. Take it away.'),
       N('He wipes his hand on his coat, hard.'),
@@ -309,7 +309,7 @@ const C9: EduScene[] = [
         [N('Corvin says, “Mind the ice.” Why do we walk slowly on ice?')],
         [
           opt('Because ice is slippery', [N('Yes. Ice is smooth and slippery. Small, slow steps keep us on our feet.')], true),
-          opt('Because ice is sticky', [N('Ice isn’t sticky, it’s slippery! Feet slide on it, so we go slowly.')]),
+          opt('Because ice is sticky', [N('Sticky ice, like jam on toast? Hee, hee!'), N('Ice is slippery! Feet slide on it, so we go slowly.')]),
         ],
         'Your child learned that ice is slippery and how to move safely on it.',
       ),
@@ -319,7 +319,7 @@ const C9: EduScene[] = [
     'c9-shard-forced',
     [
       N('All the grey Nubbins are gone. Corvin sits on the cold ground.'),
-      N('Bump! Everyone ran past him at once.'),
+      N('Bonk! Everyone ran past him at once.'),
       N('Something fell out of his coat. A little tin.'),
       N('Frost grows out from it, white and sparkly.'),
       CORVIN('Leave that!', 'shock'),
@@ -338,7 +338,7 @@ const C9: EduScene[] = [
         [N('Ember is worried. She holds your arm.'), N('What helps when you feel worried?')],
         [
           opt('Holding a friend’s hand, and telling them', [N('Yes. Telling someone and holding on helps worries feel smaller.')], true),
-          opt('Keeping it all inside', [N('Hiding a worry can make it feel bigger.'), N('Telling a friend, or holding a hand, helps.')]),
+          opt('Keeping it all inside', [N('A worry in your pocket? It might grow and grow! Whoa!'), N('Hiding a worry can make it feel bigger.'), N('Telling a friend, or holding a hand, helps.')]),
         ],
         'Your child named a helpful way to cope with a worried feeling.',
       ),
@@ -348,7 +348,7 @@ const C9: EduScene[] = [
     'c9-sable',
     [
       N('Sable is waiting at the gate. She waited here once before.'),
-      N('This time she gets up and trots to meet you!'),
+      N('This time she gets up and trots to meet you! Pitter, patter!'),
       N('Sniff, sniff. She sniffs your pocket, where the tin is.'),
       N('She does not run. She sits down and looks up at you.'),
       LUNA('She knows that cold. She knows it better than anyone.', 'soft'),
@@ -374,7 +374,7 @@ const C9: EduScene[] = [
     'c9-close',
     [
       MARINA('The whole valley is talking about you. Fern says you were brave.'),
-      N('On your step is a warm pie from Fern. Yum!'),
+      N('On your step is a warm pie from Fern. Nom, nom!'),
       N('Dusk. Moss waits by the hill. You can see the grass through him.'),
       MOSS('…Show me.'),
       N('You open the tin. Inside is a little dark stone, like ice.'),
@@ -406,7 +406,7 @@ const C9: EduScene[] = [
         [N('It is nearly midwinter.'), N('Is it dark for a long time at night, or a short time?')],
         [
           opt('A long time', [N('Yes. In winter the sun sets early and rises late.'), N('So the nights are long.')], true),
-          opt('A short time', [N('Short nights come in summer.'), N('In winter the sun sets early and rises late. Long nights!')]),
+          opt('A short time', [N('A short, short night? Whoosh! Morning already!'), N('Short nights come in summer.'), N('In winter the sun sets early and rises late. Long nights!')]),
         ],
         'Your child learned that winter nights are long and summer nights are short.',
       ),
@@ -477,7 +477,7 @@ const C10: EduScene[] = [
         [N('Luna is worried about Sable. What could Luna do?')],
         [
           opt('Sit near her quietly, and wait', [LUNA('Yes. Gran Hazel’s rule: sit down next to them, and wait.', 'soft')], true),
-          opt('Pull her away', [N('Pulling might scare Sable. Gran Hazel’s rule: sit down next to them, and wait.')]),
+          opt('Pull her away', [N('Pull Sable like a toy cart? Eek, she’d jump a mile!'), N('Pulling might scare Sable. Gran Hazel’s rule: sit down next to them, and wait.')]),
         ],
         'Your child chose a calm, patient way to help someone who is worried.',
       ),
@@ -544,8 +544,8 @@ const C10: EduScene[] = [
         [N('The tin is cold. What is the opposite of cold?')],
         [
           opt('Hot', [N('Yes! Cold and hot are opposites. Wisp has them mixed up.')], true),
-          opt('Wet', [N('Wet goes with dry. The opposite of cold is hot!')]),
-          opt('Small', [N('Small goes with big. The opposite of cold is hot!')]),
+          opt('Wet', [N('Wet? Splash! Like a cold puddle! But wet goes with dry.'), N('The opposite of cold is hot!')]),
+          opt('Small', [N('Small? Like a tiny cold button! But small goes with big.'), N('The opposite of cold is hot!')]),
         ],
         'Your child found the opposite of a word.',
       ),
@@ -558,7 +558,7 @@ const C10: EduScene[] = [
       N('Everyone sits down. On a bucket, on a step, even on Dusty!'),
       DUSTY('I don’t mind. I’m warm. I’ve been digging.', 'happy'),
       N('Pixel falls asleep on her box. Beep… beep… beep.'),
-      FERN('Biscuits! They’re frozen, but you can suck them.', 'happy'),
+      FERN('Biscuits! They’re frozen. Crunch! You can suck them.', 'happy'),
       N('Sparks has four biscuits. Byte has one.'),
       BYTE('Can I ask you something? If the morning comes, what did it?', 'think'),
       BYTE('The lanterns? Or all of us, together?', 'think'),
@@ -624,7 +624,7 @@ const C10: EduScene[] = [
         [N('Why did the waterfall stop splashing?')],
         [
           opt('The water froze into ice', [N('Yes. When water gets very, very cold, it turns into ice. Ice can’t splash.')], true),
-          opt('It got tired', [N('Waterfalls don’t get tired! The water got so cold it turned into ice.')]),
+          opt('It got tired', [N('A sleepy waterfall in a nightcap? Yawn!'), N('Waterfalls don’t get tired! The water got so cold it turned into ice.')]),
         ],
         'Your child learned that very cold water freezes into solid ice.',
       ),
@@ -650,7 +650,7 @@ const C10: EduScene[] = [
         [N('Sable is scared, but she still helps. What is that called?')],
         [
           opt('Being brave', [N('Yes. Brave doesn’t mean not scared. It means doing it anyway.')], true),
-          opt('Being silly', [N('Not silly. Sable is scared and helps anyway. That is being brave.')]),
+          opt('Being silly', [N('Silly Sable, juggling plums? Not tonight.'), N('Sable is scared and helps anyway. That is being brave.')]),
         ],
         'Your child learned that being brave can mean feeling scared and trying anyway.',
       ),
@@ -682,7 +682,7 @@ const C10: EduScene[] = [
     [
       N('Marina goes first, with a rope and a lantern.'),
       N('Behind her, the stone glows blue in the dark.'),
-      N('The waterfall is frozen. A long, still slide of ice.'),
+      N('The waterfall is frozen. Creak! A long, still slide of ice.'),
       MARINA('Hands on the rock. Feet where my feet go. Slowly.', 'think'),
       N('Marina ties the rope round you, then round herself.'),
       N('Behind the frozen falls is a cave. It sparkles! It is warm.'),
@@ -698,7 +698,7 @@ const C10: EduScene[] = [
         [N('Where is the cave? In front of the waterfall, or behind it?')],
         [
           opt('Behind it', [N('Yes! The cave hides behind the waterfall.')], true),
-          opt('In front of it', [N('We went past the falls to find it. The cave is behind the waterfall.')]),
+          opt('In front of it', [N('A cave out in front, in the open snow? Brr!'), N('We went past the falls to find it. The cave is behind the waterfall.')]),
         ],
         'Your child used the position words in front of and behind.',
       ),
@@ -761,7 +761,7 @@ const C10: EduScene[] = [
         [N('What could help Sable feel less scared?')],
         [
           opt('A friend close by, and a gentle voice', [N('Yes. Calm voices and friends nearby help scared feelings shrink.')], true),
-          opt('Shouting at her', [N('Shouting makes scared feel bigger. A gentle voice and a friend close by help.')]),
+          opt('Shouting at her', [N('Shouting? Sable would jump higher than a frog!'), N('Shouting makes scared feel bigger. A gentle voice and a friend close by help.')]),
         ],
         'Your child named ways to comfort someone who is frightened.',
       ),
@@ -886,7 +886,7 @@ const C10: EduScene[] = [
     [
       N('You sit on the warm rock and wait. That’s Gran Hazel’s rule.'),
       N('Moss sits beside you. He says nothing.'),
-      N('The waterfall starts again. Trickle, rush, ROAR!'),
+      N('The waterfall starts again. Drip, trickle, rush, ROAR!'),
       N('Grey morning light comes into the cave.'),
       N('Look! On the far side, curled on a warm stone. It’s Wisp!'),
       N('He is asleep. His tummy goes up and down. He is alive.'),
@@ -918,7 +918,7 @@ const C10: EduScene[] = [
       N('So you do. Moss on the hill. Moss and Byte’s shoelace.'),
       N('You remember every quiet afternoon with him.'),
       N('The waterfall starts again. Trickle, rush, ROAR!'),
-      N('Then something pops up. Small, grey and very thin.'),
+      N('Then, pop! Something comes up. Small, grey and very thin.'),
       N('Moss climbs out. He shakes his ears. Shake, shake!'),
       MOSS('You were very loud. I could hear you from the bottom.', 'happy'),
       MOSS('Don’t pick me up. …Oh, go on, then.', 'soft'),
@@ -1012,7 +1012,7 @@ const C10: EduScene[] = [
       N('Byte looks down. Byte looks up. Byte’s mouth falls open.'),
       BYTE('I heard him! I heard Moss!', 'shock'),
       CLOVER('We sat still long enough. All night!', 'happy'),
-      N('Byte ties his shoelace, very carefully. Everyone laughs.'),
+      N('Byte ties his shoelace, very carefully. Everyone goes hee, hee!'),
     ],
     [
       doIt(
@@ -1085,7 +1085,8 @@ const C10: EduScene[] = [
             true,
           ),
           opt('Cross', [
-            N('They look sad, not cross. They miss Moss.'),
+            N('Cross, with stompy boots? No stomping here. They look sad.'),
+            N('They miss Moss.'),
             N('Crying and quiet are both sad.'),
           ]),
         ],
@@ -1123,7 +1124,7 @@ const C10: EduScene[] = [
     [
       N('The sun is up. Everyone is tired. Nobody wants to go home.'),
       N('Look! A lantern is coming down the hill path.'),
-      N('It comes slowly. It stops to rest, then comes again.'),
+      N('Creak, creak! It comes slowly. It stops to rest, then comes again.'),
       N('Fern sees it first. She puts her hand over her mouth.'),
       N('Nobody runs. Everyone waits and lets it come.'),
       N('It’s a small lady in three coats. Her boots are tied with string.'),
@@ -1141,7 +1142,7 @@ const C10: EduScene[] = [
         [N('A small lady. Three coats. String on her boots.'), N('Who do you think it is?')],
         [
           opt('Gran Hazel!', [N('Good guess! Let’s see…')], true),
-          opt('Corvin', [N('Corvin is a tall man. This is a small lady. Let’s see…')]),
+          opt('Corvin', [N('Corvin, in three coats and string boots? Hee, hee!'), N('Corvin is a tall man. This is a small lady. Let’s see…')]),
           opt('A bear', [N('A bear in three coats! That would be funny. Let’s see…')]),
         ],
         'Your child used clues in the story to guess who a character was.',
@@ -1155,7 +1156,7 @@ const C10: EduScene[] = [
       FERN('Bramble used to be my Nubbin.', 'soft'),
       HAZEL('This is Bramble’s baby. I found her under a root.'),
       FERN('Hello, little one!', 'soft'),
-      N('Fern touches the folded ear, gently. The baby sighs and snuggles in.'),
+      N('Fern touches the folded ear, gently. The baby goes peep and snuggles in.'),
     ],
     [
       ask(
@@ -1166,7 +1167,7 @@ const C10: EduScene[] = [
         [N('The baby was all alone. What does a baby Nubbin need?')],
         [
           opt('Food, warmth, and someone to care for it', [N('Yes. Baby animals need grown-ups to feed them and keep them warm.')], true),
-          opt('Nothing at all', [N('Babies need lots! Food, warmth, and a grown-up to look after them.')]),
+          opt('Nothing at all', [N('A baby that needs nothing? Floating on a cloud! Hee!'), N('Babies need lots! Food, warmth, and a grown-up to look after them.')]),
         ],
         'Your child learned that young animals need their parents to feed and protect them.',
       ),
@@ -1219,7 +1220,7 @@ const C11: EduScene[] = [
         [N('The tiny Nubbin is too thin. What will help her grow strong?')],
         [
           opt('Food and water, a little at a time', [HAZEL('That’s it, love. A bit of apple, a sip of water.', 'happy'), HAZEL('And lots of patience.', 'soft')], true),
-          opt('Running races', [N('Running is fun, but she needs food and water first.'), N('A little at a time.')]),
+          opt('Running races', [N('A tiny thin Nubbin racing? Whoosh, she’d wobble!'), N('Running is fun, but she needs food and water first.'), N('A little at a time.')]),
         ],
         'Your child learned that animals need food and water to live and grow.',
       ),
@@ -1233,7 +1234,7 @@ const C11: EduScene[] = [
       MOSS('You’re late.', 'think'),
       HAZEL('I’m always late. You’re thinner.', 'soft'),
       MOSS('You’re late. I’m thinner. We’re even.', 'soft'),
-      N('Gran Hazel laughs and laughs. She holds her side.'),
+      N('Gran Hazel laughs, hee, hee, hee. She holds her side.'),
       N('She pats his head, just like every evening for forty years.'),
     ],
     [
@@ -1245,8 +1246,8 @@ const C11: EduScene[] = [
         [N('Late! Which word rhymes with late?')],
         [
           opt('Gate', [N('Yes! Late, gate. They sound the same at the end.')], true),
-          opt('Moss', [N('Listen: late… gate. Gate rhymes with late!')]),
-          opt('Pond', [N('Listen: late… gate. Gate rhymes with late!')]),
+          opt('Moss', [N('Late, Moss? Moss is never early! Hee, hee!'), N('Listen: late… gate. Gate rhymes with late!')]),
+          opt('Pond', [N('Late, pond? A pond that is always late! Plop!'), N('Listen: late… gate. Gate rhymes with late!')]),
         ],
         'Your child listened for words that rhyme.',
       ),
@@ -1304,7 +1305,7 @@ const C11: EduScene[] = [
       N('Sable comes out of the long grass.'),
       N('She looks at Gran Hazel for a long time.'),
       N('Then she walks right past her, and leans on your leg.'),
-      HAZEL('Sable chose you, not me! Ha!', 'happy'),
+      HAZEL('Sable chose you, not me! Hee hee!', 'happy'),
       HAZEL('That one took longer than two months, I bet.', 'soft'),
       N('You nod. It took a long, long time.'),
       HAZEL('Worth it.', 'soft'),
@@ -1318,7 +1319,7 @@ const C11: EduScene[] = [
         [N('Which is longer: one day, or two months?')],
         [
           opt('Two months', [N('Yes! Two months is lots and lots of days.'), N('Making friends with Sable took longer still.')], true),
-          opt('One day', [N('One day goes by quickly.'), N('Two months is lots and lots of days. That’s longer!')]),
+          opt('One day', [N('One day? Whoosh! It’s gone in a blink.'), N('Two months is lots and lots of days. That’s longer!')]),
         ],
         'Your child compared a short time and a long time.',
       ),
@@ -1358,7 +1359,7 @@ const C11: EduScene[] = [
     [
       N('Look! Corvin is back at the gate.'),
       N('He wears an old brown coat now, not a grey one.'),
-      N('He lifts the latch, just once. The gate sticks.'),
+      N('He lifts the latch, just once. Creak! The gate sticks.'),
       N('Then he folds his arms on the gate, and waits.'),
       HAZEL('Don’t look at me, love. It’s your gate now.', 'soft'),
       HAZEL('He said he’d stay till morning. He means it.', 'think'),
@@ -1550,7 +1551,7 @@ const C12: EduScene[] = [
         [N('Where is Gran Hazel sitting? At the top of the hill, or the bottom?')],
         [
           opt('At the top', [N('Yes. Right at the top, where she can see everything.')], true),
-          opt('At the bottom', [N('We climbed up, up, up. She’s at the top, where she can see everything.')]),
+          opt('At the bottom', [N('At the bottom, looking at her boots? We climbed up, up, up!'), N('She’s at the top, where she can see everything.')]),
         ],
         'Your child used the position words top and bottom.',
       ),
@@ -1579,7 +1580,7 @@ const C12: EduScene[] = [
         [N('Moss is as light as a leaf.'), N('Which is lighter: a leaf or a rock?')],
         [
           opt('A leaf', [N('Yes! A leaf is light. A rock is heavy.')], true),
-          opt('A rock', [N('A rock is heavy, hard to lift.'), N('A leaf is light. It floats in the wind!')]),
+          opt('A rock', [N('A rock on Hazel’s shoulder? Thump! That’s very heavy.'), N('A rock is heavy, hard to lift.'), N('A leaf is light. It floats in the wind!')]),
         ],
         'Your child compared two things to say which is lighter.',
       ),
@@ -1696,7 +1697,7 @@ const C12: EduScene[] = [
         [N('Why do friends take turns watching the lantern?')],
         [
           opt('So everyone can rest a bit', [N('Yes. Taking turns means everyone gets a go, and a rest.')], true),
-          opt('So one friend does it all', [N('That would be very tiring! Taking turns shares the job, so everyone can rest.')]),
+          opt('So one friend does it all', [N('One friend, watching all night? Yawn… zzz!'), N('That would be very tiring! Taking turns shares the job, so everyone can rest.')]),
         ],
         'Your child learned how taking turns shares a job fairly.',
       ),
@@ -1708,7 +1709,7 @@ const C12: EduScene[] = [
         [N('Let’s look after Gran Hazel’s flower. What does a flower need?')],
         [
           opt('Sunlight and water', [N('Yes. Sun and water help it grow.'), N('Looking after it is a way to remember her.')], true),
-          opt('A hug', [N('Hugs are for people. Flowers need sunlight and water.'), N('We can give each other the hugs.')]),
+          opt('A hug', [N('A flower in a big hug? Squish!'), N('Hugs are for people. Flowers need sunlight and water.'), N('We can give each other the hugs.')]),
         ],
         'Your child learned that plants need light and water, and that caring for a memorial flower is a way to remember.',
       ),
@@ -1730,7 +1731,7 @@ const HAZELS_GROVE_BODY: Line[] = [
 const ENDS: EduScene[] = [
   scene(
     'end-hazels-grove',
-    [N('GRAN HAZEL’S GROVE'), N('The gate still sticks. Everyone knows: lift and push.'), ...HAZELS_GROVE_BODY],
+    [N('GRAN HAZEL’S GROVE'), N('Creak! The gate still sticks. Everyone knows: lift and push.'), ...HAZELS_GROVE_BODY],
     [
       doIt(
         5,
@@ -1749,7 +1750,7 @@ const ENDS: EduScene[] = [
   // Played instead of end-hazels-grove when the gate was taken away (letThemGo).
   scene(
     'end-hazels-grove-open',
-    [N('GRAN HAZEL’S GROVE'), N('No gate now! Friends still lift and push at the empty air.'), ...HAZELS_GROVE_BODY],
+    [N('GRAN HAZEL’S GROVE'), N('No gate now! Friends still lift and push at the air. Whoosh!'), ...HAZELS_GROVE_BODY],
     [
       doIt(
         1,
@@ -1790,7 +1791,7 @@ const ENDS: EduScene[] = [
     [
       N('ETERNAL DAWN'),
       N('One of your Nubbins has stopped growing older.'),
-      N('It is an Eternal now, like Moss!'),
+      N('Pop! It is an Eternal now, like Moss!'),
       N('It sits on the hill and watches the gate.'),
       N('It decided you are worth it. It decided long ago.'),
     ],
@@ -1814,7 +1815,7 @@ const ENDS: EduScene[] = [
     [
       N('Moss looks at it for a long time. Then he sits beside it.'),
       MOSS('Someone has to remember Byte’s shoelaces. Good. That’s good.', 'soft'),
-      N('Two Eternals on the hill now.'),
+      N('Ding! Two Eternals on the hill now.'),
       N('One talks. The other is learning how.'),
     ],
     [
@@ -1826,7 +1827,7 @@ const ENDS: EduScene[] = [
         [N('Moss is a bit cross sometimes. Which word rhymes with Moss?')],
         [
           opt('Cross', [N('Yes! Moss, cross. Cross Moss!')], true),
-          opt('Cake', [N('Listen: Moss… cross. Cross rhymes with Moss!')]),
+          opt('Cake', [N('Moss and cake? Nom, nom! Yummy, but not a rhyme.'), N('Listen: Moss… cross. Cross rhymes with Moss!')]),
         ],
         'Your child listened for words that rhyme.',
       ),
@@ -1837,7 +1838,7 @@ const ENDS: EduScene[] = [
     [
       N('It sits in the very spot where Moss used to sit.'),
       N('Nobody taught it to. Nobody had to.'),
-      N('Byte says it’s just luck.'),
+      N('Byte says it’s just luck. Pfft!'),
       N('But Byte ties his shoelaces twice now, just in case.'),
     ],
     [
@@ -1855,7 +1856,7 @@ const ENDS: EduScene[] = [
   scene(
     'end-eternal-dawn-last',
     [
-      N('On Lantern Night it comes down and sits with everyone.'),
+      N('On Lantern Night, ding, dong, it comes down and sits with everyone.'),
       N('It looks at each friend in turn, very carefully.'),
       N('It is learning you all by heart.'),
       N('That is what Eternals are for.'),
@@ -1876,7 +1877,7 @@ const ENDS: EduScene[] = [
     [
       N('THE SHADOW’S KEEPER'),
       N('Grey Nubbins come to your gate now, from far and wide.'),
-      N('They are thin and quiet, and a bit scared.'),
+      N('They are thin and quiet, and a bit scared. Peep!'),
       N('Sable meets each one. She sits near it. She doesn’t rush.'),
       N('She shows them how to be brave.'),
       N('Ash sits with her most days. Two grey friends together.'),
@@ -1891,7 +1892,7 @@ const ENDS: EduScene[] = [
         [N('A new Nubbin is shy. What helps it feel welcome?')],
         [
           opt('Sit near, be gentle, and wait', [N('Yes. That is just what Sable does.')], true),
-          opt('Run up and grab it', [N('That might scare it. Sitting near, gently, and waiting helps, like Sable.')]),
+          opt('Run up and grab it', [N('Run up and grab it? Eek, it would jump a mile!'), N('That might scare it. Sitting near, gently, and waiting helps, like Sable.')]),
         ],
         'Your child chose a gentle way to welcome someone shy.',
       ),
@@ -1903,7 +1904,7 @@ const ENDS: EduScene[] = [
       N('Clover tells every new Keeper the same thing.'),
       CLOVER('The grey stays. You can only make it lighter.', 'soft'),
       N('Sable is grey, and Sable is loved. Both are true.'),
-      N('She is so light now. Light and happy.'),
+      N('Boing! She is so light now. Light and happy.'),
     ],
     [
       doIt(
@@ -1940,7 +1941,7 @@ const ENDS: EduScene[] = [
         [N('When do lots of new flowers come up?')],
         [
           opt('In spring', [N('Yes! In spring the days get warmer and longer, and flowers come up.')], true),
-          opt('In winter', [N('Winter is cold, so most flowers wait.'), N('They come up in spring, when it gets warmer.')]),
+          opt('In winter', [N('Flowers in the snow? Brr, they’d wear tiny scarves!'), N('Winter is cold, so most flowers wait.'), N('They come up in spring, when it gets warmer.')]),
         ],
         'Your child learned that many flowers come up in spring.',
       ),
@@ -1974,7 +1975,7 @@ const ENDS: EduScene[] = [
       N('Grey Nubbins from Corvin’s garden live in the Hollow, free.'),
       N('Each week you go there with a lantern and a bag of fruit.'),
       N('Fern sends lantern buns. The Hollow Nubbins won’t touch them!'),
-      N('Fern says that proves they are fussy eaters.'),
+      N('Fern says that proves they are fussy eaters. Pfft!'),
       N('Some of them let you come near now.'),
       N('A little grey one let you touch its ear. Took two months. Worth it.'),
     ],
@@ -1987,7 +1988,7 @@ const ENDS: EduScene[] = [
         [N('The Nubbins live in the Hollow. What do they need there?')],
         [
           opt('Food, water and a place to shelter', [N('Yes. Animals live where they can find food, water and shelter.')], true),
-          opt('Toys and sweets', [N('Fun, but not needed! Animals need food, water and shelter.')]),
+          opt('Toys and sweets', [N('A Nubbin eating toys and sweets? Crunch, munch!'), N('Fun, but not needed! Animals need food, water and shelter.')]),
         ],
         'Your child learned that animals live where they can find food, water and shelter.',
       ),
@@ -2064,7 +2065,7 @@ const ENDS: EduScene[] = [
       N('THE COLLECTOR'),
       N('This is the story of a Grove that got very, very quiet.'),
       N('Quiet can be nice. But too quiet is a little sad.'),
-      N('Let’s see what happened. (Listen carefully.)'),
+      N('Let’s see what happened. Drip, drip. (Listen carefully.)'),
     ],
     [
       ask(
@@ -2075,7 +2076,7 @@ const ENDS: EduScene[] = [
         [N('A happy Grove is full of play.'), N('Is it quiet all the time, or noisy sometimes?')],
         [
           opt('Noisy sometimes', [N('Yes! Happy play is noisy sometimes. Quiet and noisy are opposites.')], true),
-          opt('Quiet all the time', [N('Play makes noise: splashes, squeaks, giggles! Quiet and noisy are opposites.')]),
+          opt('Quiet all the time', [N('Quiet all the time? Shh! Not a squeak, not a giggle!'), N('Play makes noise: splashes, squeaks, giggles! Quiet and noisy are opposites.')]),
         ],
         'Your child used the opposites quiet and noisy.',
       ),
@@ -2106,7 +2107,7 @@ const ENDS: EduScene[] = [
     [
       N('THE LONG ROAD'),
       N('Sable is still here. Still grey. Still two steps away.'),
-      N('She eats what you leave. She sleeps near you, not next to you.'),
+      N('She eats what you leave. Munch! She sleeps near you, not next to you.'),
       N('Every evening, you sit down near her and wait.'),
       N('Some evenings she is only one and a half steps away!'),
       N('Pixel’s sign still says MAYBE. You like it that way.'),
@@ -2121,7 +2122,7 @@ const ENDS: EduScene[] = [
         [N('Two steps away, then one and a half. Is Sable getting nearer, or further?')],
         [
           opt('Nearer', [N('Yes! Fewer steps away means nearer. Slowly, slowly.')], true),
-          opt('Further', [N('One and a half is less than two, so she’s nearer! Slowly, slowly.')]),
+          opt('Further', [N('Further? Whoops, she’d be waving from the hill!'), N('One and a half is less than two, so she’s nearer! Slowly, slowly.')]),
         ],
         'Your child compared two distances to say which was nearer.',
       ),
@@ -2157,7 +2158,7 @@ const EPI: EduScene[] = [
     [
       N('Wisp lives under the cottage step now.'),
       N('He is grey. But he doesn’t shake any more.'),
-      N('He still takes one warm thing a day. A sock. A bun.'),
+      N('He still takes one warm thing a day. A sock. A bun. Nom!'),
       N('Then he gives most of it away!'),
       N('He hisses at hands. Then he climbs into them.'),
       WISP('…warm.', 'soft'),
@@ -2171,7 +2172,7 @@ const EPI: EduScene[] = [
         [N('Wisp gives most of his warm things away. How do his friends feel?')],
         [
           opt('Happy and warm', [N('Yes! Giving to friends makes them happy. It makes Wisp warm inside too.')], true),
-          opt('Cross', [N('They’re happy! A warm sock, a bun. Giving makes friends feel cared for.')]),
+          opt('Cross', [N('Cross, with a warm sock on their heads? Hee, hee!'), N('They’re happy! A warm sock, a bun. Giving makes friends feel cared for.')]),
         ],
         'Your child thought about how giving and sharing make others feel.',
       ),
@@ -2182,7 +2183,7 @@ const EPI: EduScene[] = [
     [
       N('Wisp sleeps in the long grass.'),
       N('It’s the spot where Sable once shared her fruit with him.'),
-      N('He comes in for breakfast every morning.'),
+      N('He comes in for breakfast every morning. Munch, munch!'),
       N('Some mornings he stays to wash his face in the sun.'),
       WISP('…ours.', 'soft'),
     ],
@@ -2195,7 +2196,7 @@ const EPI: EduScene[] = [
         [N('Wisp says “ours”. What does ours mean?')],
         [
           opt('It belongs to all of us', [N('Yes. Sable shared, and now Wisp shares too.')], true),
-          opt('It’s only mine', [N('That’s “mine”. “Ours” means it belongs to all of us, shared.')]),
+          opt('It’s only mine', [N('Only mine? Grab, grab, all to myself! Hee, hee!'), N('That’s “mine”. “Ours” means it belongs to all of us, shared.')]),
         ],
         'Your child learned the sharing word “ours”.',
       ),
@@ -2219,7 +2220,7 @@ const EPI: EduScene[] = [
         [N('You waved at Wisp. Wave and Wisp start the same way: w-w-w.'), N('Which word starts like Wisp too?')],
         [
           opt('Water', [N('Yes! W-w-water, w-w-wave, w-w-Wisp.')], true),
-          opt('Fruit', [N('Fruit starts with fff. W-w-water starts like w-w-Wisp!')]),
+          opt('Fruit', [N('Wisp, a fruit? Nom, nom! Gobbled up!'), N('Fruit starts with fff. W-w-water starts like w-w-Wisp!')]),
         ],
         'Your child matched words by their first sound.',
       ),
@@ -2229,7 +2230,7 @@ const EPI: EduScene[] = [
     'end-epi-wisp-none',
     [
       N('Some nights, fruit goes missing from the long grass.'),
-      N('Someone thin and quick takes it. Zip!'),
+      N('Someone thin and quick takes it. Whoosh!'),
       N('So you leave a little more the next night.'),
       N('Gran Hazel would have done that too.'),
     ],
@@ -2256,7 +2257,7 @@ const EPI: EduScene[] = [
       N('He is learning to sit quietly. He’s not very good yet.'),
       N('He comes in the right way every time: lift and push.'),
       N('Ember sits on the other side. She’s still cross with him.'),
-      N('But some Sundays, she passes him the teapot.'),
+      N('But some Sundays, she passes him the teapot. Slurp!'),
     ],
     [
       ask(
@@ -2267,7 +2268,7 @@ const EPI: EduScene[] = [
         [N('Ember is still cross with Corvin. What kind thing does she do?')],
         [
           opt('She passes him the teapot', [N('Yes. You can feel cross and still do a kind thing.'), N('That’s how mending starts.')], true),
-          opt('She pushes him in the pond', [N('Splash! No, she doesn’t. She passes him the teapot. A small kind thing.')]),
+          opt('She pushes him in the pond', [N('Ember pushing Corvin in the pond? Splash! Hee, hee!'), N('She passes him the teapot. A small kind thing.')]),
         ],
         'Your child noticed that we can be kind even while we still feel cross.',
       ),
@@ -2277,7 +2278,7 @@ const EPI: EduScene[] = [
     'end-epi-gate-guest',
     [
       N('Corvin comes when he is asked. That’s not very often.'),
-      N('He knocks on the gatepost every time. Knock, knock, knock! Three, never four.'),
+      N('He knocks on the gatepost every time. Bonk, bonk, bonk! Three, never four.'),
       N('You let him in every time.'),
       N('Once he brought flowers for the gatepost. You put them in a jar.'),
     ],
@@ -2313,7 +2314,7 @@ const EPI: EduScene[] = [
         [N('What can footprints tell us?')],
         [
           opt('Where someone walked', [N('Yes! Footprints show where someone went, and which way they turned.')], true),
-          opt('What someone ate', [N('Footprints can’t show that! They show where someone walked.')]),
+          opt('What someone ate', [N('A footprint with a sandwich in it? Hee, hee!'), N('Footprints can’t show that! They show where someone walked.')]),
         ],
         'Your child learned that footprints are clues to where someone has been.',
       ),
@@ -2336,7 +2337,7 @@ const EPI: EduScene[] = [
         [N('Chair! Which word rhymes with chair?')],
         [
           opt('Bear', [N('Yes! Chair, bear. A bear in a chair!')], true),
-          opt('Pond', [N('Listen: chair… bear. Bear rhymes with chair!')]),
+          opt('Pond', [N('Chair, pond? Plop! A chair in the pond!'), N('Listen: chair… bear. Bear rhymes with chair!')]),
         ],
         'Your child listened for words that rhyme.',
       ),
@@ -2370,7 +2371,7 @@ const EPI: EduScene[] = [
       N('In spring, her flower opened.'),
       N('Then Moss came down the path, thinner, and sat by the pond.'),
       MOSS('I decided.', 'soft'),
-      N('He decided to stay with you. Hooray!'),
+      N('He decided to stay with you. Hee, hee, hooray!'),
     ],
     [
       doIt(
@@ -2422,7 +2423,7 @@ const EPI: EduScene[] = [
         [N('When do we light the lanterns?'), N('In the bright day, or when it gets dark?')],
         [
           opt('When it gets dark', [N('Yes. Every evening the sun goes down and it gets dark.'), N('So we light lanterns.')], true),
-          opt('In the bright day', [N('In the day the sun gives us light.'), N('We light lanterns when it gets dark.')]),
+          opt('In the bright day', [N('Lanterns in the bright day? The sun would giggle!'), N('In the day the sun gives us light.'), N('We light lanterns when it gets dark.')]),
         ],
         'Your child connected evening and darkness to the pattern of day and night.',
       ),
@@ -2434,7 +2435,7 @@ const EPI: EduScene[] = [
       N('Corvin carried Gran Hazel’s lantern up the hill.'),
       N('He left it there with her, still lit.'),
       N('At first light, he went back up and fetched it.'),
-      N('It hangs on a hook by the cottage door now.'),
+      N('It hangs on a hook by the cottage door now. Creak, creak!'),
       N('Corvin looks after it himself. Snip, snip, he trims the wick.'),
     ],
     [
@@ -2474,7 +2475,7 @@ const EPI: EduScene[] = [
       N('The whole valley walked Gran Hazel to the bottom of the hill.'),
       N('Now they meet there once a year, on the day she went up.'),
       N('They stand together, and remember her.'),
-      N('Fern brings lantern buns. They come out right every time now!'),
+      N('Fern brings lantern buns. Crunch! They come out right every time now.'),
       N('She says it’s because she stopped trying so hard.'),
       N('She says this mostly to the buns.'),
     ],
@@ -2507,7 +2508,7 @@ const EPI: EduScene[] = [
         [N('Gran Hazel wrote a letter. What is a letter for?')],
         [
           opt('Telling someone something, in writing', [N('Yes. A letter lets us talk to people, even when we’re not there.')], true),
-          opt('Making a hat', [N('Ha! A letter is for telling someone something, in writing.')]),
+          opt('Making a hat', [N('A letter hat? Flop, flop! What a funny hat!'), N('A letter is for telling someone something, in writing.')]),
         ],
         'Your child learned that writing carries a message from one person to another.',
       ),
@@ -2520,7 +2521,7 @@ const EPI: EduScene[] = [
       N('Long ago, Corvin’s dad, Aldous, wrote him a letter.'),
       N('Aldous died a long time ago. But his words are still here.'),
       N('Now Corvin reads the letter every Sunday.'),
-      N('Old Tobin told everyone. Tobin tells everyone everything!'),
+      N('Old Tobin told everyone. Hee, hee! Tobin tells everyone everything!'),
       N('The letter is soft as cloth now, from all the reading.'),
     ],
     [
@@ -2551,7 +2552,7 @@ const EPI: EduScene[] = [
         [N('Is it OK to read someone else’s letter?')],
         [
           opt('No, it belongs to them', [N('That’s right. Their letter, their words. We keep it safe for them.')], true),
-          opt('Yes, any time', [N('A letter belongs to the person it’s for.'), N('We keep it safe, and don’t peek.')]),
+          opt('Yes, any time', [N('Reading it any time? Peek, peek! Nosy as a squirrel.'), N('A letter belongs to the person it’s for.'), N('We keep it safe, and don’t peek.')]),
         ],
         'Your child thought about respecting other people’s belongings.',
       ),
@@ -2563,7 +2564,7 @@ const EPI: EduScene[] = [
       N('Old Tobin lights the mill stove on cold mornings.'),
       N('He tells the Nubbins stories by the fire.'),
       N('He never finishes a story. Not one!'),
-      N('You put Aldous’s letter in the stove. It burned up.'),
+      N('You put Aldous’s letter in the stove. Whoosh! It burned up.'),
       N('Corvin never knew about his dad’s letter. You still wonder about that.'),
       N('Tobin says most things are a bit of both.'),
     ],
@@ -2576,7 +2577,7 @@ const EPI: EduScene[] = [
         [N('Every story has a beginning, a middle and an end.'), N('Which part does Tobin forget?')],
         [
           opt('The end', [N('Yes! Tobin never gets to the end. Silly Tobin.')], true),
-          opt('The beginning', [N('He always starts! He just never finishes. He forgets the end.')]),
+          opt('The beginning', [N('Forgets the start? He’s off like a rocket! Whee!'), N('He always starts! He just never finishes. He forgets the end.')]),
         ],
         'Your child learned that stories have a beginning, a middle and an end.',
       ),
@@ -2589,7 +2590,7 @@ const EPI: EduScene[] = [
       N('Aldous was Corvin’s dad. He died a long time ago.'),
       N('By spring, the rain had washed the ink away.'),
       N('Someone keeps the grass short around his stone.'),
-      N('The mill wheel turns slowly beside it. Round and round.'),
+      N('Creak, creak, the mill wheel turns slowly beside it.'),
     ],
     [
       ask(
@@ -2600,8 +2601,8 @@ const EPI: EduScene[] = [
         [N('The mill wheel goes round and round. What shape is a wheel?')],
         [
           opt('A circle', [N('Yes! Wheels are circles, so they can roll and turn.')], true),
-          opt('A square', [N('A square has corners, so it would bump! Wheels are circles.')]),
-          opt('A triangle', [N('A triangle has three corners, so it would bump! Wheels are circles.')]),
+          opt('A square', [N('A square wheel? Bonk, bonk, bonk! What a bumpy ride!'), N('Wheels are circles, so they roll smoothly.')]),
+          opt('A triangle', [N('A triangle wheel? Bonk, bump, bonk! Bumpy ride!'), N('Wheels are circles, so they roll smoothly.')]),
         ],
         'Your child named the shape of a wheel and why it rolls.',
       ),
@@ -2613,7 +2614,7 @@ const EPI: EduScene[] = [
     [
       N('In spring, a new red flower grows on the hill.'),
       N('It grows a little apart, as if it isn’t sure it can stay.'),
-      N('By summer, the other flowers lean towards it. Welcome!'),
+      N('Whee! By summer, the other flowers lean towards it. Welcome!'),
       N('The long-grass lantern is warm now. Grey Nubbins sleep around it.'),
       N('Children skip to Cinder’s rhyme, then run to touch the red flower.'),
     ],
@@ -2636,7 +2637,7 @@ const EPI: EduScene[] = [
       N('You tell Cinder’s story to anyone who asks.'),
       N('The long-grass lantern is warm now.'),
       N('Children skip to her rhyme. At the end, one shouts, “She loved them!”'),
-      N('The rest shout, “Too tight!” Then they all run off, laughing.'),
+      N('The rest shout, “Too tight!” Then they all run off, hee hee!'),
     ],
     [
       ask(
@@ -2647,7 +2648,7 @@ const EPI: EduScene[] = [
         [N('Cinder’s rhyme goes: “held them close and tight, kept them warm one winter night.”'), N('Which word rhymes with tight?')],
         [
           opt('Night', [N('Yes! Tight, night. A gentle hug is the best kind, not too tight.')], true),
-          opt('Warm', [N('Listen: tight… night. Night rhymes with tight!')]),
+          opt('Warm', [N('Warm, like a toasty bun? Yum! Not a rhyme, though.'), N('Listen: tight… night. Night rhymes with tight!')]),
         ],
         'Your child found rhyming words in a skipping rhyme.',
       ),

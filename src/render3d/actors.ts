@@ -25,12 +25,13 @@ import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
+import { FernCairn3D } from './fern-cairn-3d';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
@@ -255,6 +256,8 @@ export class Actors {
 
   /** MOVE-63: the hop course's flags and ghost. */
   private readonly hopCourse: HopCourse3D;
+  /** R0313: Fern's cairn by the signpost. */
+  private readonly fernCairn: FernCairn3D;
 
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
@@ -270,6 +273,7 @@ export class Actors {
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
+    this.fernCairn = new FernCairn3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -417,13 +421,13 @@ export class Actors {
 
   /** What a ray passes through first: a Nubbin, an item, a memorial or the crowd. */
   pick(ray: THREE.Ray): {
-    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
     id: string;
     d: number;
   } | null {
     const sphere = new THREE.Sphere();
     type Hit = {
-      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
       id: string;
       d: number;
     };
@@ -450,6 +454,9 @@ export class Actors {
     for (const [id, i] of this.items) test('item', id, i.mesh, 0.4, 0.1);
     for (const [id, m] of this.memorials)
       test('memorial', id, m, 0.45, READ3D.memorial.height * 0.75);
+    const fd = this.fernCairn.pick(ray, this.tmp);
+    const fb = best as Hit | null;
+    if (fd !== null && (!fb || fd < fb.d)) best = { kind: 'storyProp', id: FERN_STONE.id, d: fd };
     const c = this.crowd.pick(ray);
     const b = best as Hit | null;
     if (c && c.kind !== 'ambient' && (!b || c.d < b.d)) return { kind: c.kind, id: c.id, d: c.d };
@@ -854,6 +861,7 @@ export class Actors {
     this.world = world;
     noteJumpToyWorld(world, this.calm);
     this.hopCourse.update(world, alpha, nowMs, this.calm);
+    this.fernCairn.update(world, this.ground);
     this.pool.frame();
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);

@@ -64,8 +64,8 @@ _It leans into your hand. You both stay very still._
 > **Fern**: Your Nubbin hatched from an egg!  
 > **Fern**: Which baby animal hatches from an egg too?  
 > - ✅ A chick → Yes! Chicks hatch from eggs. So do ducklings and baby turtles.
-> - A puppy → Puppies grow inside their mum. They are born, not hatched. Chicks hatch from eggs, like your Nubbin!
-> - A kitten → Kittens grow inside their mum. They are born, not hatched. Chicks hatch from eggs, like your Nubbin!
+> - A puppy → A puppy in an egg? Crack… woof! That would be silly! Puppies grow inside their mum. They are born, not hatched. Chicks hatch from eggs, like your Nubbin!
+> - A kitten → A kitten in an egg? Crack… meow! What a surprise! Kittens grow inside their mum. They are born, not hatched. Chicks hatch from eggs, like your Nubbin!
 > _For grown-ups: Your child learned that some babies, like chicks, hatch from eggs, while puppies and kittens are born._
 
 **Sparks**: HEY! Don’t move! I’m fixing this lantern post!  
@@ -88,7 +88,7 @@ _On the hill, the little grey shape comes one step down._
 
 #### `sprout:c2-open` · [main](../../campaign/book-1.md#c2-open)
 
-_Morning. A lady comes up the lane. Slop, slop, goes her bucket._  
+_Morning. A lady comes up the lane. Splash, splash, goes her bucket._  
 **Marina**: I’m Marina. I taught Gran’s Nubbins to swim!  
 **Marina**: What’s Gran’s rule one?  
 **You**: Feed them before you feed yourself.  
@@ -118,7 +118,7 @@ _Your Nubbin takes the plum. Then it takes Sparks’s thumb!_
 #### `sprout:c2-corvin` · [main](../../campaign/book-1.md#c2-corvin)
 
 _Late afternoon. A man in a grey coat stands at the gate._  
-_He doesn’t lift. He doesn’t push. The gate just opens for him!_  
+_He doesn’t lift. He doesn’t push. The gate opens for him. No creak!_  
 _That’s odd. It never does that for you._  
 **Corvin Vale**: I’m Corvin. I run the races up the valley. I knew your Gran.  
 _He shakes your hand. Brr! His hand is cold, like ice._  
@@ -127,8 +127,8 @@ _He shakes your hand. Brr! His hand is cold, like ice._
 > _Corvin. Cold. Listen: c-c-Corvin. C-c-cold._  
 > _They start with the same sound! Which word starts that way too?_  
 > - ✅ Cat → Yes! C-c-cat. Corvin, cold, cat. They all start with C.
-> - Sun → Sun starts with sss. Listen again: c-c-Corvin. C-c-cat starts the same way! Corvin, cold, cat.
-> - Fish → Fish starts with fff. Listen again: c-c-Corvin. C-c-cat starts the same way! Corvin, cold, cat.
+> - Sun → Corvin in the sun? Brr, he’d melt! Sun starts with sss. Listen again: c-c-Corvin. C-c-cat starts the same way! Corvin, cold, cat.
+> - Fish → A fish called Corvin? Splish, splash! Fish starts with fff. Listen again: c-c-Corvin. C-c-cat starts the same way! Corvin, cold, cat.
 > _For grown-ups: Your child listened for the hard “c” sound at the start of Corvin, cold and cat._
 
 _His hand goes to his coat pocket. It stays there._  
@@ -151,13 +151,13 @@ _What will you say to Corvin?_
 #### `sprout:c3-open` · [main](../../campaign/book-1.md#c3-open)
 
 _Early summer. A warm night. You sit on the step._  
-_Moths tap the window. In the reeds, a frog says croak, croak._  
+_Moths tap the window. In the reeds, a frog goes plop!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): some animals are awake at night  
 > **Luna**: The moths and the frog are awake. Lots of animals wake up at night.  
 > **Luna**: Which of these is awake at night too?  
 > - ✅ An owl → Yes! Lots of owls hunt at night. Hoo, hoo. So do hedgehogs.
-> - A hen → Hens sleep at night, up on a perch. Owls are the night ones. Hoo, hoo!
+> - A hen → A hen up at midnight? Snore, snore! She’s asleep. Hens sleep at night, up on a perch. Owls are the night ones. Hoo, hoo!
 > _For grown-ups: Your child learned that some animals, like owls, moths and hedgehogs, are awake at night._
 
 _Something is at the edge of the long grass. A grey Nubbin!_  
@@ -170,8 +170,8 @@ _She is thin. One wing is hurt. When you breathe, she jumps._
 > **Lesson** (sel, CASEL: Social awareness, ask): noticing when someone is scared, and what helps  
 > **Luna**: Look at her. She jumps when you breathe. How is Sable feeling?  
 > - ✅ Scared → Yes. Scared. Her body is ready to run. Quiet and slow and kind. That helps scared ones.
-> - Silly → She jumps at every sound. That means scared, not silly. Quiet and kind helps.
-> - Sleepy → Her eyes are wide open. That means scared, not sleepy. Quiet and kind helps.
+> - Silly → Silly Sable? She’d be dancing a jig! Boing, boing! She jumps at every sound. That means scared, not silly. Quiet and kind helps.
+> - Sleepy → A sleepy Sable? Zzz… she’d be snoring on the grass! Her eyes are wide open. That means scared, not sleepy. Quiet and kind helps.
 > _For grown-ups: Your child read the signs that Sable is scared and heard that quiet, slow kindness helps._
 
 **Luna**: I call her Sable. What will you do?  
@@ -198,11 +198,11 @@ _Next morning, look! Frost on the grass where Sable slept. Only there._
 > **Clover**: Frost is tiny bits of ice. Here comes the sun.  
 > **Clover**: What will the sunshine do to the frost?  
 > - ✅ Melt it away → Yes! The sun warms the grass. The frost melts. Drip, drip, gone!
-> - Make it bigger → The sun is warm, and warm melts ice. Watch. Drip, drip… the frost is gone!
+> - Make it bigger → Bigger frost? A frosty mountain on the grass! Hee, hee! The sun is warm, and warm melts ice. Watch. Drip, drip… the frost is gone!
 > - Turn it pink → Pink frost would be lovely! But warm melts ice. Drip, drip… gone!
 > _For grown-ups: Your child predicted that sunshine warms the ground and melts frost._
 
-_And last night’s plums are gone. All of them!_  
+_And last night’s plums are gone. Munch, munch, all of them!_  
 _On the sunny wall sits a little pile of plum stones._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 6 to answer “how many?”  
@@ -243,8 +243,8 @@ _The voice is small and dry. It’s coming from him!_
 > **Moss**: Moss. Mmm-Moss. My name starts with mmm. The letter M.  
 > **Moss**: What else starts with mmm?  
 > - ✅ Moon → Mmm-moon. Yes. The moon is old, like me.
-> - Sun → Sun starts with sss. Listen: mmm-Moss, mmm-moon. Moon starts like me.
-> - Bee → Bee starts with b-b-b. Listen: mmm-Moss, mmm-moon. Moon starts like me.
+> - Sun → Me, a sun? Too sleepy to shine! Ha! Sun starts with sss. Listen: mmm-Moss, mmm-moon. Moon starts like me.
+> - Bee → Me, buzzing like a bee? Bzzz! What a sight! Bee starts with b-b-b. Listen: mmm-Moss, mmm-moon. Moon starts like me.
 > _For grown-ups: Your child heard the “mmm” sound at the start of Moss and found another word that starts with M._
 
 **You**: Where is Gran?  
@@ -292,8 +292,8 @@ _Then Luna starts to sing. One by one, everyone joins in._
 > _(Listen: woke, folk. They rhyme! They sound the same at the end.)_  
 > _The last line rhymes with keep. Which word will it be?_  
 > - ✅ Sleep → Yes! Keep, sleep. Listen for it…
-> - Lantern → Keep, lantern. They don’t sound alike. Keep, sleep. Those rhyme! Listen…
-> - Pond → Keep, pond. They don’t sound alike. Keep, sleep. Those rhyme! Listen…
+> - Lantern → Keep, lantern? Ha! Lantern is a long, wobbly word. They don’t sound alike. Keep, sleep. Those rhyme! Listen…
+> - Pond → Keep, pond? Plop! Into the water it goes! They don’t sound alike. Keep, sleep. Those rhyme! Listen…
 > _For grown-ups: Your child listened to the song’s rhymes and guessed the rhyming word that comes next._
 
 **Everyone**: and one for the long grass, and the ones who sleep.  
@@ -321,7 +321,7 @@ _Late at night, Moss sits by the pond lantern. You sit too._
 > **Moss**: Water changes when it gets very, very cold.  
 > **Moss**: What does it turn into?  
 > - ✅ Ice → Ice. Yes. But not this warm pool. Not ever.
-> - Sand → Think of a puddle on a frosty morning. Hard and slippy. Very cold water turns to ice. But not this warm pool.
+> - Sand → Cold water turning to sand? Crunch, crunch! A sandy pond! Think of a puddle on a frosty morning. Hard and slippy. Very cold water turns to ice. But not this warm pool.
 > - Juice → I wish it did! But cold water turns to ice. Not this warm pool.
 > _For grown-ups: Your child learned that very cold water freezes into ice, and warm water stays runny._
 
@@ -369,7 +369,7 @@ _Out by the long grass, the fourth lantern flickers._
 > **Moss**: Cinder held them too tight. She meant it kindly.  
 > **Moss**: What makes a good hug, do you think?  
 > - ✅ A gentle one, when you both want it → Yes. Gentle, and only when they want one. And they can always wriggle free.
-> - The tightest squeeze ever → Too tight can hurt. A good hug is gentle. Anyone can say, “Too tight, please!”
+> - The tightest squeeze ever → The tightest squeeze ever? Squish! Like a bun in a fist! Too tight can hurt. A good hug is gentle. Anyone can say, “Too tight, please!”
 > _For grown-ups: Your child talked about gentle hugs that both people want, and that anyone can say “too tight”._
 
 
@@ -438,7 +438,7 @@ _The sun comes up. The sky turns pink, then gold._
 > **Lesson** (science, 1-ESS1-1, ask): the Sun comes up in the morning and goes down in the evening  
 > **Moss**: There it is. When does the sun come up?  
 > - ✅ In the morning → Yes. Up every morning. Down every evening. Never once late.
-> - At bedtime → At bedtime the sun goes down. In the morning, up it comes. Like now.
+> - At bedtime → The sun, up at bedtime? It would keep everyone awake! At bedtime the sun goes down. In the morning, up it comes. Like now.
 > _For grown-ups: Your child learned the daily pattern of the Sun: up in the morning, down in the evening._
 
 **Moss**: Gran will come. She always finishes things.  
@@ -491,13 +491,13 @@ _But remember Gran’s rule three: sit down and wait._
 > - On top of its head → Ha! On its head would give it a fright. Beside it is best.
 > _For grown-ups: Your child used position words (beside, on top) to choose where to put the fruit._
 
-_You put a plum in the grass. Then a second plum, just in case._  
+_You put a plum down. Plop! Then a second, just in case._  
 _Then you sit a little way off._  
 _It looks at the plums. Then at you. It stays._  
 
 #### `sprout:t-sable-bonded` · [main](../../campaign/triggered.md#t-sable-bonded)
 
-_Sable climbs into your lap. All the way in!_  
+_Plop! Sable climbs into your lap. All the way in!_  
 _She turns round, once, twice, and lies down._  
 _She lets out a big breath. Haaah. She feels safe._  
 **Luna**: There. Grey and loved. Both at once.  
@@ -506,8 +506,8 @@ _She lets out a big breath. Haaah. She feels safe._
 > **Luna**: Sable starts with sss, like a snake. The letter S.  
 > **Luna**: What else starts with sss?  
 > - ✅ Sun → Sss-sun! Sable, sun, and sitting still.
-> - Moon → Moon starts with mmm. Listen: sss-Sable, sss-sun. Sun starts like Sable!
-> - Tree → Tree starts with t-t-t. Listen: sss-Sable, sss-sun. Sun starts like Sable!
+> - Moon → Sable on the moon? What a big jump! Moon starts with mmm. Listen: sss-Sable, sss-sun. Sun starts like Sable!
+> - Tree → Sable up a tree? She’d never come down! Tree starts with t-t-t. Listen: sss-Sable, sss-sun. Sun starts like Sable!
 > _For grown-ups: Your child heard the “sss” sound at the start of Sable and found another word that starts with S._
 
 _You sit very still with her. You don’t need to go anywhere._  
@@ -539,7 +539,7 @@ _Like a plant leaning towards a sunny window._
 > _(Is there a plant on a windowsill near you? Which way does it lean?)_  
 > _For grown-ups: Your child learned that plants need light and grow towards it, and looked for a plant that does._
 
-_A tuft of grass grows on his head. You don’t mention it._  
+_Pop! A tuft of grass grows on his head. You don’t mention it._  
 _At the bottom of the hill, you look back. He is watching you go._  
 
 #### `sprout:t-talk-generic` · [main](../../campaign/triggered.md#t-talk-generic)
@@ -553,7 +553,7 @@ _First, you talk about the weather._
 > Check: `edu:look:weather:window`
 > _For grown-ups: Your child looked outside and described today’s weather._
 
-_Then a funny chat: whose Nubbin ate whose hat?_  
+_Then a funny chat: whose Nubbin ate whose hat? Hee hee!_  
 _That was nice. A little chat helps._  
 
 ## sprout:book2
@@ -571,8 +571,8 @@ _Your Nubbin jumps into the pond. Splash!_
 > **Lesson** (science, K-PS3-1, ask): sunlight warms things  
 > _The pond is warm today. What made it warm?_  
 > - ✅ The sun → Yes! The sun shines on it all day. Sunshine makes things warm.
-> - A fish → Ha! A fish can’t warm a pond. The sun did. Sunshine makes things warm.
-> - The moon → The moon is pretty, but it doesn’t warm things. The sun warmed the pond.
+> - A fish → A fish with a tiny stove? Splash! That would be funny! A fish can’t warm a pond. The sun did. Sunshine makes things warm.
+> - The moon → The moon, warming a pond? Brr! It’s a cool, pale moon. The moon is pretty, but it doesn’t warm things. The sun warmed the pond.
 > _For grown-ups: Learned that sunshine warms things up, like the water in a pond._
 
 _Someone is at the gate. Lift and push!_  
@@ -587,8 +587,8 @@ _Ember’s hands are in her pockets. They are tight fists._
 > _(Point to Ember’s hands.)_  
 > _How does Ember feel?_  
 > - ✅ Sad and cross → Yes. Tight fists can mean cross. A quiet voice can mean sad. Two feelings at once is allowed.
-> - Happy → Look again. Her hands are tight fists. Her voice is quiet. Ember is sad and cross.
-> - Sleepy → Her eyes are wide open. Her hands are fists. Ember feels sad and cross.
+> - Happy → Happy Ember, dancing a jig? Hee, hee! Look again. Her hands are tight fists. Her voice is quiet. Ember is sad and cross.
+> - Sleepy → Sleepy Ember, snoring on her feet? Zzz! Her eyes are wide open. Her hands are fists. Ember feels sad and cross.
 > _For grown-ups: Read a character’s feelings from her hands and voice, and heard that two feelings can come at once._
 
 **Ember**: Corvin wants you to race. Go. But watch him.  
@@ -607,7 +607,7 @@ _Ember’s hands are in her pockets. They are tight fists._
 
 #### `sprout:c5-circuit` · [main](../../campaign/book-2.md#c5-circuit)
 
-_The Circuit is a racetrack, up the valley._  
+_The Circuit is a racetrack, up the valley. Ding, ding! The bell rings._  
 _It’s clean and quiet. White lines. White rails._  
 _It’s hot. But the rails are cold and frosty!_  
 **Sparks**: Brrr! Frost, in summer! That’s very strange.  
@@ -659,14 +659,14 @@ _Then it looks at its toes, very carefully._
 > _It is looking at its toes. How does it feel?_  
 > - ✅ Worried → Yes. It heard Corvin. It feels worried. Staying close and a gentle pat can help.
 > - Happy → Happy Nubbins bounce about. This one is very still. It feels worried.
-> - Sleepy → Its eyes are wide open. It feels worried. Staying close can help.
+> - Sleepy → A sleepy Nubbin, snoring at the start line? Zzz! Its eyes are wide open. It feels worried. Staying close can help.
 > _For grown-ups: Read a pet’s quiet, careful look as worry, and talked about what helps a worried friend._
 
-_Ready, steady… time to race!_  
+_Ding! Ready, steady… time to race!_  
 
 #### `sprout:c5-close` · [main](../../campaign/book-2.md#c5-close)
 
-_Ready, steady, go! Run, run, run!_  
+_Ready, steady, go! Whoosh! Run, run, run!_  
 _Your Nubbin wins! It keeps running, just for fun._  
 **Sparks**: YOU WON! I’m just very loud about it!  
 **Byte**: Yours started late. It was looking at a butterfly.  
@@ -680,8 +680,8 @@ _At home, there is white frost on your sleeve._
 > _Frost is tiny bits of ice._  
 > _What happens when ice gets warm?_  
 > - ✅ It melts into water → Yes! Warm ice melts. Drip, drip. Your sleeve will just be a bit wet.
-> - It grows bigger → Ice grows in the cold. In the warm, it melts into water. Drip, drip.
-> - It turns into sand → Hm, no sand. Warm ice melts into water. Drip, drip.
+> - It grows bigger → A giant ice lump on your sleeve? Whoa! Ice grows in the cold. In the warm, it melts into water. Drip, drip.
+> - It turns into sand → Ice turning to sand? A beach on your sleeve! Whee! Warm ice melts into water. Drip, drip.
 > _For grown-ups: Learned that frost is ice, and ice melts into water when it gets warm._
 
 _By bedtime, it has melted away._  
@@ -712,7 +712,7 @@ _Where she was, a little flower grows._
 > _Dusty is very sad. What can we do to help?_  
 > - ✅ Sit with Dusty → Yes. Just sit. You needn’t say anything. Friends stay close.
 > - Run off and play → Playing can come later. Right now Dusty needs a friend. Let’s sit with them.
-> - Tell Dusty to stop being sad → Sad feelings don’t stop when we say so. Sitting close helps. Let’s sit with Dusty.
+> - Tell Dusty to stop being sad → Stop being sad? Poof! If only feelings were bubbles. Sad feelings don’t stop when we say so. Sitting close helps. Let’s sit with Dusty.
 > _For grown-ups: Talked about what helps a sad friend: staying close and just being there._
 
 **Dusty**: Will you sit with me a bit?  
@@ -742,8 +742,8 @@ _Where she was, a little flower grows._
 > **Lesson** (sel, CASEL: Relationship skills, ask): remembering someone who has died  
 > _What could help Dusty feel a little better?_  
 > - ✅ Sit together and remember Fossil → Yes. Remember her face in the water? I do. Remembering keeps Fossil close in our hearts.
-> - Forget all about her → We don’t need to forget. Remembering Fossil keeps her close. Let’s remember together.
-> - Leave Dusty on their own → Being alone can feel lonely. Let’s stay and remember Fossil with Dusty.
+> - Forget all about her → Forget all about her? Poof, out of your head! Never. We don’t need to forget. Remembering Fossil keeps her close. Let’s remember together.
+> - Leave Dusty on their own → Dusty, all alone, with a big sigh? Oh dear! Being alone can feel lonely. Let’s stay and remember Fossil with Dusty.
 > _For grown-ups: Talked about how remembering someone together can help when we are sad._
 
 
@@ -761,8 +761,8 @@ _Now Moss sits by the flower. When did he come?_
 > **Moss**: Fossil. Flower. Listen. They both start with fff.  
 > **Moss**: Which word starts with fff too?  
 > - ✅ Fish → Yes. Fff-fish. Fff-Fossil. Fff-flower.
-> - Moon → Moon starts with mmm, like Moss. Fish starts with fff.
-> - Dog → Dog starts with d-d-d. Fish starts with fff, like Fossil.
+> - Moon → Fossil, up on the moon? Whee, what a jump! Moon starts with mmm, like Moss. Fish starts with fff.
+> - Dog → Fossil the dog? Woof, woof! Hee, hee! Dog starts with d-d-d. Fish starts with fff, like Fossil.
 > _For grown-ups: Listened for the first sound f in Fossil and flower and found another f word._
 
 **Moss**: That is fading done right. Fossil was loved, and let go.  
@@ -784,7 +784,7 @@ _Down the hill, Dusty is nearly at the gate._
 #### `sprout:c7-open` · [main](../../campaign/book-2.md#c7-open)
 
 _Sable sleeps near you now. Not next to you. Near._  
-_You wake up early. Brrr! It’s cold!_  
+_You wake up early. Achoo! Brrr! It’s cold!_  
 _Outside, there is white frost. But only in one place._  
 _It runs from the long grass to the fourth post._  
 
@@ -802,8 +802,8 @@ _Sable stares at the post. She is very, very still._
 > _A hedgehog snuffles past Luna’s boots. Snuffle, snuffle._  
 > **Luna**: Who else is awake at night, like me?  
 > - ✅ A hedgehog → Yes! Hedgehogs, and owls, and me. We sleep in the day.
-> - A butterfly → Butterflies like sunny days. Hedgehogs are awake at night. So am I.
-> - A sunflower → Sunflowers love the sun! Hedgehogs are awake at night. So am I.
+> - A butterfly → A butterfly at midnight? She’d be fast asleep! Butterflies like sunny days. Hedgehogs are awake at night. So am I.
+> - A sunflower → A sunflower wide awake at midnight? Yawn! Sunflowers love the sun! Hedgehogs are awake at night. So am I.
 > _For grown-ups: Learned that some animals, like hedgehogs, are awake at night and rest in the day._
 
 **Luna**: I found out where Sable lived before. In Corvin’s garden.  
@@ -815,7 +815,7 @@ _Sable stares at the post. She is very, very still._
 
 _Moss comes down the hill. His feet leave no prints._  
 _He stops at the frosty post, and looks and looks._  
-_Your Nubbin licks the frost. Brr! Out pops its tongue._  
+_Your Nubbin licks the frost. Brr! Pop! Out comes its tongue._  
 _Sable licks it too, very slowly. Now they both look shocked._  
 **Moss**: Yes. It is cold. That is the point.  
 **Moss**: Something was hidden under this post. It isn’t there now.  
@@ -863,8 +863,8 @@ _Sable’s ears go flat. She doesn’t like that word._
 > **Moss**: Still… hill. Those words rhyme. They end the same way.  
 > **Moss**: Which word rhymes with still?  
 > - ✅ Spill → Yes. Still, hill, spill. They all end the same!
-> - Sock → Sock ends with ock. Spill ends with ill, like still.
-> - Moon → Moon ends with oon. Spill ends with ill. Still, spill!
+> - Sock → A sock on the hill? Hee, hee, very silly! Sock ends with ock. Spill ends with ill, like still.
+> - Moon → A still moon floats up in the sky! Whee! Moon ends with oon. Spill ends with ill. Still, spill!
 > _For grown-ups: Listened for words that rhyme with "still"._
 
 
@@ -887,14 +887,14 @@ _Sable’s ears go flat. She doesn’t like that word._
 **Moss**: Gran Hazel had a word for the opposite.  
 **Moss**: Her word was: well.  
 _The sun comes up. The frost starts to steam._  
-**Moss**: A well Nubbin runs and plays. It eats a beetle.  
+**Moss**: A well Nubbin runs and plays. It eats a beetle. Crunch!  
 **Moss**: It gets a bump. It comes back. It is happy.  
 
 > **Lesson** (science, K-LS1-1, ask): what animals need to live  
 > **Moss**: What does a Nubbin need, to be well?  
 > - ✅ Food, water and a cosy home → Yes! Food, water and a home. And Nubbins need love. Lots of it.
-> - A cold, still stone → No. That makes them still, not well. They need food, water and a home.
-> - Nothing at all → Every living thing needs something! Food, water and a home.
+> - A cold, still stone → A Nubbin on a cold stone? Brr! Still as a pebble, and about as happy. They need food, water and a home.
+> - Nothing at all → Nothing at all? A Nubbin made of air! Hee, hee! Every living thing needs something! Food, water and a home.
 > _For grown-ups: Learned that animals need food, water and a place to live._
 
 **Moss**: A still Nubbin gets no bumps. And it never plays.  
@@ -948,7 +948,7 @@ _Byte looks down. It is tied!_
 > Check: `edu:say:sound:m`
 > _For grown-ups: Said the sound of the letter M and heard it in Maybe and Moss._
 
-_The needle wobbles. MAYBE. Sable leans on you even harder._  
+_Ding! The needle wobbles. MAYBE. Sable leans on you even harder._  
 _Up on the hill, Moss smiles and looks away._  
 
 #### `sprout:c8-open` · [main](../../campaign/book-2.md#c8-open)
@@ -960,8 +960,8 @@ _Nova is at the gate. She lifts and pushes._
 > **Nova**: Look at the plum tree. Yellow leaves!  
 > **Nova**: Which season is it?  
 > - ✅ Autumn → Yes! In autumn, lots of leaves change colour. Yellow, orange, red. Then they fall.
-> - Spring → In spring, new green leaves grow. Yellow leaves mean autumn.
-> - Summer → Summer leaves are green. When they turn yellow, it’s autumn.
+> - Spring → A spring tree in a yellow coat? Silly tree! In spring, new green leaves grow. Yellow leaves mean autumn.
+> - Summer → A summer tree in a yellow jumper? Far too hot! Summer leaves are green. When they turn yellow, it’s autumn.
 > _For grown-ups: Learned that many trees’ leaves turn yellow, orange and red in autumn, then fall._
 
 _Nova visits sometimes. She never stays for tea._  
@@ -976,7 +976,7 @@ _Could it be Gran Hazel?_
 > **Moss**: Nova asked for help. That is hard for her.  
 > **Moss**: Was it a good idea?  
 > - ✅ Yes. Asking for help is brave → Yes. Asking for help is brave, and clever too.
-> - No. She should do it alone → Some things are too big to do alone. Asking for help is brave.
+> - No. She should do it alone → Nova lifting a whole hill all by herself? Oof! Some things are too big to do alone. Asking for help is brave.
 > _For grown-ups: Talked about how asking for help is a brave and sensible thing to do._
 
 **Moss**: Gran Hazel went with a lantern and fruit. Take both.  
@@ -1019,7 +1019,7 @@ _Sable sits by the gate. She will wait here._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): staying safe near water  
 > **Marina**: Why do we go slowly near water?  
 > - ✅ So we don’t slip and fall in → Yes. Wet rocks are slippery. Go slowly, and stay close to a grown-up.
-> - So we can be fast → Near water, slow is best! Wet rocks are slippery. Stay close to a grown-up.
+> - So we can be fast → Fast on wet rocks? Wheee… splash! In you go! Slow is best! Wet rocks are slippery. Stay close to a grown-up.
 > - Because water is boring → Water is great fun! But wet rocks are slippery. Go slowly, with a grown-up.
 > _For grown-ups: Learned to go slowly near water, because wet rocks are slippery, and to stay with a grown-up._
 
@@ -1057,8 +1057,8 @@ _Sable sits by the gate. She will wait here._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): staying safe near water  
 > **Marina**: Do you remember my rules near water?  
 > - ✅ Go slowly and hold on → Yes! Slow feet. Hand on the rock. And stay close to a grown-up.
-> - Run and jump → Not near water! Wet rocks are slippery. Go slowly and hold on.
-> - Go on your own → Never alone near water. Stay close to a grown-up, and go slowly.
+> - Run and jump → Run and jump on wet rocks? Wheee… splash! Wet rocks are slippery. Go slowly and hold on.
+> - Go on your own → Off on your own, with just the frogs? Plop! Never alone near water. Stay close to a grown-up, and go slowly.
 > _For grown-ups: Remembered how to stay safe near water: go slowly, hold on, and stay with a grown-up._
 
 _Nova unfolds a long speech. Both sides of the page!_  
@@ -1124,7 +1124,7 @@ _Little lights blink in the dark. Fireflies!_
 > **Nova**: What are fireflies, do you think?  
 > - ✅ Tiny beetles that glow → Yes! The end of their body lights up. They flash to find each other.
 > - Little lamps → They look like lamps! But they’re tiny beetles. The end of their body glows.
-> - Stars that fell down → Stars stay up in the sky. Fireflies are tiny beetles that glow.
+> - Stars that fell down → A star, plop, in the grass? What a surprise! Stars stay up in the sky. Fireflies are tiny beetles that glow.
 > _For grown-ups: Learned that fireflies are small beetles that make their own light._
 
 _Behind you, a grey Nubbin eats. It doesn’t run away._  
@@ -1163,7 +1163,7 @@ _Quiet. Is quiet the same as happy? You are not sure._
 > _Your Nubbin is quiet when it naps._  
 > _Is it quiet when it is sad, too?_  
 > - ✅ Yes. Quiet can be calm or sad → Yes. Look at faces to tell which. A cosy face is calm. A droopy face is sad.
-> - No. Quiet is always happy → Not always. Sometimes quiet is sad. Look at the face to tell.
+> - No. Quiet is always happy → Always happy and quiet? Like a statue with a smile! Sometimes quiet is sad. Look at the face to tell.
 > _For grown-ups: Your child learned that being quiet can mean calm or sad, and that faces help us tell._
 
 _You put the note in a drawer. Then you move it somewhere else._  
@@ -1192,7 +1192,7 @@ _Corvin keeps his cold hand on his coat pocket. Always._
 > _Look at the grey Nubbins. Heads down. Very still._  
 > _How do you think they feel?_  
 > - ✅ Quiet and sad → Yes. They are safe, but they are not happy. Safe is not the same as happy.
-> - Happy and playful → Look again: no wiggles, no games. They look sad. Safe is not the same as happy.
+> - Happy and playful → Happy, playful Nubbins would wiggle and hop! Boing! Look again: no wiggles, no games. They look sad. Safe is not the same as happy.
 > _For grown-ups: Your child read how someone feels from the way they look and move._
 
 _What should we do? (Talk about it together.)_  
@@ -1282,7 +1282,7 @@ _His hand is blue with cold. You take the tin._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): keeping warm in cold weather  
 > _Corvin’s hands are freezing. What could help warm them?_  
 > - ✅ Gloves, or tucking them somewhere warm → Yes! Gloves, pockets and armpits keep hands warm. Look, Corvin is trying it.
-> - Holding a snowball → Brrr! A snowball makes hands colder. Gloves and warm pockets help.
+> - Holding a snowball → A snowball? Brrr! Corvin’s hands would turn to ice lollies! Gloves and warm pockets help.
 > _For grown-ups: Your child thought about how to keep the body warm in cold weather._
 
 **Corvin Vale**: I haven’t been warm for a very long time.  
@@ -1292,7 +1292,7 @@ _He tucks his hands under his arms to warm them._
 
 _Ember and Ash walk down the road. Corvin calls your name._  
 **Corvin Vale**: Wait. Take this too.  
-_He throws you a little tin. You catch it. Gasp!_  
+_He throws you a little tin. Thump! You catch it. Gasp!_  
 _It is so cold! It is fuzzy with frost._  
 **Corvin Vale**: It never helped anything that mattered. Take it away.  
 _He wipes his hand on his coat, hard._  
@@ -1301,14 +1301,14 @@ _He wipes his hand on his coat, hard._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): ice is slippery, so we walk slowly on it  
 > _Corvin says, “Mind the ice.” Why do we walk slowly on ice?_  
 > - ✅ Because ice is slippery → Yes. Ice is smooth and slippery. Small, slow steps keep us on our feet.
-> - Because ice is sticky → Ice isn’t sticky, it’s slippery! Feet slide on it, so we go slowly.
+> - Because ice is sticky → Sticky ice, like jam on toast? Hee, hee! Ice is slippery! Feet slide on it, so we go slowly.
 > _For grown-ups: Your child learned that ice is slippery and how to move safely on it._
 
 
 #### `sprout:c9-shard-forced` · [main](../../campaign/book-3.md#c9-shard-forced)
 
 _All the grey Nubbins are gone. Corvin sits on the cold ground._  
-_Bump! Everyone ran past him at once._  
+_Bonk! Everyone ran past him at once._  
 _Something fell out of his coat. A little tin._  
 _Frost grows out from it, white and sparkly._  
 **Corvin Vale**: Leave that!  
@@ -1321,7 +1321,7 @@ _Ember holds your arm all the way to the road._
 > _Ember is worried. She holds your arm._  
 > _What helps when you feel worried?_  
 > - ✅ Holding a friend’s hand, and telling them → Yes. Telling someone and holding on helps worries feel smaller.
-> - Keeping it all inside → Hiding a worry can make it feel bigger. Telling a friend, or holding a hand, helps.
+> - Keeping it all inside → A worry in your pocket? It might grow and grow! Whoa! Hiding a worry can make it feel bigger. Telling a friend, or holding a hand, helps.
 > _For grown-ups: Your child named a helpful way to cope with a worried feeling._
 
 _On the way home, Ash follows Ember, three steps behind. Shh._  
@@ -1329,7 +1329,7 @@ _On the way home, Ash follows Ember, three steps behind. Shh._
 #### `sprout:c9-sable` · [main](../../campaign/book-3.md#c9-sable)
 
 _Sable is waiting at the gate. She waited here once before._  
-_This time she gets up and trots to meet you!_  
+_This time she gets up and trots to meet you! Pitter, patter!_  
 _Sniff, sniff. She sniffs your pocket, where the tin is._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, do): animals use their senses; many smell far better than people  
@@ -1346,7 +1346,7 @@ _Sable is brave tonight. You are brave too._
 #### `sprout:c9-close` · [main](../../campaign/book-3.md#c9-close)
 
 **Marina**: The whole valley is talking about you. Fern says you were brave.  
-_On your step is a warm pie from Fern. Yum!_  
+_On your step is a warm pie from Fern. Nom, nom!_  
 
 > **Lesson** (maths, 1.G.A.3, do): sharing a circle into two equal halves  
 > _Let’s share the pie with Marina._  
@@ -1368,7 +1368,7 @@ _You put the tin under the post. Frost creeps up the glass._
 > _It is nearly midwinter._  
 > _Is it dark for a long time at night, or a short time?_  
 > - ✅ A long time → Yes. In winter the sun sets early and rises late. So the nights are long.
-> - A short time → Short nights come in summer. In winter the sun sets early and rises late. Long nights!
+> - A short time → A short, short night? Whoosh! Morning already! Short nights come in summer. In winter the sun sets early and rises late. Long nights!
 > _For grown-ups: Your child learned that winter nights are long and summer nights are short._
 
 
@@ -1410,7 +1410,7 @@ _Clover’s grey blanket is on Sable’s back. Sable lets it stay._
 > **Lesson** (sel, CASEL: Relationship skills, ask): helping a worried friend by staying close and waiting  
 > _Luna is worried about Sable. What could Luna do?_  
 > - ✅ Sit near her quietly, and wait → Yes. Gran Hazel’s rule: sit down next to them, and wait.
-> - Pull her away → Pulling might scare Sable. Gran Hazel’s rule: sit down next to them, and wait.
+> - Pull her away → Pull Sable like a toy cart? Eek, she’d jump a mile! Pulling might scare Sable. Gran Hazel’s rule: sit down next to them, and wait.
 > _For grown-ups: Your child chose a calm, patient way to help someone who is worried._
 
 _Sable is guarding the tin. She is keeping everyone safe._  
@@ -1454,8 +1454,8 @@ _The tin is the coldest thing here. But Wisp thinks it is warm._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): opposites: hot and cold  
 > _The tin is cold. What is the opposite of cold?_  
 > - ✅ Hot → Yes! Cold and hot are opposites. Wisp has them mixed up.
-> - Wet → Wet goes with dry. The opposite of cold is hot!
-> - Small → Small goes with big. The opposite of cold is hot!
+> - Wet → Wet? Splash! Like a cold puddle! But wet goes with dry. The opposite of cold is hot!
+> - Small → Small? Like a tiny cold button! But small goes with big. The opposite of cold is hot!
 > _For grown-ups: Your child found the opposite of a word._
 
 **Clover**: Leave him be. He came. That’s something.  
@@ -1466,7 +1466,7 @@ _Deep in the night, the cold stops for a while._
 _Everyone sits down. On a bucket, on a step, even on Dusty!_  
 **Dusty**: I don’t mind. I’m warm. I’ve been digging.  
 _Pixel falls asleep on her box. Beep… beep… beep._  
-**Fern**: Biscuits! They’re frozen, but you can suck them.  
+**Fern**: Biscuits! They’re frozen. Crunch! You can suck them.  
 _Sparks has four biscuits. Byte has one._  
 
 > **Lesson** (maths, K.CC.C.6, ask): more and fewer  
@@ -1497,7 +1497,7 @@ _Then, far away, the waterfall stops. Shh. It is so quiet._
 > **Lesson** (science, 2-ESS2-3, ask): very cold water freezes into ice  
 > _Why did the waterfall stop splashing?_  
 > - ✅ The water froze into ice → Yes. When water gets very, very cold, it turns into ice. Ice can’t splash.
-> - It got tired → Waterfalls don’t get tired! The water got so cold it turned into ice.
+> - It got tired → A sleepy waterfall in a nightcap? Yawn! Waterfalls don’t get tired! The water got so cold it turned into ice.
 > _For grown-ups: Your child learned that very cold water freezes into solid ice._
 
 **Marina**: We must go now, before the sun comes up.  
@@ -1520,7 +1520,7 @@ _Luna touches her forehead to Sable’s. Just for a second._
 > **Lesson** (sel, CASEL: Self-awareness, ask): being brave means doing a hard thing even when scared  
 > _Sable is scared, but she still helps. What is that called?_  
 > - ✅ Being brave → Yes. Brave doesn’t mean not scared. It means doing it anyway.
-> - Being silly → Not silly. Sable is scared and helps anyway. That is being brave.
+> - Being silly → Silly Sable, juggling plums? Not tonight. Sable is scared and helps anyway. That is being brave.
 > _For grown-ups: Your child learned that being brave can mean feeling scared and trying anyway._
 
 
@@ -1543,7 +1543,7 @@ _They stand up tall by their lanterns._
 
 _Marina goes first, with a rope and a lantern._  
 _Behind her, the stone glows blue in the dark._  
-_The waterfall is frozen. A long, still slide of ice._  
+_The waterfall is frozen. Creak! A long, still slide of ice._  
 **Marina**: Hands on the rock. Feet where my feet go. Slowly.  
 _Marina ties the rope round you, then round herself._  
 _Behind the frozen falls is a cave. It sparkles! It is warm._  
@@ -1551,7 +1551,7 @@ _Behind the frozen falls is a cave. It sparkles! It is warm._
 > **Lesson** (maths, K.G.A.1, ask): position words: in front of and behind  
 > _Where is the cave? In front of the waterfall, or behind it?_  
 > - ✅ Behind it → Yes! The cave hides behind the waterfall.
-> - In front of it → We went past the falls to find it. The cave is behind the waterfall.
+> - In front of it → A cave out in front, in the open snow? Brr! We went past the falls to find it. The cave is behind the waterfall.
 > _For grown-ups: Your child used the position words in front of and behind._
 
 _In the middle is the Wellspring. The water glows from below._  
@@ -1594,7 +1594,7 @@ _Sable is scared. Letting go of a scary thing is hard._
 > **Lesson** (sel, CASEL: Social awareness, ask): helping someone who is scared  
 > _What could help Sable feel less scared?_  
 > - ✅ A friend close by, and a gentle voice → Yes. Calm voices and friends nearby help scared feelings shrink.
-> - Shouting at her → Shouting makes scared feel bigger. A gentle voice and a friend close by help.
+> - Shouting at her → Shouting? Sable would jump higher than a frog! Shouting makes scared feel bigger. A gentle voice and a friend close by help.
 > _For grown-ups: Your child named ways to comfort someone who is frightened._
 
 
@@ -1677,7 +1677,7 @@ _The water goes still. Moss has gone under. We wait._
 
 _You sit on the warm rock and wait. That’s Gran Hazel’s rule._  
 _Moss sits beside you. He says nothing._  
-_The waterfall starts again. Trickle, rush, ROAR!_  
+_The waterfall starts again. Drip, trickle, rush, ROAR!_  
 
 > **Lesson** (music, do): quiet, louder, loudest  
 > _Say it with the waterfall!_  
@@ -1707,7 +1707,7 @@ _You sit on the warm rock and wait. Marina comes and sits too._
 _So you do. Moss on the hill. Moss and Byte’s shoelace._  
 _You remember every quiet afternoon with him._  
 _The waterfall starts again. Trickle, rush, ROAR!_  
-_Then something pops up. Small, grey and very thin._  
+_Then, pop! Something comes up. Small, grey and very thin._  
 _Moss climbs out. He shakes his ears. Shake, shake!_  
 **Moss**: You were very loud. I could hear you from the bottom.  
 **Moss**: Don’t pick me up. …Oh, go on, then.  
@@ -1770,7 +1770,7 @@ _Byte looks down. Byte looks up. Byte’s mouth falls open._
 > Check: `edu:listen:quiet`
 > _For grown-ups: Your child practised sitting still and listening carefully._
 
-_Byte ties his shoelace, very carefully. Everyone laughs._  
+_Byte ties his shoelace, very carefully. Everyone goes hee, hee!_  
 
 #### `sprout:c10-moss-fades` · [main](../../campaign/book-3.md#c10-moss-fades)
 
@@ -1804,7 +1804,7 @@ _The flower helps everyone remember him._
 > **Lesson** (sel, CASEL: Social awareness, ask): people show sadness in different ways  
 > _Clover is crying. Byte is very quiet. How do they feel?_  
 > - ✅ Sad, because they miss Moss → Yes. People show sad in different ways. Crying is OK. Being quiet is OK too.
-> - Cross → They look sad, not cross. They miss Moss. Crying and quiet are both sad.
+> - Cross → Cross, with stompy boots? No stomping here. They look sad. They miss Moss. Crying and quiet are both sad.
 > _For grown-ups: Your child noticed that people show sadness in different ways._
 
 
@@ -1828,7 +1828,7 @@ _Sable goes cross-eyed trying to see both!_
 
 _The sun is up. Everyone is tired. Nobody wants to go home._  
 _Look! A lantern is coming down the hill path._  
-_It comes slowly. It stops to rest, then comes again._  
+_Creak, creak! It comes slowly. It stops to rest, then comes again._  
 _Fern sees it first. She puts her hand over her mouth._  
 _Nobody runs. Everyone waits and lets it come._  
 _It’s a small lady in three coats. Her boots are tied with string._  
@@ -1838,7 +1838,7 @@ _In her arm sleeps a tiny, thin grey Nubbin._
 > _A small lady. Three coats. String on her boots._  
 > _Who do you think it is?_  
 > - ✅ Gran Hazel! → Good guess! Let’s see…
-> - Corvin → Corvin is a tall man. This is a small lady. Let’s see…
+> - Corvin → Corvin, in three coats and string boots? Hee, hee! Corvin is a tall man. This is a small lady. Let’s see…
 > - A bear → A bear in three coats! That would be funny. Let’s see…
 > _For grown-ups: Your child used clues in the story to guess who a character was._
 
@@ -1855,11 +1855,11 @@ _It’s Gran Hazel! Of course it is._
 > **Lesson** (science, 1-LS1-2, ask): babies need grown-ups to feed them and keep them warm  
 > _The baby was all alone. What does a baby Nubbin need?_  
 > - ✅ Food, warmth, and someone to care for it → Yes. Baby animals need grown-ups to feed them and keep them warm.
-> - Nothing at all → Babies need lots! Food, warmth, and a grown-up to look after them.
+> - Nothing at all → A baby that needs nothing? Floating on a cloud! Hee! Babies need lots! Food, warmth, and a grown-up to look after them.
 > _For grown-ups: Your child learned that young animals need their parents to feed and protect them._
 
 **Fern**: Hello, little one!  
-_Fern touches the folded ear, gently. The baby sighs and snuggles in._  
+_Fern touches the folded ear, gently. The baby goes peep and snuggles in._  
 
 #### `sprout:c11-open` · [main](../../campaign/book-3.md#c11-open)
 
@@ -1883,7 +1883,7 @@ _Gran Hazel is small. She smells of woodsmoke and leaves._
 > **Lesson** (science, K-LS1-1, ask): what animals need to live and grow  
 > _The tiny Nubbin is too thin. What will help her grow strong?_  
 > - ✅ Food and water, a little at a time → That’s it, love. A bit of apple, a sip of water. And lots of patience.
-> - Running races → Running is fun, but she needs food and water first. A little at a time.
+> - Running races → A tiny thin Nubbin racing? Whoosh, she’d wobble! Running is fun, but she needs food and water first. A little at a time.
 > _For grown-ups: Your child learned that animals need food and water to live and grow._
 
 **Gran Hazel**: A Grove isn’t the Nubbins, love.  
@@ -1896,13 +1896,13 @@ _Moss sits by Gran Hazel’s boot._
 **Moss**: You’re late.  
 **Gran Hazel**: I’m always late. You’re thinner.  
 **Moss**: You’re late. I’m thinner. We’re even.  
-_Gran Hazel laughs and laughs. She holds her side._  
+_Gran Hazel laughs, hee, hee, hee. She holds her side._  
 
 > **Lesson** (literacy, RF.K.2, ask): rhyming words  
 > _Late! Which word rhymes with late?_  
 > - ✅ Gate → Yes! Late, gate. They sound the same at the end.
-> - Moss → Listen: late… gate. Gate rhymes with late!
-> - Pond → Listen: late… gate. Gate rhymes with late!
+> - Moss → Late, Moss? Moss is never early! Hee, hee! Listen: late… gate. Gate rhymes with late!
+> - Pond → Late, pond? A pond that is always late! Plop! Listen: late… gate. Gate rhymes with late!
 > _For grown-ups: Your child listened for words that rhyme._
 
 _She pats his head, just like every evening for forty years._  
@@ -1942,13 +1942,13 @@ _Gran Hazel holds your hand. You sit together, quietly._
 _Sable comes out of the long grass._  
 _She looks at Gran Hazel for a long time._  
 _Then she walks right past her, and leans on your leg._  
-**Gran Hazel**: Sable chose you, not me! Ha!  
+**Gran Hazel**: Sable chose you, not me! Hee hee!  
 **Gran Hazel**: That one took longer than two months, I bet.  
 
 > **Lesson** (maths, ELOF: Mathematics Development, ask): comparing lengths of time  
 > _Which is longer: one day, or two months?_  
 > - ✅ Two months → Yes! Two months is lots and lots of days. Making friends with Sable took longer still.
-> - One day → One day goes by quickly. Two months is lots and lots of days. That’s longer!
+> - One day → One day? Whoosh! It’s gone in a blink. Two months is lots and lots of days. That’s longer!
 > _For grown-ups: Your child compared a short time and a long time._
 
 _You nod. It took a long, long time._  
@@ -1978,7 +1978,7 @@ _Gran Hazel’s hand is warm and very light._
 
 _Look! Corvin is back at the gate._  
 _He wears an old brown coat now, not a grey one._  
-_He lifts the latch, just once. The gate sticks._  
+_He lifts the latch, just once. Creak! The gate sticks._  
 
 > **Lesson** (literacy, ELOF: Approaches to Learning, do): sequencing: first, then  
 > _The gate has a trick. First, lift. Then, push._  
@@ -2086,7 +2086,7 @@ _At the top she sits. You can see the whole Grove!_
 > **Lesson** (maths, K.G.A.1, ask): position words: top and bottom  
 > _Where is Gran Hazel sitting? At the top of the hill, or the bottom?_  
 > - ✅ At the top → Yes. Right at the top, where she can see everything.
-> - At the bottom → We climbed up, up, up. She’s at the top, where she can see everything.
+> - At the bottom → At the bottom, looking at her boots? We climbed up, up, up! She’s at the top, where she can see everything.
 > _For grown-ups: Your child used the position words top and bottom._
 
 **Gran Hazel**: There. That’s mine. It’s a good one.  
@@ -2107,7 +2107,7 @@ _Moss climbs onto her shoulder. He is as light as a leaf._
 > _Moss is as light as a leaf._  
 > _Which is lighter: a leaf or a rock?_  
 > - ✅ A leaf → Yes! A leaf is light. A rock is heavy.
-> - A rock → A rock is heavy, hard to lift. A leaf is light. It floats in the wind!
+> - A rock → A rock on Hazel’s shoulder? Thump! That’s very heavy. A rock is heavy, hard to lift. A leaf is light. It floats in the wind!
 > _For grown-ups: Your child compared two things to say which is lighter._
 
 **Gran Hazel**: This is as far as you come, love.  
@@ -2188,7 +2188,7 @@ _Everyone takes turns watching it, all night long._
 > **Lesson** (sel, CASEL: Relationship skills, ask): taking turns  
 > _Why do friends take turns watching the lantern?_  
 > - ✅ So everyone can rest a bit → Yes. Taking turns means everyone gets a go, and a rest.
-> - So one friend does it all → That would be very tiring! Taking turns shares the job, so everyone can rest.
+> - So one friend does it all → One friend, watching all night? Yawn… zzz! That would be very tiring! Taking turns shares the job, so everyone can rest.
 > _For grown-ups: Your child learned how taking turns shares a job fairly._
 
 _In the morning, her lantern is out._  
@@ -2200,14 +2200,14 @@ _On the hill is a new flower, a bit untidy, facing the Grove._
 > **Lesson** (science, K-LS1-1, ask): what plants need to grow  
 > _Let’s look after Gran Hazel’s flower. What does a flower need?_  
 > - ✅ Sunlight and water → Yes. Sun and water help it grow. Looking after it is a way to remember her.
-> - A hug → Hugs are for people. Flowers need sunlight and water. We can give each other the hugs.
+> - A hug → A flower in a big hug? Squish! Hugs are for people. Flowers need sunlight and water. We can give each other the hugs.
 > _For grown-ups: Your child learned that plants need light and water, and that caring for a memorial flower is a way to remember._
 
 
 #### `sprout:end-hazels-grove` · [main](../../campaign/endings.md#end-hazels-grove)
 
 _GRAN HAZEL’S GROVE_  
-_The gate still sticks. Everyone knows: lift and push._  
+_Creak! The gate still sticks. Everyone knows: lift and push._  
 _The frost never comes back. The fourth lantern lights itself every night._  
 _Moss sits by Gran Hazel’s flower and talks to it._  
 _Sable sleeps on your feet. Grey, and loved, both at once._  
@@ -2224,7 +2224,7 @@ _Some nights Sable makes a tiny sound. It might be a word._
 #### `sprout:end-hazels-grove-open` · [main](../../campaign/endings.md#end-hazels-grove-open)
 
 _GRAN HAZEL’S GROVE_  
-_No gate now! Friends still lift and push at the empty air._  
+_No gate now! Friends still lift and push at the air. Whoosh!_  
 
 > **Lesson** (sel, ELOF: Approaches to Learning, do): habits: things our bodies remember to do  
 > _The gate is gone, but their hands remember it. That’s called a habit._  
@@ -2256,7 +2256,7 @@ _Slow hands. Warm hearts. The end._
 
 _ETERNAL DAWN_  
 _One of your Nubbins has stopped growing older._  
-_It is an Eternal now, like Moss!_  
+_Pop! It is an Eternal now, like Moss!_  
 _It sits on the hill and watches the gate._  
 _It decided you are worth it. It decided long ago._  
 
@@ -2274,18 +2274,18 @@ _Moss looks at it for a long time. Then he sits beside it._
 > **Lesson** (literacy, RF.K.2, ask): rhyming words  
 > _Moss is a bit cross sometimes. Which word rhymes with Moss?_  
 > - ✅ Cross → Yes! Moss, cross. Cross Moss!
-> - Cake → Listen: Moss… cross. Cross rhymes with Moss!
+> - Cake → Moss and cake? Nom, nom! Yummy, but not a rhyme. Listen: Moss… cross. Cross rhymes with Moss!
 > _For grown-ups: Your child listened for words that rhyme._
 
 **Moss**: Someone has to remember Byte’s shoelaces. Good. That’s good.  
-_Two Eternals on the hill now._  
+_Ding! Two Eternals on the hill now._  
 _One talks. The other is learning how._  
 
 #### `sprout:end-eternal-dawn-nomoss` · [main](../../campaign/endings.md#end-eternal-dawn-nomoss)
 
 _It sits in the very spot where Moss used to sit._  
 _Nobody taught it to. Nobody had to._  
-_Byte says it’s just luck._  
+_Byte says it’s just luck. Pfft!_  
 _But Byte ties his shoelaces twice now, just in case._  
 
 > **Lesson** (maths, K.CC.B.4, do): twice means two times  
@@ -2297,7 +2297,7 @@ _But Byte ties his shoelaces twice now, just in case._
 
 #### `sprout:end-eternal-dawn-last` · [main](../../campaign/endings.md#end-eternal-dawn-last)
 
-_On Lantern Night it comes down and sits with everyone._  
+_On Lantern Night, ding, dong, it comes down and sits with everyone._  
 _It looks at each friend in turn, very carefully._  
 _It is learning you all by heart._  
 
@@ -2312,13 +2312,13 @@ _That is what Eternals are for._
 
 _THE SHADOW’S KEEPER_  
 _Grey Nubbins come to your gate now, from far and wide._  
-_They are thin and quiet, and a bit scared._  
+_They are thin and quiet, and a bit scared. Peep!_  
 _Sable meets each one. She sits near it. She doesn’t rush._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): welcoming someone new and shy  
 > _A new Nubbin is shy. What helps it feel welcome?_  
 > - ✅ Sit near, be gentle, and wait → Yes. That is just what Sable does.
-> - Run up and grab it → That might scare it. Sitting near, gently, and waiting helps, like Sable.
+> - Run up and grab it → Run up and grab it? Eek, it would jump a mile! That might scare it. Sitting near, gently, and waiting helps, like Sable.
 > _For grown-ups: Your child chose a gentle way to welcome someone shy._
 
 _She shows them how to be brave._  
@@ -2337,7 +2337,7 @@ _Clover tells every new Keeper the same thing._
 > _For grown-ups: Your child compared dark and light shades of a colour._
 
 _Sable is grey, and Sable is loved. Both are true._  
-_She is so light now. Light and happy._  
+_Boing! She is so light now. Light and happy._  
 
 #### `sprout:end-moss-sleeps` · [main](../../campaign/endings.md#end-moss-sleeps)
 
@@ -2348,7 +2348,7 @@ _By spring, his flower by the flat stone was wide open._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): seasons: lots of flowers come up in spring  
 > _When do lots of new flowers come up?_  
 > - ✅ In spring → Yes! In spring the days get warmer and longer, and flowers come up.
-> - In winter → Winter is cold, so most flowers wait. They come up in spring, when it gets warmer.
+> - In winter → Flowers in the snow? Brr, they’d wear tiny scarves! Winter is cold, so most flowers wait. They come up in spring, when it gets warmer.
 > _For grown-ups: Your child learned that many flowers come up in spring._
 
 _The wind goes through it, the way it went through Moss._  
@@ -2379,12 +2379,12 @@ _Grey Nubbins from Corvin’s garden live in the Hollow, free._
 > **Lesson** (science, K-ESS3-1, ask): animals live where their needs are met  
 > _The Nubbins live in the Hollow. What do they need there?_  
 > - ✅ Food, water and a place to shelter → Yes. Animals live where they can find food, water and shelter.
-> - Toys and sweets → Fun, but not needed! Animals need food, water and shelter.
+> - Toys and sweets → A Nubbin eating toys and sweets? Crunch, munch! Fun, but not needed! Animals need food, water and shelter.
 > _For grown-ups: Your child learned that animals live where they can find food, water and shelter._
 
 _Each week you go there with a lantern and a bag of fruit._  
 _Fern sends lantern buns. The Hollow Nubbins won’t touch them!_  
-_Fern says that proves they are fussy eaters._  
+_Fern says that proves they are fussy eaters. Pfft!_  
 _Some of them let you come near now._  
 _A little grey one let you touch its ear. Took two months. Worth it._  
 
@@ -2442,10 +2442,10 @@ _Quiet can be nice. But too quiet is a little sad._
 > _A happy Grove is full of play._  
 > _Is it quiet all the time, or noisy sometimes?_  
 > - ✅ Noisy sometimes → Yes! Happy play is noisy sometimes. Quiet and noisy are opposites.
-> - Quiet all the time → Play makes noise: splashes, squeaks, giggles! Quiet and noisy are opposites.
+> - Quiet all the time → Quiet all the time? Shh! Not a squeak, not a giggle! Play makes noise: splashes, squeaks, giggles! Quiet and noisy are opposites.
 > _For grown-ups: Your child used the opposites quiet and noisy._
 
-_Let’s see what happened. (Listen carefully.)_  
+_Let’s see what happened. Drip, drip. (Listen carefully.)_  
 
 #### `sprout:end-collector-last` · [main](../../campaign/endings.md#end-collector-last)
 
@@ -2465,14 +2465,14 @@ _Maybe one day you’ll want to hear who comes back._
 
 _THE LONG ROAD_  
 _Sable is still here. Still grey. Still two steps away._  
-_She eats what you leave. She sleeps near you, not next to you._  
+_She eats what you leave. Munch! She sleeps near you, not next to you._  
 _Every evening, you sit down near her and wait._  
 _Some evenings she is only one and a half steps away!_  
 
 > **Lesson** (maths, K.MD.A.2, ask): comparing distance: nearer and further  
 > _Two steps away, then one and a half. Is Sable getting nearer, or further?_  
 > - ✅ Nearer → Yes! Fewer steps away means nearer. Slowly, slowly.
-> - Further → One and a half is less than two, so she’s nearer! Slowly, slowly.
+> - Further → Further? Whoops, she’d be waving from the hill! One and a half is less than two, so she’s nearer! Slowly, slowly.
 > _For grown-ups: Your child compared two distances to say which was nearer._
 
 _Pixel’s sign still says MAYBE. You like it that way._  
@@ -2495,13 +2495,13 @@ _The long road is still a road. You walk it together._
 
 _Wisp lives under the cottage step now._  
 _He is grey. But he doesn’t shake any more._  
-_He still takes one warm thing a day. A sock. A bun._  
+_He still takes one warm thing a day. A sock. A bun. Nom!_  
 _Then he gives most of it away!_  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): giving and sharing make others happy  
 > _Wisp gives most of his warm things away. How do his friends feel?_  
 > - ✅ Happy and warm → Yes! Giving to friends makes them happy. It makes Wisp warm inside too.
-> - Cross → They’re happy! A warm sock, a bun. Giving makes friends feel cared for.
+> - Cross → Cross, with a warm sock on their heads? Hee, hee! They’re happy! A warm sock, a bun. Giving makes friends feel cared for.
 > _For grown-ups: Your child thought about how giving and sharing make others feel._
 
 _He hisses at hands. Then he climbs into them._  
@@ -2511,14 +2511,14 @@ _He hisses at hands. Then he climbs into them._
 
 _Wisp sleeps in the long grass._  
 _It’s the spot where Sable once shared her fruit with him._  
-_He comes in for breakfast every morning._  
+_He comes in for breakfast every morning. Munch, munch!_  
 _Some mornings he stays to wash his face in the sun._  
 **Wisp**: …ours.  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): sharing: what “ours” means  
 > _Wisp says “ours”. What does ours mean?_  
 > - ✅ It belongs to all of us → Yes. Sable shared, and now Wisp shares too.
-> - It’s only mine → That’s “mine”. “Ours” means it belongs to all of us, shared.
+> - It’s only mine → Only mine? Grab, grab, all to myself! Hee, hee! That’s “mine”. “Ours” means it belongs to all of us, shared.
 > _For grown-ups: Your child learned the sharing word “ours”._
 
 
@@ -2532,7 +2532,7 @@ _You waved. Then it was gone._
 > _You waved at Wisp. Wave and Wisp start the same way: w-w-w._  
 > _Which word starts like Wisp too?_  
 > - ✅ Water → Yes! W-w-water, w-w-wave, w-w-Wisp.
-> - Fruit → Fruit starts with fff. W-w-water starts like w-w-Wisp!
+> - Fruit → Wisp, a fruit? Nom, nom! Gobbled up! Fruit starts with fff. W-w-water starts like w-w-Wisp!
 > _For grown-ups: Your child matched words by their first sound._
 
 _Now you leave a little fruit at the edge of the grass._  
@@ -2541,7 +2541,7 @@ _Some of it gets eaten. Someone is near._
 #### `sprout:end-epi-wisp-none` · [main](../../campaign/endings.md#end-epi-wisp-none)
 
 _Some nights, fruit goes missing from the long grass._  
-_Someone thin and quick takes it. Zip!_  
+_Someone thin and quick takes it. Whoosh!_  
 
 > **Lesson** (science, K-LS1-1, ask): animals need food every day  
 > _Someone small and hungry takes the fruit. Why?_  
@@ -2558,19 +2558,19 @@ _Corvin comes every Sunday. He sits by the pond._
 _He is learning to sit quietly. He’s not very good yet._  
 _He comes in the right way every time: lift and push._  
 _Ember sits on the other side. She’s still cross with him._  
-_But some Sundays, she passes him the teapot._  
+_But some Sundays, she passes him the teapot. Slurp!_  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): being kind even while still feeling cross  
 > _Ember is still cross with Corvin. What kind thing does she do?_  
 > - ✅ She passes him the teapot → Yes. You can feel cross and still do a kind thing. That’s how mending starts.
-> - She pushes him in the pond → Splash! No, she doesn’t. She passes him the teapot. A small kind thing.
+> - She pushes him in the pond → Ember pushing Corvin in the pond? Splash! Hee, hee! She passes him the teapot. A small kind thing.
 > _For grown-ups: Your child noticed that we can be kind even while we still feel cross._
 
 
 #### `sprout:end-epi-gate-guest` · [main](../../campaign/endings.md#end-epi-gate-guest)
 
 _Corvin comes when he is asked. That’s not very often._  
-_He knocks on the gatepost every time. Knock, knock, knock! Three, never four._  
+_He knocks on the gatepost every time. Bonk, bonk, bonk! Three, never four._  
 
 > **Lesson** (social-studies, D2.Civ.8.K-2, do): good manners: knocking and waiting to be asked in  
 > _Corvin knocks and waits to be asked in. That’s good manners._  
@@ -2589,7 +2589,7 @@ _Some mornings there are footprints in the dew by the gate._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): tracks tell us who has been somewhere  
 > _What can footprints tell us?_  
 > - ✅ Where someone walked → Yes! Footprints show where someone went, and which way they turned.
-> - What someone ate → Footprints can’t show that! They show where someone walked.
+> - What someone ate → A footprint with a sandwich in it? Hee, hee! Footprints can’t show that! They show where someone walked.
 > _For grown-ups: Your child learned that footprints are clues to where someone has been._
 
 _They stop at the gate, and turn round._  
@@ -2602,7 +2602,7 @@ _There is a chair by the pond. Nobody sits in it._
 > **Lesson** (literacy, RF.K.2, ask): rhyming words  
 > _Chair! Which word rhymes with chair?_  
 > - ✅ Bear → Yes! Chair, bear. A bear in a chair!
-> - Pond → Listen: chair… bear. Bear rhymes with chair!
+> - Pond → Chair, pond? Plop! A chair in the pond! Listen: chair… bear. Bear rhymes with chair!
 > _For grown-ups: Your child listened for words that rhyme._
 
 _Gran Hazel put it there years ago._  
@@ -2635,7 +2635,7 @@ _In spring, her flower opened._
 
 _Then Moss came down the path, thinner, and sat by the pond._  
 **Moss**: I decided.  
-_He decided to stay with you. Hooray!_  
+_He decided to stay with you. Hee, hee, hooray!_  
 
 #### `sprout:end-epi-walk-moss-stayed` · [main](../../campaign/endings.md#end-epi-walk-moss-stayed)
 
@@ -2663,7 +2663,7 @@ _When the lanterns are lit, she comes inside._
 > _When do we light the lanterns?_  
 > _In the bright day, or when it gets dark?_  
 > - ✅ When it gets dark → Yes. Every evening the sun goes down and it gets dark. So we light lanterns.
-> - In the bright day → In the day the sun gives us light. We light lanterns when it gets dark.
+> - In the bright day → Lanterns in the bright day? The sun would giggle! In the day the sun gives us light. We light lanterns when it gets dark.
 > _For grown-ups: Your child connected evening and darkness to the pattern of day and night._
 
 
@@ -2672,7 +2672,7 @@ _When the lanterns are lit, she comes inside._
 _Corvin carried Gran Hazel’s lantern up the hill._  
 _He left it there with her, still lit._  
 _At first light, he went back up and fetched it._  
-_It hangs on a hook by the cottage door now._  
+_It hangs on a hook by the cottage door now. Creak, creak!_  
 _Corvin looks after it himself. Snip, snip, he trims the wick._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, notice): fire safety: only grown-ups light flames  
@@ -2706,7 +2706,7 @@ _They stand together, and remember her._
 > _(Do you have a tradition? Birthdays count!)_  
 > _For grown-ups: Your child learned what a tradition is and thought of one of their own._
 
-_Fern brings lantern buns. They come out right every time now!_  
+_Fern brings lantern buns. Crunch! They come out right every time now._  
 _She says it’s because she stopped trying so hard._  
 _She says this mostly to the buns._  
 
@@ -2718,7 +2718,7 @@ _That’s how the valley found out._
 > **Lesson** (literacy, ELOF: Literacy, ask): what letters are for: talking through writing  
 > _Gran Hazel wrote a letter. What is a letter for?_  
 > - ✅ Telling someone something, in writing → Yes. A letter lets us talk to people, even when we’re not there.
-> - Making a hat → Ha! A letter is for telling someone something, in writing.
+> - Making a hat → A letter hat? Flop, flop! What a funny hat! A letter is for telling someone something, in writing.
 > _For grown-ups: Your child learned that writing carries a message from one person to another._
 
 _Clover cried. Sparks tried to fix the letter. Byte made a chart._  
@@ -2730,7 +2730,7 @@ _They argued about where she’d want them to stand. Just like family._
 _Long ago, Corvin’s dad, Aldous, wrote him a letter._  
 _Aldous died a long time ago. But his words are still here._  
 _Now Corvin reads the letter every Sunday._  
-_Old Tobin told everyone. Tobin tells everyone everything!_  
+_Old Tobin told everyone. Hee, hee! Tobin tells everyone everything!_  
 _The letter is soft as cloth now, from all the reading._  
 
 > **Lesson** (literacy, SL.K.1, notice): reading favourite words again and again  
@@ -2749,7 +2749,7 @@ _It isn’t yours. You’re only keeping it safe._
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): respecting other people’s things  
 > _Is it OK to read someone else’s letter?_  
 > - ✅ No, it belongs to them → That’s right. Their letter, their words. We keep it safe for them.
-> - Yes, any time → A letter belongs to the person it’s for. We keep it safe, and don’t peek.
+> - Yes, any time → Reading it any time? Peek, peek! Nosy as a squirrel. A letter belongs to the person it’s for. We keep it safe, and don’t peek.
 > _For grown-ups: Your child thought about respecting other people’s belongings._
 
 
@@ -2763,10 +2763,10 @@ _He never finishes a story. Not one!_
 > _Every story has a beginning, a middle and an end._  
 > _Which part does Tobin forget?_  
 > - ✅ The end → Yes! Tobin never gets to the end. Silly Tobin.
-> - The beginning → He always starts! He just never finishes. He forgets the end.
+> - The beginning → Forgets the start? He’s off like a rocket! Whee! He always starts! He just never finishes. He forgets the end.
 > _For grown-ups: Your child learned that stories have a beginning, a middle and an end._
 
-_You put Aldous’s letter in the stove. It burned up._  
+_You put Aldous’s letter in the stove. Whoosh! It burned up._  
 _Corvin never knew about his dad’s letter. You still wonder about that._  
 _Tobin says most things are a bit of both._  
 
@@ -2776,13 +2776,13 @@ _You left Aldous’s letter at his grave, under the trees._
 _Aldous was Corvin’s dad. He died a long time ago._  
 _By spring, the rain had washed the ink away._  
 _Someone keeps the grass short around his stone._  
-_The mill wheel turns slowly beside it. Round and round._  
+_Creak, creak, the mill wheel turns slowly beside it._  
 
 > **Lesson** (maths, K.G.A.2, ask): naming shapes: a wheel is a circle  
 > _The mill wheel goes round and round. What shape is a wheel?_  
 > - ✅ A circle → Yes! Wheels are circles, so they can roll and turn.
-> - A square → A square has corners, so it would bump! Wheels are circles.
-> - A triangle → A triangle has three corners, so it would bump! Wheels are circles.
+> - A square → A square wheel? Bonk, bonk, bonk! What a bumpy ride! Wheels are circles, so they roll smoothly.
+> - A triangle → A triangle wheel? Bonk, bump, bonk! Bumpy ride! Wheels are circles, so they roll smoothly.
 > _For grown-ups: Your child named the shape of a wheel and why it rolls._
 
 
@@ -2790,7 +2790,7 @@ _The mill wheel turns slowly beside it. Round and round._
 
 _In spring, a new red flower grows on the hill._  
 _It grows a little apart, as if it isn’t sure it can stay._  
-_By summer, the other flowers lean towards it. Welcome!_  
+_Whee! By summer, the other flowers lean towards it. Welcome!_  
 
 > **Lesson** (art, do): naming colours: red and yellow  
 > _Cinder’s flower is red. Briar’s flower is yellow._  
@@ -2807,13 +2807,13 @@ _In spring, a new red flower grows on the hill, a little apart._
 _You tell Cinder’s story to anyone who asks._  
 _The long-grass lantern is warm now._  
 _Children skip to her rhyme. At the end, one shouts, “She loved them!”_  
-_The rest shout, “Too tight!” Then they all run off, laughing._  
+_The rest shout, “Too tight!” Then they all run off, hee hee!_  
 
 > **Lesson** (literacy, RF.K.2, ask): rhyming words from Cinder’s rhyme  
 > _Cinder’s rhyme goes: “held them close and tight, kept them warm one winter night.”_  
 > _Which word rhymes with tight?_  
 > - ✅ Night → Yes! Tight, night. A gentle hug is the best kind, not too tight.
-> - Warm → Listen: tight… night. Night rhymes with tight!
+> - Warm → Warm, like a toasty bun? Yum! Not a rhyme, though. Listen: tight… night. Night rhymes with tight!
 > _For grown-ups: Your child found rhyming words in a skipping rhyme._
 
 

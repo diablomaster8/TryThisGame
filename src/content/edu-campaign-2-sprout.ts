@@ -79,11 +79,11 @@ const CH5: EduScene[] = [
           },
           {
             label: 'A fish',
-            reply: [N('Ha! A fish can’t warm a pond.'), N('The sun did. Sunshine makes things warm.')],
+            reply: [N('A fish with a tiny stove? Splash! That would be funny!'), N('A fish can’t warm a pond.'), N('The sun did. Sunshine makes things warm.')],
           },
           {
             label: 'The moon',
-            reply: [N('The moon is pretty, but it doesn’t warm things.'), N('The sun warmed the pond.')],
+            reply: [N('The moon, warming a pond? Brr! It’s a cool, pale moon.'), N('The moon is pretty, but it doesn’t warm things.'), N('The sun warmed the pond.')],
           },
         ],
         parentNote: 'Learned that sunshine warms things up, like the water in a pond.',
@@ -108,11 +108,11 @@ const CH5: EduScene[] = [
           },
           {
             label: 'Happy',
-            reply: [N('Look again. Her hands are tight fists.'), N('Her voice is quiet. Ember is sad and cross.')],
+            reply: [N('Happy Ember, dancing a jig? Hee, hee! Look again.'), N('Her hands are tight fists.'), N('Her voice is quiet. Ember is sad and cross.')],
           },
           {
             label: 'Sleepy',
-            reply: [N('Her eyes are wide open. Her hands are fists.'), N('Ember feels sad and cross.')],
+            reply: [N('Sleepy Ember, snoring on her feet? Zzz!'), N('Her eyes are wide open. Her hands are fists.'), N('Ember feels sad and cross.')],
           },
         ],
         parentNote: 'Read a character’s feelings from her hands and voice, and heard that two feelings can come at once.',
@@ -145,7 +145,7 @@ const CH5: EduScene[] = [
   scene(
     'c5-circuit',
     [
-      N('The Circuit is a racetrack, up the valley.'),
+      N('The Circuit is a racetrack, up the valley. Ding, ding! The bell rings.'),
       N('It’s clean and quiet. White lines. White rails.'),
       N('It’s hot. But the rails are cold and frosty!'),
       SPARKS('Brrr! Frost, in summer! That’s very strange.', 'shock'),
@@ -220,7 +220,7 @@ const CH5: EduScene[] = [
       N('His hand is on the rail. A little frost grows. Brrr!'),
       N('Your Nubbin looks at Corvin. Then at you.'),
       N('Then it looks at its toes, very carefully.'),
-      N('Ready, steady… time to race!'),
+      N('Ding! Ready, steady… time to race!'),
     ],
     [
       {
@@ -243,7 +243,7 @@ const CH5: EduScene[] = [
           },
           {
             label: 'Sleepy',
-            reply: [N('Its eyes are wide open.'), N('It feels worried. Staying close can help.', 'soft')],
+            reply: [N('A sleepy Nubbin, snoring at the start line? Zzz!'), N('Its eyes are wide open.'), N('It feels worried. Staying close can help.', 'soft')],
           },
         ],
         parentNote: 'Read a pet’s quiet, careful look as worry, and talked about what helps a worried friend.',
@@ -253,7 +253,7 @@ const CH5: EduScene[] = [
   scene(
     'c5-close',
     [
-      N('Ready, steady, go! Run, run, run!'),
+      N('Ready, steady, go! Whoosh! Run, run, run!'),
       N('Your Nubbin wins! It keeps running, just for fun.'),
       SPARKS('YOU WON! I’m just very loud about it!', 'happy'),
       BYTE('Yours started late. It was looking at a butterfly.', 'happy'),
@@ -281,11 +281,11 @@ const CH5: EduScene[] = [
           },
           {
             label: 'It grows bigger',
-            reply: [N('Ice grows in the cold.'), N('In the warm, it melts into water. Drip, drip.')],
+            reply: [N('A giant ice lump on your sleeve? Whoa!'), N('Ice grows in the cold.'), N('In the warm, it melts into water. Drip, drip.')],
           },
           {
             label: 'It turns into sand',
-            reply: [N('Hm, no sand. Warm ice melts into water. Drip, drip.')],
+            reply: [N('Ice turning to sand? A beach on your sleeve! Whee!'), N('Warm ice melts into water. Drip, drip.')],
           },
         ],
         parentNote: 'Learned that frost is ice, and ice melts into water when it gets warm.',
@@ -369,7 +369,7 @@ const CH6: EduScene[] = [
           },
           {
             label: 'Tell Dusty to stop being sad',
-            reply: [N('Sad feelings don’t stop when we say so.'), N('Sitting close helps. Let’s sit with Dusty.')],
+            reply: [N('Stop being sad? Poof! If only feelings were bubbles.'), N('Sad feelings don’t stop when we say so.'), N('Sitting close helps. Let’s sit with Dusty.')],
           },
         ],
         parentNote: 'Talked about what helps a sad friend: staying close and just being there.',
@@ -422,11 +422,11 @@ const CH6: EduScene[] = [
           },
           {
             label: 'Forget all about her',
-            reply: [N('We don’t need to forget.'), N('Remembering Fossil keeps her close. Let’s remember together.')],
+            reply: [N('Forget all about her? Poof, out of your head! Never.'), N('We don’t need to forget.'), N('Remembering Fossil keeps her close. Let’s remember together.')],
           },
           {
             label: 'Leave Dusty on their own',
-            reply: [N('Being alone can feel lonely.'), N('Let’s stay and remember Fossil with Dusty.')],
+            reply: [N('Dusty, all alone, with a big sigh? Oh dear!'), N('Being alone can feel lonely.'), N('Let’s stay and remember Fossil with Dusty.')],
           },
         ],
         parentNote: 'Talked about how remembering someone together can help when we are sad.',
@@ -461,8 +461,8 @@ const CH6: EduScene[] = [
         ],
         options: [
           { label: 'Fish', best: true, reply: [MOSS('Yes. Fff-fish. Fff-Fossil. Fff-flower.', 'happy')] },
-          { label: 'Moon', reply: [MOSS('Moon starts with mmm, like Moss. Fish starts with fff.')] },
-          { label: 'Dog', reply: [MOSS('Dog starts with d-d-d. Fish starts with fff, like Fossil.')] },
+          { label: 'Moon', reply: [MOSS('Fossil, up on the moon? Whee, what a jump!'), MOSS('Moon starts with mmm, like Moss. Fish starts with fff.')] },
+          { label: 'Dog', reply: [MOSS('Fossil the dog? Woof, woof! Hee, hee!'), MOSS('Dog starts with d-d-d. Fish starts with fff, like Fossil.')] },
         ],
         parentNote: 'Listened for the first sound f in Fossil and flower and found another f word.',
       },
@@ -500,7 +500,7 @@ const CH7: EduScene[] = [
     'c7-open',
     [
       N('Sable sleeps near you now. Not next to you. Near.'),
-      N('You wake up early. Brrr! It’s cold!'),
+      N('You wake up early. Achoo! Brrr! It’s cold!'),
       N('Outside, there is white frost. But only in one place.'),
       N('It runs from the long grass to the fourth post.'),
       N('Sable stares at the post. She is very, very still.'),
@@ -544,11 +544,11 @@ const CH7: EduScene[] = [
           },
           {
             label: 'A butterfly',
-            reply: [LUNA('Butterflies like sunny days.'), LUNA('Hedgehogs are awake at night. So am I.')],
+            reply: [LUNA('A butterfly at midnight? She’d be fast asleep!'), LUNA('Butterflies like sunny days.'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
           {
             label: 'A sunflower',
-            reply: [LUNA('Sunflowers love the sun!'), LUNA('Hedgehogs are awake at night. So am I.')],
+            reply: [LUNA('A sunflower wide awake at midnight? Yawn!'), LUNA('Sunflowers love the sun!'), LUNA('Hedgehogs are awake at night. So am I.')],
           },
         ],
         parentNote: 'Learned that some animals, like hedgehogs, are awake at night and rest in the day.',
@@ -560,7 +560,7 @@ const CH7: EduScene[] = [
     [
       N('Moss comes down the hill. His feet leave no prints.'),
       N('He stops at the frosty post, and looks and looks.'),
-      N('Your Nubbin licks the frost. Brr! Out pops its tongue.'),
+      N('Your Nubbin licks the frost. Brr! Pop! Out comes its tongue.'),
       N('Sable licks it too, very slowly. Now they both look shocked.'),
       MOSS('Yes. It is cold. That is the point.'),
       MOSS('Something was hidden under this post. It isn’t there now.', 'think'),
@@ -640,8 +640,8 @@ const CH7: EduScene[] = [
         ],
         options: [
           { label: 'Spill', best: true, reply: [MOSS('Yes. Still, hill, spill. They all end the same!', 'happy')] },
-          { label: 'Sock', reply: [MOSS('Sock ends with ock. Spill ends with ill, like still.')] },
-          { label: 'Moon', reply: [MOSS('Moon ends with oon. Spill ends with ill. Still, spill!')] },
+          { label: 'Sock', reply: [MOSS('A sock on the hill? Hee, hee, very silly!'), MOSS('Sock ends with ock. Spill ends with ill, like still.')] },
+          { label: 'Moon', reply: [MOSS('A still moon floats up in the sky! Whee!'), MOSS('Moon ends with oon. Spill ends with ill. Still, spill!')] },
         ],
         parentNote: 'Listened for words that rhyme with "still".',
       },
@@ -679,7 +679,7 @@ const CH7: EduScene[] = [
       MOSS('Gran Hazel had a word for the opposite.'),
       MOSS('Her word was: well.'),
       N('The sun comes up. The frost starts to steam.'),
-      MOSS('A well Nubbin runs and plays. It eats a beetle.'),
+      MOSS('A well Nubbin runs and plays. It eats a beetle. Crunch!'),
       MOSS('It gets a bump. It comes back. It is happy.'),
       MOSS('A still Nubbin gets no bumps. And it never plays.'),
       MOSS('Safe is not the same as well.', 'soft'),
@@ -706,11 +706,11 @@ const CH7: EduScene[] = [
           },
           {
             label: 'A cold, still stone',
-            reply: [MOSS('No. That makes them still, not well.'), MOSS('They need food, water and a home.')],
+            reply: [MOSS('A Nubbin on a cold stone? Brr! Still as a pebble, and about as happy.'), MOSS('They need food, water and a home.')],
           },
           {
             label: 'Nothing at all',
-            reply: [MOSS('Every living thing needs something! Food, water and a home.')],
+            reply: [MOSS('Nothing at all? A Nubbin made of air! Hee, hee!'), MOSS('Every living thing needs something! Food, water and a home.')],
           },
         ],
         parentNote: 'Learned that animals need food, water and a place to live.',
@@ -761,7 +761,7 @@ const CH7: EduScene[] = [
       PIXEL('Byte, your shoelace is undone.'),
       N('Byte looks down. It is tied!'),
       PIXEL('Got you. That one measured you right.', 'happy'),
-      N('The needle wobbles. MAYBE. Sable leans on you even harder.'),
+      N('Ding! The needle wobbles. MAYBE. Sable leans on you even harder.'),
       N('Up on the hill, Moss smiles and looks away.'),
     ],
     [
@@ -861,11 +861,11 @@ const CH8: EduScene[] = [
           },
           {
             label: 'Spring',
-            reply: [NOVA('In spring, new green leaves grow. Yellow leaves mean autumn.')],
+            reply: [NOVA('A spring tree in a yellow coat? Silly tree!'), NOVA('In spring, new green leaves grow. Yellow leaves mean autumn.')],
           },
           {
             label: 'Summer',
-            reply: [NOVA('Summer leaves are green. When they turn yellow, it’s autumn.')],
+            reply: [NOVA('A summer tree in a yellow jumper? Far too hot!'), NOVA('Summer leaves are green. When they turn yellow, it’s autumn.')],
           },
         ],
         parentNote: 'Learned that many trees’ leaves turn yellow, orange and red in autumn, then fall.',
@@ -886,7 +886,7 @@ const CH8: EduScene[] = [
           },
           {
             label: 'No. She should do it alone',
-            reply: [MOSS('Some things are too big to do alone.'), MOSS('Asking for help is brave.')],
+            reply: [MOSS('Nova lifting a whole hill all by herself? Oof!'), MOSS('Some things are too big to do alone.'), MOSS('Asking for help is brave.')],
           },
         ],
         parentNote: 'Talked about how asking for help is a brave and sensible thing to do.',
@@ -967,7 +967,7 @@ const CH8: EduScene[] = [
           },
           {
             label: 'So we can be fast',
-            reply: [MARINA('Near water, slow is best! Wet rocks are slippery.'), MARINA('Stay close to a grown-up.')],
+            reply: [MARINA('Fast on wet rocks? Wheee… splash! In you go!'), MARINA('Slow is best! Wet rocks are slippery.'), MARINA('Stay close to a grown-up.')],
           },
           {
             label: 'Because water is boring',
@@ -1033,11 +1033,11 @@ const CH8: EduScene[] = [
           },
           {
             label: 'Run and jump',
-            reply: [MARINA('Not near water! Wet rocks are slippery.'), MARINA('Go slowly and hold on.')],
+            reply: [MARINA('Run and jump on wet rocks? Wheee… splash!'), MARINA('Wet rocks are slippery.'), MARINA('Go slowly and hold on.')],
           },
           {
             label: 'Go on your own',
-            reply: [MARINA('Never alone near water.'), MARINA('Stay close to a grown-up, and go slowly.')],
+            reply: [MARINA('Off on your own, with just the frogs? Plop!'), MARINA('Never alone near water.'), MARINA('Stay close to a grown-up, and go slowly.')],
           },
         ],
         parentNote: 'Remembered how to stay safe near water: go slowly, hold on, and stay with a grown-up.',
@@ -1156,7 +1156,7 @@ const CH8: EduScene[] = [
           },
           {
             label: 'Stars that fell down',
-            reply: [NOVA('Stars stay up in the sky.'), NOVA('Fireflies are tiny beetles that glow.')],
+            reply: [NOVA('A star, plop, in the grass? What a surprise!'), NOVA('Stars stay up in the sky.'), NOVA('Fireflies are tiny beetles that glow.')],
           },
         ],
         parentNote: 'Learned that fireflies are small beetles that make their own light.',

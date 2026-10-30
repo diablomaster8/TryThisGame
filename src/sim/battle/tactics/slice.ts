@@ -14,6 +14,7 @@ import type { NubbinType, SimEvent, World } from '../../types';
 import { createTactics, tacticsAct, tacticsForfeit } from './engine';
 import { mapFromFloor } from './map';
 import { TILE, type GridMap, type TacticsAction } from './types';
+import { keeperSeed } from './keeper-unit';
 import { unitFromLevels, unitFromNubbin } from './units';
 import './ai';
 
@@ -43,6 +44,8 @@ function partyOf(world: World, ids?: readonly string[]): string[] {
 }
 
 export interface RumbleOptions {
+  /** Put the Keeper's piece on the board (FIGHT-66); on unless false. */
+  keeper?: boolean;
   depth?: number;
   seed?: number;
   ids?: readonly string[];
@@ -72,6 +75,8 @@ export function startRumble(world: World, events: SimEvent[], o: RumbleOptions =
       world,
     ),
   );
+  // The Keeper walks the board beside its Nubbins (FIGHT-66) unless a caller leaves it out.
+  const withKeeper = o.keeper !== false;
   const avg = Math.round(allies.reduce((s, u) => s + u.c.level, 0) / allies.length);
   const level = Math.max(1, Math.min(S.level + depth * 2, avg));
   const foe = (i: number, species: string, type: NubbinType, lv: number) =>
@@ -87,7 +92,7 @@ export function startRumble(world: World, events: SimEvent[], o: RumbleOptions =
   world.tactics = createTactics({
     seed,
     map,
-    allies,
+    allies: withKeeper ? [...allies, keeperSeed()] : allies,
     foes: [leader, ...pups],
     context: {
       kind: 'encounter',
