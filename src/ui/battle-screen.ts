@@ -14,6 +14,7 @@ import {
 import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
+import { battleSfx } from './battle-sfx';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -457,7 +458,7 @@ export class BattleScreen {
     if (e.k === 'hit') {
       this.shownHp.set(e.to, Math.max(0, (this.shownHp.get(e.to) ?? 0) - e.dmg));
       this.pop = { id: e.to, text: `-${e.dmg}`, at: now };
-      playSound('hit');
+      playSound(battleSfx(e) ?? 'hit');
       if (isSoundEnabled() && isAudioUnlocked()) navigator.vibrate?.(10);
     } else if (e.k === 'rally' || e.k === 'cuddle') {
       const id = e.k === 'rally' ? e.by : e.who;
@@ -466,6 +467,8 @@ export class BattleScreen {
     } else if (e.k === 'swing' && e.sweet) this.pop = { id: e.by, text: RING_TEXT.nice, at: now };
     else if (e.k === 'swap') this.shownLead[e.side] = e.to;
     else if (e.k === 'miss') playSound('tap');
+    // FIGHT-76: a Dizzy self-bonk boings, a tuckered-out Nubbin yawns.
+    else if (e.k === 'boing' || e.k === 'tuckered') playSound(battleSfx(e)!);
     this.drawnSig = '';
   }
 

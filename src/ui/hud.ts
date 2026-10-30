@@ -50,6 +50,7 @@ import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { askResume, setBattleDialogue } from './battle-scenes';
+import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
@@ -855,7 +856,7 @@ export function mountHud(
         );
       } else if (expedition.isOpen) playSong('expedition');
       else if (races.screen.isOpen) playSong('race');
-      else if (karate.screen.isOpen) playSong('karate');
+      else if (karate.screen.isOpen) playSong(liveBattleSong(game()?.world));
       else if (gym.screen.isOpen) playSong('karate');
       else if (tank.isOpen) playSong('expedition');
       else if (
