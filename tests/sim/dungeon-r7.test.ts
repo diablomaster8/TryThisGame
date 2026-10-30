@@ -1,8 +1,21 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { DUNGEON, SIM } from '../../src/config/tuning';
 import { HOLLOW_R7 } from '../../src/config/tuning-dungeon';
-import { cellCentre, FLOOR, isWalkable, runFloor, WALL } from '../../src/sim/dungeon';
+import {
+  cellCentre,
+  FLOOR,
+  floorOf,
+  isWalkable,
+  runFloor,
+  WALL,
+  type Floor,
+} from '../../src/sim/dungeon';
 import { arenaFor } from '../../src/sim/dungeon-arena';
+import { actFloor } from '../../src/sim/dungeon-acts';
+import { roomHasContent, roomNeighbours, roomPieces } from '../../src/sim/dungeon-rooms';
+import { isCommonSpecies, SPECIES } from '../../src/sim/species';
+import { actStartDepth } from '../../src/config/dungeon-acts';
+import { ACT_WILD } from '../../src/config/dungeon-wild';
 import { generateV3 } from '../../src/sim/dungeon-gen-v3';
 import { setEncounterHandler, swimFamily } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
@@ -261,5 +274,95 @@ describe('fights in place (R0196)', () => {
       quiet.push(...stepWorld(world, SIM.stepMs));
     }
     expect(quiet.some((e) => e.kind === 'packNoticed')).toBe(false);
+  });
+});
+
+describe('no bare rooms and nursery nooks (R0201, R0198)', () => {
+  const floors = (): Floor[] => {
+    const out: Floor[] = [];
+    for (let s = 1; s <= 30; s++) {
+      out.push(floorOf(s * 77, 1 + (s % 8)));
+      out.push(actFloor(s * 31, s % 5, actStartDepth(s % 5) + (s % 3), 4));
+    }
+    return out;
+  };
+
+  it('fills ≥ 90% of rooms, never packs neighbouring rooms, never three in a row', () => {
+    let rooms = 0;
+    let filled = 0;
+    for (const f of floors()) {
+      const L = f.layout!;
+      for (const i of roomPieces(f)) {
+        rooms++;
+        if (roomHasContent(f, i)) filled++;
+      }
+      const roams = (i: number) =>
+        !!f.packs?.some((p) => p.room === i && !p.guard && !p.unique && p.kind !== 'boss');
+      for (const i of roomPieces(f))
+        if (roams(i)) for (const j of roomNeighbours(f, i)) expect(roams(j)).toBe(false);
+      // The critical path, entry to exit, by the pieces' links.
+      const exit = L.pieces.findIndex((p) => p.role === 'exit' || p.role === 'boss');
+      const prev = new Map<number, number>([[0, -1]]);
+      const q = [0];
+      while (q.length) {
+        const i = q.shift()!;
+        for (const [a, b] of L.links) {
+          const j = a === i ? b : b === i ? a : -1;
+          if (j >= 0 && !prev.has(j)) {
+            prev.set(j, i);
+            q.push(j);
+          }
+        }
+      }
+      const path: number[] = [];
+      for (let i = exit; i >= 0; i = prev.get(i)!) path.unshift(i);
+      const onPath = path.filter((i) => L.pieces[i]!.role !== 'corridor');
+      for (let i = 0; i + 2 < onPath.length; i++)
+        expect(roams(onPath[i]!) && roams(onPath[i + 1]!) && roams(onPath[i + 2]!)).toBe(false);
+    }
+    expect(filled / rooms).toBeGreaterThanOrEqual(0.9);
+  }, 60_000);
+
+  it('gives each act its own wild pool, at least 5 babies found nowhere else', () => {
+    const babies = new Set(
+      SPECIES.filter((s) => s.stage === 'baby' && isCommonSpecies(s)).map((s) => s.id),
+    );
+    ACT_WILD.forEach((pool, act) => {
+      for (const id of pool) expect(babies.has(id)).toBe(true);
+      const others = new Set(ACT_WILD.filter((_, j) => j !== act).flat());
+      expect(pool.filter((id) => !others.has(id)).length).toBeGreaterThanOrEqual(5);
+    });
+    for (let s = 1; s <= 20; s++) {
+      const act = s % 5;
+      const f = actFloor(s * 131, act, actStartDepth(act), 4);
+      for (const w of f.wildSpots) expect(ACT_WILD[act]).toContain(w.species);
+    }
+  });
+
+  it('scans a nursery nook after 3 s of standing quietly, 1 s with a Shy friend', () => {
+    const time = (shy: boolean): number => {
+      let world = underground(20);
+      for (let s = 21; !world.dungeon!.wild.some((x) => x.nook); s++) world = underground(s);
+      if (shy) for (const n of world.nubbins) n.personality = 'shy';
+      const run = world.dungeon!;
+      run.packs = [];
+      run.strays = [];
+      run.graceUntilMs = 0;
+      const w = run.wild.find((x) => x.nook)!;
+      expect(w).toBeTruthy();
+      world.keeper.pos = { x: w.pos.x + 1, z: w.pos.z };
+      world.keeper.moveTarget = null;
+      for (let t = 0; t < 6000; t += SIM.stepMs) {
+        world.keeper.pos = { x: w.pos.x + 1, z: w.pos.z };
+        if (stepWorld(world, SIM.stepMs).some((e) => e.kind === 'wildScanned')) return t;
+      }
+      return -1;
+    };
+    const calm = time(false);
+    const shy = time(true);
+    expect(calm).toBeGreaterThanOrEqual(HOLLOW_R7.nook.quietMs - 200);
+    expect(calm).toBeLessThanOrEqual(HOLLOW_R7.nook.quietMs + 200);
+    expect(shy).toBeGreaterThanOrEqual(HOLLOW_R7.nook.shyMs - 200);
+    expect(shy).toBeLessThanOrEqual(HOLLOW_R7.nook.shyMs + 200);
   });
 });

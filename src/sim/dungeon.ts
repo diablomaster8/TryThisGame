@@ -22,6 +22,7 @@ import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
 import { stepPicnic } from './dungeon-picnic';
+import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -180,7 +181,8 @@ export interface Floor {
   crystals: Cell[];
   loot: FloorLoot[];
   strayStarts: Cell[];
-  wildSpots: Array<{ cell: Cell; species: string }>;
+  /** R0198: `nook` marks a nursery nook, scanned by waiting quietly beside it. */
+  wildSpots: Array<{ cell: Cell; species: string; nook?: true }>;
   /** Ambient light level 0..1; floors get darker. */
   light: number;
   /** The generator that made this floor (`HOLLOW.genVersion` for new floors). */
@@ -641,7 +643,12 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
           ? generateV2(seed, depth)
           : version === 3
             ? generateV3(seed, depth, v3OptionsFor(depth))
-            : platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth);
+            : fillRooms(
+                platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth),
+                seed,
+                depth,
+                null,
+              );
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -892,6 +899,7 @@ export function populate(run: DungeonRun, f: Floor): void {
     species: w.species,
     pos: cellCentre(f, w.cell),
     scanned: false,
+    ...(w.nook ? { nook: true as const } : {}),
   }));
   run.taken = [];
   run.chestOpen = false;
@@ -1331,6 +1339,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   stepPicnic(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
+    // R0198: a nursery nook's baby waits for the Keeper to stand still and quiet a moment.
+    if (w.nook && !quietScan(world, run, w, dtMs)) continue;
     w.scanned = true;
     noteScan(world, w.species, SCANS.perArrival, events);
     events.push({ kind: 'wildScanned', species: w.species });

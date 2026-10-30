@@ -5,6 +5,7 @@
  * `DungeonRun.act`; its depth counts on from the acts above (`actStartDepth`), so light,
  * loot and foes keep growing act by act.
  */
+import { fillRooms } from './dungeon-rooms';
 import { ACTS, actStartDepth } from '../config/dungeon-acts';
 import type { Floor } from './dungeon';
 import { generateV3 } from './dungeon-gen-v3';
@@ -39,6 +40,8 @@ export function actFloor(seed: number, act: number, depth: number, version = 3):
       platformFloor(f, seed, depth, band);
       // The act's named uniques (R0156).
       placeUniques(f, act, level + 1, band);
+      // R0201, R0198: no bare rooms; the act's own wild ones.
+      fillRooms(f, seed, depth, act);
     }
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);

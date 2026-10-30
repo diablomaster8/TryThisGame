@@ -617,6 +617,9 @@ export interface DungeonWild {
   species: string;
   pos: Vec2;
   scanned: boolean;
+  /** R0198: a nursery nook's baby, and how long the Keeper has waited quietly by it. */
+  nook?: true;
+  quietMs?: number;
 }
 
 /** One run into the Hollow Below; the floor itself comes from the seed and depth. */
