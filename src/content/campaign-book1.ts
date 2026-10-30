@@ -184,7 +184,7 @@ export const BOOK1_SCENES: Scene[] = [
     },
     { who: 'fern', text: 'It is three minutes old, Sparks.', gag: true },
     { who: 'sparks', text: 'Potential, Fern. I’m talking about potential.', gag: true },
-    { who: 'narrator', text: 'Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose and fizzles out in the grass.', beat: 400, sfx: 'sneeze', gag: true },
+    { who: 'narrator', text: 'Your Nubbin sneezes. A tiny blue spark jumps off the end of its nose and fizzles out in the grass.', beat: 400, sfx: 'sneeze', gag: true, react: { who: 'nubbin', as: 'spark' } },
     { who: 'sparks', text: 'Did you SEE that? It likes me. It’s caught it off me.', mood: 'happy', gag: true },
     { who: 'fern', text: 'That isn’t how anything works.', gag: true },
     {

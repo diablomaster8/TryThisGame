@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
@@ -894,3 +895,16 @@ console.log(problems.slice(0, 60).join('\n'));
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
 // R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
 if (process.argv.includes('--comedy')) console.log(comedyReport());
+// R0368 (FUN-79): the narration lines that make the scene's Nubbin react by inference
+// (config/story-react.ts), listed for a writer to review.
+if (process.argv.includes('--reactions')) {
+  const dir = new URL('../../src/content/', import.meta.url);
+  for (const f of readdirSync(dir).filter((x) => x.endsWith('.ts')))
+    readFileSync(new URL(f, dir), 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        if (!/who: 'narrator'|\bN\(/.test(line) || line.includes('react:')) return;
+        const hit = REACT_INFER.find(([re]) => re.test(line));
+        if (hit) console.log(`react ${hit[1]} ${f}:${i + 1}: ${line.trim().slice(0, 120)}`);
+      });
+}

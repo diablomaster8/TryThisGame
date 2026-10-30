@@ -790,3 +790,51 @@ body.line-shake-big #app {
     content: '🥄';
   }
 }
+/* R0303 / R0368: a stage actor's reaction to a story line. */
+.stage-react {
+  position: fixed;
+  z-index: 28;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 26px;
+  line-height: 1;
+  animation: stage-react-pop 1.4s ease-out forwards;
+}
+.stage-react-bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  animation: stage-react-fly 0.9s ease-out forwards;
+}
+.stage-react-still,
+.stage-react-still .stage-react-bit {
+  animation: none;
+}
+@keyframes stage-react-pop {
+  0% {
+    transform: translate(-50%, -60%) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -110%) scale(1.15);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -130%);
+    opacity: 0;
+  }
+}
+@keyframes stage-react-fly {
+  0% {
+    transform: rotate(var(--a)) translateX(0) rotate(calc(-1 * var(--a)));
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(34px) rotate(calc(-1 * var(--a)));
+    opacity: 0;
+  }
+}
