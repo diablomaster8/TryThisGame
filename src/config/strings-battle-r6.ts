@@ -38,6 +38,8 @@ export const FRIENDLY_TEXT = {
 /** Story battles (FIGHT-82): the dojo's list of the ones open now. */
 export const STORY_BOUT_TEXT = {
   title: 'Story bouts (all optional)',
+  /** Lane C r7 (R0275): the journal's offer at the bout's beat. */
+  waiting: (name: string) => `A bout waits: ${name}`,
   names: {
     exhibition: 'Circuit Exhibition with Sparks',
     rumble: 'The Rumble Room',

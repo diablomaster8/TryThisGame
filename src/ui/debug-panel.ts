@@ -134,6 +134,45 @@ export class DebugPanel {
     );
     this.root.appendChild(story);
 
+    // Lane C r7 (R0644): questlines beside Hazel's Grove: start one, jump it, leave it.
+    const lines = el('div', 'debug-row');
+    lines.appendChild(el('span', undefined, 'Lines'));
+    const pick = el('select');
+    pick.setAttribute('aria-label', 'Line');
+    for (const id of ['hundred', 'logged', 'beetle', 'dawn', 'dusk'])
+      pick.appendChild(Object.assign(el('option', undefined, id), { value: id }));
+    const lineCh = Object.assign(el('input'), { type: 'number', min: '1', max: '10', value: '1' });
+    lineCh.setAttribute('aria-label', 'Line chapter');
+    lineCh.style.width = '3.5em';
+    lines.append(pick, lineCh);
+    lines.appendChild(
+      button(
+        'Start',
+        () => this.game()?.send({ kind: 'storylineStart', id: pick.value }),
+        'btn btn-small',
+      ),
+    );
+    lines.appendChild(
+      button(
+        'Jump',
+        () =>
+          this.game()?.send({
+            kind: 'debugChapter',
+            chapter: Number(lineCh.value),
+            line: pick.value,
+          }),
+        'btn btn-small',
+      ),
+    );
+    lines.appendChild(
+      button(
+        'Leave',
+        () => this.game()?.send({ kind: 'lineAbandon', line: pick.value }),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(lines);
+
     const force = el('div', 'debug-row');
     force.append(
       button(

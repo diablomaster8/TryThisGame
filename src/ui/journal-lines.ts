@@ -21,6 +21,16 @@ export function renderLines(
   openers: Record<string, () => void>,
 ): void {
   if (!sharesStory(g.world)) return;
+  // A command reaches the sim on a later step: redraw once the lines have changed (or 3 s on).
+  const later = (): void => {
+    const was = JSON.stringify(g.world.lines);
+    let tries = 0;
+    const look = (): void => {
+      if (JSON.stringify(g.world.lines) !== was || ++tries > 30) refresh();
+      else window.setTimeout(look, 100);
+    };
+    window.setTimeout(look, 100);
+  };
   const all = storylines();
   if (all.length === 0) return;
   const box = el('section', 'journal-lines');
@@ -48,7 +58,7 @@ export function renderLines(
               STORY_TEXT.doStep,
               () => {
                 g.send({ kind: 'storyAct', label, line: s.id });
-                refresh();
+                later();
               },
               'btn btn-small btn-primary',
             ),
@@ -64,7 +74,7 @@ export function renderLines(
                 open();
               } else {
                 g.send(a.command);
-                refresh();
+                later();
               }
             },
             'btn btn-small',
@@ -97,7 +107,7 @@ export function renderLines(
               if (!ok) return;
               g.send({ kind: 'lineAbandon', line: s.id });
               g.send({ kind: 'storylineStart', id: s.id });
-              refresh();
+              later();
             }),
           'btn btn-small',
         );
@@ -112,7 +122,7 @@ export function renderLines(
             CAMP_TEXT.leaveYes,
             () => {
               g.send({ kind: 'lineAbandon', line: s.id });
-              refresh();
+              later();
             },
             'btn btn-small',
           );
@@ -132,7 +142,7 @@ export function renderLines(
         line?.ending ? CAMP_TEXT.again : CAMP_TEXT.begin,
         () => {
           g.send({ kind: 'storylineStart', id: s.id });
-          refresh();
+          later();
         },
         'btn btn-small btn-primary',
       );
