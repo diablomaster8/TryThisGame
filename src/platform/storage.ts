@@ -294,6 +294,33 @@ export function watchOtherTabs(onChange: () => void): () => void {
   return () => window.removeEventListener('storage', listener);
 }
 
+/**
+ * Lane C r7 (R0658): say "this slot is mine" to every other tab of the game, at once rather
+ * than after the first autosave. A tab already on the same slot hears it and calls `onTaken`
+ * (it stops saving and says so); tabs on other slots ignore it. The newest tab wins, so two
+ * tabs on one slot never both write. Without BroadcastChannel the storage-event watch above
+ * still covers it.
+ */
+export function claimSlot(onTaken: () => void): () => void {
+  if (typeof BroadcastChannel === 'undefined') return () => undefined;
+  let channel: BroadcastChannel;
+  try {
+    channel = new BroadcastChannel('grove-slots');
+  } catch {
+    return () => undefined;
+  }
+  const me = `${Date.now()}-${Math.floor(performance.now() * 1000)}`;
+  channel.onmessage = (e: MessageEvent<{ key?: string; from?: string }>) => {
+    if (e.data?.key === SAVE_KEY && e.data.from !== me) onTaken();
+  };
+  try {
+    channel.postMessage({ key: SAVE_KEY, from: me });
+  } catch {
+    // A closed or unavailable channel leaves the storage-event watch in charge.
+  }
+  return () => channel.close();
+}
+
 export function storageAvailable(): boolean {
   try {
     const probe = `${SAVE_KEY}.probe`;

@@ -847,6 +847,11 @@ export interface CampaignState {
    * the breathing gap before the next unrelated scene (story-state.ts `resting`).
    */
   rest?: { atMs: number; owner: string } | null;
+  /**
+   * Lane C round 7 (R0601, CAMP-08): for a questline beside Hazel's Grove, how the Grove
+   * looked when it began (its recolour and partner slots), put back when the line ends.
+   */
+  restore?: { grove: GroveKind; partners: Array<string | null> };
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -945,6 +950,12 @@ export interface World {
   strays: Stray[];
   npcs: Npc[];
   campaign: CampaignState | null;
+  /**
+   * Lane C round 7 (R0596, CAMP-01): the questlines running beside Hazel's Grove in this
+   * world, by storyline id. Each has its own chapter, flags, counters and cast; their scenes
+   * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
+   */
+  lines: Record<string, CampaignState>;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1136,15 +1147,17 @@ export type Command =
   | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
-  | { kind: 'debugChapter'; chapter: number }
+  | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
-  | { kind: 'storyArea'; area: string }
+  | { kind: 'storyArea'; area: string; line?: string }
   /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
-  | { kind: 'storyAct'; label: string }
+  | { kind: 'storyAct'; label: string; line?: string }
+  /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
+  | { kind: 'lineAbandon'; line: string }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1412,7 +1425,9 @@ export type SimEvent =
   | { kind: 'ranAway'; nubbinId: string; name: string }
   | { kind: 'strayReturned'; nubbinId: string; name: string }
   | { kind: 'scene'; scene: string }
-  | { kind: 'chapter'; chapter: number }
+  | { kind: 'chapter'; chapter: number; line?: string }
+  /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
+  | { kind: 'lineEnded'; line: string; ending: string }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }

@@ -1,6 +1,8 @@
 import { worldControls, worldLine } from './world-debug';
 import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
+import { confirmModal } from './confirm';
+import { CAMP_TEXT } from '../config/strings';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -134,6 +136,45 @@ export class DebugPanel {
     );
     this.root.appendChild(story);
 
+    // Lane C r7 (R0644): questlines beside Hazel's Grove: start one, jump it, leave it.
+    const lines = el('div', 'debug-row');
+    lines.appendChild(el('span', undefined, 'Lines'));
+    const pick = el('select');
+    pick.setAttribute('aria-label', 'Line');
+    for (const id of ['hundred', 'logged', 'beetle', 'dawn', 'dusk'])
+      pick.appendChild(Object.assign(el('option', undefined, id), { value: id }));
+    const lineCh = Object.assign(el('input'), { type: 'number', min: '1', max: '10', value: '1' });
+    lineCh.setAttribute('aria-label', 'Line chapter');
+    lineCh.style.width = '3.5em';
+    lines.append(pick, lineCh);
+    lines.appendChild(
+      button(
+        'Start',
+        () => this.game()?.send({ kind: 'storylineStart', id: pick.value }),
+        'btn btn-small',
+      ),
+    );
+    lines.appendChild(
+      button(
+        'Jump',
+        () =>
+          this.game()?.send({
+            kind: 'debugChapter',
+            chapter: Number(lineCh.value),
+            line: pick.value,
+          }),
+        'btn btn-small',
+      ),
+    );
+    lines.appendChild(
+      button(
+        'Leave',
+        () => this.game()?.send({ kind: 'lineAbandon', line: pick.value }),
+        'btn btn-small',
+      ),
+    );
+    this.root.appendChild(lines);
+
     const force = el('div', 'debug-row');
     force.append(
       button(
@@ -210,9 +251,13 @@ export class DebugPanel {
         UI_TEXT.debugReset,
         () => {
           const g = this.game();
-          if (!g || !window.confirm(UI_TEXT.resetConfirm)) return;
-          clearSave();
-          g.replaceWorld(freshWorldLike(g.world, Date.now()));
+          if (!g) return;
+          const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.resetConfirm };
+          void confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }).then((ok) => {
+            if (!ok) return;
+            clearSave();
+            g.replaceWorld(freshWorldLike(g.world, Date.now()));
+          });
         },
         'btn btn-small btn-danger',
       ),

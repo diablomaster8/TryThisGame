@@ -134,6 +134,9 @@ import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
+import { CAMP_TEXT } from '../config/strings';
+import { BackupNudge } from './backup-nudge';
+import { storylineById } from '../sim/story-scenes';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
@@ -1100,12 +1103,15 @@ export function mountHud(
   }
   void refreshTimer;
 
+  // Lane C r7 (R0624): the Home Screen card and the backup chip.
+  const backupNudge = new BackupNudge(root, game);
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       const g = game();
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      backupNudge.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
@@ -1224,6 +1230,15 @@ export function mountHud(
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
+        } else if (e.kind === 'chapter' && e.line) {
+          // Lane C r7 (R0596): a questline beside Hazel's Grove names itself.
+          const line = g.world.lines[e.line];
+          const title = line ? chapterTitle(line, e.chapter) : null;
+          const name = storylineById(e.line)?.title ?? e.line;
+          if (title !== null) toast(CAMP_TEXT.lineChapter(name, e.chapter, title));
+        } else if (e.kind === 'lineEnded') {
+          const s = storylineById(e.line);
+          toast(CAMP_TEXT.lineEnded(s?.title ?? e.line, s?.endings[e.ending]?.title ?? e.ending));
         } else if (e.kind === 'chapter') {
           const title = chapterTitle(g.world.campaign, e.chapter);
           if (title !== null) toast(STORY_TEXT.chapterStarted(e.chapter, title));

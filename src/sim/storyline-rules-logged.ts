@@ -1,6 +1,6 @@
 import { createEgg } from './nubbin';
 import { setPartner } from './partners';
-import { registerStorylineRule } from './storyline-rules';
+import { isSharedLine, registerStorylineRule } from './storyline-rules';
 import { counter } from './storyline-checks';
 import { queueScene } from './story-state';
 import { rollEggSpecies, trainerOf } from './trainers';
@@ -54,9 +54,13 @@ registerStorylineRule({
       setPartner(world, 0, eggs[0]!.id);
       setPartner(world, 1, eggs[1]!.id);
     });
-    // Both servers exist from the start; the story opens the night one at rank two.
-    world.unlocks.sunGrove = true;
-    world.unlocks.moonGrove = true;
+    // Both servers exist from the start; the story opens the night one at rank two. Beside
+    // Hazel's Grove (R0601) they are only the line's recolour, put back when it ends: the
+    // Sun and Moon Groves still open with the first adult of that band.
+    if (!isSharedLine(world, c)) {
+      world.unlocks.sunGrove = true;
+      world.unlocks.moonGrove = true;
+    }
     world.grove = 'sun';
     c.flags.area = 'day';
   },

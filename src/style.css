@@ -3352,3 +3352,47 @@ select {
   padding-left: 18px;
   opacity: 0.85;
 }
+
+/* Lane C r7 (R0647): the in-game confirm card sits over every other panel. */
+.modal.confirm-modal {
+  position: fixed;
+  z-index: 1000;
+}
+.confirm-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.confirm-row .btn {
+  min-height: 44px;
+  flex: 1;
+}
+/* Lane C r7 (R0596): the journal's other roads. */
+.journal-line {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+.journal-line .btn {
+  min-height: 44px;
+}
+/* Lane C r7 (R0624): the quiet backup chip after an ending, above the bottom controls. */
+.backup-chip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(26, 21, 48, 0.92);
+  color: #fff;
+  z-index: 50;
+  max-width: calc(100% - 32px);
+}
+.backup-chip .btn {
+  min-height: 44px;
+}

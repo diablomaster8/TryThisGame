@@ -93,6 +93,41 @@ SOUL from R0521 in order, as many as could be done properly. New text in
   sitBesideMs`, `nubbin.eggShakes`, `childCare.touches/tucks/lastCareMs`, `remembered`,
   `edu.readToMe`, `settings.slapstick`.
 
+## Round 7 · Lane C CAMP + FIGHT (2026-10-30, branch r7/c)
+
+Plan: the campaign engine first (R0594–R0596 as one story book), then the CAMP items that
+build on it, then the FIGHT partials. **Save v13** (`lines: {}`); a v12 save from main loads
+unchanged (`tests/sim/story-book.test.ts`).
+
+- **Works:** `world.lines` (new `sim/story-book.ts`): in Hazel's Grove (chapter 3 on) the four
+  separate campaigns run *beside* the spine, two at a time, each with its own chapter, flags,
+  counters (from zero at its start), stats and cast. Their scenes go through `campaign.queue`,
+  which the dialogue box, stage and renderers already play; a line only queues onto an empty
+  spine queue after the side-story gap, ahead of the side runner but never ahead of Hazel's
+  opening or met goal (R0597, R0631). `sceneDone` routes a line's scene to the line's flags.
+  Line chapter toasts name the line; a line ends on its own (`lineEnded`, its own end card),
+  then the Grove's recolour and partner slots are put back (R0600, R0601). Line Nubbins count
+  toward `STORY_BOOK.lineCastMax` (4), not the roster (R0594); Dawn & Dusk beside Hazel brings
+  its own Nubbin and reverts only it; Logged In beside Hazel never touches `unlocks`. Lines
+  hold in Hazel's chapters 9–11 and the vigil (R0612). Journal "Other roads": Begin (or why
+  not), goal, Do-it, areas, actions, Leave and Restart (R0643), plus the story bout waiting at
+  its beat (R0275). `spine:<flag>` check term and a content-check rule that a line's checks
+  name only its own flags (R0595, `tests/tools/line-flags.ts`). In-game confirm card
+  (`ui/confirm.ts`) replaces every `confirm()` (title, settings, debug) (R0647). Debug panel
+  "Lines" row (R0644). BroadcastChannel slot claim: a newer tab on the same slot takes it and
+  the older one holds its saves; other slots are unaffected (R0658). `storage.persist()`, a
+  one-time iPhone Home Screen card and a fortnightly post-ending backup chip (R0624).
+- **Stubbed:** no regions yet (R0605): line Nubbins and scenes live in the Grove and the
+  storyline renderer dressings (servers, the Fold) only show in separate-campaign saves.
+  Legacy separate-campaign saves stay their own mode (R0598 stage A/B not done). No offers,
+  boards or pace settings (R0602–R0604, R0606–R0611, R0613–R0623). Bring-home choice at a
+  line's end, the Valley Fair epilogue and per-line rewards not built.
+- **Bugs / notes:** `world.test.ts` "survives 8 Nubbins for an hour" takes ~5 s on origin/main
+  too (checked in a clean worktree at 76eb8b1), so not this branch. Line goals that read world
+  state (`recruits`, `team:joined`) may be met already in a long Hazel save. Drivers:
+  `recs-2026-10-27/tools/lane-c-r7.cjs <px|3d> <desk|phone>`, `lane-c-r7-tabs.cjs`,
+  `lane-c-r7-ios.cjs`. Hand-over: side-session note `r7-lane-c-handover.md`.
+
 ## Round 6 · Lane D (2026-10-29, branch r6/d)
 
 Plan: riding and the swim tow (R0085, R0088) first, then the cheap WORLD P2s, R0359, partials.
@@ -196,39 +231,6 @@ The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region an
 - *Assumptions:* banked = satchel or stash; the tumble's "half" moves to the stash instead of
   being lost; today's best time is the quickest daily trip to today's deepest level.
 
-## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
-
-- *Plan:* R0269–R0289 not started, then the partials (R0250, R0253, R0272, R0274, R0256,
-  R0217, R0218, R0234, R0236), C's share of R0260, R0333 if it fits. New sim files under
-  `sim/battle/`, text in `strings-battle-r6.ts`, numbers in `tuning-battle-r6.ts`; shared files
-  got self-contained blocks only. No save bump: new world fields are optional.
-- *Works:* Dojo Ladder (5 belts × 3 bouts on `karateRecord`, kept through rebirth, Black Belt
-  hat), Fusion burst in doubles (bond 80, 3 turns, splits at the fusing HP ratio), story-world
-  bouts in a cloned Grove (`world-bout.ts`, results to the side save only), pass-and-play
-  (`friendly`, share-code guests are copies, sticker only), the placement map
-  (`contexts.ts`), six story bouts wired to the scenes' choices (dojo "Story bouts" list,
-  `storyBout` command, `world.storyBouts`), the floor-5 guardian (`startGuardian`, keepsake),
-  Circuit pre/post scenes, Play-fight Day (first Gentle bouts, Learning Grove), chapter 5 goal
-  takes a ribbon, resume prompt and "Call it a draw", party needs held during a live bout
-  (live and offline), Battle Book in the Collection, battle/circuit/calm songs and per-type
-  hit sounds, personality idles (turn screen, Pixel and 3D boards, gallery row), 12 trial maps
-  with par hats and a BFS solver test, merged partners as one tall tactics unit, replay codes
-  and Save as postcard, dead karate/party-bout keys deleted, Neopia/Atlas `karate:survive:*`
-  steps as real survive bouts fought by copies (R0340), slapstick (5 % fumbles, the dizzy
-  spiral, pond pushes) and `docs/fight-design.md` (R0363). Edge: Pixel and 3D at desk and
-  375×812 all pass, 0 console errors, axe 0 issues on the battle screen, turn mode 55.8–56.6
-  fps and a 16×16 tactics board 56.5 fps at 4× CPU throttle.
-- *Stubbed:* Pixel board still 13 `drawImage` a frame (R0253 wants ≤3 via WebGL). Story bouts
-  are offered from the dojo list, not yet at their campaign beats; the skip-everything
-  8-endings replay was not run. The guardian waits on lane B to call `startGuardian` on floor
-  5. Fusion has a log line and no transform animation. Sprite gallery idles are Pixel only.
-  No Circuit race (R0333, lane A's races). Survive bosses use stand-in species (no Chia art)
-  and the NP1 bout was checked in the sim, not clicked through in Edge. Balance harness unchanged (Sprout median ~32).
-- *Known bugs / assumptions:* the trials modal is not on the HUD's panel stack (Escape
-  doesn't close it; use Close). "S-grade-only trait refresh" read as: the black belt clears the
-  moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
-  needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
-  Hand-over: side-session note `r6-lane-c-handover.md`.
 
 ## Standing approval (Maor, 2026-10-12)
 
