@@ -10,6 +10,7 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
+import { AUDIO_MIX, MUSIC_DUCK } from '../config/tuning-r8d-audio';
 export type SoundName =
   | 'tap'
   | 'pickup'
@@ -114,8 +115,8 @@ let ctx: AudioContext | null = null;
 let unlocked = false;
 let sfxEnabled = true;
 let musicEnabled = true;
-let musicVolume = 0.8;
-let sfxVolume = 0.8;
+let musicVolume: number = AUDIO_MIX.defaultMusic;
+let sfxVolume: number = AUDIO_MIX.defaultSfx;
 let master: GainNode | null = null;
 let musicBus: GainNode | null = null;
 let sfxBus: GainNode | null = null;
@@ -189,46 +190,50 @@ function onStateChange(): void {
 }
 
 function buildGraph(ac: AudioContext): void {
+  // R0464: every gain, delay and reverb number comes from AUDIO_MIX in tuning.
   const comp = ac.createDynamicsCompressor();
-  comp.threshold.value = -18;
-  comp.ratio.value = 4;
+  comp.threshold.value = AUDIO_MIX.compThresholdDb;
+  comp.ratio.value = AUDIO_MIX.compRatio;
   master = ac.createGain();
-  master.gain.value = 0.9;
+  master.gain.value = AUDIO_MIX.masterGain;
   master.connect(comp).connect(ac.destination);
   musicBus = ac.createGain();
-  musicBus.gain.value = musicEnabled ? musicVolume : 0;
+  musicBus.gain.value = musicGainTarget();
   musicBus.connect(master);
   sfxBus = ac.createGain();
   sfxBus.gain.value = sfxEnabled ? sfxVolume : 0;
   sfxBus.connect(master);
   // Echo.
   const delay = ac.createDelay(1.0);
-  delay.delayTime.value = 0.32;
+  delay.delayTime.value = AUDIO_MIX.delaySec;
   const fb = ac.createGain();
-  fb.gain.value = 0.28;
+  fb.gain.value = AUDIO_MIX.delayFeedback;
   const dlp = ac.createBiquadFilter();
   dlp.type = 'lowpass';
-  dlp.frequency.value = 2400;
+  dlp.frequency.value = AUDIO_MIX.delayLowpassHz;
   delay.connect(dlp).connect(fb).connect(delay);
   delaySend = ac.createGain();
-  delaySend.gain.value = 0.35;
+  delaySend.gain.value = AUDIO_MIX.delaySend;
   delaySend.connect(delay);
   delay.connect(musicBus);
   // A small hall: exponentially decaying noise as the impulse.
-  const seconds = 1.8;
+  const seconds = AUDIO_MIX.hallSec;
   const rate = ac.sampleRate;
   const impulse = ac.createBuffer(2, Math.floor(rate * seconds), rate);
   for (let ch = 0; ch < 2; ch++) {
     const data = impulse.getChannelData(ch);
     for (let i = 0; i < data.length; i++) {
       const t = i / data.length;
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 2.6) * (ch === 0 ? 1 : 0.9);
+      data[i] =
+        (Math.random() * 2 - 1) *
+        Math.pow(1 - t, AUDIO_MIX.hallDecayPow) *
+        (ch === 0 ? 1 : AUDIO_MIX.hallRightLevel);
     }
   }
   const reverb = ac.createConvolver();
   reverb.buffer = impulse;
   reverbSend = ac.createGain();
-  reverbSend.gain.value = 0.22;
+  reverbSend.gain.value = AUDIO_MIX.hallSend;
   reverbSend.connect(reverb).connect(musicBus);
 }
 
@@ -239,16 +244,58 @@ export function setSoundEnabled(on: boolean): void {
 
 export function setMusicEnabled(on: boolean): void {
   musicEnabled = on;
-  if (musicBus && ctx) musicBus.gain.setTargetAtTime(on ? musicVolume : 0, ctx.currentTime, 0.2);
+  applyMusicGain(0.2);
   if (on && unlocked && !current && pendingSong) playSong(pendingSong);
 }
 
 /** 0..1 sliders from Settings. */
 export function setMusicVolume(v: number): void {
   musicVolume = Math.max(0, Math.min(1, v));
-  if (musicBus && ctx && musicEnabled) {
-    musicBus.gain.setTargetAtTime(musicVolume, ctx.currentTime, 0.1);
-  }
+  if (musicEnabled) applyMusicGain(0.1);
+}
+
+// ---------------------------------------------------------------- music duck (R0464)
+
+/** Held ducks by source (the dialogue box, a read-aloud line), each a level 0..1. */
+const duckHolds = new Map<string, number>();
+/** A short dip under a sting; 1 when none is running. */
+let duckPulse = 1;
+let duckPulseTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** The quietest active duck, as a share of the music slider (1: no duck). */
+export function musicDuckLevel(): number {
+  let level = duckPulse;
+  for (const v of duckHolds.values()) level = Math.min(level, v);
+  return level;
+}
+
+/** What the music bus is heading for now: the slider times the duck, 0 with music off. */
+export function musicGainTarget(): number {
+  return musicEnabled ? musicVolume * musicDuckLevel() : 0;
+}
+
+function applyMusicGain(tau: number = MUSIC_DUCK.tau): void {
+  if (musicBus && ctx) musicBus.gain.setTargetAtTime(musicGainTarget(), ctx.currentTime, tau);
+}
+
+/** Hold the music down while `source` is on (the dialogue box, a read-aloud line). */
+export function holdMusicDuck(source: 'dialogue' | 'speech', on: boolean): void {
+  const had = duckHolds.has(source);
+  if (on) duckHolds.set(source, MUSIC_DUCK[source]);
+  else duckHolds.delete(source);
+  if (had !== on) applyMusicGain();
+}
+
+/** Dip the music to `level` for `ms`, then let it come back (a hatch, an evolve, a win). */
+export function duckMusic(level: number, ms: number): void {
+  duckPulse = Math.min(duckPulse, Math.max(0, Math.min(1, level)));
+  applyMusicGain();
+  if (duckPulseTimer !== null) clearTimeout(duckPulseTimer);
+  duckPulseTimer = setTimeout(() => {
+    duckPulseTimer = null;
+    duckPulse = 1;
+    applyMusicGain();
+  }, ms);
 }
 
 export function setSfxVolume(v: number): void {
@@ -927,6 +974,8 @@ export function playSound(name: SoundName): void {
     if (now - lastComicAt < 100) return;
     lastComicAt = now;
   }
+  // R0464: a big sting dips the song so it is heard.
+  if (MUSIC_DUCK.stingSounds.includes(name)) duckMusic(MUSIC_DUCK.sting, MUSIC_DUCK.stingMs);
   try {
     switch (name) {
       case 'squeak':
