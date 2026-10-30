@@ -130,15 +130,16 @@ export const PEEK = {
   treeRadius: 6,
   /** Chance per approach (adults; a shy-leaning child at half). */
   chance: 0.7,
-  /** Hide, then peek, for this long in all. */
-  hideMs: [3000, 6000] as [number, number],
-  stayMs: 14_000,
+  /** Hide, then peek, for this long in all (the looks hide for the first third). */
+  stayMs: 9_000,
   /** How far behind the trunk, away from the Keeper. */
   behind: 0.6,
   /** Found: affection and trust, and the game can't start again for this long. */
   foundAffection: 2,
   foundTrust: 1,
   cooldownMs: 60_000,
+  /** After any hide, it won't hide again for this long (found or not). */
+  restMs: 45_000,
   /** A tap on the tree counts within this distance of the trunk. */
   tapRadius: 2.2,
 } as const;
@@ -151,4 +152,21 @@ export const NOTICE = {
   /** How long the acknowledgement plays. */
   waveMs: 600,
   lookMs: 1400,
+} as const;
+
+/** R0545 (SOUL-27): a mischievous Nubbin snatching another's fruit. */
+export const SNATCH = {
+  /** Only from a Nubbin walking to fruit this close. */
+  radius: 3,
+  /** Per sim second while wandering or sitting (a Moon one ×1.5). */
+  perSecond: 0.12,
+  moonScale: 1.5,
+  /** Its sprint, and the run with the fruit over its head. */
+  sprint: 1.6,
+  runAway: 3,
+  runMs: 4000,
+  /** How long the whole act may run before it gives up. */
+  eatMs: 6000,
+  /** The victim thinks this much less of it (friendship points). */
+  friendshipCost: 15,
 } as const;

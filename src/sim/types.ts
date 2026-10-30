@@ -276,8 +276,6 @@ export interface Nubbin {
   recentMeals?: number[];
   /** R0543: no hide and seek again before this sim time. */
   peekAfterMs?: number;
-  /** R0533: when the Keeper was last within notice range, for the first-approach wave. */
-  keeperSeenMs?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -1481,6 +1479,8 @@ export type SimEvent =
   | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
   | { kind: 'peekFound'; nubbinId: string }
   | { kind: 'burp'; nubbinId: string }
+  /** R0545: a mischievous one snatched another's fruit. */
+  | { kind: 'snatched'; nubbinId: string; victimId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

@@ -51,3 +51,10 @@ export const PEEK_TEXT = {
   reader: 'Found you, {n}! Hide and seek is how shy friends learn to trust.',
   sprout: '🌳👀 Found you!',
 } as const;
+
+/** R0545: a fruit snatched. `{n}` is the thief, `{v}` the one it was taken from. */
+export const SNATCH_TEXT = {
+  main: '{n} nips in and makes off with {v}’s fruit. Very pleased with itself.',
+  reader: '{n} took {v}’s fruit! That was not kind. {v} is sad.',
+  sprout: '🍎💨 {n} took it!',
+} as const;

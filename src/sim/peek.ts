@@ -45,6 +45,7 @@ export function peekAct(n: Nubbin, world: World, now: number): IdleAct | null {
     if (dist(t.pos, n.pos) < PEEK.treeRadius && (!tree || dist(t.pos, n.pos) < dist(tree, n.pos)))
       tree = t.pos;
   if (!tree) return null;
+  n.peekAfterMs = Math.max(n.peekAfterMs ?? 0, now + PEEK.restMs);
   const away = dist(tree, k) || 1;
   const target = {
     x: tree.x + ((tree.x - k.x) / away) * PEEK.behind,

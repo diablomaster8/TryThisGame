@@ -55,6 +55,7 @@ import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
 import { peekAct } from './peek';
+import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
   noteAteForTraits,
@@ -880,6 +881,11 @@ function stepBehavior(
   if (b.state === 'wander' || b.state === 'sit') {
     const hide = peekAct(n, world, now);
     if (hide) startAct(n, hide, now);
+    // R0545: a mischievous one dashes for the fruit another is walking to.
+    else {
+      const dash = snatchAct(n, world, now, dtMs);
+      if (dash) startAct(n, dash, now);
+    }
   }
   // R0546 (lane A r9): a glutton (a lazy one less often) snacks on fruit in reach.
   // Only from a wander or a sit, so nothing it was set on doing is cut short.
@@ -1063,7 +1069,13 @@ function stepBehavior(
       // A sled run or a bath has a spot: walk there first, and the act's timer starts on
       // arrival (MOVE-29; the spot used to be set and never walked to).
       if (b.target) {
-        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) {
+        if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed * snatchSpeed(b.itemId), dtMs)) {
+          // R0545 (lane A r9): a snatch grabs and runs, or eats at the end of its run.
+          const snatch = snatchArrive(n, world, now, events, {
+            react: (who, r) => react(who, r, now, events),
+            eat: (flavor) => eat(n, now, events, flavor),
+          });
+          if (snatch) break;
           b.untilMs = now + (b.untilMs - b.sinceMs);
           b.target = null;
           // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).

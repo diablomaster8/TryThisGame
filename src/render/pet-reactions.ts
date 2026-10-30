@@ -355,6 +355,7 @@ export const PET_BEAT_BURST: Partial<
   hum: 'note',
   giggleFit: 'note',
   burp: 'dust',
+  smugRun: 'dust',
 };
 
 /** Per-Nubbin beats for one renderer (each keeps its own, on its own clock). */

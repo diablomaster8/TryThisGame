@@ -33,7 +33,8 @@ export type SoulLookKind =
   | 'giggleFit'
   | 'burp'
   | 'full'
-  | 'peek';
+  | 'peek'
+  | 'smugRun';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
@@ -46,6 +47,7 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'perform' && id === 'giggle') return 'giggleFit';
   if (b.state === 'perform' && id === 'burp') return 'burp';
   if (b.state === 'perform' && id === 'peekTree' && !b.target) return 'peek';
+  if (b.state === 'perform' && id?.startsWith('snatchRun:')) return 'smugRun';
   if (b.state === 'sit' && (id === 'harrumph' || id === 'yawn' || id === 'stretch')) return id;
   if (b.state === 'sit' && id === 'stargaze') return 'stargaze';
   if (b.state === 'nap' && id === 'nodOff') return 'nodOff';
@@ -78,6 +80,7 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   hum: 700,
   giggleFit: 450,
   burp: 5000,
+  smugRun: 500,
 };
 
 /** The waddle's sway. */
@@ -264,6 +267,13 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       out.sh = 0.95;
       break;
     }
+    case 'smugRun':
+      // R0545: off at a trot with the fruit held up over its head, very pleased.
+      out.clip = 'happy';
+      out.pose3d = 'happy';
+      out.sh = 1.06;
+      out.dy = 0.03 * Math.abs(wave(3)) * m;
+      break;
     case 'chaseTail':
       // Round and round after its own tail: a small circle, happy.
       out.clip = 'walk';

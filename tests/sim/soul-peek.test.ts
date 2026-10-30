@@ -36,7 +36,8 @@ describe('R0543 shy peek', () => {
         n.behavior.state = 'sit';
         n.behavior.untilMs = w.timeMs + 60_000;
         w.keeper.pos = { x: tree.x + 20, z: tree.z + 20 };
-        for (let t = 0; t < 30; t++) {
+        // Long enough apart that the last hide has rested.
+        for (let t = 0; t < 500; t++) {
           hold(n);
           stepWorld(w, 100);
         }
