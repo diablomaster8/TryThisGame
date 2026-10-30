@@ -854,3 +854,50 @@ body.line-shake-big #app {
   pointer-events: none;
   z-index: 3;
 }
+/* R0327 (FUN-38): a request in its asker's voice. */
+.request-voice {
+  margin: 2px 0 0;
+  font-style: italic;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+/* R0329 (FUN-40): weather gags over the Nubbins. */
+.nubbin-gag {
+  position: fixed;
+  z-index: 27;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 20px;
+  line-height: 1;
+}
+.dialogue-open .nubbin-gag {
+  display: none;
+}
+.nubbin-gag[data-gag='leafFlip'] {
+  transform: translate(-50%, -100%) scaleY(-1) rotate(20deg);
+}
+.nubbin-gag[data-gag='shiver'] {
+  animation: gag-shiver 0.15s infinite;
+}
+.nubbin-gag[data-gag='puddle'],
+.nubbin-gag[data-gag='paddle'] {
+  animation: gag-splash 0.5s ease-out;
+}
+@keyframes gag-shiver {
+  50% {
+    margin-left: 2px;
+  }
+}
+@keyframes gag-splash {
+  0% {
+    transform: translate(-50%, -60%) scale(0.5);
+  }
+  100% {
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nubbin-gag {
+    animation: none !important;
+  }
+}

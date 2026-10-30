@@ -4,6 +4,7 @@
  * `strings-fun-r5.ts` so the shared strings file only gains a re-export line.
  */
 import type { MicroKind } from '../sim/micro';
+import { REQUEST_VOICE } from './strings-requests';
 
 export const MICRO6_TEXT = {
   escort: {
@@ -163,3 +164,19 @@ export const RACE_GAG_TEXT = {
   perk: '!',
   tip: (name: string) => `${name} stopped to look at a butterfly. Worth it.`,
 } as const;
+
+/**
+ * R0327 (FUN-38): a request's voiced ask or thank-you: the asking Keeper's own line, the
+ * narrated Nubbin line (`nubbin` true: `from` is a Nubbin's name), else the kind's fallback.
+ */
+export function requestLine(
+  template: string,
+  from: string,
+  nubbin: boolean,
+  which: 'ask' | 'thanks',
+): string | null {
+  const v = REQUEST_VOICE[template];
+  if (!v) return null;
+  if (nubbin) return v.nubbin[which].replace(/\{name\}/g, from);
+  return (v.by[from] ?? v.fallback)[which];
+}

@@ -67,6 +67,8 @@ import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { RoutineProps } from './routine-props';
+import { NubbinGags } from './nubbin-gags';
+import { requestLine } from '../config/strings-fun-r6';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
@@ -824,6 +826,9 @@ export function mountHud(
         // R0296: the routine stations' prop gags beside the Keepers.
         const routineProps = new RoutineProps(root);
         g.framePollers.push(() => routineProps.update(g));
+        // R0329: the weather gags over the Nubbins.
+        const nubbinGags = new NubbinGags(root);
+        g.framePollers.push(() => nubbinGags.update(g));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1361,6 +1366,12 @@ export function mountHud(
         } else if (e.kind === 'questClaimed') {
           toast(UI_TEXT.questClaimed(e.shells, e.egg));
           playSound('buy');
+          // R0327 (FUN-38): the asker says thank you in their own voice.
+          const q = g.world.quests.find((x) => x.id === e.id);
+          const thanks = q
+            ? requestLine(q.template, q.from, !TRAINER_LABELS[q.from], 'thanks')
+            : null;
+          if (thanks) toast(thanks);
         } else if (e.kind === 'friendsMade') {
           const a = g.world.nubbins.find((x) => x.id === e.a);
           const b = g.world.nubbins.find((x) => x.id === e.b);

@@ -125,3 +125,17 @@ export const RACE_GAGS = {
   perkMs: 600,
   quirks: 40,
 } as const;
+
+/**
+ * R0329 (FUN-40): weather gags. One performer per `cycleMs`; in rain the leaf blows inside
+ * out at `flipAt` into the cycle; in snow the tongue and the shiver; after rain, puddle
+ * splashes for `puddleWindowMs`; swimmers splash in time every `paddleMs`.
+ */
+export const WEATHER_GAGS = {
+  cycleMs: 20_000,
+  flipAt: 12_000,
+  tongueMs: 2500,
+  shiverMs: 1500,
+  puddleWindowMs: 60_000,
+  paddleMs: 4000,
+} as const;
