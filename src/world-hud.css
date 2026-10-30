@@ -214,6 +214,8 @@
   border-radius: 14px;
   background: rgba(13, 10, 26, 0.9);
   color: #fff7dc;
+  /* #hud is pointer-events: none, and these are plain buttons, not .btn. */
+  pointer-events: auto;
 }
 .backup-offer[hidden] {
   display: none;
