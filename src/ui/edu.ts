@@ -19,7 +19,7 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
-import { EDU_PICKER_TEXT, EDU_SAY_TEXT } from '../config/strings-kids';
+import { EDU_PICKER_TEXT, EDU_RESULTS_TEXT, EDU_SAY_TEXT } from '../config/strings-kids';
 import { EDU_VOICE } from '../config/tuning-kids';
 import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
@@ -46,6 +46,7 @@ export class EduScreen {
   private tries = 0;
   private starsTotal = 0;
   private used = new Set<string>();
+  private stickersAtStart = 0;
   private rng = Rng.fromSeed(Date.now());
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
   private readonly next: NextCard;
@@ -199,6 +200,7 @@ export class EduScreen {
     this.starsTotal = 0;
     // R0684: no target twice in one session.
     this.used = new Set();
+    this.stickersAtStart = g.world.edu.stickers;
     this.rng = Rng.fromSeed(Date.now());
     g.renderPaused = true;
     this.root.hidden = false;
@@ -306,30 +308,61 @@ export class EduScreen {
     this.reply(this.tries === 1 ? EDU_TEXT.tryAgain : EDU_TEXT.almost);
   }
 
+  /**
+   * R0686: the results card is a celebration: the child's Nubbin cheering, the stars popping
+   * in one by one with a chime (all at once under reduced motion), the Shells this game
+   * earned in one line, a new sticker if one came, and two big picture buttons.
+   */
   private finish(): void {
     const g = this.game_();
     const c = this.card;
     c.innerHTML = '';
     const max = EDU.roundsPerGame * 3;
-    c.appendChild(el('div', 'edu-prompt', EDU_TEXT.finished(this.starsTotal, max)));
-    c.appendChild(
-      el('div', 'edu-big', '⭐'.repeat(Math.max(1, Math.round((this.starsTotal / max) * 5)))),
-    );
-    if (g?.world.edu) c.appendChild(el('div', 'help', EDU_TEXT.stickers(g.world.edu.stickers)));
-    const row = el('div', 'settings-actions');
+    const card = el('div', 'edu-results');
+    const n = g ? sleeperOf(g) : undefined;
+    if (g && n) card.appendChild(clipPortrait(g, n, 'happy', 'edu-results-pic'));
+    card.appendChild(el('div', 'edu-prompt', EDU_TEXT.finished(this.starsTotal, max)));
+    const stars = el('div', 'edu-big edu-results-stars');
+    const count = Math.max(1, Math.round((this.starsTotal / max) * 5));
+    const calm = document.documentElement.classList.contains('reduce-motion');
+    for (let i = 0; i < count; i++) {
+      const s = el('span', 'edu-star', '⭐');
+      if (!calm) {
+        s.style.animationDelay = `${i * EDU_VOICE.starMs}ms`;
+        window.setTimeout(() => playSound('tap'), i * EDU_VOICE.starMs);
+      }
+      stars.appendChild(s);
+    }
+    card.appendChild(stars);
+    card.appendChild(el('div', 'edu-results-shells', `+${this.starsTotal * EDU.shellsPerStar} 🐚`));
+    const e = g?.world.edu;
+    const newSticker = !!e && e.stickers > this.stickersAtStart;
+    if (e)
+      card.appendChild(
+        el(
+          'div',
+          newSticker ? 'edu-results-sticker' : 'help',
+          newSticker ? `🌟 ${EDU_TEXT.sticker}` : EDU_TEXT.stickers(e.stickers),
+        ),
+      );
+    const row = el('div', 'edu-results-actions');
+    const big = (icon: string, label: string, onPress: () => void, cls: string) => {
+      const b = button('', onPress, `btn ${cls} edu-results-btn`);
+      b.append(el('span', 'edu-results-icon', icon), el('span', undefined, label));
+      return b;
+    };
     row.append(
-      button(EDU_TEXT.playAgain, () => this.game && this.start(this.game), 'btn btn-primary'),
-      button(EDU_TEXT.backToGrove, () => this.close(), 'btn'),
+      big('🔁', EDU_TEXT.playAgain, () => this.game && this.start(this.game), 'btn-primary'),
+      big('🏡', EDU_TEXT.backToGrove, () => this.close(), ''),
     );
-    c.appendChild(row);
-    playSound('cheer');
-    // R0674 / R0693: a sprout hears the score; nobody gets a toast over the card.
-    for (const line of replySpeech(
-      EDU_TEXT.finished(this.starsTotal, max),
-      this.band(),
-      this.readAloud(),
-    ))
-      speakLine(line);
+    card.appendChild(row);
+    c.appendChild(card);
+    window.setTimeout(() => playSound('cheer'), calm ? 0 : count * EDU_VOICE.starMs);
+    // R0674 / R0693: a sprout hears the praise; nobody gets a toast over the card.
+    const say = n
+      ? EDU_RESULTS_TEXT.say(this.starsTotal, n.name)
+      : EDU_TEXT.finished(this.starsTotal, max);
+    for (const line of replySpeech(say, this.band(), this.readAloud())) speakLine(line);
   }
 }
 
@@ -753,13 +786,18 @@ function sleeperOf(g: Game): Nubbin | undefined {
 
 /** The Nubbin's front sleep frame (drawn at 64 px, shown larger); the idle frame if a sheet lacks one. */
 function sleepingPortrait(g: Game, n: Nubbin): HTMLCanvasElement {
-  const c = el('canvas', 'edu-break-pic');
+  return clipPortrait(g, n, 'sleep', 'edu-break-pic');
+}
+
+/** One front frame of a clip, falling back to idle; drawn at 64 px for CSS to scale. */
+function clipPortrait(g: Game, n: Nubbin, clip: string, cls: string): HTMLCanvasElement {
+  const c = el('canvas', cls);
   c.width = 64;
   c.height = 64;
   try {
     const sheet = g.view.sheets.forNubbin(n);
     const rect =
-      sheet.frames.get(frameKey('sleep', 'front', 0)) ??
+      sheet.frames.get(frameKey(clip, 'front', 0)) ??
       sheet.frames.get(frameKey('idle', 'front', 0));
     const ctx = c.getContext('2d');
     if (ctx && rect) {

@@ -3478,3 +3478,75 @@ body.edu-sprout .modal-head .btn-close {
 .edu-plus {
   font-size: 1.6rem;
 }
+
+/* Lane E r7, R0686: the results card as a celebration. */
+.edu-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.edu-results-pic {
+  width: 112px;
+  height: 112px;
+  image-rendering: pixelated;
+  animation: edu-results-hop 0.7s ease-in-out infinite;
+}
+@keyframes edu-results-hop {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.edu-results-stars .edu-star {
+  display: inline-block;
+  animation: edu-star-pop 0.35s ease-out both;
+}
+@keyframes edu-star-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.edu-results-shells {
+  font-size: 1.3rem;
+}
+.edu-results-sticker {
+  font-size: 1.2rem;
+  color: #ffd85a;
+}
+.edu-results-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+.edu-results-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  gap: 4px;
+}
+.edu-results-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+.reduce-motion .edu-results-pic,
+.reduce-motion .edu-results-stars .edu-star {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-results-pic,
+  .edu-results-stars .edu-star {
+    animation: none;
+  }
+}

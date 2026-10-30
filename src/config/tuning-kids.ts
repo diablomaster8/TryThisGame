@@ -18,4 +18,6 @@ export const EDU_VOICE = {
   countMs: 550,
   /** R0681: a sprout's game tile bounces this long, saying its name, before it starts. */
   launchMs: 600,
+  /** R0686: the results card's stars pop in this far apart, one chime each. */
+  starMs: 280,
 } as const;

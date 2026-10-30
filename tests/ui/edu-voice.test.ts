@@ -62,3 +62,15 @@ describe('game picker stars (R0681)', () => {
     expect(pickStars(2, 6)).toBe(3);
   });
 });
+
+describe('kid notices (R0693)', () => {
+  it('holds a sprout notice over an activity and drops festivals in any Learning Grove', async () => {
+    const { kidNoticeAction } = await import('../../src/ui/kid-notice');
+    const { UI_TEXT } = await import('../../src/config/strings');
+    expect(kidNoticeAction('Fed!', true, true, true)).toBe('hold');
+    expect(kidNoticeAction('Fed!', true, true, false)).toBe('show');
+    expect(kidNoticeAction('Fed!', true, false, true)).toBe('show');
+    expect(kidNoticeAction(UI_TEXT.festival.spring, true, false, false)).toBe('drop');
+    expect(kidNoticeAction(UI_TEXT.festival.spring, false, false, false)).toBe('show');
+  });
+});

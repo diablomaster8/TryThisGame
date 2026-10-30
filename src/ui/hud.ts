@@ -60,6 +60,7 @@ import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { Guide } from './guide';
+import { kidToaster } from './kid-notice';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -406,7 +407,10 @@ export function mountHud(
   toasts.setAttribute('role', 'status');
   toasts.setAttribute('aria-live', 'polite');
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
-  const toast = bandToaster(makeToaster(toasts), game);
+  // R0693 (lane E r7): a sprout's notices wait until their activity closes (kid-notice.ts).
+  let kidBusy: () => boolean = () => false;
+  const kidNotices = kidToaster(bandToaster(makeToaster(toasts), game), game, () => kidBusy());
+  const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
 
@@ -701,6 +705,8 @@ export function mountHud(
     };
   }
 
+  kidBusy = () =>
+    edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -1012,6 +1018,7 @@ export function mountHud(
           g.catchingUp;
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
+        kidNotices.flush();
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
@@ -1535,7 +1542,8 @@ export function mountHud(
         } else if (e.kind === 'wildLeft') {
           toast(UI_TEXT.wildLeft);
         } else if (e.kind === 'eduResult') {
-          toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
+          // R0686: the results card shows the Shells and the sticker; no toast over a round.
+          if (!edu.isOpen()) toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
         } else if (e.kind === 'eduStarted') {
           toast(EDU_TEXT.playHelp);
         } else if (e.kind === 'recruited') {

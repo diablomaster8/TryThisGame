@@ -92,3 +92,9 @@ export const EDU_PICKER_TEXT = {
   say: 'What shall we play?',
   stars: (n: number) => `${n} of 3 stars`,
 } as const;
+
+/** R0686: the results card, said aloud. */
+export const EDU_RESULTS_TEXT = {
+  say: (stars: number, name: string) =>
+    `You got ${stars} ${stars === 1 ? 'star' : 'stars'}! ${name} is so happy.`,
+} as const;
