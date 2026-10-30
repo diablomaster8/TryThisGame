@@ -142,6 +142,14 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
+import { askAdultScene } from './adult-entry';
+import {
+  adultSceneGate,
+  isAdultScene,
+  lastAdultEntry,
+  noteAdultEntry,
+} from '../platform/mature-recheck';
+import { MATURE_RECHECK } from '../config/tuning-tech';
 import { groveSfx } from './event-feedback';
 import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
@@ -885,6 +893,28 @@ export function mountHud(
   const festivalGagsStarted = new Set<string>();
   // Periodic refresh of live panels.
   let refreshTimer = 0;
+  // R0517 (TECH-75): an 18+ fun quest scene (It's Always Sunny) asks the grown-up question
+  // again after a long spell without an 18+ entry; "Not now" holds it back for a while.
+  let adultAsking = false;
+  let adultDeferredUntil = 0;
+  function playStoryScene(id: string): void {
+    if (adultAsking) return;
+    const gate = adultSceneGate(id, lastAdultEntry(), Date.now(), adultDeferredUntil);
+    if (gate === 'wait') return;
+    if (gate === 'ask') {
+      adultAsking = true;
+      void askAdultScene(root).then((ok) => {
+        adultAsking = false;
+        // Confirmed: the next refresh finds the entry fresh and plays the scene.
+        if (ok) noteAdultEntry();
+        else adultDeferredUntil = Date.now() + MATURE_RECHECK.deferMs;
+      });
+      return;
+    }
+    if (isAdultScene(id)) noteAdultEntry();
+    dialogue.play(id);
+  }
+
   function refreshLoop(): void {
     const g = game();
     if (g) {
@@ -1168,7 +1198,7 @@ export function mountHud(
         !cabinet.isOpen()
       ) {
         sheet.close();
-        dialogue.play(next);
+        playStoryScene(next);
       }
     }
     refreshTimer = window.setTimeout(refreshLoop, 200);
