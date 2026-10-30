@@ -21,7 +21,17 @@ export type PetBeatKind =
   | 'wideAwake'
   // R0536: a favourite fruit (a cheek-puffed hop) and a disliked one (tongue out, a shudder).
   | 'yum'
-  | 'bleh';
+  | 'bleh'
+  // R0551: a pet by personality (a bounce, a blush, a wiggle, a melt) and a landing after a
+  // throw (a wheee, a teary sit, a cheeky tongue, a flop that stays down).
+  | 'bounce'
+  | 'blush'
+  | 'wiggle'
+  | 'melt'
+  | 'wheee'
+  | 'teary'
+  | 'tongue'
+  | 'flop';
 
 /** How long each beat plays, in ms. */
 export const PET_BEAT_MS: Record<PetBeatKind, number> = {
@@ -36,6 +46,14 @@ export const PET_BEAT_MS: Record<PetBeatKind, number> = {
   wideAwake: 1200,
   yum: 1000,
   bleh: 1100,
+  bounce: 900,
+  blush: 1200,
+  wiggle: 1100,
+  melt: 1400,
+  wheee: 1300,
+  teary: 1600,
+  tongue: 1100,
+  flop: 3000,
 };
 
 /** A second tickle inside this window brings the hiccups. */
@@ -49,7 +67,18 @@ export interface PetBeatPose {
   clip: string | null;
   frame: number | null;
   /** The matching 3D pose. */
-  pose3d: 'happy' | 'love' | 'surprised' | 'dizzy' | 'sit' | 'sad' | 'eat' | 'sleep' | null;
+  pose3d:
+    | 'happy'
+    | 'love'
+    | 'surprised'
+    | 'dizzy'
+    | 'sit'
+    | 'sad'
+    | 'eat'
+    | 'sleep'
+    | 'idle'
+    | 'walk'
+    | null;
   /** Width and height scale, and offsets along the screen (x) and up (y), in body heights. */
   sw: number;
   sh: number;
@@ -181,6 +210,70 @@ export function beatPose(kind: PetBeatKind, t: number): PetBeatPose {
       out.dy = hop * 0.1;
       break;
     }
+    case 'bounce': {
+      // Two happy bounces under the hand.
+      const hop = Math.abs(Math.sin(t * Math.PI * 2));
+      out.clip = 'happy';
+      out.pose3d = 'happy';
+      out.dy = 0.1 * hop;
+      out.sh = 1 + 0.05 * hop;
+      break;
+    }
+    case 'blush':
+      // Shrinks into itself and turns a little away, all blush.
+      out.clip = 'love';
+      out.frame = 0;
+      out.pose3d = 'love';
+      out.sw = 0.92;
+      out.sh = 0.9;
+      out.dx = -0.04 * Math.sin(t * Math.PI);
+      break;
+    case 'wiggle':
+      // Wriggles out from under the hand, then leans back in for more.
+      out.clip = t < 0.6 ? 'surprised' : 'happy';
+      out.frame = 0;
+      out.pose3d = t < 0.6 ? 'surprised' : 'happy';
+      out.dx = t < 0.6 ? 0.1 * Math.sin((t / 0.6) * Math.PI) + wave(8) * 0.02 : 0;
+      break;
+    case 'melt':
+      // Goes flat as a pancake with bliss.
+      out.clip = 'sit';
+      out.frame = 0;
+      out.pose3d = 'sit';
+      {
+        const s = Math.sin(Math.min(1, t * 3) * Math.PI * 0.5) * (t > 0.8 ? fade / 0.2 : 1);
+        out.sh = 1 - 0.25 * s;
+        out.sw = 1 + 0.18 * s;
+      }
+      break;
+    case 'wheee':
+      // Lands giddy: a spin of dizzy, then a happy hop.
+      out.clip = t < 0.55 ? 'dizzy' : 'happy';
+      out.frame = 0;
+      out.pose3d = t < 0.55 ? 'dizzy' : 'happy';
+      out.dy = t > 0.55 ? 0.08 * Math.sin(((t - 0.55) / 0.45) * Math.PI) : 0;
+      break;
+    case 'teary':
+      // Sits down sad, shoulders hunched.
+      out.clip = 'sad';
+      out.frame = 0;
+      out.pose3d = 'sad';
+      out.sh = 0.94;
+      break;
+    case 'tongue':
+      // Dizzy for a moment, then a cheeky grin and a hop away.
+      out.clip = t < 0.4 ? 'dizzy' : 'happy';
+      out.frame = 0;
+      out.pose3d = t < 0.4 ? 'dizzy' : 'happy';
+      out.dx = t > 0.4 ? -0.06 * Math.sin(((t - 0.4) / 0.6) * Math.PI) : 0;
+      break;
+    case 'flop':
+      // Just lies there where it landed for a good long while.
+      out.clip = 'sleep';
+      out.pose3d = 'sleep';
+      out.sh = 0.8;
+      out.sw = 1.12;
+      break;
     case 'bleh':
       // Tongue out and a full-body shudder.
       out.clip = 'sad';
@@ -207,6 +300,8 @@ export const PET_BEAT_BURST: Partial<
   raindrop: 'sparkle',
   fireflies: 'sparkle',
   harrumph: 'dust',
+  trip: 'dust',
+  sneeze: 'sparkle',
   squish: 'heart',
   fluff: 'dust',
   puff: 'sparkle',
@@ -221,14 +316,17 @@ export class PetBeats {
   private readonly lastTickle = new Map<string, number>();
   private readonly pending = new Map<string, { action: Interaction; atMs: number }>();
   /** R0536: a taste beat waiting for the Nubbin's next frame. */
-  private readonly pendingKind = new Map<string, { kind: PetBeatKind; atMs: number }>();
+  private readonly pendingKind = new Map<
+    string,
+    { kind: PetBeatKind | ((n: Nubbin) => PetBeatKind); atMs: number }
+  >();
   /** Lane A r8: when each Nubbin's idle look began (render clock) and its last burst. */
   private readonly looks = new Map<string, { key: string; at: number; bucket: number }>();
   /** Reduced motion: the looks keep their frames and drop their shakes. */
   calm = false;
 
   /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
-  queueKind(id: string, kind: PetBeatKind, nowMs: number): void {
+  queueKind(id: string, kind: PetBeatKind | ((n: Nubbin) => PetBeatKind), nowMs: number): void {
     this.pendingKind.set(id, { kind, atMs: nowMs });
   }
 
@@ -252,7 +350,8 @@ export class PetBeats {
     const pk = this.pendingKind.get(n.id);
     if (pk) {
       this.pendingKind.delete(n.id);
-      this.beats.set(n.id, { kind: pk.kind, startMs: pk.atMs });
+      const kind = typeof pk.kind === 'function' ? pk.kind(n) : pk.kind;
+      this.beats.set(n.id, { kind, startMs: pk.atMs });
       fresh = true;
     }
     const pose = this.pose(n.id, nowMs);
@@ -304,6 +403,34 @@ export class PetBeats {
       return null;
     }
     return beatPose(b.kind, t);
+  }
+}
+
+/** R0551: how a pet lands, by personality (no personality yet: the cheerful bounce). */
+export function petBeatFor(n: Nubbin): PetBeatKind {
+  switch (n.personality) {
+    case 'shy':
+      return 'blush';
+    case 'mischievous':
+      return 'wiggle';
+    case 'lazy':
+      return 'melt';
+    default:
+      return 'bounce';
+  }
+}
+
+/** R0551: how a thrown Nubbin takes its landing, by personality. */
+export function landBeatFor(n: Nubbin): PetBeatKind {
+  switch (n.personality) {
+    case 'shy':
+      return 'teary';
+    case 'mischievous':
+      return 'tongue';
+    case 'lazy':
+      return 'flop';
+    default:
+      return 'wheee';
   }
 }
 

@@ -6,6 +6,7 @@
 import { NAMES } from '../config/strings';
 import { MOODY_TEXT, TASTE_NAMES, TASTE_TOASTS } from '../config/strings-soul-r8';
 import { likesOf } from '../sim/likes';
+import type { SoundName } from '../platform/audio';
 import type { SimEvent, World } from '../sim/types';
 import { toastBand } from './fun-toasts';
 
@@ -23,4 +24,28 @@ export function soulToast(world: World, e: SimEvent): string | null {
   }
   if (e.kind === 'highFiveRefused') return MOODY_TEXT.refused[band].replaceAll('{n}', name);
   return MOODY_TEXT.cleared[e.was][band].replaceAll('{n}', name);
+}
+
+/** R0552 (SOUL-35): the synth sound for an antic or a soul moment, or null. */
+export function soulSound(e: SimEvent): SoundName | null {
+  switch (e.kind) {
+    case 'antic':
+      return e.antic === 'trip'
+        ? 'boing'
+        : e.antic === 'sneeze'
+          ? 'sneeze'
+          : e.antic === 'hiccup'
+            ? 'hiccup'
+            : 'giggle';
+    case 'fruitTaste':
+      return e.taste === 'yum' ? 'munch' : 'raspberry';
+    case 'pranked':
+      return 'pop';
+    case 'comforted':
+      return 'pet';
+    case 'highFiveRefused':
+      return 'squeak';
+    default:
+      return null;
+  }
 }

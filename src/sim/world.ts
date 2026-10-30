@@ -95,6 +95,7 @@ import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
 import { stepMoody } from './soul-idle';
+import { setAnticsLive } from './antics';
 import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
@@ -1135,6 +1136,8 @@ export function stepWorld(
   const events: SimEvent[] = [];
   world.timeMs += dtMs;
   if (wallMs !== undefined) world.lastWallMs = wallMs;
+  // R0544 (lane A r8): no antics while catching up on time away.
+  setAnticsLive(!offline);
 
   withRng(world, (rng) => {
     updateTrees(world, dtMs, rng, events);

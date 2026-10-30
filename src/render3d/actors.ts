@@ -22,7 +22,13 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
-import { PET_BEAT_BURST, PetBeats, type PetBeatPose } from '../render/pet-reactions';
+import {
+  landBeatFor,
+  PET_BEAT_BURST,
+  PetBeats,
+  petBeatFor,
+  type PetBeatPose,
+} from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -556,6 +562,11 @@ export class Actors {
   /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
   tasteBeat(id: string, taste: 'yum' | 'bleh', nowMs: number): void {
     this.petBeats.queueKind(id, taste, nowMs);
+  }
+
+  /** R0551: a pet or a throw's landing, played by personality. */
+  handledBeat(id: string, what: 'petted' | 'landed', nowMs: number): void {
+    this.petBeats.queueKind(id, what === 'petted' ? petBeatFor : landBeatFor, nowMs);
   }
 
   /** Lane A r8: the scene's particle hook for the idle looks' bursts (puddles, fireflies). */

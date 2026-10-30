@@ -1433,6 +1433,13 @@ export type SimEvent =
   | { kind: 'fruitTaste'; nubbinId: string; taste: 'yum' | 'bleh'; first?: true }
   | { kind: 'moodyCleared'; nubbinId: string; was: 'grumpy' | 'sleepy' }
   | { kind: 'highFiveRefused'; nubbinId: string }
+  /** R0542: a Sun Nubbin patted a sad one; a Moon one said boo to another. */
+  | { kind: 'comforted'; nubbinId: string; markId: string }
+  | { kind: 'pranked'; nubbinId: string; markId: string }
+  /** R0551: a plain pet landed (the renderers play it by personality). */
+  | { kind: 'petted'; nubbinId: string }
+  /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

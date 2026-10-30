@@ -54,7 +54,25 @@ import type { Rng } from './rng';
 import { addPoints } from './stats';
 import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
-import { moodyAct, moodyGreet, napScale, phaseAct, rainAct, type IdleAct } from './soul-idle';
+import {
+  anticEvent,
+  anticMs,
+  idleAntic,
+  isAntic,
+  noteAteForAntics,
+  walkAntic,
+  type AnticKind,
+} from './antics';
+import {
+  alignAct,
+  arriveAct,
+  moodyAct,
+  moodyGreet,
+  napScale,
+  phaseAct,
+  rainAct,
+  type IdleAct,
+} from './soul-idle';
 import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
 import type {
   BehaviorState,
@@ -107,6 +125,7 @@ export function react(n: Nubbin, reaction: Reaction, now: number, events: SimEve
  * only shows the face, as with any reaction.
  */
 export function pet(n: Nubbin, from: Vec2, now: number, events: SimEvent[]): void {
+  events.push({ kind: 'petted', nubbinId: n.id });
   if (!isFree(n)) {
     react(n, 'love', now, events);
     return;
@@ -633,8 +652,14 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
+  // R0544: the hiccups after a quick second fruit, or a child's tail chase.
+  const antic = idleAntic(n, now);
+  if (antic) {
+    startAntic(n, antic, now);
+    return;
+  }
   // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
-  const own = moodyAct(n, world, rng) ?? phaseAct(n, world, rng);
+  const own = alignAct(n, world, rng) ?? moodyAct(n, world, rng) ?? phaseAct(n, world, rng);
   if (own) {
     startAct(n, own, now);
     return;
@@ -693,6 +718,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
 }
 
+/** R0544: start an antic where the Nubbin stands. */
+function startAntic(n: Nubbin, kind: AnticKind, now: number): void {
+  setState(n, 'perform', now, anticMs(kind));
+  n.behavior.itemId = kind;
+}
+
 /** Lane A r8: start an act from sim/soul-idle.ts. */
 function startAct(n: Nubbin, a: IdleAct, now: number): void {
   setState(n, a.state, now, a.ms);
@@ -733,7 +764,22 @@ export function updateBehavior(
 ): void {
   const now = world.timeMs;
   const b = n.behavior;
+  // R0544: an antic that starts this step is announced (for the toast line and the sound).
+  const since = b.sinceMs;
+  stepBehavior(n, world, dtMs, rng, events, now, b);
+  if (b.sinceMs !== since && b.state === 'perform' && isAntic(b.itemId))
+    events.push(anticEvent(n, b.itemId));
+}
 
+function stepBehavior(
+  n: Nubbin,
+  world: World,
+  dtMs: number,
+  rng: Rng,
+  events: SimEvent[],
+  now: number,
+  b: Nubbin['behavior'],
+): void {
   if (b.state === 'thrown') {
     updateThrown(n, world, dtMs, now, events);
     return;
@@ -796,6 +842,12 @@ export function updateBehavior(
     case 'avoid': {
       // R0299 (FUN-10): a distracted walk can end in a bonk against a trunk.
       if (b.state === 'wander' && stepWanderGag(n, world, now, events)) break;
+      // R0544: or in a trip, or a sneeze by the flowers.
+      const antic = b.state === 'wander' ? walkAntic(n, world, now, dtMs) : null;
+      if (antic) {
+        startAntic(n, antic, now);
+        break;
+      }
       // LOOK-24: a flight leg cruises faster than a walk (sim/flight.ts).
       const speed =
         b.state === 'avoid'
@@ -947,6 +999,9 @@ export function updateBehavior(
         if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) {
           b.untilMs = now + (b.untilMs - b.sinceMs);
           b.target = null;
+          // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).
+          const hit = arriveAct(n, world, events);
+          if (hit && isFree(hit.mark)) react(hit.mark, hit.reaction, now, events);
         } else if (walkStalled(n, b.target, now)) {
           b.target = null;
         }
@@ -983,6 +1038,7 @@ export function updateBehavior(
 }
 
 export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor): void {
+  noteAteForAntics(n, now);
   applyFruit(n);
   applyFlavor(n, flavor);
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);

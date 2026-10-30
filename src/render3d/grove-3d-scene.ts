@@ -839,6 +839,9 @@ export class Grove3dScene {
 
         continue;
       }
+      // R0551 (lane A r8): a pet and a throw's landing play out by personality.
+      if (e.kind === 'petted' || e.kind === 'landed')
+        this.actors.handledBeat(e.nubbinId, e.kind, now);
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);

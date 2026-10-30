@@ -93,3 +93,42 @@ export const TOY_SOUL = {
   noveltyMs: 10 * 60_000,
   novelty: 2,
 } as const;
+
+/** R0542 (SOUL-24): Sun and Moon garden behaviour. */
+export const ALIGN_SOUL = {
+  /** How far a Sun Nubbin will go to comfort a crying or sad one. */
+  comfortRadius: 8,
+  comfortChance: 0.8,
+  comfortMs: 3000,
+  /** What the pat gives the sad one, and the comforter. */
+  comfortGives: 5,
+  comfortSelf: 2,
+  /** A Moon Nubbin's "boo": how near the mark, and how often. */
+  prankRadius: 6,
+  prankChance: 0.08,
+  prankMs: 2500,
+  /** A child with a strong hint (|alignment| above this) acts at `childStrength`. */
+  childHint: 0.3,
+  childStrength: 0.5,
+  /** In the Sun Grove and the Moon Grove, their own band acts this much more. */
+  ownGrove: 1.5,
+  /** A sad mark: happiness under this, or crying. */
+  sadBelow: -20,
+} as const;
+
+/** R0544 (SOUL-26): little physical antics. Chances are per second; all cosmetic. */
+export const ANTICS = {
+  /** A walking Nubbin trips and faceplants. */
+  tripPerSecond: 0.004,
+  tripMs: 1600,
+  /** Near a flowerbed, a memorial flower or a crop, a sneeze (twice as likely in spring). */
+  sneezeRadius: 1.8,
+  sneezePerSecond: 0.06,
+  sneezeMs: 1200,
+  /** Two fruits inside a minute bring the hiccups. */
+  hiccupWithinMs: 60_000,
+  hiccupMs: 1500,
+  /** A cheerful or mischievous child chases its own tail now and then (per idle choice). */
+  tailChance: 0.06,
+  tailMs: 2200,
+} as const;

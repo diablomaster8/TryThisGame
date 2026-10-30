@@ -50,7 +50,7 @@ import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
-import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
+import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -467,6 +467,9 @@ export class WorldView {
       if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
       // R0536: a favourite or disliked fruit plays its own beat.
       if (e.kind === 'fruitTaste') this.petBeats.queueKind(e.nubbinId, e.taste, nowMs);
+      // R0551: a pet and a throw's landing play out by personality.
+      if (e.kind === 'petted') this.petBeats.queueKind(e.nubbinId, petBeatFor, nowMs);
+      if (e.kind === 'landed') this.petBeats.queueKind(e.nubbinId, landBeatFor, nowMs);
       // R0532: a grumpy refusal huffs.
       if (e.kind === 'highFiveRefused') {
         const v = this.nubbins.get(e.nubbinId);
@@ -2354,7 +2357,12 @@ export function emoteFor(n: Nubbin): EmoteShape {
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
-  if (n.behavior.state === 'perform') return n.behavior.itemId === 'visitFlower' ? 'heart' : 'star';
+  if (n.behavior.state === 'perform') {
+    // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
+    const id = n.behavior.itemId ?? '';
+    if (id.startsWith('prank:')) return 'spiky';
+    return id === 'visitFlower' || id.startsWith('comfort:') ? 'heart' : 'star';
+  }
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';

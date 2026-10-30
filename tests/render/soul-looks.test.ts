@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { phaseAt } from '../../src/render/daylight';
-import { PetBeats } from '../../src/render/pet-reactions';
+import { landBeatFor, PetBeats, petBeatFor } from '../../src/render/pet-reactions';
 import { soulLookKind } from '../../src/render/soul-looks';
 import { clipFor, emoteFor } from '../../src/render/world-view';
 import { poseFor } from '../../src/render3d/actors';
@@ -57,5 +57,23 @@ describe('lane A r8 soul looks', () => {
     expect(beats.frame(n, 700)?.fresh).toBe(true);
     beats.calm = true;
     expect(beats.frame(n, 1400)?.fresh).toBe(false);
+  });
+});
+
+describe('R0551 handling by personality', () => {
+  it('a pet plays four visibly different bodies for the four personalities', () => {
+    const n = createWorld(1, 0).nubbins[0]!;
+    n.stage = 'adult';
+    const looks = new Set<string>();
+    for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
+      n.personality = p;
+      const beats = new PetBeats();
+      beats.queueKind(n.id, petBeatFor, 0);
+      const b = beats.frame(n, 400)!;
+      looks.add(`${b.kind}:${b.clip}:${b.pose3d}:${b.sh.toFixed(2)}`);
+    }
+    expect(looks.size).toBe(4);
+    n.personality = 'lazy';
+    expect(landBeatFor(n)).toBe('flop');
   });
 });

@@ -20,7 +20,12 @@ export type SoulLookKind =
   | 'huddle'
   | 'stomp'
   | 'raindrop'
-  | 'fireflies';
+  | 'fireflies'
+  // R0544: the antics.
+  | 'trip'
+  | 'sneeze'
+  | 'hiccup'
+  | 'chaseTail';
 
 /** Which look a Nubbin's state and act show, or null. */
 export function soulLookKind(n: Nubbin): SoulLookKind | null {
@@ -32,6 +37,11 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'nap' && id === 'nodOff') return 'nodOff';
   if (b.state === 'perform' && (id === 'stomp' || id === 'raindrop') && !b.target) return id;
   if (b.state === 'wander' && id === 'fireflies') return 'fireflies';
+  if (
+    b.state === 'perform' &&
+    (id === 'trip' || id === 'sneeze' || id === 'hiccup' || id === 'chaseTail')
+  )
+    return id;
   return null;
 }
 
@@ -41,6 +51,9 @@ export const SOUL_BURST_MS: Partial<Record<SoulLookKind, number>> = {
   raindrop: 900,
   fireflies: 450,
   harrumph: 1600,
+  trip: 1600,
+  sneeze: 1200,
+  hiccup: 500,
 };
 
 /**
@@ -135,6 +148,46 @@ export function soulPose(kind: SoulLookKind, ms: number, t: number, calm: boolea
       break;
     case 'fireflies':
       // A walk: the renderers keep the walk and only add the sparkles.
+      break;
+    case 'trip': {
+      // Face down for a beat (squashed flat, dizzy), then bounces back up.
+      const down = t < 0.45;
+      out.clip = down ? 'dizzy' : 'surprised';
+      out.frame = 0;
+      out.pose3d = down ? 'dizzy' : 'surprised';
+      out.sh = down ? 0.72 : 1 + 0.06 * Math.sin(((t - 0.45) / 0.55) * Math.PI) * m;
+      out.sw = down ? 1.18 : 1;
+      out.dx = down ? 0.05 : 0;
+      break;
+    }
+    case 'sneeze': {
+      // A wind-up (tall, eyes shut), then the achoo: a hop backwards.
+      const wind = t < 0.4;
+      const hop = wind ? 0 : Math.sin(((t - 0.4) / 0.6) * Math.PI);
+      out.clip = wind ? 'happy' : 'surprised';
+      out.frame = 0;
+      out.pose3d = wind ? 'happy' : 'surprised';
+      out.sh = wind ? 1 + 0.08 * (t / 0.4) : 1;
+      out.dy = 0.08 * hop * m;
+      out.dx = -0.08 * hop * m;
+      break;
+    }
+    case 'hiccup': {
+      // Three little hops, a surprised face at the top of each.
+      const hop = Math.max(0, Math.sin(t * Math.PI * 3));
+      out.clip = hop > 0.5 ? 'surprised' : 'idle';
+      out.frame = 0;
+      out.pose3d = hop > 0.5 ? 'surprised' : 'idle';
+      out.dy = hop * 0.1 * m;
+      out.sh = 1 + hop * 0.05;
+      break;
+    }
+    case 'chaseTail':
+      // Round and round after its own tail: a small circle, happy.
+      out.clip = 'walk';
+      out.pose3d = 'walk';
+      out.dx = 0.06 * Math.sin((ms / 1000) * Math.PI * 2 * 1.2) * m;
+      out.dy = 0.02 * Math.abs(Math.cos((ms / 1000) * Math.PI * 2 * 1.2)) * m;
       break;
   }
   return out;

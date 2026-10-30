@@ -12,7 +12,7 @@
  * - R0534 (SOUL-16): rain by personality: the bold stomp puddles, the cheeky catch drops,
  *   the rest shelter by the tree nearest the Keeper, and never more than half at once.
  */
-import { GROVE, MOODY, PHASE_HOURS, PHASE_QUIRKS, RAIN_SOUL } from '../config/tuning';
+import { ALIGN_SOUL, GROVE, MOODY, PHASE_HOURS, PHASE_QUIRKS, RAIN_SOUL } from '../config/tuning';
 import { addHappiness } from './needs';
 import { leaningPersonality } from './personality';
 import type { Rng } from './rng';
@@ -155,4 +155,91 @@ export function rainAct(
   const byKeeper = treeSpotNear(k);
   const spot = byKeeper.d <= RAIN_SOUL.nearKeeper ? byKeeper.spot : treeSpotNear(n.pos).spot;
   return { state: 'shelter', ms: 60_000, target: spot };
+}
+
+/**
+ * R0542 (SOUL-24): which band a Nubbin acts as and how strongly: an adult's form band in
+ * full, a child with a strong hint at half, and ×1.5 in its own coloured Grove.
+ */
+function bandStrength(n: Nubbin, world: World): { band: 'sun' | 'moon'; s: number } | null {
+  let band: 'sun' | 'moon' | null = null;
+  let s = 1;
+  if (n.stage === 'adult' && n.form && n.form.band !== 'neutral') band = n.form.band;
+  else if (n.stage === 'child' && Math.abs(n.alignment) > ALIGN_SOUL.childHint) {
+    band = n.alignment > 0 ? 'sun' : 'moon';
+    s = ALIGN_SOUL.childStrength;
+  }
+  if (!band) return null;
+  if (world.grove === band) s *= ALIGN_SOUL.ownGrove;
+  return { band, s };
+}
+
+const sad = (o: Nubbin): boolean =>
+  o.behavior.state === 'cry' || o.needs.happiness < ALIGN_SOUL.sadBelow;
+
+/** The nearest other free Nubbin within `r` that passes `ok`. */
+function nearestOther(n: Nubbin, world: World, r: number, ok: (o: Nubbin) => boolean) {
+  let best: Nubbin | null = null;
+  let bestD = r;
+  for (const o of world.nubbins) {
+    if (o.id === n.id || o.stage === 'egg' || o.stage === 'cocoon' || !ok(o)) continue;
+    if (o.behavior.state === 'held' || o.behavior.state === 'carried') continue;
+    const d = Math.hypot(o.pos.x - n.pos.x, o.pos.z - n.pos.z);
+    if (d < bestD) {
+      bestD = d;
+      best = o;
+    }
+  }
+  return best;
+}
+
+/**
+ * R0542: a Sun Nubbin goes to pat a crying or sad one; a Moon one sneaks up on another and
+ * says "boo". No rng is drawn unless the case applies.
+ */
+export function alignAct(n: Nubbin, world: World, rng: Rng): IdleAct | null {
+  const b = bandStrength(n, world);
+  if (!b) return null;
+  const a = ALIGN_SOUL;
+  if (b.band === 'sun') {
+    const mark = nearestOther(n, world, a.comfortRadius, sad);
+    if (!mark || !rng.chance(Math.min(1, a.comfortChance * b.s))) return null;
+    const target = { x: mark.pos.x + 0.8, z: mark.pos.z };
+    return { state: 'perform', ms: a.comfortMs, itemId: `comfort:${mark.id}`, target };
+  }
+  const mark = nearestOther(n, world, a.prankRadius, (o) => !sad(o));
+  if (!mark || !rng.chance(Math.min(1, a.prankChance * b.s))) return null;
+  // From behind: the side away from the way it faces.
+  const target = {
+    x: mark.pos.x - Math.sin(mark.facing) * 0.9,
+    z: mark.pos.z - Math.cos(mark.facing) * 0.9,
+  };
+  return { state: 'perform', ms: a.prankMs, itemId: `prank:${mark.id}`, target };
+}
+
+/**
+ * R0542: an act that does something on arrival: the comforter pats (both cheer up, the
+ * sad one stops crying with a heart), the prankster boos (the mark jumps; no harm done).
+ */
+export function arriveAct(
+  n: Nubbin,
+  world: World,
+  events: SimEvent[],
+): { mark: Nubbin; reaction: 'love' | 'surprised' } | null {
+  const id = n.behavior.itemId ?? '';
+  const sep = id.indexOf(':');
+  if (sep < 0) return null;
+  const kind = id.slice(0, sep);
+  if (kind !== 'comfort' && kind !== 'prank') return null;
+  const mark = world.nubbins.find((o) => o.id === id.slice(sep + 1));
+  if (!mark || Math.hypot(mark.pos.x - n.pos.x, mark.pos.z - n.pos.z) > 2.5) return null;
+  n.facing = Math.atan2(mark.pos.x - n.pos.x, mark.pos.z - n.pos.z);
+  if (kind === 'comfort') {
+    addHappiness(mark, ALIGN_SOUL.comfortGives);
+    addHappiness(n, ALIGN_SOUL.comfortSelf);
+    events.push({ kind: 'comforted', nubbinId: n.id, markId: mark.id });
+    return { mark, reaction: 'love' };
+  }
+  events.push({ kind: 'pranked', nubbinId: n.id, markId: mark.id });
+  return { mark, reaction: 'surprised' };
 }
