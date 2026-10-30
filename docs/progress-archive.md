@@ -2,6 +2,23 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 5 · Lane E LOOK (2026-10-29, branch r5/e)
+
+- *Works:* adults at Fly 50+ fly about a third of their wander legs: they rise 0.6 m, cruise
+  at 1.4× and glide down (`sim/flight.ts`, a pure seeded height like `shroomHopY`), with a
+  Pixel `glide` frame and a 3D held-wing glide; the shadow shrinks below. 40 pocket
+  favourites play one of 16 signature idles every 8–15 s (`render/signature.ts`, both modes).
+  The book has 654 keys over seven tabs (second evolutions, colours, jewels, looks, parts,
+  hats) with lazy thumbnails, a turning page, first-seen time, who showed it, and a one-time
+  tab record. Gag frames (peek, wave, clap) and a 16-gag look table (`render/gag-looks.ts`).
+  The 3D waddle scales by personality; an evolving body grows from 0.8 in 3D.
+- *Stubbed:* the gag sim state is lane A's (nothing plays the gags yet). The book's 3D
+  turntable (Pixel figures in both modes) and the golden frame (only `world.bookTabs`). No 3D
+  signature particles. R0409 (48 px canvas) not started.
+- *Known:* the 3D flight was not seen in Edge (the flier was still sculpting). The book's
+  "seen all" badges now count all 654 keys.
+- *Assumptions:* flights pick 35% of legs; children never fly; 3D wings keep the walk-flap
+  rate (28) rather than 10 Hz.
 ## Round 4 · Lane D (2026-10-29, branch r4/d)
 
 Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,

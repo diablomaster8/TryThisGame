@@ -38,23 +38,27 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 5 · Lane E LOOK (2026-10-29, branch r5/e)
+## Round 6 · Lane E LOOK (2026-10-29, branch r6/e)
 
-- *Works:* adults at Fly 50+ fly about a third of their wander legs: they rise 0.6 m, cruise
-  at 1.4× and glide down (`sim/flight.ts`, a pure seeded height like `shroomHopY`), with a
-  Pixel `glide` frame and a 3D held-wing glide; the shadow shrinks below. 40 pocket
-  favourites play one of 16 signature idles every 8–15 s (`render/signature.ts`, both modes).
-  The book has 654 keys over seven tabs (second evolutions, colours, jewels, looks, parts,
-  hats) with lazy thumbnails, a turning page, first-seen time, who showed it, and a one-time
-  tab record. Gag frames (peek, wave, clap) and a 16-gag look table (`render/gag-looks.ts`).
-  The 3D waddle scales by personality; an evolving body grows from 0.8 in 3D.
-- *Stubbed:* the gag sim state is lane A's (nothing plays the gags yet). The book's 3D
-  turntable (Pixel figures in both modes) and the golden frame (only `world.bookTabs`). No 3D
-  signature particles. R0409 (48 px canvas) not started.
-- *Known:* the 3D flight was not seen in Edge (the flier was still sculpting). The book's
-  "seen all" badges now count all 654 keys.
-- *Assumptions:* flights pick 35% of legs; children never fly; 3D wings keep the walk-flap
-  rate (28) rather than 10 Hz.
+- *Works:* the in-training Digimon hop (three a metre, stretch 1.15, squash 0.75; Pixel walk
+  frames, 3D `hop` spec field). The child hint fades in from |alignment| 0.2 to 0.5: ice white
+  and blue for Sun, dusky violet with a red tip for Moon (two Pixel steps, four 3D blends,
+  `render/sprites/child-hint.ts`). Eyes follow the Keeper within 5 m (3D irises; Pixel glance
+  frames by screen side). Held Nubbins hug (heart), dangle or flail (swirl) by affection, a
+  Moon adult squirms for a Sun Keeper (`render/held-mood.ts`). A gold brow star per rebirth,
+  a ring at 4+. Family egg patterns (Chao speckle band, pocket two-tone, digital big spots)
+  and a 3D egg that rocks when shaken and cracks at 20 s and 5 s (`render3d/egg-crack.ts`).
+  Shadow Nubbins: ember eyes glow 0.4 in 3D, the unbonded hold their head low, a bonded one
+  gets a warm rim (Pixel orange rim, 3D aura by trust, `render3d/bond-glow.ts`). Every line
+  wears the shop hats (Pikachu, Agumon and Snorlax tested).
+- *Stubbed:* the remembrance flower hat (R0424's second half); the egg's top lifting off;
+  Pixel glance on the creature drawer (Chao only); a hat dye on creatures; the Shadow's slower
+  walk; hats sit at the Chao's size on very big or very small creatures.
+- *Known:* the 3D hop ear flop is a head nod (the blobs' ears are sculpted into the head). The
+  glance frames drop the idle breath for that moment.
+- *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
+  stub feet tucked while hopping; the 3D bonded rim is an additive aura behind the body.
+
 ## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
 
 - *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
