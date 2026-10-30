@@ -100,3 +100,12 @@ export const TRACK_TEXT = {
   of: (i: number, n: number) => `${i}/${n}`,
   newGoal: (title: string, goal: string) => `${title}: ${goal}`,
 };
+
+/** Lane C round 8 (R0632): the "While you were away" screen's Stories block. */
+export const AWAY_STORIES_TEXT = {
+  head: 'Stories',
+  spineWaits: 'Hazel’s story: the next part waits for you.',
+  lineWaits: (title: string, n: number) => `${title}: chapter ${n} waits for you.`,
+  lineOn: (title: string, n: number) => `${title}: chapter ${n}, as you left it.`,
+  quests: (n: number) => (n === 1 ? 'One quest under way.' : `${n} quests under way.`),
+};
