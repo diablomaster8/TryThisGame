@@ -3900,3 +3900,13 @@ body.edu-sprout .modal-head .btn-close {
 /* Lane E r8: R0714 counting cues in five-frames, each counted thing staying lit once counted. */
 .edu-icons.edu-frame { display: grid; grid-template-columns: repeat(5, auto); justify-content: center; }
 .edu-icons > span.edu-counted-keep { filter: drop-shadow(0 0 4px #ffd85a); }
+
+/* Lane E r8: R0425 photo album, R0441 photo stickers. */
+.photo-stickers { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 6px 0; }
+.photo-sticker { min-width: 44px; min-height: 44px; font-size: 18px; }
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.album-thumb { position: relative; padding: 2px; min-height: 44px; }
+.album-thumb img { width: 100%; display: block; image-rendering: pixelated; }
+.album-kept { position: absolute; top: 2px; right: 4px; }
+.album-big { width: 100%; image-rendering: pixelated; }
+.memorial-photo { display: block; width: 128px; margin: 6px auto; image-rendering: pixelated; border: 3px solid #f4ecd8; }

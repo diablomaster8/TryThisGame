@@ -360,3 +360,36 @@ export const BELT_TEXT = {
   wear: (belt: string) => `🥋 Wear the ${belt}`,
   off: (belt: string) => `🥋 Take off the ${belt}`,
 } as const;
+
+/** R0425 / R0441: the photo album and photo stickers. */
+export const ALBUM_TEXT = {
+  open: '📚 Album',
+  title: 'Photo album',
+  empty: 'No photos yet. Saved photos land here.',
+  close: 'Close',
+  keep: 'Keep this one',
+  kept: 'Kept',
+  unkeep: 'Stop keeping',
+  keepFull: 'Twelve photos are kept already. Stop keeping one first.',
+  download: 'Save as PNG',
+  saved: 'Saved to the album too.',
+  memorial: 'Their last photo',
+  stickers: 'Stickers',
+  clear: 'Clear',
+} as const;
+
+/** R0441: the twelve photo stickers: the emote shapes plus zZ, !! and ♪. */
+export const PHOTO_STICKER_GLYPHS: readonly string[] = [
+  '♥',
+  '★',
+  '!',
+  '?',
+  '♪',
+  'zZ',
+  '!!',
+  '✿',
+  '☀',
+  '☾',
+  '~',
+  '@',
+];
