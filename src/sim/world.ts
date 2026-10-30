@@ -1,4 +1,6 @@
 import { BATTLE } from '../config/tuning-battle';
+import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
+import { stepSwimTow } from './swim-tow';
 import {
   actBattleCmd,
   forfeitBattleCmd,
@@ -994,6 +996,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'travelAssist':
       travelAssist(world, cmd.pos);
       return;
+    case 'ride':
+      // R0085: climb on (or get down off) a Nubbin.
+      if (cmd.nubbinId) startRide(world, cmd.nubbinId, events);
+      else endRide(world, events, 'down');
+      return;
+    case 'rideCheer':
+      cheerRide(world);
+      return;
     case 'teleport':
       teleport(world, cmd.pos);
       return;
@@ -1080,7 +1090,8 @@ export function stepWorld(
       decayNeeds(n, dtMs);
       advanceStage(n, dtMs, events, world, offline);
       // Party members underground are moved by the Hollow step instead.
-      if (world.nubbins.includes(n) && !inParty(world, n.id)) {
+      // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.
+      if (world.nubbins.includes(n) && !inParty(world, n.id) && !isRidden(world, n.id)) {
         updateBehavior(n, world, dtMs, rng, events);
         // MOVE-33: a thrown Nubbin bonks off what is taller than it flies.
         if (n.behavior.state === 'thrown') collideThrown(world, n, events);
@@ -1089,7 +1100,15 @@ export function stepWorld(
     }
     // Keeper actions happen only in live play: catch-up never walks to or acts on a saved
     // intent (pet, feed, hug), and the intent waits for the Keeper to come back.
-    if (!offline) updateKeeper(world, dtMs, events);
+    if (!offline) {
+      // R0085/R0088: the carrier follows the Keeper's step; a swimmer tows it through the pond.
+      const fx = world.keeper.pos.x;
+      const fz = world.keeper.pos.z;
+      updateKeeper(world, dtMs, events);
+      const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
+      stepRide(world, dtMs, moved, events);
+      stepSwimTow(world);
+    }
     // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
     if (!offline) stepPropReach(world);
     // MOVE-58: the one-time hop lesson.

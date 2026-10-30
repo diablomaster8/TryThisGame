@@ -1,5 +1,7 @@
 import { PERKS } from '../config/tuning';
 import type { NubbinType, World } from './types';
+import { rideSpeed } from './ride';
+import { swimTower } from './swim-tow';
 
 /**
  * Borrowed moves: a bonded or well-loved adult lends its Keeper something of its type.
@@ -28,6 +30,14 @@ export function keeperPerks(world: World): Perks {
     else if (t === 'run') perks.sprint = true;
     if (t !== 'normal' && !perks.from[t]) perks.from[t] = n.name;
   }
+  // R0088: a Swim-trained partner (or the ridden Nubbin) tows the Keeper into deep water.
+  if (!perks.wade) {
+    const tow = swimTower(world);
+    if (tow) {
+      perks.wade = true;
+      perks.from.swim ??= tow.name;
+    }
+  }
   return perks;
 }
 
@@ -37,6 +47,9 @@ export function keeperSpeedMultiplier(
   running: boolean,
   runMultiplier: number,
 ): number {
+  // R0085: on a Nubbin's back its pace is the Keeper's pace.
+  const ride = rideSpeed(world, running);
+  if (ride !== null) return ride;
   const p = keeperPerks(world);
   let m = running ? (p.sprint ? PERKS.runBonus : runMultiplier) : 1;
   if (p.glide && running) m *= PERKS.flyGlideSpeed / 1.3 + 0.3;

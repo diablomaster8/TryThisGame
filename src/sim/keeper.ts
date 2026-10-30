@@ -28,6 +28,7 @@ import {
   KEEPER_WADE,
 } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
+import { swimHint, waterPace } from './swim-tow';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, pet, putDown, react } from './behavior';
@@ -840,7 +841,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const wet = going && k.grounded && keeperFooting(world, k.pos.x, k.pos.z, k.y).on === 'water';
   const soft =
     (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
-    (wet ? KEEPER_WADE.speed : 1) *
+    (wet ? waterPace(world, k.pos.x, k.pos.z, KEEPER_WADE.speed) : 1) *
     (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1) *
     // A running jump carries further (MOVE-42).
     (going && !k.grounded && k.running ? RUN_MODE.airCarry : 1);
@@ -869,6 +870,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // shore, as a tap target in the pond does below.
     if (!dungeonFloor && !keeperPerks(world).wade) {
       const s = shoreline(k.pos);
+      // R0088: stopped by deep water: say a swimmer could take the Keeper across.
+      if (Math.hypot(s.x - k.pos.x, s.z - k.pos.z) > 1e-4) swimHint(world, events);
       k.pos.x = s.x;
       k.pos.z = s.z;
     }
@@ -891,7 +894,12 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     // The Keeper does not wade: a target in the pond becomes the nearest shoreline point,
     // and a Nubbin in the water is reached from there.
     const raw = target;
-    if (target && !dungeonFloor && !keeperPerks(world).wade) target = shoreline(target);
+    if (target && !dungeonFloor && !keeperPerks(world).wade) {
+      target = shoreline(target);
+      // R0088: a tap out on the pond, with nobody to swim it there.
+      if (raw && !k.intent && Math.hypot(target.x - raw.x, target.z - raw.z) > 0.5)
+        swimHint(world, events);
+    }
     if (around) target = around;
     if (target) {
       const d = dist(k.pos, target);

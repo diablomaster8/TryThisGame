@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
 import { KEEPER_JUMP_FX, UNREACHABLE } from '../config/tuning-move';
@@ -1045,6 +1046,12 @@ export function mountHud(
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
+        // R0085/R0088: riding and the swim tow.
+        const ride = rideToast(e, g.world);
+        if (ride) {
+          toast(ride);
+          continue;
+        }
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           hatchCard.add(n, n?.name ?? NAMES.creature);

@@ -1,4 +1,6 @@
 import { memorialSpot } from '../render/memorial-spot';
+import { ridePose } from '../render/ride-pose';
+import { rideScale } from './ride-scale';
 import * as THREE from 'three';
 import { JUMP, KEEPER_ACCEL } from '../config/tuning-sim';
 import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-move';
@@ -1076,13 +1078,17 @@ export class Actors {
     // The Keeper strokes for as long as the Nubbin at its feet holds the pet state.
     // K1, K6, K7, K39 (package a1): the stage's pose, head turn and gesture for the Keeper.
     const kCue = this.keeper?.rig ? poseRig(this.keeper.rig, 'keeper') : null;
-    const kPose: PoseName = keeper.carrying
-      ? 'carry'
-      : petted
-        ? 'pet'
-        : this.keeperMoving
-          ? 'walk'
-          : (kCue ?? 'idle');
+    // R0085: on a Nubbin's back the Keeper sits, smaller and raised (render/ride-pose.ts).
+    const kRide = this.keeperHold ? null : ridePose(world, null, nowMs, kMoving, this.calm);
+    const kPose: PoseName = kRide?.sits
+      ? 'sit'
+      : keeper.carrying
+        ? 'carry'
+        : petted
+          ? 'pet'
+          : this.keeperMoving
+            ? 'walk'
+            : (kCue ?? 'idle');
     // The Keeper turns to a new heading at a brisk rate rather than snapping (MOVE-20); a
     // staged facing is set at once.
     const want = this.keeperFace ?? keeper.facing;
@@ -1090,7 +1096,17 @@ export class Actors {
     const from = this.keeperFace !== null || this.keeperTurn === null ? want : this.keeperTurn;
     const d = Math.atan2(Math.sin(want - from), Math.cos(want - from));
     this.keeperTurn = Math.abs(d) <= turn ? want : from + Math.sign(d) * turn;
-    this.driveKeeper(this.keeper!, kPose, kp, this.keeperTurn, t, dt, this.keeperLift);
+    const kAt = kRide ? { x: kp.x + kRide.dx, z: kp.z + kRide.dz } : kp;
+    this.driveKeeper(
+      this.keeper!,
+      kPose,
+      kAt,
+      this.keeperTurn,
+      t,
+      dt,
+      this.keeperLift + (kRide?.lift ?? 0),
+    );
+    rideScale(this.keeper?.rig?.group, kRide?.scale ?? 1);
     this.squashKeeper(keeper, nowMs, keeperMantle(world), keeperRoll(world));
     // MOVE-27: leaf wings while the Fly perk's glide holds the fall.
     const ky3 = this.keeperGround(kp.x, kp.z) + this.keeperLift;

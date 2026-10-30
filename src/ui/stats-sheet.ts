@@ -27,6 +27,7 @@ import {
 
 const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 import type { Game } from '../game';
+import { RideButton } from './ride-button';
 import { BattleCard } from './battle-card';
 import { jobOfNubbin } from '../sim/battle/tactics/jobs';
 import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
@@ -58,6 +59,8 @@ export class StatsSheet {
   private readonly shakeBtn: HTMLButtonElement;
   private more!: HTMLDivElement;
   private heartBtn!: HTMLButtonElement;
+  /** R0085: Ride / Get down, and Cheer on (`ui/ride-button.ts`). */
+  private rideBtn = new RideButton(() => this.game());
   private catchBtn!: HTMLButtonElement;
   /** Lane C: the Bout card (battle stats, traits, move slots). */
   private readonly bout: BattleCard;
@@ -145,6 +148,8 @@ export class StatsSheet {
       button(UI_TEXT.call, () => send((id) => ({ kind: 'call', nubbinId: id })), 'btn btn-small'),
       this.catchBtn,
       this.heartBtn,
+      this.rideBtn.ride,
+      this.rideBtn.cheer,
     );
 
     // Accessories: dyed hat and scarf, glasses.
@@ -322,6 +327,7 @@ export class StatsSheet {
     this.shownPoints = { id: n.id, points };
     this.refreshGive(world, n);
     this.bout.refresh(n);
+    this.rideBtn.refresh(world, n);
 
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;

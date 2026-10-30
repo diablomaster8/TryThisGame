@@ -186,3 +186,26 @@ export const VILLAGE_TEXT = {
     guard: (name: string) => `${name} keeps watch. Mostly over the fountain.`,
   },
 } as const;
+
+/** R0085/R0088: riding a Nubbin and the swim tow (`ui/ride-button.ts`, `ui/ride-toasts.ts`). */
+export const RIDE_TEXT = {
+  ride: 'Ride',
+  getDown: 'Get down',
+  cheer: 'Cheer on',
+  refusal: {
+    egg: 'Not yet. It needs to hatch first.',
+    adult: 'Only a grown Nubbin can carry you.',
+    bond: 'You are friends, but not carry-you-about friends. Not yet.',
+    stat: 'It needs a bit more training to carry you (a stat at level 30).',
+    tired: 'Too sleepy to carry anyone just now.',
+    busy: 'Hands full. Put things down first.',
+    away: 'Riding is for the Grove.',
+  },
+  started: (name: string) => `${name} braces, wobbles, and carries you off.`,
+  towStarted: (name: string) => `${name} takes your hand and tows you along.`,
+  down: (name: string) => `You hop down. ${name} looks rather pleased with themself.`,
+  tired: (name: string) => `${name} sits down firmly. That is the end of the ride.`,
+  sat: (name: string) => `${name} sits down for a rest. Mid-path. Cheer it on?`,
+  hopped: (name: string) => `${name} hops sideways for no reason at all.`,
+  swimHint: 'The pond is too deep to wade. A good swimmer could take you across.',
+} as const;

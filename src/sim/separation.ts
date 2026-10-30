@@ -64,13 +64,14 @@ export function separateBodies(world: World, dtMs: number): void {
   const ns = world.nubbins;
   for (let i = 0; i < ns.length; i++) {
     const a = ns[i]!;
-    if (!free(a) || a.id === k.carrying) continue;
+    // R0085: a ridden Nubbin is one body with its Keeper, as a carried one is.
+    if (!free(a) || a.id === k.carrying || a.id === world.ride?.nubbinId) continue;
     const ra = radius(a);
     let moved = false;
     if (keeper && apart(k.pos, BODIES.keeper, a.pos, ra, BODIES.keeperShare, cap)) moved = true;
     for (let j = i + 1; j < ns.length; j++) {
       const b = ns[j]!;
-      if (!free(b) || b.id === k.carrying) continue;
+      if (!free(b) || b.id === k.carrying || b.id === world.ride?.nubbinId) continue;
       if (apart(a.pos, ra, b.pos, radius(b), 0.5, cap)) {
         moved = true;
         resolve(b.pos, world, 0.3, nubbinWalker(b));

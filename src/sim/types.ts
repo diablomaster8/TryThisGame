@@ -938,6 +938,8 @@ export interface World {
   landmarks: Record<string, number>;
   /** R0091: one-time collectibles picked up, id → sim time (absent in older saves). */
   collected?: Record<string, number>;
+  /** R0085: the Nubbin the Keeper is riding, absent when on foot (no save bump). */
+  ride?: RideState;
   coop: CoopState;
   keeper2: Keeper | null;
   edu: EduState | null;
@@ -1135,6 +1137,9 @@ export type Command =
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
   // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
   | { kind: 'travelAssist'; pos: Vec2 }
+  // R0085: ride a Nubbin (null gets down) and cheer a lazy carrier on (`sim/ride.ts`)
+  | { kind: 'ride'; nubbinId: string | null }
+  | { kind: 'rideCheer' }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1191,6 +1196,19 @@ export type Command =
   | { kind: 'recruit'; name: string; species: string };
 
 // ---------- events (sim → render/ui) ----------
+
+/** R0085: a ride in progress (`sim/ride.ts`). */
+export interface RideState {
+  nubbinId: string;
+  /** Lazy carriers: when the next sit is due, and when the current one ends. */
+  nextSitMs: number;
+  sitUntilMs: number;
+  /** Mischievous carriers: a side hop until this time, to this side (+1 or -1). */
+  hopUntilMs: number;
+  hopSide: number;
+  /** Heading at the last step, to spot turns. */
+  heading: number;
+}
 
 export type SimEvent =
   // Lane C: the battle core (sim/battle/rewards.ts).
@@ -1357,6 +1375,12 @@ export type SimEvent =
   | { kind: 'visiting'; trainer: string | null }
   | { kind: 'neighbourGift'; trainer: string; shells: number; ok: boolean }
   | { kind: 'landmarkFound'; id: string }
+  // R0085/R0088: riding and the swim tow (`sim/ride.ts`, `sim/swim-tow.ts`)
+  | { kind: 'rideStarted'; nubbinId: string }
+  | { kind: 'rideEnded'; nubbinId: string; reason: 'down' | 'tired' | 'gone' }
+  | { kind: 'rideSat'; nubbinId: string }
+  | { kind: 'rideHopped'; nubbinId: string }
+  | { kind: 'swimHint' }
   | { kind: 'festival'; season: Season }
   | { kind: 'sledding'; nubbinId: string }
   | { kind: 'dyed'; nubbinId: string; slot: 'hat' | 'scarf' }

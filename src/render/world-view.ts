@@ -1,4 +1,5 @@
 import { openSky } from './cave-bands';
+import { ridePose } from './ride-pose';
 import { STALL_SPOTS } from '../config/grove-layout';
 import { memorialSpot } from './memorial-spot';
 import { Vector3 } from 'three';
@@ -1177,15 +1178,20 @@ export class WorldView {
       moving,
     );
     const kview = viewAngle(kpose?.face ?? kface ?? this.keeperHeading(k.facing, nowMs), yaw);
-    const krect = ksheet.frames.get(
-      kpose?.clip
-        ? frameKey(kpose.clip, kview.angle, kpose.frame)
-        : frameKey(
-            kclip,
-            kview.angle,
-            frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
-          ),
-    );
+    // R0085: on a Nubbin's back the Keeper sits, smaller, raised and a hair toward the camera.
+    const kride = kpose ? null : ridePose(world, yaw, nowMs, moving, this.particles.reduceMotion);
+    const krideRect = kride?.sits ? ksheet.frames.get(frameKey('sit', kview.angle, 0)) : undefined;
+    const krect =
+      krideRect ??
+      ksheet.frames.get(
+        kpose?.clip
+          ? frameKey(kpose.clip, kview.angle, kpose.frame)
+          : frameKey(
+              kclip,
+              kview.angle,
+              frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
+            ),
+      );
     // A Keeper held on a hill mark stands (or sits) on the terrace, as held NPCs do.
     const kHeld = this.staging?.active && this.staging.keeperHold && this.location === 'grove';
     // The Keeper's height off the flat painted ground (MOVE-10/13): a jump lifts it, a
@@ -1223,7 +1229,8 @@ export class WorldView {
       const ma = this.tapPath.markAlpha(nowMs, calm);
       if (ma > 0 && this.tapPath.mark) mark(this.tapPath.mark, 0.3, ma);
     }
-    const jclip = kpose?.clip || kHeld ? null : this.keeperJumpClip(world, nowMs, off - floor);
+    const jclip =
+      kpose?.clip || kHeld || krideRect ? null : this.keeperJumpClip(world, nowMs, off - floor);
     const jrect = jclip ? ksheet.frames.get(frameKey(jclip, kview.angle, 0)) : undefined;
     const jscale = jrect && !this.particles.reduceMotion ? this.jumpScale(jclip) : null;
     const kdrawn = jrect ?? krect;
@@ -1233,11 +1240,13 @@ export class WorldView {
         rect: kdrawn,
         ...(jscale
           ? { w: (kdrawn.w / NATIVE_PPU) * jscale.w, h: (kdrawn.h / NATIVE_PPU) * jscale.h }
-          : {}),
+          : kride
+            ? { w: (kdrawn.w / NATIVE_PPU) * kride.scale, h: (kdrawn.h / NATIVE_PPU) * kride.scale }
+            : {}),
         flip: kview.flip,
-        x: kx,
-        y: ky,
-        z: kz,
+        x: kx + (kride?.dx ?? 0),
+        y: ky + (kride?.lift ?? 0),
+        z: kz + (kride?.dz ?? 0),
         mode: 'billboard',
         tint: this.dim,
       });

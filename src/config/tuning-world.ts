@@ -246,3 +246,54 @@ export const LITTLE_GROVE = {
   picket: 1.2,
   home: { x: -7, z: 18 },
 } as const;
+
+/**
+ * R0085 (WORLD-19): riding a Nubbin. An adult partner with enough affection and a trained top
+ * stat carries the Keeper; its type sets the pace and its personality colours the ride.
+ */
+export const RIDE = {
+  minAffection: 60,
+  /** The Nubbin's best stat level must reach this. */
+  minTopLevel: 30,
+  /** Pace by the carrier's type (× the Keeper's walking speed). Run sprints on the run toggle. */
+  speed: { run: 2.0, power: 1.6, swim: 1.4, fly: 1.5, normal: 1.6 },
+  runRunning: 2.6,
+  /** A child (only in a Learning Grove) tows the Keeper by the hand instead. */
+  towSpeed: 1.3,
+  /** Energy spent per minute of riding, as a share of the walking drain (2× walking in all). */
+  extraDrain: 1,
+  /** Below this the Nubbin asks to get down. */
+  tiredEnergy: 0.2,
+  /** Lazy carriers sit down for `lazySitMs` every `lazyEveryMs` unless cheered. */
+  lazyEveryMs: 40_000,
+  lazySitMs: 2_000,
+  /** Mischievous carriers take a little side hop on this share of turns. */
+  hopChance: 0.1,
+  hopMs: 600,
+  /** A heading change at least this big (radians) counts as a turn. */
+  turnRad: 0.8,
+  /** Shy carriers slow near people. */
+  shyNear: 4,
+  shySpeed: 0.7,
+  /** The Keeper's seat: height above the carrier's feet, and the Keeper's scale on top. */
+  seatAdult: 0.55,
+  seatChild: 0,
+  keeperScale: 0.8,
+  /** Side-hop sway the renderers draw (world units). */
+  hopSway: 0.6,
+  /** Cheerful bounce the renderers draw (world units, per walk cycle). */
+  bounce: 0.08,
+} as const;
+
+/**
+ * R0088 (WORLD-22): deep water. A Swim-trained adult partner (or the Nubbin being ridden) tows
+ * the Keeper across the pond faster than wading; without one the shore is the limit and a hint
+ * says why, at most once per `hintMs`.
+ */
+export const SWIM_TOW = {
+  minSwimLevel: 30,
+  speed: 1.2,
+  hintMs: 60_000,
+  /** How far ahead of the Keeper the swimmer paddles. */
+  lead: 0.7,
+} as const;
