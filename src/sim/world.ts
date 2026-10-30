@@ -106,6 +106,9 @@ import {
   stepDungeon,
 } from './dungeon';
 import { calmStray } from './dungeon-strays';
+import { sneakPast } from './dungeon-sleepy';
+import { gambleBasket } from './dungeon-gamble';
+import { takeFromStash } from './dungeon-sack';
 import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -256,6 +259,10 @@ export function createWorld(seed: number, wallMs: number): World {
       camp: { shells: 0, items: {}, questsPaid: [] },
       uniquesBeaten: [],
       lastParty: [],
+      // Lane B round 6 (save version 12).
+      bossChests: [],
+      today: { day: '', deepest: 0, bestMs: 0, finds: 0 },
+      stats: { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 },
     },
     neighbours: {},
     festivalSeen: '',
@@ -779,6 +786,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'setHollowParty':
       setHollowParty(world, cmd.ids);
+      return;
+    // Lane B round 6: sneak past (R0180), the Mystery Basket (R0176), the stash (R0174).
+    case 'packSneak':
+      sneakPast(world, cmd.packId, events);
+      return;
+    case 'gambleBasket':
+      withRng(world, (rng) => gambleBasket(world, cmd.slot, rng, events));
+      return;
+    case 'stashTake':
+      takeFromStash(world, cmd.itemId);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':

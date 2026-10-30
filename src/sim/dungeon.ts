@@ -7,6 +7,8 @@ import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
 import {
+  isStrayKing,
+  kingHat,
   maySnatch,
   pickTrail,
   shooStray,
@@ -55,6 +57,8 @@ import {
   type World,
 } from './types';
 import { newId, uniqueName } from './world';
+import { bankSack, partySpent, stepSack, tumbleHome } from './dungeon-sack';
+import { noteDailyDepth, noteLevelDone, notePickup, noteTripEnd } from './dungeon-log';
 
 /**
  * The Hollow Below: a seeded cave under the Grove, one floor at a time. Each floor is
@@ -880,6 +884,7 @@ export function populate(run: DungeonRun, f: Floor): void {
     pos: cellCentre(f, c),
     target: null,
     cooldownMs: 0,
+    ...(isStrayKing(run.seed, run.depth, `stray-${i}`) ? { king: true as const } : {}),
   }));
   run.wild = f.wildSpots.map((w, i): DungeonWild => ({
     id: `wild-${i}`,
@@ -984,6 +989,8 @@ export function enterDungeon(
     // Story floors keep the version-2 set pieces their scenes were written on.
     genVersion: story ? 2 : HOLLOW.genVersion,
     explored: '',
+    // R0209: co-op hooks, data only; the run's other Keepers (none yet).
+    keepers: [],
     ...(story ? { story: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
   };
@@ -997,6 +1004,7 @@ export function enterDungeon(
     world.hollow.dailyDay = today.day;
     world.hollow.dailyDepth = 1;
   }
+  noteDailyDepth(world, run);
   events.push({ kind: 'dungeonEntered', depth, daily });
   events.push({ kind: 'located', location: 'dungeon' });
   return true;
@@ -1009,6 +1017,9 @@ export function leaveDungeon(world: World, events: SimEvent[]): boolean {
   const live = world.battle;
   if (run.encounter && live && !live.result && live.context.kind === 'encounter')
     if (live.context.source === HOLLOW_BATTLE_SOURCE) forfeitBattleCmd(world, events);
+  // R0175: the sack banks on the way in; R0185 and R0211 note the trip.
+  bankSack(world, run, 'home', events);
+  noteTripEnd(world, run);
   returnHome(world, run);
   world.hollow.runs += 1;
   world.hollow.best = Math.max(world.hollow.best, run.depth);
@@ -1052,6 +1063,7 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
     else events.push({ kind: 'bossGuard' });
     return;
   }
+  noteLevelDone(world, run);
   rememberLevel(run);
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
@@ -1068,6 +1080,7 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   world.hollow.best = Math.max(world.hollow.best, run.depth);
   if (run.daily && run.daily === world.hollow.dailyDay)
     world.hollow.dailyDepth = Math.max(world.hollow.dailyDepth, run.depth);
+  noteDailyDepth(world, run);
   events.push({ kind: 'descended', depth: run.depth, daily: run.daily !== null });
 }
 
@@ -1167,7 +1180,7 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
   } else if (pending === 'chest') {
     if (run.chestOpen) return;
     run.chestOpen = true;
-    const rng = Rng.fromSeed((run.seed + run.depth * 101 + world.nubbins.length) >>> 0);
+    const rng = Rng.fromSeed(`${run.seed}:${run.depth}:chest`);
     const shells = Math.round(
       (rng.int(DUNGEON.chestShells[0], DUNGEON.chestShells[1]) + run.depth * 10) *
         shrineShells(run),
@@ -1182,7 +1195,8 @@ function usePending(world: World, run: DungeonRun, f: Floor, events: SimEvent[])
     if (!s || world.inventory.fruit < 1) return;
     world.inventory.fruit -= 1;
     run.strays = run.strays.filter((x) => x !== s);
-    const rng = Rng.fromSeed((run.seed + run.depth * 17 + world.nubbins.length) >>> 0);
+    kingHat(world, s, events);
+    const rng = Rng.fromSeed(`${run.seed}:${run.depth}:${s.id}`);
     const name = uniqueName(world, rng.pick(STRAY_NAMES), rng);
     addRecruit(world, name, 'chao', events);
     events.push({ kind: 'strayFed', ok: true, name });
@@ -1254,6 +1268,7 @@ function takeLoot(
     const n = world.nubbins.find((x) => x.id === by);
     if (n) n.needs.happiness = Math.min(100, n.needs.happiness + 5);
   }
+  notePickup(world, kind);
   events.push({ kind: 'dungeonFound', loot: kind, amount, param: loot.param, by });
 }
 
@@ -1304,6 +1319,7 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       takeLoot(world, run, l, null, rng, events);
   }
   stepWaypoint(world, run, f, events);
+  stepSack(world, run, events);
   stepShrines(world, run, f, dtMs, events);
   stepTraps(world, run, f, dtMs, events);
   for (const w of run.wild) {
@@ -1334,6 +1350,11 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   }
   // Leaving or descending replaced the floor: the rest belongs to the old one.
   if (world.dungeon !== run || runFloor(world) !== f) return;
+  // R0362: everyone out of puff tumbles home in a heap.
+  if (!held && run.zone !== 'town' && partySpent(world, run)) {
+    tumbleHome(world, events);
+    return;
+  }
 
   // Monster packs (R0146); a fight under way holds the rest of the floor still.
   stepPacks(world, f, dtMs, rng, events, settling);

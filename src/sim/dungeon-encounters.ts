@@ -11,6 +11,9 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { uniqueBeaten } from './dungeon-uniques';
+import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
+import { noteFight } from './dungeon-log';
+import { lostTo, sneaking, startsAsleep, stepSleepy } from './dungeon-sleepy';
 import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
 import { actFamilies, type ChampionModId } from '../config/dungeon-foes';
@@ -86,6 +89,8 @@ export interface EncounterSpec {
   seed: number;
   /** The pack's tier (1 up, by depth); the battle core clamps it to its own tiers. */
   tier: number;
+  /** R0160: a boss's phases (adds at half puff); the fight side may read them. */
+  phases?: BossPhase[];
 }
 
 /** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
@@ -201,6 +206,10 @@ export function freshPacks(f: Floor): DungeonPack[] {
     state: 'idle',
     target: null,
     noticedMs: -1,
+    // R0203: some normal packs doze; seeded by the floor's shape and the pack's spot.
+    ...(startsAsleep(`${f.cols}x${f.rows}:${p.cell.x},${p.cell.y}`, p.id, p.kind)
+      ? { asleep: true as const }
+      : {}),
   }));
 }
 
@@ -333,6 +342,7 @@ export function encounterSpec(
     // The boss's id has no number; it must still get its own seed.
     seed: (run.seed * 31 + run.depth * 7919 + (Number(pack.id.slice(5)) || 97) * 101) >>> 0,
     tier: pack.tier,
+    ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
   };
 }
 
@@ -386,6 +396,7 @@ export function finishEncounter(
   const pack = run.packs?.find((p) => p.id === packId);
   const spec = f.packs?.find((p) => p.id === packId);
   if (!pack || !spec) return;
+  noteFight(world, run, outcome === 'lost');
   if (outcome === 'won') {
     pack.state = 'beaten';
     pack.target = null;
@@ -405,12 +416,17 @@ export function finishEncounter(
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;
       events.push({ kind: 'bossBeaten', act: run.act });
+      // R0160: the big chest, the celebration and the next act's waypoint (first time only).
+      bossWon(world, run, spec.members[0]?.level ?? run.depth, drops, events);
     }
     return;
   }
   pack.state = 'home';
   pack.target = cellCentre(f, spec.cell);
   if (outcome === 'lost') {
+    // R0180, R0160: a warm loss (rested party, "Sneak past?" after a few), a full rest for a boss.
+    lostTo(world, run, packId, events);
+    if (spec.kind === 'boss') bossRetry(world, run);
     const k = world.keeper;
     const at = cellCentre(f, f.stairsUp);
     k.pos = { x: at.x, z: at.z };
@@ -478,6 +494,15 @@ export function stepPacks(
     if (!spec) continue;
     const home = cellCentre(f, spec.cell);
     const toKeeper = Math.hypot(k.pos.x - pack.pos.x, k.pos.z - pack.pos.z);
+    // R0203, R0180: a sleepy pack snores until woken; a sneaked-past pack looks away.
+    if (stepSleepy(world, run, pack, toKeeper, rng, events) || sneaking(world, run, pack)) {
+      if (pack.state === 'chase') pack.state = 'home';
+      if (pack.state === 'home' && walk(f, pack, home, E.wanderSpeed * 1.5, dt)) {
+        pack.state = 'idle';
+        pack.target = null;
+      }
+      continue;
+    }
     const fromHome = Math.hypot(home.x - pack.pos.x, home.z - pack.pos.z);
     if (pack.state === 'idle' && !settling && toKeeper <= spec.aggroRadius * DUNGEON.cell) {
       pack.state = 'chase';
