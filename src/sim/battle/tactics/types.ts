@@ -159,6 +159,8 @@ export type TacticsEvent =
   | { k: 'combo'; combo: string; a: string; b: string }
   | { k: 'reflect'; who: string; dmg: number }
   | { k: 'knock'; who: string; x: number; y: number }
+  /** Slapstick (FUN-74): bonked into the pond, climbed out soggy. */
+  | { k: 'splash'; who: string; x: number; y: number }
   | { k: 'fruit'; x: number; y: number }
   | { k: 'pick'; who: string }
   | { k: 'lantern'; x: number; y: number; lit: boolean }

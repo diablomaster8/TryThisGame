@@ -554,6 +554,8 @@ export class BattleScreen {
         ctx.fillStyle = color(C.leaf);
         ctx.fillRect(Math.round(x - 12), Math.round(floor - 14), 24, 4);
         drawShadowText(ctx, BATTLE_TEXT.zzz, x + 14, floor - 30, color(C.cream), color(C.darkPlum));
+        // Slapstick (FUN-74): "too dizzy to continue", the spiral over a sat-down Nubbin.
+        drawShadowText(ctx, '💫', x - 14, floor - 30, color(C.cream), color(C.darkPlum));
       }
       if (this.pop?.id === c.id && now - this.pop.at < 700) {
         const t = (now - this.pop.at) / 700;

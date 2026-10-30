@@ -750,8 +750,18 @@ function knock(s: TacticsState, u: TUnit, v: TUnit): void {
   const x = v.x + d.x;
   const y = v.y + d.y;
   if (!inside(m, x, y) || blocks(tileAt(m, x, y))) return;
-  if (tileAt(m, x, y) === TILE.deep && !v.swimmer) return;
   if (s.units.some((w) => alive(w) && w.x === x && w.y === y)) return;
+  // Slapstick (FUN-74): bonked into deep water, a non-swimmer goes in with a splash, climbs
+  // straight back out soggy and loses its next move. The water never hurts.
+  if (tileAt(m, x, y) === TILE.deep && !v.swimmer) {
+    log(s, { k: 'splash', who: v.c.id, x, y });
+    v.ct = 0;
+    if (!v.c.major) {
+      v.c.major = { id: 'soggy', turns: 2 };
+      log(s, { k: 'status', to: v.c.id, id: 'soggy', on: true });
+    }
+    return;
+  }
   const drop = heightAt(m, v.x, v.y) - heightAt(m, x, y);
   v.x = x;
   v.y = y;

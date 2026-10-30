@@ -38,3 +38,6 @@ export const BATTLE_R6 = {
     playMs: 900,
   },
 } as const;
+
+/** Slapstick (recs FUN-74): the share of moves that fumble. */
+export const FUN_FUMBLE = 0.05;

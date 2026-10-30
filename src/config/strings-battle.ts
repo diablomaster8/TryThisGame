@@ -1,4 +1,4 @@
-import { FUSION_TEXT } from './strings-battle-r6';
+import { FUMBLE_TEXT, FUSION_TEXT } from './strings-battle-r6';
 import type { BattleEvent, Combatant, MoodStat, StatusId, TraitId } from '../sim/battle/types';
 import type { NubbinType } from '../sim/types';
 import { moveName } from './strings-battle-moves';
@@ -326,6 +326,8 @@ export function formatRound3(e: BattleEvent, name: (id: string) => string): stri
       return `${name(e.to)} isn't hurt. Maybe try kindness?`;
     case 'bark':
       return e.text;
+    case 'fumble':
+      return FUMBLE_TEXT(name(e.who));
     case 'fusion':
       return e.on ? FUSION_TEXT.on(name(e.who)) : FUSION_TEXT.off(name(e.who));
     default:

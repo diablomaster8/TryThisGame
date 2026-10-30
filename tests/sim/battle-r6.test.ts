@@ -127,3 +127,73 @@ describe('the Battle Book (recs FIGHT-84)', () => {
     );
   });
 });
+
+describe('slapstick fumbles (recs FUN-74)', () => {
+  it('about one move in twenty fumbles harmlessly, and the rival laughs off its next action', () => {
+    let moves = 0;
+    let fumbles = 0;
+    let laughs = 0;
+    for (let seed = 1; seed <= 60; seed++) {
+      const w = one(seed);
+      const s = createBattle(w, { kind: 'dojo', tier: 1, ids: [w.nubbins[0]!.id] }, seed)!;
+      for (let i = 0; i < 200 && !s.result; i++) if (!battleAct(s, bestAllyAction(s))) break;
+      for (const e of s.log) {
+        if (e.k === 'hit' || e.k === 'miss' || e.k === 'fumble') moves++;
+        if (e.k === 'fumble') fumbles++;
+        if (e.k === 'skip' && e.why === 'giggly') laughs++;
+      }
+    }
+    expect(fumbles / moves).toBeGreaterThan(0.02);
+    expect(fumbles / moves).toBeLessThan(0.09);
+    expect(laughs).toBeGreaterThan(0);
+  });
+});
+
+describe('push into the pond (recs FUN-74)', () => {
+  it('a bonker bonks a non-swimmer into deep water: splash, soggy, never hurt by the water', async () => {
+    const { createTactics, tacticsAct, unitOf } =
+      await import('../../src/sim/battle/tactics/engine');
+    const { mapFromRows } = await import('../../src/sim/battle/tactics/map');
+    const { unitFromLevels } = await import('../../src/sim/battle/tactics/units');
+    const pond = mapFromRows(['.....', '...~.', '.....']);
+    const a = unitFromLevels({
+      id: 'a',
+      side: 0,
+      species: 'chao',
+      level: 30,
+      at: { x: 1, y: 1 },
+      type: 'power',
+      job: 'bonker',
+    });
+    const f = unitFromLevels({
+      id: 'f',
+      side: 1,
+      species: 'chao',
+      level: 30,
+      at: { x: 2, y: 1 },
+      type: 'power',
+    });
+    f.swimmer = false;
+    const s = createTactics({
+      seed: 3,
+      map: pond,
+      allies: [a],
+      foes: [f],
+      context: { kind: 'dojo', tier: 1, ids: [] },
+      ai: [null, null],
+    });
+    s.active = 'a';
+    s.acted = false;
+    s.moved = false;
+    let splashed = false;
+    for (let i = 0; i < 10 && !splashed; i++) {
+      tacticsAct(s, { k: 'act', move: 'bonk', x: 2, y: 1 });
+      splashed = s.log.some((e) => e.k === 'splash');
+      if (!splashed && s.log.some((e) => e.k === 'hit')) break;
+    }
+    expect(splashed).toBe(true);
+    const foe = unitOf(s, 'f')!;
+    expect(foe.x).toBe(2);
+    expect(foe.c.major?.id).toBe('soggy');
+  });
+});

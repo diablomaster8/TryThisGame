@@ -37,6 +37,7 @@ import { moveById } from '../sim/battle/tactics/engine';
 import { KEEPER_UNIT } from '../sim/battle/tactics/keeper-unit';
 import type { Cell } from '../sim/battle/tactics/types';
 import { button, el } from './dom';
+import { playSound } from '../platform/audio';
 import { TacticsBar } from './tactics-bar';
 
 /** The bar's id for the Keeper's Whistle. */
@@ -538,6 +539,7 @@ export class TacticsScreen {
     for (const e of s.log.slice(this.seenLog)) {
       if (e.k === 'hit') this.flashes.hurt.set(e.to, now);
       if (e.k === 'pileOn') this.flashes.pile.set(e.to, now);
+      if (e.k === 'splash') playSound('splash');
       const line = formatTactics(e, (id) => this.nameOf(s, id));
       if (line) this.lines.push(line);
     }

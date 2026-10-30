@@ -1,3 +1,4 @@
+import { FUN_FUMBLE } from '../../config/tuning-battle-r6';
 import { fuse, tickFusion } from './fusion';
 import { BATTLE } from '../../config/tuning-battle';
 import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
@@ -352,6 +353,13 @@ export function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction)
     return;
   }
   if (!canAct(s, rng, c)) return;
+  if (c.laughing) {
+    // Slapstick (FUN-74): still laughing at a rival's fumble, so this turn is lost.
+    delete c.laughing;
+    s.log.push({ k: 'skip', who: c.id, why: 'giggly' });
+    return;
+  }
+  if ((a.k === 'strike' || a.k === 'move') && fumbles(s, c)) return;
   if (a.k === 'guard') catchBreath(s, c);
   else if (a.k === 'item') {
     const all = [...s.sides[0], ...s.sides[1]];
@@ -362,6 +370,23 @@ export function perform(s: BattleState, rng: Rng, c: Combatant, a: BattleAction)
     const swing = a.k === 'strike' && !!a.swing;
     useMove(s, rng, c, moveIdOf(a) ?? 'bonk', targetOf(a), swing, timingOf(a));
   }
+}
+
+/**
+ * Slapstick (recs FUN-74): about one move in twenty fumbles, a comic trip that does no harm,
+ * and the nearest rival laughs so hard it loses its next action. Decided from a hash of the
+ * bout's seed, the turn and the combatant rather than the generator, so no other roll moves.
+ * Never in a gentle bout's Keeper side (kid mode stays kind) or a Command bout.
+ */
+function fumbles(s: BattleState, c: Combatant): boolean {
+  if (s.atb || (s.gentle && c.side === 0)) return false;
+  let h = 2166136261 ^ s.seed;
+  for (const ch of `${s.turn}:${c.id}`) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  if ((h >>> 0) % 1000 >= FUN_FUMBLE * 1000) return false;
+  s.log.push({ k: 'fumble', who: c.id });
+  const rival = s.sides[c.side === 0 ? 1 : 0].find((x) => onField(s, x));
+  if (rival) rival.laughing = true;
+  return true;
 }
 
 function nextAlly(s: BattleState, from: number): number {

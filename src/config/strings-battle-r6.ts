@@ -129,3 +129,7 @@ export const SURVIVE_TEXT = {
   survived: 'You held on. The story goes on.',
   draw: 'Tuckered out, but nobody minds: the story goes on.',
 };
+
+/** Slapstick (FUN-74): a fumbled move, and the rival who can't stop laughing. */
+export const FUMBLE_TEXT = (who: string) =>
+  `${who} winds up, trips over a daisy and sits down hard. Nothing happens. Very loudly.`;

@@ -72,6 +72,8 @@ export interface Combatant {
   playing?: number;
   /** A Sun or Moon fruit: its moves count as that alignment for a few turns (FIGHT-20). */
   alignAs?: { align: 'sun' | 'moon'; turns: number };
+  /** Slapstick (FUN-74): laughing at a rival's fumble, it loses its next action. */
+  laughing?: true;
   /** Fusion burst (FIGHT-95): this half stepped into the fused combatant with this id. */
   fusedInto?: string;
   /** The fused combatant itself: its two halves, their HP when they fused, and turns left. */
@@ -385,6 +387,8 @@ export type BattleEvent =
   | { k: 'order'; who: string; cmd: AtbCommand; obeyed: boolean }
   /** ATB: the personality gag on an ignored order. */
   | { k: 'gag'; who: string; gag: AtbGag }
+  /** Slapstick (FUN-74): a move fumbled, no harm done. */
+  | { k: 'fumble'; who: string }
   /** A story world's guide calls out (FUN-51): plain text, kept in the bout's own log. */
   | { k: 'bark'; text: string }
   /** Fusion burst (FIGHT-95): a pair fused (`on`) or split again. */
