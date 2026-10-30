@@ -19,7 +19,7 @@ import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume
 import { trialClear } from './battle/tactics/trials';
 import { grantKeepsake } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
+import { EGG, EGG_ANTICS, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
@@ -65,11 +65,13 @@ import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
+import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
+import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -92,6 +94,9 @@ import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { stepMoody } from './soul-idle';
+import { setAnticsLive } from './antics';
+import { stepDiary } from './diary';
 import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
@@ -122,11 +127,6 @@ import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
 import { joinTeam, stepTeams } from './teams';
-
-/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
-export function hatchSpeed(world: World): number {
-  return hasSkill(world, 'warmHands') ? 1.1 : 1;
-}
 import { resolve } from './obstacles';
 import { resolveNubbin } from './nubbin-hop';
 import { courseById, prizeFor } from './race';
@@ -143,6 +143,7 @@ import {
   eduLesson,
   eduStart,
   stepEdu,
+  clampRounds,
 } from './edu';
 import {
   NUBBIN_TYPES,
@@ -157,6 +158,12 @@ import {
   type World,
 } from './types';
 import { findCuriosity } from './curiosities';
+import { hatchInArms } from './hatch-arms';
+
+/** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
+export function hatchSpeed(world: World): number {
+  return hasSkill(world, 'warmHands') ? 1.1 : 1;
+}
 
 export function defaultSettings(): Settings {
   return {
@@ -225,6 +232,7 @@ export function createWorld(seed: number, wallMs: number): World {
     strays: [],
     npcs: [],
     campaign: null,
+    lines: {},
     weather: createWeather(),
     season: seasonOf(new Date(wallMs)),
     placed: [],
@@ -342,6 +350,8 @@ export function applyCommand(world: World, cmd: Command, events: SimEvent[]): vo
     queueQuestEvents(world, events.slice(start));
     // The campaign counters (storyline goals, the expansions) see command events too.
     if (world.campaign) noteCampaignEvents(world, world.campaign, events.slice(start));
+    // Lane C r7 (R0596): and every questline running beside Hazel's Grove.
+    noteLineEvents(world, events.slice(start));
   }
 }
 
@@ -423,7 +433,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.lastShakeMs = now;
       if (n.stage === 'egg') {
         n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
-        events.push({ kind: 'eggShaken', nubbinId: n.id });
+        // R0351: every third shake, a tiny foot pokes out of the bottom.
+        n.eggShakes = (n.eggShakes ?? 0) + 1;
+        const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
+        events.push({
+          kind: 'eggShaken',
+          nubbinId: n.id,
+          ...(foot ? { foot: true as const } : {}),
+        });
       } else {
         react(n, 'dizzy', now, events);
       }
@@ -435,7 +452,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
         noteCare(n, 'throws');
-        addTrust(n, TRUST.throw, events);
+        // R0527: in the Learning Grove a throw is a toss and catch: no trust is lost.
+        if (!world.edu) addTrust(n, TRUST.throw, events);
         noteCampaign(world, 'throw', n.id);
         startThrow(n, cmd.vel, now, events);
       } else if (speed < THROW.placeMaxSpeed) {
@@ -443,7 +461,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         putDown(n, now, events, 'happy');
       } else {
         if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
-        addTrust(n, TRUST.drop * THROW.dropScale, events);
+        addTrust(n, TRUST.drop * THROW.dropScale, events, !!world.edu);
         putDown(n, now, events);
       }
       return;
@@ -937,6 +955,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'wearGlasses':
       wearGlasses(world, cmd.nubbinId, cmd.on);
       return;
+    case 'wearBelt': {
+      // Lane E r7, R0437: the belt is worn unless taken off; the field only exists when off.
+      const n = world.nubbins.find((x) => x.id === cmd.nubbinId);
+      if (!n) return;
+      if (cmd.on) delete n.hideBelt;
+      else n.hideBelt = true;
+      return;
+    }
     case 'eduStart':
       eduStart(world, cmd.age, events, cmd.band);
       return;
@@ -948,6 +974,20 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetReadAloud':
       if (world.edu) world.edu.readAloud = cmd.on;
+      return;
+    case 'eduSetRounds':
+      // Lane E r7, R0746.
+      if (world.edu) world.edu.roundsPerGame = clampRounds(cmd.rounds);
+      return;
+    case 'eduSetAlwaysReborn':
+      // Lane E r7, R0691: the field only exists when on.
+      if (world.edu) {
+        if (cmd.on) world.edu.alwaysReborn = true;
+        else delete world.edu.alwaysReborn;
+      }
+      return;
+    case 'eduSetReadToMe':
+      if (world.edu) world.edu.readToMe = cmd.on;
       return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
@@ -1084,6 +1124,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'storyAct':
       applyCampaignCommand(world, cmd, events);
       return;
+    case 'lineAbandon':
+      // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
+      abandonLine(world, cmd.line);
+      return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
       // R0313: except Fern's stone, a running gag of its own.
@@ -1124,6 +1168,8 @@ export function stepWorld(
   const events: SimEvent[] = [];
   world.timeMs += dtMs;
   if (wallMs !== undefined) world.lastWallMs = wallMs;
+  // R0544 (lane A r8): no antics while catching up on time away.
+  setAnticsLive(!offline);
 
   withRng(world, (rng) => {
     updateTrees(world, dtMs, rng, events);
@@ -1131,12 +1177,12 @@ export function stepWorld(
     // Iterate a copy: a departure removes its Nubbin from the list.
     for (const n of [...world.nubbins]) {
       if (n.stage === 'egg') {
-        if (!isHeld(n) && n.behavior.state !== 'thrown') {
-          n.hatchRemainingMs -= dtMs * hatchSpeed(world);
-        } else {
-          n.hatchRemainingMs -= dtMs * hatchSpeed(world); // eggs still incubate while carried
-        }
-        if (n.hatchRemainingMs <= 0 && !isHeld(n) && n.behavior.state !== 'thrown') {
+        // Eggs incubate on the ground, held and carried alike.
+        n.hatchRemainingMs -= dtMs * hatchSpeed(world);
+        // TECH-18: an egg ready in the Keeper's arms pops there and the child tumbles into a
+        // hug; a thrown egg waits to land.
+        if (n.hatchRemainingMs <= 0 && isHeld(n)) hatchInArms(world, n, events);
+        if (n.hatchRemainingMs <= 0 && n.stage === 'egg' && n.behavior.state !== 'thrown') {
           hatch(n, events, world.timeMs);
           // Lane E, R0394: the eggshell goes in the hat box as the egg hatches.
           keepEggshell(n, world);
@@ -1177,6 +1223,9 @@ export function stepWorld(
     if (!offline) stepHopLesson(world, events);
     // MOVE-63: the hop course's flags and timer.
     if (!offline) stepHopCourse(world, events);
+    // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
+    // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
+    if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
@@ -1186,12 +1235,15 @@ export function stepWorld(
       world.season = seasonOf(new Date(wallMs));
       stepDaily(world, wallMs, rng, events);
     }
+    stepLineQueue(world, dtMs, events);
     stepCampaign(world, dtMs, events);
+    stepStoryBook(world, dtMs, events);
     stepPlants(world, dtMs, rng, events);
     stepHabitats(world, dtMs, rng, events);
     stepKeeper2(world, dtMs, events);
     stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
     stepSlips(world, dtMs, events);
+    stepMoody(world, dtMs, events);
     stepPartners(world, dtMs, events);
     stepCurfew(world, dtMs, wallMs, events);
     stepQuests(world, wallMs, rng, events);
@@ -1199,6 +1251,7 @@ export function stepWorld(
   });
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);
+  stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
   stepLittleGrove(world);

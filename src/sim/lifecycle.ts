@@ -2,7 +2,7 @@ import { BEHAVIOR, EGG, EGGSHELL, ETERNAL, LIFECYCLE, REBIRTH, TYPE_LEAN } from 
 import { eggshellColour, eggshellId } from '../config/cosmetics';
 import { bandOf, roundAlignment, winningType } from './alignment';
 import { lifetimeHappiness } from './needs';
-import { decidePersonality } from './personality';
+import { decidePersonality, personalityCause } from './personality';
 import { nextSpecies, speciesOf } from './species';
 import { levelOf, nextGrade } from './stats';
 import { lifespanMs, noteEvolutionSlips } from './slips';
@@ -19,6 +19,7 @@ import type {
   World,
 } from './types';
 import { NUBBIN_TYPES, STAT_KEYS } from './types';
+import { eduAlwaysReborn } from './edu';
 
 /**
  * Stage timers: egg → child → cocoon → adult → end-of-life check.
@@ -166,9 +167,11 @@ export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: 
     }
     return;
   }
+  // R0691: a sprout's Nubbin always comes back (a reader's too, if a grown-up chose it).
   const loved =
-    lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
-    n.needs.affection >= REBIRTH.minAffection;
+    eduAlwaysReborn(world) ||
+    (lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
+      n.needs.affection >= REBIRTH.minAffection);
   if (loved) {
     n.awaitingKeeper = false;
     startCocoon(n, 'rebirth', 0, events);
@@ -313,6 +316,14 @@ export function evolve(n: Nubbin, events: SimEvent[], world?: World): StatKey | 
     upgraded,
     groveUnlocked,
     species: n.species,
+  });
+
+  // R0531: the moment the personality locks, and why.
+  events.push({
+    kind: 'personalityLocked',
+    nubbinId: n.id,
+    personality: n.personality,
+    cause: personalityCause(n.childCare, n.personality),
   });
 
   const eternal = eternalBandFor(n, type);

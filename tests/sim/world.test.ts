@@ -59,9 +59,7 @@ describe('world', () => {
       applyCommand(w, { kind: 'shakeHeld' }, events);
       run(w, Math.ceil(EGG.shakeCooldownMs / SIM.stepMs));
     }
-    expect(egg.hatchRemainingMs).toBeLessThanOrEqual(0);
-    expect(egg.stage).toBe('egg'); // held eggs wait to hatch until put down
-    applyCommand(w, { kind: 'release', vel: { x: 0, z: 0 } }, events);
+    // TECH-18: shaking alone hatches it, in the Keeper's arms.
     run(w, 1);
     expect(egg.stage).toBe('child');
   });

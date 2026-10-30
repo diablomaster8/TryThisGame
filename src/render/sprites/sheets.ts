@@ -3,6 +3,8 @@ import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childLean, leanStep } from './child-hint';
 import { birthmarkKey, birthmarkOf } from '../birthmark';
+import { beltOf } from '../belt';
+import { handSheetFor, loadHandSheets } from './sprite-source';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
@@ -103,7 +105,10 @@ export class SheetCache {
   constructor(
     private readonly now: () => number = () => performance.now(),
     private readonly limits: { maxSheets: number; idleMs: number } = SHEET_CACHE,
-  ) {}
+  ) {
+    // LOOK-71: look for hand-drawn sheets once per page; the generator covers until then.
+    void loadHandSheets(import.meta.env.BASE_URL ?? '/');
+  }
 
   register(key: string, sheet: SpriteSheet): void {
     this.overrides.set(key, sheet);
@@ -170,7 +175,7 @@ export class SheetCache {
     const hat = n.hat ?? '-';
     const acc = `${n.scarf ?? '-'}:${n.glasses ? 'g' : '-'}:${n.hatDye ?? '-'}`;
     const shiny = n.shiny || n.heirloom;
-    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}`;
+    const variant = `${n.eggColor}:${shiny ? 's' : '-'}:${n.tone ?? '-'}:${sh}:${acc}:${n.finish ?? '-'}:r${Math.min(4, n.rebirths)}:m${birthmarkKey(birthmarkOf(n))}:b${beltOf(n)}`;
     if (n.stage === 'adult' && n.form) {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
@@ -179,6 +184,11 @@ export class SheetCache {
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
+    // LOOK-71: a species with a hand-drawn sheet uses it once hatched (sprite-source.ts).
+    if (n.stage !== 'egg' && n.stage !== 'cocoon') {
+      const hand = handSheetFor(n.species);
+      if (hand) return hand;
+    }
     const key = SheetCache.nubbinKey(n);
     if (key.endsWith('~weathered')) {
       return this.get(key, () => weatherSheet(this.forNubbin({ ...n, id: `${n.id}~plain` })));
@@ -199,6 +209,7 @@ export class SheetCache {
           stars: Math.min(4, n.rebirths),
           wary: n.shadow && !n.bond,
           mark: birthmarkOf(n),
+          belt: beltOf(n),
         });
       const family = speciesOf(n.species).family;
       if (n.stage === 'egg') return buildEggSheet(n.eggColor, family);

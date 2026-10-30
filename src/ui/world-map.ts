@@ -24,6 +24,8 @@ import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { playIris } from './travel-iris';
 import { keepsakeLine } from './collection';
+import { MAP_LAYER_TEXT } from '../config/strings-world';
+import { MAP_LAYERS, mapOverlay, type MapLayer } from '../sim/map-overlays';
 
 interface Chip {
   key: string;
@@ -142,6 +144,10 @@ export class WorldMapPanel {
   private readonly elsewhere: HTMLDivElement;
   private readonly sheet: HTMLDivElement;
   private chips: Chip[] = [];
+  /** R0122: the overlay layer chips, which layers are on, and the counts line. */
+  private readonly layerRow: HTMLDivElement;
+  private readonly layerLine: HTMLParagraphElement;
+  private readonly layersOn = new Set<MapLayer>(['quests', 'travel']);
   private tab: RegionId = 'grove';
   private zoom = 1;
   private panX = 0;
@@ -189,6 +195,11 @@ export class WorldMapPanel {
       this.elsewhere,
       this.sheet,
     );
+    // R0122: overlay layers between the tabs and the map.
+    this.layerRow = el('div', 'wm-layers');
+    this.layerLine = el('p', 'wm-layer-line');
+    body.insertBefore(this.layerRow, this.view);
+    body.insertBefore(this.layerLine, this.view);
     this.bindGestures();
   }
 
@@ -233,6 +244,7 @@ export class WorldMapPanel {
     }
     this.paint(g.world);
     this.buildChips(g);
+    this.drawLayers(g);
     this.layout();
   }
 
@@ -251,6 +263,13 @@ export class WorldMapPanel {
       );
       b.setAttribute('role', 'tab');
       b.setAttribute('aria-selected', String(id === this.tab));
+      // R0122: a completion ring on each found region's tab.
+      const pct = Math.round(mapOverlay(w, id).completion * 100);
+      const ring = el('span', 'wm-ring');
+      ring.style.setProperty('--pct', `${pct}`);
+      ring.title = MAP_LAYER_TEXT.complete(pct);
+      b.setAttribute('aria-label', `${WORLD_TEXT.regions[id]}, ${MAP_LAYER_TEXT.complete(pct)}`);
+      b.appendChild(ring);
       this.tabs.appendChild(b);
     }
     // Built places not reached yet show as a fogged tab, so the world has edges to wonder at.
@@ -390,6 +409,61 @@ export class WorldMapPanel {
         () => this.toast(WORLD_TEXT.exitTo(to)),
       );
     }
+  }
+
+  /**
+   * R0122 (WORLD-55): the layer toggles, the counts line for the layers that are on, and a
+   * chip at every found keepsake and read trace. With Travel off the found landmarks' chips go.
+   */
+  private drawLayers(g: Game): void {
+    const o = mapOverlay(g.world, this.tab);
+    this.layerRow.innerHTML = '';
+    for (const id of MAP_LAYERS) {
+      const on = this.layersOn.has(id);
+      const b = button(
+        MAP_LAYER_TEXT.layers[id],
+        () => {
+          if (this.layersOn.has(id)) this.layersOn.delete(id);
+          else this.layersOn.add(id);
+          this.refresh();
+        },
+        `btn btn-small wm-layer${on ? ' btn-primary' : ''}`,
+      );
+      b.setAttribute('aria-pressed', String(on));
+      this.layerRow.appendChild(b);
+    }
+    const parts: string[] = [];
+    if (this.layersOn.has('quests'))
+      parts.push(
+        MAP_LAYER_TEXT.quests(
+          o.quests.active.length,
+          o.quests.available.length,
+          o.quests.done.length,
+        ),
+      );
+    if (this.layersOn.has('keepsakes'))
+      parts.push(MAP_LAYER_TEXT.keepsakes(o.keepsakes.got, o.keepsakes.of));
+    if (this.layersOn.has('traces')) parts.push(MAP_LAYER_TEXT.traces(o.traces.got, o.traces.of));
+    if (this.layersOn.has('travel')) parts.push(MAP_LAYER_TEXT.travel(o.travel.length));
+    this.layerLine.textContent = parts.join(' · ');
+    this.layerLine.hidden = parts.length === 0;
+    if (!this.layersOn.has('travel')) {
+      for (const c of this.chips.filter((c) => c.cls === 'wm-found')) c.node.remove();
+      this.chips = this.chips.filter((c) => c.cls !== 'wm-found');
+    }
+    const spot = (key: string, x: number, z: number, label: string): void => {
+      const node = button(label, () => {}, 'wm-chip wm-spot');
+      node.dataset.key = key;
+      node.tabIndex = -1;
+      node.setAttribute('aria-hidden', 'true');
+      this.chipLayer.appendChild(node);
+      this.chips.push({ key, x, z, label, cls: 'wm-spot', node, w: 0, h: 0, at: null });
+    };
+    if (this.layersOn.has('keepsakes'))
+      for (const s of o.keepsakes.spots)
+        spot(`keep:${s.id}`, s.x, s.z, MAP_LAYER_TEXT.keepsakeSpot);
+    if (this.layersOn.has('traces'))
+      for (const s of o.traces.spots) spot(`trace:${s.id}`, s.x, s.z, MAP_LAYER_TEXT.traceSpot);
   }
 
   /** The sheet for a tapped spot: its name, travel, and what asks there. */

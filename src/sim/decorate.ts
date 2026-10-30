@@ -73,7 +73,7 @@ export type { PlaceRefusal } from './types';
 
 // How a piece's footprint is sampled for overlaps (units), and the clearances kept.
 const SAMPLE = 0.25;
-const KEEP = { solid: 0.2, stream: 0.3, spot: 1.0, walker: 0.6, bridge: 2.0 } as const;
+const KEEP = { solid: 0.2, stream: 0.3, spot: 1.0, walker: 0.6, bridge: 2.0, plant: 0.8 } as const;
 
 /** Points across a piece's footprint: its collider, or a small square for a walk-on tile. */
 function footprint(kind: DecorKind, pos: Vec2, yaw: number): Vec2[] {
@@ -144,6 +144,12 @@ export function placeRefusal(
     if (nearBridge && Math.hypot(p.x - br.x, p.z - br.z) < KEEP.bridge) return 'path';
     if (spots.some((s) => Math.hypot(p.x - s.x, p.z - s.z) < KEEP.spot)) return 'spot';
   }
+  // R0003: the crop plot and planted saplings are not colliders, but a piece never squashes them.
+  const beds = world.plants.filter(
+    (pl) => Math.hypot(pl.pos.x - pos.x, pl.pos.z - pos.z) < span + KEEP.plant,
+  );
+  for (const p of pts)
+    if (beds.some((pl) => Math.hypot(p.x - pl.pos.x, p.z - pl.pos.z) < KEEP.plant)) return 'crop';
   const walkers: Vec2[] = [world.keeper.pos, ...world.nubbins.map((n) => n.pos)].filter(
     (w) => Math.hypot(w.x - pos.x, w.z - pos.z) < span + KEEP.walker,
   );

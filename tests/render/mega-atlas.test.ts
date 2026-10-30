@@ -66,12 +66,14 @@ describe('MegaAtlas', () => {
   });
 
   it('never evicts a sheet drawn this frame, and refills only up to the headroom line', () => {
-    const atlas = new MegaAtlas(100, fakeSurface());
+    const atlas = new MegaAtlas(100, fakeSurface(), 1);
     const [a, b, c, d, e] = [sheet(), sheet(), sheet(), sheet(), sheet()];
     atlas.beginFrame();
     for (const s of [a, b, c, d]) atlas.place(s);
     atlas.beginFrame();
-    atlas.place(d); // d pinned this frame; a, b and c are older and equally old
+    atlas.place(d);
+    atlas.beginFrame();
+    atlas.place(d); // d pinned this frame; a, b and c are two frames old and equally old
     expect(atlas.place(e)).not.toBeNull();
     expect(atlas.has(d)).toBe(true);
     expect(atlas.has(e)).toBe(true);
@@ -90,6 +92,8 @@ describe('MegaAtlas', () => {
     const atlas = new MegaAtlas(100, fakeSurface());
     atlas.beginFrame();
     for (let i = 0; i < 4; i++) atlas.place(sheet());
+    // Two frames on, those sheets are old: last frame's would be kept (HOT-2).
+    atlas.beginFrame();
     atlas.beginFrame();
     const gen = atlas.generation;
     expect(atlas.place(sheet())).not.toBeNull(); // full: one repack
@@ -103,7 +107,7 @@ describe('MegaAtlas', () => {
 
   it('returns null and warns once when this frame alone does not fit', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const atlas = new MegaAtlas(100, fakeSurface());
+    const atlas = new MegaAtlas(100, fakeSurface(), 1);
     const sheets = [sheet(), sheet(), sheet(), sheet()];
     atlas.beginFrame();
     for (const s of sheets) atlas.place(s);
@@ -113,6 +117,61 @@ describe('MegaAtlas', () => {
     // The pinned sheets survived the failed repack.
     for (const s of sheets) expect(atlas.has(s)).toBe(true);
     warn.mockRestore();
+  });
+
+  it('HOT-2: a steady working set that fills most of a page never repacks frame after frame', () => {
+    // Six 50×30 sheets drawn every frame: 90% of the page in raw pixels. The old repack
+    // dropped what was past the headroom line, which the same frame then drew again, so
+    // every frame repacked and re-uploaded the whole page.
+    const atlas = new MegaAtlas(100, fakeSurface(), 1);
+    const set = Array.from({ length: 6 }, () => sheet(50, 30));
+    const extra = sheet(10, 10);
+    atlas.beginFrame();
+    for (const s of set) atlas.place(s);
+    atlas.place(extra); // the page is full: one repack
+    const gen = atlas.generation;
+    for (let f = 0; f < 20; f++) {
+      atlas.beginFrame();
+      for (const s of set) expect(atlas.place(s)).not.toBeNull();
+      expect(atlas.place(extra)).not.toBeNull();
+    }
+    expect(atlas.generation - gen).toBeLessThanOrEqual(1);
+  });
+
+  it('HOT-2: opens a second page only when the sheets on screen overflow the first', () => {
+    const log: string[] = [];
+    const atlas = new MegaAtlas(100, fakeSurface(log), 2);
+    const old = [sheet(), sheet(), sheet(), sheet()];
+    atlas.beginFrame();
+    for (const s of old) atlas.place(s);
+    atlas.beginFrame();
+    atlas.beginFrame();
+    // The old sheets are stale: a newcomer evicts them, no second page.
+    const fresh = sheet();
+    expect(atlas.place(fresh)).not.toBeNull();
+    expect(atlas.pagesOpen).toBe(1);
+    // Five sheets on screen at once cannot share one 100² page: the fifth opens page two,
+    // and its UVs sit at u + 2.
+    const crowd = [fresh, sheet(), sheet(), sheet(), sheet()];
+    for (let f = 0; f < 3; f++) {
+      atlas.beginFrame();
+      for (const s of crowd) expect(atlas.place(s)).not.toBeNull();
+    }
+    expect(atlas.pagesOpen).toBe(2);
+    expect(log).toEqual(['alloc 100', 'alloc 100']);
+    const pages = crowd.map((s) => (atlas.uv(s, RECT)![0] >= 2 ? 1 : 0));
+    expect(pages.filter((p) => p === 1).length).toBeGreaterThan(0);
+    for (const s of crowd) {
+      const [u0, , u1] = atlas.uv(s, RECT)!;
+      expect(Math.floor(u0 / 2)).toBe(Math.floor(u1 / 2)); // never straddles a page
+    }
+    // Stable from here: no more repacks.
+    const gen = atlas.generation;
+    for (let f = 0; f < 10; f++) {
+      atlas.beginFrame();
+      for (const s of crowd) atlas.place(s);
+    }
+    expect(atlas.generation).toBe(gen);
   });
 
   it('uploads only the new region after the first full upload', () => {

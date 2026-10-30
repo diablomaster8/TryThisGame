@@ -184,6 +184,14 @@ export interface Nubbin {
     /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
     boutWins?: number;
     boutLosses?: number;
+    /**
+     * R0530 (SOUL-12): the other kind touches (tickle, hug, groom, praise, high five) and
+     * tuck-ins, each counted once per pet cooldown; absent = 0, no save bump.
+     */
+    touches?: number;
+    tucks?: number;
+    /** R0530: sim time the last touch or tuck-in was counted. */
+    lastCareMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
@@ -192,6 +200,8 @@ export interface Nubbin {
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
+  /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
+  hideBelt?: boolean;
   rebirths: number;
   /** Grades raised at evolution, kept across rebirths. */
   gradeUpgrades: Partial<Record<StatKey, number>>;
@@ -219,6 +229,8 @@ export interface Nubbin {
   karate: { wins: number; losses: number; belt: number };
   /** Friendship with other Nubbins, by id. */
   friends: Record<string, number>;
+  /** R0539: buddies who departed, newest last (at most three). Optional, no save bump. */
+  remembered?: Array<{ id: string; name: string; atMs: number }>;
   /** Accessories: a dyed scarf and glasses; a dyed hat. */
   scarf: DyeColor | null;
   glasses: boolean;
@@ -238,6 +250,19 @@ export interface Nubbin {
   spanScale?: number;
   lastPetMs: number;
   lastShakeMs: number;
+  /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
+  eggShakes?: number;
+  // Lane A r8 (SOUL), optional with defaults, no save bump:
+  /** R0536: which of its likes the Keeper has seen it react to (the sheet shows "?" till then). */
+  tasteSeen?: { yum?: true; bleh?: true; toy?: true };
+  /** R0532: how long it has been content while moody (care softens the look). */
+  moodyCalmMs?: number;
+  /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
+  toyBoredom?: Record<string, { v: number; at: number }>;
+  /** R0563: what it did lately (sim/diary.ts), newest last, at most five. */
+  /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
+  missing?: string[];
+  diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -260,6 +285,8 @@ export interface Item {
   toy?: ToyKind;
   /** Fruit: a stat or alignment flavour, or plain. */
   flavor?: Flavor;
+  /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
+  bornMs?: number;
 }
 
 export interface Tree {
@@ -296,6 +323,11 @@ export interface Keeper {
   bufferMs: number;
   /** The jump button is down: a held jump rises higher. */
   jumpHeld: boolean;
+  /** R0352: ms the Keeper has stood quietly in the Grove (live play). Optional, no save bump. */
+  idleMs?: number;
+  /** R0352: the Nubbin coming to sit beside the sitting Keeper, and when it sat down (sim ms). */
+  sitWith?: string;
+  sitBesideMs?: number;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -348,6 +380,16 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
+  haptics?: boolean;
+  /** TECH-27: the root text size. Unset: 1.15 in the read-aloud band, else 1 (ui/text-scale.ts). */
+  textScale?: number;
+  /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
+  slapstick?: 'full' | 'gentle' | 'off';
+  /** R0549 (lane A r8): draw mood bubbles 1.5×; unset follows the Learning Grove (on there). */
+  bigBubbles?: boolean;
+  /** R0593 (lane A r8): quirk and antic rate; unset is normal (lively for sprouts). */
+  liveliness?: 'calm' | 'normal' | 'lively';
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
@@ -486,6 +528,10 @@ export interface TeamState {
 /** Educational mode (sim/edu.ts). Null outside it. */
 export interface EduState {
   age: EduAge;
+  /** Lane E r7, R0691: a reader's grown-up chose "every Nubbin comes back" (sprouts always do). */
+  alwaysReborn?: boolean;
+  /** Lane E r7, R0746: rounds per game a grown-up picked (absent: by age, `eduRounds`). */
+  roundsPerGame?: number;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -509,6 +555,8 @@ export interface EduState {
   lessons: Record<string, { best: boolean | null }>;
   /** Little Sprouts: speak each line with the device's voice (once sound is on). */
   readAloud: boolean;
+  /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
+  readToMe?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -576,7 +624,7 @@ export type DecorKind =
   | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
-export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
+export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot' | 'crop';
 
 export interface PlacedDecor {
   id: string;
@@ -846,6 +894,11 @@ export interface CampaignState {
    * the breathing gap before the next unrelated scene (story-state.ts `resting`).
    */
   rest?: { atMs: number; owner: string } | null;
+  /**
+   * Lane C round 7 (R0601, CAMP-08): for a questline beside Hazel's Grove, how the Grove
+   * looked when it began (its recolour and partner slots), put back when the line ends.
+   */
+  restore?: { grove: GroveKind; partners: Array<string | null> };
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -944,6 +997,12 @@ export interface World {
   strays: Stray[];
   npcs: Npc[];
   campaign: CampaignState | null;
+  /**
+   * Lane C round 7 (R0596, CAMP-01): the questlines running beside Hazel's Grove in this
+   * world, by storyline id. Each has its own chapter, flags, counters and cast; their scenes
+   * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
+   */
+  lines: Record<string, CampaignState>;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1010,6 +1069,8 @@ export interface World {
   team: TeamState | null;
   /** Curfew by the real clock. */
   night: boolean;
+  /** R0535 (SOUL-17): dawn, day, dusk or night, from the curfew's wall clock; unset = day. */
+  phase?: 'dawn' | 'day' | 'dusk' | 'night';
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
@@ -1149,15 +1210,17 @@ export type Command =
   | { kind: 'lineAct'; scene: string; act: LineAct }
   | { kind: 'talk'; npcId: string }
   | { kind: 'lightLantern'; id: string }
-  | { kind: 'debugChapter'; chapter: number }
+  | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
-  | { kind: 'storyArea'; area: string }
+  | { kind: 'storyArea'; area: string; line?: string }
   /** The journal's Do-it for a storyline goal that waits on `act:<label>`. */
-  | { kind: 'storyAct'; label: string }
+  | { kind: 'storyAct'; label: string; line?: string }
+  /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
+  | { kind: 'lineAbandon'; line: string }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1209,6 +1272,8 @@ export type Command =
   | { kind: 'feedWild'; id: string }
   | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
   | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
+  /** Lane E r7, R0437: wear or take off the Dojo belt. */
+  | { kind: 'wearBelt'; nubbinId: string; on: boolean }
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
@@ -1239,6 +1304,12 @@ export type Command =
   | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
   | { kind: 'eduLesson'; id: string; best: boolean | null }
   | { kind: 'eduSetReadAloud'; on: boolean }
+  /** Lane E r7, R0691: the grown-up's "every Nubbin comes back" for a reader save. */
+  | { kind: 'eduSetAlwaysReborn'; on: boolean }
+  /** Lane E r7, R0746: rounds per game, 3-10. */
+  | { kind: 'eduSetRounds'; rounds: number }
+  /** R0343: the Grove Readers' opt-in read-aloud. */
+  | { kind: 'eduSetReadToMe'; on: boolean }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1407,7 +1478,30 @@ export type SimEvent =
   | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
-  | { kind: 'eggShaken'; nubbinId: string }
+  | { kind: 'eggShaken'; nubbinId: string; foot?: true }
+  /** R0352: the idle Keeper sits down on the grass; a Nubbin has come to sit beside them. */
+  | { kind: 'keeperSat' }
+  /** R0531: a personality locked in at evolution, and the care that most shaped it. */
+  | {
+      kind: 'personalityLocked';
+      nubbinId: string;
+      personality: Personality;
+      cause: PersonalityCause;
+    }
+  | { kind: 'sitBeside'; nubbinId: string }
+  /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */
+  | { kind: 'fruitTaste'; nubbinId: string; taste: 'yum' | 'bleh'; first?: true }
+  | { kind: 'moodyCleared'; nubbinId: string; was: 'grumpy' | 'sleepy' }
+  | { kind: 'highFiveRefused'; nubbinId: string }
+  /** R0542: a Sun Nubbin patted a sad one; a Moon one said boo to another. */
+  | { kind: 'comforted'; nubbinId: string; markId: string }
+  | { kind: 'pranked'; nubbinId: string; markId: string }
+  /** R0551: a plain pet landed (the renderers play it by personality). */
+  | { kind: 'petted'; nubbinId: string }
+  /** R0539: a missed buddy came back and the two hugged. */
+  | { kind: 'reunion'; a: string; b: string }
+  /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1415,7 +1509,9 @@ export type SimEvent =
   | { kind: 'ranAway'; nubbinId: string; name: string }
   | { kind: 'strayReturned'; nubbinId: string; name: string }
   | { kind: 'scene'; scene: string }
-  | { kind: 'chapter'; chapter: number }
+  | { kind: 'chapter'; chapter: number; line?: string }
+  /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
+  | { kind: 'lineEnded'; line: string; ending: string }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
@@ -1639,3 +1735,7 @@ export interface GearState {
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
 }
+
+/** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
+export type PersonalityCause =
+  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';

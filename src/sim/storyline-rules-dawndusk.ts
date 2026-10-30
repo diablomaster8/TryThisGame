@@ -1,6 +1,8 @@
 import { degenerate, degenerationTarget, restore } from './degeneration';
-import { registerStorylineRule } from './storyline-rules';
+import { createEgg } from './nubbin';
+import { isSharedLine, lineCast, registerStorylineRule } from './storyline-rules';
 import type { CampaignState, SimEvent, World } from './types';
+import { newId, uniqueName, withRng } from './world';
 
 /**
  * SL4 "Dawn & Dusk" (content/storyline-dawndusk.ts): one rule per half. The oldest grown
@@ -10,7 +12,11 @@ import type { CampaignState, SimEvent, World } from './types';
  */
 function revert(world: World, c: CampaignState, events: SimEvent[]): void {
   const before = typeof c.flags['dd-before'] === 'string' ? c.flags['dd-before'] : '';
-  const target = degenerationTarget(world, new Set(before ? before.split(',') : []));
+  const spared = new Set(before ? before.split(',') : []);
+  // R0594: beside Hazel's Grove only the line's own Nubbin can revert, never the Keeper's.
+  const cast = lineCast(c);
+  if (cast.length > 0) for (const n of world.nubbins) if (!cast.includes(n.id)) spared.add(n.id);
+  const target = degenerationTarget(world, spared);
   if (target && degenerate(world, target, events)) c.flags['dd-reverted'] = target.id;
 }
 
@@ -24,6 +30,16 @@ for (const side of ['dawn', 'dusk'] as const) {
         .filter((n) => n.stage === 'adult')
         .map((n) => n.id)
         .join(',');
+      if (!isSharedLine(world, c)) return;
+      // R0594: beside Hazel's Grove the line brings the Nubbin it will turn back, and reads
+      // the other half's ending from this world rather than from the title screen.
+      withRng(world, (rng) => {
+        const egg = createEgg(newId(world, 'nub'), { x: 1, z: 2 }, rng, 'plain');
+        egg.name = uniqueName(world, egg.name, rng);
+        world.nubbins.push(egg);
+        c.flags.cast = egg.id;
+      });
+      if (world.lines[side === 'dawn' ? 'dusk' : 'dawn']?.ending) c.flags['dd-other-done'] = true;
     },
     onChapter: (world, c, n, events) => {
       if (n === 3) revert(world, c, events);

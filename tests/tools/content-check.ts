@@ -16,6 +16,8 @@ import { packs } from './quest-packs';
 import { areaOf } from '../../src/content/where-map';
 import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
+import { lineFlagProblems, ruleFlags } from './line-flags';
+import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
 
 const problems: string[] = [];
 const questIds = new Set<string>(),
@@ -251,6 +253,22 @@ for (const f of [
 ])
   if (!declaredFlags.has(f)) problems.push(`flag not declared in any FLAGS list: ${f}`);
 console.log(JSON.stringify({ campaignScenes: campIds.size, campLines, campWords }));
+// Lane C r7 (R0595): a questline's checks name only its own flags (Hazel's via spine:).
+{
+  const src = (f: string): Set<string> =>
+    ruleFlags(
+      readFileSync(new URL(`../../src/sim/storyline-rules-${f}.ts`, import.meta.url), 'utf8'),
+    );
+  const dd = src('dawndusk');
+  const rules = {
+    hundred: src('hundred'),
+    logged: src('logged'),
+    beetle: src('beetle'),
+    dawn: dd,
+    dusk: dd,
+  };
+  problems.push(...lineFlagProblems(STORYLINE_CONTENT, rules, new Set(C.CAMPAIGN_FLAGS)));
+}
 // ---- educational versions (the Learning Grove language switch)
 const styleMd = readFileSync(
   new URL('../../src/content/EDU-STYLE.md', import.meta.url),
@@ -864,7 +882,8 @@ for (const q of allQuests) {
 }
 // 9c. Festival gags (R0359): four narrator lines a season, phone-short, two sentences at most.
 for (const [season, scene] of Object.entries(C.FESTIVAL_GAGS)) {
-  if (scene.id !== `festival-gag-${season}`) problems.push(`festival gag ${season}: id ${scene.id}`);
+  if (scene.id !== `festival-gag-${season}`)
+    problems.push(`festival gag ${season}: id ${scene.id}`);
   if (scene.lines.length !== 4) problems.push(`${scene.id}: four lines`);
   scene.lines.forEach((l, i) => {
     if (l.who !== 'narrator') problems.push(`${scene.id}#${i}: festival gags are the narrator's`);
@@ -930,9 +949,56 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
     });
   }
 }
+// R0677 (KIDS-09): sprout choices and ask options without an `icon` show a number instead.
+// Counted, not listed: the aim is 0, and a writer adds icons file by file.
+let sproutNoIcon = 0;
+for (const e of [
+  ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
+  ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
+  ...C.EDU_VARIANTS.sprout,
+]) {
+  for (const c of e.choices ?? []) if (!c.icon) sproutNoIcon++;
+  for (const l of e.lessons)
+    for (const o of l.kind === 'ask' ? (l.options ?? []) : []) if (!o.icon) sproutNoIcon++;
+}
+// R0348 (FUN-59): the reader band keeps the canon keep-jokes (the table in docs/canon.md),
+// matched by keywords in the reader version of each joke's scene.
+{
+  const canon = readFileSync(new URL('../../docs/canon.md', import.meta.url), 'utf8');
+  const at = canon.indexOf('## Keep-jokes');
+  const table = at < 0 ? '' : canon.slice(at).split(/\n## /)[0]!;
+  const fold = (t: string): string => t.toLowerCase().replace(/[’‘]/g, "'");
+  const reader = new Map<string, string>();
+  for (const c of C.EDU_CAMPAIGN.reader)
+    for (const e of c.scenes)
+      reader.set(
+        e.of,
+        fold(
+          [...e.lines, ...(e.choices ?? []).flatMap((x) => x.then ?? [])]
+            .map((l) => l.text)
+            .join('\n'),
+        ),
+      );
+  let kept = 0;
+  for (const row of table.split('\n')) {
+    const m = /^\| ([a-z][a-z0-9-]*) \| ([^|]+) \|/.exec(row);
+    if (!m) continue;
+    const text = reader.get(m[1]!);
+    const keys = m[2]!
+      .trim()
+      .split('+')
+      .map((k) => fold(k.trim()));
+    if (text === undefined) problems.push(`keep-joke: no reader version of ${m[1]}`);
+    else if (!keys.every((k) => text.includes(k)))
+      problems.push(`keep-joke missing in reader:${m[1]}: ${m[2]!.trim()}`);
+    else kept++;
+  }
+  if (kept < 30) problems.push(`keep-joke: only ${kept} canon keep-jokes found (table moved?)`);
+}
 console.log(
   JSON.stringify(
     {
+      sproutNoIcon,
       quests,
       scenes,
       lines,
@@ -950,6 +1016,8 @@ console.log(
   ),
 );
 console.log(problems.slice(0, 60).join('\n'));
+// TECH-10: a problem fails the run, so CI and the deploy stop on it.
+if (problems.length > 0) process.exitCode = 1;
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
 // R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
 if (process.argv.includes('--comedy')) console.log(comedyReport());

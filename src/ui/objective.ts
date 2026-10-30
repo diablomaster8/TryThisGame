@@ -17,6 +17,8 @@ import { EDU_PROMPT } from '../config/tuning-dlg';
 import type { Game } from '../game';
 import { goalMet } from '../sim/campaign';
 import { isHungry } from '../sim/needs';
+import { wantsFirstFruit } from '../sim/first-feed';
+import { FIRST_FEED_TEXT } from '../config/strings-tech';
 import { journalView } from '../sim/storyline';
 import { textBandOf } from '../sim/story-scenes';
 import { TRAINERS } from '../sim/trainers';
@@ -63,6 +65,15 @@ export function groveSuggestion(world: World): Objective | null {
       key: 'grove:hungry',
       goal: OBJECTIVE_TEXT.hungry(hungry.name),
       hint: OBJECTIVE_TEXT.hungryHint,
+      story: false,
+    };
+  // TECH-01: a new hatchling's first fruit once no Nubbin is truly hungry.
+  const fresh = living.find(wantsFirstFruit);
+  if (fresh)
+    return {
+      key: 'grove:firstFruit',
+      goal: FIRST_FEED_TEXT.goal(fresh.name),
+      hint: FIRST_FEED_TEXT.hint,
       story: false,
     };
   return null;
@@ -188,7 +199,7 @@ export class EduPrompt {
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
-    private readonly openers: { journal: () => void; play: () => void },
+    private readonly openers: { journal: () => void; play: () => void; next?: () => void },
   ) {
     this.root = el('div', 'edu-entry');
     this.root.hidden = true;
@@ -236,7 +247,9 @@ export class EduPrompt {
       g.send({ kind: 'setTrainer', id: TRAINERS[0]!.id });
       g.send({ kind: 'campaignStart' });
     } else if ((g.world.campaign.queue.length ?? 0) === 0) {
-      this.openers.journal();
+      // R0673: a non-reader hears the next step; a reader gets the journal.
+      if (this.openers.next && textBandOf(g.world) === 'sprout') this.openers.next();
+      else this.openers.journal();
     }
     // Otherwise the next scene is queued and plays as soon as the prompt is gone.
   }

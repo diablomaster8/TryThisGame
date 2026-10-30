@@ -21,3 +21,7 @@ Run once under Graphics > Pixel art and once under Full 3D.
 4. With a Nubbin, start an Expedition. The 🐚 counter sits beside the ✕ button, not under it.
    Tapping 📖 (via keyboard or event) never opens a panel over a running Expedition.
 5. Rotate to landscape and repeat 1 and 4.
+
+## Funny moments sheet
+
+Beside the device checks, run one comedy session per audience with `docs/playtest-funny.md` (R0346).

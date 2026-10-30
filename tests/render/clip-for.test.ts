@@ -45,7 +45,8 @@ describe('clipFor', () => {
   });
 
   it('follows the 3D pose table for shelter, courting, performing, fetching and love', () => {
-    expect(clipFor(inState(nubbin('adult'), 'shelter'))).toBe('sleep');
+    // R0534: sheltering huddles (a sit) once there, never the sleep pose.
+    expect(clipFor(inState(nubbin('adult'), 'shelter'))).toBe('sit');
     for (const s of ['court', 'perform', 'fetch'] as const)
       expect(clipFor(inState(nubbin('adult'), s))).toBe('happy');
     const n = inState(nubbin('adult'), 'react');

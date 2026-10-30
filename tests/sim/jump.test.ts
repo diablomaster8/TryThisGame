@@ -371,6 +371,12 @@ describe('the stream (MOVE-13)', () => {
     expect((wet / dry) * pace).toBeCloseTo(KEEPER_WADE.speed, 2);
   });
 
+  it('R0001: on the stream centre line the wade is knee-deep, not ankle-deep', () => {
+    const w = bare();
+    const f = keeperFooting(w, mid.x, mid.z);
+    expect(f.sink).toBeGreaterThan(KEEPER_WADE.maxSink * 0.8);
+  });
+
   it('a running jump from one bank lands on the other, never touching the water', () => {
     const w = bare();
     // The near bank's edge: the last dry spot before the water.

@@ -1,5 +1,6 @@
 import { GROVE, OFFLINE, TREES, TRUST } from '../config/tuning';
 import { canonicalSpecies, SPECIES_ALIASES } from './species';
+import { repairLines } from './story-book';
 import { sceneById } from './story-scenes';
 import { createWeather } from './weather';
 import { npcHome } from './npcs';
@@ -8,7 +9,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 12;
+export const SAVE_VERSION = 13;
 
 export interface SaveFile {
   version: number;
@@ -163,6 +164,14 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       hollow.today = { day: '', deepest: 0, bestMs: 0, finds: 0 };
       hollow.stats = { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 };
     }
+    return data;
+  },
+  // 12 to 13 (lane C round 7, R0596): the story book. Hazel's Grove stays `campaign`; the
+  // questlines that may now run beside it start empty. A separate-campaign save keeps its
+  // line as `campaign`, unchanged.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    if (world) world.lines = {};
     return data;
   },
 ];
@@ -416,6 +425,8 @@ export function validateWorld(w: World): World {
     c.storyline ??= null;
     c.queue = c.queue.filter((id) => sceneById(id) !== undefined);
   }
+  // Lane C r7 (R0596): line defaults, and their handed-over scenes back in the queue.
+  repairLines(w);
   w.grove ??= 'main';
   w.races ??= {};
   w.raceRuns ??= 0;

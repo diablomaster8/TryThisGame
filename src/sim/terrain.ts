@@ -434,6 +434,10 @@ export function footing(
   let sink = 0;
   if (bed < WATER_LEVEL) {
     y = Math.max(bed, WATER_LEVEL - KEEPER_WADE.maxSink);
+    // The stream's drawn bed is only a hand deep, so a wader there read ankle-deep: in the
+    // channel the feet go on down to knee depth at the centre line (the bed hides them).
+    const rd = riverDistance(x, z) / (GROVE.river.width * 0.5);
+    if (rd < 1) y = Math.min(y, WATER_LEVEL - KEEPER_WADE.maxSink * (1 - smoothstep(rd, 0.6, 1)));
     on = 'water';
     sink = WATER_LEVEL - y;
   }

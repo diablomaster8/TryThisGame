@@ -1,9 +1,7 @@
-import {
-  BATTLES_CIRCUIT_VARIANTS,
-  BATTLES_PLAYDAY_VARIANTS,
-  BATTLES_STORY_LOGGED,
-  BATTLES_STORY_VARIANTS,
-} from '../content';
+// The two script files themselves, never the content barrel: the barrel would pull every
+// script into the eager bundle (TECH-41, 5 MB gzip on 2026-10-30).
+import { BATTLES_CIRCUIT_VARIANTS, BATTLES_PLAYDAY_VARIANTS } from '../content/battles-circuit';
+import { BATTLES_STORY_LOGGED, BATTLES_STORY_VARIANTS } from '../content/battles-story';
 import { eduContent, textBandOf } from '../sim/story-scenes';
 import type { Scene } from '../config/story';
 import { RESUME_TEXT, STORY_BOUT_TEXT } from '../config/strings-battle-r6';
@@ -131,6 +129,30 @@ export function storyBoutRows(
       ),
     );
   }
+}
+
+/**
+ * Lane C r7 (R0275): the journal offers a story bout at its campaign beat, the first time it
+ * opens, beside the chapter's goal: Fight or Let it pass, as the dojo's list does. One the
+ * Keeper has answered (fought, skipped or won) stays in the dojo's list only.
+ */
+export function storyBoutJournal(g: Game, body: HTMLElement, close: () => void): void {
+  const marks = storyBoutsOf(g.world);
+  const fresh = openStoryBouts(g).filter((id) => marks[id] === undefined);
+  if (!fresh.length) return;
+  const box = el('div', 'journal-actions');
+  for (const id of fresh)
+    box.appendChild(
+      button(
+        STORY_BOUT_TEXT.waiting(STORY_BOUT_TEXT.names[id] ?? id),
+        () => {
+          close();
+          playStoryBout(g, id, () => undefined);
+        },
+        'btn btn-small btn-primary',
+      ),
+    );
+  body.appendChild(box);
 }
 
 /**

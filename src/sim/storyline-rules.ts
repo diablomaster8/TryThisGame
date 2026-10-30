@@ -47,3 +47,13 @@ export function registerStorylineRule(rule: StorylineRule): void {
 export function storylineRule(id: string): StorylineRule | undefined {
   return RULES.get(id);
 }
+
+/** R0596: is `c` a questline running beside Hazel's Grove (in `world.lines`), not the world's campaign. */
+export function isSharedLine(world: World, c: CampaignState): boolean {
+  return c.storyline !== null && world.lines?.[c.storyline] === c;
+}
+
+/** R0594: the Nubbin ids a line brought with it (its `cast` flag, comma-joined). */
+export function lineCast(c: CampaignState): string[] {
+  return typeof c.flags.cast === 'string' && c.flags.cast ? c.flags.cast.split(',') : [];
+}

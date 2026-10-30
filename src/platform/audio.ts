@@ -34,6 +34,8 @@ export type SoundName =
   // MOVE-46: footsteps on a deck (a hollow tok) and on stone (a light tap).
   | 'stepDeck'
   | 'stepStone'
+  | 'stepWade'
+  | 'eggHey'
   // MOVE-57: a spring mushroom's boing.
   | 'boing'
   // R0301 (FUN-12): the comic palette.
@@ -1028,6 +1030,16 @@ export function playSound(name: SoundName): void {
         break;
       case 'stepStone':
         tone(1400, 0, 18, 'triangle', 0.012);
+        break;
+      // R0351: a muffled "hey" from inside a shaken egg: two low, soft rising notes.
+      case 'eggHey':
+        tone(330, 0, 70, 'sine', 0.03, 420);
+        tone(392, 80, 90, 'sine', 0.025, 520);
+        break;
+      // R0001: a soft slosh for each stride waded through the stream.
+      case 'stepWade':
+        burst(0, 140, 0.025, 1800);
+        tone(520, 20, 80, 'sine', 0.012, 300);
         break;
       case 'plop':
         tone(260, 0, 70, 'sine', 0.06, 160);
