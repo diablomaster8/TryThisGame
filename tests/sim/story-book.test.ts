@@ -116,6 +116,21 @@ describe('the story book runs lines beside Hazel', () => {
   });
 });
 
+describe('quiet chapters (R0612)', () => {
+  it('a running line holds through chapters 9 to 11 and goes on at 12', () => {
+    const { world, events } = hazelAt(8);
+    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
+    applyCommand(world, { kind: 'debugChapter', chapter: 10 }, events);
+    playScenes(world, events);
+    play(world, events, 120);
+    expect(world.lines.beetle!.seen).toEqual([]);
+    applyCommand(world, { kind: 'debugChapter', chapter: 12 }, events);
+    playScenes(world, events);
+    play(world, events, 150);
+    expect(world.lines.beetle!.seen).toContain('b-c1-open');
+  });
+});
+
 describe('every line keeps its hands off the Keeper', () => {
   for (const id of ['hundred', 'logged', 'beetle', 'dawn', 'dusk']) {
     it(`${id} keeps every Nubbin, Moss included, with ids and stats unchanged`, () => {

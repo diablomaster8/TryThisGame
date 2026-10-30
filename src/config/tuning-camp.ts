@@ -12,3 +12,15 @@ export const STORY_BOOK = {
   /** Hazel's quiet chapters: no line begins and running lines hold still (R0612). */
   quietChapters: [9, 10, 11] as readonly number[],
 } as const;
+
+/** Lane C round 7 (R0624): the gentle backup prompts that guard against Safari's storage eviction. */
+export const BACKUP_NUDGE = {
+  /** Hazel's chapter after which an iPhone in the browser hears about the Home Screen, once. */
+  homeCardChapter: 2,
+  /** At most one "Back up your Grove?" chip per this much wall time. */
+  everyMs: 14 * 86_400_000,
+  /** Dismissing the chip pauses it this long. */
+  pauseMs: 30 * 86_400_000,
+  /** How long the chip stays up if it is left alone. */
+  showMs: 20_000,
+} as const;

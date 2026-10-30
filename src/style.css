@@ -3248,3 +3248,22 @@ select {
 .journal-line .btn {
   min-height: 44px;
 }
+/* Lane C r7 (R0624): the quiet backup chip after an ending, above the bottom controls. */
+.backup-chip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: rgba(26, 21, 48, 0.92);
+  color: #fff;
+  z-index: 50;
+  max-width: calc(100% - 32px);
+}
+.backup-chip .btn {
+  min-height: 44px;
+}

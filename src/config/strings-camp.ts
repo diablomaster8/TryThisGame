@@ -35,4 +35,12 @@ export const CAMP_TEXT = {
   startOverYes: 'Start over',
   importYes: 'Replace it',
   resetYes: 'Reset',
+  homeTitle: 'Keep your Grove safe',
+  homeBody:
+    'Safari can clear a site’s saves after a week away. Add Grove to your Home Screen and it keeps them.',
+  homeSteps: 'Tap Share (the square with an arrow), then “Add to Home Screen”.',
+  homeOk: 'Got it',
+  backupAsk: 'Back up your Grove?',
+  backupYes: 'Export',
+  backupNo: 'Not now',
 } as const;

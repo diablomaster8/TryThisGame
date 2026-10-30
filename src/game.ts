@@ -12,6 +12,7 @@ import {
   currentSlot,
   readSave,
   watchOtherTabs,
+  claimSlot,
   writeSave,
 } from './platform/storage';
 import { OrbitCamera, walkLead, yawIndexToRadians, zoomPixelsPerUnit } from './render/camera';
@@ -471,6 +472,12 @@ export class Game {
     // Two tabs on one slot would each autosave over the other: the tab that did not write
     // last stops saving and says so, until the player reloads, imports or resets.
     watchOtherTabs(() => {
+      if (this.holdSaves) return;
+      this.holdSaves = true;
+      this.hooks.onOtherTab();
+    });
+    // Lane C r7 (R0658): and before anyone writes, a newer tab on this slot takes it over.
+    claimSlot(() => {
       if (this.holdSaves) return;
       this.holdSaves = true;
       this.hooks.onOtherTab();
