@@ -3945,6 +3945,37 @@ body.edu-sprout .modal-head .btn-close {
   background: rgba(242, 211, 76, 0.45);
 }
 
+/* TECH-61: wide screens label the top-bar icons too, a word under each, as phones do in their
+   bottom bar. Short windows keep the icons alone so the bar stays one row. */
+.top-label {
+  display: none;
+}
+@media (min-width: 900px) and (min-height: 501px) {
+  .topbar .act-btn,
+  .topbar .top-labelled {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    min-width: 56px;
+    min-height: 52px;
+    padding: 2px 6px;
+  }
+  .topbar .act-btn .act-glyph,
+  .topbar .top-labelled .act-glyph {
+    font-size: 1.125rem;
+    line-height: 1.1;
+  }
+  .topbar .act-btn .act-label,
+  .topbar .top-labelled .top-label {
+    display: block;
+    font-size: 0.6875rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+}
+
 /* TECH-60: the keys hint's way back is for keyboards, like the hint itself. */
 @media (max-width: 600px), (hover: none), (pointer: coarse) {
   .keys-hint-again {

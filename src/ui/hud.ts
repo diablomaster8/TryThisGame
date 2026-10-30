@@ -158,7 +158,7 @@ import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
 import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
-import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT } from '../config/strings-r8d';
+import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/strings-r8d';
 import { ShakeMeter } from './shake-meter';
 import { watchOnline } from './offline-chip';
 import { villageTap } from './village-tap';
@@ -271,6 +271,17 @@ export function mountHud(
     [keeperBtn, '☀', UI_FX_TEXT.actionLabels.keeper],
     [settingsBtn, '⚙', UI_FX_TEXT.actionLabels.settings],
   ]);
+  // TECH-61: the sound toggle gets a word too, shown under its icon on wide screens only
+  // (it stays in the top bar on phones, where the bottom bar's labels do not reach it).
+  {
+    soundBtn.textContent = '';
+    const g = el('span', 'act-glyph', '🔊');
+    g.setAttribute('aria-hidden', 'true');
+    const l = el('span', 'top-label', TOPBAR_TEXT.sound);
+    l.setAttribute('aria-hidden', 'true');
+    soundBtn.append(g, l);
+    soundBtn.classList.add('top-labelled');
+  }
   top.append(logo, shells, fruit, groveBtn, soundBtn, actions);
   root.appendChild(top);
 
@@ -1065,7 +1076,7 @@ export function mountHud(
         festivalsFor = g;
         announceFestivals(g, toast);
       }
-      soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      setActionGlyph(soundBtn, g.world.settings.sound ? '🔊' : '🔇');
       soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
       if (isEdu) {
         const now = Date.now();

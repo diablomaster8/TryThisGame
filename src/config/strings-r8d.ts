@@ -13,6 +13,11 @@ export const KEYS_HINT_TEXT = {
   menu: '⌨ Show the keys hint (?)',
 } as const;
 
+/** TECH-61: the word under the sound toggle in the desktop top bar. */
+export const TOPBAR_TEXT = {
+  sound: 'Sound',
+} as const;
+
 /** TECH-16: the shake meter over the field while a held egg is shaken. */
 export const SHAKE_METER_TEXT = {
   /** "Shake! ●●○○": filled dots for the swings so far, out of the swings a shake needs. */
