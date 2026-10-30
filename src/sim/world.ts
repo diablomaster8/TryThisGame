@@ -1,4 +1,5 @@
 import { BATTLE } from '../config/tuning-battle';
+import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
 import { stepSwimTow } from './swim-tow';
 import { festivalGagSeen } from './festival-gags';
@@ -176,7 +177,8 @@ export function defaultSettings(): Settings {
     joystick: false,
     sound: true,
     music: true,
-    musicVolume: 0.8,
+    // R0464 (TECH-22): music sits under the effects by default.
+    musicVolume: AUDIO_MIX.defaultMusic,
     sfxVolume: 0.8,
     textSpeed: 'normal',
     screenShake: true,

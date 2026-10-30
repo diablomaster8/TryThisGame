@@ -6,6 +6,7 @@ vi.mock('../../src/platform/audio', () => ({
   isAudioUnlocked: () => true,
   isSoundEnabled: () => true,
   playSound: () => {},
+  holdMusicDuck: () => {},
 }));
 
 interface FakeUtterance {

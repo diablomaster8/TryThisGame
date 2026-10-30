@@ -142,6 +142,16 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
+import { askAdultScene } from './adult-entry';
+import {
+  adultSceneGate,
+  isAdultScene,
+  lastAdultEntry,
+  noteAdultEntry,
+} from '../platform/mature-recheck';
+import { MATURE_RECHECK } from '../config/tuning-tech';
+import { groveSfx } from './event-feedback';
+import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
@@ -910,6 +920,28 @@ export function mountHud(
   const festivalGagsStarted = new Set<string>();
   // Periodic refresh of live panels.
   let refreshTimer = 0;
+  // R0517 (TECH-75): an 18+ fun quest scene (It's Always Sunny) asks the grown-up question
+  // again after a long spell without an 18+ entry; "Not now" holds it back for a while.
+  let adultAsking = false;
+  let adultDeferredUntil = 0;
+  function playStoryScene(id: string): void {
+    if (adultAsking) return;
+    const gate = adultSceneGate(id, lastAdultEntry(), Date.now(), adultDeferredUntil);
+    if (gate === 'wait') return;
+    if (gate === 'ask') {
+      adultAsking = true;
+      void askAdultScene(root).then((ok) => {
+        adultAsking = false;
+        // Confirmed: the next refresh finds the entry fresh and plays the scene.
+        if (ok) noteAdultEntry();
+        else adultDeferredUntil = Date.now() + MATURE_RECHECK.deferMs;
+      });
+      return;
+    }
+    if (isAdultScene(id)) noteAdultEntry();
+    dialogue.play(id);
+  }
+
   function refreshLoop(): void {
     const g = game();
     if (g) {
@@ -1204,7 +1236,7 @@ export function mountHud(
         !cabinet.isOpen()
       ) {
         sheet.close();
-        dialogue.play(next);
+        playStoryScene(next);
       }
     }
     refreshTimer = window.setTimeout(refreshLoop, 200);
@@ -1254,6 +1286,9 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n) toast(SIT_TEXT[toastBand(g.world)].replaceAll('{n}', n.name));
         }
+        // R0450 (TECH-08): the Grove's quiet moments get their sounds.
+        const groveSnd = groveSfx(e);
+        if (groveSnd) playSound(groveSnd);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1272,7 +1307,7 @@ export function mountHud(
           playSound('evolve');
         } else if (e.kind === 'reaction' && e.reaction === 'love') {
           playSound('pet');
-        } else if (e.kind === 'collected' || e.kind === 'fruitDropped') {
+        } else if (e.kind === 'collected') {
           playSound('pickup');
         } else if (e.kind === 'landed') {
           playSound('hit');
@@ -1773,7 +1808,12 @@ export function mountHud(
         } else if (e.kind === 'reaction') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n && Math.random() < 0.35) {
-            playChirp(speciesOf(n.species).family, e.reaction !== 'sad' && e.reaction !== 'dizzy');
+            // R0462 (TECH-65): in the Nubbin's own voice.
+            playChirp(
+              speciesOf(n.species).family,
+              e.reaction !== 'sad' && e.reaction !== 'dizzy',
+              chirpVoice(n.id, n.personality),
+            );
           }
         }
       }

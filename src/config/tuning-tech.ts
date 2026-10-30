@@ -58,7 +58,14 @@ export const EGG_HUG = {
 } as const;
 
 /** TECH-75: the 18+ entry asks the grown-up again after this many days without one. */
-export const MATURE_RECHECK = { days: 3 } as const;
+export const MATURE_RECHECK = {
+  days: 3,
+  /** R0517: It's Always Sunny's quest numbers (its scenes are `q31-…` to `q45-…`). */
+  sunnyFirst: 31,
+  sunnyLast: 45,
+  /** R0517: after "Not now", an 18+ scene waits this long before asking again. */
+  deferMs: 10 * 60 * 1000,
+} as const;
 
 /**
  * HOT-2: frame-rate spikes. The sprite atlas opens a second 4096² page when one cannot
