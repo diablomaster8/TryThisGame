@@ -1,6 +1,10 @@
 import { formatDuration, NAMES, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { AwayReport, World } from '../sim/types';
 import { button, dialogFocus, el } from './dom';
+import { awayDiary } from '../sim/away-diary';
+import { AWAY_SHORT } from '../config/strings-fun-r5';
+import { toastBand } from './fun-toasts';
+import '../fun.css';
 
 /** "While you were away": what the catch-up did, shown once per return. */
 export class AwayScreen {
@@ -22,7 +26,7 @@ export class AwayScreen {
     card.append(
       this.summary,
       this.list,
-      button(UI_TEXT.continueButton, () => this.hide(), 'btn btn-primary'),
+      button(UI_TEXT.continueButton, () => this.hide(), 'btn btn-primary away-go'),
     );
     this.root.appendChild(card);
     parent.appendChild(this.root);
@@ -48,6 +52,7 @@ export class AwayScreen {
     this.summary.textContent = `${UI_TEXT.awayElapsed(formatDuration(report.elapsedMs))} ${UI_TEXT.awaySimulated(formatDuration(report.simulatedMs))}`;
     this.list.innerHTML = '';
     const nameOf = (id: string) => world.nubbins.find((n) => n.id === id)?.name ?? NAMES.creature;
+    const headlines: string[] = [];
     for (const e of report.events) {
       let text: string | null = null;
       switch (e.kind) {
@@ -75,10 +80,18 @@ export class AwayScreen {
         default:
           break;
       }
-      if (text) this.list.appendChild(el('li', undefined, text));
+      if (text) headlines.push(text);
     }
-    if (this.list.childElementCount === 0)
-      this.list.appendChild(el('li', undefined, UI_TEXT.awayNothing));
+    // R0316 (TECH-76): at most three headlines, then "+N more" on one line.
+    for (const text of headlines.slice(0, AWAY_SHORT.headlines))
+      this.list.appendChild(el('li', undefined, text));
+    if (headlines.length > AWAY_SHORT.headlines)
+      this.list.appendChild(
+        el('li', 'away-more', AWAY_SHORT.more(headlines.length - AWAY_SHORT.headlines)),
+      );
+    // R0316 (FUN-27): the diary, which also stands in for "Everyone was quiet."
+    for (const line of awayDiary(report, world, toastBand(world), world.rngState))
+      this.list.appendChild(el('li', 'away-diary', line));
     this.root.hidden = false;
     this.focus.opened();
   }

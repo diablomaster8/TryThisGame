@@ -195,6 +195,30 @@ export const HOLLOW = {
    * closes cells within the block plus `navClearance` (world units).
    */
   props: { landmarkShare: 0.7, navClearance: 0.35 },
+  /**
+   * Rumble rooms (R0257, R0282): from `fromDepth`, about `share` of dungeon levels mark one
+   * room (at least `minSide` cells each way, never the stairs', the chest's or a boss's) whose
+   * glowing door starts a tactics bout on lane C's grid. `prefix` weights the champion pack's
+   * modifier; `fluffyHp` and `speedyZip` size it. The chest after a win: `hatChance` for a hat
+   * not yet owned, else `critterChance` for a critter bubble, else `shells` more Shells.
+   */
+  rumble: {
+    fromDepth: 2,
+    share: 0.36,
+    minSide: 4,
+    prefix: { fluffy: 1, speedy: 1, sticky: 1 },
+    fluffyHp: 1.5,
+    speedyZip: 1.3,
+    hatChance: 0.15,
+    critterChance: 0.55,
+    shells: 30,
+  },
+  /**
+   * The stray's choice (R0281): a stray that bumps the Keeper waits `askMs` for Calm it or a
+   * snack before it snatches; a calmed stray pays back `payback` times what it would have
+   * taken. Its bout's level is `level` plus `perDepth` a floor.
+   */
+  strayChoice: { askMs: 3000, payback: 1.5, level: 2, perDepth: 1 },
 } as const;
 
 export type HollowLevel = keyof typeof HOLLOW.v3.levels;

@@ -1,4 +1,4 @@
-import { LIFECYCLE, SLIPS } from '../config/tuning';
+import { LIFECYCLE, SLIP_WARN, SLIPS } from '../config/tuning';
 import type { Nubbin, SimEvent, SlipKind, World } from './types';
 
 /**
@@ -56,10 +56,19 @@ export function stepSlips(world: World, dtMs: number, events: SimEvent[], away =
         n.slipTimers[kind] = -SLIPS.cooldownMs;
         events.push({ kind: 'slip', nubbinId: n.id, slip: kind });
       } else {
+        // R0307: in a new save, a minute's warning first (live play only).
+        const warnAt = SLIPS.afterMs - SLIP_WARN.leadMs;
+        if (!away && t < warnAt && next >= warnAt && earlySave(world))
+          events.push({ kind: 'slipSoon', nubbinId: n.id, slip: kind });
         n.slipTimers[kind] = next;
       }
     }
   }
+}
+
+/** R0307: every Nubbin in the save is still young (the first minutes of a new Grove). */
+function earlySave(world: World): boolean {
+  return world.nubbins.every((x) => x.stage === 'egg' || x.ageMs < SLIP_WARN.earlyMs);
 }
 
 /**

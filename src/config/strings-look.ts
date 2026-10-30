@@ -115,3 +115,25 @@ export function petToast(name: string, beat: string, personality: Personality | 
   if (!set) return `${name} liked that.`;
   return set[personality ?? 'any'].replace('{n}', name);
 }
+
+/** LOOK-55: the collection book's tabs and page details. */
+export const BOOK_TEXT = {
+  tabs: {
+    forms: 'Forms',
+    pocket: 'Pocket',
+    digital: 'Digital',
+    colours: 'Colours',
+    looks: 'Looks',
+    parts: 'Parts',
+    hats: 'Hats',
+  } as Record<string, string>,
+  tabCount: (label: string, seen: number, total: number, done: boolean) =>
+    `${label} ${seen}/${total}${done ? ' ★' : ''}`,
+  firstSeen: (when: string) => `First seen ${when} ago`,
+  earnedBy: (name: string) => `Shown by ${name}`,
+  tabDone: 'Tab complete: a golden photo frame is yours.',
+  shiny: 'shiny',
+  twoTone: (b: string) => `two-tone ${b}`,
+  part: (critter: string, slot: string) => `${critter} ${slot}`,
+  second: (first: string, second: string) => `${first} → ${second}`,
+};

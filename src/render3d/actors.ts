@@ -17,7 +17,7 @@ import { keeperLook, nubbinLook, openingLooks, takePool, type Look } from './cre
 import { Crowd, crowdFor, type CrowdOptions, type Figure } from './crowd';
 import { vectorEmotes } from './emote-vector';
 import { EmoteSprings } from '../render/emote-spring';
-import { EMOTE_SPRING, SWIM_STYLE } from '../config/tuning-look';
+import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
 import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
@@ -25,10 +25,13 @@ import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
-import { GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
+import { flightY } from '../sim/flight';
+import { signatureAt } from '../render/signature';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
+import { FernCairn3D } from './fern-cairn-3d';
 import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
@@ -253,6 +256,8 @@ export class Actors {
 
   /** MOVE-63: the hop course's flags and ghost. */
   private readonly hopCourse: HopCourse3D;
+  /** R0313: Fern's cairn by the signpost. */
+  private readonly fernCairn: FernCairn3D;
 
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
@@ -268,6 +273,7 @@ export class Actors {
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
+    this.fernCairn = new FernCairn3D(this.group);
     this.highlight = new THREE.Mesh(
       new THREE.RingGeometry(0.55, 0.72, 32),
       new THREE.MeshBasicMaterial({
@@ -415,13 +421,13 @@ export class Actors {
 
   /** What a ray passes through first: a Nubbin, an item, a memorial or the crowd. */
   pick(ray: THREE.Ray): {
-    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+    kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
     id: string;
     d: number;
   } | null {
     const sphere = new THREE.Sphere();
     type Hit = {
-      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building';
+      kind: 'nubbin' | 'item' | 'memorial' | 'npc' | 'wild' | 'stray' | 'building' | 'storyProp';
       id: string;
       d: number;
     };
@@ -448,6 +454,9 @@ export class Actors {
     for (const [id, i] of this.items) test('item', id, i.mesh, 0.4, 0.1);
     for (const [id, m] of this.memorials)
       test('memorial', id, m, 0.45, READ3D.memorial.height * 0.75);
+    const fd = this.fernCairn.pick(ray, this.tmp);
+    const fb = best as Hit | null;
+    if (fd !== null && (!fb || fd < fb.d)) best = { kind: 'storyProp', id: FERN_STONE.id, d: fd };
     const c = this.crowd.pick(ray);
     const b = best as Hit | null;
     if (c && c.kind !== 'ambient' && (!b || c.d < b.d)) return { kind: c.kind, id: c.id, d: c.d };
@@ -617,10 +626,13 @@ export class Actors {
    * Lay the squash or pop over a body's scale, with the pixel view's timing and amounts.
    * The rig's origin is at its feet, so the body squashes onto the ground.
    */
-  private squash(a: Actor, id: string, o: THREE.Object3D, nowMs: number): void {
+  private squash(a: Actor, id: string, o: THREE.Object3D, nowMs: number, adult = false): void {
     const p = this.pops.get(id);
     if (!p) return;
-    const dur = p.kind === 'squash' ? 260 : 420;
+    // LOOK-66: an evolution's pop (the only pop an adult gets) also grows the body from the
+    // child's 0.8 parts scale up to full over the longer pop.
+    const grow = p.kind === 'pop' && adult;
+    const dur = p.kind === 'squash' ? 260 : grow ? 900 : 420;
     const t = (nowMs - p.startMs) / dur;
     if (t >= 1 || t < 0) {
       if (t >= 1) this.pops.delete(id);
@@ -631,6 +643,7 @@ export class Actors {
     const sh = p.kind === 'squash' ? 1 - 0.22 * s : 1 + 0.28 * s;
     a.squash = { o, base: o.scale.clone() };
     o.scale.set(a.squash.base.x * sw, a.squash.base.y * sh, a.squash.base.z * sw);
+    if (grow) o.scale.multiplyScalar(0.8 + 0.2 * (1 - (1 - t) * (1 - t)));
   }
 
   private unsquash(a: Actor): void {
@@ -848,6 +861,7 @@ export class Actors {
     this.world = world;
     noteJumpToyWorld(world, this.calm);
     this.hopCourse.update(world, alpha, nowMs, this.calm);
+    this.fernCairn.update(world, this.ground);
     this.pool.frame();
     // The Keeper first: when it and a hatchling are both waiting, the Keeper is built.
     const rig = this.ensureKeeper(world);
@@ -877,10 +891,18 @@ export class Actors {
       const held = this.nubbinHolds?.get(n.id);
       const x = held?.x ?? lerp(a.prev.pos.x, n.pos.x, alpha);
       const z = held?.z ?? lerp(a.prev.pos.z, n.pos.z, alpha);
+      // LOOK-24: a strong flier on a flight leg flies (drawn only, sim/flight.ts).
+      const fly = held ? null : flightY(n, world.timeMs - (1 - alpha) * SIM.stepMs);
+      // LOOK-44: an idle favourite plays its signature beat (render/signature.ts).
+      const sig =
+        held || fly || n.stage === 'egg' || n.stage === 'cocoon'
+          ? null
+          : signatureAt(n.id, n.species, nowMs, this.calm);
       // MOVE-57: a Nubbin at play on a spring mushroom bounces on its cap (drawn only).
       const y =
         lerp(a.prev.y, n.y, alpha) +
-        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0);
+        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+        (fly?.y ?? 0);
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
@@ -905,6 +927,11 @@ export class Actors {
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        if (fly) pose = 'flap';
+        const sigOn = !!sig && pose === 'idle';
+        if (sigOn) pose = sig!.pose3d;
+        a.rig.glide = fly?.phase === 'glide';
+        a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
         if (pose !== a.pose) {
           a.pose = pose;
           a.rig.setPose(pose);
@@ -934,6 +961,7 @@ export class Actors {
         a.rig.lift = inWater ? 0 : Math.max(0, y);
         // LOOK-37: an Eternal floats a hand's breadth off the ground with a slow bob.
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
+        if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt = pose === 'pet' ? hand : null;
         if (n.behavior.state === 'pet' && near) petted = true;
@@ -959,7 +987,7 @@ export class Actors {
                 : 1;
         }
       }
-      this.squash(a, n.id, o, nowMs);
+      this.squash(a, n.id, o, nowMs, n.stage === 'adult');
       if (a.beat && a.rig) {
         // FUN-09: the beat's squash and nudge, put back next frame with the other squashes.
         if (!a.squash) a.squash = { o, base: o.scale.clone() };

@@ -76,22 +76,7 @@ export class PartyPick {
   }
 
   private portrait(g: Game, n: Nubbin): HTMLCanvasElement {
-    const c = el('canvas', 'bs-portrait');
-    try {
-      const sheet = g.view.sheets.forNubbin(n);
-      const rect = sheet.frames.get(frameKey('idle', 'front', 0));
-      const ctx = c.getContext('2d');
-      if (rect && ctx) {
-        c.width = rect.w / PX;
-        c.height = rect.h / PX;
-        ctx.imageSmoothingEnabled = false;
-        const img = sheet.texture.image as HTMLCanvasElement;
-        ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, c.width, c.height);
-      }
-    } catch {
-      // No portrait: the name and type still say who it is.
-    }
-    return c;
+    return nubbinPortrait(g, n);
   }
 
   private toggle(g: Game, id: string, max: number): void {
@@ -112,4 +97,27 @@ export class PartyPick {
     this.dialog.hide();
     done?.(ids);
   }
+}
+
+/**
+ * A Nubbin's front-facing idle frame on its own canvas (the party sheet, the pre-bout sheet),
+ * or a species' sheet when `n` is a species id (a foe on the "Who?" pick or the Inspect card).
+ */
+export function nubbinPortrait(g: Game, n: Nubbin | string): HTMLCanvasElement {
+  const c = el('canvas', 'bs-portrait');
+  try {
+    const sheet = typeof n === 'string' ? g.view.sheets.species(n) : g.view.sheets.forNubbin(n);
+    const rect = sheet.frames.get(frameKey('idle', 'front', 0));
+    const ctx = c.getContext('2d');
+    if (rect && ctx) {
+      c.width = rect.w / PX;
+      c.height = rect.h / PX;
+      ctx.imageSmoothingEnabled = false;
+      const img = sheet.texture.image as HTMLCanvasElement;
+      ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, c.width, c.height);
+    }
+  } catch {
+    // No portrait: the name and type still say who it is.
+  }
+  return c;
 }

@@ -10,6 +10,7 @@ import { HollowTrail } from './hollow-trail';
 import { HollowPlates } from './hollow-plates';
 import { HollowShrines } from './hollow-shrines';
 import { HollowTraps } from './hollow-traps';
+import { HollowRumble } from './hollow-rumble';
 import { HollowTown } from './hollow-town';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
 import { HollowDress, pathBaker } from './hollow-dress';
@@ -65,6 +66,7 @@ export class Hollow {
   private readonly shrines = new HollowShrines();
   /** Trap tiles (R0161). */
   private readonly traps = new HollowTraps();
+  private readonly rumble = new HollowRumble();
   /** Act camps and fields: stalls, keepers and cave mouths (R0152, R0147). */
   private readonly town = new HollowTown();
   /** Fog of war (R0153); first, so the others read this frame's fog. */
@@ -116,6 +118,7 @@ export class Hollow {
       this.plates,
       this.shrines,
       this.traps,
+      this.rumble,
       this.town,
     ];
     const box = new THREE.BoxGeometry(0.1, 0.1, 0.1);

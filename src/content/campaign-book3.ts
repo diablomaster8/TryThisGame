@@ -50,7 +50,7 @@ export const BOOK3_CHAPTERS: Chapter[] = [
     opening: 'c9-open',
     goal: 'corvinChoice',
     goalText: 'Go up the valley to Corvin’s garden, and decide what to do.',
-    hint: 'The choice is made in the scene. Whatever you choose, something comes home with you.',
+    hint: 'The choice is made in the scene; something comes home either way.',
     closing: 'c9-close',
   },
   {
@@ -58,8 +58,8 @@ export const BOOK3_CHAPTERS: Chapter[] = [
     title: 'The Long Night',
     opening: 'c10-open',
     goal: 'lanternsAgain',
-    goalText: 'Light all four lanterns at dusk, and keep them burning through the longest night.',
-    hint: 'Tap each lantern post to light it, and relight any the cold puts out. How often you petted Moss before tonight matters now.',
+    goalText: 'Keep all four lanterns lit through the longest night.',
+    hint: 'Tap each lantern post, and relight any the cold puts out.',
     closing: 'c10-close',
   },
   {
@@ -68,7 +68,7 @@ export const BOOK3_CHAPTERS: Chapter[] = [
     opening: 'c11-open',
     goal: 'threeFriends',
     goalText: 'Talk with three different Keepers. Then sit with Hazel.',
-    hint: 'Walk up to the Keepers and tap them. They stayed all night; they’ll stay a little longer.',
+    hint: 'Walk up to a Keeper and tap them; they stayed all night.',
     closing: 'c11-close',
   },
   {
@@ -77,7 +77,7 @@ export const BOOK3_CHAPTERS: Chapter[] = [
     opening: 'c12-open',
     goal: 'finalChoice',
     goalText: 'Decide what the Grove will be.',
-    hint: 'The choice is made in the scene. The ending is chosen by everything you did. See the Paths page.',
+    hint: 'The choice is made in the scene; see the Paths page.',
     closing: 'c12-close',
   },
 ];

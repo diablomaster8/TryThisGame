@@ -13,6 +13,8 @@ import { rosterCap } from '../sim/roster';
 import { TRAINERS } from '../sim/trainers';
 import type { Quest } from '../sim/types';
 import { button, el, modal } from './dom';
+import { ACHIEVEMENT_TEXT, BADGE_FILTER_TEXT } from '../config/strings-badges';
+import '../fun.css';
 
 /**
  * The smaller garden panels: the request board, the Keeper profile, the neighbourhood
@@ -190,9 +192,24 @@ export class ProfilePanel {
       const got = w.achievements[a.id] !== undefined;
       const b = el('div', `badge${got ? ' badge-got' : ''}`, got ? `🏅 ${a.title}` : '· · ·');
       b.title = a.title;
+      // R0315: the blurb once earned, and a mark for the Silly filter.
+      if (got) b.title = `${a.title}: ${ACHIEVEMENT_TEXT[a.id]?.blurb ?? ''}`;
+      if (a.silly) b.dataset.silly = '1';
       badges.appendChild(b);
     }
     this.body.appendChild(badges);
+    // R0315: show only the joke badges.
+    const silly = button(
+      BADGE_FILTER_TEXT.silly,
+      () => {
+        const on = badges.classList.toggle('silly-only');
+        silly.textContent = on ? BADGE_FILTER_TEXT.all : BADGE_FILTER_TEXT.silly;
+        silly.setAttribute('aria-pressed', String(on));
+      },
+      'btn btn-small badge-filter',
+    );
+    silly.setAttribute('aria-pressed', 'false');
+    badges.before(silly);
   }
 
   private square(g: Game): void {

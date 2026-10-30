@@ -248,7 +248,7 @@ export function fieldFloor(seed: number, act: number): Floor {
   }
   f.shrines = shrines;
   // Packs, kept off the road's ends, the stone and the mouths.
-  f.packs = placePacks(f, rng, depth, rng.int(Z.packs[0], Z.packs[1]) + 4)
+  f.packs = placePacks(f, rng, depth, rng.int(Z.packs[0], Z.packs[1]) + 4, act)
     .filter((p) => far(p.cell, 12) && shrines.every((s) => cellDist(s.cell, p.cell) >= 3))
     .slice(0, Z.packs[1])
     .map((p, i) => ({ ...p, id: `pack-${i}` }));

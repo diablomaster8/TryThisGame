@@ -10,12 +10,12 @@
 
 _Morning. The fruit for Sable is gone._  
 _But Sable looks thin. She didn’t eat it._  
-_There is frost on the grass round her. In summer!_  
+_Crunch! There is frost on the grass round her. In summer!_  
 
 > **Lesson** (science, K-ESS2-1, ask): frost comes when it is very cold  
 > **Luna**: Frost is tiny bits of ice. When do we see frost?  
 > - ✅ When it is very cold → Yes! Frost comes when it’s very cold. That’s why summer frost is strange.
-> - On a hot summer day → Summer is warm, so frost should melt. Frost comes when it’s very cold. That’s why this is strange!
+> - On a hot summer day → Frost on a hot day? Plop! It would melt like ice cream. Summer is warm, so frost should melt. Frost comes when it’s very cold. That’s why this is strange!
 > _For grown-ups: Learned that frost is ice that comes in cold weather, so frost in summer is strange._
 
 **Luna**: Something else came in the dark. It took the fruit.  
@@ -57,7 +57,7 @@ _Whoosh. He’s gone._
 
 _Next day, more things go missing. Warm things._  
 **Fern**: My left glove is gone! My right hand is warm. My left is cold!  
-_Fern waves her cold left hand. Brrr._  
+_Fern waves her cold left hand. Brrr. Achoo!_  
 _Your sock. A candle. The tea cosy. Gran Hazel’s warm egg stone._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
@@ -125,18 +125,18 @@ _Wisp sits on a log, shaking. He holds Gran Hazel’s egg stone._
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling: scared  
 > **Luna**: Wisp is warm now. But he still shakes. How does he feel?  
 > - ✅ Scared → Yes. Wisp is scared. Being scared can make us shake too.
-> - Cold → He was cold before. He’s warm now. So it’s fear. Wisp feels scared.
-> - Sleepy → Sleepy Nubbins go floppy, not shaky. Wisp feels scared.
+> - Cold → Cold? He’s wrapped up as warm as a bun! He was cold before. He’s warm now. So it’s fear. Wisp feels scared.
+> - Sleepy → Sleepy? A yawn would wobble like jelly. Hee, hee! Sleepy Nubbins go floppy, not shaky. Wisp feels scared.
 > _For grown-ups: Named a feeling (scared) from clues, and learned that fear can make us shake._
 
-_Rain drums on the roof. Drum, drum, drum._  
+_Rain drums on the roof. Drip, drip, drip._  
 _On Wisp’s side is an old grey number. Painted on._  
 **Luna**: I’ve seen paint like that before. I’ll ask around.  
 _Outside, Sable sniffs your hands. She doesn’t run!_  
 
 #### `sprout:s2-night` · [main](../../../side/S02.md#s2-night)
 
-_Night in Luna’s garden. The moonflowers are open._  
+_Night in Luna’s garden. Pop! The moonflowers open._  
 _Wisp sits close to Sable. He whispers to her._  
 **Wisp**: hands are scary. come away. come to the dark.  
 _Sable looks at Wisp. Then at your window._  
@@ -170,7 +170,7 @@ _Luna and Clover both look at you._
 
 #### `sprout:s2-complete` · [main](../../../side/S02.md#s2-complete)
 
-_Morning. Two little circles of frost by the long grass._  
+_Morning. Crunch! Two little frost circles by the long grass._  
 _Two grey Nubbins slept there. Wisp has the egg stone._  
 
 > **Lesson** (maths, K.G.A.2, do): circle shape  

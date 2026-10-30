@@ -309,3 +309,78 @@ export const HOLLOW_PARTY_TEXT = {
   tired: '💤 Tired',
   energy: (pct: number) => `Energy ${pct}%`,
 };
+
+/** Rumble rooms (R0257, R0282) and the stray's choice (R0281). */
+export const RUMBLE_TEXT = {
+  prefix: {
+    fluffy: 'Extra Fluffy',
+    speedy: 'Speedy',
+    sticky: 'Sticky Paws',
+  } as Record<string, string>,
+  start: (prefix: string) => `A rumble room! A champion pack, ${prefix}, wants a play-fight.`,
+  won: (prefix: string) => `The ${prefix} pack flops over, giggling. A chest pops open.`,
+  lost: 'The pack bounces you out of the room. Step back in when you are ready.',
+  loot: {
+    hat: (hat: string) => `In the chest: a ${hat} hat!`,
+    critter: (species: string) => `In the chest: a ${species} in a bubble!`,
+    shells: (n: number) => `In the chest: ${n} Shells.`,
+  },
+  door: 'Rumble room',
+  strayAsk: 'A Shadow stray tugs at your pocket. Calm it, or toss it a snack?',
+  calm: '🤝 Calm it (bout)',
+  snack: '🍎 Toss a snack',
+  calmed: (shells: number) => `The stray calms down and gives back ${shells} Shells, and some.`,
+  calmFailed: 'The stray wriggles free with your Shells.',
+};
+
+/** Hollow gear (R0163, R0164): tiers, bases, affixes and the gear panel. */
+export const GEAR_TEXT = {
+  button: '🎒 Gear',
+  title: 'Gear',
+  help: 'Worn pieces help underground. The shape shows how rare a piece is.',
+  empty: 'Nothing yet. Beaten packs sometimes leave something behind.',
+  rarity: {
+    plain: 'Plain',
+    shiny: 'Shiny',
+    fancy: 'Fancy',
+    legendary: 'Legendary',
+    set: 'Set',
+    charm: 'Charm',
+  } as Record<string, string>,
+  base: {
+    satchel: 'Satchel',
+    boots: 'Boots',
+    lantern: 'Lantern',
+    gloves: 'Gloves',
+    scarf: 'Scarf',
+    charm: 'Charm necklace',
+    bracelet: 'Bracelet',
+    backpack: 'Backpack',
+  } as Record<string, string>,
+  prefix: {
+    bouncy: 'Bouncy',
+    sunny: 'Sunny',
+    lucky: 'Lucky',
+    snug: 'Snug',
+    brave: 'Brave',
+  } as Record<string, string>,
+  suffix: { crumbs: 'of Crumbs', owl: 'of the Owl', naps: 'of Naps' } as Record<string, string>,
+  stat: {
+    pickup: 'reach',
+    speed: 'speed',
+    explore: 'sight',
+    shells: 'Shells a pickup',
+    mf: 'luck',
+    snug: 'snugness',
+    brave: 'bravery',
+    fruit: 'fruit finds',
+    energy: 'naps',
+    carry: 'carrying',
+  } as Record<string, string>,
+  wearKeeper: 'Wear',
+  wearOn: (name: string) => `Give to ${name}`,
+  takeOff: 'Take off',
+  worn: (who: string) => `Worn by ${who}`,
+  you: 'you',
+  found: (glyph: string, name: string) => `Found: ${glyph} ${name}`,
+};

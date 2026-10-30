@@ -16,15 +16,15 @@ _Moon friends sit on the right. An empty bench sits in the middle._
 > _(Point left. Point right. Now point to the middle.)_  
 > **Fern**: So where is the empty bench?  
 > - ✅ In the middle → Yes! Sun on the left, Moon on the right, the gap in the middle.
-> - On the left → The left is full of Sun friends. The empty bench is in the middle.
-> - On the right → The right is full of Moon friends. The empty bench is in the middle.
+> - On the left → Sit on the left? Squeak, bump! You’d sit on a Sun friend’s lap! The left is full of Sun friends. The empty bench is in the middle.
+> - On the right → Sit on the right? Squeak, bump! You’d squash a Moon friend! The right is full of Moon friends. The empty bench is in the middle.
 > _For grown-ups: Used left, right and middle to find a place._
 
 **Fern**: Don’t sit there! That’s the gap.  
 **Fern**: Your Gran Hazel sat in the gap. Just to be cheeky.  
 _Two big tea pots. One has a sun. One has a moon._  
 _Each side says the other pot’s tea is worse._  
-_A Nubbin sips from the sun pot. Then the moon pot._  
+_A Nubbin sips from the sun pot. Slurp! Then the moon pot._  
 _It can’t tell. It sips both again, to be sure._  
 **Sparks**: Long ago, at the big race, Fern’s Nubbin Bramble fell!  
 **Sparks**: Sun says one thing. Moon says another. Now nobody races together!  
@@ -44,14 +44,14 @@ _High up, Corvin watches the people, not the race._
 
 #### `sprout:s3-two-stories` · [main](../../../side/S03.md#s3-two-stories)
 
-_You hear two stories. They are not the same._  
+_You hear two stories. Pop! Pop! They are not the same._  
 _Sun says: Ember’s Nubbin Ash bumped Fern’s Nubbin Bramble at the bend._  
 _Moon says: the flag was in the wrong place._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): listening to both sides  
 > **Byte**: Two sides tell it two ways. What should we do?  
 > - ✅ Listen to both sides → Yes. Hear everyone first. Then look for clues.
-> - Only listen to one side → Then we’d miss half the story. Let’s listen to both sides.
+> - Only listen to one side → Listen with one ear only? Hee! The other ear would sulk. Then we’d miss half the story. Let’s listen to both sides.
 > _For grown-ups: Learned to listen to both sides before deciding what happened._
 
 **Byte**: I made a chart. Sun is yellow. Moon is blue.  
@@ -61,7 +61,7 @@ _Nobody talks about Bramble. Where did she go?_
 
 #### `sprout:s3-plates` · [main](../../../side/S03.md#s3-plates)
 
-_Sparks is at your gate. She is fizzing!_  
+_Pop! Sparks is at your gate. She is fizzing!_  
 **Sparks**: I have pictures from that race. I never looked at them!  
 **Sparks**: I was scared of what they might show.  
 **Sparks**: But my timer is broken. I need help.  
@@ -69,7 +69,7 @@ _Sparks is at your gate. She is fizzing!_
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking for help kindly  
 > **Sparks**: Somebody has a timer. How do I ask for help?  
 > - ✅ “Please will you help me?” → Please. Right. I can say please. Probably.
-> - “Give me your timer!” → They’d say no! Asking kindly works better. “Please will you help me?”
+> - “Give me your timer!” → “Give me!” with grabby hands? Hee! The timer would hide. They’d say no! Asking kindly works better. “Please will you help me?”
 > _For grown-ups: Practised asking for help kindly, with please._
 
 _She points up the lane, at Byte’s house._  
@@ -96,7 +96,7 @@ _Sparks’s darkroom is red and dark. It smells of vinegar._
 > _For grown-ups: Clapped a steady beat with Byte’s count._
 
 **Sparks**: I rock on FEELING, Byte!  
-_Slosh! The tray tips. Byte’s sleeve is very wet._  
+_Slosh! Splash! The tray tips. Byte’s sleeve is very wet._  
 **Byte**: That was not a rock. That was a wave.  
 _The first picture appears. It’s… a giant thumb._  
 **Sparks**: It’s a GOOD thumb!  
@@ -108,7 +108,7 @@ _A man in a grey coat is moving the flag!_
 > **Lesson** (maths, K.G.A.1, ask): near and far  
 > **Byte**: Where did the flag go? Nearer the edge, or further away?  
 > - ✅ Nearer the edge → Yes. Nearer the edge. That’s why the Nubbins went wide.
-> - Further away → Look again. Old hole here. New hole there, nearer the edge.
+> - Further away → The flag went for a walk? Whoosh! Look again. Look again. Old hole here. New hole there, nearer the edge.
 > _For grown-ups: Compared positions using nearer and further._
 
 **Sparks**: Nobody from Sun or Moon moved it. It was a race helper!  
@@ -118,14 +118,14 @@ _A man in a grey coat is moving the flag!_
 
 #### `sprout:s3-courier` · [main](../../../side/S03.md#s3-courier)
 
-_Sparks wraps the pictures in a sun tea towel._  
+_Swish! Sparks wraps the pictures in a sun tea towel._  
 _Byte wraps a moon tea towel round that._  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds s and m  
 > _(Say them slowly: Sun… Moon.)_  
 > **Byte**: Which one starts with a “mmm” sound?  
 > - ✅ Moon → Yes! Mmm-Moon. And Sun starts with “sss”.
-> - Sun → Sun starts with “sss”, like a snake. Mmm-Moon starts with “mmm”.
+> - Sun → A snake called Moon? Ssss! Hee, hee! Sun starts with “sss”, like a snake. Mmm-Moon starts with “mmm”.
 > _For grown-ups: Heard the first sounds in Sun and Moon._
 
 **Sparks**: You show them. Fern and Ember both like you.  
@@ -153,12 +153,12 @@ _Fern looks at the pictures. Ember looks too._
 > _Fern was cross with Ember for a long time._  
 > _What can we say when we’ve been unkind?_  
 > - ✅ “I’m sorry.” → Yes. Saying sorry is brave. It helps friends start again.
-> - “It’s your fault.” → That keeps the cross feeling going. “I’m sorry” helps friends start again.
+> - “It’s your fault.” → “It’s your fault!” Grrr… and round and round we go! That keeps the cross feeling going. “I’m sorry” helps friends start again.
 > _For grown-ups: Practised saying sorry, and saw how it helps friends make up._
 
 **Fern**: No, I’m sorrier.  
 **Ember**: No, I’M sorrier.  
-_It is their best argument in years._  
+_Hee, hee. It is their best argument in years._  
 **Ember**: Let’s have a big meeting. Everyone. Sun and Moon.  
 **Fern**: And just one tea pot.  
 **Ember**: One tea pot.  
@@ -177,7 +177,7 @@ _Pixel makes the invitations. Gold ink or silver?_
 > _For grown-ups: Learned that blue and yellow paint mix to make green, and found something green._
 
 **Pixel**: Green is for everybody. Sun and Moon.  
-_Dusty digs a hole for the one tea pot. Nobody asked._  
+_Dusty digs a hole for the one tea pot. Thump, thump! Nobody asked._  
 **Nova**: Am I Sun or Moon? I’ve decided I’m weather.  
 _Ember says she’s coming. That’s Ember for yes._  
 
@@ -196,7 +196,7 @@ _Dusty dug a hole. The pot sits in it. Dusty is proud._
 **Gran Hazel**: I haven’t been to one in years!  
 _You put the pictures on the bench in the middle._  
 _Gran Hazel sits right in the middle. She smiles at both sides._  
-_Everyone shuffles in close to look. Now there is no gap!_  
+_Everyone shuffles in close to look. Squeak! Now there is no gap!_  
 **Fern**: She did it again! Still cheeky, after all these years.  
 **Sparks**: It was the flag. I had the pictures all along.  
 **Fern**: Bramble fell because a man moved a flag. Not because of us.  

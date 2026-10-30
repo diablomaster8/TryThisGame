@@ -110,14 +110,14 @@ _Moss calls down. He is staying on his millstone, thank you._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): keeping safe near big machines  
 > **Old Tobin**: Where should our hands be, near a big wheel?  
 > - ✅ Far away, by our sides → Yes. Big machines can hurt fingers. We stay back.
-> - On the spokes → Ooh, no. A wheel can move and pinch. Hands far away, by our sides.
+> - On the spokes → Hands on the spokes? Pinch, squeak! The wheel would nip. Ooh, no. A wheel can move and pinch. Hands far away, by our sides.
 > _For grown-ups: Learned to keep hands away from big moving machines._
 
 **Old Tobin**: Find what’s jamming it. Then we step round.  
 
 #### `sprout:s13-level3` · [main](../../../side/S13.md#s13-level3)
 
-_In the biggest gear is a wooden wedge. Somebody put it there._  
+_Creak! In the biggest gear is a wooden wedge. Somebody put it there._  
 _A label hangs from it. It says: STOPPED. LEAVE IT._  
 **You**: Somebody stopped the wheel on purpose.  
 **Old Tobin**: Aldous did, in his last winter. He sat on that step.  
@@ -144,7 +144,7 @@ _Later, you have read Hazel’s page about Aldous. You go back to the mill._
 **Old Tobin**: Every evening I lit the lamp by the gate.  
 **Old Tobin**: And every evening there was a boy at the window. Working.  
 **Old Tobin**: That’s the whole story. The only one I ever finished.  
-_He gives you a little iron key. It’s warm from his pocket._  
+_Ding! He gives you a little iron key. It’s warm from his pocket._  
 _The sock is in Tobin’s pocket. He does not know how._  
 **Old Tobin**: I found more treasure. A cog: the Cog of Very Big Patience.  
 **Old Tobin**: And a tiny hat, cut from a round millstone. Heavy!  
@@ -162,13 +162,13 @@ _The sock is in Tobin’s pocket. He does not know how._
 
 _The bottom room is small, dry and very cold._  
 _A desk. A chair. An apron on a hook, still floury._  
+_Creak! The old chair rocks._  
 _A pocket watch, stopped just after five o’clock._  
 **Old Tobin**: Five in the morning. That’s when the wheel started, every day.  
 _Inside the big book are three rules, in chalk._  
 _ONE: the wheel never stops. TWO: nobody rests. THREE: keep up!_  
 _Under them, in a child’s careful writing, the same three rules._  
 _Every page says work, work, work. Not one page says sleep._  
-_Tobin yawns, just from reading it._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): everybody needs rest and sleep  
 > **Old Tobin**: Hazel’s rules were kind ones. These say: never rest.  
@@ -177,6 +177,7 @@ _Tobin yawns, just from reading it._
 > - No, keep working → Aldous thought so. But bodies get tired. Everybody needs rest and sleep. Even millers.
 > _For grown-ups: Compared a rule that said “never rest” with Hazel’s kinder rules, and learned that everybody needs rest and sleep._
 
+_Tobin yawns, just from reading it._  
 _At the back is a letter. It was never sent. It says: Corvin._  
 **Old Tobin**: I kept it shut away for twenty years. It got heavy, keeping it.  
 

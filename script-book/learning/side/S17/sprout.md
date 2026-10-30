@@ -15,7 +15,7 @@ _Autumn. Shiny conkers lie on the ground._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): signs of autumn: conkers and falling leaves  
 > **Luna**: Conkers fall in autumn. What else falls off trees in autumn?  
 > - ✅ Leaves → Yes! Leaves fall in autumn. Crunch, crunch!
-> - Snowflakes → Snow comes later, in winter. In autumn, leaves fall. Crunch!
+> - Snowflakes → Snowflakes in autumn? Whee, a snowball fight! Too soon. Snow comes later, in winter. In autumn, leaves fall. Crunch!
 > _For grown-ups: Named signs of autumn: conkers and falling leaves._
 
 _In the straw is an empty, warm dip. An egg is gone!_  
@@ -37,7 +37,7 @@ _On the fence: a big grey feather. As long as your arm!_
 > Check: `edu:compare:length:feather-arm`
 > _For grown-ups: Compared two lengths using the words longer, shorter and the same._
 
-_On the roof: tiny scratches. Something landed very gently._  
+_On the roof: tiny scratches. Creak! Something landed very gently._  
 _The dip in the straw is still warm._  
 **Luna**: That’s an owl feather. A really big owl.  
 **Nova**: Two badgers in a coat, with an owl feather!  
@@ -81,7 +81,7 @@ _A huge grey owl lands on the nursery roof._
 _She lifts an egg very gently in her feet._  
 _She turns her head nearly all the way round. She looks at you._  
 **Nightjar**: Hoo-oo.  
-_Then she flies off to the cliffs, holding the egg._  
+_Whoosh! Then she flies off to the cliffs, holding the egg._  
 **Nova**: …I’m crossing off the badgers.  
 **Luna**: That’s Nightjar. Hazel told me about her.  
 **Luna**: The biggest owl in the valley. And the saddest.  
@@ -97,8 +97,8 @@ _Halfway up is a nest. It’s as big as a cart wheel!_
 > **Lesson** (sel, CASEL: Social awareness, ask): being gentle with a shy animal  
 > **Luna**: How do we meet a shy animal?  
 > - ✅ Slowly and quietly → Yes. Slow and quiet, so she isn’t scared.
-> - Run up fast → That might scare her. Slow and quiet is kinder.
-> - Shout hello → Loud sounds scare shy animals. Slow and quiet is better.
+> - Run up fast → Run up fast? Thump, thump! She’d fly off in a flap. That might scare her. Slow and quiet is kinder.
+> - Shout hello → Shout hello? Boom! The owl would jump off her branch. Loud sounds scare shy animals. Slow and quiet is better.
 > _For grown-ups: Thought about how to be gentle and calm around a shy animal._
 
 
@@ -153,11 +153,12 @@ _You lift two. Clack! goes her beak._
 
 **Nova**: That’s four climbs. In the dark!  
 **Luna**: That’s four climbs. In the dark.  
+_Creak! The ladder bends a little._  
 _Nightjar watches the first egg all the way down._  
 
 #### `sprout:s17-wild` · [main](../../../side/S17.md#s17-wild)
 
-_Morning. Four eggs are back in the nursery._  
+_Morning. Four eggs are back in the nursery. Peep, peep!_  
 _One egg is still under Nightjar. It’s small and speckled._  
 **Nova**: That’s a wild egg. Its mummy never came back.  
 **Luna**: Let’s leave it with her. She can keep it warm.  
@@ -165,7 +166,7 @@ _One egg is still under Nightjar. It’s small and speckled._
 > **Lesson** (sel, CASEL: Social awareness, ask): thinking about how someone else feels  
 > **Luna**: How might Nightjar feel, with a baby egg to keep warm?  
 > - ✅ Happier → Yes. Caring for someone can help a sad heart.
-> - Cross → Look how gently she sits. I think she feels happier.
+> - Cross → Cross? Nightjar looks as cosy as a pillow. Look how gently she sits. I think she feels happier.
 > _For grown-ups: Imagined how caring for someone small can help a sad heart feel better._
 
 _On the way down, Luna stops._  
@@ -183,14 +184,14 @@ _On the way down, Luna stops._
 
 #### `sprout:s17-feathers` · [main](../../../side/S17.md#s17-feathers)
 
-_Some weeks later, a grey feather is on your windowsill._  
+_Some weeks later, a grey feather lands on your windowsill. Swish!_  
 _The next night, there’s another one._  
 
 > **Lesson** (maths, K.OA.A.1, ask): adding one more  
 > _One feather, then one more. How many feathers now?_  
 > - ✅ 2 → Yes! One and one more make two.
-> - 3 → Let’s count: one… two. Two feathers!
-> - 1 → One, and one more… two feathers!
+> - 3 → Three feathers? Fluff, fluff! Let’s count them on fingers. Let’s count: one… two. Two feathers!
+> - 1 → Only one feather? Swish! One and one more makes two. One, and one more… two feathers!
 > _For grown-ups: Added one more to one to make two._
 
 **Luna**: She’s calling you! The little egg must be hatching.  
@@ -206,8 +207,8 @@ _Out comes a fluffy grey baby. All eyes. Very cross!_
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): animal babies: an owlet  
 > **Luna**: A baby owl has a special name. What is it?  
 > - ✅ An owlet → Yes! A baby owl is an owlet.
-> - A kitten → A kitten is a baby cat. A baby owl is an owlet!
-> - A puppy → A puppy is a baby dog. A baby owl is an owlet!
+> - A kitten → A kitten in an owl’s nest? Crack… miaow! Silly! A kitten is a baby cat. A baby owl is an owlet!
+> - A puppy → A puppy in an egg? Crack… woof! That would be silly! A puppy is a baby dog. A baby owl is an owlet!
 > _For grown-ups: Learned the name for a baby owl: an owlet._
 
 **Nightjar**: Hoo-oo. Hoo-oo.  

@@ -22,7 +22,7 @@ _Beside him is a pale blue Nubbin. That’s Null._
 **Moss**: Love can help a Nubbin live a very, very long time.  
 **Byte**: How much love? A cupful? A bucketful? I’ll measure it!  
 **Moss**: Your shoelace is untied.  
-_Byte looks down. It is. It always is!_  
+_Byte looks down. It is. It always is! Hee, hee!_  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): checking our shoes are done up  
 > _(Look at your shoes. Laces, buckles or sticky straps?)_  
@@ -55,8 +55,8 @@ _Pixel’s bench: a clock, three little bells, and a tiny bed._
 > **Lesson** (literacy, RL.K.3, ask): first, next, last  
 > **Pixel**: Bell one, bell two, bell three. What happens first?  
 > - ✅ Fruit drops → Yes! First fruit. Next the bed. Last, petting!
-> - The bed warms → That’s next. First the fruit drops. Then the bed. Then petting.
-> - Petting → That’s last! First fruit, next bed, last petting.
+> - The bed warms → The bed first? Snore! Plop, the fruit comes down before that. That’s next. First the fruit drops. Then the bed. Then petting.
+> - Petting → Petting first? Hee, hee! Petting comes last of all. That’s last! First fruit, next bed, last petting.
 > _For grown-ups: Put three steps in order using first, next and last._
 
 **Byte**: Exactly ninety seconds. I tested it.  
@@ -130,7 +130,7 @@ _Null’s blue has gone pale at the edges._
 > _Saying “I was wrong” is hard. It’s also brave._  
 > _For grown-ups: Heard a character admit a mistake, and that this is brave._
 
-_Null waits for a bell that doesn’t come._  
+_Null waits for a bell that doesn’t come. No ding, no dong._  
 _It looks a little lost._  
 **Pixel**: Tomorrow, no clock. We’ll just sit. We’re good at sitting.  
 
@@ -141,7 +141,7 @@ _Byte holds his stopwatch. His thumb wiggles._
 _He sits on his thumb._  
 _Null sits in the grass. For a long time, nothing._  
 **Pixel**: Slow, Byte. Slower than that.  
-_Then a moth flutters past. Null’s head turns!_  
+_Then a moth flutters past. Swish! Null’s head turns!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): moths fly at night  
 > _Most moths fly at night. They like lights._  
@@ -165,7 +165,7 @@ _Null takes one step after the moth. Then it looks at you._
 
 _Near dark, Null climbs into Byte’s lap._  
 _It falls asleep at once._  
-_Byte sits still for an hour. His nose itches._  
+_Byte sits still for an hour. His nose itches. Nearly an achoo!_  
 _He lets it itch. He doesn’t check the time._  
 **Byte**: Its edges look bluer. Don’t tell me if I’m wrong.  
 
@@ -183,7 +183,7 @@ _Pixel takes your hand._
 _Null is under Byte’s hedge. Null is old now._  
 _Null’s long life is ending. Around it, a glowing cocoon grows._  
 _Byte sits with his hand on it. He doesn’t count._  
-_The cocoon glows gold. It opens. An egg!_  
+_The cocoon glows gold. Pop! It opens. An egg!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): life cycles: caterpillar, cocoon, moth  
 > _In real life, a caterpillar makes a cocoon._  

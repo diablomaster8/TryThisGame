@@ -448,8 +448,8 @@ export interface ChaoPose {
   arms: ArmPose;
   eyes: EyeState;
   mouth: MouthState;
-  /** Wing flap phase 0 (rest) or 1 (raised). */
-  wings: 0 | 1;
+  /** Wing flap phase 0 (rest) or 1 (raised). 2 holds them out flat (the glide, LOOK-24). */
+  wings: 0 | 1 | 2;
   /** Hide the lower body (in water). */
   waterline: boolean;
   /** Head tilt in px for sad and sleep poses. */
@@ -603,6 +603,8 @@ export const CRY_CLIP = { frames: 2, ms: 260, loop: true } as const;
 export const SWIM_CLIPS: Record<string, { frames: number; ms: number; loop: boolean }> = {
   paddle: { frames: 2, ms: 150, loop: true },
   crawl: { frames: 2, ms: 210, loop: true },
+  // LOOK-24: a flier's glide down, wings held out flat.
+  glide: { frames: 1, ms: 1000, loop: true },
 };
 
 /** A weak swimmer's dog-paddle (head only out, hands fluttering) or a strong one's crawl. */
@@ -915,6 +917,13 @@ function drawWings(
   // Fly's great wings stand up behind the head rather than at the shoulders (LOOK-19).
   const y = (look.shape.wingsUp ? L.headCy - 1 : L.headCy + L.headRy - 2) - raise;
   const wing = (cx: number, dir: 1 | -1, big: boolean) => {
+    if (pose.wings === 2) {
+      // The glide: both wings held straight out, a long flat blade each side.
+      const w = Math.round((big ? 5 : 4) * Math.max(1, scale));
+      pc.tri(cx, y + 1, cx + dir * (w + 2), y + 2, cx, y + 3, col.wing);
+      pc.line(cx + dir, y + 2, cx + dir * w, y + 2, col.belly);
+      return;
+    }
     // Raised wings grow up more than out, so they stand tall behind the head in the frame.
     const up = look.shape.wingsUp ? 1 : 0;
     const w = Math.round((big ? 4 : 3) * scale * (up ? 0.55 : 1));
@@ -1846,6 +1855,46 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
     for (const style of ['paddle', 'crawl'] as const)
       for (let f = 0; f < 2; f++)
         atlas.add(frameKey(style, angle, f), drawChao(angle, swimPose(style, f), look));
+    // FUN-04 gags (render/gag-looks.ts): a shy peek (ducked, then eyes up over the hands), a
+    // wave (one beat up, one out) and a clap.
+    for (let f = 0; f < 2; f++) {
+      atlas.add(
+        frameKey('peek', angle, f),
+        drawChao(
+          angle,
+          f === 0
+            ? { ...BASE, squash: 0.8, eyes: 'closed', mouth: 'flat', arms: 'up', legs: 'tucked' }
+            : { ...BASE, squash: 0.9, eyes: 'wide', mouth: 'none', arms: 'up', legs: 'tucked' },
+          look,
+        ),
+      );
+      atlas.add(
+        frameKey('wave', angle, f),
+        drawChao(
+          angle,
+          { ...BASE, eyes: 'happy', mouth: 'open', arms: f === 0 ? 'up' : 'swingA', lift: -f },
+          look,
+        ),
+      );
+      atlas.add(
+        frameKey('clap', angle, f),
+        drawChao(
+          angle,
+          {
+            ...BASE,
+            eyes: 'happy',
+            mouth: 'open',
+            arms: f === 0 ? 'out' : 'up',
+            squash: f ? 0.97 : 1,
+          },
+          look,
+        ),
+      );
+    }
+    atlas.add(
+      frameKey('glide', angle, 0),
+      drawChao(angle, { ...BASE, wings: 2, legs: 'tucked', arms: 'out', lift: -2 }, look),
+    );
   }
   return atlas.build();
 }

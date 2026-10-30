@@ -105,6 +105,10 @@ export const TACTICS = {
     threat: 0.5,
     objective: 1,
     keeperNoise: 0.1,
+    /** Extra pull towards a "Together!" combo, so friends at 60 use it. */
+    combo: 0.35,
+    /** How much a Keeper or Champion avoids a tile a foe's charge will land on. */
+    charge: 0.8,
     budgetMs: 8,
   },
   /** The vertical slice (FIGHT-65). */
@@ -112,4 +116,18 @@ export const TACTICS = {
   /** Safety: a bout ends as a draw after this many turns. */
   maxTurns: 400,
   logCap: 200,
+  /** The Full 3D board (FIGHT-62): world units per tile and per height level, the lens. */
+  view3d: {
+    tile: 1.5,
+    level: 0.45,
+    base: 0.6,
+    fovDeg: 20,
+    pitchDeg: 35,
+    /** Margin round the board when the camera frames it, in tiles. */
+    margin: 0.5,
+    /** Tile colour scale: the Grove's exposure and grade lift flat palette colours a lot. */
+    shade: 0.62,
+    hour: 15,
+    backdrop: { top: "#3a2c5c", bottom: "#a98fb8" },
+  },
 } as const;

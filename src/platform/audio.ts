@@ -45,7 +45,13 @@ export type SoundName =
   | 'hiccup'
   | 'gulp'
   | 'raspberry'
-  | 'giggle';
+  | 'giggle'
+  // Round 5 (R0304, R0310): a gate creak and the sprout sound words' own noises.
+  | 'creak'
+  | 'munch'
+  | 'whoosh'
+  | 'splash'
+  | 'ding';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -831,6 +837,20 @@ export function playChime(pitch: number): void {
   }
 }
 
+/**
+ * R0322 (FUN-33): a squeak raised `step` semitones (two per rapid tap), so a run of taps on
+ * a Nubbin climbs like a toy. Not throttled with the comic sounds: the taps set the pace.
+ */
+export function playSqueakStep(step: number): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  const f = 700 * Math.pow(2, Math.min(step, 24) / 12);
+  try {
+    tone(f, 0, 90, 'sawtooth', 0.025, f * 1.5);
+  } catch {
+    // As above.
+  }
+}
+
 /** A Hollow sconce catching from the Keeper's lamp: a soft rising whoosh. */
 export function playKindle(): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
@@ -956,6 +976,26 @@ export function playSound(name: SoundName): void {
       case 'plop':
         tone(260, 0, 70, 'sine', 0.06, 160);
         tone(520, 90, 90, 'sine', 0.05, 660);
+        break;
+      case 'creak':
+        // A sticky hinge: a slow wobbling saw, low and dry.
+        for (let i = 0; i < 4; i++)
+          tone(140 + (i % 2) * 40, i * 110, 140, 'sawtooth', 0.02, 120 + i * 12);
+        break;
+      case 'munch':
+        for (let i = 0; i < 3; i++) burst(i * 120, 60, 0.05, 900);
+        break;
+      case 'whoosh':
+        burst(0, 380, 0.05, 1200);
+        tone(300, 0, 380, 'sine', 0.02, 900);
+        break;
+      case 'splash':
+        burst(0, 260, 0.08, 2400);
+        tone(900, 40, 120, 'sine', 0.03, 400);
+        break;
+      case 'ding':
+        tone(1568, 0, 500, 'sine', 0.05);
+        tone(2093, 0, 300, 'triangle', 0.015);
         break;
     }
   } catch {

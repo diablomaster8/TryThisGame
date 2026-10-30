@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SIM } from '../../src/config/tuning';
 import { queueQuestEvents } from '../../src/sim/quests';
+import { sparringPartner } from '../../src/sim/battle/foes';
 import { MISSION_COUNT } from '../../src/sim/teams';
 import type { SimEvent } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
@@ -82,5 +83,18 @@ describe('guard team missions are one-time, not weekly', () => {
     }
     expect(done).toBe(MISSION_COUNT);
     expect(world.team!.points).toBeLessThanOrEqual(MISSION_COUNT * 10);
+  });
+});
+
+// Lane C round 5 (recs FIGHT-74): the dojo's sparring partner is a free daily refresh.
+describe("today's sparring partner is a refresh, not a chore", () => {
+  it('days passing, skipped or not, never write or owe anything', () => {
+    const world = createWorld(4, 0);
+    const before = JSON.stringify(world.battleOnce ?? null);
+    for (const d of [0, 1, 5, 40]) {
+      stepWorld(world, SIM.stepMs, day(d));
+      expect(sparringPartner(world, `2026-10-${10 + (d % 20)}`).species).toBeTruthy();
+    }
+    expect(JSON.stringify(world.battleOnce ?? null)).toBe(before);
   });
 });

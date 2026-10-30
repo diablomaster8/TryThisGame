@@ -27,6 +27,7 @@ import { mountMinimapSetting } from './minimap';
 import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
+import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -54,6 +55,9 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
+  private readonly bouts: HTMLSelectElement;
+  private readonly steady: HTMLInputElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -298,6 +302,20 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // Lane C round 5: how story bouts play, and "Steady hands" for the timing ring.
+    this.bouts = select(BOUTS_SETTING_TEXT.label, BOUTS_SETTING_TEXT.options);
+    this.bouts.title = BOUTS_SETTING_TEXT.help;
+    const steadyRow = el('label', 'check-row');
+    this.steady = el('input');
+    this.steady.type = 'checkbox';
+    this.steady.addEventListener('change', () => this.apply());
+    const stText = el('span');
+    stText.append(
+      el('strong', undefined, BOUTS_SETTING_TEXT.steady),
+      el('small', undefined, BOUTS_SETTING_TEXT.steadyHelp),
+    );
+    steadyRow.append(this.steady, stText);
+    body.appendChild(steadyRow);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -396,6 +414,8 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.bouts.value = g.world.settings.bouts ?? 'play';
+    this.steady.checked = !!g.world.settings.steadyHands;
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -538,6 +558,11 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.
+    const bouts = this.bouts.value as NonNullable<Settings['bouts']>;
+    if (bouts !== (g.world.settings.bouts ?? 'play')) settings.bouts = bouts;
+    if (this.steady.checked !== !!g.world.settings.steadyHands)
+      settings.steadyHands = this.steady.checked;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

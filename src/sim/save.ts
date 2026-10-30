@@ -8,7 +8,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 10;
+export const SAVE_VERSION = 11;
 
 export interface SaveFile {
   version: number;
@@ -140,6 +140,12 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
       hollow.uniquesBeaten = [];
       hollow.lastParty = [];
     }
+    return data;
+  },
+  // 10 to 11: Hollow gear (R0163, R0164): an empty satchel, nothing worn.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    if (world) world.gear = { items: [], keeper: {}, nubbins: {}, next: 1 };
     return data;
   },
 ];
@@ -314,6 +320,12 @@ export function validateWorld(w: World): World {
   if (!Array.isArray(w.hollow.camp.questsPaid)) w.hollow.camp.questsPaid = [];
   if (!Array.isArray(w.hollow.uniquesBeaten)) w.hollow.uniquesBeaten = [];
   if (!Array.isArray(w.hollow.lastParty)) w.hollow.lastParty = [];
+  if (w.gear) {
+    if (!Array.isArray(w.gear.items)) w.gear.items = [];
+    w.gear.keeper ??= {};
+    w.gear.nubbins ??= {};
+    w.gear.next ??= w.gear.items.length + 1;
+  }
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';
   w.inventory.twine ??= 0;

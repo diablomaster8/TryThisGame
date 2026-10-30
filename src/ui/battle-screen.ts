@@ -1,5 +1,5 @@
 import '../battle.css';
-import { NAMES } from '../config/strings';
+import { HAT_LABELS, NAMES } from '../config/strings';
 import {
   BATTLE_MOVE_TEXT,
   BATTLE_SCREEN_TEXT as T,
@@ -11,7 +11,6 @@ import {
   STATUS_TEXT,
   TYPE_WORDS,
 } from '../config/strings-battle';
-import { BATTLE } from '../config/tuning-battle';
 import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
@@ -40,7 +39,29 @@ import {
   type Combatant,
 } from '../sim/battle';
 import { openTypeHelp } from './battle-help';
-import { button, el } from './dom';
+import { button, dialogFocus, el } from './dom';
+import '../battle-r5.css';
+import { GYM } from '../config/tuning';
+import { BATTLE_ATB } from '../config/tuning-battle-atb';
+import { BATTLE_R5 } from '../config/tuning-battle-r5';
+import { ATB_TEXT } from '../config/strings-battle-atb';
+import {
+  INSPECT_TEXT,
+  RING_TEXT,
+  SPOILS_TEXT,
+  STAT_SHORT,
+  WHO_TEXT,
+} from '../config/strings-battle-r5';
+import { pairSeen } from '../sim/battle';
+import { cooldownLeft, pausedForHidden } from '../sim/battle/atb';
+import { quipFor } from '../sim/battle/lines';
+import { whoChoices } from '../sim/battle/turn';
+import { ATB_COMMANDS, type AtbCommand, type Timing } from '../sim/battle/types';
+import type { StatKey } from '../sim/types';
+import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
+import { nubbinPortrait } from './battle-party-pick';
+import { PreBout } from './battle-prebout';
+import { recordAct, recordStart } from './battle-record';
 
 /**
  * The one battle screen (recs FIGHT-25, FIGHT-26, FIGHT-30) for dojo singles, story bouts and
@@ -55,9 +76,18 @@ import { button, el } from './dom';
  * (`Playback`), and a tap on the stage skips ahead. Under reduced motion nothing shakes or
  * flashes and numbers fade in place. Gentle bouts glow the best move with a hint, and in the
  * sprout band show only two big buttons.
+ *
+ * Round 5: every bout opens on the pre-bout sheet first (FIGHT-86). Bonk-kind moves get the
+ * optional timing ring (FIGHT-87), or a steady ×1.1 with "Steady hands" (FIGHT-79); doubles
+ * ask "Who?" with portraits (FIGHT-60); a Command bout (`s.atb`, FIGHT-40) shows gauges and
+ * four order buttons with cooldown rings instead of moves, pauses while the Item sheet is open
+ * and while the tab is hidden (FIGHT-41). The log reads the comedy lines first (FIGHT-75), the
+ * results card shows the spoils (FIGHT-74), the foe's card opens "Inspect" (FIGHT-77), and the
+ * effectiveness badges show once a pairing has been seen (always in Gentle bouts). Keyboard Tab
+ * order is moves, then actions, then the top bar (the DOM order; CSS keeps the layout).
  */
 const VIEW_H = 160;
-type View = 'main' | 'swap' | 'item' | 'target' | 'swing';
+type View = 'main' | 'swap' | 'item' | 'target' | 'who' | 'ring';
 
 let shared: BattleScreen | null = null;
 
@@ -95,12 +125,20 @@ export class BattleScreen {
   /** HP and leads as the playback has shown them so far. */
   private shownHp = new Map<string, number>();
   private shownLead: [string, string] = ['', ''];
-  /** Matchups seen in this bout: "moveType>foeType" → multiplier. */
-  private seen = new Map<string, number>();
   private pop: { id: string; text: string; at: number } | null = null;
-  private swingAt = 0;
   private holdTimer = 0;
   private lastEvent: BattleEvent | null = null;
+  /** Round 5: the pre-bout sheet, the move waiting on "Who?" or the ring, the ring's start. */
+  private prebout: PreBout | null = null;
+  private pendingMove: { id: string; target?: string } | null = null;
+  private ringAt = 0;
+  /** A Command bout's live bits, updated every frame without rebuilding the buttons. */
+  private atbSig = '';
+  private gauges = new Map<string, { fill: HTMLElement; num: HTMLElement; name: string }>();
+  private orderBtns = new Map<AtbCommand, HTMLButtonElement>();
+  private readonly veil: HTMLDivElement;
+  private readonly trap: { opened(): void; closed(): void };
+  private recorded = false;
 
   constructor(
     parent: HTMLElement,
@@ -125,8 +163,20 @@ export class BattleScreen {
     this.cards = [el('div', 'bs-card ally'), el('div', 'bs-card foe')];
     stage.append(this.canvas, this.cards[1], this.cards[0]);
     stage.addEventListener('pointerdown', () => this.skip());
+    // The foe's card opens "Inspect" (FIGHT-77); its own press never skips the playback.
+    const foeCard = this.cards[1];
+    foeCard.setAttribute('role', 'button');
+    foeCard.tabIndex = 0;
+    foeCard.addEventListener('pointerdown', (e) => e.stopPropagation());
+    foeCard.addEventListener('click', () => this.inspect());
+    foeCard.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      this.inspect();
+    });
     this.logLine = el('p', 'bs-log');
     this.logLine.setAttribute('aria-live', 'polite');
+    this.logLine.setAttribute('role', 'log');
     this.sheet = el('div', 'bs-sheet');
     this.confirmBox = el('div', 'bs-confirm');
     this.confirmBox.hidden = true;
@@ -139,8 +189,18 @@ export class BattleScreen {
     this.results.hidden = true;
     const panel = el('div', 'bs-panel');
     panel.append(this.logLine, this.sheet);
-    this.root.append(top, stage, panel, this.confirmBox, this.results);
+    // A Command bout's "Paused" veil while the tab was hidden (FIGHT-41).
+    this.veil = el('div', 'bs-veil');
+    this.veil.hidden = true;
+    this.veil.append(
+      el('strong', undefined, ATB_TEXT.paused),
+      el('p', undefined, ATB_TEXT.pausedHelp),
+    );
+    // DOM order is the Tab order (moves, actions, then the top bar); CSS places them.
+    this.root.append(panel, top, stage, this.veil, this.confirmBox, this.results);
     parent.appendChild(this.root);
+    this.trap = dialogFocus(this.root, this.root, null);
+    document.addEventListener('visibilitychange', () => this.onVisibility());
     // Capture, so the HUD's own Escape handling never sees it while a bout is up.
     window.addEventListener(
       'keydown',
@@ -148,7 +208,8 @@ export class BattleScreen {
         if (this.root.hidden || e.key !== 'Escape') return;
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (!this.results.hidden) this.close();
+        if (inspectOpen()) closeInspect();
+        else if (!this.results.hidden) this.close();
         else if (!this.confirmBox.hidden) this.confirmBox.hidden = true;
         else this.askLeave();
       },
@@ -158,13 +219,50 @@ export class BattleScreen {
   }
 
   get isOpen(): boolean {
-    return !this.root.hidden;
+    return !this.root.hidden || !!this.prebout?.isOpen;
   }
 
-  /** Starts a bout for `context` and shows it; `onDone` gets the finished bout (or null). */
+  /**
+   * Opens the pre-bout sheet for `context` (FIGHT-86); "Let's play!" starts the bout on this
+   * screen, "Skip" resolves a story bout in the sim (FIGHT-71), and Back sends nothing at all.
+   * `onDone` gets the finished bout, or null when the Keeper backed out.
+   */
   start(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
     const g = this.game();
     if (!g) return;
+    this.prebout ??= new PreBout(this.root.parentElement ?? document.body, this.game);
+    this.prebout.open(context, {
+      play: (c) => this.begin(c, onDone),
+      skip: (c) => this.skipBout(c, onDone),
+      back: () => onDone?.(null),
+    });
+  }
+
+  /** A skipped story bout: the sim resolves and pays it; the sheet shows what it paid. */
+  private skipBout(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
+    const g = this.game();
+    if (!g) return;
+    const runs = g.world.battleRuns ?? 0;
+    const shells = g.world.inventory.shells;
+    g.send({ kind: 'battleStart', context: { ...context, auto: true } });
+    const t0 = performance.now();
+    const wait = (): void => {
+      const s = g.world.battle;
+      if ((g.world.battleRuns ?? 0) > runs && s?.result) {
+        this.prebout?.showSkipped(g.world.inventory.shells - shells, () => onDone?.(s));
+      } else if (performance.now() - t0 < 2000) requestAnimationFrame(wait);
+      else onDone?.(null);
+    };
+    requestAnimationFrame(wait);
+  }
+
+  private begin(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
+    const g = this.game();
+    if (!g) return;
+    this.pendingMove = null;
+    this.atbSig = '';
+    this.recorded = false;
+    this.veil.hidden = true;
     this.runsAtStart = g.world.battleRuns ?? 0;
     this.startedAt = performance.now();
     this.onDone = onDone ?? null;
@@ -172,7 +270,6 @@ export class BattleScreen {
     this.pendingItem = null;
     this.sentSig = null;
     this.drawnSig = '';
-    this.seen.clear();
     this.pop = null;
     this.lastEvent = null;
     this.shownHp.clear();
@@ -186,6 +283,7 @@ export class BattleScreen {
     g.renderPaused = true;
     this.root.hidden = false;
     this.root.classList.toggle('gentle-sprout', false);
+    this.trap.opened();
     this.resize();
     cancelAnimationFrame(this.rafId);
     this.rafId = requestAnimationFrame(this.frame);
@@ -200,6 +298,10 @@ export class BattleScreen {
   }
 
   askLeave(): void {
+    if (this.root.hidden && this.prebout?.isOpen) {
+      this.prebout.back();
+      return;
+    }
     const s = this.bout();
     if (!s || s.result) this.close();
     else this.confirmBox.hidden = false;
@@ -215,7 +317,11 @@ export class BattleScreen {
   close(result?: BattleState | null): void {
     cancelAnimationFrame(this.rafId);
     const s = result === undefined ? this.bout() : result;
-    this.root.hidden = true;
+    closeInspect();
+    if (!this.root.hidden) {
+      this.root.hidden = true;
+      this.trap.closed();
+    }
     this.confirmBox.hidden = true;
     const g = this.game();
     if (g) g.renderPaused = false;
@@ -276,6 +382,12 @@ export class BattleScreen {
       this.sync(s);
       this.playback.reset(s.log.length);
     }
+    if (!this.recorded) {
+      this.recorded = true;
+      recordStart(s);
+    }
+    // The game itself stops while the tab is hidden, so the pause lands as it comes back.
+    this.veil.hidden = !s.atb || !!s.result || !(pausedForHidden(s) || document.hidden);
     const cur = this.playback.current(s.log, now);
     if (cur && cur.e !== this.lastEvent) {
       this.lastEvent = cur.e;
@@ -286,16 +398,26 @@ export class BattleScreen {
     const busy = this.playback.busy(s.log);
     const sig = `${s.log.length}:${s.turn}:${s.phase}:${busy ? 1 : 0}:${this.view}:${this.playback.speed}`;
     if (this.sentSig !== null && !sig.startsWith(this.sentSig)) this.sentSig = null;
+    // A Command bout's sheet is rebuilt only when its shape changes, so a press is never lost
+    // to a rebuild; its gauges and cooldowns move every frame in `updateAtb`.
+    const atbSig = s.atb
+      ? `atb:${this.view}:${s.result ? 1 : 0}:${s.sides[0].map((c) => `${c.id}${onField(s, c) ? 1 : 0}${c.hp > 0 ? 1 : 0}`).join()}:${s.sides[1].map((c) => (onField(s, c) ? c.id : '')).join()}`
+      : '';
     if (sig !== this.drawnSig) {
       this.drawnSig = sig;
       this.renderCards(s);
-      this.renderSheet(s, busy);
+      if (!s.atb) this.renderSheet(s, busy);
       this.roundLabel.textContent = BATTLE_TEXT.round(s.turn, s.context.tier);
       this.speedBtn.textContent = T.speed(this.playback.speed);
     }
+    if (s.atb && atbSig !== this.atbSig) {
+      this.atbSig = atbSig;
+      this.renderSheet(s, busy);
+    }
+    if (s.atb) this.updateAtb(s);
     if (cur) this.logLine.textContent = this.line(s, cur.e) ?? this.logLine.textContent;
     if (s.result && !busy && this.results.hidden) this.showResults(s);
-    if (this.view === 'swing') this.drawSwing(now);
+    if (this.view === 'ring') this.drawRing(s, now);
     this.rafId = requestAnimationFrame(this.frame);
   };
 
@@ -305,7 +427,13 @@ export class BattleScreen {
   }
 
   private line(s: BattleState, e: BattleEvent): string | null {
-    return formatEvent(e, this.names(s));
+    const name = this.names(s);
+    if (e.k === 'order') return ATB_TEXT.order(name(e.who), e.cmd, e.obeyed);
+    if (e.k === 'gag') return ATB_TEXT.gag(name(e.who), e.gag);
+    if (e.k === 'swing') return e.sweet ? RING_TEXT.nice : null;
+    // The comedy lines first (FIGHT-75), then the plain one.
+    const ix = s.log.indexOf(e);
+    return (ix >= 0 ? quipFor(s, ix, name) : null) ?? formatEvent(e, name);
   }
 
   /** An event starts playing: move the shown HP and leads, and give the hit its feel. */
@@ -313,16 +441,14 @@ export class BattleScreen {
     if (e.k === 'hit') {
       this.shownHp.set(e.to, Math.max(0, (this.shownHp.get(e.to) ?? 0) - e.dmg));
       this.pop = { id: e.to, text: `-${e.dmg}`, at: now };
-      const by = [...s.sides[0], ...s.sides[1]].find((c) => c.id === e.to);
-      if (e.move && by && e.eff !== undefined)
-        this.seen.set(`${moveOf(e.move).type}>${by.type}`, e.eff);
       playSound('hit');
       if (isSoundEnabled() && isAudioUnlocked()) navigator.vibrate?.(10);
     } else if (e.k === 'rally' || e.k === 'cuddle') {
       const id = e.k === 'rally' ? e.by : e.who;
       this.shownHp.set(id, (this.shownHp.get(id) ?? 0) + e.heal);
       this.pop = { id, text: `+${e.heal}`, at: now };
-    } else if (e.k === 'swap') this.shownLead[e.side] = e.to;
+    } else if (e.k === 'swing' && e.sweet) this.pop = { id: e.by, text: RING_TEXT.nice, at: now };
+    else if (e.k === 'swap') this.shownLead[e.side] = e.to;
     else if (e.k === 'miss') playSound('tap');
     this.drawnSig = '';
   }
@@ -463,7 +589,8 @@ export class BattleScreen {
         marks.push(team);
       }
       box.appendChild(el('div', 'bs-marks', marks.join(' · ')));
-      box.setAttribute('aria-label', `${combatantName(c)}, ${BATTLE_TEXT.hp} ${hp}/${c.maxHp}`);
+      const label = `${combatantName(c)}, ${t.name}, ${BATTLE_TEXT.hp} ${hp}/${c.maxHp}`;
+      box.setAttribute('aria-label', side === 1 ? `${INSPECT_TEXT.inspect(label)}` : label);
     }
   }
 
@@ -471,12 +598,25 @@ export class BattleScreen {
 
   private send(s: BattleState, a: BattleAction): void {
     const g = this.game();
-    if (!g || s.result || this.sentSig !== null) return;
-    this.sentSig = `${s.log.length}:${s.turn}:${s.phase}:`;
+    if (!g || s.result) return;
+    // A Command bout never waits on a turn, so it has no one-action-per-turn latch.
+    if (!s.atb) {
+      if (this.sentSig !== null) return;
+      this.sentSig = `${s.log.length}:${s.turn}:${s.phase}:`;
+    }
+    const wasItems = this.view === 'item' || this.view === 'target';
     this.view = 'main';
     this.pendingItem = null;
-    g.send({ kind: 'battleAct', action: a });
+    this.pendingMove = null;
+    this.raw(s, a);
+    if (s.atb && wasItems) this.raw(s, { k: 'pause', why: 'items', on: false });
     this.drawnSig = '';
+  }
+
+  /** Sends one action as is (and keeps it for the debug panel's replay). */
+  private raw(s: BattleState, a: BattleAction): void {
+    recordAct(s, a);
+    this.game()?.send({ kind: 'battleAct', action: a });
   }
 
   private big(label: string, sub: string, press: () => void, cls = ''): HTMLButtonElement {
@@ -501,19 +641,72 @@ export class BattleScreen {
     return best;
   }
 
-  private act(id: string, target?: string): BattleAction {
+  private act(id: string, target?: string, timing?: Timing): BattleAction {
     const t = target === undefined ? {} : { target };
-    if (id === 'bonk') return { k: 'strike', ...t };
+    const tm = timing === undefined ? {} : { timing };
+    if (id === 'bonk') return { k: 'strike', ...t, ...tm };
     if (id === 'huddle') return { k: 'rally' };
-    return { k: 'move', move: id, ...t };
+    return { k: 'move', move: id, ...t, ...tm };
+  }
+
+  /** A move tile pressed: "Who?" first in doubles when there is a choice, then the ring. */
+  private choose(s: BattleState, me: Combatant, id: string, foe: Combatant | undefined): void {
+    if (s.doubles) {
+      const w = whoChoices(s, me.id, id);
+      if (w.pick !== 'none' && w.ids.length > 1) {
+        this.pendingMove = { id };
+        this.setView('who');
+        return;
+      }
+      if (w.pick !== 'none' && w.ids.length === 1) {
+        this.aim(s, id, w.ids[0]);
+        return;
+      }
+    }
+    this.aim(s, id, moveOf(id).target === 'foe' ? foe?.id : undefined);
+  }
+
+  /**
+   * The timing ring for a Bonk-kind move (FIGHT-87), unless the bout is gentle (kid mode: no
+   * timing at all) or "Steady hands" is on (a fixed ×1.1, FIGHT-79).
+   */
+  private aim(s: BattleState, id: string, target?: string): void {
+    const g = this.game();
+    if (moveOf(id).kind !== 'bonk' || s.gentle || !g) {
+      this.send(s, this.act(id, target));
+      return;
+    }
+    if (g.world.settings.steadyHands) {
+      this.send(s, this.act(id, target, 'steady'));
+      return;
+    }
+    this.pendingMove = { id, ...(target === undefined ? {} : { target }) };
+    this.ringAt = performance.now();
+    this.setView('ring');
   }
 
   private renderSheet(s: BattleState, busy: boolean): void {
     const sheet = this.sheet;
+    // Keyboard play: a rebuild must not drop focus out of the screen (FIGHT-79).
+    const at = document.activeElement;
+    const refocus = !at || at === document.body || at === this.root || sheet.contains(at);
     sheet.innerHTML = '';
+    this.fillSheet(s, busy);
+    if (refocus && !this.root.hidden)
+      sheet
+        .querySelector<HTMLButtonElement>('button:not(:disabled)')
+        ?.focus({ preventScroll: true });
+  }
+
+  private fillSheet(s: BattleState, busy: boolean): void {
+    const sheet = this.sheet;
     const sprout = s.gentle === 'sprout';
     this.root.classList.toggle('gentle-sprout', sprout);
     if (s.result) return;
+    if (s.atb) {
+      this.atbSheet(s);
+      return;
+    }
     if (busy) {
       sheet.appendChild(this.big(T.tapToSkip, '', () => this.skip(), 'bs-wide'));
       return;
@@ -538,13 +731,15 @@ export class BattleScreen {
       this.itemButtons(s, me, foe, sheet);
       return;
     }
-    if (this.view === 'swing') {
-      const bar = this.big(T.swingTap, '', () => this.swing(s, foe), 'bs-wide bs-swing');
-      bar.appendChild(el('i', 'bs-swing-dot'));
-      sheet.appendChild(bar);
-      this.swingAt = performance.now();
+    if (this.view === 'who' && this.pendingMove) {
+      this.whoButtons(s, me, this.pendingMove.id);
       return;
     }
+    if (this.view === 'ring' && this.pendingMove) {
+      this.ringButton(s);
+      return;
+    }
+    const g = this.game();
     const grid = el('div', 'bs-grid');
     const best = s.gentle ? this.bestMove(s, me) : null;
     const ids = sprout ? [best!] : ['bonk', ...me.moves].slice(0, 4);
@@ -554,14 +749,16 @@ export class BattleScreen {
       const cost = puffCost(s, me, id);
       const a = this.act(id, d.target === 'foe' ? foe?.id : undefined);
       const ok = canChoose(s, me, a);
-      const eff = foe ? this.seen.get(`${d.type}>${foe.type}`) : undefined;
-      const badge =
-        eff === undefined ? '' : eff > 1 ? ` ${T.matchGood}` : eff < 1 ? ` ${T.matchPoor}` : '';
+      // The badge only once that pairing has been seen to land (FIGHT-77); always when gentle.
+      const known = !!foe && !!g && (!!s.gentle || pairSeen(g.world, d.type, foe.type));
+      const eff =
+        known && d.kind !== 'status' && d.kind !== 'support' ? typeMult(d.type, foe.type) : 1;
+      const badge = eff > 1 ? ` ${T.matchGood}` : eff < 1 ? ` ${T.matchPoor}` : '';
       const pips = cost === 0 ? BATTLE_TEXT.cost(0) : '●'.repeat(cost);
-      const tile = this.big(moveName(id), `${t.icon} ${t.name} · ${pips}${badge}`, () => {
-        if (id === 'bonk' && s.context.kind === 'dojo' && !s.gentle) this.setView('swing');
-        else this.send(s, a);
-      });
+      const tile = this.big(moveName(id), `${t.icon} ${t.name} · ${pips}${badge}`, () =>
+        this.choose(s, me, id, foe),
+      );
+      if (badge) tile.dataset.eff = String(eff);
       tile.disabled = !ok;
       if (id === best) tile.classList.add('bs-glow');
       this.longPress(tile, id);
@@ -586,8 +783,16 @@ export class BattleScreen {
   }
 
   private setView(v: View): void {
+    const s = this.bout();
+    const was = this.view;
     this.view = v;
     this.drawnSig = '';
+    // Time stops in a Command bout while the Item sheet is open (FIGHT-40).
+    if (s?.atb && !s.result) {
+      const items = (x: View): boolean => x === 'item' || x === 'target';
+      if (items(v) !== items(was)) this.raw(s, { k: 'pause', why: 'items', on: items(v) });
+    }
+    if (v === 'main') this.pendingMove = null;
   }
 
   private benchButtons(s: BattleState, box: HTMLElement): void {
@@ -661,33 +866,184 @@ export class BattleScreen {
     });
   }
 
-  // ---------- the dojo's Power swing (recs FIGHT-28) ----------
+  // ---------- doubles: "Who?" (recs FIGHT-60) ----------
 
-  private swingOffset(now: number): number {
-    // 0 in the middle, 1 at either end; one sweep a second or so.
-    const t = ((now - this.swingAt) / 1000) * BATTLE.karate.barSpeed;
-    return Math.abs(Math.cos(t * Math.PI));
+  private whoButtons(s: BattleState, me: Combatant, id: string): void {
+    const g = this.game();
+    const w = whoChoices(s, me.id, id);
+    const box = this.sheet;
+    box.appendChild(el('p', 'bs-prompt', w.pick === 'ally' ? WHO_TEXT.ally : WHO_TEXT.foe));
+    if (w.spread) box.appendChild(el('p', 'bs-hint', WHO_TEXT.both));
+    const grid = el('div', 'bs-grid');
+    const all = [...s.sides[0], ...s.sides[1]];
+    for (const cid of w.ids) {
+      const c = all.find((x) => x.id === cid);
+      if (!c) continue;
+      const t = TYPE_WORDS[c.type];
+      const b = this.big(
+        combatantName(c),
+        `${t.icon} ${t.name} · ❤ ${BATTLE_TEXT.hp} ${c.hp}/${c.maxHp}`,
+        () => this.aim(s, id, c.id),
+        'bs-who',
+      );
+      if (g) {
+        const n = c.nubbinId ? g.world.nubbins.find((x) => x.id === c.nubbinId) : undefined;
+        b.prepend(nubbinPortrait(g, n ?? c.species));
+      }
+      b.disabled = !canChoose(s, me, this.act(id, c.id));
+      grid.appendChild(b);
+    }
+    box.appendChild(grid);
+    box.appendChild(this.big(BATTLE_TEXT.cancel, '', () => this.setView('main'), 'bs-wide'));
   }
 
-  private drawSwing(now: number): void {
-    const dot = this.sheet.querySelector<HTMLElement>('.bs-swing-dot');
-    if (!dot) return;
-    const t = ((now - this.swingAt) / 1000) * BATTLE.karate.barSpeed;
-    dot.style.left = `${Math.round(50 + 45 * Math.sin(t * Math.PI))}%`;
+  // ---------- the timing ring (recs FIGHT-87) ----------
+
+  /** Where the dot is, 0..1, sweeping back and forth like the gym's bar. */
+  private ringPos(now: number): number {
+    const t = ((now - this.ringAt) % (GYM.sweepMs * 2)) / GYM.sweepMs;
+    return t <= 1 ? t : 2 - t;
   }
 
-  private swing(s: BattleState, foe: Combatant | undefined): void {
-    const sweet = this.swingOffset(performance.now()) <= BATTLE.karate.sweetSpot;
-    this.send(s, {
-      k: 'strike',
-      ...(foe ? { target: foe.id } : {}),
-      ...(sweet ? { swing: true } : {}),
-    });
+  private ringButton(s: BattleState): void {
+    const b = this.big(RING_TEXT.tap, '', () => this.ringTap(s), 'bs-wide bs-ring');
+    b.setAttribute('aria-label', `${RING_TEXT.label}: ${RING_TEXT.tap}`);
+    const zone = el('i', 'bs-ring-zone');
+    zone.style.left = `${(0.5 - GYM.zone / 2) * 100}%`;
+    zone.style.width = `${GYM.zone * 100}%`;
+    b.append(zone, el('i', 'bs-ring-dot'));
+    this.sheet.appendChild(b);
+  }
+
+  private ringTap(s: BattleState): void {
+    const p = this.pendingMove;
+    if (!p) return;
+    const pos = this.ringPos(performance.now());
+    const sweet = Math.abs(pos - 0.5) <= GYM.zone / 2;
+    this.send(s, this.act(p.id, p.target, sweet ? 'sweet' : 'plain'));
+  }
+
+  private drawRing(s: BattleState, now: number): void {
+    const p = this.pendingMove;
+    if (!p) return;
+    // No tap in time is a plain hit, never a penalty.
+    if (now - this.ringAt > BATTLE_R5.ringTimeoutMs) {
+      this.send(s, this.act(p.id, p.target, 'plain'));
+      return;
+    }
+    const dot = this.sheet.querySelector<HTMLElement>('.bs-ring-dot');
+    if (dot) dot.style.left = `${(this.ringPos(now) * 100).toFixed(1)}%`;
+  }
+
+  // ---------- the Command bout (recs FIGHT-40, FIGHT-41) ----------
+
+  private atbSheet(s: BattleState): void {
+    const box = this.sheet;
+    const me = s.sides[0].find((c) => onField(s, c)) ?? s.sides[0][0];
+    const foe = s.sides[1].find((c) => onField(s, c));
+    if (this.view === 'item' || this.view === 'target') {
+      if (me) this.itemButtons(s, me, foe, box);
+      return;
+    }
+    this.gauges.clear();
+    this.orderBtns.clear();
+    const list = el('div', 'bs-gauges');
+    for (const c of [...s.sides[0], ...s.sides[1]]) {
+      if (!onField(s, c)) continue;
+      const row = el('div', `bs-gauge ${c.side === 0 ? 'ally' : 'foe'}`);
+      const name = combatantName(c);
+      const bar = el('div', 'bs-gauge-bar');
+      bar.setAttribute('role', 'progressbar');
+      bar.setAttribute('aria-valuemin', '0');
+      bar.setAttribute('aria-valuemax', '100');
+      bar.setAttribute('aria-label', name);
+      const fill = el('span');
+      bar.appendChild(fill);
+      const num = el('small', 'bs-gauge-num');
+      row.append(el('span', 'bs-gauge-name', name), bar, num);
+      list.appendChild(row);
+      this.gauges.set(c.id, { fill, num, name });
+    }
+    box.appendChild(list);
+    const grid = el('div', 'bs-grid bs-orders');
+    grid.setAttribute('role', 'group');
+    grid.setAttribute('aria-label', ATB_TEXT.ordersLabel);
+    for (const cmd of ATB_COMMANDS) {
+      const o = ATB_TEXT.orders[cmd];
+      const b = this.big(`${o.icon} ${o.name}`, '', () => this.order(cmd), 'bs-order');
+      b.appendChild(el('i', 'bs-cd'));
+      grid.appendChild(b);
+      this.orderBtns.set(cmd, b);
+    }
+    box.appendChild(grid);
+    const row = el('div', 'bs-row');
+    const item = button(T.item, () => this.setView('item'), 'btn bs-act');
+    item.disabled = !BATTLE_ITEMS.some((i) => itemsLeft(s, 0, i) > 0);
+    row.appendChild(item);
+    box.appendChild(row);
+    this.updateAtb(s);
+  }
+
+  private order(cmd: AtbCommand): void {
+    const s = this.bout();
+    if (!s?.atb || s.result || cooldownLeft(s, cmd) > 0) return;
+    this.raw(s, { k: 'order', cmd });
+  }
+
+  /** Gauges and cooldown rings follow the sim every frame. */
+  private updateAtb(s: BattleState): void {
+    const t = s.atb;
+    if (!t) return;
+    for (const [id, g] of this.gauges) {
+      const v = Math.max(0, Math.min(100, t.gauge[id] ?? 0));
+      g.fill.style.width = `${v}%`;
+      g.fill.parentElement?.setAttribute('aria-valuenow', String(Math.round(v)));
+      g.num.textContent = `${Math.round(v)}%`;
+    }
+    const benchEmpty = bench(s, 0).length === 0;
+    for (const [cmd, b] of this.orderBtns) {
+      const left = cooldownLeft(s, cmd);
+      const share = Math.min(1, left / BATTLE_ATB.cooldownMs);
+      b.style.setProperty('--cd', share.toFixed(3));
+      const off = left > 0 || !!s.result || (cmd === 'back' && benchEmpty);
+      if (b.disabled !== off) b.disabled = off;
+      const small = left > 0 ? ATB_TEXT.wait(left / 1000) : ATB_TEXT.ready;
+      const sub = b.querySelector('small') ?? b.appendChild(el('small'));
+      if (sub.textContent !== small) sub.textContent = small;
+    }
+  }
+
+  /** The tab hides: stop a Command bout's clock; it starts again a moment after it shows. */
+  private onVisibility(): void {
+    const s = this.bout();
+    if (this.root.hidden || !s?.atb || s.result) return;
+    if (document.hidden) {
+      this.raw(s, { k: 'pause', why: 'hidden', on: true });
+      return;
+    }
+    // Two frames late, so the first long frame back is spent paused, not fighting.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        const b = this.bout();
+        if (b?.atb && !b.result && !document.hidden)
+          this.raw(b, { k: 'pause', why: 'hidden', on: false });
+      }),
+    );
+  }
+
+  // ---------- "Inspect foe" (recs FIGHT-77) ----------
+
+  private inspect(): void {
+    const s = this.bout();
+    if (!s || s.result || this.root.hidden) return;
+    const foe = this.shown(s, 1);
+    if (foe) openInspect(this.root.parentElement ?? document.body, s, foe);
   }
 
   // ---------- results ----------
 
   private showResults(s: BattleState): void {
+    closeInspect();
     const r = s.result!;
     const box = this.results;
     box.innerHTML = '';
@@ -704,8 +1060,14 @@ export class BattleScreen {
               : T.draw;
     card.appendChild(el('h2', undefined, T.results));
     card.appendChild(el('p', 'celebrate-form', title));
-    const shells = prizeFor(s.context, r, !!s.gentle);
+    // The sim's own account of the bout (FIGHT-74) when it has one, else the prize table.
+    const sp = s.spoils;
+    const shells = sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
     if (shells > 0) card.appendChild(el('p', undefined, BATTLE_TEXT.prize(shells, NAMES.currency)));
+    if (sp) this.spoilLines(s, sp.gained, card);
+    if (sp?.hat)
+      card.appendChild(el('p', undefined, SPOILS_TEXT.hat(HAT_LABELS[sp.hat] ?? sp.hat)));
+    if (sp?.cards.length) card.appendChild(el('p', undefined, SPOILS_TEXT.cards(sp.cards.length)));
     for (const f of s.sides[1]) {
       if (f.friend) card.appendChild(el('p', undefined, T.newFriend(combatantName(f))));
       else if (f.calm !== undefined)
@@ -715,5 +1077,27 @@ export class BattleScreen {
     box.appendChild(card);
     box.hidden = false;
     playSound(r.winner === 0 ? 'win' : 'sad');
+    if (this.root.contains(document.activeElement) || document.activeElement === document.body)
+      card.querySelector<HTMLButtonElement>('button')?.focus({ preventScroll: true });
+  }
+
+  /** "Nono: +12 Power, +4 Stamina" for each Nubbin that gained points. */
+  private spoilLines(
+    s: BattleState,
+    gained: Record<string, Partial<Record<StatKey, number>>>,
+    card: HTMLElement,
+  ): void {
+    const g = this.game();
+    for (const [id, stats] of Object.entries(gained)) {
+      const list = (Object.keys(stats) as StatKey[])
+        .filter((k) => (stats[k] ?? 0) > 0)
+        .map((k) => SPOILS_TEXT.stat(STAT_SHORT[k], stats[k]!));
+      if (!list.length) continue;
+      const ally = s.sides[0].find((c) => c.nubbinId === id);
+      const name = ally
+        ? combatantName(ally)
+        : (g?.world.nubbins.find((n) => n.id === id)?.name ?? id);
+      card.appendChild(el('p', 'bs-spoils', SPOILS_TEXT.points(name, list.join(', '))));
+    }
   }
 }

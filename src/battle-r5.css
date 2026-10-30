@@ -1,0 +1,290 @@
+/*
+ * Lane C round 5 battle screens: the pre-bout sheet (recs FIGHT-86), the "Inspect foe" card
+ * (FIGHT-77), the doubles "Who?" pick (FIGHT-60), the timing ring (FIGHT-87), the Command
+ * bout's gauges, orders and "Paused" veil (FIGHT-40, FIGHT-41), and the Tab order (FIGHT-79).
+ * Kept apart from style.css and battle.css so this round touches neither.
+ */
+
+/* The battle screen's parts are placed by grid, so the DOM order can be the Tab order. */
+.battle-screen > .bs-top {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+.battle-screen > .bs-stage {
+  grid-row: 2;
+  grid-column: 1;
+}
+.battle-screen > .bs-panel {
+  grid-row: 3;
+  grid-column: 1;
+}
+@media (orientation: landscape) and (min-width: 600px) {
+  .battle-screen > .bs-panel {
+    grid-row: 2;
+    grid-column: 2;
+  }
+}
+.battle-screen:focus {
+  outline: none;
+}
+
+/* The foe's card opens Inspect. */
+.bs-card.foe {
+  pointer-events: auto;
+  cursor: pointer;
+  min-height: 44px;
+}
+.bs-card.foe:focus-visible {
+  outline: 3px solid #ffd76a;
+}
+
+/* The pre-bout sheet. */
+.bs-prebout {
+  z-index: 41;
+  align-items: stretch;
+  overflow: auto;
+  color: #fff6e0;
+}
+.bs-prebout-card {
+  display: flex;
+  flex-direction: column;
+  width: min(560px, 100%);
+  min-height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  padding-top: max(8px, env(safe-area-inset-top));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+.bs-prebout-card:focus {
+  outline: none;
+}
+.bs-prebout-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bs-prebout-head h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.bs-prebout-head .btn {
+  min-height: 44px;
+  min-width: 44px;
+}
+.bs-prebout-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+}
+.bs-pb-sec h3 {
+  margin: 6px 0 4px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.8;
+}
+.bs-pb-obj {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+}
+.bs-pb-lv {
+  margin: 2px 0 0;
+  opacity: 0.85;
+}
+.bs-pb-party {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.bs-pb-member {
+  display: grid;
+  grid-template-columns: 40px auto;
+  column-gap: 8px;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(255, 246, 224, 0.08);
+}
+.bs-pb-member .bs-portrait {
+  grid-row: 1 / 3;
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+}
+.bs-pb-change {
+  min-height: 44px;
+}
+.bs-pb-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 6px;
+}
+.bs-pb-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 56px;
+  padding: 6px 10px;
+  text-align: left;
+}
+.bs-pb-choice small {
+  font-size: 12px;
+  opacity: 0.85;
+}
+.bs-pb-choice[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 3px #ffd76a;
+  background: #3a2e5c;
+}
+/* Not by colour alone: a tick on the chosen one. */
+.bs-pb-choice[aria-pressed='true'] strong::before {
+  content: '✓ ';
+}
+.bs-pb-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.bs-pb-skip {
+  min-height: 48px;
+}
+.bs-pb-play {
+  min-height: 64px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Dialogs over the battle screen. */
+.modal.bs-pick {
+  z-index: 45;
+}
+.modal.bs-inspect {
+  z-index: 60;
+}
+.bs-inspect-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 12px;
+  margin: 0;
+}
+.bs-inspect-list dt {
+  font-weight: 700;
+}
+.bs-inspect-list dd {
+  margin: 0;
+}
+
+/* Doubles: "Who?" with portraits. */
+.bs-who {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+.bs-who .bs-portrait {
+  grid-row: 1 / 3;
+  width: 40px;
+  height: 40px;
+  image-rendering: pixelated;
+}
+
+/* The timing ring: a dot sweeping across a sweet zone. */
+.bs-ring {
+  position: relative;
+  overflow: hidden;
+  min-height: 64px;
+}
+.bs-ring-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 215, 106, 0.4);
+  border-left: 2px dashed #ffd76a;
+  border-right: 2px dashed #ffd76a;
+}
+.bs-ring-dot {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 8px;
+  margin-left: -4px;
+  border-radius: 4px;
+  background: #fff;
+}
+
+/* The Command bout. */
+.bs-gauges {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+}
+.bs-gauge {
+  display: grid;
+  grid-template-columns: minmax(64px, 30%) 1fr 3em;
+  gap: 6px;
+  align-items: center;
+}
+.bs-gauge-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 246, 224, 0.2);
+  overflow: hidden;
+}
+.bs-gauge-bar span {
+  display: block;
+  height: 100%;
+  background: #8cd0f2;
+}
+.bs-gauge.foe .bs-gauge-bar span {
+  background: #f28c8c;
+}
+.bs-gauge-num {
+  text-align: right;
+}
+.bs-order {
+  position: relative;
+  min-height: 64px;
+}
+.bs-cd {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: conic-gradient(rgba(255, 246, 224, 0.85) calc(var(--cd, 0) * 360deg), transparent 0);
+  border: 2px solid rgba(255, 246, 224, 0.6);
+}
+.bs-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 10, 26, 0.75);
+  font-size: 22px;
+}
+.bs-veil[hidden] {
+  display: none;
+}
+.bs-veil p {
+  font-size: 14px;
+}
+.bs-spoils {
+  margin: 2px 0;
+  font-size: 14px;
+}
+
+/* Debug → Battle (FIGHT-80) must be usable over a live bout. */
+.debug:not([hidden]) {
+  z-index: 50;
+}

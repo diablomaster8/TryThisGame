@@ -6,7 +6,17 @@ import { generateV2 } from './dungeon-gen';
 import { generateV3, v3OptionsFor } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
 import { hopAcross, stepFall } from './dungeon-falls';
-import { maySnatch, pickTrail, shooStray, snatch, stepStray } from './dungeon-strays';
+import {
+  maySnatch,
+  pickTrail,
+  shooStray,
+  stepStray,
+  stepStrayAsk,
+  strayBoutEnded,
+  strayBoutLive,
+} from './dungeon-strays';
+import { rumbleEnded, stepRumble } from './dungeon-rumble';
+import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
 import { forfeitBattleCmd } from './battle';
@@ -699,8 +709,8 @@ export function exploredRooms(run: DungeonRun, f: Floor): boolean[] {
 }
 
 /** Mark the cells round a cell seen. Writes the save string only when something changed. */
-export function revealAround(run: DungeonRun, f: Floor, c: Cell): void {
-  const r = DUNGEON.explore.radius + shrineSight(run);
+export function revealAround(run: DungeonRun, f: Floor, c: Cell, extra = 0): void {
+  const r = DUNGEON.explore.radius + shrineSight(run) + extra;
   const mask = exploredMask(run, f);
   let changed = false;
   for (let dy = -r; dy <= r; dy++) {
@@ -1088,6 +1098,9 @@ export function encounterDone(world: World, outcome: EncounterOutcome, events: S
  */
 export function hollowBattleEnded(world: World, fresh: SimEvent[], events: SimEvent[]): void {
   const run = world.dungeon;
+  // Round 5: the stray's calm bout (R0281) and the rumble rooms' tactics bouts (R0257).
+  if (run?.strayBout) strayBoutEnded(world, fresh, events);
+  if (run && fresh.some((e) => e.kind === 'tacticsEnd')) rumbleEnded(world, fresh, events);
   const enc = run?.encounter;
   const f = runFloor(world);
   if (!enc || !f) return;
@@ -1123,6 +1136,7 @@ export function feedStray(world: World, id: string, events: SimEvent[]): void {
   if (!run || !f) return;
   const s = run.strays.find((x) => x.id === id);
   if (!s) return;
+  if (run.strayAsk?.id === id) delete run.strayAsk;
   if (world.inventory.fruit < 1) {
     // No fruit: a party Nubbin chases it off instead, if one has the energy (R0162).
     if (shooStray(world, run, id, events)) return;
@@ -1207,7 +1221,8 @@ function takeLoot(
   switch (loot.kind) {
     case 'shells':
       // A Sunny shrine finds a quarter more (R0159).
-      amount = Math.round(amount * shrineShells(run));
+      // Gloves and Sunny gear add a few to every handful (R0164).
+      amount = Math.round(amount * shrineShells(run) + gearStat(world, 'shells'));
       inv.shells += amount;
       run.haul.shells += amount;
       break;
@@ -1267,8 +1282,9 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const f = runFloor(world);
   if (!run || !f || dtMs > 1000) return;
   if (run.loading) return;
-  // A fight holds the floor still, the Keeper too (the bout panel is up).
-  if (run.encounter) {
+  // A fight holds the floor still, the Keeper too (the bout panel or the tactics board is up).
+  const held = !!run.encounter || strayBoutLive(world, run, events) || !!world.tactics;
+  if (held) {
     world.keeper.moveTarget = null;
     world.keeper.intent = null;
     run.pending = null;
@@ -1278,13 +1294,13 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const dt = dtMs / 1000;
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
-  revealAround(run, f, cellOf(f, k.pos));
+  revealAround(run, f, cellOf(f, k.pos), Math.floor(gearStat(world, 'explore')));
   stepFall(world, run, f, events);
 
   // Anything the Keeper walks over.
   for (const l of f.loot) {
     if (!available(l)) continue;
-    if (dist(k.pos, cellCentre(f, l.cell)) <= DUNGEON.pickupRadius)
+    if (dist(k.pos, cellCentre(f, l.cell)) <= DUNGEON.pickupRadius + gearStat(world, 'pickup'))
       takeLoot(world, run, l, null, rng, events);
   }
   stepWaypoint(world, run, f, events);
@@ -1321,12 +1337,24 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
 
   // Monster packs (R0146); a fight under way holds the rest of the floor still.
   stepPacks(world, f, dtMs, rng, events, settling);
-  if (run.encounter || world.dungeon !== run || runFloor(world) !== f) return;
+  if (run.encounter || held || world.dungeon !== run || runFloor(world) !== f) return;
+  // Rumble rooms (R0257, R0282): walking in starts a tactics bout on this very room.
+  if (!settling) stepRumble(world, run, f, events);
+  if (world.tactics) return;
 
   // Strays wander, flee after a snatch, and snatch Shells when they bump the Keeper.
-  for (const s of run.strays) {
+  for (const s of [...run.strays]) {
     s.cooldownMs = Math.max(0, s.cooldownMs - dtMs);
     const fleeing = s.cooldownMs > 0;
+    // R0281: a stray that bumped the Keeper holds still and asks before it snatches.
+    const touching =
+      !fleeing && maySnatch(s, settling) && dist(s.pos, k.pos) < 0.9 && world.inventory.shells > 0;
+    if (stepStrayAsk(world, run, s, touching, dtMs, events)) continue;
+    if (s.cooldownMs > 0 && !fleeing) {
+      // It just snatched after asking: off it runs.
+      const away = randomOpenCell(f, rng, null, 0);
+      s.target = away ? cellCentre(f, away) : null;
+    }
     if (
       !s.target ||
       walkToward(s.pos, s.target, fleeing ? DUNGEON.strayFleeSpeed : DUNGEON.straySpeed, dt)
@@ -1337,16 +1365,6 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     resolveDungeon(s.pos, f, 0.3, 'all');
     // R0162: the snatched Shells drop as a trail behind it; twice a floor at most.
     stepStray(world, run, f, s, dtMs);
-    if (
-      !fleeing &&
-      maySnatch(s, settling) &&
-      dist(s.pos, k.pos) < 0.9 &&
-      world.inventory.shells > 0
-    ) {
-      snatch(world, run, s, events);
-      const away = randomOpenCell(f, rng, null, 0);
-      s.target = away ? cellCentre(f, away) : null;
-    }
   }
   pickTrail(world, run, events);
 

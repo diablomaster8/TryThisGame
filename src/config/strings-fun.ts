@@ -31,3 +31,28 @@ export function goalDoneLine(chapter: number, sprout: boolean): string {
   const l = GOAL_DONE_TEXT.lines;
   return l[(((chapter - 1) % l.length) + l.length) % l.length]!;
 }
+
+/**
+ * R0304 (FUN-15): the opening's interactive beats. The gate sticks once and gives on the
+ * second push; the cup is one tap. Sprout labels are the refrain the script already uses.
+ */
+export const LINE_ACT_TEXT = {
+  gate: {
+    hint: 'Hold the gate to lift it, then push up.',
+    lift: 'Lift…',
+    push: 'Push!',
+    stuck: 'It sticks. Lift and push again.',
+    open: 'It gives.',
+    sproutHint: 'Lift and push! Lift and push!',
+    label: 'The stuck gate: hold to lift, then swipe up or let go to push',
+  },
+  cup: {
+    hint: 'One cup, upside down. Turn it the right way up?',
+    button: 'Turn the cup over',
+    leave: 'Leave it',
+    done: 'You set it right way up. For whoever comes next.',
+  },
+} as const;
+
+export * from './strings-fun-r5';
+export * from './strings-badges';

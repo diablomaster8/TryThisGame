@@ -30,7 +30,7 @@ export const litCount = (s: TacticsState): number =>
 export function checkObjective(s: TacticsState): TacticsResult | null {
   const o = s.objective;
   const p = s.progress;
-  const allies = s.units.filter((u) => u.c.side === 0);
+  const allies = s.units.filter((u) => u.c.side === 0 && !u.keeper);
   const foes = s.units.filter((u) => u.c.side === 1);
   if (!allies.some(up))
     return { winner: 1, reason: o.kind === 'tuckerAll' ? 'tuckered' : 'failed' };

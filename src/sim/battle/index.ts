@@ -62,3 +62,5 @@ export {
 export { onField, standing } from './damage';
 export { battleSeedFor, contextKey, karatePrize, partyPrize, prizeFor } from './rewards';
 export { replay } from './replay';
+export { autoResolve, skippable } from './auto';
+export { pairSeen, seenPair } from './seen';

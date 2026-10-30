@@ -44,6 +44,9 @@ import { loseReflection, reflectEternal } from '../sim/reflection';
 import { readGroveSaves, readSide, writeSide, type SideSave } from '../platform/storage';
 import type { Dialogue } from './dialogue';
 import { button, el, modal } from './dom';
+import { MicroScreen } from '../minigames/micro/micro-screen';
+import { MICRO_BUILT, microFor } from '../sim/micro';
+import { hashSeed } from '../sim/rng';
 
 /** A fresh read-only snapshot of the side saves and every Grove save on this device. */
 export function readCrossSaves(): CrossSaves {
@@ -76,6 +79,8 @@ export class StoryShelf {
   private lines: StoryLine[] | null = null;
   private page: StoryLine | null = null;
 
+  private readonly micro: MicroScreen;
+
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
@@ -86,6 +91,8 @@ export class StoryShelf {
     this.dialog = modal(parent, config.title, 'Close');
     this.body = el('div');
     this.dialog.body.appendChild(this.body);
+    // R0294: the micro-games that stand in for a bare "Do it".
+    this.micro = new MicroScreen(parent);
   }
 
   open(): void {
@@ -212,8 +219,17 @@ export class StoryShelf {
           button(
             ATLAS_TEXT.doIt,
             () => {
-              this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
-              this.refresh();
+              const act = (): void => {
+                this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
+                this.refresh();
+              };
+              // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
+              const step = next.quest.steps.find((s) => s.goal === next.goal);
+              const kind = step ? microFor(step.check) : null;
+              if (kind && MICRO_BUILT.has(kind)) {
+                const seed = Math.abs(hashSeed(`${line.id}:${step!.id}`));
+                this.micro.open(kind, next.goal, seed, this.game()?.reduceMotion ?? false, act);
+              } else act();
             },
             'btn btn-primary',
           ),

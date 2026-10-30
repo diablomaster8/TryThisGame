@@ -6,7 +6,7 @@ import { applyFruit, decayNeeds, isHungry, sampleHappiness } from './needs';
 import { isFree } from './nubbin';
 import { stepSlips } from './slips';
 import { addPoints } from './stats';
-import type { AwayReport, OfflineAgingSettings, SimEvent, World } from './types';
+import type { AwayReport, AwayTally, OfflineAgingSettings, SimEvent, World } from './types';
 import { fruitIntervalMs, hatchSpeed, stepWorld } from './world';
 
 /**
@@ -54,10 +54,17 @@ export function* catchUpInChunks(
   const span = allowedSpan(elapsedMs, settings);
   const events: SimEvent[] = [];
   const { coarseSteps, fineSteps } = splitSpan(span);
+  // R0316: the diary's counts, kept only while this catch-up runs.
+  const counts: AwayTally = { ate: {}, naps: {}, rained: world.weather.kind === 'rain' };
+  tally = counts;
 
-  for (let i = 0; i < coarseSteps; i++) {
-    coarseStep(world, SIM.coarseStepMs, events);
-    if ((i + 1) % chunkSteps === 0 && i + 1 < coarseSteps) yield (i + 1) / coarseSteps;
+  try {
+    for (let i = 0; i < coarseSteps; i++) {
+      coarseStep(world, SIM.coarseStepMs, events);
+      if ((i + 1) % chunkSteps === 0 && i + 1 < coarseSteps) yield (i + 1) / coarseSteps;
+    }
+  } finally {
+    tally = null;
   }
   for (let i = 0; i < fineSteps; i++) {
     // The leftover under a minute still counts as time away: a Nubbin waiting for the
@@ -67,7 +74,13 @@ export function* catchUpInChunks(
 
   world.lastWallMs = nowWallMs;
   const simulatedMs = coarseSteps * SIM.coarseStepMs + fineSteps * SIM.stepMs;
-  return { elapsedMs, simulatedMs, mode: settings.mode, events: events.filter(isReportable) };
+  return {
+    elapsedMs,
+    simulatedMs,
+    mode: settings.mode,
+    events: events.filter(isReportable),
+    tally: counts,
+  };
 }
 
 function isReportable(e: SimEvent): boolean {
@@ -80,6 +93,9 @@ function isReportable(e: SimEvent): boolean {
     e.kind === 'awaitingKeeper'
   );
 }
+
+/** R0316: the running catch-up's diary counts (null outside one). */
+let tally: AwayTally | null = null;
 
 /**
  * One coarse step: needs, stage timers and trees only. Nubbins eat from the trees on
@@ -98,6 +114,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
         .sort((a, b) => a.needs.hunger - b.needs.hunger)[0];
       if (hungry && isHungry(hungry)) {
         applyFruit(hungry);
+        if (tally) tally.ate[hungry.id] = (tally.ate[hungry.id] ?? 0) + 1;
         addPoints(hungry.stats.stamina, NEEDS.fruitStaminaPoints);
       }
     }
@@ -111,6 +128,7 @@ export function coarseStep(world: World, dtMs: number, events: SimEvent[]): void
     // Sleep when exhausted, otherwise rest a little: coarse steps do not model naps.
     if (n.needs.energy <= 0) {
       n.behavior.state = 'nap';
+      if (tally) tally.naps[n.id] = (tally.naps[n.id] ?? 0) + 1;
       n.needs.energy = 0.6;
     } else if (isFree(n) && n.behavior.state !== 'sit') {
       n.behavior.state = 'sit';

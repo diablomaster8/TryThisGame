@@ -23,10 +23,13 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { gearGlyph, gearName } from './dungeon-gear';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
   TRAP_TEXT,
+  GEAR_TEXT,
+  RUMBLE_TEXT,
   UNIQUE_RESULT_TEXT,
   UNIQUE_TEXT,
 } from '../config/strings-dungeon';
@@ -65,7 +68,11 @@ import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
-import { BarkBubble } from './bark-bubble';
+import { AmbientBubbles, BarkBubble } from './bark-bubble';
+import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
+import { HatchCard } from './hatch-card';
+import { nextTip } from './tips';
+import { tapToy } from './tap-toy';
 import { isGameKey, isTypingTarget } from '../input/keys';
 import { SettingsMenu } from './settings';
 import { StatsSheet } from './stats-sheet';
@@ -112,7 +119,7 @@ import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
-import { EduPrompt, ObjectiveChip } from './objective';
+import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
 import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
@@ -286,6 +293,10 @@ export function mountHud(
   const hopCourse = new HopCourseChip(root);
   // R0295: the Keepers' speech bubbles.
   const barkBubble = new BarkBubble(root);
+  // R0296 / R0297: the Keepers' routine lines and passing chatter.
+  const ambientBubbles = new AmbientBubbles(root, barkBubble);
+  // R0312: a hatch is one card (ui/hatch-card.ts).
+  const hatchCard = new HatchCard(root, game);
   // MOVE-55: the "Look around" chip on a lookout.
   const lookout = new LookoutChip(
     root,
@@ -329,6 +340,8 @@ export function mountHud(
     }
     sheet.close();
     g.renderPaused = true;
+    // R0318: a tip while the stage loads.
+    expedition.loadTip = nextTip(g.world);
     expedition.start(
       runner,
       g.view.sheets.forNubbin(runner),
@@ -377,7 +390,8 @@ export function mountHud(
   // Read out politely by screen readers; each toast is added as a new node.
   toasts.setAttribute('role', 'status');
   toasts.setAttribute('aria-live', 'polite');
-  const toast = makeToaster(toasts);
+  // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
+  const toast = bandToaster(makeToaster(toasts), game);
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -812,6 +826,7 @@ export function mountHud(
         g.framePollers.push(() => hopLesson.update(g.world));
         g.framePollers.push(() => hopCourse.update(g.world));
         g.framePollers.push(() => barkBubble.update(g, performance.now()));
+        g.framePollers.push(() => ambientBubbles.update(g, performance.now()));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -1027,10 +1042,12 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       for (const e of events) {
+        // R0319: the chip's how-to steps tick off on their events.
+        noteHowTo(g.world, e.kind);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         if (e.kind === 'hatched') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.hatched(n?.name ?? NAMES.creature));
+          hatchCard.add(n, n?.name ?? NAMES.creature);
           playSound('hatch');
           armPersistRequest();
         } else if (e.kind === 'evolved') {
@@ -1221,7 +1238,7 @@ export function mountHud(
         } else if (e.kind === 'decorRefused') {
           toast(UI_TEXT.decorRefused[e.reason]);
         } else if (e.kind === 'firstSeen') {
-          toast(UI_TEXT.firstSeen(keyLabel(e.key)));
+          if (!hatchCard.foldFirstSeen(e.key)) toast(UI_TEXT.firstSeen(keyLabel(e.key)));
         } else if (e.kind === 'received') {
           toast(e.ok ? UI_TEXT.received(e.name) : UI_TEXT.receiveFull);
         } else if (e.kind === 'traded') {
@@ -1280,6 +1297,28 @@ export function mountHud(
           toast(
             e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
           );
+        } else if (e.kind === 'rumbleRoom') {
+          // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
+          const p = RUMBLE_TEXT.prefix[e.prefix] ?? '';
+          if (e.phase === 'start') toast(RUMBLE_TEXT.start(p));
+          else if (e.phase === 'lost') toast(RUMBLE_TEXT.lost);
+          else {
+            const l = e.loot;
+            const what =
+              l?.kind === 'hat'
+                ? RUMBLE_TEXT.loot.hat(l.param)
+                : l?.kind === 'critter'
+                  ? RUMBLE_TEXT.loot.critter(l.param)
+                  : RUMBLE_TEXT.loot.shells(l?.amount ?? 0);
+            toast(`${RUMBLE_TEXT.won(p)} ${what}`);
+            playSound('buy');
+          }
+        } else if (e.kind === 'gearFound') {
+          toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'strayAsk') {
+          toast(RUMBLE_TEXT.strayAsk);
+        } else if (e.kind === 'strayCalmed') {
+          toast(e.ok ? RUMBLE_TEXT.calmed(e.shells) : RUMBLE_TEXT.calmFailed);
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {
@@ -1371,10 +1410,17 @@ export function mountHud(
           toast(TEN_TEXT.townGrew(TEN_TEXT.unlockNames[e.unlock] ?? e.unlock));
           playSound('win');
         } else if (e.kind === 'slip') {
-          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(
-            TEN_TEXT.slipToast(n?.name ?? NAMES.creature, TEN_TEXT.slipNames[e.slip] ?? e.slip),
-          );
+          // R0307: say what helps; the "(A slip.)" tag is on the stats sheet only.
+          toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'slipSoon') {
+          toast(slipNudge(g.world, e.nubbinId, e.slip));
+        } else if (e.kind === 'npcBark') {
+          const npc = g.world.npcs.find((x) => x.id === e.npcId);
+          const name = npc ? (TRAINER_LABELS[npc.trainer]?.name ?? npc.trainer) : '';
+          ambientBubbles.show(e.npcId, name, e.text, performance.now());
+        } else if (e.kind === 'fernStone') {
+          toast(fernStoneLine(g.world, e.line, e.stones));
+          playSound('pop');
         } else if (e.kind === 'wellRaised') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           toast(TEN_TEXT.wellRaised(n?.name ?? NAMES.creature));
@@ -1488,6 +1534,9 @@ export function mountHud(
         toast(UI_TEXT.decorPickedUp);
         return;
       }
+      // R0322: repeated taps on a Nubbin squeak up the scale (ui/tap-toy.ts).
+      if (id && g && g.world.nubbins.some((n) => n.id === id))
+        tapToy(g, id, sheet.selectedId, performance.now());
       if (id) sheet.open(id);
       else sheet.close();
     },

@@ -12,6 +12,9 @@ import type { SideStoryState } from '../sim/types';
 import type { JournalView } from '../sim/storyline';
 import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
+import { MicroScreen } from '../minigames/micro/micro-screen';
+import { MICRO_BUILT, microFor } from '../sim/micro';
+import { hashSeed } from '../sim/rng';
 import { LANG_TEXT } from '../config/strings';
 import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
@@ -57,11 +60,15 @@ export class Journal {
   private readonly body: HTMLDivElement;
   private page: 'chapter' | 'paths' | 'endings' | 'places' = 'chapter';
 
+  private readonly micro: MicroScreen;
+
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, STORY_TEXT.journal, 'Close');
+    // R0294: the micro-games that stand in for a bare "Do it".
+    this.micro = new MicroScreen(parent);
     this.body = el('div');
     this.dialog.body.appendChild(this.body);
     this.trace = new TraceGame(parent, game);
@@ -226,7 +233,13 @@ export class Journal {
               // The Journal steps aside first, so the scene the step starts plays in the
               // clear rather than under it (review 2026-10-21, bug 29).
               this.dialog.hide();
-              g.send({ kind: 'sideAct', story: id });
+              const act = (): void => g.send({ kind: 'sideAct', story: id });
+              // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
+              const kind = waiting ? null : microFor(step.check);
+              if (kind && MICRO_BUILT.has(kind)) {
+                const seed = Math.abs(hashSeed(`${id}:${step.id}`));
+                this.micro.open(kind, step.goal, seed, g.reduceMotion, act);
+              } else act();
             },
             'btn btn-small',
           ),
