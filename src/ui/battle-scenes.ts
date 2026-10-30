@@ -1,4 +1,10 @@
-import { BATTLES_CIRCUIT_VARIANTS, BATTLES_STORY_LOGGED, BATTLES_STORY_VARIANTS } from '../content';
+import {
+  BATTLES_CIRCUIT_VARIANTS,
+  BATTLES_PLAYDAY_VARIANTS,
+  BATTLES_STORY_LOGGED,
+  BATTLES_STORY_VARIANTS,
+} from '../content';
+import { eduContent, textBandOf } from '../sim/story-scenes';
 import type { Scene } from '../config/story';
 import { RESUME_TEXT, STORY_BOUT_TEXT } from '../config/strings-battle-r6';
 import type { Game } from '../game';
@@ -21,6 +27,8 @@ import { button, el, modal } from './dom';
  * once; the dojo asks for scenes through here, so neither file needs the other.
  */
 let dialogue: Dialogue | null = null;
+/** Play-fight Day is offered once a session at most, even before the sim has noted it. */
+let playdayTried = false;
 
 export function setBattleDialogue(d: Dialogue): void {
   dialogue = d;
@@ -28,17 +36,54 @@ export function setBattleDialogue(d: Dialogue): void {
 
 const ALL: readonly Scene[] = [
   ...BATTLES_CIRCUIT_VARIANTS,
+  ...BATTLES_PLAYDAY_VARIANTS,
   ...BATTLES_STORY_VARIANTS,
   ...BATTLES_STORY_LOGGED,
 ];
 
 /** Plays a battle scene by id; `onDone` gets the choice made. False when there is none. */
-export function playBattleScene(id: string, onDone: (choice: string | null) => void): boolean {
+export function playBattleScene(
+  id: string,
+  onDone: (choice: string | null) => void,
+  g?: Game,
+): boolean {
   const scene = ALL.find((s) => s.id === id);
   if (!scene || !dialogue) return false;
-  dialogue.playScene(scene, {}, onDone);
+  // In the Learning Grove a scene with a band version plays that, lessons and all.
+  const band = g ? textBandOf(g.world) : 'main';
+  const edu = band !== 'main' ? eduContent()?.eduSceneFor(band, id) : undefined;
+  if (edu) {
+    const lines = edu.lines;
+    dialogue.playScene({ ...scene, lines, choices: edu.choices ?? [] }, {}, onDone, edu.lessons);
+  } else dialogue.playScene(scene, {}, onDone);
   return true;
 }
+
+/**
+ * Play-fight Day (FIGHT-24, FIGHT-83): the first time the Keeper opens Gentle bouts, its three
+ * scenes play in turn (the Learning Grove's band versions in kid mode). Never in chapters 9–11.
+ */
+export function playPlayDay(g: Game, after: () => void): void {
+  const ch = g.world.campaign?.chapter ?? 0;
+  if (
+    playdayTried ||
+    (ch >= 9 && ch <= 11) ||
+    g.world.battleOnce?.keepsakes.includes(PLAYDAY_SEEN)
+  ) {
+    after();
+    return;
+  }
+  playdayTried = true;
+  g.send({ kind: 'battleKeepsake', id: PLAYDAY_SEEN });
+  const ids = ['bc-playday-open', 'bc-playday-bout', 'bc-playday-hug'];
+  const next = (i: number): void => {
+    if (i >= ids.length || !playBattleScene(ids[i]!, () => next(i + 1), g)) after();
+  };
+  next(0);
+}
+
+/** Marks Play-fight Day as seen, once (kept with the bout keepsakes). */
+export const PLAYDAY_SEEN = 'playday-seen';
 
 /** The story battles open now and not yet won, for the dojo's list. */
 export function openStoryBouts(g: Game): StoryBoutId[] {

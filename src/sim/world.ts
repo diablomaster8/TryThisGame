@@ -14,6 +14,7 @@ import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tac
 import { startGuardian, storyBoutChoice } from './battle/story-bouts';
 import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
 import { trialClear } from './battle/tactics/trials';
+import { grantKeepsake } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -720,6 +721,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'trialClear':
       trialClear(world, cmd.id, cmd.steps, events);
+      return;
+    case 'battleKeepsake':
+      if (cmd.id === 'playday-seen') grantKeepsake(world, cmd.id);
       return;
     case 'battleResume':
       resumeBattleCmd(world);

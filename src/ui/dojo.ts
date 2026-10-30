@@ -12,7 +12,7 @@ import {
 } from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
-import { playBattleScene, storyBoutRows } from './battle-scenes';
+import { PLAYDAY_SEEN, playBattleScene, playPlayDay, storyBoutRows } from './battle-scenes';
 import { FRIENDLY_TEXT, LADDER_TEXT, TRIAL_TEXT } from '../config/strings-battle-r6';
 import { TrialsMenu } from './trials';
 import { BATTLE_R6 } from '../config/tuning-battle-r6';
@@ -36,6 +36,7 @@ export class DojoMenu {
   /** The Circuit's pre-bout scene has just played (FIGHT-22). */
   private sceneShown = false;
   private hadRibbon = false;
+  private playday = false;
   /** The trial boards (FIGHT-97), made on first use. */
   private trials: TrialsMenu | null = null;
 
@@ -54,6 +55,13 @@ export class DojoMenu {
   }
 
   open(): void {
+    const g = this.game();
+    // The Learning Grove meets Play-fight Day on its first visit (FIGHT-83).
+    if (g?.world.edu && !g.world.battleOnce?.keepsakes.includes(PLAYDAY_SEEN) && !this.playday) {
+      this.playday = true;
+      playPlayDay(g, () => this.open());
+      return;
+    }
     this.refresh();
     this.dialog.show();
   }
@@ -214,6 +222,11 @@ export class DojoMenu {
   private toggleGentle(): void {
     const g = this.game();
     if (!g) return;
+    // Turning Gentle bouts on the first time plays Play-fight Day (FIGHT-24).
+    if (!g.world.battlePrefs?.gentle) {
+      this.dialog.hide();
+      playPlayDay(g, () => this.open());
+    }
     g.send({ kind: 'battlePrefs', prefs: { gentle: !g.world.battlePrefs?.gentle } });
     // The command lands on the next step; draw the switch as it will be.
     setTimeout(() => this.refresh(), 150);

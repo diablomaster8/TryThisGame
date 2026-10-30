@@ -996,6 +996,8 @@ export type Command =
   | { kind: 'guardianStart'; depth: number; key: string; ids?: string[] }
   /** Lane C round 6 (FIGHT-64): resume a loaded bout at its turn's start, or call a draw. */
   | { kind: 'battleResume' }
+  /** Lane C round 6: a seen-once marker kept with the bout keepsakes (Play-fight Day). */
+  | { kind: 'battleKeepsake'; id: 'playday-seen' }
   | { kind: 'trialClear'; id: string; steps: ('n' | 'e' | 's' | 'w')[] }
   | { kind: 'battleDraw' }
   | { kind: 'tacticsAct'; action: TacticsAction }

@@ -249,11 +249,13 @@ export class Dialogue {
     scene: Scene,
     names: Record<string, string>,
     onDone: (choice: string | null) => void,
+    lessons: PlayScene['lessons'] = [],
   ): void {
     if (!this.game()) return;
     this.external = onDone;
     this.names = names;
-    this.start(scene.id, { ...scene, lessons: [] });
+    // Lane C round 6: a Learning Grove battle lesson (FIGHT-83) keeps its lessons.
+    this.start(scene.id, { ...scene, lessons });
   }
 
   private start(sceneId: string, scene: PlayScene): void {
