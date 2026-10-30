@@ -162,6 +162,7 @@ import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
 import { evolveFlash } from '../render/evolve-reveal';
 import { setEmoteFocus } from '../render/emote-size';
+import { SoulAmbient } from './soul-ambient';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -433,6 +434,8 @@ export function mountHud(
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
+  // R0552 (lane A r9): the Grove's snores and chirps.
+  const soulAmbient = new SoulAmbient();
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -1070,6 +1073,9 @@ export function mountHud(
       g.cameraLift = 0;
       g.cameraSide = 0;
       g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
+      // R0552 (lane A r9): snores and chat chirps near the Keeper.
+      const amb = soulAmbient.tick(g.world, performance.now());
+      if (amb) playSound(amb);
       // R0549 (lane A r9): its mood bubble is drawn big while the sheet is open.
       setEmoteFocus(g.sheetFocus?.id ?? null);
       hollowBout.update();

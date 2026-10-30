@@ -213,3 +213,10 @@ export const CARRY_FRUIT = {
   /** The hoarder sits on its stash this long. */
   sitMs: 8000,
 } as const;
+
+/** R0552: snores and chat chirps near the Keeper. */
+export const SOUL_AMBIENT = {
+  radius: 7,
+  snoreEveryMs: 3600,
+  chirpEveryMs: 2600,
+} as const;

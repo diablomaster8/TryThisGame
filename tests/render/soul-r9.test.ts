@@ -135,3 +135,20 @@ describe('R0551 picked up by personality', () => {
     expect(heldEmote(n)).toBe('heart');
   });
 });
+
+describe('R0552 snores and chirps', () => {
+  it('a nap near the Keeper snores now and then; nothing far off', async () => {
+    const { SoulAmbient } = await import('../../src/ui/soul-ambient');
+    const w = createWorld(1, 0);
+    const n = w.nubbins[0]!;
+    w.nubbins = [n];
+    n.behavior.state = 'nap';
+    w.keeper.pos = { x: n.pos.x + 2, z: n.pos.z };
+    const amb = new SoulAmbient();
+    expect(amb.tick(w, 0)).toBe('snore');
+    expect(amb.tick(w, 1000)).toBeNull();
+    expect(amb.tick(w, 4000)).toBe('snore');
+    w.keeper.pos = { x: n.pos.x + 30, z: n.pos.z };
+    expect(amb.tick(w, 9000)).toBeNull();
+  });
+});

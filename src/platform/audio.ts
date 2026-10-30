@@ -60,7 +60,10 @@ export type SoundName =
   | 'patter'
   | 'yawn'
   // Lane A r9 (R0546): a glutton's full-belly burp.
-  | 'burp';
+  | 'burp'
+  // Lane A r9 (R0552): a napping Nubbin's snore and two buddies' chat chirp.
+  | 'snore'
+  | 'chirp';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -958,6 +961,15 @@ export function playSound(name: SoundName): void {
         break;
       case 'raspberry':
         for (let i = 0; i < 6; i++) tone(110 + (i % 2) * 18, i * 45, 50, 'sawtooth', 0.025);
+        break;
+      case 'snore':
+        // A slow, soft in-breath and a low buzz out.
+        tone(220, 0, 500, 'sine', 0.02, 260);
+        tone(90, 520, 600, 'sawtooth', 0.015, 70);
+        break;
+      case 'chirp':
+        tone(1300, 0, 60, 'sine', 0.03, 1600);
+        tone(1100, 110, 70, 'sine', 0.03, 1500);
         break;
       case 'burp':
         // A low, round, falling rasp.
