@@ -3206,3 +3206,7 @@ select {
   font-size: 0.8em;
   font-weight: bold;
 }
+/* The wardrobe opens over the roster: an opaque card so the list under it does not show. */
+.wardrobe .modal-card {
+  background: #140f26;
+}
