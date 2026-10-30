@@ -1,3 +1,4 @@
+import { FarLanterns } from './far-lanterns';
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { GROVE, LANTERN_POSTS } from '../config/tuning';
@@ -36,6 +37,8 @@ export interface Lantern {
   /** Where its light shines from; the scene's lamp pool lights it at night. */
   light: THREE.Vector3;
   /** Its own materials, its foot and height: what the occluder fade needs (crowns.ts). */
+  /** Round 6: its near draws (timber, roof, stone, glass) for the far batch (`far-lanterns.ts`). */
+  parts: THREE.Mesh[];
   materials: THREE.Material[];
   foot: THREE.Vector3;
   height: number;
@@ -51,6 +54,8 @@ export interface GroveProps {
   spills: THREE.Mesh;
   blades: THREE.Group;
   grass: GroveGrass;
+  /** Round 6 phone perf: far lanterns drawn as one instanced mesh per material. */
+  farLanterns: FarLanterns;
 }
 
 /** The four lantern posts, in the pixel scene's places and with its ids. */
@@ -350,7 +355,8 @@ export function buildGroveProps(
     const light = new THREE.Vector3(x, y + 2.1, z);
     group.add(box);
     const id = `lantern-${i + 1}`;
-    for (const part of own.flush(group).values()) pick(part, 'lantern', id, pickables);
+    const parts = own.flush(group);
+    for (const part of parts.values()) pick(part, 'lantern', id, pickables);
     pick(box, 'lantern', id, pickables);
     lanterns.push({
       id,
@@ -361,9 +367,32 @@ export function buildGroveProps(
       materials: [timber, roof, stone, glass],
       foot: new THREE.Vector3(x, y, z),
       height: 2.7,
+      parts: [parts.get('timber')!, parts.get('roof')!, parts.get('stone')!, box],
     });
     spills.push({ x, z, yaw: 0, size: 3.2 });
   });
+
+  // Round 6 phone perf: lanterns far from the camera and the Keeper draw together, in
+  // materials of their own so a near lantern's fade never reaches them.
+  const farGlass = new THREE.MeshStandardMaterial({
+    color: '#ffe9b0',
+    emissive: '#ffb347',
+    emissiveIntensity: 0,
+    roughness: 0.15,
+    transparent: true,
+    opacity: 0.85,
+  });
+  const farLanterns = new FarLanterns(
+    group,
+    lanterns,
+    [
+      buildingMaterial(tex.wood, { color: '#7a5434', normal: 0.5 }),
+      buildingMaterial(tex.roof, { color: '#e9cdb8', normal: 0.5 }),
+      buildingMaterial(tex.cobble, { color: '#d8d2c8', normal: 0.5 }),
+      farGlass,
+    ],
+    farGlass,
+  );
 
   // The bridge: planks across the inflow where the path crosses it, each a little off
   // true, on two stringers, with posted rails.
@@ -490,6 +519,7 @@ export function buildGroveProps(
     spills: spillMesh,
     blades,
     grass,
+    farLanterns,
   };
 }
 

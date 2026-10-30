@@ -1607,6 +1607,7 @@ export class Grove3dScene {
     } else CrownFade.setHole2(0, 0, 0);
     this.crowns.update(this.camera.position, targets, dt);
     this.farTrees?.update(this.camera, targets);
+    this.props.farLanterns.update(this.camera, targets, this.lampsOn);
     // R0018: houses, the windmill, the shed and stalls thin out too, and the Keeper shows through.
     const hidden = occluders.update(this.camera.position, targets, 2, dt, this.reduceMotion);
     occluders.ghost(hidden, hidden ? nearestChild(this.actors.group, kp.x, kp.z, 0.5) : null);
