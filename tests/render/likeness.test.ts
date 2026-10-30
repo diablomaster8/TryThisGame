@@ -17,6 +17,10 @@ import { LINEUP_LOOKS } from '../../src/samples/nubbin-variants-lineup';
 import { NUBBIN_SPEC } from '../../src/samples/species-data';
 import { SPECIES_ART } from '../../src/render/sprites/species-art';
 import { artSpec } from '../../src/render3d/art-species';
+import { SPECIES } from '../../src/sim/species';
+import { drawCreature } from '../../src/render/sprites/creature';
+import { BIRD_SPAN } from '../../src/render/sprites/creature-bird';
+import { FLAME_PART, flameScale } from '../../src/render3d/art-flame';
 
 /**
  * Likeness checks on the Chao-line 3D specs (LOOK-67): small data tests that catch the
@@ -230,5 +234,153 @@ describe('digital-line likeness fixes (LOOK-41)', () => {
     const marks = artSpec('hugbear', SPECIES_ART.hugbear!).marks;
     const plain = artSpec('hugbear', { ...SPECIES_ART.hugbear!, addons: [] }).marks;
     expect(marks.length).toBe(plain.length + 3);
+  });
+});
+
+/**
+ * The reference table for LOOK-67 check 3: every species whose reference walks on four
+ * legs, by its inspiration (`ref` in the sim's species data, never shown).
+ */
+const FOUR_LEGGED = [
+  'Bulbasaur',
+  'Ivysaur',
+  'Venusaur',
+  'Vulpix',
+  'Ninetales',
+  'Growlithe',
+  'Arcanine',
+  'Ponyta',
+  'Rapidash',
+  'Rhyhorn',
+  'Tauros',
+  'Eevee',
+  'Vaporeon',
+  'Jolteon',
+  'Flareon',
+  'Persian',
+  'Slowpoke',
+  'Lapras',
+];
+
+describe('likeness suite: four-legged references (LOOK-67)', () => {
+  it('draws every four-legged reference on the quad plan', () => {
+    const byRef = new Map(SPECIES.map((s) => [s.ref, s.id]));
+    for (const ref of FOUR_LEGGED) {
+      const id = byRef.get(ref);
+      expect(id, ref).toBeDefined();
+      expect(SPECIES_ART[id!]!.plan, `${ref} (${id})`).toBe('quad');
+    }
+  });
+});
+
+describe('bird plan (LOOK-39)', () => {
+  const birds = ['frostplume', 'boltplume', 'blazeplume'];
+  const box = (id: string, angle: 'front' | 'side') => {
+    const pc = drawCreature(angle, poseFor('idle', 0), SPECIES_ART[id]!);
+    return pc.bounds()!;
+  };
+
+  it('puts the three legendary birds on the bird plan, each in its own dress', () => {
+    for (const id of birds) expect(SPECIES_ART[id]!.plan).toBe('bird');
+    const dress = birds.map((id) => JSON.stringify(SPECIES_ART[id]!.bird));
+    expect(new Set(dress).size).toBe(3);
+  });
+
+  it('spreads the wings well past the body from the front', () => {
+    for (const id of birds) {
+      const b = box(id, 'front');
+      // The body is about 9 px wide at this size; the span is BIRD_SPAN times that.
+      expect(b.w, id).toBeGreaterThanOrEqual(Math.round(9 * BIRD_SPAN) - 2);
+      expect(b.h, id).toBeGreaterThan(b.w * 0.8);
+    }
+  });
+
+  it('stands on thin legs with a small head in 3D, the wings big and raised', () => {
+    for (const id of birds) {
+      const s = artSpec(id, SPECIES_ART[id]!);
+      expect(s.wings?.size, id).toBeGreaterThan(1.5);
+      expect(s.wings?.raise, id).toBeGreaterThan(0);
+      expect(s.parts.filter((p) => p.name.startsWith('leg')).length, id).toBe(2);
+      expect(
+        s.parts.some((p) => p.name === 'tail'),
+        id,
+      ).toBe(true);
+    }
+  });
+});
+
+describe('flame tails and raised wings (LOOK-10)', () => {
+  it('gives every flame tail a flame part of its own and a flicker hook', () => {
+    for (const id of ['cinderkit', 'cinderclaw', 'cinderwing']) {
+      const s = artSpec(id, SPECIES_ART[id]!);
+      expect(
+        s.parts.map((p) => p.name),
+        id,
+      ).toContain(FLAME_PART);
+      expect(s.extras, id).toBeDefined();
+    }
+  });
+
+  it('flickers between 0.9 and 1.1, still when asked', () => {
+    const v = Array.from({ length: 60 }, (_, i) => flameScale(i / 360));
+    expect(Math.min(...v)).toBeGreaterThanOrEqual(0.9 - 1e-9);
+    expect(Math.max(...v)).toBeLessThanOrEqual(1.1 + 1e-9);
+    expect(Math.max(...v) - Math.min(...v)).toBeGreaterThan(0.19);
+    expect(flameScale(0.04, true)).toBe(1);
+  });
+
+  it('sweeps Charmander’s flame out past the head, so it shows from the front', () => {
+    const s = artSpec('cinderkit', SPECIES_ART.cinderkit!);
+    const head = s.head.prims.find((p) => p.tag === 'head')!;
+    const flame = s.parts.find((p) => p.name === FLAME_PART)!;
+    const x = Math.max(...flame.prims.map((p) => Math.abs((p.b ?? p.a).x)));
+    expect(x).toBeGreaterThan(head.radii!.x);
+  });
+
+  it('raises Charizard’s wings 20 degrees', () => {
+    const w = artSpec('cinderwing', SPECIES_ART.cinderwing!).wings!;
+    expect(w.raise! * (180 / Math.PI)).toBeCloseTo(20, 0);
+  });
+});
+
+describe('weakest-likeness fixes, round 9 (LOOK-39, LOOK-41)', () => {
+  it('gives Charizard a muzzle on the tall plan, Gyarados its open mouth, Tauros three tails', () => {
+    expect(SPECIES_ART.cinderwing!.plan).toBe('tall');
+    expect(SPECIES_ART.cinderwing!.extras).toContain('dinoSnout');
+    expect(SPECIES_ART.stormwyrm!.addons?.map((e) => e.kind)).toContain('gape');
+    const tails = SPECIES_ART.stampbull!.addons?.find((e) => e.kind === 'foxTails');
+    expect(tails?.n).toBe(3);
+  });
+
+  it('dresses the digital line: Angemon, the insects, Andromon, Etemon and the slugs', () => {
+    const kinds = (id: string) => SPECIES_ART[id]!.addons?.map((e) => e.kind) ?? [];
+    expect(kinds('haloknight')).toContain('angelWings');
+    expect(SPECIES_ART.haloknight!.gen1b).toContain('staff');
+    for (const id of ['thunderbug', 'snapjaw', 'buzzwing']) {
+      expect(kinds(id), id).toEqual(expect.arrayContaining(['fourArms', 'insectWings']));
+      expect(SPECIES_ART[id]!.legs, id).toBe('long');
+    }
+    expect(kinds('gearknight')).toContain('tubes');
+    expect(SPECIES_ART.groovape!.gen1b).toContain('mic');
+    for (const id of ['slugbert', 'muckblob']) {
+      expect(kinds(id), id).toEqual(expect.arrayContaining(['gape', 'drool']));
+      expect(SPECIES_ART[id]!.eyes, id).toBe('stalk');
+    }
+  });
+
+  it('sculpts the new parts in 3D', () => {
+    const n = (id: string, strip: (a: (typeof SPECIES_ART)[string]) => object) => {
+      const art = SPECIES_ART[id]!;
+      const full = artSpec(id, art);
+      const bare = artSpec(id, { ...art, ...strip(art) });
+      const count = (s: typeof full) =>
+        s.torso.prims.length +
+        s.head.prims.length +
+        s.parts.reduce((k, p) => k + p.prims.length, 0);
+      return count(full) - count(bare);
+    };
+    expect(n('haloknight', () => ({ addons: [], gen1b: [] }))).toBeGreaterThan(6);
+    expect(n('gearknight', () => ({ addons: [] }))).toBeGreaterThan(2);
+    expect(n('groovape', () => ({ gen1b: [] }))).toBeGreaterThan(1);
   });
 });
