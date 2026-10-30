@@ -3,6 +3,7 @@ import { litLanterns } from './campaign';
 import { lifespanMs } from './slips';
 import type { Nubbin, SimEvent, World } from './types';
 import { dayPhase } from './soul-idle';
+import { localHourOf, tzOf } from './local-time';
 
 /**
  * The real clock: late at night Nubbins want to sleep and tire faster, unless the
@@ -20,9 +21,11 @@ export function stepCurfew(
   events: SimEvent[],
 ): void {
   if (wallMs === undefined) return;
-  const night = isNightHour(new Date(wallMs).getHours());
+  // TECH-45: the local hour from the sent time zone, not the device's.
+  const hour = localHourOf(wallMs, tzOf(world));
+  const night = isNightHour(hour);
   // R0535 (lane A r8): the time of day behaviour reads, from the same clock.
-  world.phase = dayPhase(new Date(wallMs).getHours());
+  world.phase = dayPhase(hour);
   if (night !== world.night) {
     world.night = night;
     events.push({ kind: 'curfew', night });

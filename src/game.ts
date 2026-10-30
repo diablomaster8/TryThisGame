@@ -516,6 +516,8 @@ export class Game {
     });
     // Loaded first so the Grove scene can paint the saved ground from its first frame.
     this.world = this.load();
+    // TECH-45: the sim reads days and hours in this time zone, sent before any catch-up.
+    this.sendTimeZone();
     this.scene3d = graphics === '3d' ? scene3d : null;
     if (this.scene3d) {
       this.lowRes = null;
@@ -804,6 +806,8 @@ export class Game {
   async resume(): Promise<void> {
     // A catch-up already running starts the loop itself when it finishes, if visible.
     if (this.catchingUp) return;
+    // TECH-45: the device may have changed time zone while hidden (a flight, a DST change).
+    this.sendTimeZone();
     const now = Date.now();
     await this.runCatchUp(now - this.world.lastWallMs, now);
     // Hidden again while catching up: the next visibility change resumes from here.
@@ -1075,6 +1079,18 @@ export class Game {
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
     this.spikes.lap('save');
+  }
+
+  /**
+   * TECH-45: tell the sim the device's time zone. Applied at once, not queued: the catch-up
+   * that follows a load or a return already counts days in it.
+   */
+  private sendTimeZone(): void {
+    applyCommand(
+      this.world,
+      { kind: 'setTimeZone', offsetMin: -new Date().getTimezoneOffset() },
+      [],
+    );
   }
 
   /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */

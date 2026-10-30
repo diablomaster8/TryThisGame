@@ -910,6 +910,11 @@ export interface VigilState {
 
 export interface World {
   seed: number;
+  /**
+   * TECH-45: the Keeper's time zone, minutes east of UTC, sent by the UI on load
+   * (`setTimeZone`); the sim's days, hours and seasons read it (`sim/local-time.ts`). Unset: UTC.
+   */
+  tzOffsetMin?: number;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1158,6 +1163,8 @@ export type Command =
     }
   | { kind: 'wearHat'; nubbinId: string; hat: string | null }
   | { kind: 'setSettings'; settings: Settings }
+  /** TECH-45: the device's time zone, minutes east of UTC. */
+  | { kind: 'setTimeZone'; offsetMin: number }
   | { kind: 'confirmRift' }
   | { kind: 'rename'; nubbinId: string; name: string }
   /** The UI holds waiting end-of-life checks while the away screen is open. */

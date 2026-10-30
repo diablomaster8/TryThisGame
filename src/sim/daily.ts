@@ -6,6 +6,7 @@ import type { Rng } from './rng';
 import { TRAINERS } from './trainers';
 import type { SimEvent, World } from './types';
 import { newId, uniqueName } from './world';
+import { localDayKey, localParts, tzOf } from './local-time';
 
 /**
  * The calendar rhythm: a Keeper may drop by on a new real day and potter about for a
@@ -13,18 +14,19 @@ import { newId, uniqueName } from './world';
  * in the Grove. Canon 22 allows free daily gifts (Maor, 2026-10-21); no quest repeats daily.
  * Each Keeper brings one story gift, the first time they visit; later visits are company.
  */
-export function dayKey(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+/** TECH-45: the local day, from the wall time and the Keeper's time zone (`sim/local-time.ts`). */
+export function dayKey(wallMs: number, tzMin: number): string {
+  return localDayKey(wallMs, tzMin);
 }
 
-export function isLanternNight(date: Date): boolean {
-  return date.getDay() === VISITS.lanternNightDay;
+export function isLanternNight(wallMs: number, tzMin: number): boolean {
+  return localParts(wallMs, tzMin).weekday === VISITS.lanternNightDay;
 }
 
 /** Called each live step with the wall clock. */
 export function stepDaily(world: World, wallMs: number, rng: Rng, events: SimEvent[]): void {
-  const date = new Date(wallMs);
-  const key = dayKey(date);
+  const tz = tzOf(world);
+  const key = dayKey(wallMs, tz);
   if (world.visits.lastDay === key) return;
   world.visits.lastDay = key;
   world.visits.count += 1;
@@ -59,5 +61,5 @@ export function stepDaily(world: World, wallMs: number, rng: Rng, events: SimEve
     spawnNpc(world, trainer);
   }
   events.push({ kind: 'visitor', trainer, gift });
-  if (isLanternNight(date)) events.push({ kind: 'lanternNight' });
+  if (isLanternNight(wallMs, tz)) events.push({ kind: 'lanternNight' });
 }

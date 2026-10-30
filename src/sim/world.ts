@@ -43,7 +43,8 @@ import {
 } from './keeper';
 import { noteCare } from './personality';
 import { addTrust, isWary, stepTrust } from './trust';
-import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
+import { createWeather, seasonAt, setWeather, stepWeather } from './weather';
+import { tzOf } from './local-time';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
@@ -233,7 +234,7 @@ export function createWorld(seed: number, wallMs: number): World {
     campaign: null,
     lines: {},
     weather: createWeather(),
-    season: seasonOf(new Date(wallMs)),
+    season: seasonAt(wallMs, 0),
     placed: [],
     seen: {},
     visits: { lastDay: '', count: 0, gifted: [] },
@@ -562,6 +563,12 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.hat = cmd.hat;
       // Lane E, R0411: the book notes the hat or look.
       noteNubbin(world, n, events);
+      return;
+    }
+    case 'setTimeZone': {
+      // TECH-45: whole minutes inside the real range (UTC-12 to UTC+14).
+      const m = Math.round(cmd.offsetMin);
+      if (Number.isFinite(m) && m >= -720 && m <= 840) world.tzOffsetMin = m;
       return;
     }
     case 'setSettings': {
@@ -1222,7 +1229,7 @@ export function stepWorld(
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
     if (wallMs !== undefined) {
-      world.season = seasonOf(new Date(wallMs));
+      world.season = seasonAt(wallMs, tzOf(world));
       stepDaily(world, wallMs, rng, events);
     }
     stepLineQueue(world, dtMs, events);
