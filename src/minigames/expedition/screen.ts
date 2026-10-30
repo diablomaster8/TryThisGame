@@ -1,4 +1,6 @@
 import { playArea } from '../play-area';
+import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
+import { playSound } from '../../platform/audio';
 import { EXPEDITION, SIM, UI } from '../../config/tuning';
 import { CRITTER_LABELS, ESSENCE_LABELS, UI_TEXT } from '../../config/strings';
 import type { SpriteSheet } from '../../render/sprites/atlas';
@@ -7,7 +9,10 @@ import { selectMinigameView } from '../../render3d/minigame-layout';
 import type { GraphicsMode, Nubbin, NubbinType, Rewards } from '../../sim/types';
 import { button, el } from '../../ui/dom';
 import { ExpeditionPixelView } from './pixel-view';
-import { createRun, jumpPressed, jumpReleased, stepRun, type RunState } from './run';
+import { createRun, jumpPressed, jumpReleased, stepRun, superlative, type RunState } from './run';
+
+/** R0324: how long a bumped obstacle's line stays up (ms of run time). */
+const EXPEDITION_QUIP_MS = 1400;
 import type { ExpeditionTheme, ExpeditionView } from './view';
 import { showUpdateNotice } from '../../ui/update-notice';
 
@@ -24,6 +29,9 @@ export class ExpeditionScreen {
   private readonly results: HTMLDivElement;
   private readonly resultsBody: HTMLDivElement;
   private readonly tip: HTMLDivElement;
+  /** R0324: what a bumped obstacle says, and the run time of the hit it is for. */
+  private readonly quip: HTMLDivElement;
+  private quipAt = -1;
   private tipTimer = 0;
   private readonly pixel = new ExpeditionPixelView();
   private view3d: ExpeditionView | null = null;
@@ -65,7 +73,10 @@ export class ExpeditionScreen {
     this.tip.hidden = true;
     // The results card joins the DOM only when it shows, so no hidden "Back to the Grove"
     // waits in the page for a screen reader to find (bug 35).
-    this.root.append(this.pixel.element, this.hud, this.quitBtn, this.tip);
+    this.quip = el('div', 'expedition-quip');
+    this.quip.hidden = true;
+    this.quip.setAttribute('aria-live', 'polite');
+    this.root.append(this.pixel.element, this.hud, this.quitBtn, this.tip, this.quip);
     parent.appendChild(this.root);
 
     const { signal } = this.abort;
@@ -129,6 +140,8 @@ export class ExpeditionScreen {
   ): void {
     const starts = ++this.starts;
     this.run = createRun(seed);
+    this.quipAt = -1;
+    this.quip.hidden = true;
     this.onDone = onDone;
     this.results.hidden = true;
     this.results.remove();
@@ -222,7 +235,8 @@ export class ExpeditionScreen {
     // The view draws even before it is ready: a 3D stage builds its rig across frames.
     if (!this.loading3d) this.view.draw(run, nowMs);
     this.updateHud(run, live);
-    if (run.finished && this.results.hidden) this.showResults(run.rewards);
+    this.quipFor(run);
+    if (run.finished && this.results.hidden) this.showResults(run.rewards, superlative(run));
     if (!run.finished || this.results.hidden) this.rafId = requestAnimationFrame(this.frame);
   };
 
@@ -234,7 +248,23 @@ export class ExpeditionScreen {
         : UI_TEXT.stageLoading;
   }
 
-  private showResults(rewards: Rewards): void {
+  /** R0324: a bumped obstacle says something (or doesn't, for a rock), once per hit. */
+  private quipFor(run: RunState): void {
+    const e = run.lastEvent;
+    if (!e || e.kind !== 'hit' || e.atMs === this.quipAt) {
+      if (this.quipAt >= 0 && run.timeMs - this.quipAt > EXPEDITION_QUIP_MS)
+        this.quip.hidden = true;
+      return;
+    }
+    this.quipAt = e.atMs;
+    const lines = EXPEDITION_FUN_TEXT.quips[e.thing ?? 'rock'] ?? [];
+    if (lines.length === 0) return;
+    this.quip.textContent = lines[run.hits % lines.length]!;
+    this.quip.hidden = false;
+    playSound('bonk');
+  }
+
+  private showResults(rewards: Rewards, best: string): void {
     this.resultsBody.innerHTML = '';
     const lines: string[] = [UI_TEXT.resultShells(rewards.shells)];
     for (const [type, n] of Object.entries(rewards.essences)) {
@@ -243,7 +273,9 @@ export class ExpeditionScreen {
     for (const [species, n] of Object.entries(rewards.critters)) {
       if (n) lines.push(`${CRITTER_LABELS[species] ?? species} ×${n}`);
     }
-    if (lines.length === 1 && rewards.shells === 0) lines.push(UI_TEXT.resultNothing);
+    if (lines.length === 1 && rewards.shells === 0) lines.push(EXPEDITION_FUN_TEXT.nothing);
+    // R0324 (FUN-35): every card gets one superlative from the run.
+    lines.push(best);
     for (const line of lines) this.resultsBody.appendChild(el('p', undefined, line));
     this.root.appendChild(this.results);
     this.results.hidden = false;

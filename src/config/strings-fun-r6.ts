@@ -84,3 +84,25 @@ export function fernCairnLine(stones: number): string {
   if (stones <= 1) return 'Fern’s stone by the signpost: one, and very good.';
   return `Fern’s cairn by the signpost: ${stones} stones, each the best one.`;
 }
+
+/** R0324 (FUN-35): the Expedition's comic layer. */
+export const EXPEDITION_FUN_TEXT = {
+  things: { rock: 'one rock', log: 'one sleeping log', bush: 'one bush' } as Record<string, string>,
+  mostDropped: (n: number, on: string) => `Most Shells dropped on ${on}: ${n}.`,
+  longestAir: (s: string) => `Longest time spent in the air: ${s} s.`,
+  bubbles: (n: number) => `Critters rescued, by bubble: ${n}.`,
+  logs: (n: number) => `Logs woken up: ${n}. They have gone back to sleep.`,
+  noHits: 'Things bumped into: none. Suspiciously tidy.',
+  jumps: (n: number) => `Jumps: ${n}. Every one of them excellent.`,
+  nothing: 'Nothing this time, but the jumping was excellent.',
+  /** What an obstacle says when it is bumped. */
+  quips: {
+    log: ['Zzz… oh. Sorry. Carry on.', 'The log was asleep. It still is.', 'A sleepy “mmf”.'],
+    rock: ['The rock does not apologise.', 'Bonk. The rock wins.', 'The rock looks smug.'],
+    bush: [
+      'The bush rustles. Huffily.',
+      'Leaves everywhere. The bush is fine.',
+      'A snail in the bush says sorry.',
+    ],
+  } as Record<string, readonly string[]>,
+} as const;

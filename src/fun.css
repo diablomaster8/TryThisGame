@@ -838,3 +838,19 @@ body.line-shake-big #app {
     opacity: 0;
   }
 }
+/* R0324 (FUN-35): what a bumped Expedition obstacle says. */
+.expedition-quip {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  max-width: min(320px, calc(100% - 32px));
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #fffaf0;
+  color: #2a2234;
+  font-size: 0.95rem;
+  text-align: center;
+  pointer-events: none;
+  z-index: 3;
+}
