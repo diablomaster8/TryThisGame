@@ -2,6 +2,32 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+## Round 5 · Lane D (2026-10-29, branch r5/d)
+
+Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
+R0095, R0096–R0098, R0102, R0107+; partials after. Skip R0085, R0086, R0088 (lane A).
+
+- **Works:** creature triangle budget (`lod.ts` capFull, `WORLD_LOD.creature.fullTris`, phone
+  190k): nearest first, the rest step down to stand-ins or impostors. Cause of the swing: human
+  NPC and Keeper stand-ins are 35–69k tris (their coarse grid only halves two surfaces). Phone
+  sun shadow box ±22 u, near 25, far 95; far cells redraw every other frame; Grove rocks one
+  draw (undrawn copies keep taps and halos); lantern posts in their lantern's bucket; empty
+  recruit batch hidden. Probe 3D phone 19/19
+  under in two runs (farOrchard 186→176 calls; heart 410–485k→297–309k, bridge
+  410–482k→296–328k tris; 8 Nubbins at the heart 117–127 calls, 277–327k).
+  R0095 village square at the lane's end (Grove SW, `config/region-village.ts`): paving and
+  fountain, 0/2/5 buildings at prosperity 0/40/100, a dressing set per 20, recruits on
+  clock-driven role loops (`sim/village.ts`), taps answer (stall → shop, gym → menu), both
+  renderers. R0102 Travel assist (`settings.travel`, optional; unset = Auto-walk in a Learning
+  Grove, else Walk): the beacon chip and map pins run there or hop there. R0107 landmark name
+  card (2 s, fast-travel chip, says which badge paid Shells) and the Journal's Places tab.
+- **Stubbed:** village is a district of the Grove, not its own 80×64 region (needs WORLD-39);
+  recruits are role-coloured villager figures, not their species; Grove stalls stay as the
+  market. No camera hold on discovery (game.ts follow code). R0096–R0098, R0108 not started.
+- **Known bugs / assumptions:** the 3D stand-in cost is still high for human rigs (lane E's
+  pool); on desktop the creature budget is off (`Infinity`). The full-life timing test runs
+  3.1–3.6 s on this loaded machine on main too.
+
 ## Round 4 · Lane D (2026-10-29, branch r4/d)
 
 Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
