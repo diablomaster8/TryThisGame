@@ -7,3 +7,9 @@ export const UPDATE_NOTICE_TEXT = {
   unsaved: "Couldn't save just now, so the Grove stays as it is. Try again in a moment.",
   later: 'Later',
 } as const;
+
+/** R0520 (TECH-80): a story world whose script this device has not downloaded yet. */
+export const OFFLINE_ENTRY_TEXT = {
+  needs: 'Needs the internet once',
+  why: 'This world downloads the first time you open it. Open it once online and it stays on this device.',
+} as const;

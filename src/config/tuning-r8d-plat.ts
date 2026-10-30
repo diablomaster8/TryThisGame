@@ -14,3 +14,6 @@ export const UPDATE_NOTICE = {
   /** Reload anyway if the new worker has not taken over by then. */
   reloadFallbackMs: 4000,
 } as const;
+
+/** R0520 (TECH-80): how long to wait for the service worker's `has-urls` answer. */
+export const OFFLINE_ENTRIES = { replyMs: 1500 } as const;

@@ -159,6 +159,7 @@ import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
 import { keysHintDone, watchKeysHint } from './keys-hint';
 import { watchOnline } from './offline-chip';
+import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -664,6 +665,23 @@ export function mountHud(
     ),
   );
   more.body.appendChild(moreList);
+  // R0520 (TECH-80): offline, grey the story worlds whose chunk this device never fetched.
+  gateOfflineEntries(
+    more.root,
+    (
+      [
+        [ATLAS_TEXT.atlas, 'atlas-catalogue'],
+        [ATLAS_TEXT.cabinet, 'arcade-catalogue'],
+        [ATLAS_TEXT.rift, 'multiverse-catalogue'],
+        [ATLAS_TEXT.gate, 'neopia-catalogue'],
+      ] as const
+    ).flatMap(([label, chunk]) => {
+      const b = [...moreList.querySelectorAll('button')].find((x) =>
+        x.textContent?.endsWith(` ${label}`),
+      );
+      return b ? [{ button: b, chunk }] : [];
+    }),
+  );
   // Placing chip while decorating.
   const placingChip = el('div', 'placing-chip');
   placingChip.hidden = true;

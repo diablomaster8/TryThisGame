@@ -3954,3 +3954,13 @@ body.edu-sprout .modal-head .btn-close {
 .update-ready-go {
   flex: 1 1 auto;
 }
+/* R0520 (TECH-80): a More-menu entry that needs the internet once. */
+.btn .offline-need {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+.btn:disabled:has(.offline-need) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
