@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { npcLookOf, storyId } from '../config/npc-looks';
-import { GROVE3D, HOLLOW, READ3D } from '../config/tuning';
+import { GROVE3D, HOLLOW, HOLLOW_R7, READ3D } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
@@ -274,6 +274,12 @@ export function crowdFor(
           facing,
           pose: moving ? 'walk' : 'idle',
           hop: surprised,
+          // R0200: a "?" over the leader as a pack gives up and wanders home.
+          ...(i === 0 &&
+          p.gaveUpMs !== undefined &&
+          world.timeMs - p.gaveUpMs < HOLLOW_R7.aggro.askMs
+            ? { ask: true }
+            : {}),
         });
       });
     }

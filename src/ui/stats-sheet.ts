@@ -10,6 +10,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { SHEET_TEXT } from '../config/strings-tech';
 import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
@@ -99,6 +100,27 @@ export class StatsSheet {
     const close = button('×', () => this.close(), 'btn btn-close');
     close.setAttribute('aria-label', UI_TEXT.close);
     head.append(this.name, this.subtitle, close);
+    // TECH-17: on a phone a handle above the header grows the sheet (tap, or drag up/down).
+    let dragY: number | null = null;
+    let dragged = false;
+    const handle = button(
+      '',
+      () => {
+        if (!dragged) this.root.classList.toggle('sheet-tall');
+        dragged = false;
+      },
+      'sheet-handle',
+    );
+    handle.setAttribute('aria-label', SHEET_TEXT.grow);
+    handle.addEventListener('pointerdown', (e) => (dragY = e.clientY));
+    handle.addEventListener('pointerup', (e) => {
+      if (dragY === null) return;
+      const dy = e.clientY - dragY;
+      dragY = null;
+      dragged = Math.abs(dy) > 24;
+      if (dragged) this.root.classList.toggle('sheet-tall', dy < 0);
+    });
+    head.prepend(handle);
     this.caption = el('div', 'sheet-caption');
     this.caption.hidden = true;
 

@@ -120,13 +120,13 @@ describe('monster packs (R0146)', () => {
     const id = nearPack(world, 0.5);
     setEncounterHandler(() => null);
     step(world, 1000);
-    expect(world.dungeon!.encounter).toEqual({ packId: id });
+    expect(world.dungeon!.encounter).toMatchObject({ packId: id });
     const strays = JSON.stringify(world.dungeon!.strays.map((s) => s.pos));
     step(world, 1000);
     expect(JSON.stringify(world.dungeon!.strays.map((s) => s.pos))).toBe(strays);
     // A save mid-fight comes back mid-fight.
     const back = deserialize(serialize(world, 0)).world;
-    expect(back.dungeon!.encounter).toEqual({ packId: id });
+    expect(back.dungeon!.encounter).toEqual(world.dungeon!.encounter);
     expect(back.dungeon!.packs).toEqual(world.dungeon!.packs);
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'encounterDone', outcome: 'won' }, events);

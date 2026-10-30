@@ -227,6 +227,13 @@ export const FLAVOUR = {
     'halo-band': 'Pure as anything. Mind the mud.',
     horns: 'Purely decorative. Mostly.',
     'black-belt': 'Earned, not bought. Mentions it anyway.',
+    // Lane B round 7 (R0206): the Hollow's keepsakes.
+    'hollow-mushroom': 'Big Grumblecap wanted quiet. You got the hat.',
+    'hollow-hedge': 'Clipped by a knight. Still sheds leaves on the carpet.',
+    'hollow-looroll': 'Two-ply, regal, slightly unravelling.',
+    'hollow-noodle': 'Al dente. Do not let anyone near it with a fork.',
+    'hollow-hearth': 'Warm on top. The Gloom remembers who lit it.',
+    'hollow-cape': 'All five acts, one cape. It swishes on its own.',
   } as Record<string, string>,
 };
 
@@ -360,3 +367,36 @@ export const BELT_TEXT = {
   wear: (belt: string) => `🥋 Wear the ${belt}`,
   off: (belt: string) => `🥋 Take off the ${belt}`,
 } as const;
+
+/** R0425 / R0441: the photo album and photo stickers. */
+export const ALBUM_TEXT = {
+  open: '📚 Album',
+  title: 'Photo album',
+  empty: 'No photos yet. Saved photos land here.',
+  close: 'Close',
+  keep: 'Keep this one',
+  kept: 'Kept',
+  unkeep: 'Stop keeping',
+  keepFull: 'Twelve photos are kept already. Stop keeping one first.',
+  download: 'Save as PNG',
+  saved: 'Saved to the album too.',
+  memorial: 'Their last photo',
+  stickers: 'Stickers',
+  clear: 'Clear',
+} as const;
+
+/** R0441: the twelve photo stickers: the emote shapes plus zZ, !! and ♪. */
+export const PHOTO_STICKER_GLYPHS: readonly string[] = [
+  '♥',
+  '★',
+  '!',
+  '?',
+  '♪',
+  'zZ',
+  '!!',
+  '✿',
+  '☀',
+  '☾',
+  '~',
+  '@',
+];

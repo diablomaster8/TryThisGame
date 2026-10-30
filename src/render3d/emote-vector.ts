@@ -106,6 +106,18 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       g.stroke();
       break;
     }
+    case 'fruit':
+      // TECH-01: a red apple with a stalk and a leaf.
+      g.arc(cx, cy + 4, 30, 0, Math.PI * 2);
+      paint(g, hex(C.rose), cy + 4, 30);
+      g.beginPath();
+      g.moveTo(cx, cy - 24);
+      g.lineTo(cx + 3, cy - 40);
+      inked(g, hex(C.darkBark), 6);
+      g.beginPath();
+      g.ellipse(cx + 16, cy - 36, 12, 6, -0.4, 0, Math.PI * 2);
+      paint(g, hex(C.leaf), cy - 36, 12);
+      break;
     case 'exclaim':
       g.roundRect(cx - 9, cy - 38, 18, 48, 9);
       paint(g, hex(C.ember), cy - 14, 26);

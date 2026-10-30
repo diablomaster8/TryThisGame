@@ -92,9 +92,32 @@ export class HatchCard {
     this.root.hidden = true;
   }
 
+  /**
+   * HOT-2: the portrait builds the newborn's whole pixel sheet (tens of ms, more on a
+   * phone), which landed on the hatch frame with the burst and the new rig. The card opens
+   * with an empty frame and the portrait is painted once the browser has a quiet moment.
+   */
   private portrait(g: Game, n: Nubbin): HTMLCanvasElement {
-    return nubbinPortrait(g, n, 'hatch-card-pic');
+    const c = el('canvas', 'hatch-card-pic');
+    c.width = 64;
+    c.height = 64;
+    whenIdle(() => {
+      const pic = nubbinPortrait(g, n, 'hatch-card-pic');
+      c.getContext('2d')?.drawImage(pic, 0, 0);
+    });
+    return c;
   }
+}
+
+/** Run `fn` when the browser is idle (or soon, where idle callbacks are missing). */
+function whenIdle(fn: () => void): void {
+  const ric = (
+    window as unknown as {
+      requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number;
+    }
+  ).requestIdleCallback;
+  if (ric) ric(fn, { timeout: 500 });
+  else window.setTimeout(fn, 50);
 }
 
 /** A Nubbin's idle front frame on a 64 px canvas (as the roster draws it). */

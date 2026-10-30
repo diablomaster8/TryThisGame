@@ -3224,6 +3224,63 @@ select {
   color: #e8a33c;
 }
 
+/* Lane B round 7: the Hollow's difficulty tiers at the cave mouth (R0179). */
+.hollow-tiers {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 4px 0;
+}
+.hollow-tiers .hollow-tier {
+  min-height: 44px;
+  min-width: 44px;
+  flex: 1 1 0;
+  font-size: 1rem;
+}
+.hollow-tiers .hollow-tier[aria-pressed='true'] {
+  outline: 3px solid #ffd84a;
+  font-weight: bold;
+}
+
+/* TECH-17: the stats sheet's header stays in view while its body scrolls, and a handle
+   grows a phone's short sheet to most of the screen and back. */
+.sheet-head {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  margin: -10px -12px 0;
+  padding: 10px 12px 6px;
+  background: rgba(13, 10, 26, 0.96);
+}
+.sheet-handle {
+  display: none;
+}
+@media (max-width: 719px) {
+  .sheet-handle {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 24px;
+    margin: -6px 0 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ns-resize;
+    touch-action: none;
+  }
+  .sheet-handle::before {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: 8px auto;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.45);
+  }
+  .sheet.sheet-tall {
+    max-height: 85%;
+  }
+}
 /* Lane E r7, R0671: the Learning Grove's kid-safe sound sheet (ui/kid-sheet.ts). */
 .kid-sheet .modal-body {
   display: flex;
@@ -3822,6 +3879,209 @@ body.edu-sprout .modal-head .btn-close {
 }
 .backup-chip .btn {
   min-height: 44px;
+}
+
+/* Lane E r8: R0683 grown-up mastery tiles (green known, amber learning, grey not met; a mark too). */
+.edu-mastery { margin: 6px 0 10px; }
+.edu-mastery-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.edu-mastery-tile {
+  min-width: 30px; height: 30px; padding: 0 6px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; text-transform: capitalize;
+  background: #d9d6df; color: #4a4552; border: 2px solid transparent;
+}
+.edu-mastery-tile.is-known { background: #bfe8b8; color: #1d4d1a; border-color: #3fae4a; }
+.edu-mastery-tile.is-known::after { content: ' ✓'; }
+.edu-mastery-tile.is-learning { background: #ffe1a8; color: #6a4300; border-color: #f2a43a; border-style: dashed; }
+
+/* Lane E r8: R0685 the sticker book ("My Book") and the results card's arriving sticker. */
+.sticker-book .modal-card { width: min(620px, calc(100% - 16px)); }
+.sticker-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sticker-turn { min-width: 64px; min-height: 64px; font-size: 28px; }
+.sticker-title { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.sticker-title-icon { font-size: 32px; line-height: 1; }
+.sticker-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0;
+  touch-action: pan-y;
+}
+@media (max-width: 480px) { .sticker-grid { grid-template-columns: repeat(3, 1fr); } }
+.sticker, .sticker-slot {
+  aspect-ratio: 1; min-height: 72px; display: flex; align-items: center; justify-content: center;
+  padding: 6px; border-radius: 50%;
+}
+.sticker {
+  background: var(--sticker-bg, #fff); border: 4px solid #fff;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); cursor: pointer;
+}
+.sticker-square { border-radius: 14px; }
+.sticker-heart { border-radius: 50% 50% 18% 50%; }
+.sticker-star { border-radius: 30% 70% 30% 70% / 70% 30% 70% 30%; }
+.sticker-slot { border: 3px dashed rgba(255, 255, 255, 0.35); }
+.sticker-art { width: 80%; height: 80%; image-rendering: pixelated; }
+.sticker-fresh { animation: sticker-glow 1.2s ease-in-out 3; }
+@keyframes sticker-glow { 50% { transform: scale(1.12); box-shadow: 0 0 18px #ffe066; } }
+.sticker-dots { display: flex; justify-content: center; gap: 8px; }
+.sticker-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.3); }
+.sticker-dot.on { background: #ffe066; }
+.sticker-arrive {
+  display: flex; align-items: center; justify-content: center; gap: 18px; min-height: 96px;
+  background: transparent; border: none;
+}
+.sticker-arrive .sticker { width: 72px; height: 72px; }
+.sticker-book-icon { font-size: 56px; }
+.sticker-fly { animation: sticker-fly 1.4s ease-in 0.8s both; }
+@keyframes sticker-fly {
+  0% { transform: scale(1.3) rotate(-10deg); }
+  60% { transform: translateX(60px) scale(0.6) rotate(8deg); opacity: 1; }
+  100% { transform: translateX(80px) scale(0.3); opacity: 0; }
+}
+.reduce-motion .sticker-fly, .reduce-motion .sticker-fresh { animation: none; }
+
+/* Lane E r8: R0680 the Learning Grove's Places picture menu. */
+.edu-places-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.edu-places-grid .edu-place.btn {
+  min-height: 120px; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 6px; font-size: 18px; font-weight: 700;
+}
+.edu-place-icon { font-size: 52px; line-height: 1; }
+.edu-places-grownups { margin-top: 14px; opacity: 0.8; }
+
+/* Lane E r8: R0692 the Learning Grove's egg shelf. */
+.edu-egg-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
+.edu-egg { min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.edu-egg-art { width: 48px; height: 56px; image-rendering: pixelated; }
+
+/* Lane E r8: R0695 the limits card sits over games and menus. */
+.edu-limit { z-index: 40; }
+
+/* Lane E r8: R0714 counting cues in five-frames, each counted thing staying lit once counted. */
+.edu-icons.edu-frame { display: grid; grid-template-columns: repeat(5, auto); justify-content: center; }
+.edu-icons > span.edu-counted-keep { filter: drop-shadow(0 0 4px #ffd85a); }
+
+/* Lane E r8: R0425 photo album, R0441 photo stickers. */
+.photo-stickers { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin: 6px 0; }
+.photo-sticker { min-width: 44px; min-height: 44px; font-size: 18px; }
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.album-thumb { position: relative; padding: 2px; min-height: 44px; }
+.album-thumb img { width: 100%; display: block; image-rendering: pixelated; }
+.album-kept { position: absolute; top: 2px; right: 4px; }
+.album-big { width: 100%; image-rendering: pixelated; }
+.memorial-photo { display: block; width: 128px; margin: 6px auto; image-rendering: pixelated; border: 3px solid #f4ecd8; }
+
+/* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
+.offer-card {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(26, 21, 48, 0.95);
+  color: #fff;
+  z-index: 55;
+}
+.offer-card .offer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8em;
+}
+.offer-card .offer-tag,
+.offer-card .offer-badge,
+.offer-card .offer-size,
+.offer-card .offer-reward {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.offer-card .offer-badge {
+  background: #7a2d3a;
+}
+.offer-card .offer-title {
+  margin: 6px 0 2px;
+  font-size: 1.1em;
+}
+.offer-card .offer-from,
+.offer-card .offer-lapse {
+  margin: 2px 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.offer-card .offer-pitch {
+  margin: 6px 0;
+}
+.offer-card .offer-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+}
+.offer-card .offer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+.offer-card .offer-buttons .btn,
+.offer-card .offer-shelve .btn {
+  min-height: 48px;
+  flex: 1;
+}
+.offer-card .offer-shelve {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.offer-chip {
+  pointer-events: auto;
+  position: absolute;
+  right: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px;
+  max-width: 60%;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #e0b13a;
+  color: #1a1530;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 50;
+}
+.journal-board h4 {
+  margin: 8px 0 4px;
+}
+.journal-board .journal-line .btn {
+  min-height: 44px;
+}
+/* Lane C r8 (R0609): the objective chip's count and its arrow to the next tracked goal. */
+.objective-count {
+  align-self: center;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.objective-cycle {
+  pointer-events: auto;
+  position: absolute;
+  /* Just above the chip's left end, where the thumb already is. */
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  font-size: 20px;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
 }
 
 /* Lane A r8 (SOUL): the likes row and moody chip on the stats sheet. */

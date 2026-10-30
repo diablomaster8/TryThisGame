@@ -1,3 +1,9 @@
+import { noteBackupExported } from '../platform/backup-offer';
+import { hapticsOn, hapticsSupported } from '../platform/haptics';
+import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
+import { TEXT_SCALES, textScaleOf, textSizeKey } from './text-scale';
+import { bugReport } from '../platform/bug-log';
+import { groveBytes, storageQuota } from '../platform/storage-use';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
 import { livelinessOf } from '../sim/antics';
@@ -35,6 +41,8 @@ import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
+import { OFFER_TEXT } from '../config/strings-camp';
+import { playStats } from '../sim/quest-offers';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -62,6 +70,10 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** TECH-27: text size. */
+  private readonly textSize: HTMLSelectElement;
+  /** TECH-15: vibration, hidden where the browser cannot buzz. */
+  private readonly haptics: HTMLInputElement;
   /** R0294: skip the quest micro-games. */
   private readonly microSkip: HTMLInputElement;
   /** R0365: full, gentle or no slapstick. */
@@ -73,6 +85,9 @@ export class SettingsMenu {
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
+  /** Lane C round 8 (R0664): the Open or Guided quest flow. */
+  private readonly questFlow: HTMLSelectElement;
+  private readonly playLine: HTMLElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -238,6 +253,8 @@ export class SettingsMenu {
     this.musicVol = slider(UI_TEXT.musicVolume);
     this.sfxVol = slider(UI_TEXT.sfxVolume);
     this.textSpeed = select(UI_TEXT.textSpeed, UI_TEXT.textSpeeds);
+    // TECH-27: text size.
+    this.textSize = select(TEXT_SIZE_TEXT.label, TEXT_SIZE_TEXT.sizes);
     const shakeRow = el('label', 'check-row');
     this.shake = el('input');
     this.shake.type = 'checkbox';
@@ -318,6 +335,19 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // TECH-15: vibration.
+    const hapRow = el('label', 'check-row');
+    this.haptics = el('input');
+    this.haptics.type = 'checkbox';
+    this.haptics.addEventListener('change', () => this.apply());
+    const hapText = el('span');
+    hapText.append(
+      el('strong', undefined, HAPTICS_TEXT.label),
+      el('small', undefined, HAPTICS_TEXT.help),
+    );
+    hapRow.append(this.haptics, hapText);
+    hapRow.hidden = !hapticsSupported();
+    body.appendChild(hapRow);
     // R0365: the Slapstick setting.
     this.slapstick = select(SLAPSTICK_TEXT.label, SLAPSTICK_TEXT.levels);
     body.appendChild(el('div', 'help', SLAPSTICK_TEXT.help));
@@ -362,6 +392,13 @@ export class SettingsMenu {
     );
     steadyRow.append(this.steady, stText);
     body.appendChild(steadyRow);
+    // Lane C round 8 (R0664): Open offers quests where they happen; Guided pushes them.
+    this.questFlow = select(OFFER_TEXT.flowLabel, OFFER_TEXT.flowOptions);
+    this.questFlow.title = OFFER_TEXT.flowHelp;
+    body.appendChild(el('div', 'help', OFFER_TEXT.flowHelp));
+    // R0670: telemetry-free play counts; they travel in an exported save.
+    this.playLine = el('div', 'help');
+    body.appendChild(this.playLine);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -430,11 +467,46 @@ export class SettingsMenu {
     void persisted().then((p) => {
       warn.hidden = p !== false;
     });
+    // TECH-56: how much the Grove keeps here; TECH-33: a local bug report to paste.
+    this.storageLine = el('p', 'help');
+    body.appendChild(this.storageLine);
+    const bug = el('div', 'settings-actions');
+    bug.append(button(BUG_TEXT.copy, () => void this.copyBugReport()));
+    body.appendChild(bug);
+  }
+
+  private readonly storageLine: HTMLParagraphElement;
+
+  private refreshStorageLine(): void {
+    const kb = Math.round(groveBytes() / 1024);
+    this.storageLine.textContent = BUG_TEXT.storage(kb, null);
+    void storageQuota().then((q) => {
+      if (q !== null) this.storageLine.textContent = BUG_TEXT.storage(kb, Math.round(q / 1048576));
+    });
+  }
+
+  private async copyBugReport(): Promise<void> {
+    const g = this.game();
+    if (!g) return;
+    const text = bugReport({
+      renderer: g.world.settings.graphics,
+      settings: g.world.settings,
+      save: g.exportJson(),
+    });
+    try {
+      await navigator.clipboard.writeText(text);
+      this.toast(BUG_TEXT.copied);
+    } catch {
+      const stamp = new Date().toISOString().replace(/[:.]/g, '-');
+      downloadText(`grove-bug-${stamp}.json`, text);
+      this.toast(BUG_TEXT.saved);
+    }
   }
 
   open(): void {
     const g = this.game();
     if (!g) return;
+    this.refreshStorageLine();
     const s = g.world.settings.offlineAging;
     for (const [mode, input] of this.modeInputs) input.checked = mode === s.mode;
     this.capInput.value = String(s.capHours);
@@ -453,6 +525,7 @@ export class SettingsMenu {
     this.musicVol.value = String(Math.round(g.world.settings.musicVolume * 100));
     this.sfxVol.value = String(Math.round(g.world.settings.sfxVolume * 100));
     this.textSpeed.value = g.world.settings.textSpeed;
+    this.textSize.value = textSizeKey(textScaleOf(g.world));
     this.shake.checked = g.world.settings.screenShake;
     this.gentle.checked = g.world.settings.gentleJumps;
     this.autoHop.checked = autoHopOn(g.world);
@@ -460,12 +533,26 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.haptics.checked = hapticsOn(g.world.settings);
     this.slapstick.value = g.world.settings.slapstick ?? 'full';
     this.bigBubbles.checked = bigBubbles(g.world);
     this.liveliness.value = livelinessOf(g.world);
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
+    this.questFlow.value = g.world.settings.questFlow ?? 'guided';
+    // A Learning Grove save always comes to you (R0629): the choice is not offered there.
+    this.questFlow.disabled = g.world.edu !== null;
+    const ps = playStats(g.world);
+    this.playLine.textContent = OFFER_TEXT.yourPlay(
+      ps.offered,
+      ps.accepted,
+      ps.declined,
+      ps.shelved,
+      Object.entries(ps.lineMinutes)
+        .map(([id, m]) => OFFER_TEXT.roadMinutes(id, m))
+        .join(', '),
+    );
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -608,6 +695,10 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    if (this.haptics.checked !== hapticsOn(g.world.settings))
+      settings.haptics = this.haptics.checked;
+    const scale = TEXT_SCALES[this.textSize.value] ?? 1;
+    if (scale !== textScaleOf(g.world)) settings.textScale = scale;
     if (this.slapstick.value !== (g.world.settings.slapstick ?? 'full'))
       settings.slapstick = this.slapstick.value as NonNullable<Settings['slapstick']>;
     if (this.bigBubbles.checked !== bigBubbles(g.world))
@@ -621,6 +712,8 @@ export class SettingsMenu {
     if (bouts !== (g.world.settings.bouts ?? 'play')) settings.bouts = bouts;
     if (this.steady.checked !== !!g.world.settings.steadyHands)
       settings.steadyHands = this.steady.checked;
+    const flow = this.questFlow.value as NonNullable<Settings['questFlow']>;
+    if (flow !== (g.world.settings.questFlow ?? 'guided')) settings.questFlow = flow;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {
@@ -651,6 +744,7 @@ export class SettingsMenu {
     if (!g) return;
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
     downloadText(`grove-save-${stamp}.json`, g.exportJson());
+    noteBackupExported();
   }
 
   /** The newest copy of a save that failed to load, as a file the player can keep. */

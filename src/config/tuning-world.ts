@@ -58,8 +58,12 @@ export const WORLD_LOD = {
    * in the shared far batch (`render3d/far-trees.ts`). `farBand` is the hysteresis.
    */
   farTrees: { farFrom: 16, farMargin: 1, farBand: 2 },
-  /** Round 5: half the sun shadow box, world units, by device tier (`grove-3d-scene.ts`). */
-  shadowHalf: { desktop: 30, phone: 22, slow: 18 },
+  /**
+   * Round 5: half the sun shadow box, world units, by device tier (`grove-3d-scene.ts`). Round 7:
+   * phone 22 → 19. The box follows the sun, which moves with the real clock, so at some hours a
+   * 22 u box took in a dozen off-screen Grove props at the far orchard (+20 shadow draws).
+   */
+  shadowHalf: { desktop: 30, phone: 19, slow: 18 },
   /** Round 5: the sun shadow camera's far plane by device tier (the sun stands 60 u out). */
   shadowFar: { desktop: 200, phone: 95, slow: 90 },
   /** Round 5: and its near plane: casters nearer the sun than this are left out. */

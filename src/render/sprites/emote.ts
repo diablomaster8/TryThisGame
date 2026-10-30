@@ -21,6 +21,7 @@ export type EmoteShape =
   | 'spiky'
   | 'zz'
   | 'star'
+  | 'fruit'
   // Lane A r8: a cross grey puff (a grumpy refusal, a harrumph) and a note (a song, a hum).
   | 'puff'
   | 'note'
@@ -35,6 +36,7 @@ export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'spiky',
   'zz',
   'star',
+  'fruit',
   'puff',
   'note',
 ];
@@ -70,6 +72,14 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.px(cx + 1, cy - 2, C.darkPlum);
       pc.px(cx + 2, cy - 1, C.darkPlum);
       pc.px(cx + 2, cy + 1, C.darkPlum);
+      break;
+    case 'fruit':
+      // TECH-01: a new hatchling's first wish, a red apple with a leaf.
+      pc.disc(cx, cy + 0.5, 3.2, C.roseDeep);
+      pc.disc(cx - 0.3, cy + 0.2, 2.6, C.rose);
+      pc.px(cx - 1, cy - 1, C.blush);
+      pc.rect(cx, cy - 4, 1, 2, C.darkBark);
+      pc.rect(cx + 1, cy - 4, 2, 1, C.leaf);
       break;
     case 'exclaim':
       pc.rect(cx - 1, cy - 4, 2, 5, C.ember);

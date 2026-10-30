@@ -16,8 +16,14 @@ import { battleAct, createBattle } from './core';
 import { battleSeedFor, grantRewards } from './rewards';
 import type { BattleContext, BattleState } from './types';
 
-/** Whether `context` may be skipped at all (the setting is checked by the command). */
-export const skippable = (context: BattleContext): boolean => context.kind === 'story';
+/**
+ * Whether `context` may be skipped at all (the setting is checked by the command). Hazel's
+ * Grove's own story bouts (FIGHT-82: the Exhibition, the fort, the Night server) are encounters
+ * with the story source ('story', `STORY_SOURCE` in story-bouts.ts); lane C r8 found Skip
+ * passed them by.
+ */
+export const skippable = (context: BattleContext): boolean =>
+  context.kind === 'story' || (context.kind === 'encounter' && context.source === 'story');
 
 /**
  * Resolves a story bout without a screen and pays it. Returns the finished bout (also left in
@@ -29,15 +35,19 @@ export function autoResolve(
   context: BattleContext,
   events: SimEvent[] = [],
 ): BattleState | null {
-  if (context.kind !== 'story') return null;
-  // Singles, turn-based, no override: the plain story bout.
-  const ctx: BattleContext = {
-    kind: 'story',
-    storyline: context.storyline,
-    tier: context.tier,
-    ids: context.ids,
-    auto: true,
-  };
+  if (!skippable(context)) return null;
+  // Singles, turn-based, no override: the plain story bout. A campaign story bout keeps its
+  // authored foes; its win is marked when it pays (rewards.ts).
+  const ctx: BattleContext =
+    context.kind === 'story'
+      ? {
+          kind: 'story',
+          storyline: context.storyline,
+          tier: context.tier,
+          ids: context.ids,
+          auto: true,
+        }
+      : context;
   const s = createBattle(world, ctx, battleSeedFor(world, ctx));
   if (!s) return null;
   const f = BATTLE_R5.autoFavour;

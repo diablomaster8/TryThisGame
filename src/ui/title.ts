@@ -1,3 +1,4 @@
+import { SLOT_LINES_TEXT } from '../config/strings-camp';
 import { confirmModal } from './confirm';
 import { CAMP_TEXT } from '../config/strings';
 import {
@@ -71,11 +72,27 @@ function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
     parts.push(SLOT_TEXT.age(EDU_STORY_TEXT.readerAges));
   else if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
   parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
+  // Lane C r8 (R0648): Hazel's Grove names its other roads, a check on each one ended.
+  if (mode === 'campaign') parts.push(...slotStories(s));
   if (s.savedAtWallMs > 0) {
     const days = Math.floor((nowMs - s.savedAtWallMs) / 86_400_000);
     parts.push(SLOT_TEXT.ago(days));
   }
   return parts.join(' · ');
+}
+
+/** R0648: a line glyph per road walked (✓ once ended), and the stories done. */
+export function slotStories(s: SaveSummary): string[] {
+  const out: string[] = [];
+  const glyphs = Object.entries(s.lines ?? {})
+    .map(
+      ([id, st]) =>
+        `${SLOT_LINES_TEXT.glyph[id] ?? id}${st === 'done' ? SLOT_LINES_TEXT.done : ''}`,
+    )
+    .join(' ');
+  if (glyphs) out.push(glyphs);
+  if (s.questsDone) out.push(SLOT_LINES_TEXT.stories(s.questsDone));
+  return out;
 }
 
 /**

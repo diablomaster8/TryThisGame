@@ -36,6 +36,7 @@ import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
 import { paintGrade } from './ui/look-paint';
+import { applyTextScale } from './ui/text-scale';
 import { currentGrade } from './ui/title-card';
 import { phoneDefault } from './ui/world-settings';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
@@ -60,6 +61,7 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
   return reduce ? 1 : 1 - Math.exp((-rate * dtMs) / 1000);
 }
 import { STAGE_LINE } from './render/stage-pose';
+import { FrameSpikes } from './platform/frame-spikes';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -108,6 +110,8 @@ export class Game {
   readonly input: GameInput;
   readonly cameraControls: CameraControls;
   private readonly pending: Command[] = [];
+  /** HOT-2: frame times and the breakdown of long frames, for the debug panel and probes. */
+  readonly spikes = new FrameSpikes();
   private rafId = 0;
   private running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
@@ -763,6 +767,7 @@ export class Game {
   stop(): void {
     this.running = false;
     cancelAnimationFrame(this.rafId);
+    this.spikes.rest();
   }
 
   /** Tab shown again: catch up on the time hidden, then carry on. */
@@ -789,6 +794,7 @@ export class Game {
     if (!this.running) return;
     // One bad value must not freeze the page or be autosaved over the last good save:
     // keep the loop alive, stop saving and let the HUD offer a reload.
+    this.spikes.begin();
     try {
       this.tick(nowMs);
     } catch (err) {
@@ -798,6 +804,7 @@ export class Game {
         this.hooks.onCrash();
       }
     }
+    this.spikes.end();
     this.rafId = requestAnimationFrame(this.frame);
   };
 
@@ -809,6 +816,7 @@ export class Game {
 
     this.input.pollKeyboard();
     for (const poll of this.framePollers) poll();
+    this.spikes.lap('input');
 
     // Sim steps.
     const steps = this.clock.advance(dt);
@@ -827,6 +835,7 @@ export class Game {
       // the backlog runs as fine steps on later frames and only what is past
       // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
       this.clock.capBacklog(SIM.maxLiveBacklogMs);
+      this.spikes.noteSteps(steps);
     }
     // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
     // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
@@ -848,6 +857,7 @@ export class Game {
       }
       kview.keeperAlpha = Math.min(1, this.keeperAccMs / sub);
     }
+    this.spikes.lap('sim');
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
       else this.view.onEvents(events, nowMs);
@@ -881,6 +891,7 @@ export class Game {
       }
     }
 
+    this.spikes.lap('events');
     // A new place or a new scene at the head of the story queue (a debug chapter jump among
     // them) restages this frame: daylight, the story sets and the place's scenery.
     const headNow = `${this.world.location}|${this.world.campaign?.queue[0] ?? ''}`;
@@ -959,6 +970,7 @@ export class Game {
     const reduce = this.reduceMotion;
     this.camera.reduceMotion = reduce;
     this.markReduceMotion();
+    applyTextScale(this.world);
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     // R0073: "Zoom out when running" pulls the view out to the survey step on a long run.
     {
@@ -982,6 +994,7 @@ export class Game {
       }
     }
 
+    this.spikes.lap('camera');
     // K7 (package a1): the stage poses read the line on screen for its gesture.
     STAGE_LINE.line = this.storyLine;
     if (!this.renderPaused) {
@@ -990,7 +1003,9 @@ export class Game {
         this.scene3d.storySpeaker = this.storySpeaker;
         this.scene3d.storyLine = this.storyLine;
         this.scene3d.update(this.world, this.camera, this.clock.alpha, nowMs);
+        this.spikes.lap('update');
         this.scene3d.render();
+        this.spikes.lap('draw');
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
@@ -1005,7 +1020,9 @@ export class Game {
         this.culler.update(this.camera);
         this.view.batch.cull = this.culler.visible;
         this.view.update(this.world, this.camera, this.clock.alpha, nowMs);
+        this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
+        this.spikes.lap('draw');
       }
     }
 
@@ -1013,6 +1030,7 @@ export class Game {
     this.glintKeepsakes(nowMs);
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
+    this.spikes.lap('save');
   }
 
   /** R0091: when the last twinkle was, and the next one over each collectible in reach. */

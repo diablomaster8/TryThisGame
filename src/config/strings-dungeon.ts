@@ -452,3 +452,54 @@ export const HOLLOW_R6_TEXT = {
       `The Stray King! It doffs its bottle-cap crown and leaves you a gift: ${hat}.`,
   },
 };
+
+/** Lane B round 7 (2026-10-30). */
+export const HOLLOW_R7_TEXT = {
+  /** R0204: Gran's Picnic on the nook's rug, and the tent's note. */
+  picnicRest: "A picnic on Gran's rug. Everyone's rested and very pleased with themselves.",
+  picnicTent: "A snug tent. Safe to close the game here; you'll wake right where you are.",
+  /** R0205: the Deep Hollow's floor 99. */
+  deepBottom: 'The bottom of the Deep Hollow. The stairs go no further, only round in a sulk.',
+  /** R0179: the difficulty tiers at the cave mouth. */
+  tiers: {
+    cosy: {
+      icon: '🍵',
+      name: 'Cosy',
+      help: 'Cosy: gentle fights, small packs, a cup of tea after.',
+    },
+    brisk: {
+      icon: '🌬',
+      name: 'Brisk',
+      help: 'Brisk: the acts again, much tougher, with better finds. Waypoints are its own.',
+    },
+    wild: {
+      icon: '🌪',
+      name: 'Wild',
+      help: 'Wild: big packs, tricky champions and the best finds. Bring a varied party.',
+    },
+  },
+  tierLocked: "Opens when the last act's boss falls on the tier before it.",
+  tierPicked: (name: string) => `The Hollow feels ${name} now.`,
+  tierOpened: (name: string) => `A new way down: ${name} is open at the cave mouth!`,
+  /** R0206: the act bosses' hats and the cape (names), and the toast when one is given. */
+  wearables: {
+    'hollow-mushroom': 'Grumblecap Cap',
+    'hollow-hedge': 'Hedge Helmet',
+    'hollow-looroll': 'Pharaoh Wrap',
+    'hollow-noodle': 'Noodle Beanie',
+    'hollow-hearth': 'Hearth Crown',
+    'hollow-cape': 'Keeper of the Hollow Cape',
+  },
+  wearableGiven: (name: string) => `A keepsake from the deep: ${name}. It's in the Roster.`,
+  /** R0187: speed runs. */
+  speedOn: '⏱ Speed run: on',
+  speedOff: '⏱ Speed run: off',
+  split: (n: number, time: string, delta: string) => `⏱ Level ${n}: ${time}${delta}`,
+  delta: (ahead: boolean, time: string) => (ahead ? ` (${time} ahead)` : ` (${time} behind)`),
+  finish: (time: string, best: boolean) =>
+    best
+      ? `⏱ ${time}. A new best for this act!`
+      : `⏱ ${time}. Not your quickest, but who's counting?`,
+  journalTimes: '⏱ Best act times',
+  journalTime: (act: string, tier: string, time: string) => `${act} (${tier}): ${time}`,
+};

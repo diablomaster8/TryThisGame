@@ -40,7 +40,7 @@ export const HOLLOW = {
    * Strays (R0162): snatches per stray per floor, a dropped Shell every `dropEveryMs` while
    * it flees, the energy a party Nubbin spends to shoo one, how near counts as seeing one.
    */
-  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 10, seeRadius: 7 },
+  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 0.1, seeRadius: 7 },
   /**
    * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
    * walking onto one, each buff's seconds (0 is instant), and the effect sizes.
@@ -278,10 +278,10 @@ export const HOLLOW_ZONES = {
 export const HOLLOW_R6 = {
   /** R0160: a boss chest's guaranteed tier, and the energy a party retries a boss with. */
   bossChestRarity: 'legendary' as const,
-  bossRetryEnergy: 100,
+  bossRetryEnergy: 1,
   /** R0180: a lost fight leaves the party at least this much energy; "Sneak past?" after this
    * many losses to one pack, and the pack leaves the Keeper be for `sneakMs`. */
-  lossEnergy: 50,
+  lossEnergy: 0.5,
   sneakAfter: 3,
   sneakMs: 60_000,
   /** R0203: share of normal packs asleep; cells within which a running Keeper wakes them; the
@@ -299,4 +299,26 @@ export const HOLLOW_R6 = {
   strayKingOneIn: 12,
   /** R0211: levels kept in the rolling stats. */
   statsKeep: 20,
+} as const;
+
+/** Lane B round 7 (2026-10-30): aggro, rest nooks, the Deep Hollow, tiers, rooms. */
+export const HOLLOW_R7 = {
+  /** R0200: a pack chases this long after its "!" beat, then walks home with a "?" and won't
+   * notice the Keeper again for `ignoreMs`. A Shy party Nubbin shrinks the notice radius.
+   * R0196: after a won fight no pack notices for `afterFightMs`. */
+  aggro: { chaseMaxMs: 8000, askMs: 1500, ignoreMs: 3000, shyLess: 1, afterFightMs: 3000 },
+  /** R0204: seconds on the nook's rug for Gran's Picnic, its happiness, levels remembered. */
+  picnic: { sitMs: 5000, happy: 10, keep: 40 },
+  /** R0205: the Deep Hollow's last floor. */
+  deepMax: 99,
+  /** R0198: how long the Keeper waits quietly by a nursery nook (a Shy friend: less). */
+  nook: { quietMs: 3000, shyMs: 1000 },
+  /** R0179: the tiers' chance multiplier for Fancy-or-better gear, and FIGHT's assist flag. */
+  tiers: {
+    fancyMul: { cosy: 1, brisk: 1.5, wild: 2.2 },
+    fight: { cosy: 'gentle', brisk: 'standard', wild: 'tactics' },
+  },
+  /** R0195: the tactics board cut from a floor: a terrace step (world units), the walkable
+   * share it promises, how far the window may slide, and each spawn side's columns and size. */
+  arena: { heightStep: 0.5, minWalkable: 0.6, slide: 3, sideCols: 2, minSide: 3 },
 } as const;

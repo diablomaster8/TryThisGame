@@ -66,12 +66,12 @@ describe('strays as a chase (R0162)', () => {
     const run = world.dungeon!;
     const s = run.strays[0]!;
     const n = world.nubbins.find((x) => run.party.includes(x.id))!;
-    n.needs.energy = 80;
+    for (const id of run.party) world.nubbins.find((x) => x.id === id)!.needs.energy = 0.8;
     const events: SimEvent[] = [];
     applyCommand(world, { kind: 'feedStray', id: s.id }, events);
     expect(events.some((e) => e.kind === 'strayShooed')).toBe(true);
     expect(s.shooed).toBe(true);
-    expect(n.needs.energy).toBe(80 - HOLLOW.strays.shooEnergy);
+    expect(n.needs.energy).toBeCloseTo(0.8 - HOLLOW.strays.shooEnergy, 6);
     // Shooed, it never snatches on this floor.
     const out: SimEvent[] = [];
     for (let t = 0; t < 15_000; t += SIM.stepMs) {

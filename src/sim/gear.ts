@@ -19,6 +19,7 @@ import {
 } from '../config/dungeon-loot';
 import { CRITTER_SPECIES } from './critters';
 import { notePickup } from './dungeon-log';
+import { fancyMul } from './dungeon-tiers';
 import type { Rng } from './rng';
 import type { GearItem, GearState, NubbinType, SimEvent, World } from './types';
 
@@ -32,12 +33,16 @@ export function effectiveMf(mf: number, rare: boolean): number {
   return (mf * LOOT.mfKnee) / (mf + LOOT.mfKnee);
 }
 
-/** A gear rarity: the table's rates, with every tier above plain scaled up by magic find. */
-export function rollRarity(rng: Rng, mf = 0): RarityId {
+/**
+ * A gear rarity: the table's rates, with every tier above plain scaled up by magic find, and
+ * Fancy or better by `fancyMul` too (R0179: a Brisk or Wild run).
+ */
+export function rollRarity(rng: Rng, mf = 0, fancyMul = 1): RarityId {
   const tiers = RARITIES.filter((r) => r.rate > 0);
   const up = tiers.slice(1).map((r) => {
     const rare = r.id === 'legendary' || r.id === 'set';
-    return { id: r.id, rate: r.rate * (1 + effectiveMf(mf, rare) / 100) };
+    const tier = rare || r.id === 'fancy' ? fancyMul : 1;
+    return { id: r.id, rate: r.rate * tier * (1 + effectiveMf(mf, rare) / 100) };
   });
   const plain = Math.max(0, 1 - up.reduce((a, r) => a + r.rate, 0));
   let roll = rng.next() * (plain + up.reduce((a, r) => a + r.rate, 0));
@@ -58,7 +63,7 @@ export function rollGear(
   rarity?: RarityId,
 ): GearItem {
   const g = ensureGear(world);
-  const tier = rarity ?? rollRarity(rng, mf);
+  const tier = rarity ?? rollRarity(rng, mf, fancyMul(world.dungeon?.difficulty));
   const def = RARITIES.find((r) => r.id === tier)!;
   const bases = tier === 'charm' ? BASES.filter((b) => b.slot === 'charm') : BASES;
   const base = rng.pick(bases);

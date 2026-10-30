@@ -3,6 +3,7 @@ import { COSMETIC_LABELS, eggshellLabel } from './strings-look';
 import { HOP_COURSE_TEXT } from './strings-move';
 import { LADDER_TEXT } from './strings-battle-r6';
 import type { C } from '../render/sprites/palette';
+import { HOLLOW_COSMETICS } from './cosmetics-hollow';
 import type { Season } from '../sim/types';
 
 /**
@@ -19,7 +20,8 @@ import type { Season } from '../sim/types';
 export type CosmeticSlot = 'hat' | 'face' | 'neck' | 'back' | 'body';
 export type CosmeticRarity = 'common' | 'rare' | 'prize';
 /** `season`: on sale only in its real season (LOOK-70), and kept for good once bought. */
-export type CosmeticSource = 'shop' | 'race' | 'hatch' | 'season';
+/** `hollow`: a Hollow keepsake (R0206, lane B), given by an act boss. */
+export type CosmeticSource = 'shop' | 'race' | 'hatch' | 'season' | 'hollow';
 
 /** A palette colour by name, or a colour of the egg the wearer hatched from. */
 export type CosmeticColour = keyof typeof C | 'egg.shell' | 'egg.shade' | 'egg.cap' | 'egg.spot';
@@ -567,6 +569,8 @@ export const COSMETICS: readonly Cosmetic[] = [
     source: 'season',
     season: 'winter',
   },
+  // Lane B round 7 (R0206): the act bosses' hats and the Hollow cape.
+  ...HOLLOW_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));

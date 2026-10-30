@@ -58,6 +58,8 @@ const CURVE_PER_PUFF = 10;
 const CURVE_SLACK = 1.25;
 /** Only moves carried this often are judged, so a rare one can't trip it on a small sample. */
 const HELD_MIN = 100;
+/** The Sprout's bouts may run a little longer than the Keeper's 14 (it never aims). */
+const SPROUT_MEDIAN_MAX = 18;
 
 function bout(seed: number, level: AiLevel, t: Tally): void {
   const rng = Rng.fromSeed(seed * 7919 + 13);
@@ -159,13 +161,17 @@ describe('balance harness (recs FIGHT-81)', () => {
     for (const [id, n] of Object.entries(t.picks)) expect(n / t.pickCount, id).toBeLessThan(0.35);
   });
 
-  it('Sprout level: the type loop holds and nothing runs past 60 turns', () => {
+  it('Sprout level: the type loop holds, bouts are 6–14 turns, none past 60', () => {
     const t = run('sprout', 400);
     const r = rates(t);
     for (const ty of NUBBIN_TYPES as readonly NubbinType[]) {
       expect(r[ty], ty).toBeGreaterThanOrEqual(0.45);
       expect(r[ty], ty).toBeLessThanOrEqual(0.55);
     }
+    // Lane C r8: the Sprout's median (34 before its picks leaned to hits, 17 now). It stays
+    // above the Keeper's 6–14 on purpose: a kid's foe still picks at random among its hits.
+    expect(median(t.turns)).toBeGreaterThanOrEqual(6);
+    expect(median(t.turns)).toBeLessThanOrEqual(SPROUT_MEDIAN_MAX);
     expect(t.turns.at(-1)).toBeLessThanOrEqual(BATTLE.turn.maxRounds);
   });
 

@@ -29,6 +29,7 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
@@ -63,6 +64,7 @@ import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
+import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
@@ -72,6 +74,7 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
+import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, heldStyle, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
@@ -158,6 +161,8 @@ export class WorldView {
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
   private readonly tapPath = new TapPath();
+  /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
+  private readonly heldRing = new HeldRing();
   /** MOVE-46: the Keeper's footfalls, by surface. */
   private readonly footfall = new Footfall();
   private tufts = 0;
@@ -588,6 +593,27 @@ export class WorldView {
         opacity: 0.35 * Math.max(0.3, 1 - y * 0.2),
       });
     };
+
+    // TECH-02: under a held Nubbin, a ring that turns green when letting go would be a place.
+    this.heldRing.frame(world, nowMs, this.particles.reduceMotion);
+    const hr = this.heldRing.spot;
+    if (hr) {
+      const rs = this.sheets.get('tech:heldRing', buildHeldRingSheet);
+      const rect = rs.frames.get(frameKey(hr.gentle ? 'heldRingGentle' : 'heldRing', 'front', 0));
+      if (rect)
+        batch.draw({
+          sheet: rs,
+          rect,
+          flip: false,
+          x: hr.x,
+          y: HELD_RING.lift,
+          z: hr.z,
+          mode: 'flat',
+          w: HELD_RING.radius * 2,
+          h: HELD_RING.radius * 2,
+          opacity: hr.gentle ? 0.95 : 0.7,
+        });
+    }
 
     const home = this.location === 'grove';
     // An exclusive stage (campaign graphics C3, C4) draws only its set: no Grove scenery,
@@ -1889,12 +1915,14 @@ export class WorldView {
         ? signatureAt(n.id, n.species, nowMs, this.particles.reduceMotion)
         : null;
     // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
-    const y =
+    const y = Math.max(
       lerp(v.prev.y, n.y, alpha) +
-      (held && this.location === 'grove' ? terraceY(x, z) : 0) +
-      (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
-      (fly?.y ?? 0) +
-      (sig?.dy ?? 0);
+        (held && this.location === 'grove' ? terraceY(x, z) : 0) +
+        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+        (fly?.y ?? 0) +
+        (sig?.dy ?? 0),
+      this.heldRing.lowerY(n.id, nowMs),
+    );
 
     let key: string;
     let flip = false;
@@ -2376,6 +2404,8 @@ export function emoteFor(n: Nubbin): EmoteShape {
   // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
   const own = soulEmote(n);
   if (own) return own;
+  // TECH-01: a new hatchling asks for its first fruit.
+  if (wantsFirstFruit(n)) return 'fruit';
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
