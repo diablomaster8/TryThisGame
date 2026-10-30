@@ -90,3 +90,19 @@ export const TRIAL_TEXT = {
   back: 'All trials',
   dir: { n: 'Step north', e: 'Step east', s: 'Step south', w: 'Step west' },
 };
+
+/** "Save as postcard" and replay codes (FIGHT-100). */
+export const POSTCARD_TEXT = {
+  title: 'Greetings from the dojo!',
+  save: 'Save as postcard',
+  copy: 'Copy replay code',
+  bonk: 'Bonk',
+  footer: 'Nobody was hurt. Several were very surprised.',
+  quiet: 'A very polite bout. Everyone said sorry twice.',
+  crit: (by: string, move: string, to: string, n: number) =>
+    `${by}'s ${move} on ${to}: a Big one! ${n} at once. ${to} is still blinking.`,
+  boing: (who: string, n: number) =>
+    `${who} spun round and bonked themself for ${n}. Boing! Nobody saw. Everybody saw.`,
+  hit: (by: string, move: string, to: string, n: number) =>
+    `${by} gave ${to} a ${move} worth ${n}. It will be talked about.`,
+};

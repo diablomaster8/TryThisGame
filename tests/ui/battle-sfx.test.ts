@@ -59,3 +59,18 @@ describe('battle sound effects', () => {
     );
   });
 });
+
+describe('the bout postcard (recs FIGHT-100)', () => {
+  it('names the funniest moment', async () => {
+    const { postcardLine } = await import('../../src/ui/battle-postcard');
+    const c = (id: string, name: string) => ({ id, name, foeName: 0 });
+    const s = {
+      sides: [[c('a', 'Dew')], [c('b', 'Puff')]],
+      log: [
+        { k: 'hit', by: 'a', to: 'b', dmg: 4, strong: false, guarded: false, move: 'bonk' },
+        { k: 'boing', who: 'b', dmg: 2 },
+      ],
+    } as never;
+    expect(postcardLine(s)).toContain('Puff spun round');
+  });
+});

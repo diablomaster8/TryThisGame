@@ -16,6 +16,7 @@ import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
 import { idleKind, idlePose } from './battle-idle';
+import { postcardRow } from './battle-postcard';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -65,7 +66,7 @@ import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
 import { canFuse } from '../sim/battle/fusion';
 import { FRIENDLY_TEXT, FUSION_TEXT } from '../config/strings-battle-r6';
-import { recordAct, recordStart } from './battle-record';
+import { currentReplay, recordAct, recordStart } from './battle-record';
 
 /**
  * The one battle screen (recs FIGHT-25, FIGHT-26, FIGHT-30) for dojo singles, story bouts and
@@ -1162,6 +1163,8 @@ export class BattleScreen {
       else if (f.calm !== undefined)
         card.appendChild(el('p', undefined, T.calmed(combatantName(f), f.calm)));
     }
+    // FIGHT-100: the funniest moment as a postcard, and the bout's replay code.
+    if (s.mode === 'turn') card.appendChild(postcardRow(s, currentReplay()));
     card.appendChild(button(T.backToGrove, () => this.close(), 'btn btn-primary bs-big'));
     box.appendChild(card);
     box.hidden = false;
