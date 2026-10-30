@@ -748,6 +748,8 @@ export interface DungeonPack {
   asleep?: true;
   /** R0203: the tiptoe bonus for this pack is paid. */
   tiptoed?: true;
+  /** R0200: when it last gave up a chase (a "?" on the way home); absent before. */
+  gaveUpMs?: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';

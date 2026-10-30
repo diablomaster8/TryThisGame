@@ -300,3 +300,10 @@ export const HOLLOW_R6 = {
   /** R0211: levels kept in the rolling stats. */
   statsKeep: 20,
 } as const;
+
+/** Lane B round 7 (2026-10-30): aggro, rest nooks, the Deep Hollow, tiers, rooms. */
+export const HOLLOW_R7 = {
+  /** R0200: a pack chases this long after its "!" beat, then walks home with a "?" and won't
+   * notice the Keeper again for `ignoreMs`. A Shy party Nubbin shrinks the notice radius. */
+  aggro: { chaseMaxMs: 8000, askMs: 1500, ignoreMs: 3000, shyLess: 1 },
+} as const;

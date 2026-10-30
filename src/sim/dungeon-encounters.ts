@@ -14,9 +14,9 @@ import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { noteFight } from './dungeon-log';
 import { lostTo, sneaking, startsAsleep, stepSleepy } from './dungeon-sleepy';
-import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
+import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
-import { actFamilies, type ChampionModId } from '../config/dungeon-foes';
+import { actFamilies, FOE_FAMILIES, type ChampionModId } from '../config/dungeon-foes';
 import {
   combatantOf,
   createBattle,
@@ -448,13 +448,32 @@ export function finishEncounter(
 
 const routes = new WeakMap<DungeonPack, NavRoute>();
 
-function walk(f: Floor, pack: DungeonPack, target: Vec2, speed: number, dt: number): boolean {
+const R7 = HOLLOW_R7.aggro;
+
+/** R0200: a party with a Shy Nubbin in it is noticed from a cell closer. */
+function shyParty(world: World, run: DungeonRun): boolean {
+  return run.party.some((id) => world.nubbins.find((n) => n.id === id)?.personality === 'shy');
+}
+
+/** R0200: Swim-type foe families may chase through water; the rest go round. */
+export function swimFamily(id: FoeFamilyId): boolean {
+  return FOE_FAMILIES.find((d) => d.id === id)?.type === 'swim';
+}
+
+function walk(
+  f: Floor,
+  pack: DungeonPack,
+  target: Vec2,
+  speed: number,
+  dt: number,
+  wet = false,
+): boolean {
   let route = routes.get(pack);
   if (!route) {
     route = newRoute();
     routes.set(pack, route);
   }
-  const wp = nextWaypoint(route, f, pack.pos, target, false, 0.3) ?? pack.pos;
+  const wp = nextWaypoint(route, f, pack.pos, target, wet, 0.3) ?? pack.pos;
   const dx = wp.x - pack.pos.x;
   const dz = wp.z - pack.pos.z;
   const d = Math.hypot(dx, dz);
@@ -504,18 +523,25 @@ export function stepPacks(
       continue;
     }
     const fromHome = Math.hypot(home.x - pack.pos.x, home.z - pack.pos.z);
-    if (pack.state === 'idle' && !settling && toKeeper <= spec.aggroRadius * DUNGEON.cell) {
+    // R0200: a pack that just gave up looks away for a moment; a Shy friend keeps the party small.
+    const ignoring = pack.gaveUpMs !== undefined && world.timeMs - pack.gaveUpMs < R7.ignoreMs;
+    const aggro =
+      spec.aggroRadius - (spec.kind !== 'boss' && shyParty(world, run) ? R7.shyLess : 0);
+    if (pack.state === 'idle' && !settling && !ignoring && toKeeper <= aggro * DUNGEON.cell) {
       pack.state = 'chase';
       pack.noticedMs = world.timeMs;
       events.push({ kind: 'packNoticed', packId: pack.id });
     }
     if (pack.state === 'chase') {
-      if (settling || fromHome > spec.leash * DUNGEON.cell) {
+      const chased = world.timeMs - pack.noticedMs - E.noticeMs;
+      const tired = spec.kind !== 'boss' && chased > R7.chaseMaxMs;
+      if (settling || fromHome > spec.leash * DUNGEON.cell || tired) {
         pack.state = 'home';
+        if (!settling) pack.gaveUpMs = world.timeMs;
       } else {
-        // A beat of surprise ("!") before the chase.
+        // A beat of surprise ("!") before the chase. Only swimmers follow through water.
         if (world.timeMs - pack.noticedMs >= E.noticeMs)
-          walk(f, pack, k.pos, KEEPER.speed * E.chaseSpeed, dt);
+          walk(f, pack, k.pos, KEEPER.speed * E.chaseSpeed, dt, swimFamily(spec.family));
         pack.target = { x: k.pos.x, z: k.pos.z };
         if (toKeeper < E.contact) {
           startEncounter(world, f, pack, rng, events);
