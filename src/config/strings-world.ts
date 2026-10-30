@@ -209,3 +209,21 @@ export const RIDE_TEXT = {
   hopped: (name: string) => `${name} hops sideways for no reason at all.`,
   swimHint: 'The pond is too deep to wade. A good swimmer could take you across.',
 } as const;
+
+/** R0122 (WORLD-55): the map's overlay layers. */
+export const MAP_LAYER_TEXT = {
+  layers: {
+    quests: '★ Quests',
+    keepsakes: '🌸 Keepsakes',
+    traces: '🔍 Traces',
+    travel: '📍 Travel',
+  },
+  quests: (active: number, available: number, done: number) =>
+    `★ ${active} under way · ! ${available} to find · ✓ ${done} done`,
+  keepsakes: (got: number, of: number) => `🌸 ${got}/${of} keepsakes found`,
+  traces: (got: number, of: number) => `🔍 ${got}/${of} traces read`,
+  travel: (n: number) => `📍 ${n} places to travel to`,
+  complete: (pct: number) => `${pct}% explored`,
+  keepsakeSpot: '🌸',
+  traceSpot: '🔍',
+} as const;
