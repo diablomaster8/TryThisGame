@@ -37,7 +37,7 @@ import { shyHopBack } from './nubbin-hop';
 import { addAffection, addHappiness, applyPet } from './needs';
 import { isFree } from './nubbin';
 import { giveHeartFruit } from './breeding';
-import { noteCare } from './personality';
+import { noteCare, noteTouch } from './personality';
 import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
@@ -1225,6 +1225,8 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
     events.push({ kind: 'interacted', nubbinId: n.id, action, ok: false });
     return;
   }
+  // R0530: every kind of care shapes a child's personality, not only pets.
+  noteTouch(n, action, now);
   switch (action) {
     case 'tickle':
       addHappiness(n, 4);

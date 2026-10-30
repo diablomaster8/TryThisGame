@@ -1,16 +1,19 @@
-import { PERSONALITY, PERSONALITY_LEAN } from '../config/tuning';
-import type { Nubbin, Personality } from './types';
+import { NEEDS, PERSONALITY, PERSONALITY_LEAN } from '../config/tuning';
+import type { Interaction, Nubbin, Personality } from './types';
 
 /**
  * Personality is decided by how the Nubbin was treated as a child and locked in at
  * evolution. It changes idle behavior only, never stats.
  */
 export function decidePersonality(care: Nubbin['childCare']): Personality {
-  const total = care.pets + care.throws + care.feeds;
-  if (care.throws >= PERSONALITY.mischievousThrows && care.throws > care.pets) return 'mischievous';
-  if (care.pets >= PERSONALITY.cheerfulPets) return 'cheerful';
+  // R0530: every kind touch counts with the pets, and a tuck-in with the meals.
+  const kind = care.pets + (care.touches ?? 0);
+  const rest = care.feeds + (care.tucks ?? 0);
+  const total = kind + care.throws + rest;
+  if (care.throws >= PERSONALITY.mischievousThrows && care.throws > kind) return 'mischievous';
+  if (kind >= PERSONALITY.cheerfulPets) return 'cheerful';
   if (total < PERSONALITY.shyTotal) return 'shy';
-  if (care.feeds >= PERSONALITY.lazyFeeds && care.feeds >= care.pets) return 'lazy';
+  if (rest >= PERSONALITY.lazyFeeds && rest >= kind) return 'lazy';
   return 'cheerful';
 }
 
@@ -25,7 +28,7 @@ export function leaningPersonality(n: Nubbin): Personality | null {
   if (n.personality) return n.personality;
   if (n.stage !== 'child') return null;
   const c = n.childCare;
-  const total = c.pets + c.throws + c.feeds;
+  const total = c.pets + c.throws + c.feeds + (c.touches ?? 0) + (c.tucks ?? 0);
   if (total < PERSONALITY_LEAN.minCare && n.stageMs < PERSONALITY_LEAN.shyAfterMs) return null;
   return decidePersonality(c);
 }
@@ -53,4 +56,18 @@ export function idleMultipliers(
 export function noteCare(n: Nubbin, what: 'pets' | 'throws' | 'feeds'): void {
   if (n.stage !== 'child') return;
   n.childCare[what] += 1;
+}
+
+/**
+ * R0530 (SOUL-12): a gentle interaction counts toward the child's personality too: a tuck-in
+ * with the meals (lazy), the rest with the pets (cheerful). At most one per pet cooldown, so
+ * a flurry of taps is one act of care.
+ */
+export function noteTouch(n: Nubbin, action: Interaction, now: number): void {
+  if (n.stage !== 'child') return;
+  const c = n.childCare;
+  if (c.lastCareMs !== undefined && now - c.lastCareMs < NEEDS.petCooldownMs) return;
+  c.lastCareMs = now;
+  if (action === 'tuckIn') c.tucks = (c.tucks ?? 0) + 1;
+  else c.touches = (c.touches ?? 0) + 1;
 }

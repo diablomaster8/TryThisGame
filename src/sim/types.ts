@@ -184,6 +184,14 @@ export interface Nubbin {
     /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
     boutWins?: number;
     boutLosses?: number;
+    /**
+     * R0530 (SOUL-12): the other kind touches (tickle, hug, groom, praise, high five) and
+     * tuck-ins, each counted once per pet cooldown; absent = 0, no save bump.
+     */
+    touches?: number;
+    tucks?: number;
+    /** R0530: sim time the last touch or tuck-in was counted. */
+    lastCareMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
