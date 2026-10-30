@@ -182,7 +182,7 @@ describe('R0535 time of day', () => {
     expect(dayPhase(23)).toBe('night');
     expect(dayPhase(3)).toBe('night');
     const w = createWorld(1, 0);
-    stepCurfew(w, 100, new Date(2026, 9, 30, 19, 30).getTime(), []);
+    stepCurfew(w, 100, Date.UTC(2026, 9, 30, 19, 30), []);
     expect(w.phase).toBe('dusk');
   });
 

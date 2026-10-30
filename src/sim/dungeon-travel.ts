@@ -38,6 +38,7 @@ import { goToZone } from './dungeon-zones';
 import type { DungeonRun, SimEvent, World } from './types';
 import { bankSack } from './dungeon-sack';
 import { notePortal } from './dungeon-log';
+import { tzOf } from './local-time';
 
 /**
  * Moves the run to `depth` and puts the party at the stairs up or down, the waypoint stone, or
@@ -136,7 +137,7 @@ export function waypointTravel(world: World, id: string, rng: Rng, events: SimEv
 
 /** "New paths" from the cave mouth: the acts' layouts are redrawn, once per real day. */
 export function rerollActs(world: World, events: SimEvent[]): void {
-  const ok = !world.dungeon && rerollActSeeds(world, dailySeed(world.lastWallMs).day);
+  const ok = !world.dungeon && rerollActSeeds(world, dailySeed(world.lastWallMs, tzOf(world)).day);
   events.push({ kind: 'actsRerolled', ok });
 }
 

@@ -49,6 +49,9 @@ export interface FrameStats {
 export class LowResPipeline implements FrameStats {
   readonly renderer: WebGLRenderer;
   private size: TargetSize = { width: 1, height: 1, scale: 1 };
+  /** TECH-53: the frame height the Pixel governor asks for, and the last viewport. */
+  private targetHeight: number = RENDER.targetHeight;
+  private viewport = { width: 1, height: 1 };
 
   constructor(canvas: HTMLCanvasElement) {
     this.renderer = new WebGLRenderer({
@@ -72,7 +75,8 @@ export class LowResPipeline implements FrameStats {
 
   /** Call whenever the viewport changes (resize, rotation). Returns the new frame size. */
   resize(viewportWidth: number, viewportHeight: number): TargetSize {
-    const next = computeTargetSize(viewportWidth, viewportHeight);
+    this.viewport = { width: viewportWidth, height: viewportHeight };
+    const next = computeTargetSize(viewportWidth, viewportHeight, this.targetHeight);
     if (next.width !== this.size.width || next.height !== this.size.height) {
       // updateStyle=false: CSS owns the element size, we only size the backing store.
       this.renderer.setSize(next.width, next.height, false);
@@ -80,6 +84,12 @@ export class LowResPipeline implements FrameStats {
     }
     this.size = next;
     return next;
+  }
+
+  /** TECH-53: draw at another frame height; returns the new size, re-fitted to the viewport. */
+  setTargetHeight(height: number): TargetSize {
+    this.targetHeight = height;
+    return this.resize(this.viewport.width, this.viewport.height);
   }
 
   render(scene: Scene, camera: Camera): void {
