@@ -449,6 +449,6 @@ export const HOLLOW_R6_TEXT = {
       (name: string) => `${name} hugs the fruit, then your boot. A new friend for the Grove.`,
     ],
     king: (hat: string) =>
-      `The Stray King! It doffs its bottle-cap crown and leaves you a ${hat} hat.`,
+      `The Stray King! It doffs its bottle-cap crown and leaves you a gift: ${hat}.`,
   },
 };

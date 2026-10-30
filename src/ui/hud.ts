@@ -100,6 +100,7 @@ import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
+import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
 import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
@@ -421,6 +422,8 @@ export function mountHud(
     if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
   }, 1000);
   const celebration = new Celebration(root, game);
+  // R0326: which comic stray line comes next.
+  let strayLine = 0;
   const shop = new ShopMenu(root, game, toast);
   const expedition = new ExpeditionScreen(root);
   const races = new RacesMenu(root, game, (t) => toast(t, UI.toastLongMs), pickRunner);
@@ -1254,15 +1257,20 @@ export function mountHud(
           toast(DUNGEON_TEXT.chest(e.shells, e.egg));
           playSound('buy');
         } else if (e.kind === 'strayFed') {
-          toast(e.ok && e.name ? DUNGEON_TEXT.strayFed(e.name) : DUNGEON_TEXT.strayNeedsFruit);
+          // R0326: the strays' comic lines rotate.
+          const fed = HOLLOW_R6_TEXT.strayLines.fed;
+          toast(
+            e.ok && e.name ? fed[strayLine++ % fed.length]!(e.name) : DUNGEON_TEXT.strayNeedsFruit,
+          );
         } else if (e.kind === 'strayStartled') {
-          toast(DUNGEON_TEXT.strayStartled(e.shells));
+          const lines = HOLLOW_R6_TEXT.strayLines.snatch;
+          toast(lines[strayLine++ % lines.length]!(e.shells));
         } else if (e.kind === 'packBeaten') {
           // Monster packs (lane B, R0146).
           toast(HOLLOW_TEXT.packBeaten(e.shells));
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
-          toast(HOLLOW_TEXT.partyGiggles);
+          toast(HOLLOW_R6_TEXT.giggles);
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
         } else if (e.kind === 'strayShooed') {
@@ -1311,6 +1319,49 @@ export function mountHud(
           }
         } else if (e.kind === 'gearFound') {
           toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'haulBanked') {
+          // Lane B round 6: the haul card (R0175), boss card (R0160), losses and sleepy packs.
+          if (e.items > 0) {
+            toast(HOLLOW_R6_TEXT.banked(e.items));
+            playSound('buy');
+          }
+        } else if (e.kind === 'bossCelebration') {
+          const boss = ACT_TEXT[ACTS[e.act]?.id ?? '']?.boss ?? '';
+          celebration.showLines(HOLLOW_R6_TEXT.bossTitle(boss), [
+            HOLLOW_R6_TEXT.bossBody,
+            HOLLOW_R6_TEXT.bossChest(gearGlyph(e.item), gearName(e.item)),
+            ...(e.next ? [HOLLOW_R6_TEXT.bossNext] : []),
+          ]);
+          playSound('evolve');
+        } else if (e.kind === 'sneakOffer') {
+          toast(HOLLOW_R6_TEXT.sneakAsk);
+        } else if (e.kind === 'sneakPast') {
+          toast(HOLLOW_R6_TEXT.sneakDone);
+        } else if (e.kind === 'tiptoe') {
+          toast(HOLLOW_R6_TEXT.tiptoe(e.shells));
+          playSound('pickup');
+        } else if (e.kind === 'packWoke') {
+          const lazy = g.world.dungeon?.party
+            .map((id) => g.world.nubbins.find((x) => x.id === id))
+            .find((x) => x?.personality === 'lazy');
+          toast(e.yawn && lazy ? HOLLOW_R6_TEXT.yawned(lazy.name) : HOLLOW_R6_TEXT.woke);
+        } else if (e.kind === 'tumbleHome') {
+          toast(
+            e.kept + e.camp > 0
+              ? `${HOLLOW_R6_TEXT.tumble} ${HOLLOW_R6_TEXT.tumbleKept(e.kept, e.camp)}`
+              : HOLLOW_R6_TEXT.tumble,
+          );
+          playSound('splash');
+        } else if (e.kind === 'basketOpened') {
+          toast(
+            e.ok && e.item
+              ? HOLLOW_R6_TEXT.basketOpened(gearGlyph(e.item), gearName(e.item))
+              : HOLLOW_R6_TEXT.basketShort,
+          );
+          if (e.ok) playSound('buy');
+        } else if (e.kind === 'strayKing') {
+          toast(HOLLOW_R6_TEXT.strayLines.king(HAT_LABELS[e.hat] ?? e.hat));
+          playSound('buy');
         } else if (e.kind === 'strayAsk') {
           toast(RUMBLE_TEXT.strayAsk);
         } else if (e.kind === 'strayCalmed') {

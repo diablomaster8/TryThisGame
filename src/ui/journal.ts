@@ -20,6 +20,8 @@ import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
 import { TraceGame } from './trace';
 import { endingKey, getShots, thumbKey } from './u4-store';
+import { renderHollowPage } from './hollow-journal';
+import { HOLLOW_R6_TEXT } from '../config/strings';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -56,7 +58,7 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'paths' | 'endings' = 'chapter';
+  private page: 'chapter' | 'paths' | 'endings' | 'hollow' = 'chapter';
 
   private readonly micro: MicroScreen;
 
@@ -134,6 +136,8 @@ export class Journal {
       ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
       ['paths', STORY_TEXT.paths],
       ['endings', STORY_U4_TEXT.endingsTab],
+      // Lane B round 6: the Hollow's progress page (R0165).
+      ['hollow', HOLLOW_R6_TEXT.journalTitle],
     ] as const) {
       const b = button(
         label,
@@ -149,6 +153,7 @@ export class Journal {
     this.body.appendChild(tabs);
     if (this.page === 'paths') this.renderPaths(view);
     else if (this.page === 'endings') this.renderEndings(view);
+    else if (this.page === 'hollow') renderHollowPage(g.world, this.body);
     else this.renderChapter(g, view);
   }
 

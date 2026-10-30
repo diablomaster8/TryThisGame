@@ -253,7 +253,9 @@ describe('warm losses and sleepy packs (R0180, R0203)', () => {
     const run = world.dungeon!;
     const f = runFloor(world)!;
     const spec = f.packs!.find((p) => p.kind === 'normal')!;
-    run.packs = [{ id: spec.id, pos: cellCentre(f, spec.cell), state: 'idle', target: null, noticedMs: -1 }];
+    run.packs = [
+      { id: spec.id, pos: cellCentre(f, spec.cell), state: 'idle', target: null, noticedMs: -1 },
+    ];
     const inv = JSON.stringify(world.inventory);
     for (const n of world.nubbins) n.needs.energy = 5;
     const offers: SimEvent[] = [];
@@ -375,7 +377,13 @@ describe('the Stray King (R0326)', () => {
     expect(kings / 1200).toBeGreaterThan(0.05);
     expect(kings / 1200).toBeLessThan(0.13);
     const world = keeperWorld();
-    const s: DungeonStray = { id: 'stray-0', pos: { x: 0, z: 0 }, target: null, cooldownMs: 0, king: true };
+    const s: DungeonStray = {
+      id: 'stray-0',
+      pos: { x: 0, z: 0 },
+      target: null,
+      cooldownMs: 0,
+      king: true,
+    };
     const events: SimEvent[] = [];
     kingHat(world, s, events);
     expect(world.inventory.hats.length).toBe(1);
@@ -408,7 +416,10 @@ describe('save version 12', () => {
   it('migrates a version-11 save: an empty stash, beaten bosses counted as paid', () => {
     expect(SAVE_VERSION).toBeGreaterThanOrEqual(12);
     const world = keeperWorld();
-    world.hollow.acts = [{ bossDefeated: true, deepest: 3 }, { bossDefeated: false, deepest: 1 }];
+    world.hollow.acts = [
+      { bossDefeated: true, deepest: 3 },
+      { bossDefeated: false, deepest: 1 },
+    ];
     ensureGear(world);
     const old = JSON.parse(serialize(world, 0));
     old.version = 11;

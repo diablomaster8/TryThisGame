@@ -89,6 +89,18 @@ export class Celebration {
     this.timer = window.setTimeout(() => this.hide(), 6000);
   }
 
+  /** Lane B round 6 (R0160): the same card for a boss that runs home, with plain lines. */
+  showLines(title: string, lines: string[]): void {
+    this.title.textContent = title;
+    this.lines.innerHTML = '';
+    for (const line of lines) this.lines.appendChild(el('p', undefined, line));
+    this.parent.appendChild(this.root);
+    this.root.hidden = false;
+    this.focus.opened();
+    clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => this.hide(), 6000);
+  }
+
   hide(): void {
     clearTimeout(this.timer);
     if (this.root.hidden) return;

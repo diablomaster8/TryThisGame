@@ -2,7 +2,7 @@ import { ACTS } from '../config/dungeon-acts';
 import { ACT_TEXT, DUNGEON_TEXT, HOLLOW_TEXT, UI_TEXT } from '../config/strings';
 import { actOpen } from '../sim/dungeon-acts';
 import type { Game } from '../game';
-import { partyIds } from '../sim/dungeon';
+import { dailySeed, partyIds } from '../sim/dungeon';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { HollowMap } from './hollow-map';
@@ -18,6 +18,11 @@ import { mouthHere } from '../sim/dungeon-zones';
 import { calmers } from '../sim/dungeon-strays';
 import { TownPanel } from './dungeon-town';
 import { PartyPicker } from './dungeon-party';
+import { HOLLOW_R6_TEXT } from '../config/strings';
+import { HOLLOW_R6 } from '../config/tuning';
+import { clockText } from '../sim/dungeon-log';
+import { sackCount } from '../sim/dungeon-sack';
+import type { DungeonRun } from '../sim/types';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -51,6 +56,10 @@ export class DungeonMenu {
   private readonly gear: GearPanel;
   /** Who comes along (R0168). */
   private readonly party: PartyPicker;
+  /** Lane B round 6: End trip with a confirm (R0184), and "Sneak past?" (R0180). */
+  private readonly endDialog;
+  private readonly endText: HTMLParagraphElement;
+  private readonly sneakBtn: HTMLButtonElement;
 
   constructor(
     parent: HTMLElement,
@@ -92,11 +101,7 @@ export class DungeonMenu {
       this.barText,
       this.buffs.root,
       this.buffs.announcer,
-      button(
-        DUNGEON_TEXT.leave,
-        () => this.game()?.send({ kind: 'leaveDungeon' }),
-        'btn btn-small',
-      ),
+      button(HOLLOW_R6_TEXT.endTrip, () => this.endTrip(), 'btn btn-small'),
     );
     // Underground: the stone the Keeper stands on, and the Homing Acorn (R0148, R0150).
     this.stoneBtn = button(
@@ -147,6 +152,31 @@ export class DungeonMenu {
     this.calmBtn.hidden = this.snackBtn.hidden = true;
     this.bar.append(this.serviceBtn, this.mouthBtn, this.portalBtn);
     this.bar.append(this.calmBtn, this.snackBtn);
+    // R0180: after a few losses to one pack, sneak past it for a minute.
+    this.sneakBtn = button(
+      HOLLOW_R6_TEXT.sneakYes,
+      () => {
+        const id = sneakable(this.game()?.world.dungeon ?? null, this.game()?.world.timeMs ?? 0);
+        if (id) this.game()?.send({ kind: 'packSneak', packId: id });
+      },
+      'btn btn-small btn-primary hollow-extra',
+    );
+    this.sneakBtn.hidden = true;
+    this.bar.append(this.sneakBtn);
+    // R0184: ending a deep trip, or one with finds unbanked, asks first.
+    this.endDialog = modal(parent, HOLLOW_R6_TEXT.endTrip, HOLLOW_R6_TEXT.endNo);
+    this.endText = el('p', 'help');
+    this.endDialog.body.append(
+      this.endText,
+      button(
+        HOLLOW_R6_TEXT.endYes,
+        () => {
+          this.endDialog.hide();
+          this.game()?.send({ kind: 'leaveDungeon' });
+        },
+        'btn btn-primary',
+      ),
+    );
     this.gear = new GearPanel(parent, game);
     this.bar.append(button(GEAR_TEXT.button, () => this.gear.open(), 'btn btn-small hollow-extra'));
     // The minimap: its button sits in the bar, its panel is the bar's last row.
@@ -161,6 +191,15 @@ export class DungeonMenu {
     if (g.world.location !== 'grove') return;
     // Who comes along is the picker's cards now (R0168).
     this.info.textContent = DUNGEON_TEXT.best(g.world.hollow.best, g.world.hollow.runs);
+    // R0185: today's results, which simply refresh each day.
+    const t = g.world.hollow.today;
+    const day = t?.day ?? '';
+    this.info.append(
+      el('br'),
+      day === dailySeed(g.world.lastWallMs).day && t!.deepest > 0
+        ? HOLLOW_R6_TEXT.today(t!.deepest, clockText(t!.bestMs), t!.finds)
+        : HOLLOW_R6_TEXT.todayNone,
+    );
     this.party.render(g.world, partyIds(g.world));
     this.listActs(g.world);
     this.listTravel(g.world);
@@ -170,6 +209,7 @@ export class DungeonMenu {
   close(): void {
     this.dialog.hide();
     this.waypoints.close();
+    this.endDialog.hide();
     this.town.close();
     this.gear.close();
   }
@@ -200,6 +240,7 @@ export class DungeonMenu {
     this.portalBtn.hidden = !campPortalHere(world);
     this.snackBtn.hidden = !run.strayAsk;
     this.calmBtn.hidden = !run.strayAsk || !calmers(world, run).length;
+    this.sneakBtn.hidden = !sneakable(run, world.timeMs);
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;
     this.acornBtn.textContent = HOLLOW_TEXT.acornButton(world.hollow.acorns, free);
@@ -215,6 +256,9 @@ export class DungeonMenu {
             ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
             : DUNGEON_TEXT.floor(run.depth);
     this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
+    // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
+    const sack = sackCount(run);
+    if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
   }
 
   private listActs(world: World): void {
@@ -297,10 +341,33 @@ export class DungeonMenu {
     );
   }
 
+  /** R0184: End trip, with a confirm when finds are unbanked or the trip is deep. */
+  private endTrip(): void {
+    const run = this.game()?.world.dungeon;
+    if (!run) return;
+    const sack = sackCount(run);
+    if (sack === 0 && run.depth <= 1) {
+      this.game()?.send({ kind: 'leaveDungeon' });
+      return;
+    }
+    this.endText.textContent = HOLLOW_R6_TEXT.endConfirm(sack, run.depth);
+    this.endDialog.show();
+  }
+
   private enter(daily: boolean): void {
     const g = this.game();
     if (!g) return;
     this.close();
     g.send({ kind: 'enterDungeon', daily });
   }
+}
+
+/** R0180: a pack the party has lost to often enough, still about and not yet sneaked past. */
+function sneakable(run: DungeonRun | null, now: number): string | null {
+  if (!run?.packLosses) return null;
+  for (const [id, n] of Object.entries(run.packLosses)) {
+    if (n < HOLLOW_R6.sneakAfter || (run.sneakUntil?.[id] ?? -1) > now) continue;
+    if (run.packs?.some((p) => p.id === id && p.state !== 'beaten')) return id;
+  }
+  return null;
 }
