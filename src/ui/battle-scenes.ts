@@ -132,6 +132,30 @@ export function storyBoutRows(
 }
 
 /**
+ * Lane C r7 (R0275): the journal offers a story bout at its campaign beat, the first time it
+ * opens, beside the chapter's goal: Fight or Let it pass, as the dojo's list does. One the
+ * Keeper has answered (fought, skipped or won) stays in the dojo's list only.
+ */
+export function storyBoutJournal(g: Game, body: HTMLElement, close: () => void): void {
+  const marks = storyBoutsOf(g.world);
+  const fresh = openStoryBouts(g).filter((id) => marks[id] === undefined);
+  if (!fresh.length) return;
+  const box = el('div', 'journal-actions');
+  for (const id of fresh)
+    box.appendChild(
+      button(
+        STORY_BOUT_TEXT.waiting(STORY_BOUT_TEXT.names[id] ?? id),
+        () => {
+          close();
+          playStoryBout(g, id, () => undefined);
+        },
+        'btn btn-small btn-primary',
+      ),
+    );
+  body.appendChild(box);
+}
+
+/**
  * After a load: a bout still going asks "Resume the bout? / Call it a draw" (FIGHT-64). A turn
  * bout reopens on the battle screen at the start of the turn's picks; a tactics bout's board
  * reopens by itself (the HUD shows it while `world.tactics` is live), so only the draw is asked.

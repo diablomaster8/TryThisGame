@@ -42,7 +42,22 @@ export function backupOfferDue(nowWallMs: number): boolean {
     return false;
   }
   if (r.offered || r.exported !== undefined) return false;
+  // Lane C's after-an-ending backup chip (ui/backup-nudge.ts) shown in the last day: not
+  // two backup asks back to back.
+  if (nowWallMs - nudgeShownMs() < DAY_MS) return false;
   return nowWallMs - r.since >= BACKUP_OFFER.afterPlayMs;
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/** When the backup chip of `ui/backup-nudge.ts` last showed, or 0. */
+function nudgeShownMs(): number {
+  try {
+    const m = JSON.parse(localStorage.getItem('grove.backupNudge') ?? '{}') as { lastMs?: unknown };
+    return typeof m.lastMs === 'number' ? m.lastMs : 0;
+  } catch {
+    return 0;
+  }
 }
 
 /** The offer was shown: it never shows again, whatever the answer. */

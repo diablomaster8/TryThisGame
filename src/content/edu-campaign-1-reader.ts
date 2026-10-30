@@ -878,6 +878,7 @@ const CH4: EduScene[] = [
       { who: 'narrator', text: 'A very old, sandstone-coloured Nubbin on the wall reaches out and taps a bun, twice. It rings like a plate.' },
       { who: 'sparks', text: 'SEE? Even the old one says crunchy!', mood: 'happy' },
       { who: 'fern', text: 'Tapping isn’t tasting.' },
+      { who: 'dusty', text: 'That’s Gerald, the duck. He’s not with us. He just likes a crowd.', mood: 'happy' },
       { who: 'pixel', text: 'Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes.', mood: 'happy' },
       { who: 'pixel', text: 'That’s Byte, with the clipboard. I married him. He says Moss is a hoax. He says that about my clocks too.', mood: 'happy' },
       { who: 'byte', text: 'I said it was unverified. Nobody has checked it yet.' },
@@ -899,7 +900,7 @@ const CH4: EduScene[] = [
         skill: 'time intervals across midnight',
         standard: '3.MD.A.1',
         kind: 'ask',
-        after: 8,
+        after: 9,
         prompt: [
           { who: 'pixel', text: 'My timer turns the lanterns on at 10 o’clock at night and off at 5 o’clock in the morning. How many hours is that?', mood: 'think' },
         ],
@@ -935,7 +936,7 @@ const CH4: EduScene[] = [
         skill: 'repeated lines in songs and poems: the chorus',
         standard: 'RL.2.4',
         kind: 'ask',
-        after: 18,
+        after: 19,
         prompt: [
           { who: 'narrator', text: 'The verses change, but one part comes back again and again so everyone can join in. That part is the chorus.' },
           { who: 'narrator', text: 'Which line is the chorus of the Lantern Song?' },

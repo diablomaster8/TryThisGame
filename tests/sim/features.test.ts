@@ -133,8 +133,14 @@ describe('weather and seasons', () => {
     setWeather(world, 'rain', new Rng(1), events, 60_000);
     expect(world.weather.kind).toBe('rain');
     tick(world, events, 20);
-    const states = world.nubbins.map((n) => n.behavior.state);
-    expect(states.some((s) => s === 'shelter' || s === 'swim')).toBe(true);
+    // R0534: a Nubbin may shelter, swim, or play its rain game (a puddle stomp, raindrops).
+    const rainy = world.nubbins.map(
+      (n) =>
+        n.behavior.state === 'shelter' ||
+        n.behavior.state === 'swim' ||
+        (n.behavior.state === 'perform' && ['stomp', 'raindrop'].includes(n.behavior.itemId ?? '')),
+    );
+    expect(rainy.some(Boolean)).toBe(true);
     expect(shelterSpot(a.pos.x, a.pos.z)).toBeDefined();
     tick(world, events, 50);
     expect(world.weather.kind).toBe('clear');

@@ -13,6 +13,8 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
+import { emoteScale } from '../render/emote-size';
+import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
@@ -23,7 +25,13 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
-import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
+import {
+  landBeatFor,
+  PET_BEAT_BURST,
+  PetBeats,
+  petBeatFor,
+  type PetBeatPose,
+} from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -33,6 +41,8 @@ import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
 import { BondGlow } from './bond-glow';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
+import { updateEggFoot } from './egg-foot';
+import { eggAntics } from '../render/egg-antics';
 import { gagAt } from '../render/gag-play';
 import { cocoonShake, revealTurn } from '../render/evolve-reveal';
 import { rarityOf } from '../render/rarity';
@@ -54,6 +64,10 @@ import { stagedSeat } from './npc-accessories';
 import { poseRig } from './stage-pose3d';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { GlideWings } from './glide-wings';
+import { WadeRipple } from './wade-ripple';
+import { sitWithBeat, towardKeeper } from '../render/sit-with';
+import { quipBeat } from '../render/evolve-quip';
+import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -79,6 +93,11 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** R0355: the sit-with lean (0..1) and its Zs or snore bubble, this frame. */
+  swLean?: number;
+  /** R0354: the after-card turn this frame (radians). */
+  quipTurn?: number;
+  swEmote?: EmoteShape | null;
   /** LOOK-62: the landing turn laid on the rig's yaw this frame, taken off the next. */
   revealYaw?: number;
   /** FUN-04: the emote of the gag playing this frame, or null. */
@@ -117,8 +136,10 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'pet':
       return 'pet';
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
+    case 'shelter':
+      return moving ? walk() : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (the rig's stock `sit`); a low or hungry sitter is sad.
@@ -127,10 +148,13 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       const mood = moodOf(n);
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
+    case 'perform':
+      // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
+      if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
+      return 'happy';
     case 'play':
     case 'greet':
     case 'court':
-    case 'perform':
     case 'fetch':
       return 'happy';
     case 'cry':
@@ -259,6 +283,7 @@ export class Actors {
   private readonly highlight: THREE.Mesh;
   /** MOVE-27: the glide's leaf wings. */
   private readonly wings: GlideWings;
+  private readonly wadeRipple: WadeRipple;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
   /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
@@ -345,6 +370,7 @@ export class Actors {
     this.group.add(this.highlight);
     this.sparkCloud = new QuadCloud(this.group, 96);
     this.wings = new GlideWings(this.group);
+    this.wadeRipple = new WadeRipple(this.group);
   }
 
   /** Build the Keeper and the child first, so the opening seconds do not stall. */
@@ -455,6 +481,8 @@ export class Actors {
 
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  emoteBig = false;
 
   sparkle(x: number, z: number, y: number, nowMs: number): void {
     const n = this.calm ? 3 : 8;
@@ -538,6 +566,20 @@ export class Actors {
   petBeat(id: string, action: Interaction, ok: boolean, nowMs: number): void {
     this.petBeats.queue(id, action, ok, nowMs);
   }
+
+  /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
+  tasteBeat(id: string, taste: 'yum' | 'bleh', nowMs: number): void {
+    this.petBeats.queueKind(id, taste, nowMs);
+  }
+
+  /** R0551: a pet or a throw's landing, played by personality. */
+  handledBeat(id: string, what: 'petted' | 'landed', nowMs: number): void {
+    this.petBeats.queueKind(id, what === 'petted' ? petBeatFor : landBeatFor, nowMs);
+  }
+
+  /** Lane A r8: the scene's particle hook for the idle looks' bursts (puddles, fireflies). */
+  beatBurst: ((kind: 'heart' | 'dust' | 'sparkle' | 'note', x: number, z: number) => void) | null =
+    null;
 
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
   react(id: string, shape: EmoteShape, untilMs: number): void {
@@ -993,10 +1035,24 @@ export class Actors {
         if (st && st.partner?.id === n.id)
           pose = st.walking.has(n.id) ? 'walk' : (st.partnerPose() ?? 'idle');
         else if (st?.walking.has(n.id)) pose = 'walk';
+        // R0355: sitting with the Keeper, it nods off on the Keeper's foot.
+        const sw = sitWithBeat(world, n, world.timeMs);
+        if (sw?.doze) pose = 'sleep';
+        // R0354: after the evolution card, the look, the turn, the wobble and the sit.
+        const qb = held ? null : quipBeat(n.id, nowMs, this.calm);
+        if (qb) pose = qb.phase === 'wobble' ? 'dizzy' : qb.phase === 'sit' ? 'sit' : 'idle';
+        a.quipTurn = qb?.turn ?? 0;
+        a.swLean = sw?.lean ?? 0;
+        a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
+        this.petBeats.calm = this.calm;
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        if (beat?.fresh && this.beatBurst) {
+          const k = PET_BEAT_BURST[beat.kind];
+          if (k) this.beatBurst(k, n.pos.x, n.pos.z);
+        }
         // LOOK-50: held, it hugs (love), dangles (idle) or flails (surprised) by affection;
         // the dangle's and flail's limb swing goes on after the pose below.
         const hm =
@@ -1037,6 +1093,12 @@ export class Actors {
           ? o.scale.y * (pose === 'swim' ? SWIM_STYLE.sink[style] : GROVE3D_WADE)
           : 0;
         o.position.set(x, gy + y - sink, z);
+        // R0355: the lean toward the Keeper's shoulder.
+        if (a.swLean) {
+          const dir = towardKeeper(world, n);
+          o.position.x += dir.x * 0.12 * a.swLean;
+          o.position.z += dir.z * 0.12 * a.swLean;
+        }
         const footY = gy + y - sink;
         // A body in the water stands on a flat floor at its sunk height; a held or thrown
         // body is lifted off the real ground so its shadow blob stays down there under it.
@@ -1060,7 +1122,10 @@ export class Actors {
         // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
         const pp = this.pops.get(n.id);
         const turn =
-          n.stage === 'adult' && pp?.kind === 'pop' ? revealTurn(pp.startMs, nowMs, this.calm) : 0;
+          (a.quipTurn ?? 0) +
+          (n.stage === 'adult' && pp?.kind === 'pop'
+            ? revealTurn(pp.startMs, nowMs, this.calm)
+            : 0);
         if (turn) {
           o.rotation.y += turn;
           a.revealYaw = turn;
@@ -1076,7 +1141,11 @@ export class Actors {
         if (n.stage === 'egg') {
           // LOOK-63: a shaken egg rocks and squashes; cracks run round it near hatching.
           const wob = eggWobble(n, world.timeMs, nowMs, x);
-          o.rotation.z = wob.rz;
+          // R0351: its own wobble now and then, a hop near the end, the foot on a third shake.
+          const ant = eggAntics(n, world.timeMs, nowMs, x * 997, this.calm);
+          o.rotation.z = wob.rz + ant.wobble * 0.14;
+          o.position.y += ant.hop;
+          updateEggFoot(a.shell, ant.foot);
           if (wob.squash !== 1) {
             if (!a.squash) a.squash = { o, base: o.scale.clone() };
             o.scale.y *= wob.squash;
@@ -1086,6 +1155,7 @@ export class Actors {
           updateCracks(a.shell, crackLevel(n));
         } else {
           updateCracks(a.shell, 0);
+          updateEggFoot(a.shell, false);
           o.rotation.y = t * 0.4;
           // LOOK-62: the evolving cocoon shakes through its last 1.2 s.
           o.rotation.z = cocoonShake(n, nowMs) * 0.12;
@@ -1145,6 +1215,7 @@ export class Actors {
             (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
             heldEmote(n, keeper.alignment) ??
             a.gagEmote ??
+            a.swEmote ??
             emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =
@@ -1178,7 +1249,14 @@ export class Actors {
             pop?.kind === 'squash' ? pop.startMs : null,
           );
           a.emote.position.set(ball.x, ball.y, ball.z);
-          a.emote.scale.set(0.5 * ball.sx, 0.5 * ball.sy, 1);
+          // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
+          const es = emoteScale(
+            this.emoteBig,
+            bubble ? nowMs - (bubble.untilMs - UI.bubbleMs) : null,
+            this.calm,
+          );
+          a.emote.position.y += (es - 1) * 0.25;
+          a.emote.scale.set(0.5 * ball.sx * es, 0.5 * ball.sy * es, 1);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }
@@ -1222,7 +1300,7 @@ export class Actors {
           ? 'pet'
           : this.keeperMoving
             ? 'walk'
-            : (kCue ?? 'idle');
+            : (kCue ?? keeperIdle3d(world) ?? 'idle');
     // The Keeper turns to a new heading at a brisk rate rather than snapping (MOVE-20); a
     // staged facing is set at once.
     const want = this.keeperFace ?? keeper.facing;
@@ -1248,6 +1326,13 @@ export class Actors {
     if (this.location === 'grove') rustleWild(kp.x, kp.z, this.keeperMoving, nowMs, this.calm);
     this.tapMarks.update(world, nowMs, this.calm);
     this.footfall.step(world, kp.x, kp.z);
+    // R0001: rings round the knees while the Keeper wades the stream.
+    const wading =
+      this.location === 'grove' &&
+      this.keeperMoving &&
+      this.keeperLift < 0.05 &&
+      this.keeperFeet < WATER_LEVEL - 0.05;
+    this.wadeRipple.update(wading, kp.x, kp.z, nowMs, this.calm);
     this.updateKeeper2(world, alpha, t, dt);
     // Stand-ins shimmer while they wait.
     this.kit.pulseStands(t);
@@ -1386,6 +1471,7 @@ export class Actors {
     this.dresser.dispose();
     this.kit.dispose();
     this.rippleGeo.dispose();
+    this.wadeRipple.dispose();
     this.rippleMat.dispose();
     this.heldRing.dispose();
     this.highlight.geometry.dispose();
@@ -1397,4 +1483,10 @@ export class Actors {
     }
     this.group.removeFromParent();
   }
+}
+
+/** R0352: the idle Keeper's pose in Full 3D: the letter held up to read, or sitting down. */
+function keeperIdle3d(world: World): PoseName | null {
+  const p = keeperIdlePose(world);
+  return p === 'sit' ? 'sit' : p === 'letter' ? 'itemGet' : null;
 }

@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
@@ -15,6 +16,7 @@ import { SKILL_LIST } from '../sim/skills';
 import {
   GROVE_LABELS,
   NAMES,
+  PERSONALITY_LABELS,
   SPECIES_LABELS,
   TRAINER_LABELS,
   TYPE_LABELS,
@@ -58,6 +60,13 @@ import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
 import type { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
+import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
+import { Guide } from './guide';
+import { titleCardUp } from './title-card';
+import { kidToaster } from './kid-notice';
+import { BreakWarning } from './break-warning';
+import { speakLine } from './lesson';
+import { EDU_REBORN_TEXT } from '../config/strings-kids';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -75,7 +84,7 @@ import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
-import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
+import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -94,7 +103,17 @@ import { KarateMenu } from './karate';
 import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
-import { DecorateMenu, placingLabel } from './decorate';
+import { DecorateMenu, placeHint, placingLabel } from './decorate';
+import {
+  GENTLE_HANDS,
+  LOCKED_TEXT,
+  MOSS_WATCH,
+  PLACE_TEXT,
+  SIT_TEXT,
+} from '../config/strings-fun-r7';
+import { mossReaction } from './moss-watch';
+import { soulSound, soulToast } from './soul-toasts';
+import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -107,7 +126,7 @@ import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
-import { eduBreakActive, eduBreakDue } from '../sim/edu';
+import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
 import { PocketMode } from './pocket';
@@ -124,6 +143,9 @@ import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
+import { CAMP_TEXT } from '../config/strings';
+import { BackupNudge } from './backup-nudge';
+import { storylineById } from '../sim/story-scenes';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
 import { EduPrompt, noteHowTo, ObjectiveChip } from './objective';
@@ -168,8 +190,8 @@ export function mountHud(
   const settingsBtn = button(
     '⚙',
     () => {
-      if (!game()?.world.edu) settings.open();
-      else void askGrownUp(root, toast).then((ok) => ok && settings.open());
+      // R0671: a Learning Grove gets the kid-safe sound sheet; the rest is past the gate.
+      void routeSettingsTap(!!game()?.world.edu, settingsRoute);
     },
     'btn btn-icon',
   );
@@ -260,6 +282,8 @@ export function mountHud(
     game()?.send({ kind: 'setRunning', running: on });
   }
   root.appendChild(runBtn);
+  // R0679: what a sprout does not need (style.css hides these under `body.edu-sprout`).
+  for (const b of [runBtn, keeperBtn, shopBtn, groveBtn]) b.classList.add('sprout-hide');
   // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
   // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
   if (window.matchMedia?.('(pointer: coarse)').matches) {
@@ -411,7 +435,10 @@ export function mountHud(
   toasts.setAttribute('role', 'status');
   toasts.setAttribute('aria-live', 'polite');
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
-  const toast = bandToaster(makeToaster(toasts), game);
+  // R0693 (lane E r7): a sprout's notices wait until their activity closes (kid-notice.ts).
+  let kidBusy: () => boolean = () => false;
+  const kidNotices = kidToaster(bandToaster(makeToaster(toasts), game), game, () => kidBusy());
+  const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
 
@@ -435,6 +462,15 @@ export function mountHud(
 
   const sheet = new StatsSheet(root, game, toast);
   const settings = new SettingsMenu(root, game, toast);
+  // R0671: the kid-safe sheet and the route the ⚙ button takes (kid-sheet.ts).
+  const settingsRoute = {
+    openFull: () => settings.open(),
+    openQuick: () => kidSheet.open(),
+    ask: () => askGrownUp(root, toast),
+  };
+  const kidSheet = new KidSoundSheet(root, game, () => {
+    void routeSettingsTap(true, settingsRoute, true);
+  });
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
@@ -450,6 +486,8 @@ export function mountHud(
     if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
   }, 1000);
   const celebration = new Celebration(root, game);
+  // R0354: the comic line after the evolution card.
+  celebration.onQuip = (line) => toast(line);
   // R0326: which comic stray line comes next.
   let strayLine = 0;
   const shop = new ShopMenu(root, game, toast);
@@ -501,14 +539,21 @@ export function mountHud(
   const eduPrompt = new EduPrompt(root, game, {
     journal: () => journal.open(),
     play: () => edu.open(),
+    next: () => edu.showNext(),
   });
+  // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
+  const guide = new Guide(root, game, () => sheet.selectedId);
+  edu.onShowMe(() => guide.show());
   const grownUps = new GrownUpPanel(root, game, toast);
+  settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
     root,
     game,
     () => askGrownUp(root, toast),
     () => grownUps.open(),
   );
+  // R0724: the moon that fills in the last two minutes before a break.
+  const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
@@ -704,6 +749,7 @@ export function mountHud(
     };
   }
 
+  kidBusy = () => edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -711,6 +757,7 @@ export function mountHud(
     root,
     [
       { isOpen: () => settings.isOpen(), close: () => settings.close() },
+      { isOpen: () => kidSheet.isOpen(), close: () => kidSheet.close() },
       { isOpen: () => shop.isOpen(), close: () => shop.close() },
       { isOpen: () => races.isOpen(), close: () => races.close() },
       { isOpen: () => roster.isOpen(), close: () => roster.close() },
@@ -791,6 +838,7 @@ export function mountHud(
     if (e.key === 'Escape') {
       if (away.isOpen) away.hide();
       else if (settings.isOpen()) settings.close();
+      else if (kidSheet.isOpen()) kidSheet.close();
       else if (shop.isOpen()) shop.close();
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
@@ -970,6 +1018,11 @@ export function mountHud(
       // TECH-60: gone for good once the keys have been used.
       const keysOff = isEdu || keysHintDone();
       if (keysHint && keysHint.hidden !== keysOff) keysHint.hidden = keysOff;
+      // R0678 / R0679 (lane E r7): the sprout band's simple HUD of big picture buttons; the
+      // grown-up controls hide (style.css, `body.edu-sprout`). Readers keep the full HUD.
+      const sprout = isEdu && g.world.edu?.band === 'sprout';
+      if (document.body.classList.contains('edu-sprout') !== sprout)
+        document.body.classList.toggle('edu-sprout', sprout);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
@@ -989,8 +1042,11 @@ export function mountHud(
       soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
       if (isEdu) {
         const now = Date.now();
-        if (!eduBreakActive(g.world, now) && eduBreakDue(g.world))
+        // R0724: a round, scene or tracing still open finishes first (within a grace).
+        const midActivity = edu.isOpen() || dialogue.isOpen || journal.isTracing();
+        if (!eduBreakActive(g.world, now) && eduBreakShouldStart(g.world, midActivity))
           g.send({ kind: 'eduStartBreak' });
+        breakWarn.update(g);
         if (eduBreakActive(g.world, now)) {
           breakScreen.show();
           breakScreen.update(now);
@@ -1010,7 +1066,10 @@ export function mountHud(
           journal.isTracing() ||
           g.catchingUp;
         eduPrompt.refresh(busy);
-        objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
+        guide.update(busy || eduPrompt.isOpen);
+        kidNotices.flush();
+        // R0729: the chip would repeat the chapter card while it is up.
+        objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (
@@ -1028,16 +1087,23 @@ export function mountHud(
         const runner = pickRunner();
         if (runner) g.send({ kind: 'playingWith', nubbinId: runner.id });
       }
-      // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
-      g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
-      // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
-      g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
+      // HOT-1: with the stats sheet open the camera centres on its Nubbin in the part of the
+      // screen the sheet leaves clear (a bottom sheet on a phone, docked right on a desktop),
+      // measured from the sheet itself rather than a fixed share of the view.
+      g.cameraLift = 0;
+      g.cameraSide = 0;
+      g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
       hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
+      // R0003: on a desktop the chip says, before the click, whether the piece fits there.
+      const fit = g.placing?.mode === 'decor' && g.placeHoverAt ? placeHint(g) : null;
+      placingChip.classList.toggle('placing-bad', !!fit && fit !== true);
+      if (fit && fit !== true) placingText.textContent = `✗ ${UI_TEXT.decorRefused[fit]}`;
+      else if (fit) placingText.textContent += ` · ✓ ${PLACE_TEXT.fits}`;
       rotateBtn.hidden = g.placing?.mode !== 'decor';
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.
@@ -1107,6 +1173,8 @@ export function mountHud(
   }
   void refreshTimer;
 
+  // Lane C r7 (R0624): the Home Screen card and the backup chip.
+  const backupNudge = new BackupNudge(root, game);
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       const g = game();
@@ -1119,9 +1187,34 @@ export function mountHud(
         const h = hapticFor(e);
         if (h) buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
       }
+      backupNudge.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
+        // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
+        if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
+        // R0531: the personality locks in: a line on the evolution card, with the reason.
+        if (e.kind === 'personalityLocked') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          celebration.addLine(
+            `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
+          );
+        }
+        // R0527: in the Learning Grove a throw gets a picture hint.
+        if (e.kind === 'thrown' && g.world.edu) toast(GENTLE_HANDS);
+        // R0353: Moss saw that.
+        const moss = mossReaction(g.world, e);
+        if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());
+        // Lane A r8: a first taste reaction, a grumpy refusal, a moody look cleared.
+        const soul = soulToast(g.world, e);
+        if (soul) toast(soul);
+        const soulSnd = soulSound(e);
+        if (soulSnd) playSound(soulSnd);
+        // R0352: rule three, noticed once a Nubbin sits down beside the sitting Keeper.
+        if (e.kind === 'sitBeside') {
+          const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
+          if (n) toast(SIT_TEXT[toastBand(g.world)].replaceAll('{n}', n.name));
+        }
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1202,7 +1295,10 @@ export function mountHud(
           toast(e.cocoon === 'rebirth' ? UI_TEXT.cocoonRebirth(name) : UI_TEXT.cocoonDepart(name));
         } else if (e.kind === 'reborn') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
+          // R0691: a sprout hears a gentle line about the glowing cocoon and the new egg.
+          if (g.world.edu?.band === 'sprout' && g.world.edu.readAloud)
+            speakLine(EDU_REBORN_TEXT.say(n?.name ?? NAMES.creature));
+          else toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
           playSound('sad');
@@ -1218,6 +1314,15 @@ export function mountHud(
         } else if (e.kind === 'bought') {
           shop.onBought(e.ok, e.reason, e.item);
           if (e.ok) playSound('buy');
+        } else if (e.kind === 'chapter' && e.line) {
+          // Lane C r7 (R0596): a questline beside Hazel's Grove names itself.
+          const line = g.world.lines[e.line];
+          const title = line ? chapterTitle(line, e.chapter) : null;
+          const name = storylineById(e.line)?.title ?? e.line;
+          if (title !== null) toast(CAMP_TEXT.lineChapter(name, e.chapter, title));
+        } else if (e.kind === 'lineEnded') {
+          const s = storylineById(e.line);
+          toast(CAMP_TEXT.lineEnded(s?.title ?? e.line, s?.endings[e.ending]?.title ?? e.ending));
         } else if (e.kind === 'chapter') {
           const title = chapterTitle(g.world.campaign, e.chapter);
           if (title !== null) toast(STORY_TEXT.chapterStarted(e.chapter, title));
@@ -1263,12 +1368,15 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
           // FUN-09: each action and personality has its own line.
+          // R0350: a Shadow Nubbin still earning trust says how close it came.
+          const shy = n ? shyLine(n, e.ok, e.action, toastBand(g.world)) : null;
           toast(
-            e.ok && n
-              ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
-              : e.ok
-                ? UI_TEXT.interacted(name, e.action)
-                : UI_TEXT.interactRefused(name),
+            shy ??
+              (e.ok && n
+                ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
+                : e.ok
+                  ? UI_TEXT.interacted(name, e.action)
+                  : UI_TEXT.interactRefused(name)),
           );
           if (e.ok) playSound('pet');
         } else if (e.kind === 'called') {
@@ -1539,7 +1647,8 @@ export function mountHud(
         } else if (e.kind === 'wildLeft') {
           toast(UI_TEXT.wildLeft);
         } else if (e.kind === 'eduResult') {
-          toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
+          // R0686: the results card shows the Shells and the sticker; no toast over a round.
+          if (!edu.isOpen()) toast(e.sticker ? EDU_TEXT.sticker : EDU_TEXT.eduResultToast(e.stars));
         } else if (e.kind === 'eduStarted') {
           toast(EDU_TEXT.playHelp);
         } else if (e.kind === 'recruited') {
@@ -1800,4 +1909,21 @@ function cantReachToast(
   const n = e.targetId ? g.world.nubbins.find((x) => x.id === e.targetId) : undefined;
   toast(UI_FX_TEXT.cantReach(n?.name ?? UI_FX_TEXT.cantReachThere));
   return true;
+}
+
+/** HOT-1: the sheet's Nubbin and where it should sit, from the sheet's box over the canvas. */
+function sheetFocusFor(
+  root: HTMLElement,
+  id: string | null,
+  canvas: { left: number; top: number; width: number; height: number },
+): Game['sheetFocus'] {
+  if (root.hidden || !id || canvas.width <= 0) return null;
+  const r = root.getBoundingClientRect();
+  const box = {
+    left: r.left - canvas.left,
+    top: r.top - canvas.top,
+    right: r.right - canvas.left,
+    bottom: r.bottom - canvas.top,
+  };
+  return { id, shift: clearShift(canvas.width, canvas.height, box) };
 }

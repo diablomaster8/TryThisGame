@@ -6,6 +6,7 @@
  * commands; nothing here changes the world.
  */
 import { EDU_STORY_TEXT } from '../config/strings';
+import { READ_TEXT } from '../config/strings-fun-r7';
 import type { EduBand } from '../content/types';
 import type { Game } from '../game';
 import { eduContent } from '../sim/story-scenes';
@@ -89,6 +90,19 @@ export function storySettings(body: HTMLElement, g: Game): void {
   );
   row.append(cb, text);
   body.appendChild(row);
+  // R0343: Grove Readers keep reading for themselves unless the grown-up opts in.
+  const row2 = el('label', 'check-row');
+  const cb2 = el('input');
+  cb2.type = 'checkbox';
+  cb2.checked = e.readToMe === true;
+  cb2.addEventListener('change', () => g.send({ kind: 'eduSetReadToMe', on: cb2.checked }));
+  const text2 = el('span');
+  text2.append(
+    el('strong', undefined, READ_TEXT.toMeLabel),
+    el('small', undefined, READ_TEXT.toMeHelp),
+  );
+  row2.append(cb2, text2);
+  body.appendChild(row2);
 }
 
 /** How many story lessons, by area and by standard, and the latest parent notes. */

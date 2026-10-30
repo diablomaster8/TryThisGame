@@ -22,6 +22,7 @@ import { PixelCanvas } from './pixel-canvas';
 import { drawCosmetic } from './cosmetic-pixel';
 import { ditherGlass, metalColors } from './finish-pixel';
 import type { Birthmark } from '../birthmark';
+import { BELT_COLOURS } from '../belt';
 
 /**
  * The Nubbin, drawn Chao-faithfully from memory: a big round head that is most of the
@@ -705,6 +706,8 @@ export interface ChaoLook {
   shiny?: boolean;
   /** A jewel Nubbin's gem finish: cut facets and a hard glint. */
   gem?: boolean;
+  /** LOOK-69 (R0437): the Dojo belt round the middle, 1–5 (render/belt.ts); unset draws none. */
+  belt?: number;
   /** Accessories: a dyed scarf, glasses, a dyed hat. */
   scarf?: DyeColor | null;
   glasses?: boolean;
@@ -1840,6 +1843,19 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
       tmp.recolor(map);
       pc.blit(tmp, 0, 0);
     } else drawHat(pc, angle, L, look.hat);
+  }
+  // LOOK-69: the Dojo belt round the belly, its knot and tails at the front.
+  if (look.belt) {
+    const [bc, bs] = BELT_COLOURS[Math.min(BELT_COLOURS.length, look.belt) - 1]!;
+    const by = L.bodyCy + 1;
+    pc.rect(L.bodyCx - L.bodyRx + 1, by, L.bodyRx * 2 - 2, 2, bc);
+    pc.thinLine(L.bodyCx - L.bodyRx + 1, by + 1.5, L.bodyCx + L.bodyRx - 1, by + 1.5, bs);
+    if (angle !== 'back' && angle !== 'backQuarter') {
+      const kx = angle === 'side' ? L.bodyCx + L.bodyRx - 3 : L.bodyCx;
+      pc.rect(kx - 1, by - 0.5, 2, 3, bs);
+      pc.rect(kx - 2, by + 2, 1.5, 3, bc);
+      pc.rect(kx + 0.5, by + 2, 1.5, 3, bc);
+    }
   }
   // A scarf around the neck and glasses over the eyes.
   if (look.scarf && angle !== 'back') {

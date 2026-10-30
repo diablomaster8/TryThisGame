@@ -81,6 +81,7 @@ export function placeToy(world: World, toy: ToyKind, pos: Vec2, events: SimEvent
     y: 0,
     vel: { x: 0, y: 0, z: 0 },
     toy,
+    bornMs: world.timeMs,
   });
   events.push({ kind: 'toyPlaced', toy });
   return true;

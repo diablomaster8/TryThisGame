@@ -16,6 +16,10 @@ import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } fro
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
+import { eggAntics } from './egg-antics';
+import { sitWithBeat, towardKeeper } from './sit-with';
+import { quipBeat } from './evolve-quip';
+import { keeperIdlePose } from '../sim/keeper-idle';
 import {
   BUSH,
   FOOTFALL,
@@ -47,7 +51,8 @@ import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
-import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
+import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { bigBubbles, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -135,6 +140,8 @@ export class WorldView {
   }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  private emoteBig = false;
   /** LOOK-16: each Nubbin's emote ball on its spring. */
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
@@ -466,6 +473,16 @@ export class WorldView {
       }
       // FUN-09: each pet action queues its own beat over the sim's reaction.
       if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
+      // R0536: a favourite or disliked fruit plays its own beat.
+      if (e.kind === 'fruitTaste') this.petBeats.queueKind(e.nubbinId, e.taste, nowMs);
+      // R0551: a pet and a throw's landing play out by personality.
+      if (e.kind === 'petted') this.petBeats.queueKind(e.nubbinId, petBeatFor, nowMs);
+      if (e.kind === 'landed') this.petBeats.queueKind(e.nubbinId, landBeatFor, nowMs);
+      // R0532: a grumpy refusal huffs.
+      if (e.kind === 'highFiveRefused') {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.bubble = { shape: 'puff', untilMs: nowMs + UI.bubbleMs };
+      }
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -547,6 +564,8 @@ export class WorldView {
   }
 
   update(world: World, camera: OrbitCamera, alpha: number, nowMs: number): void {
+    // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
+    this.emoteBig = camera.currentZoomIndex === 0 || bigBubbles(world);
     const yaw = camera.currentYaw;
     const batch = this.batch;
     batch.begin(yaw, camera.pitch);
@@ -1209,6 +1228,15 @@ export class WorldView {
       moving,
     );
     const kview = viewAngle(kpose?.face ?? kface ?? this.keeperHeading(k.facing, nowMs), yaw);
+    // R0352: left alone, the Keeper reads the letter, pats a pocket, then sits on the grass.
+    const kidle = kpose || moving ? null : keeperIdlePose(world);
+    const kidleKey = kidle
+      ? frameKey(
+          kidle === 'sit' ? 'sit' : kidle === 'letter' ? 'g-down' : 'g-chest',
+          kview.angle,
+          kidle === 'sit' && !this.particles.reduceMotion ? Math.floor(nowMs / 900) % 2 : 0,
+        )
+      : '';
     // R0085: on a Nubbin's back the Keeper sits, smaller and raised (render/ride-pose.ts).
     const kride = kpose ? null : ridePose(world, nowMs, moving, this.particles.reduceMotion);
     const krideRect = kride?.sits ? ksheet.frames.get(frameKey('sit', kview.angle, 0)) : undefined;
@@ -1217,11 +1245,13 @@ export class WorldView {
       ksheet.frames.get(
         kpose?.clip
           ? frameKey(kpose.clip, kview.angle, kpose.frame)
-          : frameKey(
-              kclip,
-              kview.angle,
-              frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
-            ),
+          : kidleKey && ksheet.frames.has(kidleKey)
+            ? kidleKey
+            : frameKey(
+                kclip,
+                kview.angle,
+                frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
+              ),
       );
     // A Keeper held on a hill mark stands (or sits) on the terrace, as held NPCs do.
     const kHeld = this.staging?.active && this.staging.keeperHold && this.location === 'grove';
@@ -1894,6 +1924,9 @@ export class WorldView {
 
     let key: string;
     let flip = false;
+    let eggHop = 0;
+    let swDx = 0;
+    let swDz = 0;
     let emote: EmoteShape = 'none';
     let opacity = 1;
     const glowTint = merged ? 1.35 + 0.15 * Math.sin(nowMs / 120) : 1;
@@ -1908,6 +1941,11 @@ export class WorldView {
       else if (n.hatchRemainingMs < EGG.hatchMs * 0.5 && Math.floor(nowMs / 700) % 6 === 0) {
         f = 'wobbleL';
       }
+      // R0351: its own wobble now and then, a hop near the end, and the foot on a third shake.
+      const ant = eggAntics(n, world.timeMs, nowMs, x * 997, this.particles.reduceMotion);
+      if (ant.foot) f = 'foot';
+      else if (f === 'idle' && ant.wobble) f = ant.wobble < 0 ? 'wobbleL' : 'wobbleR';
+      eggHop = ant.hop;
       key = frameKey(f, 'front', 0);
     } else if (n.stage === 'cocoon') {
       key = frameKey('idle', 'front', Math.floor(nowMs / 600) % 2);
@@ -1926,13 +1964,27 @@ export class WorldView {
           : 'sleep'
         : clipFor(n);
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
+      // R0355: sitting with the Keeper, it leans in, then nods off on the Keeper's foot.
+      const sw = sitWithBeat(world, n, world.timeMs);
+      if (sw?.doze && sheet.frames.has(frameKey('sleep', 'front', 0))) clip = 'sleep';
+      if (sw?.lean) {
+        const dir = towardKeeper(world, n);
+        swDx = dir.x * 0.12 * sw.lean;
+        swDz = dir.z * 0.12 * sw.lean;
+      }
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
+      // R0354: after the card, it turns round to see its tail, wobbles and sits down.
+      const qb = held ? null : quipBeat(n.id, nowMs, this.particles.reduceMotion);
+      if (qb?.phase === 'wobble') clip = 'tumble';
+      else if (qb?.phase === 'sit') clip = 'sit';
+      else if (qb) clip = 'idle';
       // LOOK-62: a newly evolved form spins one turn as it lands.
       const turn =
-        n.stage === 'adult' && v.pop?.kind === 'pop'
+        (qb?.turn ?? 0) +
+        (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
-          : 0;
+          : 0);
       const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
@@ -2009,6 +2061,16 @@ export class WorldView {
       if (gagOn) key = gkey;
       emote = emoteFor(n);
       if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
+      // R0355: the snore bubble swells, pops with a sparkle, and the Zs carry on between.
+      if (sw?.doze) emote = sw.bubble > 0 ? 'ball' : 'zz';
+      if (sw && sw.bubbleN > 0 && sw.bubble === 0 && (SNORE_POPS.get(n.id) ?? 0) < sw.bubbleN) {
+        SNORE_POPS.set(n.id, sw.bubbleN);
+        this.particles.burst('sparkle', x, Math.max(0, y) + 1.1, z, 3, {
+          spread: 0.25,
+          rise: 0.3,
+          lifeMs: 450,
+        });
+      }
       if (gagOn && gag.look.burst && gag.frame === 0 && (GAG_BURSTS.get(n.id) ?? 0) < nowMs - 900) {
         GAG_BURSTS.set(n.id, nowMs);
         const kind = gag.look.burst === 'notes' ? 'note' : gag.look.burst;
@@ -2033,6 +2095,7 @@ export class WorldView {
     }
 
     // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
+    this.petBeats.calm = this.particles.reduceMotion;
     const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
     if (beat?.clip) {
       const angle = key.split(':')[1] ?? 'front';
@@ -2104,10 +2167,11 @@ export class WorldView {
           rect,
           flip,
           // LOOK-62: the evolving cocoon shakes in its last moments.
-          x: x + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
+          x: x + swDx + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
-          y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
-          z,
+          y:
+            (beat?.dy ?? 0) * 2 + eggHop + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
+          z: z + swDz,
           mode: 'billboard',
           opacity,
           tint: this.dim * glowTint,
@@ -2208,16 +2272,22 @@ export class WorldView {
           1 / NATIVE_PPU,
           v.pop?.kind === 'squash' ? v.pop.startMs : null,
         );
+        // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
+        const es = emoteScale(
+          this.emoteBig,
+          v.bubble ? nowMs - (v.bubble.untilMs - UI.bubbleMs) : null,
+          this.particles.reduceMotion,
+        );
         this.batch.draw({
           sheet: emotes,
           rect: erect,
           flip: false,
           x: ball.x,
-          y: ball.y,
+          y: ball.y + ((es - 1) * erect.h) / NATIVE_PPU / 2,
           z: ball.z,
           mode: 'billboard',
-          w: (erect.w / NATIVE_PPU) * ball.sx,
-          h: (erect.h / NATIVE_PPU) * ball.sy,
+          w: (erect.w / NATIVE_PPU) * ball.sx * es,
+          h: (erect.h / NATIVE_PPU) * ball.sy * es,
         });
       }
     }
@@ -2256,8 +2326,10 @@ export function clipFor(n: Nubbin): string {
       return swimClip(n);
     // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never the sleep pose.
+    case 'shelter':
+      return n.behavior.target ? 'walk' : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle); a low or hungry sitter is sad.
@@ -2272,6 +2344,8 @@ export function clipFor(n: Nubbin): string {
     case 'pet':
     case 'court':
     case 'perform':
+      // R0539: a visit to a friend's flower is a quiet sit.
+      return n.behavior.itemId === 'visitFlower' && !n.behavior.target ? 'sit' : 'happy';
     case 'fetch':
       return 'happy';
     case 'held':
@@ -2305,6 +2379,8 @@ export function clipFor(n: Nubbin): string {
 
 /** FUN-04: when each Nubbin last threw up its gag's particles (notes, dust, a splash). */
 const GAG_BURSTS = new Map<string, number>();
+/** R0355: the last snore bubble popped, per Nubbin, so each pops once. */
+const SNORE_POPS = new Map<string, number>();
 
 /** LOOK-50: the baked frames for each way of being held. */
 const HELD_CLIPS: Record<HeldMood, string> = {
@@ -2319,8 +2395,15 @@ export function emoteFor(n: Nubbin): EmoteShape {
   if (n.behavior.state === 'nap') return 'zz';
   // TECH-01: a new hatchling asks for its first fruit.
   if (wantsFirstFruit(n)) return 'fruit';
+  // R0532 (lane A r8): a harrumph huffs.
+  if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
-  if (n.behavior.state === 'perform') return 'star';
+  if (n.behavior.state === 'perform') {
+    // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
+    const id = n.behavior.itemId ?? '';
+    if (id.startsWith('prank:')) return 'spiky';
+    return id === 'visitFlower' || id.startsWith('comfort:') ? 'heart' : 'star';
+  }
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';

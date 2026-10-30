@@ -61,4 +61,24 @@ describe('decor placement (MOVE-05)', () => {
     expect(placeRefusal(world, 'bench', { x: h.x, z: h.z })).toBe('solid');
     expect(placeRefusal(world, 'fence', { x: 11, z: 20 })).toBe('water');
   });
+
+  it('R0003: refuses a piece on a planted crop', () => {
+    const world = createWorld(3, 0);
+    let at = { x: 0, z: 0 };
+    for (let i = 0; i < 400 && placeRefusal(world, 'statue', at) !== null; i++)
+      at = { x: (i % 20) * 2 - 20, z: Math.floor(i / 20) * 2 - 20 };
+    expect(placeRefusal(world, 'statue', at)).toBe(null);
+    world.plants.push({
+      id: 'crop-1',
+      kind: 'crop',
+      flavor: 'run',
+      pos: { ...at },
+      plantedMs: 0,
+      water: 1,
+      stage: 1,
+      fruitTimerMs: 0,
+      ripe: false,
+    });
+    expect(placeRefusal(world, 'statue', at)).toBe('crop');
+  });
 });

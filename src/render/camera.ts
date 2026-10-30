@@ -1,4 +1,5 @@
 import { MathUtils, OrthographicCamera, Vector3 } from 'three';
+import { applyViewShift, NO_SHIFT, type ViewShift } from './view-shift';
 import { CAMERA, RENDER } from '../config/tuning';
 import { CAMERA_LEAD, WORLD_SURVEY } from '../config/tuning-world';
 import { SPRITE_TOKENS } from './sprite-batch';
@@ -95,6 +96,8 @@ export function zoomPixelsPerUnit(index: number): number {
  */
 export class OrbitCamera {
   readonly camera: OrthographicCamera;
+  /** HOT-1: where the aimed-at point sits on screen while the stats sheet is open. */
+  viewShift: ViewShift = NO_SHIFT;
   readonly target = new Vector3(0, 0, 0);
   readonly pitch = MathUtils.degToRad(CAMERA.pitchDeg);
 
@@ -322,6 +325,9 @@ export class OrbitCamera {
       if (t >= 1) this.finishZoomTween();
       this.applyProjection();
     }
+    // HOT-1: the selected Nubbin's place in the clear part of the screen, in whole pixels.
+    const lowH = this.frameHeight;
+    applyViewShift(this.camera, this.viewShift, Math.round(lowH * this.aspect), lowH);
   }
 
   private finishYawTween(): void {

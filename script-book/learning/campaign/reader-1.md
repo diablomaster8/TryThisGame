@@ -349,6 +349,7 @@ _Sparks bites one. It makes a sound like a dropped plate. “Crunchy!” she say
 _A very old, sandstone-coloured Nubbin on the wall reaches out and taps a bun, twice. It rings like a plate._  
 **Sparks**: SEE? Even the old one says crunchy!  
 **Fern**: Tapping isn’t tasting.  
+**Dusty**: That’s Gerald, the duck. He’s not with us. He just likes a crowd.  
 **Pixel**: Hi, I’m Pixel. I built the lantern timer. Sparks did the part that explodes.  
 **Pixel**: That’s Byte, with the clipboard. I married him. He says Moss is a hoax. He says that about my clocks too.  
 

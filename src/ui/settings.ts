@@ -5,6 +5,12 @@ import { TEXT_SCALES, textScaleOf, textSizeKey } from './text-scale';
 import { bugReport } from '../platform/bug-log';
 import { groveBytes, storageQuota } from '../platform/storage-use';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
+import { livelinessOf } from '../sim/antics';
+import { bigBubbles } from '../render/emote-size';
+import { SLAPSTICK_TEXT } from '../config/strings-fun-r7';
+import { confirmModal } from './confirm';
+import { CAMP_TEXT } from '../config/strings';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
@@ -28,9 +34,8 @@ import type { MatureContent, OfflineMode, Settings } from '../sim/types';
 import { freshWorldLike } from '../sim/fresh-start';
 import { button, el, modal } from './dom';
 import { askGrownUp } from './grown-up-gate';
-import { storySettings } from './edu-story';
-import { EDU_AGES, type EduAge } from '../config/edu';
-import { EDU_TEXT } from '../config/strings';
+import { KID_SHEET_TEXT } from '../config/strings-kids';
+import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
 import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
@@ -69,6 +74,12 @@ export class SettingsMenu {
   private readonly haptics: HTMLInputElement;
   /** R0294: skip the quest micro-games. */
   private readonly microSkip: HTMLInputElement;
+  /** R0365: full, gentle or no slapstick. */
+  private readonly slapstick: HTMLSelectElement;
+  /** R0549 (lane A r8): Big mood bubbles. */
+  private readonly bigBubbles: HTMLInputElement;
+  /** R0593 (lane A r8): Liveliness. */
+  private readonly liveliness: HTMLSelectElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
@@ -84,6 +95,7 @@ export class SettingsMenu {
   private readonly coopTrainer: HTMLSelectElement;
   /** Learning Grove only: the age and story band the age screen promises a grown-up can change. */
   private readonly eduBox: HTMLFieldSetElement;
+  private grownUpArea: () => void = () => undefined;
 
   constructor(
     private readonly parent: HTMLElement,
@@ -331,6 +343,24 @@ export class SettingsMenu {
     hapRow.append(this.haptics, hapText);
     hapRow.hidden = !hapticsSupported();
     body.appendChild(hapRow);
+    // R0365: the Slapstick setting.
+    this.slapstick = select(SLAPSTICK_TEXT.label, SLAPSTICK_TEXT.levels);
+    body.appendChild(el('div', 'help', SLAPSTICK_TEXT.help));
+    // R0549 (lane A r8): Big mood bubbles (on by default in the Learning Grove).
+    const bigRow = el('label', 'check-row');
+    this.bigBubbles = el('input');
+    this.bigBubbles.type = 'checkbox';
+    this.bigBubbles.addEventListener('change', () => this.apply());
+    const bigText = el('span');
+    bigText.append(
+      el('strong', undefined, BIG_BUBBLES_TEXT.label),
+      el('small', undefined, BIG_BUBBLES_TEXT.help),
+    );
+    bigRow.append(this.bigBubbles, bigText);
+    body.appendChild(bigRow);
+    // R0593 (lane A r8): how lively the Grove is (quirks and antics only).
+    this.liveliness = select(LIVELINESS_TEXT.label, LIVELINESS_TEXT.levels);
+    body.appendChild(el('div', 'help', LIVELINESS_TEXT.help));
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
@@ -413,7 +443,7 @@ export class SettingsMenu {
     saves.append(
       button(UI_TEXT.exportSave, () => this.exportSave()),
       button(UI_TEXT.importSave, () => void this.importSave()),
-      button(UI_TEXT.resetSave, () => this.reset(), 'btn btn-danger'),
+      button(UI_TEXT.resetSave, () => void this.reset(), 'btn btn-danger'),
     );
     this.unreadableBtn = button(UI_TEXT.exportUnreadable, () => this.exportUnreadable());
     this.unreadableBtn.hidden = true;
@@ -492,6 +522,9 @@ export class SettingsMenu {
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
     this.haptics.checked = hapticsOn(g.world.settings);
+    this.slapstick.value = g.world.settings.slapstick ?? 'full';
+    this.bigBubbles.checked = bigBubbles(g.world);
+    this.liveliness.value = livelinessOf(g.world);
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
@@ -513,28 +546,28 @@ export class SettingsMenu {
     this.dialog.hide();
   }
 
-  /** The Learning Grove's age and story band (review 2026-10-21, bug 33). */
+  /**
+   * The Learning Grove's age, story band and read-aloud live in the grown-up area only
+   * (R0671): this was a second copy past a weaker path, so Settings links there instead.
+   */
   private renderEdu(g: Game): void {
     const box = this.eduBox;
     box.textContent = '';
-    const e = g.world.edu;
-    box.hidden = !e;
-    if (!e) return;
+    box.hidden = !g.world.edu;
+    if (!g.world.edu) return;
     box.appendChild(el('legend', undefined, UI_TEXT.eduSettingsTitle));
-    const ageRow = el('label', 'field-row');
-    const ageSel = el('select');
-    for (const a of EDU_AGES) {
-      const o = el('option', undefined, String(a));
-      o.value = String(a);
-      ageSel.appendChild(o);
-    }
-    ageSel.value = String(e.age);
-    ageSel.addEventListener('change', () =>
-      g.send({ kind: 'eduSetAge', age: Number(ageSel.value) as EduAge, resetGames: true }),
+    box.appendChild(el('p', 'help', KID_SHEET_TEXT.eduLink));
+    box.appendChild(
+      button(KID_SHEET_TEXT.eduLinkButton, () => {
+        this.close();
+        this.grownUpArea();
+      }),
     );
-    ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
-    box.appendChild(ageRow);
-    storySettings(box, g);
+  }
+
+  /** R0671: where the Learning Grove link goes (hud.ts wires the grown-up panel). */
+  setGrownUpArea(open: () => void): void {
+    this.grownUpArea = open;
   }
 
   /** A bad hours value does not linger in the field looking saved. */
@@ -641,6 +674,12 @@ export class SettingsMenu {
       settings.haptics = this.haptics.checked;
     const scale = TEXT_SCALES[this.textSize.value] ?? 1;
     if (scale !== textScaleOf(g.world)) settings.textScale = scale;
+    if (this.slapstick.value !== (g.world.settings.slapstick ?? 'full'))
+      settings.slapstick = this.slapstick.value as NonNullable<Settings['slapstick']>;
+    if (this.bigBubbles.checked !== bigBubbles(g.world))
+      settings.bigBubbles = this.bigBubbles.checked;
+    if (this.liveliness.value !== livelinessOf(g.world))
+      settings.liveliness = this.liveliness.value as NonNullable<Settings['liveliness']>;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.
@@ -724,19 +763,29 @@ export class SettingsMenu {
       return;
     }
     const slotName = `${modeName(slot.mode)}, ${SLOT_TEXT.slot(slot.index)}`;
-    if (!window.confirm(UI_TEXT.importConfirm(slotName))) return;
-    file.world.settings.matureContent = 'off';
-    file.world.settings.riftConfirmed = false;
-    g.replaceWorld(file.world);
-    this.close();
-    // Said plainly and long enough to read: the confirm() alone left no trace (bug 34).
-    this.toast(UI_TEXT.imported(slotName), UI.toastLongMs);
+    const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.importConfirm(slotName) };
+    void confirmModal({ ...ask, confirm: CAMP_TEXT.importYes, danger: true }).then((ok) => {
+      if (!ok) return;
+      file.world.settings.matureContent = 'off';
+      file.world.settings.riftConfirmed = false;
+      g.replaceWorld(file.world);
+      this.close();
+      // Said plainly and long enough to read: the confirm alone left no trace (bug 34).
+      this.toast(UI_TEXT.imported(slotName), UI.toastLongMs);
+    });
   }
 
-  private reset(): void {
+  private async reset(): Promise<void> {
     const g = this.game();
     if (!g) return;
-    if (!window.confirm(UI_TEXT.resetConfirm)) return;
+    // R0671: a Learning Grove asks the grown-up gate before the confirm.
+    const ask = { title: CAMP_TEXT.confirmTitle, body: UI_TEXT.resetConfirm };
+    const go = await resetAllowed(
+      !!g.world.edu,
+      () => askGrownUp(this.parent, this.toast),
+      () => confirmModal({ ...ask, confirm: CAMP_TEXT.resetYes, danger: true }),
+    );
+    if (!go || this.game() !== g) return;
     clearSave();
     // The slot's own mode starts again: a story stays a story, a Learning Grove keeps its band.
     g.replaceWorld(freshWorldLike(g.world, Date.now()));

@@ -1,5 +1,5 @@
 {
-  "eagerKb": 812,
+  "eagerKb": 845,
   "eagerCeilingKb": 1000,
   "chunkCeilingKb": 1536,
   "chunks": {
@@ -8,10 +8,10 @@
     "edu-reader": 662,
     "edu-sprout-worlds": 625,
     "side-story-content": 425,
-    "index": 351,
+    "index": 487,
     "edu-sprout": 330,
     "multiverse-catalogue": 252,
-    "regions": 190,
+    "regions": 198,
     "sculpt-worker": 172,
     "grove-3d-scene": 152,
     "arcade-catalogue": 137,

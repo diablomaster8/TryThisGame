@@ -1,4 +1,5 @@
 import { hasRoom } from './roster';
+import { EDU_SOUL } from '../config/tuning-fun-r7';
 import { GROVE, NEEDS, TRUST } from '../config/tuning';
 import type { Nubbin, SimEvent, Stray, World } from './types';
 
@@ -12,11 +13,13 @@ const clamp = (v: number, lo: number, hi: number): number => Math.max(lo, Math.m
  * any other. Left at rock bottom for long enough, a Nubbin runs away; strays come back
  * to the Grove edge later, hoping to be found by someone kinder.
  */
-export function addTrust(n: Nubbin, delta: number, events?: SimEvent[]): void {
+export function addTrust(n: Nubbin, delta: number, events?: SimEvent[], eduFloor = false): void {
   if (n.stage === 'egg') return;
   const scaled = delta > 0 && n.shadow && !n.bond ? delta * TRUST.shadowGainScale : delta;
   const before = n.trust;
   n.trust = clamp(n.trust + scaled, TRUST.min, TRUST.max);
+  // R0527: in the Learning Grove trust has a floor, so no child's Nubbin turns Shadow or runs.
+  if (eduFloor && n.trust < EDU_SOUL.trustFloor) n.trust = Math.max(before, EDU_SOUL.trustFloor);
   if (!n.shadow && n.trust < TRUST.shadowBelow) {
     n.shadow = true;
     n.bond = false;
@@ -39,9 +42,9 @@ export function stepTrust(world: World, dtMs: number, events: SimEvent[]): void 
   for (const n of [...world.nubbins]) {
     if (n.stage === 'egg' || n.stage === 'cocoon') continue;
     if (n.needs.hunger <= NEEDS.starvingThreshold) {
-      addTrust(n, TRUST.starvingPerMinute * minutes, events);
+      addTrust(n, TRUST.starvingPerMinute * minutes, events, !!world.edu);
     } else if (n.behavior.state === 'cry') {
-      addTrust(n, TRUST.cryingPerMinute * minutes, events);
+      addTrust(n, TRUST.cryingPerMinute * minutes, events, !!world.edu);
     } else if (n.needs.happiness > 0 && n.trust < TRUST.start) {
       addTrust(n, TRUST.settlePerMinute * minutes, events);
     }

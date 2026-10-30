@@ -21,6 +21,8 @@ import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
+import { bigBubbles } from '../render/emote-size';
+import { applyViewShift, NO_SHIFT, type ViewShift } from '../render/view-shift';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
 import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
@@ -219,6 +221,8 @@ export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
   readonly camera: THREE.PerspectiveCamera;
+  /** HOT-1: where the aimed-at point sits on screen while the stats sheet is open. */
+  viewShift: ViewShift = NO_SHIFT;
   readonly pickables: THREE.Object3D[] = [];
   private size: TargetSize = { width: 1, height: 1, scale: 1 };
   private readonly composer: EffectComposer;
@@ -478,6 +482,15 @@ export class Grove3dScene {
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
+    // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
+    this.actors.beatBurst = (kind, x, z) =>
+      this.bursts.burst(
+        kind === 'note' ? 'sparkle' : kind,
+        new THREE.Vector3(x, standHeight(x, z) + (kind === 'dust' ? 0.05 : 0.9), z),
+        kind === 'dust' ? 5 : 2,
+        { spread: kind === 'sparkle' ? 0.9 : 0.3, speed: 0.5, rise: 0.4, lifeMs: 700 },
+        this.lastMs,
+      );
     // Compile against the composer's target: the game draws into it (linear, no tone
     // mapping), and programs compiled for the canvas would not be the ones it uses.
     // A rig compiles for the light set it is shown in and for every set already linked,
@@ -828,6 +841,9 @@ export class Grove3dScene {
 
         continue;
       }
+      // R0551 (lane A r8): a pet and a throw's landing play out by personality.
+      if (e.kind === 'petted' || e.kind === 'landed')
+        this.actors.handledBeat(e.nubbinId, e.kind, now);
       if (e.kind === 'landed') this.actors.pop(e.nubbinId, 'squash', now);
       else if (e.kind === 'hatched' || e.kind === 'evolved' || e.kind === 'reborn')
         this.actors.pop(e.nubbinId, 'pop', now);
@@ -859,6 +875,12 @@ export class Grove3dScene {
           this.lastMs,
         );
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      } else if (e.kind === 'fruitTaste') {
+        // R0536 (lane A r8): a favourite or disliked fruit plays its own beat.
+        this.actors.tasteBeat(e.nubbinId, e.taste, this.lastMs);
+      } else if (e.kind === 'highFiveRefused') {
+        // R0532 (lane A r8): a grumpy refusal huffs.
+        this.actors.react(e.nubbinId, 'puff', this.lastMs + UI.bubbleMs);
       } else if (e.kind === 'interacted') {
         // FUN-09 (lane E): each pet action plays its own beat.
         this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
@@ -1412,6 +1434,8 @@ export class Grove3dScene {
   }
 
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
+    // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
+    applyViewShift(this.camera, this.viewShift);
     // Never negative: a clock that steps back (a resumed tab, a hand-driven frame) would
     // turn the eased camera into NaN, and NaN never recovers.
     const dt = this.lastMs === 0 ? 0 : Math.max(0, Math.min(0.1, (nowMs - this.lastMs) / 1000));
@@ -1433,6 +1457,8 @@ export class Grove3dScene {
     this.hollow.lamps.reduceMotion = this.reduceMotion;
     this.bursts.calm = this.reduceMotion;
     this.actors.calm = this.reduceMotion;
+    // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
+    this.actors.emoteBig = orbit.currentZoomIndex === 0 || bigBubbles(world);
     this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.

@@ -38,10 +38,21 @@ export const EDU_RECOMMENDED: Record<EduAge, readonly EduGameId[]> = {
 export const EDU = {
   /** Rounds per play session of one game. */
   roundsPerGame: 5,
+  /** R0746: rounds per game by age until a grown-up picks; readers get more. */
+  roundsByAge: { 3: 3, 4: 5, 5: 5, 6: 6 } as Record<number, number>,
+  roundsReader: 8,
+  minRounds: 3,
+  maxRounds: 10,
   /** Tries before the answer is shown; the round still counts as learned. */
   triesBeforeShow: 3,
   /** Shells per star, so the Grove economy works for a child too. */
   shellsPerStar: 5,
+  /** R0691: a sprout save's Nubbins are always reborn at end of life. */
+  alwaysRebornSprout: true,
+  /** R0724: the warning comes this many minutes before the break. */
+  breakWarnMinutes: 2,
+  /** R0724: a round or scene still open may run this long past the break time. */
+  breakGraceMinutes: 3,
   /** A sticker every this many stars. */
   starsPerSticker: 9,
   /** Default and allowed session length in minutes before the break screen. */
@@ -133,7 +144,7 @@ export const EDU_WORDS: ReadonlyArray<{ word: string; icon: string; rhyme: strin
   { word: 'tree', icon: '🌳', rhyme: 'ee' },
   { word: 'umbrella', icon: '☂️', rhyme: 'ella' },
   { word: 'van', icon: '🚐', rhyme: 'an' },
-  { word: 'whale', icon: '🐳', rhyme: 'ale' },
+  { word: 'whale', icon: '🐳', rhyme: 'ail' },
   { word: 'box', icon: '📦', rhyme: 'ox' },
   { word: 'yarn', icon: '🧶', rhyme: 'arn' },
   { word: 'zebra', icon: '🦓', rhyme: 'ebra' },
@@ -223,3 +234,26 @@ export const EDU_READER_RHYMES: ReadonlyArray<readonly string[]> = [
   ['shell', 'bell', 'well', 'spell'],
   ['hand', 'sand', 'band', 'land'],
 ];
+
+/**
+ * R0676: which pointing plan the "Show me" guide follows for each campaign chapter goal
+ * (`ChapterDef.goal`). A goal not listed gets the spoken hint only, no hand.
+ */
+export const EDU_GUIDE_PLANS: Record<string, 'hatch-pet' | 'feed'> = {
+  firstHatch: 'hatch-pet',
+  feedTwice: 'feed',
+};
+
+/**
+ * R0684: a picture word's first sound, by how it sounds rather than how it is spelt: cat,
+ * cake, car and kite all start with "k", queen with "kw". The rhyme keys in `EDU_WORDS` are
+ * by sound the same way (snail, pail and whale share "ail").
+ */
+export function firstSound(word: string): string {
+  const w = word.toLowerCase();
+  if (w.startsWith('qu')) return 'kw';
+  if (w.startsWith('wh')) return 'w';
+  const c = w.charAt(0);
+  if (c === 'c') return /^c[eiy]/.test(w) ? 's' : 'k';
+  return c;
+}

@@ -23,10 +23,16 @@ import { isFree } from './nubbin';
 import { mossOnHill, mossSeat } from './roster';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
-import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { FRIENDS, NUBBIN_STEER, SLED } from '../config/tuning';
+import {
+  EDU_SOUL,
+  FRIENDS,
+  FRIENDS_AWAY,
+  NUBBIN_STEER,
+  PERSONALITY_LEAN,
+  SLED,
+} from '../config/tuning';
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
@@ -34,7 +40,8 @@ import type { Walker } from './obstacles';
 import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
-import { idleMultipliers } from './personality';
+import { idleMultipliers, leaningPersonality } from './personality';
+import { idleOdds, idleWeights } from './idle-choice';
 import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
 import { perchTopAt, softAt } from './obstacles';
 import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
@@ -45,6 +52,29 @@ import { fliesLeg } from './flight';
 import { FLIGHT } from '../config/tuning-look';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
+import { likesOf, tasteOf } from './likes';
+import { favouredToy, noteToyPlay } from './toy-soul';
+import {
+  anticEvent,
+  anticMs,
+  idleAntic,
+  isAntic,
+  noteAteForAntics,
+  soulLive,
+  walkAntic,
+  type AnticKind,
+} from './antics';
+import {
+  alignAct,
+  arriveAct,
+  moodyAct,
+  moodyGreet,
+  napScale,
+  phaseAct,
+  rainAct,
+  type IdleAct,
+} from './soul-idle';
+import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
 import type {
   BehaviorState,
   Flavor,
@@ -96,6 +126,7 @@ export function react(n: Nubbin, reaction: Reaction, now: number, events: SimEve
  * only shows the face, as with any reaction.
  */
 export function pet(n: Nubbin, from: Vec2, now: number, events: SimEvent[]): void {
+  events.push({ kind: 'petted', nubbinId: n.id });
   if (!isFree(n)) {
     react(n, 'love', now, events);
     return;
@@ -346,29 +377,27 @@ function skipping(n: Nubbin, now: number): string | null {
   return b.skipItemId !== undefined && now < (b.skipItemUntilMs ?? 0) ? b.skipItemId : null;
 }
 
-function nearestFruit(world: World, from: Vec2, skip: string | null = null): string | null {
+function nearestFruit(
+  world: World,
+  from: Vec2,
+  skip: string | null = null,
+  n?: Nubbin,
+): string | null {
   let best: string | null = null;
-  let bestD: number = BEHAVIOR.foodSearchRadius;
+  // R0536: a favourite is worth a longer walk; a disliked one is left unless starving.
+  const reach = n ? LIKES.favouriteReach : 1;
+  let bestD = Infinity;
+  const starving = !!n && n.needs.hunger < NEEDS.starvingThreshold;
   for (const item of world.items) {
     if (item.kind !== 'fruit' || item.y > 0.05 || item.id === skip) continue;
-    const d = dist(from, item.pos);
+    const taste = n ? tasteOf(n, item.flavor) : null;
+    if (taste === 'bleh' && !starving) continue;
+    const raw = dist(from, item.pos);
+    if (raw > BEHAVIOR.foodSearchRadius * (taste === 'yum' ? reach : 1)) continue;
+    const d = taste === 'yum' ? raw / reach : raw;
     if (d < bestD) {
       bestD = d;
       best = item.id;
-    }
-  }
-  return best;
-}
-
-function nearestToy(world: World, from: Vec2): Item | null {
-  let best: Item | null = null;
-  let bestD = Infinity;
-  for (const item of world.items) {
-    if (item.kind !== 'toy') continue;
-    const d = dist(from, item.pos);
-    if (d < bestD) {
-      bestD = d;
-      best = item;
     }
   }
   return best;
@@ -483,7 +512,7 @@ export function shroomHopY(world: World, n: Nubbin, t: number): number | null {
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Curfew: late at night they would rather sleep.
   if (world.night && n.needs.energy < 0.9 && rng.chance(CURFEW.napChance)) {
-    setState(n, 'nap', now, NEEDS.napMs);
+    setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     return;
   }
   // Partners keep near the Keeper.
@@ -529,8 +558,13 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       return;
     }
   }
-  // Personality only shifts the odds of idle choices.
-  const m = idleMultipliers(n.personality);
+  // Personality only shifts the odds of idle choices; a child's leaning does, at half
+  // strength, until it locks at evolution (R0523).
+  const m0 = n.personality
+    ? idleMultipliers(n.personality)
+    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  // R0532: a grumpy one greets less.
+  const m = n.moody ? { ...m0, greet: m0.greet * moodyGreet(n) } : m0;
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
   // Rain: most Nubbins head for a tree; swimmers would rather be in the pond.
   if (world.weather.kind === 'rain' && n.stage !== 'egg') {
@@ -540,9 +574,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
       return;
     }
-    if (!swimmer && rng.chance(0.8)) {
-      setState(n, 'shelter', now, 60_000);
-      n.behavior.target = shelterSpot(n.pos.x, n.pos.z);
+    // R0534: the rest play in it or shelter by personality, never more than half at once.
+    const act = swimmer
+      ? null
+      : rainAct(n, world, rng, (around, r) => standablePoint(rng, world, n, around, r));
+    if (act) {
+      startAct(n, act, now);
       return;
     }
   }
@@ -580,6 +617,16 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     addHappiness(n, 3);
     return;
   }
+  // R0539: now and then a Nubbin goes and sits a while by a departed buddy's flower.
+  const missed = n.remembered?.filter((r) => now - r.atMs < FRIENDS_AWAY.visitForMs).at(-1);
+  const flower = missed && world.memorials.find((m) => m.id === `memorial-${missed.id}`);
+  if (flower && world.location === 'grove' && rng.chance(FRIENDS_AWAY.visitChance)) {
+    setState(n, 'perform', now, FRIENDS_AWAY.visitMs);
+    n.behavior.itemId = 'visitFlower';
+    n.behavior.target = { x: flower.pos.x + 0.9, z: flower.pos.z + 0.3 };
+    clampToWorld(n.behavior.target);
+    return;
+  }
   // Buddies seek each other out for a chat.
   const buddy = bestFriend(world, n);
   if (buddy && rng.chance(FRIENDS.chatChance * m.play)) {
@@ -606,42 +653,109 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
-  if (keeperNear && !isWary(n) && rng.chance(Math.min(1, BEHAVIOR.greetChance * m.greet))) {
+  // R0544: the hiccups after a quick second fruit, or a child's tail chase.
+  const antic = idleAntic(n, world, now);
+  if (antic) {
+    startAntic(n, antic, now);
+    return;
+  }
+  // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
+  // R0575: none of these while catching up on time away; they are for watching.
+  const own = soulLive()
+    ? (alignAct(n, world, rng) ?? moodyAct(n, world, rng) ?? phaseAct(n, world, rng))
+    : null;
+  if (own) {
+    startAct(n, own, now);
+    return;
+  }
+  // R0524: the everyday choice is one weighted pick (sim/idle-choice.ts), not a cascade.
+  // R0537: the toy it is keenest on (its favourite, unless bored of it), and how keen.
+  const keen = favouredToy(world, n, now);
+  const toy = keen?.toy ?? null;
+  const toyOk = !!toy && toy.id !== skipping(n, now);
+  // MOVE-57: a spring mushroom nearby is a toy too.
+  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
+  const shroomOk = !!shroom && shroom.id !== skipping(n, now);
+  const pick = rng.weighted(
+    idleWeights({
+      keeperNear,
+      wary: isWary(n),
+      toy: toyOk,
+      shroom: shroomOk,
+      canSwim: n.stage !== 'egg',
+      mult: keen ? { ...m, play: m.play * keen.keen } : m,
+    }) as Record<string, number>,
+  );
+  if (pick === 'greet') {
     setState(n, 'greet', now, BEHAVIOR.greetMs);
     n.facing = Math.atan2(world.keeper.pos.x - n.pos.x, world.keeper.pos.z - n.pos.z);
     return;
   }
-  const toy = nearestToy(world, n.pos);
-  if (toy && toy.id !== skipping(n, now) && rng.chance(Math.min(1, BEHAVIOR.playChance * m.play))) {
-    setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
+  if (pick === 'play' && toy) {
+    setState(
+      n,
+      'play',
+      now,
+      rng.float(...BEHAVIOR.playMs) *
+        ((toy.toy ?? 'ball') === likesOf(n).toy ? TOY_SOUL.favouritePlay : 1),
+    );
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
   }
-  // MOVE-57: a spring mushroom nearby is a toy too. No mushroom, no roll of the dice, so a
-  // Grove without one plays out exactly as before.
-  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
-  if (
-    shroom &&
-    shroom.id !== skipping(n, now) &&
-    rng.chance(Math.min(1, BEHAVIOR.playChance * m.play * JUMP_TOYS.nubbinChance))
-  ) {
+  if (pick === 'shroom' && shroom) {
     setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
     n.behavior.itemId = shroom.id;
     n.behavior.target = { x: shroom.pos.x, z: shroom.pos.z };
     return;
   }
-  if (n.stage !== 'egg' && rng.chance(Math.min(1, BEHAVIOR.swimChance * m.swim))) {
+  if (pick === 'swim') {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
     n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
   }
-  if (rng.chance(Math.min(1, BEHAVIOR.sitChance * m.sit))) {
+  if (pick === 'sit') {
     setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs) * (n.personality === 'lazy' ? 1.5 : 1));
     return;
   }
   setState(n, 'wander', now, rng.float(...BEHAVIOR.wanderMs));
   n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
+}
+
+/** R0544: start an antic where the Nubbin stands. */
+function startAntic(n: Nubbin, kind: AnticKind, now: number): void {
+  setState(n, 'perform', now, anticMs(kind));
+  n.behavior.itemId = kind;
+}
+
+/** Lane A r8: start an act from sim/soul-idle.ts. */
+function startAct(n: Nubbin, a: IdleAct, now: number): void {
+  setState(n, a.state, now, a.ms);
+  if (a.itemId) n.behavior.itemId = a.itemId;
+  if (a.target) {
+    clampToWorld(a.target);
+    n.behavior.target = a.target;
+  }
+  if (a.facing !== undefined) n.facing = a.facing;
+}
+
+/** R0524: the live odds of the everyday idle choice for the debug panel (no rng drawn). */
+export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
+  const m = n.personality
+    ? idleMultipliers(n.personality)
+    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  const now = world.timeMs;
+  const keen = favouredToy(world, n, now);
+  const toy = keen?.toy ?? null;
+  const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
+  return idleOdds({
+    keeperNear: dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius,
+    wary: isWary(n),
+    toy: !!toy && toy.id !== skipping(n, now),
+    shroom: !!shroom && shroom.id !== skipping(n, now),
+    canSwim: n.stage !== 'egg',
+    mult: keen ? { ...m, play: m.play * keen.keen } : m,
+  });
 }
 
 /** One sim step for a free (not held, not egg) Nubbin. */
@@ -654,7 +768,22 @@ export function updateBehavior(
 ): void {
   const now = world.timeMs;
   const b = n.behavior;
+  // R0544: an antic that starts this step is announced (for the toast line and the sound).
+  const since = b.sinceMs;
+  stepBehavior(n, world, dtMs, rng, events, now, b);
+  if (b.sinceMs !== since && b.state === 'perform' && isAntic(b.itemId))
+    events.push(anticEvent(n, b.itemId));
+}
 
+function stepBehavior(
+  n: Nubbin,
+  world: World,
+  dtMs: number,
+  rng: Rng,
+  events: SimEvent[],
+  now: number,
+  b: Nubbin['behavior'],
+): void {
   if (b.state === 'thrown') {
     updateThrown(n, world, dtMs, now, events);
     return;
@@ -686,12 +815,12 @@ export function updateBehavior(
     b.state !== 'pet' &&
     b.state !== 'lesson';
   if (interruptible && isExhausted(n)) {
-    setState(n, 'nap', now, NEEDS.napMs);
+    setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     events.push({ kind: 'napStarted', nubbinId: n.id });
     return;
   }
   if (interruptible && b.state !== 'findFood' && isHungry(n)) {
-    const fruit = nearestFruit(world, n.pos, skipping(n, now));
+    const fruit = nearestFruit(world, n.pos, skipping(n, now), n);
     if (fruit) {
       setState(n, 'findFood', now, Infinity);
       b.itemId = fruit;
@@ -717,6 +846,12 @@ export function updateBehavior(
     case 'avoid': {
       // R0299 (FUN-10): a distracted walk can end in a bonk against a trunk.
       if (b.state === 'wander' && stepWanderGag(n, world, now, events)) break;
+      // R0544: or in a trip, or a sneeze by the flowers.
+      const antic = b.state === 'wander' ? walkAntic(n, world, now, dtMs) : null;
+      if (antic) {
+        startAntic(n, antic, now);
+        break;
+      }
       // LOOK-24: a flight leg cruises faster than a walk (sim/flight.ts).
       const speed =
         b.state === 'avoid'
@@ -787,6 +922,10 @@ export function updateBehavior(
       }
       b.target = null;
       // Bat the toy around a little; it rolls a short way.
+      // R0537: boredom builds as it plays; its favourite shows on the sheet once seen.
+      noteToyPlay(n, toy.id, dtMs, now);
+      if ((toy.toy ?? 'ball') === likesOf(n).toy && !n.tasteSeen?.toy)
+        n.tasteSeen = { ...n.tasteSeen, toy: true };
       if (rng.chance(0.08)) {
         const a = rng.float(0, Math.PI * 2);
         toy.pos.x += Math.cos(a) * 0.6;
@@ -815,7 +954,9 @@ export function updateBehavior(
       break;
     }
     case 'shelter': {
-      if (b.target) walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs);
+      // R0534: on arrival the target clears, so the renderers show the huddle, not a walk.
+      if (b.target && walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs))
+        b.target = null;
       if (world.weather.kind !== 'rain' || now >= b.untilMs) chooseIdle(n, world, rng, now);
       break;
     }
@@ -862,6 +1003,9 @@ export function updateBehavior(
         if (walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs)) {
           b.untilMs = now + (b.untilMs - b.sinceMs);
           b.target = null;
+          // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).
+          const hit = arriveAct(n, world, events);
+          if (hit && isFree(hit.mark)) react(hit.mark, hit.reaction, now, events);
         } else if (walkStalled(n, b.target, now)) {
           b.target = null;
         }
@@ -898,11 +1042,25 @@ export function updateBehavior(
 }
 
 export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor): void {
+  noteAteForAntics(n, now);
   applyFruit(n);
   applyFlavor(n, flavor);
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);
   setState(n, 'eat', now, BEHAVIOR.eatMs);
   events.push({ kind: 'ate', nubbinId: n.id });
+  // R0536: its favourite or a dislike: a happiness nudge and a reaction (stats unchanged).
+  const taste = tasteOf(n, flavor);
+  if (taste) {
+    addHappiness(n, taste === 'yum' ? LIKES.yumHappiness : LIKES.blehHappiness);
+    const first = !n.tasteSeen?.[taste];
+    n.tasteSeen = { ...n.tasteSeen, [taste]: true };
+    events.push({
+      kind: 'fruitTaste',
+      nubbinId: n.id,
+      taste,
+      ...(first ? { first: true as const } : {}),
+    });
+  }
 }
 
 export function startThrow(n: Nubbin, vel: Vec2, now: number, events: SimEvent[]): void {
@@ -951,8 +1109,14 @@ function updateThrown(
     // being swallowed by the held/thrown guard in react().
     setState(n, 'sit', now, 0);
     if (n.stage !== 'egg') {
-      applyDrop(n);
-      react(n, 'dizzy', now, events);
+      // R0527: in the Learning Grove it lands on its feet and giggles.
+      if (world.edu) {
+        addHappiness(n, EDU_SOUL.tossHappiness);
+        react(n, 'happy', now, events);
+      } else {
+        applyDrop(n);
+        react(n, 'dizzy', now, events);
+      }
     }
   }
 }

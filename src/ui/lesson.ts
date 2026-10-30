@@ -10,6 +10,9 @@ import { isAudioUnlocked, isSoundEnabled, playSound, type SoundName } from '../p
 import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
+import { sproutChoices } from './sprout-choices';
+import { bestVoice, pauseAfterLine, shoutChunks, voiceFor } from './read-aloud';
+import { READ_ALOUD } from '../config/tuning-fun-r7';
 
 const PROMPT = /\([^)]*\)/g;
 
@@ -128,22 +131,48 @@ function glossaryPattern(glossary: Map<string, string>): RegExp {
  * only ever heard from native-speaker clips (tap the word). Silently does nothing without
  * speech support.
  */
-export function speakLine(text: string): void {
+export function speakLine(text: string, opts: SpeakOptions = {}): void {
   try {
     const synth = window.speechSynthesis;
     if (!synth || !isAudioUnlocked() || !isSoundEnabled()) return;
     const said = withoutScript(text.replace(PROMPT, ' ')).replace(/\s+/g, ' ').trim();
     synth.cancel();
     if (!said) return;
-    // R0310: a sound word is said, then its sound plays, before the line goes on.
+    // R0342: the speaker's own pitch and rate, and the device's best English voice.
+    const tone = voiceFor(opts.speaker);
+    const voice = bestVoice(synth.getVoices?.() ?? []);
+    // R0310: a sound word is said, then its sound plays, before the line goes on. R0342: a
+    // shouted word is its own chunk, lowercased, with a pitch bump.
     const token = ++speakToken;
-    const chunks = soundChunks(said);
+    const chunks = soundChunks(said).flatMap((c) => {
+      const parts = shoutChunks(c.text);
+      return parts.map((p, i) => ({ ...p, sound: i === parts.length - 1 ? c.sound : null }));
+    });
+    let from = 0;
     const next = (i: number): void => {
-      if (token !== speakToken || i >= chunks.length) return;
+      if (token !== speakToken) return;
+      if (i >= chunks.length) {
+        if (opts.onDone)
+          window.setTimeout(() => token === speakToken && opts.onDone?.(), pauseAfterLine(said));
+        return;
+      }
       const c = chunks[i]!;
       const u = new SpeechSynthesisUtterance(c.text);
-      u.lang = 'en-GB';
-      u.rate = 0.9;
+      u.lang = voice?.lang ?? 'en-GB';
+      if (voice) u.voice = voice;
+      u.rate = tone.rate;
+      u.pitch = Math.min(2, tone.pitch + (c.shout ? READ_ALOUD.shoutPitch : 0));
+      // R0342: the word being said, for the karaoke light (some engines never send these).
+      const base = from;
+      from += c.text.length;
+      if (opts.onWord) {
+        u.onboundary = (e) => {
+          if (token !== speakToken || (e.name && e.name !== 'word')) return;
+          const word = /^[\p{L}\p{N}'’]+/u.exec(c.text.slice(e.charIndex))?.[0];
+          if (word) opts.onWord?.(word, base + e.charIndex);
+        };
+        if (c.shout) opts.onWord(c.text, base);
+      }
       u.onend = () => {
         if (token !== speakToken) return;
         if (c.sound) playSound(c.sound);
@@ -155,6 +184,13 @@ export function speakLine(text: string): void {
   } catch {
     // No voice on this device: the grown-up reads it.
   }
+}
+
+/** R0342: who is speaking, and hooks for the word light and for the line's end. */
+export interface SpeakOptions {
+  speaker?: string | null;
+  onWord?: (word: string, at: number) => void;
+  onDone?: () => void;
 }
 
 export function stopSpeaking(): void {
@@ -174,6 +210,7 @@ export function renderOptions(
   box: HTMLElement,
   lesson: Lesson,
   onPick: (option: LessonOption, best: boolean | null) => void,
+  readAloud = false,
 ): void {
   box.innerHTML = '';
   const options = lesson.options ?? [];
@@ -205,6 +242,8 @@ export function renderOptions(
     buttons.push(b);
     box.appendChild(b);
   }
+  // R0677: a sprout lesson's options are numbered pictures, read out as they appear.
+  if (lesson.id.startsWith('sprout:')) sproutChoices(buttons, options, readAloud);
 }
 
 /**
