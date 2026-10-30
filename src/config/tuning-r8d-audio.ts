@@ -41,3 +41,39 @@ export const MUSIC_DUCK = {
   /** The sounds that count as a sting. */
   stingSounds: ['hatch', 'evolve', 'win'] as readonly string[],
 } as const;
+
+/**
+ * R0507 (TECH-64): per-song trims in dB, set so every song's estimated level
+ * (platform/mix-level.ts) sits within `toleranceDb` of `SONG_LEVEL.targetDb` plus its offset.
+ * Trims stay within ±`maxTrimDb`, so a sparse cue is never pushed into the compressor.
+ */
+export const SONG_TRIM_DB: Readonly<Record<string, number>> = {
+  title: -1,
+  grove: -1.5,
+  night: -0.5,
+  race: -2,
+  expedition: -1,
+  story: 6,
+  sorrow: 0.5,
+  tense: 2.5,
+  hollow: 2,
+  karate: 0,
+  battle: 0,
+  circuit: 0.5,
+  calm: 6,
+};
+
+export const SONG_LEVEL = {
+  /** The common level the songs are trimmed to, in the estimator's relative dB. */
+  targetDb: -9,
+  /** How far a trimmed song may sit from its target. */
+  toleranceDb: 1.5,
+  /** The largest trim either way. */
+  maxTrimDb: 6,
+  /**
+   * Songs meant to sit under the rest: the night and sorrow pieces by 2 dB (the item asks
+   * for it); the sparse story cue and the calm lullaby read far lower on a loop average,
+   * and stay quieter rather than take more than `maxTrimDb` of boost.
+   */
+  offsetDb: { night: -2, sorrow: -2, story: -8, calm: -9 } as Readonly<Record<string, number>>,
+} as const;

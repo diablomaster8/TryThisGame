@@ -10,7 +10,7 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
-import { AUDIO_MIX, MUSIC_DUCK } from '../config/tuning-r8d-audio';
+import { AUDIO_MIX, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
 export type SoundName =
   | 'tap'
   | 'pickup'
@@ -675,7 +675,9 @@ export function playSong(name: SongName): void {
   const song = SONGS[name];
   const gain = ctx.createGain();
   gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(1, ctx.currentTime + 1.2);
+  // R0507: each song fades up to its own trim, so the pieces sit level with one another.
+  const trim = Math.pow(10, (SONG_TRIM_DB[name] ?? 0) / 20);
+  gain.gain.exponentialRampToValueAtTime(trim, ctx.currentTime + 1.2);
   gain.connect(musicBus);
   const p: Playing = {
     name,
