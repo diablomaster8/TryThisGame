@@ -1009,6 +1009,10 @@ export class Game {
       } else if (this.grove && this.lowRes) {
         if (this.world.location === 'dungeon')
           this.grove.updateDungeonLights(kp, this.camera.currentYaw);
+        // Lane B r8: sealed rock (secrets, the boss door) stands or sinks without a rebuild.
+        this.grove.updateDungeonSeals(
+          this.world.location === 'dungeon' ? this.world.dungeon : null,
+        );
         // Fog of war (R0153): the Hollow floor's materials read this each frame.
         this.grove.dungeonFog.update(
           this.world.location === 'dungeon' ? this.world.dungeon : null,

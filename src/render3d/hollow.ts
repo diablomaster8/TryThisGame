@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { bandFor, bandForFloor } from '../render/cave-bands';
 import type { Floor } from '../sim/dungeon';
+import { lootHeld, sealDisplay } from '../sim/dungeon-secrets';
 import type { DungeonRun } from '../sim/types';
 import type { Tex } from '../samples/aaa-kit';
 import type { CaveLamps } from './cave-lamps';
@@ -174,7 +175,10 @@ export class Hollow {
   }
 
   /** Build (or clear) the floor; called when the sim enters or leaves a floor. */
-  set(f: Floor | null, depth = 1): void {
+  set(floor: Floor | null, depth = 1): void {
+    // Every seal state of one floor draws as the same floor (lane B r8): a found secret or
+    // the boss door sinks or raises a few wall blocks in `update`, never a rebuild.
+    const f = floor && sealDisplay(floor);
     if (f === this.floor) return;
     this.floor = f;
     // The band is set before any module builds (rock tint, torch and crystal colour).
@@ -215,7 +219,7 @@ export class Hollow {
     const hit = new THREE.Vector3();
     let best: { kind: 'stairs' | 'chest' | 'loot'; id: string; d: number } | null = null;
     for (const [c, kind, id, r] of this.dress.picks) {
-      if (kind === 'loot' && run?.taken.includes(id)) continue;
+      if (kind === 'loot' && (run?.taken.includes(id) || lootHeld(run, this.floor, id))) continue;
       // A find still under the fog cannot be tapped (R0153).
       if (kind === 'loot' && !this.fog.seen(run, this.dress.lootCell(id))) continue;
       sphere.center.copy(c);

@@ -5,7 +5,8 @@
  * Each is a `Seal` on the generated floor, which is made in every seal's starting state
  * (secrets shut, puzzles unsolved, the boss door open). Nav masks, props and the renderers
  * cache by floor, so a flipped seal gives a new derived floor (`withSeals`), cached by the
- * base floor and the flipped seals: the renderers see a new floor and rebuild, nav replans.
+ * base floor and the flipped seals: nav replans, while the renderers keep drawing one floor
+ * (`sealDisplay`) and only stand or sink the plugs, so a flip never rebuilds a cave.
  *
  * A secret room is one of the floor's side caves (the generator records each cave and the
  * tunnel dug to it) that holds nothing anyone needs but finds: until it is found its cells
@@ -116,7 +117,78 @@ export function withSeals(run: DungeonRun, base: Floor): Floor {
   }
   if (byKey.size > 16) byKey.delete(byKey.keys().next().value!);
   byKey.set(key, f);
+  baseOf.set(f, base);
   return f;
+}
+
+// ---------------------------------------------------------------- what renderers draw
+
+/** Derived floor → the generated floor it came from. */
+const baseOf = new WeakMap<Floor, Floor>();
+/** Generated floor → the one floor drawn for every state of its seals. */
+const shownOf = new WeakMap<Floor, Floor>();
+/** Drawn floor → its plugs and which seal keeps each find back. */
+const plugsOf = new WeakMap<Floor, { plugs: SealPlug[]; held: Map<string, Seal> }>();
+
+/** Cells that stand as rock while their seal is shut: a secret's or pillar's cells, the boss door. */
+export interface SealPlug {
+  seal: Seal;
+  cells: Cell[];
+}
+
+/**
+ * The floor a renderer builds, the same object whatever the run's seals are: every
+ * secret and puzzle region open, the boss door open, every find laid out. What the seals
+ * shut is drawn as plugs (`sealPlugs`) that stand or sink as the run goes (`plugUp`), and
+ * finds a shut seal keeps back are hidden (`lootHeld`). So finding a secret or sealing the
+ * boss door moves a few wall blocks instead of rebuilding the whole cave (a 100 ms frame
+ * in Full 3D before). The sim keeps walking on `withSeals`' floors.
+ */
+export function sealDisplay(f: Floor): Floor {
+  const base = baseOf.get(f) ?? f;
+  if (!base.seals?.length) return f;
+  const hit = shownOf.get(base);
+  if (hit) return hit;
+  const shown: Floor = { ...base, cells: base.cells.slice(), loot: [...base.loot] };
+  const plugs: SealPlug[] = [];
+  const held = new Map<string, Seal>();
+  for (const s of base.seals) {
+    if (s.kind === 'boss') {
+      plugs.push({ seal: s, cells: s.door });
+      continue;
+    }
+    const cells: Cell[] = [];
+    s.region.forEach((c, i) => {
+      const k = c.y * shown.cols + c.x;
+      const was = s.was![i]!;
+      if (shown.cells[k] === WALL && was !== WALL) cells.push(c);
+      shown.cells[k] = was;
+    });
+    if (cells.length) plugs.push({ seal: s, cells });
+    for (const l of [...(s.hidden ?? []), ...s.loot]) {
+      shown.loot.push(l);
+      held.set(l.id, s);
+    }
+  }
+  shownOf.set(base, shown);
+  plugsOf.set(shown, { plugs, held });
+  return shown;
+}
+
+/** The plugs of a floor from `sealDisplay` (none for any other floor). */
+export function sealPlugs(shown: Floor): SealPlug[] {
+  return plugsOf.get(shown)?.plugs ?? [];
+}
+
+/** Whether a plug stands as rock on this run: its seal is shut. */
+export function plugUp(run: DungeonRun | null, plug: SealPlug): boolean {
+  return run ? !sealOpen(run, plug.seal) : !plug.seal.startsOpen;
+}
+
+/** Whether a find on a `sealDisplay` floor is still kept back by a shut seal. */
+export function lootHeld(run: DungeonRun | null, shown: Floor | null, id: string): boolean {
+  const s = shown && plugsOf.get(shown)?.held.get(id);
+  return !!s && (!run || !sealOpen(run, s));
 }
 
 // ---------------------------------------------------------------- shared helpers

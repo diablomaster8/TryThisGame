@@ -70,10 +70,15 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   New optional save fields, no version bump: gear `charms`, `keys`, `found`, `pillowFort`, item
   `sockets`/`setPiece`/`unique`/`tab`; hollow `roles`, `scrolls`, `guide`, `records[].trails`; run
   `scouted`, `trail`, `seals`, `puzzles`.
-- *Known:* opening any seal rebuilds the cave in both renderers (a brief hitch in 3D, twice per
-  boss attempt). The scroll and the boss celebration can stack. Secret rooms come about 1 level
-  in 3, lower than the rec's 0–2. Edge smoke `tools/r8-b.cjs` passes 12/12 in Pixel and 3D,
-  on desktop and at 375×812, with 0 errors and 47–57 fps. Timing tests (lifecycle, nav, world,
+- *Fixed (follow-up):* a seal flip no longer rebuilds the cave. Both renderers build one
+  floor per level (`sealDisplay`: every secret open, finds laid out); what a seal shuts stands
+  as plug blocks (3D: sunk or raised through the cutaway's height texture; Pixel: a small
+  mesh per seal) and shut finds hide (`lootHeld`). Headless Edge, worst frame around a flip:
+  3D 108 ms → 20–31 ms, Pixel 1.8–3.2 s → 19–23 ms (`tools/r8-b-seal.cjs`); a test checks
+  drawn rock = sim rock in every state. The boss scroll waits for the fight and the boss card.
+- *Known:* secret rooms come about 1 level
+  in 3, lower than the rec's 0–2. Edge smoke `tools/r8-b.cjs` passes 14/14 in Pixel and 3D,
+  on desktop and at 375×812, with 0 errors and 56–57 fps. Timing tests (lifecycle, nav, world,
   species, battle-balance) fail under the full parallel run and pass alone.
 
 ## Round 7 · Lane B DUNG (2026-10-30, branch r7/b)

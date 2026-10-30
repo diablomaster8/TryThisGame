@@ -561,6 +561,8 @@ export function mountHud(
   const breakWarn = new BreakWarning(root);
   const gym = new GymMenu(root, game, toast, pickRunner);
   const dungeon = new DungeonMenu(root, game);
+  // Lane B r8: the boss scroll (R0207) waits for the boss celebration to close.
+  dungeon.scrollBusy = () => celebration.isOpen;
   // Lane B: the Hollow's pack fight opens by itself when a bout starts there.
   const hollowBout = new HollowBoutPanel(root, game);
   const tank = new TankScreen(root);

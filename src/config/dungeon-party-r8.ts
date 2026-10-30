@@ -5,6 +5,8 @@
 import { DUNGEON } from './tuning';
 
 export const PARTY_R8 = {
+  /** R0207: how long the boss scroll waits before it may open (the boss card opens first). */
+  scrollDelayMs: 1200,
   /** R0167: the party grows from 3 to 4 once Act II's boss (act index 1) has fallen. */
   size: { base: DUNGEON.partySize, big: 4, bigAfterAct: 1 },
   roles: {

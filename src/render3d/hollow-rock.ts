@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { DUNGEON, GROVE3D } from '../config/tuning';
 import { cellAt, cellCentre, CHASM, isWalkable, WALL, type Floor } from '../sim/dungeon';
+import { plugUp, sealPlugs, type SealPlug } from '../sim/dungeon-secrets';
+import type { DungeonRun } from '../sim/types';
 import { surface, type Surface, type Tex } from '../samples/aaa-kit';
 import { caveShed } from './cave-shed';
 import { fogged } from './hollow-fog';
@@ -430,6 +432,8 @@ interface Wall {
   base: number;
   full: number;
   lip: boolean;
+  /** A block that stands only while its seal is shut (lane B r8: secrets, boss door). */
+  plug?: SealPlug;
 }
 
 /** A buffer of vertices that the bakers fill in (`HollowRock.bake`). */
@@ -471,6 +475,8 @@ export class HollowRock implements HollowModule {
   /** Each block's height now, easing toward its target. */
   private cutKey = '';
   private cut: boolean[] = [];
+  /** Plugs jump to their run's state on the first frame of a floor, then ease. */
+  private plugSnap = false;
   private lastT = 0;
   private jobs: BakeJob[] = [];
   private jobAt = 0;
@@ -736,6 +742,35 @@ export class HollowRock implements HollowModule {
           lip,
         });
       }
+    // Sealed cells (lane B r8): a block on every cell a seal shuts, standing or sunk by the
+    // run's seal state through the same height texture the cutaway eases.
+    for (const plug of sealPlugs(f))
+      for (const c of plug.cells) {
+        const k = c.y * f.cols + c.x;
+        if (built[k]! >= 0) continue;
+        let low = f.elevation[k] ?? 0;
+        for (const [dx, dy] of [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ] as const)
+          if (cellAt(f, c.x + dx, c.y + dy) !== WALL)
+            low = Math.min(low, f.elevation[k + dy * f.cols + dx] ?? low);
+        const at = cellCentre(f, c);
+        built[k] = walls.length;
+        walls.push({
+          x: at.x,
+          z: at.z,
+          cx: c.x,
+          cy: c.y,
+          base: low - 0.25,
+          full: WALL_H * (1 + Math.sin(at.x * 3.1 + at.z * 1.7) * R.wallVary),
+          lip: false,
+          plug,
+        });
+      }
+    this.plugSnap = true;
     this.walls = walls;
     const pos = new Buf();
     const nrm = new Buf();
@@ -881,7 +916,7 @@ export class HollowRock implements HollowModule {
     const dt = Math.min(0.1, Math.max(0, t - this.lastT));
     this.lastT = t;
     this.bake();
-    if (fr.camera) this.cutaway(fr.camera, [keeper, ...fr.party], dt);
+    if (fr.camera) this.cutaway(fr.camera, [keeper, ...fr.party], dt, fr.run);
   }
 
   /**
@@ -946,6 +981,7 @@ export class HollowRock implements HollowModule {
     camera: THREE.Vector3,
     party: ReadonlyArray<{ x: number; z: number }>,
     dt: number,
+    run: DungeonRun | null = null,
   ): void {
     if (!this.wallMesh || !this.wallTex) return;
     const key = `${Math.round(camera.x * 2)},${Math.round(camera.z * 2)}|${party
@@ -970,10 +1006,18 @@ export class HollowRock implements HollowModule {
     const { cutHeight, cutPerSec } = GROVE3D.cave;
     const step = cutPerSec * dt;
     let moved = false;
+    const snap = this.plugSnap;
+    this.plugSnap = false;
     this.walls.forEach((w, i) => {
-      const want = this.cut[i] ? cutHeight * w.full : w.full;
+      const sunk = !!w.plug && !plugUp(run, w.plug);
+      const want = sunk ? 0 : this.cut[i] ? cutHeight * w.full : w.full;
       const now = this.wallH[i]!;
       if (now === want) return;
+      if (snap && w.plug) {
+        this.wallH[i] = want;
+        moved = true;
+        return;
+      }
       // `cutPerSec` is a share of full height a second.
       const s = step * w.full;
       this.wallH[i] = Math.abs(want - now) <= s ? want : now + Math.sign(want - now) * s;

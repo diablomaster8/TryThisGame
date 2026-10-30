@@ -28,6 +28,7 @@ import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
 import type { SimEvent } from '../sim/types';
 import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
+import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { HollowScroll, ShareCard } from './hollow-scroll';
 import { guidePath, lookAheadCell } from '../sim/dungeon-guide';
 import { cellCentre, runFloor } from '../sim/dungeon';
@@ -73,6 +74,10 @@ export class DungeonMenu {
   // Lane B round 8: the boss scroll (R0207) and today's share card (R0185).
   private readonly scroll: HollowScroll;
   private readonly share: ShareCard;
+  /** A boss scroll waiting its turn: it opens after the fight and the boss card are done. */
+  private scrollWaiting: { act: number; since: number } | null = null;
+  /** Set by the HUD: whether a card the scroll must wait for (the boss celebration) is up. */
+  scrollBusy: () => boolean = () => false;
 
   constructor(
     parent: HTMLElement,
@@ -249,7 +254,8 @@ export class DungeonMenu {
       if (e.kind === 'scoutSpotted') {
         const who = world.nubbins.find((n) => n.id === e.nubbinId)?.name ?? '';
         toast(HOLLOW_R8_TEXT.scoutSpotted(who));
-      } else if (e.kind === 'storyScroll') this.scroll.show(e.act);
+      } else if (e.kind === 'storyScroll')
+        this.scrollWaiting = { act: e.act, since: performance.now() };
     }
   }
 
@@ -269,6 +275,19 @@ export class DungeonMenu {
     const run = world.location === 'dungeon' ? world.dungeon : null;
     // R0196: no Hollow bar over a fight.
     this.bar.hidden = !run || !!run.encounter || !!run.strayBout || !!world.tactics;
+    // R0207: the scroll queues behind the fight's end and the boss card (which may open a
+    // tick after the scroll's event), so the two never stack.
+    const wait = this.scrollWaiting;
+    if (
+      wait &&
+      performance.now() - wait.since >= PARTY_R8.scrollDelayMs &&
+      !this.scrollBusy() &&
+      !run?.encounter &&
+      !world.tactics
+    ) {
+      this.scrollWaiting = null;
+      this.scroll.show(wait.act);
+    }
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     this.buffs.refresh(run);
