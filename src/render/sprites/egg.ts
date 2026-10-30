@@ -22,7 +22,7 @@ export const EGG_PALETTES: Record<string, EggPalette> = {
 
 export type EggFrame = 'idle' | 'wobbleL' | 'wobbleR' | 'crack1' | 'crack2' | 'held';
 
-/** Egg looks by family: the pocket line's eggs are cream with green spots, the digital line's grey and striped. */
+/** Egg looks by family: the pocket line's eggs cream over green, the digital line's grey with plum spots. */
 const FAMILY_EGGS: Record<string, { shell: number; shade: number; cap: number; spot: number }> = {
   pocket: { shell: C.cream, shade: C.sand, cap: C.cream, spot: C.leaf },
   digi: { shell: C.lilacGrey, shade: C.dusk, cap: C.pale, spot: C.plum },
@@ -55,7 +55,7 @@ export function drawEgg(frame: EggFrame, colorName: string, family = 'chao'): Pi
   return pc;
 }
 
-/** The ordinary egg: a soft shell with a coloured cap and spots (stripes for the digital line). */
+/** The ordinary egg: a soft shell with a coloured cap and its line's pattern (LOOK-63). */
 function drawShell(
   pc: PixelCanvas,
   cx: number,
@@ -71,14 +71,32 @@ function drawShell(
   pc.ellipse(cx - 0.5, cy, 5.5, 7.5, pal.shell);
   // The coloured cap near the top.
   pc.ellipse(cx + tilt * 0.4, cy - 6, 4, 2.5, pal.cap);
-  // Spots, or stripes for the digital line.
+  // LOOK-63: each line's own pattern. The Chao egg: a band of speckles round the middle.
+  // The pocket egg: split in two tones with a band at the seam. The digital egg: a few big
+  // spots, as on the original pet's egg.
   if (family === 'digi') {
-    for (let i = -1; i <= 1; i++) pc.line(cx - 5, cy + i * 4, cx + 5, cy + i * 4 - 2, pal.spot);
+    pc.disc(cx - 3, cy - 2, 1.8, pal.spot);
+    pc.disc(cx + 3, cy + 1, 2.2, pal.spot);
+    pc.disc(cx - 2, cy + 5, 1.5, pal.spot);
+    pc.disc(cx + 2, cy - 6, 1.2, pal.spot);
+  } else if (family === 'pocket') {
+    for (let y = cy + 1; y <= cy + 9; y++) {
+      const half = Math.sqrt(Math.max(0, 1 - ((y - cy) / 9) ** 2)) * 7 - 1;
+      if (half > 0) pc.line(cx - half, y, cx + half - (y > cy + 3 ? 1 : 0), y, pal.spot);
+    }
+    pc.line(cx - 6, cy, cx + 6, cy, pal.shade);
   } else {
-    pc.disc(cx - 3, cy + 1, family === 'pocket' ? 1.4 : 0.6, pal.spot);
-    pc.disc(cx + 2, cy - 1, family === 'pocket' ? 1.4 : 0.6, pal.spot);
-    pc.px(cx + 3, cy + 4, pal.spot);
-    pc.px(cx - 4, cy + 4, pal.spot);
+    for (const [dx, dy] of [
+      [-5, 1],
+      [-3, 0],
+      [-1, 1],
+      [1, 0],
+      [3, 1],
+      [5, 0],
+      [-2, 2],
+      [2, 2],
+    ] as const)
+      pc.px(cx + dx, cy + dy, pal.spot);
   }
   // Highlight.
   pc.px(cx - 3, cy - 4, C.white);

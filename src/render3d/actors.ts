@@ -28,6 +28,7 @@ import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT } from '../config/tuning';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
+import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -1019,8 +1020,19 @@ export class Actors {
         placeStand(a.stand, x, gy + y, z, t);
       } else if (a.shell) {
         o.position.set(x, gy + ((o.userData.half as number | undefined) ?? 0.46) + y, z);
-        if (n.stage === 'egg') o.rotation.z = Math.sin(t * 2.2 + x) * 0.06;
-        else {
+        if (n.stage === 'egg') {
+          // LOOK-63: a shaken egg rocks and squashes; cracks run round it near hatching.
+          const wob = eggWobble(n, world.timeMs, nowMs, x);
+          o.rotation.z = wob.rz;
+          if (wob.squash !== 1) {
+            if (!a.squash) a.squash = { o, base: o.scale.clone() };
+            o.scale.y *= wob.squash;
+            o.scale.x *= 2 - wob.squash;
+            o.scale.z *= 2 - wob.squash;
+          }
+          updateCracks(a.shell, crackLevel(n));
+        } else {
+          updateCracks(a.shell, 0);
           o.rotation.y = t * 0.4;
           // LOOK-25: the cocoon breathes, 1 to 1.03 at 0.8 Hz.
           o.scale.setScalar(cocoonPulse(nowMs));
