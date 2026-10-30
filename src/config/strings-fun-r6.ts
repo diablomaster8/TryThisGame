@@ -180,3 +180,22 @@ export function requestLine(
   if (nubbin) return v.nubbin[which].replace(/\{name\}/g, from);
   return (v.by[from] ?? v.fallback)[which];
 }
+
+/**
+ * R0334 (FUN-45): Hazel's postscripts, one under each chapter card of her campaign, from
+ * her notebook. Chapter 1's is her letter's own; chapter 12's answers it.
+ */
+export const HAZEL_PS: Readonly<Record<number, string>> = {
+  1: 'P.S. The gate sticks. Lift and push.',
+  2: 'P.S. Marina will say you look hungry. You do.',
+  3: 'P.S. Leave the fruit and walk away. Not far. Not fast.',
+  4: 'P.S. Moss says less than he knows. Sit with him anyway.',
+  5: 'P.S. Sparks will try to race the kettle. Let her.',
+  6: 'P.S. Rain is only the sky doing the watering. Wear your boots.',
+  7: 'P.S. Fear is a quick teacher. Be a slow one.',
+  8: 'P.S. Take a lantern down. Bring it back up, and yourself with it.',
+  9: 'P.S. Don’t let him make you cold. Make him tea.',
+  10: 'P.S. Nights end. This one too.',
+  11: 'P.S. Slow hands, love. You’ve got them.',
+  12: 'P.S. The gate still sticks. Good.',
+};

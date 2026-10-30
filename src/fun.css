@@ -901,3 +901,15 @@ body.line-shake-big #app {
     animation: none !important;
   }
 }
+/* R0334 (FUN-45): Hazel's postscript under a chapter card. */
+.chapter-ps {
+  margin: 6px 0 0;
+  max-width: min(92vw, 520px);
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: rgba(255, 250, 240, 0.92);
+  color: #3a2c22;
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: center;
+}
