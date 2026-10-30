@@ -34,7 +34,7 @@ _Here comes Nova, with a great big bag. She lives in the valley now._
 _But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Nova sits down by the flower. Her big bag stays on her back._  
-_Your Nubbin runs to Nova. Then back to you. Then to Nova again!_  
+_Your Nubbin runs to Nova. Whee! Then back to you. Then Nova again!_  
 **Nova**: Is there tea? I always say no. Today I’ll say yes, please!  
 
 #### `sprout:s24-tea-moss` · [main](../../../side/S24.md#s24-tea-moss)
@@ -109,7 +109,7 @@ _Sable says nothing. Her ears stay up._
 #### `sprout:s24-tea-done` · [main](../../../side/S24.md#s24-tea-done)
 
 _You carry the teapot up the hill. Careful, careful._  
-_Nova drinks one cup. Then another cup._  
+_Nova drinks one cup. Slurp! Then another cup._  
 _She holds a third cup, just to keep her hands warm._  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 3  
@@ -125,7 +125,7 @@ _Then she opens the top of her big bag._
 
 #### `sprout:s24-pages` · [main](../../../side/S24.md#s24-pages)
 
-_Nova takes out a big fat book. It is tied with a shoelace._  
+_Nova takes out a big fat book. Thump! It is tied with a shoelace._  
 **Nova**: This is my atlas. That means a book of maps.  
 **Nova**: I never show anyone the front page. But I’ll show you.  
 _The first page is a list, in pencil. The writing is big and cross._  
@@ -144,7 +144,7 @@ _A sea with no other side. A city with trams. Snow in summer._
 
 #### `sprout:s24-pages-done` · [main](../../../side/S24.md#s24-pages-done)
 
-_One line, right at the bottom, has no tick._  
+_Ding! One line, right at the bottom, has no tick._  
 
 > **Lesson** (literacy, ELOF: Literacy, do): a tick on a list means “done”  
 > _A tick means “done”. No tick means “not done yet”._  
@@ -171,7 +171,7 @@ _It says: The Sunrise Shelf. See the whole valley. Take someone._
 **Nova**: It’s for remembering her. Like saying hello to her.  
 _Gran Hazel’s lantern hangs by the cottage door._  
 _Nobody has lit it since she died. You keep it clean and shiny._  
-_Your Nubbin sits under it and looks up._  
+_Your Nubbin sits under it and looks up. Squeak!_  
 **Nova**: It’s yours now. Is it all right to borrow it?  
 
 #### `sprout:s24-lantern-corvin` · [main](../../../side/S24.md#s24-lantern-corvin)
@@ -207,7 +207,7 @@ _You lift the lantern off its hook. It feels light._
 
 _Gran Hazel nearly always carried it._  
 **Nova**: Thank you. Now we need a cart!  
-_Your Nubbin hops along beside you. Off we go!_  
+_Your Nubbin hops along beside you. Boing! Off we go!_  
 
 #### `sprout:s24-stowaway` · [main](../../../side/S24.md#s24-stowaway)
 
@@ -266,7 +266,7 @@ _Sparks runs up. She sees who Tilly has found._
 **Tilly**: I need one more: Helping Someone Sad.  
 **Tilly**: Somebody here is sad. I can tell.  
 _Tilly looks at Nova. Nova looks hard at the cart wheel._  
-_In the top of Tilly’s welly is a folded note._  
+_Pop! In the top of Tilly’s welly is a folded note._  
 
 **Choices**
 
@@ -463,7 +463,7 @@ _Each footprint has three toes._
 > Check: `edu:count:toes:3`
 > _For grown-ups: Your child compared three and five: five is more._
 
-_Your Nubbin runs to each footprint and sits in it. Here! Here!_  
+_Your Nubbin runs to each footprint and sits in it. Plop! Here!_  
 **Tilly**: We’re tracking him! That’s another badge!  
 _Up in the cloud there is a tent. Flags flap on a line._  
 _An old, old lady holds a telescope. Her hat has a feather._  
@@ -473,7 +473,7 @@ _An old, old lady holds a telescope. Her hat has a feather._
 
 **Augusta Fairweather**: My name is Augusta Fairweather. I am an explorer.  
 _An explorer goes to new places, to find out about them._  
-_She looks at you through her telescope. The wrong way round._  
+_She looks at you through her telescope. Creak! The wrong way round._  
 **Augusta Fairweather**: Hmm. You are all very small.  
 _Tilly turns it round for her. Fairweather says nothing at all._  
 **Nova**: THE Fairweather? From the old picture papers?  
@@ -493,7 +493,7 @@ _Fairweather sees the old tin badge on Tilly’s sash._
 
 **Augusta Fairweather**: Long ago I saw that bird. Nobody believed me.  
 **Augusta Fairweather**: They called me a fibber. So I came up here, to prove it.  
-_Behind the tent is a big cage. It is for the bird._  
+_Behind the tent is a big cage. Creak! It is for the bird._  
 **Augusta Fairweather**: One night in a cage, in the village. Then everyone will believe me.  
 **Tilly**: You can’t put Sir Reginald in a CAGE!  
 
@@ -551,7 +551,7 @@ _You sit down next to Nova. You don’t talk. You just wait._
 
 #### `sprout:s24-light` · [main](../../../side/S24.md#s24-light)
 
-_You light Gran Hazel’s lantern. It glows, small and gold._  
+_You light Gran Hazel’s lantern. Pop! It glows, small and gold._  
 _Now you can see the rock, and the bag, and Nova’s face._  
 
 > **Lesson** (science, 1-PS4-2, ask): we see things when there is light  

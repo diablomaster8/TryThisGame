@@ -183,7 +183,7 @@ _A young Hazel sits by the frozen pond. Her coat is too big!_
 **Moss**: She wriggled and fidgeted. But she never asked me to talk.  
 **Moss**: When the ice melted, I looked up and said, “You’ll do.”  
 **Moss**: That means: you are just right.  
-**Moss**: She laughed so hard, she fell in the pond. Splosh!  
+**Moss**: She laughed so hard, she fell in the pond. Splash!  
 **Moss**: Only up to her ankles. She still blames me.  
 **Moss**: Sit next to them and wait. That’s Hazel’s third rule.  
 

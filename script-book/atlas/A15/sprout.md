@@ -990,7 +990,7 @@ _A big yellow wildcat leaps through the grass. It chases a tiny mouse!_
 > **Lesson** (science, K-LS1-1, ask): what mice eat  
 > _The wildcat wanted to eat a mouse. What do field mice eat?_  
 > - ✅ Seeds and grain → Yes! Mice nibble seeds. Cats eat mice. That is a food chain.
-> - Cats → No! Cats eat mice. Mice nibble seeds.
+> - Cats → Mice munching cats? Squeak! Cats eat mice. Mice nibble seeds.
 > _For grown-ups: Learned that mice eat seeds and cats eat mice, a simple food chain._
 
 _The Woodman jumps up with his axe, shouting. The wildcat is startled._  

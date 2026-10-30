@@ -374,7 +374,7 @@ const S1: EduQuest = quest(
         M('She wriggled and fidgeted. But she never asked me to talk.', 'soft'),
         M('When the ice melted, I looked up and said, “You’ll do.”', 'happy'),
         M('That means: you are just right.', 'soft'),
-        M('She laughed so hard, she fell in the pond. Splosh!'),
+        M('She laughed so hard, she fell in the pond. Splash!'),
         M('Only up to her ankles. She still blames me.', 'happy'),
         M('Sit next to them and wait. That’s Hazel’s third rule.', 'soft'),
       ],

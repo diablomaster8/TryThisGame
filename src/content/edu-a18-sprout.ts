@@ -3642,7 +3642,7 @@ const A16 = quest(
               true,
             ),
             o('Winning a race', [N('There was no race. The story is about caring for others.')]),
-            o('A lost hat', [N('No lost hat. The story is about caring for others.')]),
+            o('A lost hat', [N('A lost hat? Ha ha, plop! The story is about caring for others.')]),
           ],
           'Named the main idea of the story: caring for others.',
         ),

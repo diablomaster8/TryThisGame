@@ -364,7 +364,7 @@ _The comet is brighter than last night. Its tail is longer._
 > _Snufkin says being a bit frightened is all right._  
 > _Is it okay to feel frightened?_  
 > - ✅ Yes, all feelings are okay → Yes. Feelings are never naughty. What helps is saying them.
-> - No, we must hide it → No need to hide it. Snufkin says it is all right.
+> - No, we must hide it → Hide it under a bush? Rustle! Snufkin says it is all right.
 > _For grown-ups: Talked about how every feeling, including being frightened, is okay._
 
 
@@ -471,7 +471,7 @@ _Moomintroll is already on his way._
 > **Lesson** (literacy, RL.2.3, ask): what a character does after big news  
 > _Moomintroll hears big news. What does he do next?_  
 > - ✅ He hurries home to tell Mamma → Yes! He thinks of Mamma first. Telling her helps her get ready.
-> - He keeps it a secret → No, he is already on his way. He wants Mamma to know.
+> - He keeps it a secret → A secret? Shh! But he is on his way. He wants Mamma to know.
 > _For grown-ups: Told what a character does after big news, and why._
 
 

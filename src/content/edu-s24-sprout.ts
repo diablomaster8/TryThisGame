@@ -130,7 +130,7 @@ const TEA_OPEN: Line[] = [
   NO('Hello. Today I thought I’d stop, and sit with her.', 'soft'),
 ];
 const TEA_SIT = N('Nova sits down by the flower. Her big bag stays on her back.');
-const TEA_RUN = N('Your Nubbin runs to Nova. Then back to you. Then to Nova again!');
+const TEA_RUN = N('Your Nubbin runs to Nova. Whee! Then back to you. Then Nova again!');
 const TEA_CLOSE: Line[] = [
   NO('Is there tea? I always say no. Today I’ll say yes, please!', 'happy'),
 ];
@@ -507,7 +507,7 @@ const S24_SCENES: EduScene[] = [
     's24-tea-done',
     [
       N('You carry the teapot up the hill. Careful, careful.'),
-      N('Nova drinks one cup. Then another cup.'),
+      N('Nova drinks one cup. Slurp! Then another cup.'),
       N('She holds a third cup, just to keep her hands warm.'),
       NO('Gran Hazel always asked me in for tea.', 'soft'),
       NO('I always said, “No, I can’t stop.” But I could have.', 'sad'),
@@ -533,7 +533,7 @@ const S24_SCENES: EduScene[] = [
   sc(
     's24-pages',
     [
-      N('Nova takes out a big fat book. It is tied with a shoelace.'),
+      N('Nova takes out a big fat book. Thump! It is tied with a shoelace.'),
       NO('This is my atlas. That means a book of maps.'),
       NO('I never show anyone the front page. But I’ll show you.', 'soft'),
       N('The first page is a list, in pencil. The writing is big and cross.'),
@@ -571,7 +571,7 @@ const S24_SCENES: EduScene[] = [
   sc(
     's24-pages-done',
     [
-      N('One line, right at the bottom, has no tick.'),
+      N('Ding! One line, right at the bottom, has no tick.'),
       N('It says: The Sunrise Shelf. See the whole valley. Take someone.'),
       NO('It’s a high rock on the far hill. One day’s walk.', 'think'),
       NO('I went all over the world. But I never went there.', 'sad'),
@@ -600,7 +600,7 @@ const S24_SCENES: EduScene[] = [
       ...LANTERN_ASK,
       N('Gran Hazel’s lantern hangs by the cottage door.'),
       N('Nobody has lit it since she died. You keep it clean and shiny.'),
-      N('Your Nubbin sits under it and looks up.'),
+      N('Your Nubbin sits under it and looks up. Squeak!'),
       NO('It’s yours now. Is it all right to borrow it?', 'think'),
     ],
     [LANTERN_SUNRISE],
@@ -611,7 +611,7 @@ const S24_SCENES: EduScene[] = [
       N('You lift the lantern off its hook. It feels light.'),
       N('Gran Hazel nearly always carried it.'),
       NO('Thank you. Now we need a cart!', 'happy'),
-      N('Your Nubbin hops along beside you. Off we go!'),
+      N('Your Nubbin hops along beside you. Boing! Off we go!'),
     ],
     [
       ask(
@@ -664,7 +664,7 @@ const S24_SCENES: EduScene[] = [
       TI('I need one more: Helping Someone Sad.'),
       TI('Somebody here is sad. I can tell.', 'think'),
       N('Tilly looks at Nova. Nova looks hard at the cart wheel.'),
-      N('In the top of Tilly’s welly is a folded note.'),
+      N('Pop! In the top of Tilly’s welly is a folded note.'),
     ],
     [
       doIt(
@@ -796,7 +796,7 @@ const S24_SCENES: EduScene[] = [
     [
       N('The bird left footprints in the mud. Big ones!'),
       N('Each footprint has three toes.'),
-      N('Your Nubbin runs to each footprint and sits in it. Here! Here!'),
+      N('Your Nubbin runs to each footprint and sits in it. Plop! Here!'),
       TI('We’re tracking him! That’s another badge!', 'happy'),
       N('Up in the cloud there is a tent. Flags flap on a line.'),
       N('An old, old lady holds a telescope. Her hat has a feather.'),
@@ -823,7 +823,7 @@ const S24_SCENES: EduScene[] = [
     [
       AU('My name is Augusta Fairweather. I am an explorer.', 'think'),
       N('An explorer goes to new places, to find out about them.'),
-      N('She looks at you through her telescope. The wrong way round.'),
+      N('She looks at you through her telescope. Creak! The wrong way round.'),
       AU('Hmm. You are all very small.'),
       N('Tilly turns it round for her. Fairweather says nothing at all.'),
       NO('THE Fairweather? From the old picture papers?', 'shock'),
@@ -853,7 +853,7 @@ const S24_SCENES: EduScene[] = [
     [
       AU('Long ago I saw that bird. Nobody believed me.', 'sad'),
       AU('They called me a fibber. So I came up here, to prove it.'),
-      N('Behind the tent is a big cage. It is for the bird.'),
+      N('Behind the tent is a big cage. Creak! It is for the bird.'),
       AU('One night in a cage, in the village. Then everyone will believe me.'),
       TI('You can’t put Sir Reginald in a CAGE!', 'angry'),
       AU('The bird drinks at the spring when it gets dark. I’ll be ready.'),
@@ -970,7 +970,7 @@ const S24_SCENES: EduScene[] = [
   sc(
     's24-light',
     [
-      N('You light Gran Hazel’s lantern. It glows, small and gold.'),
+      N('You light Gran Hazel’s lantern. Pop! It glows, small and gold.'),
       N('Now you can see the rock, and the bag, and Nova’s face.'),
       N('You put the lantern in Nova’s hands.'),
       N('She puts the bag down, so she can hold the lantern properly.'),

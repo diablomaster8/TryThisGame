@@ -72,7 +72,7 @@ const WORD_HUNT: Line[] = [
   LU('Mine is HOME. Everything grows towards home.', 'soft'),
   BY('Mine is “statistically above average”!', 'happy'),
   N('Spindle tries Byte’s word. It goes across the window. Then across the wall.'),
-  N('It goes out of the door. Your Nubbin trips on it. Bump!'),
+  N('It goes out of the door. Your Nubbin trips on it. Bonk!'),
   SP('Too long for a fence, Byte. Sorry!', 'happy'),
   BY('It’s a very accurate word.'),
   BY('My wife Pixel says that’s too many words. She says my lace is undone.'),
@@ -81,7 +81,7 @@ const WORD_HUNT: Line[] = [
 
 /** The morning after the Show (s27-letgo and s27-home). Line 1 is HOME on the rail. */
 const MORNING: Line[] = [
-  N('In the morning, everyone comes up to the fence.'),
+  N('Thump, thump! In the morning, everyone comes up to the fence.'),
   N('The whole long fence says HOME. Big white letters!'),
   FE('HOME! She must have run out of fence!', 'happy'),
   TU('I came for the runners that didn’t win. But not that one.', 'think'),
@@ -106,7 +106,7 @@ const S27_SCENES: EduScene[] = [
       N('It is summer at the Circuit. The sand is hot.'),
       N('But the white fences are covered in frost. Brrr!'),
       N('Nobody says a word about it.'),
-      N('Sparks is lying under a big lamp. It is broken.'),
+      N('Pop! The big lamp is broken. Sparks lies under it.'),
       SP('I need some wire. A little roll of it.', 'think'),
       SP('It’s in the old lantern shed. Bottom drawer. Can you fetch it?'),
       N('Your Nubbin hops into your pocket. Off you go!'),
@@ -131,7 +131,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-evening',
     [
-      N('The shed is dusty and quiet. It smells of old lamps.'),
+      N('The shed is dusty and quiet. Creak! It smells of old lamps.'),
       N('Every drawer has a word on it. FUSES. WICKS. SPARE.'),
       N('You find the wire. Then you see a web in the window.'),
       N('In the middle of the web is a word!'),
@@ -161,7 +161,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-row',
     [
-      N('Look out of the shed window. You can see the pens.'),
+      N('Squeak! Look out of the shed window. You can see the pens.'),
       N('Each pen has a runner in it. They are all grey.'),
       N('They stand very still. Nobody plays.'),
       N('At the end of the row is the smallest one.'),
@@ -191,7 +191,7 @@ const S27_SCENES: EduScene[] = [
     [
       TA('That’s Nine. It’s the smallest. It always comes last.', 'think'),
       TA('I’m Hob. I feed them. I’m not meant to whistle.'),
-      N('Hob fills Nine’s bowl. Nine doesn’t look round.'),
+      N('Hob fills Nine’s bowl. Plop! Nine doesn’t look round.'),
       TA('Soon there’s a big race. The Autumn Show.', 'sad'),
       TA('A runner who doesn’t win a ribbon gets sold.'),
       TA('A man takes it far away. It won’t come back here.'),
@@ -221,7 +221,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-wait',
     [
-      N('You go back to the shed. The word has changed!'),
+      N('Creak! You go back to the shed. The word has changed!'),
       N('Now the web says WAIT.'),
       N('(Say it together: wait.)'),
       N('The spider sits very still. She is thinking.'),
@@ -259,7 +259,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('You sit. The spider thinks. You wait together.'),
       N('Your Nubbin falls asleep in your pocket. Zzz.'),
-      N('Bang! The door opens. It’s Sparks.'),
+      N('Bonk! The door opens. It’s Sparks.'),
       SP('There you are! Oh… a spider. And a word!', 'shock'),
       N('Sparks sits down on the floor with you.'),
       SP('She can write! She needs a name. Spindle!', 'happy'),
@@ -288,7 +288,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('Spindle practises her words. She copies the drawers.'),
       N('FUSES. WICKS. SPARE. Very neat!'),
-      N('On day four, she writes MISC. She looks very proud.'),
+      N('On day four, she writes MISC. Ding! She looks very proud.'),
       SP('That is my messiest drawer! She found it!', 'shock'),
       SP('But those are drawer words. They don’t say how anyone feels.', 'think'),
       N('Spindle looks out at Nine. Then she lifts one leg.'),
@@ -376,7 +376,7 @@ const S27_SCENES: EduScene[] = [
     's27-first-night',
     [
       N('It is evening. Spindle waits by her web.'),
-      N('You hold out a matchbox. She walks right in.'),
+      N('You hold out a matchbox. She walks right in. Plop!'),
       N('You carry her gently to Nine’s pen.'),
       N('The fence is very cold. Spindle steps out onto it.'),
       N('Nine watches her. Nine is curious!'),
@@ -401,7 +401,7 @@ const S27_SCENES: EduScene[] = [
     's27-first-word',
     [
       N('Early in the morning, you come back. It is cold!'),
-      N('Your breath makes little clouds. Puff, puff.'),
+      N('Your breath makes little clouds. Puff, puff. Pop!'),
       N('Every fence is white with frost.'),
       N('And on Nine’s fence, the web is white too.'),
       N('It spells a name. Its very own name!'),
@@ -464,7 +464,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-was-it-you',
     [
-      N('Corvin walks over. His hands look very cold.'),
+      N('Thump, thump! Corvin walks over. His hands look very cold.'),
       C('Somebody wrote on my fence in the night.'),
       C('I don’t like writing on my fences. Was it you?'),
       N('In the window, Spindle keeps very, very still.'),
@@ -524,7 +524,7 @@ const S27_SCENES: EduScene[] = [
       N('She points out at the big fence by the race track.'),
       SP('The big fence? Where everyone can see? Brave spider!', 'shock'),
       N('At night, Spindle walks into her matchbox.'),
-      N('You put her in your pocket, where it’s warm.'),
+      N('Plop! You put her in your pocket, where it’s warm.'),
       N('You walk to the big fence. Quiet as a mouse.'),
     ],
     [
@@ -546,7 +546,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('Morning! The big fence says SOMEBODY’S.'),
       N('That was Fern’s word. Fern covers her mouth. Oh!'),
-      N('A man comes over the hill with a cart. It’s Mr Tull.'),
+      N('Creak, creak! A man comes over the hill with a cart. It’s Mr Tull.'),
       N('Mr Tull buys runners. He reads the word.'),
       TU('A runner with a name? That’s new.', 'think'),
       C('It’s just the frost.'),
@@ -578,7 +578,7 @@ const S27_SCENES: EduScene[] = [
       SP('I know! My toolbox. Nobody looks twice at a toolbox.'),
       N('Sparks puts a soft clean cloth in the top tray.'),
       N('Spindle walks in. She sits beside a tiny spanner.'),
-      N('You carry the toolbox past the house.'),
+      N('Bonk, bonk! You carry the toolbox past the house.'),
       N('Nobody stops you. Sparks was right!'),
     ],
     [
@@ -603,7 +603,7 @@ const S27_SCENES: EduScene[] = [
     [
       N('Behind the house it is very, very cold.'),
       N('In the morning, the fence says WARM.'),
-      N('Corvin comes out. He looks at the word.'),
+      N('Creak! Corvin comes out. He looks at the word.'),
       N('He puts his hand flat on it.'),
       N('The frost doesn’t melt. Not one bit.'),
       N('Corvin touches his pocket. Then he goes inside, very quietly.'),
@@ -639,7 +639,7 @@ const S27_SCENES: EduScene[] = [
     's27-ready',
     [
       N('Autumn is here. The leaves turn orange, and fall.'),
-      N('Clover helps you brush Nine. Gently, gently.'),
+      N('Swish, swish! Clover helps you brush Nine. Gently, gently.'),
       CL('Long, soft strokes. When Nine leans in, it likes it.', 'soft'),
       N('Nine leans in. Clover smiles.'),
       BY('Pixel says stop timing. I timed Pixel saying it.', 'think'),
@@ -671,7 +671,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-show',
     [
-      N('It’s the Autumn Show! Flags! A little band! Oom-pah!'),
+      N('It’s the Autumn Show! Flags! A little band! Ding, dong, oom-pah!'),
       N('So many people came. They came to see Nine.'),
       N('The judge has a table of ribbons. Your Nubbin thinks they are sweets.'),
       N('It licks one. Not a sweet! It looks very let down.'),
@@ -792,7 +792,7 @@ const S27_SCENES: EduScene[] = [
   sc(
     's27-gate',
     [
-      N('You come to the Grove gate. Lift and push!'),
+      N('You come to the Grove gate. Lift and push! Creak!'),
       N('Nine stops. Nine isn’t sure about gates.'),
       N('Your Nubbin hops through. It sits on the other side, waiting.'),
       N('After a while, Nine comes through too.'),
@@ -853,7 +853,7 @@ const S27_SCENES: EduScene[] = [
     [
       SP('I’ll get my long ladder.'),
       N('Sparks puts the ladder up. It is very tall!'),
-      N('Your Nubbin climbs up. One step, two steps, three…'),
+      N('Creak! Your Nubbin climbs up. One step, two steps, three…'),
       N('It holds the egg sac gently, and climbs back down.'),
       N('Spindle watches every step. Phew!'),
       SP('Take it to the Grove shed. The top shelf is warm.'),
@@ -999,7 +999,7 @@ const S27_COMPLETE: EduScene = sc(
     N('It’s a drawer label. It says SPARE.'),
     SP('Spindle learned her S from this. Every S she ever wrote.', 'soft'),
     N('Fern sews SOMEBODY’S on ribbons. One for everyone who came.'),
-    N('Pixel makes a frosty window for the Grove shed.'),
+    N('Pop! Pixel makes a frosty window for the Grove shed.'),
     N('On cold mornings, a name shines on it.'),
     N('Up at the Circuit, Hob gives every runner a name.'),
     N('Even Corvin says “Morning, Gravel” to one of them.'),
@@ -1036,7 +1036,7 @@ export const EDU_S27_SPROUT_VARIANTS: EduScene[] = [
   sc(
     's27-row-sold',
     [
-      N('Look out of the shed window. You can see the pens.'),
+      N('Squeak! Look out of the shed window. You can see the pens.'),
       N('Each pen has a grey runner. They stand very still.'),
       N('At the end is one looking down the valley, towards the Grove.'),
       N('You know that one. It used to be yours.'),

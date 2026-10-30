@@ -29,14 +29,14 @@ _But the white fences are covered in frost. Brrr!_
 > _For grown-ups: Learned that frost is made of ice, and that ice is cold._
 
 _Nobody says a word about it._  
-_Sparks is lying under a big lamp. It is broken._  
+_Pop! The big lamp is broken. Sparks lies under it._  
 **Sparks**: I need some wire. A little roll of it.  
 **Sparks**: It’s in the old lantern shed. Bottom drawer. Can you fetch it?  
 _Your Nubbin hops into your pocket. Off you go!_  
 
 #### `sprout:s27-evening` · [main](../../../side/S27.md#s27-evening)
 
-_The shed is dusty and quiet. It smells of old lamps._  
+_The shed is dusty and quiet. Creak! It smells of old lamps._  
 _Every drawer has a word on it. FUSES. WICKS. SPARE._  
 _You find the wire. Then you see a web in the window._  
 _In the middle of the web is a word!_  
@@ -55,7 +55,7 @@ _You wave back. Hello, spider!_
 
 #### `sprout:s27-row` · [main](../../../side/S27.md#s27-row)
 
-_Look out of the shed window. You can see the pens._  
+_Squeak! Look out of the shed window. You can see the pens._  
 _Each pen has a runner in it. They are all grey._  
 _They stand very still. Nobody plays._  
 _At the end of the row is the smallest one._  
@@ -74,7 +74,7 @@ _A boy comes along with two buckets. He is whistling._
 
 _Variant of `s27-row`._
 
-_Look out of the shed window. You can see the pens._  
+_Squeak! Look out of the shed window. You can see the pens._  
 _Each pen has a grey runner. They stand very still._  
 _At the end is one looking down the valley, towards the Grove._  
 _You know that one. It used to be yours._  
@@ -91,7 +91,7 @@ _Hob comes along with two buckets, whistling._
 
 **Hob**: That’s Nine. It’s the smallest. It always comes last.  
 **Hob**: I’m Hob. I feed them. I’m not meant to whistle.  
-_Hob fills Nine’s bowl. Nine doesn’t look round._  
+_Hob fills Nine’s bowl. Plop! Nine doesn’t look round._  
 **Hob**: Soon there’s a big race. The Autumn Show.  
 **Hob**: A runner who doesn’t win a ribbon gets sold.  
 **Hob**: A man takes it far away. It won’t come back here.  
@@ -106,7 +106,7 @@ _Hob stops whistling. In the window, the spider goes very still._
 
 #### `sprout:s27-wait` · [main](../../../side/S27.md#s27-wait)
 
-_You go back to the shed. The word has changed!_  
+_Creak! You go back to the shed. The word has changed!_  
 _Now the web says WAIT._  
 _(Say it together: wait.)_  
 _The spider sits very still. She is thinking._  
@@ -125,7 +125,7 @@ _It is just the right size for sitting on._
 
 _You sit. The spider thinks. You wait together._  
 _Your Nubbin falls asleep in your pocket. Zzz._  
-_Bang! The door opens. It’s Sparks._  
+_Bonk! The door opens. It’s Sparks._  
 **Sparks**: There you are! Oh… a spider. And a word!  
 _Sparks sits down on the floor with you._  
 **Sparks**: She can write! She needs a name. Spindle!  
@@ -143,7 +143,7 @@ _The spider waves two legs. Once at Sparks, once at you._
 
 _Spindle practises her words. She copies the drawers._  
 _FUSES. WICKS. SPARE. Very neat!_  
-_On day four, she writes MISC. She looks very proud._  
+_On day four, she writes MISC. Ding! She looks very proud._  
 **Sparks**: That is my messiest drawer! She found it!  
 **Sparks**: But those are drawer words. They don’t say how anyone feels.  
 _Spindle looks out at Nine. Then she lifts one leg._  
@@ -164,7 +164,7 @@ _Spindle looks out at Nine. Then she lifts one leg._
 **Luna**: Mine is HOME. Everything grows towards home.  
 **Byte**: Mine is “statistically above average”!  
 _Spindle tries Byte’s word. It goes across the window. Then across the wall._  
-_It goes out of the door. Your Nubbin trips on it. Bump!_  
+_It goes out of the door. Your Nubbin trips on it. Bonk!_  
 **Sparks**: Too long for a fence, Byte. Sorry!  
 **Byte**: It’s a very accurate word.  
 **Byte**: My wife Pixel says that’s too many words. She says my lace is undone.  
@@ -208,7 +208,7 @@ _Variant of `s27-words`._
 **Luna**: Mine is HOME. Everything grows towards home.  
 **Byte**: Mine is “statistically above average”!  
 _Spindle tries Byte’s word. It goes across the window. Then across the wall._  
-_It goes out of the door. Your Nubbin trips on it. Bump!_  
+_It goes out of the door. Your Nubbin trips on it. Bonk!_  
 **Sparks**: Too long for a fence, Byte. Sorry!  
 **Byte**: It’s a very accurate word.  
 **Byte**: My wife Pixel says that’s too many words. She says my lace is undone.  
@@ -221,7 +221,7 @@ _Spindle writes it small, to practise._
 #### `sprout:s27-first-night` · [main](../../../side/S27.md#s27-first-night)
 
 _It is evening. Spindle waits by her web._  
-_You hold out a matchbox. She walks right in._  
+_You hold out a matchbox. She walks right in. Plop!_  
 _You carry her gently to Nine’s pen._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): carrying something small gently with two hands  
@@ -237,7 +237,7 @@ _You go home to bed. No peeking!_
 #### `sprout:s27-first-word` · [main](../../../side/S27.md#s27-first-word)
 
 _Early in the morning, you come back. It is cold!_  
-_Your breath makes little clouds. Puff, puff._  
+_Your breath makes little clouds. Puff, puff. Pop!_  
 _Every fence is white with frost._  
 _And on Nine’s fence, the web is white too._  
 
@@ -273,7 +273,7 @@ _Corvin looks across the yard. At you._
 
 #### `sprout:s27-was-it-you` · [main](../../../side/S27.md#s27-was-it-you)
 
-_Corvin walks over. His hands look very cold._  
+_Thump, thump! Corvin walks over. His hands look very cold._  
 **Corvin Vale**: Somebody wrote on my fence in the night.  
 **Corvin Vale**: I don’t like writing on my fences. Was it you?  
 _In the window, Spindle keeps very, very still._  
@@ -305,7 +305,7 @@ _Spindle works on her next word all day._
 _She points out at the big fence by the race track._  
 **Sparks**: The big fence? Where everyone can see? Brave spider!  
 _At night, Spindle walks into her matchbox._  
-_You put her in your pocket, where it’s warm._  
+_Plop! You put her in your pocket, where it’s warm._  
 _You walk to the big fence. Quiet as a mouse._  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, do): moving quietly and slowly: tiptoeing  
@@ -326,7 +326,7 @@ _That was Fern’s word. Fern covers her mouth. Oh!_
 > Check: `edu:clap:syllables:somebody`
 > _For grown-ups: Found two small words inside a big one, and clapped its syllables._
 
-_A man comes over the hill with a cart. It’s Mr Tull._  
+_Creak, creak! A man comes over the hill with a cart. It’s Mr Tull._  
 _Mr Tull buys runners. He reads the word._  
 **Mr Tull**: A runner with a name? That’s new.  
 **Corvin Vale**: It’s just the frost.  
@@ -346,14 +346,14 @@ _Spindle walks in. She sits beside a tiny spanner._
 > Check: `edu:place:toy:beside-behind`
 > _For grown-ups: Used the position words beside and behind._
 
-_You carry the toolbox past the house._  
+_Bonk, bonk! You carry the toolbox past the house._  
 _Nobody stops you. Sparks was right!_  
 
 #### `sprout:s27-warm` · [main](../../../side/S27.md#s27-warm)
 
 _Behind the house it is very, very cold._  
 _In the morning, the fence says WARM._  
-_Corvin comes out. He looks at the word._  
+_Creak! Corvin comes out. He looks at the word._  
 _He puts his hand flat on it._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): ice melts when it gets warm  
@@ -375,7 +375,7 @@ _Autumn is here. The leaves turn orange, and fall._
 > - Turn blue → Blue leaves would be funny! Autumn leaves go orange, then fall.
 > _For grown-ups: Talked about how leaves change colour and fall in autumn._
 
-_Clover helps you brush Nine. Gently, gently._  
+_Swish, swish! Clover helps you brush Nine. Gently, gently._  
 **Clover**: Long, soft strokes. When Nine leans in, it likes it.  
 _Nine leans in. Clover smiles._  
 **Byte**: Pixel says stop timing. I timed Pixel saying it.  
@@ -385,7 +385,7 @@ _She rides on the brim of your hat. The best seat!_
 
 #### `sprout:s27-show` · [main](../../../side/S27.md#s27-show)
 
-_It’s the Autumn Show! Flags! A little band! Oom-pah!_  
+_It’s the Autumn Show! Flags! A little band! Ding, dong, oom-pah!_  
 _So many people came. They came to see Nine._  
 _The judge has a table of ribbons. Your Nubbin thinks they are sweets._  
 _It licks one. Not a sweet! It looks very let down._  
@@ -459,7 +459,7 @@ _Near morning, his light goes out. Spindle ties the last thread._
 
 #### `sprout:s27-letgo` · [main](../../../side/S27.md#s27-letgo)
 
-_In the morning, everyone comes up to the fence._  
+_Thump, thump! In the morning, everyone comes up to the fence._  
 _The whole long fence says HOME. Big white letters!_  
 
 > **Lesson** (literacy, ELOF: Literacy, do): count the letters in a word  
@@ -478,7 +478,7 @@ _Nine looks at the open pen. Then Nine follows you._
 
 #### `sprout:s27-gate` · [main](../../../side/S27.md#s27-gate)
 
-_You come to the Grove gate. Lift and push!_  
+_You come to the Grove gate. Lift and push! Creak!_  
 _Nine stops. Nine isn’t sure about gates._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): what helps someone in a new place  
@@ -528,7 +528,7 @@ _There’s a new word in the web. PLEASE._
 
 **Sparks**: I’ll get my long ladder.  
 _Sparks puts the ladder up. It is very tall!_  
-_Your Nubbin climbs up. One step, two steps, three…_  
+_Creak! Your Nubbin climbs up. One step, two steps, three…_  
 
 > **Lesson** (maths, K.CC.A.1, do): count to 10  
 > _(Count the ladder steps with your Nubbin, all the way to ten.)_  
@@ -658,7 +658,7 @@ _It’s a drawer label. It says SPARE._
 > _For grown-ups: Listened for the first sound S and found more S words._
 
 _Fern sews SOMEBODY’S on ribbons. One for everyone who came._  
-_Pixel makes a frosty window for the Grove shed._  
+_Pop! Pixel makes a frosty window for the Grove shed._  
 _On cold mornings, a name shines on it._  
 _Up at the Circuit, Hob gives every runner a name._  
 _Even Corvin says “Morning, Gravel” to one of them._  
@@ -672,7 +672,7 @@ _Even Corvin says “Morning, Gravel” to one of them._
 
 _Variant of `s27-complete`._
 
-_In the morning, everyone comes up to the fence._  
+_Thump, thump! In the morning, everyone comes up to the fence._  
 _The whole long fence says HOME. Big white letters!_  
 **Fern**: HOME! She must have run out of fence!  
 **Mr Tull**: I came for the runners that didn’t win. But not that one.  

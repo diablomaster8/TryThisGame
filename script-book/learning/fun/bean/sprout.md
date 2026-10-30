@@ -48,13 +48,13 @@ _It’s bear-sized. And a bit damp._
 > - Very hot → Hot is warm, warm, warm. Damp means a little bit wet.
 > _For grown-ups: Your child learned the describing word “damp”._
 
-_Mr. Tweed hurries over and hugs it._  
+_Mr. Tweed hurries over and hugs it. Squeak!_  
 **Mr. Tweed**: Ohh.  
 _Then he sulks. His whole face folds up._  
 
 #### `sprout:q21-sulk` · [main](../../../fun/bean.md#q21-sulk)
 
-_Mr. Tweed sits on a rock and sulks._  
+_Plop! Mr. Tweed sits on a rock and sulks._  
 _Bottom lip out. Arms folded. A big sulk._  
 _He peeks up the hill. Then away. Then up again._  
 _A wild Nubbin is waddling uphill, holding something brown!_  
@@ -80,7 +80,7 @@ _At the top of the hill is a nest of grass._
 
 _A wild Nubbin is fast asleep, cuddling a small brown bear._  
 _The bear has one chewed ear._  
-_Shh. Tiptoe, tiptoe._  
+_Shh. Tiptoe, tiptoe. Not a squeak!_  
 
 **Choices**
 
@@ -96,7 +96,7 @@ _Shh. Tiptoe, tiptoe._
 _The bear is very light._  
 _Your Nubbin carries it, very carefully._  
 _Down by the pond, Mr. Tweed is still sulking._  
-_Your Nubbin hides the bear behind its back._  
+_Your Nubbin hides the bear behind its back. Pop!_  
 _The bear is wider than its back!_  
 
 > **Lesson** (maths, K.MD.A.2, ask): wider and narrower  
@@ -111,7 +111,7 @@ _The bear is wider than its back!_
 
 _Mr. Tweed sees the bear. His face opens up like a deckchair._  
 **Mr. Tweed**: Bear! Oh, Bear!  
-_He hugs it. He checks one ear. Then the other._  
+_He hugs it. Squeak! He checks one ear. Then the other._  
 _He tucks it in his top pocket. Only its head peeks out._  
 _Your Nubbin looks at the bear, wishing._  
 _Mr. Tweed digs in his pockets… and his sock!_  
@@ -132,7 +132,7 @@ _That night, he sets two plates. One very small._
 
 #### `sprout:q22-shop` · [main](../../../fun/bean.md#q22-shop)
 
-_At the market, Mr. Tweed buys a big green armchair._  
+_Thump! At the market, Mr. Tweed buys a big green armchair._  
 _His hand cart is tiny. About the size of the cushion._  
 _He lifts one end. Then the other end. Still too big!_  
 
@@ -170,7 +170,7 @@ _And once, by mistake, to a lamp post!_
 > _For grown-ups: Your child found a word that rhymes with “rope”._
 
 _You untie the lamp post. Mr. Tweed climbs into the chair._  
-_He pushes the ground with a long stick. Off they roll!_  
+_He pushes the ground with a long stick. Off they roll! Whee!_  
 
 #### `sprout:q22-road` · [main](../../../fun/bean.md#q22-road)
 
@@ -212,7 +212,7 @@ _Nothing fell off. He checks himself, the chair and the stick._
 
 #### `sprout:q22-complete` · [main](../../../fun/bean.md#q22-complete)
 
-_Mr. Tweed looks at the chair. Then at his little door._  
+_Mr. Tweed looks at the chair. Then at his little door. Creak!_  
 _The chair won’t fit through! He measures with his hands. Three times._  
 **Mr. Tweed**: Hnn.  
 _He pats the chair and pushes it to you. It’s yours!_  
@@ -241,7 +241,7 @@ _It’s harvest time. The pumpkins are big and orange._
 > _Inside, they’re full of seeds!_  
 > _For grown-ups: Your child heard that pumpkins grow on vines and are full of seeds._
 
-_One pumpkin is moving! Left. Right. Bump! “Mff.”_  
+_One pumpkin is moving! Left. Right. Bonk! “Mff.”_  
 _Mr. Tweed knocks on it. Knock, knock._  
 _The pumpkin knocks back!_  
 **Mr. Tweed**: Oh!  
@@ -360,7 +360,7 @@ _Buttons draws nothing. Buttons leans… slowly… to the left._
 
 _Left. Right. Under the desk!_  
 _Buttons follows the paper with Buttons’ whole body…_  
-_And falls off its chair. Bump!_  
+_And falls off its chair. Thump!_  
 _Mr. Tweed falls over too._  
 **Mrs Inkwell**: Buttons! Are you all right?  
 _Buttons is fine. But Buttons’ paper is still empty._  
@@ -392,7 +392,7 @@ _Buttons looks up at you. It has never drawn a circle._
 **Mrs Inkwell**: Two passes! Well done!  
 **Mrs Inkwell**: Buttons, that’s the roundest circle I’ve ever seen. Nearly.  
 _Buttons holds its paper up to Mr. Tweed._  
-_Both arms. Very proud._  
+_Both arms. Very proud. Ding!_  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): feeling proud  
 > _How does Buttons feel?_  
@@ -403,7 +403,7 @@ _Both arms. Very proud._
 
 #### `sprout:q24-complete` · [main](../../../fun/bean.md#q24-complete)
 
-_Mr. Tweed lifts Buttons up high and walks round the room._  
+_Mr. Tweed lifts Buttons up high. Whee! He walks round the room._  
 **Mrs Inkwell**: Mr. Tweed. Please put the Nubbin down.  
 _He shakes everyone’s hand. Even Mrs Inkwell’s._  
 **Mrs Inkwell**: I did not offer it.  
@@ -463,7 +463,7 @@ _Step by step, or splash by splash, he gets down._
 > _For grown-ups: Your child used the words high and low._
 
 _The last bit is mostly sliding. Wheee!_  
-_He lands in the shallow water. Splosh!_  
+_He lands in the shallow water. Splash!_  
 _The bird is still on his head._  
 **Mr. Tweed**: Mm!  
 
@@ -471,7 +471,7 @@ _The bird is still on his head._
 
 _Mr. Tweed dries off with a tiny towel._  
 _He looks at the high ledge. Then at the low rock by the pond._  
-_He mimes: saw, hammer, bounce. A low diving board!_  
+_He mimes: saw, hammer, boing. A low diving board!_  
 
 > **Lesson** (health, notice): water safety  
 > _Before jumping in, a grown-up checks the water._  
@@ -509,7 +509,7 @@ _He climbs out and does it again, and again, and again!_
 #### `sprout:q26-bench` · [main](../../../fun/bean.md#q26-bench)
 
 _Mr. Tweed sits on his bench by the pond._  
-_He opens his coat. Out comes lunch!_  
+_He opens his coat. Pop! Out comes lunch!_  
 
 > **Lesson** (health, notice): washing hands before eating  
 > _Wait! Before lunch, we wash our hands._  
@@ -537,7 +537,7 @@ _Something has gone wrong. He doesn’t know what._
 #### `sprout:q26-sandwich` · [main](../../../fun/bean.md#q26-sandwich)
 
 _Bread. Butter. Lettuce. Tomato. Pepper. Bread on top._  
-_Pat, pat. A sandwich!_  
+_Pat, pat. Ding! A sandwich!_  
 
 > **Lesson** (literacy, RL.K.3, ask): first, next, last  
 > _What goes on first, and what goes on last?_  
@@ -555,7 +555,7 @@ _The duck flies off with the jam lettuce. Fair enough._
 _He’s about to bite. Then he sees: you have no sandwich._  
 _Your Nubbin has none. Wild Nubbins behind the bench have none._  
 _Mr. Tweed sighs, all the way from his boots._  
-_He takes out a ruler. He cuts the sandwich into neat squares._  
+_He takes out a ruler. Crunch! He cuts the sandwich into squares._  
 
 > **Lesson** (maths, 1.G.A.3, ask): quarters  
 > _One cut down, one cut across. How many squares?_  
@@ -570,7 +570,7 @@ _He pulls a checked blanket out of his coat. It’s bigger than the coat!_
 #### `sprout:q26-complete` · [main](../../../fun/bean.md#q26-complete)
 
 _Everyone gets a square._  
-_Mr. Tweed takes the last one. Mostly crust. He loves it._  
+_Mr. Tweed takes the last one. Mostly crust. Munch! He loves it._  
 _He has never shared his lunch before._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): sharing fairly  
@@ -619,7 +619,7 @@ _He tries to fix it. Now there are glasses too._
 
 #### `sprout:q27-lined` · [main](../../../fun/bean.md#q27-lined)
 
-_Three Nubbins in a row. Sort of._  
+_Three Nubbins in a row. Boing! Sort of._  
 _One faces the wrong way. One is asleep._  
 _Mr. Tweed draws a plan in chalk: two chairs, three Nubbins._  
 
@@ -636,7 +636,7 @@ _And one camera. Yours!_
 _Mr. Tweed hangs a dark curtain. He sets out two chairs._  
 _He sticks on a grey moustache. He gives you half!_  
 _He sits very still, looking far away. Very serious._  
-_The Nubbins copy him. One falls asleep._  
+_The Nubbins copy him. One falls asleep. Plop!_  
 **Mr. Tweed**: Shh.  
 **You**: Everybody, hold still…  
 
@@ -650,7 +650,7 @@ _The Nubbins copy him. One falls asleep._
 #### `sprout:q27-shot` · [main](../../../fun/bean.md#q27-shot)
 
 _Click!_  
-_The photo looks serious, grand, and nearly right._  
+_Pop! The photo looks serious, grand, and nearly right._  
 
 > **Lesson** (art, notice): paintings and photos  
 > _A painting is made with brushes and paint._  
@@ -662,7 +662,7 @@ _But if you squint, so was one in the painting!_
 
 #### `sprout:q27-swap` · [main](../../../fun/bean.md#q27-swap)
 
-_Footsteps! The Warden is early!_  
+_Thump, thump! Footsteps! The Warden is early!_  
 _Mr. Tweed hides the smudged painting up his jacket._  
 _You slide the photo in the frame. It’s a bit too small._  
 
@@ -781,7 +781,7 @@ _He tucks his trousers into his socks. Safety clothes!_
 
 #### `sprout:q28-fuse` · [main](../../../fun/bean.md#q28-fuse)
 
-_He puts the firework in the tin. He lights it. Fizz!_  
+_He puts the firework in the tin. He lights it. Fizz, pop!_  
 
 > **Lesson** (literacy, RL.1.4, ask): sound words  
 > _Fizz! That word sounds like the noise. Which is a sound word too?_  
@@ -834,7 +834,7 @@ _Mr. Tweed beams in the doorway, holding the teapot._
 
 **Odette Pennant**: Hello! I’m Odette, from over the hill.  
 **Odette Pennant**: Could you mind my egg this afternoon?  
-_She gives you a speckled egg. It’s warm._  
+_She gives you a speckled egg. Plop! It’s warm._  
 
 > **Lesson** (science, 1-LS1-2, notice): parents keep eggs warm  
 > _Bird mums and dads sit on their eggs to keep them warm._  
@@ -870,7 +870,7 @@ _Then a Nubbin sneezes. ACHOO! And the egg rolls away!_
 #### `sprout:q29-chase` · [main](../../../fun/bean.md#q29-chase)
 
 _The egg rolls down the path. Faster and faster!_  
-_It bumps a post. It goes left. Over the bridge!_  
+_Bonk! It bumps a post. It goes left. Over the bridge!_  
 _Mr. Tweed jumps the fence. Mostly._  
 **Mr. Tweed**: Egg!  
 _Past the dojo. Three Nubbins bow as it rolls by._  
@@ -902,7 +902,7 @@ _…and lands in his hat. Plop!_
 _All afternoon, nobody puts the egg down._  
 _Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it._  
 _Mr. Tweed keeps his hat ready, just in case._  
-_You put a blanket in a fruit box, and add wheels._  
+_You put a blanket in a fruit box. Squeak! Add wheels._  
 _A stone at each end stops it rolling._  
 _The egg tries the box. There is room for two._  
 _Your own egg looks in too._  
@@ -917,7 +917,7 @@ _The sun goes down. Odette comes back over the hill._
 
 #### `sprout:q29-complete` · [main](../../../fun/bean.md#q29-complete)
 
-**Odette Pennant**: There it is! Safe! And wearing a hat!  
+**Odette Pennant**: Ding! There it is! Safe! And wearing a hat!  
 
 > **Lesson** (literacy, ELOF: Literacy, ask): the letter O  
 > _Odette starts with the letter O._  
@@ -946,7 +946,7 @@ _Mr. Tweed holds the egg a moment longer. Pat, pat. He lets go._
 
 #### `sprout:q30-meet` · [main](../../../fun/bean.md#q30-meet)
 
-_A bright blue cart rattles up the lane. It has three wheels._  
+_Squeak, squeak! A bright blue cart rattles up the lane. It has three wheels._  
 **Rufus Crankshaw**: Hello! I’m Rufus. This is the Bluebell. Fast!  
 _Mr. Tweed sits in your hand cart. It has four wheels._  
 
@@ -974,7 +974,7 @@ _Mr. Tweed holds up three fingers. Then he tips his hand over._
 #### `sprout:q30-grid` · [main](../../../fun/bean.md#q30-grid)
 
 _Two carts at the start line._  
-_Rufus says “Brrm!” very loudly._  
+_Rufus says “Zoom!” very loudly._  
 _Mr. Tweed polishes your cart with his sleeve._  
 _Then he polishes the Bluebell too. To be fair._  
 
@@ -989,7 +989,7 @@ _Then he polishes the Bluebell too. To be fair._
 
 _The flag drops! Rufus zooms off, waving._  
 _Each time you catch up, Mr. Tweed waves at Rufus._  
-_Rufus waves back. The Bluebell leans… and tips over. Bump!_  
+_Rufus waves back. The Bluebell leans… and tips over. Bonk!_  
 
 > **Lesson** (science, do): a wide base is steady  
 > _(Stand with your feet close together. Now wide apart.)_  
@@ -1016,7 +1016,7 @@ _He puts it back up with one hand. Off again!_
 
 _You cross the line first! The Bluebell slides in second, on its side._  
 **Rufus Crankshaw**: What a race! Three tips!  
-_Mr. Tweed shakes his hand. The parked Bluebell tips over again._  
+_Mr. Tweed shakes his hand. The parked Bluebell tips over again. Bonk!_  
 
 > **Lesson** (maths, K.OA.A.2, ask): adding one more  
 > _Three tips in the race, and one more after. How many tips?_  

@@ -71,7 +71,7 @@ const sc = (
 // ---------------------------------------------------------------- shared pieces
 /** Tobin’s way out, shared by s26-tobin-bench and s26-tobin-bench-cellar. */
 const TOBIN_WAY_OUT: Line[] = [
-  N('On the way out, Tobin pats the old wall.'),
+  N('On the way out, Tobin pats the old wall. Thump, thump.'),
   T('My old boss used to say: plant a rose where your worry sits.', 'soft'),
   T('Then the worry has to stand up and find another seat!', 'happy'),
 ];
@@ -158,7 +158,7 @@ const S26: EduQuest = {
         N('It is the end of summer. The rain has stopped.'),
         N('Fossil’s flower is new on the hill. Dusty misses Fossil very much.'),
         N('A robin sits on top of the old wall post. Like a hat!'),
-        N('Wherever you go, the robin goes too. Hop, hop, hop.'),
+        N('Wherever you go, the robin goes too. Hop, hop, boing!'),
         FE('That robin thinks you owe it something!', 'think'),
         FE('A robin followed me all spring once. For one raisin!'),
         N('Your Nubbin stares up at the robin. The robin stares back.'),
@@ -189,7 +189,7 @@ const S26: EduQuest = {
       [
         N('You hold out a crumb of bun on your flat hand.'),
         N('You keep very still. Still, still, still.'),
-        N('Peck! The robin takes the crumb. Back it goes to the post.'),
+        N('Peck! Nom! The robin takes the crumb. Back it goes to the post.'),
         N('It hops onto the ivy. It looks back at you.'),
         N('Off it goes, down the lane. Your Nubbin follows it.'),
         N('And you follow your Nubbin!'),
@@ -216,7 +216,7 @@ const S26: EduQuest = {
     sc(
       's26-linnet',
       [
-        N('The robin leads you down the lane to Old Tobin’s cottage.'),
+        N('Tweet! The robin leads you down the lane to Old Tobin’s cottage.'),
         N('A girl in her wheelchair is by the door. Her name is Linnet.'),
         L('Back wheels first, Grandad! Back. Wheels. First.', 'angry'),
         T('Hello! I’m Tobin. I lit the lamps in this valley for years.', 'happy'),
@@ -299,7 +299,7 @@ const S26: EduQuest = {
     sc(
       's26-linnet-robin',
       [
-        N('The robin lands on the lamp post. Right above Linnet’s head!'),
+        N('Plop! The robin lands on the lamp post, right above Linnet’s head!'),
         L('Is that bird yours?'),
         Y('I think I’m its!'),
         L('Where does it live?'),
@@ -332,7 +332,7 @@ const S26: EduQuest = {
         L('Grandad thinks I’m reading. I am. I’m reading the valley!'),
         N('The robin hops along the old wall. Hop, stop. Hop, stop.'),
         N('It scratches at a little heap of earth. Scratch, scratch!'),
-        N('Clink! Something hard is in the earth.'),
+        N('Clink! Bonk! Something hard is in the earth.'),
         N('You dig with your fingers. It’s a big old key!'),
         N('The lantern post feels warm. Something very old sleeps deep under it.'),
         N('You pat the earth back down. Let it sleep.', 'soft'),
@@ -418,7 +418,7 @@ const S26: EduQuest = {
         N('Dusty comes with a spade.'),
         DU('Since Fossil died, I haven’t wanted to dig anything.', 'sad'),
         N('Dusty scratches a grey stick with a thumbnail. Scritch.'),
-        N('Under the grey, it is green! Bright, wet green.'),
+        N('Under the grey, it is green! Pop! Bright, wet green.'),
         DU('Green inside means this one is alive.', 'happy'),
         DU('Most of this garden is just resting. Waiting for spring.'),
         L('Then wake it up!'),
@@ -451,7 +451,7 @@ const S26: EduQuest = {
       [
         N('Linnet is still at the top of the three steps.'),
         L('Three steps! Somebody built them and walked off.', 'angry'),
-        N('Sparks comes along with a coil of wire.'),
+        N('Boing! Sparks bounces along with a coil of wire.'),
         SP('Ooh, a hidden garden! Want me to lift you down?', 'happy'),
         DU('Or we could dig the steps into a slope. A ramp.'),
         Y('Linnet, what would you like?'),
@@ -515,7 +515,7 @@ const S26: EduQuest = {
         N('Linnet spots a rose that somebody has cut. Snip!'),
         L('Somebody’s been in here! That cut is new.', 'think'),
         DU('And they held the shears upside down!', 'think'),
-        N('Everybody looks up at the top of the wall.'),
+        N('Everybody looks up at the top of the wall. Creak!'),
         N('Nobody is there. Just one little broken twig.'),
         L('We’ll watch at sunset. Then we’ll catch them!'),
       ],
@@ -541,7 +541,7 @@ const S26: EduQuest = {
       's26-moss-wall',
       [
         N('Sunset. The sky goes orange, then dark blue.'),
-        N('Something small and green climbs over the wall. Slowly.'),
+        N('Something small and green climbs over the wall. Squeak! Slowly.'),
         N('It has a rose twig in its mouth. It’s Moss!'),
         M('Good evening. I was cutting the roses.', 'think'),
         L('You did it upside down!', 'angry'),
@@ -570,7 +570,7 @@ const S26: EduQuest = {
     sc(
       's26-earth-ask',
       [
-        N('Moss sits on the wall again.'),
+        N('Moss sits on the wall again. Plop.'),
         M('I’m not here. I’m part of the wall.'),
         L('Moss? Could I have a little patch of garden?', 'soft'),
         M('What would you do with it?', 'think'),
@@ -633,7 +633,7 @@ const S26: EduQuest = {
             set: { 's26-plot': 'sun' },
             then: [
               L('Obviously. I was testing you!', 'happy'),
-              N('She marks it out with four sticks and string.'),
+              N('Pop! She marks it out with four sticks and string.'),
             ],
           },
           {
@@ -642,7 +642,7 @@ const S26: EduQuest = {
             set: { 's26-plot': 'rose' },
             then: [
               L('Next to the living one. Yes!', 'soft'),
-              N('She marks it out with four sticks and string.'),
+              N('Pop! She marks it out with four sticks and string.'),
             ],
           },
           {
@@ -663,7 +663,7 @@ const S26: EduQuest = {
       [
         N('The evening light is golden.'),
         N('Moss climbs down off the wall, slowly.'),
-        N('He sits on the stone bench. He has sat here before.'),
+        N('He sits on the stone bench. Creak! He has sat here before.'),
         M('This was Hush’s bench. Her roses. Her garden.', 'soft'),
         L('Go on, then. Tell us about her.'),
         M('My friend. The quiet one. She looked after sad hearts.', 'soft'),
@@ -724,7 +724,7 @@ const S26: EduQuest = {
       's26-beds',
       [
         N('Autumn now. The leaves turn gold, then brown.'),
-        N('Dusty builds wooden beds just the right height for Linnet’s hands.'),
+        N('Bonk, bonk! Dusty builds wooden beds just right for Linnet’s hands.'),
         DU('I measured your arms. Is it right?', 'happy'),
         L('It’s right.', 'soft'),
         L('Dusty: earth. You: bulbs. Nubbin: carry. Robin: look important!'),
@@ -788,7 +788,7 @@ const S26: EduQuest = {
       's26-cheeks',
       [
         N('Your Nubbin carries bulbs. One in each cheek!'),
-        N('Puff, puff. Two bulbs at a time.'),
+        N('Puff, puff. Pop! Two bulbs at a time.'),
         N('Your Nubbin sniffs a bulb. Not supper. It plants it, very crossly.'),
         N('It plants more. It hides some all over the garden!'),
         L('Your Nubbin has no sense of order at all.', 'think'),
@@ -816,7 +816,7 @@ const S26: EduQuest = {
     sc(
       's26-tobin-finds',
       [
-        N('One day, Tobin follows Linnet’s wheel tracks to the door.'),
+        N('Squeak, squeak! One day, Tobin follows Linnet’s wheel tracks to the door.'),
         T('Linnet! Is that a SPADE?', 'shock'),
         T('You’ll catch cold! You’ll tip over! Come away!', 'angry'),
         N('Linnet’s happy face goes cross, all at once.'),
@@ -906,7 +906,7 @@ const S26: EduQuest = {
       's26-snow',
       [
         N('The Long Night is over. Now there is snow everywhere.'),
-        N('Tobin hurries up the lane. Two scarves! Wrong boots!'),
+        N('Tobin hurries up the lane. Squeak, squeak! Two scarves, wrong boots!'),
         T('Linnet went out early! Her tracks go up the lane.', 'shock'),
         T('My knees can’t manage the snow.', 'sad'),
         T('Will you go and find her? Not bring her back. Just find her.', 'soft'),
@@ -926,7 +926,7 @@ const S26: EduQuest = {
               [N('Yes! Snow is frozen water. Warm it up, and drip, drip!')],
               true,
             ),
-            opt('It turns into sand', [N('No sand! Snow melts into water when it gets warm.')]),
+            opt('It turns into sand', [N('Snow into sand? Crunch! Snow melts into water when it gets warm.')]),
           ],
           parentNote: 'Learned that snow is frozen water that melts when it warms up.',
         },
@@ -938,7 +938,7 @@ const S26: EduQuest = {
         N('Linnet’s tracks go through the door and down the ramp.'),
         N('Linnet is by the bench. The robin sits on her knee.'),
         L('You took ages! Look! LOOK!', 'happy'),
-        N('Snowdrops! Little white flowers, all round the bench.'),
+        N('Snowdrops! Pop, pop! Little white flowers, all round the bench.'),
         N('Some are in very silly places!'),
         L('Your Nubbin hid those. And they all came up!', 'happy'),
         L('I came in all by myself. Nobody had to help.', 'soft'),
@@ -965,7 +965,7 @@ const S26: EduQuest = {
       's26-mum',
       [
         N('A few days later, a lady walks up the valley road.'),
-        N('Her coat smells of the sea. She has a big bag.'),
+        N('Her coat smells of the sea. Thump! Down goes her big bag.'),
         MU('Hello! I’m Linnet’s mum. I work on the boats.', 'happy'),
         MU('Grandad says Linnet is gardening! My Linnet?', 'shock'),
         MU('She once put a plant out of the window. It was looking at her!'),
@@ -1025,7 +1025,7 @@ const S26: EduQuest = {
         L('This key was Hush’s. Then the ground had it.'),
         L('Then the robin found it. Then you had it.'),
         L('You decide what happens to it.', 'think'),
-        N('The key is big and black and heavy.'),
+        N('The key is big and black and heavy. Thump!'),
       ],
       [
         {
@@ -1081,7 +1081,7 @@ const S26: EduQuest = {
       's26-complete',
       [
         ...COMPLETE_START,
-        N('Linnet wears the key on a string. It bangs when she races!'),
+        N('Linnet wears the key on a string. It goes bonk when she races!'),
         ...COMPLETE_END,
       ],
       [
@@ -1344,7 +1344,7 @@ const S26_VARIANTS: EduScene[] = [
       N('You dig in the snow. Linnet is the boss.'),
       L('Longer! Not steeper. LONGER!', 'think'),
       N('The ramp is done. Down goes Linnet. Whoosh!'),
-      N('Snowdrops! Little white flowers, all round the bench.'),
+      N('Snowdrops! Pop, pop! Little white flowers, all round the bench.'),
     ],
     [
       {

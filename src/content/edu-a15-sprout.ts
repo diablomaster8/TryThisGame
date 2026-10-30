@@ -1908,7 +1908,7 @@ const Q8: EduQuest = quest(
               [N('Yes! Mice nibble seeds. Cats eat mice. That is a food chain.')],
               true,
             ),
-            o('Cats', [N('No! Cats eat mice. Mice nibble seeds.')]),
+            o('Cats', [N('Mice munching cats? Squeak! Cats eat mice. Mice nibble seeds.')]),
           ],
           'Learned that mice eat seeds and cats eat mice, a simple food chain.',
         ),

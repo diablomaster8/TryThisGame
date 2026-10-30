@@ -199,7 +199,7 @@ const Q46: EduQuest = {
       'q46-crash-done',
       [
         N('You find the cabbages by the stream and under the bushes.'),
-        N('You put the wheel back on. Click!'),
+        N('You put the wheel back on. Click, ding!'),
         C('Every single one! A bit muddy. That’s fine!', 'happy'),
         C('Thank you for helping me.', 'soft'),
       ],
@@ -315,7 +315,7 @@ const Q46: EduQuest = {
       'q46-glider-done',
       [
         N('You build the new cart with Tuk.'),
-        N('It sits low and wide, like a duck sitting down.'),
+        N('It sits low and wide, like a duck sitting down. Plop!'),
         P('Can I test it? Please, please, please?', 'happy'),
         T('Go on, then. Push it!'),
       ],
@@ -384,7 +384,7 @@ const Q47: EduQuest = {
     scene(
       'q47-nomads',
       [
-        N('A painted wagon comes along. Jingle, jingle!'),
+        N('A painted wagon comes along. Jingle, jingle, ding!'),
         J('Hello, friends! I’m Juno. We go where the wind goes.', 'happy'),
         J('Today the wind goes under that hill!'),
         T('But there’s a path over the hill.'),
@@ -422,7 +422,7 @@ const Q47: EduQuest = {
       'q47-nomads-done',
       [
         N('In you go. The tunnel gets dark.'),
-        N('Tuk’s torch flickers. Flicker, flicker. Then it goes out.'),
+        N('Tuk’s torch flickers. Flicker, flicker. Then, pop, it goes out.'),
         T('Oh no. Now I can’t see a thing!', 'shock'),
         J('Hmm. This part of the song isn’t written yet.'),
       ],
@@ -520,7 +520,7 @@ const Q47: EduQuest = {
     scene(
       'q47-complete',
       [
-        N('The singers wave goodbye. Doo-be-doo!'),
+        N('The singers wave goodbye. Doo-be-doo! Ding!'),
         K('Here. Some little crystals for you.', 'soft'),
         N('They glow when two friends sit close.'),
         T('And now there’s a cave path in your Grove.'),
@@ -610,7 +610,7 @@ const Q48: EduQuest = {
     scene(
       'q48-canyon-done',
       [
-        N('Down, down, down you go. Now you are at the bottom.'),
+        N('Down, down, down you go. Thump! Now you are at the bottom.'),
         T('Nobody pushed anybody. Hooray!'),
         MA('Hollins sleep on the left.'),
         BR('Drays sleep on the left of the left!', 'angry'),
@@ -636,7 +636,7 @@ const Q48: EduQuest = {
       [
         N('Night. Everyone sits by the campfire.'),
         N('Two children reach for the last dumpling.'),
-        N('Grab! Pull! Oh no, a food fight!'),
+        N('Grab! Pull! Bonk! Oh no, a food fight!'),
         MA('Your great-great-grandpa took our ball!', 'angry'),
         BR('Your great-great-grandma kicked it in the river!', 'angry'),
         P('Wait! I know a story about them!'),
@@ -710,7 +710,7 @@ const Q48: EduQuest = {
     scene(
       'q48-complete',
       [
-        N('In the morning, both groups climb out together.'),
+        N('In the morning, both groups climb out together. Whee!'),
         N('They talk and laugh. Which twin was taller?'),
         P('Look! They’re sharing socks now!', 'happy'),
         N('Chief Brack wears socks. He looks surprised. He likes them.'),
@@ -796,7 +796,7 @@ const Q49: EduQuest = {
     scene(
       'q49-school-done',
       [
-        N('You pass the notes out, one at a time.'),
+        N('You pass the notes out, one at a time. Swish, swish!'),
         R('A party in a cave? At night?', 'happy'),
         P('Yes! Bring your dancing feet!', 'happy'),
         N('The headmaster turns round. Everyone sits very still.'),
@@ -821,7 +821,7 @@ const Q49: EduQuest = {
       'q49-party',
       [
         N('The cave is full of children. They stand by the walls.'),
-        N('Your Nubbins bang on buckets. Bang! Bang! Bang!'),
+        N('Your Nubbins bang on buckets. Bonk! Bonk! Bonk!'),
         P('Dancing is easy. Feel the beat!'),
         R('My feet feel shy.', 'shock'),
         Z('I don’t dance. I don’t think I can.'),
@@ -850,7 +850,7 @@ const Q49: EduQuest = {
       [
         N('Then the headmaster bursts in with a lantern.'),
         H('WHAT is going on here?', 'angry'),
-        N('The buckets stop. Everyone freezes.'),
+        N('The buckets stop. Bonk. Everyone freezes.'),
         N('Kaito slowly puts his arms down.'),
       ],
       [
@@ -893,7 +893,7 @@ const Q49: EduQuest = {
     scene(
       'q49-complete',
       [
-        N('Outside, under the stars, the children laugh and laugh.'),
+        N('Outside, under the stars, the children laugh. Hee hee hee!'),
         R('We danced! We really danced!', 'happy'),
         P('You were amazing. All of you!', 'happy'),
         P('You danced like shooting stars!', 'happy'),
@@ -974,7 +974,7 @@ const Q50: EduQuest = {
     scene(
       'q50-open-done',
       [
-        I('Three perfect cups! My heart is warm.', 'happy'),
+        I('Three perfect cups! Slurp! My heart is warm.', 'happy'),
         Z('You burnt your tongue again, Uncle.'),
         I('Ow. Yes. A little.'),
         I('I should have waited.', 'think'),
@@ -997,7 +997,7 @@ const Q50: EduQuest = {
     scene(
       'q50-grump',
       [
-        N('Here comes the first customer. He looks very grumpy.'),
+        N('Thump, thump! Here comes the first customer. He looks very grumpy.'),
         PE('Tea. Not fancy. Not flowery. No talking.', 'angry'),
         I('Of course. Please sit down.', 'happy'),
         PE('The last tea I had tasted like old socks.'),
@@ -1041,7 +1041,7 @@ const Q50: EduQuest = {
       [
         PE('Hm. Not bad.'),
         N('For Mr Pell, that is a great big smile!'),
-        N('He counts his coins. He does not have enough.'),
+        N('He counts his coins. Ding, ding. He does not have enough.'),
         I('(quietly) It’s your stall today, Keeper. You choose.'),
       ],
       [
@@ -1086,7 +1086,7 @@ const Q50: EduQuest = {
     scene(
       'q50-complete',
       [
-        N('By lunchtime the stall is full. Busy, busy!'),
+        N('By lunchtime the stall is full. Busy, busy! Ding!'),
         N('Your Nubbins nap under the counter. Snore, snore.'),
         I('Tea is just leaves and water. The rest is caring.', 'soft'),
         I('The stall is yours, Keeper. I will visit a lot.'),
@@ -1171,7 +1171,7 @@ const Q51: EduQuest = {
     scene(
       'q51-desert-done',
       [
-        N('Nalu comes back with lots of water.'),
+        N('Splash! Nalu comes back with lots of water.'),
         K('I was gone ten minutes!', 'angry'),
         T('Nalu! You look like a big talking fish!', 'happy'),
         K('Tuk! You made the rule! You wrote it down!', 'angry'),
@@ -1208,7 +1208,7 @@ const Q51: EduQuest = {
     scene(
       'q51-cuttings',
       [
-        K('Drink this water, Tuk. Slowly.'),
+        K('Drink this water, Tuk. Slowly. Gulp!'),
         T('This water isn’t fizzy. It’s just wet.', 'sad'),
         K('Water is just what you need, silly.'),
         N('Look at the cactus. It is fat and spiky.'),
@@ -1238,7 +1238,7 @@ const Q51: EduQuest = {
       'q51-cuttings-done',
       [
         N('You wrap the cactus pieces in cloth. Careful, careful!'),
-        N('Your Nubbin carries one, like treasure.'),
+        N('Your Nubbin carries one, like treasure. Boing, boing!'),
         N('You carry two.'),
         K('Off we go, back to the Grove.'),
       ],
@@ -1261,7 +1261,7 @@ const Q51: EduQuest = {
       'q51-complete',
       [
         N('Back at the Grove, you plant them in the sun.'),
-        N('In the morning, they have little pink flowers!'),
+        N('In the morning, pop! They have little pink flowers!'),
         T('I don’t remember yesterday at all.'),
         P('You asked a rock to be your best friend!', 'happy'),
         T('I did not.'),
@@ -1346,7 +1346,7 @@ const Q52: EduQuest = {
       [
         N('You follow the clues. Fur. Footprints. Squashed bushes.'),
         N('Here is a hill with a big bison-shaped dent!'),
-        N('In a cave, two big eyes blink.'),
+        N('In a cave, two big eyes blink. Drip, drip.'),
         A('Mrrrrrooooh.', 'sad'),
       ],
       [
@@ -1551,7 +1551,7 @@ const Q53: EduQuest = {
     scene(
       'q53-flattened-done',
       [
-        S('Open. Sweep. Close. Again!'),
+        S('Open. Swish. Close. Again!'),
         S('Not bad. You are patient.'),
         T('I want to train too. Properly.'),
         S('Then wear the uniform. All of it.'),
@@ -1576,7 +1576,7 @@ const Q53: EduQuest = {
     scene(
       'q53-uniform',
       [
-        N('Tuk comes out in a green robe. His face is painted.'),
+        N('Whoosh! Tuk comes out in a green robe. His face is painted.'),
         N('White face. Red around the eyes. He looks great!'),
         T('Not. One. Word.'),
         S('The paint says: I won’t hide who I am.'),
@@ -1677,7 +1677,7 @@ const Q54: EduQuest = {
     scene(
       'q54-lessons',
       [
-        N('Master Pian lives at the top of the hill.'),
+        N('Master Pian lives at the top of the hill. Creak!'),
         T('Master Pian, I want to learn the sword.'),
         T('Pemba can fly. Nalu does water. I just have plans.', 'think'),
         PI('Plans are good. A sword with no plan is just a stick.', 'soft'),
@@ -1762,8 +1762,8 @@ const Q54: EduQuest = {
     scene(
       'q54-meteor-done',
       [
-        N('Clang, clang! Tuk hammers the hot metal.'),
-        N('Hiss! He dips it in water. Steam puffs up.'),
+        N('Clang, bonk! Tuk hammers the hot metal.'),
+        N('Hiss! He dips it in water. Splash! Steam puffs up.'),
         N('The blade is black, with tiny silver dots.'),
         T('Whoa.', 'soft'),
       ],
@@ -1836,7 +1836,7 @@ const Q55: EduQuest = {
         N('A beach stage! The sign says: THE KEEPER AND FRIENDS.'),
         T('A play about us! Hooray!', 'happy'),
         B('I can’t see the stage. This will be great.'),
-        N('An actor in orange does cartwheels. He falls over.'),
+        N('An actor in orange does cartwheels. He falls over. Thump!'),
         PL('I am Pemba! I love fun! And fun!', 'happy'),
         P('Is that what I’m like?', 'sad'),
         N('An actor playing Tuk only talks about meat.'),
@@ -1950,7 +1950,7 @@ const Q55: EduQuest = {
     scene(
       'q55-complete',
       [
-        N('After the show, the actors give out masks.'),
+        N('Ding! After the show, the actors give out masks.'),
         PL('Take a mask! We do the show again next week!', 'happy'),
         B('Great. I’ll come every week.'),
         P('Will they ever do a play where we win?'),
@@ -1996,7 +1996,7 @@ const Q56: EduQuest = {
     scene(
       'q56-flyer',
       [
-        N('A paper flyer blows by. Flap! It sticks to your Nubbin.'),
+        N('A paper flyer blows by. Whoosh! It sticks to your Nubbin.'),
         T('“Rumble Night! Wrestling under the big boulder! Bring snacks!”'),
         T('Under a boulder? Of course it is.', 'think'),
         P('Let’s go! Is wrestling like hugging, but grumpier?', 'happy'),
@@ -2025,7 +2025,7 @@ const Q56: EduQuest = {
       'q56-flyer-done',
       [
         N('You knock twice on the boulder. Knock, knock!'),
-        N('The big boulder slides away. Rumble, rumble!'),
+        N('The big boulder slides away. Rumble, thump!'),
         N('Down below, a crowd cheers by torchlight.'),
         T('Okay. That’s a cool door.'),
       ],
@@ -2088,7 +2088,7 @@ const Q56: EduQuest = {
       'q56-bout-done',
       [
         N('She says, “Not bad! Hardly anyone lasts that long.”'),
-        N('Your Nubbin is covered in sand. And glory!'),
+        N('Bonk! Your Nubbin is covered in sand. And glory!'),
         N('She says, “And you didn’t run away. Most people run.”'),
         N('Your Nubbin bows. She bows back.'),
       ],
@@ -2127,7 +2127,7 @@ const Q56: EduQuest = {
           [B('What should people do before they help me?')],
           [
             opt('Ask “Do you want help?”', [B('Yes! Just ask. Then listen to the answer.', 'happy')], true),
-            opt('Just grab my arm', [B('Nope. Grabbing isn’t helping.'), B('Ask first. Then listen to the answer.')]),
+            opt('Just grab my arm', [B('Grabbing my arm? Squeak! That isn’t helping.'), B('Ask first. Then listen to the answer.')]),
           ],
           'Your child learned to ask before helping someone, and to listen to their answer.',
           'CASEL: Social awareness',
@@ -2292,7 +2292,7 @@ const Q57: EduQuest = {
       'q57-complete',
       [
         N('The village wakes up. The water is clean!'),
-        N('The fish baskets are full.'),
+        N('The fish baskets are full. Splash!'),
         N('The works puts up a sign: PIPE CLOSED. SORRY.'),
         RE('She came back! After all these years!', 'happy'),
         T('She was very wet. She owes me new trousers.'),
@@ -2341,7 +2341,7 @@ const Q58: EduQuest = {
     scene(
       'q58-reading',
       [
-        N('In Hillstead, people line up at a starry door.'),
+        N('Ding, dong! In Hillstead, people line up at a starry door.'),
         W('Come in! Aunt Wen sees everything. Well, most things.', 'happy'),
         W('Your Nubbin will find something lovely today. Probably a snack.'),
         T('Nubbins always find snacks. That’s not magic.'),
@@ -2380,7 +2380,7 @@ const Q58: EduQuest = {
         W('Oh! And the mountain won’t go BOOM this year.'),
         W('I read the clouds. Nice and fluffy.'),
         T('Wait. That mountain can go BOOM?', 'think'),
-        N('Its name is Mount Grumble. It rumbles.'),
+        N('Its name is Mount Grumble. It rumbles. Thump!'),
       ],
       [
         ask(
@@ -2400,7 +2400,7 @@ const Q58: EduQuest = {
     scene(
       'q58-mountain',
       [
-        N('Above Hillstead, Mount Grumble puffs out grey smoke.'),
+        N('Pop! Above Hillstead, Mount Grumble puffs out grey smoke.'),
         T('I’m going up there to see for myself.'),
         P('I’ll come! Puffin, my flying bison, can carry us.'),
         K('I’ll stay and talk to the people. Just in case.'),
@@ -2502,7 +2502,7 @@ const Q58: EduQuest = {
       'q58-clouds-done',
       [
         N('A giant cloud hangs over Hillstead.'),
-        N('Your Nubbins float down out of it. Damp and proud!'),
+        N('Your Nubbins float down out of it. Plop! Damp and proud!'),
         W('Oh my! The clouds have never been this clear!', 'shock'),
         W('Everyone, get your shovels!', 'shock'),
       ],
@@ -2521,7 +2521,7 @@ const Q58: EduQuest = {
       'q58-complete',
       [
         N('The people dig a long ditch, all night long.'),
-        N('Mount Grumble pops. The lava runs down the ditch.'),
+        N('Mount Grumble goes pop! The lava runs down the ditch.'),
         N('It goes away from the houses. Everyone is safe!'),
         W('Thank you, young man. Even if you don’t believe me.', 'soft'),
         T('I believe one word. “Shovels.” Great idea.'),
@@ -2567,7 +2567,7 @@ const Q59: EduQuest = {
       'q59-market',
       [
         N('A pirate ship sits at the river market.'),
-        CH('Step up! Treasures! No questions!', 'happy'),
+        CH('Step up! Ding! Treasures! No questions!', 'happy'),
         P('A whistle shaped like a bison! I want it!', 'happy'),
         T('It’s a stick with a hole in it.'),
         N('Nalu goes still. She sees an old scroll.'),
@@ -2604,7 +2604,7 @@ const Q59: EduQuest = {
       'q59-market-done',
       [
         N('You turn round. Nalu walks fast to your boat.'),
-        N('The glass case is empty!'),
+        N('Crack! The glass case is empty!'),
         T('Nalu! Did you just…?', 'shock'),
         K('Walk. Normally. Now.'),
         CH('Stop! After them!', 'angry'),
@@ -2769,7 +2769,7 @@ const Q60: EduQuest = {
         N('Up in an old temple, under the broken roof…'),
         N('…you find a nest! Fruit stones. Buttons. Your spoon!'),
         P('Oh. It lives up here all alone.', 'soft'),
-        N('“Chirr,” says the lemur. It looks sad.'),
+        N('“Squeak,” says the lemur. It looks sad.'),
       ],
       [
         ask(
@@ -2814,7 +2814,7 @@ const Q60: EduQuest = {
     scene(
       'q60-friends-done',
       [
-        N('The lemur lands on your shoulder. It wraps its tail round your neck.'),
+        N('The lemur lands on your shoulder. Plop! It wraps its tail round you.'),
         N('It falls asleep. Zzz.'),
         P('It likes you!', 'happy'),
         P('Should we take it home? Or is this its home?', 'think'),

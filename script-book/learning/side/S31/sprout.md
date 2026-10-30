@@ -391,9 +391,9 @@ _One rock has a little paper label._
 
 _Variant of `s31-guising`._
 
-_The guisers burst into the party. Brr, cold air!_  
+_Pop! The guisers burst into the party. Brr, cold air!_  
 _Ivy and the bats tip out their bags. Toffee apples! Nuts! Pennies!_  
-_Ned tips out his bag last. Five rocks. Clonk!_  
+_Ned tips out his bag last. Five rocks. Bonk!_  
 **Sparks**: Oh, Ned.  
 _The smallest bat gives Ned a nut. Then another one._  
 
@@ -571,7 +571,7 @@ _Out by the post, something moves._
 #### `sprout:s31-shape` · [main](../../../side/S31.md#s31-shape)
 
 _A round shape rises at the edge of the grass. Goggles! A scarf!_  
-_Tam says “Oh,” very politely. Then he faints. Flop!_  
+_Tam says “Oh,” very politely. Then he faints. Thump!_  
 _It’s your Nubbin, home from its game._  
 _It climbs into your lap and falls asleep._  
 **Nettie**: He does that. He fainted at a goose once. He’s fine.  
@@ -589,7 +589,7 @@ _Tam is all right. He was very tired. Now he is fast asleep._
 _Variant of `s31-shape`._
 
 _A grey shape rises out of the frosty grass._  
-_Tam says “Oh.” Then he faints. Flop!_  
+_Tam says “Oh.” Then he faints. Thump!_  
 _It’s Sable, the grey wild Nubbin. The cold can’t hurt her._  
 _She looks at Tam. Then she looks at you._  
 _She sits down beside you. Close._  
@@ -608,7 +608,7 @@ _Tam is all right. He’s fast asleep now._
 _Variant of `s31-shape`._
 
 _A round shape rises at the edge of the grass. Goggles! A scarf!_  
-_Tam says “Oh.” Then he faints. Flop!_  
+_Tam says “Oh.” Then he faints. Thump!_  
 _You come back with a lantern before it’s light._  
 _Tam is asleep. Your Nubbin is asleep on top of him._  
 **Nettie**: Your Nubbin came out of the grass and Tam FAINTED!  
@@ -624,7 +624,7 @@ _Tam is asleep. Your Nubbin is asleep on top of him._
 
 #### `sprout:s31-four` · [main](../../../side/S31.md#s31-four)
 
-_At four o’clock, a lantern comes bobbing down the lane._  
+_Ding! At four o’clock, a lantern comes bobbing down the lane._  
 **Ivy**: Four o’clock. I said four. Look at you all!  
 
 > **Lesson** (maths, 1.MD.B.3, do): count the hours from midnight to four o’clock  
@@ -643,7 +643,7 @@ _Off they go. Nettie carries the lantern, yawning._
 
 _Variant of `s31-four`._
 
-_At four o’clock, a lantern comes bobbing down the lane._  
+_Ding! At four o’clock, a lantern comes bobbing down the lane._  
 **Ivy**: Four o’clock. I said four. Look at—  
 _Ivy sees Sable. For once, Ivy has nothing to say!_  
 _Ivy lifts Tam up, quilt and all._  
@@ -661,7 +661,7 @@ _Off they go. Nettie carries the lantern, yawning._
 
 _Variant of `s31-four`._
 
-_At four o’clock, a lantern comes bobbing down the lane._  
+_Ding! At four o’clock, a lantern comes bobbing down the lane._  
 **Ivy**: Four o’clock. I said four. Look at him.  
 _Ivy lifts Tam up, quilt and all. He doesn’t wake._  
 
@@ -698,7 +698,7 @@ _Variant of `s31-light`._
 _Ivy gets Tam home and tucks him into bed._  
 _Sable stays beside you until the sky gets light._  
 _The sun peeks over the hill._  
-_Sable stands up. She shakes the frost off her back. Shake, shake!_  
+_Sable stands up. She shakes the frost off her back. Swish, swish!_  
 
 > **Lesson** (science, K-PS3-1, notice): the sun warms the ground and melts frost; frost ends the gourd season  
 > _The sun warms the grass. Warm makes the white frost melt._  
@@ -794,7 +794,7 @@ _Variant of `s31-complete`._
 
 _Next morning, Tam runs down to the long grass._  
 _By his sign is a little heap of fruit._  
-_Three plums, two apples and one pear!_  
+_Three plums, two apples and one pear! Nom!_  
 
 > **Lesson** (maths, K.OA.A.1, do): add small groups  
 > _(Count the fruit together.)_  

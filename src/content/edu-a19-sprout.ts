@@ -530,7 +530,7 @@ const Q02: EduQuest = quest(
               true,
             ),
             opt('Very silly and giggly', [
-              N('Not quite. Look at his face and shoulders: he looks worried.'),
+              N('Giggly? Hee hee! But look at his face and shoulders: he looks worried.'),
             ]),
             opt('Sleepy', [N('It is late, but his face is worried, not sleepy.')]),
           ],
@@ -1448,7 +1448,7 @@ const Q07: EduQuest = quest(
               true,
             ),
             opt('I am cross', [
-              N('No. A cross person would keep the knife, but throwing it away is gentle.'),
+              N('Stomp! Cross? A cross person keeps the knife. Throwing it away is gentle.'),
             ]),
             opt('I am hungry', [N('Hiccup is not hungry. He wants the dragon to feel safe.')]),
           ],
@@ -2732,7 +2732,7 @@ const Q14: EduQuest = quest(
               true,
             ),
             opt('She walked away', [N('She stayed. She sat and waited for his answer.')]),
-            opt('She sang a song', [N('No song. She sat quietly and listened.')]),
+            opt('She sang a song', [N('A song? La la la! But she sat quietly and listened.')]),
           ],
           'Noticed that a good conversation means asking, then waiting and listening.',
           'SL.K.1',
