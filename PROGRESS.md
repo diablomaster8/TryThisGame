@@ -38,6 +38,61 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 7 · Lane A MOVE/FUN/SOUL (2026-10-30, branch r7/a)
+
+Plan: finish the two MOVE live-bug partials, then the FUN items not started (R0342 on), then
+SOUL from R0521 in order, as many as could be done properly. New text in
+`config/strings-fun-r7.ts`, numbers in `config/tuning-fun-r7.ts` (one re-export line in
+`tuning.ts`). Edge: `node r7a.cjs <pixel|3d> <desk|phone> 5181` in `recs-2026-10-27/tools`,
+14/14 in all four, no console errors.
+
+**Works**
+- MOVE: R0001 the stream wade is knee-deep (0.35 at the centre line, the bed hides the feet),
+  3D ripple rings round the Keeper (`render3d/wade-ripple.ts`) and a soft slosh step.
+  R0003 decor never squashes a crop or sapling (`crop` refusal); on a desktop the placing chip
+  turns red with the reason before the click (`placeHint`).
+- FUN: R0342 read-aloud per speaker (`VOICE_TTS`), shouted words lowercased with a pitch bump,
+  best voice picked once, karaoke word light (CSS highlights), a beat after "!".
+  R0343 "Read to me" opt-in for Grove Readers. R0344 `Line.id`/`Line.vo`, the VO exporter
+  (`tests/tools/vo-export.ts`) and `docs/vo-casting.md`. R0346 `docs/playtest-funny.md`.
+  R0348 canon keep-jokes table (`docs/canon.md`) checked by content-check; Gerald restored
+  in reader c4-close. R0350 Sable's refusals by trust band. R0351 the egg's own wobble, a
+  late hop, the third-shake foot (both renderers) and a muffled "hey". R0352/R0355 the idle
+  Keeper reads the letter, sits at 40 s, the nearest Nubbin sits beside it (rule-three
+  affection) and leans, dozes and snores a bubble; live play only (wall clock, ×1, visible,
+  no scene queued). R0353 Moss's dry reactions from chapter 4. R0354 the after-card turn,
+  wobble and sit with a quip per type. R0357 rename dialog with a silly-name button (sprout:
+  picture buttons). R0360 30+ dry sheet captions (main band). R0365 Slapstick setting
+  (full/gentle/off); screen shake now covers the story's nudges.
+- SOUL: R0522 personality chip with pixel icons, blurb and a tendencies card. R0523 a child's
+  leaning (the lock rule, at half strength in idle odds). R0524 the everyday idle pick is one
+  weighted table (`sim/idle-choice.ts`, `IDLE_ACTIONS`), odds in the debug panel. R0526 the
+  fortune uses the real rule. R0527 Learning Grove throws are a toss and catch, trust floor
+  30. R0530 every kind of care counts (`touches`, `tucks`). R0531 the lock line on the
+  evolution card. R0539 friends away fade slowly; a departed buddy's flower gets visits.
+  R0553 behaviour histogram in the debug panel and a distinctness test. R0578 the forming
+  meter.
+
+**Stubbed / partial**
+- R0001 the 3D stream screenshot was taken mid-scene (staged); the sink is verified in sim.
+- R0003 no world-space ghost; the hint is the chip, desktop only (a phone tap still toasts).
+- R0344 ids are computed, not frozen into the script; no clip playback (no recordings).
+- R0345 not started (XL). R0346 no sessions logged yet. R0351 no upside-down squeak.
+- R0353 no pre-chapter-4 hill silhouette. R0364, R0366, R0361, R0356, R0367 not started.
+- R0527 no "hiding in the cottage" (the trust floor means it never runs).
+- R0539 no reunion hug for a returning stray. R0553: cheerful/mischievous and shy/lazy are
+  still under 0.25 apart (`it.fails` records it; needs SOUL-04/SOUL-10 quirks).
+- R0524's bases reproduce the old shares with every action open; seeded days moved, so
+  `pair-play` uses seed 23 and `dungeon-acts` (lane B's test) brings the boss to the Keeper's
+  dry spot after a fall.
+
+**Known bugs**
+- Timing tests (lifecycle full life, nav, world 8-Nubbin hour, battle balance) fail under the
+  four-lane load and pass alone; budgets unchanged.
+- New save fields are optional with defaults (no version bump): `keeper.idleMs/sitWith/
+  sitBesideMs`, `nubbin.eggShakes`, `childCare.touches/tucks/lastCareMs`, `remembered`,
+  `edu.readToMe`, `settings.slapstick`.
+
 ## Round 6 · Lane D (2026-10-29, branch r6/d)
 
 Plan: riding and the swim tow (R0085, R0088) first, then the cheap WORLD P2s, R0359, partials.
@@ -174,33 +229,6 @@ The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region an
   moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
   needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
   Hand-over: side-session note `r6-lane-c-handover.md`.
-
-## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
-
-Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>
-<desk|phone> 5181` in `recs-2026-10-27/tools`. Skipped for other lanes: R0293, R0298, R0317,
-R0326, R0328, R0332, R0340, R0358, R0359, R0362, R0363.
-
-- *Works:* all eight micro-games (escort, climb, puzzle, survive, explore new), `minigame:`
-  checks mapped by token, per-verb Do-it labels, a Skip switch on for sprouts (R0294, R0369);
-  `hint-button?` checker warning at 0, STYLE.md Hints (R0292, R0339); routine prop gags over
-  Keepers, both modes (R0296); distracted walks bonk trunks (R0299); `Line.react` + inferred
-  narration reactions, chapter 1 spark (R0303, R0368); goal-met toddle and plop (R0305);
-  Journal cairn line + S2 callback (R0313); sprout wrong openers 0, sound words 25.2% of
-  scenes (R0320, R0310); Expedition spin, Shell scatter, quips, superlatives (R0324); race
-  butterfly stops, 40 rival quirks (R0325); voiced request board (R0327); weather gags
-  (R0329); pair play (R0330); Hazel's P.S. on chapter cards (R0334); Multiverse dossiers and
-  Neopian Times masthead (R0335); IM1 gags (R0337); grammar helpers (R0341); sarcasm check
-  (R0347); toast variants (R0349).
-- *Stubbed:* R0299's Keeper hop and splat art; R0303's 50-gag back-fill (one done, 215
-  inferred); R0310 at 25% (Atlas sprout files next); R0321's in-world hide (needs lane E's
-  R0293); R0325's 3D butterfly (pixel only) and joyful trip; R0334 not read aloud for sprouts;
-  R0369's 1.5 s mini animation (the micro-game plays instead).
-- *Known bugs:* none found.
-- *Assumptions:* gag state is render-side or hashed (no world-rng draws, no save fields; the
-  one new setting `microSkip?` is optional); R0341 edited templated strings in `strings.ts`
-  in place under the R0341 exception; `render3d/expedition-3d.ts` got the R0324 spin (lane
-  D/E-adjacent, two small blocks).
 
 ## Standing approval (Maor, 2026-10-12)
 
