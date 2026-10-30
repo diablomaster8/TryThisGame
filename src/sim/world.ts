@@ -555,6 +555,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // The menu validates the cap, but a NaN or out-of-range one must never reach catch-up.
       const next = { ...cmd.settings, offlineAging: { ...cmd.settings.offlineAging } };
       sanitizeOfflineAging(next.offlineAging, world.settings.offlineAging.capHours);
+      // Lane C r8: a settings copy taken before the story began (a phone's first-launch
+      // defaults) must not drop the quest flow it set; the menu always names one.
+      if (next.questFlow === undefined && world.settings.questFlow !== undefined)
+        next.questFlow = world.settings.questFlow;
       world.settings = next;
       return;
     }

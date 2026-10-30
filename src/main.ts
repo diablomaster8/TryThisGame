@@ -263,8 +263,7 @@ function boot(
       game.send({ kind: 'storylineStart', id: storyline, flags });
     } else {
       // Lane C r8 (R0602): a new Hazel's Grove plays the Open quest flow; older saves keep Guided.
-      game.send({ kind: 'setSettings', settings: { ...game.world.settings, questFlow: 'open' } });
-      game.send({ kind: 'campaignStart' });
+      game.send({ kind: 'campaignStart', flow: 'open' });
     }
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });

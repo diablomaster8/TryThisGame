@@ -3269,6 +3269,7 @@ select {
 }
 /* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
 .offer-card {
+  pointer-events: auto;
   position: absolute;
   left: 50%;
   bottom: calc(84px + env(safe-area-inset-bottom, 0px));
@@ -3336,6 +3337,7 @@ select {
   gap: 6px;
 }
 .offer-chip {
+  pointer-events: auto;
   position: absolute;
   right: 12px;
   bottom: calc(140px + env(safe-area-inset-bottom, 0px));
@@ -3357,4 +3359,26 @@ select {
 }
 .journal-board .journal-line .btn {
   min-height: 44px;
+}
+/* Lane C r8 (R0609): the objective chip's count and its arrow to the next tracked goal. */
+.objective-count {
+  align-self: center;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.objective-cycle {
+  pointer-events: auto;
+  position: absolute;
+  /* Just above the chip's left end, where the thumb already is. */
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  font-size: 20px;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
 }

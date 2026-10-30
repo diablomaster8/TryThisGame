@@ -1152,7 +1152,8 @@ export type Command =
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
   | { kind: 'debugHatchNow'; nubbinId: string }
-  | { kind: 'campaignStart' }
+  // Lane C r8 (R0602): `flow` sets the quest flow as the story begins (a new game plays Open).
+  | { kind: 'campaignStart'; flow?: QuestFlow }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
   /** R0322: the tap toy's beats (a surprised face for hiccups, a dizzy one for the sneeze). */
   | { kind: 'tapToy'; nubbinId: string; beat: 'hiccup' | 'sneeze' }

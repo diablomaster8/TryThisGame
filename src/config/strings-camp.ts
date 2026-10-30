@@ -93,3 +93,10 @@ export const OFFER_TEXT = {
     guided: 'Guided: they come to you',
   } as Record<string, string>,
 };
+
+/** Lane C round 8 (R0609): the objective chip's tracked quests. */
+export const TRACK_TEXT = {
+  next: 'Next tracked goal',
+  of: (i: number, n: number) => `${i}/${n}`,
+  newGoal: (title: string, goal: string) => `${title}: ${goal}`,
+};
