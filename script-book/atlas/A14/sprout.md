@@ -903,7 +903,7 @@ _Odysseus thinks and thinks._
 > **Lesson** (science, K-2-ETS1-1, ask): name the problem before finding a plan  
 > _What is the problem Odysseus must solve: the big stone, or a lost toy?_  
 > - ✅ The big stone → Yes. The stone blocks the door. A plan must get them past it.
-> - A lost toy → No toy is lost. The problem is the big stone.
+> - A lost toy → A toy under the stone? Squeak! The problem is the big stone.
 > _For grown-ups: Named the problem to solve (the big stone) before making a plan._
 
 
@@ -2732,7 +2732,7 @@ _The lane is empty._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): opposite words: busy and quiet  
 > _The lane is empty. Is it busy or quiet?_  
 > - ✅ Quiet → Yes. Quiet is the opposite of busy and noisy.
-> - Busy → No one is there, so it is not busy. It is quiet.
+> - Busy → A busy lane? Buzz, buzz! But nobody is there. It is quiet.
 > _For grown-ups: Used the words busy and quiet to describe a place._
 
 _You lift and push. It sticks, as always._  

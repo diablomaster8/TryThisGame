@@ -12,6 +12,10 @@ import { skyBands } from '../race/pixel-track';
 import { progressOf, RUNNER_H, type RunState } from './run';
 import type { ExpeditionTheme, ExpeditionView } from './view';
 
+/** R0324: a hit's spin, and how long the lost Shells fly (ms of run time). */
+const HIT_SPIN_MS = 450;
+const HIT_SHELLS_MS = 800;
+
 /**
  * The Expedition's pixel view: a low-res 2D canvas letterboxed into the screen, the
  * shipped look in both modes until Full 3D got its own (G17). The drawing is the
@@ -23,6 +27,8 @@ export class ExpeditionPixelView implements ExpeditionView {
   private readonly ctx: CanvasRenderingContext2D;
   private art: ExpeditionArt | null = null;
   private runner: { sheet: SpriteSheet; name: string } | null = null;
+  /** R0324: no spin under reduced motion (the old blink instead). */
+  private reduceMotion = false;
   private viewW: number = EXPEDITION.maxViewW;
   /**
    * Extra sky above the run in portrait, in low-res pixels: the track keeps its size and the
@@ -39,6 +45,7 @@ export class ExpeditionPixelView implements ExpeditionView {
   }
 
   start(runner: Nubbin, sheet: SpriteSheet, theme: ExpeditionTheme): void {
+    this.reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     this.theme = theme;
     this.art ??= buildExpeditionArt();
     this.runner = { sheet, name: runner.name };
@@ -162,13 +169,24 @@ export class ExpeditionPixelView implements ExpeditionView {
       const f = frameAt(CLIPS[clip], run.timeMs);
       const rect = sheet.frames.get(frameKey(clip, 'side', f));
       if (rect) {
-        const hit = run.lastEvent?.kind === 'hit' && run.timeMs - run.lastEvent.atMs < 300;
-        if (!hit || Math.floor(nowMs / 60) % 2 === 0) {
+        // R0324 (FUN-35): a hit is a cartoon spin (a blink under reduced motion).
+        const since = run.lastEvent?.kind === 'hit' ? run.timeMs - run.lastEvent.atMs : Infinity;
+        const spin = since < HIT_SPIN_MS && !this.reduceMotion;
+        if (spin || since >= 300 || Math.floor(nowMs / 60) % 2 === 0) {
           const image = sheet.texture.image as HTMLCanvasElement;
-          const dx = Math.round(EXPEDITION.runnerX - rect.w / (2 * PX));
+          const w = rect.w / PX;
+          const h = rect.h / PX;
+          const dx = Math.round(EXPEDITION.runnerX - w / 2);
           const dy = Math.round(run.runnerY - RUNNER_H - 4);
-          ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, rect.w / PX, rect.h / PX);
+          if (spin) {
+            ctx.save();
+            ctx.translate(dx + w / 2, dy + h / 2);
+            ctx.rotate((since / HIT_SPIN_MS) * Math.PI * 2);
+            ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, -w / 2, -h / 2, w, h);
+            ctx.restore();
+          } else ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, dx, dy, w, h);
         }
+        if (since < HIT_SHELLS_MS) this.drawLostShells(run, since);
       }
     }
 
@@ -183,6 +201,24 @@ export class ExpeditionPixelView implements ExpeditionView {
     }
 
     this.drawTop(run, W);
+  }
+
+  /** R0324: the Shells a hit cost arc back out of the runner and bounce away. */
+  private drawLostShells(run: RunState, since: number): void {
+    const n = Math.min(5, run.lastEvent?.dropped ?? 0);
+    if (n === 0) return;
+    const ctx = this.ctx;
+    const t = since / 1000;
+    ctx.fillStyle = color(C.white);
+    for (let i = 0; i < n; i++) {
+      const vx = -30 - i * 14;
+      const vy = -70 - i * 12;
+      const x = EXPEDITION.runnerX + vx * t;
+      let y = run.runnerY - RUNNER_H / 2 + vy * t + 160 * t * t;
+      // One bounce off the ground, then away.
+      if (y > EXPEDITION.groundY - 2) y = EXPEDITION.groundY - 2 - Math.abs(Math.sin(t * 9)) * 6;
+      ctx.fillRect(Math.round(x), Math.round(y), 3, 2);
+    }
   }
 
   /**

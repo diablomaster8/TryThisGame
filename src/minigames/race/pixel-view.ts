@@ -323,6 +323,26 @@ export class RacePixelView implements RaceView {
         );
       if (resting)
         drawShadowText(ctx, 'zz', sx + rect.w / PX - 6, sy - 2, color(C.pale), color(C.darkPlum));
+      // R0325 (FUN-36): a butterfly the runner stopped for, and the cheer's "!".
+      if (!done && race.timeMs < (r.gazeUntilMs ?? -1)) {
+        const bx = sx + rect.w / PX + 2;
+        const by = sy - 6 + Math.round(Math.sin(race.timeMs / 90) * 2);
+        const flap = Math.floor(race.timeMs / 80) % 2 === 0 ? 2 : 1;
+        ctx.fillStyle = color(C.sunYellow);
+        ctx.fillRect(bx - 2, by - flap, 2, flap * 2);
+        ctx.fillRect(bx + 1, by - flap, 2, flap * 2);
+        ctx.fillStyle = color(C.darkPlum);
+        ctx.fillRect(bx, by - 1, 1, 3);
+      }
+      if (!done && race.timeMs < (r.perkUntilMs ?? -1))
+        drawShadowText(
+          ctx,
+          '!',
+          sx + rect.w / PX - 6,
+          sy - 6,
+          color(C.sunYellow),
+          color(C.darkPlum),
+        );
       if (r.isPlayer) this.drawStamina(r, sx + 4, sy + rect.h / PX + 1);
     }
     for (const t of placeTags(tags, W)) {

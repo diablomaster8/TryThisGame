@@ -164,7 +164,7 @@ _Your Nubbin finds a red fruit. Juice drips down its arms._
     - **Rafiki**: Polepole. Slow paint stays on the wall.
 - **Grind it fast.**
     - Puff! Yellow dust goes up your nose.
-    - Atchoo!
+    - Achoo!
     - **Rafiki**: Polepole.
 - **Ask if the fruit is nice to eat.**
     - **Rafiki**: It is. Eat one first.
@@ -1280,7 +1280,7 @@ _The sky is huge. Every star is out._
 > **Lesson** (sel, CASEL: Social awareness, ask): comforting someone who blames themselves  
 > _Simba thinks it was his fault. What can you tell him?_  
 > - ✅ It was not your fault → Yes. Simba was only a cub. It was not his fault.
-> - It was your fault → No. It was not Simba’s fault. He was only a cub.
+> - It was your fault → Simba’s fault? He was only a cub. It was never his fault.
 > - Do not be sad → “Do not be sad” does not help much. Kind, true words help more.
 > _For grown-ups: Practised comforting someone who blames themselves for something that was not their fault._
 

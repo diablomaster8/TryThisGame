@@ -1,0 +1,27 @@
+/* Lane E (LOOK) styles: the collection book's tabs and open page (LOOK-55). */
+.book-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0;
+}
+.book-tabs .btn {
+  min-height: 44px;
+}
+.book-page {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+.book-page canvas {
+  width: 128px;
+  height: 128px;
+  image-rendering: pixelated;
+}
+.book-page h3 {
+  margin: 0;
+}
+.book-cell[tabindex] {
+  cursor: pointer;
+}

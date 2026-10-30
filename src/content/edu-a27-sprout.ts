@@ -408,7 +408,7 @@ const A1: EduQuest = quest(
           [N('A baby needs love, whatever his hair is like. Is it fair to love him less?')],
           [
             o('No. Not fair.', [N('Right. Hair is only hair. Everyone deserves love.')], true),
-            o('Yes.', [N('No. Everyone deserves love. Hair is only hair.')]),
+            o('Yes.', [N('Loving him less for his hair? Hair is only hair. Everyone deserves love.')]),
           ],
           'Talked about fairness: nobody should be loved less for how they look.',
         ),
@@ -1090,7 +1090,7 @@ const A5: EduQuest = quest(
           [N('Camels can walk far in the hot sun. What do camels have on their backs?')],
           [
             o('A hump, or two!', [N('Yes! A camel’s hump stores fat for food.')], true),
-            o('Wings.', [N('No wings! Camels have a hump, or two.')]),
+            o('Wings.', [N('Wings on a camel? Flap, flap! Camels have a hump, or two.')]),
           ],
           'Learned that camels have a hump, which stores fat, and can walk far.',
         ),
@@ -2761,7 +2761,7 @@ const A14: EduQuest = quest(
           [N('Is it fair to blame someone for what their family did long ago?')],
           [
             o('No. Not fair.', [N('Right. Each person is their own person.')], true),
-            o('Yes.', [N('No. Each person is their own person.')]),
+            o('Yes.', [N('Blaming someone for their family? Each person is their own person.')]),
           ],
           'Talked about fairness: nobody should be blamed for what their family did.',
         ),

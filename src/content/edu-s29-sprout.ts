@@ -63,7 +63,7 @@ const sc = (
 // ---------------------------------------------------------------- step 6 done: the kitchen
 const kitchenLines = (dustyListens: Line[]): Line[] => [
   N('The door opens. An old woman holds up a candle. She looks cross.'),
-  GB('Who’s ringing my bell? Nobody rings my bell!', 'angry'),
+  GB('Ding, dong! Who’s ringing my bell? Nobody rings my bell!', 'angry'),
   MA('Granny Brock, it’s Marina. We’re lost. Dusty is frozen.'),
   N('Granny Brock looks at your Nubbin. Your Nubbin looks back.'),
   GB('In. All of you. Boots off.'),
@@ -115,7 +115,7 @@ const FORD_END: Line[] = [
 
 // ---------------------------------------------------------------- step 15: laid up
 const COMPLETE_START: Line[] = [
-  N('Under the willows, you turn the boat upside down. Gently.'),
+  N('Under the willows, you turn the boat upside down. Gently. Thump!'),
   N('It looks like a big beetle having a rest.'),
 ];
 const COMPLETE_END: Line[] = [
@@ -315,7 +315,7 @@ const SCENES: EduScene[] = [
       N('She makes a little fire. Dusty sits by it, wrapped in the rug.'),
       DU('I’m sorry. I tipped your boat. I spoiled the picnic.', 'sad'),
       MA('Never mind. Honestly. Never mind.', 'soft'),
-      DU('The cheese is in the river!'),
+      DU('Splash! The cheese is in the river!'),
       MA('Then the fish get a picnic too. Never mind!', 'happy'),
       N('She says it again and again, until Dusty smiles.'),
       MA('Tomorrow I’ll teach you both to row properly.', 'happy'),
@@ -346,7 +346,7 @@ const SCENES: EduScene[] = [
     's29-lessons',
     [
       MA('Lesson one: sit down. Lesson two: stay sat down!', 'think'),
-      MA('Oars in. Pull. Oars out. In, pull, out!'),
+      MA('Oars in. Pull. Splash! Oars out. In, pull, out!'),
       N('In, pull, out! In, pull, out! (Say it together.)'),
       DU('Why are we going backwards? I can’t see where we’re going!', 'shock'),
       MA('Nobody can. Take it up with the river.', 'think'),
@@ -406,7 +406,7 @@ const SCENES: EduScene[] = [
   sc(
     's29-lessons-done',
     [
-      N('Portly carries his present home along the bank.'),
+      N('Portly carries his present home along the bank. Plop, plop.'),
       N('He stops to look at it. Then he goes on.'),
       DU('He never steals your things. That means he likes you!', 'happy'),
       MA('Same time next week. And nobody stands up in my boat!', 'happy'),
@@ -564,7 +564,7 @@ const SCENES: EduScene[] = [
     [
       N('Morning. Granny Brock is up first, in her big boots.'),
       GB('Not back through the Wood. We’ll go under it.'),
-      N('She takes a lantern. Down some steps. Down some more.'),
+      N('Drip, drip. She takes a lantern. Down some steps. Down some more.'),
       N('Here is an old tunnel made of bricks. It is low and round.'),
       N('Your Nubbin runs ahead. Then it runs back to check on you.'),
       GB('That one’s sensible. Goes ahead, comes back.', 'think'),
@@ -592,7 +592,7 @@ const SCENES: EduScene[] = [
       N('Light at the end of the tunnel! Out you come, by a field.'),
       N('The wood looks quiet now. Just trees.'),
       GB('Go home. Come in the day, if you like. Bring cake.', 'think'),
-      N('She goes back in. Clunk go the bolts.'),
+      N('She goes back in. Bonk go the bolts.'),
       DU('I’m a river person now. You can see what’s coming on a river.', 'soft'),
       MA('Otters can see you too!', 'happy'),
       DU('Otters are allowed.'),
@@ -626,7 +626,7 @@ const SCENES: EduScene[] = [
       ...RIVER_START,
       N('But the river is low. The stones stick out, all dry.'),
       MA('The water is too low. A whole hand too low.', 'think'),
-      N('Bump! The boat stops on the stones. Everybody out!'),
+      N('Bonk! The boat stops on the stones. Everybody out!'),
       N('You carry the boat. The water is so cold!'),
       DU('Cold? In August?', 'shock'),
     ],
@@ -668,7 +668,7 @@ const SCENES: EduScene[] = [
         prompt: [N('What goes all the way round an island?')],
         options: [
           opt('Water', [MA('Yes! An island has water all the way round.', 'happy')], true),
-          opt('A fence', [MA('No fence! Water goes all the way round an island.')]),
+          opt('A fence', [MA('A fence in the sea? Creak! Water goes all the way round an island.')]),
           opt('Trees', [MA('This one has trees on it. But water goes all the way round.')]),
         ],
         parentNote:
@@ -680,7 +680,7 @@ const SCENES: EduScene[] = [
   sc(
     's29-dusk',
     [
-      N('Evening. You walk home by the river, under a stripy cliff.'),
+      N('Evening. You walk home by the river, under a stripy cliff. Splash!'),
       N('Marina walks fast. She is hungry.'),
       N('Dusty stops. They sniff. They look up the cliff.'),
       DU('That’s my house! I can smell it. I haven’t been home for ages.', 'sad'),
@@ -890,7 +890,7 @@ const SCENES: EduScene[] = [
     's29-night',
     [
       N('Something shines in the lantern light, down on the mud.'),
-      N('Your Nubbin sees it first! It nearly falls in.'),
+      N('Your Nubbin sees it first! It nearly falls in. Plop!'),
       N('It is the blue glass bead!'),
       N('Next to it are little footprints, going up the river.'),
       MA('He was here! Let’s follow his footprints.', 'shock'),
@@ -921,7 +921,7 @@ const SCENES: EduScene[] = [
   sc(
     's29-island',
     [
-      N('The boat bumps the island. You step out.'),
+      N('The boat goes bonk on the island. You step out.'),
       N('The air is warm. It smells of stones and water.'),
       N('In the long grass is a soft flat hollow.'),
       N('And in the middle, curled up, is Portly! Safe and sound.'),
@@ -1088,7 +1088,7 @@ const SCENES: EduScene[] = [
       MA('Time the boat came out of the water for winter.', 'think'),
       N('You put three round logs on the bank. The boat rolls on them.'),
       DU('Boats are heavy when they’re not floating! It’s a trick!'),
-      MA('Heave! And heave! Mind your toes.'),
+      MA('Heave! And heave! Thump! Mind your toes.'),
       N('Your Nubbin rides in the boat all the way. Still boating!'),
     ],
     [

@@ -44,7 +44,7 @@ import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
-import { stepCollection } from './collection';
+import { noteNubbin, stepCollection } from './collection';
 import { stepDaily } from './daily';
 import { receiveNubbin, tradeAway } from './share';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
@@ -58,7 +58,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
-import { fastTravel } from './travel';
+import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
@@ -109,6 +109,8 @@ import {
   setDungeonLoading,
   stepDungeon,
 } from './dungeon';
+import { calmStray } from './dungeon-strays';
+import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -318,9 +320,8 @@ export function withRng<T>(world: World, fn: (rng: Rng) => T): T {
 export function applyCommand(world: World, cmd: Command, events: SimEvent[]): void {
   const start = events.length;
   applyCommandInner(world, cmd, events);
-  // Lane B: a Hollow bout that just ended finishes its encounter on the floor.
-  if (world.dungeon?.encounter && events.length > start)
-    hollowBattleEnded(world, events.slice(start), events);
+  // Lane B: a Hollow bout that just ended finishes its encounter, calm bout or rumble room.
+  if (world.dungeon && events.length > start) hollowBattleEnded(world, events.slice(start), events);
   // A side-story step waiting on this very action (a talk, a visit, a tap) is met.
   if (world.campaign) noteSideCommand(world, world.campaign, cmd);
   // Events from commands (a visit, a craft, a watering) count toward requests on the
@@ -530,6 +531,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
       n.hat = cmd.hat;
+      // Lane E, R0411: the book notes the hat or look.
+      noteNubbin(world, n, events);
       return;
     }
     case 'setSettings': {
@@ -783,6 +786,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'enterMouth':
       enterMouth(world, events);
       return;
+    // Lane B round 5: the stray's choice (R0281).
+    case 'strayCalm':
+      calmStray(world, cmd.id, events);
+      return;
+    case 'equipGear':
+      equipGear(world, cmd.itemId, cmd.nubbinId);
+      return;
+    case 'unequipGear':
+      unequipGear(world, cmd.itemId);
+      return;
     case 'stash':
       useStash(world, cmd.amount, events);
       return;
@@ -1004,6 +1017,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'fastTravel':
       fastTravel(world, cmd, events);
       break;
+    case 'travelAssist':
+      travelAssist(world, cmd.pos);
+      return;
     case 'teleport':
       teleport(world, cmd.pos);
       return;

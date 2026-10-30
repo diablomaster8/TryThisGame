@@ -215,7 +215,7 @@ const Q01 = quest(
     scene(
       'q01-second',
       [
-        N('You step towards the path. The tall hood holds up a paw.'),
+        N('Thump! You step towards the path. The tall hood holds up a paw.'),
         TH('Wait. There is a second thing.', 'think'),
         Y('You said one shrubbery!'),
         TH('Now we would like two. Put the new one up higher.'),
@@ -249,7 +249,7 @@ const Q01 = quest(
       [
         N('Two shrubberies. One low, one a little higher.'),
         N('A tiny stone path wiggles between them.'),
-        N('A beetle walks along it. It looks very pleased.'),
+        N('A beetle walks along it. Boing! It looks very pleased.'),
         TH('Oh. Oh, that is lovely.', 'soft'),
       ],
       [
@@ -267,7 +267,7 @@ const Q01 = quest(
     scene(
       'q01-complete',
       [
-        N('The hoods step aside. Then they step back, to look again.'),
+        N('Swish! The hoods step aside. Then they step back, to look again.'),
         TH('You may pass. Every day, if you like.'),
         Y('Will you stay here?'),
         TH('We have a shrubbery and a path. Of course we stay.', 'happy'),
@@ -317,7 +317,7 @@ const Q02 = quest(
         N('A plank bridge goes over the stream.'),
         N('In the middle stands a Nubbin in cardboard armour.'),
         N('A cardboard helmet. Two arm guards. Two knee pads.'),
-        N('A snail is slowly climbing up its leg.'),
+        N('A snail is slowly climbing up its leg. Squeak!'),
         Y('Hello! May we cross, please?'),
         DW('Nobody crosses my plank. Not one toe!', 'angry'),
         DW('I am Sir Dentwhistle. I have guarded it for three whole days!'),
@@ -373,7 +373,7 @@ const Q02 = quest(
     scene(
       'q02-scarf',
       [
-        N('Sir Dentwhistle wraps on a long woolly scarf.'),
+        N('Whoosh! Sir Dentwhistle wraps on a long woolly scarf.'),
         N('Round and round and round. Three times!'),
         DW('My mum knitted this. Nothing gets past the scarf.'),
         DW('She meant the cold. But still.', 'think'),
@@ -398,7 +398,7 @@ const Q02 = quest(
       [
         N('Hi-yah! Your Nubbin spins.'),
         N('The scarf unwinds and floats off down the stream.'),
-        N('Clatter, clatter! Off fall both cardboard arm guards.'),
+        N('Bonk, bonk! Off fall both cardboard arm guards.'),
         DW('Barely bothered. I was too warm anyway.', 'angry'),
         N('Its little round glasses steam up. It is cross!'),
       ],
@@ -422,7 +422,7 @@ const Q02 = quest(
     scene(
       'q02-glasses',
       [
-        N('Sir Dentwhistle wipes its glasses on its tummy.'),
+        N('Sir Dentwhistle wipes its glasses on its tummy. Squeak, squeak!'),
         DW('Last round. I still have my glasses and knee pads.'),
         DW('If I can’t see you, you can’t see me.', 'think'),
         Y('That’s not how seeing works!'),
@@ -448,7 +448,7 @@ const Q02 = quest(
     scene(
       'q02-round3',
       [
-        N('Hi-yah! Clonk, clonk! Off fall both knee pads.'),
+        N('Hi-yah! Bonk, bonk! Off fall both knee pads.'),
         N('The glasses fly off too. The snail goes round them.'),
         DW('I am fine! Never better! Which one of you said that?', 'shock'),
         N('It is talking to a fence post.'),
@@ -470,7 +470,7 @@ const Q02 = quest(
     scene(
       'q02-complete',
       [
-        N('Sir Dentwhistle sits down on the plank. Flump.'),
+        N('Sir Dentwhistle sits down on the plank. Thump.'),
         DW('You may cross. Not because you won. I just want a sit.', 'think'),
         N('You pick up the cardboard helmet and hold it out.'),
         DW('Keep it. I have lots more. At home. In a box.', 'sad'),
@@ -571,7 +571,7 @@ const Q03 = quest(
         N('Old Gorrel checks it on his sleeve.'),
         GO('Right. Bother.', 'think'),
         GO('Question two. What did your newest Nubbin eat for breakfast?'),
-        Y('Half a run fruit. The other half fell in the pond.'),
+        Y('Half a run fruit. The other half fell in the pond. Plop!'),
         GO('Right. And very sad.', 'sad'),
       ],
       [
@@ -587,7 +587,7 @@ const Q03 = quest(
       'q03-third',
       [
         GO('Question three.', 'think'),
-        N('He leans in. The ducks go quiet.'),
+        N('He leans in. The ducks go quiet. Squeak.'),
         GO('How fast can a Fly Nubbin fly, carrying a coconut?'),
         Y('I don’t know!'),
         GO('Nor do I. Nobody has ever answered.', 'think'),
@@ -673,7 +673,7 @@ const Q04 = quest(
       'q04-intro',
       [
         N('Clop. Clop-clop. Clop.'),
-        N('A Run Nubbin trots behind you, banging two coconut shells.'),
+        N('A Run Nubbin trots behind you, banging two coconut shells. Bonk!'),
         N('You stop. It stops. You walk. It clops!'),
         N('Warden Ollery leans over the lookout wall.'),
         OL('Coconut shells? Up here? How odd!'),
@@ -731,7 +731,7 @@ const Q04 = quest(
     scene(
       'q04-return',
       [
-        N('Back to the wall you go. Clop, clop. Right behind you.'),
+        N('Back to the wall you go. Clop, clop, bonk. Right behind you.'),
         Y('A Fly Nubbin carried a coconut up from the beach!'),
         OL('All that way? With those little wings?', 'shock'),
         OL('Maybe the shells should go back to the beach.'),
@@ -764,7 +764,7 @@ const Q04 = quest(
         N('The Run Nubbin tucks the shells under its arm.'),
         N('It gives you a long, happy look.'),
         OL('That’s settled, then. Clop away, little one!', 'happy'),
-        N('Clop. Clop-clop. Off it goes.'),
+        N('Clop. Clop-clop. Boing! Off it goes.'),
       ],
       [
         ask(
@@ -782,7 +782,7 @@ const Q04 = quest(
       'q04-complete',
       [
         N('The Run Nubbin is called Trotwell. It clops all round the Grove.'),
-        N('Soon every Nubbin wants a go!'),
+        N('Soon every Nubbin wants a go! Whee!'),
         OL('I like the noise. It keeps me company.', 'soft'),
         N('Trotwell teaches you to trot. Lots of knees!'),
         N('Now, when you run, you can sound like a horse!'),
@@ -812,7 +812,7 @@ const Q05 = quest(
     },
     'q05-s2': {
       goal: 'Take the Hand Melon to the ledge. Count to three, then toss it gently.',
-      hint: 'Tap Count on each beat: one, two, three. Then throw.',
+      hint: 'Tap Do it. Count with the beat: one, two, three!',
     },
   },
   [
@@ -858,7 +858,7 @@ const Q05 = quest(
       [
         SP('A rabbit beat ALL of them? Oh, I love that rabbit!', 'happy'),
         SP('Leave it with me. One sun fruit, a ribbon, a little fizz.'),
-        N('Crackle! Flash! A smell of toasty fruit.'),
+        N('Crackle! Pop! A smell of toasty fruit.'),
         SP('Ta-da! Nearly ready.'),
       ],
       [
@@ -876,7 +876,7 @@ const Q05 = quest(
     scene(
       'q05-melon',
       [
-        SP('Here it is! The Hand Melon!', 'happy'),
+        SP('Ding! Here it is! The Hand Melon!', 'happy'),
         N('It is a sun fruit with a ribbon and a paper tag. It hums.'),
         Y('It’s not a melon.'),
         SP('Melon sounds braver. Read the tag!'),
@@ -925,7 +925,7 @@ const Q05 = quest(
     scene(
       'q05-complete',
       [
-        N('The rabbit hops through the confetti, munching.'),
+        N('The rabbit hops through the confetti. Munch, munch!'),
         N('It stops at your feet and looks up at you.'),
         RO('I had a whole plan. It had lots of shouting.', 'think'),
         RO('But the rabbit only wanted its clover. We kept bothering it.', 'soft'),
@@ -963,7 +963,7 @@ const Q06 = quest(
       'q06-intro',
       [
         N('Far away stands an old wall with a little tower.'),
-        N('On top is a man with a huge curly moustache.'),
+        N('On top is a man with a huge curly moustache. Boing!'),
         PA('Hello down there! I do not like your hat!', 'happy'),
         Y('I’m not wearing a hat.'),
         PA('I do not like that either!'),
@@ -1001,7 +1001,7 @@ const Q06 = quest(
       [
         N('The wooden rabbit is twice as tall as you!'),
         N('It has big flat ears and a worried face.'),
-        N('It has four round wheels.'),
+        N('It has four round wheels. Squeak, squeak!'),
         N('There is a little door in its tummy. Nobody knows why.'),
       ],
       [
@@ -1020,7 +1020,7 @@ const Q06 = quest(
     scene(
       'q06-plan',
       [
-        N('The wooden rabbit waits outside the Workshop.'),
+        N('Creak! The wooden rabbit waits outside the Workshop.'),
         Y('We push it to his wall and leave it at the gate.'),
         N('Your Nubbins nod. They know it is a plan.'),
         N('They don’t know what the plan is.'),
@@ -1082,7 +1082,7 @@ const Q06 = quest(
         N('“Too big for my yard. Nobody inside. Nine out of ten for ears.”'),
         N('Then, very small: “Nobody ever visits my wall. Please come again.”'),
         N('Maybe he was lonely all along.'),
-        N('The little tummy door swings open.'),
+        N('The little tummy door swings open. Creak!'),
         N('You and your Nubbin squeeze in and peek out. Perfect for photos!'),
       ],
       [
@@ -1123,7 +1123,7 @@ const Q07 = quest(
         N('It is as tall as your knee.'),
         N('It has a lolly-stick drawbridge and two short towers.'),
         PX('Look, everyone! The Grand Palace of the Hill!', 'happy'),
-        N('Byte walks past with a cup of tea.'),
+        N('Byte walks past with a cup of tea. Slurp!'),
         BY('Hmm. It’s smaller than a sheep.'),
         PX('SHH!', 'angry'),
         PX('It needs stone towers. Will you help?'),
@@ -1151,7 +1151,7 @@ const Q07 = quest(
     scene(
       'q07-stone',
       [
-        N('You bring Pixel an armful of stones.'),
+        N('You bring Pixel an armful of stones. Bonk, bonk!'),
         N('Pixel holds each one up, like treasure.'),
         PX('This one is a tower. This one is a wall.'),
         PX('And this one is just a nice stone. Keep it!', 'happy'),
@@ -1172,7 +1172,7 @@ const Q07 = quest(
       'q07-towers',
       [
         PX('Now the towers. Don’t breathe on them!', 'think'),
-        N('You build together. Your Nubbin hands up stones, one by one.'),
+        N('You build together. Bonk! Your Nubbin hands up stones, one by one.'),
         PX('Six stones for this tower. Six for that one.'),
         BY('You moved that one back where it was.'),
         PX('I moved it MORE where it was.'),
@@ -1191,7 +1191,7 @@ const Q07 = quest(
       'q07-finished',
       [
         N('The last stone goes on. Two tall towers!'),
-        N('A flag made from a sweet wrapper flaps on top.'),
+        N('A flag made from a sweet wrapper goes swish on top.'),
         PX('Grove! The Grand Palace is FINISHED!', 'happy'),
         N('The hills call back: “…ished!”'),
         N('Pixel thinks that is clapping.'),
@@ -1209,7 +1209,7 @@ const Q07 = quest(
       [
         N('That evening, three Nubbins come up the hill.'),
         N('One puts a leaf on its head, like a crown.'),
-        N('One stands on the drawbridge and points. Ta-da!'),
+        N('One stands on the drawbridge and points. Ding! Ta-da!'),
         N('One lies down and plays a dragon. Or a cloud.'),
         PX('They’re putting on a play. In my castle!', 'soft'),
         BY('Still quite sm…', 'think'),
@@ -1250,7 +1250,7 @@ const Q08 = quest(
     scene(
       'q08-intro',
       [
-        N('In the Keepers’ Hall, there is a meeting.'),
+        N('Ding, dong! In the Keepers’ Hall, there is a meeting.'),
         N('Three Keepers. Four chairs. Lots of paper.'),
         RG('Order! First thing: all this building!', 'angry'),
         FQ('Fences. Paths. Something with a drawbridge.'),
@@ -1305,7 +1305,7 @@ const Q08 = quest(
     scene(
       'q08-invite',
       [
-        N('A note arrives, folded very small.'),
+        N('A note arrives with a pop, folded very small.'),
         N('“Meeting! Bring a crop to look at. From Reggie.”'),
         N('Under it: “Bring biscuits too. Frannie.”'),
         N('Another note: “Ignore that. MY meeting is the real one. Mags.”'),
@@ -1325,7 +1325,7 @@ const Q08 = quest(
       'q08-delivered',
       [
         N('Reggie takes the crop. He turns it over.'),
-        N('He sniffs it. He holds it up to the light.'),
+        N('He sniffs it. Crunch! A tiny bite. He holds it to the light.'),
         RG('Hmm. It’s very good.', 'angry'),
         RG('I don’t like how good it is.'),
       ],
@@ -1341,7 +1341,7 @@ const Q08 = quest(
       'q08-complete',
       [
         RG('Fine. The water bridge. What has it done for us?', 'angry'),
-        FQ('The Nubbins love the spray.'),
+        FQ('The Nubbins love the spray. Splash!'),
         MG('Frogs moved in. I like frogs.'),
         FQ('It hums at night. Very calming.'),
         MG('My cousin can’t trip on it. It’s up high!'),
@@ -1389,8 +1389,8 @@ const Q09 = quest(
       'q09-intro',
       [
         N('On your evening walk, your bag strap snaps.'),
-        N('A little gourd rolls into the ditch. Bump, bump.'),
-        N('You reach for it. Your shoe comes off in the mud. Schlurp!'),
+        N('A little gourd rolls into the ditch. Bump, bump, plop.'),
+        N('You reach for it. Your shoe comes off in the mud. Slurp!'),
         N('You are tired. You leave them both for later.'),
         N('You look back. Nubbins are gathering round them.'),
         N('Now they follow you. Tiptoe, tiptoe.'),
@@ -1489,7 +1489,7 @@ const Q09 = quest(
     scene(
       'q09-hats',
       [
-        N('You put the gourd on your head.'),
+        N('You put the gourd on your head. Bonk!'),
         N('Then you balance the shoe on top of the gourd.'),
         N('Both groups gasp. Both groups are happy!'),
         BT('Follow the Keeper!', 'happy'),
@@ -1511,7 +1511,7 @@ const Q09 = quest(
       [
         N('The whole crowd follows you in one long, wobbly line.'),
         N('You walk to the pond. They walk to the pond.'),
-        N('You turn round. They turn round. Bump!'),
+        N('You turn round. They turn round. Bonk!'),
         N('You stop. They stop, sit, and fall asleep in a heap.'),
         N('Barty is on top. Snore.'),
         MB('Thank you, love. Keep the gourd and the shoe.', 'soft'),
@@ -1536,7 +1536,7 @@ const Q10 = quest(
   {
     'q10-s1': {
       goal: 'Offer Harrow less than he asks for the brass bell.',
-      hint: 'Tap the bell and choose Haggle. Start with a small number.',
+      hint: 'Tap Do it. Say a small number. A very small one.',
     },
     'q10-s2': {
       goal: 'Haggle with Harrow for three rounds.',
@@ -1550,7 +1550,7 @@ const Q10 = quest(
         N('There’s a new stall, full of odds and ends.'),
         N('Behind it sits Harrow, with a pencil behind each ear.'),
         HT('Morning! Everything a Grove could want!', 'happy'),
-        N('You spot a little brass bell. Your Nubbin wants it.'),
+        N('You spot a little brass bell. Ding! Your Nubbin wants it.'),
         Y('How much is the bell?'),
         HT('Twenty Shells.'),
         N('You count out twenty Shells.'),
@@ -1577,7 +1577,7 @@ const Q10 = quest(
       [
         Y('…Eight Shells?'),
         HT('EIGHT?', 'shock'),
-        N('He clutches his heart. He clutches the bell.'),
+        N('He clutches his heart. He clutches the bell. Ding!'),
         HT('Now we’re talking! Lovely! Go on!', 'happy'),
       ],
       [
@@ -1593,7 +1593,7 @@ const Q10 = quest(
       [
         HT('Three rounds. I go down. You go up.', 'think'),
         HT('Not too quick. Not too slow. Just right.'),
-        N('Your Nubbin climbs on the counter to watch.'),
+        N('Your Nubbin climbs on the counter. Boing! It watches.'),
         HT('Twenty. Because I like your face.'),
         Y('Ten.'),
         HT('Ten? For a BELL? Eighteen!', 'angry'),
@@ -1624,7 +1624,7 @@ const Q10 = quest(
       [
         HT('Fourteen. My last offer. Oh, my poor bell!', 'sad'),
         Y('Fourteen it is.'),
-        N('You shake hands. Harrow’s eyes are a bit wet.'),
+        N('You shake hands. Ding! Harrow’s eyes are a bit wet.'),
         HT('It’s the wind. Just the wind.', 'happy'),
       ],
       [
@@ -1645,7 +1645,7 @@ const Q10 = quest(
         N('You give Harrow fourteen Shells. He counts them twice.'),
         HT('That was a proper bit of business!', 'happy'),
         N('He gives you a little gourd too. Free!'),
-        N('Your Nubbin rings the bell. Ting-a-ling!'),
+        N('Your Nubbin rings the bell. Ding-a-ling!'),
         HT('You can haggle at the shop now too. Just a little.', 'think'),
         N('Now the shop lets you haggle, for a bit off.'),
       ],
@@ -1693,7 +1693,7 @@ const Q11 = quest(
       'q11-intro',
       [
         N('The bathhouse is warm and steamy.'),
-        N('In the pool floats a very round Nubbin. Bob, bob.'),
+        N('In the pool floats a very round Nubbin. Bob, bob, plop.'),
         N('This is Gorbold. Fruit stones float all around it.'),
         GB('More.', 'happy'),
         N('Mr Crisp appears, with a shiny silver tray.'),
@@ -1745,7 +1745,7 @@ const Q11 = quest(
         CR('For you, Gorbold. One tiny slice.', 'soft'),
         GB('Full.', 'sad'),
         CR('It is thinner than a leaf.'),
-        N('Gorbold looks at the slice. The slice looks at Gorbold.'),
+        N('Gorbold looks at the slice. Gulp! The slice looks at Gorbold.'),
         N('The steam goes very still.'),
       ],
       [
@@ -1832,7 +1832,7 @@ const Q12 = quest(
       [
         N('A parcel arrives! Inside is a Nubbin.'),
         N('The note says: “One quiet Nubbin. Do not overfeed.”'),
-        N('Your Nubbins poke it. It does not move.'),
+        N('Your Nubbins poke it. Boing. It does not move.'),
         N('One of its eyes is a button!'),
         N('You take it back to the shop.'),
         Y('This Nubbin doesn’t move.'),
@@ -1867,7 +1867,7 @@ const Q12 = quest(
         N('Clue one: you offer it a heart fruit. It won’t eat.'),
         N('Every Nubbin loves heart fruit!'),
         N('Clue two: you tickle its feet. Nothing.'),
-        N('Your own Nubbin giggles instead!'),
+        N('Your own Nubbin goes hee hee instead!'),
         N('Clue three: it floats in the pond. A price tag bobs up.'),
       ],
       [
@@ -1925,7 +1925,7 @@ const Q12 = quest(
       [
         FM('All right! It’s a toy. It was always a toy.', 'sad'),
         FM('Here are your Shells back.'),
-        FM('And I’ll start a returns counter. The first in the valley!'),
+        FM('And I’ll start a returns counter. Ding! The first in the valley!'),
         N('He looks lighter now. Telling the truth helps.'),
       ],
       [
@@ -1946,7 +1946,7 @@ const Q12 = quest(
         N('Mr Mull counts the Shells into your hand.'),
         FM('Keep the toy, though. I’ve grown fond of it.', 'soft'),
         N('You carry it home.'),
-        N('Your Nubbins take it to the nest and snuggle round it.'),
+        N('Your Nubbins take it to the nest. Plop! They snuggle round it.'),
         N('By night, they are all fast asleep, cuddling the toy.'),
         N('Now the shop takes things back, if you bring them within a day.'),
       ],
@@ -1985,7 +1985,7 @@ const Q13 = quest(
     scene(
       'q13-intro',
       [
-        N('A little booth stands at the crossroads.'),
+        N('Ding! A little booth stands at the crossroads.'),
         N('The sign says: PRIZES FOR WALKS. VERY SILLY ONLY.'),
         N('Inside is Mr Strutt, in a round black hat.'),
         ST('Most walks here are so sensible. It keeps me awake.', 'sad'),
@@ -2009,7 +2009,7 @@ const Q13 = quest(
     scene(
       'q13-first',
       [
-        N('You do your walk. It has a hop in it.'),
+        N('You do your walk. It has a boing in it.'),
         N('You are proud of the hop.'),
         ST('Hmm. That’s quite a sensible walk.'),
         ST('The hop is good. The rest was just walking.', 'sad'),
@@ -2029,7 +2029,7 @@ const Q13 = quest(
         ST('More knees! Up, up, up!'),
         ST('Then do something odd with your elbows.'),
         ST('And once, walk backwards. Look as if you mean it.'),
-        N('Your Nubbin tries. It falls over and stays lying down.'),
+        N('Your Nubbin tries. Thump! It falls over and stays lying down.'),
         ST('Now THAT is promising!', 'happy'),
       ],
       [
@@ -2056,7 +2056,7 @@ const Q13 = quest(
     scene(
       'q13-approved',
       [
-        N('You walk. Hop! Crouch! Spin!'),
+        N('You walk. Hop! Crouch! Spin! Whee!'),
         N('Backwards! Elbows! Ta-da!'),
         N('Mr Strutt stands up slowly. He takes off his hat.'),
         ST('The silliest walk since Tuesday. Yes!', 'happy'),
@@ -2076,7 +2076,7 @@ const Q13 = quest(
     scene(
       'q13-complete',
       [
-        N('He stamps your form. Stamp! Stamp! STAMP!'),
+        N('He stamps your form. Thump! Thump! THUMP!'),
         ST('Approved! Walk silly, often, and everywhere!', 'happy'),
         N('He gives you a spare round hat. It’s too big. It’s perfect.'),
         ST('You don’t need a form to be silly, you know.', 'soft'),
@@ -2117,7 +2117,7 @@ const Q14 = quest(
     scene(
       'q14-intro',
       [
-        N('You are brushing a Nubbin. Bang! The gate flies open.'),
+        N('You are brushing a Nubbin. Bonk! The gate flies open.'),
         N('In sweep three Keepers in long red robes. One trips.'),
         PO('Surprise! We are the Nap Patrol!', 'angry'),
         PO('Surprise is our best tool. Surprise, and cushions…', 'happy'),
@@ -2152,7 +2152,7 @@ const Q14 = quest(
     scene(
       'q14-chair',
       [
-        N('You put the chair by the nest. It’s big, red and squashy.'),
+        N('You put the chair by the nest. Plop! It’s big, red and squashy.'),
         TF('Behold! The comfy chair.', 'happy'),
         N('Bolster holds up the cushions. Tuft fluffs the chair.'),
         N('Fluff, fluff!'),
@@ -2203,7 +2203,7 @@ const Q14 = quest(
     scene(
       'q14-asleep',
       [
-        N('The Nubbin sinks into the chair.'),
+        N('The Nubbin sinks into the chair. Plop!'),
         N('Bolster tucks in a cushion. Tuft lays a blanket.'),
         N('It is asleep before the blanket lands.'),
         N('Snore… snore… like a tiny kettle.'),
@@ -2223,7 +2223,7 @@ const Q14 = quest(
     scene(
       'q14-complete',
       [
-        N('Two hours later, the Nubbin wakes. Stretch! It glows.'),
+        N('Two hours later, the Nubbin wakes. Stretch! Pop! It glows.'),
         PO('Ha! Look at it. All better!', 'happy'),
         BO('The best nap we ever gave.', 'soft'),
         TF('Let’s go. Three more Groves to surprise before tea.'),
@@ -2279,7 +2279,7 @@ const Q15 = quest(
     scene(
       'q15-intro',
       [
-        N('A smart green stall has opened by the bridge.'),
+        N('Ding! A smart green stall has opened by the bridge.'),
         N('The sign says: EVERY FRUIT IN THE VALLEY!'),
         N('Mr Dibble beams, in a stripy apron and a straw hat.'),
         DB('Good morning! Any fruit you like!', 'happy'),
@@ -2314,7 +2314,7 @@ const Q15 = quest(
       'q15-six',
       [
         Y('Fly fruit?'),
-        DB('Flew away.'),
+        DB('Flew away. Whoosh!'),
         Y('Power fruit? Stamina fruit? Sun fruit?'),
         DB('Lifted. Eaten. And the sun fruit set. They do that.', 'sad'),
         N('That’s six fruits. And still no fruit!'),
@@ -2332,7 +2332,7 @@ const Q15 = quest(
       'q15-twelve',
       [
         N('You keep asking. Mr Dibble keeps smiling.'),
-        N('Behind the stall, a Nubbin plays three notes. Plink, plonk, plunk.'),
+        N('Behind the stall, a Nubbin plays three notes. Plink, plonk, ding.'),
         Y('Moon fruit?'),
         DB('Only at night. And at night I’m closed.'),
         Y('Heart fruit?'),
@@ -2354,7 +2354,7 @@ const Q15 = quest(
       'q15-confess',
       [
         N('By fruit number twelve, Mr Dibble stops smiling.'),
-        N('He takes off his hat and holds it.'),
+        N('He takes off his hat. Pop! He holds it.'),
         DB('I have to tell you something. There’s no fruit. Not one pip.', 'sad'),
         DB('I just liked having a stall.', 'sad'),
         Y('A fruit stall with no fruit?'),
@@ -2390,7 +2390,7 @@ const Q15 = quest(
       'q15-complete',
       [
         DB('I have no fruit. But I know lots about fruit.', 'think'),
-        N('He brings out a big page. Every fruit, drawn beautifully.'),
+        N('He brings out a big page. Whoosh! Every fruit, drawn beautifully.'),
         DB('Where it grows. What it does. Who likes it best.'),
         N('It goes in your Collection book. It fits perfectly.'),
         DB('Take the straw hat too.', 'soft'),
@@ -2418,7 +2418,7 @@ const Q16 = quest(
   {
     'q16-s1': {
       goal: 'Pay Byte 5 Shells for an argument.',
-      hint: 'Tap Byte’s booth and choose Pay.',
+      hint: 'Bring 5 Shells. Then tap Do it.',
     },
     'q16-s2': {
       goal: 'Win the argument before the sand runs out.',
@@ -2430,7 +2430,7 @@ const Q16 = quest(
       'q16-intro',
       [
         N('Byte has a booth. The sign says: ARGUMENTS. 5 SHELLS.'),
-        N('On the counter is a sand timer.'),
+        N('On the counter is a sand timer. Ding!'),
         N('Next door is a booth called COMPLAINTS. Also Byte, in another hat.'),
         BY('Good afternoon. Would you like an argument?', 'think'),
         Y('What kind?'),
@@ -2454,7 +2454,7 @@ const Q16 = quest(
       'q16-flip',
       [
         N('Byte turns the sand timer over.'),
-        N('The sand starts to fall. Shhh.'),
+        N('The sand starts to fall. Swish.'),
         BY('Your minute starts now.'),
         BY('Please begin.'),
       ],
@@ -2505,7 +2505,7 @@ const Q16 = quest(
         BY('Yes, I do.'),
         Y('Saying “no” isn’t a reason. Tell me why!'),
         N('Byte opens his mouth. Then he stops.'),
-        N('He looks at the sand timer for help.'),
+        N('He looks at the sand timer for help. Ding!'),
         BY('…That’s fair.', 'shock'),
       ],
       [
@@ -2538,7 +2538,7 @@ const Q16 = quest(
     scene(
       'q16-complete',
       [
-        N('The last grain of sand falls.'),
+        N('The last grain of sand falls. Plop.'),
         BY('Nobody has won before. They just get cross.', 'think'),
         BY('Saying no is easy. I called it thinking.', 'soft'),
         BY('Keep the timer. I have lots of sand.'),
@@ -2630,7 +2630,7 @@ const Q17 = quest(
       'q17-performance',
       [
         PI('Now the whole dance! In front of everyone!', 'happy'),
-        N('Nubbins sit on the bank to watch. One has a snack.'),
+        N('Nubbins sit on the bank to watch. One has a snack. Crunch!'),
         GR('Keep to the beat. Whatever happens.'),
         N('Grampus brings out a second rubber fish. It is VERY big.'),
         Y('That’s not the same fish!'),
@@ -2677,7 +2677,7 @@ const Q17 = quest(
     scene(
       'q17-complete',
       [
-        N('You climb out. Pilchard hands you a towel.'),
+        N('Splash! You climb out. Pilchard hands you a towel.'),
         N('Grampus hands you the big finish fish.'),
         GR('Whoever falls in keeps the big fish. That’s the rule.', 'soft'),
         PI('It’s great for knocking fruit out of trees.'),
@@ -2708,7 +2708,7 @@ const Q18 = quest(
   {
     'q18-s1': {
       goal: 'Peel the banana before the Nubbin can wave it.',
-      hint: 'When the banana goes up, tap Peel.',
+      hint: 'When the banana goes up, tap Do it.',
     },
     'q18-s2': {
       goal: 'Catch every raspberry in the bowl.',
@@ -2724,7 +2724,7 @@ const Q18 = quest(
       'q18-intro',
       [
         N('In the clearing, a Keeper with a bushy moustache marches about.'),
-        N('Three Nubbins sit on logs. They look a bit nervous.'),
+        N('Three Nubbins sit on logs. Creak! They look a bit nervous.'),
         SG('YOU! Late! Sit on a log!', 'angry'),
         SG('Sergeant Grimble. Tonight: what to do when someone has fruit!'),
         N('A Nubbin puts up its paw.'),
@@ -2750,7 +2750,7 @@ const Q18 = quest(
       'q18-banana',
       [
         N('A Nubbin waves a banana at you.'),
-        N('You peel it. Zip, zip, zip!'),
+        N('You peel it. Zip, zip, pop!'),
         N('The Nubbin looks at the bare banana. Oops.'),
         N('It sits back down, a bit embarrassed.'),
         SG('PERFECT! A peeled banana is a beaten banana!', 'happy'),
@@ -2767,7 +2767,7 @@ const Q18 = quest(
       'q18-raspberry',
       [
         SG('Next, the raspberry. Small. Fast. Red.', 'think'),
-        SG('There is never just one. There are lots!'),
+        SG('There is never just one. Plop, plop, plop! Lots!'),
         N('A Nubbin stands up with a bowl of raspberries.'),
         SG('Hold out a bowl. Catch them all. None on the floor!'),
         Y('Why not on the floor?'),
@@ -2819,7 +2819,7 @@ const Q18 = quest(
           [N('How do we throw something to a friend?')],
           [
             best('Gently, when they are looking', SG('Correct! Gentle, and ready. Nobody gets bonked.', 'happy')),
-            opt('Hard, when they’re not looking', SG('No! That could hurt. Gently, when they’re looking.')),
+            opt('Hard, when they’re not looking', SG('Sneaky and hard? Eek! That could hurt. Gently, when they’re looking.')),
           ],
         ),
       ],
@@ -2832,7 +2832,7 @@ const Q18 = quest(
       'q18-catch',
       [
         N('You toss the pineapple, nice and gently.'),
-        N('Your Nubbin runs, jumps and catches it. Oof!'),
+        N('Your Nubbin runs, jumps and catches it. Thump!'),
         N('It holds it up like a prize.'),
         N('The pineapple looks happy about it.'),
       ],
@@ -2886,7 +2886,7 @@ const Q19 = quest(
     scene(
       'q19-intro',
       [
-        N('A banner says: THE GRAND CUP RACE. EVERYONE WELCOME!'),
+        N('Ding! A banner says: THE GRAND CUP RACE. EVERYONE WELCOME!'),
         MT('Roll up! Three runners so far. We need one more!', 'happy'),
         N('The three runners stand at the start. One faces the wrong way.'),
         BU('I say. Is this the start or the end?', 'think'),
@@ -2937,7 +2937,7 @@ const Q19 = quest(
         MT('Ready… steady… GO!', 'happy'),
         N('You run. Behind you, nobody else moves.'),
         MT('Bunty is checking which way is forwards!', 'shock'),
-        MT('Piers is tying his lace to Algernon’s lace!'),
+        MT('Piers is tying his lace to Algernon’s lace! Boing!'),
         N('Piers jumps the matchboxes. Way too high!'),
         AL('I found the start line! Hello, start line!', 'happy'),
         N('Bunty reaches the sleeping Keeper and taps their shoulder.'),
@@ -2968,7 +2968,7 @@ const Q19 = quest(
       'q19-win',
       [
         MT('The Keeper wins!', 'happy'),
-        N('Far behind, Algernon waves goodbye to the start line.'),
+        N('Far behind, Algernon waves goodbye to the start line. Whee!'),
         N('Bunty comes last, arm in arm with the sleeping Keeper.'),
         N('The Keeper is still asleep!'),
       ],
@@ -2997,7 +2997,7 @@ const Q19 = quest(
     scene(
       'q19-complete',
       [
-        N('The runners come to say well done.'),
+        N('Thump, thump! The runners come to say well done.'),
         N('Two of them say it to a fence post first.'),
         PR('Jolly fast! We didn’t know people went that way!', 'happy'),
         BU('Here’s your prize. A tall top hat!'),
@@ -3072,7 +3072,7 @@ const Q20 = quest(
       [
         N('Run, swim, fly, power, stamina, sun, moon, heart.'),
         N('And the palm tree by the sea.'),
-        N('Each tree rustles when you tap it. It feels noticed!'),
+        N('Each tree goes bonk when you tap it. It feels noticed!'),
         N('There is no larch. You check twice.'),
       ],
       [
@@ -3093,7 +3093,7 @@ const Q20 = quest(
       [
         AR('Now the hard class. A tree from far away.', 'think'),
         N('He picks up his board and walks off. And off. Over the hill.'),
-        N('A tiny Mr Arbour pops up on the far hill.'),
+        N('A tiny Mr Arbour goes pop! on the far hill.'),
         AR('Can you see it?', 'happy'),
         N('The board looks tiny. It shows… a larch, of course.'),
         AR('Take a photo! I brought a sandwich!'),
@@ -3133,7 +3133,7 @@ const Q20 = quest(
     scene(
       'q20-complete',
       [
-        N('Mr Arbour comes back, puffing.'),
+        N('Thump, thump! Mr Arbour comes back, puffing.'),
         N('He looks at your photo for a long time.'),
         AR('Yes. That is a larch.', 'soft'),
         AR('Most people never look up at their trees. You tapped them all.', 'think'),
@@ -3223,7 +3223,7 @@ const Q21 = quest(
       [
         N('In the reeds, you find a tiny knitted scarf.'),
         N('It’s bear-sized. And a bit damp.'),
-        N('Mr. Tweed hurries over and hugs it.'),
+        N('Mr. Tweed hurries over and hugs it. Squeak!'),
         TW('Ohh.', 'soft'),
         N('Then he sulks. His whole face folds up.'),
       ],
@@ -3242,7 +3242,7 @@ const Q21 = quest(
     scene(
       'q21-sulk',
       [
-        N('Mr. Tweed sits on a rock and sulks.'),
+        N('Plop! Mr. Tweed sits on a rock and sulks.'),
         N('Bottom lip out. Arms folded. A big sulk.'),
         N('He peeks up the hill. Then away. Then up again.'),
         N('A wild Nubbin is waddling uphill, holding something brown!'),
@@ -3268,7 +3268,7 @@ const Q21 = quest(
         N('At the top of the hill is a nest of grass.'),
         N('A wild Nubbin is fast asleep, cuddling a small brown bear.'),
         N('The bear has one chewed ear.'),
-        N('Shh. Tiptoe, tiptoe.'),
+        N('Shh. Tiptoe, tiptoe. Not a squeak!'),
       ],
       [
         notice(
@@ -3296,7 +3296,7 @@ const Q21 = quest(
         N('The bear is very light.'),
         N('Your Nubbin carries it, very carefully.'),
         N('Down by the pond, Mr. Tweed is still sulking.'),
-        N('Your Nubbin hides the bear behind its back.'),
+        N('Your Nubbin hides the bear behind its back. Pop!'),
         N('The bear is wider than its back!'),
         Y('Ready? Surprise!', 'happy'),
       ],
@@ -3317,7 +3317,7 @@ const Q21 = quest(
       [
         N('Mr. Tweed sees the bear. His face opens up like a deckchair.'),
         TW('Bear! Oh, Bear!', 'happy'),
-        N('He hugs it. He checks one ear. Then the other.'),
+        N('He hugs it. Squeak! He checks one ear. Then the other.'),
         N('He tucks it in his top pocket. Only its head peeks out.'),
         N('Your Nubbin looks at the bear, wishing.'),
         N('Mr. Tweed digs in his pockets… and his sock!'),
@@ -3354,7 +3354,7 @@ const Q22 = quest(
     scene(
       'q22-shop',
       [
-        N('At the market, Mr. Tweed buys a big green armchair.'),
+        N('Thump! At the market, Mr. Tweed buys a big green armchair.'),
         N('His hand cart is tiny. About the size of the cushion.'),
         N('He lifts one end. Then the other end. Still too big!'),
         TW('Hnn.', 'think'),
@@ -3385,7 +3385,7 @@ const Q22 = quest(
         N('The chair sits on the cart, tied at all four corners.'),
         N('And once, by mistake, to a lamp post!'),
         N('You untie the lamp post. Mr. Tweed climbs into the chair.'),
-        N('He pushes the ground with a long stick. Off they roll!'),
+        N('He pushes the ground with a long stick. Off they roll! Whee!'),
       ],
       [
         ask(
@@ -3454,7 +3454,7 @@ const Q22 = quest(
     scene(
       'q22-complete',
       [
-        N('Mr. Tweed looks at the chair. Then at his little door.'),
+        N('Mr. Tweed looks at the chair. Then at his little door. Creak!'),
         N('The chair won’t fit through! He measures with his hands. Three times.'),
         TW('Hnn.', 'sad'),
         N('He pats the chair and pushes it to you. It’s yours!'),
@@ -3493,7 +3493,7 @@ const Q23 = quest(
       'q23-patch',
       [
         N('It’s harvest time. The pumpkins are big and orange.'),
-        N('One pumpkin is moving! Left. Right. Bump! “Mff.”'),
+        N('One pumpkin is moving! Left. Right. Bonk! “Mff.”'),
         N('Mr. Tweed knocks on it. Knock, knock.'),
         N('The pumpkin knocks back!'),
         TW('Oh!', 'shock'),
@@ -3658,7 +3658,7 @@ const Q24 = quest(
       [
         N('Left. Right. Under the desk!'),
         N('Buttons follows the paper with Buttons’ whole body…'),
-        N('And falls off its chair. Bump!'),
+        N('And falls off its chair. Thump!'),
         N('Mr. Tweed falls over too.'),
         IN('Buttons! Are you all right?', 'shock'),
         N('Buttons is fine. But Buttons’ paper is still empty.'),
@@ -3696,7 +3696,7 @@ const Q24 = quest(
         IN('Two passes! Well done!', 'happy'),
         IN('Buttons, that’s the roundest circle I’ve ever seen. Nearly.'),
         N('Buttons holds its paper up to Mr. Tweed.'),
-        N('Both arms. Very proud.'),
+        N('Both arms. Very proud. Ding!'),
       ],
       [
         ask(
@@ -3713,7 +3713,7 @@ const Q24 = quest(
     scene(
       'q24-complete',
       [
-        N('Mr. Tweed lifts Buttons up high and walks round the room.'),
+        N('Mr. Tweed lifts Buttons up high. Whee! He walks round the room.'),
         IN('Mr. Tweed. Please put the Nubbin down.'),
         N('He shakes everyone’s hand. Even Mrs Inkwell’s.'),
         IN('I did not offer it.'),
@@ -3794,7 +3794,7 @@ const Q25 = quest(
       [
         N('Step by step, or splash by splash, he gets down.'),
         N('The last bit is mostly sliding. Wheee!'),
-        N('He lands in the shallow water. Splosh!'),
+        N('He lands in the shallow water. Splash!'),
         N('The bird is still on his head.'),
         TW('Mm!', 'happy'),
       ],
@@ -3815,7 +3815,7 @@ const Q25 = quest(
       [
         N('Mr. Tweed dries off with a tiny towel.'),
         N('He looks at the high ledge. Then at the low rock by the pond.'),
-        N('He mimes: saw, hammer, bounce. A low diving board!'),
+        N('He mimes: saw, hammer, boing. A low diving board!'),
         TW('Small.', 'happy'),
         N('Your Nubbin bounces on the spot. It wants to go first.'),
         N('Mr. Tweed pulls a plank out of his towel!'),
@@ -3872,7 +3872,7 @@ const Q26 = quest(
       'q26-bench',
       [
         N('Mr. Tweed sits on his bench by the pond.'),
-        N('He opens his coat. Out comes lunch!'),
+        N('He opens his coat. Pop! Out comes lunch!'),
         N('Bread from his sleeve. Lettuce from his pocket.'),
         N('Jam from near his knee. A tomato from under his hat!'),
         N('Butter from his top pocket. Of course.'),
@@ -3905,7 +3905,7 @@ const Q26 = quest(
       'q26-sandwich',
       [
         N('Bread. Butter. Lettuce. Tomato. Pepper. Bread on top.'),
-        N('Pat, pat. A sandwich!'),
+        N('Pat, pat. Ding! A sandwich!'),
         N('Mr. Tweed holds it up, like treasure.'),
         N('A duck lands on the bench. It looks at the sandwich.'),
         N('The duck flies off with the jam lettuce. Fair enough.'),
@@ -3929,7 +3929,7 @@ const Q26 = quest(
         N('He’s about to bite. Then he sees: you have no sandwich.'),
         N('Your Nubbin has none. Wild Nubbins behind the bench have none.'),
         N('Mr. Tweed sighs, all the way from his boots.'),
-        N('He takes out a ruler. He cuts the sandwich into neat squares.'),
+        N('He takes out a ruler. Crunch! He cuts the sandwich into squares.'),
         TW('Picnic.'),
         N('He pulls a checked blanket out of his coat. It’s bigger than the coat!'),
       ],
@@ -3949,7 +3949,7 @@ const Q26 = quest(
       'q26-complete',
       [
         N('Everyone gets a square.'),
-        N('Mr. Tweed takes the last one. Mostly crust. He loves it.'),
+        N('Mr. Tweed takes the last one. Mostly crust. Munch! He loves it.'),
         N('He has never shared his lunch before.'),
         N('The duck comes back. Mr. Tweed gives it half his crust.'),
         N('The Nubbins snuggle in a sleepy pile on the blanket.'),
@@ -4028,7 +4028,7 @@ const Q27 = quest(
     scene(
       'q27-lined',
       [
-        N('Three Nubbins in a row. Sort of.'),
+        N('Three Nubbins in a row. Boing! Sort of.'),
         N('One faces the wrong way. One is asleep.'),
         N('Mr. Tweed draws a plan in chalk: two chairs, three Nubbins.'),
         N('And one camera. Yours!'),
@@ -4051,7 +4051,7 @@ const Q27 = quest(
         N('Mr. Tweed hangs a dark curtain. He sets out two chairs.'),
         N('He sticks on a grey moustache. He gives you half!'),
         N('He sits very still, looking far away. Very serious.'),
-        N('The Nubbins copy him. One falls asleep.'),
+        N('The Nubbins copy him. One falls asleep. Plop!'),
         TW('Shh.'),
         Y('Everybody, hold still…'),
       ],
@@ -4068,7 +4068,7 @@ const Q27 = quest(
       'q27-shot',
       [
         N('Click!'),
-        N('The photo looks serious, grand, and nearly right.'),
+        N('Pop! The photo looks serious, grand, and nearly right.'),
         N('One Nubbin is yawning.'),
         N('But if you squint, so was one in the painting!'),
       ],
@@ -4083,7 +4083,7 @@ const Q27 = quest(
     scene(
       'q27-swap',
       [
-        N('Footsteps! The Warden is early!'),
+        N('Thump, thump! Footsteps! The Warden is early!'),
         N('Mr. Tweed hides the smudged painting up his jacket.'),
         N('You slide the photo in the frame. It’s a bit too small.'),
         N('He stuffs the gap with his hankie.'),
@@ -4216,7 +4216,7 @@ const Q28 = quest(
     scene(
       'q28-fuse',
       [
-        N('He puts the firework in the tin. He lights it. Fizz!'),
+        N('He puts the firework in the tin. He lights it. Fizz, pop!'),
         N('He watches it fizz. And fizz.'),
         N('You wave through the window. He waves back.'),
         N('You point at the fizz. He looks at it. Then at the door.'),
@@ -4299,7 +4299,7 @@ const Q29 = quest(
       [
         OD('Hello! I’m Odette, from over the hill.', 'happy'),
         OD('Could you mind my egg this afternoon?'),
-        N('She gives you a speckled egg. It’s warm.'),
+        N('She gives you a speckled egg. Plop! It’s warm.'),
         OD('It likes to roll. Keep it on something flat. Back by sunset!'),
         N('Off she goes. The egg sits still… then wobbles.'),
         N('Mr. Tweed leans over the fence. He mimes rocking a baby.'),
@@ -4346,7 +4346,7 @@ const Q29 = quest(
       'q29-chase',
       [
         N('The egg rolls down the path. Faster and faster!'),
-        N('It bumps a post. It goes left. Over the bridge!'),
+        N('Bonk! It bumps a post. It goes left. Over the bridge!'),
         N('Mr. Tweed jumps the fence. Mostly.'),
         TW('Egg!', 'shock'),
         N('Past the dojo. Three Nubbins bow as it rolls by.'),
@@ -4384,7 +4384,7 @@ const Q29 = quest(
         N('All afternoon, nobody puts the egg down.'),
         N('Mr. Tweed knits it a woolly hat. It’s lumpy. The egg likes it.'),
         N('Mr. Tweed keeps his hat ready, just in case.'),
-        N('You put a blanket in a fruit box, and add wheels.'),
+        N('You put a blanket in a fruit box. Squeak! Add wheels.'),
         N('A stone at each end stops it rolling.'),
         N('The egg tries the box. There is room for two.'),
         N('Your own egg looks in too.'),
@@ -4405,7 +4405,7 @@ const Q29 = quest(
     scene(
       'q29-complete',
       [
-        OD('There it is! Safe! And wearing a hat!', 'happy'),
+        OD('Ding! There it is! Safe! And wearing a hat!', 'happy'),
         N('Mr. Tweed bows. A big T is knitted on the hat. Upside down!'),
         OD('Keep the box. Two eggs, side by side, on wheels? That’s a pram!'),
         N('Mr. Tweed holds the egg a moment longer. Pat, pat. He lets go.'),
@@ -4456,7 +4456,7 @@ const Q30 = quest(
     scene(
       'q30-meet',
       [
-        N('A bright blue cart rattles up the lane. It has three wheels.'),
+        N('Squeak, squeak! A bright blue cart rattles up the lane. It has three wheels.'),
         RF('Hello! I’m Rufus. This is the Bluebell. Fast!', 'happy'),
         N('Mr. Tweed sits in your hand cart. It has four wheels.'),
         N('He looks at the Bluebell’s one front wheel. He smiles a tiny smile.'),
@@ -4489,7 +4489,7 @@ const Q30 = quest(
       'q30-grid',
       [
         N('Two carts at the start line.'),
-        N('Rufus says “Brrm!” very loudly.'),
+        N('Rufus says “Zoom!” very loudly.'),
         N('Mr. Tweed polishes your cart with his sleeve.'),
         N('Then he polishes the Bluebell too. To be fair.'),
       ],
@@ -4510,7 +4510,7 @@ const Q30 = quest(
       [
         N('The flag drops! Rufus zooms off, waving.'),
         N('Each time you catch up, Mr. Tweed waves at Rufus.'),
-        N('Rufus waves back. The Bluebell leans… and tips over. Bump!'),
+        N('Rufus waves back. The Bluebell leans… and tips over. Bonk!'),
         RF('Don’t worry! It does that!', 'happy'),
         N('He puts it back up with one hand. Off again!'),
         TW('Ha!', 'happy'),
@@ -4545,7 +4545,7 @@ const Q30 = quest(
       [
         N('You cross the line first! The Bluebell slides in second, on its side.'),
         RF('What a race! Three tips!', 'happy'),
-        N('Mr. Tweed shakes his hand. The parked Bluebell tips over again.'),
+        N('Mr. Tweed shakes his hand. The parked Bluebell tips over again. Bonk!'),
         RF('I have a little old one at home. Your Nubbins can have it!'),
         N('Next morning, a little blue cart sits in your garden.'),
         N('A Nubbin bumps it. It tips. The Nubbin is thrilled!'),

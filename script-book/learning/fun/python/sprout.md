@@ -52,7 +52,7 @@ _They chant softly. It means thank you._
 
 #### `sprout:q01-second` · [main](../../../fun/python.md#q01-second)
 
-_You step towards the path. The tall hood holds up a paw._  
+_Thump! You step towards the path. The tall hood holds up a paw._  
 **The Tall Hood**: Wait. There is a second thing.  
 **You**: You said one shrubbery!  
 **The Tall Hood**: Now we would like two. Put the new one up higher.  
@@ -81,7 +81,7 @@ _Clatter, bang, ting-a-ling! Like spoons falling down the stairs._
 
 _Two shrubberies. One low, one a little higher._  
 _A tiny stone path wiggles between them._  
-_A beetle walks along it. It looks very pleased._  
+_A beetle walks along it. Boing! It looks very pleased._  
 
 > **Lesson** (science, do): insects have six legs  
 > _A beetle is an insect. Insects have six legs._  
@@ -93,7 +93,7 @@ _A beetle walks along it. It looks very pleased._
 
 #### `sprout:q01-complete` · [main](../../../fun/python.md#q01-complete)
 
-_The hoods step aside. Then they step back, to look again._  
+_Swish! The hoods step aside. Then they step back, to look again._  
 **The Tall Hood**: You may pass. Every day, if you like.  
 **You**: Will you stay here?  
 **The Tall Hood**: We have a shrubbery and a path. Of course we stay.  
@@ -131,7 +131,7 @@ _A cardboard helmet. Two arm guards. Two knee pads._
 > Check: `edu:count:armour:5`
 > _For grown-ups: Your child counted five pieces of cardboard armour._
 
-_A snail is slowly climbing up its leg._  
+_A snail is slowly climbing up its leg. Squeak!_  
 **You**: Hello! May we cross, please?  
 **Sir Dentwhistle**: Nobody crosses my plank. Not one toe!  
 **Sir Dentwhistle**: I am Sir Dentwhistle. I have guarded it for three whole days!  
@@ -163,7 +163,7 @@ _Sir Dentwhistle has very flat hair._
 
 #### `sprout:q02-scarf` · [main](../../../fun/python.md#q02-scarf)
 
-_Sir Dentwhistle wraps on a long woolly scarf._  
+_Whoosh! Sir Dentwhistle wraps on a long woolly scarf._  
 _Round and round and round. Three times!_  
 **Sir Dentwhistle**: My mum knitted this. Nothing gets past the scarf.  
 **Sir Dentwhistle**: She meant the cold. But still.  
@@ -182,7 +182,7 @@ _The snail reaches its shoulder. What a view!_
 
 _Hi-yah! Your Nubbin spins._  
 _The scarf unwinds and floats off down the stream._  
-_Clatter, clatter! Off fall both cardboard arm guards._  
+_Bonk, bonk! Off fall both cardboard arm guards._  
 
 > **Lesson** (maths, K.OA.A.1, ask): take away 2  
 > _Sir Dentwhistle had four pieces left. Two just fell off._  
@@ -198,7 +198,7 @@ _Its little round glasses steam up. It is cross!_
 
 #### `sprout:q02-glasses` · [main](../../../fun/python.md#q02-glasses)
 
-_Sir Dentwhistle wipes its glasses on its tummy._  
+_Sir Dentwhistle wipes its glasses on its tummy. Squeak, squeak!_  
 **Sir Dentwhistle**: Last round. I still have my glasses and knee pads.  
 **Sir Dentwhistle**: If I can’t see you, you can’t see me.  
 **You**: That’s not how seeing works!  
@@ -221,7 +221,7 @@ _Your Nubbin wants to win, then have a snack._
 
 #### `sprout:q02-round3` · [main](../../../fun/python.md#q02-round3)
 
-_Hi-yah! Clonk, clonk! Off fall both knee pads._  
+_Hi-yah! Bonk, bonk! Off fall both knee pads._  
 _The glasses fly off too. The snail goes round them._  
 
 > **Lesson** (maths, K.OA.A.1, ask): zero  
@@ -237,7 +237,7 @@ _The fence post does not move. Not one bit._
 
 #### `sprout:q02-complete` · [main](../../../fun/python.md#q02-complete)
 
-_Sir Dentwhistle sits down on the plank. Flump._  
+_Sir Dentwhistle sits down on the plank. Thump._  
 **Sir Dentwhistle**: You may cross. Not because you won. I just want a sit.  
 _You pick up the cardboard helmet and hold it out._  
 **Sir Dentwhistle**: Keep it. I have lots more. At home. In a box.  
@@ -311,13 +311,13 @@ _Old Gorrel checks it on his sleeve._
 > Check: `edu:clap:syllables:breakfast`
 > _For grown-ups: Your child clapped the two beats in “breakfast”._
 
-**You**: Half a run fruit. The other half fell in the pond.  
+**You**: Half a run fruit. The other half fell in the pond. Plop!  
 **Old Gorrel**: Right. And very sad.  
 
 #### `sprout:q03-third` · [main](../../../fun/python.md#q03-third)
 
 **Old Gorrel**: Question three.  
-_He leans in. The ducks go quiet._  
+_He leans in. The ducks go quiet. Squeak._  
 **Old Gorrel**: How fast can a Fly Nubbin fly, carrying a coconut?  
 
 > **Lesson** (maths, K.MD.A.2, ask): heavy and light  
@@ -372,7 +372,7 @@ _He floats away, waving. His hood lands on the post._
 #### `sprout:q04-intro` · [main](../../../fun/python.md#q04-intro)
 
 _Clop. Clop-clop. Clop._  
-_A Run Nubbin trots behind you, banging two coconut shells._  
+_A Run Nubbin trots behind you, banging two coconut shells. Bonk!_  
 _You stop. It stops. You walk. It clops!_  
 
 > **Lesson** (music, do): copying a rhythm  
@@ -422,7 +422,7 @@ _Gullwick lies flat in the sand. Flump._
 
 #### `sprout:q04-return` · [main](../../../fun/python.md#q04-return)
 
-_Back to the wall you go. Clop, clop. Right behind you._  
+_Back to the wall you go. Clop, clop, bonk. Right behind you._  
 **You**: A Fly Nubbin carried a coconut up from the beach!  
 **Warden Ollery**: All that way? With those little wings?  
 **Warden Ollery**: Maybe the shells should go back to the beach.  
@@ -448,7 +448,7 @@ _This is the sound it was born to make!_
 _The Run Nubbin tucks the shells under its arm._  
 _It gives you a long, happy look._  
 **Warden Ollery**: That’s settled, then. Clop away, little one!  
-_Clop. Clop-clop. Off it goes._  
+_Clop. Clop-clop. Boing! Off it goes._  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds: c  
 > _Clop and coconut start with the same sound. C-c-c!_  
@@ -461,7 +461,7 @@ _Clop. Clop-clop. Off it goes._
 #### `sprout:q04-complete` · [main](../../../fun/python.md#q04-complete)
 
 _The Run Nubbin is called Trotwell. It clops all round the Grove._  
-_Soon every Nubbin wants a go!_  
+_Soon every Nubbin wants a go! Whee!_  
 **Warden Ollery**: I like the noise. It keeps me company.  
 _Trotwell teaches you to trot. Lots of knees!_  
 
@@ -516,7 +516,7 @@ _Beside it: a fruit and a note. “Thank you. From the wall.”_
 ## Q5. The Rabbit on the Ledge
 
 - `q05-s1`: Ask Sparks to make something to win the rabbit’s friendship. · _Sparks is in the Workshop. Bring one sun fruit._
-- `q05-s2`: Take the Hand Melon to the ledge. Count to three, then toss it gently. · _Tap Count on each beat: one, two, three. Then throw._
+- `q05-s2`: Take the Hand Melon to the ledge. Count to three, then toss it gently. · _Tap Do it. Count with the beat: one, two, three!_
 
 #### `sprout:q05-intro` · [main](../../../fun/python.md#q05-intro)
 
@@ -558,12 +558,12 @@ _Everyone hurries ten steps. The rabbit just eats its clover._
 > _For grown-ups: Your child heard that Sparks starts with S and found another “sss” word._
 
 **Sparks**: Leave it with me. One sun fruit, a ribbon, a little fizz.  
-_Crackle! Flash! A smell of toasty fruit._  
+_Crackle! Pop! A smell of toasty fruit._  
 **Sparks**: Ta-da! Nearly ready.  
 
 #### `sprout:q05-melon` · [main](../../../fun/python.md#q05-melon)
 
-**Sparks**: Here it is! The Hand Melon!  
+**Sparks**: Ding! Here it is! The Hand Melon!  
 _It is a sun fruit with a ribbon and a paper tag. It hums._  
 **You**: It’s not a melon.  
 **Sparks**: Melon sounds braver. Read the tag!  
@@ -607,7 +607,7 @@ _The rabbit sits up. Its ears stand tall._
 
 #### `sprout:q05-complete` · [main](../../../fun/python.md#q05-complete)
 
-_The rabbit hops through the confetti, munching._  
+_The rabbit hops through the confetti. Munch, munch!_  
 _It stops at your feet and looks up at you._  
 **Sir Rollo Brisket**: I had a whole plan. It had lots of shouting.  
 **Sir Rollo Brisket**: But the rabbit only wanted its clover. We kept bothering it.  
@@ -629,7 +629,7 @@ _It says yes by sitting on your foot._
 #### `sprout:q06-intro` · [main](../../../fun/python.md#q06-intro)
 
 _Far away stands an old wall with a little tower._  
-_On top is a man with a huge curly moustache._  
+_On top is a man with a huge curly moustache. Boing!_  
 **Sir Barnabus Parapet**: Hello down there! I do not like your hat!  
 **You**: I’m not wearing a hat.  
 **Sir Barnabus Parapet**: I do not like that either!  
@@ -657,7 +657,7 @@ _Your Nubbin looks sad. You tell it it looks lovely._
 
 _The wooden rabbit is twice as tall as you!_  
 _It has big flat ears and a worried face._  
-_It has four round wheels._  
+_It has four round wheels. Squeak, squeak!_  
 
 > **Lesson** (maths, K.G.A.2, ask): circles  
 > _What shape are the wheels?_  
@@ -670,7 +670,7 @@ _There is a little door in its tummy. Nobody knows why._
 
 #### `sprout:q06-plan` · [main](../../../fun/python.md#q06-plan)
 
-_The wooden rabbit waits outside the Workshop._  
+_Creak! The wooden rabbit waits outside the Workshop._  
 **You**: We push it to his wall and leave it at the gate.  
 
 > **Lesson** (science, ask): pushing moves things  
@@ -724,7 +724,7 @@ _Maybe he was lonely all along._
 > - Very busy → He says nobody visits. I think he felt lonely.
 > _For grown-ups: Your child thought about how the man on the wall might have felt._
 
-_The little tummy door swings open._  
+_The little tummy door swings open. Creak!_  
 _You and your Nubbin squeeze in and peek out. Perfect for photos!_  
 
 #### `sprout:q06-complete-shouted` · [main](../../../fun/python.md#q06-complete-shouted)
@@ -743,7 +743,7 @@ _Maybe he was lonely all along._
 > - Very busy → He says nobody visits. I think he felt lonely.
 > _For grown-ups: Your child thought about how the man on the wall might have felt._
 
-_The little tummy door swings open._  
+_The little tummy door swings open. Creak!_  
 _You and your Nubbin squeeze in and peek out. Perfect for photos!_  
 
 #### `sprout:q06-complete-laughed` · [main](../../../fun/python.md#q06-complete-laughed)
@@ -762,7 +762,7 @@ _Maybe he was lonely all along._
 > - Very busy → He says nobody visits. I think he felt lonely.
 > _For grown-ups: Your child thought about how the man on the wall might have felt._
 
-_The little tummy door swings open._  
+_The little tummy door swings open. Creak!_  
 _You and your Nubbin squeeze in and peek out. Perfect for photos!_  
 
 #### `sprout:q06-complete-knocked` · [main](../../../fun/python.md#q06-complete-knocked)
@@ -781,7 +781,7 @@ _Maybe he was lonely all along._
 > - Very busy → He says nobody visits. I think he felt lonely.
 > _For grown-ups: Your child thought about how the man on the wall might have felt._
 
-_The little tummy door swings open._  
+_The little tummy door swings open. Creak!_  
 _You and your Nubbin squeeze in and peek out. Perfect for photos!_  
 
 **Notes:** Sprout: the man on the wall calls out silly, not hurtful, names. The “shout” choice keeps its id and flag but becomes a calm “Please stop!”.
@@ -797,7 +797,7 @@ _On the little hill, Pixel kneels by a castle._
 _It is as tall as your knee._  
 _It has a lolly-stick drawbridge and two short towers._  
 **Pixel**: Look, everyone! The Grand Palace of the Hill!  
-_Byte walks past with a cup of tea._  
+_Byte walks past with a cup of tea. Slurp!_  
 **Byte**: Hmm. It’s smaller than a sheep.  
 
 > **Lesson** (maths, K.MD.A.2, ask): big and small  
@@ -821,7 +821,7 @@ _There is a tea stain on the drawbridge. Byte hides his cup._
 
 #### `sprout:q07-stone` · [main](../../../fun/python.md#q07-stone)
 
-_You bring Pixel an armful of stones._  
+_You bring Pixel an armful of stones. Bonk, bonk!_  
 _Pixel holds each one up, like treasure._  
 
 > **Lesson** (science, 2-PS1-1, ask): hard and soft materials  
@@ -836,7 +836,7 @@ _Pixel holds each one up, like treasure._
 #### `sprout:q07-towers` · [main](../../../fun/python.md#q07-towers)
 
 **Pixel**: Now the towers. Don’t breathe on them!  
-_You build together. Your Nubbin hands up stones, one by one._  
+_You build together. Bonk! Your Nubbin hands up stones, one by one._  
 **Pixel**: Six stones for this tower. Six for that one.  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 6  
@@ -853,7 +853,7 @@ _Up, up go the towers. Past your knee!_
 #### `sprout:q07-finished` · [main](../../../fun/python.md#q07-finished)
 
 _The last stone goes on. Two tall towers!_  
-_A flag made from a sweet wrapper flaps on top._  
+_A flag made from a sweet wrapper goes swish on top._  
 **Pixel**: Grove! The Grand Palace is FINISHED!  
 _The hills call back: “…ished!”_  
 
@@ -869,7 +869,7 @@ _Pixel thinks that is clapping._
 
 _That evening, three Nubbins come up the hill._  
 _One puts a leaf on its head, like a crown._  
-_One stands on the drawbridge and points. Ta-da!_  
+_One stands on the drawbridge and points. Ding! Ta-da!_  
 _One lies down and plays a dragon. Or a cloud._  
 **Pixel**: They’re putting on a play. In my castle!  
 **Byte**: Still quite sm…  
@@ -891,7 +891,7 @@ _Byte stops. He watches the little crown take a bow._
 
 #### `sprout:q08-intro` · [main](../../../fun/python.md#q08-intro)
 
-_In the Keepers’ Hall, there is a meeting._  
+_Ding, dong! In the Keepers’ Hall, there is a meeting._  
 _Three Keepers. Four chairs. Lots of paper._  
 **Reggie Thistlewood**: Order! First thing: all this building!  
 **Frannie Quill**: Fences. Paths. Something with a drawbridge.  
@@ -937,7 +937,7 @@ _Reggie says nothing. A frog sits on his hat._
 
 #### `sprout:q08-invite` · [main](../../../fun/python.md#q08-invite)
 
-_A note arrives, folded very small._  
+_A note arrives with a pop, folded very small._  
 _“Meeting! Bring a crop to look at. From Reggie.”_  
 
 > **Lesson** (literacy, ELOF: Literacy, do): first letters of names  
@@ -954,7 +954,7 @@ _The crop beds by the water are plump and shiny._
 #### `sprout:q08-delivered` · [main](../../../fun/python.md#q08-delivered)
 
 _Reggie takes the crop. He turns it over._  
-_He sniffs it. He holds it up to the light._  
+_He sniffs it. Crunch! A tiny bite. He holds it to the light._  
 **Reggie Thistlewood**: Hmm. It’s very good.  
 **Reggie Thistlewood**: I don’t like how good it is.  
 
@@ -967,7 +967,7 @@ _He sniffs it. He holds it up to the light._
 #### `sprout:q08-complete` · [main](../../../fun/python.md#q08-complete)
 
 **Reggie Thistlewood**: Fine. The water bridge. What has it done for us?  
-**Frannie Quill**: The Nubbins love the spray.  
+**Frannie Quill**: The Nubbins love the spray. Splash!  
 **Old Mags**: Frogs moved in. I like frogs.  
 
 > **Lesson** (science, 1-LS3-1, notice): frogs and tadpoles  
@@ -1000,8 +1000,8 @@ _The crops will never be thirsty again._
 #### `sprout:q09-intro` · [main](../../../fun/python.md#q09-intro)
 
 _On your evening walk, your bag strap snaps._  
-_A little gourd rolls into the ditch. Bump, bump._  
-_You reach for it. Your shoe comes off in the mud. Schlurp!_  
+_A little gourd rolls into the ditch. Bump, bump, plop._  
+_You reach for it. Your shoe comes off in the mud. Slurp!_  
 _You are tired. You leave them both for later._  
 _You look back. Nubbins are gathering round them._  
 _Now they follow you. Tiptoe, tiptoe._  
@@ -1073,7 +1073,7 @@ _A Keeper in a headscarf marches up. It’s Mother Brindle, Barty’s Keeper!_
 
 #### `sprout:q09-hats` · [main](../../../fun/python.md#q09-hats)
 
-_You put the gourd on your head._  
+_You put the gourd on your head. Bonk!_  
 _Then you balance the shoe on top of the gourd._  
 
 > **Lesson** (maths, K.G.A.1, ask): positions: on top, under  
@@ -1089,7 +1089,7 @@ _Both groups gasp. Both groups are happy!_
 
 _The whole crowd follows you in one long, wobbly line._  
 _You walk to the pond. They walk to the pond._  
-_You turn round. They turn round. Bump!_  
+_You turn round. They turn round. Bonk!_  
 _You stop. They stop, sit, and fall asleep in a heap._  
 _Barty is on top. Snore._  
 **Mother Brindle**: Thank you, love. Keep the gourd and the shoe.  
@@ -1108,7 +1108,7 @@ _Variant of `q09-complete`._
 
 _The whole crowd follows you in one long, wobbly line._  
 _You walk to the pond. They walk to the pond._  
-_You turn round. They turn round. Bump!_  
+_You turn round. They turn round. Bonk!_  
 _You stop. They stop, sit, and fall asleep in a heap._  
 _Barty is on top. Snore._  
 _The pebble Nubbins sleep a little apart. They chose it themselves._  
@@ -1128,7 +1128,7 @@ _Variant of `q09-complete`._
 
 _The whole crowd follows you in one long, wobbly line._  
 _You walk to the pond. They walk to the pond._  
-_You turn round. They turn round. Bump!_  
+_You turn round. They turn round. Bonk!_  
 _You stop. They stop, sit, and fall asleep in a heap._  
 _Barty is on top. Snore._  
 _The pebble Nubbins sleep at the edge. They are very happy._  
@@ -1144,7 +1144,7 @@ _Now, if you call “Follow me!”, every Nubbin parades behind you._
 
 ## Q10. Haggle
 
-- `q10-s1`: Offer Harrow less than he asks for the brass bell. · _Tap the bell and choose Haggle. Start with a small number._
+- `q10-s1`: Offer Harrow less than he asks for the brass bell. · _Tap Do it. Say a small number. A very small one._
 - `q10-s2`: Haggle with Harrow for three rounds. · _Each time, offer a number in the middle._
 
 #### `sprout:q10-intro` · [main](../../../fun/python.md#q10-intro)
@@ -1152,7 +1152,7 @@ _Now, if you call “Follow me!”, every Nubbin parades behind you._
 _There’s a new stall, full of odds and ends._  
 _Behind it sits Harrow, with a pencil behind each ear._  
 **Harrow Tuppence**: Morning! Everything a Grove could want!  
-_You spot a little brass bell. Your Nubbin wants it._  
+_You spot a little brass bell. Ding! Your Nubbin wants it._  
 **You**: How much is the bell?  
 **Harrow Tuppence**: Twenty Shells.  
 _You count out twenty Shells._  
@@ -1177,7 +1177,7 @@ _You count out twenty Shells._
 
 **You**: …Eight Shells?  
 **Harrow Tuppence**: EIGHT?  
-_He clutches his heart. He clutches the bell._  
+_He clutches his heart. He clutches the bell. Ding!_  
 
 > **Lesson** (science, 1-PS4-1, notice): how a bell makes sound  
 > _Ting! When a bell rings, it shakes very, very fast._  
@@ -1191,7 +1191,7 @@ _He clutches his heart. He clutches the bell._
 
 **Harrow Tuppence**: Three rounds. I go down. You go up.  
 **Harrow Tuppence**: Not too quick. Not too slow. Just right.  
-_Your Nubbin climbs on the counter to watch._  
+_Your Nubbin climbs on the counter. Boing! It watches._  
 **Harrow Tuppence**: Twenty. Because I like your face.  
 **You**: Ten.  
 **Harrow Tuppence**: Ten? For a BELL? Eighteen!  
@@ -1215,7 +1215,7 @@ _Your Nubbin climbs on the counter to watch._
 
 **Harrow Tuppence**: Fourteen. My last offer. Oh, my poor bell!  
 **You**: Fourteen it is.  
-_You shake hands. Harrow’s eyes are a bit wet._  
+_You shake hands. Ding! Harrow’s eyes are a bit wet._  
 
 > **Lesson** (sel, CASEL: Self-awareness, ask): happy tears  
 > _Harrow is happy, but his eyes are wet._  
@@ -1239,7 +1239,7 @@ _You give Harrow fourteen Shells. He counts them twice._
 
 **Harrow Tuppence**: That was a proper bit of business!  
 _He gives you a little gourd too. Free!_  
-_Your Nubbin rings the bell. Ting-a-ling!_  
+_Your Nubbin rings the bell. Ding-a-ling!_  
 **Harrow Tuppence**: You can haggle at the shop now too. Just a little.  
 _Now the shop lets you haggle, for a bit off._  
 
@@ -1260,7 +1260,7 @@ _Now the shop lets you haggle, for a bit off._
 #### `sprout:q11-intro` · [main](../../../fun/python.md#q11-intro)
 
 _The bathhouse is warm and steamy._  
-_In the pool floats a very round Nubbin. Bob, bob._  
+_In the pool floats a very round Nubbin. Bob, bob, plop._  
 _This is Gorbold. Fruit stones float all around it._  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds: g  
@@ -1311,7 +1311,7 @@ _Mr Crisp comes back. On his tray: one thin, minty slice._
 > _For grown-ups: Your child heard that when our tummy feels full, we can stop eating._
 
 **Mr Crisp**: It is thinner than a leaf.  
-_Gorbold looks at the slice. The slice looks at Gorbold._  
+_Gorbold looks at the slice. Gulp! The slice looks at Gorbold._  
 _The steam goes very still._  
 
 **Choices**
@@ -1366,7 +1366,7 @@ _Mr Crisp stops. Gorbold has never shared before!_
 
 _A parcel arrives! Inside is a Nubbin._  
 _The note says: “One quiet Nubbin. Do not overfeed.”_  
-_Your Nubbins poke it. It does not move._  
+_Your Nubbins poke it. Boing. It does not move._  
 _One of its eyes is a button!_  
 
 > **Lesson** (science, K-LS1-1, ask): living things move and grow  
@@ -1394,7 +1394,7 @@ _You take it back to the shop._
 _Clue one: you offer it a heart fruit. It won’t eat._  
 _Every Nubbin loves heart fruit!_  
 _Clue two: you tickle its feet. Nothing._  
-_Your own Nubbin giggles instead!_  
+_Your own Nubbin goes hee hee instead!_  
 _Clue three: it floats in the pond. A price tag bobs up._  
 
 > **Lesson** (maths, K.CC.B.4, do): count to 3  
@@ -1446,7 +1446,7 @@ _He pats it. It slowly topples off the counter. Flump._
 > _For grown-ups: Your child found a word that rhymes with “toy”._
 
 **Mr Fenwick Mull**: Here are your Shells back.  
-**Mr Fenwick Mull**: And I’ll start a returns counter. The first in the valley!  
+**Mr Fenwick Mull**: And I’ll start a returns counter. Ding! The first in the valley!  
 _He looks lighter now. Telling the truth helps._  
 
 #### `sprout:q12-complete` · [main](../../../fun/python.md#q12-complete)
@@ -1454,7 +1454,7 @@ _He looks lighter now. Telling the truth helps._
 _Mr Mull counts the Shells into your hand._  
 **Mr Fenwick Mull**: Keep the toy, though. I’ve grown fond of it.  
 _You carry it home._  
-_Your Nubbins take it to the nest and snuggle round it._  
+_Your Nubbins take it to the nest. Plop! They snuggle round it._  
 _By night, they are all fast asleep, cuddling the toy._  
 
 > **Lesson** (science, K-LS1-1, do): alive and not alive  
@@ -1475,7 +1475,7 @@ _Now the shop takes things back, if you bring them within a day._
 
 #### `sprout:q13-intro` · [main](../../../fun/python.md#q13-intro)
 
-_A little booth stands at the crossroads._  
+_Ding! A little booth stands at the crossroads._  
 _The sign says: PRIZES FOR WALKS. VERY SILLY ONLY._  
 _Inside is Mr Strutt, in a round black hat._  
 **Mr Hollis Strutt**: Most walks here are so sensible. It keeps me awake.  
@@ -1500,7 +1500,7 @@ _It takes four whole minutes!_
 
 #### `sprout:q13-first` · [main](../../../fun/python.md#q13-first)
 
-_You do your walk. It has a hop in it._  
+_You do your walk. It has a boing in it._  
 _You are proud of the hop._  
 **Mr Hollis Strutt**: Hmm. That’s quite a sensible walk.  
 **Mr Hollis Strutt**: The hop is good. The rest was just walking.  
@@ -1524,7 +1524,7 @@ _You are proud of the hop._
 > _For grown-ups: Your child spotted what comes next in a knee-elbow pattern._
 
 **Mr Hollis Strutt**: And once, walk backwards. Look as if you mean it.  
-_Your Nubbin tries. It falls over and stays lying down._  
+_Your Nubbin tries. Thump! It falls over and stays lying down._  
 **Mr Hollis Strutt**: Now THAT is promising!  
 
 **Choices**
@@ -1536,7 +1536,7 @@ _Your Nubbin tries. It falls over and stays lying down._
 
 #### `sprout:q13-approved` · [main](../../../fun/python.md#q13-approved)
 
-_You walk. Hop! Crouch! Spin!_  
+_You walk. Hop! Crouch! Spin! Whee!_  
 
 > **Lesson** (science, ask): balance  
 > _Which is harder: standing on one foot, or two?_  
@@ -1550,7 +1550,7 @@ _Mr Strutt stands up slowly. He takes off his hat._
 
 #### `sprout:q13-complete` · [main](../../../fun/python.md#q13-complete)
 
-_He stamps your form. Stamp! Stamp! STAMP!_  
+_He stamps your form. Thump! Thump! THUMP!_  
 **Mr Hollis Strutt**: Approved! Walk silly, often, and everywhere!  
 _He gives you a spare round hat. It’s too big. It’s perfect._  
 **Mr Hollis Strutt**: You don’t need a form to be silly, you know.  
@@ -1572,7 +1572,7 @@ _Now you can walk silly whenever you like!_
 
 #### `sprout:q14-intro` · [main](../../../fun/python.md#q14-intro)
 
-_You are brushing a Nubbin. Bang! The gate flies open._  
+_You are brushing a Nubbin. Bonk! The gate flies open._  
 _In sweep three Keepers in long red robes. One trips._  
 **Brother Pouffe**: Surprise! We are the Nap Patrol!  
 **Brother Pouffe**: Surprise is our best tool. Surprise, and cushions…  
@@ -1600,7 +1600,7 @@ _Out they go. Bang! In they come. Nobody trips._
 
 #### `sprout:q14-chair` · [main](../../../fun/python.md#q14-chair)
 
-_You put the chair by the nest. It’s big, red and squashy._  
+_You put the chair by the nest. Plop! It’s big, red and squashy._  
 **Sister Tuft**: Behold! The comfy chair.  
 _Bolster holds up the cushions. Tuft fluffs the chair._  
 _Fluff, fluff!_  
@@ -1637,7 +1637,7 @@ _They nod. Very serious. Very cosy._
 
 #### `sprout:q14-asleep` · [main](../../../fun/python.md#q14-asleep)
 
-_The Nubbin sinks into the chair._  
+_The Nubbin sinks into the chair. Plop!_  
 _Bolster tucks in a cushion. Tuft lays a blanket._  
 _It is asleep before the blanket lands._  
 _Snore… snore… like a tiny kettle._  
@@ -1651,7 +1651,7 @@ _Snore… snore… like a tiny kettle._
 
 #### `sprout:q14-complete` · [main](../../../fun/python.md#q14-complete)
 
-_Two hours later, the Nubbin wakes. Stretch! It glows._  
+_Two hours later, the Nubbin wakes. Stretch! Pop! It glows._  
 **Brother Pouffe**: Ha! Look at it. All better!  
 **Brother Bolster**: The best nap we ever gave.  
 **Sister Tuft**: Let’s go. Three more Groves to surprise before tea.  
@@ -1686,7 +1686,7 @@ _Now tired Nubbins nap better in the comfy chair._
 
 #### `sprout:q15-intro` · [main](../../../fun/python.md#q15-intro)
 
-_A smart green stall has opened by the bridge._  
+_Ding! A smart green stall has opened by the bridge._  
 _The sign says: EVERY FRUIT IN THE VALLEY!_  
 _Mr Dibble beams, in a stripy apron and a straw hat._  
 **Mr Pomeroy Dibble**: Good morning! Any fruit you like!  
@@ -1714,7 +1714,7 @@ _The boxes are all under flat cloths. Very flat._
 #### `sprout:q15-six` · [main](../../../fun/python.md#q15-six)
 
 **You**: Fly fruit?  
-**Mr Pomeroy Dibble**: Flew away.  
+**Mr Pomeroy Dibble**: Flew away. Whoosh!  
 **You**: Power fruit? Stamina fruit? Sun fruit?  
 **Mr Pomeroy Dibble**: Lifted. Eaten. And the sun fruit set. They do that.  
 _That’s six fruits. And still no fruit!_  
@@ -1729,7 +1729,7 @@ _That’s six fruits. And still no fruit!_
 #### `sprout:q15-twelve` · [main](../../../fun/python.md#q15-twelve)
 
 _You keep asking. Mr Dibble keeps smiling._  
-_Behind the stall, a Nubbin plays three notes. Plink, plonk, plunk._  
+_Behind the stall, a Nubbin plays three notes. Plink, plonk, ding._  
 
 > **Lesson** (music, do): copying a pattern of sounds  
 > _(Clap the tune: plink, plonk, plunk.)_  
@@ -1749,7 +1749,7 @@ _Plink… plonk… plunk. Even slower._
 #### `sprout:q15-confess` · [main](../../../fun/python.md#q15-confess)
 
 _By fruit number twelve, Mr Dibble stops smiling._  
-_He takes off his hat and holds it._  
+_He takes off his hat. Pop! He holds it._  
 **Mr Pomeroy Dibble**: I have to tell you something. There’s no fruit. Not one pip.  
 **Mr Pomeroy Dibble**: I just liked having a stall.  
 
@@ -1775,7 +1775,7 @@ _He takes off his hat and holds it._
 #### `sprout:q15-complete` · [main](../../../fun/python.md#q15-complete)
 
 **Mr Pomeroy Dibble**: I have no fruit. But I know lots about fruit.  
-_He brings out a big page. Every fruit, drawn beautifully._  
+_He brings out a big page. Whoosh! Every fruit, drawn beautifully._  
 
 > **Lesson** (art, ask): naming colours  
 > _On the page, the sun fruit is yellow. What else is yellow?_  
@@ -1790,13 +1790,13 @@ _As you go, he calls to the next customer: “Sorry! All gone!”_
 
 ## Q16. The Argument Booth
 
-- `q16-s1`: Pay Byte 5 Shells for an argument. · _Tap Byte’s booth and choose Pay._
+- `q16-s1`: Pay Byte 5 Shells for an argument. · _Bring 5 Shells. Then tap Do it._
 - `q16-s2`: Win the argument before the sand runs out. · _Don’t just say “no” back. Ask Byte for reasons._
 
 #### `sprout:q16-intro` · [main](../../../fun/python.md#q16-intro)
 
 _Byte has a booth. The sign says: ARGUMENTS. 5 SHELLS._  
-_On the counter is a sand timer._  
+_On the counter is a sand timer. Ding!_  
 _Next door is a booth called COMPLAINTS. Also Byte, in another hat._  
 **Byte**: Good afternoon. Would you like an argument?  
 **You**: What kind?  
@@ -1820,7 +1820,7 @@ _Next door is a booth called COMPLAINTS. Also Byte, in another hat._
 #### `sprout:q16-flip` · [main](../../../fun/python.md#q16-flip)
 
 _Byte turns the sand timer over._  
-_The sand starts to fall. Shhh._  
+_The sand starts to fall. Swish._  
 
 > **Lesson** (science, notice): things fall down  
 > _Watch the sand. It always falls down, never up._  
@@ -1869,7 +1869,7 @@ _The sand is half gone._
 > _For grown-ups: Your child picked the answer that gives a reason using “because”._
 
 _Byte opens his mouth. Then he stops._  
-_He looks at the sand timer for help._  
+_He looks at the sand timer for help. Ding!_  
 **Byte**: …That’s fair.  
 
 **Choices**
@@ -1885,7 +1885,7 @@ _He looks at the sand timer for help._
 
 #### `sprout:q16-complete` · [main](../../../fun/python.md#q16-complete)
 
-_The last grain of sand falls._  
+_The last grain of sand falls. Plop._  
 **Byte**: Nobody has won before. They just get cross.  
 **Byte**: Saying no is easy. I called it thinking.  
 
@@ -1950,7 +1950,7 @@ _Your rubber fish squeaks every time._
 #### `sprout:q17-performance` · [main](../../../fun/python.md#q17-performance)
 
 **Mr Pilchard**: Now the whole dance! In front of everyone!  
-_Nubbins sit on the bank to watch. One has a snack._  
+_Nubbins sit on the bank to watch. One has a snack. Crunch!_  
 **Mr Grampus**: Keep to the beat. Whatever happens.  
 _Grampus brings out a second rubber fish. It is VERY big._  
 
@@ -1987,7 +1987,7 @@ _The Nubbins cheer. That was the plan!_
 
 #### `sprout:q17-complete` · [main](../../../fun/python.md#q17-complete)
 
-_You climb out. Pilchard hands you a towel._  
+_Splash! You climb out. Pilchard hands you a towel._  
 _Grampus hands you the big finish fish._  
 **Mr Grampus**: Whoever falls in keeps the big fish. That’s the rule.  
 **Mr Pilchard**: It’s great for knocking fruit out of trees.  
@@ -2006,14 +2006,14 @@ _Now your Power Nubbins can knock fruit down with the big fish!_
 
 ## Q18. Fruit Class
 
-- `q18-s1`: Peel the banana before the Nubbin can wave it. · _When the banana goes up, tap Peel._
+- `q18-s1`: Peel the banana before the Nubbin can wave it. · _When the banana goes up, tap Do it._
 - `q18-s2`: Catch every raspberry in the bowl. · _Slide the bowl left and right under the berries._
 - `q18-s3`: Toss the pineapple to your Nubbin. · _Aim at your Nubbin and tap Throw. Gently!_
 
 #### `sprout:q18-intro` · [main](../../../fun/python.md#q18-intro)
 
 _In the clearing, a Keeper with a bushy moustache marches about._  
-_Three Nubbins sit on logs. They look a bit nervous._  
+_Three Nubbins sit on logs. Creak! They look a bit nervous._  
 **Sergeant Grimble**: YOU! Late! Sit on a log!  
 **Sergeant Grimble**: Sergeant Grimble. Tonight: what to do when someone has fruit!  
 _A Nubbin puts up its paw._  
@@ -2041,7 +2041,7 @@ _The Nubbin puts its paw down. Very slowly._
 #### `sprout:q18-banana` · [main](../../../fun/python.md#q18-banana)
 
 _A Nubbin waves a banana at you._  
-_You peel it. Zip, zip, zip!_  
+_You peel it. Zip, zip, pop!_  
 _The Nubbin looks at the bare banana. Oops._  
 _It sits back down, a bit embarrassed._  
 **Sergeant Grimble**: PERFECT! A peeled banana is a beaten banana!  
@@ -2062,7 +2062,7 @@ _It sits back down, a bit embarrassed._
 > - A leaf → Most leaves are green. Strawberries are red, like raspberries!
 > _For grown-ups: Your child found another red thing to match the raspberries._
 
-**Sergeant Grimble**: There is never just one. There are lots!  
+**Sergeant Grimble**: There is never just one. Plop, plop, plop! Lots!  
 _A Nubbin stands up with a bowl of raspberries._  
 **Sergeant Grimble**: Hold out a bowl. Catch them all. None on the floor!  
 **You**: Why not on the floor?  
@@ -2094,7 +2094,7 @@ _Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!_
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): playing safely with others  
 > _How do we throw something to a friend?_  
 > - ✅ Gently, when they are looking → Correct! Gentle, and ready. Nobody gets bonked.
-> - Hard, when they’re not looking → No! That could hurt. Gently, when they’re looking.
+> - Hard, when they’re not looking → Sneaky and hard? Eek! That could hurt. Gently, when they’re looking.
 > _For grown-ups: Your child chose the safe, kind way to throw to a friend._
 
 
@@ -2108,7 +2108,7 @@ _Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!_
 #### `sprout:q18-catch` · [main](../../../fun/python.md#q18-catch)
 
 _You toss the pineapple, nice and gently._  
-_Your Nubbin runs, jumps and catches it. Oof!_  
+_Your Nubbin runs, jumps and catches it. Thump!_  
 _It holds it up like a prize._  
 _The pineapple looks happy about it._  
 
@@ -2143,7 +2143,7 @@ _Now your Nubbins can catch fruit you throw!_
 
 #### `sprout:q19-intro` · [main](../../../fun/python.md#q19-intro)
 
-_A banner says: THE GRAND CUP RACE. EVERYONE WELCOME!_  
+_Ding! A banner says: THE GRAND CUP RACE. EVERYONE WELCOME!_  
 **Mrs Thackery**: Roll up! Three runners so far. We need one more!  
 
 > **Lesson** (maths, K.OA.A.2, ask): adding one more  
@@ -2183,7 +2183,7 @@ _Nobody knows who put them there._
 **Mrs Thackery**: Ready… steady… GO!  
 _You run. Behind you, nobody else moves._  
 **Mrs Thackery**: Bunty is checking which way is forwards!  
-**Mrs Thackery**: Piers is tying his lace to Algernon’s lace!  
+**Mrs Thackery**: Piers is tying his lace to Algernon’s lace! Boing!  
 _Piers jumps the matchboxes. Way too high!_  
 
 > **Lesson** (maths, K.G.A.1, ask): positions: over and round  
@@ -2206,7 +2206,7 @@ _Bunty reaches the sleeping Keeper and taps their shoulder._
 #### `sprout:q19-win` · [main](../../../fun/python.md#q19-win)
 
 **Mrs Thackery**: The Keeper wins!  
-_Far behind, Algernon waves goodbye to the start line._  
+_Far behind, Algernon waves goodbye to the start line. Whee!_  
 _Bunty comes last, arm in arm with the sleeping Keeper._  
 
 > **Lesson** (sel, CASEL: Social awareness, notice): kindness matters more than winning  
@@ -2228,7 +2228,7 @@ _The Keeper is still asleep!_
 
 #### `sprout:q19-complete` · [main](../../../fun/python.md#q19-complete)
 
-_The runners come to say well done._  
+_Thump, thump! The runners come to say well done._  
 _Two of them say it to a fence post first._  
 **Piers Tumbledown-Hoop**: Jolly fast! We didn’t know people went that way!  
 **The Hon. Bunty Fairweather-Flute**: Here’s your prize. A tall top hat!  
@@ -2282,7 +2282,7 @@ _He flips the board. It’s the same tree!_
 
 _Run, swim, fly, power, stamina, sun, moon, heart._  
 _And the palm tree by the sea._  
-_Each tree rustles when you tap it. It feels noticed!_  
+_Each tree goes bonk when you tap it. It feels noticed!_  
 
 > **Lesson** (science, do): parts of a tree  
 > _Trees have roots under the ground, a trunk and leaves._  
@@ -2297,7 +2297,7 @@ _There is no larch. You check twice._
 
 **Mr Arbour**: Now the hard class. A tree from far away.  
 _He picks up his board and walks off. And off. Over the hill._  
-_A tiny Mr Arbour pops up on the far hill._  
+_A tiny Mr Arbour goes pop! on the far hill._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): near and far  
 > _Mr Arbour is far away. Does he look big or small?_  
@@ -2325,7 +2325,7 @@ _Munch._
 
 #### `sprout:q20-complete` · [main](../../../fun/python.md#q20-complete)
 
-_Mr Arbour comes back, puffing._  
+_Thump, thump! Mr Arbour comes back, puffing._  
 _He looks at your photo for a long time._  
 **Mr Arbour**: Yes. That is a larch.  
 **Mr Arbour**: Most people never look up at their trees. You tapped them all.  

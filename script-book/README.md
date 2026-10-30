@@ -18,7 +18,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (75) |  |  |
 | The campaign: endings | [endings.md](campaign/endings.md) (366) |  |  |
 | Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (202) | [sprout.md](learning/side/S01/sprout.md) (257) | [reader.md](learning/side/S01/reader.md) (334) |
-| Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (209) | [sprout.md](learning/side/S02/sprout.md) (227) | [reader.md](learning/side/S02/reader.md) (323) |
+| Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (210) | [sprout.md](learning/side/S02/sprout.md) (227) | [reader.md](learning/side/S02/reader.md) (323) |
 | Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (178) | [sprout.md](learning/side/S03/sprout.md) (229) | [reader.md](learning/side/S03/reader.md) (282) |
 | Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (152) | [sprout.md](learning/side/S04/sprout.md) (200) | [reader.md](learning/side/S04/reader.md) (261) |
 | Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (146) | [sprout.md](learning/side/S05/sprout.md) (192) | [reader.md](learning/side/S05/reader.md) (251) |
@@ -73,7 +73,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 
 | Storyline | Script |
 | --- | --- |
-| Multiverse: Iron Man (IM1–IM15) | [ironman.md](multiverse/ironman.md) (1919) |
+| Multiverse: Iron Man (IM1–IM15) | [ironman.md](multiverse/ironman.md) (1923) |
 | Multiverse: Captain America (CA1–CA10) | [cap.md](multiverse/cap.md) (1139) |
 | Multiverse: Doom and the Fantastic Four (FF1–FF10) | [doom.md](multiverse/doom.md) (1248) |
 | Multiverse: Ultron (UL1–UL10) | [ultron.md](multiverse/ultron.md) (1080) |

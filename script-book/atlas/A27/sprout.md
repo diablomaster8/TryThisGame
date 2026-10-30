@@ -126,7 +126,7 @@ _Sam does not pick him up. That is the first wrong thing._
 > _A baby needs love, whatever his hair is like._  
 > _Is it fair to love him less?_  
 > - ✅ No. Not fair. → Right. Hair is only hair. Everyone deserves love.
-> - Yes. → No. Everyone deserves love. Hair is only hair.
+> - Yes. → Loving him less for his hair? Hair is only hair. Everyone deserves love.
 > _For grown-ups: Talked about fairness: nobody should be loved less for how they look._
 
 **Sam**: Leave me, all of you. I need to think.  
@@ -540,7 +540,7 @@ _The merchant gives your Nubbin a whole round loaf._
 > _Camels can walk far in the hot sun._  
 > _What do camels have on their backs?_  
 > - ✅ A hump, or two! → Yes! A camel’s hump stores fat for food.
-> - Wings. → No wings! Camels have a hump, or two.
+> - Wings. → Wings on a camel? Flap, flap! Camels have a hump, or two.
 > _For grown-ups: Learned that camels have a hump, which stores fat, and can walk far._
 
 
@@ -1706,7 +1706,7 @@ _Sam promises._
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): fairness: nobody is to blame for what their family did  
 > _Is it fair to blame someone for what their family did long ago?_  
 > - ✅ No. Not fair. → Right. Each person is their own person.
-> - Yes. → No. Each person is their own person.
+> - Yes. → Blaming someone for their family? Each person is their own person.
 > _For grown-ups: Talked about fairness: nobody should be blamed for what their family did._
 
 **Sam**: Messenger, you were there when my son was born. Is Rudaba good for him?  

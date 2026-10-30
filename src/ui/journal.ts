@@ -13,13 +13,17 @@ import type { JournalView } from '../sim/storyline';
 import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scenes';
 import { button, el, modal } from './dom';
 import { MicroScreen } from '../minigames/micro/micro-screen';
-import { MICRO_BUILT, microFor } from '../sim/micro';
+import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
+import { doItLabel, fernCairnLine } from '../config/strings-fun-r6';
+import { fernStones } from '../sim/fern-stone';
 import { hashSeed } from '../sim/rng';
 import { LANG_TEXT } from '../config/strings';
 import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
 import { scriptParagraph } from './lang-dom';
 import { TraceGame } from './trace';
 import { endingKey, getShots, thumbKey } from './u4-store';
+import { PLACES_TEXT } from '../config/strings-world';
+import { renderPlaces } from './landmark-card';
 
 /**
  * The band's journal text in a Learning Grove save on the Learning story language (CV2):
@@ -56,7 +60,7 @@ function waitMoment(check: string): string {
 export class Journal {
   private readonly dialog;
   private readonly body: HTMLDivElement;
-  private page: 'chapter' | 'paths' | 'endings' = 'chapter';
+  private page: 'chapter' | 'paths' | 'endings' | 'places' = 'chapter';
 
   private readonly micro: MicroScreen;
 
@@ -134,6 +138,8 @@ export class Journal {
       ['chapter', STORY_TEXT.chapter(view.n, eduJournal(g)?.chapter(view.n)?.title ?? view.title)],
       ['paths', STORY_TEXT.paths],
       ['endings', STORY_U4_TEXT.endingsTab],
+      // R0107: the landmarks found, with their traces and keepsakes (`ui/landmark-card.ts`).
+      ['places', PLACES_TEXT.tab],
     ] as const) {
       const b = button(
         label,
@@ -147,7 +153,8 @@ export class Journal {
       tabs.appendChild(b);
     }
     this.body.appendChild(tabs);
-    if (this.page === 'paths') this.renderPaths(view);
+    if (this.page === 'places') this.body.appendChild(renderPlaces(g.world));
+    else if (this.page === 'paths') this.renderPaths(view);
     else if (this.page === 'endings') this.renderEndings(view);
     else this.renderChapter(g, view);
   }
@@ -221,17 +228,19 @@ export class Journal {
           ),
         );
       } else if (sideActable(g.world, c, id)) {
+        // R0369 (FUN-80): the button names the step's verb.
+        const verbKind = waiting ? null : microFor(step.check);
         this.body.appendChild(
           button(
-            waiting ? LANG_TEXT.skipWait : STORY_TEXT.doStep,
+            waiting ? LANG_TEXT.skipWait : verbKind ? doItLabel(verbKind) : STORY_TEXT.doStep,
             () => {
               // The Journal steps aside first, so the scene the step starts plays in the
               // clear rather than under it (review 2026-10-21, bug 29).
               this.dialog.hide();
               const act = (): void => g.send({ kind: 'sideAct', story: id });
               // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
-              const kind = waiting ? null : microFor(step.check);
-              if (kind && MICRO_BUILT.has(kind)) {
+              const kind = verbKind;
+              if (kind && !microSkipped(g.world) && MICRO_BUILT.has(kind)) {
                 const seed = Math.abs(hashSeed(`${id}:${step.id}`));
                 this.micro.open(kind, step.goal, seed, g.reduceMotion, act);
               } else act();
@@ -323,6 +332,9 @@ export class Journal {
         .join(' · ');
       this.body.appendChild(row);
     }
+    // R0313 (FUN-24): Fern's running stone, counted with the friends.
+    const stones = fernStones(g.world);
+    if (stones > 0) this.body.appendChild(el('p', 'help', fernCairnLine(stones)));
     // Chapter list.
     const chapters = el('div', 'journal-chapters');
     const rows: Array<{ n: number; title: string; row: HTMLElement }> = [];

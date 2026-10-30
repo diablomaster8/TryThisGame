@@ -72,110 +72,59 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
   Hand-over: side-session note `r6-lane-c-handover.md`.
 
-## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
+## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
 
-Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixel|3d>
-<desk|phone> 5181` in `recs-2026-10-27/tools`. R0317 (lane E) and R0326 (lane B) skipped.
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. Skipped for other lanes: R0293, R0298, R0317,
+R0326, R0328, R0332, R0340, R0358, R0359, R0362, R0363.
 
-- *Works:* the opening's stuck gate is played (hold, push, sticks once, gives) and the cup
-  sets `c1-cup-turned`, which adds a line to c12-close (R0304, `Line.act`, `ui/line-act.ts`);
-  no fun quest before chapter 2's closing (R0306); slip toasts say what helps, with a minute's
-  warning in a new save (R0307); sprout toasts icon-first, no mechanics, read aloud (R0308,
-  `ui/fun-toasts.ts` wraps the toaster); `content-check --comedy` and book 1's 74 gags tagged
-  (R0309); sound words read with their sounds, a bubbly face, ~70% of non-grave campaign and
-  S1–S22 sprout scenes covered (R0310); pet toasts in three physical lines per band (R0311);
-  one hatch card with Pet (R0312); Fern's cairn by the signpost in both modes, one stone a
-  chapter, tappable, finale line (R0313); Byte's stopwatches on the race card (R0314); 25 joke
-  badges, titles in `config/strings-badges.ts`, Silly filter (R0315); a seeded away diary,
-  three headlines then "+N more" (R0316); 60 gated tips on the veil and stage loaders (R0318);
-  chip caps in the checker, chapter 1–2 how-to steps tick live (R0319); sprout wrong replies
-  open with a silly picture, checker warning (R0320); sprout peekaboo under Play (R0321); tap
-  squeak toy (R0322); Say it! on 21 refrains (R0323); Keeper routines, three stations a story
-  day with lines and prop icons (R0296); 90 chatter exchanges for 15 pairs (R0297); R0294's
-  verb map covers every check, with balance, hunt and catch playable from the Atlas and Journal.
-- *Stubbed:* R0294's escort, climb, puzzle, survive and explore games (the button stays) and
-  the Skip-this setting; R0296's prop sprites (soot face, guilty sapling: the bubble icon is
-  the gag for now); R0313's Journal Friends line and side-story callback; R0316's 30 s
-  highlight of changed Nubbins; R0321's shy-Nubbin peekaboo idles; R0310 outside campaign and
-  S1–S22 (17.7% of all sprout scenes); R0318's Atlas loader; R0322's crown spin is a dizzy face.
-- *Known bugs:* none found. Timing tests (full life, nav, 8 Nubbins) fail under a loaded
-  machine; alone see the round's report. `TEN_TEXT.slipToast` in `strings.ts` is now unused.
-- *Assumptions:* routines and chatter state is not saved (read from the clock, kept beside the
-  world); joke-badge counts in optional `world.funCounts` (no save bump); the cup and gate
-  flags live in campaign flags; R0311 leaves lane E's per-personality lines (R0298) as the
-  main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
-  skip the wander pick), so seeded replays differ from before but stay deterministic.
+- *Works:* all eight micro-games (escort, climb, puzzle, survive, explore new), `minigame:`
+  checks mapped by token, per-verb Do-it labels, a Skip switch on for sprouts (R0294, R0369);
+  `hint-button?` checker warning at 0, STYLE.md Hints (R0292, R0339); routine prop gags over
+  Keepers, both modes (R0296); distracted walks bonk trunks (R0299); `Line.react` + inferred
+  narration reactions, chapter 1 spark (R0303, R0368); goal-met toddle and plop (R0305);
+  Journal cairn line + S2 callback (R0313); sprout wrong openers 0, sound words 25.2% of
+  scenes (R0320, R0310); Expedition spin, Shell scatter, quips, superlatives (R0324); race
+  butterfly stops, 40 rival quirks (R0325); voiced request board (R0327); weather gags
+  (R0329); pair play (R0330); Hazel's P.S. on chapter cards (R0334); Multiverse dossiers and
+  Neopian Times masthead (R0335); IM1 gags (R0337); grammar helpers (R0341); sarcasm check
+  (R0347); toast variants (R0349).
+- *Stubbed:* R0299's Keeper hop and splat art; R0303's 50-gag back-fill (one done, 215
+  inferred); R0310 at 25% (Atlas sprout files next); R0321's in-world hide (needs lane E's
+  R0293); R0325's 3D butterfly (pixel only) and joyful trip; R0334 not read aloud for sprouts;
+  R0369's 1.5 s mini animation (the micro-game plays instead).
+- *Known bugs:* none found.
+- *Assumptions:* gag state is render-side or hashed (no world-rng draws, no save fields; the
+  one new setting `microSkip?` is optional); R0341 edited templated strings in `strings.ts`
+  in place under the R0341 exception; `render3d/expedition-3d.ts` got the R0324 spin (lane
+  D/E-adjacent, two small blocks).
 
-## Round 4 · Lane D (2026-10-29, branch r4/d)
+## Round 5 · Lane D (2026-10-29, branch r5/d)
 
-Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
-R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
+Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
+R0095, R0096–R0098, R0102, R0107+; partials after. Skip R0085, R0086, R0088 (lane A).
 
-- **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
-  flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
-  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
-  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
-  north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
-  R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
-  when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
-  R0100 the objective beacon, edge arrow, compass tick and minimap star (`sim/beacon.ts`).
-  R0101 fun quests offered only in their region (`sim/quest-areas.ts`). R0106 the bar tucks
-  while walking on phones. Probe: `PROBE_BREAKDOWN=all`, `PROBE_SURVEY=1`.
-- **Stubbed:** R0072 orchard trees are not droppable, the boardwalk is not walkable, the
-  telescope answers with a line (no camera pan), no fairy-ring chime. R0073 the Keeper and
-  NPCs are not tokenised (Nubbins are, 1.5×), tokens' hit area is about 24 CSS px, not 44.
-  R0099 no kid-safe signposts or glowing trail; entrances outside the fence are not hidden
-  sprites. R0100 only Hazel chapter 1 and the Grove suggestions have places (CAMP fills
-  `OBJECTIVE_POIS`). R0101 no offer-on-entering or signpost offers; regions open for their
-  own offers are listed in `WORLD_QUESTS.ownOffers` (grove, hollow). R0095–R0098 not started.
-- **Known bugs / assumptions:** triangles at the busy middle spots swing with where the
-  Nubbins wander: heart 408–472k and bridge 399–464k across runs (budget 450k; creatures are
-  ~350k of it), so one of them is often just over. At the survey zoom southBend reads 177 calls;
-  the near zoom (index 1) at the heart reads about 530k triangles, over 450k (pre-existing,
-  not probed by default). The lane counts as built but only as Corvin's set, so its quests
-  stay offered from the Grove. The pixel chip and the "Tap to walk" hint overlap (pre-existing).
+- **Works:** creature triangle budget (`lod.ts` capFull, `WORLD_LOD.creature.fullTris`, phone
+  190k): nearest first, the rest step down to stand-ins or impostors. Cause of the swing: human
+  NPC and Keeper stand-ins are 35–69k tris (their coarse grid only halves two surfaces). Phone
+  sun shadow box ±22 u, near 25, far 95; far cells redraw every other frame; Grove rocks one
+  draw (undrawn copies keep taps and halos); lantern posts in their lantern's bucket; empty
+  recruit batch hidden. Probe 3D phone 19/19
+  under in two runs (farOrchard 186→176 calls; heart 410–485k→297–309k, bridge
+  410–482k→296–328k tris; 8 Nubbins at the heart 117–127 calls, 277–327k).
+  R0095 village square at the lane's end (Grove SW, `config/region-village.ts`): paving and
+  fountain, 0/2/5 buildings at prosperity 0/40/100, a dressing set per 20, recruits on
+  clock-driven role loops (`sim/village.ts`), taps answer (stall → shop, gym → menu), both
+  renderers. R0102 Travel assist (`settings.travel`, optional; unset = Auto-walk in a Learning
+  Grove, else Walk): the beacon chip and map pins run there or hop there. R0107 landmark name
+  card (2 s, fast-travel chip, says which badge paid Shells) and the Journal's Places tab.
+- **Stubbed:** village is a district of the Grove, not its own 80×64 region (needs WORLD-39);
+  recruits are role-coloured villager figures, not their species; Grove stalls stay as the
+  market. No camera hold on discovery (game.ts follow code). R0096–R0098, R0108 not started.
+- **Known bugs / assumptions:** the 3D stand-in cost is still high for human rigs (lane E's
+  pool); on desktop the creature budget is off (`Infinity`). The full-life timing test runs
+  3.1–3.6 s on this loaded machine on main too.
 
-## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
-
-- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
-  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
-  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
-  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
-  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
-  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
-  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
-  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
-  each pet action plays its own beat and toast in both modes.
-- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
-  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
-  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
-- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
-  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
-- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
-  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
-  instead of wading.
-
-## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
-
-- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
-  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
-  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
-  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
-  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
-  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
-  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
-  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
-  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
-  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
-- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
-  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
-  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
-  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
-- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
-  that level.
-- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
-  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
-  (underground ground is flat in `keeper.ts`, lane A).
 ## Standing approval (Maor, 2026-10-12)
 
 "When you finish, proceed straight through to the next development. I'm approving it. Keep

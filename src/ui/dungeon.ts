@@ -11,9 +11,11 @@ import { WaypointPanel } from './waypoint-panel';
 import { HOLLOW } from '../config/tuning';
 import { campPortalHere, canUseAcorn, standingOnWaypoint } from '../sim/dungeon-travel';
 import { parseLevelId } from '../sim/dungeon-levels';
-import { HOLLOW_ZONE_TEXT } from '../config/strings';
+import { GEAR_TEXT, HOLLOW_ZONE_TEXT, RUMBLE_TEXT } from '../config/strings';
+import { GearPanel } from './dungeon-gear';
 import { serviceHere } from '../sim/dungeon-towns';
 import { mouthHere } from '../sim/dungeon-zones';
+import { calmers } from '../sim/dungeon-strays';
 import { TownPanel } from './dungeon-town';
 import { PartyPicker } from './dungeon-party';
 
@@ -42,6 +44,11 @@ export class DungeonMenu {
   private readonly mouthBtn: HTMLButtonElement;
   /** In a camp with an acorn portal open into its act (R0150). */
   private readonly portalBtn: HTMLButtonElement;
+  /** R0281: the stray's choice, shown while a stray asks. */
+  private readonly calmBtn: HTMLButtonElement;
+  private readonly snackBtn: HTMLButtonElement;
+  /** R0164: the gear panel. */
+  private readonly gear: GearPanel;
   /** Who comes along (R0168). */
   private readonly party: PartyPicker;
 
@@ -119,7 +126,29 @@ export class DungeonMenu {
       'btn btn-small btn-primary hollow-extra',
     );
     this.portalBtn.hidden = true;
+    // R0281: a stray that bumped the Keeper waits a moment for Calm it or a snack.
+    const asking = () => this.game()?.world.dungeon?.strayAsk?.id;
+    this.calmBtn = button(
+      RUMBLE_TEXT.calm,
+      () => {
+        const id = asking();
+        if (id) this.game()?.send({ kind: 'strayCalm', id });
+      },
+      'btn btn-small btn-primary hollow-extra',
+    );
+    this.snackBtn = button(
+      RUMBLE_TEXT.snack,
+      () => {
+        const id = asking();
+        if (id) this.game()?.send({ kind: 'feedStray', id });
+      },
+      'btn btn-small hollow-extra',
+    );
+    this.calmBtn.hidden = this.snackBtn.hidden = true;
     this.bar.append(this.serviceBtn, this.mouthBtn, this.portalBtn);
+    this.bar.append(this.calmBtn, this.snackBtn);
+    this.gear = new GearPanel(parent, game);
+    this.bar.append(button(GEAR_TEXT.button, () => this.gear.open(), 'btn btn-small hollow-extra'));
     // The minimap: its button sits in the bar, its panel is the bar's last row.
     this.map = new HollowMap(this.bar);
     this.bar.insertBefore(this.map.toggle, this.map.panel);
@@ -142,10 +171,13 @@ export class DungeonMenu {
     this.dialog.hide();
     this.waypoints.close();
     this.town.close();
+    this.gear.close();
   }
 
   isOpen(): boolean {
-    return this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen();
+    return (
+      this.dialog.isOpen() || this.waypoints.isOpen() || this.town.isOpen() || this.gear.isOpen()
+    );
   }
 
   /** Called every frame by the HUD: the underground bar follows the run. */
@@ -158,6 +190,7 @@ export class DungeonMenu {
     this.town.refresh(world);
     if (!run) {
       this.serviceBtn.hidden = this.mouthBtn.hidden = this.portalBtn.hidden = true;
+      this.calmBtn.hidden = this.snackBtn.hidden = true;
       return;
     }
     const service = serviceHere(world);
@@ -165,6 +198,8 @@ export class DungeonMenu {
     if (service) this.serviceBtn.textContent = TownPanel.label(world, service);
     this.mouthBtn.hidden = mouthHere(world) === null;
     this.portalBtn.hidden = !campPortalHere(world);
+    this.snackBtn.hidden = !run.strayAsk;
+    this.calmBtn.hidden = !run.strayAsk || !calmers(world, run).length;
     this.stoneBtn.hidden = !standingOnWaypoint(world);
     const free = !run.acornUsed;
     this.acornBtn.textContent = HOLLOW_TEXT.acornButton(world.hollow.acorns, free);

@@ -2703,7 +2703,7 @@ export const ARCADE_PA4: Quest[] = [
       {
         id: 'pa4-18-s1',
         goal: 'Call back your friends, and your Nubbin, through the dark.',
-        hint: 'Press SAVE on each friend in turn. When your Nubbin goes quiet, keep calling its name.',
+        hint: 'Tap Do it in the Journal and stand firm, one friend at a time. When your Nubbin goes quiet, keep calling its name.',
         check: 'minigame:mercy:pa4-asriel',
         scene: {
           id: 'pa4-18-dark',

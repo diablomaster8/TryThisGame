@@ -1,4 +1,5 @@
 import { TRAINER_LABELS } from '../config/strings';
+import { StageReact } from './stage-react';
 import { CG4_U4 } from '../config/tuning-u4';
 import { ENDINGS, SPEAKERS, STORY_TEXT, type Line, type Mood, type Scene } from '../config/story';
 import type { Game } from '../game';
@@ -62,6 +63,8 @@ export class Dialogue {
   private typing = 0;
   private fullText = '';
   private shown = 0;
+  /** R0303: the stage actor's emote or spark for the line on screen. */
+  private readonly stageReact: StageReact;
   private afterLines: (() => void) | null = null;
   /** The scene playing (its band's lessons and default choice), and lessons already played. */
   private playing: PlayScene | null = null;
@@ -87,6 +90,7 @@ export class Dialogue {
   ) {
     this.root = el('div', 'dialogue');
     this.root.hidden = true;
+    this.stageReact = new StageReact(parent);
     const box = el('div', 'dialogue-box');
     this.portrait = document.createElement('canvas');
     this.portrait.className = 'dialogue-portrait';
@@ -448,6 +452,8 @@ export class Dialogue {
     if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(line.text);
     // R0303: a line's sound cue plays however the text appears.
     if (line.sfx) playSound(line.sfx);
+    // R0303 / R0368: the stage actor's reaction to the line (its own, or read from narration).
+    this.stageReact.play(g, line, !!line.sfx);
     // Half-typed Hebrew would sit unisolated, so a line with script appears whole.
     if (reduce || hasScript(this.fullText)) {
       this.shown = this.fullText.length;

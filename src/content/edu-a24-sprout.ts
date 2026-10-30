@@ -261,7 +261,7 @@ const A1: EduQuest = quest(
               [N('Yes! India is a big country with hills, jungle and cities.')],
               true,
             ),
-            o('A tiny pond.', [N('No, it is much bigger! India is a whole country.')]),
+            o('A tiny pond.', [N('A tiny pond? Splash! India is much bigger, a whole country.')]),
           ],
           'Learned that India is a big country, and that the story is set in its hills.',
         ),
@@ -441,7 +441,7 @@ const A1: EduQuest = quest(
               true,
             ),
             o('People who look the same.', [
-              N('Not quite. Families can look very different. Love makes them.'),
+              N('A family of copies? Hee hee! Families can look very different. Love makes them.'),
             ]),
           ],
           'Heard that a family is made by people loving and looking after one another.',
@@ -547,7 +547,7 @@ const A2: EduQuest = quest(
               [N('Yes! Good friends help each other.')],
               true,
             ),
-            o('They make you do chores.', [N('No. Good friends help and care.')]),
+            o('They make you do chores.', [N('Friends making you do chores? Sweep, sweep! Good friends help and care.')]),
           ],
           'Talked about friends speaking up for someone, and why fair groups listen to more than one voice.',
         ),
@@ -812,7 +812,7 @@ const A3: EduQuest = quest(
           [N('A creeper is a plant that climbs up a tree. What does a creeper do?')],
           [
             o('Climbs.', [N('Yes! A creeper climbs and holds on.')], true),
-            o('Swims.', [N('No. A creeper climbs up trees.')]),
+            o('Swims.', [N('A creeper that swims? Splash! A creeper climbs up trees.')]),
           ],
           'Learned that a creeper is a plant that climbs.',
         ),
@@ -1114,7 +1114,7 @@ const A5: EduQuest = quest(
               [N('Yes! Step back slowly and tell a grown-up.')],
               true,
             ),
-            o('Pick it up.', [N('No! Never touch a wild snake. Tell a grown-up.')]),
+            o('Pick it up.', [N('Pick up a snake? Hiss! Never touch a wild snake. Tell a grown-up.')]),
           ],
           'Practised what to do if you see a wild snake: stay calm, step back and tell a grown-up.',
         ),
@@ -1328,7 +1328,7 @@ const A6: EduQuest = quest(
           [N('Long ago, fire helped people. What does fire give us: warmth, or a cold wind?')],
           [
             o('Warmth and light.', [N('Yes! Fire gives warmth and light.')], true),
-            o('A cold wind.', [N('No! Fire is warm and bright.')]),
+            o('A cold wind.', [N('A cold wind from the fire? Brrr! Fire is warm and bright.')]),
           ],
           'Learned that long ago people used fire for warmth and light.',
         ),
@@ -1467,7 +1467,7 @@ const A6: EduQuest = quest(
           [N('If you find matches at home, what should you do?')],
           [
             o('Leave them and tell a grown-up.', [N('Yes! Matches are for grown-ups.')], true),
-            o('Play with them.', [N('No! Fire can be dangerous. Tell a grown-up.')]),
+            o('Play with them.', [N('Play with fire? Whoosh! Fire can be dangerous. Tell a grown-up.')]),
           ],
           'Practised fire safety: leaving matches alone and telling a grown-up.',
         ),
@@ -1512,7 +1512,7 @@ const A7: EduQuest = quest(
           [N('The wolves feel the fire before they touch it. What do we feel from a fire?')],
           [
             o('Heat.', [N('Yes! A fire is hot. We keep back.')], true),
-            o('Cold.', [N('No! A fire is hot, not cold.')]),
+            o('Cold.', [N('A cold fire? Brr, shiver! A fire is hot, not cold.')]),
           ],
           'Learned that a fire gives out heat we can feel from a distance.',
         ),
@@ -2288,7 +2288,7 @@ const A11: EduQuest = quest(
           [N('(Point to the moon.) Tonight the moon is full. What shape is a full moon?')],
           [
             o('A circle.', [N('Yes! A full moon is a big round circle.')], true),
-            o('A square.', [N('No corners on the moon! A full moon is round, like a circle.')]),
+            o('A square.', [N('A square moon? Bonk! A full moon is round, like a circle.')]),
           ],
           'Learned that the Moon changes shape, and that a full moon is round.',
         ),
@@ -2996,7 +2996,7 @@ const A14: EduQuest = quest(
               [N('Yes. He will not wake up. It is all right to feel sad.')],
               true,
             ),
-            o('He is asleep.', [N('No. A sleeping body wakes up. A body that has died does not.')]),
+            o('He is asleep.', [N('Asleep? A sleeping body wakes up. A body that has died does not.')]),
           ],
           'Learned plainly what died means, and that feeling sad is a normal response.',
         ),
@@ -3556,7 +3556,7 @@ const A17: EduQuest = quest(
       [
         N('By autumn Kotick swims like a seal born to it.'),
         KO('The young ones are going up the beach. I want to see.', 'think'),
-        N('Splash! Splosh! The waves go splash on the sand.'),
+        N('Splash! Splash! The waves go splash on the sand.'),
       ],
       [
         doit(

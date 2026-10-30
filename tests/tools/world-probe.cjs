@@ -76,6 +76,17 @@ async function clearDialogue(page) {
     shut = 0;
     const ch = page.locator('.btn-choice:visible');
     const sk = page.locator('.dialogue :text("Skip"):visible');
+    // R0304's hands-on lines (the stuck gate, the cup) hide Skip; a synthetic click pushes,
+    // and the gate gives on the second push.
+    const act = await page.evaluate(() => {
+      const b = document.querySelector('.line-act-btn');
+      if (b) b.click();
+      return !!b;
+    });
+    if (act) {
+      await page.waitForTimeout(400);
+      continue;
+    }
     if (await ch.count())
       await ch
         .first()

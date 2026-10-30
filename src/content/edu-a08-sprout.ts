@@ -162,7 +162,7 @@ const Q1 = quest(
               [N('Yes! The village is the little green dot by the sea.', 'happy')],
               true,
             ),
-            opt('In the red', [N('Not quite: red is the Romans. The village is the green dot.')]),
+            opt('In the red', [N('The village in the red? Hello, Romans! The village is the green dot.')]),
           ],
           'Read a simple map: found the village as the green dot among the red.',
           'D2.Geo.2.K-2',
@@ -651,7 +651,7 @@ const Q4 = quest(
               [N('Yes! Rules help everyone to be fair and safe.', 'happy')],
               true,
             ),
-            opt('So nobody has fun', [N('Not quite. Good rules help us all have fun together.')]),
+            opt('So nobody has fun', [N('Rules so nobody has fun? Boo! Good rules help us all have fun together.')]),
           ],
           'Talked about why rules in a game help everyone to be fair.',
           'D2.Civ.8.K-2',
@@ -992,7 +992,7 @@ const Q6 = quest(
               true,
             ),
             opt('Yes, a dormouse', [
-              N('No, Asterix is a person. He knows who he is, and so do you.'),
+              N('Asterix a dormouse? Squeak! He is a person, and he knows who he is.'),
             ]),
           ],
           'Talked about knowing who you are, even when someone says something silly.',
@@ -1003,7 +1003,7 @@ const Q6 = quest(
     sc(
       'a08-06-stare-done',
       [
-        N('The last grain of sand falls. Plink!'),
+        N('The last grain of sand falls. Plop. Plink!'),
         N('Inside the tent it is dark. You can hardly see.'),
         N('The dog barks at the door, where it is light.'),
       ],

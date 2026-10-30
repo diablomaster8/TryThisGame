@@ -1,4 +1,5 @@
 import { NAMES, SPECIES_LABELS, TEN_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
+import { requestLine } from '../config/strings-fun-r6';
 import { MOVE_TEXT } from '../config/strings-move';
 import { PLOTS, TOWN } from '../config/tuning';
 import { canMerge } from '../sim/partners';
@@ -76,6 +77,14 @@ export class QuestBoard {
           `${UI_TEXT.questFrom(fromLabel(q.from, g))} · ${Math.min(q.progress, q.target)}/${q.target} · ${q.rewardShells} ${NAMES.currency}${q.rewardEgg ? ' + 🥚' : ''}`,
         ),
       );
+      // R0327 (FUN-38): the asker's own voice, and their thanks once it is claimed.
+      const voiced = requestLine(
+        q.template,
+        q.from,
+        !TRAINER_LABELS[q.from],
+        q.claimed ? 'thanks' : 'ask',
+      );
+      if (voiced) text.append(el('p', 'request-voice', voiced));
       const claim = button(
         q.claimed ? '✓' : UI_TEXT.claim,
         () => {

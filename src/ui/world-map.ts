@@ -11,7 +11,7 @@ import { REGIONS, type RegionId } from '../config/regions';
 import { markAt } from '../config/stage-marks';
 import { STAGE_SET_HIDES, type StageSet } from '../config/stage-sets';
 import { STAT_ICONS, STORY_U4_TEXT, TITLE_CARD_TEXT, UI_TEXT } from '../config/strings';
-import { WORLD_TEXT } from '../config/strings-world';
+import { TRAVEL_TEXT, WORLD_TEXT } from '../config/strings-world';
 import { CG4_U4 } from '../config/tuning-u4';
 import { GROVE } from '../config/tuning';
 import { WORLD_MAP } from '../config/tuning-world';
@@ -19,6 +19,7 @@ import type { Game } from '../game';
 import { MAP_PPU, paintGroveMap, toMapPx } from '../render/map-paint';
 import { landmarkList } from '../sim/landmarks';
 import { regionOf, regionsFound, travelBlock } from '../sim/regions';
+import { travelMode } from '../sim/travel';
 import type { NubbinType, World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { playIris } from './travel-iris';
@@ -408,10 +409,17 @@ export class WorldMapPanel {
       this.sheet.appendChild(el('p', 'help', WORLD_TEXT.notFound));
       return;
     }
+    // R0102: with Auto-walk, a pin in the Grove is walked to (at a run), not hopped to.
+    const walk = travelMode(g.world) === 'auto' && g.world.location === 'grove' && !!to.pos;
     const go = button(
-      WORLD_TEXT.travelHere,
+      walk ? TRAVEL_TEXT.walkHere : WORLD_TEXT.travelHere,
       () => {
         const w = g.world;
+        if (walk && to.pos) {
+          this.close();
+          g.send({ kind: 'travelAssist', pos: { ...to.pos } });
+          return;
+        }
         // R0074: never in the middle of a story scene.
         if (document.documentElement.classList.contains('dialogue-open')) {
           this.toast(WORLD_TEXT.travelBusy);

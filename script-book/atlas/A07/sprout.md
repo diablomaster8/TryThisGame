@@ -1103,7 +1103,7 @@ _You say his name, quietly: Héctor._
 > **Lesson** (literacy, ELOF: Literacy, ask): first, next, last in a story  
 > _What happened first? Héctor left to go home. What happened next?_  
 > - ✅ Ernesto played an unkind trick → Yes! First he set off. Next the trick. Last, he never got home.
-> - He got home → Try again. First he set off. Next, the trick. Last, he never got home.
+> - He got home → Home for tea? Ding! First the trick. Last, he never got home.
 > _For grown-ups: Put the events of a story in order: first, next, last._
 
 **Miguel**: You tell her. You’re coming too.  

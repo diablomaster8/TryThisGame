@@ -48,7 +48,8 @@ import { battleScreen } from './battle-screen';
 import { SURVIVE_TEXT } from '../config/strings-battle-r6';
 import { parseSurvive, startWorldBout, surviveContext } from '../sim/battle/world-bout';
 import { MicroScreen } from '../minigames/micro/micro-screen';
-import { MICRO_BUILT, microFor } from '../sim/micro';
+import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
+import { DO_IT_BY, DOSSIER_TEXT, doItLabel } from '../config/strings-fun-r6';
 import { hashSeed } from '../sim/rng';
 
 /** A fresh read-only snapshot of the side saves and every Grove save on this device. */
@@ -223,11 +224,32 @@ export class StoryShelf {
       (l) => lineAvailable(l, audience) && !lineClosed(l, progress[l.id], ctx),
     );
     this.body.replaceChildren(el('p', 'help', this.config.help));
+    // R0335 (FUN-46): Neopia's masthead, its caption worn down by the plots (canon 44).
+    if (this.config.which === 'neopia') {
+      const np = this.lines!.find((l) => l.id === 'NP');
+      const [plots] = np ? lineCount(np, progress[np.id]) : [0];
+      const stage = plots >= 13 ? 2 : plots >= 4 ? 1 : 0;
+      const head = el('div', stage === 2 ? 'neo-masthead neo-bitten' : 'neo-masthead');
+      head.append(
+        el('strong', undefined, DOSSIER_TEXT.masthead),
+        el('small', undefined, DOSSIER_TEXT.captions[stage]),
+      );
+      this.body.appendChild(head);
+    }
     if (shown.length === 0) this.body.appendChild(el('p', 'help', this.config.empty));
     const list = el('div', 'title-menu');
     for (const line of shown) {
       const [done, total] = lineCount(line, progress[line.id]);
       const mark = progress[line.id]?.done ? ' ✓' : '';
+      // R0335: a Multiverse line's case file misnames the Nubbins until the line closes.
+      const wrong = this.config.which === 'multiverse' ? DOSSIER_TEXT.wrong[line.id] : undefined;
+      if (wrong) {
+        const file = el('p', 'help mv-dossier', DOSSIER_TEXT.label);
+        if (progress[line.id]?.done)
+          file.append(el('s', undefined, wrong), ` ${DOSSIER_TEXT.right}`);
+        else file.append(wrong);
+        list.appendChild(file);
+      }
       list.appendChild(
         button(
           `${ATLAS_TEXT.page(line.title, done, total)}${mark}`,
@@ -256,22 +278,27 @@ export class StoryShelf {
       if (next.kind === 'act') {
         this.body.appendChild(el('p', undefined, next.goal));
         this.body.appendChild(el('p', 'help', next.hint));
+        // R0294 (FUN-05): every check verb plays its micro-game first, unless the Skip
+        // switch is on. R0369 (FUN-80): the button names the verb, with an aside.
+        const step = next.quest.steps.find((s) => s.goal === next.goal);
+        const kind = step ? microFor(step.check) : null;
+        const by = DO_IT_BY[kind ?? 'real'];
+        const w = this.game()?.world;
+        const skip = w ? microSkipped(w) : false;
+        this.body.appendChild(el('p', 'help micro-aside', by.aside));
         this.body.appendChild(
           button(
-            ATLAS_TEXT.doIt,
+            doItLabel(kind),
             () => {
               const act = (): void => {
                 this.update(line, (pr, ctx) => lineAct(line, pr, ctx));
                 this.refresh();
               };
-              // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
-              const step = next.quest.steps.find((s) => s.goal === next.goal);
-              const kind = step ? microFor(step.check) : null;
               // R0340 (FUN-51): a survive step is a real bout, fought by copies of the party.
               const survive = step ? parseSurvive(step.check) : null;
               const g = this.game();
               if (survive && g && this.playSurvive(g, line.id, step!.id, survive, act)) return;
-              if (kind && MICRO_BUILT.has(kind)) {
+              if (kind && !skip && MICRO_BUILT.has(kind)) {
                 const seed = Math.abs(hashSeed(`${line.id}:${step!.id}`));
                 this.micro.open(kind, next.goal, seed, this.game()?.reduceMotion ?? false, act);
               } else act();

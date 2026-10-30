@@ -416,7 +416,7 @@ _Under the glass each flake is a six-pointed star._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): what “maybe” means  
 > _Gran said “maybe”. Does maybe mean yes?_  
 > - ✅ No. Maybe means not sure yet → Right. Maybe means we will see.
-> - Yes, it means yes → Not quite. Maybe means not sure yet.
+> - Yes, it means yes → Maybe means yes? Hmm, silly! Maybe means not sure yet.
 > _For grown-ups: Learned that “maybe” means not sure yet._
 
 
@@ -888,7 +888,7 @@ _Gerda tells him everything. Has he seen Kay?_
 > **Lesson** (literacy, RL.K.3, ask): what a character wants  
 > _What does the princess want? Someone who can…_  
 > - ✅ Talk back → Yes! She wants someone who can really talk to her.
-> - Stand very still → No, no. Standing still is the boring part. She wants someone who can talk.
+> - Stand very still → A statue friend? Stand still, hee hee! She wants someone who can talk.
 > _For grown-ups: Said what a story character wants._
 
 
@@ -1573,7 +1573,7 @@ _She takes Bae to a corner and puts fresh ice on his head._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): strength comes from caring  
 > _Where does Gerda’s strength come from?_  
 > - ✅ From her loving heart → Yes. Love and kindness make her strong. No magic needed.
-> - From a magic drink → No magic. Her caring heart is her strength.
+> - From a magic drink → A magic drink? Gulp! It is her caring heart that makes her strong.
 > _For grown-ups: Talked about how love and kindness give us strength._
 
 

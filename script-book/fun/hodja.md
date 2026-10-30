@@ -111,7 +111,7 @@ _When he comes back, he is wearing a magnificent fur coat. The whole table stand
 
 ### Step 2: Watch what the Hodja does with his soup.
 
-Hint: Sit near the top of the table and use Watch. · check: `watch:hodja:feed-coat`
+Hint: Sit near the top of the table, then tap Do it in the Journal and watch the coat eat. · check: `watch:hodja:feed-coat`
 
 #### <a id="q87-feast"></a>Scene `q87-feast`
 
@@ -316,7 +316,7 @@ _You fetch a long rope and a heavy iron hook from the shed. The Hodja ties it wi
 
 ### Step 2: Pull on the rope with the Hodja, and then lie down and look up.
 
-Hint: Use Pull on the rope, then Sit beside the Hodja. · check: `sit:hodja:well-moon`
+Hint: Tap Do it in the Journal to pull the rope, then sit beside the Hodja and look up. · check: `sit:hodja:well-moon`
 
 #### <a id="q90-pull"></a>Scene `q90-pull`
 
@@ -463,7 +463,7 @@ _A dozen benches, a slate on an easel, a vase of late asters. The Hodja arrives 
 
 ### Step 2: Keep a straight face through the Hodja’s three talks.
 
-Hint: Sit at the back and use Listen. Try not to laugh. · check: `sit:schoolhouse:hodja-talk`
+Hint: Sit at the back, then tap Do it in the Journal. Try not to laugh. He can tell. · check: `sit:schoolhouse:hodja-talk`
 
 #### <a id="q92-talk"></a>Scene `q92-talk`
 

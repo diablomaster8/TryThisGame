@@ -1083,7 +1083,7 @@ const Q05: EduQuest = quest(
               true,
             ),
             opt('Yes, loud and clear', [
-              N('Not quite. In a jar the voice sounds muffled and boomy.'),
+              N('Clear in a jar? Bonk! A jar makes voices sound muffled and boomy.'),
             ]),
           ],
           'Noticed that a voice sounds different inside a jar.',
@@ -3091,7 +3091,7 @@ const Q16: EduQuest = quest(
               true,
             ),
             opt('Back where it started', [
-              N('Not quite. A stream flows one way, and carries the cone with it.'),
+              N('Back up the stream? Whoosh! Streams flow one way, and carry the cone along.'),
             ]),
           ],
           'Noticed that a stream carries things in the direction it flows.',

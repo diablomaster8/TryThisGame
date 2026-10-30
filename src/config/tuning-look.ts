@@ -80,3 +80,22 @@ export const PART_SIZE = {
   /** Sun and Moon adults' parts move this far toward the body colour. */
   bandTint: 0.3,
 };
+
+/** LOOK-24: short flights for strong fliers (`sim/flight.ts`). */
+export const FLIGHT = {
+  /** An adult at or above this Fly level takes some wander legs in the air. */
+  minLevel: 50,
+  /** The share of its wander legs that are flights. */
+  chance: 0.35,
+  /** Cruise height, world units. */
+  height: 0.6,
+  riseMs: 400,
+  glideMs: 600,
+  /** Cruise speed as a multiple of the walk. */
+  speed: 1.4,
+  /** Wing beats per second while climbing and cruising. */
+  flapHz: 10,
+} as const;
+
+/** LOOK-22: the 3D walk's waddle roll by personality (children, without one, keep 1). */
+export const PERSONA_WADDLE = { cheerful: 1.3, shy: 0.7, mischievous: 1.15, lazy: 1.45 } as const;

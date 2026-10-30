@@ -212,7 +212,7 @@ _Hiccup’s shoulders go down. He looks small._
 > **Lesson** (sel, CASEL: Social awareness, ask): naming a feeling in someone else  
 > _How do you think Hiccup feels?_  
 > - ✅ Worried and a bit sad → Yes. His shoulders went down, and that tells us how he feels.
-> - Very silly and giggly → Not quite. Look at his face and shoulders: he looks worried.
+> - Very silly and giggly → Giggly? Hee hee! But look at his face and shoulders: he looks worried.
 > - Sleepy → It is late, but his face is worried, not sleepy.
 > _For grown-ups: Read a character’s body language to name a feeling._
 
@@ -705,7 +705,7 @@ _Hiccup takes out the knife slowly. Plop, it goes in the lake!_
 > **Lesson** (sel, CASEL: Social awareness, ask): showing a friend you mean no harm  
 > _Hiccup throws the knife away. What does that tell the dragon?_  
 > - ✅ I will be gentle → Yes. It says “I mean no harm”, so now the dragon feels safer.
-> - I am cross → No. A cross person would keep the knife, but throwing it away is gentle.
+> - I am cross → Stomp! Cross? A cross person keeps the knife. Throwing it away is gentle.
 > - I am hungry → Hiccup is not hungry. He wants the dragon to feel safe.
 > _For grown-ups: Talked about how putting something dangerous down shows a friend you mean no harm._
 
@@ -1480,7 +1480,7 @@ _Hiccup looks at his hands for a long time._
 > _Astrid asked a question. What did she do next?_  
 > - ✅ She waited and listened → Yes. Asking, then waiting and listening, is how a good talk works.
 > - She walked away → She stayed. She sat and waited for his answer.
-> - She sang a song → No song. She sat quietly and listened.
+> - She sang a song → A song? La la la! But she sat quietly and listened.
 > _For grown-ups: Noticed that a good conversation means asking, then waiting and listening._
 
 **Hiccup**: He was scared. I know that kind of scared. I could not hurt him.  

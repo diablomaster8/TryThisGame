@@ -5,6 +5,7 @@
  * nothing bloody. Every modifier has an icon as well as a word, so colour is never the only
  * signal.
  */
+import type { NubbinType } from '../sim/types';
 
 export type ChampionModId =
   | 'zoomy'
@@ -180,3 +181,44 @@ export const UNIQUES: readonly UniqueDef[] = [
   { id: 'hush-two', act: 4, level: 2, mods: ['hiding', 'copycat'], minions: 1, bonus: 130 },
   { id: 'hush-three', act: 4, level: 2, mods: ['hiding', 'grumpyCloud'], minions: 2, bonus: 130 },
 ];
+
+/**
+ * Foe families per act (R0157, DUNG-17): four rascally families each, never the player's own
+ * Nubbins. `look` is the stand-in species a family borrows (its stats and its sprite) until
+ * lane E draws the families themselves; `type` is the family's lean. Act V's Greylings are the
+ * earlier families colour-drained (`actFamilies` builds them), old friends stilled by the cold.
+ */
+export interface FoeFamilyDef {
+  id: string;
+  act: number;
+  look: string;
+  type: NubbinType;
+  /** An Act V Greyling: drawn colour-drained. */
+  grey?: true;
+}
+
+export const FOE_FAMILIES: readonly FoeFamilyDef[] = [
+  { id: 'grubble', act: 0, look: 'leafgrub', type: 'run' },
+  { id: 'sporepuff', act: 0, look: 'sporemite', type: 'normal' },
+  { id: 'batling', act: 0, look: 'duskflit', type: 'fly' },
+  { id: 'rockhermit', act: 0, look: 'pebblefist', type: 'power' },
+  { id: 'helmhog', act: 1, look: 'thornbeau', type: 'run' },
+  { id: 'gnomelet', act: 1, look: 'budling', type: 'normal' },
+  { id: 'lanternmoth', act: 1, look: 'smogpuff', type: 'fly' },
+  { id: 'ivyimp', act: 1, look: 'tanglet', type: 'normal' },
+  { id: 'dunemouse', act: 2, look: 'nibbler', type: 'run' },
+  { id: 'scarablet', act: 2, look: 'pinchbeetle', type: 'power' },
+  { id: 'tumbleweed', act: 2, look: 'dustball', type: 'run' },
+  { id: 'sandsprite', act: 2, look: 'sparkorb', type: 'run' },
+  { id: 'penguinling', act: 3, look: 'floepup', type: 'swim' },
+  { id: 'snowgolem', act: 3, look: 'rockhorn', type: 'power' },
+  { id: 'frostferret', act: 3, look: 'snoutling', type: 'swim' },
+  { id: 'icejelly', act: 3, look: 'jellet', type: 'swim' },
+];
+
+/** An act's four families; from Act V on, one Greyling of each earlier act's family. */
+export function actFamilies(act: number): FoeFamilyDef[] {
+  const own = FOE_FAMILIES.filter((f) => f.act === act);
+  if (own.length) return own;
+  return FOE_FAMILIES.map((f) => ({ ...f, id: `grey-${f.id}`, act, grey: true as const }));
+}
