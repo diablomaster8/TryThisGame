@@ -13,6 +13,7 @@ import {
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
+import { PersonalityChip } from './personality-chip';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -72,6 +73,8 @@ export class StatsSheet {
   private renamer: RenameDialog | null = null;
   /** R0360: the dry caption under the name. */
   private readonly caption: HTMLDivElement;
+  /** R0522: the personality chip (a child's leaning) and its card. */
+  private readonly personality = new PersonalityChip();
   private readonly host: HTMLElement;
 
   constructor(
@@ -221,6 +224,8 @@ export class StatsSheet {
     this.root.append(
       head,
       this.caption,
+      this.personality.root,
+      this.personality.details,
       needs,
       stats,
       this.actions,
@@ -320,6 +325,7 @@ export class StatsSheet {
     }
     this.name.textContent = n.name;
     this.subtitle.textContent = subtitleFor(n, world);
+    this.personality.update(n);
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);

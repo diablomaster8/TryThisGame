@@ -1,4 +1,4 @@
-import { PERSONALITY } from '../config/tuning';
+import { PERSONALITY, PERSONALITY_LEAN } from '../config/tuning';
 import type { Nubbin, Personality } from './types';
 
 /**
@@ -14,13 +14,40 @@ export function decidePersonality(care: Nubbin['childCare']): Personality {
   return 'cheerful';
 }
 
-export function idleMultipliers(p: Personality | null): {
+/**
+ * R0523 (SOUL-03): the personality a child is leaning toward, by the same rule that locks it
+ * at evolution (`decidePersonality` on its care so far), so the leaning a player watches is
+ * the one that locks. Null while there is too little to go on: under `minCare` acts of care
+ * and younger than `shyAfterMs` (a child that is left alone does lean shy, but not at once).
+ * An adult's is its personality.
+ */
+export function leaningPersonality(n: Nubbin): Personality | null {
+  if (n.personality) return n.personality;
+  if (n.stage !== 'child') return null;
+  const c = n.childCare;
+  const total = c.pets + c.throws + c.feeds;
+  if (total < PERSONALITY_LEAN.minCare && n.stageMs < PERSONALITY_LEAN.shyAfterMs) return null;
+  return decidePersonality(c);
+}
+
+/**
+ * Idle multipliers by personality. `strength` scales them toward 1: a child's leaning
+ * counts at `PERSONALITY_LEAN.childStrength` (R0523).
+ */
+export function idleMultipliers(
+  p: Personality | null,
+  strength = 1,
+): {
   greet: number;
   play: number;
   sit: number;
   swim: number;
 } {
-  return p ? PERSONALITY.multipliers[p] : { greet: 1, play: 1, sit: 1, swim: 1 };
+  if (!p) return { greet: 1, play: 1, sit: 1, swim: 1 };
+  const m = PERSONALITY.multipliers[p];
+  if (strength === 1) return m;
+  const s = (v: number): number => 1 + (v - 1) * strength;
+  return { greet: s(m.greet), play: s(m.play), sit: s(m.sit), swim: s(m.swim) };
 }
 
 export function noteCare(n: Nubbin, what: 'pets' | 'throws' | 'feeds'): void {

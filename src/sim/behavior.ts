@@ -26,7 +26,7 @@ import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { FRIENDS, NUBBIN_STEER, SLED } from '../config/tuning';
+import { FRIENDS, NUBBIN_STEER, PERSONALITY_LEAN, SLED } from '../config/tuning';
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
@@ -34,7 +34,7 @@ import type { Walker } from './obstacles';
 import { levelOf } from './stats';
 import { TERRACES } from './terrain';
 import { LESSONS } from '../config/tuning';
-import { idleMultipliers } from './personality';
+import { idleMultipliers, leaningPersonality } from './personality';
 import { bushSpot, clearHop, landingTop, perchSpot, stepHop } from './nubbin-hop';
 import { perchTopAt, softAt } from './obstacles';
 import { FOLLOW_SLOT, NUBBIN_JUMP } from '../config/tuning';
@@ -529,8 +529,11 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       return;
     }
   }
-  // Personality only shifts the odds of idle choices.
-  const m = idleMultipliers(n.personality);
+  // Personality only shifts the odds of idle choices; a child's leaning does, at half
+  // strength, until it locks at evolution (R0523).
+  const m = n.personality
+    ? idleMultipliers(n.personality)
+    : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
   // Rain: most Nubbins head for a tree; swimmers would rather be in the pond.
   if (world.weather.kind === 'rain' && n.stage !== 'egg') {

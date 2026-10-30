@@ -205,3 +205,28 @@ export const SLAPSTICK_TEXT = {
   levels: { full: 'Full', gentle: 'Gentle (fewer bonks)', off: 'Off' },
   help: 'How often a Nubbin, watching a butterfly, walks into a tree. Screen shake also covers the story’s screen nudges.',
 } as const;
+
+/**
+ * R0522 (SOUL-02): the personality chip on the stats sheet: a one-line blurb, and the card
+ * of what each personality tends to do (opened by tapping the chip).
+ */
+export const PERSONALITY_BLURBS = {
+  cheerful: 'Thinks every Keeper is the best Keeper. Currently correct.',
+  shy: 'Would like to say hello. Has been working up to it since Tuesday.',
+  mischievous: 'Not guilty. Probably. Look over there.',
+  lazy: 'Believes walking is something that happens to other people.',
+} as const;
+
+export const PERSONALITY_TENDENCIES = {
+  cheerful: ['Runs to greet you', 'Plays a lot', 'Rarely sits still'],
+  shy: ['Keeps its distance at first', 'Hides in bushes', 'Likes a quiet sit'],
+  mischievous: ['Plays and swims a lot', 'Hardly ever sits', 'Up to something'],
+  lazy: ['Sits and naps a lot', 'Not much of a swimmer', 'Greets you, eventually'],
+} as const;
+
+export const PERSONALITY_CHIP_TEXT = {
+  leaning: (word: string): string => `Leaning: ${word}?`,
+  leaningHelp: 'Still forming. It locks in when this Nubbin grows up.',
+  none: 'Too soon to tell.',
+  tends: 'Tends to:',
+} as const;

@@ -99,3 +99,14 @@ export const MOSS_WATCH_RULE = { fromChapter: 4, sight: 12, chance: 0.3 } as con
 
 /** R0354 (FUN-65): the post-evolution beat's phases, ms: look itself over, turn, wobble, sit. */
 export const EVOLVE_QUIP = { lookMs: 900, turnMs: 1100, wobbleMs: 700, sitMs: 1800 } as const;
+
+/**
+ * R0523 (SOUL-03): a child's leaning personality shows once it has had `minCare` acts of
+ * care (or, left alone, at `shyAfterMs`), and moves its idle odds at `childStrength` of an
+ * adult's until it locks at evolution.
+ */
+export const PERSONALITY_LEAN = {
+  minCare: 3,
+  shyAfterMs: 15 * 60_000,
+  childStrength: 0.5,
+} as const;
