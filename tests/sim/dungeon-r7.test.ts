@@ -16,6 +16,12 @@ import { roomHasContent, roomNeighbours, roomPieces } from '../../src/sim/dungeo
 import { isCommonSpecies, SPECIES } from '../../src/sim/species';
 import { actStartDepth } from '../../src/config/dungeon-acts';
 import { ACT_WILD } from '../../src/config/dungeon-wild';
+import { ACTS } from '../../src/config/dungeon-acts';
+import { foeLevel } from '../../src/sim/dungeon-density';
+import { hollowTier, noteFinalBoss, setHollowTier, tiersOpen } from '../../src/sim/dungeon-tiers';
+import { rollRarity } from '../../src/sim/gear';
+import { Rng } from '../../src/sim/rng';
+import { deserialize, serialize } from '../../src/sim/save';
 import { generateV3 } from '../../src/sim/dungeon-gen-v3';
 import { setEncounterHandler, swimFamily } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
@@ -364,5 +370,84 @@ describe('no bare rooms and nursery nooks (R0201, R0198)', () => {
     expect(calm).toBeLessThanOrEqual(HOLLOW_R7.nook.quietMs + 200);
     expect(shy).toBeGreaterThanOrEqual(HOLLOW_R7.nook.shyMs - 200);
     expect(shy).toBeLessThanOrEqual(HOLLOW_R7.nook.shyMs + 200);
+  });
+});
+
+describe('difficulty tiers (R0179)', () => {
+  it('levels foes and loot per tier', () => {
+    const band = { act: 0, level: 1, boss: false } as const;
+    expect(foeLevel({ ...band, difficulty: 'cosy' })).toBe(2);
+    expect(foeLevel({ ...band, difficulty: 'brisk' })).toBe(37);
+    expect(foeLevel({ ...band, difficulty: 'wild' })).toBe(72);
+    expect(foeLevel({ act: 4, level: 9, boss: true, difficulty: 'wild' })).toBe(99);
+    // Fancy-or-better share over many rolls: ×1, ×1.5, ×2.2.
+    const share = (mul: number): number => {
+      const rng = new Rng(77);
+      let good = 0;
+      for (let i = 0; i < 40_000; i++) {
+        const r = rollRarity(rng, 0, mul);
+        if (r === 'fancy' || r === 'legendary' || r === 'set') good++;
+      }
+      return good;
+    };
+    const base = share(1);
+    expect(share(1.5) / base).toBeGreaterThan(1.35);
+    expect(share(1.5) / base).toBeLessThan(1.65);
+    expect(share(2.2) / base).toBeGreaterThan(1.95);
+    // Packs on a Wild floor run bigger and higher than on Cosy.
+    const cosy = actFloor(555, 0, actStartDepth(0) + 1, 4, 'cosy');
+    const wild = actFloor(555, 0, actStartDepth(0) + 1, 4, 'wild');
+    const top = (f: Floor) => Math.max(...f.packs!.flatMap((p) => p.members.map((m) => m.level)));
+    expect(top(wild)).toBeGreaterThan(top(cosy) + 50);
+  });
+
+  it('opens Brisk after the last boss, keeps progress per tier, and goes back to Cosy', () => {
+    const world = createWorld(3, 0);
+    const events: SimEvent[] = [];
+    expect(tiersOpen(world)).toEqual(['cosy']);
+    expect(setHollowTier(world, 'brisk', events)).toBe(false);
+    world.hollow.acts = ACTS.map(() => ({ bossDefeated: true, deepest: 3 }));
+    world.hollow.waypoints = ['rootways.1'];
+    noteFinalBoss(world, ACTS.length - 1, events);
+    expect(tiersOpen(world)).toEqual(['cosy', 'brisk']);
+    applyCommand(world, { kind: 'hollowTier', tier: 'brisk' }, events);
+    expect(hollowTier(world)).toBe('brisk');
+    expect(world.hollow.acts).toEqual([]);
+    expect(world.hollow.waypoints).toEqual([]);
+    // A Brisk act run carries its tier and makes Brisk floors.
+    for (const n of world.nubbins) hatch(n, events, 0);
+    applyCommand(world, { kind: 'enterAct', act: 0 }, events);
+    expect(world.dungeon!.difficulty).toBe('brisk');
+    applyCommand(world, { kind: 'leaveDungeon' }, events);
+    world.dungeon = null;
+    world.location = 'grove';
+    // Back to Cosy: its progress is all there.
+    applyCommand(world, { kind: 'hollowTier', tier: 'cosy' }, events);
+    expect(world.hollow.acts.every((a) => a.bossDefeated)).toBe(true);
+    expect(world.hollow.waypoints).toEqual(['rootways.1']);
+    expect(world.hollow.difficulty).toBeUndefined();
+    // And it survives a save.
+    const back = deserialize(serialize(world, 0)).world;
+    expect(back.hollow.tiersOpen).toEqual(['brisk']);
+    expect(back.hollow.tierSaves?.brisk).toBeTruthy();
+  });
+});
+
+describe('boss footing', () => {
+  it('stands every act boss on dry floor, even where the dressing pooled water', () => {
+    for (let act = 0; act < ACTS.length; act++)
+      for (let s = 1; s <= 12; s++) {
+        const f = actFloor(
+          s * 7_717 + act,
+          act,
+          actStartDepth(act) + ACTS[act]!.levels.length - 1,
+          4,
+        );
+        const b = f.packs!.find((p) => p.kind === 'boss')!;
+        expect(f.cells[b.cell.y * f.cols + b.cell.x]).toBe(FLOOR);
+      }
+    const f = actFloor(376_560_671, 2, actStartDepth(2) + ACTS[2]!.levels.length - 1, 4);
+    const b = f.packs!.find((p) => p.kind === 'boss')!;
+    expect(f.cells[b.cell.y * f.cols + b.cell.x]).toBe(FLOOR);
   });
 });

@@ -660,7 +660,7 @@ export function floorOfRun(run: DungeonRun): Floor {
   const zone = zoneFloor(run);
   if (zone) return zone;
   return run.act !== undefined
-    ? actFloor(run.seed, run.act, run.depth, run.genVersion)
+    ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
     : floorOf(run.seed, run.depth, run.genVersion);
 }
 
@@ -1002,6 +1002,10 @@ export function enterDungeon(
     keepers: [],
     ...(story ? { story: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
+    // R0179: an act run keeps the tier it set out on.
+    ...(act !== undefined && world.hollow.difficulty
+      ? { difficulty: world.hollow.difficulty }
+      : {}),
   };
   const f = floorOfRun(run);
   populate(run, f);

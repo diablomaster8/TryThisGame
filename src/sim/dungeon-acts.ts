@@ -7,6 +7,7 @@
  */
 import { fillRooms } from './dungeon-rooms';
 import { ACTS, actStartDepth } from '../config/dungeon-acts';
+import type { Difficulty } from '../config/dungeon-foes';
 import type { Floor } from './dungeon';
 import { generateV3 } from './dungeon-gen-v3';
 import { platformFloor } from './dungeon-gaps';
@@ -19,8 +20,15 @@ const cache = new Map<string, Floor>();
  * The floor at `depth` of act `act`'s dungeon for a run's seed, generated once. `version` 4
  * adds the platforming pass (R0031); a run saved on a version-3 floor keeps it flat.
  */
-export function actFloor(seed: number, act: number, depth: number, version = 3): Floor {
-  const key = `${seed}:${act}:${depth}:${version >= 4 ? 4 : 3}`;
+export function actFloor(
+  seed: number,
+  act: number,
+  depth: number,
+  version = 3,
+  difficulty: Difficulty = 'cosy',
+): Floor {
+  // R0179: a tier changes the packs, so each tier's floor is its own.
+  const key = `${seed}:${act}:${depth}:${version >= 4 ? 4 : 3}:${difficulty}`;
   let f = cache.get(key);
   if (!f) {
     const def = ACTS[act]!;
@@ -35,8 +43,8 @@ export function actFloor(seed: number, act: number, depth: number, version = 3):
         act,
         level,
         boss: level === def.levels.length - 1,
-        difficulty: 'cosy',
-      } as const;
+        difficulty,
+      };
       platformFloor(f, seed, depth, band);
       // The act's named uniques (R0156).
       placeUniques(f, act, level + 1, band);

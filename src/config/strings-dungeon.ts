@@ -460,4 +460,25 @@ export const HOLLOW_R7_TEXT = {
   picnicTent: "A snug tent. Safe to close the game here; you'll wake right where you are.",
   /** R0205: the Deep Hollow's floor 99. */
   deepBottom: 'The bottom of the Deep Hollow. The stairs go no further, only round in a sulk.',
+  /** R0179: the difficulty tiers at the cave mouth. */
+  tiers: {
+    cosy: {
+      icon: '🍵',
+      name: 'Cosy',
+      help: 'Cosy: gentle fights, small packs, a cup of tea after.',
+    },
+    brisk: {
+      icon: '🌬',
+      name: 'Brisk',
+      help: 'Brisk: the acts again, much tougher, with better finds. Waypoints are its own.',
+    },
+    wild: {
+      icon: '🌪',
+      name: 'Wild',
+      help: 'Wild: big packs, tricky champions and the best finds. Bring a varied party.',
+    },
+  },
+  tierLocked: "Opens when the last act's boss falls on the tier before it.",
+  tierPicked: (name: string) => `The Hollow feels ${name} now.`,
+  tierOpened: (name: string) => `A new way down: ${name} is open at the cave mouth!`,
 };

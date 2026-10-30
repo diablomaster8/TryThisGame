@@ -1327,6 +1327,14 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+        } else if (e.kind === 'hollowTier' || e.kind === 'hollowTierOpened') {
+          // Lane B round 7: difficulty tiers (R0179).
+          const name = HOLLOW_R7_TEXT.tiers[e.tier].name;
+          toast(
+            e.kind === 'hollowTier'
+              ? HOLLOW_R7_TEXT.tierPicked(name)
+              : HOLLOW_R7_TEXT.tierOpened(name),
+          );
         } else if (e.kind === 'picnicRest' || e.kind === 'picnicTent' || e.kind === 'deepBottom') {
           // Lane B round 7: Gran's Picnic (R0204).
           toast(HOLLOW_R7_TEXT[e.kind]);

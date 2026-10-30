@@ -11,6 +11,7 @@
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
 import { arenaFor, type HollowArena } from './dungeon-arena';
+import { fightFlag, noteFinalBoss } from './dungeon-tiers';
 import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { noteFight } from './dungeon-log';
@@ -94,6 +95,8 @@ export interface EncounterSpec {
   phases?: BossPhase[];
   /** R0195: the same ground as a tactics board (heights in steps, props, spawn sides). */
   board?: HollowArena;
+  /** R0179: the tier's assist flag: gentle (auto-target, free retry), standard or tactics. */
+  fight?: 'gentle' | 'standard' | 'tactics';
 }
 
 /** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
@@ -347,6 +350,8 @@ export function encounterSpec(
     seed: (run.seed * 31 + run.depth * 7919 + (Number(pack.id.slice(5)) || 97) * 101) >>> 0,
     tier: pack.tier,
     ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
+    // R0179: the run's tier, as FIGHT's assist flag.
+    fight: fightFlag(run.difficulty),
   };
 }
 
@@ -441,6 +446,8 @@ export function finishEncounter(
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;
       events.push({ kind: 'bossBeaten', act: run.act });
+      // R0179: the last act's boss opens the next tier.
+      noteFinalBoss(world, run.act, events);
       // R0160: the big chest, the celebration and the next act's waypoint (first time only).
       bossWon(world, run, spec.members[0]?.level ?? run.depth, drops, events);
     }

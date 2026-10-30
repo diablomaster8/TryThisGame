@@ -717,6 +717,8 @@ export interface DungeonRun {
   // Lane B round 7.
   /** R0204: level ids whose picnic is had (newest last), the time on the rug so far, and the
    * tent's "safe to close" note shown while the Keeper stands there. */
+  /** R0179: this act run's tier (absent: Cosy). */
+  difficulty?: 'brisk' | 'wild';
   picnics?: string[];
   picnicMs?: number;
   tentNoted?: true;
@@ -1041,6 +1043,17 @@ export interface World {
     today?: { day: string; deepest: number; bestMs: number; finds: number };
     /** R0211: rolling tuning numbers, never shown to players. */
     stats?: HollowStats;
+    // Lane B round 7 (optional, no save bump).
+    /** R0179: the tier picked for act runs (absent: Cosy), the tiers opened, and the progress
+     * of the tiers not in play (the main fields hold the one in play). */
+    difficulty?: 'brisk' | 'wild';
+    tiersOpen?: Array<'brisk' | 'wild'>;
+    tierSaves?: Partial<
+      Record<
+        'cosy' | 'brisk' | 'wild',
+        { acts: ActProgress[]; waypoints: string[]; bossChests: number[] }
+      >
+    >;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1263,6 +1276,7 @@ export type Command =
   | { kind: 'packSneak'; packId: string }
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1526,6 +1540,8 @@ export type SimEvent =
   | { kind: 'picnicRest' }
   | { kind: 'picnicTent' }
   | { kind: 'deepBottom' }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowTierOpened'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }

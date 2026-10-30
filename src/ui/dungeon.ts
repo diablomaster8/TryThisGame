@@ -18,7 +18,8 @@ import { mouthHere } from '../sim/dungeon-zones';
 import { calmers } from '../sim/dungeon-strays';
 import { TownPanel } from './dungeon-town';
 import { PartyPicker } from './dungeon-party';
-import { HOLLOW_R6_TEXT } from '../config/strings';
+import { HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
+import { hollowTier, TIERS, tiersOpen } from '../sim/dungeon-tiers';
 import { HOLLOW_R6 } from '../config/tuning';
 import { clockText } from '../sim/dungeon-log';
 import { sackCount } from '../sim/dungeon-sack';
@@ -264,6 +265,27 @@ export class DungeonMenu {
 
   private listActs(world: World): void {
     this.acts.replaceChildren();
+    // R0179: the tier picker, big icons; a shut tier says how it opens.
+    const tiers = el('div', 'hollow-tiers');
+    const open = tiersOpen(world);
+    for (const t of TIERS) {
+      const b = button(
+        `${HOLLOW_R7_TEXT.tiers[t].icon} ${HOLLOW_R7_TEXT.tiers[t].name}`,
+        () => {
+          this.game()?.send({ kind: 'hollowTier', tier: t });
+          setTimeout(() => {
+            const g = this.game();
+            if (g && this.dialog.isOpen()) this.listActs(g.world);
+          }, 250);
+        },
+        'btn btn-small hollow-tier',
+      );
+      b.disabled = !open.includes(t);
+      b.setAttribute('aria-pressed', String(hollowTier(world) === t));
+      b.title = open.includes(t) ? HOLLOW_R7_TEXT.tiers[t].help : HOLLOW_R7_TEXT.tierLocked;
+      tiers.appendChild(b);
+    }
+    this.acts.append(tiers, el('small', 'help', HOLLOW_R7_TEXT.tiers[hollowTier(world)].help));
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);

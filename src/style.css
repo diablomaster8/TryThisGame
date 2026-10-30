@@ -3223,3 +3223,21 @@ select {
   opacity: 1;
   color: #e8a33c;
 }
+
+/* Lane B round 7: the Hollow's difficulty tiers at the cave mouth (R0179). */
+.hollow-tiers {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 4px 0;
+}
+.hollow-tiers .hollow-tier {
+  min-height: 44px;
+  min-width: 44px;
+  flex: 1 1 0;
+  font-size: 1rem;
+}
+.hollow-tiers .hollow-tier[aria-pressed='true'] {
+  outline: 3px solid #ffd84a;
+  font-weight: bold;
+}

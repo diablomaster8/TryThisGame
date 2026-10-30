@@ -116,6 +116,7 @@ import { calmStray } from './dungeon-strays';
 import { sneakPast } from './dungeon-sleepy';
 import { gambleBasket } from './dungeon-gamble';
 import { takeFromStash } from './dungeon-sack';
+import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -832,6 +833,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'stashTake':
       takeFromStash(world, cmd.itemId);
+      return;
+    // Lane B round 7: difficulty tiers (R0179).
+    case 'hollowTier':
+      setHollowTier(world, cmd.tier, events);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
