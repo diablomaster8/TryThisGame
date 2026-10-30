@@ -598,6 +598,7 @@ export class Game {
       );
     }
     if (this.scene3d) {
+      this.scene3d.applyTier(this.tier.tier);
       // Start reading the cache and marching now, while the rest of the page loads.
       this.scene3d.prewarm(this.world);
     }
