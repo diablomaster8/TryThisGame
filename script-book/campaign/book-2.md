@@ -2,7 +2,7 @@
 
 ## Chapter 5: The Circuit
 
-Goal: Win a race or a Circuit ribbon. (`winRace`) · Hint: Races are in the top bar, the Circuit at the dojo. Grown Nubbins do best.
+Goal: Win a race or a Circuit ribbon. (`winRace`) · Hint: Races are in the top bar; the Circuit is at the dojo.
 
 #### <a id="c5-open"></a>Opening `c5-open`
 
