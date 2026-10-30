@@ -33,6 +33,8 @@ function quiet(world: World): boolean {
   const k = world.keeper;
   return (
     world.location === 'grove' &&
+    // A story scene waiting or playing holds the Keeper on its mark instead.
+    !world.campaign?.queue.length &&
     k.grounded &&
     k.input.x === 0 &&
     k.input.z === 0 &&
