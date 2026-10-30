@@ -49,6 +49,11 @@ table. No save bump: every new field is optional. Edge: `node r8a.cjs <pixel|3d>
 <desk|phone> 5181` in `recs-2026-10-27/tools`, all pass in the four, no console errors.
 
 **Works**
+- HOT-1 (Maor, top priority): clicking a Nubbin now centres it in the part of the screen the
+  stats sheet leaves clear, in Pixel and Full 3D, desktop and phone. Cause: the sheet kept the
+  camera on the Keeper and pushed it a fixed 17% right or 22% up. Now the camera aims at the
+  Nubbin and `render/view-shift.ts` shifts the projection to the clear strip measured from the
+  sheet; it glides (capped ease step) and cuts under reduced motion. `tools/hot1.cjs` proves it.
 - R0536 favourite and disliked fruit rolled from `n.seed` (`sim/likes.ts`, cached); yum and
   bleh beats, ±happiness only, a disliked fruit is left until starving, a favourite is worth
   a 1.5× walk; the sheet shows ♥/✗ as "?" until seen, a first-taste toast. Plain is never
@@ -90,6 +95,8 @@ table. No save bump: every new field is optional. Edge: `node r8a.cjs <pixel|3d>
   R0366, R0367; round-7 partials R0344, R0346, R0527 (cottage hiding), R0553.
 
 **Known bugs / notes**
+- Full 3D on a 375×812 phone (headless Edge) stalls about 0.7 s on the first stats-sheet open;
+  the camera glide now rides it out, but the stall itself is a perf follow-up (lane D).
 - Assumption: R0537's boredom fades 9 a minute, not the recommended 0.2 (which pins every
   toy at the floor after a minute of play and drops play to 6–11%).
 - Tests moved on purpose: `features.test.ts` rain now accepts the rain games;
