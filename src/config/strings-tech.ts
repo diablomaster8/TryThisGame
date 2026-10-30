@@ -30,3 +30,9 @@ export const BUG_TEXT = {
   storage: (kb: number, ofMb: number | null) =>
     ofMb === null ? `Storage used: ${kb} kB` : `Storage used: ${kb} kB of about ${ofMb} MB`,
 } as const;
+
+/** TECH-27: the text-size setting. */
+export const TEXT_SIZE_TEXT = {
+  label: 'Text size',
+  sizes: { small: 'Small', normal: 'Normal', large: 'Large', larger: 'Larger' },
+} as const;

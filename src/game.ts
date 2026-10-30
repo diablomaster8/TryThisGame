@@ -33,6 +33,7 @@ import { PIXEL_BUILDINGS, safeRect, viewRect } from './render/stage-api';
 import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
 import { paintGrade } from './ui/look-paint';
+import { applyTextScale } from './ui/text-scale';
 import { currentGrade } from './ui/title-card';
 import { phoneDefault } from './ui/world-settings';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
@@ -918,6 +919,7 @@ export class Game {
     const reduce = this.reduceMotion;
     this.camera.reduceMotion = reduce;
     this.markReduceMotion();
+    applyTextScale(this.world);
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
     // R0073: "Zoom out when running" pulls the view out to the survey step on a long run.
     {

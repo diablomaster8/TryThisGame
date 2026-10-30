@@ -1,6 +1,7 @@
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
-import { BUG_TEXT, HAPTICS_TEXT } from '../config/strings-tech';
+import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
+import { TEXT_SCALES, textScaleOf, textSizeKey } from './text-scale';
 import { bugReport } from '../platform/bug-log';
 import { groveBytes, storageQuota } from '../platform/storage-use';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
@@ -62,6 +63,8 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** TECH-27: text size. */
+  private readonly textSize: HTMLSelectElement;
   /** TECH-15: vibration, hidden where the browser cannot buzz. */
   private readonly haptics: HTMLInputElement;
   /** R0294: skip the quest micro-games. */
@@ -233,6 +236,8 @@ export class SettingsMenu {
     this.musicVol = slider(UI_TEXT.musicVolume);
     this.sfxVol = slider(UI_TEXT.sfxVolume);
     this.textSpeed = select(UI_TEXT.textSpeed, UI_TEXT.textSpeeds);
+    // TECH-27: text size.
+    this.textSize = select(TEXT_SIZE_TEXT.label, TEXT_SIZE_TEXT.sizes);
     const shakeRow = el('label', 'check-row');
     this.shake = el('input');
     this.shake.type = 'checkbox';
@@ -478,6 +483,7 @@ export class SettingsMenu {
     this.musicVol.value = String(Math.round(g.world.settings.musicVolume * 100));
     this.sfxVol.value = String(Math.round(g.world.settings.sfxVolume * 100));
     this.textSpeed.value = g.world.settings.textSpeed;
+    this.textSize.value = textSizeKey(textScaleOf(g.world));
     this.shake.checked = g.world.settings.screenShake;
     this.gentle.checked = g.world.settings.gentleJumps;
     this.autoHop.checked = autoHopOn(g.world);
@@ -633,6 +639,8 @@ export class SettingsMenu {
       settings.voiceBlips = this.blips.checked;
     if (this.haptics.checked !== hapticsOn(g.world.settings))
       settings.haptics = this.haptics.checked;
+    const scale = TEXT_SCALES[this.textSize.value] ?? 1;
+    if (scale !== textScaleOf(g.world)) settings.textScale = scale;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.

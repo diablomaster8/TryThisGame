@@ -350,6 +350,8 @@ export interface Settings {
   voiceBlips?: boolean;
   /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
   haptics?: boolean;
+  /** TECH-27: the root text size. Unset: 1.15 in the read-aloud band, else 1 (ui/text-scale.ts). */
+  textScale?: number;
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
