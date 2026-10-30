@@ -1,7 +1,9 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { DUNGEON, SIM } from '../../src/config/tuning';
 import { HOLLOW_R7 } from '../../src/config/tuning-dungeon';
-import { cellCentre, isWalkable, runFloor } from '../../src/sim/dungeon';
+import { cellCentre, FLOOR, isWalkable, runFloor, WALL } from '../../src/sim/dungeon';
+import { arenaFor } from '../../src/sim/dungeon-arena';
+import { generateV3 } from '../../src/sim/dungeon-gen-v3';
 import { setEncounterHandler, swimFamily } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
 import type { SimEvent, World } from '../../src/sim/types';
@@ -183,4 +185,41 @@ describe('the Deep Hollow (R0205)', () => {
     expect(down().some((e) => e.kind === 'deepBottom')).toBe(true);
     expect(run.depth).toBe(HOLLOW_R7.deepMax);
   });
+});
+
+describe('tactics boards from the floor (R0195)', () => {
+  it('every pack gets a board at least 60% walkable with both sides joined, over 500 boards', () => {
+    let boards = 0;
+    for (let s = 1; boards < 500; s++) {
+      const level = s % 3 === 0 ? 'standard' : 'small';
+      const tileset = ['rootways', 'cloister', 'sandglass', 'frostbell', 'gloom'][s % 5]!;
+      const f = generateV3(s * 4243, 1 + (s % 9), { level, tileset, boss: s % 7 === 0 });
+      for (const p of f.packs ?? []) {
+        const a = arenaFor(f, p.cell);
+        boards++;
+        const n = a.w * a.h;
+        expect([a.w, a.h]).toEqual([9, 7]);
+        const walk = a.cells.filter((c, i) => c !== WALL && !a.props.includes(i)).length;
+        expect(walk).toBeGreaterThanOrEqual(n * 0.6);
+        expect(a.height.every((h) => h >= 0 && h <= 2)).toBe(true);
+        const { party, foe } = a.spawnSides;
+        expect(party.length).toBeGreaterThanOrEqual(3);
+        expect(foe.length).toBeGreaterThanOrEqual(3);
+        // Walk from a party cell: every foe cell is reachable on standable floor.
+        const ok = (i: number) => a.cells[i] === FLOOR && !a.props.includes(i);
+        const seen = new Set([party[0]!]);
+        const todo = [party[0]!];
+        while (todo.length) {
+          const i = todo.pop()!;
+          for (const j of [i - 1, i + 1, i - a.w, i + a.w]) {
+            if (j < 0 || j >= n || seen.has(j) || !ok(j)) continue;
+            if (Math.abs((j % a.w) - (i % a.w)) > 1) continue;
+            seen.add(j);
+            todo.push(j);
+          }
+        }
+        for (const i of [...party, ...foe]) expect(seen.has(i)).toBe(true);
+      }
+    }
+  }, 60_000);
 });

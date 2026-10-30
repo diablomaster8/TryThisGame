@@ -10,6 +10,7 @@
  * which may answer at once or later through the `encounterDone` command. The default is
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
+import { arenaFor, type HollowArena } from './dungeon-arena';
 import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { noteFight } from './dungeon-log';
@@ -91,6 +92,8 @@ export interface EncounterSpec {
   tier: number;
   /** R0160: a boss's phases (adds at half puff); the fight side may read them. */
   phases?: BossPhase[];
+  /** R0195: the same ground as a tactics board (heights in steps, props, spawn sides). */
+  board?: HollowArena;
 }
 
 /** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
@@ -337,6 +340,7 @@ export function encounterSpec(
     kind: pack.kind,
     party: [...run.party],
     arena: { x0, y0, w, h, cells, elevation },
+    board: arenaFor(f, at),
     terrain: f.layout?.tileset ?? 'rootways',
     canFlee: pack.kind !== 'boss',
     // The boss's id has no number; it must still get its own seed.

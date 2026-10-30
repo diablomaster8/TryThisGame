@@ -310,4 +310,7 @@ export const HOLLOW_R7 = {
   picnic: { sitMs: 5000, happy: 10, keep: 40 },
   /** R0205: the Deep Hollow's last floor. */
   deepMax: 99,
+  /** R0195: the tactics board cut from a floor: a terrace step (world units), the walkable
+   * share it promises, how far the window may slide, and each spawn side's columns and size. */
+  arena: { heightStep: 0.5, minWalkable: 0.6, slide: 3, sideCols: 2, minSide: 3 },
 } as const;
