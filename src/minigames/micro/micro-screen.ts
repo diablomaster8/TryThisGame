@@ -1,13 +1,24 @@
 /**
  * R0294 (FUN-05): the micro-games' screen. One overlay, one game at a time, one thumb, never
  * failable: a dropped stack re-stacks, a decoy is a joke, a missed catch rolls away and
- * another falls. Built so far: balance (carry and deliver), hunt (find and inspect) and
- * catch (collect). `onDone` runs once when the game is won or skipped; the caller then does
+ * another falls. Eight games: balance (carry), hunt (find), catch (collect), and since round
+ * 6 escort, climb, puzzle, survive and explore, whose misses are slapstick and never a loss. `onDone` runs once when the game is won or skipped; the caller then does
  * what the plain "Do it" button did. Rules and seeded setups are in `sim/micro.ts`.
  */
 import { MICRO_TEXT } from '../../config/strings-fun-r5';
+import { MICRO6_TEXT } from '../../config/strings-fun-r6';
 import { playSound } from '../../platform/audio';
-import { balanceSetup, catchSetup, huntSetup, type MicroKind } from '../../sim/micro';
+import {
+  balanceSetup,
+  catchSetup,
+  climbSetup,
+  escortSetup,
+  exploreSetup,
+  huntSetup,
+  puzzleSetup,
+  surviveSetup,
+  type MicroKind,
+} from '../../sim/micro';
 import { button, dialogFocus, el } from '../../ui/dom';
 import '../../fun.css';
 
@@ -74,6 +85,11 @@ export class MicroScreen {
     this.focus.opened();
     if (kind === 'balance') this.balance(seed);
     else if (kind === 'hunt') this.hunt(seed);
+    else if (kind === 'escort') this.escort(seed);
+    else if (kind === 'climb') this.climb(seed);
+    else if (kind === 'puzzle') this.puzzle(seed);
+    else if (kind === 'survive') this.survive(seed);
+    else if (kind === 'explore') this.explore(seed);
     else this.catchGame(seed);
   }
 
@@ -276,5 +292,280 @@ export class MicroScreen {
       this.raf = requestAnimationFrame(frame);
     };
     this.raf = requestAnimationFrame(frame);
+  }
+
+  // ---------------------------------------------------------------- escort
+
+  private escort(seed: number): void {
+    const t = MICRO6_TEXT.escort;
+    const setup = escortSetup(seed);
+    this.title.textContent = t.title;
+    this.help.textContent = t.help;
+    const path = el('div', 'micro-path');
+    const walker = el('span', 'micro-walker', '🐣');
+    const flag = el('span', 'micro-flag', '🏁');
+    path.append(walker, flag);
+    const bar = el('div', 'micro-bar');
+    const fill = el('span');
+    bar.append(fill);
+    let pos = 0;
+    let stopped = -1;
+    let next = 0;
+    let last = performance.now();
+    const call = button(
+      t.call,
+      () => {
+        if (stopped < 0) return;
+        stopped = -1;
+        playSound('pop');
+        this.status.textContent = t.walking;
+        call.disabled = true;
+      },
+      'btn btn-primary micro-call',
+    );
+    call.disabled = true;
+    this.stage.append(path, bar, call);
+    const speed = this.reduce ? 0.07 : 0.09;
+    const frame = (now: number): void => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      if (stopped < 0) {
+        pos += dt * speed;
+        if (next < setup.stops.length && pos >= setup.stops[next]!) {
+          stopped = next;
+          next += 1;
+          playSound('boing');
+          this.status.textContent = t.stops[(seed + stopped) % t.stops.length]!;
+          call.disabled = false;
+          call.focus();
+        }
+      }
+      walker.style.left = `${Math.min(1, pos) * 85}%`;
+      fill.style.width = `${Math.min(100, pos * 100)}%`;
+      if (pos >= 1) {
+        call.remove();
+        this.win(t.done);
+        return;
+      }
+      this.raf = requestAnimationFrame(frame);
+    };
+    this.raf = requestAnimationFrame(frame);
+  }
+
+  // ---------------------------------------------------------------- climb
+
+  private climb(seed: number): void {
+    const t = MICRO6_TEXT.climb;
+    const setup = climbSetup(seed);
+    this.title.textContent = t.title;
+    this.help.textContent = t.help;
+    const wall = el('div', 'micro-wall');
+    const climber = el('span', 'micro-climber', '🐣');
+    const ring = el('span', 'micro-ring');
+    wall.append(climber);
+    let height = 0;
+    const start = performance.now();
+    const beat = setup.beatMs * (this.reduce ? 1.3 : 1);
+    // The ring is "gold" in the middle 40% of each beat: generous for one thumb.
+    const inWindow = (now: number): boolean => {
+      const phase = ((now - start) % beat) / beat;
+      return phase > 0.3 && phase < 0.7;
+    };
+    const place = (): void => {
+      climber.style.bottom = `${(height / setup.steps) * 80}%`;
+    };
+    const tap = button(
+      t.tap,
+      () => {
+        if (height >= setup.steps) return;
+        if (inWindow(performance.now())) {
+          height += 1;
+          playSound('hop');
+          this.status.textContent = t.step(height, setup.steps);
+          if (height >= setup.steps) {
+            place();
+            tap.remove();
+            ring.remove();
+            this.win(t.done);
+            return;
+          }
+        } else if (height > 0) {
+          height -= 1;
+          playSound('slideDown');
+          this.status.textContent = t.slip;
+        } else playSound('boing');
+        place();
+      },
+      'btn btn-primary micro-call',
+    );
+    this.stage.append(wall, ring, tap);
+    place();
+    const frame = (now: number): void => {
+      ring.classList.toggle('micro-ring-on', inWindow(now));
+      this.raf = requestAnimationFrame(frame);
+    };
+    this.raf = requestAnimationFrame(frame);
+  }
+
+  // ---------------------------------------------------------------- puzzle
+
+  private puzzle(seed: number): void {
+    const t = MICRO6_TEXT.puzzle;
+    const setup = puzzleSetup(seed);
+    this.title.textContent = t.title;
+    this.help.textContent = t.help;
+    const slots = el('div', 'micro-slots');
+    const tray = el('div', 'micro-pieces');
+    let held: number | null = null;
+    let placed = 0;
+    const pieceBtns: HTMLButtonElement[] = [];
+    for (let i = 0; i < setup.pieces; i++) {
+      const slot = button(
+        String(i + 1),
+        () => {
+          if (held === null || slot.disabled) return;
+          const piece = pieceBtns[held]!;
+          piece.classList.remove('micro-held');
+          if (held === i) {
+            slot.disabled = true;
+            slot.classList.add('micro-hot');
+            slot.textContent = `🧩${i + 1}`;
+            piece.remove();
+            placed += 1;
+            playSound('pat');
+            this.status.textContent = t.placed(placed, setup.pieces);
+            if (placed === setup.pieces) this.win(t.done);
+          } else {
+            playSound('boing');
+            this.status.textContent = t.wrong;
+          }
+          held = null;
+        },
+        'btn micro-slot',
+      );
+      slot.setAttribute('aria-label', `Slot ${i + 1}`);
+      slots.append(slot);
+    }
+    for (const n of setup.order) {
+      const piece = button(
+        `🧩${n + 1}`,
+        () => {
+          for (const p of pieceBtns) p.classList.remove('micro-held');
+          held = n;
+          piece.classList.add('micro-held');
+          playSound('tap');
+        },
+        'btn micro-piece',
+      );
+      piece.setAttribute('aria-label', `Piece ${n + 1}`);
+      pieceBtns[n] = piece;
+      tray.append(piece);
+    }
+    this.stage.append(slots, tray);
+  }
+
+  // ---------------------------------------------------------------- survive
+
+  private survive(seed: number): void {
+    const t = MICRO6_TEXT.survive;
+    const setup = surviveSetup(seed);
+    this.title.textContent = t.title;
+    this.help.textContent = t.help;
+    const ring = el('div', 'micro-ring-fight');
+    const foe = el('span', 'micro-foe', '🥊');
+    const me = el('span', 'micro-me', '🐣');
+    ring.append(foe, me);
+    const guards = el('div', 'micro-guards');
+    let round = 0;
+    let swing = 0;
+    const show = (): void => {
+      const side = setup.swings[round]![swing]!;
+      foe.dataset.side = String(side);
+      this.status.textContent = `${t.round(round + 1)} ${t.swing[side]}`;
+    };
+    t.guards.forEach((g, i) => {
+      guards.append(
+        button(
+          g,
+          () => {
+            if (round >= 3) return;
+            const side = setup.swings[round]![swing]!;
+            const ok = side === i;
+            playSound(ok ? 'pat' : 'bonk');
+            me.classList.toggle('micro-wobble', !ok && !this.reduce);
+            swing += 1;
+            if (swing === 3) {
+              swing = 0;
+              round += 1;
+            }
+            if (round >= 3) {
+              guards.remove();
+              this.win(t.done);
+              return;
+            }
+            show();
+            this.status.textContent = `${ok ? t.blocked : t.bonk} ${this.status.textContent}`;
+          },
+          'btn micro-guard',
+        ),
+      );
+    });
+    this.stage.append(ring, guards);
+    show();
+  }
+
+  // ---------------------------------------------------------------- explore
+
+  private explore(seed: number): void {
+    const t = MICRO6_TEXT.explore;
+    const setup = exploreSetup(seed);
+    this.title.textContent = t.title;
+    this.help.textContent = t.help;
+    const grid = el('div', 'micro-field');
+    let at: [number, number] = [...setup.start];
+    let silly = seed % t.sillies.length;
+    const cells: HTMLButtonElement[] = [];
+    const draw = (): void => {
+      cells.forEach((c, i) => {
+        const x = i % 5;
+        const y = Math.floor(i / 5);
+        const here = x === at[0] && y === at[1];
+        const goal = x === setup.goal[0] && y === setup.goal[1];
+        c.textContent = here ? '🐣' : goal ? '✕' : '';
+        c.classList.toggle('micro-near', Math.abs(x - at[0]) + Math.abs(y - at[1]) === 1);
+      });
+    };
+    for (let i = 0; i < 25; i++) {
+      const x = i % 5;
+      const y = Math.floor(i / 5);
+      const c = button(
+        '',
+        () => {
+          if (Math.abs(x - at[0]) + Math.abs(y - at[1]) !== 1) {
+            playSound('boing');
+            return;
+          }
+          at = [x, y];
+          playSound('stepStone');
+          draw();
+          if (x === setup.goal[0] && y === setup.goal[1]) {
+            this.win(t.done);
+            for (const b of cells) b.disabled = true;
+            return;
+          }
+          // Every third step finds something on the way: the walk is the joke, not a test.
+          if ((x + y + seed) % 3 === 0) {
+            this.status.textContent = t.sillies[silly % t.sillies.length]!;
+            silly += 1;
+          }
+        },
+        'btn micro-cell',
+      );
+      c.setAttribute('aria-label', `Square ${x + 1}, ${y + 1}`);
+      cells.push(c);
+      grid.append(c);
+    }
+    this.stage.append(grid);
+    draw();
   }
 }

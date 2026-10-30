@@ -51,7 +51,12 @@ export type SoundName =
   | 'munch'
   | 'whoosh'
   | 'splash'
-  | 'ding';
+  | 'ding'
+  // Lane C round 6 (FIGHT-76): battle hits by type, and a tuckered-out yawn.
+  | 'woodblock'
+  | 'swish'
+  | 'patter'
+  | 'yawn';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -80,7 +85,11 @@ export type SongName =
   | 'sorrow'
   | 'tense'
   | 'hollow'
-  | 'karate';
+  | 'karate'
+  // Lane C round 6 (FIGHT-76): the bouts' own pieces.
+  | 'battle'
+  | 'circuit'
+  | 'calm';
 
 /** Every piece in the score, for the jukebox. */
 export const SONG_NAMES: readonly SongName[] = [
@@ -94,6 +103,9 @@ export const SONG_NAMES: readonly SongName[] = [
   'tense',
   'hollow',
   'karate',
+  'battle',
+  'circuit',
+  'calm',
 ];
 
 let ctx: AudioContext | null = null;
@@ -529,6 +541,50 @@ const SONGS: Record<SongName, Song> = {
       ),
       seq('kick', 0.6, 'x x:0.5 x:0.5 r x r:0.5 x:0.5 x r '.repeat(2)),
       seq('snare', 0.3, 'r:3 x:1 '.repeat(4)),
+    ],
+  },
+  // FIGHT-76: a bouncy play-fight for turn bouts. Major, 132 bpm, never menacing.
+  battle: {
+    bpm: 132,
+    beats: 16,
+    tracks: [
+      seq(
+        'lead',
+        0.3,
+        'C5:0.5 E5:0.5 G5:1 r:0.5 A5:0.5 G5:1 E5:0.5 F5:0.5 G5:1 r:1 D5:0.5 E5:0.5 F5:1 E5:0.5 D5:0.5 C5:2 r:2',
+      ),
+      seq(
+        'bass',
+        0.45,
+        'C3:1 G2:1 C3:1 G2:1 F2:1 C3:1 F2:1 C3:1 G2:1 D3:1 G2:1 D3:1 C3:1 G2:1 C3:2',
+      ),
+      seq('kick', 0.5, 'x:1 r:1 '.repeat(8)),
+      seq('hat', 0.18, 'r:0.5 x:0.5 '.repeat(16)),
+    ],
+  },
+  // The Circuit: brass fanfare over a marching snare, a gym-badge strut.
+  circuit: {
+    bpm: 120,
+    beats: 16,
+    tracks: [
+      seq(
+        'brass',
+        0.3,
+        'G4:1 C5:1 E5:1.5 D5:0.5 C5:1 G4:1 A4:2 F4:1 A4:1 C5:1.5 B4:0.5 A4:1 G4:1 C5:2',
+      ),
+      seq('bass', 0.45, 'C3:2 G2:2 F2:2 C3:2 F2:2 C3:2 G2:2 C3:2'),
+      seq('snare', 0.25, 'r:1 x:0.5 x:0.5 '.repeat(8)),
+      seq('kick', 0.45, 'x:2 '.repeat(8)),
+    ],
+  },
+  // Calm bouts (gentle, befriending, a Shadow to soothe): a slow lullaby in 3.
+  calm: {
+    bpm: 84,
+    beats: 24,
+    tracks: [
+      seq('pluck', 0.28, 'E5:2 D5:1 C5:2 G4:1 A4:2 C5:1 D5:3 E5:2 G5:1 E5:2 D5:1 C5:3 r:3'),
+      seq('pad', 0.14, 'C3+G3+E4:6 A2+E3+C4:6 F2+C3+A3:6 G2+D3+B3:6'),
+      seq('bell', 0.16, 'r:5 G5:1 r:5 E5:1 r:5 C6:1 r:5 D5:1'),
     ],
   },
   // Story: sparse, for the dialogue box. A slow arpeggio and a held pad.
@@ -992,6 +1048,25 @@ export function playSound(name: SoundName): void {
       case 'splash':
         burst(0, 260, 0.08, 2400);
         tone(900, 40, 120, 'sine', 0.03, 400);
+        break;
+      // FIGHT-76: a hollow wood block for a Power or Normal hit.
+      case 'woodblock':
+        tone(880, 0, 45, 'triangle', 0.07, 760);
+        tone(1320, 0, 25, 'sine', 0.03);
+        break;
+      // A Fly hit: a quick airy swish.
+      case 'swish':
+        burst(0, 160, 0.05, 5200);
+        tone(1400, 0, 140, 'sine', 0.015, 600);
+        break;
+      // A Run hit: three little footsteps.
+      case 'patter':
+        for (let i = 0; i < 3; i++) tone(520 + i * 40, i * 55, 35, 'square', 0.03, 380);
+        break;
+      // Tuckered out: a long, sleepy downward yawn.
+      case 'yawn':
+        tone(520, 0, 520, 'sine', 0.05, 180);
+        tone(260, 380, 300, 'sine', 0.03, 140);
         break;
       case 'ding':
         tone(1568, 0, 500, 'sine', 0.05);

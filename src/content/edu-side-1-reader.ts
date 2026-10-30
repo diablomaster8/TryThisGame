@@ -3280,7 +3280,7 @@ export const EDU_SIDE_1_READER: EduQuest[] = [
       },
       's3-step4': {
         goal: 'Host the Lantern Moot at the pond, after the Long Night.',
-        hint: 'In chapter 11, tap the pond and choose Call a Moot. All ten Keepers come.',
+        hint: 'In chapter 11, go to the pond and tap Do it in the Journal. All ten Keepers come.',
       },
     },
     scenes: S3_SCENES,

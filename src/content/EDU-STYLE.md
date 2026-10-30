@@ -256,3 +256,10 @@ A wrong-answer reply opens with a playful picture built from the child's own ans
 gives the fact: "A puppy in an egg? Crack… woof! That would be silly! Puppies grow inside
 their mum." Never open with "No", "Wrong", "That's not" or "Try again": the reply honours the
 answer. The checker warns (`sprout-wrong-opener`) on any that do.
+
+## No sarcasm at the child (R0347)
+
+Characters may tease each other (Marina and Sparks), never the child, and the narrator never
+mocks the player. `content-check --warnings` flags "nice try", "seriously?", "silly you",
+"silly billy" and "wrong again" in Learning Grove text as `sarcasm?`; a wrong-answer reply
+that opens with "No" is `sprout-wrong-opener` (R0320). `--plant-sarcasm` proves the rule fires.

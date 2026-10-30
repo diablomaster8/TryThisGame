@@ -2,6 +2,32 @@
 
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
+
+## Round 5 · Lane D (2026-10-29, branch r5/d)
+
+Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
+R0095, R0096–R0098, R0102, R0107+; partials after. Skip R0085, R0086, R0088 (lane A).
+
+- **Works:** creature triangle budget (`lod.ts` capFull, `WORLD_LOD.creature.fullTris`, phone
+  190k): nearest first, the rest step down to stand-ins or impostors. Cause of the swing: human
+  NPC and Keeper stand-ins are 35–69k tris (their coarse grid only halves two surfaces). Phone
+  sun shadow box ±22 u, near 25, far 95; far cells redraw every other frame; Grove rocks one
+  draw (undrawn copies keep taps and halos); lantern posts in their lantern's bucket; empty
+  recruit batch hidden. Probe 3D phone 19/19
+  under in two runs (farOrchard 186→176 calls; heart 410–485k→297–309k, bridge
+  410–482k→296–328k tris; 8 Nubbins at the heart 117–127 calls, 277–327k).
+  R0095 village square at the lane's end (Grove SW, `config/region-village.ts`): paving and
+  fountain, 0/2/5 buildings at prosperity 0/40/100, a dressing set per 20, recruits on
+  clock-driven role loops (`sim/village.ts`), taps answer (stall → shop, gym → menu), both
+  renderers. R0102 Travel assist (`settings.travel`, optional; unset = Auto-walk in a Learning
+  Grove, else Walk): the beacon chip and map pins run there or hop there. R0107 landmark name
+  card (2 s, fast-travel chip, says which badge paid Shells) and the Journal's Places tab.
+- **Stubbed:** village is a district of the Grove, not its own 80×64 region (needs WORLD-39);
+  recruits are role-coloured villager figures, not their species; Grove stalls stay as the
+  market. No camera hold on discovery (game.ts follow code). R0096–R0098, R0108 not started.
+- **Known bugs / assumptions:** the 3D stand-in cost is still high for human rigs (lane E's
+  pool); on desktop the creature budget is off (`Infinity`). The full-life timing test runs
+  3.1–3.6 s on this loaded machine on main too.
 ## Round 5 · Lane E LOOK (2026-10-29, branch r5/e)
 
 - *Works:* adults at Fly 50+ fly about a third of their wander legs: they rise 0.6 m, cruise
@@ -19,6 +45,93 @@ Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh se
   "seen all" badges now count all 654 keys.
 - *Assumptions:* flights pick 35% of legs; children never fly; 3D wings keep the walk-flap
   rate (28) rather than 10 Hz.
+
+## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
+
+- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
+  mark a room the stairs can go around (200-seed test); walking in calls lane C's
+  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
+  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
+  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
+  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
+  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
+  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
+  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
+  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
+  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
+- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
+  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
+  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
+  to the satchel); R0160 boss arenas and R0165+ not started.
+- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
+  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
+- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
+  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
+  add it as a child when the roster has room).
+
+## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
+
+- *Plan:* finish R0248 (job on the stats sheet), R0250 (AI combos, pile-on flash), R0253
+  (draw count) and R0254 (Full 3D board, new `render3d/tactics-3d.ts`, instanced tiles,
+  disposed on exit); then R0258–R0283 in order, skipping R0256, R0257's Hollow hand-off, R0260,
+  R0269, R0271, R0275, R0276, R0281, R0282 (other lanes). Sim items go to helpers with their
+  own files; shared files get self-contained blocks only. No save bump.
+- *Works:* Full 3D tactics board (`render3d/tactics-3d.ts` on a `MiniStage`: instanced tiles per
+  kind, one overlay set, pool rigs through the Grove's `CreatureLod`; 56 draws, 216k tris at
+  375×812; memory flat over 10 bouts), job on the stats sheet, AI "Together!" combos, pile-on
+  jostle, 8 grid-only charged moves (line4, scatter3, landing; Keeper+ AI steps out), the
+  Keeper's untargetable piece (Snack toss, Cheer, Whistle; in the rumble room). Turn mode:
+  shared move content lint and `tests/tools/battle-table.ts`, bout points by move used, one-time
+  rewards (`world.battleOnce`, `battleSpoils`), seeded quips (en/he/ja), real rival species,
+  doubles, timing flag (sweet/plain/steady), balance harness, Command mode (ATB, obedience,
+  gags, hidden-tab pause), pre-bout sheet (party, mode, Gentle/Normal/Spicy), Settings → Bouts
+  with Skip (`autoResolve`), inspect card and seen matchups, aria-live log, Steady hands,
+  keyboard play, Debug → Battle (replay paste).
+- *Stubbed:* Pixel board still 1 + units `drawImage` a frame (R0253 wants ≤3 WebGL draws);
+  champion-pack prefixes and rumble chest; doubles stage draws one combatant a side; bout lean
+  not read by `decidePersonality` (lane A); move cards not in the Collection book (lane E).
+- *Known bugs / assumptions:* a Command-mode replay stamps orders at send time but they apply on
+  the next step, so exactness isn't guaranteed (turn bouts are exact). The 60-point cap is per
+  stat per bout. First-win hats reuse shop hats. Snack toss uses 3 packed snacks, not the
+  inventory. Balance: Champion runs 30 bouts (2,000 doesn't fit 3 s); Sprout's median is ~32
+  turns, so it isn't asserted. Stalemate guard skips encounters (Hollow replays unchanged).
+  `battle-screen.ts` is ~1,075 lines (split next). No axe-core installed, so no axe run.
+  Lane B hand-over: side-session note `r5-lane-c-handover.md`.
+
+## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
+
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. R0317 (lane E) and R0326 (lane B) skipped.
+
+- *Works:* the opening's stuck gate is played (hold, push, sticks once, gives) and the cup
+  sets `c1-cup-turned`, which adds a line to c12-close (R0304, `Line.act`, `ui/line-act.ts`);
+  no fun quest before chapter 2's closing (R0306); slip toasts say what helps, with a minute's
+  warning in a new save (R0307); sprout toasts icon-first, no mechanics, read aloud (R0308,
+  `ui/fun-toasts.ts` wraps the toaster); `content-check --comedy` and book 1's 74 gags tagged
+  (R0309); sound words read with their sounds, a bubbly face, ~70% of non-grave campaign and
+  S1–S22 sprout scenes covered (R0310); pet toasts in three physical lines per band (R0311);
+  one hatch card with Pet (R0312); Fern's cairn by the signpost in both modes, one stone a
+  chapter, tappable, finale line (R0313); Byte's stopwatches on the race card (R0314); 25 joke
+  badges, titles in `config/strings-badges.ts`, Silly filter (R0315); a seeded away diary,
+  three headlines then "+N more" (R0316); 60 gated tips on the veil and stage loaders (R0318);
+  chip caps in the checker, chapter 1–2 how-to steps tick live (R0319); sprout wrong replies
+  open with a silly picture, checker warning (R0320); sprout peekaboo under Play (R0321); tap
+  squeak toy (R0322); Say it! on 21 refrains (R0323); Keeper routines, three stations a story
+  day with lines and prop icons (R0296); 90 chatter exchanges for 15 pairs (R0297); R0294's
+  verb map covers every check, with balance, hunt and catch playable from the Atlas and Journal.
+- *Stubbed:* R0294's escort, climb, puzzle, survive and explore games (the button stays) and
+  the Skip-this setting; R0296's prop sprites (soot face, guilty sapling: the bubble icon is
+  the gag for now); R0313's Journal Friends line and side-story callback; R0316's 30 s
+  highlight of changed Nubbins; R0321's shy-Nubbin peekaboo idles; R0310 outside campaign and
+  S1–S22 (17.7% of all sprout scenes); R0318's Atlas loader; R0322's crown spin is a dizzy face.
+- *Known bugs:* none found. Timing tests (full life, nav, 8 Nubbins) fail under a loaded
+  machine; alone see the round's report. `TEN_TEXT.slipToast` in `strings.ts` is now unused.
+- *Assumptions:* routines and chatter state is not saved (read from the clock, kept beside the
+  world); joke-badge counts in optional `world.funCounts` (no save bump); the cup and gate
+  flags live in campaign flags; R0311 leaves lane E's per-personality lines (R0298) as the
+  main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
+  skip the wander pick), so seeded replays differ from before but stay deterministic.
+
 ## Round 4 · Lane D (2026-10-29, branch r4/d)
 
 Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
@@ -115,6 +228,7 @@ R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
   replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
   units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
   dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
+
 ## Round 4 · Lane A (MOVE + FUN, 2026-10-29, branch r4/a)
 
 Plan: the Hollow roll bug first, then R0057, R0063, R0066, then FUN R0290–R0305 in order

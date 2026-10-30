@@ -71,6 +71,7 @@ import { STAGE4 } from '../config/tuning-f4';
 import { StageBuildings3d } from './stage-buildings-3d';
 import { Dressings3d } from './dressings';
 import { Village } from './village';
+import { VillageSquare } from './village-square';
 import { GroveWeather } from './weather';
 import { VisitSet } from './visit';
 import { buildGroveTerrain, groveHeight, standHeight, type GroveTerrain } from './terrain';
@@ -270,6 +271,8 @@ export class Grove3dScene {
   private readonly props: GroveProps;
   /** The square's stalls and the path's fence posts. */
   private readonly village: Village;
+  /** R0095: the village square at the lane's end. */
+  private readonly villageSquare: VillageSquare;
   private readonly water: GroveWater;
   private readonly actors: Actors;
   private readonly dungeonFloor: THREE.Mesh;
@@ -467,6 +470,7 @@ export class Grove3dScene {
     this.pickables.push(...this.props.pickables);
     this.lamps = new LampPool(this.world3d, GROVE3D.nightLamps);
     this.village = new Village(this.world3d, this.tex, groveHeight);
+    this.villageSquare = new VillageSquare(this.world3d, this.tex, groveHeight, this.pickables);
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
@@ -999,6 +1003,20 @@ export class Grove3dScene {
     this.actors.pool.quality = qualityForRes(res);
     this.tier = tierForRes(res);
     this.actors.pool.spareCap = WORLD_MEM.poolSpares[this.tier];
+    this.creatureLod.fullTrisCap = WORLD_LOD.creature.fullTris[this.tier];
+    // Round 5: a phone draws a narrower sun shadow box (a portrait view is narrow, and every
+    // caster inside the box is drawn again into the shadow map).
+    const sc = this.sky.sun.shadow.camera;
+    const half = WORLD_LOD.shadowHalf[this.tier];
+    sc.left = sc.bottom = -half;
+    sc.right = sc.top = half;
+    // And a shallower one: the sun sits 60 u out (`sky.ts`), so casters far beyond the Keeper
+    // only throw shadows farther still, outside the box.
+    sc.far = WORLD_LOD.shadowFar[this.tier];
+    // Casters more than 60 - near units up-sun of the Keeper (a low sun reaches far) only matter
+    // for the longest evening shadows; a phone leaves them out.
+    sc.near = WORLD_LOD.shadowNear[this.tier];
+    sc.updateProjectionMatrix();
   }
 
   /** First run on a device: time a small march and pick the grid (see `sculpt-res.ts`). */
@@ -1407,6 +1425,7 @@ export class Grove3dScene {
     this.lastWorld = world;
     this.actors.update(world, alpha, nowMs, dt, this.camPos);
     const home = this.location === 'grove';
+    this.villageSquare.update(world, home);
     this.garden.update(world, standHeight, nowMs, home);
     const run = this.location === 'dungeon' ? world.dungeon : null;
     // Last frame's camera is close enough to judge which walls stand in the way.
@@ -1650,7 +1669,10 @@ export class Grove3dScene {
         ? WORLD_SURVEY.impostorPerFrame
         : this.tier === 'desktop'
           ? WORLD_LOD.creature.impostor.perFrame
-          : WORLD_LOD.creature.impostor.perFramePhone;
+          : // Round 5: a phone redraws a far cell every other frame (far poses at 1.9 fps).
+            this.geoFrames % 2 === 0
+            ? WORLD_LOD.creature.impostor.perFramePhone
+            : 0;
       imp.render(this.renderer, this.scene, this.camera);
     }
     this.composer.render();

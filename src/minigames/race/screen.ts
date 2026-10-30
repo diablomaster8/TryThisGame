@@ -279,6 +279,8 @@ export class RaceScreen {
     this.resultsBody.appendChild(standingsList(race));
     const tip = this.watch?.tip();
     if (tip) this.resultsBody.appendChild(el('p', 'race-tip', tip));
+    const flutter = this.watch?.butterfly();
+    if (flutter) this.resultsBody.appendChild(el('p', 'race-tip', flutter));
     for (const line of this.footer) this.resultsBody.appendChild(el('p', 'race-footer', line));
     playSound(placement <= 3 ? 'win' : 'sad');
     this.root.appendChild(this.results);

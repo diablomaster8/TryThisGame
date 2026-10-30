@@ -290,7 +290,7 @@ export const QUESTS_HODJA: Quest[] = [
       {
         id: 'q87-s2',
         goal: 'Watch what the Hodja does with his soup.',
-        hint: 'Sit near the top of the table and use Watch.',
+        hint: 'Sit near the top of the table, then tap Do it in the Journal and watch the coat eat.',
         check: 'watch:hodja:feed-coat',
         scene: {
           id: 'q87-feast',
@@ -646,7 +646,7 @@ export const QUESTS_HODJA: Quest[] = [
       {
         id: 'q90-s2',
         goal: 'Pull on the rope with the Hodja, and then lie down and look up.',
-        hint: 'Use Pull on the rope, then Sit beside the Hodja.',
+        hint: 'Tap Do it in the Journal to pull the rope, then sit beside the Hodja and look up.',
         check: 'sit:hodja:well-moon',
         scene: {
           id: 'q90-pull',
@@ -891,7 +891,7 @@ export const QUESTS_HODJA: Quest[] = [
       {
         id: 'q92-s2',
         goal: 'Keep a straight face through the Hodja’s three talks.',
-        hint: 'Sit at the back and use Listen. Try not to laugh.',
+        hint: 'Sit at the back, then tap Do it in the Journal. Try not to laugh. He can tell.',
         check: 'sit:schoolhouse:hodja-talk',
         scene: {
           id: 'q92-talk',

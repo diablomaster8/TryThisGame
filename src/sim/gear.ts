@@ -18,6 +18,7 @@ import {
   type RarityId,
 } from '../config/dungeon-loot';
 import { CRITTER_SPECIES } from './critters';
+import { notePickup } from './dungeon-log';
 import type { Rng } from './rng';
 import type { GearItem, GearState, NubbinType, SimEvent, World } from './types';
 
@@ -78,14 +79,27 @@ export function rollGear(
   };
 }
 
-/** Puts a piece in the satchel; past `LOOT.carry` the oldest unworn plain piece makes room. */
+/**
+ * Puts a piece in the satchel; past `LOOT.carry` the oldest unworn plain piece (else the
+ * oldest unworn one) moves to the stash, so a find is never lost (R0174, lane B round 6).
+ */
 export function keepGear(world: World, item: GearItem): void {
   const g = ensureGear(world);
   g.items.push(item);
   if (g.items.length <= LOOT.carry) return;
   const worn = new Set(wornIds(g));
-  const i = g.items.findIndex((x) => x.rarity === 'plain' && !worn.has(x.id));
-  g.items.splice(i >= 0 ? i : 0, 1);
+  let i = g.items.findIndex((x) => x.rarity === 'plain' && !worn.has(x.id));
+  if (i < 0) i = g.items.findIndex((x) => !worn.has(x.id));
+  if (i >= 0) (g.stash ??= []).push(g.items.splice(i, 1)[0]!);
+}
+
+/** A gear find: into the run's sack while underground (R0175), else into the satchel. */
+export function stowGear(world: World, item: GearItem): void {
+  const run = world.dungeon;
+  if (run && world.location === 'dungeon') {
+    (run.sack ??= []).push(item);
+    notePickup(world, item.rarity);
+  } else keepGear(world, item);
 }
 
 function wornIds(g: GearState): string[] {
@@ -115,7 +129,7 @@ export function rollDrops(
     out.push(e.item);
     if (e.item === 'gear' || e.item === 'charm') {
       const item = rollGear(world, rng, level, mf, e.item === 'charm' ? 'charm' : undefined);
-      keepGear(world, item);
+      stowGear(world, item);
       events.push({ kind: 'gearFound', item });
     } else if (e.item === 'shells') {
       world.inventory.shells += 5 + level;

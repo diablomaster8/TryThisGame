@@ -72,7 +72,7 @@ const KEEPING: Line[] = [
 
 /** Step 13 complete: the opening shared by all three versions. */
 const LOG_OPEN: Line[] = [
-  N('After the cake, Byte stands up with his notebook.'),
+  N('After the cake, Byte stands up with his notebook. Ding!'),
   BY('I’m going to read my notebook out loud. I want to.', 'think'),
   BY('Oops list: Bath. Jam jars. Oranges. Snow. Watch.', 'think'),
 ];
@@ -141,7 +141,7 @@ const SCENES: EduScene[] = [
   sc(
     's28-cart',
     [
-      N('Clip-clop! A cart stops at your gate.'),
+      N('Clip-clop! Ding! A cart stops at your gate.'),
       CA('Morning! I’ve got a passenger for you.', 'happy'),
       N('On a box sits a small brown Nubbin, with a basket.'),
       N('It sees you, and it bows. Right down from the middle!'),
@@ -178,7 +178,7 @@ const SCENES: EduScene[] = [
     [
       N('Byte opens his door. He has a pencil behind each ear.'),
       BY('A Nubbin? Why have you brought me a Nubbin?', 'shock'),
-      N('The Nubbin bows to Byte. Byte bows back, just a tiny bit.'),
+      N('The Nubbin bows to Byte. Byte bows back, just a tiny bit. Creak!'),
       N('He reads the label. Then the back. Then the front again.'),
       BY('“For Byte. H.” Who is H?', 'think'),
     ],
@@ -230,7 +230,7 @@ const SCENES: EduScene[] = [
       N('The jar is empty. Licked very clean!'),
       N('The jar says “Marmalade”. Marmalade is a jam made from oranges.'),
       BY('Nubbins eat fruit. Not marmalade! It says so in every book.'),
-      N('The Nubbin holds the jar upside down. Empty! Then it waits, politely.'),
+      N('The Nubbin holds the jar upside down. Empty! Drip. Then it waits, politely.'),
       N('You remember a shelf at Gran Hazel’s. Orange jars, all in a row.'),
       BY('How many jars?'),
       Y('Some!'),
@@ -292,7 +292,7 @@ const SCENES: EduScene[] = [
       N('Nobody says “stop”.'),
       N('Splish! The bath is full. Parcel bows to the bath.'),
       N('Splash! The landing is full. Parcel bows to the landing.'),
-      N('Splosh! The stairs are full. Parcel bows to the stairs.'),
+      N('Splash! The stairs are full. Parcel bows to the stairs.'),
       BY('WHY IS THE HALL WET?', 'shock'),
       N('The water runs down the stairs, out of the door, and next door!'),
     ],
@@ -316,7 +316,7 @@ const SCENES: EduScene[] = [
   sc(
     's28-nubbin',
     [
-      N('A head pops up over the fence. A cardigan. A moustache. A cross face.'),
+      N('A head goes pop over the fence. A cardigan. A moustache. A cross face.'),
       GR('NUBBIN!', 'angry'),
       N('This is Mr Grue, from next door. His garden is all wet.'),
       GR('Send it back where it came from!', 'angry'),
@@ -351,7 +351,7 @@ const SCENES: EduScene[] = [
     [
       N('Next morning, Mr Grue knocks on Byte’s door. He has a list.'),
       GR('My lettuces got wet. My slippers got wet. I want something for it!', 'angry'),
-      N('Parcel comes out from behind Byte’s legs.'),
+      N('Parcel comes out from behind Byte’s legs. Squeak!'),
       N('It stands up very straight. It looks at Mr Grue.'),
       N('It does not blink. It does not move. It just looks.'),
       N('This is a hard stare. Byte counts, very quietly.'),
@@ -376,7 +376,7 @@ const SCENES: EduScene[] = [
     's28-eleven-seconds',
     [
       N('Mr Grue stops talking. He starts again. He stops.'),
-      N('He folds up his list. He goes home, very quietly.'),
+      N('He folds up his list. Pop! He goes home, very quietly.'),
       BY('Eleven seconds! Nobody stares for eleven seconds!', 'shock'),
       N('That night, Byte gets a new notebook. He writes on it: PARCEL.'),
       N('Inside, he draws two columns, like two tall boxes, side by side.'),
@@ -443,7 +443,7 @@ const SCENES: EduScene[] = [
       BY('Up at seven. Bow to the kettle. Marmalade. Bow to the kettle.', 'think'),
       BY('At eleven, it makes a sandwich. It takes half outside.'),
       BY('I follow it. I always lose it at the wall!', 'think'),
-      N('Bong! The clock in the hall strikes eleven.'),
+      N('Ding, dong! The clock in the hall strikes eleven.'),
       N('Parcel comes out with half a sandwich, held in both paws like a tray.'),
       BY('You go. You’re quieter than me.'),
     ],
@@ -475,7 +475,7 @@ const SCENES: EduScene[] = [
     's28-elevenses',
     [
       N('The low wall at the bottom of the hill. Moss is sitting on it.'),
-      N('Parcel climbs up. It puts the half sandwich down, and bows.'),
+      N('Parcel climbs up. Plop! It puts the half sandwich down, and bows.'),
       M('Elevenses. That’s a little snack at eleven o’clock.', 'soft'),
       M('It brings me one every morning. I don’t eat. It brings one anyway.', 'soft'),
       M('Lots have come down that road with a label, you know.', 'soft'),
@@ -552,7 +552,7 @@ const SCENES: EduScene[] = [
       BY('Parcel shivers in the mornings. It needs a coat.', 'think'),
       N('You look at the first stall. You turn round. Where’s Parcel?'),
       BY('It was right there! I’m sure it was!', 'shock'),
-      N('Across the square: clink, clank, clinkety-CLANK!'),
+      N('Across the square: clink, clank, BONK!'),
       N('Your Nubbin runs to the noise, nose first. It can smell oranges!'),
     ],
     [
@@ -577,7 +577,7 @@ const SCENES: EduScene[] = [
     's28-jam-stall',
     [
       N('A jam stall. There was a tall, pointy pile of jars here.'),
-      N('Now the jars are rolling everywhere! Parcel holds the top jar, safe.'),
+      N('Now the jars are rolling everywhere! Bonk! Parcel holds the top jar, safe.'),
       DO('My lovely pile! It took me three hours!', 'angry'),
       N('Lots of people come to look. Parcel bows to them.'),
       N('Everyone claps. They pick up the jars, and they buy them!'),
@@ -609,7 +609,7 @@ const SCENES: EduScene[] = [
       N('Winter is coming. There is frost on Byte’s hedge.'),
       BY('Six jars, one spoonful a day. That should last till midwinter.', 'think'),
       BY('But look. The marmalade is all gone already!', 'sad'),
-      BY('Parcel shares. It feeds everyone before itself.', 'sad'),
+      BY('Parcel shares. Nom! It feeds everyone before itself.', 'sad'),
       N('Moss had some. The robins had some. Your Nubbin had some, twice!'),
       N('The last jar is on the table. Empty and washed, like a milk bottle.'),
       N('That night, Parcel isn’t in its basket.'),
@@ -644,7 +644,7 @@ const SCENES: EduScene[] = [
     [
       N('Next door, Mr Grue’s glasshouse is glowing. It’s a little house made of glass.'),
       N('Inside is a little tree, with small, bright oranges.'),
-      N('Parcel is under the tree. It has an orange in both paws.'),
+      N('Parcel is under the tree. Munch! It has an orange in both paws.'),
       GR('A thief! In my glasshouse!', 'angry'),
       N('Byte runs over in his dressing gown. He stands in front of Parcel.'),
       BY('Parcel is in my care. If it did wrong, I’ll put it right.', 'angry'),
@@ -725,7 +725,7 @@ const SCENES: EduScene[] = [
   sc(
     's28-kitchen',
     [
-      N('Byte’s kitchen. Chop, chop! Oranges everywhere. It smells bright and sunny.'),
+      N('Byte’s kitchen. Chop, chop! Oranges everywhere. Pop! It smells bright and sunny.'),
       BY('My thermometer will tell us when it’s hot enough.', 'think'),
       N('Gran Hazel’s card says: “Cold saucer. Push it. See if it wrinkles.”'),
       BY('That isn’t a test. That’s a feeling!', 'think'),
@@ -762,7 +762,7 @@ const SCENES: EduScene[] = [
   sc(
     's28-wrinkle',
     [
-      N('Bubble, bubble. The thermometer says: hot enough!'),
+      N('Bubble, bubble, pop! The thermometer says: hot enough!'),
       N('And on the cold saucer, the marmalade wrinkles when Parcel pushes it.'),
       BY('They agree! The feeling and the thermometer agree!', 'shock'),
       N('Nine jars glow on the table, like little orange windows.'),
@@ -997,7 +997,7 @@ const SCENES: EduScene[] = [
   sc(
     's28-party',
     [
-      N('Party time at Byte’s! Paper flags, and a cake that says PARCEL.'),
+      N('Pop! Party time at Byte’s! Paper flags, and a cake that says PARCEL.'),
       PX('I got the cake stand from our loft. It spins round!', 'happy'),
       N('Pixel is Byte’s wife. They are always like this.'),
       BY('It’s a cake, not a funfair.'),
@@ -1032,7 +1032,7 @@ const SCENES: EduScene[] = [
     's28-grue-back',
     [
       N('Pixel fixes the watch. Tick, tick, tick! It works better than before.'),
-      N('Knock, knock. It’s Mr Grue, with a paper bag.'),
+      N('Ding-dong! It’s Mr Grue, with a paper bag.'),
       GR('I’ve come for the marmalade. Not the party.', 'angry'),
       N('In the bag are oranges, from his tree.'),
       GR('For the next lot. Don’t make a fuss.', 'think'),

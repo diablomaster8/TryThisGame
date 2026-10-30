@@ -18,7 +18,7 @@
 
 #### `sprout:s28-cart` · [main](../../../side/S28.md#s28-cart)
 
-_Clip-clop! A cart stops at your gate._  
+_Clip-clop! Ding! A cart stops at your gate._  
 **The carter**: Morning! I’ve got a passenger for you.  
 _On a box sits a small brown Nubbin, with a basket._  
 _It sees you, and it bows. Right down from the middle!_  
@@ -42,7 +42,7 @@ _The Nubbin climbs down, step, step, step, and waits by your boot._
 
 _Byte opens his door. He has a pencil behind each ear._  
 **Byte**: A Nubbin? Why have you brought me a Nubbin?  
-_The Nubbin bows to Byte. Byte bows back, just a tiny bit._  
+_The Nubbin bows to Byte. Byte bows back, just a tiny bit. Creak!_  
 _He reads the label. Then the back. Then the front again._  
 **Byte**: “For Byte. H.” Who is H?  
 
@@ -78,7 +78,7 @@ _The jar says “Marmalade”. Marmalade is a jam made from oranges._
 > Check: `edu:clap:syllables:marmalade`
 > _For grown-ups: Clapped the three syllables in “marmalade”._
 
-_The Nubbin holds the jar upside down. Empty! Then it waits, politely._  
+_The Nubbin holds the jar upside down. Empty! Drip. Then it waits, politely._  
 _You remember a shelf at Gran Hazel’s. Orange jars, all in a row._  
 **Byte**: How many jars?  
 **You**: Some!  
@@ -112,7 +112,7 @@ _Then it sits and waits for someone to say “stop”._
 _Nobody says “stop”._  
 _Splish! The bath is full. Parcel bows to the bath._  
 _Splash! The landing is full. Parcel bows to the landing._  
-_Splosh! The stairs are full. Parcel bows to the stairs._  
+_Splash! The stairs are full. Parcel bows to the stairs._  
 **Byte**: WHY IS THE HALL WET?  
 _The water runs down the stairs, out of the door, and next door!_  
 
@@ -126,7 +126,7 @@ _The water runs down the stairs, out of the door, and next door!_
 
 #### `sprout:s28-nubbin` · [main](../../../side/S28.md#s28-nubbin)
 
-_A head pops up over the fence. A cardigan. A moustache. A cross face._  
+_A head goes pop over the fence. A cardigan. A moustache. A cross face._  
 **Mr Grue**: NUBBIN!  
 _This is Mr Grue, from next door. His garden is all wet._  
 **Mr Grue**: Send it back where it came from!  
@@ -146,7 +146,7 @@ _Upstairs, Parcel turns the taps off. It bows to Mr Grue._
 
 _Next morning, Mr Grue knocks on Byte’s door. He has a list._  
 **Mr Grue**: My lettuces got wet. My slippers got wet. I want something for it!  
-_Parcel comes out from behind Byte’s legs._  
+_Parcel comes out from behind Byte’s legs. Squeak!_  
 _It stands up very straight. It looks at Mr Grue._  
 _It does not blink. It does not move. It just looks._  
 _This is a hard stare. Byte counts, very quietly._  
@@ -161,7 +161,7 @@ _This is a hard stare. Byte counts, very quietly._
 #### `sprout:s28-eleven-seconds` · [main](../../../side/S28.md#s28-eleven-seconds)
 
 _Mr Grue stops talking. He starts again. He stops._  
-_He folds up his list. He goes home, very quietly._  
+_He folds up his list. Pop! He goes home, very quietly._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): everyone feels cross sometimes  
 > _Mr Grue was cross. Is it all right to feel cross?_  
@@ -193,7 +193,7 @@ _A week later. Parcel has a routine. Byte writes it down._
 **Byte**: Up at seven. Bow to the kettle. Marmalade. Bow to the kettle.  
 **Byte**: At eleven, it makes a sandwich. It takes half outside.  
 **Byte**: I follow it. I always lose it at the wall!  
-_Bong! The clock in the hall strikes eleven._  
+_Ding, dong! The clock in the hall strikes eleven._  
 
 > **Lesson** (maths, ELOF: Mathematics Development, ask): telling the time in hours  
 > _The short hand points to 11. The long hand points to 12._  
@@ -209,7 +209,7 @@ _Parcel comes out with half a sandwich, held in both paws like a tray._
 #### `sprout:s28-elevenses` · [main](../../../side/S28.md#s28-elevenses)
 
 _The low wall at the bottom of the hill. Moss is sitting on it._  
-_Parcel climbs up. It puts the half sandwich down, and bows._  
+_Parcel climbs up. Plop! It puts the half sandwich down, and bows._  
 **Moss**: Elevenses. That’s a little snack at eleven o’clock.  
 **Moss**: It brings me one every morning. I don’t eat. It brings one anyway.  
 **Moss**: Lots have come down that road with a label, you know.  
@@ -321,7 +321,7 @@ _Market day! Stalls, and shouting, and the smell of hot chestnuts._
 **Byte**: Parcel shivers in the mornings. It needs a coat.  
 _You look at the first stall. You turn round. Where’s Parcel?_  
 **Byte**: It was right there! I’m sure it was!  
-_Across the square: clink, clank, clinkety-CLANK!_  
+_Across the square: clink, clank, BONK!_  
 _Your Nubbin runs to the noise, nose first. It can smell oranges!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): we use our senses, like smell and hearing, to find things  
@@ -334,7 +334,7 @@ _Your Nubbin runs to the noise, nose first. It can smell oranges!_
 #### `sprout:s28-jam-stall` · [main](../../../side/S28.md#s28-jam-stall)
 
 _A jam stall. There was a tall, pointy pile of jars here._  
-_Now the jars are rolling everywhere! Parcel holds the top jar, safe._  
+_Now the jars are rolling everywhere! Bonk! Parcel holds the top jar, safe._  
 **Dot Amblin**: My lovely pile! It took me three hours!  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 10, building a shape  
@@ -355,7 +355,7 @@ _Then a second one, for your Nubbin._
 _Winter is coming. There is frost on Byte’s hedge._  
 **Byte**: Six jars, one spoonful a day. That should last till midwinter.  
 **Byte**: But look. The marmalade is all gone already!  
-**Byte**: Parcel shares. It feeds everyone before itself.  
+**Byte**: Parcel shares. Nom! It feeds everyone before itself.  
 _Moss had some. The robins had some. Your Nubbin had some, twice!_  
 
 > **Lesson** (social-studies, D2.Eco.1.K-2, ask): when there isn’t enough, we choose how to share  
@@ -378,7 +378,7 @@ _Next door, Mr Grue’s glasshouse is glowing. It’s a little house made of gla
 > _For grown-ups: Heard that sunshine coming through glass keeps a glasshouse warm for plants._
 
 _Inside is a little tree, with small, bright oranges._  
-_Parcel is under the tree. It has an orange in both paws._  
+_Parcel is under the tree. Munch! It has an orange in both paws._  
 **Mr Grue**: A thief! In my glasshouse!  
 _Byte runs over in his dressing gown. He stands in front of Parcel._  
 **Byte**: Parcel is in my care. If it did wrong, I’ll put it right.  
@@ -413,7 +413,7 @@ _Byte runs over in his dressing gown. He stands in front of Parcel._
 
 #### `sprout:s28-kitchen` · [main](../../../side/S28.md#s28-kitchen)
 
-_Byte’s kitchen. Chop, chop! Oranges everywhere. It smells bright and sunny._  
+_Byte’s kitchen. Chop, chop! Oranges everywhere. Pop! It smells bright and sunny._  
 **Byte**: My thermometer will tell us when it’s hot enough.  
 _Gran Hazel’s card says: “Cold saucer. Push it. See if it wrinkles.”_  
 **Byte**: That isn’t a test. That’s a feeling!  
@@ -434,7 +434,7 @@ _On the back of the card, Gran Hazel wrote one more line._
 
 #### `sprout:s28-wrinkle` · [main](../../../side/S28.md#s28-wrinkle)
 
-_Bubble, bubble. The thermometer says: hot enough!_  
+_Bubble, bubble, pop! The thermometer says: hot enough!_  
 _And on the cold saucer, the marmalade wrinkles when Parcel pushes it._  
 **Byte**: They agree! The feeling and the thermometer agree!  
 _Nine jars glow on the table, like little orange windows._  
@@ -620,7 +620,7 @@ _Parcel leans on Byte. Byte leans on you. That helps a bit._
 
 #### `sprout:s28-party` · [main](../../../side/S28.md#s28-party)
 
-_Party time at Byte’s! Paper flags, and a cake that says PARCEL._  
+_Pop! Party time at Byte’s! Paper flags, and a cake that says PARCEL._  
 **Pixel**: I got the cake stand from our loft. It spins round!  
 _Pixel is Byte’s wife. They are always like this._  
 **Byte**: It’s a cake, not a funfair.  
@@ -645,7 +645,7 @@ _Mr Grue stomps out. The paper flags fall down._
 #### `sprout:s28-grue-back` · [main](../../../side/S28.md#s28-grue-back)
 
 _Pixel fixes the watch. Tick, tick, tick! It works better than before._  
-_Knock, knock. It’s Mr Grue, with a paper bag._  
+_Ding-dong! It’s Mr Grue, with a paper bag._  
 **Mr Grue**: I’ve come for the marmalade. Not the party.  
 _In the bag are oranges, from his tree._  
 **Mr Grue**: For the next lot. Don’t make a fuss.  
@@ -701,7 +701,7 @@ _But he stays to the end. He helps put the flags back up._
 
 #### `sprout:s28-complete` · [main](../../../side/S28.md#s28-complete)
 
-_After the cake, Byte stands up with his notebook._  
+_After the cake, Byte stands up with his notebook. Ding!_  
 **Byte**: I’m going to read my notebook out loud. I want to.  
 **Byte**: Oops list: Bath. Jam jars. Oranges. Snow. Watch.  
 **Byte**: Good things: Bowed to the kettle. Shared. Shared. Shared. Gave me half a sandwich.  
@@ -728,7 +728,7 @@ _He says it won’t grow. It will. You can tell._
 
 _Variant of `s28-complete`._
 
-_After the cake, Byte stands up with his notebook._  
+_After the cake, Byte stands up with his notebook. Ding!_  
 **Byte**: I’m going to read my notebook out loud. I want to.  
 **Byte**: Oops list: Bath. Jam jars. Oranges. Snow. Watch.  
 **Byte**: Not sure yet: Kind to Moss. Shares on purpose.  
@@ -757,7 +757,7 @@ _He says it won’t grow. It will. You can tell._
 
 _Variant of `s28-complete`._
 
-_After the cake, Byte stands up with his notebook._  
+_After the cake, Byte stands up with his notebook. Ding!_  
 **Byte**: I’m going to read my notebook out loud. I want to.  
 **Byte**: Oops list: Bath. Jam jars. Oranges. Snow. Watch.  
 _Byte reads three pages of oops. Then he stops._  

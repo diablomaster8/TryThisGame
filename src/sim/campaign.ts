@@ -1,4 +1,5 @@
 import { hasRoom, mossSeat } from './roster';
+import { startToddle } from './slapstick';
 import { CHAPTERS, LINE_ACT_FLAGS, type Choice } from '../config/story';
 import { noteByteRace } from './byte-watches';
 import { GROVE, STORY, TRUST } from '../config/tuning';
@@ -258,7 +259,8 @@ const GOALS: Record<string, (world: World, c: CampaignState) => boolean> = {
   feedTwice: (_w, c) => c.stats.feeds >= 2,
   sableTrust20: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 20,
   lanternsAndMoss: (_w, c) => lanternsLit(c) >= 4 && Boolean(c.flags.mossPetted),
-  winRace: (_w, c) => c.stats.races >= 1,
+  // Lane C round 6 (FIGHT-22): a Circuit ribbon counts as well as a race.
+  winRace: (w, c) => c.stats.races >= 1 || (w.circuit?.ribbons.length ?? 0) >= 1,
   talkDusty: (_w, c) => Boolean(c.flags[`talked:6:dusty`]),
   sableTrust45: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 45,
   expedition: (_w, c) => c.stats.expeditions >= 1,
@@ -434,6 +436,8 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
   }
   if (c.step === 1) {
     if (!goalMet(world, c)) return;
+    // R0305 (FUN-16): the goal's first moment gets a comic beat while the closing settles.
+    if (c.goalMetMs === null) startToddle(world, world.timeMs);
     c.goalMetMs ??= world.timeMs;
     if (closingHeld(world, c)) return;
     // The closing answers what the player just did, so it follows the goal after a short

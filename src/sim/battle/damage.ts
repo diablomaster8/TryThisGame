@@ -118,8 +118,11 @@ export function hurt(s: BattleState, rng: Rng, to: Combatant, dmg: number): numb
   return to.hp;
 }
 
-/** Still in the bout: not tuckered, and not gone home with the Keeper as a new friend. */
-export const standing = (c: Combatant): boolean => c.hp > 0 && !c.friend;
+/**
+ * Still in the bout: not tuckered, not gone home with the Keeper as a new friend, and not
+ * stepped into a fusion (FIGHT-95).
+ */
+export const standing = (c: Combatant): boolean => c.hp > 0 && !c.friend && !c.fusedInto;
 
 /** On the field: standing and, in singles, its side's active one (recs FIGHT-19). */
 export const onField = (s: BattleState, c: Combatant): boolean =>

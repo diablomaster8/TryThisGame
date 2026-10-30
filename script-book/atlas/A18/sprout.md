@@ -2242,7 +2242,7 @@ _The tale ends the old way: the little doll stayed in her pocket, always._
 > _What is this story mostly about?_  
 > - ✅ Caring for others → Yes! Vasilisa feeds and cares for others, and care comes back to her.
 > - Winning a race → There was no race. The story is about caring for others.
-> - A lost hat → No lost hat. The story is about caring for others.
+> - A lost hat → A lost hat? Ha ha, plop! The story is about caring for others.
 > _For grown-ups: Named the main idea of the story: caring for others._
 
 _The page settles under your hand. You are back in the Grove._  

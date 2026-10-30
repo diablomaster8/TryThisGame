@@ -131,7 +131,7 @@ _She makes a little fire. Dusty sits by it, wrapped in the rug._
 > - She went home → She stayed! She said “never mind”, and made a fire.
 > _For grown-ups: Talked about saying sorry and forgiving someone after a mistake._
 
-**Dusty**: The cheese is in the river!  
+**Dusty**: Splash! The cheese is in the river!  
 **Marina**: Then the fish get a picnic too. Never mind!  
 _She says it again and again, until Dusty smiles._  
 **Marina**: Tomorrow I’ll teach you both to row properly.  
@@ -139,7 +139,7 @@ _She says it again and again, until Dusty smiles._
 #### `sprout:s29-lessons` · [main](../../../side/S29.md#s29-lessons)
 
 **Marina**: Lesson one: sit down. Lesson two: stay sat down!  
-**Marina**: Oars in. Pull. Oars out. In, pull, out!  
+**Marina**: Oars in. Pull. Splash! Oars out. In, pull, out!  
 _In, pull, out! In, pull, out! (Say it together.)_  
 
 > **Lesson** (maths, ELOF: Mathematics Development, do): a repeating pattern  
@@ -169,7 +169,7 @@ _A little brown head follows the boat. It’s Portly!_
 
 #### `sprout:s29-lessons-done` · [main](../../../side/S29.md#s29-lessons-done)
 
-_Portly carries his present home along the bank._  
+_Portly carries his present home along the bank. Plop, plop._  
 _He stops to look at it. Then he goes on._  
 **Dusty**: He never steals your things. That means he likes you!  
 **Marina**: Same time next week. And nobody stands up in my boat!  
@@ -241,7 +241,7 @@ _Then the bolts slide back. One, two, three, four._
 #### `sprout:s29-kitchen` · [main](../../../side/S29.md#s29-kitchen)
 
 _The door opens. An old woman holds up a candle. She looks cross._  
-**Granny Brock**: Who’s ringing my bell? Nobody rings my bell!  
+**Granny Brock**: Ding, dong! Who’s ringing my bell? Nobody rings my bell!  
 **Marina**: Granny Brock, it’s Marina. We’re lost. Dusty is frozen.  
 _Granny Brock looks at your Nubbin. Your Nubbin looks back._  
 **Granny Brock**: In. All of you. Boots off.  
@@ -262,7 +262,7 @@ _Dusty listens very hard. Dusty has an old friend at home too._
 _Variant of `s29-kitchen`._
 
 _The door opens. An old woman holds up a candle. She looks cross._  
-**Granny Brock**: Who’s ringing my bell? Nobody rings my bell!  
+**Granny Brock**: Ding, dong! Who’s ringing my bell? Nobody rings my bell!  
 **Marina**: Granny Brock, it’s Marina. We’re lost. Dusty is frozen.  
 _Granny Brock looks at your Nubbin. Your Nubbin looks back._  
 **Granny Brock**: In. All of you. Boots off.  
@@ -289,7 +289,7 @@ _Morning. Granny Brock is up first, in her big boots._
 > - Over → Can you fly? No? Then we go under, in a tunnel.
 > _For grown-ups: Used the position words over and under._
 
-_She takes a lantern. Down some steps. Down some more._  
+_Drip, drip. She takes a lantern. Down some steps. Down some more._  
 _Here is an old tunnel made of bricks. It is low and round._  
 _Your Nubbin runs ahead. Then it runs back to check on you._  
 **Granny Brock**: That one’s sensible. Goes ahead, comes back.  
@@ -299,7 +299,7 @@ _Your Nubbin runs ahead. Then it runs back to check on you._
 _Light at the end of the tunnel! Out you come, by a field._  
 _The wood looks quiet now. Just trees._  
 **Granny Brock**: Go home. Come in the day, if you like. Bring cake.  
-_She goes back in. Clunk go the bolts._  
+_She goes back in. Bonk go the bolts._  
 **Dusty**: I’m a river person now. You can see what’s coming on a river.  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): scared feelings pass  
@@ -324,7 +324,7 @@ _But the river is low. The stones stick out, all dry._
 > - High → Look at the stones. They stick out! The water is low.
 > _For grown-ups: Compared high and low water by looking at the stones._
 
-_Bump! The boat stops on the stones. Everybody out!_  
+_Bonk! The boat stops on the stones. Everybody out!_  
 _You carry the boat. The water is so cold!_  
 **Dusty**: Cold? In August?  
 
@@ -356,7 +356,7 @@ _Above the weir is a small island, with willows and long grass._
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): land and water: what an island is  
 > _What goes all the way round an island?_  
 > - ✅ Water → Yes! An island has water all the way round.
-> - A fence → No fence! Water goes all the way round an island.
+> - A fence → A fence in the sea? Creak! Water goes all the way round an island.
 > - Trees → This one has trees on it. But water goes all the way round.
 > _For grown-ups: Learned that an island is land with water all the way round, and that a weir is a low wall across a river._
 
@@ -367,7 +367,7 @@ _Above the weir is a small island, with willows and long grass._
 
 #### `sprout:s29-dusk` · [main](../../../side/S29.md#s29-dusk)
 
-_Evening. You walk home by the river, under a stripy cliff._  
+_Evening. You walk home by the river, under a stripy cliff. Splash!_  
 _Marina walks fast. She is hungry._  
 _Dusty stops. They sniff. They look up the cliff._  
 **Dusty**: That’s my house! I can smell it. I haven’t been home for ages.  
@@ -513,7 +513,7 @@ _Hoo-hoo! An owl. Plop! A fish. But no Portly._
 #### `sprout:s29-night` · [main](../../../side/S29.md#s29-night)
 
 _Something shines in the lantern light, down on the mud._  
-_Your Nubbin sees it first! It nearly falls in._  
+_Your Nubbin sees it first! It nearly falls in. Plop!_  
 _It is the blue glass bead!_  
 _Next to it are little footprints, going up the river._  
 
@@ -572,7 +572,7 @@ _The sky turns pink and pearly. It is nearly morning._
 
 #### `sprout:s29-island` · [main](../../../side/S29.md#s29-island)
 
-_The boat bumps the island. You step out._  
+_The boat goes bonk on the island. You step out._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): day and night: dawn is when the sun comes up  
 > _The sun is coming up. Morning time is called dawn._  
@@ -718,12 +718,12 @@ _You put three round logs on the bank. The boat rolls on them._
 > _For grown-ups: Saw how round logs roll to help move something heavy._
 
 **Dusty**: Boats are heavy when they’re not floating! It’s a trick!  
-**Marina**: Heave! And heave! Mind your toes.  
+**Marina**: Heave! And heave! Thump! Mind your toes.  
 _Your Nubbin rides in the boat all the way. Still boating!_  
 
 #### `sprout:s29-complete` · [main](../../../side/S29.md#s29-complete)
 
-_Under the willows, you turn the boat upside down. Gently._  
+_Under the willows, you turn the boat upside down. Gently. Thump!_  
 _It looks like a big beetle having a rest._  
 **Marina**: I was cross with you both. I banged the door a lot.  
 **Dusty**: We noticed!  
@@ -747,7 +747,7 @@ _Down at the ford, a little brown head pops up. Then it’s gone._
 
 _Variant of `s29-complete`._
 
-_Under the willows, you turn the boat upside down. Gently._  
+_Under the willows, you turn the boat upside down. Gently. Thump!_  
 _It looks like a big beetle having a rest._  
 _Marina doesn’t say much. She leans on you, just a little._  
 _Dusty leans on Marina’s other side. You stand together._  
@@ -770,7 +770,7 @@ _Down at the ford, a little brown head pops up. Then it’s gone._
 
 _Variant of `s29-complete`._
 
-_Under the willows, you turn the boat upside down. Gently._  
+_Under the willows, you turn the boat upside down. Gently. Thump!_  
 _It looks like a big beetle having a rest._  
 _On the boathouse wall is Marina’s drawing of the tide pools._  
 _In the corner is a tiny boat. Three people and a Nubbin!_  

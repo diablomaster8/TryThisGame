@@ -798,7 +798,7 @@ const A03 = quest(
               [N('Yes. Feelings are never naughty. What helps is saying them.')],
               true,
             ),
-            opt('No, we must hide it', [N('No need to hide it. Snufkin says it is all right.')]),
+            opt('No, we must hide it', [N('Hide it under a bush? Rustle! Snufkin says it is all right.')]),
           ],
           'Talked about how every feeling, including being frightened, is okay.',
           'CASEL: Self-awareness',
@@ -1004,7 +1004,7 @@ const A04 = quest(
               true,
             ),
             opt('He keeps it a secret', [
-              N('No, he is already on his way. He wants Mamma to know.'),
+              N('A secret? Shh! But he is on his way. He wants Mamma to know.'),
             ]),
           ],
           'Told what a character does after big news, and why.',

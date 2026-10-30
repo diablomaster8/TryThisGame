@@ -1,4 +1,5 @@
 // Every player-facing name and piece of text. All names are working titles.
+import { aOrAn, ordinal, plural } from './grammar';
 import type { PlaceRefusal } from '../sim/types';
 import { GEN1B_SPECIES_LABELS } from './strings-gen1b';
 
@@ -392,7 +393,7 @@ export const UI_TEXT = {
   awayElapsed: (s: string) => `You were gone for ${s}.`,
   awaySimulated: (s: string) => `${s} of Grove time passed.`,
   awayHatched: (name: string) => `${name} hatched!`,
-  awayEvolved: (name: string, form: string) => `${name} grew up into a ${form}.`,
+  awayEvolved: (name: string, form: string) => `${name} grew up into ${aOrAn(form)}.`,
   awayReborn: (name: string) => `${name} was reborn.`,
   awayDeparted: (name: string) => `${name} moved on, leaving a flower.`,
   awayEternal: (name: string) => `${name} became Eternal!`,
@@ -445,7 +446,7 @@ export const UI_TEXT = {
   cheer: 'Cheer!',
   raceResults: 'Race results',
   place: (p: number) =>
-    p === 1 ? '1st place' : p === 2 ? '2nd place' : p === 3 ? '3rd place' : `${p}th place`,
+    `${ordinal(p)} place`,
   wonHat: 'You won a hat!',
   tierUnlocked: 'Next tier unlocked!',
   // Roster
@@ -478,8 +479,8 @@ export const UI_TEXT = {
   evolvedForm: (band: string, type: string) => `${band} ${type}`,
   gradeUp: (stat: string, grade: string) => `${stat} grade is now ${grade}`,
   groveUnlocked: (grove: string) => `${grove} unlocked!`,
-  secondEvolved: (name: string, type: string) => `${name} grew a ${type} side.`,
-  speciesGrew: (name: string, species: string) => `${name} grew into a ${species}!`,
+  secondEvolved: (name: string, type: string) => `${name} grew ${aOrAn(type)} side.`,
+  speciesGrew: (name: string, species: string) => `${name} grew into ${aOrAn(species)}!`,
   // Interactions
   tickle: 'Tickle',
   hug: 'Hug',
@@ -525,7 +526,7 @@ export const UI_TEXT = {
   lessonNames: { drawing: 'Drawing', singing: 'Singing', dance: 'Dance', instrument: 'Instrument' },
   lessonLevel: (level: number, max: number) => `${'★'.repeat(level)}${'☆'.repeat(max - level)}`,
   lessonStarted: (name: string, lesson: string) =>
-    `${name} is in a ${lesson.toLowerCase()} lesson.`,
+    `${name} is in ${aOrAn(lesson.toLowerCase())} lesson.`,
   lessonDone: (name: string, lesson: string, level: number) =>
     `${name} finished ${lesson.toLowerCase()} (level ${level})!`,
   lessonBusy: 'In a lesson',
@@ -540,14 +541,7 @@ export const UI_TEXT = {
   rebirthUnlikely: 'The cards are quiet about rebirth. More love, more joy.',
   // Karate
   karate: 'Karate',
-  karateHelp:
-    'Power lands the strike, Stamina takes the hit, Run slips it. Tap when the bar is in the middle.',
   belt: (n: number) => ['No belt', 'Yellow belt', 'Green belt', 'Black belt'][n] ?? 'Belt',
-  strike: 'Strike!',
-  karateWon: (name: string) => `${name} wins the bout!`,
-  karateLost: (name: string) => `${name} is knocked down. Train and try again.`,
-  karateLeft: 'Left the dojo. No result recorded.',
-  karateResults: 'Dojo results',
   // Collection
   collection: 'Collection book',
   collectionHelp: (seen: number, total: number) => `${seen} of ${total} seen.`,
@@ -682,7 +676,7 @@ export const UI_TEXT = {
   craftBtn: 'Make',
   needsWorkshop: 'Build the workshop first.',
   needsMaterials: 'Not enough materials.',
-  crafted: (name: string) => `Made a ${name.toLowerCase()}.`,
+  crafted: (name: string) => `Made ${aOrAn(name.toLowerCase())}.`,
   gathered: (what: string, n: number) => `+${n} ${what}`,
   recipeNames: {
     fence: 'Fence',
@@ -718,18 +712,18 @@ export const UI_TEXT = {
     pet: (n: number) => `Pet a Nubbin ${n} times`,
     feed: (n: number) => `Feed a Nubbin ${n} times`,
     fruit: (n: number) => `Pick up ${n} fruit`,
-    race: (n: number) => `Win ${n} race${n > 1 ? 's' : ''}`,
+    race: (n: number) => `Win ${plural(n, 'race')}`,
     karate: () => 'Win a karate bout',
     lanterns: () => 'Light all four lanterns',
-    photo: (_n: number, p: string) => `Take a photo of a ${p}`,
-    visit: (n: number) => `Visit ${n} neighbour${n > 1 ? 's' : ''}`,
-    craft: (n: number) => `Make ${n} thing${n > 1 ? 's' : ''} in the workshop`,
+    photo: (_n: number, p: string) => `Take a photo of ${aOrAn(p)}`,
+    visit: (n: number) => `Visit ${plural(n, 'neighbour')}`,
+    craft: (n: number) => `Make ${plural(n, 'thing')} in the workshop`,
     water: (n: number) => `Water ${n} plants`,
     hug: (n: number) => `Give ${n} hugs`,
-    lesson: (n: number) => `Finish ${n} lesson${n > 1 ? 's' : ''}`,
-    expedition: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
+    lesson: (n: number) => `Finish ${plural(n, 'lesson')}`,
+    expedition: (n: number) => `Come back from ${plural(n, 'Expedition')}`,
     gather: (n: number) => `Gather ${n} materials`,
-    hollow: (n: number) => `Go down ${n} floor${n > 1 ? 's' : ''} in the Hollow`,
+    hollow: (n: number) => `Go down ${plural(n, 'floor')} in the Hollow`,
   },
   questFrom: (who: string) => `from ${who}`,
   claim: 'Claim',
@@ -1176,10 +1170,10 @@ export const TEN_TEXT = {
   teamJoined: (name: string) => `You joined team ${name}.`,
   mission: 'Team mission',
   missionText: {
-    expeditions: (n: number) => `Come back from ${n} Expedition${n > 1 ? 's' : ''}`,
+    expeditions: (n: number) => `Come back from ${plural(n, 'Expedition')}`,
     shells: (n: number) => `Bring home ${n} Shells from Expeditions`,
-    raceWin: (n: number) => `Win ${n} race${n > 1 ? 's' : ''}`,
-    karateWin: (n: number) => `Win ${n} karate bout${n > 1 ? 's' : ''}`,
+    raceWin: (n: number) => `Win ${plural(n, 'race')}`,
+    karateWin: (n: number) => `Win ${plural(n, 'karate bout')}`,
   } as Record<string, (n: number) => string>,
   missionDone: 'Mission done! Team points earned.',
   rankLabel: (rank: number, points: number) => `Rank ${rank} · ${points} points`,
@@ -1230,9 +1224,9 @@ export const DUNGEON_TEXT = {
       case 'stone':
         return `${n} stone`;
       case 'seed':
-        return `a ${p ?? ''} seed`;
+        return p ? `${aOrAn(p)} seed` : 'a seed';
       case 'essence':
-        return `a ${p ?? ''} essence`;
+        return p ? `${aOrAn(p)} essence` : 'an essence';
       case 'critter':
         return `a lost ${p ?? 'critter'}`;
       default:
@@ -1245,7 +1239,7 @@ export const DUNGEON_TEXT = {
   strayFed: (name: string) => `${name} stopped being a stray and went up to the square.`,
   strayNeedsFruit: 'A stray. Bring a fruit to win it over.',
   strayStartled: (shells: number) => `A stray snatched ${shells} Shells and ran!`,
-  wildScanned: (species: string) => `You crept up on a ${species}. Scanned.`,
+  wildScanned: (species: string) => `You crept up on ${aOrAn(species)}. Scanned.`,
   stairsDown: 'Stairs down',
   stairsUp: 'The way home',
   sealed: 'The way down is sealed on this floor.',
@@ -1311,24 +1305,6 @@ export const STORYLINE_TEXT = {
   arrived: (area: string) => `You come to ${area.toLowerCase()}.`,
   degenerated: (name: string) => `${name} has gone back to an egg.`,
   restored: (name: string) => `${name} is grown again, and remembers.`,
-} as const;
-
-/** SL2's (Logged In) party bouts (ui/party-bout.ts). */
-export const BOUT_TEXT = {
-  title: 'Party bout',
-  leave: 'Leave',
-  left: 'You left the bout.',
-  noParty: 'Nobody in the party has hatched yet.',
-  round: (n: number, tier: number) => `Round ${n} · Tier ${tier}`,
-  party: 'Your party',
-  foes: 'Their side',
-  hp: 'HP',
-  guarding: 'guarding',
-  down: 'down',
-  moves: { strike: 'Strike', guard: 'Guard', rally: 'Rally' } as Record<string, string>,
-  won: 'The party wins.',
-  lost: 'The party is down.',
-  done: 'Done',
 } as const;
 
 /** The side-story props, by id (sim/story-props.ts). */

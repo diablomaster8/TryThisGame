@@ -1445,7 +1445,7 @@ const SPROUT: EduQuest[] = [
         [
           ask(8, m('social-studies', 'saying thank you to helpers', 'Your child thought about thanking someone who helps, and being kind back.', 'D2.Civ.8.K-2'), [SI('The buffalo helped. What do we do when someone helps us?')], [
             best('Say thank you!', WU('Yes! Say thank you, and be kind back.', 'happy')),
-            opt('Grab their leg.', SI('No! That is what the crocodile did. We say thank you instead.', 'soft')),
+            opt('Grab their leg.', SI('Grab a leg? Snap! That is what the crocodile did. We say thank you instead.', 'soft')),
           ]),
         ],
       ),

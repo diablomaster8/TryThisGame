@@ -64,7 +64,7 @@ const sc = (
 
 // ---------------------------------------------------------------- shared beats
 const STORM: Line[] = [
-  N('Then, one night, a big storm comes. Boom! Crash!'),
+  N('Then, one night, a big storm comes. Boom! Thump!'),
   N('Your Nubbin can’t settle. Its ears are flat.'),
   N('It is scared of the loud bangs.'),
   N('Flash! The lightning lights up the toy on the windowsill.'),
@@ -277,7 +277,7 @@ const S25: EduQuest = {
         N('The lamp in the loft is broken. Pixel will mend it after lunch.'),
         N('You climb the ladder. Up, up, up!'),
         N('The loft smells of apples and dust.'),
-        N('Your Nubbin climbs up too. Atchoo! Dusty!'),
+        N('Your Nubbin climbs up too. Achoo! Dusty!'),
         N('Under the little window is a big box, called a trunk.'),
         N('On the trunk is a soft parcel, tied with string.'),
         N('Gran Hazel wrote on it, a long time ago: “For when they come back.”'),
@@ -382,7 +382,7 @@ const S25: EduQuest = {
     sc(
       's25-sill',
       [
-        N('Click! The lamp comes on. Tick, tick, tick.'),
+        N('Click! Ding! The lamp comes on. Tick, tick, tick.'),
         N('Everyone goes down the ladder, talking about the moth.'),
         N('You put the toy and the book on the window seat.'),
         N('One week goes by. Then two weeks.'),
@@ -468,7 +468,7 @@ const S25: EduQuest = {
           options: [
             opt('A tree', [N('Yes! A tree grows a tiny bit every year. Slowly, slowly.')], true),
             opt('A splash', [N('A splash is very quick! A tree grows slowly.')]),
-            opt('A sneeze', [N('Atchoo! A sneeze is quick. A tree grows slowly.')]),
+            opt('A sneeze', [N('Achoo! A sneeze is quick. A tree grows slowly.')]),
           ],
           parentNote: 'Compared fast and slow changes: a tree grows slowly.',
         },
@@ -491,7 +491,7 @@ const S25: EduQuest = {
       [
         N('You put the toy in your Nubbin’s basket.'),
         N('Your Nubbin climbs in. It curls all the way round the toy.'),
-        N('Boom! Thunder! Your Nubbin doesn’t even wake up.'),
+        N('Boom! Thump! Your Nubbin doesn’t even wake up.'),
         N('In the morning, it is still holding the toy.'),
         N('From now on, the toy belongs to your Nubbin.'),
       ],
@@ -548,7 +548,7 @@ const S25: EduQuest = {
       's25-lantern',
       [
         N('You take a lantern. Its light shines in the dark.'),
-        N('There! The toy is in the wet grass by the pond.'),
+        N('There! The toy is in the wet grass. Plop, goes a frog.'),
         N('You carry it home. Your Nubbin is still waiting.'),
         N('It hugs the toy and falls asleep. Zzz.'),
       ],
@@ -582,7 +582,7 @@ const S25: EduQuest = {
         N('You go to Fern’s house. The toy comes too.'),
         N('Your Nubbin puts the toy on Fern’s good chair.'),
         FE('Oh, not on the chair, love. It’s only a toy. Floor, please.'),
-        N('Fern reaches for it. Your Nubbin squeaks, very loudly!'),
+        N('Fern reaches for it. Your Nubbin goes squeak, very loudly!'),
         N('Your Nubbin stands in front of the toy. It looks at you.'),
         Y('He’s not only a toy! He matters. He’s Real to us!'),
         N('Fern looks at the toy properly, for the first time.'),
@@ -617,7 +617,7 @@ const S25: EduQuest = {
         FE('Sir, I said you were only a toy. That was wrong.'),
         FE('I am sorry. Very, very sorry.'),
         N('Your Nubbin thinks about it. Then it puts him on the cushion.'),
-        N('It eats a biscuit for him.'),
+        N('It eats a biscuit for him. Crunch!'),
         FE('A good sorry says what you did. Then you make it right.', 'happy'),
       ],
       [
@@ -645,7 +645,7 @@ const S25: EduQuest = {
         N('Moss is sitting on a flat stone nearby.'),
         M('Keep still. They’re shy. And a bit rude. They’re young.'),
         N('Your Nubbin puts the toy down in the grass.'),
-        N('Rustle, rustle. Something is moving in the grass.'),
+        N('Rustle, rustle. Squeak! Something moves in the grass.'),
       ],
       [
         {
@@ -678,7 +678,7 @@ const S25: EduQuest = {
         N('One wild Nubbin hops right over the toy. Boing! Then it waits.'),
         N('The toy does not hop. It is a toy.'),
         M('That one thinks your toy can’t hop.', 'think'),
-        N('Another one sniffs him. Atchoo!'),
+        N('Another one sniffs him. Achoo!'),
         M('That one says he smells of indoors. Of cushions.'),
         N('Then the wild ones are gone. Whoosh!'),
         N('Your Nubbin hugs the toy tight.'),
@@ -735,7 +735,7 @@ const S25: EduQuest = {
       [
         N('You find a page about clockwork toys. You read it out.'),
         N('The page says clockwork toys stay toys for ever.'),
-        N('Clank’s whistle goes low and quiet.'),
+        N('Clank’s whistle goes low and quiet. Peep.'),
         M('That book was wrong. I’m older than that book.'),
         N('You tell Clank what Moss said. Clank’s light comes up.'),
         CK('Is Real the word? The one I couldn’t find?', 'soft'),
@@ -753,7 +753,7 @@ const S25: EduQuest = {
         N('Now he is grey and worn. His bobble has gone.'),
         CL('Oh, look at him! There’s a hole in his elbow!', 'sad'),
         CL('I could knit you a new one.'),
-        N('Your Nubbin looks at the new wool. Then it sits on the old toy!'),
+        N('Your Nubbin eyes the new wool. Then, plop, it sits on the old toy!'),
         M('Once you’re Real, worn-out bits don’t matter.', 'soft'),
         N('Clover can’t hear Moss. But she understands.'),
         CL('You’re right. No new one. I’ll mend his elbow instead.', 'soft'),
@@ -786,7 +786,7 @@ const S25: EduQuest = {
       [
         N('Clover sews up the hole. In and out, in and out.'),
         N('Your Nubbin watches every little stitch.'),
-        N('Snip! The elbow is mended.'),
+        N('Snip, ding! The elbow is mended.'),
         CL('Mended isn’t the same as new. It’s better.', 'happy'),
       ],
       [
@@ -809,7 +809,7 @@ const S25: EduQuest = {
     sc(
       's25-chill',
       [
-        N('One morning, your Nubbin sneezes. Atchoo! Atchoo!'),
+        N('One morning, your Nubbin sneezes. Achoo! Achoo!'),
         N('It feels hot. It doesn’t want its plum.'),
         N('Your Nubbin is poorly. You run to get help.'),
         CL('It’s a chill. Just a small cold. It will be all right.', 'soft'),
@@ -845,7 +845,7 @@ const S25: EduQuest = {
       [
         N('Clover peeks in, again and again, all night.'),
         N('In the morning your Nubbin feels cool again. Hooray!'),
-        N('It is hungry. It eats two plums, and half of yours!'),
+        N('It is hungry. Munch, munch! It eats two plums, and half of yours!'),
         CL('Told you! All better.', 'happy'),
         CL('Now everything it slept on must be washed.'),
       ],
@@ -1106,7 +1106,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
   sc(
     's25-sill-late',
     [
-      N('Click! The lamp comes on. Tick, tick, tick.'),
+      N('Click! Ding! The lamp comes on. Tick, tick, tick.'),
       N('Everyone goes down the ladder, talking about the moth.'),
       N('You put the toy and the book on the window seat.'),
       N('One week goes by. Then two weeks.'),
@@ -1121,7 +1121,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
     's25-storm-nosable',
     [
       N('Later that week, your Nubbin finds the toy on the windowsill.'),
-      N('It sniffs it. Atchoo! Then it runs off after a moth.'),
+      N('It sniffs it. Achoo! Then it runs off after a moth.'),
       N('Not yet, then.'),
       ...STORM,
     ],
@@ -1157,7 +1157,7 @@ export const EDU_S25_SPROUT_VARIANTS: EduScene[] = [
             true,
           ),
           opt('Hide from each other', [
-            N('That’s not very friendly! Good neighbours wave and say hello.'),
+            N('Hiding behind a bush? Rustle! Good neighbours wave and say hello.'),
           ]),
           opt('Shout over the wall', [
             N('Shouting isn’t kind. Good neighbours wave and say hello.'),

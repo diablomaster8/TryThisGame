@@ -79,6 +79,8 @@ export interface TUnit {
   order: number;
   /** A protected unit (the escort critter): foes never aim at it and it is never tuckered. */
   ward?: boolean;
+  /** Merged partners (FIGHT-57): one unit, drawn two tiles tall. */
+  tall?: boolean;
   /** The Keeper's piece (FIGHT-66): untargetable, blocks nobody, never counts for the result. */
   keeper?: boolean;
   snacks?: number;
@@ -157,6 +159,8 @@ export type TacticsEvent =
   | { k: 'combo'; combo: string; a: string; b: string }
   | { k: 'reflect'; who: string; dmg: number }
   | { k: 'knock'; who: string; x: number; y: number }
+  /** Slapstick (FUN-74): bonked into the pond, climbed out soggy. */
+  | { k: 'splash'; who: string; x: number; y: number }
   | { k: 'fruit'; x: number; y: number }
   | { k: 'pick'; who: string }
   | { k: 'lantern'; x: number; y: number; lit: boolean }

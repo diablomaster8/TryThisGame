@@ -1,4 +1,5 @@
 import { FRIENDS } from '../config/tuning';
+import { stepPairPlay } from './pair-play';
 import type { Nubbin, SimEvent, World } from './types';
 
 /**
@@ -25,6 +26,8 @@ export function bestFriend(world: World, n: Nubbin): Nubbin | null {
 }
 
 export function stepFriendships(world: World, dtMs: number, events: SimEvent[]): void {
+  // R0330 (FUN-41): Nubbins near each other play together now and then.
+  stepPairPlay(world, events);
   const minutes = dtMs / 60_000;
   const live = world.nubbins.filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon');
   for (let i = 0; i < live.length; i++) {

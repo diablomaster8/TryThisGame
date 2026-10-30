@@ -13,6 +13,7 @@ import {
   type BattleState,
 } from '../sim/battle';
 import { replayAtb } from '../sim/battle/atb';
+import { decodeReplayCode, encodeReplayCode } from '../sim/battle/replay';
 import { battleScreen } from './battle-screen';
 import { currentReplay, recordAct, type BoutReplay } from './battle-record';
 import { button, el } from './dom';
@@ -213,7 +214,7 @@ export function battleDebugControls(parent: HTMLElement, game: () => Game | null
           said.textContent = T.noBout;
           return;
         }
-        io.value = JSON.stringify(r);
+        io.value = encodeReplayCode(r);
         try {
           void navigator.clipboard?.writeText(io.value).catch(() => undefined);
         } catch {
@@ -231,13 +232,9 @@ export function battleDebugControls(parent: HTMLElement, game: () => Game | null
 
 /** Replays a pasted JSON and compares its log with the live bout's (or reports its length). */
 export function replayCheck(json: string, game: () => Game | null): string {
-  let r: BoutReplay;
-  try {
-    r = JSON.parse(json) as BoutReplay;
-    if (!r || typeof r.seed !== 'number' || !r.start || !Array.isArray(r.actions)) return T.bad;
-  } catch {
-    return T.bad;
-  }
+  // A replay code (FIGHT-100) or the older plain JSON.
+  const r: BoutReplay | null = decodeReplayCode(json);
+  if (!r) return T.bad;
   const live = game()?.world.battle;
   const out: BattleState = r.start.atb
     ? replayAtb(

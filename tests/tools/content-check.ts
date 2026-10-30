@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
@@ -132,6 +133,9 @@ const NEW_VARIANTS = [
   ...C.SIDE_STORY_S30_VARIANTS,
   ...C.SIDE_STORY_S31_VARIANTS,
   ...C.ATLAS_A01_VARIANTS,
+  ...C.BATTLES_CIRCUIT_VARIANTS,
+  ...C.BATTLES_PLAYDAY_VARIANTS,
+  ...C.BATTLES_STORY_VARIANTS,
   ...C.ATLAS_A02_VARIANTS,
   ...C.ATLAS_A03_VARIANTS,
   ...C.ATLAS_A04_VARIANTS,
@@ -377,6 +381,7 @@ for (const s of [
   ...C.ATLAS_A30_VARIANTS,
   ...C.A31_VARIANTS,
   ...C.PA1_VARIANTS,
+  ...C.BATTLES_PLAYDAY_VARIANTS,
 ])
   mainScenes.set(s.id, s);
 // maths: a maths lesson's right answer must use a number that the scene's narration or question gives (SR-20261023-525).
@@ -665,6 +670,18 @@ for (const e of [
     for (const o of l.kind === 'ask' && l.options?.some((x) => x.best) ? l.options : [])
       if (!o.best && SPROUT_WRONG_OPENER.test(o.reply[0]?.text ?? ''))
         warnings.push(`sprout-wrong-opener ${e.id} ${l.id}: ${o.reply[0]!.text}`);
+// R0347 (FUN-58): no sarcasm aimed at the child in the Learning Grove (warning). Characters
+// may tease each other; the words below talk down to a child (a wrong-answer reply that
+// opens "No" is R0320's sprout-wrong-opener). Pixel's OBVIOUSLY sign is a name, in capitals.
+// `--plant-sarcasm` adds a planted line to prove the rule fires.
+{
+  const SNARK = /\b([Nn]ice try|[Ss]eriously\?|[Ss]illy you|[Ss]illy billy|[Ww]rong again)(?=\W|$)/;
+  const texts = process.argv.includes('--plant-sarcasm')
+    ? [...eduTexts, { band: 'sprout', id: 'planted', text: 'Nice try! Obviously not.' }]
+    : eduTexts;
+  for (const x of texts)
+    if (SNARK.test(x.text)) warnings.push(`sarcasm? ${x.band} ${x.id}: ${x.text}`);
+}
 // 5. Line caps (warnings): sprout ≤ 14 words, reader ≤ 30 words (EDU-STYLE).
 for (const e of eduTexts) {
   const w = e.text.split(/\s+/).length;
@@ -839,6 +856,38 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
       });
   }
 }
+// ---- hint buttons (R0292, round 6): "press X", "choose X", "use X" or "tap X" names a button.
+// X must be a Grove button, a choice label or speaker name in the same file, or the hint
+// sends the player looking for something that is not there. A warning, for a writer to judge.
+{
+  const dir = new URL('../../src/content/', import.meta.url);
+  const grove = new Set(
+    'Do Pet Feed Swim Say Throw Wear Dress Karate Races Cheer Play Buy Sell Shake Walk Race Read Journal Atlas Map Settings Shop Workshop Craft Hug Tickle Praise Groom Sit Talk Sniff Gran Tobin Mirabel'.split(
+      ' ',
+    ),
+  );
+  const files = readdirSync(dir).filter((f) => f.endsWith('.ts'));
+  // Anyone who speaks anywhere in the content is a person you can tap, not a button.
+  const people = new Set<string>();
+  for (const f of files)
+    for (const m of readFileSync(new URL(f, dir), 'utf8').matchAll(
+      /\bwho: '([a-z][\w-]*)'|\b(?:name|speaker): '([A-Z][a-z]+)/g,
+    ))
+      people.add((m[1] ?? m[2]!).toLowerCase());
+  for (const f of files) {
+    const text = readFileSync(new URL(f, dir), 'utf8');
+    text.split('\n').forEach((line, i) => {
+      const m = /\bhint: '([^']*)'/.exec(line);
+      if (!m) return;
+      for (const b of m[1]!.matchAll(/\b(?:press|choose|use|tap|select) ([A-Z][A-Za-z]+)\b/gi)) {
+        const w = b[1]!;
+        if (w === w.toLowerCase() || grove.has(w) || people.has(w.toLowerCase())) continue;
+        const known = new RegExp(`(label|text): '${w}\\b`);
+        if (!known.test(text)) warnings.push(`hint-button? ${f}:${i + 1}: ${w}`);
+      }
+    });
+  }
+}
 console.log(
   JSON.stringify(
     {
@@ -862,3 +911,16 @@ console.log(problems.slice(0, 60).join('\n'));
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
 // R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
 if (process.argv.includes('--comedy')) console.log(comedyReport());
+// R0368 (FUN-79): the narration lines that make the scene's Nubbin react by inference
+// (config/story-react.ts), listed for a writer to review.
+if (process.argv.includes('--reactions')) {
+  const dir = new URL('../../src/content/', import.meta.url);
+  for (const f of readdirSync(dir).filter((x) => x.endsWith('.ts')))
+    readFileSync(new URL(f, dir), 'utf8')
+      .split('\n')
+      .forEach((line, i) => {
+        if (!/who: 'narrator'|\bN\(/.test(line) || line.includes('react:')) return;
+        const hit = REACT_INFER.find(([re]) => re.test(line));
+        if (hit) console.log(`react ${hit[1]} ${f}:${i + 1}: ${line.trim().slice(0, 120)}`);
+      });
+}

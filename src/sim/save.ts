@@ -8,7 +8,7 @@ import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
 
-export const SAVE_VERSION = 11;
+export const SAVE_VERSION = 12;
 
 export interface SaveFile {
   version: number;
@@ -146,6 +146,23 @@ export const MIGRATIONS: Array<(data: Record<string, unknown>) => Record<string,
   (data) => {
     const world = data.world as Record<string, unknown> | undefined;
     if (world) world.gear = { items: [], keeper: {}, nubbins: {}, next: 1 };
+    return data;
+  },
+  // 11 to 12 (lane B round 6): an empty gear stash (R0174), no boss chest paid (R0160), no
+  // results today (R0185) and fresh tuning numbers (R0211). A run under way keeps its gear
+  // finds in the satchel as before, so its sack starts empty.
+  (data) => {
+    const world = data.world as Record<string, unknown> | undefined;
+    const gear = world?.gear as Record<string, unknown> | undefined;
+    if (gear) gear.stash = [];
+    const hollow = world?.hollow as Record<string, unknown> | undefined;
+    if (hollow) {
+      // Bosses beaten before the big chest existed count as paid: no surprise chest later.
+      const acts = (hollow.acts as Array<{ bossDefeated?: boolean }> | undefined) ?? [];
+      hollow.bossChests = acts.flatMap((a, i) => (a?.bossDefeated ? [i] : []));
+      hollow.today = { day: '', deepest: 0, bestMs: 0, finds: 0 };
+      hollow.stats = { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 };
+    }
     return data;
   },
 ];
@@ -320,11 +337,15 @@ export function validateWorld(w: World): World {
   if (!Array.isArray(w.hollow.camp.questsPaid)) w.hollow.camp.questsPaid = [];
   if (!Array.isArray(w.hollow.uniquesBeaten)) w.hollow.uniquesBeaten = [];
   if (!Array.isArray(w.hollow.lastParty)) w.hollow.lastParty = [];
+  if (!Array.isArray(w.hollow.bossChests)) w.hollow.bossChests = [];
+  w.hollow.today ??= { day: '', deepest: 0, bestMs: 0, finds: 0 };
+  w.hollow.stats ??= { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 };
   if (w.gear) {
     if (!Array.isArray(w.gear.items)) w.gear.items = [];
     w.gear.keeper ??= {};
     w.gear.nubbins ??= {};
     w.gear.next ??= w.gear.items.length + 1;
+    if (!Array.isArray(w.gear.stash)) w.gear.stash = [];
   }
   // A save written underground without its run: back to the Grove.
   if (w.location === 'dungeon' && !w.dungeon) w.location = 'grove';

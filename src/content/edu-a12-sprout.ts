@@ -861,7 +861,7 @@ const Q03: EduQuest = quest(
               [GE('Right. Maybe means we will see.', 'happy')],
               true,
             ),
-            opt('Yes, it means yes', [GE('Not quite. Maybe means not sure yet.')]),
+            opt('Yes, it means yes', [GE('Maybe means yes? Hmm, silly! Maybe means not sure yet.')]),
           ],
           'Learned that “maybe” means not sure yet.',
         ),
@@ -1700,7 +1700,7 @@ const Q07: EduQuest = quest(
           [
             opt('Talk back', [RA('Yes! She wants someone who can really talk to her.')], true),
             opt('Stand very still', [
-              RA('No, no. Standing still is the boring part. She wants someone who can talk.'),
+              RA('A statue friend? Stand still, hee hee! She wants someone who can talk.'),
             ]),
           ],
           'Said what a story character wants.',
@@ -2952,7 +2952,7 @@ const Q12: EduQuest = quest(
               [FI('Yes. Love and kindness make her strong. No magic needed.', 'soft')],
               true,
             ),
-            opt('From a magic drink', [FI('No magic. Her caring heart is her strength.')]),
+            opt('From a magic drink', [FI('A magic drink? Gulp! It is her caring heart that makes her strong.')]),
           ],
           'Talked about how love and kindness give us strength.',
         ),

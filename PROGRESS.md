@@ -72,91 +72,93 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
   stub feet tucked while hopping; the 3D bonded rim is an additive aura behind the body.
 
-## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
+## Round 6 · Lane B DUNG (2026-10-29, branch r6/b)
 
-- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
-  mark a room the stairs can go around (200-seed test); walking in calls lane C's
-  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
-  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
-  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
-  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
-  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
-  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
-  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
-  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
-  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
-- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
-  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
-  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
-  to the satchel); R0160 boss arenas and R0165+ not started.
-- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
-  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
-- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
-  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
-  add it as a child when the roster has room).
+- *Works:* boss floors (R0160): every act's boss sits on its 'boss' piece (60/60 seeds); the
+  first win opens a big chest (a Legendary at the boss's level), shows the celebration card
+  and wakes the next act's camp waypoint; a boss loss rests the party fully. The haul sack
+  (R0175): gear finds ride in `run.sack` and bank at a waypoint, camp, acorn or home with a
+  "Bank it!" card; no path shrinks what is owned (test). Stash (R0174): satchel overflow lands
+  in `gear.stash`, listed rarest-first at the camp stash with Take. Tumble home (R0362): all
+  party energy 0 rolls everyone home, half the sack to the satchel, half to the stash. Mystery
+  Basket stall (R0176) at the camp vendor, odds within ±1% over 100k. Warm losses (R0180):
+  half energy, "Sneak past?" after 3 losses, pack looks away 60 s. Sleepy packs (R0203): ~20%
+  doze, walking by pays a tiptoe bonus, running wakes them, a Lazy Nubbin may yawn one awake.
+  End trip confirm (R0184); chest and stray seeds without the roster (R0186); today's results
+  on the cave-mouth menu and Journal (R0185 part, R0165 part); rolling stats in the debug
+  panel (R0211); Stray King and rotating stray lines (R0326); co-op `keepers: []` and a
+  replay test (R0209); `docs/hollow-design.md` (R0171). Save v12: `gear.stash`,
+  `hollow.bossChests`, `hollow.today`, `hollow.stats` (test).
+- *Stubbed:* boss `phases` are in the `EncounterSpec` but lane C's core ignores them; no
+  sealing arena door or anteroom (retry is from the stairs); no Zzz, tiptoe or crown art
+  (lane E); the Journal page has no request-board ties (adding templates needs strings.ts and
+  the no-chores cap) and today's floors are the daily seed, not a fixed 5-level act chain;
+  stash has no tabs or search; the floor-5 guardian (R0260) waits for lane C's r6 merge.
+- *Known:* the boss chest is Legendary until sets exist (R0172); a bout lost to the act boss
+  still teleports to the level's stairs up.
+- *Assumptions:* banked = satchel or stash; the tumble's "half" moves to the stash instead of
+  being lost; today's best time is the quickest daily trip to today's deepest level.
 
-## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
+## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
 
-- *Plan:* finish R0248 (job on the stats sheet), R0250 (AI combos, pile-on flash), R0253
-  (draw count) and R0254 (Full 3D board, new `render3d/tactics-3d.ts`, instanced tiles,
-  disposed on exit); then R0258–R0283 in order, skipping R0256, R0257's Hollow hand-off, R0260,
-  R0269, R0271, R0275, R0276, R0281, R0282 (other lanes). Sim items go to helpers with their
-  own files; shared files get self-contained blocks only. No save bump.
-- *Works:* Full 3D tactics board (`render3d/tactics-3d.ts` on a `MiniStage`: instanced tiles per
-  kind, one overlay set, pool rigs through the Grove's `CreatureLod`; 56 draws, 216k tris at
-  375×812; memory flat over 10 bouts), job on the stats sheet, AI "Together!" combos, pile-on
-  jostle, 8 grid-only charged moves (line4, scatter3, landing; Keeper+ AI steps out), the
-  Keeper's untargetable piece (Snack toss, Cheer, Whistle; in the rumble room). Turn mode:
-  shared move content lint and `tests/tools/battle-table.ts`, bout points by move used, one-time
-  rewards (`world.battleOnce`, `battleSpoils`), seeded quips (en/he/ja), real rival species,
-  doubles, timing flag (sweet/plain/steady), balance harness, Command mode (ATB, obedience,
-  gags, hidden-tab pause), pre-bout sheet (party, mode, Gentle/Normal/Spicy), Settings → Bouts
-  with Skip (`autoResolve`), inspect card and seen matchups, aria-live log, Steady hands,
-  keyboard play, Debug → Battle (replay paste).
-- *Stubbed:* Pixel board still 1 + units `drawImage` a frame (R0253 wants ≤3 WebGL draws);
-  champion-pack prefixes and rumble chest; doubles stage draws one combatant a side; bout lean
-  not read by `decidePersonality` (lane A); move cards not in the Collection book (lane E).
-- *Known bugs / assumptions:* a Command-mode replay stamps orders at send time but they apply on
-  the next step, so exactness isn't guaranteed (turn bouts are exact). The 60-point cap is per
-  stat per bout. First-win hats reuse shop hats. Snack toss uses 3 packed snacks, not the
-  inventory. Balance: Champion runs 30 bouts (2,000 doesn't fit 3 s); Sprout's median is ~32
-  turns, so it isn't asserted. Stalemate guard skips encounters (Hollow replays unchanged).
-  `battle-screen.ts` is ~1,075 lines (split next). No axe-core installed, so no axe run.
-  Lane B hand-over: side-session note `r5-lane-c-handover.md`.
+- *Plan:* R0269–R0289 not started, then the partials (R0250, R0253, R0272, R0274, R0256,
+  R0217, R0218, R0234, R0236), C's share of R0260, R0333 if it fits. New sim files under
+  `sim/battle/`, text in `strings-battle-r6.ts`, numbers in `tuning-battle-r6.ts`; shared files
+  got self-contained blocks only. No save bump: new world fields are optional.
+- *Works:* Dojo Ladder (5 belts × 3 bouts on `karateRecord`, kept through rebirth, Black Belt
+  hat), Fusion burst in doubles (bond 80, 3 turns, splits at the fusing HP ratio), story-world
+  bouts in a cloned Grove (`world-bout.ts`, results to the side save only), pass-and-play
+  (`friendly`, share-code guests are copies, sticker only), the placement map
+  (`contexts.ts`), six story bouts wired to the scenes' choices (dojo "Story bouts" list,
+  `storyBout` command, `world.storyBouts`), the floor-5 guardian (`startGuardian`, keepsake),
+  Circuit pre/post scenes, Play-fight Day (first Gentle bouts, Learning Grove), chapter 5 goal
+  takes a ribbon, resume prompt and "Call it a draw", party needs held during a live bout
+  (live and offline), Battle Book in the Collection, battle/circuit/calm songs and per-type
+  hit sounds, personality idles (turn screen, Pixel and 3D boards, gallery row), 12 trial maps
+  with par hats and a BFS solver test, merged partners as one tall tactics unit, replay codes
+  and Save as postcard, dead karate/party-bout keys deleted, Neopia/Atlas `karate:survive:*`
+  steps as real survive bouts fought by copies (R0340), slapstick (5 % fumbles, the dizzy
+  spiral, pond pushes) and `docs/fight-design.md` (R0363). Edge: Pixel and 3D at desk and
+  375×812 all pass, 0 console errors, axe 0 issues on the battle screen, turn mode 55.8–56.6
+  fps and a 16×16 tactics board 56.5 fps at 4× CPU throttle.
+- *Stubbed:* Pixel board still 13 `drawImage` a frame (R0253 wants ≤3 via WebGL). Story bouts
+  are offered from the dojo list, not yet at their campaign beats; the skip-everything
+  8-endings replay was not run. The guardian waits on lane B to call `startGuardian` on floor
+  5. Fusion has a log line and no transform animation. Sprite gallery idles are Pixel only.
+  No Circuit race (R0333, lane A's races). Survive bosses use stand-in species (no Chia art)
+  and the NP1 bout was checked in the sim, not clicked through in Edge. Balance harness unchanged (Sprout median ~32).
+- *Known bugs / assumptions:* the trials modal is not on the HUD's panel stack (Escape
+  doesn't close it; use Close). "S-grade-only trait refresh" read as: the black belt clears the
+  moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
+  needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
+  Hand-over: side-session note `r6-lane-c-handover.md`.
 
-## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
+## Round 6 · Lane A FUN (2026-10-29, branch r6/a)
 
-Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r5a.cjs <pixel|3d>
-<desk|phone> 5181` in `recs-2026-10-27/tools`. R0317 (lane E) and R0326 (lane B) skipped.
+Per-item status in `recs-2026-10-27/STATUS.md`. Edge driver: `node r6a.cjs <pixel|3d>
+<desk|phone> 5181` in `recs-2026-10-27/tools`. Skipped for other lanes: R0293, R0298, R0317,
+R0326, R0328, R0332, R0340, R0358, R0359, R0362, R0363.
 
-- *Works:* the opening's stuck gate is played (hold, push, sticks once, gives) and the cup
-  sets `c1-cup-turned`, which adds a line to c12-close (R0304, `Line.act`, `ui/line-act.ts`);
-  no fun quest before chapter 2's closing (R0306); slip toasts say what helps, with a minute's
-  warning in a new save (R0307); sprout toasts icon-first, no mechanics, read aloud (R0308,
-  `ui/fun-toasts.ts` wraps the toaster); `content-check --comedy` and book 1's 74 gags tagged
-  (R0309); sound words read with their sounds, a bubbly face, ~70% of non-grave campaign and
-  S1–S22 sprout scenes covered (R0310); pet toasts in three physical lines per band (R0311);
-  one hatch card with Pet (R0312); Fern's cairn by the signpost in both modes, one stone a
-  chapter, tappable, finale line (R0313); Byte's stopwatches on the race card (R0314); 25 joke
-  badges, titles in `config/strings-badges.ts`, Silly filter (R0315); a seeded away diary,
-  three headlines then "+N more" (R0316); 60 gated tips on the veil and stage loaders (R0318);
-  chip caps in the checker, chapter 1–2 how-to steps tick live (R0319); sprout wrong replies
-  open with a silly picture, checker warning (R0320); sprout peekaboo under Play (R0321); tap
-  squeak toy (R0322); Say it! on 21 refrains (R0323); Keeper routines, three stations a story
-  day with lines and prop icons (R0296); 90 chatter exchanges for 15 pairs (R0297); R0294's
-  verb map covers every check, with balance, hunt and catch playable from the Atlas and Journal.
-- *Stubbed:* R0294's escort, climb, puzzle, survive and explore games (the button stays) and
-  the Skip-this setting; R0296's prop sprites (soot face, guilty sapling: the bubble icon is
-  the gag for now); R0313's Journal Friends line and side-story callback; R0316's 30 s
-  highlight of changed Nubbins; R0321's shy-Nubbin peekaboo idles; R0310 outside campaign and
-  S1–S22 (17.7% of all sprout scenes); R0318's Atlas loader; R0322's crown spin is a dizzy face.
-- *Known bugs:* none found. Timing tests (full life, nav, 8 Nubbins) fail under a loaded
-  machine; alone see the round's report. `TEN_TEXT.slipToast` in `strings.ts` is now unused.
-- *Assumptions:* routines and chatter state is not saved (read from the clock, kept beside the
-  world); joke-badge counts in optional `world.funCounts` (no save bump); the cup and gate
-  flags live in campaign flags; R0311 leaves lane E's per-personality lines (R0298) as the
-  main band's success toasts once merged; NPC wandering now draws fewer dice (routine trips
-  skip the wander pick), so seeded replays differ from before but stay deterministic.
+- *Works:* all eight micro-games (escort, climb, puzzle, survive, explore new), `minigame:`
+  checks mapped by token, per-verb Do-it labels, a Skip switch on for sprouts (R0294, R0369);
+  `hint-button?` checker warning at 0, STYLE.md Hints (R0292, R0339); routine prop gags over
+  Keepers, both modes (R0296); distracted walks bonk trunks (R0299); `Line.react` + inferred
+  narration reactions, chapter 1 spark (R0303, R0368); goal-met toddle and plop (R0305);
+  Journal cairn line + S2 callback (R0313); sprout wrong openers 0, sound words 25.2% of
+  scenes (R0320, R0310); Expedition spin, Shell scatter, quips, superlatives (R0324); race
+  butterfly stops, 40 rival quirks (R0325); voiced request board (R0327); weather gags
+  (R0329); pair play (R0330); Hazel's P.S. on chapter cards (R0334); Multiverse dossiers and
+  Neopian Times masthead (R0335); IM1 gags (R0337); grammar helpers (R0341); sarcasm check
+  (R0347); toast variants (R0349).
+- *Stubbed:* R0299's Keeper hop and splat art; R0303's 50-gag back-fill (one done, 215
+  inferred); R0310 at 25% (Atlas sprout files next); R0321's in-world hide (needs lane E's
+  R0293); R0325's 3D butterfly (pixel only) and joyful trip; R0334 not read aloud for sprouts;
+  R0369's 1.5 s mini animation (the micro-game plays instead).
+- *Known bugs:* none found.
+- *Assumptions:* gag state is render-side or hashed (no world-rng draws, no save fields; the
+  one new setting `microSkip?` is optional); R0341 edited templated strings in `strings.ts`
+  in place under the R0341 exception; `render3d/expedition-3d.ts` got the R0324 spin (lane
+  D/E-adjacent, two small blocks).
 
 ## Standing approval (Maor, 2026-10-12)
 

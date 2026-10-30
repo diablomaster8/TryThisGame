@@ -126,6 +126,7 @@ const units: Unit[] = [
   ...ARCADE.map(([qs, vs, name], i): Unit => ({ path: `arcade/PA${i + 1}/main`, title: `Pixel's Arcade, cartridge PA${i + 1}: ${name}`, line: "Pixel's Arcade", kind: 'quests', quests: qs, variants: vs, edu: `arcade/PA${i + 1}` })),
   { path: 'lines/LB/main', title: 'Learning Grove line LB: Play (LB1–LB12)', line: 'Learning Grove lines', kind: 'quests', quests: C.LINE_LB, variants: C.LINE_LB_VARIANTS, edu: 'lines/LB' },
   { path: 'lines/LK/main', title: 'Learning Grove line LK: Mouse-Deer (LK1–LK10)', line: 'Learning Grove lines', kind: 'quests', quests: C.LINE_LK, variants: C.LINE_LK_VARIANTS, edu: 'lines/LK' },
+  { path: 'battles/main', title: 'Battles: the Grove Circuit, Play-fight Day and the story battles', line: 'Battles', kind: 'quests', quests: [], variants: [...C.BATTLES_PLAYDAY_VARIANTS, ...C.BATTLES_CIRCUIT_VARIANTS, ...C.BATTLES_STORY_VARIANTS, ...C.BATTLES_STORY_LOGGED], edu: 'battles' },
   { path: 'lines/lang-hebrew/main', title: "Ori's Alef-Bet, Hebrew (LH1–LH6)", line: 'Learning Grove lines', kind: 'quests', quests: C.LANG_HEBREW, variants: [], edu: 'lines/lang-hebrew' },
   { path: 'lines/lang-hebrew/words', title: '', line: 'Learning Grove lines', kind: 'other' },
   { path: 'lines/lang-japanese/main', title: "Hana's Hiragana, Japanese (LJ1–LJ6)", line: 'Learning Grove lines', kind: 'quests', quests: C.LANG_JAPANESE, variants: [], edu: 'lines/lang-japanese' },

@@ -67,7 +67,7 @@ const sc = (
 // ---------------------------------------------------------------- shared lines
 const KEEPSAKES = N('Sparks says to keep the goggles. Your gourd lantern glows by the gate.');
 const MORNING = N('Next morning, Tam runs down to the long grass.');
-const FOUR_LANTERN = N('At four o’clock, a lantern comes bobbing down the lane.');
+const FOUR_LANTERN = N('Ding! At four o’clock, a lantern comes bobbing down the lane.');
 
 const COUNT_ROCKS = (after: number): Beat => ({
   domain: 'maths',
@@ -848,7 +848,7 @@ const SCENES: EduScene[] = [
     's31-shape',
     [
       N('A round shape rises at the edge of the grass. Goggles! A scarf!'),
-      N('Tam says “Oh,” very politely. Then he faints. Flop!'),
+      N('Tam says “Oh,” very politely. Then he faints. Thump!'),
       N('It’s your Nubbin, home from its game.'),
       N('It climbs into your lap and falls asleep.'),
       NETTIE('He does that. He fainted at a goose once. He’s fine.'),
@@ -1059,9 +1059,9 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
   sc(
     's31-guising-party',
     [
-      N('The guisers burst into the party. Brr, cold air!'),
+      N('Pop! The guisers burst into the party. Brr, cold air!'),
       N('Ivy and the bats tip out their bags. Toffee apples! Nuts! Pennies!'),
-      N('Ned tips out his bag last. Five rocks. Clonk!'),
+      N('Ned tips out his bag last. Five rocks. Bonk!'),
       SPARKS('Oh, Ned.', 'sad'),
       N('The smallest bat gives Ned a nut. Then another one.'),
       N('One of Ned’s rocks has a little paper label.'),
@@ -1145,7 +1145,7 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
     's31-shape-sable',
     [
       N('A grey shape rises out of the frosty grass.'),
-      N('Tam says “Oh.” Then he faints. Flop!'),
+      N('Tam says “Oh.” Then he faints. Thump!'),
       N('It’s Sable, the grey wild Nubbin. The cold can’t hurt her.'),
       N('She looks at Tam. Then she looks at you.'),
       N('She sits down beside you. Close.'),
@@ -1172,7 +1172,7 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
     's31-shape-away',
     [
       N('A round shape rises at the edge of the grass. Goggles! A scarf!'),
-      N('Tam says “Oh.” Then he faints. Flop!'),
+      N('Tam says “Oh.” Then he faints. Thump!'),
       N('You come back with a lantern before it’s light.'),
       N('Tam is asleep. Your Nubbin is asleep on top of him.'),
       NETTIE('Your Nubbin came out of the grass and Tam FAINTED!', 'angry'),
@@ -1257,7 +1257,7 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
       N('Ivy gets Tam home and tucks him into bed.'),
       N('Sable stays beside you until the sky gets light.'),
       N('The sun peeks over the hill.'),
-      N('Sable stands up. She shakes the frost off her back. Shake, shake!'),
+      N('Sable stands up. She shakes the frost off her back. Swish, swish!'),
       N('Then off she goes to find breakfast.'),
       N('Tam’s sign is still there. WELCOME GREAT GOURD.'),
     ],
@@ -1301,7 +1301,7 @@ export const EDU_S31_SPROUT_VARIANTS: EduScene[] = [
     [
       MORNING,
       N('By his sign is a little heap of fruit.'),
-      N('Three plums, two apples and one pear!'),
+      N('Three plums, two apples and one pear! Nom!'),
       TAM('He read my letter! It’s for the strays!', 'happy'),
       N('You put the fruit out at the edge of the Grove.'),
       N('By the next morning, it’s all gone. Yum!'),

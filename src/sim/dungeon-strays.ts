@@ -10,6 +10,9 @@ import { createBattle, type BattleContext } from './battle';
 import { cellOf, isExplored, type Floor } from './dungeon';
 import { HOLLOW_BATTLE_SOURCE } from './dungeon-encounters';
 import type { DungeonRun, DungeonStray, SimEvent, World } from './types';
+import { HOLLOW_R6 } from '../config/tuning-dungeon';
+import { Rng } from './rng';
+import { HAT_IDS } from './shop';
 
 const S = HOLLOW.strays;
 
@@ -197,6 +200,7 @@ export function strayBoutEnded(world: World, fresh: SimEvent[], events: SimEvent
       run.haul.shells += shells;
       run.strays = run.strays.filter((x) => x.id !== bout.id);
       events.push({ kind: 'strayCalmed', ok: true, shells });
+      kingHat(world, s, events);
     } else {
       if (s && world.inventory.shells > 0) snatch(world, run, s, events);
       events.push({ kind: 'strayCalmed', ok: false, shells: 0 });
@@ -236,4 +240,21 @@ export function strayBoutLive(world: World, run: DungeonRun, events: SimEvent[])
   }
   delete run.strayBout;
   return false;
+}
+
+/**
+ * R0326: one stray in `HOLLOW_R6.strayKingOneIn` is a Stray King, seeded by the run, the level
+ * and the stray (never the roster). Calming or feeding it leaves a hat the Keeper lacks.
+ */
+export function isStrayKing(seed: number, depth: number, id: string): boolean {
+  return Rng.fromSeed(`${seed}:${depth}:${id}:king`).int(1, HOLLOW_R6.strayKingOneIn) === 1;
+}
+
+export function kingHat(world: World, s: DungeonStray | undefined, events: SimEvent[]): void {
+  if (!s?.king) return;
+  const hats = HAT_IDS.filter((h) => !world.inventory.hats.includes(h));
+  if (!hats.length) return;
+  const hat = Rng.fromSeed(`${s.id}:${world.dungeon?.seed ?? 0}:crown`).pick(hats);
+  world.inventory.hats.push(hat);
+  events.push({ kind: 'strayKing', hat });
 }

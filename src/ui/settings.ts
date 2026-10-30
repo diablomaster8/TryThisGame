@@ -1,4 +1,6 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
+import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
 import { SONG_NAMES } from '../platform/audio';
 import { persisted } from '../platform/persist';
@@ -55,6 +57,8 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** R0294: skip the quest micro-games. */
+  private readonly microSkip: HTMLInputElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
@@ -302,6 +306,18 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
+    const microRow = el('label', 'check-row');
+    this.microSkip = el('input');
+    this.microSkip.type = 'checkbox';
+    this.microSkip.addEventListener('change', () => this.apply());
+    const microText = el('span');
+    microText.append(
+      el('strong', undefined, MICRO_SKIP_TEXT.label),
+      el('small', undefined, MICRO_SKIP_TEXT.help),
+    );
+    microRow.append(this.microSkip, microText);
+    body.appendChild(microRow);
     // Lane C round 5: how story bouts play, and "Steady hands" for the timing ring.
     this.bouts = select(BOUTS_SETTING_TEXT.label, BOUTS_SETTING_TEXT.options);
     this.bouts.title = BOUTS_SETTING_TEXT.help;
@@ -414,6 +430,7 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
     this.particles.value = g.world.settings.particles;
@@ -558,6 +575,8 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    if (this.microSkip.checked !== microSkipped(g.world))
+      settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.
     const bouts = this.bouts.value as NonNullable<Settings['bouts']>;
     if (bouts !== (g.world.settings.bouts ?? 'play')) settings.bouts = bouts;

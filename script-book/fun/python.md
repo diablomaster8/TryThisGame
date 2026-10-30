@@ -465,7 +465,7 @@ _There is a crackle, a small blue flash, and a smell of toasted fruit._
 
 ### Step 2: Take the Hand Melon to the ledge, count to exactly three, and toss it.
 
-Hint: Tap Count once per beat and throw on three. Too many or too few and it fizzles; Sparks will make another. · check: `minigame:count:hand-melon:3`
+Hint: Tap Do it in the Journal and keep the beat: one, two, three, throw. Sparks has made spare melons. Several. · check: `minigame:count:hand-melon:3`
 
 #### <a id="q05-melon"></a>Scene `q05-melon`
 
@@ -940,7 +940,7 @@ _From now on, if you call “Follow me”, every Nubbin in the Grove will trail 
 
 ### Step 1: Offer Harrow less than he is asking for the brass bell.
 
-Hint: Tap the bell and choose Haggle instead of Buy. Start low. Lower than feels polite. · check: `shop:offer:harrow:below-asking`
+Hint: Tap Do it in the Journal and start low. Lower than feels polite. Harrow will look wounded; he isn’t. · check: `shop:offer:harrow:below-asking`
 
 #### <a id="q10-intro"></a>Scene `q10-intro`
 
@@ -1492,7 +1492,7 @@ _As you leave, you hear him greet the next customer with great cheer: “Just ou
 
 ### Step 1: Pay Byte 5 Shells for an argument.
 
-Hint: Tap Byte’s booth and choose Pay. You need 5 Shells. · check: `pay:shells:5:byte`
+Hint: Bring 5 Shells and tap Do it in the Journal. Byte gives a receipt, then an argument. · check: `pay:shells:5:byte`
 
 #### <a id="q16-intro"></a>Scene `q16-intro`
 
@@ -1676,7 +1676,7 @@ _Your Power Nubbins can now use the herring to knock fruit down from afar, and y
 
 ### Step 1: Disarm the Nubbin with the banana.
 
-Hint: When the Nubbin swings the banana, tap Peel at the top of the swing. · check: `class:fruit-defence:banana`
+Hint: Tap Do it in the Journal when the banana is at the top of its swing. Your Nubbin knows where the peel goes. · check: `class:fruit-defence:banana`
 
 #### <a id="q18-intro"></a>Scene `q18-intro`
 

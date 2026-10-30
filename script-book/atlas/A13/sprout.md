@@ -637,7 +637,7 @@ _Fire-eater’s nose twitches. His eyes water. Then he sneezes!_
 **Harlequin**: Good news, brother. When he sneezes, he is sorry for you.  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, notice): a sneeze is how our body clears our nose; cover it with an elbow  
-> _Atchoo! A sneeze clears tickles out of your nose._  
+> _Achoo! A sneeze clears tickles out of your nose._  
 > _We sneeze into our elbow, like this. (Show how.)_  
 > _For grown-ups: Learned that a sneeze clears the nose and practised sneezing into an elbow._
 
@@ -678,7 +678,7 @@ _Pinocchio takes off his cap and holds it to his chest._
 > - Silly. → Not silly. It was brave and kind, and it saved Harlequin.
 > _For grown-ups: Talked about standing up for a friend._
 
-_Fire-eater’s nose twitches. Atchoo! Atchoo! Atchoo!_  
+_Fire-eater’s nose twitches. Achoo! Achoo! Achoo!_  
 
 #### `sprout:a13-07-harlequin-done` · [main](main.md#a13-07-harlequin-done)
 

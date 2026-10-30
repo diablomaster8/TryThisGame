@@ -945,7 +945,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q05-s2',
         goal: 'Take the Hand Melon to the ledge, count to exactly three, and toss it.',
-        hint: 'Tap Count once per beat and throw on three. Too many or too few and it fizzles; Sparks will make another.',
+        hint: 'Tap Do it in the Journal and keep the beat: one, two, three, throw. Sparks has made spare melons. Several.',
         check: 'minigame:count:hand-melon:3',
         scene: {
           id: 'q05-melon',
@@ -1575,7 +1575,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q10-s1',
         goal: 'Offer Harrow less than he is asking for the brass bell.',
-        hint: 'Tap the bell and choose Haggle instead of Buy. Start low. Lower than feels polite.',
+        hint: 'Tap Do it in the Journal and start low. Lower than feels polite. Harrow will look wounded; he isn’t.',
         check: 'shop:offer:harrow:below-asking',
         scene: {
           id: 'q10-intro',
@@ -2408,7 +2408,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q16-s1',
         goal: 'Pay Byte 5 Shells for an argument.',
-        hint: 'Tap Byte’s booth and choose Pay. You need 5 Shells.',
+        hint: 'Bring 5 Shells and tap Do it in the Journal. Byte gives a receipt, then an argument.',
         check: 'pay:shells:5:byte',
         scene: {
           id: 'q16-intro',
@@ -2688,7 +2688,7 @@ export const QUESTS_PYTHON: Quest[] = [
       {
         id: 'q18-s1',
         goal: 'Disarm the Nubbin with the banana.',
-        hint: 'When the Nubbin swings the banana, tap Peel at the top of the swing.',
+        hint: 'Tap Do it in the Journal when the banana is at the top of its swing. Your Nubbin knows where the peel goes.',
         check: 'class:fruit-defence:banana',
         scene: {
           id: 'q18-intro',

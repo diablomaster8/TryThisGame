@@ -73,3 +73,13 @@ by `npx tsx tests/tools/content-check.ts --comedy` (it lists the 20 thinnest sce
 A chapter's `goalText` is one sentence of 60 characters or fewer, and its `hint` one sentence
 of 70 or fewer that names the exact button label. A longer how-to goes in `howTo`, a list of
 short steps the chip reveals one at a time as each is done. The checker enforces the caps.
+
+## Hints (R0292)
+
+- A hint names only things the player can really do: tap a person or a thing, shake, pick
+  up, carry, feed, pet, place, craft, race, go down, visit, or a button the game shows.
+- No "use Give", "use Talk", "Photo mode" or invented buttons ("press ACT", "choose Haggle").
+  The checker warns on `hint-button?` and fails on `hint-verb`.
+- A step the Grove cannot see plays a micro-game from the Journal's Do it (`sim/micro.ts`):
+  say "tap Do it in the Journal", and let the hint carry the joke ("Harrow will look
+  wounded; he isn't.").

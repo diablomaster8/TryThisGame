@@ -374,7 +374,7 @@ const S1: EduQuest = quest(
         M('She wriggled and fidgeted. But she never asked me to talk.', 'soft'),
         M('When the ice melted, I looked up and said, “You’ll do.”', 'happy'),
         M('That means: you are just right.', 'soft'),
-        M('She laughed so hard, she fell in the pond. Splosh!'),
+        M('She laughed so hard, she fell in the pond. Splash!'),
         M('Only up to her ankles. She still blames me.', 'happy'),
         M('Sit next to them and wait. That’s Hazel’s third rule.', 'soft'),
       ],
@@ -899,7 +899,7 @@ const S3: EduQuest = quest(
     },
     's3-step4': {
       goal: 'Call everyone to a big meeting at the pond.',
-      hint: 'Later on, tap the pond and choose Call a Moot. All ten friends will come.',
+      hint: 'Later on, go to the pond and tap Do it. All ten friends come.',
     },
   },
   [

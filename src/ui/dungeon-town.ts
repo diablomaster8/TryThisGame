@@ -13,6 +13,10 @@ import type { Service } from '../sim/dungeon';
 import { serviceHere } from '../sim/dungeon-towns';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
+import { GEAR_TEXT, HOLLOW_R6_TEXT } from '../config/strings';
+import { LOOT, RARITIES } from '../config/dungeon-loot';
+import { basketPrice, basketSlots } from '../sim/dungeon-gamble';
+import { gearGlyph, gearName } from './dungeon-gear';
 
 /**
  * An act camp's services (R0152): the panel that opens from the Hollow bar's service button
@@ -130,6 +134,22 @@ export class TownPanel {
       }
       for (const b of bar.querySelectorAll('button')) b.className = 'btn btn-small';
       this.content.appendChild(bar);
+      // R0174: the gear stash, shared by every camp; overflow from the satchel lands here.
+      const stash = world.gear?.stash ?? [];
+      this.content.appendChild(el('h3', undefined, HOLLOW_R6_TEXT.stashTitle(stash.length)));
+      // Rarest first (by shape), then by slot.
+      const order = RARITIES.map((r) => r.id as string).reverse();
+      const sorted = [...stash].sort(
+        (a, b) => order.indexOf(a.rarity) - order.indexOf(b.rarity) || a.slot.localeCompare(b.slot),
+      );
+      for (const item of sorted)
+        row(
+          `${gearGlyph(item)} ${gearName(item)}`,
+          GEAR_TEXT.rarity[item.rarity] ?? '',
+          HOLLOW_R6_TEXT.stashTake,
+          () => this.send({ kind: 'stashTake', itemId: item.id }),
+          (world.gear?.items.length ?? 0) < LOOT.carry,
+        );
     } else if (s.kind === 'vendor') {
       const price = HOLLOW_ZONES.vendor.fruitPrice;
       row(
@@ -147,6 +167,20 @@ export class TownPanel {
         () => this.send({ kind: 'townBuy', item: 'acorns' }),
         shells >= acorn,
       );
+      // R0176: the Mystery Basket stall, one covered basket per slot, price shown plainly.
+      this.content.append(
+        el('h3', undefined, HOLLOW_R6_TEXT.basketTitle),
+        el('p', 'help', HOLLOW_R6_TEXT.basketHelp),
+      );
+      const cost = basketPrice(act);
+      for (const slot of basketSlots())
+        row(
+          GEAR_TEXT.base[slot] ?? slot,
+          HOLLOW_R6_TEXT.basketBuy(cost),
+          HOLLOW_TEXT.acornsBuy,
+          () => this.send({ kind: 'gambleBasket', slot }),
+          shells >= cost,
+        );
     } else if (s.kind === 'quest') {
       const beaten = world.hollow.acts[act]?.bossDefeated === true;
       const paid = world.hollow.camp.questsPaid.includes(act);

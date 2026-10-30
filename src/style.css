@@ -3210,3 +3210,16 @@ select {
 .wardrobe .modal-card {
   background: #140f26;
 }
+
+/* Lane B round 6: the Journal's Hollow page (R0165), the ★ grid of named foes met. */
+.hollow-journal-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 18px;
+  opacity: 0.6;
+}
+.hollow-journal-grid .met {
+  opacity: 1;
+  color: #e8a33c;
+}

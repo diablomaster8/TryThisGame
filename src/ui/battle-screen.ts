@@ -14,6 +14,11 @@ import {
 import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
+import { battleSfx } from './battle-sfx';
+import { idleKind, idlePose } from './battle-idle';
+import { postcardRow } from './battle-postcard';
+import { worldBoutAct, type WorldBout } from '../sim/battle/world-bout';
+import { battleForfeit } from '../sim/battle/core';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -61,7 +66,9 @@ import type { StatKey } from '../sim/types';
 import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
 import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
-import { recordAct, recordStart } from './battle-record';
+import { canFuse } from '../sim/battle/fusion';
+import { FRIENDLY_TEXT, FUSION_TEXT } from '../config/strings-battle-r6';
+import { currentReplay, recordAct, recordStart } from './battle-record';
 
 /**
  * The one battle screen (recs FIGHT-25, FIGHT-26, FIGHT-30) for dojo singles, story bouts and
@@ -119,9 +126,13 @@ export class BattleScreen {
   private pendingItem: BattleItemId | null = null;
   private sentSig: string | null = null;
   private drawnSig = '';
+  /** Pass-and-play: Keeper 2 has lifted the cover over their moves. */
+  private passShown = false;
   private rafId = 0;
   private viewW = 260;
   private onDone: ((s: BattleState | null) => void) | null = null;
+  /** A story-world bout (FIGHT-98, FUN-51): played in its own Grove copy, never sent to the sim. */
+  private external: WorldBout | null = null;
   /** HP and leads as the playback has shown them so far. */
   private shownHp = new Map<string, number>();
   private shownLead: [string, string] = ['', ''];
@@ -256,7 +267,24 @@ export class BattleScreen {
     requestAnimationFrame(wait);
   }
 
-  private begin(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
+  /** Plays a story-world bout on this screen; its actions go to the copy, not the sim. */
+  startWorld(b: WorldBout, onDone?: (s: BattleState | null) => void): void {
+    this.external = b;
+    this.begin(b.context, onDone, true);
+  }
+
+  /** Reopens the bout a load found still going (FIGHT-64), without starting a new one. */
+  resume(onDone?: (s: BattleState | null) => void): void {
+    const s = this.game()?.world.battle;
+    if (!s || s.result || s.mode !== 'turn') return;
+    this.begin(s.context, onDone, true);
+  }
+
+  private begin(
+    context: BattleContext,
+    onDone?: (s: BattleState | null) => void,
+    resumed = false,
+  ): void {
     const g = this.game();
     if (!g) return;
     this.pendingMove = null;
@@ -279,7 +307,9 @@ export class BattleScreen {
     this.confirmBox.hidden = true;
     this.results.hidden = true;
     this.logLine.textContent = T.waiting;
-    g.send({ kind: 'battleStart', context });
+    if (!this.external || this.external.context !== context) this.external = null;
+    if (resumed) this.runsAtStart = (g.world.battleRuns ?? 1) - 1;
+    else g.send({ kind: 'battleStart', context });
     g.renderPaused = true;
     this.root.hidden = false;
     this.root.classList.toggle('gentle-sprout', false);
@@ -292,6 +322,7 @@ export class BattleScreen {
   /** The bout this screen started, once the sim has made it. */
   private bout(): BattleState | null {
     const g = this.game();
+    if (this.external) return this.external.battle;
     const s = g?.world.battle;
     if (!g || !s || s.mode !== 'turn') return null;
     return (g.world.battleRuns ?? 0) > this.runsAtStart ? s : null;
@@ -310,7 +341,8 @@ export class BattleScreen {
   private leave(): void {
     const g = this.game();
     const s = this.bout();
-    if (g && s && !s.result) g.send({ kind: 'battleForfeit' });
+    if (s && !s.result && this.external) battleForfeit(s);
+    else if (g && s && !s.result) g.send({ kind: 'battleForfeit' });
     this.close(null);
   }
 
@@ -328,6 +360,7 @@ export class BattleScreen {
     this.runsAtStart = Number.MAX_SAFE_INTEGER;
     const done = this.onDone;
     this.onDone = null;
+    this.external = null;
     done?.(s?.result ? s : null);
   }
 
@@ -396,7 +429,7 @@ export class BattleScreen {
     if (!cur) this.sync(s);
     this.draw(s, now, cur?.e ?? null, cur?.k ?? 0);
     const busy = this.playback.busy(s.log);
-    const sig = `${s.log.length}:${s.turn}:${s.phase}:${busy ? 1 : 0}:${this.view}:${this.playback.speed}`;
+    const sig = `${s.log.length}:${s.turn}:${s.phase}:${busy ? 1 : 0}:${this.view}:${this.playback.speed}:${s.passPlay ? `pp${s.passPlay.choosing}${this.passShown ? 1 : 0}` : ''}`;
     if (this.sentSig !== null && !sig.startsWith(this.sentSig)) this.sentSig = null;
     // A Command bout's sheet is rebuilt only when its shape changes, so a press is never lost
     // to a rebuild; its gauges and cooldowns move every frame in `updateAtb`.
@@ -441,7 +474,7 @@ export class BattleScreen {
     if (e.k === 'hit') {
       this.shownHp.set(e.to, Math.max(0, (this.shownHp.get(e.to) ?? 0) - e.dmg));
       this.pop = { id: e.to, text: `-${e.dmg}`, at: now };
-      playSound('hit');
+      playSound(battleSfx(e) ?? 'hit');
       if (isSoundEnabled() && isAudioUnlocked()) navigator.vibrate?.(10);
     } else if (e.k === 'rally' || e.k === 'cuddle') {
       const id = e.k === 'rally' ? e.by : e.who;
@@ -449,7 +482,13 @@ export class BattleScreen {
       this.pop = { id, text: `+${e.heal}`, at: now };
     } else if (e.k === 'swing' && e.sweet) this.pop = { id: e.by, text: RING_TEXT.nice, at: now };
     else if (e.k === 'swap') this.shownLead[e.side] = e.to;
-    else if (e.k === 'miss') playSound('tap');
+    // FIGHT-95: the fusion's big comedic moment, a shout and a boing.
+    else if (e.k === 'fusion') {
+      this.pop = { id: e.who, text: e.on ? FUSION_TEXT.pop : FUSION_TEXT.popOff, at: now };
+      playSound(e.on ? 'slideUp' : 'boing');
+    } else if (e.k === 'miss') playSound('tap');
+    // FIGHT-76: a Dizzy self-bonk boings, a tuckered-out Nubbin yawns.
+    else if (e.k === 'boing' || e.k === 'tuckered') playSound(battleSfx(e)!);
     this.drawnSig = '';
   }
 
@@ -494,11 +533,29 @@ export class BattleScreen {
       if (e && (e.k === 'befriend' || e.k === 'cuddle')) clip = 'happy';
       if (out && side === 1 && !(e && 'who' in e && e.who === c.id)) continue;
       const sheet = g ? this.sheetFor(g, c) : null;
-      if (sheet) this.drawSprite(sheet, clip, now, x + dx, floor, side === 1);
+      // FIGHT-78: a personality idle while the bout waits for the Keeper.
+      let dy = 0;
+      if (!e && !out && !s.result && s.phase === 'choose') {
+        const n = c.nubbinId ? g?.world.nubbins.find((x) => x.id === c.nubbinId) : null;
+        const idle = idlePose(
+          idleKind({ ...c, moody: n?.moody ?? null }),
+          c.id,
+          s.seed,
+          now,
+          still,
+        );
+        dx += idle.dx;
+        dy = idle.dy;
+        if (idle.glyph)
+          drawShadowText(ctx, idle.glyph, x + 10, floor - 34, color(C.cream), color(C.darkPlum));
+      }
+      if (sheet) this.drawSprite(sheet, clip, now, x + dx, floor + dy, side === 1);
       if (out && side === 0) {
         ctx.fillStyle = color(C.leaf);
         ctx.fillRect(Math.round(x - 12), Math.round(floor - 14), 24, 4);
         drawShadowText(ctx, BATTLE_TEXT.zzz, x + 14, floor - 30, color(C.cream), color(C.darkPlum));
+        // Slapstick (FUN-74): "too dizzy to continue", the spiral over a sat-down Nubbin.
+        drawShadowText(ctx, '💫', x - 14, floor - 30, color(C.cream), color(C.darkPlum));
       }
       if (this.pop?.id === c.id && now - this.pop.at < 700) {
         const t = (now - this.pop.at) / 700;
@@ -616,6 +673,11 @@ export class BattleScreen {
   /** Sends one action as is (and keeps it for the debug panel's replay). */
   private raw(s: BattleState, a: BattleAction): void {
     recordAct(s, a);
+    if (this.external) {
+      worldBoutAct(this.external, a);
+      this.drawnSig = '';
+      return;
+    }
     this.game()?.send({ kind: 'battleAct', action: a });
   }
 
@@ -711,6 +773,10 @@ export class BattleScreen {
       sheet.appendChild(this.big(T.tapToSkip, '', () => this.skip(), 'bs-wide'));
       return;
     }
+    if (s.passPlay?.choosing === 1) {
+      this.secondKeeperSheet(s, sheet);
+      return;
+    }
     const me = s.sides[0][s.active];
     if (s.phase === 'replace') {
       sheet.appendChild(el('p', 'bs-prompt', T.pickNext));
@@ -779,7 +845,56 @@ export class BattleScreen {
     item.disabled = !BATTLE_ITEMS.some((i) => itemsLeft(s, 0, i) > 0);
     const breath = button(T.breath, () => this.send(s, { k: 'guard' }), 'btn bs-act');
     row.append(swap, item, breath);
+    // Fusion burst (FIGHT-95): shown only while the partners may fuse.
+    if (canFuse(s)) {
+      const fuseBtn = button(
+        FUSION_TEXT.button,
+        () => this.send(s, { k: 'fuse' }),
+        'btn bs-act bs-fuse',
+      );
+      fuseBtn.title = FUSION_TEXT.help;
+      row.appendChild(fuseBtn);
+    }
     sheet.appendChild(row);
+  }
+
+  /**
+   * Pass-and-play (FIGHT-96): Keeper 2's picks, behind a cover so Keeper 1's choice and
+   * Keeper 2's moves are never on screen together.
+   */
+  private secondKeeperSheet(s: BattleState, sheet: HTMLElement): void {
+    const me = s.sides[1][s.active];
+    if (!me) return;
+    // The latch on sends is per turn; Keeper 2's pick is a second send in the same turn.
+    this.sentSig = null;
+    if (!this.passShown) {
+      sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.pass));
+      sheet.appendChild(
+        this.big(
+          FRIENDLY_TEXT.ready,
+          '',
+          () => {
+            this.passShown = true;
+            this.drawnSig = '';
+          },
+          'bs-wide',
+        ),
+      );
+      return;
+    }
+    sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.picking(combatantName(me))));
+    const grid = el('div', 'bs-grid');
+    const pick = (a: BattleAction) => {
+      this.passShown = false;
+      this.raw(s, a);
+      this.drawnSig = '';
+    };
+    grid.appendChild(this.big(moveName('bonk'), '', () => pick({ k: 'strike' })));
+    for (const id of me.moves)
+      if (id !== 'bonk' && canChoose(s, me, { k: 'move', move: id }))
+        grid.appendChild(this.big(moveName(id), '', () => pick({ k: 'move', move: id })));
+    sheet.appendChild(grid);
+    sheet.appendChild(this.big(T.breath, '', () => pick({ k: 'guard' }), 'bs-wide'));
   }
 
   private setView(v: View): void {
@@ -1062,7 +1177,9 @@ export class BattleScreen {
     card.appendChild(el('p', 'celebrate-form', title));
     // The sim's own account of the bout (FIGHT-74) when it has one, else the prize table.
     const sp = s.spoils;
-    const shells = sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
+    // A story-world bout pays nothing in the Grove (FIGHT-98).
+    const shells =
+      s.context.kind === 'world' ? 0 : sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
     if (shells > 0) card.appendChild(el('p', undefined, BATTLE_TEXT.prize(shells, NAMES.currency)));
     if (sp) this.spoilLines(s, sp.gained, card);
     if (sp?.hat)
@@ -1073,6 +1190,8 @@ export class BattleScreen {
       else if (f.calm !== undefined)
         card.appendChild(el('p', undefined, T.calmed(combatantName(f), f.calm)));
     }
+    // FIGHT-100: the funniest moment as a postcard, and the bout's replay code.
+    if (s.mode === 'turn') card.appendChild(postcardRow(s, currentReplay()));
     card.appendChild(button(T.backToGrove, () => this.close(), 'btn btn-primary bs-big'));
     box.appendChild(card);
     box.hidden = false;

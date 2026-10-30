@@ -1335,7 +1335,7 @@ const Q06 = quest(
               true,
             ),
             opt('They ate dinner', [N('Not yet! Last, the sea set them on the canoe.')]),
-            opt('They flew home', [N('No flying home. The sea set them on the canoe.')]),
+            opt('They flew home', [N('They flew home? Flap, flap! Silly! The sea set them on the canoe.')]),
           ],
           'Put events in order: climbed, jumped, landed on the canoe.',
         ),
@@ -1699,7 +1699,7 @@ const Q08 = quest(
               true,
             ),
             opt('The way the bird came from', [
-              MU('Not quite. At dusk the bird is heading home to land.'),
+              MU('Back the way it came? Whoops! At dusk the bird flies home to land.'),
             ]),
             opt('Nobody can tell', [
               MU('We can! The bird is going home. So land is where it goes.'),

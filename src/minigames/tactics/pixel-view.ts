@@ -5,6 +5,7 @@
  * offscreen canvas per rotation (one `drawImage` a frame for the whole map); units, overlays
  * and bars go on top. Rotation is in quarter turns, zoom has two levels. Reads the state only.
  */
+import { idleKind, idlePose, reducedMotion } from '../../ui/battle-idle';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../../render/sprites/animations';
 import type { SpriteSheet } from '../../render/sprites/atlas';
 import { C, color } from '../../render/sprites/palette';
@@ -316,15 +317,23 @@ export class TacticsPixelView implements TacticsBoardView {
       (sheet.frames.get(frameKey(clip, angle, frameAt(CLIPS[clip], now))) ??
         sheet.frames.get(frameKey('idle', 'front', 0)));
     if (sheet && rect) {
-      const w = rect.w / PX;
-      const h = rect.h / PX;
+      // Merged partners (FIGHT-57) stand two tiles tall.
+      const tall = u.tall ? 2 : 1;
+      const w = (rect.w / PX) * tall;
+      const h = (rect.h / PX) * tall;
       const image = sheet.texture.image as HTMLCanvasElement;
       ctx.save();
       if (out) ctx.globalAlpha = 0.6;
       // A pile-on (FIGHT-57) jostles the target side to side for a moment.
       const jostle =
         pile !== undefined && now - pile < 450 ? Math.round(Math.sin((now - pile) / 40) * 2) : 0;
-      ctx.translate(Math.round(p.sx) + jostle, Math.round(feet - h));
+      // FIGHT-78: a personality idle while the board waits on the Keeper.
+      const idle =
+        out || s.result ? null : idlePose(idleKind(u.c), u.c.id, s.seed, now, reducedMotion());
+      ctx.translate(
+        Math.round(p.sx + (idle?.dx ?? 0)) + jostle,
+        Math.round(feet - h + (idle?.dy ?? 0)),
+      );
       if (flip) ctx.scale(-1, 1);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, -w / 2, 0, w, h);
       this.calls++;

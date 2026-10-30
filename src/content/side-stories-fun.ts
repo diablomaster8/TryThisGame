@@ -564,7 +564,7 @@ export const SIDE_STORIES_FUN: Quest[] = [
       {
         id: 's3-step4',
         goal: 'Host the Lantern Moot at the pond, after the Long Night.',
-        hint: 'In chapter 11, tap the pond and choose Call a Moot. All ten Keepers come.',
+        hint: 'In chapter 11, go to the pond and tap Do it in the Journal to call the Moot. All ten Keepers come.',
         check: 'host:moot:pond',
         scene: {
           id: 's3-invitations',

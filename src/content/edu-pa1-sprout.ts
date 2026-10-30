@@ -1612,7 +1612,7 @@ const Q09: EduQuest = quest(
               true,
             ),
             o('He read it in a book', [
-              N('No book! Big misses Froggy, so he understands missing someone.'),
+              N('A book? Flip, flap! Big misses Froggy, so he understands missing someone.'),
             ]),
           ],
           'Your child noticed someone understanding another’s feeling.',
@@ -2509,7 +2509,7 @@ const Q14: EduQuest = quest(
               true,
             ),
             o('You just need to run faster', [
-              SO('Nope! Feelings come along, however fast you go. Best to face them.'),
+              SO('Run faster? Zoom! Feelings come along, however fast you go. Best to face them.'),
             ]),
           ],
           'Your child learned that feelings can’t be outrun.',

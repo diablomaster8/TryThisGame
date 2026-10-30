@@ -96,3 +96,102 @@
   font-size: 18px;
   pointer-events: auto;
 }
+
+/* R0102: with Travel assist on, the chip sits over a visible beacon as its tap handle. */
+.beacon-arrow.beacon-arrow-on .beacon-arrow-point {
+  display: none;
+}
+.travel-select {
+  min-height: 44px;
+  margin-left: auto;
+}
+
+/* R0107: the landmark name card (ui/landmark-card.ts), top centre, 2 s. */
+.landmark-card {
+  position: absolute;
+  top: calc(var(--safe-top, 0px) + 64px);
+  left: 50%;
+  z-index: 14;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  align-items: center;
+  max-width: min(340px, calc(100vw - 32px));
+  padding: 10px 16px;
+  border: 2px solid #ffd84a;
+  border-radius: 14px;
+  background: rgba(13, 10, 26, 0.86);
+  color: #fff7dc;
+  pointer-events: none;
+  text-align: left;
+}
+.landmark-card-icon {
+  grid-row: span 3;
+  font-size: 30px;
+}
+.landmark-card-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  font-variant: small-caps;
+  color: #ffd84a;
+}
+.landmark-card-line {
+  font-size: 13px;
+  opacity: 0.9;
+}
+.landmark-card-chip {
+  justify-self: start;
+  margin-top: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: #ffd84a;
+  color: #241a05;
+  font-size: 11px;
+  font-weight: 700;
+}
+.landmark-card-in {
+  animation: landmark-card-in 2s ease both;
+}
+@keyframes landmark-card-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -12px);
+  }
+  12%,
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+}
+.reduce-motion .landmark-card-in {
+  animation: none;
+}
+
+/* R0107: the Journal's Places page. */
+.places-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.places-row small {
+  display: block;
+  opacity: 0.8;
+}
+.places-art {
+  font-size: 26px;
+  width: 36px;
+  text-align: center;
+}
+.landmark-card-paid {
+  grid-column: 2;
+  font-size: 12px;
+  color: #ffd84a;
+}

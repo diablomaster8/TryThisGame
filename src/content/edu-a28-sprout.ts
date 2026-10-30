@@ -2253,7 +2253,7 @@ const A10: EduQuest = quest(
           [N('In the story, why is the spider bald?')],
           [
             o('The beans were very hot.', [N('Yes! The hot beans in his hat did it.')], true),
-            o('He got a haircut.', [N('No haircut! The hot beans under his hat did it.')]),
+            o('He got a haircut.', [N('A haircut? Snip, snip! The hot beans under his hat did it.')]),
           ],
           'Recalled the cause in a “why” story: the hot beans made the spider bald.',
         ),

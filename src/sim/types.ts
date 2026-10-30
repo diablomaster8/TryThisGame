@@ -1,3 +1,4 @@
+import type { StoryBoutId } from './battle/story-bouts';
 import type {
   BattleAction,
   BattleContext,
@@ -347,6 +348,8 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
+  microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -362,6 +365,11 @@ export interface Settings {
   surveyWhenRunning?: boolean;
   /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */
   hideBarWhileWalking?: boolean;
+  /**
+   * R0102: Travel assist: walk, auto-walk to a tapped beacon or pin, or skip there. Unset:
+   * auto-walk in a Learning Grove, walk otherwise (`travelMode`).
+   */
+  travel?: 'walk' | 'auto' | 'skip';
   /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
@@ -598,6 +606,8 @@ export interface DungeonStray {
   snatches?: number;
   carrying?: number;
   seen?: boolean;
+  /** R0326: a Stray King (bottle-cap crown); calming or feeding it leaves a hat. */
+  king?: true;
   shooed?: boolean;
 }
 
@@ -685,6 +695,17 @@ export interface DungeonRun {
   strayAsk?: { id: string; leftMs: number };
   /** R0281: the calm bout under way (`bout` is `world.battleRuns` when it began). */
   strayBout?: { id: string; bout: number; shells: number };
+  // Lane B round 6.
+  /** R0175: gear found on this trip, banked at a waypoint, a camp, an acorn or home. */
+  sack?: GearItem[];
+  /** R0180: losses to each pack on this trip, and packs sneaked past until a sim time. */
+  packLosses?: Record<string, number>;
+  sneakUntil?: Record<string, number>;
+  /** R0209: co-op hooks, data only (always empty for now). */
+  keepers?: string[];
+  /** R0211: when the current level began, and fights on it. */
+  levelStartMs?: number;
+  levelFights?: number;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -723,6 +744,10 @@ export interface DungeonPack {
   target: Vec2 | null;
   /** When it noticed the Keeper (the "!" beat); -1 before. */
   noticedMs: number;
+  /** R0203: a sleepy pack (Zzz) that a walking Keeper can tiptoe past. */
+  asleep?: true;
+  /** R0203: the tiptoe bonus for this pack is paid. */
+  tiptoed?: true;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -876,11 +901,21 @@ export interface World {
    * keepsakes, move cards for the Collection book). No save bump.
    */
   battleOnce?: BattleOnceState;
+  /** Lane C round 6 (recs FIGHT-82): each story battle's choice and result; absent = none. */
+  storyBouts?: Record<string, 'fight' | 'skip' | 'won'>;
+  /** Lane C round 6 (FIGHT-64): a live bout's party needs, held until it ends. */
+  battleHeld?: Record<string, { hunger: number; energy: number }>;
+  /** Lane C round 6 (FIGHT-97): each trial map's best steps and whether par was met. */
+  trials?: Record<string, { best: number; par: boolean }>;
   /**
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
    */
-  battleSeen?: { pairs: string[] };
+  battleSeen?: {
+    pairs: string[];
+    /** Lane C round 6 (FIGHT-84): every move id seen used in a bout, for the Battle Book. */
+    moves?: string[];
+  };
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -977,6 +1012,12 @@ export interface World {
     uniquesBeaten: string[];
     /** The party picked at the cave mouth (R0168; save version 10), Nubbin ids. */
     lastParty: string[];
+    /** Lane B round 6 (save version 12). R0160: acts whose boss chest is paid. */
+    bossChests?: number[];
+    /** R0185: today's run results, refreshed each real day (never a streak). */
+    today?: { day: string; deepest: number; bestMs: number; finds: number };
+    /** R0211: rolling tuning numbers, never shown to players. */
+    stats?: HollowStats;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -999,6 +1040,15 @@ export type Command =
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
   | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  /** Lane C round 6 (FIGHT-82, FIGHT-72): a story battle's choice, and the Hollow guardian. */
+  | { kind: 'storyBout'; id: StoryBoutId; fight: boolean; ids?: string[] }
+  | { kind: 'guardianStart'; depth: number; key: string; ids?: string[] }
+  /** Lane C round 6 (FIGHT-64): resume a loaded bout at its turn's start, or call a draw. */
+  | { kind: 'battleResume' }
+  /** Lane C round 6: a seen-once marker kept with the bout keepsakes (Play-fight Day). */
+  | { kind: 'battleKeepsake'; id: 'playday-seen' }
+  | { kind: 'trialClear'; id: string; steps: ('n' | 'e' | 's' | 'w')[] }
+  | { kind: 'battleDraw' }
   | { kind: 'tacticsAct'; action: TacticsAction }
   | { kind: 'tacticsForfeit' }
   | { kind: 'tacticsClose' }
@@ -1132,6 +1182,8 @@ export type Command =
   | { kind: 'travel'; exit: string; sub?: string }
   // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
+  // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
+  | { kind: 'travelAssist'; pos: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1177,6 +1229,10 @@ export type Command =
   | { kind: 'equipGear'; itemId: string; nubbinId: string | null }
   | { kind: 'unequipGear'; itemId: string }
   | { kind: 'setHollowParty'; ids: string[] }
+  // Lane B round 6: sneak past (R0180), the Mystery Basket (R0176).
+  | { kind: 'packSneak'; packId: string }
+  | { kind: 'gambleBasket'; slot: string }
+  | { kind: 'stashTake'; itemId: string }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1220,6 +1276,10 @@ export type SimEvent =
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
   | { kind: 'battleSpoils'; spoils: BoutSpoils }
+  /** Lane C round 6 (FIGHT-97): a trial map cleared, at par or not, and a first par. */
+  | { kind: 'trialCleared'; id: string; steps: number; par: boolean; first: boolean }
+  /** Lane C round 6 (recs FIGHT-99): a Dojo Ladder bout won (`belt` set once all its bouts are). */
+  | { kind: 'ladderStep'; nubbinId: string; belt: number; step: number; beltWon: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';
@@ -1349,6 +1409,8 @@ export type SimEvent =
   | { kind: 'questClaimed'; id: string; shells: number; egg: boolean }
   | { kind: 'questsRefreshed' }
   | { kind: 'friendsMade'; a: string; b: string }
+  /** R0330 (FUN-41): two Nubbins play together: a copycat, a tug over fruit, a bump. */
+  | { kind: 'pairPlay'; play: 'copy' | 'tug' | 'bump'; a: string; b: string }
   | { kind: 'wildArrived'; id: string; species: string; patch: HabitatKind }
   | { kind: 'wildSettled'; species: string; nubbinId: string }
   | { kind: 'wildLeft'; id: string }
@@ -1440,7 +1502,26 @@ export type SimEvent =
   | { kind: 'acornPortal'; free: boolean; camp?: true }
   | { kind: 'portalReturned' }
   | { kind: 'wildScanned'; species: string }
-  | { kind: 'wellRaised'; nubbinId: string };
+  | { kind: 'wellRaised'; nubbinId: string }
+  // Lane B round 6.
+  | { kind: 'haulBanked'; items: number; where: 'home' | 'waypoint' | 'camp' | 'portal' }
+  | { kind: 'bossCelebration'; act: number; item: GearItem; next: string | null }
+  | { kind: 'sneakOffer'; packId: string }
+  | { kind: 'sneakPast'; packId: string }
+  | { kind: 'tiptoe'; packId: string; shells: number }
+  | { kind: 'packWoke'; packId: string; yawn: boolean }
+  | { kind: 'tumbleHome'; kept: number; camp: number }
+  | { kind: 'basketOpened'; ok: boolean; price: number; item?: GearItem }
+  | { kind: 'strayKing'; hat: string };
+
+/** R0211: the Hollow's local tuning numbers, rolling over the last 20 levels. */
+export interface HollowStats {
+  levelMs: number[];
+  fights: number[];
+  losses: number;
+  pickups: Record<string, number>;
+  portals: number;
+}
 
 /** R0316 (FUN-27): counts the catch-up keeps, by Nubbin id. */
 export interface AwayTally {
@@ -1477,4 +1558,6 @@ export interface GearState {
   nubbins: Record<string, Record<string, string>>;
   /** The next item number. */
   next: number;
+  /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
+  stash?: GearItem[];
 }

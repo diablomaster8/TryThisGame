@@ -148,6 +148,12 @@ export const MOVES: readonly MoveDef[] = [
   m('eternal-dawn', 'normal', 'splash', 90, 5, 'chaos', { align: 'sun', ...ALL_FOES }),
   m('eternal-dusk', 'normal', 'splash', 90, 5, 'chaos', { align: 'moon', ...ALL_FOES }),
   m('eternal-hush', 'normal', 'splash', 90, 5, 'chaos', { ...ALL_FOES }),
+  // Fusion burst (FIGHT-95): only a fused pair has it, for its three turns.
+  m('fusion-burst', 'normal', 'splash', 80, 4, 'chaos', {
+    ...ALL_FOES,
+    anim: 'fusion',
+    special: 'fusion',
+  }),
 
   // ---- the pocket and digi finals, by family and type ----
   m('tidal-tumble', 'swim', 'splash', 75, 4, 'final'),

@@ -878,7 +878,7 @@ _Froggy jumps back in the river. Splash! Big is still beaming._
 > **Lesson** (sel, CASEL: Social awareness, ask): understanding someone else’s feeling  
 > _Big says “I know that look.” How does he know how Chaos feels?_  
 > - ✅ He is looking for a friend too → Yes. Big misses Froggy. So he understands missing someone.
-> - He read it in a book → No book! Big misses Froggy, so he understands missing someone.
+> - He read it in a book → A book? Flip, flap! Big misses Froggy, so he understands missing someone.
 > _For grown-ups: Your child noticed someone understanding another’s feeling._
 
 _Big goes back to his rod, perfectly still, waiting for his friend._  
@@ -1383,7 +1383,7 @@ _She looks at you, and at your Nubbin. Then she is only a light._
 > **Lesson** (sel, CASEL: Self-awareness, ask): you can’t run from feelings  
 > **Sonic**: I’m fast, but I can’t outrun a feeling. Why not?  
 > - ✅ Feelings come with you → Right. Feelings come along, however fast you go. Best to face them.
-> - You just need to run faster → Nope! Feelings come along, however fast you go. Best to face them.
+> - You just need to run faster → Run faster? Zoom! Feelings come along, however fast you go. Best to face them.
 > _For grown-ups: Your child learned that feelings can’t be outrun._
 
 _He runs off anyway, very fast, into the rain._  

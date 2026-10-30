@@ -531,7 +531,7 @@ _Your Nubbin hops up and sleeps on her bed._
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, ask): sleep helps our bodies rest and grow  
 > _What does your body do while you sleep?_  
 > - ✅ It rests and grows → Yes! Sleep helps your body rest and grow.
-> - It runs a race → No race! While you sleep, your body rests and grows.
+> - It runs a race → A race in bed? Zoom! While you sleep, your body rests and grows.
 > - It eats lunch → Lunch is for when we are awake. Sleep helps us rest and grow.
 > _For grown-ups: Learned that sleep helps the body rest and grow._
 
@@ -1487,7 +1487,7 @@ _A candle flame needs air to burn._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): a flame goes out without air  
 > _If a grown-up covers a flame with a jar, what happens?_  
 > - ✅ It goes out → Yes! With no air, a flame goes out.
-> - It gets bigger → No. Without air, a flame goes out.
+> - It gets bigger → A flame getting bigger? Whoosh! Without air, a flame goes out.
 > _For grown-ups: Learned that a flame needs air and goes out without it._
 
 _At your belt, the gold flame goes out too._  
