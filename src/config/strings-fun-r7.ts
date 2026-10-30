@@ -44,3 +44,10 @@ export const SHY_LINES = {
     allows: ['{n} lets you! Shh, it is a secret.', '{n} likes it. A tiny bit.'],
   },
 } as const;
+
+/** R0352 / R0355: rule three, noticed. `{n}` is the Nubbin's name. */
+export const SIT_TEXT = {
+  main: '{n} comes and sits down beside you. Rule three.',
+  reader: '{n} sits down next to you. Rule three: sit and wait.',
+  sprout: '{n} sits with you. Shh.',
+} as const;

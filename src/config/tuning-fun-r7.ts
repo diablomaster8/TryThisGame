@@ -62,3 +62,34 @@ export const EGG_ANTICS = {
   footEvery: 3,
   footMs: 900,
 } as const;
+
+/**
+ * R0352 (FUN-63): the Keeper's idle antics. Standing quietly in the Grove, the Keeper
+ * checks the letter at `fidgetMs` (for `letterMs`), pats a pocket (`pocketMs`), and sits at
+ * `sitMs`; the nearest free Nubbin within `joinRadius` comes to the seat beside them and
+ * gains `affectionPerMinute` while it stays (rule three).
+ */
+export const KEEPER_IDLE = {
+  fidgetMs: 20_000,
+  letterMs: 3_000,
+  pocketMs: 1_500,
+  sitMs: 40_000,
+  joinRadius: 14,
+  arrive: 0.7,
+  seat: { side: 0.9, ahead: 0.25 },
+  affectionPerMinute: 2,
+  /** Below this energy a Nubbin naps instead of coming to sit. */
+  minEnergy: 0.2,
+} as const;
+
+/**
+ * R0355 (FUN-66): the sit-with gags, by time since the Nubbin sat down beside the Keeper:
+ * it leans in at `leanMs`, nods off on the Keeper's foot at `dozeMs`, and from `snoreMs`
+ * snores a bubble that grows and pops every `bubbleMs`.
+ */
+export const SIT_WITH = {
+  leanMs: 4_000,
+  dozeMs: 12_000,
+  snoreMs: 18_000,
+  bubbleMs: 3_000,
+} as const;

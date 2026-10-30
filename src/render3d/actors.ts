@@ -56,6 +56,8 @@ import { poseRig } from './stage-pose3d';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
+import { sitWithBeat, towardKeeper } from '../render/sit-with';
+import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 
 /**
@@ -81,6 +83,9 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** R0355: the sit-with lean (0..1) and its Zs or snore bubble, this frame. */
+  swLean?: number;
+  swEmote?: EmoteShape | null;
   /** LOOK-62: the landing turn laid on the rig's yaw this frame, taken off the next. */
   revealYaw?: number;
   /** FUN-04: the emote of the gag playing this frame, or null. */
@@ -991,6 +996,11 @@ export class Actors {
         if (st && st.partner?.id === n.id)
           pose = st.walking.has(n.id) ? 'walk' : (st.partnerPose() ?? 'idle');
         else if (st?.walking.has(n.id)) pose = 'walk';
+        // R0355: sitting with the Keeper, it nods off on the Keeper's foot.
+        const sw = sitWithBeat(world, n, world.timeMs);
+        if (sw?.doze) pose = 'sleep';
+        a.swLean = sw?.lean ?? 0;
+        a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
@@ -1035,6 +1045,12 @@ export class Actors {
           ? o.scale.y * (pose === 'swim' ? SWIM_STYLE.sink[style] : GROVE3D_WADE)
           : 0;
         o.position.set(x, gy + y - sink, z);
+        // R0355: the lean toward the Keeper's shoulder.
+        if (a.swLean) {
+          const dir = towardKeeper(world, n);
+          o.position.x += dir.x * 0.12 * a.swLean;
+          o.position.z += dir.z * 0.12 * a.swLean;
+        }
         const footY = gy + y - sink;
         // A body in the water stands on a flat floor at its sunk height; a held or thrown
         // body is lifted off the real ground so its shadow blob stays down there under it.
@@ -1148,6 +1164,7 @@ export class Actors {
             (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
             heldEmote(n, keeper.alignment) ??
             a.gagEmote ??
+            a.swEmote ??
             emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =
@@ -1225,7 +1242,7 @@ export class Actors {
           ? 'pet'
           : this.keeperMoving
             ? 'walk'
-            : (kCue ?? 'idle');
+            : (kCue ?? keeperIdle3d(world) ?? 'idle');
     // The Keeper turns to a new heading at a brisk rate rather than snapping (MOVE-20); a
     // staged facing is set at once.
     const want = this.keeperFace ?? keeper.facing;
@@ -1407,4 +1424,10 @@ export class Actors {
     }
     this.group.removeFromParent();
   }
+}
+
+/** R0352: the idle Keeper's pose in Full 3D: the letter held up to read, or sitting down. */
+function keeperIdle3d(world: World): PoseName | null {
+  const p = keeperIdlePose(world);
+  return p === 'sit' ? 'sit' : p === 'letter' ? 'itemGet' : null;
 }

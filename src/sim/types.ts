@@ -298,6 +298,11 @@ export interface Keeper {
   bufferMs: number;
   /** The jump button is down: a held jump rises higher. */
   jumpHeld: boolean;
+  /** R0352: ms the Keeper has stood quietly in the Grove (live play). Optional, no save bump. */
+  idleMs?: number;
+  /** R0352: the Nubbin coming to sit beside the sitting Keeper, and when it sat down (sim ms). */
+  sitWith?: string;
+  sitBesideMs?: number;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -1378,6 +1383,9 @@ export type SimEvent =
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
   | { kind: 'eggShaken'; nubbinId: string; foot?: true }
+  /** R0352: the idle Keeper sits down on the grass; a Nubbin has come to sit beside them. */
+  | { kind: 'keeperSat' }
+  | { kind: 'sitBeside'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

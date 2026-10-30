@@ -65,6 +65,7 @@ import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
+import { stepKeeperIdle } from './keeper-idle';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
 import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
@@ -1177,6 +1178,9 @@ export function stepWorld(
     if (!offline) stepHopLesson(world, events);
     // MOVE-63: the hop course's flags and timer.
     if (!offline) stepHopCourse(world, events);
+    // R0352: the idle Keeper's antics and rule three's sit, in real live play only (a wall
+    // clock at ×1 with the tab showing), so scripted runs and catch-up never see them.
+    if (!offline && countPlay && wallMs !== undefined) stepKeeperIdle(world, dtMs, events);
     stepTrust(world, dtMs, events);
     stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);

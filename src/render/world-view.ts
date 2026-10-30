@@ -17,6 +17,8 @@ import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
 import { eggAntics } from './egg-antics';
+import { sitWithBeat, towardKeeper } from './sit-with';
+import { keeperIdlePose } from '../sim/keeper-idle';
 import {
   BUSH,
   FOOTFALL,
@@ -1184,6 +1186,15 @@ export class WorldView {
       moving,
     );
     const kview = viewAngle(kpose?.face ?? kface ?? this.keeperHeading(k.facing, nowMs), yaw);
+    // R0352: left alone, the Keeper reads the letter, pats a pocket, then sits on the grass.
+    const kidle = kpose || moving ? null : keeperIdlePose(world);
+    const kidleKey = kidle
+      ? frameKey(
+          kidle === 'sit' ? 'sit' : kidle === 'letter' ? 'g-down' : 'g-chest',
+          kview.angle,
+          kidle === 'sit' && !this.particles.reduceMotion ? Math.floor(nowMs / 900) % 2 : 0,
+        )
+      : '';
     // R0085: on a Nubbin's back the Keeper sits, smaller and raised (render/ride-pose.ts).
     const kride = kpose ? null : ridePose(world, nowMs, moving, this.particles.reduceMotion);
     const krideRect = kride?.sits ? ksheet.frames.get(frameKey('sit', kview.angle, 0)) : undefined;
@@ -1192,11 +1203,13 @@ export class WorldView {
       ksheet.frames.get(
         kpose?.clip
           ? frameKey(kpose.clip, kview.angle, kpose.frame)
-          : frameKey(
-              kclip,
-              kview.angle,
-              frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
-            ),
+          : kidleKey && ksheet.frames.has(kidleKey)
+            ? kidleKey
+            : frameKey(
+                kclip,
+                kview.angle,
+                frameAt(CLIPS[kclip], (nowMs - this.keeperClipStart) * (k.running ? 1.7 : 1)),
+              ),
       );
     // A Keeper held on a hill mark stands (or sits) on the terrace, as held NPCs do.
     const kHeld = this.staging?.active && this.staging.keeperHold && this.location === 'grove';
@@ -1868,6 +1881,8 @@ export class WorldView {
     let key: string;
     let flip = false;
     let eggHop = 0;
+    let swDx = 0;
+    let swDz = 0;
     let emote: EmoteShape = 'none';
     let opacity = 1;
     const glowTint = merged ? 1.35 + 0.15 * Math.sin(nowMs / 120) : 1;
@@ -1905,6 +1920,14 @@ export class WorldView {
           : 'sleep'
         : clipFor(n);
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
+      // R0355: sitting with the Keeper, it leans in, then nods off on the Keeper's foot.
+      const sw = sitWithBeat(world, n, world.timeMs);
+      if (sw?.doze && sheet.frames.has(frameKey('sleep', 'front', 0))) clip = 'sleep';
+      if (sw?.lean) {
+        const dir = towardKeeper(world, n);
+        swDx = dir.x * 0.12 * sw.lean;
+        swDz = dir.z * 0.12 * sw.lean;
+      }
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
       // LOOK-62: a newly evolved form spins one turn as it lands.
@@ -1988,6 +2011,16 @@ export class WorldView {
       if (gagOn) key = gkey;
       emote = emoteFor(n);
       if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
+      // R0355: the snore bubble swells, pops with a sparkle, and the Zs carry on between.
+      if (sw?.doze) emote = sw.bubble > 0 ? 'ball' : 'zz';
+      if (sw && sw.bubbleN > 0 && sw.bubble === 0 && (SNORE_POPS.get(n.id) ?? 0) < sw.bubbleN) {
+        SNORE_POPS.set(n.id, sw.bubbleN);
+        this.particles.burst('sparkle', x, Math.max(0, y) + 1.1, z, 3, {
+          spread: 0.25,
+          rise: 0.3,
+          lifeMs: 450,
+        });
+      }
       if (gagOn && gag.look.burst && gag.frame === 0 && (GAG_BURSTS.get(n.id) ?? 0) < nowMs - 900) {
         GAG_BURSTS.set(n.id, nowMs);
         const kind = gag.look.burst === 'notes' ? 'note' : gag.look.burst;
@@ -2083,11 +2116,11 @@ export class WorldView {
           rect,
           flip,
           // LOOK-62: the evolving cocoon shakes in its last moments.
-          x: x + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
+          x: x + swDx + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
           y:
             (beat?.dy ?? 0) * 2 + eggHop + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
-          z,
+          z: z + swDz,
           mode: 'billboard',
           opacity,
           tint: this.dim * glowTint,
@@ -2285,6 +2318,8 @@ export function clipFor(n: Nubbin): string {
 
 /** FUN-04: when each Nubbin last threw up its gag's particles (notes, dust, a splash). */
 const GAG_BURSTS = new Map<string, number>();
+/** R0355: the last snore bubble popped, per Nubbin, so each pops once. */
+const SNORE_POPS = new Map<string, number>();
 
 /** LOOK-50: the baked frames for each way of being held. */
 const HELD_CLIPS: Record<HeldMood, string> = {
