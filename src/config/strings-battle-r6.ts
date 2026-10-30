@@ -108,3 +108,24 @@ export const POSTCARD_TEXT = {
   hit: (by: string, move: string, to: string, n: number) =>
     `${by} gave ${to} a ${move} worth ${n}. It will be talked about.`,
 };
+
+/** Survive bouts in the story worlds (FUN-51): the bosses' names and Kelpbeard's barks. */
+export const SURVIVE_NAMES: Record<string, string> = {
+  mechachiazilla: 'Mechachiazilla',
+  monoceraptor: 'Monoceraptor',
+  'razul-shadows': "Razul's shadows",
+  'dr-sloth': 'Dr. Sloth',
+};
+
+export const SURVIVE_TEXT = {
+  goal: (rounds: number) => `Hold on for ${rounds} rounds. You don't have to win.`,
+  barks: {
+    mechachiazilla: [
+      'Kelpbeard: "Steady! It\'s mostly bolts and bad manners!"',
+      'Kelpbeard: "Duck! No, the other duck! Ah, you\'ve got it."',
+      'Kelpbeard: "One more! I can hear the cavalry. Or a very big tummy."',
+    ],
+  } as Record<string, string[]>,
+  survived: 'You held on. The story goes on.',
+  draw: 'Tuckered out, but nobody minds: the story goes on.',
+};

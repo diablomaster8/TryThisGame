@@ -3,6 +3,7 @@ import type { World } from '../types';
 import { battleAct, createBattle } from './core';
 import { battleSeedFor } from './rewards';
 import type { BattleAction, BattleContext, BattleState } from './types';
+import { SURVIVE_NAMES } from '../../config/strings-battle-r6';
 
 /**
  * Story-world bouts (recs FIGHT-98, FIGHT-72). The Atlas, the Arcade, the Multiverse and
@@ -49,12 +50,24 @@ export function startWorldBout(grove: Readonly<World>, context: WorldContext): W
   const battle = createBattle(sandbox, context, battleSeedFor(sandbox, context));
   if (!battle) return null;
   sandbox.battle = battle;
-  return { context, sandbox, battle };
+  // A survive boss is one big, named foe that hits but does not go down easily.
+  if (context.boss) {
+    const boss = battle.sides[1][0];
+    if (boss) {
+      boss.name = SURVIVE_NAMES[context.boss] ?? context.boss;
+      boss.hp = boss.maxHp = boss.maxHp * 3;
+    }
+  }
+  const b = { context, sandbox, battle };
+  stepSurvive(b);
+  return b;
 }
 
 /** Plays one action in the world bout (inside the sandbox only). */
 export function worldBoutAct(b: WorldBout, a: BattleAction): boolean {
-  return battleAct(b.battle, a);
+  const ok = battleAct(b.battle, a);
+  stepSurvive(b);
+  return ok;
 }
 
 /**
@@ -72,4 +85,67 @@ export function settleWorldBout(b: WorldBout, line: LineProgress): boolean {
   if (won && b.context.reward && !line.rewards.includes(b.context.reward))
     line.rewards.push(b.context.reward);
   return true;
+}
+
+// ---- Survive bouts (recs FUN-51): `karate:survive:<boss>:<rounds>` steps in a story world ----
+
+/** Each boss's stand-in look; its own art comes later (lane E). */
+export const SURVIVE_LOOKS: Readonly<Record<string, string>> = {
+  mechachiazilla: 'spinmaster',
+  monoceraptor: 'dinolet',
+  'razul-shadows': 'scrapper',
+  'dr-sloth': 'skyserpent',
+};
+
+/** The boss and rounds of a survive check, or null for any other check. */
+export function parseSurvive(check: string): { boss: string; rounds: number } | null {
+  const m = /^karate:survive:([a-z0-9-]+):(\d+)$/.exec(check);
+  return m ? { boss: m[1]!, rounds: Number(m[2]) } : null;
+}
+
+/** A survive bout's context: the party against one big boss, a few levels up. */
+export function surviveContext(
+  grove: Readonly<World>,
+  world: WorldContext['world'],
+  line: string,
+  key: string,
+  check: { boss: string; rounds: number },
+  ids: readonly string[],
+  barks: readonly string[] = [],
+): WorldContext {
+  const party = grove.nubbins.filter(
+    (n) => ids.includes(n.id) && n.stage !== 'egg' && n.stage !== 'cocoon',
+  );
+  const level = Math.round(
+    party.reduce((s, n) => s + Math.max(...Object.values(n.stats).map((x) => x.points)) / 100, 0) /
+      Math.max(1, party.length),
+  );
+  return {
+    kind: 'world',
+    world,
+    line,
+    key,
+    tier: 2,
+    ids: party.map((n) => n.id).slice(0, 3),
+    foes: [{ species: SURVIVE_LOOKS[check.boss] ?? 'spinmaster', level: Math.min(99, level + 8) }],
+    survive: check.rounds,
+    boss: check.boss,
+    barks: [...barks],
+  };
+}
+
+/** The survive rule and the guide's barks, after each action. */
+export function stepSurvive(b: WorldBout): void {
+  const s = b.battle;
+  const c = b.context;
+  const barks = c.barks ?? [];
+  // A bark at the start of each of the first turns, once each.
+  const said = s.log.filter((e) => e.k === 'bark').length;
+  if (said < barks.length && s.turn > said && !s.result)
+    s.log.push({ k: 'bark', text: barks[said]! });
+  if (c.survive && !s.result && s.turn > c.survive && s.sides[0].some((x) => x.hp > 0)) {
+    s.result = { winner: 0, reason: 'time' };
+    s.phase = 'done';
+    s.log.push({ k: 'end', winner: 0, reason: 'time' });
+  }
 }

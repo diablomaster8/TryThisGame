@@ -17,6 +17,8 @@ import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
 import { idleKind, idlePose } from './battle-idle';
 import { postcardRow } from './battle-postcard';
+import { worldBoutAct, type WorldBout } from '../sim/battle/world-bout';
+import { battleForfeit } from '../sim/battle/core';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -129,6 +131,8 @@ export class BattleScreen {
   private rafId = 0;
   private viewW = 260;
   private onDone: ((s: BattleState | null) => void) | null = null;
+  /** A story-world bout (FIGHT-98, FUN-51): played in its own Grove copy, never sent to the sim. */
+  private external: WorldBout | null = null;
   /** HP and leads as the playback has shown them so far. */
   private shownHp = new Map<string, number>();
   private shownLead: [string, string] = ['', ''];
@@ -263,6 +267,12 @@ export class BattleScreen {
     requestAnimationFrame(wait);
   }
 
+  /** Plays a story-world bout on this screen; its actions go to the copy, not the sim. */
+  startWorld(b: WorldBout, onDone?: (s: BattleState | null) => void): void {
+    this.external = b;
+    this.begin(b.context, onDone, true);
+  }
+
   /** Reopens the bout a load found still going (FIGHT-64), without starting a new one. */
   resume(onDone?: (s: BattleState | null) => void): void {
     const s = this.game()?.world.battle;
@@ -297,6 +307,7 @@ export class BattleScreen {
     this.confirmBox.hidden = true;
     this.results.hidden = true;
     this.logLine.textContent = T.waiting;
+    if (!this.external || this.external.context !== context) this.external = null;
     if (resumed) this.runsAtStart = (g.world.battleRuns ?? 1) - 1;
     else g.send({ kind: 'battleStart', context });
     g.renderPaused = true;
@@ -311,6 +322,7 @@ export class BattleScreen {
   /** The bout this screen started, once the sim has made it. */
   private bout(): BattleState | null {
     const g = this.game();
+    if (this.external) return this.external.battle;
     const s = g?.world.battle;
     if (!g || !s || s.mode !== 'turn') return null;
     return (g.world.battleRuns ?? 0) > this.runsAtStart ? s : null;
@@ -329,7 +341,8 @@ export class BattleScreen {
   private leave(): void {
     const g = this.game();
     const s = this.bout();
-    if (g && s && !s.result) g.send({ kind: 'battleForfeit' });
+    if (s && !s.result && this.external) battleForfeit(s);
+    else if (g && s && !s.result) g.send({ kind: 'battleForfeit' });
     this.close(null);
   }
 
@@ -347,6 +360,7 @@ export class BattleScreen {
     this.runsAtStart = Number.MAX_SAFE_INTEGER;
     const done = this.onDone;
     this.onDone = null;
+    this.external = null;
     done?.(s?.result ? s : null);
   }
 
@@ -472,8 +486,7 @@ export class BattleScreen {
     else if (e.k === 'fusion') {
       this.pop = { id: e.who, text: e.on ? FUSION_TEXT.pop : FUSION_TEXT.popOff, at: now };
       playSound(e.on ? 'slideUp' : 'boing');
-    }
-    else if (e.k === 'miss') playSound('tap');
+    } else if (e.k === 'miss') playSound('tap');
     // FIGHT-76: a Dizzy self-bonk boings, a tuckered-out Nubbin yawns.
     else if (e.k === 'boing' || e.k === 'tuckered') playSound(battleSfx(e)!);
     this.drawnSig = '';
@@ -658,6 +671,11 @@ export class BattleScreen {
   /** Sends one action as is (and keeps it for the debug panel's replay). */
   private raw(s: BattleState, a: BattleAction): void {
     recordAct(s, a);
+    if (this.external) {
+      worldBoutAct(this.external, a);
+      this.drawnSig = '';
+      return;
+    }
     this.game()?.send({ kind: 'battleAct', action: a });
   }
 
@@ -1157,7 +1175,9 @@ export class BattleScreen {
     card.appendChild(el('p', 'celebrate-form', title));
     // The sim's own account of the bout (FIGHT-74) when it has one, else the prize table.
     const sp = s.spoils;
-    const shells = sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
+    // A story-world bout pays nothing in the Grove (FIGHT-98).
+    const shells =
+      s.context.kind === 'world' ? 0 : sp ? sp.shells : prizeFor(s.context, r, !!s.gentle);
     if (shells > 0) card.appendChild(el('p', undefined, BATTLE_TEXT.prize(shells, NAMES.currency)));
     if (sp) this.spoilLines(s, sp.gained, card);
     if (sp?.hat)

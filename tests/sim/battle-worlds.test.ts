@@ -127,3 +127,33 @@ describe('merged partners on the tactics board (recs FIGHT-57)', () => {
     expect(tall.c.name).toContain(b!.name);
   });
 });
+
+describe('story-world survive bouts (recs FUN-51)', () => {
+  it('NP1 step 3: three survived rounds win, with the barks, and the Grove is untouched', async () => {
+    const { parseSurvive, surviveContext, startWorldBout, worldBoutAct } =
+      await import('../../src/sim/battle/world-bout');
+    const w = grove(2);
+    const before = JSON.stringify(w);
+    const check = parseSurvive('karate:survive:mechachiazilla:3')!;
+    expect(check).toEqual({ boss: 'mechachiazilla', rounds: 3 });
+    expect(parseSurvive('collect:fruit:3')).toBeNull();
+    const ctx = surviveContext(
+      w,
+      'neopia',
+      'NP',
+      'np01-step3',
+      check,
+      w.nubbins.map((n) => n.id),
+      ['a', 'b', 'c'],
+    );
+    const b = startWorldBout(w, ctx)!;
+    expect(b.battle.sides[1][0]!.name).toBe('Mechachiazilla');
+    for (let i = 0; i < 40 && !b.battle.result; i++) worldBoutAct(b, { k: 'guard' });
+    expect(b.battle.result).not.toBeNull();
+    expect(b.battle.turn).toBeLessThanOrEqual(4);
+    if (b.battle.result!.winner === 0) expect(b.battle.turn).toBe(4);
+    expect(b.battle.result).toEqual({ winner: 0, reason: 'time' });
+    expect(b.battle.log.filter((e) => e.k === 'bark').length).toBe(3);
+    expect(JSON.stringify(w)).toBe(before);
+  });
+});

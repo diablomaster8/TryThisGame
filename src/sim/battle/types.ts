@@ -238,6 +238,13 @@ export type BattleContextKind =
       foes?: { species: string; level: number }[];
       /** A reward id for the line's rewards on a win. */
       reward?: string;
+      /**
+       * A survive bout (FUN-51): standing after this many turns wins; a loss is a draw for the
+       * story. `boss` names the lone foe; `barks` are a guide's lines, one at each turn's start.
+       */
+      survive?: number;
+      boss?: string;
+      barks?: string[];
     }
   /**
    * Pass-and-play (FIGHT-96): a second Keeper on the same device plays `foeIds` (the slot's
@@ -378,6 +385,8 @@ export type BattleEvent =
   | { k: 'order'; who: string; cmd: AtbCommand; obeyed: boolean }
   /** ATB: the personality gag on an ignored order. */
   | { k: 'gag'; who: string; gag: AtbGag }
+  /** A story world's guide calls out (FUN-51): plain text, kept in the bout's own log. */
+  | { k: 'bark'; text: string }
   /** Fusion burst (FIGHT-95): a pair fused (`on`) or split again. */
   | { k: 'fusion'; who: string; of: [string, string]; on: boolean }
   | { k: 'end'; winner: SideIx | null; reason: BattleEndReason };

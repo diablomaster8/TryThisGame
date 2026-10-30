@@ -44,6 +44,9 @@ import { loseReflection, reflectEternal } from '../sim/reflection';
 import { readGroveSaves, readSide, writeSide, type SideSave } from '../platform/storage';
 import type { Dialogue } from './dialogue';
 import { button, el, modal } from './dom';
+import { battleScreen } from './battle-screen';
+import { SURVIVE_TEXT } from '../config/strings-battle-r6';
+import { parseSurvive, startWorldBout, surviveContext } from '../sim/battle/world-bout';
 import { MicroScreen } from '../minigames/micro/micro-screen';
 import { MICRO_BUILT, microFor } from '../sim/micro';
 import { hashSeed } from '../sim/rng';
@@ -155,6 +158,44 @@ export class StoryShelf {
   }
 
   /** Change one line's progress and write the side save straight away. */
+  /**
+   * R0340 (FUN-51): a `karate:survive:<boss>:<n>` step plays a survive bout on the battle
+   * screen, fought by copies of the Grove party, so the Grove is never written. Holding on for
+   * the rounds, or being tuckered out (a draw for the story), both move the step on; leaving
+   * the bout does not. False when there is nobody hatched to fight, so the plain "Do it" runs.
+   */
+  private playSurvive(
+    g: Game,
+    lineId: string,
+    stepId: string,
+    check: { boss: string; rounds: number },
+    act: () => void,
+  ): boolean {
+    const party = g.world.battlePrefs?.party ?? g.world.nubbins.map((n) => n.id);
+    const ctx = surviveContext(
+      g.world,
+      this.config.which,
+      lineId,
+      stepId,
+      check,
+      party,
+      SURVIVE_TEXT.barks[check.boss] ?? [],
+    );
+    if (!ctx.ids.length) return false;
+    const bout = startWorldBout(g.world, ctx);
+    if (!bout) return false;
+    this.dialog.hide();
+    battleScreen(this.dialog.root.parentElement ?? document.body, this.game).startWorld(
+      bout,
+      (s) => {
+        if (s?.result) act();
+        this.dialog.show();
+        this.refresh();
+      },
+    );
+    return true;
+  }
+
   private update(
     line: StoryLine,
     change: (p: ReturnType<typeof lineProgress>, ctx: LineContext) => void,
@@ -226,6 +267,10 @@ export class StoryShelf {
               // R0294 (FUN-05): a carry, find or collect step plays its micro-game first.
               const step = next.quest.steps.find((s) => s.goal === next.goal);
               const kind = step ? microFor(step.check) : null;
+              // R0340 (FUN-51): a survive step is a real bout, fought by copies of the party.
+              const survive = step ? parseSurvive(step.check) : null;
+              const g = this.game();
+              if (survive && g && this.playSurvive(g, line.id, step!.id, survive, act)) return;
               if (kind && MICRO_BUILT.has(kind)) {
                 const seed = Math.abs(hashSeed(`${line.id}:${step!.id}`));
                 this.micro.open(kind, next.goal, seed, this.game()?.reduceMotion ?? false, act);
