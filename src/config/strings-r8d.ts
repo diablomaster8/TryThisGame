@@ -18,6 +18,19 @@ export const TOPBAR_TEXT = {
   sound: 'Sound',
 } as const;
 
+/** TECH-07: the stats sheet's tabs and its plain care face row. */
+export const SHEET_TABS_TEXT = {
+  tabs: { care: 'Care', inside: 'Inside', grow: 'Grow' },
+  tabsLabel: 'Sheet sections',
+  morePlays: 'More ways to play ▾',
+  fewerPlays: 'Fewer ways to play ▴',
+  /** "🍎 Hunger: 🙂" — the icon and word go with every face, never the face alone. */
+  faces: { good: '😊', ok: '😐', low: '😟' },
+  faceWords: { good: 'fine', ok: 'so-so', low: 'low' },
+  needs: { hunger: '🍎 Hunger', energy: '⚡ Energy', happiness: '☺ Mood' },
+  hatchRing: (pct: number) => `${pct}% of the way to hatching`,
+} as const;
+
 /** TECH-16: the shake meter over the field while a held egg is shaken. */
 export const SHAKE_METER_TEXT = {
   /** "Shake! ●●○○": filled dots for the swings so far, out of the swings a shake needs. */

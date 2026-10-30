@@ -3945,6 +3945,41 @@ body.edu-sprout .modal-head .btn-close {
   background: rgba(242, 211, 76, 0.45);
 }
 
+/* ---------- lane D r8: the stats sheet's tabs (TECH-07) ---------- */
+
+.sheet-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 4px;
+}
+.sheet-tab {
+  flex: 1 1 0;
+}
+.sheet-panel > * + * {
+  margin-top: 8px;
+}
+.sheet-faces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 8px 0;
+  font-size: 0.875rem;
+}
+.sheet-more-toggle {
+  width: 100%;
+  margin-top: 8px;
+}
+/* The hatch ring: a conic sweep, its share set from the countdown. */
+.egg-ring {
+  width: 44px;
+  height: 44px;
+  margin: 8px auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(13, 10, 26, 0.95) 58%, transparent 60%),
+    conic-gradient(#f2d34c var(--hatch, 0deg), rgba(255, 241, 201, 0.15) 0);
+}
+
 /* TECH-61: wide screens label the top-bar icons too, a word under each, as phones do in their
    bottom bar. Short windows keep the icons alone so the bar stays one row. */
 .top-label {
