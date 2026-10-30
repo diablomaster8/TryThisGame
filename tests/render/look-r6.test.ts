@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { photoComedy, wrapCaption } from '../../src/ui/photo-comedy';
+import { measureText } from '../../src/render/sprites/font';
+import type { World } from '../../src/sim/types';
 import { FLAVOUR, fieldNote } from '../../src/config/strings-look';
 import { keyFlavour } from '../../src/ui/collection';
 import { CRITTER_LABELS, ESSENCE_LABELS, SHOP_ITEMS } from '../../src/config/strings';
@@ -216,5 +219,22 @@ describe('FUN-69 field notes', () => {
       }
     for (const e of ['sun', 'moon', 'neutral']) expect(fieldNote(`chao:eternal:${e}`)).toBeTruthy();
     expect(keyFlavour('hat:straw')).toBe(FLAVOUR.wear.straw);
+  });
+});
+
+describe('FUN-39 photo comedy', () => {
+  it('20 seeded photos give 2+ photobombs and a caption on every one, each fitting the frame', () => {
+    const a = { ...child(0), id: 'a', name: 'Juniper' };
+    const b = { ...child(0), id: 'b', name: 'Kiki' };
+    const world = { nubbins: [a, b] } as unknown as World;
+    let bombs = 0;
+    for (let shot = 1; shot <= 20; shot++) {
+      const f = photoComedy(world, a, shot);
+      if (f.bomber) bombs++;
+      expect(f.caption).toContain('Juniper');
+      for (const line of wrapCaption(f.caption, 148))
+        expect(measureText(line)).toBeLessThanOrEqual(148);
+    }
+    expect(bombs).toBeGreaterThanOrEqual(2);
   });
 });

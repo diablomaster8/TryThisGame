@@ -145,3 +145,11 @@ export const GAG_TIMING = {
   /** A child plays its leaning's gags at this share of the rate (half). */
   childRate: 0.5,
 };
+
+export const PHOTO_COMEDY = {
+  /** FUN-39: a nearby Nubbin photobombs this share of photos, and the subject blinks in this. */
+  bombChance: 0.15,
+  blinkChance: 0.1,
+  /** How near (metres) a Nubbin must be to photobomb. */
+  bombRange: 6,
+};

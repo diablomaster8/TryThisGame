@@ -255,3 +255,26 @@ export function fieldNote(key: string): string {
   if (p[0] === 'chao' && p.length > 3) return FIELD_NOTES[p.slice(0, 3).join(':')] ?? '';
   return '';
 }
+
+/** FUN-39 (R0328): photo-mode comedy. `{n}` is the subject's name, `{b}` the photobomber's. */
+export const PHOTO_TEXT = {
+  keepAnyway: 'Keep it anyway',
+  retake: 'Try again',
+  blinkHelp: 'They blinked. Of course they blinked.',
+  bomb: '{n}, and {b}, who was not invited',
+  blink: '{n}, eyes very briefly closed',
+  asleep: '{n}, asleep and unbothered',
+  eating: '{n}, mid-bite',
+  hungry: '{n}, thinking about fruit',
+  sad: '{n}, having a quiet moment',
+  happy: '{n}, refusing to stop smiling',
+  old: '{n}, older than this photo',
+  egg: '{n}, not yet available for comment',
+  idle: [
+    '{n}, mid-sneeze',
+    '{n}, refusing to look at the camera',
+    '{n}, pretending this was planned',
+    '{n}, on best behaviour, briefly',
+    '{n}, who has seen a bird',
+  ],
+};
