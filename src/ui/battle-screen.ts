@@ -260,7 +260,18 @@ export class BattleScreen {
     requestAnimationFrame(wait);
   }
 
-  private begin(context: BattleContext, onDone?: (s: BattleState | null) => void): void {
+  /** Reopens the bout a load found still going (FIGHT-64), without starting a new one. */
+  resume(onDone?: (s: BattleState | null) => void): void {
+    const s = this.game()?.world.battle;
+    if (!s || s.result || s.mode !== 'turn') return;
+    this.begin(s.context, onDone, true);
+  }
+
+  private begin(
+    context: BattleContext,
+    onDone?: (s: BattleState | null) => void,
+    resumed = false,
+  ): void {
     const g = this.game();
     if (!g) return;
     this.pendingMove = null;
@@ -283,7 +294,8 @@ export class BattleScreen {
     this.confirmBox.hidden = true;
     this.results.hidden = true;
     this.logLine.textContent = T.waiting;
-    g.send({ kind: 'battleStart', context });
+    if (resumed) this.runsAtStart = (g.world.battleRuns ?? 1) - 1;
+    else g.send({ kind: 'battleStart', context });
     g.renderPaused = true;
     this.root.hidden = false;
     this.root.classList.toggle('gentle-sprout', false);

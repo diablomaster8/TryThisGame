@@ -49,6 +49,7 @@ import {
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
+import { askResume, setBattleDialogue } from './battle-scenes';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
@@ -424,6 +425,9 @@ export function mountHud(
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
+  // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
+  setBattleDialogue(dialogue);
+  let resumeAsked = false;
   const journal = new Journal(root, game);
   const partyBout = new PartyBoutPanel(root, game, toast);
   journal.openers.partyBout = () => {
@@ -812,6 +816,10 @@ export function mountHud(
       const jumpGlyph = shakes ? '🥚' : '⤒';
       jumpLook.setGlyph(jumpGlyph);
       jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      if (!resumeAsked) {
+        resumeAsked = true;
+        setTimeout(() => askResume(root, game), 1500);
+      }
       if (!jumpPolled) {
         jumpPolled = true;
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));

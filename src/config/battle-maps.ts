@@ -34,3 +34,83 @@ export const BATTLE_MAPS: Readonly<Record<string, AuthoredMap>> = {
     ],
   },
 };
+
+/**
+ * Lane C round 6 (recs FIGHT-82, FIGHT-72): the story battles' and the Hollow guardian's maps,
+ * 10 wide and 8 high, the Keeper's side deploying in the west.
+ */
+export const BATTLE_STORY_MAPS: Readonly<Record<string, AuthoredMap>> = {
+  ...BATTLE_MAPS,
+  /** Chapter 8: the Hollow's rumble room; the notebook nook is the far north-east corner. */
+  'rumble-room': {
+    rows: [
+      '#####...=.',
+      '#...#.#.=.',
+      '..*.....=.',
+      '....,,....',
+      '....,,..#.',
+      '..*.....#.',
+      '#........*',
+      '#####.....',
+    ],
+    heights: [
+      '0000000011',
+      '0000000011',
+      '0000000001',
+      '0000000000',
+      '0000000000',
+      '0000000000',
+      '0000000000',
+      '0000000000',
+    ],
+  },
+  /** S20's snow fort: frozen plums to gather across a yard of drifts and a slushy ditch. */
+  'snow-fort': {
+    rows: [
+      '..........',
+      '.##....##.',
+      '..........',
+      '....,,....',
+      '....,,....',
+      '..........',
+      '.##....##.',
+      '..........',
+    ],
+    heights: [
+      '0000000000',
+      '0110000110',
+      '0000000000',
+      '0000000000',
+      '0000000000',
+      '0000000000',
+      '0110000110',
+      '0000000000',
+    ],
+  },
+  /** Post-game: under the Hollow's roots, where the old cold sleeps. */
+  'old-cold': {
+    rows: [
+      '###....###',
+      '#..*..*..#',
+      '..........',
+      '...,,,,...',
+      '...,,,,...',
+      '..........',
+      '#..*..*..#',
+      '###....###',
+    ],
+  },
+  /** The Hollow's floor-5 guardian hall: pillars, crystal and a shallow pool. */
+  'guardian-hall': {
+    rows: [
+      '##......##',
+      '#..#..#..#',
+      '..........',
+      '....**....',
+      '....,,....',
+      '..........',
+      '#..#..#..#',
+      '##......##',
+    ],
+  },
+};

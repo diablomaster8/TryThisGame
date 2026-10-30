@@ -1,3 +1,4 @@
+import type { StoryBoutId } from './battle/story-bouts';
 import type {
   BattleAction,
   BattleContext,
@@ -865,6 +866,8 @@ export interface World {
    * keepsakes, move cards for the Collection book). No save bump.
    */
   battleOnce?: BattleOnceState;
+  /** Lane C round 6 (recs FIGHT-82): each story battle's choice and result; absent = none. */
+  storyBouts?: Record<string, 'fight' | 'skip' | 'won'>;
   /**
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
@@ -980,6 +983,12 @@ export type Command =
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
   | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  /** Lane C round 6 (FIGHT-82, FIGHT-72): a story battle's choice, and the Hollow guardian. */
+  | { kind: 'storyBout'; id: StoryBoutId; fight: boolean; ids?: string[] }
+  | { kind: 'guardianStart'; depth: number; key: string; ids?: string[] }
+  /** Lane C round 6 (FIGHT-64): resume a loaded bout at its turn's start, or call a draw. */
+  | { kind: 'battleResume' }
+  | { kind: 'battleDraw' }
   | { kind: 'tacticsAct'; action: TacticsAction }
   | { kind: 'tacticsForfeit' }
   | { kind: 'tacticsClose' }

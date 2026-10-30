@@ -12,6 +12,7 @@ import {
 } from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
+import { playBattleScene, storyBoutRows } from './battle-scenes';
 import { FRIENDLY_TEXT, LADDER_TEXT } from '../config/strings-battle-r6';
 import { BATTLE_R6 } from '../config/tuning-battle-r6';
 import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
@@ -31,6 +32,9 @@ export class DojoMenu {
   private readonly list: HTMLDivElement;
   readonly screen: BattleScreen;
   private readonly pick: PartyPick;
+  /** The Circuit's pre-bout scene has just played (FIGHT-22). */
+  private sceneShown = false;
+  private hadRibbon = false;
 
   constructor(
     parent: HTMLElement,
@@ -93,6 +97,12 @@ export class DojoMenu {
     this.list.appendChild(gb);
     this.ladder(g);
     this.friendly(g);
+    storyBoutRows(
+      g,
+      this.list,
+      () => this.open(),
+      () => this.dialog.hide(),
+    );
     this.circuit(g);
   }
 
@@ -206,11 +216,36 @@ export class DojoMenu {
     }
     this.dialog.hide();
     if (context.kind === 'karate' || context.kind === 'encounter') return;
+    // A Circuit Keeper's pre-bout scene (FIGHT-22), then the bout; the post scene on a first win.
+    if (context.kind === 'circuit' && !context.champion && !this.sceneShown) {
+      const had = circuitOf(g.world).ribbons.includes(context.trainer);
+      const go = () => {
+        this.sceneShown = true;
+        this.fight(context);
+        this.sceneShown = false;
+      };
+      if (had || !playBattleScene(`bc-${context.trainer}-pre`, go)) go();
+      return;
+    }
     // The pre-bout sheet (FIGHT-86) picks the party now; Back there returns to this menu.
     // A ladder bout is the picked Nubbin's own; every other bout picks its party on the sheet.
     const ids =
       (context.kind === 'dojo' && context.ladder) || context.kind === 'friendly' ? context.ids : [];
-    this.screen.start({ ...context, ids }, (s) => (s ? this.refreshLater() : this.open()));
+    this.hadRibbon =
+      context.kind === 'circuit' && circuitOf(g.world).ribbons.includes(context.trainer);
+    this.screen.start({ ...context, ids }, (s) => {
+      if (!s) return this.open();
+      const c = s.context;
+      const first =
+        c.kind === 'circuit' && !c.champion && s.result?.winner === 0 && !this.hadRibbon;
+      if (
+        first &&
+        c.kind === 'circuit' &&
+        playBattleScene(`bc-${c.trainer}-post`, () => this.open())
+      )
+        return;
+      this.refreshLater();
+    });
   }
 
   private refreshLater(): void {

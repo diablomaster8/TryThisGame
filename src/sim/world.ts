@@ -11,6 +11,8 @@ import {
 } from './battle';
 import { recordKarate } from './battle/rewards';
 import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
+import { startGuardian, storyBoutChoice } from './battle/story-bouts';
+import { drawBattleCmd, resumeBattleCmd } from './battle/resume';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -714,6 +716,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'tacticsClose':
       rumbleClose(world);
+      return;
+    case 'battleResume':
+      resumeBattleCmd(world);
+      return;
+    case 'battleDraw':
+      drawBattleCmd(world, events);
+      return;
+    case 'storyBout':
+      storyBoutChoice(world, cmd.id, cmd.fight, cmd.ids ?? [], events);
+      return;
+    case 'guardianStart':
+      startGuardian(world, events, {
+        depth: cmd.depth,
+        key: cmd.key,
+        ...(cmd.ids ? { ids: cmd.ids } : {}),
+      });
       return;
     case 'fuse': {
       const [a, b] = world.partners;

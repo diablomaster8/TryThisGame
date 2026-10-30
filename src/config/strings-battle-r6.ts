@@ -32,3 +32,25 @@ export const FRIENDLY_TEXT = {
   picking: (who: string) => `Keeper 2 picks for ${who}.`,
   sticker: 'Good game! A sticker for both of you.',
 };
+
+/** Story battles (FIGHT-82): the dojo's list of the ones open now. */
+export const STORY_BOUT_TEXT = {
+  title: 'Story bouts (all optional)',
+  names: {
+    exhibition: 'Circuit Exhibition with Sparks',
+    rumble: 'The Rumble Room',
+    fort: 'The snow fort rematch',
+    corvin: "Corvin's garden",
+    logged: 'Night server finale',
+    remembering: "Moss's Remembering",
+  } as Record<string, string>,
+};
+
+/** Resume mid-battle (FIGHT-64). */
+export const RESUME_TEXT = {
+  title: 'A bout is still going',
+  body: 'You left in the middle of a bout. Pick up where you left off, or call it a draw?',
+  resume: 'Resume the bout',
+  draw: 'Call it a draw',
+  later: 'Later',
+};

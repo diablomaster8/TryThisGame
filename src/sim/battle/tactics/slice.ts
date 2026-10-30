@@ -17,6 +17,11 @@ import { TILE, type GridMap, type TacticsAction } from './types';
 import { keeperSeed } from './keeper-unit';
 import { unitFromLevels, unitFromNubbin } from './units';
 import './ai';
+import { GUARDIAN_SOURCE, markStoryBout } from '../story-bouts';
+import { grantKeepsake } from '../rewards';
+
+/** The Hollow guardian's keepsake (FIGHT-72), once. */
+const GUARDIAN_KEEPSAKE = 'guardian-lantern';
 
 const S = TACTICS.slice;
 export const RUMBLE_SOURCE = 'rumble';
@@ -149,6 +154,11 @@ function settleRumble(world: World, events: SimEvent[]): void {
   if (won) {
     world.inventory.shells += shells;
     world.inventory.essences[essence!] = (world.inventory.essences[essence!] ?? 0) + 1;
+  }
+  // Story battles and the Hollow guardian (FIGHT-82, FIGHT-72) remember their wins.
+  if (ctx.kind === 'encounter') {
+    markStoryBout(world, ctx.source, ctx.key, won);
+    if (won && ctx.source === GUARDIAN_SOURCE) grantKeepsake(world, GUARDIAN_KEEPSAKE);
   }
   events.push({
     kind: 'tacticsEnd',
