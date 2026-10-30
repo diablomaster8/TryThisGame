@@ -38,40 +38,50 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 7 · Lane C CAMP + FIGHT (2026-10-30, branch r7/c)
+## Round 8 · Lane C CAMP + FIGHT (2026-10-30, branch r8/c)
 
-Plan: the campaign engine first (R0594–R0596 as one story book), then the CAMP items that
-build on it, then the FIGHT partials. **Save v13** (`lines: {}`); a v12 save from main loads
-unchanged (`tests/sim/story-book.test.ts`).
-
-- **Works:** `world.lines` (new `sim/story-book.ts`): in Hazel's Grove (chapter 3 on) the four
-  separate campaigns run *beside* the spine, two at a time, each with its own chapter, flags,
-  counters (from zero at its start), stats and cast. Their scenes go through `campaign.queue`,
-  which the dialogue box, stage and renderers already play; a line only queues onto an empty
-  spine queue after the side-story gap, ahead of the side runner but never ahead of Hazel's
-  opening or met goal (R0597, R0631). `sceneDone` routes a line's scene to the line's flags.
-  Line chapter toasts name the line; a line ends on its own (`lineEnded`, its own end card),
-  then the Grove's recolour and partner slots are put back (R0600, R0601). Line Nubbins count
-  toward `STORY_BOOK.lineCastMax` (4), not the roster (R0594); Dawn & Dusk beside Hazel brings
-  its own Nubbin and reverts only it; Logged In beside Hazel never touches `unlocks`. Lines
-  hold in Hazel's chapters 9–11 and the vigil (R0612). Journal "Other roads": Begin (or why
-  not), goal, Do-it, areas, actions, Leave and Restart (R0643), plus the story bout waiting at
-  its beat (R0275). `spine:<flag>` check term and a content-check rule that a line's checks
-  name only its own flags (R0595, `tests/tools/line-flags.ts`). In-game confirm card
-  (`ui/confirm.ts`) replaces every `confirm()` (title, settings, debug) (R0647). Debug panel
-  "Lines" row (R0644). BroadcastChannel slot claim: a newer tab on the same slot takes it and
-  the older one holds its saves; other slots are unaffected (R0658). `storage.persist()`, a
-  one-time iPhone Home Screen card and a fortnightly post-ending backup chip (R0624).
-- **Stubbed:** no regions yet (R0605): line Nubbins and scenes live in the Grove and the
-  storyline renderer dressings (servers, the Fold) only show in separate-campaign saves.
-  Legacy separate-campaign saves stay their own mode (R0598 stage A/B not done). No offers,
-  boards or pace settings (R0602–R0604, R0606–R0611, R0613–R0623). Bring-home choice at a
-  line's end, the Valley Fair epilogue and per-line rewards not built.
-- **Bugs / notes:** `world.test.ts` "survives 8 Nubbins for an hour" takes ~5 s on origin/main
-  too (checked in a clean worktree at 76eb8b1), so not this branch. Line goals that read world
-  state (`recruits`, `team:joined`) may be met already in a long Hazel save. Drivers:
-  `recs-2026-10-27/tools/lane-c-r7.cjs <px|3d> <desk|phone>`, `lane-c-r7-tabs.cjs`,
-  `lane-c-r7-ios.cjs`. Hand-over: side-session note `r7-lane-c-handover.md`.
+- *Plan:* the offers the round-7 partials were waiting on (CAMP-10), then the small CAMP items
+  that build on them, then the FIGHT partials. Sim in new `sim/quest-offers.ts`; text in
+  `strings-camp.ts`, numbers in `tuning-camp.ts` (`QUEST_OFFERS`); shared files got
+  self-contained blocks. **No save bump (still v13):** `world.questBook`, `settings.questFlow`
+  and the summary's `lines`/`questsDone` are optional, so a v13 save from main loads unchanged.
+- *Works:*
+  - **Open quest flow** (R0602, R0603, R0664). `settings.questFlow` `open` | `guided` (unset =
+    guided = exactly the old push). New Hazel's Grove games start Open (`campaignStart {flow}`).
+    In Open, a side story or caper whose `opens()` holds waits until the Keeper walks within
+    `QUEST_OFFERS.areaR` of its area's POI (`keeperArea`, from the WORLD-05 where-map; unbuilt
+    regions offer at the Grove gate), then one offer is made; it opens only on Accept. Not now
+    keeps it on the board and it is never pushed on entry again. Cap 5 active; the sixth Accept
+    emits `questAtCap` and the card asks which to put aside; shelved progress resumes exactly.
+    `never` stories (S5, S9, S10, S27, S28) and anything opening in chapters 9–11 or the vigil
+    arrive on their own, as part of the chapter; `lapse` stories (S2, S13, S19, S23, S26) may be
+    declined and can't be shelved. A run declining every offer reaches chapter 12+.
+  - **Offer card** (R0606): bottom sheet, tag, 13+/18+ badge, size chip, giver, pitch (first
+    step's goal), rewards, lapse line, Not now and Accept (48 px, Accept bottom right); folds to
+    a "!" chip after 20 s. Hidden whenever the objective chip is.
+  - **Notice board** (R0607) in the journal, per region: Available (Accept), In progress (Pin,
+    Put aside), Put aside (Take it up again), Done count, with step i of n (R0635).
+  - **Tracking** (R0609): accepting pins (≤ 3); the objective chip cycles spine + pinned goals
+    with a 1/n count and a 44 px › button; a new step of a pinned quest is toasted.
+  - Away screen **Stories** block (R0632); slot cards show line glyphs and stories done
+    (R0648); play counts in Settings → Quests and in the save (R0670); debug panel Offers row
+    (R0644, `debugQuestOffer`).
+  - FIGHT: Sprout AI leans to hits (`hitShare` 0.8), median 34 → 17 turns, asserted ≤ 18
+    (R0274). **Bug fixed:** Settings → Bouts: Skip never skipped the campaign's story turn
+    bouts (encounters with source `story`); they now resolve at once and count as won, and a
+    replay taking every story bout on Skip reaches all eight endings (R0275).
+  - Tests: `quest-offers.test.ts` (11), `battle-story-replay.test.ts`, `slot-lines.test.ts`,
+    an Open-flow 7-day catch-up in `story-book.test.ts`. Drivers: `recs-2026-10-27/tools/
+    lane-c-r8.cjs <px|3d> <desk|phone>` passes all four with 0 console errors.
+- *Stubbed:* no board prop in the world (the board is a journal section) and Errands not moved
+  onto it; no map or world markers (R0608); giver portrait not drawn on the card; no axe run;
+  lines' "about N min left"; regions beyond Grove/lane/Hollow are not walkable, so their quests
+  offer at the gate. R0253 (WebGL draws), R0271 (3D gallery idles) not started; R0260's floor-5
+  call is still lane B's (nothing sends `guardianStart`); R0333 still has no Circuit race.
+- *Bugs / notes:* the offer card can sit beside the hatch card (that card is not in the HUD's
+  busy list). A finished auto-resolved bout stays in `world.battle` until the screen closes it.
+  Timing tests (lifecycle, nav, world hour, balance budget) fail under a loaded full run and pass
+  alone, as before. Switching Open → Guided lets waiting stories open on their own again.
 
 ## Round 6 · Lane D (2026-10-29, branch r6/d)
 

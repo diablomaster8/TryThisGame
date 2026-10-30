@@ -3,6 +3,41 @@
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
 
+## Round 7 · Lane C CAMP + FIGHT (2026-10-30, branch r7/c)
+
+Plan: the campaign engine first (R0594–R0596 as one story book), then the CAMP items that
+build on it, then the FIGHT partials. **Save v13** (`lines: {}`); a v12 save from main loads
+unchanged (`tests/sim/story-book.test.ts`).
+
+- **Works:** `world.lines` (new `sim/story-book.ts`): in Hazel's Grove (chapter 3 on) the four
+  separate campaigns run *beside* the spine, two at a time, each with its own chapter, flags,
+  counters (from zero at its start), stats and cast. Their scenes go through `campaign.queue`,
+  which the dialogue box, stage and renderers already play; a line only queues onto an empty
+  spine queue after the side-story gap, ahead of the side runner but never ahead of Hazel's
+  opening or met goal (R0597, R0631). `sceneDone` routes a line's scene to the line's flags.
+  Line chapter toasts name the line; a line ends on its own (`lineEnded`, its own end card),
+  then the Grove's recolour and partner slots are put back (R0600, R0601). Line Nubbins count
+  toward `STORY_BOOK.lineCastMax` (4), not the roster (R0594); Dawn & Dusk beside Hazel brings
+  its own Nubbin and reverts only it; Logged In beside Hazel never touches `unlocks`. Lines
+  hold in Hazel's chapters 9–11 and the vigil (R0612). Journal "Other roads": Begin (or why
+  not), goal, Do-it, areas, actions, Leave and Restart (R0643), plus the story bout waiting at
+  its beat (R0275). `spine:<flag>` check term and a content-check rule that a line's checks
+  name only its own flags (R0595, `tests/tools/line-flags.ts`). In-game confirm card
+  (`ui/confirm.ts`) replaces every `confirm()` (title, settings, debug) (R0647). Debug panel
+  "Lines" row (R0644). BroadcastChannel slot claim: a newer tab on the same slot takes it and
+  the older one holds its saves; other slots are unaffected (R0658). `storage.persist()`, a
+  one-time iPhone Home Screen card and a fortnightly post-ending backup chip (R0624).
+- **Stubbed:** no regions yet (R0605): line Nubbins and scenes live in the Grove and the
+  storyline renderer dressings (servers, the Fold) only show in separate-campaign saves.
+  Legacy separate-campaign saves stay their own mode (R0598 stage A/B not done). No offers,
+  boards or pace settings (R0602–R0604, R0606–R0611, R0613–R0623). Bring-home choice at a
+  line's end, the Valley Fair epilogue and per-line rewards not built.
+- **Bugs / notes:** `world.test.ts` "survives 8 Nubbins for an hour" takes ~5 s on origin/main
+  too (checked in a clean worktree at 76eb8b1), so not this branch. Line goals that read world
+  state (`recruits`, `team:joined`) may be met already in a long Hazel save. Drivers:
+  `recs-2026-10-27/tools/lane-c-r7.cjs <px|3d> <desk|phone>`, `lane-c-r7-tabs.cjs`,
+  `lane-c-r7-ios.cjs`. Hand-over: side-session note `r7-lane-c-handover.md`.
+
 ## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
 
 - *Plan:* R0269–R0289 not started, then the partials (R0250, R0253, R0272, R0274, R0256,
