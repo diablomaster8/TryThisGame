@@ -343,3 +343,10 @@ export const PLACES_EDU: ReadonlyArray<{
   { id: 'map', icon: '🗺', on: false },
   { id: 'beetle', icon: '🪲', on: false },
 ];
+
+/** R0713 (KIDS-45): the age-4 Animals round mix: name it, who says it, where it lives. */
+export const EDU_ANIMAL_MIX_4: Readonly<Record<'name' | 'sound' | 'home', number>> = {
+  name: 0.4,
+  sound: 0.3,
+  home: 0.3,
+};

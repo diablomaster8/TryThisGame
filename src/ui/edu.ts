@@ -33,7 +33,15 @@ import {
   STICKER_BOOK_TEXT,
 } from '../config/strings-kids';
 import { EDU_VOICE } from '../config/tuning-kids';
-import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
+import {
+  numberWord,
+  optionSay,
+  pickStars,
+  replySpeech,
+  roundSpeech,
+  spoken,
+  type Band,
+} from './edu-voice';
 import { BREAK_KID_TEXT } from '../config/strings-kids';
 import { frameKey } from '../render/sprites/animations';
 import type { Nubbin } from '../sim/types';
@@ -282,7 +290,7 @@ export class EduScreen {
     const opts = el('div', `edu-options n${r.options.length}`);
     r.options.forEach((o, i) => {
       const b = button('', () => this.answer(i, b), 'btn edu-option');
-      b.appendChild(renderOption(o, false));
+      b.appendChild(renderOption(o, false, !r.hideLabels));
       if (o.kind === 'colour') b.setAttribute('aria-label', o.label);
       holdToHear(b, o);
       opts.appendChild(b);
@@ -308,9 +316,42 @@ export class EduScreen {
   }
 
   /** R0674: the feedback line, shown and (for a sprout) said. */
-  private reply(text: string): void {
+  private reply(text: string, then?: () => void): void {
     this.feedback.textContent = text;
-    for (const line of replySpeech(text, this.band(), this.readAloud())) speakLine(line);
+    const lines = replySpeech(text, this.band(), this.readAloud());
+    lines.forEach((line, i) =>
+      speakLine(line, i === lines.length - 1 && then ? { onDone: then } : {}),
+    );
+    if (lines.length === 0) then?.();
+  }
+
+  /**
+   * R0714 (KIDS-46): after a counting answer the cue's icons light one by one, each number
+   * said as it lights (in silence when nothing is read aloud).
+   */
+  private countAlong(): void {
+    const icons = [...this.card.querySelectorAll<HTMLElement>('.edu-cue .edu-icons > span')];
+    const speak = this.band() === 'sprout' && this.readAloud();
+    const step = (i: number): void => {
+      const s = icons[i];
+      if (!s || !this.card.isConnected) return;
+      s.classList.add('edu-counted', 'edu-counted-keep');
+      window.setTimeout(() => s.classList.remove('edu-counted'), EDU_VOICE.countMs);
+      if (speak) speakLine(numberWord(i + 1), { onDone: () => step(i + 1) });
+      else window.setTimeout(() => step(i + 1), EDU_VOICE.countMs);
+    };
+    step(0);
+  }
+
+  /** R0712 (KIDS-44): the words under a sprout's letter and sound pictures, after the answer. */
+  private revealLabels(): void {
+    const r = this.round;
+    if (!r?.hideLabels) return;
+    this.card.querySelectorAll<HTMLElement>('.edu-option').forEach((b, i) => {
+      const o = r.options[i];
+      if (o?.kind === 'picture' && !b.querySelector('.edu-word'))
+        b.querySelector('.edu-opt')?.appendChild(el('span', 'edu-word', o.label));
+    });
   }
 
   private feedback: HTMLDivElement = el('div');
@@ -324,7 +365,11 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
-      this.reply(`${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`);
+      this.revealLabels();
+      this.reply(
+        `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`,
+        r.cue?.kind === 'count' ? () => this.countAlong() : undefined,
+      );
       this.game_()?.send({
         kind: 'eduResult',
         game: r.game,
@@ -347,7 +392,11 @@ export class EduScreen {
       // Show the answer; the round still counts, with one star.
       const right = this.card.querySelectorAll<HTMLButtonElement>('.edu-option')[r.answer];
       right?.classList.add('right');
-      this.reply(`${EDU_TEXT.showAnswer} ${r.teach}`);
+      this.revealLabels();
+      this.reply(
+        `${EDU_TEXT.showAnswer} ${r.teach}`,
+        r.cue?.kind === 'count' ? () => this.countAlong() : undefined,
+      );
       this.starsTotal += 1;
       this.game_()?.send({
         kind: 'eduResult',
@@ -530,7 +579,7 @@ function pulseCount(b: HTMLElement): void {
   );
 }
 
-function renderOption(o: EduOption, large: boolean): HTMLElement {
+function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLElement {
   const box = el('div', `edu-opt ${o.kind}${large ? ' large' : ''}`);
   switch (o.kind) {
     case 'colour': {
@@ -549,13 +598,16 @@ function renderOption(o: EduOption, large: boolean): HTMLElement {
       box.appendChild(el('span', 'edu-letter', String(o.n)));
       break;
     case 'count': {
-      const icons = el('div', 'edu-icons');
+      // R0714: counted things sit in five-frames, two rows of five.
+      const icons = el('div', 'edu-icons edu-frame');
       for (let i = 0; i < o.n; i++) icons.appendChild(el('span', undefined, o.icon));
       box.appendChild(icons);
       break;
     }
     case 'picture':
-      box.append(el('span', 'edu-icon', o.icon), el('span', 'edu-word', o.label));
+      box.append(el('span', 'edu-icon', o.icon));
+      // R0712: a sprout's letter and sound pictures show the word only after the answer.
+      if (showLabel) box.appendChild(el('span', 'edu-word', o.label));
       break;
     case 'sum': {
       // R0684: two groups and a plus, so the cue models a + b instead of showing the total.

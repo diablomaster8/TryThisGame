@@ -3896,3 +3896,7 @@ body.edu-sprout .modal-head .btn-close {
 
 /* Lane E r8: R0695 the limits card sits over games and menus. */
 .edu-limit { z-index: 40; }
+
+/* Lane E r8: R0714 counting cues in five-frames, each counted thing staying lit once counted. */
+.edu-icons.edu-frame { display: grid; grid-template-columns: repeat(5, auto); justify-content: center; }
+.edu-icons > span.edu-counted-keep { filter: drop-shadow(0 0 4px #ffd85a); }

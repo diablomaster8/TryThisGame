@@ -1,4 +1,5 @@
 import {
+  EDU_ANIMAL_MIX_4,
   EDU_ANIMALS,
   EDU_COLOURS,
   EDU_COUNT_MAX,
@@ -46,6 +47,8 @@ export interface EduRound {
   teach: string;
   /** R0683: what the round asked about, like `letter:G`, for per-item mastery. */
   item?: string;
+  /** R0712: show picture options without their words until the answer (sprout phonics). */
+  hideLabels?: boolean;
 }
 
 /** R0683: an item's weight for the target pick (weaker items higher); absent = even odds. */
@@ -374,27 +377,9 @@ export function soundRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
     icon: x.icon,
     label: x.word,
   });
-  if (age <= 3) {
-    // Which animal makes this sound.
-    const a = pickTarget(rng, EDU_ANIMALS, (x) => `animal:${x.name}`, weigh);
-    const others = pickDistinct(rng, EDU_ANIMALS, 2, (x) => x.sound === a.sound);
-    const mkA = (x: (typeof EDU_ANIMALS)[number]): EduOption => ({
-      kind: 'picture',
-      icon: x.icon,
-      label: x.name,
-    });
-    const { options, answer } = shuffleWithAnswer(rng, mkA(a), others.map(mkA));
-    return {
-      game: 'sounds',
-      prompt: `Who says "${a.sound}"?`,
-      cue: null,
-      options,
-      answer,
-      teach: `The ${a.name} says ${a.sound}.`,
-      item: `animal:${a.name}`,
-    };
-  }
-  if (age === 4 || (age >= 5 && rng.chance(0.4))) {
+  // R0713 (KIDS-45): Sounds is phonics only (first sounds, rhymes, claps); the animal
+  // sounds live in the Animals game.
+  if (age <= 4 || rng.chance(0.4)) {
     // Same first sound.
     const w = pickTarget(rng, EDU_WORDS, (x) => `word:${x.word}`, weigh);
     const first = firstSound(w.word);
@@ -469,7 +454,22 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
     label: x.name,
   });
   const n = optionCount(age) - 1;
-  if (age === 4 || (age >= 5 && rng.chance(0.3))) {
+  // R0713 (KIDS-45): age 4 mixes naming, sounds and homes instead of five sound rounds.
+  const mix4 = age === 4 ? rng.weighted({ ...EDU_ANIMAL_MIX_4 }) : null;
+  if (mix4 === 'name') {
+    const others = pickDistinct(rng, EDU_ANIMALS, n, (x) => x.name === a.name);
+    const { options, answer } = shuffleWithAnswer(rng, mk(a), others.map(mk));
+    return {
+      game: 'animals',
+      prompt: `Tap the ${a.name}.`,
+      cue: null,
+      options,
+      answer,
+      teach: `This is a ${a.name}. It says ${a.sound}.`,
+      item: `animal:${a.name}`,
+    };
+  }
+  if (mix4 === 'sound' || (age >= 5 && rng.chance(0.3))) {
     const others = pickDistinct(rng, EDU_ANIMALS, n, (x) => x.sound === a.sound);
     const { options, answer } = shuffleWithAnswer(rng, mk(a), others.map(mk));
     return {
@@ -482,7 +482,7 @@ export function animalRound(age: EduAge, rng: Rng, weigh?: Weigh): EduRound {
       item: `animal:${a.name}`,
     };
   }
-  if (age === 5 || (age === 6 && rng.chance(0.4))) {
+  if (mix4 === 'home' || age === 5 || (age === 6 && rng.chance(0.4))) {
     const where = {
       water: 'in the water',
       sky: 'in the sky',
@@ -551,6 +551,8 @@ export function makeRound(
   let r = makeOne(game, age, rng, ownName, band, ladder);
   for (let k = 0; avoid?.has(roundKey(r)) && k < 12; k++)
     r = makeOne(game, age, rng, ownName, band, ladder);
+  // R0712 (KIDS-44): a word under the picture gives a letter or first-sound answer away.
+  if (band === 'sprout' && (game === 'letters' || game === 'sounds')) r.hideLabels = true;
   avoid?.add(roundKey(r));
   return r;
 }
