@@ -1,3 +1,4 @@
+import { IDLE_GLYPH, idlePose } from './battle-idle';
 import { CLIPS, frameKey, type ClipName } from '../render/sprites/animations';
 import { DRAWN_ANGLES, type DrawnAngle } from '../render/sprites/angles';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -121,6 +122,36 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     clipFrames(['happy', 'sad', 'sleep', 'eat']),
   );
   chao('Child, neutral: swim, flap, stills', neutral, [...clipFrames(['swim', 'flap']), ...stills]);
+  // FIGHT-78: the battle idles, mid-play and (second of each pair) the reduced-motion still.
+  {
+    const row = heading('Battle idles: cheerful, shy, mischievous, lazy (moving, then still)');
+    const pc = drawChao('side', poseFor('idle', 0), neutral);
+    for (const kind of ['bounce', 'peek', 'tongue', 'yawn'] as const) {
+      for (const still of [false, true]) {
+        const c = document.createElement('canvas');
+        c.width = pc.width * scale;
+        c.height = (pc.height + 12) * scale;
+        c.title = `${kind}${still ? ' (reduced motion)' : ''}`;
+        const ctx = c.getContext('2d');
+        if (!ctx) continue;
+        // Find the moment the idle plays, then draw it there.
+        let pose = idlePose(kind, 'gallery', 1, 0, still);
+        for (let t = 0; t < 12000 && !pose.glyph; t += 50)
+          pose = idlePose(kind, 'gallery', 1, t + 450, still);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(
+          pc.toCanvas(),
+          pose.dx * scale,
+          (12 + pose.dy) * scale,
+          pc.width * scale,
+          pc.height * scale,
+        );
+        ctx.font = `${10 * scale}px sans-serif`;
+        ctx.fillText(pose.glyph || IDLE_GLYPH[kind], (pc.width - 12) * scale, 11 * scale);
+        row.appendChild(c);
+      }
+    }
+  }
   chao('Child, Sun-leaning', lookOf(CHILD_SUN), idleAngles);
   chao('Child, Moon-leaning', lookOf(CHILD_MOON), idleAngles);
 

@@ -15,6 +15,7 @@ import type { Game } from '../game';
 import { Playback } from '../minigames/battle/playback';
 import { isAudioUnlocked, isSoundEnabled, playSound } from '../platform/audio';
 import { battleSfx } from './battle-sfx';
+import { idleKind, idlePose } from './battle-idle';
 import { PX } from '../render/sprites/pixel-canvas';
 import { CLIPS, frameAt, frameKey, type ClipName } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
@@ -513,7 +514,23 @@ export class BattleScreen {
       if (e && (e.k === 'befriend' || e.k === 'cuddle')) clip = 'happy';
       if (out && side === 1 && !(e && 'who' in e && e.who === c.id)) continue;
       const sheet = g ? this.sheetFor(g, c) : null;
-      if (sheet) this.drawSprite(sheet, clip, now, x + dx, floor, side === 1);
+      // FIGHT-78: a personality idle while the bout waits for the Keeper.
+      let dy = 0;
+      if (!e && !out && !s.result && s.phase === 'choose') {
+        const n = c.nubbinId ? g?.world.nubbins.find((x) => x.id === c.nubbinId) : null;
+        const idle = idlePose(
+          idleKind({ ...c, moody: n?.moody ?? null }),
+          c.id,
+          s.seed,
+          now,
+          still,
+        );
+        dx += idle.dx;
+        dy = idle.dy;
+        if (idle.glyph)
+          drawShadowText(ctx, idle.glyph, x + 10, floor - 34, color(C.cream), color(C.darkPlum));
+      }
+      if (sheet) this.drawSprite(sheet, clip, now, x + dx, floor + dy, side === 1);
       if (out && side === 0) {
         ctx.fillStyle = color(C.leaf);
         ctx.fillRect(Math.round(x - 12), Math.round(floor - 14), 24, 4);
