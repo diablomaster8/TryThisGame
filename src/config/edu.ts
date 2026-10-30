@@ -223,3 +223,12 @@ export const EDU_READER_RHYMES: ReadonlyArray<readonly string[]> = [
   ['shell', 'bell', 'well', 'spell'],
   ['hand', 'sand', 'band', 'land'],
 ];
+
+/**
+ * R0676: which pointing plan the "Show me" guide follows for each campaign chapter goal
+ * (`ChapterDef.goal`). A goal not listed gets the spoken hint only, no hand.
+ */
+export const EDU_GUIDE_PLANS: Record<string, 'hatch-pet' | 'feed'> = {
+  firstHatch: 'hatch-pet',
+  feedTwice: 'feed',
+};

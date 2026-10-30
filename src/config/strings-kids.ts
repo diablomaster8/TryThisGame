@@ -20,3 +20,21 @@ export const BREAK_KID_TEXT = {
   goodnightSay: (name: string) => `${name} is fast asleep. Goodnight! See you next time.`,
   goodnightSayNone: 'The Grove is fast asleep. Goodnight! See you next time.',
 } as const;
+
+/** R0673 / R0676: the "What's next" card's big button and the guide's spoken hints. */
+export const GUIDE_TEXT = {
+  showMe: 'Show me',
+  /** Said when the hand appears, by the target's kind. */
+  say: {
+    egg: 'Give the egg a little shake!',
+    nubbin: 'Tap your Nubbin!',
+    pet: 'Now tap Pet!',
+    feed: 'Now tap Feed!',
+    pickup: 'Now tap Pick up!',
+    putdown: 'Now tap Put down. Watch!',
+    shake: 'Now tap Shake! Shake, shake, shake!',
+    tree: 'Tap the tree to shake it!',
+    fruit: 'Pick up a fruit!',
+  },
+  nothing: 'Look around the Grove. Your Nubbin is waiting!',
+} as const;

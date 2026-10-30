@@ -59,6 +59,7 @@ import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
+import { Guide } from './guide';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -492,7 +493,11 @@ export function mountHud(
   const eduPrompt = new EduPrompt(root, game, {
     journal: () => journal.open(),
     play: () => edu.open(),
+    next: () => edu.showNext(),
   });
+  // R0676: the pointing guide, from "Show me" or by itself after a quiet spell.
+  const guide = new Guide(root, game, () => sheet.selectedId);
+  edu.onShowMe(() => guide.show());
   const grownUps = new GrownUpPanel(root, game, toast);
   settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
@@ -999,6 +1004,7 @@ export function mountHud(
           journal.isTracing() ||
           g.catchingUp;
         eduPrompt.refresh(busy);
+        guide.update(busy || eduPrompt.isOpen);
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).

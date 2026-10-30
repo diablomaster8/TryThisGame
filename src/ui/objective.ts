@@ -188,7 +188,7 @@ export class EduPrompt {
   constructor(
     parent: HTMLElement,
     private readonly game: () => Game | null,
-    private readonly openers: { journal: () => void; play: () => void },
+    private readonly openers: { journal: () => void; play: () => void; next?: () => void },
   ) {
     this.root = el('div', 'edu-entry');
     this.root.hidden = true;
@@ -236,7 +236,9 @@ export class EduPrompt {
       g.send({ kind: 'setTrainer', id: TRAINERS[0]!.id });
       g.send({ kind: 'campaignStart' });
     } else if ((g.world.campaign.queue.length ?? 0) === 0) {
-      this.openers.journal();
+      // R0673: a non-reader hears the next step; a reader gets the journal.
+      if (this.openers.next && textBandOf(g.world) === 'sprout') this.openers.next();
+      else this.openers.journal();
     }
     // Otherwise the next scene is queued and plays as soon as the prompt is gone.
   }

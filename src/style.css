@@ -3296,3 +3296,54 @@ select {
 .reduce-motion .edu-break-pic {
   animation: none;
 }
+
+/* Lane E r7, R0673 / R0676: the "What's next" card and the "Show me" guide's hand. */
+.next-card-icon {
+  font-size: 4rem;
+  text-align: center;
+}
+.next-card-show {
+  min-height: 64px;
+  width: 100%;
+  font-size: 1.3rem;
+  margin: 8px 0;
+}
+.guide-hand {
+  position: fixed;
+  z-index: 14;
+  width: 40px;
+  font-size: 40px;
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6));
+  animation: guide-bob 0.9s ease-in-out infinite;
+}
+@keyframes guide-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+.guide-pulse {
+  outline: 4px solid #ffd85a;
+  outline-offset: 2px;
+  animation: guide-pulse 1s ease-in-out infinite;
+}
+@keyframes guide-pulse {
+  50% {
+    outline-color: rgba(255, 216, 90, 0.25);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-hand,
+  .guide-pulse {
+    animation: none;
+  }
+}
+.reduce-motion .guide-hand,
+.reduce-motion .guide-pulse {
+  animation: none;
+}

@@ -46,6 +46,8 @@ export class EduScreen {
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
   private readonly next: NextCard;
   private readonly peek: Peekaboo;
+  /** R0676: the HUD's pointing guide, behind the "What's next" card's "Show me". */
+  private showMe: () => void = () => undefined;
 
   constructor(
     parent: HTMLElement,
@@ -54,7 +56,7 @@ export class EduScreen {
   ) {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
     this.lang = new LangPanel(parent, game_, toast);
-    this.next = new NextCard(parent);
+    this.next = new NextCard(parent, () => this.showMe());
     // R0321: the sprout band's peekaboo.
     this.peek = new Peekaboo(parent, game_);
     this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
@@ -137,6 +139,17 @@ export class EduScreen {
     this.game = null;
     const g = this.game_();
     if (g) g.renderPaused = false;
+  }
+
+  /** R0676: wire "Show me" to the guide (hud.ts). */
+  onShowMe(fn: () => void): void {
+    this.showMe = fn;
+  }
+
+  /** R0673: the "What's next" card on its own, for the entry prompt's Story. */
+  showNext(): void {
+    const g = this.game_();
+    if (g) this.next.show(g);
   }
 
   isOpen(): boolean {

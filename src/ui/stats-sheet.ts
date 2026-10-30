@@ -117,6 +117,11 @@ export class StatsSheet {
     this.feedBtn = button(UI_TEXT.feed, () => this.act('feed'));
     this.shakeBtn = button(UI_TEXT.shake, () => this.act('shake'));
     this.actions.append(this.petBtn, this.carryBtn, this.feedBtn, this.shakeBtn);
+    // R0676: the Learning Grove guide finds these to pulse them (ui/guide.ts).
+    this.petBtn.dataset.guide = 'pet';
+    this.feedBtn.dataset.guide = 'feed';
+    this.shakeBtn.dataset.guide = 'shake';
+    this.carryBtn.dataset.guide = 'pickup';
 
     // The gentler interactions and games; the sim decides what each one does.
     this.more = el('div', 'sheet-actions sheet-more');

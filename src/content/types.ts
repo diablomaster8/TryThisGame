@@ -228,12 +228,24 @@ export interface EduQuest {
   notes?: string;
 }
 
+/**
+ * A chapter's journal text in one band. Sprout chapters add `goalIcon` (one emoji the "What's
+ * next" card shows big) and `goalSay` (the goal as one spoken line, at most 14 words), R0673.
+ */
+export interface EduChapterText {
+  title?: string;
+  goalText: string;
+  hint: string;
+  goalIcon?: string;
+  goalSay?: string;
+}
+
 /** Educational version of a slice of the campaign, for one band. */
 export interface EduCampaign {
   id: string;
   band: EduBand;
   /** Chapter journal text by chapter number. */
-  chapters: Record<number, { title?: string; goalText: string; hint: string }>;
+  chapters: Record<number, EduChapterText>;
   scenes: EduScene[];
   /** Ending titles and "how" text by ending id, if this slice covers endings. */
   endings?: Record<string, { title: string; how: string }>;
