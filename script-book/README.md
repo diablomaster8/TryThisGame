@@ -73,7 +73,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 
 | Storyline | Script |
 | --- | --- |
-| Multiverse: Iron Man (IM1–IM15) | [ironman.md](multiverse/ironman.md) (1919) |
+| Multiverse: Iron Man (IM1–IM15) | [ironman.md](multiverse/ironman.md) (1923) |
 | Multiverse: Captain America (CA1–CA10) | [cap.md](multiverse/cap.md) (1139) |
 | Multiverse: Doom and the Fantastic Four (FF1–FF10) | [doom.md](multiverse/doom.md) (1248) |
 | Multiverse: Ultron (UL1–UL10) | [ultron.md](multiverse/ultron.md) (1080) |
