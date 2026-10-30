@@ -38,6 +38,11 @@ export const EDU_RECOMMENDED: Record<EduAge, readonly EduGameId[]> = {
 export const EDU = {
   /** Rounds per play session of one game. */
   roundsPerGame: 5,
+  /** R0746: rounds per game by age until a grown-up picks; readers get more. */
+  roundsByAge: { 3: 3, 4: 5, 5: 5, 6: 6 } as Record<number, number>,
+  roundsReader: 8,
+  minRounds: 3,
+  maxRounds: 10,
   /** Tries before the answer is shown; the round still counts as learned. */
   triesBeforeShow: 3,
   /** Shells per star, so the Grove economy works for a child too. */

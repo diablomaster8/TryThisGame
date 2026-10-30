@@ -62,3 +62,19 @@ describe('the break warning (R0724)', () => {
     expect(eduBreakShouldStart(w, true)).toBe(true);
   });
 });
+
+describe('rounds per game (R0746)', () => {
+  it('lasts 3 rounds at age 3 by default, and the grown-up setting changes it', async () => {
+    const { eduRounds } = await import('../../src/sim/edu');
+    const w = createWorld(1, 0);
+    applyCommand(w, { kind: 'eduStart', age: 3 }, []);
+    expect(eduRounds(w.edu!)).toBe(3);
+    applyCommand(w, { kind: 'eduSetRounds', rounds: 7 }, []);
+    expect(eduRounds(w.edu!)).toBe(7);
+    applyCommand(w, { kind: 'eduSetRounds', rounds: 99 }, []);
+    expect(eduRounds(w.edu!)).toBe(10);
+    const r = createWorld(1, 0);
+    applyCommand(r, { kind: 'eduStart', age: 6, band: 'reader' }, []);
+    expect(eduRounds(r.edu!)).toBe(8);
+  });
+});

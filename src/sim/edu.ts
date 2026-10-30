@@ -198,3 +198,18 @@ export function eduBreakShouldStart(world: World, busy: boolean): boolean {
   if (!busy) return true;
   return e.playedMs >= (e.sessionMinutes + EDU.breakGraceMinutes) * 60_000;
 }
+
+/** R0746: a rounds count kept within what the grown-up area offers. */
+export function clampRounds(n: number): number {
+  return Math.max(EDU.minRounds, Math.min(EDU.maxRounds, Math.round(n) || EDU.roundsPerGame));
+}
+
+/**
+ * R0746 (KIDS-78): rounds per game. A grown-up's pick, or by age: 3 at age 3, 5 at 4–5,
+ * 6 at 6, and 8 for a reader.
+ */
+export function eduRounds(e: EduState): number {
+  if (e.roundsPerGame !== undefined) return clampRounds(e.roundsPerGame);
+  if (e.band === 'reader') return EDU.roundsReader;
+  return EDU.roundsByAge[e.age] ?? EDU.roundsPerGame;
+}

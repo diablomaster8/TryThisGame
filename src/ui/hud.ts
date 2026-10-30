@@ -60,6 +60,7 @@ import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { Guide } from './guide';
+import { titleCardUp } from './title-card';
 import { kidToaster } from './kid-notice';
 import { BreakWarning } from './break-warning';
 import { speakLine } from './lesson';
@@ -1026,7 +1027,8 @@ export function mountHud(
         eduPrompt.refresh(busy);
         guide.update(busy || eduPrompt.isOpen);
         kidNotices.flush();
-        objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
+        // R0729: the chip would repeat the chapter card while it is up.
+        objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (

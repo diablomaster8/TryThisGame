@@ -13,7 +13,7 @@ import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames
 import { Peekaboo } from '../minigames/micro/peekaboo';
 import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
-import { enabledGames, gamesForBand } from '../sim/edu';
+import { eduRounds, enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
@@ -21,6 +21,7 @@ import { speakLine } from './lesson';
 import {
   EDU_PICKER_TEXT,
   EDU_REBORN_TEXT,
+  EDU_ROUNDS_TEXT,
   EDU_RESULTS_TEXT,
   EDU_SAY_TEXT,
   EDU_WRONG_TEXT,
@@ -222,7 +223,7 @@ export class EduScreen {
     if (!g || !e || !this.game) return;
     this.roundNo += 1;
     this.tries = 0;
-    if (this.roundNo > EDU.roundsPerGame) {
+    if (this.roundNo > eduRounds(e)) {
       this.finish();
       return;
     }
@@ -237,7 +238,7 @@ export class EduScreen {
     c.innerHTML = '';
     const head = el('div', 'edu-head');
     head.append(
-      el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, EDU.roundsPerGame)),
+      el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, this.rounds())),
       // R0674: the prompt again, for every band.
       button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
       this.band() === 'sprout'
@@ -264,6 +265,12 @@ export class EduScreen {
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
     for (const line of roundSpeech(r, this.band(), this.readAloud())) speakLine(line);
+  }
+
+  /** R0746: this save's rounds per game. */
+  private rounds(): number {
+    const e = this.game_()?.world.edu;
+    return e ? eduRounds(e) : EDU.roundsPerGame;
   }
 
   private band(): Band {
@@ -337,7 +344,7 @@ export class EduScreen {
     const g = this.game_();
     const c = this.card;
     c.innerHTML = '';
-    const max = EDU.roundsPerGame * 3;
+    const max = this.rounds() * 3;
     const card = el('div', 'edu-results');
     const n = g ? sleeperOf(g) : undefined;
     if (g && n) card.appendChild(clipPortrait(g, n, 'happy', 'edu-results-pic'));
@@ -632,6 +639,20 @@ export class GrownUpPanel {
     if (e.band === 'reader')
       ageRow.replaceChildren(el('strong', undefined, EDU_STORY_TEXT.readerAges));
     this.body.appendChild(ageRow);
+    // R0746: how many rounds a game lasts, 3 to 10 (by age until a grown-up picks).
+    const roundsRow = el('label', 'field-row');
+    const roundsSel = el('select');
+    for (let k = EDU.minRounds; k <= EDU.maxRounds; k++) {
+      const o = el('option', undefined, String(k));
+      o.value = String(k);
+      roundsSel.appendChild(o);
+    }
+    roundsSel.value = String(eduRounds(e));
+    roundsSel.addEventListener('change', () =>
+      g.send({ kind: 'eduSetRounds', rounds: Number(roundsSel.value) }),
+    );
+    roundsRow.append(el('strong', undefined, EDU_ROUNDS_TEXT.label), roundsSel);
+    this.body.appendChild(roundsRow);
     // R0691: sprouts always get their Nubbin back; for a reader it is the grown-up's call.
     if (e.band === 'reader') {
       const row = el('label', 'check-row');

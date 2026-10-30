@@ -128,3 +128,13 @@ export const AGE_PICK_TEXT = {
   tagline: 'Read-aloud stories and gentle games',
   reader: 'Reader',
 } as const;
+
+/** R0729: a chapter card, said aloud. */
+export const CHAPTER_SAY_TEXT = {
+  say: (n: string, title: string) => `Chapter ${n}: ${title}.`,
+} as const;
+
+/** R0746: the grown-up area's rounds-per-game picker. */
+export const EDU_ROUNDS_TEXT = {
+  label: 'Rounds in each game',
+} as const;

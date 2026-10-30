@@ -142,6 +142,7 @@ import {
   eduLesson,
   eduStart,
   stepEdu,
+  clampRounds,
 } from './edu';
 import {
   NUBBIN_TYPES,
@@ -946,6 +947,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetReadAloud':
       if (world.edu) world.edu.readAloud = cmd.on;
+      return;
+    case 'eduSetRounds':
+      // Lane E r7, R0746.
+      if (world.edu) world.edu.roundsPerGame = clampRounds(cmd.rounds);
       return;
     case 'eduSetAlwaysReborn':
       // Lane E r7, R0691: the field only exists when on.
