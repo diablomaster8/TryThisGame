@@ -83,6 +83,10 @@ neighbouring seconds almost alike), so no world rng is drawn. Edge: `node r9a.cj
   keeps its flavour and is set down wherever a walk stalls, so none is lost.
 - R0544 rest: trait multipliers and a sleepyhead falling asleep standing below 0.25 energy.
 - R0549 rest: the Nubbin whose stats sheet is open draws its bubble 1.5× (`setEmoteFocus`).
+- R0551 rest: picked up, a hugging Nubbin kicks its legs (cheerful), goes stiff with no heart
+  (shy) or hangs limp (lazy), in both renderers. R0552 rest: a burp, and near the Keeper a
+  napping Nubbin snores and chatting buddies chirp (`ui/soul-ambient.ts`).
+- HOT-1: re-checked on this branch, `hot1.cjs` passes in all 8 combinations; no follow-up.
 - New emote balls for the acts (`render/soul-emotes.ts`) and looks (`render/soul-looks.ts`):
   groom, hum, inspect, giggle fit, burp, full belly, peek, smug run, tug, look up, rub eyes.
 
