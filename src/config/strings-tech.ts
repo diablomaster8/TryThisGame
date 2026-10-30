@@ -12,3 +12,9 @@ export const BACKUP_OFFER_TEXT = {
   save: 'Save a backup file',
   later: 'Not now',
 } as const;
+
+/** TECH-15: the Vibration setting. */
+export const HAPTICS_TEXT = {
+  label: 'Vibration',
+  help: 'A little buzz when you pet, hatch, throw and more.',
+} as const;

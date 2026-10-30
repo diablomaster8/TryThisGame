@@ -133,6 +133,7 @@ import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
+import { buzz, hapticFor } from '../platform/haptics';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -1099,6 +1100,11 @@ export function mountHud(
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      // TECH-15: a buzz for the moments that have one.
+      for (const e of events) {
+        const h = hapticFor(e);
+        if (h) buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
+      }
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);

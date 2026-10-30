@@ -34,3 +34,19 @@ export const SHAKE_GESTURE = {
   /** Reversals are counted over this window. */
   windowMs: 1000,
 } as const;
+
+/** TECH-15: vibration patterns (ms on, off, on…), Android Chrome only. */
+export const HAPTICS = {
+  pet: [8],
+  hatch: [20, 40, 20, 40, 60],
+  land: [14],
+  throw: [6],
+  cheer: [10],
+  raceGo: [30],
+  hit: [18],
+  eggShake: [4],
+  evolve: [30, 60, 30, 60, 90],
+  error: [6, 30, 6],
+  /** The egg shake buzzes at most this often. */
+  shakeEveryMs: 120,
+} as const;

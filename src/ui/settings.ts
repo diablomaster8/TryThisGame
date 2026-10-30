@@ -1,4 +1,6 @@
 import { noteBackupExported } from '../platform/backup-offer';
+import { hapticsOn, hapticsSupported } from '../platform/haptics';
+import { HAPTICS_TEXT } from '../config/strings-tech';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
@@ -58,6 +60,8 @@ export class SettingsMenu {
   private readonly leftHand: HTMLInputElement;
   /** R0302: the voice blips. */
   private readonly blips: HTMLInputElement;
+  /** TECH-15: vibration, hidden where the browser cannot buzz. */
+  private readonly haptics: HTMLInputElement;
   /** R0294: skip the quest micro-games. */
   private readonly microSkip: HTMLInputElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
@@ -307,6 +311,19 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // TECH-15: vibration.
+    const hapRow = el('label', 'check-row');
+    this.haptics = el('input');
+    this.haptics.type = 'checkbox';
+    this.haptics.addEventListener('change', () => this.apply());
+    const hapText = el('span');
+    hapText.append(
+      el('strong', undefined, HAPTICS_TEXT.label),
+      el('small', undefined, HAPTICS_TEXT.help),
+    );
+    hapRow.append(this.haptics, hapText);
+    hapRow.hidden = !hapticsSupported();
+    body.appendChild(hapRow);
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
@@ -431,6 +448,7 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.haptics.checked = hapticsOn(g.world.settings);
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
@@ -576,6 +594,8 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    if (this.haptics.checked !== hapticsOn(g.world.settings))
+      settings.haptics = this.haptics.checked;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.

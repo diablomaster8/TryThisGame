@@ -348,6 +348,8 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
+  haptics?: boolean;
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
