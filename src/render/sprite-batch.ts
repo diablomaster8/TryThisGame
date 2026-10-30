@@ -136,6 +136,8 @@ export class SpriteBatch {
       shader.uniforms.uDitherC = this.ditherCircle;
       shader.uniforms.uDitherR = this.ditherRadius;
       shader.uniforms.uViewport = this.viewport;
+      // HOT-2: the atlas's second page; a quad on it has u shifted by 2.
+      shader.uniforms.map2 = { value: this.atlas.texture2 };
       shader.vertexShader = shader.vertexShader
         .replace(
           '#include <common>',
@@ -145,7 +147,12 @@ export class SpriteBatch {
       shader.fragmentShader = shader.fragmentShader
         .replace(
           '#include <common>',
-          '#include <common>\nuniform vec2 uDitherC;\nuniform float uDitherR;\nuniform vec2 uViewport;\nvarying float vDither;',
+          '#include <common>\nuniform vec2 uDitherC;\nuniform float uDitherR;\nuniform vec2 uViewport;\nvarying float vDither;\nuniform sampler2D map2;',
+        )
+        .replace(
+          '#include <map_fragment>',
+          `vec4 sampledDiffuseColor = vMapUv.x < 1.5 ? texture2D(map, vMapUv) : texture2D(map2, vMapUv - vec2(2.0, 0.0));
+          diffuseColor *= sampledDiffuseColor;`,
         )
         .replace(
           '#include <clipping_planes_fragment>',
@@ -161,7 +168,7 @@ export class SpriteBatch {
           }`,
         );
     };
-    material.customProgramCacheKey = () => 'sprite-batch|dither';
+    material.customProgramCacheKey = () => 'sprite-batch|dither|pages';
     // New sheets upload only their own region, just before the batch is drawn.
     this.mesh.onBeforeRender = (renderer) => {
       this.atlas.flush(renderer);
@@ -172,19 +179,27 @@ export class SpriteBatch {
 
   private xrayMaterial(): ShaderMaterial {
     return new ShaderMaterial({
-      uniforms: { map: { value: this.atlas.texture }, uTexel: this.xrayTexel },
+      uniforms: {
+        map: { value: this.atlas.texture },
+        map2: { value: this.atlas.texture2 },
+        uTexel: this.xrayTexel,
+      },
       vertexShader: `attribute vec4 color; varying vec4 vColor; varying vec2 vUv;
         void main() { vColor = color; vUv = uv;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
-      fragmentShader: `uniform sampler2D map; uniform vec2 uTexel; varying vec4 vColor; varying vec2 vUv;
+      fragmentShader: `uniform sampler2D map; uniform sampler2D map2; uniform vec2 uTexel;
+        varying vec4 vColor; varying vec2 vUv;
+        float alphaAt(vec2 uv) {
+          return uv.x < 1.5 ? texture2D(map, uv).a : texture2D(map2, uv - vec2(2.0, 0.0)).a;
+        }
         void main() {
-          float a = texture2D(map, vUv).a;
+          float a = alphaAt(vUv);
           if (a < 0.5) discard;
           float edge = 1.0;
-          edge = min(edge, step(0.5, texture2D(map, vUv + vec2(uTexel.x, 0.0)).a));
-          edge = min(edge, step(0.5, texture2D(map, vUv - vec2(uTexel.x, 0.0)).a));
-          edge = min(edge, step(0.5, texture2D(map, vUv + vec2(0.0, uTexel.y)).a));
-          edge = min(edge, step(0.5, texture2D(map, vUv - vec2(0.0, uTexel.y)).a));
+          edge = min(edge, step(0.5, alphaAt(vUv + vec2(uTexel.x, 0.0))));
+          edge = min(edge, step(0.5, alphaAt(vUv - vec2(uTexel.x, 0.0))));
+          edge = min(edge, step(0.5, alphaAt(vUv + vec2(0.0, uTexel.y))));
+          edge = min(edge, step(0.5, alphaAt(vUv - vec2(0.0, uTexel.y))));
           gl_FragColor = vec4(vColor.rgb, edge > 0.5 ? vColor.a : min(1.0, vColor.a + 0.4));
         }`,
       transparent: true,

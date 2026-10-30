@@ -59,3 +59,20 @@ export const EGG_HUG = {
 
 /** TECH-75: the 18+ entry asks the grown-up again after this many days without one. */
 export const MATURE_RECHECK = { days: 3 } as const;
+
+/**
+ * HOT-2: frame-rate spikes. The sprite atlas opens a second 4096² page when one cannot
+ * hold every sheet on screen (8 Nubbins and the story cast), instead of repacking and
+ * re-uploading the whole page every frame. The probe fails a play run past these numbers.
+ */
+export const FRAME_SPIKES = {
+  atlasPages: 2,
+  /**
+   * A sheet that comes back within this many frames (about 2 s) of a repack dropping it is
+   * churn: a one-page working set that shifts as the camera turns. The second page then
+   * opens for the older sheets.
+   */
+  churnFrames: 120,
+  /** Probe budget: share of frames over 34 ms in a scripted play phase (desktop Pixel). */
+  maxLongShare: 0.02,
+} as const;

@@ -274,7 +274,27 @@ function frameLine(g: Game): string {
   return (
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
     `\n${worldLine(g)}` +
-    hollowLine(g)
+    hollowLine(g) +
+    spikeLine(g)
+  );
+}
+
+/** HOT-2: frame times over the last minute or so, and what the longest frame spent them on. */
+function spikeLine(g: Game): string {
+  const s = g.spikes.summary();
+  const top = g.spikes.spikes[0];
+  const why = top
+    ? Object.entries(top.sections)
+        .filter(([, ms]) => ms >= 1)
+        .map(([k, ms]) => `${k} ${Math.round(ms)}`)
+        .concat(`outside ${Math.round(top.outsideMs)}`)
+        .join(' ')
+    : '';
+  const a = g.view.batch.atlas;
+  const atlas = g.scene3d ? '' : `  atlas pages ${a.pagesOpen} repacks ${a.generation}`;
+  return (
+    `\nframes p95 ${s.p95.toFixed(1)} ms  worst ${s.worst.toFixed(0)} ms  long ${s.long}${atlas}` +
+    (why ? `\nlongest: ${why}` : '')
   );
 }
 
