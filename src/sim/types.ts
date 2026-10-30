@@ -511,6 +511,12 @@ export interface EduState {
   alwaysReborn?: boolean;
   /** Lane E r7, R0746: rounds per game a grown-up picked (absent: by age, `eduRounds`). */
   roundsPerGame?: number;
+  /** Lane E r8, R0682: each game's rung on its skills ladder (absent: start by age). */
+  skills?: Partial<Record<EduGameId, EduSkill>>;
+  /** Lane E r8, R0683: per-item mastery, by ids like `letter:G` or `count:7`. */
+  items?: Record<string, EduItem>;
+  /** Lane E r8, R0680: places a grown-up opened or closed (absent: `PLACES_EDU` default). */
+  places?: Record<string, boolean>;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -540,6 +546,22 @@ export interface EduState {
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
   courses: Record<LangCourseId, boolean>;
+}
+
+/** Lane E r8, R0682: a game's rung, first-try streak, and this sitting's shown answers. */
+export interface EduSkill {
+  level: number;
+  streak: number;
+  misses: number;
+  /** The rung already moved this sitting (never more than once). */
+  moved: boolean;
+}
+
+/** Lane E r8, R0683: how often an item was asked, how often right first time, and when. */
+export interface EduItem {
+  seen: number;
+  firstTry: number;
+  lastMs: number;
 }
 
 export type LangCourseId = 'hebrew' | 'japanese';
@@ -1260,7 +1282,15 @@ export type Command =
   | { kind: 'eduSetGame'; game: EduGameId; on: boolean }
   | { kind: 'eduSetSession'; minutes: number }
   | { kind: 'eduSetName'; name: string }
-  | { kind: 'eduResult'; game: EduGameId; stars: number }
+  | {
+      kind: 'eduResult';
+      game: EduGameId;
+      stars: number;
+      /** Lane E r8, R0683: the round's target, like `letter:G`. */
+      item?: string | undefined;
+      /** Lane E r8, R0682: the first round of a sitting. */
+      first?: boolean;
+    }
   | { kind: 'eduResetSession' }
   | { kind: 'eduStartBreak' }
   | { kind: 'eduEndBreak' }

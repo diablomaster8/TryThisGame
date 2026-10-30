@@ -13,7 +13,8 @@ import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames
 import { Peekaboo } from '../minigames/micro/peekaboo';
 import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
-import { eduRounds, enabledGames, gamesForBand } from '../sim/edu';
+import { masteryReport } from './edu-mastery';
+import { eduRounds, eduRung, eduWeigher, enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
@@ -227,7 +228,20 @@ export class EduScreen {
       this.finish();
       return;
     }
-    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band, this.used);
+    // R0682 / R0683: a sprout's round comes from the game's rung, weaker items more often.
+    const ladder =
+      e.band === 'sprout'
+        ? { rung: eduRung(g.world, this.game), weigh: eduWeigher(g.world) }
+        : undefined;
+    this.round = makeRound(
+      this.game,
+      e.age,
+      this.rng,
+      e.childName || undefined,
+      e.band,
+      this.used,
+      ladder,
+    );
     this.renderRound();
   }
 
@@ -299,7 +313,13 @@ export class EduScreen {
       btn.classList.add('right');
       playSound('win');
       this.reply(`${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`);
-      this.game_()?.send({ kind: 'eduResult', game: r.game, stars });
+      this.game_()?.send({
+        kind: 'eduResult',
+        game: r.game,
+        stars,
+        item: r.item,
+        first: this.roundNo === 1,
+      });
       this.tries = -1;
       this.card.appendChild(
         button(EDU_TEXT.nextRound, () => this.nextRound(), 'btn btn-primary edu-next'),
@@ -317,7 +337,13 @@ export class EduScreen {
       right?.classList.add('right');
       this.reply(`${EDU_TEXT.showAnswer} ${r.teach}`);
       this.starsTotal += 1;
-      this.game_()?.send({ kind: 'eduResult', game: r.game, stars: 1 });
+      this.game_()?.send({
+        kind: 'eduResult',
+        game: r.game,
+        stars: 1,
+        item: r.item,
+        first: this.roundNo === 1,
+      });
       this.tries = -1;
       this.card.appendChild(
         button(EDU_TEXT.nextRound, () => this.nextRound(), 'btn btn-primary edu-next'),
@@ -747,6 +773,8 @@ export class GrownUpPanel {
       list.appendChild(row);
     }
     this.body.appendChild(list);
+    // R0682 / R0683: letters, numbers, colours and shapes known, and each game's rung.
+    masteryReport(this.body, g.world);
     storyProgress(this.body, g);
     langProgress(this.body, g);
     this.body.appendChild(el('p', 'help', EDU_TEXT.stickers(e.stickers)));

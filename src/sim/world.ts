@@ -1001,7 +1001,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       eduSetName(world, cmd.name);
       return;
     case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events);
+      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
       return;
     case 'eduResetSession':
       eduResetSession(world);

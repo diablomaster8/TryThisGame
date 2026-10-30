@@ -3823,3 +3823,16 @@ body.edu-sprout .modal-head .btn-close {
 .backup-chip .btn {
   min-height: 44px;
 }
+
+/* Lane E r8: R0683 grown-up mastery tiles (green known, amber learning, grey not met; a mark too). */
+.edu-mastery { margin: 6px 0 10px; }
+.edu-mastery-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.edu-mastery-tile {
+  min-width: 30px; height: 30px; padding: 0 6px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; text-transform: capitalize;
+  background: #d9d6df; color: #4a4552; border: 2px solid transparent;
+}
+.edu-mastery-tile.is-known { background: #bfe8b8; color: #1d4d1a; border-color: #3fae4a; }
+.edu-mastery-tile.is-known::after { content: ' ✓'; }
+.edu-mastery-tile.is-learning { background: #ffe1a8; color: #6a4300; border-color: #f2a43a; border-style: dashed; }

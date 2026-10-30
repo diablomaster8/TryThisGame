@@ -138,3 +138,16 @@ export const CHAPTER_SAY_TEXT = {
 export const EDU_ROUNDS_TEXT = {
   label: 'Rounds in each game',
 } as const;
+
+/** R0682 / R0683: the grown-up area's "what your child knows" report. */
+export const EDU_MASTERY_TEXT = {
+  heading: 'What your child knows',
+  help: 'Green: knows it. Amber: still learning. Grey: not met yet.',
+  letters: 'Letters',
+  numbers: 'Numbers',
+  colours: 'Colours',
+  shapes: 'Shapes',
+  states: { known: 'knows it', learning: 'learning', new: 'not met yet' },
+  ladderHeading: 'Where each game is up to',
+  ladderRow: (say: string, rung: number, of: number) => `${say} (step ${rung} of ${of})`,
+} as const;
