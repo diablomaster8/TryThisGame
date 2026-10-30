@@ -93,3 +93,6 @@ export const SIT_WITH = {
   snoreMs: 18_000,
   bubbleMs: 3_000,
 } as const;
+
+/** R0353: Moss reacts from chapter `fromChapter`, within `sight` units, at a seeded `chance`. */
+export const MOSS_WATCH_RULE = { fromChapter: 4, sight: 12, chance: 0.3 } as const;

@@ -51,3 +51,10 @@ export const SIT_TEXT = {
   reader: '{n} sits down next to you. Rule three: sit and wait.',
   sprout: '{n} sits with you. Shh.',
 } as const;
+
+/** R0353 (FUN-64): Moss's dry reactions to slapstick he happens to see. */
+export const MOSS_WATCH = {
+  name: 'Moss',
+  bonk: ['*a slow blink*', 'Hm.', '*one eyebrow, raised*', 'Mm.', '*a long look at the tree*'],
+  throw: ['*a stern look*', '*a sterner look*'],
+} as const;

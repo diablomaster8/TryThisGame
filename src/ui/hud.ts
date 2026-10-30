@@ -95,7 +95,8 @@ import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placeHint, placingLabel } from './decorate';
-import { PLACE_TEXT, SIT_TEXT } from '../config/strings-fun-r7';
+import { MOSS_WATCH, PLACE_TEXT, SIT_TEXT } from '../config/strings-fun-r7';
+import { mossReaction } from './moss-watch';
 import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
@@ -1101,6 +1102,9 @@ export function mountHud(
         noteHowTo(g.world, e.kind);
         // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
         if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
+        // R0353: Moss saw that.
+        const moss = mossReaction(g.world, e);
+        if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());
         // R0352: rule three, noticed once a Nubbin sits down beside the sitting Keeper.
         if (e.kind === 'sitBeside') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
