@@ -38,34 +38,36 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
+## Round 6 · Lane C FIGHT (2026-10-29, branch r6/c)
 
-- *Plan:* finish R0248 (job on the stats sheet), R0250 (AI combos, pile-on flash), R0253
-  (draw count) and R0254 (Full 3D board, new `render3d/tactics-3d.ts`, instanced tiles,
-  disposed on exit); then R0258–R0283 in order, skipping R0256, R0257's Hollow hand-off, R0260,
-  R0269, R0271, R0275, R0276, R0281, R0282 (other lanes). Sim items go to helpers with their
-  own files; shared files get self-contained blocks only. No save bump.
-- *Works:* Full 3D tactics board (`render3d/tactics-3d.ts` on a `MiniStage`: instanced tiles per
-  kind, one overlay set, pool rigs through the Grove's `CreatureLod`; 56 draws, 216k tris at
-  375×812; memory flat over 10 bouts), job on the stats sheet, AI "Together!" combos, pile-on
-  jostle, 8 grid-only charged moves (line4, scatter3, landing; Keeper+ AI steps out), the
-  Keeper's untargetable piece (Snack toss, Cheer, Whistle; in the rumble room). Turn mode:
-  shared move content lint and `tests/tools/battle-table.ts`, bout points by move used, one-time
-  rewards (`world.battleOnce`, `battleSpoils`), seeded quips (en/he/ja), real rival species,
-  doubles, timing flag (sweet/plain/steady), balance harness, Command mode (ATB, obedience,
-  gags, hidden-tab pause), pre-bout sheet (party, mode, Gentle/Normal/Spicy), Settings → Bouts
-  with Skip (`autoResolve`), inspect card and seen matchups, aria-live log, Steady hands,
-  keyboard play, Debug → Battle (replay paste).
-- *Stubbed:* Pixel board still 1 + units `drawImage` a frame (R0253 wants ≤3 WebGL draws);
-  champion-pack prefixes and rumble chest; doubles stage draws one combatant a side; bout lean
-  not read by `decidePersonality` (lane A); move cards not in the Collection book (lane E).
-- *Known bugs / assumptions:* a Command-mode replay stamps orders at send time but they apply on
-  the next step, so exactness isn't guaranteed (turn bouts are exact). The 60-point cap is per
-  stat per bout. First-win hats reuse shop hats. Snack toss uses 3 packed snacks, not the
-  inventory. Balance: Champion runs 30 bouts (2,000 doesn't fit 3 s); Sprout's median is ~32
-  turns, so it isn't asserted. Stalemate guard skips encounters (Hollow replays unchanged).
-  `battle-screen.ts` is ~1,075 lines (split next). No axe-core installed, so no axe run.
-  Lane B hand-over: side-session note `r5-lane-c-handover.md`.
+- *Plan:* R0269–R0289 not started, then the partials (R0250, R0253, R0272, R0274, R0256,
+  R0217, R0218, R0234, R0236), C's share of R0260, R0333 if it fits. New sim files under
+  `sim/battle/`, text in `strings-battle-r6.ts`, numbers in `tuning-battle-r6.ts`; shared files
+  got self-contained blocks only. No save bump: new world fields are optional.
+- *Works:* Dojo Ladder (5 belts × 3 bouts on `karateRecord`, kept through rebirth, Black Belt
+  hat), Fusion burst in doubles (bond 80, 3 turns, splits at the fusing HP ratio), story-world
+  bouts in a cloned Grove (`world-bout.ts`, results to the side save only), pass-and-play
+  (`friendly`, share-code guests are copies, sticker only), the placement map
+  (`contexts.ts`), six story bouts wired to the scenes' choices (dojo "Story bouts" list,
+  `storyBout` command, `world.storyBouts`), the floor-5 guardian (`startGuardian`, keepsake),
+  Circuit pre/post scenes, Play-fight Day (first Gentle bouts, Learning Grove), chapter 5 goal
+  takes a ribbon, resume prompt and "Call it a draw", party needs held during a live bout
+  (live and offline), Battle Book in the Collection, battle/circuit/calm songs and per-type
+  hit sounds, personality idles (turn screen, Pixel and 3D boards, gallery row), 12 trial maps
+  with par hats and a BFS solver test, merged partners as one tall tactics unit, replay codes
+  and Save as postcard, dead karate/party-bout keys deleted. Edge: Pixel and 3D at desk and
+  375×812 all pass, 0 console errors, axe 0 issues on the battle screen, turn mode 55.8–56.6
+  fps and a 16×16 tactics board 56.5 fps at 4× CPU throttle.
+- *Stubbed:* Pixel board still 13 `drawImage` a frame (R0253 wants ≤3 via WebGL). Story bouts
+  are offered from the dojo list, not yet at their campaign beats; the skip-everything
+  8-endings replay was not run. The guardian waits on lane B to call `startGuardian` on floor
+  5. Fusion has a log line and no transform animation. Sprite gallery idles are Pixel only.
+  No Circuit race (R0333, lane A's races). Balance harness unchanged (Sprout median ~32).
+- *Known bugs / assumptions:* the trials modal is not on the HUD's panel stack (Escape
+  doesn't close it; use Close). "S-grade-only trait refresh" read as: the black belt clears the
+  moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
+  needs until it is resumed or drawn. `battle-screen.ts` is ~1,195 lines (split next).
+  Hand-over: side-session note `r6-lane-c-handover.md`.
 
 ## Round 5 · Lane A FUN (2026-10-29, branch r5/a)
 
