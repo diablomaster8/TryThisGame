@@ -33,6 +33,7 @@ import { pickSculptRes, qualityForRes } from './sculpt-res';
 
 export { prewarmCreatures } from './prewarm';
 import { Bursts } from './bursts';
+import { crackWarmObject } from './egg-crack';
 import { NearestPushers } from './near-pushers';
 import { PARTICLE_TIME } from './quad-particles';
 import { FinishPass } from './finish-pass';
@@ -267,6 +268,9 @@ export class Grove3dScene {
   private holdMs = 0;
   private fade = 0;
   private lastRenderMs = 0;
+  /** HOT-2: when the actor tree was last scanned, and the materials already pre-linked. */
+  private actorsCheckMs = 0;
+  private readonly prelinked = new WeakSet<THREE.Material>();
   private readonly world3d = new THREE.Group();
   private readonly props: GroveProps;
   /** The square's stalls and the path's fence posts. */
@@ -478,10 +482,7 @@ export class Grove3dScene {
     // mapping), and programs compiled for the canvas would not be the ones it uses.
     // A rig compiles for the light set it is shown in and for every set already linked,
     // so walking into the Hollow Below with it does not stall either.
-    this.actors.pool.compile = (o) => {
-      const sets = new Set([this.lightSet(), ...this.warmed]);
-      return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
-    };
+    this.actors.pool.compile = (o) => this.compilePiece(o);
     this.creatureLod.compile = this.actors.pool.compile;
     this.creatureLod.impostors = new CreatureImpostors(this.scene);
     // R0081: a hidden tab gives back the spare rigs and coarse surfaces (iOS kills hungry ones).
@@ -556,10 +557,7 @@ export class Grove3dScene {
       lampsOn: () => this.lampsOn,
       reduceMotion: () => this.reduceMotion,
       time: this.time,
-      compile: (o) => {
-        const sets = new Set([this.lightSet(), ...this.warmed]);
-        return Promise.all([...sets].map((set) => this.compileAs(set, [o])));
-      },
+      compile: (o) => this.compilePiece(o),
       buildings: this.buildings3d,
       camera: this.camera,
       safeRect,
@@ -1649,6 +1647,7 @@ export class Grove3dScene {
       hold && this.holdMs > delayMs ? Math.min(1, this.fade + step) : Math.max(0, this.fade - step);
     this.canvas.style.filter = this.fade > 0 ? `brightness(${(1 - this.fade).toFixed(3)})` : '';
     if (hold) return;
+    this.prelinkActors(t0);
     this.governRenderScale(this.composer, interval);
     this.dof.tick(interval);
     if (!NO_LOD) {
@@ -1741,6 +1740,68 @@ export class Grove3dScene {
       });
   }
 
+  /**
+   * The light sets a new rig or dressing compiles for: the one it is shown in, every set
+   * already linked, and in the Grove both day and night. HOT-2: a rig made at boot, before
+   * the background warm-up reached the night set, used to link its night programs on the
+   * first frame after the lamps came on, a 0.2–0.6 s stall.
+   */
+  private compileSets(): Set<LightSet> {
+    const sets = new Set<LightSet>([this.lightSet(), ...this.warmed]);
+    if (this.world3d.visible) {
+      sets.add('grove');
+      sets.add('groveNight');
+    }
+    return sets;
+  }
+
+  /**
+   * Link a new rig or dressing for every set in `compileSets`. three compiles only what is
+   * visible, and a pooled rig (or a part shown later, like a held pose or a night-only
+   * window) is often hidden when it arrives: so its hidden parts are shown for the call,
+   * which links synchronously, and put back straight after. HOT-2: they used to link on
+   * the first frame they were drawn in each light set.
+   */
+  private compilePiece(o: THREE.Object3D): Promise<unknown> {
+    const hidden: THREE.Object3D[] = [];
+    o.traverse((c) => {
+      if (!c.visible) hidden.push(c);
+    });
+    for (const c of hidden) c.visible = true;
+    try {
+      return Promise.all([...this.compileSets()].map((set) => this.compileAs(set, [o], true)));
+    } finally {
+      for (const c of hidden) c.visible = false;
+    }
+  }
+
+  /**
+   * HOT-2: NPC rigs, dress items and hatchlings join the actor tree after their own
+   * compile, and their programs for the other light set used to link on the frame night
+   * fell (or day broke). Once a second the tree is scanned for materials not linked yet,
+   * and only the figures that hold one are linked for both Grove sets in the background.
+   * (Re-linking the whole tree whenever it changed cost ~0.1 s a second with 8 Nubbins
+   * swapping detail levels.)
+   */
+  private prelinkActors(now: number): void {
+    if (now - this.actorsCheckMs < 1000 || !this.world3d.visible) return;
+    this.actorsCheckMs = now;
+    for (const root of this.actors.group.children) {
+      let fresh = false;
+      root.traverse((o) => {
+        const m = (o as THREE.Mesh).material;
+        if (!fresh && m)
+          for (const x of Array.isArray(m) ? m : [m]) if (!this.prelinked.has(x)) fresh = true;
+      });
+      if (!fresh) continue;
+      root.traverse((o) => {
+        const m = (o as THREE.Mesh).material;
+        if (m) for (const x of Array.isArray(m) ? m : [m]) this.prelinked.add(x);
+      });
+      void this.compilePiece(root).catch(() => undefined);
+    }
+  }
+
   /** The light set the scene is in right now (see `LightSet`). */
   private lightSet(): LightSet {
     if (this.world3d.visible) return this.lamps.on ? 'groveNight' : 'grove';
@@ -1752,7 +1813,7 @@ export class Grove3dScene {
    * Grove's lanterns sit in `world3d`, so hiding it drops them; the lamps are switched in
    * for the cave. Both are put back before this returns, so no frame sees the change.
    */
-  private compileAs(set: LightSet, objects: THREE.Object3D[]): Promise<unknown> {
+  private compileAs(set: LightSet, objects: THREE.Object3D[], impostor = false): Promise<unknown> {
     const shown = this.world3d.visible;
     this.world3d.visible = set === 'grove' || set === 'groveNight';
     const prev = this.renderer.getRenderTarget();
@@ -1764,6 +1825,10 @@ export class Grove3dScene {
           const done = objects.map((o) => this.renderer.compileAsync(o, this.camera, this.scene));
           // The shadow pass draws its depth with no fog.
           this.scene.fog = null;
+          // HOT-2: so do the far creatures' impostor cells, a program of their own each.
+          if (impostor)
+            for (const o of objects)
+              done.push(this.renderer.compileAsync(o, this.camera, this.scene));
           done.push(this.renderer.compileAsync(this.hollow.shadowSamples, this.camera, this.scene));
           return Promise.all(done);
         }),
@@ -1782,7 +1847,7 @@ export class Grove3dScene {
       // Off the home ground the Grove's own props are hidden, so they are left out.
       const objects =
         set === 'grove' || set === 'groveNight'
-          ? [this.scene]
+          ? [this.scene, crackWarmObject()]
           : this.scene.children.filter((c) => c !== this.world3d);
       // A failed warm-up still counts as warm: the first frame compiles what is left, where
       // waiting would hold the place dark for good.
