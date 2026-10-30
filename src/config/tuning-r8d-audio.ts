@@ -87,3 +87,23 @@ export const EXPEDITION_SFX = {
   /** The combo at which the shell chime reaches its top note. */
   comboSteps: 6,
 } as const;
+
+/**
+ * R0462 (TECH-65): each Nubbin's chirp voice. Its id's hash picks a spot inside each range,
+ * and its personality (once locked in) shifts it: Cheerful higher and quicker, Shy softer
+ * with a short tail, Mischievous a rising trill, Lazy lower and slower.
+ */
+export const CHIRP_VOICE = {
+  /** Frequency multiplier, duration divisor, extra rise at the end of a slide. */
+  pitch: [0.86, 1.16] as readonly [number, number],
+  speed: [0.9, 1.12] as readonly [number, number],
+  wobble: [0, 0.08] as readonly [number, number],
+  personality: {
+    cheerful: { pitch: 1.12, speed: 1.15, wobble: 0, gain: 1, tail: 1 },
+    shy: { pitch: 1, speed: 1, wobble: 0, gain: 0.6, tail: 0.55 },
+    mischievous: { pitch: 1.04, speed: 1.05, wobble: 0.18, gain: 1, tail: 1 },
+    lazy: { pitch: 0.84, speed: 0.78, wobble: 0, gain: 0.9, tail: 1.2 },
+  },
+  /** Wobble past this adds the trill's third, rising note. */
+  trillAt: 0.12,
+} as const;

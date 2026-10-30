@@ -10,7 +10,8 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
-import { AUDIO_MIX, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { PLAIN_VOICE, type ChirpVoice } from './chirp-voice';
 export type SoundName =
   | 'tap'
   | 'pickup'
@@ -1378,20 +1379,53 @@ export function setAmbienceEnabled(on: boolean): void {
   else scheduleBird();
 }
 
-/** A little voice per family when a Nubbin reacts. */
-export function playChirp(family: 'chao' | 'pocket' | 'digi', happy = true): void {
+/** One chirp note, as `tone` takes it: Hz, start ms, length ms, wave, gain, slide target. */
+export type ChirpNote = [number, number, number, OscillatorType, number, number?];
+
+/**
+ * A little voice per family when a Nubbin reacts. R0462 (TECH-65): `voice` (from
+ * platform/chirp-voice.ts) gives each Nubbin its own pitch, pace, rise and loudness.
+ */
+export function chirpNotes(
+  family: 'chao' | 'pocket' | 'digi',
+  happy: boolean,
+  voice: ChirpVoice = PLAIN_VOICE,
+): ChirpNote[] {
+  const base: ChirpNote[] = [];
+  if (family === 'chao') {
+    base.push([happy ? 880 : 520, 0, 70, 'sine', 0.05, happy ? 1320 : 400]);
+    if (happy) base.push([1180, 80, 90, 'sine', 0.04, 1500]);
+  } else if (family === 'pocket') {
+    base.push([happy ? 700 : 450, 0, 90, 'triangle', 0.05, happy ? 900 : 380]);
+    base.push([happy ? 950 : 380, 100, 110, 'triangle', 0.04]);
+  } else {
+    base.push([happy ? 600 : 400, 0, 50, 'square', 0.035, happy ? 1000 : 300]);
+    base.push([happy ? 1000 : 300, 60, 50, 'square', 0.035]);
+    if (happy) base.push([1400, 120, 70, 'square', 0.03]);
+  }
+  const last = base.length - 1;
+  const notes = base.map(([f, at, ms, wave, g, slide], i): ChirpNote => {
+    const len = (ms / voice.speed) * (i === last ? voice.tail : 1);
+    const to = (slide ?? f) * (1 + voice.wobble) * voice.pitch;
+    return [f * voice.pitch, at / voice.speed, len, wave, g * voice.gain, to];
+  });
+  // A mischievous voice ends on a quick rising trill.
+  if (voice.wobble >= CHIRP_VOICE.trillAt) {
+    const [f, at, ms, wave, g] = notes[last]!;
+    notes.push([f * 1.26, at + ms * 0.7, ms * 0.6, wave, g * 0.7, f * 1.6]);
+  }
+  return notes;
+}
+
+export function playChirp(
+  family: 'chao' | 'pocket' | 'digi',
+  happy = true,
+  voice: ChirpVoice = PLAIN_VOICE,
+): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
   try {
-    if (family === 'chao') {
-      tone(happy ? 880 : 520, 0, 70, 'sine', 0.05, happy ? 1320 : 400);
-      if (happy) tone(1180, 80, 90, 'sine', 0.04, 1500);
-    } else if (family === 'pocket') {
-      tone(happy ? 700 : 450, 0, 90, 'triangle', 0.05, happy ? 900 : 380);
-      tone(happy ? 950 : 380, 100, 110, 'triangle', 0.04);
-    } else {
-      tone(happy ? 600 : 400, 0, 50, 'square', 0.035, happy ? 1000 : 300);
-      tone(happy ? 1000 : 300, 60, 50, 'square', 0.035);
-      if (happy) tone(1400, 120, 70, 'square', 0.03);
+    for (const [f, at, ms, wave, g, to] of chirpNotes(family, happy, voice)) {
+      tone(f, at, ms, wave, g, to);
     }
   } catch {
     // Audio problems must never break the game.

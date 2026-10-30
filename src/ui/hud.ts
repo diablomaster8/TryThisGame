@@ -143,6 +143,7 @@ import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
 import { groveSfx } from './event-feedback';
+import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
@@ -1739,7 +1740,12 @@ export function mountHud(
         } else if (e.kind === 'reaction') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n && Math.random() < 0.35) {
-            playChirp(speciesOf(n.species).family, e.reaction !== 'sad' && e.reaction !== 'dizzy');
+            // R0462 (TECH-65): in the Nubbin's own voice.
+            playChirp(
+              speciesOf(n.species).family,
+              e.reaction !== 'sad' && e.reaction !== 'dizzy',
+              chirpVoice(n.id, n.personality),
+            );
           }
         }
       }
