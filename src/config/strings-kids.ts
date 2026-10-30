@@ -184,3 +184,10 @@ export const EDU_PLACES_TEXT = {
   heading: 'Places your child can visit',
   help: 'These show as big pictures when your child taps ⋯. The rest of the game stays hidden.',
 } as const;
+
+/** R0692: the Learning Grove's egg shelf. */
+export const EDU_EGG_TEXT = {
+  gone: 'In your Grove',
+  egg: (colour: string, gone: boolean) =>
+    gone ? `A ${colour} egg, already bought today` : `A ${colour} egg. It hatches just like this.`,
+} as const;

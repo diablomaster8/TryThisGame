@@ -3888,3 +3888,8 @@ body.edu-sprout .modal-head .btn-close {
 }
 .edu-place-icon { font-size: 52px; line-height: 1; }
 .edu-places-grownups { margin-top: 14px; opacity: 0.8; }
+
+/* Lane E r8: R0692 the Learning Grove's egg shelf. */
+.edu-egg-shelf { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
+.edu-egg { min-height: 96px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.edu-egg-art { width: 48px; height: 56px; image-rendering: pixelated; }

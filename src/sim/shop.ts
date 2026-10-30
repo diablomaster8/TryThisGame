@@ -8,6 +8,7 @@ import { rollEggSpecies, trainerOf } from './trainers';
 import type { Rewards, ShopItem, SimEvent, Vec2, World } from './types';
 import { newId, uniqueName } from './world';
 import { eggPriceMultiplier, rareEggMultiplier, seasonalEggColor } from './seasons';
+import { eduTakeEgg } from './edu-eggs';
 
 export const HAT_IDS = ['straw', 'crown', 'beanie', 'flower', 'bucket'] as const;
 
@@ -61,7 +62,13 @@ function freeSpot(world: World, rng: Rng): Vec2 {
 }
 
 /** Spend Shells on an item; returns false when it cannot be bought. */
-export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]): boolean {
+export function buy(
+  world: World,
+  item: ShopItem,
+  rng: Rng,
+  events: SimEvent[],
+  pick?: number,
+): boolean {
   const base = priceOf(item);
   // An unknown item (a stale UI, a bad save, a console typo) must not touch the purse.
   if (!Number.isFinite(base)) {
@@ -88,6 +95,15 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
       break;
     case 'egg': {
       if (!hasRoom(world)) return fail('roster');
+      // Lane E r8, R0692: a Learning Grove buys the egg it sees on the shelf, no rarity roll.
+      if (world.edu) {
+        const shelf = eduTakeEgg(world, pick);
+        if (!shelf) return fail('shells');
+        const egg = createEgg(newId(world, 'nub'), freeSpot(world, rng), rng, shelf, 'chao');
+        egg.name = uniqueName(world, egg.name, rng);
+        world.nubbins.push(egg);
+        break;
+      }
       const rare = rng.chance(Math.min(0.9, SHOP.rareEggChance * rareEggMultiplier(world)));
       const colours = EGG_COLORS.filter((c) => c !== 'plain');
       const seasonal = seasonalEggColor(world.season);

@@ -517,6 +517,8 @@ export interface EduState {
   items?: Record<string, EduItem>;
   /** Lane E r8, R0680: places a grown-up opened or closed (absent: `PLACES_EDU` default). */
   places?: Partial<Record<EduPlaceId, boolean>>;
+  /** Lane E r8, R0692: which of today's three shelf eggs were bought (sim/edu-eggs.ts). */
+  eggShelf?: { day: string; bought: number[] };
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -1143,7 +1145,8 @@ export type Command =
   | { kind: 'giveCritter'; nubbinId: string; species: string }
   | { kind: 'giveEssence'; nubbinId: string; type: NubbinType }
   | { kind: 'addRewards'; rewards: Rewards }
-  | { kind: 'buy'; item: ShopItem }
+  /** `pick`: Lane E r8, R0692, which egg on a Learning Grove's shelf. */
+  | { kind: 'buy'; item: ShopItem; pick?: number }
   | {
       kind: 'raceResult';
       nubbinId: string;

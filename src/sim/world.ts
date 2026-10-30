@@ -516,7 +516,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     }
     case 'buy':
-      withRng(world, (rng) => buy(world, cmd.item, rng, events));
+      withRng(world, (rng) => buy(world, cmd.item, rng, events, cmd.pick));
       return;
     case 'raceResult': {
       // The UI reports the result, so the sim checks it: a known course, a tier that is open,
