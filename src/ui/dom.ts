@@ -25,11 +25,18 @@ export function meter(label: string, icon: string): { root: HTMLDivElement; set(
   const track = el('div', 'meter-track');
   const fill = el('div', 'meter-fill');
   track.appendChild(fill);
+  // R0519 (TECH-78): the number, shown only in forced colours and high contrast (style.css),
+  // where the drawn bar alone can vanish or read poorly.
+  const pct = el('span', 'meter-pct');
+  head.appendChild(pct);
   root.append(head, track);
+  let shown = -1;
   return {
     root,
     set(v: number) {
-      fill.style.width = `${Math.round(Math.max(0, Math.min(1, v)) * 100)}%`;
+      const p = Math.round(Math.max(0, Math.min(1, v)) * 100);
+      fill.style.width = `${p}%`;
+      if (p !== shown) pct.textContent = `${(shown = p)}%`;
     },
   };
 }

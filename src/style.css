@@ -1263,7 +1263,7 @@ button,
 }
 
 .dialogue-text {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.4;
   min-height: 3.2em;
 }
@@ -1293,7 +1293,7 @@ button,
 
 .btn-choice {
   text-align: left;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 @media (max-width: 600px) {
@@ -1302,7 +1302,7 @@ button,
     height: 64px;
   }
   .dialogue-text {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 
@@ -1359,7 +1359,7 @@ button,
 /* Ask options and do cards: big, one-thumb targets. */
 .btn-choice.edu-option {
   min-height: 52px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   text-align: center;
 }
 
@@ -2447,7 +2447,7 @@ select {
 }
 
 .item-card-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.2;
   text-align: center;
   max-width: 120px;
@@ -2484,7 +2484,7 @@ select {
 
 .postcard-hint {
   margin-bottom: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: rgba(255, 246, 224, 0.7);
 }
 
@@ -2955,12 +2955,12 @@ select {
   min-width: 76px;
   min-height: 44px;
   padding: 6px 12px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .dialogue-skip.small {
   min-width: 56px;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
@@ -2985,7 +2985,7 @@ select {
   text-align: left;
   color: inherit;
   font: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   background: rgba(13, 10, 26, 0.78);
   border: 1px solid var(--hud-border);
   border-radius: 10px;
@@ -3011,7 +3011,7 @@ select {
 
 .objective-hint {
   opacity: 0.8;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* A phone keeps the chip to one line: the goal only, the hint is a tap away in the Journal. */
@@ -3055,7 +3055,7 @@ select {
 
 .edu-entry-card h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 1.375rem;
 }
 
 .edu-entry-btn {
@@ -3064,7 +3064,7 @@ select {
   justify-content: center;
   gap: 14px;
   min-height: 84px;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .edu-entry-icon {
@@ -4016,4 +4016,148 @@ body.edu-sprout .modal-head .btn-close {
   .keys-hint-again {
     display: none;
   }
+}
+
+/* ---- Lane D round 8 (platform) ---- */
+/* R0496 (TECH-55): the "a new Grove is ready" chip, under the top bar. */
+.update-ready {
+  position: absolute;
+  pointer-events: auto;
+  top: calc(var(--topbar-bottom, calc(var(--safe-top) + 52px)) + 6px);
+  left: 50%;
+  z-index: 15;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  max-width: min(420px, calc(100vw - 32px - var(--safe-left) - var(--safe-right)));
+  padding: 6px;
+  border: 2px solid #8fe0a8;
+  border-radius: 14px;
+  background: rgba(13, 10, 26, 0.92);
+  color: #fff7dc;
+}
+.update-ready[hidden] {
+  display: none;
+}
+.update-ready button {
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 0.875rem;
+}
+.update-ready-go {
+  flex: 1 1 auto;
+}
+/* R0520 (TECH-80): a More-menu entry that needs the internet once. */
+.btn .offline-need {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+.btn:disabled:has(.offline-need) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* R0518 (TECH-77): installed on a notched iPhone (black-translucent status bar, viewport-fit
+   cover) the page runs under the status bar and the home indicator. The HUD already offsets
+   by the --safe-* insets; the full-screen layers that centre a card did not, so a tall panel
+   reached the notch. They pad by the insets (zero, so unchanged, everywhere else). In phone
+   portrait the modal card already adds --safe-bottom itself, so the modal does not. */
+.modal {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .modal {
+    padding-bottom: 0;
+  }
+}
+.title,
+.pocket,
+.edu,
+.gym,
+.celebrate,
+.catching,
+.edu-entry,
+.edu-break {
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
+}
+.dialogue-box {
+  width: min(640px, calc(100% - 24px - var(--safe-left) - var(--safe-right)));
+}
+/* R0519 (TECH-78): the HUD under the player's colour and contrast preferences. The game is
+   dark by design, so native controls (selects, inputs, scrollbars) are told to match. */
+:root {
+  color-scheme: dark;
+}
+.meter-pct {
+  display: none;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+/* Windows high contrast: the system paints text and backgrounds, which can wipe out drawn
+   bars, translucent chips and emoji-only buttons. Give every control a real border, keep
+   the meter fill visible as a system colour, and show the meter's number. */
+@media (forced-colors: active) {
+  /* Important: chip-like buttons set their own thinner border at a higher specificity. */
+  button,
+  .btn,
+  [role='button'],
+  .objective-chip,
+  select,
+  input {
+    border: 2px solid ButtonText !important;
+  }
+  .chip,
+  .toast,
+  .modal-card,
+  .dialogue-box {
+    border: 2px solid CanvasText;
+  }
+  .meter-track {
+    border: 1px solid CanvasText;
+  }
+  .meter-fill {
+    forced-color-adjust: none;
+    background: Highlight;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+/* Asked for more contrast: solid panels instead of see-through ones, plain borders, a
+   strong focus ring and the meter numbers (the text also starts larger: ui/text-scale.ts). */
+@media (prefers-contrast: more) {
+  :root {
+    --hud-bg: #0d0a1a;
+    --hud-border: #fff1c9;
+  }
+  .toast,
+  .chip,
+  .backup-offer,
+  .update-ready {
+    background: #0d0a1a;
+    border-color: #fff1c9;
+  }
+  .meter-track {
+    background: #3a3358;
+  }
+  .meter-pct {
+    display: inline;
+  }
+  :focus-visible {
+    outline: 3px solid #ffd84a;
+    outline-offset: 2px;
+  }
+}
+/* R0469 (TECH-27): the dialogue box grows upward with its text (it is bottom-anchored) and
+   stops at 45% of the screen; past that its text and choices scroll inside it. */
+.dialogue-body {
+  max-height: calc(45vh - 28px);
+  max-height: calc(45dvh - 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }

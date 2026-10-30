@@ -132,13 +132,13 @@
 }
 .landmark-card-name {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 20px;
+  font-size: 1.25rem;
   letter-spacing: 0.06em;
   font-variant: small-caps;
   color: #ffd84a;
 }
 .landmark-card-line {
-  font-size: 13px;
+  font-size: 0.8125rem;
   opacity: 0.9;
 }
 .landmark-card-chip {
@@ -148,7 +148,7 @@
   border-radius: 999px;
   background: #ffd84a;
   color: #241a05;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
 }
 .landmark-card-in {
@@ -192,7 +192,7 @@
 }
 .landmark-card-paid {
   grid-column: 2;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #ffd84a;
 }
 
