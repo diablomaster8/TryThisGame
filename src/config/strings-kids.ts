@@ -222,3 +222,8 @@ export const TRACE_KID_TEXT = {
   good: 'Yes!',
   done: 'You wrote it!',
 } as const;
+
+/** R0719: the greeting before the entry prompt's question when the child's name is set. */
+export const CHILD_NAME_TEXT = {
+  hello: (name: string) => `Hello, ${name}!`,
+} as const;

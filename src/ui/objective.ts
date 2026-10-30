@@ -25,6 +25,8 @@ import { CHAPTERS, type ChapterStep } from '../config/story';
 import { button, el } from './dom';
 import { eduJournal } from './journal';
 import { speakLine } from './lesson';
+import { greet } from './child-name';
+import { CHILD_NAME_TEXT } from '../config/strings-kids';
 
 export interface Objective {
   /** Changes when the goal does; a campaign key change is announced. */
@@ -270,7 +272,8 @@ export class EduPrompt {
   private show(g: Game): void {
     this.root.hidden = false;
     this.lastInput = performance.now();
-    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(EDU_PROMPT_TEXT.say);
+    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud)
+      speakLine(greet(EDU_PROMPT_TEXT.say, g.world.edu?.childName, CHILD_NAME_TEXT.hello));
     this.root.querySelector<HTMLButtonElement>('.edu-entry-btn')?.focus({ preventScroll: true });
   }
 }
