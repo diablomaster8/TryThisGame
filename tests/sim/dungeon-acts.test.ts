@@ -67,7 +67,8 @@ describe('the five acts (R0145)', () => {
       for (let tries = 0; tries < 40 && !won; tries++) {
         run.graceUntilMs = 0;
         const boss = run.packs[0]!;
-        world.keeper.pos = { x: boss.pos.x + 0.3, z: boss.pos.z };
+        // On the boss itself: a step to one side can be water or a chasm on some layouts.
+        world.keeper.pos = { x: boss.pos.x, z: boss.pos.z };
         won = step(world, 1500).some((e) => e.kind === 'bossBeaten');
       }
       expect(won).toBe(true);
