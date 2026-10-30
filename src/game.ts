@@ -1,4 +1,6 @@
 import { WalkFollow } from './render/camera-follow';
+import { easeShift, NO_SHIFT, type ViewShift } from './render/view-shift';
+import { VIEW_SHIFT } from './config/tuning';
 import { Vector3 } from 'three';
 import { REGIONS, regionHour } from './config/regions';
 import { regionOf } from './sim/regions';
@@ -458,6 +460,15 @@ export class Game {
   }
   /** Share of the view's width the camera aims right of the Keeper (the docked desktop sheet). */
   cameraSide = 0;
+  /**
+   * HOT-1: the Nubbin the stats sheet is open on, and where it should sit on screen (the
+   * centre of the part the sheet leaves clear); the HUD sets it each frame, null when closed.
+   */
+  sheetFocus: { id: string; shift: ViewShift } | null = null;
+  /** HOT-1: the shift in force, eased toward the sheet's (both cameras read it). */
+  private viewShift: ViewShift = NO_SHIFT;
+  /** HOT-1: the Nubbin the camera was last brought round to, so a new pick can cut under reduced motion. */
+  private sheetFocusId: string | null = null;
   /** A Nubbin the camera turns to for a moment (its end-of-life check is playing). */
   private focus: { id: string; untilMs: number } | null = null;
   /** R0107: the camera holds still until this time after a landmark is found. */
@@ -890,7 +901,12 @@ export class Game {
     // A story scene in the pixel view: frame its cast, lifted clear of the dialogue box,
     // on the near zoom for two-shots and close shots (campaign graphics C2, H14).
     const staged = this.stagePixelCamera(nowMs, !!focused);
-    const subject = focused ? focused.pos : (staged ?? kp);
+    // HOT-1: with the stats sheet open the view centres on that Nubbin, not the Keeper.
+    const sheetN =
+      !staged && !focused && this.sheetFocus
+        ? this.world.nubbins.find((n) => n.id === this.sheetFocus?.id)
+        : undefined;
+    const subject = focused ? focused.pos : (staged ?? sheetN?.pos ?? kp);
     // With a bottom sheet open on a phone, aim past the Keeper toward the camera, so the
     // Keeper and the Nubbin beside them sit in the clear top part (review C, item 22).
     // A fitted shot (H4) already sits inside the HUD-safe area.
@@ -901,20 +917,33 @@ export class Game {
     // Aim right of the subject (along the camera's right vector) so a docked desktop sheet
     // on the right third leaves it in sight.
     const side = this.cameraSide * this.camera.visibleWidth;
-    this.followKeeper(kp, dt, !!staged || !!focused);
+    this.followKeeper(kp, dt, !!staged || !!focused || !!sheetN);
     const aimX =
       subject.x +
       Math.sin(yaw) * lift +
       Math.cos(yaw) * side +
-      (staged || focused ? 0 : this.ahead.x);
+      (staged || focused || sheetN ? 0 : this.ahead.x);
     const aimZ =
       subject.z +
       Math.cos(yaw) * lift -
       Math.sin(yaw) * side +
-      (staged || focused ? 0 : this.ahead.z);
+      (staged || focused || sheetN ? 0 : this.ahead.z);
     const rate = staged ? PIXEL_STAGE.followRate : CAMERA.followRate;
     const held = !staged && !focused && nowMs < this.landmarkHoldUntil;
-    const t = held ? 0 : staged && this.reduceMotion ? 1 : 1 - Math.exp((-rate * dt) / 1000);
+    // HOT-1: reduced motion cuts to a newly picked Nubbin instead of gliding there.
+    const cutToPick = !!sheetN && this.reduceMotion && sheetN.id !== this.sheetFocusId;
+    this.sheetFocusId = sheetN?.id ?? null;
+    const t =
+      held && !sheetN
+        ? 0
+        : (staged || cutToPick) && this.reduceMotion
+          ? 1
+          : 1 - Math.exp((-rate * (sheetN ? Math.min(dt, VIEW_SHIFT.maxEaseDtMs) : dt)) / 1000);
+    // The shift eases with the aim (and snaps with it under reduced motion).
+    const shiftGoal = sheetN && this.sheetFocus ? this.sheetFocus.shift : NO_SHIFT;
+    this.viewShift = easeShift(this.viewShift, shiftGoal, this.reduceMotion ? 1 : t);
+    this.camera.viewShift = this.viewShift;
+    if (this.scene3d) this.scene3d.viewShift = this.viewShift;
     this.camera.target.x += (aimX - this.camera.target.x) * t;
     this.camera.target.z += (aimZ - this.camera.target.z) * t;
     // Up and down with the ground under the Keeper, or the mark a scene frames (MOVE-23).

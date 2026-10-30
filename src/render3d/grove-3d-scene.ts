@@ -22,6 +22,7 @@ import { bandFor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
 import { bigBubbles } from '../render/emote-size';
+import { applyViewShift, NO_SHIFT, type ViewShift } from '../render/view-shift';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
 import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
@@ -219,6 +220,8 @@ export class Grove3dScene {
   readonly renderer: THREE.WebGLRenderer;
   readonly scene = new THREE.Scene();
   readonly camera: THREE.PerspectiveCamera;
+  /** HOT-1: where the aimed-at point sits on screen while the stats sheet is open. */
+  viewShift: ViewShift = NO_SHIFT;
   readonly pickables: THREE.Object3D[] = [];
   private size: TargetSize = { width: 1, height: 1, scale: 1 };
   private readonly composer: EffectComposer;
@@ -1433,6 +1436,8 @@ export class Grove3dScene {
   }
 
   update(world: World, orbit: OrbitCamera, alpha: number, nowMs: number): void {
+    // HOT-1: the selected Nubbin sits in the clear part of the screen (the sheet's shift).
+    applyViewShift(this.camera, this.viewShift);
     // Never negative: a clock that steps back (a resumed tab, a hand-driven frame) would
     // turn the eased camera into NaN, and NaN never recovers.
     const dt = this.lastMs === 0 ? 0 : Math.max(0, Math.min(0.1, (nowMs - this.lastMs) / 1000));

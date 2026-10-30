@@ -147,3 +147,7 @@ export const LIVELINESS = { calm: 0.5, normal: 1, lively: 1.5 } as const;
 
 /** R0563 (SOUL-46): the diary behind the sheet's "Recently" lines. */
 export const DIARY = { keep: 5, show: 3 } as const;
+
+/** HOT-1: the sheet focus glide takes at most this much time per frame, so a stalled frame
+ *  (the first sheet open on a slow phone) cannot turn the glide into a jump. */
+export const VIEW_SHIFT = { maxEaseDtMs: 50 } as const;

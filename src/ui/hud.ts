@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
@@ -1020,10 +1021,12 @@ export function mountHud(
         const runner = pickRunner();
         if (runner) g.send({ kind: 'playingWith', nubbinId: runner.id });
       }
-      // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
-      g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
-      // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
-      g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
+      // HOT-1: with the stats sheet open the camera centres on its Nubbin in the part of the
+      // screen the sheet leaves clear (a bottom sheet on a phone, docked right on a desktop),
+      // measured from the sheet itself rather than a fixed share of the view.
+      g.cameraLift = 0;
+      g.cameraSide = 0;
+      g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
       hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;
@@ -1830,4 +1833,21 @@ function cantReachToast(
   const n = e.targetId ? g.world.nubbins.find((x) => x.id === e.targetId) : undefined;
   toast(UI_FX_TEXT.cantReach(n?.name ?? UI_FX_TEXT.cantReachThere));
   return true;
+}
+
+/** HOT-1: the sheet's Nubbin and where it should sit, from the sheet's box over the canvas. */
+function sheetFocusFor(
+  root: HTMLElement,
+  id: string | null,
+  canvas: { left: number; top: number; width: number; height: number },
+): Game['sheetFocus'] {
+  if (root.hidden || !id || canvas.width <= 0) return null;
+  const r = root.getBoundingClientRect();
+  const box = {
+    left: r.left - canvas.left,
+    top: r.top - canvas.top,
+    right: r.right - canvas.left,
+    bottom: r.bottom - canvas.top,
+  };
+  return { id, shift: clearShift(canvas.width, canvas.height, box) };
 }
