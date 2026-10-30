@@ -126,6 +126,7 @@ import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
+import { OfferCard } from './offer-card';
 import { storylineById } from '../sim/story-scenes';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
@@ -990,6 +991,7 @@ export function mountHud(
           g.catchingUp;
         eduPrompt.refresh(busy);
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing);
+        offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing);
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (
@@ -1088,6 +1090,8 @@ export function mountHud(
 
   // Lane C r7 (R0624): the Home Screen card and the backup chip.
   const backupNudge = new BackupNudge(root, game);
+  // Lane C r8 (R0606): the Open quest flow's offer card and its folded chip.
+  const offerCard = new OfferCard(root, game, (t) => toast(t));
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       const g = game();
@@ -1095,6 +1099,7 @@ export function mountHud(
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
       backupNudge.onEvents(events);
+      offerCard.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);

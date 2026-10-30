@@ -44,3 +44,52 @@ export const CAMP_TEXT = {
   backupYes: 'Export',
   backupNo: 'Not now',
 } as const;
+
+/** Lane C round 8 (R0602, R0606, R0607): the Open quest flow's offer card, board and setting. */
+export const OFFER_TEXT = {
+  story: 'Story',
+  caper: 'Caper',
+  badge: { teen: '13+', adult: '18+' } as Record<string, string>,
+  size: {
+    S: 'S · about 5 min',
+    M: 'M · about 15 min',
+    L: 'L · 30 min or more',
+  } as Record<string, string>,
+  from: (name: string) => `From ${name}`,
+  lapse: 'Hazel’s story will remember if you let this go.',
+  accept: 'Accept',
+  notNow: 'Not now',
+  chip: (title: string) => `! ${title}`,
+  chipLabel: (title: string) => `An offer is waiting: ${title}. Tap to see it.`,
+  rewardIcon: {
+    cosmetic: '🎀',
+    feature: '✨',
+    item: '🎁',
+    decor: '🪴',
+    title: '🏷',
+  } as Record<string, string>,
+  atCap: 'You have five quests going. Put one aside to take this on?',
+  shelve: (title: string) => `Put aside ${title}`,
+  keep: 'Keep them all',
+  accepted: (title: string) => `Taken on: ${title}.`,
+  boardHead: 'Notice board',
+  boardHelp: 'What this place has to offer, what you put off, and what is done.',
+  boardHere: (area: string) => `Here: ${area}`,
+  boardNowhere: 'Walk up to a place in the Grove to see its board.',
+  available: 'Available',
+  inProgress: 'In progress',
+  shelved: 'Put aside',
+  done: 'Done',
+  resume: 'Take it up again',
+  putAside: 'Put aside',
+  track: 'Pin',
+  untrack: 'Unpin',
+  empty: 'Nothing here yet.',
+  flowLabel: 'Quests',
+  flowHelp:
+    'Open: stories wait where they happen, to take on or put off. Guided: they come to you.',
+  flowOptions: {
+    open: 'Open: offered where they happen',
+    guided: 'Guided: they come to you',
+  } as Record<string, string>,
+};

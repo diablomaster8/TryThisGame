@@ -27,6 +27,7 @@ import { HOLLOW_R6_TEXT } from '../config/strings';
 import { PLACES_TEXT } from '../config/strings-world';
 import { renderPlaces } from './landmark-card';
 import { renderLines } from './journal-lines';
+import { renderBoard } from './journal-board';
 import { storyBoutJournal } from './battle-scenes';
 
 /**
@@ -304,6 +305,8 @@ export class Journal {
     if (!c.storyline) this.renderSideStories(g);
     // Lane C r7 (R0275, R0596): a story bout at its beat, and the questlines beside Hazel's Grove.
     if (!c.storyline) storyBoutJournal(g, this.body, () => this.close());
+    // Lane C r8 (R0607): the Open quest flow's notice board for this region.
+    renderBoard(g, this.body, () => this.refresh());
     renderLines(
       g,
       this.body,

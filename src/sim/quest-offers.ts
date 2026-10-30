@@ -206,13 +206,12 @@ export function acceptQuest(
   if (status === 'done' || status === 'closed' || prior?.state === 'active') return false;
   // A story that opened on its own (the quiet chapters) is already under way.
   if (status === 'open' && prior?.state !== 'shelved') return false;
-  let active = activeQuests(world, c);
+  const active = activeQuests(world, c);
   if (active.length >= QUEST_OFFERS.activeCap) {
     if (!shelve || !active.includes(shelve) || !shelveQuest(world, shelve)) {
       events.push({ kind: 'questAtCap', quest: id, active });
       return false;
     }
-    active = activeQuests(world, c);
   }
   const book = questBook(world);
   const e = entryFor(world, id);

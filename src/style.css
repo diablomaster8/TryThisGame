@@ -3267,3 +3267,94 @@ select {
 .backup-chip .btn {
   min-height: 44px;
 }
+/* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
+.offer-card {
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(26, 21, 48, 0.95);
+  color: #fff;
+  z-index: 55;
+}
+.offer-card .offer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8em;
+}
+.offer-card .offer-tag,
+.offer-card .offer-badge,
+.offer-card .offer-size,
+.offer-card .offer-reward {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.offer-card .offer-badge {
+  background: #7a2d3a;
+}
+.offer-card .offer-title {
+  margin: 6px 0 2px;
+  font-size: 1.1em;
+}
+.offer-card .offer-from,
+.offer-card .offer-lapse {
+  margin: 2px 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.offer-card .offer-pitch {
+  margin: 6px 0;
+}
+.offer-card .offer-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+}
+.offer-card .offer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+.offer-card .offer-buttons .btn,
+.offer-card .offer-shelve .btn {
+  min-height: 48px;
+  flex: 1;
+}
+.offer-card .offer-shelve {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.offer-chip {
+  position: absolute;
+  right: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px;
+  max-width: 60%;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #e0b13a;
+  color: #1a1530;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 50;
+}
+.journal-board h4 {
+  margin: 8px 0 4px;
+}
+.journal-board .journal-line .btn {
+  min-height: 44px;
+}
