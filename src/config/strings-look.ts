@@ -218,6 +218,13 @@ export const FLAVOUR = {
     'halo-band': 'Pure as anything. Mind the mud.',
     horns: 'Purely decorative. Mostly.',
     'black-belt': 'Earned, not bought. Mentions it anyway.',
+    // Lane B round 7 (R0206): the Hollow's keepsakes.
+    'hollow-mushroom': 'Big Grumblecap wanted quiet. You got the hat.',
+    'hollow-hedge': 'Clipped by a knight. Still sheds leaves on the carpet.',
+    'hollow-looroll': 'Two-ply, regal, slightly unravelling.',
+    'hollow-noodle': 'Al dente. Do not let anyone near it with a fork.',
+    'hollow-hearth': 'Warm on top. The Gloom remembers who lit it.',
+    'hollow-cape': 'All five acts, one cape. It swishes on its own.',
   } as Record<string, string>,
 };
 
