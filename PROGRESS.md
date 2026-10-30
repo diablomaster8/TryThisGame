@@ -77,6 +77,9 @@ The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region an
   hour, battle balance); each passes alone, as on main. Phone probe: 0/38 over in the second run;
   the first had 3D farOrchard at 186 calls (budget 180), and two isolated farOrchard runs peaked
   at 161 and 168: the count swings with where the NPCs stand (round 5 saw 176–178).
+  After merging main (192f8fa) farOrchard read 185–189 in two probes (main alone 170–178), so the
+  four lantern posts' 16 draws now fall to a 4-draw instanced batch when far (`far-lanterns.ts`,
+  the far-tree rule); two probes after: 0/38 over, farOrchard 172 and 161.
 ## Round 6 · Lane E LOOK (2026-10-29, branch r6/e)
 
 - *Works:* the in-training Digimon hop (three a metre, stretch 1.15, squash 0.75; Pixel walk
