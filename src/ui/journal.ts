@@ -14,7 +14,8 @@ import { eduContent, rewardById, sideStory, textBandOf } from '../sim/story-scen
 import { button, el, modal } from './dom';
 import { MicroScreen } from '../minigames/micro/micro-screen';
 import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
-import { doItLabel } from '../config/strings-fun-r6';
+import { doItLabel, fernCairnLine } from '../config/strings-fun-r6';
+import { fernStones } from '../sim/fern-stone';
 import { hashSeed } from '../sim/rng';
 import { LANG_TEXT } from '../config/strings';
 import { isLangQuestCode, TRACE_TARGETS } from '../sim/lang';
@@ -326,6 +327,9 @@ export class Journal {
         .join(' · ');
       this.body.appendChild(row);
     }
+    // R0313 (FUN-24): Fern's running stone, counted with the friends.
+    const stones = fernStones(g.world);
+    if (stones > 0) this.body.appendChild(el('p', 'help', fernCairnLine(stones)));
     // Chapter list.
     const chapters = el('div', 'journal-chapters');
     const rows: Array<{ n: number; title: string; row: HTMLElement }> = [];

@@ -78,3 +78,9 @@ export const MICRO_SKIP_TEXT = {
 export function doItLabel(kind: MicroKind | null): string {
   return kind ? `Do it · ${DO_IT_BY[kind].label}` : DO_IT_BY.real.label;
 }
+
+/** R0313 (FUN-24): Fern's cairn in the Journal's Friends block. */
+export function fernCairnLine(stones: number): string {
+  if (stones <= 1) return 'Fern’s stone by the signpost: one, and very good.';
+  return `Fern’s cairn by the signpost: ${stones} stones, each the best one.`;
+}

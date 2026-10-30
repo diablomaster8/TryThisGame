@@ -340,6 +340,7 @@ export const SIDE_STORIES_MAIN: Quest[] = [
           lines: [
             N('Over the next days, things go missing from the Grove. Not only fruit now. Warm things.'),
             FE('Someone’s had my left glove. Left me the right. I can’t decide if that’s cruel or considerate.', 'think'),
+            FE('My stone’s still there, though. I checked first thing. Still the best one.', 'happy'),
             N('Your left sock, off the line. A candle stub from the cottage window. The tea cosy, which nobody will admit to missing.'),
             N('And the round stone Hazel kept by the hearth for warming eggs. Its dish is empty.'),
             CL('He’s cold. That’s all it is. Can’t we feed him too? I can see the light through his ears.', 'sad'),
