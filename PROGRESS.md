@@ -54,6 +54,19 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - *Stubbed:* the remembrance flower hat (R0424's second half); the egg's top lifting off;
   Pixel glance on the creature drawer (Chao only); a hat dye on creatures; the Shadow's slower
   walk; hats sit at the Chao's size on very big or very small creatures.
+- *Works (second half):* personality gags play in place every 40–90 s, children at half rate
+  and wobbly (`render/gag-play.ts`, both modes). A dry line for every shop item, critter,
+  essence and wearable (`FLAVOUR`, 67 lines). Hazel's field notes on the Grove line's book
+  pages. Photo mode: 3 in 20 photos are photobombed, 1 in 10 blinks (Try again or Keep it
+  anyway), every photo has a caption (`ui/photo-comedy.ts`). Fifteen curiosities, logged once
+  in `world.curiosities` (optional field), seven spotted in play (`ui/curiosities.ts`). A
+  wardrobe with an eight-view live preview on each roster row (`ui/wardrobe.ts`). The
+  evolution reveal: cocoon shake, white flash (none under reduced motion), landing spin. Four
+  rarity tiers with roster frames and Grove glints (`render/rarity.ts`). Birthmarks for about
+  one in five Chao, read from the seed, in both modes (`render/birthmark.ts`).
+- *Stubbed (second half):* gags that travel (ball push, stream float); field notes for the
+  pocket and digital lines; 8 of 15 curiosities have no in-game trigger yet (cup, lantern,
+  Fern's stone, robot, stopwatch, scarf, back to back, upside-down egg); 3D rare glint.
 - *Known:* the 3D hop ear flop is a head nod (the blobs' ears are sculpted into the head). The
   glance frames drop the idle breath for that moment.
 - *Assumptions:* the Sun child's tips go sky blue (not yellow), per the spec; Tokomon keeps its
