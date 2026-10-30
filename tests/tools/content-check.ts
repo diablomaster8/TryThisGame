@@ -132,6 +132,9 @@ const NEW_VARIANTS = [
   ...C.SIDE_STORY_S30_VARIANTS,
   ...C.SIDE_STORY_S31_VARIANTS,
   ...C.ATLAS_A01_VARIANTS,
+  ...C.BATTLES_CIRCUIT_VARIANTS,
+  ...C.BATTLES_PLAYDAY_VARIANTS,
+  ...C.BATTLES_STORY_VARIANTS,
   ...C.ATLAS_A02_VARIANTS,
   ...C.ATLAS_A03_VARIANTS,
   ...C.ATLAS_A04_VARIANTS,
@@ -377,6 +380,7 @@ for (const s of [
   ...C.ATLAS_A30_VARIANTS,
   ...C.A31_VARIANTS,
   ...C.PA1_VARIANTS,
+  ...C.BATTLES_PLAYDAY_VARIANTS,
 ])
   mainScenes.set(s.id, s);
 // maths: a maths lesson's right answer must use a number that the scene's narration or question gives (SR-20261023-525).

@@ -61,6 +61,8 @@ import type { StatKey } from '../sim/types';
 import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
 import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
+import { canFuse } from '../sim/battle/fusion';
+import { FUSION_TEXT } from '../config/strings-battle-r6';
 import { recordAct, recordStart } from './battle-record';
 
 /**
@@ -779,6 +781,16 @@ export class BattleScreen {
     item.disabled = !BATTLE_ITEMS.some((i) => itemsLeft(s, 0, i) > 0);
     const breath = button(T.breath, () => this.send(s, { k: 'guard' }), 'btn bs-act');
     row.append(swap, item, breath);
+    // Fusion burst (FIGHT-95): shown only while the partners may fuse.
+    if (canFuse(s)) {
+      const fuseBtn = button(
+        FUSION_TEXT.button,
+        () => this.send(s, { k: 'fuse' }),
+        'btn bs-act bs-fuse',
+      );
+      fuseBtn.title = FUSION_TEXT.help;
+      row.appendChild(fuseBtn);
+    }
     sheet.appendChild(row);
   }
 

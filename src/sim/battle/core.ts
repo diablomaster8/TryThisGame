@@ -23,6 +23,7 @@ import { autoResolve, skippable } from './auto';
 import { debugAct } from './debug';
 import { noteSeen } from './seen';
 import { ladderRival, ladderValid } from './ladder';
+import { fusionPair } from './fusion';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -179,8 +180,12 @@ function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
   // The old all-at-once party bout keeps its format; the new kinds are singles.
   const singles = c.kind === 'encounter' ? !!c.singles : c.kind !== 'karate' && c.kind !== 'party';
   // Doubles has no bench: both of each side's two are on the field.
-  if (c.kind !== 'karate' && c.doubles) s.doubles = true;
-  else if (singles) s.lead = [0, 0];
+  if (c.kind !== 'karate' && c.doubles) {
+    s.doubles = true;
+    // Fusion burst (FIGHT-95): the Keeper's partners, if both are here and close enough.
+    const pair = fusionPair(world, s.sides[0]);
+    if (pair) s.fusable = { pair, used: false };
+  } else if (singles) s.lead = [0, 0];
   if (c.kind === 'dojo' && c.ladder) s.ai = ladderRival(world, c).ai;
   if (c.kind === 'circuit') {
     s.ai = c.champion ? 'champion' : c.tier >= 3 ? 'champion' : 'keeper';

@@ -97,10 +97,13 @@ export class DojoMenu {
 
   /** The Dojo Ladder (recs FIGHT-99) for the selected Nubbin: its belt and its next bout. */
   private ladder(g: Game): void {
-    const n = this.fighterPick() ?? g.world.nubbins.find((x) => x.stage !== 'egg' && x.stage !== 'cocoon');
+    const n =
+      this.fighterPick() ?? g.world.nubbins.find((x) => x.stage !== 'egg' && x.stage !== 'cocoon');
     if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
     const belt = ladderBelt(n);
-    this.list.appendChild(el('div', 'btn-name', `${LADDER_TEXT.title} · ${n.name}: ${LADDER_TEXT.belt(belt)}`));
+    this.list.appendChild(
+      el('div', 'btn-name', `${LADDER_TEXT.title} · ${n.name}: ${LADDER_TEXT.belt(belt)}`),
+    );
     const next = ladderContext(n);
     if (!next) {
       this.list.appendChild(el('small', undefined, LADDER_TEXT.top));

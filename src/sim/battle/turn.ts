@@ -1,3 +1,4 @@
+import { fuse, tickFusion } from './fusion';
 import { BATTLE } from '../../config/tuning-battle';
 import { BATTLE_DOUBLES, BATTLE_STALEMATE } from '../../config/tuning-battle-atb';
 import { BATTLE_R5 } from '../../config/tuning-battle-r5';
@@ -421,6 +422,8 @@ export function resolveTurn(s: BattleState, rng: Rng): void {
     if (c.decoy > 0) c.decoy -= 1;
     if (c.alignAs && --c.alignAs.turns <= 0) delete c.alignAs;
   }
+  tickFusion(s);
+  if (s.result) return;
   s.log.push({ k: 'turnEnd', n: s.turn });
   s.choices = {};
   s.turn += 1;
@@ -445,6 +448,7 @@ export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
     s.active = s.lead![0];
     return true;
   }
+  if (a.k === 'fuse') return fuse(s);
   const me = s.sides[0][s.active];
   if (!me || !onField(s, me) || !canChoose(s, me, a)) return false;
   s.choices = { ...(s.choices ?? {}), [me.id]: a };

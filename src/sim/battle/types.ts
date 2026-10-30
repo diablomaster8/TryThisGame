@@ -72,6 +72,10 @@ export interface Combatant {
   playing?: number;
   /** A Sun or Moon fruit: its moves count as that alignment for a few turns (FIGHT-20). */
   alignAs?: { align: 'sun' | 'moon'; turns: number };
+  /** Fusion burst (FIGHT-95): this half stepped into the fused combatant with this id. */
+  fusedInto?: string;
+  /** The fused combatant itself: its two halves, their HP when they fused, and turns left. */
+  fusion?: { of: [string, string]; hp: [number, number]; left: number };
 }
 
 /** How a side picks its moves (recs FIGHT-23). */
@@ -150,7 +154,7 @@ export interface MoveDef {
   /** Featherlight (Fly S) floats over these. */
   ground?: boolean;
   /** A move with its own rule. */
-  special?: 'copycat' | 'decoy' | 'snack';
+  special?: 'copycat' | 'decoy' | 'snack' | 'fusion';
   target: MoveTarget;
   /** For the tactics mode later (FIGHT-50+); unused in turn mode. */
   grid: {
@@ -263,6 +267,8 @@ export type BattleAction =
   | { k: 'order'; cmd: AtbCommand; who?: string }
   /** ATB: stop or restart the clock (the hidden tab, or the Item sheet being open). */
   | { k: 'pause'; why: AtbPause; on: boolean }
+  /** Doubles (FIGHT-95): two partners with a strong bond fuse for three turns, once a bout. */
+  | { k: 'fuse' }
   /** The debug panel's battle tools (recs FIGHT-80); never sent by the battle screen. */
   | { k: 'debug'; set: BattleDebugOp };
 
@@ -350,6 +356,8 @@ export type BattleEvent =
   | { k: 'order'; who: string; cmd: AtbCommand; obeyed: boolean }
   /** ATB: the personality gag on an ignored order. */
   | { k: 'gag'; who: string; gag: AtbGag }
+  /** Fusion burst (FIGHT-95): a pair fused (`on`) or split again. */
+  | { k: 'fusion'; who: string; of: [string, string]; on: boolean }
   | { k: 'end'; winner: SideIx | null; reason: BattleEndReason };
 
 /** `hug` ends a gentle bout; `friends` when every foe was befriended. */
@@ -411,6 +419,8 @@ export interface BattleState {
   doubles?: boolean;
   /** The ATB "Command" bout (recs FIGHT-40): `mode` stays 'turn' so records and views work. */
   atb?: AtbClock;
+  /** Fusion burst (FIGHT-95): the partner pair that may fuse, and whether it has. */
+  fusable?: { pair: [string, string]; used: boolean };
   /** What the finished bout gave (the `battleSpoils` event's copy), for the results card. */
   spoils?: BoutSpoils;
 }
