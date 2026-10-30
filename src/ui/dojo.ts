@@ -12,6 +12,9 @@ import {
 } from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
+import { LADDER_TEXT } from '../config/strings-battle-r6';
+import { BATTLE_R6 } from '../config/tuning-battle-r6';
+import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
 import { PartyPick } from './battle-party-pick';
 import { button, el, modal } from './dom';
 
@@ -88,7 +91,28 @@ export class DojoMenu {
     gb.disabled = !!w.edu;
     gb.setAttribute('aria-pressed', gentle ? 'true' : 'false');
     this.list.appendChild(gb);
+    this.ladder(g);
     this.circuit(g);
+  }
+
+  /** The Dojo Ladder (recs FIGHT-99) for the selected Nubbin: its belt and its next bout. */
+  private ladder(g: Game): void {
+    const n = this.fighterPick() ?? g.world.nubbins.find((x) => x.stage !== 'egg' && x.stage !== 'cocoon');
+    if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
+    const belt = ladderBelt(n);
+    this.list.appendChild(el('div', 'btn-name', `${LADDER_TEXT.title} · ${n.name}: ${LADDER_TEXT.belt(belt)}`));
+    const next = ladderContext(n);
+    if (!next) {
+      this.list.appendChild(el('small', undefined, LADDER_TEXT.top));
+      return;
+    }
+    const name = LADDER_TEXT.belts[(next.ladder ?? 1) - 1] ?? '';
+    const b = button(
+      LADDER_TEXT.bout(name, ladderOf(n).step + 1, BATTLE_R6.ladder.bouts),
+      () => this.fight(next),
+      'btn bs-tier',
+    );
+    this.list.appendChild(b);
   }
 
   private circuit(g: Game): void {
@@ -150,7 +174,9 @@ export class DojoMenu {
     this.dialog.hide();
     if (context.kind === 'karate' || context.kind === 'encounter') return;
     // The pre-bout sheet (FIGHT-86) picks the party now; Back there returns to this menu.
-    this.screen.start({ ...context, ids: [] }, (s) => (s ? this.refreshLater() : this.open()));
+    // A ladder bout is the picked Nubbin's own; every other bout picks its party on the sheet.
+    const ids = context.kind === 'dojo' && context.ladder ? context.ids : [];
+    this.screen.start({ ...context, ids }, (s) => (s ? this.refreshLater() : this.open()));
   }
 
   private refreshLater(): void {

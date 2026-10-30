@@ -1,6 +1,7 @@
 import { HAT_LABELS } from './strings';
 import { COSMETIC_LABELS, eggshellLabel } from './strings-look';
 import { HOP_COURSE_TEXT } from './strings-move';
+import { LADDER_TEXT } from './strings-battle-r6';
 import type { C } from '../render/sprites/palette';
 
 /**
@@ -136,6 +137,25 @@ export const COSMETICS: readonly Cosmetic[] = [
     ),
     source: 'race',
     label: HOP_COURSE_TEXT.hat,
+  },
+  // FIGHT-99 (lane C): the Dojo Ladder's black belt, a black headband with two tails.
+  {
+    ...item(
+      'black-belt',
+      'hat',
+      'prize',
+      [
+        ['rect', -7, 2, 14, 2, 'ink'],
+        ['line', 6, 3, 9, 6, 'ink'],
+        ['line', 6, 3, 8, 7, 'darkPlum'],
+      ],
+      [
+        ['torus', 'ink', [0, -0.18, 0], [0.7, 0.7, 0.18]],
+        ['box', 'ink', [0.42, -0.3, -0.5], [0.08, 0.24, 0.04], [0, 0, 0.5]],
+      ],
+    ),
+    source: 'race',
+    label: LADDER_TEXT.hat,
   },
   item(
     'pot',

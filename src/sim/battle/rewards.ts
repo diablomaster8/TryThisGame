@@ -1,3 +1,4 @@
+import { ladderSettle } from './ladder';
 import { foeName } from '../../config/strings-battle';
 import { BATTLE, BATTLE_ONCE, BATTLE_PROGRESS } from '../../config/tuning-battle';
 import { BATTLE_R5 } from '../../config/tuning-battle-r5';
@@ -114,6 +115,7 @@ export function grantRewards(world: World, s: BattleState, events: SimEvent[]): 
     );
   }
   if (c.kind === 'circuit' && won) circuitWin(world, c.trainer, !!c.champion, events);
+  ladderSettle(world, s, events);
   if (c.kind === 'karate' && r.reason !== 'forfeit' && r.winner !== null) {
     const rival = s.sides[1][0];
     recordKarate(

@@ -1194,6 +1194,8 @@ export type SimEvent =
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
   | { kind: 'battleSpoils'; spoils: BoutSpoils }
+  /** Lane C round 6 (recs FIGHT-99): a Dojo Ladder bout won (`belt` set once all its bouts are). */
+  | { kind: 'ladderStep'; nubbinId: string; belt: number; step: number; beltWon: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';

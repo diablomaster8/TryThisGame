@@ -209,7 +209,13 @@ export type BattleContextKind =
   | { kind: 'karate'; tier: number; nubbinId: string }
   | { kind: 'party'; tier: number; ids: string[] }
   /** The turn-based dojo singles (recs FIGHT-28): one Nubbin, or a party of up to three. */
-  | { kind: 'dojo'; tier: number; ids: string[] }
+  | {
+      kind: 'dojo';
+      tier: number;
+      ids: string[];
+      /** The Dojo Ladder (recs FIGHT-99): the belt being climbed, 1 (white) to 5 (black). */
+      ladder?: number;
+    }
   /** A story's own bout (FIGHT-29): Logged In's 3v3 against the digital foes. */
   | { kind: 'story'; storyline: 'logged'; tier: number; ids: string[] }
   /** A Grove Circuit match against one of the ten Keepers (FIGHT-22). */

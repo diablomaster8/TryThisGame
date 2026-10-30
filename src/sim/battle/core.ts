@@ -22,6 +22,7 @@ import { turnAct } from './turn';
 import { autoResolve, skippable } from './auto';
 import { debugAct } from './debug';
 import { noteSeen } from './seen';
+import { ladderRival, ladderValid } from './ladder';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -72,10 +73,17 @@ export function createBattle(
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
       return null;
-    if (context.kind === 'dojo' && tier > world.karate.belt + 1) return null;
+    if (context.kind === 'dojo' && !context.ladder && tier > world.karate.belt + 1) return null;
+    if (context.kind === 'dojo' && context.ladder && !ladderValid(world, context)) return null;
     // Doubles (FIGHT-60) is exactly two a side; anything less is not a doubles bout.
     const doubles = !!context.doubles;
-    const cap = doubles ? BATTLE_DOUBLES.slots : context.kind === 'encounter' ? 6 : 3;
+    const cap = doubles
+      ? BATTLE_DOUBLES.slots
+      : context.kind === 'encounter'
+        ? 6
+        : context.kind === 'dojo' && context.ladder
+          ? 1
+          : 3;
     const party = partyOf(world, context.ids).slice(0, cap);
     if (party.length === 0 || (doubles && party.length < BATTLE_DOUBLES.slots)) return null;
     allies = party.map((n) => combatantOf(n, world));
@@ -152,8 +160,11 @@ function foeSpecs(
         level: lv,
         name: FOE_NAME_BASE + i,
       }));
-    case 'dojo':
-      return [{ species: rivalSpecies(world, context, 0, 1), level: lv }];
+    case 'dojo': {
+      // The Dojo Ladder (FIGHT-99) sends a rival a little above the fighter, more each belt.
+      const up = context.ladder ? ladderRival(world, context).level : 0;
+      return [{ species: rivalSpecies(world, context, 0, 1), level: lv + up }];
+    }
     case 'party':
       return Array.from({ length: Math.min(T.foesPerTier, partySize) }, (_, i) => ({
         species: rivalSpecies(world, context, i, Math.min(T.foesPerTier, partySize)),
@@ -170,6 +181,7 @@ function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
   // Doubles has no bench: both of each side's two are on the field.
   if (c.kind !== 'karate' && c.doubles) s.doubles = true;
   else if (singles) s.lead = [0, 0];
+  if (c.kind === 'dojo' && c.ladder) s.ai = ladderRival(world, c).ai;
   if (c.kind === 'circuit') {
     s.ai = c.champion ? 'champion' : c.tier >= 3 ? 'champion' : 'keeper';
     const g = CIRCUIT_GIMMICK[c.trainer];
