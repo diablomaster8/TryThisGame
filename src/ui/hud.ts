@@ -127,7 +127,7 @@ import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
 import { villageTap } from './village-tap';
-import { OUTER_TEXT } from '../config/strings';
+import { outerLine } from './outer-gag';
 import { outerTapOf } from '../config/outer-ring';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
@@ -1523,7 +1523,8 @@ export function mountHud(
         else if (which === 'windmill') toast(UI_TEXT.windmillTap);
         else if (which === 'cave') dungeon.open();
         // R0072: an outer-ring piece answers with its line.
-        else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
+        // R0129: and a gag on later taps (`ui/outer-gag.ts`).
+        else if (outerTapOf(which)) toast(outerLine(which, g.world) ?? '');
         // R0095: the village square's buildings and recruits.
         else villageTap(which, g.world, { shop: () => shop.open(), gym: () => gym.open() }, toast);
         return;

@@ -32,7 +32,7 @@ export const WORLD_TRACES: WorldTrace[] = [
     at: { x: -14, z: 15 },
     lines: [
       { who: 'narrator', text: 'The first flower on the hill grows by the big stone. Its petals lean toward the cottage.' },
-      { who: 'narrator', text: 'Somebody keeps the moss off the stone. It is not you. Not yet.', mood: 'soft' },
+      { who: 'narrator', text: 'Somebody keeps the moss off the stone. It is not you, not yet.', mood: 'soft' },
     ],
     childLines: {
       'grove-first-flower#1': 'Somebody keeps the stone clean. Maybe one day it will be you.',

@@ -36,7 +36,15 @@ export type OuterArt =
 
 export type OuterPlace = 'northWood' | 'eastRidge' | 'southMarsh' | 'westMeadow' | 'farOrchard';
 
-export type OuterTap = 'fairyRing' | 'trail' | 'telescope' | 'stiltLane' | 'scarecrow' | 'hive';
+export type OuterTap =
+  | 'fairyRing'
+  | 'trail'
+  | 'telescope'
+  | 'stiltLane'
+  | 'scarecrow'
+  | 'hive'
+  /** R0129: a piece made for a gag (`content/world-gags.ts`) and nothing else. */
+  | 'gag';
 
 export interface OuterProp {
   id: string;
@@ -119,6 +127,17 @@ export const OUTER_PROPS: readonly OuterProp[] = [
     tap: 'stiltLane',
   },
   { id: 'sm-cattails', place: 'southMarsh', art: 'cattails', x: 3, z: 39.5, size: 1.3 },
+  // R0129: the nibbled "Do not feed the Nubbins" sign.
+  {
+    id: 'sm-sign',
+    place: 'southMarsh',
+    art: 'signpost',
+    x: 4.5,
+    z: 35.5,
+    size: 1.5,
+    tap: 'gag',
+    solid: 0.25,
+  },
   // The west meadow: a ring of hay bales to play in, a scarecrow, poppies and a hay cart.
   { id: 'wm-hay-1', place: 'westMeadow', art: 'hay', x: -30, z: 13, size: 1.6 },
   { id: 'wm-hay-2', place: 'westMeadow', art: 'hay', x: -33.5, z: 12.5, size: 1.6, yaw: 0.3 },
@@ -194,6 +213,17 @@ export const OUTER_PROPS: readonly OuterProp[] = [
     solid: 0.3,
   },
   { id: 'fo-crate', place: 'farOrchard', art: 'apple-crate', x: 25, z: 32.5, size: 1.2 },
+  // R0129: the signpost whose every arrow points to the Grove.
+  {
+    id: 'fo-sign',
+    place: 'farOrchard',
+    art: 'signpost',
+    x: 21.5,
+    z: 33,
+    size: 1.5,
+    tap: 'gag',
+    solid: 0.25,
+  },
   { id: 'fo-ladder', place: 'farOrchard', art: 'ladder', x: 29.2, z: 32.6, size: 1.6, yaw: 0.6 },
 ];
 

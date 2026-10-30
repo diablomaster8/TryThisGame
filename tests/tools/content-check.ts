@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import * as C from '../../src/content/index';
+import { OUTER_PROPS } from '../../src/config/outer-ring';
 import { SPEAKERS } from '../../src/config/story';
 import { speakerNameIn } from '../../src/sim/story-scenes';
 import type { Quest } from '../../src/content/types';
@@ -802,7 +803,7 @@ for (const q of allQuests) {
       for (const text of [l.text, t.childLines[`${t.id}#${i}`]]) {
         if (text === undefined) continue;
         if (text.length > 100) problems.push(`${t.id}#${i}: over 100 characters`);
-        if ((text.match(/[.!?](s|$)/g) ?? []).length > 2)
+        if ((text.match(/[.!?](\s|$)/g) ?? []).length > 2)
           problems.push(`${t.id}#${i}: over two sentences`);
       }
     });
@@ -813,6 +814,36 @@ for (const q of allQuests) {
   }
   for (const [region, n] of perRegion)
     if (n < 3) problems.push(`traces: ${region} has ${n}, needs at least 3`);
+}
+// 9b. World gags (R0129): the trace rules for lines, a real tappable outer-ring piece each, and
+// at least three in every region that has any.
+{
+  const perRegion = new Map<string, number>();
+  const ids = new Set<string>();
+  for (const g of C.WORLD_GAGS) {
+    if (ids.has(g.id)) problems.push(`dup gag id ${g.id}`);
+    ids.add(g.id);
+    if (!REGIONS[g.region]) problems.push(`${g.id}: unknown region ${g.region}`);
+    perRegion.set(g.region, (perRegion.get(g.region) ?? 0) + 1);
+    if (!OUTER_PROPS.some((p) => p.id === g.piece && p.tap))
+      problems.push(`${g.id}: piece ${g.piece} is not a tappable outer-ring piece`);
+    if (g.lines.length < 1 || g.lines.length > 2) problems.push(`${g.id}: 1–2 lines`);
+    g.lines.forEach((l, i) => {
+      if (l.who !== 'narrator') problems.push(`${g.id}#${i}: gags are the narrator's`);
+      for (const text of [l.text, g.childLines[`${g.id}#${i}`]]) {
+        if (text === undefined) continue;
+        if (text.length > 100) problems.push(`${g.id}#${i}: over 100 characters`);
+        if ((text.match(/[.!?](\s|$)/g) ?? []).length > 2)
+          problems.push(`${g.id}#${i}: over two sentences`);
+      }
+    });
+    for (const k of Object.keys(g.childLines)) {
+      const [id, n] = k.split('#');
+      if (id !== g.id || !g.lines[Number(n)]) problems.push(`${g.id}: childLines key ${k}`);
+    }
+  }
+  for (const [region, n] of perRegion)
+    if (n < 3) problems.push(`gags: ${region} has ${n}, needs at least 3`);
 }
 // ---- Keeper barks (R0295): known Keepers, sane chapter ranges, phone-short lines
 for (const [who, sets] of Object.entries(C.BARKS)) {
