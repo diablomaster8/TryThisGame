@@ -1,4 +1,6 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { BIG_BUBBLES_TEXT } from '../config/strings-soul-r8';
+import { bigBubbles } from '../render/emote-size';
 import { SLAPSTICK_TEXT } from '../config/strings-fun-r7';
 import { confirmModal } from './confirm';
 import { CAMP_TEXT } from '../config/strings';
@@ -64,6 +66,8 @@ export class SettingsMenu {
   private readonly microSkip: HTMLInputElement;
   /** R0365: full, gentle or no slapstick. */
   private readonly slapstick: HTMLSelectElement;
+  /** R0549 (lane A r8): Big mood bubbles. */
+  private readonly bigBubbles: HTMLInputElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
@@ -314,6 +318,18 @@ export class SettingsMenu {
     // R0365: the Slapstick setting.
     this.slapstick = select(SLAPSTICK_TEXT.label, SLAPSTICK_TEXT.levels);
     body.appendChild(el('div', 'help', SLAPSTICK_TEXT.help));
+    // R0549 (lane A r8): Big mood bubbles (on by default in the Learning Grove).
+    const bigRow = el('label', 'check-row');
+    this.bigBubbles = el('input');
+    this.bigBubbles.type = 'checkbox';
+    this.bigBubbles.addEventListener('change', () => this.apply());
+    const bigText = el('span');
+    bigText.append(
+      el('strong', undefined, BIG_BUBBLES_TEXT.label),
+      el('small', undefined, BIG_BUBBLES_TEXT.help),
+    );
+    bigRow.append(this.bigBubbles, bigText);
+    body.appendChild(bigRow);
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
@@ -439,6 +455,7 @@ export class SettingsMenu {
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
     this.slapstick.value = g.world.settings.slapstick ?? 'full';
+    this.bigBubbles.checked = bigBubbles(g.world);
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
@@ -586,6 +603,8 @@ export class SettingsMenu {
       settings.voiceBlips = this.blips.checked;
     if (this.slapstick.value !== (g.world.settings.slapstick ?? 'full'))
       settings.slapstick = this.slapstick.value as NonNullable<Settings['slapstick']>;
+    if (this.bigBubbles.checked !== bigBubbles(g.world))
+      settings.bigBubbles = this.bigBubbles.checked;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.

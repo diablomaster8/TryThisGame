@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { phaseAt } from '../../src/render/daylight';
 import { landBeatFor, PetBeats, petBeatFor } from '../../src/render/pet-reactions';
 import { soulLookKind } from '../../src/render/soul-looks';
+import { bigBubbles, emoteScale } from '../../src/render/emote-size';
 import { clipFor, emoteFor } from '../../src/render/world-view';
 import { poseFor } from '../../src/render3d/actors';
 import { createWorld } from '../../src/sim/world';
@@ -75,5 +76,25 @@ describe('R0551 handling by personality', () => {
     expect(looks.size).toBe(4);
     n.personality = 'lazy';
     expect(landBeatFor(n)).toBe('flop');
+  });
+});
+
+describe('R0549 readable mood bubbles', () => {
+  it('1.5× when big, a 2× pop that settles in 300 ms, no pop under reduced motion', () => {
+    expect(emoteScale(false, null, false)).toBe(1);
+    expect(emoteScale(true, null, false)).toBe(1.5);
+    expect(emoteScale(false, 0, false)).toBe(2);
+    expect(emoteScale(true, 150, false)).toBeCloseTo(1.5 * 1.5);
+    expect(emoteScale(true, 300, false)).toBe(1.5);
+    expect(emoteScale(false, 0, true)).toBe(1);
+  });
+
+  it('is on by default in the Learning Grove only, and the setting wins', () => {
+    const w = createWorld(1, 0);
+    expect(bigBubbles(w)).toBe(false);
+    w.edu = {} as NonNullable<typeof w.edu>;
+    expect(bigBubbles(w)).toBe(true);
+    w.settings.bigBubbles = false;
+    expect(bigBubbles(w)).toBe(false);
   });
 });

@@ -376,6 +376,8 @@ export interface Settings {
   voiceBlips?: boolean;
   /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
   slapstick?: 'full' | 'gentle' | 'off';
+  /** R0549 (lane A r8): draw mood bubbles 1.5×; unset follows the Learning Grove (on there). */
+  bigBubbles?: boolean;
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';

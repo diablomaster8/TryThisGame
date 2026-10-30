@@ -12,6 +12,8 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
+import { emoteScale } from '../render/emote-size';
+import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
@@ -475,6 +477,8 @@ export class Actors {
 
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  emoteBig = false;
 
   sparkle(x: number, z: number, y: number, nowMs: number): void {
     const n = this.calm ? 3 : 8;
@@ -1238,7 +1242,14 @@ export class Actors {
             pop?.kind === 'squash' ? pop.startMs : null,
           );
           a.emote.position.set(ball.x, ball.y, ball.z);
-          a.emote.scale.set(0.5 * ball.sx, 0.5 * ball.sy, 1);
+          // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
+          const es = emoteScale(
+            this.emoteBig,
+            bubble ? nowMs - (bubble.untilMs - UI.bubbleMs) : null,
+            this.calm,
+          );
+          a.emote.position.y += (es - 1) * 0.25;
+          a.emote.scale.set(0.5 * ball.sx * es, 0.5 * ball.sy * es, 1);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }

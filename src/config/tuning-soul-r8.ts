@@ -132,3 +132,12 @@ export const ANTICS = {
   tailChance: 0.06,
   tailMs: 2200,
 } as const;
+
+/** R0549 (SOUL-31): emote balls a phone can read. */
+export const EMOTE_READ = {
+  /** At the far zoom, or with Big mood bubbles on, balls draw this much bigger. */
+  big: 1.5,
+  /** A new reaction bubble pops to this size and settles over `popMs`. */
+  pop: 2,
+  popMs: 300,
+} as const;

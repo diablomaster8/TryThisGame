@@ -21,6 +21,7 @@ import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
 import { daylightAt, type Daylight } from '../render/daylight';
 import { bubbleFor } from '../render/sprites/emote';
+import { bigBubbles } from '../render/emote-size';
 import { Picker } from '../render/picker';
 import type { TargetSize } from '../render/pipeline';
 import { CLAMP, PUSHERS, type Tex } from '../samples/aaa-kit';
@@ -1453,6 +1454,8 @@ export class Grove3dScene {
     this.hollow.lamps.reduceMotion = this.reduceMotion;
     this.bursts.calm = this.reduceMotion;
     this.actors.calm = this.reduceMotion;
+    // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
+    this.actors.emoteBig = orbit.currentZoomIndex === 0 || bigBubbles(world);
     this.hollow.update(run, world.keeper.pos, nowMs / 1000, this.camPos, party);
 
     // The Lakitu camera: orbit the Keeper at the snapped yaw, eased, never underground.

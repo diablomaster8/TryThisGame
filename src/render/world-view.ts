@@ -51,6 +51,7 @@ import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { bigBubbles, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -136,6 +137,8 @@ export class WorldView {
   }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  private emoteBig = false;
   /** LOOK-16: each Nubbin's emote ball on its spring. */
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
@@ -556,6 +559,8 @@ export class WorldView {
   }
 
   update(world: World, camera: OrbitCamera, alpha: number, nowMs: number): void {
+    // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
+    this.emoteBig = camera.currentZoomIndex === 0 || bigBubbles(world);
     const yaw = camera.currentYaw;
     const batch = this.batch;
     batch.begin(yaw, camera.pitch);
@@ -2239,16 +2244,22 @@ export class WorldView {
           1 / NATIVE_PPU,
           v.pop?.kind === 'squash' ? v.pop.startMs : null,
         );
+        // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
+        const es = emoteScale(
+          this.emoteBig,
+          v.bubble ? nowMs - (v.bubble.untilMs - UI.bubbleMs) : null,
+          this.particles.reduceMotion,
+        );
         this.batch.draw({
           sheet: emotes,
           rect: erect,
           flip: false,
           x: ball.x,
-          y: ball.y,
+          y: ball.y + ((es - 1) * erect.h) / NATIVE_PPU / 2,
           z: ball.z,
           mode: 'billboard',
-          w: (erect.w / NATIVE_PPU) * ball.sx,
-          h: (erect.h / NATIVE_PPU) * ball.sy,
+          w: (erect.w / NATIVE_PPU) * ball.sx * es,
+          h: (erect.h / NATIVE_PPU) * ball.sy * es,
         });
       }
     }

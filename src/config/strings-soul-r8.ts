@@ -73,3 +73,9 @@ export const SOUL_SHEET = {
     sleepy: 'Yawns and nods off. Half an hour of happy days will wake it up.',
   },
 } as const;
+
+/** R0549: the Settings toggle for bigger mood bubbles. */
+export const BIG_BUBBLES_TEXT = {
+  label: 'Big mood bubbles',
+  help: 'Draw the ball over each Nubbin larger, easier to read on a small screen.',
+} as const;
