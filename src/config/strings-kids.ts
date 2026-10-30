@@ -213,3 +213,12 @@ export const EDU_LIMITS_TEXT = {
   lock: 'Open straight into this Grove',
   lockHelp: 'A reload skips the title. Turn it off here to reach the other games.',
 } as const;
+
+/** R0703: the tracing game's spoken help. */
+export const TRACE_KID_TEXT = {
+  start: 'Start at the green dot.',
+  watch: 'Watch the finger, then you try!',
+  helped: "Let's do that one together.",
+  good: 'Yes!',
+  done: 'You wrote it!',
+} as const;
