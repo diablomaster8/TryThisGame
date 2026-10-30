@@ -1263,7 +1263,7 @@ button,
 }
 
 .dialogue-text {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.4;
   min-height: 3.2em;
 }
@@ -1293,7 +1293,7 @@ button,
 
 .btn-choice {
   text-align: left;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 @media (max-width: 600px) {
@@ -1302,7 +1302,7 @@ button,
     height: 64px;
   }
   .dialogue-text {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 }
 
@@ -1359,7 +1359,7 @@ button,
 /* Ask options and do cards: big, one-thumb targets. */
 .btn-choice.edu-option {
   min-height: 52px;
-  font-size: 17px;
+  font-size: 1.0625rem;
   text-align: center;
 }
 
@@ -2447,7 +2447,7 @@ select {
 }
 
 .item-card-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.2;
   text-align: center;
   max-width: 120px;
@@ -2484,7 +2484,7 @@ select {
 
 .postcard-hint {
   margin-bottom: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: rgba(255, 246, 224, 0.7);
 }
 
@@ -2955,12 +2955,12 @@ select {
   min-width: 76px;
   min-height: 44px;
   padding: 6px 12px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .dialogue-skip.small {
   min-width: 56px;
-  font-size: 12px;
+  font-size: 0.75rem;
   opacity: 0.75;
 }
 
@@ -2985,7 +2985,7 @@ select {
   text-align: left;
   color: inherit;
   font: inherit;
-  font-size: 13px;
+  font-size: 0.8125rem;
   background: rgba(13, 10, 26, 0.78);
   border: 1px solid var(--hud-border);
   border-radius: 10px;
@@ -3011,7 +3011,7 @@ select {
 
 .objective-hint {
   opacity: 0.8;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* A phone keeps the chip to one line: the goal only, the hint is a tap away in the Journal. */
@@ -3055,7 +3055,7 @@ select {
 
 .edu-entry-card h2 {
   margin: 0;
-  font-size: 22px;
+  font-size: 1.375rem;
 }
 
 .edu-entry-btn {
@@ -3064,7 +3064,7 @@ select {
   justify-content: center;
   gap: 14px;
   min-height: 84px;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
 .edu-entry-icon {
@@ -4058,4 +4058,12 @@ body.edu-sprout .modal-head .btn-close {
     outline: 3px solid #ffd84a;
     outline-offset: 2px;
   }
+}
+/* R0469 (TECH-27): the dialogue box grows upward with its text (it is bottom-anchored) and
+   stops at 45% of the screen; past that its text and choices scroll inside it. */
+.dialogue-body {
+  max-height: calc(45vh - 28px);
+  max-height: calc(45dvh - 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
