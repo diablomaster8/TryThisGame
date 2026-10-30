@@ -139,3 +139,19 @@ export const WEATHER_GAGS = {
   puddleWindowMs: 60_000,
   paddleMs: 4000,
 } as const;
+
+/**
+ * R0330 (FUN-41): Nubbins playing together. Per mille chances (doubled for friends): a
+ * Nubbin within `copyReach` copies a neighbour's reaction `copyDelayMs` later; two walkers
+ * closer than `bumpReach` bump; two after one fruit tug, and the hungrier wins. Each
+ * Nubbin rests `cooldownMs` between plays.
+ */
+export const PAIR_PLAY = {
+  copyPerMille: 350,
+  bumpPerMille: 600,
+  copyReach: 3,
+  copyDelayMs: 500,
+  bumpReach: 0.5,
+  tugReach: 1.2,
+  cooldownMs: 45_000,
+} as const;

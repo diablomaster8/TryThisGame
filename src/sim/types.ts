@@ -1298,6 +1298,8 @@ export type SimEvent =
   | { kind: 'questClaimed'; id: string; shells: number; egg: boolean }
   | { kind: 'questsRefreshed' }
   | { kind: 'friendsMade'; a: string; b: string }
+  /** R0330 (FUN-41): two Nubbins play together: a copycat, a tug over fruit, a bump. */
+  | { kind: 'pairPlay'; play: 'copy' | 'tug' | 'bump'; a: string; b: string }
   | { kind: 'wildArrived'; id: string; species: string; patch: HabitatKind }
   | { kind: 'wildSettled'; species: string; nubbinId: string }
   | { kind: 'wildLeft'; id: string }
