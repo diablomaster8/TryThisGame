@@ -20,6 +20,8 @@ import { ACTS } from '../../src/config/dungeon-acts';
 import { cosmetic } from '../../src/config/cosmetics';
 import { HOLLOW_CAPE, HOLLOW_HATS } from '../../src/config/cosmetics-hollow';
 import { bossWon } from '../../src/sim/dungeon-boss';
+import { noteActTime, speedKey } from '../../src/sim/dungeon-speed';
+import { goToLevel } from '../../src/sim/dungeon-travel';
 import { foeLevel } from '../../src/sim/dungeon-density';
 import { hollowTier, noteFinalBoss, setHollowTier, tiersOpen } from '../../src/sim/dungeon-tiers';
 import { rollRarity } from '../../src/sim/gear';
@@ -473,5 +475,49 @@ describe('Hollow keepsakes (R0206)', () => {
       expect(c.px?.length).toBeGreaterThan(0);
       expect(c.mesh?.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('speed runs (R0187)', () => {
+  it('splits per level and keeps the best per act and tier', () => {
+    const world = createWorld(6, 0);
+    const events: SimEvent[] = [];
+    for (const n of world.nubbins) hatch(n, events, 0);
+    applyCommand(world, { kind: 'hollowSpeedRun', on: true }, events);
+    const trip = (wait: number): SimEvent[] => {
+      const out: SimEvent[] = [];
+      world.dungeon = null;
+      world.location = 'grove';
+      applyCommand(world, { kind: 'enterAct', act: 0 }, out);
+      const run = world.dungeon!;
+      goToLevel(world, run, actStartDepth(0), 'up', out);
+      for (let i = 0; i < 2; i++) {
+        run.packs = [];
+        run.strays = [];
+        run.graceUntilMs = 0;
+        out.push(...step(world, wait));
+        const f = runFloor(world)!;
+        world.keeper.pos = cellCentre(f, f.stairsDown!);
+        run.pending = 'down';
+        run.pendingPos = { ...world.keeper.pos };
+        world.keeper.moveTarget = run.pendingPos;
+        out.push(...step(world, 200));
+      }
+      noteActTime(world, run, out);
+      return out;
+    };
+    const first = trip(2000);
+    expect(first.filter((e) => e.kind === 'speedSplit')).toHaveLength(2);
+    const rec = world.hollow.records![speedKey(0, 'cosy')]!;
+    expect(rec.splits).toHaveLength(2);
+    const best = rec.bestMs;
+    const slow = trip(4000);
+    expect(slow.find((e) => e.kind === 'speedFinish')).toMatchObject({ best: false });
+    expect(world.hollow.records![speedKey(0, 'cosy')]!.bestMs).toBe(best);
+    const split = slow.find((e) => e.kind === 'speedSplit');
+    expect(split && split.kind === 'speedSplit' && split.delta! > 0).toBe(true);
+    applyCommand(world, { kind: 'hollowSpeedRun', on: false }, events);
+    expect(world.hollow.speedRun).toBeUndefined();
+    expect(world.hollow.records).toBeTruthy();
   });
 });

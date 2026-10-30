@@ -491,4 +491,15 @@ export const HOLLOW_R7_TEXT = {
     'hollow-cape': 'Keeper of the Hollow Cape',
   },
   wearableGiven: (name: string) => `A keepsake from the deep: ${name}. It's in the Roster.`,
+  /** R0187: speed runs. */
+  speedOn: '⏱ Speed run: on',
+  speedOff: '⏱ Speed run: off',
+  split: (n: number, time: string, delta: string) => `⏱ Level ${n}: ${time}${delta}`,
+  delta: (ahead: boolean, time: string) => (ahead ? ` (${time} ahead)` : ` (${time} behind)`),
+  finish: (time: string, best: boolean) =>
+    best
+      ? `⏱ ${time}. A new best for this act!`
+      : `⏱ ${time}. Not your quickest, but who's counting?`,
+  journalTimes: '⏱ Best act times',
+  journalTime: (act: string, tier: string, time: string) => `${act} (${tier}): ${time}`,
 };

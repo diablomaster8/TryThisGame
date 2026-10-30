@@ -107,6 +107,7 @@ import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
 import { HAT_LABELS, HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
+import { clockText } from '../sim/dungeon-log';
 import { eduBreakActive, eduBreakDue } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
@@ -1327,6 +1328,15 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+        } else if (e.kind === 'speedSplit') {
+          // Lane B round 7: speed runs (R0187).
+          const d =
+            e.delta === undefined
+              ? ''
+              : HOLLOW_R7_TEXT.delta(e.delta <= 0, clockText(Math.abs(e.delta)));
+          toast(HOLLOW_R7_TEXT.split(e.n, clockText(e.ms), d));
+        } else if (e.kind === 'speedFinish') {
+          toast(HOLLOW_R7_TEXT.finish(clockText(e.ms), e.best));
         } else if (e.kind === 'hollowWearable') {
           // Lane B round 7: a boss's keepsake (R0206).
           toast(

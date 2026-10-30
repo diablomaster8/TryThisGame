@@ -717,6 +717,8 @@ export interface DungeonRun {
   // Lane B round 7.
   /** R0204: level ids whose picnic is had (newest last), the time on the rug so far, and the
    * tent's "safe to close" note shown while the Keeper stands there. */
+  /** R0187: speed-run splits so far (sim ms since the run began, one per level gone down). */
+  splits?: number[];
   /** R0179: this act run's tier (absent: Cosy). */
   difficulty?: 'brisk' | 'wild';
   picnics?: string[];
@@ -1054,6 +1056,9 @@ export interface World {
         { acts: ActProgress[]; waypoints: string[]; bossChests: number[] }
       >
     >;
+    /** R0187: the speed-run toggle, and the best time and splits per act and tier ("0:cosy"). */
+    speedRun?: boolean;
+    records?: Record<string, { bestMs: number; splits: number[] }>;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1277,6 +1282,7 @@ export type Command =
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowSpeedRun'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1543,6 +1549,8 @@ export type SimEvent =
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowTierOpened'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowWearable'; id: string }
+  | { kind: 'speedSplit'; n: number; ms: number; delta?: number }
+  | { kind: 'speedFinish'; ms: number; best: boolean; was?: number }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }

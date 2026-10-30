@@ -12,6 +12,7 @@
  */
 import { arenaFor, type HollowArena } from './dungeon-arena';
 import { fightFlag, noteFinalBoss } from './dungeon-tiers';
+import { noteActTime } from './dungeon-speed';
 import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { noteFight } from './dungeon-log';
@@ -448,6 +449,8 @@ export function finishEncounter(
       events.push({ kind: 'bossBeaten', act: run.act });
       // R0179: the last act's boss opens the next tier.
       noteFinalBoss(world, run.act, events);
+      // R0187: a speed run's time for the act.
+      noteActTime(world, run, events);
       // R0160: the big chest, the celebration and the next act's waypoint (first time only).
       bossWon(world, run, spec.members[0]?.level ?? run.depth, drops, events);
     }

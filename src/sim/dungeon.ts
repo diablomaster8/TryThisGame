@@ -22,6 +22,7 @@ import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
 import { stepPicnic } from './dungeon-picnic';
+import { noteSplit } from './dungeon-speed';
 import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
@@ -1082,6 +1083,7 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
     return;
   }
   noteLevelDone(world, run);
+  noteSplit(world, run, events);
   rememberLevel(run);
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.

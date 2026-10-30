@@ -22,6 +22,7 @@ import { HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
 import { hollowTier, TIERS, tiersOpen } from '../sim/dungeon-tiers';
 import { HOLLOW_R6 } from '../config/tuning';
 import { clockText } from '../sim/dungeon-log';
+import { runClock } from '../sim/dungeon-speed';
 import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
 
@@ -258,6 +259,9 @@ export class DungeonMenu {
             ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
             : DUNGEON_TEXT.floor(run.depth);
     this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
+    // R0187: the speed run's clock, on the sim clock (it stops when the game does).
+    if (world.hollow.speedRun && run.act !== undefined)
+      this.barText.textContent += ` · ⏱ ${clockText(runClock(world, run))}`;
     // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
     const sack = sackCount(run);
     if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
@@ -286,6 +290,20 @@ export class DungeonMenu {
       tiers.appendChild(b);
     }
     this.acts.append(tiers, el('small', 'help', HOLLOW_R7_TEXT.tiers[hollowTier(world)].help));
+    // R0187: the speed-run toggle.
+    const speed = button(
+      world.hollow.speedRun ? HOLLOW_R7_TEXT.speedOn : HOLLOW_R7_TEXT.speedOff,
+      () => {
+        this.game()?.send({ kind: 'hollowSpeedRun', on: !world.hollow.speedRun });
+        setTimeout(() => {
+          const g = this.game();
+          if (g && this.dialog.isOpen()) this.listActs(g.world);
+        }, 250);
+      },
+      'btn btn-small hollow-tier',
+    );
+    speed.setAttribute('aria-pressed', String(!!world.hollow.speedRun));
+    this.acts.append(speed);
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);

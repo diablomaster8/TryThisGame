@@ -838,6 +838,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'hollowTier':
       setHollowTier(world, cmd.tier, events);
       return;
+    case 'hollowSpeedRun':
+      // R0187: the speed-run toggle; off drops nothing.
+      if (cmd.on) world.hollow.speedRun = true;
+      else delete world.hollow.speedRun;
+      return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
       withRng(world, (rng) => waypointTravel(world, cmd.id, rng, events));
