@@ -151,6 +151,11 @@ export function obstacles(world: World | null): readonly Collider[] {
   return table(world).list;
 }
 
+/** R0123: how many colliders a query at the point scans (the grid cell, or the whole list). */
+export function scannedAt(world: World | null, p: Vec2, radius: number): number {
+  return near(world, p, radius).length;
+}
+
 function near(world: World | null, p: Vec2, radius: number): readonly Collider[] {
   const t = table(world);
   if (radius > PAD) return t.list;
