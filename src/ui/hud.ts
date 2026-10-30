@@ -50,6 +50,8 @@ import {
   setSfxVolume,
   setSoundEnabled,
 } from '../platform/audio';
+import { playHollowCue } from '../platform/audio';
+import { hollowCueFor } from './hollow-sounds';
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
@@ -1093,6 +1095,9 @@ export function mountHud(
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
+        // R0199 (lane B r7): the Hollow's encounter cues.
+        const cue = hollowCueFor(e, g.world);
+        if (cue) playHollowCue(cue);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1325,7 +1330,6 @@ export function mountHud(
         } else if (e.kind === 'packBeaten') {
           // Monster packs (lane B, R0146).
           toast(HOLLOW_TEXT.packBeaten(e.shells));
-          playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
         } else if (e.kind === 'speedSplit') {
@@ -1368,7 +1372,6 @@ export function mountHud(
           // Lane B round 3: shrines (R0159).
           const k = SHRINE_TEXT.kinds[e.shrine];
           if (k) toast(SHRINE_TEXT.used(k.name, k.does));
-          playSound('buy');
         } else if (e.kind === 'shrineFaded') {
           const k = SHRINE_TEXT.kinds[e.shrine];
           if (k) toast(SHRINE_TEXT.faded(k.name));
@@ -1460,7 +1463,6 @@ export function mountHud(
           // Lane B round 2: waypoints, new paths and the Homing Acorn.
         } else if (e.kind === 'waypointActivated') {
           toast(HOLLOW_TEXT.waypointActivated);
-          playSound('pickup');
         } else if (e.kind === 'waypointArrived') {
           toast(HOLLOW_TEXT.waypointArrived);
         } else if (e.kind === 'actsRerolled') {
