@@ -55,14 +55,17 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   (live and offline), Battle Book in the Collection, battle/circuit/calm songs and per-type
   hit sounds, personality idles (turn screen, Pixel and 3D boards, gallery row), 12 trial maps
   with par hats and a BFS solver test, merged partners as one tall tactics unit, replay codes
-  and Save as postcard, dead karate/party-bout keys deleted. Edge: Pixel and 3D at desk and
+  and Save as postcard, dead karate/party-bout keys deleted, Neopia/Atlas `karate:survive:*`
+  steps as real survive bouts fought by copies (R0340), slapstick (5 % fumbles, the dizzy
+  spiral, pond pushes) and `docs/fight-design.md` (R0363). Edge: Pixel and 3D at desk and
   375×812 all pass, 0 console errors, axe 0 issues on the battle screen, turn mode 55.8–56.6
   fps and a 16×16 tactics board 56.5 fps at 4× CPU throttle.
 - *Stubbed:* Pixel board still 13 `drawImage` a frame (R0253 wants ≤3 via WebGL). Story bouts
   are offered from the dojo list, not yet at their campaign beats; the skip-everything
   8-endings replay was not run. The guardian waits on lane B to call `startGuardian` on floor
   5. Fusion has a log line and no transform animation. Sprite gallery idles are Pixel only.
-  No Circuit race (R0333, lane A's races). Balance harness unchanged (Sprout median ~32).
+  No Circuit race (R0333, lane A's races). Survive bosses use stand-in species (no Chia art)
+  and the NP1 bout was checked in the sim, not clicked through in Edge. Balance harness unchanged (Sprout median ~32).
 - *Known bugs / assumptions:* the trials modal is not on the HUD's panel stack (Escape
   doesn't close it; use Close). "S-grade-only trait refresh" read as: the black belt clears the
   moody trait of a Nubbin with an S grade. A load with an unfinished turn bout holds the party's
