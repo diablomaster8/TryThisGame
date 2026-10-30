@@ -109,3 +109,10 @@ export const CHILD_HINT = {
   to: 0.5,
   steps3d: 4,
 };
+
+export const EYE_TRACK = {
+  /** LOOK-52: a Nubbin's eyes follow the Keeper within this many metres. */
+  range: 5,
+  /** Pixel: closer than this across the screen, the eyes stay centred. */
+  deadZone: 0.3,
+};

@@ -26,6 +26,7 @@ import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
+import { EYE_TRACK } from '../config/tuning';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -162,6 +163,9 @@ interface KeeperSlot {
 
 /** The tap sparkles' colour. */
 const SPARK = new THREE.Color('#fff2a8');
+/** LOOK-52: the poses whose eyes follow the Keeper (not asleep, dizzy, crying or swimming). */
+const GLANCE_POSES: ReadonlySet<PoseName> = new Set<PoseName>(['idle', 'walk', 'happy', 'eat']);
+
 export class Actors {
   readonly group = new THREE.Group();
   readonly pool = takePool();
@@ -727,6 +731,9 @@ export class Actors {
     return this.ground(x, z);
   }
 
+  /** LOOK-52: where the Keeper's face is this frame. */
+  private readonly glanceAt = new THREE.Vector3();
+
   /** Where the Keeper's stroking hand is, in world space (a fresh vector). */
   private keeperHand(rig: Rigged | null, keeper: World['keeper']): THREE.Vector3 {
     const elbow = rig?.bones.elbowR;
@@ -869,6 +876,11 @@ export class Actors {
     // The hand the petted Nubbin looks at: the Keeper's right hand when the rig is up,
     // else a point at chest height in front of the Keeper.
     const hand = this.keeperHand(rig, keeper);
+    // LOOK-52: the Keeper's face, which awake Nubbins within range follow with their eyes.
+    const head = rig?.bones.head;
+    if (head) head.getWorldPosition(this.glanceAt);
+    else
+      this.glanceAt.set(keeper.pos.x, this.ground(keeper.pos.x, keeper.pos.z) + 1.4, keeper.pos.z);
     let petted = false;
     // Visitors, wild ones, the Hollow's strays and the story places' grey Nubbins.
     this.crowd.update(
@@ -963,7 +975,13 @@ export class Actors {
         if (n.eternal && !inWater && !held) a.rig.lift += 0.05 + Math.sin(t * 1.3) * 0.015;
         if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
-        a.rig.lookAt = pose === 'pet' ? hand : null;
+        a.rig.lookAt =
+          pose === 'pet'
+            ? hand
+            : GLANCE_POSES.has(pose) &&
+                Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < EYE_TRACK.range
+              ? this.glanceAt
+              : null;
         if (n.behavior.state === 'pet' && near) petted = true;
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));

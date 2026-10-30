@@ -63,6 +63,7 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
+import { EYE_TRACK } from '../config/tuning';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -1927,6 +1928,22 @@ export class WorldView {
             ? frameAt(def, nowMs - v.clipStartMs)
             : 0;
       key = frameKey(clip, view.angle, frame);
+      // LOOK-52: standing idle near the Keeper, the eyes glance its way across the screen
+      // (never on the blink frame).
+      const kp = world.keeper.pos;
+      const kdx = kp.x - n.pos.x;
+      const kdz = kp.z - n.pos.z;
+      if (
+        clip === 'idle' &&
+        frame % 8 !== 7 &&
+        !held &&
+        Math.hypot(kdx, kdz) < EYE_TRACK.range &&
+        sheet.frames.has(frameKey('glance', view.angle, 0))
+      ) {
+        const sx = kdx * Math.cos(yaw) - kdz * Math.sin(yaw);
+        if (Math.abs(sx) > EYE_TRACK.deadZone)
+          key = frameKey('glance', view.angle, sx > 0 !== view.flip ? 1 : 0);
+      }
       if (sig && sheet.frames.has(frameKey(sig.clip, view.angle, sig.frame))) {
         key = frameKey(sig.clip, view.angle, sig.frame);
         flip = flip !== sig.flip;

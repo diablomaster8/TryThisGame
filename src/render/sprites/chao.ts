@@ -509,6 +509,8 @@ export interface ChaoPose {
   waterRise?: number;
   /** LOOK-23: kick splashes behind the body (the crawl). */
   kick?: boolean;
+  /** LOOK-52: the eyes glance a fine pixel toward the frame's left (-1) or right (1). */
+  glance?: -1 | 1;
 }
 
 const BASE: ChaoPose = {
@@ -1491,6 +1493,9 @@ function drawFace(
       case 'wide': {
         const ry = pose.eyes === 'wide' ? 3 : 2.6;
         pc.ellipse(cx, eyeY, rx, ry, col.eye);
+        // LOOK-52: a glance slides the iris and catchlights one fine pixel toward the Keeper.
+        const g = (pose.glance ?? 0) * 0.5;
+        cx += g;
         pc.ellipse(cx + 0.15, eyeY + 0.7, rx * 0.62, ry * 0.55, iris);
         pc.ellipse(cx + 0.15, eyeY + 0.9, rx * 0.32, ry * 0.3, col.eye);
         const gx = cx - (narrow ? 0.2 : 0.6);
@@ -1887,6 +1892,13 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
       frameKey('held', angle, 0),
       drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
+    // LOOK-52: the idle stance glancing left (frame 0) or right (1), for the facing views.
+    if (angle === 'front' || angle === 'frontQuarter')
+      for (const [f, glance] of [
+        [0, -1],
+        [1, 1],
+      ] as const)
+        atlas.add(frameKey('glance', angle, f), drawChao(angle, { ...BASE, glance }, look));
     // K1 and LOOK-20: sitting awake on its bottom, the legs straight out in front, eyes open
     // (the sleep frames shut them), with a slow breath over two frames.
     for (let f = 0; f < 2; f++)
