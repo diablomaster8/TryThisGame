@@ -6,6 +6,9 @@ import { confirmModal } from './confirm';
 import { journalView } from '../sim/storyline';
 import { storylines } from '../sim/story-scenes';
 import { button, el } from './dom';
+import { JOURNAL_TEXT } from '../config/strings-journal';
+import { JOURNAL } from '../config/tuning-journal';
+import { lineMinutesLeft } from './journal-search';
 
 /**
  * Lane C round 7 (R0596, R0643): the journal's "Other roads", the questlines that run beside
@@ -48,6 +51,14 @@ export function renderLines(
       const view = journalView(g.world, line, false);
       if (view) {
         card.appendChild(el('p', undefined, CAMP_TEXT.chapterOf(view.n, view.final, view.title)));
+        // R0635 (lane C r9): the line's chapters left, in rough minutes.
+        card.appendChild(
+          el(
+            'small',
+            undefined,
+            JOURNAL_TEXT.lineLeft(lineMinutesLeft(view.n, view.final, JOURNAL.minutesPerChapter)),
+          ),
+        );
         card.appendChild(el('p', undefined, `${view.goalText}${view.met ? ' ✓' : ''}`));
         card.appendChild(el('p', 'help', view.hint));
         const row = el('div', 'journal-actions');

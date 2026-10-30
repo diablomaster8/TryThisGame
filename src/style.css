@@ -4056,3 +4056,127 @@ body.edu-sprout .modal-head .btn-close {
 .roster-personality.forming {
   opacity: 0.7;
 }
+
+/* Lane C r9 (agent J): the journal's tabs, Quests page, Errands and endings shelf, its phone
+   sheet (R0660), and the offer card's giver portrait (R0606). */
+.journal-tabs {
+  flex-wrap: wrap;
+}
+.journal-quests .journal-search {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 8px 0;
+}
+.journal-quests .journal-search input {
+  min-height: 44px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 10px;
+  font-size: 1rem;
+}
+.journal-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.journal-chip[aria-pressed='true'] {
+  outline: 2px solid #f2d34c;
+}
+.journal-quest-list .journal-line.done {
+  opacity: 0.75;
+}
+.journal-errands {
+  margin: 8px 0;
+}
+.journal-errands > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.journal-shelf-list {
+  margin: 4px 0 10px;
+  padding-left: 18px;
+}
+.journal-shelf-list li {
+  margin: 4px 0;
+}
+.journal-shelf-list li.reached {
+  font-weight: 700;
+}
+@media (orientation: portrait) and (max-width: 600px) {
+  .journal-tabs.journal-tabs-foot {
+    position: sticky;
+    bottom: 72px;
+    z-index: 1;
+    margin-top: 12px;
+    padding: 6px 0;
+    background: #231c3f;
+    box-shadow: 0 -8px 10px 0 #1a1530;
+  }
+  .journal-modal .sheet-grip {
+    touch-action: none;
+    padding-top: 10px;
+    position: relative;
+  }
+  .journal-modal .sheet-grip::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+}
+.offer-card .offer-from-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.offer-card .offer-portrait {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  image-rendering: pixelated;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Lane C r9 (R0661, R0616): the chip's "Go there" and "Rest until …", beside its arrow. */
+.objective-go,
+.objective-rest {
+  pointer-events: auto;
+  position: absolute;
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+.objective-go {
+  left: calc(var(--safe-left) + 64px);
+  font-size: 20px;
+}
+.objective-rest {
+  left: calc(var(--safe-left) + 116px);
+  padding: 0 12px;
+  font-size: 14px;
+}
+/* The soft dim while resting: the Grove stays visible, only quieter. */
+html.story-resting canvas {
+  filter: brightness(0.7) saturate(0.8);
+  transition: filter 0.4s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.story-resting canvas {
+    transition: none;
+  }
+}
