@@ -3434,3 +3434,35 @@ select {
     max-width: none;
   }
 }
+
+/*
+ * Lane E r7, R0678 / R0679: the sprout band (ages 3–6). Every control is at least 64 px
+ * (72 px for the HUD), and the grown-up controls (Run, Keeper, Shop, the Grove switch, the
+ * camera buttons and gesture hints) are hidden; the camera still follows the Keeper.
+ */
+body.edu-sprout {
+  --tap-min: 64px;
+  --hud-btn: 72px;
+}
+body.edu-sprout .sprout-hide,
+body.edu-sprout .camera-buttons,
+body.edu-sprout .cam-north,
+body.edu-sprout .touch-hint {
+  display: none !important;
+}
+body.edu-sprout .btn {
+  min-height: var(--tap-min);
+}
+body.edu-sprout .topbar .btn:not(.btn-logo) {
+  min-width: var(--hud-btn);
+  min-height: var(--hud-btn);
+  font-size: 1.6rem;
+}
+body.edu-sprout .modal-head .btn-close {
+  min-width: var(--tap-min);
+}
+@media (min-width: 768px) {
+  body.edu-sprout {
+    --hud-btn: 80px;
+  }
+}

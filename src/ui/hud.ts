@@ -253,6 +253,8 @@ export function mountHud(
     game()?.send({ kind: 'setRunning', running: on });
   }
   root.appendChild(runBtn);
+  // R0679: what a sprout does not need (style.css hides these under `body.edu-sprout`).
+  for (const b of [runBtn, keeperBtn, shopBtn, groveBtn]) b.classList.add('sprout-hide');
   // MOVE-42: on a phone the Run toggle turns itself off after a few seconds standing still,
   // so it is never left on by accident. Shift on a keyboard is held, so it needs none.
   if (window.matchMedia?.('(pointer: coarse)').matches) {
@@ -964,6 +966,11 @@ export function mountHud(
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
       if (keysHint && keysHint.hidden !== isEdu) keysHint.hidden = isEdu;
+      // R0678 / R0679 (lane E r7): the sprout band's simple HUD of big picture buttons; the
+      // grown-up controls hide (style.css, `body.edu-sprout`). Readers keep the full HUD.
+      const sprout = isEdu && g.world.edu?.band === 'sprout';
+      if (document.body.classList.contains('edu-sprout') !== sprout)
+        document.body.classList.toggle('edu-sprout', sprout);
       // Pixel's cabinet: after chapter 5 in Hazel's Grove (canon 29), from the start in the Free Grove.
       const cabinetOpen =
         !isEdu && (currentSlot().mode === 'free' || (g.world.campaign?.chapter ?? 0) > 5);
