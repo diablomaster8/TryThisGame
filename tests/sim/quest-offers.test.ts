@@ -8,6 +8,7 @@ import {
   boardState,
   keeperArea,
   questBook,
+  playStats,
   questProgress,
 } from '../../src/sim/quest-offers';
 import { RUNNER_STORIES } from '../../src/sim/side-stories';
@@ -134,6 +135,8 @@ describe('the Open quest flow', () => {
     applyCommand(world, { kind: 'questShelve', id: 'q03' }, events);
     applyCommand(world, { kind: 'questAccept', id: 'q02' }, events);
     expect(questBook(world).entries.q02?.state).toBe('active');
+    // R0670: the counts match what was done (7 accepts, the capped one not counted; 2 shelves).
+    expect(playStats(world)).toMatchObject({ offered: 0, accepted: 7, declined: 0, shelved: 2 });
   });
 
   it('the campaign’s own stories refuse Not now and still open on their own (R0603)', () => {

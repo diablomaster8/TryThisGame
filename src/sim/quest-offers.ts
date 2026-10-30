@@ -173,6 +173,7 @@ export function stepQuestOffers(
     };
     book.offer = { quest: id, area: here, atMs: now };
     events.push({ kind: 'questOffered', quest: id, area: here });
+    count(world, 'offered');
     return;
   }
 }
@@ -195,6 +196,28 @@ export function debugOffer(world: World, id: string, events: SimEvent[]): boolea
   book.offer = { quest: id, area, atMs: world.timeMs };
   events.push({ kind: 'questOffered', quest: id, area });
   return true;
+}
+
+/** R0670: count one answer in the book's play stats. */
+function count(world: World, what: 'offered' | 'accepted' | 'declined' | 'shelved'): void {
+  const book = questBook(world);
+  const st = (book.stats ??= { offered: 0, accepted: 0, declined: 0, shelved: 0 });
+  st[what] += 1;
+}
+
+/** R0670: the play stats for Settings: the book's counts and sim minutes per running road. */
+export function playStats(world: World): {
+  offered: number;
+  accepted: number;
+  declined: number;
+  shelved: number;
+  lineMinutes: Record<string, number>;
+} {
+  const st = world.questBook?.stats ?? { offered: 0, accepted: 0, declined: 0, shelved: 0 };
+  const lineMinutes: Record<string, number> = {};
+  for (const [id, l] of Object.entries(world.lines ?? {}))
+    if (l.openedMs !== null) lineMinutes[id] = Math.round((world.timeMs - l.openedMs) / 60_000);
+  return { ...st, lineMinutes };
 }
 
 function entryFor(world: World, id: string): QuestEntry {
@@ -238,6 +261,7 @@ export function acceptQuest(
   e.state = 'active';
   e.acceptedMs ??= world.timeMs;
   clearOffer(book, id);
+  count(world, 'accepted');
   if (!book.tracked.includes(id) && book.tracked.length < QUEST_OFFERS.trackCap)
     book.tracked.push(id);
   return true;
@@ -253,6 +277,7 @@ export function declineQuest(world: World, c: CampaignState, id: string): boolea
   e.state = 'declined';
   e.declines += 1;
   clearOffer(book, id);
+  count(world, 'declined');
   return true;
 }
 
@@ -262,6 +287,7 @@ export function shelveQuest(world: World, id: string): boolean {
   const e = world.questBook?.entries[id];
   if (e?.state !== 'active') return false;
   e.state = 'shelved';
+  count(world, 'shelved');
   const book = questBook(world);
   book.tracked = book.tracked.filter((t) => t !== id);
   return true;

@@ -33,6 +33,7 @@ import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../confi
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
 import { OFFER_TEXT } from '../config/strings-camp';
+import { playStats } from '../sim/quest-offers';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -67,6 +68,7 @@ export class SettingsMenu {
   private readonly steady: HTMLInputElement;
   /** Lane C round 8 (R0664): the Open or Guided quest flow. */
   private readonly questFlow: HTMLSelectElement;
+  private readonly playLine: HTMLElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -341,6 +343,9 @@ export class SettingsMenu {
     this.questFlow = select(OFFER_TEXT.flowLabel, OFFER_TEXT.flowOptions);
     this.questFlow.title = OFFER_TEXT.flowHelp;
     body.appendChild(el('div', 'help', OFFER_TEXT.flowHelp));
+    // R0670: telemetry-free play counts; they travel in an exported save.
+    this.playLine = el('div', 'help');
+    body.appendChild(this.playLine);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -445,6 +450,16 @@ export class SettingsMenu {
     this.questFlow.value = g.world.settings.questFlow ?? 'guided';
     // A Learning Grove save always comes to you (R0629): the choice is not offered there.
     this.questFlow.disabled = g.world.edu !== null;
+    const ps = playStats(g.world);
+    this.playLine.textContent = OFFER_TEXT.yourPlay(
+      ps.offered,
+      ps.accepted,
+      ps.declined,
+      ps.shelved,
+      Object.entries(ps.lineMinutes)
+        .map(([id, m]) => OFFER_TEXT.roadMinutes(id, m))
+        .join(', '),
+    );
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;

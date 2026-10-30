@@ -414,6 +414,8 @@ export interface QuestBook {
   areas: Record<string, { firstMs: number; lastMs: number; visits: number }>;
   /** The area the Keeper stands in now (`region/poi`), or null between them. */
   here: string | null;
+  /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
+  stats?: { offered: number; accepted: number; declined: number; shelved: number };
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */

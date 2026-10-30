@@ -88,6 +88,10 @@ export const OFFER_TEXT = {
   stepOf: (i: number, n: number, min: number) => `Step ${i} of ${n} · about ${min} min left`,
   steps: (n: number) => (n === 1 ? '1 step' : `${n} steps`),
   flowLabel: 'Quests',
+  /** R0670: the play counts, kept only in this save. */
+  yourPlay: (o: number, a: number, d: number, s: number, roads: string) =>
+    `Your play: ${o} offered, ${a} taken on, ${d} put off, ${s} put aside.${roads ? ` Roads: ${roads}.` : ''}`,
+  roadMinutes: (id: string, min: number) => `${id} ${min} min`,
   flowHelp:
     'Open: stories wait where they happen, to take on or put off. Guided: they come to you.',
   flowOptions: {
