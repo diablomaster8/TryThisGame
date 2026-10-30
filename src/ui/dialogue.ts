@@ -13,6 +13,7 @@ import {
   type PlayScene,
 } from '../sim/story-scenes';
 import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from './lesson';
+import { sproutChoices } from './sprout-choices';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
 import { button, el } from './dom';
@@ -344,8 +345,9 @@ export class Dialogue {
   private showChoices(choices: NonNullable<ReturnType<typeof sceneFor>>['choices']): void {
     this.choices.innerHTML = '';
     this.next.hidden = true;
+    const made: HTMLButtonElement[] = [];
     for (const c of choices ?? []) {
-      this.choices.appendChild(
+      made.push(
         button(
           c.label,
           () => {
@@ -364,6 +366,11 @@ export class Dialogue {
         ),
       );
     }
+    this.choices.append(...made);
+    // R0677: a sprout sees numbered picture buttons and hears the choices read out.
+    const g = this.game();
+    if (g && textBandOf(g.world) === 'sprout')
+      sproutChoices(made, choices ?? [], !!g.world.edu?.readAloud);
   }
 
   private finish(choice: string | null): void {
@@ -609,10 +616,15 @@ export class Dialogue {
     if (l.kind === 'ask')
       this.playSub(l.prompt ?? [], () =>
         card(() =>
-          renderOptions(this.choices, l, (o, best) => {
-            this.next.hidden = false;
-            this.playSub(o.reply, () => done(best));
-          }),
+          renderOptions(
+            this.choices,
+            l,
+            (o, best) => {
+              this.next.hidden = false;
+              this.playSub(o.reply, () => done(best));
+            },
+            !!this.game()?.world.edu?.readAloud,
+          ),
         ),
       );
     else if (l.kind === 'do')

@@ -36,3 +36,20 @@ describe('Learning Grove minigame voice (R0674)', () => {
     expect(optionSay({ kind: 'count', icon: '🍎', n: 2, label: '2' })).toBe('one, two');
   });
 });
+
+describe('sprout choices (R0677)', () => {
+  it('reads the set out with numbers and falls back to a number icon', async () => {
+    const { choicesSpeech, choiceIcon } = await import('../../src/ui/sprout-choices');
+    expect(choicesSpeech(['Smile and wave', 'Run away'])).toBe(
+      'You can say: one, Smile and wave. two, Run away.',
+    );
+    expect(choiceIcon('🪨', 0)).toBe('🪨');
+    expect(choiceIcon(undefined, 1)).toBe('2️⃣');
+  });
+
+  it('chapter 1 sprout choices all carry an icon', async () => {
+    const { EDU_CAMPAIGN_1_SPROUT } = await import('../../src/content/edu-campaign-1-sprout');
+    for (const s of EDU_CAMPAIGN_1_SPROUT.scenes.filter((x) => x.of.startsWith('c1-')))
+      for (const c of s.choices ?? []) expect(c.icon, `${s.id} ${c.id}`).toBeTruthy();
+  });
+});

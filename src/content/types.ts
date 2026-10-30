@@ -158,6 +158,8 @@ export interface LessonOption {
   best?: boolean;
   /** What the characters say back. A wrong answer gets a kind, teaching reply. */
   reply: Line[];
+  /** R0677: one emoji shown big on the sprout band's option button (a number if absent). */
+  icon?: string;
 }
 
 /** One learning beat, played inside a scene. Never blocks the story, never fails. */

@@ -3363,3 +3363,40 @@ select {
 .reduce-motion .edu-icons > span.edu-counted {
   transform: none;
 }
+
+/* Lane E r7, R0677: sprout-band choices: full width, 72 px, a number dot and a picture. */
+.btn.sprout-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 72px;
+  text-align: left;
+  font-size: 1.1rem;
+}
+.sprout-choice-dot {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: 700;
+  color: #1a1530;
+  background: #ffd85a;
+}
+.sprout-choice-1 .sprout-choice-dot {
+  background: #8fd3a8;
+}
+.sprout-choice-2 .sprout-choice-dot {
+  background: #8cc8ff;
+}
+.sprout-choice-3 .sprout-choice-dot {
+  background: #f3a3c8;
+}
+.sprout-choice-icon {
+  flex: none;
+  font-size: 2rem;
+  line-height: 1;
+}

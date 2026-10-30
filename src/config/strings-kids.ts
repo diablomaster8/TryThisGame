@@ -77,3 +77,12 @@ export const EDU_SAY_TEXT = {
   /** A letter said as itself, so "A" is not read as the word "a". */
   letter: (l: string) => `the letter ${l}`,
 } as const;
+
+/** R0677: sprout-band choices read aloud. */
+export const SPROUT_CHOICE_TEXT = {
+  /** "You can say: one, Smile. Two, Wave." */
+  intro: 'You can say:',
+  item: (n: string, label: string) => `${n}, ${label}.`,
+  /** The fallback icons, one per place. */
+  numbers: ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣'] as readonly string[],
+} as const;

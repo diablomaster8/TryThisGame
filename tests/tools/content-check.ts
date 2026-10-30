@@ -864,7 +864,8 @@ for (const q of allQuests) {
 }
 // 9c. Festival gags (R0359): four narrator lines a season, phone-short, two sentences at most.
 for (const [season, scene] of Object.entries(C.FESTIVAL_GAGS)) {
-  if (scene.id !== `festival-gag-${season}`) problems.push(`festival gag ${season}: id ${scene.id}`);
+  if (scene.id !== `festival-gag-${season}`)
+    problems.push(`festival gag ${season}: id ${scene.id}`);
   if (scene.lines.length !== 4) problems.push(`${scene.id}: four lines`);
   scene.lines.forEach((l, i) => {
     if (l.who !== 'narrator') problems.push(`${scene.id}#${i}: festival gags are the narrator's`);
@@ -930,9 +931,22 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
     });
   }
 }
+// R0677 (KIDS-09): sprout choices and ask options without an `icon` show a number instead.
+// Counted, not listed: the aim is 0, and a writer adds icons file by file.
+let sproutNoIcon = 0;
+for (const e of [
+  ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
+  ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
+  ...C.EDU_VARIANTS.sprout,
+]) {
+  for (const c of e.choices ?? []) if (!c.icon) sproutNoIcon++;
+  for (const l of e.lessons)
+    for (const o of l.kind === 'ask' ? (l.options ?? []) : []) if (!o.icon) sproutNoIcon++;
+}
 console.log(
   JSON.stringify(
     {
+      sproutNoIcon,
       quests,
       scenes,
       lines,
