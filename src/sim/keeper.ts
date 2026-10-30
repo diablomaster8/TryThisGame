@@ -29,6 +29,7 @@ import {
 } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
 import { swimHint, waterPace } from './swim-tow';
+import { surfacePace } from './surface-pace';
 import { dropFruit, withRng } from './world';
 import { nudgeAlignment } from './alignment';
 import { eat, pet, putDown, react } from './behavior';
@@ -842,6 +843,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
   const soft =
     (going && softAt(k.pos, world) ? KEEPER_SOFT.slow : 1) *
     (wet ? waterPace(world, k.pos.x, k.pos.z, KEEPER_WADE.speed) : 1) *
+    // R0119: a path or a deck is a little quicker than grass.
+    (going && k.grounded && !wet ? surfacePace(world, k.pos.x, k.pos.z) : 1) *
     (going && !k.grounded && keeperGliding(world) ? GLIDE.airSpeed : 1) *
     // A running jump carries further (MOVE-42).
     (going && !k.grounded && k.running ? RUN_MODE.airCarry : 1);

@@ -300,3 +300,18 @@ export const SWIM_TOW = {
   /** How far ahead of the Keeper the swimmer paddles. */
   lead: 0.7,
 } as const;
+
+/**
+ * R0119 (WORLD-52): the Keeper's pace by what is underfoot, so paths are worth keeping to.
+ * Shallow water keeps its own wading pace (`KEEPER_WADE.speed`); sand and snow are for the
+ * regions that have them.
+ */
+export const SURFACE_PACE = {
+  grass: 1,
+  path: 1.15,
+  deck: 1.15,
+  stone: 1,
+  water: 1,
+  sand: 0.9,
+  snow: 0.85,
+} as const;

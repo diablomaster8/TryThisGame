@@ -1,3 +1,4 @@
+import { surfacePace } from '../../src/sim/surface-pace';
 import { describe, expect, it } from 'vitest';
 import { GROVE, SIM } from '../../src/config/tuning';
 import { BRIDGE_DECK, BRIDGE_YAW, JUMP, KEEPER_WADE } from '../../src/config/tuning-sim';
@@ -364,7 +365,10 @@ describe('the stream (MOVE-13)', () => {
     const q0 = { ...d.keeper.pos };
     sub(d, 6);
     const dry = Math.hypot(d.keeper.pos.x - q0.x, d.keeper.pos.z - q0.z);
-    expect(wet / dry).toBeCloseTo(KEEPER_WADE.speed, 2);
+    // R0119: the dry run may be on a path, a little quicker than grass; compare at grass pace.
+    const pace = surfacePace(d, q0.x, q0.z);
+    expect(surfacePace(d, d.keeper.pos.x, d.keeper.pos.z)).toBe(pace);
+    expect((wet / dry) * pace).toBeCloseTo(KEEPER_WADE.speed, 2);
   });
 
   it('a running jump from one bank lands on the other, never touching the water', () => {
