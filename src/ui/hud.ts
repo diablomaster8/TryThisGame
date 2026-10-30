@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { floorsToast } from './hollow-floors-r8';
 import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
@@ -27,6 +28,7 @@ import {
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
 import { gearGlyph, gearName } from './dungeon-gear';
+import { itemsToast } from './dungeon-items';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
@@ -1192,6 +1194,13 @@ export function mountHud(
           buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
       }
       backupNudge.onEvents(events);
+      // Lane B r8: the Scout's "!" and the boss scroll (ui/hollow-scroll.ts).
+      dungeon.onEvents(events, g.world, toast);
+      // Lane B r8 (floors): secrets, puzzles, part shortcuts, the boss door (ui/hollow-floors-r8.ts).
+      for (const e of events) {
+        const t = floorsToast(g.world, e);
+        if (t) toast(t);
+      }
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
@@ -1546,6 +1555,9 @@ export function mountHud(
           }
         } else if (e.kind === 'gearFound') {
           toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'hollowItems') {
+          // Lane B round 8: charms, keys, chains, wheelbarrow mixes and the Pillow Fort.
+          toast(itemsToast(e));
         } else if (e.kind === 'haulBanked') {
           // Lane B round 6: the haul card (R0175), boss card (R0160), losses and sleepy packs.
           if (e.items > 0) {

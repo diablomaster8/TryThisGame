@@ -14,10 +14,14 @@ import {
   NUBBIN_SLOTS,
   RARITIES,
   type DropEntry,
+  type GearSlot,
   type GearStat,
   type RarityId,
 } from '../config/dungeon-loot';
+import { STASH } from '../config/dungeon-items-r8';
 import { CRITTER_SPECIES } from './critters';
+import { itemExtraStat, rollCharmDrop, rollSockets } from './dungeon-charms';
+import { makeSpecial, noteFound, setBonus } from './dungeon-sets';
 import { notePickup } from './dungeon-log';
 import { fancyMul } from './dungeon-tiers';
 import type { Rng } from './rng';
@@ -61,11 +65,16 @@ export function rollGear(
   level: number,
   mf = 0,
   rarity?: RarityId,
+  slot?: GearSlot,
 ): GearItem {
   const g = ensureGear(world);
   const tier = rarity ?? rollRarity(rng, mf, fancyMul(world.dungeon?.difficulty));
   const def = RARITIES.find((r) => r.id === tier)!;
-  const bases = tier === 'charm' ? BASES.filter((b) => b.slot === 'charm') : BASES;
+  const bases = slot
+    ? BASES.filter((b) => b.slot === slot)
+    : tier === 'charm'
+      ? BASES.filter((b) => b.slot === 'charm')
+      : BASES;
   const base = rng.pick(bases);
   const n = rng.int(def.affixes[0], def.affixes[1]);
   const pool = [...AFFIXES];
@@ -74,7 +83,7 @@ export function rollGear(
     const a = pool.splice(rng.int(0, pool.length - 1), 1)[0]!;
     affixes.push({ id: a.id, value: value(a.value, a.perLevel, level) });
   }
-  return {
+  const item: GearItem = {
     id: `g${g.next++}`,
     base: base.id,
     slot: base.slot,
@@ -82,6 +91,13 @@ export function rollGear(
     level: Math.max(1, Math.round(level)),
     affixes,
   };
+  // Lane B round 8: sockets (R0173) and named sets and uniques (R0172), each from a stream
+  // seeded by the save and the piece, so the roll above is untouched.
+  const sockets = rollSockets(item, String(world.seed));
+  if (sockets > 0) item.sockets = sockets;
+  makeSpecial(item, String(world.seed));
+  noteFound(world, item);
+  return item;
 }
 
 /**
@@ -95,7 +111,28 @@ export function keepGear(world: World, item: GearItem): void {
   const worn = new Set(wornIds(g));
   let i = g.items.findIndex((x) => x.rarity === 'plain' && !worn.has(x.id));
   if (i < 0) i = g.items.findIndex((x) => !worn.has(x.id));
-  if (i >= 0) (g.stash ??= []).push(g.items.splice(i, 1)[0]!);
+  if (i >= 0) depositStash(world, g.items.splice(i, 1)[0]!);
+}
+
+/** R0174: the stash's tab count: four, and one more per act boss's first win. */
+export function stashTabCount(world: World): number {
+  return Math.min(STASH.maxTabs, STASH.tabs + (world.hollow.bossChests?.length ?? 0));
+}
+
+/**
+ * R0174: puts a piece in the stash, in the first tab with room (else the last tab, past its
+ * size, so a piece is never lost).
+ */
+export function depositStash(world: World, item: GearItem): void {
+  const stash = (ensureGear(world).stash ??= []);
+  const tabs = stashTabCount(world);
+  const used = new Array<number>(tabs).fill(0);
+  for (const x of stash) used[Math.min(tabs - 1, x.tab ?? 0)]! += 1;
+  const free = used.findIndex((n) => n < STASH.perTab);
+  const tab = free < 0 ? tabs - 1 : free;
+  if (tab > 0) item.tab = tab;
+  else delete item.tab;
+  stash.push(item);
 }
 
 /** A gear find: into the run's sack while underground (R0175), else into the satchel. */
@@ -146,6 +183,8 @@ export function rollDrops(
       world.inventory.critters[c] = (world.inventory.critters[c] ?? 0) + 1;
     }
   }
+  // R0173: a socket charm now and then, beside the table's pick (its own stream).
+  rollCharmDrop(world, rng, tableId, events);
   return out;
 }
 
@@ -187,6 +226,9 @@ export function gearStat(world: World, stat: GearStat, nubbinId?: string): numbe
     if (base?.stat === stat) sum += value(base.value, base.perLevel, item.level);
     for (const a of item.affixes)
       if (AFFIXES.find((d) => d.id === a.id)?.stat === stat) sum += a.value;
+    // Lane B round 8: charms, chains and uniques (R0173, R0172).
+    sum += itemExtraStat(item, stat);
   }
-  return sum;
+  // R0172: set bonuses, counted across the household.
+  return sum + setBonus(world, stat, nubbinId);
 }

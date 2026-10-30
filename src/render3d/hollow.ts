@@ -10,6 +10,7 @@ import { HollowTrail } from './hollow-trail';
 import { HollowPlates } from './hollow-plates';
 import { HollowShrines } from './hollow-shrines';
 import { HollowTraps } from './hollow-traps';
+import { HollowSeals } from './hollow-seals';
 import { HollowRumble } from './hollow-rumble';
 import { HollowTown } from './hollow-town';
 import { mat, type HollowCtx, type HollowFrame, type HollowModule } from './hollow-ctx';
@@ -66,6 +67,8 @@ export class Hollow {
   private readonly shrines = new HollowShrines();
   /** Trap tiles (R0161). */
   private readonly traps = new HollowTraps();
+  /** Lane B r8: secret walls, puzzles, part spots and the hint arrow (R0182, R0202, R0212). */
+  private readonly seals = new HollowSeals();
   private readonly rumble = new HollowRumble();
   /** Act camps and fields: stalls, keepers and cave mouths (R0152, R0147). */
   private readonly town = new HollowTown();
@@ -118,6 +121,7 @@ export class Hollow {
       this.plates,
       this.shrines,
       this.traps,
+      this.seals,
       this.rumble,
       this.town,
     ];

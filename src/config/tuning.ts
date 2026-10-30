@@ -1667,7 +1667,8 @@ export const DUNGEON = {
   scanRadius: 2.2,
   chestShells: [30, 60] as const,
   chestEggChance: 0.25,
-  partySize: 2,
+  /** R0167: 3 come along, 4 after Act II (`hollowPartySize`, config/dungeon-party-r8.ts). */
+  partySize: 3,
   followDistance: 1.7,
   nubbinSpeed: 2.8,
   fetchRadius: 4,

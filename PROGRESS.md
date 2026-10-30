@@ -38,6 +38,44 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 8 · Lane B DUNG (2026-10-30, branch r8/b)
+
+- *Works:* Pixel now draws Hollow packs (`render/hollow-packs-pixel.ts`): huddles of up to 3
+  stand-in sprites, "!", "?" and Zzz, ◆/◈/★ plates from one shared `packPlate` (3D uses it
+  too), and fog hides packs, strays and the wild one out of sight, with loot remembered at 55%.
+  A rarity-shape pop rises over the Keeper on each gear find, in both renderers. Items: boots
+  and charms speed the Keeper, Snug/Naps/Brave/Crumbs are read; the stash has 4+ tabs, a slot
+  filter and search, `stashPut`/`stashMove`, and a 🧺 Cottage chest by the cottage door. Charms
+  (8 kinds, 3 grades) go into 0–3 sockets, with 6 ordered Charm Chains. The Gardener's
+  Wheelbarrow at the act camp's Crafting table has 7 tested recipes. Brisk/Wild keys (pity by
+  the 10th win) open `gear.pillowFort`. There are 6 sets and 20 uniques, logged on the Journal.
+  Floors: secret side caves stay rock until leaned on for 1 s or found by a Light/Scout friend
+  (✧ on the map). Puzzles: plates, torch order, and 12 push-block layouts proven solvable. A
+  critter part (fins/wings/strong arms) solves a puzzle on the spot. Boss doors seal behind
+  the Keeper, and a lost boss fight retries from the anteroom. Floor 99 generates in ~13 ms
+  (was ~19 ms in Node), and layouts are byte-identical. Party: roles Fetch/Fight/Light/Scout/Swim
+  (`dungeon-roles.ts`), a role button on each picker card, and a party of 3, rising to 4 after
+  Act II's boss. A "Story so far" scroll appears once per act boss (skipped in ch. 9–11). "👣 Show me the way"
+  (off by default) puts footprints on the maps and an arrow on the bar. The speed-run ghost
+  line is drawn on both maps. "📤 Share today" opens a card. A Homing Acorn row is in the shop.
+  Economy bands are in `config/dungeon-economy.ts`, with a per-act payout scale (tested 26→62
+  Shells/min).
+- *Balance changes to review:* Hollow Shells are about 2.5× lower everywhere (`shellPay`, the
+  rec's 25→60/min line); `DUNGEON.partySize` is 3 (4 after Act II); gear speed applies to all
+  Keeper walking while worn.
+- *Stubbed:* the Pillow Fort level, its trio fight and crown (keys only set a flag); the
+  Moo Meadow recipe; Brave isn't passed to lane C's battle core; the backpack `carry` stat is
+  unread. Role personality behaviours, and Light revealing secrets. Guide footprint decals in
+  the worlds. The fixed daily act chain. Pixel crack art on secret walls (only a faint glint).
+  New optional save fields, no version bump: gear `charms`, `keys`, `found`, `pillowFort`, item
+  `sockets`/`setPiece`/`unique`/`tab`; hollow `roles`, `scrolls`, `guide`, `records[].trails`; run
+  `scouted`, `trail`, `seals`, `puzzles`.
+- *Known:* opening any seal rebuilds the cave in both renderers (a brief hitch in 3D, twice per
+  boss attempt). The scroll and the boss celebration can stack. Secret rooms come about 1 level
+  in 3, lower than the rec's 0–2. Edge smoke `tools/r8-b.cjs` passes 12/12 in Pixel and 3D,
+  on desktop and at 375×812, with 0 errors and 47–57 fps. Timing tests (lifecycle, nav, world,
+  species, battle-balance) fail under the full parallel run and pass alone.
+
 ## Round 7 · Lane B DUNG (2026-10-30, branch r7/b)
 
 - *Works:* packs telegraph and give up (R0200): a 0.6 s "!", a chase of at most 8 s or the

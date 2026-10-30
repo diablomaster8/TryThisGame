@@ -7,7 +7,8 @@
  * panel only.
  */
 import { HOLLOW_R6 } from '../config/tuning-dungeon';
-import type { DungeonRun, HollowStats, World } from './types';
+import { funQuestBlocked } from './audience';
+import type { DungeonRun, HollowStats, SimEvent, World } from './types';
 
 export function hollowStats(world: World): HollowStats {
   return (world.hollow.stats ??= { levelMs: [], fights: [], losses: 0, pickups: {}, portals: 0 });
@@ -71,4 +72,27 @@ export function notePortal(world: World): void {
 export function clockText(ms: number): string {
   const s = Math.max(0, Math.round(ms / 1000));
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+
+/**
+ * R0207: an act's boss fell, so its "Story so far" scroll unrolls, once per act and never
+ * in the campaign's quiet chapters 9 to 11 (then it waits for the next time that boss falls).
+ */
+export function noteStoryScroll(world: World, act: number, events: SimEvent[]): void {
+  const seen = world.hollow.scrolls ?? [];
+  if (seen.includes(act)) return;
+  if (world.campaign && funQuestBlocked(world.campaign.chapter)) return;
+  world.hollow.scrolls = [...seen, act];
+  events.push({ kind: 'storyScroll', act });
+}
+
+/** R0185: today's results as a short line to paste anywhere; null before a trip today. */
+export function todayShareText(
+  world: World,
+  text: (day: string, deepest: number, time: string, finds: number) => string,
+  day: string,
+): string | null {
+  const t = world.hollow.today;
+  if (!t || t.day !== day || t.deepest <= 0) return null;
+  return text(t.day, t.deepest, clockText(t.bestMs), t.finds);
 }

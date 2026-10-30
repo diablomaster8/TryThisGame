@@ -1,4 +1,5 @@
 import { waypointCell, waypointHere } from '../sim/dungeon-levels';
+import { foundSecrets } from '../sim/dungeon-secrets';
 import '../dungeon.css';
 import { HOLLOW_AUTOMAP_TEXT as A, HOLLOW_MAP_TEXT as T } from '../config/strings';
 import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
@@ -17,6 +18,9 @@ import {
 import type { DungeonRun, World } from '../sim/types';
 import { button, el } from './dom';
 import { screenBearing } from './hud-world-math';
+import { footprints, guidePath } from '../sim/dungeon-guide';
+import { ghostTrail } from '../sim/dungeon-speed';
+import { HOLLOW_R8_TEXT } from '../config/strings-hollow-r8-party';
 
 /**
  * The Hollow's maps (item 40, R0154), drawn from the sim's explored mask so they work in
@@ -48,7 +52,8 @@ export type MarkKind =
   | 'shrine'
   | 'unique'
   | 'quest'
-  | 'stray';
+  | 'stray'
+  | 'secret';
 
 export type MarkShape =
   | 'ringDot'
@@ -59,6 +64,7 @@ export type MarkShape =
   | 'diamond'
   | 'capsule'
   | 'sparkle'
+  | 'twinkle'
   | 'star'
   | 'bang'
   | 'cross';
@@ -76,6 +82,8 @@ export const MARKS: Record<MarkKind, { shape: MarkShape; icon: string; color: st
   unique: { shape: 'star', icon: '★', color: '#ff9a6a' },
   quest: { shape: 'bang', icon: '!', color: '#ffe14d' },
   stray: { shape: 'cross', icon: '✕', color: '#c8a8ff' },
+  // Lane B r8: a found secret room (R0182).
+  secret: { shape: 'twinkle', icon: '✧', color: '#d8f0ff' },
 };
 
 /** The marker kinds a floor may carry before the sim has them (the hooks). */
@@ -141,6 +149,8 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
   // Shrines (R0159), dimmed once used.
   for (const s of f.shrines ?? [])
     if (seen(s.cell)) out.push(at('shrine', s.cell, run.shrinesUsed?.includes(s.id) ?? false));
+  // Lane B r8: found secret rooms (R0182), at their mouth.
+  for (const s of foundSecrets(run, f)) out.push(at('secret', s.door[0]!));
   // Strays once seen (R0162), where they are now.
   for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {
@@ -268,6 +278,19 @@ export function drawMark(g: Ctx2D, kind: MarkKind, x: number, y: number, r: numb
         [-0.25, -0.25],
       ]);
       break;
+    case 'twinkle':
+      // Lane B r8: a found secret room, a sparkle turned on its corner.
+      poly([
+        [0.7, -0.7],
+        [0.2, 0],
+        [0.7, 0.7],
+        [0, 0.2],
+        [-0.7, 0.7],
+        [-0.2, 0],
+        [-0.7, -0.7],
+        [0, -0.2],
+      ]);
+      break;
     case 'star': {
       const pts: Array<[number, number]> = [];
       for (let k = 0; k < 10; k++) {
@@ -322,6 +345,7 @@ export function drawOverlay(
   marks: readonly Mark[],
   keeper: { x: number; y: number },
   down: { x: number; y: number } | null,
+  trails?: MapTrails,
 ): void {
   g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
   g.clearRect(0, 0, v.w, v.h);
@@ -347,6 +371,7 @@ export function drawOverlay(
   g.strokeStyle = '#d8ecff';
   g.lineWidth = 2 / s;
   g.stroke();
+  if (trails) drawTrails(g, trails, 1 / s);
   g.setTransform(v.dpr, 0, 0, v.dpr, 0, 0);
   const r = HOLLOW.automap.markPx;
   for (const m of marks)
@@ -398,6 +423,7 @@ export class HollowMap {
   private edges: Float32Array = new Float32Array(0);
   private legendKey = '';
   private underground = false;
+  private trailLegend = { guide: false, ghost: false };
 
   constructor(parent: HTMLElement) {
     this.toggle = button('🗺', () => this.cycle(), 'btn btn-small hollow-map-btn');
@@ -469,23 +495,28 @@ export class HollowMap {
     if (!run || this.mode === 'off') return;
     const f = floorOfRun(run);
     const marks = automapMarks(world, run, f);
-    this.refreshLegend(marks, run, f);
+    this.refreshLegend(world, marks, run, f);
     if (this.mode === 'corner') this.drawCorner(world, run, f, marks);
     else this.drawOverlay(world, run, f, marks, yaw);
   }
 
   /** The legend lists what this floor's map can show; hooks only once one is on it. */
-  private refreshLegend(marks: readonly Mark[], run: DungeonRun, f: Floor): void {
+  private refreshLegend(world: World, marks: readonly Mark[], run: DungeonRun, f: Floor): void {
     const kinds = new Set<MarkKind>(['you', 'party', 'up', 'down', 'chest']);
     for (const m of marks) kinds.add(m.kind);
     const way = this.mode === 'overlay' && wayShown(run, f);
-    const key = `${[...kinds].join()}:${way}`;
+    const t = mapTrails(world, run, f);
+    this.trailLegend = { guide: !!t?.steps.length, ghost: !!t?.ghost.length };
+    const tl = this.trailLegend;
+    const key = `${[...kinds].join()}:${way}:${tl.guide}:${tl.ghost}`;
     if (key === this.legendKey) return;
     this.legendKey = key;
     this.legend.replaceChildren();
     for (const k of Object.keys(MARKS) as MarkKind[])
       if (kinds.has(k)) this.legend.appendChild(el('span', undefined, `${MARKS[k].icon} ${A[k]}`));
     if (way) this.legend.appendChild(el('span', undefined, `➤ ${A.way}`));
+    if (tl.guide) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.guideLegend));
+    if (tl.ghost) this.legend.appendChild(el('span', undefined, HOLLOW_R8_TEXT.ghostLegend));
   }
 
   private drawOverlay(
@@ -501,9 +532,10 @@ export class HollowMap {
     const h = window.innerHeight;
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const k = cellPoint(f, world.keeper.pos);
+    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
     const key = `${run.seed}:${run.depth}:${run.explored}:${marks
       .map((m) => `${m.x.toFixed(2)},${m.y.toFixed(2)}`)
-      .join(';')}:${yaw.toFixed(3)}:${w}x${h}@${dpr}:${run.chestOpen}`;
+      .join(';')}:${yaw.toFixed(3)}:${w}x${h}@${dpr}:${run.chestOpen}:${assists}`;
     if (key === this.overlayKey) return;
     this.overlayKey = key;
     if (this.overlay.width !== Math.round(w * dpr) || this.overlay.height !== Math.round(h * dpr)) {
@@ -524,6 +556,7 @@ export class HollowMap {
       marks,
       k,
       down ? { x: down.x + 0.5, y: down.y + 0.5 } : null,
+      mapTrails(world, run, f) ?? undefined,
     );
   }
 
@@ -536,9 +569,11 @@ export class HollowMap {
       .filter((m) => m.kind === 'party')
       .map((m) => `${Math.floor(m.x)},${Math.floor(m.y)}`)
       .join(';');
-    const key = `${run.seed}:${run.depth}:${run.explored}:${kc.x},${kc.y}:${run.chestOpen}:${party}`;
-    if (key === this.key) return;
-    this.key = key;
+    const assists = `${!!world.hollow.guide}:${!!world.hollow.speedRun}`;
+    const level = `${run.seed}:${run.depth}:${run.explored}`;
+    const keyR8 = `${level}:${kc.x},${kc.y}:${run.chestOpen}:${party}:${assists}`;
+    if (keyR8 === this.key) return;
+    this.key = keyR8;
     const { maxPx } = GROVE3D.cave.read.map;
     const s = Math.max(2, Math.floor(maxPx / Math.max(f.cols, f.rows)));
     const w = f.cols * s;
@@ -597,6 +632,14 @@ export class HollowMap {
         else g.fillStyle = inRoom[i] ? '#7a6bc0' : '#4a4378';
         g.fillRect(x * s, y * s, s, s);
       }
+    // R0187's ghost line and R0208's footprints, under the markers.
+    const trails = mapTrails(world, run, f);
+    if (trails) {
+      g.save();
+      g.scale(s, s);
+      drawTrails(g, trails, 1 / s);
+      g.restore();
+    }
     const big = Math.max(5, s * 1.6);
     // The Keeper's dot sits on its cell's centre, as before; the rest where they stand.
     for (const m of marks) {
@@ -615,4 +658,58 @@ function wayShown(run: DungeonRun, f: Floor): boolean {
 function inDialog(t: EventTarget | null): boolean {
   const n = t as { closest?: (s: string) => Element | null } | null;
   return !!n?.closest?.('[role="dialog"], dialog, .modal');
+}
+
+// ---------------------------------------------------------------- lane B round 8
+
+/** R0187's ghost line and R0208's footprints, as cell centres in map cells. */
+export interface MapTrails {
+  ghost: Array<{ x: number; y: number }>;
+  steps: Array<{ x: number; y: number }>;
+}
+
+function centreOf(f: Floor, i: number): { x: number; y: number } {
+  const x = i % f.cols;
+  return { x: x + 0.5, y: (i - x) / f.cols + 0.5 };
+}
+
+/** What the maps draw for this level, or null when neither assist has anything. */
+export function mapTrails(world: World, run: DungeonRun, f: Floor): MapTrails | null {
+  const ghost = ghostTrail(world, run).map((i) => centreOf(f, i));
+  const path = guidePath(world);
+  const steps = path ? footprints(path).map((i) => centreOf(f, i)) : [];
+  return ghost.length || steps.length ? { ghost, steps } : null;
+}
+
+/**
+ * Draw the trails in map-cell space (`unit` is one screen pixel in cells): the ghost as a
+ * dashed gold line, the footprints as pairs of small pale dots. Static: no animation, so
+ * reduced motion needs nothing more.
+ */
+export function drawTrails(
+  g: Ctx2D & Partial<Pick<CanvasRenderingContext2D, 'setLineDash'>>,
+  t: MapTrails,
+  unit: number,
+): void {
+  if (t.ghost.length > 1) {
+    g.beginPath();
+    g.moveTo(t.ghost[0]!.x, t.ghost[0]!.y);
+    for (const p of t.ghost.slice(1)) g.lineTo(p.x, p.y);
+    g.setLineDash?.([4 * unit, 3 * unit]);
+    g.strokeStyle = '#ffd27a';
+    g.lineWidth = 2 * unit;
+    g.stroke();
+    g.setLineDash?.([]);
+  }
+  t.steps.forEach((p, i) => {
+    // Left and right feet, side by side across the way.
+    const side = (i % 2 ? 1 : -1) * 0.14;
+    g.beginPath();
+    g.arc(p.x + side, p.y, Math.max(0.12, 2 * unit), 0, Math.PI * 2);
+    g.fillStyle = '#fff4d6';
+    g.strokeStyle = '#0d0918';
+    g.lineWidth = unit;
+    g.fill();
+    g.stroke();
+  });
 }

@@ -106,6 +106,7 @@ import { buyAcorns, portalReturn, rerollActs, useAcorn, waypointTravel } from '.
 import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
+import { setHollowRole } from './dungeon-roles';
 import {
   dungeonGo,
   encounterDone,
@@ -123,6 +124,8 @@ import { gambleBasket } from './dungeon-gamble';
 import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
+import { stepGearNeeds } from './dungeon-gear-effects';
+import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
 import { convertScan, stepScans } from './scans';
@@ -852,6 +855,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'stashTake':
       takeFromStash(world, cmd.itemId);
       return;
+    // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
+    case 'stashPut':
+    case 'stashMove':
+    case 'socketCharm':
+    case 'unsocketCharms':
+    case 'wheelbarrowMix':
+      itemsCommand(world, cmd, events);
+      return;
     // Lane B round 7: difficulty tiers (R0179).
     case 'hollowTier':
       setHollowTier(world, cmd.tier, events);
@@ -860,6 +871,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // R0187: the speed-run toggle; off drops nothing.
       if (cmd.on) world.hollow.speedRun = true;
       else delete world.hollow.speedRun;
+      return;
+    // Lane B round 8: party roles (R0167) and the Hollow guide (R0208).
+    case 'setHollowRole':
+      setHollowRole(world, cmd.id, cmd.role);
+      return;
+    case 'hollowGuide':
+      if (cmd.on) world.hollow.guide = true;
+      else delete world.hollow.guide;
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1196,6 +1215,8 @@ export function stepWorld(
         continue;
       }
       decayNeeds(n, dtMs);
+      // R0164: Snug and Naps from worn gear.
+      stepGearNeeds(world, n, dtMs);
       advanceStage(n, dtMs, events, world, offline);
       // Party members underground are moved by the Hollow step instead.
       // R0085: the ridden Nubbin is pinned under the Keeper by stepRide instead.

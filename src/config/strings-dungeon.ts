@@ -122,6 +122,7 @@ export const HOLLOW_AUTOMAP_TEXT = {
   unique: 'Someone special',
   quest: 'Quest',
   stray: 'Stray',
+  secret: 'Secret room',
   way: 'Show me the way',
 } as const;
 

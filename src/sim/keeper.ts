@@ -29,6 +29,7 @@ import {
   KEEPER_WADE,
 } from '../config/tuning-sim';
 import { keeperPerks, keeperSpeedMultiplier } from './perks';
+import { shakeFruitBonus } from './dungeon-gear-effects';
 import { swimHint, waterPace } from './swim-tow';
 import { surfacePace } from './surface-pace';
 import { dropFruit, withRng } from './world';
@@ -1148,6 +1149,9 @@ function shakeTreeNow(world: World, tree: World['trees'][number], events: SimEve
     if (keeperPerks(world).power) {
       for (let i = 0; i < PERKS.powerShakeFruit; i++) dropFruit(world, tree, rng, events);
     }
+    // R0164: Crumbs on worn gear shakes loose a little more.
+    const extra = shakeFruitBonus(world, () => rng.next());
+    for (let i = 0; i < extra; i++) dropFruit(world, tree, rng, events);
   });
 }
 

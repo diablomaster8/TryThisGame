@@ -49,6 +49,9 @@ export type CocoonKind = 'evolve' | 'rebirth' | 'depart';
 
 export type Personality = 'cheerful' | 'shy' | 'mischievous' | 'lazy';
 
+/** R0167: a Hollow party role. */
+export type HollowRole = 'fetch' | 'fight' | 'light' | 'scout' | 'swim';
+
 export type PartSlot = 'ears' | 'tail' | 'arms' | 'back';
 
 /**
@@ -772,6 +775,16 @@ export interface DungeonRun {
   picnics?: string[];
   picnicMs?: number;
   tentNoted?: true;
+  // Lane B round 8 (party and run UI).
+  /** R0167: packs a Scout has already called out with a "!". */
+  scouted?: string[];
+  /** R0187: the Keeper's cells on each level this run (key `seed:depth`), for the ghost line. */
+  trail?: Record<string, number[]>;
+  // Lane B round 8 (floors).
+  /** R0182, R0202, R0160: seal ids flipped from their start (found, solved, boss door shut). */
+  seals?: string[];
+  /** R0202: puzzle progress by seal id (block cells, or torches lit). */
+  puzzles?: Record<string, number[]>;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1119,7 +1132,17 @@ export interface World {
     >;
     /** R0187: the speed-run toggle, and the best time and splits per act and tier ("0:cosy"). */
     speedRun?: boolean;
-    records?: Record<string, { bestMs: number; splits: number[] }>;
+    records?: Record<
+      string,
+      { bestMs: number; splits: number[]; trails?: Record<string, number[]> }
+    >;
+    // Lane B round 8 (optional, no save bump).
+    /** R0167: roles the Keeper picked by hand, by Nubbin id (absent: picked from stats). */
+    roles?: Record<string, HollowRole>;
+    /** R0207: acts whose "Story so far" scroll has been shown. */
+    scrolls?: number[];
+    /** R0208: the "Show me the way" guide (off by default). */
+    guide?: boolean;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1352,8 +1375,16 @@ export type Command =
   | { kind: 'packSneak'; packId: string }
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
+  // Lane B round 8, items: stash tabs (R0174), sockets (R0173), the wheelbarrow (R0177).
+  | { kind: 'stashPut'; itemId: string }
+  | { kind: 'stashMove'; itemId: string; tab: number }
+  | { kind: 'socketCharm'; itemId: string; charm: string }
+  | { kind: 'unsocketCharms'; itemId: string }
+  | { kind: 'wheelbarrowMix'; slots: BarrowSlot[] }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowSpeedRun'; on: boolean }
+  | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
+  | { kind: 'hollowGuide'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1650,6 +1681,17 @@ export type SimEvent =
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
+  // Lane B round 8 (floors).
+  | { kind: 'hollowSecret'; id: string; how: 'wiggle' | 'bump' | 'sight' }
+  | {
+      kind: 'hollowPuzzle';
+      what: 'solved' | 'shortcut' | 'plate' | 'torch' | 'push' | 'reset';
+      puzzle: 'plates' | 'torches' | 'blocks';
+      nubbinId?: string;
+    }
+  | { kind: 'hollowBossDoor'; sealed: boolean }
+  | { kind: 'scoutSpotted'; packId: string; nubbinId: string }
+  | { kind: 'storyScroll'; act: number }
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }
   | { kind: 'waypointActivated'; id: string }
@@ -1669,6 +1711,8 @@ export type SimEvent =
   | { kind: 'strayAsk'; id: string }
   | { kind: 'strayCalmed'; ok: boolean; shells: number }
   | { kind: 'gearFound'; item: GearItem }
+  /** Lane B round 8, items: a charm, a key, a chain, a mix or the fort (`ui/dungeon-items.ts` words it). */
+  | { kind: 'hollowItems'; what: 'charm' | 'key' | 'chain' | 'mix' | 'noMix' | 'fort'; id: string }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -1713,6 +1757,13 @@ export interface AwayReport {
   tally?: AwayTally;
 }
 
+/** R0177: one wheelbarrow slot: a satchel piece, a pouch charm, an essence or a key. */
+export type BarrowSlot =
+  | { kind: 'item'; id: string }
+  | { kind: 'charm'; key: string }
+  | { kind: 'essence'; type: NubbinType }
+  | { kind: 'key'; id: string };
+
 /** A piece of Hollow gear (R0163, R0164); bases, rarities and affixes in `config/dungeon-loot.ts`. */
 export interface GearItem {
   id: string;
@@ -1721,6 +1772,16 @@ export interface GearItem {
   rarity: string;
   level: number;
   affixes: Array<{ id: string; value: number }>;
+  // Lane B round 8 (optional, no save bump).
+  /** R0173: sockets (0-3), the charms in them in order (`type:grade`), and a chain made. */
+  sockets?: number;
+  socketed?: string[];
+  chain?: string;
+  /** R0172: a set piece's id, or a unique's id (`config/dungeon-items-r8.ts`). */
+  setPiece?: string;
+  unique?: string;
+  /** R0174: the stash tab it sits in (0 when unset). */
+  tab?: number;
 }
 
 /** What the Keeper carries and who wears what (lane B round 5). */
@@ -1734,6 +1795,18 @@ export interface GearState {
   next: number;
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
+  // Lane B round 8 (optional, no save bump).
+  /** R0173: loose charms by `type:grade` (grade 1 chipped, 2 bright, 3 perfect). */
+  charms?: Record<string, number>;
+  /** R0183: keys carried, and kills since each key last dropped (the pity counter). */
+  keys?: Record<string, number>;
+  keyPity?: Record<string, number>;
+  /** R0183: the Pillow Fort, opened by the three keys in the wheelbarrow. */
+  pillowFort?: 'open';
+  /** R0177: wheelbarrow recipes found, for the recipe book. */
+  recipes?: string[];
+  /** R0172: set pieces and uniques found at least once, by id, with where (the log). */
+  found?: Record<string, string>;
 }
 
 /** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
