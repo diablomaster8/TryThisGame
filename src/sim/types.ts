@@ -868,6 +868,8 @@ export interface World {
   battleOnce?: BattleOnceState;
   /** Lane C round 6 (recs FIGHT-82): each story battle's choice and result; absent = none. */
   storyBouts?: Record<string, 'fight' | 'skip' | 'won'>;
+  /** Lane C round 6 (FIGHT-64): a live bout's party needs, held until it ends. */
+  battleHeld?: Record<string, { hunger: number; energy: number }>;
   /**
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.

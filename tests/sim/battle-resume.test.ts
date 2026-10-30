@@ -78,3 +78,19 @@ describe('save and resume mid-battle (recs FIGHT-64)', () => {
     expect(JSON.stringify(w.battle)).toBe(before);
   });
 });
+
+describe('needs held during a bout (recs FIGHT-64, FIGHT-85)', () => {
+  it('the party neither starves nor tires while the bout is live, live or offline', () => {
+    const w = grove();
+    const id = w.nubbins[0]!.id;
+    applyCommand(w, { kind: 'battleStart', context: { kind: 'dojo', tier: 1, ids: [id] } }, []);
+    const n = w.nubbins[0]!;
+    const hunger = n.needs.hunger;
+    catchUp(w, 3_600_000, 3_600_000);
+    expect(n.needs.hunger).toBeCloseTo(hunger, 3);
+    applyCommand(w, { kind: 'battleDraw' }, []);
+    catchUp(w, 3_600_000, 7_200_000);
+    expect(n.needs.hunger).toBeLessThan(hunger);
+    expect(w.battleHeld).toBeUndefined();
+  });
+});

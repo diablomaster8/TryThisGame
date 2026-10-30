@@ -12,7 +12,7 @@ import {
 import { recordKarate } from './battle/rewards';
 import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
 import { startGuardian, storyBoutChoice } from './battle/story-bouts';
-import { drawBattleCmd, resumeBattleCmd } from './battle/resume';
+import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -1131,6 +1131,8 @@ export function stepWorld(
   stepTeams(world, events);
   // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
   if (!offline) stepBattleMoves(world, dtMs, events);
+  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
+  holdBattleNeeds(world);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

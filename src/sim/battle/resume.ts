@@ -35,3 +35,36 @@ export function drawBattleCmd(world: World, events: SimEvent[]): void {
   end(s, { k: 'end', winner: null, reason: 'time' });
   grantRewards(world, s, events);
 }
+
+/**
+ * While a bout is live (turn or tactics), its party's needs are held where they were when it
+ * started (FIGHT-64, FIGHT-85): the Grove keeps running behind the bout, but a Nubbin mid-fight
+ * neither starves nor tires. Runs every step, live and offline, so a closed game holds them too.
+ */
+export function holdBattleNeeds(world: World): void {
+  const live =
+    world.battle && !world.battle.result
+      ? world.battle.context.kind === 'karate'
+        ? [world.battle.context.nubbinId]
+        : world.battle.context.ids
+      : world.tactics && !world.tactics.result
+        ? world.tactics.context.kind === 'karate'
+          ? []
+          : world.tactics.context.ids
+        : null;
+  if (!live || world.battle?.context.kind === 'world') {
+    if (world.battleHeld) delete world.battleHeld;
+    return;
+  }
+  const held = (world.battleHeld ??= {});
+  for (const id of live) {
+    const n = world.nubbins.find((x) => x.id === id);
+    if (!n) continue;
+    const h = held[id];
+    if (!h) held[id] = { hunger: n.needs.hunger, energy: n.needs.energy };
+    else {
+      n.needs.hunger = h.hunger;
+      n.needs.energy = h.energy;
+    }
+  }
+}
