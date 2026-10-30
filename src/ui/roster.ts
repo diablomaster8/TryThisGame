@@ -27,6 +27,7 @@ import { PERSONALITY_CHIP_TEXT } from '../config/strings-fun-r7';
 import { ROSTER_FILTER_TEXT } from '../config/strings-soul-r8';
 import { leaningPersonality } from '../sim/personality';
 import { personalityIcon } from './personality-chip';
+import { mayWear } from '../sim/remembrance'; /* Lane E r9 */
 
 const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
 
@@ -153,6 +154,7 @@ export class RosterMenu {
       none.value = '';
       hatSelect.appendChild(none);
       for (const hat of new Set(g.world.inventory.hats)) {
+        if (!mayWear(n, hat)) continue; /* Lane E r9, R0424 */
         const o = el('option', undefined, cosmeticLabel(hat));
         o.value = hat;
         hatSelect.appendChild(o);
