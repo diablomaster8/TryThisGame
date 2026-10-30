@@ -126,6 +126,7 @@ export function buy(world: World, item: ShopItem, rng: Rng, events: SimEvent[]):
         pos: freeSpot(world, rng),
         y: 0,
         vel: { x: 0, y: 0, z: 0 },
+        bornMs: world.timeMs,
       });
       break;
     }

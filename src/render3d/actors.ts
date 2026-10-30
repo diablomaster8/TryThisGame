@@ -22,7 +22,7 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
-import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
+import { PET_BEAT_BURST, PetBeats, type PetBeatPose } from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -127,8 +127,10 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'pet':
       return 'pet';
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
+    case 'shelter':
+      return moving ? walk() : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (the rig's stock `sit`); a low or hungry sitter is sad.
@@ -550,6 +552,15 @@ export class Actors {
   petBeat(id: string, action: Interaction, ok: boolean, nowMs: number): void {
     this.petBeats.queue(id, action, ok, nowMs);
   }
+
+  /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
+  tasteBeat(id: string, taste: 'yum' | 'bleh', nowMs: number): void {
+    this.petBeats.queueKind(id, taste, nowMs);
+  }
+
+  /** Lane A r8: the scene's particle hook for the idle looks' bursts (puddles, fireflies). */
+  beatBurst: ((kind: 'heart' | 'dust' | 'sparkle' | 'note', x: number, z: number) => void) | null =
+    null;
 
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
   react(id: string, shape: EmoteShape, untilMs: number): void {
@@ -1012,9 +1023,14 @@ export class Actors {
         a.swLean = sw?.lean ?? 0;
         a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
+        this.petBeats.calm = this.calm;
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        if (beat?.fresh && this.beatBurst) {
+          const k = PET_BEAT_BURST[beat.kind];
+          if (k) this.beatBurst(k, n.pos.x, n.pos.z);
+        }
         // LOOK-50: held, it hugs (love), dangles (idle) or flails (surprised) by affection;
         // the dangle's and flail's limb swing goes on after the pose below.
         const hm =

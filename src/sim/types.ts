@@ -250,6 +250,13 @@ export interface Nubbin {
   lastShakeMs: number;
   /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
   eggShakes?: number;
+  // Lane A r8 (SOUL), optional with defaults, no save bump:
+  /** R0536: which of its likes the Keeper has seen it react to (the sheet shows "?" till then). */
+  tasteSeen?: { yum?: true; bleh?: true; toy?: true };
+  /** R0532: how long it has been content while moody (care softens the look). */
+  moodyCalmMs?: number;
+  /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
+  toyBoredom?: Record<string, { v: number; at: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -272,6 +279,8 @@ export interface Item {
   toy?: ToyKind;
   /** Fruit: a stat or alignment flavour, or plain. */
   flavor?: Flavor;
+  /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
+  bornMs?: number;
 }
 
 export interface Tree {
@@ -1022,6 +1031,8 @@ export interface World {
   team: TeamState | null;
   /** Curfew by the real clock. */
   night: boolean;
+  /** R0535 (SOUL-17): dawn, day, dusk or night, from the curfew's wall clock; unset = day. */
+  phase?: 'dawn' | 'day' | 'dusk' | 'night';
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
@@ -1418,6 +1429,10 @@ export type SimEvent =
       cause: PersonalityCause;
     }
   | { kind: 'sitBeside'; nubbinId: string }
+  /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */
+  | { kind: 'fruitTaste'; nubbinId: string; taste: 'yum' | 'bleh'; first?: true }
+  | { kind: 'moodyCleared'; nubbinId: string; was: 'grumpy' | 'sleepy' }
+  | { kind: 'highFiveRefused'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

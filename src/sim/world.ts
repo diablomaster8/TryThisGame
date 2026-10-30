@@ -94,6 +94,7 @@ import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { stepMoody } from './soul-idle';
 import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
@@ -1207,6 +1208,7 @@ export function stepWorld(
     stepKeeper2(world, dtMs, events);
     stepEdu(world, dtMs, offline || !countPlay ? undefined : wallMs, offline || !countPlay);
     stepSlips(world, dtMs, events);
+    stepMoody(world, dtMs, events);
     stepPartners(world, dtMs, events);
     stepCurfew(world, dtMs, wallMs, events);
     stepQuests(world, wallMs, rng, events);

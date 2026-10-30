@@ -15,6 +15,7 @@ import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
 import { PersonalityChip } from './personality-chip';
+import { SoulRow } from './soul-row';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -76,6 +77,8 @@ export class StatsSheet {
   private readonly caption: HTMLDivElement;
   /** R0522: the personality chip (a child's leaning) and its card. */
   private readonly personality = new PersonalityChip();
+  /** Lane A r8: likes, dislikes, the favourite toy and a moody chip. */
+  private readonly soul = new SoulRow();
   private readonly host: HTMLElement;
 
   constructor(
@@ -228,6 +231,7 @@ export class StatsSheet {
       this.personality.root,
       this.personality.forming,
       this.personality.details,
+      this.soul.root,
       needs,
       stats,
       this.actions,
@@ -329,6 +333,7 @@ export class StatsSheet {
     this.subtitle.textContent = subtitleFor(n, world);
     this.personality.update(n);
     this.personality.meter(n, toastBand(world) === 'sprout');
+    this.soul.update(n);
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);

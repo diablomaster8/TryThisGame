@@ -465,6 +465,13 @@ export class WorldView {
       }
       // FUN-09: each pet action queues its own beat over the sim's reaction.
       if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
+      // R0536: a favourite or disliked fruit plays its own beat.
+      if (e.kind === 'fruitTaste') this.petBeats.queueKind(e.nubbinId, e.taste, nowMs);
+      // R0532: a grumpy refusal huffs.
+      if (e.kind === 'highFiveRefused') {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.bubble = { shape: 'puff', untilMs: nowMs + UI.bubbleMs };
+      }
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -2052,6 +2059,7 @@ export class WorldView {
     }
 
     // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
+    this.petBeats.calm = this.particles.reduceMotion;
     const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
     if (beat?.clip) {
       const angle = key.split(':')[1] ?? 'front';
@@ -2276,8 +2284,10 @@ export function clipFor(n: Nubbin): string {
       return swimClip(n);
     // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never the sleep pose.
+    case 'shelter':
+      return n.behavior.target ? 'walk' : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle); a low or hungry sitter is sad.
@@ -2341,6 +2351,8 @@ const HELD_CLIPS: Record<HeldMood, string> = {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  // R0532 (lane A r8): a harrumph huffs.
+  if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
   if (n.behavior.state === 'perform') return n.behavior.itemId === 'visitFlower' ? 'heart' : 'star';
   if (n.behavior.state === 'court') return 'heart';

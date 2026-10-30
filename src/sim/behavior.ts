@@ -23,7 +23,6 @@ import { isFree } from './nubbin';
 import { mossOnHill, mossSeat } from './roster';
 import { isWary } from './trust';
 import { bestLesson, finishLesson } from './kindergarten';
-import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
 import {
@@ -53,6 +52,10 @@ import { fliesLeg } from './flight';
 import { FLIGHT } from '../config/tuning-look';
 import type { Rng } from './rng';
 import { addPoints } from './stats';
+import { likesOf, tasteOf } from './likes';
+import { favouredToy, noteToyPlay } from './toy-soul';
+import { moodyAct, moodyGreet, napScale, phaseAct, rainAct, type IdleAct } from './soul-idle';
+import { LIKES, TOY_SOUL } from '../config/tuning-soul-r8';
 import type {
   BehaviorState,
   Flavor,
@@ -354,29 +357,27 @@ function skipping(n: Nubbin, now: number): string | null {
   return b.skipItemId !== undefined && now < (b.skipItemUntilMs ?? 0) ? b.skipItemId : null;
 }
 
-function nearestFruit(world: World, from: Vec2, skip: string | null = null): string | null {
+function nearestFruit(
+  world: World,
+  from: Vec2,
+  skip: string | null = null,
+  n?: Nubbin,
+): string | null {
   let best: string | null = null;
-  let bestD: number = BEHAVIOR.foodSearchRadius;
+  // R0536: a favourite is worth a longer walk; a disliked one is left unless starving.
+  const reach = n ? LIKES.favouriteReach : 1;
+  let bestD = Infinity;
+  const starving = !!n && n.needs.hunger < NEEDS.starvingThreshold;
   for (const item of world.items) {
     if (item.kind !== 'fruit' || item.y > 0.05 || item.id === skip) continue;
-    const d = dist(from, item.pos);
+    const taste = n ? tasteOf(n, item.flavor) : null;
+    if (taste === 'bleh' && !starving) continue;
+    const raw = dist(from, item.pos);
+    if (raw > BEHAVIOR.foodSearchRadius * (taste === 'yum' ? reach : 1)) continue;
+    const d = taste === 'yum' ? raw / reach : raw;
     if (d < bestD) {
       bestD = d;
       best = item.id;
-    }
-  }
-  return best;
-}
-
-function nearestToy(world: World, from: Vec2): Item | null {
-  let best: Item | null = null;
-  let bestD = Infinity;
-  for (const item of world.items) {
-    if (item.kind !== 'toy') continue;
-    const d = dist(from, item.pos);
-    if (d < bestD) {
-      bestD = d;
-      best = item;
     }
   }
   return best;
@@ -491,7 +492,7 @@ export function shroomHopY(world: World, n: Nubbin, t: number): number | null {
 function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   // Curfew: late at night they would rather sleep.
   if (world.night && n.needs.energy < 0.9 && rng.chance(CURFEW.napChance)) {
-    setState(n, 'nap', now, NEEDS.napMs);
+    setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     return;
   }
   // Partners keep near the Keeper.
@@ -539,9 +540,11 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   }
   // Personality only shifts the odds of idle choices; a child's leaning does, at half
   // strength, until it locks at evolution (R0523).
-  const m = n.personality
+  const m0 = n.personality
     ? idleMultipliers(n.personality)
     : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
+  // R0532: a grumpy one greets less.
+  const m = n.moody ? { ...m0, greet: m0.greet * moodyGreet(n) } : m0;
   const keeperNear = dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius;
   // Rain: most Nubbins head for a tree; swimmers would rather be in the pond.
   if (world.weather.kind === 'rain' && n.stage !== 'egg') {
@@ -551,9 +554,12 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
       return;
     }
-    if (!swimmer && rng.chance(0.8)) {
-      setState(n, 'shelter', now, 60_000);
-      n.behavior.target = shelterSpot(n.pos.x, n.pos.z);
+    // R0534: the rest play in it or shelter by personality, never more than half at once.
+    const act = swimmer
+      ? null
+      : rainAct(n, world, rng, (around, r) => standablePoint(rng, world, n, around, r));
+    if (act) {
+      startAct(n, act, now);
       return;
     }
   }
@@ -627,8 +633,16 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     clampToWorld(n.behavior.target);
     return;
   }
+  // Lane A r8: a moody look's own acts (R0532), then the time of day's (R0535).
+  const own = moodyAct(n, world, rng) ?? phaseAct(n, world, rng);
+  if (own) {
+    startAct(n, own, now);
+    return;
+  }
   // R0524: the everyday choice is one weighted pick (sim/idle-choice.ts), not a cascade.
-  const toy = nearestToy(world, n.pos);
+  // R0537: the toy it is keenest on (its favourite, unless bored of it), and how keen.
+  const keen = favouredToy(world, n, now);
+  const toy = keen?.toy ?? null;
   const toyOk = !!toy && toy.id !== skipping(n, now);
   // MOVE-57: a spring mushroom nearby is a toy too.
   const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
@@ -640,7 +654,7 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
       toy: toyOk,
       shroom: shroomOk,
       canSwim: n.stage !== 'egg',
-      mult: m,
+      mult: keen ? { ...m, play: m.play * keen.keen } : m,
     }) as Record<string, number>,
   );
   if (pick === 'greet') {
@@ -649,7 +663,13 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   if (pick === 'play' && toy) {
-    setState(n, 'play', now, rng.float(...BEHAVIOR.playMs));
+    setState(
+      n,
+      'play',
+      now,
+      rng.float(...BEHAVIOR.playMs) *
+        ((toy.toy ?? 'ball') === likesOf(n).toy ? TOY_SOUL.favouritePlay : 1),
+    );
     n.behavior.itemId = toy.id;
     n.behavior.target = { x: toy.pos.x, z: toy.pos.z };
     return;
@@ -673,13 +693,25 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
   n.behavior.target = standablePoint(rng, world, n, n.pos, 5);
 }
 
+/** Lane A r8: start an act from sim/soul-idle.ts. */
+function startAct(n: Nubbin, a: IdleAct, now: number): void {
+  setState(n, a.state, now, a.ms);
+  if (a.itemId) n.behavior.itemId = a.itemId;
+  if (a.target) {
+    clampToWorld(a.target);
+    n.behavior.target = a.target;
+  }
+  if (a.facing !== undefined) n.facing = a.facing;
+}
+
 /** R0524: the live odds of the everyday idle choice for the debug panel (no rng drawn). */
 export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
   const m = n.personality
     ? idleMultipliers(n.personality)
     : idleMultipliers(leaningPersonality(n), PERSONALITY_LEAN.childStrength);
   const now = world.timeMs;
-  const toy = nearestToy(world, n.pos);
+  const keen = favouredToy(world, n, now);
+  const toy = keen?.toy ?? null;
   const shroom = n.stage === 'egg' ? null : nearestShroom(world, n.pos);
   return idleOdds({
     keeperNear: dist(n.pos, world.keeper.pos) < BEHAVIOR.greetRadius,
@@ -687,7 +719,7 @@ export function debugIdleOdds(world: World, n: Nubbin): Record<string, number> {
     toy: !!toy && toy.id !== skipping(n, now),
     shroom: !!shroom && shroom.id !== skipping(n, now),
     canSwim: n.stage !== 'egg',
-    mult: m,
+    mult: keen ? { ...m, play: m.play * keen.keen } : m,
   });
 }
 
@@ -733,12 +765,12 @@ export function updateBehavior(
     b.state !== 'pet' &&
     b.state !== 'lesson';
   if (interruptible && isExhausted(n)) {
-    setState(n, 'nap', now, NEEDS.napMs);
+    setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     events.push({ kind: 'napStarted', nubbinId: n.id });
     return;
   }
   if (interruptible && b.state !== 'findFood' && isHungry(n)) {
-    const fruit = nearestFruit(world, n.pos, skipping(n, now));
+    const fruit = nearestFruit(world, n.pos, skipping(n, now), n);
     if (fruit) {
       setState(n, 'findFood', now, Infinity);
       b.itemId = fruit;
@@ -834,6 +866,10 @@ export function updateBehavior(
       }
       b.target = null;
       // Bat the toy around a little; it rolls a short way.
+      // R0537: boredom builds as it plays; its favourite shows on the sheet once seen.
+      noteToyPlay(n, toy.id, dtMs, now);
+      if ((toy.toy ?? 'ball') === likesOf(n).toy && !n.tasteSeen?.toy)
+        n.tasteSeen = { ...n.tasteSeen, toy: true };
       if (rng.chance(0.08)) {
         const a = rng.float(0, Math.PI * 2);
         toy.pos.x += Math.cos(a) * 0.6;
@@ -862,7 +898,9 @@ export function updateBehavior(
       break;
     }
     case 'shelter': {
-      if (b.target) walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs);
+      // R0534: on arrival the target clears, so the renderers show the huddle, not a walk.
+      if (b.target && walkToward(world, n, b.target, BEHAVIOR.walkSpeed * 1.3, dtMs))
+        b.target = null;
       if (world.weather.kind !== 'rain' || now >= b.untilMs) chooseIdle(n, world, rng, now);
       break;
     }
@@ -950,6 +988,19 @@ export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor)
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);
   setState(n, 'eat', now, BEHAVIOR.eatMs);
   events.push({ kind: 'ate', nubbinId: n.id });
+  // R0536: its favourite or a dislike: a happiness nudge and a reaction (stats unchanged).
+  const taste = tasteOf(n, flavor);
+  if (taste) {
+    addHappiness(n, taste === 'yum' ? LIKES.yumHappiness : LIKES.blehHappiness);
+    const first = !n.tasteSeen?.[taste];
+    n.tasteSeen = { ...n.tasteSeen, [taste]: true };
+    events.push({
+      kind: 'fruitTaste',
+      nubbinId: n.id,
+      taste,
+      ...(first ? { first: true as const } : {}),
+    });
+  }
 }
 
 export function startThrow(n: Nubbin, vel: Vec2, now: number, events: SimEvent[]): void {

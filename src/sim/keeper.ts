@@ -19,6 +19,7 @@ import {
   UNREACHABLE,
 } from '../config/tuning-move';
 import { GATHER, GROVE, KEEPER, NEEDS, PERKS, SIM, TREES, TRUST } from '../config/tuning';
+import { MOODY } from '../config/tuning-soul-r8';
 import {
   JUMP,
   KEEPER_ACCEL,
@@ -1264,6 +1265,13 @@ export function interact(world: World, n: Nubbin, action: Interaction, events: S
       react(n, 'happy', now, events);
       break;
     case 'highFive':
+      // R0532 (lane A r8): a grumpy one turns it down three times in ten, with a huff.
+      if (n.moody === 'grumpy' && withRng(world, (r) => r.chance(MOODY.grumpyRefuse))) {
+        react(n, 'sad', now, events);
+        events.push({ kind: 'highFiveRefused', nubbinId: n.id });
+        events.push({ kind: 'interacted', nubbinId: n.id, action, ok: false });
+        return;
+      }
       addHappiness(n, 3);
       addTrust(n, 1, events);
       react(n, n.personality === 'shy' ? 'confused' : 'happy', now, events);

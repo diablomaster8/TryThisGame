@@ -3396,3 +3396,30 @@ select {
 .backup-chip .btn {
   min-height: 44px;
 }
+
+/* Lane A r8 (SOUL): the likes row and moody chip on the stats sheet. */
+.soul-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0 0 6px;
+  font-size: 0.85em;
+}
+.soul-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+.soul-chip.unknown {
+  opacity: 0.7;
+}
+.soul-chip.moody {
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  padding: 2px 6px;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+}
+.soul-help {
+  flex-basis: 100%;
+  opacity: 0.85;
+}

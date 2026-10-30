@@ -12,7 +12,19 @@ export const EMOTE_SIZE = 12;
  * Moon forms a spiked ball. Sleep shows a Z.
  */
 export type EmoteShape =
-  'ball' | 'heart' | 'spiral' | 'exclaim' | 'question' | 'halo' | 'spiky' | 'zz' | 'star' | 'none';
+  | 'ball'
+  | 'heart'
+  | 'spiral'
+  | 'exclaim'
+  | 'question'
+  | 'halo'
+  | 'spiky'
+  | 'zz'
+  | 'star'
+  // Lane A r8: a cross grey puff (a grumpy refusal, a harrumph) and a note (a song, a hum).
+  | 'puff'
+  | 'note'
+  | 'none';
 export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'ball',
   'heart',
@@ -23,6 +35,8 @@ export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'spiky',
   'zz',
   'star',
+  'puff',
+  'note',
 ];
 
 function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas {
@@ -108,6 +122,21 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.line(cx - 2, cy - 2, cx + 2, cy + 2, C.lilacGrey);
       pc.line(cx - 2, cy + 2, cx + 2, cy - 2, C.lilacGrey);
       pc.px(cx, cy, C.white);
+      break;
+    case 'puff':
+      // Three grey lumps blown out sideways: a huff.
+      pc.disc(cx - 2, cy + 1, 2.2, C.greyLight);
+      pc.disc(cx + 1, cy - 1, 2.6, C.greyLight);
+      pc.disc(cx + 3, cy + 2, 1.8, C.greyLight);
+      pc.px(cx, cy - 2, C.white);
+      pc.px(cx - 3, cy + 1, C.greyDeep);
+      break;
+    case 'note':
+      // A quaver: a round head and a flagged stem.
+      pc.disc(cx - 1.5, cy + 2.5, 1.8, C.violet);
+      pc.rect(cx, cy - 4, 1, 7, C.violet);
+      pc.rect(cx + 1, cy - 4, 2, 1, C.violet);
+      pc.rect(cx + 2, cy - 3, 1, 2, C.violet);
       break;
     case 'none':
       break;

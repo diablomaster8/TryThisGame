@@ -474,6 +474,15 @@ export class Grove3dScene {
     this.weather = new GroveWeather(this.scene, this.world3d);
     this.water = buildGroveWater(this.world3d);
     this.actors = new Actors(this.scene);
+    // Lane A r8: the idle looks' bursts (puddle splashes, fireflies, a harrumph's puff).
+    this.actors.beatBurst = (kind, x, z) =>
+      this.bursts.burst(
+        kind === 'note' ? 'sparkle' : kind,
+        new THREE.Vector3(x, standHeight(x, z) + (kind === 'dust' ? 0.05 : 0.9), z),
+        kind === 'dust' ? 5 : 2,
+        { spread: kind === 'sparkle' ? 0.9 : 0.3, speed: 0.5, rise: 0.4, lifeMs: 700 },
+        this.lastMs,
+      );
     // Compile against the composer's target: the game draws into it (linear, no tone
     // mapping), and programs compiled for the canvas would not be the ones it uses.
     // A rig compiles for the light set it is shown in and for every set already linked,
@@ -861,6 +870,12 @@ export class Grove3dScene {
           this.lastMs,
         );
         this.pendingShake = Math.max(this.pendingShake, GROVE3D.shake.landed);
+      } else if (e.kind === 'fruitTaste') {
+        // R0536 (lane A r8): a favourite or disliked fruit plays its own beat.
+        this.actors.tasteBeat(e.nubbinId, e.taste, this.lastMs);
+      } else if (e.kind === 'highFiveRefused') {
+        // R0532 (lane A r8): a grumpy refusal huffs.
+        this.actors.react(e.nubbinId, 'puff', this.lastMs + UI.bubbleMs);
       } else if (e.kind === 'interacted') {
         // FUN-09 (lane E): each pet action plays its own beat.
         this.actors.petBeat(e.nubbinId, e.action, e.ok, this.lastMs);
