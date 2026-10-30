@@ -28,6 +28,9 @@ import { button, el } from './dom';
 import { eduJournal } from './journal';
 import { speakLine } from './lesson';
 import { greet } from './child-name';
+/* Lane E r9, R0704 */
+import { EDU_ARC_TEXT } from '../config/strings';
+import { eduSessionPhase } from '../sim/edu-session';
 import { CHILD_NAME_TEXT } from '../config/strings-kids';
 import { TRACK_TEXT } from '../config/strings-camp';
 import { sideStory } from '../sim/story-scenes';
@@ -260,6 +263,10 @@ export class EduPrompt {
   private shownFor: Game | null = null;
   private enteredAt = 0;
   private lastInput = performance.now();
+  /* Lane E r9, R0704: the session arc's heading and its care button. */
+  private readonly heading: HTMLHeadingElement;
+  private readonly careBtn: HTMLButtonElement;
+  private greetedFor: Game | null = null;
 
   constructor(
     parent: HTMLElement,
@@ -276,13 +283,21 @@ export class EduPrompt {
       b.append(el('span', 'edu-entry-icon', icon), el('strong', undefined, label));
       return b;
     };
+    this.heading = el('h2', undefined, EDU_PROMPT_TEXT.title);
+    // R0704: in the care beat a third big button suggests a fruit or a pat; never forced.
+    this.careBtn = big('🍎', EDU_ARC_TEXT.careBtn, () => {
+      this.hide();
+      speakLine(EDU_ARC_TEXT.careHint);
+    });
+    this.careBtn.hidden = true;
     card.append(
-      el('h2', undefined, EDU_PROMPT_TEXT.title),
+      this.heading,
       big('📖', EDU_PROMPT_TEXT.story, () => this.story()),
       big('🎨', EDU_PROMPT_TEXT.play, () => {
         this.hide();
         this.openers.play();
       }),
+      this.careBtn,
       button(EDU_PROMPT_TEXT.look, () => this.hide(), 'btn btn-small edu-entry-look'),
     );
     this.root.appendChild(card);
@@ -346,8 +361,19 @@ export class EduPrompt {
   private show(g: Game): void {
     this.root.hidden = false;
     this.lastInput = performance.now();
-    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud)
-      speakLine(greet(EDU_PROMPT_TEXT.say, g.world.edu?.childName, CHILD_NAME_TEXT.hello));
+    // Lane E r9, R0704: the session arc picks the heading and the line said; hello calls the
+    // Nubbins over to the Keeper once per visit, and greets the child by name.
+    const phase = eduSessionPhase(g.world, Date.now()) ?? 'main';
+    const arc = phase === 'goodnight' ? EDU_ARC_TEXT.windDown : EDU_ARC_TEXT[phase];
+    this.heading.textContent = arc.title;
+    this.careBtn.hidden = phase !== 'care';
+    const hello = this.greetedFor !== g;
+    if (hello) {
+      this.greetedFor = g;
+      g.send({ kind: 'call', nubbinId: null });
+    }
+    const say = hello ? greet(arc.say, g.world.edu?.childName, CHILD_NAME_TEXT.hello) : arc.say;
+    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(say);
     this.root.querySelector<HTMLButtonElement>('.edu-entry-btn')?.focus({ preventScroll: true });
   }
 }
