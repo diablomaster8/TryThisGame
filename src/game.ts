@@ -62,6 +62,8 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 }
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
+import { PixelGovernor } from './render/pixel-gov';
+import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
 
@@ -116,6 +118,8 @@ export class Game {
   readonly spikes = new FrameSpikes();
   /** TECH-09: this device's performance tier and what decided it (shown in the debug panel). */
   readonly tier: TierReading;
+  /** TECH-53: the Pixel renderer's frame governor (null in Full 3D). */
+  private pixelGov: PixelGovernor | null = null;
   private rafId = 0;
   private running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
@@ -370,9 +374,9 @@ export class Game {
     this.view.setDaylight(d, reduce);
     this.view.lights = this.grove.lampsOn ? this.grove.lampSpots : [];
     this.view.setWeather(
-      place === 'dungeon' ? 'clear' : wk,
+      place === 'dungeon' || this.pixelGov?.sheds('weather') ? 'clear' : wk,
       this.world.weather.intensity,
-      s.particles,
+      this.pixelGov ? this.pixelGov.particles(s.particles) : s.particles,
       reduce,
     );
     // Rain greys the grade a little; snow brightens and cools it.
@@ -514,6 +518,8 @@ export class Game {
     } else {
       this.lowRes = new LowResPipeline(canvas);
       this.lowRes.enablePost();
+      this.pixelGov = new PixelGovernor();
+      this.applyPixelGov();
       this.pipeline = this.lowRes;
       this.grove = new GroveScene(this.world.tiles, this.view);
       this.picker = new Picker(canvas);
@@ -1040,6 +1046,7 @@ export class Game {
         this.spikes.lap('update');
         this.lowRes.render(this.grove.scene, this.camera.camera);
         this.spikes.lap('draw');
+        if (this.pixelGov?.sample(dt, nowMs)) this.applyPixelGov();
       }
     }
 
@@ -1048,6 +1055,18 @@ export class Game {
 
     if (nowMs - this.lastSaveMs >= SIM.autosaveMs) this.save();
     this.spikes.lap('save');
+  }
+
+  /** TECH-53: put the Pixel governor's shed level into the view: sway, daylight, frame height. */
+  private applyPixelGov(): void {
+    const gov = this.pixelGov;
+    if (!gov || !this.lowRes) return;
+    PIXEL_WIND.shed = gov.sheds('wind');
+    this.lastDaylightMs = -Infinity;
+    const before = this.lowRes.currentSize;
+    const size = this.lowRes.setTargetHeight(gov.targetHeight);
+    if (size.width !== before.width || size.height !== before.height)
+      this.camera.setFrame(size.width, size.height);
   }
 
   /** R0091: when the last twinkle was, and the next one over each collectible in reach. */
