@@ -58,3 +58,29 @@ export const MOSS_WATCH = {
   bonk: ['*a slow blink*', 'Hm.', '*one eyebrow, raised*', 'Mm.', '*a long look at the tree*'],
   throw: ['*a stern look*', '*a sterner look*'],
 } as const;
+
+/** R0354 (FUN-65): one line per adult type after the evolution card. `{n}` is the name. */
+export const EVOLVE_QUIPS = {
+  main: {
+    normal:
+      '{n} looks at its new self, turns round to see the back, and sits down to think about it.',
+    swim: '{n} tries a swimming stroke on dry land. The grass is unimpressed.',
+    fly: '{n} flaps once and surprises itself.',
+    run: '{n} sets off at a sprint, forgets why, and comes back.',
+    power: '{n} pats the bench to steady itself and accidentally lifts the bench.',
+  },
+  reader: {
+    normal: '{n} turns round to see its new back, wobbles, and sits down.',
+    swim: '{n} does a swimming stroke. On the grass.',
+    fly: '{n} flaps once. Whoa! It surprised itself.',
+    run: '{n} zooms off, then zooms back.',
+    power: '{n} leans on the bench and lifts it by mistake.',
+  },
+  sprout: {
+    normal: '{n} spins round. Wobble! Sit down.',
+    swim: '{n} swims on the grass. Silly!',
+    fly: 'Flap! {n} is surprised!',
+    run: 'Zoom! {n} runs and runs.',
+    power: '{n} lifts the bench. Oops!',
+  },
+} as const;

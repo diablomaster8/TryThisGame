@@ -96,3 +96,6 @@ export const SIT_WITH = {
 
 /** R0353: Moss reacts from chapter `fromChapter`, within `sight` units, at a seeded `chance`. */
 export const MOSS_WATCH_RULE = { fromChapter: 4, sight: 12, chance: 0.3 } as const;
+
+/** R0354 (FUN-65): the post-evolution beat's phases, ms: look itself over, turn, wobble, sit. */
+export const EVOLVE_QUIP = { lookMs: 900, turnMs: 1100, wobbleMs: 700, sitMs: 1800 } as const;

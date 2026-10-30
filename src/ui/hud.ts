@@ -439,6 +439,8 @@ export function mountHud(
     if (t && !t.result) void import('./tactics-screen').then((m) => m.openTactics(root, game));
   }, 1000);
   const celebration = new Celebration(root, game);
+  // R0354: the comic line after the evolution card.
+  celebration.onQuip = (line) => toast(line);
   // R0326: which comic stray line comes next.
   let strayLine = 0;
   const shop = new ShopMenu(root, game, toast);

@@ -57,6 +57,7 @@ import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } fro
 import { GlideWings } from './glide-wings';
 import { WadeRipple } from './wade-ripple';
 import { sitWithBeat, towardKeeper } from '../render/sit-with';
+import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 
@@ -85,6 +86,8 @@ interface Actor {
   ripple: THREE.Mesh | null;
   /** R0355: the sit-with lean (0..1) and its Zs or snore bubble, this frame. */
   swLean?: number;
+  /** R0354: the after-card turn this frame (radians). */
+  quipTurn?: number;
   swEmote?: EmoteShape | null;
   /** LOOK-62: the landing turn laid on the rig's yaw this frame, taken off the next. */
   revealYaw?: number;
@@ -999,6 +1002,10 @@ export class Actors {
         // R0355: sitting with the Keeper, it nods off on the Keeper's foot.
         const sw = sitWithBeat(world, n, world.timeMs);
         if (sw?.doze) pose = 'sleep';
+        // R0354: after the evolution card, the look, the turn, the wobble and the sit.
+        const qb = held ? null : quipBeat(n.id, nowMs, this.calm);
+        if (qb) pose = qb.phase === 'wobble' ? 'dizzy' : qb.phase === 'sit' ? 'sit' : 'idle';
+        a.quipTurn = qb?.turn ?? 0;
         a.swLean = sw?.lean ?? 0;
         a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
@@ -1074,7 +1081,10 @@ export class Actors {
         // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
         const pp = this.pops.get(n.id);
         const turn =
-          n.stage === 'adult' && pp?.kind === 'pop' ? revealTurn(pp.startMs, nowMs, this.calm) : 0;
+          (a.quipTurn ?? 0) +
+          (n.stage === 'adult' && pp?.kind === 'pop'
+            ? revealTurn(pp.startMs, nowMs, this.calm)
+            : 0);
         if (turn) {
           o.rotation.y += turn;
           a.revealYaw = turn;

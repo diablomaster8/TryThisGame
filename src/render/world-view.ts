@@ -18,6 +18,7 @@ import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
 import { eggAntics } from './egg-antics';
 import { sitWithBeat, towardKeeper } from './sit-with';
+import { quipBeat } from './evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import {
   BUSH,
@@ -1930,11 +1931,17 @@ export class WorldView {
       }
       // K5, K40: a walk-on faces its way; the partner at the Keeper's side keeps its pose.
       const hf = held ? this.staging?.faces.get(n.id) : undefined;
+      // R0354: after the card, it turns round to see its tail, wobbles and sits down.
+      const qb = held ? null : quipBeat(n.id, nowMs, this.particles.reduceMotion);
+      if (qb?.phase === 'wobble') clip = 'tumble';
+      else if (qb?.phase === 'sit') clip = 'sit';
+      else if (qb) clip = 'idle';
       // LOOK-62: a newly evolved form spins one turn as it lands.
       const turn =
-        n.stage === 'adult' && v.pop?.kind === 'pop'
+        (qb?.turn ?? 0) +
+        (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
-          : 0;
+          : 0);
       const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
