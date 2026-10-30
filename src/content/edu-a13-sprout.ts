@@ -1403,7 +1403,7 @@ const A7: EduQuest = quest(
           'a sneeze is how our body clears our nose; cover it with an elbow',
           'ELOF: Perceptual, Motor, and Physical Development',
           [
-            N('Atchoo! A sneeze clears tickles out of your nose.'),
+            N('Achoo! A sneeze clears tickles out of your nose.'),
             N('We sneeze into our elbow, like this. (Show how.)'),
           ],
           'Learned that a sneeze clears the nose and practised sneezing into an elbow.',
@@ -1459,7 +1459,7 @@ const A7: EduQuest = quest(
         N('Fire-eater sits up. He likes being called Your Excellency.'),
         P('Please do not hurt Harlequin. Take me instead.'),
         N('Pinocchio takes off his cap and holds it to his chest.'),
-        N('Fire-eater’s nose twitches. Atchoo! Atchoo! Atchoo!'),
+        N('Fire-eater’s nose twitches. Achoo! Achoo! Achoo!'),
       ],
       [
         ask(

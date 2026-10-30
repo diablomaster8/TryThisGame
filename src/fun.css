@@ -282,12 +282,20 @@ body.line-shake-big #app {
   background: #ffe28a;
 }
 @keyframes say-it-pop {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.18); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .say-it.said { animation: none; }
+  .say-it.said {
+    animation: none;
+  }
 }
 
 /* R0321 (FUN-32): peekaboo. The Nubbin sits behind its spot with the crown showing. */
@@ -349,12 +357,20 @@ body.line-shake-big #app {
   min-height: 56px;
 }
 @keyframes peek-pop {
-  from { transform: scale(0.4); }
-  to { transform: scale(1); }
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .peek-nubbin { transition: none; }
-  .peek-decoy { animation: none; }
+  .peek-nubbin {
+    transition: none;
+  }
+  .peek-decoy {
+    animation: none;
+  }
 }
 
 /* R0296 / R0297: the Keepers' ambient lines, quieter than a tapped Keeper's. */
@@ -454,5 +470,465 @@ body.line-shake-big #app {
   transition: left 0.12s ease-out;
 }
 @media (prefers-reduced-motion: reduce) {
-  .micro-basket { transition: none; }
+  .micro-basket {
+    transition: none;
+  }
+}
+/* R0294 (FUN-05), round 6: escort, climb, puzzle, survive and explore. */
+.micro-path {
+  position: relative;
+  height: 90px;
+  border-bottom: 6px dashed #8a5a2b;
+}
+.micro-walker,
+.micro-flag {
+  position: absolute;
+  bottom: 4px;
+  font-size: 40px;
+}
+.micro-flag {
+  right: 0;
+}
+.micro-call {
+  display: block;
+  margin: 10px auto 0;
+  min-height: 56px;
+  min-width: 140px;
+}
+.micro-wall {
+  position: relative;
+  height: 200px;
+  width: 90px;
+  margin: 0 auto;
+  background: repeating-linear-gradient(0deg, #9b8565 0 18px, #85704f 18px 20px);
+  border-radius: 6px;
+}
+.micro-climber {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 36px;
+  transition: bottom 0.15s ease-out;
+}
+.micro-ring {
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 8px auto 0;
+  border: 6px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+.micro-ring.micro-ring-on {
+  border-color: #f2c14e;
+}
+.micro-slots,
+.micro-pieces,
+.micro-guards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+.micro-slot,
+.micro-piece,
+.micro-guard {
+  min-width: 56px;
+  min-height: 56px;
+  font-size: 20px;
+}
+.micro-slot {
+  border-style: dashed;
+}
+.micro-piece.micro-held {
+  outline: 3px solid #f2c14e;
+}
+.micro-ring-fight {
+  position: relative;
+  height: 120px;
+}
+.micro-foe,
+.micro-me {
+  position: absolute;
+  bottom: 10px;
+  font-size: 44px;
+}
+.micro-foe {
+  left: 15%;
+}
+.micro-foe[data-side='1'] {
+  left: auto;
+  right: 15%;
+}
+.micro-foe[data-side='2'] {
+  left: 45%;
+  bottom: 70px;
+}
+.micro-me {
+  left: 45%;
+}
+.micro-me.micro-wobble {
+  animation: micro-wobble 0.5s;
+}
+@keyframes micro-wobble {
+  25% {
+    transform: rotate(-12deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }
+}
+.micro-field {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+.micro-cell {
+  min-height: 48px;
+  font-size: 24px;
+  padding: 0;
+}
+.micro-cell.micro-near {
+  outline: 2px solid #6cbf5a;
+}
+@media (prefers-reduced-motion: reduce) {
+  .micro-climber {
+    transition: none;
+  }
+}
+/* R0296 (FUN-07): the Keepers' routine prop gags, one loop each. */
+.routine-prop,
+.routine-soot {
+  position: fixed;
+  z-index: 27;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 22px;
+  line-height: 1;
+}
+.dialogue-open .routine-prop,
+.dialogue-open .routine-soot {
+  display: none;
+}
+.routine-prop[data-gag='guilty'] {
+  animation: gag-guilty 4s infinite;
+}
+.routine-prop[data-gag='proud'] {
+  animation: gag-proud 5s infinite;
+}
+.routine-prop[data-gag='flash'] {
+  animation: gag-flash 12s infinite;
+}
+.routine-prop[data-gag='hold'] {
+  animation: gag-hold 1.2s infinite;
+  transform-origin: 50% 100%;
+}
+.routine-prop[data-gag='slop'] {
+  animation: gag-slop 3s infinite;
+  transform-origin: 50% 100%;
+}
+.routine-prop[data-gag='spoons']::after {
+  content: '';
+  animation: gag-spoons 6s infinite;
+}
+.routine-prop[data-gag='wander'] {
+  animation: gag-wander 7s infinite;
+}
+.routine-prop[data-gag='scarf'] {
+  transform: translate(-50%, -100%) scaleX(var(--scarf, 1));
+  transform-origin: 0 50%;
+}
+.routine-prop[data-gag='scarecrow'] {
+  animation: gag-scarecrow 3s infinite;
+}
+.routine-prop[data-gag='zzz'] {
+  animation: gag-zzz 2.5s infinite;
+}
+.routine-prop[data-gag='upside'] {
+  transform: translate(-50%, -100%) rotate(180deg);
+}
+.routine-prop[data-gag='upside']::after {
+  content: '❓';
+  display: inline-block;
+  transform: rotate(180deg);
+  font-size: 14px;
+}
+.routine-soot {
+  width: 18px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(30, 24, 20, 0.85);
+  font-size: 0;
+  animation: gag-soot 12s infinite;
+}
+@keyframes gag-guilty {
+  0%,
+  60% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  70% {
+    transform: translate(-30%, -100%) rotate(-15deg);
+  }
+  90% {
+    transform: translate(-30%, -100%) rotate(-15deg) scale(0.85);
+  }
+}
+@keyframes gag-proud {
+  0%,
+  80% {
+    transform: translate(-50%, -100%);
+  }
+  90% {
+    transform: translate(-50%, -130%);
+  }
+}
+@keyframes gag-flash {
+  0%,
+  30% {
+    filter: none;
+    transform: translate(-50%, -100%);
+  }
+  32% {
+    filter: brightness(3) drop-shadow(0 0 8px #8cf);
+    transform: translate(-50%, -100%) scale(1.6);
+  }
+  36% {
+    filter: grayscale(1) brightness(0.4);
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    filter: grayscale(1) brightness(0.4);
+  }
+}
+@keyframes gag-soot {
+  0%,
+  32% {
+    opacity: 0;
+  }
+  34%,
+  115% {
+    opacity: 1;
+  }
+}
+@keyframes gag-hold {
+  0%,
+  100% {
+    transform: translate(-50%, -100%);
+  }
+  50% {
+    transform: translate(-50%, -125%);
+  }
+}
+@keyframes gag-slop {
+  0%,
+  50% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  60% {
+    transform: translate(-50%, -100%) rotate(30deg);
+  }
+  70% {
+    transform: translate(-50%, -100%) rotate(-10deg);
+  }
+}
+@keyframes gag-spoons {
+  0%,
+  40% {
+    content: '';
+  }
+  45%,
+  100% {
+    content: '🥄';
+  }
+}
+@keyframes gag-wander {
+  0%,
+  20% {
+    margin-left: 0;
+  }
+  60% {
+    margin-left: 46px;
+  }
+  70% {
+    margin-left: 46px;
+  }
+  100% {
+    margin-left: 0;
+  }
+}
+@keyframes gag-scarecrow {
+  0%,
+  60% {
+    transform: translate(-50%, -100%) rotate(0);
+  }
+  70% {
+    transform: translate(-50%, -100%) rotate(-25deg);
+  }
+  80% {
+    transform: translate(-50%, -100%) rotate(20deg);
+  }
+}
+@keyframes gag-zzz {
+  0% {
+    opacity: 0;
+    margin-top: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .routine-prop,
+  .routine-soot {
+    animation: none !important;
+  }
+  .routine-prop[data-gag='spoons']::after {
+    content: '🥄';
+  }
+}
+/* R0303 / R0368: a stage actor's reaction to a story line. */
+.stage-react {
+  position: fixed;
+  z-index: 28;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 26px;
+  line-height: 1;
+  animation: stage-react-pop 1.4s ease-out forwards;
+}
+.stage-react-bit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 16px;
+  animation: stage-react-fly 0.9s ease-out forwards;
+}
+.stage-react-still,
+.stage-react-still .stage-react-bit {
+  animation: none;
+}
+@keyframes stage-react-pop {
+  0% {
+    transform: translate(-50%, -60%) scale(0.4);
+    opacity: 0;
+  }
+  15% {
+    transform: translate(-50%, -110%) scale(1.15);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -130%);
+    opacity: 0;
+  }
+}
+@keyframes stage-react-fly {
+  0% {
+    transform: rotate(var(--a)) translateX(0) rotate(calc(-1 * var(--a)));
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(34px) rotate(calc(-1 * var(--a)));
+    opacity: 0;
+  }
+}
+/* R0324 (FUN-35): what a bumped Expedition obstacle says. */
+.expedition-quip {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  max-width: min(320px, calc(100% - 32px));
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #fffaf0;
+  color: #2a2234;
+  font-size: 0.95rem;
+  text-align: center;
+  pointer-events: none;
+  z-index: 3;
+}
+/* R0327 (FUN-38): a request in its asker's voice. */
+.request-voice {
+  margin: 2px 0 0;
+  font-style: italic;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+/* R0329 (FUN-40): weather gags over the Nubbins. */
+.nubbin-gag {
+  position: fixed;
+  z-index: 27;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  font-size: 20px;
+  line-height: 1;
+}
+.dialogue-open .nubbin-gag {
+  display: none;
+}
+.nubbin-gag[data-gag='leafFlip'] {
+  transform: translate(-50%, -100%) scaleY(-1) rotate(20deg);
+}
+.nubbin-gag[data-gag='shiver'] {
+  animation: gag-shiver 0.15s infinite;
+}
+.nubbin-gag[data-gag='puddle'],
+.nubbin-gag[data-gag='paddle'] {
+  animation: gag-splash 0.5s ease-out;
+}
+@keyframes gag-shiver {
+  50% {
+    margin-left: 2px;
+  }
+}
+@keyframes gag-splash {
+  0% {
+    transform: translate(-50%, -60%) scale(0.5);
+  }
+  100% {
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nubbin-gag {
+    animation: none !important;
+  }
+}
+/* R0334 (FUN-45): Hazel's postscript under a chapter card. */
+.chapter-ps {
+  margin: 6px 0 0;
+  max-width: min(92vw, 520px);
+  padding: 4px 12px;
+  border-radius: 8px;
+  background: rgba(255, 250, 240, 0.92);
+  color: #3a2c22;
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: center;
+}
+/* R0335 (FUN-46): the Neopian Times masthead and the Multiverse case files. */
+.neo-masthead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0 8px;
+  padding: 6px 10px;
+  border: 2px solid #2a2234;
+  background: #f6f0e2;
+  color: #2a2234;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.neo-masthead.neo-bitten {
+  clip-path: polygon(0 0, 88% 0, 92% 10%, 96% 6%, 100% 22%, 100% 100%, 0 100%);
+}
+.mv-dossier {
+  margin: 2px 0 -4px;
+  font-size: 0.8rem;
 }

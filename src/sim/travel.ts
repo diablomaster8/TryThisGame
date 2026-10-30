@@ -2,6 +2,7 @@ import { LANDMARKS, PARTNERS } from '../config/tuning';
 import { clampToWorld } from './behavior';
 import { teleport } from './landmarks';
 import { regionOf } from './regions';
+import { markRunWalk } from './keeper';
 import type { SimEvent, Vec2, World } from './types';
 
 /**
@@ -59,4 +60,28 @@ export function fastTravel(
   });
   events.push({ kind: 'travelled', from, to: { ...k.pos } });
   return true;
+}
+
+/**
+ * R0102: the Travel assist setting. Walk leaves travel to the player; Auto-walk turns a tapped
+ * beacon or map pin into a run there (any other tap cancels it, as every tap walk replaces the
+ * last); Skip fast-travels straight there. Unset reads as Auto-walk in a Learning Grove and Walk
+ * otherwise, so older saves need no migration.
+ */
+export type TravelMode = NonNullable<World['settings']['travel']>;
+
+export function travelMode(world: World): TravelMode {
+  const saved = world.settings.travel;
+  // An imported save could carry anything here: only the three modes count.
+  if (saved === 'walk' || saved === 'auto' || saved === 'skip') return saved;
+  return world.edu ? 'auto' : 'walk';
+}
+
+/** Auto-walk: a tap walk to `pos` that runs, whatever the Auto-run setting says. */
+export function travelAssist(world: World, pos: Vec2): void {
+  const k = world.keeper;
+  k.moveTarget = { x: pos.x, z: pos.z };
+  clampToWorld(k.moveTarget);
+  k.intent = null;
+  markRunWalk(world, k.moveTarget);
 }

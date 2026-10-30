@@ -143,7 +143,7 @@ _Dimple bounces in a paper hat. Boing! Her hat lands on Byte._
 #### `sprout:s30-party` · [main](../../../side/S30.md#s30-party)
 
 _Dimple wins every race. She bounces round the cake eleven times!_  
-_Your Nubbin copies every bounce. Now it is very tired._  
+_Your Nubbin copies every bounce. Boing, boing! Now it is very tired._  
 **Sparks**: Look at her go! That’s a happy Nubbin!  
 **Ember**: That’s not happy. That’s busy.  
 **Sparks**: What? I made a cake shaped like a cake!  
@@ -162,7 +162,7 @@ _Your Nubbin copies every bounce. Now it is very tired._
 
 _Clover is on your step with a list._  
 **Clover**: These are Dimple’s five favourite things.  
-**Clover**: One, the windowsill. Two, stamping in puddles.  
+**Clover**: One, the windowsill. Two, stamping in puddles. Splash!  
 **Clover**: Three, chasing Sparks’s fast Nubbins.  
 **Clover**: Four, pulling Byte’s laces undone. He pretends to mind.  
 **Clover**: Five, my humming at bedtime. Hmmmm.  
@@ -205,7 +205,7 @@ _That’s Dusty, at the bottom, singing a digging song._
 > _The tunnels let in air and rain. That helps plants grow!_  
 > _For grown-ups: Heard how worms change the soil and help plants._
 
-_Dimple jumps in and digs too. Scoop, scoop, scoop!_  
+_Dimple jumps in with a plop, and digs too. Scoop, scoop!_  
 _Dusty digs faster. Dimple digs faster. Big grins._  
 _Your Nubbin throws mud about. Splat! Most of it lands on you._  
 **Dusty**: Keep busy! Busy is good!  
@@ -248,7 +248,7 @@ _Dimple watches. Her smile slips, just a little._
 
 #### `sprout:s30-luna` · [main](../../../side/S30.md#s30-luna)
 
-_Tap, tap. It’s Luna. She is going to bed, and it’s morning!_  
+_Tap, tap, ding! It’s Luna. She is going to bed, and it’s morning!_  
 **Luna**: I work in the garden at night. I sleep in the day.  
 _Luna yawns. A huge yawn. Your Nubbin yawns too._  
 _Then it falls asleep on your foot. Snore!_  
@@ -284,7 +284,7 @@ _Quick! The smile goes back on. She runs home._
 
 #### `sprout:s30-wall` · [main](../../../side/S30.md#s30-wall)
 
-_Frost! The Grove is white and sparkly this morning._  
+_Crunch! The Grove is white and sparkly with frost._  
 
 > **Lesson** (science, 2-ESS2-3, notice): frost is frozen water  
 > _Frost is tiny bits of ice. It comes on very cold nights._  
@@ -304,7 +304,7 @@ _A sparrow sits on Moss’s back. Moss lets the sparrow stay._
 
 _Variant of `s30-wall`._
 
-_Frost! The Grove is white and sparkly this morning._  
+_Crunch! The Grove is white and sparkly with frost._  
 _Moss is by the old wall. There is frost on his back._  
 _A sparrow sits on Moss’s back. Moss lets the sparrow stay._  
 **Moss**: Luna told me about Clover’s gold one.  
@@ -365,7 +365,7 @@ _Dimple bounces over to say hello. Fidget counts her twice._
 
 _At night, frost covers the yard. Fidget gets very busy._  
 _She pushes every Nubbin into the shed. Push, push, push!_  
-_Then she drags a bucket against the door. Bump!_  
+_Then she drags a bucket against the door. Bonk!_  
 **Fidget**: …  
 
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): worries try to keep us safe  
@@ -399,7 +399,7 @@ _There is a blanket on the washing line._
 #### `sprout:s30-blanket` · [main](../../../side/S30.md#s30-blanket)
 
 _Fidget looks at the blanket. She pushes the bucket. Shut! She sits._  
-_Then a nose pokes out under the blanket. Drizzle!_  
+_Then, pop, a nose peeks out under the blanket. Drizzle!_  
 _Then the fussy one. Then Flinch. Out they come._  
 _They go in and out all evening. Fidget counts them every time._  
 **Clover**: Shut and open. Both! Clever us.  
@@ -448,7 +448,7 @@ _The three of you set off to find her._
 
 #### `sprout:s30-trail` · [main](../../../side/S30.md#s30-trail)
 
-_Look! A cotton reel in the frost._  
+_Crunch, crunch! Look! A cotton reel in the frost._  
 _Then a pine cone. Then half a wooden peg._  
 _The toys make a trail. It goes to the stripy cliff._  
 
@@ -506,7 +506,7 @@ _Variant of `s30-hollow`._
 
 _Drizzle is at home. So you climb down into the hole._  
 _You sit at the back, in the dust._  
-_Dimple smiles big. She bounces and bounces at you._  
+_Dimple smiles big. Boing, boing! She bounces at you._  
 _She does all her party tricks. You don’t stop her. You stay._  
 **Clover**: Should I come down?  
 **Dusty**: Wait. She’s nearly out of tricks.  
@@ -811,6 +811,6 @@ _Variant of `s30-complete`._
 > Check: `edu:sit:still:count-10`
 > _For grown-ups: Practised keeping still while counting to ten._
 
-_Sparks wriggles. Sitting still is tricky for her._  
+_Sparks wriggles. Squeak! Sitting still is tricky for her._  
 
 **Notes:** One lesson per scene, two in the big ones (s30-sill, s30-stone). Domains: sel (face and feeling, sitting with a sad friend, worry keeps us safe, naming sad, two feelings at once, asking for help, helping a scared friend), maths (counting, zero, adding one, circles, positions, halves, sorting, days), science (acorns, hum vibration, worms, owls, the Moon, frost, thunder, pulling, autumn), literacy (rhyme, first-next-last), art, health, social studies. The acorn choice keeps all three ids. Fossil’s death is said plainly once (s30-smile) with the flower and remembering straight after. The two quoted lines are replaced with original lines. Nubbins only have “…” lines.

@@ -17,8 +17,8 @@ _An old woman sits on a pile of bricks, eating a date._
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): a city can sit beside a river, in a place on the map  
 > _(Look at the river on the page.) Where is Uruk?_  
 > - ✅ Beside a river → Yes! Uruk is beside a river. Water is good for drinking and for growing food.
-> - Up on the moon → Not quite! Uruk is on the ground, beside a river. Look at the water.
-> - In the middle of the sea → Not quite! It is beside a river, with land all around.
+> - Up on the moon → Up on the moon? Whee! Uruk is on the ground, beside a river.
+> - In the middle of the sea → A city in the sea? Splash! Uruk is by a river, with land around.
 > _For grown-ups: Learned that Uruk stood beside a river, in the land that is now Iraq._
 
 
@@ -47,8 +47,8 @@ _An old woman sits on a pile of bricks, eating a date._
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): a city can sit beside a river, in a place on the map  
 > _(Look at the river on the page.) Where is Uruk?_  
 > - ✅ Beside a river → Yes! Uruk is beside a river. Water is good for drinking and for growing food.
-> - Up on the moon → Not quite! Uruk is on the ground, beside a river. Look at the water.
-> - In the middle of the sea → Not quite! It is beside a river, with land all around.
+> - Up on the moon → Up on the moon? Whee! Uruk is on the ground, beside a river.
+> - In the middle of the sea → A city in the sea? Splash! Uruk is by a river, with land around.
 > _For grown-ups: Learned that Uruk stood beside a river, in the land that is now Iraq._
 
 
@@ -103,7 +103,7 @@ _The brickmaker puts the tablet back and slides the bolt home._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): leaving something special where everyone can share it  
 > **Old Brickmaker**: Why does the tablet stay in its box?  
 > - ✅ So everyone can share it → Yes! Special things are for sharing, so we put them back.
-> - So nobody can ever see it → Not quite! It stays so anybody can open the box and see.
+> - So nobody can ever see it → A box nobody can see? Peekaboo! It stays so anyone can open and see.
 > _For grown-ups: Talked about leaving special things where others can enjoy them._
 
 
@@ -175,7 +175,7 @@ _She picks up a little wet clay and rolls it in her palms._
 > **Lesson** (science, 2-PS1-1, ask): clay is soft when wet and hard when it dries  
 > _Wet clay is soft and squishy. What happens when clay dries in the sun?_  
 > - ✅ It gets hard → Yes! Clay gets hard when it dries. That is why people made bricks from it.
-> - It turns into water → Not quite! Dry clay does not turn into water. It gets hard.
+> - It turns into water → Clay turning to water? Splash! Dry clay stays clay, and gets hard.
 > - It grows legs → Ha! No legs. Dry clay just gets hard.
 > _For grown-ups: Learned that clay is soft when wet and hardens as it dries._
 
@@ -305,7 +305,7 @@ _At the water, the wild man fills in another pit._
 > **Lesson** (literacy, RL.K.3, ask): why a character acts as he does  
 > _Why does Enkidu fill in the pits?_  
 > - ✅ He wants his animal friends to be safe → Yes! He cares about them.
-> - He likes to dig → Not quite! He fills them in to keep his friends safe.
+> - He likes to dig → Digging for fun? Dig, dig! He fills them in to keep friends safe.
 > _For grown-ups: Thought about why a character does what he does._
 
 
@@ -462,8 +462,8 @@ _He eats until he is full. Then he sings a song with no words._
 > _Bread is made from flour. Flour is made from grain._  
 > _Where does grain start?_  
 > - ✅ A plant growing in a field → Yes! Grain grows on plants, in fields, with sun and water.
-> - A cloud → Not quite! Grain grows on plants in a field.
-> - A rock → Not quite! Grain grows on plants. Plants need sun and water.
+> - A cloud → Grain from a cloud? Plop! Grain grows on plants in a field.
+> - A rock → Grain from a rock? Bonk! Grain grows on plants. Plants need sun and water.
 > _For grown-ups: Learned that bread starts as a plant growing grain._
 
 
@@ -592,7 +592,7 @@ _Gilgamesh opens his mouth. Then he shuts it again._
 > **Lesson** (sel, CASEL: Relationship skills, ask): what makes a friend  
 > _What is a friend?_  
 > - ✅ Someone kind to you, and you to them → Yes! Friends are kind to each other.
-> - Someone who does what you say → Not quite! A friend is kind, and listens too.
+> - Someone who does what you say → Always doing what you say? Boing! A friend is kind, and listens too.
 > - Anyone in a crowd → A crowd is lots of people. A friend is someone kind to you.
 > _For grown-ups: Talked about what makes a friend._
 
@@ -638,7 +638,7 @@ _Your Nubbin hides behind your leg._
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): people live beside rivers for water and food  
 > _Uruk and its road are beside a river. Why do people live by rivers?_  
 > - ✅ For water to drink and to grow food → Yes! A river gives people water for drinking and for growing crops.
-> - To hide from the sun → Not quite! People live by rivers for water to drink and to grow food.
+> - To hide from the sun → Hiding from the sun? Peekaboo! People live by rivers for water and food.
 > _For grown-ups: Learned that people settle beside rivers for drinking water and farming._
 
 
@@ -677,7 +677,7 @@ _Then they grab each other and push and pull, push and pull._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): a push or a pull makes things move  
 > _The friends push and pull. What makes something move?_  
 > - ✅ A push or a pull → Yes! A push or a pull can make things move, or stop.
-> - Wishing very hard → Not quite! Things move when something pushes or pulls them.
+> - Wishing very hard → Wishing very hard? Pop! Things move when something pushes or pulls them.
 > _For grown-ups: Learned that pushes and pulls make things move._
 
 _The doorposts shake. Dust falls from the roofs._  
@@ -908,7 +908,7 @@ _It smells fresh and piney, like a newly cut log._
 > **Lesson** (literacy, RL.1.4, ask): using words for what our senses tell us  
 > _Which part of you smells the piney forest?_  
 > - ✅ Your nose → Yes! Your nose smells. “Piney” is a smell word.
-> - Your knees → Not quite! Your nose does the smelling.
+> - Your knees → Smelling with your knees? Sniff, sniff! Your nose does the smelling.
 > _For grown-ups: Linked a smell word with the sense of smell._
 
 
@@ -1060,7 +1060,7 @@ _You carry it up, jar after jar. The room fills with steam._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): hot water makes steam  
 > _Hot water makes steam. Is steam hot or cold?_  
 > - ✅ Hot → Yes! Steam is hot. Be careful of it.
-> - Cold → Not quite! Steam comes from hot water, so it is hot.
+> - Cold → Cold steam? Brr! Steam comes from hot water, so it is hot.
 > _For grown-ups: Learned that steam comes from hot water and is hot._
 
 _He washes the forest out of his hair and puts on his crown._  
@@ -1087,7 +1087,7 @@ _Gilgamesh shakes his head._
 > _Ishtar asks. Gilgamesh gets to decide yes or no._  
 > _What do we call picking one thing?_  
 > - ✅ A choice → Yes! Picking one thing is a choice.
-> - A race → Not quite! Picking one thing is called a choice.
+> - A race → Picking one thing is a race? Zoom! Picking one thing is called a choice.
 > _For grown-ups: Learned that picking one thing from several is making a choice._
 
 **Gilgamesh**: Everyone you loved ended up sad. Why would I be different?  
@@ -1318,7 +1318,7 @@ _Enkidu stands still in the warm sunlight. His face softens._
 > **Lesson** (sel, CASEL: Self-awareness, ask): taking back unkind words  
 > _Enkidu took back his cross words. What did he do?_  
 > - ✅ He said sorry and thank you → Yes! Saying sorry and thank you can mend hurt feelings.
-> - He shouted louder → No, he spoke softly. He said sorry and thank you.
+> - He shouted louder → Shouting louder? Whoa, how noisy! He spoke softly: sorry and thank you.
 > _For grown-ups: Talked about saying sorry and thank you after being cross._
 
 
@@ -1412,7 +1412,7 @@ _Variant of `a26-14-sickbed-done`._
 > _Enkidu asks you to tell the shepherds something._  
 > _Why do we tell stories about people we care about?_  
 > - ✅ So they are remembered → Yes! Stories keep people close, long after.
-> - So we forget them → No, the opposite. Stories help us remember.
+> - So we forget them → Forgetting them? Never! Stories help us remember.
 > _For grown-ups: Talked about how stories help us remember people._
 
 
@@ -1443,7 +1443,7 @@ _It makes no sound all night. It is the kindest thing anyone does._
 > **Lesson** (sel, CASEL: Relationship skills, ask): staying close helps even without words  
 > _The Nubbin did not say anything. How did it help?_  
 > - ✅ It stayed close → Yes! Sometimes just being there is the kindest thing.
-> - It did a dance → No dancing. It stayed close, and that was enough.
+> - It did a dance → A dance? It stayed close instead, and that was enough.
 > _For grown-ups: Talked about how staying close can comfort someone who is sad._
 
 
@@ -1458,7 +1458,7 @@ _Your Nubbin climbs into Gilgamesh’s lap too._
 > **Lesson** (sel, CASEL: Relationship skills, ask): staying close helps even without words  
 > _Moss did not say anything. How did he help?_  
 > - ✅ He stayed close → Yes! Sometimes just being there is the kindest thing.
-> - He sang a loud song → No song. He stayed close, and that was enough.
+> - He sang a loud song → A loud song? He stayed close instead, and that was enough.
 > _For grown-ups: Talked about how staying close can comfort someone who is sad._
 
 
@@ -2009,7 +2009,7 @@ _Your Nubbin presses a paw._
 > _The brick will go into a very hot kiln._  
 > _What does fire do to wet clay?_  
 > - ✅ Makes it very hard → Yes! Fire bakes clay hard, so a kiln brick lasts a very long time.
-> - Makes it soft → Not quite! Fire makes clay hard, not soft.
+> - Makes it soft → Soft as a pillow? Squish! Fire makes clay hard, not soft.
 > _For grown-ups: Learned that a kiln’s fire makes clay bricks very hard._
 
 
@@ -2040,7 +2040,7 @@ _Your Nubbin presses a paw._
 > _The brick will go into a very hot kiln._  
 > _What does fire do to wet clay?_  
 > - ✅ Makes it very hard → Yes! Fire bakes clay hard, so a kiln brick lasts a very long time.
-> - Makes it soft → Not quite! Fire makes clay hard, not soft.
+> - Makes it soft → Soft as a pillow? Squish! Fire makes clay hard, not soft.
 > _For grown-ups: Learned that a kiln’s fire makes clay bricks very hard._
 
 
@@ -2070,7 +2070,7 @@ _Your Nubbin presses a paw._
 > _The brick will go into a very hot kiln._  
 > _What does fire do to wet clay?_  
 > - ✅ Makes it very hard → Yes! Fire bakes clay hard, so a kiln brick lasts a very long time.
-> - Makes it soft → Not quite! Fire makes clay hard, not soft.
+> - Makes it soft → Soft as a pillow? Squish! Fire makes clay hard, not soft.
 > _For grown-ups: Learned that a kiln’s fire makes clay bricks very hard._
 
 

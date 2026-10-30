@@ -11,6 +11,10 @@ import {
 } from './battle';
 import { recordKarate } from './battle/rewards';
 import { rumbleAct, rumbleClose, rumbleForfeit, startRumble } from './battle/tactics/slice';
+import { startGuardian, storyBoutChoice } from './battle/story-bouts';
+import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume';
+import { trialClear } from './battle/tactics/trials';
+import { grantKeepsake } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
 import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
@@ -40,7 +44,7 @@ import { createWeather, seasonOf, setWeather, stepWeather } from './weather';
 import { stepBreeding } from './breeding';
 import { payService, startLesson } from './kindergarten';
 import { buyDecor, placeDecor, removeDecor } from './decorate';
-import { stepCollection } from './collection';
+import { noteNubbin, stepCollection } from './collection';
 import { stepDaily } from './daily';
 import { receiveNubbin, tradeAway } from './share';
 import { harvest, plant, stepPlants, waterPlant } from './plants';
@@ -54,7 +58,7 @@ import { dye, wearGlasses } from './accessories';
 import { keeper2Act, keeper2Jump, setCoop, stepKeeper2 } from './coop';
 import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
-import { fastTravel } from './travel';
+import { fastTravel, travelAssist } from './travel';
 import { stepCollectibles } from './collectibles';
 import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
@@ -534,6 +538,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       if (!n) return;
       if (cmd.hat && !world.inventory.hats.includes(cmd.hat)) return;
       n.hat = cmd.hat;
+      // Lane E, R0411: the book notes the hat or look.
+      noteNubbin(world, n, events);
       return;
     }
     case 'setSettings': {
@@ -722,6 +728,28 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'tacticsClose':
       rumbleClose(world);
+      return;
+    case 'trialClear':
+      trialClear(world, cmd.id, cmd.steps, events);
+      return;
+    case 'battleKeepsake':
+      if (cmd.id === 'playday-seen') grantKeepsake(world, cmd.id);
+      return;
+    case 'battleResume':
+      resumeBattleCmd(world);
+      return;
+    case 'battleDraw':
+      drawBattleCmd(world, events);
+      return;
+    case 'storyBout':
+      storyBoutChoice(world, cmd.id, cmd.fight, cmd.ids ?? [], events);
+      return;
+    case 'guardianStart':
+      startGuardian(world, events, {
+        depth: cmd.depth,
+        key: cmd.key,
+        ...(cmd.ids ? { ids: cmd.ids } : {}),
+      });
       return;
     case 'fuse': {
       const [a, b] = world.partners;
@@ -1006,6 +1034,9 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'fastTravel':
       fastTravel(world, cmd, events);
       break;
+    case 'travelAssist':
+      travelAssist(world, cmd.pos);
+      return;
     case 'teleport':
       teleport(world, cmd.pos);
       return;
@@ -1141,6 +1172,8 @@ export function stepWorld(
   stepTeams(world, events);
   // Lane C: new moves join the kit (sim/battle/moves-sources.ts), in live play only.
   if (!offline) stepBattleMoves(world, dtMs, events);
+  // Lane C round 6 (FIGHT-64, FIGHT-85): a live bout's party keeps its needs, offline too.
+  holdBattleNeeds(world);
 
   // Lifetime happiness sampling, once a sim second.
   if (Math.floor(world.timeMs / 1000) !== Math.floor((world.timeMs - dtMs) / 1000)) {

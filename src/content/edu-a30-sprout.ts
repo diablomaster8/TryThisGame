@@ -626,7 +626,7 @@ const A3: EduQuest = quest(
           [DV('Thoughtful means thinking hard about something. What is the rabbi doing?')],
           [
             o('Thinking hard', [DV('Yes! He is being thoughtful.')], true),
-            o('Eating cake', [DV('No cake! Thoughtful means thinking hard.')]),
+            o('Eating cake', [DV('Thinking by eating cake? Nom nom! Thoughtful means thinking hard.')]),
           ],
           'Learned the word thoughtful from how it is used.',
         ),
@@ -897,7 +897,7 @@ const A5: EduQuest = quest(
           [N('Rivka was minding the lantern. What does it mean to mind a lantern?')],
           [
             o('To look after it', [N('Yes! To mind something means to look after it.')], true),
-            o('To shout at it', [N('No shouting. To mind something means to look after it.')]),
+            o('To shout at it', [N('Shouting at it? Poor thing! To mind something is to look after it.')]),
           ],
           'Learned that mind can mean look after.',
         ),
@@ -1364,7 +1364,7 @@ const A9: EduQuest = quest(
               [DV('Yes! The Sabbath is a day to rest, from Friday evening to Saturday night.')],
               true,
             ),
-            o('Racing', [DV('No racing! It is a day of rest, after all the hurrying on Friday.')]),
+            o('Racing', [DV('Racing on a rest day? Whee! Rest comes after the Friday hurrying.')]),
           ],
           'Learned that the Sabbath is a day of rest that begins on Friday evening.',
         ),
@@ -1672,7 +1672,7 @@ const A11: EduQuest = quest(
           [N('Dvora says that on the Sabbath, we rest even from worrying. What is the Sabbath?')],
           [
             o('A day of rest', [N('Yes! A day to rest and be together.')], true),
-            o('A day of work', [N('No work on the Sabbath! It is a day of rest.')]),
+            o('A day of work', [N('Work on the Sabbath? Clang, clang! It is a day of rest.')]),
           ],
           'Reinforced that the Sabbath is a day of rest and being together.',
         ),

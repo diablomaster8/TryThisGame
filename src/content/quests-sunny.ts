@@ -78,7 +78,7 @@ export const QUESTS_SUNNY: Quest[] = [
       {
         id: 'q31-fluff',
         goal: 'Collect 4 dandelion fluff and bring it to Corky at Puddle’s Pub.',
-        hint: 'Dandelions grow along the stream bank; shake one gently and catch the fluff before it blows away.',
+        hint: 'Corky says the fluff is “around”. Tap Do it in the Journal and keep the pile steady; fluff has no sense of balance.',
         check: 'deliver:dandelion-fluff:4',
         scene: {
           id: 'q31-intro',
@@ -415,7 +415,7 @@ export const QUESTS_SUNNY: Quest[] = [
       {
         id: 'q33-taste',
         goal: 'Drink a carton of Fight Milk at the bar.',
-        hint: 'Take the carton from the bar and choose Drink. Stay near a bench; you’ll want one.',
+        hint: 'Take the carton from the bar, then tap Do it in the Journal. Stay near a bench; you’ll want one.',
         check: 'use:item:fight-milk',
         scene: {
           id: 'q33-pitch',
@@ -475,7 +475,7 @@ export const QUESTS_SUNNY: Quest[] = [
       {
         id: 'q33-gang',
         goal: 'Get Dabney, Mags and Fitz to each drink a carton of Fight Milk.',
-        hint: 'Carry cartons to each of them and choose Offer. Fitz says yes to anything; Dabney needs persuading.',
+        hint: 'Tap Do it in the Journal to hand round the cartons. Fitz says yes to anything; Dabney needs persuading.',
         check: 'give:fight-milk:gang:3',
         scene: {
           id: 'q33-testers',

@@ -290,7 +290,7 @@ _Hannah’s oven is lit, and the lane smells of bread._
 > **Lesson** (literacy, L.2.4, ask): the meaning of a new word  
 > **Dvora**: Thoughtful means thinking hard about something. What is the rabbi doing?  
 > - ✅ Thinking hard → Yes! He is being thoughtful.
-> - Eating cake → No cake! Thoughtful means thinking hard.
+> - Eating cake → Thinking by eating cake? Nom nom! Thoughtful means thinking hard.
 > _For grown-ups: Learned the word thoughtful from how it is used._
 
 _Your Nubbin comes out wearing the rabbi’s coat. Most of it trails behind._  
@@ -457,7 +457,7 @@ _Rivka is asleep beside it. She has been minding it all night._
 > **Lesson** (literacy, L.2.4, ask): the meaning of mind  
 > _Rivka was minding the lantern. What does it mean to mind a lantern?_  
 > - ✅ To look after it → Yes! To mind something means to look after it.
-> - To shout at it → No shouting. To mind something means to look after it.
+> - To shout at it → Shouting at it? Poor thing! To mind something is to look after it.
 > _For grown-ups: Learned that mind can mean look after._
 
 _You put a blanket over her._  
@@ -726,7 +726,7 @@ _Hannah’s plaited loaves go past in baskets, shining._
 > **Lesson** (social-studies, D2.His.2.K-2, ask): a family tradition: the Sabbath  
 > **Dvora**: Everyone is getting ready for the Sabbath. The Sabbath is a day of…what?  
 > - ✅ Rest → Yes! The Sabbath is a day to rest, from Friday evening to Saturday night.
-> - Racing → No racing! It is a day of rest, after all the hurrying on Friday.
+> - Racing → Racing on a rest day? Whee! Rest comes after the Friday hurrying.
 > _For grown-ups: Learned that the Sabbath is a day of rest that begins on Friday evening._
 
 _Your Nubbin knows exactly where he is. It runs, and you follow._  
@@ -1053,7 +1053,7 @@ _Shmuel thinks about this, and nods, and eats his bread._
 > _Dvora says that on the Sabbath, we rest even from worrying._  
 > _What is the Sabbath?_  
 > - ✅ A day of rest → Yes! A day to rest and be together.
-> - A day of work → No work on the Sabbath! It is a day of rest.
+> - A day of work → Work on the Sabbath? Clang, clang! It is a day of rest.
 > _For grown-ups: Reinforced that the Sabbath is a day of rest and being together._
 
 _Beside the loaf is one small burnt crust, for your Nubbin._  

@@ -38,8 +38,8 @@ export const BOOK2_CHAPTERS: Chapter[] = [
     title: 'The Circuit',
     opening: 'c5-open',
     goal: 'winRace',
-    goalText: 'Win a race, any course, any tier.',
-    hint: 'Open Races from the top bar; a grown, trained Nubbin does best.',
+    goalText: 'Win a race or a Circuit ribbon.',
+    hint: 'Races are in the top bar; the Circuit is at the dojo.',
     closing: 'c5-close',
   },
   {

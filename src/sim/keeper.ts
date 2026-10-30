@@ -795,12 +795,19 @@ function rustleBush(world: World, bush: { id: string; x: number; z: number }, ev
 // MOVE-42: the tap target a walk was judged for, and whether it runs (Auto-run, long walks).
 const tapRuns = new WeakMap<World, { at: Vec2; run: boolean }>();
 
+/** R0102: Travel assist marks its walk as a run (`sim/travel.ts`). */
+export function markRunWalk(world: World, at: Vec2): void {
+  tapRuns.set(world, { at, run: true });
+}
+
 /** Whether this tap walk runs: the Run toggle, or Auto-run on a walk over ten units. */
 function tapRunning(world: World, target: Vec2): boolean {
   const k = world.keeper;
   if (k.running) return true;
-  if (!world.settings.autoRun) return false;
   let t = tapRuns.get(world);
+  // R0102: a Travel assist walk runs whatever the Auto-run setting says.
+  if (t?.run && t.at === target) return true;
+  if (!world.settings.autoRun) return false;
   if (!t || t.at !== target) {
     t = { at: target, run: dist(k.pos, target) > RUN_MODE.autoRunOver };
     tapRuns.set(world, t);

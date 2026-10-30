@@ -52,6 +52,8 @@ import {
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
+import { askResume, setBattleDialogue } from './battle-scenes';
+import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
@@ -69,6 +71,9 @@ import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
 import { HopCourseChip } from './hop-course';
 import { AmbientBubbles, BarkBubble } from './bark-bubble';
+import { RoutineProps } from './routine-props';
+import { NubbinGags } from './nubbin-gags';
+import { requestLine } from '../config/strings-fun-r6';
 import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
@@ -125,6 +130,8 @@ import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
+import { mountLandmarkCard } from './landmark-card';
+import { villageTap } from './village-tap';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 
@@ -430,6 +437,9 @@ export function mountHud(
   const roster = new RosterMenu(root, game, (id) => sheet.open(id));
   const trainers = new TrainersMenu(root, game, toast);
   const dialogue = new Dialogue(root, game);
+  // Lane C round 6: battle scenes play in this box; a loaded bout asks to resume (FIGHT-64).
+  setBattleDialogue(dialogue);
+  let resumeAsked = false;
   const journal = new Journal(root, game);
   const partyBout = new PartyBoutPanel(root, game, toast);
   journal.openers.partyBout = () => {
@@ -452,6 +462,8 @@ export function mountHud(
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
   mountBeacon(root, game, () => map.open());
+  // R0107: the landmark name card.
+  const landmarkCard = mountLandmarkCard(root);
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -818,6 +830,10 @@ export function mountHud(
       const jumpGlyph = shakes ? '🥚' : '⤒';
       jumpLook.setGlyph(jumpGlyph);
       jumpBtn.setAttribute('aria-label', shakes ? UI_TEXT.shake : UI_TEXT.jump);
+      if (!resumeAsked) {
+        resumeAsked = true;
+        setTimeout(() => askResume(root, game), 1500);
+      }
       if (!jumpPolled) {
         jumpPolled = true;
         g.framePollers.push(() => jumpLook.update(g.world, performance.now()));
@@ -826,6 +842,12 @@ export function mountHud(
         g.framePollers.push(() => hopCourse.update(g.world));
         g.framePollers.push(() => barkBubble.update(g, performance.now()));
         g.framePollers.push(() => ambientBubbles.update(g, performance.now()));
+        // R0296: the routine stations' prop gags beside the Keepers.
+        const routineProps = new RoutineProps(root);
+        g.framePollers.push(() => routineProps.update(g));
+        // R0329: the weather gags over the Nubbins.
+        const nubbinGags = new NubbinGags(root);
+        g.framePollers.push(() => nubbinGags.update(g));
       }
       carry.hidden = !carrying;
       if (carrying) {
@@ -853,7 +875,7 @@ export function mountHud(
         );
       } else if (expedition.isOpen) playSong('expedition');
       else if (races.screen.isOpen) playSong('race');
-      else if (karate.screen.isOpen) playSong('karate');
+      else if (karate.screen.isOpen) playSong(liveBattleSong(game()?.world));
       else if (gym.screen.isOpen) playSong('karate');
       else if (tank.isOpen) playSong('expedition');
       else if (
@@ -1433,6 +1455,12 @@ export function mountHud(
         } else if (e.kind === 'questClaimed') {
           toast(UI_TEXT.questClaimed(e.shells, e.egg));
           playSound('buy');
+          // R0327 (FUN-38): the asker says thank you in their own voice.
+          const q = g.world.quests.find((x) => x.id === e.id);
+          const thanks = q
+            ? requestLine(q.template, q.from, !TRAINER_LABELS[q.from], 'thanks')
+            : null;
+          if (thanks) toast(thanks);
         } else if (e.kind === 'friendsMade') {
           const a = g.world.nubbins.find((x) => x.id === e.a);
           const b = g.world.nubbins.find((x) => x.id === e.b);
@@ -1519,9 +1547,7 @@ export function mountHud(
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
         } else if (e.kind === 'landmarkFound') {
-          toast(
-            UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),
-          );
+          landmarkCard(e.id, events);
           playSound('pickup');
         } else if (e.kind === 'festival') {
           // The calendar's festival waits for any story scene to finish, so "Autumn harvest"
@@ -1566,6 +1592,8 @@ export function mountHud(
         else if (which === 'cave') dungeon.open();
         // R0072: an outer-ring piece answers with its line.
         else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
+        // R0095: the village square's buildings and recruits.
+        else villageTap(which, g.world, { shop: () => shop.open(), gym: () => gym.open() }, toast);
         return;
       }
       if (id?.startsWith('plant:') && g) {

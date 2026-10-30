@@ -188,6 +188,10 @@ export class Expedition3dView implements ExpeditionView {
     if (!rig || this.compilingRig) return;
     rig.group.visible = shown;
     rig.group.position.set(at.x, at.y, 0);
+    // R0324 (FUN-35): a hit is a cartoon spin round the runner's middle.
+    const since = run.lastEvent?.kind === 'hit' ? run.timeMs - run.lastEvent.atMs : Infinity;
+    rig.group.rotation.z =
+      since < 450 && !this.stage?.reduceMotion ? (since / 450) * Math.PI * 2 : 0;
     rig.lift = at.y;
     rig.setPose(run.onGround ? 'walk' : 'happy');
     rig.animate(gaitTime(rig, at.x, 0, nowMs / 1000, dt, run.onGround));
@@ -204,6 +208,9 @@ export class Expedition3dView implements ExpeditionView {
     if (e.kind === 'hit') {
       stage.kick(EXPEDITION3D.shake);
       if (!stage.reduceMotion) stage.bursts.burst('dust', this.at, 10, BURST.hit, now);
+      // R0324: the lost Shells fly out as a sparkle burst, one bit per Shell.
+      if (!stage.reduceMotion && (e.dropped ?? 0) > 0)
+        stage.bursts.burst('sparkle', this.at, Math.min(8, e.dropped! * 2), BURST.pickup, now);
     } else if (!stage.reduceMotion) {
       stage.bursts.burst(e.kind === 'critter' ? 'heart' : 'sparkle', this.at, 8, BURST.pickup, now);
     }

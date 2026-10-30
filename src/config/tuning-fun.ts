@@ -98,3 +98,60 @@ export const CHATTER_TUNE = {
   replyMs: 2500,
   cooldownMs: 120_000,
 } as const;
+
+/**
+ * R0299 (FUN-10): a wandering Nubbin is sometimes distracted (a butterfly, a cloud) and
+ * walks into a tree trunk it would normally pass under: a bonk, dizzy stars, then on.
+ * `perMille` of wander walks are distracted; `reach` is how far it looks for a trunk.
+ */
+export const SLAPSTICK = {
+  perMille: 100,
+  reach: 7,
+  radius: 0.25,
+  /** R0305: the goal-met "first steps": how far the newest Nubbin toddles, and its time. */
+  toddle: 3,
+  toddleMs: 6000,
+} as const;
+
+/**
+ * R0325 (FUN-36): race gags. A Nubbin happier than `happyOver` has `chance` per section of
+ * stopping `gazeMs` to look at a butterfly; a cheer snaps it out with a "!" for `perkMs`.
+ * `quirks` is how many rival quirk lines there are (`RIVAL_QUIRKS`).
+ */
+export const RACE_GAGS = {
+  happyOver: 60,
+  chance: 0.05,
+  gazeMs: 400,
+  perkMs: 600,
+  quirks: 40,
+} as const;
+
+/**
+ * R0329 (FUN-40): weather gags. One performer per `cycleMs`; in rain the leaf blows inside
+ * out at `flipAt` into the cycle; in snow the tongue and the shiver; after rain, puddle
+ * splashes for `puddleWindowMs`; swimmers splash in time every `paddleMs`.
+ */
+export const WEATHER_GAGS = {
+  cycleMs: 20_000,
+  flipAt: 12_000,
+  tongueMs: 2500,
+  shiverMs: 1500,
+  puddleWindowMs: 60_000,
+  paddleMs: 4000,
+} as const;
+
+/**
+ * R0330 (FUN-41): Nubbins playing together. Per mille chances (doubled for friends): a
+ * Nubbin within `copyReach` copies a neighbour's reaction `copyDelayMs` later; two walkers
+ * closer than `bumpReach` bump; two after one fruit tug, and the hungrier wins. Each
+ * Nubbin rests `cooldownMs` between plays.
+ */
+export const PAIR_PLAY = {
+  copyPerMille: 350,
+  bumpPerMille: 600,
+  copyReach: 3,
+  copyDelayMs: 500,
+  bumpReach: 0.5,
+  tugReach: 1.2,
+  cooldownMs: 45_000,
+} as const;

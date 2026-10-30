@@ -13,6 +13,7 @@ import {
   type SetFlags,
   type StagedWeather,
 } from '../config/campaign-look';
+import { HAZEL_PS } from '../config/strings-fun-r6';
 import type { SceneStage } from '../config/story';
 import { LOOK_F } from '../config/tuning-f';
 import { TITLE_CARD_TEXT } from '../config/strings';
@@ -334,6 +335,16 @@ export function showTitleCard(c: TitleCard): void {
   canvas.style.cssText = 'width:min(92vw,560px);height:auto;aspect-ratio:560/170;';
   drawCard(canvas, c, name);
   root.append(sr, canvas);
+  // R0334 (FUN-45): Hazel's postscript for the chapter, under her campaign's cards.
+  const ps = c.campaign === 'hazel' ? HAZEL_PS[c.chapter] : undefined;
+  if (ps) {
+    root.style.flexDirection = 'column';
+    root.style.alignItems = 'center';
+    const p = document.createElement('p');
+    p.className = 'chapter-ps';
+    p.textContent = ps;
+    root.append(p);
+  }
   const fade = !c.reduce;
   root.style.opacity = fade ? '0' : '1';
   if (fade) root.style.transition = `opacity ${LOOK_F.card.fadeS}s ease`;

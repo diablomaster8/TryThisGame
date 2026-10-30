@@ -1221,7 +1221,7 @@ const Q16 = quest(
   {
     'q16-s1': {
       goal: 'Pay Byte 5 Shells for an argument.',
-      hint: 'Tap Byte’s booth and choose Pay. You need 5 Shells.',
+      hint: 'Bring 5 Shells and tap Do it in the Journal. Byte counts them twice.',
     },
     'q16-s2': {
       goal: 'Win the argument before the sand runs out.',
@@ -1645,7 +1645,7 @@ const Q18 = quest(
   {
     'q18-s1': {
       goal: 'Disarm the Nubbin with the banana.',
-      hint: 'When the Nubbin swings the banana, tap Peel at the top of the swing.',
+      hint: 'Tap Do it in the Journal when the banana is at the top of its swing.',
     },
     'q18-s2': {
       goal: 'Catch every raspberry in the bowl.',

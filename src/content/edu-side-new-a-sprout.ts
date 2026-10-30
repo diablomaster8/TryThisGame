@@ -442,7 +442,7 @@ const S15: EduQuest = quest(
   {
     's15-step1': {
       goal: 'Help Byte count what comes out of the Mystery Eggs.',
-      hint: 'Stand by the wagon. Each time an egg opens, tap PLAIN or SPARKLY.',
+      hint: 'Stand by the wagon and tap Do it. Plain egg or sparkly egg?',
     },
     's15-step2': {
       goal: 'Tiptoe to the wagon and talk to Jackpot the parrot.',

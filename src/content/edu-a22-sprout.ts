@@ -916,7 +916,7 @@ const Q4: EduQuest = quest(
           [N('What does your body do while you sleep?')],
           [
             o('It rests and grows', [N('Yes! Sleep helps your body rest and grow.')], true),
-            o('It runs a race', [N('No race! While you sleep, your body rests and grows.')]),
+            o('It runs a race', [N('A race in bed? Zoom! While you sleep, your body rests and grows.')]),
             o('It eats lunch', [
               N('Lunch is for when we are awake. Sleep helps us rest and grow.'),
             ]),
@@ -2401,7 +2401,7 @@ const Q13: EduQuest = quest(
           [N('If a grown-up covers a flame with a jar, what happens?')],
           [
             o('It goes out', [N('Yes! With no air, a flame goes out.')], true),
-            o('It gets bigger', [N('No. Without air, a flame goes out.')]),
+            o('It gets bigger', [N('A flame getting bigger? Whoosh! Without air, a flame goes out.')]),
           ],
           'Learned that a flame needs air and goes out without it.',
         ),

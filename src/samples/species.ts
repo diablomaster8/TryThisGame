@@ -383,6 +383,10 @@ export interface Rigged extends Creature {
    */
   /** LOOK-23: set by the stage: the swim pose's stroke (a crawl when unset). */
   swimStyle?: 'paddle' | 'breast' | 'crawl';
+  /** LOOK-24: set by the stage: the flap pose glides, wings and arms held out still. */
+  glide?: boolean;
+  /** LOOK-22: set by the stage: the walk's waddle roll scaled by personality (1 when unset). */
+  waddleScale?: number;
   lookAt: THREE.Vector3 | null;
   /** Turn to face a world yaw: eased over 0.4 s with a lean into the turn, not a snap. */
   face(yaw: number): void;
@@ -1587,7 +1591,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
         hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
         // The body rolls over the stance foot (the Chao waddle, LOOK-22) and the head counters it.
-        const roll = spec.waddle ?? 0.03;
+        const roll = (spec.waddle ?? 0.03) * (rig.waddleScale ?? 1);
         hips.rotation.z = s(w) * roll;
         set('head', s(w * 2) * 0.03, 0, -s(w) * roll * 0.43);
         if (legs.length) {
@@ -1862,7 +1866,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       case 'flap': {
         // Flying along: lifted off the grass and leaning into it, the arms beating with
         // the wings' fast flutter (below), the legs trailing.
-        const w = t * 16;
+        const w = rig.glide ? Math.PI / 2 : t * 16;
         const ease = smooth(Math.min(1, dt / 0.4));
         hips.position.y = spec.hipY + (0.35 + s(w) * 0.04) * ease;
         hips.rotation.x = 0.22 * ease;
@@ -1992,6 +1996,7 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       const rate = pose === 'flap' ? 28 : 9;
       const side = i === 0 ? -1 : 1;
       let beat = s(t * rate + i) * flap;
+      if (pose === 'flap' && rig.glide) beat = flap;
       if (pose === 'idle' && spec.wings?.shape === undefined) {
         // At rest a Chao's wings keep still, then flutter: 3 beats at 12 Hz every 4-7 s.
         const burst = idleFlutter(t);

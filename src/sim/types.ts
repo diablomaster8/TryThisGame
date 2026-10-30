@@ -1,3 +1,4 @@
+import type { StoryBoutId } from './battle/story-bouts';
 import type {
   BattleAction,
   BattleContext,
@@ -347,6 +348,8 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
+  microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
   /** Override the system reduced-motion preference. */
   reducedMotion: 'system' | 'on' | 'off';
@@ -362,6 +365,11 @@ export interface Settings {
   surveyWhenRunning?: boolean;
   /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */
   hideBarWhileWalking?: boolean;
+  /**
+   * R0102: Travel assist: walk, auto-walk to a tapped beacon or pin, or skip there. Unset:
+   * auto-walk in a Learning Grove, walk otherwise (`travelMode`).
+   */
+  travel?: 'walk' | 'auto' | 'skip';
   /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
@@ -893,11 +901,21 @@ export interface World {
    * keepsakes, move cards for the Collection book). No save bump.
    */
   battleOnce?: BattleOnceState;
+  /** Lane C round 6 (recs FIGHT-82): each story battle's choice and result; absent = none. */
+  storyBouts?: Record<string, 'fight' | 'skip' | 'won'>;
+  /** Lane C round 6 (FIGHT-64): a live bout's party needs, held until it ends. */
+  battleHeld?: Record<string, { hunger: number; energy: number }>;
+  /** Lane C round 6 (FIGHT-97): each trial map's best steps and whether par was met. */
+  trials?: Record<string, { best: number; par: boolean }>;
   /**
    * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
    * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
    */
-  battleSeen?: { pairs: string[] };
+  battleSeen?: {
+    pairs: string[];
+    /** Lane C round 6 (FIGHT-84): every move id seen used in a bout, for the Battle Book. */
+    moves?: string[];
+  };
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -912,6 +930,10 @@ export interface World {
   placed: PlacedDecor[];
   /** Collection book: species ids and Chao form keys, with the sim time first seen. */
   seen: Record<string, number>;
+  /** Lane E, R0411: the name of the Nubbin that first showed each book key (absent: unknown). */
+  seenBy?: Record<string, string>;
+  /** Lane E, R0411: book tabs completed, each rewarded once. */
+  bookTabs?: string[];
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
@@ -1014,6 +1036,15 @@ export type Command =
   | { kind: 'battlePrefs'; prefs: Partial<BattlePrefs> }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).
   | { kind: 'tacticsStart'; depth?: number; ids?: string[] }
+  /** Lane C round 6 (FIGHT-82, FIGHT-72): a story battle's choice, and the Hollow guardian. */
+  | { kind: 'storyBout'; id: StoryBoutId; fight: boolean; ids?: string[] }
+  | { kind: 'guardianStart'; depth: number; key: string; ids?: string[] }
+  /** Lane C round 6 (FIGHT-64): resume a loaded bout at its turn's start, or call a draw. */
+  | { kind: 'battleResume' }
+  /** Lane C round 6: a seen-once marker kept with the bout keepsakes (Play-fight Day). */
+  | { kind: 'battleKeepsake'; id: 'playday-seen' }
+  | { kind: 'trialClear'; id: string; steps: ('n' | 'e' | 's' | 'w')[] }
+  | { kind: 'battleDraw' }
   | { kind: 'tacticsAct'; action: TacticsAction }
   | { kind: 'tacticsForfeit' }
   | { kind: 'tacticsClose' }
@@ -1147,6 +1178,8 @@ export type Command =
   | { kind: 'travel'; exit: string; sub?: string }
   // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
+  // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
+  | { kind: 'travelAssist'; pos: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1237,6 +1270,10 @@ export type SimEvent =
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
   /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
   | { kind: 'battleSpoils'; spoils: BoutSpoils }
+  /** Lane C round 6 (FIGHT-97): a trial map cleared, at par or not, and a first par. */
+  | { kind: 'trialCleared'; id: string; steps: number; par: boolean; first: boolean }
+  /** Lane C round 6 (recs FIGHT-99): a Dojo Ladder bout won (`belt` set once all its bouts are). */
+  | { kind: 'ladderStep'; nubbinId: string; belt: number; step: number; beltWon: boolean }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';
@@ -1366,6 +1403,8 @@ export type SimEvent =
   | { kind: 'questClaimed'; id: string; shells: number; egg: boolean }
   | { kind: 'questsRefreshed' }
   | { kind: 'friendsMade'; a: string; b: string }
+  /** R0330 (FUN-41): two Nubbins play together: a copycat, a tug over fruit, a bump. */
+  | { kind: 'pairPlay'; play: 'copy' | 'tug' | 'bump'; a: string; b: string }
   | { kind: 'wildArrived'; id: string; species: string; patch: HabitatKind }
   | { kind: 'wildSettled'; species: string; nubbinId: string }
   | { kind: 'wildLeft'; id: string }

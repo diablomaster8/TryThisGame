@@ -143,6 +143,8 @@ export function formatTactics(e: TacticsEvent, name: (id: string) => string): st
       return `The crystal splashes back at ${name(e.who)}! (−${e.dmg})`;
     case 'knock':
       return `${name(e.who)} is bonked back a step.`;
+    case 'splash':
+      return `${name(e.who)} is bonked into the pond. Splash! Out again, dripping.`;
     case 'fruit':
       return 'A fruit drops!';
     case 'pick':

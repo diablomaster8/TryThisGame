@@ -40,7 +40,7 @@ _The cabbages roll away down the hill. Roll, roll, roll!_
 #### `sprout:q46-crash-done` · [main](../../../fun/avatar.md#q46-crash-done)
 
 _You find the cabbages by the stream and under the bushes._  
-_You put the wheel back on. Click!_  
+_You put the wheel back on. Click, ding!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 8  
 > **The cabbage merchant**: Let’s count them back into the cart.  
@@ -121,7 +121,7 @@ _Pemba lands. He bounces into the cart. CRASH!_
 #### `sprout:q46-glider-done` · [main](../../../fun/avatar.md#q46-glider-done)
 
 _You build the new cart with Tuk._  
-_It sits low and wide, like a duck sitting down._  
+_It sits low and wide, like a duck sitting down. Plop!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): low, wide things are steady  
 > **Tuk**: Which cart is harder to tip over?  
@@ -159,7 +159,7 @@ _Boing! He bounces off. The cart does not move._
 
 #### `sprout:q47-nomads` · [main](../../../fun/avatar.md#q47-nomads)
 
-_A painted wagon comes along. Jingle, jingle!_  
+_A painted wagon comes along. Jingle, jingle, ding!_  
 **Wandering Juno**: Hello, friends! I’m Juno. We go where the wind goes.  
 **Wandering Juno**: Today the wind goes under that hill!  
 **Tuk**: But there’s a path over the hill.  
@@ -191,7 +191,7 @@ _Pemba hums it. Your Nubbin hums it. Hum, hum!_
 #### `sprout:q47-nomads-done` · [main](../../../fun/avatar.md#q47-nomads-done)
 
 _In you go. The tunnel gets dark._  
-_Tuk’s torch flickers. Flicker, flicker. Then it goes out._  
+_Tuk’s torch flickers. Flicker, flicker. Then, pop, it goes out._  
 **Tuk**: Oh no. Now I can’t see a thing!  
 
 > **Lesson** (science, 1-PS4-2, ask): we need light to see  
@@ -254,7 +254,7 @@ _You come out into the warm air. Blink, blink._
 
 #### `sprout:q47-complete` · [main](../../../fun/avatar.md#q47-complete)
 
-_The singers wave goodbye. Doo-be-doo!_  
+_The singers wave goodbye. Doo-be-doo! Ding!_  
 **Nalu**: Here. Some little crystals for you.  
 _They glow when two friends sit close._  
 
@@ -307,7 +307,7 @@ _They frown at each other. Hmph!_
 
 #### `sprout:q48-canyon-done` · [main](../../../fun/avatar.md#q48-canyon-done)
 
-_Down, down, down you go. Now you are at the bottom._  
+_Down, down, down you go. Thump! Now you are at the bottom._  
 
 > **Lesson** (science, 2-ESS1-1, notice): how canyons form  
 > **Nalu**: Look how deep this canyon is!  
@@ -324,7 +324,7 @@ _Down, down, down you go. Now you are at the bottom._
 
 _Night. Everyone sits by the campfire._  
 _Two children reach for the last dumpling._  
-_Grab! Pull! Oh no, a food fight!_  
+_Grab! Pull! Bonk! Oh no, a food fight!_  
 
 > **Lesson** (maths, 1.G.A.3, ask): halves: one thing into two equal parts  
 > **Nalu**: Oh dear. One dumpling, two children.  
@@ -375,7 +375,7 @@ _Pemba looks at you. Don’t laugh! Keep a straight face!_
 
 #### `sprout:q48-complete` · [main](../../../fun/avatar.md#q48-complete)
 
-_In the morning, both groups climb out together._  
+_In the morning, both groups climb out together. Whee!_  
 _They talk and laugh. Which twin was taller?_  
 **Pemba**: Look! They’re sharing socks now!  
 _Chief Brack wears socks. He looks surprised. He likes them._  
@@ -428,7 +428,7 @@ _Pemba is pretending to be Kuzo. Shh! Don’t tell._
 
 #### `sprout:q49-school-done` · [main](../../../fun/avatar.md#q49-school-done)
 
-_You pass the notes out, one at a time._  
+_You pass the notes out, one at a time. Swish, swish!_  
 
 > **Lesson** (maths, K.CC.B.4, do): count to 5  
 > **Pemba**: Five notes for five friends. Count with me!  
@@ -444,7 +444,7 @@ _The headmaster turns round. Everyone sits very still._
 #### `sprout:q49-party` · [main](../../../fun/avatar.md#q49-party)
 
 _The cave is full of children. They stand by the walls._  
-_Your Nubbins bang on buckets. Bang! Bang! Bang!_  
+_Your Nubbins bang on buckets. Bonk! Bonk! Bonk!_  
 **Pemba**: Dancing is easy. Feel the beat!  
 **Rin**: My feet feel shy.  
 **Kaito**: I don’t dance. I don’t think I can.  
@@ -464,7 +464,7 @@ _The Nubbins stomp and clap. The children copy them._
 
 _Then the headmaster bursts in with a lantern._  
 **The Headmaster**: WHAT is going on here?  
-_The buckets stop. Everyone freezes._  
+_The buckets stop. Bonk. Everyone freezes._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): reading feelings on faces  
 > _Look at the children’s faces. How do they feel?_  
@@ -490,7 +490,7 @@ _Kaito slowly puts his arms down._
 
 #### `sprout:q49-complete` · [main](../../../fun/avatar.md#q49-complete)
 
-_Outside, under the stars, the children laugh and laugh._  
+_Outside, under the stars, the children laugh. Hee hee hee!_  
 **Rin**: We danced! We really danced!  
 
 > **Lesson** (health, ELOF: Perceptual, Motor, and Physical Development, notice): moving makes your heart beat faster  
@@ -538,7 +538,7 @@ _Your Nubbin sniffs the tea tins. Sniff, sniff. Achoo!_
 
 #### `sprout:q50-open-done` · [main](../../../fun/avatar.md#q50-open-done)
 
-**Uncle Tenzo**: Three perfect cups! My heart is warm.  
+**Uncle Tenzo**: Three perfect cups! Slurp! My heart is warm.  
 **Kaito**: You burnt your tongue again, Uncle.  
 **Uncle Tenzo**: Ow. Yes. A little.  
 
@@ -552,7 +552,7 @@ _Your Nubbin sniffs the tea tins. Sniff, sniff. Achoo!_
 
 #### `sprout:q50-grump` · [main](../../../fun/avatar.md#q50-grump)
 
-_Here comes the first customer. He looks very grumpy._  
+_Thump, thump! Here comes the first customer. He looks very grumpy._  
 **Old Mr Pell**: Tea. Not fancy. Not flowery. No talking.  
 **Uncle Tenzo**: Of course. Please sit down.  
 **Old Mr Pell**: The last tea I had tasted like old socks.  
@@ -583,7 +583,7 @@ _Here comes the first customer. He looks very grumpy._
 
 **Old Mr Pell**: Hm. Not bad.  
 _For Mr Pell, that is a great big smile!_  
-_He counts his coins. He does not have enough._  
+_He counts his coins. Ding, ding. He does not have enough._  
 
 > **Lesson** (maths, K.OA.A.2, ask): how many more (adding on)  
 > _Tea costs 5 coins. He has 3 coins._  
@@ -610,7 +610,7 @@ _He counts his coins. He does not have enough._
 
 #### `sprout:q50-complete` · [main](../../../fun/avatar.md#q50-complete)
 
-_By lunchtime the stall is full. Busy, busy!_  
+_By lunchtime the stall is full. Busy, busy! Ding!_  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, notice): steam comes from very hot water  
 > **Uncle Tenzo**: See the little cloud from the kettle?  
@@ -662,7 +662,7 @@ _Tuk wobbles off across the sand. Wibble, wobble!_
 
 #### `sprout:q51-desert-done` · [main](../../../fun/avatar.md#q51-desert-done)
 
-_Nalu comes back with lots of water._  
+_Splash! Nalu comes back with lots of water._  
 **Nalu**: I was gone ten minutes!  
 **Tuk**: Nalu! You look like a big talking fish!  
 **Nalu**: Tuk! You made the rule! You wrote it down!  
@@ -685,7 +685,7 @@ _Nalu comes back with lots of water._
 
 #### `sprout:q51-cuttings` · [main](../../../fun/avatar.md#q51-cuttings)
 
-**Nalu**: Drink this water, Tuk. Slowly.  
+**Nalu**: Drink this water, Tuk. Slowly. Gulp!  
 **Tuk**: This water isn’t fizzy. It’s just wet.  
 **Nalu**: Water is just what you need, silly.  
 _Look at the cactus. It is fat and spiky._  
@@ -702,7 +702,7 @@ _Look at the cactus. It is fat and spiky._
 #### `sprout:q51-cuttings-done` · [main](../../../fun/avatar.md#q51-cuttings-done)
 
 _You wrap the cactus pieces in cloth. Careful, careful!_  
-_Your Nubbin carries one, like treasure._  
+_Your Nubbin carries one, like treasure. Boing, boing!_  
 _You carry two._  
 
 > **Lesson** (maths, K.OA.A.1, ask): add 1 and 2  
@@ -717,7 +717,7 @@ _You carry two._
 #### `sprout:q51-complete` · [main](../../../fun/avatar.md#q51-complete)
 
 _Back at the Grove, you plant them in the sun._  
-_In the morning, they have little pink flowers!_  
+_In the morning, pop! They have little pink flowers!_  
 
 > **Lesson** (literacy, RF.K.2, do): clap syllables  
 > **Pemba**: Let’s clap “cactus”. Cac-tus!  
@@ -777,7 +777,7 @@ _You follow the clues. Fur. Footprints. Squashed bushes._
 > _For grown-ups: Your child compared big and small footprints and matched them to animal size._
 
 _Here is a hill with a big bison-shaped dent!_  
-_In a cave, two big eyes blink._  
+_In a cave, two big eyes blink. Drip, drip._  
 **Puffin**: Mrrrrrooooh.  
 
 #### `sprout:q52-trust` · [main](../../../fun/avatar.md#q52-trust)
@@ -906,7 +906,7 @@ _Whoosh! Tuk is flat on his back. Bump!_
 
 #### `sprout:q53-flattened-done` · [main](../../../fun/avatar.md#q53-flattened-done)
 
-**Sumi**: Open. Sweep. Close. Again!  
+**Sumi**: Open. Swish. Close. Again!  
 
 > **Lesson** (maths, ELOF: Mathematics Development, do): order: first, next, last  
 > **Sumi**: First, open the fan. Next, sweep. Last, close it.  
@@ -922,7 +922,7 @@ _Whoosh! Tuk is flat on his back. Bump!_
 
 #### `sprout:q53-uniform` · [main](../../../fun/avatar.md#q53-uniform)
 
-_Tuk comes out in a green robe. His face is painted._  
+_Whoosh! Tuk comes out in a green robe. His face is painted._  
 _White face. Red around the eyes. He looks great!_  
 
 > **Lesson** (art, ask): mixing colours: red and white make pink  
@@ -984,7 +984,7 @@ _Your Nubbin won’t wash its face for three days._
 
 #### `sprout:q54-lessons` · [main](../../../fun/avatar.md#q54-lessons)
 
-_Master Pian lives at the top of the hill._  
+_Master Pian lives at the top of the hill. Creak!_  
 **Tuk**: Master Pian, I want to learn the sword.  
 **Tuk**: Pemba can fly. Nalu does water. I just have plans.  
 **Master Pian**: Plans are good. A sword with no plan is just a stick.  
@@ -1049,8 +1049,8 @@ _In a hole lies a black rock. It is heavy and warm._
 
 #### `sprout:q54-meteor-done` · [main](../../../fun/avatar.md#q54-meteor-done)
 
-_Clang, clang! Tuk hammers the hot metal._  
-_Hiss! He dips it in water. Steam puffs up._  
+_Clang, bonk! Tuk hammers the hot metal._  
+_Hiss! He dips it in water. Splash! Steam puffs up._  
 _The blade is black, with tiny silver dots._  
 **Tuk**: Whoa.  
 
@@ -1091,7 +1091,7 @@ _Tuk tries it. Wobble, wobble. Soup everywhere!_
 _A beach stage! The sign says: THE KEEPER AND FRIENDS._  
 **Tuk**: A play about us! Hooray!  
 **Bao**: I can’t see the stage. This will be great.  
-_An actor in orange does cartwheels. He falls over._  
+_An actor in orange does cartwheels. He falls over. Thump!_  
 **The Ember Bay Players**: I am Pemba! I love fun! And fun!  
 
 > **Lesson** (literacy, RL.K.3, ask): characters: actors pretend to be someone  
@@ -1166,7 +1166,7 @@ _The pretend Keeper slips on a banana. The play ends!_
 
 #### `sprout:q55-complete` · [main](../../../fun/avatar.md#q55-complete)
 
-_After the show, the actors give out masks._  
+_Ding! After the show, the actors give out masks._  
 **The Ember Bay Players**: Take a mask! We do the show again next week!  
 **Bao**: Great. I’ll come every week.  
 **Pemba**: Will they ever do a play where we win?  
@@ -1188,7 +1188,7 @@ _You go home with two masks. One happy. One sad._
 
 #### `sprout:q56-flyer` · [main](../../../fun/avatar.md#q56-flyer)
 
-_A paper flyer blows by. Flap! It sticks to your Nubbin._  
+_A paper flyer blows by. Whoosh! It sticks to your Nubbin._  
 **Tuk**: “Rumble Night! Wrestling under the big boulder! Bring snacks!”  
 **Tuk**: Under a boulder? Of course it is.  
 
@@ -1215,7 +1215,7 @@ _Your strongest Nubbin shows off its tiny arms._
 #### `sprout:q56-flyer-done` · [main](../../../fun/avatar.md#q56-flyer-done)
 
 _You knock twice on the boulder. Knock, knock!_  
-_The big boulder slides away. Rumble, rumble!_  
+_The big boulder slides away. Rumble, thump!_  
 
 > **Lesson** (literacy, RF.K.2, ask): first sounds  
 > **Tuk**: Boulder starts with B. B-b-boulder!  
@@ -1261,7 +1261,7 @@ _She says, “Small and heavy. I like it already.”_
 #### `sprout:q56-bout-done` · [main](../../../fun/avatar.md#q56-bout-done)
 
 _She says, “Not bad! Hardly anyone lasts that long.”_  
-_Your Nubbin is covered in sand. And glory!_  
+_Bonk! Your Nubbin is covered in sand. And glory!_  
 _She says, “And you didn’t run away. Most people run.”_  
 _Your Nubbin bows. She bows back._  
 
@@ -1281,7 +1281,7 @@ _After the show, the champion finds you._
 > **Lesson** (sel, CASEL: Social awareness, ask): ask before you help  
 > **Bao**: What should people do before they help me?  
 > - ✅ Ask “Do you want help?” → Yes! Just ask. Then listen to the answer.
-> - Just grab my arm → Nope. Grabbing isn’t helping. Ask first. Then listen to the answer.
+> - Just grab my arm → Grabbing my arm? Squeak! That isn’t helping. Ask first. Then listen to the answer.
 > _For grown-ups: Your child learned to ask before helping someone, and to listen to their answer._
 
 **Tuk**: How do you know where everyone is?  
@@ -1394,7 +1394,7 @@ _Ma Reedy looks at your boat. Nalu freezes._
 #### `sprout:q57-complete` · [main](../../../fun/avatar.md#q57-complete)
 
 _The village wakes up. The water is clean!_  
-_The fish baskets are full._  
+_The fish baskets are full. Splash!_  
 _The works puts up a sign: PIPE CLOSED. SORRY._  
 
 > **Lesson** (social-studies, K-ESS3-3, ask): caring for shared places: keep rivers clean  
@@ -1416,7 +1416,7 @@ _The works puts up a sign: PIPE CLOSED. SORRY._
 
 #### `sprout:q58-reading` · [main](../../../fun/avatar.md#q58-reading)
 
-_In Hillstead, people line up at a starry door._  
+_Ding, dong! In Hillstead, people line up at a starry door._  
 **Aunt Wen**: Come in! Aunt Wen sees everything. Well, most things.  
 **Aunt Wen**: Your Nubbin will find something lovely today. Probably a snack.  
 **Tuk**: Nubbins always find snacks. That’s not magic.  
@@ -1446,7 +1446,7 @@ _Outside, a man carries an umbrella. The sky is blue and sunny._
 **Aunt Wen**: Oh! And the mountain won’t go BOOM this year.  
 **Aunt Wen**: I read the clouds. Nice and fluffy.  
 **Tuk**: Wait. That mountain can go BOOM?  
-_Its name is Mount Grumble. It rumbles._  
+_Its name is Mount Grumble. It rumbles. Thump!_  
 
 > **Lesson** (literacy, RF.K.2, ask): rhymes  
 > **Tuk**: Grumble and rumble sound the same at the end.  
@@ -1458,7 +1458,7 @@ _Its name is Mount Grumble. It rumbles._
 
 #### `sprout:q58-mountain` · [main](../../../fun/avatar.md#q58-mountain)
 
-_Above Hillstead, Mount Grumble puffs out grey smoke._  
+_Pop! Above Hillstead, Mount Grumble puffs out grey smoke._  
 **Tuk**: I’m going up there to see for myself.  
 **Pemba**: I’ll come! Puffin, my flying bison, can carry us.  
 **Nalu**: I’ll stay and talk to the people. Just in case.  
@@ -1528,7 +1528,7 @@ _Up high, Pemba and Puffin push the clouds. Whoosh!_
 #### `sprout:q58-clouds-done` · [main](../../../fun/avatar.md#q58-clouds-done)
 
 _A giant cloud hangs over Hillstead._  
-_Your Nubbins float down out of it. Damp and proud!_  
+_Your Nubbins float down out of it. Plop! Damp and proud!_  
 **Aunt Wen**: Oh my! The clouds have never been this clear!  
 **Aunt Wen**: Everyone, get your shovels!  
 
@@ -1551,7 +1551,7 @@ _The people dig a long ditch, all night long._
 > - 6 → Count on: five… six, seven. Seven diggers!
 > _For grown-ups: Your child added two more to five by counting on._
 
-_Mount Grumble pops. The lava runs down the ditch._  
+_Mount Grumble goes pop! The lava runs down the ditch._  
 _It goes away from the houses. Everyone is safe!_  
 **Aunt Wen**: Thank you, young man. Even if you don’t believe me.  
 **Tuk**: I believe one word. “Shovels.” Great idea.  
@@ -1566,7 +1566,7 @@ _Tuk says he’ll never go. He goes twice a week._
 #### `sprout:q59-market` · [main](../../../fun/avatar.md#q59-market)
 
 _A pirate ship sits at the river market._  
-**Captain Hake**: Step up! Treasures! No questions!  
+**Captain Hake**: Step up! Ding! Treasures! No questions!  
 **Pemba**: A whistle shaped like a bison! I want it!  
 **Tuk**: It’s a stick with a hole in it.  
 _Nalu goes still. She sees an old scroll._  
@@ -1594,7 +1594,7 @@ _It has pictures of water. Waves, drips and splashes._
 #### `sprout:q59-market-done` · [main](../../../fun/avatar.md#q59-market-done)
 
 _You turn round. Nalu walks fast to your boat._  
-_The glass case is empty!_  
+_Crack! The glass case is empty!_  
 **Tuk**: Nalu! Did you just…?  
 **Nalu**: Walk. Normally. Now.  
 **Captain Hake**: Stop! After them!  
@@ -1709,7 +1709,7 @@ _…you find a nest! Fruit stones. Buttons. Your spoon!_
 > _For grown-ups: Your child matched an animal to its home._
 
 **Pemba**: Oh. It lives up here all alone.  
-_“Chirr,” says the lemur. It looks sad._  
+_“Squeak,” says the lemur. It looks sad._  
 
 #### `sprout:q60-friends` · [main](../../../fun/avatar.md#q60-friends)
 
@@ -1729,7 +1729,7 @@ _“Chirr?” The lemur tilts its head._
 
 #### `sprout:q60-friends-done` · [main](../../../fun/avatar.md#q60-friends-done)
 
-_The lemur lands on your shoulder. It wraps its tail round your neck._  
+_The lemur lands on your shoulder. Plop! It wraps its tail round you._  
 _It falls asleep. Zzz._  
 **Pemba**: It likes you!  
 **Pemba**: Should we take it home? Or is this its home?  

@@ -128,7 +128,9 @@ function table(world: World | null): Table {
   const props = storyPropMask(world);
   // A number, not a string: this runs for every walker on every step.
   const key =
-    (props * 8 + +u.stall + 2 * +u.attendant + 4 * +u.festival) * 100000 + world.placed.length;
+    (props * 32 + +u.stall + 2 * +u.attendant + 4 * +u.festival + 8 * +u.gym + 16 * +u.fortune) *
+      100000 +
+    world.placed.length;
   if (world.placed === cachedPlaced && key === cachedKey) return cached;
   const list: Collider[] = GROVE_COLLIDERS.filter((c) => !c.when || u[c.when]);
   for (const d of world.placed) {

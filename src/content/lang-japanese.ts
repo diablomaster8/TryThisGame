@@ -81,7 +81,7 @@ const LJ1: Quest = {
     {
       id: 'lj1-step1',
       goal: 'Greet Hana at the gate in Japanese.',
-      hint: 'Tap Hana and choose Greet. Say “konnichiwa”, and bow if you like.',
+      hint: 'Tap Hana at the gate. Say “konnichiwa”, and bow if you like.',
       check: 'lang:ja:greet:hana',
       scene: {
         id: 'lj1-s1',

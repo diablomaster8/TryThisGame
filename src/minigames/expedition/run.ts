@@ -1,4 +1,5 @@
 import { EXPEDITION } from '../../config/tuning';
+import { EXPEDITION_FUN_TEXT } from '../../config/strings-fun-r6';
 import { WILD_CRITTERS } from '../../sim/critters';
 import { Rng } from '../../sim/rng';
 import type { NubbinType, Rewards } from '../../sim/types';
@@ -45,8 +46,31 @@ export interface RunState {
   hitCooldownMs: number;
   rewards: Rewards;
   finished: boolean;
-  /** Visual pulses for the view. */
-  lastEvent: { kind: 'shell' | 'essence' | 'critter' | 'hit'; atMs: number } | null;
+  /**
+   * Visual pulses for the view. A hit names what was hit and how many Shells flew out
+   * (R0324: the spin and the Shells bouncing away).
+   */
+  lastEvent: {
+    kind: 'shell' | 'essence' | 'critter' | 'hit';
+    atMs: number;
+    thing?: ThingKind;
+    dropped?: number;
+  } | null;
+  /** R0324 (FUN-35): what the results card's superlative is made from. */
+  fun: RunFun;
+}
+
+/** R0324: run stats for the results card's one silly superlative. */
+export interface RunFun {
+  /** The most Shells dropped on one hit, and on what. */
+  mostDropped: number;
+  mostDroppedOn: ThingKind | null;
+  /** Time in the air now, and the longest single jump (ms). */
+  airMs: number;
+  longestAirMs: number;
+  jumps: number;
+  bubbles: number;
+  logs: number;
 }
 
 export const RUNNER_W = 20;
@@ -72,6 +96,15 @@ export function createRun(seed: number): RunState {
     rewards: { shells: 0, essences: {}, critters: {} },
     finished: false,
     lastEvent: null,
+    fun: {
+      mostDropped: 0,
+      mostDroppedOn: null,
+      airMs: 0,
+      longestAirMs: 0,
+      jumps: 0,
+      bubbles: 0,
+      logs: 0,
+    },
   };
 }
 
@@ -165,10 +198,14 @@ export function stepRun(run: RunState, dtMs: number): void {
     }
     run.runnerVy += g * dt;
     run.runnerY += run.runnerVy * dt;
+    run.fun.airMs += dtMs;
     if (run.runnerY >= EXPEDITION.groundY) {
       run.runnerY = EXPEDITION.groundY;
       run.runnerVy = 0;
       run.onGround = true;
+      run.fun.longestAirMs = Math.max(run.fun.longestAirMs, run.fun.airMs);
+      run.fun.airMs = 0;
+      run.fun.jumps += 1;
     }
   }
 
@@ -206,15 +243,22 @@ export function stepRun(run: RunState, dtMs: number): void {
       case 'critter':
         t.taken = true;
         if (t.species) run.rewards.critters[t.species] = (run.rewards.critters[t.species] ?? 0) + 1;
+        run.fun.bubbles += 1;
         run.lastEvent = { kind: 'critter', atMs: run.timeMs };
         break;
       default:
         // Obstacles cost Shells but never end the run.
         if (run.hitCooldownMs <= 0) {
           run.hits += 1;
-          run.shells = Math.max(0, run.shells - EXPEDITION.obstaclePenalty);
+          const dropped = Math.min(run.shells, EXPEDITION.obstaclePenalty);
+          run.shells -= dropped;
           run.hitCooldownMs = EXPEDITION.hitCooldownMs;
-          run.lastEvent = { kind: 'hit', atMs: run.timeMs };
+          run.lastEvent = { kind: 'hit', atMs: run.timeMs, thing: t.kind, dropped };
+          if (dropped > run.fun.mostDropped) {
+            run.fun.mostDropped = dropped;
+            run.fun.mostDroppedOn = t.kind;
+          }
+          if (t.kind === 'log') run.fun.logs += 1;
         }
         break;
     }
@@ -231,4 +275,23 @@ export function stepRun(run: RunState, dtMs: number): void {
 /** Progress 0..1 for the HUD bar. */
 export function progressOf(run: RunState): number {
   return Math.min(1, run.timeMs / EXPEDITION.durationMs);
+}
+
+/**
+ * R0324 (FUN-35): the results card's one superlative, from the run's own numbers. Every
+ * run has one: the list ends with lines any run can earn. Which one is picked rotates with
+ * the run (its jumps and hits), so two runs rarely read the same.
+ */
+export function superlative(run: RunState): string {
+  const f = run.fun;
+  const t = EXPEDITION_FUN_TEXT;
+  const options: string[] = [];
+  if (f.mostDropped > 0 && f.mostDroppedOn)
+    options.push(t.mostDropped(f.mostDropped, t.things[f.mostDroppedOn] ?? f.mostDroppedOn));
+  if (f.longestAirMs > 0) options.push(t.longestAir((f.longestAirMs / 1000).toFixed(1)));
+  if (f.bubbles > 0) options.push(t.bubbles(f.bubbles));
+  if (f.logs > 0) options.push(t.logs(f.logs));
+  if (run.hits === 0) options.push(t.noHits);
+  options.push(t.jumps(f.jumps));
+  return options[(f.jumps + run.hits) % options.length]!;
 }

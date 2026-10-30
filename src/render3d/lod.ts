@@ -25,6 +25,10 @@ import { buildProxy, setFar, setProxy, type CreatureProxy } from './lod-proxy';
  *   draw for the body, one for its hull and one shadow caster, instead of two dozen each.
  *   Past `hullMaxDist` no creature keeps its hull. Stand-ins are built one a frame, as rigs
  *   first need one, and shown once their programs are linked.
+ * - Round 5 (phone perf): the full-detail tier has a triangle budget (`fullTrisCap`, by device
+ *   tier, `WORLD_LOD.creature.fullTris`). Nearest first, rigs in view stay whole until the next
+ *   would pass it; the rest are drawn as stand-ins although they are near. So how many
+ *   Nubbins wander close to the camera no longer swings the frame's triangles.
  */
 interface RigState {
   casters: THREE.Mesh[];
@@ -37,12 +41,24 @@ interface RigState {
   hulled: boolean;
   /** Drawn as its stand-in. */
   proxied: boolean;
+  /** Triangles the whole rig draws (body, hulls and its shadow pass), measured once. */
+  tris: number;
 }
 
 /** Each rig's stand-in (kept with the rig, which the pool reuses), or null for none. */
 const proxies = new WeakMap<THREE.Object3D, CreatureProxy | null>();
 /** Stand-ins whose shaders are still linking. */
 const linking = new WeakSet<CreatureProxy>();
+
+/** A stand-in's triangles at `depth`: its mesh, its hull and shadow pass while it keeps them. */
+function proxyTris(root: THREE.Object3D, depth: number): number {
+  const p = proxies.get(root);
+  const cfg = WORLD_LOD.creature;
+  if (!p) return 0;
+  const g = p.mesh.geometry;
+  const n = (g.index ? g.index.count : (g.attributes.position?.count ?? 0)) / 3;
+  return n * (1 + +(depth < cfg.hullMaxDist) + +(depth < cfg.shadowMaxDist));
+}
 
 const sphere = new THREE.Sphere();
 const frustum = new THREE.Frustum();
@@ -78,15 +94,27 @@ export class CreatureLod {
   } | null = null;
   /** Stand-ins built this frame. */
   private built = 0;
+  /** Round 5: full-detail triangles allowed a frame (the scene sets it by device tier). */
+  fullTrisCap = Infinity;
+  /** Rigs held to their stand-in this frame by the cap, and how many. */
+  private readonly capped = new Set<THREE.Object3D>();
+  private readonly toFar = new Set<THREE.Object3D>();
+  cappedCount = 0;
+  private readonly order: Array<[THREE.Object3D, number]> = [];
 
   private state(root: THREE.Object3D): RigState {
     let s = this.rigs.get(root);
     if (s) return s;
     const casters: THREE.Mesh[] = [];
     const hulls: THREE.Mesh[] = [];
+    let tris = 0;
     root.traverse((o) => {
       const m = o as THREE.Mesh;
       if (!m.isMesh || m.userData.lodProxy) return;
+      const g = m.geometry;
+      const n = (g.index ? g.index.count : (g.attributes.position?.count ?? 0)) / 3;
+      const k = (m as THREE.InstancedMesh).isInstancedMesh ? (m as THREE.InstancedMesh).count : 1;
+      tris += n * k * (m.castShadow ? 2 : 1);
       if (m.userData.hull) hulls.push(m);
       else if (m.castShadow) casters.push(m);
     });
@@ -95,7 +123,7 @@ export class CreatureLod {
     box.setFromObject(root, true);
     const radius = box.isEmpty() ? 1.5 : box.getBoundingSphere(sphere).radius / scale;
     const lift = box.isEmpty() ? radius : (sphere.center.y - root.getWorldPosition(at).y) / scale;
-    s = { casters, hulls, radius, casting: true, hulled: true, proxied: false, lift };
+    s = { casters, hulls, radius, casting: true, hulled: true, proxied: false, lift, tris };
     this.rigs.set(root, s);
     return s;
   }
@@ -120,6 +148,7 @@ export class CreatureLod {
     this.seen.clear();
     this.casting = this.hulls = this.inView = this.proxied = this.far = 0;
     this.built = 0;
+    this.capFull(roots, camera);
     for (const root of roots) {
       if (!root.visible) continue;
       const s = this.state(root);
@@ -177,6 +206,52 @@ export class CreatureLod {
     }
   }
 
+  /**
+   * Round 5: the creature triangle budget. Rigs whose shadow reach is in view and that are not
+   * impostors already are costed nearest first (whole: all their parts, hulls and shadow pass;
+   * a stand-in: its mesh, plus its hull and shadow where it keeps them). The first always
+   * keeps its tier. Past `fullTrisCap`, a rig nearer than `capFarFrom` drops to its stand-in
+   * and one farther to the impostor tier, so how many creatures crowd the view no longer
+   * swings the frame's triangles.
+   */
+  private capFull(roots: readonly THREE.Object3D[], camera: THREE.Camera): void {
+    const cfg = WORLD_LOD.creature;
+    this.capped.clear();
+    this.toFar.clear();
+    this.cappedCount = 0;
+    if (!Number.isFinite(this.fullTrisCap)) return;
+    this.order.length = 0;
+    for (const root of roots) {
+      if (!root.visible) continue;
+      const s = this.state(root);
+      root.getWorldPosition(at);
+      sphere.set(at, s.radius * (root.scale.x || 1) + cfg.shadowReach);
+      if (!frustum.intersectsSphere(sphere)) continue;
+      const depth = at.distanceTo(camera.position);
+      if (depth > cfg.impostorFrom * (this.impostors?.has(root) ? 1 - cfg.band : 1 + cfg.band))
+        continue;
+      this.order.push([root, depth]);
+    }
+    this.order.sort((a, b) => a[1] - b[1]);
+    let used = 0;
+    for (const [root, depth] of this.order) {
+      const s = this.rigs.get(root)!;
+      const near = depth <= cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+      const stand = proxyTris(root, depth);
+      const cost = near ? s.tris : stand;
+      if (used === 0 || used + cost <= this.fullTrisCap) {
+        used += cost;
+        continue;
+      }
+      this.cappedCount++;
+      if (depth >= cfg.capFarFrom && proxies.get(root)) this.toFar.add(root);
+      else if (near) {
+        this.capped.add(root);
+        used += stand;
+      } else used += stand;
+    }
+  }
+
   private restore(root: THREE.Object3D): void {
     const s = this.rigs.get(root);
     this.changed.delete(root);
@@ -196,7 +271,8 @@ export class CreatureLod {
    */
   private proxyFor(root: THREE.Object3D, depth: number, s: RigState): CreatureProxy | null {
     const cfg = WORLD_LOD.creature;
-    const want = depth > cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
+    const want =
+      this.capped.has(root) || depth > cfg.proxyFrom * (s.proxied ? 1 - cfg.band : 1 + cfg.band);
     let p = proxies.get(root);
     if (p === undefined) {
       const key = root.userData.lookKey as string | undefined;
@@ -231,7 +307,9 @@ export class CreatureLod {
     if (!imp) return false;
     const cfg = WORLD_LOD.creature;
     const was = imp.has(root);
-    const far = proxy.on && depth > cfg.impostorFrom * (was ? 1 - cfg.band : 1 + cfg.band);
+    const far =
+      proxy.on &&
+      (this.toFar.has(root) || depth > cfg.impostorFrom * (was ? 1 - cfg.band : 1 + cfg.band));
     if (far && !was) {
       // Everything it draws goes to the impostor layer: the stand-in on, its hull off.
       proxy.mesh.visible = true;

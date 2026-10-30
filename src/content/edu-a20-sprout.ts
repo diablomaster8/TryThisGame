@@ -229,7 +229,7 @@ const Q01 = quest(
           [
             opt('Water', [N('Yes! An island has water all the way around it.')], true),
             opt('Sand', [N('Some islands have sand. But water goes all the way around.')]),
-            opt('A fence', [N('No fence. The sea is what goes all the way around.')]),
+            opt('A fence', [N('A fence around it? Creak! The sea is what goes all the way around.')]),
           ],
           'Learned that Iceland is an island, with sea all around it.',
         ),
@@ -673,7 +673,7 @@ const Q02 = quest(
               [N('Yes! First the dream, next the plan, last the walk.')],
               true,
             ),
-            opt('Go to sleep for a year', [N('No, they have work to do. Last comes the walk.')]),
+            opt('Go to sleep for a year', [N('Sleep for a year? Snore! They have work to do. Last comes the walk.')]),
             opt('Have a big party', [N('Not a party. Last comes the walk, to ask the world.')]),
           ],
           'Put the story in order: first, next, last.',
@@ -1763,7 +1763,7 @@ const Q09 = quest(
           [
             opt('A little buzzing', [N('Yes! Sound is a tiny shaking, called a vibration.')], true),
             opt('Nothing at all', [
-              N('Try again. Hum, and touch your throat. It buzzes. That is a vibration.'),
+              N('A silent throat? Hum and touch it. Buzz! That is a vibration.'),
             ]),
           ],
           'Felt a vibration in their throat while humming.',

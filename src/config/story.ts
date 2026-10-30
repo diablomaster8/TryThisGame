@@ -28,6 +28,12 @@ export interface Line {
   shake?: 'small' | 'big';
   gag?: true;
   /**
+   * R0303 (FUN-14): a stage actor reacts as the line starts, render only: `who` is
+   * 'nubbin' (the scene's Nubbin), 'you', or a speaker id. R0368 infers one for narration
+   * like "Your Nubbin sneezes" when none is set.
+   */
+  react?: { who: string; as: LineReaction };
+  /**
    * R0304 (FUN-15): an interactive beat after this line: the scene waits for the player to
    * play it (`gate`: hold to lift, push twice; `cup`: one tap). It can never fail; a played
    * act may set the flag in `LINE_ACT_FLAGS`.
@@ -36,6 +42,21 @@ export interface Line {
   /** R0323 (FUN-34): a sprout join-in refrain on this line (an id in `config/edu.ts`). */
   refrain?: string;
 }
+
+/** R0303: what a stage actor can do on a line: an emote over it, or a little particle burst. */
+export type LineReaction =
+  | 'spark'
+  | 'heart'
+  | 'surprised'
+  | 'dizzy'
+  | 'happy'
+  | 'sad'
+  | 'sneeze'
+  | 'giggle'
+  | 'hide'
+  | 'lean'
+  | 'yawn'
+  | 'hiccup';
 
 /** R0304: the interactive beats a line can wait on. */
 export type LineAct = 'gate' | 'cup';

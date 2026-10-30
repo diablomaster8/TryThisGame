@@ -25,6 +25,8 @@ import type { Line, Mood, Scene } from '../config/story';
 
 /** Narrator line. */
 const n = (text: string): Line => ({ who: 'narrator', text });
+/** R0337 (FUN-48): a line marked as a punchline (`gag`), for the comedy report. */
+const g = (line: Line): Line => ({ ...line, gag: true });
 /** Spoken line, with an optional portrait mood. */
 const l = (who: string, text: string, mood?: Mood): Line =>
   mood ? { who, text, mood } : { who, text };
@@ -101,7 +103,9 @@ export const MV_IRONMAN: Quest[] = [
             n('A guard shoves you into a cave lit by one bulb. Two men look up from a workbench.'),
             l('yinsen', 'More guests. Wong-Chu collects people now. Sit down, before they decide you are a problem.', 'think'),
             l('tony', 'Ignore the wires. They’re keeping me alive. Long story. Short version: a landmine, some shrapnel, bad luck.'),
-            l('yinsen', 'A splinter of metal sits a finger’s width from his heart. The magnet holds it back. For now.'),
+            n('A splinter of metal sits a finger’s width from his heart. The magnet in his chest holds it back.'),
+            n('Your Nubbin reaches up and taps the magnet. Tink.'),
+            g(l('tony', 'Please don’t. That’s load-bearing.')),
             l('tony', 'Tony Stark. I make weapons. Made. The man outside wants one, and he wants it this week.', 'sad'),
             l('wongchu', 'Build me the weapon, Mr Stark. While you build, the doctor eats. So do your little animals.', 'angry'),
             n('He leaves. By the door sits a crate of mortar shells, stencilled STARK INDUSTRIES.'),
@@ -122,7 +126,7 @@ export const MV_IRONMAN: Quest[] = [
               set: { 'mv-im01-plan': 'doubt' },
               then: [
                 l('yinsen', 'No. So we will do it in five days.'),
-                l('tony', 'He’s funny. Nobody warned me he was funny.'),
+                g(l('tony', 'He’s funny. Nobody warned me he was funny.')),
               ],
             },
             {
@@ -142,14 +146,14 @@ export const MV_IRONMAN: Quest[] = [
             l('yinsen', 'Chest plate first. Then the legs. A man who cannot run is only a statue.'),
             n('Tony sketches on the back of a weapons order. His hand shakes. He keeps going.'),
             n('Yinsen hums while he files, the same four notes, over and over. Your Nubbins start humming them too.'),
-            l('tony', 'Great. Now it’s a choir. If we die, at least we die in harmony.'),
+            g(l('tony', 'Great. Now it’s a choir. If we die, at least we die in harmony.')),
           ],
         },
       },
       {
         id: 'mv-im01-s2',
         goal: 'Carry the iron plates past the guards with your Power Nubbin.',
-        hint: 'Move when the lamp turns away; a Nubbin with high Power carries two plates a trip.',
+        hint: 'Tap Do it in the Journal and catch the plates as they come. Mind the lamp; it minds you.',
         check: 'minigame:clear:mv-cave-plates',
         scene: {
           id: 'mv-im01-plates',
@@ -157,7 +161,9 @@ export const MV_IRONMAN: Quest[] = [
             n('The iron is in the scrap yard past the guard post. The guards count everything that goes in or out.'),
             l('tony', 'Every plate has to look like weapon parts. Anything else, and they’ll know.'),
             l('yinsen', 'Your Nubbin is strong. It can carry what I cannot, and it is small enough to be overlooked.'),
-            n('Your Power Nubbin pats a plate twice its size, as if checking whether it is ripe.'),
+            g(n('Your Power Nubbin pats a plate twice its size, as if checking whether it is ripe.')),
+            { ...g(n('It tries the plate on its head, walks three steps and bongs into the wall. It tries again, slower.')), sfx: 'bonk' },
+            g(l('yinsen', 'Good. Now it knows where the wall is. That is engineering.')),
             n('Night falls. The guards change every forty minutes. That is your window.'),
             l('tony', 'Twelve plates. Six trips. Nobody gets shot. That’s the whole plan.'),
             n('Halfway across the yard, a torch swings round and lands on you.'),
@@ -168,7 +174,7 @@ export const MV_IRONMAN: Quest[] = [
               id: 'bluff',
               label: 'It’s a mortar casing.',
               then: [
-                l('guard', 'Hm. Ugly mortar.'),
+                g(l('guard', 'Hm. Ugly mortar.')),
                 n('He waves you on. Your Nubbin does not breathe again until the corner.'),
               ],
             },
@@ -176,7 +182,7 @@ export const MV_IRONMAN: Quest[] = [
               id: 'fruit',
               label: 'Offer him your fruit.',
               then: [
-                n('He takes the fruit and forgets the question. Your Nubbin looks offended on the fruit’s behalf.'),
+                g(n('He takes the fruit and forgets the question. Your Nubbin looks offended on the fruit’s behalf.')),
               ],
             },
           ],

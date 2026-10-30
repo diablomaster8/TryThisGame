@@ -5,7 +5,7 @@
 - `s3-step1`: Ask one Sun Keeper and one Moon Keeper what really happened at Midsummer. · _Fern, Marina, Sparks, Clover and Pixel are Sun. Luna, Ember, Byte, Dusty and Nova are Moon. Ask one from each side._
 - `s3-step2`: Help Sparks and Byte develop the old Midsummer photo-finish plates. · _From chapter 6, go to Sparks’s workshop. Rock the tray on Byte’s steady count, not on Sparks’s “feeling”._
 - `s3-step3`: Show the plates to Fern and to Ember. · _Fern is usually in her orchard. Ember is at the Circuit fence most evenings._
-- `s3-step4`: Host the Lantern Moot at the pond, after the Long Night. · _In chapter 11, tap the pond and choose Call a Moot. All ten Keepers come._
+- `s3-step4`: Host the Lantern Moot at the pond, after the Long Night. · _In chapter 11, go to the pond and tap Do it in the Journal. All ten Keepers come._
 
 #### `reader:s3-stands` · [main](../../../side/S03.md#s3-stands)
 

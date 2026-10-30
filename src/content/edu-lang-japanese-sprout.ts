@@ -91,7 +91,7 @@ const LJ1: EduQuest = quest(
   {
     'lj1-step1': {
       goal: 'Say hello to Hana at the gate. Say “konnichiwa”!',
-      hint: 'Tap Hana and choose Greet. A little bow is lovely too.',
+      hint: 'Tap Hana. Say hello. A little bow is lovely too.',
     },
     'lj1-step2': {
       goal: 'Teach three Nubbins to bow when you say “konnichiwa”.',

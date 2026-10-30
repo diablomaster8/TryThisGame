@@ -100,3 +100,89 @@ export const WORLD_SETTINGS_TEXT = {
   },
   handle: 'Show the menu bar',
 } as const;
+
+/** R0102: the Travel assist setting (`ui/world-settings.ts`) and what the beacon chip says. */
+export const TRAVEL_TEXT = {
+  label: 'Travel assist',
+  help: 'What tapping a quest beacon or a map pin does.',
+  modes: { walk: 'Walk', auto: 'Auto-walk', skip: 'Skip' },
+  modeHelp: {
+    walk: 'You walk there yourself; the beacon opens the Map.',
+    auto: 'The Keeper runs there. Tap anywhere to stop.',
+    skip: 'Hop straight there.',
+  },
+  goBeacon: 'Go to the objective',
+  walkHere: 'Walk here',
+} as const;
+
+/** R0107: the landmark name card and the Journal's Places page (`ui/landmark-card.ts`). */
+export const PLACES_TEXT = {
+  cardMs: 2000,
+  fastTravel: 'Fast travel unlocked',
+  paid: (shells: number, badge: string) => `+${shells} Shells: ${badge}`,
+  tab: 'Places',
+  count: (found: number, of: number) => `${found} of ${of} places found in the Grove.`,
+  counts: (traces: { found: number; of: number }, finds: { found: number; of: number }) =>
+    [
+      traces.of ? `Traces ${traces.found}/${traces.of}` : '',
+      finds.of ? `Keepsakes ${finds.found}/${finds.of}` : '',
+    ]
+      .filter(Boolean)
+      .join(' · ') || 'Nothing hidden here. Probably.',
+  art: {
+    bridge: '🌉',
+    well: '🪣',
+    falls: '💧',
+    cottage: '🏡',
+    dojo: '🥋',
+    school: '🏫',
+    oldTree: '🌳',
+    southBend: '🌊',
+    westHill: '⛰️',
+    northWood: '🌲',
+    eastRidge: '🗻',
+    southMarsh: '🪷',
+    westMeadow: '🌾',
+    farOrchard: '🍎',
+  },
+  lines: {
+    bridge: 'Old planks, new nails. It creaks in a friendly way.',
+    well: 'Drop a shell in and listen. It always answers late.',
+    falls: 'The water never stops talking. Nobody minds.',
+    cottage: 'Hazel’s door. The latch knows your hand already.',
+    dojo: 'Mats rolled, a gong polished. Somebody bows to it daily.',
+    school: 'Chalk dust and small chairs. The bell is mostly decorative.',
+    oldTree: 'Older than the cottage, and it knows it.',
+    southBend: 'The stream turns here to look back at the Grove.',
+    westHill: 'The first flower grew up here. Others followed.',
+    northWood: 'Moss on everything, including the silence.',
+    eastRidge: 'On a clear day you can see something gold to the east.',
+    southMarsh: 'Frogs hold opinions here, loudly.',
+    westMeadow: 'Hay, crows, and a scarecrow with excellent posture.',
+    farOrchard: 'Apples, bees and a press that smells of autumn.',
+  },
+} as const;
+
+/** R0095: the village square's taps (`ui/village-tap.ts`). */
+export const VILLAGE_TEXT = {
+  buildings: {
+    stall: 'The stall',
+    gym: 'The gym',
+    attendant: 'The bathhouse',
+    fortune: 'The fortune tent',
+    festival: 'The festival stage',
+  },
+  lines: {
+    attendant: 'Warm water, folded towels, and a sign: "No splashing. (Some splashing.)"',
+    fortune: 'The fortune teller squints at the crystal ball. "You will tap on this tent again."',
+    festival: 'The stage is swept and ready. Someone has practised a bow, badly, on purpose.',
+  },
+  recruitLine: {
+    stall: (name: string) => `${name} straightens the fruit and pretends not to watch you.`,
+    gym: (name: string) => `${name} does a very serious stretch. Then another.`,
+    attendant: (name: string) => `${name} is carrying towels nobody asked for.`,
+    fortune: (name: string) => `${name} predicts lunch. It is right.`,
+    festival: (name: string) => `${name} is hanging bunting a little crooked, with great pride.`,
+    guard: (name: string) => `${name} keeps watch. Mostly over the fountain.`,
+  },
+} as const;

@@ -56,8 +56,8 @@ _Yum! You can smell warm food from the gate._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): name a feeling  
 > _Sinbad’s face is scrunched up. His fists are tight. How does he feel?_  
 > - ✅ Cross. → Yes! Sinbad is cross. His face is scrunched. Cross is a feeling, and feelings are allowed.
-> - Sleepy. → Not quite. Look at his scrunched face and his tight fists. Sinbad is cross.
-> - Silly. → Not quite. Silly people giggle. Sinbad is scrunched up and growly. He is cross.
+> - Sleepy. → A sleepy Sinbad? Snore! But look: tight fists, scrunched face. He is cross.
+> - Silly. → A giggly Sinbad? Hee hee! But he is scrunched and growly. He is cross.
 > _For grown-ups: Named a feeling (cross) from a face and body._
 
 _Sinbad says this very loudly. A window opens up high._  
@@ -689,11 +689,11 @@ _Your Nubbin carries the bag to the giant’s nose, very quietly._
 _It tips the bag. The giant breathes in._  
 
 > **Lesson** (science, K-LS1-1, notice): a sneeze clears the nose  
-> _Pepper tickles the nose. Then, atchoo! A sneeze blows the tickle out._  
-> _Your body does this by itself. Atchoo! (Do a pretend sneeze.)_  
+> _Pepper tickles the nose. Then, achoo! A sneeze blows the tickle out._  
+> _Your body does this by itself. Achoo! (Do a pretend sneeze.)_  
 > _For grown-ups: Learned that a sneeze is the body clearing a tickle from the nose._
 
-_Atchoo! He sits up and his eye is full of tears._  
+_Achoo! He sits up and his eye is full of tears._  
 **Young Sinbad**: Now! Everybody out!  
 
 **Choices**
@@ -706,11 +706,11 @@ _Atchoo! He sits up and his eye is full of tears._
 #### `sprout:a06-06-gate-done` · [main](main.md#a06-06-gate-done)
 
 _Behind you the giant sneezes, and sneezes, and sneezes._  
-_Atchoo, atchoo, atchoo! Not one is aimed at anybody._  
+_Achoo, achoo, achoo! Not one is aimed at anybody._  
 
 > **Lesson** (literacy, RL.2.4, notice): repeated sounds make a rhythm  
-> _Atchoo, atchoo, atchoo! Repeating a sound makes a beat._  
-> _Clap the beat with me: atchoo, atchoo, atchoo!_  
+> _Achoo, achoo, achoo! Repeating a sound makes a beat._  
+> _Clap the beat with me: achoo, achoo, achoo!_  
 > _For grown-ups: Enjoyed a repeated sound and clapped its beat._
 
 

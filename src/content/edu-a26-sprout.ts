@@ -258,10 +258,10 @@ const Q1 = quest(
               true,
             ),
             o('Up on the moon', [
-              BR('Not quite! Uruk is on the ground, beside a river. Look at the water.'),
+              BR('Up on the moon? Whee! Uruk is on the ground, beside a river.'),
             ]),
             o('In the middle of the sea', [
-              BR('Not quite! It is beside a river, with land all around.'),
+              BR('A city in the sea? Splash! Uruk is by a river, with land around.'),
             ]),
           ],
           'Learned that Uruk stood beside a river, in the land that is now Iraq.',
@@ -355,7 +355,7 @@ const Q1 = quest(
               true,
             ),
             o('So nobody can ever see it', [
-              BR('Not quite! It stays so anybody can open the box and see.'),
+              BR('A box nobody can see? Peekaboo! It stays so anyone can open and see.'),
             ]),
           ],
           'Talked about leaving special things where others can enjoy them.',
@@ -487,7 +487,7 @@ const Q2 = quest(
               true,
             ),
             o('It turns into water', [
-              N('Not quite! Dry clay does not turn into water. It gets hard.'),
+              N('Clay turning to water? Splash! Dry clay stays clay, and gets hard.'),
             ]),
             o('It grows legs', [N('Ha! No legs. Dry clay just gets hard.')]),
           ],
@@ -688,7 +688,7 @@ const Q3 = quest(
           [N('Why does Enkidu fill in the pits?')],
           [
             o('He wants his animal friends to be safe', [N('Yes! He cares about them.')], true),
-            o('He likes to dig', [N('Not quite! He fills them in to keep his friends safe.')]),
+            o('He likes to dig', [N('Digging for fun? Dig, dig! He fills them in to keep friends safe.')]),
           ],
           'Thought about why a character does what he does.',
         ),
@@ -967,8 +967,8 @@ const Q5 = quest(
               [N('Yes! Grain grows on plants, in fields, with sun and water.')],
               true,
             ),
-            o('A cloud', [N('Not quite! Grain grows on plants in a field.')]),
-            o('A rock', [N('Not quite! Grain grows on plants. Plants need sun and water.')]),
+            o('A cloud', [N('Grain from a cloud? Plop! Grain grows on plants in a field.')]),
+            o('A rock', [N('Grain from a rock? Bonk! Grain grows on plants. Plants need sun and water.')]),
           ],
           'Learned that bread starts as a plant growing grain.',
         ),
@@ -1188,7 +1188,7 @@ const Q6 = quest(
               true,
             ),
             o('Someone who does what you say', [
-              N('Not quite! A friend is kind, and listens too.'),
+              N('Always doing what you say? Boing! A friend is kind, and listens too.'),
             ]),
             o('Anyone in a crowd', [
               N('A crowd is lots of people. A friend is someone kind to you.'),
@@ -1274,7 +1274,7 @@ const Q7 = quest(
               true,
             ),
             o('To hide from the sun', [
-              N('Not quite! People live by rivers for water to drink and to grow food.'),
+              N('Hiding from the sun? Peekaboo! People live by rivers for water and food.'),
             ]),
           ],
           'Learned that people settle beside rivers for drinking water and farming.',
@@ -1341,7 +1341,7 @@ const Q7 = quest(
               true,
             ),
             o('Wishing very hard', [
-              N('Not quite! Things move when something pushes or pulls them.'),
+              N('Wishing very hard? Pop! Things move when something pushes or pulls them.'),
             ]),
           ],
           'Learned that pushes and pulls make things move.',
@@ -1745,7 +1745,7 @@ const Q9 = quest(
           [N('Which part of you smells the piney forest?')],
           [
             o('Your nose', [N('Yes! Your nose smells. “Piney” is a smell word.')], true),
-            o('Your knees', [N('Not quite! Your nose does the smelling.')]),
+            o('Your knees', [N('Smelling with your knees? Sniff, sniff! Your nose does the smelling.')]),
           ],
           'Linked a smell word with the sense of smell.',
         ),
@@ -2031,7 +2031,7 @@ const Q11 = quest(
           [N('Hot water makes steam. Is steam hot or cold?')],
           [
             o('Hot', [N('Yes! Steam is hot. Be careful of it.')], true),
-            o('Cold', [N('Not quite! Steam comes from hot water, so it is hot.')]),
+            o('Cold', [N('Cold steam? Brr! Steam comes from hot water, so it is hot.')]),
           ],
           'Learned that steam comes from hot water and is hot.',
         ),
@@ -2070,7 +2070,7 @@ const Q11 = quest(
           ],
           [
             o('A choice', [N('Yes! Picking one thing is a choice.')], true),
-            o('A race', [N('Not quite! Picking one thing is called a choice.')]),
+            o('A race', [N('Picking one thing is a race? Zoom! Picking one thing is called a choice.')]),
           ],
           'Learned that picking one thing from several is making a choice.',
         ),
@@ -2400,7 +2400,7 @@ const Q13 = quest(
               [N('Yes! Saying sorry and thank you can mend hurt feelings.')],
               true,
             ),
-            o('He shouted louder', [N('No, he spoke softly. He said sorry and thank you.')]),
+            o('He shouted louder', [N('Shouting louder? Whoa, how noisy! He spoke softly: sorry and thank you.')]),
           ],
           'Talked about saying sorry and thank you after being cross.',
         ),
@@ -2574,7 +2574,7 @@ const Q14 = quest(
               [N('Yes! Sometimes just being there is the kindest thing.')],
               true,
             ),
-            o('It did a dance', [N('No dancing. It stayed close, and that was enough.')]),
+            o('It did a dance', [N('A dance? It stayed close instead, and that was enough.')]),
           ],
           'Talked about how staying close can comfort someone who is sad.',
         ),
@@ -3334,7 +3334,7 @@ const FOOT_BEAT = ask(
       [N('Yes! Fire bakes clay hard, so a kiln brick lasts a very long time.')],
       true,
     ),
-    o('Makes it soft', [N('Not quite! Fire makes clay hard, not soft.')]),
+    o('Makes it soft', [N('Soft as a pillow? Squish! Fire makes clay hard, not soft.')]),
   ],
   'Learned that a kiln’s fire makes clay bricks very hard.',
 );
@@ -3527,10 +3527,10 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
             true,
           ),
           o('Up on the moon', [
-            BR('Not quite! Uruk is on the ground, beside a river. Look at the water.'),
+            BR('Up on the moon? Whee! Uruk is on the ground, beside a river.'),
           ]),
           o('In the middle of the sea', [
-            BR('Not quite! It is beside a river, with land all around.'),
+            BR('A city in the sea? Splash! Uruk is by a river, with land around.'),
           ]),
         ],
         'Learned that Uruk stood beside a river, in the land that is now Iraq.',
@@ -3655,7 +3655,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
         ],
         [
           o('So they are remembered', [N('Yes! Stories keep people close, long after.')], true),
-          o('So we forget them', [N('No, the opposite. Stories help us remember.')]),
+          o('So we forget them', [N('Forgetting them? Never! Stories help us remember.')]),
         ],
         'Talked about how stories help us remember people.',
       ),
@@ -3677,7 +3677,7 @@ export const EDU_A26_SPROUT_VARIANTS: EduScene[] = [
         [N('Moss did not say anything. How did he help?')],
         [
           o('He stayed close', [N('Yes! Sometimes just being there is the kindest thing.')], true),
-          o('He sang a loud song', [N('No song. He stayed close, and that was enough.')]),
+          o('He sang a loud song', [N('A loud song? He stayed close instead, and that was enough.')]),
         ],
         'Talked about how staying close can comfort someone who is sad.',
       ),

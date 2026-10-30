@@ -1797,7 +1797,7 @@ const A8: EduQuest = quest(
               [N('Yes. The stone blocks the door. A plan must get them past it.')],
               true,
             ),
-            o('A lost toy', [N('No toy is lost. The problem is the big stone.')]),
+            o('A lost toy', [N('A toy under the stone? Squeak! The problem is the big stone.')]),
           ],
           'Named the problem to solve (the big stone) before making a plan.',
         ),
@@ -4675,7 +4675,7 @@ export const EDU_A14_SPROUT_VARIANTS: EduScene[] = [
         [N('The lane is empty. Is it busy or quiet?')],
         [
           o('Quiet', [N('Yes. Quiet is the opposite of busy and noisy.')], true),
-          o('Busy', [N('No one is there, so it is not busy. It is quiet.')]),
+          o('Busy', [N('A busy lane? Buzz, buzz! But nobody is there. It is quiet.')]),
         ],
         'Used the words busy and quiet to describe a place.',
       ),

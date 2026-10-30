@@ -1,3 +1,4 @@
+import { ordinal } from './grammar';
 /**
  * Player-facing text for the HUD, title and panel fixes of 2026-10-25 (the UI agent's own
  * strings, kept apart from the shared strings.ts so the merge stays small).
@@ -32,7 +33,7 @@ export const UI_FX_TEXT = {
   touchHint: 'Tap to walk · tap a Nubbin to select · drag to lift · pinch to zoom',
   /** The race results card. */
   standings: 'Standings',
-  ordinal: (p: number) => (p === 1 ? '1st' : p === 2 ? '2nd' : p === 3 ? '3rd' : `${p}th`),
+  ordinal: (p: number) => ordinal(p),
   youMark: 'You',
   noTime: 'did not finish',
   finishTime: (ms: number) => `${(ms / 1000).toFixed(1)}s`,

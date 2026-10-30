@@ -1,4 +1,5 @@
 import { OUTER_PROPS } from '../../src/config/outer-ring';
+import { VILLAGE } from '../../src/config/region-village';
 import { BRIDGE_DECK, BRIDGE_YAW } from '../../src/config/tuning-sim';
 import { describe, expect, it } from 'vitest';
 import { GROVE, SIM } from '../../src/config/tuning';
@@ -116,6 +117,8 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
       { x: -12, z: 17.5 },
       { x: -9.5, z: 18.5 },
       { x: -14.5, z: 18.8 },
+      // R0095: the village square's buildings (drawn by both renderers' village modules).
+      ...VILLAGE.buildings,
       { x: -4, z: 4 },
       { x: 4, z: -3 },
       { x: 9, z: 7 },

@@ -12,6 +12,11 @@ import {
 } from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
+import { PLAYDAY_SEEN, playBattleScene, playPlayDay, storyBoutRows } from './battle-scenes';
+import { FRIENDLY_TEXT, LADDER_TEXT, TRIAL_TEXT } from '../config/strings-battle-r6';
+import { TrialsMenu } from './trials';
+import { BATTLE_R6 } from '../config/tuning-battle-r6';
+import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
 import { PartyPick } from './battle-party-pick';
 import { button, el, modal } from './dom';
 
@@ -28,9 +33,15 @@ export class DojoMenu {
   private readonly list: HTMLDivElement;
   readonly screen: BattleScreen;
   private readonly pick: PartyPick;
+  /** The Circuit's pre-bout scene has just played (FIGHT-22). */
+  private sceneShown = false;
+  private hadRibbon = false;
+  private playday = false;
+  /** The trial boards (FIGHT-97), made on first use. */
+  private trials: TrialsMenu | null = null;
 
   constructor(
-    parent: HTMLElement,
+    private readonly parent: HTMLElement,
     private readonly game: () => Game | null,
     private readonly toast: (text: string) => void,
     private readonly fighterPick: () => Nubbin | null,
@@ -44,6 +55,13 @@ export class DojoMenu {
   }
 
   open(): void {
+    const g = this.game();
+    // The Learning Grove meets Play-fight Day on its first visit (FIGHT-83).
+    if (g?.world.edu && !g.world.battleOnce?.keepsakes.includes(PLAYDAY_SEEN) && !this.playday) {
+      this.playday = true;
+      playPlayDay(g, () => this.open());
+      return;
+    }
     this.refresh();
     this.dialog.show();
   }
@@ -88,7 +106,77 @@ export class DojoMenu {
     gb.disabled = !!w.edu;
     gb.setAttribute('aria-pressed', gentle ? 'true' : 'false');
     this.list.appendChild(gb);
+    this.ladder(g);
+    this.list.appendChild(
+      button(
+        TRIAL_TEXT.menu,
+        () => {
+          this.dialog.hide();
+          (this.trials ??= new TrialsMenu(this.parent, this.game)).open();
+        },
+        'btn bs-tier',
+      ),
+    );
+    this.friendly(g);
+    storyBoutRows(
+      g,
+      this.list,
+      () => this.open(),
+      () => this.dialog.hide(),
+    );
     this.circuit(g);
+  }
+
+  /** The Dojo Ladder (recs FIGHT-99) for the selected Nubbin: its belt and its next bout. */
+  private ladder(g: Game): void {
+    const n =
+      this.fighterPick() ?? g.world.nubbins.find((x) => x.stage !== 'egg' && x.stage !== 'cocoon');
+    if (!n || n.stage === 'egg' || n.stage === 'cocoon') return;
+    const belt = ladderBelt(n);
+    this.list.appendChild(
+      el('div', 'btn-name', `${LADDER_TEXT.title} · ${n.name}: ${LADDER_TEXT.belt(belt)}`),
+    );
+    const next = ladderContext(n);
+    if (!next) {
+      this.list.appendChild(el('small', undefined, LADDER_TEXT.top));
+      return;
+    }
+    const name = LADDER_TEXT.belts[(next.ladder ?? 1) - 1] ?? '';
+    const b = button(
+      LADDER_TEXT.bout(name, ladderOf(n).step + 1, BATTLE_R6.ladder.bouts),
+      () => this.fight(next),
+      'btn bs-tier',
+    );
+    this.list.appendChild(b);
+  }
+
+  /** Pass-and-play (FIGHT-96): the slot split in two, or Keeper 2's share codes. */
+  private friendly(g: Game): void {
+    this.list.appendChild(el('div', 'btn-name', FRIENDLY_TEXT.title));
+    this.list.appendChild(el('p', 'help', FRIENDLY_TEXT.help));
+    const codes = el('textarea');
+    codes.rows = 2;
+    codes.placeholder = FRIENDLY_TEXT.codes;
+    codes.setAttribute('aria-label', FRIENDLY_TEXT.codes);
+    const go = button(
+      FRIENDLY_TEXT.start,
+      () => {
+        const hatched = g.world.nubbins
+          .filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon')
+          .map((n) => n.id);
+        const guests = codes.value.split(/\s+/).filter(Boolean).slice(0, 3);
+        const half = guests.length ? Math.min(3, hatched.length) : Math.ceil(hatched.length / 2);
+        const ids = hatched.slice(0, Math.min(3, half));
+        const foeIds = guests.length ? [] : hatched.slice(half, half + 3);
+        if (!ids.length || (!foeIds.length && !guests.length)) {
+          this.toast(FRIENDLY_TEXT.none);
+          return;
+        }
+        this.fight({ kind: 'friendly', tier: 1, ids, foeIds, guests });
+      },
+      'btn bs-tier',
+    );
+    this.list.append(codes, go);
   }
 
   private circuit(g: Game): void {
@@ -134,6 +222,11 @@ export class DojoMenu {
   private toggleGentle(): void {
     const g = this.game();
     if (!g) return;
+    // Turning Gentle bouts on the first time plays Play-fight Day (FIGHT-24).
+    if (!g.world.battlePrefs?.gentle) {
+      this.dialog.hide();
+      playPlayDay(g, () => this.open());
+    }
     g.send({ kind: 'battlePrefs', prefs: { gentle: !g.world.battlePrefs?.gentle } });
     // The command lands on the next step; draw the switch as it will be.
     setTimeout(() => this.refresh(), 150);
@@ -149,8 +242,36 @@ export class DojoMenu {
     }
     this.dialog.hide();
     if (context.kind === 'karate' || context.kind === 'encounter') return;
+    // A Circuit Keeper's pre-bout scene (FIGHT-22), then the bout; the post scene on a first win.
+    if (context.kind === 'circuit' && !context.champion && !this.sceneShown) {
+      const had = circuitOf(g.world).ribbons.includes(context.trainer);
+      const go = () => {
+        this.sceneShown = true;
+        this.fight(context);
+        this.sceneShown = false;
+      };
+      if (had || !playBattleScene(`bc-${context.trainer}-pre`, go)) go();
+      return;
+    }
     // The pre-bout sheet (FIGHT-86) picks the party now; Back there returns to this menu.
-    this.screen.start({ ...context, ids: [] }, (s) => (s ? this.refreshLater() : this.open()));
+    // A ladder bout is the picked Nubbin's own; every other bout picks its party on the sheet.
+    const ids =
+      (context.kind === 'dojo' && context.ladder) || context.kind === 'friendly' ? context.ids : [];
+    this.hadRibbon =
+      context.kind === 'circuit' && circuitOf(g.world).ribbons.includes(context.trainer);
+    this.screen.start({ ...context, ids }, (s) => {
+      if (!s) return this.open();
+      const c = s.context;
+      const first =
+        c.kind === 'circuit' && !c.champion && s.result?.winner === 0 && !this.hadRibbon;
+      if (
+        first &&
+        c.kind === 'circuit' &&
+        playBattleScene(`bc-${c.trainer}-post`, () => this.open())
+      )
+        return;
+      this.refreshLater();
+    });
   }
 
   private refreshLater(): void {

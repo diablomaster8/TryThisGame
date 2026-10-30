@@ -16,7 +16,7 @@ _This is a very old story, from a land called Iceland._
 > _(Point to the sea on the page.) What is all around an island?_  
 > - ✅ Water → Yes! An island has water all the way around it.
 > - Sand → Some islands have sand. But water goes all the way around.
-> - A fence → No fence. The sea is what goes all the way around.
+> - A fence → A fence around it? Creak! The sea is what goes all the way around.
 > _For grown-ups: Learned that Iceland is an island, with sea all around it._
 
 _A man named Snorri wrote it down, long, long ago._  
@@ -267,7 +267,7 @@ _By dawn the gods have a plan._
 > _Let’s tell it in order. First, Baldr told his dream._  
 > _Next, the gods made a plan. What will they do last, tomorrow?_  
 > - ✅ Walk and ask the whole world → Yes! First the dream, next the plan, last the walk.
-> - Go to sleep for a year → No, they have work to do. Last comes the walk.
+> - Go to sleep for a year → Sleep for a year? Snore! They have work to do. Last comes the walk.
 > - Have a big party → Not a party. Last comes the walk, to ask the world.
 > _For grown-ups: Put the story in order: first, next, last._
 
@@ -867,7 +867,7 @@ _A woman stands at the bridge. Her name is Módgudr._
 > _The bridge rings like a bell. Hum with me, and touch your throat._  
 > _What do you feel?_  
 > - ✅ A little buzzing → Yes! Sound is a tiny shaking, called a vibration.
-> - Nothing at all → Try again. Hum, and touch your throat. It buzzes. That is a vibration.
+> - Nothing at all → A silent throat? Hum and touch it. Buzz! That is a vibration.
 > _For grown-ups: Felt a vibration in their throat while humming._
 
 **Módgudr**: It rings louder under you, because you are alive.  

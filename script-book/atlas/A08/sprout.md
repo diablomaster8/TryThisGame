@@ -15,7 +15,7 @@ _But one little dot is green. It sits by the sea._
 > **Lesson** (social-studies, D2.Geo.2.K-2, ask): a map shows where places are  
 > _(Point.) Where is the village? In the red, or the green dot?_  
 > - ✅ In the green dot → Yes! The village is the little green dot by the sea.
-> - In the red → Not quite: red is the Romans. The village is the green dot.
+> - In the red → The village in the red? Hello, Romans! The village is the green dot.
 > _For grown-ups: Read a simple map: found the village as the green dot among the red._
 
 _You touch the green dot and whoosh! You are in a wood._  
@@ -281,7 +281,7 @@ _Rules help everyone play fairly. Even long ones._
 > **Lesson** (social-studies, D2.Civ.8.K-2, ask): rules help everyone be fair  
 > _Why do games have rules?_  
 > - ✅ So everyone plays fairly → Yes! Rules help everyone to be fair and safe.
-> - So nobody has fun → Not quite. Good rules help us all have fun together.
+> - So nobody has fun → Rules so nobody has fun? Boo! Good rules help us all have fun together.
 > _For grown-ups: Talked about why rules in a game help everyone to be fair._
 
 
@@ -464,7 +464,7 @@ _Asterix sits down. You turn the sand timer over._
 > **Lesson** (sel, CASEL: Self-awareness, ask): knowing who you are  
 > _Iris said Asterix was a dormouse. Was he?_  
 > - ✅ No. He knows who he is → Right! We know who we are, even when somebody says something silly.
-> - Yes, a dormouse → No, Asterix is a person. He knows who he is, and so do you.
+> - Yes, a dormouse → Asterix a dormouse? Squeak! He is a person, and he knows who he is.
 > _For grown-ups: Talked about knowing who you are, even when someone says something silly._
 
 _Iris looks puzzled. Then he sniffs the cushion._  
@@ -473,7 +473,7 @@ _He thinks he is a boar! He trots out, grunting._
 
 #### `sprout:a08-06-stare-done` · [main](main.md#a08-06-stare-done)
 
-_The last grain of sand falls. Plink!_  
+_The last grain of sand falls. Plop. Plink!_  
 _Inside the tent it is dark. You can hardly see._  
 _The dog barks at the door, where it is light._  
 
