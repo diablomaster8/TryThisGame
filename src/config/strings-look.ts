@@ -217,6 +217,7 @@ export const FLAVOUR = {
     nightcap: 'Ready for bed since breakfast.',
     'halo-band': 'Pure as anything. Mind the mud.',
     horns: 'Purely decorative. Mostly.',
+    'black-belt': 'Earned, not bought. Mentions it anyway.',
   } as Record<string, string>,
 };
 
