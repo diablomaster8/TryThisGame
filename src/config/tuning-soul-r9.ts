@@ -70,6 +70,9 @@ export const TRAIT_TUNING = {
   /** Sleepyhead naps this much longer, and yawns (its quirk). */
   sleepyNap: 1.5,
   yawnMs: 1800,
+  /** R0544: below this energy a sleepyhead may fall asleep standing (per idle choice). */
+  nodOffBelow: 0.25,
+  nodOffChance: 0.35,
   /** Curious: goes to look at anything new in the Grove within this radius and age. */
   curiousRadius: 10,
   curiousNewMs: 10 * 60_000,

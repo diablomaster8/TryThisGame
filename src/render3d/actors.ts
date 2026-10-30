@@ -12,7 +12,7 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
-import { emoteScale } from '../render/emote-size';
+import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
@@ -1245,7 +1245,7 @@ export class Actors {
           a.emote.position.set(ball.x, ball.y, ball.z);
           // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
           const es = emoteScale(
-            this.emoteBig,
+            this.emoteBig || emoteFocused(n.id),
             bubble ? nowMs - (bubble.untilMs - UI.bubbleMs) : null,
             this.calm,
           );

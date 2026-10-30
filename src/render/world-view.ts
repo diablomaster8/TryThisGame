@@ -52,7 +52,7 @@ import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
 import { noticeFace } from './notice';
-import { bigBubbles, emoteScale } from './emote-size';
+import { bigBubbles, emoteFocused, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -2250,7 +2250,7 @@ export class WorldView {
         );
         // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
         const es = emoteScale(
-          this.emoteBig,
+          this.emoteBig || emoteFocused(n.id),
           v.bubble ? nowMs - (v.bubble.untilMs - UI.bubbleMs) : null,
           this.particles.reduceMotion,
         );

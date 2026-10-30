@@ -104,3 +104,14 @@ describe('lane A r9 looks', () => {
     expect(soulPose('peek', 650, 0.6, false).dx).toBeGreaterThan(0);
   });
 });
+
+describe('R0549 selected bubble', () => {
+  it('the Nubbin with its sheet open has the big bubble', async () => {
+    const { emoteFocused, setEmoteFocus } = await import('../../src/render/emote-size');
+    setEmoteFocus('a');
+    expect(emoteFocused('a')).toBe(true);
+    expect(emoteFocused('b')).toBe(false);
+    setEmoteFocus(null);
+    expect(emoteFocused('a')).toBe(false);
+  });
+});

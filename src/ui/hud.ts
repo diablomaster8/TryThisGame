@@ -161,6 +161,7 @@ import { FESTIVAL_GAGS } from '../content/festival-gags';
 import { outerTapOf } from '../config/outer-ring';
 import { CuriosityWatch } from './curiosities';
 import { evolveFlash } from '../render/evolve-reveal';
+import { setEmoteFocus } from '../render/emote-size';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -1069,6 +1070,8 @@ export function mountHud(
       g.cameraLift = 0;
       g.cameraSide = 0;
       g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
+      // R0549 (lane A r9): its mood bubble is drawn big while the sheet is open.
+      setEmoteFocus(g.sheetFocus?.id ?? null);
       hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;

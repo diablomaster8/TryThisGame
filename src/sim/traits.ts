@@ -88,6 +88,10 @@ export function traitAct(n: Nubbin, world: World, now: number): IdleAct | null {
       }
       continue;
     }
+    // R0544: a tired sleepyhead nods off where it stands (wobbles, then sleeps sitting up).
+    if (t === 'sleepyhead' && n.needs.energy < T.nodOffBelow)
+      if (roll(n, 'nod-off', now) < T.nodOffChance * lively)
+        return { state: 'nap', ms: T.yawnMs * 10, itemId: 'nodOff' };
     if (t === 'nightOwl') {
       // Up at night, so it dozes off by day now and then.
       if ((world.phase ?? 'day') === 'day' && n.needs.energy < 1)

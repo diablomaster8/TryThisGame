@@ -4,7 +4,14 @@ import { eat } from '../../src/sim/behavior';
 import { evolve, hatch } from '../../src/sim/lifecycle';
 import { interact } from '../../src/sim/keeper';
 import { idleMultipliers } from '../../src/sim/personality';
-import { hasTrait, seedTrait, traitsOf, withTraitMult } from '../../src/sim/traits';
+import {
+  anticScale,
+  hasTrait,
+  seedTrait,
+  traitAct,
+  traitsOf,
+  withTraitMult,
+} from '../../src/sim/traits';
 import { createWorld, stepWorld } from '../../src/sim/world';
 import type { Nubbin, SimEvent, World } from '../../src/sim/types';
 
@@ -204,5 +211,31 @@ describe('R0546 glutton', () => {
     for (let t = 0; t < 100; t++) stepWorld(w, 100);
     // Either power was its favourite (eaten at once), or it waited till below the line.
     expect(fav || w.items.length === 0).toBe(true);
+  });
+});
+
+describe('R0544 trait antics', () => {
+  it('a tired sleepyhead falls asleep standing; a rested one only yawns', () => {
+    const w = createWorld(4, 0);
+    const n = adult(w, 'z', seedFor('sleepyhead'), 0);
+    w.nubbins = [n];
+    const count = (energy: number) => {
+      let nod = 0;
+      for (let s = 0; s < 200; s++) {
+        n.needs.energy = energy;
+        const a = traitAct(n, w, s * 1000);
+        if (a?.itemId === 'nodOff') nod++;
+      }
+      return nod;
+    };
+    expect(count(0.2)).toBeGreaterThan(20);
+    expect(count(0.9)).toBe(0);
+  });
+
+  it('clumsy trips three times as often; sneezy sneezes three times as often', () => {
+    const w = createWorld(4, 0);
+    expect(anticScale(adult(w, 'c', seedFor('clumsy'), 0), 'trip')).toBe(3);
+    expect(anticScale(adult(w, 's', seedFor('sneezy'), 0), 'sneeze')).toBe(3);
+    expect(anticScale(adult(w, 'o', seedFor('curious'), 0), 'trip')).toBe(1);
   });
 });
