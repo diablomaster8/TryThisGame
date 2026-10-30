@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { Group, type Mesh } from 'three';
+import { Dresser } from '../../src/render3d/dress';
+import type { Rigged } from '../../src/samples/species';
 import { childLean, leanStep } from '../../src/render/sprites/child-hint';
 import { SheetCache } from '../../src/render/sprites/sheets';
 import { speciesArt } from '../../src/render/sprites/species-art';
@@ -83,5 +86,41 @@ describe('LOOK-50 held reactions', () => {
     const n = held(80);
     n.behavior.state = 'wander';
     expect(heldEmote(n)).toBeNull();
+  });
+});
+
+describe('LOOK-54 rebirth stars', () => {
+  const rig = (key: string): Rigged => {
+    const group = new Group();
+    group.userData.lookKey = key;
+    return { group, bones: { head: new Group(), hips: new Group() } } as unknown as Rigged;
+  };
+  const meshCount = (g: Group) => {
+    let k = 0;
+    g.traverse((o) => {
+      if ((o as Mesh).isMesh) k++;
+    });
+    return k;
+  };
+
+  it('a twice-reborn Nubbin wears two stars in 3D, a ring past three', () => {
+    const d = new Dresser();
+    const r = rig('variant:child');
+    const n = child(0);
+    n.rebirths = 2;
+    d.update(r, n);
+    expect(meshCount(r.bones.head as Group)).toBe(4);
+    d.update(r, { ...n, rebirths: 5 });
+    expect(meshCount(r.bones.head as Group)).toBe(1);
+    d.update(r, { ...n, rebirths: 0 });
+    expect(meshCount(r.bones.head as Group)).toBe(0);
+    d.dispose();
+  });
+
+  it('keys the pixel sheet by rebirths (capped at 4)', () => {
+    const n = child(0);
+    const k = (r: number) => SheetCache.nubbinKey({ ...n, rebirths: r });
+    expect(k(2)).not.toBe(k(1));
+    expect(k(4)).toBe(k(9));
   });
 });

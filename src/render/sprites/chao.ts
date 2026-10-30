@@ -681,6 +681,8 @@ export function swimPose(style: 'paddle' | 'crawl', frame: number): ChaoPose {
 
 export interface ChaoLook {
   colors: ChaoColors;
+  /** LOOK-54: rebirths, drawn as brow stars (1-3) or a ring (4+); unset draws none. */
+  stars?: number;
   shape: ChaoShape;
   parts: NubbinParts;
   /** Each filled part slot's size step by its stat (LOOK-36); absent draws at step size 1. */
@@ -1765,6 +1767,32 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
     pc.px(L.headCx + 4, L.headCy - 4, C.white);
     pc.px(L.headCx + 3, L.headCy - 3, C.white);
     pc.px(L.bodyCx - 3, L.bodyCy - 2, C.white);
+  }
+
+  // LOOK-54: a gold star on the brow for each rebirth, three at most, a gold ring past that.
+  const stars = look.stars ?? 0;
+  if (stars > 0 && angle !== 'back' && angle !== 'backQuarter') {
+    const sx = L.headCx + (angle === 'side' ? 2 : angle === 'frontQuarter' ? 1 : 0);
+    const sy = L.headCy - L.headRy + 2.5;
+    if (stars > 3) {
+      for (let a = 0; a < 8; a++)
+        pc.dot(
+          sx + Math.cos((a * Math.PI) / 4) * 1.2,
+          sy + Math.sin((a * Math.PI) / 4),
+          C.sunYellow,
+        );
+    } else
+      for (let i = 0; i < stars; i++) {
+        const x = sx + (i - (stars - 1) / 2) * 2.5;
+        for (const [dx, dy] of [
+          [0, 0],
+          [-0.5, 0],
+          [0.5, 0],
+          [0, -0.5],
+          [0, 0.5],
+        ] as const)
+          pc.dot(x + dx, sy + dy, dx || dy ? C.sunYellow : C.sunLight);
+      }
   }
 
   drawHeadTells(pc, angle, L, col, look.shape);

@@ -278,6 +278,8 @@ interface Anchors {
   /** The belly's centre in hip-bone space, and its width over the base Nubbin's head. */
   waist: Vector3;
   waistS: number;
+  /** LOOK-54: high on the front of the dome, under the crown, in head-bone space. */
+  brow: Vector3;
 }
 
 function anchorsFor(key: string): Anchors {
@@ -302,6 +304,7 @@ function anchorsFor(key: string): Anchors {
     neckR: d.rx * 0.56,
     waist: new Vector3(b.c.x, b.c.y - spec.hipY, b.c.z),
     waistS: b.rx / 0.74,
+    brow: new Vector3(d.c.x - P.x, d.c.y + d.ry * 0.72 - P.y, d.c.z + d.rz * 0.71 - P.z),
   };
 }
 
@@ -311,6 +314,8 @@ interface Worn {
   dye: DyeColor | null;
   scarf: DyeColor | null;
   glasses: boolean;
+  /** LOOK-54: rebirth stars shown (0-3), or 4 for the ring. */
+  stars: number;
   groups: Group[];
 }
 
@@ -333,11 +338,20 @@ export class Dresser {
     const dye = hat ? (n.hatDye ?? null) : null;
     const scarf = dressable ? (n.scarf ?? null) : null;
     const glasses = dressable && !!n.glasses;
+    const stars = dressable ? Math.min(4, n.rebirths) : 0;
     const w = ud.dress;
-    if (w && w.hat === hat && w.dye === dye && w.scarf === scarf && w.glasses === glasses) return;
-    if (!w && !hat && !scarf && !glasses) return;
+    if (
+      w &&
+      w.hat === hat &&
+      w.dye === dye &&
+      w.scarf === scarf &&
+      w.glasses === glasses &&
+      w.stars === stars
+    )
+      return;
+    if (!w && !hat && !scarf && !glasses && !stars) return;
     this.strip(rig);
-    if (!hat && !scarf && !glasses) return;
+    if (!hat && !scarf && !glasses && !stars) return;
     const head = rig.bones.head;
     const hips = rig.bones.hips;
     if (!head || !hips) return;
@@ -406,7 +420,28 @@ export class Dresser {
       head.add(g);
       groups.push(g);
     }
-    ud.dress = { hat, dye, scarf, glasses, groups };
+    if (stars) {
+      // LOOK-54: a little gold star on the brow per rebirth, three at most; a ring past that.
+      const gold = C.sunYellow;
+      const pieces: Piece[] = [];
+      if (stars > 3) pieces.push(p('torus', gold, [0, 0, 0], [0.09, 0.09, 0.05]));
+      else
+        for (let i = 0; i < stars; i++) {
+          const x = (i - (stars - 1) / 2) * 0.17;
+          pieces.push(
+            p('box', gold, [x, 0, 0], [0.035, 0.13, 0.03]),
+            p('box', gold, [x, 0, 0], [0.13, 0.035, 0.03]),
+          );
+        }
+      const g = this.build(pieces, (c) => c);
+      g.position.copy(at.brow);
+      g.scale.setScalar(at.s);
+      // Tipped back to lie on the dome's slope.
+      g.rotation.x = -0.75;
+      head.add(g);
+      groups.push(g);
+    }
+    ud.dress = { hat, dye, scarf, glasses, stars, groups };
   }
 
   /** Take everything off a rig before it goes back to the pool. */
