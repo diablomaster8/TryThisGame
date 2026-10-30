@@ -899,6 +899,8 @@ export interface World {
   seenBy?: Record<string, string>;
   /** Lane E, R0411: book tabs completed, each rewarded once. */
   bookTabs?: string[];
+  /** Lane E, R0332: the curiosities (easter eggs) found, by id, with the sim time first found. */
+  curiosities?: Record<string, number>;
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
@@ -987,6 +989,8 @@ export interface World {
 // ---------- commands (input → sim) ----------
 
 export type Command =
+  // Lane E (R0332): the UI spotted a curiosity; the sim logs it once.
+  | { kind: 'curiosity'; id: string }
   // Lane C: the battle core (sim/battle/index.ts).
   | { kind: 'battleStart'; context: BattleContext }
   | { kind: 'battleAct'; action: BattleAction }
@@ -1186,6 +1190,8 @@ export type Command =
 // ---------- events (sim → render/ui) ----------
 
 export type SimEvent =
+  // Lane E (R0332): a curiosity found for the first time (sim/curiosities.ts).
+  | { kind: 'curiosityFound'; id: string }
   // Lane C: the battle core (sim/battle/rewards.ts).
   | { kind: 'battleStart'; context: BattleContext['kind'] }
   // Lane C: the grid-tactics rumble (sim/battle/tactics/slice.ts).

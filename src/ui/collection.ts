@@ -8,7 +8,8 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
-import { FLAVOUR, fieldNote } from '../config/strings-look';
+import { CURIOSITY_UI, FLAVOUR, fieldNote } from '../config/strings-look';
+import { CURIOSITY_IDS, curiositiesFound } from '../sim/curiosities';
 import { BOOK_TEXT } from '../config/strings-look';
 import { cosmeticLabel } from '../config/cosmetics';
 import { canConvert } from '../sim/scans';
@@ -231,6 +232,9 @@ export class CollectionBook {
     const keys = allKeys();
     const seen = keys.filter((k) => world.seen[k] !== undefined).length;
     this.summary.textContent = UI_TEXT.collectionHelp(seen, keys.length);
+    // FUN-43: the hidden Curiosities line, once the first one is found.
+    const odd = curiositiesFound(world);
+    if (odd) this.summary.textContent += ` · ${CURIOSITY_UI.found(odd, CURIOSITY_IDS.length)}`;
     this.tabs.innerHTML = '';
     for (const tab of BOOK_TABS) {
       const p = tabProgress(world, tab);

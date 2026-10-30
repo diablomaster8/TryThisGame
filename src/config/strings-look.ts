@@ -278,3 +278,28 @@ export const PHOTO_TEXT = {
     '{n}, who has seen a bird',
   ],
 };
+
+/**
+ * FUN-43 (R0332): what a found curiosity says, once, and the book's count. Nubbins never
+ * speak here; Sparks's two words are hers.
+ */
+export const CURIOSITY_TEXT: Record<string, string> = {
+  liftAndPush: 'Somewhere, a gate creaks open. It sounds pleased with itself.',
+  gerald: 'Gerald lifts things very slightly better. Gerald grunts about it.',
+  mossName: 'Somewhere in the Grove, Moss raises one eyebrow. Just the one.',
+  cup: 'The cup rights itself. It was only waiting for someone to bother.',
+  lantern: 'A puff of cold from the fourth lantern. Sparks: "Told you."',
+  dizzyCam: 'Round and round. A Nubbin sits down very suddenly.',
+  moonFace: 'The moon has a face tonight, for exactly one minute. It winks.',
+  squirrel: 'A squirrel throws a fruit back at you. Fair.',
+  fernBlush: 'Fern’s stone goes faintly pink. Stones can be shy.',
+  robotDance: 'The little robot does the robot. Of course it does.',
+  stopwatch: 'Byte’s twelfth stopwatch. Nobody knows where the other eleven went.',
+  scarf: 'Clover’s scarf is now longer than Clover.',
+  fruitRoll: 'Five fruit in ten seconds. Walking is off the table. Rolling is on.',
+  backToBack: 'Sun and Moon, back to back. Somebody should paint this.',
+  eggUpside: 'The egg is upside down. The egg disapproves.',
+};
+export const CURIOSITY_UI = {
+  found: (n: number, of: number) => `Curiosities found: ${n} of ${of}`,
+};

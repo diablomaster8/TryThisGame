@@ -126,6 +126,7 @@ import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
+import { CuriosityWatch } from './curiosities';
 
 /** MOVE-35: when the last "Can't get there" toast showed (performance clock). */
 let lastUnreachableToast = -Infinity;
@@ -390,6 +391,8 @@ export function mountHud(
   toasts.setAttribute('aria-live', 'polite');
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
   const toast = bandToaster(makeToaster(toasts), game);
+  // Lane E (R0332): the curiosities the player stumbles on.
+  const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
 
   // Catch-up overlay.
   const catching = el('div', 'catching', UI_TEXT.catchingUp);
@@ -792,6 +795,7 @@ export function mountHud(
   function refreshLoop(): void {
     const g = game();
     if (g) {
+      curiosities.tick(g.world, g.camera.currentYawIndex);
       shells.textContent = `🐚 ${g.world.inventory.shells}`;
       fruit.textContent = `🍎 ${g.world.inventory.fruit}`;
       setActionGlyph(keeperBtn, g.world.keeper.alignment === 'sun' ? '☀' : '☾');
@@ -1037,6 +1041,7 @@ export function mountHud(
       const g = game();
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
+      curiosities.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);

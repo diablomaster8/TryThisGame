@@ -145,6 +145,7 @@ import {
   type Vec2,
   type World,
 } from './types';
+import { findCuriosity } from './curiosities';
 
 export function defaultSettings(): Settings {
   return {
@@ -540,6 +541,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     }
     case 'confirmRift':
       confirmRift(world.settings);
+      return;
+    // Lane E (R0332): a curiosity the UI spotted, logged once.
+    case 'curiosity':
+      findCuriosity(world, cmd.id, events);
       return;
     case 'rename': {
       const n = findNubbin(world, cmd.nubbinId);
