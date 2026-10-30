@@ -1013,6 +1013,9 @@ export class Grove3dScene {
     // And a shallower one: the sun sits 60 u out (`sky.ts`), so casters far beyond the Keeper
     // only throw shadows farther still, outside the box.
     sc.far = WORLD_LOD.shadowFar[this.tier];
+    // Casters more than 60 - near units up-sun of the Keeper (a low sun reaches far) only matter
+    // for the longest evening shadows; a phone leaves them out.
+    sc.near = WORLD_LOD.shadowNear[this.tier];
     sc.updateProjectionMatrix();
   }
 
@@ -1666,7 +1669,10 @@ export class Grove3dScene {
         ? WORLD_SURVEY.impostorPerFrame
         : this.tier === 'desktop'
           ? WORLD_LOD.creature.impostor.perFrame
-          : WORLD_LOD.creature.impostor.perFramePhone;
+          : // Round 5: a phone redraws a far cell every other frame (far poses at 1.9 fps).
+            this.geoFrames % 2 === 0
+            ? WORLD_LOD.creature.impostor.perFramePhone
+            : 0;
       imp.render(this.renderer, this.scene, this.camera);
     }
     this.composer.render();

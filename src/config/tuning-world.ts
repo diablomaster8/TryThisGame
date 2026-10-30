@@ -62,6 +62,8 @@ export const WORLD_LOD = {
   shadowHalf: { desktop: 30, phone: 22, slow: 18 },
   /** Round 5: the sun shadow camera's far plane by device tier (the sun stands 60 u out). */
   shadowFar: { desktop: 200, phone: 95, slow: 90 },
+  /** Round 5: and its near plane: casters nearer the sun than this are left out. */
+  shadowNear: { desktop: 1, phone: 25, slow: 30 },
   /** Creatures (`render3d/lod.ts`). */
   creature: {
     /** World units added to a rig's bounding sphere for the longest shadow it throws. */
