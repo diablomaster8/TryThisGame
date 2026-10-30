@@ -85,6 +85,7 @@ import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
 import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
+import { dedupeToaster } from './event-dedupe';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -437,7 +438,9 @@ export function mountHud(
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
   // R0693 (lane E r7): a sprout's notices wait until their activity closes (kid-notice.ts).
   let kidBusy: () => boolean = () => false;
-  const kidNotices = kidToaster(bandToaster(makeToaster(toasts), game), game, () => kidBusy());
+  // TECH-54: while time runs fast, the same toast text shows once in a few seconds.
+  const fastSafe = dedupeToaster(makeToaster(toasts), () => game()?.clock.timeScale ?? 1);
+  const kidNotices = kidToaster(bandToaster(fastSafe, game), game, () => kidBusy());
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);

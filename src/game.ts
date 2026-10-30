@@ -63,6 +63,8 @@ function reduce0(reduce: boolean, dtMs: number, rate: number): number {
 import { STAGE_LINE } from './render/stage-pose';
 import { FrameSpikes } from './platform/frame-spikes';
 import { PixelGovernor } from './render/pixel-gov';
+import { FAST_TIME } from './config/tuning-r8d-perf';
+import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
@@ -120,6 +122,11 @@ export class Game {
   readonly tier: TierReading;
   /** TECH-53: the Pixel renderer's frame governor (null in Full 3D). */
   private pixelGov: PixelGovernor | null = null;
+  /**
+   * TECH-54: whether the last frame's sim steps ran out of their time budget and left some for
+   * later frames (the debug panel shows "×1000 (behind)").
+   */
+  simBehind = false;
   private rafId = 0;
   private running = false;
   /** Per-frame input polls from the UI (the floating joystick), run beside the keyboard's. */
@@ -852,13 +859,23 @@ export class Game {
       (this.scene3d ?? this.view).snapshot(this.world);
       for (const cmd of this.pending.splice(0)) applyCommand(this.world, cmd, events);
       const playCounts = this.clock.timeScale === 1 && !document.hidden;
-      for (let i = 0; i < steps; i++)
+      // TECH-54: above ×10 the steps stop once they have had their share of the frame; the
+      // rest go back to the clock and run as the same fine live steps on later frames.
+      const fast = this.clock.timeScale > FAST_TIME.fromScale;
+      const t0 = fast ? performance.now() : 0;
+      let ran = 0;
+      while (ran < steps) {
         events.push(...stepWorld(this.world, SIM.stepMs, wall, false, playCounts));
+        ran++;
+        if (fast && ran >= FAST_TIME.minSteps && performance.now() - t0 > FAST_TIME.budgetMs) break;
+      }
+      this.clock.giveBack(steps - ran);
+      this.simBehind = ran < steps;
       // Far behind (very high time scale, slow device): live play keeps the live rules, so
       // the backlog runs as fine steps on later frames and only what is past
       // `maxLiveBacklogMs` is dropped (review C, item 14). Offline rules are for absences.
       this.clock.capBacklog(SIM.maxLiveBacklogMs);
-      this.spikes.noteSteps(steps);
+      this.spikes.noteSteps(ran);
     }
     // The Keeper's own fine clock (MOVE-15): it moves at 60 Hz between the 10 Hz sim steps,
     // so a key or a jump shows on the next frame. Never during catch-up or a time skip.
@@ -884,7 +901,10 @@ export class Game {
     if (events.length > 0) {
       if (this.scene3d) this.scene3d.onEvents(events);
       else this.view.onEvents(events, nowMs);
-      this.hooks.onEvents(events);
+      // TECH-54: at high speed the HUD hears each kind of thing once per subject per frame.
+      this.hooks.onEvents(
+        this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
+      );
       for (const e of events) {
         // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
         const shake = this.world.settings.screenShake && !this.reduceMotion;

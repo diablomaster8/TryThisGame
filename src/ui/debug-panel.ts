@@ -2,7 +2,7 @@ import { worldControls, worldLine } from './world-debug';
 import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
 import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
-import { CAMP_TEXT, QUALITY_TEXT } from '../config/strings';
+import { CAMP_TEXT, FAST_TIME_TEXT, QUALITY_TEXT } from '../config/strings';
 import { SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
@@ -277,6 +277,7 @@ export class DebugPanel {
   }
 
   refresh(): void {
+    this.syncSpeed();
     if (this.root.hidden) return;
     const g = this.game();
     const id = this.selected();
@@ -319,8 +320,15 @@ export class DebugPanel {
   }
 
   private syncSpeed(): void {
-    const scale = this.game()?.clock.timeScale ?? 1;
-    this.speedButtons.forEach((b, i) => b.classList.toggle('active', SIM.timeScales[i] === scale));
+    const g = this.game();
+    const scale = g?.clock.timeScale ?? 1;
+    this.speedButtons.forEach((b, i) => {
+      const s = SIM.timeScales[i];
+      b.classList.toggle('active', s === scale);
+      // TECH-54: the active speed says when the steps cannot keep up with it.
+      const text = s === scale && g?.simBehind && s > 1 ? FAST_TIME_TEXT.behind(s) : `×${s}`;
+      if (b.textContent !== text) b.textContent = text;
+    });
   }
 }
 
