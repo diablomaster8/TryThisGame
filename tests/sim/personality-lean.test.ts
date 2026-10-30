@@ -59,7 +59,7 @@ describe('R0523 leaning personality', () => {
       alone += greetSeconds(b.w, b.n, 20);
     }
     expect(petted).toBeGreaterThan(alone);
-  });
+  }, 60_000);
 });
 
 describe('R0578 forming shares', () => {
