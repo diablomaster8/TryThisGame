@@ -51,6 +51,7 @@ import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
 import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { noticeFace } from './notice';
 import { bigBubbles, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
@@ -1957,7 +1958,9 @@ export class WorldView {
         (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
           : 0);
-      const view = viewAngle((hf ?? npose?.face ?? n.facing) + turn, yaw);
+      // R0533 (lane A r9): a resting Nubbin turns to look at the Keeper close by.
+      const look = held ? null : noticeFace(n, world.keeper.pos);
+      const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
       if (held && this.staging?.partner?.id === n.id) {
         const pp = this.staging.partnerPose();
         clip = this.staging.walking.has(n.id)
@@ -2068,6 +2071,7 @@ export class WorldView {
 
     // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
     this.petBeats.calm = this.particles.reduceMotion;
+    this.petBeats.keeper = world.keeper.pos;
     const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
     if (beat?.clip) {
       const angle = key.split(':')[1] ?? 'front';

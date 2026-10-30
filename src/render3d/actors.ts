@@ -1039,6 +1039,7 @@ export class Actors {
         a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
         this.petBeats.calm = this.calm;
+        this.petBeats.keeper = keeper.pos;
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;

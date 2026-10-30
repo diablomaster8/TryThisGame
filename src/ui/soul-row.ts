@@ -12,6 +12,8 @@ import {
   TASTE_NAMES,
   TOY_NAMES_SOUL,
 } from '../config/strings-soul-r8';
+import { TRAIT_LABELS, TRAIT_SHEET } from '../config/strings-soul-r9';
+import { traitsOf } from '../sim/traits';
 import { recently } from '../sim/diary';
 import { likesOf } from '../sim/likes';
 import type { Nubbin, World } from '../sim/types';
@@ -23,7 +25,7 @@ export class SoulRow {
 
   update(n: Nubbin): void {
     const seen = n.tasteSeen ?? {};
-    const key = `${n.id}:${n.stage}:${seen.yum}:${seen.bleh}:${seen.toy}:${n.moody}`;
+    const key = `${n.id}:${n.stage}:${seen.yum}:${seen.bleh}:${seen.toy}:${n.moody}:${n.earnedTrait}`;
     if (key === this.shown) return;
     this.shown = key;
     this.root.innerHTML = '';
@@ -42,6 +44,19 @@ export class SoulRow {
       chip('✗', SOUL_SHEET.dislikes, seen.bleh ? TASTE_NAMES[l.dislike] : null),
     );
     if (seen.toy) this.root.append(chip('★', SOUL_SHEET.toy, TOY_NAMES_SOUL[l.toy]));
+    // R0528 (lane A r9): its traits, each an icon, a word and a blurb; the earned one marked.
+    for (const t of traitsOf(n)) {
+      const lab = TRAIT_LABELS[t];
+      const c = el('span', 'soul-chip trait');
+      const earned = t === n.earnedTrait;
+      c.append(
+        el('span', 'soul-icon', lab.icon),
+        el('strong', undefined, lab.word),
+        el('small', 'soul-help', earned ? `${lab.blurb} (${TRAIT_SHEET.earned})` : lab.blurb),
+      );
+      c.setAttribute('aria-label', `${TRAIT_SHEET.title}: ${lab.word}. ${lab.blurb}`);
+      this.root.append(c);
+    }
     if (n.moody) {
       const m = el('span', 'soul-chip moody');
       m.append(

@@ -17,6 +17,7 @@ import { liveliness } from './antics';
 import { addHappiness } from './needs';
 import { leaningPersonality } from './personality';
 import type { Rng } from './rng';
+import { hasTrait, phaseTraitScale, traitNapScale } from './traits';
 import type { BehaviorState, Nubbin, SimEvent, Vec2, World } from './types';
 
 export type DayPhase = 'dawn' | 'day' | 'dusk' | 'night';
@@ -46,7 +47,8 @@ export function moodyGreet(n: Nubbin): number {
 
 /** R0532: how much longer a nap runs for this Nubbin. */
 export function napScale(n: Nubbin): number {
-  return n.moody === 'sleepy' ? MOODY.sleepyNap : 1;
+  // R0528 (lane A r9): a sleepyhead's naps run longer too.
+  return (n.moody === 'sleepy' ? MOODY.sleepyNap : 1) * traitNapScale(n);
 }
 
 /** R0532: a moody Nubbin's own idle acts, or null. */
@@ -94,7 +96,8 @@ export function phaseAct(n: Nubbin, world: World, rng: Rng): IdleAct | null {
   const phase = world.phase ?? 'day';
   if (phase === 'day' || n.stage === 'egg') return null;
   const p = n.personality ?? leaningPersonality(n);
-  const scale = (p ? PHASE_QUIRKS.by[p][phase] : 1) * liveliness(world);
+  // R0528 (lane A r9): a night owl stargazes more, an early bird stretches more.
+  const scale = (p ? PHASE_QUIRKS.by[p][phase] : 1) * liveliness(world) * phaseTraitScale(n, phase);
   const q = PHASE_QUIRKS;
   if (phase === 'dawn') {
     if (!rng.chance(q.dawnStretch * scale)) return null;
@@ -139,7 +142,8 @@ export function rainAct(
 ): IdleAct | null {
   const p = n.personality ?? leaningPersonality(n);
   const k = world.keeper.pos;
-  if (rng.chance(p ? RAIN_SOUL.play[p] : 0.3)) {
+  // R0528 (lane A r9): a brave one never shelters; it plays.
+  if (hasTrait(n, 'brave') || rng.chance(p ? RAIN_SOUL.play[p] : 0.3)) {
     const game = p === 'mischievous' ? 'raindrop' : 'stomp';
     if (game === 'stomp') addHappiness(n, RAIN_SOUL.stompHappiness);
     return {

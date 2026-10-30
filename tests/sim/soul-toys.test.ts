@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { evolve, hatch } from '../../src/sim/lifecycle';
 import { likesOf } from '../../src/sim/likes';
 import { favouredToy } from '../../src/sim/toy-soul';
+import { seedTrait } from '../../src/sim/traits';
 import { createWorld, stepWorld } from '../../src/sim/world';
 import type { Personality, ToyKind, World } from '../../src/sim/types';
 
@@ -24,6 +25,9 @@ function run(p: Personality): { play: number; fav: number } {
   const w = createWorld(77, 0);
   const n = w.nubbins[0]!;
   w.nubbins = [n];
+  // R0528: a seed whose trait leaves the idle odds alone (clumsy only trips), so the
+  // shares measured are the personality's.
+  while (seedTrait(n) !== 'clumsy') n.seed++;
   hatch(n, [], 0);
   evolve(n, [], w);
   n.personality = p;

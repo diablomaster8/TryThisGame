@@ -3884,3 +3884,13 @@ body.edu-sprout .modal-head .btn-close {
 .roster-personality.forming {
   opacity: 0.7;
 }
+
+/* Lane A r9 (SOUL): trait chips on the stats sheet (R0528), each an icon, a word and a blurb. */
+.soul-chip.trait {
+  flex: 1 1 45%;
+  flex-wrap: wrap;
+  min-width: 140px;
+  padding: 2px 6px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+}

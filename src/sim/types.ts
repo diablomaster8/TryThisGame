@@ -263,6 +263,21 @@ export interface Nubbin {
   /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
   missing?: string[];
   diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
+  // Lane A r9 (SOUL), optional with defaults, no save bump:
+  /** R0528: the trait earned by care before evolution (the first comes from the seed). */
+  earnedTrait?: import('../config/tuning-soul-r9').TraitId;
+  /** R0528: counts toward the earned trait; cleared once one is earned. */
+  traitCare?: Partial<
+    Record<keyof typeof import('../config/tuning-soul-r9').TRAIT_TUNING.earn, number>
+  >;
+  /** R0546: a full belly (waddle, then a burp and a nap) until this sim time. */
+  fullUntilMs?: number;
+  /** R0546: when it ate its recent fruits, for the full belly (last few only). */
+  recentMeals?: number[];
+  /** R0543: no hide and seek again before this sim time. */
+  peekAfterMs?: number;
+  /** R0533: when the Keeper was last within notice range, for the first-approach wave. */
+  keeperSeenMs?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -1462,6 +1477,10 @@ export type SimEvent =
   | { kind: 'reunion'; a: string; b: string }
   /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
   | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
+  /** Lane A r9: a trait earned (R0528); a shy one found behind its tree (R0543); a burp (R0546). */
+  | { kind: 'traitEarned'; nubbinId: string; trait: import('../config/tuning-soul-r9').TraitId }
+  | { kind: 'peekFound'; nubbinId: string }
+  | { kind: 'burp'; nubbinId: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
