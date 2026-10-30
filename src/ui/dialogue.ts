@@ -479,7 +479,8 @@ export class Dialogue {
     let typed = 0;
     // R0303: the line's stage directions: a held beat, a sound cue and a screen nudge.
     if (line.beat) holdUntil = performance.now() + line.beat;
-    if (line.shake && !g.reduceMotion) nudgeScreen(line.shake);
+    // R0365: the screen-shake switch covers the story's nudges too.
+    if (line.shake && !g.reduceMotion && g.world.settings.screenShake) nudgeScreen(line.shake);
     this.typing = window.setInterval(
       () => {
         const now = performance.now();

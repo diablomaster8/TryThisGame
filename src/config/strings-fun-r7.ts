@@ -198,3 +198,10 @@ export const SHEET_CAPTIONS: Record<string, string> = {
   child: 'Small, round, and mostly appetite.',
   adult: 'Grown up, technically.',
 };
+
+/** R0365 (FUN-76): the Slapstick setting. */
+export const SLAPSTICK_TEXT = {
+  label: 'Slapstick',
+  levels: { full: 'Full', gentle: 'Gentle (fewer bonks)', off: 'Off' },
+  help: 'How often a Nubbin, watching a butterfly, walks into a tree. Screen shake also covers the story’s screen nudges.',
+} as const;

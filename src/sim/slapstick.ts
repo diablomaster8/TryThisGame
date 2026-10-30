@@ -34,7 +34,10 @@ export function stepWanderGag(n: Nubbin, world: World, now: number, events: SimE
   if (toddles.has(n)) return false;
   if (!m || m.since !== b.sinceMs) {
     const roll = (hashSeed(`${n.id}:${b.sinceMs}`) >>> 0) % 1000;
-    m = { since: b.sinceMs, distracted: roll < SLAPSTICK.perMille };
+    // R0365: the Slapstick setting halves the distracted bonks, or stops them.
+    const s = world.settings.slapstick;
+    const per = s === 'off' ? 0 : s === 'gentle' ? SLAPSTICK.perMille / 2 : SLAPSTICK.perMille;
+    m = { since: b.sinceMs, distracted: roll < per };
     memos.set(n, m);
     if (m.distracted) {
       // Eyes on the butterfly, feet toward the nearest trunk it would usually walk under.

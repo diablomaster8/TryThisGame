@@ -355,6 +355,8 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
+  slapstick?: 'full' | 'gentle' | 'off';
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';

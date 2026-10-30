@@ -1,4 +1,5 @@
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
+import { SLAPSTICK_TEXT } from '../config/strings-fun-r7';
 import { MICRO_SKIP_TEXT } from '../config/strings-fun-r6';
 import { microSkipped } from '../sim/micro';
 import { SLOT_TEXT, TRAINER_LABELS, UI_TEXT } from '../config/strings';
@@ -59,6 +60,8 @@ export class SettingsMenu {
   private readonly blips: HTMLInputElement;
   /** R0294: skip the quest micro-games. */
   private readonly microSkip: HTMLInputElement;
+  /** R0365: full, gentle or no slapstick. */
+  private readonly slapstick: HTMLSelectElement;
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
@@ -306,6 +309,9 @@ export class SettingsMenu {
     bText.append(el('strong', undefined, BLIP_TEXT.label), el('small', undefined, BLIP_TEXT.help));
     blipRow.append(this.blips, bText);
     body.appendChild(blipRow);
+    // R0365: the Slapstick setting.
+    this.slapstick = select(SLAPSTICK_TEXT.label, SLAPSTICK_TEXT.levels);
+    body.appendChild(el('div', 'help', SLAPSTICK_TEXT.help));
     // R0294 (FUN-05): Do it skips the quest micro-games (on by default for Little Sprouts).
     const microRow = el('label', 'check-row');
     this.microSkip = el('input');
@@ -430,6 +436,7 @@ export class SettingsMenu {
     this.camFollow.checked = !!g.world.settings.cameraFollowsWalk;
     this.leftHand.checked = !!g.world.settings.leftHanded;
     this.blips.checked = g.world.settings.voiceBlips !== false;
+    this.slapstick.value = g.world.settings.slapstick ?? 'full';
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
@@ -575,6 +582,8 @@ export class SettingsMenu {
       settings.leftHanded = this.leftHand.checked;
     if (this.blips.checked !== (g.world.settings.voiceBlips !== false))
       settings.voiceBlips = this.blips.checked;
+    if (this.slapstick.value !== (g.world.settings.slapstick ?? 'full'))
+      settings.slapstick = this.slapstick.value as NonNullable<Settings['slapstick']>;
     if (this.microSkip.checked !== microSkipped(g.world))
       settings.microSkip = this.microSkip.checked;
     // Lane C round 5: stored only once chosen, so an untouched save keeps no new fields.
