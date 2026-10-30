@@ -372,7 +372,16 @@ export function startEncounter(
   events: SimEvent[],
 ): void {
   const run = world.dungeon!;
-  run.encounter = { packId: pack.id };
+  // R0196: remember where everyone stood, so a win or a flight puts them back.
+  const party: Record<string, Vec2> = {};
+  for (const id of run.party) {
+    const n = world.nubbins.find((x) => x.id === id);
+    if (n) party[id] = { x: n.pos.x, z: n.pos.z };
+  }
+  run.encounter = {
+    packId: pack.id,
+    at: { keeper: { x: world.keeper.pos.x, z: world.keeper.pos.z }, party },
+  };
   world.keeper.moveTarget = null;
   world.keeper.intent = null;
   pack.target = null;
@@ -396,7 +405,17 @@ export function finishEncounter(
   const run = world.dungeon;
   if (!run?.encounter) return;
   const packId = run.encounter.packId;
+  const at = run.encounter.at;
   delete run.encounter;
+  // R0196: back where everyone stood (a loss sends them to the stairs below instead).
+  if (at && outcome !== 'lost') {
+    world.keeper.pos = { ...at.keeper };
+    for (const id of run.party) {
+      const n = world.nubbins.find((x) => x.id === id);
+      const p = at.party[id];
+      if (n && p) n.pos = { ...p };
+    }
+  }
   const pack = run.packs?.find((p) => p.id === packId);
   const spec = f.packs?.find((p) => p.id === packId);
   if (!pack || !spec) return;
@@ -413,6 +432,8 @@ export function finishEncounter(
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    // R0196: the next pack gives the Keeper a breath before it notices.
+    run.graceUntilMs = Math.max(run.graceUntilMs ?? 0, world.timeMs + R7.afterFightMs);
     // R0163: the pack's drop table, seeded by the run, the level and the pack.
     const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
     rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);

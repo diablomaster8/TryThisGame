@@ -223,7 +223,8 @@ export class DungeonMenu {
   /** Called every frame by the HUD: the underground bar follows the run. */
   refresh(world: World): void {
     const run = world.location === 'dungeon' ? world.dungeon : null;
-    this.bar.hidden = !run;
+    // R0196: no Hollow bar over a fight.
+    this.bar.hidden = !run || !!run.encounter || !!run.strayBout || !!world.tactics;
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     this.buffs.refresh(run);

@@ -668,7 +668,12 @@ export interface DungeonRun {
    * A fight in progress; `bout` is `world.battleRuns` once the battle core took it on, so an
    * old bout with the same key is never mistaken for this one.
    */
-  encounter?: { packId: string; bout?: number };
+  encounter?: {
+    packId: string;
+    bout?: number;
+    /** R0196: where the Keeper and the party stood when it began, to put them back after. */
+    at?: { keeper: Vec2; party: Record<string, Vec2> };
+  };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */

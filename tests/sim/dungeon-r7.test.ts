@@ -223,3 +223,43 @@ describe('tactics boards from the floor (R0195)', () => {
     }
   }, 60_000);
 });
+
+describe('fights in place (R0196)', () => {
+  it('puts the Keeper and party back exactly where they stood, then gives a breath', () => {
+    const world = underground();
+    const run = world.dungeon!;
+    const f = runFloor(world)!;
+    const spec = f.packs![0]!;
+    const pack = run.packs!.find((p) => p.id === spec.id)!;
+    delete pack.asleep;
+    world.keeper.pos = cellCentre(f, spec.cell);
+    pack.pos = { ...world.keeper.pos };
+    setEncounterHandler(() => null);
+    step(world, 100);
+    expect(run.encounter?.packId).toBe(spec.id);
+    const before = JSON.stringify({
+      k: world.keeper.pos,
+      p: run.party.map((id) => world.nubbins.find((n) => n.id === id)!.pos),
+    });
+    step(world, 1000);
+    // Something nudges them mid-fight (a camera pan, a stray tap): the return restores them.
+    world.keeper.pos.x += 2;
+    applyCommand(world, { kind: 'encounterDone', outcome: 'won' }, []);
+    const after = JSON.stringify({
+      k: world.keeper.pos,
+      p: run.party.map((id) => world.nubbins.find((n) => n.id === id)!.pos),
+    });
+    expect(after).toBe(before);
+    expect(run.encounter).toBeUndefined();
+    // Another pack right beside the Keeper waits out the breath.
+    const other = run.packs!.find((p) => p.id !== spec.id)!;
+    delete other.asleep;
+    other.state = 'idle';
+    const quiet: SimEvent[] = [];
+    for (let t = 0; t < HOLLOW_R7.aggro.afterFightMs - 200; t += SIM.stepMs) {
+      other.pos = { x: world.keeper.pos.x + 2, z: world.keeper.pos.z };
+      quiet.push(...stepWorld(world, SIM.stepMs));
+    }
+    expect(quiet.some((e) => e.kind === 'packNoticed')).toBe(false);
+  });
+});
