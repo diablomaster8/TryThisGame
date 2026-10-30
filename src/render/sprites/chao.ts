@@ -806,7 +806,7 @@ export const CHARACTER_LOOKS: Record<string, { colors: ChaoColors; label: string
 };
 
 /** Hats sit on the crown. Five styles plus the character accessories. */
-function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
+export function drawHat(pc: PixelCanvas, angle: DrawnAngle, L: Layout, hat: string): void {
   const top = L.headCy - L.headRy;
   const cx = L.headCx + (angle === 'side' ? -1 : 0);
   switch (hat) {

@@ -204,21 +204,24 @@ export class SheetCache {
       // Other families use the generic creature drawer; their look is the species.
       const art = family !== 'chao' ? speciesArt(n.species) : undefined;
       if (art) {
-        if (!n.shadow) return buildCreatureSheet(art);
+        if (!n.shadow) return buildCreatureSheet(art, n.hat);
         // Shadow: ash-grey coat and an ember eye, whatever the species.
-        return buildCreatureSheet({
-          ...art,
-          colors: {
-            ...art.colors,
-            body: C.dusk,
-            shade: C.darkPlum,
-            belly: C.lilacGrey,
-            accent: C.plum,
-            accent2: C.violet,
-            eye: C.ember,
-            outline: C.ink,
+        return buildCreatureSheet(
+          {
+            ...art,
+            colors: {
+              ...art.colors,
+              body: C.dusk,
+              shade: C.darkPlum,
+              belly: C.lilacGrey,
+              accent: C.plum,
+              accent2: C.violet,
+              eye: C.ember,
+              outline: C.ink,
+            },
           },
-        });
+          n.hat,
+        );
       }
       const tone = (c: ChaoColors): ChaoColors => (n.shadow ? shadowColors(c, n.bond) : c);
       // A character look replaces the palette and adds its accessory as the hat.

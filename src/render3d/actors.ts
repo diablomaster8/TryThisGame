@@ -40,7 +40,7 @@ import { isMerged } from '../sim/partners';
 import { MergedGlow } from './glow';
 import { memorialFlower, updateMemorials } from './memorial';
 import { Dresser } from './dress';
-import { ItemKit, eggFamily, placeStand, shellKey } from './item-kit';
+import { ItemKit, placeStand, shellKey } from './item-kit';
 import { flaps } from '../sim/stats';
 import { moodOf } from '../sim/needs';
 import { KEEPER_HAND_FROM_ELBOW } from '../samples/keeper-spec';
@@ -1023,7 +1023,7 @@ export class Actors {
               ? this.glanceAt
               : null;
         if (n.behavior.state === 'pet' && near) petted = true;
-        if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
+        this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
         if (n.shadow && !n.bond && n.species === 'chao' && (pose === 'idle' || pose === 'walk'))

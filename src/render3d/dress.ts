@@ -326,8 +326,10 @@ export class Dresser {
   /** Dress (or undress) a rig to match a Nubbin; cheap when nothing changed. */
   update(rig: Rigged, n: Nubbin): void {
     const ud = rig.group.userData as { dress?: Worn; dressAt?: Anchors; lookKey?: string };
-    const dressable = n.species === 'chao' && n.stage !== 'egg' && n.stage !== 'cocoon';
+    const dressable = n.stage !== 'egg' && n.stage !== 'cocoon';
     let hat = dressable ? n.hat : null;
+    // LOOK-61: every line wears the shop hats on its head dome; the character looks are the Chao's.
+    if (hat?.startsWith('look-') && n.species !== 'chao') hat = null;
     // A child with a character look already wears the look's whole figure.
     if (hat?.startsWith('look-') && n.stage !== 'adult') hat = null;
     const item = hat ? (HATS[hat] ?? registryItem(hat)) : null;

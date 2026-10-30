@@ -138,3 +138,23 @@ describe('LOOK-64 Shadow face', () => {
     expect(SheetCache.nubbinKey(n)).not.toBe(wary);
   });
 });
+
+describe('LOOK-61 hats on every line', () => {
+  it('seats a straw hat on Pikachu, Agumon and Snorlax in 3D, never a character look', () => {
+    const d = new Dresser();
+    for (const id of ['zapkin', 'dinolet', 'snoozelump']) {
+      const group = new Group();
+      group.userData.lookKey = `art:${id}`;
+      const r = { group, bones: { head: new Group(), hips: new Group() } } as unknown as Rigged;
+      const n = { ...child(0), species: id, hat: 'straw' };
+      d.update(r, n);
+      const head = r.bones.head as Group;
+      expect(head.children.length, id).toBe(1);
+      // On top of the head dome, not inside it.
+      expect(head.children[0]!.position.y, id).toBeGreaterThan(0);
+      d.update(r, { ...n, hat: 'look-fox' });
+      expect(head.children.length + (r.bones.hips as Group).children.length, id).toBe(0);
+    }
+    d.dispose();
+  });
+});
