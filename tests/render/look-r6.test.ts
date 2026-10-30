@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { gagAt, gagPersonality, GAGS_IN_PLACE } from '../../src/render/gag-play';
 import { CHILD_NEUTRAL, shadowColors } from '../../src/render/sprites/chao';
 import { Group, type Mesh } from 'three';
 import { Dresser } from '../../src/render3d/dress';
@@ -156,5 +157,33 @@ describe('LOOK-61 hats on every line', () => {
       expect(head.children.length + (r.bones.hips as Group).children.length, id).toBe(0);
     }
     d.dispose();
+  });
+});
+
+describe('FUN-04 personality gags', () => {
+  it('plays at least 4 gags in 10 minutes for each personality, in its own set', () => {
+    for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
+      const n = { ...child(0), id: `nub-${p}`, stage: 'adult' as const, personality: p };
+      let plays = 0;
+      let was = false;
+      for (let t = 0; t < 600_000; t += 100) {
+        const g = gagAt(n, t, true);
+        if (g && !was) {
+          plays++;
+          expect(GAGS_IN_PLACE[p]).toContain(g.id);
+        }
+        was = !!g;
+      }
+      expect(plays, p).toBeGreaterThanOrEqual(4);
+      expect(gagAt(n, 1000, false)).toBeNull();
+    }
+  });
+  it('gives a child its leaning at half the rate, wobbly', () => {
+    const c = child(0);
+    c.childCare = { pets: 40, throws: 0, feeds: 0 } as typeof c.childCare;
+    expect(gagPersonality(c)).toBe('cheerful');
+    let g = null;
+    for (let t = 0; t < 400_000 && !g; t += 100) g = gagAt(c, t, true);
+    expect(g?.look.emote).toBe('question');
   });
 });

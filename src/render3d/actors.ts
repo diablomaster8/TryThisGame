@@ -30,6 +30,7 @@ import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
 import { BondGlow } from './bond-glow';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
+import { gagAt } from '../render/gag-play';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -73,6 +74,8 @@ interface Actor {
   flight: { startMs: number; totalMs: number } | null;
   /** The ring spreading on the water around a swimmer. */
   ripple: THREE.Mesh | null;
+  /** FUN-04: the emote of the gag playing this frame, or null. */
+  gagEmote?: EmoteShape | null;
   /** FUN-09: the pet-action beat playing this frame, or null. */
   beat: PetBeatPose | null;
   /** The scale a squash or pop was laid over this frame, put back before the next. */
@@ -982,6 +985,14 @@ export class Actors {
         if (fly) pose = 'flap';
         const sigOn = !!sig && pose === 'idle';
         if (sigOn) pose = sig!.pose3d;
+        // FUN-04: a content idle Nubbin plays its personality's gag (render/gag-play.ts).
+        const mood = moodOf(n);
+        const gag =
+          !sigOn && !held && pose === 'idle'
+            ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
+            : null;
+        if (gag) pose = gag.look.pose3d;
+        a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
         a.rig.glide = fly?.phase === 'glide';
         a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
         if (pose !== a.pose) {
@@ -1093,6 +1104,7 @@ export class Actors {
           : (bubble?.shape ??
             (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
             heldEmote(n, keeper.alignment) ??
+            a.gagEmote ??
             emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =

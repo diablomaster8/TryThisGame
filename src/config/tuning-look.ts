@@ -136,3 +136,12 @@ export const SHADOW_LOOK = {
   rimMin: 0.15,
   rimMax: 0.6,
 };
+
+export const GAG_TIMING = {
+  /** FUN-04: a content adult plays a personality gag every 40–90 s (seeded per Nubbin). */
+  gapMs: [40_000, 90_000] as const,
+  /** How long one gag plays. */
+  playMs: 3200,
+  /** A child plays its leaning's gags at this share of the rate (half). */
+  childRate: 0.5,
+};

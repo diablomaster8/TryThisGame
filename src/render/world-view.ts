@@ -65,6 +65,7 @@ import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT } from '../config/tuning';
 import { heldMood, type HeldMood } from './held-mood';
+import { gagAt } from './gag-play';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -1949,7 +1950,26 @@ export class WorldView {
         key = frameKey(sig.clip, view.angle, sig.frame);
         flip = flip !== sig.flip;
       }
+      // FUN-04: a content idle Nubbin plays its personality's comic gag now and then.
+      const mood = moodOf(n);
+      const gag =
+        !sig && !held && clip === 'idle'
+          ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
+          : null;
+      const gkey = gag ? frameKey(gag.look.clip, view.angle, gag.frame) : '';
+      const gagOn = !!gag && sheet.frames.has(gkey);
+      if (gagOn) key = gkey;
       emote = emoteFor(n);
+      if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
+      if (gagOn && gag.look.burst && gag.frame === 0 && (GAG_BURSTS.get(n.id) ?? 0) < nowMs - 900) {
+        GAG_BURSTS.set(n.id, nowMs);
+        const kind = gag.look.burst === 'notes' ? 'note' : gag.look.burst;
+        this.particles.burst(kind, x, Math.max(0, y) + 1.2, z, 2, {
+          spread: 0.35,
+          rise: 0.7,
+          lifeMs: 700,
+        });
+      }
       // LOOK-50: held, it hugs, dangles or flails by affection, with a heart or a swirl.
       if (clip === 'held') {
         const mood = heldMood(n, world.keeper.alignment);
@@ -2217,6 +2237,9 @@ export function clipFor(n: Nubbin): string {
     }
   }
 }
+
+/** FUN-04: when each Nubbin last threw up its gag's particles (notes, dust, a splash). */
+const GAG_BURSTS = new Map<string, number>();
 
 /** LOOK-50: the baked frames for each way of being held. */
 const HELD_CLIPS: Record<HeldMood, string> = {
