@@ -11,6 +11,7 @@ import { C, color } from '../../render/sprites/palette';
 import { PX } from '../../render/sprites/pixel-canvas';
 import { standing } from '../../sim/battle/damage';
 import { heightAt, mapOf, tileAt } from '../../sim/battle/tactics';
+import { chargeTiles } from '../../sim/battle/tactics/engine';
 import {
   TILE,
   type Cell,
@@ -19,19 +20,13 @@ import {
   type TacticsState,
   type TUnit,
 } from '../../sim/battle/tactics/types';
+import type { Flashes, Overlays, TacticsBoardView } from './board-view';
 
 export const TILE_W = 32;
 export const TILE_H = 16;
 export const LEVEL_H = 8;
 
-export interface Overlays {
-  move?: Cell[];
-  aim?: Cell[];
-  path?: Cell[];
-  target?: Cell | null;
-  cursor?: Cell | null;
-  heights?: boolean;
-}
+export type { Overlays } from './board-view';
 
 const TOP: Partial<Record<number, number>> = {
   [TILE.grass]: C.grass,
@@ -57,7 +52,9 @@ const SIDE: Partial<Record<number, number>> = {
 
 const DIR_IX: Record<Dir, number> = { n: 0, e: 1, s: 2, w: 3 };
 
-export class TacticsPixelView {
+export class TacticsPixelView implements TacticsBoardView {
+  /** drawImage calls in the last frame (the map blit plus one per unit). */
+  private calls = 0;
   readonly ctx: CanvasRenderingContext2D;
   /** Quarter turns clockwise. */
   rot = 0;
@@ -201,9 +198,10 @@ export class TacticsPixelView {
     o: Overlays,
     now: number,
     sheetFor: (u: TUnit) => SpriteSheet | null,
-    hurtAt: Map<string, number>,
+    flashes: Flashes,
   ): void {
     const m = mapOf(s);
+    this.calls = 1;
     this.resize(m);
     const ctx = this.ctx;
     ctx.fillStyle = color(C.darkPlum);
@@ -237,7 +235,7 @@ export class TacticsPixelView {
     tint(o.move, color(C.skyDeep), 'dot');
     tint(o.aim, color(C.orange), 'x');
     tint(o.path, color(C.cream), 'foot');
-    for (const c of s.charges) {
+    for (const c of chargeTiles(s)) {
       const p = this.iso(m, c.x, c.y, ox, oy);
       ctx.strokeStyle = color(C.ember);
       ctx.setLineDash([2, 2]);
@@ -268,7 +266,18 @@ export class TacticsPixelView {
       .filter((u) => standing(u.c) || u.c.side === 0)
       .map((u) => ({ u, d: this.rotated(m, u.x, u.y) }))
       .sort((a, b) => a.d.x + a.d.y - (b.d.x + b.d.y));
-    for (const { u } of units) this.unit(s, m, u, ox, oy, now, sheetFor(u), hurtAt.get(u.c.id));
+    for (const { u } of units)
+      this.unit(
+        s,
+        m,
+        u,
+        ox,
+        oy,
+        now,
+        sheetFor(u),
+        flashes.hurt.get(u.c.id),
+        flashes.pile.get(u.c.id),
+      );
   }
 
   private unit(
@@ -280,6 +289,7 @@ export class TacticsPixelView {
     now: number,
     sheet: SpriteSheet | null,
     hurt: number | undefined,
+    pile?: number,
   ): void {
     const ctx = this.ctx;
     const p = this.iso(m, u.x, u.y, ox, oy);
@@ -311,9 +321,13 @@ export class TacticsPixelView {
       const image = sheet.texture.image as HTMLCanvasElement;
       ctx.save();
       if (out) ctx.globalAlpha = 0.6;
-      ctx.translate(Math.round(p.sx), Math.round(feet - h));
+      // A pile-on (FIGHT-57) jostles the target side to side for a moment.
+      const jostle =
+        pile !== undefined && now - pile < 450 ? Math.round(Math.sin((now - pile) / 40) * 2) : 0;
+      ctx.translate(Math.round(p.sx) + jostle, Math.round(feet - h));
       if (flip) ctx.scale(-1, 1);
       ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h, -w / 2, 0, w, h);
+      this.calls++;
       ctx.restore();
     } else {
       ctx.fillStyle = color(u.c.side === 0 ? C.skyLight : C.violet);
@@ -358,6 +372,14 @@ export class TacticsPixelView {
       if (dx + dy <= 1) return c;
     }
     return null;
+  }
+
+  drawCalls(): number {
+    return this.calls;
+  }
+
+  dispose(): void {
+    this.cache = null;
   }
 
   /** CSS pixels across one tile at the current zoom (for the 44 px tap rule). */

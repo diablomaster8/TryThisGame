@@ -7,6 +7,7 @@
 import * as THREE from 'three';
 import { GROVE } from '../config/tuning';
 import { WILD_PROPS, type WildProp } from '../config/grove-layout';
+import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { WILD_3D as T } from '../config/tuning-move-wild';
 import { BUSH } from '../config/tuning-move';
 import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
@@ -107,6 +108,35 @@ export function buildWildTrees(
       return !fruit;
     });
     const tree = treeOf(compactTree(scene, bare), p.size * T.treeScalePerSize);
+    if (tree) made.push(tree);
+  });
+  // R0072: the north wood's extra trees (bare) and the far orchard's three (fruit kept).
+  const outer = [
+    ...OUTER_TREES.map((t) => ({ ...t, fruit: false })),
+    ...OUTER_PROPS.filter((p) => p.art === 'orchard-tree').map((p) => ({ ...p, fruit: true })),
+  ];
+  outer.forEach((p, i) => {
+    const scale = p.size * T.treeScalePerSize;
+    const parts = buildTree(
+      scene,
+      tex,
+      p.x,
+      p.z,
+      scale,
+      T.treeSeedBase + 100 + i,
+      groveHeight,
+      time,
+    );
+    const kept = parts.filter((o) => {
+      const fruit = o instanceof THREE.Mesh && o.geometry instanceof THREE.SphereGeometry;
+      if (fruit && !p.fruit) {
+        scene.remove(o);
+        o.geometry.dispose();
+        (o.material as THREE.Material).dispose();
+      }
+      return p.fruit || !fruit;
+    });
+    const tree = treeOf(compactTree(scene, kept), scale);
     if (tree) made.push(tree);
   });
   return made;

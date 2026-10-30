@@ -11,16 +11,17 @@
 
 _A note under your door: COME OVER. PLEASE._  
 _Ember’s house is very, very tidy. Even the spoons stand in a row._  
+_Creak! The kitchen door opens._  
 _A grey Nubbin sits in the corner. She faces the wall._  
 **Ember**: Ash. Ash, love. It’s me.  
-_Ash does not turn round._  
 
 > **Lesson** (sel, CASEL: Social awareness, ask): understanding how a frightened friend feels  
 > _Ash faces the wall. How might she feel?_  
 > - ✅ Scared and lost → Yes. Scared and lost. She needs time.
-> - Happy and silly → Happy Nubbins play and turn round. Ash feels scared and lost.
+> - Happy and silly → Happy and silly? Ash would be spinning like a top! Happy Nubbins play and turn round. Ash feels scared and lost.
 > _For grown-ups: Read clues to work out that a character felt scared and lost._
 
+_Ash does not turn round._  
 **Ember**: I’ve said her name so many times.  
 **Ember**: She was away so long. She forgot her name.  
 
@@ -47,20 +48,20 @@ _The kettle whistles. Wheee! Ember glares at it._
 > _(Say the names slowly: Ash, Ember, Fern.)_  
 > **Ember**: Which name starts with an “eh” sound?  
 > - ✅ Ember → Yes. Eh-Ember. That’s me.
-> - Ash → Ash starts with “a”, like apple. Eh-Ember starts with “eh”.
-> - Fern → Fern starts with “fff”. Eh-Ember starts with “eh”.
+> - Ash → Ash for “eh”? An ash tree in an Ember hat! Hee! Ash starts with “a”, like apple. Eh-Ember starts with “eh”.
+> - Fern → Fern for “eh”? A fern wearing Ember’s hat! Hee, hee! Fern starts with “fff”. Eh-Ember starts with “eh”.
 > _For grown-ups: Listened for the first sound in three names._
 
 **Ember**: Go home now. Thanks for coming. Don’t tell Fern.  
 
 #### `sprout:s6-fern` · [main](../../../side/S06.md#s6-fern)
 
-_Fern leans on the fence, eating an apple. Your apple!_  
+_Fern leans on the fence. Crunch! She eats an apple. Your apple!_  
 
 > **Lesson** (sel, CASEL: Relationship skills, ask): asking before taking  
 > _Fern took your apple without asking. What should she do next time?_  
 > - ✅ Ask, “May I have one?” → Oops. You’re right. May I have an apple, please?
-> - Just take it → Hmm. That’s what I did. Asking first is kinder. May I?
+> - Just take it → Just take it? Crunch, and it’s gone! That’s what I did. Hmm. That’s what I did. Asking first is kinder. May I?
 > _For grown-ups: Talked about asking before taking something that belongs to someone else._
 
 **Fern**: You’ve been at Ember’s. You have that look.  
@@ -104,7 +105,7 @@ _She comes to the pond anyway, frowning._
 > Check: `edu:sing:notes:low-high-up`
 > _For grown-ups: Sang low and high notes and a little rising note, like a question._
 
-_Your Nubbins sit on the bank to watch._  
+_Your Nubbins sit on the bank to watch. Plop!_  
 **Ember**: If a duck answers, we’re stopping.  
 
 **Choices**
@@ -129,12 +130,12 @@ _From across the pond, a duck answers. QUACK!_
 > **Lesson** (science, 1-LS3-1, ask): animal babies: a baby duck is a duckling  
 > _Ducks say quack. What is a baby duck called?_  
 > - ✅ A duckling → Yes! A duckling. It looks like a small, fluffy duck.
-> - A kitten → A kitten is a baby cat. A baby duck is a duckling.
-> - A puppy → A puppy is a baby dog. A baby duck is a duckling.
+> - A kitten → A kitten on the pond? Splash! Miaow! A kitten is a baby cat. A baby duck is a duckling.
+> - A puppy → A puppy on the pond? Splash! Woof! A puppy is a baby dog. A baby duck is a duckling.
 > _For grown-ups: Named a duck’s baby (duckling) and other animal babies._
 
 **Ember**: No.  
-_Ember glares at the duck. The duck does not care._  
+_Ember glares at the duck. Splash! The duck does not care._  
 _But Ember heard herself do it._  
 **Ember**: Tonight. You’re coming. Don’t say anything.  
 
@@ -160,7 +161,7 @@ _Then a tiny sound: pip. wirr. a?_
 > Check: `edu:say:sound:ash`
 > _For grown-ups: Copied a character’s sound word aloud._
 
-_Step by step, Ash comes. She leans on Ember’s knee._  
+_Pitter, patter. Step by step, Ash comes. She leans on Ember’s knee._  
 **Ember**: Hello, you. It’s me. It was always me.  
 
 **Choices**

@@ -100,3 +100,359 @@ body.line-shake-big #app {
 .hop-lesson-chip.hop-course-chip {
   top: calc(var(--safe-top, 0px) + 112px);
 }
+
+/* R0304 (FUN-15): the opening's hands-on beats (the stuck gate, the cup). */
+.line-act {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.line-act-hint {
+  margin: 0;
+  text-align: center;
+}
+.line-act-btn {
+  min-height: 56px;
+  min-width: 160px;
+  touch-action: none;
+}
+.gate-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.18s ease-out;
+}
+.gate-art {
+  display: inline-flex;
+  gap: 3px;
+  padding: 4px 5px;
+  border-top: 4px solid #6b4a2b;
+  border-bottom: 4px solid #6b4a2b;
+}
+.gate-slat {
+  width: 6px;
+  height: 26px;
+  background: #a87a4a;
+  border-radius: 2px;
+}
+.gate-btn.lifted {
+  transform: translateY(-6px);
+}
+.gate-btn.stuck {
+  animation: gate-stuck 0.35s ease-out;
+}
+.gate-btn.open .gate-art {
+  transform: perspective(120px) rotateY(-60deg);
+  transition: transform 0.5s ease-out;
+}
+@keyframes gate-stuck {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px) rotate(-2deg);
+  }
+  60% {
+    transform: translateX(4px) rotate(1deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-btn,
+  .gate-btn.open .gate-art {
+    transition: none;
+  }
+  .gate-btn.stuck {
+    animation: none;
+  }
+}
+
+/* R0310 (FUN-21): a sprout sound word in a bubbly face, so the child spots it to join in. */
+.edu-sound {
+  display: inline-block;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #e8a33c;
+  text-shadow: 1px 1px 0 #6b3d10;
+  transform: rotate(-3deg);
+}
+
+/* R0312 (FUN-23): the hatch card, one per hatch moment, in place of the stacked toasts. */
+.hatch-card {
+  position: fixed;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 64px);
+  transform: translateX(-50%);
+  z-index: 40;
+  width: min(340px, calc(100vw - 32px));
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--panel, #fffaf0);
+  color: var(--ink, #2b2118);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+.hatch-card-pics {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.hatch-card-pic {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+.hatch-card-title {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+.hatch-card-sub,
+.hatch-card-note {
+  margin: 2px 0;
+  font-size: 0.9em;
+}
+.hatch-card-note:empty {
+  display: none;
+}
+.hatch-card-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.hatch-card-row .btn {
+  min-height: 44px;
+}
+
+/* R0314 (FUN-25): Byte's stopwatch count under the race results. */
+.race-footer {
+  margin: 4px 0 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+  font-style: italic;
+}
+
+/* R0315 (FUN-26): the profile's Silly filter. */
+.badge-grid.silly-only .badge:not([data-silly]) {
+  display: none;
+}
+.badge-filter {
+  min-height: 44px;
+  margin-bottom: 6px;
+}
+
+/* R0316 (FUN-27, TECH-76): the away screen's diary lines and its one tall button. */
+.away-diary {
+  font-style: italic;
+  list-style: '✎ ';
+}
+.away-more {
+  opacity: 0.8;
+}
+.away-go {
+  min-height: 56px;
+  width: 100%;
+}
+
+/* R0318 (FUN-29): a tip under the loading bar. */
+.load-tip {
+  max-width: min(420px, calc(100vw - 32px));
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+
+/* R0323 (FUN-34): the sprout band's round join-in button. */
+.say-it {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 999px;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.say-it.said {
+  animation: say-it-pop 0.4s ease-out;
+  background: #ffe28a;
+}
+@keyframes say-it-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .say-it.said { animation: none; }
+}
+
+/* R0321 (FUN-32): peekaboo. The Nubbin sits behind its spot with the crown showing. */
+.peek-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+.peek-cell {
+  position: relative;
+  width: 88px;
+  height: 104px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.peek-nubbin {
+  position: absolute;
+  left: 12px;
+  bottom: 30px;
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  transition: transform 0.35s ease-out;
+}
+.peek-found .peek-nubbin {
+  transform: translateY(-34px) scale(1.15);
+  z-index: 2;
+}
+.peek-spot {
+  position: relative;
+  z-index: 1;
+  width: 88px;
+  height: 80px;
+  font-size: 52px;
+  line-height: 1;
+  padding: 0;
+}
+.peek-decoy {
+  position: absolute;
+  top: 0;
+  font-size: 34px;
+  z-index: 2;
+  animation: peek-pop 0.3s ease-out;
+}
+.peek-line {
+  text-align: center;
+  font-size: 1.2em;
+  min-height: 2.4em;
+}
+.peek-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.peek-row .btn {
+  min-height: 56px;
+}
+@keyframes peek-pop {
+  from { transform: scale(0.4); }
+  to { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .peek-nubbin { transition: none; }
+  .peek-decoy { animation: none; }
+}
+
+/* R0296 / R0297: the Keepers' ambient lines, quieter than a tapped Keeper's. */
+.bark-bubble.bark-ambient {
+  opacity: 0.92;
+  font-size: 0.85em;
+  pointer-events: none;
+}
+
+/* R0294 (FUN-05): the micro-games. */
+.micro-stage {
+  position: relative;
+  margin: 10px auto;
+  width: min(320px, 100%);
+  touch-action: none;
+  user-select: none;
+}
+.micro-status {
+  text-align: center;
+  min-height: 2.4em;
+}
+.micro-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.micro-row .btn {
+  min-height: 44px;
+}
+.micro-go {
+  min-height: 56px;
+}
+.micro-tray {
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 6px solid #8a5a2b;
+}
+.micro-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  transform-origin: 50% 100%;
+  font-size: 40px;
+  line-height: 1.05;
+}
+.micro-stack.micro-fallen {
+  opacity: 0.3;
+}
+.micro-bar {
+  height: 10px;
+  margin-top: 8px;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.micro-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #6cbf5a;
+}
+.micro-hunt {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.micro-spot {
+  min-height: 72px;
+  font-size: 36px;
+}
+.micro-spot.micro-decoy {
+  opacity: 0.55;
+}
+.micro-catch {
+  position: relative;
+  height: 240px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.micro-lane {
+  height: 100%;
+  min-height: 44px;
+  opacity: 0.35;
+}
+.micro-basket,
+.micro-fall {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 36px;
+  pointer-events: none;
+}
+.micro-basket {
+  bottom: 4px;
+  transition: left 0.12s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .micro-basket { transition: none; }
+}

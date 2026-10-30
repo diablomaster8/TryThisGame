@@ -47,8 +47,8 @@ _A felt-tip frog sits in it. He does not look impressed._
 > **Lesson** (science, K-ESS3-1, ask): animal homes: frogs live in ponds  
 > **Tilly**: Where do real frogs like to live?  
 > - ✅ In ponds and wet places → Yes! Frogs need water. Ponds are perfect frog homes.
-> - In a dry desert → Too dry! Frogs need water. They live in ponds and wet places.
-> - Up a chimney → Ha! No. Frogs live in ponds and wet places.
+> - In a dry desert → A frog in a dry desert? Gulp! It would be so thirsty. Too dry! Frogs need water. They live in ponds and wet places.
+> - Up a chimney → A frog up a chimney? Achoo! Soot everywhere! Ha! No. Frogs live in ponds and wet places.
 > _For grown-ups: Learned that frogs live in ponds and wet places because they need water._
 
 **Sparks**: I ATTACK THE BOG!  
@@ -71,15 +71,15 @@ _Next day there’s a new tower on the map._
 > **Lesson** (maths, K.OA.A.2, ask): add 1 more  
 > **Tilly**: Two shells for the ribbit. One for the stairs. How many shells?  
 > - ✅ 3 → Three shells! Two and one more make three.
-> - 2 → Count with me: one, two… and one more. Three!
-> - 5 → Too many! Two and one more make three.
+> - 2 → Two shells? Ding! One more is hiding. Count with me: one, two… and one more. Three!
+> - 5 → Five shells? Ding, ding! The Tax Toad would be rich! Too many! Two and one more make three.
 > _For grown-ups: Added two shells and one more shell to make three._
 
 **Pixel**: Can I build a machine to beat him?  
 **Tilly**: Roll. Three dots. Your machine is a toad now. It works for him.  
 **Byte**: Do we pay a shell for paying a shell?  
 **Tilly**: …Yes! Thanks SO much, Byte.  
-_Byte hands over one more shell. Clink._  
+_Byte hands over one more shell. Ding!_  
 **Tilly**: That was a very “actually” question. Six!  
 **Pixel**: Twenty years married, and Byte still gives people ideas.  
 **Byte**: You married a man who asks questions. It was in our promises.  
@@ -96,8 +96,8 @@ _Chomp! It eats the cardboard Tax Toad._
 > **Tilly**: Tilly. Tax. Toad. They all start with the same sound. T-t-t!  
 > **Tilly**: Which one starts with t too?  
 > - ✅ Table → T-t-table! Yes!
-> - Frog → F-f-frog starts with f. Listen: t-t-table. Table!
-> - Map → M-m-map starts with m. T-t-table starts with t!
+> - Frog → A frog at the table? Ribbit! Hee, hee! F-f-frog starts with f. Listen: t-t-table. Table!
+> - Map → A map at the tea table? Hee, hee! M-m-map starts with m. T-t-table starts with t!
 > _For grown-ups: Heard the “t” sound at the start of Tilly, Tax and Toad, and found another t word._
 
 **Sparks**: BEST GAME EVER!  
@@ -107,17 +107,18 @@ _It’s coloured grey. So hard, it went right through the paper._
 
 #### `sprout:s14-sparks` · [main](../../../side/S14.md#s14-sparks)
 
+_Ding, dong! The gate bell rings._  
 _Next morning, Sparks is at your gate. Being quiet. Sparks is never quiet!_  
 **Sparks**: The dragon in the corner of the map keeps getting bigger.  
 **Sparks**: Last night it got a cardigan. Hazel always wears a cardigan.  
 **Sparks**: So the dragon is really Hazel. Tilly misses her.  
-**Sparks**: Hazel went away on a long trip. She didn’t say goodbye.  
 
 > **Lesson** (sel, CASEL: Self-awareness, notice): missing someone: two feelings at once  
 > **Sparks**: Tilly misses Hazel. She feels sad and cross at the same time.  
 > _Missing someone can feel like that. Both feelings are all right._  
 > _For grown-ups: Heard that missing someone can make us feel sad and cross at once, and that both are all right._
 
+**Sparks**: Hazel went away on a long trip. She didn’t say goodbye.  
 **Sparks**: Hazel left Tilly a note. She won’t open it. It’s in her welly.  
 **Sparks**: Go and find Tilly. She likes you. You’re not a sandwich!  
 
@@ -156,14 +157,14 @@ _The Nubbins sit in a row in front of her wellies._
 _The last game. Curtains shut. A torch under a bowl, for spooky light._  
 **Tilly**: The Lair of the Grey Grandmother. First, get past her geese!  
 **Sparks**: I HIT THE GOOSE WITH MY SANDWICH!  
-**Tilly**: Roll. LOTS! The goose eats the sandwich. Now it’s your friend.  
+**Tilly**: Roll. LOTS! Chomp! The goose eats the sandwich. Now it’s your friend.  
 _Then you roll. LOTS again! Another goose is your friend._  
 
 > **Lesson** (maths, K.OA.A.1, ask): add 1 more  
 > **Tilly**: One friendly goose. Then one more. How many geese?  
 > - ✅ 2 → Two geese! One and one more make two. Honk, honk!
 > - 1 → One… and one more! That makes two. Honk, honk!
-> - 4 → Not that many! One and one more make two.
+> - 4 → Four geese? Honk, honk! That’s a very big flock. Not that many! One and one more make two.
 > _For grown-ups: Added one goose and one more goose to make two._
 
 **Byte**: Do I still have six points?  
@@ -172,7 +173,7 @@ _Byte’s ears go pink. He writes a tiny sad 5._
 
 #### `sprout:s14-dragon` · [main](../../../side/S14.md#s14-dragon)
 
-_Tilly lifts a cereal box off the corner. Under it is the dragon._  
+_Plop! Tilly lifts a cereal box off the corner. Under it is the dragon._  
 _She’s cut from a biscuit-tin lid. Grey, with a felt-tip cardigan._  
 **Tilly**: The Grey Grandmother. She flew away. She’s the boss.  
 **Sparks**: Right! I roll to hit the—  
@@ -221,7 +222,7 @@ _Sparks puts a button next to yours. Then Pixel. Then Byte._
 > Check: `edu:count:buttons:4`
 > _For grown-ups: Counted four buttons waiting beside the dragon._
 
-_A Nubbin taps the window. It hopes it’s supper._  
+_A Nubbin taps the window. Bonk! It hopes it’s supper._  
 
 #### `sprout:s14-tears` · [main](../../../side/S14.md#s14-tears)
 

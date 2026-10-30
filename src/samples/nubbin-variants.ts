@@ -33,7 +33,8 @@ export const NUBBIN_COLORS = {
 export type NubbinColors = Record<keyof typeof NUBBIN_COLORS, string>;
 
 export type CrownKind = 'point' | 'tall' | 'hook' | 'fin' | 'stub' | 'droop' | 'none';
-export type Slot = 'ears' | 'tail' | 'arms' | 'back';
+/** Part slots a variant can fill; `legs` and `wings` are the critter slots of R0401. */
+export type Slot = 'ears' | 'tail' | 'arms' | 'back' | 'legs' | 'wings';
 
 export interface VariantOverrides {
   /** Colours by role; roles left out keep the base's colour. */
@@ -495,7 +496,16 @@ function applyType(
 }
 
 function setSlot(spec: SpeciesSpec, slot: Slot, parts: PartSpec[]): void {
-  const prefix = slot === 'arms' ? 'arm' : slot === 'ears' ? 'ear' : slot;
+  const prefix =
+    slot === 'arms'
+      ? 'arm'
+      : slot === 'ears'
+        ? 'ear'
+        : slot === 'legs'
+          ? 'leg'
+          : slot === 'wings'
+            ? 'wing'
+            : slot;
   spec.parts = spec.parts.filter((p) => !p.name.startsWith(prefix));
   spec.parts.push(...parts.map(clonePart));
 }

@@ -28,6 +28,8 @@ import {
 const DYES: DyeColor[] = ['rose', 'sky', 'mint', 'gold', 'violet', 'ember'];
 import type { Game } from '../game';
 import { BattleCard } from './battle-card';
+import { jobOfNubbin } from '../sim/battle/tactics/jobs';
+import { JOB_LAYER_TEXT, JOB_TEXT } from '../config/strings-tactics';
 import { button, el, meter } from './dom';
 
 /**
@@ -442,8 +444,12 @@ function subtitleFor(n: Nubbin, world: World): string {
     : '';
   const rebirths = n.rebirths > 0 ? ` · ${UI_TEXT.rebirths(n.rebirths)}` : '';
   const eternal = n.eternal ? ` · ✦ ${UI_TEXT.eternalLabel}` : '';
+  // The tactics job (recs FIGHT-55): derived, never chosen, so the sheet just names it.
+  const jb = jobOfNubbin(n);
+  const layer = jb.layer ? JOB_LAYER_TEXT[jb.layer] : null;
+  const job = ` · ${JOB_TEXT[jb.job].icon} ${JOB_TEXT[jb.job].name}${layer ? ` ${layer.icon}` : ''}`;
   const waiting = n.awaitingKeeper ? ` · ${UI_TEXT.waiting}` : '';
   const shadowTag = tag ? ` · ${tag}` : '';
   const extraTag = extra ? ` · ${extra}` : '';
-  return `${stage}${type} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}${extraTag}`;
+  return `${stage}${type}${job} · ${bandLabel} · ${UI_TEXT.age(formatDuration(n.ageMs))}${rebirths}${eternal}${waiting}${shadowTag}${extraTag}`;
 }

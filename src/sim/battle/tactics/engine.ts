@@ -11,7 +11,9 @@ import { BATTLE } from '../../../config/tuning-battle';
 import { TACTICS } from '../../../config/tuning-tactics';
 import { Rng } from '../../rng';
 import { damageWith, hurt, standing } from '../damage';
-import { moveById } from '../moves';
+import { moveById as turnMove } from '../moves';
+import { chargedById, chargedFor, shapedTiles } from './charged';
+import { KEEPER_MOVES, KEEPER_UNIT, keeperMoveById } from './keeper-unit';
 import { canAct, cure, inflict, moodMult, shiftMood, tickStatus, zipOf } from '../status';
 import type { AiLevel, BattleContext, BattleState, Combatant, MoveDef } from '../types';
 import { comboFor, comboMove, friendsEnough } from './combos';
@@ -51,6 +53,9 @@ export interface UnitSeed {
   friends?: Record<string, number>;
   ward?: boolean;
   phases?: TUnit['phases'];
+  /** The Keeper's piece (FIGHT-66) and the snacks it packed. */
+  keeper?: boolean;
+  snacks?: number;
   at?: Cell;
 }
 
@@ -68,6 +73,10 @@ export interface TacticsSetup {
 
 /** The status helpers only push events to `log` (and read `gentle`, never set here). */
 const sink = (s: TacticsState): BattleState => s as unknown as BattleState;
+
+/** A move by id: the shared list, then the grid-only charged moves (FIGHT-67). */
+export const moveById = (id: string): MoveDef | undefined =>
+  turnMove(id) ?? chargedById(id) ?? keeperMoveById(id);
 
 export const unitOf = (s: TacticsState, id: string | null): TUnit | undefined =>
   id === null ? undefined : s.units.find((u) => u.c.id === id);
@@ -108,6 +117,7 @@ export function createTactics(o: TacticsSetup): TacticsState {
       extraSlot: seed.extraSlot ?? false,
       order: 0,
       ...(seed.ward ? { ward: true } : {}),
+      ...(seed.keeper ? { keeper: true, snacks: seed.snacks ?? 0 } : {}),
       ...(seed.friends ? { friends: seed.friends } : {}),
       ...(seed.bonus ? { bonus: seed.bonus } : {}),
       ...(seed.phases ? { phases: seed.phases } : {}),
@@ -157,6 +167,8 @@ const occupancy =
   (x, y) => {
     const u = s.units.find((v) => v.c.id !== self && alive(v) && v.x === x && v.y === y);
     if (!u) return undefined;
+    // Everyone politely goes round the Keeper: it can be passed through, never stood on.
+    if (u.keeper) return 0;
     return u.c.side === side ? 0 : 1;
   };
 
@@ -167,11 +179,17 @@ export function reachOf(s: TacticsState, u: TUnit): Reach {
 
 /** The moves a unit can use on the grid: its slots, plus a champion's extra one. */
 export function movesOf(u: TUnit): string[] {
+  if (u.keeper)
+    return KEEPER_MOVES.filter((d) => d.special !== 'snack' || (u.snacks ?? 0) > 0).map(
+      (d) => d.id,
+    );
   const phase = u.phases?.filter((p) => (u.c.hp / u.c.maxHp) * 100 <= p.atHpPct).pop();
   // Bonk is always there, as in the turn mode.
   const base = phase ? phase.moveset : u.c.moves;
   const out = base.includes('bonk') ? [...base] : ['bonk', ...base];
   if (u.bonus && !out.includes(u.bonus)) out.push(u.bonus);
+  // Each job (and layer) brings one big charged move to the grid, beside its slots.
+  for (const id of chargedFor(u.job, u.layer)) if (!out.includes(id)) out.push(id);
   return out;
 }
 
@@ -346,6 +364,8 @@ export function canDo(s: TacticsState, a: TacticsAction): boolean {
       return !s.acted && togetherOk(s, u, a.with, a);
     case 'shake':
       return !s.acted && tileAt(m, a.x, a.y) === TILE.tree && manhattan(u, a) === 1;
+    case 'whistle':
+      return !s.acted && whistleOk(s, u, a.a, a.b);
     case 'relight': {
       if (s.acted || tileAt(m, a.x, a.y) !== TILE.lantern || manhattan(u, a) !== 1) return false;
       const lit = s.progress.lit[`${a.x},${a.y}`] !== false;
@@ -397,6 +417,7 @@ export function tacticsAct(s: TacticsState, a: TacticsAction): boolean {
     case 'act': {
       const def = moveById(a.move)!;
       u.c.puff -= def.puff;
+      if (u.keeper && def.special === 'snack') u.snacks = (u.snacks ?? 0) - 1;
       u.c.last = def.id;
       s.acted = true;
       s.snap = null;
@@ -443,6 +464,20 @@ export function tacticsAct(s: TacticsState, a: TacticsAction): boolean {
         const under = s.units.find((v) => alive(v) && v.x === at.x && v.y === at.y);
         if (under) pickFruit(s, under);
       }
+      break;
+    }
+    case 'whistle': {
+      s.acted = true;
+      s.snap = null;
+      const p = unitOf(s, a.a)!;
+      const q = unitOf(s, a.b)!;
+      const at = { x: p.x, y: p.y };
+      p.x = q.x;
+      p.y = q.y;
+      q.x = at.x;
+      q.y = at.y;
+      log(s, { k: 'knock', who: p.c.id, x: p.x, y: p.y });
+      log(s, { k: 'knock', who: q.c.id, x: q.x, y: q.y });
       break;
     }
     case 'relight': {
@@ -495,6 +530,22 @@ function togetherOk(s: TacticsState, u: TUnit, mateId: string, at: Cell): boolea
   return !!target && manhattan(u, target) === 1 && manhattan(mate, target) === 1;
 }
 
+/** The Keeper's Whistle: two different standing allies within reach swap places. */
+function whistleOk(s: TacticsState, u: TUnit, a: string, b: string): boolean {
+  if (!u.keeper || a === b) return false;
+  const ok = (id: string) => {
+    const v = unitOf(s, id);
+    return (
+      !!v &&
+      alive(v) &&
+      !v.keeper &&
+      v.c.side === u.c.side &&
+      manhattan(u, v) <= KEEPER_UNIT.whistleRange
+    );
+  };
+  return ok(a) && ok(b);
+}
+
 /** Allies "Together!" could call on with this target (the bar's button reads it). */
 export function togetherMates(s: TacticsState, at: Cell): string[] {
   const u = activeUnit(s);
@@ -508,11 +559,12 @@ export function affected(s: TacticsState, u: TUnit, def: MoveDef, to: Cell): TUn
   const p = gridOf(def);
   const foe = def.kind === 'bonk' || def.kind === 'splash' || def.kind === 'status';
   if (def.target === 'self' && !foe) return [u];
-  const tiles = aoeTiles(m, u, to, p);
+  const tiles = shapedTiles(m, u, to, def, s.seed) ?? aoeTiles(m, u, to, p);
   return s.units.filter(
     (v) =>
       alive(v) &&
       tiles.some((t) => t.x === v.x && t.y === v.y) &&
+      !v.keeper &&
       (foe ? v.c.side !== u.c.side && !v.ward : v.c.side === u.c.side),
   );
 }
@@ -674,6 +726,18 @@ function resolve(
       log(s, { k: 'calm', to: v.c.id, calm: v.c.calm, delta: v.c.calm - before });
     }
   }
+  // Mega Belly Flop and friends: the user lands where it aimed, when the tile is free.
+  if ((def as { land?: boolean }).land && alive(u)) {
+    const free =
+      !blocks(tileAt(m, to.x, to.y)) &&
+      tileAt(m, to.x, to.y) !== TILE.deep &&
+      !s.units.some((w) => w !== u && alive(w) && w.x === to.x && w.y === to.y);
+    if (free && (u.x !== to.x || u.y !== to.y)) {
+      u.x = to.x;
+      u.y = to.y;
+      log(s, { k: 'knock', who: u.c.id, x: to.x, y: to.y });
+    }
+  }
 }
 
 /** Pushes `v` one tile straight away from `u`; a drop of 3+ levels bumps it (never tuckers). */
@@ -716,7 +780,17 @@ export function pushUnit(s: TacticsState, by: string, who: string): void {
 
 /** For the views: the pending tiles of every charge. */
 export function chargeTiles(s: TacticsState): Array<Cell & { by: string }> {
-  return s.charges.map((c) => ({ x: c.x, y: c.y, by: c.by }));
+  const m = mapOf(s);
+  const out: Array<Cell & { by: string }> = [];
+  for (const c of s.charges) {
+    const by = unitOf(s, c.by);
+    const def = moveById(c.move);
+    const at = { x: c.x, y: c.y };
+    const tiles =
+      by && def ? (shapedTiles(m, by, at, def, s.seed) ?? aoeTiles(m, by, at, gridOf(def))) : [at];
+    for (const t of tiles) out.push({ ...t, by: c.by });
+  }
+  return out;
 }
 
 export type { GridProfile };

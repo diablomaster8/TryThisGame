@@ -1,3 +1,4 @@
+import { OUTER_PROPS } from '../../src/config/outer-ring';
 import { BRIDGE_DECK, BRIDGE_YAW } from '../../src/config/tuning-sim';
 import { describe, expect, it } from 'vitest';
 import { GROVE, SIM } from '../../src/config/tuning';
@@ -98,6 +99,8 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
   it('every drawn solid in the pixel scenery has a collider at its spot', () => {
     for (const s of SCENERY) {
       if (s.kind === 'caveMouth') continue; // its lips stand either side, the mouth is open
+      // R0072: the outer ring's walk-through pieces (rings, ferns, reeds, hay) have none.
+      if (OUTER_PROPS.some((p) => p.x === s.x && p.z === s.z && !p.solid)) continue;
       const ok = near(s.x, s.z, GROVE_COLLIDERS);
       expect(ok, `${s.kind} at ${s.x},${s.z}`).toBe(true);
     }

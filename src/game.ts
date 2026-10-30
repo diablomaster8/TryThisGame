@@ -34,6 +34,7 @@ import { stageHides } from './config/stage-sets';
 import { WorldView } from './render/world-view';
 import { paintGrade } from './ui/look-paint';
 import { currentGrade } from './ui/title-card';
+import { phoneDefault } from './ui/world-settings';
 import { syncDungeon, syncWorldScenes } from './render/world-sync';
 import type { Grove3dScene } from './render3d/grove-3d-scene';
 import { Clock } from './sim/clock';
@@ -912,6 +913,13 @@ export class Game {
     this.camera.reduceMotion = reduce;
     this.markReduceMotion();
     if (this.scene3d) this.scene3d.reduceMotion = reduce;
+    // R0073: "Zoom out when running" pulls the view out to the survey step on a long run.
+    {
+      const k = this.world.keeper;
+      const moving = k.moveTarget !== null || k.input.x !== 0 || k.input.z !== 0;
+      const on = phoneDefault(this.world.settings.surveyWhenRunning);
+      this.camera.runTick(on && this.world.location === 'grove' && k.running && moving, nowMs);
+    }
     this.camera.update(nowMs);
     // MOVE-38: the collider, nav and ground-y overlays, only once a debug toggle was on.
     if (

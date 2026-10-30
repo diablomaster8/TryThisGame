@@ -584,8 +584,9 @@ export function add(
 const irisCache = new Map<string, THREE.CanvasTexture>();
 
 /** A painted iris: a big dark pupil, a coloured ring lit from below, a dark limbal rim, catchlights. */
-function irisTexture(color: string): THREE.CanvasTexture {
-  const cached = irisCache.get(color);
+function irisTexture(color: string, slit = false): THREE.CanvasTexture {
+  const key = slit ? `slit:${color}` : color;
+  const cached = irisCache.get(key);
   if (cached) return cached;
   const s = 128;
   const r = new Raster(s, s, null);
@@ -602,8 +603,10 @@ function irisTexture(color: string): THREE.CanvasTexture {
       const a = Math.atan2(y - c, x - c);
       if (Math.abs(Math.sin(a * 12)) > 0.94 && d > 0.58 && d < 0.84) k *= 1.2;
       let col: RGB = [Math.min(1, base[0] * k), Math.min(1, base[1] * k), Math.min(1, base[2] * k)];
-      // A large pupil with a soft edge.
-      const pupil = THREE.MathUtils.clamp((0.56 - d) / 0.05, 0, 1);
+      // A large pupil with a soft edge, or a narrow upright slit (LOOK-40).
+      const pupil = slit
+        ? THREE.MathUtils.clamp((0.8 - Math.hypot((x - c) / 0.2, y - c) / c) / 0.08, 0, 1)
+        : THREE.MathUtils.clamp((0.56 - d) / 0.05, 0, 1);
       col = [
         col[0] + (0.04 - col[0]) * pupil,
         col[1] + (0.04 - col[1]) * pupil,
@@ -619,7 +622,7 @@ function irisTexture(color: string): THREE.CanvasTexture {
   t.magFilter = THREE.LinearFilter;
   t.minFilter = THREE.LinearMipmapLinearFilter;
   t.generateMipmaps = true;
-  irisCache.set(color, t);
+  irisCache.set(key, t);
   return t;
 }
 
@@ -628,8 +631,8 @@ function irisTexture(color: string): THREE.CanvasTexture {
  * (the glints are their own discs). A light iris (the Moon forms' red-orange) keeps a dark
  * pupil so it still reads as an eye.
  */
-function chaoIrisTexture(color: string): THREE.CanvasTexture {
-  const key = `chao:${color}`;
+function chaoIrisTexture(color: string, slit = false): THREE.CanvasTexture {
+  const key = `chao:${slit ? 'slit:' : ''}${color}`;
   const cached = irisCache.get(key);
   if (cached) return cached;
   const s = 64;
@@ -645,8 +648,10 @@ function chaoIrisTexture(color: string): THREE.CanvasTexture {
       // A faint lift toward the bottom, as the line-up's eyes have.
       const k = 0.85 + THREE.MathUtils.clamp((y - c) / c, 0, 1) * 0.3;
       let col: RGB = [Math.min(1, base[0] * k), Math.min(1, base[1] * k), Math.min(1, base[2] * k)];
-      if (light) {
-        const pupil = THREE.MathUtils.clamp((0.42 - d) / 0.05, 0, 1);
+      if (light || slit) {
+        const pupil = slit
+          ? THREE.MathUtils.clamp((0.8 - Math.hypot((x - c) / 0.2, y - c) / c) / 0.08, 0, 1)
+          : THREE.MathUtils.clamp((0.42 - d) / 0.05, 0, 1);
         col = [col[0] * (1 - pupil * 0.9), col[1] * (1 - pupil * 0.9), col[2] * (1 - pupil * 0.85)];
       }
       r.set(x, y, col);
@@ -706,6 +711,8 @@ export function eye(
    */
   style: EyeStyle = 'anime',
   side = 1,
+  /** `slit`: a narrow upright pupil (the snakes, Charmander's line; LOOK-40). */
+  pupil: 'round' | 'slit' = 'round',
 ): EyeRig {
   const flatIris = style !== 'anime';
   const noSclera = style === 'chao' || style === 'dot';
@@ -783,9 +790,11 @@ export function eye(
     // A Chao eye is a matte painted oval: no clearcoat mirror of the sky over it.
     new THREE.MeshPhysicalMaterial({
       ...(flatIris ? { envMapIntensity: 0.25 } : {}),
-      map: flatIris ? chaoIrisTexture(iris) : irisTexture(iris),
+      map: flatIris ? chaoIrisTexture(iris, pupil === 'slit') : irisTexture(iris, pupil === 'slit'),
       emissive: '#ffffff',
-      emissiveMap: flatIris ? chaoIrisTexture(iris) : irisTexture(iris),
+      emissiveMap: flatIris
+        ? chaoIrisTexture(iris, pupil === 'slit')
+        : irisTexture(iris, pupil === 'slit'),
       emissiveIntensity: 0.3,
       transparent: true,
       roughness: flatIris ? 0.45 : 0.05,

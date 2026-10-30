@@ -1,4 +1,5 @@
 import { CAVE_MOUTH, COTTAGE_LANTERN, WILD_PROPS } from '../config/grove-layout';
+import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { GROVE } from '../config/tuning';
 import type { PaintedKind } from './paint/scenery';
 
@@ -75,6 +76,22 @@ export const SCENERY: SceneryPlacement[] = [
     z: p.z,
     size: p.size,
     ...(p.art.startsWith('wild') ? { sway: 0.05 } : {}),
+  })),
+  // R0072: the outer ring's places and the north wood's extra trees (config/outer-ring.ts).
+  ...OUTER_TREES.map((t) => ({
+    kind: t.art as SceneryKind,
+    x: t.x,
+    z: t.z,
+    size: t.size,
+    sway: 0.05,
+  })),
+  ...OUTER_PROPS.map((p) => ({
+    kind: p.art as SceneryKind,
+    x: p.x,
+    z: p.z,
+    size: p.size,
+    ...(p.tap ? { pick: { kind: 'building' as const, id: `outer:${p.id}` } } : {}),
+    ...(p.art === 'orchard-tree' ? { sway: 0.04 } : {}),
   })),
 ];
 

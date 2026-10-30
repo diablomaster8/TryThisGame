@@ -52,6 +52,12 @@ export const WORLD_LOD = {
   grass: [1, 0.6, 0.35, 0.2],
   /** World units a terrain chunk's box grows by before the view test (shadows from hills). */
   terrainMargin: 6,
+  /**
+   * Round 4 (phone perf): a tree at least `farFrom` units from the camera, and farther than the
+   * Keeper by its crown's reach plus `farMargin` (so it can never need its own fade), is drawn
+   * in the shared far batch (`render3d/far-trees.ts`). `farBand` is the hysteresis.
+   */
+  farTrees: { farFrom: 16, farMargin: 1, farBand: 2 },
   /** Creatures (`render3d/lod.ts`). */
   creature: {
     /** World units added to a rig's bounding sphere for the longest shadow it throws. */
@@ -79,6 +85,8 @@ export const WORLD_LOD = {
       cellPx: 128,
       /** Cells drawn again each frame at most, stalest first (a cell is a rig's whole draw). */
       perFrame: 2,
+      /** Round 4: on a phone or slower tier, one cell a frame (far poses step at 3.75 fps). */
+      perFramePhone: 1,
       /** Frames a cell is kept before it is drawn again: far poses step at 60 / 8 = 7.5 fps. */
       minAge: 8,
       /** The cell's half-size over the rig's bounding radius. */
@@ -148,4 +156,78 @@ export const WORLD_WALK = {
   crossS: { min: 20, max: 50 },
   /** POI ladder: the 90th-percentile walk to the nearest POI of each tier, at most. */
   tierS: { micro: 8, minor: 15, major: 30 },
+} as const;
+
+/**
+ * R0073 (WORLD-07): the survey zoom, a third step past the far one (zoom index -1), so a
+ * portrait phone sees the field instead of a corridor. Pixel: 8 px a unit (half the far
+ * step, so the art stays on whole pixels); Nubbins and eggs are drawn `tokenScale` times
+ * larger there so they stay findable and tappable. 3D: the orbit pulls back to `distance3d`.
+ * "Zoom out when running" enters it after `runMs` of running (phones, unless switched off)
+ * and leaves `backMs` after the run stops.
+ */
+export const WORLD_SURVEY = {
+  pixelsPerUnit: 8,
+  distance3d: 26,
+  tokenScale: 1.5,
+  runMs: 2000,
+  backMs: 800,
+  /** Impostor cells redrawn a frame at the survey zoom (they are small there). */
+  impostorPerFrame: 1,
+} as const;
+
+/** R0106 (WORLD-48): the bottom bar tucking away while walking on a phone (`ui/walk-tuck.ts`). */
+export const WORLD_TUCK = {
+  /** Moving this long (ms) with no panel open tucks the bar. */
+  walkMs: 1000,
+  /** Standing still this long (ms) brings it back. */
+  backMs: 800,
+  /** How often the Keeper's position is checked (ms), and the least step that counts as moving. */
+  pollMs: 150,
+  minStep: 0.02,
+} as const;
+
+/**
+ * R0100 (WORLD-42): the objective beacon (`render/beacon.ts`) and its edge arrow
+ * (`ui/beacon-arrow.ts`). The beam is unfogged, so it reads from `seenFrom` units away.
+ */
+export const WORLD_BEACON = {
+  beamRadius: 0.35,
+  beamHeight: 26,
+  ringRadius: 1.1,
+  starSize: 1.6,
+  starHeight: 6,
+  balloonRadius: 0.7,
+  balloonHeight: 3.6,
+  /** Beyond this the beacon is not drawn (the arrow and the compass still point). */
+  seenFrom: 60,
+  /** The arrow chip keeps this far (CSS px) inside the screen edges, clear of the HUD bands. */
+  inset: { side: 34, top: 150, bottom: 190 },
+  /** An on-screen target within this share of the screen's half-size shows no arrow. */
+  onScreen: 0.92,
+} as const;
+
+/**
+ * R0101 (WORLD-43): the regions that offer their own quests. A quest whose region is not
+ * listed is offered from the Grove, the hub, until that region can be walked to (the lane
+ * is drawn only as Corvin's story set today). Add a region here when it opens.
+ */
+export const WORLD_QUESTS = {
+  ownOffers: ['grove', 'hollow'] as readonly string[],
+} as const;
+
+/**
+ * R0099 (WORLD-40): the Learning Grove's fenced play area (`sim/little-grove.ts`): 40 x 40 round
+ * the cottage, the pond and the near fruit trees, with the Hollow's mouth (z -13.6) outside.
+ * `margin` keeps everyone a step in from the fence; `home` is where the Home button walks to.
+ */
+export const LITTLE_GROVE = {
+  minX: -20,
+  maxX: 20,
+  minZ: -12,
+  maxZ: 28,
+  margin: 0.6,
+  /** Picket spacing of the drawn fence, in world units. */
+  picket: 1.2,
+  home: { x: -7, z: 18 },
 } as const;

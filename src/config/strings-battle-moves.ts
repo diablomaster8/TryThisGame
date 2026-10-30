@@ -41,7 +41,7 @@ export const BATTLE_MOVE_TEXT: Record<string, { name: string; blurb: string }> =
   'bear-hug': { name: 'Bear Hug', blurb: 'A hug so long the foe goes Sticky.' },
   pounce: { name: 'Pounce', blurb: 'Wiggles, waits, then leaps.' },
   'woolly-wall': { name: 'Woolly Wall', blurb: 'Fluffs up so the whole team feels Puffed up.' },
-  'pocket-snack': { name: 'Pocket Snack', blurb: 'A bump and a quick nibble from a hidden snack.' },
+  'pocket-snack': { name: 'Snack Attack', blurb: 'A bump and a quick nibble from a hidden snack.' },
   pong: { name: 'Pong', blurb: 'A funny smell. Every foe goes Shy-eyed.' },
 
   'doodle-decoy': {
@@ -89,11 +89,44 @@ export const BATTLE_MOVE_TEXT: Record<string, { name: string; blurb: string }> =
   'feather-cloud': { name: 'Feather Cloud', blurb: 'A cloud of down. The team feels Puffed up.' },
   'turbo-trot': { name: 'Turbo Trot', blurb: 'Trot, trot, ZOOM. Goes first.' },
 
+  'belly-flop': { name: 'Belly Flop', blurb: 'All of it, at once, from a great height. Splat.' },
+  'pillow-fort': { name: 'Pillow Fort', blurb: 'Builds a fort and hides in it. Feels Puffed up.' },
+  noogie: { name: 'Noogie', blurb: 'A knuckly head-rub. The foe may go Giggly.' },
+  'nap-attack': { name: 'Nap Attack', blurb: 'A quick nap, mid-bout. Wakes up feeling better.' },
+  'polite-shove': { name: 'Polite Shove', blurb: 'After you! No, after YOU. Goes first.' },
+  'stare-contest': { name: 'Stare Contest', blurb: 'Does not blink. The foe goes Shy-eyed.' },
+  'hug-of-doom': { name: 'Hug of Doom', blurb: 'It is just a hug. The foe may go Sticky.' },
+  'dramatic-gasp': {
+    name: 'Dramatic Gasp',
+    blurb: 'A gasp so loud every foe loses heart a little.',
+  },
+
   raspberry: { name: 'Raspberry', blurb: 'Pbbbt! The foe may go Sulky.' },
   'tickle-storm': {
     name: 'Tickle Storm',
     blurb: 'Tickles from every side. The foe may go Giggly.',
   },
+  // Grid-only charged moves (FIGHT-67) and the Keeper's acts (FIGHT-66).
+  'mega-belly-flop': {
+    name: 'Mega Belly Flop',
+    blurb: 'A long wind-up, then a landing everyone nearby feels.',
+  },
+  'kazoo-symphony': { name: 'Kazoo Symphony', blurb: 'Four tiles of the worst music ever played.' },
+  'nap-bomb': { name: 'Nap Bomb', blurb: 'A yawn so big it spreads. Foes may go Drowsy.' },
+  'snowball-barrage': {
+    name: 'Snowball Barrage',
+    blurb: 'Three snowballs, roughly where it meant.',
+  },
+  'zoomie-stampede': {
+    name: 'Zoomie Stampede',
+    blurb: 'Four tiles of zoomies in a straight line.',
+  },
+  'tumble-pile': { name: 'Tumble Pile', blurb: 'Runs, trips and lands on everyone. On purpose.' },
+  'sunbeam-hug': { name: 'Sunbeam Hug', blurb: 'A warm, slow hug for every friend nearby.' },
+  'moon-hush': { name: 'Moon Hush', blurb: 'A long hush. Foes nearby may go Dizzy.' },
+  'keeper-snack': { name: 'Snack toss', blurb: 'A snack from your pocket: heals a quarter.' },
+  'keeper-cheer': { name: 'Cheer', blurb: 'Friends beside you get Pumped.' },
+  'keeper-whistle': { name: 'Whistle', blurb: 'Two friends within four tiles swap places.' },
 };
 
 export function moveName(id: string): string {

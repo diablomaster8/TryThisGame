@@ -9,6 +9,7 @@ import { WORLD_TEXT } from '../config/strings-world';
 import { COMPASS, LANDMARKS } from '../config/tuning';
 import type { Game } from '../game';
 import { compassTicks, roseAngle, type TickKind } from './hud-world-math';
+import { OBJECTIVE_TARGET } from './beacon-arrow';
 
 const GLYPH: Record<TickKind, string> = { home: '⌂', landmark: '?', objective: '★' };
 const TICK_LABEL: Record<TickKind, string> = {
@@ -54,8 +55,8 @@ export function mountCompass(
         btn.dataset['yaw'] = String(yaw);
       }
       const w = g.world;
-      // TODO(objective-poi): pass `objective` once the Journal or quest tracker exposes a place.
       const list = compassTicks({
+        objective: OBJECTIVE_TARGET.pos,
         inGrove: w.location === 'grove',
         keeper: w.keeper.pos,
         yaw,

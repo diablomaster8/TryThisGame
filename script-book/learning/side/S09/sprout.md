@@ -23,7 +23,7 @@ _He doesn’t look grumpy now. He looks lonely and tired._
 > Check: `edu:rub:hands:warm`
 > _For grown-ups: Rubbed their hands together to feel them warm up._
 
-_He pushes the gate. It sticks. He doesn’t know the trick._  
+_He pushes the gate. Creak! It sticks. He doesn’t know the trick._  
 **Corvin Vale**: This trowel is Hazel’s. Please give it back to her.  
 
 **Choices**
@@ -70,7 +70,7 @@ _Gran turns the trowel over in her hands._
 
 #### `sprout:s9-yours` · [main](../../../side/S09.md#s9-yours)
 
-_Gran puts the trowel down on the step._  
+_Thump! Gran puts the trowel down on the step._  
 **Gran Hazel**: He’ll come back at the next sunset.  
 
 > **Lesson** (science, 1-ESS1-1, do): the parts of the day in order  
@@ -106,7 +106,7 @@ _He puts both hands on the gate. He doesn’t open it._
 > _For grown-ups: Saw a character say sorry and ask permission before entering a home._
 
 **Corvin Vale**: I’ll stand right here till morning. If it’s still shut, I’ll understand.  
-_He steps back into the dark lane. He doesn’t go far._  
+_He steps back into the dark lane. Crunch, crunch. He doesn’t go far._  
 
 #### `sprout:s9-word` · [main](../../../side/S09.md#s9-word)
 
@@ -122,7 +122,7 @@ _By supper, everyone knows. Corvin asked to come in._
 > _It’s good to listen to everyone. Then you choose._  
 > _For grown-ups: Heard several different opinions and that it helps to listen to all of them._
 
-_Gran says nothing. But she leaves her door unlocked._  
+_Gran says nothing. But she leaves her door unlocked. Creak!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 5  
 > _(Count the friends who spoke: Ember, Luna, Fern, Clover, Byte.)_  
@@ -146,7 +146,7 @@ _Frost sparkles on his coat._
 **Corvin Vale**: Hello, Hazel’s grandchild.  
 _In the long grass, a little grey ear goes flat._  
 **Corvin Vale**: I know what I took from her. I’m asking anyway.  
-_Gran drinks her tea. She is listening._  
+_Gran drinks her tea. Slurp! She is listening._  
 
 **Choices**
 
@@ -165,7 +165,7 @@ _Gran drinks her tea. She is listening._
 
 _Variant of `s9-gate`._
 
-_Morning. Gran sits by the pond with her tea._  
+_Morning. Gran sits by the pond. Slurp! That’s her tea._  
 _Corvin is at the gate. He stood there all night._  
 _Frost sparkles on his coat._  
 **Corvin Vale**: Hello, Hazel’s grandchild.  
@@ -178,7 +178,7 @@ _Gran drinks her tea. She is listening._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): first, then: the steps of a trick  
 > _Our gate has a trick. What do we do first?_  
 > - ✅ Lift → Yes! First lift. Then push.
-> - Push → Push first, and it sticks! First lift, then push.
+> - Push → Push first? Creak, squeak! The gate would stay stuck. Push first, and it sticks! First lift, then push.
 > _For grown-ups: Told the two steps of the gate trick in order: first lift, then push._
 
 

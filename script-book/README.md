@@ -22,18 +22,18 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S3: The Cycle · opens in chapter 4 | [S03.md](side/S03.md) (178) | [sprout.md](learning/side/S03/sprout.md) (229) | [reader.md](learning/side/S03/reader.md) (282) |
 | Side story S4: The Wellspring · opens in chapter 5 | [S04.md](side/S04.md) (152) | [sprout.md](learning/side/S04/sprout.md) (200) | [reader.md](learning/side/S04/reader.md) (261) |
 | Side story S5: Fossil’s Last Walk · opens in chapter 5 | [S05.md](side/S05.md) (146) | [sprout.md](learning/side/S05/sprout.md) (192) | [reader.md](learning/side/S05/reader.md) (251) |
-| Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (170) | [sprout.md](learning/side/S06/sprout.md) (197) | [reader.md](learning/side/S06/reader.md) (245) |
+| Side story S6: Ash’s True Name · opens in chapter 9 | [S06.md](side/S06.md) (170) | [sprout.md](learning/side/S06/sprout.md) (198) | [reader.md](learning/side/S06/reader.md) (245) |
 | Side story S7: Unverified · opens in chapter 7 | [S07.md](side/S07.md) (166) | [sprout.md](learning/side/S07/sprout.md) (198) | [reader.md](learning/side/S07/reader.md) (267) |
 | Side story S8: The Warren in the Hollow · opens in chapter 8 | [S08.md](side/S08.md) (181) | [sprout.md](learning/side/S08/sprout.md) (229) | [reader.md](learning/side/S08/reader.md) (298) |
 | Side story S9: The Gate That Sticks · opens in chapter 11 | [S09.md](side/S09.md) (206) | [sprout.md](learning/side/S09/sprout.md) (219) | [reader.md](learning/side/S09/reader.md) (312) |
 | Side story S10: Fourteen Months · opens in chapter 11 | [S10.md](side/S10.md) (393) | [sprout.md](learning/side/S10/sprout.md) (484) | [reader.md](learning/side/S10/reader.md) (569) |
-| Side story S11: The Blight · opens in chapter 5 | [S11.md](side/S11.md) (168) | [sprout.md](learning/side/S11/sprout.md) (212) | [reader.md](learning/side/S11/reader.md) (305) |
-| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (175) | [sprout.md](learning/side/S12/sprout.md) (209) | [reader.md](learning/side/S12/reader.md) (297) |
-| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (341) | [sprout.md](learning/side/S13/sprout.md) (361) | [reader.md](learning/side/S13/reader.md) (541) |
-| Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (221) | [sprout.md](learning/side/S14/sprout.md) (265) | [reader.md](learning/side/S14/reader.md) (346) |
+| Side story S11: The Blight · opens in chapter 5 | [S11.md](side/S11.md) (168) | [sprout.md](learning/side/S11/sprout.md) (213) | [reader.md](learning/side/S11/reader.md) (305) |
+| Side story S12: The Hum · opens in chapter 6 | [S12.md](side/S12.md) (175) | [sprout.md](learning/side/S12/sprout.md) (210) | [reader.md](learning/side/S12/reader.md) (297) |
+| Side story S13: The Mill Cellar · opens in chapter 7 | [S13.md](side/S13.md) (341) | [sprout.md](learning/side/S13/sprout.md) (362) | [reader.md](learning/side/S13/reader.md) (541) |
+| Side story S14: Tilly’s Tabletop · opens in chapter 8 | [S14.md](side/S14.md) (221) | [sprout.md](learning/side/S14/sprout.md) (266) | [reader.md](learning/side/S14/reader.md) (346) |
 | Side story S15: Lucky Eggs · opens in chapter 5 | [S15.md](side/S15.md) (175) | [sprout.md](learning/side/S15/sprout.md) (211) | [reader.md](learning/side/S15/reader.md) (307) |
 | Side story S16: The Workyard · opens in chapter 6 | [S16.md](side/S16.md) (162) | [sprout.md](learning/side/S16/sprout.md) (196) | [reader.md](learning/side/S16/reader.md) (285) |
-| Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (181) | [sprout.md](learning/side/S17/sprout.md) (235) | [reader.md](learning/side/S17/reader.md) (318) |
+| Side story S17: Nightjar · opens in chapter 7 | [S17.md](side/S17.md) (181) | [sprout.md](learning/side/S17/sprout.md) (236) | [reader.md](learning/side/S17/reader.md) (318) |
 | Side story S18: The Grove Museum · opens in chapter 6 | [S18.md](side/S18.md) (194) | [sprout.md](learning/side/S18/sprout.md) (259) | [reader.md](learning/side/S18/reader.md) (345) |
 | Side story S19: Cinder’s Last Light · opens in chapter 11 | [S19.md](side/S19.md) (428) | [sprout.md](learning/side/S19/sprout.md) (439) | [reader.md](learning/side/S19/reader.md) (608) |
 | Side story S20: Fort Night · opens in chapter 11 | [S20.md](side/S20.md) (187) | [sprout.md](learning/side/S20/sprout.md) (226) | [reader.md](learning/side/S20/reader.md) (311) |

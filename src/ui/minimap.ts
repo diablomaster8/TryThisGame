@@ -12,6 +12,7 @@ import type { Game } from '../game';
 import { paintGroveMap } from '../render/map-paint';
 import { textBandOf } from '../sim/story-scenes';
 import type { NubbinType, Settings } from '../sim/types';
+import { OBJECTIVE_TARGET } from './beacon-arrow';
 import { minimapModeOf, minimapVisible, type MinimapMode } from './hud-world-math';
 
 /** Cost of the redraws so far, ms (read by the dev checks). */
@@ -182,6 +183,30 @@ export function mountMinimap(
       shape(ctx, type, x, y);
       ctx.fillStyle = DOT_FILL[type];
       ctx.fill();
+      ctx.stroke();
+    }
+    // R0100: the tracked objective, a gold star, held to the rim when it lies farther out.
+    const goal = OBJECTIVE_TARGET.pos;
+    if (goal) {
+      let x = sx(goal.x);
+      let y = sy(goal.z);
+      const d = Math.hypot(x - half, y - half);
+      const rim = half - 6;
+      if (d > rim) {
+        x = half + ((x - half) / d) * rim;
+        y = half + ((y - half) / d) * rim;
+      }
+      ctx.beginPath();
+      for (let i = 0; i < 10; i++) {
+        const r = i % 2 ? 2.4 : 5.5;
+        const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+        ctx.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#ffd84a';
+      ctx.fill();
+      ctx.strokeStyle = '#2a1c10';
+      ctx.lineWidth = 1;
       ctx.stroke();
     }
     // The Keeper: a light centre in a red ring.

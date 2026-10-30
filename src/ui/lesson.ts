@@ -6,11 +6,49 @@
  */
 import { EDU_STORY_TEXT } from '../config/strings';
 import type { Lesson, LessonOption } from '../content/types';
-import { isAudioUnlocked, isSoundEnabled } from '../platform/audio';
+import { isAudioUnlocked, isSoundEnabled, playSound, type SoundName } from '../platform/audio';
+import { SOUND_WORDS, soundWordsIn } from '../config/edu-sounds';
 import { button, el } from './dom';
 import { appendScriptText, withoutScript } from './lang-dom';
 
 const PROMPT = /\([^)]*\)/g;
+
+/** R0310: bumped on every new line or stop, so a stale chain of chunks ends. */
+let speakToken = 0;
+
+/**
+ * R0310: a line cut after each sound word, with the sound to play there. A line with none is
+ * one chunk, said as before.
+ */
+export function soundChunks(text: string): Array<{ text: string; sound: SoundName | null }> {
+  const out: Array<{ text: string; sound: SoundName | null }> = [];
+  let last = 0;
+  for (const m of text.matchAll(/[A-Za-z]+/g)) {
+    const w = soundWordsIn(m[0])[0];
+    if (!w) continue;
+    const end = (m.index ?? 0) + m[0].length;
+    // Keep the punctuation that follows the word ("Creak!") in the said chunk.
+    const tail = /^[!?.,…]*/.exec(text.slice(end))?.[0] ?? '';
+    out.push({ text: text.slice(last, end + tail.length), sound: SOUND_WORDS[w] ?? null });
+    last = end + tail.length;
+  }
+  if (last < text.length && text.slice(last).trim())
+    out.push({ text: text.slice(last), sound: null });
+  return out.length ? out : [{ text, sound: null }];
+}
+
+/** R0310: plain text with its sound words in the bubbly face (sprout band). */
+function appendWithSounds(box: HTMLElement, text: string, plain: (t: string) => void): void {
+  let last = 0;
+  for (const m of text.matchAll(/[A-Za-z]+/g)) {
+    if (!soundWordsIn(m[0]).length) continue;
+    const at = m.index ?? 0;
+    if (at > last) plain(text.slice(last, at));
+    box.appendChild(el('span', 'edu-sound', m[0]));
+    last = at + m[0].length;
+  }
+  if (last < text.length) plain(text.slice(last));
+}
 
 /**
  * Fill `box` with a finished line: bracketed prompts (sprout) in their own style, and each
@@ -35,7 +73,8 @@ export function renderLineText(
       continue;
     }
     if (!words || !glossary) {
-      plain(p.text);
+      if (showPrompts) appendWithSounds(box, p.text, plain);
+      else plain(p.text);
       continue;
     }
     let last = 0;
@@ -96,10 +135,23 @@ export function speakLine(text: string): void {
     const said = withoutScript(text.replace(PROMPT, ' ')).replace(/\s+/g, ' ').trim();
     synth.cancel();
     if (!said) return;
-    const u = new SpeechSynthesisUtterance(said);
-    u.lang = 'en-GB';
-    u.rate = 0.9;
-    synth.speak(u);
+    // R0310: a sound word is said, then its sound plays, before the line goes on.
+    const token = ++speakToken;
+    const chunks = soundChunks(said);
+    const next = (i: number): void => {
+      if (token !== speakToken || i >= chunks.length) return;
+      const c = chunks[i]!;
+      const u = new SpeechSynthesisUtterance(c.text);
+      u.lang = 'en-GB';
+      u.rate = 0.9;
+      u.onend = () => {
+        if (token !== speakToken) return;
+        if (c.sound) playSound(c.sound);
+        window.setTimeout(() => next(i + 1), c.sound ? 260 : 0);
+      };
+      synth.speak(u);
+    };
+    next(0);
   } catch {
     // No voice on this device: the grown-up reads it.
   }
@@ -107,6 +159,7 @@ export function speakLine(text: string): void {
 
 export function stopSpeaking(): void {
   try {
+    speakToken++;
     window.speechSynthesis?.cancel();
   } catch {
     // Nothing to stop.

@@ -1,7 +1,7 @@
 import { CRITTER_SPECIES } from '../critters';
 import { LESSON_IDS } from '../kindergarten';
 import { SPECIES, type Family } from '../species';
-import type { AlignmentBand, Nubbin, NubbinType, SimEvent } from '../types';
+import type { AlignmentBand, Nubbin, NubbinType, Personality, SimEvent } from '../types';
 import { moveOf } from './moves';
 import type { MoveDef, NubbinBattle } from './types';
 
@@ -54,6 +54,18 @@ export const CRITTER_MOVE: Record<string, string> = {
   sheep: 'woolly-wall',
   raccoon: 'pocket-snack',
   skunk: 'pong',
+  // Lane E, R0402: the newer critters teach a fitting move from the set above.
+  bonefish: 'splash-back',
+  turtle: 'woolly-wall',
+  swallow: 'dive-hug',
+  bat: 'fan-dazzle',
+  deer: 'zoomies',
+  monkey: 'copycat',
+  unicorn: 'pounce',
+  wolf: 'snuffle-charge',
+  koala: 'bear-hug',
+  phoenix: 'dive-hug',
+  dragon: 'chest-drum',
 };
 
 /** The critter behind a part id such as "rabbit-ears". */
@@ -105,6 +117,21 @@ export const FINAL_MOVE: Record<`${Exclude<Family, 'chao'>}:${NubbinType}`, stri
   'digi:normal': 'giant-hug',
 };
 
+/**
+ * Round 5 comedy moves (recs FIGHT-75). A personality, once set at evolution, brings its own
+ * move; each dojo belt teaches one; and a good loser, after a few lost bouts, learns the
+ * Dramatic Gasp. None of these is a grind: they arrive with things the Nubbin does anyway.
+ */
+export const PERSONALITY_MOVE: Record<Personality, string> = {
+  cheerful: 'belly-flop',
+  shy: 'pillow-fort',
+  mischievous: 'noogie',
+  lazy: 'nap-attack',
+};
+/** By belt: belt 1 teaches the first, and so on. */
+export const BELT_MOVES = ['polite-shove', 'stare-contest', 'hug-of-doom'];
+export const GOOD_LOSER = { move: 'dramatic-gasp', losses: 3 };
+
 export const FALLBACK_MOVES = ['raspberry', 'tickle-storm'];
 
 /** Moves every combatant has without a slot. */
@@ -124,6 +151,9 @@ export function sourcesOf(n: Nubbin): string[] {
   const sp = SPECIES.find((s) => s.id === n.species);
   if (sp && sp.stage === 'final' && sp.family !== 'chao')
     add(FINAL_MOVE[`${sp.family}:${sp.type}`]);
+  if (n.personality) add(PERSONALITY_MOVE[n.personality]);
+  BELT_MOVES.slice(0, n.karate?.belt ?? 0).forEach(add);
+  if ((n.battle?.losses ?? 0) >= GOOD_LOSER.losses) add(GOOD_LOSER.move);
   for (const id of FALLBACK_MOVES) add(id);
   return out;
 }

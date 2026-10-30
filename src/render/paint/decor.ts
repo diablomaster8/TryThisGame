@@ -702,6 +702,15 @@ function flatStone(): Raster {
   return finish(r);
 }
 
+/** R0313 (FUN-24): Fern's stone, a round grey pebble with two dots for eyes. */
+function fernStone(): Raster {
+  const r = begin(16, 12);
+  blob(r, 8, 7, 7, 4, hex('#c9c4b8'), hex('#6f6a60'), 93);
+  r.set(6, 6, hex('#2a2030'));
+  r.set(10, 6, hex('#2a2030'));
+  return finish(r);
+}
+
 function gardenDoor(): Raster {
   const r = begin(64, 52);
   // Two stretches of the Old Wall, and an arched door between them.
@@ -826,6 +835,7 @@ export function buildPaintedProps(): SpriteSheet {
   add('prop-register', register());
   add('prop-handLantern', handLantern());
   add('prop-flatStone', flatStone());
+  add('prop-fernStone', fernStone());
   add('prop-gardenDoor', gardenDoor());
   add('prop-oldBench', bench());
   add('prop-chair', chair());

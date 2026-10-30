@@ -13,6 +13,7 @@ import { LOGGED_SPEAKERS } from '../../src/content/storyline-logged';
 import { packs } from './quest-packs';
 import { areaOf } from '../../src/content/where-map';
 import { REGIONS, STORY_AREAS } from '../../src/config/regions';
+import { comedyReport } from './comedy-report';
 
 const problems: string[] = [];
 const questIds = new Set<string>(),
@@ -201,6 +202,13 @@ if (ns !== '1,2,3,4,5,6,7,8,9,10,11,12') problems.push(`campaign: chapters ${ns}
 for (const c of C.CAMPAIGN_CHAPTERS)
   for (const id of [c.opening, c.closing])
     if (!campIds.has(id)) problems.push(`campaign: ch${c.n} missing scene ${id}`);
+// R0319 (FUN-30): the goal chip stays within two lines on a phone.
+for (const c of C.CAMPAIGN_CHAPTERS) {
+  if (c.goalText.length > 60) problems.push(`chip: ch${c.n} goalText over 60 characters`);
+  if (c.hint.length > 70) problems.push(`chip: ch${c.n} hint over 70 characters`);
+  for (const s of c.howTo ?? [])
+    if (s.text.length > 40) problems.push(`chip: ch${c.n} howTo step over 40: ${s.text}`);
+}
 const endIds = [
   'hazels-grove',
   'eternal-dawn',
@@ -567,6 +575,9 @@ for (const band of C.EDU_BANDS) {
 
 // ---- lint (2026-10-14): rules that the review found broken. Problems fail the check; warnings are for a human.
 const warnings: string[] = [];
+/** R0320: openers a sprout wrong-answer reply must not start with. */
+const SPROUT_WRONG_OPENER =
+  /^[“"‘']?(No\b|Nope|Wrong|That’s not|That's not|Not quite|Try again|Oops, no)/i;
 const norm = (t: string): string =>
   t
     .toLowerCase()
@@ -644,6 +655,16 @@ for (const x of allTexts)
     )
   )
     warnings.push(`timer? ${x.id}: ${x.text}`);
+// R0320 (FUN-31): a sprout wrong answer opens with a silly picture, never a "No" (warning).
+for (const e of [
+  ...C.EDU_CAMPAIGN.sprout.flatMap((c) => c.scenes),
+  ...C.EDU_QUESTS.sprout.flatMap((q) => q.scenes),
+  ...C.EDU_VARIANTS.sprout,
+])
+  for (const l of e.lessons)
+    for (const o of l.kind === 'ask' && l.options?.some((x) => x.best) ? l.options : [])
+      if (!o.best && SPROUT_WRONG_OPENER.test(o.reply[0]?.text ?? ''))
+        warnings.push(`sprout-wrong-opener ${e.id} ${l.id}: ${o.reply[0]!.text}`);
 // 5. Line caps (warnings): sprout ≤ 14 words, reader ≤ 30 words (EDU-STYLE).
 for (const e of eduTexts) {
   const w = e.text.split(/\s+/).length;
@@ -839,3 +860,5 @@ console.log(
 );
 console.log(problems.slice(0, 60).join('\n'));
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
+// R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
+if (process.argv.includes('--comedy')) console.log(comedyReport());

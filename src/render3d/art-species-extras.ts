@@ -341,6 +341,14 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
     case 'coin':
       H.push(ell(V(0, h.y + h.r.y * 0.55, h.z + h.r.z * 0.8), V(0.17, 0.17, 0.06), c, 0.02));
       break;
+    case 'bucketHat':
+      // A snowman's bucket hat (Yukidarumon, LOOK-41): a flat brim, a straight crown, a band.
+      H.push(
+        ell(V(0, top - 0.06, h.z), V(h.r.x * 1.2, 0.07, h.r.z * 1.2), c, 0.02),
+        ell(V(0, top + 0.22, h.z), V(h.r.x * 0.8, 0.3, h.r.z * 0.8), c, 0.03),
+        ell(V(0, top + 0.04, h.z), V(h.r.x * 0.84, 0.07, h.r.z * 0.84), c2, 0.01),
+      );
+      break;
     case 'cap':
       H.push(
         ell(V(0, h.y + h.r.y * 0.45, h.z), V(h.r.x * 1.35, h.r.y * 0.55, h.r.z * 1.3), c, 0.05),
@@ -441,6 +449,9 @@ function addExtra(out: ExtraPrims, art: CreatureSpec, L: ExtrasLayout, e: Extra)
       for (const s of sides)
         H.push(sphere(V(s * h.r.x * 0.72, h.y, h.z + h.r.z * 0.62), 0.14, c, 0.02));
       H.push(sphere(V(0, h.y - h.r.y * 0.6, front - 0.1), 0.1, c, 0.02));
+      break;
+    case 'heart':
+      // Painted as a mark instead, over the belly (art-species.ts `marks`).
       break;
     case 'belt':
       T.push(ell(V(0, b.y - b.r.y * 0.45, 0), V(b.r.x * 1.03, 0.1, b.r.z * 1.03), c, 0.02));

@@ -1,5 +1,7 @@
 import { UI_TEXT } from '../config/strings';
 import { GROVE3D } from '../config/tuning';
+import { nextTip } from './tips';
+import '../fun.css';
 
 /**
  * The longest the veil waits. Past it something has failed (a sculpt worker, a texture),
@@ -19,6 +21,7 @@ export class LoadingBar {
   private readonly veil: HTMLDivElement;
   private readonly fill: HTMLSpanElement;
   private readonly label: HTMLDivElement;
+  private readonly tip: HTMLParagraphElement;
   private finished = false;
   private startMs = performance.now();
   private shown = 0;
@@ -33,12 +36,21 @@ export class LoadingBar {
     const label = document.createElement('div');
     label.textContent = UI_TEXT.loading3d;
     this.label = label;
+    // R0318: a tip under the bar, one per load.
+    this.tip = document.createElement('p');
+    this.tip.className = 'load-tip';
+    this.tip.textContent = nextTip(null);
     const bar = document.createElement('div');
     bar.className = 'load-bar';
     this.fill = document.createElement('span');
     bar.appendChild(this.fill);
-    this.veil.append(label, bar);
+    this.veil.append(label, bar, this.tip);
     parent.appendChild(this.veil);
+  }
+
+  /** R0318: once the save is known, a tip that suits its band and chapter. */
+  showTip(text: string): void {
+    if (text) this.tip.textContent = text;
   }
 
   /** Say what is loading: a save that opens underground is not "Shaping the Grove" (R0142). */

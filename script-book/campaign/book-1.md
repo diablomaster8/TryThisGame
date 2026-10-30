@@ -2,7 +2,7 @@
 
 ## Chapter 1: The Letter
 
-Goal: Hatch your first egg and pet the Nubbin that comes out. (`firstHatch`) · Hint: The eggs are in the long grass. Hold one and shake it to hurry it along. Tap a Nubbin and choose Pet.
+Goal: Hatch an egg, then pet the Nubbin. (`firstHatch`) · Hint: Pick up an egg in the long grass and shake it.
 
 #### <a id="c1-letter"></a>Opening `c1-letter`
 
@@ -97,7 +97,7 @@ _On the hill, the grey shape has moved one step down._
 
 ## Chapter 2: Shells and Promises
 
-Goal: Collect fruit from the trees and feed a Nubbin by hand, twice. (`feedTwice`) · Hint: Tap a tree to shake it. Tap fruit to pick it up. Tap a Nubbin and choose Feed.
+Goal: Feed a Nubbin by hand, twice. (`feedTwice`) · Hint: Tap a tree, tap the fruit, then tap a Nubbin and choose Feed.
 
 #### <a id="c2-open"></a>Opening `c2-open`
 
@@ -176,7 +176,7 @@ _Your Nubbin has gone very still behind your legs._
 
 ## Chapter 3: The One Who Hides
 
-Goal: Win a little of Sable’s trust (20). (`sableTrust20`) · Hint: Sable runs when you come close. Leave fruit nearby, be patient, pet her when she lets you. Never throw her.
+Goal: Win a little of Sable’s trust (20). (`sableTrust20`) · Hint: Leave fruit near Sable, then choose Pet when she lets you.
 
 #### <a id="c3-open"></a>Opening `c3-open`
 
@@ -271,7 +271,7 @@ _They both turn and look at you. Sable, between them, pretends to be asleep._
 
 ## Chapter 4: Moss Remembers
 
-Goal: Pet Moss on the hill and light all four lanterns. (`lanternsAndMoss`) · Hint: Tap a lantern post to light it. Moss sits on the western hill. The fourth post only flickers, but it counts.
+Goal: Pet Moss on the hill and light all four lanterns. (`lanternsAndMoss`) · Hint: Moss sits on the western hill; tap each lantern post to light it.
 
 #### <a id="c4-open"></a>Opening `c4-open`
 

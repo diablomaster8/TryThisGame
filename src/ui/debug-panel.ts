@@ -11,6 +11,7 @@ import { MOVE_TEXT } from '../config/strings-move';
 import { DEBUG_OVERLAY } from '../render/debug-colliders';
 import { TACTICS_TEXT } from '../config/strings-tactics';
 import { COMIC_SOUNDS, playSound } from '../platform/audio';
+import { battleDebugControls } from './battle-debug';
 
 /**
  * Debug panel (backtick or triple-tap the logo): time speed, give items, force
@@ -166,6 +167,9 @@ export class DebugPanel {
       ),
     );
     this.root.appendChild(rumble);
+
+    // Lane C round 5: Debug → Battle (recs FIGHT-80), a collapsed block of its own.
+    this.root.appendChild(battleDebugControls(parent, game));
 
     // MOVE-38: collision overlays, drawn by whichever renderer is on.
     const overlays = el('div', 'debug-row');

@@ -159,7 +159,7 @@ describe('nubbinLook keys', () => {
     const n = nubbin({
       parts: { ears: 'rabbit-ears', tail: null, arms: null, back: 'condor-back' },
     });
-    expect(nubbinLook(n).key).toBe('variant:child~parts:rabbit-ears,-,-,condor-back');
+    expect(nubbinLook(n).key).toBe('variant:child~parts:rabbit-ears@0,-,-,condor-back@0');
     expect(nubbinLook(n).key).toBe(nubbinLook({ ...n }).key);
   });
 
@@ -180,7 +180,7 @@ describe('nubbinLook keys', () => {
     });
     expect(characterLook(n)).toBe('look-fox');
     // The look's palette replaces the egg colour, as in the pixel view.
-    expect(nubbinLook(n).key).toBe('variant:eternal-sun~look:look-fox~parts:-,skunk-tail,-,-');
+    expect(nubbinLook(n).key).toBe('variant:eternal-sun~look:look-fox~parts:-,skunk-tail@0,-,-');
   });
 
   it('a child with a character look wears the whole figure', () => {

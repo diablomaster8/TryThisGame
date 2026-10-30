@@ -11,6 +11,7 @@ import {
   eternalColors,
   lookOf,
   poseFor,
+  swimPose,
   VARIANT_COLORS,
   variantColors,
   type ChaoLook,
@@ -22,10 +23,11 @@ import { drawCreature } from '../render/sprites/creature';
 import { buildKeeperSheet } from '../render/sprites/keeper';
 import { SPECIES_ART } from '../render/sprites/species-art';
 import { TRAINERS } from '../sim/trainers';
+import { speciesByFamily, type SpeciesStage } from '../sim/species';
 import type { PixelCanvas } from '../render/sprites/pixel-canvas';
 import { buildPropSheet } from '../render/sprites/props';
-import { CRITTER_SPECIES, partId } from '../sim/critters';
-import { NUBBIN_TYPES, type PartSlot } from '../sim/types';
+import { ALL_CRITTERS, partId } from '../sim/critters';
+import { NUBBIN_TYPES, type NubbinParts } from '../sim/types';
 
 /**
  * Developer page at `?sprites`: every look, scaled up, so the art can be checked without
@@ -35,6 +37,15 @@ import { NUBBIN_TYPES, type PartSlot } from '../sim/types';
 export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
   root.innerHTML = '';
   root.className = 'gallery';
+
+  // `?sprites&family=pocket|digi` (`&stage=`): a compact contact sheet of the art species,
+  // each labelled with its id, for the likeness reviews (tests/tools/contact-sheet.cjs).
+  const query = new URLSearchParams(location.search);
+  const family = query.get('family');
+  if (family === 'pocket' || family === 'digi') {
+    speciesSheet(root, family, (query.get('stage') ?? undefined) as SpeciesStage | undefined);
+    return;
+  }
 
   const heading = (title: string) => {
     const h = document.createElement('h2');
@@ -79,7 +90,9 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
                   legs: 'tucked' as const,
                   arms: 'out' as const,
                 }
-              : poseFor(clip as ClipName, f);
+              : clip === 'paddle' || clip === 'crawl'
+                ? swimPose(clip, f)
+                : poseFor(clip as ClipName, f);
       cell(row, drawChao(angle, pose, look), frameKey(clip, angle, f));
     }
   };
@@ -180,10 +193,19 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     chao(`Hat: ${hat}`, lookOf(CHILD_NEUTRAL, null, null, undefined, false, hat), idleAngles);
   }
 
+  // LOOK-23: the three strokes, paddle, breaststroke and crawl.
+  chao('Swim: paddle, breaststroke, crawl', lookOf(CHILD_NEUTRAL), [
+    ['paddle', 'front', 0],
+    ['paddle', 'side', 1],
+    ['swim', 'front', 0],
+    ['crawl', 'front', 0],
+    ['crawl', 'side', 1],
+  ]);
+
   for (const band of ['sun', 'moon', 'neutral'] as const) {
     chao(
       `Eternal ${band} (Chaos form)`,
-      lookOf(eternalColors(band), 'normal', null, undefined, true),
+      lookOf(eternalColors(band), 'normal', null, undefined, true, null, false, band),
       [...idleAngles, ['flap', 'front', 1], ['happy', 'front', 0]],
     );
   }
@@ -203,17 +225,26 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     }
   }
 
-  for (const species of CRITTER_SPECIES) {
-    const parts: Record<PartSlot, string | null> = {
-      ears: null,
-      tail: null,
-      arms: null,
-      back: null,
-    };
+  for (const species of ALL_CRITTERS) {
+    const parts: NubbinParts = { ...NO_PARTS };
     for (const slot of species.parts) parts[slot] = partId(species.id, slot);
     chao(
       `Critter parts: ${species.id} (${species.parts.join(' + ')})`,
       lookOf(CHILD_NEUTRAL, null, null, parts),
+      idleAngles,
+    );
+  }
+  // LOOK-34/36: penguin, parrot and boar mixed on a Moon adult, at the smallest and largest step.
+  const mixed: NubbinParts = { ...NO_PARTS };
+  for (const id of ['penguin', 'parrot', 'boar'])
+    for (const slot of ALL_CRITTERS.find((c) => c.id === id)?.parts ?? [])
+      mixed[slot] = partId(id, slot);
+  for (const step of [0, 2] as const) {
+    const look = lookOf(adultColors('moon', 'run'), 'run', null, mixed, false, null, false, 'moon');
+    const steps = Object.fromEntries(Object.keys(mixed).map((k) => [k, step]));
+    chao(
+      `Critter parts mixed, Moon Run, size step ${step}`,
+      { ...look, partSteps: steps },
       idleAngles,
     );
   }
@@ -245,6 +276,22 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
       ),
     );
   }
+  // LOOK-25: the cocoons in a Nubbin's own shape: evolving by band (a child), then an adult's.
+  const childMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL));
+  const adultMask = drawChao('front', poseFor('idle', 0), lookOf(CHILD_NEUTRAL, 'fly'));
+  for (const [kind, band] of [
+    ['evolve', 'sun'],
+    ['evolve', 'moon'],
+    ['evolve', 'neutral'],
+    ['rebirth', null],
+    ['depart', null],
+  ] as const) {
+    sheet(
+      `Cocoon: ${kind} ${band ?? ''}`,
+      buildCocoonSheet(kind, band, kind === 'evolve' ? childMask : adultMask),
+      [frameKey('idle', 'front', 0), frameKey('idle', 'front', 1)],
+    );
+  }
   for (const kind of ['evolve', 'rebirth', 'depart'] as const) {
     sheet(`Cocoon: ${kind}`, buildCocoonSheet(kind), [
       frameKey('idle', 'front', 0),
@@ -266,4 +313,38 @@ export function mountSpriteGallery(root: HTMLElement, scale = 2): void {
     buildEmoteSheet(),
     EMOTE_SHAPES.flatMap((s) => [frameKey(s, 'front', 0), frameKey(s, 'front', 1)]),
   );
+}
+
+/** Every art species of a family in a wrapping grid: four angles and a walk frame each. */
+function speciesSheet(root: HTMLElement, family: 'pocket' | 'digi', stage?: SpeciesStage): void {
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;background:#fff;padding:6px';
+  root.appendChild(grid);
+  for (const s of speciesByFamily(family, stage)) {
+    const art = SPECIES_ART[s.id];
+    if (!art) continue;
+    const fig = document.createElement('figure');
+    fig.style.cssText = 'margin:0;padding:2px;border:1px solid #ddd;text-align:center';
+    const row = document.createElement('div');
+    for (const pc of [
+      drawCreature('front', poseFor('idle', 0), art),
+      drawCreature('frontQuarter', poseFor('idle', 0), art),
+      drawCreature('side', poseFor('idle', 0), art),
+      drawCreature('back', poseFor('idle', 0), art),
+    ]) {
+      const c = document.createElement('canvas');
+      c.width = pc.width;
+      c.height = pc.height;
+      const ctx = c.getContext('2d');
+      if (!ctx) continue;
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(pc.toCanvas(), 0, 0, c.width, c.height);
+      row.appendChild(c);
+    }
+    const cap = document.createElement('figcaption');
+    cap.textContent = s.id;
+    cap.style.cssText = 'font:600 11px system-ui,sans-serif;color:#111';
+    fig.append(row, cap);
+    grid.appendChild(fig);
+  }
 }

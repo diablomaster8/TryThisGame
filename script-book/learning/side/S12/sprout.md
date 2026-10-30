@@ -21,7 +21,7 @@ _It’s a Nubbin! Its wings buzz when it talks._
 > **Lesson** (literacy, ELOF: Language and Communication, ask): the words “I” and “we”: one and lots  
 > **Luna**: It’s just one beetle. Should it say “I” or “we”?  
 > - ✅ “I” → Yes! One on your own says “I”. Lots together say “we”.
-> - “We” → “We” is for lots together. One on its own says “I”.
+> - “We” → “We” for one tiny bee? Buzz! That’s a lonely we. “We” is for lots together. One on its own says “I”.
 > _For grown-ups: Learned that we say “I” about one person and “we” about a group._
 
 **Luna**: It needs a name, I think.  
@@ -62,7 +62,7 @@ _But Solo climbs up your sleeve instead. And stays there._
 
 _Next morning, Pixel is at the wall. She has a tuning fork._  
 **Pixel**: I tune my lantern clock to this wall. It always hums one note.  
-_She taps the fork. It sings. The wall sings back, a bit lower._  
+_She taps the fork. Ding! It sings. The wall sings back, a bit lower._  
 
 > **Lesson** (music, do): high and low notes  
 > _(Sing a high note together: laaa! Now a low note: looo.)_  
@@ -86,13 +86,13 @@ _Deep inside, one slow note. Hmmmm. Like a big, sleepy bee._
 > **Lesson** (sel, CASEL: Social awareness, ask): helping someone who feels lonely  
 > _The Queen-Mother feels lonely. What helps when someone is lonely?_  
 > - ✅ A friend to talk to → Yes. You’re here, talking to me. I feel less lonely already.
-> - Being told to cheer up → That doesn’t help much. A friend who listens helps most.
-> - Going away → Then I’d feel lonelier! A friend nearby helps.
+> - Being told to cheer up → “Cheer up!” Pop! It doesn’t pop the sad feeling. That doesn’t help much. A friend who listens helps most.
+> - Going away → Going away? Whoosh! Then I’d be even lonelier. Then I’d feel lonelier! A friend nearby helps.
 > _For grown-ups: Thought about what helps a lonely friend: company and listening._
 
 **The Queen-Mother**: Soon, half will go. The little one must choose.  
 **The Queen-Mother**: Go, or stay. Don’t choose for it. Let it choose.  
-_Solo makes a tiny sound. Like a question._  
+_Solo makes a tiny sound. Peep? Like a question._  
 
 #### `sprout:s12-dark` · [main](../../../side/S12.md#s12-dark)
 
@@ -102,10 +102,11 @@ _It is night. The paths shine a little in the dark._
 > **Lesson** (science, ELOF: Scientific Reasoning, ask): day and night animals  
 > **Luna**: Some animals wake up at night. Which one?  
 > - ✅ An owl → Yes! Lots of owls wake up at night. So do moths and bats.
-> - A butterfly → Butterflies rest at night. Owls, moths and bats wake up!
-> - A hen → Hens go to bed at night! Owls, moths and bats wake up.
+> - A butterfly → A butterfly at night? Snore! It’s fast asleep. Butterflies rest at night. Owls, moths and bats wake up!
+> - A hen → A hen at midnight? Cluck! She’s snug in bed. Hens go to bed at night! Owls, moths and bats wake up.
 > _For grown-ups: Learned that some animals, like owls, moths and bats, are awake at night._
 
+_Pop! A night flower opens beside you._  
 **Solo**: In the hum, I’m warm all over. Nothing is scary.  
 **Solo**: Out here, the dark is big. I feel scared.  
 **Solo**: But I want to see what happens next. Is that greedy?  
@@ -123,7 +124,7 @@ _When a bee family gets too big, some fly off. That’s a swarm._
 > **Lesson** (maths, K.OA.A.1, ask): taking away leaves fewer  
 > **Pixel**: Lots fly out. Now, are there more or fewer in the wall?  
 > - ✅ Fewer → Yes! When some go away, there are fewer left.
-> - More → They flew away, so there are fewer. Fewer left behind.
+> - More → More? Buzz, buzz! Some flew away, so there are fewer. They flew away, so there are fewer. Fewer left behind.
 > _For grown-ups: Understood that when some of a group leave, fewer are left._
 
 **The Thrums**: Sorry it’s slow. We’re trying to be quick and polite.  
@@ -149,7 +150,7 @@ _Pixel gives you her tuning fork. PROPERTY OF PIXEL, it says._
 #### `sprout:s12-settled` · [main](../../../side/S12.md#s12-settled)
 
 _The fork leads you over the stream to Hazel’s crooked tree._  
-_The swarm hangs from a branch, like a big buzzing pear._  
+_The swarm hangs from a branch, like a big pear. Buzz, buzz!_  
 **Pixel**: It was never one note! It’s hundreds of tiny hums together!  
 **The Thrums**: We are a new we. Solo, will you come in?  
 **Solo**: Keeper. I don’t know what to do.  
@@ -159,8 +160,8 @@ _You sit down beside Solo. You wait for Solo to choose._
 > **Lesson** (sel, CASEL: Responsible decision-making, ask): making a hard choice slowly, with a friend  
 > _Solo can’t decide. What helps when you can’t decide?_  
 > - ✅ Take your time, with a friend → Slowly. With you here. Yes. That helps.
-> - Hurry up and pick! → Hurrying makes my wings wobble. Slowly, with a friend, helps.
-> - Let someone else pick → The Queen-Mother said I must choose. With a friend beside me.
+> - Hurry up and pick! → Hurry up! Zoom, wobble! My wings go all wibbly. Hurrying makes my wings wobble. Slowly, with a friend, helps.
+> - Let someone else pick → Let someone else pick? Pfft! It’s my choice. The Queen-Mother said I must choose. With a friend beside me.
 > _For grown-ups: Thought about making a hard choice: slowly, with a friend beside you._
 
 

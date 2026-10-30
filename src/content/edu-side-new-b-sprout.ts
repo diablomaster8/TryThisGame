@@ -355,7 +355,7 @@ const S13: EduQuest = quest(
           prompt: [T('Where should our hands be, near a big wheel?', 'think')],
           options: [
             opt('Far away, by our sides', [T('Yes. Big machines can hurt fingers. We stay back.', 'happy')], true),
-            opt('On the spokes', [T('Ooh, no. A wheel can move and pinch. Hands far away, by our sides.')]),
+            opt('On the spokes', [T('Hands on the spokes? Pinch, squeak! The wheel would nip.'), T('Ooh, no. A wheel can move and pinch. Hands far away, by our sides.')]),
           ],
           parentNote: 'Learned to keep hands away from big moving machines.',
         },
@@ -364,7 +364,7 @@ const S13: EduQuest = quest(
     sc(
       's13-level3',
       [
-        N('In the biggest gear is a wooden wedge. Somebody put it there.'),
+        N('Creak! In the biggest gear is a wooden wedge. Somebody put it there.'),
         N('A label hangs from it. It says: STOPPED. LEAVE IT.'),
         Y('Somebody stopped the wheel on purpose.'),
         T('Aldous did, in his last winter. He sat on that step.', 'sad'),
@@ -403,7 +403,7 @@ const S13: EduQuest = quest(
         T('Every evening I lit the lamp by the gate.', 'soft'),
         T('And every evening there was a boy at the window. Working.', 'sad'),
         T('That’s the whole story. The only one I ever finished.', 'sad'),
-        N('He gives you a little iron key. It’s warm from his pocket.'),
+        N('Ding! He gives you a little iron key. It’s warm from his pocket.'),
         N('The sock is in Tobin’s pocket. He does not know how.'),
         T('I found more treasure. A cog: the Cog of Very Big Patience.', 'happy'),
         T('And a tiny hat, cut from a round millstone. Heavy!', 'happy'),
@@ -431,6 +431,7 @@ const S13: EduQuest = quest(
       [
         N('The bottom room is small, dry and very cold.'),
         N('A desk. A chair. An apron on a hook, still floury.'),
+        N('Creak! The old chair rocks.'),
         N('A pocket watch, stopped just after five o’clock.'),
         T('Five in the morning. That’s when the wheel started, every day.', 'soft'),
         N('Inside the big book are three rules, in chalk.'),
@@ -638,7 +639,7 @@ const S19: EduQuest = quest(
     sc(
       's19-marina',
       [
-        N('Marina is in a rock pool, breaking the ice. She’s very happy.'),
+        N('Crack! Marina is in a rock pool, breaking the ice. She’s very happy.'),
         MA('The high pass? In winter? Lovely! It’s freezing up there. I love it.', 'happy'),
         MA('All our water comes down from that snow. I know the way.'),
         MA('Boots. A rope. Two pairs of socks.'),
@@ -725,7 +726,7 @@ const S19: EduQuest = quest(
         N('The waterfall is frozen white. It doesn’t move at all.'),
         N('You wait. Your feet get cold.'),
         N('Grrrrr! Your tummy is very loud in all this quiet.'),
-        N('Up on the edge, Marina coughs. A very polite cough.'),
+        N('Up on the edge, Marina goes achoo! A very polite one.'),
         N('You keep waiting.'),
       ],
       [
@@ -738,7 +739,7 @@ const S19: EduQuest = quest(
           prompt: [N('Why is the waterfall white and still?')],
           options: [
             opt('It got so cold, the water froze into ice', [N('Yes! When water gets very cold, it turns into ice.')], true),
-            opt('It got tired', [N('Waterfalls don’t get tired! It got so cold, the water turned into ice.')]),
+            opt('It got tired', [N('A tired waterfall? Snore! Did it go to sleep?'), N('Waterfalls don’t get tired! It got so cold, the water turned into ice.')]),
           ],
           parentNote: 'Explained a frozen waterfall: very cold water turns into ice.',
         },
@@ -845,7 +846,7 @@ const S19: EduQuest = quest(
         N('That night, the lantern by the long grass feels warm to stand by.'),
         N('You put the red pebble on the windowsill.'),
         N('By morning, five Nubbins are asleep in a heap under it. Snore!'),
-        N('One wakes up and licks the red pebble. Not supper!'),
+        N('One wakes up and licks the red pebble. Slurp! Not supper!'),
       ],
       [
         {
@@ -903,7 +904,7 @@ const S22: EduQuest = quest(
         NO('I asked you for help once. It went well. So here I am!', 'soft'),
         N('Next to her sits a little shadow, the size of a cat.'),
         N('It looks just like Nova. Same hair. Same boots.'),
-        N('It has a tiny rope too, and it trips on it. Flop!'),
+        N('It has a tiny rope too, and it trips on it. Thump!'),
         WO('What if you slip?', 'think'),
         NO('…You can see it? Nobody ever sees it!', 'shock'),
         NO('It’s my Worry. It talks to me. It’s mostly right. Annoying!', 'think'),
@@ -928,7 +929,7 @@ const S22: EduQuest = quest(
     sc(
       's22-scree',
       [
-        N('The little stones slide under your feet. Clatter, clatter!'),
+        N('The little stones slide under your feet. Crunch, crunch!'),
         NO('♪ Little stones, little stones, sliding under my toes! ♪', 'happy'),
         NO('♪ I’m going up, but I’m sliding down, and that’s how it goes! ♪', 'happy'),
         N('She sings it again. And again. And again!'),
@@ -989,7 +990,7 @@ const S22: EduQuest = quest(
           prompt: [N('Is the buzzard above you, or below you?')],
           options: [
             opt('Below', [NO('Below! We’re higher than a bird. Wow.', 'shock')], true),
-            opt('Above', [NO('Look down… it’s below us! We’re higher than the bird.')]),
+            opt('Above', [NO('Above? Whee! We’d be up with the clouds.'), NO('Look down… it’s below us! We’re higher than the bird.')]),
           ],
           parentNote: 'Used “above” and “below” to say where the bird was.',
         },
@@ -1082,7 +1083,7 @@ const S22: EduQuest = quest(
         NO('Come on, then. You always come. So come with me.', 'soft'),
         WO('…What?', 'shock'),
         N('The Worry takes her hand. It gets smaller. Not gone. Smaller.'),
-        N('They cross together. Nova sings. A second voice joins in, very flat.'),
+        N('They cross together. Nova sings. A second voice joins in, very flat. Hee, hee!'),
         NO('You can SING?', 'shock'),
         WO('I always could. You never asked.', 'soft'),
       ],
@@ -1105,7 +1106,7 @@ const S22: EduQuest = quest(
     sc(
       's22-scramble',
       [
-        N('The last bit is a climb on hands and knees.'),
+        N('Thump, thump! The last bit is a climb on hands and knees.'),
         N('Up here the air is very cold. The snow never melts.'),
         N('At the top is a point of rock, as big as a kitchen table.'),
         NO('Give me the flag. No, you do it. No. Together!', 'happy'),
@@ -1128,7 +1129,7 @@ const S22: EduQuest = quest(
     sc(
       's22-summit',
       [
-        N('From the top of the Tooth, you can see everything!'),
+        N('Whee! From the top of the Tooth, you can see everything!'),
         N('The waterfall, like a white thread. Marina’s pools, like coins.'),
         N('And the Grove: the pond, the cottage, four tiny lantern posts.'),
         N('Nova sits down. The Worry sits next to her, holding her hand.'),
@@ -1157,7 +1158,7 @@ const S22: EduQuest = quest(
     sc(
       's22-complete',
       [
-        N('Going down is quicker, and much more slippy.'),
+        N('Whee! Going down is quicker, and much more slippy.'),
         N('Nova and the Worry sing all the way.'),
         N('At the bottom, Nova opens the bag of oatcakes.'),
         N('Squish! They are all flat.'),
@@ -1177,8 +1178,8 @@ const S22: EduQuest = quest(
           prompt: [NO('Three of us: me, you, and my Worry. How many oatcakes do we need?', 'think')],
           options: [
             opt('3', [NO('Three! One each. Fair and square.', 'happy')], true),
-            opt('2', [NO('Let’s count: one for me, one for you, one for the Worry. Three!')]),
-            opt('5', [NO('That’s extra! One each makes three.')]),
+            opt('2', [NO('Two oatcakes? Crunch! One for me, one for you, one for the Worry.'), NO('Let’s count: one for me, one for you, one for the Worry. Three!')]),
+            opt('5', [NO('Five oatcakes? Munch, munch! That’s too many.'), NO('That’s extra! One each makes three.')]),
           ],
           parentNote: 'Matched one oatcake to each of three friends to share fairly.',
         },
@@ -1296,8 +1297,8 @@ const S14: EduQuest = quest(
           prompt: [TI('Where do real frogs like to live?', 'think')],
           options: [
             opt('In ponds and wet places', [TI('Yes! Frogs need water. Ponds are perfect frog homes.', 'happy')], true),
-            opt('In a dry desert', [TI('Too dry! Frogs need water. They live in ponds and wet places.')]),
-            opt('Up a chimney', [TI('Ha! No. Frogs live in ponds and wet places.', 'happy')]),
+            opt('In a dry desert', [TI('A frog in a dry desert? Gulp! It would be so thirsty.'), TI('Too dry! Frogs need water. They live in ponds and wet places.')]),
+            opt('Up a chimney', [TI('A frog up a chimney? Achoo! Soot everywhere!', 'happy'), TI('Ha! No. Frogs live in ponds and wet places.', 'happy')]),
           ],
           parentNote: 'Learned that frogs live in ponds and wet places because they need water.',
         },
@@ -1314,7 +1315,7 @@ const S14: EduQuest = quest(
         TI('Roll. Three dots. Your machine is a toad now. It works for him.'),
         BY('Do we pay a shell for paying a shell?', 'think'),
         TI('…Yes! Thanks SO much, Byte.', 'happy'),
-        N('Byte hands over one more shell. Clink.'),
+        N('Byte hands over one more shell. Ding!'),
         TI('That was a very “actually” question. Six!'),
         PX('Twenty years married, and Byte still gives people ideas.'),
         BY('You married a man who asks questions. It was in our promises.', 'think'),
@@ -1329,8 +1330,8 @@ const S14: EduQuest = quest(
           prompt: [TI('Two shells for the ribbit. One for the stairs. How many shells?')],
           options: [
             opt('3', [TI('Three shells! Two and one more make three.', 'happy')], true),
-            opt('2', [TI('Count with me: one, two… and one more. Three!')]),
-            opt('5', [TI('Too many! Two and one more make three.')]),
+            opt('2', [TI('Two shells? Ding! One more is hiding.'), TI('Count with me: one, two… and one more. Three!')]),
+            opt('5', [TI('Five shells? Ding, ding! The Tax Toad would be rich!'), TI('Too many! Two and one more make three.')]),
           ],
           parentNote: 'Added two shells and one more shell to make three.',
         },
@@ -1362,8 +1363,8 @@ const S14: EduQuest = quest(
           ],
           options: [
             opt('Table', [TI('T-t-table! Yes!', 'happy')], true),
-            opt('Frog', [TI('F-f-frog starts with f. Listen: t-t-table. Table!')]),
-            opt('Map', [TI('M-m-map starts with m. T-t-table starts with t!')]),
+            opt('Frog', [TI('A frog at the table? Ribbit! Hee, hee!'), TI('F-f-frog starts with f. Listen: t-t-table. Table!')]),
+            opt('Map', [TI('A map at the tea table? Hee, hee!'), TI('M-m-map starts with m. T-t-table starts with t!')]),
           ],
           parentNote: 'Heard the “t” sound at the start of Tilly, Tax and Toad, and found another t word.',
         },
@@ -1372,6 +1373,7 @@ const S14: EduQuest = quest(
     sc(
       's14-sparks',
       [
+        N('Ding, dong! The gate bell rings.'),
         N('Next morning, Sparks is at your gate. Being quiet. Sparks is never quiet!'),
         SP('The dragon in the corner of the map keeps getting bigger.', 'sad'),
         SP('Last night it got a cardigan. Hazel always wears a cardigan.'),
@@ -1453,7 +1455,7 @@ const S14: EduQuest = quest(
         N('The last game. Curtains shut. A torch under a bowl, for spooky light.'),
         TI('The Lair of the Grey Grandmother. First, get past her geese!'),
         SP('I HIT THE GOOSE WITH MY SANDWICH!', 'angry'),
-        TI('Roll. LOTS! The goose eats the sandwich. Now it’s your friend.'),
+        TI('Roll. LOTS! Chomp! The goose eats the sandwich. Now it’s your friend.'),
         N('Then you roll. LOTS again! Another goose is your friend.'),
         BY('Do I still have six points?'),
         TI('Five! You said “do” very, very actually.'),
@@ -1470,7 +1472,7 @@ const S14: EduQuest = quest(
           options: [
             opt('2', [TI('Two geese! One and one more make two. Honk, honk!', 'happy')], true),
             opt('1', [TI('One… and one more! That makes two. Honk, honk!')]),
-            opt('4', [TI('Not that many! One and one more make two.')]),
+            opt('4', [TI('Four geese? Honk, honk! That’s a very big flock.'), TI('Not that many! One and one more make two.')]),
           ],
           parentNote: 'Added one goose and one more goose to make two.',
         },
@@ -1479,7 +1481,7 @@ const S14: EduQuest = quest(
     sc(
       's14-dragon',
       [
-        N('Tilly lifts a cereal box off the corner. Under it is the dragon.'),
+        N('Plop! Tilly lifts a cereal box off the corner. Under it is the dragon.'),
         N('She’s cut from a biscuit-tin lid. Grey, with a felt-tip cardigan.'),
         TI('The Grey Grandmother. She flew away. She’s the boss.'),
         SP('Right! I roll to hit the—'),
@@ -1549,7 +1551,7 @@ const S14: EduQuest = quest(
         N('Sparks puts a button next to yours. Then Pixel. Then Byte.'),
         BY('Is there a rule against it?'),
         TI('…No.', 'soft'),
-        N('A Nubbin taps the window. It hopes it’s supper.'),
+        N('A Nubbin taps the window. Bonk! It hopes it’s supper.'),
       ],
       [
         {
@@ -1683,8 +1685,8 @@ const S20: EduQuest = quest(
           ],
           options: [
             opt('Sturdy', [PX('Sturdy! Then the pattern goes round again.', 'happy')], true),
-            opt('Speedy', [PX('Speedy comes after Sturdy. Listen: Speedy, Splashy, STURDY.')]),
-            opt('Gordon', [PX('Ha! Gordon isn’t in the pattern. Speedy, Splashy, Sturdy!', 'happy')]),
+            opt('Speedy', [PX('Speedy next? Zoom! Wait your turn, Speedy.'), PX('Speedy comes after Sturdy. Listen: Speedy, Splashy, STURDY.')]),
+            opt('Gordon', [PX('Gordon in the pattern? Hee, hee! He’s not a snowball.', 'happy'), PX('Ha! Gordon isn’t in the pattern. Speedy, Splashy, Sturdy!', 'happy')]),
           ],
           parentNote: 'Continued a repeating pattern of three.',
         },
@@ -1719,7 +1721,7 @@ const S20: EduQuest = quest(
         N('Every time you point at Wren, she salutes.'),
         WR('Yes, commander! Yes, commander! That’s nine times. I’m only little!', 'angry'),
         PX('Rule: don’t hit the snowman. He has feelings. He’s called Derek.'),
-        N('The whistle blows. Your wall is short and fat and lumpy.'),
+        N('The whistle blows. Peep! Your wall is short and fat and lumpy.'),
         N('Their wall is tall and thin, with pointy bits on top.'),
         TI('I put everyone on snow from the start!', 'happy'),
         PX('Round one: a draw. Both of them are walls.'),
@@ -1734,7 +1736,7 @@ const S20: EduQuest = quest(
           prompt: [N('Wren is cross. She has been asked nine times!'), N('What could you say to Wren?')],
           options: [
             opt('“Sorry, Wren. Thank you for helping!”', [WR('Oh! You’re welcome, commander.', 'happy'), N('Sorry and thank you make friends feel good.')], true),
-            opt('“Faster, Wren!”', [N('Hmm. Wren is only little. Let’s try: sorry, Wren, and thank you!'), WR('Oh! You’re welcome, commander.', 'happy')]),
+            opt('“Faster, Wren!”', [N('“Faster, Wren!” Squeak! Little Wren would run out of puff.'), N('Hmm. Wren is only little. Let’s try: sorry, Wren, and thank you!'), WR('Oh! You’re welcome, commander.', 'happy')]),
           ],
           parentNote: 'Chose kind words, sorry and thank you, for a helper who felt cross.',
         },
@@ -1761,7 +1763,7 @@ const S20: EduQuest = quest(
           prompt: [PX('Why does the snow melt on your mitten?', 'think')],
           options: [
             opt('My hand is warm', [PX('Yes! Snow is frozen water. Warm it up, and it turns back into water.', 'happy')], true),
-            opt('Zip is magic', [PX('Zip is fast, not magic! Your warm hand melts the snow back into water.')]),
+            opt('Zip is magic', [PX('Zip is magic? Pop! No wand needed, only a warm hand.'), PX('Zip is fast, not magic! Your warm hand melts the snow back into water.')]),
           ],
           parentNote: 'Explained that snow is frozen water that melts when it gets warm.',
         },
@@ -1791,8 +1793,8 @@ const S20: EduQuest = quest(
           prompt: [PX('Five children were behind their wall. Three went home. How many are left?')],
           options: [
             opt('2', [PX('Two! Five take away three leaves two.', 'happy'), N('(Show five fingers. Fold three down. Two left!)')], true),
-            opt('3', [PX('Three went home. Let’s use fingers: show five, fold three down… two left!')]),
-            opt('5', [PX('Some went home, so there are fewer now. Five take away three leaves two.')]),
+            opt('3', [PX('Three left? Pop! Let’s check on our fingers.'), PX('Three went home. Let’s use fingers: show five, fold three down… two left!')]),
+            opt('5', [PX('Five left? Whee! Hold on, some went home.'), PX('Some went home, so there are fewer now. Five take away three leaves two.')]),
           ],
           parentNote: 'Took three away from five, using fingers, to find two.',
         },
@@ -1830,7 +1832,7 @@ const S20: EduQuest = quest(
       [
         PX('Round three. The last one.'),
         PX('Look at what they send. Send what beats it.'),
-        N('Over the ditch, big children roll big snowballs. Sturdy ones!'),
+        N('Over the ditch, big children roll big snowballs. Thump! Sturdy ones!'),
         TI('GIVE UP OR GET ROLLED!', 'angry'),
         N('Your fort shouts back: “FOR DEREK!” “I’M BRAVE, NOT COLD!”'),
         N('Above the hill, the sky goes dark grey, like a pigeon.'),
@@ -1857,7 +1859,7 @@ const S20: EduQuest = quest(
     sc(
       's20-blizzard',
       [
-        N('You’re nearly at their flag. Then the snow goes sideways!'),
+        N('You’re nearly at their flag. Whoosh! Then the snow goes sideways!'),
         N('White everywhere. You can’t see their fort. You can’t see yours.'),
         PX('STOP! Everybody stop! This is a real blizzard!', 'shock'),
         N('Somebody small is crying. You can’t tell who.'),
@@ -1886,7 +1888,7 @@ const S20: EduQuest = quest(
       's20-merge',
       [
         N('Through the snow you can see children from both forts.'),
-        N('They stand about, like dropped gloves.'),
+        N('They stand about, like dropped gloves. Plop!'),
         PX('Referee’s rule…'),
         PX('I don’t have one. You’ve got a wall. They’ve got snow.', 'think'),
         TI('Is this a trick?', 'think'),
@@ -1935,7 +1937,7 @@ const S20: EduQuest = quest(
         PX('Head count!'),
         PX('…Everyone. Even Gordon.', 'soft'),
         N('The small one who cried was Wren. She lost a mitten.'),
-        N('Pixel finds it. It was on Wren’s head!'),
+        N('Pixel finds it. Pop! It was on Wren’s head!'),
         GO('I got hit by a whole sky!', 'happy'),
         N('Inside it’s blue and snug. It smells of wet wool.'),
         TI('That bit of the roof is mine.'),
@@ -1975,7 +1977,7 @@ const S20: EduQuest = quest(
         Y('So we knew how to build fast. When the storm came, we did!'),
         TI('…That’s a really good answer.'),
         N('Up at the cottage, someone in a blanket waves from the window.'),
-        N('Everybody waves back.'),
+        N('Everybody waves back. Whee!'),
         PX('Prizes! A commander’s hat. It’s a tea cosy.', 'happy'),
       ],
       [
@@ -2054,8 +2056,8 @@ const S21: EduQuest = quest(
           prompt: [CK('Clank! C-c-clank! What else starts with that sound?', 'happy')],
           options: [
             opt('Cat', [CK('C-c-cat! Clank and cat start the same!', 'happy')], true),
-            opt('Dog', [CK('D-d-dog starts with d. C-c-cat starts like Clank!')]),
-            opt('Sun', [CK('S-s-sun starts with s. C-c-cat starts like Clank!')]),
+            opt('Dog', [CK('A dog called Clank? Woof! Hee, hee!'), CK('D-d-dog starts with d. C-c-cat starts like Clank!')]),
+            opt('Sun', [CK('A sun called Clank? Whee, so bright! Hee, hee!'), CK('S-s-sun starts with s. C-c-cat starts like Clank!')]),
           ],
           parentNote: 'Heard the first sound of “Clank” and matched it with “cat”.',
         },
@@ -2065,7 +2067,7 @@ const S21: EduQuest = quest(
       's21-tour',
       [
         CK('Announcement: this is a POND! This is a GATE! Best friend!', 'happy'),
-        N('Soon every Nubbin follows him in a line. Like ducklings!'),
+        N('Soon every Nubbin follows him in a line. Like ducklings! Peep, peep!'),
         N('One climbs on his head. Then three more.'),
         N('He turns his light down low for them. They purr.'),
         CK('They like me. Announcement: they LIKE me.', 'shock'),
@@ -2081,8 +2083,8 @@ const S21: EduQuest = quest(
           prompt: [N('One Nubbin, then three more. How many on Clank?')],
           options: [
             opt('4', [CK('FOUR! One and three more make four!', 'happy')], true),
-            opt('3', [N('Count them: one… then two, three, four. Four!')]),
-            opt('2', [N('More than that! One and three more make four.')]),
+            opt('3', [N('Three Nubbins? Peep! Count again, with fingers.'), N('Count them: one… then two, three, four. Four!')]),
+            opt('2', [N('Only two? Peep, peep! Two more are in the line.'), N('More than that! One and three more make four.')]),
           ],
           parentNote: 'Added one and three more to make four.',
         },
@@ -2113,7 +2115,7 @@ const S21: EduQuest = quest(
           prompt: [N('Do cats need watering, like plants?')],
           options: [
             opt('No! Cats drink from a bowl', [FE('Right. Plants drink through their roots. Cats lap water from a bowl.', 'happy')], true),
-            opt('Yes', [FE('Ha! No. Plants need watering. Cats drink from a bowl. And they hate baths.', 'happy')]),
+            opt('Yes', [FE('Water the cat? Splash! It would hiss like a kettle.', 'happy'), FE('Ha! No. Plants need watering. Cats drink from a bowl. And they hate baths.', 'happy')]),
           ],
           parentNote: 'Sorted out what plants need (watering) from what cats need (a drink from a bowl).',
         },
@@ -2123,7 +2125,7 @@ const S21: EduQuest = quest(
       's21-moss',
       [
         N('Clank reaches the cottage. And the step. Bump!'),
-        N('The little grey one flies out of his hands. He lands on his feet.'),
+        N('The little grey one flies out. Whee! He lands on his feet.'),
         CK('Announcement… I found the step again.', 'sad'),
         N('The little grey one gives you a long, long look.'),
         N('Then the little grey one walks back up the hill. Clank watches him go.'),
@@ -2139,7 +2141,7 @@ const S21: EduQuest = quest(
           prompt: [N('Clank picked up the little grey one without asking. He didn’t like it.'), N('What should we do before we pick someone up?')],
           options: [
             opt('Ask first', [N('Yes! Always ask first. Then they can say yes or no.')], true),
-            opt('Just grab them', [N('He didn’t like being grabbed. We always ask first, and listen.')]),
+            opt('Just grab them', [N('Just grab him? Whoosh! He’d be cross as a kettle.'), N('He didn’t like being grabbed. We always ask first, and listen.')]),
           ],
           parentNote: 'Learned to ask before picking up a pet or a person, and to listen to the answer.',
         },
@@ -2156,7 +2158,7 @@ const S21: EduQuest = quest(
         BY('Your clocks shout at me.'),
         N('Behind you, a little whistle starts, then stops.'),
         N('Clank heard. His light goes very dim.'),
-        N('He rolls backwards, off the step. Bump. He doesn’t say a thing.'),
+        N('He rolls backwards, off the step. Bump. Squeak. He doesn’t say a thing.'),
         PX('…That’s three bumps.', 'sad'),
         N('Then he’s gone. A wheel-track leads to the lantern shed.'),
         BY('I didn’t know he could hear. I didn’t know he could… mind.', 'sad'),
@@ -2199,7 +2201,7 @@ const S21: EduQuest = quest(
     sc(
       's21-shed',
       [
-        N('The shed smells of old string. Clank is on a high shelf.'),
+        N('Creak! The shed smells of old string. Clank is on a high shelf.'),
         N('He’s pretending to be a lantern. But lanterns don’t shake.'),
         CK('Announcement. I’m a lantern now. Nobody switches off a lantern.', 'sad'),
         CK('I watered a cat. I made a duck tree. I zoomed the old one.'),
@@ -2252,7 +2254,7 @@ const S21: EduQuest = quest(
     sc(
       's21-ramp',
       [
-        N('Next day, Byte comes with a plank and a saw.'),
+        N('Next day, Byte comes with a plank and a saw. Buzz, buzz!'),
         BY('I measured the step. It’s too tall for one wheel.'),
         N('Byte measures again. And again. Eleven times!'),
         BY('Still too tall. I checked.'),
@@ -2271,8 +2273,8 @@ const S21: EduQuest = quest(
           prompt: [BY('How can a wheel get down a step safely?', 'think')],
           options: [
             opt('A ramp: a gentle slope', [BY('Yes. A ramp. The wheel rolls down slowly. No bump.', 'happy')], true),
-            opt('Jump off', [BY('Bump! That’s what keeps happening. A gentle slope is better: a ramp.')]),
-            opt('Fly', [BY('He hasn’t got wings. A ramp is a gentle slope he can roll down.')]),
+            opt('Jump off', [BY('Jump off? Boing, bump! That keeps happening.'), BY('Bump! That’s what keeps happening. A gentle slope is better: a ramp.')]),
+            opt('Fly', [BY('Fly? Flap, flap! Clank has no wings.'), BY('He hasn’t got wings. A ramp is a gentle slope he can roll down.')]),
           ],
           parentNote: 'Worked out that a ramp solves the problem of a wheel and a step.',
         },
@@ -2285,7 +2287,7 @@ const S21: EduQuest = quest(
         CK('Announcement. I am going down.', 'soft'),
         CK('Would somebody come with me? The first time?'),
         N('Byte holds one side. You hold the other.'),
-        N('Down he goes. Slow as a snail. He reaches the bottom!'),
+        N('Down he goes. Slow as a snail. Whee! He reaches the bottom!'),
         CK('I DID THE STEP! And I didn’t fall!', 'happy'),
         N('He does a dance: forward, back, and a spin!'),
         N('You copy it. Byte copies it too.'),
@@ -2313,7 +2315,7 @@ const S21: EduQuest = quest(
     sc(
       's21-evening',
       [
-        N('The afternoon turns gold. Clank sits by the ramp.'),
+        N('The afternoon turns gold. Clank sits by the ramp. Squeak!'),
         N('He doesn’t water anything. It’s very hard for him.'),
         CK('Announcement: I am not helping. I am just… here.', 'think'),
         CK('Is just here allowed?'),
@@ -2338,7 +2340,7 @@ const S21: EduQuest = quest(
         N('At dusk the Nubbins come in from the long grass.'),
         N('One by one, they climb onto Clank. He’s warm, like a kettle.'),
         N('One sits on his wheel. One curls up inside his glass tummy.'),
-        N('One Nubbin licks Clank’s nose. Not supper!'),
+        N('Slurp! One Nubbin licks Clank’s nose. Not supper!'),
         CK('Announcement.', 'soft'),
         CK('I am being very still.', 'soft'),
         N('He is. For a whole hour. You sit beside him.'),

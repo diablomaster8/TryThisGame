@@ -25,7 +25,7 @@ import {
   startThrow,
   updateBehavior,
 } from './behavior';
-import { CRITTER_SPECIES, giveCritter, giveEssence } from './critters';
+import { WILD_CRITTERS, giveCritter, giveEssence } from './critters';
 import {
   createKeeper,
   keeperJump,
@@ -56,6 +56,7 @@ import { stepLandmarks, teleport } from './landmarks';
 import { travel } from './regions';
 import { fastTravel } from './travel';
 import { stepCollectibles } from './collectibles';
+import { stepLittleGrove } from './little-grove';
 import { stepFriendships } from './friendships';
 import { stepSeasons, racePrizeMultiplier, fruitIntervalMultiplier } from './seasons';
 import { stepAchievements } from './achievements';
@@ -84,6 +85,7 @@ import { createEgg, EGG_COLORS, isFree, isHeld } from './nubbin';
 import { Rng } from './rng';
 import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
+import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
 import { fuse } from './fusion';
@@ -564,7 +566,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       } else if (cmd.what === 'critter') {
         withRng(world, (rng) => {
           for (let i = 0; i < cmd.amount; i++) {
-            const s = rng.pick(CRITTER_SPECIES).id;
+            const s = rng.pick(WILD_CRITTERS).id;
             world.inventory.critters[s] = (world.inventory.critters[s] ?? 0) + 1;
           }
         });
@@ -995,6 +997,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'campaignStart':
     case 'sceneDone':
+    case 'lineAct':
     case 'talk':
     case 'lightLantern':
     case 'debugChapter':
@@ -1006,7 +1009,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
+      // R0313: except Fern's stone, a running gag of its own.
+      tapFernStone(world, cmd.prop, events);
       return;
+    case 'tapToy': {
+      // R0322: a face only; the tap toy never touches needs or stats.
+      const n = findNubbin(world, cmd.nubbinId);
+      if (n && n.stage !== 'egg' && n.stage !== 'cocoon')
+        react(n, cmd.beat === 'hiccup' ? 'surprised' : 'dizzy', world.timeMs, events);
+      return;
+    }
     case 'debugHatchNow': {
       const n = findNubbin(world, cmd.nubbinId);
       if (n && n.stage === 'egg') n.hatchRemainingMs = 0;
@@ -1080,7 +1092,7 @@ export function stepWorld(
     // MOVE-63: the hop course's flags and timer.
     if (!offline) stepHopCourse(world, events);
     stepTrust(world, dtMs, events);
-    stepNpcs(world, dtMs, rng);
+    stepNpcs(world, dtMs, rng, events);
     separateBodies(world, dtMs);
     stepWeather(world, dtMs, rng, events);
     stepBreeding(world, rng, events);
@@ -1103,6 +1115,7 @@ export function stepWorld(
   stepFriendships(world, dtMs, events);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
+  stepLittleGrove(world);
   stepSeasons(world, events);
   stepAchievements(world, events, dtMs);
   stepTown(world, events);

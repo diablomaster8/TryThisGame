@@ -9,7 +9,7 @@
 
 #### `sprout:s11-fern` · [main](../../../side/S11.md#s11-fern)
 
-_Fern is at your gate. It is very early._  
+_Creak! Fern is at your gate. It is very early._  
 _She holds out a plum. It has black spots._  
 **Fern**: Don’t touch it. Just look.  
 _She tips her hand. Squish! The plum goes soft and dusty._  
@@ -20,8 +20,8 @@ _She tips her hand. Squish! The plum goes soft and dusty._
 > **Lesson** (sel, ELOF: Social and Emotional Development, ask): telling someone when you are worried  
 > _Fern is worried. What could help her?_  
 > - ✅ Tell a friend about it → You’re right. Telling someone helps. And I just told you!
-> - Keep it a secret → Secrets make worries feel bigger. Telling you helps already.
-> - Pretend it isn’t there → I tried that. The plums are still spotty! Telling helps more.
+> - Keep it a secret → Keep it a secret? Pop! The worry grows like a balloon. Secrets make worries feel bigger. Telling you helps already.
+> - Pretend it isn’t there → Pretend it isn’t there? Hee! The plum would still sit there, spotty. I tried that. The plums are still spotty! Telling helps more.
 > _For grown-ups: Talked about what helps a worried friend: telling someone they trust._
 
 
@@ -47,16 +47,16 @@ _Ember is at the wall. Her arms are folded tight._
 > **Clover**: Lots of trees are green and well. Only three are poorly.  
 > **Clover**: Are there more well trees, or more poorly trees?  
 > - ✅ More well trees → Yes! Lots and lots of well trees. Only three poorly ones.
-> - More poorly trees → Let’s look again. Only three are poorly. Lots more are well!
+> - More poorly trees → More poorly trees? Pop, pop! Count again: only three. Let’s look again. Only three are poorly. Lots more are well!
 > _For grown-ups: Compared two groups and saw that the big group of healthy trees had more._
 
 **Clover**: Wait. We don’t know what it is yet.  
 **Ember**: I waited once, and I lost my Ash.  
-_Fern sits down on a box. She is very quiet._  
+_Fern sits down on a box. Creak! She is very quiet._  
 
 #### `sprout:s11-lens` · [main](../../../side/S11.md#s11-lens)
 
-_Byte runs up. He has a magnifying glass on a string._  
+_Thump, thump! Byte runs up. He has a magnifying glass on a string._  
 **Byte**: Nobody burns anything till we look properly.  
 **Ember**: You have till sunset. Then I’m doing it.  
 **Byte**: This glass makes little things look big.  
@@ -111,7 +111,7 @@ _But Ember stays. She watches every try._
 
 #### `sprout:s11-beetle` · [main](../../../side/S11.md#s11-beetle)
 
-_Got it! A tiny grey beetle in the jar._  
+_Got it! Plop! A tiny grey beetle in the jar._  
 _It is no bigger than a lentil._  
 
 > **Lesson** (science, ELOF: Scientific Reasoning, do): insects have six legs  
@@ -134,7 +134,7 @@ _Byte puts a new tag on the jar. It says: GUILTY._
 #### `sprout:s11-dusk` · [main](../../../side/S11.md#s11-dusk)
 
 _The sun goes down. Bats fly over the stream._  
-_A light comes through the hedge. It’s Ember, with a burning torch._  
+_Swish! A light comes through the hedge. It’s Ember, with a burning torch._  
 **Ember**: I’m sorry, Fern. I can’t wait.  
 **Ember**: I waited once, for Ash. I waited too long.  
 _Ember’s face looks cross. But inside, she is scared._  
@@ -142,8 +142,8 @@ _Ember’s face looks cross. But inside, she is scared._
 > **Lesson** (sel, CASEL: Social awareness, ask): naming feelings: scared can look like cross  
 > _Ember looks cross. What is she really feeling?_  
 > - ✅ Scared → Yes. Ember is scared of losing the trees. Scared can look cross.
-> - Happy → Look at her face. Not happy. She’s scared. Scared can look cross.
-> - Silly → Not silly. She’s scared. Sometimes scared looks cross.
+> - Happy → Happy, with a burning torch and a frown? Hee! Look at her face. Not happy. She’s scared. Scared can look cross.
+> - Silly → Silly? Pfft! There are no funny faces here. Not silly. She’s scared. Sometimes scared looks cross.
 > _For grown-ups: Noticed that a person who looks cross may really be feeling scared._
 
 _Byte holds the map. Clover holds Fern’s hand._  
@@ -166,7 +166,7 @@ _Everybody looks at you._
 
 #### `sprout:s11-ladybirds` · [main](../../../side/S11.md#s11-ladybirds)
 
-_Clover opens her jar._  
+_Clover opens her jar. Pop!_  
 _Out come ladybirds! Hundreds of them, red as berries._  
 **Clover**: Ladybirds eat tiny bugs that hurt plants. Gardeners love them.  
 **Clover**: Off you go, ladybirds! Gobble up the beetle eggs!  
@@ -193,17 +193,18 @@ _In the middle stands Grudge, full of sour purple plums._
 > Check: `edu:make:face:sour`
 > _For grown-ups: Acted out the taste words “sour” and “sweet”._
 
+_Plop! A sour plum falls from Grudge._  
 **Fern**: The beetles don’t like Grudge. Too bitter for them!  
 **Fern**: This was Hazel’s. A little knife for joining trees.  
-**Fern**: It’s sharp. We’ll use it together, you and me.  
 
 > **Lesson** (health, CASEL: Responsible decision-making, ask): staying safe with sharp things  
 > **Fern**: Who should help when we use something sharp?  
 > - ✅ A grown-up → Yes. Sharp things need a grown-up. Then everyone stays safe.
-> - Nobody → Ouch, no! Sharp things can cut. A grown-up helps every time.
-> - A Nubbin → Ha! Nubbins have no hands for knives. A grown-up helps.
+> - Nobody → Nobody? A knife on its own? Ouch, that is no good! Ouch, no! Sharp things can cut. A grown-up helps every time.
+> - A Nubbin → A Nubbin with a knife? Hee, hee! Its stubby hands would drop it. Ha! Nubbins have no hands for knives. A grown-up helps.
 > _For grown-ups: Learned that a grown-up always helps when something sharp is used._
 
+**Fern**: It’s sharp. We’ll use it together, you and me.  
 **Fern**: You saved my orchard. You’re the Orchard Warden now!  
 _Byte had put a tag on Ember. It said CROSS._  
 _He crosses it out. He writes: SCARED._  

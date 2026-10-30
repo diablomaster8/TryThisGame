@@ -292,11 +292,26 @@ export function patchKitSpec(
             ),
           );
         break;
-      case 'drill':
-        head.push(
-          cone(V(0, h.y - 0.1, fz - 0.2), V(0, h.y - 0.15, fz + 0.55), 0.24, 0.02, c.accent2!),
-        );
+      case 'drill': {
+        // On a muzzled quad (Rhyhorn) the horn stands up off the snout, clear of it (LOOK-39).
+        const snout = art.plan === 'quad' ? quadOf(art).snout : 0;
+        if (snout > 0) {
+          const sz = 0.18 + snout * 0.55;
+          head.push(
+            cone(
+              V(0, h.y - h.r.y * 0.05, fz - 0.12 + sz),
+              V(0, h.y + h.r.y * 0.55, fz + sz * 1.25),
+              0.17,
+              0.02,
+              c.accent2!,
+            ),
+          );
+        } else
+          head.push(
+            cone(V(0, h.y - 0.1, fz - 0.2), V(0, h.y - 0.15, fz + 0.55), 0.24, 0.02, c.accent2!),
+          );
         break;
+      }
       case 'propeller':
         head.push(
           cap(V(0, top - 0.08, h.z), V(0, top + 0.32, h.z), 0.05, c.outline!),

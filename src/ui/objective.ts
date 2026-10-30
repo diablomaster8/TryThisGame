@@ -20,7 +20,8 @@ import { isHungry } from '../sim/needs';
 import { journalView } from '../sim/storyline';
 import { textBandOf } from '../sim/story-scenes';
 import { TRAINERS } from '../sim/trainers';
-import type { World } from '../sim/types';
+import type { CampaignState, World } from '../sim/types';
+import { CHAPTERS, type ChapterStep } from '../config/story';
 import { button, el } from './dom';
 import { eduJournal } from './journal';
 import { speakLine } from './lesson';
@@ -67,6 +68,40 @@ export function groveSuggestion(world: World): Objective | null {
   return null;
 }
 
+/**
+ * R0319 (FUN-30): the chapter's how-to steps, one at a time. Progress lives here (UI state,
+ * never saved): it restarts when the chapter changes, and a step ticks off when its event
+ * comes in. Once every step is done the chip goes back to the chapter's one-line hint.
+ */
+const howTo = { chapter: -1, done: 0 };
+
+function stepsOf(c: CampaignState): readonly ChapterStep[] {
+  if (c.storyline) return [];
+  return CHAPTERS.find((ch) => ch.n === c.chapter)?.howTo ?? [];
+}
+
+/** A sim event: tick off the current step if it is the one this event completes. */
+export function noteHowTo(world: World, kind: string): void {
+  const c = world.campaign;
+  if (!c) return;
+  if (howTo.chapter !== c.chapter) {
+    howTo.chapter = c.chapter;
+    howTo.done = 0;
+  }
+  // A later step's event counts too (an egg can hatch unshaken), skipping what it implies.
+  const i = stepsOf(c).findIndex((s, k) => k >= howTo.done && s.on === kind);
+  if (i >= 0) howTo.done = i + 1;
+}
+
+/** The hint while steps remain: the ticks so far, then the next step. */
+export function howToHint(c: CampaignState): string | null {
+  const steps = stepsOf(c);
+  const done = howTo.chapter === c.chapter ? howTo.done : 0;
+  const next = steps[done];
+  if (!next) return null;
+  return `${'✓ '.repeat(done)}${next.text} (${done + 1}/${steps.length})`;
+}
+
 /** The goal to show now: the campaign's chapter goal, else a Grove suggestion. */
 export function objectiveOf(g: Game): Objective | null {
   const c = g.world.campaign;
@@ -84,7 +119,7 @@ export function objectiveOf(g: Game): Objective | null {
         // R0305: the breather after a goal, in voice, one line per chapter.
         hint: met
           ? goalDoneLine(c.chapter, textBandOf(g.world) === 'sprout')
-          : (edu?.hint ?? view.hint),
+          : (edu?.hint ?? howToHint(c) ?? view.hint),
         story: true,
       };
     }

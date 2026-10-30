@@ -1,4 +1,4 @@
-import { BATTLE } from '../../config/tuning-battle';
+import { BATTLE, BATTLE_CONTENT } from '../../config/tuning-battle';
 import type { Rng } from '../rng';
 import type { BattleState, Combatant, MoodStat, StatusId } from './types';
 
@@ -15,17 +15,60 @@ export interface StatusDef {
   id: StatusId;
   kind: 'major';
   turns: readonly [number, number];
+  /** The same span on the grid (recs FIGHT-70): turns × 10 CT ticks, so both modes agree. */
+  ctTicks: readonly [number, number];
   /** What ends it early: 'bonked' (Drowsy), 'fruit' (Peckish, once battle items exist). */
   cure: string[];
 }
 
+const ticks = (t: readonly [number, number]): readonly [number, number] => [
+  t[0] * BATTLE_CONTENT.ctPerTurn,
+  t[1] * BATTLE_CONTENT.ctPerTurn,
+];
+
 export const STATUS_DEFS: Record<StatusId, StatusDef> = {
-  drowsy: { id: 'drowsy', kind: 'major', turns: S.drowsy.turns, cure: ['bonked'] },
-  dizzy: { id: 'dizzy', kind: 'major', turns: S.dizzy.turns, cure: [] },
-  soggy: { id: 'soggy', kind: 'major', turns: S.soggy.turns, cure: [] },
-  giggly: { id: 'giggly', kind: 'major', turns: S.giggly.turns, cure: [] },
-  peckish: { id: 'peckish', kind: 'major', turns: S.peckish.turns, cure: ['fruit'] },
-  sticky: { id: 'sticky', kind: 'major', turns: S.sticky.turns, cure: [] },
+  drowsy: {
+    id: 'drowsy',
+    kind: 'major',
+    turns: S.drowsy.turns,
+    ctTicks: ticks(S.drowsy.turns),
+    cure: ['bonked'],
+  },
+  dizzy: {
+    id: 'dizzy',
+    kind: 'major',
+    turns: S.dizzy.turns,
+    ctTicks: ticks(S.dizzy.turns),
+    cure: [],
+  },
+  soggy: {
+    id: 'soggy',
+    kind: 'major',
+    turns: S.soggy.turns,
+    ctTicks: ticks(S.soggy.turns),
+    cure: [],
+  },
+  giggly: {
+    id: 'giggly',
+    kind: 'major',
+    turns: S.giggly.turns,
+    ctTicks: ticks(S.giggly.turns),
+    cure: [],
+  },
+  peckish: {
+    id: 'peckish',
+    kind: 'major',
+    turns: S.peckish.turns,
+    ctTicks: ticks(S.peckish.turns),
+    cure: ['fruit'],
+  },
+  sticky: {
+    id: 'sticky',
+    kind: 'major',
+    turns: S.sticky.turns,
+    ctTicks: ticks(S.sticky.turns),
+    cure: [],
+  },
 };
 
 function resists(to: Combatant, what: StatusId | MoodStat, delta = 0): boolean {

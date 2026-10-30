@@ -24,6 +24,8 @@ import { fbm, ridged, vnoise } from './noise';
 import { stamp } from './buildings';
 import { bush, fencePost, lanternPost, LEAF, log, rock, tree, well } from './props';
 import { hex, mix, Raster, rimObjects, shade, type RGB } from './raster';
+import type { OuterArt } from '../../config/outer-ring';
+import { OUTER_PAINTERS } from './outer-ring';
 
 /** Texels per world unit for painted scenery. */
 export const PAINT_PPU = 24;
@@ -63,7 +65,9 @@ export type PaintedKind =
   | 'windmill-lit'
   | 'nursery-lit'
   | 'lanternPost-lit'
-  | 'caveMouth';
+  | 'caveMouth'
+  // R0072: the outer ring's pieces (`paint/outer-ring.ts`).
+  | OuterArt;
 
 function finish(r: Raster): Raster {
   r.tracking = false;
@@ -590,6 +594,7 @@ export function buildPaintedScenery(): SpriteSheet {
   add('fencePost', paintFencePost());
   add('stall', paintStall());
   add('caveMouth', paintCaveMouth());
+  for (const [k, paint] of Object.entries(OUTER_PAINTERS)) add(k as PaintedKind, paint());
   return atlas.build();
 }
 
