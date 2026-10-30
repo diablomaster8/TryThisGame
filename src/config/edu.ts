@@ -257,3 +257,96 @@ export function firstSound(word: string): string {
   if (c === 'c') return /^c[eiy]/.test(w) ? 's' : 'k';
   return c;
 }
+
+/**
+ * R0682 (KIDS-14): one rung of a game's skills ladder. `age` is the level of round the
+ * generators make; counting rungs also name their kind of round and its range. `say` is the
+ * grown-up area's plain words for the rung.
+ */
+export interface RoundSpec {
+  age: EduAge;
+  mode?: 'count' | 'moreFewer' | 'sum';
+  max?: number;
+  say: string;
+}
+
+const AGE_RUNGS: readonly RoundSpec[] = [
+  { age: 3, say: 'first steps' },
+  { age: 4, say: 'growing' },
+  { age: 5, say: 'getting there' },
+  { age: 6, say: 'ready for school' },
+];
+
+/** R0682: each game's ladder, easiest first. The child's age only picks the starting rung. */
+export const EDU_LADDER: Record<EduGameId, readonly RoundSpec[]> = {
+  counting: [
+    { age: 3, mode: 'count', max: 3, say: 'count to 3' },
+    { age: 4, mode: 'count', max: 5, say: 'count to 5' },
+    { age: 5, mode: 'count', max: 10, say: 'count to 10' },
+    { age: 5, mode: 'moreFewer', max: 10, say: 'more or fewer' },
+    { age: 6, mode: 'sum', max: 5, say: 'sums to 5' },
+    { age: 6, mode: 'sum', max: 10, say: 'sums to 10' },
+  ],
+  colours: AGE_RUNGS,
+  letters: AGE_RUNGS,
+  shapes: AGE_RUNGS,
+  sounds: AGE_RUNGS,
+  animals: AGE_RUNGS,
+};
+
+/** R0682: the starting rung by age (counting has more rungs than ages). */
+export function ladderStart(game: EduGameId, age: EduAge): number {
+  if (game === 'counting') return { 3: 0, 4: 1, 5: 2, 6: 3 }[age];
+  return age - 3;
+}
+
+export const EDU_CLIMB = {
+  /** First-try rights in a row that move a game up a rung. */
+  upStreak: 3,
+  /** Rounds in one sitting where the answer had to be shown that move it down a rung. */
+  downShown: 2,
+};
+
+/**
+ * R0683 (KIDS-15): how the round generators favour weaker items. An item's weight is
+ * `1 + miss × (1 − firstTry/seen)`, halved when it was asked within `recentMs`.
+ */
+export const EDU_MASTERY = {
+  miss: 2,
+  recentMs: 60_000,
+  recentFactor: 0.5,
+  /** Seen this often with this share right first time: "knows it". */
+  knownSeen: 3,
+  knownShare: 0.75,
+};
+
+/**
+ * R0680 (KIDS-12): the Learning Grove's "Places" picture menu, which replaces the More list.
+ * `on` is the default before a grown-up changes it in "Places your child can visit"; `band`
+ * limits a place to one band. Names and spoken words are `EDU_PLACES_TEXT` (strings-kids).
+ */
+export type EduPlaceId =
+  'book' | 'collection' | 'decorate' | 'photo' | 'playFight' | 'kindergarten' | 'map' | 'beetle';
+
+export const PLACES_EDU: ReadonlyArray<{
+  id: EduPlaceId;
+  icon: string;
+  on: boolean;
+  band?: 'sprout' | 'reader';
+}> = [
+  { id: 'book', icon: '📔', on: true },
+  { id: 'collection', icon: '🥚', on: true },
+  { id: 'decorate', icon: '🪴', on: true },
+  { id: 'photo', icon: '📷', on: true },
+  { id: 'playFight', icon: '🤸', on: true },
+  { id: 'kindergarten', icon: '🏫', on: false },
+  { id: 'map', icon: '🗺', on: false },
+  { id: 'beetle', icon: '🪲', on: false },
+];
+
+/** R0713 (KIDS-45): the age-4 Animals round mix: name it, who says it, where it lives. */
+export const EDU_ANIMAL_MIX_4: Readonly<Record<'name' | 'sound' | 'home', number>> = {
+  name: 0.4,
+  sound: 0.3,
+  home: 0.3,
+};

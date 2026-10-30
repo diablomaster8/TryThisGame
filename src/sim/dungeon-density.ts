@@ -44,7 +44,8 @@ export function endlessBand(depth: number): FoeBand {
 
 /** Foe level = act base + level in act + difficulty offset (R0158). */
 export function foeLevel(b: FoeBand): number {
-  return DENSITY.actBase[b.act]! + b.level + DENSITY.difficultyOffset[b.difficulty];
+  // R0179: Brisk and Wild replay the acts far higher; nothing goes past level 99.
+  return Math.min(99, DENSITY.actBase[b.act]! + b.level + DENSITY.difficultyOffset[b.difficulty]);
 }
 
 /** The one modifier each family always brings as an elite (by a hash of its id). */

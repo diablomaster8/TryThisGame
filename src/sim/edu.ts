@@ -1,13 +1,17 @@
 import {
   EDU,
+  EDU_CLIMB,
   EDU_GAMES,
+  EDU_LADDER,
+  EDU_MASTERY,
   EDU_READER_GAMES,
   EDU_RECOMMENDED,
+  ladderStart,
   type EduAge,
   type EduGameId,
 } from '../config/edu';
 import type { EduBand } from '../content/types';
-import type { EduState, SimEvent, World } from './types';
+import type { EduItem, EduState, SimEvent, World } from './types';
 import { localDayKey, tzOf } from './local-time';
 
 /**
@@ -78,10 +82,19 @@ export function eduSetName(world: World, name: string): void {
 }
 
 /** A finished round: stars earned, Shells and fruit paid, stickers counted. */
-export function eduResult(world: World, game: EduGameId, stars: number, events: SimEvent[]): void {
+export function eduResult(
+  world: World,
+  game: EduGameId,
+  stars: number,
+  events: SimEvent[],
+  item?: string,
+  first?: boolean,
+): void {
   const e = world.edu;
   if (!e) return;
   const s = Math.max(0, Math.min(3, Math.round(stars)));
+  eduClimb(world, game, s, !!first);
+  if (item) eduSeen(world, item, s === 3);
   const p = e.progress[game];
   p.plays += 1;
   p.stars += s;
@@ -211,4 +224,84 @@ export function eduRounds(e: EduState): number {
   if (e.roundsPerGame !== undefined) return clampRounds(e.roundsPerGame);
   if (e.band === 'reader') return EDU.roundsReader;
   return EDU.roundsByAge[e.age] ?? EDU.roundsPerGame;
+}
+
+/** R0682: the rung a game is on: the saved one, or where the child's age starts it. */
+export function eduRung(world: World, game: EduGameId): number {
+  const e = world.edu;
+  if (!e) return 0;
+  const top = EDU_LADDER[game].length - 1;
+  const lvl = e.skills?.[game]?.level ?? ladderStart(game, e.age);
+  return Math.max(0, Math.min(top, lvl));
+}
+
+/**
+ * R0682 (KIDS-14): a round's stars move the ladder. Three first-try rights in a row go up a
+ * rung; a second shown answer (one star) in one sitting goes down one. Never more than one
+ * move a sitting; `first` starts a new sitting. Readers play their own rounds: no ladder.
+ */
+export function eduClimb(world: World, game: EduGameId, stars: number, first: boolean): void {
+  const e = world.edu;
+  if (!e || e.band === 'reader') return;
+  e.skills ??= {};
+  const sk = (e.skills[game] ??= {
+    level: eduRung(world, game),
+    streak: 0,
+    misses: 0,
+    moved: false,
+  });
+  if (first) {
+    sk.misses = 0;
+    sk.moved = false;
+  }
+  sk.streak = stars === 3 ? sk.streak + 1 : 0;
+  if (stars <= 1) sk.misses += 1;
+  if (sk.moved) return;
+  const top = EDU_LADDER[game].length - 1;
+  if (sk.streak >= EDU_CLIMB.upStreak && sk.level < top) {
+    sk.level += 1;
+    sk.streak = 0;
+    sk.moved = true;
+  } else if (sk.misses >= EDU_CLIMB.downShown && sk.level > 0) {
+    sk.level -= 1;
+    sk.misses = 0;
+    sk.moved = true;
+  }
+}
+
+/** R0683: count an asked item, and whether it was right first time. */
+export function eduSeen(world: World, id: string, firstTry: boolean): void {
+  const e = world.edu;
+  if (!e) return;
+  e.items ??= {};
+  const it = (e.items[id] ??= { seen: 0, firstTry: 0, lastMs: 0 });
+  it.seen += 1;
+  if (firstTry) it.firstTry += 1;
+  it.lastMs = world.lastWallMs;
+}
+
+/**
+ * R0683 (KIDS-15): how strongly the round generators favour an item: weaker items more,
+ * an item asked a moment ago less. Unseen items weigh 1.
+ */
+export function eduItemWeight(it: EduItem | undefined, nowMs: number): number {
+  if (!it || it.seen === 0) return 1;
+  let w = 1 + EDU_MASTERY.miss * (1 - it.firstTry / it.seen);
+  if (nowMs - it.lastMs < EDU_MASTERY.recentMs) w *= EDU_MASTERY.recentFactor;
+  return w;
+}
+
+/** R0683: a grown-up's view of an item: known, learning, or not met yet. */
+export function eduMastery(it: EduItem | undefined): 'known' | 'learning' | 'new' {
+  if (!it || it.seen === 0) return 'new';
+  return it.seen >= EDU_MASTERY.knownSeen && it.firstTry / it.seen >= EDU_MASTERY.knownShare
+    ? 'known'
+    : 'learning';
+}
+
+/** R0683: the weight function the round generators take for this save. */
+export function eduWeigher(world: World): (id: string) => number {
+  const items = world.edu?.items ?? {};
+  const now = world.lastWallMs;
+  return (id) => eduItemWeight(items[id], now);
 }

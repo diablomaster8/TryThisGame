@@ -27,6 +27,38 @@ import { CHAPTERS, type ChapterStep } from '../config/story';
 import { button, el } from './dom';
 import { eduJournal } from './journal';
 import { speakLine } from './lesson';
+import { greet } from './child-name';
+import { CHILD_NAME_TEXT } from '../config/strings-kids';
+import { TRACK_TEXT } from '../config/strings-camp';
+import { sideStory } from '../sim/story-scenes';
+import { questProgress } from '../sim/quest-offers';
+import { OFFER_TEXT } from '../config/strings-camp';
+
+/**
+ * Lane C round 8 (R0609): the Open flow's pinned quests, each at its current step, for the chip
+ * to cycle after the spine's goal. A quest between steps (a scene to come) shows its next goal.
+ */
+export function trackedObjectives(world: World): Objective[] {
+  const c = world.campaign;
+  const out: Objective[] = [];
+  for (const id of world.questBook?.tracked ?? []) {
+    const st = c?.side[id] ?? c?.fun[id];
+    const quest = sideStory(id);
+    const step = st?.status === 'open' ? quest?.steps[st.step] : undefined;
+    if (!quest || !step) continue;
+    out.push({
+      key: `quest:${id}:${st!.step}`,
+      goal: TRACK_TEXT.newGoal(quest.title, step.goal),
+      // R0635: the step count rides with the hint.
+      hint: ((p) =>
+        p ? `${OFFER_TEXT.stepOf(p.step, p.of, p.minutesLeft)}. ${step.hint}` : step.hint)(
+        questProgress(world, id),
+      ),
+      story: true,
+    });
+  }
+  return out;
+}
 
 export interface Objective {
   /** Changes when the goal does; a campaign key change is announced. */
@@ -144,6 +176,12 @@ export class ObjectiveChip {
   private readonly hint: HTMLSpanElement;
   private current: Objective | null = null;
   private lastStoryKey: string | null = null;
+  /** R0609: which of the spine's goal and the tracked quests the chip shows, and its arrow. */
+  private pick = 0;
+  private readonly cycle: HTMLButtonElement;
+  private readonly count: HTMLSpanElement;
+  private trackedKeys = new Set<string>();
+  private trackSeeded = false;
 
   constructor(
     parent: HTMLElement,
@@ -159,8 +197,20 @@ export class ObjectiveChip {
     this.goal = el('span', 'objective-goal');
     this.hint = el('span', 'objective-hint');
     words.append(this.goal, this.hint);
-    this.root.append(label, words);
+    this.count = el('span', 'objective-count');
+    this.root.append(label, words, this.count);
     parent.appendChild(this.root);
+    this.cycle = button(
+      '›',
+      () => {
+        this.pick += 1;
+        this.refresh(false);
+      },
+      'objective-cycle',
+    );
+    this.cycle.hidden = true;
+    this.cycle.setAttribute('aria-label', TRACK_TEXT.next);
+    parent.appendChild(this.cycle);
   }
 
   private press(): void {
@@ -174,15 +224,30 @@ export class ObjectiveChip {
   /** Called from the HUD's refresh loop; `hide` covers scenes, minigames and panels. */
   refresh(hide: boolean): void {
     const g = this.game();
-    const o = g ? objectiveOf(g) : null;
+    let o = g ? objectiveOf(g) : null;
     // A new story goal is announced once, never on load and never over a scene.
     if (o?.story && o.key !== this.lastStoryKey) {
       if (this.lastStoryKey !== null && !hide) this.toast(OBJECTIVE_TEXT.newGoal(o.goal));
       if (!hide || this.lastStoryKey === null) this.lastStoryKey = o.key;
     }
-    this.current = o;
-    this.root.hidden = hide || !o;
-    if (!o) return;
+    // R0609: the tracked quests after the spine's goal; a new step is announced once, if pinned.
+    const tracked = g ? trackedObjectives(g.world) : [];
+    for (const t of tracked) {
+      if (hide || this.trackedKeys.has(t.key)) continue;
+      // Never on load: only a step reached (or a quest pinned) while playing is news.
+      if (this.trackSeeded) this.toast(OBJECTIVE_TEXT.newGoal(t.goal));
+      this.trackedKeys.add(t.key);
+    }
+    if (g && !hide) this.trackSeeded = true;
+    const all = [...(o ? [o] : []), ...tracked];
+    this.pick = all.length > 0 ? this.pick % all.length : 0;
+    const shown = all[this.pick] ?? null;
+    this.cycle.hidden = hide || all.length < 2;
+    this.count.textContent = all.length > 1 ? TRACK_TEXT.of(this.pick + 1, all.length) : '';
+    this.current = shown;
+    this.root.hidden = hide || !shown;
+    if (!shown) return;
+    o = shown;
     if (this.goal.textContent !== o.goal) this.goal.textContent = o.goal;
     if (this.hint.textContent !== o.hint) this.hint.textContent = o.hint;
     this.root.setAttribute('aria-label', `${OBJECTIVE_TEXT.label}: ${o.goal}. ${o.hint}`);
@@ -281,7 +346,8 @@ export class EduPrompt {
   private show(g: Game): void {
     this.root.hidden = false;
     this.lastInput = performance.now();
-    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud) speakLine(EDU_PROMPT_TEXT.say);
+    if (textBandOf(g.world) === 'sprout' && g.world.edu?.readAloud)
+      speakLine(greet(EDU_PROMPT_TEXT.say, g.world.edu?.childName, CHILD_NAME_TEXT.hello));
     this.root.querySelector<HTMLButtonElement>('.edu-entry-btn')?.focus({ preventScroll: true });
   }
 }

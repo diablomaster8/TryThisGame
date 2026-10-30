@@ -1,6 +1,6 @@
 import { ACTS } from '../config/dungeon-acts';
 import { UNIQUES } from '../config/dungeon-foes';
-import { ACT_TEXT, HOLLOW_R6_TEXT, UNIQUE_TEXT } from '../config/strings';
+import { ACT_TEXT, HOLLOW_R6_TEXT, HOLLOW_R7_TEXT, UNIQUE_TEXT } from '../config/strings';
 import { dailySeed } from '../sim/dungeon';
 import { clockText } from '../sim/dungeon-log';
 import type { World } from '../sim/types';
@@ -53,4 +53,17 @@ export function renderHollowPage(world: World, body: HTMLElement): void {
         : HOLLOW_R6_TEXT.todayNone,
     ),
   );
+  // R0187: the speed-run bests, a badge and nothing more.
+  const recs = Object.entries(h.records ?? {});
+  if (recs.length) {
+    body.appendChild(el('h4', undefined, HOLLOW_R7_TEXT.journalTimes));
+    for (const [key, r] of recs) {
+      const [act, tier] = key.split(':');
+      const name = ACT_TEXT[ACTS[Number(act)]?.id ?? '']?.name ?? act!;
+      const tierName = HOLLOW_R7_TEXT.tiers[tier as 'cosy' | 'brisk' | 'wild']?.name ?? tier!;
+      body.appendChild(
+        el('p', 'help', HOLLOW_R7_TEXT.journalTime(name, tierName, clockText(r.bestMs))),
+      );
+    }
+  }
 }

@@ -13,6 +13,7 @@ import {
   type PlayScene,
 } from '../sim/story-scenes';
 import { renderDo, renderLineText, renderOptions, speakLine, stopSpeaking } from './lesson';
+import { fillChild } from './child-name';
 import { sproutChoices } from './sprout-choices';
 import { WordLight } from './read-aloud';
 import { frameKey } from '../render/sprites/animations';
@@ -457,7 +458,8 @@ export class Dialogue {
     // The chorus (everyone singing) has no portrait and is shown in italics.
     this.root.classList.toggle('chorus', chorus);
     this.drawPortrait(chorus ? 'narrator' : who, g, line.mood ?? 'neutral');
-    this.fullText = line.text;
+    // R0719: the child's name where a Learning Grove line asks for it, shown and said.
+    this.fullText = fillChild(line.text, g.world.edu?.childName);
     this.shown = 0;
     this.text.textContent = '';
     // Left to right always, never auto: many language lines open with a Hebrew word (CV3).
@@ -471,7 +473,7 @@ export class Dialogue {
     const band = textBandOf(g.world);
     const e = g.world.edu;
     if ((band === 'sprout' && e?.readAloud) || (band === 'reader' && e?.readToMe === true))
-      speakLine(line.text, {
+      speakLine(this.fullText, {
         speaker: chorus ? 'narrator' : who,
         onWord: (w) => this.wordLight.light(w),
       });

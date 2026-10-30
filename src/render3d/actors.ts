@@ -13,7 +13,7 @@ import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
-import { emoteScale } from '../render/emote-size';
+import { emoteFocused, emoteScale } from '../render/emote-size';
 import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
@@ -39,7 +39,14 @@ import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
 import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
 import { BondGlow } from './bond-glow';
-import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
+import {
+  heldEmote,
+  heldMood,
+  heldStyle,
+  isHeld,
+  type HeldMood,
+  type HeldStyle,
+} from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { updateEggFoot } from './egg-foot';
 import { eggAntics } from '../render/egg-antics';
@@ -218,6 +225,26 @@ function heldSwing(rig: Rigged, mood: HeldMood, t: number): void {
   if (flail) {
     if (b.armL) b.armL.rotation.z += 0.4 + Math.sin(w + 1) * 0.6;
     if (b.armR) b.armR.rotation.z -= 0.4 + Math.sin(w + 2) * 0.6;
+  }
+}
+
+/**
+ * R0551 (lane A r9): a hug's personality, after the pose: a cheerful one kicks its legs, a
+ * shy one holds its arms stiff at its sides, a lazy one hangs limp, arms and legs down.
+ */
+function heldStyleSwing(rig: Rigged, style: HeldStyle, t: number, calm: boolean): void {
+  const b = rig.bones;
+  if (style === 'kick') {
+    const k = calm ? 0 : Math.sin(t * Math.PI * 2 * HELD_REACT.dangleHz * 1.5) * 0.35;
+    if (b.legL) b.legL.rotation.x += k;
+    if (b.legR) b.legR.rotation.x -= k;
+  } else if (style === 'stiff') {
+    if (b.armL) b.armL.rotation.z -= 0.5;
+    if (b.armR) b.armR.rotation.z += 0.5;
+  } else {
+    if (b.armL) b.armL.rotation.z -= 0.9;
+    if (b.armR) b.armR.rotation.z += 0.9;
+    if (b.head) b.head.rotation.x += 0.35;
   }
 }
 
@@ -1046,6 +1073,7 @@ export class Actors {
         a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
         this.petBeats.calm = this.calm;
+        this.petBeats.keeper = keeper.pos;
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
@@ -1058,6 +1086,9 @@ export class Actors {
         const hm =
           isHeld(n) && pose === 'pet' && petting !== n.id ? heldMood(n, keeper.alignment) : null;
         if (hm) pose = HELD_POSE3D[hm];
+        // R0551 (lane A r9): a hug by personality (kick, stiff, noodle), laid on below.
+        const hs = hm ? heldStyle(n, hm) : null;
+        if (hs === 'noodle') pose = 'idle';
         if (fly) pose = 'flap';
         const sigOn = !!sig && pose === 'idle';
         if (sigOn) pose = sig!.pose3d;
@@ -1119,6 +1150,7 @@ export class Actors {
         this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
         if (hm) heldSwing(a.rig, hm, t);
+        if (hs) heldStyleSwing(a.rig, hs, t, this.calm);
         // LOOK-62: a newly evolved form spins one turn as it lands (put back next frame).
         const pp = this.pops.get(n.id);
         const turn =
@@ -1251,7 +1283,7 @@ export class Actors {
           a.emote.position.set(ball.x, ball.y, ball.z);
           // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
           const es = emoteScale(
-            this.emoteBig,
+            this.emoteBig || emoteFocused(n.id),
             bubble ? nowMs - (bubble.untilMs - UI.bubbleMs) : null,
             this.calm,
           );

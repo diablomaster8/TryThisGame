@@ -61,3 +61,27 @@ export function rightStart(ink: readonly Pt[]): Pt | null {
   for (const p of ink) if (!best || p.x > best.x || (p.x === best.x && p.y < best.y)) best = p;
   return best;
 }
+
+/**
+ * R0703 (KIDS-35): how far from a stroke still counts, by who is tracing: little hands
+ * (3–4) get the most room, readers the main game's.
+ */
+export function traceRadius(
+  edu: { age: number; band: string } | null | undefined,
+  r: { young: number; older: number; reader: number },
+  fallback: number,
+): number {
+  if (!edu) return fallback;
+  if (edu.band === 'reader') return r.reader;
+  return edu.age <= 4 ? r.young : r.older;
+}
+
+/** R0703: after a miss on a stroke: try again, show the ghost finger, or finish it for them. */
+export function afterMiss(
+  misses: number,
+  demoAfter: number,
+  completeAfter: number,
+): 'again' | 'demo' | 'complete' {
+  if (misses >= completeAfter) return 'complete';
+  return misses >= demoAfter ? 'demo' : 'again';
+}

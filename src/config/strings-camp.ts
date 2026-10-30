@@ -44,3 +44,84 @@ export const CAMP_TEXT = {
   backupYes: 'Export',
   backupNo: 'Not now',
 } as const;
+
+/** Lane C round 8 (R0602, R0606, R0607): the Open quest flow's offer card, board and setting. */
+export const OFFER_TEXT = {
+  story: 'Story',
+  caper: 'Caper',
+  badge: { teen: '13+', adult: '18+' } as Record<string, string>,
+  size: {
+    S: 'S · about 5 min',
+    M: 'M · about 15 min',
+    L: 'L · 30 min or more',
+  } as Record<string, string>,
+  from: (name: string) => `From ${name}`,
+  lapse: 'Hazel’s story will remember if you let this go.',
+  accept: 'Accept',
+  notNow: 'Not now',
+  chip: (title: string) => `! ${title}`,
+  chipLabel: (title: string) => `An offer is waiting: ${title}. Tap to see it.`,
+  rewardIcon: {
+    cosmetic: '🎀',
+    feature: '✨',
+    item: '🎁',
+    decor: '🪴',
+    title: '🏷',
+  } as Record<string, string>,
+  atCap: 'You have five quests going. Put one aside to take this on?',
+  shelve: (title: string) => `Put aside ${title}`,
+  keep: 'Keep them all',
+  accepted: (title: string) => `Taken on: ${title}.`,
+  boardHead: 'Notice board',
+  boardHelp: 'What this place has to offer, what you put off, and what is done.',
+  boardHere: (area: string) => `Here: ${area}`,
+  boardNowhere: 'Walk up to a place in the Grove to see its board.',
+  available: 'Available',
+  inProgress: 'In progress',
+  shelved: 'Put aside',
+  done: 'Done',
+  resume: 'Take it up again',
+  putAside: 'Put aside',
+  track: 'Pin',
+  untrack: 'Unpin',
+  empty: 'Nothing here yet.',
+  stepOf: (i: number, n: number, min: number) => `Step ${i} of ${n} · about ${min} min left`,
+  steps: (n: number) => (n === 1 ? '1 step' : `${n} steps`),
+  flowLabel: 'Quests',
+  /** R0670: the play counts, kept only in this save. */
+  yourPlay: (o: number, a: number, d: number, s: number, roads: string) =>
+    `Your play: ${o} offered, ${a} taken on, ${d} put off, ${s} put aside.${roads ? ` Roads: ${roads}.` : ''}`,
+  roadMinutes: (id: string, min: number) => `${id} ${min} min`,
+  flowHelp:
+    'Open: stories wait where they happen, to take on or put off. Guided: they come to you.',
+  flowOptions: {
+    open: 'Open: offered where they happen',
+    guided: 'Guided: they come to you',
+  } as Record<string, string>,
+};
+
+/** Lane C round 8 (R0609): the objective chip's tracked quests. */
+export const TRACK_TEXT = {
+  next: 'Next tracked goal',
+  of: (i: number, n: number) => `${i}/${n}`,
+  newGoal: (title: string, goal: string) => `${title}: ${goal}`,
+};
+
+/** Lane C round 8 (R0632): the "While you were away" screen's Stories block. */
+export const AWAY_STORIES_TEXT = {
+  head: 'Stories',
+  spineWaits: 'Hazel’s story: the next part waits for you.',
+  lineWaits: (title: string, n: number) => `${title}: chapter ${n} waits for you.`,
+  lineOn: (title: string, n: number) => `${title}: chapter ${n}, as you left it.`,
+  quests: (n: number) => (n === 1 ? 'One quest under way.' : `${n} quests under way.`),
+};
+
+/** Lane C round 8 (R0648): the title's slot cards name the lines a save holds. */
+export const SLOT_LINES_TEXT = {
+  glyph: { dawn: '☀', dusk: '☾', beetle: '⛏', hundred: '🌾', logged: '⌨' } as Record<
+    string,
+    string
+  >,
+  done: '✓',
+  stories: (n: number) => (n === 1 ? '1 story done' : `${n} stories done`),
+};

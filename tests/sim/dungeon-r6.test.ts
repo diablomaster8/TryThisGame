@@ -109,13 +109,13 @@ describe('boss floors (R0160)', () => {
     const run = world.dungeon!;
     goToLevel(world, run, actBossDepth(0), 'up', []);
     const f = runFloor(world)!;
-    for (const n of world.nubbins) n.needs.energy = 10;
+    for (const n of world.nubbins) n.needs.energy = 0.1;
     const shells = world.inventory.shells;
     run.encounter = { packId: 'pack-boss' };
     finishEncounter(world, f, 'lost', []);
     expect(world.inventory.shells).toBe(shells);
     for (const id of run.party)
-      expect(world.nubbins.find((n) => n.id === id)!.needs.energy).toBe(100);
+      expect(world.nubbins.find((n) => n.id === id)!.needs.energy).toBe(1);
   });
 });
 
@@ -257,7 +257,7 @@ describe('warm losses and sleepy packs (R0180, R0203)', () => {
       { id: spec.id, pos: cellCentre(f, spec.cell), state: 'idle', target: null, noticedMs: -1 },
     ];
     const inv = JSON.stringify(world.inventory);
-    for (const n of world.nubbins) n.needs.energy = 5;
+    for (const n of world.nubbins) n.needs.energy = 0.05;
     const offers: SimEvent[] = [];
     for (let i = 0; i < 3; i++) {
       applyCommand(world, { kind: 'packSneak', packId: spec.id }, offers);

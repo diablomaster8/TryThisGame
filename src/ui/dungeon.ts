@@ -18,9 +18,11 @@ import { mouthHere } from '../sim/dungeon-zones';
 import { calmers } from '../sim/dungeon-strays';
 import { TownPanel } from './dungeon-town';
 import { PartyPicker } from './dungeon-party';
-import { HOLLOW_R6_TEXT } from '../config/strings';
+import { HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
+import { hollowTier, TIERS, tiersOpen } from '../sim/dungeon-tiers';
 import { HOLLOW_R6 } from '../config/tuning';
 import { clockText } from '../sim/dungeon-log';
+import { runClock } from '../sim/dungeon-speed';
 import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
 import { tzOf } from '../sim/local-time';
@@ -224,7 +226,8 @@ export class DungeonMenu {
   /** Called every frame by the HUD: the underground bar follows the run. */
   refresh(world: World): void {
     const run = world.location === 'dungeon' ? world.dungeon : null;
-    this.bar.hidden = !run;
+    // R0196: no Hollow bar over a fight.
+    this.bar.hidden = !run || !!run.encounter || !!run.strayBout || !!world.tactics;
     // The overlay map turns with the camera (R0154).
     this.map.refresh(world, this.game()?.camera.currentYaw ?? 0);
     this.buffs.refresh(run);
@@ -257,6 +260,9 @@ export class DungeonMenu {
             ? HOLLOW_ZONE_TEXT.side(actName, (run.side ?? 0) + 1)
             : DUNGEON_TEXT.floor(run.depth);
     this.barText.textContent = `${place} · ${DUNGEON_TEXT.haul(run.haul.shells, run.haul.items)}`;
+    // R0187: the speed run's clock, on the sim clock (it stops when the game does).
+    if (world.hollow.speedRun && run.act !== undefined)
+      this.barText.textContent += ` · ⏱ ${clockText(runClock(world, run))}`;
     // R0175: what rides in the sack until the next waypoint, camp, acorn or home.
     const sack = sackCount(run);
     if (sack > 0) this.barText.textContent += ` · ${HOLLOW_R6_TEXT.sack(sack)}`;
@@ -264,6 +270,41 @@ export class DungeonMenu {
 
   private listActs(world: World): void {
     this.acts.replaceChildren();
+    // R0179: the tier picker, big icons; a shut tier says how it opens.
+    const tiers = el('div', 'hollow-tiers');
+    const open = tiersOpen(world);
+    for (const t of TIERS) {
+      const b = button(
+        `${HOLLOW_R7_TEXT.tiers[t].icon} ${HOLLOW_R7_TEXT.tiers[t].name}`,
+        () => {
+          this.game()?.send({ kind: 'hollowTier', tier: t });
+          setTimeout(() => {
+            const g = this.game();
+            if (g && this.dialog.isOpen()) this.listActs(g.world);
+          }, 250);
+        },
+        'btn btn-small hollow-tier',
+      );
+      b.disabled = !open.includes(t);
+      b.setAttribute('aria-pressed', String(hollowTier(world) === t));
+      b.title = open.includes(t) ? HOLLOW_R7_TEXT.tiers[t].help : HOLLOW_R7_TEXT.tierLocked;
+      tiers.appendChild(b);
+    }
+    this.acts.append(tiers, el('small', 'help', HOLLOW_R7_TEXT.tiers[hollowTier(world)].help));
+    // R0187: the speed-run toggle.
+    const speed = button(
+      world.hollow.speedRun ? HOLLOW_R7_TEXT.speedOn : HOLLOW_R7_TEXT.speedOff,
+      () => {
+        this.game()?.send({ kind: 'hollowSpeedRun', on: !world.hollow.speedRun });
+        setTimeout(() => {
+          const g = this.game();
+          if (g && this.dialog.isOpen()) this.listActs(g.world);
+        }, 250);
+      },
+      'btn btn-small hollow-tier',
+    );
+    speed.setAttribute('aria-pressed', String(!!world.hollow.speedRun));
+    this.acts.append(speed);
     ACTS.forEach((act, i) => {
       const text = ACT_TEXT[act.id]!;
       const open = actOpen(world, i);

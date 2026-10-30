@@ -26,10 +26,34 @@ export const isHeld = (n: Pick<Nubbin, 'behavior'>): boolean =>
 
 /** The emote a held Nubbin shows over its usual one: a heart for a hug, a swirl for a flail. */
 export function heldEmote(
-  n: Pick<Nubbin, 'needs' | 'stage' | 'form' | 'behavior'>,
+  n: Pick<Nubbin, 'needs' | 'stage' | 'form' | 'behavior'> & Partial<Pick<Nubbin, 'personality'>>,
   keeper?: KeeperAlignment,
 ): 'heart' | 'spiral' | null {
   if (!isHeld(n)) return null;
   const mood = heldMood(n, keeper);
+  // R0551: a shy one held close shows no heart.
+  if (mood === 'hug' && n.personality === 'shy') return null;
   return mood === 'hug' ? 'heart' : mood === 'flail' ? 'spiral' : null;
+}
+
+/**
+ * R0551 (lane A r9): how a Nubbin that would hug takes being picked up, by personality: a
+ * cheerful one kicks its legs happily, a shy one goes stiff (no heart, it is too shy to
+ * show one), a lazy one goes limp as a noodle; a mischievous one just hugs. Null when it
+ * isn't hugging (a dangle or a flail is the same for all).
+ */
+export type HeldStyle = 'kick' | 'stiff' | 'noodle';
+
+export function heldStyle(n: Pick<Nubbin, 'personality'>, mood: HeldMood): HeldStyle | null {
+  if (mood !== 'hug') return null;
+  switch (n.personality) {
+    case 'cheerful':
+      return 'kick';
+    case 'shy':
+      return 'stiff';
+    case 'lazy':
+      return 'noodle';
+    default:
+      return null;
+  }
 }

@@ -1,4 +1,4 @@
-import { DUNGEON, HOLLOW, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
+import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { tzOf } from './local-time';
@@ -22,6 +22,9 @@ import { rumbleEnded, stepRumble } from './dungeon-rumble';
 import { gearStat } from './gear';
 import { shrineShells, shrineSight, stepShrines, type Shrine } from './dungeon-shrines';
 import { stepTraps, type Trap } from './dungeon-traps';
+import { stepPicnic } from './dungeon-picnic';
+import { noteSplit } from './dungeon-speed';
+import { fillRooms, quietScan } from './dungeon-rooms';
 import { forfeitBattleCmd } from './battle';
 import { escapeProps, propBlocked, resolveProps } from './dungeon-props';
 import { actSeed, rememberLevel, restoreLevel } from './dungeon-levels';
@@ -180,7 +183,8 @@ export interface Floor {
   crystals: Cell[];
   loot: FloorLoot[];
   strayStarts: Cell[];
-  wildSpots: Array<{ cell: Cell; species: string }>;
+  /** R0198: `nook` marks a nursery nook, scanned by waiting quietly beside it. */
+  wildSpots: Array<{ cell: Cell; species: string; nook?: true }>;
   /** Ambient light level 0..1; floors get darker. */
   light: number;
   /** The generator that made this floor (`HOLLOW.genVersion` for new floors). */
@@ -641,7 +645,12 @@ export function floorOf(seed: number, depth: number, version: number = HOLLOW.ge
           ? generateV2(seed, depth)
           : version === 3
             ? generateV3(seed, depth, v3OptionsFor(depth))
-            : platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth);
+            : fillRooms(
+                platformFloor(generateV3(seed, depth, v3OptionsFor(depth)), seed, depth),
+                seed,
+                depth,
+                null,
+              );
     if (cache.size > 12) cache.delete(cache.keys().next().value!);
     cache.set(key, f);
   }
@@ -653,7 +662,7 @@ export function floorOfRun(run: DungeonRun): Floor {
   const zone = zoneFloor(run);
   if (zone) return zone;
   return run.act !== undefined
-    ? actFloor(run.seed, run.act, run.depth, run.genVersion)
+    ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
     : floorOf(run.seed, run.depth, run.genVersion);
 }
 
@@ -892,6 +901,7 @@ export function populate(run: DungeonRun, f: Floor): void {
     species: w.species,
     pos: cellCentre(f, w.cell),
     scanned: false,
+    ...(w.nook ? { nook: true as const } : {}),
   }));
   run.taken = [];
   run.chestOpen = false;
@@ -995,6 +1005,10 @@ export function enterDungeon(
     keepers: [],
     ...(story ? { story: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
+    // R0179: an act run keeps the tier it set out on.
+    ...(act !== undefined && world.hollow.difficulty
+      ? { difficulty: world.hollow.difficulty }
+      : {}),
   };
   const f = floorOfRun(run);
   populate(run, f);
@@ -1065,7 +1079,13 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
     else events.push({ kind: 'bossGuard' });
     return;
   }
+  // R0205: the Deep Hollow ends at floor 99; its stairs there only rumble.
+  if (run.act === undefined && !run.story && run.depth >= HOLLOW_R7.deepMax) {
+    events.push({ kind: 'deepBottom' });
+    return;
+  }
   noteLevelDone(world, run);
+  noteSplit(world, run, events);
   rememberLevel(run);
   run.depth += 1;
   // A new floor always comes from the current generator, whatever made the one above.
@@ -1324,8 +1344,11 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   stepSack(world, run, events);
   stepShrines(world, run, f, dtMs, events);
   stepTraps(world, run, f, dtMs, events);
+  stepPicnic(world, run, f, dtMs, events);
   for (const w of run.wild) {
     if (w.scanned || dist(k.pos, w.pos) > DUNGEON.scanRadius) continue;
+    // R0198: a nursery nook's baby waits for the Keeper to stand still and quiet a moment.
+    if (w.nook && !quietScan(world, run, w, dtMs)) continue;
     w.scanned = true;
     noteScan(world, w.species, SCANS.perArrival, events);
     events.push({ kind: 'wildScanned', species: w.species });

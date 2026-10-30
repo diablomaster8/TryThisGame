@@ -72,7 +72,12 @@ export type SoundName =
   | 'rustle'
   | 'whee'
   | 'nom'
-  | 'hmm';
+  | 'hmm'
+  // Lane A r9 (R0546): a glutton's full-belly burp.
+  | 'burp'
+  // Lane A r9 (R0552): a napping Nubbin's snore and two buddies' chat chirp.
+  | 'snore'
+  | 'chirp';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -87,6 +92,7 @@ export const COMIC_SOUNDS: readonly SoundName[] = [
   'gulp',
   'raspberry',
   'giggle',
+  'burp',
 ];
 // R0301: comic sounds never pile up: at most one per 100 ms.
 let lastComicAt = -Infinity;
@@ -1020,6 +1026,20 @@ export function playSound(name: SoundName): void {
       case 'raspberry':
         for (let i = 0; i < 6; i++) tone(110 + (i % 2) * 18, i * 45, 50, 'sawtooth', 0.025);
         break;
+      case 'snore':
+        // A slow, soft in-breath and a low buzz out.
+        tone(220, 0, 500, 'sine', 0.02, 260);
+        tone(90, 520, 600, 'sawtooth', 0.015, 70);
+        break;
+      case 'chirp':
+        tone(1300, 0, 60, 'sine', 0.03, 1600);
+        tone(1100, 110, 70, 'sine', 0.03, 1500);
+        break;
+      case 'burp':
+        // A low, round, falling rasp.
+        tone(150, 0, 260, 'sawtooth', 0.04, 80);
+        tone(95, 40, 220, 'sine', 0.05, 60);
+        break;
       case 'giggle':
         for (let i = 0; i < 3; i++) tone(900 + i * 160, i * 90, 70, 'sine', 0.04, 1200 + i * 160);
         break;
@@ -1429,5 +1449,58 @@ export function playChirp(
     }
   } catch {
     // Audio problems must never break the game.
+  }
+}
+
+// ---------------------------------------------------------------- Hollow cues (lane B r7)
+
+/**
+ * R0199 (DUNG-56): the Hollow's encounter cues, all synthesised here like every other sound,
+ * muted until the first tap and under the sound setting like the rest. `drop:<rarity>` rises
+ * with the tier (a tick, a ting, two notes, an arpeggio, a chord); `boss:<act>` is a short
+ * sting on its own root for each act.
+ */
+export type HollowCue =
+  | 'notice'
+  | 'poof'
+  | 'shrine'
+  | 'waypoint'
+  | `drop:${'plain' | 'shiny' | 'fancy' | 'legendary' | 'set'}`
+  | `boss:${number}`;
+
+export function playHollowCue(cue: HollowCue): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    if (cue === 'notice') {
+      tone(1400, 0, 60, 'square', 0.035);
+      tone(1800, 70, 80, 'square', 0.03);
+    } else if (cue === 'poof') {
+      tone(300, 0, 260, 'sine', 0.05, 1200);
+      for (let i = 0; i < 3; i++) tone(1800 + i * 300, 200 + i * 60, 50, 'triangle', 0.025);
+    } else if (cue === 'shrine') {
+      tone(220, 0, 700, 'sine', 0.04);
+      tone(330, 80, 620, 'sine', 0.025);
+    } else if (cue === 'waypoint') {
+      tone(180, 0, 380, 'triangle', 0.05, 900);
+      tone(900, 300, 200, 'sine', 0.025, 1300);
+    } else if (cue === 'drop:plain') {
+      tone(1000, 0, 30, 'square', 0.025);
+    } else if (cue === 'drop:shiny') {
+      tone(1760, 0, 140, 'triangle', 0.04);
+    } else if (cue === 'drop:fancy') {
+      tone(1175, 0, 90, 'triangle', 0.05);
+      tone(1568, 90, 160, 'triangle', 0.05);
+    } else if (cue === 'drop:legendary') {
+      [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 70, 160, 'triangle', 0.05));
+    } else if (cue === 'drop:set') {
+      for (const f of [523, 659, 784, 1047]) tone(f, 0, 600, 'triangle', 0.035);
+    } else if (cue.startsWith('boss:')) {
+      const root = [110, 98, 123, 87, 73][Number(cue.slice(5))] ?? 110;
+      tone(root, 0, 500, 'sawtooth', 0.05);
+      tone(root * 1.5, 120, 380, 'sawtooth', 0.04);
+      tone(root * 2, 260, 520, 'square', 0.035, root * 1.89);
+    }
+  } catch {
+    // As above.
   }
 }

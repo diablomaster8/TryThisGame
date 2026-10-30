@@ -42,6 +42,8 @@ import { mountWorldSettings } from './world-settings';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
 import { autoHopOn } from '../sim/nav';
 import { BOUTS_SETTING_TEXT } from '../config/strings-battle-r5';
+import { OFFER_TEXT } from '../config/strings-camp';
+import { playStats } from '../sim/quest-offers';
 
 /** The Settings menu: Aging while closed, departures toggle, save export/import/reset. */
 export class SettingsMenu {
@@ -84,6 +86,9 @@ export class SettingsMenu {
   /** Lane C round 5: Settings → Bouts and "Steady hands" (recs FIGHT-71, FIGHT-79). */
   private readonly bouts: HTMLSelectElement;
   private readonly steady: HTMLInputElement;
+  /** Lane C round 8 (R0664): the Open or Guided quest flow. */
+  private readonly questFlow: HTMLSelectElement;
+  private readonly playLine: HTMLElement;
   private readonly particles: HTMLSelectElement;
   private readonly reduced: HTMLSelectElement;
   private readonly graphics: HTMLSelectElement;
@@ -390,6 +395,13 @@ export class SettingsMenu {
     );
     steadyRow.append(this.steady, stText);
     body.appendChild(steadyRow);
+    // Lane C round 8 (R0664): Open offers quests where they happen; Guided pushes them.
+    this.questFlow = select(OFFER_TEXT.flowLabel, OFFER_TEXT.flowOptions);
+    this.questFlow.title = OFFER_TEXT.flowHelp;
+    body.appendChild(el('div', 'help', OFFER_TEXT.flowHelp));
+    // R0670: telemetry-free play counts; they travel in an exported save.
+    this.playLine = el('div', 'help');
+    body.appendChild(this.playLine);
     this.particles = select(UI_TEXT.particlesLabel, UI_TEXT.particleLevels);
     this.reduced = select(UI_TEXT.reducedMotionLabel, UI_TEXT.reducedMotionLevels);
     this.graphics = select(UI_TEXT.graphicsLabel, UI_TEXT.graphicsLevels);
@@ -532,6 +544,19 @@ export class SettingsMenu {
     this.microSkip.checked = microSkipped(g.world);
     this.bouts.value = g.world.settings.bouts ?? 'play';
     this.steady.checked = !!g.world.settings.steadyHands;
+    this.questFlow.value = g.world.settings.questFlow ?? 'guided';
+    // A Learning Grove save always comes to you (R0629): the choice is not offered there.
+    this.questFlow.disabled = g.world.edu !== null;
+    const ps = playStats(g.world);
+    this.playLine.textContent = OFFER_TEXT.yourPlay(
+      ps.offered,
+      ps.accepted,
+      ps.declined,
+      ps.shelved,
+      Object.entries(ps.lineMinutes)
+        .map(([id, m]) => OFFER_TEXT.roadMinutes(id, m))
+        .join(', '),
+    );
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
     this.graphics.value = g.world.settings.graphics;
@@ -692,6 +717,8 @@ export class SettingsMenu {
     if (bouts !== (g.world.settings.bouts ?? 'play')) settings.bouts = bouts;
     if (this.steady.checked !== !!g.world.settings.steadyHands)
       settings.steadyHands = this.steady.checked;
+    const flow = this.questFlow.value as NonNullable<Settings['questFlow']>;
+    if (flow !== (g.world.settings.questFlow ?? 'guided')) settings.questFlow = flow;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
     if (settings.graphics !== prev.graphics) {

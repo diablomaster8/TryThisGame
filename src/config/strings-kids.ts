@@ -138,3 +138,92 @@ export const CHAPTER_SAY_TEXT = {
 export const EDU_ROUNDS_TEXT = {
   label: 'Rounds in each game',
 } as const;
+
+/** R0682 / R0683: the grown-up area's "what your child knows" report. */
+export const EDU_MASTERY_TEXT = {
+  heading: 'What your child knows',
+  help: 'Green: knows it. Amber: still learning. Grey: not met yet.',
+  letters: 'Letters',
+  numbers: 'Numbers',
+  colours: 'Colours',
+  shapes: 'Shapes',
+  states: { known: 'knows it', learning: 'learning', new: 'not met yet' },
+  ladderHeading: 'Where each game is up to',
+  ladderRow: (say: string, rung: number, of: number) => `${say} (step ${rung} of ${of})`,
+} as const;
+
+/** R0685: the sticker book, "My Book". */
+export const STICKER_BOOK_TEXT = {
+  title: 'My Book',
+  close: 'Close',
+  prev: 'Page before',
+  next: 'Next page',
+  empty: 'A sticker still to come',
+  count: (have: number, of: number) => `${have} of ${of}`,
+  /** The results card's line when a sticker arrives; tap it to open the book. */
+  arrived: (say: string) => `A new sticker! ${say}`,
+  open: 'Open my book',
+} as const;
+
+/** R0680: the Learning Grove's Places menu: each place's name, said on a long press. */
+export const EDU_PLACES_TEXT = {
+  title: 'Places',
+  say: 'Where shall we go?',
+  names: {
+    book: 'My Book',
+    collection: 'My Nubbins',
+    decorate: 'Decorate',
+    photo: 'Take a photo',
+    playFight: 'Play-fight',
+    kindergarten: 'Kindergarten',
+    map: 'Map',
+    beetle: 'Beetle Run',
+  },
+  grownUps: 'Grown-ups',
+  /** The grown-up area's toggles. */
+  heading: 'Places your child can visit',
+  help: 'These show as big pictures when your child taps ⋯. The rest of the game stays hidden.',
+} as const;
+
+/** R0692: the Learning Grove's egg shelf. */
+export const EDU_EGG_TEXT = {
+  gone: 'In your Grove',
+  egg: (colour: string, gone: boolean) =>
+    gone ? `A ${colour} egg, already bought today` : `A ${colour} egg. It hatches just like this.`,
+} as const;
+
+/** R0695: limits, quiet hours and the boot lock. */
+export const EDU_LIMITS_TEXT = {
+  title: 'The Grove is asleep',
+  why: {
+    daily: "That's all the playing for today. The Grove wakes up tomorrow.",
+    quiet: 'Shh, it is quiet time. The Grove is sleeping now.',
+  },
+  say: {
+    daily: "That's all for today! Your Nubbin is fast asleep. See you tomorrow!",
+    quiet: 'Shh! It is quiet time. Your Nubbin is fast asleep. Goodnight!',
+  },
+  unlock: 'Grown-up: play a little longer',
+  heading: 'Limits',
+  help: 'Leave a box empty for no limit. Missing a day never costs anything.',
+  none: 'none',
+  daily: 'Minutes a day',
+  quietFrom: 'Quiet from (hour, 0–23)',
+  quietTo: 'Quiet until (hour, 0–23)',
+  lock: 'Open straight into this Grove',
+  lockHelp: 'A reload skips the title. Turn it off here to reach the other games.',
+} as const;
+
+/** R0703: the tracing game's spoken help. */
+export const TRACE_KID_TEXT = {
+  start: 'Start at the green dot.',
+  watch: 'Watch the finger, then you try!',
+  helped: "Let's do that one together.",
+  good: 'Yes!',
+  done: 'You wrote it!',
+} as const;
+
+/** R0719: the greeting before the entry prompt's question when the child's name is set. */
+export const CHILD_NAME_TEXT = {
+  hello: (name: string) => `Hello, ${name}!`,
+} as const;

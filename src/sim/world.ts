@@ -74,6 +74,7 @@ import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
+import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -123,6 +124,7 @@ import { calmStray } from './dungeon-strays';
 import { sneakPast } from './dungeon-sleepy';
 import { gambleBasket } from './dungeon-gamble';
 import { takeFromStash } from './dungeon-sack';
+import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -146,6 +148,7 @@ import {
   stepEdu,
   clampRounds,
 } from './edu';
+import { eduSetLimits, eduUnlockLimits } from './edu-limits';
 import {
   NUBBIN_TYPES,
   type Command,
@@ -523,7 +526,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     }
     case 'buy':
-      withRng(world, (rng) => buy(world, cmd.item, rng, events));
+      withRng(world, (rng) => buy(world, cmd.item, rng, events, cmd.pick));
       return;
     case 'raceResult': {
       // The UI reports the result, so the sim checks it: a known course, a tier that is open,
@@ -577,6 +580,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       // The menu validates the cap, but a NaN or out-of-range one must never reach catch-up.
       const next = { ...cmd.settings, offlineAging: { ...cmd.settings.offlineAging } };
       sanitizeOfflineAging(next.offlineAging, world.settings.offlineAging.capHours);
+      // Lane C r8: a settings copy taken before the story began (a phone's first-launch
+      // defaults) must not drop the quest flow it set; the menu always names one.
+      if (next.questFlow === undefined && world.settings.questFlow !== undefined)
+        next.questFlow = world.settings.questFlow;
       world.settings = next;
       return;
     }
@@ -860,6 +867,15 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'stashTake':
       takeFromStash(world, cmd.itemId);
       return;
+    // Lane B round 7: difficulty tiers (R0179).
+    case 'hollowTier':
+      setHollowTier(world, cmd.tier, events);
+      return;
+    case 'hollowSpeedRun':
+      // R0187: the speed-run toggle; off drops nothing.
+      if (cmd.on) world.hollow.speedRun = true;
+      else delete world.hollow.speedRun;
+      return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
       withRng(world, (rng) => waypointTravel(world, cmd.id, rng, events));
@@ -1014,7 +1030,18 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       eduSetName(world, cmd.name);
       return;
     case 'eduResult':
-      eduResult(world, cmd.game, cmd.stars, events);
+      eduResult(world, cmd.game, cmd.stars, events, cmd.item, cmd.first);
+      return;
+    case 'eduSetLimits':
+      // Lane E r8, R0695.
+      eduSetLimits(world, cmd.limits);
+      return;
+    case 'eduUnlockLimits':
+      eduUnlockLimits(world, world.lastWallMs);
+      return;
+    case 'eduSetPlace':
+      // Lane E r8, R0680.
+      if (world.edu) (world.edu.places ??= {})[cmd.place] = cmd.on;
       return;
     case 'eduResetSession':
       eduResetSession(world);
@@ -1126,6 +1153,22 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'lineAbandon':
       // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
       abandonLine(world, cmd.line);
+      return;
+    // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
+    case 'questAccept':
+      if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
+      return;
+    case 'questDecline':
+      if (world.campaign) declineQuest(world, world.campaign, cmd.id);
+      return;
+    case 'questShelve':
+      shelveQuest(world, cmd.id);
+      return;
+    case 'questTrack':
+      trackQuest(world, cmd.id, cmd.on);
+      return;
+    case 'debugQuestOffer':
+      debugOffer(world, cmd.id, events);
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.

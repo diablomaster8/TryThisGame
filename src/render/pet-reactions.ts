@@ -6,7 +6,8 @@
  * a sparkle, a high five plays out by personality (a slap, a miss, a paw pulled away), and a tuck
  * in when not tired sits up wide-eyed. Render-only: it reads events and never writes the sim.
  */
-import type { Interaction, Nubbin, Personality } from '../sim/types';
+import type { Interaction, Nubbin, Personality, Vec2 } from '../sim/types';
+import { NoticeTracker } from './notice';
 import { SOUL_BURST_MS, soulLookKind, soulPose, type SoulLookKind } from './soul-looks';
 
 export type PetBeatKind =
@@ -31,7 +32,12 @@ export type PetBeatKind =
   | 'wheee'
   | 'teary'
   | 'tongue'
-  | 'flop';
+  | 'flop'
+  // R0533 (lane A r9): noticing the Keeper go by, by personality (render/notice.ts).
+  | 'wave'
+  | 'shyGlance'
+  | 'grin'
+  | 'handLift';
 
 /** How long each beat plays, in ms. */
 export const PET_BEAT_MS: Record<PetBeatKind, number> = {
@@ -54,6 +60,10 @@ export const PET_BEAT_MS: Record<PetBeatKind, number> = {
   teary: 1600,
   tongue: 1100,
   flop: 3000,
+  wave: 600,
+  shyGlance: 1200,
+  grin: 900,
+  handLift: 800,
 };
 
 /** A second tickle inside this window brings the hiccups. */
@@ -219,6 +229,36 @@ export function beatPose(kind: PetBeatKind, t: number): PetBeatPose {
       out.sh = 1 + 0.05 * hop;
       break;
     }
+    case 'wave':
+      // A quick happy wave: up on its toes, rocking side to side.
+      out.clip = 'happy';
+      out.pose3d = 'happy';
+      out.dx = wave(2) * 0.03;
+      out.sh = 1 + 0.05 * Math.sin(t * Math.PI);
+      break;
+    case 'shyGlance':
+      // Looks up, then away, shrinking a little.
+      out.clip = t < 0.45 ? 'idle' : 'love';
+      out.frame = 0;
+      out.pose3d = t < 0.45 ? 'idle' : 'love';
+      out.dx = t < 0.45 ? 0 : -0.04 * Math.sin(((t - 0.45) / 0.55) * Math.PI);
+      out.sw = t < 0.45 ? 1 : 0.94;
+      break;
+    case 'grin':
+      // A cheeky grin and a skip to the side.
+      out.clip = 'happy';
+      out.frame = 0;
+      out.pose3d = 'happy';
+      out.dx = 0.08 * Math.sin(t * Math.PI);
+      out.dy = 0.06 * Math.max(0, Math.sin(t * Math.PI * 2));
+      break;
+    case 'handLift':
+      // Can't be bothered to get up: a small lift, held, and down.
+      out.clip = 'idle';
+      out.frame = 0;
+      out.pose3d = 'idle';
+      out.sh = 1 + 0.03 * Math.sin(t * Math.PI);
+      break;
     case 'blush':
       // Shrinks into itself and turns a little away, all blush.
       out.clip = 'love';
@@ -307,7 +347,15 @@ export const PET_BEAT_BURST: Partial<
   puff: 'sparkle',
   hiccup: 'note',
   giggle: 'note',
+  wave: 'sparkle',
+  grin: 'sparkle',
   slap: 'sparkle',
+  // Lane A r9.
+  groomSelf: 'sparkle',
+  hum: 'note',
+  giggleFit: 'note',
+  burp: 'dust',
+  smugRun: 'dust',
 };
 
 /** Per-Nubbin beats for one renderer (each keeps its own, on its own clock). */
@@ -324,6 +372,9 @@ export class PetBeats {
   private readonly looks = new Map<string, { key: string; at: number; bucket: number }>();
   /** Reduced motion: the looks keep their frames and drop their shakes. */
   calm = false;
+  /** R0533 (lane A r9): where the Keeper is, set by the renderer each frame (null: none). */
+  keeper: Vec2 | null = null;
+  private readonly notice = new NoticeTracker();
 
   /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
   queueKind(id: string, kind: PetBeatKind | ((n: Nubbin) => PetBeatKind), nowMs: number): void {
@@ -352,6 +403,12 @@ export class PetBeats {
       this.pendingKind.delete(n.id);
       const kind = typeof pk.kind === 'function' ? pk.kind(n) : pk.kind;
       this.beats.set(n.id, { kind, startMs: pk.atMs });
+      fresh = true;
+    }
+    // R0533: the Keeper going by gets a wave (or a glance, a grin, a lifted hand).
+    const seen = this.notice.check(n, this.keeper, nowMs);
+    if (seen && !this.beats.has(n.id)) {
+      this.beats.set(n.id, { kind: seen, startMs: nowMs });
       fresh = true;
     }
     const pose = this.pose(n.id, nowMs);
