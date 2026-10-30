@@ -16,6 +16,9 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'giggle') return 'note';
       if (id === 'burp') return 'puff';
       if (id.startsWith('snatch')) return 'spiky';
+      // R0560: jealous: asking to be picked up too, or a cheeky nudge.
+      if (id === 'askUp') return 'heart';
+      if (id.startsWith('nudge:')) return 'spiky';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';
@@ -27,6 +30,7 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'tug') return 'question';
       if (id === 'callFruit') return 'exclaim';
       if (id === 'rubEyes') return 'zz';
+      if (id === 'watchJealous') return 'puff';
       return null;
     default:
       return null;

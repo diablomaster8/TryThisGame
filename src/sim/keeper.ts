@@ -43,6 +43,7 @@ import { addTrust, isWary, settleStray } from './trust';
 import { noteCampaign } from './campaign';
 import { hasTrait, noteTraitCare } from './traits';
 import { findHiding } from './peek';
+import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
 
@@ -1307,6 +1308,8 @@ export function petNubbin(world: World, n: Nubbin, events: SimEvent[]): void {
   if (now - n.lastPetMs >= NEEDS.petCooldownMs) noteCare(n, 'pets');
   n.lastPetMs = now;
   pet(n, world.keeper.pos, now, events);
+  // R0560 (lane A r9): the others nearby notice.
+  noticePet(world, n, events);
 }
 
 /** Put a carried Nubbin down at the Keeper's feet. */

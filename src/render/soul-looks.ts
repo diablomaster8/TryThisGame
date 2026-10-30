@@ -51,6 +51,8 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'perform' && id === 'burp') return 'burp';
   if (b.state === 'perform' && id === 'peekTree' && !b.target) return 'peek';
   if (b.state === 'perform' && id?.startsWith('snatchRun:')) return 'smugRun';
+  // R0560: asking to be picked up too, arms up beside the Keeper.
+  if (b.state === 'perform' && id === 'askUp' && !b.target) return 'tug';
   if (b.state === 'sit' && (id === 'tug' || id === 'callFruit' || id === 'rubEyes')) return id;
   if (b.state === 'sit' && (id === 'harrumph' || id === 'yawn' || id === 'stretch')) return id;
   if (b.state === 'sit' && id === 'stargaze') return 'stargaze';

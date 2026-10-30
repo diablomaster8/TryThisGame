@@ -182,3 +182,17 @@ export const CALLING = {
   tugMs: 3000,
   rubMs: 2500,
 } as const;
+
+/** R0560 (SOUL-43): the others noticing a pet. */
+export const JEALOUSY = {
+  radius: 5,
+  /** Chance per pet by personality (no personality yet: cheerful's). */
+  chance: { cheerful: 0.4, mischievous: 0.5, shy: 0.1, lazy: 0.15 },
+  /** Any Nubbin this fond of the Keeper asks to be picked up too. */
+  fondAffection: 60,
+  askMs: 2500,
+  nudgeMs: 2000,
+  watchMs: 3000,
+  /** How far a nudge shoves the petted one. */
+  shove: 0.3,
+} as const;

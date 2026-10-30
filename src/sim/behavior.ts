@@ -56,6 +56,7 @@ import { likesOf, tasteOf } from './likes';
 import { favouredToy, noteToyPlay } from './toy-soul';
 import { peekAct } from './peek';
 import { callAct } from './calling';
+import { nudgeArrive } from './jealousy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
@@ -1083,6 +1084,8 @@ function stepBehavior(
             eat: (flavor) => eat(n, now, events, flavor),
           });
           if (snatch) break;
+          // R0560: a jealous nudge shoves the petted one aside.
+          nudgeArrive(n, world, (who, r) => react(who, r, now, events));
           b.untilMs = now + (b.untilMs - b.sinceMs);
           b.target = null;
           // R0542: a comforter pats, a prankster boos; the mark shows it (a free one only).

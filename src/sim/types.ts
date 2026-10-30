@@ -1481,6 +1481,8 @@ export type SimEvent =
   | { kind: 'burp'; nubbinId: string }
   /** R0545: a mischievous one snatched another's fruit. */
   | { kind: 'snatched'; nubbinId: string; victimId: string }
+  /** R0560: another noticed a pet and wanted one too. */
+  | { kind: 'jealous'; nubbinId: string; of: string }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
