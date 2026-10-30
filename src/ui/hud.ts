@@ -1327,6 +1327,13 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+        } else if (e.kind === 'hollowWearable') {
+          // Lane B round 7: a boss's keepsake (R0206).
+          toast(
+            HOLLOW_R7_TEXT.wearableGiven(
+              HOLLOW_R7_TEXT.wearables[e.id as keyof typeof HOLLOW_R7_TEXT.wearables] ?? e.id,
+            ),
+          );
         } else if (e.kind === 'hollowTier' || e.kind === 'hollowTierOpened') {
           // Lane B round 7: difficulty tiers (R0179).
           const name = HOLLOW_R7_TEXT.tiers[e.tier].name;

@@ -481,4 +481,14 @@ export const HOLLOW_R7_TEXT = {
   tierLocked: "Opens when the last act's boss falls on the tier before it.",
   tierPicked: (name: string) => `The Hollow feels ${name} now.`,
   tierOpened: (name: string) => `A new way down: ${name} is open at the cave mouth!`,
+  /** R0206: the act bosses' hats and the cape (names), and the toast when one is given. */
+  wearables: {
+    'hollow-mushroom': 'Grumblecap Cap',
+    'hollow-hedge': 'Hedge Helmet',
+    'hollow-looroll': 'Pharaoh Wrap',
+    'hollow-noodle': 'Noodle Beanie',
+    'hollow-hearth': 'Hearth Crown',
+    'hollow-cape': 'Keeper of the Hollow Cape',
+  },
+  wearableGiven: (name: string) => `A keepsake from the deep: ${name}. It's in the Roster.`,
 };

@@ -41,10 +41,10 @@ const rig = (): Rigged =>
 describe('the cosmetics registry', () => {
   it('seeds 24 wearables with unique ids, names and every slot but body costumes', () => {
     // The hop course's prize hat (MOVE-63, lane A) and the Dojo Ladder's black belt (FIGHT-99,
-    // lane C) are not among the seeded wearables.
-    const ids = COSMETICS.map((c) => c.id).filter(
-      (id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt',
-    );
+    // lane C) are not among the seeded wearables, nor are the Hollow's keepsakes (R0206, lane B).
+    const ids = COSMETICS.filter((c) => c.source !== 'hollow')
+      .map((c) => c.id)
+      .filter((id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt');
     // The five hats, eighteen new ones and the eggshell.
     expect(ids.length + 1).toBe(24);
     expect(new Set(COSMETICS.map((c) => c.id)).size).toBe(COSMETICS.length);

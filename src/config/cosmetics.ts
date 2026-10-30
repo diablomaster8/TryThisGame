@@ -3,6 +3,7 @@ import { COSMETIC_LABELS, eggshellLabel } from './strings-look';
 import { HOP_COURSE_TEXT } from './strings-move';
 import { LADDER_TEXT } from './strings-battle-r6';
 import type { C } from '../render/sprites/palette';
+import { HOLLOW_COSMETICS } from './cosmetics-hollow';
 
 /**
  * The hat and costume registry (LOOK-32). Every wearable is one entry: its slot, rarity and
@@ -17,7 +18,7 @@ import type { C } from '../render/sprites/palette';
 
 export type CosmeticSlot = 'hat' | 'face' | 'neck' | 'back' | 'body';
 export type CosmeticRarity = 'common' | 'rare' | 'prize';
-export type CosmeticSource = 'shop' | 'race' | 'hatch';
+export type CosmeticSource = 'shop' | 'race' | 'hatch' | 'hollow';
 
 /** A palette colour by name, or a colour of the egg the wearer hatched from. */
 export type CosmeticColour = keyof typeof C | 'egg.shell' | 'egg.shade' | 'egg.cap' | 'egg.spot';
@@ -468,6 +469,8 @@ export const COSMETICS: readonly Cosmetic[] = [
       ['cone', 'ember', [0.42, -0.1, 0.05], [0.13, 0.36, 0.13], [0, 0, -0.4]],
     ],
   ),
+  // Lane B round 7 (R0206): the act bosses' hats and the Hollow cape.
+  ...HOLLOW_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));

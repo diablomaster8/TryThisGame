@@ -17,6 +17,9 @@ import { isCommonSpecies, SPECIES } from '../../src/sim/species';
 import { actStartDepth } from '../../src/config/dungeon-acts';
 import { ACT_WILD } from '../../src/config/dungeon-wild';
 import { ACTS } from '../../src/config/dungeon-acts';
+import { cosmetic } from '../../src/config/cosmetics';
+import { HOLLOW_CAPE, HOLLOW_HATS } from '../../src/config/cosmetics-hollow';
+import { bossWon } from '../../src/sim/dungeon-boss';
 import { foeLevel } from '../../src/sim/dungeon-density';
 import { hollowTier, noteFinalBoss, setHollowTier, tiersOpen } from '../../src/sim/dungeon-tiers';
 import { rollRarity } from '../../src/sim/gear';
@@ -25,7 +28,7 @@ import { deserialize, serialize } from '../../src/sim/save';
 import { generateV3 } from '../../src/sim/dungeon-gen-v3';
 import { setEncounterHandler, swimFamily } from '../../src/sim/dungeon-encounters';
 import { hatch } from '../../src/sim/lifecycle';
-import type { SimEvent, World } from '../../src/sim/types';
+import type { DungeonRun, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 
 // Lane B round 7: aggro telegraph and leash (R0200).
@@ -449,5 +452,26 @@ describe('boss footing', () => {
     const f = actFloor(376_560_671, 2, actStartDepth(2) + ACTS[2]!.levels.length - 1, 4);
     const b = f.packs!.find((p) => p.kind === 'boss')!;
     expect(f.cells[b.cell.y * f.cols + b.cell.x]).toBe(FLOOR);
+  });
+});
+
+describe('Hollow keepsakes (R0206)', () => {
+  it('gives each act boss its hat once and the cape with the fifth', () => {
+    const world = createWorld(4, 0);
+    const events: SimEvent[] = [];
+    const run = { act: 0 } as DungeonRun;
+    for (let act = 0; act < ACTS.length; act++) {
+      run.act = act;
+      bossWon(world, run, 10, new Rng(act + 1), events);
+      bossWon(world, run, 10, new Rng(act + 9), events);
+      expect(world.inventory.hats.filter((h) => h === HOLLOW_HATS[act])).toHaveLength(1);
+      expect(world.inventory.hats.includes(HOLLOW_CAPE)).toBe(act === ACTS.length - 1);
+    }
+    expect(events.filter((e) => e.kind === 'hollowWearable')).toHaveLength(6);
+    for (const id of [...HOLLOW_HATS, HOLLOW_CAPE]) {
+      const c = cosmetic(id)!;
+      expect(c.px?.length).toBeGreaterThan(0);
+      expect(c.mesh?.length).toBeGreaterThan(0);
+    }
   });
 });

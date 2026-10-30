@@ -1542,6 +1542,7 @@ export type SimEvent =
   | { kind: 'deepBottom' }
   | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
   | { kind: 'hollowTierOpened'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowWearable'; id: string }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
