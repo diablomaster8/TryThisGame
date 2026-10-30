@@ -38,48 +38,42 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
-## Round 6 · Lane D (2026-10-29, branch r6/d)
+## Round 7 · Lane D (2026-10-30, branch r7/d)
 
-Plan: riding and the swim tow (R0085, R0088) first, then the cheap WORLD P2s, R0359, partials.
-The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region and stay unstarted.
+Plan: finish the three TECH live bugs, then WORLD from R0085 in order, then TECH R0445 on.
+Most remaining WORLD items need the WORLD-20 height field or a second drawn region, so the
+round went to TECH after R0122 and R0131.
 
-- **Works:** R0085 riding (`sim/ride.ts`, `RIDE`): Ride / Get down / Cheer on on the stats sheet
-  for an adult with affection 60 and a level-30 stat; pace by type (Run 2.0, 2.6 running);
-  twice the walking drain until it asks to get down at 0.2; Lazy sits 2 s every 40 s until
-  cheered, Mischievous hops aside on 10% of turns, Shy slows near people, Cheerful bounces; a
-  Learning Grove rides anything hatched (a child tows by the hand), free. The carrier walks
-  under the Keeper, who sits on its back at 0.8 scale (`render/ride-pose.ts`; Pixel `sit`
-  frame, no x-ray through the carrier; 3D `sit` pose, `render3d/ride-scale.ts`). Run adult
-  edge to edge ≤ 14 s (test). R0088 swim tow (`sim/swim-tow.ts`): a Swim-30 partner or carrier
-  tows the Keeper through the pond's water at ×1.2, paddling ahead; without one the shore
-  stops it and a hint says a good swimmer could help (once a minute). R0119 path and deck ×1.15
-  (`sim/surface-pace.ts`; grass vs path 14 u differ 13–17%). R0123 the 4 u collider grid
-  proved against a full scan on 10,000 points; 1,000 extra obstacles leave queries and a 7-day
-  catch-up as cheap. R0124 `regionLeftMs` + `regionAwayMs`: only the Grove steps in catch-up.
-  R0129 four Grove gags (`content/world-gags.ts`) on two new signposts, the scarecrow and the
-  hive, in turn after a piece's own line. R0359 a four-line festival vignette per season
-  (`content/festival-gags.ts`), once per save, recorded by `festivalGagSeen` (never by
-  catch-up), not before the first hatch, in a Learning Grove or chapters 9–11. R0107 camera
-  holds 0.6 s on a found landmark. R0104 Chunk grid button (`render/debug-chunks.ts`).
-  content-check's sentence count now matches whitespace (it matched a literal "s"), which
-  caught one three-sentence trace line (fixed).
-- **Stubbed:** ride pose checked at 8 yaws in Edge but with the stock `sit` frame (no straddle
-  frame); the tow is a placement plus the `swim` clip, not a hand-hold rig. Deep water is the
-  pond only (no lagoon until the shore). Gags have no per-gag animation (the scarecrow does not
-  turn). Festival vignettes are dialogue-box only, no staging. Not started: R0096–R0098, R0086,
-  R0108–R0118, R0120–R0122, R0125–R0128, R0130–R0141 (R0116 is mostly MOVE-44's tap dots,
-  lane A's files).
-- **Known bugs / assumptions:** `resolve` scans the walker's starting cell only, so a point
-  shoved several units out of a hill in one call could miss a collider in the next cell; no
-  walker moves that far in a step (test notes it). Riding persists through a reload; the
-  ridden Nubbin skips its own behaviour, so it cannot eat while carrying (it asks down at 0.2
-  energy). Full-suite runs on this loaded machine fail the timing tests (full life, nav, world
-  hour, battle balance); each passes alone, as on main. Phone probe: 0/38 over in the second run;
-  the first had 3D farOrchard at 186 calls (budget 180), and two isolated farOrchard runs peaked
-  at 161 and 168: the count swings with where the NPCs stand (round 5 saw 176–178).
-  After merging main (192f8fa) farOrchard read 185–189 in two probes (main alone 170–178), so the
-  four lantern posts' 16 draws now fall to a 4-draw instanced batch when far (`far-lanterns.ts`,
-  the far-tree rule); two probes after: 0/38 over, farOrchard 172 and 161.
+- **Works:** first-fruit 🍎 emote and chip line (`sim/first-feed.ts`); held-Nubbin ring,
+  green for a free place, and a 200 ms ease down (`render/held-ring.ts`, `render3d/held-ring-3d.ts`);
+  one-time backup-file card a week in (`platform/backup-offer.ts`); map layer chips and
+  completion rings (`sim/map-overlays.ts`); renderer parity test for the outer ring and the
+  village; debug panel lazy; shake read from clientX (`input/shake.ts`); haptics with a
+  Vibration setting (`platform/haptics.ts`); hatch in the Keeper's arms (`sim/hatch-arms.ts`);
+  sound toggle in every Grove; sticky stats-sheet header and grow handle; text size
+  (`ui/text-scale.ts`); local bug report and storage line in Settings; keys hint retired per
+  device; offline toast; rift re-asks after 3 days (`platform/mature-recheck.ts`); CI workflow
+  and deploy checks; content-check exits 1 on problems.
+- **Bundle:** `ui/battle-scenes.ts` (lane C, round 6) imported the `content` barrel, which put
+  every script in the eager chunk: 5.7 MB gzip. It now imports the two battle files: 812 kB.
+  `npm run check:bundle` (`tests/tools/bundle-budget.cjs`, baseline beside it) fails on +10%.
+  Never import from `src/content` (the barrel) outside lazy code.
+- **Stubbed:** shake meter; "Put down to hatch" in the sheet button; text size reaches only
+  rem-sized CSS; SEEN_KEEP pruning and side-save compression (lane C's `save.ts`); greying
+  uncached menu entries offline; the Sunny 18+ re-ask; `import/first` lint (plugin not installed).
+- **Known bugs:** none new. The eager set is still over TECH-41's 460 kB target (index 351 kB,
+  `regions` 190 kB). Load-sensitive timing tests fail in a full run beside the Edge smoke; all
+  pass alone (below).
+- **Checks:** lint, build, content checks clean. Edge `recs-2026-10-27/tools/r7-d-check.cjs
+  <px|3d> <w> <h> [port]`: 0 console errors in Pixel and 3D at 375×812 and 1280×800.
+- **Phone probe:** the first two end probes had 3D farOrchard at 161 and 181 calls (budget
+  180). A category diff showed the extra 20 draws were the sun shadow pass taking in off-screen
+  Grove props at some sun angles; phone `shadowHalf` 22 → 19 u. Two probes after: 0/38 over,
+  farOrchard 150 and 150, worst spot 150 calls.
+- **Tests:** full `npm test` beside the Edge smoke failed only load-sensitive timing tests
+  (lifecycle, world hour, nav, obstacle grid, species, dungeon-r6 bosses, battle balance); each
+  file passes alone, and lifecycle+nav take 15.4 s on both main and r7/d.
+
 ## Round 6 · Lane E LOOK (2026-10-29, branch r6/e)
 
 - *Works:* the in-training Digimon hop (three a metre, stretch 1.15, squash 0.75; Pixel walk

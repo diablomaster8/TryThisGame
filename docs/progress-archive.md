@@ -3,6 +3,48 @@
 Older session-log sections, moved out of PROGRESS.md on 2026-10-15 so a fresh session does not load 30k tokens of history. Newest first. Search this file; do not read it whole.
 
 
+## Round 6 · Lane D (2026-10-29, branch r6/d)
+
+Plan: riding and the swim tow (R0085, R0088) first, then the cheap WORLD P2s, R0359, partials.
+The XL region builds (R0096–R0098, R0086, R0108) need a second drawn region and stay unstarted.
+
+- **Works:** R0085 riding (`sim/ride.ts`, `RIDE`): Ride / Get down / Cheer on on the stats sheet
+  for an adult with affection 60 and a level-30 stat; pace by type (Run 2.0, 2.6 running);
+  twice the walking drain until it asks to get down at 0.2; Lazy sits 2 s every 40 s until
+  cheered, Mischievous hops aside on 10% of turns, Shy slows near people, Cheerful bounces; a
+  Learning Grove rides anything hatched (a child tows by the hand), free. The carrier walks
+  under the Keeper, who sits on its back at 0.8 scale (`render/ride-pose.ts`; Pixel `sit`
+  frame, no x-ray through the carrier; 3D `sit` pose, `render3d/ride-scale.ts`). Run adult
+  edge to edge ≤ 14 s (test). R0088 swim tow (`sim/swim-tow.ts`): a Swim-30 partner or carrier
+  tows the Keeper through the pond's water at ×1.2, paddling ahead; without one the shore
+  stops it and a hint says a good swimmer could help (once a minute). R0119 path and deck ×1.15
+  (`sim/surface-pace.ts`; grass vs path 14 u differ 13–17%). R0123 the 4 u collider grid
+  proved against a full scan on 10,000 points; 1,000 extra obstacles leave queries and a 7-day
+  catch-up as cheap. R0124 `regionLeftMs` + `regionAwayMs`: only the Grove steps in catch-up.
+  R0129 four Grove gags (`content/world-gags.ts`) on two new signposts, the scarecrow and the
+  hive, in turn after a piece's own line. R0359 a four-line festival vignette per season
+  (`content/festival-gags.ts`), once per save, recorded by `festivalGagSeen` (never by
+  catch-up), not before the first hatch, in a Learning Grove or chapters 9–11. R0107 camera
+  holds 0.6 s on a found landmark. R0104 Chunk grid button (`render/debug-chunks.ts`).
+  content-check's sentence count now matches whitespace (it matched a literal "s"), which
+  caught one three-sentence trace line (fixed).
+- **Stubbed:** ride pose checked at 8 yaws in Edge but with the stock `sit` frame (no straddle
+  frame); the tow is a placement plus the `swim` clip, not a hand-hold rig. Deep water is the
+  pond only (no lagoon until the shore). Gags have no per-gag animation (the scarecrow does not
+  turn). Festival vignettes are dialogue-box only, no staging. Not started: R0096–R0098, R0086,
+  R0108–R0118, R0120–R0122, R0125–R0128, R0130–R0141 (R0116 is mostly MOVE-44's tap dots,
+  lane A's files).
+- **Known bugs / assumptions:** `resolve` scans the walker's starting cell only, so a point
+  shoved several units out of a hill in one call could miss a collider in the next cell; no
+  walker moves that far in a step (test notes it). Riding persists through a reload; the
+  ridden Nubbin skips its own behaviour, so it cannot eat while carrying (it asks down at 0.2
+  energy). Full-suite runs on this loaded machine fail the timing tests (full life, nav, world
+  hour, battle balance); each passes alone, as on main. Phone probe: 0/38 over in the second run;
+  the first had 3D farOrchard at 186 calls (budget 180), and two isolated farOrchard runs peaked
+  at 161 and 168: the count swings with where the NPCs stand (round 5 saw 176–178).
+  After merging main (192f8fa) farOrchard read 185–189 in two probes (main alone 170–178), so the
+  four lantern posts' 16 draws now fall to a 4-draw instanced batch when far (`far-lanterns.ts`,
+  the far-tree rule); two probes after: 0/38 over, farOrchard 172 and 161.
 ## Round 5 · Lane D (2026-10-29, branch r5/d)
 
 Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
