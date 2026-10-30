@@ -1,4 +1,5 @@
 import type { NubbinType } from '../types';
+import { BATTLE_CONTENT } from '../../config/tuning-battle';
 import type { MoveDef, MoveKind, MoveSource } from './types';
 
 /**
@@ -163,6 +164,33 @@ export const MOVES: readonly MoveDef[] = [
   }),
   m('turbo-trot', 'run', 'bonk', 70, 4, 'final', { priority: 1 }),
 
+  // ---- round 5 comedy (recs FIGHT-75): a personality's own move, the dojo belts' lessons
+  // and a consolation for a good loser. Where each is learned is in `moves-sources.ts`. ----
+  m('belly-flop', 'normal', 'bonk', 50, 2, 'species', { acc: 0.9, anim: 'flop' }),
+  m('pillow-fort', 'normal', 'support', 0, 2, 'species', {
+    mood: { stat: 'guard', delta: 1, who: 'self', chance: 1 },
+    anim: 'fort',
+  }),
+  m('noogie', 'normal', 'bonk', 40, 1, 'species', {
+    status: { id: 'giggly', chance: 0.3 },
+    anim: 'noogie',
+  }),
+  m('nap-attack', 'normal', 'support', 0, 2, 'species', { heal: 0.2, anim: 'nap' }),
+  m('polite-shove', 'normal', 'bonk', 40, 1, 'lesson', { priority: 1, anim: 'shove' }),
+  m('stare-contest', 'normal', 'status', 0, 1, 'lesson', {
+    mood: { stat: 'acc', delta: -1, who: 'target', chance: 0.8 },
+    anim: 'stare',
+  }),
+  m('hug-of-doom', 'power', 'bonk', 60, 3, 'lesson', {
+    status: { id: 'sticky', chance: 0.3 },
+    anim: 'hug',
+  }),
+  m('dramatic-gasp', 'normal', 'status', 0, 1, 'lesson', {
+    ...ALL_FOES,
+    mood: { stat: 'bonk', delta: -1, who: 'foes', chance: 0.5 },
+    anim: 'gasp',
+  }),
+
   // ---- the Normal fallback, so a loadout is never empty ----
   m('raspberry', 'normal', 'status', 0, 1, 'fallback', {
     mood: { stat: 'bonk', delta: -1, who: 'target', chance: 0.3 },
@@ -179,4 +207,39 @@ export function moveById(id: string): MoveDef | undefined {
 /** Bonk, for a missing id. */
 export function moveOf(id: string): MoveDef {
   return BY_ID.get(id) ?? BY_ID.get('bonk')!;
+}
+
+// ---- Round 5: one move list for both modes (recs FIGHT-70) ----
+
+/**
+ * A move as content: every move has both a turn block and a grid block, unless it says it is
+ * for one mode only. `gridOnly` and `turnOnly` are not on `MoveDef` yet (that type is owned
+ * by the battle core); a move that needs one sets it here and the lint test reads it.
+ */
+export type ContentMove = MoveDef & { gridOnly?: true; turnOnly?: true };
+
+/** A turn move's priority on the grid: +1 priority is +10 CT for its user. */
+export function ctBonusOf(d: MoveDef): number {
+  return d.priority * BATTLE_CONTENT.ctPerPriority;
+}
+
+/**
+ * Why a move breaks the shared rules, or an empty list. The rules: a turn block (power, acc,
+ * puff, priority, target) and a grid block (range, aoe, heightReach) unless marked one-mode,
+ * an anim, and turn `allFoes` exactly when the grid hits a ring.
+ */
+export function moveProblems(d: ContentMove): string[] {
+  const out: string[] = [];
+  const num = (v: unknown): boolean => typeof v === 'number' && Number.isFinite(v);
+  const turnOk =
+    num(d.power) && num(d.acc) && num(d.puff) && num(d.priority) && typeof d.target === 'string';
+  const g = d.grid as MoveDef['grid'] | undefined;
+  const gridOk =
+    !!g && Array.isArray(g.range) && g.range.length === 2 && !!g.aoe && num(g.heightReach);
+  if (!turnOk && !d.gridOnly) out.push('no turn block');
+  if (!gridOk && !d.turnOnly) out.push('no grid block');
+  if (!d.anim) out.push('no anim');
+  if (turnOk && gridOk && (d.target === 'allFoes') !== (g.aoe === 'ring1'))
+    out.push('allFoes and a ring aoe must go together');
+  return out;
 }

@@ -148,15 +148,9 @@ export class DojoMenu {
       return;
     }
     this.dialog.hide();
-    // The selected Nubbin leads when there is no remembered party yet.
-    this.pick.open(
-      (ids) => {
-        if (context.kind === 'karate' || context.kind === 'encounter') return;
-        this.screen.start({ ...context, ids }, () => this.refreshLater());
-      },
-      3,
-      this.fighterPick()?.id,
-    );
+    if (context.kind === 'karate' || context.kind === 'encounter') return;
+    // The pre-bout sheet (FIGHT-86) picks the party now; Back there returns to this menu.
+    this.screen.start({ ...context, ids: [] }, (s) => (s ? this.refreshLater() : this.open()));
   }
 
   private refreshLater(): void {

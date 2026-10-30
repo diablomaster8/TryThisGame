@@ -4,7 +4,9 @@
  */
 import { FOE_NAME_BASE } from '../../config/strings-battle';
 import { BATTLE } from '../../config/tuning-battle';
+import { BATTLE_DOUBLES } from '../../config/tuning-battle-atb';
 import { Rng } from '../rng';
+import { atbAct, dressAtb, stepAtb } from './atb';
 import type { Nubbin, SimEvent, World } from '../types';
 import { combatantOf, rivalLevel, rivalOf } from './derive';
 import { end } from './damage';
@@ -13,9 +15,13 @@ import { setSlots, syncMoves } from './moves-sources';
 import { battleSeedFor, grantRewards } from './rewards';
 import { CIRCUIT_GIMMICK, circuitOpen, circuitTeam } from './circuit';
 import { bagFrom } from './items';
+import { foeLooks } from './foes';
 import { inflict } from './status';
 import type { BattlePrefs } from '../types';
 import { turnAct } from './turn';
+import { autoResolve, skippable } from './auto';
+import { debugAct } from './debug';
+import { noteSeen } from './seen';
 import type { BattleAction, BattleContext, BattleState, Combatant } from './types';
 
 const DEFAULT_RIVAL = 'chao';
@@ -56,19 +62,29 @@ export function createBattle(
     allies = [scaleForDojo(combatantOf(fighter, world))];
     const lv = rivalLevel(allies, tier);
     const opts = { share: 1, hpShare: 1 };
-    foes = [scaleForDojo(rivalOf(0, lv, tier, allies, DEFAULT_RIVAL, tier - 1, opts, rng), tier)];
+    foes = [
+      scaleForDojo(
+        rivalOf(0, lv, tier, allies, rivalSpecies(world, context, 0, 1), tier - 1, opts, rng),
+        tier,
+      ),
+    ];
   } else {
     if (!validTier(tier, BATTLE.rivals.tierFloor.length)) return null;
     if (context.kind === 'circuit' && !circuitOpen(world, context.trainer, !!context.champion))
       return null;
     if (context.kind === 'dojo' && tier > world.karate.belt + 1) return null;
-    const party = partyOf(world, context.ids).slice(0, context.kind === 'encounter' ? 6 : 3);
-    if (party.length === 0) return null;
+    // Doubles (FIGHT-60) is exactly two a side; anything less is not a doubles bout.
+    const doubles = !!context.doubles;
+    const cap = doubles ? BATTLE_DOUBLES.slots : context.kind === 'encounter' ? 6 : 3;
+    const party = partyOf(world, context.ids).slice(0, cap);
+    if (party.length === 0 || (doubles && party.length < BATTLE_DOUBLES.slots)) return null;
     allies = party.map((n) => combatantOf(n, world));
     const lv = rivalLevel(allies, tier);
     const opts = { share: BATTLE.rivals.foeShare, hpShare: BATTLE.rivals.foeHpShare };
-    const specs = foeSpecs(world, context, lv, party.length);
+    let specs = foeSpecs(world, context, lv, party.length);
     if (specs.length === 0) return null;
+    // A lone dojo rival brings a partner of the same kind for doubles.
+    if (doubles) specs = [...specs, ...specs].slice(0, BATTLE_DOUBLES.slots);
     foes = specs.map((f, i) => {
       const c = rivalOf(
         i,
@@ -103,11 +119,18 @@ export function createBattle(
     ...(mode === 'karate' ? { karate: karateClock(tier) } : {}),
   };
   if (mode === 'turn') dressTurnBout(world, state, rng);
+  if (mode === 'turn' && context.kind !== 'karate' && context.mode === 'atb')
+    dressAtb(world, state);
   state.rngState = rng.state;
   return state;
 }
 
 /** Foes for a turn bout: by context (recs FIGHT-19, -22, -29). */
+/** A rival's real species from the context's pool (FIGHT-90), the base Nubbin if none. */
+function rivalSpecies(world: World, context: BattleContext, i: number, n: number): string {
+  return foeLooks(world, context, n)[i]?.species ?? DEFAULT_RIVAL;
+}
+
 function foeSpecs(
   world: World,
   context: Exclude<BattleContext, { kind: 'karate' }>,
@@ -130,10 +153,10 @@ function foeSpecs(
         name: FOE_NAME_BASE + i,
       }));
     case 'dojo':
-      return [{ species: DEFAULT_RIVAL, level: lv }];
+      return [{ species: rivalSpecies(world, context, 0, 1), level: lv }];
     case 'party':
-      return Array.from({ length: Math.min(T.foesPerTier, partySize) }, () => ({
-        species: DEFAULT_RIVAL,
+      return Array.from({ length: Math.min(T.foesPerTier, partySize) }, (_, i) => ({
+        species: rivalSpecies(world, context, i, Math.min(T.foesPerTier, partySize)),
         level: lv,
       }));
   }
@@ -144,14 +167,21 @@ function dressTurnBout(world: World, s: BattleState, rng: Rng): void {
   const c = s.context;
   // The old all-at-once party bout keeps its format; the new kinds are singles.
   const singles = c.kind === 'encounter' ? !!c.singles : c.kind !== 'karate' && c.kind !== 'party';
-  if (singles) s.lead = [0, 0];
+  // Doubles has no bench: both of each side's two are on the field.
+  if (c.kind !== 'karate' && c.doubles) s.doubles = true;
+  else if (singles) s.lead = [0, 0];
   if (c.kind === 'circuit') {
     s.ai = c.champion ? 'champion' : c.tier >= 3 ? 'champion' : 'keeper';
     const g = CIRCUIT_GIMMICK[c.trainer];
     if (g) s.gimmick = g;
     if (c.champion) s.foeBag = { fruit: 2 };
   }
-  if (world.edu || world.battlePrefs?.gentle) {
+  // Kid mode is always gentle; otherwise the pre-bout sheet's override (FIGHT-86) wins over
+  // the Keeper's usual choice (Gentle bouts, or Settings → Bouts on Gentle).
+  const usual = !!world.battlePrefs?.gentle || world.settings?.bouts === 'gentle';
+  const gentle = c.kind !== 'karate' && c.difficulty ? c.difficulty === 'gentle' : usual;
+  if (c.kind !== 'karate' && c.difficulty === 'spicy' && !world.edu) s.ai = 'champion';
+  if (world.edu || gentle) {
     s.gentle = world.edu ? (world.edu.band === 'sprout' ? 'sprout' : 'reader') : 'all';
   }
   const bag = bagFrom(world);
@@ -185,8 +215,10 @@ export function battleAct(s: BattleState, a: BattleAction): boolean {
     end(s, { k: 'end', winner: null, reason: 'time' });
     return true;
   }
+  if (a.k === 'debug') return debugAct(s, a.set);
   const rng = new Rng(s.rngState);
-  const ok = s.mode === 'karate' ? karateAct(s, rng, a) : turnAct(s, rng, a);
+  const ok =
+    s.mode === 'karate' ? karateAct(s, rng, a) : s.atb ? atbAct(s, rng, a) : turnAct(s, rng, a);
   s.rngState = rng.state;
   if (s.log.length > BATTLE.logCap) s.log.splice(0, s.log.length - BATTLE.logCap);
   return ok;
@@ -199,6 +231,11 @@ export function battleForfeit(s: BattleState): void {
 // ---------- world commands ----------
 
 export function startBattleCmd(world: World, context: BattleContext, events: SimEvent[]): void {
+  // A skipped story bout (FIGHT-71) never reaches the screen; asked for any other way, refused.
+  if (context.auto) {
+    if (world.settings?.bouts === 'skip' && skippable(context)) autoResolve(world, context, events);
+    return;
+  }
   const s = createBattle(world, context, battleSeedFor(world, context));
   if (!s) return;
   world.battleRuns = (world.battleRuns ?? 0) + 1;
@@ -208,7 +245,9 @@ export function startBattleCmd(world: World, context: BattleContext, events: Sim
 
 export function actBattleCmd(world: World, action: BattleAction, events: SimEvent[]): void {
   const s = world.battle;
+  const last = s?.log[s.log.length - 1];
   if (!s || !battleAct(s, action)) return;
+  noteSeen(world, s, last ? s.log.indexOf(last) + 1 : 0);
   if (s.result) grantRewards(world, s, events);
 }
 
@@ -220,6 +259,15 @@ export function setSlotsCmd(world: World, nubbinId: string, slots: (string | nul
 
 /** Once a sim second: new moves from parts, lessons and forms join the kit. */
 export function stepBattleMoves(world: World, dtMs: number, events: SimEvent[]): void {
+  // An ATB bout's clock moves only here, from the live step (FIGHT-41); world.ts never calls
+  // this during offline catch-up, so a closed game never fights.
+  const b = world.battle;
+  if (b?.atb && !b.result) {
+    const last = b.log[b.log.length - 1];
+    stepAtb(b, dtMs);
+    noteSeen(world, b, last ? b.log.indexOf(last) + 1 : 0);
+    if (b.result) grantRewards(world, b, events);
+  }
   if (Math.floor(world.timeMs / 1000) === Math.floor((world.timeMs - dtMs) / 1000)) return;
   for (const n of world.nubbins) syncMoves(n, events);
 }

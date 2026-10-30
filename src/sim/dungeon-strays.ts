@@ -6,7 +6,9 @@
  * recruits it (`feedStray` in dungeon.ts).
  */
 import { DUNGEON, HOLLOW } from '../config/tuning';
+import { createBattle, type BattleContext } from './battle';
 import { cellOf, isExplored, type Floor } from './dungeon';
+import { HOLLOW_BATTLE_SOURCE } from './dungeon-encounters';
 import type { DungeonRun, DungeonStray, SimEvent, World } from './types';
 
 const S = HOLLOW.strays;
@@ -96,4 +98,142 @@ export function shooStray(world: World, run: DungeonRun, id: string, events: Sim
   s.target = null;
   events.push({ kind: 'strayShooed', by: chaser.id });
   return true;
+}
+
+// ---------------------------------------------------------------- the stray's choice (R0281)
+
+const C = HOLLOW.strayChoice;
+
+/**
+ * A stray that bumps the Keeper asks first: it holds still for `askMs` while the bar offers
+ * Calm it (a befriend-only bout) or a snack (`feedStray`). Ignored, it snatches as before.
+ * Returns true while this stray is asking (the caller keeps it still).
+ */
+export function stepStrayAsk(
+  world: World,
+  run: DungeonRun,
+  s: DungeonStray,
+  touching: boolean,
+  dtMs: number,
+  events: SimEvent[],
+): boolean {
+  const ask = run.strayAsk;
+  if (ask && ask.id === s.id) {
+    ask.leftMs -= dtMs;
+    if (ask.leftMs > 0) return true;
+    delete run.strayAsk;
+    if (world.inventory.shells > 0) snatch(world, run, s, events);
+    return false;
+  }
+  if (!touching || ask) return false;
+  run.strayAsk = { id: s.id, leftMs: C.askMs };
+  events.push({ kind: 'strayAsk', id: s.id });
+  return true;
+}
+
+/**
+ * Who can calm a stray: the party's hatched Nubbins, else (a party left at home, or all eggs)
+ * any hatched Nubbin, as lane C's rumble slice picks. Empty when nobody can.
+ */
+export function calmers(world: World, run: DungeonRun): string[] {
+  const ok = (id: string) => {
+    const n = world.nubbins.find((x) => x.id === id);
+    return !!n && n.stage !== 'egg' && n.stage !== 'cocoon';
+  };
+  const party = run.party.filter(ok);
+  return party.length ? party : world.nubbins.map((n) => n.id).filter(ok);
+}
+
+/** Calm it: a singles, befriend-only bout against the stray (lane C's turn core). */
+export function calmStray(world: World, id: string, events: SimEvent[]): boolean {
+  const run = world.dungeon;
+  const s = run?.strays.find((x) => x.id === id);
+  if (!run || !s || run.strayBout || run.encounter || (world.battle && !world.battle.result))
+    return false;
+  const ids = calmers(world, run);
+  if (!ids.length) return false;
+  const context: BattleContext = {
+    kind: 'encounter',
+    tier: Math.max(1, Math.min(3, Math.ceil(run.depth / 3))),
+    ids: ids.slice(0, 1),
+    source: HOLLOW_BATTLE_SOURCE,
+    key: `stray:${id}`,
+    singles: true,
+    foes: [{ species: 'chao', level: C.level + run.depth * C.perDepth, shadow: true }],
+  };
+  const bout = createBattle(world, context, (run.seed ^ Math.imul(run.depth + 7, 977)) >>> 0);
+  if (!bout) return false;
+  world.battleRuns = (world.battleRuns ?? 0) + 1;
+  world.battle = bout;
+  delete run.strayAsk;
+  run.strayBout = {
+    id,
+    bout: world.battleRuns,
+    shells: Math.min(world.inventory.shells, DUNGEON.straySnatch),
+  };
+  world.keeper.moveTarget = null;
+  world.keeper.intent = null;
+  events.push({ kind: 'battleStart', context: 'encounter' });
+  return true;
+}
+
+/**
+ * The calm bout's end (`battleEnd` among `fresh`): a calmed stray goes home and pays back
+ * `payback` times what it would have taken; otherwise it snatches as it would have.
+ */
+export function strayBoutEnded(world: World, fresh: SimEvent[], events: SimEvent[]): void {
+  const run = world.dungeon;
+  const bout = run?.strayBout;
+  if (!run || !bout) return;
+  for (const e of fresh) {
+    if (e.kind !== 'battleEnd' || e.source !== HOLLOW_BATTLE_SOURCE || e.key !== `stray:${bout.id}`)
+      continue;
+    delete run.strayBout;
+    const s = run.strays.find((x) => x.id === bout.id);
+    const ok = e.winner === 0 || e.reason === 'hug' || e.reason === 'friends';
+    if (ok) {
+      const shells = Math.round(Math.max(1, bout.shells) * C.payback);
+      world.inventory.shells += shells;
+      run.haul.shells += shells;
+      run.strays = run.strays.filter((x) => x.id !== bout.id);
+      events.push({ kind: 'strayCalmed', ok: true, shells });
+    } else {
+      if (s && world.inventory.shells > 0) snatch(world, run, s, events);
+      events.push({ kind: 'strayCalmed', ok: false, shells: 0 });
+    }
+    return;
+  }
+}
+
+/**
+ * True while the calm bout is on. One that ended without passing through a command (a timed
+ * turn) is booked here from its result; one that went missing lets the floor move again.
+ */
+export function strayBoutLive(world: World, run: DungeonRun, events: SimEvent[]): boolean {
+  const b = run.strayBout;
+  if (!b) return false;
+  const live = world.battle;
+  const mine = !!live && (world.battleRuns ?? 0) === b.bout;
+  if (mine && !live.result) return true;
+  if (mine && live.result) {
+    const r = live.result;
+    const key = `stray:${b.id}`;
+    strayBoutEnded(
+      world,
+      [
+        {
+          kind: 'battleEnd',
+          context: 'encounter',
+          source: HOLLOW_BATTLE_SOURCE,
+          key,
+          winner: r.winner,
+          reason: r.reason,
+          shells: 0,
+        },
+      ],
+      events,
+    );
+  }
+  delete run.strayBout;
+  return false;
 }

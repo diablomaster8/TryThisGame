@@ -65,103 +65,100 @@ R0326, R0328, R0332, R0340, R0358, R0359, R0362, R0363.
   in place under the R0341 exception; `render3d/expedition-3d.ts` got the R0324 spin (lane
   D/E-adjacent, two small blocks).
 
-## Round 4 · Lane D (2026-10-29, branch r4/d)
+## Round 5 · Lane D (2026-10-29, branch r5/d)
 
-Plan: phone perf first (the three spots over budget), then WORLD in R order; skip R0085,
-R0086, R0088 (lane A's keeper/behavior) and R0102 (save.ts).
+Plan: phone perf (farOrchard calls, the heart/bridge triangle swing), then WORLD in R order:
+R0095, R0096–R0098, R0102, R0107+; partials after. Skip R0085, R0086, R0088 (lane A).
 
-- **Works:** far trees drawn in three shared batches (`render3d/far-trees.ts`) and memorial
-  flowers baked to three draws: phone draw calls under budget at 19/19 (westHill 169→137, farOrchard
-  198→162, cornerSE 183→141 calls). After merging main (lanes A, B, C, E): 18/19 under,
-  farOrchard 178–191 calls across runs; phone impostor redraws halved, beacon beam single-sided. R0072 the outer ring's five places, 34 pieces plus 6
-  north-wood trees in both views from `config/outer-ring.ts`, each with a tappable piece.
-  R0073 survey zoom (index −1, 8 ppu, 23.5 u across a portrait phone, 3D at 26 u; "Zoom out
-  when running"). R0099 the Learning Grove's fenced 40×40 play area, fence and Home button.
-  R0100 the objective beacon, edge arrow, compass tick and minimap star (`sim/beacon.ts`).
-  R0101 fun quests offered only in their region (`sim/quest-areas.ts`). R0106 the bar tucks
-  while walking on phones. Probe: `PROBE_BREAKDOWN=all`, `PROBE_SURVEY=1`.
-- **Stubbed:** R0072 orchard trees are not droppable, the boardwalk is not walkable, the
-  telescope answers with a line (no camera pan), no fairy-ring chime. R0073 the Keeper and
-  NPCs are not tokenised (Nubbins are, 1.5×), tokens' hit area is about 24 CSS px, not 44.
-  R0099 no kid-safe signposts or glowing trail; entrances outside the fence are not hidden
-  sprites. R0100 only Hazel chapter 1 and the Grove suggestions have places (CAMP fills
-  `OBJECTIVE_POIS`). R0101 no offer-on-entering or signpost offers; regions open for their
-  own offers are listed in `WORLD_QUESTS.ownOffers` (grove, hollow). R0095–R0098 not started.
-- **Known bugs / assumptions:** triangles at the busy middle spots swing with where the
-  Nubbins wander: heart 408–472k and bridge 399–464k across runs (budget 450k; creatures are
-  ~350k of it), so one of them is often just over. At the survey zoom southBend reads 177 calls;
-  the near zoom (index 1) at the heart reads about 530k triangles, over 450k (pre-existing,
-  not probed by default). The lane counts as built but only as Corvin's set, so its quests
-  stay offered from the Grove. The pixel chip and the "Tap to walk" hint overlap (pre-existing).
+- **Works:** creature triangle budget (`lod.ts` capFull, `WORLD_LOD.creature.fullTris`, phone
+  190k): nearest first, the rest step down to stand-ins or impostors. Cause of the swing: human
+  NPC and Keeper stand-ins are 35–69k tris (their coarse grid only halves two surfaces). Phone
+  sun shadow box ±22 u, near 25, far 95; far cells redraw every other frame; Grove rocks one
+  draw (undrawn copies keep taps and halos); lantern posts in their lantern's bucket; empty
+  recruit batch hidden. Probe 3D phone 19/19
+  under in two runs (farOrchard 186→176 calls; heart 410–485k→297–309k, bridge
+  410–482k→296–328k tris; 8 Nubbins at the heart 117–127 calls, 277–327k).
+  R0095 village square at the lane's end (Grove SW, `config/region-village.ts`): paving and
+  fountain, 0/2/5 buildings at prosperity 0/40/100, a dressing set per 20, recruits on
+  clock-driven role loops (`sim/village.ts`), taps answer (stall → shop, gym → menu), both
+  renderers. R0102 Travel assist (`settings.travel`, optional; unset = Auto-walk in a Learning
+  Grove, else Walk): the beacon chip and map pins run there or hop there. R0107 landmark name
+  card (2 s, fast-travel chip, says which badge paid Shells) and the Journal's Places tab.
+- **Stubbed:** village is a district of the Grove, not its own 80×64 region (needs WORLD-39);
+  recruits are role-coloured villager figures, not their species; Grove stalls stay as the
+  market. No camera hold on discovery (game.ts follow code). R0096–R0098, R0108 not started.
+- **Known bugs / assumptions:** the 3D stand-in cost is still high for human rigs (lane E's
+  pool); on desktop the creature budget is off (`Infinity`). The full-life timing test runs
+  3.1–3.6 s on this loaded machine on main too.
 
-## Round 4 · Lane E LOOK (2026-10-29, branch r4/e)
+## Round 5 · Lane E LOOK (2026-10-29, branch r5/e)
 
-- *Works:* the emote ball trails the point on a spring (squash on landing, pop on a new shape);
-  three swim strokes by Swim level (paddle < 20, breaststroke, crawl > 60) with per-stroke
-  ripples; cocoons in the Nubbin's own silhouette, band-tinted to evolve, pink to be reborn,
-  grey-lilac to depart, breathing at 0.8 Hz; Eternal signatures (Sun halo, Moon bat wings and
-  spade tail, Neutral orbiting motes, all float); jewel, metal and shiny finishes in 3D, a
-  shiny glint and star catchlight in Pixel; legs, horn, face and wings part slots, 24 wild
-  critters plus phoenix and dragon, parts sized by stat level; `&creature=art` stage route and
-  `tests/tools/contact-sheet.cjs`; slit pupils; eight Gen-1 and two digital likeness fixes;
-  each pet action plays its own beat and toast in both modes.
-- *Stubbed:* R0392 flight needs a sim height flag in `behavior.ts` (lane A). The phoenix and
-  dragon have no Hollow drop yet (lane B). No 3D splash dots or rebirth petals (actors has no
-  bursts). 3D shiny keeps round catchlights. `fusion.ts` merges only the first four slots.
-- *Known:* commits 61c8d6d to 982e3b3 have a mis-assembled `chao.ts` that fails tsc;
-  c8b4c0d repairs it. Crawl and breaststroke differ little in Pixel.
-- *Assumptions:* Eternal signatures went in without Maor's per-form sign-off (the item asks
-  for it). Turtle and koala replace the duplicate seal pup. Children paddle in the pond now
-  instead of wading.
+- *Works:* adults at Fly 50+ fly about a third of their wander legs: they rise 0.6 m, cruise
+  at 1.4× and glide down (`sim/flight.ts`, a pure seeded height like `shroomHopY`), with a
+  Pixel `glide` frame and a 3D held-wing glide; the shadow shrinks below. 40 pocket
+  favourites play one of 16 signature idles every 8–15 s (`render/signature.ts`, both modes).
+  The book has 654 keys over seven tabs (second evolutions, colours, jewels, looks, parts,
+  hats) with lazy thumbnails, a turning page, first-seen time, who showed it, and a one-time
+  tab record. Gag frames (peek, wave, clap) and a 16-gag look table (`render/gag-looks.ts`).
+  The 3D waddle scales by personality; an evolving body grows from 0.8 in 3D.
+- *Stubbed:* the gag sim state is lane A's (nothing plays the gags yet). The book's 3D
+  turntable (Pixel figures in both modes) and the golden frame (only `world.bookTabs`). No 3D
+  signature particles. R0409 (48 px canvas) not started.
+- *Known:* the 3D flight was not seen in Edge (the flier was still sculpting). The book's
+  "seen all" badges now count all 654 keys.
+- *Assumptions:* flights pick 35% of legs; children never fly; 3D wings keep the walk-flap
+  rate (28) rather than 10 Hz.
+## Round 5 · Lane B DUNG (2026-10-29, branch r5/b)
 
-## Round 4 · Lane B DUNG (2026-10-29, branch r4/b)
+- *Works:* rumble rooms (R0257, R0282, `sim/dungeon-rumble.ts`): ~33% of levels from depth 2
+  mark a room the stairs can go around (200-seed test); walking in calls lane C's
+  `startRumble` on a 10×10 crop of that room with a champion prefix (Extra Fluffy, Speedy,
+  Sticky Paws); a win books the room, adds the Shells to the haul and opens a chest (hat,
+  critter or Shells); a loss re-arms it once the Keeper steps out; glowing door in both
+  renderers. The stray's choice (R0281): a bump shows Calm it / Toss a snack for 3 s, then
+  the old snatch; Calm is a singles shadow bout (party, else any hatched Nubbin) paying back
+  1.5×. Foe families per act (R0157 data): four per act, Act V Greylings. Loot tiers with a
+  shape each, drop tables on packs, magic find knee (R0163); Keeper and Nubbin gear slots,
+  affixes, `gearStat` for reach, sight, Shells and luck, a Gear panel (R0164). Save v11:
+  `world.gear`. A calm bout and a rumble survive a reload (R0256 save side, no field needed).
+- *Stubbed:* the families borrow existing species looks until lane E draws them (no poof
+  beat); boots' speed and Snug/Brave/Naps/Crumbs are rolled and summed but nothing reads
+  them yet (keeper speed is lane A's); no ground labels or pillars for drops (they go straight
+  to the satchel); R0160 boss arenas and R0165+ not started.
+- *Known:* the Pixel door glow is a faint crystal tile; the tactics screen's Retry after a
+  lost Hollow rumble starts a debug rumble (lane C's screen sends a bare `tacticsStart`).
+- *Assumptions:* one rumble try per entry; Calm uses one Nubbin in singles; the stray ask
+  freezes the stray but not the Keeper; a calmed stray goes home (lane C's befriend rules may
+  add it as a child when the roster has room).
 
-- *Works:* acts start at their camp (R0152, `sim/dungeon-towns.ts`, map in
-  `config/dungeon-zones.ts`): stash (Shells safe from strays), vendor (fruit, acorns),
-  quest-giver (one-time reward once the boss is down), crafting, gamble and hire keepers cast
-  from the trainers plus one local per act, waypoint, no combat. The gate leads to the act's
-  128×96 field (R0147, `sim/dungeon-outdoor.ts`): 16×16 tiles over biome noise, a road to the
-  act gate, 2–3 cave mouths onto one-level side caves, 10–14 packs, wildlife, shrines; level 1's
-  stairs up come back out at the gate. Both renderers draw camps and fields as Hollow floors
-  under an open sky (`bandForFloor`, no fog of war, daylight). Named uniques, three per act
-  (R0156); cave-mouth party picker (R0168); from Acts II–V the acorn lands at the camp (R0150);
-  contract tests (R0169). Save v10: `hollow.camp`, `uniquesBeaten`, `lastParty`.
-- *Stubbed:* crafting, gambling and hiring only talk (DUNG-33, -34, -38). One camp map for
-  all acts. No 3×3 sector streaming in 3D (the field loads in ~0.5 s and holds ~55 fps
-  headless without it). Pixel still draws no packs, so uniques show by plate in 3D and the
-  bout panel. Walking camp gate to act gate is about 1.5 min, not 2–3.
-- *Known:* act runs saved mid-level before v10 pick up their uniques on the next visit to
-  that level.
-- *Assumptions:* the cave-mouth menu's act button starts at the camp; waypoints still go
-  straight to their level. R0060's jump-up trims and R0067's ladders wait for real ledges
-  (underground ground is flat in `keeper.ts`, lane A).
-## Round 4 · Lane C FIGHT tactics (2026-10-29, branch r4/c)
+## Round 5 · Lane C FIGHT (2026-10-29, branch r5/c)
 
-- *Plan:* a pure, seeded grid-tactics core in `src/sim/battle/tactics/` beside the turn mode,
-  which stays untouched (R0243 map, R0244 field map, R0245 path, R0246 CT, R0247 facing,
-  R0248 jobs, R0249 terrain, R0250 range and combos, R0251 objectives, R0252 AI), then the
-  R0257 slice as `world.tactics` behind a debug-panel button, then a Pixel view and phone bar
-  (R0253, R0255) in new files. R0254, R0256, R0219, R0239 later.
-- *Works:* `sim/battle/tactics/` (pure, seeded, JSON state, map as base64): Hollow-room and
-  open-field maps (cottage, trees, lanterns blocked; `config/battle-maps.ts` overrides), Move
-  and Jump from Run/Fly, deep water for swimmers, CT turns with Move (before or after the Act,
-  undoable until it), Act, Wait and facing, charged moves, facing/height factors shared by
-  preview and hit, 7 jobs plus Sunny/Moony layers and the Keeper aura, 8 terrains, arcs and
-  line shots, 11 "Together!" combos at friendship 60, 8 objectives, Sprout/Keeper/Champion AI
-  (0.4 ms a decision, Champion 40/40 over Sprout). The rumble room (R0257): debug panel →
-  "Rumble room (3v3 tactics)", a 10×10 Hollow crop, calm the Old Shadow, Shells and a crystal;
-  kept in `world.tactics` (optional, no save bump) and reopened after a reload. Pixel iso
-  board (`minigames/tactics/pixel-view.ts`, also over Full 3D) and the one-thumb bar
-  (`ui/tactics-bar.ts`, `ui/tactics-screen.ts`, `tactics.css`). The turn-mode API is unchanged
-  (`moveDamage` now calls `damageWith`, same dice order).
-- *Stubbed:* no move animations (the log line and a hurt flash only); the AI never calls a
-  combo; Copycat and Doodle Decoy act as plain moves on the grid (Decoy is greyed out); fused
-  partners are not one 2-tile unit; lane B's rumble-room flag (see the hand-over note).
-- *Known bugs / assumptions:* the AI's 8 ms cap is an evaluation count (2500), not a clock, so
-  replays stay exact. The board is Canvas 2D: 1 blit for the map plus 1 per unit (13 for 12
-  units), not the ≤3 WebGL draws of R0253; it holds 60 fps at a 4× throttle. Water touching
-  dry ground is shallow, the rest deep; combos need the pair side by side (diagonals count).
-
+- *Plan:* finish R0248 (job on the stats sheet), R0250 (AI combos, pile-on flash), R0253
+  (draw count) and R0254 (Full 3D board, new `render3d/tactics-3d.ts`, instanced tiles,
+  disposed on exit); then R0258–R0283 in order, skipping R0256, R0257's Hollow hand-off, R0260,
+  R0269, R0271, R0275, R0276, R0281, R0282 (other lanes). Sim items go to helpers with their
+  own files; shared files get self-contained blocks only. No save bump.
+- *Works:* Full 3D tactics board (`render3d/tactics-3d.ts` on a `MiniStage`: instanced tiles per
+  kind, one overlay set, pool rigs through the Grove's `CreatureLod`; 56 draws, 216k tris at
+  375×812; memory flat over 10 bouts), job on the stats sheet, AI "Together!" combos, pile-on
+  jostle, 8 grid-only charged moves (line4, scatter3, landing; Keeper+ AI steps out), the
+  Keeper's untargetable piece (Snack toss, Cheer, Whistle; in the rumble room). Turn mode:
+  shared move content lint and `tests/tools/battle-table.ts`, bout points by move used, one-time
+  rewards (`world.battleOnce`, `battleSpoils`), seeded quips (en/he/ja), real rival species,
+  doubles, timing flag (sweet/plain/steady), balance harness, Command mode (ATB, obedience,
+  gags, hidden-tab pause), pre-bout sheet (party, mode, Gentle/Normal/Spicy), Settings → Bouts
+  with Skip (`autoResolve`), inspect card and seen matchups, aria-live log, Steady hands,
+  keyboard play, Debug → Battle (replay paste).
+- *Stubbed:* Pixel board still 1 + units `drawImage` a frame (R0253 wants ≤3 WebGL draws);
+  champion-pack prefixes and rumble chest; doubles stage draws one combatant a side; bout lean
+  not read by `decidePersonality` (lane A); move cards not in the Collection book (lane E).
+- *Known bugs / assumptions:* a Command-mode replay stamps orders at send time but they apply on
+  the next step, so exactness isn't guaranteed (turn bouts are exact). The 60-point cap is per
+  stat per bout. First-win hats reuse shop hats. Snack toss uses 3 packed snacks, not the
+  inventory. Balance: Champion runs 30 bouts (2,000 doesn't fit 3 s); Sprout's median is ~32
+  turns, so it isn't asserted. Stalemate guard skips encounters (Hollow replays unchanged).
+  `battle-screen.ts` is ~1,075 lines (split next). No axe-core installed, so no axe run.
+  Lane B hand-over: side-session note `r5-lane-c-handover.md`.
 
 ## Standing approval (Maor, 2026-10-12)
 

@@ -23,10 +23,13 @@ import {
   ACT_TEXT,
 } from '../config/strings';
 import { BOUT_TEXT_SHEET, moveName } from '../config/strings-battle';
+import { gearGlyph, gearName } from './dungeon-gear';
 import {
   HOLLOW_ZONE_TEXT,
   SHRINE_TEXT,
   TRAP_TEXT,
+  GEAR_TEXT,
+  RUMBLE_TEXT,
   UNIQUE_RESULT_TEXT,
   UNIQUE_TEXT,
 } from '../config/strings-dungeon';
@@ -124,6 +127,8 @@ import { mountCompass } from './compass';
 import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
+import { mountLandmarkCard } from './landmark-card';
+import { villageTap } from './village-tap';
 import { OUTER_TEXT } from '../config/strings';
 import { outerTapOf } from '../config/outer-ring';
 
@@ -449,6 +454,8 @@ export function mountHud(
   mountMinimap(root, game, () => map.open());
   mountWalkTuck(root, game);
   mountBeacon(root, game, () => map.open());
+  // R0107: the landmark name card.
+  const landmarkCard = mountLandmarkCard(root);
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -1299,6 +1306,28 @@ export function mountHud(
           toast(
             e.bonus ? UNIQUE_RESULT_TEXT.firstWin(name, e.bonus) : UNIQUE_RESULT_TEXT.again(name),
           );
+        } else if (e.kind === 'rumbleRoom') {
+          // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
+          const p = RUMBLE_TEXT.prefix[e.prefix] ?? '';
+          if (e.phase === 'start') toast(RUMBLE_TEXT.start(p));
+          else if (e.phase === 'lost') toast(RUMBLE_TEXT.lost);
+          else {
+            const l = e.loot;
+            const what =
+              l?.kind === 'hat'
+                ? RUMBLE_TEXT.loot.hat(l.param)
+                : l?.kind === 'critter'
+                  ? RUMBLE_TEXT.loot.critter(l.param)
+                  : RUMBLE_TEXT.loot.shells(l?.amount ?? 0);
+            toast(`${RUMBLE_TEXT.won(p)} ${what}`);
+            playSound('buy');
+          }
+        } else if (e.kind === 'gearFound') {
+          toast(GEAR_TEXT.found(gearGlyph(e.item), gearName(e.item)));
+        } else if (e.kind === 'strayAsk') {
+          toast(RUMBLE_TEXT.strayAsk);
+        } else if (e.kind === 'strayCalmed') {
+          toast(e.ok ? RUMBLE_TEXT.calmed(e.shells) : RUMBLE_TEXT.calmFailed);
         } else if (e.kind === 'bossGuard') {
           toast(HOLLOW_TEXT.bossGuard);
         } else if (e.kind === 'bossBeaten') {
@@ -1458,9 +1487,7 @@ export function mountHud(
           toast(keepsakeToast(e, game()?.world));
           playSound('pickup');
         } else if (e.kind === 'landmarkFound') {
-          toast(
-            UI_TEXT.landmarkFound((UI_TEXT.landmarkNames as Record<string, string>)[e.id] ?? e.id),
-          );
+          landmarkCard(e.id, events);
           playSound('pickup');
         } else if (e.kind === 'festival') {
           // The calendar's festival waits for any story scene to finish, so "Autumn harvest"
@@ -1505,6 +1532,8 @@ export function mountHud(
         else if (which === 'cave') dungeon.open();
         // R0072: an outer-ring piece answers with its line.
         else if (outerTapOf(which)) toast(OUTER_TEXT.tap[outerTapOf(which)!]);
+        // R0095: the village square's buildings and recruits.
+        else villageTap(which, g.world, { shop: () => shop.open(), gym: () => gym.open() }, toast);
         return;
       }
       if (id?.startsWith('plant:') && g) {

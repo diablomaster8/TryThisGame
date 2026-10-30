@@ -202,3 +202,32 @@ describe('walking lead (WORLD-18)', () => {
     expect(walkLead(portrait, 0.6, true)).toBe(0);
   });
 });
+
+describe('creature triangle budget (round 5 phone perf)', () => {
+  it('keeps the nearest whole and steps the rest down once the budget is spent', () => {
+    const lod = new CreatureLod();
+    const cam = camera(0, 12, 0, 0);
+    // Three rigs in view and inside the stand-in distance, nearest first along the view.
+    const rigs = [rig(0, 7), rig(0.5, 6), rig(-0.5, 5)];
+    for (const r of rigs) r.root.position.y = 6;
+    for (const r of rigs) r.root.updateMatrixWorld(true);
+    lod.update(
+      rigs.map((r) => r.root),
+      cam,
+      0,
+      812,
+    );
+    expect(lod.cappedCount).toBe(0);
+    // One rig's worth of budget: the nearest keeps its tier, the other two are over.
+    const one = 960 * 3;
+    lod.fullTrisCap = one + 1;
+    lod.update(
+      rigs.map((r) => r.root),
+      cam,
+      0,
+      812,
+    );
+    expect(lod.cappedCount).toBe(2);
+    expect(WORLD_LOD.creature.fullTris.phone).toBeLessThan(WORLD_LOD.creature.fullTris.desktop);
+  });
+});

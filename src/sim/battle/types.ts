@@ -5,6 +5,7 @@
  * `config/strings-battle.ts` turns into a name, and the log holds events, not sentences.
  */
 import type { AlignmentBand, NubbinType, Personality } from '../types';
+import type { BoutSpoils } from './rewards';
 
 /** Which side: 0 is the Keeper's, 1 the rivals'. */
 export type SideIx = 0 | 1;
@@ -174,7 +175,37 @@ export interface NubbinBattle {
 }
 
 /** Where a bout comes from; it picks the rules, the rivals and the prize table. */
-export type BattleContext =
+export type BattleContext = BattleContextKind & BattleFormat;
+
+/**
+ * Round 5 options on any turn bout (ignored by the timed dojo bout): `doubles` puts two a side
+ * on the field (recs FIGHT-60), `mode: 'atb'` runs it as the ATB "Command" bout (FIGHT-40).
+ */
+export interface BattleFormat {
+  doubles?: boolean;
+  mode?: 'atb';
+  /**
+   * The pre-bout sheet's difficulty override (recs FIGHT-86): `gentle` is kid mode, `spicy` is
+   * Champion AI with rewards ×1.25. Absent = the Keeper's usual choice (Gentle bouts on or off).
+   */
+  difficulty?: BoutDifficulty;
+  /**
+   * A skipped story bout (recs FIGHT-71): resolved at once by `autoResolve`, never shown, and
+   * allowed only for story bouts while Settings → Bouts says "Skip story bouts".
+   */
+  auto?: true;
+}
+
+export type BoutDifficulty = 'gentle' | 'normal' | 'spicy';
+
+/** Debug panel battle tools (recs FIGHT-80): an action, so a replay repeats them too. */
+export type BattleDebugOp =
+  | { op: 'hp'; who: string; hp: number }
+  | { op: 'status'; who: string; id: StatusId | null }
+  | { op: 'win' }
+  | { op: 'lose' };
+
+export type BattleContextKind =
   | { kind: 'karate'; tier: number; nubbinId: string }
   | { kind: 'party'; tier: number; ids: string[] }
   /** The turn-based dojo singles (recs FIGHT-28): one Nubbin, or a party of up to three. */
@@ -207,13 +238,13 @@ export type BattleMode = 'turn' | 'karate';
 /** What a combatant (or the Keeper, for the timed bout) does. */
 export type BattleAction =
   /** Bonk, the 0-Puff move everyone has. */
-  | { k: 'strike'; target?: string; swing?: boolean }
+  | { k: 'strike'; target?: string; swing?: boolean; timing?: Timing }
   /** Catch your breath: +4 Puff and Guard ×1.3 this turn. */
   | { k: 'guard' }
   /** Huddle: heal the side a little. */
   | { k: 'rally' }
   /** Any move the combatant has, by id. */
-  | { k: 'move'; move: string; target?: string }
+  | { k: 'move'; move: string; target?: string; timing?: Timing }
   /** Singles: bring a benched Nubbin in (priority +3), or pick the next after a tuck-in. */
   | { k: 'swap'; to: string }
   /** Use a battle item on an ally (fruit) or a foe (a toy, or a snack offered to a wild one). */
@@ -221,7 +252,45 @@ export type BattleAction =
   /** Timed bout: a tap at bout time `atMs`. */
   | { k: 'tap'; atMs: number }
   /** Timed bout: let the clock run to `toMs` (the rival keeps striking). */
-  | { k: 'advance'; toMs: number };
+  | { k: 'advance'; toMs: number }
+  /** ATB: the Keeper calls out an order (to one ally by id, else the first on the field). */
+  | { k: 'order'; cmd: AtbCommand; who?: string }
+  /** ATB: stop or restart the clock (the hidden tab, or the Item sheet being open). */
+  | { k: 'pause'; why: AtbPause; on: boolean }
+  /** The debug panel's battle tools (recs FIGHT-80); never sent by the battle screen. */
+  | { k: 'debug'; set: BattleDebugOp };
+
+/**
+ * The optional timing ring on a Bonk-kind move (recs FIGHT-87): `sweet` hits ×1.2, `plain` is
+ * a missed or skipped tap (×1). `steady` is the "Steady hands" setting (FIGHT-79): no ring, a
+ * fixed ×1.1. Kept on the action, so a replay repeats it.
+ */
+export type Timing = 'sweet' | 'plain' | 'steady';
+
+/** The four ATB command buttons (recs FIGHT-40). */
+export type AtbCommand = 'go' | 'careful' | 'switch' | 'back';
+export const ATB_COMMANDS: readonly AtbCommand[] = ['go', 'careful', 'switch', 'back'];
+export type AtbPause = 'hidden' | 'items';
+/** What a Nubbin does instead of an order it ignores, by personality. */
+export type AtbGag = 'sit' | 'raspberry' | 'hide' | 'wave';
+
+/** The ATB clock (recs FIGHT-40, FIGHT-41); present only on an ATB bout. */
+export interface AtbClock {
+  /** ATB time: moves only in ticks from the live sim step, never while paused. */
+  timeMs: number;
+  /** Step time not yet spent on a whole tick. */
+  accMs: number;
+  /** 0..100 per combatant id; acts at 100. */
+  gauge: Record<string, number>;
+  /** ATB time each command button is ready again. */
+  ready: Partial<Record<AtbCommand, number>>;
+  /** Obeyed orders waiting for that ally's next turn. */
+  orders: Record<string, AtbCommand>;
+  /** Affection and trust read from the Nubbins at the start, for obedience. */
+  bond: Record<string, { affection: number; trust: number }>;
+  /** Why the clock is stopped; empty or absent = running. */
+  paused?: Partial<Record<AtbPause, true>>;
+}
 
 export type BattleEvent =
   | {
@@ -271,6 +340,10 @@ export type BattleEvent =
   | { k: 'swing'; by: string; sweet: boolean }
   /** A Shadow stray can't be hurt, only calmed. */
   | { k: 'unhurt'; to: string }
+  /** ATB: an order called out, and whether the Nubbin listened. */
+  | { k: 'order'; who: string; cmd: AtbCommand; obeyed: boolean }
+  /** ATB: the personality gag on an ignored order. */
+  | { k: 'gag'; who: string; gag: AtbGag }
   | { k: 'end'; winner: SideIx | null; reason: BattleEndReason };
 
 /** `hug` ends a gentle bout; `friends` when every foe was befriended. */
@@ -328,4 +401,10 @@ export interface BattleState {
   karate?: KarateClock;
   /** Set once the sim has paid the prize, so a result is never paid twice. */
   settled?: boolean;
+  /** Doubles (recs FIGHT-60): two a side, all on the field; spread moves hit at ×0.75 each. */
+  doubles?: boolean;
+  /** The ATB "Command" bout (recs FIGHT-40): `mode` stays 'turn' so records and views work. */
+  atb?: AtbClock;
+  /** What the finished bout gave (the `battleSpoils` event's copy), for the results card. */
+  spoils?: BoutSpoils;
 }

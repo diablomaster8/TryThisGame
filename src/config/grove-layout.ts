@@ -2,6 +2,7 @@ import { DECOR, GROVE, LANTERN_POSTS, STORY_PROPS } from './tuning';
 import type { StoryPropKind } from '../sim/story-props';
 import { BRIDGE_DECK, BRIDGE_YAW, TERRACE } from './tuning-sim';
 import { outerColliders } from './outer-ring';
+import { villageColliders, type VillageService } from './region-village';
 import { JUMP_TOYS } from './tuning-move';
 
 /**
@@ -45,8 +46,8 @@ export interface Collider {
   /** Height of the top surface above the ground, in units. */
   top: number;
   flags: readonly ColliderFlag[];
-  /** A stall stands only once the village has grown to it (`townUnlocks`). */
-  when?: StallUnlock;
+  /** A stall or village building stands only once the village has grown to it (`townUnlocks`). */
+  when?: StallUnlock | VillageService;
 }
 
 /** A Nubbin with Run or Fly at this level or above hops a `hop` collider (a fence, a log). */
@@ -364,6 +365,8 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
   });
   // R0072: the outer ring's places (config/outer-ring.ts).
   for (const c of outerColliders()) add(c);
+  // R0095: the village's service buildings (config/region-village.ts), each once it opens.
+  for (const c of villageColliders()) add(c);
   // MOVE-34: solids standing closer than a Keeper can pass leave slivers that only trap
   // taps; each such pair is joined by a thin bar from centre to centre, live only while
   // both stand (tests/sim/layout-lint.test.ts keeps the list complete). It stops only the

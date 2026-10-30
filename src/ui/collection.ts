@@ -1,4 +1,6 @@
 import {
+  CRITTER_LABELS,
+  EGG_COLOR_LABELS,
   formatDuration,
   NAMES,
   SPECIES_LABELS,
@@ -6,56 +8,121 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { BOOK_TEXT } from '../config/strings-look';
+import { cosmeticLabel } from '../config/cosmetics';
 import { canConvert } from '../sim/scans';
 import type { Game } from '../game';
 import { frameKey } from '../render/sprites/animations';
 import type { SpriteSheet } from '../render/sprites/atlas';
-import {
-  adultColors,
-  buildChaoSheet,
-  CHILD_NEUTRAL,
-  eternalColors,
-  lookOf,
-} from '../render/sprites/chao';
-import { buildCreatureSheet } from '../render/sprites/creature';
-import { speciesArt } from '../render/sprites/species-art';
-import { allKeys } from '../sim/collection';
-import type { Memorial, World } from '../sim/types';
+import { DRAWN_ANGLES } from '../render/sprites/angles';
+import { SheetCache } from '../render/sprites/sheets';
+import { allKeys, BOOK_TABS, tabOf, tabProgress, type BookTab } from '../sim/collection';
+import { createEgg } from '../sim/nubbin';
+import { Rng } from '../sim/rng';
+import type { AlignmentBand, Memorial, Nubbin, NubbinType, World } from '../sim/types';
 import type { CollectibleKind } from '../config/region-collectibles';
 import type { RegionId } from '../config/regions';
 import { WORLD_TEXT } from '../config/strings-world';
 import { tally } from '../sim/collectibles';
 import { button, el, modal } from './dom';
+import '../look.css';
+
+const bandLabel = (b: string | undefined): string =>
+  b === 'sun' ? NAMES.alignmentSun : b === 'moon' ? NAMES.alignmentMoon : NAMES.alignmentNeutral;
+const typeLabel = (t: string | undefined): string =>
+  TYPE_LABELS[t as keyof typeof TYPE_LABELS] ?? t ?? '';
+const colourLabel = (c: string | undefined): string => EGG_COLOR_LABELS[c ?? ''] ?? c ?? '';
 
 /** Label for a collection key. */
 export function keyLabel(key: string): string {
-  if (!key.startsWith('chao:')) return SPECIES_LABELS[key] ?? key;
   const parts = key.split(':');
-  if (parts[1] === 'child') return `${NAMES.creature} (child)`;
-  if (parts[1] === 'eternal') {
-    const band =
-      parts[2] === 'sun'
-        ? NAMES.alignmentSun
-        : parts[2] === 'moon'
-          ? NAMES.alignmentMoon
-          : NAMES.alignmentNeutral;
-    return `${NAMES.eternal} ${band}`;
+  switch (parts[0]) {
+    case 'colour': {
+      const base = colourLabel(parts[1]);
+      if (parts[2] === 'shiny') return `${base} (${BOOK_TEXT.shiny})`;
+      if (parts[2] === 'twotone') return `${base} (${BOOK_TEXT.twoTone(colourLabel(parts[3]))})`;
+      return base;
+    }
+    case 'jewel':
+      return colourLabel(parts[1]);
+    case 'look':
+    case 'hat':
+      return cosmeticLabel(parts[1] ?? '');
+    case 'part':
+      return BOOK_TEXT.part(CRITTER_LABELS[parts[1] ?? ''] ?? parts[1] ?? '', parts[2] ?? '');
+    case 'chao':
+      break;
+    default:
+      return SPECIES_LABELS[key] ?? key;
   }
-  const band =
-    parts[1] === 'sun'
-      ? NAMES.alignmentSun
-      : parts[1] === 'moon'
-        ? NAMES.alignmentMoon
-        : NAMES.alignmentNeutral;
-  return `${band} ${TYPE_LABELS[parts[2] as keyof typeof TYPE_LABELS] ?? parts[2]}`;
+  if (parts[1] === 'child') return `${NAMES.creature} (child)`;
+  if (parts[1] === 'eternal') return `${NAMES.eternal} ${bandLabel(parts[2])}`;
+  const first = `${bandLabel(parts[1])} ${typeLabel(parts[2])}`;
+  return parts[3] ? BOOK_TEXT.second(first, typeLabel(parts[3])) : first;
 }
 
-/** The collection book: a page of every species and Chao form, seen or still unknown. */
+/**
+ * A stand-in Nubbin that shows one book key, so the page draws it with the same look rules
+ * as the Grove (`SheetCache.forNubbin`): a form, a colour on a child, a part or a hat.
+ */
+export function nubbinForKey(key: string): Nubbin {
+  const n = createEgg(`book:${key}`, { x: 0, z: 0 }, Rng.fromSeed(key));
+  n.stage = 'child';
+  const p = key.split(':');
+  const adult = (band: AlignmentBand, type: NubbinType, second: NubbinType | null = null) => {
+    n.stage = 'adult';
+    n.form = { band, type, second, leanAtEvolution: { ...n.typeLean } };
+  };
+  switch (p[0]) {
+    case 'chao':
+      if (p[1] === 'eternal') {
+        adult(p[2] as AlignmentBand, 'normal');
+        n.eternal = p[2] as AlignmentBand;
+      } else if (p[1] !== 'child' && p[1] !== 'egg') {
+        adult(p[1] as AlignmentBand, p[2] as NubbinType, (p[3] as NubbinType) ?? null);
+      }
+      break;
+    case 'colour':
+      n.eggColor = p[1] ?? 'plain';
+      n.shiny = p[2] === 'shiny';
+      if (p[2] === 'twotone') n.tone = p[3] ?? null;
+      break;
+    case 'jewel':
+      n.eggColor = p[1] ?? 'plain';
+      break;
+    case 'part':
+      adult('neutral', 'normal');
+      n.parts = { ...n.parts, [p[2] ?? 'ears']: p[1] ?? null };
+      break;
+    case 'look':
+    case 'hat':
+      n.hat = p[1] ?? null;
+      break;
+    default:
+      n.species = key;
+  }
+  return n;
+}
+
+/**
+ * The collection book (LOOK-55): tabs for forms, the pocket and digital lines, colours,
+ * looks, parts and hats, each with its count. A thumbnail is drawn only when its cell
+ * scrolls into view; tapping a seen page turns the figure through all eight angles with the
+ * date it was first seen and who showed it. An unseen page is a silhouette.
+ */
 export class CollectionBook {
   private readonly dialog;
+  private readonly tabs: HTMLDivElement;
   private readonly grid: HTMLDivElement;
   private readonly summary: HTMLParagraphElement;
-  private readonly sheets = new Map<string, SpriteSheet>();
+  private readonly page: HTMLDivElement;
+  private readonly cache = new SheetCache(() => performance.now(), {
+    maxSheets: 48,
+    idleMs: 60000,
+  });
+  private tab: BookTab = 'forms';
+  private observer: IntersectionObserver | null = null;
+  private spin = 0;
 
   constructor(
     parent: HTMLElement,
@@ -63,8 +130,10 @@ export class CollectionBook {
   ) {
     this.dialog = modal(parent, UI_TEXT.collection, UI_TEXT.close);
     this.summary = el('p', 'help');
+    this.tabs = el('div', 'book-tabs');
+    this.page = el('div', 'book-page');
     this.grid = el('div', 'book-grid');
-    this.dialog.body.append(this.summary, this.grid);
+    this.dialog.body.append(this.summary, this.tabs, this.page, this.grid);
   }
 
   open(): void {
@@ -73,6 +142,7 @@ export class CollectionBook {
   }
 
   close(): void {
+    this.stopSpin();
     this.dialog.hide();
   }
 
@@ -81,80 +151,134 @@ export class CollectionBook {
   }
 
   private sheetFor(key: string): SpriteSheet | null {
-    const cached = this.sheets.get(key);
-    if (cached) return cached;
-    let sheet: SpriteSheet | null = null;
-    if (key.startsWith('chao:')) {
-      const parts = key.split(':');
-      if (parts[1] === 'child') sheet = buildChaoSheet(lookOf(CHILD_NEUTRAL));
-      else if (parts[1] === 'eternal') {
-        sheet = buildChaoSheet(
-          lookOf(
-            eternalColors(parts[2] as 'sun' | 'moon' | 'neutral'),
-            'normal',
-            null,
-            undefined,
-            true,
-          ),
-        );
-      } else {
-        const type = parts[2] as 'normal' | 'swim' | 'fly' | 'run' | 'power';
-        sheet = buildChaoSheet(
-          lookOf(adultColors(parts[1] as 'sun' | 'moon' | 'neutral', type), type),
-        );
-      }
-    } else {
-      const art = speciesArt(key);
-      if (art) sheet = buildCreatureSheet(art);
+    try {
+      return this.cache.forNubbin(nubbinForKey(key));
+    } catch {
+      return null;
     }
-    if (sheet) this.sheets.set(key, sheet);
-    return sheet;
+  }
+
+  private draw(c: HTMLCanvasElement, key: string, angle: string, flip: boolean, known: boolean) {
+    const ctx = c.getContext('2d');
+    const sheet = this.sheetFor(key);
+    const rect = sheet?.frames.get(frameKey('idle', angle, 0));
+    if (!ctx || !sheet || !rect) return;
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.imageSmoothingEnabled = false;
+    ctx.save();
+    if (flip) {
+      ctx.translate(c.width, 0);
+      ctx.scale(-1, 1);
+    }
+    const img = sheet.texture.image as HTMLCanvasElement;
+    ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, c.width, c.height);
+    ctx.restore();
+    if (!known) {
+      ctx.globalCompositeOperation = 'source-in';
+      ctx.fillStyle = '#2a2540';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+  }
+
+  private stopSpin(): void {
+    if (this.spin) clearInterval(this.spin);
+    this.spin = 0;
+  }
+
+  /** The open page: the figure turning through the five drawn angles and their mirrors. */
+  private showPage(key: string, world: World): void {
+    this.stopSpin();
+    this.page.innerHTML = '';
+    const c = document.createElement('canvas');
+    c.width = 128;
+    c.height = 128;
+    const turn = [...DRAWN_ANGLES, ...DRAWN_ANGLES.slice(1, -1).reverse()];
+    let i = 0;
+    const tick = () => {
+      this.draw(c, key, turn[i % turn.length]!, i % turn.length >= DRAWN_ANGLES.length, true);
+      i++;
+    };
+    tick();
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
+      this.spin = window.setInterval(tick, 400);
+    const at = world.seen[key];
+    const by = world.seenBy?.[key];
+    this.page.append(
+      c,
+      el('h3', undefined, keyLabel(key)),
+      ...(at !== undefined
+        ? [el('p', 'help', BOOK_TEXT.firstSeen(formatDuration(world.timeMs - at)))]
+        : []),
+      ...(by ? [el('p', 'help', BOOK_TEXT.earnedBy(by))] : []),
+    );
   }
 
   refresh(): void {
     const g = this.game();
     if (!g) return;
+    const world = g.world;
     const keys = allKeys();
-    const seen = keys.filter((k) => g.world.seen[k] !== undefined).length;
+    const seen = keys.filter((k) => world.seen[k] !== undefined).length;
     this.summary.textContent = UI_TEXT.collectionHelp(seen, keys.length);
+    this.tabs.innerHTML = '';
+    for (const tab of BOOK_TABS) {
+      const p = tabProgress(world, tab);
+      const done = !!world.bookTabs?.includes(tab);
+      const b = button(
+        BOOK_TEXT.tabCount(BOOK_TEXT.tabs[tab] ?? tab, p.seen, p.total, done),
+        () => {
+          this.tab = tab;
+          this.refresh();
+        },
+        `btn btn-small${tab === this.tab ? ' btn-primary' : ''}`,
+      );
+      b.setAttribute('aria-pressed', String(tab === this.tab));
+      this.tabs.appendChild(b);
+    }
+    this.stopSpin();
+    this.page.innerHTML = '';
+    if (world.bookTabs?.includes(this.tab)) this.page.append(el('p', 'help', BOOK_TEXT.tabDone));
+    this.observer?.disconnect();
+    const pending = new Map<Element, () => void>();
+    this.observer =
+      typeof IntersectionObserver === 'undefined'
+        ? null
+        : new IntersectionObserver((entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              pending.get(e.target)?.();
+              pending.delete(e.target);
+              this.observer?.unobserve(e.target);
+            }
+          });
     this.grid.innerHTML = '';
+    this.grid.dataset['tab'] = this.tab;
     for (const key of keys) {
-      const known = g.world.seen[key] !== undefined;
+      if (tabOf(key) !== this.tab) continue;
+      const known = world.seen[key] !== undefined;
       const cell = el('div', `book-cell${known ? '' : ' unknown'}`);
       const c = document.createElement('canvas');
       c.width = 64;
       c.height = 64;
-      const ctx = c.getContext('2d');
-      const sheet = this.sheetFor(key);
-      const rect = sheet?.frames.get(frameKey('idle', 'front', 0));
-      if (ctx && sheet && rect) {
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(
-          sheet.texture.image as HTMLCanvasElement,
-          rect.x,
-          rect.y,
-          rect.w,
-          rect.h,
-          0,
-          0,
-          64,
-          64,
-        );
-        if (!known) {
-          ctx.globalCompositeOperation = 'source-in';
-          ctx.fillStyle = '#2a2540';
-          ctx.fillRect(0, 0, 64, 64);
-        }
-      }
+      const paint = () => this.draw(c, key, 'front', false, known);
+      if (this.observer) {
+        pending.set(cell, paint);
+        this.observer.observe(cell);
+      } else paint();
       cell.append(c, el('div', 'book-label', known ? keyLabel(key) : UI_TEXT.unknown));
-      if (!key.startsWith('chao:')) {
-        const scan = g.world.scans[key] ?? 0;
+      if (known) {
+        cell.tabIndex = 0;
+        cell.addEventListener('click', () => this.showPage(key, world));
+      }
+      if (this.tab === 'pocket' || this.tab === 'digital') {
+        const scan = world.scans[key] ?? 0;
         const bar = el('div', 'meter-bar');
         const fill = el('div');
         fill.style.width = `${Math.min(100, scan)}%`;
         bar.appendChild(fill);
         cell.appendChild(bar);
-        const why = canConvert(g.world, key);
+        const why = canConvert(world, key);
         const b = button(
           why ? TEN_TEXT.scan(scan) : TEN_TEXT.convert,
           () => {

@@ -36,7 +36,7 @@ describe('arriving in the Hollow (R0142)', () => {
     expect(out.filter((e) => e.kind === 'strayStartled')).toEqual([]);
     expect(world.inventory.shells).toBe(55);
     // Once the grace is over a stray snatches as before.
-    const later = hugged(world, 1000);
+    const later = hugged(world, 1000 + HOLLOW.strayChoice.askMs);
     expect(later.some((e) => e.kind === 'strayStartled')).toBe(true);
   });
 

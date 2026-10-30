@@ -6,6 +6,7 @@ import type {
   NubbinBattle,
 } from './battle/types';
 import type { CircuitState } from './battle/circuit';
+import type { BattleOnceState, BoutSpoils } from './battle/rewards';
 import type { NubbinCombat } from './battle/tactics/grid';
 import type { TacticsAction, TacticsResult, TacticsState } from './battle/tactics/types';
 
@@ -175,7 +176,14 @@ export interface Nubbin {
   alignment: number;
   personality: Personality | null;
   /** How it was treated as a child; decides the personality at evolution. */
-  childCare: { pets: number; throws: number; feeds: number };
+  childCare: {
+    pets: number;
+    throws: number;
+    feeds: number;
+    /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
+    boutWins?: number;
+    boutLosses?: number;
+  };
   /** Set at evolution. */
   form: NubbinForm | null;
   /** Part ids from critters, e.g. "rabbit-ears". The newest critter wins a slot. */
@@ -357,10 +365,22 @@ export interface Settings {
   /** R0106: tuck the bottom bar away while walking; unset: on for a phone. */
   hideBarWhileWalking?: boolean;
   /**
+   * R0102: Travel assist: walk, auto-walk to a tapped beacon or pin, or skip there. Unset:
+   * auto-walk in a Learning Grove, walk otherwise (`travelMode`).
+   */
+  travel?: 'walk' | 'auto' | 'skip';
+  /**
    * The 3D mode's sculpt grid for this device (a torso resolution, 48 to 104), picked by
    * a benchmark the first time the 3D mode opens; null until then.
    */
   sculptRes: number | null;
+  /**
+   * Lane C round 5: Settings → Bouts (recs FIGHT-71). `play` (unset), `gentle` (kid-mode bouts)
+   * or `skip` (story bouts resolve without the battle screen). Optional; no save bump.
+   */
+  bouts?: 'play' | 'gentle' | 'skip';
+  /** Lane C round 5: "Steady hands" (FIGHT-79), a fixed ×1.1 in place of the timing ring. */
+  steadyHands?: boolean;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -663,6 +683,15 @@ export interface DungeonRun {
   zone?: DungeonZone;
   /** Which side cave, by cave-mouth index, while `zone` is 'side'. */
   side?: number;
+  /**
+   * Rumble rooms (R0257, R0282): level ids whose room is won, and the one the Keeper must
+   * step out of before it starts again (after a loss, or a start nobody could fight).
+   */
+  rumble?: { done: string[]; wait?: string };
+  /** R0281: a stray that bumped the Keeper waits this long for Calm or a snack. */
+  strayAsk?: { id: string; leftMs: number };
+  /** R0281: the calm bout under way (`bout` is `world.battleRuns` when it began). */
+  strayBout?: { id: string; bout: number; shells: number };
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -843,10 +872,22 @@ export interface World {
   battleRuns?: number;
   /** Lane C: the live grid-tactics bout (recs FIGHT-65), absent when none; no save bump. */
   tactics?: TacticsState;
+  /** Lane B round 5: Hollow gear (R0163, R0164), made by `ensureGear` in sim/gear.ts; save v11. */
+  gear?: GearState;
   /** Lane C: the last party picked and the bout options (recs FIGHT-19, -24, -26). */
   battlePrefs?: BattlePrefs;
   /** Lane C: Grove Circuit ribbons (sim/battle/circuit.ts, recs FIGHT-22). */
   circuit?: CircuitState;
+  /**
+   * Lane C round 5 (recs FIGHT-74): one-time bout rewards already given (first win per tier,
+   * keepsakes, move cards for the Collection book). No save bump.
+   */
+  battleOnce?: BattleOnceState;
+  /**
+   * Lane C round 5 (recs FIGHT-77): matchups the Keeper has seen land, "moveType>foeType",
+   * for the move buttons' effectiveness badges. Written by sim/battle/seen.ts; no save bump.
+   */
+  battleSeen?: { pairs: string[] };
   /** The active trainer (playable Keeper), see sim/trainers.ts. */
   trainer: string;
   nextId: number;
@@ -861,6 +902,10 @@ export interface World {
   placed: PlacedDecor[];
   /** Collection book: species ids and Chao form keys, with the sim time first seen. */
   seen: Record<string, number>;
+  /** Lane E, R0411: the name of the Nubbin that first showed each book key (absent: unknown). */
+  seenBy?: Record<string, string>;
+  /** Lane E, R0411: book tabs completed, each rewarded once. */
+  bookTabs?: string[];
   /** Daily visits: the last real day (YYYY-MM-DD) a Keeper came by. */
   visits: { lastDay: string; count: number; gifted: string[] };
   location: Location;
@@ -1090,6 +1135,8 @@ export type Command =
   | { kind: 'travel'; exit: string; sub?: string }
   // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
+  // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
+  | { kind: 'travelAssist'; pos: Vec2 }
   | { kind: 'photoTaken'; species: string }
   // Educational mode
   | { kind: 'eduStart'; age: EduAge; band?: EduBand }
@@ -1129,6 +1176,11 @@ export type Command =
   | { kind: 'stash'; amount: number }
   | { kind: 'townBuy'; item: 'fruit' | 'acorns' }
   | { kind: 'townQuest' }
+  // Lane B round 5: the stray's choice (R0281).
+  | { kind: 'strayCalm'; id: string }
+  // Lane B round 5: Hollow gear (R0164).
+  | { kind: 'equipGear'; itemId: string; nubbinId: string | null }
+  | { kind: 'unequipGear'; itemId: string }
   | { kind: 'setHollowParty'; ids: string[] }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
@@ -1169,6 +1221,8 @@ export type SimEvent =
   /** A wild foe came home: as a new child (`child`, its id), or as a full scan and a gift. */
   | { kind: 'befriended'; species: string; child: string | null; gift: number }
   | { kind: 'moveLearned'; nubbinId: string; move: string; slotted: boolean }
+  /** Lane C round 5 (recs FIGHT-73, -74): what a finished bout gave, after `battleEnd`. */
+  | { kind: 'battleSpoils'; spoils: BoutSpoils }
   | { kind: 'hatched'; nubbinId: string }
   | {
       kind: 'evolved';
@@ -1374,6 +1428,16 @@ export type SimEvent =
   | { kind: 'townQuestPaid'; act: number; shells: number }
   | { kind: 'sideCaveEntered'; index: number }
   | { kind: 'uniqueBeaten'; id: string; bonus: number }
+  // Lane B round 5: rumble rooms (R0257, R0282) and the stray's choice (R0281).
+  | {
+      kind: 'rumbleRoom';
+      phase: 'start' | 'won' | 'lost';
+      prefix: string;
+      loot: { kind: 'hat' | 'critter' | 'shells'; param: string; amount: number } | null;
+    }
+  | { kind: 'strayAsk'; id: string }
+  | { kind: 'strayCalmed'; ok: boolean; shells: number }
+  | { kind: 'gearFound'; item: GearItem }
   | { kind: 'waypointArrived'; id: string }
   | { kind: 'actsRerolled'; ok: boolean }
   | { kind: 'acornsBought'; ok: boolean; count: number }
@@ -1397,4 +1461,25 @@ export interface AwayReport {
   events: SimEvent[];
   /** R0316: what the Nubbins got up to, for the away screen's diary lines. */
   tally?: AwayTally;
+}
+
+/** A piece of Hollow gear (R0163, R0164); bases, rarities and affixes in `config/dungeon-loot.ts`. */
+export interface GearItem {
+  id: string;
+  base: string;
+  slot: string;
+  rarity: string;
+  level: number;
+  affixes: Array<{ id: string; value: number }>;
+}
+
+/** What the Keeper carries and who wears what (lane B round 5). */
+export interface GearState {
+  items: GearItem[];
+  /** The Keeper's slots, by slot: item ids. */
+  keeper: Record<string, string>;
+  /** Each Nubbin's slots, by Nubbin id then slot. */
+  nubbins: Record<string, Record<string, string>>;
+  /** The next item number. */
+  next: number;
 }

@@ -79,6 +79,9 @@ export interface TUnit {
   order: number;
   /** A protected unit (the escort critter): foes never aim at it and it is never tuckered. */
   ward?: boolean;
+  /** The Keeper's piece (FIGHT-66): untargetable, blocks nobody, never counts for the result. */
+  keeper?: boolean;
+  snacks?: number;
   /** Friendship with each ally, by combatant id (FIGHT-57). */
   friends?: Record<string, number>;
   /** The extra grid-only move of a champion or final species. */
@@ -138,6 +141,7 @@ export type TacticsAction =
   | { k: 'together'; with: string; x: number; y: number }
   | { k: 'shake'; x: number; y: number }
   | { k: 'relight'; x: number; y: number }
+  | { k: 'whistle'; a: string; b: string }
   | { k: 'wait'; face: Dir };
 
 export type TacticsEvent =

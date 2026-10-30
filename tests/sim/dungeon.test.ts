@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { DUNGEON, SIM } from '../../src/config/tuning';
+import { DUNGEON, HOLLOW, SIM } from '../../src/config/tuning';
 import {
   cellAt,
   cellCentre,
@@ -231,7 +231,10 @@ describe('a run', () => {
     const s = run.strays[0]!;
     world.keeper.pos = { x: s.pos.x + 0.3, z: s.pos.z };
     const before = world.inventory.shells;
-    const startled = step(world, 200).filter((e) => e.kind === 'strayStartled');
+    // R0281: it asks for Calm or a snack first, then snatches.
+    const startled = step(world, 200 + HOLLOW.strayChoice.askMs).filter(
+      (e) => e.kind === 'strayStartled',
+    );
     expect(startled.length).toBe(1);
     expect(world.inventory.shells).toBe(before - DUNGEON.straySnatch);
     expect(s.cooldownMs).toBeGreaterThan(0);
