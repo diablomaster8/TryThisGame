@@ -19,6 +19,9 @@ import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
+import { BREAK_KID_TEXT } from '../config/strings-kids';
+import { frameKey } from '../render/sprites/animations';
+import type { Nubbin } from '../sim/types';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
 import { NextCard } from './next-card';
 import { LangPanel, langProgress } from './lang';
@@ -494,6 +497,8 @@ export class BreakScreen {
   private readonly root: HTMLDivElement;
   private readonly count: HTMLElement;
   private readonly ring: HTMLElement;
+  private readonly sleeper: HTMLElement;
+  private readonly night: HTMLElement;
   private shown = false;
 
   constructor(
@@ -509,12 +514,18 @@ export class BreakScreen {
     const card = el('div', 'edu-break-card');
     this.ring = el('div', 'edu-break-ring');
     this.count = el('div', 'edu-break-count');
-    this.ring.appendChild(el('div', 'edu-big', '😴'));
+    // R0672: the child's own Nubbin asleep inside the ring, the emoji when none has hatched.
+    this.sleeper = el('div', 'edu-break-sleeper');
+    this.ring.appendChild(this.sleeper);
+    this.night = el('p', 'edu-break-night', BREAK_KID_TEXT.goodnight);
+    this.night.hidden = true;
     card.append(
       el('h2', undefined, EDU_TEXT.breakTitle),
       this.ring,
       this.count,
       el('p', 'help', EDU_TEXT.breakBody),
+      this.night,
+      button(BREAK_KID_TEXT.done, () => this.goodnight(), 'btn btn-primary edu-break-done'),
       button(
         EDU_TEXT.breakMore,
         () => {
@@ -537,8 +548,36 @@ export class BreakScreen {
     if (this.shown) return;
     this.shown = true;
     this.root.hidden = false;
+    this.root.classList.remove('edu-break-goodnight');
+    this.night.hidden = true;
+    this.drawSleeper();
     const e = this.game()?.world.edu;
     if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+  }
+
+  /**
+   * "All done for now": tuck in and say goodnight. The break keeps running and play stays
+   * locked; only the gated button or the end of the break lets a round start (R0672).
+   */
+  private goodnight(): void {
+    const g = this.game();
+    this.root.classList.add('edu-break-goodnight');
+    this.night.hidden = false;
+    if (!g?.world.edu?.readAloud) return;
+    const n = sleeperOf(g);
+    speakLine(n ? BREAK_KID_TEXT.goodnightSay(n.name) : BREAK_KID_TEXT.goodnightSayNone);
+  }
+
+  private drawSleeper(): void {
+    this.sleeper.textContent = '';
+    const g = this.game();
+    const n = g && sleeperOf(g);
+    if (!g || !n) {
+      this.sleeper.appendChild(el('div', 'edu-big', '😴'));
+      return;
+    }
+    this.sleeper.appendChild(sleepingPortrait(g, n));
+    this.sleeper.appendChild(el('span', 'edu-break-zzz', 'z z z'));
   }
 
   hide(): void {
@@ -570,4 +609,31 @@ function gameName(id: EduGameId, reader: boolean): string {
 
 function gameBlurb(id: EduGameId, reader: boolean): string {
   return (reader ? EDU_TEXT.readerGameBlurbs[id] : undefined) ?? EDU_TEXT.gameBlurbs[id];
+}
+
+/** The Nubbin the break card tucks in: the first hatched one, or none. */
+function sleeperOf(g: Game): Nubbin | undefined {
+  return g.world.nubbins.find((n) => n.stage !== 'egg');
+}
+
+/** The Nubbin's front sleep frame (drawn at 64 px, shown larger); the idle frame if a sheet lacks one. */
+function sleepingPortrait(g: Game, n: Nubbin): HTMLCanvasElement {
+  const c = el('canvas', 'edu-break-pic');
+  c.width = 64;
+  c.height = 64;
+  try {
+    const sheet = g.view.sheets.forNubbin(n);
+    const rect =
+      sheet.frames.get(frameKey('sleep', 'front', 0)) ??
+      sheet.frames.get(frameKey('idle', 'front', 0));
+    const ctx = c.getContext('2d');
+    if (ctx && rect) {
+      ctx.imageSmoothingEnabled = false;
+      const img = sheet.texture.image as HTMLCanvasElement;
+      ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, 64, 64);
+    }
+  } catch {
+    // A picture is a nicety; the card still says goodnight.
+  }
+  return c;
 }

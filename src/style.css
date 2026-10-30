@@ -3245,3 +3245,54 @@ select {
   width: 100%;
   height: 44px;
 }
+
+/* Lane E r7, R0672: the break card's sleeping Nubbin and its goodnight. */
+.edu-break-sleeper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.edu-break-pic {
+  width: 80px;
+  height: 80px;
+  image-rendering: pixelated;
+  animation: edu-break-breathe 3.2s ease-in-out infinite;
+}
+.edu-break-zzz {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  letter-spacing: 2px;
+}
+.edu-break-night {
+  font-size: 1.3rem;
+  margin: 8px 0;
+}
+.edu-break-done {
+  min-height: 56px;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 1.15rem;
+}
+.edu-break.edu-break-goodnight {
+  background: rgba(5, 4, 12, 0.97);
+}
+.edu-break.edu-break-goodnight .edu-break-done {
+  display: none;
+}
+@keyframes edu-break-breathe {
+  0%,
+  100% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.04, 0.96);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edu-break-pic {
+    animation: none;
+  }
+}
+.reduce-motion .edu-break-pic {
+  animation: none;
+}
