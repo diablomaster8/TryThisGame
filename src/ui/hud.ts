@@ -86,6 +86,7 @@ import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
 import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
 import { dedupeToaster } from './event-dedupe';
+import { FRAME_WORK } from '../platform/frame-spikes';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -887,6 +888,8 @@ export function mountHud(
   // Periodic refresh of live panels.
   let refreshTimer = 0;
   function refreshLoop(): void {
+    // TECH-31: the refresh runs between frames; its time is charged to the next frame log.
+    const hudT0 = performance.now();
     const g = game();
     if (g) {
       curiosities.tick(g.world, g.camera.currentYawIndex);
@@ -1172,6 +1175,7 @@ export function mountHud(
         dialogue.play(next);
       }
     }
+    FRAME_WORK.hudMs += performance.now() - hudT0;
     refreshTimer = window.setTimeout(refreshLoop, 200);
   }
   void refreshTimer;

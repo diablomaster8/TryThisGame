@@ -3,7 +3,7 @@ import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogr
 import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
 import { CAMP_TEXT, FAST_TIME_TEXT, QUALITY_TEXT } from '../config/strings';
-import { SIM } from '../config/tuning';
+import { FRAME_LOG, SIM } from '../config/tuning';
 import { STAT_LABELS, TYPE_LABELS, UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { clearSave } from '../platform/storage';
@@ -365,14 +365,26 @@ function spikeLine(g: Game): string {
         .filter(([, ms]) => ms >= 1)
         .map(([k, ms]) => `${k} ${Math.round(ms)}`)
         .concat(`outside ${Math.round(top.outsideMs)}`)
+        // TECH-31: what the sections hid: sheet bakes inside `update`, the HUD refresh outside.
+        .concat(top.work.bakes ? [`bakes ${top.work.bakes}/${Math.round(top.work.bakeMs)}`] : [])
+        .concat(top.work.hudMs >= 1 ? [`hud ${Math.round(top.work.hudMs)}`] : [])
+        .concat(top.steps ? [`steps ${top.steps}`] : [])
         .join(' ')
     : '';
   const a = g.view.batch.atlas;
   const atlas = g.scene3d ? '' : `  atlas pages ${a.pagesOpen} repacks ${a.generation}`;
   return (
     `\nframes p95 ${s.p95.toFixed(1)} ms  worst ${s.worst.toFixed(0)} ms  long ${s.long}${atlas}` +
-    (why ? `\nlongest: ${why}` : '')
+    (why ? `\nlongest: ${why}` : '') +
+    recentLine(g)
   );
+}
+
+/** TECH-31: the last ten seconds as a frame-time histogram: p50, p95 and p99. */
+function recentLine(g: Game): string {
+  const r = g.spikes.summary(FRAME_LOG.windowMs);
+  const f = (ms: number) => ms.toFixed(1);
+  return `\nlast ${FRAME_LOG.windowMs / 1000} s: p50 ${f(r.p50)}  p95 ${f(r.p95)}  p99 ${f(r.p99)} ms  long ${r.long}`;
 }
 
 /** Lane B round 6 (R0211): the Hollow's rolling tuning numbers, underground only. */
