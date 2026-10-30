@@ -36,3 +36,9 @@ export const TEXT_SIZE_TEXT = {
   label: 'Text size',
   sizes: { small: 'Small', normal: 'Normal', large: 'Large', larger: 'Larger' },
 } as const;
+
+/** TECH-80: the offline status line. */
+export const OFFLINE_TEXT = {
+  chip: 'Offline: your Grove still saves on this device',
+  back: 'Back online',
+} as const;
