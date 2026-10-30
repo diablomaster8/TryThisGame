@@ -66,6 +66,8 @@ export function travel(world: World, exitId: string, events: SimEvent[], sub?: s
   }
   const from = regionOf(world.location);
   const exit = REGIONS[from].exits.find((e) => e.id === exitId)!;
+  // R0124: when this region was left, for its closed-form ageing on the way back.
+  (world.regionLeftMs ??= {})[from] = world.timeMs;
   if (exit.to === 'lane') visit(world, sub!.slice('visit:'.length), events);
   else setLocation(world, 'grove', events);
   world.keeper.pos = { x: exit.arrive.x, z: exit.arrive.z };
@@ -83,4 +85,17 @@ export function noteRegion(world: World, events: SimEvent[]): void {
     found.push(region);
     events.push({ kind: 'regionDiscovered', region });
   }
+}
+
+/**
+ * R0124 (WORLD-58): how long a region has stood frozen since the Keeper left it, or Infinity
+ * if never. Only the Grove simulates during catch-up (needs, fruit, weather); every other
+ * region keeps this timestamp and ages on entry by cheap closed-form rules (its weather spell
+ * from `regionSpell`, its clock from `regionHour`, its season from the date), so a week away
+ * costs nothing extra however many regions there are.
+ */
+export function regionAwayMs(world: World, region: RegionId): number {
+  if (regionOf(world.location) === region) return 0;
+  const left = world.regionLeftMs?.[region];
+  return left === undefined ? Infinity : world.timeMs - left;
 }

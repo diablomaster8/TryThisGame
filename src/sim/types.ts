@@ -919,6 +919,11 @@ export interface World {
   pondFinds?: string[];
   /** WORLD-04: regions the Keeper has entered (optional; read through `regionsFound`). */
   regionsFound?: string[];
+  /**
+   * R0124: sim time the Keeper last left each region (by id). Regions are frozen while away
+   * and age on entry by closed-form rules from this (`regionAwayMs`); catch-up never steps them.
+   */
+  regionLeftMs?: Record<string, number>;
   /** Karate belts won per tier. */
   karate: { belt: number; wins: number; losses: number };
   plants: Plant[];
