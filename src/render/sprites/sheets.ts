@@ -4,6 +4,7 @@ import { ALL_PART_SLOTS, partSteps } from './part-size';
 import { childLean, leanStep } from './child-hint';
 import { birthmarkKey, birthmarkOf } from '../birthmark';
 import { beltOf } from '../belt';
+import { handSheetFor, loadHandSheets } from './sprite-source';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
@@ -104,7 +105,10 @@ export class SheetCache {
   constructor(
     private readonly now: () => number = () => performance.now(),
     private readonly limits: { maxSheets: number; idleMs: number } = SHEET_CACHE,
-  ) {}
+  ) {
+    // LOOK-71: look for hand-drawn sheets once per page; the generator covers until then.
+    void loadHandSheets(import.meta.env.BASE_URL ?? '/');
+  }
 
   register(key: string, sheet: SpriteSheet): void {
     this.overrides.set(key, sheet);
@@ -180,6 +184,11 @@ export class SheetCache {
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
+    // LOOK-71: a species with a hand-drawn sheet uses it once hatched (sprite-source.ts).
+    if (n.stage !== 'egg' && n.stage !== 'cocoon') {
+      const hand = handSheetFor(n.species);
+      if (hand) return hand;
+    }
     const key = SheetCache.nubbinKey(n);
     if (key.endsWith('~weathered')) {
       return this.get(key, () => weatherSheet(this.forNubbin({ ...n, id: `${n.id}~plain` })));

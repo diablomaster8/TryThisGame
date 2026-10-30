@@ -82,3 +82,36 @@ describe('LOOK-70 seasonal hats', () => {
     expect(w.inventory.hats).toContain(seasonHat('winter'));
   });
 });
+
+describe('LOOK-71 hand-drawn sheets', () => {
+  it('fills every clip a sheet leaves out from its nearest frame', async () => {
+    const { completeFrameMap } = await import('../../src/render/sprites/sprite-source');
+    const { CLIPS } = await import('../../src/render/sprites/animations');
+    const m = completeFrameMap({
+      'idle:front:0': [0, 0, 64, 64],
+      'idle:side:0': [64, 0, 64, 64],
+      'walk:side:0': [128, 0, 64, 64],
+    });
+    expect(m['walk:side:3']).toEqual([128, 0, 64, 64]);
+    expect(m['sleep:side:1']).toEqual([64, 0, 64, 64]);
+    expect(m['happy:back:0']).toEqual([0, 0, 64, 64]);
+    const total = Object.values(CLIPS).reduce((s, c) => s + c.frames, 0) * 5;
+    expect(Object.keys(m)).toHaveLength(total);
+  });
+
+  it('a registered sheet replaces a hatched species, never its egg', async () => {
+    const { registerHandSheet, spriteSourceOf } =
+      await import('../../src/render/sprites/sprite-source');
+    const fake = { frames: new Map(), cellW: 64, cellH: 64 } as never;
+    const n = belted(0);
+    registerHandSheet(n.species, fake);
+    try {
+      expect(spriteSourceOf(n.species)).toBe('sheet');
+      const cache = new SheetCache();
+      expect(cache.forNubbin(n)).toBe(fake);
+    } finally {
+      registerHandSheet(n.species, null);
+    }
+    expect(spriteSourceOf(n.species)).toBe('generated');
+  });
+});
