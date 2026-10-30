@@ -59,7 +59,19 @@ export type SoundName =
   | 'woodblock'
   | 'swish'
   | 'patter'
-  | 'yawn';
+  | 'yawn'
+  // Lane D round 8 (R0450, TECH-08): the Expedition's high jump, essence sparkle, critter
+  // bubble pop and results fanfare, and the Grove's fruit thup, tree rustle, throw whee, eat
+  // nom and can't-reach hmm.
+  | 'jumpHigh'
+  | 'sparkle'
+  | 'bubblePop'
+  | 'fanfare'
+  | 'thup'
+  | 'rustle'
+  | 'whee'
+  | 'nom'
+  | 'hmm';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -1134,6 +1146,45 @@ export function playSound(name: SoundName): void {
       case 'ding':
         tone(1568, 0, 500, 'sine', 0.05);
         tone(2093, 0, 300, 'triangle', 0.015);
+        break;
+      // R0450 (TECH-08): the high jump's second, higher tone after the jump's own.
+      case 'jumpHigh':
+        tone(600, 0, 90, 'square', 0.045, 900);
+        tone(900, 90, 120, 'square', 0.04, 1350);
+        break;
+      case 'sparkle':
+        for (let i = 0; i < 4; i++) tone(1760 + i * 330, i * 45, 120, 'sine', 0.025);
+        break;
+      case 'bubblePop':
+        tone(400, 0, 35, 'sine', 0.06, 1400);
+        burst(30, 40, 0.03, 4000);
+        break;
+      case 'fanfare':
+        tone(523, 0, 120, 'triangle', 0.07);
+        tone(659, 120, 120, 'triangle', 0.07);
+        tone(784, 240, 120, 'triangle', 0.07);
+        tone(1047, 360, 420, 'triangle', 0.08);
+        tone(784, 360, 420, 'sine', 0.03);
+        break;
+      case 'thup':
+        tone(140, 0, 80, 'sine', 0.07, 80);
+        burst(0, 40, 0.025, 600);
+        break;
+      case 'rustle':
+        for (let i = 0; i < 3; i++) burst(i * 70, 110, 0.03, 3200);
+        break;
+      // The comedic hook: a rising, wobbly "wheee".
+      case 'whee':
+        tone(500, 0, 420, 'sine', 0.045, 1300);
+        tone(1000, 40, 380, 'triangle', 0.012, 2400);
+        break;
+      case 'nom':
+        tone(330, 0, 70, 'triangle', 0.045, 260);
+        tone(330, 150, 70, 'triangle', 0.04, 250);
+        break;
+      case 'hmm':
+        tone(260, 0, 260, 'sine', 0.04, 240);
+        tone(240, 280, 240, 'sine', 0.03, 200);
         break;
     }
   } catch {

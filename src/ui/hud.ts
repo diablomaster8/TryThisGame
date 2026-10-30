@@ -142,6 +142,7 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
+import { groveSfx } from './event-feedback';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
@@ -1216,6 +1217,9 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n) toast(SIT_TEXT[toastBand(g.world)].replaceAll('{n}', n.name));
         }
+        // R0450 (TECH-08): the Grove's quiet moments get their sounds.
+        const groveSnd = groveSfx(e);
+        if (groveSnd) playSound(groveSnd);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1234,7 +1238,7 @@ export function mountHud(
           playSound('evolve');
         } else if (e.kind === 'reaction' && e.reaction === 'love') {
           playSound('pet');
-        } else if (e.kind === 'collected' || e.kind === 'fruitDropped') {
+        } else if (e.kind === 'collected') {
           playSound('pickup');
         } else if (e.kind === 'landed') {
           playSound('hit');

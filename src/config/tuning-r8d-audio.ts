@@ -77,3 +77,13 @@ export const SONG_LEVEL = {
    */
   offsetDb: { night: -2, sorrow: -2, story: -8, calm: -9 } as Readonly<Record<string, number>>,
 } as const;
+
+/** R0450 (TECH-08): the Expedition's sound cues (minigames/expedition/sfx.ts). */
+export const EXPEDITION_SFX = {
+  /** Holding the jump this long (ms) adds the high jump's second tone. */
+  highJumpHoldMs: 180,
+  /** Shells caught within this many ms of each other build a combo. */
+  comboWindowMs: 600,
+  /** The combo at which the shell chime reaches its top note. */
+  comboSteps: 6,
+} as const;
