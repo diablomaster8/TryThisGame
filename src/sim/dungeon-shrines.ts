@@ -135,8 +135,8 @@ function use(world: World, run: DungeonRun, f: Floor, s: Shrine, events: SimEven
     for (const n of party) n!.needs.happiness = Math.min(100, n!.needs.happiness + S.snugglyHappy);
   if (s.kind === 'picnic')
     for (const n of party) {
-      n!.needs.energy = 100;
-      n!.needs.hunger = 100;
+      n!.needs.energy = 1;
+      n!.needs.hunger = 1;
     }
   if (s.kind === 'secret') exploredMask(run, f).fill(1);
   events.push({ kind: 'shrineUsed', shrine: s.kind });

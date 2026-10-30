@@ -101,9 +101,9 @@ describe('shrines (R0159)', () => {
     useShrine(world, 'snuggly');
     expect(shrinePower(world)).toBeCloseTo(1 + S.snugglyPower);
     for (const n of party) expect(n.needs.happiness).toBe(S.snugglyHappy);
-    for (const n of party) n.needs.energy = n.needs.hunger = 10;
+    for (const n of party) n.needs.energy = n.needs.hunger = 0.1;
     useShrine(world, 'picnic');
-    for (const n of party) expect([n.needs.energy, n.needs.hunger]).toEqual([100, 100]);
+    for (const n of party) expect([n.needs.energy, n.needs.hunger]).toEqual([1, 1]);
     useShrine(world, 'secret');
     expect(exploredMask(run, runFloor(world)!).every((v) => v === 1)).toBe(true);
   });

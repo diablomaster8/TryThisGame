@@ -40,7 +40,7 @@ export const HOLLOW = {
    * Strays (R0162): snatches per stray per floor, a dropped Shell every `dropEveryMs` while
    * it flees, the energy a party Nubbin spends to shoo one, how near counts as seeing one.
    */
-  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 10, seeRadius: 7 },
+  strays: { maxSnatches: 2, dropEveryMs: 350, shooEnergy: 0.1, seeRadius: 7 },
   /**
    * Shrines (R0159): per level, cells from the stairs and between shrines, how near counts as
    * walking onto one, each buff's seconds (0 is instant), and the effect sizes.
@@ -278,10 +278,10 @@ export const HOLLOW_ZONES = {
 export const HOLLOW_R6 = {
   /** R0160: a boss chest's guaranteed tier, and the energy a party retries a boss with. */
   bossChestRarity: 'legendary' as const,
-  bossRetryEnergy: 100,
+  bossRetryEnergy: 1,
   /** R0180: a lost fight leaves the party at least this much energy; "Sneak past?" after this
    * many losses to one pack, and the pack leaves the Keeper be for `sneakMs`. */
-  lossEnergy: 50,
+  lossEnergy: 0.5,
   sneakAfter: 3,
   sneakMs: 60_000,
   /** R0203: share of normal packs asleep; cells within which a running Keeper wakes them; the
