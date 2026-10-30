@@ -58,6 +58,7 @@ import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
 import { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
+import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -163,8 +164,8 @@ export function mountHud(
   const settingsBtn = button(
     '⚙',
     () => {
-      if (!game()?.world.edu) settings.open();
-      else void askGrownUp(root, toast).then((ok) => ok && settings.open());
+      // R0671: a Learning Grove gets the kid-safe sound sheet; the rest is past the gate.
+      void routeSettingsTap(!!game()?.world.edu, settingsRoute);
     },
     'btn btn-icon',
   );
@@ -426,6 +427,15 @@ export function mountHud(
 
   const sheet = new StatsSheet(root, game, toast);
   const settings = new SettingsMenu(root, game, toast);
+  // R0671: the kid-safe sheet and the route the ⚙ button takes (kid-sheet.ts).
+  const settingsRoute = {
+    openFull: () => settings.open(),
+    openQuick: () => kidSheet.open(),
+    ask: () => askGrownUp(root, toast),
+  };
+  const kidSheet = new KidSoundSheet(root, game, () => {
+    void routeSettingsTap(true, settingsRoute, true);
+  });
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
@@ -484,6 +494,7 @@ export function mountHud(
     play: () => edu.open(),
   });
   const grownUps = new GrownUpPanel(root, game, toast);
+  settings.setGrownUpArea(() => grownUps.open());
   const breakScreen = new BreakScreen(
     root,
     game,
@@ -690,6 +701,7 @@ export function mountHud(
     root,
     [
       { isOpen: () => settings.isOpen(), close: () => settings.close() },
+      { isOpen: () => kidSheet.isOpen(), close: () => kidSheet.close() },
       { isOpen: () => shop.isOpen(), close: () => shop.close() },
       { isOpen: () => races.isOpen(), close: () => races.close() },
       { isOpen: () => roster.isOpen(), close: () => roster.close() },
@@ -770,6 +782,7 @@ export function mountHud(
     if (e.key === 'Escape') {
       if (away.isOpen) away.hide();
       else if (settings.isOpen()) settings.close();
+      else if (kidSheet.isOpen()) kidSheet.close();
       else if (shop.isOpen()) shop.close();
       else if (races.isOpen()) races.close();
       else if (roster.isOpen()) roster.close();
