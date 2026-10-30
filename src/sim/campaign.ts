@@ -258,7 +258,8 @@ const GOALS: Record<string, (world: World, c: CampaignState) => boolean> = {
   feedTwice: (_w, c) => c.stats.feeds >= 2,
   sableTrust20: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 20,
   lanternsAndMoss: (_w, c) => lanternsLit(c) >= 4 && Boolean(c.flags.mossPetted),
-  winRace: (_w, c) => c.stats.races >= 1,
+  // Lane C round 6 (FIGHT-22): a Circuit ribbon counts as well as a race.
+  winRace: (w, c) => c.stats.races >= 1 || (w.circuit?.ribbons.length ?? 0) >= 1,
   talkDusty: (_w, c) => Boolean(c.flags[`talked:6:dusty`]),
   sableTrust45: (w, c) => (sableOf(w, c)?.trust ?? 0) >= 45,
   expedition: (_w, c) => c.stats.expeditions >= 1,
