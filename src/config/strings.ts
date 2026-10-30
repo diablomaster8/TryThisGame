@@ -575,6 +575,7 @@ export const UI_TEXT = {
     path: 'That would block the bridge.',
     someone: 'Someone is standing there.',
     spot: 'That spot is kept clear.',
+    crop: 'That would squash the planting.',
   } satisfies Record<PlaceRefusal, string>,
   /** Turns the piece being placed by an eighth. */
   rotatePiece: 'Turn',

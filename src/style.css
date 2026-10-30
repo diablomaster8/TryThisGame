@@ -3223,3 +3223,9 @@ select {
   opacity: 1;
   color: #e8a33c;
 }
+
+/* R0003 (lane A r7): the placing chip turns red while the piece would not fit under the mouse. */
+.placing-chip.placing-bad {
+  border-color: #e0524a;
+  color: #ffd6d2;
+}

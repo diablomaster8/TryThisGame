@@ -94,7 +94,8 @@ import { KarateMenu } from './karate';
 import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
-import { DecorateMenu, placingLabel } from './decorate';
+import { DecorateMenu, placeHint, placingLabel } from './decorate';
+import { PLACE_TEXT } from '../config/strings-fun-r7';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -1014,6 +1015,11 @@ export function mountHud(
       // The Run and camera buttons sit under the dialogue box on a phone: hide them meanwhile.
       document.documentElement.classList.toggle('dialogue-open', dialogue.isOpen);
       if (g.placing) placingText.textContent = UI_TEXT.placing(placingLabel(g.placing));
+      // R0003: on a desktop the chip says, before the click, whether the piece fits there.
+      const fit = g.placing?.mode === 'decor' && g.placeHoverAt ? placeHint(g) : null;
+      placingChip.classList.toggle('placing-bad', !!fit && fit !== true);
+      if (fit && fit !== true) placingText.textContent = `✗ ${UI_TEXT.decorRefused[fit]}`;
+      else if (fit) placingText.textContent += ` · ✓ ${PLACE_TEXT.fits}`;
       rotateBtn.hidden = g.placing?.mode !== 'decor';
       if (kindergarten.isOpen() && Math.random() < 0.1) kindergarten.refresh();
       // A debug chapter jump empties the queue: drop the old scene so the new one plays now.

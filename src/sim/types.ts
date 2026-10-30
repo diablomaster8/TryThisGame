@@ -576,7 +576,7 @@ export type DecorKind =
   | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
-export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
+export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot' | 'crop';
 
 export interface PlacedDecor {
   id: string;

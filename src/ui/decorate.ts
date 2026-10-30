@@ -2,9 +2,16 @@ import { JUMP_TOY_NAMES, NAMES, UI_TEXT } from '../config/strings';
 import { RECIPES, TOYS } from '../config/tuning';
 import type { Game } from '../game';
 import { canCraft, hasWorkshop, type RecipeId } from '../sim/craft';
-import { DECOR_KINDS, decorPrice, isJumpToy } from '../sim/decorate';
+import { DECOR_KINDS, decorPrice, isJumpToy, placeRefusal, snapYaw } from '../sim/decorate';
 import type { Placing } from '../input/game-input';
-import { FLAVORS, type DecorKind, type DyeColor, type TileKind, type ToyKind } from '../sim/types';
+import {
+  FLAVORS,
+  type PlaceRefusal,
+  type DecorKind,
+  type DyeColor,
+  type TileKind,
+  type ToyKind,
+} from '../sim/types';
 import { button, el, modal } from './dom';
 
 type Tab = 'decor' | 'paint' | 'plant' | 'toys' | 'workshop';
@@ -258,6 +265,18 @@ function decorName(kind: DecorKind): string {
 }
 
 /** The chip label while placing. */
+/**
+ * R0003: whether the piece being placed fits under the mouse, on the same half-unit snap
+ * and eighth turn the sim will use: true, or the reason it would be refused.
+ */
+export function placeHint(g: Game): true | PlaceRefusal | null {
+  const p = g.placing;
+  const at = g.placeHoverAt;
+  if (p?.mode !== 'decor' || !at) return null;
+  const snap = { x: Math.round(at.x * 2) / 2, z: Math.round(at.z * 2) / 2 };
+  return placeRefusal(g.world, p.kind, snap, snapYaw(p.yaw ?? 0)) ?? true;
+}
+
 export function placingLabel(p: Placing): string {
   if (!p) return '';
   switch (p.mode) {
