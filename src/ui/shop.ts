@@ -1,4 +1,5 @@
 import { NAMES, SHOP_ITEMS, UI_TEXT, shopHatNote } from '../config/strings';
+import { FLAVOUR } from '../config/strings-look';
 import { cosmeticLabel } from '../config/cosmetics';
 import type { Game } from '../game';
 import { rosterCap } from '../sim/roster';
@@ -27,6 +28,7 @@ export class ShopMenu {
       text.append(
         el('strong', undefined, SHOP_ITEMS[item].name),
         el('small', undefined, SHOP_ITEMS[item].help),
+        el('small', 'flavour', FLAVOUR.shop[item] ?? ''),
       );
       const note = el('span', 'shop-note');
       const b = button(`${priceOf(item)} ${NAMES.currency}`, () => this.buy(item), 'btn btn-small');

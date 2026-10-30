@@ -8,6 +8,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { FLAVOUR } from '../config/strings-look';
 import { BOOK_TEXT } from '../config/strings-look';
 import { cosmeticLabel } from '../config/cosmetics';
 import { canConvert } from '../sim/scans';
@@ -59,6 +60,14 @@ export function keyLabel(key: string): string {
   if (parts[1] === 'eternal') return `${NAMES.eternal} ${bandLabel(parts[2])}`;
   const first = `${bandLabel(parts[1])} ${typeLabel(parts[2])}`;
   return parts[3] ? BOOK_TEXT.second(first, typeLabel(parts[3])) : first;
+}
+
+/** FUN-28: a book entry's dry line: a hat's or look's, or a critter part's critter. */
+export function keyFlavour(key: string): string {
+  const parts = key.split(':');
+  if (parts[0] === 'hat' || parts[0] === 'look') return FLAVOUR.wear[parts[1] ?? ''] ?? '';
+  if (parts[0] === 'part') return FLAVOUR.critter[parts[1] ?? ''] ?? '';
+  return '';
 }
 
 /**
@@ -207,6 +216,7 @@ export class CollectionBook {
     this.page.append(
       c,
       el('h3', undefined, keyLabel(key)),
+      ...(keyFlavour(key) ? [el('p', 'flavour', keyFlavour(key))] : []),
       ...(at !== undefined
         ? [el('p', 'help', BOOK_TEXT.firstSeen(formatDuration(world.timeMs - at)))]
         : []),

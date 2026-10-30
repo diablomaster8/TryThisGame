@@ -3130,3 +3130,11 @@ select {
   font-size: 1.5rem;
   margin-bottom: 8px;
 }
+
+/* FUN-28: an item's dry line, under its help. */
+.flavour {
+  display: block;
+  font-style: italic;
+  font-size: 0.85em;
+  opacity: 0.8;
+}

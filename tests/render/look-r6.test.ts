@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { FLAVOUR } from '../../src/config/strings-look';
+import { CRITTER_LABELS, ESSENCE_LABELS, SHOP_ITEMS } from '../../src/config/strings';
+import { COSMETICS } from '../../src/config/cosmetics';
 import { gagAt, gagPersonality, GAGS_IN_PLACE } from '../../src/render/gag-play';
 import { CHILD_NEUTRAL, shadowColors } from '../../src/render/sprites/chao';
 import { Group, type Mesh } from 'three';
@@ -185,5 +188,19 @@ describe('FUN-04 personality gags', () => {
     let g = null;
     for (let t = 0; t < 400_000 && !g; t += 100) g = gagAt(c, t, true);
     expect(g?.look.emote).toBe('question');
+  });
+});
+
+describe('FUN-28 flavour lines', () => {
+  it('has a dry line for every shop item, critter, essence and wearable', () => {
+    for (const id of Object.keys(SHOP_ITEMS)) expect(FLAVOUR.shop[id], id).toBeTruthy();
+    for (const id of Object.keys(CRITTER_LABELS)) expect(FLAVOUR.critter[id], id).toBeTruthy();
+    for (const id of Object.keys(ESSENCE_LABELS)) expect(FLAVOUR.essence[id], id).toBeTruthy();
+    for (const c of COSMETICS) expect(FLAVOUR.wear[c.id], c.id).toBeTruthy();
+    const all = Object.values(FLAVOUR).flatMap((g) => Object.values(g));
+    for (const line of all) {
+      expect(line.length, line).toBeLessThanOrEqual(100);
+      expect(line, line).not.toMatch(/—/);
+    }
   });
 });

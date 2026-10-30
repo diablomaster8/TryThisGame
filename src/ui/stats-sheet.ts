@@ -10,6 +10,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { FLAVOUR } from '../config/strings-look';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
 import { TEN_TEXT } from '../config/strings';
@@ -242,6 +243,8 @@ export class StatsSheet {
         },
         'btn btn-small',
       );
+      // FUN-28: the critter's dry line, on hover and for screen readers.
+      b.title = FLAVOUR.critter[species] ?? '';
       this.giveList.appendChild(b);
     }
     for (const [type, count] of essences) {
@@ -253,6 +256,7 @@ export class StatsSheet {
         },
         'btn btn-small',
       );
+      b.title = FLAVOUR.essence[t] ?? '';
       this.giveList.appendChild(b);
     }
   }
