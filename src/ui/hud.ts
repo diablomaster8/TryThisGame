@@ -1099,6 +1099,8 @@ export function mountHud(
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
+        // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
+        if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);

@@ -238,6 +238,8 @@ export interface Nubbin {
   spanScale?: number;
   lastPetMs: number;
   lastShakeMs: number;
+  /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
+  eggShakes?: number;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -1375,7 +1377,7 @@ export type SimEvent =
   | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
-  | { kind: 'eggShaken'; nubbinId: string }
+  | { kind: 'eggShaken'; nubbinId: string; foot?: true }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }

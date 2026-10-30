@@ -16,6 +16,7 @@ import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } fro
 import { buildParticleSheet } from './sprites/particles-art';
 import { deckY, groveHeight, hillHeight, WATER_LEVEL } from '../sim/terrain';
 import { KEEPER_WADE, KEEPER_ACCEL, JUMP } from '../config/tuning-sim';
+import { eggAntics } from './egg-antics';
 import {
   BUSH,
   FOOTFALL,
@@ -1866,6 +1867,7 @@ export class WorldView {
 
     let key: string;
     let flip = false;
+    let eggHop = 0;
     let emote: EmoteShape = 'none';
     let opacity = 1;
     const glowTint = merged ? 1.35 + 0.15 * Math.sin(nowMs / 120) : 1;
@@ -1880,6 +1882,11 @@ export class WorldView {
       else if (n.hatchRemainingMs < EGG.hatchMs * 0.5 && Math.floor(nowMs / 700) % 6 === 0) {
         f = 'wobbleL';
       }
+      // R0351: its own wobble now and then, a hop near the end, and the foot on a third shake.
+      const ant = eggAntics(n, world.timeMs, nowMs, x * 997, this.particles.reduceMotion);
+      if (ant.foot) f = 'foot';
+      else if (f === 'idle' && ant.wobble) f = ant.wobble < 0 ? 'wobbleL' : 'wobbleR';
+      eggHop = ant.hop;
       key = frameKey(f, 'front', 0);
     } else if (n.stage === 'cocoon') {
       key = frameKey('idle', 'front', Math.floor(nowMs / 600) % 2);
@@ -2078,7 +2085,8 @@ export class WorldView {
           // LOOK-62: the evolving cocoon shakes in its last moments.
           x: x + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
-          y: (beat?.dy ?? 0) * 2 + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
+          y:
+            (beat?.dy ?? 0) * 2 + eggHop + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z,
           mode: 'billboard',
           opacity,

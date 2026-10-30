@@ -32,6 +32,8 @@ import { EYE_TRACK, HELD_REACT, SHADOW_LOOK } from '../config/tuning';
 import { BondGlow } from './bond-glow';
 import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
+import { updateEggFoot } from './egg-foot';
+import { eggAntics } from '../render/egg-antics';
 import { gagAt } from '../render/gag-play';
 import { cocoonShake, revealTurn } from '../render/evolve-reveal';
 import { rarityOf } from '../render/rarity';
@@ -1072,7 +1074,11 @@ export class Actors {
         if (n.stage === 'egg') {
           // LOOK-63: a shaken egg rocks and squashes; cracks run round it near hatching.
           const wob = eggWobble(n, world.timeMs, nowMs, x);
-          o.rotation.z = wob.rz;
+          // R0351: its own wobble now and then, a hop near the end, the foot on a third shake.
+          const ant = eggAntics(n, world.timeMs, nowMs, x * 997, this.calm);
+          o.rotation.z = wob.rz + ant.wobble * 0.14;
+          o.position.y += ant.hop;
+          updateEggFoot(a.shell, ant.foot);
           if (wob.squash !== 1) {
             if (!a.squash) a.squash = { o, base: o.scale.clone() };
             o.scale.y *= wob.squash;
@@ -1082,6 +1088,7 @@ export class Actors {
           updateCracks(a.shell, crackLevel(n));
         } else {
           updateCracks(a.shell, 0);
+          updateEggFoot(a.shell, false);
           o.rotation.y = t * 0.4;
           // LOOK-62: the evolving cocoon shakes through its last 1.2 s.
           o.rotation.z = cocoonShake(n, nowMs) * 0.12;

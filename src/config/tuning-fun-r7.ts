@@ -46,3 +46,19 @@ export const SHY_TRUST = {
   allowsUntil: 45,
   touches: ['tickle', 'hug', 'groom', 'pet', 'highFive'] as readonly string[],
 } as const;
+
+/**
+ * R0351 (FUN-62): the waiting egg's own antics: a short wobble every `wobbleEveryMs`, a hop
+ * of `hopHeight` units every `hopEveryMs` once under `hopUnderMs` from hatching, and a foot
+ * out for `footMs` on every `footEvery`th shake.
+ */
+export const EGG_ANTICS = {
+  wobbleEveryMs: 20_000,
+  wobbleMs: 600,
+  hopUnderMs: 30_000,
+  hopEveryMs: 2_500,
+  hopMs: 260,
+  hopHeight: 0.06,
+  footEvery: 3,
+  footMs: 900,
+} as const;

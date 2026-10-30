@@ -19,7 +19,7 @@ import { drawBattleCmd, holdBattleNeeds, resumeBattleCmd } from './battle/resume
 import { trialClear } from './battle/tactics/trials';
 import { grantKeepsake } from './battle/rewards';
 import { NUBBIN_NAMES } from '../config/strings';
-import { EGG, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
+import { EGG, EGG_ANTICS, GROVE, OFFLINE, SKILLS, THROW, TREES, TRUST } from '../config/tuning';
 import { nudgeAlignment } from './alignment';
 import { confirmRift, sanitizeOfflineAging } from './audience';
 import { applyDrop, decayNeeds } from './needs';
@@ -422,7 +422,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       n.lastShakeMs = now;
       if (n.stage === 'egg') {
         n.hatchRemainingMs = Math.max(0, n.hatchRemainingMs - EGG.shakeBonusMs);
-        events.push({ kind: 'eggShaken', nubbinId: n.id });
+        // R0351: every third shake, a tiny foot pokes out of the bottom.
+        n.eggShakes = (n.eggShakes ?? 0) + 1;
+        const foot = n.eggShakes % EGG_ANTICS.footEvery === 0;
+        events.push({
+          kind: 'eggShaken',
+          nubbinId: n.id,
+          ...(foot ? { foot: true as const } : {}),
+        });
       } else {
         react(n, 'dizzy', now, events);
       }
