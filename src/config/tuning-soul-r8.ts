@@ -144,3 +144,6 @@ export const EMOTE_READ = {
 
 /** R0593 (SOUL-76): Settings → Liveliness, scaling quirks and antics only. */
 export const LIVELINESS = { calm: 0.5, normal: 1, lively: 1.5 } as const;
+
+/** R0563 (SOUL-46): the diary behind the sheet's "Recently" lines. */
+export const DIARY = { keep: 5, show: 3 } as const;

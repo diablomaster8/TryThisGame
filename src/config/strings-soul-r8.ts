@@ -86,3 +86,34 @@ export const LIVELINESS_TEXT = {
   levels: { calm: 'Calm', normal: 'Normal', lively: 'Lively' },
   help: 'How often Nubbins trip, sneeze, prank and potter about. Never changes their needs.',
 } as const;
+
+/**
+ * R0563: the sheet's "Recently" lines, by diary kind. `{o}` is the other Nubbin's name.
+ * `kids` is the Learning Grove's plainer line.
+ */
+export const DIARY_LINES: Record<import('../sim/diary').DiaryKind, { main: string; kids: string }> =
+  {
+    yum: { main: 'Found its favourite fruit. Made a noise about it.', kids: 'Ate its best fruit!' },
+    bleh: { main: 'Ate a fruit it does not like. Bravely.', kids: 'Ate a fruit it does not like.' },
+    trip: {
+      main: 'Tripped over nothing. Got up as if it meant to.',
+      kids: 'Fell over and got up.',
+    },
+    sneeze: {
+      main: 'Sneezed at the flowers. The flowers did not apologise.',
+      kids: 'Sneezed at a flower.',
+    },
+    hiccup: { main: 'Ate too fast. Hiccupped about it.', kids: 'Had the hiccups.' },
+    comforted: { main: 'Patted {o} on the head when {o} was sad.', kids: 'Was kind to {o}.' },
+    wasComforted: { main: 'Got a pat from {o} on a bad day.', kids: '{o} was kind to it.' },
+    pranked: { main: 'Said "boo" to {o}. Showed no remorse.', kids: 'Played a joke on {o}.' },
+    wasPranked: { main: 'Was booed by {o}. Is thinking about it.', kids: '{o} made it jump.' },
+    friend: { main: 'Made friends with {o}.', kids: 'Made a friend: {o}.' },
+    bonked: { main: 'Walked into a tree. The tree was fine.', kids: 'Bumped into a tree.' },
+    cheeredUp: { main: 'Cheered up for good.', kids: 'Feels much better now.' },
+  };
+
+export const RECENTLY_TEXT = {
+  title: 'Recently',
+  none: 'Nothing much yet. Give it time.',
+} as const;

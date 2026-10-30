@@ -15,7 +15,7 @@ import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
 import { PersonalityChip } from './personality-chip';
-import { SoulRow } from './soul-row';
+import { RecentlyBox, SoulRow } from './soul-row';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -79,6 +79,8 @@ export class StatsSheet {
   private readonly personality = new PersonalityChip();
   /** Lane A r8: likes, dislikes, the favourite toy and a moody chip. */
   private readonly soul = new SoulRow();
+  /** R0563: the "Recently" lines. */
+  private readonly recent = new RecentlyBox();
   private readonly host: HTMLElement;
 
   constructor(
@@ -232,6 +234,7 @@ export class StatsSheet {
       this.personality.forming,
       this.personality.details,
       this.soul.root,
+      this.recent.root,
       needs,
       stats,
       this.actions,
@@ -334,6 +337,7 @@ export class StatsSheet {
     this.personality.update(n);
     this.personality.meter(n, toastBand(world) === 'sprout');
     this.soul.update(n);
+    this.recent.update(world, n);
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);

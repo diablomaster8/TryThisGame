@@ -257,6 +257,8 @@ export interface Nubbin {
   moodyCalmMs?: number;
   /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
   toyBoredom?: Record<string, { v: number; at: number }>;
+  /** R0563: what it did lately (sim/diary.ts), newest last, at most five. */
+  diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;

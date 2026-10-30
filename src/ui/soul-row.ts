@@ -4,9 +4,17 @@
  * (R0536), the favourite toy once it has been seen playing with it (R0537), and a chip for
  * a moody look with what softens it (R0532). Icons and words, never colour alone. Reads only.
  */
-import { SOUL_SHEET, TASTE_NAMES, TOY_NAMES_SOUL } from '../config/strings-soul-r8';
+import { NAMES } from '../config/strings';
+import {
+  DIARY_LINES,
+  RECENTLY_TEXT,
+  SOUL_SHEET,
+  TASTE_NAMES,
+  TOY_NAMES_SOUL,
+} from '../config/strings-soul-r8';
+import { recently } from '../sim/diary';
 import { likesOf } from '../sim/likes';
-import type { Nubbin } from '../sim/types';
+import type { Nubbin, World } from '../sim/types';
 import { el } from './dom';
 
 export class SoulRow {
@@ -47,5 +55,29 @@ export class SoulRow {
       );
       this.root.append(m);
     }
+  }
+}
+
+/** R0563 (SOUL-46): the last three things it did, as short lines under the likes row. */
+export class RecentlyBox {
+  readonly root: HTMLDivElement = el('div', 'soul-recently');
+  private shown = '';
+
+  update(world: World, n: Nubbin): void {
+    const items = recently(n);
+    const key = `${n.id}:${items.map((e) => `${e.kind}${e.atMs}`).join(',')}`;
+    if (key === this.shown) return;
+    this.shown = key;
+    this.root.hidden = n.stage === 'egg';
+    this.root.replaceChildren(el('strong', undefined, RECENTLY_TEXT.title));
+    const list = el('ul');
+    const kids = !!world.edu;
+    for (const e of items) {
+      const other = world.nubbins.find((x) => x.id === e.otherId)?.name ?? NAMES.creature;
+      const line = DIARY_LINES[e.kind][kids ? 'kids' : 'main'].replaceAll('{o}', other);
+      list.appendChild(el('li', undefined, line));
+    }
+    if (!items.length) list.appendChild(el('li', 'soul-help', RECENTLY_TEXT.none));
+    this.root.appendChild(list);
   }
 }

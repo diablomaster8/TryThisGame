@@ -96,6 +96,7 @@ import { addRecruit, festivalPrizeMultiplier, stepTown } from './town';
 import { holdSlips, lifespanMs, stepSlips } from './slips';
 import { stepMoody } from './soul-idle';
 import { setAnticsLive } from './antics';
+import { stepDiary } from './diary';
 import { tapFernStone } from './fern-stone';
 import { trainResult } from './gym';
 import { merge, setPartner, stepPartners } from './partners';
@@ -1219,6 +1220,7 @@ export function stepWorld(
   });
   stepCollection(world, events);
   stepFriendships(world, dtMs, events);
+  stepDiary(world, events, offline);
   stepLandmarks(world, events);
   stepCollectibles(world, events);
   stepLittleGrove(world);

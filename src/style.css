@@ -3423,3 +3423,11 @@ select {
   flex-basis: 100%;
   opacity: 0.85;
 }
+.soul-recently {
+  margin: 0 0 6px;
+  font-size: 0.85em;
+}
+.soul-recently ul {
+  margin: 2px 0 0;
+  padding-left: 18px;
+}
