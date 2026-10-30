@@ -115,7 +115,8 @@ export class StageReact {
     const w = g.world;
     if (this.who === 'you') return w.keeper.pos;
     if (this.who === 'nubbin' || this.who === 'partner') {
-      const partner = g.storyStager.partner;
+      // The scene's Nubbin where the stage put it, while a stage is up.
+      const partner = g.storyStager.active ? g.storyStager.partner : null;
       if (partner) return partner;
       const n = w.nubbins.find((x) => x.stage !== 'egg');
       return n ? n.pos : null;
