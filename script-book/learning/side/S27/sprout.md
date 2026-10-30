@@ -91,7 +91,7 @@ _Hob comes along with two buckets, whistling._
 
 **Hob**: That’s Nine. It’s the smallest. It always comes last.  
 **Hob**: I’m Hob. I feed them. I’m not meant to whistle.  
-_Hob fills Nine’s bowl. Plop! Nine doesn’t look round._  
+_Hob fills Nine’s bowl. Nine doesn’t look round._  
 **Hob**: Soon there’s a big race. The Autumn Show.  
 **Hob**: A runner who doesn’t win a ribbon gets sold.  
 **Hob**: A man takes it far away. It won’t come back here.  

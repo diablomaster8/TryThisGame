@@ -500,7 +500,7 @@ _Tobin trusts Linnet a bit more now._
 _Linnet’s tracks go through the door and down the ramp._  
 _Linnet is by the bench. The robin sits on her knee._  
 **Linnet**: You took ages! Look! LOOK!  
-_Snowdrops! Pop, pop! Little white flowers, all round the bench._  
+_Snowdrops! Little white flowers, all round the bench._  
 _Some are in very silly places!_  
 
 > **Lesson** (maths, K.CC.B.5, do): count to 6  
@@ -533,7 +533,7 @@ _Linnet is at the top of the steps. They are deep in snow._
 _You dig in the snow. Linnet is the boss._  
 **Linnet**: Longer! Not steeper. LONGER!  
 _The ramp is done. Down goes Linnet. Whoosh!_  
-_Snowdrops! Pop, pop! Little white flowers, all round the bench._  
+_Snowdrops! Little white flowers, all round the bench._  
 
 #### `sprout:s26-mum` · [main](../../../side/S26.md#s26-mum)
 

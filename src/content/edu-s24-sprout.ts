@@ -130,7 +130,7 @@ const TEA_OPEN: Line[] = [
   NO('Hello. Today I thought I’d stop, and sit with her.', 'soft'),
 ];
 const TEA_SIT = N('Nova sits down by the flower. Her big bag stays on her back.');
-const TEA_RUN = N('Your Nubbin runs to Nova. Whee! Then back to you. Then Nova again!');
+const TEA_RUN = N('Your Nubbin runs to Nova. Then back to you. Then to Nova again!');
 const TEA_CLOSE: Line[] = [
   NO('Is there tea? I always say no. Today I’ll say yes, please!', 'happy'),
 ];

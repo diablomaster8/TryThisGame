@@ -1787,7 +1787,7 @@ const Q11 = quest(
       'q11-complete',
       [
         CR('Ah. That always happens. Lovely.', 'happy'),
-        N('Pop! He sweeps the confetti into a neat pile.'),
+        N('He sweeps the confetti into a neat pile.'),
         CR('For you. My own recipe: thin slices.'),
         CR('One slice fills a Nubbin to just full. Never too full.', 'think'),
         GB('More?', 'happy'),
@@ -2614,7 +2614,7 @@ const Q17 = quest(
       'q17-learned',
       [
         N('Step, bow, boop. Step, bow, boop.'),
-        N('Your rubber fish goes squeak every time.'),
+        N('Your rubber fish squeaks every time.'),
         PI('Good. Very good. Your wrist is a bit too keen.', 'think'),
         GR('Keen wrists end up in the water.'),
       ],
@@ -2806,7 +2806,7 @@ const Q18 = quest(
       'q18-pineapple',
       [
         SG('And now. The big one.', 'think'),
-        N('Pop! Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!'),
+        N('Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!'),
         SG('The pineapple. Spiky. Heavy. A bit of a show-off.'),
         SG('Don’t fight it. Make it your friend.'),
         Y('How?'),

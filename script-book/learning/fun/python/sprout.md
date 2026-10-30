@@ -1339,7 +1339,7 @@ _Gorbold bobs in the pool, normal-sized, blinking._
 #### `sprout:q11-complete` · [main](../../../fun/python.md#q11-complete)
 
 **Mr Crisp**: Ah. That always happens. Lovely.  
-_Pop! He sweeps the confetti into a neat pile._  
+_He sweeps the confetti into a neat pile._  
 **Mr Crisp**: For you. My own recipe: thin slices.  
 **Mr Crisp**: One slice fills a Nubbin to just full. Never too full.  
 **Gorbold**: More?  
@@ -1937,7 +1937,7 @@ _Nobody smiles. It’s strangely beautiful._
 #### `sprout:q17-learned` · [main](../../../fun/python.md#q17-learned)
 
 _Step, bow, boop. Step, bow, boop._  
-_Your rubber fish goes squeak every time._  
+_Your rubber fish squeaks every time._  
 
 > **Lesson** (science, 4-LS1-1, notice): how fish breathe  
 > **Mr Grampus**: Real fish live in the water.  
@@ -2085,7 +2085,7 @@ _The Nubbin with the empty bowl eats one of yours._
 #### `sprout:q18-pineapple` · [main](../../../fun/python.md#q18-pineapple)
 
 **Sergeant Grimble**: And now. The big one.  
-_Pop! Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!_  
+_Under a cloth sits a huge, spiky pineapple. Wearing sunglasses!_  
 **Sergeant Grimble**: The pineapple. Spiky. Heavy. A bit of a show-off.  
 **Sergeant Grimble**: Don’t fight it. Make it your friend.  
 **You**: How?  

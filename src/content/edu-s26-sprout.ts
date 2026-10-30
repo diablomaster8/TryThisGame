@@ -938,7 +938,7 @@ const S26: EduQuest = {
         N('Linnet’s tracks go through the door and down the ramp.'),
         N('Linnet is by the bench. The robin sits on her knee.'),
         L('You took ages! Look! LOOK!', 'happy'),
-        N('Snowdrops! Pop, pop! Little white flowers, all round the bench.'),
+        N('Snowdrops! Little white flowers, all round the bench.'),
         N('Some are in very silly places!'),
         L('Your Nubbin hid those. And they all came up!', 'happy'),
         L('I came in all by myself. Nobody had to help.', 'soft'),
@@ -1344,7 +1344,7 @@ const S26_VARIANTS: EduScene[] = [
       N('You dig in the snow. Linnet is the boss.'),
       L('Longer! Not steeper. LONGER!', 'think'),
       N('The ramp is done. Down goes Linnet. Whoosh!'),
-      N('Snowdrops! Pop, pop! Little white flowers, all round the bench.'),
+      N('Snowdrops! Little white flowers, all round the bench.'),
     ],
     [
       {

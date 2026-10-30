@@ -191,7 +191,7 @@ const S27_SCENES: EduScene[] = [
     [
       TA('That’s Nine. It’s the smallest. It always comes last.', 'think'),
       TA('I’m Hob. I feed them. I’m not meant to whistle.'),
-      N('Hob fills Nine’s bowl. Plop! Nine doesn’t look round.'),
+      N('Hob fills Nine’s bowl. Nine doesn’t look round.'),
       TA('Soon there’s a big race. The Autumn Show.', 'sad'),
       TA('A runner who doesn’t win a ribbon gets sold.'),
       TA('A man takes it far away. It won’t come back here.'),

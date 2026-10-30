@@ -34,7 +34,7 @@ _Here comes Nova, with a great big bag. She lives in the valley now._
 _But she still walks past everything, very fast._  
 **Nova**: Hello. Today I thought I’d stop, and sit with her.  
 _Nova sits down by the flower. Her big bag stays on her back._  
-_Your Nubbin runs to Nova. Whee! Then back to you. Then Nova again!_  
+_Your Nubbin runs to Nova. Then back to you. Then to Nova again!_  
 **Nova**: Is there tea? I always say no. Today I’ll say yes, please!  
 
 #### `sprout:s24-tea-moss` · [main](../../../side/S24.md#s24-tea-moss)
