@@ -271,6 +271,11 @@ export interface Nubbin {
   battle?: NubbinBattle;
   /** Lane C: the tactical grid's Jump and Move (MOVE-61); reserved, empty by default. */
   combat?: NubbinCombat;
+  /**
+   * Lane C r9 (R0594): where a questline's Nubbin lives after its line ended and the Keeper let
+   * it stay (`fold`, `server`...). Unset: the Grove. Optional; no save bump.
+   */
+  home?: string;
 }
 
 export type ItemKind = 'fruit' | 'toy' | 'notebook';
@@ -442,6 +447,12 @@ export interface QuestEntry {
   offeredMs: number;
   acceptedMs: number | null;
   declines: number;
+  /** Lane C r9 (R0652): when a windowed offer ends (sim ms), if it has a window. */
+  expiresMs?: number;
+  /** Lane C r9 (R0652): a lapse story whose window passed unanswered; it is let go. */
+  expired?: boolean;
+  /** Lane C r9 (R0655): shelved because Mature content was lowered below its rating. */
+  audienceHeld?: boolean;
 }
 
 /** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
@@ -458,6 +469,8 @@ export interface QuestBook {
   here: string | null;
   /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
+  /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
+  areaOfferMs?: Record<string, number>;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -1265,6 +1278,8 @@ export type Command =
   | { kind: 'questTrack'; id: string; on: boolean }
   // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
   | { kind: 'debugQuestOffer'; id: string }
+  // Lane C r9 (R0594): at a line's end, bring one of its Nubbins home or let it stay.
+  | { kind: 'lineCastHome'; line: string; nubbinId: string; home: boolean }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1560,6 +1575,11 @@ export type SimEvent =
   | { kind: 'areaEntered'; area: string }
   | { kind: 'questOffered'; quest: string; area: string }
   | { kind: 'questAtCap'; quest: string; active: string[] }
+  // Lane C r9: a windowed offer passed (R0652); a line's rewards (R0639); its cast's choice (R0594).
+  | { kind: 'questExpired'; quest: string; lapsed: boolean }
+  | { kind: 'lineReward'; line: string; shells: number; keepsake: string; grove: string }
+  | { kind: 'lineCastChoice'; line: string; cast: string[] }
+  | { kind: 'lineCastChose'; line: string; nubbinId: string; home: boolean; ok: boolean }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }

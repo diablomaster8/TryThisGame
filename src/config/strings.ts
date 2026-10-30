@@ -1535,3 +1535,5 @@ export * from './strings-fun';
 export * from './strings-tech';
 export * from './strings-kids';
 export * from './strings-camp';
+export * from './strings-camp9';
+export * from './strings-camp9r';

@@ -73,6 +73,7 @@ import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
 import { acceptQuest, debugOffer, declineQuest, shelveQuest, trackQuest } from './quest-offers';
+import { chooseCastHome } from './line-rewards';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -1148,6 +1149,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'debugQuestOffer':
       debugOffer(world, cmd.id, events);
+      return;
+    // Lane C r9 (R0594): an ended line's Nubbin comes home or stays where the line lives.
+    case 'lineCastHome':
+      chooseCastHome(world, cmd.line, cmd.nubbinId, cmd.home, events);
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.
