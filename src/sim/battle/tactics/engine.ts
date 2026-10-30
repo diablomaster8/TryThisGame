@@ -52,6 +52,8 @@ export interface UnitSeed {
   bonus?: string;
   friends?: Record<string, number>;
   ward?: boolean;
+  /** Merged partners (FIGHT-57): one two-tile-tall unit. */
+  tall?: boolean;
   phases?: TUnit['phases'];
   /** The Keeper's piece (FIGHT-66) and the snacks it packed. */
   keeper?: boolean;
@@ -117,6 +119,7 @@ export function createTactics(o: TacticsSetup): TacticsState {
       extraSlot: seed.extraSlot ?? false,
       order: 0,
       ...(seed.ward ? { ward: true } : {}),
+      ...(seed.tall ? { tall: true } : {}),
       ...(seed.keeper ? { keeper: true, snacks: seed.snacks ?? 0 } : {}),
       ...(seed.friends ? { friends: seed.friends } : {}),
       ...(seed.bonus ? { bonus: seed.bonus } : {}),

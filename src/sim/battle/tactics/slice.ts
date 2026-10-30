@@ -15,7 +15,7 @@ import { createTactics, tacticsAct, tacticsForfeit } from './engine';
 import { mapFromFloor } from './map';
 import { TILE, type GridMap, type TacticsAction } from './types';
 import { keeperSeed } from './keeper-unit';
-import { unitFromLevels, unitFromNubbin } from './units';
+import { partyUnits, unitFromLevels } from './units';
 import './ai';
 import { GUARDIAN_SOURCE, markStoryBout } from '../story-bouts';
 import { grantKeepsake } from '../rewards';
@@ -74,12 +74,8 @@ export function startRumble(world: World, events: SimEvent[], o: RumbleOptions =
   const near =
     o.near ?? (room ? { x: room.x + room.w / 2, y: room.y + room.h / 2 } : { x: 0, y: 0 });
   const map = slimTerrain(mapFromFloor(floor, near, rng, S.size));
-  const allies = ids.map((id) =>
-    unitFromNubbin(
-      world.nubbins.find((n) => n.id === id)!,
-      world,
-    ),
-  );
+  // Merged partners stand as one tall unit (FIGHT-57).
+  const allies = partyUnits(world, ids);
   // The Keeper walks the board beside its Nubbins (FIGHT-66) unless a caller leaves it out.
   const withKeeper = o.keeper !== false;
   const avg = Math.round(allies.reduce((s, u) => s + u.c.level, 0) / allies.length);

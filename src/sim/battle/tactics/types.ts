@@ -79,6 +79,8 @@ export interface TUnit {
   order: number;
   /** A protected unit (the escort critter): foes never aim at it and it is never tuckered. */
   ward?: boolean;
+  /** Merged partners (FIGHT-57): one unit, drawn two tiles tall. */
+  tall?: boolean;
   /** The Keeper's piece (FIGHT-66): untargetable, blocks nobody, never counts for the result. */
   keeper?: boolean;
   snacks?: number;

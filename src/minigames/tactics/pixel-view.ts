@@ -317,8 +317,10 @@ export class TacticsPixelView implements TacticsBoardView {
       (sheet.frames.get(frameKey(clip, angle, frameAt(CLIPS[clip], now))) ??
         sheet.frames.get(frameKey('idle', 'front', 0)));
     if (sheet && rect) {
-      const w = rect.w / PX;
-      const h = rect.h / PX;
+      // Merged partners (FIGHT-57) stand two tiles tall.
+      const tall = u.tall ? 2 : 1;
+      const w = (rect.w / PX) * tall;
+      const h = (rect.h / PX) * tall;
       const image = sheet.texture.image as HTMLCanvasElement;
       ctx.save();
       if (out) ctx.globalAlpha = 0.6;

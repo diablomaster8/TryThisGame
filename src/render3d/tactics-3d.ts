@@ -413,6 +413,9 @@ export class Tactics3dView implements TacticsBoardView {
       if (rig && !view.compiling) {
         rig.group.position.copy(p);
         rig.group.visible = true;
+        // Merged partners (FIGHT-57) stand about two tiles tall.
+        const base = (rig.group.userData.baseScale ??= rig.group.scale.x) as number;
+        rig.group.scale.setScalar(base * (u.tall ? 1.8 : 1));
         rig.setPose(
           out
             ? 'sleep'
@@ -426,7 +429,7 @@ export class Tactics3dView implements TacticsBoardView {
         rig.animate(now / 1000);
       }
       const share = Math.max(0, u.c.hp / u.c.maxHp);
-      view.bar.group.position.set(p.x, p.y + 1.7, p.z);
+      view.bar.group.position.set(p.x, p.y + (u.tall ? 3 : 1.7), p.z);
       view.bar.fill.scale.x = 0.9 * share;
       view.bar.group.visible = !out;
     }

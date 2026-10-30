@@ -9,7 +9,7 @@ import { createTactics } from './tactics/engine';
 import { keeperSeed } from './tactics/keeper-unit';
 import { mapFromRows } from './tactics/map';
 import type { Objective } from './tactics/types';
-import { unitFromLevels, unitFromNubbin } from './tactics/units';
+import { partyUnits, unitFromLevels } from './tactics/units';
 import './tactics/ai';
 
 /**
@@ -242,7 +242,10 @@ export function startStoryTactics(
   const authored = BATTLE_STORY_MAPS[row.map];
   if (!authored) return false;
   const map = mapFromRows(authored.rows, authored.heights);
-  const allies = nubbins.map((n) => unitFromNubbin(n, world));
+  const allies = partyUnits(
+    world,
+    nubbins.map((n) => n.id),
+  );
   const avg = Math.round(allies.reduce((s, u) => s + u.c.level, 0) / allies.length);
   const level = Math.max(row.level, avg);
   const foes = row.foes.map((f, i) => {

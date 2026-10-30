@@ -111,3 +111,19 @@ describe('pass-and-play friendly bouts (recs FIGHT-96)', () => {
     expect(w.battleOnce?.keepsakes).toContain(FRIENDLY_STICKER);
   });
 });
+
+describe('merged partners on the tactics board (recs FIGHT-57)', () => {
+  it('come as one two-tile-tall unit with both names', async () => {
+    const { startRumble } = await import('../../src/sim/battle/tactics/slice');
+    const w = grove(3);
+    for (const n of w.nubbins) n.stage = 'adult';
+    const [a, b] = w.nubbins;
+    w.merge = { a: a!.id, b: b!.id, untilMs: w.timeMs + 60_000 } as World['merge'];
+    expect(startRumble(w, [], { ids: w.nubbins.map((n) => n.id), keeper: false })).toBe(true);
+    const allies = w.tactics!.units.filter((u) => u.c.side === 0);
+    expect(allies.length).toBe(2);
+    const tall = allies.find((u) => u.tall)!;
+    expect(tall.c.name).toContain(a!.name);
+    expect(tall.c.name).toContain(b!.name);
+  });
+});
