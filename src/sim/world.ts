@@ -71,6 +71,7 @@ import { applyCampaignCommand, noteCampaign, stepCampaign } from './campaign';
 import { noteSideCommand } from './side-stories';
 import { noteCampaignEvents } from './storyline';
 import { abandonLine, noteLineEvents, stepLineQueue, stepStoryBook } from './story-book';
+import { acceptQuest, declineQuest, shelveQuest, trackQuest } from './quest-offers';
 import { langStart, langTraced, noteWord } from './lang';
 import { stepNpcs } from './npcs';
 import { separateBodies } from './separation';
@@ -1081,6 +1082,19 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'lineAbandon':
       // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.
       abandonLine(world, cmd.line);
+      return;
+    // Lane C r8 (R0602): the Open quest flow's answers (sim/quest-offers.ts).
+    case 'questAccept':
+      if (world.campaign) acceptQuest(world, world.campaign, cmd.id, cmd.shelve, events);
+      return;
+    case 'questDecline':
+      if (world.campaign) declineQuest(world, world.campaign, cmd.id);
+      return;
+    case 'questShelve':
+      shelveQuest(world, cmd.id);
+      return;
+    case 'questTrack':
+      trackQuest(world, cmd.id, cmd.on);
       return;
     case 'storyProp':
       // Nothing to change in the world: the side-story runner reads it in applyCommand.

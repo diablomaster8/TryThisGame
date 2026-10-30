@@ -382,6 +382,38 @@ export interface Settings {
   bouts?: 'play' | 'gentle' | 'skip';
   /** Lane C round 5: "Steady hands" (FIGHT-79), a fixed ×1.1 in place of the timing ring. */
   steadyHands?: boolean;
+  /**
+   * Lane C round 8 (R0602, R0664): `open` offers stories and capers where they happen, to accept
+   * or put off; `guided` (unset) pushes them as before. Optional; no save bump.
+   */
+  questFlow?: QuestFlow;
+}
+
+/** Lane C round 8: how side stories and capers reach the Keeper (sim/quest-offers.ts). */
+export type QuestFlow = 'open' | 'guided';
+
+/** Lane C round 8 (R0602): one quest's place in the Open flow. Done and closed live in campaign. */
+export interface QuestEntry {
+  state: 'offered' | 'declined' | 'active' | 'shelved';
+  /** The area it was offered in (`region/poi`). */
+  area: string;
+  offeredMs: number;
+  acceptedMs: number | null;
+  declines: number;
+}
+
+/** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
+export interface QuestBook {
+  v: 1;
+  entries: Record<string, QuestEntry>;
+  /** The offer on the card now, if any. */
+  offer: { quest: string; area: string; atMs: number } | null;
+  /** Quest ids pinned to the objective chip (R0609), at most QUESTS.trackCap. */
+  tracked: string[];
+  /** Areas entered (R0596's `areas`). */
+  areas: Record<string, { firstMs: number; lastMs: number; visits: number }>;
+  /** The area the Keeper stands in now (`region/poi`), or null between them. */
+  here: string | null;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -935,6 +967,8 @@ export interface World {
    * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
    */
   lines: Record<string, CampaignState>;
+  /** Lane C round 8 (R0602): the Open quest flow's offers; absent in the Guided flow. */
+  questBook?: QuestBook;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1137,6 +1171,11 @@ export type Command =
   | { kind: 'storyAct'; label: string; line?: string }
   /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
   | { kind: 'lineAbandon'; line: string }
+  // Lane C round 8 (R0602): the Open quest flow. Accept may name an active quest to shelve.
+  | { kind: 'questAccept'; id: string; shelve?: string }
+  | { kind: 'questDecline'; id: string }
+  | { kind: 'questShelve'; id: string }
+  | { kind: 'questTrack'; id: string; on: boolean }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1395,6 +1434,10 @@ export type SimEvent =
   | { kind: 'chapter'; chapter: number; line?: string }
   /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
   | { kind: 'lineEnded'; line: string; ending: string }
+  // Lane C round 8 (R0602): an area entered, an offer made, and accepting at the cap.
+  | { kind: 'areaEntered'; area: string }
+  | { kind: 'questOffered'; quest: string; area: string }
+  | { kind: 'questAtCap'; quest: string; active: string[] }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
