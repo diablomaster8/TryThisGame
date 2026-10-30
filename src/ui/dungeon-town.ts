@@ -14,7 +14,7 @@ import { serviceHere } from '../sim/dungeon-towns';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
 import { GEAR_TEXT, HOLLOW_R6_TEXT } from '../config/strings';
-import { LOOT } from '../config/dungeon-loot';
+import { LOOT, RARITIES } from '../config/dungeon-loot';
 import { basketPrice, basketSlots } from '../sim/dungeon-gamble';
 import { gearGlyph, gearName } from './dungeon-gear';
 
@@ -137,7 +137,12 @@ export class TownPanel {
       // R0174: the gear stash, shared by every camp; overflow from the satchel lands here.
       const stash = world.gear?.stash ?? [];
       this.content.appendChild(el('h3', undefined, HOLLOW_R6_TEXT.stashTitle(stash.length)));
-      for (const item of stash)
+      // Rarest first (by shape), then by slot.
+      const order = RARITIES.map((r) => r.id as string).reverse();
+      const sorted = [...stash].sort(
+        (a, b) => order.indexOf(a.rarity) - order.indexOf(b.rarity) || a.slot.localeCompare(b.slot),
+      );
+      for (const item of sorted)
         row(
           `${gearGlyph(item)} ${gearName(item)}`,
           GEAR_TEXT.rarity[item.rarity] ?? '',
