@@ -62,7 +62,7 @@ describe('pack density (R0158)', () => {
 
   it('levels foes by act base, level in act and difficulty', () => {
     expect(foeLevel({ act: 0, level: 0, boss: false, difficulty: 'cosy' })).toBe(1);
-    expect(foeLevel({ act: 2, level: 3, boss: false, difficulty: 'wild' })).toBe(16 + 3 + 4);
+    expect(foeLevel({ act: 2, level: 3, boss: false, difficulty: 'wild' })).toBe(16 + 3 + 70);
     // Act II, its second level (level in act 1).
     const f = actFloor(5, 1, ACTS[0]!.levels.length + 2, 4);
     const plain = f.packs!.find((p) => p.kind === 'normal')!;

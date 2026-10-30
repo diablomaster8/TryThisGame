@@ -4,6 +4,8 @@ import { button, dialogFocus, el } from './dom';
 import { awayDiary } from '../sim/away-diary';
 import { AWAY_SHORT } from '../config/strings-fun-r5';
 import { toastBand } from './fun-toasts';
+import { awayStories } from './away-stories';
+import { AWAY_STORIES_TEXT } from '../config/strings-camp';
 import '../fun.css';
 
 /** "While you were away": what the catch-up did, shown once per return. */
@@ -92,6 +94,12 @@ export class AwayScreen {
     // R0316 (FUN-27): the diary, which also stands in for "Everyone was quiet."
     for (const line of awayDiary(report, world, toastBand(world), world.rngState))
       this.list.appendChild(el('li', 'away-diary', line));
+    // Lane C r8 (R0632): where each story stands; nothing played or offered while away.
+    const stories = awayStories(world);
+    if (stories.length > 0) {
+      this.list.appendChild(el('li', 'away-stories-head', AWAY_STORIES_TEXT.head));
+      for (const line of stories) this.list.appendChild(el('li', 'away-stories', line));
+    }
     this.root.hidden = false;
     this.focus.opened();
   }

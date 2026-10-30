@@ -7,11 +7,14 @@ import { KEEPER_JUMP_FX, KEEPER_SLOPE, POND_DIP, ROLL } from '../config/tuning-m
 import { hillHeight } from '../sim/terrain';
 import { rustleWild } from './wild';
 import { TapMarks3D } from './tap-marks';
+import { HeldRing3D } from './held-ring-3d';
 import { Footfall } from '../render/footfall';
 import type { EmoteShape } from '../render/sprites/emote';
 import type { SceneStager } from '../render/scene-stage';
 import { frameKey } from '../render/sprites/animations';
 import { emoteFor } from '../render/world-view';
+import { emoteScale } from '../render/emote-size';
+import { UI } from '../config/tuning';
 import type { PoseName, Rigged } from '../samples/species';
 import type { Floor } from '../sim/dungeon';
 import type { Interaction, Location, Nubbin, Vec2, World } from '../sim/types';
@@ -22,7 +25,13 @@ import { EmoteSprings } from '../render/emote-spring';
 import { EMOTE_SPRING, PERSONA_WADDLE, SWIM_STYLE } from '../config/tuning-look';
 import { swimStyle } from '../render/swim-style';
 import { cocoonPulse } from '../render/sprites/cocoon';
-import { PetBeats, type PetBeatPose } from '../render/pet-reactions';
+import {
+  landBeatFor,
+  PET_BEAT_BURST,
+  PetBeats,
+  petBeatFor,
+  type PetBeatPose,
+} from '../render/pet-reactions';
 import { QuadCloud } from './quad-particles';
 import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
@@ -127,8 +136,10 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'pet':
       return 'pet';
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never asleep.
+    case 'shelter':
+      return moving ? walk() : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (the rig's stock `sit`); a low or hungry sitter is sad.
@@ -275,6 +286,8 @@ export class Actors {
   private readonly wadeRipple: WadeRipple;
   /** MOVE-44: the tap walk's footprint dots and target ring. */
   private readonly tapMarks: TapMarks3D;
+  /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
+  private readonly heldRing: HeldRing3D;
   /** MOVE-46: footstep sounds by surface (3D draws no prints). */
   private readonly footfall = new Footfall();
   private readonly glow: MergedGlow;
@@ -336,6 +349,7 @@ export class Actors {
     // per frame.
     for (const shadow of [false, true]) this.addEmoteSheet(shadow);
     this.tapMarks = new TapMarks3D(this.group);
+    this.heldRing = new HeldRing3D(this.group);
     this.hopCourse = new HopCourse3D(this.group);
     this.fernCairn = new FernCairn3D(this.group);
     this.highlight = new THREE.Mesh(
@@ -467,6 +481,8 @@ export class Actors {
 
   /** Reduced motion: the tap sparkle is three glints that hold still (the scene sets it). */
   calm = false;
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  emoteBig = false;
 
   sparkle(x: number, z: number, y: number, nowMs: number): void {
     const n = this.calm ? 3 : 8;
@@ -550,6 +566,20 @@ export class Actors {
   petBeat(id: string, action: Interaction, ok: boolean, nowMs: number): void {
     this.petBeats.queue(id, action, ok, nowMs);
   }
+
+  /** R0536: a favourite or disliked fruit was eaten; its beat plays from the next frame. */
+  tasteBeat(id: string, taste: 'yum' | 'bleh', nowMs: number): void {
+    this.petBeats.queueKind(id, taste, nowMs);
+  }
+
+  /** R0551: a pet or a throw's landing, played by personality. */
+  handledBeat(id: string, what: 'petted' | 'landed', nowMs: number): void {
+    this.petBeats.queueKind(id, what === 'petted' ? petBeatFor : landBeatFor, nowMs);
+  }
+
+  /** Lane A r8: the scene's particle hook for the idle looks' bursts (puddles, fireflies). */
+  beatBurst: ((kind: 'heart' | 'dust' | 'sparkle' | 'note', x: number, z: number) => void) | null =
+    null;
 
   /** A reaction bubble over a Nubbin until `untilMs` (the pixel view's rule and timing). */
   react(id: string, shape: EmoteShape, untilMs: number): void {
@@ -930,6 +960,7 @@ export class Actors {
     const keeper = world.keeper;
     this.world = world;
     noteJumpToyWorld(world, this.calm);
+    this.heldRing.update(world, nowMs, this.calm, this.ground);
     this.hopCourse.update(world, alpha, nowMs, this.calm);
     this.fernCairn.update(world, this.ground);
     this.pool.frame();
@@ -978,10 +1009,12 @@ export class Actors {
           ? null
           : signatureAt(n.id, n.species, nowMs, this.calm);
       // MOVE-57: a Nubbin at play on a spring mushroom bounces on its cap (drawn only).
-      const y =
+      const y = Math.max(
         lerp(a.prev.y, n.y, alpha) +
-        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
-        (fly?.y ?? 0);
+          (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+          (fly?.y ?? 0),
+        this.heldRing.ring.lowerY(n.id, nowMs),
+      );
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
@@ -1012,9 +1045,14 @@ export class Actors {
         a.swLean = sw?.lean ?? 0;
         a.swEmote = sw?.doze ? (sw.bubble > 0 ? 'ball' : 'zz') : null;
         // FUN-09: a pet action's own beat over the sim's reaction (its pose; scale below).
+        this.petBeats.calm = this.calm;
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        if (beat?.fresh && this.beatBurst) {
+          const k = PET_BEAT_BURST[beat.kind];
+          if (k) this.beatBurst(k, n.pos.x, n.pos.z);
+        }
         // LOOK-50: held, it hugs (love), dangles (idle) or flails (surprised) by affection;
         // the dangle's and flail's limb swing goes on after the pose below.
         const hm =
@@ -1211,7 +1249,14 @@ export class Actors {
             pop?.kind === 'squash' ? pop.startMs : null,
           );
           a.emote.position.set(ball.x, ball.y, ball.z);
-          a.emote.scale.set(0.5 * ball.sx, 0.5 * ball.sy, 1);
+          // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
+          const es = emoteScale(
+            this.emoteBig,
+            bubble ? nowMs - (bubble.untilMs - UI.bubbleMs) : null,
+            this.calm,
+          );
+          a.emote.position.y += (es - 1) * 0.25;
+          a.emote.scale.set(0.5 * ball.sx * es, 0.5 * ball.sy * es, 1);
         } else a.emote.position.set(x, gy + y + 1.2, z);
       }
     }
@@ -1428,6 +1473,7 @@ export class Actors {
     this.rippleGeo.dispose();
     this.wadeRipple.dispose();
     this.rippleMat.dispose();
+    this.heldRing.dispose();
     this.highlight.geometry.dispose();
     (this.highlight.material as THREE.Material).dispose();
     this.sparkCloud.dispose();

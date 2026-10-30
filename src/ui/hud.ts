@@ -1,4 +1,5 @@
 import { CAMERA, GROVE, INPUT, UI } from '../config/tuning';
+import { clearShift } from '../render/view-shift';
 import { rideToast } from './ride-toasts';
 import { RUN_MODE } from '../config/tuning-move';
 import { ACTS } from '../config/dungeon-acts';
@@ -51,13 +52,15 @@ import {
   setSfxVolume,
   setSoundEnabled,
 } from '../platform/audio';
+import { playHollowCue } from '../platform/audio';
+import { hollowCueFor } from './hollow-sounds';
 import { localHour, phaseAt } from '../render/daylight';
 import type { Nubbin } from '../sim/types';
 import { AwayScreen } from './away-screen';
 import { askResume, setBattleDialogue } from './battle-scenes';
 import { liveBattleSong } from './battle-sfx';
 import { Celebration } from './celebration';
-import { DebugPanel } from './debug-panel';
+import type { DebugPanel } from './debug-panel';
 import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { Guide } from './guide';
@@ -111,6 +114,7 @@ import {
   SIT_TEXT,
 } from '../config/strings-fun-r7';
 import { mossReaction } from './moss-watch';
+import { soulSound, soulToast } from './soul-toasts';
 import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
@@ -126,7 +130,8 @@ import { TEN_TEXT, STAT_LABELS } from '../config/strings';
 import { petToast } from '../config/strings-look';
 import { toastBeat } from '../render/pet-reactions';
 import { EDU_TEXT } from '../config/strings';
-import { HAT_LABELS, HOLLOW_R6_TEXT } from '../config/strings';
+import { HAT_LABELS, HOLLOW_R6_TEXT, HOLLOW_R7_TEXT } from '../config/strings';
+import { clockText } from '../sim/dungeon-log';
 import { eduBreakActive, eduBreakShouldStart } from '../sim/edu';
 import { speciesOf } from '../sim/species';
 import { PhotoMode } from './photo';
@@ -146,6 +151,7 @@ import { askRift } from './rift-confirm';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
+import { OfferCard } from './offer-card';
 import { storylineById } from '../sim/story-scenes';
 import { UI_FX_TEXT } from '../config/strings-ui';
 import { TOASTS } from '../config/tuning-ui';
@@ -155,6 +161,11 @@ import { mountMinimap } from './minimap';
 import { mountWalkTuck } from './walk-tuck';
 import { mountBeacon } from './beacon-arrow';
 import { mountLandmarkCard } from './landmark-card';
+import { mountBackupOffer } from './backup-offer';
+import { buzz, hapticFor } from '../platform/haptics';
+import { noteEventKinds } from '../platform/bug-log';
+import { keysHintDone, watchKeysHint } from './keys-hint';
+import { watchOnline } from './offline-chip';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -197,12 +208,13 @@ export function mountHud(
     'btn btn-icon',
   );
   settingsBtn.setAttribute('aria-label', UI_TEXT.settings);
-  // Learning Grove: sound on/off stays one tap away for a child, outside the grown-up gate.
+  // Sound on/off stays one tap away, outside Settings and the Learning Grove's grown-up gate
+  // (TECH-23: for everyone now). A long press opens Settings for the volume sliders.
   const soundBtn = button(
     '🔊',
     () => {
       const g = game();
-      if (!g?.world.edu) return;
+      if (!g) return;
       const on = !g.world.settings.sound;
       g.send({ kind: 'setSettings', settings: { ...g.world.settings, sound: on, music: on } });
       setSoundEnabled(on);
@@ -210,8 +222,11 @@ export function mountHud(
     },
     'btn btn-icon',
   );
-  soundBtn.hidden = true;
   soundBtn.setAttribute('aria-label', UI_TEXT.sound);
+  soundBtn.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    if (!game()?.world.edu) settings.open();
+  });
   const keeperBtn = button('☀', () => trainers.open(), 'btn btn-icon');
   keeperBtn.setAttribute('aria-label', UI_TEXT.trainers);
   keeperBtn.title = UI_TEXT.trainers;
@@ -471,7 +486,12 @@ export function mountHud(
   const away = new AwayScreen(root);
   // The debug panel only mounts in dev builds, or in a production build opened with `?debug`.
   const debugEnabled = import.meta.env.DEV || new URLSearchParams(location.search).has('debug');
-  const debug = debugEnabled ? new DebugPanel(root, game, () => sheet.selectedId) : null;
+  // TECH-04: loaded only when enabled, so players never download it or its 3D stage inspector.
+  let debug: DebugPanel | null = null;
+  if (debugEnabled)
+    void import('./debug-panel').then((m) => {
+      debug = new m.DebugPanel(root, game, () => sheet.selectedId);
+    });
   // Lane C: reopen a rumble saved mid-battle or started elsewhere (recs FIGHT-65), on demand.
   window.setInterval(() => {
     const t = game()?.world.tactics;
@@ -515,6 +535,11 @@ export function mountHud(
   mountBeacon(root, game, () => map.open());
   // R0107: the landmark name card.
   const landmarkCard = mountLandmarkCard(root);
+  // TECH-03: a week in with no export, offer a backup file once.
+  mountBackupOffer(root, game);
+  watchKeysHint();
+  // TECH-80: say so when the game is offline.
+  watchOnline(toast);
   const edu = new EduScreen(root, game, toast);
   // r1025 items 3 and 4: what to do next, and the Learning Grove's story prompt.
   const objective = new ObjectiveChip(
@@ -726,7 +751,9 @@ export function mountHud(
       shop,
       expedition,
       sheet,
-      debug,
+      get debug() {
+        return debug;
+      },
       races,
       roster,
       dialogue,
@@ -940,7 +967,8 @@ export function mountHud(
         const nubbinGags = new NubbinGags(root);
         g.framePollers.push(() => nubbinGags.update(g));
       }
-      carry.hidden = !carrying;
+      // TECH-17: the sheet covers the chip, so it hides while the sheet is open.
+      carry.hidden = !carrying || !sheet.root.hidden;
       if (carrying) {
         const n = g.world.nubbins.find((x) => x.id === carrying);
         carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
@@ -1025,7 +1053,9 @@ export function mountHud(
       for (const b of moreList.querySelectorAll<HTMLElement>('.not-edu')) b.hidden = isEdu;
       // The keyboard hint is for grown-up desktops, not for a 3-year-old's screen.
       const keysHint = root.querySelector<HTMLElement>('.keys-hint');
-      if (keysHint && keysHint.hidden !== isEdu) keysHint.hidden = isEdu;
+      // TECH-60: gone for good once the keys have been used.
+      const keysOff = isEdu || keysHintDone();
+      if (keysHint && keysHint.hidden !== keysOff) keysHint.hidden = keysOff;
       // R0678 / R0679 (lane E r7): the sprout band's simple HUD of big picture buttons; the
       // grown-up controls hide (style.css, `body.edu-sprout`). Readers keep the full HUD.
       const sprout = isEdu && g.world.edu?.band === 'sprout';
@@ -1046,8 +1076,8 @@ export function mountHud(
         festivalsFor = g;
         announceFestivals(g, toast);
       }
-      soundBtn.hidden = !isEdu;
-      if (isEdu) soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
       if (isEdu) {
         const now = Date.now();
         // R0724: a round, scene or tracing still open finishes first (within a grace).
@@ -1081,6 +1111,7 @@ export function mountHud(
         kidNotices.flush();
         // R0729: the chip would repeat the chapter card while it is up.
         objective.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
+        offerCard.refresh(busy || eduPrompt.isOpen || !!g.placing || titleCardUp());
       }
       // A language quest's tracing step opens its game once its scene has played (bug 31).
       if (
@@ -1098,10 +1129,12 @@ export function mountHud(
         const runner = pickRunner();
         if (runner) g.send({ kind: 'playingWith', nubbinId: runner.id });
       }
-      // The phone's stats sheet is a bottom sheet: lift the view so the Nubbin stays in sight.
-      g.cameraLift = !sheet.root.hidden && window.innerWidth < 720 ? CAMERA.sheetLift : 0;
-      // On desktop the sheet docks on the right third: aim past it so the Nubbin stays clear.
-      g.cameraSide = !sheet.root.hidden && window.innerWidth >= 720 ? CAMERA.sheetSide : 0;
+      // HOT-1: with the stats sheet open the camera centres on its Nubbin in the part of the
+      // screen the sheet leaves clear (a bottom sheet on a phone, docked right on a desktop),
+      // measured from the sheet itself rather than a fixed share of the view.
+      g.cameraLift = 0;
+      g.cameraSide = 0;
+      g.sheetFocus = sheetFocusFor(sheet.root, sheet.selectedId, g.canvas.getBoundingClientRect());
       hollowBout.update();
       g.storySpeaker = dialogue.speaker;
       g.storyLine = dialogue.line;
@@ -1184,16 +1217,29 @@ export function mountHud(
 
   // Lane C r7 (R0624): the Home Screen card and the backup chip.
   const backupNudge = new BackupNudge(root, game);
+  // Lane C r8 (R0606): the Open quest flow's offer card and its folded chip.
+  const offerCard = new OfferCard(root, game, (t) => toast(t));
   const hooks: GameHooks = {
     onEvents(events: SimEvent[]) {
       const g = game();
       if (!g) return;
       setSoundEnabled(g.world.settings.sound);
       curiosities.onEvents(events);
+      noteEventKinds(events);
+      // TECH-15: a buzz for the moments that have one.
+      for (const e of events) {
+        const h = hapticFor(e);
+        if (h)
+          buzz(h, g.world.settings, document.documentElement.classList.contains('reduce-motion'));
+      }
       backupNudge.onEvents(events);
+      offerCard.onEvents(events);
       for (const e of events) {
         // R0319: the chip's how-to steps tick off on their events.
         noteHowTo(g.world, e.kind);
+        // R0199 (lane B r7): the Hollow's encounter cues.
+        const cue = hollowCueFor(e, g.world);
+        if (cue) playHollowCue(cue);
         // R0351: a shaken egg says a muffled "hey" from inside; the foot gag squeaks.
         if (e.kind === 'eggShaken') playSound(e.foot ? 'squeak' : 'eggHey');
         // R0531: the personality locks in: a line on the evolution card, with the reason.
@@ -1208,6 +1254,11 @@ export function mountHud(
         // R0353: Moss saw that.
         const moss = mossReaction(g.world, e);
         if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());
+        // Lane A r8: a first taste reaction, a grumpy refusal, a moody look cleared.
+        const soul = soulToast(g.world, e);
+        if (soul) toast(soul);
+        const soulSnd = soulSound(e);
+        if (soulSnd) playSound(soulSnd);
         // R0352: rule three, noticed once a Nubbin sits down beside the sitting Keeper.
         if (e.kind === 'sitBeside') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
@@ -1460,9 +1511,36 @@ export function mountHud(
         } else if (e.kind === 'packBeaten') {
           // Monster packs (lane B, R0146).
           toast(HOLLOW_TEXT.packBeaten(e.shells));
-          playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
+        } else if (e.kind === 'speedSplit') {
+          // Lane B round 7: speed runs (R0187).
+          const d =
+            e.delta === undefined
+              ? ''
+              : HOLLOW_R7_TEXT.delta(e.delta <= 0, clockText(Math.abs(e.delta)));
+          toast(HOLLOW_R7_TEXT.split(e.n, clockText(e.ms), d));
+        } else if (e.kind === 'speedFinish') {
+          toast(HOLLOW_R7_TEXT.finish(clockText(e.ms), e.best));
+        } else if (e.kind === 'hollowWearable') {
+          // Lane B round 7: a boss's keepsake (R0206).
+          toast(
+            HOLLOW_R7_TEXT.wearableGiven(
+              HOLLOW_R7_TEXT.wearables[e.id as keyof typeof HOLLOW_R7_TEXT.wearables] ?? e.id,
+            ),
+          );
+        } else if (e.kind === 'hollowTier' || e.kind === 'hollowTierOpened') {
+          // Lane B round 7: difficulty tiers (R0179).
+          const name = HOLLOW_R7_TEXT.tiers[e.tier].name;
+          toast(
+            e.kind === 'hollowTier'
+              ? HOLLOW_R7_TEXT.tierPicked(name)
+              : HOLLOW_R7_TEXT.tierOpened(name),
+          );
+        } else if (e.kind === 'picnicRest' || e.kind === 'picnicTent' || e.kind === 'deepBottom') {
+          // Lane B round 7: Gran's Picnic (R0204).
+          toast(HOLLOW_R7_TEXT[e.kind]);
+          if (e.kind === 'picnicRest') playSound('buy');
         } else if (e.kind === 'packFled') {
           toast(HOLLOW_TEXT.packFled);
         } else if (e.kind === 'strayShooed') {
@@ -1475,7 +1553,6 @@ export function mountHud(
           // Lane B round 3: shrines (R0159).
           const k = SHRINE_TEXT.kinds[e.shrine];
           if (k) toast(SHRINE_TEXT.used(k.name, k.does));
-          playSound('buy');
         } else if (e.kind === 'shrineFaded') {
           const k = SHRINE_TEXT.kinds[e.shrine];
           if (k) toast(SHRINE_TEXT.faded(k.name));
@@ -1567,7 +1644,6 @@ export function mountHud(
           // Lane B round 2: waypoints, new paths and the Homing Acorn.
         } else if (e.kind === 'waypointActivated') {
           toast(HOLLOW_TEXT.waypointActivated);
-          playSound('pickup');
         } else if (e.kind === 'waypointArrived') {
           toast(HOLLOW_TEXT.waypointArrived);
         } else if (e.kind === 'actsRerolled') {
@@ -1907,4 +1983,21 @@ function cantReachToast(
   const n = e.targetId ? g.world.nubbins.find((x) => x.id === e.targetId) : undefined;
   toast(UI_FX_TEXT.cantReach(n?.name ?? UI_FX_TEXT.cantReachThere));
   return true;
+}
+
+/** HOT-1: the sheet's Nubbin and where it should sit, from the sheet's box over the canvas. */
+function sheetFocusFor(
+  root: HTMLElement,
+  id: string | null,
+  canvas: { left: number; top: number; width: number; height: number },
+): Game['sheetFocus'] {
+  if (root.hidden || !id || canvas.width <= 0) return null;
+  const r = root.getBoundingClientRect();
+  const box = {
+    left: r.left - canvas.left,
+    top: r.top - canvas.top,
+    right: r.right - canvas.left,
+    bottom: r.bottom - canvas.top,
+  };
+  return { id, shift: clearShift(canvas.width, canvas.height, box) };
 }

@@ -6,6 +6,7 @@
  * not ours (extensions), are logged but never shown.
  */
 import { ERRORS } from '../config/tuning';
+import { noteError } from './bug-log';
 
 /** Messages browsers raise that are not the game's fault and need no notice. */
 const BENIGN = [/ResizeObserver loop/i, /^Script error\.?$/i];
@@ -31,6 +32,7 @@ export function watchErrors(
     if (logged < ERRORS.maxLogged) {
       logged += 1;
       console.error(`Grove: ${what}`, err);
+      noteError(what, err);
     }
     if (quiet || notices >= ERRORS.maxNotices) return;
     const t = now();

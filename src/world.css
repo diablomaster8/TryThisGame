@@ -351,3 +351,36 @@
   opacity: 0.85;
   padding: 2px 4px;
 }
+
+/* R0122 (WORLD-55): map overlay layers and the completion ring. */
+.wm-layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0;
+}
+.wm-layers .wm-layer {
+  min-height: 44px;
+}
+.wm-layer-line {
+  margin: 2px 0 6px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+.wm-ring {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: conic-gradient(#8fe0a8 calc(var(--pct, 0) * 1%), rgba(255, 255, 255, 0.2) 0);
+  -webkit-mask: radial-gradient(circle, transparent 3px, #000 4px);
+  mask: radial-gradient(circle, transparent 3px, #000 4px);
+}
+.wm-chip.wm-spot {
+  min-width: 0;
+  min-height: 0;
+  padding: 0 4px;
+  pointer-events: none;
+}

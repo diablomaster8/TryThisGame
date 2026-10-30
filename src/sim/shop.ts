@@ -145,6 +145,7 @@ export function buy(
         pos: freeSpot(world, rng),
         y: 0,
         vel: { x: 0, y: 0, z: 0 },
+        bornMs: world.timeMs,
       });
       break;
     }

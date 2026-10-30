@@ -252,6 +252,17 @@ export interface Nubbin {
   lastShakeMs: number;
   /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
   eggShakes?: number;
+  // Lane A r8 (SOUL), optional with defaults, no save bump:
+  /** R0536: which of its likes the Keeper has seen it react to (the sheet shows "?" till then). */
+  tasteSeen?: { yum?: true; bleh?: true; toy?: true };
+  /** R0532: how long it has been content while moody (care softens the look). */
+  moodyCalmMs?: number;
+  /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
+  toyBoredom?: Record<string, { v: number; at: number }>;
+  /** R0563: what it did lately (sim/diary.ts), newest last, at most five. */
+  /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
+  missing?: string[];
+  diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -274,6 +285,8 @@ export interface Item {
   toy?: ToyKind;
   /** Fruit: a stat or alignment flavour, or plain. */
   flavor?: Flavor;
+  /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
+  bornMs?: number;
 }
 
 export interface Tree {
@@ -367,8 +380,16 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
+  haptics?: boolean;
+  /** TECH-27: the root text size. Unset: 1.15 in the read-aloud band, else 1 (ui/text-scale.ts). */
+  textScale?: number;
   /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
   slapstick?: 'full' | 'gentle' | 'off';
+  /** R0549 (lane A r8): draw mood bubbles 1.5×; unset follows the Learning Grove (on there). */
+  bigBubbles?: boolean;
+  /** R0593 (lane A r8): quirk and antic rate; unset is normal (lively for sprouts). */
+  liveliness?: 'calm' | 'normal' | 'lively';
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
@@ -403,6 +424,40 @@ export interface Settings {
   bouts?: 'play' | 'gentle' | 'skip';
   /** Lane C round 5: "Steady hands" (FIGHT-79), a fixed ×1.1 in place of the timing ring. */
   steadyHands?: boolean;
+  /**
+   * Lane C round 8 (R0602, R0664): `open` offers stories and capers where they happen, to accept
+   * or put off; `guided` (unset) pushes them as before. Optional; no save bump.
+   */
+  questFlow?: QuestFlow;
+}
+
+/** Lane C round 8: how side stories and capers reach the Keeper (sim/quest-offers.ts). */
+export type QuestFlow = 'open' | 'guided';
+
+/** Lane C round 8 (R0602): one quest's place in the Open flow. Done and closed live in campaign. */
+export interface QuestEntry {
+  state: 'offered' | 'declined' | 'active' | 'shelved';
+  /** The area it was offered in (`region/poi`). */
+  area: string;
+  offeredMs: number;
+  acceptedMs: number | null;
+  declines: number;
+}
+
+/** Lane C round 8 (R0602): the Open flow's book of offers, beside `world.campaign`. */
+export interface QuestBook {
+  v: 1;
+  entries: Record<string, QuestEntry>;
+  /** The offer on the card now, if any. */
+  offer: { quest: string; area: string; atMs: number } | null;
+  /** Quest ids pinned to the objective chip (R0609), at most QUESTS.trackCap. */
+  tracked: string[];
+  /** Areas entered (R0596's `areas`). */
+  areas: Record<string, { firstMs: number; lastMs: number; visits: number }>;
+  /** The area the Keeper stands in now (`region/poi`), or null between them. */
+  here: string | null;
+  /** R0670: telemetry-free play counts, kept in the save for pacing by hand. */
+  stats?: { offered: number; accepted: number; declined: number; shelved: number };
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -680,6 +735,9 @@ export interface DungeonWild {
   species: string;
   pos: Vec2;
   scanned: boolean;
+  /** R0198: a nursery nook's baby, and how long the Keeper has waited quietly by it. */
+  nook?: true;
+  quietMs?: number;
 }
 
 /** One run into the Hollow Below; the floor itself comes from the seed and depth. */
@@ -731,7 +789,12 @@ export interface DungeonRun {
    * A fight in progress; `bout` is `world.battleRuns` once the battle core took it on, so an
    * old bout with the same key is never mistaken for this one.
    */
-  encounter?: { packId: string; bout?: number };
+  encounter?: {
+    packId: string;
+    bout?: number;
+    /** R0196: where the Keeper and the party stood when it began, to put them back after. */
+    at?: { keeper: Vec2; party: Record<string, Vec2> };
+  };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
@@ -769,6 +832,16 @@ export interface DungeonRun {
   /** R0211: when the current level began, and fights on it. */
   levelStartMs?: number;
   levelFights?: number;
+  // Lane B round 7.
+  /** R0204: level ids whose picnic is had (newest last), the time on the rug so far, and the
+   * tent's "safe to close" note shown while the Keeper stands there. */
+  /** R0187: speed-run splits so far (sim ms since the run began, one per level gone down). */
+  splits?: number[];
+  /** R0179: this act run's tier (absent: Cosy). */
+  difficulty?: 'brisk' | 'wild';
+  picnics?: string[];
+  picnicMs?: number;
+  tentNoted?: true;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -811,6 +884,8 @@ export interface DungeonPack {
   asleep?: true;
   /** R0203: the tiptoe bonus for this pack is paid. */
   tiptoed?: true;
+  /** R0200: when it last gave up a chase (a "?" on the way home); absent before. */
+  gaveUpMs?: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -998,6 +1073,8 @@ export interface World {
    * play through `campaign.queue` (sim/story-book.ts). Empty in a separate-campaign save.
    */
   lines: Record<string, CampaignState>;
+  /** Lane C round 8 (R0602): the Open quest flow's offers; absent in the Guided flow. */
+  questBook?: QuestBook;
   weather: Weather;
   /** From the real calendar, updated each live step. */
   season: Season;
@@ -1064,6 +1141,8 @@ export interface World {
   team: TeamState | null;
   /** Curfew by the real clock. */
   night: boolean;
+  /** R0535 (SOUL-17): dawn, day, dusk or night, from the curfew's wall clock; unset = day. */
+  phase?: 'dawn' | 'day' | 'dusk' | 'night';
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
@@ -1099,6 +1178,20 @@ export interface World {
     today?: { day: string; deepest: number; bestMs: number; finds: number };
     /** R0211: rolling tuning numbers, never shown to players. */
     stats?: HollowStats;
+    // Lane B round 7 (optional, no save bump).
+    /** R0179: the tier picked for act runs (absent: Cosy), the tiers opened, and the progress
+     * of the tiers not in play (the main fields hold the one in play). */
+    difficulty?: 'brisk' | 'wild';
+    tiersOpen?: Array<'brisk' | 'wild'>;
+    tierSaves?: Partial<
+      Record<
+        'cosy' | 'brisk' | 'wild',
+        { acts: ActProgress[]; waypoints: string[]; bossChests: number[] }
+      >
+    >;
+    /** R0187: the speed-run toggle, and the best time and splits per act and tier ("0:cosy"). */
+    speedRun?: boolean;
+    records?: Record<string, { bestMs: number; splits: number[] }>;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1182,7 +1275,8 @@ export type Command =
   | { kind: 'debugForceEvolve'; nubbinId: string }
   | { kind: 'debugForceEndOfLife'; nubbinId: string }
   | { kind: 'debugHatchNow'; nubbinId: string }
-  | { kind: 'campaignStart' }
+  // Lane C r8 (R0602): `flow` sets the quest flow as the story begins (a new game plays Open).
+  | { kind: 'campaignStart'; flow?: QuestFlow }
   | { kind: 'sceneDone'; scene: string; choice: string | null }
   /** R0322: the tap toy's beats (a surprised face for hiccups, a dizzy one for the sneeze). */
   | { kind: 'tapToy'; nubbinId: string; beat: 'hiccup' | 'sneeze' }
@@ -1201,6 +1295,13 @@ export type Command =
   | { kind: 'storyAct'; label: string; line?: string }
   /** Lane C round 7 (R0643): leave a questline running beside Hazel's Grove; the Grove keeps its cast. */
   | { kind: 'lineAbandon'; line: string }
+  // Lane C round 8 (R0602): the Open quest flow. Accept may name an active quest to shelve.
+  | { kind: 'questAccept'; id: string; shelve?: string }
+  | { kind: 'questDecline'; id: string }
+  | { kind: 'questShelve'; id: string }
+  | { kind: 'questTrack'; id: string; on: boolean }
+  // Lane C r8 (R0644): QA puts any quest on the offer card, wherever the Keeper is.
+  | { kind: 'debugQuestOffer'; id: string }
   /** S2's party bout finished in the panel (sim/party-bout.ts). */
   | { kind: 'partyBoutResult'; won: boolean; tier: number; shells: number }
   /** S3's fusion of the two partners into one (sim/fusion.ts). */
@@ -1345,6 +1446,8 @@ export type Command =
   | { kind: 'packSneak'; packId: string }
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowSpeedRun'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1480,6 +1583,19 @@ export type SimEvent =
       cause: PersonalityCause;
     }
   | { kind: 'sitBeside'; nubbinId: string }
+  /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */
+  | { kind: 'fruitTaste'; nubbinId: string; taste: 'yum' | 'bleh'; first?: true }
+  | { kind: 'moodyCleared'; nubbinId: string; was: 'grumpy' | 'sleepy' }
+  | { kind: 'highFiveRefused'; nubbinId: string }
+  /** R0542: a Sun Nubbin patted a sad one; a Moon one said boo to another. */
+  | { kind: 'comforted'; nubbinId: string; markId: string }
+  | { kind: 'pranked'; nubbinId: string; markId: string }
+  /** R0551: a plain pet landed (the renderers play it by personality). */
+  | { kind: 'petted'; nubbinId: string }
+  /** R0539: a missed buddy came back and the two hugged. */
+  | { kind: 'reunion'; a: string; b: string }
+  /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1490,6 +1606,10 @@ export type SimEvent =
   | { kind: 'chapter'; chapter: number; line?: string }
   /** Lane C round 7 (R0600): a questline beside Hazel's Grove reached its own ending. */
   | { kind: 'lineEnded'; line: string; ending: string }
+  // Lane C round 8 (R0602): an area entered, an offer made, and accepting at the cap.
+  | { kind: 'areaEntered'; area: string }
+  | { kind: 'questOffered'; quest: string; area: string }
+  | { kind: 'questAtCap'; quest: string; active: string[] }
   | { kind: 'ending'; ending: string }
   | { kind: 'lanternLit'; id: string }
   | { kind: 'lanternOut'; id: string }
@@ -1616,6 +1736,15 @@ export type SimEvent =
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
   | { kind: 'partyGiggles'; packId: string }
+  // Lane B round 7: Gran's Picnic (R0204).
+  | { kind: 'picnicRest' }
+  | { kind: 'picnicTent' }
+  | { kind: 'deepBottom' }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowTierOpened'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowWearable'; id: string }
+  | { kind: 'speedSplit'; n: number; ms: number; delta?: number }
+  | { kind: 'speedFinish'; ms: number; best: boolean; was?: number }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }

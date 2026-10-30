@@ -29,6 +29,7 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
+import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
 import type { OrbitCamera } from './camera';
@@ -50,7 +51,8 @@ import { NATIVE_PPU, SpriteBatch } from './sprite-batch';
 import { EmoteSprings } from './emote-spring';
 import { swimClip, swimStyle } from './swim-style';
 import { cocoonPulse } from './sprites/cocoon';
-import { PET_BEAT_BURST, PetBeats } from './pet-reactions';
+import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactions';
+import { bigBubbles, emoteScale } from './emote-size';
 import { SWIM_CLIPS } from './sprites/chao';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
@@ -60,6 +62,7 @@ import { CLIPS, frameAt, frameKey, type ClipName } from './sprites/animations';
 import { viewAngle } from './sprites/angles';
 import type { FrameRect, SpriteSheet } from './sprites/atlas';
 import { bubbleFor, type EmoteShape } from './sprites/emote';
+import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet } from './sprites/props';
 import { SheetCache } from './sprites/sheets';
 import { JUMP_TOY_SIZE, jumpToySheet, shroomSquash } from './scenery-jump';
@@ -69,6 +72,7 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
+import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
@@ -136,6 +140,8 @@ export class WorldView {
   }
   readonly sheets = new SheetCache();
   readonly particles = new Particles();
+  /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
+  private emoteBig = false;
   /** LOOK-16: each Nubbin's emote ball on its spring. */
   private readonly emoteSprings = new EmoteSprings();
   /** FUN-09: each Nubbin's pet-action beat. */
@@ -153,6 +159,8 @@ export class WorldView {
   private readonly bushShakes = new Map<string, number>();
   /** MOVE-44: the tap walk's footprint dots and target marker. */
   private readonly tapPath = new TapPath();
+  /** TECH-02: the ring under a held Nubbin and the ease down after a place. */
+  private readonly heldRing = new HeldRing();
   /** MOVE-46: the Keeper's footfalls, by surface. */
   private readonly footfall = new Footfall();
   private tufts = 0;
@@ -465,6 +473,16 @@ export class WorldView {
       }
       // FUN-09: each pet action queues its own beat over the sim's reaction.
       if (e.kind === 'interacted') this.petBeats.queue(e.nubbinId, e.action, e.ok, nowMs);
+      // R0536: a favourite or disliked fruit plays its own beat.
+      if (e.kind === 'fruitTaste') this.petBeats.queueKind(e.nubbinId, e.taste, nowMs);
+      // R0551: a pet and a throw's landing play out by personality.
+      if (e.kind === 'petted') this.petBeats.queueKind(e.nubbinId, petBeatFor, nowMs);
+      if (e.kind === 'landed') this.petBeats.queueKind(e.nubbinId, landBeatFor, nowMs);
+      // R0532: a grumpy refusal huffs.
+      if (e.kind === 'highFiveRefused') {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.bubble = { shape: 'puff', untilMs: nowMs + UI.bubbleMs };
+      }
       if (e.kind !== 'reaction') continue;
       const v = this.nubbins.get(e.nubbinId);
       if (!v) continue;
@@ -546,6 +564,8 @@ export class WorldView {
   }
 
   update(world: World, camera: OrbitCamera, alpha: number, nowMs: number): void {
+    // R0549 (lane A r8): mood bubbles read on a phone at the far zoom, or when set big.
+    this.emoteBig = camera.currentZoomIndex === 0 || bigBubbles(world);
     const yaw = camera.currentYaw;
     const batch = this.batch;
     batch.begin(yaw, camera.pitch);
@@ -571,6 +591,27 @@ export class WorldView {
         opacity: 0.35 * Math.max(0.3, 1 - y * 0.2),
       });
     };
+
+    // TECH-02: under a held Nubbin, a ring that turns green when letting go would be a place.
+    this.heldRing.frame(world, nowMs, this.particles.reduceMotion);
+    const hr = this.heldRing.spot;
+    if (hr) {
+      const rs = this.sheets.get('tech:heldRing', buildHeldRingSheet);
+      const rect = rs.frames.get(frameKey(hr.gentle ? 'heldRingGentle' : 'heldRing', 'front', 0));
+      if (rect)
+        batch.draw({
+          sheet: rs,
+          rect,
+          flip: false,
+          x: hr.x,
+          y: HELD_RING.lift,
+          z: hr.z,
+          mode: 'flat',
+          w: HELD_RING.radius * 2,
+          h: HELD_RING.radius * 2,
+          opacity: hr.gentle ? 0.95 : 0.7,
+        });
+    }
 
     const home = this.location === 'grove';
     // An exclusive stage (campaign graphics C3, C4) draws only its set: no Grove scenery,
@@ -1872,12 +1913,14 @@ export class WorldView {
         ? signatureAt(n.id, n.species, nowMs, this.particles.reduceMotion)
         : null;
     // On a hill mark, stand on the terrace (the sim's Nubbin is on flat ground).
-    const y =
+    const y = Math.max(
       lerp(v.prev.y, n.y, alpha) +
-      (held && this.location === 'grove' ? terraceY(x, z) : 0) +
-      (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
-      (fly?.y ?? 0) +
-      (sig?.dy ?? 0);
+        (held && this.location === 'grove' ? terraceY(x, z) : 0) +
+        (shroomHopY(world, n, world.timeMs - (1 - alpha) * SIM.stepMs) ?? 0) +
+        (fly?.y ?? 0) +
+        (sig?.dy ?? 0),
+      this.heldRing.lowerY(n.id, nowMs),
+    );
 
     let key: string;
     let flip = false;
@@ -2052,6 +2095,7 @@ export class WorldView {
     }
 
     // FUN-09: a pet action's own beat over the sim's reaction: its frame, squash and nudge.
+    this.petBeats.calm = this.particles.reduceMotion;
     const beat = n.stage === 'egg' || n.stage === 'cocoon' ? null : this.petBeats.frame(n, nowMs);
     if (beat?.clip) {
       const angle = key.split(':')[1] ?? 'front';
@@ -2228,16 +2272,22 @@ export class WorldView {
           1 / NATIVE_PPU,
           v.pop?.kind === 'squash' ? v.pop.startMs : null,
         );
+        // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
+        const es = emoteScale(
+          this.emoteBig,
+          v.bubble ? nowMs - (v.bubble.untilMs - UI.bubbleMs) : null,
+          this.particles.reduceMotion,
+        );
         this.batch.draw({
           sheet: emotes,
           rect: erect,
           flip: false,
           x: ball.x,
-          y: ball.y,
+          y: ball.y + ((es - 1) * erect.h) / NATIVE_PPU / 2,
           z: ball.z,
           mode: 'billboard',
-          w: (erect.w / NATIVE_PPU) * ball.sx,
-          h: (erect.h / NATIVE_PPU) * ball.sy,
+          w: (erect.w / NATIVE_PPU) * ball.sx * es,
+          h: (erect.h / NATIVE_PPU) * ball.sy * es,
         });
       }
     }
@@ -2276,8 +2326,10 @@ export function clipFor(n: Nubbin): string {
       return swimClip(n);
     // The pose table follows the 3D one (`render3d/actors.ts`, `poseFor`).
     case 'nap':
-    case 'shelter':
       return 'sleep';
+    // R0534: sheltering walks to its tree, then huddles (a sit, eyes open), never the sleep pose.
+    case 'shelter':
+      return n.behavior.target ? 'walk' : 'sit';
     case 'eat':
       return 'eat';
     // LOOK-20: the Chao sit, legs out (a sheet without the clip stands idle); a low or hungry sitter is sad.
@@ -2341,8 +2393,17 @@ const HELD_CLIPS: Record<HeldMood, string> = {
 export function emoteFor(n: Nubbin): EmoteShape {
   const mood = moodOf(n);
   if (n.behavior.state === 'nap') return 'zz';
+  // TECH-01: a new hatchling asks for its first fruit.
+  if (wantsFirstFruit(n)) return 'fruit';
+  // R0532 (lane A r8): a harrumph huffs.
+  if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
-  if (n.behavior.state === 'perform') return n.behavior.itemId === 'visitFlower' ? 'heart' : 'star';
+  if (n.behavior.state === 'perform') {
+    // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
+    const id = n.behavior.itemId ?? '';
+    if (id.startsWith('prank:')) return 'spiky';
+    return id === 'visitFlower' || id.startsWith('comfort:') ? 'heart' : 'star';
+  }
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
   if (n.species !== 'chao' && mood === 'content') return 'none';

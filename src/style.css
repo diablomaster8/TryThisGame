@@ -3224,6 +3224,63 @@ select {
   color: #e8a33c;
 }
 
+/* Lane B round 7: the Hollow's difficulty tiers at the cave mouth (R0179). */
+.hollow-tiers {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 4px 0;
+}
+.hollow-tiers .hollow-tier {
+  min-height: 44px;
+  min-width: 44px;
+  flex: 1 1 0;
+  font-size: 1rem;
+}
+.hollow-tiers .hollow-tier[aria-pressed='true'] {
+  outline: 3px solid #ffd84a;
+  font-weight: bold;
+}
+
+/* TECH-17: the stats sheet's header stays in view while its body scrolls, and a handle
+   grows a phone's short sheet to most of the screen and back. */
+.sheet-head {
+  position: sticky;
+  top: -10px;
+  z-index: 1;
+  margin: -10px -12px 0;
+  padding: 10px 12px 6px;
+  background: rgba(13, 10, 26, 0.96);
+}
+.sheet-handle {
+  display: none;
+}
+@media (max-width: 719px) {
+  .sheet-handle {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 24px;
+    margin: -6px 0 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: ns-resize;
+    touch-action: none;
+  }
+  .sheet-handle::before {
+    content: '';
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: 8px auto;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.45);
+  }
+  .sheet.sheet-tall {
+    max-height: 85%;
+  }
+}
 /* Lane E r7, R0671: the Learning Grove's kid-safe sound sheet (ui/kid-sheet.ts). */
 .kid-sheet .modal-body {
   display: flex;
@@ -3910,3 +3967,180 @@ body.edu-sprout .modal-head .btn-close {
 .album-kept { position: absolute; top: 2px; right: 4px; }
 .album-big { width: 100%; image-rendering: pixelated; }
 .memorial-photo { display: block; width: 128px; margin: 6px auto; image-rendering: pixelated; border: 3px solid #f4ecd8; }
+
+/* Lane C r8 (R0606): the Open quest flow's offer card, a bottom sheet, and its folded chip. */
+.offer-card {
+  pointer-events: auto;
+  position: absolute;
+  left: 50%;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: min(420px, calc(100% - 32px));
+  max-height: 60vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(26, 21, 48, 0.95);
+  color: #fff;
+  z-index: 55;
+}
+.offer-card .offer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.8em;
+}
+.offer-card .offer-tag,
+.offer-card .offer-badge,
+.offer-card .offer-size,
+.offer-card .offer-reward {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.offer-card .offer-badge {
+  background: #7a2d3a;
+}
+.offer-card .offer-title {
+  margin: 6px 0 2px;
+  font-size: 1.1em;
+}
+.offer-card .offer-from,
+.offer-card .offer-lapse {
+  margin: 2px 0;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
+.offer-card .offer-pitch {
+  margin: 6px 0;
+}
+.offer-card .offer-rewards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 0.85em;
+}
+.offer-card .offer-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+.offer-card .offer-buttons .btn,
+.offer-card .offer-shelve .btn {
+  min-height: 48px;
+  flex: 1;
+}
+.offer-card .offer-shelve {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.offer-chip {
+  pointer-events: auto;
+  position: absolute;
+  right: 12px;
+  bottom: calc(140px + env(safe-area-inset-bottom, 0px));
+  min-height: 44px;
+  max-width: 60%;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #e0b13a;
+  color: #1a1530;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  z-index: 50;
+}
+.journal-board h4 {
+  margin: 8px 0 4px;
+}
+.journal-board .journal-line .btn {
+  min-height: 44px;
+}
+/* Lane C r8 (R0609): the objective chip's count and its arrow to the next tracked goal. */
+.objective-count {
+  align-self: center;
+  font-size: 11px;
+  opacity: 0.8;
+}
+.objective-cycle {
+  pointer-events: auto;
+  position: absolute;
+  /* Just above the chip's left end, where the thumb already is. */
+  left: calc(var(--safe-left) + 12px);
+  bottom: calc(var(--hud-bottom) + 132px);
+  z-index: 12;
+  min-width: 44px;
+  min-height: 44px;
+  color: inherit;
+  font: inherit;
+  font-size: 20px;
+  background: rgba(13, 10, 26, 0.78);
+  border: 1px solid var(--hud-border);
+  border-radius: 10px;
+}
+
+/* Lane A r8 (SOUL): the likes row and moody chip on the stats sheet. */
+.soul-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 0 0 6px;
+  font-size: 0.85em;
+}
+.soul-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}
+.soul-chip.unknown {
+  opacity: 0.7;
+}
+.soul-chip.moody {
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  padding: 2px 6px;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+}
+.soul-help {
+  flex-basis: 100%;
+  opacity: 0.85;
+}
+.soul-recently {
+  margin: 0 0 6px;
+  font-size: 0.85em;
+}
+.soul-recently ul {
+  margin: 2px 0 0;
+  padding-left: 18px;
+}
+
+/* R0579 (lane A r8): the roster's personality chip and filter row. */
+.roster-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.roster-filter-chip {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.roster-filter-chip[aria-pressed='true'] {
+  outline: 2px solid currentColor;
+}
+.roster-personality {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.9em;
+}
+.roster-personality.forming {
+  opacity: 0.7;
+}

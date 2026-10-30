@@ -248,7 +248,8 @@ describe('a run', () => {
     expect(world.inventory.fruit).toBe(0);
     expect(world.town.recruits.length).toBe(1);
     expect(run.strays.includes(s)).toBe(false);
-    // Without fruit the ask is refused.
+    // Without fruit, and nobody with the puff to shoo it (R0162), the ask is refused.
+    for (const n of world.nubbins) n.needs.energy = 0;
     const none: SimEvent[] = [];
     if (run.strays[0]) {
       applyCommand(world, { kind: 'feedStray', id: run.strays[0].id }, none);

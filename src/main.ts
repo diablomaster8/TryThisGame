@@ -267,7 +267,10 @@ function boot(
       const other = storyline === 'dawn' ? 'dusk' : storyline === 'dusk' ? 'dawn' : null;
       const flags = other && storylineFinished('dawndusk', other) ? { 'dd-other-done': true } : {};
       game.send({ kind: 'storylineStart', id: storyline, flags });
-    } else game.send({ kind: 'campaignStart' });
+    } else {
+      // Lane C r8 (R0602): a new Hazel's Grove plays the Open quest flow; older saves keep Guided.
+      game.send({ kind: 'campaignStart', flow: 'open' });
+    }
   }
   if (eduAge) game.send({ kind: 'eduStart', age: eduAge.age, band: eduAge.band });
   // The time away is made up now, in slices the indicator can paint between; story scenes

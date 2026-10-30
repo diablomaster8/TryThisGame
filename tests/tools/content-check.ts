@@ -1016,6 +1016,8 @@ console.log(
   ),
 );
 console.log(problems.slice(0, 60).join('\n'));
+// TECH-10: a problem fails the run, so CI and the deploy stop on it.
+if (problems.length > 0) process.exitCode = 1;
 if (process.argv.includes('--warnings')) console.log(warnings.join('\n'));
 // R0309 (FUN-20): the joke-density report (tests/tools/comedy-report.ts), on request.
 if (process.argv.includes('--comedy')) console.log(comedyReport());

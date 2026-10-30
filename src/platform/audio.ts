@@ -1295,3 +1295,56 @@ export function playChirp(family: 'chao' | 'pocket' | 'digi', happy = true): voi
     // Audio problems must never break the game.
   }
 }
+
+// ---------------------------------------------------------------- Hollow cues (lane B r7)
+
+/**
+ * R0199 (DUNG-56): the Hollow's encounter cues, all synthesised here like every other sound,
+ * muted until the first tap and under the sound setting like the rest. `drop:<rarity>` rises
+ * with the tier (a tick, a ting, two notes, an arpeggio, a chord); `boss:<act>` is a short
+ * sting on its own root for each act.
+ */
+export type HollowCue =
+  | 'notice'
+  | 'poof'
+  | 'shrine'
+  | 'waypoint'
+  | `drop:${'plain' | 'shiny' | 'fancy' | 'legendary' | 'set'}`
+  | `boss:${number}`;
+
+export function playHollowCue(cue: HollowCue): void {
+  if (!sfxEnabled || !unlocked || !ctx) return;
+  try {
+    if (cue === 'notice') {
+      tone(1400, 0, 60, 'square', 0.035);
+      tone(1800, 70, 80, 'square', 0.03);
+    } else if (cue === 'poof') {
+      tone(300, 0, 260, 'sine', 0.05, 1200);
+      for (let i = 0; i < 3; i++) tone(1800 + i * 300, 200 + i * 60, 50, 'triangle', 0.025);
+    } else if (cue === 'shrine') {
+      tone(220, 0, 700, 'sine', 0.04);
+      tone(330, 80, 620, 'sine', 0.025);
+    } else if (cue === 'waypoint') {
+      tone(180, 0, 380, 'triangle', 0.05, 900);
+      tone(900, 300, 200, 'sine', 0.025, 1300);
+    } else if (cue === 'drop:plain') {
+      tone(1000, 0, 30, 'square', 0.025);
+    } else if (cue === 'drop:shiny') {
+      tone(1760, 0, 140, 'triangle', 0.04);
+    } else if (cue === 'drop:fancy') {
+      tone(1175, 0, 90, 'triangle', 0.05);
+      tone(1568, 90, 160, 'triangle', 0.05);
+    } else if (cue === 'drop:legendary') {
+      [784, 988, 1175, 1568].forEach((f, i) => tone(f, i * 70, 160, 'triangle', 0.05));
+    } else if (cue === 'drop:set') {
+      for (const f of [523, 659, 784, 1047]) tone(f, 0, 600, 'triangle', 0.035);
+    } else if (cue.startsWith('boss:')) {
+      const root = [110, 98, 123, 87, 73][Number(cue.slice(5))] ?? 110;
+      tone(root, 0, 500, 'sawtooth', 0.05);
+      tone(root * 1.5, 120, 380, 'sawtooth', 0.04);
+      tone(root * 2, 260, 520, 'square', 0.035, root * 1.89);
+    }
+  } catch {
+    // As above.
+  }
+}

@@ -10,11 +10,13 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { SHEET_TEXT } from '../config/strings-tech';
 import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
 import { PersonalityChip } from './personality-chip';
+import { RecentlyBox, SoulRow } from './soul-row';
 import { birthmarkOf } from '../render/birthmark';
 import { bandOf, childHint } from '../sim/alignment';
 import { dayCount } from '../sim/curfew';
@@ -76,6 +78,10 @@ export class StatsSheet {
   private readonly caption: HTMLDivElement;
   /** R0522: the personality chip (a child's leaning) and its card. */
   private readonly personality = new PersonalityChip();
+  /** Lane A r8: likes, dislikes, the favourite toy and a moody chip. */
+  private readonly soul = new SoulRow();
+  /** R0563: the "Recently" lines. */
+  private readonly recent = new RecentlyBox();
   private readonly host: HTMLElement;
 
   constructor(
@@ -94,6 +100,27 @@ export class StatsSheet {
     const close = button('×', () => this.close(), 'btn btn-close');
     close.setAttribute('aria-label', UI_TEXT.close);
     head.append(this.name, this.subtitle, close);
+    // TECH-17: on a phone a handle above the header grows the sheet (tap, or drag up/down).
+    let dragY: number | null = null;
+    let dragged = false;
+    const handle = button(
+      '',
+      () => {
+        if (!dragged) this.root.classList.toggle('sheet-tall');
+        dragged = false;
+      },
+      'sheet-handle',
+    );
+    handle.setAttribute('aria-label', SHEET_TEXT.grow);
+    handle.addEventListener('pointerdown', (e) => (dragY = e.clientY));
+    handle.addEventListener('pointerup', (e) => {
+      if (dragY === null) return;
+      const dy = e.clientY - dragY;
+      dragY = null;
+      dragged = Math.abs(dy) > 24;
+      if (dragged) this.root.classList.toggle('sheet-tall', dy < 0);
+    });
+    head.prepend(handle);
     this.caption = el('div', 'sheet-caption');
     this.caption.hidden = true;
 
@@ -233,6 +260,8 @@ export class StatsSheet {
       this.personality.root,
       this.personality.forming,
       this.personality.details,
+      this.soul.root,
+      this.recent.root,
       needs,
       stats,
       this.actions,
@@ -334,6 +363,8 @@ export class StatsSheet {
     this.subtitle.textContent = subtitleFor(n, world);
     this.personality.update(n);
     this.personality.meter(n, toastBand(world) === 'sprout');
+    this.soul.update(n);
+    this.recent.update(world, n);
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);

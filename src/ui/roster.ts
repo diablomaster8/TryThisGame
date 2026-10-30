@@ -16,13 +16,19 @@ import { frameKey } from '../render/sprites/animations';
 import { bandOf, childHint } from '../sim/alignment';
 import { rosterNubbins, storyNubbin } from '../sim/roster';
 import { levelOf } from '../sim/stats';
-import { STAT_KEYS, type Nubbin } from '../sim/types';
+import { STAT_KEYS, type Nubbin, type Personality } from '../sim/types';
 import { button, el, modal } from './dom';
 import { Wardrobe } from './wardrobe';
 import { RARITY_TEXT, WARDROBE_TEXT } from '../config/strings-look';
 import { RARITY } from '../config/tuning';
 import { rarityOf } from '../render/rarity';
 import { decodeNubbin, encodeNubbin } from '../sim/share';
+import { PERSONALITY_CHIP_TEXT } from '../config/strings-fun-r7';
+import { ROSTER_FILTER_TEXT } from '../config/strings-soul-r8';
+import { leaningPersonality } from '../sim/personality';
+import { personalityIcon } from './personality-chip';
+
+const PERSONALITIES: readonly Personality[] = ['cheerful', 'shy', 'mischievous', 'lazy'];
 
 /**
  * The roster: every Nubbin with a portrait, name (tap to rename), stats, age, rebirth
@@ -34,6 +40,8 @@ export class RosterMenu {
   private readonly list: HTMLDivElement;
   private readonly codeDialog: ReturnType<typeof modal>;
   private readonly receiveDialog: ReturnType<typeof modal>;
+  /** R0579 (lane A r8): show only one personality, or all. */
+  private filter: Personality | 'all' = 'all';
 
   constructor(
     parent: HTMLElement,
@@ -69,7 +77,36 @@ export class RosterMenu {
     const mine = rosterNubbins(g.world);
     const count = el('div', 'help', UI_TEXT.rosterCount(mine.length));
     this.list.appendChild(count);
-    for (const n of mine) this.list.appendChild(this.row(g, n));
+    // R0579: a filter row by personality, shown once two or more are in the Grove.
+    const kinds = PERSONALITIES.filter((p) => mine.some((n) => n.personality === p));
+    if (kinds.length >= 2) this.list.appendChild(this.filters(kinds));
+    else this.filter = 'all';
+    for (const n of mine)
+      if (this.filter === 'all' || n.personality === this.filter)
+        this.list.appendChild(this.row(g, n));
+  }
+
+  /** R0579: All, then a chip per personality present: icon and word, a 44 px target. */
+  private filters(kinds: readonly Personality[]): HTMLDivElement {
+    const row = el('div', 'roster-filter');
+    row.setAttribute('role', 'group');
+    row.setAttribute('aria-label', ROSTER_FILTER_TEXT.label);
+    const chip = (value: Personality | 'all', label: string, icon?: HTMLCanvasElement) => {
+      const b = button(
+        label,
+        () => {
+          this.filter = value;
+          this.refresh();
+        },
+        'btn btn-small roster-filter-chip',
+      );
+      if (icon) b.prepend(icon);
+      b.setAttribute('aria-pressed', String(this.filter === value));
+      return b;
+    };
+    row.appendChild(chip('all', ROSTER_FILTER_TEXT.all));
+    for (const p of kinds) row.appendChild(chip(p, PERSONALITY_LABELS[p], personalityIcon(p)));
+    return row;
   }
 
   private row(g: Game, n: Nubbin): HTMLDivElement {
@@ -78,6 +115,19 @@ export class RosterMenu {
     const body = el('div', 'roster-body');
     const name = button(n.name, () => this.rename(n), 'btn btn-name');
     body.appendChild(name);
+    // R0579: the personality as its icon and word (a child shows its leaning, faded).
+    const lean = leaningPersonality(n);
+    if (lean) {
+      const pc = el('span', `roster-personality`);
+      pc.append(personalityIcon(lean), el('span', undefined, PERSONALITY_LABELS[lean]));
+      pc.setAttribute(
+        'aria-label',
+        n.personality
+          ? PERSONALITY_LABELS[lean]
+          : PERSONALITY_CHIP_TEXT.leaning(PERSONALITY_LABELS[lean]),
+      );
+      body.appendChild(pc);
+    }
     body.appendChild(el('div', 'roster-line', describe(n)));
     // LOOK-58: the rarity tier, as a coloured frame, an icon and a word.
     const tier = rarityOf(n);
@@ -282,7 +332,6 @@ function describe(n: Nubbin): string {
   if (n.form) bits.push(TYPE_LABELS[n.form.type]);
   bits.push(bandLabel, UI_TEXT.age(formatDuration(n.ageMs)));
   if (n.rebirths > 0) bits.push(UI_TEXT.rebirths(n.rebirths));
-  if (n.personality) bits.push(PERSONALITY_LABELS[n.personality]);
   if (n.eggColor !== 'plain') {
     const colour = EGG_COLOR_LABELS[n.eggColor] ?? n.eggColor;
     const tone = n.tone ? ` / ${EGG_COLOR_LABELS[n.tone] ?? n.tone}` : '';
