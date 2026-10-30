@@ -213,3 +213,52 @@ this sheet, follow the sheet and note it. Maor approved these decisions.
 46. **Q64: what Kaito did.** Kaito once chased Pemba and was unkind to the group; Q64's Learning
     Grove bands say so before Nalu's "I haven't forgotten". Uncle Tenzo introduces him: "He helps.
     He also complains."
+
+## Keep-jokes: the reader band keeps these (R0348)
+
+EDU-STYLE says the Grove Readers keep the main game's jokes and heart. These are the canon
+set. `content-check.ts` matches each one by its keywords (all of them, case-insensitive,
+curly quotes read as straight) in the reader version of its scene and reports any missing.
+A paraphrase passes as long as it keeps the keywords. Separate keywords with `+`.
+
+| Scene | Keywords | The joke |
+| --- | --- | --- |
+| c1-letter | gate+lift+push | The gate sticks. Lift and push. |
+| c1-letter | stone+proud | Fern is very proud of the stone. |
+| c1-letter | pear tree | The pear tree is a bit Fern's fault. |
+| c1-letter | dramatic | "Don't be dramatic about it." |
+| c1-letter | kettle | The eggs hum like a kettle thinking about it. |
+| c1-close | shell+hat | Bits of shell stuck on like a hat. |
+| c1-close | burnt hair | Sparks fixes the lantern, mostly. |
+| c1-close | three minutes old | "It is three minutes old, Sparks." |
+| c1-close | potential | "Potential, Fern." |
+| c1-close | sneez+spark | The Nubbin sneezes a spark. |
+| c1-close | how anything works | "That isn't how anything works." |
+| c2-open | asleep on your foot | Asleep on your foot, which is a problem. |
+| c2-open | fingers+fruit | They don't know fingers aren't fruit. |
+| c2-open | rule four | Rule four: don't be Sparks. |
+| c2-open | thumb | It takes Sparks's thumb, very politely. |
+| c3-open | frog | The frog very sure of it. |
+| c3-open | legs go to sleep | Your legs go to sleep; you don't move them. |
+| c3-open | second plum | A second plum, in case the first was the wrong size. |
+| c3-close | six plum | Not someone who has eaten six plums. |
+| c3-close | grey+match | A grey blanket, so she doesn't have to match. |
+| c3-close | fussing quietly | Clover fussing quietly. |
+| c4-open | stubborn+kind | "She was being kind." |
+| c4-open | reputation | Moss has a reputation. |
+| c4-close | crunchy | Fern's lantern buns. |
+| c4-close | like a plate | The bun rings like a plate. |
+| c4-close | tapping | Tapping isn't a review (or tasting). |
+| c4-close | gerald | Gerald just likes a crowd. |
+| c4-close | explodes | Sparks did the part that explodes. |
+| c4-close | shoelace | Byte's shoelace. |
+| c4-close | anyone didn't | "Anyone didn't." |
+| c4-close | lips move | Byte doesn't sing. Byte's lips move. |
+| c4-out | didn't touch it | "I didn't touch it." |
+| c5-circuit | variance | Byte and the variance of zero. |
+| c5-close | four stopwatches | Byte stops all four stopwatches. |
+| c10-moss-stays | shoelace | The shoelace, one last time. |
+| t-moss-first-pet | bruise like fruit | Moss bruises like fruit. |
+| t-moss-first-pet-early | tuft | The tuft of grass on Moss's head. |
+| t-stray-returned | second plum | A second plum for Sable. |
+| t-talk-generic | whose hat | Whose Nubbin ate whose hat. |

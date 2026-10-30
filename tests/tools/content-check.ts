@@ -864,7 +864,8 @@ for (const q of allQuests) {
 }
 // 9c. Festival gags (R0359): four narrator lines a season, phone-short, two sentences at most.
 for (const [season, scene] of Object.entries(C.FESTIVAL_GAGS)) {
-  if (scene.id !== `festival-gag-${season}`) problems.push(`festival gag ${season}: id ${scene.id}`);
+  if (scene.id !== `festival-gag-${season}`)
+    problems.push(`festival gag ${season}: id ${scene.id}`);
   if (scene.lines.length !== 4) problems.push(`${scene.id}: four lines`);
   scene.lines.forEach((l, i) => {
     if (l.who !== 'narrator') problems.push(`${scene.id}#${i}: festival gags are the narrator's`);
@@ -929,6 +930,40 @@ for (const [who, sets] of Object.entries(C.BARKS)) {
       }
     });
   }
+}
+// R0348 (FUN-59): the reader band keeps the canon keep-jokes (the table in docs/canon.md),
+// matched by keywords in the reader version of each joke's scene.
+{
+  const canon = readFileSync(new URL('../../docs/canon.md', import.meta.url), 'utf8');
+  const at = canon.indexOf('## Keep-jokes');
+  const table = at < 0 ? '' : canon.slice(at).split(/\n## /)[0]!;
+  const fold = (t: string): string => t.toLowerCase().replace(/[’‘]/g, "'");
+  const reader = new Map<string, string>();
+  for (const c of C.EDU_CAMPAIGN.reader)
+    for (const e of c.scenes)
+      reader.set(
+        e.of,
+        fold(
+          [...e.lines, ...(e.choices ?? []).flatMap((x) => x.then ?? [])]
+            .map((l) => l.text)
+            .join('\n'),
+        ),
+      );
+  let kept = 0;
+  for (const row of table.split('\n')) {
+    const m = /^\| ([a-z][a-z0-9-]*) \| ([^|]+) \|/.exec(row);
+    if (!m) continue;
+    const text = reader.get(m[1]!);
+    const keys = m[2]!
+      .trim()
+      .split('+')
+      .map((k) => fold(k.trim()));
+    if (text === undefined) problems.push(`keep-joke: no reader version of ${m[1]}`);
+    else if (!keys.every((k) => text.includes(k)))
+      problems.push(`keep-joke missing in reader:${m[1]}: ${m[2]!.trim()}`);
+    else kept++;
+  }
+  if (kept < 30) problems.push(`keep-joke: only ${kept} canon keep-jokes found (table moved?)`);
 }
 console.log(
   JSON.stringify(

@@ -48,7 +48,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | Side story S29: The Gates of Dawn · opens in chapter 4 | [S29.md](side/S29.md) (681) | [sprout.md](learning/side/S29/sprout.md) (814) | [reader.md](learning/side/S29/reader.md) (1034) |
 | Side story S30: What Sad Is For · opens in chapter 6 | [S30.md](side/S30.md) (587) | [sprout.md](learning/side/S30/sprout.md) (816) | [reader.md](learning/side/S30/reader.md) (952) |
 | Side story S31: The Great Gourd · opens in chapter 7 | [S31.md](side/S31.md) (641) | [sprout.md](learning/side/S31/sprout.md) (888) | [reader.md](learning/side/S31/reader.md) (955) |
-| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2829) | [reader-1.md](learning/campaign/reader-1.md) (2556), [reader-2.md](learning/campaign/reader-2.md) (1358) |
+| Learning Grove: the campaign | | [sprout.md](learning/campaign/sprout.md) (2829) | [reader-1.md](learning/campaign/reader-1.md) (2557), [reader-2.md](learning/campaign/reader-2.md) (1358) |
 
 ## Fun quests
 
