@@ -666,6 +666,18 @@ for (const e of [
     for (const o of l.kind === 'ask' && l.options?.some((x) => x.best) ? l.options : [])
       if (!o.best && SPROUT_WRONG_OPENER.test(o.reply[0]?.text ?? ''))
         warnings.push(`sprout-wrong-opener ${e.id} ${l.id}: ${o.reply[0]!.text}`);
+// R0347 (FUN-58): no sarcasm aimed at the child in the Learning Grove (warning). Characters
+// may tease each other; the words below talk down to a child (a wrong-answer reply that
+// opens "No" is R0320's sprout-wrong-opener). Pixel's OBVIOUSLY sign is a name, in capitals.
+// `--plant-sarcasm` adds a planted line to prove the rule fires.
+{
+  const SNARK = /\b([Nn]ice try|[Ss]eriously\?|[Ss]illy you|[Ss]illy billy|[Ww]rong again)(?=\W|$)/;
+  const texts = process.argv.includes('--plant-sarcasm')
+    ? [...eduTexts, { band: 'sprout', id: 'planted', text: 'Nice try! Obviously not.' }]
+    : eduTexts;
+  for (const x of texts)
+    if (SNARK.test(x.text)) warnings.push(`sarcasm? ${x.band} ${x.id}: ${x.text}`);
+}
 // 5. Line caps (warnings): sprout ≤ 14 words, reader ≤ 30 words (EDU-STYLE).
 for (const e of eduTexts) {
   const w = e.text.split(/\s+/).length;
