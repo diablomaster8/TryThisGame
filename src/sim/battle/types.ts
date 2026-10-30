@@ -6,6 +6,7 @@
  */
 import type { AlignmentBand, NubbinType, Personality } from '../types';
 import type { BoutSpoils } from './rewards';
+import type { ChampionModId } from '../../config/dungeon-foes';
 
 /** Which side: 0 is the Keeper's, 1 the rivals'. */
 export type SideIx = 0 | 1;
@@ -78,6 +79,18 @@ export interface Combatant {
   fusedInto?: string;
   /** The fused combatant itself: its two halves, their HP when they fused, and turns left. */
   fusion?: { of: [string, string]; hp: [number, number]; left: number };
+  /**
+   * A Hollow bout's extras (R0155 champion modifiers, R0164 Brave): hit and damage-taken
+   * multipliers, a chain zap back at whoever strikes it, a slowing touch, and a grumpy cloud
+   * (its hits count at `mult` for `turns` more turns). Absent everywhere else.
+   */
+  mod?: {
+    hit?: number;
+    taken?: number;
+    chain?: number;
+    sticky?: true;
+    cloud?: { mult: number; turns: number };
+  };
 }
 
 /** How a side picks its moves (recs FIGHT-23). */
@@ -269,7 +282,16 @@ export type BattleContextKind =
        * `wild` foes can be befriended (Calm, FIGHT-21); `shadow` strays take Calm only, never
        * HP. Both optional, so older callers are unchanged.
        */
-      foes: { species: string; level: number; wild?: boolean; shadow?: boolean }[];
+      foes: {
+        species: string;
+        level: number;
+        wild?: boolean;
+        shadow?: boolean;
+        /** A Hollow foe's champion modifiers (R0155); the core plays them (`hollow-mods.ts`). */
+        mods?: ChampionModId[];
+      }[];
+      /** Brave gear by ally id (R0164): extra hit power, capped (`hollow-mods.ts`). */
+      brave?: Record<string, number>;
       /** One active per side with the rest benched (FIGHT-19); off by default for encounters. */
       singles?: boolean;
     };
