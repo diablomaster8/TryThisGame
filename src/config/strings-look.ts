@@ -3,6 +3,11 @@ import type { Personality } from '../sim/types';
 
 /** Cosmetic names by registry id. The eggshell's name comes from `eggshellLabel`. */
 export const COSMETIC_LABELS: Record<string, string> = {
+  // LOOK-70: the four seasonal hats.
+  'sprout-cap': 'Sprout cap',
+  'sun-visor': 'Sun visor',
+  'leaf-crown': 'Leaf crown',
+  'woolly-hat': 'Woolly hat',
   'look-quills': 'Quills look',
   'look-shade': 'Shade look',
   pot: 'Flower pot',
@@ -188,6 +193,10 @@ export const FLAVOUR = {
   } as Record<string, string>,
   wear: {
     straw: 'Keeps the sun off and the bees interested.',
+    'sprout-cap': 'Two leaves and a lot of optimism.',
+    'sun-visor': 'Shades the eyes. Does nothing for the ears.',
+    'leaf-crown': 'Fell off a tree. Landed on royalty.',
+    'woolly-hat': 'Itchy, warm, and worth it.',
     crown: 'Royalty is a state of mind.',
     beanie: 'For heads that run cold and opinions that run warm.',
     flower: 'Picked fresh. The bush has not forgiven you.',
@@ -319,6 +328,7 @@ export const WARDROBE_TEXT = {
     shop: 'From the shop',
     race: 'Won in races',
     hatch: 'From an egg',
+    season: 'In the shop in its season',
   } as Record<string, string>,
 };
 

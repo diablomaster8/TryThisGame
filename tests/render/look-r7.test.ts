@@ -62,3 +62,23 @@ describe('LOOK-69 Dojo belt', () => {
     d.dispose();
   });
 });
+
+describe('LOOK-70 seasonal hats', () => {
+  it('puts the season hat first in its season, and keeps it once owned', async () => {
+    const { shopHat } = await import('../../src/sim/shop');
+    const { seasonHat, SHOP_COSMETICS } = await import('../../src/config/cosmetics');
+    const w = createWorld(1, 0);
+    for (const s of ['spring', 'summer', 'autumn', 'winter'] as const) {
+      w.season = s;
+      const id = seasonHat(s);
+      expect(id, s).toBeTruthy();
+      expect(shopHat(w)).toBe(id);
+      // Never in the everyday rotation, so it is only on sale in its season.
+      expect(SHOP_COSMETICS).not.toContain(id);
+    }
+    w.inventory.hats.push(seasonHat('winter')!);
+    expect(shopHat(w)).not.toBe(seasonHat('winter'));
+    w.season = 'spring';
+    expect(w.inventory.hats).toContain(seasonHat('winter'));
+  });
+});
