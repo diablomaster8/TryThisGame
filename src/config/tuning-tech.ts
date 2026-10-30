@@ -56,3 +56,6 @@ export const EGG_HUG = {
   /** The first-hug affection bonus. */
   affection: 5,
 } as const;
+
+/** TECH-75: the 18+ entry asks the grown-up again after this many days without one. */
+export const MATURE_RECHECK = { days: 3 } as const;
