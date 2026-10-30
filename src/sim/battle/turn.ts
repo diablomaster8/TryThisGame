@@ -449,6 +449,7 @@ export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
     return true;
   }
   if (a.k === 'fuse') return fuse(s);
+  if (s.passPlay?.choosing === 1) return secondKeeperAct(s, rng, a);
   const me = s.sides[0][s.active];
   if (!me || !onField(s, me) || !canChoose(s, me, a)) return false;
   s.choices = { ...(s.choices ?? {}), [me.id]: a };
@@ -457,6 +458,31 @@ export function turnAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
     s.active = next;
     return true;
   }
+  // Pass-and-play: the second Keeper picks for the other side before the turn resolves.
+  if (s.passPlay) {
+    const first = s.sides[1].findIndex((c) => onField(s, c));
+    if (first >= 0) {
+      s.passPlay.choosing = 1;
+      s.active = first;
+      return true;
+    }
+  }
+  resolveTurn(s, rng);
+  return true;
+}
+
+/** Pass-and-play (FIGHT-96): the second Keeper's pick for the active combatant on side 1. */
+function secondKeeperAct(s: BattleState, rng: Rng, a: BattleAction): boolean {
+  if (a.k === 'swap' || a.k === 'item') return false;
+  const me = s.sides[1][s.active];
+  if (!me || !onField(s, me) || !canChoose(s, me, a)) return false;
+  s.choices = { ...(s.choices ?? {}), [me.id]: a };
+  for (let i = s.active + 1; i < s.sides[1].length; i++)
+    if (onField(s, s.sides[1][i]!)) {
+      s.active = i;
+      return true;
+    }
+  s.passPlay!.choosing = 0;
   resolveTurn(s, rng);
   return true;
 }

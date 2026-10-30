@@ -19,3 +19,16 @@ export const FUSION_TEXT = {
   on: (who: string) => `Fusion! ${who} are one very wobbly Nubbin now.`,
   off: (who: string) => `${who} pop apart, a bit dizzy and very pleased.`,
 };
+
+/** Pass-and-play friendly bouts (FIGHT-96). */
+export const FRIENDLY_TEXT = {
+  title: 'Friendly bout (pass and play)',
+  help: 'Two Keepers, one device. No prizes, just a sticker and bragging rights.',
+  codes: 'Paste up to three share codes for Keeper 2 (or leave empty to split the Grove)',
+  start: 'Start a friendly',
+  none: 'Two Keepers need at least two hatched Nubbins, or a share code.',
+  pass: 'Keeper 2, your turn! Keeper 1, no peeking.',
+  ready: "I'm Keeper 2: show my moves",
+  picking: (who: string) => `Keeper 2 picks for ${who}.`,
+  sticker: 'Good game! A sticker for both of you.',
+};

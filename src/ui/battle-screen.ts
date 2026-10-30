@@ -62,7 +62,7 @@ import { closeInspect, inspectOpen, openInspect } from './battle-inspect';
 import { nubbinPortrait } from './battle-party-pick';
 import { PreBout } from './battle-prebout';
 import { canFuse } from '../sim/battle/fusion';
-import { FUSION_TEXT } from '../config/strings-battle-r6';
+import { FRIENDLY_TEXT, FUSION_TEXT } from '../config/strings-battle-r6';
 import { recordAct, recordStart } from './battle-record';
 
 /**
@@ -121,6 +121,8 @@ export class BattleScreen {
   private pendingItem: BattleItemId | null = null;
   private sentSig: string | null = null;
   private drawnSig = '';
+  /** Pass-and-play: Keeper 2 has lifted the cover over their moves. */
+  private passShown = false;
   private rafId = 0;
   private viewW = 260;
   private onDone: ((s: BattleState | null) => void) | null = null;
@@ -398,7 +400,7 @@ export class BattleScreen {
     if (!cur) this.sync(s);
     this.draw(s, now, cur?.e ?? null, cur?.k ?? 0);
     const busy = this.playback.busy(s.log);
-    const sig = `${s.log.length}:${s.turn}:${s.phase}:${busy ? 1 : 0}:${this.view}:${this.playback.speed}`;
+    const sig = `${s.log.length}:${s.turn}:${s.phase}:${busy ? 1 : 0}:${this.view}:${this.playback.speed}:${s.passPlay ? `pp${s.passPlay.choosing}${this.passShown ? 1 : 0}` : ''}`;
     if (this.sentSig !== null && !sig.startsWith(this.sentSig)) this.sentSig = null;
     // A Command bout's sheet is rebuilt only when its shape changes, so a press is never lost
     // to a rebuild; its gauges and cooldowns move every frame in `updateAtb`.
@@ -713,6 +715,10 @@ export class BattleScreen {
       sheet.appendChild(this.big(T.tapToSkip, '', () => this.skip(), 'bs-wide'));
       return;
     }
+    if (s.passPlay?.choosing === 1) {
+      this.secondKeeperSheet(s, sheet);
+      return;
+    }
     const me = s.sides[0][s.active];
     if (s.phase === 'replace') {
       sheet.appendChild(el('p', 'bs-prompt', T.pickNext));
@@ -792,6 +798,45 @@ export class BattleScreen {
       row.appendChild(fuseBtn);
     }
     sheet.appendChild(row);
+  }
+
+  /**
+   * Pass-and-play (FIGHT-96): Keeper 2's picks, behind a cover so Keeper 1's choice and
+   * Keeper 2's moves are never on screen together.
+   */
+  private secondKeeperSheet(s: BattleState, sheet: HTMLElement): void {
+    const me = s.sides[1][s.active];
+    if (!me) return;
+    // The latch on sends is per turn; Keeper 2's pick is a second send in the same turn.
+    this.sentSig = null;
+    if (!this.passShown) {
+      sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.pass));
+      sheet.appendChild(
+        this.big(
+          FRIENDLY_TEXT.ready,
+          '',
+          () => {
+            this.passShown = true;
+            this.drawnSig = '';
+          },
+          'bs-wide',
+        ),
+      );
+      return;
+    }
+    sheet.appendChild(el('p', 'bs-prompt', FRIENDLY_TEXT.picking(combatantName(me))));
+    const grid = el('div', 'bs-grid');
+    const pick = (a: BattleAction) => {
+      this.passShown = false;
+      this.raw(s, a);
+      this.drawnSig = '';
+    };
+    grid.appendChild(this.big(moveName('bonk'), '', () => pick({ k: 'strike' })));
+    for (const id of me.moves)
+      if (id !== 'bonk' && canChoose(s, me, { k: 'move', move: id }))
+        grid.appendChild(this.big(moveName(id), '', () => pick({ k: 'move', move: id })));
+    sheet.appendChild(grid);
+    sheet.appendChild(this.big(T.breath, '', () => pick({ k: 'guard' }), 'bs-wide'));
   }
 
   private setView(v: View): void {

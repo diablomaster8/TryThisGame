@@ -12,7 +12,7 @@ import {
 } from '../sim/battle';
 import type { Nubbin } from '../sim/types';
 import { battleScreen, type BattleScreen } from './battle-screen';
-import { LADDER_TEXT } from '../config/strings-battle-r6';
+import { FRIENDLY_TEXT, LADDER_TEXT } from '../config/strings-battle-r6';
 import { BATTLE_R6 } from '../config/tuning-battle-r6';
 import { ladderBelt, ladderContext, ladderOf } from '../sim/battle/ladder';
 import { PartyPick } from './battle-party-pick';
@@ -92,6 +92,7 @@ export class DojoMenu {
     gb.setAttribute('aria-pressed', gentle ? 'true' : 'false');
     this.list.appendChild(gb);
     this.ladder(g);
+    this.friendly(g);
     this.circuit(g);
   }
 
@@ -116,6 +117,35 @@ export class DojoMenu {
       'btn bs-tier',
     );
     this.list.appendChild(b);
+  }
+
+  /** Pass-and-play (FIGHT-96): the slot split in two, or Keeper 2's share codes. */
+  private friendly(g: Game): void {
+    this.list.appendChild(el('div', 'btn-name', FRIENDLY_TEXT.title));
+    this.list.appendChild(el('p', 'help', FRIENDLY_TEXT.help));
+    const codes = el('textarea');
+    codes.rows = 2;
+    codes.placeholder = FRIENDLY_TEXT.codes;
+    codes.setAttribute('aria-label', FRIENDLY_TEXT.codes);
+    const go = button(
+      FRIENDLY_TEXT.start,
+      () => {
+        const hatched = g.world.nubbins
+          .filter((n) => n.stage !== 'egg' && n.stage !== 'cocoon')
+          .map((n) => n.id);
+        const guests = codes.value.split(/\s+/).filter(Boolean).slice(0, 3);
+        const half = guests.length ? Math.min(3, hatched.length) : Math.ceil(hatched.length / 2);
+        const ids = hatched.slice(0, Math.min(3, half));
+        const foeIds = guests.length ? [] : hatched.slice(half, half + 3);
+        if (!ids.length || (!foeIds.length && !guests.length)) {
+          this.toast(FRIENDLY_TEXT.none);
+          return;
+        }
+        this.fight({ kind: 'friendly', tier: 1, ids, foeIds, guests });
+      },
+      'btn bs-tier',
+    );
+    this.list.append(codes, go);
   }
 
   private circuit(g: Game): void {
@@ -178,7 +208,8 @@ export class DojoMenu {
     if (context.kind === 'karate' || context.kind === 'encounter') return;
     // The pre-bout sheet (FIGHT-86) picks the party now; Back there returns to this menu.
     // A ladder bout is the picked Nubbin's own; every other bout picks its party on the sheet.
-    const ids = context.kind === 'dojo' && context.ladder ? context.ids : [];
+    const ids =
+      (context.kind === 'dojo' && context.ladder) || context.kind === 'friendly' ? context.ids : [];
     this.screen.start({ ...context, ids }, (s) => (s ? this.refreshLater() : this.open()));
   }
 

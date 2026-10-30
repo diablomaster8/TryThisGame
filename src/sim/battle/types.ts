@@ -222,6 +222,28 @@ export type BattleContextKind =
     }
   /** A story's own bout (FIGHT-29): Logged In's 3v3 against the digital foes. */
   | { kind: 'story'; storyline: 'logged'; tier: number; ids: string[] }
+  /**
+   * A bout inside a story world (FIGHT-98): fought by copies in a cloned Grove (`world-bout.ts`),
+   * its result kept only in that world's side save. Never started through `battleStart`.
+   */
+  | {
+      kind: 'world';
+      world: 'atlas' | 'arcade' | 'multiverse' | 'neopia';
+      /** The page, cartridge or line whose progress keeps the result. */
+      line: string;
+      key: string;
+      tier: number;
+      ids: string[];
+      /** The page's own foes; absent = the world's tone pack. */
+      foes?: { species: string; level: number }[];
+      /** A reward id for the line's rewards on a win. */
+      reward?: string;
+    }
+  /**
+   * Pass-and-play (FIGHT-96): a second Keeper on the same device plays `foeIds` (the slot's
+   * own Nubbins) or `guests` (share codes, read-only copies). No prizes but a sticker.
+   */
+  | { kind: 'friendly'; tier: number; ids: string[]; foeIds?: string[]; guests?: string[] }
   /** A Grove Circuit match against one of the ten Keepers (FIGHT-22). */
   | { kind: 'circuit'; trainer: string; champion?: boolean; tier: number; ids: string[] }
   /**
@@ -419,6 +441,8 @@ export interface BattleState {
   doubles?: boolean;
   /** The ATB "Command" bout (recs FIGHT-40): `mode` stays 'turn' so records and views work. */
   atb?: AtbClock;
+  /** Pass-and-play (FIGHT-96): both sides are played by hand; `choosing` is whose picks are next. */
+  passPlay?: { choosing: SideIx };
   /** Fusion burst (FIGHT-95): the partner pair that may fuse, and whether it has. */
   fusable?: { pair: [string, string]; used: boolean };
   /** What the finished bout gave (the `battleSpoils` event's copy), for the results card. */

@@ -1,4 +1,5 @@
 import { ladderSettle } from './ladder';
+import { settleFriendly } from './friendly';
 import { foeName } from '../../config/strings-battle';
 import { BATTLE, BATTLE_ONCE, BATTLE_PROGRESS } from '../../config/tuning-battle';
 import { BATTLE_R5 } from '../../config/tuning-battle-r5';
@@ -94,7 +95,10 @@ export function recordKarate(
 
 /** Pays a finished bout once and tells the rest of the sim how it went. */
 export function grantRewards(world: World, s: BattleState, events: SimEvent[]): void {
-  if (!s.result || s.settled) return;
+  // A story-world bout is settled into its side save (`world-bout.ts`), never here.
+  if (!s.result || s.settled || s.context.kind === 'world') return;
+  // Pass-and-play pays only its sticker (FIGHT-96).
+  if (s.context.kind === 'friendly') return settleFriendly(world, s, events);
   s.settled = true;
   const c = s.context;
   const r = s.result;
