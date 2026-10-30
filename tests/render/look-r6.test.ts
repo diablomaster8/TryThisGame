@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { FLAVOUR } from '../../src/config/strings-look';
+import { FLAVOUR, fieldNote } from '../../src/config/strings-look';
+import { keyFlavour } from '../../src/ui/collection';
 import { CRITTER_LABELS, ESSENCE_LABELS, SHOP_ITEMS } from '../../src/config/strings';
 import { COSMETICS } from '../../src/config/cosmetics';
 import { gagAt, gagPersonality, GAGS_IN_PLACE } from '../../src/render/gag-play';
@@ -202,5 +203,18 @@ describe('FUN-28 flavour lines', () => {
       expect(line.length, line).toBeLessThanOrEqual(100);
       expect(line, line).not.toMatch(/—/);
     }
+  });
+});
+
+describe('FUN-69 field notes', () => {
+  it('gives every Chao form, its second evolutions and the Eternals a note', () => {
+    for (const band of ['sun', 'moon', 'neutral'])
+      for (const type of ['swim', 'fly', 'run', 'power', 'normal']) {
+        expect(fieldNote(`chao:${band}:${type}`)).toBeTruthy();
+        expect(fieldNote(`chao:${band}:${type}:fly`)).toBe(fieldNote(`chao:${band}:${type}`));
+        expect(keyFlavour(`chao:${band}:${type}`)).toBeTruthy();
+      }
+    for (const e of ['sun', 'moon', 'neutral']) expect(fieldNote(`chao:eternal:${e}`)).toBeTruthy();
+    expect(keyFlavour('hat:straw')).toBe(FLAVOUR.wear.straw);
   });
 });

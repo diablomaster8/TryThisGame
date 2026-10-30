@@ -219,3 +219,39 @@ export const FLAVOUR = {
     horns: 'Purely decorative. Mostly.',
   } as Record<string, string>,
 };
+
+/**
+ * FUN-69 (R0358): Hazel's field notes for the collection book, one or two dry sentences per
+ * entry, in her notebook's voice. The Grove line first: the child, each band and type (a
+ * second evolution shows its first form's note), the Eternals. Other lines to follow.
+ */
+export const FIELD_NOTES: Record<string, string> = {
+  'chao:egg': 'Warm, round and listening. Hums if you hum first.',
+  'chao:child': 'Likes: puddles. Dislikes: being called a puddle.',
+  'chao:neutral:swim': 'Will not come out of the pond. Has been asked nicely, twice.',
+  'chao:neutral:fly': 'Flaps before it walks, and lands before it means to.',
+  'chao:neutral:run': 'Always somewhere else by the time you look up.',
+  'chao:neutral:power': 'Carried the watering can to me. Then the shed.',
+  'chao:neutral:normal': 'Content. Suspiciously content. I keep checking.',
+  'chao:sun:swim': 'Swims in circles to make the water shine. It works.',
+  'chao:sun:fly': 'Waves at clouds. Some of them wave back, I am almost sure.',
+  'chao:sun:run': 'Runs to greet you, then runs a lap of honour for having greeted you.',
+  'chao:sun:power': 'Lifts the heavy things and asks for a hug as payment.',
+  'chao:sun:normal': 'Glows a little when praised. Glows a lot when praised twice.',
+  'chao:moon:swim': 'Prefers the deep end, and the dark, and being left a biscuit.',
+  'chao:moon:fly': 'Hangs from the apple tree at dusk. Not a bat. Do not say bat.',
+  'chao:moon:run': 'Fast, quiet and back before you noticed it had gone.',
+  'chao:moon:power': 'Moved the big stone by the gate. Will not say why.',
+  'chao:moon:normal': 'Sulks with great style. Forgives with less.',
+  'chao:eternal:sun': 'Older than the oak. Behaves younger than the bees.',
+  'chao:eternal:moon': 'Remembers every winter. Is kind about most of them.',
+  'chao:eternal:neutral': 'Sits in the middle of everything and seems pleased about it.',
+};
+
+/** The field note for a book key: its own, or the first form's for a second evolution. */
+export function fieldNote(key: string): string {
+  if (FIELD_NOTES[key]) return FIELD_NOTES[key];
+  const p = key.split(':');
+  if (p[0] === 'chao' && p.length > 3) return FIELD_NOTES[p.slice(0, 3).join(':')] ?? '';
+  return '';
+}

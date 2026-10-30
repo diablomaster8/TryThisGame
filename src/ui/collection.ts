@@ -8,7 +8,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
-import { FLAVOUR } from '../config/strings-look';
+import { FLAVOUR, fieldNote } from '../config/strings-look';
 import { BOOK_TEXT } from '../config/strings-look';
 import { cosmeticLabel } from '../config/cosmetics';
 import { canConvert } from '../sim/scans';
@@ -62,12 +62,12 @@ export function keyLabel(key: string): string {
   return parts[3] ? BOOK_TEXT.second(first, typeLabel(parts[3])) : first;
 }
 
-/** FUN-28: a book entry's dry line: a hat's or look's, or a critter part's critter. */
+/** FUN-28, FUN-69: a book entry's dry line (a hat, look or critter part) or Hazel's field note. */
 export function keyFlavour(key: string): string {
   const parts = key.split(':');
   if (parts[0] === 'hat' || parts[0] === 'look') return FLAVOUR.wear[parts[1] ?? ''] ?? '';
   if (parts[0] === 'part') return FLAVOUR.critter[parts[1] ?? ''] ?? '';
-  return '';
+  return fieldNote(key);
 }
 
 /**
