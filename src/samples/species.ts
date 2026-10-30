@@ -265,6 +265,8 @@ export interface SpeciesSpec {
     /** The toon mode's line colour for this mouth (a painted red 'o'); the outline colour by default. */
     line?: string;
   };
+  /** LOOK-45: moves by hopping in place of a step (the in-training blobs, Botamon to Tokomon). */
+  hop?: boolean;
   /** Body roll of the walk over the stance foot, radians (0.03 by default; the Chao waddle 0.12). */
   waddle?: number;
   /**
@@ -413,6 +415,8 @@ export interface Rigged extends Creature {
 }
 
 /** Hearts over a petted head, and how long each one rises for. */
+/** LOOK-45: how many hops a hopper makes per metre of ground. */
+const HOPS_PER_METRE = 3;
 const HEART_COUNT = 7;
 const HEART_LIFE = 1.6;
 /** Seconds between Zzz puffs while asleep. */
@@ -1373,14 +1377,18 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
   const legSwing = Math.min(1, 0.55 * stepScale);
   const swingR = swingLegs.reduce((m, p) => m + p.pivot.y - footY, 0) / (swingLegs.length || 1);
   const stride = {
-    length: swingLegs.length
-      ? 2 * Math.PI * swingR * legSwing
-      : legLen * (spider ? 0.25 : 1) * stepScale,
+    // LOOK-45: a hopper's "stride" is two hops, a third of a metre each at its own scale.
+    length: spec.hop
+      ? 2 / (HOPS_PER_METRE * spec.scale)
+      : swingLegs.length
+        ? 2 * Math.PI * swingR * legSwing
+        : legLen * (spider ? 0.25 : 1) * stepScale,
     period: spec.stride?.period ?? (spider ? 0.7 : 0.8),
     lift: legLen * (spider ? 0.08 : 0.25),
     duty: spec.stride?.duty ?? (spider ? 0.5 : 0.6),
   };
   const WALK_BOB = 0.03;
+  const HOP_HEIGHT = 0.16;
   let crouch = 0;
   {
     const half = (stride.length * stride.duty) / 2;
@@ -1588,6 +1596,24 @@ export function buildSpecies(spec: SpeciesSpec, sculpted?: THREE.BufferGeometry[
       case 'walk': {
         const cycle = t / stride.period;
         const w = cycle * Math.PI * 2;
+        if (spec.hop) {
+          // LOOK-45: the in-training blobs hop instead of stepping, two hops a cycle: up long
+          // at the apex (1.15), flat on the landing (0.75), the hips moved by the scale so the
+          // bottom stays on the ground. Three quarters of each hop is in the air.
+          const p = (cycle * 2) % 1;
+          const air = p < 0.75 ? p / 0.75 : -1;
+          const up = air >= 0 ? s(air * Math.PI) : 0;
+          const land = air < 0 ? s(((p - 0.75) / 0.25) * Math.PI) : 0;
+          const sq = up * 0.15 - land * 0.25;
+          hips.scale.set(1 - sq * 0.5, 1 + sq, 1 - sq * 0.5);
+          hips.position.y = spec.hipY + up * HOP_HEIGHT + (spec.hipY - footY) * sq;
+          hips.rotation.x = -0.08 * up;
+          // The head lags the body: tipped back on the way up, nodding forward on landing (the
+          // blobs' ears are sculpted into the head, so this is their flop).
+          set('head', -0.1 * up + 0.18 * land, 0, 0);
+          mouthOpen = 0.15 * up;
+          break;
+        }
         hips.position.y = spec.hipY - crouch + Math.abs(s(w)) * WALK_BOB;
         hips.rotation.x = -0.06;
         // The body rolls over the stance foot (the Chao waddle, LOOK-22) and the head counters it.

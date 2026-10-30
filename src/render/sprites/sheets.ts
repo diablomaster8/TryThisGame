@@ -1,14 +1,16 @@
 import { buildShinyGlintSheet } from './shiny-glint';
 import type { KeeperAlignment, Nubbin } from '../../sim/types';
 import { ALL_PART_SLOTS, partSteps } from './part-size';
-import { childHint } from '../../sim/alignment';
+import { childLean, leanStep } from './child-hint';
 import { sheetFromImage, type SpriteSheet } from './atlas';
 import {
   adultColors,
   buildChaoSheet,
   CHILD_MOON,
+  CHILD_MOON_FAINT,
   CHILD_NEUTRAL,
   CHILD_SUN,
+  CHILD_SUN_FAINT,
   CHARACTER_LOOKS,
   eternalColors,
   lookOf,
@@ -75,6 +77,20 @@ function weatherSheet(src: SpriteSheet): SpriteSheet {
  * same look share one texture. Hand-drawn sheets can later be registered under the
  * same keys through `register`.
  */
+/**
+ * LOOK-49: a child's palette by how far it leans (`childLean`): neutral, then a faint step,
+ * then the full Sun or Moon child past halfway.
+ */
+function childLook(alignment: number): { id: string; colors: ChaoColors } {
+  const lean = childLean(alignment);
+  const step = leanStep(lean, 2);
+  if (lean.band === 'sun')
+    return { id: `sun${step}`, colors: step > 1 ? CHILD_SUN : CHILD_SUN_FAINT };
+  if (lean.band === 'moon')
+    return { id: `moon${step}`, colors: step > 1 ? CHILD_MOON : CHILD_MOON_FAINT };
+  return { id: 'neutral', colors: CHILD_NEUTRAL };
+}
+
 export class SheetCache {
   private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
@@ -158,7 +174,7 @@ export class SheetCache {
       if (n.eternal) return `eternal:${n.eternal}:${parts}:${hat}:${variant}`;
       return `adult:${n.form.band}:${n.form.type}:${n.form.second ?? '-'}:${parts}:${hat}:${variant}`;
     }
-    return `child:${childHint(n.alignment)}:${parts}:${hat}:${variant}`;
+    return `child:${childLook(n.alignment).id}:${parts}:${hat}:${variant}`;
   }
 
   forNubbin(n: Nubbin): SpriteSheet {
@@ -255,8 +271,8 @@ export class SheetCache {
           ),
         );
       }
-      const hint = childHint(n.alignment);
-      const base = hint === 'sun' ? CHILD_SUN : hint === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+      const hint = childLean(n.alignment).band;
+      const base = childLook(n.alignment).colors;
       const colors =
         look?.colors ?? variantColors(base, n.eggColor, n.shiny || n.heirloom, n.tone, hint);
       return build(

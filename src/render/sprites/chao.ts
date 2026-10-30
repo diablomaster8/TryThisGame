@@ -66,7 +66,8 @@ export const CHILD_NEUTRAL: ChaoColors = {
   outline: C.darkPlum,
 };
 
-export const CHILD_SUN: ChaoColors = {
+/** The Sun adults' base (white with the type hue in the shade); the Sun child is its own below. */
+const SUN_BASE: ChaoColors = {
   ...CHILD_NEUTRAL,
   body: C.pale,
   shade: C.shallows,
@@ -76,7 +77,8 @@ export const CHILD_SUN: ChaoColors = {
   wing: C.white,
 };
 
-export const CHILD_MOON: ChaoColors = {
+/** The Moon adults' base; the Moon child is its own below. */
+const MOON_BASE: ChaoColors = {
   ...CHILD_NEUTRAL,
   body: C.plum,
   shade: C.darkPlum,
@@ -88,9 +90,52 @@ export const CHILD_MOON: ChaoColors = {
   glint: C.rose,
 };
 
+/**
+ * LOOK-49: the Sun-leaning child reads "going white and blue": an ice-white body, the crown
+ * and hands tinted sky blue instead of yellow. The faint step comes first (|alignment| from
+ * 0.2), the full one past halfway to 0.5 (`childLean`).
+ */
+export const CHILD_SUN: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.skyLight,
+  shade: C.shallows,
+  belly: C.white,
+  tip: C.shallows,
+  tipShade: C.water,
+  wing: C.white,
+};
+export const CHILD_SUN_FAINT: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  belly: C.white,
+  tip: C.sunLight,
+  tipShade: C.sunYellow,
+  wing: C.white,
+};
+
+/** LOOK-49: the Moon-leaning child, dusky violet with a red tip, and its faint step. */
+export const CHILD_MOON: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.greyDeep,
+  shade: C.plum,
+  belly: C.dusk,
+  tip: C.rose,
+  tipShade: C.berry,
+  wing: C.lavender,
+  glint: C.rose,
+};
+export const CHILD_MOON_FAINT: ChaoColors = {
+  ...CHILD_NEUTRAL,
+  body: C.lilacGrey,
+  shade: C.dusk,
+  belly: C.pale,
+  tip: C.rose,
+  tipShade: C.berry,
+  wing: C.lavender,
+};
+
 /** Adult palettes by alignment band and type: the 15 first-evolution looks. */
 export function adultColors(band: 'sun' | 'moon' | 'neutral', type: string): ChaoColors {
-  const base = band === 'sun' ? CHILD_SUN : band === 'moon' ? CHILD_MOON : CHILD_NEUTRAL;
+  const base = band === 'sun' ? SUN_BASE : band === 'moon' ? MOON_BASE : CHILD_NEUTRAL;
   // Hues after the neutral evolution chart (2026-10-15): Swim green, Fly pink, Run blue,
   // Power orange-red, Normal cyan; Sun forms stay pale with the hue in the shade, Moon
   // forms stay dark with the hue in the body.

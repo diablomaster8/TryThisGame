@@ -1,0 +1,61 @@
+import { describe, expect, it } from 'vitest';
+import { childLean, leanStep } from '../../src/render/sprites/child-hint';
+import { SheetCache } from '../../src/render/sprites/sheets';
+import { speciesArt } from '../../src/render/sprites/species-art';
+import { nubbinLook } from '../../src/render3d/creature-pool';
+import { specForKey } from '../../src/render3d/looks';
+import { artSpec } from '../../src/render3d/art-species';
+import { paletteOf } from '../../src/samples/nubbin-variants';
+import { createEgg } from '../../src/sim/nubbin';
+import { Rng } from '../../src/sim/rng';
+
+/** Lane E round 6: the child hint's fade (LOOK-49) and the hopping blobs (LOOK-45). */
+const child = (alignment: number) => {
+  const n = createEgg('c', { x: 0, z: 0 }, Rng.fromSeed(4));
+  n.stage = 'child';
+  n.alignment = alignment;
+  return n;
+};
+
+describe('LOOK-49 child hint', () => {
+  it('fades in between 0.2 and 0.5', () => {
+    expect(childLean(0.1)).toEqual({ band: 'neutral', k: 0 });
+    expect(childLean(0.35).band).toBe('sun');
+    expect(childLean(0.35).k).toBeCloseTo(0.5);
+    expect(childLean(-0.6)).toEqual({ band: 'moon', k: 1 });
+    expect(leanStep(childLean(0.21), 4)).toBe(1);
+    expect(leanStep(childLean(0.5), 4)).toBe(4);
+  });
+
+  it('gives -0.5, 0 and +0.5 three different looks in both modes', () => {
+    const keys = [-0.5, 0, 0.5].map((a) => nubbinLook(child(a)).key);
+    expect(keys[0]).toMatch(/^variant:child-moon/);
+    expect(keys[1]).toMatch(/^variant:child(~|$)/);
+    expect(keys[2]).toMatch(/^variant:child-sun/);
+    const pixel = [-0.5, 0, 0.3, 0.5].map((a) => SheetCache.nubbinKey(child(a)));
+    expect(new Set(pixel).size).toBe(4);
+  });
+
+  it('blends a partial lean between the neutral and the Sun child in 3D', () => {
+    const k = nubbinLook(child(0.3)).key;
+    expect(k).toContain('~hint:');
+    const part = paletteOf(specForKey(k)).body;
+    const full = paletteOf(specForKey('variant:child-sun')).body;
+    const none = paletteOf(specForKey('variant:child')).body;
+    expect(part).not.toBe(full);
+    expect(part).not.toBe(none);
+  });
+});
+
+describe('LOOK-45 hopping blobs', () => {
+  it('marks the in-training digital line as hoppers in both modes', () => {
+    for (const id of ['fuzzlet', 'chompet', 'jellop', 'hornpuff', 'driftlet', 'nibbit']) {
+      const art = speciesArt(id)!;
+      expect(art.move, id).toBe('hop');
+      // Tokomon keeps its stub feet, tucked while it hops.
+      if (id !== 'nibbit') expect(art.legs, id).toBe('none');
+      expect(artSpec(id, art).hop, id).toBe(true);
+    }
+    expect(artSpec('dinolet', speciesArt('dinolet')!).hop).toBeUndefined();
+  });
+});

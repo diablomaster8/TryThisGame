@@ -117,6 +117,8 @@ export interface CreatureSpec {
   serpent?: SerpentOpts;
   /** The quad plan's stance, legs, neck and muzzle (`creature-kit-digi.ts`, LOOK-06). */
   quad?: QuadOpts;
+  /** LOOK-45: moves by hopping (the in-training blobs): the walk clip squashes and lifts, no legs. */
+  move?: 'hop';
 }
 
 export const CREATURE_SIZE = 32;
@@ -795,13 +797,30 @@ export function drawCreature(angle: DrawnAngle, pose: ChaoPose, spec: CreatureSp
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
+/** LOOK-45: a hopper's walk, six frames: landed flat, crouch, up, apex, falling, touching down. */
+const HOP_FRAMES: readonly { lift: number; squash: number }[] = [
+  { lift: 0, squash: 0.8 },
+  { lift: -1, squash: 0.95 },
+  { lift: -3, squash: 1.12 },
+  { lift: -3, squash: 1.1 },
+  { lift: -2, squash: 1.02 },
+  { lift: 0, squash: 0.88 },
+];
+
+function clipPose(spec: CreatureSpec, clip: ClipName, f: number): ChaoPose {
+  const pose = poseFor(clip, f);
+  if (clip !== 'walk' || spec.move !== 'hop') return pose;
+  const h = HOP_FRAMES[f % HOP_FRAMES.length]!;
+  return { ...pose, ...h, legs: 'tucked', arms: 'down', rock: 0 };
+}
+
 /** Every clip at every drawn angle, baked into one sheet, with the same keys as the Chao. */
 export function buildCreatureSheet(spec: CreatureSpec): SpriteSheet {
   const atlas = new AtlasBuilder(CREATURE_SIZE, CREATURE_SIZE, 10);
   for (const clip of Object.keys(CLIPS) as ClipName[]) {
     for (const angle of DRAWN_ANGLES) {
       for (let f = 0; f < CLIPS[clip].frames; f++) {
-        atlas.add(frameKey(clip, angle, f), drawCreature(angle, poseFor(clip, f), spec));
+        atlas.add(frameKey(clip, angle, f), drawCreature(angle, clipPose(spec, clip, f), spec));
       }
     }
   }

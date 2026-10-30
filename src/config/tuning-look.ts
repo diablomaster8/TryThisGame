@@ -99,3 +99,13 @@ export const FLIGHT = {
 
 /** LOOK-22: the 3D walk's waddle roll by personality (children, without one, keep 1). */
 export const PERSONA_WADDLE = { cheerful: 1.3, shy: 0.7, mischievous: 1.15, lazy: 1.45 } as const;
+
+export const CHILD_HINT = {
+  /**
+   * LOOK-49: a child's look leans toward its band from this |alignment| and is fully there
+   * at `to`, in even steps (Pixel's palette has room for two; 3D blends four).
+   */
+  from: 0.2,
+  to: 0.5,
+  steps3d: 4,
+};
