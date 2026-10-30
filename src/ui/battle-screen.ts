@@ -468,6 +468,11 @@ export class BattleScreen {
       this.pop = { id, text: `+${e.heal}`, at: now };
     } else if (e.k === 'swing' && e.sweet) this.pop = { id: e.by, text: RING_TEXT.nice, at: now };
     else if (e.k === 'swap') this.shownLead[e.side] = e.to;
+    // FIGHT-95: the fusion's big comedic moment, a shout and a boing.
+    else if (e.k === 'fusion') {
+      this.pop = { id: e.who, text: e.on ? FUSION_TEXT.pop : FUSION_TEXT.popOff, at: now };
+      playSound(e.on ? 'slideUp' : 'boing');
+    }
     else if (e.k === 'miss') playSound('tap');
     // FIGHT-76: a Dizzy self-bonk boings, a tuckered-out Nubbin yawns.
     else if (e.k === 'boing' || e.k === 'tuckered') playSound(battleSfx(e)!);

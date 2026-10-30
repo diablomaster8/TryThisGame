@@ -15,6 +15,8 @@ export const LADDER_TEXT = {
 /** Fusion burst (FIGHT-95). */
 export const FUSION_TEXT = {
   button: 'Fuse!',
+  pop: 'FUSION!',
+  popOff: 'Pop!',
   help: 'Your partners fuse into one for three turns. Once a bout.',
   on: (who: string) => `Fusion! ${who} are one very wobbly Nubbin now.`,
   off: (who: string) => `${who} pop apart, a bit dizzy and very pleased.`,
