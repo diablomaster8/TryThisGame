@@ -32,8 +32,11 @@ export class BondGlow {
 
   constructor(private readonly group: THREE.Object3D) {}
 
-  /** The rim round `id` at strength 0..1 (0 removes it); `size` is the body height. */
-  set(id: string, k: number, at: THREE.Vector3, size: number): void {
+  /**
+   * The rim round `id` at strength 0..1 (0 removes it); `size` is the body height. `tint`
+   * colours it (LOOK-58's legendary halo is pale gold).
+   */
+  set(id: string, k: number, at: THREE.Vector3, size: number, tint = '#ffffff'): void {
     let s = this.sprites.get(id);
     if (k <= 0) {
       if (s) this.drop(id, s);
@@ -55,6 +58,7 @@ export class BondGlow {
     s.position.set(at.x, at.y + size * 0.5, at.z);
     s.scale.setScalar(size * 1.45);
     s.material.opacity = k;
+    s.material.color.set(tint);
   }
 
   keep(live: Set<string>): void {

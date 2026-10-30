@@ -32,6 +32,7 @@ import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood'
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { gagAt } from '../render/gag-play';
 import { cocoonShake, revealTurn } from '../render/evolve-reveal';
+import { rarityOf } from '../render/rarity';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -262,6 +263,8 @@ export class Actors {
   private readonly glow: MergedGlow;
   /** LOOK-64: the bonded Shadow Nubbins' warm rims. */
   private readonly bondGlow: BondGlow;
+  /** LOOK-58: the legendary ones' gold halos. */
+  private readonly rarityGlow: BondGlow;
   private highlightId: string | null = null;
   /** For a highlighted thing that is not a Nubbin or an item: where it is now, and how wide. */
   private highlightSpot: (() => { x: number; z: number; r: number } | null) | null = null;
@@ -330,6 +333,7 @@ export class Actors {
     );
     this.glow = new MergedGlow(this.group);
     this.bondGlow = new BondGlow(this.group);
+    this.rarityGlow = new BondGlow(this.group);
     this.highlight.rotation.x = -Math.PI / 2;
     this.highlight.visible = false;
     this.group.add(this.highlight);
@@ -1099,6 +1103,16 @@ export class Actors {
       }
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
+      // LOOK-58: a legendary one (jewel, glass, Eternal) carries a soft gold halo that breathes.
+      this.rarityGlow.set(
+        n.id,
+        a.rig && n.stage !== 'egg' && rarityOf(n) === 'legendary'
+          ? 0.22 + (this.calm ? 0 : 0.1 * Math.sin(nowMs / 600))
+          : 0,
+        o.position,
+        tall,
+        '#fff3a6',
+      );
       // LOOK-64: a bonded Shadow Nubbin's warm rim, growing with its trust.
       this.bondGlow.set(
         n.id,
@@ -1163,6 +1177,7 @@ export class Actors {
     for (const id of [...this.pops.keys()]) if (!live.has(id)) this.pops.delete(id);
     this.glow.keep(live);
     this.bondGlow.keep(live);
+    this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
 
     // The Keeper.
@@ -1343,6 +1358,7 @@ export class Actors {
     this.crowd.dispose();
     this.glow.dispose();
     this.bondGlow.keep(new Set());
+    this.rarityGlow.keep(new Set());
     this.pool.dispose();
     this.dresser.dispose();
     this.kit.dispose();

@@ -320,3 +320,11 @@ export const WARDROBE_TEXT = {
     hatch: 'From an egg',
   } as Record<string, string>,
 };
+
+/** LOOK-58 (R0426): the rarity tiers' labels. */
+export const RARITY_TEXT = {
+  common: 'Common',
+  uncommon: 'Uncommon',
+  rare: 'Rare',
+  legendary: 'Legendary',
+} as const;

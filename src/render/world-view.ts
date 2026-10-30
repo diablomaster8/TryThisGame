@@ -63,10 +63,11 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
-import { EYE_TRACK, HELD_REACT } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, type HeldMood } from './held-mood';
 import { gagAt } from './gag-play';
 import { cocoonShake, revealTurn } from './evolve-reveal';
+import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -2043,6 +2044,19 @@ export class WorldView {
           }
         }
       }
+      const tier = n.stage === 'egg' ? 'common' : rarityOf(n);
+      const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
+      // LOOK-58: a legendary one sheds a soft mote now and then.
+      if (
+        tier === 'legendary' &&
+        !this.particles.reduceMotion &&
+        (nowMs + phase) % RARITY.legendaryMoteMs < 20
+      )
+        this.particles.burst('mote', x, Math.max(0, y) + 0.9, z, 1, {
+          spread: 0.5,
+          rise: 0.5,
+          lifeMs: 1200,
+        });
       this.batch.draw(
         {
           sheet,
@@ -2064,9 +2078,12 @@ export class WorldView {
       // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
       // laid on the head in the sprite's own plane, a hair toward the camera.
       const cam = PIXEL_VIEW.camera;
-      if ((n.shiny || n.heirloom) && n.species === 'chao' && n.stage !== 'egg' && cam) {
+      // LOOK-58: a rare or legendary one that is not shiny glints too, half as often (4 s).
+      const rareBeat =
+        (tier === 'rare' || tier === 'legendary') &&
+        Math.floor((nowMs + phase) / (RARITY.rareGlintMs / 2)) % 2 === 0;
+      if ((n.shiny || n.heirloom || rareBeat) && n.species === 'chao' && n.stage !== 'egg' && cam) {
         const shape = glintShape(n);
-        const phase = [...n.id].reduce((a, c) => a + c.charCodeAt(0) * 37, 0);
         const g = glintPlace(key, shape, nowMs, phase);
         const gs = this.sheets.shinyGlint(shape.grow);
         const grect = g ? gs.frames.get(g.key) : undefined;

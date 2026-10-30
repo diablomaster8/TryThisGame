@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { rarityOf } from '../../src/render/rarity';
 import { cocoonShake, revealTurn } from '../../src/render/evolve-reveal';
 import { EVOLVE_REVEAL, LIFECYCLE } from '../../src/config/tuning';
 import { photoComedy, wrapCaption } from '../../src/ui/photo-comedy';
@@ -255,5 +256,20 @@ describe('LOOK-62 evolution reveal', () => {
     expect(revealTurn(1000, 1000 + EVOLVE_REVEAL.spinMs / 2, false)).toBeGreaterThan(Math.PI);
     expect(revealTurn(1000, 1000 + EVOLVE_REVEAL.spinMs + 1, false)).toBe(0);
     expect(revealTurn(1000, 1100, true)).toBe(0);
+  });
+});
+
+describe('LOOK-58 rarity', () => {
+  it('sorts Nubbins into four tiers', () => {
+    const n = child(0);
+    expect(rarityOf({ ...n, eggColor: 'plain', tone: null, shiny: false })).toBe('common');
+    expect(rarityOf({ ...n, eggColor: 'plain', tone: 'red', shiny: false })).toBe('uncommon');
+    expect(rarityOf({ ...n, eggColor: 'plain', tone: null, shiny: true })).toBe('rare');
+    expect(rarityOf({ ...n, eggColor: 'plain', tone: null, shiny: false, finish: 'glass' })).toBe(
+      'legendary',
+    );
+    expect(rarityOf({ ...n, eggColor: 'plain', tone: null, shiny: false, eternal: 'sun' })).toBe(
+      'legendary',
+    );
   });
 });

@@ -162,3 +162,12 @@ export const EVOLVE_REVEAL = {
   /** The white flash's length (none under reduced motion). */
   flashMs: 450,
 };
+
+export const RARITY = {
+  /** LOOK-58: each tier's portrait frame colour (always shown with its icon and label too). */
+  frame: { common: '#9a93a8', uncommon: '#4f9c3f', rare: '#4a9be0', legendary: '#f2d34c' },
+  icon: { common: '·', uncommon: '◆', rare: '✦', legendary: '★' },
+  /** In the Grove: a rare one glints every this often; a legendary one sheds a soft mote. */
+  rareGlintMs: 4000,
+  legendaryMoteMs: 1400,
+};

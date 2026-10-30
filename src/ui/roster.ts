@@ -19,7 +19,9 @@ import { levelOf } from '../sim/stats';
 import { STAT_KEYS, type Nubbin } from '../sim/types';
 import { button, el, modal } from './dom';
 import { Wardrobe } from './wardrobe';
-import { WARDROBE_TEXT } from '../config/strings-look';
+import { RARITY_TEXT, WARDROBE_TEXT } from '../config/strings-look';
+import { RARITY } from '../config/tuning';
+import { rarityOf } from '../render/rarity';
 import { decodeNubbin, encodeNubbin } from '../sim/share';
 
 /**
@@ -77,6 +79,12 @@ export class RosterMenu {
     const name = button(n.name, () => this.rename(n), 'btn btn-name');
     body.appendChild(name);
     body.appendChild(el('div', 'roster-line', describe(n)));
+    // LOOK-58: the rarity tier, as a coloured frame, an icon and a word.
+    const tier = rarityOf(n);
+    row.style.setProperty('--rarity', RARITY.frame[tier]);
+    row.classList.add(`rarity-${tier}`);
+    if (tier !== 'common')
+      body.appendChild(el('span', 'rarity-chip', `${RARITY.icon[tier]} ${RARITY_TEXT[tier]}`));
     const stats = el('div', 'roster-stats');
     for (const key of STAT_KEYS) {
       stats.appendChild(
