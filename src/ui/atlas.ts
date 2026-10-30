@@ -46,7 +46,7 @@ import type { Dialogue } from './dialogue';
 import { button, el, modal } from './dom';
 import { MicroScreen } from '../minigames/micro/micro-screen';
 import { MICRO_BUILT, microFor, microSkipped } from '../sim/micro';
-import { DO_IT_BY, doItLabel } from '../config/strings-fun-r6';
+import { DO_IT_BY, DOSSIER_TEXT, doItLabel } from '../config/strings-fun-r6';
 import { hashSeed } from '../sim/rng';
 
 /** A fresh read-only snapshot of the side saves and every Grove save on this device. */
@@ -183,11 +183,32 @@ export class StoryShelf {
       (l) => lineAvailable(l, audience) && !lineClosed(l, progress[l.id], ctx),
     );
     this.body.replaceChildren(el('p', 'help', this.config.help));
+    // R0335 (FUN-46): Neopia's masthead, its caption worn down by the plots (canon 44).
+    if (this.config.which === 'neopia') {
+      const np = this.lines!.find((l) => l.id === 'NP');
+      const [plots] = np ? lineCount(np, progress[np.id]) : [0];
+      const stage = plots >= 13 ? 2 : plots >= 4 ? 1 : 0;
+      const head = el('div', stage === 2 ? 'neo-masthead neo-bitten' : 'neo-masthead');
+      head.append(
+        el('strong', undefined, DOSSIER_TEXT.masthead),
+        el('small', undefined, DOSSIER_TEXT.captions[stage]),
+      );
+      this.body.appendChild(head);
+    }
     if (shown.length === 0) this.body.appendChild(el('p', 'help', this.config.empty));
     const list = el('div', 'title-menu');
     for (const line of shown) {
       const [done, total] = lineCount(line, progress[line.id]);
       const mark = progress[line.id]?.done ? ' ✓' : '';
+      // R0335: a Multiverse line's case file misnames the Nubbins until the line closes.
+      const wrong = this.config.which === 'multiverse' ? DOSSIER_TEXT.wrong[line.id] : undefined;
+      if (wrong) {
+        const file = el('p', 'help mv-dossier', DOSSIER_TEXT.label);
+        if (progress[line.id]?.done)
+          file.append(el('s', undefined, wrong), ` ${DOSSIER_TEXT.right}`);
+        else file.append(wrong);
+        list.appendChild(file);
+      }
       list.appendChild(
         button(
           `${ATLAS_TEXT.page(line.title, done, total)}${mark}`,

@@ -199,3 +199,27 @@ export const HAZEL_PS: Readonly<Record<number, string>> = {
   11: 'P.S. Slow hands, love. You’ve got them.',
   12: 'P.S. The gate still sticks. Good.',
 };
+
+/**
+ * R0335 (FUN-46): the adult worlds' running gags on their shelves (canon 44 and 45). Each
+ * Multiverse line's case file names the Nubbins its way until the line closes, then the
+ * wrong word is struck through; Neopia's masthead caption degrades as the plots go on.
+ */
+export const DOSSIER_TEXT = {
+  label: 'Case file, the small ones: ',
+  right: 'Nubbins',
+  wrong: {
+    IM: 'small appliances',
+    CA: 'rodents',
+    FF: 'pebbles',
+    MK: 'colleagues',
+    SP: 'rodents',
+  } as Record<string, string>,
+  /** The Neopian Times masthead, by plots done: before NP4, from NP4, from NP13 (bitten). */
+  masthead: 'THE NEOPIAN TIMES',
+  captions: [
+    '“THE KEEPER AND…” (the rest was eaten)',
+    'THE KEEPER AND UNNAMED ASSOCIATE',
+    'THE KEEPER (AND ASSOCIATE)',
+  ],
+} as const;
