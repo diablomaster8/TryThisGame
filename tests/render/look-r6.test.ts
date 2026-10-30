@@ -8,6 +8,7 @@ import { artSpec } from '../../src/render3d/art-species';
 import { paletteOf } from '../../src/samples/nubbin-variants';
 import { createEgg } from '../../src/sim/nubbin';
 import { Rng } from '../../src/sim/rng';
+import { heldEmote, heldMood } from '../../src/render/held-mood';
 
 /** Lane E round 6: the child hint's fade (LOOK-49) and the hopping blobs (LOOK-45). */
 const child = (alignment: number) => {
@@ -57,5 +58,30 @@ describe('LOOK-45 hopping blobs', () => {
       expect(artSpec(id, art).hop, id).toBe(true);
     }
     expect(artSpec('dinolet', speciesArt('dinolet')!).hop).toBeUndefined();
+  });
+});
+
+describe('LOOK-50 held reactions', () => {
+  const held = (affection: number) => {
+    const n = child(0);
+    n.needs.affection = affection;
+    n.behavior.state = 'held';
+    return n;
+  };
+  it('hugs, dangles or flails by affection', () => {
+    expect([10, 40, 80].map((a) => heldMood(held(a)))).toEqual(['flail', 'dangle', 'hug']);
+    expect([10, 40, 80].map((a) => heldEmote(held(a)))).toEqual(['spiral', null, 'heart']);
+  });
+  it('a Moon adult held by a Sun Keeper squirms instead of hugging', () => {
+    const n = held(90);
+    n.stage = 'adult';
+    n.form = { band: 'moon', type: 'run' } as NonNullable<typeof n.form>;
+    expect(heldMood(n, 'sun')).toBe('dangle');
+    expect(heldMood(n, 'moon')).toBe('hug');
+  });
+  it('is not held on the ground', () => {
+    const n = held(80);
+    n.behavior.state = 'wander';
+    expect(heldEmote(n)).toBeNull();
   });
 });

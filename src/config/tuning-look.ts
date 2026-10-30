@@ -116,3 +116,14 @@ export const EYE_TRACK = {
   /** Pixel: closer than this across the screen, the eyes stay centred. */
   deadZone: 0.3,
 };
+
+export const HELD_REACT = {
+  /** LOOK-50: held, a Nubbin with this much affection or more hugs the Keeper's arm. */
+  hug: 60,
+  /** Under this it flails; between, it dangles with its legs swinging. */
+  flail: 20,
+  /** The dangle's leg swing (radians, ±15°) and rate (Hz); the flail's rate (Hz). */
+  dangleSwing: 0.26,
+  dangleHz: 1.2,
+  flailHz: 6,
+};

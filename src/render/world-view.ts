@@ -63,7 +63,8 @@ import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
 import { STAGE2 } from '../config/tuning';
-import { EYE_TRACK } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT } from '../config/tuning';
+import { heldMood, type HeldMood } from './held-mood';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 
@@ -1949,6 +1950,16 @@ export class WorldView {
         flip = flip !== sig.flip;
       }
       emote = emoteFor(n);
+      // LOOK-50: held, it hugs, dangles or flails by affection, with a heart or a swirl.
+      if (clip === 'held') {
+        const mood = heldMood(n, world.keeper.alignment);
+        const hz = mood === 'flail' ? HELD_REACT.flailHz : HELD_REACT.dangleHz;
+        const hf = mood === 'hug' ? 0 : Math.floor((nowMs * hz * 2) / 1000) % 2;
+        const hk = frameKey(HELD_CLIPS[mood], view.angle, hf);
+        if (sheet.frames.has(hk)) key = hk;
+        if (mood === 'hug') emote = 'heart';
+        else if (mood === 'flail') emote = 'spiral';
+      }
       // K40: the partner's ball follows the line's mood.
       if (held && this.staging?.partner?.id === n.id) emote = this.staging.partnerEmote() ?? emote;
     }
@@ -2206,6 +2217,13 @@ export function clipFor(n: Nubbin): string {
     }
   }
 }
+
+/** LOOK-50: the baked frames for each way of being held. */
+const HELD_CLIPS: Record<HeldMood, string> = {
+  hug: 'heldHug',
+  dangle: 'heldDangle',
+  flail: 'heldFlail',
+};
 
 /** Resting emote shape by mood and alignment hint. */
 export function emoteFor(n: Nubbin): EmoteShape {

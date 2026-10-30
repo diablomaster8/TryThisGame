@@ -26,7 +26,8 @@ import { gaitTime } from './gait';
 import { standAt } from './hollow-dress-path';
 import { WATER_LEVEL, groveHeight } from './terrain';
 import { FERN_STONE, GROVE3D, LIFECYCLE, READ3D, SIM, THROW } from '../config/tuning';
-import { EYE_TRACK } from '../config/tuning';
+import { EYE_TRACK, HELD_REACT } from '../config/tuning';
+import { heldEmote, heldMood, isHeld, type HeldMood } from '../render/held-mood';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
@@ -163,6 +164,27 @@ interface KeeperSlot {
 
 /** The tap sparkles' colour. */
 const SPARK = new THREE.Color('#fff2a8');
+/** LOOK-50: the pose for each way of being held. */
+const HELD_POSE3D: Record<HeldMood, PoseName> = { hug: 'love', dangle: 'idle', flail: 'surprised' };
+
+/**
+ * LOOK-50: the dangle swings the legs (±15°) and the flail beats arms and legs fast, laid on
+ * after the pose (which sets those bones afresh every frame, so nothing builds up).
+ */
+function heldSwing(rig: Rigged, mood: HeldMood, t: number): void {
+  if (mood === 'hug') return;
+  const b = rig.bones;
+  const flail = mood === 'flail';
+  const w = t * Math.PI * 2 * (flail ? HELD_REACT.flailHz : HELD_REACT.dangleHz);
+  const leg = flail ? 0.5 : HELD_REACT.dangleSwing;
+  if (b.legL) b.legL.rotation.x += Math.sin(w) * leg;
+  if (b.legR) b.legR.rotation.x -= Math.sin(w) * leg;
+  if (flail) {
+    if (b.armL) b.armL.rotation.z += 0.4 + Math.sin(w + 1) * 0.6;
+    if (b.armR) b.armR.rotation.z -= 0.4 + Math.sin(w + 2) * 0.6;
+  }
+}
+
 /** LOOK-52: the poses whose eyes follow the Keeper (not asleep, dizzy, crying or swimming). */
 const GLANCE_POSES: ReadonlySet<PoseName> = new Set<PoseName>(['idle', 'walk', 'happy', 'eat']);
 
@@ -939,6 +961,11 @@ export class Actors {
         const beat = this.petBeats.frame(n, nowMs);
         if (beat?.pose3d && !held) pose = beat.pose3d;
         a.beat = beat;
+        // LOOK-50: held, it hugs (love), dangles (idle) or flails (surprised) by affection;
+        // the dangle's and flail's limb swing goes on after the pose below.
+        const hm =
+          isHeld(n) && pose === 'pet' && petting !== n.id ? heldMood(n, keeper.alignment) : null;
+        if (hm) pose = HELD_POSE3D[hm];
         if (fly) pose = 'flap';
         const sigOn = !!sig && pose === 'idle';
         if (sigOn) pose = sig!.pose3d;
@@ -985,6 +1012,7 @@ export class Actors {
         if (n.behavior.state === 'pet' && near) petted = true;
         if (eggFamily(n) === 'chao') this.dresser.update(a.rig, n);
         a.rig.animate(gaitTime(a.rig, x, z, t, dt, pose === 'walk', inWater ? 0.6 : 1));
+        if (hm) heldSwing(a.rig, hm, t);
         this.tumble(a, n, o, nowMs);
         this.ripple(a, inWater, x, z, (t * 1250) / SWIM_STYLE.strokeMs[style]);
       } else if (a.stand) {
@@ -1029,6 +1057,7 @@ export class Actors {
           ? 'none'
           : (bubble?.shape ??
             (held && this.stager?.partner?.id === n.id ? this.stager.partnerEmote() : null) ??
+            heldEmote(n, keeper.alignment) ??
             emoteFor(n));
       const flip = Math.floor(nowMs / 400) % 2;
       const key =

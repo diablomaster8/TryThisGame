@@ -1868,6 +1868,27 @@ export function drawChao(angle: DrawnAngle, pose: ChaoPose, look: ChaoLook): Pix
   return pose.spin ? pc.rotatedQuarter(pose.spin) : pc;
 }
 
+/** LOOK-50: the held frames (shared with the creature drawer). */
+export const HELD_POSES: readonly (readonly [string, number, ChaoPose])[] = [
+  [
+    'heldHug',
+    0,
+    {
+      ...BASE,
+      eyes: 'happy',
+      mouth: 'smile',
+      legs: 'tucked',
+      arms: 'up',
+      blush: true,
+      squash: 0.97,
+    },
+  ],
+  ['heldDangle', 0, { ...BASE, mouth: 'flat', legs: 'stepA', lift: 1 }],
+  ['heldDangle', 1, { ...BASE, mouth: 'flat', legs: 'stepB', lift: 1 }],
+  ['heldFlail', 0, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepA', arms: 'up' }],
+  ['heldFlail', 1, { ...BASE, eyes: 'wide', mouth: 'o', legs: 'stepB', arms: 'out', lift: -1 }],
+];
+
 /** Every clip at every drawn angle, baked into one sheet. */
 export function buildChaoSheet(look: ChaoLook): SpriteSheet {
   const atlas = new AtlasBuilder(CHAO_SIZE, CHAO_SIZE, 10);
@@ -1892,6 +1913,9 @@ export function buildChaoSheet(look: ChaoLook): SpriteSheet {
       frameKey('held', angle, 0),
       drawChao(angle, { ...BASE, eyes: 'wide', mouth: 'flat', legs: 'tucked', arms: 'out' }, look),
     );
+    // LOOK-50: held by affection: a hug, a two-frame dangle, a two-frame flail.
+    for (const [name, f, pose] of HELD_POSES)
+      atlas.add(frameKey(name, angle, f), drawChao(angle, pose, look));
     // LOOK-52: the idle stance glancing left (frame 0) or right (1), for the facing views.
     if (angle === 'front' || angle === 'frontQuarter')
       for (const [f, glance] of [

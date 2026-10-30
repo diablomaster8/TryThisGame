@@ -1,7 +1,7 @@
 import { CLIPS, frameKey, type ClipName } from './animations';
 import { DRAWN_ANGLES, type DrawnAngle } from './angles';
 import { AtlasBuilder, type SpriteSheet } from './atlas';
-import { poseFor, type ChaoPose } from './chao';
+import { HELD_POSES, poseFor, type ChaoPose } from './chao';
 import {
   drawKitBody,
   drawKitExtras,
@@ -842,6 +842,9 @@ export function buildCreatureSheet(spec: CreatureSpec): SpriteSheet {
         spec,
       ),
     );
+    // LOOK-50: held by affection: a hug, a two-frame dangle, a two-frame flail.
+    for (const [name, f, pose] of HELD_POSES)
+      atlas.add(frameKey(name, angle, f), drawCreature(angle, pose, spec));
   }
   return atlas.build();
 }
