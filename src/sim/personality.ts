@@ -88,3 +88,27 @@ export function personalityCause(care: Nubbin['childCare'], p: Personality): Per
       return care.pets >= touches ? 'pets' : 'touches';
   }
 }
+
+/**
+ * R0578 (SOUL-61): how far a child leans each way, as shares that add to 1, for the sheet's
+ * forming meter: kind touches toward cheerful, throws toward mischievous, meals and tuck-ins
+ * toward lazy, and time left alone toward shy. All zero before any care or time.
+ */
+export function leanShares(n: Nubbin): Record<Personality, number> {
+  const c = n.childCare;
+  const raw: Record<Personality, number> = {
+    cheerful: c.pets + (c.touches ?? 0),
+    mischievous: c.throws,
+    lazy: c.feeds + (c.tucks ?? 0),
+    // Being left alone counts too: one act's worth for every few quiet minutes.
+    shy: Math.max(0, n.stageMs / PERSONALITY_LEAN.shyAfterMs) * PERSONALITY.shyTotal * 0.5,
+  };
+  const total = raw.cheerful + raw.mischievous + raw.lazy + raw.shy;
+  if (total <= 0) return { cheerful: 0, mischievous: 0, lazy: 0, shy: 0 };
+  return {
+    cheerful: raw.cheerful / total,
+    mischievous: raw.mischievous / total,
+    lazy: raw.lazy / total,
+    shy: raw.shy / total,
+  };
+}

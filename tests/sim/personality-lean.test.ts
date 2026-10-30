@@ -61,3 +61,16 @@ describe('R0523 leaning personality', () => {
     expect(petted).toBeGreaterThan(alone);
   });
 });
+
+describe('R0578 forming shares', () => {
+  it('a hug moves the cheerful share up at once; shares add to 1', async () => {
+    const { leanShares } = await import('../../src/sim/personality');
+    const { n } = oneChild(4);
+    n.childCare.throws = 2;
+    const before = leanShares(n).cheerful;
+    n.childCare.touches = 3;
+    const after = leanShares(n);
+    expect(after.cheerful).toBeGreaterThan(before);
+    expect(after.cheerful + after.shy + after.mischievous + after.lazy).toBeCloseTo(1, 6);
+  });
+});

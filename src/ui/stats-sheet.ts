@@ -10,6 +10,7 @@ import {
   TYPE_LABELS,
   UI_TEXT,
 } from '../config/strings';
+import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
 import { sheetCaption } from './sheet-caption';
@@ -225,6 +226,7 @@ export class StatsSheet {
       head,
       this.caption,
       this.personality.root,
+      this.personality.forming,
       this.personality.details,
       needs,
       stats,
@@ -326,6 +328,7 @@ export class StatsSheet {
     this.name.textContent = n.name;
     this.subtitle.textContent = subtitleFor(n, world);
     this.personality.update(n);
+    this.personality.meter(n, toastBand(world) === 'sprout');
 
     this.meters.hunger.set(n.needs.hunger);
     this.meters.energy.set(n.needs.energy);

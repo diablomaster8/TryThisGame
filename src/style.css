@@ -3315,3 +3315,40 @@ select {
   margin: 2px 0 0;
   padding-left: 18px;
 }
+
+/* R0578 (lane A r7): a child's personality-forming meter. */
+.personality-forming {
+  margin: 0 0 6px;
+}
+.forming-bars {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+.forming-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.forming-bar {
+  width: 14px;
+  height: 28px;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.forming-fill {
+  width: 100%;
+  background: #f2d34c;
+}
+.forming-label {
+  display: block;
+  opacity: 0.85;
+}
+.forming-hints {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  opacity: 0.85;
+}

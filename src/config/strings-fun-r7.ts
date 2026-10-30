@@ -247,3 +247,16 @@ export const LOCKED_TEXT = {
 
 /** R0527 (SOUL-09): the Learning Grove's picture hint after a throw. */
 export const GENTLE_HANDS = '🤲❤️ Gentle hands!' as const;
+
+/** R0578 (SOUL-61): the child's personality-forming meter on the sheet. */
+export const FORMING_TEXT = {
+  locks: (name: string, minutes: number): string =>
+    `Locks when ${name} grows up (in about ${minutes} min).`,
+  locksSoon: (name: string): string => `Locks when ${name} grows up.`,
+  hints: [
+    'Pets, hugs and tickles → Cheerful',
+    'Throws → Mischievous',
+    'Meals and early nights → Lazy',
+    'Leaving it be → Shy',
+  ],
+} as const;

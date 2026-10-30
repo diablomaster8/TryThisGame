@@ -9,9 +9,11 @@ import {
   PERSONALITY_BLURBS,
   PERSONALITY_CHIP_TEXT,
   PERSONALITY_TENDENCIES,
+  FORMING_TEXT,
 } from '../config/strings-fun-r7';
 import { PALETTE } from '../render/sprites/palette';
-import { leaningPersonality } from '../sim/personality';
+import { leanShares, leaningPersonality } from '../sim/personality';
+import { LIFECYCLE } from '../config/tuning';
 import type { Nubbin, Personality } from '../sim/types';
 import { el } from './dom';
 
@@ -145,5 +147,47 @@ export class PersonalityChip {
     const list = el('ul');
     for (const t of PERSONALITY_TENDENCIES[p]) list.appendChild(el('li', undefined, t));
     this.details.appendChild(list);
+    // R0578: what moves a child's leaning, under its tendencies.
+    if (forming) {
+      const hints = el('ul', 'forming-hints');
+      for (const h of FORMING_TEXT.hints) hints.appendChild(el('li', undefined, h));
+      this.details.appendChild(hints);
+    }
   }
+
+  /**
+   * R0578 (SOUL-61): a child's forming meter: four bars with their icons, filled by the
+   * share of each leaning, and when it locks. Kids see no minutes. Redrawn every refresh.
+   */
+  meter(n: Nubbin, kids: boolean): void {
+    const child = n.stage === 'child' && !n.personality;
+    this.forming.hidden = !child;
+    if (!child) return;
+    const shares = leanShares(n);
+    this.forming.innerHTML = '';
+    const row = el('div', 'forming-bars');
+    for (const p of ['cheerful', 'shy', 'mischievous', 'lazy'] as const) {
+      const bar = el('div', 'forming-bar');
+      bar.setAttribute('aria-label', `${PERSONALITY_LABELS[p]} ${Math.round(shares[p] * 100)}%`);
+      bar.title = PERSONALITY_LABELS[p];
+      const fill = el('div', 'forming-fill');
+      fill.style.height = `${Math.round(shares[p] * 100)}%`;
+      bar.append(fill);
+      const cell = el('div', 'forming-cell');
+      cell.append(bar, personalityIcon(p));
+      row.appendChild(cell);
+    }
+    const left = Math.max(0, Math.ceil((LIFECYCLE.childMs - n.stageMs) / 60_000));
+    this.forming.append(
+      row,
+      el(
+        'small',
+        'forming-label',
+        kids ? FORMING_TEXT.locksSoon(n.name) : FORMING_TEXT.locks(n.name, left),
+      ),
+    );
+  }
+
+  /** The forming meter's box, shown under the chip for a child. */
+  readonly forming: HTMLDivElement = el('div', 'personality-forming');
 }
