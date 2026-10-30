@@ -35,3 +35,14 @@ export const READ_ALOUD = {
   /** Voice names that usually mean a better engine, tried in this order. */
   bestVoice: ['Natural', 'Neural', 'Premium', 'Enhanced'],
 } as const;
+
+/**
+ * R0350: the Shadow Nubbin's trust bands for its refusal lines (refusals happen below
+ * `TRUST.wary`): `near` and above came within a paw. Touches it allows are met with a line
+ * that admits nothing until `allowsUntil`.
+ */
+export const SHY_TRUST = {
+  near: 20,
+  allowsUntil: 45,
+  touches: ['tickle', 'hug', 'groom', 'pet', 'highFive'] as readonly string[],
+} as const;

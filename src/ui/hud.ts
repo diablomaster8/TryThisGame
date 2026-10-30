@@ -75,7 +75,7 @@ import { AmbientBubbles, BarkBubble } from './bark-bubble';
 import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
-import { bandToaster, fernStoneLine, slipNudge } from './fun-toasts';
+import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -96,6 +96,7 @@ import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placeHint, placingLabel } from './decorate';
 import { PLACE_TEXT } from '../config/strings-fun-r7';
+import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
 import { keepsakeToast } from './collection';
 import { BreakScreen, EduScreen, GrownUpPanel } from './edu';
@@ -1239,12 +1240,15 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           const name = n?.name ?? NAMES.creature;
           // FUN-09: each action and personality has its own line.
+          // R0350: a Shadow Nubbin still earning trust says how close it came.
+          const shy = n ? shyLine(n, e.ok, e.action, toastBand(g.world)) : null;
           toast(
-            e.ok && n
-              ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
-              : e.ok
-                ? UI_TEXT.interacted(name, e.action)
-                : UI_TEXT.interactRefused(name),
+            shy ??
+              (e.ok && n
+                ? petToast(name, toastBeat(n, e.action, g.world.timeMs), n.personality)
+                : e.ok
+                  ? UI_TEXT.interacted(name, e.action)
+                  : UI_TEXT.interactRefused(name)),
           );
           if (e.ok) playSound('pet');
         } else if (e.kind === 'called') {
