@@ -1327,7 +1327,7 @@ export function mountHud(
           playSound('buy');
         } else if (e.kind === 'partyGiggles') {
           toast(HOLLOW_R6_TEXT.giggles);
-        } else if (e.kind === 'picnicRest' || e.kind === 'picnicTent') {
+        } else if (e.kind === 'picnicRest' || e.kind === 'picnicTent' || e.kind === 'deepBottom') {
           // Lane B round 7: Gran's Picnic (R0204).
           toast(HOLLOW_R7_TEXT[e.kind]);
           if (e.kind === 'picnicRest') playSound('buy');

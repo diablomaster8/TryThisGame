@@ -1,4 +1,4 @@
-import { DUNGEON, HOLLOW, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
+import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER, SCANS, type HollowLevel } from '../config/tuning';
 import { CRITTER_SPECIES } from './critters';
 import { dayKey } from './daily';
 import { createEgg, EGG_COLORS } from './nubbin';
@@ -1062,6 +1062,11 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   if (run.act !== undefined && run.depth >= actBossDepth(run.act)) {
     if (actProgress(world, run.act).bossDefeated) leaveDungeon(world, events);
     else events.push({ kind: 'bossGuard' });
+    return;
+  }
+  // R0205: the Deep Hollow ends at floor 99; its stairs there only rumble.
+  if (run.act === undefined && !run.story && run.depth >= HOLLOW_R7.deepMax) {
+    events.push({ kind: 'deepBottom' });
     return;
   }
   noteLevelDone(world, run);

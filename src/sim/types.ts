@@ -1517,6 +1517,7 @@ export type SimEvent =
   // Lane B round 7: Gran's Picnic (R0204).
   | { kind: 'picnicRest' }
   | { kind: 'picnicTent' }
+  | { kind: 'deepBottom' }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }

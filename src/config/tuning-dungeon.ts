@@ -308,4 +308,6 @@ export const HOLLOW_R7 = {
   aggro: { chaseMaxMs: 8000, askMs: 1500, ignoreMs: 3000, shyLess: 1 },
   /** R0204: seconds on the nook's rug for Gran's Picnic, its happiness, levels remembered. */
   picnic: { sitMs: 5000, happy: 10, keep: 40 },
+  /** R0205: the Deep Hollow's last floor. */
+  deepMax: 99,
 } as const;

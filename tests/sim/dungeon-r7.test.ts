@@ -160,3 +160,27 @@ describe("Gran's Picnic (R0204)", () => {
     expect(party[1]!.needs.energy).toBeLessThan(0.5);
   });
 });
+
+describe('the Deep Hollow (R0205)', () => {
+  it('goes on to floor 99 and no further', () => {
+    const world = underground();
+    const run = world.dungeon!;
+    const down = (): SimEvent[] => {
+      run.packs = [];
+      run.strays = [];
+      world.keeper.pos = cellCentre(runFloor(world)!, runFloor(world)!.stairsUp);
+      run.graceUntilMs = 0;
+      run.pending = 'down';
+      run.pendingPos = { ...world.keeper.pos };
+      world.keeper.moveTarget = run.pendingPos;
+      return step(world, 200);
+    };
+    run.depth = HOLLOW_R7.deepMax - 1;
+    down();
+    expect(run.depth).toBe(HOLLOW_R7.deepMax);
+    expect(world.hollow.best).toBe(HOLLOW_R7.deepMax);
+    expect(runFloor(world)!.stairsDown).toBeTruthy();
+    expect(down().some((e) => e.kind === 'deepBottom')).toBe(true);
+    expect(run.depth).toBe(HOLLOW_R7.deepMax);
+  });
+});

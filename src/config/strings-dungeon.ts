@@ -458,4 +458,6 @@ export const HOLLOW_R7_TEXT = {
   /** R0204: Gran's Picnic on the nook's rug, and the tent's note. */
   picnicRest: "A picnic on Gran's rug. Everyone's rested and very pleased with themselves.",
   picnicTent: "A snug tent. Safe to close the game here; you'll wake right where you are.",
+  /** R0205: the Deep Hollow's floor 99. */
+  deepBottom: 'The bottom of the Deep Hollow. The stairs go no further, only round in a sulk.',
 };
