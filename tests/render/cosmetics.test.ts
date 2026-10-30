@@ -41,10 +41,11 @@ const rig = (): Rigged =>
 describe('the cosmetics registry', () => {
   it('seeds 24 wearables with unique ids, names and every slot but body costumes', () => {
     // The hop course's prize hat (MOVE-63, lane A) and the Dojo Ladder's black belt (FIGHT-99,
-    // lane C) are not among the seeded wearables.
-    const ids = COSMETICS.map((c) => c.id).filter(
-      (id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt',
-    );
+    // lane C) are not among the seeded wearables, nor are the four seasonal hats (LOOK-70) or
+    // the Hollow's keepsakes (R0206, lane B).
+    const ids = COSMETICS.filter((c) => c.source !== 'season' && c.source !== 'hollow')
+      .map((c) => c.id)
+      .filter((id) => !id.startsWith('look-') && id !== 'hop-hat' && id !== 'black-belt');
     // The five hats, eighteen new ones and the eggshell.
     expect(ids.length + 1).toBe(24);
     expect(new Set(COSMETICS.map((c) => c.id)).size).toBe(COSMETICS.length);
@@ -82,6 +83,10 @@ describe('the cosmetics registry', () => {
   it('the shop shows the hat of the day and sells exactly that', () => {
     const world = createWorld(5, 0);
     world.inventory.shells = 10_000;
+    // LOOK-70: the season's hat leads until owned; with it owned, the everyday rotation shows.
+    const season = shopHat(world);
+    expect(buy(world, 'hat', new Rng(1), [])).toBe(true);
+    expect(world.inventory.hats).toContain(season);
     const today = shopHat(world);
     expect(SHOP_COSMETICS).toContain(today);
     expect(buy(world, 'hat', new Rng(2), [])).toBe(true);

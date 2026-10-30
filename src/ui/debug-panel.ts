@@ -1,4 +1,6 @@
 import { worldControls, worldLine } from './world-debug';
+import { behaviourHistogram, resetBehaviourHistogram } from './behaviour-histogram';
+import { debugIdleOdds } from '../sim/behavior';
 import { confirmModal } from './confirm';
 import { CAMP_TEXT } from '../config/strings';
 import { SIM } from '../config/tuning';
@@ -269,6 +271,10 @@ export class DebugPanel {
 
     this.values = el('pre', 'debug-values');
     this.root.appendChild(this.values);
+    // R0553 (lane A r7): start the behaviour histogram afresh.
+    this.root.appendChild(
+      button('Reset behaviour histogram', () => resetBehaviourHistogram(), 'btn btn-small'),
+    );
     this.inspector = new StageInspector(this.root, game);
     story.appendChild(button('Stage inspector', () => this.inspector.toggle(), 'btn btn-small'));
 
@@ -323,6 +329,17 @@ export class DebugPanel {
       `sim t ${Math.round(g.world.timeMs / 1000)} s  rng ${g.world.rngState}`,
       frameLine(g),
     ];
+    // R0553 (lane A r7): what this Nubbin has been doing over the last 5 sim minutes.
+    lines.splice(-2, 0, behaviourHistogram(g.world, n));
+    // R0524 (lane A r7): the live odds of the everyday idle pick for this Nubbin.
+    const odds = debugIdleOdds(g.world, n);
+    lines.splice(
+      -2,
+      0,
+      `idle ${Object.entries(odds)
+        .map(([k, v]) => `${k} ${Math.round(v * 100)}%`)
+        .join('  ')}`,
+    );
     this.values.textContent = lines.join('\n');
   }
 
@@ -351,7 +368,27 @@ function frameLine(g: Game): string {
   return (
     `draw calls ${r.calls}  triangles ${r.triangles}  ${things}  frame ${size.width}×${size.height} ×${size.scale}` +
     `\n${worldLine(g)}` +
-    hollowLine(g)
+    hollowLine(g) +
+    spikeLine(g)
+  );
+}
+
+/** HOT-2: frame times over the last minute or so, and what the longest frame spent them on. */
+function spikeLine(g: Game): string {
+  const s = g.spikes.summary();
+  const top = g.spikes.spikes[0];
+  const why = top
+    ? Object.entries(top.sections)
+        .filter(([, ms]) => ms >= 1)
+        .map(([k, ms]) => `${k} ${Math.round(ms)}`)
+        .concat(`outside ${Math.round(top.outsideMs)}`)
+        .join(' ')
+    : '';
+  const a = g.view.batch.atlas;
+  const atlas = g.scene3d ? '' : `  atlas pages ${a.pagesOpen} repacks ${a.generation}`;
+  return (
+    `\nframes p95 ${s.p95.toFixed(1)} ms  worst ${s.worst.toFixed(0)} ms  long ${s.long}${atlas}` +
+    (why ? `\nlongest: ${why}` : '')
   );
 }
 

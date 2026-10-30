@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "probe:world": "node tests/tools/world-probe.cjs",
+    "check:bundle": "node tests/tools/bundle-budget.cjs",
     "test:watch": "vitest",
     "lint": "eslint .",
     "format": "prettier --write .",

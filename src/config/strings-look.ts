@@ -3,6 +3,11 @@ import type { Personality } from '../sim/types';
 
 /** Cosmetic names by registry id. The eggshell's name comes from `eggshellLabel`. */
 export const COSMETIC_LABELS: Record<string, string> = {
+  // LOOK-70: the four seasonal hats.
+  'sprout-cap': 'Sprout cap',
+  'sun-visor': 'Sun visor',
+  'leaf-crown': 'Leaf crown',
+  'woolly-hat': 'Woolly hat',
   'look-quills': 'Quills look',
   'look-shade': 'Shade look',
   pot: 'Flower pot',
@@ -188,6 +193,10 @@ export const FLAVOUR = {
   } as Record<string, string>,
   wear: {
     straw: 'Keeps the sun off and the bees interested.',
+    'sprout-cap': 'Two leaves and a lot of optimism.',
+    'sun-visor': 'Shades the eyes. Does nothing for the ears.',
+    'leaf-crown': 'Fell off a tree. Landed on royalty.',
+    'woolly-hat': 'Itchy, warm, and worth it.',
     crown: 'Royalty is a state of mind.',
     beanie: 'For heads that run cold and opinions that run warm.',
     flower: 'Picked fresh. The bush has not forgiven you.',
@@ -218,6 +227,13 @@ export const FLAVOUR = {
     'halo-band': 'Pure as anything. Mind the mud.',
     horns: 'Purely decorative. Mostly.',
     'black-belt': 'Earned, not bought. Mentions it anyway.',
+    // Lane B round 7 (R0206): the Hollow's keepsakes.
+    'hollow-mushroom': 'Big Grumblecap wanted quiet. You got the hat.',
+    'hollow-hedge': 'Clipped by a knight. Still sheds leaves on the carpet.',
+    'hollow-looroll': 'Two-ply, regal, slightly unravelling.',
+    'hollow-noodle': 'Al dente. Do not let anyone near it with a fork.',
+    'hollow-hearth': 'Warm on top. The Gloom remembers who lit it.',
+    'hollow-cape': 'All five acts, one cape. It swishes on its own.',
   } as Record<string, string>,
 };
 
@@ -319,6 +335,7 @@ export const WARDROBE_TEXT = {
     shop: 'From the shop',
     race: 'Won in races',
     hatch: 'From an egg',
+    season: 'In the shop in its season',
   } as Record<string, string>,
 };
 
@@ -344,3 +361,9 @@ export const BIRTHMARK_TEXT = {
     notch: 'a nick in the crown',
   } as Record<string, string>,
 };
+
+/** LOOK-69 (R0437): the Wardrobe's Dojo belt switch. */
+export const BELT_TEXT = {
+  wear: (belt: string) => `🥋 Wear the ${belt}`,
+  off: (belt: string) => `🥋 Take off the ${belt}`,
+} as const;

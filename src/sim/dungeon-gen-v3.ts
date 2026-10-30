@@ -61,6 +61,20 @@ export interface V3Options {
   boss: boolean;
 }
 
+/** The nearest FLOOR cell to `c` by rings (itself when dry). */
+function dryNear(f: Floor, c: Cell): Cell {
+  for (let r = 0; r < 8; r++)
+    for (let dy = -r; dy <= r; dy++)
+      for (let dx = -r; dx <= r; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+        const x = c.x + dx;
+        const y = c.y + dy;
+        if (x >= 0 && y >= 0 && x < f.cols && y < f.rows && f.cells[y * f.cols + x] === FLOOR)
+          return { x, y };
+      }
+  return c;
+}
+
 /** The endless Hollow's floors: Rootways pieces, growing with depth. */
 export function v3OptionsFor(depth: number): V3Options {
   const d = V.deepLevels;
@@ -669,12 +683,13 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
     junctions: walk.junctions,
     spawns: spawns.filter((c) => floor.cells[c.y * cols + c.x] === FLOOR),
     shrines: shrines.filter((c) => floor.cells[c.y * cols + c.x] === FLOOR),
-    boss,
+    // The dressing can pool water over the boss's mark: it stands on the nearest dry cell.
+    boss: boss ? dryNear(floor, boss) : null,
   };
   floor.layout = layout;
   floor.packs = placePacks(floor, rng, depth, rng.int(level.packs[0], level.packs[1]));
   if (opts.boss) {
-    const at = boss ?? floor.stairsDown;
+    const at = layout.boss ?? floor.stairsDown;
     if (at) floor.packs.push(bossPack(floor, rng, depth, at));
   }
   return floor;

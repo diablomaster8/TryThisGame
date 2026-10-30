@@ -64,11 +64,18 @@ describe('the five acts (R0145)', () => {
       expect(world.location).toBe('dungeon');
       // Bump the boss until the stub says the party won.
       let won = false;
+      let fell = false;
       for (let tries = 0; tries < 40 && !won; tries++) {
         run.graceUntilMs = 0;
         const boss = run.packs[0]!;
-        world.keeper.pos = { x: boss.pos.x + 0.3, z: boss.pos.z };
-        won = step(world, 1500).some((e) => e.kind === 'bossBeaten');
+        // Beside the boss; but after a fall (a chasing boss can stand at deep water's edge)
+        // the boss is brought to the Keeper's dry spot instead (lane A r7: the seeded Grove
+        // drifted, and with it the party's Swim perk).
+        if (fell) boss.pos = { x: world.keeper.pos.x - 0.3, z: world.keeper.pos.z };
+        else world.keeper.pos = { x: boss.pos.x + 0.3, z: boss.pos.z };
+        const ev = step(world, 1500);
+        fell = ev.some((e) => e.kind === 'hollowFell');
+        won = ev.some((e) => e.kind === 'bossBeaten');
       }
       expect(won).toBe(true);
       expect(world.hollow.acts[act]!.bossDefeated).toBe(true);

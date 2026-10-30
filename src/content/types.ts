@@ -158,6 +158,8 @@ export interface LessonOption {
   best?: boolean;
   /** What the characters say back. A wrong answer gets a kind, teaching reply. */
   reply: Line[];
+  /** R0677: one emoji shown big on the sprout band's option button (a number if absent). */
+  icon?: string;
 }
 
 /** One learning beat, played inside a scene. Never blocks the story, never fails. */
@@ -228,12 +230,24 @@ export interface EduQuest {
   notes?: string;
 }
 
+/**
+ * A chapter's journal text in one band. Sprout chapters add `goalIcon` (one emoji the "What's
+ * next" card shows big) and `goalSay` (the goal as one spoken line, at most 14 words), R0673.
+ */
+export interface EduChapterText {
+  title?: string;
+  goalText: string;
+  hint: string;
+  goalIcon?: string;
+  goalSay?: string;
+}
+
 /** Educational version of a slice of the campaign, for one band. */
 export interface EduCampaign {
   id: string;
   band: EduBand;
   /** Chapter journal text by chapter number. */
-  chapters: Record<number, { title?: string; goalText: string; hint: string }>;
+  chapters: Record<number, EduChapterText>;
   scenes: EduScene[];
   /** Ending titles and "how" text by ending id, if this slice covers endings. */
   endings?: Record<string, { title: string; how: string }>;

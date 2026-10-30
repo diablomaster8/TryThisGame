@@ -21,6 +21,7 @@ import { specForKey } from './looks';
 import { stubOnce } from './stubs';
 import { cosmetic, eggshellColour, type CosmeticColour } from '../config/cosmetics';
 import { eggPalette } from '../render/sprites/egg-palette';
+import { BELT_COLOURS, beltOf } from '../render/belt';
 
 /**
  * What a Nubbin wears on top of its sculpted body in Full 3D: the hat (with its dye), the
@@ -316,6 +317,8 @@ interface Worn {
   glasses: boolean;
   /** LOOK-54: rebirth stars shown (0-3), or 4 for the ring. */
   stars: number;
+  /** LOOK-69 (R0437): the Dojo belt, 1-5, or 0. */
+  belt: number;
   groups: Group[];
 }
 
@@ -341,6 +344,7 @@ export class Dresser {
     const scarf = dressable ? (n.scarf ?? null) : null;
     const glasses = dressable && !!n.glasses;
     const stars = dressable ? Math.min(4, n.rebirths) : 0;
+    const belt = beltOf(n);
     const w = ud.dress;
     if (
       w &&
@@ -348,12 +352,13 @@ export class Dresser {
       w.dye === dye &&
       w.scarf === scarf &&
       w.glasses === glasses &&
-      w.stars === stars
+      w.stars === stars &&
+      w.belt === belt
     )
       return;
-    if (!w && !hat && !scarf && !glasses && !stars) return;
+    if (!w && !hat && !scarf && !glasses && !stars && !belt) return;
     this.strip(rig);
-    if (!hat && !scarf && !glasses && !stars) return;
+    if (!hat && !scarf && !glasses && !stars && !belt) return;
     const head = rig.bones.head;
     const hips = rig.bones.hips;
     if (!head || !hips) return;
@@ -443,7 +448,25 @@ export class Dresser {
       head.add(g);
       groups.push(g);
     }
-    ud.dress = { hat, dye, scarf, glasses, stars, groups };
+    if (belt) {
+      // LOOK-69: a flat band round the belly with a knot and two tails at the front.
+      const [bc, bs] = BELT_COLOURS[Math.min(BELT_COLOURS.length, belt) - 1]!;
+      const r = 0.76;
+      const g = this.build(
+        [
+          p('torus', bc, [0, 0, 0], [r, r, 0.55], [Math.PI / 2, 0, 0]),
+          p('box', bs, [0, 0, r + 0.04], [0.16, 0.13, 0.08]),
+          p('box', bc, [-0.07, -0.16, r + 0.03], [0.07, 0.22, 0.03], [0, 0, -0.25]),
+          p('box', bc, [0.07, -0.16, r + 0.03], [0.07, 0.22, 0.03], [0, 0, 0.25]),
+        ],
+        (c) => c,
+      );
+      g.position.copy(at.waist);
+      g.scale.setScalar(at.waistS);
+      hips.add(g);
+      groups.push(g);
+    }
+    ud.dress = { hat, dye, scarf, glasses, stars, belt, groups };
   }
 
   /** Take everything off a rig before it goes back to the pool. */

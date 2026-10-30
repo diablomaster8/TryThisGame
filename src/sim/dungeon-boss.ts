@@ -11,6 +11,7 @@
  */
 import { ACTS } from '../config/dungeon-acts';
 import { HOLLOW_R6 } from '../config/tuning-dungeon';
+import { HOLLOW_CAPE, HOLLOW_HATS } from '../config/cosmetics-hollow';
 import { actFamilies } from '../config/dungeon-foes';
 import { rollGear, keepGear } from './gear';
 import type { Rng } from './rng';
@@ -48,6 +49,10 @@ export function bossWon(
 ): void {
   const act = run.act;
   if (act === undefined) return;
+  // R0206: the act's hat, and the cape once all five are home (once each, on any tier).
+  giveWearable(world, HOLLOW_HATS[act], events);
+  if (HOLLOW_HATS.every((h) => world.inventory.hats.includes(h)))
+    giveWearable(world, HOLLOW_CAPE, events);
   const paid = (world.hollow.bossChests ??= []);
   if (paid.includes(act)) return;
   paid.push(act);
@@ -56,6 +61,13 @@ export function bossWon(
   const next = nextActWaypoint(act);
   if (next && !world.hollow.waypoints.includes(next)) world.hollow.waypoints.push(next);
   events.push({ kind: 'bossCelebration', act, item, next });
+}
+
+/** R0206: a milestone wearable, given once. */
+function giveWearable(world: World, id: string | undefined, events: SimEvent[]): void {
+  if (!id || world.inventory.hats.includes(id)) return;
+  world.inventory.hats.push(id);
+  events.push({ kind: 'hollowWearable', id });
 }
 
 /** A lost boss fight: everyone rests up fully for the retry. */

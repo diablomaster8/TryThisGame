@@ -2,6 +2,7 @@ import { CURFEW, LIFECYCLE, NEEDS } from '../config/tuning';
 import { litLanterns } from './campaign';
 import { lifespanMs } from './slips';
 import type { Nubbin, SimEvent, World } from './types';
+import { dayPhase } from './soul-idle';
 
 /**
  * The real clock: late at night Nubbins want to sleep and tire faster, unless the
@@ -20,6 +21,8 @@ export function stepCurfew(
 ): void {
   if (wallMs === undefined) return;
   const night = isNightHour(new Date(wallMs).getHours());
+  // R0535 (lane A r8): the time of day behaviour reads, from the same clock.
+  world.phase = dayPhase(new Date(wallMs).getHours());
   if (night !== world.night) {
     world.night = night;
     events.push({ kind: 'curfew', night });

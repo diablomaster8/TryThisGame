@@ -10,13 +10,16 @@
  * which may answer at once or later through the `encounterDone` command. The default is
  * a seeded auto-resolve stub that weighs the party against the pack. Pure sim: no DOM.
  */
+import { arenaFor, type HollowArena } from './dungeon-arena';
+import { fightFlag, noteFinalBoss } from './dungeon-tiers';
+import { noteActTime } from './dungeon-speed';
 import { uniqueBeaten } from './dungeon-uniques';
 import { bossPhases, bossRetry, bossWon, type BossPhase } from './dungeon-boss';
 import { noteFight } from './dungeon-log';
 import { lostTo, sneaking, startsAsleep, stepSleepy } from './dungeon-sleepy';
-import { DUNGEON, HOLLOW, KEEPER } from '../config/tuning';
+import { DUNGEON, HOLLOW, HOLLOW_R7, KEEPER } from '../config/tuning';
 import { BATTLE } from '../config/tuning-battle';
-import { actFamilies, type ChampionModId } from '../config/dungeon-foes';
+import { actFamilies, FOE_FAMILIES, type ChampionModId } from '../config/dungeon-foes';
 import {
   combatantOf,
   createBattle,
@@ -91,6 +94,10 @@ export interface EncounterSpec {
   tier: number;
   /** R0160: a boss's phases (adds at half puff); the fight side may read them. */
   phases?: BossPhase[];
+  /** R0195: the same ground as a tactics board (heights in steps, props, spawn sides). */
+  board?: HollowArena;
+  /** R0179: the tier's assist flag: gentle (auto-target, free retry), standard or tactics. */
+  fight?: 'gentle' | 'standard' | 'tactics';
 }
 
 /** The `source` the Hollow's bouts carry on the battle core, matched on `battleEnd`. */
@@ -337,12 +344,15 @@ export function encounterSpec(
     kind: pack.kind,
     party: [...run.party],
     arena: { x0, y0, w, h, cells, elevation },
+    board: arenaFor(f, at),
     terrain: f.layout?.tileset ?? 'rootways',
     canFlee: pack.kind !== 'boss',
     // The boss's id has no number; it must still get its own seed.
     seed: (run.seed * 31 + run.depth * 7919 + (Number(pack.id.slice(5)) || 97) * 101) >>> 0,
     tier: pack.tier,
     ...(pack.kind === 'boss' ? { phases: bossPhases(run.act) } : {}),
+    // R0179: the run's tier, as FIGHT's assist flag.
+    fight: fightFlag(run.difficulty),
   };
 }
 
@@ -368,7 +378,16 @@ export function startEncounter(
   events: SimEvent[],
 ): void {
   const run = world.dungeon!;
-  run.encounter = { packId: pack.id };
+  // R0196: remember where everyone stood, so a win or a flight puts them back.
+  const party: Record<string, Vec2> = {};
+  for (const id of run.party) {
+    const n = world.nubbins.find((x) => x.id === id);
+    if (n) party[id] = { x: n.pos.x, z: n.pos.z };
+  }
+  run.encounter = {
+    packId: pack.id,
+    at: { keeper: { x: world.keeper.pos.x, z: world.keeper.pos.z }, party },
+  };
   world.keeper.moveTarget = null;
   world.keeper.intent = null;
   pack.target = null;
@@ -392,7 +411,17 @@ export function finishEncounter(
   const run = world.dungeon;
   if (!run?.encounter) return;
   const packId = run.encounter.packId;
+  const at = run.encounter.at;
   delete run.encounter;
+  // R0196: back where everyone stood (a loss sends them to the stairs below instead).
+  if (at && outcome !== 'lost') {
+    world.keeper.pos = { ...at.keeper };
+    for (const id of run.party) {
+      const n = world.nubbins.find((x) => x.id === id);
+      const p = at.party[id];
+      if (n && p) n.pos = { ...p };
+    }
+  }
   const pack = run.packs?.find((p) => p.id === packId);
   const spec = f.packs?.find((p) => p.id === packId);
   if (!pack || !spec) return;
@@ -409,6 +438,8 @@ export function finishEncounter(
     world.inventory.shells += shells - boutShells;
     run.haul.shells += shells;
     events.push({ kind: 'packBeaten', packId, x: pack.pos.x, z: pack.pos.z, shells });
+    // R0196: the next pack gives the Keeper a breath before it notices.
+    run.graceUntilMs = Math.max(run.graceUntilMs ?? 0, world.timeMs + R7.afterFightMs);
     // R0163: the pack's drop table, seeded by the run, the level and the pack.
     const drops = Rng.fromSeed(`${run.seed}:${run.depth}:${run.act ?? -1}:${packId}:drops`);
     rollDrops(world, drops, spec.reward, spec.members[0]?.level ?? run.depth, events);
@@ -416,6 +447,10 @@ export function finishEncounter(
     if (spec.kind === 'boss' && run.act !== undefined) {
       actProgress(world, run.act).bossDefeated = true;
       events.push({ kind: 'bossBeaten', act: run.act });
+      // R0179: the last act's boss opens the next tier.
+      noteFinalBoss(world, run.act, events);
+      // R0187: a speed run's time for the act.
+      noteActTime(world, run, events);
       // R0160: the big chest, the celebration and the next act's waypoint (first time only).
       bossWon(world, run, spec.members[0]?.level ?? run.depth, drops, events);
     }
@@ -448,13 +483,32 @@ export function finishEncounter(
 
 const routes = new WeakMap<DungeonPack, NavRoute>();
 
-function walk(f: Floor, pack: DungeonPack, target: Vec2, speed: number, dt: number): boolean {
+const R7 = HOLLOW_R7.aggro;
+
+/** R0200: a party with a Shy Nubbin in it is noticed from a cell closer. */
+function shyParty(world: World, run: DungeonRun): boolean {
+  return run.party.some((id) => world.nubbins.find((n) => n.id === id)?.personality === 'shy');
+}
+
+/** R0200: Swim-type foe families may chase through water; the rest go round. */
+export function swimFamily(id: FoeFamilyId): boolean {
+  return FOE_FAMILIES.find((d) => d.id === id)?.type === 'swim';
+}
+
+function walk(
+  f: Floor,
+  pack: DungeonPack,
+  target: Vec2,
+  speed: number,
+  dt: number,
+  wet = false,
+): boolean {
   let route = routes.get(pack);
   if (!route) {
     route = newRoute();
     routes.set(pack, route);
   }
-  const wp = nextWaypoint(route, f, pack.pos, target, false, 0.3) ?? pack.pos;
+  const wp = nextWaypoint(route, f, pack.pos, target, wet, 0.3) ?? pack.pos;
   const dx = wp.x - pack.pos.x;
   const dz = wp.z - pack.pos.z;
   const d = Math.hypot(dx, dz);
@@ -504,18 +558,25 @@ export function stepPacks(
       continue;
     }
     const fromHome = Math.hypot(home.x - pack.pos.x, home.z - pack.pos.z);
-    if (pack.state === 'idle' && !settling && toKeeper <= spec.aggroRadius * DUNGEON.cell) {
+    // R0200: a pack that just gave up looks away for a moment; a Shy friend keeps the party small.
+    const ignoring = pack.gaveUpMs !== undefined && world.timeMs - pack.gaveUpMs < R7.ignoreMs;
+    const aggro =
+      spec.aggroRadius - (spec.kind !== 'boss' && shyParty(world, run) ? R7.shyLess : 0);
+    if (pack.state === 'idle' && !settling && !ignoring && toKeeper <= aggro * DUNGEON.cell) {
       pack.state = 'chase';
       pack.noticedMs = world.timeMs;
       events.push({ kind: 'packNoticed', packId: pack.id });
     }
     if (pack.state === 'chase') {
-      if (settling || fromHome > spec.leash * DUNGEON.cell) {
+      const chased = world.timeMs - pack.noticedMs - E.noticeMs;
+      const tired = spec.kind !== 'boss' && chased > R7.chaseMaxMs;
+      if (settling || fromHome > spec.leash * DUNGEON.cell || tired) {
         pack.state = 'home';
+        if (!settling) pack.gaveUpMs = world.timeMs;
       } else {
-        // A beat of surprise ("!") before the chase.
+        // A beat of surprise ("!") before the chase. Only swimmers follow through water.
         if (world.timeMs - pack.noticedMs >= E.noticeMs)
-          walk(f, pack, k.pos, KEEPER.speed * E.chaseSpeed, dt);
+          walk(f, pack, k.pos, KEEPER.speed * E.chaseSpeed, dt, swimFamily(spec.family));
         pack.target = { x: k.pos.x, z: k.pos.z };
         if (toKeeper < E.contact) {
           startEncounter(world, f, pack, rng, events);

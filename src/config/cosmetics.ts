@@ -3,6 +3,8 @@ import { COSMETIC_LABELS, eggshellLabel } from './strings-look';
 import { HOP_COURSE_TEXT } from './strings-move';
 import { LADDER_TEXT } from './strings-battle-r6';
 import type { C } from '../render/sprites/palette';
+import { HOLLOW_COSMETICS } from './cosmetics-hollow';
+import type { Season } from '../sim/types';
 
 /**
  * The hat and costume registry (LOOK-32). Every wearable is one entry: its slot, rarity and
@@ -17,7 +19,9 @@ import type { C } from '../render/sprites/palette';
 
 export type CosmeticSlot = 'hat' | 'face' | 'neck' | 'back' | 'body';
 export type CosmeticRarity = 'common' | 'rare' | 'prize';
-export type CosmeticSource = 'shop' | 'race' | 'hatch';
+/** `season`: on sale only in its real season (LOOK-70), and kept for good once bought. */
+/** `hollow`: a Hollow keepsake (R0206, lane B), given by an act boss. */
+export type CosmeticSource = 'shop' | 'race' | 'hatch' | 'season' | 'hollow';
 
 /** A palette colour by name, or a colour of the egg the wearer hatched from. */
 export type CosmeticColour = keyof typeof C | 'egg.shell' | 'egg.shade' | 'egg.cap' | 'egg.spot';
@@ -57,6 +61,8 @@ export interface Cosmetic {
   slot: CosmeticSlot;
   rarity: CosmeticRarity;
   source: CosmeticSource;
+  /** LOOK-70: the real season a `season` wearable is on sale in. */
+  season?: Season;
   /** Drawn by the renderers' own hand-made shapes instead of the lists below. */
   bespoke?: true;
   /** Pixel shapes for the front and side views, and for the back views when they differ. */
@@ -468,9 +474,111 @@ export const COSMETICS: readonly Cosmetic[] = [
       ['cone', 'ember', [0.42, -0.1, 0.05], [0.13, 0.36, 0.13], [0, 0, -0.4]],
     ],
   ),
+  // LOOK-70 (lane E r7): one hat per real season, sold only in it, kept for good.
+  {
+    ...item(
+      'sprout-cap',
+      'hat',
+      'rare',
+      [
+        ['ellipse', 0, -1, 6, 3, 'leaf'],
+        ['rect', -7, 1, 14, 1, 'leafDeep'],
+        ['line', 0, -4, 0, -6, 'leafDeep'],
+        ['ellipse', -2, -7, 2.5, 1.2, 'sprout'],
+        ['ellipse', 2, -7, 2.5, 1.2, 'leafLight'],
+      ],
+      [
+        ['dome', 'leaf', [0, -0.12, 0], [0.6, 0.36, 0.6]],
+        ['torus', 'leafDeep', [0, -0.14, 0], [0.6, 0.6, 0.4], [Math.PI / 2, 0, 0]],
+        ['cyl', 'leafDeep', [0, 0.3, 0], [0.03, 0.18, 0.03]],
+        ['sphere', 'sprout', [-0.14, 0.4, 0], [0.16, 0.05, 0.09], [0, 0, 0.4]],
+        ['sphere', 'leafLight', [0.14, 0.4, 0], [0.16, 0.05, 0.09], [0, 0, -0.4]],
+      ],
+    ),
+    source: 'season',
+    season: 'spring',
+  },
+  {
+    ...item(
+      'sun-visor',
+      'hat',
+      'rare',
+      [
+        ['rect', -6, -1, 12, 2, 'sunYellow'],
+        ['ellipse', 3, 1, 6, 1.5, 'orange'],
+        ['line', -6, 0, 6, 0, 'sunDeep'],
+      ],
+      [
+        ['torus', 'sunYellow', [0, -0.16, 0], [0.62, 0.62, 0.9], [Math.PI / 2, 0, 0]],
+        ['box', 'orange', [0, -0.18, 0.62], [0.7, 0.03, 0.42], [0.15, 0, 0]],
+      ],
+    ),
+    source: 'season',
+    season: 'summer',
+  },
+  {
+    ...item(
+      'leaf-crown',
+      'hat',
+      'rare',
+      [
+        ['rect', -7, 1, 15, 1, 'bark'],
+        ['tri', -7, 1, -4, 1, -6, -3, 'ember'],
+        ['tri', -3, 1, 0, 1, -2, -4, 'orange'],
+        ['tri', 1, 1, 4, 1, 2, -4, 'sunDeep'],
+        ['tri', 5, 1, 8, 1, 6, -3, 'berry'],
+      ],
+      [
+        ['torus', 'bark', [0, -0.2, 0], [0.62, 0.62, 0.62], [Math.PI / 2, 0, 0]],
+        ...ring(
+          7,
+          0.62,
+          -0.2,
+          (x, z, a) =>
+            [
+              'cone',
+              (['ember', 'orange', 'sunDeep', 'berry'] as const)[Math.round(a * 1.1) % 4]!,
+              [x, -0.06, z],
+              [0.12, 0.22, 0.05],
+              [0, a, 0],
+            ] as const,
+        ),
+      ],
+    ),
+    source: 'season',
+    season: 'autumn',
+  },
+  {
+    ...item(
+      'woolly-hat',
+      'hat',
+      'rare',
+      [
+        ['ellipse', 0, -1, 6.5, 4, 'ember'],
+        ['rect', -7, 1, 14, 2, 'cream'],
+        ['line', -5, -2, 5, -2, 'cream'],
+        ['disc', 0, -6, 2, 'cream'],
+      ],
+      [
+        ['dome', 'ember', [0, -0.15, 0], [0.64, 0.48, 0.64]],
+        ['torus', 'cream', [0, -0.15, 0], [0.64, 0.64, 0.9], [Math.PI / 2, 0, 0]],
+        ['torus', 'cream', [0, 0.08, 0], [0.55, 0.55, 0.4], [Math.PI / 2, 0, 0]],
+        ['sphere', 'cream', [0, 0.38, 0], 0.15],
+      ],
+    ),
+    source: 'season',
+    season: 'winter',
+  },
+  // Lane B round 7 (R0206): the act bosses' hats and the Hollow cape.
+  ...HOLLOW_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));
+
+/** LOOK-70: the wearable on sale in a real season, if any. */
+export function seasonHat(season: Season): string | null {
+  return COSMETICS.find((c) => c.season === season)?.id ?? null;
+}
 
 /** The eggshell hat's id for one egg colour (LOOK-26). */
 export const eggshellId = (colour: string): string => `shell:${colour}`;

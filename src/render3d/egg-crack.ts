@@ -37,6 +37,17 @@ function crackLine(shell: THREE.Mesh, level: 1 | 2): THREE.Line {
   return new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), CRACK_MAT);
 }
 
+/**
+ * HOT-2: a crack line for the scene's shader warm-up. The cracks appear in an egg's last
+ * 20 s, and their first draw used to link a program mid-play.
+ */
+export function crackWarmObject(): THREE.Line {
+  return new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3(0, 0.1, 0)]),
+    CRACK_MAT,
+  );
+}
+
 /** Bring a shell's cracks to the egg's level (none on a cocoon). */
 export function updateCracks(shell: THREE.Mesh, level: 0 | 1 | 2): void {
   const ud = shell.userData as { crack?: { level: number; line: THREE.Line } };

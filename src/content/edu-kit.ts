@@ -4,7 +4,7 @@
  * `loadEduScripts` in sim/story-scenes.ts) and builds them over just what it has loaded, so a
  * sprout slot never downloads the reader scripts. A band with no data reads as empty.
  */
-import type { EduBand, EduCampaign, EduQuest, EduScene, GlossaryEntry, Lesson } from './types';
+import type { EduBand, EduCampaign, EduChapterText, EduQuest, EduScene, GlossaryEntry, Lesson } from './types';
 
 export const EDU_BANDS: readonly EduBand[] = ['sprout', 'reader'];
 
@@ -42,7 +42,7 @@ export interface EduApi {
   eduChapterText(
     band: EduBand,
     n: number,
-  ): { title?: string; goalText: string; hint: string } | undefined;
+  ): EduChapterText | undefined;
   /** The band's journal goal for a quest step (by original quest id and step id). */
   eduGoal(
     band: EduBand,

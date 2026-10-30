@@ -106,6 +106,18 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       g.stroke();
       break;
     }
+    case 'fruit':
+      // TECH-01: a red apple with a stalk and a leaf.
+      g.arc(cx, cy + 4, 30, 0, Math.PI * 2);
+      paint(g, hex(C.rose), cy + 4, 30);
+      g.beginPath();
+      g.moveTo(cx, cy - 24);
+      g.lineTo(cx + 3, cy - 40);
+      inked(g, hex(C.darkBark), 6);
+      g.beginPath();
+      g.ellipse(cx + 16, cy - 36, 12, 6, -0.4, 0, Math.PI * 2);
+      paint(g, hex(C.leaf), cy - 36, 12);
+      break;
     case 'exclaim':
       g.roundRect(cx - 9, cy - 38, 18, 48, 9);
       paint(g, hex(C.ember), cy - 14, 26);
@@ -191,6 +203,25 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       round(g, 4);
       g.strokeStyle = hex(C.lilacGrey);
       g.stroke();
+      break;
+    case 'puff':
+      // Three grey lumps blown out sideways: a huff (lane A r8).
+      g.beginPath();
+      g.arc(cx - 18, cy + 8, 20, 0, Math.PI * 2);
+      g.arc(cx + 8, cy - 8, 24, 0, Math.PI * 2);
+      g.arc(cx + 26, cy + 14, 16, 0, Math.PI * 2);
+      paint(g, hex(C.greyLight), cy, 34);
+      break;
+    case 'note':
+      // A quaver: a round head and a flagged stem (lane A r8).
+      g.beginPath();
+      g.ellipse(cx - 12, cy + 22, 16, 12, -0.4, 0, Math.PI * 2);
+      paint(g, hex(C.violet), cy + 22, 16);
+      g.beginPath();
+      g.moveTo(cx + 2, cy + 20);
+      g.lineTo(cx + 2, cy - 36);
+      g.quadraticCurveTo(cx + 30, cy - 26, cx + 26, cy - 4);
+      inked(g, hex(C.violet), 8);
       break;
     case 'none':
       break;

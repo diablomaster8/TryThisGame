@@ -40,11 +40,6 @@ export const CAMERA = {
   /** Fixed downward tilt of the orbit camera, in degrees. */
   pitchDeg: 35,
   pitchRad: (35 * Math.PI) / 180,
-  /** How far up the view the Keeper moves while the stats sheet covers a phone's lower half. */
-  sheetLift: 0.22,
-  /** How far right the camera aims, as a share of the view's width, while the docked desktop
-   *  stats sheet covers the right third: the Keeper and Nubbin sit in the clear left part. */
-  sheetSide: 0.17,
   /** How long the camera turns to a Nubbin whose end-of-life moment is playing, in ms. */
   focusMs: 6000,
   /** The camera orbits in steps of this many degrees. */
@@ -2010,4 +2005,8 @@ export * from './tuning-move-nub';
 export * from './tuning-battle';
 export * from './tuning-look';
 export * from './tuning-fun';
+export * from './tuning-tech';
+export * from './tuning-kids';
+export * from './tuning-fun-r7';
 export * from './tuning-camp';
+export * from './tuning-soul-r8';

@@ -445,8 +445,7 @@ export const UI_TEXT = {
   tierLabel: (tier: number) => `Tier ${tier}`,
   cheer: 'Cheer!',
   raceResults: 'Race results',
-  place: (p: number) =>
-    `${ordinal(p)} place`,
+  place: (p: number) => `${ordinal(p)} place`,
   wonHat: 'You won a hat!',
   tierUnlocked: 'Next tier unlocked!',
   // Roster
@@ -575,6 +574,7 @@ export const UI_TEXT = {
     path: 'That would block the bridge.',
     someone: 'Someone is standing there.',
     spot: 'That spot is kept clear.',
+    crop: 'That would squash the planting.',
   } satisfies Record<PlaceRefusal, string>,
   /** Turns the piece being placed by an eighth. */
   rotatePiece: 'Turn',
@@ -1532,4 +1532,6 @@ export * from './strings-move-joy';
 export * from './strings-battle';
 export * from './strings-look';
 export * from './strings-fun';
+export * from './strings-tech';
+export * from './strings-kids';
 export * from './strings-camp';

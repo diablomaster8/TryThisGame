@@ -184,6 +184,14 @@ export interface Nubbin {
     /** Lane C round 5 (recs FIGHT-73): bouts won and lost as a child; absent = 0. */
     boutWins?: number;
     boutLosses?: number;
+    /**
+     * R0530 (SOUL-12): the other kind touches (tickle, hug, groom, praise, high five) and
+     * tuck-ins, each counted once per pet cooldown; absent = 0, no save bump.
+     */
+    touches?: number;
+    tucks?: number;
+    /** R0530: sim time the last touch or tuck-in was counted. */
+    lastCareMs?: number;
   };
   /** Set at evolution. */
   form: NubbinForm | null;
@@ -192,6 +200,8 @@ export interface Nubbin {
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
+  /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
+  hideBelt?: boolean;
   rebirths: number;
   /** Grades raised at evolution, kept across rebirths. */
   gradeUpgrades: Partial<Record<StatKey, number>>;
@@ -219,6 +229,8 @@ export interface Nubbin {
   karate: { wins: number; losses: number; belt: number };
   /** Friendship with other Nubbins, by id. */
   friends: Record<string, number>;
+  /** R0539: buddies who departed, newest last (at most three). Optional, no save bump. */
+  remembered?: Array<{ id: string; name: string; atMs: number }>;
   /** Accessories: a dyed scarf and glasses; a dyed hat. */
   scarf: DyeColor | null;
   glasses: boolean;
@@ -238,6 +250,19 @@ export interface Nubbin {
   spanScale?: number;
   lastPetMs: number;
   lastShakeMs: number;
+  /** R0351: times this egg has been shaken (every third, a foot pokes out). Optional, no save bump. */
+  eggShakes?: number;
+  // Lane A r8 (SOUL), optional with defaults, no save bump:
+  /** R0536: which of its likes the Keeper has seen it react to (the sheet shows "?" till then). */
+  tasteSeen?: { yum?: true; bleh?: true; toy?: true };
+  /** R0532: how long it has been content while moody (care softens the look). */
+  moodyCalmMs?: number;
+  /** R0537: boredom per toy id, +1 per play second, fading by the minute. */
+  toyBoredom?: Record<string, { v: number; at: number }>;
+  /** R0563: what it did lately (sim/diary.ts), newest last, at most five. */
+  /** R0539 (lane A r8): buddies away right now, for a reunion hug when they come back. */
+  missing?: string[];
+  diary?: Array<{ kind: import('./diary').DiaryKind; otherId?: string; atMs: number }>;
   // Future fields (v2), empty by default so no migration is needed later.
   genes: Record<string, unknown>;
   skills: Record<string, unknown>;
@@ -260,6 +285,8 @@ export interface Item {
   toy?: ToyKind;
   /** Fruit: a stat or alignment flavour, or plain. */
   flavor?: Flavor;
+  /** R0537 (lane A r8): when a toy came to the Grove, for its novelty. Optional, no save bump. */
+  bornMs?: number;
 }
 
 export interface Tree {
@@ -296,6 +323,11 @@ export interface Keeper {
   bufferMs: number;
   /** The jump button is down: a held jump rises higher. */
   jumpHeld: boolean;
+  /** R0352: ms the Keeper has stood quietly in the Grove (live play). Optional, no save bump. */
+  idleMs?: number;
+  /** R0352: the Nubbin coming to sit beside the sitting Keeper, and when it sat down (sim ms). */
+  sitWith?: string;
+  sitBesideMs?: number;
 }
 
 /** Extra ways to interact with a Nubbin beyond pet, feed and carry. */
@@ -348,6 +380,16 @@ export interface Settings {
   leftHanded?: boolean;
   /** R0302: the dialogue's per-speaker typing blips. Unset: on. */
   voiceBlips?: boolean;
+  /** TECH-15: vibration on Android. Unset: on for a touch device (platform/haptics.ts). */
+  haptics?: boolean;
+  /** TECH-27: the root text size. Unset: 1.15 in the read-aloud band, else 1 (ui/text-scale.ts). */
+  textScale?: number;
+  /** R0365: how much slapstick: distracted bonks at full rate, half, or none. Unset: full. */
+  slapstick?: 'full' | 'gentle' | 'off';
+  /** R0549 (lane A r8): draw mood bubbles 1.5×; unset follows the Learning Grove (on there). */
+  bigBubbles?: boolean;
+  /** R0593 (lane A r8): quirk and antic rate; unset is normal (lively for sprouts). */
+  liveliness?: 'calm' | 'normal' | 'lively';
   /** R0294: Do it skips the quest micro-games. Unset: on for Little Sprouts, else off. */
   microSkip?: boolean;
   particles: 'full' | 'light' | 'off';
@@ -520,6 +562,10 @@ export interface TeamState {
 /** Educational mode (sim/edu.ts). Null outside it. */
 export interface EduState {
   age: EduAge;
+  /** Lane E r7, R0691: a reader's grown-up chose "every Nubbin comes back" (sprouts always do). */
+  alwaysReborn?: boolean;
+  /** Lane E r7, R0746: rounds per game a grown-up picked (absent: by age, `eduRounds`). */
+  roundsPerGame?: number;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -543,6 +589,8 @@ export interface EduState {
   lessons: Record<string, { best: boolean | null }>;
   /** Little Sprouts: speak each line with the device's voice (once sound is on). */
   readAloud: boolean;
+  /** R0343: Grove Readers: speak each line too (off unless the grown-up turns it on). Optional, no save bump. */
+  readToMe?: boolean;
   /** Language course words (CV3), by vocab id: times heard in a scene or tapped, times used. */
   words: Record<string, { heard: number; used: number }>;
   /** The language courses the child has started from Nova's postcard. */
@@ -610,7 +658,7 @@ export type DecorKind =
   | 'hayBale';
 
 /** Why a piece of decor can't go somewhere (MOVE-05); each has a line in `UI_TEXT.decorRefused`. */
-export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot';
+export type PlaceRefusal = 'water' | 'edge' | 'solid' | 'path' | 'someone' | 'spot' | 'crop';
 
 export interface PlacedDecor {
   id: string;
@@ -651,6 +699,9 @@ export interface DungeonWild {
   species: string;
   pos: Vec2;
   scanned: boolean;
+  /** R0198: a nursery nook's baby, and how long the Keeper has waited quietly by it. */
+  nook?: true;
+  quietMs?: number;
 }
 
 /** One run into the Hollow Below; the floor itself comes from the seed and depth. */
@@ -702,7 +753,12 @@ export interface DungeonRun {
    * A fight in progress; `bout` is `world.battleRuns` once the battle core took it on, so an
    * old bout with the same key is never mistaken for this one.
    */
-  encounter?: { packId: string; bout?: number };
+  encounter?: {
+    packId: string;
+    bout?: number;
+    /** R0196: where the Keeper and the party stood when it began, to put them back after. */
+    at?: { keeper: Vec2; party: Record<string, Vec2> };
+  };
   /** The act whose dungeon this run is in (R0145), by `ACTS` index; absent in the Deep Hollow. */
   act?: number;
   /** A storyline's fixed floor: it stays on generator version 2 all the way down. */
@@ -740,6 +796,16 @@ export interface DungeonRun {
   /** R0211: when the current level began, and fights on it. */
   levelStartMs?: number;
   levelFights?: number;
+  // Lane B round 7.
+  /** R0204: level ids whose picnic is had (newest last), the time on the rug so far, and the
+   * tent's "safe to close" note shown while the Keeper stands there. */
+  /** R0187: speed-run splits so far (sim ms since the run began, one per level gone down). */
+  splits?: number[];
+  /** R0179: this act run's tier (absent: Cosy). */
+  difficulty?: 'brisk' | 'wild';
+  picnics?: string[];
+  picnicMs?: number;
+  tentNoted?: true;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -782,6 +848,8 @@ export interface DungeonPack {
   asleep?: true;
   /** R0203: the tiptoe bonus for this pack is paid. */
   tiptoed?: true;
+  /** R0200: when it last gave up a chase (a "?" on the way home); absent before. */
+  gaveUpMs?: number;
 }
 
 export type LessonId = 'drawing' | 'singing' | 'dance' | 'instrument';
@@ -1037,6 +1105,8 @@ export interface World {
   team: TeamState | null;
   /** Curfew by the real clock. */
   night: boolean;
+  /** R0535 (SOUL-17): dawn, day, dusk or night, from the curfew's wall clock; unset = day. */
+  phase?: 'dawn' | 'day' | 'dusk' | 'night';
   tank: { runs: number; best: number };
   /** The Hollow Below: the current run, if inside. */
   dungeon: DungeonRun | null;
@@ -1072,6 +1142,20 @@ export interface World {
     today?: { day: string; deepest: number; bestMs: number; finds: number };
     /** R0211: rolling tuning numbers, never shown to players. */
     stats?: HollowStats;
+    // Lane B round 7 (optional, no save bump).
+    /** R0179: the tier picked for act runs (absent: Cosy), the tiers opened, and the progress
+     * of the tiers not in play (the main fields hold the one in play). */
+    difficulty?: 'brisk' | 'wild';
+    tiersOpen?: Array<'brisk' | 'wild'>;
+    tierSaves?: Partial<
+      Record<
+        'cosy' | 'brisk' | 'wild',
+        { acts: ActProgress[]; waypoints: string[]; bossChests: number[] }
+      >
+    >;
+    /** R0187: the speed-run toggle, and the best time and splits per act and tier ("0:cosy"). */
+    speedRun?: boolean;
+    records?: Record<string, { bestMs: number; splits: number[] }>;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1232,6 +1316,8 @@ export type Command =
   | { kind: 'feedWild'; id: string }
   | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
   | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
+  /** Lane E r7, R0437: wear or take off the Dojo belt. */
+  | { kind: 'wearBelt'; nubbinId: string; on: boolean }
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }
@@ -1262,6 +1348,12 @@ export type Command =
   | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
   | { kind: 'eduLesson'; id: string; best: boolean | null }
   | { kind: 'eduSetReadAloud'; on: boolean }
+  /** Lane E r7, R0691: the grown-up's "every Nubbin comes back" for a reader save. */
+  | { kind: 'eduSetAlwaysReborn'; on: boolean }
+  /** Lane E r7, R0746: rounds per game, 3-10. */
+  | { kind: 'eduSetRounds'; rounds: number }
+  /** R0343: the Grove Readers' opt-in read-aloud. */
+  | { kind: 'eduSetReadToMe'; on: boolean }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }
@@ -1304,6 +1396,8 @@ export type Command =
   | { kind: 'packSneak'; packId: string }
   | { kind: 'gambleBasket'; slot: string }
   | { kind: 'stashTake'; itemId: string }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowSpeedRun'; on: boolean }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1428,7 +1522,30 @@ export type SimEvent =
   | { kind: 'moveUnreachable'; nearest: Vec2; jump: boolean }
   | { kind: 'collected'; itemId: string }
   | { kind: 'treeShaken'; treeId: string }
-  | { kind: 'eggShaken'; nubbinId: string }
+  | { kind: 'eggShaken'; nubbinId: string; foot?: true }
+  /** R0352: the idle Keeper sits down on the grass; a Nubbin has come to sit beside them. */
+  | { kind: 'keeperSat' }
+  /** R0531: a personality locked in at evolution, and the care that most shaped it. */
+  | {
+      kind: 'personalityLocked';
+      nubbinId: string;
+      personality: Personality;
+      cause: PersonalityCause;
+    }
+  | { kind: 'sitBeside'; nubbinId: string }
+  /** Lane A r8: a favourite or disliked fruit eaten (R0536); a moody look cleared (R0532). */
+  | { kind: 'fruitTaste'; nubbinId: string; taste: 'yum' | 'bleh'; first?: true }
+  | { kind: 'moodyCleared'; nubbinId: string; was: 'grumpy' | 'sleepy' }
+  | { kind: 'highFiveRefused'; nubbinId: string }
+  /** R0542: a Sun Nubbin patted a sad one; a Moon one said boo to another. */
+  | { kind: 'comforted'; nubbinId: string; markId: string }
+  | { kind: 'pranked'; nubbinId: string; markId: string }
+  /** R0551: a plain pet landed (the renderers play it by personality). */
+  | { kind: 'petted'; nubbinId: string }
+  /** R0539: a missed buddy came back and the two hugged. */
+  | { kind: 'reunion'; a: string; b: string }
+  /** R0544: a trip, a sneeze, the hiccups or a tail chase. */
+  | { kind: 'antic'; nubbinId: string; antic: 'trip' | 'sneeze' | 'hiccup' | 'chaseTail' }
   | { kind: 'bought'; item: ShopItem; ok: boolean; reason: 'shells' | 'roster' | 'toys' | null }
   | { kind: 'rewards'; rewards: Rewards }
   | { kind: 'turnedShadow'; nubbinId: string }
@@ -1569,6 +1686,15 @@ export type SimEvent =
   | { kind: 'encounterStarted'; packId: string }
   | { kind: 'packBeaten'; packId: string; x: number; z: number; shells: number }
   | { kind: 'partyGiggles'; packId: string }
+  // Lane B round 7: Gran's Picnic (R0204).
+  | { kind: 'picnicRest' }
+  | { kind: 'picnicTent' }
+  | { kind: 'deepBottom' }
+  | { kind: 'hollowTier'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowTierOpened'; tier: 'cosy' | 'brisk' | 'wild' }
+  | { kind: 'hollowWearable'; id: string }
+  | { kind: 'speedSplit'; n: number; ms: number; delta?: number }
+  | { kind: 'speedFinish'; ms: number; best: boolean; was?: number }
   | { kind: 'packFled'; packId: string }
   | { kind: 'bossGuard' }
   | { kind: 'bossBeaten'; act: number }
@@ -1657,3 +1783,7 @@ export interface GearState {
   /** R0174 (save version 12): the shared stash; satchel overflow lands here, never lost. */
   stash?: GearItem[];
 }
+
+/** R0531 (SOUL-13): the kind of care that most shaped a personality, for its card line. */
+export type PersonalityCause =
+  'pets' | 'touches' | 'throws' | 'feeds' | 'tucks' | 'quiet' | 'mixed';

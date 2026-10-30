@@ -111,6 +111,7 @@ const CH1: EduScene[] = [
       {
         id: 'stone',
         label: 'It’s a very good stone.',
+        icon: '🪨',
         friendship: { fern: 2 },
         then: [
           FERN('Thank you! Nobody ever says that about the stone.', 'happy'),
@@ -121,6 +122,7 @@ const CH1: EduScene[] = [
       {
         id: 'need',
         label: 'What do you need?',
+        icon: '❓',
         friendship: { fern: 1 },
         then: [
           FERN('Oh, lots! A ladder. Someone to hold the ladder.', 'think'),
@@ -132,6 +134,7 @@ const CH1: EduScene[] = [
       {
         id: 'eggs',
         label: 'Say nothing. Go to the eggs.',
+        icon: '🥚',
         then: [
           FERN('Straight to work! Just like your Gran.', 'soft'),
           N('The long grass tickles your knees. The eggs go hum, hum, close by.'),
@@ -169,6 +172,7 @@ const CH1: EduScene[] = [
         options: [
           {
             label: 'A chick',
+            icon: '🐥',
             best: true,
             reply: [
               FERN('Yes! Chicks hatch from eggs. So do ducklings and baby turtles.', 'happy'),
@@ -176,6 +180,7 @@ const CH1: EduScene[] = [
           },
           {
             label: 'A puppy',
+            icon: '🐶',
             reply: [
               FERN('A puppy in an egg? Crack… woof! That would be silly!'),
               FERN('Puppies grow inside their mum. They are born, not hatched.'),
@@ -184,6 +189,7 @@ const CH1: EduScene[] = [
           },
           {
             label: 'A kitten',
+            icon: '🐱',
             reply: [
               FERN('A kitten in an egg? Crack… meow! What a surprise!'),
               FERN('Kittens grow inside their mum. They are born, not hatched.'),
@@ -313,11 +319,13 @@ const CH2: EduScene[] = [
         options: [
           {
             label: 'Cat',
+            icon: '🐱',
             best: true,
             reply: [N('Yes! C-c-cat. Corvin, cold, cat. They all start with C.')],
           },
           {
             label: 'Sun',
+            icon: '☀️',
             reply: [
               N('Corvin in the sun? Brr, he’d melt!'),
               N('Sun starts with sss. Listen again: c-c-Corvin.'),
@@ -326,6 +334,7 @@ const CH2: EduScene[] = [
           },
           {
             label: 'Fish',
+            icon: '🐟',
             reply: [
               N('A fish called Corvin? Splish, splash!'),
               N('Fish starts with fff. Listen again: c-c-Corvin.'),
@@ -341,6 +350,7 @@ const CH2: EduScene[] = [
       {
         id: 'refuse',
         label: 'No. They’re not for sale.',
+        icon: '✋',
         set: { corvinOffer: 'refused' },
         friendship: { marina: 2, ember: 2 },
         then: [
@@ -352,6 +362,7 @@ const CH2: EduScene[] = [
       {
         id: 'consider',
         label: 'Let me think about it.',
+        icon: '🤔',
         set: { corvinOffer: 'considered' },
         friendship: { marina: -1 },
         then: [
@@ -396,11 +407,13 @@ const CH3: EduScene[] = [
         options: [
           {
             label: 'An owl',
+            icon: '🦉',
             best: true,
             reply: [LUNA('Yes! Lots of owls hunt at night. Hoo, hoo. So do hedgehogs.', 'happy')],
           },
           {
             label: 'A hen',
+            icon: '🐔',
             reply: [
               LUNA('A hen up at midnight? Snore, snore! She’s asleep.'),
               LUNA('Hens sleep at night, up on a perch.'),
@@ -422,6 +435,7 @@ const CH3: EduScene[] = [
         options: [
           {
             label: 'Scared',
+            icon: '😨',
             best: true,
             reply: [
               LUNA('Yes. Scared. Her body is ready to run.', 'soft'),
@@ -430,6 +444,7 @@ const CH3: EduScene[] = [
           },
           {
             label: 'Silly',
+            icon: '🤪',
             reply: [
               LUNA('Silly Sable? She’d be dancing a jig! Boing, boing!', 'soft'),
               LUNA('She jumps at every sound. That means scared, not silly.'),
@@ -438,6 +453,7 @@ const CH3: EduScene[] = [
           },
           {
             label: 'Sleepy',
+            icon: '😴',
             reply: [
               LUNA('A sleepy Sable? Zzz… she’d be snoring on the grass!', 'soft'),
               LUNA('Her eyes are wide open. That means scared, not sleepy.'),
@@ -453,6 +469,7 @@ const CH3: EduScene[] = [
       {
         id: 'slow',
         label: 'Sit down. Put fruit on the ground. Wait.',
+        icon: '🍎',
         set: { sableFirst: 'slow', sableTrustBonus: 6 },
         friendship: { luna: 4 },
         then: [
@@ -494,6 +511,7 @@ const CH3: EduScene[] = [
         options: [
           {
             label: 'Melt it away',
+            icon: '💧',
             best: true,
             reply: [
               CLOVER('Yes! The sun warms the grass. The frost melts. Drip, drip, gone!', 'happy'),
@@ -501,6 +519,7 @@ const CH3: EduScene[] = [
           },
           {
             label: 'Make it bigger',
+            icon: '🏔️',
             reply: [
               CLOVER('Bigger frost? A frosty mountain on the grass! Hee, hee!'),
               CLOVER('The sun is warm, and warm melts ice.'),
@@ -509,6 +528,7 @@ const CH3: EduScene[] = [
           },
           {
             label: 'Turn it pink',
+            icon: '🩷',
             reply: [
               CLOVER('Pink frost would be lovely!'),
               CLOVER('But warm melts ice. Drip, drip… gone!', 'happy'),
@@ -538,6 +558,7 @@ const CH3: EduScene[] = [
       {
         id: 'side-luna',
         label: 'Luna’s right. Her own time.',
+        icon: '🌙',
         friendship: { luna: 2 },
         then: [
           CLOVER('Yes. I know. I don’t like it.', 'sad'),
@@ -548,6 +569,7 @@ const CH3: EduScene[] = [
       {
         id: 'side-clover',
         label: 'Clover’s right. Nobody should be cold alone.',
+        icon: '🍀',
         friendship: { clover: 2 },
         then: [
           CLOVER('Thank you!', 'happy'),
@@ -558,6 +580,7 @@ const CH3: EduScene[] = [
       {
         id: 'side-both',
         label: 'Both! Leave a blanket out. Let her find it.',
+        icon: '🤝',
         friendship: { clover: 1, luna: 1 },
         then: [
           CLOVER('Oh!', 'soft'),
@@ -601,11 +624,13 @@ const CH4: EduScene[] = [
         options: [
           {
             label: 'Moon',
+            icon: '🌙',
             best: true,
             reply: [MOSS('Mmm-moon. Yes. The moon is old, like me.', 'happy')],
           },
           {
             label: 'Sun',
+            icon: '☀️',
             reply: [
               MOSS('Me, a sun? Too sleepy to shine! Ha!'),
               MOSS('Sun starts with sss. Listen: mmm-Moss, mmm-moon.'),
@@ -1246,21 +1271,29 @@ export const EDU_CAMPAIGN_1_SPROUT: EduCampaign = {
     1: {
       title: 'The Letter',
       goalText: 'Find an egg in the long grass. Help it hatch. Then pet your new Nubbin!',
+      goalIcon: '🥚',
+      goalSay: 'Find an egg. Give it a gentle shake. Then pet your Nubbin!',
       hint: 'The eggs are in the long grass. Give one a gentle shake. Tap your Nubbin, then tap Pet.',
     },
     2: {
       title: 'Shells and Promises',
       goalText: 'Pick fruit from the trees. Feed your Nubbin from your hand. Do it two times!',
+      goalIcon: '🍎',
+      goalSay: 'Shake a tree. Pick a fruit. Feed your Nubbin. Two times!',
       hint: 'Tap a tree to shake it. Tap a fruit to pick it up. Tap your Nubbin, then tap Feed.',
     },
     3: {
       title: 'The One Who Hides',
       goalText: 'Help Sable trust you a little bit.',
+      goalIcon: '🤲',
+      goalSay: 'Sable is scared. Put fruit near her. Sit still and wait.',
       hint: 'Sable is scared. Put fruit near her. Sit and wait. Pet her when she lets you. Never throw her.',
     },
     4: {
       title: 'Moss Remembers',
       goalText: 'Pet Moss on the hill. Then light all four lanterns.',
+      goalIcon: '🏮',
+      goalSay: 'Pet Moss on the hill. Then light the four lanterns.',
       hint: 'Moss sits on the hill. Tap a lantern post to light it. The fourth one only flickers. That’s fine!',
     },
   },

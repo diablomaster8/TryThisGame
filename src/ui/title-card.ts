@@ -22,6 +22,9 @@ import { chapterTitle, storylineOf } from '../sim/storyline';
 import type { World } from '../sim/types';
 import { CG4_U4 } from '../config/tuning-u4';
 import { drawSilhouette, type GradeFrame } from './look-paint';
+import { CHAPTER_SAY_TEXT } from '../config/strings-kids';
+import { numberWord } from './edu-voice';
+import { speakLine } from './lesson';
 
 /**
  * The campaigns' screen layers and chapter title cards (campaign graphics H18, and the
@@ -625,6 +628,14 @@ export function driveCampaign(world: World, stage: SceneStage, reduce: boolean):
       look,
       reduce,
     });
+    // R0729: a sprout hears the card: "Chapter one: The Letter".
+    if (world.edu?.band === 'sprout' && world.edu.readAloud)
+      speakLine(CHAPTER_SAY_TEXT.say(numberWord(f.chapter), title));
   }
   return moment;
+}
+
+/** R0729: a chapter card is on screen (the objective chip hides meanwhile). */
+export function titleCardUp(): boolean {
+  return card !== null;
 }

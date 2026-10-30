@@ -3,22 +3,34 @@ import {
   EDU_AGES,
   EDU_COLOUR_HEX,
   EDU_DOMAIN,
-  EDU_GAMES,
   EDU_RECOMMENDED,
   type EduAge,
   type EduGameId,
 } from '../config/edu';
-import { EDU_TEXT, NAMES } from '../config/strings';
+import { EDU_STORY_TEXT, EDU_TEXT, NAMES } from '../config/strings';
 import type { Game } from '../game';
 import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames/edu/games';
 import { Peekaboo } from '../minigames/micro/peekaboo';
 import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
-import { enabledGames, gamesForBand } from '../sim/edu';
+import { eduRounds, enabledGames, gamesForBand } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
+import {
+  EDU_PICKER_TEXT,
+  EDU_REBORN_TEXT,
+  EDU_ROUNDS_TEXT,
+  EDU_RESULTS_TEXT,
+  EDU_SAY_TEXT,
+  EDU_WRONG_TEXT,
+} from '../config/strings-kids';
+import { EDU_VOICE } from '../config/tuning-kids';
+import { optionSay, pickStars, replySpeech, roundSpeech, spoken, type Band } from './edu-voice';
+import { BREAK_KID_TEXT } from '../config/strings-kids';
+import { frameKey } from '../render/sprites/animations';
+import type { Nubbin } from '../sim/types';
 import { storyPickButton, storyProgress, storySettings } from './edu-story';
 import { NextCard } from './next-card';
 import { LangPanel, langProgress } from './lang';
@@ -39,10 +51,14 @@ export class EduScreen {
   private roundNo = 0;
   private tries = 0;
   private starsTotal = 0;
+  private used = new Set<string>();
+  private stickersAtStart = 0;
   private rng = Rng.fromSeed(Date.now());
   private readonly gameFocus: ReturnType<typeof dialogFocus>;
   private readonly next: NextCard;
   private readonly peek: Peekaboo;
+  /** R0676: the HUD's pointing guide, behind the "What's next" card's "Show me". */
+  private showMe: () => void = () => undefined;
 
   constructor(
     parent: HTMLElement,
@@ -50,11 +66,12 @@ export class EduScreen {
     private readonly toast: (text: string) => void,
   ) {
     this.picker = modal(parent, EDU_TEXT.play, EDU_TEXT.leave);
+    this.picker.root.classList.add('edu-picker');
     this.lang = new LangPanel(parent, game_, toast);
-    this.next = new NextCard(parent);
+    this.next = new NextCard(parent, () => this.showMe());
     // R0321: the sprout band's peekaboo.
     this.peek = new Peekaboo(parent, game_);
-    this.picker.body.appendChild(el('p', 'help', EDU_TEXT.playHelp));
+    this.picker.body.appendChild(el('p', 'help edu-play-help', EDU_TEXT.playHelp));
     this.root = el('div', 'edu');
     this.root.hidden = true;
     this.card = el('div', 'edu-card');
@@ -62,7 +79,10 @@ export class EduScreen {
     parent.appendChild(this.root);
     // The game card is a dialog too: named, focused on start, Escape leaves the game.
     this.card.setAttribute('aria-label', EDU_TEXT.play);
-    this.gameFocus = dialogFocus(this.root, this.card, null, () => this.close());
+    // R0731: in the sprout band a stray Escape mid-round does not end the game.
+    this.gameFocus = dialogFocus(this.root, this.card, null, () => {
+      if (!(this.round && this.band() === 'sprout')) this.close();
+    });
   }
 
   /** The picker: one big button per switched-on game. */
@@ -71,6 +91,10 @@ export class EduScreen {
     if (!g?.world.edu) return;
     const body = this.picker.body;
     body.querySelectorAll('.edu-grid, .help.none').forEach((n) => n.remove());
+    // R0681: the help line is for grown-ups; a sprout hears the question instead.
+    const sprout = g.world.edu.band === 'sprout';
+    const help = body.querySelector<HTMLElement>('.edu-play-help');
+    if (help) help.hidden = sprout;
     // The story first (CV2): it is always there, whatever games are switched on.
     const storyGrid = el('div', 'edu-grid');
     storyGrid.appendChild(
@@ -110,18 +134,43 @@ export class EduScreen {
     } else {
       const grid = el('div', 'edu-grid');
       for (const id of games) {
-        const b = button('', () => this.start(id), 'btn edu-pick');
         const reader = g.world.edu.band === 'reader';
+        const name = gameName(id, reader);
+        // R0681: a sprout hears the game's name while its tile bounces, then it starts.
+        const b = button(
+          '',
+          () => (sprout ? this.launch(b, id, name) : this.start(id)),
+          'btn edu-pick',
+        );
         b.append(
           el('span', 'edu-pick-icon', EDU_TEXT.gameIcons[id]),
-          el('strong', undefined, gameName(id, reader)),
+          el('strong', undefined, name),
           el('small', undefined, gameBlurb(id, reader)),
         );
+        const p = g.world.edu.progress[id];
+        const earned = pickStars(p?.plays ?? 0, p?.stars ?? 0);
+        if (earned > 0) {
+          const row = el('span', 'edu-pick-stars', '⭐'.repeat(earned));
+          row.setAttribute('aria-label', EDU_PICKER_TEXT.stars(earned));
+          b.appendChild(row);
+        }
         grid.appendChild(b);
       }
       body.appendChild(grid);
     }
     this.picker.show();
+    if (sprout && g.world.edu.readAloud) speakLine(EDU_PICKER_TEXT.say);
+  }
+
+  /** R0681: say the game's name during a short bounce, then start it. */
+  private launch(b: HTMLButtonElement, id: EduGameId, name: string): void {
+    if (b.classList.contains('launching')) return;
+    b.classList.add('launching');
+    if (this.game_()?.world.edu?.readAloud) speakLine(name);
+    window.setTimeout(() => {
+      b.classList.remove('launching');
+      if (this.picker.isOpen()) this.start(id);
+    }, EDU_VOICE.launchMs);
   }
 
   close(): void {
@@ -136,6 +185,17 @@ export class EduScreen {
     if (g) g.renderPaused = false;
   }
 
+  /** R0676: wire "Show me" to the guide (hud.ts). */
+  onShowMe(fn: () => void): void {
+    this.showMe = fn;
+  }
+
+  /** R0673: the "What's next" card on its own, for the entry prompt's Story. */
+  showNext(): void {
+    const g = this.game_();
+    if (g) this.next.show(g);
+  }
+
   isOpen(): boolean {
     return this.picker.isOpen() || !this.root.hidden;
   }
@@ -147,6 +207,9 @@ export class EduScreen {
     this.game = id;
     this.roundNo = 0;
     this.starsTotal = 0;
+    // R0684: no target twice in one session.
+    this.used = new Set();
+    this.stickersAtStart = g.world.edu.stickers;
     this.rng = Rng.fromSeed(Date.now());
     g.renderPaused = true;
     this.root.hidden = false;
@@ -160,11 +223,11 @@ export class EduScreen {
     if (!g || !e || !this.game) return;
     this.roundNo += 1;
     this.tries = 0;
-    if (this.roundNo > EDU.roundsPerGame) {
+    if (this.roundNo > eduRounds(e)) {
       this.finish();
       return;
     }
-    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band);
+    this.round = makeRound(this.game, e.age, this.rng, e.childName || undefined, e.band, this.used);
     this.renderRound();
   }
 
@@ -175,9 +238,14 @@ export class EduScreen {
     c.innerHTML = '';
     const head = el('div', 'edu-head');
     head.append(
-      el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, EDU.roundsPerGame)),
-      button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
+      el('span', 'edu-progress', EDU_TEXT.roundOf(this.roundNo, this.rounds())),
+      // R0674: the prompt again, for every band.
+      button('🔊', () => speakLine(spoken(r.prompt)), 'btn edu-hear'),
+      this.band() === 'sprout'
+        ? holdToLeave(() => this.close())
+        : button(EDU_TEXT.leave, () => this.close(), 'btn btn-small'),
     );
+    head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
     c.appendChild(el('div', 'edu-prompt', r.prompt));
     if (r.cue) {
@@ -190,11 +258,33 @@ export class EduScreen {
       const b = button('', () => this.answer(i, b), 'btn edu-option');
       b.appendChild(renderOption(o, false));
       if (o.kind === 'colour') b.setAttribute('aria-label', o.label);
+      holdToHear(b, o);
       opts.appendChild(b);
     });
     c.appendChild(opts);
     this.feedback = el('div', 'edu-feedback');
     c.appendChild(this.feedback);
+    for (const line of roundSpeech(r, this.band(), this.readAloud())) speakLine(line);
+  }
+
+  /** R0746: this save's rounds per game. */
+  private rounds(): number {
+    const e = this.game_()?.world.edu;
+    return e ? eduRounds(e) : EDU.roundsPerGame;
+  }
+
+  private band(): Band {
+    return this.game_()?.world.edu?.band === 'reader' ? 'reader' : 'sprout';
+  }
+
+  private readAloud(): boolean {
+    return !!this.game_()?.world.edu?.readAloud;
+  }
+
+  /** R0674: the feedback line, shown and (for a sprout) said. */
+  private reply(text: string): void {
+    this.feedback.textContent = text;
+    for (const line of replySpeech(text, this.band(), this.readAloud())) speakLine(line);
   }
 
   private feedback: HTMLDivElement = el('div');
@@ -208,7 +298,7 @@ export class EduScreen {
       this.starsTotal += stars;
       btn.classList.add('right');
       playSound('win');
-      this.feedback.textContent = `${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`;
+      this.reply(`${this.rng.pick(EDU_TEXT.wellDone)} ${r.teach} ${EDU_TEXT.stars(stars)}`);
       this.game_()?.send({ kind: 'eduResult', game: r.game, stars });
       this.tries = -1;
       this.card.appendChild(
@@ -216,14 +306,16 @@ export class EduScreen {
       );
       return;
     }
+    // R0711: a wrong pick wobbles and keeps its colour, with a small thought mark.
     btn.classList.add('wrong');
     btn.disabled = true;
-    playSound('tap');
+    btn.appendChild(el('span', 'edu-wrong-mark', '💭'));
+    playSound('bonk');
     if (this.tries >= EDU.triesBeforeShow) {
       // Show the answer; the round still counts, with one star.
       const right = this.card.querySelectorAll<HTMLButtonElement>('.edu-option')[r.answer];
       right?.classList.add('right');
-      this.feedback.textContent = `${EDU_TEXT.showAnswer} ${r.teach}`;
+      this.reply(`${EDU_TEXT.showAnswer} ${r.teach}`);
       this.starsTotal += 1;
       this.game_()?.send({ kind: 'eduResult', game: r.game, stars: 1 });
       this.tries = -1;
@@ -232,28 +324,163 @@ export class EduScreen {
       );
       return;
     }
-    this.feedback.textContent = this.tries === 1 ? EDU_TEXT.tryAgain : EDU_TEXT.almost;
+    // R0711: after the second miss the right answer pulses, a hint before it is shown.
+    if (this.tries >= 2)
+      this.card
+        .querySelectorAll<HTMLButtonElement>('.edu-option')
+        [r.answer]?.classList.add('edu-hint-pulse');
+    const sprout = this.band() === 'sprout';
+    this.reply(
+      this.tries === 1 ? (sprout ? EDU_WRONG_TEXT.first : EDU_TEXT.tryAgain) : EDU_TEXT.almost,
+    );
   }
 
+  /**
+   * R0686: the results card is a celebration: the child's Nubbin cheering, the stars popping
+   * in one by one with a chime (all at once under reduced motion), the Shells this game
+   * earned in one line, a new sticker if one came, and two big picture buttons.
+   */
   private finish(): void {
     const g = this.game_();
     const c = this.card;
     c.innerHTML = '';
-    const max = EDU.roundsPerGame * 3;
-    c.appendChild(el('div', 'edu-prompt', EDU_TEXT.finished(this.starsTotal, max)));
-    c.appendChild(
-      el('div', 'edu-big', '⭐'.repeat(Math.max(1, Math.round((this.starsTotal / max) * 5)))),
-    );
-    if (g?.world.edu) c.appendChild(el('div', 'help', EDU_TEXT.stickers(g.world.edu.stickers)));
-    const row = el('div', 'settings-actions');
+    const max = this.rounds() * 3;
+    const card = el('div', 'edu-results');
+    const n = g ? sleeperOf(g) : undefined;
+    if (g && n) card.appendChild(clipPortrait(g, n, 'happy', 'edu-results-pic'));
+    card.appendChild(el('div', 'edu-prompt', EDU_TEXT.finished(this.starsTotal, max)));
+    const stars = el('div', 'edu-big edu-results-stars');
+    const count = Math.max(1, Math.round((this.starsTotal / max) * 5));
+    const calm = document.documentElement.classList.contains('reduce-motion');
+    for (let i = 0; i < count; i++) {
+      const s = el('span', 'edu-star', '⭐');
+      if (!calm) {
+        s.style.animationDelay = `${i * EDU_VOICE.starMs}ms`;
+        window.setTimeout(() => playSound('tap'), i * EDU_VOICE.starMs);
+      }
+      stars.appendChild(s);
+    }
+    card.appendChild(stars);
+    card.appendChild(el('div', 'edu-results-shells', `+${this.starsTotal * EDU.shellsPerStar} 🐚`));
+    const e = g?.world.edu;
+    const newSticker = !!e && e.stickers > this.stickersAtStart;
+    if (e)
+      card.appendChild(
+        el(
+          'div',
+          newSticker ? 'edu-results-sticker' : 'help',
+          newSticker ? `🌟 ${EDU_TEXT.sticker}` : EDU_TEXT.stickers(e.stickers),
+        ),
+      );
+    const row = el('div', 'edu-results-actions');
+    const big = (icon: string, label: string, onPress: () => void, cls: string) => {
+      const b = button('', onPress, `btn ${cls} edu-results-btn`);
+      b.append(el('span', 'edu-results-icon', icon), el('span', undefined, label));
+      return b;
+    };
     row.append(
-      button(EDU_TEXT.playAgain, () => this.game && this.start(this.game), 'btn btn-primary'),
-      button(EDU_TEXT.backToGrove, () => this.close(), 'btn'),
+      big('🔁', EDU_TEXT.playAgain, () => this.game && this.start(this.game), 'btn-primary'),
+      big('🏡', EDU_TEXT.backToGrove, () => this.close(), ''),
     );
-    c.appendChild(row);
-    playSound('cheer');
-    this.toast(EDU_TEXT.finished(this.starsTotal, max));
+    card.appendChild(row);
+    c.appendChild(card);
+    window.setTimeout(() => playSound('cheer'), calm ? 0 : count * EDU_VOICE.starMs);
+    // R0674 / R0693: a sprout hears the praise; nobody gets a toast over the card.
+    const say = n
+      ? EDU_RESULTS_TEXT.say(this.starsTotal, n.name)
+      : EDU_TEXT.finished(this.starsTotal, max);
+    for (const line of replySpeech(say, this.band(), this.readAloud())) speakLine(line);
   }
+}
+
+/**
+ * R0674: holding an option for a moment says it ("red", "cow", "one, two, three"), and a
+ * counting option pulses each icon as it is counted. A tap still picks it: the hold cancels the
+ * click that would follow it.
+ */
+function holdToHear(b: HTMLButtonElement, o: EduOption): void {
+  let timer = 0;
+  let held = false;
+  const cancel = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+  };
+  b.addEventListener('pointerdown', () => {
+    held = false;
+    cancel();
+    timer = window.setTimeout(() => {
+      timer = 0;
+      held = true;
+      speakLine(optionSay(o));
+      if (o.kind === 'count') pulseCount(b);
+    }, EDU_VOICE.holdMs);
+  });
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const)
+    b.addEventListener(ev, cancel);
+  b.addEventListener(
+    'click',
+    (e) => {
+      if (!held) return;
+      held = false;
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    },
+    true,
+  );
+  b.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+/**
+ * R0731: the sprout band's Leave, a 🏡 that needs a short hold (with a fill, as on the gate),
+ * so one stray tap does not end the game. The stars already won are kept either way.
+ */
+function holdToLeave(leave: () => void): HTMLButtonElement {
+  const b = button('', () => undefined, 'btn edu-leave-hold');
+  b.append(el('span', 'edu-leave-icon', '🏡'), el('span', 'edu-gate-fill'));
+  b.setAttribute('aria-label', EDU_WRONG_TEXT.leaveHold);
+  b.title = EDU_WRONG_TEXT.leaveHold;
+  let timer = 0;
+  const start = () => {
+    if (timer) return;
+    b.classList.add('holding');
+    timer = window.setTimeout(() => {
+      timer = 0;
+      b.classList.remove('holding');
+      speakLine(EDU_WRONG_TEXT.saved);
+      leave();
+    }, EDU_VOICE.leaveHoldMs);
+  };
+  const cancel = () => {
+    if (timer) window.clearTimeout(timer);
+    timer = 0;
+    b.classList.remove('holding');
+  };
+  b.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    start();
+  });
+  for (const ev of ['pointerup', 'pointerleave', 'pointercancel'] as const)
+    b.addEventListener(ev, cancel);
+  b.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && !e.repeat) {
+      e.preventDefault();
+      start();
+    }
+  });
+  b.addEventListener('keyup', cancel);
+  b.addEventListener('contextmenu', (e) => e.preventDefault());
+  return b;
+}
+
+/** Light each counted icon in turn, in time with the counting voice. */
+function pulseCount(b: HTMLElement): void {
+  const icons = [...b.querySelectorAll<HTMLElement>('.edu-icons > span')];
+  icons.forEach((s, i) =>
+    window.setTimeout(() => {
+      s.classList.add('edu-counted');
+      window.setTimeout(() => s.classList.remove('edu-counted'), EDU_VOICE.countMs);
+    }, i * EDU_VOICE.countMs),
+  );
 }
 
 function renderOption(o: EduOption, large: boolean): HTMLElement {
@@ -283,6 +510,17 @@ function renderOption(o: EduOption, large: boolean): HTMLElement {
     case 'picture':
       box.append(el('span', 'edu-icon', o.icon), el('span', 'edu-word', o.label));
       break;
+    case 'sum': {
+      // R0684: two groups and a plus, so the cue models a + b instead of showing the total.
+      const group = (n: number) => {
+        const icons = el('div', 'edu-icons');
+        for (let i = 0; i < n; i++) icons.appendChild(el('span', undefined, o.icon));
+        return icons;
+      };
+      box.classList.add('edu-sum');
+      box.append(group(o.a), el('span', 'edu-plus', '➕'), group(o.b));
+      break;
+    }
     case 'word':
       box.appendChild(el('span', 'edu-read', o.word));
       break;
@@ -397,7 +635,39 @@ export class GrownUpPanel {
       setTimeout(() => this.renderPanel(), 100);
     });
     ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
+    // R0735: a reader's games stay at their top age; the band is the real choice for 7–10.
+    if (e.band === 'reader')
+      ageRow.replaceChildren(el('strong', undefined, EDU_STORY_TEXT.readerAges));
     this.body.appendChild(ageRow);
+    // R0746: how many rounds a game lasts, 3 to 10 (by age until a grown-up picks).
+    const roundsRow = el('label', 'field-row');
+    const roundsSel = el('select');
+    for (let k = EDU.minRounds; k <= EDU.maxRounds; k++) {
+      const o = el('option', undefined, String(k));
+      o.value = String(k);
+      roundsSel.appendChild(o);
+    }
+    roundsSel.value = String(eduRounds(e));
+    roundsSel.addEventListener('change', () =>
+      g.send({ kind: 'eduSetRounds', rounds: Number(roundsSel.value) }),
+    );
+    roundsRow.append(el('strong', undefined, EDU_ROUNDS_TEXT.label), roundsSel);
+    this.body.appendChild(roundsRow);
+    // R0691: sprouts always get their Nubbin back; for a reader it is the grown-up's call.
+    if (e.band === 'reader') {
+      const row = el('label', 'check-row');
+      const cb = el('input');
+      cb.type = 'checkbox';
+      cb.checked = !!e.alwaysReborn;
+      cb.addEventListener('change', () => g.send({ kind: 'eduSetAlwaysReborn', on: cb.checked }));
+      const t = el('span');
+      t.append(
+        el('strong', undefined, EDU_REBORN_TEXT.toggle),
+        el('small', undefined, EDU_REBORN_TEXT.toggleHelp),
+      );
+      row.append(cb, t);
+      this.body.appendChild(row);
+    }
     // Name.
     const nameRow = el('label', 'field-row');
     const name = el('input');
@@ -458,7 +728,8 @@ export class GrownUpPanel {
     this.body.appendChild(el('h3', undefined, EDU_TEXT.progressLabel));
     const list = el('div', 'shop-list');
     const byDomain = new Map<string, { plays: number; stars: number }>();
-    for (const id of EDU_GAMES) {
+    // R0735: only the games this band is offered, so a reader sees no empty Animals row.
+    for (const id of gamesForBand(e.band)) {
       const d = EDU_DOMAIN[id];
       const cur = byDomain.get(d) ?? { plays: 0, stars: 0 };
       cur.plays += e.progress[id]?.plays ?? 0;
@@ -494,6 +765,10 @@ export class BreakScreen {
   private readonly root: HTMLDivElement;
   private readonly count: HTMLElement;
   private readonly ring: HTMLElement;
+  private readonly sleeper: HTMLElement;
+  private readonly night: HTMLElement;
+  private steps = 0;
+  private stepTimer = 0;
   private shown = false;
 
   constructor(
@@ -509,12 +784,18 @@ export class BreakScreen {
     const card = el('div', 'edu-break-card');
     this.ring = el('div', 'edu-break-ring');
     this.count = el('div', 'edu-break-count');
-    this.ring.appendChild(el('div', 'edu-big', '😴'));
+    // R0672: the child's own Nubbin asleep inside the ring, the emoji when none has hatched.
+    this.sleeper = el('div', 'edu-break-sleeper');
+    this.ring.appendChild(this.sleeper);
+    this.night = el('p', 'edu-break-night', BREAK_KID_TEXT.goodnight);
+    this.night.hidden = true;
     card.append(
       el('h2', undefined, EDU_TEXT.breakTitle),
       this.ring,
       this.count,
       el('p', 'help', EDU_TEXT.breakBody),
+      this.night,
+      button(BREAK_KID_TEXT.done, () => this.goodnight(), 'btn btn-primary edu-break-done'),
       button(
         EDU_TEXT.breakMore,
         () => {
@@ -537,13 +818,65 @@ export class BreakScreen {
     if (this.shown) return;
     this.shown = true;
     this.root.hidden = false;
+    this.root.classList.remove('edu-break-goodnight');
+    this.night.hidden = true;
+    // R0725: the Nubbin leads three stretches and a drink of water, then curls up asleep.
+    this.steps = 0;
+    this.nextStep();
+  }
+
+  /** One stretch, spoken, with the Nubbin in its pose; the last step is the sleep. */
+  private nextStep(): void {
     const e = this.game()?.world.edu;
-    if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+    const step = BREAK_KID_TEXT.stretches[this.steps];
+    if (!step || !this.shown) {
+      this.drawSleeper();
+      if (e?.readAloud) speakLine(EDU_TEXT.breakSay);
+      return;
+    }
+    this.steps++;
+    this.drawSleeper(step.clip, step.icon);
+    if (e?.readAloud) speakLine(step.say);
+    this.stepTimer = window.setTimeout(() => this.nextStep(), EDU_VOICE.stretchMs);
+  }
+
+  /**
+   * "All done for now": tuck in and say goodnight. The break keeps running and play stays
+   * locked; only the gated button or the end of the break lets a round start (R0672).
+   */
+  private goodnight(): void {
+    const g = this.game();
+    window.clearTimeout(this.stepTimer);
+    this.drawSleeper();
+    this.root.classList.add('edu-break-goodnight');
+    this.night.hidden = false;
+    if (!g?.world.edu?.readAloud) return;
+    const n = sleeperOf(g);
+    speakLine(n ? BREAK_KID_TEXT.goodnightSay(n.name) : BREAK_KID_TEXT.goodnightSayNone);
+  }
+
+  /** The Nubbin in a stretch pose (`clip`), or asleep when none is given. */
+  private drawSleeper(clip?: string, icon?: string): void {
+    this.sleeper.textContent = '';
+    const g = this.game();
+    const n = g && sleeperOf(g);
+    if (!g || !n) {
+      this.sleeper.appendChild(el('div', 'edu-big', icon ?? '😴'));
+      return;
+    }
+    if (clip) {
+      this.sleeper.appendChild(clipPortrait(g, n, clip, 'edu-break-pic edu-break-stretch'));
+      if (icon) this.sleeper.appendChild(el('span', 'edu-break-zzz', icon));
+      return;
+    }
+    this.sleeper.appendChild(sleepingPortrait(g, n));
+    this.sleeper.appendChild(el('span', 'edu-break-zzz', 'z z z'));
   }
 
   hide(): void {
     this.shown = false;
     this.root.hidden = true;
+    window.clearTimeout(this.stepTimer);
   }
 
   /** Per-frame: the time left on the ring. */
@@ -570,4 +903,38 @@ function gameName(id: EduGameId, reader: boolean): string {
 
 function gameBlurb(id: EduGameId, reader: boolean): string {
   return (reader ? EDU_TEXT.readerGameBlurbs[id] : undefined) ?? EDU_TEXT.gameBlurbs[id];
+}
+
+/** The Nubbin the break card tucks in: the first hatched one, or none. */
+function sleeperOf(g: Game): Nubbin | undefined {
+  // Sable is a guest; the card tucks in the child's own Nubbin.
+  const sable = g.world.campaign?.sableId;
+  return g.world.nubbins.find((n) => n.stage !== 'egg' && n.stage !== 'cocoon' && n.id !== sable);
+}
+
+/** The Nubbin's front sleep frame (drawn at 64 px, shown larger); the idle frame if a sheet lacks one. */
+function sleepingPortrait(g: Game, n: Nubbin): HTMLCanvasElement {
+  return clipPortrait(g, n, 'sleep', 'edu-break-pic');
+}
+
+/** One front frame of a clip, falling back to idle; drawn at 64 px for CSS to scale. */
+function clipPortrait(g: Game, n: Nubbin, clip: string, cls: string): HTMLCanvasElement {
+  const c = el('canvas', cls);
+  c.width = 64;
+  c.height = 64;
+  try {
+    const sheet = g.view.sheets.forNubbin(n);
+    const rect =
+      sheet.frames.get(frameKey(clip, 'front', 0)) ??
+      sheet.frames.get(frameKey('idle', 'front', 0));
+    const ctx = c.getContext('2d');
+    if (ctx && rect) {
+      ctx.imageSmoothingEnabled = false;
+      const img = sheet.texture.image as HTMLCanvasElement;
+      ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, 64, 64);
+    }
+  } catch {
+    // A picture is a nicety; the card still says goodnight.
+  }
+  return c;
 }

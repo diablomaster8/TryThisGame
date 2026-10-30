@@ -128,14 +128,14 @@ export const PLATE_GLYPH = {
 
 /**
  * Pack density and placement (R0158). Packs per 1,000 dry cells by floor kind; pack sizes by
- * difficulty (Cosy until DUNG-36 adds the setting); spacing in cells; the mix of kinds; the
+ * difficulty (the tier picked at the cave mouth, R0179); spacing in cells; the mix of kinds; the
  * foe level's base per act (level = act base + level in act + difficulty offset); and how
  * many modifiers each kind rolls.
  */
 export const DENSITY = {
   perThousand: { outdoor: 3, dungeon: 1.6, boss: 1.2 },
   size: { cosy: [2, 3], brisk: [3, 4], wild: [3, 5] } as const,
-  difficultyOffset: { cosy: 0, brisk: 2, wild: 4 } as const,
+  difficultyOffset: { cosy: 0, brisk: 35, wild: 70 } as const,
   spacing: 10,
   fromEntry: 8,
   fromWaypoint: 8,

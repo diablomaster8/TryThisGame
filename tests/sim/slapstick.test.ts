@@ -46,3 +46,21 @@ describe('walking bonks', () => {
     expect(plop).toBe(true);
   });
 });
+
+// R0365 (FUN-76): the Slapstick setting off stops the distracted bonks in the sim.
+describe('the Slapstick setting', () => {
+  it('off: a 10-minute soak has no distracted bonks', () => {
+    const w = createWorld(11, 0);
+    w.settings.slapstick = 'off';
+    for (const n of w.nubbins) hatch(n, [], 0);
+    let bonks = 0;
+    for (let t = 0; t < 10 * 60 * 10; t++) {
+      for (const n of w.nubbins) {
+        n.needs.hunger = 1;
+        n.needs.energy = 1;
+      }
+      for (const e of stepWorld(w, 100)) if (e.kind === 'bonked' && e.by === 'obstacle') bonks++;
+    }
+    expect(bonks).toBe(0);
+  });
+});

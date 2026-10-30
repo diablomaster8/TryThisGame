@@ -26,10 +26,14 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      # TECH-10: content problems block a deploy.
+      - run: npx tsx tests/tools/content-check.ts
       - run: npm run build
         env:
           # Project sites are served from https://<user>.github.io/<repo>/
           BASE_PATH: /${{ github.event.repository.name }}/
+      # TECH-41: and so does a bundle over budget.
+      - run: npm run check:bundle
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
