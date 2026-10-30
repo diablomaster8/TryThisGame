@@ -927,6 +927,14 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'wearGlasses':
       wearGlasses(world, cmd.nubbinId, cmd.on);
       return;
+    case 'wearBelt': {
+      // Lane E r7, R0437: the belt is worn unless taken off; the field only exists when off.
+      const n = world.nubbins.find((x) => x.id === cmd.nubbinId);
+      if (!n) return;
+      if (cmd.on) delete n.hideBelt;
+      else n.hideBelt = true;
+      return;
+    }
     case 'eduStart':
       eduStart(world, cmd.age, events, cmd.band);
       return;

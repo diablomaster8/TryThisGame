@@ -344,3 +344,9 @@ export const BIRTHMARK_TEXT = {
     notch: 'a nick in the crown',
   } as Record<string, string>,
 };
+
+/** LOOK-69 (R0437): the Wardrobe's Dojo belt switch. */
+export const BELT_TEXT = {
+  wear: (belt: string) => `🥋 Wear the ${belt}`,
+  off: (belt: string) => `🥋 Take off the ${belt}`,
+} as const;

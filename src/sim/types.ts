@@ -192,6 +192,8 @@ export interface Nubbin {
   hat: string | null;
   /** Lane E, R0394: live-play time left on the eggshell hat; absent once it is off. */
   shellMs?: number;
+  /** Lane E r7, R0437: the Keeper took the Dojo belt off in the Wardrobe (absent: worn). */
+  hideBelt?: boolean;
   rebirths: number;
   /** Grades raised at evolution, kept across rebirths. */
   gradeUpgrades: Partial<Record<StatKey, number>>;
@@ -1175,6 +1177,8 @@ export type Command =
   | { kind: 'feedWild'; id: string }
   | { kind: 'dye'; nubbinId: string; slot: 'hat' | 'scarf'; color: DyeColor | null }
   | { kind: 'wearGlasses'; nubbinId: string; on: boolean }
+  /** Lane E r7, R0437: wear or take off the Dojo belt. */
+  | { kind: 'wearBelt'; nubbinId: string; on: boolean }
   | { kind: 'setCoop'; active: boolean; trainer: string }
   | { kind: 'keeper2Input'; input: Vec2 }
   | { kind: 'keeper2Act'; action: 'pet' | 'feed' }

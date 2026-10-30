@@ -7,7 +7,9 @@
  * 44 px and the list scrolls under one thumb.
  */
 import { COSMETICS } from '../config/cosmetics';
-import { WARDROBE_TEXT } from '../config/strings-look';
+import { BELT_TEXT, WARDROBE_TEXT } from '../config/strings-look';
+import { LADDER_TEXT } from '../config/strings-battle-r6';
+import { ladderBelt } from '../sim/battle/ladder';
 import { UI_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { DRAWN_ANGLES } from '../render/sprites/angles';
@@ -30,6 +32,7 @@ export class Wardrobe {
     idleMs: 30000,
   });
   private id: string | null = null;
+  private readonly belt: HTMLButtonElement;
   private trying: string | null = null;
   private spin = 0;
   private step = 0;
@@ -48,7 +51,10 @@ export class Wardrobe {
     this.status = el('p', 'help', WARDROBE_TEXT.help);
     this.wear = button(WARDROBE_TEXT.wear, () => this.commit(), 'btn btn-primary wardrobe-wear');
     this.list = el('div', 'wardrobe-list');
-    this.dialog.body.append(this.canvas, this.status, this.wear, this.list);
+    // LOOK-69: a Nubbin with a Dojo belt can take it off or put it back on.
+    this.belt = button('', () => this.flipBelt(), 'btn btn-small wardrobe-belt');
+    this.belt.hidden = true;
+    this.dialog.body.append(this.canvas, this.status, this.wear, this.belt, this.list);
   }
 
   open(nubbinId: string): void {
@@ -57,6 +63,7 @@ export class Wardrobe {
     if (!n) return;
     this.trying = n.hat;
     this.build();
+    this.syncBelt(n, !n.hideBelt);
     this.preview();
     this.stopSpin();
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches)
@@ -150,6 +157,25 @@ export class Wardrobe {
     const img = sheet.texture.image as HTMLCanvasElement;
     ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h, 0, 0, 128, 128);
     ctx.restore();
+  }
+
+  private syncBelt(n: Nubbin, worn: boolean): void {
+    const b = ladderBelt(n);
+    this.belt.hidden = b === 0;
+    if (b === 0) return;
+    const name = LADDER_TEXT.belt(b).toLowerCase();
+    this.belt.textContent = worn ? BELT_TEXT.off(name) : BELT_TEXT.wear(name);
+    this.belt.setAttribute('aria-pressed', String(worn));
+  }
+
+  private flipBelt(): void {
+    const g = this.game();
+    const n = this.nubbin();
+    if (!g || !n) return;
+    const on = !!n.hideBelt;
+    g.send({ kind: 'wearBelt', nubbinId: n.id, on });
+    this.syncBelt(n, on);
+    this.onChange();
   }
 
   private commit(): void {
