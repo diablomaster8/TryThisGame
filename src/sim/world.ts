@@ -442,7 +442,8 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       const speed = Math.hypot(cmd.vel.x, cmd.vel.z);
       if (speed >= THROW.minSpeed) {
         noteCare(n, 'throws');
-        addTrust(n, TRUST.throw, events);
+        // R0527: in the Learning Grove a throw is a toss and catch: no trust is lost.
+        if (!world.edu) addTrust(n, TRUST.throw, events);
         noteCampaign(world, 'throw', n.id);
         startThrow(n, cmd.vel, now, events);
       } else if (speed < THROW.placeMaxSpeed) {
@@ -450,7 +451,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
         putDown(n, now, events, 'happy');
       } else {
         if (n.stage !== 'egg') applyDrop(n, THROW.dropScale);
-        addTrust(n, TRUST.drop * THROW.dropScale, events);
+        addTrust(n, TRUST.drop * THROW.dropScale, events, !!world.edu);
         putDown(n, now, events);
       }
       return;

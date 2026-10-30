@@ -244,3 +244,6 @@ export const LOCKED_TEXT = {
     mixed: 'A bit of everything, mostly kindness.',
   },
 } as const;
+
+/** R0527 (SOUL-09): the Learning Grove's picture hint after a throw. */
+export const GENTLE_HANDS = '🤲❤️ Gentle hands!' as const;

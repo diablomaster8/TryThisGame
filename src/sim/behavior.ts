@@ -26,7 +26,7 @@ import { bestLesson, finishLesson } from './kindergarten';
 import { shelterSpot } from './weather';
 import { applyFlavor } from './plants';
 import { bestFriend } from './friendships';
-import { FRIENDS, NUBBIN_STEER, PERSONALITY_LEAN, SLED } from '../config/tuning';
+import { EDU_SOUL, FRIENDS, NUBBIN_STEER, PERSONALITY_LEAN, SLED } from '../config/tuning';
 import { nubbinAim } from './nav';
 import type { NubbinRoute } from './nav';
 import { blocked, nubbinWalker, resolve, wayAt } from './obstacles';
@@ -981,8 +981,14 @@ function updateThrown(
     // being swallowed by the held/thrown guard in react().
     setState(n, 'sit', now, 0);
     if (n.stage !== 'egg') {
-      applyDrop(n);
-      react(n, 'dizzy', now, events);
+      // R0527: in the Learning Grove it lands on its feet and giggles.
+      if (world.edu) {
+        addHappiness(n, EDU_SOUL.tossHappiness);
+        react(n, 'happy', now, events);
+      } else {
+        applyDrop(n);
+        react(n, 'dizzy', now, events);
+      }
     }
   }
 }

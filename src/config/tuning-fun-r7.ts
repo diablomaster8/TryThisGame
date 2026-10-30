@@ -131,3 +131,10 @@ export const IDLE_ACTIONS: Record<
   sit: { base: 0.0986, mult: 'sit' },
   wander: { base: 0.2301, mult: null },
 };
+
+/**
+ * R0527 (SOUL-09): the Learning Grove's kinder rules. A throw is a toss and catch (it lands
+ * on its feet and giggles, `tossHappiness`, no trust lost), and trust never falls below
+ * `trustFloor`, which is above both the Shadow line and the running-away line.
+ */
+export const EDU_SOUL = { tossHappiness: -3, trustFloor: 30 } as const;

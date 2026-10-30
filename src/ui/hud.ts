@@ -96,7 +96,13 @@ import { BATTLE_SCREEN_TEXT } from '../config/strings-battle';
 import { CollectionBook, keyLabel, MemorialCard } from './collection';
 import { snapYaw } from '../sim/decorate';
 import { DecorateMenu, placeHint, placingLabel } from './decorate';
-import { LOCKED_TEXT, MOSS_WATCH, PLACE_TEXT, SIT_TEXT } from '../config/strings-fun-r7';
+import {
+  GENTLE_HANDS,
+  LOCKED_TEXT,
+  MOSS_WATCH,
+  PLACE_TEXT,
+  SIT_TEXT,
+} from '../config/strings-fun-r7';
 import { mossReaction } from './moss-watch';
 import { shyLine } from './shy-lines';
 import { MapPanel, NeighbourhoodPanel, ProfilePanel, QuestBoard } from './garden-panels';
@@ -1112,6 +1118,8 @@ export function mountHud(
             `${LOCKED_TEXT.grewUp(n?.name ?? NAMES.creature, PERSONALITY_LABELS[e.personality])} ${LOCKED_TEXT.cause[e.cause]}`,
           );
         }
+        // R0527: in the Learning Grove a throw gets a picture hint.
+        if (e.kind === 'thrown' && g.world.edu) toast(GENTLE_HANDS);
         // R0353: Moss saw that.
         const moss = mossReaction(g.world, e);
         if (moss) ambientBubbles.show(moss.mossId, MOSS_WATCH.name, moss.line, performance.now());
