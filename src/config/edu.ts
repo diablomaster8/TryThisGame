@@ -42,6 +42,8 @@ export const EDU = {
   triesBeforeShow: 3,
   /** Shells per star, so the Grove economy works for a child too. */
   shellsPerStar: 5,
+  /** R0691: a sprout save's Nubbins are always reborn at end of life. */
+  alwaysRebornSprout: true,
   /** A sticker every this many stars. */
   starsPerSticker: 9,
   /** Default and allowed session length in minutes before the break screen. */

@@ -61,6 +61,8 @@ import { askGrownUp } from './grown-up-gate';
 import { KidSoundSheet, routeSettingsTap } from './kid-sheet';
 import { Guide } from './guide';
 import { kidToaster } from './kid-notice';
+import { speakLine } from './lesson';
+import { EDU_REBORN_TEXT } from '../config/strings-kids';
 import { JOYSTICK_TUNING } from '../config/tuning-move-joy';
 import { JOYSTICK_TEXT } from '../config/strings-move-joy';
 import { Joystick } from './joystick';
@@ -705,8 +707,7 @@ export function mountHud(
     };
   }
 
-  kidBusy = () =>
-    edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
+  kidBusy = () => edu.isOpen() || dialogue.isOpen || breakScreen.isOpen() || journal.isTracing();
   // One full panel at a time (B3). Story scenes, the away screen and celebrations are
   // deliberately layered and stay outside the stack. Running minigames have no `close`, so
   // a menu opened over one (Races over Beetle Run) is shut instead of stacking under it.
@@ -1205,7 +1206,10 @@ export function mountHud(
           toast(e.cocoon === 'rebirth' ? UI_TEXT.cocoonRebirth(name) : UI_TEXT.cocoonDepart(name));
         } else if (e.kind === 'reborn') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
-          toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
+          // R0691: a sprout hears a gentle line about the glowing cocoon and the new egg.
+          if (g.world.edu?.band === 'sprout' && g.world.edu.readAloud)
+            speakLine(EDU_REBORN_TEXT.say(n?.name ?? NAMES.creature));
+          else toast(UI_TEXT.reborn(n?.name ?? NAMES.creature));
         } else if (e.kind === 'departed') {
           toast(UI_TEXT.departed(e.name));
           playSound('sad');

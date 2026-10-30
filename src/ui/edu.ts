@@ -20,6 +20,7 @@ import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
 import {
   EDU_PICKER_TEXT,
+  EDU_REBORN_TEXT,
   EDU_RESULTS_TEXT,
   EDU_SAY_TEXT,
   EDU_WRONG_TEXT,
@@ -631,6 +632,21 @@ export class GrownUpPanel {
     if (e.band === 'reader')
       ageRow.replaceChildren(el('strong', undefined, EDU_STORY_TEXT.readerAges));
     this.body.appendChild(ageRow);
+    // R0691: sprouts always get their Nubbin back; for a reader it is the grown-up's call.
+    if (e.band === 'reader') {
+      const row = el('label', 'check-row');
+      const cb = el('input');
+      cb.type = 'checkbox';
+      cb.checked = !!e.alwaysReborn;
+      cb.addEventListener('change', () => g.send({ kind: 'eduSetAlwaysReborn', on: cb.checked }));
+      const t = el('span');
+      t.append(
+        el('strong', undefined, EDU_REBORN_TEXT.toggle),
+        el('small', undefined, EDU_REBORN_TEXT.toggleHelp),
+      );
+      row.append(cb, t);
+      this.body.appendChild(row);
+    }
     // Name.
     const nameRow = el('label', 'field-row');
     const name = el('input');

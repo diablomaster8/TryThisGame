@@ -947,6 +947,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'eduSetReadAloud':
       if (world.edu) world.edu.readAloud = cmd.on;
       return;
+    case 'eduSetAlwaysReborn':
+      // Lane E r7, R0691: the field only exists when on.
+      if (world.edu) {
+        if (cmd.on) world.edu.alwaysReborn = true;
+        else delete world.edu.alwaysReborn;
+      }
+      return;
     case 'eduLesson':
       eduLesson(world, cmd.id, cmd.best);
       return;

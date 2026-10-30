@@ -488,6 +488,8 @@ export interface TeamState {
 /** Educational mode (sim/edu.ts). Null outside it. */
 export interface EduState {
   age: EduAge;
+  /** Lane E r7, R0691: a reader's grown-up chose "every Nubbin comes back" (sprouts always do). */
+  alwaysReborn?: boolean;
   /** Which games are switched on; starts as the recommended set for the age. */
   games: Record<EduGameId, boolean>;
   sessionMinutes: number;
@@ -1209,6 +1211,8 @@ export type Command =
   | { kind: 'eduSetLanguage'; language: EduState['storyLanguage'] }
   | { kind: 'eduLesson'; id: string; best: boolean | null }
   | { kind: 'eduSetReadAloud'; on: boolean }
+  /** Lane E r7, R0691: the grown-up's "every Nubbin comes back" for a reader save. */
+  | { kind: 'eduSetAlwaysReborn'; on: boolean }
   | { kind: 'langStart'; course: LangCourseId }
   | { kind: 'langWord'; word: string; how: 'heard' | 'used' }
   | { kind: 'langTraced'; quest: string }

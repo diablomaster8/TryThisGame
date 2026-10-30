@@ -19,6 +19,7 @@ import type {
   World,
 } from './types';
 import { NUBBIN_TYPES, STAT_KEYS } from './types';
+import { eduAlwaysReborn } from './edu';
 
 /**
  * Stage timers: egg → child → cocoon → adult → end-of-life check.
@@ -166,9 +167,11 @@ export function runEndOfLife(n: Nubbin, world: World, offline: boolean, events: 
     }
     return;
   }
+  // R0691: a sprout's Nubbin always comes back (a reader's too, if a grown-up chose it).
   const loved =
-    lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
-    n.needs.affection >= REBIRTH.minAffection;
+    eduAlwaysReborn(world) ||
+    (lifetimeHappiness(n) >= REBIRTH.minLifetimeHappiness &&
+      n.needs.affection >= REBIRTH.minAffection);
   if (loved) {
     n.awaitingKeeper = false;
     startCocoon(n, 'rebirth', 0, events);

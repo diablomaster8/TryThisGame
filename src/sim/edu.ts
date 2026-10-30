@@ -168,3 +168,14 @@ export function eduLesson(world: World, id: string, best: boolean | null): void 
   if (!e || e.lessons[id]) return;
   e.lessons[id] = { best };
 }
+
+/**
+ * R0691 (KIDS-23): in a sprout save every end of life is a rebirth, so a young child who
+ * drifted away for a week never comes back to a Nubbin gone for good. A reader save does the
+ * same when a grown-up switched it on. The 10% carry-over and the Eternal rules are unchanged.
+ */
+export function eduAlwaysReborn(world: World): boolean {
+  const e = world.edu;
+  if (!e) return false;
+  return e.band === 'sprout' ? EDU.alwaysRebornSprout : !!e.alwaysReborn;
+}

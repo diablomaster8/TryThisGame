@@ -105,3 +105,11 @@ export const EDU_WRONG_TEXT = {
   leaveHold: 'Hold to go back to the Grove',
   saved: 'Your stars are saved.',
 } as const;
+
+/** R0691: a sprout's Nubbin comes back, said gently. */
+export const EDU_REBORN_TEXT = {
+  toggle: 'Every Nubbin comes back',
+  toggleHelp: 'At the end of its life a Nubbin is always reborn as an egg, never gone for good.',
+  say: (name: string) =>
+    `${name} was tired and slept in a glowing cocoon. And here is a new egg! ${name} is back!`,
+} as const;
