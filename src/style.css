@@ -5139,3 +5139,37 @@ html.story-resting canvas {
   cursor: default;
   text-align: left;
 }
+
+/* R0463 (TECH-21): the one-time install offer, a small card above the HUD's bottom edge. */
+.install-hint {
+  position: fixed;
+  left: 50%;
+  /* Above the bottom HUD bar. */
+  bottom: calc(96px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 900;
+  width: min(340px, calc(100vw - 32px));
+  padding: 14px 16px;
+  color: var(--hud-fg);
+  background: rgba(13, 10, 26, 0.94);
+  border: 1px solid var(--hud-border);
+  border-radius: 12px;
+}
+
+.install-hint p {
+  margin: 6px 0 10px;
+}
+
+.install-hint-share {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+/* R0461 (TECH-20): the Keep for offline play rows. */
+.offline-packs {
+  margin: 12px 0;
+}
+
+.offline-pack-state:empty {
+  display: none;
+}

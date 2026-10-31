@@ -21,10 +21,61 @@
     <title>Grove</title>
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="icon" href="icons/icon-192.png" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/icon-180.png" />
     <link rel="stylesheet" href="/src/style.css" />
+    <!-- R0492 (TECH-51): an inline, CSS-only splash painted before any script has loaded, so
+         a cold start on a slow phone never sits on a blank screen. main.ts removes it on the
+         first frame of the title or the loading veil. -->
+    <style>
+      #splash {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: #0d0a1a;
+        color: #f4f1ff;
+        font:
+          600 1rem system-ui,
+          -apple-system,
+          'Segoe UI',
+          sans-serif;
+      }
+      #splash b {
+        font-size: 2.75rem;
+        letter-spacing: 2px;
+        text-shadow: 3px 3px 0 #1a1530;
+      }
+      #splash i {
+        display: block;
+        width: 22px;
+        height: 22px;
+        border-radius: 0 70% 0 70%;
+        background: #7bd17a;
+        animation: splash-leaf 1.4s ease-in-out infinite alternate;
+      }
+      @keyframes splash-leaf {
+        from {
+          transform: rotate(-18deg) translateY(0);
+        }
+        to {
+          transform: rotate(18deg) translateY(-6px);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #splash i {
+          animation: none;
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="splash" role="status" aria-live="polite">
+      <i aria-hidden="true"></i><b>Grove</b><span>Planting the Grove…</span>
+    </div>
     <div id="app">
       <canvas id="game" aria-label="The Grove"></canvas>
       <div id="hud"></div>

@@ -20,6 +20,8 @@ import { showKidsPicker, type EduTag } from './ui/kids-launch';
 import { readKidsLock } from './platform/kids-lock';
 import { showUpdateNotice } from './ui/update-notice';
 import { showBootError } from './ui/boot-error';
+import { refreshOfflinePacks } from './ui/offline-packs';
+import { continueSlot, listenForInstall, offerInstallLater } from './ui/install-hint';
 import { reloadOnceForUpdate } from './platform/boot-reload';
 import { watchForUpdate } from './ui/update-ready';
 import {
@@ -46,6 +48,7 @@ function mustGet<T extends Element>(selector: string): T {
 
 // Anything nothing else caught is logged (within a budget) and gets a passing notice.
 watchErrors(showErrorNotice);
+listenForInstall(); // R0463 (TECH-21)
 
 const app = mustGet<HTMLDivElement>('#app');
 const canvas = mustGet<HTMLCanvasElement>('#game');
@@ -67,7 +70,18 @@ const params = new URLSearchParams(location.search);
 let resumeSlot: ReturnType<typeof takeResumeSlot>;
 let kidsLock: number | null;
 // A browser may have cleared localStorage: put back any newer IndexedDB copy before a slot is read.
-void restoreFromMirror().then(route);
+void restoreFromMirror()
+  .then(route)
+  .finally(() => requestAnimationFrame(dropSplash));
+/**
+ * R0492 (TECH-51): index.html's inline splash covers the cold start; it goes on the first
+ * frame of whatever the route mounted (the title, or the loading veil), and the title's
+ * first paint is marked for the perf budget.
+ */
+function dropSplash(): void {
+  document.getElementById('splash')?.remove();
+  if (document.querySelector('.title')) performance.mark?.('title-visible');
+}
 function route(): void {
   if (params.has('sprites')) {
     mountSpriteGallery(app);
@@ -104,6 +118,10 @@ function route(): void {
       age: Math.max(3, Math.min(6, age)) as EduAge,
       band: age >= 7 ? 'reader' : 'sprout',
     });
+  } else if (params.has('continue') && (resumeSlot = continueSlot())) {
+    // R0463 (TECH-21): the home-screen "Continue" shortcut opens the slot played last.
+    setSaveSlot(resumeSlot);
+    startGame(null);
   } else if (params.has('free')) {
     // Straight into the Free Grove (dev and old links). `?slot=2` picks a slot.
     setSaveSlot({ mode: 'free', index: Number(params.get('slot')) || 1 });
@@ -272,6 +290,7 @@ function boot(
   const fps = new FpsCounter(hudRoot);
   let game: Game | null = null;
   const hud = mountHud(hudRoot, () => game);
+  offerInstallLater(hudRoot); // R0463 (TECH-21)
   game = new Game(canvas, hud.hooks, scene3d ? '3d' : 'pixel', scene3d);
   // A save that opens underground holds the floor still behind the veil (R0142).
   if (!loading.done) {
@@ -342,6 +361,7 @@ function boot(
     }
     if (loading.done && !veilLifted) {
       veilLifted = true;
+      performance.mark?.('grove-playable'); // R0492 (TECH-51)
       game?.send({ kind: 'setLoading', on: false });
     }
     requestAnimationFrame(fpsLoop);
@@ -379,6 +399,11 @@ function boot(
         .map((e) => e.name)
         .filter((u) => u.startsWith(location.origin) && u.includes('/assets/'));
       reg.active?.postMessage({ type: 'cache-urls', urls });
+    });
+    // R0461 (TECH-20): keep the ticked offline packs, and the one this slot needs.
+    void navigator.serviceWorker.ready.then((reg) => {
+      const m = currentSlot().mode;
+      refreshOfflinePacks(reg.active, m === 'edu' ? 'edu' : m === 'free' ? null : 'story');
     });
   }
 

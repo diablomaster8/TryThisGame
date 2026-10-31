@@ -6,6 +6,7 @@
  */
 import { UI_TEXT } from '../config/strings';
 import { OFFLINE_CHUNK_TEXT } from '../config/strings-r9d3';
+import { OFFLINE_CARD_HINT } from '../config/strings-r10d4';
 import { button, el } from './dom';
 
 let shown = false;
@@ -46,7 +47,8 @@ function showOfflineChunkCard(): void {
     },
     'btn btn-primary',
   );
-  box.append(el('p', undefined, OFFLINE_CHUNK_TEXT.body), keep);
+  // TECH-58 + TECH-20: point to the pack that would have kept it.
+  box.append(el('p', undefined, OFFLINE_CHUNK_TEXT.body), el('p', 'help', OFFLINE_CARD_HINT), keep);
   document.body.appendChild(box);
   offlineCard = box;
   keep.focus();

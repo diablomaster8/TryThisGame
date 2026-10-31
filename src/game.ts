@@ -797,6 +797,8 @@ export class Game {
     this.crashed = false;
     this.world = world;
     this.world.lastWallMs = Date.now();
+    // R0509 (TECH-67): the renderer is this device's choice; an imported save's is ignored.
+    this.world.settings.graphics = this.graphics;
     // The scenes keep the ground and the Hollow floor as their own state: show the new
     // world's, and re-read its sky and place on the next frame (review D, bug 5).
     syncWorldScenes(world, this.grove, [this.grove, this.scene3d, this.view]);

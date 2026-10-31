@@ -1,11 +1,14 @@
 import { shareOrDownload } from '../platform/share';
+import { mountOfflinePacks } from './offline-packs';
 import { SHARE_TEXT } from '../config/strings-r9d3';
 import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
 import { TEXT_SCALES, textScaleOf, textSizeKey } from './text-scale';
 import { bugReport } from '../platform/bug-log';
-import { groveBytes, storageQuota } from '../platform/storage-use';
+import { groveBytes, storageEstimate } from '../platform/storage-use';
+import { STORAGE_TEXT } from '../config/strings-r10d4';
+import { STORAGE_WATCH } from '../config/tuning-r10d4';
 import { OFFLINE, SAVE_SAFETY, UI } from '../config/tuning';
 import { BIG_BUBBLES_TEXT, LIVELINESS_TEXT } from '../config/strings-soul-r8';
 import { livelinessOf } from '../sim/antics';
@@ -28,6 +31,7 @@ import {
   modeOfWorld,
   pickTextFile,
   readUnreadable,
+  readGraphicsPref,
   writeGraphicsPref,
 } from '../platform/storage';
 import { deserialize, importProblem } from '../sim/save';
@@ -489,6 +493,8 @@ export class SettingsMenu {
     // TECH-56: how much the Grove keeps here; TECH-33: a local bug report to paste.
     this.storageLine = el('p', 'help');
     body.appendChild(this.storageLine);
+    // R0461 (TECH-20): Story, Learning Grove and Story worlds packs kept for offline play.
+    mountOfflinePacks(body);
     const bug = el('div', 'settings-actions');
     bug.append(button(BUG_TEXT.copy, () => void this.copyBugReport()));
     body.appendChild(bug);
@@ -498,10 +504,27 @@ export class SettingsMenu {
   private syncSaveInfo: () => void = () => undefined;
 
   private refreshStorageLine(): void {
+    // R0497 (TECH-56): the saves against localStorage's ~5 MB, the site's offline files and
+    // caches from the estimate, and a warning when either is nearly full.
     const kb = Math.round(groveBytes() / 1024);
-    this.storageLine.textContent = BUG_TEXT.storage(kb, null);
-    void storageQuota().then((q) => {
-      if (q !== null) this.storageLine.textContent = BUG_TEXT.storage(kb, Math.round(q / 1048576));
+    const cap = STORAGE_WATCH.localMb;
+    const lowSaves = kb > cap * 1024 * STORAGE_WATCH.warnShare;
+    const say = (site: string, low: boolean): void => {
+      this.storageLine.textContent = [
+        STORAGE_TEXT.saves(kb, cap),
+        site,
+        low ? STORAGE_TEXT.low : '',
+      ]
+        .filter(Boolean)
+        .join(' ');
+    };
+    say('', lowSaves);
+    void storageEstimate().then((e) => {
+      if (e)
+        say(
+          STORAGE_TEXT.site(e.usage / 1048576),
+          lowSaves || e.usage > e.quota * STORAGE_WATCH.warnShare,
+        );
     });
   }
 
@@ -509,7 +532,7 @@ export class SettingsMenu {
     const g = this.game();
     if (!g) return;
     const text = bugReport({
-      renderer: g.world.settings.graphics,
+      renderer: readGraphicsPref(),
       settings: g.world.settings,
       save: g.exportJson(),
     });
@@ -576,7 +599,8 @@ export class SettingsMenu {
     );
     this.particles.value = g.world.settings.particles;
     this.reduced.value = g.world.settings.reducedMotion;
-    this.graphics.value = g.world.settings.graphics;
+    // R0509 (TECH-67): the device's renderer, never an imported save's.
+    this.graphics.value = readGraphicsPref();
     this.syncMinimap(g);
     this.syncPace(g);
     this.syncWorld(g);
@@ -739,12 +763,15 @@ export class SettingsMenu {
     if (flow !== (g.world.settings.questFlow ?? 'guided')) settings.questFlow = flow;
     g.send({ kind: 'setSettings', settings });
     // The renderer is picked when the game starts, so a change saves and reloads.
-    if (settings.graphics !== prev.graphics) {
+    // R0509 (TECH-67): compared with the device preference, the one source of truth.
+    const running = readGraphicsPref();
+    if (settings.graphics !== running) {
       // With storage blocked the reload would lose this Grove and the choice: keep both and
       // point to the title screen, whose pick lasts the session (review D, 13).
       if (!writeGraphicsPref(settings.graphics)) {
-        g.send({ kind: 'setSettings', settings: { ...settings, graphics: prev.graphics } });
-        this.graphics.value = prev.graphics;
+        writeGraphicsPref(running); // the page keeps running the renderer it has
+        g.send({ kind: 'setSettings', settings: { ...settings, graphics: running } });
+        this.graphics.value = running;
         this.toast(UI_TEXT.graphicsSwitchBlocked, 6000);
         return;
       }

@@ -40,8 +40,19 @@ self.addEventListener('message', (event) => {
   const data = event.data || {};
   if (data.type === 'skip-waiting') self.skipWaiting();
   // The page lists the build chunks it loaded before this worker was in control.
+  // R0461 (TECH-20): a "Keep for offline" pack sends its list with a port and hears back
+  // how many files are now held; unticking one sends `drop-urls`.
   else if (data.type === 'cache-urls' && Array.isArray(data.urls)) {
-    event.waitUntil(cacheUrls(data.urls));
+    const port = event.ports[0];
+    const of = data.urls.length;
+    event.waitUntil(
+      cacheUrls(data.urls).then(
+        (held) => port?.postMessage({ type: 'cached', held, of }),
+        () => port?.postMessage({ type: 'cached', held: 0, of }),
+      ),
+    );
+  } else if (data.type === 'drop-urls' && Array.isArray(data.urls)) {
+    event.waitUntil(dropUrls(data.urls));
   }
   // R0520: the page asks which of its lazy chunks this cache holds, so it can grey out the
   // story worlds that cannot open offline. Each entry is a full URL, or a hashed chunk's
@@ -68,18 +79,50 @@ async function hasUrls(urls) {
   });
 }
 
-/** Fetch and keep the listed hashed chunks this cache does not hold yet (same origin only). */
+/** The language clips are plain public files, kept whole so a Range can be cut from them. */
+const CLIP = /\/audio\/lang\/[^/]+\.(mp3|wav|ogg|m4a)$/;
+/** The few plain files the offline packs list besides hashed chunks and clips. */
+const PLAIN = /\/(sprites\/manifest|offline-manifest)\.json$/;
+const KEEPABLE = (u) =>
+  u.origin === self.location.origin &&
+  (HASHED.test(u.pathname) || CLIP.test(u.pathname) || PLAIN.test(u.pathname));
+
+/**
+ * Fetch and keep the listed hashed chunks (and language clips) this cache does not hold
+ * yet, same origin only. Resolves to how many of them the cache now holds.
+ */
 async function cacheUrls(urls) {
   const cache = await caches.open(CACHE);
-  for (const url of urls.slice(0, 400)) {
+  let held = 0;
+  for (const url of urls.slice(0, 600)) {
     try {
       const u = new URL(url);
-      if (u.origin !== self.location.origin || !HASHED.test(u.pathname)) continue;
-      if (await cache.match(u.href, ANY)) continue;
+      if (!KEEPABLE(u)) continue;
+      if (await cache.match(u.href, ANY)) {
+        held++;
+        continue;
+      }
       const res = await fetch(u.href);
-      if (res.ok && res.status !== 206) await cache.put(u.href, res);
+      if (res.ok && res.status !== 206) {
+        await cache.put(u.href, res);
+        held++;
+      }
     } catch {
       // Offline or gone: it is fetched again the next time the page asks for it.
+    }
+  }
+  return held;
+}
+
+/** Forget the files of a pack the player unticked (only kinds a pack can hold). */
+async function dropUrls(urls) {
+  const cache = await caches.open(CACHE);
+  for (const url of urls.slice(0, 600)) {
+    try {
+      const u = new URL(url);
+      if (KEEPABLE(u)) await cache.delete(u.href, ANY);
+    } catch {
+      // Not a URL: nothing to forget.
     }
   }
 }
@@ -117,13 +160,46 @@ async function carryOver(oldNames) {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
-  // Range requests (audio, video) get partial 206 answers: the cache can neither store nor
-  // serve those, so they go straight to the network.
-  if (req.headers.has('range')) return;
+  // Range requests (audio, video) get partial 206 answers, which the cache cannot store. A
+  // file kept whole for offline (TECH-20's clips) is answered by slicing the cached body;
+  // anything else goes straight to the network.
+  if (req.headers.has('range')) {
+    event.respondWith(rangeFromCache(req));
+    return;
+  }
   if (req.mode === 'navigate') event.respondWith(navigate(event, req));
   else if (HASHED.test(new URL(req.url).pathname)) event.respondWith(cacheFirst(event, req));
   else event.respondWith(staleWhileRevalidate(event, req));
 });
+
+/** A 206 cut from a cached whole response, or the network when nothing is cached. */
+async function rangeFromCache(req) {
+  const cache = await caches.open(CACHE);
+  const hit = await cache.match(req.url, ANY);
+  if (!hit) return fetch(req);
+  const body = await hit.arrayBuffer();
+  const len = body.byteLength;
+  const m = /bytes=(\d*)-(\d*)/.exec(req.headers.get('range') || '');
+  let start = m && m[1] ? Number(m[1]) : 0;
+  let end = m && m[2] ? Math.min(Number(m[2]), len - 1) : len - 1;
+  // "bytes=-500" asks for the last 500 bytes.
+  if (m && !m[1] && m[2]) {
+    start = Math.max(0, len - Number(m[2]));
+    end = len - 1;
+  }
+  if (start >= len || start > end) {
+    return new Response(null, { status: 416, headers: { 'Content-Range': `bytes */${len}` } });
+  }
+  return new Response(body.slice(start, end + 1), {
+    status: 206,
+    headers: {
+      'Content-Type': hit.headers.get('Content-Type') || 'application/octet-stream',
+      'Content-Range': `bytes ${start}-${end}/${len}`,
+      'Content-Length': String(end - start + 1),
+      'Accept-Ranges': 'bytes',
+    },
+  });
+}
 
 /** Network first; the cached page, then the cached shell, only when offline. */
 async function navigate(event, req) {

@@ -25,3 +25,13 @@ export async function storageQuota(): Promise<number | null> {
     return null;
   }
 }
+
+/** R0497: the origin's whole use (offline packs, the sculpt cache) and quota, where known. */
+export async function storageEstimate(): Promise<{ usage: number; quota: number } | null> {
+  try {
+    const e = await navigator.storage?.estimate?.();
+    return e && typeof e.usage === 'number' && e.quota ? { usage: e.usage, quota: e.quota } : null;
+  } catch {
+    return null;
+  }
+}
