@@ -4544,3 +4544,36 @@ body.edu-sprout .modal-head .btn-close {
   white-space: nowrap;
   border: 0;
 }
+
+/* Lane D r9, TECH-29: press-and-hold to erase fills the button; ⋯ hides Erase until asked. */
+.btn-hold {
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.btn-hold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(224, 86, 46, 0.45);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+.btn-hold.holding::before {
+  transform: scaleX(1);
+  transition: transform var(--hold-ms, 1500ms) linear;
+}
+.title-slot-more {
+  margin-left: 10px;
+}
+.title-slot-erase[hidden],
+.title-slot-more[hidden] {
+  display: none;
+}
+.title-trash-info {
+  cursor: default;
+  text-align: left;
+}

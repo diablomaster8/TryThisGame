@@ -24,3 +24,18 @@ export const A11Y_TEXT = {
   sleepy: 'sleepy',
   ready: 'ready to hatch',
 } as const;
+
+/** TECH-29: erasing is held, not clicked, and an erased slot can come back for a week. */
+export const TRASH_TEXT = {
+  holdToErase: 'Hold to erase',
+  holdHint: 'Press and hold for a moment.',
+  eraseBody: (n: number, said: string) =>
+    `Erase slot ${n}?${said ? ` (${said})` : ''} You can restore it for 7 days.`,
+  more: '⋯',
+  moreLabel: (mode: string, n: number) => `More for ${mode}, slot ${n}`,
+  recent: 'Recently erased',
+  restore: 'Restore',
+  restoreLabel: (mode: string, n: number) => `Restore ${mode}, slot ${n}`,
+  slotInUse: 'Slot in use',
+  erasedAgo: (days: number) => (days < 1 ? 'erased today' : `erased ${days} d ago`),
+} as const;

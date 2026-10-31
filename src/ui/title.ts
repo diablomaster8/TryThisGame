@@ -1,5 +1,8 @@
 import { SLOT_LINES_TEXT } from '../config/strings-camp';
 import { confirmModal } from './confirm';
+import { TRASH_TEXT } from '../config/strings-r9d3';
+import { SLOT_TRASH } from '../config/tuning-r9d3';
+import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
 import { CAMP_TEXT } from '../config/strings';
 import {
   KEEPER_LOOK_BLURBS,
@@ -11,8 +14,8 @@ import {
 import { STORY_TEXT } from '../config/story';
 import { playSong } from '../platform/audio';
 import {
-  clearSlot,
   hasSave,
+  summarize,
   readGraphicsPref,
   readSlotSummary,
   storageAvailable,
@@ -197,34 +200,61 @@ export function showTitle(
             () => {
               const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.newOverConfirm(index) };
               void confirmModal({ ...ask, confirm: CAMP_TEXT.startOverYes, danger: true }).then(
-                (ok) => ok && grownUp(() => startNew(slot)),
+                // TECH-29: the old save is kept for a week before the new one replaces it.
+                (ok) =>
+                  ok &&
+                  grownUp(() => {
+                    keepInTrash(slot, Date.now());
+                    startNew(slot);
+                  }),
               );
             },
             'btn btn-small',
           );
           fresh.setAttribute('aria-label', SLOT_TEXT.newOverLabel(modeName, index));
+          // TECH-29: Erase sits behind ⋯ (not beside Continue), is held for a moment, and
+          // the slot is kept for a week under Recently erased.
           const erase = button(
-            '✕',
+            SLOT_TEXT.erase,
             () => {
-              const ask = { title: CAMP_TEXT.confirmTitle, body: SLOT_TEXT.eraseConfirm(index) };
-              void confirmModal({ ...ask, confirm: CAMP_TEXT.eraseYes, danger: true }).then(
+              const ask = {
+                title: CAMP_TEXT.confirmTitle,
+                body: `${TRASH_TEXT.eraseBody(index, said)} ${TRASH_TEXT.holdHint}`,
+              };
+              void confirmModal({
+                ...ask,
+                confirm: TRASH_TEXT.holdToErase,
+                danger: true,
+                holdMs: SLOT_TRASH.holdMs,
+              }).then(
                 (ok) =>
                   ok &&
                   grownUp(() => {
-                    clearSlot(slot);
+                    trashSlot(slot, Date.now());
                     mainMenu();
                   }),
               );
             },
-            'btn btn-small btn-icon title-slot-erase',
+            'btn btn-small btn-danger title-slot-erase',
           );
+          erase.hidden = true;
+          const more = button(
+            TRASH_TEXT.more,
+            () => {
+              more.hidden = true;
+              erase.hidden = false;
+              erase.focus();
+            },
+            'btn btn-small btn-icon title-slot-more',
+          );
+          more.setAttribute('aria-label', TRASH_TEXT.moreLabel(modeName, index));
           erase.title = SLOT_TEXT.erase;
           // Each mode has a Slot 1: the mode name tells the three apart (review C, item 25).
           erase.setAttribute(
             'aria-label',
             `${SLOT_TEXT.erase} ${modeName}, ${SLOT_TEXT.slot(index)}`,
           );
-          row.append(main, fresh, erase);
+          row.append(main, fresh, more, erase);
         } else {
           const main = button('', () => startNew(slot), 'btn title-slot-main');
           main.append(
@@ -239,6 +269,40 @@ export function showTitle(
       menu.appendChild(section);
       if (mode === focusMode) focus.section = section;
     }
+    recentlyErased(now);
+  };
+
+  /** TECH-29: erased slots from the last week, each with Restore while its slot is empty. */
+  const recentlyErased = (now: number) => {
+    const kept = listTrash(MODES, SLOTS_PER_MODE, now);
+    if (kept.length === 0) return;
+    const section = el('div', 'title-mode title-trash');
+    section.appendChild(el('div', 'title-mode-name', TRASH_TEXT.recent));
+    for (const k of kept) {
+      const modeName = SLOT_TEXT.modes[k.slot.mode] ?? k.slot.mode;
+      const s = summarize(k.json);
+      const said = s ? describe(k.slot.mode, s, now) : '';
+      const days = Math.floor((now - k.at) / (24 * 60 * 60 * 1000));
+      const row = el('div', 'title-slot');
+      const info = el('div', 'title-slot-main title-trash-info');
+      info.append(
+        el('strong', undefined, `${modeName} · ${SLOT_TEXT.slot(k.slot.index)}`),
+        el('small', undefined, [said, TRASH_TEXT.erasedAgo(days)].filter(Boolean).join(' · ')),
+      );
+      const inUse = hasSave(k.slot);
+      const back = button(
+        inUse ? TRASH_TEXT.slotInUse : TRASH_TEXT.restore,
+        () => {
+          if (restoreTrash(k.slot)) mainMenu();
+        },
+        'btn btn-small',
+      );
+      back.disabled = inUse;
+      back.setAttribute('aria-label', TRASH_TEXT.restoreLabel(modeName, k.slot.index));
+      row.append(info, back);
+      section.appendChild(row);
+    }
+    menu.appendChild(section);
   };
   const focus = { section: null as HTMLElement | null };
 

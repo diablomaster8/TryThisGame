@@ -19,3 +19,9 @@ export const A11Y_SUMMARY = {
   /** Energy below this reads as sleepy. */
   sleepyBelow: 0.2,
 } as const;
+
+/** TECH-29: the erase hold and how long an erased slot is kept. */
+export const SLOT_TRASH = {
+  holdMs: 1500,
+  keepMs: 7 * 24 * 60 * 60 * 1000,
+} as const;
