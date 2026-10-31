@@ -25,6 +25,19 @@ export type EmoteShape =
   // Lane A r8: a cross grey puff (a grumpy refusal, a harrumph) and a note (a song, a hum).
   | 'puff'
   | 'note'
+  // Lane A r10 (R0548, R0540): moods, the chat's topic pictures and the families' signs.
+  | 'drop'
+  | 'bulb'
+  | 'dots'
+  | 'sparkle'
+  | 'smirk'
+  | 'zzbig'
+  | 'droop'
+  | 'toyball'
+  | 'keeper'
+  | 'cloud'
+  | 'pspark'
+  | 'dblink'
   | 'none';
 export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'ball',
@@ -39,6 +52,18 @@ export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'fruit',
   'puff',
   'note',
+  'drop',
+  'bulb',
+  'dots',
+  'sparkle',
+  'smirk',
+  'zzbig',
+  'droop',
+  'toyball',
+  'keeper',
+  'cloud',
+  'pspark',
+  'dblink',
 ];
 
 function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas {
@@ -147,6 +172,99 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.rect(cx, cy - 4, 1, 7, C.violet);
       pc.rect(cx + 1, cy - 4, 2, 1, C.violet);
       pc.rect(cx + 2, cy - 3, 1, 2, C.violet);
+      break;
+    case 'drop':
+      // A bead of nervous sweat.
+      pc.disc(cx, cy + 1.5, 2.6, C.skyDeep);
+      pc.tri(cx - 2, cy, cx + 2, cy, cx, cy - 4, C.skyDeep);
+      pc.disc(cx - 0.4, cy + 1.2, 1.8, C.skyLight);
+      pc.px(cx - 1, cy + 1, C.white);
+      break;
+    case 'bulb':
+      // A light bulb: an idea, or something worth a look.
+      pc.disc(cx, cy - 1, 3.2, C.sunYellow);
+      pc.px(cx - 1, cy - 2, C.white);
+      pc.rect(cx - 1, cy + 2, 3, 2, C.greyLight);
+      pc.rect(cx - 1, cy + 3, 3, 1, C.greyDeep);
+      break;
+    case 'dots':
+      // Thinking (or bored): three dots, the lit one walking along.
+      for (let i = 0; i < 3; i++)
+        pc.disc(
+          cx - 3 + i * 3,
+          cy + 1,
+          1.1,
+          i === frame + 1 || (frame === 0 && i === 0) ? C.white : C.lilacGrey,
+        );
+      break;
+    case 'sparkle':
+      // A four-point twinkle and a little one: found it, or the favourite.
+      pc.line(cx, cy - 4, cx, cy + 4, C.sunYellow);
+      pc.line(cx - 4, cy, cx + 4, cy, C.sunYellow);
+      pc.disc(cx, cy, 1.2, C.white);
+      pc.px(cx + 3, cy - 3, frame === 0 ? C.white : C.sunLight);
+      pc.px(cx - 3, cy + 3, frame === 1 ? C.white : C.sunLight);
+      break;
+    case 'smirk':
+      // A Moon prank: a violet ball with a lopsided grin and one narrowed eye.
+      pc.disc(cx, cy, 3.4, C.violet);
+      pc.rect(cx - 2, cy - 1, 2, 1, C.darkPlum);
+      pc.px(cx + 1, cy - 1, C.darkPlum);
+      pc.px(cx + 2, cy - 2, C.darkPlum);
+      pc.line(cx - 1, cy + 2, cx + 2, cy + 1, C.white);
+      break;
+    case 'zzbig':
+      // Deep sleep: three Zs, growing.
+      pc.line(cx - 4, cy + 2, cx - 2, cy + 2, C.pale);
+      pc.line(cx - 2, cy + 2, cx - 4, cy + 4, C.pale);
+      pc.line(cx - 4, cy + 4, cx - 2, cy + 4, C.pale);
+      pc.line(cx - 1, cy - 1, cx + 2, cy - 1, C.pale);
+      pc.line(cx + 2, cy - 1, cx - 1, cy + 2, C.pale);
+      pc.line(cx - 1, cy + 2, cx + 2, cy + 2, C.pale);
+      pc.line(cx + 1, cy - 5, cx + 5, cy - 5, C.white);
+      pc.line(cx + 5, cy - 5, cx + 1, cy - 1, C.white);
+      pc.line(cx + 1, cy - 1, cx + 5, cy - 1, C.white);
+      break;
+    case 'droop':
+      // Sad: a soft ball sagging at the bottom, a drip running off it (never a broken heart).
+      pc.ellipse(cx, cy + 1, 3.4, 2.6, C.lilacGrey);
+      pc.disc(cx - 0.4, cy + 0.6, 1.8, C.pale);
+      pc.rect(cx + 2, cy + 3, 1, 2, C.skyDeep);
+      break;
+    case 'toyball':
+      // The chat's toy: a beach ball in two colours.
+      pc.disc(cx, cy, 3.4, C.white);
+      pc.rect(cx - 3, cy - 1, 7, 2, C.rose);
+      pc.px(cx - 1, cy - 2, C.skyLight);
+      break;
+    case 'keeper':
+      // The chat's Keeper: a round face under a hat brim.
+      pc.disc(cx, cy + 1, 3, C.cream);
+      pc.rect(cx - 4, cy - 2, 9, 1, C.roseDeep);
+      pc.rect(cx - 2, cy - 4, 5, 2, C.roseDeep);
+      pc.px(cx - 1, cy + 1, C.ink);
+      pc.px(cx + 1, cy + 1, C.ink);
+      pc.px(cx, cy + 3, C.rose);
+      break;
+    case 'cloud':
+      // The chat's weather: a cloud with a raindrop under it.
+      pc.disc(cx - 2, cy, 2.2, C.greyLight);
+      pc.disc(cx + 1, cy - 1, 2.8, C.white);
+      pc.disc(cx + 3, cy + 1, 1.8, C.greyLight);
+      pc.px(cx, cy + 4, C.skyDeep);
+      break;
+    case 'pspark':
+      // The pocket family's content sign: a tiny spark off an ear flick.
+      pc.line(cx + 1, cy - 2, cx + 1, cy + 2, frame === 0 ? C.sunYellow : C.sunLight);
+      pc.line(cx - 1, cy, cx + 3, cy, frame === 0 ? C.sunYellow : C.sunLight);
+      pc.px(cx + 1, cy, C.white);
+      break;
+    case 'dblink':
+      // The digital family's content sign: one green pixel, blinking.
+      if (frame === 0) {
+        pc.rect(cx - 1, cy - 1, 3, 3, C.leaf);
+        pc.px(cx, cy, C.white);
+      } else pc.rect(cx, cy, 1, 1, C.leafDeep);
       break;
     case 'none':
       break;

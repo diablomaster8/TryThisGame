@@ -29,6 +29,9 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id.startsWith('tidy')) return 'star';
       // R0527 (lane A r10): peeking out of the cottage window.
       if (id === 'cottageHide') return 'question';
+      // R0553 (lane A r10): the cheerful twirl, the mischievous sneak's grin.
+      if (id === 'twirl') return 'star';
+      if (id === 'sneak') return n.behavior.target ? 'none' : 'smirk';
       return null;
     case 'wander':
       if (id === 'hum') return 'note';
@@ -42,6 +45,9 @@ export function soulEmote(n: Nubbin): EmoteShape | null {
       if (id === 'rubEyes') return 'zz';
       if (id === 'watchJealous') return 'puff';
       if (id === 'hoardSit') return 'spiky';
+      // R0553 (lane A r10): a shy one hiding its face shows nothing; a lazy doze, zz.
+      if (id === 'hideFace') return 'none';
+      if (id === 'doze') return 'zz';
       return null;
     default:
       return null;

@@ -87,6 +87,8 @@ import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
 import { noteDue, performClip, performEmote, performLook } from './perform-look';
+import { emoteMotion, familySign, moodShape } from './emote-mood';
+import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
 
@@ -2045,6 +2047,9 @@ export class WorldView {
           : 'sleep'
         : clipFor(n);
       if (fly) clip = fly.phase === 'glide' ? 'glide' : 'flap';
+      // R0540 (lane A r10): a chatter speaks with the happy clip and listens standing.
+      const cc = held ? null : chatClip(n, perfMs);
+      if (cc) clip = cc;
       // R0355: sitting with the Keeper, it leans in, then nods off on the Keeper's foot.
       const sw = sitWithBeat(world, n, world.timeMs);
       if (sw?.doze && sheet.frames.has(frameKey('sleep', 'front', 0))) clip = 'sleep';
@@ -2144,7 +2149,7 @@ export class WorldView {
       const gkey = gag ? frameKey(gag.look.clip, view.angle, gag.frame) : '';
       const gagOn = !!gag && sheet.frames.has(gkey);
       if (gagOn) key = gkey;
-      emote = emoteFor(n);
+      emote = emoteFor(n, world);
       if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
       // R0355: the snore bubble swells, pops with a sparkle, and the Zs carry on between.
       if (sw?.doze) emote = sw.bubble > 0 ? 'ball' : 'zz';
@@ -2271,6 +2276,7 @@ export class WorldView {
             (beat?.dy ?? 0) * 2 +
             eggHop +
             (perf?.dy ?? 0) +
+            chatHop(n, perfMs, this.particles.reduceMotion) +
             (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
           z: z + swDz - Math.sin(yaw) * (perf?.dx ?? 0),
           mode: 'billboard',
@@ -2359,22 +2365,27 @@ export class WorldView {
     else v.bubble = null;
     if (emote !== 'none' && n.stage !== 'egg' && n.stage !== 'cocoon') {
       const emotes = this.sheets.emotes(n.shadow);
-      const erect = emotes.frames.get(frameKey(emote, 'front', Math.floor(nowMs / 400) % 2));
+      // R0548 (lane A r10): a happy ball bobs quicker and higher, a sad one droops and slows.
+      const em = emoteMotion(n, nowMs, this.particles.reduceMotion);
+      // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
+      // rounded to whole native pixels, and squashes on a landing or morphs to a new shape.
+      const back = EMOTE_SPRING.backPixel;
+      const ball = this.emoteSprings.step(
+        n.id,
+        x - Math.sin(n.facing) * back,
+        y + 2.15 + em.dy,
+        z - Math.cos(n.facing) * back,
+        emote,
+        nowMs,
+        EMOTE_SPRING.clampPixel,
+        1 / NATIVE_PPU,
+        v.pop?.kind === 'squash' ? v.pop.startMs : null,
+        !this.particles.reduceMotion,
+      );
+      const erect = emotes.frames.get(
+        frameKey(ball.shape, 'front', Math.floor(nowMs / em.flipMs) % 2),
+      );
       if (erect) {
-        // LOOK-16: the ball trails an anchor over the swept-back point on a soft spring,
-        // rounded to whole native pixels, and squashes on a landing or pops on a new shape.
-        const back = EMOTE_SPRING.backPixel;
-        const ball = this.emoteSprings.step(
-          n.id,
-          x - Math.sin(n.facing) * back,
-          y + 2.15,
-          z - Math.cos(n.facing) * back,
-          emote,
-          nowMs,
-          EMOTE_SPRING.clampPixel,
-          1 / NATIVE_PPU,
-          v.pop?.kind === 'squash' ? v.pop.startMs : null,
-        );
         // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
         const es = emoteScale(
           this.emoteBig || emoteFocused(n.id),
@@ -2563,10 +2574,19 @@ const HELD_CLIPS: Record<HeldMood, string> = {
   flail: 'heldFlail',
 };
 
-/** Resting emote shape by mood and alignment hint. */
-export function emoteFor(n: Nubbin): EmoteShape {
+/**
+ * Resting emote shape by mood and alignment hint. `world` (sim time and items) lets the
+ * newer shapes in (R0548): the favourite toy's sparkle and the families' content signs.
+ */
+export function emoteFor(
+  n: Nubbin,
+  world?: { timeMs: number; items: readonly { id: string; toy?: string }[] },
+): EmoteShape {
   const mood = moodOf(n);
-  if (n.behavior.state === 'nap') return 'zz';
+  // R0540 (lane A r10): a friend chat's picture bubbles, turn about.
+  const talk = world ? chatEmote(n, world.timeMs) : null;
+  if (talk) return talk;
+  if (n.behavior.state === 'nap') return n.needs.energy < 0.3 ? 'zzbig' : 'zz';
   // Lane A r9: the new acts' own balls (render/soul-emotes.ts).
   const own = soulEmote(n);
   if (own) return own;
@@ -2574,19 +2594,22 @@ export function emoteFor(n: Nubbin): EmoteShape {
   if (wantsFirstFruit(n)) return 'fruit';
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
-  if (n.behavior.state === 'lesson') return 'question';
+  // R0548 (lane A r10): the new mood shapes (render/emote-mood.ts).
+  const ms = moodShape(n, world);
+  if (ms) return ms;
   // R0525 (lane A r10): a note over a song or a tune, a star over a dance.
   const pe = performEmote(n);
   if (pe) return pe;
   if (n.behavior.state === 'perform') {
     // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
     const id = n.behavior.itemId ?? '';
-    if (id.startsWith('prank:')) return 'spiky';
+    if (id.startsWith('prank:')) return 'smirk';
     return id === 'visitFlower' || id.startsWith('comfort:') ? 'heart' : 'star';
   }
   if (n.behavior.state === 'court') return 'heart';
   // The floating ball is the Chao line's; other species show bubbles only when something is up.
-  if (n.species !== 'chao' && mood === 'content') return 'none';
+  if (n.species !== 'chao' && mood === 'content')
+    return (world && familySign(n, world.timeMs)) ?? 'none';
   // A wary Shadow Nubbin shows nothing it does not have to; a bonded one carries a dark heart.
   if (n.shadow && !n.bond && mood === 'content') return 'none';
   if (n.shadow && n.bond && mood === 'content') return 'heart';
@@ -2596,6 +2619,7 @@ export function emoteFor(n: Nubbin): EmoteShape {
     case 'hungry':
       return 'exclaim';
     case 'sad':
+      return 'droop';
     case 'dizzy':
       return 'spiral';
     default: {

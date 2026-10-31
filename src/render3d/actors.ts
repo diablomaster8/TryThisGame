@@ -86,6 +86,8 @@ import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
 import { noteDue, performClip, performLook } from '../render/perform-look';
 import { Perform3D } from './perform-3d';
+import { chatClip, chatHop } from '../render/chat-look';
+import { emoteMotion } from '../render/emote-mood';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -1131,6 +1133,9 @@ export class Actors {
             ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
             : null;
         if (gag) pose = gag.look.pose3d;
+        // R0540 (lane A r10): a chatter speaks with the happy pose, listens idle, hugs.
+        const cc = held ? null : chatClip(n, world.timeMs - (1 - alpha) * SIM.stepMs);
+        if (cc) pose = cc;
         a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
         a.rig.glide = fly?.phase === 'glide';
         a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
@@ -1245,6 +1250,8 @@ export class Actors {
         o.position.y += a.beat.dy * 0.9;
         o.position.x += a.beat.dx * 0.9;
       }
+      // R0540 (lane A r10): the laugh at the end of a chat bounces.
+      if (a.rig) o.position.y += chatHop(n, perfMs, this.calm) * 0.6;
       // R0525 (lane A r10): the performance's squash, sway and hop, the prop and the notes.
       if (perf) {
         if (!a.squash) a.squash = { o, base: o.scale.clone() };
@@ -1302,8 +1309,10 @@ export class Actors {
             heldEmote(n, keeper.alignment) ??
             a.gagEmote ??
             a.swEmote ??
-            emoteFor(n));
-      const flip = Math.floor(nowMs / 400) % 2;
+            emoteFor(n, world));
+      // R0548 (lane A r10): a happy ball bobs quicker and higher, a sad one droops and slows.
+      const em = emoteMotion(n, nowMs, this.calm);
+      const flip = Math.floor(nowMs / em.flipMs) % 2;
       const key =
         shape === 'none' ? '' : `${n.shadow ? 'shadow:' : ''}${frameKey(shape, 'front', flip)}`;
       if (key !== a.emoteKey) {
@@ -1326,14 +1335,24 @@ export class Actors {
           const ball = this.emoteSprings.step(
             n.id,
             this.tmp.x - Math.sin(n.facing) * back,
-            top + Math.sin(t * 2) * 0.03,
+            top + Math.sin(t * 2) * 0.03 + em.dy * 0.5,
             this.tmp.z - Math.cos(n.facing) * back,
             shape,
             nowMs,
             EMOTE_SPRING.clamp3d,
             0,
             pop?.kind === 'squash' ? pop.startMs : null,
+            !this.calm,
           );
+          // R0548: during a morph the old shape squashes away before the new one pops in.
+          const drawn = `${n.shadow ? 'shadow:' : ''}${frameKey(ball.shape, 'front', flip)}`;
+          if (drawn !== a.emoteKey) {
+            const mat = this.emoteMats.get(drawn);
+            if (mat) {
+              a.emote.material = mat;
+              a.emoteKey = drawn;
+            }
+          }
           a.emote.position.set(ball.x, ball.y, ball.z);
           // R0549: bigger at the far zoom; a fresh reaction bubble pops to 2×.
           const es = emoteScale(

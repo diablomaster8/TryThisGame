@@ -62,6 +62,7 @@ import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
 import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { cottageHideAct } from './cottage-hide';
+import { quirkAct } from './quirks';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
@@ -784,6 +785,15 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     setState(n, 'swim', now, rng.float(...BEHAVIOR.swimMs));
     n.behavior.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
     return;
+  }
+  // R0553 (lane A r10): a plain sit or wander is now and then its personality's own quirk
+  // (a twirl, a sneak, hiding its face or watching, a doze); play, greets and swims stay.
+  if (pick === 'sit' || pick === 'wander') {
+    const pq = quirkAct(n, world, now);
+    if (pq) {
+      startAct(n, pq, now);
+      return;
+    }
   }
   if (pick === 'sit') {
     setState(n, 'sit', now, rng.float(...BEHAVIOR.sitMs) * (n.personality === 'lazy' ? 1.5 : 1));

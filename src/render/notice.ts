@@ -25,6 +25,8 @@ const near = (n: Nubbin, k: Vec2): boolean =>
 export function noticeFace(n: Nubbin, keeper: Vec2): number | null {
   if (n.stage === 'egg' || n.stage === 'cocoon' || !TURNING.has(n.behavior.state)) return null;
   if (!near(n, keeper)) return null;
+  // R0540 (lane A r10): two friends mid-chat keep their eyes on each other.
+  if (n.behavior.itemId?.startsWith('chat:')) return null;
   return Math.atan2(keeper.x - n.pos.x, keeper.z - n.pos.z);
 }
 
