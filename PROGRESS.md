@@ -70,6 +70,10 @@ per item in `recs-2026-10-27/STATUS.md`. No save version change (optional fields
   obstacle-grid, battle-balance); all 7 files pass alone. Forcing a season fires its festival
   dialogue (existing behaviour). In 3D a border way that opens later keeps its log until a
   rebuild.
+- *After merging main c3a8b43c (E r9, B r8):* conflicts in hud.ts/title.ts imports (both kept; the
+  slot row keeps the edu colour tag and the ⋯ menu); main's shadow-merge test kept. Gate green
+  (timing tests pass alone), Edge smoke 0 errors in all four, four phone probes 0/40 over,
+  farOrchard 154, 156, 154, 156 calls at 440–442k tris.
 
 ## Round 8 · Lane B DUNG (2026-10-30, branch r8/b)
 
