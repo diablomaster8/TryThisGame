@@ -195,6 +195,7 @@ import { ShakeMeter } from './shake-meter';
 import { ShakeHint } from './shake-hint';
 import { SelectionLive } from './a11y-live';
 import { PressInfo } from './press-info';
+import { setIconGlyph } from './pixel-icons';
 import { applyHudScheme } from './hud-scheme';
 import { watchOnline } from './offline-chip';
 import { gateOfflineEntries } from './offline-entries';
@@ -321,7 +322,8 @@ export function mountHud(
   // (it stays in the top bar on phones, where the bottom bar's labels do not reach it).
   {
     soundBtn.textContent = '';
-    const g = el('span', 'act-glyph', '🔊');
+    const g = el('span', 'act-glyph');
+    setIconGlyph(g, '🔊');
     g.setAttribute('aria-hidden', 'true');
     const l = el('span', 'top-label', TOPBAR_TEXT.sound);
     l.setAttribute('aria-hidden', 'true');
@@ -2127,7 +2129,7 @@ function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
     const g = document.createElement('span');
     g.className = 'act-glyph';
     g.setAttribute('aria-hidden', 'true');
-    g.textContent = glyph;
+    setIconGlyph(g, glyph); // R0502: pixel-art icon where there is one
     const l = document.createElement('span');
     l.className = 'act-label';
     l.setAttribute('aria-hidden', 'true');
@@ -2139,7 +2141,7 @@ function labelActions(list: Array<[HTMLButtonElement, string, string]>): void {
 
 function setActionGlyph(b: HTMLButtonElement, glyph: string): void {
   const g = b.querySelector('.act-glyph');
-  if (g && g.textContent !== glyph) g.textContent = glyph;
+  if (g) setIconGlyph(g, glyph);
 }
 
 function setActionLabel(b: HTMLButtonElement, label: string): void {

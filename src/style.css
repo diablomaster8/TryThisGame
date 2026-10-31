@@ -5224,3 +5224,21 @@ html.story-resting canvas {
 .press-info[hidden] {
   display: none;
 }
+
+/* R0502 (TECH-61): the bar icons as pixel art (ui/pixel-icons.ts), 12 px art at 2x. */
+.act-glyph.px-icon {
+  display: inline-block;
+  /* 1.5rem: 24 px at the default text size, larger with the Text size setting (R0469). */
+  width: 1.5rem;
+  height: 1.5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  vertical-align: middle;
+}
+@media (forced-colors: active) {
+  .act-glyph.px-icon {
+    forced-color-adjust: none;
+  }
+}
