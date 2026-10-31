@@ -64,6 +64,8 @@ import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
 import { cottageHideAct } from './cottage-hide';
 import { approachAct, followFruitAct } from './care-memory';
 import { quirkAct } from './quirks';
+import { eatFlavour, napSpot, swimPace } from './state-flavour';
+import { STATE_FLAVOUR } from '../config/tuning-soul-r10';
 import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
@@ -80,6 +82,7 @@ import {
   fussySkips,
   noteMeal,
   queueBurp,
+  queueGulpBurp,
   snackFruit,
   wasSnack,
 } from './belly';
@@ -912,7 +915,16 @@ function stepBehavior(
     b.state !== 'react' &&
     b.state !== 'pet' &&
     b.state !== 'lesson';
-  if (interruptible && isExhausted(n)) {
+  if (interruptible && isExhausted(n) && b.itemId !== 'toNap') {
+    // R0558 (lane A r10): a shy one naps under a tree, a cheerful one by its best friend.
+    const spot = napSpot(n, world);
+    if (spot && dist(spot, n.pos) > 1) {
+      setState(n, 'wander', now, STATE_FLAVOUR.napWalkMs);
+      clampToWorld(spot);
+      b.itemId = 'toNap';
+      b.target = spot;
+      return;
+    }
     setState(n, 'nap', now, NEEDS.napMs * napScale(n));
     events.push({ kind: 'napStarted', nubbinId: n.id });
     return;
@@ -984,7 +996,11 @@ function stepBehavior(
           ? BEHAVIOR.walkSpeed * 1.6
           : BEHAVIOR.walkSpeed * (fliesLeg(n) ? FLIGHT.speed : 1);
       if (!b.target || walkToward(world, n, b.target, speed, dtMs) || now >= b.untilMs) {
-        chooseIdle(n, world, rng, now);
+        // R0558 (lane A r10): at its nap spot (or as far as it got), it lies down.
+        if (b.state === 'wander' && b.itemId === 'toNap') {
+          setState(n, 'nap', now, NEEDS.napMs * napScale(n));
+          events.push({ kind: 'napStarted', nubbinId: n.id });
+        } else chooseIdle(n, world, rng, now);
       }
       break;
     }
@@ -992,7 +1008,8 @@ function stepBehavior(
       if (b.target && !inPond(n.pos)) {
         walkToward(world, n, b.target, BEHAVIOR.walkSpeed, dtMs);
       } else if (b.target) {
-        if (walkToward(world, n, b.target, BEHAVIOR.swimSpeed, dtMs)) {
+        // R0558 (lane A r10): a lazy one floats on its back, drifting slower.
+        if (walkToward(world, n, b.target, BEHAVIOR.swimSpeed * swimPace(n), dtMs)) {
           b.target = standablePoint(rng, world, n, GROVE.pond, GROVE.pond.r - 0.8, true);
         }
         // Swimming is training: a little Swim and a little Swim lean.
@@ -1202,11 +1219,20 @@ export function eat(n: Nubbin, now: number, events: SimEvent[], flavor?: Flavor)
   // fruit in five minutes fills the belly (R0546).
   noteAteForTraits(n, now);
   if (wasSnack(n.needs.hunger)) noteTraitCare(n, 'glutton', events);
-  if (noteMeal(n, now)) queueBurp(n);
+  const full = noteMeal(n, now);
+  if (full) queueBurp(n);
   applyFruit(n);
   applyFlavor(n, flavor);
   addPoints(n.stats.stamina, NEEDS.fruitStaminaPoints);
   setState(n, 'eat', now, BEHAVIOR.eatMs);
+  // R0558 (lane A r10): its own way of eating: a glutton gulps (then burps), a shy one
+  // nibbles, a lazy one lies down to it, a cheerful one chomps.
+  const way = eatFlavour(n);
+  if (way) {
+    n.behavior.itemId = way.itemId;
+    n.behavior.untilMs = now + BEHAVIOR.eatMs * way.scale;
+    if (way.itemId === 'gulp' && !full) queueGulpBurp(n);
+  }
   events.push({ kind: 'ate', nubbinId: n.id });
   // R0536: its favourite or a dislike: a happiness nudge and a reaction (stats unchanged).
   const taste = tasteOf(n, flavor);

@@ -61,6 +61,8 @@ export function soulLookKind(n: Nubbin): SoulLookKind | null {
   if (b.state === 'perform' && id === 'flinch' && !b.target) return 'huddle';
   if (b.state === 'perform' && id === 'twirl') return 'chaseTail';
   if (b.state === 'sit' && id === 'doze') return 'stargaze';
+  // R0558 (lane A r10): a lazy one lies back to eat.
+  if (b.state === 'eat' && id === 'lieEat') return 'stargaze';
   // R0560: asking to be picked up too, arms up beside the Keeper (R0541: asking for more).
   if (b.state === 'perform' && id === 'askUp' && !b.target) return 'tug';
   if (b.state === 'sit' && (id === 'tug' || id === 'callFruit' || id === 'rubEyes')) return id;
