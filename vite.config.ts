@@ -207,7 +207,10 @@ export default defineConfig({
     // `stories` registers them up front, as the app's boot does. The sample generators in
     // TOOL_FILES only run with TOOLS=1, so a plain run reports no skipped files.
     projects: [
-      { extends: true, test: { name: 'unit', include: [...UNIT_FILES] } },
+      {
+        extends: true,
+        test: { name: 'unit', include: [...UNIT_FILES], setupFiles: ['tests/setup-unit.ts'] },
+      },
       {
         extends: true,
         test: {
