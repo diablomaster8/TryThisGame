@@ -1,5 +1,6 @@
 import { blocked, contact, lipAt, obstacles, resolve, softAt, standTopAt } from './obstacles';
-import { footing, hillHeight, ledgeY, TERRACES, type Footing } from './terrain';
+import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from './terrain';
+import { KEEPER_POOF } from '../config/tuning-move-r10';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
 import { keeperWaypoint } from './dungeon-nav';
 import { springBounce, springShroomAt } from './decorate';
@@ -129,7 +130,8 @@ export function freeSpot(
 export function unstickKeeper(world: World): boolean {
   if (runFloor(world)) return false;
   const k = world.keeper;
-  const to = freeSpot(world, k.pos, keeperPerks(world).wade, k.y);
+  // R0027/R0025 (lane A r10): in the air the Keeper may be over the pond (a jump, a glide).
+  const to = freeSpot(world, k.pos, keeperPerks(world).wade || !k.grounded, k.y);
   if (to === k.pos) return false;
   k.pos = { x: to.x, z: to.z };
   return true;
@@ -596,6 +598,56 @@ function stepMantle(world: World, dtMs: number, events: SimEvent[]): void {
   land(world, 0, events);
 }
 
+/**
+ * R0025 (MOVE-25, lane A r10): the last spot the Keeper stood ashore in the Grove, transient.
+ * A splash-down in the pond without the Swim perk puffs back here, with nothing lost.
+ */
+const lastSafe = new WeakMap<World, Vec2>();
+
+/** R0025: where a bad landing puts the Keeper back (read only, for tests and the debug panel). */
+export function keeperLastSafe(world: World): Vec2 | undefined {
+  return lastSafe.get(world);
+}
+
+/** Inside the ring where the Keeper cannot stand without the Swim perk. */
+function overDeepWater(p: Vec2): boolean {
+  const pond = GROVE.pond;
+  return Math.hypot(p.x - pond.x, p.z - pond.z) < pond.r + 0.5 - 0.05;
+}
+
+/** R0025: note the Keeper's spot as safe when it stands on dry ground in the Grove. */
+function noteSafe(world: World): void {
+  const k = world.keeper;
+  if (!k.grounded || runFloor(world) || overDeepWater(k.pos)) return;
+  const at = lastSafe.get(world);
+  if (at) {
+    at.x = k.pos.x;
+    at.z = k.pos.z;
+  } else lastSafe.set(world, { x: k.pos.x, z: k.pos.z });
+}
+
+/**
+ * R0025/R0027: coming down over the pond without the Swim perk, at the water the Keeper
+ * puffs back to `lastSafe` (or the nearest shore) and lands there: no fall, no penalty,
+ * nothing dropped. True when it did.
+ */
+function poofOverWater(world: World, under: number, events: SimEvent[]): boolean {
+  const k = world.keeper;
+  if (!overDeepWater(k.pos) || keeperPerks(world).wade) return false;
+  if (k.y > Math.max(under, WATER_LEVEL) + KEEPER_POOF.surface) return false;
+  const from = { x: k.pos.x, z: k.pos.z };
+  const back = lastSafe.get(world) ?? shoreline(k.pos);
+  k.pos = { x: back.x, z: back.z };
+  k.y = keeperFooting(world, back.x, back.z).y;
+  k.moveTarget = null;
+  k.intent = null;
+  halt(world);
+  glided.delete(world);
+  events.push({ kind: 'keeperPoofed', from, to: { x: back.x, z: back.z } });
+  land(world, 0, events);
+  return true;
+}
+
 /** The highest the feet got since they left the ground, for the landing's fall height. */
 const peakY = new WeakMap<World, number>();
 
@@ -654,6 +706,7 @@ function stepVertical(world: World, dt: number, dungeon: boolean, events: SimEve
   if (k.y > (peakY.get(world) ?? -Infinity)) peakY.set(world, k.y);
   // Ground that rises under a jump (a slope, the far bank) is never passed through.
   const under = dungeon ? 0 : keeperFooting(world, k.pos.x, k.pos.z, k.y).y;
+  if (!dungeon && k.vy < 0 && poofOverWater(world, under, events)) return;
   if (k.y <= under) {
     // MOVE-50: a lip the jump's own arc would not lift the feet onto is climbed in a mantle.
     // The feet were under it before this substep's move, so a fast fall onto flat ground is a landing.
@@ -903,7 +956,9 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     k.intent = null;
     // Without the Swim perk the Keeper does not wade: a step into the pond stops at the
     // shore, as a tap target in the pond does below.
-    if (!dungeonFloor && !keeperPerks(world).wade) {
+    // R0027 (lane A r10): a jump or a glide may carry on out over the water; a splash-down
+    // there poofs back ashore (`poofOverWater`).
+    if (!dungeonFloor && !keeperPerks(world).wade && k.grounded) {
       const s = shoreline(k.pos);
       // R0088: stopped by deep water: say a swimmer could take the Keeper across.
       if (Math.hypot(s.x - k.pos.x, s.z - k.pos.z) > 1e-4) swimHint(world, events);
@@ -1115,6 +1170,7 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
     return;
   }
   stepVertical(world, dt, !!dungeonFloor, events);
+  noteSafe(world);
   if (!k.grounded && !dungeonFloor) jumpPlay(world, events);
   rideCarried(world);
 }

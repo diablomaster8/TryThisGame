@@ -67,7 +67,7 @@ import { bubbleFor, type EmoteShape } from './sprites/emote';
 import { wantsFirstFruit } from '../sim/first-feed';
 import { buildShadowSheet, decorFrame } from './sprites/props';
 import { buildTapFlagSheet } from './sprites/tap-flags';
-import { PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
+import { KEEPER_POOF, PIXEL_LEAN, TAP_FLAG } from '../config/tuning-move-r10';
 import { KEEPER_SLOPE } from '../config/tuning-move';
 import { KEEPER_LEAN_CLIP } from './sprites/keeper-lean';
 import { SheetCache } from './sprites/sheets';
@@ -1732,6 +1732,26 @@ export class WorldView {
     const at = (id: string) => this.nubbins.get(id)?.prev;
     const p = this.particles;
     switch (e.kind) {
+      case 'keeperPoofed': {
+        // R0025 (lane A r10): a cloud where the Keeper splashed down, sparkles where it is back.
+        if (p.reduceMotion) break;
+        const life = KEEPER_POOF.cloudMs;
+        p.burst('dust', e.from.x, 0.2, e.from.z, KEEPER_POOF.puffs, {
+          spread: 0.35,
+          speed: 0.6,
+          rise: 0.4,
+          lifeMs: life,
+          size: 0.5,
+        });
+        p.burst('sparkle', e.to.x, 0.3, e.to.z, KEEPER_POOF.puffs, {
+          spread: 0.25,
+          speed: 0.4,
+          rise: 0.3,
+          lifeMs: life,
+          size: 0.4,
+        });
+        break;
+      }
       case 'keeperRolled':
       case 'keeperLanded':
       case 'keeperJumped': {

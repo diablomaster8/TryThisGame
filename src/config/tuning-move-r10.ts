@@ -28,3 +28,13 @@ export const PIXEL_LEAN = {
 export const RUN_ARMS = {
   swing: 1.8,
 } as const;
+
+/**
+ * R0025: a splash-down in the pond without the Swim perk puffs the Keeper back to its last
+ * safe spot once the feet are within `surface` of the water. The cloud lasts `cloudMs`.
+ */
+export const KEEPER_POOF = {
+  surface: 0.05,
+  cloudMs: 400,
+  puffs: 10,
+} as const;

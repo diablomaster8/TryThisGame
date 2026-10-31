@@ -16,6 +16,8 @@ import {
   type DeviceTier,
 } from '../config/tuning-world';
 import { KEEPER_JUMP_FX } from '../config/tuning-move';
+import { KEEPER_POOF } from '../config/tuning-move-r10';
+import { WATER_LEVEL } from '../sim/terrain';
 import { CAMERA_FOLLOW } from '../config/tuning-sim';
 import type { OrbitCamera } from '../render/camera';
 import { bandFor } from '../render/cave-bands';
@@ -865,6 +867,17 @@ export class Grove3dScene {
     };
     for (const e of events) {
       if (e.kind === 'travelled') this.travelCut = true;
+      // R0025 (lane A r10): a splash-down puffs: a cloud over the water, sparkles ashore.
+      if (e.kind === 'keeperPoofed') {
+        if (this.reduceMotion) continue;
+        const n = KEEPER_POOF.puffs;
+        const life = KEEPER_POOF.cloudMs;
+        const from = new THREE.Vector3(e.from.x, WATER_LEVEL + 0.25, e.from.z);
+        b.burst('dust', from, n, { spread: 0.4, speed: 0.7, rise: 0.4, lifeMs: life }, now);
+        const to = new THREE.Vector3(e.to.x, ground(e.to.x, e.to.z) + 0.4, e.to.z);
+        b.burst('sparkle', to, n, { spread: 0.3, speed: 0.5, rise: 0.3, lifeMs: life }, now);
+        continue;
+      }
       if (FOCUS_EVENTS.has(e.kind) && 'nubbinId' in e && this.location !== 'dungeon')
         this.focus = { id: e.nubbinId, untilMs: now + READ3D.focus.ms };
       // The Keeper's landing nods the camera a touch (MOVE-23), never under reduced motion.
