@@ -4393,3 +4393,16 @@ body.edu-sprout .modal-head .btn-close {
   border: 2px solid rgba(255, 255, 255, 0.18);
   border-radius: 6px;
 }
+
+/* ---- Lane A round 10 (MOVE) ---- */
+/* R0014: on touch screens ⤢ moves from the camera cluster into the More menu (pinch zooms too). */
+@media (hover: hover) and (pointer: fine) {
+  .zoom-more {
+    display: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .camera-buttons .cam-zoom {
+    display: none;
+  }
+}

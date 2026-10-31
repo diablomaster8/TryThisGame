@@ -78,6 +78,7 @@ import { RosterMenu } from './roster';
 import { ShopMenu } from './shop';
 import { TrainersMenu } from './trainers';
 import { button, el } from './dom';
+import { MOVE_R10_TEXT } from '../config/strings-move-r10';
 import { JumpButtonLook } from './jump-states';
 import { LookoutChip } from './lookout-chip';
 import { HopLessonChip } from './hop-lesson-chip';
@@ -721,6 +722,17 @@ export function mountHud(
         showKeysHintAgain();
       },
       'btn btn-wide not-edu keys-hint-again',
+    ),
+  );
+  // R0014 (lane A r10): on phones the camera cluster drops ⤢ for the jump button; it lives here.
+  moreList.appendChild(
+    button(
+      MOVE_R10_TEXT.zoomMenu,
+      () => {
+        more.hide();
+        game()?.camera.toggleZoom();
+      },
+      'btn btn-wide zoom-more',
     ),
   );
   window.addEventListener('keydown', (e) => {

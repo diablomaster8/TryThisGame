@@ -23,7 +23,8 @@ export function mountCameraButtons(parent: HTMLElement, camera: OrbitCamera): HT
 
   make('↺', UI_TEXT.rotateLeft, () => camera.rotate(-1));
   make('↻', UI_TEXT.rotateRight, () => camera.rotate(1));
-  make('⤢', UI_TEXT.zoomToggle, () => camera.toggleZoom());
+  // R0014: phones get ⤢ from the More menu instead (CSS hides this one on touch screens).
+  make('⤢', UI_TEXT.zoomToggle, () => camera.toggleZoom()).classList.add('cam-zoom');
 
   // A tiny north pointer that turns with the camera (R0082).
   const north = document.createElement('span');

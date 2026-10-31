@@ -1537,3 +1537,4 @@ export * from './strings-kids';
 export * from './strings-camp';
 export * from './strings-r8d';
 export * from './strings-r8d-perf';
+export * from './strings-move-r10';
