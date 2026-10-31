@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "savedAtWallMs": 1793437200000,
+  "world": {
+    "timeMs": 0,
+    "nubbins": [],
+    "trees": [],
+    "keeper": {
+      "pos": { "x": 0, "z": 4 },
+      "facing": 0,
+      "alignment": "sun",
+      "moveTarget": null,
+      "input": { "x": 0, "z": 0 },
+      "carrying": null,
+      "intent": null
+    }
+  }
+}
