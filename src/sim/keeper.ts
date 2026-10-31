@@ -46,6 +46,7 @@ import { findHiding } from './peek';
 import { noticePet } from './jealousy';
 import { TRAIT_TUNING } from '../config/tuning-soul-r9';
 import type { Interaction, Keeper, KeeperIntent, Nubbin, SimEvent, Vec2, World } from './types';
+import { noteBorderPush } from './border';
 
 const dist = (a: Vec2, b: Vec2): number => Math.hypot(a.x - b.x, a.z - b.z);
 
@@ -1067,6 +1068,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.pos.z += out.nz * out.depth * ease;
     }
     clampToWorld(k.pos);
+    // WORLD-67: walking into the edge says why it ends here.
+    noteBorderPush(world, events, k.moveTarget ? standInTap(k.moveTarget) : undefined);
     // Still inside something (two blockers, or a blocker and the shore, pushing in turn):
     // step out to the nearest free spot so no position can trap the Keeper.
     unstickKeeper(world);

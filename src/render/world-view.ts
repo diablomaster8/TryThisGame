@@ -29,7 +29,8 @@ import {
   RUN_MODE,
 } from '../config/tuning-move';
 import { TapPath, type TapMark } from './tap-path';
-import { TAP_PRINTS } from '../config/tuning-r9d2';
+import { BORDER, TAP_PRINTS } from '../config/tuning-r9d2';
+import { borderBlockers, borderEdge } from '../sim/border';
 import { buildHeldRingSheet, HeldRing } from './held-ring';
 import { Footfall } from './footfall';
 import type { KeeperJumpClip } from './sprites/keeper';
@@ -728,6 +729,33 @@ export class WorldView {
         if (bid) drawBuilding(bid, s.kind, sprite, s.pick);
         else batch.draw(sprite, s.pick);
       }
+      // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+      // yet, just outside the clamp; only the stretch near the Keeper is drawn.
+      const kp = world.keeper.pos;
+      const bushes = (['bush-1', 'bush-2', 'bush-3'] as const).map((k) =>
+        scenery.frames.get(frameKey(k, 'front', 0)),
+      );
+      const logRect = scenery.frames.get(frameKey('log', 'front', 0));
+      borderBlockers().forEach((b, i) => {
+        if (Math.abs(b.x - kp.x) > BORDER.pxDraw || Math.abs(b.z - kp.z) > BORDER.pxDraw) return;
+        const log = b.kind === 'log';
+        if (log && borderEdge(b.x, b.z, world).kind === 'exit') return;
+        const rect = log ? logRect : bushes[i % bushes.length];
+        if (!rect) return;
+        const size = log ? BORDER.logLen : BORDER.bushSize;
+        batch.draw({
+          sheet: scenery,
+          rect,
+          flip: i % 2 === 1,
+          x: b.x,
+          y: 0,
+          z: b.z,
+          mode: 'billboard',
+          w: size,
+          h: (size * rect.h) / rect.w,
+          tint: this.lightAt(b.x, b.z),
+        });
+      });
       // The village square fills in as prosperity grows.
       const unlocks = townUnlocks(world);
       const stall = scenery.frames.get(frameKey('stall', 'front', 0));

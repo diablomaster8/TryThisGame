@@ -13,6 +13,8 @@ import { BUSH } from '../config/tuning-move';
 import { buildTree, pbr, type Tex } from '../samples/aaa-kit';
 import { treeOf, type GroveTree } from './crowns';
 import { groveHeight } from './terrain';
+import { borderBlockers } from '../sim/border';
+import { BORDER } from '../config/tuning-r9d2';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 /**
@@ -215,6 +217,32 @@ export function buildWildGround(group: THREE.Object3D, tex: Tex): void {
       rocks.push({
         m: matrix(p.x, y + r * T.rockHeight * 0.4, p.z, yaw, r, r * T.rockHeight, r * 0.85),
         c: tint(T.rockColour, i),
+      });
+    }
+  });
+
+  // WORLD-67: the hedge round the Grove's edge and a fallen log across each way not open
+  // yet, as more instances of the same two meshes (no new draws; none of them rustle).
+  borderBlockers().forEach((b, i) => {
+    const y = groveHeight(b.x, b.z);
+    if (b.kind === 'hedge') {
+      const r = BORDER.bushSize * T.bushRadius * (0.9 + hash(i, 7) * 0.25);
+      bushes.push({
+        m: matrix(b.x, y + r * T.bushSquash * 0.55, b.z, hash(i, 5) * 6.28, r, r * T.bushSquash, r),
+        c: tint(T.bushColours[i % T.bushColours.length]!, i + 500),
+      });
+    } else {
+      logs.push({
+        m: matrix(
+          b.x,
+          y + T.logRadius * 1.1,
+          b.z,
+          b.yaw,
+          BORDER.logLen,
+          T.logRadius * 1.4,
+          T.logRadius * 1.4,
+        ),
+        c: tint(T.logColour, i + 500),
       });
     }
   });

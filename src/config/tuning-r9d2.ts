@@ -1,5 +1,6 @@
 /**
- * Lane D round 9, helper d2: tunables for the tap-path footprints (WORLD-41).
+ * Lane D round 9, helper d2: tunables for the tap-path footprints (WORLD-41) and the
+ * Grove's soft border (WORLD-67).
  */
 
 /**
@@ -26,3 +27,24 @@ export const TAP_PRINTS = {
   puffRise: 0.5,
 } as const;
 
+/**
+ * WORLD-67: the Grove's border. Blockers stand just outside the clamp every `step` units
+ * (hedge bushes of `bushSize`, set back `bushOut` past the edge; a fallen log across each
+ * way that isn't open yet). Walking into the edge says why once per stretch, until the
+ * Keeper has gone `rearm` units back in; it counts as pushing within `near` of the edge.
+ */
+export const BORDER = {
+  step: 2.2,
+  bushSize: 2.6,
+  bushOut: 0.55,
+  logOut: 0.5,
+  logLen: 4.2,
+  /** How far along the edge an exit's gap reaches each side of its centre. */
+  exitHalf: 2.2,
+  near: 0.3,
+  /** A tap walk to the edge stops short of it (arrival reach), so it counts from here. */
+  tapNear: 1,
+  rearm: 8,
+  /** Pixel draws the blockers within this many units of the Keeper (each axis). */
+  pxDraw: 34,
+} as const;
