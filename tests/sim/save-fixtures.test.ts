@@ -36,18 +36,22 @@ describe('fixture saves (TECH-44)', () => {
     expect(versions.length).toBeGreaterThanOrEqual(3);
   });
 
-  it.each(FIXTURES)('%s loads, plays, catches up a week and round-trips', (file) => {
-    const save = deserialize(readFileSync(join(DIR, file), 'utf8'));
-    const wall = save.savedAtWallMs;
-    play(save.world, 10 * 60_000, wall);
-    catchUp(save.world, 7 * DAY, wall + 7 * DAY);
-    // A load clears what belongs to the session that saved (walk targets, a held away
-    // screen), so the first reload may differ; from then on a load must change nothing.
-    const saved = serialize(save.world, wall + 7 * DAY);
-    const once = serialize(deserialize(saved).world, wall + 7 * DAY);
-    const again = serialize(deserialize(once).world, wall + 7 * DAY);
-    expect(again).toBe(once);
-  });
+  it.each(FIXTURES)(
+    '%s loads, plays, catches up a week and round-trips',
+    (file) => {
+      const save = deserialize(readFileSync(join(DIR, file), 'utf8'));
+      const wall = save.savedAtWallMs;
+      play(save.world, 10 * 60_000, wall);
+      catchUp(save.world, 7 * DAY, wall + 7 * DAY);
+      // A load clears what belongs to the session that saved (walk targets, a held away
+      // screen), so the first reload may differ; from then on a load must change nothing.
+      const saved = serialize(save.world, wall + 7 * DAY);
+      const once = serialize(deserialize(saved).world, wall + 7 * DAY);
+      const again = serialize(deserialize(once).world, wall + 7 * DAY);
+      expect(again).toBe(once);
+    },
+    30_000,
+  ); // ten minutes of steps and a week of catch-up per fixture
 });
 
 /** Loads `edit`ed save JSON: 'refused' for a SaveError, else plays a minute and re-saves. */
