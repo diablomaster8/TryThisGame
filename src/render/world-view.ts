@@ -1901,7 +1901,8 @@ export class WorldView {
     nowMs: number,
     shadow: (x: number, y: number, z: number, r: number) => void,
   ): void {
-    const sheet = this.sheets.forNubbin(n);
+    // TECH-31: at most one new sheet baked a frame; a changed look may wait a frame.
+    const sheet = this.sheets.forNubbin(n, true);
     const merged = isMerged(world, n.id);
     // A scene that seats Moss or Sable on a mark draws them there (render/scene-stage.ts).
     const held = this.staging?.active ? this.staging.nubbinHolds.get(n.id) : undefined;

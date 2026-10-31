@@ -10,6 +10,8 @@
  * waltz by day, a hushed music-box at night, a rising brass motif on the title screen,
  * a driving race theme, a bouncy expedition tune and a sparse story cue. All original.
  */
+import { AUDIO_MIX, CHIRP_VOICE, MUSIC_DUCK, SONG_TRIM_DB } from '../config/tuning-r8d-audio';
+import { PLAIN_VOICE, type ChirpVoice } from './chirp-voice';
 export type SoundName =
   | 'tap'
   | 'pickup'
@@ -59,6 +61,18 @@ export type SoundName =
   | 'swish'
   | 'patter'
   | 'yawn'
+  // Lane D round 8 (R0450, TECH-08): the Expedition's high jump, essence sparkle, critter
+  // bubble pop and results fanfare, and the Grove's fruit thup, tree rustle, throw whee, eat
+  // nom and can't-reach hmm.
+  | 'jumpHigh'
+  | 'sparkle'
+  | 'bubblePop'
+  | 'fanfare'
+  | 'thup'
+  | 'rustle'
+  | 'whee'
+  | 'nom'
+  | 'hmm'
   // Lane A r9 (R0546): a glutton's full-belly burp.
   | 'burp'
   // Lane A r9 (R0552): a napping Nubbin's snore and two buddies' chat chirp.
@@ -120,8 +134,8 @@ let ctx: AudioContext | null = null;
 let unlocked = false;
 let sfxEnabled = true;
 let musicEnabled = true;
-let musicVolume = 0.8;
-let sfxVolume = 0.8;
+let musicVolume: number = AUDIO_MIX.defaultMusic;
+let sfxVolume: number = AUDIO_MIX.defaultSfx;
 let master: GainNode | null = null;
 let musicBus: GainNode | null = null;
 let sfxBus: GainNode | null = null;
@@ -195,46 +209,50 @@ function onStateChange(): void {
 }
 
 function buildGraph(ac: AudioContext): void {
+  // R0464: every gain, delay and reverb number comes from AUDIO_MIX in tuning.
   const comp = ac.createDynamicsCompressor();
-  comp.threshold.value = -18;
-  comp.ratio.value = 4;
+  comp.threshold.value = AUDIO_MIX.compThresholdDb;
+  comp.ratio.value = AUDIO_MIX.compRatio;
   master = ac.createGain();
-  master.gain.value = 0.9;
+  master.gain.value = AUDIO_MIX.masterGain;
   master.connect(comp).connect(ac.destination);
   musicBus = ac.createGain();
-  musicBus.gain.value = musicEnabled ? musicVolume : 0;
+  musicBus.gain.value = musicGainTarget();
   musicBus.connect(master);
   sfxBus = ac.createGain();
   sfxBus.gain.value = sfxEnabled ? sfxVolume : 0;
   sfxBus.connect(master);
   // Echo.
   const delay = ac.createDelay(1.0);
-  delay.delayTime.value = 0.32;
+  delay.delayTime.value = AUDIO_MIX.delaySec;
   const fb = ac.createGain();
-  fb.gain.value = 0.28;
+  fb.gain.value = AUDIO_MIX.delayFeedback;
   const dlp = ac.createBiquadFilter();
   dlp.type = 'lowpass';
-  dlp.frequency.value = 2400;
+  dlp.frequency.value = AUDIO_MIX.delayLowpassHz;
   delay.connect(dlp).connect(fb).connect(delay);
   delaySend = ac.createGain();
-  delaySend.gain.value = 0.35;
+  delaySend.gain.value = AUDIO_MIX.delaySend;
   delaySend.connect(delay);
   delay.connect(musicBus);
   // A small hall: exponentially decaying noise as the impulse.
-  const seconds = 1.8;
+  const seconds = AUDIO_MIX.hallSec;
   const rate = ac.sampleRate;
   const impulse = ac.createBuffer(2, Math.floor(rate * seconds), rate);
   for (let ch = 0; ch < 2; ch++) {
     const data = impulse.getChannelData(ch);
     for (let i = 0; i < data.length; i++) {
       const t = i / data.length;
-      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - t, 2.6) * (ch === 0 ? 1 : 0.9);
+      data[i] =
+        (Math.random() * 2 - 1) *
+        Math.pow(1 - t, AUDIO_MIX.hallDecayPow) *
+        (ch === 0 ? 1 : AUDIO_MIX.hallRightLevel);
     }
   }
   const reverb = ac.createConvolver();
   reverb.buffer = impulse;
   reverbSend = ac.createGain();
-  reverbSend.gain.value = 0.22;
+  reverbSend.gain.value = AUDIO_MIX.hallSend;
   reverbSend.connect(reverb).connect(musicBus);
 }
 
@@ -245,16 +263,58 @@ export function setSoundEnabled(on: boolean): void {
 
 export function setMusicEnabled(on: boolean): void {
   musicEnabled = on;
-  if (musicBus && ctx) musicBus.gain.setTargetAtTime(on ? musicVolume : 0, ctx.currentTime, 0.2);
+  applyMusicGain(0.2);
   if (on && unlocked && !current && pendingSong) playSong(pendingSong);
 }
 
 /** 0..1 sliders from Settings. */
 export function setMusicVolume(v: number): void {
   musicVolume = Math.max(0, Math.min(1, v));
-  if (musicBus && ctx && musicEnabled) {
-    musicBus.gain.setTargetAtTime(musicVolume, ctx.currentTime, 0.1);
-  }
+  if (musicEnabled) applyMusicGain(0.1);
+}
+
+// ---------------------------------------------------------------- music duck (R0464)
+
+/** Held ducks by source (the dialogue box, a read-aloud line), each a level 0..1. */
+const duckHolds = new Map<string, number>();
+/** A short dip under a sting; 1 when none is running. */
+let duckPulse = 1;
+let duckPulseTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** The quietest active duck, as a share of the music slider (1: no duck). */
+export function musicDuckLevel(): number {
+  let level = duckPulse;
+  for (const v of duckHolds.values()) level = Math.min(level, v);
+  return level;
+}
+
+/** What the music bus is heading for now: the slider times the duck, 0 with music off. */
+export function musicGainTarget(): number {
+  return musicEnabled ? musicVolume * musicDuckLevel() : 0;
+}
+
+function applyMusicGain(tau: number = MUSIC_DUCK.tau): void {
+  if (musicBus && ctx) musicBus.gain.setTargetAtTime(musicGainTarget(), ctx.currentTime, tau);
+}
+
+/** Hold the music down while `source` is on (the dialogue box, a read-aloud line). */
+export function holdMusicDuck(source: 'dialogue' | 'speech', on: boolean): void {
+  const had = duckHolds.has(source);
+  if (on) duckHolds.set(source, MUSIC_DUCK[source]);
+  else duckHolds.delete(source);
+  if (had !== on) applyMusicGain();
+}
+
+/** Dip the music to `level` for `ms`, then let it come back (a hatch, an evolve, a win). */
+export function duckMusic(level: number, ms: number): void {
+  duckPulse = Math.min(duckPulse, Math.max(0, Math.min(1, level)));
+  applyMusicGain();
+  if (duckPulseTimer !== null) clearTimeout(duckPulseTimer);
+  duckPulseTimer = setTimeout(() => {
+    duckPulseTimer = null;
+    duckPulse = 1;
+    applyMusicGain();
+  }, ms);
 }
 
 export function setSfxVolume(v: number): void {
@@ -634,7 +694,9 @@ export function playSong(name: SongName): void {
   const song = SONGS[name];
   const gain = ctx.createGain();
   gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(1, ctx.currentTime + 1.2);
+  // R0507: each song fades up to its own trim, so the pieces sit level with one another.
+  const trim = Math.pow(10, (SONG_TRIM_DB[name] ?? 0) / 20);
+  gain.gain.exponentialRampToValueAtTime(trim, ctx.currentTime + 1.2);
   gain.connect(musicBus);
   const p: Playing = {
     name,
@@ -933,6 +995,8 @@ export function playSound(name: SoundName): void {
     if (now - lastComicAt < 100) return;
     lastComicAt = now;
   }
+  // R0464: a big sting dips the song so it is heard.
+  if (MUSIC_DUCK.stingSounds.includes(name)) duckMusic(MUSIC_DUCK.sting, MUSIC_DUCK.stingMs);
   try {
     switch (name) {
       case 'squeak':
@@ -1103,6 +1167,45 @@ export function playSound(name: SoundName): void {
       case 'ding':
         tone(1568, 0, 500, 'sine', 0.05);
         tone(2093, 0, 300, 'triangle', 0.015);
+        break;
+      // R0450 (TECH-08): the high jump's second, higher tone after the jump's own.
+      case 'jumpHigh':
+        tone(600, 0, 90, 'square', 0.045, 900);
+        tone(900, 90, 120, 'square', 0.04, 1350);
+        break;
+      case 'sparkle':
+        for (let i = 0; i < 4; i++) tone(1760 + i * 330, i * 45, 120, 'sine', 0.025);
+        break;
+      case 'bubblePop':
+        tone(400, 0, 35, 'sine', 0.06, 1400);
+        burst(30, 40, 0.03, 4000);
+        break;
+      case 'fanfare':
+        tone(523, 0, 120, 'triangle', 0.07);
+        tone(659, 120, 120, 'triangle', 0.07);
+        tone(784, 240, 120, 'triangle', 0.07);
+        tone(1047, 360, 420, 'triangle', 0.08);
+        tone(784, 360, 420, 'sine', 0.03);
+        break;
+      case 'thup':
+        tone(140, 0, 80, 'sine', 0.07, 80);
+        burst(0, 40, 0.025, 600);
+        break;
+      case 'rustle':
+        for (let i = 0; i < 3; i++) burst(i * 70, 110, 0.03, 3200);
+        break;
+      // The comedic hook: a rising, wobbly "wheee".
+      case 'whee':
+        tone(500, 0, 420, 'sine', 0.045, 1300);
+        tone(1000, 40, 380, 'triangle', 0.012, 2400);
+        break;
+      case 'nom':
+        tone(330, 0, 70, 'triangle', 0.045, 260);
+        tone(330, 150, 70, 'triangle', 0.04, 250);
+        break;
+      case 'hmm':
+        tone(260, 0, 260, 'sine', 0.04, 240);
+        tone(240, 280, 240, 'sine', 0.03, 200);
         break;
     }
   } catch {
@@ -1296,20 +1399,53 @@ export function setAmbienceEnabled(on: boolean): void {
   else scheduleBird();
 }
 
-/** A little voice per family when a Nubbin reacts. */
-export function playChirp(family: 'chao' | 'pocket' | 'digi', happy = true): void {
+/** One chirp note, as `tone` takes it: Hz, start ms, length ms, wave, gain, slide target. */
+export type ChirpNote = [number, number, number, OscillatorType, number, number?];
+
+/**
+ * A little voice per family when a Nubbin reacts. R0462 (TECH-65): `voice` (from
+ * platform/chirp-voice.ts) gives each Nubbin its own pitch, pace, rise and loudness.
+ */
+export function chirpNotes(
+  family: 'chao' | 'pocket' | 'digi',
+  happy: boolean,
+  voice: ChirpVoice = PLAIN_VOICE,
+): ChirpNote[] {
+  const base: ChirpNote[] = [];
+  if (family === 'chao') {
+    base.push([happy ? 880 : 520, 0, 70, 'sine', 0.05, happy ? 1320 : 400]);
+    if (happy) base.push([1180, 80, 90, 'sine', 0.04, 1500]);
+  } else if (family === 'pocket') {
+    base.push([happy ? 700 : 450, 0, 90, 'triangle', 0.05, happy ? 900 : 380]);
+    base.push([happy ? 950 : 380, 100, 110, 'triangle', 0.04]);
+  } else {
+    base.push([happy ? 600 : 400, 0, 50, 'square', 0.035, happy ? 1000 : 300]);
+    base.push([happy ? 1000 : 300, 60, 50, 'square', 0.035]);
+    if (happy) base.push([1400, 120, 70, 'square', 0.03]);
+  }
+  const last = base.length - 1;
+  const notes = base.map(([f, at, ms, wave, g, slide], i): ChirpNote => {
+    const len = (ms / voice.speed) * (i === last ? voice.tail : 1);
+    const to = (slide ?? f) * (1 + voice.wobble) * voice.pitch;
+    return [f * voice.pitch, at / voice.speed, len, wave, g * voice.gain, to];
+  });
+  // A mischievous voice ends on a quick rising trill.
+  if (voice.wobble >= CHIRP_VOICE.trillAt) {
+    const [f, at, ms, wave, g] = notes[last]!;
+    notes.push([f * 1.26, at + ms * 0.7, ms * 0.6, wave, g * 0.7, f * 1.6]);
+  }
+  return notes;
+}
+
+export function playChirp(
+  family: 'chao' | 'pocket' | 'digi',
+  happy = true,
+  voice: ChirpVoice = PLAIN_VOICE,
+): void {
   if (!sfxEnabled || !unlocked || !ctx) return;
   try {
-    if (family === 'chao') {
-      tone(happy ? 880 : 520, 0, 70, 'sine', 0.05, happy ? 1320 : 400);
-      if (happy) tone(1180, 80, 90, 'sine', 0.04, 1500);
-    } else if (family === 'pocket') {
-      tone(happy ? 700 : 450, 0, 90, 'triangle', 0.05, happy ? 900 : 380);
-      tone(happy ? 950 : 380, 100, 110, 'triangle', 0.04);
-    } else {
-      tone(happy ? 600 : 400, 0, 50, 'square', 0.035, happy ? 1000 : 300);
-      tone(happy ? 1000 : 300, 60, 50, 'square', 0.035);
-      if (happy) tone(1400, 120, 70, 'square', 0.03);
+    for (const [f, at, ms, wave, g, to] of chirpNotes(family, happy, voice)) {
+      tone(f, at, ms, wave, g, to);
     }
   } catch {
     // Audio problems must never break the game.

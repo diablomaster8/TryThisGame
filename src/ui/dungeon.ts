@@ -25,6 +25,7 @@ import { clockText } from '../sim/dungeon-log';
 import { runClock } from '../sim/dungeon-speed';
 import { sackCount } from '../sim/dungeon-sack';
 import type { DungeonRun } from '../sim/types';
+import { tzOf } from '../sim/local-time';
 
 /**
  * The Hollow Below: the menu at the cave mouth (today's shared cave or a fresh one,
@@ -198,7 +199,7 @@ export class DungeonMenu {
     const day = t?.day ?? '';
     this.info.append(
       el('br'),
-      day === dailySeed(g.world.lastWallMs).day && t!.deepest > 0
+      day === dailySeed(g.world.lastWallMs, tzOf(g.world)).day && t!.deepest > 0
         ? HOLLOW_R6_TEXT.today(t!.deepest, clockText(t!.bestMs), t!.finds)
         : HOLLOW_R6_TEXT.todayNone,
     );

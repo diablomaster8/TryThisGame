@@ -11,6 +11,15 @@ import {
   UI_TEXT,
 } from '../config/strings';
 import { SHEET_TEXT } from '../config/strings-tech';
+import { HATCH_BUTTON_TEXT, SHEET_TABS_TEXT } from '../config/strings-r8d';
+import {
+  careFaces,
+  hatchFraction,
+  PLAYS,
+  playsUnlocked,
+  sheetTabsFor,
+  type SheetTab,
+} from './sheet-tabs';
 import { toastBand } from './fun-toasts';
 import { BIRTHMARK_TEXT, FLAVOUR } from '../config/strings-look';
 import { RenameDialog } from './rename-dialog';
@@ -186,13 +195,18 @@ export class StatsSheet {
       () => send((id) => ({ kind: 'playCatch', nubbinId: id })),
       'btn btn-small',
     );
+    // TECH-07: the plays, in the order a child discovers them (ui/sheet-tabs.ts).
+    const playLabels: Record<string, string> = {
+      tickle: UI_TEXT.tickle,
+      hug: UI_TEXT.hug,
+      groom: UI_TEXT.groom,
+      highFive: UI_TEXT.highFive,
+      praise: UI_TEXT.praise,
+      tuckIn: UI_TEXT.tuckIn,
+    };
+    this.plays = PLAYS.map((a) => interact(a, playLabels[a] ?? a));
     this.more.append(
-      interact('tickle', UI_TEXT.tickle),
-      interact('hug', UI_TEXT.hug),
-      interact('groom', UI_TEXT.groom),
-      interact('highFive', UI_TEXT.highFive),
-      interact('praise', UI_TEXT.praise),
-      interact('tuckIn', UI_TEXT.tuckIn),
+      ...this.plays,
       button(UI_TEXT.call, () => send((id) => ({ kind: 'call', nubbinId: id })), 'btn btn-small'),
       this.catchBtn,
       this.heartBtn,
@@ -254,24 +268,129 @@ export class StatsSheet {
     this.give.append(this.giveTitle, this.giveList);
 
     this.bout = new BattleCard(game);
-    this.root.append(
-      head,
-      this.caption,
+    // TECH-07: tabs. Care holds what a young Nubbin needs; Inside the numbers; Grow (after
+    // the first evolution) the stats, accessories, rebirth and Bout card.
+    this.statsEl = stats;
+    this.tabBar = el('div', 'sheet-tabs');
+    this.tabBar.setAttribute('role', 'tablist');
+    this.tabBar.setAttribute('aria-label', SHEET_TABS_TEXT.tabsLabel);
+    for (const t of ['care', 'inside', 'grow'] as const) {
+      const b = button(SHEET_TABS_TEXT.tabs[t], () => this.setTab(t), 'btn btn-small sheet-tab');
+      b.setAttribute('role', 'tab');
+      this.tabBtns[t] = b;
+      this.tabBar.appendChild(b);
+    }
+    this.eggRing = el('div', 'egg-ring');
+    this.eggRing.setAttribute('role', 'img');
+    this.faces = el('div', 'sheet-faces');
+    this.faceEls = [el('span', 'sheet-face'), el('span', 'sheet-face'), el('span', 'sheet-face')];
+    this.faces.append(...this.faceEls);
+    this.moreToggle = button(
+      SHEET_TABS_TEXT.morePlays,
+      () => {
+        this.moreOpen = !this.moreOpen;
+        this.refresh();
+      },
+      'btn btn-small sheet-more-toggle',
+    );
+    this.careInfo = el('div', 'sheet-care-info');
+    this.careInfo.append(
       this.personality.root,
       this.personality.forming,
       this.personality.details,
       this.soul.root,
       this.recent.root,
-      needs,
-      stats,
+    );
+    this.careBox = el('div', 'sheet-panel');
+    this.careBox.append(
+      this.eggRing,
+      this.careInfo,
+      this.faces,
       this.actions,
+      this.moreToggle,
       this.more,
-      this.acc,
-      this.life,
       this.give,
     );
-    this.root.appendChild(this.bout.root);
+    this.insideBox = el('div', 'sheet-panel');
+    this.insideBox.append(needs);
+    this.growBox = el('div', 'sheet-panel');
+    this.placeGrow(false);
+    this.root.append(head, this.caption, this.tabBar, this.careBox, this.insideBox, this.growBox);
     parent.appendChild(this.root);
+  }
+
+  private readonly statsEl: HTMLDivElement;
+  private readonly tabBar: HTMLDivElement;
+  private readonly tabBtns: Partial<Record<SheetTab, HTMLButtonElement>> = {};
+  private readonly careBox: HTMLDivElement;
+  private readonly careInfo: HTMLDivElement;
+  private readonly insideBox: HTMLDivElement;
+  private readonly growBox: HTMLDivElement;
+  private readonly eggRing: HTMLDivElement;
+  private readonly faces: HTMLDivElement;
+  private readonly faceEls: HTMLSpanElement[];
+  private readonly moreToggle: HTMLButtonElement;
+  private readonly plays: HTMLButtonElement[];
+  private tab: SheetTab = 'care';
+  private moreOpen = false;
+  private grownLayout: boolean | null = null;
+
+  /** TECH-07: stats, accessories, rebirth and the Bout card sit in Grow once there is one. */
+  private placeGrow(grown: boolean): void {
+    if (this.grownLayout === grown) return;
+    this.grownLayout = grown;
+    const box = grown ? this.growBox : this.insideBox;
+    box.append(this.statsEl, this.acc, this.life, this.bout.root);
+  }
+
+  private setTab(t: SheetTab): void {
+    this.tab = t;
+    this.refresh();
+  }
+
+  /** TECH-07: which tab and panels show, the egg ring, the faces and the plays found so far. */
+  private refreshLayout(n: Nubbin): void {
+    const tabs = sheetTabsFor(n);
+    if (!tabs.includes(this.tab)) this.tab = 'care';
+    this.placeGrow(tabs.includes('grow'));
+    this.tabBar.hidden = tabs.length === 0;
+    for (const t of ['care', 'inside', 'grow'] as const) {
+      const b = this.tabBtns[t];
+      if (!b) continue;
+      b.hidden = !tabs.includes(t);
+      const on = this.tab === t;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', String(on));
+    }
+    this.careBox.hidden = tabs.length > 0 && this.tab !== 'care';
+    this.insideBox.hidden = tabs.length === 0 || this.tab !== 'inside';
+    this.growBox.hidden = !tabs.includes('grow') || this.tab !== 'grow';
+    const isEgg = n.stage === 'egg';
+    const young = isEgg || n.stage === 'cocoon';
+    this.careInfo.hidden = isEgg;
+    this.eggRing.hidden = !isEgg;
+    if (isEgg) {
+      const f = hatchFraction(n);
+      this.eggRing.style.setProperty('--hatch', `${Math.round(f * 360)}deg`);
+      this.eggRing.setAttribute('aria-label', SHEET_TABS_TEXT.hatchRing(Math.round(f * 100)));
+    }
+    this.faces.hidden = young;
+    if (!young) {
+      careFaces(n).forEach((f, i) => {
+        const s = this.faceEls[i];
+        if (!s) return;
+        if (s.textContent !== f.text) s.textContent = f.text;
+        s.setAttribute('aria-label', f.label);
+        s.dataset.band = f.band;
+      });
+    }
+    this.moreToggle.hidden = young;
+    this.moreToggle.textContent = this.moreOpen
+      ? SHEET_TABS_TEXT.fewerPlays
+      : SHEET_TABS_TEXT.morePlays;
+    this.moreToggle.setAttribute('aria-expanded', String(this.moreOpen));
+    const k = playsUnlocked(n);
+    this.plays.forEach((b, i) => (b.hidden = i >= k));
   }
 
   private readonly give: HTMLDivElement;
@@ -333,6 +452,11 @@ export class StatsSheet {
   }
 
   open(id: string): void {
+    // TECH-07: every opening starts on Care with the extra plays folded away.
+    if (id !== this.id) {
+      this.tab = 'care';
+      this.moreOpen = false;
+    }
     this.id = id;
     this.root.hidden = false;
     // R0360: one dry caption per opening, in the main band.
@@ -407,7 +531,14 @@ export class StatsSheet {
     const isEgg = n.stage === 'egg';
     const carried = world.keeper.carrying === n.id;
     this.petBtn.hidden = isEgg || n.stage === 'cocoon';
-    this.carryBtn.textContent = carried ? UI_TEXT.putDown : UI_TEXT.pickUp;
+    // TECH-17: a ready egg in hand says what putting it down does, in the button itself.
+    const hatchNow = carried && isEgg && n.hatchRemainingMs <= 0;
+    this.carryBtn.textContent = hatchNow
+      ? HATCH_BUTTON_TEXT.putDownToHatch
+      : carried
+        ? UI_TEXT.putDown
+        : UI_TEXT.pickUp;
+    this.carryBtn.classList.toggle('btn-primary', hatchNow);
     this.carryBtn.disabled = !carried && world.keeper.carrying !== null;
     this.feedBtn.hidden = isEgg || n.stage === 'cocoon';
     // A full Nubbin says so on the button, and a tap explains instead of spending fruit.
@@ -418,7 +549,8 @@ export class StatsSheet {
     this.feedBtn.classList.toggle('is-full', full);
     this.feedBtn.disabled = world.inventory.fruit <= 0;
     this.shakeBtn.hidden = !isEgg;
-    this.more.hidden = isEgg || n.stage === 'cocoon';
+    this.more.hidden = isEgg || n.stage === 'cocoon' || !this.moreOpen;
+    this.refreshLayout(n);
     this.heartBtn.hidden = n.stage !== 'adult' || !!n.eternal;
     this.heartBtn.disabled = world.inventory.heartFruit <= 0;
     this.catchBtn.disabled = !world.items.some((i) => i.kind === 'toy');

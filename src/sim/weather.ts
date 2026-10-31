@@ -1,6 +1,7 @@
 import { GROVE, NEEDS, WEATHER } from '../config/tuning';
 import { addHappiness } from './needs';
 import type { Rng } from './rng';
+import { localParts } from './local-time';
 import type { Season, SimEvent, Weather, WeatherKind, World } from './types';
 
 /**
@@ -12,12 +13,17 @@ export function createWeather(): Weather {
   return { kind: 'clear', untilMs: WEATHER.clearMs[0], intensity: 0 };
 }
 
-export function seasonOf(date: Date): Season {
-  const m = date.getMonth();
+/** The season of a month, 0–11. */
+export function seasonOf(m: number): Season {
   if (m <= 1 || m === 11) return 'winter';
   if (m <= 4) return 'spring';
   if (m <= 7) return 'summer';
   return 'autumn';
+}
+
+/** TECH-45: the season on the Keeper's local calendar (`sim/local-time.ts`). */
+export function seasonAt(wallMs: number, tzMin: number): Season {
+  return seasonOf(localParts(wallMs, tzMin).month);
 }
 
 export function setWeather(

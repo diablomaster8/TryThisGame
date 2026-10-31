@@ -87,6 +87,8 @@ import { RoutineProps } from './routine-props';
 import { NubbinGags } from './nubbin-gags';
 import { requestLine } from '../config/strings-fun-r6';
 import { bandToaster, fernStoneLine, slipNudge, toastBand } from './fun-toasts';
+import { dedupeToaster } from './event-dedupe';
+import { FRAME_WORK } from '../platform/frame-spikes';
 import { HatchCard } from './hatch-card';
 import { nextTip } from './tips';
 import { tapToy } from './tap-toy';
@@ -148,6 +150,16 @@ import { currentSlot, storageAvailable } from '../platform/storage';
 import { armPersistRequest } from '../platform/persist';
 import { announceFestivals, StoryShelf } from './atlas';
 import { askRift } from './rift-confirm';
+import { askAdultScene } from './adult-entry';
+import {
+  adultSceneGate,
+  isAdultScene,
+  lastAdultEntry,
+  noteAdultEntry,
+} from '../platform/mature-recheck';
+import { MATURE_RECHECK } from '../config/tuning-tech';
+import { groveSfx } from './event-feedback';
+import { chirpVoice } from '../platform/chirp-voice';
 import { TRAINER_LABELS as TL } from '../config/strings';
 import { CAMP_TEXT } from '../config/strings';
 import { BackupNudge } from './backup-nudge';
@@ -164,8 +176,11 @@ import { mountLandmarkCard } from './landmark-card';
 import { mountBackupOffer } from './backup-offer';
 import { buzz, hapticFor } from '../platform/haptics';
 import { noteEventKinds } from '../platform/bug-log';
-import { keysHintDone, watchKeysHint } from './keys-hint';
+import { isKeysHintKey, keysHintDone, showKeysHintAgain, watchKeysHint } from './keys-hint';
+import { HATCH_BUTTON_TEXT, KEYS_HINT_TEXT, TOPBAR_TEXT } from '../config/strings-r8d';
+import { ShakeMeter } from './shake-meter';
 import { watchOnline } from './offline-chip';
+import { gateOfflineEntries } from './offline-entries';
 import { villageTap } from './village-tap';
 import { outerLine } from './outer-gag';
 import { festivalGagDue } from '../sim/festival-gags';
@@ -283,6 +298,17 @@ export function mountHud(
     [keeperBtn, '☀', UI_FX_TEXT.actionLabels.keeper],
     [settingsBtn, '⚙', UI_FX_TEXT.actionLabels.settings],
   ]);
+  // TECH-61: the sound toggle gets a word too, shown under its icon on wide screens only
+  // (it stays in the top bar on phones, where the bottom bar's labels do not reach it).
+  {
+    soundBtn.textContent = '';
+    const g = el('span', 'act-glyph', '🔊');
+    g.setAttribute('aria-hidden', 'true');
+    const l = el('span', 'top-label', TOPBAR_TEXT.sound);
+    l.setAttribute('aria-hidden', 'true');
+    soundBtn.append(g, l);
+    soundBtn.classList.add('top-labelled');
+  }
   top.append(logo, shells, fruit, groveBtn, soundBtn, actions);
   root.appendChild(top);
 
@@ -451,7 +477,9 @@ export function mountHud(
   // R0308: the sprout band gets its own toasts (ui/fun-toasts.ts).
   // R0693 (lane E r7): a sprout's notices wait until their activity closes (kid-notice.ts).
   let kidBusy: () => boolean = () => false;
-  const kidNotices = kidToaster(bandToaster(makeToaster(toasts), game), game, () => kidBusy());
+  // TECH-54: while time runs fast, the same toast text shows once in a few seconds.
+  const fastSafe = dedupeToaster(makeToaster(toasts), () => game()?.clock.timeScale ?? 1);
+  const kidNotices = kidToaster(bandToaster(fastSafe, game), game, () => kidBusy());
   const toast = kidNotices.toast;
   // Lane E (R0332): the curiosities the player stumbles on.
   const curiosities = new CuriosityWatch((c) => game()?.send(c), toast);
@@ -684,7 +712,38 @@ export function mountHud(
       'btn btn-wide edu-only',
     ),
   );
+  // TECH-60: the keys hint comes back from here, or from the "?" key.
+  moreList.appendChild(
+    button(
+      KEYS_HINT_TEXT.menu,
+      () => {
+        more.hide();
+        showKeysHintAgain();
+      },
+      'btn btn-wide not-edu keys-hint-again',
+    ),
+  );
+  window.addEventListener('keydown', (e) => {
+    if (isKeysHintKey(e) && !isTypingTarget(e.target) && !game()?.world.edu) showKeysHintAgain();
+  });
   more.body.appendChild(moreList);
+  // R0520 (TECH-80): offline, grey the story worlds whose chunk this device never fetched.
+  gateOfflineEntries(
+    more.root,
+    (
+      [
+        [ATLAS_TEXT.atlas, 'atlas-catalogue'],
+        [ATLAS_TEXT.cabinet, 'arcade-catalogue'],
+        [ATLAS_TEXT.rift, 'multiverse-catalogue'],
+        [ATLAS_TEXT.gate, 'neopia-catalogue'],
+      ] as const
+    ).flatMap(([label, chunk]) => {
+      const b = [...moreList.querySelectorAll('button')].find((x) =>
+        x.textContent?.endsWith(` ${label}`),
+      );
+      return b ? [{ button: b, chunk }] : [];
+    }),
+  );
   // Lane E r8, R0680: the Learning Grove's Places, each a big picture tile.
   const eduPlaces = new EduPlaces(
     root,
@@ -925,7 +984,31 @@ export function mountHud(
   const festivalGagsStarted = new Set<string>();
   // Periodic refresh of live panels.
   let refreshTimer = 0;
+  // R0517 (TECH-75): an 18+ fun quest scene (It's Always Sunny) asks the grown-up question
+  // again after a long spell without an 18+ entry; "Not now" holds it back for a while.
+  let adultAsking = false;
+  let adultDeferredUntil = 0;
+  function playStoryScene(id: string): void {
+    if (adultAsking) return;
+    const gate = adultSceneGate(id, lastAdultEntry(), Date.now(), adultDeferredUntil);
+    if (gate === 'wait') return;
+    if (gate === 'ask') {
+      adultAsking = true;
+      void askAdultScene(root).then((ok) => {
+        adultAsking = false;
+        // Confirmed: the next refresh finds the entry fresh and plays the scene.
+        if (ok) noteAdultEntry();
+        else adultDeferredUntil = Date.now() + MATURE_RECHECK.deferMs;
+      });
+      return;
+    }
+    if (isAdultScene(id)) noteAdultEntry();
+    dialogue.play(id);
+  }
+
   function refreshLoop(): void {
+    // TECH-31: the refresh runs between frames; its time is charged to the next frame log.
+    const hudT0 = performance.now();
     const g = game();
     if (g) {
       curiosities.tick(g.world, g.camera.currentYawIndex);
@@ -970,12 +1053,23 @@ export function mountHud(
         // R0329: the weather gags over the Nubbins.
         const nubbinGags = new NubbinGags(root);
         g.framePollers.push(() => nubbinGags.update(g));
+        // TECH-16: the shake meter while a held egg is dragged and shaken.
+        const shakeMeter = new ShakeMeter(root);
+        g.framePollers.push(() => {
+          const now = performance.now();
+          shakeMeter.update(g.world, g.input.shake.progress(now), now);
+        });
       }
       // TECH-17: the sheet covers the chip, so it hides while the sheet is open.
       carry.hidden = !carrying || !sheet.root.hidden;
       if (carrying) {
         const n = g.world.nubbins.find((x) => x.id === carrying);
         carryText.textContent = UI_TEXT.carrying(n?.name ?? NAMES.creature);
+        // TECH-17: a ready egg's Put down says it hatches.
+        const ready = n?.stage === 'egg' && n.hatchRemainingMs <= 0;
+        const label = ready ? HATCH_BUTTON_TEXT.putDownToHatch : UI_TEXT.putDown;
+        if (putDown.textContent !== label) putDown.textContent = label;
+        putDown.classList.toggle('btn-primary', ready);
       }
       if (!sheet.root.hidden) sheet.refresh();
       shop.refresh();
@@ -1080,7 +1174,7 @@ export function mountHud(
         festivalsFor = g;
         announceFestivals(g, toast);
       }
-      soundBtn.textContent = g.world.settings.sound ? '🔊' : '🔇';
+      setActionGlyph(soundBtn, g.world.settings.sound ? '🔊' : '🔇');
       soundBtn.setAttribute('aria-pressed', String(g.world.settings.sound));
       if (isEdu) {
         const now = Date.now();
@@ -1217,9 +1311,10 @@ export function mountHud(
         !cabinet.isOpen()
       ) {
         sheet.close();
-        dialogue.play(next);
+        playStoryScene(next);
       }
     }
+    FRAME_WORK.hudMs += performance.now() - hudT0;
     refreshTimer = window.setTimeout(refreshLoop, 200);
   }
   void refreshTimer;
@@ -1273,6 +1368,9 @@ export function mountHud(
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n) toast(SIT_TEXT[toastBand(g.world)].replaceAll('{n}', n.name));
         }
+        // R0450 (TECH-08): the Grove's quiet moments get their sounds.
+        const groveSnd = groveSfx(e);
+        if (groveSnd) playSound(groveSnd);
         if (cantReachToast(e as unknown as { kind: string; targetId?: string }, g, toast)) continue;
         // R0085/R0088: riding and the swim tow.
         const ride = rideToast(e, g.world);
@@ -1291,7 +1389,7 @@ export function mountHud(
           playSound('evolve');
         } else if (e.kind === 'reaction' && e.reaction === 'love') {
           playSound('pet');
-        } else if (e.kind === 'collected' || e.kind === 'fruitDropped') {
+        } else if (e.kind === 'collected') {
           playSound('pickup');
         } else if (e.kind === 'landed') {
           playSound('hit');
@@ -1817,7 +1915,12 @@ export function mountHud(
         } else if (e.kind === 'reaction') {
           const n = g.world.nubbins.find((x) => x.id === e.nubbinId);
           if (n && Math.random() < 0.35) {
-            playChirp(speciesOf(n.species).family, e.reaction !== 'sad' && e.reaction !== 'dizzy');
+            // R0462 (TECH-65): in the Nubbin's own voice.
+            playChirp(
+              speciesOf(n.species).family,
+              e.reaction !== 'sad' && e.reaction !== 'dizzy',
+              chirpVoice(n.id, n.personality),
+            );
           }
         }
       }

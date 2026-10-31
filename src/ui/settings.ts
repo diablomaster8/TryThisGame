@@ -37,6 +37,7 @@ import { askGrownUp } from './grown-up-gate';
 import { KID_SHEET_TEXT } from '../config/strings-kids';
 import { resetAllowed } from './kid-sheet';
 import { mountMinimapSetting } from './minimap';
+import { mountQualitySetting } from './quality-setting';
 import { mountWorldSettings } from './world-settings';
 import { mountSaveInfo } from './save-info-panel';
 import { BLIP_TEXT, CAMERA_TEXT, HAND_TEXT, MOVE_TEXT, RUN_TEXT } from '../config/strings-move';
@@ -94,6 +95,8 @@ export class SettingsMenu {
   private readonly graphics: HTMLSelectElement;
   private syncMinimap: (g: Game) => void = () => undefined;
   private syncWorld: (g: Game) => void = () => undefined;
+  /** TECH-52: the Quality row (`quality-setting.ts`). */
+  private syncQuality: (g: Game) => void = () => undefined;
   private readonly joystick: HTMLInputElement;
   private readonly jukebox: HTMLSelectElement;
   private readonly ambience: HTMLInputElement;
@@ -406,6 +409,7 @@ export class SettingsMenu {
     body.appendChild(el('div', 'help', UI_TEXT.graphicsHelp));
     this.syncMinimap = mountMinimapSetting(body, this.game);
     this.syncWorld = mountWorldSettings(body, this.game);
+    this.syncQuality = mountQualitySetting(body, this.game);
     // Jukebox and ambience.
     const songs: Record<string, string> = { '': UI_TEXT.jukeboxAuto };
     for (const s of SONG_NAMES) songs[s] = UI_TEXT.songNames[s] ?? s;
@@ -563,6 +567,7 @@ export class SettingsMenu {
     this.graphics.value = g.world.settings.graphics;
     this.syncMinimap(g);
     this.syncWorld(g);
+    this.syncQuality(g);
     this.joystick.checked = g.world.settings.joystick;
     this.jukebox.value = g.world.settings.jukebox ?? '';
     this.ambience.checked = g.world.settings.ambience;

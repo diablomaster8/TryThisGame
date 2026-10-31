@@ -39,6 +39,20 @@ jobs:
       - run: npm ci
       - run: npx vitest run --shard=${{ matrix.shard }}/3
 
+  # TECH-45: the sim reads no time zone, so its suite must pass outside UTC too.
+  test-tokyo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx vitest run tests/sim
+        env:
+          TZ: Asia/Tokyo
+
   build-bundle:
     runs-on: ubuntu-latest
     steps:

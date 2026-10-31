@@ -39,6 +39,8 @@ import { buildPaintedProps } from '../paint/decor';
 import { buildDungeonProps } from '../paint/dungeon';
 import { buildPaintedScenery } from '../paint/scenery';
 import { SHEET_CACHE } from '../../config/tuning-px';
+import { FRAME_LOG } from '../../config/tuning-r8d-perf';
+import { FRAME_WORK } from '../../platform/frame-spikes';
 
 /**
  * C6: a copy of `src` through a stone-grey ramp. Every pixel keeps its lightness and loses
@@ -97,6 +99,8 @@ function childLook(alignment: number): { id: string; colors: ChaoColors } {
 export class SheetCache {
   private readonly sheets = new Map<string, { sheet: SpriteSheet; usedMs: number }>();
   private readonly overrides = new Map<string, SpriteSheet>();
+  /** TECH-31: the sheet each Nubbin was last drawn with, and its key, for deferred bakes. */
+  private readonly lastFor = new Map<string, { key: string; sheet: SpriteSheet }>();
 
   /**
    * @param now  the clock eviction reads (a test hands in its own).
@@ -123,10 +127,19 @@ export class SheetCache {
       hit.usedMs = now;
       return hit.sheet;
     }
+    // TECH-31: bakes are timed into the frame log, which names them in a long frame.
+    const t0 = performance.now();
     const sheet = build();
+    FRAME_WORK.bakes++;
+    FRAME_WORK.bakeMs += performance.now() - t0;
     this.sheets.set(key, { sheet, usedMs: now });
     if (this.sheets.size > this.limits.maxSheets) this.evict(now);
     return sheet;
+  }
+
+  /** Whether `key` is baked (or overridden) already. */
+  has(key: string): boolean {
+    return this.overrides.has(key) || this.sheets.has(key);
   }
 
   /** How many generated sheets are held (for tests and the debug panel). */
@@ -183,7 +196,33 @@ export class SheetCache {
     return `child:${childLook(n.alignment).id}:${parts}:${hat}:${variant}`;
   }
 
-  forNubbin(n: Nubbin): SpriteSheet {
+  /**
+   * `defer` (the world view's per-frame draw, TECH-31): once this frame has baked
+   * `FRAME_LOG.bakesPerFrame` sheets, a Nubbin whose look just changed keeps its last sheet
+   * for a frame or two instead of adding another bake to the same frame. One-shot drawings
+   * (portraits, photos) never defer.
+   */
+  forNubbin(n: Nubbin, defer = false): SpriteSheet {
+    if (!defer) return this.nubbinSheet(n);
+    const key = SheetCache.nubbinKey(n);
+    const last = this.lastFor.get(n.id);
+    if (
+      last &&
+      last.key !== key &&
+      !this.has(key) &&
+      FRAME_WORK.bakes >= FRAME_LOG.bakesPerFrame &&
+      this.sheets.has(last.key)
+    ) {
+      // Keep the last sheet alive (fresh for eviction) until the new one is baked.
+      this.get(last.key, () => last.sheet);
+      return last.sheet;
+    }
+    const sheet = this.nubbinSheet(n);
+    this.lastFor.set(n.id, { key, sheet });
+    return sheet;
+  }
+
+  private nubbinSheet(n: Nubbin): SpriteSheet {
     // LOOK-71: a species with a hand-drawn sheet uses it once hatched (sprite-source.ts).
     if (n.stage !== 'egg' && n.stage !== 'cocoon') {
       const hand = handSheetFor(n.species);

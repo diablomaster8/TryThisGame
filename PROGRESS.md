@@ -72,6 +72,41 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
   - The 2,000-bout Champion run fails the median, 15 turns vs 14.
   - A `free` story with an offer window can be accepted from the board inside the window.
 - *Gate:* lint and build clean. `npm test` under load: 11 timing failures, all passing when their files are rerun alone. The 8-Nubbin hour test runs at 1.9 s here and on main. Smoke `recs-2026-10-27/tools/lane-c-r9.cjs` passes in Pixel and 3D at desktop and at 375×812, with 0 console errors.
+## Round 8 · Lane D TECH (2026-10-30, branch r8/d)
+
+24 TECH items from four helper branches (r8/d1–d4, merged), plus two fixes found in the Edge
+check. Lines per item in `recs-2026-10-27/STATUS.md`. No save version change (one optional
+field, `world.tzOffsetMin`); no `src/content` change.
+
+- *Works:* sheet tabs (Care / Inside / Grow; egg sheet 4 controls), "Put down to hatch" button,
+  shake meter, "?" brings the keys hint back, desktop top-bar words; music ducking, per-song
+  trim, Expedition and Grove sound cues, per-Nubbin chirp voices, the 18+ re-ask before It's
+  Always Sunny; device tiers (`platform/device-tier.ts`, `docs/perf-budget.md`), 3D starts at
+  its tier with a saved governor level and a Quality setting, a light Pixel governor
+  (`render/pixel-gov.ts`), fast debug time through `Clock.giveBack`, a time-zone-free sim
+  (`sim/local-time.ts`, CI `test-tokyo` job); update-ready chip, CSP + `public/_headers`,
+  offline-greyed story worlds, safe-area padding, forced-colours/contrast styles, more text
+  sizes in rem, `docs/architecture.md`; the backup card's buttons take taps again; the phone
+  sheet handle is 44 px.
+- *Stubbed / left:* pixel-art top-bar icons (R0502); a browser spec opening every panel for tap
+  sizes (R0505); real LUFS measuring (R0507); Hollow and bout sounds (R0450); eager bundle
+  845 kB gz vs 450 (R0451); light HUD and axe check (R0519); px glyph and battle-screen sizes
+  (R0469); the ×10 pixel dip cause is not confirmed in a browser (R0473).
+- *Bugs / notes:* in a full `npm test` beside other lanes the lifecycle, nav, world-hour and
+  battle-balance timing tests fail; all pass alone, lifecycle within 2% of r8/d1. Phone probes
+  (`PROBE_URL='http://localhost:5186/?debug'`, the `?debug` matters or `&sculptRes` is lost):
+  0/38 over twice, 3D farOrchard 146 and 162 calls. Edge smoke `recs-2026-10-27/tools/r7-d-check.cjs`
+  and `r8-d-check.cjs`: 0 console errors in Pixel and 3D at 1280×800 and 375×812.
+- *After merging main 126b61f6:* farOrchard swung 153–181 against the 180-call cap. Fix
+  (`render3d/shadow-merge.ts`, phone and slow tiers): still small scenery casters fold into
+  2–4 shadow-only meshes, shown only inside `renderer.shadowMap.render` (Three tests casters
+  against the view camera's layers) and index-culled to the shadow box; movers get their own
+  shadow back (3 moves: for good); tree trunks and fruit stay merged while FarTrees hides them,
+  and one shadow-only instanced mesh casts every crown. farOrchard shadow casters 60 → 21.
+  Four phone probes: 0/38 over each, farOrchard 156, 154, 155, 154 calls (cap 180) at
+  440–443k tris (cap 450k, as before). Test `tests/render/shadow-merge.test.ts`; probe
+  `PROBE_BREAKDOWN=all` names unnamed meshes by material and vertex count.
+
 ## Round 9 · Lane A SOUL (2026-10-30, branch r9/a)
 
 Plan: HOT-1 first if other lanes' changes had moved it (they had not: main was still
