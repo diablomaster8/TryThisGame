@@ -38,6 +38,39 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 9 · Lane D WORLD + TECH (2026-10-30, branch r9/d)
+
+20 items from four helper branches (r9/d1–d4, merged) plus one perf fix after the merge. Lines
+per item in `recs-2026-10-27/STATUS.md`. No save version change (optional fields only:
+`world.hintsSeen`, `world.secrets`, `world.debugSeason`); `src/content` gains one world trace.
+
+- *Works:* tap-path footprints every 0.8 u with a "?" puff for a shut-in tap (lane A's
+  tap-path/tap-marks, no new draws); the Grove's soft border (`sim/border.ts`: hedge and
+  "not yet" logs, one toast per stretch); world hints taught once (`sim/world-hints.ts`); the Old
+  Key opens the nook at the falls; a synthesised sound bed per biome after the first tap
+  (`platform/biome-beds.ts`); free play wears the season (Pixel blossom/fireflies/leaves, both
+  renderers' existing season paths) with a debug Season row; per-POI parity shots
+  (`PROBE_PARITY=1`, `docs/logs/parity/`, git-ignored); unused creature surfaces dropped on hide
+  (heap 203 → 192 MB); language fonts load per language; battle/tactics text follows Text size;
+  dialogue and selection live regions, Tab through Nubbins; hold-to-erase with a 7-day restore;
+  touch long press and pointer-sized drag thresholds; Web Share for exports on phones; shake
+  how-to over the egg; an offline "needs the internet once" card for lazy parts.
+- *Stubbed / left:* snowmen, leaf piles, 3D pond ice and 3D season particles (R0118); the egg's
+  crack stages (R0503); axe on every panel (R0470); long press on items/NPCs (R0472); Klee One
+  subsetting (R0490); per-chapter side-story loading needs a skeleton/scene split (R0491); the
+  eager bundle is 899 kB gz and cannot reach 450 by lazy imports alone, lazy HUD panels would
+  save 58 kB (R0446/R0451); heap ~190 MB vs the 180 cap (R0081).
+- *Bugs / notes:* after the merge 3D farOrchard read 461k tris (cap 450k): the 158 border
+  hedge bushes were 80-triangle shadow-casting instances drawn from every spot. Now their own
+  20-triangle, shadowless mesh on the bushes' material (5a9278a5). Four phone probes on the
+  head (`PROBE_URL='http://localhost:5186/?debug'`, now 20 spots × 2 with `village`): 0/40 over
+  each, farOrchard 153, 154, 154, 151 calls at 412–440k tris. Edge smoke
+  `recs-2026-10-27/tools/r9-d-smoke.cjs`: 0 console errors in Pixel and 3D at 1280×800 and
+  375×812. Full `npm test` under load: 10 timing failures (lifecycle, nav, world, species,
+  obstacle-grid, battle-balance); all 7 files pass alone. Forcing a season fires its festival
+  dialogue (existing behaviour). In 3D a border way that opens later keeps its log until a
+  rebuild.
+
 ## Round 8 · Lane D TECH (2026-10-30, branch r8/d)
 
 24 TECH items from four helper branches (r8/d1–d4, merged), plus two fixes found in the Edge
