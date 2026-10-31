@@ -9,6 +9,17 @@
 import { SAVE_SAFETY } from '../config/tuning';
 import type { SideWorld } from '../sim/side-saves';
 import { mirrorDelete, mirrorReadAll, mirrorWrite, newerCopy } from './save-mirror';
+import { cleanSlotLabel } from '../sim/slot-label';
+import type { SlotLabel } from '../sim/types';
+import { backupOnWrite, dropCheckpoints, dropSlotStores } from './save-backups';
+import {
+  emptyIndex,
+  loadIndexJson,
+  parseIndex,
+  storeIndex,
+  withEntry,
+  type SlotIndex,
+} from './slot-index';
 
 export type SaveMode = 'free' | 'campaign' | 'edu' | StorylineMode;
 
@@ -89,6 +100,7 @@ export async function restoreFromMirror(): Promise<number> {
         if (newerCopy(localStorage.getItem(lsKey), json) === 'mirror') {
           localStorage.setItem(lsKey, json);
           restored += 1;
+          indexWritten({ mode: mode as SaveMode, index }, json, false);
         }
       } catch {
         // Blocked localStorage: nothing to restore into.
@@ -102,6 +114,8 @@ export async function restoreFromMirror(): Promise<number> {
 
 export function clearSlot(slot: SaveSlot): boolean {
   mirrorDelete(mirrorKey(slot));
+  void dropSlotStores(mirrorKey(slot));
+  indexCleared(slot);
   try {
     localStorage.removeItem(slotKey(slot));
     return true;
@@ -117,6 +131,7 @@ export function copySlot(from: SaveSlot, to: SaveSlot): boolean {
     if (json === null) return false;
     localStorage.setItem(slotKey(to), json);
     mirrorWrite(mirrorKey(to), json);
+    indexWritten(to, json, false);
     return true;
   } catch {
     return false;
@@ -142,6 +157,8 @@ export interface SaveSummary {
   /** Lane C r8 (R0648): the questlines beside Hazel's Grove, and side stories and capers done. */
   lines?: Record<string, 'active' | 'done'>;
   questsDone?: number;
+  /** Lane C r10 agent B (R0649): the slot's name and tag. */
+  label?: SlotLabel;
 }
 
 /** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
@@ -188,6 +205,7 @@ export function summarize(json: string): SaveSummary | null {
       eduBand: edu && typeof edu.band === 'string' ? edu.band : null,
       playMs: typeof w.timeMs === 'number' ? w.timeMs : 0,
       ...storySummary(w),
+      ...labelOf(w),
     };
   } catch {
     return null;
@@ -205,8 +223,9 @@ export function readSlotSummary(slot: SaveSlot): SaveSummary | null {
 
 /** Has storyline `id` reached an ending in any slot of `mode` (Dawn unlocks Dusk and back). */
 export function storylineFinished(mode: SaveMode, id: string): boolean {
+  const index_ = readSlotIndex();
   for (let index = 1; index <= SLOTS_PER_MODE; index++) {
-    const s = readSlotSummary({ mode, index });
+    const s = index_.slots[slotId({ mode, index })]?.summary;
     if (s && s.storyline === id && s.ending !== null) return true;
   }
   return false;
@@ -224,6 +243,8 @@ export function writeSave(json: string): boolean {
   try {
     localStorage.setItem(SAVE_KEY, json);
     mirrorWrite(mirrorKey(current), json);
+    indexWritten(current, json, true);
+    backupOnWrite(mirrorKey(current), json, Date.now());
     return true;
   } catch {
     return false;
@@ -232,6 +253,9 @@ export function writeSave(json: string): boolean {
 
 export function clearSave(): boolean {
   mirrorDelete(mirrorKey(current));
+  // A reset keeps the backups (a mis-tap can be undone) but its chapters start over.
+  void dropCheckpoints(mirrorKey(current));
+  indexCleared(current);
   try {
     localStorage.removeItem(SAVE_KEY);
     return true;
@@ -500,4 +524,79 @@ export function readGroveSaves(): string[] {
     }
   }
   return out;
+}
+
+// ---------- the slot index (lane C r10 agent B: R0622, R0649) ----------
+
+/** A slot's id in the index, the mirror and IndexedDB: `mode:index`. */
+export function slotId(slot: SaveSlot): string {
+  return mirrorKey(slot);
+}
+
+/** R0649: the label a save's world carries, as a summary field. */
+function labelOf(w: Record<string, unknown>): Pick<SaveSummary, 'label'> {
+  const label = cleanSlotLabel(w.slotLabel);
+  return label ? { label } : {};
+}
+
+function indexWritten(slot: SaveSlot, json: string, played: boolean): void {
+  const summary = summarize(json);
+  if (!summary) return;
+  const index = parseIndex(loadIndexJson()) ?? rebuildSlotIndex();
+  storeIndex(withEntry(index, slotId(slot), { summary, bytes: json.length * 2 }, played));
+}
+
+function indexCleared(slot: SaveSlot): void {
+  const index = parseIndex(loadIndexJson());
+  // No index yet: the next read rebuilds it from the saves that are left.
+  if (index) storeIndex(withEntry(index, slotId(slot), null));
+}
+
+/** Scan every slot's save and write a fresh index (the index was missing or broken). */
+export function rebuildSlotIndex(): SlotIndex {
+  let index = emptyIndex();
+  for (const mode of Object.keys(LEGACY_KEYS) as SaveMode[]) {
+    for (let index_ = 1; index_ <= SLOTS_PER_MODE; index_++) {
+      const slot = { mode, index: index_ };
+      try {
+        const json = localStorage.getItem(slotKey(slot));
+        const summary = json === null ? null : summarize(json);
+        if (json !== null && summary)
+          index = withEntry(index, slotId(slot), { summary, bytes: json.length * 2 });
+      } catch {
+        // Blocked storage: an empty index.
+      }
+    }
+  }
+  storeIndex(index);
+  return index;
+}
+
+/** The title's one read: the index, rebuilt by scanning only when missing or corrupt. */
+export function readSlotIndex(): SlotIndex {
+  return parseIndex(loadIndexJson()) ?? rebuildSlotIndex();
+}
+
+/**
+ * R0649: name and tag a slot. The label goes into the save's world (so it travels with an
+ * export and a backup) and into the index. Null clears it. False when nothing was written.
+ */
+export function labelSlot(slot: SaveSlot, label: SlotLabel | null): boolean {
+  try {
+    const key = slotKey(slot);
+    const json = localStorage.getItem(key);
+    if (json === null) return false;
+    const data = JSON.parse(json) as { world?: Record<string, unknown> };
+    if (!data.world || typeof data.world !== 'object') return false;
+    const clean = cleanSlotLabel(label);
+    if (clean) data.world.slotLabel = clean;
+    else delete data.world.slotLabel;
+    const next = JSON.stringify(data);
+    localStorage.setItem(key, next);
+    mirrorWrite(mirrorKey(slot), next);
+    indexWritten(slot, next, false);
+    return true;
+  } catch {
+    return false;
+  }
 }

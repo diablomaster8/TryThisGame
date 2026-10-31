@@ -84,11 +84,11 @@ describe('derived battle stats (recs FIGHT-10)', () => {
       fly: deriveStats({ ...zero, fly: L }),
     }));
     for (const { L, stamina, power, swim, run, fly } of rows) {
-      expect(stamina.hp).toBe(Math.round(30 + 1.5 * L));
+      expect(stamina.hp).toBe(Math.round(BATTLE.derive.hp + 1.5 * L));
       expect(stamina.splash).toBeCloseTo(10 + 0.3 * L);
       expect(stamina.def).toBeCloseTo(10 + 0.5 * L);
       expect(stamina.puffMax).toBe(6 + Math.floor(L / 20));
-      expect(power.hp).toBe(Math.round(30 + 0.5 * L));
+      expect(power.hp).toBe(Math.round(BATTLE.derive.hp + 0.5 * L));
       expect(power.bonk).toBe(10 + L);
       expect(power.def).toBeCloseTo(10 + 0.5 * L);
       expect(swim.splash).toBeCloseTo(10 + 0.7 * L);
@@ -97,7 +97,7 @@ describe('derived battle stats (recs FIGHT-10)', () => {
       expect(stamina.level).toBe(Math.round(L / 5));
     }
     const top = deriveStats({ swim: 99, fly: 99, run: 99, power: 99, stamina: 99 });
-    expect(top.hp).toBe(228);
+    expect(top.hp).toBe(222);
     expect(top.puffMax).toBe(10);
   });
 
@@ -137,14 +137,14 @@ describe('one damage formula (recs FIGHT-11)', () => {
     });
     expect(out).toMatchInlineSnapshot(`
       [
-        18,
+        14,
         17,
         18,
         18,
-        18,
+        14,
         4,
         14,
-        42,
+        38,
         6,
         44,
       ]

@@ -6,6 +6,7 @@
  * eat and sleep exactly as they would at that speed and no check is met by hand. This file
  * only answers "is the story waiting for an hour, and which one" from the world.
  */
+import { paced } from './story-pace';
 import { REST, STORY } from '../config/tuning';
 import { chapterDef, FINAL_CHAPTER, goalMet } from './campaign';
 import { timeCheckMet } from './side-rule-kit';
@@ -64,7 +65,7 @@ function spineWait(world: World, c: CampaignState): RestWait | null {
     return wait(world, 'hazel', (ms) => sceneTimeHolds(ms, def.closing));
   if (c.step === 2 && seen(c, def.closing) && c.chapter < FINAL_CHAPTER) {
     const next = chapterDef(c.chapter + 1);
-    const minMs = (c.openedMs ?? 0) + STORY.goalMinMs;
+    const minMs = (c.openedMs ?? 0) + paced(world, STORY.goalMinMs);
     if (!next) return null;
     return wait(world, 'hazel', (ms) => ms >= minMs && sceneTimeHolds(ms, next.opening));
   }

@@ -2012,6 +2012,7 @@ export * from './tuning-camp';
 export * from './tuning-soul-r8';
 export * from './tuning-camp9';
 export * from './tuning-camp9r';
+export * from './tuning-camp10';
 export * from './tuning-r8d';
 export * from './tuning-r8d-audio';
 export * from './tuning-r8d-perf';

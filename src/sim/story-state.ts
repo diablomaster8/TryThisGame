@@ -1,3 +1,4 @@
+import { paced } from './story-pace';
 import { STORY } from '../config/tuning';
 import { sceneById } from './story-scenes';
 import type { CampaignState, Nubbin, World } from './types';
@@ -43,7 +44,7 @@ export function resting(
   if (!r) return false;
   if (owner !== undefined && (typeof owner === 'string' ? [owner] : owner).includes(r.owner))
     return false;
-  return world.timeMs < r.atMs + STORY.breatherMs;
+  return world.timeMs < r.atMs + paced(world, STORY.breatherMs);
 }
 
 /** A campaign scene's owner ('c4', 't', 'end'), as against a side story's or quest's. */
@@ -60,7 +61,7 @@ export function sideResting(world: World, c: CampaignState, owners: readonly str
   if (c.queue.length > 0) return true;
   const r = c.rest;
   if (!r || owners.includes(r.owner)) return false;
-  const gap = campaignOwned(r.owner) ? STORY.breatherMs : STORY.sideGapMs;
+  const gap = paced(world, campaignOwned(r.owner) ? STORY.breatherMs : STORY.sideGapMs);
   return world.timeMs < r.atMs + gap;
 }
 

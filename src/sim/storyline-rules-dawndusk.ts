@@ -50,6 +50,9 @@ for (const side of ['dawn', 'dusk'] as const) {
       const n = typeof id === 'string' ? world.nubbins.find((x) => x.id === id) : undefined;
       if (n) restore(n, events);
     },
+    // Lane C r10 agent A (R0601, R0605): beside Hazel's Grove, its half's recolour is the Sun
+    // or Moon region's own, drawn only while the Keeper is there.
+    present: () => ({ grove: side === 'dawn' ? 'sun' : 'moon' }),
     endingFor: (_world, c) => {
       if (c.flags['dd-right'] !== true) return 'wrong-cause';
       return c.flags['dd-other-done'] ? 'whole-day' : 'half-day';

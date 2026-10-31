@@ -1537,5 +1537,6 @@ export * from './strings-kids';
 export * from './strings-camp';
 export * from './strings-camp9';
 export * from './strings-camp9r';
+export * from './strings-camp10';
 export * from './strings-r8d';
 export * from './strings-r8d-perf';

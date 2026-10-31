@@ -6,6 +6,7 @@ import { actLabel, checkMet } from './storyline-checks';
 import { isSharedLine, storylineRule, type StoryAction } from './storyline-rules';
 import { sceneById, storylineById } from './story-scenes';
 import { queueScene, seen } from './story-state';
+import { stampEnding } from './story-marks';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
 
 /**
@@ -177,6 +178,7 @@ export function stepStoryline(world: World, c: CampaignState, events: SimEvent[]
   const ending = rule?.endingFor(world, c) ?? Object.keys(s.endings)[0] ?? 'end';
   c.ending = ending;
   c.chapter = s.chapters.length + 1;
+  stampEnding(world, c);
   queueScene(c, `end-${s.id}-${ending}`);
   // R0600: a line beside Hazel's Grove ends on its own; only the spine's ending is the game's.
   if (isSharedLine(world, c)) events.push({ kind: 'lineEnded', line: s.id, ending });

@@ -1,3 +1,4 @@
+import { paced } from './story-pace';
 import { hasRoom, mossSeat } from './roster';
 import { startToddle } from './slapstick';
 import { CHAPTERS, LINE_ACT_FLAGS, type Choice } from '../config/story';
@@ -43,6 +44,7 @@ import {
 } from './storyline';
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
+import { stampEnding } from './story-marks';
 
 /**
  * The campaign state machine. Chapters open with a scene, wait for a goal, and close
@@ -449,8 +451,12 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     const opened = c.openedMs ?? world.timeMs;
     const sideBusy = Object.values(c.side).some((s) => s.status === 'open' && s.openedMs >= opened);
     const quickGoal = STORY.goalsInOpening.includes(def.goal);
-    if (sideBusy && !quickGoal && world.timeMs < opened + STORY.goalMinMs) return;
-    if (sideBusy ? resting(world, c) : c.rest && world.timeMs < c.rest.atMs + STORY.closingSettleMs)
+    if (sideBusy && !quickGoal && world.timeMs < opened + paced(world, STORY.goalMinMs)) return;
+    if (
+      sideBusy
+        ? resting(world, c)
+        : c.rest && world.timeMs < c.rest.atMs + paced(world, STORY.closingSettleMs)
+    )
       return;
     if (c.chapter !== 10 && !sceneTimeHolds(world.timeMs, def.closing)) return;
     c.step = 2;
@@ -484,6 +490,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     if (sideOpen(c, 's10')) return;
     const ending = endingFor(world, c);
     c.ending = ending;
+    stampEnding(world, c);
     c.chapter = FINAL_CHAPTER + 1;
     for (const s of endingScenes(world, c, ending)) queueScene(c, s);
     events.push({ kind: 'ending', ending });
@@ -492,7 +499,7 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
   if (nextChapterHeld(world, c)) return;
   // The goal phase is played, not skipped in seconds: a chapter lasts at least goalMinMs.
   const quick = STORY.goalsInOpening.includes(def.goal);
-  if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + STORY.goalMinMs) return;
+  if (!quick && world.timeMs < (c.openedMs ?? world.timeMs) + paced(world, STORY.goalMinMs)) return;
   // A breath after the closing, and the next opening's hour, before the chapter card.
   const next = chapterDef(c.chapter + 1);
   if (resting(world, c) || (next && !sceneTimeHolds(world.timeMs, next.opening))) return;

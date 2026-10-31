@@ -8,6 +8,7 @@
  * things some capers wait for (builds, a lesson, a karate win, a tired Nubbin).
  */
 import { describe, expect, it } from 'vitest';
+import { regionOfLine } from '../../src/config/story-regions';
 import { REGIONS } from '../../src/config/regions';
 import { QUEST_OFFERS, SIM } from '../../src/config/tuning';
 import { FINAL_CHAPTER, sceneById } from '../../src/sim/campaign';
@@ -15,10 +16,16 @@ import { activeQuests } from '../../src/sim/quest-offers';
 import { sideActable } from '../../src/sim/side-stories';
 import { lineRefusal } from '../../src/sim/story-book';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
-import { GROVE_SIDE_STORIES, registerStorylines, storylines } from '../../src/sim/story-scenes';
+import {
+  GROVE_SIDE_STORIES,
+  registerStorylines,
+  storylineById,
+  storylines,
+} from '../../src/sim/story-scenes';
 import type { CampaignState, SimEvent, World } from '../../src/sim/types';
 import { applyCommand, stepWorld } from '../../src/sim/world';
 import { c, campaignWorld, goalMetNow, meetGoal } from './campaign-driver';
+import { playLineToEnding } from './line-ender';
 
 registerStorylines(STORYLINE_CONTENT);
 
@@ -236,6 +243,9 @@ describe('reachability from one world (R0604)', () => {
       applyCommand(world, { kind: 'storylineStart', id }, events);
       const line = world.lines[id];
       expect(line, id).toBeDefined();
+      // Lane C r10 agent A (R0605): its scenes play in its own region, entered from the Grove.
+      const region = regionOfLine(id);
+      if (region) applyCommand(world, { kind: 'storyRegion', region }, events);
       const opening = storylines().find((s) => s.id === id)!.chapters[0]!.opening.id;
       // Play until the line's opening scene has played.
       for (let i = 0; i < 400 && !c(world).seen.includes(opening); i++) {
@@ -251,6 +261,22 @@ describe('reachability from one world (R0604)', () => {
         tick(world, events, 1.1);
       }
       expect(c(world).seen, `${id} opening`).toContain(opening);
+    }
+  }, 60_000);
+
+  // Lane C r10 agent D (R0604): and every line plays on to one of its endings there.
+  it('every line in the story book reaches an ending in that same world', () => {
+    const { world, events } = play();
+    for (const id of storylines().map((s) => s.id)) {
+      for (const l of Object.keys(world.lines ?? {}))
+        if (world.lines[l]!.ending === null)
+          applyCommand(world, { kind: 'lineAbandon', line: l }, events);
+      expect(lineRefusal(world, id), id).toBeNull();
+      const r = playLineToEnding(world, events, id);
+      expect(r.stuck, `${id} goal terms the bot can't meet`).toEqual([]);
+      expect(r.ending, `${id} ending (chapter ${r.chapters})`).not.toBeNull();
+      expect(Object.keys(storylineById(id)!.endings)).toContain(r.ending);
+      expect(c(world).queue.filter((q) => q.startsWith(`end-${id}-`))).toEqual([]);
     }
   }, 60_000);
 });

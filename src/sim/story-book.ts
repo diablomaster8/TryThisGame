@@ -14,6 +14,14 @@ import { orderSceneQueue } from './scene-queue';
 import { lineCast } from './storyline-rules';
 import { sceneOwner, sideResting } from './story-state';
 import { sceneById, storylineById } from './story-scenes';
+import { regionOfLine } from '../config/story-regions';
+import {
+  enterStoryRegion,
+  lineRegionOpen,
+  lineWaitsForRegion,
+  restoreRegionLook,
+  stepStoryRegions,
+} from './story-regions';
 import type { CampaignState, Command, SimEvent, World } from './types';
 
 /**
@@ -70,6 +78,8 @@ export function lineRefusal(world: World, id: string): LineRefusal | null {
   const ctx = { matureContent: world.settings.matureContent, learningGrove: false };
   if (!audienceAllowed(s.audience ?? 'main', ctx)) return 'audience';
   if (spine.chapter < STORY_BOOK.lineFromChapter) return 'early';
+  // R0640 (lane C r10 agent A): the world opens one region at a time.
+  if (!lineRegionOpen(world, id)) return 'early';
   if (quietSpine(world)) return 'quiet';
   if (world.lines[id] && world.lines[id].ending === null) return 'running';
   if (activeLines(world).length >= STORY_BOOK.lineCap) return 'cap';
@@ -82,6 +92,14 @@ export function lineRefusal(world: World, id: string): LineRefusal | null {
 function flush(world: World, line: CampaignState): void {
   const spine = world.campaign;
   if (!spine) return;
+  // R0597, R0605 (lane C r10 agent A): a line's scenes are handed over only while the Keeper
+  // is in its region; outside it they wait in the line's own queue, so the spine, the other
+  // lines and the side stories go on meanwhile.
+  if (lineWaitsForRegion(world, line)) {
+    if (spine.queue.some((id) => line.queue.includes(id)))
+      spine.queue = spine.queue.filter((id) => !line.queue.includes(id));
+    return;
+  }
   for (const id of line.queue) if (!spine.queue.includes(id)) spine.queue.push(id);
 }
 
@@ -93,6 +111,7 @@ function lineOwner(line: CampaignState): string {
 
 /** Put back how the Grove looked when the line began (R0601): its recolour and partners. */
 function restorePresentation(world: World, line: CampaignState): void {
+  restoreRegionLook(world, line);
   const r = line.restore;
   if (!r) return;
   world.grove = r.grove;
@@ -146,6 +165,8 @@ export function stepStoryBook(world: World, _dtMs: number, events: SimEvent[]): 
     flush(world, line);
   }
   rewardEndedLines(world, events);
+  // R0605, R0640: a region whose line ended is left; a newly open one is announced once.
+  stepStoryRegions(world, events);
   // R0597, R0631: the queue behind its head plays spine first, then lines, side stories, capers.
   orderSceneQueue(world);
 }
@@ -172,6 +193,8 @@ export function stepLineQueue(world: World, dtMs: number, events: SimEvent[]): v
   if (spine.chapter <= FINAL_CHAPTER && (spine.openedMs === null || goalMet(world, spine))) return;
   for (const line of lines) {
     if (line.queue.length > 0 || sideResting(world, spine, [lineOwner(line)])) continue;
+    // R0597: a line moves on only while the Keeper is in its region (R0605).
+    if (lineWaitsForRegion(world, line)) continue;
     if (world.location === 'dungeon' && storyHome(line.storyline!, line.chapter) !== 'dungeon')
       continue;
     stepStoryline(world, line, events);
@@ -225,6 +248,11 @@ export function applyLineCommand(
   const spine = world.campaign;
   if (!l || l.ending !== null || !spine) return;
   if (cmd.kind === 'debugChapter') spine.queue = spine.queue.filter((s) => !l.queue.includes(s));
+  // R0605 (lane C r10 agent A): travelling to one of a line's places walks into its region.
+  if (cmd.kind === 'storyArea') {
+    const region = regionOfLine(line);
+    if (region && !enterStoryRegion(world, region, events)) return;
+  }
   applyStorylineCommand(world, l, cmd, events);
   flush(world, l);
 }

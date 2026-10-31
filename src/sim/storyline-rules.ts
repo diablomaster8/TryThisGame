@@ -1,4 +1,11 @@
-import type { CampaignState, Command, SimEvent, World } from './types';
+import type {
+  CampaignState,
+  Command,
+  GroveKind,
+  SimEvent,
+  WeatherKind,
+  World,
+} from './types';
 
 /**
  * The sim side of each storyline: what the world looks like when it starts, what each
@@ -35,6 +42,11 @@ export interface StorylineRule {
   /** The scene to play in place of `scene`. */
   variant?(c: CampaignState, scene: string): string;
   endingFor(world: World, c: CampaignState): string;
+  /**
+   * Lane C r10 agent A (R0601, CAMP-08): how the Grove looks while the Keeper is in this line's
+   * region (beside Hazel's Grove only); the previous look is put back on leaving.
+   */
+  present?(world: World, c: CampaignState): { grove?: GroveKind; weather?: WeatherKind };
   actions?(world: World, c: CampaignState): StoryAction[];
 }
 

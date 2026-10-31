@@ -60,6 +60,8 @@ describe('R0597: one scene queue with explicit owners and priorities', () => {
     const { world, events } = hazelAt(4);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
     const line = world.lines.hundred!;
+    // Lane C r10 agent A: the Keeper in the Fold, where the Hundred Days' scenes play (R0605).
+    applyCommand(world, { kind: 'storyRegion', region: 'fold' }, events);
     const q = c(world);
     q.queue = ['t-ran-away', 'q01-intro', 's13-step1', 'h-c2-open', 'c4-open'];
     line.queue = ['h-c2-open'];
@@ -86,8 +88,10 @@ describe('R0631: the spine stays first with two lines running', () => {
   it('every spine opening is queued within breatherMs + 1 s of its chapter beginning', () => {
     const { world, events } = hazelAt(3);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
-    applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
-    expect(Object.keys(world.lines)).toEqual(['hundred', 'beetle']);
+    // Lane C r10 agent A (R0640): at chapter 3 only the Fold is open; the Keeper stays in the
+    // Fold, where the Hundred Days plays (R0605).
+    applyCommand(world, { kind: 'storyRegion', region: 'fold' }, events);
+    expect(Object.keys(world.lines)).toEqual(['hundred']);
     const lineScenes: string[] = [];
     const checked: number[] = [];
     for (const n of [4, 5]) {

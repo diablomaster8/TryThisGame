@@ -1,4 +1,6 @@
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { stepPlayable } from '../../src/sim/goal-skips';
+import { TRACE_TARGETS } from '../../src/sim/lang';
 import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
 import { OUTER_PROPS } from '../../src/config/outer-ring';
@@ -18,6 +20,7 @@ import { REGIONS, STORY_AREAS } from '../../src/config/regions';
 import { comedyReport } from './comedy-report';
 import { lineFlagProblems, ruleFlags } from './line-flags';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
+import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
 
 const problems: string[] = [];
 const questIds = new Set<string>(),
@@ -995,6 +998,22 @@ for (const e of [
   }
   if (kept < 30) problems.push(`keep-joke: only ${kept} canon keep-jokes found (table moved?)`);
 }
+// Lane C r10 agent D (R0639, CAMP-47): the Shells the stories hand out, summed against the
+// budget. Quest rewards carry no Shells today (keepsakes, hats, flags), so the lines' ending
+// rewards are the whole total; a line or quest that adds Shells is counted here.
+{
+  const lineShells = Object.values(LINE_REWARD).reduce((a, r) => a + r.shells, 0);
+  const questShells = allQuests.reduce(
+    (a, q) => a + q.rewards.reduce((b, r) => b + Number(/^shells-(\d+)$/.exec(r.id)?.[1] ?? 0), 0),
+    0,
+  );
+  const total = lineShells + questShells;
+  console.log(
+    `story Shells: ${total} (lines ${lineShells}, quests ${questShells}) of ${CAMP10D.storyShellsMax}`,
+  );
+  if (total > CAMP10D.storyShellsMax)
+    problems.push(`story Shells ${total} over the budget ${CAMP10D.storyShellsMax}`);
+}
 console.log(
   JSON.stringify(
     {
@@ -1015,6 +1034,24 @@ console.log(
     1,
   ),
 );
+// Lane C r10 agent C (R0636, R0617): the steps nothing in the Grove can play yet (their journal
+// control is "Imagine it"), the baseline for turning them into play, and those of them with no
+// writer `summary` for the card. `--unplayable` writes the list to docs/unplayable-steps.txt.
+const unplayable = allQuests.flatMap((q) =>
+  q.steps
+    .filter((st) => !stepPlayable(st.check) && !TRACE_TARGETS[st.check])
+    .map((st) => ({ id: `${q.id}#${st.id}`, check: st.check, summary: st.summary })),
+);
+const noStepSummary = unplayable.filter((u) => !u.summary);
+console.log(JSON.stringify({ unplayable: unplayable.length, noStepSummary: noStepSummary.length }));
+if (process.argv.includes('--unplayable'))
+  writeFileSync(
+    new URL('../../docs/unplayable-steps.txt', import.meta.url),
+    `# Steps nothing in the Grove plays yet (content-check --unplayable): ${unplayable.length}\n` +
+      `# "-" marks a step with no writer summary for the skip card (${noStepSummary.length})\n` +
+      unplayable.map((u) => `${u.summary ? ' ' : '-'} ${u.id}  ${u.check}`).join('\n') +
+      '\n',
+  );
 console.log(problems.slice(0, 60).join('\n'));
 // TECH-10: a problem fails the run, so CI and the deploy stop on it.
 if (problems.length > 0) process.exitCode = 1;

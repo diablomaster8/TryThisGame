@@ -1,5 +1,6 @@
 import { SCENE_PRIO } from '../config/tuning';
 import { sceneOwner } from './story-state';
+import { sceneWaitsForRegion } from './story-regions';
 import type { World } from './types';
 
 /**
@@ -44,14 +45,28 @@ export function queuedScenes(world: World): QueuedScene[] {
  */
 export function orderSceneQueue(world: World): boolean {
   const c = world.campaign;
-  if (!c || c.queue.length < 3) return false;
-  const [head, ...rest] = queuedScenes(world);
-  const key = (s: QueuedScene) => (s.owner === head!.owner ? -1 : s.prio);
+  if (!c || c.queue.length < 2) return false;
+  // Lane C r10 agent A (R0597, R0605): a line's scene waits until the Keeper is in its region.
+  // A waiting head has not begun (the dialogue box holds it), so a ready scene may go first.
+  const all = queuedScenes(world);
+  const waits = (s: QueuedScene) => sceneWaitsForRegion(world, s.id);
+  if (waits(all[0]!)) {
+    const ready = all.findIndex((s) => !waits(s));
+    if (ready > 0) {
+      const [s] = all.splice(ready, 1);
+      all.unshift(s!);
+    }
+  }
+  if (all.length < 3 && all.every((s, i) => s.id === c.queue[i])) return false;
+  const [head, ...rest] = all;
+  const key = (s: QueuedScene) =>
+    waits(s) ? SCENE_PRIO.caper + 1 : s.owner === head!.owner ? -1 : s.prio;
   const sorted = rest
     .map((s, i) => ({ s, i }))
     .sort((a, b) => key(a.s) - key(b.s) || a.i - b.i)
     .map((x) => x.s.id);
-  if (sorted.every((id, i) => id === rest[i]!.id)) return false;
-  c.queue = [head!.id, ...sorted];
+  const next = [head!.id, ...sorted];
+  if (next.every((id, i) => id === c.queue[i])) return false;
+  c.queue = next;
   return true;
 }

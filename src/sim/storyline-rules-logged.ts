@@ -1,3 +1,4 @@
+import { storyRegionHere } from './story-regions';
 import { createEgg } from './nubbin';
 import { setPartner } from './partners';
 import { isSharedLine, registerStorylineRule } from './storyline-rules';
@@ -61,15 +62,19 @@ registerStorylineRule({
       world.unlocks.sunGrove = true;
       world.unlocks.moonGrove = true;
     }
-    world.grove = 'sun';
+    // Lane C r10 agent A (R0601): beside Hazel's Grove the tint is the server region's own
+    // (`present`), drawn only while the Keeper is there.
+    if (!isSharedLine(world, c)) world.grove = 'sun';
     c.flags.area = 'day';
   },
+  present: (_world, c) => ({ grove: c.flags.area === 'night' ? 'moon' : 'sun' }),
   onArea: (world, c, area) => {
     // The Night Grove opens with chapter 4; until then the switch is refused.
     if (area === 'night' && c.chapter < 4) {
       c.flags.area = 'day';
       return;
     }
+    if (isSharedLine(world, c) && storyRegionHere(world) !== 'server') return;
     world.grove = area === 'night' ? 'moon' : 'sun';
   },
   // The last choice (l-juno) is answered inside the ending: its body plays as

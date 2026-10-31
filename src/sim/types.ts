@@ -447,7 +447,15 @@ export interface Settings {
    * or put off; `guided` (unset) pushes them as before. Optional; no save bump.
    */
   questFlow?: QuestFlow;
+  /**
+   * Lane C r10 agent C (R0614, CAMP-22): Story pace. `full` (unset) keeps every wait, `brisk`
+   * shortens them (`PACE.brisk`), `story` also lets goals be skipped. Optional; no save bump.
+   */
+  storyPace?: StoryPace;
 }
+
+/** Lane C r10 agent C (R0614): the Story pace setting (sim/story-pace.ts). */
+export type StoryPace = 'full' | 'brisk' | 'story';
 
 /** Lane C round 8: how side stories and capers reach the Keeper (sim/quest-offers.ts). */
 export type QuestFlow = 'open' | 'guided';
@@ -484,6 +492,16 @@ export interface QuestBook {
   stats?: { offered: number; accepted: number; declined: number; shelved: number };
   /** Lane C r9 (R0637): when each area last made an offer (sim ms), for its cooldown. */
   areaOfferMs?: Record<string, number>;
+}
+
+/** Lane C r10 agent B (R0649, CAMP-57): a save slot's tag colours (each shown with an icon). */
+export type SlotTag = 'leaf' | 'star' | 'shell' | 'moon' | 'sun' | 'heart';
+export const SLOT_TAGS: readonly SlotTag[] = ['leaf', 'star', 'shell', 'moon', 'sun', 'heart'];
+
+/** Lane C r10 agent B (R0649): a slot's name (empty: the default) and optional tag. */
+export interface SlotLabel {
+  name: string;
+  tag?: SlotTag;
 }
 
 /** The two renderers; the save mirrors the device-wide choice made on the title screen. */
@@ -995,6 +1013,21 @@ export interface CampaignState {
    * looked when it began (its recolour and partner slots), put back when the line ends.
    */
   restore?: { grove: GroveKind; partners: Array<string | null> };
+  /**
+   * Lane C r10 agent A (R0601): how the Grove looked when the Keeper walked into this line's
+   * region (`sim/story-regions.ts`), put back on the way out; absent outside the region.
+   */
+  regionRestore?: { grove: GroveKind; weather: Weather };
+  /** Lane C r10 agent C (R0615): goals skipped (Story only pace), by goal id, with the sim time. */
+  skipped?: Record<string, number>;
+  /** Lane C r10 agent B (R0642): sim time and wall-clock time the ending was reached. */
+  endedMs?: number;
+  endedWallMs?: number;
+  /**
+   * Lane C r10 agent B (R0619, R0596): on the spine (or a separate campaign), each chapter's
+   * first snapshot in IndexedDB, chapter key `<line>/<n>` to its database id. Keys only.
+   */
+  checkpoints?: Record<string, string>;
 }
 
 /** One side story's progress. Steps are 0-based indexes into the quest's steps. */
@@ -1031,6 +1064,8 @@ export interface World {
    * (`setTimeZone`); the sim's days, hours and seasons read it (`sim/local-time.ts`). Unset: UTC.
    */
   tzOffsetMin?: number;
+  /** Lane C r10 agent B (R0649): the slot's own name and colour tag, set on the title. */
+  slotLabel?: SlotLabel;
   rngState: number;
   /** Sim time in ms since the world was created. */
   timeMs: number;
@@ -1138,6 +1173,14 @@ export interface World {
    * and age on entry by closed-form rules from this (`regionAwayMs`); catch-up never steps them.
    */
   regionLeftMs?: Record<string, number>;
+  /**
+   * Lane C r10 agent A (R0605, CAMP-13): the questline region the Keeper stands in
+   * (`config/story-regions.ts`: fold, server, hollow, sun, moon), drawn over the Grove by its
+   * line's stage set; absent in the Grove itself. Read through `storyRegionHere`.
+   */
+  storyRegion?: string;
+  /** R0640: story regions already announced as open (each announced once). */
+  storyRegionsOpen?: string[];
   /** Karate belts won per tier. */
   karate: { belt: number; wins: number; losses: number };
   plants: Plant[];
@@ -1237,6 +1280,8 @@ export interface World {
 // ---------- commands (input → sim) ----------
 
 export type Command =
+  // Lane C r10 agent B (R0619): a chapter's checkpoint was written to IndexedDB as `id`.
+  | { kind: 'checkpointKept'; key: string; id: string }
   // Lane E (R0332): the UI spotted a curiosity; the sim logs it once.
   | { kind: 'curiosity'; id: string }
   // Lane C: the battle core (sim/battle/index.ts).
@@ -1320,6 +1365,8 @@ export type Command =
   | { kind: 'debugChapter'; chapter: number; line?: string }
   /** Do the current step of a side story (journal button; see sim/side-stories.ts). */
   | { kind: 'sideAct'; story: string }
+  /** Lane C r10 agent C (R0614, R0615): skip the spine's current goal (Story only pace). */
+  | { kind: 'skipGoal' }
   /** Start a separate campaign (sim/storyline.ts) in this world. */
   | { kind: 'storylineStart'; id: string; flags?: Record<string, number | boolean | string> }
   /** Travel to one of a storyline's areas (S1's six places). */
@@ -1404,6 +1451,8 @@ export type Command =
   | { kind: 'teleport'; pos: Vec2 }
   // WORLD-04: walk out through a region exit (sub picks a place in the lane)
   | { kind: 'travel'; exit: string; sub?: string }
+  // Lane C r10 agent A (R0605): go into a questline's region from its entrance, or back (null)
+  | { kind: 'storyRegion'; region: string | null }
   // R0074: fast travel to a found landmark or a shown story mark (`sim/travel.ts`)
   | { kind: 'fastTravel'; poi?: string; pos?: Vec2 }
   // R0102: Travel assist's Auto-walk: walk to a place at running speed (`sim/travel.ts`)
@@ -1692,6 +1741,11 @@ export type SimEvent =
   | { kind: 'regionEntered'; region: string }
   | { kind: 'regionDiscovered'; region: string }
   | { kind: 'travelRefused'; exit: string; reason: string }
+  /** Lane C r10 agent A (R0605, R0640): a questline region entered, left, refused or newly open. */
+  | { kind: 'storyRegionEntered'; region: string }
+  | { kind: 'storyRegionLeft'; region: string }
+  | { kind: 'storyRegionRefused'; region: string; reason: string }
+  | { kind: 'storyRegionOpened'; region: string }
   /** R0091: a one-time collectible was picked up, and a region's set of a kind finished. */
   | { kind: 'keepsakeFound'; id: string; what: 'petal' | 'postcard' | 'key' }
   | { kind: 'collectionSetDone'; region: string; what: 'petal' | 'postcard' | 'key' }

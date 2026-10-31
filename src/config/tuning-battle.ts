@@ -6,12 +6,13 @@
 export const BATTLE = {
   /**
    * Derived stats from the five care stats (recs FIGHT-10), L = level 0–99:
-   * HP = 30 + 1.5·L(stamina) + 0.5·L(power); Bonk = 10 + L(power);
+   * HP = 24 + 1.5·L(stamina) + 0.5·L(power); Bonk = 10 + L(power);
    * Splash = 10 + 0.7·L(swim) + 0.3·L(stamina); Guard = 10 + 0.5·L(stamina) + 0.5·L(power);
    * Zip = 10 + L(run); Flutter = min(0.2, 0.002·L(fly)); Puff max = 6 + ⌊L(stamina)/20⌋.
    */
   derive: {
-    hp: 30,
+    /** Lane C r10 (R0274): 30 → 24, the 2,000-bout Champion median 15 → 14. */
+    hp: 24,
     hpPerStamina: 1.5,
     hpPerPower: 0.5,
     bonk: 10,

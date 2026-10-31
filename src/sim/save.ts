@@ -8,6 +8,7 @@ import { GRADES, STAT_KEYS, type Grade, type World } from './types';
 import { sanitizeMatureContent, sanitizeOfflineAging } from './audience';
 import { defaultSettings } from './world';
 import { footing } from './terrain';
+import { cleanSlotLabel } from './slot-label';
 
 export const SAVE_VERSION = 13;
 
@@ -408,6 +409,12 @@ export function validateWorld(w: World): World {
   }
   w.settings.joystick ??= false;
   sanitizeOfflineAging(w.settings.offlineAging, OFFLINE.defaultCapHours);
+  // Lane C r10 agent B (R0649): a slot label from a file is cleaned or dropped.
+  if (w.slotLabel !== undefined) {
+    const label = cleanSlotLabel(w.slotLabel);
+    if (label) w.slotLabel = label;
+    else delete w.slotLabel;
+  }
   w.selected ??= null;
   w.strays ??= [];
   w.npcs ??= [];

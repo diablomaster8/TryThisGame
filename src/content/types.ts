@@ -52,6 +52,11 @@ export interface QuestStep {
   scene: Scene;
   /** Optional short scene played when the step is completed. */
   done?: Scene;
+  /**
+   * R0617 (CAMP-25): what happened, for the card after the step is skipped or imagined
+   * (writers; ≤ 160 chars, past tense, second person). Unset: "Done: <goal>".
+   */
+  summary?: string;
 }
 
 export interface Reward {

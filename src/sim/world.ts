@@ -1,4 +1,5 @@
 import { BATTLE } from '../config/tuning-battle';
+import { skipGoal } from './goal-skips';
 import { AUDIO_MIX } from '../config/tuning-r8d-audio';
 import { cheerRide, endRide, isRidden, startRide, stepRide } from './ride';
 import { stepSwimTow } from './swim-tow';
@@ -164,6 +165,8 @@ import {
 } from './types';
 import { findCuriosity } from './curiosities';
 import { hatchInArms } from './hatch-arms';
+import { noteCheckpoint } from './story-marks';
+import { enterStoryRegion, leaveStoryRegion } from './story-regions';
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
 export function hatchSpeed(world: World): number {
@@ -365,6 +368,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
   const k = world.keeper;
   const now = world.timeMs;
   switch (cmd.kind) {
+    // Lane C r10 agent B (R0619): the game wrote this chapter's checkpoint.
+    case 'checkpointKept':
+      noteCheckpoint(world, cmd.key, cmd.id);
+      return;
     case 'moveKeeperTo':
       k.moveTarget = { x: cmd.pos.x, z: cmd.pos.z };
       clampToWorld(k.moveTarget);
@@ -1116,6 +1123,11 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'travel':
       travel(world, cmd.exit, events, cmd.sub);
       return;
+    // Lane C r10 agent A (R0605): a questline region's entrance, or back to the Grove.
+    case 'storyRegion':
+      if (cmd.region === null) leaveStoryRegion(world, events);
+      else enterStoryRegion(world, cmd.region, events);
+      return;
     case 'fastTravel':
       fastTravel(world, cmd, events);
       break;
@@ -1150,6 +1162,10 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'storyArea':
     case 'storyAct':
       applyCampaignCommand(world, cmd, events);
+      return;
+    // Lane C r10 agent C (R0614, R0615): Story only pace skips the spine's goal.
+    case 'skipGoal':
+      skipGoal(world, events);
       return;
     case 'lineAbandon':
       // Lane C r7 (R0643): leave a questline; the Grove keeps its Nubbins.

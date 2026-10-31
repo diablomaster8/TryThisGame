@@ -31,6 +31,11 @@ function hazelAt(n: number): { world: World; events: SimEvent[] } {
   return { world, events };
 }
 
+/** Lane C r10 agent A (R0605): walk into a questline's region (or back, with null). */
+function enter(world: World, events: SimEvent[], region: string | null): void {
+  applyCommand(world, { kind: 'storyRegion', region }, events);
+}
+
 function play(world: World, events: SimEvent[], seconds: number): string[] {
   const seen: string[] = [];
   for (let i = 0; i < seconds; i++) {
@@ -45,13 +50,14 @@ function snapshot(world: World): string[] {
 }
 
 describe('the story book runs lines beside Hazel', () => {
-  it('Hazel chapter 3, the Hundred Days and the Beetle Road advance by their own goals', () => {
-    const { world, events } = hazelAt(3);
+  it('Hazel chapter 8, the Hundred Days and the Beetle Road advance by their own goals', () => {
+    // R0640: the Hollow opens at chapter 8; each line plays in its own region (R0605).
+    const { world, events } = hazelAt(8);
     const before = snapshot(world);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
     applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
     expect(c(world).storyline).toBeNull();
-    expect(c(world).chapter).toBe(3);
+    expect(c(world).chapter).toBe(8);
     const h = world.lines.hundred!;
     const b = world.lines.beetle!;
     expect(h.chapter).toBe(1);
@@ -60,16 +66,19 @@ describe('the story book runs lines beside Hazel', () => {
     for (const s of before) expect(snapshot(world)).toContain(s);
     expect(world.nubbins.length).toBe(before.length + 1);
 
+    enter(world, events, 'fold');
     const seen = play(world, events, 150);
     expect(seen).toContain('h-c1-open');
-    expect(seen).toContain('b-c1-open');
+    expect(seen).not.toContain('b-c1-open');
     // Hatching the Hundred Days' egg meets its chapter 1 goal, and only its.
     const egg = world.nubbins.find((n) => n.id === h.flags.cast)!;
     applyCommand(world, { kind: 'debugHatchNow', nubbinId: egg.id }, events);
     play(world, events, 150);
     expect(h.chapter).toBeGreaterThanOrEqual(2);
     expect(b.chapter).toBe(1);
-    expect(c(world).chapter).toBe(3);
+    expect(c(world).chapter).toBe(8);
+    enter(world, events, 'hollow');
+    expect(play(world, events, 150)).toContain('b-c1-open');
     // Nobody's flags in anyone else's book.
     expect(c(world).flags.partnerId).toBeUndefined();
     expect(c(world).flags.area).toBeUndefined();
@@ -82,6 +91,7 @@ describe('the story book runs lines beside Hazel', () => {
   it('scenes never interleave: a line waits for an empty, rested spine queue', () => {
     const { world, events } = hazelAt(3);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
+    enter(world, events, 'fold');
     c(world).queue.push('t-ran-away');
     tick(world, events, 3);
     expect(c(world).queue).toEqual(['t-ran-away']);
@@ -94,7 +104,12 @@ describe('the story book runs lines beside Hazel', () => {
   it('lines respect the spine: not before chapter 3, not in the quiet chapters, two at once', () => {
     expect(lineRefusal(hazelAt(2).world, 'hundred')).toBe('early');
     expect(lineRefusal(hazelAt(10).world, 'hundred')).toBe('quiet');
-    const { world, events } = hazelAt(4);
+    // R0640: then one region at a time.
+    expect(lineRefusal(hazelAt(3).world, 'hundred')).toBeNull();
+    expect(lineRefusal(hazelAt(4).world, 'logged')).toBe('early');
+    expect(lineRefusal(hazelAt(5).world, 'logged')).toBeNull();
+    expect(lineRefusal(hazelAt(5).world, 'beetle')).toBe('early');
+    const { world, events } = hazelAt(8);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
     applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
     expect(lineRefusal(world, 'hundred')).toBe('running');
@@ -104,7 +119,7 @@ describe('the story book runs lines beside Hazel', () => {
   });
 
   it('line Nubbins count toward their own cap, not the roster', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(6);
     while (hasRoom(world))
       applyCommand(world, { kind: 'debugGive', what: 'egg', amount: 1 }, events);
     applyCommand(world, { kind: 'storylineStart', id: 'logged' }, events);
@@ -128,6 +143,10 @@ describe('quiet chapters (R0612)', () => {
     applyCommand(world, { kind: 'debugChapter', chapter: 12 }, events);
     playScenes(world, events);
     play(world, events, 150);
+    // R0597: and its scenes wait for the Keeper in the Hollow (R0605).
+    expect(world.lines.beetle!.seen).toEqual([]);
+    enter(world, events, 'hollow');
+    play(world, events, 30);
     expect(world.lines.beetle!.seen).toContain('b-c1-open');
   });
 });
@@ -135,7 +154,7 @@ describe('quiet chapters (R0612)', () => {
 describe('every line keeps its hands off the Keeper', () => {
   for (const id of ['hundred', 'logged', 'beetle', 'dawn', 'dusk']) {
     it(`${id} keeps every Nubbin, Moss included, with ids and stats unchanged`, () => {
-      const { world, events } = hazelAt(4);
+      const { world, events } = hazelAt(8);
       const before = snapshot(world);
       expect(world.nubbins.some((n) => n.id === c(world).mossId)).toBe(true);
       applyCommand(world, { kind: 'storylineStart', id }, events);
@@ -145,7 +164,7 @@ describe('every line keeps its hands off the Keeper', () => {
   }
 
   it("Dawn's chapter 3 reverts only the line's own Nubbin", () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(8);
     applyCommand(world, { kind: 'storylineStart', id: 'dawn' }, events);
     const line = world.lines.dawn!;
     const cast = String(line.flags.cast);
@@ -160,14 +179,20 @@ describe('every line keeps its hands off the Keeper', () => {
   });
 
   it('Logged In recolours the Grove only while it runs; the unlocks and partners stay', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(5);
     const unlocks = { ...world.unlocks };
     const partners = [...world.partners];
     const grove = world.grove;
     applyCommand(world, { kind: 'storylineStart', id: 'logged' }, events);
+    // R0601 (lane C r10 agent A): the server's tint is drawn only inside the server region.
+    expect(world.grove).toBe(grove);
+    enter(world, events, 'server');
     expect(world.grove).toBe('sun');
     expect(world.unlocks).toEqual(unlocks);
     applyCommand(world, { kind: 'debugChapter', chapter: 4, line: 'logged' }, events);
+    enter(world, events, null);
+    expect(world.grove).toBe(grove);
+    enter(world, events, 'server');
     applyCommand(world, { kind: 'lineAbandon', line: 'logged' }, events);
     expect(world.lines.logged).toBeUndefined();
     expect(world.grove).toBe(grove);
@@ -181,7 +206,7 @@ describe('every line keeps its hands off the Keeper', () => {
 
 describe('away from the Grove (R0632)', () => {
   it('a 7-day catch-up with two lines running is quick and plays no line chapter off-screen', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(8);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
     applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
     const chapters = [world.lines.hundred!.chapter, world.lines.beetle!.chapter];
@@ -189,13 +214,18 @@ describe('away from the Grove (R0632)', () => {
     catchUp(world, 7 * 86_400_000, 7 * 86_400_000);
     expect(performance.now() - t0).toBeLessThan(3000);
     expect([world.lines.hundred!.chapter, world.lines.beetle!.chapter]).toEqual(chapters);
-    // Whatever a line wanted to say waits in the queue for the Keeper.
-    for (const l of [world.lines.hundred!, world.lines.beetle!])
-      for (const id of l.queue) expect(c(world).queue).toContain(id);
+    // Whatever a line wanted to say waits for the Keeper in its own queue, and reaches the
+    // spine's once the Keeper is in its region (R0597, R0605).
+    const h = world.lines.hundred!;
+    expect(c(world).queue.some((s) => s.startsWith('h-'))).toBe(false);
+    enter(world, events, 'fold');
+    playScenes(world, events);
+    expect(play(world, events, 60).some((s) => s.startsWith('h-'))).toBe(true);
+    for (const id of h.queue) expect(c(world).queue).toContain(id);
   });
 
   it('lane C r8: in the Open flow with 2 lines and 5 quests, still quick, nothing offered', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(8);
     world.settings.questFlow = 'open';
     world.settings.offlineAging.mode = 'indefinite';
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
@@ -219,7 +249,7 @@ describe('away from the Grove (R0632)', () => {
 
 describe('restarting a line (R0643)', () => {
   it('resets only that line; the Grove and the other line are untouched', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(8);
     applyCommand(world, { kind: 'storylineStart', id: 'beetle' }, events);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
     applyCommand(world, { kind: 'debugChapter', chapter: 2, line: 'beetle' }, events);
@@ -241,7 +271,7 @@ describe('restarting a line (R0643)', () => {
 
 describe('line counters start at the line (R0595)', () => {
   it('departures before Logged In never change its ending', () => {
-    const { world, events } = hazelAt(4);
+    const { world, events } = hazelAt(5);
     for (let i = 0; i < 3; i++)
       c(world).flags['n:departed'] = Number(c(world).flags['n:departed'] ?? 0) + 1;
     applyCommand(world, { kind: 'storylineStart', id: 'logged' }, events);
@@ -284,6 +314,7 @@ describe('save v13', () => {
   it('running lines and their queued scenes survive a save', () => {
     const { world, events } = hazelAt(4);
     applyCommand(world, { kind: 'storylineStart', id: 'hundred' }, events);
+    enter(world, events, 'fold');
     play(world, events, 3);
     tick(world, events, 30);
     const back = deserialize(serialize(world, 1)).world;
