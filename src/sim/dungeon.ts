@@ -55,6 +55,16 @@ import {
 } from './dungeon-roles';
 import { noteTrail } from './dungeon-speed';
 import { shellPay } from './dungeon-economy';
+import {
+  dailyActFloor,
+  dailyActOf,
+  dailyBossDown,
+  DAILY_LEVELS,
+  onDailyChain,
+} from './dungeon-daily';
+import { followDistanceOf, moodTarget } from './dungeon-moods';
+import { friendSight } from './dungeon-friends';
+import { stepRoundNineC } from './dungeon-r9-c';
 import { Rng } from './rng';
 import { hasRoom } from './roster';
 import { noteScan } from './scans';
@@ -693,7 +703,10 @@ export function floorOfRun(run: DungeonRun): Floor {
     run,
     run.act !== undefined
       ? actFloor(run.seed, run.act, run.depth, run.genVersion, run.difficulty)
-      : floorOf(run.seed, run.depth, run.genVersion),
+      : run.dailyAct !== undefined && run.daily !== null
+        ? // R0185 (round 9): today's five-level act chain.
+          dailyActFloor(run.seed, run.dailyAct, run.depth, run.genVersion)
+        : floorOf(run.seed, run.depth, run.genVersion),
   );
 }
 
@@ -1038,6 +1051,8 @@ export function enterDungeon(
     keepers: [],
     ...(story ? { story: true as const } : {}),
     ...(act !== undefined ? { act } : {}),
+    // R0185 (round 9): today's shared Hollow is a fixed act chain, the same for everyone.
+    ...(daily ? { dailyAct: dailyActOf(today.seed) } : {}),
     // R0179: an act run keeps the tier it set out on.
     ...(act !== undefined && world.hollow.difficulty
       ? { difficulty: world.hollow.difficulty }
@@ -1109,6 +1124,12 @@ function descend(world: World, run: DungeonRun, events: SimEvent[]): void {
   // with the haul, and the next act is open from the cave mouth (R0145).
   if (run.act !== undefined && run.depth >= actBossDepth(run.act)) {
     if (actProgress(world, run.act).bossDefeated) leaveDungeon(world, events);
+    else events.push({ kind: 'bossGuard' });
+    return;
+  }
+  // R0185 (round 9): today's chain ends at its fifth level; the boss there guards the way home.
+  if (onDailyChain(run) && run.depth >= DAILY_LEVELS) {
+    if (dailyBossDown(run)) leaveDungeon(world, events);
     else events.push({ kind: 'bossGuard' });
     return;
   }
@@ -1368,7 +1389,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
   const k = world.keeper;
   const available = (l: FloorLoot) => !run.taken.includes(l.id);
   // R0167: a Light Nubbin's glow orb shows more of the floor.
-  const sight = Math.floor(gearStat(world, 'explore')) + lightBonus(world, run);
+  const sight =
+    Math.floor(gearStat(world, 'explore')) + lightBonus(world, run) + friendSight(world);
   revealAround(run, f, cellOf(f, k.pos), sight);
   noteTrail(world, run, f);
   stepFall(world, run, f, events);
@@ -1498,7 +1520,13 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
       }
     }
     if (fetching) target = cellCentre(f, fetching.cell);
-    else if (dist(n.pos, k.pos) > DUNGEON.followDistance) target = k.pos;
+    else {
+      // R0167 (round 9): personality colours the follow (a hop, a hide, a borrowed Shell).
+      const mood = moodTarget(world, run, n, events);
+      if (mood === 'hold') continue;
+      if (mood) target = mood;
+      else if (dist(n.pos, k.pos) > followDistanceOf(n)) target = k.pos;
+    }
     if (target) {
       // Round the rock by a path, not a straight line that snags on corners (R0009).
       const wp = nubbinWaypoint(n, f, target) ?? n.pos;
@@ -1526,6 +1554,8 @@ export function stepDungeon(world: World, dtMs: number, rng: Rng, events: SimEve
     resolveDungeon(n.pos, f, 0.3, 'chasm');
   }
   hopAcross(world, run, f);
+  // Lane B round 9 (helper c): moods (R0167), the hired friend (R0181), act quests (R0166).
+  stepRoundNineC(world, run, f, dtMs, events);
   void KEEPER;
 }
 

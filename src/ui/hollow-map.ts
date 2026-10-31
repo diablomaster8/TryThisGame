@@ -1,5 +1,6 @@
 import { waypointCell, waypointHere } from '../sim/dungeon-levels';
 import { foundSecrets } from '../sim/dungeon-secrets';
+import { actQuestMarks } from '../sim/dungeon-quests';
 import '../dungeon.css';
 import { HOLLOW_AUTOMAP_TEXT as A, HOLLOW_MAP_TEXT as T } from '../config/strings';
 import { DUNGEON, GROVE3D, HOLLOW } from '../config/tuning';
@@ -151,6 +152,8 @@ export function automapMarks(world: World, run: DungeonRun, f: Floor): Mark[] {
     if (seen(s.cell)) out.push(at('shrine', s.cell, run.shrinesUsed?.includes(s.id) ?? false));
   // Lane B r8: found secret rooms (R0182), at their mouth.
   for (const s of foundSecrets(run, f)) out.push(at('secret', s.door[0]!));
+  // R0166 (round 9): each act quest's goal on this level, seen or not, as a "!".
+  for (const c of actQuestMarks(world, run, f)) out.push(at('quest', c));
   // Strays once seen (R0162), where they are now.
   for (const s of run.strays) if (s.seen) out.push({ kind: 'stray', ...cellPoint(f, s.pos) });
   for (const id of run.party) {

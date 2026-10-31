@@ -923,6 +923,32 @@ export interface DungeonRun {
   seals?: string[];
   /** R0202: puzzle progress by seal id (block cells, or torches lit). */
   puzzles?: Record<string, number[]>;
+  // Lane B round 9 (helper c).
+  /** R0185: today's shared act chain uses this act's look (absent: the old endless daily). */
+  dailyAct?: number;
+  /** R0167: this level's personality moments (who borrowed, napped, hid), reset each level. */
+  moods?: HollowMoods;
+  /** R0181: the camp friend who came along for this trip. */
+  friend?: HollowFriend;
+}
+
+/** R0167: one level's personality moments underground (lane B round 9). */
+export interface HollowMoods {
+  level: string;
+  borrowed?: true;
+  napped?: true;
+  hid?: string[];
+  stillMs?: number;
+  last?: Vec2;
+  nap?: { id: string; atMs: number };
+  healed?: true;
+}
+
+/** R0181: a Keeper-friend hired at a camp for one trip (lane B round 9). */
+export interface HollowFriend {
+  trainer: string;
+  pos: Vec2;
+  facing: number;
 }
 
 /** An act's places above its dungeon (lane B round 4). */
@@ -1321,6 +1347,11 @@ export interface World {
     scrolls?: number[];
     /** R0208: the "Show me the way" guide (off by default). */
     guide?: boolean;
+    // Lane B round 9 (helper c, optional, no save bump).
+    /** R0165: secret rooms found for good, by `levelId:sealId`. */
+    secrets?: string[];
+    /** R0166: act quests taken on ('active') and finished ('done'), by `ACT_QUESTS` id. */
+    actQuests?: Record<string, 'active' | 'done'>;
   };
   /** Per neighbour: the last real day a gift was taken. */
   neighbours: Record<string, { gifted: boolean }>;
@@ -1608,6 +1639,8 @@ export type Command =
   | { kind: 'hollowSpeedRun'; on: boolean }
   | { kind: 'setHollowRole'; id: string; role: HollowRole | null }
   | { kind: 'hollowGuide'; on: boolean }
+  // Lane B round 9 (helper c): take an act quest (R0166), hire or send home a friend (R0181).
+  | { kind: 'hollowR9'; what: 'quest' | 'hire' | 'dismiss'; id: string }
   // Lane B round 2: waypoints, the acts' paths, the Homing Acorn (R0148–R0150).
   | { kind: 'waypointTravel'; id: string }
   | { kind: 'rerollActs' }
@@ -1960,6 +1993,24 @@ export type SimEvent =
     }
   | { kind: 'hollowBossDoor'; sealed: boolean }
   | { kind: 'scoutSpotted'; packId: string; nubbinId: string }
+  /** Lane B round 9 (helper c): personality moments (R0167), act quests (R0166), friends
+   * (R0181). `id` is a Nubbin, quest or trainer id; `n` a Shell count where one is paid. */
+  | {
+      kind: 'hollowR9';
+      what:
+        | 'hop'
+        | 'hide'
+        | 'borrow'
+        | 'nap'
+        | 'napRest'
+        | 'questTaken'
+        | 'questDone'
+        | 'hired'
+        | 'friendLeft'
+        | 'friendHeal';
+      id: string;
+      n?: number;
+    }
   | { kind: 'storyScroll'; act: number }
   /** The run moved to another level without descending (climbing, a waypoint, a portal). */
   | { kind: 'levelChanged'; depth: number }

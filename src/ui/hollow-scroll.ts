@@ -5,6 +5,8 @@ import { dailySeed } from '../sim/dungeon';
 import { todayShareText } from '../sim/dungeon-log';
 import type { World } from '../sim/types';
 import { button, el, modal } from './dom';
+import { HOLLOW_R9C_TEXT } from '../config/strings-hollow-r9-c';
+import { compareBox, todayCode } from './hollow-r9-c';
 
 /**
  * Two small cards for the Hollow (lane B round 8):
@@ -12,7 +14,8 @@ import { button, el, modal } from './dom';
  *   short lines in the game's voice, read at the player's own pace. The sim decides when
  *   (`noteStoryScroll`: once per act, never in campaign chapters 9 to 11).
  * - Today's share card (R0185): the day's deepest level, best time and finds as one line of
- *   text to copy and paste anywhere. No codes, no server, nothing to keep up.
+ *   text to copy and paste anywhere, with a short code a friend can paste back in to compare
+ *   (round 9). No server, nothing to keep up.
  */
 export class HollowScroll {
   private readonly dialog;
@@ -59,11 +62,22 @@ export class ShareCard {
     this.status.setAttribute('aria-live', 'polite');
     this.copy = button(HOLLOW_R8_TEXT.shareCopy, () => void this.copyText(), 'btn btn-primary');
     this.dialog.body.append(this.text, this.copy, this.status);
+    // R0185 (round 9): compare with a friend's short code.
+    this.dialog.body.append(compareBox(() => this.world));
   }
 
+  private world: World | null = null;
+
   open(world: World): void {
+    this.world = world;
     const line = todayShareText(world, HOLLOW_R8_TEXT.shareText, dailySeed(world.lastWallMs).day);
-    this.text.textContent = line ?? HOLLOW_R8_TEXT.shareNone;
+    // R0185 (round 9): the line carries today's short share code.
+    const code = line ? todayCode(world) : null;
+    this.text.textContent = line
+      ? code
+        ? `${line} ${HOLLOW_R9C_TEXT.shareCode(code)}`
+        : line
+      : HOLLOW_R8_TEXT.shareNone;
     this.copy.hidden = line === null;
     this.status.textContent = '';
     this.dialog.show();

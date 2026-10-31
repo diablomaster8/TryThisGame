@@ -5,6 +5,7 @@ import type { PoseName, Rigged } from '../samples/species';
 import { speciesArt } from '../render/sprites/species-art';
 import type { Floor } from '../sim/dungeon';
 import { actorShown } from '../sim/dungeon-sight';
+import { friendWalking } from '../sim/dungeon-friends';
 import { neighbourGarden, visitingTrainer, type NeighbourNubbin } from '../sim/neighbourhood';
 import { ROSTER } from '../samples/species-roster';
 import { variantById } from '../samples/nubbin-variant-catalogue';
@@ -239,6 +240,18 @@ export function crowdFor(
   if (underground && run && floor) {
     // Fog of war (R0153): live actors draw only while in the Keeper's sight.
     const shown = (p: Vec2) => actorShown(run, floor, world.keeper.pos, p);
+    // R0181 (lane B round 9): a friend hired at a camp walks with the party.
+    const fr = run.friend;
+    if (fr)
+      out.push({
+        id: `friend-${fr.trainer}`,
+        kind: 'npc',
+        look: npcFigureLook(fr.trainer),
+        x: fr.pos.x,
+        z: fr.pos.z,
+        facing: fr.facing,
+        pose: friendWalking(world, fr) ? 'walk' : 'idle',
+      });
     for (const s of run.strays)
       if (shown(s.pos))
         out.push({
