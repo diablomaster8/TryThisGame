@@ -38,6 +38,38 @@ repetitive daily quests are out. Hollow art pass: built 2026-10-21 (below). Play
 2026-10-24 (`docs/review-play-2026-10-24.md`, run on a stale checkout): fixed 2026-10-25 on
 branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-archive.md`).
 
+## Round 10 · Lane A SOUL + MOVE (2026-10-30, branch r10/a)
+
+24 items (22 done, 2 partial) from four helper agents, plus two gate fixes. Lines per item in
+`recs-2026-10-27/STATUS.md`. No save version change (optional fields only: `Nubbin.rivals`,
+`makeUp`, `searchBoost`, `recentCare`, `lessons.instrumentKind`, `world.doodles`); no
+`src/content` change.
+
+- *Works:* MOVE: ⤢ in More on phones; grey ✕ / ⤒ flags on refused taps (both renderers); Pixel
+  Keeper leans uphill; wider 3D arm swing when running; a glide can cross the pond, a jump out
+  over the pond without Swim puffs back to the last safe spot; the waterfall-shelf keepsake
+  (double jump from tier 2 by the falls); fence posts in the shared collider table; Pixel decor
+  drawn turned from its yaw; visitors pause 600 ms and step round a Nubbin; the see-through
+  Keeper has a rim, and Corvin's, the guard and visit houses fade. SOUL: friendships by
+  personality fit, rivalries (snatches, fruit races, show-offs) with puffs and making up, the
+  sheet's best friend / rival line; a visitor sends a shy one behind a tree; Sun Nubbins tidy
+  toys; Learning Grove cottage hiding (tap the cottage to coax out); per-personality idle
+  quirks (distinctness test now passes); care memory (flinch after a throw, asks after pets,
+  trails the fruit hand); eat/nap/float flavours; lessons look and sound different (doodles,
+  ♪, dance styles, instruments); fortune teller reads traits and hints likes; doctor check-up
+  card; 12 new morphing emote shapes; buddies chat in picture bubbles.
+- *Stubbed / left:* Hollow leaf-bridge (R0025, lane B); cry variants and render clips for the
+  eat/swim flavours (R0558); rival chats never start yet (only buddies chat); no singing mouth
+  frame; `recentCare` never records `ignore`; R0018 has no pixel sweep in a browser; the ⤒
+  flag has no real spot found in a test.
+- *Bugs / notes:* the pond poof fires only after a jump from dry ground (it fired every step
+  for a Keeper placed by the water). `soul-toys` now averages three worlds against the same
+  bounds (seed 77 alone read shy 14.7% vs an 8-seed mean of ~16% on main and here).
+  `tests/render/shadow-merge.test.ts` from main failed `tsc` (build); typed here.
+  HOT-1 (`hot1.cjs`, 8 runs) passes; on 3D phone the sheet opens almost full height, so the
+  clear strip is 12 px wide (same on main); a pixel-phone tap fell back to the hook while a
+  talking visitor stood by the Nubbin, and passed on rerun.
+
 ## Round 8 · Lane D TECH (2026-10-30, branch r8/d)
 
 24 TECH items from four helper branches (r8/d1–d4, merged), plus two fixes found in the Edge
