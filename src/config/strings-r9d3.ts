@@ -8,3 +8,9 @@ export const SHAKE_HINT_TEXT = {
   say: 'Pick up the egg and shake it!',
   aria: 'Pick up the egg and shake it to help it hatch',
 } as const;
+
+/** TECH-58: a story world, minigame or lesson chunk that fails offline keeps the Grove going. */
+export const OFFLINE_CHUNK_TEXT = {
+  body: 'That part of the Grove needs the internet once. Keep playing here?',
+  keep: 'Keep playing',
+} as const;
