@@ -208,6 +208,52 @@ function wildCollider(p: WildProp, i: number): Collider | null {
   };
 }
 
+/**
+ * Fence posts along both sides of a path from `a` to `b`, one a unit, 1.1 u either side of
+ * the line (R0004). Pure, so a test can lay a path the home layout does not have.
+ */
+export function fencePostSpots(
+  a: { x: number; z: number },
+  b: { x: number; z: number },
+): Array<{ x: number; z: number }> {
+  const out: Array<{ x: number; z: number }> = [];
+  const len = Math.hypot(b.x - a.x, b.z - a.z);
+  if (len < 1e-6) return out;
+  const nx = -(b.z - a.z) / len;
+  const nz = (b.x - a.x) / len;
+  for (let d = 1.2; d < len - 0.6; d += 1.0) {
+    const t = d / len;
+    const x = a.x + (b.x - a.x) * t;
+    const z = a.z + (b.z - a.z) * t;
+    out.push({ x: x + nx * 1.1, z: z + nz * 1.1 });
+    out.push({ x: x - nx * 1.1, z: z - nz * 1.1 });
+  }
+  return out;
+}
+
+/**
+ * The fence posts that line the main path from the Keeper's start to the pond. Both views
+ * draw them from here and the sim collides them (`fencePostCollider`); on today's layout the
+ * gate sits by the pond and the list is empty.
+ */
+export const FENCE_POSTS: ReadonlyArray<{ x: number; z: number }> = fencePostSpots(
+  GROVE.keeperStart,
+  { x: GROVE.pond.x - GROVE.pond.r - 1.4, z: GROVE.pond.z - 1 },
+);
+
+/** A fence post's collider: thin and solid, a Keeper still passes between two posts. */
+export function fencePostCollider(p: { x: number; z: number }, i: number): Collider {
+  return {
+    id: `fence-post-${i}`,
+    x: p.x,
+    z: p.z,
+    yaw: 0,
+    shape: circle(0.12),
+    top: 0.7,
+    flags: ['solid'],
+  };
+}
+
 /** MOVE-34: pairs of solids under a Keeper's width apart, joined so no sliver is left. */
 /** The joining bar's radius: thin, it only has to close the sliver. */
 const JOIN_R = 0.2;
@@ -359,6 +405,7 @@ export const GROVE_COLLIDERS: readonly Collider[] = (() => {
       flags: ['solid'],
       when: s.when,
     });
+  FENCE_POSTS.forEach((p, i) => add(fencePostCollider(p, i)));
   WILD_PROPS.forEach((p, i) => {
     const c = wildCollider(p, i);
     if (c) add(c);

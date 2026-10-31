@@ -1,4 +1,4 @@
-import { CAVE_MOUTH, COTTAGE_LANTERN, WILD_PROPS } from '../config/grove-layout';
+import { CAVE_MOUTH, COTTAGE_LANTERN, FENCE_POSTS, WILD_PROPS } from '../config/grove-layout';
 import { OUTER_PROPS, OUTER_TREES } from '../config/outer-ring';
 import { GROVE } from '../config/tuning';
 import type { PaintedKind } from './paint/scenery';
@@ -95,22 +95,9 @@ export const SCENERY: SceneryPlacement[] = [
   })),
 ];
 
-/** Fence posts along both sides of the main path from the start to the pond. */
+/** Fence posts along both sides of the main path; placed from the shared layout (R0004). */
 export function fenceSpots(): Array<{ x: number; z: number }> {
-  const out: Array<{ x: number; z: number }> = [];
-  const a = GROVE.keeperStart;
-  const b = { x: GROVE.pond.x - GROVE.pond.r - 1.4, z: GROVE.pond.z - 1 };
-  const len = Math.hypot(b.x - a.x, b.z - a.z);
-  const nx = -(b.z - a.z) / len;
-  const nz = (b.x - a.x) / len;
-  for (let d = 1.2; d < len - 0.6; d += 1.0) {
-    const t = d / len;
-    const x = a.x + (b.x - a.x) * t;
-    const z = a.z + (b.z - a.z) * t;
-    out.push({ x: x + nx * 1.1, z: z + nz * 1.1 });
-    out.push({ x: x - nx * 1.1, z: z - nz * 1.1 });
-  }
-  return out;
+  return FENCE_POSTS.map((p) => ({ x: p.x, z: p.z }));
 }
 
 /** Footprints that decor and decorations must keep clear. */

@@ -8,7 +8,7 @@ import type { Collider } from '../../src/config/grove-layout';
 import { blocked, contact, obstacles, resolve, softAt } from '../../src/sim/obstacles';
 import { applyCommand, createWorld, stepWorld } from '../../src/sim/world';
 import { placeDecor } from '../../src/sim/decorate';
-import { SCENERY } from '../../src/render/scenery';
+import { fenceSpots, SCENERY } from '../../src/render/scenery';
 import type { World } from '../../src/sim/types';
 
 /** Distance from a point to a collider's drawn outline (0 inside). */
@@ -110,6 +110,8 @@ describe('the shared layout (MOVE-01, MOVE-03)', () => {
   it('every collider is something drawn (the layout, GROVE or the stalls)', () => {
     const drawn = [
       ...SCENERY,
+      // The path's fence posts (R0004), drawn by both views from the layout.
+      ...fenceSpots(),
       ...GROVE.hills,
       ...GROVE.rocks,
       { x: -12.4 + 0.2, z: -13.6 - 1.9 },
