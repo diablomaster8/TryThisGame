@@ -60,6 +60,7 @@ import { callAct } from './calling';
 import { nudgeArrive } from './jealousy';
 import { carryAct, carryArrive } from './carry-fruit';
 import { fruitPace, kindredAct, noteFruitWon, noteShowOff } from './rivals';
+import { tidyAct, tidyArrive, tidyPush, tidySpeed } from './tidy';
 import { snatchAct, snatchArrive, snatchSpeed } from './snatch';
 import {
   hasTrait,
@@ -703,7 +704,9 @@ function chooseIdle(n: Nubbin, world: World, rng: Rng, now: number): void {
     return;
   }
   // Lane A r9: a full belly's burp and nap (R0546), then a trait's own quirk (R0528).
-  const quirk = bellyAct(n) ?? traitAct(n, world, now) ?? carryAct(n, world, now);
+  // Lane A r10 (R0542): or a Sun one tidies a stray toy back to the toy corner.
+  const quirk =
+    bellyAct(n) ?? traitAct(n, world, now) ?? carryAct(n, world, now) ?? tidyAct(n, world, now);
   if (quirk) {
     startAct(n, quirk, now);
     return;
@@ -1092,11 +1095,13 @@ function stepBehavior(
       // A sled run or a bath has a spot: walk there first, and the act's timer starts on
       // arrival (MOVE-29; the spot used to be set and never walked to).
       if (b.target) {
+        // Lane A r10 (R0542): a toy being tidied home rolls along in front.
+        tidyPush(n, world);
         const arrived = walkToward(
           world,
           n,
           b.target,
-          BEHAVIOR.walkSpeed * snatchSpeed(b.itemId),
+          BEHAVIOR.walkSpeed * snatchSpeed(b.itemId) * tidySpeed(b.itemId),
           dtMs,
         );
         // Lane A r9: a fruit carried off (R0545 snatch, R0542 share and hoard) is dealt with on
@@ -1108,7 +1113,8 @@ function stepBehavior(
             react: (who, r) => react(who, r, now, events),
             eat: (flavor) => eat(n, now, events, flavor),
           }) ||
-            carryArrive(n, world, now, events, (who, r) => react(who, r, now, events)))
+            carryArrive(n, world, now, events, (who, r) => react(who, r, now, events)) ||
+            tidyArrive(n, world, now))
         )
           break;
         if (arrived) {

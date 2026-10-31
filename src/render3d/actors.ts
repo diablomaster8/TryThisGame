@@ -84,6 +84,8 @@ import { sitWithBeat, towardKeeper } from '../render/sit-with';
 import { quipBeat } from '../render/evolve-quip';
 import { keeperIdlePose } from '../sim/keeper-idle';
 import { runFloor } from '../sim/dungeon';
+import { noteDue, performClip, performLook } from '../render/perform-look';
+import { Perform3D } from './perform-3d';
 
 /**
  * Everything that moves in the 3D Grove: the Nubbins and the Keeper as pooled rigs,
@@ -164,6 +166,8 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
     case 'perform':
+      // R0525 (lane A r10): a lesson performed sits to draw, sings, dances or plays.
+      if (performClip(n)) return performClip(n)!;
       // R0539: a visit to a friend's flower is a quiet sit (walking there is a walk).
       if (n.behavior.itemId === 'visitFlower') return moving ? 'walk' : 'sit';
       return 'happy';
@@ -371,9 +375,18 @@ export class Actors {
   /** R0313: Fern's cairn by the signpost. */
   private readonly fernCairn: FernCairn3D;
 
+  /** R0525 (lane A r10): performance props, rising notes and crayon doodles. */
+  private readonly perform3d: Perform3D;
+  private readonly performRight = new THREE.Vector3();
+
   constructor(scene: THREE.Scene) {
     scene.add(this.group);
     this.group.name = 'actors';
+    this.perform3d = new Perform3D(
+      this.group,
+      () => this.emoteMats.get(frameKey('note', 'front', 0)),
+      (x, z) => this.ground(x, z),
+    );
     this.crowd = new Crowd(
       this.group,
       this.pool,
@@ -1053,6 +1066,16 @@ export class Actors {
       );
       const gy = this.ground(x, z);
       const o = a.rig?.group ?? a.shell ?? a.stand!;
+      // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
+      const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
+      const perf = held || !a.rig ? null : performLook(n, perfMs, this.calm);
+      if (perf) {
+        // Camera-right on the ground, from the camera toward this Nubbin.
+        const fx = x - cameraPos.x;
+        const fz = z - cameraPos.z;
+        const fl = Math.hypot(fx, fz) || 1;
+        this.performRight.set(-fz / fl, 0, fx / fl);
+      }
       const moving = Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004;
       if (a.rig) {
         const near = Math.hypot(keeper.pos.x - n.pos.x, keeper.pos.z - n.pos.z) < 1.5;
@@ -1164,6 +1187,7 @@ export class Actors {
         const pp = this.pops.get(n.id);
         const turn =
           (a.quipTurn ?? 0) +
+          (perf?.turn ?? 0) +
           (n.stage === 'adult' && pp?.kind === 'pop'
             ? revealTurn(pp.startMs, nowMs, this.calm)
             : 0);
@@ -1221,6 +1245,27 @@ export class Actors {
         o.position.y += a.beat.dy * 0.9;
         o.position.x += a.beat.dx * 0.9;
       }
+      // R0525 (lane A r10): the performance's squash, sway and hop, the prop and the notes.
+      if (perf) {
+        if (!a.squash) a.squash = { o, base: o.scale.clone() };
+        o.scale.x *= perf.sw;
+        o.scale.y *= perf.sh;
+        o.scale.z *= perf.sw;
+        o.position.y += perf.dy;
+        o.position.x += this.performRight.x * perf.dx;
+        o.position.z += this.performRight.z * perf.dx;
+      }
+      this.perform3d.nubbin(
+        n.id,
+        perf,
+        o.position.x,
+        o.position.y,
+        o.position.z,
+        this.performRight,
+        a.squash ? a.squash.base.y : o.scale.y,
+        !!perf && noteDue(n.id, perf, perfMs, n.behavior.sinceMs),
+        nowMs,
+      );
       const tall = a.rig ? (a.look?.height ?? GROVE3D.nubbinHeight) : 0.9;
       this.glow.set(n.id, isMerged(world, n.id), o.position, tall, nowMs);
       // LOOK-58: a legendary one (jewel, glass, Eternal) carries a soft gold halo that breathes.
@@ -1307,6 +1352,7 @@ export class Actors {
     this.bondGlow.keep(live);
     this.rarityGlow.keep(live);
     this.emoteSprings.keep(live);
+    this.perform3d.finish(world, this.location === 'grove', live, nowMs);
 
     // The Keeper.
     if (this.keeperSquash) {
@@ -1492,6 +1538,7 @@ export class Actors {
   }
 
   dispose(): void {
+    this.perform3d.dispose();
     for (const id of [...this.nubbins.keys()]) this.drop(id);
     this.keeper = this.dropKeeper(this.keeper);
     this.keeper2 = this.dropKeeper(this.keeper2);

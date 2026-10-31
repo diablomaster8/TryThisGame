@@ -68,6 +68,7 @@ import { dedupeEvents } from './ui/event-dedupe';
 import { PIXEL_WIND } from './render/wind-px';
 import { readDeviceTier, readQualityOverride, type TierReading } from './platform/device-tier';
 import { tierForRes } from './config/tuning-world';
+import { playSoulSounds } from './ui/soul-sounds';
 
 export interface GameHooks {
   onEvents(events: SimEvent[]): void;
@@ -909,6 +910,8 @@ export class Game {
       this.hooks.onEvents(
         this.clock.timeScale > FAST_TIME.fromScale ? dedupeEvents(events) : events,
       );
+      // Lane A r10: performance and chat sounds (R0525, R0540).
+      playSoulSounds(events, this.world, this.clock.timeScale);
       for (const e of events) {
         // Shake is motion too: the in-game Reduced motion choice turns it off (review D, 42).
         const shake = this.world.settings.screenShake && !this.reduceMotion;

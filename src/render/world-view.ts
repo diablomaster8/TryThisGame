@@ -77,7 +77,7 @@ import { springBouncedAt } from '../sim/decorate';
 import { shroomHopY } from '../sim/behavior';
 import { terraceY, type SceneStager } from './scene-stage';
 import { PIXEL_BUILDINGS, PIXEL_VIEW, rectOf } from './stage-api';
-import { STAGE2 } from '../config/tuning';
+import { PERFORM, STAGE2 } from '../config/tuning';
 import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, heldStyle, type HeldMood } from './held-mood';
@@ -86,6 +86,9 @@ import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
 import { glintPlace, glintShape } from './sprites/shiny-glint';
+import { noteDue, performClip, performEmote, performLook } from './perform-look';
+import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
+import { doodleAlpha } from '../sim/perform';
 
 interface Snapshot {
   pos: Vec2;
@@ -616,6 +619,7 @@ export class WorldView {
       });
     };
 
+    this.drawDoodles(world);
     // TECH-02: under a held Nubbin, a ring that turns green when letting go would be a place.
     this.heldRing.frame(world, nowMs, this.particles.reduceMotion);
     const hr = this.heldRing.spot;
@@ -1976,6 +1980,9 @@ export class WorldView {
       this.heldRing.lowerY(n.id, nowMs),
     );
 
+    // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
+    const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
+    const perf = held ? null : performLook(n, perfMs, this.particles.reduceMotion);
     let key: string;
     let flip = false;
     let eggHop = 0;
@@ -2034,11 +2041,13 @@ export class WorldView {
       else if (qb?.phase === 'sit') clip = 'sit';
       else if (qb) clip = 'idle';
       // LOOK-62: a newly evolved form spins one turn as it lands.
-      const turn =
+      let turn =
         (qb?.turn ?? 0) +
         (n.stage === 'adult' && v.pop?.kind === 'pop'
           ? revealTurn(v.pop.startMs, nowMs, this.particles.reduceMotion)
           : 0);
+      // R0525 (lane A r10): a dancer sways round or spins.
+      if (perf) turn += perf.turn;
       // R0533 (lane A r9): a resting Nubbin turns to look at the Keeper close by.
       const look = held ? null : noticeFace(n, world.keeper.pos);
       const view = viewAngle((hf ?? npose?.face ?? look ?? n.facing) + turn, yaw);
@@ -2193,6 +2202,10 @@ export class WorldView {
         sw *= sig.sw;
         sh *= sig.sh;
       }
+      if (perf) {
+        sw *= perf.sw;
+        sh *= perf.sh;
+      }
       if (v.pop) {
         const dur = v.pop.kind === 'squash' ? 260 : 420;
         const t = (nowMs - v.pop.startMs) / dur;
@@ -2227,11 +2240,19 @@ export class WorldView {
           rect,
           flip,
           // LOOK-62: the evolving cocoon shakes in its last moments.
-          x: x + swDx + (beat?.dx ?? 0) * 2 + cocoonShake(n, nowMs) * 0.08,
+          x:
+            x +
+            swDx +
+            (beat?.dx ?? 0) * 2 +
+            cocoonShake(n, nowMs) * 0.08 +
+            Math.cos(yaw) * (perf?.dx ?? 0),
           // LOOK-37: an Eternal floats a hand's breadth up with a slow bob.
           y:
-            (beat?.dy ?? 0) * 2 + eggHop + (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
-          z: z + swDz,
+            (beat?.dy ?? 0) * 2 +
+            eggHop +
+            (perf?.dy ?? 0) +
+            (n.eternal ? y + 0.1 + Math.sin(nowMs / 770) * 0.03 : y),
+          z: z + swDz - Math.sin(yaw) * (perf?.dx ?? 0),
           mode: 'billboard',
           opacity,
           tint: this.dim * glowTint,
@@ -2240,6 +2261,8 @@ export class WorldView {
         },
         { id: n.id, kind: 'nubbin' },
       );
+      // R0525 (lane A r10): the held prop (crayon, bell, drum, trumpet) and rising notes.
+      if (perf) this.drawPerformProp(perf, n, x, y, z, yaw, flip, perfMs, opacity);
       // LOOK-30: a shiny's glint sweeps its head every 2 s, an overlay from one shared sheet
       // laid on the head in the sprite's own plane, a hair toward the camera.
       const cam = PIXEL_VIEW.camera;
@@ -2353,6 +2376,74 @@ export class WorldView {
     }
   }
 
+  /** R0525 (lane A r10): a performer's prop beside it and a note now and then above it. */
+  private drawPerformProp(
+    perf: NonNullable<ReturnType<typeof performLook>>,
+    n: Nubbin,
+    x: number,
+    y: number,
+    z: number,
+    yaw: number,
+    flip: boolean,
+    simMs: number,
+    opacity: number,
+  ): void {
+    const P = PERFORM;
+    if (perf.prop) {
+      const sheet = this.sheets.get('soul:perform', buildPerformSheet);
+      const rect = sheet.frames.get(propKey(perf.prop));
+      const cam = PIXEL_VIEW.camera?.matrixWorld.elements;
+      if (rect && cam) {
+        const side = (flip ? -1 : 1) * P.propSide + perf.propDx;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip,
+          x: x + Math.cos(yaw) * side + cam[8]! * 0.06,
+          y: Math.max(0, y) + P.propUp + perf.propDy - P.propSize / 2,
+          z: z - Math.sin(yaw) * side + cam[10]! * 0.06,
+          mode: 'billboard',
+          opacity,
+          tint: this.dim,
+          w: P.propSize,
+          h: P.propSize,
+        });
+      }
+    }
+    if (noteDue(n.id, perf, simMs, n.behavior.sinceMs))
+      this.particles.burst('note', x, Math.max(0, y) + 1.5, z, 1, {
+        spread: 0.3,
+        speed: 0.2,
+        rise: 0.7,
+        lifeMs: 1100,
+      });
+  }
+
+  /** R0525 (lane A r10): crayon doodles left on the Grove's ground, fading after a while. */
+  private drawDoodles(world: World): void {
+    const list = world.doodles;
+    if (!list?.length || world.location !== 'grove') return;
+    const sheet = this.sheets.get('soul:perform', buildPerformSheet);
+    for (const d of list) {
+      const a = doodleAlpha(d, world.timeMs);
+      const rect = a > 0 ? sheet.frames.get(doodleKey(d.kind)) : undefined;
+      if (!rect) continue;
+      this.batch.draw({
+        sheet,
+        rect,
+        flip: false,
+        x: d.x,
+        y: 0.02,
+        z: d.z,
+        mode: 'flat',
+        w: PERFORM.doodleSize,
+        h: PERFORM.doodleSize,
+        opacity: 0.85 * a,
+        tint: this.dim,
+      });
+    }
+  }
+
   dispose(): void {
     this.batchLazy?.dispose();
     this.sheets.dispose();
@@ -2375,6 +2466,9 @@ function lerp(a: number, b: number, t: number): number {
 
 /** Which clip a free Nubbin plays. */
 export function clipFor(n: Nubbin): string {
+  // R0525 (lane A r10): a lesson performed sits to draw, sings open-mouthed, dances, plays.
+  const pc = performClip(n);
+  if (pc) return pc;
   switch (n.behavior.state) {
     case 'wander':
     case 'findFood':
@@ -2461,6 +2555,9 @@ export function emoteFor(n: Nubbin): EmoteShape {
   // R0532 (lane A r8): a harrumph huffs.
   if (n.behavior.state === 'sit' && n.behavior.itemId === 'harrumph') return 'puff';
   if (n.behavior.state === 'lesson') return 'question';
+  // R0525 (lane A r10): a note over a song or a tune, a star over a dance.
+  const pe = performEmote(n);
+  if (pe) return pe;
   if (n.behavior.state === 'perform') {
     // R0542 (lane A r8): a comforter carries a heart over; a prankster a spiky grin.
     const id = n.behavior.itemId ?? '';
