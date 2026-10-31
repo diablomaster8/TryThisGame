@@ -1,32 +1,19 @@
-import {
-  EDU,
-  EDU_AGES,
-  EDU_COLOUR_HEX,
-  EDU_DOMAIN,
-  EDU_RECOMMENDED,
-  type EduAge,
-  type EduGameId,
-} from '../config/edu';
-import { EDU_STORY_TEXT, EDU_TEXT, NAMES } from '../config/strings';
+import { EDU, EDU_COLOUR_HEX, type EduGameId } from '../config/edu';
+import { EDU_TEXT } from '../config/strings';
 import type { Game } from '../game';
 import { makeRound, starsFor, type EduOption, type EduRound } from '../minigames/edu/games';
 import { Peekaboo } from '../minigames/micro/peekaboo';
 import { PEEKABOO_TEXT } from '../config/strings-fun-r5';
 import { playSound } from '../platform/audio';
-import { masteryReport } from './edu-mastery';
-import { placesSettings } from './edu-places';
-import { limitSettings } from './edu-limits';
 import { stickerArt } from './sticker-art';
 import { EDU_STICKERS } from '../config/edu-stickers';
-import { eduRounds, eduRung, eduWeigher, enabledGames, gamesForBand } from '../sim/edu';
+import { eduRounds, eduRung, eduWeigher, enabledGames } from '../sim/edu';
 import { Rng } from '../sim/rng';
 import { button, dialogFocus, el, modal } from './dom';
 import { renderSumGate } from './grown-up-gate';
 import { speakLine } from './lesson';
 import {
   EDU_PICKER_TEXT,
-  EDU_REBORN_TEXT,
-  EDU_ROUNDS_TEXT,
   EDU_RESULTS_TEXT,
   EDU_SAY_TEXT,
   EDU_WRONG_TEXT,
@@ -45,9 +32,11 @@ import {
 import { BREAK_KID_TEXT } from '../config/strings-kids';
 import { frameKey } from '../render/sprites/animations';
 import type { Nubbin } from '../sim/types';
-import { storyPickButton, storyProgress, storySettings } from './edu-story';
+import { storyPickButton } from './edu-story';
 import { NextCard } from './next-card';
-import { LangPanel, langProgress } from './lang';
+import { LangPanel } from './lang';
+import { renderGrownUp } from './grown-up'; /* Lane E r10 */
+import { appendWithIcons, eduIcon, eduIconSpan } from './edu-icons'; /* Lane E r10, R0715 */
 import { langCourses } from '../sim/lang';
 
 /**
@@ -189,6 +178,7 @@ export class EduScreen {
 
   close(): void {
     this.picker.hide();
+    this.noteSitting('quit');
     if (!this.root.hidden) {
       this.root.hidden = true;
       this.gameFocus.closed();
@@ -235,7 +225,20 @@ export class EduScreen {
     g.renderPaused = true;
     this.root.hidden = false;
     this.gameFocus.opened();
+    // Lane E r10 (R0745): a sitting starts; finish or close ends it.
+    g.send({ kind: 'eduActivity', game: id, what: 'open' });
+    this.sittingAt = performance.now();
     this.nextRound();
+  }
+
+  /** Lane E r10 (R0745): when the open sitting began (0: none open). */
+  private sittingAt = 0;
+
+  private noteSitting(what: 'complete' | 'quit'): void {
+    const g = this.game_();
+    if (!this.sittingAt || !this.game || !g) return;
+    g.send({ kind: 'eduActivity', game: this.game, what, ms: performance.now() - this.sittingAt });
+    this.sittingAt = 0;
   }
 
   private nextRound(): void {
@@ -281,7 +284,10 @@ export class EduScreen {
     );
     head.querySelector('.edu-hear')?.setAttribute('aria-label', EDU_SAY_TEXT.hearAgain);
     c.appendChild(head);
-    c.appendChild(el('div', 'edu-prompt', r.prompt));
+    // Lane E r10, R0715: the prompt's pictures as pixel art.
+    const prompt = el('div', 'edu-prompt');
+    appendWithIcons(prompt, r.prompt);
+    c.appendChild(prompt);
     if (r.cue) {
       const cue = el('div', 'edu-cue');
       cue.appendChild(renderOption(r.cue, true));
@@ -429,6 +435,7 @@ export class EduScreen {
    */
   private finish(): void {
     const g = this.game_();
+    this.noteSitting('complete');
     const c = this.card;
     c.innerHTML = '';
     const max = this.rounds() * 3;
@@ -600,12 +607,12 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
     case 'count': {
       // R0714: counted things sit in five-frames, two rows of five.
       const icons = el('div', 'edu-icons edu-frame');
-      for (let i = 0; i < o.n; i++) icons.appendChild(el('span', undefined, o.icon));
+      for (let i = 0; i < o.n; i++) icons.appendChild(eduIconSpan(o.icon));
       box.appendChild(icons);
       break;
     }
     case 'picture':
-      box.append(el('span', 'edu-icon', o.icon));
+      box.append(eduIcon(o.icon, 'edu-icon'));
       // R0712: a sprout's letter and sound pictures show the word only after the answer.
       if (showLabel) box.appendChild(el('span', 'edu-word', o.label));
       break;
@@ -613,7 +620,7 @@ function renderOption(o: EduOption, large: boolean, showLabel = true): HTMLEleme
       // R0684: two groups and a plus, so the cue models a + b instead of showing the total.
       const group = (n: number) => {
         const icons = el('div', 'edu-icons');
-        for (let i = 0; i < n; i++) icons.appendChild(el('span', undefined, o.icon));
+        for (let i = 0; i < n; i++) icons.appendChild(eduIconSpan(o.icon));
         return icons;
       };
       box.classList.add('edu-sum');
@@ -716,149 +723,9 @@ export class GrownUpPanel {
 
   renderPanel(): void {
     const g = this.game();
-    const e = g?.world.edu;
-    if (!g || !e) return;
-    this.body.innerHTML = '';
-    this.body.appendChild(el('p', 'help', EDU_TEXT.parentHelp));
-    // Age.
-    const ageRow = el('label', 'field-row');
-    const ageSel = el('select');
-    for (const a of EDU_AGES) {
-      const o = el('option', undefined, String(a));
-      o.value = String(a);
-      ageSel.appendChild(o);
-    }
-    ageSel.value = String(e.age);
-    ageSel.addEventListener('change', () => {
-      g.send({ kind: 'eduSetAge', age: Number(ageSel.value) as EduAge, resetGames: true });
-      setTimeout(() => this.renderPanel(), 100);
-    });
-    ageRow.append(el('strong', undefined, EDU_TEXT.ageLabel), ageSel);
-    // R0735: a reader's games stay at their top age; the band is the real choice for 7–10.
-    if (e.band === 'reader')
-      ageRow.replaceChildren(el('strong', undefined, EDU_STORY_TEXT.readerAges));
-    this.body.appendChild(ageRow);
-    // R0746: how many rounds a game lasts, 3 to 10 (by age until a grown-up picks).
-    const roundsRow = el('label', 'field-row');
-    const roundsSel = el('select');
-    for (let k = EDU.minRounds; k <= EDU.maxRounds; k++) {
-      const o = el('option', undefined, String(k));
-      o.value = String(k);
-      roundsSel.appendChild(o);
-    }
-    roundsSel.value = String(eduRounds(e));
-    roundsSel.addEventListener('change', () =>
-      g.send({ kind: 'eduSetRounds', rounds: Number(roundsSel.value) }),
-    );
-    roundsRow.append(el('strong', undefined, EDU_ROUNDS_TEXT.label), roundsSel);
-    this.body.appendChild(roundsRow);
-    // R0691: sprouts always get their Nubbin back; for a reader it is the grown-up's call.
-    if (e.band === 'reader') {
-      const row = el('label', 'check-row');
-      const cb = el('input');
-      cb.type = 'checkbox';
-      cb.checked = !!e.alwaysReborn;
-      cb.addEventListener('change', () => g.send({ kind: 'eduSetAlwaysReborn', on: cb.checked }));
-      const t = el('span');
-      t.append(
-        el('strong', undefined, EDU_REBORN_TEXT.toggle),
-        el('small', undefined, EDU_REBORN_TEXT.toggleHelp),
-      );
-      row.append(cb, t);
-      this.body.appendChild(row);
-    }
-    // Name.
-    const nameRow = el('label', 'field-row');
-    const name = el('input');
-    name.type = 'text';
-    name.maxLength = 20;
-    name.value = e.childName;
-    name.addEventListener('change', () => g.send({ kind: 'eduSetName', name: name.value }));
-    nameRow.append(el('strong', undefined, EDU_TEXT.childName), name);
-    this.body.appendChild(nameRow);
-    // Session length.
-    const sessRow = el('label', 'field-row');
-    const sess = el('input');
-    sess.type = 'number';
-    sess.inputMode = 'numeric';
-    sess.min = String(EDU.sessionRange[0]);
-    sess.max = String(EDU.sessionRange[1]);
-    sess.value = String(e.sessionMinutes);
-    sess.addEventListener('change', () =>
-      g.send({ kind: 'eduSetSession', minutes: Number(sess.value) || EDU.sessionMinutes }),
-    );
-    sessRow.append(el('strong', undefined, EDU_TEXT.sessionLabel), sess);
-    this.body.appendChild(sessRow);
-    this.body.appendChild(el('p', 'help', EDU_TEXT.sessionHelp));
-    storySettings(this.body, g);
-    // Games: toggles with the recommendation tag.
-    this.body.appendChild(el('h3', undefined, EDU_TEXT.gamesLabel));
-    const reader = e.band === 'reader';
-    for (const id of gamesForBand(e.band)) {
-      const row = el('label', 'check-row');
-      const cb = el('input');
-      cb.type = 'checkbox';
-      cb.checked = e.games[id];
-      cb.addEventListener('change', () => g.send({ kind: 'eduSetGame', game: id, on: cb.checked }));
-      const text = el('span');
-      const rec = EDU_RECOMMENDED[e.age].includes(id);
-      text.append(
-        el('strong', undefined, `${EDU_TEXT.gameIcons[id]} ${gameName(id, reader)}`),
-        el(
-          'small',
-          undefined,
-          `${gameBlurb(id, reader)}${rec && !reader ? ` · ${EDU_TEXT.recommended(e.age)}` : ''}`,
-        ),
-      );
-      row.append(cb, text);
-      this.body.appendChild(row);
-    }
-    this.body.appendChild(
-      button(
-        EDU_TEXT.resetRecommended,
-        () => {
-          g.send({ kind: 'eduSetAge', age: e.age, resetGames: true });
-          setTimeout(() => this.renderPanel(), 100);
-        },
-        'btn btn-small',
-      ),
-    );
-    // R0695: daily minutes, quiet hours and the boot lock.
-    limitSettings(this.body, g);
-    // R0680: which places the ⋯ Places menu shows.
-    placesSettings(this.body, g);
-    // Progress by domain.
-    this.body.appendChild(el('h3', undefined, EDU_TEXT.progressLabel));
-    const list = el('div', 'shop-list');
-    const byDomain = new Map<string, { plays: number; stars: number }>();
-    // R0735: only the games this band is offered, so a reader sees no empty Animals row.
-    for (const id of gamesForBand(e.band)) {
-      const d = EDU_DOMAIN[id];
-      const cur = byDomain.get(d) ?? { plays: 0, stars: 0 };
-      cur.plays += e.progress[id]?.plays ?? 0;
-      cur.stars += e.progress[id]?.stars ?? 0;
-      byDomain.set(d, cur);
-    }
-    for (const [d, p] of byDomain) {
-      const row = el('div', 'shop-row');
-      const t = el('div');
-      t.append(
-        el('strong', undefined, EDU_TEXT.domains[d as keyof typeof EDU_TEXT.domains]),
-        el('small', undefined, EDU_TEXT.progressRow(p.plays, p.stars)),
-      );
-      row.appendChild(t);
-      list.appendChild(row);
-    }
-    this.body.appendChild(list);
-    // R0682 / R0683: letters, numbers, colours and shapes known, and each game's rung.
-    masteryReport(this.body, g.world);
-    storyProgress(this.body, g);
-    langProgress(this.body, g);
-    this.body.appendChild(el('p', 'help', EDU_TEXT.stickers(e.stickers)));
-    this.body.appendChild(
-      el('p', 'help', EDU_TEXT.coPlay[Math.floor(Math.random() * EDU_TEXT.coPlay.length)] ?? ''),
-    );
-    this.body.appendChild(el('p', 'help', `🐚 ${g.world.inventory.shells} ${NAMES.currency}`));
+    if (!g?.world.edu) return;
+    // Lane E r10 (R0718): the panel is four tabs now (ui/grown-up.ts).
+    renderGrownUp(this.body, g, this.game, () => this.renderPanel());
   }
 }
 
@@ -1002,11 +869,11 @@ export class BreakScreen {
 }
 
 /** A game's name for the band: readers see Sums, Spelling and Rhymes. */
-function gameName(id: EduGameId, reader: boolean): string {
+export function gameName(id: EduGameId, reader: boolean): string {
   return (reader ? EDU_TEXT.readerGameNames[id] : undefined) ?? EDU_TEXT.gameNames[id];
 }
 
-function gameBlurb(id: EduGameId, reader: boolean): string {
+export function gameBlurb(id: EduGameId, reader: boolean): string {
   return (reader ? EDU_TEXT.readerGameBlurbs[id] : undefined) ?? EDU_TEXT.gameBlurbs[id];
 }
 

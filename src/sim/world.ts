@@ -115,6 +115,7 @@ import { enterMouth, enterTown } from './dungeon-zones';
 import { townBuy, townQuest, useStash } from './dungeon-towns';
 import { setHollowParty } from './dungeon-party';
 import { setHollowRole } from './dungeon-roles';
+import { setGuide, setHollowKid } from './dungeon-kid';
 import {
   dungeonGo,
   encounterDone,
@@ -133,6 +134,8 @@ import { takeFromStash } from './dungeon-sack';
 import { setHollowTier } from './dungeon-tiers';
 import { equipGear, unequipGear } from './gear';
 import { stepGearNeeds } from './dungeon-gear-effects';
+import { dismissFriend, hireFriend } from './dungeon-friends';
+import { takeActQuest } from './dungeon-quests';
 import { itemsCommand } from './dungeon-items';
 import { setMemory } from './inheritance';
 import { buySkill, hasSkill, stepSkillPoints } from './skills';
@@ -148,6 +151,7 @@ import {
   eduEndBreak,
   eduResult,
   eduSetAge,
+  eduSetReaderAge,
   eduSetGame,
   eduSetName,
   eduSetSession,
@@ -176,6 +180,10 @@ import { mayWear } from './remembrance'; /* Lane E r9 */
 import { hatchInArms } from './hatch-arms';
 import { noteCheckpoint } from './story-marks';
 import { enterStoryRegion, leaveStoryRegion } from './story-regions';
+import { tapCare } from './access';
+import { setLossHold } from './loss-notice';
+import { noteActivity } from './edu-report';
+import { stepKeeperDodge } from './keeper-dodge'; /* Lane E r10, R0299 */
 
 /** Eggs hatch faster with the Warm hands skill, live and during catch-up alike. */
 export function hatchSpeed(world: World): number {
@@ -391,6 +399,18 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'select':
       world.selected = cmd.id;
+      return;
+    // Lane E r10 (R0710): Simple touch's one-tap care.
+    case 'tapCare':
+      tapCare(world, cmd.nubbinId, events);
+      return;
+    // Lane E r10 (R0694): a grown-up's choice for a loss chapter.
+    case 'eduLossHold':
+      setLossHold(world, cmd.chapter, cmd.hold);
+      return;
+    // Lane E r10 (R0745): attention counters for the grown-up report.
+    case 'eduActivity':
+      noteActivity(world, cmd.game, cmd.what, cmd.ms);
       return;
     case 'pet':
       k.intent = { kind: 'pet', nubbinId: cmd.nubbinId };
@@ -905,6 +925,7 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
     case 'socketCharm':
     case 'unsocketCharms':
     case 'wheelbarrowMix':
+    case 'enterHollowSecret':
       itemsCommand(world, cmd, events);
       return;
     // Lane B round 7: difficulty tiers (R0179).
@@ -921,8 +942,16 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       setHollowRole(world, cmd.id, cmd.role);
       return;
     case 'hollowGuide':
-      if (cmd.on) world.hollow.guide = true;
-      else delete world.hollow.guide;
+      setGuide(world, cmd.on);
+      return;
+    case 'hollowKid':
+      setHollowKid(world, cmd.on);
+      return;
+    // Lane B round 9 (helper c): act quests (R0166) and friends for hire (R0181).
+    case 'hollowR9':
+      if (cmd.what === 'quest') takeActQuest(world, cmd.id, events);
+      else if (cmd.what === 'hire') hireFriend(world, cmd.id, events);
+      else dismissFriend(world, events);
       return;
     // Lane B round 2: waypoints, new paths and the Homing Acorn (R0148–R0150).
     case 'waypointTravel':
@@ -1077,6 +1106,13 @@ function applyCommandInner(world: World, cmd: Command, events: SimEvent[]): void
       return;
     case 'eduSetAge':
       eduSetAge(world, cmd.age, cmd.resetGames);
+      return;
+    /* Lane E r10, R0735 */
+    case 'eduSetReaderAge':
+      eduSetReaderAge(world, cmd.age);
+      return;
+    case 'eduTutorialSaid':
+      if (world.edu) world.edu.tutorialSaid = true;
       return;
     case 'eduSetGame':
       eduSetGame(world, cmd.game, cmd.on);
@@ -1335,6 +1371,7 @@ export function stepWorld(
       const moved = Math.hypot(world.keeper.pos.x - fx, world.keeper.pos.z - fz);
       stepRide(world, dtMs, moved, events);
       stepSwimTow(world);
+      stepKeeperDodge(world); /* R0299 (lane E r10): a hop past a Nubbin on a hard turn */
     }
     // MOVE-56: walking up to a story prop with a reach meets its step, as a tap does.
     if (!offline) stepPropReach(world);

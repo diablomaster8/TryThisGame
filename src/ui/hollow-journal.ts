@@ -7,6 +7,7 @@ import type { World } from '../sim/types';
 import { el } from './dom';
 import { renderCollectionLog } from './dungeon-items';
 import { tzOf } from '../sim/local-time';
+import { renderJournalRows } from './hollow-r9-c';
 
 /**
  * The Journal's "The Hollow" page (R0165, lane B round 6): each act's boss with ✓ or ○, the
@@ -54,6 +55,8 @@ export function renderHollowPage(world: World, body: HTMLElement): void {
         : HOLLOW_R6_TEXT.todayNone,
     ),
   );
+  // R0165 (round 9): secret rooms found and the act quests.
+  renderJournalRows(world, body);
   // R0172 (lane B round 8): the sets and uniques collection log.
   renderCollectionLog(world, body);
   // R0187: the speed-run bests, a badge and nothing more.

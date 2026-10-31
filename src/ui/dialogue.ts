@@ -321,6 +321,12 @@ export class Dialogue {
     this.sync();
     this.takeFocus();
     this.syncSkip();
+    /* Lane E r10, R0738: a sprout scene opens on the book and a chime, never a blank box. */
+    const opening = this.game();
+    if (opening && textBandOf(opening.world) === 'sprout') {
+      this.text.textContent = '📖';
+      playSound('ding');
+    }
     // A chapter opening holds on its first frame (N1); a side save's scene never does.
     const holding =
       !this.external && (this.hooks.open?.(sceneId, scene, () => this.release()) ?? false);
@@ -489,6 +495,14 @@ export class Dialogue {
     this.drawPortrait(chorus ? 'narrator' : who, g, line.mood ?? 'neutral');
     // R0719: the child's name where a Learning Grove line asks for it, shown and said.
     this.fullText = fillChild(line.text, g.world.edu?.childName);
+    // Lane E r10, R0738: a sprout never sees an empty box; a blank line is passed over.
+    if (!this.fullText.trim() && textBandOf(g.world) === 'sprout') {
+      if (line.sfx) playSound(line.sfx);
+      this.fullText = '';
+      this.shown = 0;
+      this.advance();
+      return;
+    }
     this.shown = 0;
     this.text.textContent = '';
     // Left to right always, never auto: many language lines open with a Hebrew word (CV3).
@@ -526,6 +540,12 @@ export class Dialogue {
     if (line.beat) holdUntil = performance.now() + line.beat;
     // R0365: the screen-shake switch covers the story's nudges too.
     if (line.shake && !g.reduceMotion && g.world.settings.screenShake) nudgeScreen(line.shake);
+    // Lane E r10, R0738: a sprout line shows its first word at once, even behind a held beat.
+    if (band === 'sprout' && this.shown === 0) {
+      const gap = this.fullText.search(/s/);
+      this.shown = gap > 0 ? gap : this.fullText.length;
+      this.text.textContent = this.fullText.slice(0, this.shown);
+    }
     this.typing = window.setInterval(
       () => {
         const now = performance.now();
@@ -690,7 +710,14 @@ export class Dialogue {
         ),
       );
     else if (l.kind === 'do')
-      this.playSub(l.lines ?? [], () => card(() => renderDo(this.choices, l, () => done(null))));
+      this.playSub(l.lines ?? [], () =>
+        card(() =>
+          // Lane E r10, R0700: the beat says its instruction when read-aloud is on.
+          renderDo(this.choices, l, () => done(null), {
+            speak: !!this.game()?.world.edu?.readAloud,
+          }),
+        ),
+      );
     else this.playSub(l.lines ?? [], () => done(null));
   }
 

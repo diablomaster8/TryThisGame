@@ -1,6 +1,7 @@
 import { enterDungeon, leaveDungeon } from './dungeon';
 import { canFuse } from './fusion';
 import { Rng } from './rng';
+import { registerStoryFloors, type StoryPieces } from './dungeon-story-floors';
 import { registerStorylineRule } from './storyline-rules';
 import { counter } from './storyline-checks';
 import { queueScene } from './story-state';
@@ -15,6 +16,20 @@ import type { CampaignState, SimEvent, World } from './types';
  */
 export const BEETLE_STORY_SEED = 41_017;
 export const BEETLE_FLOORS: Readonly<Record<number, number>> = { 3: 1, 4: 2, 6: 3, 7: 4, 8: 5 };
+
+/**
+ * R0197: the authored pieces of each domain's floor, by depth (sim/dungeon-pieces/
+ * story-beetle.ts): the guard's stairs, the first door, the slope, the machine's room and
+ * the last door. A run saved on the old version-2 floors keeps them.
+ */
+export const BEETLE_PIECES: Readonly<Record<number, StoryPieces>> = {
+  1: { entry: 'story-guard-stairs' },
+  2: { exit: 'story-door' },
+  3: { hub: 'story-slope' },
+  4: { hub: 'story-machine' },
+  5: { exit: 'story-last-door' },
+};
+registerStoryFloors(BEETLE_STORY_SEED, BEETLE_PIECES);
 
 /** Whether the run under way is the Beetle Road's story floor. */
 export function isBeetleRun(world: World): boolean {

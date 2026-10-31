@@ -5,6 +5,7 @@
  * the `parentNote` lines. Everything reads `world.edu` and the loaded edu chunk and sends
  * commands; nothing here changes the world.
  */
+import { standardsList } from './edu-report'; /* Lane E r10 */
 import { EDU_STORY_TEXT } from '../config/strings';
 import { READ_TEXT } from '../config/strings-fun-r7';
 import { KIDS_READ_TEXT } from '../config/strings-look-r9e';
@@ -162,7 +163,8 @@ export function storyProgress(body: HTMLElement, g: Game): void {
     tally((l) => EDU_STORY_TEXT.lessonDomains[l.domain] ?? l.domain),
   );
   const standards = tally((l) => l.standard);
-  if (standards.length > 0) list(EDU_STORY_TEXT.byStandard, standards);
+  // Lane E r10 (R0717): plain words first, the code in small print.
+  if (standards.length > 0) standardsList(body, EDU_STORY_TEXT.byStandard, standards);
   // The newest notes last in the record, so show the end of it, newest first.
   body.appendChild(el('strong', undefined, EDU_STORY_TEXT.recentNotes));
   const notes = el('ul', 'edu-notes');

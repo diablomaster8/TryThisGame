@@ -10,6 +10,7 @@ import { vivid } from './art-species-colour';
 import { serpentChain, serpentSpec } from './art-serpent';
 import { birdLayout, birdPatch } from './art-bird';
 import { FLAME_PART, flameTailPrims, withFlameFlicker } from './art-flame';
+import { METAL_ARM } from '../config/tuning-look-r10e';
 
 /**
  * The pocket and digital lines in 3D. The pixel view draws them with a generic creature
@@ -333,6 +334,27 @@ function arms(art: CreatureSpec, L: Layout, c: Record<string, string>): PartSpec
     for (let i = -1; i <= 1; i++)
       prims.push(cone(hand, hand.clone().add(V(i * 0.1, -0.2, 0.18)), 0.07, 0.015, c.belly!, 0.05));
   else prims.push(sphere(hand, art.arms === 'tentacles' ? 0.11 : 0.17, armColor, 'hand'));
+  if (art.extras?.includes('metalArm')) {
+    // LOOK-08 (lane E r10): MetalGreymon's one metal arm, its own left (+x): a thick steel
+    // limb with a big fist and three claws; the other arm stays a clawed body-coloured arm.
+    const steel = METAL_ARM.steel;
+    const big = hand.clone().add(V(-0.08, -0.06, 0.06));
+    const metal: Prim[] = [
+      cap(V(-sx, sy, 0.08), big, 0.2, steel, 'arm'),
+      sphere(V(-sx, sy, 0.08), 0.24, METAL_ARM.joint, 'arm'),
+      sphere(big, 0.26, steel, 'hand'),
+      ...[-1, 0, 1].map((i) =>
+        cone(big, big.clone().add(V(i * 0.13, -0.3, 0.22)), 0.08, 0.015, METAL_ARM.claw, 0.05),
+      ),
+    ];
+    const flesh: Prim[] = [
+      cap(V(-sx, sy, 0.08), hand, 0.14, c.body!, 'arm'),
+      ...[-1, 0, 1].map((i) =>
+        cone(hand, hand.clone().add(V(i * 0.1, -0.2, 0.18)), 0.07, 0.015, c.belly!, 0.05),
+      ),
+    ];
+    return [part('armL', V(-sx, sy, 0.08), flesh), part('armR', V(sx, sy, 0.08), mirror(metal))];
+  }
   return [part('armL', V(-sx, sy, 0.08), prims), part('armR', V(sx, sy, 0.08), mirror(prims))];
 }
 

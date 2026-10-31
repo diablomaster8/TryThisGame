@@ -33,7 +33,6 @@ import { PLACED_KINDS, type Shrine } from './dungeon-shrines';
 import { Rng } from './rng';
 import { isCommonSpecies, SPECIES } from './species';
 
-const Z = HOLLOW_ZONES.field;
 const cache = new Map<string, Floor>();
 
 function remember(key: string, f: Floor): Floor {
@@ -110,12 +109,31 @@ function reach(cells: Uint8Array, cols: number, rows: number, start: Cell): Uint
   return seen;
 }
 
+/** Another field's numbers in place of the act field's (lane B r9: the Moo Meadow). */
+export interface FieldShape {
+  /** The cache and seed name (`field` for an act's own field). */
+  name: string;
+  cols: number;
+  rows: number;
+  tile: number;
+  mouths: readonly [number, number];
+  packs: readonly [number, number];
+  wildlife: readonly [number, number];
+  shrines: readonly [number, number];
+  loot: number;
+  road: number;
+  /** Sunny: only meadow, stream and copse tiles (no cliffs or ruins). */
+  sunny?: boolean;
+}
+
 /** Act `act`'s outdoor field for its seed, generated once. */
-export function fieldFloor(seed: number, act: number): Floor {
-  const key = `field:${seed}:${act}`;
+export function fieldFloor(seed: number, act: number, shape?: FieldShape): Floor {
+  const name = shape?.name ?? 'field';
+  const Z = shape ?? { ...HOLLOW_ZONES.field, name };
+  const key = `${name}:${seed}:${act}`;
   const hit = cache.get(key);
   if (hit) return hit;
-  const rng = Rng.fromSeed((seed ^ hashString(`field:${act}`)) >>> 0);
+  const rng = Rng.fromSeed((seed ^ hashString(`${name}:${act}`)) >>> 0);
   const salt = rng.int(1, 9999);
   const { cols, rows, tile } = Z;
   const tw = cols / tile;
@@ -126,7 +144,8 @@ export function fieldFloor(seed: number, act: number): Floor {
   for (let ty = 0; ty < th; ty++)
     for (let tx = 0; tx < tw; tx++) {
       // The camp and gate columns stay meadow, so the ends of the road are open ground.
-      const biome = tx === 0 || tx === tw - 1 ? 'meadow' : biomeAt(tx, ty, salt);
+      let biome = tx === 0 || tx === tw - 1 ? 'meadow' : biomeAt(tx, ty, salt);
+      if (Z.sunny && (biome === 'cliff' || biome === 'ruin')) biome = 'meadow';
       biomes.push(biome);
       const pool = OUTDOOR_TILES.filter((t) => t.biome === biome);
       const t = pool[rng.int(0, pool.length - 1)]!;

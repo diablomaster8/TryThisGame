@@ -1,6 +1,7 @@
 import { ROLL } from '../config/tuning-move';
 import { ShakeDetector } from './shake';
-import { INPUT, THROW } from '../config/tuning';
+import { isSimpleTap, pickSlopPx, simpleTouchOn } from './simple-touch';
+import { THROW } from '../config/tuning';
 import type { PickHit, Picker } from '../render/picker';
 import type { Command, DecorKind, Flavor, TileKind, ToyKind, Vec2 } from '../sim/types';
 import type { Camera, Object3D } from 'three';
@@ -416,6 +417,8 @@ export class GameInput {
     const id = this.pressed?.kind === 'nubbin' ? this.pressed.id : null;
     const info = this.pressed && INSPECT_KINDS.has(this.pressed.kind) ? this.pressed : null;
     if ((!id && !info) || e.pointerType === 'mouse') return;
+    // R0710: under Simple touch a held press is still a tap; nothing lifts on a hold.
+    if (simpleTouchOn()) return;
     const pointerId = e.pointerId;
     const type = e.pointerType;
     const at = { x: e.clientX, y: e.clientY };
@@ -470,7 +473,7 @@ export class GameInput {
     if (rect.width <= 0 || rect.height <= 0) return hit;
     const ndcX = ((clientX - rect.left) / rect.width) * 2 - 1;
     const ndcY = -((clientY - rect.top) / rect.height) * 2 + 1;
-    const r = INPUT.nubbinPickSlopPx;
+    const r = pickSlopPx(simpleTouchOn());
     for (const [ox, oy] of SLOP_RING) {
       const s = pickSprite(ndcX + (ox * r * 2) / rect.width, ndcY - (oy * r * 2) / rect.height);
       if (s?.kind === 'nubbin') return { kind: 'nubbin', id: s.id, ground: hit?.ground ?? null };
@@ -485,6 +488,8 @@ export class GameInput {
     this.maxMoved = Math.max(this.maxMoved, Math.hypot(dx, dy));
     if (!this.dragging) {
       if (!this.pressed || this.pressed.kind !== 'nubbin' || this.longLifted) return;
+      // R0710: Simple touch never drags (so never throws).
+      if (simpleTouchOn()) return;
       if (!isDrag(e.pointerType, Math.hypot(dx, dy))) return;
       if (!this.host.canGrab(this.pressed.id)) return;
       this.dragging = this.pressed.id;
@@ -522,7 +527,9 @@ export class GameInput {
       return;
     }
     const moved = Math.hypot(e.clientX - this.downClient.x, e.clientY - this.downClient.z);
-    if (isTap(e.pointerType, moved, now - this.downAt)) this.tap(e);
+    const held = now - this.downAt;
+    if (isTap(e.pointerType, moved, held) || (simpleTouchOn() && isSimpleTap(moved, held)))
+      this.tap(e);
     this.pressed = null;
   };
 
@@ -547,6 +554,8 @@ export class GameInput {
         }
         this.host.send({ kind: 'select', id: hit.id });
         this.host.onSelect(hit.id);
+        // R0710: Simple touch, a tap shakes an egg or pets a Nubbin.
+        if (simpleTouchOn()) this.host.send({ kind: 'tapCare', nubbinId: hit.id });
         return;
       case 'item':
         this.host.send({ kind: 'collect', itemId: hit.id });

@@ -17,13 +17,17 @@ import { GEAR_TEXT, HOLLOW_R6_TEXT } from '../config/strings';
 import { basketPrice, basketSlots } from '../sim/dungeon-gamble';
 import { ITEMS_R8_TEXT } from '../config/strings-hollow-r8-items';
 import { wheelbarrowOpen } from '../sim/dungeon-wheelbarrow';
+import { canEnterSecret } from '../sim/dungeon-secret-levels';
+import { SECRETS } from '../config/dungeon-r9-b';
+import { SECRETS_R9B_TEXT } from '../config/strings-hollow-r9-b';
 import { WheelbarrowPanel } from './dungeon-barrow';
 import { StashPanel } from './dungeon-stash';
+import { renderActQuests, renderHireBoard } from './hollow-r9-c';
 
 /**
  * An act camp's services (R0152): the panel that opens from the Hollow bar's service button
- * when the Keeper stands at one. The stash, the vendor and the quest-giver work; crafting,
- * gambling and hiring say they are not open yet.
+ * when the Keeper stands at one. The stash, the vendor, the quest-giver (with the act quests,
+ * round 9), the crafting table and the hire board (round 9) work.
  */
 export class TownPanel {
   private readonly dialog;
@@ -39,6 +43,8 @@ export class TownPanel {
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, HOLLOW_ZONE_TEXT.stashTitle, UI_TEXT.close);
+    // R0193: a full-width bottom sheet on a phone (dungeon.css).
+    this.dialog.root.classList.add('hollow-sheet');
     this.heading = this.dialog.root.querySelector('h2')!;
     this.content = el('div', 'town-panel');
     this.dialog.body.appendChild(this.content);
@@ -86,6 +92,14 @@ export class TownPanel {
     if (!this.isOpen()) return;
     const s = serviceHere(world);
     if (!s || s !== this.service) this.close();
+    // Lane B r9: a mix that opens a secret portal shows its button straight away.
+    else if (s.kind === 'craft' && TownPanel.portals(world) !== this.portalKey) this.render(world);
+  }
+
+  private portalKey = '';
+
+  private static portals(world: World): string {
+    return `${canEnterSecret(world, 'moo')}|${canEnterSecret(world, 'fort')}`;
   }
 
   private send(cmd: Parameters<Game['send']>[0]): void {
@@ -93,11 +107,17 @@ export class TownPanel {
     if (!g) return;
     g.send(cmd);
     this.render(g.world);
+    // Lane B round 9: a command lands on the next sim step; draw the panel again after it.
+    setTimeout(() => {
+      const again = this.game();
+      if (again && this.dialog.isOpen()) this.render(again.world);
+    }, 250);
   }
 
   private render(world: World): void {
     const s = this.service;
     if (!s) return;
+    this.portalKey = TownPanel.portals(world);
     const who = TownPanel.keeperName(world, s);
     const what = HOLLOW_ZONE_TEXT.services[s.kind] ?? '';
     this.heading.textContent = who ? `${who} · ${what}` : what;
@@ -190,6 +210,11 @@ export class TownPanel {
           this.send({ kind: 'townQuest' }),
         );
       }
+      // R0166 (round 9): the act's two quests.
+      renderActQuests(world, this.content, act, (cmd) => this.send(cmd));
+    } else if (s.kind === 'hire') {
+      // R0181 (round 9): friends for hire.
+      renderHireBoard(world, this.content, act, (cmd) => this.send(cmd));
     } else if (s.kind === 'craft') {
       // R0177: the crafting table is the Gardener's Wheelbarrow.
       this.content.append(
@@ -200,6 +225,15 @@ export class TownPanel {
         ),
         button(ITEMS_R8_TEXT.barrowButton, () => this.barrow.open(), 'btn btn-small btn-primary'),
       );
+      // Lane B r9: the secret levels' portals (R0189, R0183), and the camp's denial.
+      if (world.hollow.acts[SECRETS.keepsakeAct]?.bossDefeated)
+        this.content.append(el('p', 'help', SECRETS_R9B_TEXT.noMeadow));
+      for (const [where, go, help] of [
+        ['moo', SECRETS_R9B_TEXT.mooGo, SECRETS_R9B_TEXT.mooHelp],
+        ['fort', SECRETS_R9B_TEXT.fortGo, SECRETS_R9B_TEXT.fortHelp],
+      ] as const)
+        if (canEnterSecret(world, where))
+          row(go, help, '→', () => this.send({ kind: 'enterHollowSecret', where }));
     } else {
       this.content.appendChild(el('p', 'shop-note', HOLLOW_ZONE_TEXT.soon));
     }

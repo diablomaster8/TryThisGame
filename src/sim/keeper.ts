@@ -3,6 +3,7 @@ import { footing, hillHeight, ledgeY, TERRACES, WATER_LEVEL, type Footing } from
 import { FALLS_SHELF, KEEPER_POOF } from '../config/tuning-move-r10';
 import { CG_C } from '../config/tuning-c';
 import { dungeonBlocked, resolveDungeon, runFloor } from './dungeon';
+import { holdAtShelves } from './dungeon-shelves';
 import { keeperWaypoint } from './dungeon-nav';
 import { springBounce, springShroomAt } from './decorate';
 import { autoHopOn, groveLeg, hopReaches } from './nav';
@@ -472,8 +473,10 @@ function stepRoll(world: World, dtMs: number, events: SimEvent[]): boolean {
   k.pos.x += r.dx * speed * dt;
   k.pos.z += r.dz * speed * dt;
   const floor = runFloor(world);
-  if (floor) resolveDungeon(k.pos, floor, 0.35);
-  else {
+  if (floor) {
+    resolveDungeon(k.pos, floor, 0.35);
+    holdAtShelves(world, fromX, fromZ, events);
+  } else {
     resolve(k.pos, world, 0.35, 'keeper', k.y);
     holdAtLedges(k, fromX, fromZ);
     if (!keeperPerks(world).wade) {
@@ -1151,6 +1154,8 @@ function keeperSubstep(world: World, dtMs: number, events: SimEvent[]): void {
       k.moveTarget = null;
       k.intent = null;
     }
+    // R0191 (lane B r9): raised shelves need a jump up.
+    holdAtShelves(world, fromX, fromZ, events);
   } else {
     if (
       resolve(k.pos, world, 0.35, 'keeper', k.y) &&

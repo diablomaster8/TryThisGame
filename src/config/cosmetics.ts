@@ -5,6 +5,7 @@ import { LADDER_TEXT } from './strings-battle-r6';
 import type { C } from '../render/sprites/palette';
 import { HOLLOW_COSMETICS } from './cosmetics-hollow';
 import { LANE_E_R9_COSMETICS } from './cosmetics-r9e'; /* Lane E r9 */
+import { SECRETS_R9B_COSMETICS } from './cosmetics-r9b'; /* Lane B r9 */
 import type { Season } from '../sim/types';
 
 /**
@@ -575,6 +576,8 @@ export const COSMETICS: readonly Cosmetic[] = [
   ...HOLLOW_COSMETICS,
   // Lane E r9 (R0424): the remembrance flower.
   ...LANE_E_R9_COSMETICS,
+  // Lane B r9 (R0183, R0189): the secret levels' keepsakes.
+  ...SECRETS_R9B_COSMETICS,
 ];
 
 const BY_ID = new Map(COSMETICS.map((c) => [c.id, c]));

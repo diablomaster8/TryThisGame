@@ -163,6 +163,8 @@ export interface SaveSummary {
   eduName?: string;
   eduIcon?: string;
   eduColour?: string;
+  /** Lane E r10, R0735: a reader's age, 7 to 10, once a grown-up picked it. */
+  eduReaderAge?: number;
 }
 
 /** R0648: the lines and the finished quests a save holds, read defensively from its JSON. */
@@ -199,6 +201,7 @@ export function summarize(json: string): SaveSummary | null {
       childName?: unknown;
       icon?: unknown;
       tagColour?: unknown;
+      readerAge?: unknown;
     } | null;
     return {
       savedAtWallMs: typeof data.savedAtWallMs === 'number' ? data.savedAtWallMs : 0,
@@ -222,6 +225,8 @@ export function summarize(json: string): SaveSummary | null {
         : {}),
       ...(edu && typeof edu.icon === 'string' ? { eduIcon: edu.icon } : {}),
       ...(edu && typeof edu.tagColour === 'string' ? { eduColour: edu.tagColour } : {}),
+      /* Lane E r10, R0735 */
+      ...(edu && typeof edu.readerAge === 'number' ? { eduReaderAge: edu.readerAge } : {}),
     };
   } catch {
     return null;

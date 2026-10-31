@@ -28,6 +28,7 @@ import {
 import { dressFloor } from './dungeon-gen';
 import { bossPack, placePacks } from './dungeon-encounters';
 import {
+  pieceById,
   piecesFor,
   rotateRows,
   socketsOf,
@@ -36,6 +37,7 @@ import {
   type Side,
 } from './dungeon-pieces';
 import { Rng } from './rng';
+import { HOLLOW_R9D } from '../config/dungeon-r9-d';
 import { NUBBIN_TYPES, type DungeonLootKind } from './types';
 
 const V = HOLLOW.v3;
@@ -51,11 +53,20 @@ const OPP: Record<Side, Side> = { n: 's', e: 'w', s: 'n', w: 'e' };
 const DX4 = [1, -1, 0, 0] as const;
 const DY4 = [0, 0, 1, -1] as const;
 
+/** Lane B r9 (R0188): kid mode's smaller floors sit beside the three levels. */
+export type V3Level = HollowLevel | 'kid';
+
 export interface V3Options {
-  level: HollowLevel;
+  level: V3Level;
   tileset: string;
   /** The last floor of an act dungeon: the exit is a boss room. */
   boss: boolean;
+  /**
+   * R0197: authored pieces by id for the entry, the exit and one hub (story floors), set
+   * from storyline data so the generator stays generic. A piece that cannot fit its slot
+   * falls back to the tileset's.
+   */
+  authored?: { entry?: string; exit?: string; hub?: string };
 }
 
 /** The nearest FLOOR cell to `c` by rings (itself when dry). */
@@ -224,7 +235,7 @@ interface Placed {
 }
 
 export function generateV3(seed: number, depth: number, opts: V3Options): Floor {
-  const level = V.levels[opts.level];
+  const level = opts.level === 'kid' ? HOLLOW_R9D.kid.dims : V.levels[opts.level];
   const levelIndex = Object.keys(V.levels).indexOf(opts.level);
   const rng = Rng.fromSeed((seed * 31 + depth * 7919 + levelIndex * 104729 + 0x3c6ef372) >>> 0);
   const { cols, rows } = level;
@@ -263,6 +274,7 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
   const lootMarks: Array<{ cell: Cell; piece: number }> = [];
   const raised: Cell[] = [];
   let boss: Cell | null = null;
+  let hubAuthored = false;
   for (const s of walk.order) {
     const need = new Set([...walk.adj.get(s)!].map((n) => dirTo(s, n)));
     let role: SlotRole =
@@ -281,7 +293,31 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
       return out;
     };
     const leaf = !opts.boss && (role === 'exit' || role === 'treasure');
-    let options = fits(leaf ? 'deadEnd' : role, true);
+    let options: Turned[] = [];
+    // R0197: the story's own piece for this slot, turned to fit.
+    const a = opts.authored;
+    const wanted = !a
+      ? undefined
+      : role === 'entry'
+        ? a.entry
+        : role === 'exit' || role === 'boss'
+          ? a.exit
+          : (role === 'hub' || role === 'corridor') && !hubAuthored
+            ? a.hub
+            : undefined;
+    const ap = wanted ? pieceById(wanted) : undefined;
+    if (ap) {
+      for (let k = 0; k < 4; k++) {
+        const t = turned(ap, k);
+        if (t.w <= slot - 2 && t.h <= slot - 2 && [...need].every((d) => t.sides.has(d)))
+          options.push(t);
+      }
+      if (options.length && wanted === a?.hub) {
+        hubAuthored = true;
+        role = 'hub';
+      }
+    }
+    if (options.length === 0) options = fits(leaf ? 'deadEnd' : role, true);
     if (leaf && options.length === 0) options = fits('deadEnd', false);
     if (options.length === 0 && (role === 'hub' || role === 'corridor')) {
       role = role === 'hub' ? 'corridor' : 'hub';
@@ -567,7 +603,8 @@ export function generateV3(seed: number, depth: number, opts: V3Options): Floor 
   // The way down: the dead-end whose walk from the stairs up is nearest the stairs band
   // (rock shortcuts make the slot walk a poor guess); the farthest others hold treasure.
   // "Farthest" is the farthest room: the side caves wind on well past every room.
-  if (!opts.boss) {
+  // An authored exit stays where the walk put it (R0197).
+  if (!opts.boss && !opts.authored?.exit) {
     const d = new Int32Array(cols * rows).fill(-1);
     const q = [startI];
     d[startI] = 0;

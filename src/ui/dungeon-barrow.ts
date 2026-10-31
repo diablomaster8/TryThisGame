@@ -26,6 +26,8 @@ export class WheelbarrowPanel {
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, T.barrowTitle, UI_TEXT.close);
+    // R0193: a full-width bottom sheet on a phone (dungeon.css).
+    this.dialog.root.classList.add('hollow-sheet');
     this.dialog.root.classList.add('hollow-gear');
     this.content = el('div', 'hollow-gear-list');
     this.dialog.body.appendChild(this.content);

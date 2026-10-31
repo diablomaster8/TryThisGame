@@ -2,6 +2,8 @@
  * Player-facing text for the Hollow Below's rebuild (lane B, DUNG). The older Hollow text
  * stays in `DUNGEON_TEXT` in strings.ts.
  */
+import { SECRETS_R9B_UNIQUES } from './strings-hollow-r9-b';
+
 export const HOLLOW_TEXT = {
   /** The boot veil's label when the save opens underground (R0142). */
   loading: 'Lighting the Hollow…',
@@ -294,6 +296,8 @@ export const UNIQUE_TEXT: Record<string, { name: string; line: string }> = {
     name: 'Hush the Least',
     line: 'The smallest echo. Warm it, and it might colour back.',
   },
+  // Lane B r9: the secret levels' uniques (R0189, R0183).
+  ...SECRETS_R9B_UNIQUES,
 };
 
 export const UNIQUE_RESULT_TEXT = {

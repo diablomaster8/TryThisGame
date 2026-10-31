@@ -15,7 +15,7 @@ For one file per line to read straight through (gitignored): `npx tsx tests/tool
 | The campaign, Book 1: The Letter | [book-1.md](campaign/book-1.md) (495) |  |  |
 | The campaign, Book 2: The Cold | [book-2.md](campaign/book-2.md) (580) |  |  |
 | The campaign, Book 3: The Long Night | [book-3.md](campaign/book-3.md) (1152) |  |  |
-| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (75) |  |  |
+| The campaign: triggered scenes | [triggered.md](campaign/triggered.md) (259) |  |  |
 | The campaign: endings | [endings.md](campaign/endings.md) (366) |  |  |
 | Side story S1: The Wardens’ Walk · opens in chapter 4 | [S01.md](side/S01.md) (202) | [sprout.md](learning/side/S01/sprout.md) (257) | [reader.md](learning/side/S01/reader.md) (334) |
 | Side story S2: Wisp · opens in chapter 3 | [S02.md](side/S02.md) (210) | [sprout.md](learning/side/S02/sprout.md) (227) | [reader.md](learning/side/S02/reader.md) (323) |

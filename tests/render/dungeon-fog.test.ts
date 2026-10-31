@@ -50,7 +50,9 @@ describe('FogField', () => {
     const v = patchVertex(ShaderLib.lambert.vertexShader);
     const fr = patchFragment(ShaderLib.lambert.fragmentShader);
     expect(v).toContain('vGroveFogXZ = ( modelMatrix * groveFogP ).xz;');
-    expect(fr).toMatch(/uFogOn \);\n#include <dithering_fragment>/);
+    expect(fr).toMatch(/uFogOn \);\ngl_FragColor\.rgb = mix\(/);
+    // R0190: the Gloom's saturation follows the fog multiply, before dithering.
+    expect(fr).toMatch(/uCaveSat, uFogOn \) \);\n#include <dithering_fragment>/);
     const sv = patchVertex('void main() {\n  gl_Position = vec4(position, 1.0);\n}');
     const sf = patchFragment('void main() {\n  gl_FragColor = vec4(1.0);\n}');
     expect(sv.trim().endsWith('.xz;\n}')).toBe(true);

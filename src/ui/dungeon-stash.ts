@@ -30,6 +30,8 @@ export class StashPanel {
     private readonly game: () => Game | null,
   ) {
     this.dialog = modal(parent, T.stashTitle, UI_TEXT.close);
+    // R0193: a full-width bottom sheet on a phone (dungeon.css).
+    this.dialog.root.classList.add('hollow-sheet');
     this.dialog.root.classList.add('hollow-gear');
     this.tabs = el('div', 'hollow-gear-buttons');
     this.slots = el('div', 'hollow-gear-buttons');

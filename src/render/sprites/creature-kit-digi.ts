@@ -60,7 +60,9 @@ export type KitExtra =
   | 'monoEye'
   | 'skullHelmet'
   | 'dinoSnout'
-  | 'ribs';
+  | 'ribs'
+  // LOOK-08 (lane E r10): one metal arm (its own left), the other a clawed arm: MetalGreymon.
+  | 'metalArm';
 
 interface Base {
   angle: DrawnAngle;

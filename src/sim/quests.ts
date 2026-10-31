@@ -1,4 +1,6 @@
+import { HOLLOW_R9C } from '../config/dungeon-r9-c';
 import { QUESTS } from '../config/tuning';
+import { hollowVisited, syncHollowRequests } from './hollow-requests';
 import { createEgg, EGG_COLORS } from './nubbin';
 import { hasRoom } from './roster';
 import type { Rng } from './rng';
@@ -20,7 +22,11 @@ interface Template {
   egg?: boolean;
   /** Needs a parameter: a species or a flavour. */
   param?: 'species';
+  /** Offered only once this holds (R0165: the Hollow's asks wait for a first trip down). */
+  when?: (world: World) => boolean;
 }
+
+const HR = HOLLOW_R9C.requests;
 
 const TEMPLATES: Template[] = [
   { id: 'pet', target: [5, 12], shells: 20 },
@@ -38,13 +44,35 @@ const TEMPLATES: Template[] = [
   { id: 'expedition', target: [1, 2], shells: 30 },
   { id: 'gather', target: [3, 8], shells: 25 },
   { id: 'hollow', target: [1, 2], shells: 35 },
+  // Lane B round 9 (R0165): the Hollow's one-time asks, after a first trip down.
+  {
+    id: 'hollowBoss',
+    target: [HR.boss.target, HR.boss.target],
+    shells: HR.boss.shells,
+    when: hollowVisited,
+  },
+  {
+    id: 'hollowSecret',
+    target: [HR.secret.target, HR.secret.target],
+    shells: HR.secret.shells,
+    egg: true,
+    when: hollowVisited,
+  },
+  {
+    id: 'hollowSet',
+    target: [HR.set.target, HR.set.target],
+    shells: HR.set.shells,
+    when: hollowVisited,
+  },
 ];
 
 const openCount = (world: World): number => world.quests.filter((q) => !q.claimed).length;
 
 /** The kinds of request not yet asked in this Grove. */
 function unasked(world: World): Template[] {
-  return TEMPLATES.filter((t) => !world.quests.some((q) => q.template === t.id));
+  return TEMPLATES.filter(
+    (t) => (!t.when || t.when(world)) && !world.quests.some((q) => q.template === t.id),
+  );
 }
 
 /** Top the board up to its open count from the kinds not yet asked. */
@@ -153,6 +181,8 @@ export function stepQuests(
         break;
     }
   }
+  // R0165 (round 9): the Hollow's asks read the Hollow's state.
+  syncHollowRequests(world, events);
 }
 
 /** Race wins and photos arrive as commands, not events. */

@@ -4,6 +4,7 @@ import { ex } from './creature-extras';
 import { DIGI2_ART } from './species-art-digi2';
 import { GEN1B_ART } from './species-art-gen1b';
 import { SPECIES_ART_GEN1A } from './species-art-gen1a';
+import { UNIQUE_ART_PREFIX, uniqueArt } from './unique-art';
 
 /**
  * Art specs for every non-Chao species, keyed by species id (sim/species.ts). Each is
@@ -432,7 +433,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
   // MetalGreymon: Greymon's body and helmet with a metal arm, a chest plate and bat wings.
   ironsaur: spec(pal(C.orange, C.ember, C.lilacGrey, C.sand, C.deepWater, C.ink, C.deepWater), {
     plan: 'tall',
-    extras: ['skullHelmet', 'dinoSnout'],
+    extras: ['skullHelmet', 'dinoSnout', 'metalArm'],
     wings: 'bat',
     tail: 'long',
     arms: 'metal',
@@ -466,5 +467,7 @@ export const SPECIES_ART: Record<string, CreatureSpec> = {
 };
 
 export function speciesArt(id: string): CreatureSpec | undefined {
+  // A named unique's own look (R0156): its species recoloured, grown and crowned.
+  if (id.startsWith(UNIQUE_ART_PREFIX)) return uniqueArt(id, (s) => SPECIES_ART[s]) ?? undefined;
   return SPECIES_ART[id];
 }

@@ -370,7 +370,8 @@ export class SheetCache {
   keeper(trainerId: string, side?: KeeperAlignment): SpriteSheet {
     if (!side)
       return this.get(`keeper:${trainerId}`, () =>
-        buildKeeperSheet(trainerLook(trainerId), npcLookOf(trainerId)),
+        // R0366 (lane E r10): Byte's sheet carries his undone-lace frames too.
+        buildKeeperSheet(trainerLook(trainerId), npcLookOf(trainerId), false, trainerId === 'byte'),
       );
     // The player is Hazel's grandchild, never a copy of the trainer whose role they took:
     // their own face and hair, in that role's outfit with the side's trim (fix 2026-10-25).

@@ -516,7 +516,18 @@ function drawArmsLegs(pc: PixelCanvas, a: Anchors, spec: CreatureSpec, pose: Cha
       hy = sy;
     } else if (posePick === 'swingA') hy = sy + 1;
     else if (posePick === 'swingB') hy = sy + 4;
-    switch (spec.arms) {
+    // LOOK-08: a single metal arm (MetalGreymon): the creature's own left, on screen right
+    // from the front, is a big steel fist; the other is a clawed arm.
+    const one = spec.extras?.includes('metalArm');
+    if (one && d === (a.back ? -1 : 1)) {
+      pc.line(sx, sy, hx, hy, C.lilacGrey);
+      pc.line(sx, sy + 1, hx, hy + 1, C.dusk);
+      pc.disc(hx + d, hy, 3.2, C.lilacGrey);
+      pc.px(hx + d - 1, hy - 1, C.pale);
+      pc.tri(hx, hy + 2, hx + d * 2, hy + 2, hx + d * 3, hy + 5, C.pale);
+      return;
+    }
+    switch (one ? 'claws' : spec.arms) {
       case 'long':
         pc.line(sx, sy, hx + d, hy + 2, col.body);
         pc.disc(hx + d, hy + 2, 1.6, col.body);

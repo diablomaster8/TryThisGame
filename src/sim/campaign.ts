@@ -1,6 +1,7 @@
 import { paced } from './story-pace';
 import { hasRoom, mossSeat } from './roster';
 import { startToddle } from './slapstick';
+import { stepMicroScenes } from './campaign-micro'; /* Lane E r10, R0367 */
 import { CHAPTERS, LINE_ACT_FLAGS, type Choice } from '../config/story';
 import { noteByteRace } from './byte-watches';
 import { GROVE, STORY, TRUST } from '../config/tuning';
@@ -20,6 +21,7 @@ import {
 } from './side-stories';
 import { noteSceneWords } from './lang';
 import { pickBark } from './barks';
+import { laceBark } from './byte-lace'; /* Lane E r10, R0366 */
 import { sceneById, sceneFor } from './story-scenes';
 import { campaignSeason, ensureTrainers, syncSceneGuests } from './scene-cast';
 import {
@@ -45,6 +47,7 @@ import {
 import type { CampaignState, Command, Location, SimEvent, World } from './types';
 import { newId, uniqueName, withRng } from './world';
 import { stampEnding } from './story-marks';
+import { lossHeld } from './loss-notice';
 
 /**
  * The campaign state machine. Chapters open with a scene, wait for a goal, and close
@@ -428,6 +431,8 @@ function stepChapter(world: World, c: CampaignState, events: SimEvent[]): void {
     // Chapter 12 opens once S9's dawn gate scene has played.
     if (c.chapter === 12 && sideOpen(c, 's9')) return;
     if (sideHoldsOpening(world, c)) return;
+    // Lane E r10 (R0694): a Learning Grove loss chapter waits for its grown-up.
+    if (lossHeld(world, c.chapter)) return;
     if (!seen(c, def.opening)) {
       // A breath after the last scene, and the time of day the opening names.
       if (resting(world, c) || !sceneTimeHolds(world.timeMs, def.opening)) return;
@@ -569,6 +574,7 @@ export function stepCampaign(world: World, dtMs: number, events: SimEvent[]): vo
   if (world.location === 'dungeon') return;
   if (!over && c.queue.length === 0) stepChapter(world, c, events);
   stepSideStories(world, c, events);
+  stepMicroScenes(world, c); /* Lane E r10, R0367: after the side stories, which go first */
   syncSceneGuests(world, c);
 }
 
@@ -749,7 +755,13 @@ export function applyCampaignCommand(world: World, cmd: Command, events: SimEven
       c.friendship[npc.trainer] = (c.friendship[npc.trainer] ?? 0) + 1;
       c.flags[`talked:${c.chapter}:${npc.trainer}`] = true;
       // R0295: the Keeper says something of their own (content/barks.ts).
-      const bark = withRng(world, (rng) => pickBark(world, npc.trainer, c.chapter, rng));
+      // R0366 (lane E r10): from Lantern Night, Byte sometimes talks about his lace.
+      const bark = withRng(
+        world,
+        (rng) =>
+          (npc.trainer === 'byte' ? laceBark(world, rng) : null) ??
+          pickBark(world, npc.trainer, c.chapter, rng),
+      );
       events.push({ kind: 'talked', npcId: npc.id, ...(bark ? { bark } : {}) });
       world.keeper.facing = Math.atan2(
         npc.pos.x - world.keeper.pos.x,

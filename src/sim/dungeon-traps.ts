@@ -65,9 +65,9 @@ export function placeTraps(f: Floor, seed: number, depth: number, act: number | 
   f.traps = out;
 }
 
-/** The traps in play: none in the Learning Grove. */
+/** The traps in play: none in the Learning Grove or on a kid run (R0188). */
 export function liveTraps(world: World, f: Floor): readonly Trap[] {
-  return world.edu ? [] : (f.traps ?? []);
+  return world.edu || world.dungeon?.kid ? [] : (f.traps ?? []);
 }
 
 /** Whether a trap is armed (sprung ones wait `rearmMs`). */
@@ -156,7 +156,7 @@ export function stepTraps(
   events: SimEvent[],
 ): void {
   const traps = liveTraps(world, f);
-  if (world.edu) run.noTraps = true;
+  if (world.edu || run.kid) run.noTraps = true;
   else delete run.noTraps;
   if (run.trapsSprung?.length) {
     for (const s of run.trapsSprung) {

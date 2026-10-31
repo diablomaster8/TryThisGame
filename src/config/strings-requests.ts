@@ -4,6 +4,8 @@
  * when it is claimed, and a fallback pair for anyone else. A Nubbin never speaks, so a
  * Nubbin's request is narrated (`nubbin`, with `{name}` for the Nubbin).
  */
+import { HOLLOW_R9C_VOICES } from './strings-hollow-r9-c';
+
 export interface VoicePair {
   ask: string;
   thanks: string;
@@ -794,4 +796,6 @@ export const REQUEST_VOICE: Record<string, RequestVoice> = {
       },
     },
   },
+  // Lane B round 9 (R0165): the Hollow's one-time asks.
+  ...HOLLOW_R9C_VOICES,
 };

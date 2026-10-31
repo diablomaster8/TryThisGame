@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { stepPlayable } from '../../src/sim/goal-skips';
 import { TRACE_TARGETS } from '../../src/sim/lang';
+import { doUnmapped } from '../../src/ui/do-plan'; /* Lane E r10, R0700 */
 import { REACT_INFER } from '../../src/config/story-react';
 import * as C from '../../src/content/index';
 import { OUTER_PROPS } from '../../src/config/outer-ring';
@@ -21,8 +22,16 @@ import { comedyReport } from './comedy-report';
 import { lineFlagProblems, ruleFlags } from './line-flags';
 import { STORYLINE_CONTENT } from '../../src/sim/storyline-content';
 import { CAMP10D, LINE_REWARD } from '../../src/config/tuning';
+import { STANDARD_LABELS } from '../../src/config/strings-access-r10';
+import { EDU_ROUND_STANDARDS } from '../../src/config/edu-standards-r10';
 
 const problems: string[] = [];
+// R0717 (KIDS-49): each game maps to at least one standard, and every one has a plain label.
+for (const [game, codes] of Object.entries(EDU_ROUND_STANDARDS)) {
+  if (codes.length === 0) problems.push(`edu game ${game}: no standard`);
+  for (const code of codes)
+    if (!STANDARD_LABELS[code]) problems.push(`edu game ${game}: standard ${code} has no label`);
+}
 const questIds = new Set<string>(),
   sceneIds = new Map<string, string>(),
   codes = new Set<string>();
@@ -344,6 +353,8 @@ for (const k of Object.keys(eduPacks))
 // a25-13-empress-ash), so A25-15 onward, a25-margin-hazel and a25-grove-ember are left out; a29 is reader-only (every scene).
 const eduExempt = (band: string, id: string): boolean =>
   /^a23-(08|15)(-|$)/.test(id) ||
+  // R0367: the Keepers' comic micro-scenes are main-game only; the sim never queues them in the Learning Grove.
+  /^t-micro-/.test(id) ||
   (band === 'sprout' &&
     /^(c5-sold|c9-shard-collector|c10-kept|c11-moss-kept|c11-cold-hands|end-collector-sold|end-collector-kept|end-epi-wisp-kept)$/.test(
       id,
@@ -559,6 +570,9 @@ for (const band of C.EDU_BANDS) {
         problems.push(`edu ${e.id}: lesson ${l.id} after=${l.after} out of range`);
       if (l.standard && !approved.has(l.standard))
         problems.push(`edu ${e.id}: unapproved standard ${l.standard}`);
+      // R0717 (KIDS-49): the grown-up report shows every standard in plain words.
+      if (l.standard && !STANDARD_LABELS[l.standard])
+        problems.push(`edu ${e.id}: standard ${l.standard} has no plain label (STANDARD_LABELS)`);
       if (l.kind === 'ask' && !l.options?.length)
         problems.push(`edu ${e.id}: ask lesson ${l.id} has no options`);
       if (l.kind === 'do' && !l.check) problems.push(`edu ${e.id}: do lesson ${l.id} has no check`);
@@ -1014,6 +1028,21 @@ for (const e of [
   if (total > CAMP10D.storyShellsMax)
     problems.push(`story Shells ${total} over the budget ${CAMP10D.storyShellsMax}`);
 }
+// Lane E r10, R0700 (KIDS-32): a do lesson whose verb opens no beat falls back to "We did it!"
+// (warning; add the verb to DO_VERBS in src/ui/do-plan.ts).
+let unmappedDo = 0;
+for (const band of C.EDU_BANDS)
+  for (const e of [
+    ...C.EDU_CAMPAIGN[band].flatMap((c) => c.scenes),
+    ...C.EDU_QUESTS[band].flatMap((q) => q.scenes),
+    ...C.EDU_VARIANTS[band],
+  ])
+    for (const l of e.lessons)
+      if (l.kind === 'do' && l.check && doUnmapped(l.check)) {
+        unmappedDo++;
+        warnings.push(`do-unmapped ${e.id} ${l.id}: ${l.check}`);
+      }
+console.log(JSON.stringify({ unmappedDo }));
 console.log(
   JSON.stringify(
     {

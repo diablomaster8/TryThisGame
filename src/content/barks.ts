@@ -343,3 +343,34 @@ export const BARKS: Record<string, readonly BarkSet[]> = {
     ]),
   ],
 };
+
+/**
+ * R0366 (FUN-77): Byte's shoelace, the running joke with Moss (c4-close onward). From
+ * chapter 4 the lace is undone most days and tied on the days Moss has had a word
+ * (`sim/byte-lace.ts`); from chapter 12 it stays tied. A tap on Byte sometimes says one of
+ * these in place of an everyday line. Every line is `all`.
+ */
+export const BYTE_LACE_BARKS = {
+  untied: [
+    'I’m aware of the lace.',
+    'The lace is a control group. I’m studying what happens if I leave it.',
+    'It came undone at four minutes past. I logged it. Tying it is a different department.',
+    'Moss looked at my shoe again. He didn’t say anything. He said it very loudly.',
+    'An untied lace is quicker to take off. That’s efficiency.',
+  ],
+  tied: [
+    'Moss stopped by and looked at my shoe. I tied it. Not because of him.',
+    'Tied. Don’t look at it. It gets shy.',
+    'Four people told me about my lace today. Five, if you count Moss staring.',
+  ],
+  /** Said on arrival beside Moss on a tie day (the routine bubble, after a 👟). */
+  visit: [
+    'Moss looked at my shoe. I tied it. We didn’t discuss it.',
+    'Came to time the hill. Left with a tied lace. Unclear how.',
+    'He didn’t say a word. Neither did I. The lace is tied.',
+  ],
+  kept: [
+    'Tied. Double knot. I did it myself this time.',
+    'I tie it every morning now. It seemed only fair.',
+  ],
+} as const;

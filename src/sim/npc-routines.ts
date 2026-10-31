@@ -3,6 +3,7 @@ import { STORY } from '../config/tuning';
 import { ROUTINES, type RoutineStation } from '../content/routines';
 import { blocked } from './obstacles';
 import { noteNpcSaid } from './npc-chatter';
+import { laceVisitArrived, laceVisitSpot } from './byte-lace'; /* Lane E r10, R0366 */
 import { hashSeed, Rng } from './rng';
 import type { Npc, SimEvent, Vec2, World } from './types';
 
@@ -101,12 +102,16 @@ export function stationSpot(world: World, trainer: string, s: RoutineStation): V
 
 /** Where a Keeper wants to be now: the current station's spot, or null for no routine. */
 export function routineTarget(world: World, npc: Npc): Vec2 | null {
+  // R0366 (lane E r10): on a tie day Byte's morning is spent beside Moss.
+  const lace = laceVisitSpot(world, npc);
+  if (lace) return lace;
   const cur = currentStation(npc.trainer, world.timeMs);
   return cur ? stationSpot(world, npc.trainer, cur.station) : null;
 }
 
 /** On arrival at a station: one line from it in a bubble, once per visit. */
 export function routineArrived(world: World, npc: Npc, events: SimEvent[]): void {
+  if (laceVisitArrived(world, npc, events)) return; /* R0366 (lane E r10) */
   const cur = currentStation(npc.trainer, world.timeMs);
   if (!cur) return;
   const memo = memoOf(world);

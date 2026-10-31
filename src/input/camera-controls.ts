@@ -1,6 +1,7 @@
 import { INPUT } from '../config/tuning';
 import type { OrbitCamera } from '../render/camera';
 import { isGameKey } from './keys';
+import { simpleTouchOn } from './simple-touch';
 
 interface PointerPoint {
   x: number;
@@ -95,6 +96,8 @@ export class CameraControls {
     p.x = e.clientX;
     p.y = e.clientY;
     if (this.pointers.size !== 2 || !this.gestureStart || this.gestureUsed) return;
+    // R0710: Simple touch turns off pinch and two-finger turn (the buttons still work).
+    if (simpleTouchOn()) return;
 
     const now = this.measure();
     const travel = now.dx - this.gestureStart.dx;

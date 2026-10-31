@@ -7,6 +7,7 @@
 import { SETS, UNIQUE_ITEMS } from '../config/dungeon-items-r8';
 import { ACT_TEXT, GEAR_TEXT } from '../config/strings';
 import { ITEMS_R8_TEXT as T } from '../config/strings-hollow-r8-items';
+import { SECRETS_R9B_TEXT as S } from '../config/strings-hollow-r9-b';
 import { parseCharm } from '../sim/dungeon-charms';
 import { collectibleIds, setCounts, sourceParts } from '../sim/dungeon-sets';
 import type { SimEvent, World } from '../sim/types';
@@ -41,6 +42,13 @@ export function itemsToast(e: Extract<SimEvent, { kind: 'hollowItems' }>): strin
       return T.barrowNoMix;
     case 'fort':
       return T.fortOpen;
+    // Lane B r9: the secret levels (R0189, R0183).
+    case 'moo':
+      return S.mooOpen;
+    case 'herd':
+      return S.herd;
+    case 'secret':
+      return e.id === 'trio' ? S.trio : e.id === 'queen' ? S.queen : S.keepsakes;
   }
 }
 

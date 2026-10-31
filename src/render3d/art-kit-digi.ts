@@ -5,6 +5,7 @@ import { QUAD_BABY_SIZE, quadOf } from '../render/sprites/creature-kit-digi';
 import { V, type Prim } from '../samples/sculpted';
 import type { PartSpec, SpeciesSpec } from '../samples/species';
 import type { Layout } from './art-species';
+import { DINO_LEAN_DEG } from '../config/tuning-look-r10e';
 
 /**
  * The 3D side of the digital-line kit (render/sprites/creature-kit-digi.ts): layouts for
@@ -337,12 +338,55 @@ export function patchKitSpec(
         break;
     }
   }
-  return {
+  const out: SpeciesSpec = {
     ...spec,
     gait,
     eyes,
     parts,
     torso: { prims: torso, box: boxOf(torso) },
     head: { ...spec.head, prims: head, box: boxOf(head) },
+  };
+  // The Greymon line (a snout under a skull helmet, or SkullGreymon's ribs) leans; Charizard's
+  // snout alone does not.
+  const greymon =
+    extras.includes('dinoSnout') && (extras.includes('skullHelmet') || extras.includes('ribs'));
+  return greymon ? leanForward(out, L, c.body!, DINO_LEAN_DEG) : out;
+}
+
+/**
+ * LOOK-08 (lane E r10): the Greymon line's forward lean. The sculpt has no rotated forms, so
+ * the lean is a shear: everything above the hips moves forward by its height over them times
+ * tan(lean), the head, face, arms and wings with it, and a chest form along the leaning line
+ * joins the trunk to the head. The legs stay planted and the tail stays behind for balance.
+ */
+export function leanForward(spec: SpeciesSpec, L: Layout, body: string, deg: number): SpeciesSpec {
+  const t = Math.tan((deg * Math.PI) / 180);
+  const hip = L.hipY;
+  const dz = (y: number) => Math.max(0, y - hip) * t;
+  const shear = (p: THREE.Vector3) => p.setZ(p.z + dz(p.y));
+  const prim = (q: Prim): Prim => {
+    const a = shear(q.a.clone());
+    return { ...q, a, ...(q.b ? { b: shear(q.b.clone()) } : {}) };
+  };
+  const b = L.body;
+  const torso = [
+    ...spec.torso.prims,
+    // The chest along the lean, so the trunk reads as one slanted column.
+    ell(V(0, b.y + b.r.y * 0.5, 0.05), V(b.r.x * 0.85, b.r.y * 0.6, b.r.z * 0.9), body),
+  ].map(prim);
+  const head = spec.head.prims.map(prim);
+  const parts = spec.parts.map((p) => {
+    if (p.name.startsWith('leg') || p.name.startsWith('tail')) return p;
+    const prims = p.prims.map(prim);
+    return { ...p, pivot: shear(p.pivot.clone()), prims, box: boxOf(prims) };
+  });
+  return {
+    ...spec,
+    torso: { prims: torso, box: boxOf(torso) },
+    head: { ...spec.head, pivot: shear(spec.head.pivot.clone()), prims: head, box: boxOf(head) },
+    parts,
+    eyes: { ...spec.eyes, z: spec.eyes.z + dz(spec.eyes.y) },
+    mouth: { ...spec.mouth, z: spec.mouth.z + dz(spec.mouth.y) },
+    ...(spec.wings ? { wings: { ...spec.wings, z: spec.wings.z + dz(spec.wings.y) } } : {}),
   };
 }

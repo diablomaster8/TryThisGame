@@ -6,6 +6,7 @@ import { noteBackupExported } from '../platform/backup-offer';
 import { hapticsOn, hapticsSupported } from '../platform/haptics';
 import { BUG_TEXT, HAPTICS_TEXT, TEXT_SIZE_TEXT } from '../config/strings-tech';
 import { TEXT_SCALES, textScaleOf, textSizeKey } from './text-scale';
+import { mountAccessSettings } from './access-r10';
 import { bugReport } from '../platform/bug-log';
 import { groveBytes, storageEstimate } from '../platform/storage-use';
 import { STORAGE_TEXT } from '../config/strings-r10d4';
@@ -104,6 +105,7 @@ export class SettingsMenu {
   private syncMinimap: (g: Game) => void = () => undefined;
   /** Lane C r10 agent C (R0614): refreshes the Story pace row. */
   private syncPace: (g: Game) => void = () => undefined;
+  private syncAccess: (g: Game) => void = () => undefined;
   private syncWorld: (g: Game) => void = () => undefined;
   /** TECH-52: the Quality row (`quality-setting.ts`). */
   private syncQuality: (g: Game) => void = () => undefined;
@@ -270,6 +272,8 @@ export class SettingsMenu {
     this.textSpeed = select(UI_TEXT.textSpeed, UI_TEXT.textSpeeds);
     // TECH-27: text size.
     this.textSize = select(TEXT_SIZE_TEXT.label, TEXT_SIZE_TEXT.sizes);
+    // Lane E r10 (R0709, R0710): reading font, contrast and Simple touch.
+    this.syncAccess = mountAccessSettings(body, this.game);
     const shakeRow = el('label', 'check-row');
     this.shake = el('input');
     this.shake.type = 'checkbox';
@@ -606,6 +610,7 @@ export class SettingsMenu {
     this.graphics.value = readGraphicsPref();
     this.syncMinimap(g);
     this.syncPace(g);
+    this.syncAccess(g);
     this.syncWorld(g);
     this.syncQuality(g);
     this.syncHudScheme(g);

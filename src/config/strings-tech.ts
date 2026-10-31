@@ -34,7 +34,7 @@ export const BUG_TEXT = {
 /** TECH-27: the text-size setting. */
 export const TEXT_SIZE_TEXT = {
   label: 'Text size',
-  sizes: { small: 'Small', normal: 'Normal', large: 'Large', larger: 'Larger' },
+  sizes: { small: 'Small', normal: 'Normal', large: 'Large', larger: 'Larger', largest: 'Largest' },
 } as const;
 
 /** TECH-80: the offline status line. */

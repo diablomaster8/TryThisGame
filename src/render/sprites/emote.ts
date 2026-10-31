@@ -3,6 +3,7 @@ import { AtlasBuilder, type SpriteSheet } from './atlas';
 import { C } from './palette';
 import { PixelCanvas } from './pixel-canvas';
 import type { Reaction } from '../../sim/types';
+import { BAND_EMOTE_COLOURS, BANDED_EMOTES } from '../emote-band';
 
 export const EMOTE_SIZE = 12;
 
@@ -66,8 +67,15 @@ export const EMOTE_SHAPES: readonly EmoteShape[] = [
   'dblink',
 ];
 
-function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas {
+function drawEmote(
+  shape: EmoteShape,
+  frame: number,
+  tint: number,
+  band?: 'sun' | 'moon',
+): PixelCanvas {
   const pc = new PixelCanvas(EMOTE_SIZE, EMOTE_SIZE);
+  // LOOK-17: a Sun or Moon sheet frame takes the band's colours.
+  const bc = band ? BAND_EMOTE_COLOURS[band] : null;
   const bob = frame === 1 ? 1 : 0;
   const cx = 6;
   const cy = 6 + bob;
@@ -79,25 +87,27 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.px(cx - 1, cy - 1, tint === C.sunYellow ? C.sunLight : C.white);
       break;
     case 'heart':
-      pc.disc(cx - 1.5, cy - 1, 1.8, C.rose);
-      pc.disc(cx + 1.5, cy - 1, 1.8, C.rose);
-      pc.tri(cx - 3.5, cy - 0.5, cx + 3.5, cy - 0.5, cx, cy + 4, C.rose);
-      pc.px(cx - 2, cy - 2, C.blush);
+      pc.disc(cx - 1.5, cy - 1, 1.8, bc?.fill ?? C.rose);
+      pc.disc(cx + 1.5, cy - 1, 1.8, bc?.fill ?? C.rose);
+      pc.tri(cx - 3.5, cy - 0.5, cx + 3.5, cy - 0.5, cx, cy + 4, bc?.fill ?? C.rose);
+      pc.px(cx - 2, cy - 2, bc?.light ?? C.blush);
       break;
-    case 'spiral':
-      pc.disc(cx, cy, 3.2, tint);
-      pc.px(cx, cy, C.darkPlum);
-      pc.px(cx + 1, cy, C.darkPlum);
-      pc.px(cx + 1, cy + 1, C.darkPlum);
-      pc.px(cx, cy + 1, C.darkPlum);
-      pc.px(cx - 1, cy + 1, C.darkPlum);
-      pc.px(cx - 1, cy, C.darkPlum);
-      pc.px(cx - 1, cy - 1, C.darkPlum);
-      pc.px(cx, cy - 2, C.darkPlum);
-      pc.px(cx + 1, cy - 2, C.darkPlum);
-      pc.px(cx + 2, cy - 1, C.darkPlum);
-      pc.px(cx + 2, cy + 1, C.darkPlum);
+    case 'spiral': {
+      pc.disc(cx, cy, 3.2, bc?.fill ?? tint);
+      const sw = bc?.deep ?? C.darkPlum;
+      pc.px(cx, cy, sw);
+      pc.px(cx + 1, cy, sw);
+      pc.px(cx + 1, cy + 1, sw);
+      pc.px(cx, cy + 1, sw);
+      pc.px(cx - 1, cy + 1, sw);
+      pc.px(cx - 1, cy, sw);
+      pc.px(cx - 1, cy - 1, sw);
+      pc.px(cx, cy - 2, sw);
+      pc.px(cx + 1, cy - 2, sw);
+      pc.px(cx + 2, cy - 1, sw);
+      pc.px(cx + 2, cy + 1, sw);
       break;
+    }
     case 'fruit':
       // TECH-01: a new hatchling's first wish, a red apple with a leaf.
       pc.disc(cx, cy + 0.5, 3.2, C.roseDeep);
@@ -107,8 +117,8 @@ function drawEmote(shape: EmoteShape, frame: number, tint: number): PixelCanvas 
       pc.rect(cx + 1, cy - 4, 2, 1, C.leaf);
       break;
     case 'exclaim':
-      pc.rect(cx - 1, cy - 4, 2, 5, C.ember);
-      pc.rect(cx - 1, cy + 2, 2, 2, C.ember);
+      pc.rect(cx - 1, cy - 4, 2, 5, bc?.fill ?? C.ember);
+      pc.rect(cx - 1, cy + 2, 2, 2, bc?.fill ?? C.ember);
       break;
     case 'question':
       pc.rect(cx - 2, cy - 4, 4, 1, tint);
@@ -286,5 +296,10 @@ export function buildEmoteSheet(tint: number = C.sunYellow): SpriteSheet {
   for (const shape of EMOTE_SHAPES) {
     for (let f = 0; f < 2; f++) atlas.add(frameKey(shape, 'front', f), drawEmote(shape, f, tint));
   }
+  // LOOK-17: the band-tinted reaction bubbles, keyed `heart@sun` and so on (`emote-band.ts`).
+  for (const band of ['sun', 'moon'] as const)
+    for (const shape of BANDED_EMOTES)
+      for (let f = 0; f < 2; f++)
+        atlas.add(frameKey(`${shape}@${band}`, 'front', f), drawEmote(shape, f, tint, band));
   return atlas.build();
 }

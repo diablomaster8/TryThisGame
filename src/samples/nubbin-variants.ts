@@ -3,6 +3,7 @@ import type { NubbinType } from '../sim/types';
 import { sdf, V, type Prim } from './sculpted';
 import type { Mark, PartSpec, SpeciesSpec } from './species';
 import { NUBBIN_SPEC } from './species-data';
+import { CROWN_RUN } from '../config/tuning-look-r10e';
 
 /**
  * The Nubbin variants as small diffs on `NUBBIN_SPEC`. `variant(base, name, overrides)`
@@ -467,6 +468,8 @@ function applyType(
       break;
     case 'run':
       if (k >= 1) setCrown(spec, 'none', palette.body, palette.tip);
+      // LOOK-11 (lane E r10): a Run touch keeps the crown, longer (×1.4) and swept further back.
+      else sweepCrown(spec, CROWN_RUN.length, CROWN_RUN.sweep);
       head.prims.push(...quills(accent, k));
       head.box[0].z = Math.min(head.box[0].z, -1.4);
       lift(spec, 0.24 * k);
@@ -494,6 +497,38 @@ function applyType(
       break;
   }
 }
+
+/**
+ * LOOK-11: stretch the crown and its tip away from the crown's root by `length` and tip
+ * them back by `sweep` radians about the root (the point leans further toward -z). The
+ * thickness stays, so the longer point is also the slimmer-looking one.
+ */
+export function sweepCrown(spec: SpeciesSpec, length: number, sweep: number): void {
+  const root = CROWN_ROOT;
+  const c = Math.cos(sweep);
+  const sn = Math.sin(sweep);
+  const move = (p: THREE.Vector3) => {
+    const y = (p.y - root.y) * length;
+    const z = (p.z - root.z) * length;
+    p.set(root.x + (p.x - root.x) * length, root.y + y * c + z * sn, root.z - y * sn + z * c);
+  };
+  for (const p of spec.head.prims)
+    if (p.tag === 'crown' || p.tag === 'tip') {
+      move(p.a);
+      if (p.b) move(p.b);
+    }
+  // Keep the sculpt box round the longer point.
+  const box = spec.head.box;
+  for (const p of spec.head.prims)
+    if (p.tag === 'crown' || p.tag === 'tip')
+      for (const q of p.b ? [p.a, p.b] : [p.a]) {
+        box[0].z = Math.min(box[0].z, q.z - 0.3);
+        box[1].y = Math.max(box[1].y, q.y + 0.3);
+      }
+}
+
+/** Where every crown rises from on the base head (the cones' shared root). */
+const CROWN_ROOT = V(0, 2.35, 0);
 
 function setSlot(spec: SpeciesSpec, slot: Slot, parts: PartSpec[]): void {
   const prefix =

@@ -73,6 +73,83 @@ branch `fix/r1025-merge`, not pushed until Maor OKs (section in `docs/progress-a
 - `quadCorners()` returns shared vectors: copy them to keep them.
 - At 375 px a world speech bubble draws over the More modal; carry chip overlaps the objective chip.
 - Typed lint makes `npm run lint` ~1 min (longer under load).
+## Round 10 · Lane E LOOK + KIDS + FUN (2026-10-31, branch r10/e)
+
+26 items (21 done, 5 partial), lines in `recs-2026-10-27/STATUS.md`. Ten more items the round was
+handed turned out already done in earlier rounds (their newer STATUS lines say so). No save version
+bump; new fields are optional: `settings.access`, `edu.readerAge/tutorialSaid/lossHolds/daily/attention`.
+
+**Works**
+- LOOK: crying (Pixel cry clip; 3D cry pose with tears in the shared Bursts cloud), Sun/Moon tinted
+  heart/swirl/!, the Run-touch crown, eight seeded garden idle acts (`render/idle-acts.ts`), the
+  Greymon lean (3D) and MetalGreymon's metal arm.
+- FUN: 15 Keeper micro-scenes (`content/campaign-micro.ts`, `sim/campaign-micro.ts`), Byte's lace
+  (`sim/byte-lace.ts`, frames in both modes, Moss visits), Lazy roll/float and the ball splash
+  (`sim/travel-gags.ts`), the splat and the Keeper hop, stray tiptoe, cross-world badges (18+ only).
+- KIDS: portraits on edu tiles, reader ages 7–10, sprout HUD (4 pictures + 🔊, hold-to-open
+  grown-ups tab, spoken one-time tutorial), access settings (readable font, high contrast, Largest
+  text, simple touch), loss heads-up for ch10–11 and S10/S19/S27, grown-up area as four tabs with a
+  7-day chart, standards in plain words, attention figures and a tips deck, real "do" beats for
+  lesson checks, 52 pixel icons for the game emoji, the postcard around Ori's and Hana's faces,
+  sprout scenes never open on a blank box, and `npm run smoke:kids -- <url>`.
+
+**Stubbed / left**
+- Pixel Greymon lean, the missile, front stripes in 3D; the fed stray's shy-delighted beat; a
+  bundled OFL dyslexia font (needs a dependency OK); tab-length and one-page print checks; a tip
+  card after the break; number clips for counts are still the placeholder chime.
+- Nothing here was looked at by a person: idle acts, cry arm angles, pixel icons and portraits want
+  an eye pass.
+
+**Known bugs**
+- In a new sprout save, the chapter-opening scene takes over from a game after about 3 taps, so
+  `smoke:kids` fails its "game reaches results" step. Main does the same; not from this round.
+- Under heavy machine load the timing tests (lifecycle, world 8-Nubbin, battle-balance budgets)
+  fail; side by side with main they run the same (8-Nubbin 3.52 s both).
+
+## Round 9 · Lane B DUNG (2026-10-31, branch r9/b)
+
+Four helper branches merged: r9/b-a 2200f587..dcb6fcb6 (looks), r9/b-b 7ac516fb (secret levels), r9/b-c
+54c3a2c7 (party, quests, camp), r9/b-d cc77c115..d2db3fe4 (phone, kid mode, floors); merges e6bc411a,
+37c8fffa, 015ff175. Save stays **v13**: every new field is optional; no save.ts edits. 21 items: 17 done, 4 partial.
+
+### What works
+- Looks (R0153, R0163, R0156, R0150, R0208, R0190): fog parity checked after a scripted walk (0 of 3,072 cells
+  differ in either renderer); rarity pops are drawn paths (`render/paint/rarity-shape.ts`), readable in greyscale
+  and deuteranopia; each unique leader has its own cached look (`UNIQUE_LOOKS`, crown hat); acorn portal at both
+  ends; guide footprints on the cave floor (3D one merged mesh); per-act colours and lamp (`ACT_LOOKS`), light
+  ring, the Gloom colours back in as packs fall (one uniform in the existing fog patch).
+- Fixed in passing: 3D crowd gave every pack member the id `':'`, so only one monster showed across all packs.
+- Secret levels (R0189, R0177, R0183): Act V boss leaves Gran's Teaspoon + Milk Bell; the `moo-meadow` barrow
+  recipe opens the Moo Meadow (64×48 field, Moo Crew herds, Cow Queen, Sun Bonnet hat). The Pillow Fort (from the
+  three keys) holds the Pillow Trio unique pack; win gives the Pillow Crown and the "Pillow Champion" title.
+  Both are run zones `'moo'`/`'fort'` loaded by `goToZone`.
+- Party and camp (R0167, R0165, R0185, R0166, R0181): personality moments underground (`sim/dungeon-moods.ts`);
+  three one-time Hollow requests on the board, secrets and act quests in the Journal; today's Hollow is a fixed
+  5-level act chain with a boss, share codes `H1-YYMMDD-…` with a compare box; 2 act quests per act (10);
+  hire a camp friend for a trip (15 Shells, 4 aura kinds, drawn in both renderers).
+- Phone and floors (R0193, R0197, R0210, plus R0188/R0191/R0144 partly): ≤500 px Hollow gets a five-button
+  one-thumb bar, a round corner map and bottom-sheet panels; Beetle Road story floors use authored pieces on v3;
+  debug-panel piece editor (`ui/debug-pieces.ts`); kid mode (`hollow.kid`, on in the Learning Grove); raised
+  shelves with Fly lifts on v4 floors; Act II Cloister Gardens piece set (27 pieces).
+- "Show me the way" defaults: one rule in `sim/dungeon-kid.ts` `guideOn` — on in kid mode or gentle bouts until
+  the Keeper chooses.
+
+### What's stubbed (and assumptions)
+- Cows borrow the `stampbull` sprite; kid mode has no no-fight Meadow visit.
+- Kid mode (R0188): no read-aloud captions, counting game, tag boss or 4-year-old play check.
+- Shelves (R0191): 3D shows a mound, not a sharp ledge; tap-to-move stops at the shelf foot; no Fly-over-gap.
+- R0144: Sandglass, Frostbell and Gloom acts still use Rootways pieces.
+- Act quests use four shapes (clear, chest, reach, unique); no escort/timer/bell shrines. Friend auras are 4
+  kinds, priced in Shells (assumption: the brief's Shells over the recs' fruit). "Find a secret room" replaces
+  the request "Find the Moo Meadow"; "Wear a full set" pays Shells (the board has no hat rewards).
+- Daily chain's boss marks no act progress.
+
+### Known bugs
+- Act II floors now come from the Cloister pieces: an Act II run saved mid-floor loads a different layout
+  (Keeper moved to the nearest open cell). Existing v4 floors gain shelf finds.
+- Pixel floor change into the fort ~1.7 s worst frame (as other Pixel floor loads).
+- 3D now draws up to 3 members per visible pack (was 1 because of the id bug): watch phone draw calls.
+- Full `npm test` under heavy machine load (~69 node/Edge): 17 timing/timeout failures; all 14 files pass alone.
 
 ## Round 10 · Lane C CAMP + FIGHT (2026-10-30, branch r10/c)
 

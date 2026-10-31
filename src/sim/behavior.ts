@@ -10,6 +10,7 @@ import {
   TYPE_LEAN,
 } from '../config/tuning';
 import { stepWanderGag } from './slapstick';
+import { ballPushAngle, ballSplash, stepStreamFloat } from './travel-gags'; /* Lane E r10, R0293 */
 import { isPartner } from './partners';
 import {
   addHappiness,
@@ -989,6 +990,8 @@ function stepBehavior(
     case 'avoid': {
       // R0299 (FUN-10): a distracted walk can end in a bonk against a trunk.
       if (b.state === 'wander' && stepWanderGag(n, world, now, events)) break;
+      // R0293 (lane E r10): a lazy Nubbin in the stream lets it carry it a tile.
+      if (b.state === 'wander' && stepStreamFloat(n, world, dtMs)) break;
       // R0544: or in a trip, or a sneeze by the flowers.
       const antic = b.state === 'wander' ? walkAntic(n, world, now, dtMs) : null;
       if (antic) {
@@ -1077,11 +1080,15 @@ function stepBehavior(
       if ((toy.toy ?? 'ball') === likesOf(n).toy && !n.tasteSeen?.toy)
         n.tasteSeen = { ...n.tasteSeen, toy: true };
       if (rng.chance(0.08)) {
-        const a = rng.float(0, Math.PI * 2);
+        const r = rng.float(0, Math.PI * 2);
+        // R0293 (lane E r10): a mischievous Nubbin aims the ball at the pond.
+        const a = ((toy.toy ?? 'ball') === 'ball' ? ballPushAngle(n, toy.pos) : null) ?? r;
         toy.pos.x += Math.cos(a) * 0.6;
         toy.pos.z += Math.sin(a) * 0.6;
         clampToWorld(toy.pos);
         addHappiness(n, BEHAVIOR.playHappiness * 0.25);
+        if ((toy.toy ?? 'ball') === 'ball' && ballSplash(n, toy.pos, events))
+          react(n, 'happy', now, events);
       }
       if (now >= b.untilMs) {
         // Each toy leaves something different behind.
@@ -1288,7 +1295,7 @@ function updateThrown(
   ) {
     n.vel.x = 0;
     n.vel.z = 0;
-    events.push({ kind: 'bonked', nubbinId: n.id, by: 'obstacle' });
+    events.push({ kind: 'bonked', nubbinId: n.id, by: 'obstacle', thrown: true });
   }
   // MOVE-30: it can come down on a bench or a rock top it falls onto.
   const floor = n.vel.y < 0 ? perchTopAt(world, n.pos.x, n.pos.z) : 0;

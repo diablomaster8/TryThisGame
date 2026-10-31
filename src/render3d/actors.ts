@@ -50,13 +50,18 @@ import {
 import { crackLevel, eggWobble, updateCracks } from './egg-crack';
 import { updateEggFoot } from './egg-foot';
 import { eggAntics } from '../render/egg-antics';
-import { gagAt } from '../render/gag-play';
+import { gagAt, travelGagAt } from '../render/gag-play';
+import { SPLAT, splatAmount } from '../render/splat'; /* Lane E r10, R0299 */
 import { cocoonShake, revealTurn } from '../render/evolve-reveal';
 import { rarityOf } from '../render/rarity';
 import { shroomHopY } from '../sim/behavior';
 import { flightY } from '../sim/flight';
 import { signatureAt } from '../render/signature';
 import type { SignatureFx } from './signature-fx';
+import type { CryTears } from './cry-tears';
+import { bandedEmote, emoteBand } from '../render/emote-band';
+import { idleActAt, noteActDoodle } from '../render/idle-acts';
+import { PERFORM } from '../config/tuning';
 import { noteJumpToyWorld } from './jump-toys';
 import { HopCourse3D } from './hop-course-3d';
 import { FernCairn3D } from './fern-cairn-3d';
@@ -180,8 +185,9 @@ export function poseFor(n: Nubbin, moving: boolean, petted: boolean): PoseName {
     case 'court':
     case 'fetch':
       return 'happy';
+    // LOOK-21: crying sits, rubs its eyes in turn and wails, with tears (`cry-tears.ts`).
     case 'cry':
-      return 'sad';
+      return moving ? walk() : 'cry';
     case 'swim':
       // LOOK-23: everyone in the pond swims its own stroke (the stage sets the style).
       return 'swim';
@@ -322,7 +328,7 @@ export class Actors {
   /** Reaction bubbles (heart, !, ?, spiral) by Nubbin id, shown over the ball until expiry. */
   private readonly bubbles = new Map<string, { shape: EmoteShape; untilMs: number }>();
   /** A short squash (landing) or pop (hatch, evolve, rebirth) by Nubbin id. */
-  private readonly pops = new Map<string, { kind: 'squash' | 'pop'; startMs: number }>();
+  private readonly pops = new Map<string, { kind: 'squash' | 'pop' | 'splat'; startMs: number }>();
   private readonly highlight: THREE.Mesh;
   /** MOVE-27: the glide's leaf wings. */
   private readonly wings: GlideWings;
@@ -537,6 +543,8 @@ export class Actors {
   calm = false;
   /** Lane E r9, R0410 (LOOK-44): the signature beats' particles (set by the scene). */
   sigFx: SignatureFx | null = null;
+  /** LOOK-21 (lane E r10): the crying Nubbins' tear streams, set by the scene. */
+  cryFx: CryTears | null = null;
   /** R0549: draw emote balls big this frame (far zoom or Big mood bubbles). */
   emoteBig = false;
 
@@ -771,7 +779,7 @@ export class Actors {
   }
 
   /** Start a squash (a landing flattens) or a pop (a hatch or evolution stretches up). */
-  pop(id: string, kind: 'squash' | 'pop', nowMs: number): void {
+  pop(id: string, kind: 'squash' | 'pop' | 'splat', nowMs: number): void {
     this.pops.set(id, { kind, startMs: nowMs });
   }
 
@@ -785,15 +793,27 @@ export class Actors {
     // LOOK-66: an evolution's pop (the only pop an adult gets) also grows the body from the
     // child's 0.8 parts scale up to full over the longer pop.
     const grow = p.kind === 'pop' && adult;
-    const dur = p.kind === 'squash' ? 260 : grow ? 900 : 420;
+    const dur = p.kind === 'squash' ? 260 : p.kind === 'splat' ? SPLAT.ms : grow ? 900 : 420;
     const t = (nowMs - p.startMs) / dur;
     if (t >= 1 || t < 0) {
       if (t >= 1) this.pops.delete(id);
       return;
     }
     const s = Math.sin(Math.PI * t);
-    const sw = p.kind === 'squash' ? 1 + 0.22 * s : 1 - 0.1 * s;
-    const sh = p.kind === 'squash' ? 1 - 0.22 * s : 1 + 0.28 * s;
+    // R0299 (lane E r10): a splat goes wide and flat against the trunk, then springs back.
+    const k = p.kind === 'splat' ? splatAmount(t) : 0;
+    const sw =
+      p.kind === 'splat'
+        ? 1 + (SPLAT.wide - 1) * k
+        : p.kind === 'squash'
+          ? 1 + 0.22 * s
+          : 1 - 0.1 * s;
+    const sh =
+      p.kind === 'splat'
+        ? 1 - (1 - SPLAT.flat) * k
+        : p.kind === 'squash'
+          ? 1 - 0.22 * s
+          : 1 + 0.28 * s;
     a.squash = { o, base: o.scale.clone() };
     o.scale.set(a.squash.base.x * sw, a.squash.base.y * sh, a.squash.base.z * sw);
     if (grow) o.scale.multiplyScalar(0.8 + 0.2 * (1 - (1 - t) * (1 - t)));
@@ -1093,7 +1113,20 @@ export class Actors {
       const o = a.rig?.group ?? a.shell ?? a.stand!;
       // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
       const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
-      const perf = held || !a.rig ? null : performLook(n, perfMs, this.calm);
+      // R0421 (LOOK-51, lane E r10): a content idle Nubbin's garden idle act (render/idle-acts.ts),
+      // drawn through the performance look (prop, notes, spin, hop) and its own pose below.
+      const actMood = moodOf(n);
+      const act =
+        !held &&
+        a.rig &&
+        !fly &&
+        !sig &&
+        poseFor(n, Math.hypot(n.pos.x - a.prev.pos.x, n.pos.z - a.prev.pos.z) > 0.004, false) ===
+          'idle'
+          ? idleActAt(n, nowMs, actMood === 'content' || actMood === 'happy', keeper.pos, this.calm)
+          : null;
+      if (act) noteActDoodle(n, act, world.timeMs, PERFORM.doodleKinds);
+      const perf = held || !a.rig ? null : (performLook(n, perfMs, this.calm) ?? act?.perf ?? null);
       if (perf) {
         // Camera-right on the ground, from the camera toward this Nubbin.
         const fx = x - cameraPos.x;
@@ -1154,12 +1187,18 @@ export class Actors {
         const gag =
           !sigOn && !held && pose === 'idle'
             ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
-            : null;
+            : !sigOn && !held && pose === 'walk'
+              ? travelGagAt(n, nowMs) /* R0293 (lane E r10): a roll, a float */
+              : null;
         if (gag) pose = gag.look.pose3d;
+        // R0421 (lane E r10): the idle act's pose, while the body would stand idle.
+        else if (act && !sigOn && pose === 'idle') pose = act.pose3d;
         // R0540 (lane A r10): a chatter speaks with the happy pose, listens idle, hugs.
         const cc = held ? null : chatClip(n, world.timeMs - (1 - alpha) * SIM.stepMs);
         if (cc) pose = cc;
         a.gagEmote = gag && gag.look.emote !== 'none' ? gag.look.emote : null;
+        /* Lane E r10 */ if (!gag && act && act.emote !== 'none' && pose === act.pose3d)
+          a.gagEmote = act.emote;
         a.rig.glide = fly?.phase === 'glide';
         a.rig.waddleScale = n.personality ? PERSONA_WADDLE[n.personality] : 1;
         if (pose !== a.pose) {
@@ -1200,6 +1239,8 @@ export class Actors {
         if (sigOn) a.rig.lift += Math.max(0, sig!.dy);
         /* Lane E r9 */ if (sigOn && sig!.burst)
           this.sigFx?.play(n.id, sig!, this.nubbinSpot(n.id), nowMs, this.calm);
+        /* Lane E r10 */ if (pose === 'cry' && this.cryFx)
+          this.cryFx.play(n.id, this.nubbinSpot(n.id), this.nubbinFront(n.id), nowMs, this.calm);
         a.rig.face((held && this.stager?.faces.get(n.id)) ?? n.facing);
         a.rig.lookAt =
           pose === 'pet'
@@ -1338,8 +1379,11 @@ export class Actors {
       // R0548 (lane A r10): a happy ball bobs quicker and higher, a sad one droops and slows.
       const em = emoteMotion(n, nowMs, this.calm);
       const flip = Math.floor(nowMs / em.flipMs) % 2;
+      /* Lane E r10 */ const band = emoteBand(n);
       const key =
-        shape === 'none' ? '' : `${n.shadow ? 'shadow:' : ''}${frameKey(shape, 'front', flip)}`;
+        shape === 'none'
+          ? ''
+          : `${n.shadow ? 'shadow:' : ''}${frameKey(bandedEmote(shape, band), 'front', flip)}`;
       if (key !== a.emoteKey) {
         a.emoteKey = key;
         const mat = key ? this.emoteMats.get(key) : undefined;
@@ -1370,7 +1414,7 @@ export class Actors {
             !this.calm,
           );
           // R0548: during a morph the old shape squashes away before the new one pops in.
-          const drawn = `${n.shadow ? 'shadow:' : ''}${frameKey(ball.shape, 'front', flip)}`;
+          const drawn = `${n.shadow ? 'shadow:' : ''}${frameKey(bandedEmote(ball.shape, band), 'front', flip)}`;
           if (drawn !== a.emoteKey) {
             const mat = this.emoteMats.get(drawn);
             if (mat) {

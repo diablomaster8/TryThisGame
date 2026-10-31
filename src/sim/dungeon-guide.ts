@@ -12,6 +12,7 @@
 import { PARTY_R8 } from '../config/dungeon-party-r8';
 import { cellOf, exploredMask, runFloor, type Floor } from './dungeon';
 import { navMask } from './dungeon-nav';
+import { guideOn } from './dungeon-kid';
 import type { DungeonRun, World } from './types';
 
 export interface GuidePath {
@@ -20,13 +21,16 @@ export interface GuidePath {
   cells: number[];
 }
 
+/** Whether the guide is on (R0208): see `guideOn` in dungeon-kid.ts, the one rule. */
+export { guideOn };
+
 const cache = new WeakMap<DungeonRun, { key: string; path: GuidePath | null }>();
 
 /** The guide's path, or null when it is off, there is no floor, or nowhere is left to go. */
 export function guidePath(world: World): GuidePath | null {
   const run = world.location === 'dungeon' ? world.dungeon : null;
   const f = runFloor(world);
-  if (!world.hollow.guide || !run || !f) return null;
+  if (!guideOn(world) || !run || !f) return null;
   const k = cellOf(f, world.keeper.pos);
   const start = k.y * f.cols + k.x;
   const level = `${run.seed}:${run.depth}:${run.zone ?? ''}:${run.side ?? ''}`;

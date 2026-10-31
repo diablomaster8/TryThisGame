@@ -13,6 +13,7 @@ import { moodOf } from '../sim/needs';
 import { flaps } from '../sim/stats';
 import type { DungeonRun, Location, Nubbin, SimEvent, Vec2, World } from '../sim/types';
 import { cellCentre, runFloor, type Cell, type Floor } from '../sim/dungeon';
+import { friendOf, friendWalking } from '../sim/dungeon-friends';
 import { rumbleOpen } from '../sim/dungeon-rumble';
 import { keeperDip, keeperFooting, keeperGliding, keeperMantle, keeperRoll } from '../sim/keeper';
 import { buildParticleSheet } from './sprites/particles-art';
@@ -60,7 +61,9 @@ import { landBeatFor, PET_BEAT_BURST, PetBeats, petBeatFor } from './pet-reactio
 import { noticeFace } from './notice';
 import { soulEmote } from './soul-emotes';
 import { bigBubbles, emoteFocused, emoteScale } from './emote-size';
-import { SWIM_CLIPS } from './sprites/chao';
+import { CRY_CLIP, SWIM_CLIPS } from './sprites/chao';
+import { bandedEmote, emoteBand } from './emote-band';
+import { actDoodleAlpha, actDoodles, idleActAt, noteActDoodle } from './idle-acts';
 import { flightY } from '../sim/flight';
 import { signatureAt } from './signature';
 import { FLIGHT } from '../config/tuning-look';
@@ -87,7 +90,10 @@ import { PERFORM, STAGE2 } from '../config/tuning';
 import { HELD_RING } from '../config/tuning-tech';
 import { EYE_TRACK, HELD_REACT, RARITY } from '../config/tuning';
 import { heldMood, heldStyle, type HeldMood } from './held-mood';
-import { gagAt } from './gag-play';
+import { gagAt, travelGagAt } from './gag-play';
+import { byteLaceUntied } from '../sim/byte-lace'; /* Lane E r10, R0366 */
+import { SPLAT, splatAmount } from './splat'; /* Lane E r10, R0299 */
+import { STRAY_GAIT, strayGait, tipLift, wobble } from './stray-gait'; /* Lane E r10, R0326 */
 import { cocoonShake, revealTurn } from './evolve-reveal';
 import { rarityOf } from './rarity';
 import { pixelPose } from './stage-pose';
@@ -98,6 +104,7 @@ import { chatClip, chatEmote, chatHop } from './chat-look';
 import { buildPerformSheet, doodleKey, propKey } from './sprites/perform-art';
 import { doodleAlpha } from '../sim/perform';
 import { actorFog, lootFog, PixelHollowPacks } from './hollow-packs-pixel';
+import { PixelHollowR9a } from './hollow-r9a';
 
 interface Snapshot {
   pos: Vec2;
@@ -114,7 +121,7 @@ interface NubbinView {
   lastDustMs: number;
   lastRippleMs: number;
   /** A short squash (landing) or pop (hatch, evolve) scales the quad at draw time. */
-  pop: { kind: 'squash' | 'pop'; startMs: number } | null;
+  pop: { kind: 'squash' | 'pop' | 'splat'; startMs: number } | null;
 }
 
 export interface SpritePick {
@@ -192,6 +199,8 @@ export class WorldView {
   private readonly liveStrays = new Set<string>();
   /** Lane B r8: Hollow packs, plates, fog on cave sprites and gear pops (R0146, R0153, R0163). */
   private readonly hollowPacks = new PixelHollowPacks();
+  /** Lane B r9 (a): light ring, guide prints, acorn portal (R0190, R0208, R0150). */
+  private readonly hollowR9a = new PixelHollowR9a();
   /** A neighbour's garden is fixed by their id: built once per visit, not every frame. */
   private garden: { trainer: string; list: ReturnType<typeof neighbourGarden> } | null = null;
   private keeperPrev: Snapshot = { pos: { x: 0, z: 0 }, y: 0 };
@@ -495,6 +504,7 @@ export class WorldView {
       this.burstFor(e);
       if (e.kind === 'gearFound')
         this.hollowPacks.gearFound(e.item.rarity, this.keeperPrev.pos, nowMs);
+      if (e.kind === 'portalReturned') this.hollowR9a.portalReturned(nowMs);
       if (e.kind === 'keeperJumped') this.keeperJumpAt = nowMs;
       else if (e.kind === 'bushRustle') {
         // MOVE-43: the bush shakes (not under reduced motion), and sometimes sheds leaves.
@@ -505,6 +515,11 @@ export class WorldView {
         this.keeperLandAt = nowMs;
         this.keeperLandMs =
           e.fall > KEEPER_JUMP_FX.plopFall ? KEEPER_JUMP_FX.plopMs : JUMP.landSquashMs;
+      }
+      // R0299 (lane E r10): a throw into a trunk splats flat against it for a moment.
+      if (e.kind === 'bonked' && e.thrown) {
+        const v = this.nubbins.get(e.nubbinId);
+        if (v) v.pop = { kind: 'splat', startMs: nowMs };
       }
       if (e.kind === 'landed') {
         const v = this.nubbins.get(e.nubbinId);
@@ -1184,6 +1199,17 @@ export class WorldView {
     }
 
     if (cave && run) this.drawCave(cave, run, world, nowMs, yaw, alpha, shadow);
+    // Lane B r9 (a): the light ring, guide prints and acorn portal (render/hollow-r9a.ts).
+    {
+      const r9 = {
+        batch,
+        sheets: this.sheets,
+        nowMs,
+        reduceMotion: this.particles.reduceMotion,
+      };
+      if (cave && run) this.hollowR9a.drawCave(cave, run, world, r9);
+      else if (home) this.hollowR9a.drawGrove(world, r9);
+    }
 
     // Items.
     const seenItems = this.seenItems;
@@ -1275,11 +1301,20 @@ export class WorldView {
         npose?.face ?? (held && this.staging?.faces.get(npc.id)) ?? npc.facing,
         yaw,
       );
-      const nrect = nsheet.frames.get(
-        npose?.clip
-          ? frameKey(npose.clip, nview.angle, npose.frame)
-          : frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
-      );
+      // R0366 (lane E r10): Byte's lace is undone on most days from Lantern Night.
+      const lace =
+        !npose?.clip && npc.trainer === 'byte' && byteLaceUntied(world)
+          ? nsheet.frames.get(
+              frameKey(`${nclip}-lace`, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
+            )
+          : undefined;
+      const nrect =
+        lace ??
+        nsheet.frames.get(
+          npose?.clip
+            ? frameKey(npose.clip, nview.angle, npose.frame)
+            : frameKey(nclip, nview.angle, frameAt(CLIPS[nclip], nowMs + npc.pos.x * 97)),
+        );
       const ay =
         (held && this.location === 'grove' ? terraceY(at.x, at.z) : 0) + (npose?.lift ?? 0);
       shadow(at.x, ay, at.z, 0.45);
@@ -1497,6 +1532,27 @@ export class WorldView {
           tint: this.dim,
         });
       }
+    }
+    // R0181 (lane B round 9): a friend hired at a camp walks with the party underground.
+    const friend = runFloor(world) ? friendOf(world) : null;
+    if (friend) {
+      const fsheet = this.sheets.keeper(friend.trainer, 'sun');
+      const fwalk = friendWalking(world, friend);
+      const fclip: ClipName = fwalk ? 'walk' : 'idle';
+      const fview = viewAngle(friend.facing, yaw);
+      const frect = fsheet.frames.get(frameKey(fclip, fview.angle, frameAt(CLIPS[fclip], nowMs)));
+      shadow(friend.pos.x, 0, friend.pos.z, 0.45, 0);
+      if (frect)
+        batch.draw({
+          sheet: fsheet,
+          rect: frect,
+          flip: fview.flip,
+          x: friend.pos.x,
+          y: 0,
+          z: friend.pos.z,
+          mode: 'billboard',
+          tint: this.dim,
+        });
     }
     // MOVE-46: the step's surface; a deck or a bench top leaves no dust, grass a tuft.
     this.footfall.step(world, kx, kz);
@@ -1732,9 +1788,14 @@ export class WorldView {
       const clip: ClipName = moving ? 'walk' : 'sad';
       const facing = s.target ? Math.atan2(s.target.x - s.pos.x, s.target.z - s.pos.z) : 0;
       const view = viewAngle(facing, yaw);
+      // R0326 (lane E r10): it tiptoes up to a Keeper with Shells, and wobbles off loaded.
+      const gait = moving ? strayGait(s, world.keeper.pos, world.inventory.shells) : 'walk';
+      const still = this.particles.reduceMotion;
+      const pace = gait === 'tiptoe' ? STRAY_GAIT.tipPace : 1;
       const rect = grey.frames.get(
-        frameKey(clip, view.angle, frameAt(CLIPS[clip], nowMs + i * 137)),
+        frameKey(clip, view.angle, frameAt(CLIPS[clip], nowMs * pace + i * 137)),
       );
+      const side = gait === 'wobble' ? wobble(nowMs, still) * STRAY_GAIT.wobbleSide : 0;
       shadow(x, 0, z, 0.5);
       if (rect) {
         batch.draw(
@@ -1742,9 +1803,9 @@ export class WorldView {
             sheet: grey,
             rect,
             flip: view.flip,
-            x,
-            y: 0,
-            z,
+            x: x + Math.cos(yaw) * side,
+            y: gait === 'tiptoe' ? tipLift(nowMs, still) : 0,
+            z: z - Math.sin(yaw) * side,
             mode: 'billboard',
             tint: this.lightAt(x, z) * 0.9,
           },
@@ -2138,7 +2199,23 @@ export class WorldView {
 
     // R0525 (lane A r10): a lesson performance's look (render/perform-look.ts).
     const perfMs = world.timeMs - (1 - alpha) * SIM.stepMs;
-    const perf = held ? null : performLook(n, perfMs, this.particles.reduceMotion);
+    // R0421 (LOOK-51, lane E r10): a content idle Nubbin's garden idle act, drawn through the
+    // performance look (prop, notes, spin, hop) and its own clip and emote below.
+    const actMood = moodOf(n);
+    const act =
+      !held && !fly && !sig && n.stage !== 'egg' && n.stage !== 'cocoon' && clipFor(n) === 'idle'
+        ? idleActAt(
+            n,
+            nowMs,
+            actMood === 'content' || actMood === 'happy',
+            world.keeper.pos,
+            this.particles.reduceMotion,
+          )
+        : null;
+    if (act) noteActDoodle(n, act, world.timeMs, PERFORM.doodleKinds);
+    const perf = held
+      ? null
+      : (performLook(n, perfMs, this.particles.reduceMotion) ?? act?.perf ?? null);
     let key: string;
     let flip = false;
     let eggHop = 0;
@@ -2235,6 +2312,7 @@ export class WorldView {
           sit: 'idle',
           love: 'happy',
           tumble: 'surprised',
+          cry: 'sad',
         };
         clip = stand[clip] ?? clip;
       }
@@ -2246,7 +2324,9 @@ export class WorldView {
       const def =
         fly && clip === 'flap'
           ? { frames: 2, ms: 500 / FLIGHT.flapHz, loop: true }
-          : (CLIPS[clip as ClipName] ?? SWIM_CLIPS[clip]);
+          : (CLIPS[clip as ClipName] ??
+            SWIM_CLIPS[clip] ??
+            (clip === 'cry' ? CRY_CLIP : undefined));
       const frame =
         clip === 'sit'
           ? npose?.clip === 'sit'
@@ -2281,12 +2361,18 @@ export class WorldView {
       const gag =
         !sig && !held && clip === 'idle'
           ? gagAt(n, nowMs, mood === 'content' || mood === 'happy')
-          : null;
+          : !sig && !held && clip === 'walk'
+            ? travelGagAt(n, nowMs) /* R0293 (lane E r10): a roll, a float */
+            : null;
       const gkey = gag ? frameKey(gag.look.clip, view.angle, gag.frame) : '';
       const gagOn = !!gag && sheet.frames.has(gkey);
       if (gagOn) key = gkey;
+      // R0421 (lane E r10): the idle act's frame, where the sheet has it.
+      const akey = act && !gagOn ? frameKey(act.clip, view.angle, act.frame) : '';
+      if (akey && sheet.frames.has(akey)) key = akey;
       emote = emoteFor(n, world);
       if (gagOn && gag.look.emote !== 'none') emote = gag.look.emote;
+      if (act && !gagOn && act.emote !== 'none') emote = act.emote;
       // R0355: the snore bubble swells, pops with a sparkle, and the Zs carry on between.
       if (sw?.doze) emote = sw.bubble > 0 ? 'ball' : 'zz';
       if (sw && sw.bubbleN > 0 && sw.bubble === 0 && (SNORE_POPS.get(n.id) ?? 0) < sw.bubbleN) {
@@ -2368,12 +2454,16 @@ export class WorldView {
         sh *= perf.sh;
       }
       if (v.pop) {
-        const dur = v.pop.kind === 'squash' ? 260 : 420;
+        const dur = v.pop.kind === 'squash' ? 260 : v.pop.kind === 'splat' ? SPLAT.ms : 420;
         const t = (nowMs - v.pop.startMs) / dur;
         if (t >= 1) v.pop = null;
         else {
           const s = Math.sin(Math.PI * t);
-          if (v.pop.kind === 'squash') {
+          if (v.pop.kind === 'splat') {
+            const k = splatAmount(t);
+            sw = 1 + (SPLAT.wide - 1) * k;
+            sh = 1 - (1 - SPLAT.flat) * k;
+          } else if (v.pop.kind === 'squash') {
             sw = 1 + 0.22 * s;
             sh = 1 - 0.22 * s;
           } else {
@@ -2519,7 +2609,7 @@ export class WorldView {
         !this.particles.reduceMotion,
       );
       const erect = emotes.frames.get(
-        frameKey(ball.shape, 'front', Math.floor(nowMs / em.flipMs) % 2),
+        frameKey(bandedEmote(ball.shape, emoteBand(n)), 'front', Math.floor(nowMs / em.flipMs) % 2),
       );
       if (erect) {
         // R0549: bigger at the far zoom; a fresh reaction pops to 2× (lifted to clear the head).
@@ -2588,6 +2678,28 @@ export class WorldView {
 
   /** R0525 (lane A r10): crayon doodles left on the Grove's ground, fading after a while. */
   private drawDoodles(world: World): void {
+    // R0421 (LOOK-51, lane E r10): the idle acts' crayon scribbles, fading after 30 s.
+    if (world.location === 'grove') {
+      const sheet = this.sheets.get('soul:perform', buildPerformSheet);
+      for (const d of actDoodles()) {
+        const a = actDoodleAlpha(d, world.timeMs);
+        const rect = a > 0 ? sheet.frames.get(doodleKey(d.kind)) : undefined;
+        if (!rect) continue;
+        this.batch.draw({
+          sheet,
+          rect,
+          flip: false,
+          x: d.x,
+          y: 0.02,
+          z: d.z,
+          mode: 'flat',
+          w: PERFORM.doodleSize * 0.6,
+          h: PERFORM.doodleSize * 0.6,
+          opacity: 0.8 * a,
+          tint: this.dim,
+        });
+      }
+    }
     const list = world.doodles;
     if (!list?.length || world.location !== 'grove') return;
     const sheet = this.sheets.get('soul:perform', buildPerformSheet);
@@ -2614,6 +2726,7 @@ export class WorldView {
   dispose(): void {
     this.batchLazy?.dispose();
     this.hollowPacks.dispose();
+    this.hollowR9a.dispose();
     this.sheets.dispose();
     this.particles.dispose();
   }
@@ -2659,8 +2772,9 @@ export function clipFor(n: Nubbin): string {
       const mood = moodOf(n);
       return mood === 'sad' || mood === 'hungry' ? 'sad' : 'sit';
     }
+    // LOOK-21: crying sits, rubs its eyes and wails (a sheet without the clip shows sad).
     case 'cry':
-      return 'sad';
+      return 'cry';
     case 'greet':
     case 'play':
     case 'pet':

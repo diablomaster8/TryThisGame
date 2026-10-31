@@ -4,6 +4,7 @@ import { TRASH_TEXT } from '../config/strings-r9d3';
 import { SLOT_TRASH } from '../config/tuning-r9d3';
 import { keepInTrash, listTrash, restoreTrash, trashSlot } from '../platform/slot-trash';
 import { titleGate } from './title-gate'; /* Lane E r9 */
+import { showFirstNubbin } from './kids-portrait'; /* Lane E r10 */
 import { CAMP_TEXT } from '../config/strings';
 import {
   KEEPER_LOOK_BLURBS,
@@ -82,7 +83,7 @@ function describe(mode: SaveMode, s: SaveSummary, nowMs: number): string {
     parts.push(STORYLINE_TEXT.sides[s.storyline] ?? s.storyline);
   if (story && s.chapter !== null) parts.push(SLOT_TEXT.chapter(s.chapter));
   if (mode === 'edu' && s.eduBand === 'reader')
-    parts.push(SLOT_TEXT.age(EDU_STORY_TEXT.readerAges));
+    parts.push(SLOT_TEXT.age(s.eduReaderAge ?? EDU_STORY_TEXT.readerAges)); /* Lane E r10 */
   else if (mode === 'edu' && s.eduAge !== null) parts.push(SLOT_TEXT.age(s.eduAge));
   parts.push(s.names.length > 0 ? s.names.join(', ') : SLOT_TEXT.nubbins(s.nubbins));
   // Lane C r8 (R0648): Hazel's Grove names its other roads, a check on each one ended.
@@ -214,6 +215,14 @@ export function showTitle(
             el('strong', undefined, `${slotName(index, summary)} · ${SLOT_TEXT.continue}`),
             el('small', undefined, said),
           );
+          /* Lane E r10, R0696: the child's first Nubbin leads a Learning Grove tile. */
+          if (mode === 'edu') {
+            const pic = el('span', 'title-slot-icon', summary?.eduIcon ?? '🌱');
+            pic.setAttribute('aria-hidden', 'true');
+            main.classList.add('title-slot-has-pic');
+            main.prepend(pic);
+            showFirstNubbin(slot, pic);
+          }
           main.setAttribute('aria-label', SLOT_TEXT.continueLabel(modeName, index, said));
           // A Learning Grove slot is a child's: erasing it, or starting over it, asks the
           // grown-up gate first (review C, item 4).

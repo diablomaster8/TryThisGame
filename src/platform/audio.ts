@@ -77,7 +77,9 @@ export type SoundName =
   | 'burp'
   // Lane A r9 (R0552): a napping Nubbin's snore and two buddies' chat chirp.
   | 'snore'
-  | 'chirp';
+  | 'chirp'
+  // Lane E r10 (R0326): a Hollow stray's tiptoe, four soft plucked steps.
+  | 'sneak';
 
 /** R0301: the comic sounds, for the debug panel's test row. */
 export const COMIC_SOUNDS: readonly SoundName[] = [
@@ -1156,6 +1158,10 @@ export function playSound(name: SoundName): void {
         tone(1400, 0, 140, 'sine', 0.015, 600);
         break;
       // A Run hit: three little footsteps.
+      // R0326 (lane E r10): a stray tiptoes up: four soft, plucked, creeping steps.
+      case 'sneak':
+        for (let i = 0; i < 4; i++) tone(i % 2 ? 660 : 587, i * 140, 40, 'triangle', 0.025, 520);
+        break;
       case 'patter':
         for (let i = 0; i < 3; i++) tone(520 + i * 40, i * 55, 35, 'square', 0.03, 380);
         break;

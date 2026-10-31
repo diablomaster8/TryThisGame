@@ -16,6 +16,11 @@ import type { DailyQuest } from '../sim/types';
 import { button, el, modal } from './dom';
 import { ACHIEVEMENT_TEXT, BADGE_FILTER_TEXT } from '../config/strings-badges';
 import '../fun.css';
+/* Lane E r10, R0361 */
+import { CALLBACK_BADGE_TEXT } from '../config/strings-fun-r10';
+import { CALLBACK_BADGES, callbackBadges, callbackBadgesShown } from '../sim/callback-badges';
+import { parseMultiverse } from '../sim/side-saves';
+import { readSide } from '../platform/storage';
 
 /**
  * The smaller garden panels: the request board, the Keeper profile, the neighbourhood
@@ -219,6 +224,31 @@ export class ProfilePanel {
     );
     silly.setAttribute('aria-pressed', 'false');
     badges.before(silly);
+    this.callbackSection(g); /* Lane E r10, R0361 */
+  }
+
+  /**
+   * R0361 (lane E r10): the cross-world callback badges, adults only. Read from the
+   * Multiverse's side save and the Grove's names; nothing is written.
+   */
+  private callbackSection(g: Game): void {
+    if (!callbackBadgesShown(g.world)) return;
+    const got = new Set(callbackBadges(parseMultiverse(readSide('multiverse')), g.world));
+    const T = CALLBACK_BADGE_TEXT;
+    this.body.appendChild(el('h3', undefined, T.heading));
+    this.body.appendChild(el('p', 'help', T.help));
+    const grid = el('div', 'badge-grid');
+    for (const id of CALLBACK_BADGES) {
+      const has = got.has(id);
+      const b = el(
+        'div',
+        `badge${has ? ' badge-got' : ''}`,
+        has ? `🏅 ${T.badges[id].title}` : '· · ·',
+      );
+      if (has) b.title = `${T.badges[id].title}: ${T.badges[id].blurb}`;
+      grid.appendChild(b);
+    }
+    this.body.appendChild(grid);
   }
 
   private square(g: Game): void {

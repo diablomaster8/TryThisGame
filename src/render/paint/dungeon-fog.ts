@@ -1,4 +1,4 @@
-import { openSky } from '../cave-bands';
+import { caveSaturation, openSky } from '../cave-bands';
 import {
   ClampToEdgeWrapping,
   DataTexture,
@@ -28,6 +28,8 @@ export class FogField {
     /** World x and z of the floor's corner, and 1 / its width and depth. */
     uFogMap: { value: new Vector4(0, 0, 1, 1) },
     uFogOn: { value: 0 },
+    /** R0190: the cave's colour saturation (the Gloom greys, then colours back); 1 is full. */
+    uCaveSat: { value: 1 },
   };
   private floor: Floor | null = null;
   private bytes = new Uint8Array(1);
@@ -60,9 +62,11 @@ export class FogField {
     // Camps and fields lie under the open sky: no fog of war (R0147).
     if (!run || !f || openSky(f)) {
       this.uniforms.uFogOn.value = 0;
+      this.uniforms.uCaveSat.value = 1;
       return;
     }
     this.uniforms.uFogOn.value = 1;
+    this.uniforms.uCaveSat.value = caveSaturation(f, run.packs);
     const kc = cellOf(f, keeper);
     const key = `${run.explored.length}:${run.explored}:${kc.x},${kc.y}`;
     if (key === this.key) return;
@@ -100,8 +104,10 @@ const FRAG_HEAD = `varying vec2 vGroveFogXZ;
 uniform sampler2D uFogTex;
 uniform vec4 uFogMap;
 uniform float uFogOn;
+uniform float uCaveSat;
 `;
-const FRAG_MUL = `gl_FragColor.rgb *= mix( 1.0, texture2D( uFogTex, ( vGroveFogXZ - uFogMap.xy ) * uFogMap.zw ).r, uFogOn );`;
+const FRAG_MUL = `gl_FragColor.rgb *= mix( 1.0, texture2D( uFogTex, ( vGroveFogXZ - uFogMap.xy ) * uFogMap.zw ).r, uFogOn );
+gl_FragColor.rgb = mix( vec3( dot( gl_FragColor.rgb, vec3( 0.299, 0.587, 0.114 ) ) ), gl_FragColor.rgb, mix( 1.0, uCaveSat, uFogOn ) );`;
 
 /** The vertex half of the patch (exported for the tests). */
 export function patchVertex(src: string): string {

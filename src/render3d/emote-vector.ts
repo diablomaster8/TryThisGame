@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { EMOTE_SHAPES, type EmoteShape } from '../render/sprites/emote';
 import { C, PALETTE } from '../render/sprites/palette';
+import { BAND_EMOTE_COLOURS, BANDED_EMOTES } from '../render/emote-band';
 
 /**
  * The emote ball over a Nubbin's head, drawn as smooth vector art for the 3D Grove (art
@@ -55,7 +56,15 @@ function shine(g: CanvasRenderingContext2D, x: number, y: number, r: number): vo
   g.fill();
 }
 
-function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tint: string): void {
+function draw(
+  g: CanvasRenderingContext2D,
+  shape: EmoteShape,
+  frame: number,
+  tint: string,
+  band?: 'sun' | 'moon',
+): void {
+  // LOOK-17: a Sun or Moon frame takes the band's colours (`render/emote-band.ts`).
+  const bc = band ? BAND_EMOTE_COLOURS[band] : null;
   const cx = S / 2;
   const cy = S / 2 + (frame === 1 ? 6 : 0);
   g.beginPath();
@@ -86,12 +95,12 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       g.bezierCurveTo(cx, cy - 20, cx + 6, cy - 30, cx + 18, cy - 30);
       g.bezierCurveTo(cx + 40, cy - 30, cx + 44, cy + 4, cx, cy + 32);
       g.closePath();
-      paint(g, hex(C.rose), cy, 34);
+      paint(g, hex(bc?.fill ?? C.rose), cy, 34);
       shine(g, cx - 20, cy - 16, 7);
       break;
     case 'spiral': {
       g.arc(cx, cy, 30, 0, Math.PI * 2);
-      paint(g, tint, cy, 30);
+      paint(g, bc ? hex(bc.fill) : tint, cy, 30);
       g.beginPath();
       for (let i = 0; i <= 60; i++) {
         const a = (i / 60) * Math.PI * 4.2;
@@ -102,7 +111,7 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
         else g.lineTo(x, y);
       }
       round(g, 6);
-      g.strokeStyle = OUTLINE;
+      g.strokeStyle = bc ? hex(bc.deep) : OUTLINE;
       g.stroke();
       break;
     }
@@ -120,10 +129,10 @@ function draw(g: CanvasRenderingContext2D, shape: EmoteShape, frame: number, tin
       break;
     case 'exclaim':
       g.roundRect(cx - 9, cy - 38, 18, 48, 9);
-      paint(g, hex(C.ember), cy - 14, 26);
+      paint(g, hex(bc?.fill ?? C.ember), cy - 14, 26);
       g.beginPath();
       g.arc(cx, cy + 26, 10, 0, Math.PI * 2);
-      paint(g, hex(C.ember), cy + 26, 10);
+      paint(g, hex(bc?.fill ?? C.ember), cy + 26, 10);
       break;
     case 'question':
       g.arc(cx, cy - 16, 17, Math.PI * 1.05, Math.PI * 0.45, false);
@@ -386,5 +395,18 @@ export function vectorEmotes(shadow: boolean): Map<string, THREE.Texture> {
       tex.anisotropy = 2;
       out.set(`${shape}:${f}`, tex);
     }
+  // LOOK-17: the band-tinted reaction bubbles, baked once beside the stock frames.
+  for (const band of ['sun', 'moon'] as const)
+    for (const shape of BANDED_EMOTES)
+      for (let f = 0; f < 2; f++) {
+        const cv = document.createElement('canvas');
+        cv.width = cv.height = S;
+        const g = cv.getContext('2d');
+        if (g) draw(g, shape, f, tint, band);
+        const tex = new THREE.CanvasTexture(cv);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = 2;
+        out.set(`${shape}@${band}:${f}`, tex);
+      }
   return out;
 }
